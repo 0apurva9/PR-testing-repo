@@ -14,7 +14,9 @@ import {
   getPdpOffers,
   getManufacturerDetails,
   getBundleproduct,
-  getBundleProductPinCode
+  getBundleProductPinCode,
+  getRelevantBundleProduct,
+  getRelevantProductPinCode
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -178,6 +180,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return await dispatch(
         getBundleProductPinCode(pinCode, productCode, ussId)
       );
+    },
+    getRelevantBundleProduct: async (productCode, temp, sequence) => {
+      return await dispatch(
+        getRelevantBundleProduct(productCode, temp, sequence)
+      );
+    },
+    getRelevantProductPinCode: async (pinCode, productCode, ussId) => {
+      return await dispatch(
+        getRelevantProductPinCode(pinCode, productCode, ussId)
+      );
     }
   };
 };
@@ -194,7 +206,11 @@ const mapStateToProps = state => {
     offers: state.productDescription.offerDetails,
     impulseOfferCalloutList: state.productDescription.impulseOfferCalloutList,
     manufacturerDetails: state.productDescription.manufacturerDetails,
-    bundleProductData: state.productDescription.bundleProductData
+    bundleProductData: state.productDescription.bundleProductData,
+    relevantBundleProductData:
+      state.productDescription.relevantBundleProductData,
+    relevantProductPinCodeStatus:
+      state.productDescription.relevantProductPinCodeStatus
   };
 };
 

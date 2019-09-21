@@ -49,7 +49,11 @@ const productDescription = (
     manufacturerError: null,
     manufacturerLoading: null,
     manufacturerDetails: {},
-    bundleProductData: null
+    bundleProductData: null,
+    bundleProducStatus: null,
+    relevantBundleProductData: null,
+    relevantBundleProductStatus: false,
+    relevantProductPinCodeStatus: null
   },
   action
 ) => {
@@ -801,6 +805,32 @@ const productDescription = (
         error: action.error,
         loading: false
       });
+    case pdpActions.RELEVANT_BUNDLE_PRODUCT_REQUEST:
+      return Object.assign({}, state, {
+        relevantBundleProductStatus: action.status
+      });
+    case pdpActions.RELEVANT_BUNDLE_PRODUCT_SUCCESS:
+      return Object.assign({}, state, {
+        relevantBundleProductStatus: action.status,
+        relevantBundleProductData: action.data
+      });
+    case pdpActions.RELEVANT_BUNDLE_PRODUCT_FAILURE:
+      return Object.assign({}, state, {
+        relevantBundleProductStatus: action.status
+      });
+    case pdpActions.CHECK_RELEVANT_PRODUCT_PIN_CODE_REQUEST:
+      return Object.assign({}, state, {
+        relevantProductPinCodeStatus: action.status
+      });
+    case pdpActions.CHECK_RELEVANT_PRODUCT_PIN_CODE_SUCCESS:
+      return Object.assign({}, state, {
+        relevantProductPinCodeStatus: action.status
+      });
+    case pdpActions.CHECK_RELEVANT_PRODUCT_PIN_CODE_FAILURE:
+      return Object.assign({}, state, {
+        relevantProductPinCodeStatus: action.status
+      });
+
     default:
       return state;
   }

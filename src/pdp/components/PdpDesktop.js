@@ -15,6 +15,9 @@ import LoadableVisibility from "react-loadable-visibility/react-loadable";
 import Button from "../../general/components/Button";
 import SearchAndUpdate from "./SearchAndUpdate";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import Image from "../../xelpmoc-core/Image";
+import { RUPEE_SYMBOL } from "../../lib/constants";
+import CheckBox from "../../general/components/CheckBox.js";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import {
   setDataLayerForCartDirectCalls,
@@ -57,6 +60,8 @@ import styles from "./ProductDescriptionPage.css";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 import PdpFlags from "../components/PdpFlags.js";
 import FlixMediaContainer from "./FlixMediaContainer";
+import MultiCheckbox from "./MultiCheckbox";
+let testcheck = false;
 
 const WASH = "Wash";
 const NECK_COLLAR = "Neck/Collar";
@@ -171,10 +176,16 @@ export default class PdpApparel extends React.Component {
       goToCartPageFlag:
         this.props.location.state && this.props.location.state.goToCartPageFlag
           ? this.props.location.state.goToCartPageFlag
-          : false
+          : false,
+      bundledProductList: [],
+      selectedBundledProduct: [],
+      checkedItems: true,
+      firstRelevantProduct: {},
+      secondRelevantProduct: {}
     };
+    this.handleChange = this.handleChange.bind(this);
   }
-  componentDidMount() {
+  componentDidMount = async () => {
     document.title = this.props.productDetails.seo.title;
     this.props.getUserAddress();
     this.props.getPdpOffers();
@@ -189,7 +200,44 @@ export default class PdpApparel extends React.Component {
     }
 
     /* End- Gemini Script */
-  }
+    /***relavant Bundling Product */
+    let bundlePrdouct = localStorage.getItem("relevantProductBundling")
+      ? localStorage.getItem("relevantProductBundling")
+      : "";
+    let bundleIteamList = await this.relevantBundleProductId(
+      JSON.parse(bundlePrdouct)
+    );
+    let arrayBundledDescription = [];
+    bundleIteamList &&
+      bundleIteamList.bundleItems.forEach((listId, i) => {
+        let response = this.props
+          .getRelevantBundleProduct(listId.productCode, "temp", i)
+          .then(r => {
+            if (r.status != "Failure") {
+              if (r) {
+                let relevantPinCode = localStorage.getItem(
+                  DEFAULT_PIN_CODE_LOCAL_STORAGE
+                );
+                this.props
+                  .getRelevantProductPinCode(
+                    relevantPinCode,
+                    r.data.productListingId,
+                    r.data.winningUssID
+                  )
+                  .then(check => {
+                    if (check.status === "success") {
+                      arrayBundledDescription.push(r.data);
+                      this.setState({
+                        bundledProductList: arrayBundledDescription
+                      });
+                    }
+                  });
+              }
+            }
+          });
+      });
+  };
+
   componentDidUpdate(prevProps) {
     if (
       this.props.productDetails &&
@@ -568,6 +616,19 @@ export default class PdpApparel extends React.Component {
       behavior: "smooth"
     });
   };
+  relevantBundleProductId = async bundlePrdouct => {
+    let productListingId = "MP000000001679195";
+    let x;
+    //debugger;
+    await bundlePrdouct.bundledItems.forEach(data => {
+      if (productListingId === data.primaryProductCode) {
+        x = data;
+      }
+    });
+
+    return x;
+  };
+
   // method needed TPR-10076
   displayPrdDetails = (prdDetails, key) => {
     let details = prdDetails;
@@ -648,6 +709,132 @@ export default class PdpApparel extends React.Component {
       }
     );
   }
+  handleChange(e) {
+    console.log("val>>>", e.target.id, "target", e.target);
+    let bundledList = this.state.bundledProductList;
+    !this.state.selectedBundledProduct.includes(e.target.value) &&
+      this.state.selectedBundledProduct.push(e.target.value);
+    //const isChecked = e.target.checked;
+    //this.setState({checkedItems : !this.state.checkedItems});
+  }
+
+  // addBundledProduct = async () => {
+  //   await this.props.addProductToCart(baseProductDetails, () => {
+  //     self.props.addProductToCart(bundleProductDetails, () => {
+  //       this.props.history.push(PRODUCT_CART_ROUTER);
+  //     });
+  // }
+  bundledDescription = () => {
+    let bundledList = this.state.bundledProductList;
+
+    let widthChange =
+      bundledList.length > 1 ? styles.reactSelectOption : styles.oneProduct;
+    return bundledList.map((listId, i) => {
+      let Bundledprice = "";
+      let BundleddiscountPrice = "";
+      let BundledseoDoublePrice = 0;
+      if (
+        listId &&
+        listId.winningSellerPrice &&
+        listId.winningSellerPrice.doubleValue
+      ) {
+        BundledseoDoublePrice = listId.winningSellerPrice.doubleValue;
+      } else if (listId && listId.mrpPrice && listId.mrpPrice.doubleValue) {
+        BundledseoDoublePrice = listId.mrpPrice.doubleValue;
+      }
+      if (
+        listId &&
+        listId.mrpPrice &&
+        listId.mrpPrice.formattedValueNoDecimal
+      ) {
+        Bundledprice = listId.mrpPrice.formattedValueNoDecimal;
+      }
+
+      if (
+        listId &&
+        listId.winningSellerPrice &&
+        listId.winningSellerPrice.formattedValueNoDecimal
+      ) {
+        BundleddiscountPrice =
+          listId.winningSellerPrice.formattedValueNoDecimal;
+      }
+
+      return (
+        <React.Fragment>
+          {listId &&
+            listId.galleryImagesList[0] && (
+              <div className={widthChange} key={i}>
+                {console.log("true===========>", bundledList)}
+                <MultiCheckbox
+                  className={styles.checkbox}
+                  checked={
+                    bundledList === listId.productListingId ? true : false
+                  }
+                  id={i}
+                  value={listId.productListingId}
+                  onChange={this.handleChange}
+                />
+
+                <div className={styles.bundledColumns}>
+                  {listId &&
+                    listId.galleryImagesList[0] &&
+                    listId.galleryImagesList[0].mediaType === "Image" && (
+                      <React.Fragment>
+                        <div className={styles.bundledImage}>
+                          <Image
+                            image={
+                              listId.galleryImagesList[0].galleryImages[0].value
+                            }
+                            fit="contain"
+                          />
+                        </div>
+                        <h2 className={styles.brandName}>
+                          <span>{listId.brandName}</span>
+                        </h2>
+                        <h1 className={styles.productName}>
+                          {listId.productName}
+                        </h1>
+                      </React.Fragment>
+                    )}
+                  <div>
+                    {!listId.isRange &&
+                      BundleddiscountPrice &&
+                      BundleddiscountPrice !== Bundledprice && (
+                        <div className={styles.discount}>
+                          {BundleddiscountPrice.toString().includes(
+                            RUPEE_SYMBOL
+                          )
+                            ? BundleddiscountPrice
+                            : `${RUPEE_SYMBOL}${Math.floor(
+                                BundleddiscountPrice
+                              )}`}
+                        </div>
+                      )}
+                    {!listId.isRange &&
+                      Bundledprice && (
+                        <div className={styles.priceCancelled}>
+                          {Bundledprice.toString().includes(RUPEE_SYMBOL)
+                            ? Bundledprice
+                            : `${RUPEE_SYMBOL}${Math.floor(Bundledprice)}`}
+                        </div>
+                      )}
+                    {listId.discount &&
+                    listId.discount !== "0" &&
+                    listId.productCategory !== "FineJewellery" ? (
+                      <div className={styles.discountClass}>
+                        {!listId.noBrace && `${"("}`}
+                        {parseInt(listId.discount, 10) + `${"% OFF"}`}
+                        {!listId.noBrace && `${")"}`}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+            )}
+        </React.Fragment>
+      );
+    });
+  };
 
   render() {
     let seasonData = {};
@@ -656,6 +843,7 @@ export default class PdpApparel extends React.Component {
         return item.key == "Season";
       });
     }
+    let bundledList = this.state.bundledProductList;
     const getPinCode =
       this.props &&
       this.props.userAddress &&
@@ -667,6 +855,7 @@ export default class PdpApparel extends React.Component {
       userCookie = JSON.parse(userCookie);
     }
     const productData = this.props.productDetails;
+    console.log("product info", productData);
 
     const manufacturerDetails = this.props.manufacturerDetails;
     let mshProduct = productData && productData.brandURL;
@@ -769,7 +958,31 @@ export default class PdpApparel extends React.Component {
           return detail.key === "Model Number";
         });
       }
+      let Bundledprice = "";
+      let BundleddiscountPrice = "";
+      let BundledseoDoublePrice = 0;
+      if (
+        productData.winningSellerPrice &&
+        productData.winningSellerPrice.doubleValue
+      ) {
+        BundledseoDoublePrice = productData.winningSellerPrice.doubleValue;
+      } else if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
+        BundledseoDoublePrice = productData.mrpPrice.doubleValue;
+      }
+      if (
+        productData.mrpPrice &&
+        productData.mrpPrice.formattedValueNoDecimal
+      ) {
+        Bundledprice = productData.mrpPrice.formattedValueNoDecimal;
+      }
 
+      if (
+        productData.winningSellerPrice &&
+        productData.winningSellerPrice.formattedValueNoDecimal
+      ) {
+        BundleddiscountPrice =
+          productData.winningSellerPrice.formattedValueNoDecimal;
+      }
       return (
         <PdpFrame
           goToCart={() => this.goToCart()}
@@ -1337,6 +1550,114 @@ export default class PdpApparel extends React.Component {
                   <div id="yp_widget" className={styles.yp_widget} />
                 </div>
               </div>
+
+              {this.state.bundledProductList && (
+                <div className={styles.pageCenter}>
+                  <div className={styles.productBundling}>
+                    <div className={styles.bundledHeader}>
+                      Customers buy these together
+                    </div>
+                    <div className={styles.bundleContent}>
+                      {this.props &&
+                        this.props.productDetails &&
+                        this.props.productDetails.galleryImagesList[0] && (
+                          <div
+                            className={
+                              bundledList.length > 1
+                                ? styles.bundledColumns
+                                : styles.oneProduct
+                            }
+                          >
+                            {this.props.productDetails.galleryImagesList[0]
+                              .mediaType === "Image" && (
+                              <React.Fragment>
+                                <div className={styles.bundledImage}>
+                                  <Image
+                                    image={
+                                      this.props.productDetails
+                                        .galleryImagesList[0].galleryImages[0]
+                                        .value
+                                    }
+                                    fit="contain"
+                                  />
+                                </div>
+                                <h2 className={styles.brandName}>
+                                  <span>
+                                    {this.props.productDetails.brandName}
+                                  </span>
+                                </h2>
+                                <h1 className={styles.productName}>
+                                  {this.props.productDetails.productName}
+                                </h1>
+                              </React.Fragment>
+                            )}
+                            {!this.props.productDetails.isRange &&
+                              BundleddiscountPrice &&
+                              BundleddiscountPrice !== price && (
+                                <div className={styles.discount}>
+                                  {BundleddiscountPrice.toString().includes(
+                                    RUPEE_SYMBOL
+                                  )
+                                    ? BundleddiscountPrice
+                                    : `${RUPEE_SYMBOL}${Math.floor(
+                                        BundleddiscountPrice
+                                      )}`}
+                                </div>
+                              )}
+                            {!this.props.productDetails.isRange &&
+                              Bundledprice && (
+                                <div className={styles.priceCancelled}>
+                                  {Bundledprice.toString().includes(
+                                    RUPEE_SYMBOL
+                                  )
+                                    ? Bundledprice
+                                    : `${RUPEE_SYMBOL}${Math.floor(
+                                        Bundledprice
+                                      )}`}
+                                </div>
+                              )}
+                            {this.props.productDetails.discount &&
+                            this.props.productDetails.discount !== "0" &&
+                            this.props.productDetails.productCategory !==
+                              "FineJewellery" ? (
+                              <div className={styles.discountClass}>
+                                {!this.props.productDetails.noBrace && `${"("}`}
+                                {parseInt(
+                                  this.props.productDetails.discount,
+                                  10
+                                ) + `${"% OFF"}`}
+                                {!this.props.productDetails.noBrace && `${")"}`}
+                              </div>
+                            ) : null}
+                          </div>
+                        )}
+                      <span className={styles.addIcon}>+</span>
+                      {this.state.bundledProductList &&
+                        this.bundledDescription(this.state.bundledProductList)}
+                      <div className={styles.priceDesciption}>
+                        <div className={styles.discountedPrice}>
+                          <span className={styles.discountedTitle}>1 Item</span>
+                          <span>
+                            {BundleddiscountPrice.toString().includes(
+                              RUPEE_SYMBOL
+                            )
+                              ? BundleddiscountPrice
+                              : `${RUPEE_SYMBOL}${Math.floor(
+                                  BundleddiscountPrice
+                                )}`}
+                          </span>
+                        </div>
+                        <button
+                          className={styles.AddToCartButton}
+                          onClick={this.addBundledProduct}
+                        >
+                          ADD 2 items in the Bag
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className={styles.pageCenter}>
                 <div
