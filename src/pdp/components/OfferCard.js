@@ -8,9 +8,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_PDP_OFFER,
   ADOBE_OFFERS_PDP,
   ADOBE_OFFER_CARD_PDP,
-  ADOBE_OFFER_CARD_TNC,
-  ADOBE_DIRECT_CALL_FOR_PDP_OFFER
-
+  ADOBE_OFFER_CARD_TNC
 } from "../../lib/adobeUtils.js";
 import TimerCounter from "../../general/components/TimerCounter";
 import { PRIMARY_OFFER } from "../../lib/constants";
