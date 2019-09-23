@@ -75,11 +75,19 @@ export default class ProductDescriptionPageWrapper extends React.Component {
     this.state = { showPiqPage: false };
   }
   componentWillMount() {
-    if (!localStorage.getItem("relevantProductBundling")) {
-      localStorage.setItem(
-        "relevantProductBundling",
-        JSON.stringify(relevantProductBundling)
-      );
+    // if (!localStorage.getItem("relevantProductBundling")) {
+    //   localStorage.setItem(
+    //     "relevantProductBundling",
+    //     JSON.stringify(relevantProductBundling)
+    //   );
+    // }
+    if (this.props.relevantBundleProductCode()) {
+      this.props.relevantBundleProductCode();
+
+      // if (bundleProductCode.status === "success") {
+      //   let x = bundleProductCode.relevantBundleProductCode.applicationProperties[0];
+      //   console.log("xyz", JSON.parse(x.value));
+      // }
     }
   }
   componentDidMount = async () => {
@@ -174,9 +182,10 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       </div>
     );
   }
-  getRelevantBundleProduct = async (productCode, sequence) => {
+  getRelevantBundleProduct = async (productCode, temp, sequence) => {
     let releventProductOne = await this.props.getRelevantBundleProduct(
       productCode,
+      temp,
       sequence
     );
   };

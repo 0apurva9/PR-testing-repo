@@ -16,7 +16,8 @@ import {
   getBundleproduct,
   getBundleProductPinCode,
   getRelevantBundleProduct,
-  getRelevantProductPinCode
+  relevantProductServibilty,
+  relevantBundleProductCode
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -186,10 +187,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         getRelevantBundleProduct(productCode, temp, sequence)
       );
     },
-    getRelevantProductPinCode: async (pinCode, productCode, ussId) => {
+    relevantProductServibilty: async (pinCode, productCode, ussId) => {
       return await dispatch(
-        getRelevantProductPinCode(pinCode, productCode, ussId)
+        relevantProductServibilty(pinCode, productCode, ussId)
       );
+    },
+    relevantBundleProductCode: async () => {
+      return await dispatch(relevantBundleProductCode());
+    },
+    // addProductToCart: (productDetails, callback) => {
+    // 	return dispatch(addProductToCart(productDetails), callback());
+    // },
+    addProductToCart1: productDetails => {
+      return dispatch(addProductToCart(productDetails));
     }
   };
 };
@@ -210,7 +220,11 @@ const mapStateToProps = state => {
     relevantBundleProductData:
       state.productDescription.relevantBundleProductData,
     relevantProductPinCodeStatus:
-      state.productDescription.relevantProductPinCodeStatus
+      state.productDescription.relevantProductPinCodeStatus,
+    secondaryBundleProductData:
+      state.productDescription.secondaryBundleProductData,
+    relevantBundleProductCodeData:
+      state.productDescription.relevantBundleProductCodeData
   };
 };
 

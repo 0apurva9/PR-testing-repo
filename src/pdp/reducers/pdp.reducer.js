@@ -53,7 +53,11 @@ const productDescription = (
     bundleProducStatus: null,
     relevantBundleProductData: null,
     relevantBundleProductStatus: false,
-    relevantProductPinCodeStatus: null
+    secondaryBundleProductStatus: false,
+    secondaryBundleProductData: null,
+    relevantProductPinCodeStatus: null,
+    relevantBundleProductCodeStatus: false,
+    relevantBundleProductCodeData: null
   },
   action
 ) => {
@@ -811,6 +815,20 @@ const productDescription = (
       return Object.assign({}, state, {
         relevantBundleProductStatus: action.status
       });
+
+    case pdpActions.SECONDARY_BUNDLE_PRODUCT_REQUEST:
+      return Object.assign({}, state, {
+        secondaryBundleProductStatus: action.status
+      });
+    case pdpActions.SECONDARY_BUNDLE_PRODUCT_SUCCESS:
+      return Object.assign({}, state, {
+        secondaryBundleProductStatus: action.status,
+        secondaryBundleProductData: action.data
+      });
+    case pdpActions.SECONDARY_BUNDLE_PRODUCT_FAILURE:
+      return Object.assign({}, state, {
+        secondaryBundleProductStatus: action.status
+      });
     case pdpActions.CHECK_RELEVANT_PRODUCT_PIN_CODE_REQUEST:
       return Object.assign({}, state, {
         relevantProductPinCodeStatus: action.status
@@ -822,6 +840,22 @@ const productDescription = (
     case pdpActions.CHECK_RELEVANT_PRODUCT_PIN_CODE_FAILURE:
       return Object.assign({}, state, {
         relevantProductPinCodeStatus: action.status
+      });
+    case pdpActions.RELEVANT_BUNDLE_PRODUCT_CODE_REQUEST:
+      return Object.assign({}, state, {
+        relevantBundleProductCodeStatus: action.status
+      });
+
+    case pdpActions.RELEVANT_BUNDLE_PRODUCT_CODE_SUCCESS:
+      return Object.assign({}, state, {
+        relevantBundleProductCodeStatus: action.status,
+        relevantBundleProductCodeData: action.relevantBundleProductCodeData
+      });
+
+    case pdpActions.RELEVANT_BUNDLE_PRODUCT_CODE_FAILURE:
+      return Object.assign({}, state, {
+        relevantBundleProductCodeStatus: action.status,
+        relevantBundleProductCodeData: action.error
       });
 
     default:
