@@ -105,7 +105,8 @@ import {
   STRIPE_DETAILS,
   MY_ACCOUNT_ORDERS_PAGE,
   ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE,
-  FAILURE_LOWERCASE
+  FAILURE_LOWERCASE,
+  BIN_CARD_TYPE
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -267,6 +268,7 @@ class CheckOutPage extends React.Component {
     this.setState({ cardDetails });
   };
   onChangePaymentMode = async val => {
+    localStorage.removeItem(BIN_CARD_TYPE);
     let noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
     if (
       val &&

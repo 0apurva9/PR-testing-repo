@@ -182,6 +182,7 @@ export const PRODUCT_CANCEL = "Cancel Item";
 
 export const SAVE_LIST_PAGE = "/default/wishList";
 export const PAYMENT_MODE_TYPE = "paymentMode";
+export const BIN_CARD_TYPE = "binCardType";
 // fetching feed information contant
 export const HOME_FEED_TYPE = "home";
 export const SECONDARY_FEED_TYPE = "secondaryFeed";
