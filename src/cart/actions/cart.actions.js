@@ -38,7 +38,8 @@ import {
   STRIPE_DETAILS,
   ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE,
   OLD_CART_GU_ID,
-  FAILURE_LOWERCASE
+  FAILURE_LOWERCASE,
+  BIN_CARD_TYPE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -2169,6 +2170,9 @@ export function binValidation(
       } else {
         localStorage.removeItem(SELECTED_BANK_NAME);
       }
+      if (resultJson.cardType) {
+        localStorage.setItem(BIN_CARD_TYPE, resultJson.cardType);
+      }
       if (paymentMode !== EMI && localStorage.getItem(EMI_TENURE)) {
         localStorage.removeItem(EMI_TENURE);
       }
@@ -2286,7 +2290,13 @@ export function softReservationForPaymentFailure(error) {
 export function softReservationForPayment(cardDetails, address) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+  let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+  const binCardType = localStorage.getItem(BIN_CARD_TYPE);
+  if (binCardType) {
+    paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
+      .slice(1)
+      .toLowerCase()} Card`;
+  }
   const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
   return async (dispatch, getState, { api }) => {
     let productItems = await getValidDeliveryModeDetails(
@@ -5697,7 +5707,13 @@ export function collectPaymentOrderForGiftCard(
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
-    const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    const binCardType = localStorage.getItem(BIN_CARD_TYPE);
+    if (binCardType) {
+      paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
+        .slice(1)
+        .toLowerCase()} Card`;
+    }
     let binNo = cardDetails.cardNumber.replace(/\s/g, "").substring(0, 6);
     dispatch(collectPaymentOrderForGiftCardRequest());
     try {
@@ -5767,7 +5783,13 @@ export function collectPaymentOrder(
     let cartGuId = productDetails && JSON.parse(productDetails).guid;
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
-    const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    const binCardType = localStorage.getItem(BIN_CARD_TYPE);
+    if (binCardType) {
+      paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
+        .slice(1)
+        .toLowerCase()} Card`;
+    }
     let url = queryString.parse(window.location.search);
     let binNo = cardDetails.cardNumber.replace(/\s/g, "").substring(0, 6);
     let cartDetails;
@@ -6071,7 +6093,13 @@ export function collectPaymentOrderForSavedCards(
     let cartDetails;
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
-    const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    const binCardType = localStorage.getItem(BIN_CARD_TYPE);
+    if (binCardType) {
+      paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
+        .slice(1)
+        .toLowerCase()} Card`;
+    }
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
     const returnUrl = `${
       window.location.origin
@@ -6212,7 +6240,13 @@ export function collectPaymentOrderForGiftCardFromSavedCards(
     let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    const binCardType = localStorage.getItem(BIN_CARD_TYPE);
+    if (binCardType) {
+      paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
+        .slice(1)
+        .toLowerCase()} Card`;
+    }
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
     const returnUrl = `${
       window.location.origin
