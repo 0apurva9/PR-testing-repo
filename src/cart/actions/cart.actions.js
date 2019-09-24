@@ -2761,6 +2761,7 @@ export function createJusPayOrderForGiftCard(
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
   const bankName = localStorage.getItem(SELECTED_BANK_NAME);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
   return async (dispatch, getState, { api }) => {
     dispatch(createJusPayOrderRequest());
     try {
@@ -2773,7 +2774,9 @@ export function createJusPayOrderForGiftCard(
           jusPayUrl
         )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
           bankName ? bankName : ""
-        }&channel=${CHANNEL}&isUpdatedPwa=true`
+        }&channel=${CHANNEL}&isUpdatedPwa=true${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2927,6 +2930,7 @@ export function createJusPayOrderForGiftCardNetBanking(
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
   return async (dispatch, getState, { api }) => {
     dispatch(createJusPayOrderRequest());
 
@@ -2938,7 +2942,9 @@ export function createJusPayOrderForGiftCardNetBanking(
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
-        )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`
+        )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3090,6 +3096,7 @@ export function createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId) {
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
   const bankName = localStorage.getItem(SELECTED_BANK_NAME);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
   return async (dispatch, getState, { api }) => {
     dispatch(createJusPayOrderRequest());
     try {
@@ -3108,7 +3115,9 @@ export function createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId) {
           jusPayUrl
         )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
           bankName ? bankName : ""
-        }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`
+        }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -5785,6 +5794,7 @@ export function collectPaymentOrderForGiftCard(
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
     let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
     const binCardType = localStorage.getItem(BIN_CARD_TYPE);
+    let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
     if (binCardType) {
       paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
         .slice(1)
@@ -5800,7 +5810,9 @@ export function collectPaymentOrderForGiftCard(
           JSON.parse(customerCookie).access_token
         }&saveCard=${true}&sameAsShipping=true&cartGuid=${egvCartGuid}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=${binNo}&emiTenure=${
           cardDetails.emi_tenure
-        }&cardBrandName=${cardBrandName}`,
+        }&cardBrandName=${cardBrandName}${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`,
         cartdetails
       );
       const resultJson = await result.json();
@@ -6322,6 +6334,7 @@ export function collectPaymentOrderForGiftCardFromSavedCards(
     let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
     let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
     const binCardType = localStorage.getItem(BIN_CARD_TYPE);
     if (binCardType) {
@@ -6376,7 +6389,9 @@ export function collectPaymentOrderForGiftCardFromSavedCards(
           JSON.parse(userDetails).userName
         }/collectPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&saveCard=${false}&sameAsShipping=true&cartGuid=${guId}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=`,
+        }&saveCard=${false}&sameAsShipping=true&cartGuid=${guId}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`,
         orderDetails
       );
       const resultJson = await result.json();
@@ -6587,6 +6602,7 @@ export function collectPaymentOrderForGiftCardNetBanking(
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
     let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
     let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
     let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
@@ -6637,7 +6653,9 @@ export function collectPaymentOrderForGiftCardNetBanking(
           JSON.parse(userDetails).userName
         }/collectPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&saveCard=false&sameAsShipping=true&cartGuid=${egvCartGuid}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${currentSelectedPaymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=`,
+        }&saveCard=false&sameAsShipping=true&cartGuid=${egvCartGuid}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${currentSelectedPaymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`,
         orderDetails
       );
       const resultJson = await result.json();
