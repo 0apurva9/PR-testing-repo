@@ -269,6 +269,12 @@ const SizeSelectorOOSModal = Loadable({
     return <Loader />;
   }
 });
+const NotificationConfirmation = Loadable({
+  loader: () => import("../../general/components/NotificationConfirmation.js"),
+  loading() {
+    return <Loader />;
+  }
+});
 
 const CancelReturnRequestPopUp = Loadable({
   loader: () => import("../../account/components/CancelReturnRequestPopUp.js"),
@@ -605,6 +611,12 @@ export default class ModalRoot extends React.Component {
         this.props.ownProps.redoCreateJusPayApi();
         this.props.hideModal();
       });
+    }
+  };
+
+  subscribeWhatsapp = () => {
+    if (this.props.subscribeWhatsapp) {
+      this.props.subscribeWhatsapp();
     }
   };
 
@@ -962,6 +974,12 @@ export default class ModalRoot extends React.Component {
         />
       ),
 
+      NotificationConfirmation: (
+        <NotificationConfirmation
+          closeModal={() => this.handleClose()}
+          handleWhatsappSubscribe={() => this.subscribeWhatsapp()}
+        />
+      ),
       CancelReturnRequestPopUp: (
         <CancelReturnRequestPopUp
           data={this.props.ownProps}
