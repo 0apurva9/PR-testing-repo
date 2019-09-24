@@ -105,7 +105,10 @@ import {
   STRIPE_DETAILS,
   MY_ACCOUNT_ORDERS_PAGE,
   ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE,
-  FAILURE_LOWERCASE
+  FAILURE_LOWERCASE,
+  RETRY_FAILED_ORDER_COUPON_HEADER,
+  RETRY_FAILED_ORDER_COUPON,
+  RETRY_FAILED_ORDER_COUPON_NOTE
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -3437,6 +3440,27 @@ if you have order id in local storage then you have to show order confirmation p
       let retryPaymentDetailsObj = JSON.parse(
         localStorage.getItem(RETRY_PAYMENT_DETAILS)
       );
+      let cartAmount = this.state.isComingFromRetryUrl
+        ? retryPaymentDetailsObj &&
+          retryPaymentDetailsObj.retryPaymentDetails &&
+          retryPaymentDetailsObj.retryPaymentDetails.cartAmount
+        : this.props.cart &&
+          this.props.cart.cartDetailsCNC &&
+          this.props.cart.cartDetailsCNC.cartAmount;
+
+      let couponDiscountAmount =
+        cartAmount &&
+        cartAmount.couponDiscountAmount &&
+        cartAmount.couponDiscountAmount.value !== 0;
+      let cartDiscount =
+        cartAmount &&
+        cartAmount.cartDiscount &&
+        cartAmount.cartDiscount.value !== 0;
+      let noCostEMIDiscountValue =
+        cartAmount &&
+        cartAmount.noCostEMIDiscountValue &&
+        cartAmount.noCostEMIDiscountValue.value !== 0;
+
       return (
         <React.Fragment>
           <DesktopOnly>
@@ -3444,12 +3468,25 @@ if you have order id in local storage then you have to show order confirmation p
               <div
                 className={
                   this.state.isOpenTransactionFailedPopUp
-                    ? styles.paymentFailure
+                    ? couponDiscountAmount ||
+                      cartDiscount ||
+                      noCostEMIDiscountValue
+                      ? styles.paymentFailureCoupon
+                      : styles.paymentFailure
                     : styles.paymentFailureClose
                 }
               >
                 <div className={styles.paymentFailureWrap}>
-                  <div className={styles.paymentText}>{FAILURE_TEXT}</div>
+                  {couponDiscountAmount ||
+                  cartDiscount ||
+                  noCostEMIDiscountValue ? (
+                    <div className={styles.paymentCouponText}>
+                      {RETRY_FAILED_ORDER_COUPON}
+                      <div>{RETRY_FAILED_ORDER_COUPON_NOTE}</div>
+                    </div>
+                  ) : (
+                    <div className={styles.paymentText}>{FAILURE_TEXT}</div>
+                  )}
                   <div className={styles.paymentFailButtonHolder}>
                     <div className={styles.closeButton}>
                       <Button
