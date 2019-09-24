@@ -102,6 +102,7 @@ import {
   RETRY_FAILED_ORDER,
   RETRY_PAYMENT_CART_AND_USER_ID_DETAILS,
   EMI_TENURE,
+  WHATSAPP_NOTIFICATION,
   STRIPE_DETAILS,
   MY_ACCOUNT_ORDERS_PAGE,
   ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE,
@@ -130,6 +131,7 @@ import {
   CART_PATH
 } from "../actions/cart.actions";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
+import WhatsappUpdates from "./WhatsappUpdates";
 import PaymentConfirmationPage from "./PaymentConfirmationPage";
 const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
 const PAYMENT_MODE = "EMI";
@@ -218,7 +220,8 @@ class CheckOutPage extends React.Component {
       retryCartGuid: null,
       retryFlagForEmiCoupon: false,
       emiBinValidationErrorMessage: null,
-      emiBinValidationStatus: false
+      emiBinValidationStatus: false,
+      whatsappSelected: true
     };
   }
 
@@ -374,9 +377,25 @@ class CheckOutPage extends React.Component {
     );
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const parsedQueryString = queryString.parse(this.props.location.search);
     const value = parsedQueryString.status;
+
+    if (
+      this.props.cart.paymentModes &&
+      this.props.cart.paymentModes !== prevProps.cart.paymentModes
+    ) {
+      if (
+        !this.props.cart.paymentModes.whatsapp &&
+        this.props.cart.paymentModes.whatsappText
+      ) {
+        let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
+        if (!whatsappNotification) {
+          Cookie.createCookie(WHATSAPP_NOTIFICATION, true);
+        }
+      }
+    }
+
     if (value && value !== JUS_PAY_CHARGED && value !== JUS_PAY_SUCCESS) {
       const oldCartId = Cookies.getCookie(OLD_CART_GU_ID);
       if (!oldCartId) {
@@ -516,6 +535,15 @@ class CheckOutPage extends React.Component {
   }
   removeCliqAndPiq() {
     this.setState({ showCliqAndPiq: false });
+  }
+  handleWhatsAppClick(isSelected) {
+    this.setState({ whatsappSelected: isSelected });
+    let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
+    if (isSelected && !whatsappNotification) {
+      Cookie.createCookie(WHATSAPP_NOTIFICATION, isSelected);
+    } else {
+      Cookie.deleteCookie(WHATSAPP_NOTIFICATION);
+    }
   }
   renderCheckoutAddress = disabled => {
     const cartData = this.props.cart;
@@ -1306,6 +1334,7 @@ class CheckOutPage extends React.Component {
     let cartDetailsLoggedInUser = Cookie.getCookie(
       CART_DETAILS_FOR_LOGGED_IN_USER
     );
+
     if (!customerCookie || !userDetails) {
       return this.navigateToLogin();
     }
@@ -1432,6 +1461,19 @@ if you have order id in local storage then you have to show order confirmation p
         if (this.props.getPrepaidOrderPaymentConfirmation) {
           this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
         }
+      }
+      // Show popup if OrderConfirmation returns whatsapp false
+      // let showWhatsappPopup =
+      //   this.props.cart.orderConfirmationDetails &&
+      //   this.props.cart.orderConfirmationDetails.whatsapp
+      //     ? this.props.cart.orderConfirmationDetails.whatsapp
+      //     : null;
+      let showWhatsappPopup = true;
+      if (!showWhatsappPopup) {
+        let orderId =
+          this.props.cart.orderConfirmationDetails &&
+          this.props.cart.orderConfirmationDetails.orderRefNo;
+        this.whatsappNotification(orderId);
       }
     } else if (parsedQueryString.payment_intent) {
       const stripeDetails = JSON.parse(localStorage.getItem(STRIPE_DETAILS));
@@ -3190,6 +3232,10 @@ if you have order id in local storage then you have to show order confirmation p
     } else return false;
   };
 
+  whatsappNotification = () => {
+    this.props.whatsappNotification();
+  };
+
   validateSubmitButton() {
     if (this.state.cardDetails) {
       if (
@@ -3804,6 +3850,15 @@ if you have order id in local storage then you have to show order confirmation p
                 <div className={styles.rightSection}>
                   {this.renderDesktopCheckout(checkoutButtonStatus)}
                   <div className={styles.disclaimer}>{DISCLAIMER}</div>
+                  {this.props.cart.paymentModes &&
+                    this.props.cart.paymentModes.whatsappText && (
+                      <WhatsappUpdates
+                        text={this.props.cart.paymentModes.whatsappText}
+                        handleWhatsAppClick={isSelected =>
+                          this.handleWhatsAppClick(isSelected)
+                        }
+                      />
+                    )}
                 </div>
               </DesktopOnly>
             </div>

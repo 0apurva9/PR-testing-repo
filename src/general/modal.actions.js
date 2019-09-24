@@ -48,6 +48,7 @@ export const REVIEW_GUIDLINE_MODAL = "ReviewGuidelineModal";
 export const SIMILAR_PRODUCTS_MODAL = "SimilarProductsModal";
 export const SIMILAR_PRODUCTS_OOS_MODAL = "SimilarProductsOOSModal";
 export const SIZE_SELECTOR_OOS_MODAL = "SizeSelectorOOSModal";
+export const CONFIRMATION_NOTIFICATION = "NotificationConfirmation";
 export const CANCEL_RETURN_REQUEST_POP_UP = "CancelReturnRequestPopUp";
 export const SHOW_RETURN_CONFIRM_POP_UP = "ShowReturnConfirmPopup";
 export const SHOW_DELIVERY_CONFIRM_POP_UP = "ShowDeliveryConfirmPopup";

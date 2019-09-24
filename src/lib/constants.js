@@ -436,6 +436,7 @@ export const RETRY_PAYMENT_CART_AND_USER_ID_DETAILS =
   "retryPaymentCartIdAndUserID";
 export const PRIMARY_OFFER = "PRODUCT_PROMOTION";
 export const EMI_TENURE = "emiTenure";
+export const WHATSAPP_NOTIFICATION = "whatsappNotification";
 export const COMMENTS_PLACEHOLDER = "Add comments (optional)";
 export const RECEIVED = "Received";
 export const PAID = "Paid";

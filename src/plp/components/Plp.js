@@ -278,6 +278,8 @@ export default class Plp extends React.Component {
     }
   };
   setHeaderTextDesktop = () => {
+    const slug = this.props.match.params.slug;
+    let splitSlug = "Tata Cliq";
     const searchresult =
       this.props &&
       this.props.productListings &&
@@ -291,6 +293,8 @@ export default class Plp extends React.Component {
       });
 
     const isBrand = /c-mbh/.test(this.props.location.pathname) ? true : false;
+    const isCustom = /custom/.test(this.props.location.pathname) ? true : false;
+
     if (this.props.productListings.seo && this.props.productListings.seo.tag) {
       const tagText =
         (brandData && brandData.length) ===
@@ -301,6 +305,13 @@ export default class Plp extends React.Component {
     }
     if (!this.props.productListings && this.props.headerText) {
       return this.props.headerText;
+    }
+    if (isCustom) {
+      let customHeaderText = this.props && this.props.headerText;
+      if (customHeaderText && customHeaderText.includes("&")) {
+        let header = customHeaderText.split("&");
+        return header[0];
+      } else return customHeaderText;
     }
     if (
       this.props.productListings.seo &&
@@ -314,6 +325,11 @@ export default class Plp extends React.Component {
           ? brandName + " " + this.props.productListings.seo.breadcrumbs[0].name
           : this.props.productListings.seo.breadcrumbs[0].name;
       return headerText;
+    }
+    if (slug) {
+      splitSlug = this.props.match.params.slug.replace(/-/g, " ");
+      splitSlug = splitSlug.replace(/\b\w/g, l => l.toUpperCase());
+      return splitSlug;
     } else {
       return (
         <React.Fragment>
