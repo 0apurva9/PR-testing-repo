@@ -466,3 +466,11 @@ export const ERROR_CODE_ORG_APACHE = "org.apache";
 export const ERROR_CODE_FLEXIBLE_SEARCH_QUERY = "flexible search query";
 export const ERROR_CODE_INVALID_ACCESS_TOKEN = "invalid access token";
 
+export const FAILURE_TEXT =
+  "Your payment didn't go through, please try again with different payment mode";
+export const RETRY_FAILED_ORDER_COUPON_HEADER =
+  "Your payment hasn't gone through";
+export const RETRY_FAILED_ORDER_COUPON =
+  "You may attempt to pay again now or retry payment again after 20 minutes using the Payment Retry Link available in your Order History under My Account and your email to avail all the applied Coupon discounts and/or Instant Bank Offer discounts on this Order.";
+export const RETRY_FAILED_ORDER_COUPON_NOTE =
+  "Note: If the amount was debited from your account, it will be fully refunded.";
