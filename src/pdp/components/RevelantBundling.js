@@ -337,10 +337,13 @@ export default class RevelantBundling extends React.Component {
                   >{`(${itemsSelected}items)`}</span>
                 </span>
               </div>
+              <button
+                className={styles.AddToCartButton}
+                onClick={this.addToCart}
+              >
+                {bagHeading}
+              </button>
             </div>
-            <button className={styles.AddToCartButton} onClick={this.addToCart}>
-              {bagHeading}
-            </button>
           </div>
         </div>
         {/* )} */}
