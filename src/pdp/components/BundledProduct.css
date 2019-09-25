@@ -156,7 +156,7 @@
 	border-radius: 100px;
 	background: #ff1744;
 	color: #ffffff;
-	margin-top: 362px;
+	margin-top: 386px;
 	margin-bottom: 34px;
 	padding-top: 15px;
 	padding-bottom: 14px;
@@ -165,6 +165,8 @@
 	margin-left: 205px;
 	margin-right: 204px;
 	position: absolute;
+	font-size: 14px;
+    font-weight: 500;
 }
 
 .priceHolder {
@@ -203,5 +205,4 @@
 	position: absolute;
 	margin-left: 167px;
 	padding-top: 26px;
-	padding-bottom: 24px;
 }
