@@ -157,7 +157,7 @@ export default class RevelantBundling extends React.Component {
               bundleprdouct.productCategory !== "FineJewellery" ? (
                 <div className={styles.discountClass}>
                   {!bundleprdouct.noBrace && `${"("}`}
-                  {parseInt(bundleprdouct.discount, 10) + `${"% OFF"}`}
+                  {parseInt(bundleprdouct.discount, 10) + `${"%"}`}
                   {!bundleprdouct.noBrace && `${")"}`}
                 </div>
               ) : null}

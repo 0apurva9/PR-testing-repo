@@ -930,7 +930,7 @@
 .brandName {
 	width: 100px;
 	height: 17px;
-	font-family: Rubik-Regular;
+	font-family: regular;
 	font-size: 14px;
 	font-weight: normal;
 	font-style: normal;
@@ -1012,7 +1012,7 @@
 	composes: priceHolder;
 	margin-right: 6px;
 	font-size: 14px;
-	color: #9b9b9b;
+	color: #212121;
 	/* padding-top: 10px; */
 	font-family: light;
 }
@@ -1027,6 +1027,7 @@
 	display: inline-block;
 	margin-left: 6px;
 	font-size: 14px;
+	font-family: light;
 }
 .checkbox {
 	width: 20px;

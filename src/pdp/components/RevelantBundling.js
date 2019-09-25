@@ -176,10 +176,10 @@ export default class RevelantBundling extends React.Component {
     // ((this.props && this.props.relevantBundleProductData && this.props.relevantBundleProductData.winningSellerPrice && this.props.relevantBundleProductData.winningSellerPrice.formattedValueNoDecimal)+(this.props && this.props.secondaryBundleProductData && this.props.secondaryBundleProductData.winningSellerPrice && this.props.secondaryBundleProductData.winningSellerPrice.formattedValueNoDecimal))
     if (this.state.totalSelectedProducts.length < 2) {
       priceHeader = "2 Add-ons";
-      bagHeading = "ADD 3 items in the Bag";
+      bagHeading = "ADD 3 ITEMS IN THE BAG";
     } else {
       priceHeader = "1 Add-ons";
-      bagHeading = "ADD 2 items in the Bag";
+      bagHeading = "ADD 2 ITEMS IN THE BAG";
     }
     return (
       <React.Fragment>
@@ -214,7 +214,7 @@ export default class RevelantBundling extends React.Component {
                           />
                         </div>
                         <h2 className={styles.brandName}>
-                          <span>{this.props.productDetails.brandName}</span>
+                          {this.props.productDetails.brandName}
                         </h2>
                         <h1 className={styles.productName}>
                           {this.props.productDetails.productName}
@@ -249,7 +249,7 @@ export default class RevelantBundling extends React.Component {
                       <div className={styles.discountClass}>
                         {!this.props.productDetails.noBrace && `${"("}`}
                         {parseInt(this.props.productDetails.discount, 10) +
-                          `${"% OFF"}`}
+                          `${"%"}`}
                         {!this.props.productDetails.noBrace && `${")"}`}
                       </div>
                     ) : null}
