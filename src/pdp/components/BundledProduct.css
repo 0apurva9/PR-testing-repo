@@ -20,13 +20,15 @@
 	padding: 16px 24px 16px 20px;
 	margin-bottom: 24px;
 }
-.iconAdd {
-	width: 20%;
-	display: inline-block;
-	padding-left: 122px;
-	padding-right: 122px;
-	/* padding-left: 233px;
-	padding-right: 136px; */
+.iconAddBundledProduct {
+	float: left;
+	width: 243px;
+	height: 25px;
+	margin-top: 80px;
+	padding-left: 30px;
+	background: url(./img/Add.svg) no-repeat;
+  background-size: contain;
+  background-position: center;
 }
 .columns {
 	/* composes: image; */
@@ -47,7 +49,7 @@
 .brandName {
 	width: 100px;
 	height: 17px;
-	font-family: Rubik-Regular;
+	font-family: regular;
 	font-size: 14px;
 	font-weight: normal;
 	font-style: normal;
@@ -70,7 +72,7 @@
 	font-stretch: normal;
 	line-height: normal;
 	letter-spacing: normal;
-	color: rgba(33, 33, 33, 0.93);
+	color: #212121;
 	padding-left: 4px;
 }
 
@@ -173,7 +175,7 @@
 	composes: priceHolder;
 	margin-right: 6px;
 	font-size: 14px;
-	color: #9b9b9b;
+	color: #212121;
 	/* padding-top: 10px; */
 	font-family: light;
 }
@@ -188,6 +190,7 @@
 	display: inline-block;
 	margin-left: 6px;
 	font-size: 14px;
+	font-family: light;
 }
 .discountMessage {
 	color: #ff1744;
@@ -199,4 +202,6 @@
 	margin-top: 321px;
 	position: absolute;
 	margin-left: 167px;
+	padding-top: 26px;
+	padding-bottom: 24px;
 }
