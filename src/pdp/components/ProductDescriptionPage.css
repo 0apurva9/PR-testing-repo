@@ -1120,3 +1120,7 @@ width: 20px;
   background-size: contain;
   background-position: center;
   }
+  .selectedItem{
+	font-family: Rubik-Regular;
+	font-size: 14px;
+  }
