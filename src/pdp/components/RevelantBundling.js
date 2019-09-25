@@ -17,7 +17,6 @@ export default class RevelantBundling extends React.Component {
 
   addToCart = async () => {
     console.log("productAdded---->", this.state.totalSelectedProducts);
-    debugger;
     let bundleProductDetails = {};
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;

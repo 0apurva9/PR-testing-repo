@@ -49,10 +49,9 @@ export default class OfferCard extends React.Component {
   }
   handleShowDetails = async (selectedOffer, offers) => {
     setDataLayerForPdpDirectCalls(ADOBE_DIRECT_CALL_FOR_PDP_OFFER);
-    debugger;
+
     let Title = selectedOffer.promotionDisplayText;
     if (Title.indexOf("bundledProduct") >= 0) {
-      debugger;
       await this.getParams(Title)
         .then(data => {
           console.log("data in get params return", data);
@@ -84,7 +83,6 @@ export default class OfferCard extends React.Component {
   };
   getParams = async Title => {
     let bundleProduct;
-    debugger;
     var snippet = document.createElement("div");
     snippet.innerHTML = Title;
     // var links = snippet.getElementsByTagName("a"),
@@ -108,7 +106,14 @@ export default class OfferCard extends React.Component {
       );
       console.log("params", params, "bundleProduct-->", bundleProduct);
       if (bundleProduct.status === "success") {
-        bundleProduct = await this.getBundleProductServibilty(params);
+        let pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+          ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+          : "";
+        bundleProduct = await this.props.getBundleProductPinCode(
+          pinCode,
+          params.bundledProductCode,
+          params.ussid
+        );
       }
     }
     console.log("props in bundle product serviceability code", bundleProduct);
