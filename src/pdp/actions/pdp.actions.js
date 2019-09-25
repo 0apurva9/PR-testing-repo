@@ -1132,7 +1132,7 @@ export function getBundleproduct(productCode, isApiCall = 0) {
         }
       }, TIME_OUT_FOR_APIS);
       const result = await api.getMiddlewareUrl(
-        `${PRODUCT_DESCRIPTION_PATH}/{productCode}?isPwa=true`
+        `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
       const resultJson = await result.json();
       console.log("bundle", resultJson);
