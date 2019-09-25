@@ -110,7 +110,7 @@ export default class RevelantBundling extends React.Component {
             : data.mrpPrice.doubleValue;
         total = total + parseInt(price);
       });
-      return total;
+      return `${RUPEE_SYMBOL}${total}`;
     } else {
       if (this.props.bundledItem.length > 0) {
         this.props.bundledItem.map((data, key) => {
@@ -121,20 +121,31 @@ export default class RevelantBundling extends React.Component {
 
           total = total + parseInt(price);
         });
-        return total;
+        return `${RUPEE_SYMBOL}${total}`;
       }
     }
   };
 
   totalPrice = () => {
-    let discountedPrice = this.getDiscountedPrice();
+    let total = 0;
+    let selectedOne = this.state.totalSelectedProducts.length;
+    let discountedPrice = Array.from(this.state.totalSelectedProducts).map(
+      (data, key) => {
+        let price =
+          data && data.winningSellerPrice
+            ? data.winningSellerPrice.doubleValue
+            : data.mrpPrice.doubleValue;
+        total = total + parseInt(price);
+      }
+    );
     let totalPrice = 0;
     let price =
       this.props.productDetails && this.props.productDetails.winningSellerPrice
         ? this.props.productDetails.winningSellerPrice.doubleValue
         : this.props.productDetails.mrpPrice.doubleValue;
     totalPrice = discountedPrice + price;
-    return totalPrice;
+
+    return `${RUPEE_SYMBOL}${totalPrice}`;
   };
   totalSelectedProducts(e) {
     let tmp = this.state.totalSelectedProducts;
@@ -156,6 +167,8 @@ export default class RevelantBundling extends React.Component {
       return this.renderLoader();
     }
     let arr = [];
+    let selectedOne = this.state.totalSelectedProducts.length;
+    let itemsSelected = selectedOne + 1;
     const relevantProduct = this.props && this.props.relevantBundleProductData;
     const secondaryBundleProductData =
       this.props && this.props.secondaryBundleProductData;
@@ -314,7 +327,12 @@ export default class RevelantBundling extends React.Component {
               </div>
               <div className={styles.widthPrice}>
                 <span className={styles.headerPrice}>Total Price</span>
-                <span className={styles.basePrice}>{this.totalPrice()}</span>
+                <span className={styles.basePrice}>
+                  {this.totalPrice()}
+                  <span
+                    className={styles.selectedItem}
+                  >{`(${itemsSelected}items)`}</span>
+                </span>
               </div>
             </div>
             <button className={styles.AddToCartButton} onClick={this.addToCart}>
