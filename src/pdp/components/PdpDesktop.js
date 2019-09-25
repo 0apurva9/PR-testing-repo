@@ -218,6 +218,7 @@ export default class PdpApparel extends React.Component {
     /***relavant Bundling Product */
     let bundlePrdouct =
       this.props.relevantBundleProductCodeData &&
+      this.props.relevantBundleProductCodeData.applicationProperties &&
       this.props.relevantBundleProductCodeData.applicationProperties[0] &&
       this.props.relevantBundleProductCodeData.applicationProperties[0].value;
     if (bundlePrdouct) {
