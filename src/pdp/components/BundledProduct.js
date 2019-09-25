@@ -34,11 +34,19 @@ export default class BundledProduct extends React.Component {
         this.props.displayToast("Product is out of stock");
       } else {
         let self = this;
-        await this.props.addProductToCart(baseProductDetails, () => {
-          self.props.addProductToCart(bundleProductDetails, () => {
+        let baseProduct = await this.props.addProductToCart(
+          baseProductDetails,
+          val => {
+            console.log("baseProductDetails==================>", val);
+          }
+        );
+
+        if (baseProduct && baseProduct.status === "success") {
+          await self.props.addProductToCart(bundleProductDetails, val => {
+            console.log("============================>", val);
             this.props.history.push(PRODUCT_CART_ROUTER);
           });
-        });
+        }
       }
     }
   };

@@ -85,7 +85,7 @@ export default class RevelantBundling extends React.Component {
           data && data.winningSellerPrice
             ? data.winningSellerPrice.formattedValueNoDecimal
             : data.mrpPrice.formattedValueNoDecimal;
-        total = total + price;
+        total = total + parseInt(price);
       });
       return total;
     } else {
@@ -95,7 +95,8 @@ export default class RevelantBundling extends React.Component {
             data && data.winningSellerPrice
               ? data.winningSellerPrice.formattedValueNoDecimal
               : data.mrpPrice.formattedValueNoDecimal;
-          total = total + price;
+
+          total = total + parseInt(price);
         });
         return total;
       }
@@ -173,10 +174,7 @@ export default class RevelantBundling extends React.Component {
     let priceHeader, bagHeading;
     // let priceTotal =
     // ((this.props && this.props.relevantBundleProductData && this.props.relevantBundleProductData.winningSellerPrice && this.props.relevantBundleProductData.winningSellerPrice.formattedValueNoDecimal)+(this.props && this.props.secondaryBundleProductData && this.props.secondaryBundleProductData.winningSellerPrice && this.props.secondaryBundleProductData.winningSellerPrice.formattedValueNoDecimal))
-    if (
-      this.state.totalSelectedProducts.length > 1 ||
-      this.props.bundledItem.length > 1
-    ) {
+    if (this.state.totalSelectedProducts.length < 2) {
       priceHeader = "2 Add-ons";
       bagHeading = "ADD 3 items in the Bag";
     } else {
@@ -284,12 +282,12 @@ export default class RevelantBundling extends React.Component {
               <div className={styles.widthPrice}>
                 <span className={styles.headerPrice}>{priceHeader}</span>
                 <span className={styles.basePrice}>
-                  {this.getDiscountedPrice}
+                  {this.getDiscountedPrice()}
                 </span>
               </div>
               <div className={styles.widthPrice}>
                 <span className={styles.headerPrice}>Total Price</span>
-                <span className={styles.basePrice}>{this.totalPrice}</span>
+                <span className={styles.basePrice}>{this.totalPrice()}</span>
               </div>
             </div>
             <button className={styles.AddToCartButton} onClick={this.addToCart}>

@@ -1575,7 +1575,6 @@ export function relevantProductServibilty(pinCode = null, productCode, ussId) {
   if (pinCode) {
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, pinCode);
   }
-
   return async (dispatch, getState, { api }) => {
     dispatch(getRelevantProductPinCodeRequest());
     try {
@@ -1634,90 +1633,6 @@ export function relevantProductServibilty(pinCode = null, productCode, ussId) {
     }
   };
 }
-// export function getRelevantProductPinCodeRequest() {
-//   return {
-//     type: CHECK_RELEVANT_PRODUCT_PIN_CODE_REQUEST,
-//     status: REQUESTING
-//   };
-// }
-// export function getRelevantProductPinCodeSuccess(productPinCode) {
-//   return {
-//     type: CHECK_RELEVANT_PRODUCT_PIN_CODE_SUCCESS,
-//     status: SUCCESS,
-//     productPinCode
-//   };
-// }
-
-// export function getRelevantProductPinCodeFailure(error) {
-//   return {
-//     type: CHECK_RELEVANT_PRODUCT_PIN_CODE_FAILURE,
-//     status: ERROR,
-//     error
-//   };
-// }
-
-// export function getRelevantProductPinCode(pinCode = null, productCode, ussId) {
-//   let validProductCode = productCode.toUpperCase();
-
-//   if (pinCode) {
-//     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, pinCode);
-//   }
-//   return async (dispatch, getState, { api }) => {
-//     dispatch(getRelevantProductPinCodeRequest());
-//     try {
-//       let url;
-//       let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-//       let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-//       let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-//       if (userDetails) {
-//         let userName = JSON.parse(userDetails).userName;
-//         let accessToken = JSON.parse(customerCookie).access_token;
-//         url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}`;
-//       } else {
-//         let userName = ANONYMOUS_USER;
-//         let accessToken = JSON.parse(globalCookie).access_token;
-//         url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}`;
-//       }
-//       const result = await api.post(url);
-
-//       const resultJson = await result.json();
-//       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
-//       if (resultJsonStatus.status) {
-//         throw new Error(resultJsonStatus.message);
-//       }
-
-//       // Checking listing Id
-//       let bundleProductResponse = resultJson.listOfDataList[0].value;
-//       let listOfAllBundleServiceableUssid;
-//       if (bundleProductResponse && bundleProductResponse.pincodeListResponse) {
-//         listOfAllBundleServiceableUssid = bundleProductResponse.pincodeListResponse.filter(
-//           delivery => {
-//             return delivery.isServicable === "Y";
-//           }
-//         );
-//       }
-//       let serviceableForExistingBundleProductSeller = listOfAllBundleServiceableUssid.find(
-//         seller => {
-//           return seller.ussid === ussId;
-//         }
-//       );
-//       if (serviceableForExistingBundleProductSeller.stockCount > 0) {
-//         return dispatch(
-//           getRelevantProductPinCodeSuccess({
-//             pinCode,
-//             deliveryOptions: resultJson.listOfDataList[0].value,
-//             ussId
-//           })
-//         );
-//       } else {
-//         return dispatch(getRelevantProductPinCodeFailure("stockCount:0"));
-//       }
-//     } catch (e) {
-//       return dispatch(getRelevantProductPinCodeFailure(e.message));
-//     }
-//   };
-// }
 export function relevantBundleProductCodeRequest() {
   return {
     type: RELEVANT_BUNDLE_PRODUCT_CODE_REQUEST,

@@ -7,6 +7,7 @@ import {
   ADOBE_OFFER_CARD_VIEW_MORE_TNC
 } from "../../lib/adobeUtils";
 import BundledProduct from "./BundledProduct";
+import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants";
 export default class VoucherOfferModal extends React.Component {
   state = {
     addBundledProduct: [],
@@ -15,12 +16,8 @@ export default class VoucherOfferModal extends React.Component {
 
   handleShowDetails = async (selectedOffer, offers) => {
     let Title = selectedOffer.promotionDisplayText;
-    let baseAllOOStock =
-      this.props &&
-      this.props.productDetails &&
-      this.props.productDetails.allOOStock;
-
-    if (Title.indexOf("bundledProduct") >= 0 && !baseAllOOStock) {
+    if (Title.indexOf("bundledProduct") >= 0) {
+      console.log("baseProduct", this.props, Title);
       await this.getParams(Title)
         .then(data => {
           if (data.status !== "error" && data.status !== "Failure") {
@@ -42,8 +39,6 @@ export default class VoucherOfferModal extends React.Component {
         });
       }
     }
-    // this.props.closeModal();
-    // setDataLayer(ADOBE_OFFER_CARD_VIEM_MORE, this.props.productListings);
   };
 
   getBundleProductServibilty = async params => {
@@ -57,25 +52,29 @@ export default class VoucherOfferModal extends React.Component {
     let bundleProduct;
     var snippet = document.createElement("div");
     snippet.innerHTML = Title;
-    var links = snippet.getElementsByTagName("a"),
-      lastURL = links[links.length - 1].href; // or getAttribute("href")
     var params = {};
     var parser = document.createElement("a");
-    parser.href = lastURL;
+    parser.href = Title;
     var query = parser.search.substring(1);
     var vars = query.split("&");
     for (var i = 0; i < vars.length; i++) {
       var pair = vars[i].split("=");
       params[pair[0]] = decodeURIComponent(pair[1]);
     }
-
     if (params) {
       this.setState({ bundledData: params });
       bundleProduct = await this.props.getBundleproduct(
         params.bundledProductCode
       );
       if (bundleProduct.status === "success") {
-        bundleProduct = await this.getBundleProductServibilty(params);
+        let pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+          ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+          : "";
+        bundleProduct = await this.props.getBundleProductPinCode(
+          pinCode,
+          params.bundledProductCode,
+          params.ussid
+        );
       }
     }
     return bundleProduct;
@@ -155,7 +154,7 @@ export default class VoucherOfferModal extends React.Component {
       <div className={styles.base}>
         <div className={styles.header}>Offers</div>
         {this.props.offers.map((offer, index) => {
-          let bundleP = offer.name;
+          let bundleItem = offer.promotionDisplayText;
           return (
             <div key={index} className={styles.container}>
               <div
@@ -163,16 +162,17 @@ export default class VoucherOfferModal extends React.Component {
                 onClick={() => this.handleShowDetails(offer, this.props.offers)}
                 dangerouslySetInnerHTML={{ __html: offer.name }}
               />
-              {/* {bundleP.indexOf('bundledProduct') >= 0 ? (
-								' '
-							) : ( */}
               <div
                 className={styles.termsAndConditions}
-                onClick={() => this.handleTnCDetails(offer, this.props.offers)}
+                onClick={
+                  bundleItem.indexOf("bundledProduct") >= 0
+                    ? () => this.handleShowDetails(offer, this.props.offers)
+                    : () => this.handleTnCDetails(offer, this.props.offers)
+                }
               >
                 T&C
               </div>
-              {/* )} */}
+
               {offer.offerEndTimerStartDateAndTime
                 ? this.checkTimer(
                     offer.offerEndTimerStartDateAndTime,
