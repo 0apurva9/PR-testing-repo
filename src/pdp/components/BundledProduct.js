@@ -189,7 +189,7 @@ export default class BundledProduct extends React.Component {
             You will see the final discounted price in your bag
           </div>
           <div className={styles.addToBagButton} onClick={this.addToCart}>
-            ADD 2 ITEMS IN THE BAG
+            ADD BOTH ITEMS TO YOUR BAG
           </div>
         </div>
       </React.Fragment>
