@@ -66,28 +66,14 @@ const Loader = () => {
     </div>
   );
 };
-
-//const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
-
 export default class ProductDescriptionPageWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = { showPiqPage: false };
   }
   componentWillMount() {
-    // if (!localStorage.getItem("relevantProductBundling")) {
-    //   localStorage.setItem(
-    //     "relevantProductBundling",
-    //     JSON.stringify(relevantProductBundling)
-    //   );
-    // }
     if (this.props.relevantBundleProductCode()) {
       this.props.relevantBundleProductCode();
-
-      // if (bundleProductCode.status === "success") {
-      //   let x = bundleProductCode.relevantBundleProductCode.applicationProperties[0];
-      //   console.log("xyz", JSON.parse(x.value));
-      // }
     }
   }
   componentDidMount = async () => {

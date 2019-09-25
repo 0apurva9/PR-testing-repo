@@ -51,14 +51,6 @@ export default class BundledProduct extends React.Component {
     }
     const baseProduct = this.props.productDetails && this.props.productDetails;
     const bundleProduct = this.props && this.props.bundleProductData;
-    console.log(
-      "props: in popup",
-      this.props,
-      "bundleProduct",
-      bundleProduct,
-      "baseProduct",
-      baseProduct
-    );
     let price = "";
     let discountPrice = "";
     let seoDoublePrice = 0;

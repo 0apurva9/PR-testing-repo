@@ -43,11 +43,9 @@ export default class RevelantBundling extends React.Component {
   };
 
   selectProduct() {
-    console.log("1--", this.state.selected);
     this.setState({
       selected: !this.state.selected
     });
-    console.log("2--", this.state.selected);
     this.props.onClick();
   }
   renderLoader() {
@@ -55,7 +53,6 @@ export default class RevelantBundling extends React.Component {
   }
   render() {
     let bundleprdouct = this.props.bundleprdouct;
-    console.log("------------->", bundleprdouct);
     let price = "";
     let discountPrice = "";
     let seoDoublePrice = 0;
@@ -108,8 +105,6 @@ export default class RevelantBundling extends React.Component {
       this.props.array.length > 1
         ? styles.reactSelectOption
         : styles.oneProduct;
-    console.log("bundleprdouct", this.state.selected);
-
     return (
       <div>
         <div className={styles.iconAddBundledProduct} />

@@ -1103,25 +1103,6 @@ export function getbundleProductFailure() {
     status: FAILURE
   };
 }
-
-// export function getBundleproduct (productCode) {
-//   debugger;
-// return async (dispatch, getState, { api }) => {
-// dispatch(getbundleProductRequest());
-// try {
-// const getProductdetails=await api.getMiddlewareUrl(
-//   `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
-// );
-// let finalProductDetails=await getProductdetails.json();
-// console.log("getBundleproduct", finalProductDetails);
-// dispatch(getbundleProductSuccess(finalProductDetails));
-// }
-// catch (e) {
-// console.log("getBundleproduct", e);
-// dispatch(getbundleProductFailure(e.message));
-// }
-// }
-// }
 export function getBundleproduct(productCode, isApiCall = 0) {
   return async (dispatch, getState, { api }) => {
     dispatch(getbundleProductRequest());
@@ -1135,7 +1116,6 @@ export function getBundleproduct(productCode, isApiCall = 0) {
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
       const resultJson = await result.json();
-      console.log("bundle", resultJson);
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
@@ -1348,7 +1328,6 @@ export function getBundleProductPinCode(pinCode = null, productCode, ussId) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      console.log("service ------->");
       // Checking listing Id
       let bundleProductResponse = resultJson.listOfDataList[0].value;
       let listOfAllBundleServiceableUssid;
@@ -1506,7 +1485,6 @@ export function secondGetRelevantBundleProductFailure() {
   };
 }
 export function getRelevantBundleProduct(productCode, isApiCall = 0, sequence) {
-  console.log("xxx", sequence);
   return async (dispatch, getState, { api }) => {
     sequence === 0
       ? dispatch(firstGetRelevantBundleProductRequest())
@@ -1617,7 +1595,6 @@ export function relevantProductServibilty(pinCode = null, productCode, ussId) {
       const result = await api.post(url);
 
       const resultJson = await result.json();
-      console.log("relevant product--->", resultJson);
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {

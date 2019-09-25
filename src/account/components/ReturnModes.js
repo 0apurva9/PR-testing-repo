@@ -268,7 +268,6 @@ export default class ReturnModes extends React.Component {
     ) {
       return this.navigateToReturnLanding();
     }
-    console.log("props==============>:", this.props);
     if (this.props && this.props.loadingForUpdateReturnConfirmation) {
       return this.renderLoader();
     }

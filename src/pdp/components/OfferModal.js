@@ -19,11 +19,10 @@ export default class VoucherOfferModal extends React.Component {
       this.props &&
       this.props.productDetails &&
       this.props.productDetails.allOOStock;
-    console.log("baseProduct", this.props);
+
     if (Title.indexOf("bundledProduct") >= 0 && !baseAllOOStock) {
       await this.getParams(Title)
         .then(data => {
-          console.log("data in get params return", data);
           if (data.status !== "error" && data.status !== "Failure") {
             this.props.showBundledProduct(this.state.bundledData);
           }
@@ -156,7 +155,6 @@ export default class VoucherOfferModal extends React.Component {
       <div className={styles.base}>
         <div className={styles.header}>Offers</div>
         {this.props.offers.map((offer, index) => {
-          console.log("offerDetails:", offer);
           let bundleP = offer.name;
           return (
             <div key={index} className={styles.container}>
