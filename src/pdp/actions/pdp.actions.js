@@ -1348,7 +1348,7 @@ export function getBundleProductPinCode(pinCode = null, productCode, ussId) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      console.log("service ------->");
+
       // Checking listing Id
       let bundleProductResponse = resultJson.listOfDataList[0].value;
       let listOfAllBundleServiceableUssid;
@@ -1597,7 +1597,6 @@ export function relevantProductServibilty(pinCode = null, productCode, ussId) {
   if (pinCode) {
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, pinCode);
   }
-
   return async (dispatch, getState, { api }) => {
     dispatch(getRelevantProductPinCodeRequest());
     try {
@@ -1617,7 +1616,6 @@ export function relevantProductServibilty(pinCode = null, productCode, ussId) {
       const result = await api.post(url);
 
       const resultJson = await result.json();
-      console.log("relevant product--->", resultJson);
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
