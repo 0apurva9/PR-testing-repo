@@ -67,7 +67,61 @@ export default class RevelantBundling extends React.Component {
       }
     }
   };
+  getBundledPrice = () => {
+    let arr = [];
+    const relevantProduct =
+      this.props.relevantBundleProductData &&
+      this.props.relevantBundleProductData;
+    const secondaryBundleProductData =
+      this.props.secondaryBundleProductData &&
+      this.props.secondaryBundleProductData;
+    arr.push(relevantProduct);
+    arr.push(secondaryBundleProductData);
+    let tmp = this.state.totalSelectedProducts
+      ? this.state.totalSelectedProducts
+      : arr;
+    console.log("price Calculation", tmp);
+    tmp.forEach(product => {
+      console.log("price Calculation", product);
+    });
+  };
 
+  getDiscountedPrice = () => {
+    let selectedOne = this.state.totalSelectedProducts;
+    let total = 0;
+    if (this.state.totalSelectedProducts.length > 0) {
+      Array.from(this.state.totalSelectedProducts).map((data, key) => {
+        let price =
+          data && data.winningSellerPrice
+            ? data.winningSellerPrice.formattedValueNoDecimal
+            : data.mrpPrice.formattedValueNoDecimal;
+        total = total + price;
+      });
+      return total;
+    } else {
+      if (this.props.bundledItem.length > 0) {
+        this.props.bundledItem.map((data, key) => {
+          let price =
+            data && data.winningSellerPrice
+              ? data.winningSellerPrice.formattedValueNoDecimal
+              : data.mrpPrice.formattedValueNoDecimal;
+          total = total + price;
+        });
+        return total;
+      }
+    }
+  };
+
+  totalPrice = () => {
+    let discountedPrice = this.getDiscountedPrice();
+    let totalPrice = 0;
+    let price =
+      this.props.productDetails && this.props.productDetails.winningSellerPrice
+        ? this.props.productDetails.winningSellerPrice.formattedValueNoDecimal
+        : this.props.productDetails.mrpPrice.formattedValueNoDecimal;
+    totalPrice = discountedPrice + price;
+    return totalPrice;
+  };
   totalSelectedProducts(e) {
     let tmp = this.state.totalSelectedProducts;
     if (tmp.indexOf(e) > -1 && tmp.length > 0) {
@@ -94,14 +148,11 @@ export default class RevelantBundling extends React.Component {
       return this.renderLoader();
     }
     let arr = [];
-    const relevantProduct =
-      this.props.relevantBundleProductData &&
-      this.props.relevantBundleProductData;
+    const relevantProduct = this.props && this.props.relevantBundleProductData;
     const secondaryBundleProductData =
-      this.props.secondaryBundleProductData &&
-      this.props.secondaryBundleProductData;
+      this.props && this.props.secondaryBundleProductData;
     arr.push(relevantProduct);
-    arr.push(secondaryBundleProductData);
+    // arr.push(secondaryBundleProductData);
     console.log("props--->", this.props, "arrrrrrrrrrrrr", arr);
     let Bundledprice = "";
     let BundleddiscountPrice = "";
@@ -136,103 +187,131 @@ export default class RevelantBundling extends React.Component {
     if (this.props.productDetails && this.props.productDetails.mrpPrice) {
       price = this.props.productDetails.mrpPrice.formattedValueNoDecimal;
     }
-
+    let priceHeader, bagHeading;
+    // let priceTotal =
+    // ((this.props && this.props.relevantBundleProductData && this.props.relevantBundleProductData.winningSellerPrice && this.props.relevantBundleProductData.winningSellerPrice.formattedValueNoDecimal)+(this.props && this.props.secondaryBundleProductData && this.props.secondaryBundleProductData.winningSellerPrice && this.props.secondaryBundleProductData.winningSellerPrice.formattedValueNoDecimal))
+    if (
+      this.state.totalSelectedProducts.length > 1 ||
+      this.props.bundledItem.length > 1
+    ) {
+      priceHeader = "2 Add-ons";
+      bagHeading = "ADD 3 items in the Bag";
+    } else {
+      priceHeader = "1 Add-ons";
+      bagHeading = "ADD 2 items in the Bag";
+    }
     return (
       <React.Fragment>
-        {this.props.relevantBundleProductData !== null &&
-          this.props.secondaryBundleProductData !== null && (
-            <div className={styles.pageCenter}>
-              <div className={styles.productBundling}>
-                <div className={styles.bundledHeader}>
-                  Customers buy these together
-                </div>
-                <div className={styles.bundleContent}>
-                  {this.props &&
-                    this.props.productDetails &&
-                    this.props.productDetails.galleryImagesList[0] && (
-                      <div
-                        className={
-                          arr.length > 1
-                            ? styles.bundledColumns
-                            : styles.oneProduct
-                        }
-                      >
-                        {this.props.productDetails.galleryImagesList[0]
-                          .mediaType === "Image" && (
-                          <React.Fragment>
-                            <div className={styles.bundledImage}>
-                              <Image
-                                image={
-                                  this.props.productDetails.galleryImagesList[0]
-                                    .galleryImages[0].value
-                                }
-                                fit="contain"
-                              />
-                            </div>
-                            <h2 className={styles.brandName}>
-                              <span>{this.props.productDetails.brandName}</span>
-                            </h2>
-                            <h1 className={styles.productName}>
-                              {this.props.productDetails.productName}
-                            </h1>
-                          </React.Fragment>
-                        )}
-                        {!this.props.productDetails.isRange &&
-                          BundleddiscountPrice &&
-                          BundleddiscountPrice !== price && (
-                            <div className={styles.discount}>
-                              {BundleddiscountPrice.toString().includes(
-                                RUPEE_SYMBOL
-                              )
-                                ? BundleddiscountPrice
-                                : `${RUPEE_SYMBOL}${Math.floor(
-                                    BundleddiscountPrice
-                                  )}`}
-                            </div>
-                          )}
-                        {!this.props.productDetails.isRange &&
-                          Bundledprice && (
-                            <div className={styles.priceCancelled}>
-                              {Bundledprice.toString().includes(RUPEE_SYMBOL)
-                                ? Bundledprice
-                                : `${RUPEE_SYMBOL}${Math.floor(Bundledprice)}`}
-                            </div>
-                          )}
-                        {this.props.productDetails.discount &&
-                        this.props.productDetails.discount !== "0" &&
-                        this.props.productDetails.productCategory !==
-                          "FineJewellery" ? (
-                          <div className={styles.discountClass}>
-                            {!this.props.productDetails.noBrace && `${"("}`}
-                            {parseInt(this.props.productDetails.discount, 10) +
-                              `${"% OFF"}`}
-                            {!this.props.productDetails.noBrace && `${")"}`}
-                          </div>
-                        ) : null}
-                      </div>
+        {/* {this.props.relevantBundleProductData !== null &&
+          this.props.secondaryBundleProductData !== null && ( */}
+        <div className={styles.pageCenter}>
+          <div className={styles.productBundling}>
+            <div className={styles.bundledHeader}>
+              Customers buy these together
+            </div>
+            <div className={styles.bundleContent}>
+              {this.props &&
+                this.props.productDetails &&
+                this.props.productDetails.galleryImagesList[0] && (
+                  <div
+                    className={
+                      this.props.bundledItem.length > 1
+                        ? styles.bundledColumns
+                        : styles.oneProduct
+                    }
+                  >
+                    {this.props.productDetails.galleryImagesList[0]
+                      .mediaType === "Image" && (
+                      <React.Fragment>
+                        <div className={styles.bundledImage}>
+                          <Image
+                            image={
+                              this.props.productDetails.galleryImagesList[0]
+                                .galleryImages[0].value
+                            }
+                            fit="contain"
+                          />
+                        </div>
+                        <h2 className={styles.brandName}>
+                          <span>{this.props.productDetails.brandName}</span>
+                        </h2>
+                        <h1 className={styles.productName}>
+                          {this.props.productDetails.productName}
+                        </h1>
+                      </React.Fragment>
                     )}
-                  {this.props.relevantBundleProductData !== null &&
-                    arr.map((data, key) => {
-                      return (
-                        <RelevatProductList
-                          bundleprdouct={data}
-                          arr={arr}
-                          key={key}
-                          onClick={() => this.totalSelectedProducts(data)}
-                        />
-                      );
-                    })}
-                </div>
-
-                <button
-                  className={styles.AddToCartButton}
-                  onClick={this.addToCart}
-                >
-                  ADD 2 items in the Bag
-                </button>
+                    {!this.props.productDetails.isRange &&
+                      BundleddiscountPrice &&
+                      BundleddiscountPrice !== price && (
+                        <div className={styles.discount}>
+                          {BundleddiscountPrice.toString().includes(
+                            RUPEE_SYMBOL
+                          )
+                            ? BundleddiscountPrice
+                            : `${RUPEE_SYMBOL}${Math.floor(
+                                BundleddiscountPrice
+                              )}`}
+                        </div>
+                      )}
+                    {!this.props.productDetails.isRange &&
+                      Bundledprice && (
+                        <div className={styles.priceCancelled}>
+                          {Bundledprice.toString().includes(RUPEE_SYMBOL)
+                            ? Bundledprice
+                            : `${RUPEE_SYMBOL}${Math.floor(Bundledprice)}`}
+                        </div>
+                      )}
+                    {this.props.productDetails.discount &&
+                    this.props.productDetails.discount !== "0" &&
+                    this.props.productDetails.productCategory !==
+                      "FineJewellery" ? (
+                      <div className={styles.discountClass}>
+                        {!this.props.productDetails.noBrace && `${"("}`}
+                        {parseInt(this.props.productDetails.discount, 10) +
+                          `${"% OFF"}`}
+                        {!this.props.productDetails.noBrace && `${")"}`}
+                      </div>
+                    ) : null}
+                  </div>
+                )}
+              {this.props.relevantBundleProductData !== null &&
+                this.props.bundledItem.map((data, key) => {
+                  return (
+                    <RelevatProductList
+                      bundleprdouct={this.props.bundledItem}
+                      key={key}
+                      onClick={() => this.totalSelectedProducts(data)}
+                    />
+                  );
+                })}
+            </div>
+            <div className={styles.priceTotal}>
+              <div className={styles.widthPrice}>
+                <span className={styles.headerPrice}>1 Item</span>
+                <span className={styles.basePrice}>
+                  {BundleddiscountPrice.toString().includes(RUPEE_SYMBOL)
+                    ? BundleddiscountPrice
+                    : `${RUPEE_SYMBOL}${Math.floor(BundleddiscountPrice)}`}
+                </span>
+              </div>
+              <div className={styles.iconAddProduct} />
+              <div className={styles.widthPrice}>
+                <span className={styles.headerPrice}>{priceHeader}</span>
+                <span className={styles.basePrice}>
+                  {this.getDiscountedPrice}
+                </span>
+              </div>
+              <div className={styles.widthPrice}>
+                <span className={styles.headerPrice}>Total Price</span>
+                <span className={styles.basePrice}>{this.totalPrice}</span>
               </div>
             </div>
-          )}
+            <button className={styles.AddToCartButton} onClick={this.addToCart}>
+              {bagHeading}
+            </button>
+          </div>
+        </div>
+        {/* )} */}
       </React.Fragment>
     );
   }
