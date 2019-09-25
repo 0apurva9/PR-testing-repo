@@ -102,10 +102,16 @@ import {
   RETRY_FAILED_ORDER,
   RETRY_PAYMENT_CART_AND_USER_ID_DETAILS,
   EMI_TENURE,
+  WHATSAPP_NOTIFICATION,
   STRIPE_DETAILS,
   MY_ACCOUNT_ORDERS_PAGE,
   ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE,
-  FAILURE_LOWERCASE
+  FAILURE_LOWERCASE,
+  BIN_CARD_TYPE,
+  RETRY_FAILED_ORDER_COUPON_HEADER,
+  RETRY_FAILED_ORDER_COUPON,
+  RETRY_FAILED_ORDER_COUPON_NOTE,
+  FAILURE_TEXT
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -125,6 +131,7 @@ import {
   CART_PATH
 } from "../actions/cart.actions";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
+import WhatsappUpdates from "./WhatsappUpdates";
 import PaymentConfirmationPage from "./PaymentConfirmationPage";
 const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
 const PAYMENT_MODE = "EMI";
@@ -148,8 +155,6 @@ const PAY_NOW = "Pay Now";
 const OUT_OF_STOCK_MESSAGE = "Some Products are out of stock";
 export const EGV_GIFT_CART_ID = "giftCartId";
 const CASH_ON_DELIVERY_TEXT = "Cash on Delivery";
-const FAILURE_TEXT =
-  "Your payment didn't go through, please try again with different payment mode";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
@@ -215,7 +220,8 @@ class CheckOutPage extends React.Component {
       retryCartGuid: null,
       retryFlagForEmiCoupon: false,
       emiBinValidationErrorMessage: null,
-      emiBinValidationStatus: false
+      emiBinValidationStatus: false,
+      whatsappSelected: true
     };
   }
 
@@ -267,6 +273,7 @@ class CheckOutPage extends React.Component {
     this.setState({ cardDetails });
   };
   onChangePaymentMode = async val => {
+    localStorage.removeItem(BIN_CARD_TYPE);
     let noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
     if (
       val &&
@@ -370,9 +377,25 @@ class CheckOutPage extends React.Component {
     );
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const parsedQueryString = queryString.parse(this.props.location.search);
     const value = parsedQueryString.status;
+
+    if (
+      this.props.cart.paymentModes &&
+      this.props.cart.paymentModes !== prevProps.cart.paymentModes
+    ) {
+      if (
+        !this.props.cart.paymentModes.whatsapp &&
+        this.props.cart.paymentModes.whatsappText
+      ) {
+        let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
+        if (!whatsappNotification) {
+          Cookie.createCookie(WHATSAPP_NOTIFICATION, true);
+        }
+      }
+    }
+
     if (value && value !== JUS_PAY_CHARGED && value !== JUS_PAY_SUCCESS) {
       const oldCartId = Cookies.getCookie(OLD_CART_GU_ID);
       if (!oldCartId) {
@@ -512,6 +535,15 @@ class CheckOutPage extends React.Component {
   }
   removeCliqAndPiq() {
     this.setState({ showCliqAndPiq: false });
+  }
+  handleWhatsAppClick(isSelected) {
+    this.setState({ whatsappSelected: isSelected });
+    let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
+    if (isSelected && !whatsappNotification) {
+      Cookie.createCookie(WHATSAPP_NOTIFICATION, isSelected);
+    } else {
+      Cookie.deleteCookie(WHATSAPP_NOTIFICATION);
+    }
   }
   renderCheckoutAddress = disabled => {
     const cartData = this.props.cart;
@@ -1302,6 +1334,7 @@ class CheckOutPage extends React.Component {
     let cartDetailsLoggedInUser = Cookie.getCookie(
       CART_DETAILS_FOR_LOGGED_IN_USER
     );
+
     if (!customerCookie || !userDetails) {
       return this.navigateToLogin();
     }
@@ -1428,6 +1461,19 @@ if you have order id in local storage then you have to show order confirmation p
         if (this.props.getPrepaidOrderPaymentConfirmation) {
           this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
         }
+      }
+      // Show popup if OrderConfirmation returns whatsapp false
+      // let showWhatsappPopup =
+      //   this.props.cart.orderConfirmationDetails &&
+      //   this.props.cart.orderConfirmationDetails.whatsapp
+      //     ? this.props.cart.orderConfirmationDetails.whatsapp
+      //     : null;
+      let showWhatsappPopup = true;
+      if (!showWhatsappPopup) {
+        let orderId =
+          this.props.cart.orderConfirmationDetails &&
+          this.props.cart.orderConfirmationDetails.orderRefNo;
+        this.whatsappNotification(orderId);
       }
     } else if (parsedQueryString.payment_intent) {
       const stripeDetails = JSON.parse(localStorage.getItem(STRIPE_DETAILS));
@@ -3186,6 +3232,10 @@ if you have order id in local storage then you have to show order confirmation p
     } else return false;
   };
 
+  whatsappNotification = () => {
+    this.props.whatsappNotification();
+  };
+
   validateSubmitButton() {
     if (this.state.cardDetails) {
       if (
@@ -3437,6 +3487,27 @@ if you have order id in local storage then you have to show order confirmation p
       let retryPaymentDetailsObj = JSON.parse(
         localStorage.getItem(RETRY_PAYMENT_DETAILS)
       );
+      let cartAmount = this.state.isComingFromRetryUrl
+        ? retryPaymentDetailsObj &&
+          retryPaymentDetailsObj.retryPaymentDetails &&
+          retryPaymentDetailsObj.retryPaymentDetails.cartAmount
+        : this.props.cart &&
+          this.props.cart.cartDetailsCNC &&
+          this.props.cart.cartDetailsCNC.cartAmount;
+
+      let couponDiscountAmount =
+        cartAmount &&
+        cartAmount.couponDiscountAmount &&
+        cartAmount.couponDiscountAmount.value !== 0;
+      let cartDiscount =
+        cartAmount &&
+        cartAmount.cartDiscount &&
+        cartAmount.cartDiscount.value !== 0;
+      let noCostEMIDiscountValue =
+        cartAmount &&
+        cartAmount.noCostEMIDiscountValue &&
+        cartAmount.noCostEMIDiscountValue.value !== 0;
+
       return (
         <React.Fragment>
           <DesktopOnly>
@@ -3444,12 +3515,25 @@ if you have order id in local storage then you have to show order confirmation p
               <div
                 className={
                   this.state.isOpenTransactionFailedPopUp
-                    ? styles.paymentFailure
+                    ? couponDiscountAmount ||
+                      cartDiscount ||
+                      noCostEMIDiscountValue
+                      ? styles.paymentFailureCoupon
+                      : styles.paymentFailure
                     : styles.paymentFailureClose
                 }
               >
                 <div className={styles.paymentFailureWrap}>
-                  <div className={styles.paymentText}>{FAILURE_TEXT}</div>
+                  {couponDiscountAmount ||
+                  cartDiscount ||
+                  noCostEMIDiscountValue ? (
+                    <div className={styles.paymentCouponText}>
+                      {RETRY_FAILED_ORDER_COUPON}
+                      <div>{RETRY_FAILED_ORDER_COUPON_NOTE}</div>
+                    </div>
+                  ) : (
+                    <div className={styles.paymentText}>{FAILURE_TEXT}</div>
+                  )}
                   <div className={styles.paymentFailButtonHolder}>
                     <div className={styles.closeButton}>
                       <Button
@@ -3766,6 +3850,15 @@ if you have order id in local storage then you have to show order confirmation p
                 <div className={styles.rightSection}>
                   {this.renderDesktopCheckout(checkoutButtonStatus)}
                   <div className={styles.disclaimer}>{DISCLAIMER}</div>
+                  {this.props.cart.paymentModes &&
+                    this.props.cart.paymentModes.whatsappText && (
+                      <WhatsappUpdates
+                        text={this.props.cart.paymentModes.whatsappText}
+                        handleWhatsAppClick={isSelected =>
+                          this.handleWhatsAppClick(isSelected)
+                        }
+                      />
+                    )}
                 </div>
               </DesktopOnly>
             </div>

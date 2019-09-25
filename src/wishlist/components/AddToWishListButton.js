@@ -19,6 +19,7 @@ import {
 } from "../../lib/constants.js";
 import * as UserAgent from "../../lib/UserAgent.js";
 import queryString, { parse } from "query-string";
+import Button from "../../general/components/Button";
 export const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 export const WISHLIST_FOOTER_ICON_TYPE = "wishlistIcon";
 export const WISHLIST_BUTTON_TEXT_TYPE = "wishlistText";
@@ -194,6 +195,19 @@ export default class AddToWishListButton extends React.Component {
           <DesktopOnly>
             <div className={styles.saveLabel}>Save to wishlist</div>
           </DesktopOnly>
+        </div>
+      );
+    }
+    if (this.props.type === "wishlistTextPDP") {
+      return (
+        <div className={styles.buttonAddToBag}>
+          <Button
+            type="primary"
+            height={45}
+            width={195}
+            label="Save To Wishlist"
+            onClick={e => this.onClick(e)}
+          />
         </div>
       );
     }

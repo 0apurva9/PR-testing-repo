@@ -49,7 +49,7 @@ export default class DesktopLogin extends React.Component {
                 </div>
               </div>
               <div className={styles.rightDesktopHolder}>
-                <div className={styles.header}>New to CliQ?</div>
+                <div className={styles.header}>New to CLiQ?</div>
                 <div className={styles.loginContainerHolder}>
                   <SignUpContainer />
                 </div>

@@ -668,7 +668,18 @@ export async function getPlpBanners(categoryCode) {
     API_URL_ROOT + "/v2/mpl/cms/plpBanners?categoryCode=" + categoryCode
   );
 }
-export async function getOrderConfirmBanner(url) {
+//created custom function only to call tataque api
+//previous functions are using tatacliq
+export async function customGetMiddlewareUrl(url) {
   let APIUrl = "https://www.tataque.com" + url;
   return await fetch(APIUrl);
+}
+export async function postWithoutApiUrlRoot(url, postData) {
+  return await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(postData)
+  });
 }

@@ -2685,10 +2685,10 @@ export function updateProfile(accountDetails, otp) {
       JSON.parse(customerCookie).access_token
     }&ProfileDataRequired=true`;
     if (accountDetails.firstName) {
-      requestUrl = requestUrl + `&firstName=${accountDetails.firstName}`;
+      requestUrl = requestUrl + `&firstName=${accountDetails.firstName.trim()}`;
     }
     if (accountDetails.lastName) {
-      requestUrl = requestUrl + `&lastName=${accountDetails.lastName}`;
+      requestUrl = requestUrl + `&lastName=${accountDetails.lastName.trim()}`;
     }
     if (accountDetails.dateOfBirth) {
       requestUrl = requestUrl + `&dateOfBirth=${dateOfBirth}`;

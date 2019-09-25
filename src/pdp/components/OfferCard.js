@@ -8,6 +8,8 @@ import {
   ADOBE_DIRECT_CALL_FOR_PDP_OFFER,
   ADOBE_OFFERS_PDP,
   ADOBE_OFFER_CARD_PDP,
+  ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
+  ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
   ADOBE_OFFER_CARD_TNC
 } from "../../lib/adobeUtils.js";
 import TimerCounter from "../../general/components/TimerCounter";
@@ -19,10 +21,6 @@ import {
   SUCCESS,
   ERROR
 } from "../../lib/constants";
-import {
-  ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
-  ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE
-} from "../../lib/adobeUtils";
 import BundledProduct from "./BundledProduct";
 // const bundledObject = {
 //   channel: "ALL",

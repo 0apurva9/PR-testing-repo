@@ -182,6 +182,7 @@ export const PRODUCT_CANCEL = "Cancel Item";
 
 export const SAVE_LIST_PAGE = "/default/wishList";
 export const PAYMENT_MODE_TYPE = "paymentMode";
+export const BIN_CARD_TYPE = "binCardType";
 // fetching feed information contant
 export const HOME_FEED_TYPE = "home";
 export const SECONDARY_FEED_TYPE = "secondaryFeed";
@@ -242,7 +243,7 @@ export const ALERTS_COUPON = "Alerts & Coupons";
 export const BRANDS = "Brands";
 export const ADDRESS_BOOK = "Address Book";
 export const ORDER_HISTORY = "Order History";
-export const CLIQ_CASH = "Cliq Cash";
+export const CLIQ_CASH = "CLiQ Cash";
 export const GIFT_CARD = "Gift Card";
 export const YOUR_BAG = "Your Bag";
 export const CATEGORIES = "Categories";
@@ -435,6 +436,7 @@ export const RETRY_PAYMENT_CART_AND_USER_ID_DETAILS =
   "retryPaymentCartIdAndUserID";
 export const PRIMARY_OFFER = "PRODUCT_PROMOTION";
 export const EMI_TENURE = "emiTenure";
+export const WHATSAPP_NOTIFICATION = "whatsappNotification";
 export const COMMENTS_PLACEHOLDER = "Add comments (optional)";
 export const RECEIVED = "Received";
 export const PAID = "Paid";
@@ -465,3 +467,11 @@ export const ERROR_CODE_ORG_APACHE = "org.apache";
 export const ERROR_CODE_FLEXIBLE_SEARCH_QUERY = "flexible search query";
 export const ERROR_CODE_INVALID_ACCESS_TOKEN = "invalid access token";
 
+export const FAILURE_TEXT =
+  "Your payment didn't go through, please try again with different payment mode";
+export const RETRY_FAILED_ORDER_COUPON_HEADER =
+  "Your payment hasn't gone through";
+export const RETRY_FAILED_ORDER_COUPON =
+  "You may attempt to pay again now or retry payment again after 20 minutes using the Payment Retry Link available in your Order History under My Account and your email to avail all the applied Coupon discounts and/or Instant Bank Offer discounts on this Order.";
+export const RETRY_FAILED_ORDER_COUPON_NOTE =
+  "Note: If the amount was debited from your account, it will be fully refunded.";

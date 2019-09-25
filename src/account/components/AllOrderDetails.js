@@ -44,7 +44,8 @@ import {
   SUCCESS,
   CHECKOUT_ROUTER,
   RETRY_PAYMENT_CART_ID,
-  RETRY_PAYMENT_DETAILS
+  RETRY_PAYMENT_DETAILS,
+  COSTUMER_ORDER_RELATED_QUERY_ROUTE
 } from "../../lib/constants";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
 import ProfileMenu from "./ProfileMenu";
@@ -54,7 +55,8 @@ import throttle from "lodash.throttle";
 import {
   setDataLayer,
   ADOBE_MY_ACCOUNT_ORDER_HISTORY,
-  ADOBE_ORDER_DETAILS_LINK_CLICKED
+  ADOBE_ORDER_DETAILS_LINK_CLICKED,
+  ADOBE_HELP_SUPPORT_LINK_CLICKED
 } from "../../lib/adobeUtils";
 //import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
 import Icon from "../../xelpmoc-core/Icon";
@@ -302,6 +304,12 @@ export default class AllOrderDetails extends React.Component {
     } else {
       return styles.orderCardIndividualWithBorder;
     }
+  }
+  redirectToHelpPage() {
+    setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
+    this.props.history.push(
+      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
+    );
   }
   render() {
     let userData;
@@ -736,7 +744,7 @@ export default class AllOrderDetails extends React.Component {
                                               "ORDER_UNCOLLECTED") && (
                                             <div
                                               onClick={() =>
-                                                this.redirectToHelp(HELP_URL)
+                                                this.redirectToHelpPage()
                                               }
                                               className={styles.helpSupport}
                                             >

@@ -15,6 +15,7 @@ import {
   getManufacturerDetails,
   getBundleproduct,
   getBundleProductPinCode,
+  openInApp,
   getRelevantBundleProduct,
   relevantProductServibilty,
   relevantBundleProductCode
@@ -181,6 +182,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return await dispatch(
         getBundleProductPinCode(pinCode, productCode, ussId)
       );
+    },
+    openInApp: async () => {
+      return await dispatch(openInApp());
     },
     getRelevantBundleProduct: async (productCode, temp, sequence) => {
       return await dispatch(

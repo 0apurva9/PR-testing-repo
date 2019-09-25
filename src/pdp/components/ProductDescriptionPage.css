@@ -997,6 +997,10 @@
   background-size: contain;
   background-position: center;
 }
+.openInAppButton{
+  margin: 10px 0;
+  display: inline-block;
+}
 .addIcon {
 	align-items: center;
 }

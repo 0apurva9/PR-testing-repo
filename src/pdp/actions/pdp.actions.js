@@ -131,6 +131,10 @@ export const ABOUT_THE_BRAND_WIDGET_KEY = "aboutTheBrand";
 export const RECOMMENDED_PRODUCTS_WIDGET_KEY = "recommendedProducts";
 export const SIMILAR_PRODUCTS_WIDGET_KEY = "similarProducts";
 
+export const OPEN_IN_APP_REQUEST = "OPEN_IN_APP_REQUEST";
+export const OPEN_IN_APP_SUCCESS = "OPEN_IN_APP_SUCCESS";
+export const OPEN_IN_APP_FAILURE = "OPEN_IN_APP_FAILURE";
+
 export const RELEVANT_BUNDLE_PRODUCT_REQUEST =
   "RELEVANT_BUNDLE_PRODUCT_REQUEST";
 export const RELEVANT_BUNDLE_PRODUCT_SUCCESS =
@@ -1442,6 +1446,28 @@ export function getManufacturerDetails() {
     }
   };
 }
+
+export function openInAppRequest() {
+  return {
+    type: OPEN_IN_APP_REQUEST,
+    status: REQUESTING
+  };
+}
+export function openInAppSuccess(openInAppDetails) {
+  return {
+    type: OPEN_IN_APP_SUCCESS,
+    status: SUCCESS,
+    openInAppDetails
+  };
+}
+export function openInAppFailure(error) {
+  return {
+    type: OPEN_IN_APP_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
 export function firstGetRelevantBundleProductRequest() {
   return {
     type: RELEVANT_BUNDLE_PRODUCT_REQUEST,
@@ -1546,6 +1572,27 @@ export function getRelevantProductPinCodeFailure(error) {
     error
   };
 }
+
+export function openInApp() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(openInAppRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=isDesktopActive`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(openInAppSuccess(resultJson));
+    } catch (e) {
+      dispatch(openInAppFailure(e.message));
+    }
+  };
+}
+
 export function relevantProductServibilty(pinCode = null, productCode, ussId) {
   let validProductCode = productCode.toUpperCase();
   if (pinCode) {
@@ -1731,7 +1778,6 @@ export function relevantBundleProductCode() {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-
       return dispatch(relevantBundleProductCodeSuccess(resultJson));
     } catch (e) {
       dispatch(relevantBundleProductCodeFailure(e.message));

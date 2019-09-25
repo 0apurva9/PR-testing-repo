@@ -40,7 +40,8 @@ import {
   PRODUCT_CANCEL,
   CANCEL_RETURN_REQUEST,
   SUCCESS,
-  HELP_URL
+  HELP_URL,
+  COSTUMER_ORDER_RELATED_QUERY_ROUTE
 } from "../../lib/constants";
 import {
   setDataLayer,
@@ -198,6 +199,12 @@ export default class OrderDetails extends React.Component {
   redirectToHelpPage() {
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
     this.props.history.push(`${HELP_URL}`);
+  }
+  redirectToCustomHelpPage() {
+    setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
+    this.props.history.push(
+      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
+    );
   }
   componentWillMount() {
     const transactionId = queryString.parse(this.props.location.search)
@@ -907,7 +914,9 @@ export default class OrderDetails extends React.Component {
                                 )}
                               {this.state.itemDetails && (
                                 <div
-                                  onClick={() => this.redirectToHelpPage()}
+                                  onClick={() =>
+                                    this.redirectToCustomHelpPage()
+                                  }
                                   className={styles.helpSupport}
                                 >
                                   Help & Support
@@ -1039,7 +1048,7 @@ export default class OrderDetails extends React.Component {
                   <React.Fragment>
                     {this.state.itemDetails && (
                       <div
-                        onClick={() => this.redirectToHelpPage()}
+                        onClick={() => this.redirectToCustomHelpPage()}
                         className={styles.helpSupport}
                       >
                         Help & Support
