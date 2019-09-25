@@ -123,7 +123,8 @@ import {
   setDataLayerForCheckoutDirectCalls,
   ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE,
   ADOBE_CALL_FOR_SELECT_DELIVERY_MODE,
-  ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
+  ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE,
+  setDataLayerForWhatsappUncheck
 } from "../../lib/adobeUtils";
 import {
   CART_ITEM_COOKIE,
@@ -542,6 +543,7 @@ class CheckOutPage extends React.Component {
     if (isSelected && !whatsappNotification) {
       Cookie.createCookie(WHATSAPP_NOTIFICATION, isSelected);
     } else {
+      setDataLayerForWhatsappUncheck();
       Cookie.deleteCookie(WHATSAPP_NOTIFICATION);
     }
   }
