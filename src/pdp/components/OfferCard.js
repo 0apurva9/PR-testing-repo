@@ -103,7 +103,9 @@ export default class OfferCard extends React.Component {
     console.log("params", params);
     if (params) {
       this.setState({ bundledData: params });
-      bundleProduct = await this.props.getBundleproduct("MP000000001680656");
+      bundleProduct = await this.props.getBundleproduct(
+        params.bundledProductCode
+      );
       console.log("params", params, "bundleProduct-->", bundleProduct);
       if (bundleProduct.status === "success") {
         bundleProduct = await this.getBundleProductServibilty(params);
