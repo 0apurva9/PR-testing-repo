@@ -338,11 +338,47 @@ async function handleInvalidCustomerAccessToken(message, oldUrl) {
   if (isCustomerAccessTokenFailure(message)) {
     const customerAccessTokenResponse = await refreshCustomerAccessToken();
     if (!customerAccessTokenResponse) {
-      throw new Error("Customer Access Token refresh failure ");
+      //check if user is logged in
+      let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      if (userDetails) {
+        logoutUserOnInvalidRefreshToken();
+      }
+      // throw new Error("Customer Access Token refresh failure ");
+    } else {
+      newUrl = replaceOldCustomerCookie(oldUrl, customerAccessTokenResponse);
     }
-    newUrl = replaceOldCustomerCookie(oldUrl, customerAccessTokenResponse);
   }
   return newUrl;
+}
+
+async function logoutUserOnInvalidRefreshToken() {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+  try {
+    const result = await postFormData(
+      `v2/mpl/users/logout?userId=${
+        JSON.parse(userDetails).userName
+      }&access_token=${JSON.parse(globalAccessToken).access_token}`
+    );
+    const resultJson = await result.json();
+    const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+    if (resultJsonStatus.status) {
+      throw new Error(resultJsonStatus.message);
+    }
+    await clearCookie();
+    window.location.reload();
+  } catch (e) {
+    console.log(e.message);
+  }
+}
+
+async function clearCookie() {
+  Cookie.deleteCookie(CUSTOMER_ACCESS_TOKEN);
+  Cookie.deleteCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  Cookie.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
+  Cookie.deleteCookie(LOGGED_IN_USER_DETAILS);
+  localStorage.clear();
+  return;
 }
 
 async function handleCartNotFoundError(response, oldUrl) {
@@ -427,6 +463,7 @@ async function replaceOldCartCookieForAnonymnous(url, newCustomerCookie) {
   );
   return url.replace(oldCustomerCookie.guid, newCustomerCookie.guid);
 }
+
 async function refreshCustomerAccessToken() {
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   if (!JSON.parse(customerCookie).refresh_token) {
@@ -437,14 +474,13 @@ async function refreshCustomerAccessToken() {
       JSON.parse(customerCookie).refresh_token
     }&client_id=${CLIENT_ID}&client_secret=secret&grant_type=refresh_token`
   );
-  const refreshTokenResultJson = await refreshTokenResponse.json();
-  const errorStatusObject = ErrorHandling.getFailureResponse(
-    refreshTokenResultJson
-  );
-  if (errorStatusObject.status) {
-    // the refresh token has failed
-    // what do I do in this case?
-    // I return null, so that I can throw an error which will be caught.
+  let refreshTokenResultJson = await refreshTokenResponse.json();
+  //Invalid refresh token scenario
+  if (
+    refreshTokenResultJson.errors &&
+    refreshTokenResultJson.errors[0] &&
+    refreshTokenResultJson.errors[0].type === "InvalidGrantError"
+  ) {
     return null;
   }
 
