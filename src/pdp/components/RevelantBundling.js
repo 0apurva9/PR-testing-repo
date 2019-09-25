@@ -203,11 +203,11 @@ export default class RevelantBundling extends React.Component {
     // ((this.props && this.props.relevantBundleProductData && this.props.relevantBundleProductData.winningSellerPrice && this.props.relevantBundleProductData.winningSellerPrice.formattedValueNoDecimal)+(this.props && this.props.secondaryBundleProductData && this.props.secondaryBundleProductData.winningSellerPrice && this.props.secondaryBundleProductData.winningSellerPrice.formattedValueNoDecimal))
     if (this.state.totalSelectedProducts.length > 0) {
       priceHeader = `${totalLength} Add-ons`;
-      bagHeading = `ADD ${totalLength + 1} items in the Bag`;
+      bagHeading = `ADD ${totalLength + 1} ITEMS IN THE BAG`;
     } else {
       if (bundledItem) {
         priceHeader = `${bundledItem} Add-ons`;
-        bagHeading = `ADD ${bundledItem + 1} items in the Bag`;
+        bagHeading = `ADD ${bundledItem + 1} ITEMS IN THE BAG`;
       }
     }
     return (
