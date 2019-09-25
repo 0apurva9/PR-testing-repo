@@ -143,7 +143,7 @@ export default class RevelantBundling extends React.Component {
       this.props.productDetails && this.props.productDetails.winningSellerPrice
         ? this.props.productDetails.winningSellerPrice.doubleValue
         : this.props.productDetails.mrpPrice.doubleValue;
-    totalPrice = discountedPrice + price;
+    totalPrice = total + price;
 
     return `${RUPEE_SYMBOL}${totalPrice}`;
   };
