@@ -104,11 +104,13 @@ export default class RevelantBundling extends React.Component {
             })[0]
         : [];
     let widthChange =
-      this.props.arr.length > 1 ? styles.reactSelectOption : styles.oneProduct;
+      this.props.bundleprdouct.length > 1
+        ? styles.reactSelectOption
+        : styles.oneProduct;
     console.log("bundleprdouct", this.state.selected);
 
     return (
-      <React.Fragment>
+      <div>
         <div className={styles.iconAddBundledProduct} />
         {this.props.bundleprdouct && (
           <div className={widthChange}>
@@ -166,69 +168,7 @@ export default class RevelantBundling extends React.Component {
             </div>
           </div>
         )}
-      </React.Fragment>
+      </div>
     );
   }
-}
-{
-  /*	<div className={styles.bundleList}>
-								<div className={styles.bundleImageHolder}>
-									<div> 
-										<div className={styles.bundleImage}>
-											<Image image={mobileGalleryImages && mobileGalleryImages} fit="cover" />
-										</div>
-									 </div>
-								</div> 
-								<div className={styles.bundleDescription}>
-									<div className={styles.bundleHeader}>
-										{bundleprdouct && bundleprdouct.brandName}
-									</div>
-									<div className={styles.bundleProductDescription}>
-										{bundleprdouct && bundleprdouct.productName}
-									</div>
-
-									<div
-										className={styles.checkCircle}
-										onClick={() => {
-											this.selectProduct(this.props.key);
-										}}
-									>
-										<CheckBox selected={this.state.selected} />
-									</div>
-									{/* bundle Price */
-}
-{
-  /* {!bundleprdouct.isRange &&
-										discountPrice &&
-										discountPrice !== price && (
-											<div className={styles.discount}>
-												{discountPrice.toString().includes(RUPEE_SYMBOL)
-													? discountPrice
-													: `${RUPEE_SYMBOL}${Math.floor(discountPrice)}`}
-											</div>
-										)}
-									{!bundleprdouct.isRange &&
-										price && (
-											<div className={styles.priceCancelled}>
-												{price.toString().includes(RUPEE_SYMBOL)
-													? price
-													: `${RUPEE_SYMBOL}${Math.floor(price)}`}
-											</div>
-										)}
-									{bundleprdouct.discount &&
-									bundleprdouct.discount !== '0' &&
-									bundleprdouct.productCategory !== 'FineJewellery' ? (
-										<div className={styles.discountClass}>
-											{!bundleprdouct.noBrace && `${'('}`}
-											{parseInt(bundleprdouct.discount, 10) + `${'% OFF'}`}
-											{!bundleprdouct.noBrace && `${')'}`}
-										</div>
-									) : null}
-									{/* bundle Price */
-}
-{
-  /* </div>
-							</div>
-						</div>
-					</div>  */
 }
