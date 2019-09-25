@@ -50,6 +50,11 @@ export default class BundledProduct extends React.Component {
       }
     }
   };
+  bundledPromotionText = () => {
+    let text = this.props.bundledPromotionText;
+    var replaced = text.split("$").join(" ");
+    return replaced;
+  };
   renderLoader() {
     return <Loader />;
   }
@@ -85,7 +90,7 @@ export default class BundledProduct extends React.Component {
       <React.Fragment>
         <div className={styles.base}>
           <div className={styles.header}>
-            <span>{this.props.bundledPromotionText}</span>
+            <span>{this.bundledPromotionText()}</span>
             <span
               className={styles.cancel}
               onClick={() => {
