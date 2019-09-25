@@ -109,6 +109,7 @@ export default class RevelantBundling extends React.Component {
         return total;
       }
     }
+    console.log("total bundled--->", total);
   };
 
   totalPrice = () => {
@@ -199,6 +200,7 @@ export default class RevelantBundling extends React.Component {
       priceHeader = "1 Add-ons";
       bagHeading = "ADD 2 items in the Bag";
     }
+    console.log("abhvdj", typeof this.state.bundledItem);
     return (
       <React.Fragment>
         {/* {this.props.relevantBundleProductData !== null &&
@@ -275,9 +277,13 @@ export default class RevelantBundling extends React.Component {
                 )}
               {this.props.relevantBundleProductData !== null &&
                 this.props.bundledItem.map((data, key) => {
+                  {
+                    console.log("AAAAAAAAAAAAAA", this.props.bundledItem);
+                  }
                   return (
                     <RelevatProductList
-                      bundleprdouct={this.props.bundledItem}
+                      bundleprdouct={data}
+                      array={this.props.bundledItem}
                       key={key}
                       onClick={() => this.totalSelectedProducts(data)}
                     />
