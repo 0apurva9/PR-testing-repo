@@ -1,5 +1,5 @@
 import React from "react";
-import CheckBox from "../../general/components/CheckBox.js";
+import MultiSelectCheckbox from "./MultiSelectCheckbox.js";
 import styles from "./ProductDescriptionPage.css";
 import Image from "../../xelpmoc-core/Image";
 import Loader from "../../general/components/SecondaryLoader";
@@ -116,7 +116,10 @@ export default class RevelantProductList extends React.Component {
                 this.selectProduct(this.props.key);
               }}
             >
-              <CheckBox selected={this.state.selected} isCircle={true} />
+              <MultiSelectCheckbox
+                selected={this.state.selected}
+                isCircle={false}
+              />
             </div>
 
             <div className={styles.bundleContent}>

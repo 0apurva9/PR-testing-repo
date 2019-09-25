@@ -1124,3 +1124,10 @@ width: 20px;
 	font-family: regular;
 	font-size: 14px;
   }
+  .iconEqual{
+	  width: 29px;
+	  height: 9px;
+	  background: url(../../pdp/components/img/Equal.svg) no-repeat;
+	  background-size: contain;
+	  display: inline-block;
+  }
