@@ -49,6 +49,7 @@ export default class OfferCard extends React.Component {
   }
   handleShowDetails = async (selectedOffer, offers) => {
     setDataLayerForPdpDirectCalls(ADOBE_DIRECT_CALL_FOR_PDP_OFFER);
+    debugger;
     let Title = selectedOffer.promotionDisplayText;
     if (Title.indexOf("bundledProduct") >= 0) {
       debugger;
@@ -102,9 +103,7 @@ export default class OfferCard extends React.Component {
     console.log("params", params);
     if (params) {
       this.setState({ bundledData: params });
-      bundleProduct = await this.props.getBundleproduct(
-        params.bundledProductCode
-      );
+      bundleProduct = await this.props.getBundleproduct("MP000000001680656");
       console.log("params", params, "bundleProduct-->", bundleProduct);
       if (bundleProduct.status === "success") {
         bundleProduct = await this.getBundleProductServibilty(params);
