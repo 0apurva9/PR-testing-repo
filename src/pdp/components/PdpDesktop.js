@@ -226,14 +226,6 @@ export default class PdpApparel extends React.Component {
     }
 
     let arrayBundledDescription = [];
-    // console.log(
-    //   // "XXXXXXXXXC",
-    //   // bundleIteamList,
-    //   "bundledProduct",
-    //   bundlePrdouct,
-    //   "this.props.productDetails.productListingId",
-    //   this.props.productDetails.productListingId
-    // );
     let productId = this.props.productDetails.productListingId;
     if (bundlePrdouct) {
       let bundleIteamList = this.relevantBundleProductId(
@@ -255,6 +247,7 @@ export default class PdpApparel extends React.Component {
                 );
                 console.log("servicibilityCheck", res, listId);
                 res.then(data => {
+                  console.log("WWWWWWWWWWWWWWWW", data);
                   if (data.status === "success") {
                     let pinCode = localStorage.getItem(
                       DEFAULT_PIN_CODE_LOCAL_STORAGE
@@ -270,10 +263,9 @@ export default class PdpApparel extends React.Component {
                         listId.productCode,
                         listId.ussid
                       )
-                      .then(data => {
-                        console.log("WWWWWWWWWWWWWWWW", data);
-                        if (data.status != "error") {
-                          arrayBundledDescription.push(listId);
+                      .then(serviceCheck => {
+                        if (serviceCheck.status != "error") {
+                          arrayBundledDescription.push(data.data);
                           this.setState({
                             bundledProductList: arrayBundledDescription
                           });
@@ -288,6 +280,12 @@ export default class PdpApparel extends React.Component {
           throw Error(e);
         });
     }
+
+    console.log(
+      "product bundled",
+      this.state.bundledProductList,
+      arrayBundledDescription
+    );
   };
   relevantProductServibilty = async params => {
     let pinCode = "208007";
@@ -1678,6 +1676,7 @@ export default class PdpApparel extends React.Component {
                 </div>
               </div>
 
+              {console.log("length-->", this.state.bundledProductList.length)}
               {this.state.bundledProductList.length > 0 && (
                 <RevelantBundling
                   {...this.props}

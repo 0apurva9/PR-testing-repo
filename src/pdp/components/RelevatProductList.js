@@ -55,6 +55,7 @@ export default class RevelantBundling extends React.Component {
   }
   render() {
     let bundleprdouct = this.props.bundleprdouct;
+    console.log("------------->", bundleprdouct);
     let price = "";
     let discountPrice = "";
     let seoDoublePrice = 0;
@@ -104,7 +105,7 @@ export default class RevelantBundling extends React.Component {
             })[0]
         : [];
     let widthChange =
-      this.props.bundleprdouct.length > 1
+      this.props.array.length > 1
         ? styles.reactSelectOption
         : styles.oneProduct;
     console.log("bundleprdouct", this.state.selected);
