@@ -31,7 +31,28 @@ export default class RevelantBundling extends React.Component {
         ) {
           this.props.displayToast("Product is out of stock");
         } else {
-          this.props.addProductToCart(productDetails);
+          //this.props.addProductToCart(productDetails);
+          let self = this;
+          let baseProduct = await this.props.addProductToCart(
+            productDetails,
+            val => {
+              console.log("baseProductDetails==================>", val);
+            }
+          );
+
+          if (baseProduct && baseProduct.status === "success") {
+            Array.from(this.state.totalSelectedProducts).map((val, i) => {
+              let bundledData = {
+                code: val.productListingId,
+                ussId: val.winningUssID,
+                quantity: 1
+              };
+              self.props.addProductToCart1(bundledData, val => {
+                console.log("============================>", val);
+              });
+            });
+            this.props.history.push(PRODUCT_CART_ROUTER);
+          }
         }
       }
 
@@ -73,7 +94,9 @@ export default class RevelantBundling extends React.Component {
     let tmp = this.state.totalSelectedProducts
       ? this.state.totalSelectedProducts
       : arr;
-    tmp.forEach(product => {});
+    tmp.forEach(product => {
+      console.log("price Calculation", product);
+    });
   };
 
   getDiscountedPrice = () => {
@@ -83,8 +106,8 @@ export default class RevelantBundling extends React.Component {
       Array.from(this.state.totalSelectedProducts).map((data, key) => {
         let price =
           data && data.winningSellerPrice
-            ? data.winningSellerPrice.formattedValueNoDecimal
-            : data.mrpPrice.formattedValueNoDecimal;
+            ? data.winningSellerPrice.doubleValue
+            : data.mrpPrice.doubleValue;
         total = total + parseInt(price);
       });
       return total;
@@ -93,8 +116,8 @@ export default class RevelantBundling extends React.Component {
         this.props.bundledItem.map((data, key) => {
           let price =
             data && data.winningSellerPrice
-              ? data.winningSellerPrice.formattedValueNoDecimal
-              : data.mrpPrice.formattedValueNoDecimal;
+              ? data.winningSellerPrice.doubleValue
+              : data.mrpPrice.doubleValue;
 
           total = total + parseInt(price);
         });
@@ -108,8 +131,8 @@ export default class RevelantBundling extends React.Component {
     let totalPrice = 0;
     let price =
       this.props.productDetails && this.props.productDetails.winningSellerPrice
-        ? this.props.productDetails.winningSellerPrice.formattedValueNoDecimal
-        : this.props.productDetails.mrpPrice.formattedValueNoDecimal;
+        ? this.props.productDetails.winningSellerPrice.doubleValue
+        : this.props.productDetails.mrpPrice.doubleValue;
     totalPrice = discountedPrice + price;
     return totalPrice;
   };
@@ -172,14 +195,20 @@ export default class RevelantBundling extends React.Component {
       price = this.props.productDetails.mrpPrice.formattedValueNoDecimal;
     }
     let priceHeader, bagHeading;
+    let totalLength =
+      this.state.totalSelectedProducts &&
+      this.state.totalSelectedProducts.length;
+    let bundledItem = this.props.bundledItem && this.props.bundledItem.length;
     // let priceTotal =
     // ((this.props && this.props.relevantBundleProductData && this.props.relevantBundleProductData.winningSellerPrice && this.props.relevantBundleProductData.winningSellerPrice.formattedValueNoDecimal)+(this.props && this.props.secondaryBundleProductData && this.props.secondaryBundleProductData.winningSellerPrice && this.props.secondaryBundleProductData.winningSellerPrice.formattedValueNoDecimal))
-    if (this.state.totalSelectedProducts.length < 2) {
-      priceHeader = "2 Add-ons";
-      bagHeading = "ADD 3 items in the Bag";
+    if (this.state.totalSelectedProducts.length > 0) {
+      priceHeader = `${totalLength} Add-ons`;
+      bagHeading = `ADD ${totalLength + 1} items in the Bag`;
     } else {
-      priceHeader = "1 Add-ons";
-      bagHeading = "ADD 2 items in the Bag";
+      if (bundledItem) {
+        priceHeader = `${bundledItem} Add-ons`;
+        bagHeading = `ADD ${bundledItem + 1} items in the Bag`;
+      }
     }
     return (
       <React.Fragment>
@@ -214,7 +243,7 @@ export default class RevelantBundling extends React.Component {
                           />
                         </div>
                         <h2 className={styles.brandName}>
-                          <span>{this.props.productDetails.brandName}</span>
+                          {this.props.productDetails.brandName}
                         </h2>
                         <h1 className={styles.productName}>
                           {this.props.productDetails.productName}
@@ -249,7 +278,7 @@ export default class RevelantBundling extends React.Component {
                       <div className={styles.discountClass}>
                         {!this.props.productDetails.noBrace && `${"("}`}
                         {parseInt(this.props.productDetails.discount, 10) +
-                          `${"% OFF"}`}
+                          `${"%"}`}
                         {!this.props.productDetails.noBrace && `${")"}`}
                       </div>
                     ) : null}
@@ -257,8 +286,6 @@ export default class RevelantBundling extends React.Component {
                 )}
               {this.props.relevantBundleProductData !== null &&
                 this.props.bundledItem.map((data, key) => {
-                  {
-                  }
                   return (
                     <RelevatProductList
                       bundleprdouct={data}

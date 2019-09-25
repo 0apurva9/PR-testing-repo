@@ -5,7 +5,7 @@ import Image from "../../xelpmoc-core/Image";
 import Loader from "../../general/components/SecondaryLoader";
 import { RUPEE_SYMBOL, PRODUCT_CART_ROUTER } from "../../lib/constants";
 
-export default class RevelantBundling extends React.Component {
+export default class RevelantProductList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -157,7 +157,7 @@ export default class RevelantBundling extends React.Component {
               bundleprdouct.productCategory !== "FineJewellery" ? (
                 <div className={styles.discountClass}>
                   {!bundleprdouct.noBrace && `${"("}`}
-                  {parseInt(bundleprdouct.discount, 10) + `${"% OFF"}`}
+                  {parseInt(bundleprdouct.discount, 10) + `${"%"}`}
                   {!bundleprdouct.noBrace && `${")"}`}
                 </div>
               ) : null}
