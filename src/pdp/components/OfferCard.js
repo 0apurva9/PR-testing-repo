@@ -51,7 +51,6 @@ export default class OfferCard extends React.Component {
     setDataLayerForPdpDirectCalls(ADOBE_DIRECT_CALL_FOR_PDP_OFFER);
     let Title = selectedOffer.promotionDisplayText;
     if (Title.indexOf("bundledProduct") >= 0) {
-      debugger;
       await this.getParams(Title)
         .then(data => {
           console.log("data in get params return", data);

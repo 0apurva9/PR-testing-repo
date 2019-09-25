@@ -1769,7 +1769,7 @@ export function relevantBundleProductCode() {
   return async (dispatch, getState, { api }) => {
     dispatch(relevantBundleProductCodeRequest());
     try {
-      const result = await api.getOrderConfirmBanner(
+      const result = await api.customGetMiddlewareUrl(
         `/otatacliq/getApplicationProperties.json?propertyNames=PDP_BUNDLED_PRODUCT`
       );
       const resultJson = await result.json();
