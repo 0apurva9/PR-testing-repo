@@ -31,7 +31,6 @@ export default class OrderStatusVerticalV2 extends React.Component {
     }
   }
   render() {
-    console.log("props in order status:", this.props);
     if (!this.props.statusMessageList) {
       return null;
     }

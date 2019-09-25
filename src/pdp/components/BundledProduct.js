@@ -34,11 +34,19 @@ export default class BundledProduct extends React.Component {
         this.props.displayToast("Product is out of stock");
       } else {
         let self = this;
-        await this.props.addProductToCart(baseProductDetails, () => {
-          self.props.addProductToCart(bundleProductDetails, () => {
+        let baseProduct = await this.props.addProductToCart(
+          baseProductDetails,
+          val => {
+            console.log("baseProductDetails==================>", val);
+          }
+        );
+
+        if (baseProduct && baseProduct.status === "success") {
+          await self.props.addProductToCart(bundleProductDetails, val => {
+            console.log("============================>", val);
             this.props.history.push(PRODUCT_CART_ROUTER);
           });
-        });
+        }
       }
     }
   };
@@ -51,14 +59,6 @@ export default class BundledProduct extends React.Component {
     }
     const baseProduct = this.props.productDetails && this.props.productDetails;
     const bundleProduct = this.props && this.props.bundleProductData;
-    console.log(
-      "props: in popup",
-      this.props,
-      "bundleProduct",
-      bundleProduct,
-      "baseProduct",
-      baseProduct
-    );
     let price = "";
     let discountPrice = "";
     let seoDoublePrice = 0;
@@ -111,7 +111,7 @@ export default class BundledProduct extends React.Component {
                         />
                       </div>
                       <h2 className={styles.brandName}>
-                        <span>{this.props.productDetails.brandName}</span>
+                        {this.props.productDetails.brandName}
                       </h2>
                       <h1 className={styles.productName}>
                         {this.props.productDetails.productName}
@@ -148,7 +148,7 @@ export default class BundledProduct extends React.Component {
                   {/* bundle Price */}
                 </div>
               )}
-            <div className={styles.iconAdd}>+</div>
+            <div className={styles.iconAddBundledProduct} />
             {bundleProduct && (
               <div className={styles.columns}>
                 {bundleProduct.galleryImagesList[0].mediaType === "Image" && (
@@ -163,7 +163,7 @@ export default class BundledProduct extends React.Component {
                       />
                     </div>
                     <h2 className={styles.brandName}>
-                      <span>{bundleProduct.brandName}</span>
+                      {bundleProduct.brandName}
                     </h2>
                     <h1 className={styles.productName}>
                       {bundleProduct.productName}
@@ -189,7 +189,7 @@ export default class BundledProduct extends React.Component {
             You will see the final discounted price in your bag
           </div>
           <div className={styles.addToBagButton} onClick={this.addToCart}>
-            ADD 2 items in the Bag
+            ADD 2 ITEMS IN THE BAG
           </div>
         </div>
       </React.Fragment>

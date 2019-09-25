@@ -235,7 +235,6 @@ export default class PdpApparel extends React.Component {
 
       await bundleIteamList
         .then(result => {
-          console.log("result--->", result);
           if (result) {
             let status;
             result &&
@@ -245,9 +244,7 @@ export default class PdpApparel extends React.Component {
                   "temp",
                   i
                 );
-                console.log("servicibilityCheck", res, listId);
                 res.then(data => {
-                  console.log("WWWWWWWWWWWWWWWW", data);
                   if (data.status === "success") {
                     let pinCode = localStorage.getItem(
                       DEFAULT_PIN_CODE_LOCAL_STORAGE
@@ -280,12 +277,6 @@ export default class PdpApparel extends React.Component {
           throw Error(e);
         });
     }
-
-    console.log(
-      "product bundled",
-      this.state.bundledProductList,
-      arrayBundledDescription
-    );
   };
   relevantProductServibilty = async params => {
     let pinCode = "208007";
@@ -395,7 +386,6 @@ export default class PdpApparel extends React.Component {
       pincode,
       productCode
     );
-    console.log("Shriney pin code service--->", this.props.productDetails);
     if (productPincodeObj.status === ERROR) {
       this.props.displayToast("Please enter a valid pincode");
     }
@@ -813,136 +803,7 @@ export default class PdpApparel extends React.Component {
     let bundledList = this.state.bundledProductList;
     !this.state.selectedBundledProduct.includes(e.target.value) &&
       this.state.selectedBundledProduct.push(e.target.value);
-    //const isChecked = e.target.checked;
-    //this.setState({checkedItems : !this.state.checkedItems});
   }
-
-  // addBundledProduct = async () => {
-  //   await this.props.addProductToCart(baseProductDetails, () => {
-  //     self.props.addProductToCart(bundleProductDetails, () => {
-  //       this.props.history.push(PRODUCT_CART_ROUTER);
-  //     });
-  // }
-  // bundledDescription = () => {
-  //   let bundledList = this.state.bundledProductList;
-  //   console.log("bnbbbbbbbbbbn", bundledList);
-  //   let widthChange =
-  //     bundledList.length > 1 ? styles.reactSelectOption : styles.oneProduct;
-  //   return bundledList.map((listId, i) => {
-  //     let Bundledprice = "";
-  //     let BundleddiscountPrice = "";
-  //     let BundledseoDoublePrice = 0;
-  //     if (
-  //       listId &&
-  //       listId.winningSellerPrice &&
-  //       listId.winningSellerPrice.doubleValue
-  //     ) {
-  //       BundledseoDoublePrice = listId.winningSellerPrice.doubleValue;
-  //     } else if (listId && listId.mrpPrice && listId.mrpPrice.doubleValue) {
-  //       BundledseoDoublePrice = listId.mrpPrice.doubleValue;
-  //     }
-  //     if (
-  //       listId &&
-  //       listId.mrpPrice &&
-  //       listId.mrpPrice.formattedValueNoDecimal
-  //     ) {
-  //       Bundledprice = listId.mrpPrice.formattedValueNoDecimal;
-  //     }
-
-  //     if (
-  //       listId &&
-  //       listId.winningSellerPrice &&
-  //       listId.winningSellerPrice.formattedValueNoDecimal
-  //     ) {
-  //       BundleddiscountPrice =
-  //         listId.winningSellerPrice.formattedValueNoDecimal;
-  //     }
-
-  //     return (
-  //       <React.Fragment>
-  //         {listId &&
-  //           listId.galleryImagesList[0] && (
-  //             <div className={widthChange} key={i}>
-  //               {console.log("true===========>", bundledList)}
-  //               <MultiCheckbox
-  //                 className={styles.checkbox}
-  //                 checked={
-  //                   bundledList === listId.productListingId ? true : false
-  //                 }
-  //                 id={i}
-  //                 value={listId.productListingId}
-  //                 onChange={this.handleChange}
-  //               />
-
-  //               <div className={styles.bundledColumns}>
-  //                 {listId &&
-  //                   listId.galleryImagesList[0] &&
-  //                   listId.galleryImagesList[0].mediaType === "Image" && (
-  //                     <React.Fragment>
-  //                       <div className={styles.bundledImage}>
-  //                         <Image
-  //                           image={
-  //                             listId.galleryImagesList[0].galleryImages[0].value
-  //                           }
-  //                           fit="contain"
-  //                         />
-  //                       </div>
-  //                       <h2 className={styles.brandName}>
-  //                         <span>{listId.brandName}</span>
-  //                       </h2>
-  //                       <h1 className={styles.productName}>
-  //                         {listId.productName}
-  //                       </h1>
-  //                       {/* <div
-  // 									className={styles.checkCircle}
-  // 									onClick={() => {
-  // 										this.selectProduct(i);
-  // 									}}
-  // 								>
-  // 									<CheckBox selected={this.state.selected} />
-  // 								</div> */}
-  //                     </React.Fragment>
-  //                   )}
-  //                 <div>
-  //                   {!listId.isRange &&
-  //                     BundleddiscountPrice &&
-  //                     BundleddiscountPrice !== Bundledprice && (
-  //                       <div className={styles.discount}>
-  //                         {BundleddiscountPrice.toString().includes(
-  //                           RUPEE_SYMBOL
-  //                         )
-  //                           ? BundleddiscountPrice
-  //                           : `${RUPEE_SYMBOL}${Math.floor(
-  //                               BundleddiscountPrice
-  //                             )}`}
-  //                       </div>
-  //                     )}
-  //                   {!listId.isRange &&
-  //                     Bundledprice && (
-  //                       <div className={styles.priceCancelled}>
-  //                         {Bundledprice.toString().includes(RUPEE_SYMBOL)
-  //                           ? Bundledprice
-  //                           : `${RUPEE_SYMBOL}${Math.floor(Bundledprice)}`}
-  //                       </div>
-  //                     )}
-  //                   {listId.discount &&
-  //                   listId.discount !== "0" &&
-  //                   listId.productCategory !== "FineJewellery" ? (
-  //                     <div className={styles.discountClass}>
-  //                       {!listId.noBrace && `${"("}`}
-  //                       {parseInt(listId.discount, 10) + `${"% OFF"}`}
-  //                       {!listId.noBrace && `${")"}`}
-  //                     </div>
-  //                   ) : null}
-  //                 </div>
-  //               </div>
-  //             </div>
-  //           )}
-  //       </React.Fragment>
-  //     );
-  //   });
-  // };
-
   render() {
     let seasonData = {};
     if (this.props.productDetails["seasonDetails"] !== undefined) {
@@ -962,8 +823,6 @@ export default class PdpApparel extends React.Component {
       userCookie = JSON.parse(userCookie);
     }
     const productData = this.props.productDetails;
-    console.log("product info", productData);
-
     const manufacturerDetails = this.props.manufacturerDetails;
     let mshProduct = productData && productData.brandURL;
     const tailedKnowMoreV2 =
@@ -1675,8 +1534,6 @@ export default class PdpApparel extends React.Component {
                   <div id="yp_widget" className={styles.yp_widget} />
                 </div>
               </div>
-
-              {console.log("length-->", this.state.bundledProductList.length)}
               {this.state.bundledProductList.length > 0 && (
                 <RevelantBundling
                   {...this.props}

@@ -54,7 +54,6 @@ export default class OfferCard extends React.Component {
     if (Title.indexOf("bundledProduct") >= 0) {
       await this.getParams(Title)
         .then(data => {
-          console.log("data in get params return", data);
           if (data.status !== "error" && data.status !== "Failure") {
             this.props.showBundledProduct(this.state.bundledData);
           }
@@ -85,26 +84,20 @@ export default class OfferCard extends React.Component {
     let bundleProduct;
     var snippet = document.createElement("div");
     snippet.innerHTML = Title;
-    // var links = snippet.getElementsByTagName("a"),
-    // lastURL = links[links.length - 1].href; // or getAttribute("href")
-    // console.log("props --->", Title, "url", RL);
     var params = {};
     var parser = document.createElement("a");
     parser.href = Title;
-    console.log("props--->");
     var query = parser.search.substring(1);
     var vars = query.split("&");
     for (var i = 0; i < vars.length; i++) {
       var pair = vars[i].split("=");
       params[pair[0]] = decodeURIComponent(pair[1]);
     }
-    console.log("params", params);
     if (params) {
       this.setState({ bundledData: params });
       bundleProduct = await this.props.getBundleproduct(
         params.bundledProductCode
       );
-      console.log("params", params, "bundleProduct-->", bundleProduct);
       if (bundleProduct.status === "success") {
         let pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
           ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
@@ -116,7 +109,6 @@ export default class OfferCard extends React.Component {
         );
       }
     }
-    console.log("props in bundle product serviceability code", bundleProduct);
     return bundleProduct;
   };
 
@@ -193,7 +185,6 @@ export default class OfferCard extends React.Component {
     if (this.props.offers && this.props.offers.length) {
       this.createOffersForPdp(this.props.offers);
     }
-    console.log("propr in OfferCard:", this.props.offers);
   }
 
   render() {

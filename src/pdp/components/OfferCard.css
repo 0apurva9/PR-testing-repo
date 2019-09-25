@@ -125,6 +125,7 @@
   position: relative;
   line-height: 1.81;
   font-stretch: normal;
+  cursor: pointer;
 }
 .offerTextNew {
   padding-bottom: 5px;
