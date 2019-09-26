@@ -463,7 +463,7 @@ export default class PdpApparel extends React.Component {
                   BUY_NOW_PRODUCT_DETAIL,
                   JSON.stringify(productDetails)
                 );
-                this.navigateToLogin();
+                this.navigateToLogin(buyNowFlag);
               } else {
                 const buyNowResponse = await this.props.buyNow(productDetails);
                 this.setState({ isLoader: false });
@@ -507,9 +507,13 @@ export default class PdpApparel extends React.Component {
       }
     }
   };
-  navigateToLogin() {
+  navigateToLogin(isBuyNow) {
     const url = this.props.location.pathname;
-    this.props.setUrlToRedirectToAfterAuth(url);
+    if (isBuyNow) {
+      this.props.setUrlToRedirectToAfterAuth(PRODUCT_CART_ROUTER);
+    } else {
+      this.props.setUrlToRedirectToAfterAuth(url);
+    }
     this.props.history.push(LOGIN_PATH);
   }
   goToReviewPage = isNeedToSetDataLayer => {
