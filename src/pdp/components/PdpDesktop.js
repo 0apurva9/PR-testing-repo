@@ -17,7 +17,6 @@ import SearchAndUpdate from "./SearchAndUpdate";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import Image from "../../xelpmoc-core/Image";
 import { RUPEE_SYMBOL } from "../../lib/constants";
-import CheckBox from "../../general/components/CheckBox.js";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import {
   setDataLayerForCartDirectCalls,
@@ -216,7 +215,6 @@ export default class PdpApparel extends React.Component {
       }
     }
     /***relavant Bundling Product */
-    console.log("base product=====>", this.props.productDetails);
     if (
       this.props &&
       this.props.productDetails &&
@@ -284,11 +282,6 @@ export default class PdpApparel extends React.Component {
                         });
                     }
                     // }
-                    console.log(
-                      "data selected--->",
-                      data,
-                      this.state.bundledProductList
-                    );
                   });
                 });
             }
