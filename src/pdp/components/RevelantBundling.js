@@ -157,6 +157,7 @@ export default class RevelantBundling extends React.Component {
     }
     let arr = [];
     let selectedOne = this.state.totalSelectedProducts.length;
+    let disabled;
     let itemsSelected = selectedOne + 1;
     const relevantProduct = this.props && this.props.relevantBundleProductData;
     const secondaryBundleProductData =
@@ -196,7 +197,8 @@ export default class RevelantBundling extends React.Component {
     if (this.props.productDetails && this.props.productDetails.mrpPrice) {
       price = this.props.productDetails.mrpPrice.formattedValueNoDecimal;
     }
-    let priceHeader, bagHeading;
+    //console.log("selectedProduct---->",this.state.totalSelectedProducts)
+    let priceHeader, bagHeading, className;
     let totalLength =
       this.state.totalSelectedProducts &&
       this.state.totalSelectedProducts.length;
@@ -206,11 +208,15 @@ export default class RevelantBundling extends React.Component {
     if (this.state.totalSelectedProducts.length > 0) {
       priceHeader = `${totalLength} Add-ons`;
       bagHeading = `ADD ${totalLength + 1} ITEMS IN THE BAG`;
+      disabled = false;
+      className = styles.AddToCartButton;
     } else {
       if (bundledItem) {
         priceHeader = `${bundledItem} Add-ons`;
-        bagHeading = `ADD ${bundledItem + 1} ITEMS IN THE BAG`;
       }
+      bagHeading = `ADD TO BAG`;
+      disabled = true;
+      className = styles.disabledButton;
     }
     return (
       <React.Fragment>
@@ -299,36 +305,43 @@ export default class RevelantBundling extends React.Component {
                 })}
             </div>
             <div className={styles.priceTotal}>
-              <div className={styles.widthPrice}>
-                <span className={styles.headerPrice}>1 Item</span>
-                <span className={styles.basePrice}>
-                  {BundleddiscountPrice.toString().includes(RUPEE_SYMBOL)
-                    ? BundleddiscountPrice
-                    : `${RUPEE_SYMBOL}${Math.floor(BundleddiscountPrice)}`}
-                </span>
-              </div>
-              <div className={styles.iconAddProduct} />
-              <div className={styles.widthPrice}>
-                <span className={styles.headerPrice}>{priceHeader}</span>
-                <span className={styles.basePrice}>
-                  {this.getDiscountedPrice()}
-                </span>
-              </div>
-              <div className={styles.widthPrice}>
-                <span className={styles.iconEqual} />
-              </div>
-              <div className={styles.widthPrice}>
-                <span className={styles.headerPrice}>Total Price</span>
-                <span className={styles.basePrice}>
-                  {this.totalPrice()}
-                  <span
-                    className={styles.selectedItem}
-                  >{`(${itemsSelected}items)`}</span>
-                </span>
-              </div>
+              {selectedOne > 0 ? (
+                <React.Fragment>
+                  <div className={styles.widthPrice}>
+                    <span className={styles.headerPrice}>1 Item</span>
+                    <span className={styles.basePrice}>
+                      {BundleddiscountPrice.toString().includes(RUPEE_SYMBOL)
+                        ? BundleddiscountPrice
+                        : `${RUPEE_SYMBOL}${Math.floor(BundleddiscountPrice)}`}
+                    </span>
+                  </div>
+                  <div className={styles.iconAddProduct} />
+                  <div className={styles.widthPrice}>
+                    <span className={styles.headerPrice}>{priceHeader}</span>
+                    <span className={styles.basePrice}>
+                      {this.getDiscountedPrice()}
+                    </span>
+                  </div>
+                  <div className={styles.widthPrice}>
+                    <span className={styles.iconEqual} />
+                  </div>
+                  <div className={styles.widthPrice}>
+                    <span className={styles.headerPrice}>Total Price</span>
+                    <span className={styles.basePrice}>
+                      {this.totalPrice()}
+                      <span
+                        className={styles.selectedItem}
+                      >{`(${itemsSelected}items)`}</span>
+                    </span>
+                  </div>
+                </React.Fragment>
+              ) : (
+                ""
+              )}
               <button
-                className={styles.AddToCartButton}
+                className={className}
                 onClick={this.addToCart}
+                disabled={disabled}
               >
                 {bagHeading}
               </button>
