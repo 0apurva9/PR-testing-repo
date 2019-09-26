@@ -216,80 +216,87 @@ export default class PdpApparel extends React.Component {
       }
     }
     /***relavant Bundling Product */
-    let bundlePrdouct =
-      this.props.relevantBundleProductCodeData &&
-      this.props.relevantBundleProductCodeData.applicationProperties &&
-      this.props.relevantBundleProductCodeData.applicationProperties[0] &&
-      this.props.relevantBundleProductCodeData.applicationProperties[0].value;
-    if (bundlePrdouct) {
-      bundlePrdouct = JSON.parse(bundlePrdouct);
-    }
+    console.log("base product=====>", this.props.productDetails);
+    if (
+      this.props &&
+      this.props.productDetails &&
+      this.props.productDetails.rootCategory === "Electronics"
+    ) {
+      let bundlePrdouct =
+        this.props.relevantBundleProductCodeData &&
+        this.props.relevantBundleProductCodeData.applicationProperties &&
+        this.props.relevantBundleProductCodeData.applicationProperties[0] &&
+        this.props.relevantBundleProductCodeData.applicationProperties[0].value;
+      if (bundlePrdouct) {
+        bundlePrdouct = JSON.parse(bundlePrdouct);
+      }
 
-    let arrayBundledDescription = [];
-    let productId = this.props.productDetails.productListingId;
-    if (bundlePrdouct) {
-      let bundleIteamList = this.relevantBundleProductId(
-        bundlePrdouct.bundledItems,
-        productId
-      );
+      let arrayBundledDescription = [];
+      let productId = this.props.productDetails.productListingId;
+      if (bundlePrdouct) {
+        let bundleIteamList = this.relevantBundleProductId(
+          bundlePrdouct.bundledItems,
+          productId
+        );
 
-      await bundleIteamList
-        .then(result => {
-          if (result) {
-            let status;
-            result &&
-              result.bundleItems.forEach((listId, i) => {
-                let res = this.props.getRelevantBundleProduct(
-                  listId.productCode,
-                  "temp",
-                  i
-                );
-                res.then(data => {
-                  if (
-                    data &&
-                    data.status === "success" &&
-                    data.data.rootCategory !== "Electronics"
-                  ) {
-                    return false;
-                  }
-                  // else{
-                  if (data.status === "success") {
-                    let pinCode = localStorage.getItem(
-                      DEFAULT_PIN_CODE_LOCAL_STORAGE
-                    )
-                      ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
-                      : this.props.productDetails &&
-                        this.props.productDetails.isServiceableToPincode &&
-                        this.props.productDetails.isServiceableToPincode
-                          .pinCode;
-                    this.props
-                      .relevantProductServibilty(
-                        pinCode,
-                        listId.productCode,
-                        listId.ussid
-                      )
-                      .then(serviceCheck => {
-                        if (serviceCheck.status != "error") {
-                          arrayBundledDescription.push(data.data);
-                          this.setState({
-                            bundledProductList: arrayBundledDescription
-                          });
-                        }
-                      });
-                  }
-                  // }
-                  console.log(
-                    "data selected--->",
-                    data,
-                    this.state.bundledProductList
+        await bundleIteamList
+          .then(result => {
+            if (result) {
+              let status;
+              result &&
+                result.bundleItems.forEach((listId, i) => {
+                  let res = this.props.getRelevantBundleProduct(
+                    listId.productCode,
+                    "temp",
+                    i
                   );
+                  res.then(data => {
+                    if (
+                      data &&
+                      data.status === "success" &&
+                      data.data.rootCategory !== "Electronics"
+                    ) {
+                      return false;
+                    }
+                    // else{
+                    if (data.status === "success") {
+                      let pinCode = localStorage.getItem(
+                        DEFAULT_PIN_CODE_LOCAL_STORAGE
+                      )
+                        ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+                        : this.props.productDetails &&
+                          this.props.productDetails.isServiceableToPincode &&
+                          this.props.productDetails.isServiceableToPincode
+                            .pinCode;
+                      this.props
+                        .relevantProductServibilty(
+                          pinCode,
+                          listId.productCode,
+                          listId.ussid
+                        )
+                        .then(serviceCheck => {
+                          if (serviceCheck.status != "error") {
+                            arrayBundledDescription.push(data.data);
+                            this.setState({
+                              bundledProductList: arrayBundledDescription
+                            });
+                          }
+                        });
+                    }
+                    // }
+                    console.log(
+                      "data selected--->",
+                      data,
+                      this.state.bundledProductList
+                    );
+                  });
                 });
-              });
-          }
-        })
-        .catch(e => {
-          throw Error(e);
-        });
+            }
+          })
+          .catch(e => {
+            throw Error(e);
+          });
+      }
     }
   };
   relevantProductServibilty = async params => {
