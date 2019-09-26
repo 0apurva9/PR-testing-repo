@@ -149,7 +149,13 @@ export default class RevelantProductList extends React.Component {
                 )}
               {!bundleprdouct.isRange &&
                 price && (
-                  <div className={styles.priceCancelled}>
+                  <div
+                    className={
+                      discountPrice === price
+                        ? styles.discount
+                        : styles.priceCancelled
+                    }
+                  >
                     {price.toString().includes(RUPEE_SYMBOL)
                       ? price
                       : `${RUPEE_SYMBOL}${Math.floor(price)}`}
