@@ -1,0 +1,69 @@
+.base {
+    cursor: pointer;
+    position: relative;
+  }
+  .square {
+    cursor: pointer;
+    position: relative;
+  }
+  .base:after,
+  .base:before {
+    content: "";
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 300ms;
+  }
+  .square:after,
+  .square:before {
+    content: "";
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: 300ms;
+  }
+  .base:after {
+    background: url(../../pdp/components/img/CheckboxUncheck.svg) no-repeat;
+    background-size: contain;
+    background-position: center;
+  }
+  .base:before {
+    background: url(../../pdp/components/img/CheckboxFilled.svg) no-repeat;
+    background-size: contain;
+    background-position: center;
+    opacity: 0;
+  }
+  .square:after {
+    background: url(../../pdp/components/img/CheckboxUncheck.svg) no-repeat;
+    background-size: contain;
+    background-position: center;
+  }
+  .square:before {
+    background: url(../../pdp/components/img/CheckboxFilled.svg) no-repeat;
+    background-size: contain;
+    background-position: center;
+    opacity: 0;
+  }
+  .selected {
+    composes: base;
+  }
+  .checked {
+    composes: square;
+  }
+  .checked:after {
+    opacity: 0;
+  }
+  .checked:before {
+    opacity: 1;
+  }
+  .selected:after {
+    opacity: 0;
+  }
+  .selected:before {
+    opacity: 1;
+  }
+  

@@ -910,16 +910,17 @@
 	margin-bottom: 25px;
 }
 .bundleContent {
-	float: right;
-	width: 92%;
-	height: auto;
+	float: left;
+    width: 92%;
+    height: auto;
+    /* padding-left: 70px; */
 }
 .bundledColumns {
 	/* composes: image; */
 	float: left;
-	width: 30%;
+	/* width: 30%; */
 	padding-right: 10px;
-	/* padding-left: 40px; */
+	padding-left: 70px;
 }
 .bundledImage {
 	width: 150.2px;
@@ -969,22 +970,27 @@
 }
 .oneProduct:first-child,
 .reactSelectOption:first-child,
-.bundledColumns:first-child {
+.bundledColumns:first-child  {
 	padding-left: 40px;
 }
 .reactSelectOption:last-child,
 .oneProduct:last-child {
 	padding-right: 0px;
 }
+.bundledColumns:first-child  {
+	padding-left: 70px;
+}
 .iconAddBundledProduct {
 	float: left;
-	width: 25px;
-	height: 25px;
+	width: 30px;
+	height: 30px;
 	margin-top: 80px;
-	padding-left: 30px;
+	/* padding-left: 30px; */
 	background: url(./img/Add.svg) no-repeat;
   background-size: contain;
   background-position: center;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 .iconAddOneBundledProduct {
 	float: left;
@@ -1114,9 +1120,20 @@ width: 20px;
 	}
   .iconAddProduct{
 	width: 100px;  
-	height: 30px;  
+	height: 20px;  
 	float: left;
 	background: url(./img/Add.svg) no-repeat;
   background-size: contain;
   background-position: center;
+  }
+  .selectedItem{
+	font-family: regular;
+	font-size: 14px;
+  }
+  .iconEqual{
+	  width: 29px;
+	  height: 9px;
+	  background: url(../../pdp/components/img/Equal.svg) no-repeat;
+	  background-size: contain;
+	  display: inline-block;
   }

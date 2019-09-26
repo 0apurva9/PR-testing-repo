@@ -55,17 +55,6 @@ export default class RevelantBundling extends React.Component {
           }
         }
       }
-
-      Array.from(this.state.totalSelectedProducts).map((val, i) => {
-        bundleProductDetails[i] = {
-          code: val.productListingId,
-          ussId: val.winningUssID,
-          quantity: 1
-        };
-      });
-      for (var key in bundleProductDetails) {
-        this.props.addProductToCart1(bundleProductDetails[key]);
-      }
     } else {
       if (!this.props.productDetails.winningSellerPrice) {
         this.props.displayToast("Product is not saleable");
@@ -110,7 +99,7 @@ export default class RevelantBundling extends React.Component {
             : data.mrpPrice.doubleValue;
         total = total + parseInt(price);
       });
-      return total;
+      return `${RUPEE_SYMBOL}${total}`;
     } else {
       if (this.props.bundledItem.length > 0) {
         this.props.bundledItem.map((data, key) => {
@@ -121,20 +110,31 @@ export default class RevelantBundling extends React.Component {
 
           total = total + parseInt(price);
         });
-        return total;
+        return `${RUPEE_SYMBOL}${total}`;
       }
     }
   };
 
   totalPrice = () => {
-    let discountedPrice = this.getDiscountedPrice();
+    let total = 0;
+    let selectedOne = this.state.totalSelectedProducts.length;
+    let discountedPrice = Array.from(this.state.totalSelectedProducts).map(
+      (data, key) => {
+        let price =
+          data && data.winningSellerPrice
+            ? data.winningSellerPrice.doubleValue
+            : data.mrpPrice.doubleValue;
+        total = total + parseInt(price);
+      }
+    );
     let totalPrice = 0;
     let price =
       this.props.productDetails && this.props.productDetails.winningSellerPrice
         ? this.props.productDetails.winningSellerPrice.doubleValue
         : this.props.productDetails.mrpPrice.doubleValue;
-    totalPrice = discountedPrice + price;
-    return totalPrice;
+    totalPrice = total + price;
+
+    return `${RUPEE_SYMBOL}${totalPrice}`;
   };
   totalSelectedProducts(e) {
     let tmp = this.state.totalSelectedProducts;
@@ -156,6 +156,8 @@ export default class RevelantBundling extends React.Component {
       return this.renderLoader();
     }
     let arr = [];
+    let selectedOne = this.state.totalSelectedProducts.length;
+    let itemsSelected = selectedOne + 1;
     const relevantProduct = this.props && this.props.relevantBundleProductData;
     const secondaryBundleProductData =
       this.props && this.props.secondaryBundleProductData;
@@ -203,11 +205,11 @@ export default class RevelantBundling extends React.Component {
     // ((this.props && this.props.relevantBundleProductData && this.props.relevantBundleProductData.winningSellerPrice && this.props.relevantBundleProductData.winningSellerPrice.formattedValueNoDecimal)+(this.props && this.props.secondaryBundleProductData && this.props.secondaryBundleProductData.winningSellerPrice && this.props.secondaryBundleProductData.winningSellerPrice.formattedValueNoDecimal))
     if (this.state.totalSelectedProducts.length > 0) {
       priceHeader = `${totalLength} Add-ons`;
-      bagHeading = `ADD ${totalLength + 1} items in the Bag`;
+      bagHeading = `ADD ${totalLength + 1} ITEMS IN THE BAG`;
     } else {
       if (bundledItem) {
         priceHeader = `${bundledItem} Add-ons`;
-        bagHeading = `ADD ${bundledItem + 1} items in the Bag`;
+        bagHeading = `ADD ${bundledItem + 1} ITEMS IN THE BAG`;
       }
     }
     return (
@@ -313,13 +315,24 @@ export default class RevelantBundling extends React.Component {
                 </span>
               </div>
               <div className={styles.widthPrice}>
-                <span className={styles.headerPrice}>Total Price</span>
-                <span className={styles.basePrice}>{this.totalPrice()}</span>
+                <span className={styles.iconEqual} />
               </div>
+              <div className={styles.widthPrice}>
+                <span className={styles.headerPrice}>Total Price</span>
+                <span className={styles.basePrice}>
+                  {this.totalPrice()}
+                  <span
+                    className={styles.selectedItem}
+                  >{`(${itemsSelected}items)`}</span>
+                </span>
+              </div>
+              <button
+                className={styles.AddToCartButton}
+                onClick={this.addToCart}
+              >
+                {bagHeading}
+              </button>
             </div>
-            <button className={styles.AddToCartButton} onClick={this.addToCart}>
-              {bagHeading}
-            </button>
           </div>
         </div>
         {/* )} */}
