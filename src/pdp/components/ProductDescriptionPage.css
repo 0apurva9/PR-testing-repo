@@ -1063,13 +1063,14 @@
 	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
 	background-color: #ff1744;
 	color: #ffffff;
-	font-family: Rubik;
+	font-family: regular;
 	font-size: 14px;
 	font-weight: 500;
 	font-style: normal;
 	font-stretch: normal;
 	line-height: normal;
 	letter-spacing: normal;
+	cursor: pointer;
 }
 .checkCircle {
 	width: 25px;
