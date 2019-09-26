@@ -55,17 +55,6 @@ export default class RevelantBundling extends React.Component {
           }
         }
       }
-
-      Array.from(this.state.totalSelectedProducts).map((val, i) => {
-        bundleProductDetails[i] = {
-          code: val.productListingId,
-          ussId: val.winningUssID,
-          quantity: 1
-        };
-      });
-      for (var key in bundleProductDetails) {
-        this.props.addProductToCart1(bundleProductDetails[key]);
-      }
     } else {
       if (!this.props.productDetails.winningSellerPrice) {
         this.props.displayToast("Product is not saleable");
