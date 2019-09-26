@@ -245,6 +245,14 @@ export default class PdpApparel extends React.Component {
                   i
                 );
                 res.then(data => {
+                  if (
+                    data &&
+                    data.status === "success" &&
+                    data.data.rootCategory !== "Electronics"
+                  ) {
+                    return false;
+                  }
+                  // else{
                   if (data.status === "success") {
                     let pinCode = localStorage.getItem(
                       DEFAULT_PIN_CODE_LOCAL_STORAGE
@@ -269,6 +277,12 @@ export default class PdpApparel extends React.Component {
                         }
                       });
                   }
+                  // }
+                  console.log(
+                    "data selected--->",
+                    data,
+                    this.state.bundledProductList
+                  );
                 });
               });
           }

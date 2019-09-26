@@ -66,6 +66,13 @@ export default class VoucherOfferModal extends React.Component {
       bundleProduct = await this.props.getBundleproduct(
         params.bundledProductCode
       );
+      if (
+        bundleProduct &&
+        bundleProduct.status === "success" &&
+        bundleProduct.data.rootCategory !== "Electronics"
+      ) {
+        return false;
+      }
       if (bundleProduct.status === "success") {
         let pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
           ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
