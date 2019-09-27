@@ -40,9 +40,13 @@ export default class BundledProduct extends React.Component {
         );
 
         if (baseProduct && baseProduct.status === "success") {
-          await self.props.addProductToCart(bundleProductDetails, val => {
-            this.props.history.push(PRODUCT_CART_ROUTER);
-          });
+          let bundleProduct = await self.props.addProductToCart(
+            bundleProductDetails,
+            val => {}
+          );
+          if (bundleProduct && bundleProduct.status === "success") {
+            self.props.history.push(PRODUCT_CART_ROUTER);
+          }
         }
       }
     }
