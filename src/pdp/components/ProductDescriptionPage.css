@@ -1141,7 +1141,7 @@ width: 20px;
     height: 10px;
     margin-left: 74px;
     float: left;
-    background: url(/static/media/Equal.32a0288c.svg) no-repeat;
+    background: url(./img/Equal.svg) no-repeat;
     background-size: contain;
     background-position: center;
     margin-right: 73px;
@@ -1150,6 +1150,22 @@ width: 20px;
   .baseEquals{
 	width: 31px;
     display: inline;
+  }
+  .priceTotalText{
+	  width:150px;
+	  height: 100px;  
+       float: left;
+  }
+  .totalPrice{
+	height: 27px;
+	font-family: regular;
+	font-size: 22px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: 0.2px;
+	color: #4a4a4a;
   }
 
   .disabledButton {

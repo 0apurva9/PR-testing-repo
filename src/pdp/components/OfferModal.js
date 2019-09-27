@@ -17,7 +17,6 @@ export default class VoucherOfferModal extends React.Component {
   handleShowDetails = async (selectedOffer, offers) => {
     let Title = selectedOffer.promotionDisplayText;
     if (Title.indexOf("bundledProduct") >= 0) {
-      console.log("baseProduct", this.props, Title);
       await this.getParams(Title)
         .then(data => {
           if (data.status !== "error" && data.status !== "Failure") {
