@@ -324,9 +324,8 @@ export default class RevelantBundling extends React.Component {
                       {this.getDiscountedPrice()}
                     </span>
                   </div>
-                  <div className={styles.widthPrice}>
-                    <span className={styles.iconEqual} />
-                  </div>
+                  <div className={styles.iconEqual} />
+
                   <div className={styles.widthPrice}>
                     <span className={styles.headerPrice}>Total Price</span>
                     <span className={styles.basePrice}>
