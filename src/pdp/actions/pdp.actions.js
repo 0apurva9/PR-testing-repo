@@ -1663,7 +1663,7 @@ export function relevantBundleProductCode() {
     dispatch(relevantBundleProductCodeRequest());
     try {
       const result = await api.customGetMiddlewareUrl(
-        `/otatacliq/getApplicationProperties.json?propertyNames=PDP_BUNDLED_PRODUCT`
+        `/otatacliq/getApplicationProperties.json?propertyNames=PWA_PDP_BUNDLED_PRODUCT`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

@@ -5,11 +5,11 @@ import { addProductToCart } from "../actions/pdp.actions";
 
 const mapDispatchToProps = dispatch => {
   return {
-    addProductToCart: (productDetails, callback) => {
-      return dispatch(addProductToCart(productDetails), callback());
+    addProductToCart: async (productDetails, callback) => {
+      return await dispatch(addProductToCart(productDetails), callback());
     },
-    addProductToCart1: productDetails => {
-      return dispatch(addProductToCart(productDetails));
+    addProductToCart1: async productDetails => {
+      return await dispatch(addProductToCart(productDetails));
     }
   };
 };

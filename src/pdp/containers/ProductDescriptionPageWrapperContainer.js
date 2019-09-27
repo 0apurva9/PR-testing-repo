@@ -202,8 +202,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     // addProductToCart: (productDetails, callback) => {
     // 	return dispatch(addProductToCart(productDetails), callback());
     // },
-    addProductToCart1: productDetails => {
-      return dispatch(addProductToCart(productDetails));
+    addProductToCart1: async productDetails => {
+      return await dispatch(addProductToCart(productDetails));
     }
   };
 };
