@@ -41,16 +41,20 @@ export default class RevelantBundling extends React.Component {
           );
 
           if (baseProduct && baseProduct.status === "success") {
-            Array.from(this.state.totalSelectedProducts).map(async (val, i) => {
-              let bundledData = {
-                code: val.productListingId,
-                ussId: val.winningUssID,
-                quantity: 1
-              };
-              await self.props.addProductToCart1(bundledData, val => {
-                console.log("============================>", val);
-              });
-            });
+            await Promise.all(
+              Array.from(this.state.totalSelectedProducts).map(
+                async (val, i) => {
+                  let bundledData = {
+                    code: val.productListingId,
+                    ussId: val.winningUssID,
+                    quantity: 1
+                  };
+                  await self.props.addProductToCart1(bundledData, val => {
+                    console.log("============================>", val);
+                  });
+                }
+              )
+            );
             this.props.history.push(PRODUCT_CART_ROUTER);
           }
         }
