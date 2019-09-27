@@ -1,5 +1,5 @@
 import React from "react";
-import BottomSlideModal from "../../general/components/BottomSlideModal";
+import Button from "../../general/components/Button.js";
 import RelevatProductList from "./RelevatProductList";
 import styles from "./ProductDescriptionPage.css";
 import Loader from "../../general/components/SecondaryLoader";
@@ -255,7 +255,7 @@ export default class RevelantBundling extends React.Component {
     arr.push(relevantProduct);
     // arr.push(secondaryBundleProductData);
 
-    let priceHeader, bagHeading, className;
+    let priceHeader, bagHeading;
     let totalLength =
       this.state.totalSelectedProducts &&
       this.state.totalSelectedProducts.length;
@@ -266,14 +266,12 @@ export default class RevelantBundling extends React.Component {
       priceHeader = `${totalLength} Add-ons`;
       bagHeading = `ADD ${totalLength + 1} ITEMS IN THE BAG`;
       disabled = false;
-      className = styles.AddToCartButton;
     } else {
       if (bundledItem) {
         priceHeader = `${bundledItem} Add-ons`;
       }
       bagHeading = `ADD TO BAG`;
       disabled = true;
-      className = styles.disabledButton;
     }
     return (
       <React.Fragment>
@@ -331,13 +329,18 @@ export default class RevelantBundling extends React.Component {
               ) : (
                 ""
               )}
-              <button
-                className={className}
-                onClick={this.addToCart}
+              <Button
+                type="primary"
                 disabled={disabled}
-              >
-                {bagHeading}
-              </button>
+                backgroundColor="#ff1744"
+                height={46}
+                label={bagHeading}
+                width={255}
+                borderRadius={100}
+                textStyle={{ color: "#FFF", fontSize: 14 }}
+                onClick={this.addToCart}
+                float="right"
+              />
             </div>
           </div>
         </div>
