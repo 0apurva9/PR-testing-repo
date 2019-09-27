@@ -1151,6 +1151,22 @@ width: 20px;
 	width: 31px;
     display: inline;
   }
+  .priceTotalText{
+	  width:150px;
+	  height: 100px;  
+       float: left;
+  }
+  .totalPrice{
+	height: 27px;
+	font-family: regular;
+	font-size: 22px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: 0.2px;
+	color: #4a4a4a;
+  }
 
   .disabledButton {
 	  background-color: #8d8d8d;
