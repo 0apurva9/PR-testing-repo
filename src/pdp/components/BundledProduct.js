@@ -16,7 +16,6 @@ export default class BundledProduct extends React.Component {
   addToCart = async () => {
     let baseProductDetails = {};
     let bundleProductDetails = {};
-
     baseProductDetails.code = this.props.productDetails.productListingId;
     baseProductDetails.quantity = 1;
     baseProductDetails.ussId = this.props.productDetails.winningUssID;
@@ -34,16 +33,11 @@ export default class BundledProduct extends React.Component {
         this.props.displayToast("Product is out of stock");
       } else {
         let self = this;
-        let baseProduct = await this.props.addProductToCart(
-          baseProductDetails,
-          val => {}
-        );
-
-        if (baseProduct && baseProduct.status === "success") {
-          await self.props.addProductToCart(bundleProductDetails, val => {
+        this.props.addProductToCart(baseProductDetails, () => {
+          self.props.addProductToCart(bundleProductDetails, () => {
             this.props.history.push(PRODUCT_CART_ROUTER);
           });
-        }
+        });
       }
     }
   };
