@@ -16,6 +16,9 @@ export default class RevelantBundling extends React.Component {
   }
 
   addToCart = async () => {
+    this.setState({
+      loader: true
+    });
     let bundleProductDetails = {};
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
@@ -31,33 +34,26 @@ export default class RevelantBundling extends React.Component {
         ) {
           this.props.displayToast("Product is out of stock");
         } else {
-          //this.props.addProductToCart(productDetails);
-          let self = this;
-          let baseProduct = await this.props.addProductToCart(
-            productDetails,
-            val => {
-              console.log("baseProductDetails==================>", val);
-            }
-          );
-
-          if (baseProduct && baseProduct.status === "success") {
-            await Promise.all(
-              Array.from(this.state.totalSelectedProducts).map(
-                async (val, i) => {
-                  let bundledData = {
-                    code: val.productListingId,
-                    ussId: val.winningUssID,
-                    quantity: 1
-                  };
-                  await self.props.addProductToCart1(bundledData, val => {
-                    console.log("============================>", val);
-                  });
-                }
-              )
-            );
-            this.props.history.push(PRODUCT_CART_ROUTER);
-          }
+          await this.props.addProductToCart(productDetails);
         }
+      }
+
+      this.state.totalSelectedProducts.map((val, i) => {
+        bundleProductDetails[i] = {
+          code: val.productListingId,
+          ussId: val.winningUssID,
+          quantity: 1
+        };
+      });
+      let response;
+
+      for (var key in bundleProductDetails) {
+        response = await this.props.addProductToCart1(
+          bundleProductDetails[key]
+        );
+      }
+      if (response.status === "success") {
+        this.props.history.push(PRODUCT_CART_ROUTER);
       }
     } else {
       if (!this.props.productDetails.winningSellerPrice) {
@@ -69,10 +65,16 @@ export default class RevelantBundling extends React.Component {
         ) {
           this.props.displayToast("Product is out of stock");
         } else {
-          return await this.props.addProductToCart(productDetails);
+          let response = await this.props.addProductToCart(productDetails);
+          if (response.status === "success") {
+            this.props.history.push(PRODUCT_CART_ROUTER);
+          }
         }
       }
     }
+    this.setState({
+      loader: false
+    });
   };
 
   getDiscountedPrice = () => {
