@@ -911,16 +911,16 @@
 }
 .bundleContent {
 	float: left;
-    width: 92%;
+    width: 100%;
     height: auto;
     /* padding-left: 70px; */
 }
 .bundledColumns {
 	/* composes: image; */
 	float: left;
-	/* width: 30%; */
-	padding-right: 10px;
-	padding-left: 70px;
+	width: 23%;
+	/* padding-right: 10px;
+	padding-left: 70px; */
 }
 .bundledImage {
 	width: 150.2px;
@@ -957,13 +957,13 @@
 	padding-left: 4px;
 }
 .reactSelectOption {
-	width: 30%;
+	width: 22%;
 	float: left;
 	padding-right: 10px;
 	
 }
 .oneProduct {
-	width: 40%;
+	width: 30%; 
 	float: left;
 	/* display: inline-block; */
 	padding-right: 10px;
@@ -978,7 +978,7 @@
 	padding-right: 0px;
 }
 .bundledColumns:first-child  {
-	padding-left: 70px;
+	padding-left: 40px;
 }
 .iconAddBundledProduct {
 	float: left;
@@ -1075,6 +1075,7 @@
 	width: 25px;
 	height: 25px;
 	float: left;
+	margin-left: 69px;
   }
   .squarebox {
 width: 20px;

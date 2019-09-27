@@ -108,20 +108,19 @@ export default class RevelantProductList extends React.Component {
     return (
       <div>
         <div className={styles.iconAddBundledProduct} />
+        <div
+          className={styles.checkCircle}
+          onClick={() => {
+            this.selectProduct(this.props.key);
+          }}
+        >
+          <MultiSelectCheckbox
+            selected={this.state.selected}
+            isCircle={false}
+          />
+        </div>
         {this.props.bundleprdouct && (
           <div className={widthChange}>
-            <div
-              className={styles.checkCircle}
-              onClick={() => {
-                this.selectProduct(this.props.key);
-              }}
-            >
-              <MultiSelectCheckbox
-                selected={this.state.selected}
-                isCircle={false}
-              />
-            </div>
-
             <div className={styles.bundleContent}>
               <React.Fragment>
                 <div className={styles.bundledImage}>

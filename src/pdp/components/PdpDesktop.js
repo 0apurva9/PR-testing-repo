@@ -220,7 +220,8 @@ export default class PdpApparel extends React.Component {
     if (
       this.props &&
       this.props.productDetails &&
-      this.props.productDetails.rootCategory === "Electronics"
+      this.props.productDetails.rootCategory === "Electronics" &&
+      this.props.productDetails.allOOStock === false
     ) {
       let bundlePrdouct =
         this.props.relevantBundleProductCodeData &&
