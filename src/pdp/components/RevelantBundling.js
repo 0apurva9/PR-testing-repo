@@ -264,7 +264,6 @@ export default class RevelantBundling extends React.Component {
     arr.push(relevantProduct);
     // arr.push(secondaryBundleProductData);
 
-    //console.log("selectedProduct---->",this.state.totalSelectedProducts)
     let priceHeader, bagHeading, className;
     let totalLength =
       this.state.totalSelectedProducts &&
@@ -328,14 +327,14 @@ export default class RevelantBundling extends React.Component {
                   </div>
                   <div className={styles.iconEqual} />
 
-                  <div className={styles.widthPrice}>
+                  <div className={styles.priceTotalText}>
                     <span className={styles.headerPrice}>Total Price</span>
-                    <span className={styles.basePrice}>
+                    <div className={styles.totalPrice}>
                       {this.totalPrice()}
                       <span
                         className={styles.selectedItem}
-                      >{`(${itemsSelected}items)`}</span>
-                    </span>
+                      >{`(${itemsSelected} item)`}</span>
+                    </div>
                   </div>
                 </React.Fragment>
               ) : (
