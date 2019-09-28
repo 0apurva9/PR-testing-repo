@@ -5880,12 +5880,16 @@ export function collectPaymentOrder(
     const binCardType = localStorage.getItem(BIN_CARD_TYPE);
     //later correct this code , added for quick fix
     let emiType = localStorage.getItem(EMI_TYPE);
-    if (binCardType && emiType !== "No Cost EMI") {
+    if (
+      binCardType &&
+      emiType !== "No Cost EMI" &&
+      emiType !== "Standard EMI"
+    ) {
       paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
         .slice(1)
         .toLowerCase()} Card`;
     }
-    if (emiType === "No Cost EMI") {
+    if (emiType === "No Cost EMI" || emiType === "Standard EMI") {
       paymentMode = "EMI";
     }
     let url = queryString.parse(window.location.search);
