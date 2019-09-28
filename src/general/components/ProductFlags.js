@@ -31,6 +31,18 @@ export default class ProductFlags extends React.Component {
             : this.props.seasonTag}
         </div>
       );
+    } else if (
+      this.props.discountPercent &&
+      this.props.discountPercent !== "0"
+    ) {
+      return (
+        <div
+          className={styles.base}
+          style={{ backgroundImage: `url(${offerFlag})` }}
+        >
+          {parseInt(this.props.discountPercent, 10)}% off{" "}
+        </div>
+      );
     } else if (this.props.isOfferExisting) {
       return (
         <div
@@ -56,18 +68,6 @@ export default class ProductFlags extends React.Component {
           style={{ backgroundImage: `url(${newFlag})` }}
         >
           New
-        </div>
-      );
-    } else if (
-      this.props.discountPercent &&
-      this.props.discountPercent !== "0"
-    ) {
-      return (
-        <div
-          className={styles.base}
-          style={{ backgroundImage: `url(${offerFlag})` }}
-        >
-          {parseInt(this.props.discountPercent, 10)}% off{" "}
         </div>
       );
     } else {
