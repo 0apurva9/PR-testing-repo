@@ -442,6 +442,7 @@ const ERROR_CODE_FOR_BANK_OFFER_INVALID_2 = "B6009";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_3 = "B9599";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_4 = "B9509";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_5 = "B9303";
+const ERROR_CODE_FOR_BANK_OFFER_INVALID_6 = "B9510";
 const INVALID_COUPON_ERROR_MESSAGE = "invalid coupon";
 const JUS_PAY_STATUS_REG_EX = /(status=[A-Za-z0-9_]*)/;
 
@@ -1919,8 +1920,14 @@ export function applyBankOffer(couponCode) {
         ) {
           dispatch(displayToast(resultJson.error));
           localStorage.removeItem(BANK_COUPON_COOKIE);
+        } else if (
+          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_6
+        ) {
+          dispatch(displayToast(resultJson.error));
+          localStorage.removeItem(BANK_COUPON_COOKIE);
         } else {
           localStorage.removeItem(BANK_COUPON_COOKIE);
+          dispatch(displayToast(resultJson.message));
           throw new Error(resultJsonStatus.message);
         }
       }
