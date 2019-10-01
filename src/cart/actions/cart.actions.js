@@ -2182,8 +2182,10 @@ export function binValidation(
       } else {
         localStorage.removeItem(SELECTED_BANK_NAME);
       }
-      if (resultJson.cardType) {
-        localStorage.setItem(BIN_CARD_TYPE, resultJson.cardType);
+      let cardType =
+        resultJson.cardType && resultJson.cardType.replace(/\s/g, "");
+      if (cardType) {
+        localStorage.setItem(BIN_CARD_TYPE, cardType);
       }
       if (paymentMode !== EMI && localStorage.getItem(EMI_TENURE)) {
         localStorage.removeItem(EMI_TENURE);
@@ -2304,7 +2306,7 @@ export function softReservationForPayment(cardDetails, address) {
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
   const binCardType = localStorage.getItem(BIN_CARD_TYPE);
-  if (binCardType) {
+  if (binCardType && paymentMode !== "EMI") {
     paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
       .slice(1)
       .toLowerCase()} Card`;
