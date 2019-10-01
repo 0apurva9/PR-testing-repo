@@ -285,7 +285,7 @@ class CheckOutPage extends React.Component {
       await this.removeNoCostEmi(noCostEmiCouponCode);
     }
     //here we need to reset captch if if already done .but payment mode is changed
-    if (this.state.captchaReseponseForCOD) {
+    if (this.state.captchaReseponseForCOD && window.grecaptcha) {
       window.grecaptcha.reset();
     }
     this.setState(val);
@@ -2716,6 +2716,7 @@ if you have order id in local storage then you have to show order confirmation p
         }
       }
     }
+    this.onChangePaymentMode({ currentPaymentMode: null });
   };
   openBankOffers = () => {
     this.props.showCouponModal({
