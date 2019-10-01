@@ -963,18 +963,18 @@
 	
 }
 .oneProduct {
-	width: 30%; 
-	float: left;
+	width: 40%; 
+	overflow: hidden;
 	/* display: inline-block; */
 	padding-right: 10px;
 }
+
 .oneProduct:first-child,
 .reactSelectOption:first-child,
 .bundledColumns:first-child  {
 	padding-left: 40px;
 }
-.reactSelectOption:last-child,
-.oneProduct:last-child {
+.reactSelectOption:last-child {
 	padding-right: 0px;
 }
 .bundledColumns:first-child  {
@@ -1184,3 +1184,48 @@ width: 20px;
 	line-height: normal;
 	letter-spacing: normal;
   }
+  .productDetails {
+	overflow: hidden;
+	padding-left: 11px;
+  }
+  .bundledImageForOneProduct{
+	width: 150.2px;
+	height: 199.7px;
+	float: left;
+  }
+  .bundleContentOneProduct{
+	  display: flex;
+  }
+  .priceTotalForOneProduct{
+	/* margin-top: 329px; */
+    padding-top: 50px;
+    overflow: auto;
+    width: 100%;
+    padding-left: 40px;
+  }
+  .oneProductBundling{
+	  width:30%;
+	  display: inline
+  }
+  .bundleContentForOneProduct{
+	width: 25%;
+	display: inline-block;
+	padding-left: 15px;
+  }
+  .discountClassForOneProduct{
+	color: rgb(255, 23, 68);
+	display: inline-block;
+	margin-left: 6px;
+	font-size: 14px;
+	font-family: light;
+	padding-left: 15px;
+  }
+  .discountForOneProduct {
+	composes: priceHolder;
+	margin-right: 6px;
+	font-size: 14px;
+	color: #212121;
+	/* padding-top: 10px; */
+	font-family: light;
+	padding-left: 15px;
+}
