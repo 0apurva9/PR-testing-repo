@@ -209,12 +209,13 @@ export default class SearchPage extends React.Component {
         this.state.categoryAndBrandCode.trim();
       if (code) {
         if (code.includes("MSH")) {
-          const topCategories = this.props.searchResult.topCategories;
-          const indexOfCurrentCategories = topCategories.findIndex(
-            categories => {
+          const topCategories =
+            this.props.searchResult && this.props.searchResult.topCategories;
+          const indexOfCurrentCategories =
+            topCategories &&
+            topCategories.findIndex(categories => {
               return categories.categoryCode === code;
-            }
-          );
+            });
           this.handleCategoryClick(
             code,
             {
@@ -395,7 +396,11 @@ export default class SearchPage extends React.Component {
       }
     }
     if (val === "Enter") {
-      this.setState({ showData: false, searchString: null });
+      this.setState({
+        showData: false,
+        searchString: null,
+        categoryAndBrandCode: null
+      });
     }
   }
   handleStoreBrandMerClick(redirectUrl, searchString) {
