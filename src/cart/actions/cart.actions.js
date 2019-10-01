@@ -2182,8 +2182,10 @@ export function binValidation(
       } else {
         localStorage.removeItem(SELECTED_BANK_NAME);
       }
-      if (resultJson.cardType) {
-        localStorage.setItem(BIN_CARD_TYPE, resultJson.cardType);
+      let cardType =
+        resultJson.cardType && resultJson.cardType.replace(/\s/g, "");
+      if (cardType) {
+        localStorage.setItem(BIN_CARD_TYPE, cardType);
       }
       if (paymentMode !== EMI && localStorage.getItem(EMI_TENURE)) {
         localStorage.removeItem(EMI_TENURE);
