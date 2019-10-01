@@ -2304,7 +2304,7 @@ export function softReservationForPayment(cardDetails, address) {
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
   const binCardType = localStorage.getItem(BIN_CARD_TYPE);
-  if (binCardType) {
+  if (binCardType && paymentMode !== "EMI") {
     paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
       .slice(1)
       .toLowerCase()} Card`;
