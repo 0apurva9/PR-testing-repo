@@ -1902,6 +1902,7 @@ export function applyBankOffer(couponCode) {
         if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_3) {
           const redoCall = () => dispatch(applyBankOffer(couponCode));
           dispatch(applyBankOfferFailure(resultJsonStatus.message));
+          localStorage.removeItem(BANK_COUPON_COOKIE);
           return dispatch(
             showModal(VALIDATE_OFFERS_POPUP, {
               result: resultJson,
