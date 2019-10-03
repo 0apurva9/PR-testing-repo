@@ -54,12 +54,30 @@ export default class NoCostEmiBankDetails extends React.Component {
             } product(s). Standard EMI will apply to products, if any, bought along with it.`
           });
         }
+        if (
+          this.props.isRetryPaymentFromURL &&
+          this.props.bankList &&
+          this.props.bankList[0]
+        ) {
+          let bankLists = this.props.bankList[0];
+          this.handleSelect(0, bankLists.code);
+          //this.selectOtherBank(bankLists);
+          if (
+            bankLists.noCostEMICouponList &&
+            bankLists.noCostEMICouponList[0]
+          ) {
+            this.onSelectMonth(0, bankLists.noCostEMICouponList[0]);
+          }
+        }
       }
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedEMIType !== NO_COST_EMI) {
+    if (
+      nextProps.selectedEMIType &&
+      nextProps.selectedEMIType !== NO_COST_EMI
+    ) {
       this.setState({
         selectedBankIndex: null,
         selectedMonth: null,
@@ -131,7 +149,7 @@ export default class NoCostEmiBankDetails extends React.Component {
     this.setState({
       selectedBankIndex: selectedBankIndex,
       selectedBankName: selectedBankName,
-      selectedBankCode: selectedBankCodeObj.bankCode,
+      selectedBankCode: selectedCode,
       selectedCode,
       selectedFromDropDown: true,
       selectedMonth: null

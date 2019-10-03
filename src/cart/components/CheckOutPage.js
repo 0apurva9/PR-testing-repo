@@ -222,7 +222,10 @@ class CheckOutPage extends React.Component {
       retryFlagForEmiCoupon: false,
       emiBinValidationErrorMessage: null,
       emiBinValidationStatus: false,
-      whatsappSelected: true
+      whatsappSelected: true,
+      retryPaymentDetails: props.retryPaymentDetails
+        ? props.retryPaymentDetails
+        : null
     };
   }
 
@@ -1329,6 +1332,9 @@ class CheckOutPage extends React.Component {
     }
     this.props.clearCartDetails();
     this.props.resetIsSoftReservationFailed();
+    if (this.state.retryPaymentDetails) {
+      this.props.resetFailedOrderDetails();
+    }
   }
   componentDidMount() {
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -3819,6 +3825,7 @@ if you have order id in local storage then you have to show order confirmation p
                       emiBinValidationErrorMessage={
                         this.state.emiBinValidationErrorMessage
                       }
+                      retryPaymentDetails={this.state.retryPaymentDetails}
                     />
                   </div>
                 )}

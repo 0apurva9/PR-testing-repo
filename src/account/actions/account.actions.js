@@ -282,6 +282,7 @@ export const GET_USER_REVIEW_SUCCESS = "GET_USER_REVIEW_SUCCESS";
 export const RETRY_PAYMENT_REQUEST = "RETRY_PAYMENT_REQUEST";
 export const RETRY_PAYMENT_SUCCESS = "RETRY_PAYMENT_SUCCESS";
 export const RETRY_PAYMENT_FAILURE = "RETRY_PAYMENT_FAILURE";
+export const RESET_RETRY_PAYMENT = "RESET_RETRY_PAYMENT";
 
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
 export const Clear_ORDER_TRANSACTION_DATA = "Clear_ORDER_TRANSACTION_DATA";
@@ -3643,4 +3644,8 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
       return dispatch(retryPaymentFailure(e.message));
     }
   };
+}
+
+export function resetFailedOrderDetails() {
+  return { type: RESET_RETRY_PAYMENT };
 }

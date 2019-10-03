@@ -1466,6 +1466,10 @@ const account = (
       return Object.assign({}, state, {
         transactionDetails: " "
       });
+    case accountActions.RESET_RETRY_PAYMENT:
+      return Object.assign({}, state, {
+        retryPaymentDetails: null
+      });
     default:
       return state;
   }
