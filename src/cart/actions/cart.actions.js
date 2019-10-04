@@ -4673,6 +4673,7 @@ export function applyNoCostEmi(couponCode, cartGuId, cartId, isFromRetryUrl) {
             })
           );
         } else {
+          dispatch(displayToast(resultJsonStatus.message));
           throw new Error(resultJsonStatus.message);
         }
       }
