@@ -152,7 +152,6 @@ export default class SearchPage extends React.Component {
     if (isSetDataLayer) {
       setDataLayerForAutoSuggestSearch(dtmDataObject);
     }
-
     const url = `/search/?searchCategory=all&text=${currentString}:relevance:category:${categoryCode}`;
     this.props.clearSearchResults();
     this.setState({
@@ -207,6 +206,8 @@ export default class SearchPage extends React.Component {
       let code =
         this.state.categoryAndBrandCode &&
         this.state.categoryAndBrandCode.trim();
+      let suggestedTerm =
+        this.props.searchResult && this.props.searchResult.suggestedTerm;
       if (code) {
         if (code.includes("MSH")) {
           const topCategories =
@@ -222,7 +223,7 @@ export default class SearchPage extends React.Component {
               term: currentSearchString
             },
             indexOfCurrentCategories,
-            "",
+            suggestedTerm,
             false
           );
         }
@@ -237,7 +238,7 @@ export default class SearchPage extends React.Component {
               term: currentSearchString
             },
             indexOfCurrentBrands,
-            "",
+            suggestedTerm,
             false
           );
         }
