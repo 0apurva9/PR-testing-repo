@@ -37,7 +37,7 @@ export default class EmiPanel extends React.Component {
         this.props.retryPaymentDetails.retryFlagEmiCoupon
       ) {
         this.props.onChange({ currentPaymentMode: PAYMENT_MODE });
-        this.onChangeEMIType(NO_COST_EMI);
+        this.onSetEMIType(NO_COST_EMI);
         this.getBankAndTenureDetails();
       }
     }
@@ -112,6 +112,10 @@ export default class EmiPanel extends React.Component {
   }
   onChangeEMIType(currentSelectedEMIType) {
     this.props.changeSubEmiOption(currentSelectedEMIType);
+    this.setState({ currentSelectedEMIType });
+  }
+  onSetEMIType(currentSelectedEMIType) {
+    this.props.setSunEmiOption(currentSelectedEMIType);
     this.setState({ currentSelectedEMIType });
   }
   render() {

@@ -358,6 +358,17 @@ class CheckOutPage extends React.Component {
       emiBinValidationStatus: false
     });
   }
+  setSunEmiOption(currentSelectedEMIType) {
+    this.setState({
+      currentSelectedEMIType,
+      cardDetails: {},
+      noCostEmiBankName: null,
+      noCostEmiDiscount: "0.00",
+      isNoCostEmiApplied: false,
+      emiBinValidationErrorMessage: null,
+      emiBinValidationStatus: false
+    });
+  }
   updateLocalStoragePinCode(pincode) {
     const postalCode = parseInt(pincode);
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, postalCode);
@@ -3713,6 +3724,9 @@ if you have order id in local storage then you have to show order confirmation p
                       paymentModeSelected={this.state.paymentModeSelected}
                       changeSubEmiOption={currentSelectedEMIType =>
                         this.changeSubEmiOption(currentSelectedEMIType)
+                      }
+                      setSunEmiOption={currentSelectedEMIType =>
+                        this.setSunEmiOption(currentSelectedEMIType)
                       }
                       selectedSavedCardDetails={this.state.savedCardDetails}
                       selectedBankOfferCode={this.state.selectedBankOfferCode}
