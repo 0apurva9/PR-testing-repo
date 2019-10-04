@@ -133,7 +133,6 @@ export default class NoCostEmiBankDetails extends React.Component {
       ) {
         let bankLists = this.props.bankList[0];
         this.handleSelect(0, bankLists.code);
-        // this.selectOtherBank(bankLists);
         if (bankLists.noCostEMICouponList && bankLists.noCostEMICouponList[0]) {
           this.onSelectMonth(0, bankLists.noCostEMICouponList[0]);
         }
@@ -285,7 +284,10 @@ export default class NoCostEmiBankDetails extends React.Component {
       }
     }
   }
-  async onSelectMonth(index, val) {
+  async onSelectMonth(index, val, event) {
+    if (this.props.isRetryPaymentFromURL && event && event.type) {
+      return false;
+    }
     if (this.state.selectedBankName !== "Other Bank") {
       if (this.props.removeNoCostEmi && this.state.selectedCouponCode) {
         const removeNoCostEmiResponce = await this.props.removeNoCostEmi(
@@ -471,6 +473,9 @@ export default class NoCostEmiBankDetails extends React.Component {
                           key={i}
                           selectItem={() => this.handleSelect(i, val.code)}
                           selected={this.state.selectedCode === val.code}
+                          isRetryPaymentFromURL={
+                            this.props.isRetryPaymentFromURL
+                          }
                         />
                       </div>
                     );
@@ -514,7 +519,7 @@ export default class NoCostEmiBankDetails extends React.Component {
                           className={styles.monthWithCheckbox}
                           key={i}
                           value={val.emicouponCode}
-                          onClick={() => this.onSelectMonth(i, val)}
+                          onClick={event => this.onSelectMonth(i, val, event)}
                         >
                           <div className={styles.checkbox}>
                             <CheckBox
