@@ -1332,7 +1332,7 @@ class CheckOutPage extends React.Component {
     }
     this.props.clearCartDetails();
     this.props.resetIsSoftReservationFailed();
-    if (this.state.retryPaymentDetails) {
+    if (this.props.retryPaymentDetails) {
       this.props.resetFailedOrderDetails();
     }
   }
@@ -3825,7 +3825,7 @@ if you have order id in local storage then you have to show order confirmation p
                       emiBinValidationErrorMessage={
                         this.state.emiBinValidationErrorMessage
                       }
-                      retryPaymentDetails={this.state.retryPaymentDetails}
+                      retryPaymentDetails={this.props.retryPaymentDetails}
                     />
                   </div>
                 )}

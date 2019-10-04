@@ -23,7 +23,7 @@ export default class EmiPanel extends React.Component {
     }
   };
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     if (
       this.props.getEmiEligibility &&
       !this.props.cart.emiEligibilityDetails
@@ -37,7 +37,7 @@ export default class EmiPanel extends React.Component {
         this.props.retryPaymentDetails.retryFlagEmiCoupon
       ) {
         this.onChangeEMIType(NO_COST_EMI);
-        await this.getBankAndTenureDetails();
+        this.getBankAndTenureDetails();
       }
     }
   };

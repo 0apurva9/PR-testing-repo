@@ -5810,7 +5810,7 @@ export function collectPaymentOrderForGiftCard(
     let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
     const binCardType = localStorage.getItem(BIN_CARD_TYPE);
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
-    if (binCardType) {
+    if (binCardType && paymentMode !== "EMI") {
       paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
         .slice(1)
         .toLowerCase()} Card`;
@@ -5889,18 +5889,10 @@ export function collectPaymentOrder(
     let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
     const binCardType = localStorage.getItem(BIN_CARD_TYPE);
     //later correct this code , added for quick fix
-    let emiType = localStorage.getItem(EMI_TYPE);
-    if (
-      binCardType &&
-      emiType !== "No Cost EMI" &&
-      emiType !== "Standard EMI"
-    ) {
+    if (binCardType && paymentMode !== "EMI") {
       paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
         .slice(1)
         .toLowerCase()} Card`;
-    }
-    if (emiType === "No Cost EMI" || emiType === "Standard EMI") {
-      paymentMode = "EMI";
     }
     let url = queryString.parse(window.location.search);
     let binNo = cardDetails.cardNumber.replace(/\s/g, "").substring(0, 6);
@@ -5968,10 +5960,6 @@ export function collectPaymentOrder(
         } else {
           dispatch(getPrepaidOrderPaymentConfirmation(resultJson));
         }
-      }
-      //remove emitype on success
-      if (emiType) {
-        localStorage.removeItem(EMI_TYPE);
       }
     } catch (e) {
       dispatch(

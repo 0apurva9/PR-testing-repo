@@ -61,7 +61,7 @@ export default class NoCostEmiBankDetails extends React.Component {
         ) {
           let bankLists = this.props.bankList[0];
           this.handleSelect(0, bankLists.code);
-          //this.selectOtherBank(bankLists);
+          // this.selectOtherBank(bankLists);
           if (
             bankLists.noCostEMICouponList &&
             bankLists.noCostEMICouponList[0]
@@ -125,6 +125,19 @@ export default class NoCostEmiBankDetails extends React.Component {
         selectedCouponCode: emiTenureObj.emicouponCode,
         selectedBankName: this.state.selectedBankName
       });
+
+      if (
+        this.props.isRetryPaymentFromURL &&
+        this.props.bankList &&
+        this.props.bankList[0]
+      ) {
+        let bankLists = this.props.bankList[0];
+        this.handleSelect(0, bankLists.code);
+        // this.selectOtherBank(bankLists);
+        if (bankLists.noCostEMICouponList && bankLists.noCostEMICouponList[0]) {
+          this.onSelectMonth(0, bankLists.noCostEMICouponList[0]);
+        }
+      }
     }
   }
   selectOtherBank(val) {
@@ -165,6 +178,10 @@ export default class NoCostEmiBankDetails extends React.Component {
     }
   }
   handleSelect(index, code) {
+    let selectedFromDropDown = false;
+    if (this.props.isRetryPaymentFromURL) {
+      selectedFromDropDown = true;
+    }
     if (
       this.props.removeNoCostEmi &&
       this.state.selectedCouponCode &&
@@ -201,7 +218,7 @@ export default class NoCostEmiBankDetails extends React.Component {
         selectedCode: selectedBankCodeObj.code,
         selectedBankCode: selectedBankCodeObj.bankCode,
         bankName: null,
-        selectedFromDropDown: false
+        selectedFromDropDown: selectedFromDropDown
       });
     }
   }
@@ -464,7 +481,9 @@ export default class NoCostEmiBankDetails extends React.Component {
                 <div className={styles.selectHolder}>
                   <SelectBoxMobile2
                     height={33}
-                    placeholder={"Other Bank"}
+                    placeholder={
+                      !this.props.isRetryPaymentFromURL ? "Other Bank" : ""
+                    }
                     backgroundColor="#fff"
                     isEnable={this.state.selectedFromDropDown}
                     options={filteredBankListWithOutLogo.map((val, i) => {
@@ -544,6 +563,7 @@ export default class NoCostEmiBankDetails extends React.Component {
                     .noCostEMIPerMonthPayable.value * 100
                 ) / 100}`
               }
+              isRetryPaymentFromURL={this.props.isRetryPaymentFromURL}
               changePlan={() => this.changeNoCostEmiPlan()}
             />
             <CreditCardForm
