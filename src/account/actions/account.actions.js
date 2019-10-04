@@ -9,7 +9,8 @@ import {
   PDP_FOLLOW_AND_UN_FOLLOW,
   MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW,
   CHANNEL,
-  EMAIL_SENT_SUCCESS_MESSAGE
+  EMAIL_SENT_SUCCESS_MESSAGE,
+  FAILED_ORDER
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 //import findIndex from "lodash.findindex";
@@ -3638,6 +3639,9 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
       }
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
+      }
+      if (resultJson.paymentRetryUrl) {
+        localStorage.setItem(FAILED_ORDER, resultJson.paymentRetryUrl);
       }
       return dispatch(retryPaymentSuccess(resultJson));
     } catch (e) {

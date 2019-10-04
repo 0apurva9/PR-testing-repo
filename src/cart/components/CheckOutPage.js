@@ -111,7 +111,8 @@ import {
   RETRY_FAILED_ORDER_COUPON_HEADER,
   RETRY_FAILED_ORDER_COUPON,
   RETRY_FAILED_ORDER_COUPON_NOTE,
-  FAILURE_TEXT
+  FAILURE_TEXT,
+  FAILED_ORDER
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -1346,6 +1347,9 @@ class CheckOutPage extends React.Component {
     if (this.props.retryPaymentDetails) {
       this.props.resetFailedOrderDetails();
     }
+    if (localStorage.getItem(FAILED_ORDER)) {
+      localStorage.removeItem(FAILED_ORDER);
+    }
   }
   componentDidMount() {
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -1624,8 +1628,19 @@ if you have order id in local storage then you have to show order confirmation p
         JSON.stringify(this.props.location.state)
       );
     }
-    if (this.props.location.pathname === `${RETRY_FAILED_ORDER}`) {
-      const parsedQueryString = queryString.parse(this.props.location.search);
+    let failedorderRetryPayment = localStorage.getItem(FAILED_ORDER);
+    if (
+      this.props.location.pathname === `${RETRY_FAILED_ORDER}` ||
+      failedorderRetryPayment
+    ) {
+      let querySearch = this.props.location.search;
+      if (failedorderRetryPayment && !this.state.isComingFromRetryUrl) {
+        querySearch = failedorderRetryPayment.includes("?")
+          ? failedorderRetryPayment.split("?")[1]
+          : failedorderRetryPayment;
+      }
+      const parsedQueryString = queryString.parse(querySearch);
+
       let guId = parsedQueryString.value;
       let userId = parsedQueryString.userId;
       let userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
