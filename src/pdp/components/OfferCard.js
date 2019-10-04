@@ -48,37 +48,36 @@ export default class OfferCard extends React.Component {
     }
   }
   handleShowDetails = async (selectedOffer, offers) => {
+    setDataLayerForPdpDirectCalls(ADOBE_DIRECT_CALL_FOR_PDP_OFFER);
+    let Title = selectedOffer.promotionDisplayText;
     if (
-      this.props &&
-      this.props.productDetails &&
-      this.props.productDetails.rootCategory === "Electronics"
+      Title.indexOf("bundledProduct") >= 0 &&
+      (this.props &&
+        this.props.productDetails &&
+        this.props.productDetails.rootCategory === "Electronics")
     ) {
-      setDataLayerForPdpDirectCalls(ADOBE_DIRECT_CALL_FOR_PDP_OFFER);
-      let Title = selectedOffer.promotionDisplayText;
-      if (Title.indexOf("bundledProduct") >= 0) {
-        await this.getParams(Title)
-          .then(data => {
-            if (
-              data !== false &&
-              data.status !== "error" &&
-              data.status !== "Failure"
-            ) {
-              this.props.showBundledProduct(this.state.bundledData);
-            }
-          })
-          .catch(e => {
-            throw Error(e);
-          });
-      } else {
-        if (this.props.showDetails) {
-          this.props.showDetails({
-            potentialPromotions: this.props.potentialPromotions,
-            secondaryPromotions: this.props.secondaryPromotions,
-            offers: offers,
-            selectedOffer: selectedOffer,
-            showVoucherOffersModal: this.props.showVoucherOffersModal
-          });
-        }
+      await this.getParams(Title)
+        .then(data => {
+          if (
+            data !== false &&
+            data.status !== "error" &&
+            data.status !== "Failure"
+          ) {
+            this.props.showBundledProduct(this.state.bundledData);
+          }
+        })
+        .catch(e => {
+          throw Error(e);
+        });
+    } else {
+      if (this.props.showDetails) {
+        this.props.showDetails({
+          potentialPromotions: this.props.potentialPromotions,
+          secondaryPromotions: this.props.secondaryPromotions,
+          offers: offers,
+          selectedOffer: selectedOffer,
+          showVoucherOffersModal: this.props.showVoucherOffersModal
+        });
       }
     }
   };
