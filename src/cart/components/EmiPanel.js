@@ -36,6 +36,7 @@ export default class EmiPanel extends React.Component {
         this.props.retryPaymentDetails.orderRetry &&
         this.props.retryPaymentDetails.retryFlagEmiCoupon
       ) {
+        this.props.onChange({ currentPaymentMode: PAYMENT_MODE });
         this.onChangeEMIType(NO_COST_EMI);
         this.getBankAndTenureDetails();
       }
