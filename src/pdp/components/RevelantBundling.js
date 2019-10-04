@@ -7,6 +7,10 @@ import Loader from "../../general/components/SecondaryLoader";
 import { PRODUCT_CART_ROUTER } from "../../lib/constants";
 import Image from "../../xelpmoc-core/Image";
 import { RUPEE_SYMBOL } from "../../lib/constants";
+import {
+  setDataLayer,
+  ADOBE_BUNDLED_ADD_TO_CONTINUE_CLICK
+} from "../../lib/adobeUtils.js";
 const PRODUCT_QUANTITY = "1";
 export default class RevelantBundling extends React.Component {
   constructor(props) {
@@ -35,20 +39,33 @@ export default class RevelantBundling extends React.Component {
         ) {
           this.props.displayToast("Product is out of stock");
         } else {
+          let analyticsData = {};
+          analyticsData.category = this.props.productDetails.rootCategory;
+          analyticsData.id = this.props.productDetails.productListingId;
+          analyticsData.price = this.props.productDetails.winningSellerPrice.value;
+          setDataLayer(ADOBE_BUNDLED_ADD_TO_CONTINUE_CLICK, analyticsData);
           await this.props.addProductToCart(productDetails);
         }
       }
-
+      let analyticsBundledProduct = {};
       this.state.totalSelectedProducts.map((val, i) => {
         bundleProductDetails[i] = {
           code: val.productListingId,
           ussId: val.winningUssID,
           quantity: 1
         };
+        analyticsBundledProduct[i] = {
+          category: val.rootCategory,
+          id: val.productListingId,
+          price: val.winningSellerPrice.value
+        };
       });
       let response;
-
       for (var key in bundleProductDetails) {
+        setDataLayer(
+          ADOBE_BUNDLED_ADD_TO_CONTINUE_CLICK,
+          analyticsBundledProduct[key]
+        );
         response = await this.props.addProductToCart1(
           bundleProductDetails[key]
         );

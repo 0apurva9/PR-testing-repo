@@ -6,6 +6,7 @@ import {
   setDataLayerForCartDirectCalls,
   setDataLayer,
   ADOBE_DIRECT_CALL_FOR_PDP_OFFER,
+  ADOBE_PRODUCT_BUNDLED_OFFER,
   ADOBE_OFFERS_PDP,
   ADOBE_OFFER_CARD_PDP,
   ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
@@ -51,11 +52,13 @@ export default class OfferCard extends React.Component {
     setDataLayerForPdpDirectCalls(ADOBE_DIRECT_CALL_FOR_PDP_OFFER);
     let Title = selectedOffer.promotionDisplayText;
     if (
+      Title &&
       Title.indexOf("bundledProduct") >= 0 &&
       (this.props &&
         this.props.productDetails &&
         this.props.productDetails.rootCategory === "Electronics")
     ) {
+      setDataLayer(ADOBE_PRODUCT_BUNDLED_OFFER);
       await this.getParams(Title)
         .then(data => {
           if (
