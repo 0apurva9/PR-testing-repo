@@ -185,7 +185,11 @@ export default class ValidateOffersPopUp extends React.Component {
       this.props.closeModal();
     }
   }
+  componentWillUnmount() {
+    document.body.style.pointerEvents = "auto";
+  }
   render() {
+    document.body.style.pointerEvents = "none";
     const parsedQueryString = queryString.parse(this.props.location.search);
     const isPaymentFailureCase = parsedQueryString.status;
 
