@@ -944,7 +944,7 @@
 	float: left;
 }
 .productName {
-	width: 200px;
+	width: 210px;
 	height: auto;
 	font-family: light;
 	font-size: 14px;
@@ -1023,7 +1023,8 @@
 	/* padding-top: 10px; */
 	font-family: light;
 	float: left;
-    width: auto;
+	width: auto;
+	padding-left: 5px;
 }
 .priceCancelled {
 	composes: priceHolder;
@@ -1213,7 +1214,7 @@ width: 20px;
 	  display: inline
   }
   .bundleContentForOneProduct{
-	width: 38%;
+	width: 50%;
 	padding-left: 15px;
 	float: left;
   }
@@ -1233,4 +1234,5 @@ width: 20px;
 	/* padding-top: 10px; */
 	font-family: light;
 	padding-left: 18px;
+	float: left;
 }
