@@ -125,6 +125,14 @@ export default class ValidateOffersPopUp extends React.Component {
           releaseStatus = await this.props.releaseUserCoupon(
             this.props.result.userCoupon.couponCode
           );
+        } else if (
+          this.props.result.userCoupon &&
+          this.props.result.userCoupon.couponCode
+        ) {
+          releaseStatus = await this.props.releaseUserCoupon(
+            this.props.result.userCoupon.couponCode
+          );
+          this.props.closeModal();
         }
       }
     } else if (this.props.result && this.props.result.bankOffer) {

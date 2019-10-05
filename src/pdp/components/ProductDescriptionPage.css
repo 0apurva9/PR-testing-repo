@@ -929,7 +929,7 @@
 	padding-bottom: 5.3px;
 }
 .brandName {
-	width: 100px;
+	width: 200px;
 	height: 17px;
 	font-family: regular;
 	font-size: 14px;
@@ -939,12 +939,12 @@
 	line-height: normal;
 	letter-spacing: normal;
 	color: rgba(33, 33, 33, 0.93);
-	display: inline-block;
 	margin-bottom: 10px;
 	padding-left: 4px;
+	float: left;
 }
 .productName {
-	width: 145px;
+	width: 210px;
 	height: auto;
 	font-family: light;
 	font-size: 14px;
@@ -955,6 +955,7 @@
 	letter-spacing: normal;
 	color: rgba(33, 33, 33, 0.93);
 	padding-left: 4px;
+	float: left;
 }
 .reactSelectOption {
 	width: 22%;
@@ -1021,19 +1022,24 @@
 	color: #212121;
 	/* padding-top: 10px; */
 	font-family: light;
+	float: left;
+	width: auto;
+	padding-left: 5px;
 }
 .priceCancelled {
 	composes: priceHolder;
 	text-decoration: line-through;
 	color: #9b9b9b;
 	font-size: 14px;
+	float: left;
 }
 .discountClass {
 	color: rgb(255, 23, 68);
-	display: inline-block;
 	margin-left: 6px;
 	font-size: 14px;
 	font-family: light;
+	float: left;
+    line-height: 1.7;
 }
 .checkbox {
 	width: 20px;
@@ -1208,9 +1214,9 @@ width: 20px;
 	  display: inline
   }
   .bundleContentForOneProduct{
-	width: 25%;
-	display: inline-block;
+	width: 50%;
 	padding-left: 15px;
+	float: left;
   }
   .discountClassForOneProduct{
 	color: rgb(255, 23, 68);
@@ -1227,5 +1233,6 @@ width: 20px;
 	color: #212121;
 	/* padding-top: 10px; */
 	font-family: light;
-	padding-left: 15px;
+	padding-left: 18px;
+	float: left;
 }
