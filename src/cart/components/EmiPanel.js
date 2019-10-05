@@ -222,6 +222,7 @@ export default class EmiPanel extends React.Component {
                       this.props.emiBinValidationErrorMessage
                     }
                     isRetryPaymentFromURL={isRetryPaymentFromURL}
+                    retryPaymentDetails={this.props.retryPaymentDetails}
                   />
                 </NoCostEmi>
               </div>
