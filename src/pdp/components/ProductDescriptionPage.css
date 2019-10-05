@@ -939,9 +939,9 @@
 	line-height: normal;
 	letter-spacing: normal;
 	color: rgba(33, 33, 33, 0.93);
-	display: inline-block;
 	margin-bottom: 10px;
 	padding-left: 4px;
+	float: left;
 }
 .productName {
 	width: 145px;
@@ -955,6 +955,7 @@
 	letter-spacing: normal;
 	color: rgba(33, 33, 33, 0.93);
 	padding-left: 4px;
+	float: left;
 }
 .reactSelectOption {
 	width: 22%;
@@ -1208,9 +1209,9 @@ width: 20px;
 	  display: inline
   }
   .bundleContentForOneProduct{
-	width: 25%;
-	display: inline-block;
+	width: 38%;
 	padding-left: 15px;
+	float: left;
   }
   .discountClassForOneProduct{
 	color: rgb(255, 23, 68);
@@ -1227,5 +1228,5 @@ width: 20px;
 	color: #212121;
 	/* padding-top: 10px; */
 	font-family: light;
-	padding-left: 15px;
+	padding-left: 18px;
 }
