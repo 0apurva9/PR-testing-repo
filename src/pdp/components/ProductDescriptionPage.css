@@ -929,7 +929,7 @@
 	padding-bottom: 5.3px;
 }
 .brandName {
-	width: 100px;
+	width: 200px;
 	height: 17px;
 	font-family: regular;
 	font-size: 14px;
@@ -944,7 +944,7 @@
 	float: left;
 }
 .productName {
-	width: 145px;
+	width: 200px;
 	height: auto;
 	font-family: light;
 	font-size: 14px;
@@ -1022,19 +1022,23 @@
 	color: #212121;
 	/* padding-top: 10px; */
 	font-family: light;
+	float: left;
+    width: auto;
 }
 .priceCancelled {
 	composes: priceHolder;
 	text-decoration: line-through;
 	color: #9b9b9b;
 	font-size: 14px;
+	float: left;
 }
 .discountClass {
 	color: rgb(255, 23, 68);
-	display: inline-block;
 	margin-left: 6px;
 	font-size: 14px;
 	font-family: light;
+	float: left;
+    line-height: 1.7;
 }
 .checkbox {
 	width: 20px;
