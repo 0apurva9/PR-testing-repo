@@ -110,7 +110,13 @@ export default class OfferCard extends React.Component {
         params.bundledProductCode
       );
       let cartPromotionText = params && params.cartPromotionText;
-      localStorage.setItem("cartPromotionText", cartPromotionText);
+      var replacedDollarInCartPromotionText = cartPromotionText
+        .split("$")
+        .join(" ");
+      localStorage.setItem(
+        "cartPromotionText",
+        replacedDollarInCartPromotionText
+      );
       if (
         bundleProduct &&
         bundleProduct.status === "success" &&
