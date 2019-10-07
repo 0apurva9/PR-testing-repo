@@ -97,7 +97,7 @@
   height: 20px;
   color: #fff;
   font-size: 10px;
-  background: url(/static/media/flag.887290d5.svg) no-repeat;
+  background: url(../components/img/flag.svg) no-repeat;
   font-family: bolder;
   background-size: contain;
   position: absolute;
