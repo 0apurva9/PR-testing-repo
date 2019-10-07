@@ -161,7 +161,7 @@ export default class NoCostEmiBankDetails extends React.Component {
     this.setState({
       selectedBankIndex: selectedBankIndex,
       selectedBankName: selectedBankName,
-      selectedBankCode: selectedCode,
+      selectedBankCode: selectedBankCodeObj.bankCode,
       selectedCode,
       selectedFromDropDown: true,
       selectedMonth: null
