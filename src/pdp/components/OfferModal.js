@@ -75,7 +75,13 @@ export default class VoucherOfferModal extends React.Component {
         return false;
       }
       let cartPromotionText = params && params.cartPromotionText;
-      localStorage.setItem("cartPromotionText", cartPromotionText);
+      var replacedDollarInCartPromotionText = cartPromotionText
+        .split("$")
+        .join(" ");
+      localStorage.setItem(
+        "cartPromotionText",
+        replacedDollarInCartPromotionText
+      );
       if (bundleProduct.status === "success") {
         let pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
           ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
