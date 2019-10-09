@@ -11,26 +11,26 @@ export default class ItemLevelPopup extends React.Component {
     let emiItemDetails = this.props.emiItemDetails;
     let noCostEMIProduct = 0,
       nonNoCostEMIProduct = 0;
-    const noCostEMIApplicableProduct = this.props.emiItemDetails.itemBreakUpDetailList.filter(
-      product => {
+    const noCostEMIApplicableProduct =
+      emiItemDetails.itemBreakUpDetailList &&
+      emiItemDetails.itemBreakUpDetailList.filter(product => {
         return (
           product &&
           product.lineValue &&
           product.lineValue.value > 1 &&
           product.isNoCostEMIEligible
         );
-      }
-    );
-    const nonNoCostEMIApplicableProduct = this.props.emiItemDetails.itemBreakUpDetailList.filter(
-      product => {
+      });
+    const nonNoCostEMIApplicableProduct =
+      emiItemDetails.itemBreakUpDetailList &&
+      emiItemDetails.itemBreakUpDetailList.filter(product => {
         return (
           product &&
           product.lineValue &&
           product.lineValue.value > 1 &&
           !product.isNoCostEMIEligible
         );
-      }
-    );
+      });
     if (noCostEMIApplicableProduct) {
       noCostEMIProduct = noCostEMIApplicableProduct.length;
     }
