@@ -3274,7 +3274,11 @@ if you have order id in local storage then you have to show order confirmation p
       if (!this.state.savedCardDetails) {
         return true;
       } else {
-        return false;
+        if (this.props.binValidationStatus !== "success") {
+          return true;
+        } else {
+          return false;
+        }
       }
     } else return false;
   };

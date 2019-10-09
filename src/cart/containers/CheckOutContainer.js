@@ -742,7 +742,8 @@ const mapStateToProps = state => {
     addUserAddressStatus: state.profile.addUserAddressStatus,
     loading: state.profile.loading,
     retryPaymentDetails: state.profile.retryPaymentDetails,
-    retryPaymentDetailsStatus: state.profile.retryPaymentDetailsStatus
+    retryPaymentDetailsStatus: state.profile.retryPaymentDetailsStatus,
+    binValidationStatus: state.cart.binValidationStatus
   };
 };
 
