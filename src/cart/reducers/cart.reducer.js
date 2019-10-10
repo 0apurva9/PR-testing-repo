@@ -1083,6 +1083,7 @@ const cart = (
     case cartActions.BIN_VALIDATION_REQUEST:
       return Object.assign({}, state, {
         binValidationStatus: action.status,
+        binValidationDetails: null,
         loading: false
       });
 
