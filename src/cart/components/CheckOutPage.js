@@ -910,6 +910,7 @@ class CheckOutPage extends React.Component {
           egvCartGuid: giftCartObj.egvCartGuid
         });
       }
+
       if (localStorage.getItem(RETRY_PAYMENT_CART_ID)) {
         let retryPaymentDetailsObj = JSON.parse(
           localStorage.getItem(RETRY_PAYMENT_DETAILS)
@@ -1423,6 +1424,7 @@ if you have order id in local storage then you have to show order confirmation p
         }
       }
       this.props.getPaymentFailureOrderDetails();
+
       if (localStorage.getItem(EGV_GIFT_CART_ID)) {
         let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
         this.setState({
@@ -1543,6 +1545,12 @@ if you have order id in local storage then you have to show order confirmation p
         localStorage.getItem(RETRY_PAYMENT_DETAILS)
       );
       let retryCartId = JSON.parse(localStorage.getItem(RETRY_PAYMENT_CART_ID));
+      if (!retryCartId) {
+        let querySearch = this.props.location.search;
+        const parsedQueryString = queryString.parse(querySearch);
+        retryCartId = parsedQueryString.value;
+      }
+
       this.setState(
         {
           isComingFromRetryUrl: true,
