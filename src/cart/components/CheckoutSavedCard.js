@@ -97,6 +97,7 @@ export default class CheckoutSavedCard extends React.Component {
                 onCheckout={this.props.onCheckout}
                 selectedSavedCardDetails={this.props.selectedSavedCardDetails}
                 currentPaymentMode={this.props.currentPaymentMode}
+                binValidationResponse={this.props.binValidationResponse}
               />
             );
           })}
