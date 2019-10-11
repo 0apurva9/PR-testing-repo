@@ -142,7 +142,6 @@ export default class PaymentCardWrapper extends React.Component {
           this.props.cart.paymentModes.savedCardResponse.savedCardDetailsMap
         }
         onCheckout={this.props.onCheckout}
-        binValidationResponse={this.props.cart.binValidationDetails}
       />
     );
   };

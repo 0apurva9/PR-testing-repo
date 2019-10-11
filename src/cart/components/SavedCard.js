@@ -84,28 +84,9 @@ export default class SavedCard extends React.Component {
             <div className={styles.buttonHolder}>
               {this.props.selectedSavedCardDetails &&
                 this.props.selectedSavedCardDetails.cardEndingDigits ===
-                  this.props.cardNumber &&
-                this.props.binValidationResponse && (
+                  this.props.cardNumber && (
                   <Button
                     disabled={this.props.validateSavedCard()}
-                    type="primary"
-                    backgroundColor="#ff1744"
-                    height={40}
-                    label="Pay now"
-                    width={150}
-                    textStyle={{
-                      color: "#FFF",
-                      fontSize: 14
-                    }}
-                    onClick={this.handleClick}
-                  />
-                )}
-              {this.props.selectedSavedCardDetails &&
-                this.props.selectedSavedCardDetails.cardEndingDigits ===
-                  this.props.cardNumber &&
-                !this.props.binValidationResponse && (
-                  <Button
-                    disabled={true}
                     type="primary"
                     backgroundColor="#ff1744"
                     height={40}
