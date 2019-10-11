@@ -264,10 +264,30 @@
       });
     </script>
     <!-- End -- Adding Script for Gemini Integration-->
-    <!-- Stripe.js -->
-    <script src="https://js.stripe.com/v2/"></script>
-    <script src="https://js.stripe.com/v3/"></script>
-    <!-- Stripe.js end -->
+        <!-- Stripe.js -->
+        <script type="text/javascript">
+          function stripev2(){
+          var n = document.createElement("script");
+          n.src = ('https:' == document.location.protocol ? 'https://js.stripe.com/v2/':
+              'https://js.stripe.com/v2/');
+          n.type = 'text/javascript';
+          n.async = true;
+          var s1 = document.getElementsByTagName('script')[0];
+          s1.parentNode.insertBefore(n, s1);
+        
+      };
+      function stripev3(){
+          var n = document.createElement("script");
+          n.src = ('https:' == document.location.protocol ? 'https://js.stripe.com/v3/':
+              'https://js.stripe.com/v3/');
+          n.type = 'text/javascript';
+          n.async = true;
+          var s1 = document.getElementsByTagName('script')[0];
+          s1.parentNode.insertBefore(n, s1);
+        
+      };
+          </script>
+         <!-- Stripe.js end -->
     <script type="text/javascript">
       window.prerenderReady = false;
     </script>
@@ -440,6 +460,8 @@
       };
       window.onload = function() {
         youPlus(window, document);
+        stripev2();
+        stripev3();
       };
 
     </script>
@@ -448,6 +470,8 @@
       function youPlus(t,e){var n=e.createElement("script"),o=e.getElementsByTagName("script")[0];n.async=!0,n.src="https://d1uck549nef0ok.cloudfront.net/youplus.opinion.dev.js?v="+Date.now().toString(),n.charset="UTF-8",n.type="text/javascript",o.parentNode.insertBefore(n,o)};
       window.onload = function() {
         youPlus(window, document);
+        stripev2();
+        stripev3();
       };
     </script>
   <% } %>
