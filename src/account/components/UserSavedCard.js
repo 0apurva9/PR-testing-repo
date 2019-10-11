@@ -25,6 +25,10 @@ import {
   JCB_CARD,
   MASTER
 } from "../../lib/constants";
+import {
+  setDataLayer,
+  ADOBE_MY_ACCOUNT_SAVED_PAYMENTS
+} from "../../lib/adobeUtils";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";
@@ -58,6 +62,7 @@ export default class UserSavedCard extends React.Component {
   }
 
   componentDidMount() {
+    setDataLayer(ADOBE_MY_ACCOUNT_SAVED_PAYMENTS);
     document.title = "My Saved Cards ";
     this.props.setHeaderText(SAVED_PAYMENTS);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -73,6 +78,7 @@ export default class UserSavedCard extends React.Component {
   }
 
   componentDidUpdate() {
+    setDataLayer(ADOBE_MY_ACCOUNT_SAVED_PAYMENTS);
     this.props.setHeaderText(SAVED_PAYMENTS);
   }
   removeSavedCardDetails = cardToken => {

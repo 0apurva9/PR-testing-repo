@@ -99,18 +99,19 @@ const ADOBE_CLP_DIRECT_CALL = "cpj_category_pages";
 // end of cosnt for BLP and CLP
 
 // type of hierarchy for MY_ACCOUNT
-const MY_ACCOUNT_OVERVIEW = "myaccount_overview";
-const MY_ACCOUNT_SAVED_LIST = "myaccount_default_wishlist";
-const MY_ACCOUNT_ADDRESS_BOOK = "myaccount_address_book";
-const MY_ACCOUNT_BRANDS = "myaccount_brands";
-const MY_ACCOUNT_ORDER_HISTORY = "order history page";
+const MY_ACCOUNT_OVERVIEW = "my_account"; //myaccount_overview
+const MY_ACCOUNT_SAVED_LIST = "wishList"; //myaccount_default_wishlist
+const MY_ACCOUNT_ADDRESS_BOOK = "address_book"; //myaccount_address_book
+const MY_ACCOUNT_BRANDS = "brands"; //myaccount_brands
+const MY_ACCOUNT_ORDER_HISTORY = "orders_history"; //order history page
 const MY_ACCOUNT_ORDER_DETAIL = "order details page";
-const MY_ACCOUNT_SAVED_PAYMENTS = "myaccount_payment_details";
-const MY_ACCOUNT_ALERTS = "myaccount_alerts";
-const MY_ACCOUNT_COUPONS = "myaccount_coupons";
+const MY_ACCOUNT_SAVED_PAYMENTS = "payment_details"; //myaccount_payment_details
+const MY_ACCOUNT_ALERTS = "alerts"; //myaccount_alerts
+const MY_ACCOUNT_COUPONS = "coupons"; //myaccount_coupons
 const MY_ACCOUNT_GIFT_CARD = "myaccount_gift_card";
-const MY_ACCOUNT_CLIQ_CASH = "myaccount_cliq_cash";
-const MY_ACCOUNT_SETTING = "myaccount_update_setting";
+const MY_ACCOUNT_CLIQ_CASH = "cliq_cash"; //myaccount_cliq_cash
+const MY_ACCOUNT_SETTING = "update_profile"; //myaccount_update_setting
+const MY_ACCOUNT_REVIEW = "my_review";
 // end of type of hierarchy for my Account
 
 // const for follow and un follow brands adobe calls
@@ -245,6 +246,8 @@ export const ADOBE_MY_ACCOUNT_COUPONS = "ADOBE_MY_ACCOUNT_COUPONS";
 export const ADOBE_MY_ACCOUNT_GIFT_CARD = "ADOBE_MY_ACCOUNT_GIFT_CARD";
 export const ADOBE_MY_ACCOUNT_CLIQ_CASH = "ADOBE_MY_ACCOUNT_CLIQ_CASH";
 export const AODBE_MY_ACCOUNT_SETTINGS = "AODBE_MY_ACCOUNT_SETTINGS";
+export const AODBE_MY_ACCOUNT_REVIEW = "AODBE_MY_ACCOUNT_REVIEW";
+
 // end of my Account section
 
 export const ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS =
@@ -583,6 +586,9 @@ export function setDataLayer(
   }
   if (type === AODBE_MY_ACCOUNT_SETTINGS) {
     window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_SETTING);
+  }
+  if (type === AODBE_MY_ACCOUNT_REVIEW) {
+    window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_REVIEW);
   }
   if (type === ADOBE_MY_ACCOUNT_ORDER_DETAILS) {
     window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_ORDER_DETAIL);
