@@ -7,7 +7,7 @@ const mapDispatchToProps = dispatch => {
   return {
     getMsdRequest: async (productCode, similarProduct, filters) => {
       await dispatch(
-        getMsdRequest(productCode, similarProduct, filters, [20, 20])
+        getMsdRequest(productCode, similarProduct, filters, [5, 5])
       );
     }
   };
