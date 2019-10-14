@@ -1036,6 +1036,17 @@ class CheckOutPage extends React.Component {
         RETRY_PAYMENT_DETAILS,
         JSON.stringify(retryPaymentDetailsObject)
       );
+      // Updated total amount in state for retry payment
+      this.setState({
+        payableAmount:
+          Math.round(
+            retryPaymentDetailsObject &&
+              retryPaymentDetailsObject.retryPaymentDetails &&
+              retryPaymentDetailsObject.retryPaymentDetails.cartAmount &&
+              retryPaymentDetailsObject.retryPaymentDetails.cartAmount
+                .paybleAmount.doubleValue * 100
+          ) / 100
+      });
     }
     // end of adding default address is selected
     // adding selected default delivery modes for every product for retry payment
