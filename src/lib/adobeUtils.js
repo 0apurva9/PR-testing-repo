@@ -148,6 +148,7 @@ export const ADOBE_CHECKOUT_TYPE = "checkout";
 export const ADOBE_PLP_TYPE = "plp";
 export const ADOBE_ORDER_CANCEL = "order_cancellation";
 export const ADOBE_ORDER_RETURN_CANCEL = "order_returns_cancel";
+export const ADOBE_RETURN_CANCEL = "order_returns_cancel";
 export const ADOBE_ORDER_RETURN = "cpj_order_return";
 export const ICID2 = "ICID2";
 export const CID = "CID";
@@ -260,6 +261,7 @@ export const ADOBE_MY_ACCOUNT_CANCEL_ORDER_SUCCESS =
   "ADOBE_MY_ACCOUNT_CANCEL_ORDER_SUCCESS";
 export const ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL =
   "ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL";
+export const ADOBE_MY_ACCOUNT_RETURN_CANCEL = "ADOBE_MY_ACCOUNT_RETURN_CANCEL";
 export const ADOBE_MY_ACCOUNT_ORDER_RETURN = "ADOBE_MY_ACCOUNT_ORDER_RETURN";
 // end of const for my account adobe call
 
@@ -2183,6 +2185,11 @@ export function setDataLayerForMyAccountDirectCalls(
   if (type === ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL) {
     if (window._satellite) {
       window._satellite.track(ADOBE_ORDER_RETURN_CANCEL);
+    }
+  }
+  if (type === ADOBE_MY_ACCOUNT_RETURN_CANCEL) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_RETURN_CANCEL);
     }
   }
   if (type === ADOBE_MY_ACCOUNT_ORDER_RETURN) {

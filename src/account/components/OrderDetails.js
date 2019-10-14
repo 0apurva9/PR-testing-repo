@@ -50,7 +50,8 @@ import {
   ADOBE_RETURN_LINK_CLICKED,
   ADOBE_REQUEST_INVOICE_LINK_CLICKED,
   ADOBE_HELP_SUPPORT_LINK_CLICKED,
-  ADOBE_RETURN_JOURNEY_INITIATED
+  ADOBE_RETURN_JOURNEY_INITIATED,
+  ADOBE_MY_ACCOUNT_RETURN_CANCEL
 } from "../../lib/adobeUtils";
 const dateFormat = "DD MMM YYYY";
 const PRODUCT_RETURN = "Return";
@@ -319,6 +320,7 @@ export default class OrderDetails extends React.Component {
     return pickupDate;
   }
   cancelReturnRequest(transactionId, orderCode) {
+    setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_RETURN_CANCEL);
     this.props.history.push({
       pathname: `${CANCEL_RETURN_REQUEST}/${orderCode}/${transactionId}`
     });
