@@ -537,7 +537,7 @@ export default class NoCostEmiBankDetails extends React.Component {
                   })
                   .map((val, i) => {
                     return (
-                      <div className={styles.bankLogo}>
+                      <div className={styles.bankLogo} key={i}>
                         <BankSelect
                           image={val.logoUrl}
                           value={val.code}
