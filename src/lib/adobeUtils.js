@@ -68,6 +68,7 @@ const ADOBE_DIRECT_CALL_FOR_SAVE_PORDUCT_ON_CART = "cpj_cart_button_save";
 // end of direct call url for cart page
 const ADOBE_ORDER_CONFIRMATION_FAILURE = "cpj_order_fail";
 const ADOBE_ORDER_CONFIRMATION_SUCCESS = "cpj_order_successful";
+const ADOBE_PAYMENT_CHECKOUT_SUCCESSFUL = "cpj_checkout_payment_successful";
 
 // checkout adobe constants
 const ADOBE_LANDING_ON_ADDRESS_PAGE = "cpj_checkout_proceed_to_address";
@@ -89,6 +90,8 @@ const ADOBE_CHECKOUT_APPLIED_CNC = "CPJ_Checkout_Delivery_CLiQ";
 // end of checkout adobe constants
 // direct call for login tracking
 
+const BRAND_PAGE = "brand page";
+
 const ADOBE_LOGIN_SUCCESS = "login_successful";
 const ADOBE_LOGIN_FAILURE = "login_failed";
 // end of direct call for login tracking
@@ -108,7 +111,7 @@ const MY_ACCOUNT_ORDER_DETAIL = "order details page";
 const MY_ACCOUNT_SAVED_PAYMENTS = "payment_details"; //myaccount_payment_details
 const MY_ACCOUNT_ALERTS = "alerts"; //myaccount_alerts
 const MY_ACCOUNT_COUPONS = "coupons"; //myaccount_coupons
-const MY_ACCOUNT_GIFT_CARD = "myaccount_gift_card";
+const MY_ACCOUNT_GIFT_CARD = "gift_card"; //myaccount_gift_card
 const MY_ACCOUNT_CLIQ_CASH = "cliq_cash"; //myaccount_cliq_cash
 const MY_ACCOUNT_SETTING = "update_profile"; //myaccount_update_setting
 const MY_ACCOUNT_REVIEW = "my_review";
@@ -423,6 +426,15 @@ export const ADOBE_RETURN_REASON_BUTTON_CLICKED =
 const RETURN_JOURNEY_INITIATED = "rrj_returnJourneyInitiate";
 export const ADOBE_RETURN_JOURNEY_INITIATED = "ADOBE_RETURN_JOURNEY_INITIATED";
 
+export const ABOUT_US = "about_us";
+export const HELP = "helps";
+export const CUSTOMER_CARE = "customer_care";
+export const CONTACT_US = "contact_us";
+export const SET_DATA_LAYER_ABOUTUS = "SET_DATA_LAYER_ABOUTUS";
+export const SET_DATA_LAYER_HELP = "SET_DATA_LAYER_HELP";
+export const SET_DATA_LAYER_CC = "SET_DATA_LAYER_CC";
+export const SET_DATA_LAYER_CONTACTUS = "SET_DATA_LAYER_CONTACTUS";
+
 //Refund flow
 const REFUNDSUMMARY_ORDERDETAILS_BUTTON_CLICKED = "rrj_viewOrderDetails_click";
 export const ADOBE_REFUNDSUMMARY_ORDERDETAILS_BUTTON_CLICKED =
@@ -596,7 +608,7 @@ export function setDataLayer(
     window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_ORDER_DETAIL);
   }
   if (type === ADOBE_BLP_PAGE_LOAD) {
-    window.digitalData = getDigitalDataForBLP(response);
+    window.digitalData = getDigitalDataForBLP(BRAND_PAGE, response);
     if (window._satellite) {
       window._satellite.track(ADOBE_BLP_DIRECT_CALL);
     }
@@ -937,7 +949,8 @@ function getDigitalDataForCart(type, cartResponse) {
         primaryCategory: "cart"
       },
       pageInfo: {
-        pageName: "cart page"
+        pageName: "Cart Page",
+        pageType: "Cart Page"
       }
     }
   };
@@ -1907,13 +1920,15 @@ export function setDataLayerForOrderConfirmationDirectCalls(
     window.digitalData = previousData;
     if (window._satellite) {
       window._satellite.track(ADOBE_ORDER_CONFIRMATION_SUCCESS);
+      window._satellite.track(ADOBE_PAYMENT_CHECKOUT_SUCCESSFUL);
     }
   }
   if (type === ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE) {
     const data = {
       page: {
         pageInfo: {
-          pageName: "order failed"
+          pageName: "order failed",
+          pageType: "Order Fail"
         },
         category: {
           primaryCategory: "orderfailed"
@@ -2248,13 +2263,14 @@ export function getDigitalDataForMyAccount(pageTitle, response) {
   }
   return data;
 }
-export function getDigitalDataForBLP(response) {
+export function getDigitalDataForBLP(pgName, response) {
   const data = {};
   let pageTitle = "";
   if (response.pageName) {
     Object.assign(data, {
       page: {
-        pageName: response.pageName
+        pageName: pgName
+        // pageName: response.pageName
       }
     });
   }
@@ -2661,6 +2677,7 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
         headerName: "Brands"
       }
     });
+    window.digitalData.page.pageInfo.pageName = "brand page";
     window.digitalData = currentDigitalData;
     if (window._satellite) {
       window._satellite.track(BRAND_CLICK);
@@ -2762,6 +2779,15 @@ export function setDataLayerForStoryModal(type) {
 }
 export function setDataLayerForFaqAndTc(type) {
   if (type === SET_DATA_LAYER_FAQ) {
+    let data = window.digitalData;
+    Object.assign(data, {
+      page: {
+        pageInfo: {
+          pageName: FAQ
+        }
+      }
+    });
+    window.digitalData = data;
     if (window._satellite) {
       window._satellite.track(FAQ);
     }
@@ -2770,6 +2796,50 @@ export function setDataLayerForFaqAndTc(type) {
     if (window._satellite) {
       window._satellite.track(TC);
     }
+  }
+  if (type == SET_DATA_LAYER_ABOUTUS) {
+    let data = window.digitalData;
+    Object.assign(data, {
+      page: {
+        pageInfo: {
+          pageName: ABOUT_US
+        }
+      }
+    });
+    window.digitalData = data;
+  }
+  if (type == SET_DATA_LAYER_HELP) {
+    let data = window.digitalData;
+    Object.assign(data, {
+      page: {
+        pageInfo: {
+          pageName: HELP
+        }
+      }
+    });
+    window.digitalData = data;
+  }
+  if (type == SET_DATA_LAYER_CC) {
+    let data = window.digitalData;
+    Object.assign(data, {
+      page: {
+        pageInfo: {
+          pageName: CUSTOMER_CARE
+        }
+      }
+    });
+    window.digitalData = data;
+  }
+  if (type == SET_DATA_LAYER_CONTACTUS) {
+    let data = window.digitalData;
+    Object.assign(data, {
+      page: {
+        pageInfo: {
+          pageName: CONTACT_US
+        }
+      }
+    });
+    window.digitalData = data;
   }
 }
 export function setDataLayerForGiftCard(type) {
