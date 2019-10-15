@@ -127,6 +127,7 @@ export default class DesktopCheckout extends React.Component {
                 </div>
               )}
             {cartAmount.noCostEMIDiscountValue &&
+              !this.props.noCostEmiEligibility &&
               cartAmount.noCostEMIDiscountValue.value !== 0 && (
                 <div className={styles.row}>
                   <div className={styles.label}>No Cost EMI Discount</div>
