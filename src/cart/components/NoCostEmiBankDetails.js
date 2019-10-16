@@ -138,6 +138,20 @@ export default class NoCostEmiBankDetails extends React.Component {
         selectedBankName: this.state.selectedBankName
       });
     }
+    if (nextProps.cardDetails !== this.props.cardDetails) {
+      if (Object.keys(nextProps.cardDetails).length == 0) {
+        this.setState({
+          selectedBankIndex: null,
+          selectedMonth: null,
+          showAll: false,
+          selectedBankName: null,
+          selectedCode: null,
+          selectedCouponCode: null,
+          selectedTenure: null,
+          selectedFromDropDown: false
+        });
+      }
+    }
   }
   selectOtherBank(val) {
     if (

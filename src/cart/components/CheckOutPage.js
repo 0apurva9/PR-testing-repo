@@ -305,7 +305,8 @@ class CheckOutPage extends React.Component {
       paymentModeSelected: null,
       binValidationCOD: false,
       emiBinValidationErrorMessage: null,
-      emiBinValidationStatus: false
+      emiBinValidationStatus: false,
+      currentSelectedEMIType: null
     });
   };
   navigateToJusPayOnGET(url) {
