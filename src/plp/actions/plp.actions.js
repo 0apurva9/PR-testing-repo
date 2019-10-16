@@ -382,10 +382,12 @@ export function nullSearchMsd() {
       trendingProducts.append("mad_uuid", await getMcvId());
       trendingProducts.append("details", true);
       if (userDetails) {
-        trendingProducts.append("num_results", "[5, 5, 10]");
+        // trendingProducts.append("num_results", "[5, 5, 10]");
+        trendingProducts.append("num_results", "[1, 1, 3]");
         trendingProducts.append("widget_list", "[7, 1, 3]");
       } else {
-        trendingProducts.append("num_results", "[10]");
+        // trendingProducts.append("num_results", "[10]");
+        trendingProducts.append("num_results", "[5]");
         trendingProducts.append("widget_list", "[3]");
       }
       const trendingproductresult = await api.postMsd(
