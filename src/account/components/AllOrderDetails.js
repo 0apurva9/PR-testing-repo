@@ -54,6 +54,8 @@ import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import throttle from "lodash.throttle";
 import {
   setDataLayer,
+  setDataLayerForCartDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING,
   ADOBE_MY_ACCOUNT_ORDER_HISTORY,
   ADOBE_ORDER_DETAILS_LINK_CLICKED,
   ADOBE_HELP_SUPPORT_LINK_CLICKED
@@ -159,6 +161,7 @@ export default class AllOrderDetails extends React.Component {
     this.props.history.push(urlSuffix);
   };
   renderToContinueShopping() {
+    setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
   }
   handleScroll = () => {

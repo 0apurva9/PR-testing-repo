@@ -6,6 +6,10 @@ import ControlTextArea from "../../general/components/ControlTextArea.js";
 import FeedBackRateGrid from "./FeedBackRateGrid";
 import { FEEDBACK, HOME_ROUTER } from "../../lib/constants";
 import Button from "../../general/components/Button.js";
+import {
+  setDataLayerForCartDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING
+} from "../../lib/adobeUtils";
 export default class FeedBackForm extends React.Component {
   constructor(props) {
     super(props);
@@ -54,6 +58,7 @@ export default class FeedBackForm extends React.Component {
     this.setState({ textDetails: "", isReset: true, selected: false });
   };
   onContinueShopping() {
+    setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
   }
   onSumbmit() {
