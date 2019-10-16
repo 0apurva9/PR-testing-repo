@@ -43,6 +43,7 @@ const INTERNAL_CAMPAIGN_TRACK = "internal_campaign";
 const ADOBE_PDP_CPJ = "cpj_pdp";
 const ADOBE_OUT_OF_STOCK_PDP = "out_of_stock";
 const ADOBE_ADD_TO_CART = "cpj_add_to_cart";
+const ADOBE_ADD_TO_CART_BUTTON = "add_to_cart";
 const ADOBE_BUY_NOW = "cpj_buy_now";
 
 const ADOBE_SAVE_PRODUCT = "cpj_button_save";
@@ -71,6 +72,7 @@ const ADOBE_ORDER_CONFIRMATION_SUCCESS = "cpj_order_successful";
 const ADOBE_PAYMENT_CHECKOUT_SUCCESSFUL = "cpj_checkout_payment_successful";
 
 // checkout adobe constants
+const ADOBE_CHECKOUT_DEFAULT_ADDRESS = "cpj_checkout_default_address";
 const ADOBE_LANDING_ON_ADDRESS_PAGE = "cpj_checkout_proceed_to_address";
 const ADD_NEW_ADDRESS_ON_CHECKOUT = "cpj_checkout_addNewAddress";
 const ADD_NEW_ADDRESS_ON_MY_ACCOUNT = "cpj_myAccount_addNewAddress";
@@ -80,7 +82,7 @@ const ADOVE_PROCEED_FROM_DELIVERY_MODE = "cpj_checkout_delivery_option";
 const ADOBE_LANDS_ON_PAYMENT_MODES = "cpj_checkout_proceed_to_payment";
 const ADOBE_SELECT_PAYMENT_MODES = "cpj_checkout_payment_selection";
 const ADOBE_FINAL_PAYMENT = "cpj_place_order";
-const ADOBE_SEE_ALL_BANK_OFFERS = "CPJ_Checkout_Offer_Allbankoffer";
+const ADOBE_SEE_ALL_BANK_OFFERS = "cpj_checkout_allbank_offers"; //CPJ_Checkout_Offer_Allbankoffer
 const ADOBE_CLIQ_CASH_ON = "CPJ_Checkout_Payment_ToggleOn";
 const ADOBE_CLIQ_CASH_OFF = "CPJ_Checkout_Payment_ToggleOff";
 const ADOBE_CHECKOUT_APPLY_COUPON_SUCCESS =
@@ -124,6 +126,8 @@ const ADOBE_ON_CLICK_WIDGETS = "cpj_widget_followed";
 // end of const for follow and un follow brands adobe calls
 // const or adobe call for internal search call
 const ADOBE_INTERNAL_SEARCH_SUCCESS = "internal_search";
+const ADOBE_INTERNAL_SEARCH_SUCCESS_SP = "search_history";
+const ADOBE_INTERNAL_SEARCH_SUCCESS_TRENDING = "trending_now";
 const ADOBE_INTERNAL_SEARCH_NULL = "null_search";
 const AUTO_SUGGEST_SEARCH = "auto_suggest_search_click";
 // end of const or adobe call for internal search call
@@ -138,6 +142,11 @@ const LOGIN_START = "login_start";
 // internal search Adobe call const
 export const ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT =
   "ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT";
+export const ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_SP = "Search_History";
+export const ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_TRENDING =
+  "Trending_Now";
+export const ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_RECENT =
+  "PDP_Recently_Viewed";
 export const ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL =
   "ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL";
 
@@ -157,6 +166,8 @@ export const ICID2 = "ICID2";
 export const CID = "CID";
 export const SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT =
   "SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT";
+export const SET_DATA_LAYER_FOR_ADOBE_ADD_TO_CART_BUTTON =
+  "SET_DATA_LAYER_FOR_ADOBE_ADD_TO_CART_BUTTON";
 export const SET_DATA_LAYER_FOR_SIZE_GUIDE = "SET_DATA_LAYER_FOR_SIZE_GUIDE";
 export const SET_DATA_LAYER_FOR_BUY_NOW_EVENT =
   "SET_DATA_LAYER_FOR_BUY_NOW_EVENT";
@@ -195,6 +206,8 @@ export const ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE =
   "ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE";
 
 //  constants for checkout pages
+export const ADOBE_CHECKOUT_DEFAULT_NEW_ADDRESS =
+  "ADOBE_CHECKOUT_DEFAULT_NEW_ADDRESS";
 export const ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE =
   "ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE";
 export const ADOBE_ADD_NEW_ADDRESS_ON_CHECKOUT_PAGE =
@@ -491,9 +504,21 @@ export function setDataLayer(
     behaviorOfPage !== "isSortTrue" &&
     behaviorOfPage !== "isFilterTrue"
   ) {
-    window.digitalData = getDigitalDataForSearchPageSuccess(response);
+    window.digitalData = getDigitalDataForSearchPageSuccess(response, type);
     if (window._satellite) {
       window._satellite.track(ADOBE_INTERNAL_SEARCH_SUCCESS);
+    }
+  }
+  if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_SP) {
+    window.digitalData = getDigitalDataForSearchPageSuccess(response, type);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_INTERNAL_SEARCH_SUCCESS_SP);
+    }
+  }
+  if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_TRENDING) {
+    window.digitalData = getDigitalDataForSearchPageSuccess(response, type);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_INTERNAL_SEARCH_SUCCESS_TRENDING);
     }
   }
   if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL) {
@@ -1354,6 +1379,12 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
       window._satellite.track(ADOBE_ADD_TO_CART);
     }
   }
+  if (type === SET_DATA_LAYER_FOR_ADOBE_ADD_TO_CART_BUTTON) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_ADD_TO_CART_BUTTON);
+    }
+  }
+
   if (type === SET_DATA_LAYER_FOR_SIZE_GUIDE) {
     if (window._satellite) {
       window._satellite.track(ADOBE_DIRECT_CALL_FOR_SIZE_GUIDE);
@@ -1613,7 +1644,7 @@ function getDigitalDataForPlp(type, response) {
   }
   return data;
 }
-export function getDigitalDataForSearchPageSuccess(response) {
+export function getDigitalDataForSearchPageSuccess(response, type) {
   const offersCount =
     response &&
     response.searchresult &&
@@ -1627,6 +1658,13 @@ export function getDigitalDataForSearchPageSuccess(response) {
       return product.newProduct;
     }).length;
   const data = {
+    cpj: {
+      search: {
+        term: response.currentQuery ? response.currentQuery.searchQuery : null,
+        offersCount,
+        newCount
+      }
+    },
     page: {
       pageInfo: { pageName: "search results page" },
       category: { primaryCategory: "productsearch" },
@@ -1641,6 +1679,12 @@ export function getDigitalDataForSearchPageSuccess(response) {
         category: "all",
         results: response.pagination ? response.pagination.totalResults : 0,
         term: response.currentQuery ? response.currentQuery.searchQuery : null,
+        offersCount,
+        newCount
+      }
+    },
+    cpj: {
+      search: {
         offersCount,
         newCount
       }
@@ -1660,11 +1704,27 @@ export function getDigitalDataForSearchPageSuccess(response) {
         response.seo.breadcrumbs[0] &&
         response.seo.breadcrumbs[0].name
           ? response.seo.breadcrumbs[0].name
-          : "all"
+          : "all",
+      results: response.pagination.totalResults,
+      term: response.currentQuery.query.value.split(":")[0],
+      offersCount: offersCount,
+      newCount: newCount
+    });
+    Object.assign(data.cpj.search, {
+      offersCount: offersCount,
+      newCount: newCount
     });
   } else {
     Object.assign(data.internal.search, {
-      category: "all"
+      category: "all",
+      results: response.pagination.totalResults,
+      term: response.currentQuery.query.value.split(":")[0],
+      offersCount: offersCount,
+      newCount: newCount
+    });
+    Object.assign(data.cpj.search, {
+      offersCount: offersCount,
+      newCount: newCount
     });
   }
   if (response && response.searchresult && response.searchresult.length > 0) {
@@ -1675,6 +1735,33 @@ export function getDigitalDataForSearchPageSuccess(response) {
     Object.assign(data.page, {
       products: {
         impression
+      }
+    });
+    let searchResultObj = {
+      category: response.categoryCode,
+      results: response.pagination.totalResults,
+      term: response.currentQuery.query.value.split(":")[0],
+      offersCount: offersCount,
+      newCount: newCount
+    };
+    if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_SP) {
+      searchResultObj["searchType"] = "Search History";
+      searchResultObj["searchHistory"] = {
+        keyword: response.currentQuery.query.value.split(":")[0]
+      };
+    } else if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_TRENDING) {
+      searchResultObj["searchType"] = "Trending Now";
+      searchResultObj["trendingNow"] = {
+        keyword: response.currentQuery.query.value.split(":")[0]
+      };
+    }
+    Object.assign(data.internal, {
+      search: searchResultObj
+    });
+    Object.assign(data.cpj, {
+      search: {
+        offersCount: searchResultObj.offersCount,
+        newCount: searchResultObj.newCount
       }
     });
   }
@@ -1705,7 +1792,10 @@ export function getDigitalDataForSearchPageForNullResult(response) {
         term: response.currentQuery ? response.currentQuery.searchQuery : null,
         results: 0,
         offersCount: 0,
-        newCount: 0
+        newCount: 0,
+        category: {
+          primaryCategory: "productsearch"
+        }
       }
     }
   });
@@ -1939,16 +2029,16 @@ export function setDataLayerForOrderConfirmationDirectCalls(
           failureReason:
             orderConfirmationResponse && orderConfirmationResponse.failureReason
               ? orderConfirmationResponse.failureReason
-              : "",
-          id:
-            orderConfirmationResponse && orderConfirmationResponse.orderId
-              ? orderConfirmationResponse.orderId
               : ""
         },
         product: {
           price:
             orderConfirmationResponse && orderConfirmationResponse.price
               ? orderConfirmationResponse.price
+              : "",
+          id:
+            orderConfirmationResponse && orderConfirmationResponse.orderId
+              ? orderConfirmationResponse.orderId
               : ""
         }
       }
@@ -1970,6 +2060,11 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
   if (type === ADOBE_ADD_NEW_ADDRESS_ON_CHECKOUT_PAGE) {
     if (window._satellite) {
       window._satellite.track(ADD_NEW_ADDRESS_ON_CHECKOUT);
+    }
+  }
+  if (type === ADOBE_CHECKOUT_DEFAULT_NEW_ADDRESS) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CHECKOUT_DEFAULT_ADDRESS);
     }
   }
   if (type === ADOBE_ADD_NEW_ADDRESS_ON_MY_ACCOUNT_PAGE) {
@@ -2502,7 +2597,8 @@ export function setDataLayerForAutoSuggestSearch(response) {
     search: {
       autosuggest: {
         term: response ? response.term : "",
-        position: response ? response.position : ""
+        position: response ? response.position : "",
+        category: response ? response.category : ""
       }
     }
   });

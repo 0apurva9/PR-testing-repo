@@ -99,7 +99,14 @@ export default class FilterDesktop extends React.Component {
   onApply = () => {
     this.props.onApply();
   };
-  onCategorySelect = (val, filterType, filterValue, filterName, isFilter) => {
+  onCategorySelect = (
+    val,
+    filterType,
+    filterValue,
+    filterName,
+    isFilter,
+    i
+  ) => {
     setDataLayerForSelectedFilterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_FILTER_OPTION,
       filterType,
@@ -172,14 +179,14 @@ export default class FilterDesktop extends React.Component {
       this.props.onL3CategorySelect();
     }
   };
-  onL1Click = (val, filterType, filterValue, filterName) => {
-    this.onCategorySelect(val, filterType, filterValue, filterName, false);
+  onL1Click = (val, filterType, filterValue, filterName, i) => {
+    this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
   };
-  onL2Click = (val, filterType, filterValue, filterName) => {
-    this.onCategorySelect(val, filterType, filterValue, filterName, false);
+  onL2Click = (val, filterType, filterValue, filterName, i) => {
+    this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
   };
-  onL3Click = (val, filterType, filterValue, filterName) => {
-    this.onCategorySelect(val, filterType, filterValue, filterName, false);
+  onL3Click = (val, filterType, filterValue, filterName, i) => {
+    this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
   };
   onFilterClick = (
     val,
@@ -329,6 +336,7 @@ export default class FilterDesktop extends React.Component {
                                 onClick={this.onL2Click}
                                 onL3Click={this.onL3Click}
                                 categoryTypeList={val.childFilters}
+                                key={i}
                               />
                             </FilterCategoryL1>
                           );

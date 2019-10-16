@@ -63,20 +63,14 @@ export default class SearchPage extends React.Component {
       : ""; */
     const suggestedKeyWord = data && data.suggestionsNew;
     if (data) {
-      if (data) {
-        const topBrands = this.props.searchResult.topBrands
-          ? this.props.searchResult.topBrands
-          : [];
-        const suggestionsNew = suggestedKeyWord ? suggestedKeyWord : [];
-        const topCategories = this.props.searchResult.topCategories
-          ? this.props.searchResult.topCategories
-          : [];
-        this.newSearchArray = [
-          ...topCategories,
-          ...suggestionsNew,
-          ...topBrands
-        ];
-      }
+      const topBrands = this.props.searchResult.topBrands
+        ? this.props.searchResult.topBrands
+        : [];
+      const suggestionsNew = suggestedKeyWord ? suggestedKeyWord : [];
+      const topCategories = this.props.searchResult.topCategories
+        ? this.props.searchResult.topCategories
+        : [];
+      this.newSearchArray = [...topCategories, ...suggestionsNew, ...topBrands];
     }
     let stringWithOutIn = dtmDataObject.term.split("in ");
     const indexOfCurrentBrands = this.newSearchArray.findIndex(brands => {

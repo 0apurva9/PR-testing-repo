@@ -28,6 +28,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
   ADOBE_DIRECT_CALL_FOR_GO_TO_BAG,
+  SET_DATA_LAYER_FOR_ADOBE_ADD_TO_CART_BUTTON,
   ADOBE_DIRECT_CALL_FOR_PICK_UP_OPTION
 } from "../../lib/adobeUtils";
 import { reverse } from "../reducers/utils";
@@ -438,6 +439,7 @@ export default class PdpApparel extends React.Component {
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
     productDetails.ussId = this.props.productDetails.winningUssID;
+    setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_ADOBE_ADD_TO_CART_BUTTON);
     //let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     //let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     //let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);

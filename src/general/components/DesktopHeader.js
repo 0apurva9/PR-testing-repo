@@ -35,6 +35,11 @@ export default class DesktopHeader extends React.Component {
       bagHover: false
     };
   }
+  headerClicked() {
+    setDataLayerForHeaderAndFooterDirectCalls(
+      ADOBE_DIRECT_CALL_FOR_HEADER_CLICK
+    );
+  }
   redirectToHome() {
     setDataLayerForHeaderAndFooterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
@@ -254,7 +259,10 @@ export default class DesktopHeader extends React.Component {
     return (
       <div className={this.props.isSearch ? className : styles.CheckoutHeader}>
         {this.props.isSearch && <div className={styles.dummyColorHeader} />}
-        <div className={styles.headerHolder}>
+        <div
+          className={styles.headerHolder}
+          onClick={() => this.headerClicked()}
+        >
           <div className={logo} onClick={() => this.redirectToHome()} />
           {this.props.profileDetails && (
             <div className={styles.profileWonerHolder}>
