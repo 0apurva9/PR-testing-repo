@@ -15,7 +15,10 @@ import { withRouter } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
 import {
   setDataLayerForPdpDirectCalls,
-  ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT
+  ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT,
+  ADOBE_REVIEW_SUBMIT_BUTTON,
+  setDataLayer,
+  ADOBE_REVIEW_STAR_RATING
 } from "../../lib/adobeUtils";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -49,6 +52,7 @@ class WriteReview extends React.Component {
     setDataLayerForPdpDirectCalls(
       ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT
     );
+    setDataLayer(ADOBE_REVIEW_STAR_RATING);
     this.setState({ rating: val });
   };
   onCancel() {
@@ -62,6 +66,7 @@ class WriteReview extends React.Component {
     }
   };
   onSubmit = async () => {
+    setDataLayer(ADOBE_REVIEW_SUBMIT_BUTTON);
     if (
       /\s*[0-9a-zA-Z]+/.test(this.state.comment) &&
       /\s*[0-9a-zA-Z]+/.test(this.state.title)

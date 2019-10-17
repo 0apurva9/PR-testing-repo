@@ -57,8 +57,10 @@ import {
   setDataLayerForCartDirectCalls,
   ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING,
   ADOBE_MY_ACCOUNT_ORDER_HISTORY,
+  ADOBE_MY_ACCOUNT_WRITE_REVIEW,
   ADOBE_ORDER_DETAILS_LINK_CLICKED,
-  ADOBE_HELP_SUPPORT_LINK_CLICKED
+  ADOBE_HELP_SUPPORT_LINK_CLICKED,
+  ADOBE_MY_ACCOUNT_HELP_AND_SUPPORT
 } from "../../lib/adobeUtils";
 //import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
 import Icon from "../../xelpmoc-core/Icon";
@@ -122,6 +124,7 @@ export default class AllOrderDetails extends React.Component {
     this.props.history.push(`${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`);
   }
   writeReview(productCode) {
+    setDataLayer(ADOBE_MY_ACCOUNT_WRITE_REVIEW);
     if (productCode && this.props.history) {
       this.props.history.push(`/p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
     }
@@ -309,6 +312,7 @@ export default class AllOrderDetails extends React.Component {
     }
   }
   redirectToHelpPage() {
+    setDataLayer(ADOBE_MY_ACCOUNT_HELP_AND_SUPPORT);
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
     this.props.history.push(
       `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`

@@ -135,8 +135,8 @@ const AUTO_SUGGEST_SEARCH = "auto_suggest_search_click";
 const ADOBE_NOT_FOUND = "404_error";
 const ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP = "internal_search_link_clicks";
 
-const SIGN_UP_START = "signup_starts";
-const SIGN_UP_SUCCESS = "signup_successful";
+const SIGN_UP_START = "signup_start"; //signup_starts
+const SIGN_UP_SUCCESS = "signup_success"; //signup_successful
 const LOGOUT_SUCCESS = "logout_successful";
 const LOGIN_START = "login_start";
 // internal search Adobe call const
@@ -403,6 +403,8 @@ const INTERNAL_CAMPAIGN = "internal_campaign";
 const EXTERNAL_CAMPAIGN = "external_campaign";
 const CONTINUE_SHOPPING = "continue_shopping";
 const REVIEW_RATE_THE_PRODUCT = "cpj_review_rate_theProduct";
+const REVIEW_STAR_RATING = "cpj_rating_click";
+export const ADOBE_REVIEW_STAR_RATING = "ADOBE_REVIEW_STAR_RATING";
 const VIEW_CART_FROM_MINIBAG = "cpj_minicart_viewbag";
 const WHATSAPP_CHECKBOX_UNCHECK = "cpj_whatsappCheckboxUncheck";
 export const ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING =
@@ -433,6 +435,9 @@ export const ADOBE_REQUEST_INVOICE_LINK_CLICKED =
 const HELP_SUPPORT_LINK_CLICKED = "rrj_helpSupport_click";
 export const ADOBE_HELP_SUPPORT_LINK_CLICKED =
   "ADOBE_HELP_SUPPORT_LINK_CLICKED";
+const MY_ACCOUNT_HELP_AND_SUPPORT = "myAccount_helpSupport_click";
+export const ADOBE_MY_ACCOUNT_HELP_AND_SUPPORT =
+  "ADOBE_MY_ACCOUNT_HELP_AND_SUPPORT";
 const RETURN_REASON_BUTTON_CLICKED = "rrj_returnReason_click";
 export const ADOBE_RETURN_REASON_BUTTON_CLICKED =
   "ADOBE_RETURN_REASON_BUTTON_CLICKED";
@@ -475,6 +480,12 @@ export const ADOBE_MODE_OF_REFUND_SUBMITTED = "ADOBE_MODE_OF_REFUND_SUBMITTED";
 const MODE_OF_RETURN_SUBMITTED = "rrj_modeOfReturn_click";
 export const ADOBE_MODE_OF_RETURN_SUBMITTED = "ADOBE_MODE_OF_RETURN_SUBMITTED";
 export const ADOBE_ERROR_TOAST_MESSAGE = "error_tracking";
+export const MY_ACCOUNT_WRITE_REVIEW = "myAccount_Write_Review";
+export const ADOBE_MY_ACCOUNT_WRITE_REVIEW = "ADOBE_MY_ACCOUNT_WRITE_REVIEW";
+const MY_ACCOUNT_TAB_CLICKED = "myAccount_Tab_Click";
+export const ADOBE_MY_ACCOUNT_TAB_CLICKED = "ADOBE_MY_ACCOUNT_TAB_CLICKED";
+const REVIEW_SUBMIT_BUTTON = "cpj_review_click";
+export const ADOBE_REVIEW_SUBMIT_BUTTON = "ADOBE_REVIEW_SUBMIT_BUTTON";
 
 export function setDataLayer(
   type,
@@ -562,6 +573,16 @@ export function setDataLayer(
       window._satellite.track(PRODUCT_BUNDLED_OFFER);
     }
   }
+  if (type === ADOBE_MY_ACCOUNT_WRITE_REVIEW) {
+    if (window._satellite) {
+      window._satellite.track(MY_ACCOUNT_WRITE_REVIEW);
+    }
+  }
+  if (type === ADOBE_REVIEW_SUBMIT_BUTTON) {
+    if (window._satellite) {
+      window._satellite.track(REVIEW_SUBMIT_BUTTON);
+    }
+  }
   if (type === ADOBE_BUNDLED_ADD_BOTH_PRODUCT_TO_CART) {
     window.digitalData.cpj.product.id = apiResponse.id;
     window.digitalData.cpj.product.category = apiResponse.category;
@@ -593,6 +614,7 @@ export function setDataLayer(
   if (type === ADOBE_MY_ACCOUNT_LANDING_PAGE) {
     window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_OVERVIEW);
   }
+
   if (type === ADOBE_MY_ACCOUNT_SAVED_LIST) {
     window.digitalData = getDigitalDataForMyAccount(
       MY_ACCOUNT_SAVED_LIST,
@@ -642,6 +664,11 @@ export function setDataLayer(
     window.digitalData = getDigitalDataForCLP(response);
     if (window._satellite) {
       window._satellite.track(ADOBE_CLP_DIRECT_CALL);
+    }
+  }
+  if (type === ADOBE_REVIEW_STAR_RATING) {
+    if (window._satellite) {
+      window._satellite.track(REVIEW_STAR_RATING);
     }
   }
   if (
@@ -788,6 +815,11 @@ export function setDataLayer(
   if (type === ADOBE_HELP_SUPPORT_LINK_CLICKED) {
     if (window._satellite) {
       window._satellite.track(HELP_SUPPORT_LINK_CLICKED);
+    }
+  }
+  if (type === ADOBE_MY_ACCOUNT_HELP_AND_SUPPORT) {
+    if (window._satellite) {
+      window._satellite.track(MY_ACCOUNT_HELP_AND_SUPPORT);
     }
   }
   if (type === ADOBE_RETURN_REASON_BUTTON_CLICKED) {
@@ -2738,6 +2770,19 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
       }
     });
     window.digitalData = currentDigitalData;
+  }
+  if (type === ADOBE_MY_ACCOUNT_TAB_CLICKED) {
+    if (value) {
+      Object.assign(currentDigitalData, {
+        cpj: {
+          tab: { name: value }
+        }
+      });
+      window.digitalData = currentDigitalData;
+    }
+    if (window._satellite) {
+      window._satellite.track(MY_ACCOUNT_TAB_CLICKED);
+    }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_HEADER_CLICK) {
     if (value) {

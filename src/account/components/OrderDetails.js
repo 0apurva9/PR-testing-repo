@@ -45,6 +45,7 @@ import {
 } from "../../lib/constants";
 import {
   setDataLayer,
+  ADOBE_MY_ACCOUNT_WRITE_REVIEW,
   setDataLayerForMyAccountDirectCalls,
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL,
   ADOBE_RETURN_LINK_CLICKED,
@@ -132,6 +133,7 @@ export default class OrderDetails extends React.Component {
   }
 
   writeReview(productCode) {
+    setDataLayer(ADOBE_MY_ACCOUNT_WRITE_REVIEW);
     this.props.history.push(`/p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
   }
   getNonWorkingDays(mplWorkingDays) {
