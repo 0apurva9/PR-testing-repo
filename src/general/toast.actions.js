@@ -19,7 +19,12 @@ import {
   ERROR_CODE_FLEXIBLE_SEARCH_QUERY,
   ERROR_CODE_INVALID_ACCESS_TOKEN
 } from "../lib/constants";
-import { ADOBE_ERROR_TOAST_MESSAGE, setDataLayer } from "../lib/adobeUtils";
+import {
+  ADOBE_ERROR_TOAST_MESSAGE,
+  setDataLayer,
+  SERVERSIDE,
+  CLIENTSIDE
+} from "../lib/adobeUtils";
 export const TOAST_DELAY = 3000;
 export const SHOW_TOAST = "SHOW_TOAST";
 export const HIDE_TOAST = "HIDE_TOAST";
@@ -63,11 +68,17 @@ export function displayToast(message) {
 
   return async dispatch => {
     dispatch(showToast(updatedMessage));
-    setDataLayer(ADOBE_ERROR_TOAST_MESSAGE, message);
-    // if (window._satellite) {
-    //   window._satellite.track(ADOBE_ERROR_TOAST_MESSAGE, message);
-    // }
-
+    if (updatedMessage === SOMETHING_WENT_WRONG) {
+      setDataLayer(ADOBE_ERROR_TOAST_MESSAGE, {
+        msg: message,
+        type: SERVERSIDE
+      });
+    } else {
+      setDataLayer(ADOBE_ERROR_TOAST_MESSAGE, {
+        msg: message,
+        type: CLIENTSIDE
+      });
+    }
     delay(() => {
       dispatch(hideToast());
     }, TOAST_DELAY);

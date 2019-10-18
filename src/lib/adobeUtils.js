@@ -490,6 +490,8 @@ export const ADOBE_REVIEW_SUBMIT_BUTTON = "ADOBE_REVIEW_SUBMIT_BUTTON";
 const ADOBE_WIDGET_TRACKING = "widget_tracking";
 export const ADOBE_SORT_BY_CLICK = "CPJ_sortBy_click";
 export const ADOBE_SORT_SELECT = "ADOBE_SORT_SELECT";
+export const SERVERSIDE = "Server Side";
+export const CLIENTSIDE = "Client Side";
 
 export function setDataLayer(
   type,
@@ -589,7 +591,8 @@ export function setDataLayer(
     const digitalData = window.digitalData;
     Object.assign(digitalData && digitalData.page, {
       error: {
-        name: response
+        name: response.msg,
+        type: response.type
       }
     });
     if (window._satellite) {
