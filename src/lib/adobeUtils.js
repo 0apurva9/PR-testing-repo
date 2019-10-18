@@ -99,8 +99,8 @@ const ADOBE_LOGIN_FAILURE = "login_failed";
 // end of direct call for login tracking
 
 // cosnt for BLP and CLP
-const ADOBE_BLP_DIRECT_CALL = "cpj_brand_pages";
-const ADOBE_CLP_DIRECT_CALL = "cpj_category_pages";
+const ADOBE_BLP_DIRECT_CALL = "brand_click"; //cpj_brand_pages
+const ADOBE_CLP_DIRECT_CALL = "category_click"; //cpj_category_pages
 // end of cosnt for BLP and CLP
 
 // type of hierarchy for MY_ACCOUNT
@@ -162,7 +162,6 @@ export const ADOBE_ORDER_CANCEL = "order_cancellation";
 export const ADOBE_ORDER_RETURN_CANCEL = "order_returns_cancel";
 export const ADOBE_RETURN_CANCEL = "order_returns_cancel";
 export const ADOBE_ORDER_RETURN = "cpj_order_return";
-export const ICID2 = "ICID2";
 export const CID = "CID";
 export const SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT =
   "SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT";
@@ -409,6 +408,7 @@ const VIEW_CART_FROM_MINIBAG = "cpj_minicart_viewbag";
 const WHATSAPP_CHECKBOX_UNCHECK = "cpj_whatsappCheckboxUncheck";
 export const ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING =
   "ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING";
+export const ICID2 = "ICID2";
 
 //bundled product
 const PRODUCT_BUNDLED_OFFER = "product_bundle_offer_click";
@@ -486,6 +486,7 @@ const MY_ACCOUNT_TAB_CLICKED = "myAccount_Tab_Click";
 export const ADOBE_MY_ACCOUNT_TAB_CLICKED = "ADOBE_MY_ACCOUNT_TAB_CLICKED";
 const REVIEW_SUBMIT_BUTTON = "cpj_review_click";
 export const ADOBE_REVIEW_SUBMIT_BUTTON = "ADOBE_REVIEW_SUBMIT_BUTTON";
+const ADOBE_WIDGET_TRACKING = "widget_tracking";
 
 export function setDataLayer(
   type,
@@ -2530,11 +2531,24 @@ function getDigitalDataForDefaultBlpOrClp(response) {
     Object.assign(data.page.category, { ...subCategories });
   }
   if (response && response.pageName) {
-    Object.assign(data.page, {
-      pageInfo: {
-        pageName: response.pageName.replace(/ /g, "_").toLowerCase()
-      }
-    });
+    if (response.pageName.replace(/ /g, "_").toLowerCase() == "atoz_brands") {
+      Object.assign(data.page, {
+        pageInfo: {
+          pageName: "brand page"
+        }
+      });
+    } else {
+      Object.assign(data.page, {
+        pageInfo: {
+          pageName: response.pageName.replace(/ /g, "_").toLowerCase()
+        }
+      });
+    }
+    // Object.assign(data.page, {
+    //   pageInfo: {
+    //     pageName: response.pageName.replace(/ /g, "_").toLowerCase()
+    //   }
+    // });
   } else {
     Object.assign(data.page, {
       pageInfo: {
@@ -2646,18 +2660,27 @@ export function widgetsTracking(widgetObj: {}) {
   const data = cloneDeep(window.digitalData);
   const currentDigitalData = window.digitalData;
   if (currentDigitalData.cpj) {
-    Object.assign(data && data.cpj, {
-      widgetname: `${widgetObj.productId ? widgetObj.productId : "x"}:${
+    // Object.assign(data && data.cpj, {
+    //   widgetname: `${widgetObj.productId ? widgetObj.productId : "x"}:${
+    //     widgetObj.widgetName
+    //   }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
+    //     widgetObj.type ? widgetObj.type : "product"
+    //   }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
+    //     widgetObj.categoryName ? widgetObj.categoryName : "x"
+    //   }:${
+    //     data && data.page && data.page.pageInfo && data.page.pageInfo.pageName
+    //       ? data.page.pageInfo.pageName
+    //       : "x"
+    //   }:${widgetObj.PositionOfProduct ? widgetObj.PositionOfProduct : "x"}`
+    // });
+    Object.assign(data && data.page && data.page.widget, {
+      name: `${widgetObj.productId ? widgetObj.productId : "x"}:${
         widgetObj.widgetName
       }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
         widgetObj.type ? widgetObj.type : "product"
       }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
         widgetObj.categoryName ? widgetObj.categoryName : "x"
-      }:${
-        data && data.page && data.page.pageInfo && data.page.pageInfo.pageName
-          ? data.page.pageInfo.pageName
-          : "x"
-      }:${widgetObj.PositionOfProduct ? widgetObj.PositionOfProduct : "x"}`
+      }`
     });
   } else {
     Object.assign(data, {
@@ -2748,6 +2771,7 @@ export function widgetsTracking(widgetObj: {}) {
   }
   if (window._satellite) {
     window._satellite.track(widgetType);
+    window._satellite.track(ADOBE_WIDGET_TRACKING);
   }
 }
 export function setDataLayerForVisitBrand() {
