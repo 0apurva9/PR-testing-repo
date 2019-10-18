@@ -2917,7 +2917,8 @@ export function setDataLayerForSelectedFilterDirectCalls(
   Object.assign(currentDigitalData, {
     filter: {
       filterType: filterType,
-      filterValue: filterValue
+      filterValue: filterValue,
+      filterName: filterValue
     }
   });
   window.digitalData = currentDigitalData;
