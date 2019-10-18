@@ -487,6 +487,8 @@ export const ADOBE_MY_ACCOUNT_TAB_CLICKED = "ADOBE_MY_ACCOUNT_TAB_CLICKED";
 const REVIEW_SUBMIT_BUTTON = "cpj_review_click";
 export const ADOBE_REVIEW_SUBMIT_BUTTON = "ADOBE_REVIEW_SUBMIT_BUTTON";
 const ADOBE_WIDGET_TRACKING = "widget_tracking";
+export const ADOBE_SORT_BY_CLICK = "CPJ_sortBy_click";
+export const ADOBE_SORT_SELECT = "ADOBE_SORT_SELECT";
 
 export function setDataLayer(
   type,
@@ -503,6 +505,20 @@ export function setDataLayer(
   }
   if (type === ADOBE_HOME_TYPE) {
     window.digitalData = getDigitalDataForHome();
+  }
+  if (type === ADOBE_SORT_SELECT) {
+    if (window.digitalData) {
+      const data = {
+        sortby: {
+          value: response
+        }
+      };
+      window.digitalData = data;
+    }
+    // window.digitalData = getDigitalDataForSort(response);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_SORT_BY_CLICK);
+    }
   }
   if (type === ADOBE_PLP_TYPE) {
     window.digitalData = getDigitalDataForPlp(type, response);

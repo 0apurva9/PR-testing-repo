@@ -5,6 +5,7 @@ import styles from "./SelectBoxDesktop.css";
 import GreyArrow from "./img/down-arrow-grey.svg";
 import BlackArrow from "./img/down-arrow.svg";
 import WhiteArrow from "./img/down-arrow-white.svg";
+import { setDataLayer, ADOBE_SORT_SELECT } from "../../lib/adobeUtils";
 const BLACK = "black";
 const WHITE = "white";
 const GREY = "grey";
@@ -34,6 +35,9 @@ export default class SelectBoxDesktop extends React.Component {
   }
 
   handleChange(event) {
+    if (event && event.target && event.target.value) {
+      setDataLayer(ADOBE_SORT_SELECT, event.target.value);
+    }
     if (!this.props.disabled) {
       const selectedValue = event.target.value;
       const index = event.nativeEvent.target.selectedIndex;
