@@ -479,7 +479,8 @@ const MODE_OF_REFUND_SUBMITTED = "rrj_modeOfRefund_click";
 export const ADOBE_MODE_OF_REFUND_SUBMITTED = "ADOBE_MODE_OF_REFUND_SUBMITTED";
 const MODE_OF_RETURN_SUBMITTED = "rrj_modeOfReturn_click";
 export const ADOBE_MODE_OF_RETURN_SUBMITTED = "ADOBE_MODE_OF_RETURN_SUBMITTED";
-export const ADOBE_ERROR_TOAST_MESSAGE = "error_tracking";
+export const ERROR_TOAST_MESSAGE = "error_tracking";
+export const ADOBE_ERROR_TOAST_MESSAGE = "ADOBE_ERROR_TOAST_MESSAGE";
 export const MY_ACCOUNT_WRITE_REVIEW = "myAccount_Write_Review";
 export const ADOBE_MY_ACCOUNT_WRITE_REVIEW = "ADOBE_MY_ACCOUNT_WRITE_REVIEW";
 const MY_ACCOUNT_TAB_CLICKED = "myAccount_Tab_Click";
@@ -582,6 +583,17 @@ export function setDataLayer(
     }
     if (window._satellite) {
       window._satellite.track(ADOBE_PDP_CPJ);
+    }
+  }
+  if (type === ADOBE_ERROR_TOAST_MESSAGE) {
+    const digitalData = window.digitalData;
+    Object.assign(digitalData && digitalData.page, {
+      error: {
+        name: response
+      }
+    });
+    if (window._satellite) {
+      window._satellite.track(ERROR_TOAST_MESSAGE);
     }
   }
   //bundledProduct
@@ -2689,14 +2701,18 @@ export function widgetsTracking(widgetObj: {}) {
     //       : "x"
     //   }:${widgetObj.PositionOfProduct ? widgetObj.PositionOfProduct : "x"}`
     // });
-    Object.assign(data && data.page && data.page.widget, {
-      name: `${widgetObj.productId ? widgetObj.productId : "x"}:${
-        widgetObj.widgetName
-      }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
-        widgetObj.type ? widgetObj.type : "product"
-      }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
-        widgetObj.categoryName ? widgetObj.categoryName : "x"
-      }`
+    Object.assign(data, {
+      page: {
+        widget: {
+          name: `${widgetObj.productId ? widgetObj.productId : "x"}:${
+            widgetObj.widgetName
+          }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
+            widgetObj.type ? widgetObj.type : "product"
+          }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
+            widgetObj.categoryName ? widgetObj.categoryName : "x"
+          }`
+        }
+      }
     });
   } else {
     Object.assign(data, {
