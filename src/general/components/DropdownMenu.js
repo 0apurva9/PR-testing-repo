@@ -13,13 +13,16 @@ import {
 export default class DropdownMenu extends React.Component {
   goToMyAccount = value => {
     setDataLayerForHeaderAndFooterDirectCalls(
-      ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
+      ADOBE_MY_ACCOUNT_TAB_CLICKED,
       value
     );
     if (this.props.goToMyAccount) {
-      setDataLayer(ADOBE_MY_ACCOUNT_TAB_CLICKED, value);
       this.props.goToMyAccount();
     }
+    setDataLayerForHeaderAndFooterDirectCalls(
+      ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
+      value
+    );
   };
   goToOrdersPage = value => {
     setDataLayerForHeaderAndFooterDirectCalls(
