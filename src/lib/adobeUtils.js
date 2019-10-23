@@ -510,21 +510,23 @@ export function setDataLayer(
     window.digitalData = getDigitalDataForHome();
   }
   if (type === ADOBE_SORT_SELECT) {
+    let dataSort;
     if (window.digitalData) {
-      const data = {
+      dataSort = {
         sortby: {
           value: response
         }
       };
-      window.digitalData = data;
     }
+    window.digitalData = Object.assign(dataSort, previousDigitalData);
     // window.digitalData = getDigitalDataForSort(response);
     if (window._satellite) {
       window._satellite.track(ADOBE_SORT_BY_CLICK);
     }
   }
   if (type === ADOBE_PLP_TYPE) {
-    window.digitalData = getDigitalDataForPlp(type, response);
+    let newVariable = getDigitalDataForPlp(type, response);
+    window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_PLP_CPJ);
     }
@@ -541,7 +543,8 @@ export function setDataLayer(
     }
   }
   if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_SP) {
-    window.digitalData = getDigitalDataForSearchPageSuccess(response, type);
+    let newVariable = getDigitalDataForSearchPageSuccess(response, type);
+    window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_INTERNAL_SEARCH_SUCCESS_SP);
     }
