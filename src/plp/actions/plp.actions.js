@@ -243,6 +243,12 @@ export function getProductListings(
     }
     try {
       const searchState = getState().search;
+      const currentKeywordRedirect =
+        getState().productListings && getState().productListings.productListings
+          ? getState().productListings.productListings.currentQuery
+              .isKeywordRedirect
+          : null;
+
       const listingsPageNumber = getState().productListings.pageNumber;
       const pageNumber = listingsPageNumber ? listingsPageNumber : 0;
       let encodedString =
@@ -255,7 +261,9 @@ export function getProductListings(
       ) {
         encodedString = `${encodedString}${EXCLUDE_OUT_OF_STOCK_FLAG}`;
       }
-      let keyWordRedirect = false;
+      let keyWordRedirect = currentKeywordRedirect
+        ? currentKeywordRedirect
+        : false;
       let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true&channel=WEB`;
       if (suffix) {
         queryString = `${queryString}${suffix}`;
