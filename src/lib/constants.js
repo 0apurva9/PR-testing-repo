@@ -87,6 +87,7 @@ export const PRODUCT_CART_ROUTER = "/cart";
 export const ORDER_SUMMARY_ROUTER = "/orderSummary";
 export const CHECKOUT_ROUTER = "/checkout";
 export const CHECKOUT_ROUTER_THANKYOU = "/checkout/";
+export const CHECKOUT_RETRY_PAYMENT_ROUTER = "/checkout/payment-method/";
 export const ACCOUNT_SAVED_CARD_ROUTER = "/savedCards";
 export const MY_ACCOUNT = "/my-account";
 export const SHORT_URL_ORDER_DETAIL = "/trackOrder/beforeTrack/:orderCode";
