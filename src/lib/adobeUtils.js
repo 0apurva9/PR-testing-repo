@@ -496,6 +496,12 @@ const SUMSUNG_CHAT_ICON = "samsung_chat_icon_click";
 export const ADOBE_SUMSUNG_CHAT_ICON = "ADOBE_SUMSUNG_CHAT_ICON";
 const SUMSUNG_CHAT_LINK_CLICK = "samsung_chat_link_click";
 export const ADOBE_SUMSUNG_CHAT_LINK_CLICK = "ADOBE_SUMSUNG_CHAT_LINK_CLICK";
+const SIMILAR_PRODUCTS_PLP = "plp_similar_products";
+export const ADOBE_SIMILAR_PRODUCTS_PLP = "ADOBE_SIMILAR_PRODUCTS_PLP";
+const ADD_TO_WISHLIST_PLP = "plp_add_to_wishlist";
+export const ADOBE_ADD_TO_WISHLIST_PLP = "ADOBE_ADD_TO_WISHLIST_PLP";
+const WISHLIST_PLP_REMOVE = "plp_remove_from_wishlist";
+export const ADOBE_WISHLIST_PLP_REMOVE = "ADOBE_WISHLIST_PLP_REMOVE";
 
 export function setDataLayer(
   type,
@@ -533,6 +539,27 @@ export function setDataLayer(
     window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_PLP_CPJ);
+    }
+  }
+  if (type === ADOBE_SIMILAR_PRODUCTS_PLP) {
+    let newVariable = getDigitalDataForPlp(type, response);
+    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    if (window._satellite) {
+      window._satellite.track(SIMILAR_PRODUCTS_PLP);
+    }
+  }
+  if (type === ADOBE_ADD_TO_WISHLIST_PLP) {
+    let newVariable = getDigitalDataForPlp(type, response);
+    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    if (window._satellite) {
+      window._satellite.track(ADD_TO_WISHLIST_PLP);
+    }
+  }
+  if (type === ADOBE_WISHLIST_PLP_REMOVE) {
+    let newVariable = getDigitalDataForPlp(type, response);
+    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    if (window._satellite) {
+      window._satellite.track(WISHLIST_PLP_REMOVE);
     }
   }
   if (
