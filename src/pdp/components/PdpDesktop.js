@@ -19,6 +19,8 @@ import Image from "../../xelpmoc-core/Image";
 import { RUPEE_SYMBOL } from "../../lib/constants";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import {
+  ADOBE_SUMSUNG_CHAT_LINK_CLICK,
+  ADOBE_SUMSUNG_CHAT_ICON,
   setDataLayerForCartDirectCalls,
   setDataLayerForPdpDirectCalls,
   SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP,
@@ -825,6 +827,12 @@ export default class PdpApparel extends React.Component {
     !this.state.selectedBundledProduct.includes(e.target.value) &&
       this.state.selectedBundledProduct.push(e.target.value);
   }
+  clickedSamsungChatIcon() {
+    setDataLayerForPdpDirectCalls(ADOBE_SUMSUNG_CHAT_ICON);
+  }
+  clickedSamsungChat() {
+    setDataLayerForPdpDirectCalls(ADOBE_SUMSUNG_CHAT_LINK_CLICK);
+  }
   render() {
     let seasonData = {};
     if (this.props.productDetails["seasonDetails"] !== undefined) {
@@ -1450,6 +1458,7 @@ export default class PdpApparel extends React.Component {
                             href={samsungChatUrl}
                             target="_blank"
                             className={styles.samsungChatImgHolder}
+                            onClick={this.clickedSamsungChatIcon}
                           >
                             <img
                               src="https://assets.tatacliq.com/medias/sys_master/images/11437918060574.png"
@@ -1462,7 +1471,11 @@ export default class PdpApparel extends React.Component {
                             Chat with the Samsung brand representative directly
                             for more info
                           </p>
-                          <a href={samsungChatUrl} target="_blank">
+                          <a
+                            href={samsungChatUrl}
+                            target="_blank"
+                            onClick={this.clickedSamsungChat}
+                          >
                             Click here to chat
                           </a>
                         </div>

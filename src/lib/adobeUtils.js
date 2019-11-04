@@ -492,6 +492,10 @@ export const ADOBE_SORT_BY_CLICK = "CPJ_sortBy_click";
 export const ADOBE_SORT_SELECT = "ADOBE_SORT_SELECT";
 export const SERVERSIDE = "Server Side";
 export const CLIENTSIDE = "Client Side";
+const SUMSUNG_CHAT_ICON = "samsung_chat_icon_click";
+export const ADOBE_SUMSUNG_CHAT_ICON = "ADOBE_SUMSUNG_CHAT_ICON";
+const SUMSUNG_CHAT_LINK_CLICK = "samsung_chat_link_click";
+export const ADOBE_SUMSUNG_CHAT_LINK_CLICK = "ADOBE_SUMSUNG_CHAT_LINK_CLICK";
 
 export function setDataLayer(
   type,
@@ -1444,6 +1448,16 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
   if (type === SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT) {
     if (window._satellite) {
       window._satellite.track(ADOBE_ADD_TO_CART);
+    }
+  }
+  if (type === ADOBE_SUMSUNG_CHAT_ICON) {
+    if (window._satellite) {
+      window._satellite.track(SUMSUNG_CHAT_ICON);
+    }
+  }
+  if (type === ADOBE_SUMSUNG_CHAT_LINK_CLICK) {
+    if (window._satellite) {
+      window._satellite.track(SUMSUNG_CHAT_LINK_CLICK);
     }
   }
   if (type === SET_DATA_LAYER_FOR_ADOBE_ADD_TO_CART_BUTTON) {
