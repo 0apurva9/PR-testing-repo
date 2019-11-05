@@ -2208,6 +2208,273 @@ export function fetchOrderItemDetailsFailure(error) {
   };
 }
 
+// Get Seller Review
+export function getAllSellersRequest() {
+  return {
+    type: GET_ALL_SELLERS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getAllSellersSuccess(sellerDetails) {
+  return {
+    type: GET_ALL_SELLERS_SUCCESS,
+    status: SUCCESS,
+    sellerDetails
+  };
+}
+
+export function getAllSellersFailure(error) {
+  return {
+    type: GET_ALL_ORDERS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getAllSellersDetails(
+  isSetDataLayer: true,
+  showDataAccordingToUser
+) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getAllSellersRequest());
+    dispatch(showSecondaryLoader());
+    try {
+      // let getSellerDetails = "";
+      // if (showDataAccordingToUser) {
+      //   getSellerDetails = `${PATH}/getSellerFeedbackTransactions?
+      //   transactionId=${transId}&customerId=${userDetails.customerId}`;
+      // } else {
+      //   getSellerDetails = `${PATH}/${
+      //     JSON.parse(userDetails).userName
+      //   }/orderhistorylist_V1?access_token=${
+      //     JSON.parse(customerCookie).access_token
+      //   }&isPwa=true&currentPage=&pageSize=${PAGE_SIZE}`;
+      // }
+      //const result = api.get(getSellerDetails);
+      const resultJson = {
+        type: "reviewRatingInfoDTO",
+        status: "Success",
+        reviewRatingInfo: [
+          {
+            customerSellerRating: "",
+            fulfillmentType: "tship",
+            imageURL:
+              "//thumbs4.ebaystatic.com/m/mi3383xNWXbgqYLKM9C9YVQ/140.jpg",
+            orderDate: "2019-10-22 11:44:17",
+            orderId: "602422988",
+            productCode: "987654341",
+            productName: "White  WestSport Swimwear Womens",
+            reviewStatus: "NEW",
+            sellerId: "123653",
+            sellerName: "PANTALOONS",
+            suborderId: "191022-000-263377",
+            transactionId: "123653000216389"
+          },
+          {
+            customerSellerRating: "",
+            fulfillmentType: "tship",
+            imageURL:
+              "//thumbs4.ebaystatic.com/m/mi3383xNWXbgqYLKM9C9YVQ/140.jpg",
+            orderDate: "2019-10-22 11:44:17",
+            orderId: "602422988",
+            productCode: "987654341",
+            productName: "White  WestSport Swimwear Womens",
+            reviewStatus: "NEW",
+            sellerId: "123653",
+            sellerName: "PANTALOONS",
+            suborderId: "191022-000-263377",
+            transactionId: "123653000788149"
+          },
+          {
+            customerSellerRating: "",
+            fulfillmentType: "tship",
+            imageURL:
+              "//thumbs4.ebaystatic.com/m/mi3383xNWXbgqYLKM9C9YVQ/140.jpg",
+            orderDate: "2019-10-22 11:44:17",
+            orderId: "602422988",
+            productCode: "987654341",
+            productName: "White  WestSport Swimwear Womens",
+            reviewStatus: "NEW",
+            sellerId: "123653",
+            sellerName: "PANTALOONS",
+            suborderId: "191022-000-263377",
+            transactionId: "123653000127348"
+          },
+          {
+            customerSellerRating: "",
+            fulfillmentType: "tship",
+            imageURL:
+              "//thumbs4.ebaystatic.com/m/mi3383xNWXbgqYLKM9C9YVQ/140.jpg",
+            orderDate: "2019-10-22 11:44:17",
+            orderId: "602422988",
+            productCode: "987654341",
+            productName: "White  WestSport Swimwear Womens",
+            reviewStatus: "NEW",
+            sellerId: "123653",
+            sellerName: "PANTALOONS",
+            suborderId: "191022-000-263377",
+            transactionId: "123653000628604"
+          }
+        ]
+      }; //await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      if (isSetDataLayer) {
+        setDataLayer(ADOBE_MY_ACCOUNT_ORDER_HISTORY);
+      }
+
+      dispatch(getAllSellersSuccess(resultJson));
+      dispatch(hideSecondaryLoader());
+    } catch (e) {
+      dispatch(hideSecondaryLoader());
+      dispatch(getAllSellersFailure(e.message));
+    }
+  };
+}
+
+export function getAllSellersReviewRequest() {
+  return {
+    type: GET_ALL_SELLERS_REVIEW_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getAllSellersReviewSuccess(sellerDetails) {
+  return {
+    type: GET_ALL_SELLERS_REVIEW_SUCCESS,
+    status: SUCCESS,
+    sellerDetails
+  };
+}
+
+export function getAllSellersReviewFailure(error) {
+  return {
+    type: GET_ALL_SELLERS_REVIEW_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getAllSellersReviewDetails(
+  isSetDataLayer: true,
+  showDataAccordingToUser
+) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getAllSellersReviewRequest());
+    dispatch(showSecondaryLoader());
+    try {
+      // let getSellerDetails = "";
+      // if (showDataAccordingToUser) {
+      //   getSellerDetails = `${PATH}/getSellerFeedbackTransactions?
+      //   transactionId=${transId}&customerId=${userDetails.customerId}`;
+      // } else {
+      //   getSellerDetails = `${PATH}/${
+      //     JSON.parse(userDetails).userName
+      //   }/orderhistorylist_V1?access_token=${
+      //     JSON.parse(customerCookie).access_token
+      //   }&isPwa=true&currentPage=&pageSize=${PAGE_SIZE}`;
+      // }
+      //const result = api.get(getSellerDetails);
+      const resultJson = {
+        type: "reviewRatingInfoDTO",
+        status: "Success",
+        reviewRatingInfo: [
+          {
+            customerSellerRating: "4.0",
+            imageURL:
+              "//thumbs4.ebaystatic.com/m/mi3383xNWXbgqYLKM9C9YVQ/140.jpg",
+            orderDate: "2019-09-24 11:37:55",
+            orderId: "616878323",
+            productCode: "987654341",
+            productName: "White  WestSport Swimwear Womens",
+            reviewStatus: "REVIEW",
+            sellerId: "123653",
+            sellerName: "PANTALOONS",
+            suborderId: "190924-000-470522",
+            transactionId: "123653000237504",
+            comments:
+              "The item was delivered in no time and the packaging was amazing. thanks to HCCD enterprise.",
+            itemDeliveredOnTime: "Yes"
+          },
+          {
+            customerSellerRating: "4.0",
+            imageURL:
+              "//thumbs4.ebaystatic.com/m/mi3383xNWXbgqYLKM9C9YVQ/140.jpg",
+            orderDate: "2019-10-22 11:44:17",
+            orderId: "602422988",
+            productCode: "987654341",
+            productName: "White  WestSport Swimwear Womens",
+            reviewStatus: "REVIEW",
+            sellerId: "123653",
+            sellerName: "PANTALOONS",
+            suborderId: "191022-000-263377",
+            transactionId: "123653000216389",
+            comments: "Very nice seller they delivered very correct product",
+            itemDeliveredOnTime: "No"
+          }
+        ]
+      }; //await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      if (isSetDataLayer) {
+        setDataLayer(ADOBE_MY_ACCOUNT_ORDER_HISTORY);
+      }
+
+      dispatch(getAllSellersReviewSuccess(resultJson));
+      dispatch(hideSecondaryLoader());
+    } catch (e) {
+      dispatch(hideSecondaryLoader());
+      dispatch(getAllSellersReviewFailure(e.message));
+    }
+  };
+}
+
+export function sellerReviewSubmissionByUser(sellerReviewStatus) {
+  return {
+    type: SUBMIT_SELLER_REVIEW_BY_USER,
+    sellerReviewStatus
+  };
+}
+export function sellerReviewSubmitFailure(error) {
+  return {
+    type: SELLER_REVIEW_SUBMIT_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function submitSellerReviewByUser(params) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS),
+    customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    try {
+      let reqURL = `${USER_PATH}/${
+        JSON.parse(userDetails).userName
+      }/submitCustomerReview?access_token=${
+        JSON.parse(customerCookie).access_token
+      }`;
+
+      const result = await api.post(reqURL, params);
+      const resultJson = await result.json();
+      dispatch(sellerReviewSubmissionByUser(resultJson));
+    } catch (e) {
+      dispatch(sellerReviewSubmitFailure(e.message));
+    }
+  };
+}
+
+
 export function getUserDetailsRequest() {
   return {
     type: GET_USER_DETAILS_REQUEST,
