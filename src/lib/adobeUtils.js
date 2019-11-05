@@ -522,6 +522,20 @@ export function setDataLayer(
   if (type === ADOBE_HOME_TYPE) {
     window.digitalData = getDigitalDataForHome();
   }
+  if (type === ADOBE_MY_ACCOUNT_TAB_CLICKED) {
+    let currentDigitalData = window.digitalData;
+    if (apiResponse) {
+      Object.assign(currentDigitalData, {
+        cpj: {
+          tab: { name: apiResponse }
+        }
+      });
+      window.digitalData = currentDigitalData;
+    }
+    if (window._satellite) {
+      window._satellite.track(MY_ACCOUNT_TAB_CLICKED);
+    }
+  }
   if (type === ADOBE_SORT_SELECT) {
     let dataSort;
     if (window.digitalData) {
@@ -2890,19 +2904,6 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
       }
     });
     window.digitalData = currentDigitalData;
-  }
-  if (type === ADOBE_MY_ACCOUNT_TAB_CLICKED) {
-    if (value) {
-      Object.assign(currentDigitalData, {
-        cpj: {
-          tab: { name: value }
-        }
-      });
-      window.digitalData = currentDigitalData;
-    }
-    if (window._satellite) {
-      window._satellite.track(MY_ACCOUNT_TAB_CLICKED);
-    }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_HEADER_CLICK) {
     if (value) {

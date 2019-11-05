@@ -55,6 +55,7 @@ import throttle from "lodash.throttle";
 import {
   setDataLayer,
   setDataLayerForCartDirectCalls,
+  ADOBE_MY_ACCOUNT_TAB_CLICKED,
   ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING,
   ADOBE_MY_ACCOUNT_ORDER_HISTORY,
   ADOBE_MY_ACCOUNT_WRITE_REVIEW,
@@ -111,6 +112,19 @@ export default class AllOrderDetails extends React.Component {
   };
   tabSelect(val) {
     this.setState({ isSelected: val });
+    let selectedTab;
+    if (val === 0) {
+      selectedTab = "Recent Order";
+    } else if (val === 1) {
+      selectedTab = "Alerts";
+    } else if (val === 2) {
+      selectedTab = "Coupons";
+    } else if (val === 3) {
+      selectedTab = "Useful Links";
+    } else if (val === 4) {
+      selectedTab = "My review";
+    }
+    setDataLayer(ADOBE_MY_ACCOUNT_TAB_CLICKED, selectedTab);
   }
   onClickImage(isEgvOrder, productCode) {
     if (!isEgvOrder && productCode) {

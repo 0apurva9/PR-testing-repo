@@ -6,16 +6,10 @@ import * as Cookie from "../../lib/Cookie";
 import Button from "../../xelpmoc-core/Button";
 import {
   setDataLayerForHeaderAndFooterDirectCalls,
-  setDataLayer,
-  ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
-  ADOBE_MY_ACCOUNT_TAB_CLICKED
+  ADOBE_DIRECT_CALL_FOR_HEADER_CLICK
 } from "../../lib/adobeUtils";
 export default class DropdownMenu extends React.Component {
   goToMyAccount = value => {
-    setDataLayerForHeaderAndFooterDirectCalls(
-      ADOBE_MY_ACCOUNT_TAB_CLICKED,
-      value
-    );
     if (this.props.goToMyAccount) {
       this.props.goToMyAccount();
     }
