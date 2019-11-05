@@ -21,6 +21,7 @@ import {
   getTncForBankOffer,
   tempCartIdForLoggedInUser,
   getCartCountForLoggedInUser,
+  getOrderUpdateOnWhatsapp,
   getMinicartProducts
 } from "../../cart/actions/cart.actions";
 import {
@@ -384,6 +385,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     addProductToCart: productDetails => {
       dispatch(addProductToCart(productDetails));
+    },
+    subscribeWhatsapp: () => {
+      dispatch(getOrderUpdateOnWhatsapp());
     },
     updateReturnCancellation: async data => {
       const updateReturnCancellationDetails = await dispatch(

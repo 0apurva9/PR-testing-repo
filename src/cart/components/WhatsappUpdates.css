@@ -1,0 +1,34 @@
+.baseWhatsapp {
+	width: 100%;
+	height: auto;
+	padding: 22px 0 22px 27px;
+  margin-top: 20px;
+  background-color: #fff;
+}
+.whatsAppTick {
+	width: 8%;
+	float: left;
+	padding: 3px 0 0 3px;
+	cursor: pointer;
+}
+.whatsappImage {
+	width: 24px;
+	height: 24px;
+	margin-left: 10px;
+	display: inline-block;
+  vertical-align: bottom;
+}
+.orderUpdateText {
+	width: 92%;
+	height: auto;
+	line-height: 22px;
+	text-align: left;
+	font-family: semibold;
+	font-size: 12px;
+	position: relative;
+	word-wrap: break-word;
+	cursor: pointer;
+}
+.orderUpdateText::first-letter {
+  text-transform: uppercase;
+}

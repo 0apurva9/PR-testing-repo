@@ -50,7 +50,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 const mapStateToProps = state => {
-  console.log("getPinCodeDetails", state);
   return {
     cart: state.cart,
     userAddress: state.profile.userAddress,

@@ -34,11 +34,13 @@ import {
   OFFER_ERROR_PAYMENT_MODE_TYPE,
   EMI_TENURE,
   PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST,
+  WHATSAPP_NOTIFICATION,
   NOCART,
   STRIPE_DETAILS,
   ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE,
   OLD_CART_GU_ID,
-  FAILURE_LOWERCASE
+  FAILURE_LOWERCASE,
+  BIN_CARD_TYPE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -439,6 +441,7 @@ const ERROR_CODE_FOR_BANK_OFFER_INVALID_1 = "B9078";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_2 = "B6009";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_3 = "B9599";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_4 = "B9509";
+const ERROR_CODE_FOR_BANK_OFFER_INVALID_5 = "B9303";
 const INVALID_COUPON_ERROR_MESSAGE = "invalid coupon";
 const JUS_PAY_STATUS_REG_EX = /(status=[A-Za-z0-9_]*)/;
 
@@ -475,6 +478,12 @@ export const GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST =
 export const GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE =
   "GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE";
 
+export const GET_ORDER_UPDATE_ON_WHATSAPP_REQUEST =
+  "GET_ORDER_UPDATE_ON_WHATSAPP_REQUEST";
+export const GET_ORDER_UPDATE_ON_WHATSAPP_SUCCESS =
+  "GET_ORDER_UPDATE_ON_WHATSAPP_SUCCESS";
+export const GET_ORDER_UPDATE_ON_WHATSAPP_FAILURE =
+  "GET_ORDER_UPDATE_ON_WHATSAPP_FAILURE";
 export const GET_MINICART_SUCCESS = "GET_MINICART_SUCCESS";
 export const GET_MINICART_REQUEST = "GET_MINICART_REQUEST";
 export const GET_MINICART_FAILURE = "GET_MINICART_FAILURE";
@@ -1861,7 +1870,6 @@ export function applyBankOffer(couponCode) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-
   let cartId;
   const parsedQueryString = queryString.parse(window.location.search);
   const value = parsedQueryString.value;
@@ -1904,7 +1912,12 @@ export function applyBankOffer(couponCode) {
         } else if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_4
         ) {
-          dispatch(displayToast(resultJsonStatus.message));
+          dispatch(displayToast(resultJson.couponMessage));
+          localStorage.removeItem(BANK_COUPON_COOKIE);
+        } else if (
+          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_5
+        ) {
+          dispatch(displayToast(resultJson.error));
           localStorage.removeItem(BANK_COUPON_COOKIE);
         } else {
           localStorage.removeItem(BANK_COUPON_COOKIE);
@@ -2169,6 +2182,9 @@ export function binValidation(
       } else {
         localStorage.removeItem(SELECTED_BANK_NAME);
       }
+      if (resultJson.cardType) {
+        localStorage.setItem(BIN_CARD_TYPE, resultJson.cardType);
+      }
       if (paymentMode !== EMI && localStorage.getItem(EMI_TENURE)) {
         localStorage.removeItem(EMI_TENURE);
       }
@@ -2286,7 +2302,13 @@ export function softReservationForPaymentFailure(error) {
 export function softReservationForPayment(cardDetails, address) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+  let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+  const binCardType = localStorage.getItem(BIN_CARD_TYPE);
+  if (binCardType) {
+    paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
+      .slice(1)
+      .toLowerCase()} Card`;
+  }
   const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
   return async (dispatch, getState, { api }) => {
     let productItems = await getValidDeliveryModeDetails(
@@ -2610,6 +2632,7 @@ export function createJusPayOrder(
   }/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
   let cartId;
   let url = queryString.parse(window.location.search);
   if (url && url.value) {
@@ -2662,7 +2685,9 @@ export function createJusPayOrder(
             jusPayUrl
           )}&bankName=${
             bankName ? bankName : ""
-          }&paymentMode=${currentSelectedPaymentMode}&childPaymentMode=${childPaymentMode}&emiTenure=${emiTenure}&channel=${CHANNEL}&isUpdatedPwa=true`,
+          }&paymentMode=${currentSelectedPaymentMode}&childPaymentMode=${childPaymentMode}&emiTenure=${emiTenure}&channel=${CHANNEL}&isUpdatedPwa=true${
+            whatsappNotification ? "&whatsapp=true" : ""
+          }`,
           productItems
         );
       } else {
@@ -2685,7 +2710,9 @@ export function createJusPayOrder(
             jusPayUrl
           )}&bankName=${
             bankName ? bankName : ""
-          }&paymentMode=${currentSelectedPaymentMode}&childPaymentMode=${childPaymentMode}&emiTenure=${emiTenure}&channel=${CHANNEL}&isUpdatedPwa=true`,
+          }&paymentMode=${currentSelectedPaymentMode}&childPaymentMode=${childPaymentMode}&emiTenure=${emiTenure}&channel=${CHANNEL}&isUpdatedPwa=true${
+            whatsappNotification ? "&whatsapp=true" : ""
+          }`,
           cartItem
         );
       }
@@ -2739,6 +2766,7 @@ export function createJusPayOrderForGiftCard(
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
   const bankName = localStorage.getItem(SELECTED_BANK_NAME);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
   return async (dispatch, getState, { api }) => {
     dispatch(createJusPayOrderRequest());
     try {
@@ -2751,7 +2779,9 @@ export function createJusPayOrderForGiftCard(
           jusPayUrl
         )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
           bankName ? bankName : ""
-        }&channel=${CHANNEL}&isUpdatedPwa=true`
+        }&channel=${CHANNEL}&isUpdatedPwa=true${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2793,6 +2823,7 @@ export function createJusPayOrderForNetBanking(
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
   let cartId;
   const parsedQueryString = queryString.parse(window.location.search);
   if (parsedQueryString.value) {
@@ -2832,7 +2863,9 @@ export function createJusPayOrderForNetBanking(
             JSON.parse(customerCookie).access_token
           }&juspayUrl=${encodeURIComponent(
             jusPayUrl
-          )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`,
+          )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+            whatsappNotification ? "&whatsapp=true" : ""
+          }`,
           productItems
         );
       } else {
@@ -2843,7 +2876,9 @@ export function createJusPayOrderForNetBanking(
             JSON.parse(customerCookie).access_token
           }&juspayUrl=${encodeURIComponent(
             jusPayUrl
-          )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`,
+          )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+            whatsappNotification ? "&whatsapp=true" : ""
+          }`,
           cartItem
         );
       }
@@ -2900,6 +2935,7 @@ export function createJusPayOrderForGiftCardNetBanking(
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
   return async (dispatch, getState, { api }) => {
     dispatch(createJusPayOrderRequest());
 
@@ -2911,7 +2947,9 @@ export function createJusPayOrderForGiftCardNetBanking(
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
-        )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`
+        )}&paymentMode=${currentSelectedPaymentMode}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2949,6 +2987,7 @@ export function createJusPayOrderForSavedCards(
   }/checkout/multi/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
   let cartId;
   if (isPaymentFailed) {
     let url = queryString.parse(window.location.search);
@@ -2993,7 +3032,9 @@ export function createJusPayOrderForSavedCards(
             jusPayUrl
           )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
             bankName ? bankName : ""
-          }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`,
+          }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+            whatsappNotification ? "&whatsapp=true" : ""
+          }`,
           productItems
         );
       } else {
@@ -3012,7 +3053,9 @@ export function createJusPayOrderForSavedCards(
             jusPayUrl
           )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
             bankName ? bankName : ""
-          }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`,
+          }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+            whatsappNotification ? "&whatsapp=true" : ""
+          }`,
           cartItem
         );
       }
@@ -3058,6 +3101,7 @@ export function createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId) {
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
   const bankName = localStorage.getItem(SELECTED_BANK_NAME);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
   return async (dispatch, getState, { api }) => {
     dispatch(createJusPayOrderRequest());
     try {
@@ -3076,7 +3120,9 @@ export function createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId) {
           jusPayUrl
         )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
           bankName ? bankName : ""
-        }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`
+        }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3119,6 +3165,7 @@ export function createJusPayOrderForCliqCash(
   }/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
   let cartId;
   if (isPaymentFailed) {
     let url = queryString.parse(window.location.search);
@@ -3139,7 +3186,9 @@ export function createJusPayOrderForCliqCash(
           JSON.parse(customerCookie).access_token
         }&juspayUrl=${encodeURIComponent(
           jusPayUrl
-        )}&paymentMode=${CLIQ_CASH}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`,
+        )}&paymentMode=${CLIQ_CASH}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`,
         cartItem
       );
       const resultJson = await result.json();
@@ -3681,7 +3730,7 @@ export function orderConfirmationBanner(orderId) {
   return async (dispatch, getState, { api }) => {
     dispatch(orderConfirmationBannerRequest());
     try {
-      const result = await api.getOrderConfirmBanner(
+      const result = await api.customGetMiddlewareUrl(
         `/otatacliq/getApplicationProperties.json?propertyNames=ORDER_CONFIRMATION_WARRENTY_BANNER`
       );
       const resultJson = await result.json();
@@ -3936,6 +3985,7 @@ export function updateTransactionDetailsForCOD(
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
   const parsedQueryString = queryString.parse(window.location.search);
   let cartId;
   if (parsedQueryString.value) {
@@ -3955,7 +4005,9 @@ export function updateTransactionDetailsForCOD(
           JSON.parse(userDetails).userName
         }/payments/updateTransactionDetailsforCOD?access_token=${
           JSON.parse(customerCookie).access_token
-        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true&paymentMode=${paymentMode}&juspayOrderID=${juspayOrderID}&cartGuid=${cartId}&channel=${CHANNEL}`
+        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true&paymentMode=${paymentMode}&juspayOrderID=${juspayOrderID}&cartGuid=${cartId}&channel=${CHANNEL}${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -5417,6 +5469,12 @@ export function getCartCountForLoggedInUser(cartVal) {
   };
 }
 
+export function getOrderUpdateOnWhatsappRequest() {
+  return {
+    type: GET_ORDER_UPDATE_ON_WHATSAPP_REQUEST,
+    status: REQUESTING
+  };
+}
 // Minicart functions block
 // getMinicartProductsSuccess - The function is calling in getMinicartProducts function
 export function getMinicartProductsSuccess(minicartDetails) {
@@ -5435,6 +5493,48 @@ export function getMinicartProductsRequest() {
   };
 }
 
+export function getOrderUpdateOnWhatsappSuccess(responseJSON) {
+  return {
+    type: GET_ORDER_UPDATE_ON_WHATSAPP_SUCCESS,
+    status: SUCCESS,
+    responseJSON
+  };
+}
+
+export function getOrderUpdateOnWhatsappFailure(error) {
+  return {
+    type: GET_ORDER_UPDATE_ON_WHATSAPP_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+
+export function getOrderUpdateOnWhatsapp(orderId) {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getOrderUpdateOnWhatsappRequest());
+    try {
+      const result = await api.get(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/updateOrderPreferences/${orderId}?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true&whatsapp=true`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(getOrderUpdateOnWhatsappSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getOrderUpdateOnWhatsappFailure(e.message));
+    }
+  };
+}
 // getMinicartProductsRequest - The function is calling in getMinicartProductsFailure function
 export function getMinicartProductsFailure(error) {
   return {
@@ -5697,7 +5797,14 @@ export function collectPaymentOrderForGiftCard(
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
-    const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    const binCardType = localStorage.getItem(BIN_CARD_TYPE);
+    let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
+    if (binCardType) {
+      paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
+        .slice(1)
+        .toLowerCase()} Card`;
+    }
     let binNo = cardDetails.cardNumber.replace(/\s/g, "").substring(0, 6);
     dispatch(collectPaymentOrderForGiftCardRequest());
     try {
@@ -5708,7 +5815,9 @@ export function collectPaymentOrderForGiftCard(
           JSON.parse(customerCookie).access_token
         }&saveCard=${true}&sameAsShipping=true&cartGuid=${egvCartGuid}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=${binNo}&emiTenure=${
           cardDetails.emi_tenure
-        }&cardBrandName=${cardBrandName}`,
+        }&cardBrandName=${cardBrandName}${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`,
         cartdetails
       );
       const resultJson = await result.json();
@@ -5767,10 +5876,26 @@ export function collectPaymentOrder(
     let cartGuId = productDetails && JSON.parse(productDetails).guid;
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
-    const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    const binCardType = localStorage.getItem(BIN_CARD_TYPE);
+    //later correct this code , added for quick fix
+    let emiType = localStorage.getItem(EMI_TYPE);
+    if (
+      binCardType &&
+      emiType !== "No Cost EMI" &&
+      emiType !== "Standard EMI"
+    ) {
+      paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
+        .slice(1)
+        .toLowerCase()} Card`;
+    }
+    if (emiType === "No Cost EMI" || emiType === "Standard EMI") {
+      paymentMode = "EMI";
+    }
     let url = queryString.parse(window.location.search);
     let binNo = cardDetails.cardNumber.replace(/\s/g, "").substring(0, 6);
     let cartDetails;
+    let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
     if (url && url.value) {
       cartGuId =
         url && url.value ? url.value : Cookie.getCookie(OLD_CART_GU_ID);
@@ -5795,7 +5920,9 @@ export function collectPaymentOrder(
           JSON.parse(customerCookie).access_token
         }&saveCard=${true}&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=${binNo}&emiTenure=${
           cardDetails.emi_tenure
-        }&cardBrandName=${cardBrandName}`,
+        }&cardBrandName=${cardBrandName}${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`,
         cartdetails
       );
       const resultJson = await result.json();
@@ -5831,6 +5958,10 @@ export function collectPaymentOrder(
         } else {
           dispatch(getPrepaidOrderPaymentConfirmation(resultJson));
         }
+      }
+      //remove emitype on success
+      if (emiType) {
+        localStorage.removeItem(EMI_TYPE);
       }
     } catch (e) {
       dispatch(
@@ -6071,12 +6202,19 @@ export function collectPaymentOrderForSavedCards(
     let cartDetails;
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
-    const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    const binCardType = localStorage.getItem(BIN_CARD_TYPE);
+    if (binCardType) {
+      paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
+        .slice(1)
+        .toLowerCase()} Card`;
+    }
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
     const returnUrl = `${
       window.location.origin
     }/checkout/payment-method/cardPayment`;
     let orderDetails = "";
+    let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
     let inventoryItems = cartItem;
 
     if (isPaymentFailed) {
@@ -6167,7 +6305,9 @@ export function collectPaymentOrderForSavedCards(
           JSON.parse(userDetails).userName
         }/collectPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&saveCard=${false}&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=`,
+        }&saveCard=${false}&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`,
         orderDetails
       );
       const resultJson = await result.json();
@@ -6212,7 +6352,14 @@ export function collectPaymentOrderForGiftCardFromSavedCards(
     let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
+    let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    const binCardType = localStorage.getItem(BIN_CARD_TYPE);
+    if (binCardType) {
+      paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
+        .slice(1)
+        .toLowerCase()} Card`;
+    }
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
     const returnUrl = `${
       window.location.origin
@@ -6260,7 +6407,9 @@ export function collectPaymentOrderForGiftCardFromSavedCards(
           JSON.parse(userDetails).userName
         }/collectPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&saveCard=${false}&sameAsShipping=true&cartGuid=${guId}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=`,
+        }&saveCard=${false}&sameAsShipping=true&cartGuid=${guId}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`,
         orderDetails
       );
       const resultJson = await result.json();
@@ -6308,6 +6457,7 @@ export function collectPaymentOrderForNetBanking(
       : Cookie.getCookie(OLD_CART_GU_ID);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
+    let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
 
     const returnUrl = `${
       window.location.origin
@@ -6409,7 +6559,9 @@ export function collectPaymentOrderForNetBanking(
           JSON.parse(userDetails).userName
         }/collectPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&saveCard=false&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${currentSelectedPaymentMode}&firstName=${firstName}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=`,
+        }&saveCard=false&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${currentSelectedPaymentMode}&firstName=${firstName}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`,
         orderDetails
       );
       const resultJson = await result.json();
@@ -6468,6 +6620,7 @@ export function collectPaymentOrderForGiftCardNetBanking(
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
     let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
     let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
     let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
@@ -6518,7 +6671,9 @@ export function collectPaymentOrderForGiftCardNetBanking(
           JSON.parse(userDetails).userName
         }/collectPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&saveCard=false&sameAsShipping=true&cartGuid=${egvCartGuid}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${currentSelectedPaymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=`,
+        }&saveCard=false&sameAsShipping=true&cartGuid=${egvCartGuid}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${currentSelectedPaymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`,
         orderDetails
       );
       const resultJson = await result.json();
@@ -6586,6 +6741,7 @@ export function collectPaymentOrderForCliqCash(
     let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
     const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
+    let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
     const returnUrl = `${
       window.location.origin
     }/checkout/payment-method/cardPayment`;
@@ -6663,7 +6819,9 @@ export function collectPaymentOrderForCliqCash(
           JSON.parse(userDetails).userName
         }/collectPaymentOrder?access_token=${
           JSON.parse(customerCookie).access_token
-        }&saveCard=false&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=`,
+        }&saveCard=false&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`,
         orderDetails
       );
       const resultJson = await result.json();

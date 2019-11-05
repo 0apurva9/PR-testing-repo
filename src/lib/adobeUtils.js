@@ -383,6 +383,7 @@ const EXTERNAL_CAMPAIGN = "external_campaign";
 const CONTINUE_SHOPPING = "continue_shopping";
 const REVIEW_RATE_THE_PRODUCT = "cpj_review_rate_theProduct";
 const VIEW_CART_FROM_MINIBAG = "cpj_minicart_viewbag";
+const WHATSAPP_CHECKBOX_UNCHECK = "cpj_whatsappCheckboxUncheck";
 export const ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING =
   "ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING";
 
@@ -433,6 +434,7 @@ const MODE_OF_REFUND_SUBMITTED = "rrj_modeOfRefund_click";
 export const ADOBE_MODE_OF_REFUND_SUBMITTED = "ADOBE_MODE_OF_REFUND_SUBMITTED";
 const MODE_OF_RETURN_SUBMITTED = "rrj_modeOfReturn_click";
 export const ADOBE_MODE_OF_RETURN_SUBMITTED = "ADOBE_MODE_OF_RETURN_SUBMITTED";
+export const ADOBE_ERROR_TOAST_MESSAGE = "error_tracking";
 
 export function setDataLayer(
   type,
@@ -2761,5 +2763,11 @@ export function setDataLayerForGiftCard(type) {
 export function setDataLayerForMinibag() {
   if (window._satellite) {
     window._satellite.track(VIEW_CART_FROM_MINIBAG);
+  }
+}
+
+export function setDataLayerForWhatsappUncheck() {
+  if (window._satellite) {
+    window._satellite.track(WHATSAPP_CHECKBOX_UNCHECK);
   }
 }
