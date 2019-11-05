@@ -245,6 +245,8 @@ export const ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS =
   "ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS";
 export const ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE =
   "ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE";
+export const ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER =
+  "ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER";
 
 // end of const for setting data layer for the login track
 
@@ -300,6 +302,7 @@ export const ADOBE_SIGN_UP_SUCCESS = "ADOBE_SIGN_UP_SUCCESS";
 export const ADOBE_AUTO_SUGGEST_SEARCH = "ADOBE_AUTO_SUGGEST_SEARCH";
 export const ADOBE_DIRECT_CALL_FOR_HEADER_CLICK =
   "ADOBE_DIRECT_CALL_FOR_HEADER_CLICK";
+export const ADOBE_LOGOUT_SUCCESSFULL = "ADOBE_LOGOUT_SUCCESSFULL";
 export const ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_HOME =
   "ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_HOME";
 export const ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_OFFICE =
@@ -623,12 +626,14 @@ export function setDataLayer(
   }
   if (type === ADOBE_ERROR_TOAST_MESSAGE) {
     const digitalData = window.digitalData;
-    Object.assign(digitalData && digitalData.page, {
-      error: {
-        name: response.msg,
-        type: response.type
-      }
-    });
+    if (digitalData && digitalData.page) {
+      Object.assign(digitalData && digitalData.page, {
+        error: {
+          name: response.msg,
+          type: response.type
+        }
+      });
+    }
     if (window._satellite) {
       window._satellite.track(ERROR_TOAST_MESSAGE);
     }
@@ -2090,6 +2095,18 @@ export function setDataLayerForLogin(type, lastLocation) {
       window._satellite.track(LOGIN_START);
     }
   }
+  if (type === ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER) {
+    window.digitalData = data;
+    if (window.digitalData) {
+      Object.assign(data, {
+        account: {
+          login: {
+            customerID: "anonumous"
+          }
+        }
+      });
+    }
+  }
 }
 export function setDataLayerForOrderConfirmationDirectCalls(
   type,
@@ -2898,6 +2915,16 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
     }
     if (window._satellite) {
       window._satellite.track(HEADER_CLICK);
+    }
+  }
+  if (type === ADOBE_LOGOUT_SUCCESSFULL) {
+    if (value) {
+      Object.assign(currentDigitalData, {
+        header: {
+          headerName: value
+        }
+      });
+      window.digitalData = currentDigitalData;
     }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK) {
