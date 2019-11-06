@@ -850,6 +850,12 @@ export default class ModalRoot extends React.Component {
           {...this.props.ownProps}
         />
       ),
+      ReviewGuidelineModal: (
+        <ReviewGuidelineModal
+          {...this.props.ownProps}
+          closeModal={() => this.handleClose()}
+        />
+      ),
       OfferDetailsModal: (
         <OfferDetailsModal
           closeModal={() => this.handleClose()}

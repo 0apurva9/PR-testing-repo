@@ -110,7 +110,7 @@ class WriteReview extends React.Component {
               resetRating={this.state.resetRating}
             />
           </div>
-          {/* <div className={styles.reviewGuidelinesBar}>
+          <div className={styles.reviewGuidelinesBar}>
             <div
               className={styles.reviewGuidelines}
               onClick={() => {
@@ -119,7 +119,7 @@ class WriteReview extends React.Component {
             >
               Tips to write a review
             </div>
-          </div> */}
+          </div>
         </div>
         <div className={styles.input}>
           <Input
