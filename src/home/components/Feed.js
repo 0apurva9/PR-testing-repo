@@ -25,8 +25,7 @@ import {
   setDataLayer,
   ADOBE_HOME_TYPE,
   setDataLayerForLogin,
-  ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER,
-  ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS
+  ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER
 } from "../../lib/adobeUtils";
 
 export const PRODUCT_RECOMMENDATION_TYPE = "productRecommendationWidget";
@@ -358,8 +357,6 @@ class Feed extends Component {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     if (!userDetails) {
       setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
-    } else {
-      setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS);
     }
     this.props.seo
       ? this.props.seo.title
@@ -392,8 +389,6 @@ class Feed extends Component {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     if (!userDetails) {
       setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
-    } else {
-      setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS);
     }
     if (this.props.homeFeedData && !this.props.headerMessage) {
       const titleObj =
@@ -474,8 +469,6 @@ class Feed extends Component {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails) {
       setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
-    } else {
-      setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS);
     }
     if (
       this.props.feedType === HOME_FEED_TYPE &&
