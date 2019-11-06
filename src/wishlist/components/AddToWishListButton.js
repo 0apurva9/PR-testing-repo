@@ -30,12 +30,19 @@ export const WISHLIST_FOOTER_ICON_TYPE = "wishlistIcon";
 export const WISHLIST_BUTTON_TEXT_TYPE = "wishlistText";
 export const WISHLIST_BUTTON_TEXT_TYPE_SMALL = "wishlistTextSmall";
 export const ONLY_ICON = "wishlistIconForPdp";
+const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
+
 export default class AddToWishListButton extends React.Component {
   state = {
     foundInWishList: false
   };
   onClick(e) {
-    setDataLayer(ADOBE_ADD_TO_WISHLIST_PLP, this.props.productListings);
+    if (this.props && this.props.location && this.props.location.pathname) {
+      let path = this.props.location.pathname;
+      if (!PRODUCT_CODE_REGEX.test(path)) {
+        setDataLayer(ADOBE_ADD_TO_WISHLIST_PLP, this.props.productListings);
+      }
+    }
     if (e) {
       e.stopPropagation();
     }
@@ -156,7 +163,12 @@ export default class AddToWishListButton extends React.Component {
     if (this.props.removeProductFromWishList) {
       this.props.removeProductFromWishList(productDetails);
     }
-    setDataLayer(ADOBE_WISHLIST_PLP_REMOVE, this.props.productListings);
+    if (this.props && this.props.location && this.props.location.pathname) {
+      let path = this.props.location.pathname;
+      if (!PRODUCT_CODE_REGEX.test(path)) {
+        setDataLayer(ADOBE_WISHLIST_PLP_REMOVE, this.props.productListings);
+      }
+    }
   }
   render() {
     //let userCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);

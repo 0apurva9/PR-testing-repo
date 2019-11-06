@@ -770,11 +770,13 @@ export function setDataLayer(
   }
   if (type === ADOBE_HELP) {
     const data = window.digitalData;
-    Object.assign(data.page, {
-      pageInfo: {
-        pageName: window.location.pathname.replace(/\//g, "")
-      }
-    });
+    if (data && data.page) {
+      Object.assign(data.page, {
+        pageInfo: {
+          pageName: window.location.pathname.replace(/\//g, "")
+        }
+      });
+    }
     window.digitalData = data;
   }
 
@@ -2117,6 +2119,9 @@ export function setDataLayerForLogin(type, lastLocation) {
           login: {
             customerID: "anonumous"
           }
+        },
+        page: {
+          pageInfo: { pageName: previousDigitalData.page.pageInfo.pageName }
         }
       });
     }
