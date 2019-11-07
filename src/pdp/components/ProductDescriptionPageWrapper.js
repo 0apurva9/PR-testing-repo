@@ -57,6 +57,32 @@ if (isBrowser) {
     FineJewellery: props => <PdpJewellery {...props} />
   };
 }
+const relevantProductBundling = {
+  bundledItems: [
+    {
+      primaryProductCode: "MP000000001679195",
+      bundleItems: [
+        {
+          productCode: "MP000000005170874",
+          ussid: "124873ZopperTV"
+        },
+        {
+          productCode: "MP000000004730788",
+          ussid: "124722OneAssistTV"
+        }
+      ]
+    }
+  ]
+};
+// const typeComponentMapping = {
+//   Electronics: props => <PdpElectronics {...props} />,
+//   Watches: props => <PdpElectronics {...props} />,
+//   FashionJewellery: props => <PdpJewellery {...props} />,
+//   Clothing: props => <PdpApparel {...props} />,
+//   Footwear: props => <PdpApparel {...props} />,
+//   HomeFurnishing: props => <PdpHome {...props} />,
+//   FineJewellery: props => <PdpJewellery {...props} />
+// };
 
 const Loader = () => {
   return (
@@ -65,13 +91,15 @@ const Loader = () => {
     </div>
   );
 };
-
-//const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
-
 export default class ProductDescriptionPageWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = { showPiqPage: false };
+  }
+  componentWillMount() {
+    if (this.props.relevantBundleProductCode()) {
+      this.props.relevantBundleProductCode();
+    }
   }
   componentDidMount = async () => {
     if (this.props.match.path === PRODUCT_DESCRIPTION_PRODUCT_CODE) {
@@ -165,6 +193,13 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       </div>
     );
   }
+  getRelevantBundleProduct = async (productCode, temp, sequence) => {
+    let releventProductOne = await this.props.getRelevantBundleProduct(
+      productCode,
+      temp,
+      sequence
+    );
+  };
 
   render() {
     if (this.props.loading) {

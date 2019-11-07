@@ -21,6 +21,7 @@ import {
   getTncForBankOffer,
   tempCartIdForLoggedInUser,
   getCartCountForLoggedInUser,
+  getOrderUpdateOnWhatsapp,
   getMinicartProducts
 } from "../../cart/actions/cart.actions";
 import {
@@ -385,6 +386,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     addProductToCart: productDetails => {
       dispatch(addProductToCart(productDetails));
     },
+    subscribeWhatsapp: () => {
+      dispatch(getOrderUpdateOnWhatsapp());
+    },
     updateReturnCancellation: async data => {
       const updateReturnCancellationDetails = await dispatch(
         updateReturnCancellation(data)
@@ -404,7 +408,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 const ModalContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ModalRoot)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ModalRoot)
 );
 
 export default ModalContainer;

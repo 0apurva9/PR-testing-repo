@@ -46,45 +46,11 @@ export default class ReturnDateTime extends React.Component {
                 isSelect={true}
                 addressType={this.props.selectedAddress.addressType}
                 address={this.props.selectedAddress.line1}
-                subAddress={`${this.props.selectedAddress.state} ${
-                  this.props.selectedAddress.city
-                } ${this.props.selectedAddress.postalCode}`}
+                subAddress={`${this.props.selectedAddress.state} ${this.props.selectedAddress.city} ${this.props.selectedAddress.postalCode}`}
               />
             </div>
           </div>
         </MobileOnly>
-        {/* <div className={styles.cardOffset}>
-          <div className={styles.header}>Select return date</div>
-          {this.props.dateSlot &&
-            this.props.dateSlot.map(val => {
-              console.log(val);
-              return (
-                <SelectReturnDate
-                  label={val}
-                  selectItem={() => {
-                    this.handleDateSelect(val);
-                  }}
-                  selected={val === this.state.selectedDate}
-                />
-              );
-            })}
-        </div>
-
-        <div className={styles.card}>
-          <div className={styles.header}>Select return time</div>
-          {this.props.timeSlot.map(val => {
-            console.log(val);
-            return (
-              <SelectReturnDate
-                label={val}
-                selected={val === this.state.selectedTime}
-                selectItem={() => {
-                  this.handleTimeSelect(val);
-                }}
-              />
-            );
-          })}
-        </div> */}
       </ReturnsFrame>
     );
   }

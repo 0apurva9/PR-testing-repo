@@ -49,7 +49,6 @@ const mapDispatchToProps = dispatch => {
       dispatch(showModal(DESKTOP_AUTH));
     },
     showReviewGuidelineModal: () => {
-      console.log("hello");
       dispatch(showModal(REVIEW_GUIDLINE_MODAL));
     },
     setUrlToRedirectToAfterAuth: url => {
@@ -72,7 +71,10 @@ const mapStateToProps = state => {
 };
 
 const ProductReviewContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ProductReviewPage)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ProductReviewPage)
 );
 
 export default ProductReviewContainer;

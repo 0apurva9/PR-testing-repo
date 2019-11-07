@@ -1,0 +1,209 @@
+.base {
+	border-radius: 4px;
+	width: 664px;
+	height: 524px;
+	background-color: #ffffff;
+}
+
+.header {
+	width: 664px;
+	height: 58px;
+	font-family: semibold;
+	font-size: 20px;
+	font-weight: 500;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: 26px;
+	letter-spacing: normal;
+	background: #f9f9f9;
+	color: #212121;
+	padding: 16px 24px 16px 20px;
+	margin-bottom: 24px;
+}
+.iconAddBundledProduct {
+	float: left;
+	width: 243px;
+	height: 25px;
+	margin-top: 80px;
+	padding-left: 30px;
+	background: url(./img/Add.svg) no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+.columns {
+	/* composes: image; */
+	width: 40%;
+	display: inline-block;
+}
+.image {
+	width: 150.2px;
+	height: 199.7px;
+	position: relative;
+	left: 0;
+	top: 0;
+	padding-bottom: 5.3px;
+}
+.base a {
+	color: #ff1744 !important;
+}
+.brandName {
+	width: 100px;
+	height: 17px;
+	font-family: regular;
+	font-size: 14px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: rgba(33, 33, 33, 0.93);
+	display: inline-block;
+	margin-bottom: 10px;
+	padding-left: 4px;
+}
+
+.productName {
+	width: 145px;
+	height: auto;
+	font-family: light;
+	font-size: 14px;
+	font-weight: 300;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #212121;
+	padding-left: 4px;
+}
+
+.content {
+	width: 82%;
+	margin-left: 60px;
+	margin-right: 60px;
+	position: absolute;
+	font-size: 14px;
+	display: inline-flex;
+}
+
+.border {
+	width: 100%;
+	height: 1px;
+	background: #979797;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.backArrowTNC {
+	margin-right: 8px;
+}
+
+.section {
+	width: 100%;
+	height: auto;
+	margin-top: 15px;
+}
+.headingText {
+	width: 100%;
+	height: auto;
+	font-size: 14px;
+	font-family: semibold;
+	color: #212121;
+}
+.subHeader {
+	width: 100%;
+	height: auto;
+	color: #212121;
+	font-size: 14px;
+	font-family: bolder;
+}
+.description {
+	width: 100%;
+	height: auto;
+	font-size: 14px;
+	color: #212121;
+	line-height: 24px;
+	margin-top: 5px;
+}
+.description a {
+	color: #ff1744 !important;
+}
+.cancel {
+	width: 12px;
+	height: 12px;
+	position: absolute;
+	right: 40px;
+	top: 20px;
+	background: url(../../general/components/img/cancelBlack.svg) no-repeat;
+	background-position: center;
+	background-size: 20px;
+	z-index: 2;
+	cursor: pointer;
+}
+.timeSection {
+	width: 50%;
+	display: inline-block;
+	padding-right: 10px;
+	vertical-align: top;
+	font-size: 14px;
+	line-height: 22px;
+}
+.viewMoreBorder {
+	border-bottom: 1px solid;
+}
+.addToBagButton {
+	width: 255px;
+	height: 46px;
+	border-radius: 100px;
+	background: #ff1744;
+	color: #ffffff;
+	margin-top: 386px;
+	margin-bottom: 34px;
+	padding-top: 15px;
+	padding-bottom: 14px;
+	/* padding-left: 15px; */
+	text-align: center;
+	margin-left: 205px;
+	margin-right: 204px;
+	position: absolute;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+.priceHolder {
+	display: inline-block;
+	line-height: 24px;
+}
+.discount {
+	composes: priceHolder;
+	margin-right: 6px;
+	font-size: 14px;
+	color: #212121;
+	/* padding-top: 10px; */
+	font-family: light;
+}
+.priceCancelled {
+	composes: priceHolder;
+	text-decoration: line-through;
+	color: #9b9b9b;
+	font-size: 14px;
+}
+.discountClass {
+	color: rgb(255, 23, 68);
+	display: inline-block;
+	margin-left: 6px;
+	font-size: 14px;
+	font-family: light;
+}
+.discountMessage {
+	color: #ff1744;
+	font-size: 14px;
+	font-family: semibold;
+	text-align: center;
+	width: 350px;
+	height: 17px;
+	margin-top: 321px;
+	position: absolute;
+	margin-left: 167px;
+	padding-top: 26px;
+}

@@ -182,6 +182,7 @@ export const PRODUCT_CANCEL = "Cancel Item";
 
 export const SAVE_LIST_PAGE = "/default/wishList";
 export const PAYMENT_MODE_TYPE = "paymentMode";
+export const BIN_CARD_TYPE = "binCardType";
 // fetching feed information contant
 export const HOME_FEED_TYPE = "home";
 export const SECONDARY_FEED_TYPE = "secondaryFeed";
@@ -242,7 +243,7 @@ export const ALERTS_COUPON = "Alerts & Coupons";
 export const BRANDS = "Brands";
 export const ADDRESS_BOOK = "Address Book";
 export const ORDER_HISTORY = "Order History";
-export const CLIQ_CASH = "Cliq Cash";
+export const CLIQ_CASH = "CLiQ Cash";
 export const GIFT_CARD = "Gift Card";
 export const YOUR_BAG = "Your Bag";
 export const CATEGORIES = "Categories";
@@ -326,6 +327,8 @@ export const SAVE_TEXT = "Save Address";
 export const PINCODE_TEXT = "Please enter pincode";
 export const NAME_TEXT = "Please enter first name";
 export const LAST_NAME_TEXT = "Please enter last name";
+export const NAME_VALID_TEXT = "Please enter valid first name";
+export const LAST_VALID_TEXT = "Please enter valid last name";
 export const ADDRESS_TEXT = "Please enter address";
 export const ADDRESS_MINLENGTH_VALID_TEXT =
   "Minimum address length is 15 characters";
@@ -433,10 +436,42 @@ export const RETRY_PAYMENT_CART_AND_USER_ID_DETAILS =
   "retryPaymentCartIdAndUserID";
 export const PRIMARY_OFFER = "PRODUCT_PROMOTION";
 export const EMI_TENURE = "emiTenure";
+export const WHATSAPP_NOTIFICATION = "whatsappNotification";
 export const COMMENTS_PLACEHOLDER = "Add comments (optional)";
 export const RECEIVED = "Received";
 export const PAID = "Paid";
 export const EXPIRED = "Expired";
 export const EXPIRED_REJECTED_FORMAT = "0001-01-01T00:00:00";
+export const PREVENT_NUMBERS_VALIDATION = /^([^0-9]*)$/;
 export const BANK_ACCOUNT = "BANK_ACCOUNT";
 export const MY_ACCOUNT_SUFFIX = "/my-account/(.*)";
+
+// errors
+export const ERROR_CODE_JAVA_NET = "java.net";
+export const ERROR_CODE_REDIS_CLIENT = "redis.clients";
+export const ERROR_CODE_FLIXIBLE_SEARCH_ERROR = "flexible search error";
+export const ERROR_CODE_INVALID_GRANT_ERROR = "invalidgranterror";
+export const ERROR_CODE_INVALID_TOKEN_ERROR = "invalidtokenerror";
+export const ERROR_CODE_NO_PAGE_ID = "no page with id [defaulthomepage] found.";
+export const ERROR_CODE_ACCESS_DENIED = "access is denied";
+
+export const ERROR_CODE_SYSTEM_EXCEPTION = "system exception - glitch in code";
+export const ERROR_CODE_JAVA_SQL = "java.sql";
+export const ERROR_CODE_SQL_SEARCH_ERROR = "sql search error";
+export const ERROR_CODE_DE_HYBRIS = "de.hybris.";
+export const ERROR_CODE_NULL_POINTER_EXCEPTION = "nullpointererror";
+export const ERROR_CODE_JAVA_LANG = "java.lang";
+export const ERROR_CODE_CARD_ID = "cartid";
+export const ERROR_CODE_INVALID_REFRESH_TOKEN = "invalid refresh token";
+export const ERROR_CODE_ORG_APACHE = "org.apache";
+export const ERROR_CODE_FLEXIBLE_SEARCH_QUERY = "flexible search query";
+export const ERROR_CODE_INVALID_ACCESS_TOKEN = "invalid access token";
+
+export const FAILURE_TEXT =
+  "Your payment didn't go through, please try again with different payment mode";
+export const RETRY_FAILED_ORDER_COUPON_HEADER =
+  "Your payment hasn't gone through";
+export const RETRY_FAILED_ORDER_COUPON =
+  "You may attempt to pay again now or retry payment again after 20 minutes using the Payment Retry Link available in your Order History under My Account and your email to avail all the applied Coupon discounts and/or Instant Bank Offer discounts on this Order.";
+export const RETRY_FAILED_ORDER_COUPON_NOTE =
+  "Note: If the amount was debited from your account, it will be fully refunded.";

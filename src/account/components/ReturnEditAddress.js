@@ -244,7 +244,14 @@ export default class EditAddressPopUp extends React.Component {
             }
           });
         } else {
-          this.props.history.goBack();
+          if (
+            this.props.location.state &&
+            this.props.location.state.isFromOrderDetailsPage
+          ) {
+            this.props.history.go(-2);
+          } else {
+            this.props.history.goBack();
+          }
         }
       }
     }

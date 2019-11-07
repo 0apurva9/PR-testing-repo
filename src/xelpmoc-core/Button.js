@@ -60,6 +60,7 @@ export default class Button extends React.Component {
           height: this.props.height,
           width: this.props.width,
           borderRadius: this.props.borderRadius,
+          float: this.props.float ? this.props.float : "none",
           background: this.props.background ? this.props.background : "none",
           backgroundColor: this.state.backgroundColor,
           border: `2px solid ${this.state.borderColor}`
@@ -68,24 +69,23 @@ export default class Button extends React.Component {
         onMouseLeave={() => this.hoverOut()}
         onClick={e => this.handleClick(e)}
       >
-        {this.props.icon &&
-          this.props.icon.element && (
-            <div
-              className={this.styles.iconWrapper}
-              style={{
-                height: this.props.icon.size,
-                width: this.props.icon.size,
-                marginRight: this.props.icon.offset
-              }}
-            >
-              <div className={iconClass}>{this.props.icon.element}</div>
-              {this.props.icon.hoveredElement && (
-                <div className={secondaryIconClass}>
-                  {this.props.icon.hoveredElement}
-                </div>
-              )}
-            </div>
-          )}
+        {this.props.icon && this.props.icon.element && (
+          <div
+            className={this.styles.iconWrapper}
+            style={{
+              height: this.props.icon.size,
+              width: this.props.icon.size,
+              marginRight: this.props.icon.offset
+            }}
+          >
+            <div className={iconClass}>{this.props.icon.element}</div>
+            {this.props.icon.hoveredElement && (
+              <div className={secondaryIconClass}>
+                {this.props.icon.hoveredElement}
+              </div>
+            )}
+          </div>
+        )}
         <span style={{ ...this.props.textStyle }}>{this.props.label}</span>
       </div>
     );
@@ -102,6 +102,7 @@ Button.propTypes = {
   loading: PropTypes.bool,
   borderColor: PropTypes.string,
   borderRadius: PropTypes.number,
+  float: PropTypes.string,
   textStyle: PropTypes.shape({
     color: PropTypes.string,
     fontSize: PropTypes.number,
@@ -122,6 +123,7 @@ Button.defaultProps = {
   loading: false,
   iconHeight: 40,
   iconWidth: 40,
+  float: "none",
   textStyle: {
     color: "#fff",
     fontSize: 12,
