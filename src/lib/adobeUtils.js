@@ -45,6 +45,8 @@ const ADOBE_OUT_OF_STOCK_PDP = "out_of_stock";
 const ADOBE_ADD_TO_CART = "cpj_add_to_cart";
 const ADOBE_ADD_TO_CART_BUTTON = "add_to_cart";
 const ADOBE_BUY_NOW = "cpj_buy_now";
+const PDP_PRODUCT_SIMILAR = "pdp_similar_products";
+export const ADOBE_PDP_SIMILAR_PRODUCT = "ADOBE_PDP_SIMILAR_PRODUCT";
 
 const ADOBE_SAVE_PRODUCT = "cpj_button_save";
 const ADOBE_EMI_BANK_SELECT_ON_PDP = "cpj_pdp_emi";
@@ -61,10 +63,6 @@ const ADOBE_DIRECT_CALL_ON_CART_FOR_REMOVE_TRIGGER = "cpj_cart_removal";
 const ADOVE_DIRECT_CALL_ON_CLICK_CHECKOUT = "cpj_cart_checkout";
 const ADOVE_DIRECT_CALL_FOR_CHANGE_QUANTITY_ON_CART =
   "cpj_cart_quantity_change";
-const ADOBE_DIRECT_CALL_FOR_APPLY_COUPON_SUCCESS =
-  "cpj_checkout_payment_coupon_success";
-const ADOBE_DIRECT_CALL_FOR_APPLY_COUPON_FAIL =
-  "cpj_checkout_payment_coupon_fail";
 const ADOBE_DIRECT_CALL_FOR_SAVE_PORDUCT_ON_CART = "cpj_cart_button_save";
 // end of direct call url for cart page
 const ADOBE_ORDER_CONFIRMATION_FAILURE = "cpj_order_fail";
@@ -521,6 +519,11 @@ export function setDataLayer(
   }
   if (type === ADOBE_HOME_TYPE) {
     window.digitalData = getDigitalDataForHome();
+  }
+  if (type === ADOBE_PDP_SIMILAR_PRODUCT) {
+    if (window._satellite) {
+      window._satellite.track(PDP_PRODUCT_SIMILAR);
+    }
   }
   if (type === ADOBE_MY_ACCOUNT_TAB_CLICKED) {
     let currentDigitalData = window.digitalData;
@@ -1521,7 +1524,6 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
   }
   if (type === SET_DATA_LAYER_FOR_BUY_NOW_EVENT) {
     if (window._satellite) {
-      window._satellite.track(ADOBE_ADD_TO_CART);
       window._satellite.track(ADOBE_BUY_NOW);
     }
   }
@@ -1664,7 +1666,7 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
     });
     window.digitalData = data;
     if (window._satellite) {
-      window._satellite.track(ADOBE_DIRECT_CALL_FOR_APPLY_COUPON_SUCCESS);
+      window._satellite.track(ADOBE_CHECKOUT_APPLY_COUPON_SUCCESS);
     }
   }
   if (type === ADOBE_CALLS_FOR_APPLY_COUPON_FAIL) {
@@ -1674,7 +1676,7 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
     window.digitalData = data;
 
     if (window._satellite) {
-      window._satellite.track(ADOBE_DIRECT_CALL_FOR_APPLY_COUPON_FAIL);
+      window._satellite.track(ADOBE_CHECKOUT_APPLY_COUPON_FAILURE);
     }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART) {
