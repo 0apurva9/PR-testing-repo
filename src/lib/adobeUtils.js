@@ -373,8 +373,6 @@ const BANNER_PRODUCT_CAROUSAL_ADOBE = "banner_product_carousal";
 const THEME_OFFER_COMPONENT = "theme_offers_component";
 const FLASH_SALE_COMPONENT = "flash_sale_component";
 const HEADER_CLICK = "header_click";
-const CATEGORY_CLICK = "category_click";
-const BRAND_CLICK = "brand_click";
 const FOOTER_CLICK = "footer_click";
 const SOCIALMEDIA_CLICK = "socialmedia_click";
 const FOOTER_SUBSCRIBE = "footer_subscribe";
@@ -874,7 +872,7 @@ export function setDataLayer(
         }
       });
     }
-    window.digitalData = currentDigitalData;
+    window.digitalData = Object.assign(previousDigitalData, currentDigitalData);
   }
 
   if (window._satellite) {
@@ -2910,7 +2908,7 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
         pageInfo: { pageName: previousDigitalData.page.pageInfo.pageName }
       }
     });
-    window.digitalData = currentDigitalData;
+    window.digitalData = Object.assign(previousDigitalData, currentDigitalData);
   }
   if (type === ADOBE_DIRECT_CALL_FOR_HEADER_CLICK) {
     if (value) {
@@ -2919,7 +2917,10 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
           headerName: value
         }
       });
-      window.digitalData = currentDigitalData;
+      window.digitalData = Object.assign(
+        previousDigitalData,
+        currentDigitalData
+      );
     }
     if (window._satellite) {
       window._satellite.track(HEADER_CLICK);
@@ -2944,7 +2945,7 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
     });
     window.digitalData = currentDigitalData;
     if (window._satellite) {
-      window._satellite.track(CATEGORY_CLICK);
+      window._satellite.track(ADOBE_CLP_DIRECT_CALL);
     }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_BRAND_CLICK) {
@@ -2959,7 +2960,7 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
     window.digitalData.page.pageInfo.pageName = "brand page";
     window.digitalData = currentDigitalData;
     if (window._satellite) {
-      window._satellite.track(BRAND_CLICK);
+      window._satellite.track(ADOBE_BLP_DIRECT_CALL);
     }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_FOOTER_CLICK) {
