@@ -233,7 +233,7 @@ export function viewSimilarProducts(productListingId) {
 export function getProductListings(
   suffix = null,
   paginated = false,
-  isFilter = false,
+  isFilter,
   searchHistory = false,
   searchTrending = false,
   componentName
@@ -298,7 +298,8 @@ export function getProductListings(
         resultJson.currentQuery.searchQuery &&
         !paginated &&
         !searchHistory &&
-        !searchTrending
+        !searchTrending &&
+        isFilter === "DirectSearch"
       ) {
         setDataLayer(
           ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT,
