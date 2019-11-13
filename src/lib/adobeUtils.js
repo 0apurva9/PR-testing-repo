@@ -45,8 +45,8 @@ const ADOBE_OUT_OF_STOCK_PDP = "out_of_stock";
 const ADOBE_ADD_TO_CART = "cpj_add_to_cart";
 const ADOBE_ADD_TO_CART_BUTTON = "add_to_cart";
 const ADOBE_BUY_NOW = "cpj_buy_now";
-const PDP_PRODUCT_SIMILAR = "pdp_similar_products";
-export const ADOBE_PDP_SIMILAR_PRODUCT = "ADOBE_PDP_SIMILAR_PRODUCT";
+// const PDP_PRODUCT_SIMILAR = "pdp_similar_products";
+// export const ADOBE_PDP_SIMILAR_PRODUCT = "ADOBE_PDP_SIMILAR_PRODUCT";
 
 const ADOBE_SAVE_PRODUCT = "cpj_button_save";
 const ADOBE_EMI_BANK_SELECT_ON_PDP = "cpj_pdp_emi";
@@ -345,7 +345,7 @@ export const ADOBE_MY_ACCOUNT_WISHLIST_REMOVE =
   "ADOBE_MY_ACCOUNT_WISHLIST_REMOVE";
 export const ADOBE_PLP = "ADOBE_PLP";
 export const QA2_MCV_ID = "sample_12345";
-export const ADOBE_SIMILAR_PRODUCTS_PDP = "Pdp_View_Similar_Products";
+export const ADOBE_SIMILAR_PRODUCTS_PDP = "ADOBE_SIMILAR_PRODUCTS_PDP";
 // components name for widgets tracking
 const YOU_MAY_ALSO_LIKE = "you_may_also_like";
 const FRESH_FROM_BRANDS = "fresh_from_brands";
@@ -501,6 +501,7 @@ const ADD_TO_WISHLIST_PLP = "plp_add_to_wishlist";
 export const ADOBE_ADD_TO_WISHLIST_PLP = "ADOBE_ADD_TO_WISHLIST_PLP";
 const WISHLIST_PLP_REMOVE = "plp_remove_from_wishlist";
 export const ADOBE_WISHLIST_PLP_REMOVE = "ADOBE_WISHLIST_PLP_REMOVE";
+const SIMILAR_PRODUCT_PDP = "pdp_view_similar_products";
 
 export function setDataLayer(
   type,
@@ -518,11 +519,11 @@ export function setDataLayer(
   if (type === ADOBE_HOME_TYPE) {
     window.digitalData = getDigitalDataForHome();
   }
-  if (type === ADOBE_PDP_SIMILAR_PRODUCT) {
-    if (window._satellite) {
-      window._satellite.track(PDP_PRODUCT_SIMILAR);
-    }
-  }
+  // if (type === ADOBE_PDP_SIMILAR_PRODUCT) {
+  //   if (window._satellite) {
+  //     window._satellite.track(PDP_PRODUCT_SIMILAR);
+  //   }
+  // }
   if (type === ADOBE_MY_ACCOUNT_TAB_CLICKED) {
     let currentDigitalData = window.digitalData;
     if (apiResponse) {
@@ -651,6 +652,30 @@ export function setDataLayer(
     }
     if (window._satellite) {
       window._satellite.track(ERROR_TOAST_MESSAGE);
+    }
+  }
+  if (type === ADOBE_SIMILAR_PRODUCTS_PDP) {
+    const digitalDataForPDP = getDigitalDataForPdp(type, response);
+    //  this is neccasary for when user comes from plp page to pdp
+    //  then we are setting badges from plp page and we need to
+    //  pass that on pdp page
+    if (
+      window.digitalData &&
+      window.digitalData.cpj &&
+      window.digitalData.cpj.product &&
+      window.digitalData.cpj.product.badge
+    ) {
+      const badge = window.digitalData.cpj.product.badge;
+      Object.assign(digitalDataForPDP.cpj.product, { badge });
+    }
+    window.digitalData = digitalDataForPDP;
+    if (response && response.allOOStock) {
+      if (window._satellite) {
+        window._satellite.track(ADOBE_OUT_OF_STOCK_PDP);
+      }
+    }
+    if (window._satellite) {
+      window._satellite.track(SIMILAR_PRODUCT_PDP);
     }
   }
   //bundledProduct
@@ -875,7 +900,16 @@ export function setDataLayer(
     window.digitalData = Object.assign(previousDigitalData, currentDigitalData);
   }
 
-  if (window._satellite) {
+  if (
+    window._satellite &&
+    type !== ADOBE_SIMILAR_PRODUCTS_PLP &&
+    type !== ADOBE_SIMILAR_PRODUCTS_PDP &&
+    type !== ADOBE_ADD_TO_WISHLIST_PLP &&
+    type !== ADOBE_WISHLIST_PLP_REMOVE &&
+    type !== ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT &&
+    type !== ADOBE_LOGIN_AND_SIGN_UP_PAGE &&
+    type !== ADOBE_SORT_SELECT
+  ) {
     window._satellite.track(ADOBE_SATELLITE_CODE);
   }
 
