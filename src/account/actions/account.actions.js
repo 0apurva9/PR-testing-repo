@@ -87,6 +87,18 @@ export const GET_ALL_ORDERS_REQUEST = "GET_ALL_ORDERS_REQUEST";
 export const GET_ALL_ORDERS_SUCCESS = "GET_ALL_ORDERS_SUCCESS";
 export const GET_ALL_ORDERS_FAILURE = "GET_ALL_ORDERS_FAILURE";
 
+export const GET_ALL_SELLERS_REQUEST = "GET_ALL_SELLERS_REQUEST";
+export const GET_ALL_SELLERS_SUCCESS = "GET_ALL_SELLERS_SUCCESS";
+export const GET_ALL_SELLERS_FAILURE = "GET_ALL_SELLERS_FAILURE";
+
+export const SUBMIT_SELLER_REVIEW_BY_USER = "SUBMIT_SELLER_REVIEW_BY_USER";
+export const SELLER_REVIEW_SUBMIT_FAILURE = "SELLER_REVIEW_SUBMIT_FAILURE";
+export const SELLER_REVIEW_REMOVE_FAILURE = "SELLER_REVIEW_REMOVE_FAILURE";
+export const REMOVE_SELLER_REVIEW_BY_USER = "REMOVE_SELLER_REVIEW_BY_USER";
+export const GET_ALL_SELLERS_REVIEW_REQUEST = "GET_ALL_SELLERS_REVIEW_REQUEST";
+export const GET_ALL_SELLERS_REVIEW_SUCCESS = "GET_ALL_SELLERS_REVIEW_SUCCESS";
+export const GET_ALL_SELLERS_REVIEW_FAILURE = "GET_ALL_SELLERS_REVIEW_FAILURE";
+
 export const RETURN_PRODUCT_DETAILS_REQUEST = "RETURN_PRODUCT_DETAILS_REQUEST";
 export const RETURN_PRODUCT_DETAILS_SUCCESS = "RETURN_PRODUCT_DETAILS_SUCCESS";
 export const RETURN_PRODUCT_DETAILS_FAILURE = "RETURN_PRODUCT_DETAILS_FAILURE";
@@ -2238,88 +2250,94 @@ export function getAllSellersDetails(
 ) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let url = window.location.href;
+  let parts = url.split("/");
+  let transId = parts[parts.length - 1];
   return async (dispatch, getState, { api }) => {
     dispatch(getAllSellersRequest());
     dispatch(showSecondaryLoader());
     try {
-      // let getSellerDetails = "";
-      // if (showDataAccordingToUser) {
-      //   getSellerDetails = `${PATH}/getSellerFeedbackTransactions?
-      //   transactionId=${transId}&customerId=${userDetails.customerId}`;
-      // } else {
-      //   getSellerDetails = `${PATH}/${
-      //     JSON.parse(userDetails).userName
-      //   }/orderhistorylist_V1?access_token=${
-      //     JSON.parse(customerCookie).access_token
-      //   }&isPwa=true&currentPage=&pageSize=${PAGE_SIZE}`;
-      // }
-      //const result = api.get(getSellerDetails);
-      const resultJson = {
-        type: "reviewRatingInfoDTO",
-        status: "Success",
-        reviewRatingInfo: [
-          {
-            customerSellerRating: "",
-            fulfillmentType: "tship",
-            imageURL:
-              "//thumbs4.ebaystatic.com/m/mi3383xNWXbgqYLKM9C9YVQ/140.jpg",
-            orderDate: "2019-10-22 11:44:17",
-            orderId: "602422988",
-            productCode: "987654341",
-            productName: "White  WestSport Swimwear Womens",
-            reviewStatus: "NEW",
-            sellerId: "123653",
-            sellerName: "PANTALOONS",
-            suborderId: "191022-000-263377",
-            transactionId: "123653000216389"
-          },
-          {
-            customerSellerRating: "",
-            fulfillmentType: "tship",
-            imageURL:
-              "//thumbs4.ebaystatic.com/m/mi3383xNWXbgqYLKM9C9YVQ/140.jpg",
-            orderDate: "2019-10-22 11:44:17",
-            orderId: "602422988",
-            productCode: "987654341",
-            productName: "White  WestSport Swimwear Womens",
-            reviewStatus: "NEW",
-            sellerId: "123653",
-            sellerName: "PANTALOONS",
-            suborderId: "191022-000-263377",
-            transactionId: "123653000788149"
-          },
-          {
-            customerSellerRating: "",
-            fulfillmentType: "tship",
-            imageURL:
-              "//thumbs4.ebaystatic.com/m/mi3383xNWXbgqYLKM9C9YVQ/140.jpg",
-            orderDate: "2019-10-22 11:44:17",
-            orderId: "602422988",
-            productCode: "987654341",
-            productName: "White  WestSport Swimwear Womens",
-            reviewStatus: "NEW",
-            sellerId: "123653",
-            sellerName: "PANTALOONS",
-            suborderId: "191022-000-263377",
-            transactionId: "123653000127348"
-          },
-          {
-            customerSellerRating: "",
-            fulfillmentType: "tship",
-            imageURL:
-              "//thumbs4.ebaystatic.com/m/mi3383xNWXbgqYLKM9C9YVQ/140.jpg",
-            orderDate: "2019-10-22 11:44:17",
-            orderId: "602422988",
-            productCode: "987654341",
-            productName: "White  WestSport Swimwear Womens",
-            reviewStatus: "NEW",
-            sellerId: "123653",
-            sellerName: "PANTALOONS",
-            suborderId: "191022-000-263377",
-            transactionId: "123653000628604"
-          }
-        ]
-      }; //await result.json();
+      let getSellerDetails = "";
+      if (showDataAccordingToUser) {
+        getSellerDetails = `${PATH}/getSellerFeedbackTransactions?
+        transactionId=${transId}&customerId=${
+          JSON.parse(userDetails).customerId
+        }`;
+      } else {
+        getSellerDetails = `${PATH}/${
+          JSON.parse(userDetails).userName
+        }/orderhistorylist_V1?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&currentPage=&pageSize=${PAGE_SIZE}`;
+      }
+      const result = api.get(getSellerDetails);
+      const resultJson = await result.json();
+      //  {
+      //   type: "reviewRatingInfoDTO",
+      //   status: "Success",
+      //   reviewRatingInfo: [
+      //     {
+      //       customerSellerRating: "",
+      //       fulfillmentType: "tship",
+      //       imageURL:
+      //         "//thumbs4.ebaystatic.com/m/mi3383xNWXbgqYLKM9C9YVQ/140.jpg",
+      //       orderDate: "2019-10-22 11:44:17",
+      //       orderId: "602422988",
+      //       productCode: "987654341",
+      //       productName: "White  WestSport Swimwear Womens",
+      //       reviewStatus: "NEW",
+      //       sellerId: "123653",
+      //       sellerName: "PANTALOONS",
+      //       suborderId: "191022-000-263377",
+      //       transactionId: "123653000216389"
+      //     },
+      //     {
+      //       customerSellerRating: "",
+      //       fulfillmentType: "tship",
+      //       imageURL:
+      //         "//thumbs4.ebaystatic.com/m/mi3383xNWXbgqYLKM9C9YVQ/140.jpg",
+      //       orderDate: "2019-10-22 11:44:17",
+      //       orderId: "602422988",
+      //       productCode: "987654341",
+      //       productName: "White  WestSport Swimwear Womens",
+      //       reviewStatus: "NEW",
+      //       sellerId: "123653",
+      //       sellerName: "PANTALOONS",
+      //       suborderId: "191022-000-263377",
+      //       transactionId: "123653000788149"
+      //     },
+      //     {
+      //       customerSellerRating: "",
+      //       fulfillmentType: "tship",
+      //       imageURL:
+      //         "//thumbs4.ebaystatic.com/m/mi3383xNWXbgqYLKM9C9YVQ/140.jpg",
+      //       orderDate: "2019-10-22 11:44:17",
+      //       orderId: "602422988",
+      //       productCode: "987654341",
+      //       productName: "White  WestSport Swimwear Womens",
+      //       reviewStatus: "NEW",
+      //       sellerId: "123653",
+      //       sellerName: "PANTALOONS",
+      //       suborderId: "191022-000-263377",
+      //       transactionId: "123653000127348"
+      //     },
+      //     {
+      //       customerSellerRating: "",
+      //       fulfillmentType: "tship",
+      //       imageURL:
+      //         "//thumbs4.ebaystatic.com/m/mi3383xNWXbgqYLKM9C9YVQ/140.jpg",
+      //       orderDate: "2019-10-22 11:44:17",
+      //       orderId: "602422988",
+      //       productCode: "987654341",
+      //       productName: "White  WestSport Swimwear Womens",
+      //       reviewStatus: "NEW",
+      //       sellerId: "123653",
+      //       sellerName: "PANTALOONS",
+      //       suborderId: "191022-000-263377",
+      //       transactionId: "123653000628604"
+      //     }
+      //   ]
+      // }; //await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -2388,9 +2406,12 @@ export function getAllSellersReviewDetails(
         status: "Success",
         reviewRatingInfo: [
           {
+            customerComment: "sdasdas",
             customerSellerRating: "4.0",
             imageURL:
               "//thumbs4.ebaystatic.com/m/mi3383xNWXbgqYLKM9C9YVQ/140.jpg",
+            itemDeliveredAsDescribed: "yes",
+            itemDeliveredWithInCommunicatedTime: "yes",
             orderDate: "2019-09-24 11:37:55",
             orderId: "616878323",
             productCode: "987654341",
@@ -2399,10 +2420,7 @@ export function getAllSellersReviewDetails(
             sellerId: "123653",
             sellerName: "PANTALOONS",
             suborderId: "190924-000-470522",
-            transactionId: "123653000237504",
-            comments:
-              "The item was delivered in no time and the packaging was amazing. thanks to HCCD enterprise.",
-            itemDeliveredOnTime: "Yes"
+            transactionId: "123653000237504"
           },
           {
             customerSellerRating: "4.0",
@@ -2417,8 +2435,9 @@ export function getAllSellersReviewDetails(
             sellerName: "PANTALOONS",
             suborderId: "191022-000-263377",
             transactionId: "123653000216389",
-            comments: "Very nice seller they delivered very correct product",
-            itemDeliveredOnTime: "No"
+            customerComment:
+              "Very nice seller they delivered very correct product",
+            itemDeliveredWithInCommunicatedTime: "No"
           }
         ]
       }; //await result.json();
@@ -2474,6 +2493,39 @@ export function submitSellerReviewByUser(params) {
   };
 }
 
+export function sellerReviewRemoveByUser(sellerReviewRemoveStatus) {
+  return {
+    type: REMOVE_SELLER_REVIEW_BY_USER,
+    sellerReviewRemoveStatus
+  };
+}
+export function sellerReviewRemoveFailure(error) {
+  return {
+    type: SELLER_REVIEW_REMOVE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function removeSellerReviewByUser(params) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS),
+    customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    try {
+      let reqURL = `${USER_PATH}/${
+        JSON.parse(userDetails).userName
+      }/submitCustomerReview?access_token=${
+        JSON.parse(customerCookie).access_token
+      }`;
+
+      const result = await api.post(reqURL, params);
+      const resultJson = await result.json();
+      dispatch(sellerReviewRemoveByUser(resultJson));
+    } catch (e) {
+      dispatch(sellerReviewRemoveFailure(e.message));
+    }
+  };
+}
 
 export function getUserDetailsRequest() {
   return {

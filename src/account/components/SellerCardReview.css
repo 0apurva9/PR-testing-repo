@@ -1,0 +1,50 @@
+
+.base{
+    font-size: 14px;
+    position: relative;
+}
+.title{
+    color: #4a4a4a;  
+    padding-bottom: 5px;
+}
+
+.orderDetails{
+    width:75%;
+    display: inline;
+    float:right;
+}
+
+.productNameNMoreInfo{
+   
+    right: 10px;
+    top:0px;
+}
+.capacity{
+    color: #4a4a4a;
+    padding-bottom: 10px;
+}
+.productImage{
+    height:61px;
+    width:45px;
+    position: absolute;
+    left: 10px;
+    top:0px;
+
+}
+.placedTime{
+    padding-bottom: 10px;
+}
+.placedTimeText{
+    font-family: semibold;
+}
+
+.orderNumber{
+    padding-bottom: 7px;
+    padding-top: 17px;
+}
+.orderFullfilledBy{
+    padding-bottom: 7px;
+}
+.productImage{
+    padding-bottom: 7px;
+}
