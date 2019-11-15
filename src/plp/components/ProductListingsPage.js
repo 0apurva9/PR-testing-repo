@@ -178,8 +178,17 @@ class ProductListingsPage extends Component {
       }
     }
     if (this.props.match.path === PRODUCT_LISTINGS) {
-      if (!searchText.includes("relevance")) {
-        searchText = `${searchText}:relevance`;
+      if (searchText && !searchText.includes("relevance")) {
+        if (
+          searchText.includes("price-asc") ||
+          searchText.includes("price-desc") ||
+          searchText.includes("isDiscountedPrice") ||
+          searchText.includes("isProductNew")
+        ) {
+          searchText = `${searchText}`;
+        } else {
+          searchText = `${searchText}:relevance`;
+        }
       }
     }
     if (searchText) {
@@ -199,9 +208,17 @@ class ProductListingsPage extends Component {
       searchText = searchText.replace(MAX_PRICE_FROM_API_2, MAX_PRICE_FROM_UI);
     }
     if (searchText && !searchText.includes("relevance")) {
-      searchText = `${searchText}:relevance`;
+      if (
+        searchText.includes("price-asc") ||
+        searchText.includes("price-desc") ||
+        searchText.includes("isDiscountedPrice") ||
+        searchText.includes("isProductNew")
+      ) {
+        searchText = `${searchText}`;
+      } else {
+        searchText = `${searchText}:relevance`;
+      }
     }
-
     return encodeURIComponent(searchText);
   }
   getCategoryId(searchText = "") {

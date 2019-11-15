@@ -516,8 +516,10 @@ export default class PdpApparel extends React.Component {
           }
         } else {
           this.props.displayToast("Please select a size to continue");
-          this.setState({ isLoader: false });
-          this.setState({ sizeError: true });
+          this.setState({
+            sizeError: true,
+            isLoader: true
+          });
         }
       }
     }
@@ -557,7 +559,8 @@ export default class PdpApparel extends React.Component {
   updateQuantity = quantity => {
     this.setState({
       productQuantityOption: quantity,
-      quantityError: false
+      quantityError: false,
+      isLoader: false
     });
   };
   updateSize = () => {
@@ -619,8 +622,10 @@ export default class PdpApparel extends React.Component {
   };
   isSizeNotSelectedForAddToWishlist = () => {
     this.props.displayToast("Please select a size to continue");
-    this.setState({ isLoader: false });
-    this.setState({ sizeError: true });
+    this.setState({
+      sizeError: true,
+      isLoader: false
+    });
   };
   showPriceBreakup = () => {
     if (this.props.showPriceBreakup) {

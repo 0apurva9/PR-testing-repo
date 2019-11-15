@@ -111,7 +111,8 @@ import {
   RETRY_FAILED_ORDER_COUPON_HEADER,
   RETRY_FAILED_ORDER_COUPON,
   RETRY_FAILED_ORDER_COUPON_NOTE,
-  FAILURE_TEXT
+  FAILURE_TEXT,
+  FAILED_ORDER
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -222,7 +223,10 @@ class CheckOutPage extends React.Component {
       retryFlagForEmiCoupon: false,
       emiBinValidationErrorMessage: null,
       emiBinValidationStatus: false,
-      whatsappSelected: true
+      whatsappSelected: true,
+      retryPaymentDetails: props.retryPaymentDetails
+        ? props.retryPaymentDetails
+        : null
     };
   }
 
@@ -285,7 +289,7 @@ class CheckOutPage extends React.Component {
       await this.removeNoCostEmi(noCostEmiCouponCode);
     }
     //here we need to reset captch if if already done .but payment mode is changed
-    if (this.state.captchaReseponseForCOD) {
+    if (this.state.captchaReseponseForCOD && window.grecaptcha) {
       window.grecaptcha.reset();
     }
     this.setState(val);
@@ -301,7 +305,8 @@ class CheckOutPage extends React.Component {
       paymentModeSelected: null,
       binValidationCOD: false,
       emiBinValidationErrorMessage: null,
-      emiBinValidationStatus: false
+      emiBinValidationStatus: false,
+      currentSelectedEMIType: null
     });
   };
   navigateToJusPayOnGET(url) {
@@ -345,6 +350,17 @@ class CheckOutPage extends React.Component {
     if (noCostEmiCouponCode) {
       this.removeNoCostEmi(noCostEmiCouponCode);
     }
+    this.setState({
+      currentSelectedEMIType,
+      cardDetails: {},
+      noCostEmiBankName: null,
+      noCostEmiDiscount: "0.00",
+      isNoCostEmiApplied: false,
+      emiBinValidationErrorMessage: null,
+      emiBinValidationStatus: false
+    });
+  }
+  setSunEmiOption(currentSelectedEMIType) {
     this.setState({
       currentSelectedEMIType,
       cardDetails: {},
@@ -895,6 +911,7 @@ class CheckOutPage extends React.Component {
           egvCartGuid: giftCartObj.egvCartGuid
         });
       }
+
       if (localStorage.getItem(RETRY_PAYMENT_CART_ID)) {
         let retryPaymentDetailsObj = JSON.parse(
           localStorage.getItem(RETRY_PAYMENT_DETAILS)
@@ -959,6 +976,18 @@ class CheckOutPage extends React.Component {
         isNoCostEmiProceeded: false
       });
     }
+    if (
+      !nextProps.cart.isNoCostEmiApplied &&
+      !this.state.isNoCostEmiApplied &&
+      nextProps.retryPaymentDetails
+    ) {
+      if (nextProps.retryPaymentDetails.retryFlagEmiCoupon) {
+        this.setState({
+          isNoCostEmiApplied: true,
+          isNoCostEmiProceeded: false
+        });
+      }
+    }
     this.availabilityOfUserCoupon();
     if (
       !this.state.isCheckoutAddressSelected &&
@@ -1008,6 +1037,17 @@ class CheckOutPage extends React.Component {
         RETRY_PAYMENT_DETAILS,
         JSON.stringify(retryPaymentDetailsObject)
       );
+      // Updated total amount in state for retry payment
+      this.setState({
+        payableAmount:
+          Math.round(
+            retryPaymentDetailsObject &&
+              retryPaymentDetailsObject.retryPaymentDetails &&
+              retryPaymentDetailsObject.retryPaymentDetails.cartAmount &&
+              retryPaymentDetailsObject.retryPaymentDetails.cartAmount
+                .paybleAmount.doubleValue * 100
+          ) / 100
+      });
     }
     // end of adding default address is selected
     // adding selected default delivery modes for every product for retry payment
@@ -1329,6 +1369,12 @@ class CheckOutPage extends React.Component {
     }
     this.props.clearCartDetails();
     this.props.resetIsSoftReservationFailed();
+    if (this.props.retryPaymentDetails) {
+      this.props.resetFailedOrderDetails();
+    }
+    if (localStorage.getItem(FAILED_ORDER)) {
+      localStorage.removeItem(FAILED_ORDER);
+    }
   }
   componentDidMount() {
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -1390,6 +1436,7 @@ if you have order id in local storage then you have to show order confirmation p
         }
       }
       this.props.getPaymentFailureOrderDetails();
+
       if (localStorage.getItem(EGV_GIFT_CART_ID)) {
         let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
         this.setState({
@@ -1510,6 +1557,12 @@ if you have order id in local storage then you have to show order confirmation p
         localStorage.getItem(RETRY_PAYMENT_DETAILS)
       );
       let retryCartId = JSON.parse(localStorage.getItem(RETRY_PAYMENT_CART_ID));
+      if (!retryCartId) {
+        let querySearch = this.props.location.search;
+        const parsedQueryString = queryString.parse(querySearch);
+        retryCartId = parsedQueryString.value;
+      }
+
       this.setState(
         {
           isComingFromRetryUrl: true,
@@ -1607,8 +1660,19 @@ if you have order id in local storage then you have to show order confirmation p
         JSON.stringify(this.props.location.state)
       );
     }
-    if (this.props.location.pathname === `${RETRY_FAILED_ORDER}`) {
-      const parsedQueryString = queryString.parse(this.props.location.search);
+    let failedorderRetryPayment = localStorage.getItem(FAILED_ORDER);
+    if (
+      this.props.location.pathname === `${RETRY_FAILED_ORDER}` ||
+      failedorderRetryPayment
+    ) {
+      let querySearch = this.props.location.search;
+      if (failedorderRetryPayment && !this.state.isComingFromRetryUrl) {
+        querySearch = failedorderRetryPayment.includes("?")
+          ? failedorderRetryPayment.split("?")[1]
+          : failedorderRetryPayment;
+      }
+      const parsedQueryString = queryString.parse(querySearch);
+
       let guId = parsedQueryString.value;
       let userId = parsedQueryString.userId;
       let userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -2716,6 +2780,7 @@ if you have order id in local storage then you have to show order confirmation p
         }
       }
     }
+    this.onChangePaymentMode({ currentPaymentMode: null });
   };
   openBankOffers = () => {
     this.props.showCouponModal({
@@ -3229,7 +3294,11 @@ if you have order id in local storage then you have to show order confirmation p
       if (!this.state.savedCardDetails) {
         return true;
       } else {
-        return false;
+        if (this.props.binValidationStatus !== "success") {
+          return true;
+        } else {
+          return false;
+        }
       }
     } else return false;
   };
@@ -3667,6 +3736,8 @@ if you have order id in local storage then you have to show order confirmation p
                     !(
                       this.state.isPaymentFailed && this.state.isCliqCashApplied
                     ) &&
+                    (!this.state.paymentMethod &&
+                      (this.state.confirmAddress && this.state.deliverMode)) &&
                     (this.props.cart.paymentModes &&
                       this.props.cart.paymentModes.paymentOffers &&
                       this.props.cart.paymentModes.paymentOffers.coupons) && (
@@ -3706,6 +3777,9 @@ if you have order id in local storage then you have to show order confirmation p
                       paymentModeSelected={this.state.paymentModeSelected}
                       changeSubEmiOption={currentSelectedEMIType =>
                         this.changeSubEmiOption(currentSelectedEMIType)
+                      }
+                      setSunEmiOption={currentSelectedEMIType =>
+                        this.setSunEmiOption(currentSelectedEMIType)
                       }
                       selectedSavedCardDetails={this.state.savedCardDetails}
                       selectedBankOfferCode={this.state.selectedBankOfferCode}
@@ -3818,6 +3892,7 @@ if you have order id in local storage then you have to show order confirmation p
                       emiBinValidationErrorMessage={
                         this.state.emiBinValidationErrorMessage
                       }
+                      retryPaymentDetails={this.props.retryPaymentDetails}
                     />
                   </div>
                 )}

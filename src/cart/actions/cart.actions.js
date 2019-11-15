@@ -442,6 +442,7 @@ const ERROR_CODE_FOR_BANK_OFFER_INVALID_2 = "B6009";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_3 = "B9599";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_4 = "B9509";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_5 = "B9303";
+const ERROR_CODE_FOR_BANK_OFFER_INVALID_6 = "B9510";
 const INVALID_COUPON_ERROR_MESSAGE = "invalid coupon";
 const JUS_PAY_STATUS_REG_EX = /(status=[A-Za-z0-9_]*)/;
 
@@ -1901,6 +1902,7 @@ export function applyBankOffer(couponCode) {
         if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_3) {
           const redoCall = () => dispatch(applyBankOffer(couponCode));
           dispatch(applyBankOfferFailure(resultJsonStatus.message));
+          localStorage.removeItem(BANK_COUPON_COOKIE);
           return dispatch(
             showModal(VALIDATE_OFFERS_POPUP, {
               result: resultJson,
@@ -1919,8 +1921,14 @@ export function applyBankOffer(couponCode) {
         ) {
           dispatch(displayToast(resultJson.error));
           localStorage.removeItem(BANK_COUPON_COOKIE);
+        } else if (
+          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_6
+        ) {
+          dispatch(displayToast(resultJson.error));
+          localStorage.removeItem(BANK_COUPON_COOKIE);
         } else {
           localStorage.removeItem(BANK_COUPON_COOKIE);
+          dispatch(displayToast(resultJson.message));
           throw new Error(resultJsonStatus.message);
         }
       }
@@ -2182,8 +2190,10 @@ export function binValidation(
       } else {
         localStorage.removeItem(SELECTED_BANK_NAME);
       }
-      if (resultJson.cardType) {
-        localStorage.setItem(BIN_CARD_TYPE, resultJson.cardType);
+      let cardType =
+        resultJson.cardType && resultJson.cardType.replace(/\s/g, "");
+      if (cardType) {
+        localStorage.setItem(BIN_CARD_TYPE, cardType);
       }
       if (paymentMode !== EMI && localStorage.getItem(EMI_TENURE)) {
         localStorage.removeItem(EMI_TENURE);
@@ -2304,7 +2314,7 @@ export function softReservationForPayment(cardDetails, address) {
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
   const binCardType = localStorage.getItem(BIN_CARD_TYPE);
-  if (binCardType) {
+  if (binCardType && paymentMode !== "EMI") {
     paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
       .slice(1)
       .toLowerCase()} Card`;
@@ -4663,6 +4673,7 @@ export function applyNoCostEmi(couponCode, cartGuId, cartId, isFromRetryUrl) {
             })
           );
         } else {
+          dispatch(displayToast(resultJsonStatus.message));
           throw new Error(resultJsonStatus.message);
         }
       }
@@ -5800,7 +5811,7 @@ export function collectPaymentOrderForGiftCard(
     let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
     const binCardType = localStorage.getItem(BIN_CARD_TYPE);
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
-    if (binCardType) {
+    if (binCardType && paymentMode !== "EMI") {
       paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
         .slice(1)
         .toLowerCase()} Card`;
@@ -5879,18 +5890,10 @@ export function collectPaymentOrder(
     let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
     const binCardType = localStorage.getItem(BIN_CARD_TYPE);
     //later correct this code , added for quick fix
-    let emiType = localStorage.getItem(EMI_TYPE);
-    if (
-      binCardType &&
-      emiType !== "No Cost EMI" &&
-      emiType !== "Standard EMI"
-    ) {
+    if (binCardType && paymentMode !== "EMI") {
       paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
         .slice(1)
         .toLowerCase()} Card`;
-    }
-    if (emiType === "No Cost EMI" || emiType === "Standard EMI") {
-      paymentMode = "EMI";
     }
     let url = queryString.parse(window.location.search);
     let binNo = cardDetails.cardNumber.replace(/\s/g, "").substring(0, 6);
@@ -5958,10 +5961,6 @@ export function collectPaymentOrder(
         } else {
           dispatch(getPrepaidOrderPaymentConfirmation(resultJson));
         }
-      }
-      //remove emitype on success
-      if (emiType) {
-        localStorage.removeItem(EMI_TYPE);
       }
     } catch (e) {
       dispatch(

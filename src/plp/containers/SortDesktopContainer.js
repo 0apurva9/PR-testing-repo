@@ -22,6 +22,9 @@ const mapStateToProps = state => {
   return {
     sort: state.productListings.productListings
       ? state.productListings.productListings.sorts
+      : null,
+    query: state.productListings.productListings
+      ? state.productListings.productListings.currentQuery.query.value
       : null
   };
 };

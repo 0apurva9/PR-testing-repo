@@ -9,7 +9,8 @@ import {
   PDP_FOLLOW_AND_UN_FOLLOW,
   MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW,
   CHANNEL,
-  EMAIL_SENT_SUCCESS_MESSAGE
+  EMAIL_SENT_SUCCESS_MESSAGE,
+  FAILED_ORDER
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 //import findIndex from "lodash.findindex";
@@ -282,6 +283,7 @@ export const GET_USER_REVIEW_SUCCESS = "GET_USER_REVIEW_SUCCESS";
 export const RETRY_PAYMENT_REQUEST = "RETRY_PAYMENT_REQUEST";
 export const RETRY_PAYMENT_SUCCESS = "RETRY_PAYMENT_SUCCESS";
 export const RETRY_PAYMENT_FAILURE = "RETRY_PAYMENT_FAILURE";
+export const RESET_RETRY_PAYMENT = "RESET_RETRY_PAYMENT";
 
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
 export const Clear_ORDER_TRANSACTION_DATA = "Clear_ORDER_TRANSACTION_DATA";
@@ -3638,9 +3640,16 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      if (resultJson.paymentRetryUrl) {
+        localStorage.setItem(FAILED_ORDER, resultJson.paymentRetryUrl);
+      }
       return dispatch(retryPaymentSuccess(resultJson));
     } catch (e) {
       return dispatch(retryPaymentFailure(e.message));
     }
   };
+}
+
+export function resetFailedOrderDetails() {
+  return { type: RESET_RETRY_PAYMENT };
 }
