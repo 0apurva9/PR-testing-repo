@@ -27,7 +27,8 @@ import {
   MY_ACCOUNT_ORDERS_PAGE,
   MY_ACCOUNT_ALERTS_PAGE,
   MY_ACCOUNT_GIFT_CARD_PAGE,
-  MY_ACCOUNT_CLIQ_CASH_PAGE
+  MY_ACCOUNT_CLIQ_CASH_PAGE,
+  CHECKOUT_RETRY_PAYMENT_ROUTER
 } from "../../../src/lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -222,7 +223,10 @@ export default class HeaderWrapper extends React.Component {
       profileDetails = true;
       isSticky = false;
     }
-    if (url === CHECKOUT_ROUTER) {
+    if (
+      url === CHECKOUT_ROUTER ||
+      url.includes(CHECKOUT_RETRY_PAYMENT_ROUTER)
+    ) {
       isSearch = false;
       profileDetails = true;
       isSticky = false;
@@ -351,7 +355,8 @@ export default class HeaderWrapper extends React.Component {
           <DesktopOnly>
             <div
               className={
-                url === CHECKOUT_ROUTER
+                url === CHECKOUT_ROUTER ||
+                url.includes(CHECKOUT_RETRY_PAYMENT_ROUTER)
                   ? styles.hiddenHeaderCheckout
                   : styles.hiddenHeaderDesktop
               }
