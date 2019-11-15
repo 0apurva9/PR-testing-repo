@@ -384,6 +384,20 @@ export const UPDATE_RETURN_HOTC_REQUEST = "UPDATE_RETURN_HOTC_REQUEST";
 export const UPDATE_RETURN_HOTC_SUCCESS = "UPDATE_RETURN_HOTC_SUCCESS";
 export const UPDATE_RETURN_HOTC_FAILURE = "UPDATE_RETURN_HOTC_FAILURE";
 
+export const GET_USER_NOTIFICATION_DETAILS_REQUEST =
+  "GET_USER_NOTIFICATION_DETAILS_REQUEST";
+export const GET_USER_NOTIFICATION_DETAILS_SUCCESS =
+  "GET_USER_NOTIFICATION_DETAILS_SUCCESS";
+export const GET_USER_NOTIFICATION_DETAILS_FAILURE =
+  "GET_USER_NOTIFICATION_DETAILS_FAILURE";
+
+export const SET_USER_SMS_NOTIFICATION_REQUEST =
+  "SET_USER_SMS_NOTIFICATION_REQUEST";
+export const SET_USER_SMS_NOTIFICATION_SUCCESS =
+  "SET_USER_SMS_NOTIFICATION_SUCCESS";
+export const SET_USER_SMS_NOTIFICATION_FAILURE =
+  "SET_USER_SMS_NOTIFICATION_FAILURE";
+
 export function getDetailsOfCancelledProductRequest() {
   return {
     type: GET_CANCEL_PRODUCT_DETAILS_REQUEST,
@@ -3641,6 +3655,100 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
       return dispatch(retryPaymentSuccess(resultJson));
     } catch (e) {
       return dispatch(retryPaymentFailure(e.message));
+    }
+  };
+}
+
+export function getUserNotificationRequest() {
+  return {
+    type: GET_USER_NOTIFICATION_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getUserNotificationSuccess(notificationDetails) {
+  return {
+    type: GET_USER_NOTIFICATION_DETAILS_SUCCESS,
+    status: SUCCESS,
+    notificationDetails
+  };
+}
+
+export function getUserNotificationFailure(error) {
+  return {
+    type: GET_USER_NOTIFICATION_DETAILS_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+
+export function getUserNotifications() {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getUserNotificationRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getUserPreferences?access_token=${
+          JSON.parse(customerCookie).access_token
+        }`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getUserNotificationSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getUserNotificationFailure(e.message));
+    }
+  };
+}
+
+export function setSMSNotificationRequest() {
+  return {
+    type: SET_USER_SMS_NOTIFICATION_REQUEST,
+    status: REQUESTING
+  };
+}
+export function setSMSNotificationSuccess(setSMSResponse) {
+  return {
+    type: SET_USER_SMS_NOTIFICATION_SUCCESS,
+    status: SUCCESS,
+    setSMSResponse
+  };
+}
+export function setSMSNotificationFailure(error) {
+  return {
+    type: SET_USER_SMS_NOTIFICATION_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+
+export function setSMSNotification(val) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(setSMSNotificationRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/updateUserPreference?channel=web&sms=${val}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(setSMSNotificationSuccess(resultJson));
+    } catch (e) {
+      return dispatch(setSMSNotificationFailure(e.message));
     }
   };
 }

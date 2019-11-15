@@ -25,7 +25,8 @@ import {
   RETURN_TO_ADDRESS,
   MY_ACCOUNT_SUFFIX,
   ADD,
-  EDIT
+  EDIT,
+  MY_ACCOUNT_USER_NOTIFICATION_PAGE
 } from "../../lib/constants.js";
 import AllOrderContainer from "../containers/AllOrderContainer";
 
@@ -50,6 +51,7 @@ import TransactionHistoryContainer from "../containers/TransactionHistoryContain
 import ReturnAddressContainer from "../../return/containers/ReturnAddressContainer.js";
 import ReturnEditAddressContainer from "../../return/containers/ReturnEditAddressContainer.js";
 import ReturnAddAddressContainer from "../../return/containers/ReturnAddAddressContainer.js";
+import NotificationContainer from "../containers/NotificationContainer.js";
 
 export default class MyAccountWrapper extends React.Component {
   componentDidMount() {
@@ -186,6 +188,11 @@ export default class MyAccountWrapper extends React.Component {
         <Route
           path={`${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`}
           component={OrderRelatedIssueContainer}
+        />
+        <Route
+          exact
+          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_USER_NOTIFICATION_PAGE}`}
+          component={NotificationContainer}
         />
       </Switch>
     );

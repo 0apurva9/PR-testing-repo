@@ -113,6 +113,7 @@ export const MY_ACCOUNT_CLIQ_CASH_PAGE = "/cliq-cash";
 export const EDIT_ADDRESS_BOOK = "/my-account/address-book/edit";
 export const COSTUMER_ORDER_RELATED_QUERY_ROUTE = "/order-related";
 export const CUSTOMER_CARE = "Customer Care";
+export const MY_ACCOUNT_USER_NOTIFICATION_PAGE = "/notifications";
 //returns
 export const RETURNS_PREFIX = "/returns";
 export const RETURNS = "/returns/(.*)";
