@@ -115,6 +115,8 @@ const MY_ACCOUNT_GIFT_CARD = "gift_card"; //myaccount_gift_card
 const MY_ACCOUNT_CLIQ_CASH = "cliq_cash"; //myaccount_cliq_cash
 const MY_ACCOUNT_SETTING = "update_profile"; //myaccount_update_setting
 const MY_ACCOUNT_REVIEW = "my_review";
+const MY_ACCOUNT_USEFUL_LINKS = "useful_links";
+export const ADOBE_MY_ACCOUNT_USEFUL_LINKS = "ADOBE_MY_ACCOUNT_USEFUL_LINKS";
 // end of type of hierarchy for my Account
 
 // const for follow and un follow brands adobe calls
@@ -714,7 +716,8 @@ export function setDataLayer(
     window.digitalData = getDigitalDataForCheckout(type, response);
   }
   if (type === ADOBE_CART_TYPE) {
-    window.digitalData = getDigitalDataForCart(type, response);
+    let newVariable = getDigitalDataForCart(type, response);
+    window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_DIRECT_CALL_FOR_LANDING_USER);
     }
@@ -723,9 +726,9 @@ export function setDataLayer(
     window.digitalData = getDigitalDataForOrderConfirmation(type, response);
   }
   if (type === ADOBE_MY_ACCOUNT_LANDING_PAGE) {
-    window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_OVERVIEW);
+    let newVariable = getDigitalDataForMyAccount(MY_ACCOUNT_OVERVIEW);
+    window.digitalData = Object.assign(previousDigitalData, newVariable);
   }
-
   if (type === ADOBE_MY_ACCOUNT_SAVED_LIST) {
     window.digitalData = getDigitalDataForMyAccount(
       MY_ACCOUNT_SAVED_LIST,
@@ -746,6 +749,9 @@ export function setDataLayer(
   }
   if (type === ADOBE_MY_ACCOUNT_ALERTS) {
     window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_ALERTS);
+  }
+  if (type === ADOBE_MY_ACCOUNT_USEFUL_LINKS) {
+    window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_USEFUL_LINKS);
   }
   if (type === ADOBE_MY_ACCOUNT_COUPONS) {
     window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_COUPONS);
