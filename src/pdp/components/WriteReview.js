@@ -9,7 +9,8 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   LOGIN_PATH,
   WRITE_REVIEWS_WITH_SLUG,
-  WRITE_REVIEWS
+  WRITE_REVIEWS,
+  REVIEW_GUIDELINES
 } from "../../lib/constants";
 import { withRouter } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
@@ -117,7 +118,7 @@ class WriteReview extends React.Component {
                 this.showReviewGuidelineModal();
               }}
             >
-              Tips to write a review
+              {REVIEW_GUIDELINES}
             </div>
           </div>
         </div>

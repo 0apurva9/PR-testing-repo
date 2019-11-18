@@ -180,6 +180,8 @@ export const ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE =
 export const CART_COUNT_FOR_LOGGED_IN_USER = "bagCount";
 export const PRODUCT_CANCEL = "Cancel Item";
 
+export const RATE_THIS_ITEM = "Rate this item";
+export const REVIEW_GUIDELINES = "Review Guidelines";
 export const SAVE_LIST_PAGE = "/default/wishList";
 export const PAYMENT_MODE_TYPE = "paymentMode";
 export const BIN_CARD_TYPE = "binCardType";

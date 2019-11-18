@@ -153,8 +153,8 @@ const ManufacturerDetailsModal = Loadable({
     return <Loader />;
   }
 });
-const ReviewGuidelineModal = Loadable({
-  loader: () => import("../../pdp/components/ReviewGuidelineModal.js"),
+const ReviewGuidelineWrapperModal = Loadable({
+  loader: () => import("../../pdp/components/ReviewGuidelineWrapperModal.js"),
   loading() {
     return <Loader />;
   }
@@ -850,8 +850,8 @@ export default class ModalRoot extends React.Component {
           {...this.props.ownProps}
         />
       ),
-      ReviewGuidelineModal: (
-        <ReviewGuidelineModal
+      ReviewGuidelineWrapperModal: (
+        <ReviewGuidelineWrapperModal
           {...this.props.ownProps}
           closeModal={() => this.handleClose()}
         />

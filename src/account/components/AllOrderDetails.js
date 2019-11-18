@@ -45,7 +45,8 @@ import {
   CHECKOUT_ROUTER,
   RETRY_PAYMENT_CART_ID,
   RETRY_PAYMENT_DETAILS,
-  COSTUMER_ORDER_RELATED_QUERY_ROUTE
+  COSTUMER_ORDER_RELATED_QUERY_ROUTE,
+  RATE_THIS_ITEM
 } from "../../lib/constants";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
 import ProfileMenu from "./ProfileMenu";
@@ -58,7 +59,7 @@ import {
   ADOBE_ORDER_DETAILS_LINK_CLICKED,
   ADOBE_HELP_SUPPORT_LINK_CLICKED
 } from "../../lib/adobeUtils";
-//import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
+import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
 import Icon from "../../xelpmoc-core/Icon";
 import * as UserAgent from "../../lib/UserAgent.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
@@ -154,6 +155,9 @@ export default class AllOrderDetails extends React.Component {
       this.props.setHeaderText(ORDER_HISTORY);
     }
   }
+  onRatingChange = val => {
+    this.setState({ rating: val });
+  };
   redirectToHelp = url => {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
@@ -762,7 +766,19 @@ export default class AllOrderDetails extends React.Component {
                                             <div
                                               className={styles.reviewHolder}
                                             >
-                                              <div className={styles.boxReview}>
+                                              <div
+                                                className={styles.reviewHeading}
+                                              >
+                                                {RATE_THIS_ITEM}
+                                              </div>
+                                              <FillupRatingOrder
+                                                rating={5}
+                                                onChange={this.onRatingChange}
+                                                resetRating={
+                                                  this.state.resetRating
+                                                }
+                                              />
+                                              {/* <div className={styles.boxReview}>
                                                 <div
                                                   className={styles.reviewText}
                                                   onClick={val =>
@@ -773,6 +789,18 @@ export default class AllOrderDetails extends React.Component {
                                                 >
                                                   WRITE A REVIEW
                                                 </div>
+                                              </div> */}
+                                              <div
+                                                className={
+                                                  styles.writeReviewText
+                                                }
+                                                onClick={val =>
+                                                  this.writeReview(
+                                                    product.productcode
+                                                  )
+                                                }
+                                              >
+                                                Write a Review
                                               </div>
                                             </div>
                                           )}
