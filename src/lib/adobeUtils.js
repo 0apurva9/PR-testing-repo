@@ -518,9 +518,6 @@ export function setDataLayer(
   if (userDetails) {
     userDetails = JSON.parse(userDetails);
   }
-  if (type === ADOBE_HOME_TYPE) {
-    window.digitalData = getDigitalDataForHome();
-  }
   // if (type === ADOBE_PDP_SIMILAR_PRODUCT) {
   //   if (window._satellite) {
   //     window._satellite.track(PDP_PRODUCT_SIMILAR);
@@ -1010,6 +1007,10 @@ export function setDataLayer(
       window._satellite.track(MODE_OF_RETURN_SUBMITTED);
     }
   }
+  if (type === ADOBE_HOME_TYPE) {
+    let newVariable = getDigitalDataForHome(response);
+    window.digitalData = Object.assign(previousDigitalData, newVariable);
+  }
 }
 
 function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
@@ -1097,17 +1098,44 @@ function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
   return data;
 }
 
-function getDigitalDataForHome() {
-  const data = {
-    page: {
-      category: {
-        primaryCategory: "home"
-      },
-      pageInfo: {
-        pageName: "homepage"
-      }
+function getDigitalDataForHome(response) {
+  let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
+  if (userDetails) {
+    userDetails = JSON.parse(userDetails);
+  }
+  const previousDigitalData = cloneDeep(window.digitalData);
+  let data;
+  if (response) {
+    if (!userDetails) {
+      data = {
+        page: {
+          category: {
+            primaryCategory: "home"
+          },
+          pageInfo: {
+            pageName: "homepage"
+          }
+        },
+        account: {
+          mvcId: response,
+          login: {
+            customerID: "anonymous"
+          }
+        }
+      };
     }
-  };
+  } else {
+    data = {
+      page: {
+        category: {
+          primaryCategory: "home"
+        },
+        pageInfo: {
+          pageName: "homepage"
+        }
+      }
+    };
+  }
   if (
     window.digitalData &&
     window.digitalData.page &&
@@ -1125,7 +1153,8 @@ function getDigitalDataForHome() {
       }
     });
   }
-  return data;
+  window.digitalData = Object.assign(previousDigitalData, data);
+  return window.digitalData;
 }
 function getDigitalDataForCart(type, cartResponse) {
   let data = {
@@ -2021,13 +2050,12 @@ export function setDataLayerForPlpDirectCalls(response, index: 0) {
     window._satellite.track(ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP);
   }
 }
-export function setDataLayerForLogin(type, lastLocation) {
+export async function setDataLayerForLogin(type, lastLocation) {
   let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
   if (userDetails) {
     userDetails = JSON.parse(userDetails);
   }
-  const previousDigitalData = cloneDeep(window.digitalData);
-  const data = {};
+  let data = window.digitalData;
   if (type === ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS) {
     if (userDetails) {
       if (userDetails.loginType === LOGIN_WITH_EMAIL) {
@@ -2118,17 +2146,17 @@ export function setDataLayerForLogin(type, lastLocation) {
         });
       }
     }
-    window.digitalData = data;
+    //window.digitalData = data;
     window.digitalData.flag = ADOBE_LOGIN_SUCCESS;
     if (
-      previousDigitalData &&
-      previousDigitalData.page &&
-      previousDigitalData.page.pageInfo &&
-      previousDigitalData.page.pageInfo.pageName
+      data &&
+      data.page &&
+      data.page.pageInfo &&
+      data.page.pageInfo.pageName
     ) {
       Object.assign(window.digitalData, {
         page: {
-          pageInfo: { pageName: previousDigitalData.page.pageInfo.pageName }
+          pageInfo: { pageName: data.page.pageInfo.pageName }
         }
       });
     }
@@ -2152,18 +2180,21 @@ export function setDataLayerForLogin(type, lastLocation) {
     }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER) {
-    window.digitalData = data;
+    const mcvId = await getMcvId();
+    //window.digitalData = data;
     if (window.digitalData) {
       Object.assign(data, {
         account: {
           login: {
             customerID: "anonumous"
-          }
+          },
+          mcvId: mcvId
         },
         page: {
-          pageInfo: { pageName: previousDigitalData.page.pageInfo.pageName }
+          pageInfo: { pageName: data.page.pageInfo.pageName }
         }
       });
+      window.digitalData = data;
     }
   }
 }
