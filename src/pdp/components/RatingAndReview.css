@@ -1,0 +1,245 @@
+.base {
+	width: 667px;
+    height: 395px;
+    background: #fff;
+}
+.headerText {
+	width: 189px;
+    height: 24px;
+    color: #212121;
+    font-size: 20px;
+    font-family: regular;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-align: left;
+    margin-left: 60px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+.close {
+	width: 16px;
+    height: 16px;
+    padding-top: 32px;
+    padding-left: 385px;
+}
+.header {
+	width: 667px;
+    height: 72px;
+    background-color: #f9f9f9;
+    display: flex;
+}
+.productImage {
+	width: 98px;
+	height:130px;
+	margin-left: 62px;
+}
+.productImageHolder {
+	width: 30%;
+	height: auto;
+	display: inline-block;
+}
+.cancelHolder {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+.select {
+	width: 100%;
+	height: auto;
+	margin-bottom: 20px;
+}
+.textArea {
+	width: 100%;
+	height: auto;
+}
+.content {
+	width: 100%;
+	height: auto;
+	border-radius: 4px;
+}
+.button {
+	display: inline-block;
+}
+.cancelTitle {
+	font-family: semibold;
+	margin-bottom: 15px;
+	font-size: 18px;
+}
+textarea {
+	font-size: 12px !important;
+}
+.content > div:first-child {
+	padding: 15px;
+	background-color: #ffffff;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+}
+.cancelReasonForm {
+	padding: 25px 20px;
+	background-color: #ffffff;
+	border-radius: 6px;
+}
+.productSizeColor {
+	width: auto;
+	height: auto;
+	color: #000000;
+	font-size: 12px;
+	font-family: light;
+}
+.selectReasonHolder {
+	width: 100%;
+	height: auto;
+	background: #fff;
+	padding: 20px 30px;
+	border-radius: 4px;
+	overflow: hidden;
+}
+.CancelAndContinueButton {
+	width: 380px;
+	height: auto;
+	padding: 20px 0px;
+}
+.submitButton{
+  background: #ff1744;
+  height: 36px;
+  width: 180px;
+  color: #FFF;
+  font-size: 14px;
+}
+.continueButton{
+  background: #fff;
+  color: #FF1744;
+  font-size: 14px;
+  font-family: semibold;
+}
+.continueButtonHolder{
+	width: 180px;
+	height: 36px;
+	border-radius: 100px;
+	border: solid 2px #212121;
+	padding-right: 34px;
+	float: right;
+}
+.cancelButtonHolder {
+	width: 180px;
+	height: 36px;
+	border-radius: 100px;
+	border: solid 2px #212121;
+	padding-right: 34px;
+	float: right;
+  }
+  .buttonHolder {
+	/* width: 100%; 
+    height: auto; */
+    margin-top: 20px;
+    text-align: center;
+    /* float: right; */
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+  }
+  .buttonleft {
+	height: auto;
+    display: inline-block;
+    /* text-align: left; */
+    vertical-align: top;
+  }
+  .button {
+	width: auto;
+	height: auto;
+	display: inline-block;
+	vertical-align: top;
+  }
+  .buttonHolder:last-child {
+	margin-bottom: 0px;
+  }
+  .buttonRight {
+    composes: buttonleft;
+    /* text-align: right; */
+  }  
+  .brandName {
+	width: 100%;
+	height: auto;
+	color: #000;
+	font-family: semibold;
+	margin-bottom: 5px;
+	font-size: 14px;
+	display: inline-block;
+	word-wrap: break-word;
+  }
+  .productName {
+	composes: brandName;
+	font-family: light;
+  }
+  .ratingContainer {
+	width: 100%;
+	height: 30px;
+	position: relative;
+	margin-bottom: 20px;
+  }
+  .ratingHeader {
+	display: inline-block;
+	font-size: 14px;
+	line-height: 24px;
+	font-family: regular;
+	margin-right: 10px;
+  }
+  .ratingBar {
+	height: auto;
+	width: 55%;
+	display: inline-block;
+  }
+  .reviewHolder {
+	width: 100%;
+	height: auto;
+	/* margin-left: 18%; */
+	cursor: pointer;
+}
+.reviewHeading {
+    margin-top: 24px;
+    margin-bottom: 19px;
+    font-family: semibold;
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0;
+}
+  @media screen and (min-width: 1025px) {
+	.centerSubmitButton {
+	  text-align: right;
+	}
+	.ratingBar {
+	  height: auto;
+	  width: 150px;
+	  display: inline-block;
+	}
+	.reviewGuidelinesBar {
+	  height: auto;
+	  width: 150px;
+	  display: inline-block;
+	  float: right;
+	  cursor: pointer;
+	}
+	.cancelButton {
+	  width: auto;
+	  display: inline-block;
+	  margin-right: 20px;
+	  cursor: pointer;
+	}
+	.ratingContainer {
+	  margin-bottom: 25px;
+	}
+
+	.reviewGuidelines {
+	  font-family: semibold;
+	  font-size: 14px;
+	  font-weight: 500;
+	  width: 148px;
+	  height: 17px;
+	  font-style: normal;
+	  font-stretch: normal;
+	  line-height: normal;
+	  letter-spacing: normal;
+	  text-align: right;
+	  color: #ff1744;
+	}
+  }

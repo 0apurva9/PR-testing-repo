@@ -8,7 +8,11 @@ import {
 import { withRouter } from "react-router-dom";
 import AllOrderDetails from "../components/AllOrderDetails";
 import { setHeaderText } from "../../general/header.actions";
-import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
+import {
+  showModal,
+  DESKTOP_AUTH,
+  RATING_AND_REVIEW_MODAL
+} from "../../general/modal.actions";
 import { displayToast } from "../../general/toast.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -42,6 +46,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     displayToast: message => {
       dispatch(displayToast(message));
+    },
+    showRatingAndReviewModal: data => {
+      dispatch(showModal(RATING_AND_REVIEW_MODAL, data));
     }
   };
 };

@@ -159,7 +159,12 @@ const ReviewGuidelineWrapperModal = Loadable({
     return <Loader />;
   }
 });
-
+const RatingAndReviewWrapperModal = Loadable({
+  loader: () => import("../../pdp/components/RatingAndReviewWrapperModal.js"),
+  loading() {
+    return <Loader />;
+  }
+});
 const BankOffersDetails = Loadable({
   loader: () => import("../../cart/components/BankOffersDetails.js"),
   loading() {
@@ -854,6 +859,12 @@ export default class ModalRoot extends React.Component {
         <ReviewGuidelineWrapperModal
           {...this.props.ownProps}
           closeModal={() => this.handleClose()}
+        />
+      ),
+      RatingAndReviewWrapperModal: (
+        <RatingAndReviewWrapperModal
+          closeModal={() => this.handleClose()}
+          {...this.props.ownProps}
         />
       ),
       OfferDetailsModal: (

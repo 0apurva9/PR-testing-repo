@@ -120,10 +120,12 @@ export default class AllOrderDetails extends React.Component {
     setDataLayer(ADOBE_ORDER_DETAILS_LINK_CLICKED);
     this.props.history.push(`${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`);
   }
-  writeReview(productCode) {
-    if (productCode && this.props.history) {
-      this.props.history.push(`/p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
-    }
+  writeReview(val) {
+    console.log("===>", val);
+    this.props.showRatingAndReviewModal(val);
+    // if (productCode && this.props.history) {
+    //   this.props.history.push(`/p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
+    // }
   }
   componentDidMount() {
     document.title = "My Orders";
@@ -795,9 +797,7 @@ export default class AllOrderDetails extends React.Component {
                                                   styles.writeReviewText
                                                 }
                                                 onClick={val =>
-                                                  this.writeReview(
-                                                    product.productcode
-                                                  )
+                                                  this.writeReview(product)
                                                 }
                                               >
                                                 Write a Review
