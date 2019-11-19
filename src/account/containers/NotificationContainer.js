@@ -9,6 +9,7 @@ import {
   showSecondaryLoader,
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
+import { displayToast } from "../../general/toast.actions.js";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -23,6 +24,9 @@ const mapDispatchToProps = dispatch => {
     },
     onSMSToggle: val => {
       dispatch(setSMSNotification(val));
+    },
+    displayToast: val => {
+      dispatch(displayToast(val));
     }
   };
 };
@@ -30,7 +34,8 @@ const mapStateToProps = state => {
   return {
     userAddress: state.profile.userAddress,
     loading: state.profile.loading,
-    UserNotificationDetails: state.profile.UserNotificationDetails
+    UserNotificationDetails: state.profile.UserNotificationDetails,
+    UserNotificationConfig: state.profile.UserNotificationConfig
   };
 };
 

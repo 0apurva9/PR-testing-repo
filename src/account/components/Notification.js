@@ -16,6 +16,11 @@ import { LOGGED_IN_USER_DETAILS } from "../../lib/constants.js";
 class Notification extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      disableSMSToggleBtn: false
+    };
+    this.smsToggleCnt = 0;
   }
 
   componentDidMount() {
@@ -25,8 +30,25 @@ class Notification extends Component {
   }
 
   onSMSToggle(val) {
-    if (this.props.onSMSToggle) {
+    this.smsToggleCnt = this.smsToggleCnt + 1;
+    let {
+      numberOfMinutes,
+      errorMessage,
+      numberOfClicks
+    } = this.props.UserNotificationConfig;
+
+    if (
+      this.smsToggleCnt < parseInt(numberOfClicks) &&
+      this.props.onSMSToggle
+    ) {
       this.props.onSMSToggle(val ? false : true);
+    } else {
+      this.setState({ disableSMSToggleBtn: true });
+      this.props.displayToast(errorMessage);
+      setTimeout(() => {
+        this.smsToggleCnt = 0;
+        this.setState({ disableSMSToggleBtn: false });
+      }, parseInt(numberOfMinutes) * 1000);
     }
   }
 
@@ -74,7 +96,11 @@ class Notification extends Component {
                 </div>
                 <div
                   className={styles.toggleButton}
-                  onClick={() => this.onSMSToggle(sms)}
+                  onClick={
+                    !this.state.disableSMSToggleBtn
+                      ? () => this.onSMSToggle(sms)
+                      : null
+                  }
                 >
                   <Image image={smsSwicthIcon} fit="cover" />
                 </div>

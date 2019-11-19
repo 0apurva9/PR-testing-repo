@@ -240,7 +240,8 @@ const account = (
 
     UserNotificationDetailsStatus: null,
     UserNotificationDetailsError: null,
-    UserNotificationDetails: null
+    UserNotificationDetails: null,
+    UserNotificationConfig: null
   },
   action
 ) => {
@@ -1480,6 +1481,7 @@ const account = (
       return Object.assign({}, state, {
         UserNotificationDetailsStatus: action.status,
         UserNotificationDetails: action.notificationDetails,
+        UserNotificationConfig: action.notificationDetails,
         loading: false
       });
     case accountActions.GET_USER_NOTIFICATION_DETAILS_FAILURE:
