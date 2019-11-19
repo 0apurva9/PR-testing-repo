@@ -11,7 +11,7 @@
 }
 .CheckoutHeader {
   composes: base;
-  height: 75px;
+  height: 100px;
 }
 .dummyColorHeader {
   width: 30%;
@@ -629,7 +629,7 @@
   transform: translateY(45px);
   background-size: auto 30px;
 }
-.cartCount{
+.cartCount {
   color: #ffffff;
   width: 20px;
   font-size: 11px;

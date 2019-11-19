@@ -9,7 +9,8 @@ import {
   PDP_FOLLOW_AND_UN_FOLLOW,
   MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW,
   CHANNEL,
-  EMAIL_SENT_SUCCESS_MESSAGE
+  EMAIL_SENT_SUCCESS_MESSAGE,
+  ISO_CODE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 //import findIndex from "lodash.findindex";
@@ -282,6 +283,10 @@ export const GET_USER_REVIEW_SUCCESS = "GET_USER_REVIEW_SUCCESS";
 export const RETRY_PAYMENT_REQUEST = "RETRY_PAYMENT_REQUEST";
 export const RETRY_PAYMENT_SUCCESS = "RETRY_PAYMENT_SUCCESS";
 export const RETRY_PAYMENT_FAILURE = "RETRY_PAYMENT_FAILURE";
+
+export const CNC_TO_HD_DETAILS_REQUEST = "CNC_TO_HD_DETAILS_REQUEST";
+export const CNC_TO_HD_DETAILS_SUCCESS = "CNC_TO_HD_DETAILS_SUCCESS";
+export const CNC_TO_HD_DETAILS_FAILURE = "CNC_TO_HD_DETAILS_FAILURE";
 
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
 export const Clear_ORDER_TRANSACTION_DATA = "Clear_ORDER_TRANSACTION_DATA";
@@ -3641,6 +3646,121 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
       return dispatch(retryPaymentSuccess(resultJson));
     } catch (e) {
       return dispatch(retryPaymentFailure(e.message));
+    }
+  };
+}
+export function submitCncToHdDetailsRequest() {
+  return {
+    type: CNC_TO_HD_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function submitCncToHdDetailsSuccess(cncToHdDetails) {
+  return {
+    type: CNC_TO_HD_DETAILS_SUCCESS,
+    status: SUCCESS,
+    cncToHdDetails
+  };
+}
+export function submitCncToHdDetailsFailure() {
+  return {
+    type: CNC_TO_HD_DETAILS_FAILURE,
+    status: FAILURE
+  };
+}
+export function submitCncToHdDetails(userAddress, transactionId, orderId) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(submitCncToHdDetailsRequest());
+    let addressDetails = Object.assign(
+      {},
+      {
+        countryIso: ISO_CODE,
+        addressType: userAddress.addressType,
+        postalCode: userAddress.postalCode
+          ? userAddress.postalCode
+          : userAddress.postalcode,
+        state: userAddress.state,
+        town: userAddress.town,
+        defaultFlag: userAddress.defaultAddress,
+        emailId: JSON.parse(userDetails).userName
+      }
+    );
+    if (userAddress.phone) {
+      Object.assign(addressDetails, {
+        phone: userAddress.phone
+      });
+    }
+    if (userAddress.firstName) {
+      Object.assign(addressDetails, {
+        firstName: userAddress.firstName.trim()
+      });
+    }
+    if (userAddress.lastName) {
+      Object.assign(addressDetails, {
+        lastName: userAddress.lastName.trim()
+      });
+    }
+    if (userAddress.line1 || userAddress.addressLine1) {
+      Object.assign(addressDetails, {
+        line1: userAddress.line1
+          ? userAddress.line1.trim()
+          : userAddress.addressLine1.trim()
+      });
+    } else if (!userAddress.line1 && !userAddress.addressLine1) {
+      Object.assign(addressDetails, {
+        line1: ""
+      });
+    }
+    if (userAddress.line3 || userAddress.addressLine3) {
+      Object.assign(addressDetails, {
+        line1: userAddress.line3
+          ? userAddress.line3.trim()
+          : userAddress.addressLine3.trim()
+      });
+    } else if (!userAddress.line1 && !userAddress.addressLine1) {
+      Object.assign(addressDetails, {
+        line3: ""
+      });
+    }
+    if (userAddress.line2 || userAddress.addressLine2) {
+      Object.assign(addressDetails, {
+        line1: userAddress.line2
+          ? userAddress.line2.trim()
+          : userAddress.addressLine2.trim()
+      });
+    } else if (!userAddress.line2 && !userAddress.addressLine2) {
+      Object.assign(addressDetails, {
+        line2: ""
+      });
+    }
+    if (userAddress.landmark) {
+      Object.assign(addressDetails, {
+        landmark: userAddress.landmark
+      });
+    } else if (!userAddress.landmark) {
+      Object.assign(addressDetails, {
+        landmark: ""
+      });
+    }
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/cncToHd/${orderId}?channel=${CHANNEL}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&orderlineId=${transactionId}`,
+        addressDetails
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        return resultJson;
+      }
+      return dispatch(submitCncToHdDetailsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(submitCncToHdDetailsFailure(e.message));
     }
   };
 }

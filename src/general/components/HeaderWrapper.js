@@ -9,6 +9,7 @@ import styles from "./HeaderWrapper.css";
 import queryString from "query-string";
 import throttle from "lodash.throttle";
 import {
+  CNCTOHD,
   HOME_ROUTER,
   PRODUCT_CART_ROUTER,
   DEFAULT_BRANDS_LANDING_PAGE,
@@ -217,7 +218,8 @@ export default class HeaderWrapper extends React.Component {
       isLogoCart = true;
       safeSecureText = true;
     }
-    if (url === PRODUCT_CART_ROUTER) {
+
+    if (url === PRODUCT_CART_ROUTER || url.includes(CNCTOHD)) {
       isSearch = false;
       profileDetails = true;
       isSticky = false;

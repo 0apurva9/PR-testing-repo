@@ -96,12 +96,31 @@
   display: inline-block;
   right: 0;
 }
+.opemimgAndClosingTime {
+  width: 100%;
+  height: auto;
+  margin-top: 11px;
+}
+.labelHolder {
+  width: auto;
+  height: auto;
+  display: inline-block;
+  font-size: 13px;
+}
+.labelTimings {
+  font-family: semibold;
+}
+.dataHolder {
+  composes: labelHolder;
+  padding-left: 10px;
+  font-family: light;
+}
 @media only screen and (min-width: 1025px) {
   .base {
     border-radius: unset;
-    padding:20px 30px;
+    padding: 20px 30px;
   }
-  .holder{
-    padding-right:30px;
+  .holder {
+    padding-right: 30px;
   }
 }

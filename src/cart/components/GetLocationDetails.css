@@ -26,7 +26,7 @@
   height: 40px;
   position: absolute;
   right: 15px;
-  top: 40px;
+  top: 50%;
   display: inline-block;
 }
 .headerTextHolder {
@@ -45,7 +45,7 @@
   font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: regular;
+  font-family: light;
   white-space: nowrap;
   padding-right: 60px;
 }
@@ -72,4 +72,34 @@
   font-family: regular;
   display: inline-block;
   vertical-align: middle;
+}
+.openingTime {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+.openingTime:last-child {
+  margin-bottom: 0px;
+}
+.labelHolderForPopUp {
+  width: auto;
+  height: ato;
+  display: inline-block;
+  font-size: 13px;
+  color: rgba(33, 33, 33, 0.93);
+}
+.label {
+  font-family: semibold;
+  font-size: 13px;
+  color: rgba(33, 33, 33, 0.93);
+}
+.dateSpan {
+  composes: label;
+  font-family: light;
+  padding-left: 10px;
+}
+.dataHolderForPoUp {
+  composes: labelHolderForPopUp;
+  font-family: light;
+  padding-left: 10px;
 }

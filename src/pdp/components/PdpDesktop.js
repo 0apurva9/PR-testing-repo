@@ -86,14 +86,13 @@ const Overlay = LoadableVisibility({
   loading: () => <div />,
   delay: 400
 });
-/*
 const PdpPincode = LoadableVisibility({
   loader: () => import("./PdpPincode"),
   loading: () => <div />,
   delay: 1000
 });
 
-const ProductFeature = LoadableVisibility({
+/*const ProductFeature = LoadableVisibility({
   loader: () => import("./ProductFeature"),
   loading: () => <div />,
   delay: 400
@@ -396,10 +395,11 @@ export default class PdpApparel extends React.Component {
       this.props.history.push(urlSuffix);
     }
   };
-  checkPinCodeAvailability = async (pincode, productCode) => {
+  checkPinCodeAvailability = async (pincode, productCode, winningUssID) => {
     let productPincodeObj = await this.props.getProductPinCode(
       pincode,
-      productCode
+      productCode,
+      winningUssID
     );
     if (productPincodeObj.status === ERROR) {
       this.props.displayToast("Please enter a valid pincode");
@@ -529,6 +529,9 @@ export default class PdpApparel extends React.Component {
     } else {
       this.props.setUrlToRedirectToAfterAuth(url);
     }
+    this.props.history.push(LOGIN_PATH);
+  }
+  redirectToLoginPage() {
     this.props.history.push(LOGIN_PATH);
   }
   goToReviewPage = isNeedToSetDataLayer => {
@@ -697,17 +700,29 @@ export default class PdpApparel extends React.Component {
   };
   handleShowPiqPage = () => {
     setDataLayerForPdpDirectCalls(ADOBE_DIRECT_CALL_FOR_PICK_UP_OPTION);
-    const eligibleForCNC =
-      this.props.productDetails &&
-      this.props.productDetails.eligibleDeliveryModes.find(deliveryMode => {
-        return deliveryMode.code === COLLECT;
-      });
-    if (eligibleForCNC && this.props.getAllStoresForCliqAndPiq) {
-      this.props.showPdpPiqPage();
-      this.props.getAllStoresForCliqAndPiq();
+    if (!checkUserLoggedIn()) {
+      this.navigateToLogin();
+    } else {
+      if (
+        this.checkIfSizeSelected() ||
+        this.checkIfSizeDoesNotExist() ||
+        this.checkIfFreeSize() ||
+        this.checkIfNoSize()
+      ) {
+        const eligibleForCNC =
+          this.props.productDetails &&
+          this.props.productDetails.eligibleDeliveryModes.find(deliveryMode => {
+            return deliveryMode.code === COLLECT;
+          });
+        if (eligibleForCNC && this.props.getAllStoresForCliqAndPiq) {
+          this.props.showPdpPiqPage();
+          this.props.getAllStoresForCliqAndPiq();
+        }
+      } else {
+        this.isSizeNotSelectedForAddToWishlist();
+      }
     }
   };
-
   onClickOfBuyNow = () => {
     if (this.state.goToCartPageFlag) {
       this.goToCart();
@@ -837,6 +852,9 @@ export default class PdpApparel extends React.Component {
       this.props.userAddress.addresses &&
       this.props.userAddress.addresses[0] &&
       this.props.userAddress.addresses[0].postalCode;
+    const address =
+      this.props && this.props.userAddress && this.props.userAddress.addresses;
+
     let userCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     if (userCookie) {
       userCookie = JSON.parse(userCookie);
@@ -856,7 +874,6 @@ export default class PdpApparel extends React.Component {
           return val.mediaType === IMAGE || val.mediaType === "Video";
         })
       : [];
-
     const productImages = images
       .map(galleryImageList => {
         if (galleryImageList.mediaType === IMAGE) {
@@ -896,7 +913,6 @@ export default class PdpApparel extends React.Component {
           return image[0].value;
         }
       });
-
     const zoomImages = images
       .map(galleryImageList => {
         if (galleryImageList.mediaType === IMAGE) {
@@ -918,7 +934,30 @@ export default class PdpApparel extends React.Component {
           return image[0].value;
         }
       });
-
+    let getDeliveryModesByWinningUssid = "";
+    if (
+      this.props.productDetails &&
+      this.props.productDetails.pincodeResponseList &&
+      this.props.productDetails.pincodeResponseList.deliveryOptions &&
+      this.props.productDetails.pincodeResponseList.deliveryOptions
+        .pincodeListResponse &&
+      this.props.productDetails.pincodeResponseList.deliveryOptions
+        .pincodeListResponse
+    ) {
+      getDeliveryModesByWinningUssid = this.props.productDetails.pincodeResponseList.deliveryOptions.pincodeListResponse.find(
+        val => {
+          return val.ussid === productData.winningUssID;
+        }
+      );
+    }
+    const firstSlaveData =
+      getDeliveryModesByWinningUssid &&
+      getDeliveryModesByWinningUssid.validDeliveryModes &&
+      getDeliveryModesByWinningUssid.validDeliveryModes.find(val => {
+        return val.type === "CNC";
+      });
+    const availableStores =
+      firstSlaveData && firstSlaveData.CNCServiceableSlavesData;
     if (productData) {
       let price = "";
       let discountPrice = "";
@@ -1381,20 +1420,66 @@ export default class PdpApparel extends React.Component {
                         checkPinCodeAvailability={pincode =>
                           this.checkPinCodeAvailability(
                             pincode,
-                            productData.productListingId
+                            productData.productListingId,
+                            productData.winningUssID
                           )
                         }
-                        placeholder={
-                          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
-                            ? localStorage.getItem(
-                                DEFAULT_PIN_CODE_LOCAL_STORAGE
-                              )
-                            : "Enter your PIN code"
+                        pincode={
+                          this.props.productDetails.isServiceableToPincode
+                            .pinCode
                         }
-                        hasAutoFocus={false}
-                        labelText={"Check"}
-                        borderColor="transparent"
-                        borderBottom="0px solid #transparent"
+                        status={
+                          this.props.productDetails &&
+                          this.props.productDetails.isServiceableToPincode &&
+                          this.props.productDetails.isServiceableToPincode
+                            .status
+                        }
+                        onClick={() => this.showPincodeModal()}
+                        listOfAllPinCode={address}
+                        redirectToLoginPage={() => this.navigateToLogin()}
+                      />
+                    )}
+                    {this.props.productDetails &&
+                    this.props.productDetails.isServiceableToPincode &&
+                    this.props.productDetails.isServiceableToPincode.pinCode ? (
+                      <PdpPincode
+                        hasPincode={true}
+                        displayToast={val => this.props.displayToast(val)}
+                        onCheckPinCode={pincode =>
+                          this.props.getProductPinCode(
+                            pincode,
+                            productData.productListingId,
+                            productData.winningUssID
+                          )
+                        }
+                        pincode={
+                          this.props.productDetails.isServiceableToPincode
+                            .pinCode
+                        }
+                        status={
+                          this.props.productDetails &&
+                          this.props.productDetails.isServiceableToPincode &&
+                          this.props.productDetails.isServiceableToPincode
+                            .status
+                        }
+                        onClick={() => this.showPincodeModal()}
+                        listOfAllPinCode={address}
+                        redirectToLoginPage={() => this.navigateToLogin()}
+                      />
+                    ) : (
+                      <PdpPincode
+                        pdpApparel={true}
+                        displayToast={val => this.props.displayToast(val)}
+                        onCheckPinCode={pincode =>
+                          this.props.getProductPinCode(
+                            pincode,
+                            productData.productListingId,
+                            productData.winningUssID
+                          )
+                        }
+                        listOfAllPinCode={address}
+                        onClick={() => this.showPincodeModal()}
+                        redirectToLoginPage={() => this.navigateToLogin()}
                       />
                     )}
                   </div>
@@ -1404,37 +1489,37 @@ export default class PdpApparel extends React.Component {
                     <div className={styles.overlay}>
                       {productData.rootCategory === "Clothing" ||
                       productData.rootCategory === "Footwear" ? (
-                        <Overlay labelText="This size is currently out of stock. Please select another size or try another product.">
-                          <PdpDeliveryModes
-                            eligibleDeliveryModes={
-                              productData.eligibleDeliveryModes
-                            }
-                            deliveryModesATP={productData.deliveryModesATP}
-                            iconShow={true}
-                          />
-                        </Overlay>
+                        <div className={styles.notServiciableTetx}>
+                          * This item is currently out of stock
+                        </div>
                       ) : (
-                        <Overlay labelText="This item can't be delivered to your PIN code">
-                          <PdpDeliveryModes
-                            eligibleDeliveryModes={
-                              productData.eligibleDeliveryModes
-                            }
-                            deliveryModesATP={productData.deliveryModesATP}
-                            iconShow={true}
-                          />
-                        </Overlay>
+                        <div className={styles.notServiciableTetx}>
+                          * This item non serviceable at your PIN code
+                        </div>
                       )}
                     </div>
-                  ) : (
-                    <div className={styles.deliveyModesHolder}>
+                  ) : this.props.productDetails.isServiceableToPincode &&
+                  this.props.productDetails.isServiceableToPincode.pinCode ? (
+                    <div className={styles.deliveryModesHolder}>
                       <PdpDeliveryModes
-                        onPiq={this.handleShowPiqPage}
+                        onPiq={() => this.handleShowPiqPage()}
                         eligibleDeliveryModes={
                           productData.eligibleDeliveryModes
                         }
                         deliveryModesATP={productData.deliveryModesATP}
-                        iconShow={true}
+                        pdpApparel={true}
+                        pincodeDetails={productData.pincodeResponseList}
+                        isCod={productData.isCOD}
+                        availableStores={
+                          availableStores && availableStores.length
+                        }
+                        winningUssID={productData.winningUssID}
                       />
+                    </div>
+                  ) : (
+                    <div className={styles.invalidPinText}>
+                      To check for delivery options please enter you pincode
+                      above{" "}
                     </div>
                   )}
                 </div>

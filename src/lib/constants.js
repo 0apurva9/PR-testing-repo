@@ -194,10 +194,16 @@ export const EXPRESS = "express-delivery";
 export const COLLECT = "click-and-collect";
 export const HOME_DELIVERY = "home-delivery";
 export const SHORT_EXPRESS = "ED";
+export const QUIQPIQ = "QUiQ";
+export const SHORT_SAME_DAY_DELIVERY = "SDD";
+export const SAME_DAY_DELIVERY = "same-day-delivery";
+export const SAME_DAY_DELIVERY_SHIPPING = "Same Day Delivery";
+export const SHORT_SAME_DAY_TEXT = "Delivery By";
 export const SHORT_COLLECT = "CNC";
 export const SHORT_HOME_DELIVERY = "HD";
 export const EXPRESS_TEXT = "Express Shipping";
 export const HOME_TEXT = "Standard Shipping";
+export const EXPRESS_SHIPPING = "Express delivery";
 export const STANDARD_SHIPPING = "Standard delivery";
 export const COLLECT_TEXT = "CLiQ & PiQ";
 export const FOLLOW = "Follow";
@@ -248,7 +254,7 @@ export const GIFT_CARD = "Gift Card";
 export const YOUR_BAG = "Your Bag";
 export const CATEGORIES = "Categories";
 export const CHECKOUT = "Checkout";
-export const THANK_YOU = "Thank You";
+export const THANK_YOU = "Order Success";
 export const EDIT_YOUR_ADDRESS = "Edit Your Address";
 export const ERROR_MESSAGE_FOR_VERIFY_OTP = "Please Enter an Valid OTP";
 export const HELP = "Help";
@@ -383,7 +389,6 @@ export const AMP_BRAND_REG_EX = /\/[a-zA-z0-9-]+\/c-mbh[0-9a-zA-Z]+/;
 export const AMP_CATEGORY_REG_EX = /\/[a-zA-z0-9-]+\/c-msh[0-9a-zA-Z]+/;
 export const AMP_SEARCH_REG_EX = /\/search\//;
 export const AMP_PRODUCT_CODE_REG_EX = /\/p-mp[0-9]+/;
-
 export const TIME_OUT_FOR_APIS = 5000;
 export const LOW_INTERNET_CONNECTION_MESSAGE =
   "Slow Internet Connection Detected";
@@ -416,12 +421,12 @@ export const UNDELIVERED = "UNDELIVERED";
 export const NOT_DELIVERED = "NOT_DELIVERED";
 export const RETURN_DECLINED = "RETURN_DECLINED";
 export const REFUND_SUCCESSFUL = "REFUND_SUCCESSFUL";
+export const CLIQ_PIQ_PRODUCT_DETAIL = "cliqAndPiqTempProduct";
+export const STORE_DETAILS = "storeDetails";
 export const BANK_OFFER_TYPE = "bankOffer";
 export const NCE_OFFER_TYPE = "nceOfferType";
 export const OFFER_ERROR_PAYMENT_MODE_TYPE = "paymentModeType";
-
 export const BUY_NOW_ERROR_MESSAGE = "Something Went wrong.Please try again";
-
 export const BANK_OFFER_COMPONENT_NAME_HC = "bankOfferComponent";
 export const MULTIPLE_BANNER_COMPONENT_NAME_HC = "multipleBannerComponent";
 export const QUICK_LINKS_COMPONENT_NAME_HC = "quickLinksComponent";
@@ -475,3 +480,7 @@ export const RETRY_FAILED_ORDER_COUPON =
   "You may attempt to pay again now or retry payment again after 20 minutes using the Payment Retry Link available in your Order History under My Account and your email to avail all the applied Coupon discounts and/or Instant Bank Offer discounts on this Order.";
 export const RETRY_FAILED_ORDER_COUPON_NOTE =
   "Note: If the amount was debited from your account, it will be fully refunded.";
+export const IS_COMING_FROM_ORDER_CONFIRMATION =
+  "isComingFromOrderConfirmation";
+export const CNC_TO_HD_ORDER = "/my-account/cncToHd/(.*)";
+export const CNCTOHD = "/cncToHd";

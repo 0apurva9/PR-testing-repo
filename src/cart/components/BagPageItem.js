@@ -21,7 +21,10 @@ export default class BagPageItem extends React.Component {
   render() {
     return (
       <div className={styles.base}>
-        <div className={styles.productDescription}>
+        <div
+          className={styles.productDescription}
+          style={{ width: this.props.dataWith }}
+        >
           {this.props.isGiveAway === NO &&
             (!this.props.isServiceAvailable
               ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE) && (
@@ -85,7 +88,10 @@ export default class BagPageItem extends React.Component {
             </div>
           )}
         </div>
-        <div className={styles.productImage}>
+        <div
+          className={styles.productImage}
+          style={{ width: this.props.width }}
+        >
           <ProductImage
             image={this.props.productImage}
             onClickImage={() => this.onClick()}
@@ -99,5 +105,7 @@ BagPageItem.propTypes = {
   productImage: PropTypes.string,
   productName: PropTypes.string,
   price: PropTypes.string,
+  width: PropTypes.string,
+  dataWith: PropTypes.string,
   productDetails: PropTypes.string
 };

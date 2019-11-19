@@ -134,6 +134,12 @@ export default class CartItem extends React.Component {
                 onSelect={val => this.selectDeliveryMode(val)}
                 onPiq={val => this.getPickUpDetails()}
                 isClickable={this.props.isClickable}
+                deliveryInformationWithDate={
+                  this.props.deliveryInformationWithDate
+                }
+                isTop={this.props.isTop}
+                inCartPage={this.props.inCartPage}
+                inCartPageIcon={true}
               />
             </div>
           )}

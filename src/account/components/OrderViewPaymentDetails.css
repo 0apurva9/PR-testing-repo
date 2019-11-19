@@ -74,8 +74,10 @@
 @media screen and (min-width: 1025px) {
 	.labelText {
 		font-family: light;
+		color: #4a4a4a;
 	}
 	.infoText {
 		font-family: light;
+		color: #4a4a4a;
 	}
 }

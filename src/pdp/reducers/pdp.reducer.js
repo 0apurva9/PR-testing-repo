@@ -172,6 +172,7 @@ const productDescription = (
         );
         Object.assign(currentPdpDetail, {
           eligibleDeliveryModes,
+          pincodeResponseList: action.productPinCode,
           slaveData: serviceableForExistingSeller.validDeliveryModes,
           isServiceableToPincode: {
             status: YES,
@@ -241,6 +242,7 @@ const productDescription = (
           winningUssID: leastMrpSellerUssid.USSID,
           otherSellers: otherSellersList,
           isUpdatedOtherSellerList: true,
+          pincodeResponseList: action.productPinCode,
           isServiceableToPincode: {
             status: YES,
             pinCode: action.productPinCode.pinCode
@@ -248,6 +250,7 @@ const productDescription = (
         });
       } else {
         Object.assign(currentPdpDetail, {
+          pincodeResponseList: action.productPinCode,
           isServiceableToPincode: {
             status: NO,
             pinCode: action.productPinCode.pinCode

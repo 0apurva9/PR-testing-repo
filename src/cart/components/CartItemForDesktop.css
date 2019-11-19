@@ -12,7 +12,7 @@
   display: inline-block;
 }
 .productInformation {
-  width: 53%;
+  width: 50%;
   height: auto;
   display: inline-block;
   vertical-align: top;
@@ -104,10 +104,11 @@
   cursor: pointer;
 }
 .deliveryInfo {
-  width: 27%;
+  width: 30%;
   height: auto;
   display: inline-block;
   vertical-align: top;
+  padding-left: 30px;
 }
 .isGiveAwayText {
   color: #ff1744;
@@ -124,4 +125,52 @@
 }
 .isGiveAwayQuantityValue {
   padding-left: 12px;
+}
+.storeDataHolder {
+  width: 30%;
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 45px;
+  position: relative;
+}
+.pickUpIcon {
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: url(../../general/components/img/collect.svg) no-repeat;
+  background-size: auto 30px;
+  background-position: center;
+}
+.dataHolder {
+  width: 100%;
+  height: auto;
+}
+.pickUpStoreHeading {
+  width: 100%;
+  height: 30px;
+  position: relative;
+  padding-right: 25px;
+  color: rgb(33, 33, 33);
+  font-size: 13px;
+  font-family: semibold;
+  background: url(../../general/components/img/checkbox-tick.svg) no-repeat;
+  background-size: auto 20px;
+  background-position: right center;
+  line-height: 30px;
+  margin-bottom: 5px;
+}
+.pickUpData {
+  width: 100%;
+  height: auto;
+  color: rgba(33, 33, 33, 0.93);
+  font-family: light;
+}
+.addressOfSelect {
+  width: 100%;
+  height: auto;
+  font-size: 13px;
+  line-height: 22px;
 }

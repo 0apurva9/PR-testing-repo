@@ -236,7 +236,12 @@ const account = (
     updateReturnHOTCStatus: null,
     loadingForUpdateReturnHOTC: false,
     updateReturnHOTCDetails: null,
-    updateReturnHOTCError: null
+    updateReturnHOTCError: null,
+
+    cncToHdDetails: null,
+    cncToHdDetailsStatus: null,
+    cncToHdDetailsError: null,
+    cncToHdDetailsLoading: false
   },
   action
 ) => {
@@ -1236,7 +1241,6 @@ const account = (
         retryPaymentDetailsStatus: action.status,
         retryPaymentDetailsLoading: true
       });
-
     case accountActions.RETRY_PAYMENT_SUCCESS:
       return Object.assign({}, state, {
         retryPaymentDetailsStatus: action.status,
@@ -1465,6 +1469,24 @@ const account = (
     case accountActions.CLEAR_TRANSACTION_DATA:
       return Object.assign({}, state, {
         transactionDetails: " "
+      });
+
+    case accountActions.CNC_TO_HD_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        cncToHdDetailsStatus: action.status,
+        cncToHdDetailsLoading: true
+      });
+    case accountActions.CNC_TO_HD_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        cncToHdDetailsStatus: action.status,
+        cncToHdDetailsLoading: false,
+        cncToHdDetails: action.cncToHdDetails
+      });
+    case accountActions.CNC_TO_HD_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        cncToHdDetailsStatus: action.status,
+        cncToHdDetailsError: action.error,
+        cncToHdDetailsLoading: false
       });
     default:
       return state;

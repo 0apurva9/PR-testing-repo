@@ -40,7 +40,9 @@ import {
   ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE,
   OLD_CART_GU_ID,
   FAILURE_LOWERCASE,
-  BIN_CARD_TYPE
+  BIN_CARD_TYPE,
+  SAME_DAY_DELIVERY,
+  SHORT_SAME_DAY_DELIVERY
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -1116,7 +1118,13 @@ export function addAddressToCartFailure(error) {
   };
 }
 
-export function addAddressToCart(addressId, pinCode) {
+export function addAddressToCart(addressId, pinCode, isComingFromCliqAndPiq) {
+  let newPinCode;
+  if (isComingFromCliqAndPiq) {
+    newPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+  } else {
+    newPinCode = pinCode;
+  }
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -1135,11 +1143,16 @@ export function addAddressToCart(addressId, pinCode) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(getCartDetailsCNC(userId, access_token, cartId, pinCode, false));
-      dispatch(addAddressToCartSuccess());
+      dispatch(
+        getCartDetailsCNC(userId, access_token, cartId, newPinCode, false)
+      );
       setDataLayerForCheckoutDirectCalls(ADOBE_ADD_ADDRESS_TO_ORDER);
+      if (isComingFromCliqAndPiq) {
+        dispatch(softReservation());
+      }
+      return dispatch(addAddressToCartSuccess());
     } catch (e) {
-      dispatch(userAddressFailure(e.message));
+      return dispatch(userAddressFailure(e.message));
     }
   };
 }
@@ -1596,9 +1609,9 @@ export function getAllStoresCNC(pinCode) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(getAllStoresCNCSuccess(resultJson.stores));
+      return dispatch(getAllStoresCNCSuccess(resultJson.stores));
     } catch (e) {
-      dispatch(getAllStoresCNCFailure(e.message));
+      return dispatch(getAllStoresCNCFailure(e.message));
     }
   };
 }
@@ -1649,9 +1662,9 @@ export function addStoreCNC(ussId, slaveId) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(addStoreCNCSuccess(resultJson));
+      return dispatch(addStoreCNCSuccess(resultJson));
     } catch (e) {
-      dispatch(addStoreCNCFailure(e.message));
+      return dispatch(addStoreCNCFailure(e.message));
     }
   };
 }
@@ -3174,7 +3187,6 @@ export function createJusPayOrderForCliqCash(
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     cartId = JSON.parse(cartDetails).guid;
   }
-
   return async (dispatch, getState, { api }) => {
     dispatch(createJusPayOrderRequest());
 
@@ -3410,11 +3422,9 @@ export function jusPayPaymentMethodTypeForSavedCards(
     cardObject.append("merchant_id", getState().cart.paymentModes.merchantID);
     cardObject.append("card_token", cardDetails.cardToken);
     cardObject.append("order_id", juspayOrderId);
-
     try {
       const result = await api.postJusPay(`txns?`, cardObject);
       const resultJson = await result.json();
-
       if (
         resultJson.status === JUS_PAY_PENDING ||
         resultJson.status === SUCCESS ||
@@ -4954,7 +4964,15 @@ export function getValidDeliveryModeDetails(
       selectedDeliverMode[productMode] === "ED"
     ) {
       updatedDeliveryModes[productMode] = SHORT_EXPRESS;
-    } else if (selectedDeliverMode[productMode] === COLLECT) {
+    } else if (
+      selectedDeliverMode[productMode] === SAME_DAY_DELIVERY ||
+      selectedDeliverMode[productMode] === SHORT_SAME_DAY_DELIVERY
+    ) {
+      updatedDeliveryModes[productMode] = SHORT_SAME_DAY_DELIVERY;
+    } else if (
+      selectedDeliverMode[productMode] === COLLECT ||
+      selectedDeliverMode[productMode] === "CNC"
+    ) {
       updatedDeliveryModes[productMode] = SHORT_COLLECT;
     }
   });
@@ -4990,11 +5008,17 @@ export function getValidDeliveryModeDetails(
         productDetails.serviceableSlaves =
           selectedDeliveryModeDetails.serviceableSlaves;
       } else if (selectedDeliveryModeDetails.CNCServiceableSlavesData) {
-        let selectedStoreDetails = selectedDeliveryModeDetails.CNCServiceableSlavesData.find(
-          storeDetails => {
-            return storeDetails.storeId === product.storeDetails.slaveId;
-          }
-        );
+        let selectedStoreDetails =
+          selectedDeliveryModeDetails &&
+          selectedDeliveryModeDetails.CNCServiceableSlavesData.find(
+            storeDetails => {
+              if (isFromRetryUrl) {
+                return storeDetails.storeId === product.selectedStoreCNC;
+              } else {
+                return storeDetails.storeId === product.storeDetails.slaveId;
+              }
+            }
+          );
         productDetails.serviceableSlaves =
           selectedStoreDetails && selectedStoreDetails.serviceableSlaves;
       }
@@ -5047,17 +5071,29 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
   return async (dispatch, getState, { api }) => {
     dispatch(tempCartIdForLoggedInUserRequest());
     try {
-      const result = await api.get(
-        `${USER_CART_PATH}/${
-          JSON.parse(userDetails).userName
-        }/buyNow/expressBuy?access_token=${
-          JSON.parse(customerCookie).access_token
-        }&isPwa=true&channel=${CHANNEL}&productCode=${
-          productDetails.code
-        }&USSID=${productDetails.ussId}`
-      );
+      let result = "";
+      if (productDetails.isCNC) {
+        result = await api.get(
+          `${USER_CART_PATH}/${
+            JSON.parse(userDetails).userName
+          }/buyNow/expressBuy?productCode=${productDetails.code}&USSID=${
+            productDetails.ussId
+          }&&slaveId=${productDetails.slaveId}&access_token=${
+            JSON.parse(customerCookie).access_token
+          }&isCNC=yes`
+        );
+      } else {
+        result = await api.get(
+          `${USER_CART_PATH}/${
+            JSON.parse(userDetails).userName
+          }/buyNow/expressBuy?access_token=${
+            JSON.parse(customerCookie).access_token
+          }&isPwa=true&channel=${CHANNEL}&productCode=${
+            productDetails.code
+          }&USSID=${productDetails.ussId}`
+        );
+      }
       const resultJson = await result.json();
-
       if (resultJson.status !== SUCCESS_CAMEL_CASE) {
         throw new Error(resultJson.message);
       }

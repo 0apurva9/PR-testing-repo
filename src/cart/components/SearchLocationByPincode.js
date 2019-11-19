@@ -11,7 +11,11 @@ export default class SearchLocationByPincode extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pinCode: this.props.pincode,
+      pinCode: this.props.pincode
+        ? this.props.pincode
+        : localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+          ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+          : null,
       errorMessage: null
     };
   }
@@ -51,16 +55,20 @@ export default class SearchLocationByPincode extends React.Component {
         >
           <Input2
             placeholder={
-              !this.props.pinCode
-                ? `Your pincode: ${
-                    this.props.ServiceablePincode
-                      ? this.props.ServiceablePincode
-                      : defaultPincode
-                  }`
-                : "Enter your Pincode "
+              this.props.pincode
+                ? `Your pincode: ${this.props.pincode}`
+                : this.state.pincode
+                  ? `Your pincode: ${this.state.pinCode}`
+                  : "Enter your Pincode "
             }
             onlyNumber={true}
-            value={this.state.pinCode}
+            value={
+              this.props.pincode
+                ? `Your pincode: ${this.props.pincode}`
+                : this.state.pincode
+                  ? `Your pincode: ${this.state.pinCode}`
+                  : ""
+            }
             onChange={val => this.getValue(val)}
             textStyle={{ fontSize: 14 }}
             height={35}

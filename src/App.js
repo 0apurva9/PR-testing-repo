@@ -69,7 +69,6 @@ import {
   WRITE_REVIEWS_WITH_SLUG,
   WRITE_REVIEWS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  DEFAULT_PINCODE,
   REDMI_WALLET_FROM_EMAIL,
   FEEDBACK_PAGE,
   RETRY_FAILED_ORDER,
@@ -91,9 +90,6 @@ import DesktopOnly from "./general/components/DesktopOnly";
     for user if user dont have pin code in
     local storage already
 */
-if (!localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)) {
-  localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, DEFAULT_PINCODE);
-}
 const Loader = () => {
   return (
     <div className={AppStyles.loadingIndicator}>

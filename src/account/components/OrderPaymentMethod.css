@@ -8,6 +8,7 @@
 	height: auto;
 	display: inline-block;
 	padding-top: 34px;
+	padding-bottom: 37px;
 }
 .removeMarginAddress{
 	padding-bottom: 34px;
@@ -81,6 +82,16 @@
 .requestWithUnderline {
 	display: inline-block;
 }
+.helpHolder {
+  width: 50%;
+  height: auto;
+  display: inline-block;
+  text-align: right;
+  font-family: semibold;
+  font-size: 14px;
+  color: #ff1744;
+  cursor: pointer;
+}
 .cashAndMobileHolder {
 	width: 100%;
 	height: auto;
@@ -108,6 +119,7 @@
 @media screen and (min-width: 1025px) {
 	.cashText {
 		font-family: light;
+		display: inline;
 	}
 	.mobileNumber {
 		font-family: light;

@@ -154,6 +154,10 @@ export default class OrderConfirmation extends React.Component {
                       this.props.orderDetails &&
                       this.props.orderDetails.isEgvOrder
                     }
+                    pickUpPersonMobile={
+                      this.props.orderDetails &&
+                      this.props.orderDetails.pickupPersonMobile
+                    }
                   />
                 )}
               </div>
@@ -167,7 +171,8 @@ export default class OrderConfirmation extends React.Component {
                   />
                 </div>
               </MobileOnly>
-              {this.props.orderDetails &&
+              {!this.props.isComingFromCncToHd &&
+                this.props.orderDetails &&
                 this.props.orderDetails.products &&
                 this.props.orderDetails.products.map(order => {
                   return (
@@ -194,6 +199,17 @@ export default class OrderConfirmation extends React.Component {
                     </React.Fragment>
                   );
                 })}
+              {this.props.isComingFromCncToHd && (
+                <OrderSucessCard
+                  imageURL={this.props.orderDetails.imageURL}
+                  price={this.props.orderDetails.price}
+                  productName={this.props.orderDetails.productName}
+                  quantity={"1"}
+                  selectedDeliveryMode={
+                    this.props.orderDetails.selectedDeliveryMode
+                  }
+                />
+              )}
               <MobileOnly>
                 <OrderConfirmationFooter
                   isEgvOrder={this.props.orderDetails.isEgvOrder}
@@ -264,3 +280,6 @@ export default class OrderConfirmation extends React.Component {
     );
   }
 }
+OrderConfirmation.defaultProps = {
+  isComingFromCncToHd: false
+};

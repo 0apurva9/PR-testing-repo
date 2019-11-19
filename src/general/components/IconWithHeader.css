@@ -2,7 +2,7 @@
   width: 100%;
   height: auto;
   background-color: #fff;
-  padding: 5px 0px 5px 70px;
+  padding: 5px 0px 5px 55px;
   display: inline-block;
   position: relative;
 }
@@ -19,10 +19,10 @@
   display: inline-block;
 }
 .iconHolder {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   position: absolute;
-  left: 20px;
+  left: 0px;
   top: 0px;
   bottom: 0px;
   margin: auto;
@@ -33,5 +33,58 @@
   }
   .base {
     background-color: unset;
+  }
+  .labelHolder {
+    width: 100%;
+    height: auto;
+    color: rgb(33, 33, 33);
+    font-size: 14px;
+    line-height: 20px;
+    font-family: light;
+  }
+  .labelHolderBold {
+    composes: labelHolder;
+    font-family: semibold;
+  }
+  .autoLabelHolder {
+    composes: labelHolder;
+    width: auto;
+    display: inline-block;
+  }
+  .spanBlock {
+    width: 100%;
+    height: auto;
+    color: rgb(33, 33, 33);
+    font-size: 14px;
+    font-family: regular;
+    line-height: 20px;
+  }
+  .span {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+  }
+  .spanInSameLine {
+    width: auto;
+    display: inline-block;
+    padding-left: 5px;
+  }
+  .storeCount {
+    width: 100%;
+    height: auto;
+    color: rgb(255, 23, 68);
+    font-size: 14px;
+    font-family: semibold;
+    cursor: pointer;
+  }
+  .cartPageData {
+    width: 100%;
+    height: auto;
+    font-size: 13px;
+    color: rgb(33, 33, 33);
+    font-family: regular;
+  }
+  .classLight {
+    font-family: light;
   }
 }

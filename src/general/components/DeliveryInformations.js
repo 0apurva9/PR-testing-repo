@@ -7,15 +7,29 @@ import PropTypes from "prop-types";
 import Icon from "../../xelpmoc-core/Icon";
 import ExpressImage from "./img/expressDelivery.svg";
 import HomeImage from "./img/homeDelivery.svg";
-
 import arrowIcon from "./img/arrowBackblack.svg";
 import greyArrow from "./img/greyArrow.svg";
 import CollectImage from "./img/collect.svg";
-import { EXPRESS, COLLECT, HOME_DELIVERY } from "../../lib/constants";
+import quiqpiqImage from "./img/quiqlogo.png";
+import codImage from "./img/cod.svg";
+import clockImage from "./img/clock.png";
+import {
+  EXPRESS,
+  COLLECT,
+  QUIQPIQ,
+  SHORT_SAME_DAY_TEXT,
+  SHORT_SAME_DAY_DELIVERY,
+  EXPRESS_SHIPPING,
+  SAME_DAY_DELIVERY,
+  SAME_DAY_DELIVERY_SHIPPING,
+  HOME_DELIVERY
+} from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";
-const EXPRESS_TEXT = "Express Delivery";
+const EXPRESS_TEXT = "Delivery By";
 const HOME_TEXT = "Standard Delivery";
 const COLLECT_TEXT = "QUiQ PiQ";
+const COLLECT_TEXT_CART = "Pick from store";
+const COD_TEXT = "Cash on Delivery";
 const NOT_AVAILABLE = "Not Available";
 export default class DeliveryInformations extends React.Component {
   handleClick() {
@@ -34,7 +48,7 @@ export default class DeliveryInformations extends React.Component {
     }
   }
   onPiq() {
-    if (this.props.onPiq && this.props.isClickable) {
+    if (this.props.onPiq) {
       this.props.onPiq();
     }
   }
@@ -42,20 +56,46 @@ export default class DeliveryInformations extends React.Component {
     let iconImage = "";
     let typeName = "";
     let arrowStyle = styles.arrowLink1;
+    let iconSize = null;
+    let baseClass = styles.base;
     if (this.props.type === EXPRESS) {
       iconImage = ExpressImage;
-      typeName = EXPRESS_TEXT;
+      typeName = !this.props.deliveryInformationByCart
+        ? EXPRESS_TEXT
+        : EXPRESS_SHIPPING;
       arrowStyle = styles.arrowLink;
+      iconSize = this.props.inCartPageIcon ? 40 : 35;
     } else if (this.props.type === HOME_DELIVERY) {
       iconImage = HomeImage;
       typeName = HOME_TEXT;
+      iconSize = 35;
     } else if (this.props.type === COLLECT) {
       iconImage = CollectImage;
-      typeName = COLLECT_TEXT;
+      typeName = !this.props.deliveryInformationByCart
+        ? COLLECT_TEXT
+        : COLLECT_TEXT_CART;
+      iconSize = 35;
+    } else if (this.props.type === SHORT_SAME_DAY_DELIVERY) {
+      iconImage = clockImage;
+      typeName = SHORT_SAME_DAY_TEXT;
+      iconSize = 35;
+    } else if (this.props.type === SAME_DAY_DELIVERY) {
+      iconImage = clockImage;
+      typeName = SAME_DAY_DELIVERY_SHIPPING;
+      iconSize = 35;
+    } else if (this.props.isQuiqPiq === "Y") {
+      iconImage = quiqpiqImage;
+      typeName = QUIQPIQ;
+      iconSize = 40;
+    } else if (this.props.isCod == "Y") {
+      iconImage = codImage;
+      typeName = COD_TEXT;
+      iconSize = 35;
     }
     if (!this.props.available) {
       typeName = `${typeName}`;
     }
+
     let deliveryCharge = "";
     if (this.props.deliveryCharge) {
       if (this.props.showDeliveryCharge) {
@@ -65,8 +105,14 @@ export default class DeliveryInformations extends React.Component {
         deliveryCharge = `(₹${parseInt(this.props.deliveryCharge, 10)})`;
       }
     }
+    if (this.props.pdpApparel) {
+      baseClass = styles.basePdp;
+    }
+    if (this.props.isQuiqPiq === "Y") {
+      baseClass = styles.basePdp;
+    }
     return (
-      <div className={styles.base}>
+      <div className={baseClass}>
         <div
           className={
             this.props.available ? styles.dataHolder : styles.notAvailable
@@ -173,12 +219,19 @@ DeliveryInformations.propTypes = {
   available: PropTypes.bool,
   showDeliveryCharge: PropTypes.bool,
   isShowCliqAndPiqUnderLineText: PropTypes.bool,
-  iconShow: PropTypes.bool
+  isArrowIcon: PropTypes.bool,
+  isCartForMargin: PropTypes.bool,
+  inCartPage: PropTypes.bool,
+  inCartPageIcon: PropTypes.bool
 };
 
 DeliveryInformations.defaultProps = {
   showCliqAndPiqButton: true,
   showDeliveryCharge: false,
   isShowCliqAndPiqUnderLineText: true,
-  iconShow: false
+  isArrowIcon: true,
+  deliveryInformationByCart: false,
+  isCartForMargin: false,
+  inCartPage: false,
+  inCartPageIcon: false
 };
