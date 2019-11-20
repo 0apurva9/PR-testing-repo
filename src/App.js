@@ -75,7 +75,8 @@ import {
   CART_COUNT_FOR_LOGGED_IN_USER,
   PANCARD_PAGE,
   CART_BAG_DETAILS,
-  CANCEL_RETURN_PREFIX
+  CANCEL_RETURN_PREFIX,
+  DEFAULT_PINCODE
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
@@ -90,6 +91,9 @@ import DesktopOnly from "./general/components/DesktopOnly";
     for user if user dont have pin code in
     local storage already
 */
+if (!localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)) {
+  localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, DEFAULT_PINCODE);
+}
 const Loader = () => {
   return (
     <div className={AppStyles.loadingIndicator}>

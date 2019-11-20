@@ -1425,6 +1425,8 @@ export default class PdpApparel extends React.Component {
                           )
                         }
                         pincode={
+                          this.props.productDetails &&
+                          this.props.productDetails.isServiceableToPincode &&
                           this.props.productDetails.isServiceableToPincode
                             .pinCode
                         }
@@ -1436,49 +1438,6 @@ export default class PdpApparel extends React.Component {
                         }
                         onClick={() => this.showPincodeModal()}
                         listOfAllPinCode={address}
-                        redirectToLoginPage={() => this.navigateToLogin()}
-                      />
-                    )}
-                    {this.props.productDetails &&
-                    this.props.productDetails.isServiceableToPincode &&
-                    this.props.productDetails.isServiceableToPincode.pinCode ? (
-                      <PdpPincode
-                        hasPincode={true}
-                        displayToast={val => this.props.displayToast(val)}
-                        onCheckPinCode={pincode =>
-                          this.props.getProductPinCode(
-                            pincode,
-                            productData.productListingId,
-                            productData.winningUssID
-                          )
-                        }
-                        pincode={
-                          this.props.productDetails.isServiceableToPincode
-                            .pinCode
-                        }
-                        status={
-                          this.props.productDetails &&
-                          this.props.productDetails.isServiceableToPincode &&
-                          this.props.productDetails.isServiceableToPincode
-                            .status
-                        }
-                        onClick={() => this.showPincodeModal()}
-                        listOfAllPinCode={address}
-                        redirectToLoginPage={() => this.navigateToLogin()}
-                      />
-                    ) : (
-                      <PdpPincode
-                        pdpApparel={true}
-                        displayToast={val => this.props.displayToast(val)}
-                        onCheckPinCode={pincode =>
-                          this.props.getProductPinCode(
-                            pincode,
-                            productData.productListingId,
-                            productData.winningUssID
-                          )
-                        }
-                        listOfAllPinCode={address}
-                        onClick={() => this.showPincodeModal()}
                         redirectToLoginPage={() => this.navigateToLogin()}
                       />
                     )}

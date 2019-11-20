@@ -1217,12 +1217,16 @@ class CheckOutPage extends React.Component {
         nextProps.cart.cartDetailsCNC.products
       ) {
         nextProps.cart.cartDetailsCNC.products.forEach(product => {
-          if (product.pinCodeResponse.isServicable === NO) {
+          if (
+            product.pinCodeResponse &&
+            product.pinCodeResponse.isServicable === NO
+          ) {
             this.props.history.push(PRODUCT_CART_ROUTER);
           }
           if (
             product.isGiveAway === NO &&
-            product.pinCodeResponse.isServicable !== NO
+            (product.pinCodeResponse &&
+              product.pinCodeResponse.isServicable !== NO)
           ) {
             if (
               product.elligibleDeliveryMode &&

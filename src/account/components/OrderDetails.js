@@ -944,15 +944,10 @@ export default class OrderDetails extends React.Component {
                                   <div
                                     className={styles.cancelProduct}
                                     onClick={() =>
-                                      this.cancelItem(
-                                        products.transactionId,
-                                        products.USSID,
+                                      this.replaceItem(
                                         products.sellerorderno,
-                                        orderDetails.orderId,
-                                        format(
-                                          orderDetails.orderDate,
-                                          dateFormat
-                                        )
+                                        orderDetails.paymentMethod,
+                                        products.transactionId
                                       )
                                     }
                                   >
@@ -1235,10 +1230,6 @@ OrderDetails.propTypes = {
 };
 OrderDetails.defaultProps = {
   underlineButtonLabel: "Request Invoice",
-  underlineButtonColour: "#181818"
-};
-
-OrderDetails.defaultProps = {
   underlineButtonColour: "#181818",
   isInvoiceAvailable: false
 };
