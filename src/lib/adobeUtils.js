@@ -2191,7 +2191,13 @@ export async function setDataLayerForLogin(type, lastLocation) {
           mcvId: mcvId
         },
         page: {
-          pageInfo: { pageName: data.page.pageInfo.pageName }
+          pageInfo: {
+            pageName:
+              data &&
+              data.page &&
+              data.page.pageInfo &&
+              data.page.pageInfo.pageName
+          }
         }
       });
       window.digitalData = data;
