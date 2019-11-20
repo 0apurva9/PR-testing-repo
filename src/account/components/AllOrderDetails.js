@@ -121,7 +121,6 @@ export default class AllOrderDetails extends React.Component {
     this.props.history.push(`${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`);
   }
   writeReview(val) {
-    console.log("===>", val);
     this.props.showRatingAndReviewModal(val);
     // if (productCode && this.props.history) {
     //   this.props.history.push(`/p-${productCode.toLowerCase()}${WRITE_REVIEW}`);

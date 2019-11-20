@@ -30,13 +30,23 @@
 }
 .productImage {
 	width: 98px;
-	height:130px;
-	margin-left: 62px;
+    height: 130px;
+    margin-left: 62px;
+    margin-right: 35px;
+    margin-top: 32px;
 }
-.productImageHolder {
-	width: 30%;
+.imageContainer{
+	width:25%;
+}
+.productData{
+	width:40%;
+	display: block;
+	padding-left: 32px;
+}
+.productDetailsHolder {
+	width: 100%;
 	height: auto;
-	display: inline-block;
+	display: flex;
 }
 .cancelHolder {
 	position: absolute;
@@ -65,7 +75,7 @@
 	margin-bottom: 15px;
 	font-size: 18px;
 }
-textarea {
+.textarea {
 	font-size: 12px !important;
 }
 .content > div:first-child {
@@ -157,15 +167,50 @@ textarea {
     composes: buttonleft;
     /* text-align: right; */
   }  
+  .inputComponent{
+	margin-top: 32px;
+  }
+  .input {
+	  padding-top: 24px;
+	  padding-left: 60px;
+  }
+  .feedbackHeader{
+	width: 512px;
+	height: 22px;
+	font-family: regular;
+	font-size: 16px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.22;
+	letter-spacing: normal;
+	color: #212121;
+	padding-left: 60px;
+  }
   .brandName {
 	width: 100%;
-	height: auto;
-	color: #000;
-	font-family: semibold;
-	margin-bottom: 5px;
-	font-size: 14px;
-	display: inline-block;
-	word-wrap: break-word;
+    height: auto;
+    color: #212121;
+    font-family: light;
+    line-height: 22px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    display: inline-block;
+    word-wrap: break-word;
+	margin-top: 32px;
+	font-weight: 300;
+  }
+  .deliveryDate{
+	width: 251px;
+	height: 16px;
+	font-family: regular;
+	font-size: 16px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 0.88;
+	letter-spacing: normal;
+	color: #212121;
   }
   .productName {
 	composes: brandName;
@@ -190,10 +235,16 @@ textarea {
 	display: inline-block;
   }
   .reviewHolder {
-	width: 100%;
-	height: auto;
+	/* width: 100%;
+	height: auto; */
 	/* margin-left: 18%; */
+	margin-top: 26px;
 	cursor: pointer;
+}
+.reviewTitle {
+	width: 836px;
+	height: 592px;
+	border-radius: 4px;
 }
 .reviewHeading {
     margin-top: 24px;
@@ -208,16 +259,19 @@ textarea {
 	  text-align: right;
 	}
 	.ratingBar {
-	  height: auto;
-	  width: 150px;
+	  height: 36px;
+	  width: 627px;
 	  display: inline-block;
 	}
 	.reviewGuidelinesBar {
-	  height: auto;
-	  width: 150px;
-	  display: inline-block;
-	  float: right;
-	  cursor: pointer;
+		width:35%;
+		height: auto;
+		display: inline-block;
+		float: right;
+		cursor: pointer;
+		padding-top: 26px;
+		padding-left: 56px;
+		margin-right: 32px;
 	}
 	.cancelButton {
 	  width: auto;
