@@ -17,13 +17,16 @@ export default class TextWithButton extends React.Component {
     };
   }
   onClick() {
+    let url = window.location.href;
+    let parts = url.split("/");
+    let transId = parts[parts.length - 1];
     if (this.props.buttonLabel === "Edit FeedBack") {
       this.props.history.push({
-        pathname: `${MY_ACCOUNT_PAGE}/sellers/review/10`
+        pathname: `${MY_ACCOUNT_PAGE}/sellers/review/${transId}`
       });
     } else {
       this.props.history.push({
-        pathname: `${MY_ACCOUNT_PAGE}/sellers/new/10`
+        pathname: `${MY_ACCOUNT_PAGE}/sellers/new/${transId}`
       });
     }
   }

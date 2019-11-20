@@ -1,0 +1,38 @@
+.base {
+  width: 86%;
+  height: auto;
+  background: #fff;
+  padding: 30px 20px;
+  position: absolute;
+  bottom: 0;
+  left: 7%;
+  border-radius: 10px;
+}
+.textHolder {
+  width: 100%;
+  height: auto;
+  font-size: 14px;
+  letter-spacing: 0.24px;
+  line-height: 20px;
+}
+.closeIcon{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.ratingBar{
+    margin:10px 0px
+}
+
+.textHolder{
+    font-family: semibold;
+    text-align: center;
+    width:100%
+
+}
+
+.sellerName{
+    font-family: regular;
+    padding: 10px 0px 0px;
+}

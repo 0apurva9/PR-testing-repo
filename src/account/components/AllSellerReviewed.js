@@ -896,6 +896,19 @@ export default class AllSellerReviewed extends React.Component {
 
                         <div className={styles.describedItem}>
                           <div className={styles.itemDeliveredHeaderReview}>
+                            <span>Item delivered as described</span>
+                            <div className={styles.iteDeliveredAsDescribed}>
+                              <div
+                                className={styles.radioBtnWrapper}
+                                key={i}
+                                value={itemDeliveredAsDescribed}
+                              >
+                                <div className={styles.radioBtnContent}>
+                                  <CheckBox selected={true} />
+                                </div>
+                                {itemDeliveredAsDescribed}
+                              </div>
+                            </div>
                             <span>Item delivered as on communicated time</span>
                             <div className={styles.iteDeliveredAsDescribed}>
                               <div
@@ -926,7 +939,7 @@ export default class AllSellerReviewed extends React.Component {
                                 }
                               >
                                 {" "}
-                                Submit Feedback
+                                Remove Feedback
                               </button>
                             </div>
                           </div>

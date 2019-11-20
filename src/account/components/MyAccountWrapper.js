@@ -168,11 +168,11 @@ export default class MyAccountWrapper extends React.Component {
           component={SaveListContainer}
         />
         <Route
-          path={`${MY_ACCOUNT_PAGE}/sellers/new/10`}
+          path={`${MY_ACCOUNT_PAGE}/sellers/new/:id`}
           component={AllSellerContainer}
         />
         <Route
-          path={`${MY_ACCOUNT_PAGE}/sellers/review/10`}
+          path={`${MY_ACCOUNT_PAGE}/sellers/review/:id`}
           component={AllSellerReviewContainer}
         />
         <Route

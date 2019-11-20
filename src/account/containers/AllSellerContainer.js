@@ -8,6 +8,11 @@ import { withRouter } from "react-router-dom";
 import AllSellerDetails from "../components/AllSellerDetails";
 import { setHeaderText } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions.js";
+import {
+  SELLER_REVIEW_SUBMIT_REMOVAL_POP_UP,
+  showModal
+} from "../../general/modal.actions";
+
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getAllSellerDetails: showDataAccordingToUser => {
@@ -40,6 +45,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     displayToast: message => {
       dispatch(displayToast(message));
+    },
+    sellerReviewSubmitRemovalPopup: () => {
+      dispatch(showModal(SELLER_REVIEW_SUBMIT_REMOVAL_POP_UP));
     }
   };
 };

@@ -500,14 +500,17 @@
 	cursor: pointer;
 }
 
+
 .submitButtonDiv{
 	width: 231px;
  	height:60px;
 	margin: auto;
-	display: inline-block;
+	/* display: inline-block; */
 	padding: 10px;
 	cursor: pointer;
+	float: right;
 }
+
 
 .reasonOverlay{
   width: 100%;
@@ -521,4 +524,12 @@
 .removeFeedbackButton{
 	padding: 10px;
 	text-align: right;
+}
+
+.reviewSubmitBtn{
+	border-radius: 25px;
+  background: #ff1744;;
+  padding: 20px;
+  width: 200px;
+  height: 40px;
 }
