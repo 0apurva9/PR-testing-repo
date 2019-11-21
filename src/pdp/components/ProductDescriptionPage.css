@@ -647,25 +647,25 @@
 	.updatePincodeHolder {
 		width: 360px;
 		height: auto;
-    display: inline-block;
+    	display: inline-block;
 		position: relative;
 		padding-left: 75px;
-		margin: 15px 0;
+		/* margin: 15px 0; */
 	}
 	.overlay {
 		padding-top: 14px;
 	}
 	.updatePincodeHolder:before {
-		content: 'Delivery';
+		content: 'Ship To';
 		position: absolute;
 		left: 0;
-		bottom: 20px;
+		bottom: 16px;
 		font-size: 14px;
 		line-height: 0px;
 		color: #212121;
 		font-family: semibold;
 	}
-	.updatePincodeHolder:after {
+	/* .updatePincodeHolder:after {
 		content: '';
 		width: 285px;
 		height: 1px;
@@ -673,7 +673,7 @@
 		position: absolute;
 		bottom: 0px;
 		right: 0;
-	}
+	} */
 	.otherText {
 		color: #808080;
 	}
@@ -1163,6 +1163,5 @@
 	width: 100%;
 	height: auto;
 	display: inline-block;
-	border-top: 1px solid #e2e2e2;
 	margin-top: 35px;
 }

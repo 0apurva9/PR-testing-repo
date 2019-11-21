@@ -1395,38 +1395,19 @@ export default class PdpApparel extends React.Component {
                 </div>
                 <div className={styles.pinAndDeliveryHolder}>
                   <div className={styles.updatePincodeHolder}>
-                    {getPinCode &&
-                      userCookie && (
-                        <SearchAndUpdate
-                          uiType="hollow"
-                          checkPinCodeAvailability={pincode =>
-                            this.checkPinCodeAvailability(
-                              pincode,
-                              productData.productListingId
-                            )
-                          }
-                          placeholder="Pincode"
-                          value={getPinCode}
-                          hasAutoFocus={false}
-                          labelText={"Check"}
-                          borderColor="transparent"
-                          borderBottom="0px solid #transparent"
-                        />
-                      )}
-
-                    {(!userCookie || !getPinCode) && (
-                      <SearchAndUpdate
-                        uiType="hollow"
-                        checkPinCodeAvailability={pincode =>
-                          this.checkPinCodeAvailability(
+                    {this.props.productDetails.isServiceableToPincode &&
+                    this.props.productDetails.isServiceableToPincode.pinCode ? (
+                      <PdpPincode
+                        hasPincode={true}
+                        displayToast={val => this.props.displayToast(val)}
+                        onCheckPinCode={pincode =>
+                          this.props.getProductPinCode(
                             pincode,
                             productData.productListingId,
                             productData.winningUssID
                           )
                         }
                         pincode={
-                          this.props.productDetails &&
-                          this.props.productDetails.isServiceableToPincode &&
                           this.props.productDetails.isServiceableToPincode
                             .pinCode
                         }
@@ -1438,6 +1419,21 @@ export default class PdpApparel extends React.Component {
                         }
                         onClick={() => this.showPincodeModal()}
                         listOfAllPinCode={address}
+                        redirectToLoginPage={() => this.navigateToLogin()}
+                      />
+                    ) : (
+                      <PdpPincode
+                        pdpApparel={true}
+                        displayToast={val => this.props.displayToast(val)}
+                        onCheckPinCode={pincode =>
+                          this.props.getProductPinCode(
+                            pincode,
+                            productData.productListingId,
+                            productData.winningUssID
+                          )
+                        }
+                        listOfAllPinCode={address}
+                        onClick={() => this.showPincodeModal()}
                         redirectToLoginPage={() => this.navigateToLogin()}
                       />
                     )}

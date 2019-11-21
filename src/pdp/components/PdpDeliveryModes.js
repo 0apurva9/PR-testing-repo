@@ -72,9 +72,13 @@ export default class PdpDeliveryModes extends React.Component {
               }
               placedTime={
                 deliveryDates &&
-                deliveryDates.find(val => {
-                  return val.type === SHORT_SAME_DAY_DELIVERY;
-                })
+                deliveryDates
+                  .filter(val => {
+                    return val.type === SHORT_SAME_DAY_DELIVERY;
+                  })
+                  .map(val => {
+                    return val.value;
+                  })[0]
               }
             />
           )}
@@ -97,9 +101,13 @@ export default class PdpDeliveryModes extends React.Component {
               }
               placedTime={
                 deliveryDates &&
-                deliveryDates.find(val => {
-                  return val.type === SHORT_EXPRESS;
-                })
+                deliveryDates
+                  .filter(val => {
+                    return val.type === SHORT_EXPRESS;
+                  })
+                  .map(val => {
+                    return val.value;
+                  })[0]
               }
             />
           )}
@@ -173,9 +181,13 @@ export default class PdpDeliveryModes extends React.Component {
                   }
                   placedTime={
                     deliveryDates &&
-                    deliveryDates.find(val => {
-                      return val.type === SHORT_HOME_DELIVERY;
-                    })
+                    deliveryDates
+                      .filter(val => {
+                        return val.type === SHORT_HOME_DELIVERY;
+                      })
+                      .map(val => {
+                        return val.value;
+                      })[0]
                   }
                   notShowDay={true}
                   isHomeDelivery={

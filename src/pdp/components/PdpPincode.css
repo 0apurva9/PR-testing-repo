@@ -33,7 +33,7 @@
   border-top: 1px solid #000;
   position: absolute;
   left: 0;
-  bottom: -10px;
+  bottom: -5px;
 }
 .borderLeft {
   width: 100%;
@@ -91,6 +91,7 @@
   position: absolute;
   color: #ff1744;
   font-size: 14px;
+  line-height: 24px;
   font-family: semibold;
   right: 0;
   cursor: pointer;
