@@ -6,6 +6,7 @@ import OrderCard from "./OrderCard.js";
 import OrderViewPaymentDetails from "./OrderViewPaymentDetails";
 import OrderPaymentMethod from "./OrderPaymentMethod";
 import OrderStatusVertical from "./OrderStatusVerticalV2";
+import InstallationExperience from "./InstallationExperience";
 import PropTypes from "prop-types";
 import format from "date-fns/format";
 import each from "lodash.foreach";
@@ -487,6 +488,11 @@ export default class OrderDetails extends React.Component {
                     }
                   );
                 });
+                const requestCancelled = products.installationDisplayMsg.find(
+                  val => {
+                    return val.key === "REQUEST_CANCELLED";
+                  }
+                );
                 return (
                   <React.Fragment key={i}>
                     <div className={styles.order} key={i}>
@@ -555,6 +561,13 @@ export default class OrderDetails extends React.Component {
                         isOrderReturnable={products.isReturned}
                         returnMode={products.returnMode}
                         returnPolicy={products.returnPolicy}
+                        installationCompletedDate={
+                          products.installationCompletedDate
+                        }
+                        installationRequestCancelled={requestCancelled}
+                        estimatedCompletionDate={
+                          products.estimatedCompletionDate
+                        }
                       />
 
                       {products.awbPopupLink === AWB_POPUP_TRUE && (
@@ -812,7 +825,16 @@ export default class OrderDetails extends React.Component {
                               )}
                           </React.Fragment>
                         )}
-
+                      {products.installationDisplayMsg && (
+                        <React.Fragment>
+                          <div className={styles.borderTop} />
+                          <InstallationExperience
+                            installationDisplayMsg={
+                              products.installationDisplayMsg
+                            }
+                          />
+                        </React.Fragment>
+                      )}
                       {products.awbPopupLink === AWB_POPUP_FALSE && (
                         <div
                           className={

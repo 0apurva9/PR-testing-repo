@@ -515,6 +515,38 @@ export default class OrderCard extends React.Component {
               </span>
             </div>
           )}
+        {this.props.installationRequestCancelled &&
+          this.props.installationRequestCancelled.value.status ===
+            "Completed" && (
+            <div className={styles.deliveryDate}>
+              Installation Cancelled On:{" "}
+              <span className={styles.estimatedDate}>
+                {this.props.installationRequestCancelled.value.date}
+              </span>
+            </div>
+          )}
+        {this.props.installationCompletedDate && (
+          <div className={styles.deliveryDate}>
+            Installation Completed On:{" "}
+            <span className={styles.estimatedDate}>
+              {format(
+                this.props.installationCompletedDate.toString(),
+                dateFormat
+              )}
+            </span>
+          </div>
+        )}
+        {this.props.estimatedCompletionDate && (
+          <div className={styles.deliveryDate}>
+            Estimated Installation Date:{" "}
+            <span className={styles.estimatedDate}>
+              {format(
+                this.props.estimatedCompletionDate.toString(),
+                dateFormat
+              )}
+            </span>
+          </div>
+        )}
         {this.props.isGiveAway === "N" &&
           (this.props.consignmentStatus &&
             this.props.consignmentStatus.includes("CANCEL")) &&

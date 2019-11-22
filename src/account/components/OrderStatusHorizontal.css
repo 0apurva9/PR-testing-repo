@@ -208,3 +208,28 @@ div .step:before {
 	text-align: center;
 	margin-right: 25px;
 }
+.eieStatus{
+	font-size: 12px;
+	text-align: left;
+	/* padding-left: 35px; */
+	padding-top: 5px;
+	clear: left;
+}
+.eieDateAndTimeHolder {
+	width: 186px;
+	height: auto;
+	display: inline-block;
+	vertical-align: top;
+}
+.eieDateNTimeContainer {
+	float: left;
+	width: auto;
+	height: auto;
+	color: #8d8d8d;
+	font-size: 12px;
+	font-family: light;
+}
+.eieDateNTimeContainer:first-child::after{
+	content: "|";
+    padding: 0 5px;
+}
