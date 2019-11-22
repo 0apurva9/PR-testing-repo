@@ -488,11 +488,11 @@ export default class OrderDetails extends React.Component {
                     }
                   );
                 });
-                const requestCancelled = products.installationDisplayMsg.find(
-                  val => {
+                const requestCancelled =
+                  products.installationDisplayMsg &&
+                  products.installationDisplayMsg.find(val => {
                     return val.key === "REQUEST_CANCELLED";
-                  }
-                );
+                  });
                 return (
                   <React.Fragment key={i}>
                     <div className={styles.order} key={i}>
