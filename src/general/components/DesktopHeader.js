@@ -250,9 +250,14 @@ export default class DesktopHeader extends React.Component {
     if (this.props.isSticky) {
       className = styles.stickyBase;
       logo = styles.stickyLogo;
+    } else {
+      if (!this.props.isSearch) {
+        className = `${styles.base} ${styles.CheckoutHeader}`;
+      }
     }
+
     return (
-      <div className={this.props.isSearch ? className : styles.CheckoutHeader}>
+      <div className={this.props.isSearch ? className : className}>
         {this.props.isSearch && <div className={styles.dummyColorHeader} />}
         <div className={styles.headerHolder}>
           <div className={logo} onClick={() => this.redirectToHome()} />
