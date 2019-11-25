@@ -194,6 +194,7 @@ export default class HeaderWrapper extends React.Component {
       Cookie.createCookie(APP_VIEW, true);
     }
     const url = this.props.location.pathname;
+    const urlSearchString = this.props.location.search;
 
     let shouldRenderSearch = false;
 
@@ -225,7 +226,8 @@ export default class HeaderWrapper extends React.Component {
     }
     if (
       url === CHECKOUT_ROUTER ||
-      url.includes(CHECKOUT_RETRY_PAYMENT_ROUTER)
+      (url.includes(CHECKOUT_RETRY_PAYMENT_ROUTER) &&
+        !urlSearchString.includes("&status=CHARGED"))
     ) {
       isSearch = false;
       profileDetails = true;
@@ -356,7 +358,8 @@ export default class HeaderWrapper extends React.Component {
             <div
               className={
                 url === CHECKOUT_ROUTER ||
-                url.includes(CHECKOUT_RETRY_PAYMENT_ROUTER)
+                (url.includes(CHECKOUT_RETRY_PAYMENT_ROUTER) &&
+                  !urlSearchString.includes("&status=CHARGED"))
                   ? styles.hiddenHeaderCheckout
                   : styles.hiddenHeaderDesktop
               }
