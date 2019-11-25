@@ -258,7 +258,6 @@ export default class DesktopHeader extends React.Component {
 
     return (
       <div className={this.props.isSearch ? className : className}>
-        {this.props.isSearch && <div className={styles.dummyColorHeader} />}
         <div className={styles.headerHolder}>
           <div className={logo} onClick={() => this.redirectToHome()} />
           {this.props.profileDetails && (
@@ -684,6 +683,7 @@ export default class DesktopHeader extends React.Component {
             </div>
           )}
         </div>
+        {this.props.isSearch && <div className={styles.dummyColorHeader} />}
       </div>
     );
   }
