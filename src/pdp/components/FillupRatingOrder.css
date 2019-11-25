@@ -2,23 +2,23 @@
 	width:70%;
 	height:auto;
 	display:inline-block;
-  }
-  .ratingHolder{
-	width:5%;
+}
+.ratingHolder{
+	width:15%;
 	height:auto;
 	display:inline-block;
 	vertical-align:middle;
-	text-align:center;
-	padding-right: 10%;
-  }
-  .startHolder{
+	/* text-align:center;
+	padding-right: 10%; */
+}
+.startHolder{
 	width:auto;
 	height:auto;
 	display:inline-block;
 	text-align:center;
 	vertical-align:middle;
-  }
-  .ratingStar{
+}
+.ratingStar{
 	width:22px;
 	height:22px;
 	background:url(../../general/components/img/empty-star.svg)no-repeat;
@@ -26,8 +26,8 @@
 	background-position:center;
 	display:inline-block;
 	transition:300ms;
-  }
-  .ratingFillStar{
+}
+.ratingFillStar{
 	width:22px;
 	height:22px;
 	background:url(../../general/components/img/star-fill.svg)no-repeat;
@@ -35,8 +35,8 @@
 	background-position:center;
 	display:inline-block;
 	transition:300ms;
-  }
-  .ratingFillGreenStar{
+}
+.ratingFillGreenStar{
 	width:22px;
 	height:22px;
 	background:url(../../general/components/img/green-filled-star.svg)no-repeat;
@@ -44,4 +44,4 @@
 	background-position:center;
 	display:inline-block;
 	transition:300ms;
-  }
+}

@@ -512,6 +512,21 @@ const account = (
           currentPage: 0
         });
       }
+      // let reviewedProductList = [];
+      // if (
+      //   currentOrderDetailObj &&
+      //   currentOrderDetailObj.orderData
+      // ) {
+      //   currentOrderDetailObj.orderData.map(
+      //     order => {
+      //       order.products.forEach(product => {
+      //         if (product.isReviewed)
+      //           reviewedProductList.push(product.productcode)
+      //       })
+      //     }
+      //   )
+      // }
+
       return Object.assign({}, state, {
         orderDetailsStatus: action.status,
         orderDetails: currentOrderDetailObj,
@@ -1465,6 +1480,18 @@ const account = (
     case accountActions.CLEAR_TRANSACTION_DATA:
       return Object.assign({}, state, {
         transactionDetails: " "
+      });
+    case accountActions.GET_USER_RATING_REQUEST:
+      return Object.assign({}, state, {
+        loading: true
+      });
+    case accountActions.GET_USER_RATING_SUCCESS:
+      return Object.assign({}, state, {
+        loading: false
+      });
+    case accountActions.GET_USER_RATING_FAILURE:
+      return Object.assign({}, state, {
+        loading: false
       });
     default:
       return state;

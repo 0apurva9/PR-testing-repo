@@ -1,52 +1,52 @@
 .base {
-	width: 667px;
-    height: 395px;
-    background: #fff;
+	width: 100%;
+  height: 100%;
+}
+.reviewContainer {
+	width: 100%;
+	height: calc(100% - 56px);
+	padding: 30px 32px 40px 62px;
 }
 .headerText {
-	width: 189px;
-    height: 24px;
-    color: #212121;
-    font-size: 20px;
-    font-family: regular;
-    font-weight: 500;
-    margin-bottom: 20px;
-    text-align: left;
-    margin-left: 60px;
-    padding-top: 24px;
-    padding-bottom: 24px;
+	font-family: semibold;
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #212121;
 }
 .close {
 	width: 16px;
-    height: 16px;
-    padding-top: 32px;
-    padding-left: 385px;
+	height: 16px;
 }
 .header {
-	width: 667px;
-    height: 72px;
-    background-color: #f9f9f9;
-    display: flex;
+	width: 100%;
+	padding: 16px 33px 16px 60px;
+	background-color: #f9f9f9;
+	display: flex;
+	justify-content: space-between;
+  align-items: center;
 }
 .productImage {
-	width: 98px;
-    height: 130px;
-    margin-left: 62px;
-    margin-right: 35px;
-    margin-top: 32px;
+	width: 95px;
+	height: 130px;
 }
 .imageContainer{
 	width:25%;
 }
 .productData{
-	width:40%;
-	display: block;
-	padding-left: 32px;
+	width: calc(100% - 95px);
+	padding-left: 35px;
 }
 .productDetailsHolder {
 	width: 100%;
-	height: auto;
 	display: flex;
+}
+.productWrapper {
+	display: flex;
+	width: 83%;
 }
 .cancelHolder {
 	position: absolute;
@@ -138,140 +138,182 @@
 	padding-right: 34px;
 	float: right;
   }
-  .buttonHolder {
-	/* width: 100%; 
-    height: auto; */
-    margin-top: 20px;
-    text-align: center;
-    /* float: right; */
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-  }
-  .buttonleft {
+.buttonHolder {
+	text-align: right;
+}
+.buttonRight {
 	height: auto;
-    display: inline-block;
-    /* text-align: left; */
-    vertical-align: top;
-  }
-  .button {
+	display: inline-block;
+	vertical-align: top;
+}  
+.buttonleft {
+	composes: buttonRight;
+	margin-right: 20px;
+}
+.button {
 	width: auto;
 	height: auto;
 	display: inline-block;
 	vertical-align: top;
-  }
-  .buttonHolder:last-child {
+}
+.buttonHolder:last-child {
 	margin-bottom: 0px;
-  }
-  .buttonRight {
-    composes: buttonleft;
-    /* text-align: right; */
-  }  
-  .inputComponent{
-	margin-top: 32px;
-  }
-  .input {
-	  padding-top: 24px;
-	  padding-left: 60px;
-  }
-  .feedbackHeader{
-	width: 512px;
-	height: 22px;
-	font-family: regular;
-	font-size: 16px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.22;
-	letter-spacing: normal;
+}
+.inputComponent{
+	margin-top: 28px;
+}
+.feedbackHeader{
+	font-family: semibold;
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.22;
+  letter-spacing: normal;
 	color: #212121;
-	padding-left: 60px;
-  }
-  .brandName {
+	margin-bottom: 24px;
+}
+.deliveryDate{
+	font-family: semibold;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.88;
+  letter-spacing: normal;
+	color: #212121;
+	margin-bottom: 26px;
+}
+.productName {
 	width: 100%;
-    height: auto;
-    color: #212121;
-    font-family: light;
-    line-height: 22px;
-    margin-bottom: 5px;
-    font-size: 16px;
-    display: inline-block;
-    word-wrap: break-word;
-	margin-top: 32px;
-	font-weight: 300;
-  }
-  .deliveryDate{
-	width: 251px;
-	height: 16px;
-	font-family: regular;
-	font-size: 16px;
-	font-weight: 500;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 0.88;
-	letter-spacing: normal;
+	height: auto;
 	color: #212121;
-  }
-  .productName {
-	composes: brandName;
 	font-family: light;
-  }
-  .ratingContainer {
+	line-height: 22px;
+	margin-bottom: 10px;
+	font-size: 16px;
+	display: inline-block;
+	word-wrap: break-word;
+	font-weight: 300;
+}
+.ratingContainer {
 	width: 100%;
 	height: 30px;
 	position: relative;
 	margin-bottom: 20px;
-  }
-  .ratingHeader {
+}
+.ratingHeader {
 	display: inline-block;
 	font-size: 14px;
 	line-height: 24px;
 	font-family: regular;
 	margin-right: 10px;
-  }
-  .ratingBar {
+}
+.ratingBar {
 	height: auto;
-	width: 55%;
+	width: 100%;
 	display: inline-block;
-  }
-  .reviewHolder {
-	/* width: 100%;
-	height: auto; */
-	/* margin-left: 18%; */
-	margin-top: 26px;
 	cursor: pointer;
 }
-.reviewTitle {
-	width: 836px;
-	height: 592px;
-	border-radius: 4px;
-}
+
 .reviewHeading {
-    margin-top: 24px;
-    margin-bottom: 19px;
-    font-family: semibold;
-    font-size: 14px;
-    color: #333333;
-    letter-spacing: 0;
+	margin-top: 24px;
+	margin-bottom: 19px;
+	font-family: semibold;
+	font-size: 14px;
+	color: #333333;
+	letter-spacing: 0;
 }
-  @media screen and (min-width: 1025px) {
+
+.reviewWrapper {
+	font-family: semibold;
+  font-size: 10px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+	color: #212121;
+	margin-bottom: 15px;
+}
+.input {
+	width: 537px;
+  margin: 10px 0 24px 0;
+}
+.inputComment {
+	width: 537px;
+  margin-top: 10px;
+}	
+.reviewTipsContainer {
+	width: 749px;
+  height: 360px;
+	box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1);
+	background-color: #ffffff;
+	position: fixed;
+	top: 20%;
+	right: 4%;
+	z-index: 101;
+	padding: 30px 200px 55px 42px;
+}
+
+.reviewTipsContainer::after {
+	content: "";
+	position: absolute;
+	width: 0;
+	height: 0;
+	right: 5%;
+	top: 0%;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	border: 11px solid black;
+	border-color: transparent transparent #ffffff #ffffff;
+	-webkit-transform-origin: 0 0;
+	-ms-transform-origin: 0 0;
+	transform-origin: 0 0;
+	-webkit-transform: rotate(135deg);
+	-ms-transform: rotate(135deg);
+	transform: rotate(135deg);
+	-webkit-box-shadow: -3px 3px 3px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: -3px 3px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.headerForGuidelines{
+  font-family: semibold;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #212121;
+}
+.reviewBody{
+  padding-top: 36px;
+  font-size: 12px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #212121;
+}
+
+.contentHeader {
+  font-family: semibold;
+  font-size: 14px;
+} 
+.contentContainer {
+  padding-left: 15px;
+} 
+.reviewTipsText {
+  padding-bottom: 15px;
+  font-size: 12px;
+  font-family: light;
+}
+
+@media screen and (min-width: 1025px) {
 	.centerSubmitButton {
 	  text-align: right;
-	}
-	.ratingBar {
-	  height: 36px;
-	  width: 627px;
-	  display: inline-block;
-	}
-	.reviewGuidelinesBar {
-		width:35%;
-		height: auto;
-		display: inline-block;
-		float: right;
-		cursor: pointer;
-		padding-top: 26px;
-		padding-left: 56px;
-		margin-right: 32px;
 	}
 	.cancelButton {
 	  width: auto;
@@ -284,11 +326,10 @@
 	}
 
 	.reviewGuidelines {
+		height: 17px;
 	  font-family: semibold;
 	  font-size: 14px;
 	  font-weight: 500;
-	  width: 148px;
-	  height: 17px;
 	  font-style: normal;
 	  font-stretch: normal;
 	  line-height: normal;
@@ -296,4 +337,4 @@
 	  text-align: right;
 	  color: #ff1744;
 	}
-  }
+}

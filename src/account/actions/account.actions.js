@@ -24,7 +24,9 @@ import {
   SUCCESS_MESSAGE_IN_CANCEL_RETURN_ORDER,
   SUCCESS_MESSAGE_IN_RETURN_TO_HOTC,
   FEMALE,
-  MALE
+  MALE,
+  SUCCESSFUL_PRODUCT_RATING_BY_USER,
+  PRODUCT_RATING_FAILURE_TEXT
 } from "../../lib/constants";
 import {
   showModal,
@@ -35,7 +37,8 @@ import {
   VERIFY_OTP,
   GIFT_CARD_MODAL,
   UPDATE_REFUND_DETAILS_POPUP,
-  SHOW_RETURN_CONFIRM_POP_UP
+  SHOW_RETURN_CONFIRM_POP_UP,
+  RATING_AND_REVIEW_MODAL
 } from "../../general/modal.actions.js";
 import format from "date-fns/format";
 import { getPaymentModes } from "../../cart/actions/cart.actions.js";
@@ -383,6 +386,10 @@ export const UPDATE_RETURN_CANCELLATION_FAILURE =
 export const UPDATE_RETURN_HOTC_REQUEST = "UPDATE_RETURN_HOTC_REQUEST";
 export const UPDATE_RETURN_HOTC_SUCCESS = "UPDATE_RETURN_HOTC_SUCCESS";
 export const UPDATE_RETURN_HOTC_FAILURE = "UPDATE_RETURN_HOTC_FAILURE";
+
+export const GET_USER_RATING_REQUEST = "GET_USER_RATING_REQUEST";
+export const GET_USER_RATING_SUCCESS = "GET_USER_RATING_SUCCESS";
+export const GET_USER_RATING_FAILURE = "GET_USER_RATING_FAILURE";
 
 export function getDetailsOfCancelledProductRequest() {
   return {
@@ -3641,6 +3648,70 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
       return dispatch(retryPaymentSuccess(resultJson));
     } catch (e) {
       return dispatch(retryPaymentFailure(e.message));
+    }
+  };
+}
+
+export function productRatingByUserRequest() {
+  return {
+    type: GET_USER_RATING_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function productRatingByUserSuccess(productDetails) {
+  return {
+    type: GET_USER_RATING_SUCCESS,
+    status: SUCCESS,
+    productDetails
+  };
+}
+
+export function productRatingByUserFailure(error) {
+  return {
+    type: GET_USER_RATING_FAILURE,
+    error,
+    status: FAILURE
+  };
+}
+
+export function submitProductRatingByUser(
+  rating,
+  productDetails,
+  showReviewModal
+) {
+  return async (dispatch, getState, { api }) => {
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    dispatch(productRatingByUserRequest());
+
+    try {
+      const result = await api.post(
+        `${PRODUCT_PATH}/${productDetails.productcode}
+        /reviews?isPwa=true&access_token=${
+          JSON.parse(customerCookie).access_token
+        }`,
+        rating
+      );
+
+      // const resultJson = await result.json();
+      //if (resultJson.status === SUCCESS) {
+      dispatch(displayToast(SUCCESSFUL_PRODUCT_RATING_BY_USER));
+      //}
+      // if (resultJson.status === FAILURE) {
+      //   dispatch(displayToast(PRODUCT_RATING_FAILURE_TEXT));
+      // }
+      // const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      // if (resultJsonStatus.status) {
+      //    throw new Error(resultJsonStatus.message);
+      // }
+
+      if (showReviewModal) {
+        dispatch(showModal(RATING_AND_REVIEW_MODAL, productDetails));
+      }
+      dispatch(productRatingByUserSuccess(productDetails));
+    } catch (e) {
+      dispatch(productRatingByUserFailure(e.message));
     }
   };
 }

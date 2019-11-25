@@ -477,3 +477,7 @@ export const RETRY_FAILED_ORDER_COUPON =
   "You may attempt to pay again now or retry payment again after 20 minutes using the Payment Retry Link available in your Order History under My Account and your email to avail all the applied Coupon discounts and/or Instant Bank Offer discounts on this Order.";
 export const RETRY_FAILED_ORDER_COUPON_NOTE =
   "Note: If the amount was debited from your account, it will be fully refunded.";
+
+// Toast Messages for rating submission
+export const SUCCESSFUL_PRODUCT_RATING_BY_USER = "Thank you for your rating";
+export const PRODUCT_RATING_FAILURE_TEXT = "Oops we missed your response";

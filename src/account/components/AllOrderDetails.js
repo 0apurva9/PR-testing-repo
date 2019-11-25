@@ -156,8 +156,16 @@ export default class AllOrderDetails extends React.Component {
       this.props.setHeaderText(ORDER_HISTORY);
     }
   }
-  onRatingChange = val => {
-    this.setState({ rating: val });
+  onRatingChange = (val, productDetails) => {
+    if (this.state.rating !== val) {
+      //produDetails.rating !== val
+      let showReviewModal = true;
+      this.props.submitProductRatingByUser(
+        val,
+        productDetails,
+        showReviewModal
+      );
+    }
   };
   redirectToHelp = url => {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
@@ -774,33 +782,26 @@ export default class AllOrderDetails extends React.Component {
                                               </div>
                                               <FillupRatingOrder
                                                 rating={5}
-                                                onChange={this.onRatingChange}
-                                                resetRating={
-                                                  this.state.resetRating
+                                                onChange={val =>
+                                                  this.onRatingChange(
+                                                    val,
+                                                    product
+                                                  )
                                                 }
+                                                //resetRating={this.state.resetRating}
                                               />
-                                              {/* <div className={styles.boxReview}>
+                                              {this.state.rating && (
                                                 <div
-                                                  className={styles.reviewText}
+                                                  className={
+                                                    styles.writeReviewText
+                                                  }
                                                   onClick={val =>
-                                                    this.writeReview(
-                                                      product.productcode
-                                                    )
+                                                    this.writeReview(product)
                                                   }
                                                 >
-                                                  WRITE A REVIEW
+                                                  Write a Review
                                                 </div>
-                                              </div> */}
-                                              <div
-                                                className={
-                                                  styles.writeReviewText
-                                                }
-                                                onClick={val =>
-                                                  this.writeReview(product)
-                                                }
-                                              >
-                                                Write a Review
-                                              </div>
+                                              )}
                                             </div>
                                           )}
                                       </div>

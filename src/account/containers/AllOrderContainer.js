@@ -3,7 +3,8 @@ import {
   getAllOrdersDetails,
   clearOrderDetails,
   reSendEmailForGiftCard,
-  retryPayment
+  retryPayment,
+  submitProductRatingByUser
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import AllOrderDetails from "../components/AllOrderDetails";
@@ -47,6 +48,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     displayToast: message => {
       dispatch(displayToast(message));
     },
+    submitProductRatingByUser: (rating, productDetails, showReviewModal) => {
+      dispatch(
+        submitProductRatingByUser(rating, productDetails, showReviewModal)
+      );
+    },
     showRatingAndReviewModal: data => {
       dispatch(showModal(RATING_AND_REVIEW_MODAL, data));
     }
@@ -57,6 +63,7 @@ const mapStateToProps = (state, ownProps) => {
     loadingForClearOrderDetails: state.profile.loadingForClearOrderDetails,
     profile: state.profile,
     userAddress: state.profile.userAddress,
+    ratedProductDetails: state.profile.ratedProductDetails,
     ...ownProps
   };
 };
