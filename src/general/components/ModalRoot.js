@@ -92,6 +92,14 @@ const SizeGuideModal = Loadable({
     return <Loader />;
   }
 });
+
+const SizeSelectorForEyeWear = Loadable({
+  loader: () => import("../../pdp/components/SizeSelectorForEyeWear"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const StoryWidgetContainer = Loadable({
   loader: () => import("../../home/containers/StoryWidgetContainer"),
   loading() {
@@ -755,6 +763,9 @@ export default class ModalRoot extends React.Component {
         />
       ),
       SizeGuide: <SizeGuideModal closeModal={() => this.handleClose()} />,
+      SizeSelectorForEyeWear: (
+        <SizeSelectorForEyeWear closeModal={() => this.handleClose()} />
+      ),
 
       StoryModal: (
         <StoryWidgetContainer

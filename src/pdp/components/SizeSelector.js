@@ -42,9 +42,10 @@ export default class SizeSelector extends React.Component {
     this.props.history.push(LOGIN_PATH);
   }
   handleShowSize() {
-    if (this.props.showSizeGuide) {
-      this.props.showSizeGuide();
-    }
+    this.props.showSizeSelectorForEyeWear();
+    // if (this.props.showSizeGuide) {
+    //   this.props.showSizeGuide();
+    // }
   }
   handleSimilarOOSSizeSelector(data) {
     if (data.length < 2) {

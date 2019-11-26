@@ -37,6 +37,7 @@ import {
   ADDRESS,
   PRICE_BREAKUP,
   SIZE_SELECTOR,
+  SIZE_SELECTOR_FOR_EYEWEAR,
   SIZE_GUIDE,
   CLIQ_PIQ_MODAL,
   MANUFACTURER_MODAL,
@@ -114,6 +115,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showSizeGuide: () => {
       dispatch(showModal(SIZE_GUIDE));
+    },
+    showSizeSelectorForEyeWear: data => {
+      dispatch(showModal(SIZE_SELECTOR_FOR_EYEWEAR, data));
     },
     getPdpEmi: (token, cartValue, productCode, ussId) => {
       dispatch(getPdpEmi(token, cartValue, productCode, ussId));

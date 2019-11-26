@@ -135,6 +135,12 @@ const SizeSelector = LoadableVisibility({
   delay: 400
 });
 
+// const SizeSelectorForEyeWear = LoadableVisibility({
+//   loader: () => import("./SizeSelectorForEyeWear"),
+//   loading: () => <div />,
+//   delay: 400
+// });
+
 const ColourSelector = LoadableVisibility({
   loader: () => import("./ColourSelector"),
   loading: () => <div />,
@@ -1146,6 +1152,9 @@ export default class PdpApparel extends React.Component {
                                     productId={productData.productListingId}
                                     hasSizeGuide={productData.showSizeGuide}
                                     showSizeGuide={this.props.showSizeGuide}
+                                    showSizeSelectorForEyeWear={
+                                      this.props.showSizeSelectorForEyeWear
+                                    }
                                     showOOSSizeSelectorModal={
                                       this.props.showOOSSizeSelectorModal
                                     }
