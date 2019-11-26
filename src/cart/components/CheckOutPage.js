@@ -1661,12 +1661,15 @@ if you have order id in local storage then you have to show order confirmation p
       );
     }
     let failedorderRetryPayment = localStorage.getItem(FAILED_ORDER);
-    if (
-      this.props.location.pathname === `${RETRY_FAILED_ORDER}` ||
-      failedorderRetryPayment
-    ) {
-      let querySearch = this.props.location.search;
-      if (failedorderRetryPayment && !this.state.isComingFromRetryUrl) {
+    if (this.props.location.pathname === `${RETRY_FAILED_ORDER}`) {
+      let querySearch = this.props.location.search
+        ? this.props.location.search
+        : window.location.search;
+      if (
+        !querySearch &&
+        failedorderRetryPayment &&
+        !this.state.isComingFromRetryUrl
+      ) {
         querySearch = failedorderRetryPayment.includes("?")
           ? failedorderRetryPayment.split("?")[1]
           : failedorderRetryPayment;
@@ -1674,6 +1677,7 @@ if you have order id in local storage then you have to show order confirmation p
       const parsedQueryString = queryString.parse(querySearch);
 
       let guId = parsedQueryString.value;
+
       let userId = parsedQueryString.userId;
       let userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       const userDetails = JSON.parse(userDetailsCookie);
