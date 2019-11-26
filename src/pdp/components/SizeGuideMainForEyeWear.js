@@ -103,16 +103,24 @@ export default class SizeGuideMainForEyeWear extends React.Component {
               <div className={styles.image}>
                 <Image fit="contain" image={json.Guideadvisor[0].image1Url} />
               </div>
-              <div>{json.Guideadvisor[0].image1UrlText}</div>
+              <div className={styles.imageTextCss}>
+                {json.Guideadvisor[0].image1UrlText}
+              </div>
             </div>
             <div className={styles.imageHolder}>
               <div className={styles.image}>
                 <Image fit="contain" image={json.Guideadvisor[0].image2Url} />
               </div>
+              <div className={styles.imageTextCss}>
+                {json.Guideadvisor[0].image2UrlText}
+              </div>
             </div>
             <div className={styles.imageHolder}>
               <div className={styles.image}>
                 <Image fit="contain" image={json.Guideadvisor[0].image3Url} />
+              </div>
+              <div className={styles.imageTextCss}>
+                {json.Guideadvisor[0].image3UrlText}
               </div>
             </div>
           </div>
