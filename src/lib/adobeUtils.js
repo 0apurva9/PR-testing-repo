@@ -436,6 +436,26 @@ const MODE_OF_RETURN_SUBMITTED = "rrj_modeOfReturn_click";
 export const ADOBE_MODE_OF_RETURN_SUBMITTED = "ADOBE_MODE_OF_RETURN_SUBMITTED";
 export const ADOBE_ERROR_TOAST_MESSAGE = "error_tracking";
 
+//Rating and Review
+const RATING_STAR_CLICK = "rating_Star_Click";
+export const SET_DATA_LAYER_RATING_STAR_CLICK =
+  "SET_DATA_LAYER_RATING_STAR_CLICK";
+const RATING_MESSAGE = "rating_Message";
+export const SET_DATA_LAYER_RATING_MESSAGE = "SET_DATA_LAYER_RATING_MESSAGE";
+const RATING_MODAL_STAR_CLICK = "rating_modal_Star_Click";
+export const SET_DATA_LAYER_RATING_MODAL_STAR_CLICK =
+  "SET_DATA_LAYER_RATING_MODAL_STAR_CLICK";
+
+const REVIEW_SUBMIT_CLICK = "review_Submit_Click";
+export const SET_DATA_LAYER_REVIEW_SUBMIT_CLICK =
+  "SET_DATA_LAYER_REVIEW_SUBMIT_CLICK";
+const REVIEW_CANCEL_CLICk = "review_cancel_Click";
+export const SET_DATA_LAYER_REVIEW_CANCEL_CLICK =
+  "SET_DATA_LAYER_REVIEW_CANCEL_CLICK";
+const REVIEW_GUIDELINE = "review_guideline";
+export const SET_DATA_LAYER_REVIEW_GUIDELINE =
+  "SET_DATA_LAYER_REVIEW_GUIDELINE";
+
 export function setDataLayer(
   type,
   apiResponse,
@@ -2770,4 +2790,53 @@ export function setDataLayerForWhatsappUncheck() {
   if (window._satellite) {
     window._satellite.track(WHATSAPP_CHECKBOX_UNCHECK);
   }
+}
+
+export function setDataLayerForRatingAndReview(type, ratingObj) {
+  let previousDigitalData = cloneDeep(window.digitalData);
+
+  if (type === SET_DATA_LAYER_RATING_STAR_CLICK) {
+    Object.assign(previousDigitalData, {
+      rating: {
+        star: {
+          count: ratingObj.rating
+        }
+      }
+    });
+    if (window._satellite) {
+      window._satellite.track(RATING_STAR_CLICK);
+    }
+  }
+  if (type === SET_DATA_LAYER_RATING_MESSAGE) {
+    Object.assign(previousDigitalData.rating, {
+      message: { value: ratingObj.statusText }
+    });
+    if (window._satellite) {
+      window._satellite.track(RATING_MESSAGE);
+    }
+  }
+  if (type === SET_DATA_LAYER_RATING_MODAL_STAR_CLICK) {
+    Object.assign(previousDigitalData.rating, {
+      star: { count: ratingObj.rating }
+    });
+    if (window._satellite) {
+      window._satellite.track(RATING_MODAL_STAR_CLICK);
+    }
+  }
+  if (type === SET_DATA_LAYER_REVIEW_SUBMIT_CLICK) {
+    if (window._satellite) {
+      window._satellite.track(REVIEW_SUBMIT_CLICK);
+    }
+  }
+  if (type === SET_DATA_LAYER_REVIEW_CANCEL_CLICK) {
+    if (window._satellite) {
+      window._satellite.track(REVIEW_CANCEL_CLICk);
+    }
+  }
+  if (type === SET_DATA_LAYER_REVIEW_GUIDELINE) {
+    if (window._satellite) {
+      window._satellite.track(REVIEW_GUIDELINE);
+    }
+  }
+  window.digitalData = previousDigitalData;
 }

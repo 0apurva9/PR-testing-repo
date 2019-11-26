@@ -16,7 +16,12 @@ import { withRouter } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
 import {
   setDataLayerForPdpDirectCalls,
-  ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT
+  ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT,
+  setDataLayerForRatingAndReview,
+  SET_DATA_LAYER_RATING_STAR_CLICK,
+  SET_DATA_LAYER_REVIEW_SUBMIT_CLICK,
+  SET_DATA_LAYER_REVIEW_CANCEL_CLICK,
+  SET_DATA_LAYER_REVIEW_GUIDELINE
 } from "../../lib/adobeUtils";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -50,17 +55,23 @@ class WriteReview extends React.Component {
     setDataLayerForPdpDirectCalls(
       ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT
     );
+    setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_STAR_CLICK, {
+      rating: val,
+      statusText: ""
+    });
     this.setState({ rating: val });
   };
   onCancel() {
     if (this.props.onCancel) {
       this.props.onCancel();
     }
+    setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_CANCEL_CLICK);
   }
   showReviewGuidelineModal = () => {
     if (this.props.showReviewGuidelineModal) {
       this.props.showReviewGuidelineModal();
     }
+    setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_GUIDELINE);
   };
   onSubmit = async () => {
     if (
@@ -98,6 +109,7 @@ class WriteReview extends React.Component {
         this.props.history.push(LOGIN_PATH);
       }
     }
+    setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_SUBMIT_CLICK);
   };
   render() {
     return (

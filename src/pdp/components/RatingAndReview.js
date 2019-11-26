@@ -9,6 +9,12 @@ import {
   MY_ACCOUNT_GIFT_CARD_PAGE,
   REVIEW_GUIDELINES
 } from "../../lib/constants";
+import {
+  setDataLayerForRatingAndReview,
+  SET_DATA_LAYER_RATING_MODAL_STAR_CLICK,
+  SET_DATA_LAYER_REVIEW_SUBMIT_CLICK,
+  SET_DATA_LAYER_REVIEW_CANCEL_CLICK
+} from "../../lib/adobeUtils";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import Input from "../../general/components/ControlInput";
 import TextArea from "../../general/components/ControlTextArea";
@@ -91,8 +97,10 @@ export default class RatingAndReview extends React.Component {
     if (this.props.closeModal) {
       this.props.closeModal();
     }
+    setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_CANCEL_CLICK);
   };
   onSubmit = () => {
+    setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_SUBMIT_CLICK);
     console.log("submit");
   };
 

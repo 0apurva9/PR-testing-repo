@@ -64,7 +64,9 @@ import {
   setDataLayerForOrderConfirmationDirectCalls,
   ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_SUCCESS,
   ADOBE_RETURN_LINK_CLICKED,
-  ADOBE_RETURN_JOURNEY_INITIATED
+  ADOBE_RETURN_JOURNEY_INITIATED,
+  setDataLayerForRatingAndReview,
+  SET_DATA_LAYER_RATING_MESSAGE
 } from "../../lib/adobeUtils";
 import {
   showSecondaryLoader,
@@ -3697,9 +3699,15 @@ export function submitProductRatingByUser(
       // const resultJson = await result.json();
       //if (resultJson.status === SUCCESS) {
       dispatch(displayToast(SUCCESSFUL_PRODUCT_RATING_BY_USER));
+      setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_MESSAGE, {
+        rating: null,
+        statusText: SUCCESSFUL_PRODUCT_RATING_BY_USER
+      });
       //}
       // if (resultJson.status === FAILURE) {
       //   dispatch(displayToast(PRODUCT_RATING_FAILURE_TEXT));
+      //   setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_MESSAGE,
+      //    { rating: null, statusText: PRODUCT_RATING_FAILURE_TEXT });
       // }
       // const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       // if (resultJsonStatus.status) {

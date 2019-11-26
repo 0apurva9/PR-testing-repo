@@ -55,9 +55,11 @@ import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import throttle from "lodash.throttle";
 import {
   setDataLayer,
+  setDataLayerForRatingAndReview,
   ADOBE_MY_ACCOUNT_ORDER_HISTORY,
   ADOBE_ORDER_DETAILS_LINK_CLICKED,
-  ADOBE_HELP_SUPPORT_LINK_CLICKED
+  ADOBE_HELP_SUPPORT_LINK_CLICKED,
+  SET_DATA_LAYER_RATING_STAR_CLICK
 } from "../../lib/adobeUtils";
 import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
 import Icon from "../../xelpmoc-core/Icon";
@@ -157,6 +159,10 @@ export default class AllOrderDetails extends React.Component {
     }
   }
   onRatingChange = (val, productDetails) => {
+    setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_STAR_CLICK, {
+      rating: val,
+      statusText: ""
+    });
     if (this.state.rating !== val) {
       //produDetails.rating !== val
       let showReviewModal = true;
