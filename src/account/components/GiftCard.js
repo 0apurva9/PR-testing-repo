@@ -150,7 +150,7 @@ export default class GiftCard extends React.Component {
               </div>
             </MediaQuery>
             <MediaQuery query="(min-device-width: 1025px)">
-              <div className={styles.giftCardHeader}>TATA CliQ Gift Card</div>
+              <div className={styles.giftCardHeader}>TATA CLiQ Gift Card</div>
             </MediaQuery>
             <MediaQuery query="(max-device-width: 1024px)">
               <div className={styles.displayAmountHolder}>

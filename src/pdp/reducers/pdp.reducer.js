@@ -48,7 +48,20 @@ const productDescription = (
     manufacturerStatus: null,
     manufacturerError: null,
     manufacturerLoading: null,
-    manufacturerDetails: {}
+    manufacturerDetails: {},
+    bundleProductData: null,
+    openInAppStatus: null,
+    openInAppDetails: [],
+    openInAppLoading: false,
+    openInAppError: null,
+    bundleProducStatus: null,
+    relevantBundleProductData: null,
+    relevantBundleProductStatus: false,
+    secondaryBundleProductStatus: false,
+    secondaryBundleProductData: null,
+    relevantProductPinCodeStatus: null,
+    relevantBundleProductCodeStatus: false,
+    relevantBundleProductCodeData: null
   },
   action
 ) => {
@@ -266,14 +279,15 @@ const productDescription = (
     case pdpActions.ADD_PRODUCT_TO_CART_SUCCESS:
       const userDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
-      if (!userDetails && !customerCookie) {
-        Cookies.createCookie(
-          CART_DETAILS_FOR_ANONYMOUS,
-          JSON.stringify(action.newProduct)
-        );
-      } else if (userDetails && customerCookie) {
+
+      if (userDetails && customerCookie) {
         Cookies.createCookie(
           CART_DETAILS_FOR_LOGGED_IN_USER,
+          JSON.stringify(action.newProduct)
+        );
+      } else {
+        Cookies.createCookie(
+          CART_DETAILS_FOR_ANONYMOUS,
           JSON.stringify(action.newProduct)
         );
       }
@@ -621,6 +635,255 @@ const productDescription = (
         manufacturerError: action.error,
         manufacturerLoading: false
       });
+    // case pdpActions.GET_PDP_ITEMS_FAILURE:
+    //   return Object.assign({}, state, {
+    //     status: action.status,
+    //     bundledProductData: {},
+    //     loading: false
+    //   });
+    case pdpActions.BUNDLE_PRODUCT_FAILURE:
+      return Object.assign({}, state, {
+        bundleProducStatus: action.status
+      });
+    case pdpActions.BUNDLE_PRODUCT_SUCCESS:
+      return Object.assign({}, state, {
+        bundleProducStatus: action.status,
+        bundleProductData: action.data
+      });
+    case pdpActions.BUNDLE_PRODUCT_REQUEST:
+      return Object.assign({}, state, {
+        bundleProducStatus: action.status
+      });
+    case pdpActions.CHECK_BUNDLE_PRODUCT_PIN_CODE_REQUEST:
+      return Object.assign({}, state, {
+        status: action.status,
+        loading: true
+      });
+
+    case pdpActions.CHECK_BUNDLE_PRODUCT_PIN_CODE_SUCCESS:
+      const currentBndlePdpDetail = cloneDeep(state.bundleProductData);
+      const bundleProductussId = action.productPinCode.ussId;
+
+      let listOfAllBundleServiceableUssid;
+      if (
+        action.productPinCode &&
+        action.productPinCode.deliveryOptions &&
+        action.productPinCode.deliveryOptions.pincodeListResponse
+      ) {
+        listOfAllBundleServiceableUssid = action.productPinCode.deliveryOptions.pincodeListResponse.filter(
+          delivery => {
+            return delivery.isServicable === YES;
+          }
+        );
+      }
+      let eligibleBundleProductDeliveryModes = [];
+      let serviceableForExistingBundleProductSeller = listOfAllBundleServiceableUssid.find(
+        seller => {
+          return bundleProductussId === currentBndlePdpDetail.winningUssID;
+        }
+      );
+      if (
+        serviceableForExistingBundleProductSeller &&
+        !currentBndlePdpDetail.isUpdatedOtherSellerList
+      ) {
+        eligibleBundleProductDeliveryModes = transferPincodeToPdpPincode(
+          serviceableForExistingBundleProductSeller.validDeliveryModes
+        );
+
+        if (
+          serviceableForExistingBundleProductSeller.stockCount > 0 ||
+          serviceableForExistingBundleProductSeller.isServicable === "Y"
+        ) {
+          Object.assign(currentBndlePdpDetail, {
+            eligibleBundleProductDeliveryModes,
+            slaveData:
+              serviceableForExistingBundleProductSeller.validDeliveryModes,
+            isServiceableForBundleProductPincode: {
+              status: YES,
+              pinCode: action.productPinCode.pinCode,
+              stockCount: serviceableForExistingBundleProductSeller.stockCount,
+              isServicable:
+                serviceableForExistingBundleProductSeller.isServicable
+            }
+          });
+        } else {
+          Object.assign(currentBndlePdpDetail, {
+            eligibleBundleProductDeliveryModes,
+            slaveData:
+              serviceableForExistingBundleProductSeller.validDeliveryModes,
+            isServiceableForBundleProductPincode: {
+              status: NO,
+              pinCode: action.productPinCode.pinCode,
+              stockCount: serviceableForExistingBundleProductSeller.stockCount,
+              isServicable:
+                serviceableForExistingBundleProductSeller.isServicable
+            }
+          });
+        }
+      } else if (
+        listOfAllBundleServiceableUssid.length &&
+        currentBndlePdpDetail.otherSellers
+      ) {
+        let otherSellersList = currentBndlePdpDetail.otherSellers;
+        let leastMrpSellerUssid = { specialPriceSeller: { value: 999999999 } };
+        let eligibleDeliveryModeForBundleThisSeller;
+        listOfAllBundleServiceableUssid.forEach(seller => {
+          let sellerObjInOtherSellers = currentBndlePdpDetail.otherSellers.find(
+            otherSeller => {
+              return otherSeller.USSID === seller.ussid;
+            }
+          );
+          if (
+            sellerObjInOtherSellers &&
+            sellerObjInOtherSellers.specialPriceSeller &&
+            sellerObjInOtherSellers.specialPriceSeller.value <
+              leastMrpSellerUssid.specialPriceSeller.value
+          ) {
+            leastMrpSellerUssid = sellerObjInOtherSellers;
+            eligibleDeliveryModeForBundleThisSeller = seller;
+          }
+        });
+        eligibleDeliveryModes = transferPincodeToPdpPincode(
+          eligibleDeliveryModeForBundleThisSeller.validDeliveryModes
+        );
+        let isAlreadyExistSeller = otherSellersList.find(seller => {
+          return seller.USSID === currentBndlePdpDetail.winningUssID;
+        });
+        if (!isAlreadyExistSeller) {
+          otherSellersList.push({
+            USSID: currentBndlePdpDetail.winningUssID,
+            availableStock: "0",
+            eligibleDeliveryModes: currentBndlePdpDetail.eligibleDeliveryModes,
+            fullfillmentType: currentBndlePdpDetail.fulfillmentType,
+            isCOD: currentBndlePdpDetail.isCOD,
+            isEMIEligible: currentBndlePdpDetail.isEMIEligible,
+            mrpSeller: currentBndlePdpDetail.winningSellerPrice,
+            sellerId: currentBndlePdpDetail.winningSellerID,
+            sellerName: currentBndlePdpDetail.winningSellerName,
+            specialPriceSeller: currentBndlePdpDetail.winningSellerPrice,
+            stockCount: serviceableForExistingBundleProductSeller.stockCount,
+            isServicable: serviceableForExistingBundleProductSeller.isServicable
+          });
+        }
+        Object.assign(currentBndlePdpDetail, {
+          availableStock: leastMrpSellerUssid.availableStock,
+          isCOD: leastMrpSellerUssid.isCOD,
+          isEMIEligible: leastMrpSellerUssid.isEMIEligible,
+          winningSellerPrice: leastMrpSellerUssid.specialPriceSeller,
+          sellerAssociationstatus: leastMrpSellerUssid.sellerAssociationstatus,
+          winningSellerName: leastMrpSellerUssid.sellerName,
+          eligibleDeliveryModes,
+          slaveData: eligibleDeliveryModeForBundleThisSeller.validDeliveryModes,
+          winningUssID: leastMrpSellerUssid.USSID,
+          otherSellers: otherSellersList,
+          isUpdatedOtherSellerList: true,
+          isServiceableForBundleProductPincode: {
+            status: YES,
+            BundlePinCode: action.productPinCode.pinCode,
+            stockCount: serviceableForExistingBundleProductSeller.stockCount,
+            isServicable: serviceableForExistingBundleProductSeller.isServicable
+          }
+        });
+      } else {
+        Object.assign(currentBndlePdpDetail, {
+          isServiceableForBundleProductPincode: {
+            status: NO,
+            BundlePinCode: action.productPinCode.pinCode,
+            stockCount: serviceableForExistingBundleProductSeller.stockCount,
+            isServicable: serviceableForExistingBundleProductSeller.isServicable
+          }
+        });
+      }
+
+      return Object.assign({}, state, {
+        status: action.status,
+        bundleProductData: currentBndlePdpDetail,
+        loading: false
+      });
+
+    case pdpActions.CHECK_BUNDLE_PRODUCT_PIN_CODE_FAILURE:
+      return Object.assign({}, state, {
+        status: action.status,
+        error: action.error,
+        loading: false
+      });
+
+    case pdpActions.OPEN_IN_APP_REQUEST:
+      return Object.assign({}, state, {
+        openInAppStatus: action.status,
+        openInAppLoading: true
+      });
+
+    case pdpActions.OPEN_IN_APP_SUCCESS:
+      return Object.assign({}, state, {
+        openInAppStatus: action.status,
+        openInAppDetails: action.openInAppDetails,
+        openInAppLoading: false
+      });
+
+    case pdpActions.OPEN_IN_APP_FAILURE:
+      return Object.assign({}, state, {
+        openInAppStatus: action.status,
+        openInAppError: action.error,
+        openInAppLoading: false
+      });
+
+    case pdpActions.RELEVANT_BUNDLE_PRODUCT_REQUEST:
+      return Object.assign({}, state, {
+        relevantBundleProductStatus: action.status
+      });
+    case pdpActions.RELEVANT_BUNDLE_PRODUCT_SUCCESS:
+      return Object.assign({}, state, {
+        relevantBundleProductStatus: action.status,
+        relevantBundleProductData: action.data
+      });
+    case pdpActions.RELEVANT_BUNDLE_PRODUCT_FAILURE:
+      return Object.assign({}, state, {
+        relevantBundleProductStatus: action.status
+      });
+
+    case pdpActions.SECONDARY_BUNDLE_PRODUCT_REQUEST:
+      return Object.assign({}, state, {
+        secondaryBundleProductStatus: action.status
+      });
+    case pdpActions.SECONDARY_BUNDLE_PRODUCT_SUCCESS:
+      return Object.assign({}, state, {
+        secondaryBundleProductStatus: action.status,
+        secondaryBundleProductData: action.data
+      });
+    case pdpActions.SECONDARY_BUNDLE_PRODUCT_FAILURE:
+      return Object.assign({}, state, {
+        secondaryBundleProductStatus: action.status
+      });
+    case pdpActions.CHECK_RELEVANT_PRODUCT_PIN_CODE_REQUEST:
+      return Object.assign({}, state, {
+        relevantProductPinCodeStatus: action.status
+      });
+    case pdpActions.CHECK_RELEVANT_PRODUCT_PIN_CODE_SUCCESS:
+      return Object.assign({}, state, {
+        relevantProductPinCodeStatus: action.status
+      });
+    case pdpActions.CHECK_RELEVANT_PRODUCT_PIN_CODE_FAILURE:
+      return Object.assign({}, state, {
+        relevantProductPinCodeStatus: action.status
+      });
+    case pdpActions.RELEVANT_BUNDLE_PRODUCT_CODE_REQUEST:
+      return Object.assign({}, state, {
+        relevantBundleProductCodeStatus: action.status
+      });
+
+    case pdpActions.RELEVANT_BUNDLE_PRODUCT_CODE_SUCCESS:
+      return Object.assign({}, state, {
+        relevantBundleProductCodeStatus: action.status,
+        relevantBundleProductCodeData: action.relevantBundleProductCodeData
+      });
+
+    case pdpActions.RELEVANT_BUNDLE_PRODUCT_CODE_FAILURE:
+      return Object.assign({}, state, {
+        relevantBundleProductCodeStatus: action.status,
+        relevantBundleProductCodeData: action.error
+      });
+
     default:
       return state;
   }

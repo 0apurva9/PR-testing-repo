@@ -44,7 +44,8 @@ import {
   SUCCESS,
   CHECKOUT_ROUTER,
   RETRY_PAYMENT_CART_ID,
-  RETRY_PAYMENT_DETAILS
+  RETRY_PAYMENT_DETAILS,
+  COSTUMER_ORDER_RELATED_QUERY_ROUTE
 } from "../../lib/constants";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
 import ProfileMenu from "./ProfileMenu";
@@ -54,7 +55,8 @@ import throttle from "lodash.throttle";
 import {
   setDataLayer,
   ADOBE_MY_ACCOUNT_ORDER_HISTORY,
-  ADOBE_ORDER_DETAILS_LINK_CLICKED
+  ADOBE_ORDER_DETAILS_LINK_CLICKED,
+  ADOBE_HELP_SUPPORT_LINK_CLICKED
 } from "../../lib/adobeUtils";
 //import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
 import Icon from "../../xelpmoc-core/Icon";
@@ -303,6 +305,12 @@ export default class AllOrderDetails extends React.Component {
       return styles.orderCardIndividualWithBorder;
     }
   }
+  redirectToHelpPage() {
+    setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
+    this.props.history.push(
+      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
+    );
+  }
   render() {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -484,9 +492,7 @@ export default class AllOrderDetails extends React.Component {
                 orderDetails &&
                 orderDetails.orderData
                   ? orderDetails.orderData.map((orderDetails, i) => {
-                      let userName = `${
-                        orderDetails.deliveryAddress.firstName
-                      } ${orderDetails.deliveryAddress.lastName}`;
+                      let userName = `${orderDetails.deliveryAddress.firstName} ${orderDetails.deliveryAddress.lastName}`;
 
                       let deliveryAddress =
                         orderDetails.pickupPersonName ||
@@ -541,58 +547,50 @@ export default class AllOrderDetails extends React.Component {
                               pushDetails={this.props.history}
                               isEgvOrder={orderDetails.isEgvOrder}
                             />
-                            {orderDetails &&
-                              orderDetails.retryPaymentUrl && (
-                                <div
-                                  style={{
-                                    paddingBottom:
-                                      orderDetails &&
-                                      orderDetails.retryPaymentUrl
-                                        ? "20px"
-                                        : "0px",
-                                    marginBottom:
-                                      orderDetails &&
-                                      orderDetails.retryPaymentUrl
-                                        ? "35px"
-                                        : "0px"
-                                  }}
-                                >
-                                  <div className={styles.retryPayment}>
-                                    <div className={styles.retryPaymentTitle}>
-                                      <Icon
-                                        image={RetryPaymentIcon}
-                                        size={42}
-                                      />
-                                      <div
-                                        className={styles.retryCallOutMessage}
-                                      >
-                                        {orderDetails.calloutMessage}
-                                      </div>
-                                    </div>
-                                    <div
-                                      className={
-                                        styles.buttonHolderForRetryPayment
-                                      }
-                                    >
-                                      <Button
-                                        type="hollow"
-                                        height={36}
-                                        label="RETRY PAYMENT"
-                                        color="#ff1744"
-                                        textStyle={{
-                                          color: "#212121",
-                                          fontSize: 14
-                                        }}
-                                        onClick={() =>
-                                          this.onClickRetryPayment(
-                                            orderDetails.retryPaymentUrl
-                                          )
-                                        }
-                                      />
+                            {orderDetails && orderDetails.retryPaymentUrl && (
+                              <div
+                                style={{
+                                  paddingBottom:
+                                    orderDetails && orderDetails.retryPaymentUrl
+                                      ? "20px"
+                                      : "0px",
+                                  marginBottom:
+                                    orderDetails && orderDetails.retryPaymentUrl
+                                      ? "35px"
+                                      : "0px"
+                                }}
+                              >
+                                <div className={styles.retryPayment}>
+                                  <div className={styles.retryPaymentTitle}>
+                                    <Icon image={RetryPaymentIcon} size={42} />
+                                    <div className={styles.retryCallOutMessage}>
+                                      {orderDetails.calloutMessage}
                                     </div>
                                   </div>
+                                  <div
+                                    className={
+                                      styles.buttonHolderForRetryPayment
+                                    }
+                                  >
+                                    <Button
+                                      type="hollow"
+                                      height={36}
+                                      label="RETRY PAYMENT"
+                                      color="#ff1744"
+                                      textStyle={{
+                                        color: "#212121",
+                                        fontSize: 14
+                                      }}
+                                      onClick={() =>
+                                        this.onClickRetryPayment(
+                                          orderDetails.retryPaymentUrl
+                                        )
+                                      }
+                                    />
+                                  </div>
                                 </div>
-                              )}
+                              </div>
+                            )}
                           </div>
                           <React.Fragment>
                             {orderDetails &&
@@ -736,7 +734,7 @@ export default class AllOrderDetails extends React.Component {
                                               "ORDER_UNCOLLECTED") && (
                                             <div
                                               onClick={() =>
-                                                this.redirectToHelp(HELP_URL)
+                                                this.redirectToHelpPage()
                                               }
                                               className={styles.helpSupport}
                                             >
@@ -789,9 +787,7 @@ export default class AllOrderDetails extends React.Component {
                                                   : ""
                                               }${
                                                 orderDetails.pickupPersonMobile
-                                                  ? `, ${
-                                                      orderDetails.pickupPersonMobile
-                                                    }`
+                                                  ? `, ${orderDetails.pickupPersonMobile}`
                                                   : ""
                                               }`
                                             : userName
@@ -818,20 +814,14 @@ export default class AllOrderDetails extends React.Component {
                                             orderDetails &&
                                             orderDetails.deliveryAddress &&
                                             orderDetails.deliveryAddress.town
-                                              ? `, ${
-                                                  orderDetails.deliveryAddress
-                                                    .town
-                                                }`
+                                              ? `, ${orderDetails.deliveryAddress.town}`
                                               : ""
                                           }${
                                             orderDetails &&
                                             orderDetails.deliveryAddress &&
                                             orderDetails.deliveryAddress
                                               .postalcode
-                                              ? `, ${
-                                                  orderDetails.deliveryAddress
-                                                    .postalcode
-                                                }`
+                                              ? `, ${orderDetails.deliveryAddress.postalcode}`
                                               : ""
                                           }`
                                         }

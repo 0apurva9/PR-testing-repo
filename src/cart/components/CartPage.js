@@ -81,6 +81,10 @@ class CartPage extends React.Component {
     this.props.history.push(HOME_ROUTER);
   }
   componentDidMount() {
+    if (localStorage.getItem("cartPromotionText")) {
+      let msg = localStorage.getItem("cartPromotionText");
+      this.props.displayToast(msg);
+    }
     document.title = "Shopping Cart - TATA CLiQ ";
     this.props.getWishListItems();
     this.props.getUserAddress();
@@ -921,9 +925,7 @@ class CartPage extends React.Component {
                     (this.props.wishListCount > 0 && (
                       <div className={styles.wishListCountSection}>
                         <div className={styles.iconWishList} />
-                        <span>{`You have ${
-                          this.props.wishListCount
-                        } items in your saved list`}</span>
+                        <span>{`You have ${this.props.wishListCount} items in your saved list`}</span>
                         <div className={styles.buttonHolder}>
                           <UnderLinedButton
                             size="14px"
@@ -959,6 +961,9 @@ here we need to hit call for merging cart id if user
  in this case if user leave checkout in middle then we need
  to hit merge cart id
 */
+    if (localStorage.getItem("cartPromotionText")) {
+      localStorage.removeItem("cartPromotionText");
+    }
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     cartDetails = cartDetails && JSON.parse(cartDetails);
 

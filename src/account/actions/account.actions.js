@@ -2685,10 +2685,10 @@ export function updateProfile(accountDetails, otp) {
       JSON.parse(customerCookie).access_token
     }&ProfileDataRequired=true`;
     if (accountDetails.firstName) {
-      requestUrl = requestUrl + `&firstName=${accountDetails.firstName}`;
+      requestUrl = requestUrl + `&firstName=${accountDetails.firstName.trim()}`;
     }
     if (accountDetails.lastName) {
-      requestUrl = requestUrl + `&lastName=${accountDetails.lastName}`;
+      requestUrl = requestUrl + `&lastName=${accountDetails.lastName.trim()}`;
     }
     if (accountDetails.dateOfBirth) {
       requestUrl = requestUrl + `&dateOfBirth=${dateOfBirth}`;
@@ -3494,9 +3494,7 @@ export function submitOrderDetails(submitOrderDetails) {
         currentOrderCode,
         currentSubOrderCode;
       if (submitOrderDetails.currentState === 0) {
-        transactionIdWithAttachmentFile = `transactionId=${
-          submitOrderDetails.transactionId
-        }&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=`;
+        transactionIdWithAttachmentFile = `transactionId=${submitOrderDetails.transactionId}&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${submitOrderDetails.imageURL}`;
         currentOrderCode = `${submitOrderDetails.orderCode}`;
         currentSubOrderCode = `${submitOrderDetails.subOrderCode}`;
 

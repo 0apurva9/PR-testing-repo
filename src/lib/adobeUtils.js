@@ -383,6 +383,7 @@ const EXTERNAL_CAMPAIGN = "external_campaign";
 const CONTINUE_SHOPPING = "continue_shopping";
 const REVIEW_RATE_THE_PRODUCT = "cpj_review_rate_theProduct";
 const VIEW_CART_FROM_MINIBAG = "cpj_minicart_viewbag";
+const WHATSAPP_CHECKBOX_UNCHECK = "cpj_whatsappCheckboxUncheck";
 export const ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING =
   "ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING";
 
@@ -433,6 +434,7 @@ const MODE_OF_REFUND_SUBMITTED = "rrj_modeOfRefund_click";
 export const ADOBE_MODE_OF_REFUND_SUBMITTED = "ADOBE_MODE_OF_REFUND_SUBMITTED";
 const MODE_OF_RETURN_SUBMITTED = "rrj_modeOfReturn_click";
 export const ADOBE_MODE_OF_RETURN_SUBMITTED = "ADOBE_MODE_OF_RETURN_SUBMITTED";
+export const ADOBE_ERROR_TOAST_MESSAGE = "error_tracking";
 
 export function setDataLayer(
   type,
@@ -1052,8 +1054,8 @@ function getProductsDigitalData(response, type) {
           product.qtySelectedByUser
             ? product.qtySelectedByUser
             : product.quantity
-              ? product.quantity
-              : null,
+            ? product.quantity
+            : null,
           10
         )
       );
@@ -1062,12 +1064,12 @@ function getProductsDigitalData(response, type) {
           product.offerPrice
             ? product.offerPrice
             : product.pricevalue
-              ? product.pricevalue
-              : product.price
-                ? product.price
-                : product.mrp && product.mrp.value
-                  ? product.mrp.value
-                  : null,
+            ? product.pricevalue
+            : product.price
+            ? product.price
+            : product.mrp && product.mrp.value
+            ? product.mrp.value
+            : null,
           10
         )
       );
@@ -1083,22 +1085,22 @@ function getProductsDigitalData(response, type) {
           product.productName === "Gift Card"
             ? "Gift card"
             : product.categoryHierarchy &&
-              product.categoryHierarchy[currentReverseArray] &&
-              product.categoryHierarchy[currentReverseArray].category_name &&
-              product.categoryHierarchy[currentReverseArray].category_name
-                .replace(/ /g, "_")
-                .toLowerCase()
+                product.categoryHierarchy[currentReverseArray] &&
+                product.categoryHierarchy[currentReverseArray].category_name &&
+                product.categoryHierarchy[currentReverseArray].category_name
+                  .replace(/ /g, "_")
+                  .toLowerCase()
         );
       } else if (!type || !type.isReverse) {
         categoryArray.push(
           product.productName === "Gift Card"
             ? "Gift card"
             : product.categoryHierarchy &&
-              product.categoryHierarchy[0] &&
-              product.categoryHierarchy[0].category_name &&
-              product.categoryHierarchy[0].category_name
-                .replace(/ /g, "_")
-                .toLowerCase()
+                product.categoryHierarchy[0] &&
+                product.categoryHierarchy[0].category_name &&
+                product.categoryHierarchy[0].category_name
+                  .replace(/ /g, "_")
+                  .toLowerCase()
         );
       }
     });
@@ -2761,5 +2763,11 @@ export function setDataLayerForGiftCard(type) {
 export function setDataLayerForMinibag() {
   if (window._satellite) {
     window._satellite.track(VIEW_CART_FROM_MINIBAG);
+  }
+}
+
+export function setDataLayerForWhatsappUncheck() {
+  if (window._satellite) {
+    window._satellite.track(WHATSAPP_CHECKBOX_UNCHECK);
   }
 }

@@ -50,7 +50,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 const mapStateToProps = state => {
-  console.log("getPinCodeDetails", state);
   return {
     cart: state.cart,
     userAddress: state.profile.userAddress,
@@ -61,6 +60,9 @@ const mapStateToProps = state => {
 };
 
 const ReturnAddressContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ReturnAddressBook)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ReturnAddressBook)
 );
 export default ReturnAddressContainer;

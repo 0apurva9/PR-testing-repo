@@ -31,7 +31,6 @@ export default class OrderStatusVerticalV2 extends React.Component {
     }
   }
   render() {
-    console.log("props in order status:", this.props);
     if (!this.props.statusMessageList) {
       return null;
     }
@@ -1190,10 +1189,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                     </div>
                                   </div>
                                 ) : completedSteps.includes(ITEM_PACKED) &&
-                                this.props.consignmentStatus !==
-                                  "ORDER_REJECTED" &&
-                                this.props.consignmentStatus !==
-                                  "REFUND_IN_PROGRESS" ? (
+                                  this.props.consignmentStatus !==
+                                    "ORDER_REJECTED" &&
+                                  this.props.consignmentStatus !==
+                                    "REFUND_IN_PROGRESS" ? (
                                   <React.Fragment>
                                     {/* <div className={styles.orderProcessHolder}>{itemPackedCustomerFacingName}</div> */}
                                     <div
@@ -1645,7 +1644,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                               </div>
                             </div>
                           ) : completedSteps.includes(ITEM_PACKED) &&
-                          this.props.consignmentStatus !== "ORDER_REJECTED" ? (
+                            this.props.consignmentStatus !==
+                              "ORDER_REJECTED" ? (
                             <div
                               className={
                                 completedSteps.includes(ITEM_PACKED)

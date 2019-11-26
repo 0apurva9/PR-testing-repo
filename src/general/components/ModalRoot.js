@@ -112,6 +112,13 @@ const EmiModal = Loadable({
   }
 });
 
+const BundledProductModal = Loadable({
+  loader: () => import("../../pdp/containers/BundledProductContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const OfferDetailsModal = Loadable({
   loader: () => import("../../pdp/components/OfferDetailsModal"),
   loading() {
@@ -258,6 +265,12 @@ const SimilarProductsOOSModal = Loadable({
 
 const SizeSelectorOOSModal = Loadable({
   loader: () => import("./SizeSelectorOOSModalWrapper.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+const NotificationConfirmation = Loadable({
+  loader: () => import("../../general/components/NotificationConfirmation.js"),
   loading() {
     return <Loader />;
   }
@@ -601,6 +614,12 @@ export default class ModalRoot extends React.Component {
     }
   };
 
+  subscribeWhatsapp = () => {
+    if (this.props.subscribeWhatsapp) {
+      this.props.subscribeWhatsapp();
+    }
+  };
+
   render() {
     //  const couponCode = localStorage.getItem(BANK_COUPON_COOKIE);
     const MODAL_COMPONENTS = {
@@ -837,6 +856,12 @@ export default class ModalRoot extends React.Component {
           {...this.props.ownProps}
         />
       ),
+      BundledProductModal: (
+        <BundledProductModal
+          closeModal={() => this.handleClose()}
+          {...this.props.ownProps}
+        />
+      ),
       TermsNConditionsWrapperModal: (
         <TermsNConditionsWrapperModal
           closeModal={data => this.handleOfferModalClose(data)}
@@ -949,6 +974,12 @@ export default class ModalRoot extends React.Component {
         />
       ),
 
+      NotificationConfirmation: (
+        <NotificationConfirmation
+          closeModal={() => this.handleClose()}
+          handleWhatsappSubscribe={() => this.subscribeWhatsapp()}
+        />
+      ),
       CancelReturnRequestPopUp: (
         <CancelReturnRequestPopUp
           data={this.props.ownProps}
