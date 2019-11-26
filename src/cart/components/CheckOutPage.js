@@ -1021,6 +1021,7 @@ class CheckOutPage extends React.Component {
         selectedAddress: defaultAddress
       });
     }
+
     if (
       nextProps.retryPaymentDetails &&
       nextProps.retryPaymentDetailsStatus === "success"
@@ -1031,12 +1032,31 @@ class CheckOutPage extends React.Component {
         : Cookie.getCookie(OLD_CART_GU_ID);
       let retryPaymentDetailsObject = {};
       retryPaymentDetailsObject.retryCartGuid = guId;
-      retryPaymentDetailsObject.retryPaymentDetails =
-        nextProps.retryPaymentDetails;
-      localStorage.setItem(
-        RETRY_PAYMENT_DETAILS,
-        JSON.stringify(retryPaymentDetailsObject)
-      );
+      if (localStorage.getItem(RETRY_PAYMENT_DETAILS)) {
+        localStorage.removeItem(RETRY_PAYMENT_DETAILS);
+      }
+      if (
+        this.props.cart.cartDetails &&
+        this.props.cart.cartDetails.cartAmount
+      ) {
+        const { cartAmount, ...paymentDetails } = nextProps.retryPaymentDetails;
+        const updatedPaymentDetails = {
+          ...this.props.cart.cartDetails,
+          ...paymentDetails
+        };
+        retryPaymentDetailsObject.retryPaymentDetails = updatedPaymentDetails;
+        localStorage.setItem(
+          RETRY_PAYMENT_DETAILS,
+          JSON.stringify(retryPaymentDetailsObject)
+        );
+      } else {
+        retryPaymentDetailsObject.retryPaymentDetails =
+          nextProps.retryPaymentDetails;
+        localStorage.setItem(
+          RETRY_PAYMENT_DETAILS,
+          JSON.stringify(retryPaymentDetailsObject)
+        );
+      }
       // Updated total amount in state for retry payment
       this.setState({
         payableAmount:
