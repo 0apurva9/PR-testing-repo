@@ -3006,7 +3006,7 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
           headerName: value
         }
       });
-      window.digitalData = window.digitalData(
+      window.digitalData = Object.assign(
         previousDigitalData,
         currentDigitalData
       );
@@ -3019,10 +3019,7 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
         categoryName: value
       }
     });
-    window.digitalData = window.digitalData(
-      previousDigitalData,
-      currentDigitalData
-    );
+    window.digitalData = Object.assign(previousDigitalData, currentDigitalData);
     if (window._satellite) {
       window._satellite.track(ADOBE_CLP_DIRECT_CALL);
     }
@@ -3037,10 +3034,7 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
       }
     });
     window.digitalData.page.pageInfo.pageName = "brand page";
-    window.digitalData = window.digitalData(
-      previousDigitalData,
-      currentDigitalData
-    );
+    window.digitalData = Object.assign(previousDigitalData, currentDigitalData);
     if (window._satellite) {
       window._satellite.track(ADOBE_BLP_DIRECT_CALL);
     }
@@ -3051,10 +3045,7 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
         footerName: value
       }
     });
-    window.digitalData = window.digitalData(
-      previousDigitalData,
-      currentDigitalData
-    );
+    window.digitalData = Object.assign(previousDigitalData, currentDigitalData);
     if (window._satellite) {
       window._satellite.track(FOOTER_CLICK);
     }
@@ -3065,10 +3056,7 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
         socialmediaName: value
       }
     });
-    window.digitalData = window.digitalData(
-      previousDigitalData,
-      currentDigitalData
-    );
+    window.digitalData = Object.assign(previousDigitalData, currentDigitalData);
     if (window._satellite) {
       window._satellite.track(SOCIALMEDIA_CLICK);
     }
@@ -3077,10 +3065,7 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
     Object.assign(currentDigitalData, {
       subscriberemail: value
     });
-    window.digitalData = window.digitalData(
-      previousDigitalData,
-      currentDigitalData
-    );
+    window.digitalData = Object.assign(previousDigitalData, currentDigitalData);
     if (window._satellite) {
       window._satellite.track(FOOTER_SUBSCRIBE);
     }
