@@ -87,6 +87,7 @@ import ProductDescriptionPageWrapperContainer from "./pdp/containers/ProductDesc
 
 import MobileOnly from "./general/components/MobileOnly";
 import DesktopOnly from "./general/components/DesktopOnly";
+import { setDataLayer, ADOBE_VIRTUAL_PAGELOAD } from "../src/lib/adobeUtils";
 /*
     Setting default pin code
     for user if user dont have pin code in
@@ -407,6 +408,13 @@ class App extends Component {
       if (window.od && window.od.messenger && window.od.messenger("update")) {
         window.od.messenger("update");
       }
+    }
+  }
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    // Are we adding new items to the list?
+    // Capture the scroll position so we can adjust scroll later.
+    if (prevProps.location.pathname != this.props.location.pathname) {
+      setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
     }
   }
 

@@ -420,6 +420,7 @@ export const ADOBE_BUNDLED_ADD_BOTH_PRODUCT_TO_CART =
   "ADOBE_BUNDLED_ADD_BOTH_PRODUCT_TO_CART";
 export const ADOBE_BUNDLED_ADD_TO_CONTINUE_CLICK =
   "ADOBE_BUNDLED_ADD_TO_CONTINUE_CLICK";
+export const ADOBE_VIRTUAL_PAGELOAD = "ADOBE_VIRTUAL_PAGELOAD";
 
 //return flow
 const ORDER_DETAILS_LINK_CLICKED = "myAccount_orderDetails";
@@ -903,16 +904,7 @@ export function setDataLayer(
     window.digitalData = Object.assign(previousDigitalData, currentDigitalData);
   }
 
-  if (
-    window._satellite &&
-    type !== ADOBE_SIMILAR_PRODUCTS_PLP &&
-    type !== ADOBE_SIMILAR_PRODUCTS_PDP &&
-    type !== ADOBE_ADD_TO_WISHLIST_PLP &&
-    type !== ADOBE_WISHLIST_PLP_REMOVE &&
-    type !== ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT &&
-    type !== ADOBE_LOGIN_AND_SIGN_UP_PAGE &&
-    type !== ADOBE_SORT_SELECT
-  ) {
+  if (type === ADOBE_VIRTUAL_PAGELOAD) {
     window._satellite.track(ADOBE_SATELLITE_CODE);
   }
 
