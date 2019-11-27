@@ -34,11 +34,11 @@ class DesktopFooter extends React.Component {
       }
     }
   }
-  footerClick() {
-    setDataLayerForHeaderAndFooterDirectCalls(
-      ADOBE_DIRECT_CALL_FOR_FOOTER_CLICK
-    );
-  }
+  // footerClick() {
+  //   setDataLayerForHeaderAndFooterDirectCalls(
+  //     ADOBE_DIRECT_CALL_FOR_FOOTER_CLICK
+  //   );
+  // }
 
   onClick = (url, value) => {
     let userCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -120,7 +120,7 @@ class DesktopFooter extends React.Component {
         : true;
 
     return (
-      <div className={styles.contentHolder} onClick={() => this.footerClick()}>
+      <div className={styles.contentHolder}>
         <TrustComponent />
         <div className={styles.linkAndSuscribeHolder}>
           <div className={styles.linkHolder}>

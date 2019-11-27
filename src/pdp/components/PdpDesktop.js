@@ -20,6 +20,8 @@ import { RUPEE_SYMBOL } from "../../lib/constants";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import {
   ADOBE_SUMSUNG_CHAT_LINK_CLICK,
+  setDataLayer,
+  ADOBE_VIRTUAL_PAGELOAD,
   ADOBE_SUMSUNG_CHAT_ICON,
   setDataLayerForCartDirectCalls,
   setDataLayerForPdpDirectCalls,
@@ -192,6 +194,7 @@ export default class PdpApparel extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount = async () => {
+    setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
     document.title = this.props.productDetails.seo.title;
     this.props.getUserAddress();
     this.props.getPdpOffers();

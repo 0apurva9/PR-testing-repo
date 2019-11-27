@@ -581,13 +581,15 @@ export function setDataLayer(
       window._satellite.track(WISHLIST_PLP_REMOVE);
     }
   }
+
   if (
     type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT &&
     behaviorOfPage !== "Popular brands" &&
     behaviorOfPage !== "isSortTrue" &&
     behaviorOfPage !== "isFilterTrue"
   ) {
-    window.digitalData = getDigitalDataForSearchPageSuccess(response, type);
+    let newVariable = getDigitalDataForSearchPageSuccess(response, type);
+    window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_INTERNAL_SEARCH_SUCCESS);
     }
@@ -600,13 +602,15 @@ export function setDataLayer(
     }
   }
   if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_TRENDING) {
-    window.digitalData = getDigitalDataForSearchPageSuccess(response, type);
+    let newVariable = getDigitalDataForSearchPageSuccess(response, type);
+    window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_INTERNAL_SEARCH_SUCCESS_TRENDING);
     }
   }
   if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL) {
-    window.digitalData = getDigitalDataForSearchPageForNullResult(response);
+    let newVariable = getDigitalDataForSearchPageForNullResult(response);
+    window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_INTERNAL_SEARCH_NULL);
     }
@@ -630,7 +634,7 @@ export function setDataLayer(
       const badge = window.digitalData.cpj.product.badge;
       Object.assign(digitalDataForPDP.cpj.product, { badge });
     }
-    window.digitalData = digitalDataForPDP;
+    window.digitalData = Object.assign(previousDigitalData, digitalDataForPDP);
     if (response && response.allOOStock) {
       if (window._satellite) {
         window._satellite.track(ADOBE_OUT_OF_STOCK_PDP);
@@ -3002,7 +3006,10 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
           headerName: value
         }
       });
-      window.digitalData = currentDigitalData;
+      window.digitalData = window.digitalData(
+        previousDigitalData,
+        currentDigitalData
+      );
     }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK) {
@@ -3012,7 +3019,10 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
         categoryName: value
       }
     });
-    window.digitalData = currentDigitalData;
+    window.digitalData = window.digitalData(
+      previousDigitalData,
+      currentDigitalData
+    );
     if (window._satellite) {
       window._satellite.track(ADOBE_CLP_DIRECT_CALL);
     }
@@ -3027,7 +3037,10 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
       }
     });
     window.digitalData.page.pageInfo.pageName = "brand page";
-    window.digitalData = currentDigitalData;
+    window.digitalData = window.digitalData(
+      previousDigitalData,
+      currentDigitalData
+    );
     if (window._satellite) {
       window._satellite.track(ADOBE_BLP_DIRECT_CALL);
     }
@@ -3038,7 +3051,10 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
         footerName: value
       }
     });
-    window.digitalData = currentDigitalData;
+    window.digitalData = window.digitalData(
+      previousDigitalData,
+      currentDigitalData
+    );
     if (window._satellite) {
       window._satellite.track(FOOTER_CLICK);
     }
@@ -3049,7 +3065,10 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
         socialmediaName: value
       }
     });
-    window.digitalData = currentDigitalData;
+    window.digitalData = window.digitalData(
+      previousDigitalData,
+      currentDigitalData
+    );
     if (window._satellite) {
       window._satellite.track(SOCIALMEDIA_CLICK);
     }
@@ -3058,7 +3077,10 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
     Object.assign(currentDigitalData, {
       subscriberemail: value
     });
-    window.digitalData = currentDigitalData;
+    window.digitalData = window.digitalData(
+      previousDigitalData,
+      currentDigitalData
+    );
     if (window._satellite) {
       window._satellite.track(FOOTER_SUBSCRIBE);
     }
