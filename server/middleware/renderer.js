@@ -73,6 +73,7 @@ export function blpOrClpRenderer(req, res, next) {
 
           store.dispatch(setSearchString(searchText));
           store.dispatch(getProductListings(SUFFIX)).then(plpData => {
+            console.log("IN PLP", plpData);
             preloadedState = store.getState();
 
             renderedBody = ReactDOMServer.renderToStaticMarkup(
@@ -178,8 +179,11 @@ export function plpRenderer(req, res, next) {
       if (req.params.page) {
         store.dispatch(setPage(req.params.page));
       }
-      // store.dispatch(setSearchString(searchText)).then(() => {
-      store.dispatch(getProductListings(SUFFIX)).then(pdpData => {
+      store.dispatch(setSearchString(searchText));
+      store.dispatch(getProductListings(SUFFIX)).then(plpData => {
+        // store.dispatch(setSearchString(searchText)).then(() => {
+        //store.dispatch(getProductListings(SUFFIX)).then(pdpData => {
+        console.log("HERE");
         const preloadedState = store.getState();
         console.log(preloadedState.productListings);
         const renderedBody = ReactDOMServer.renderToStaticMarkup(
