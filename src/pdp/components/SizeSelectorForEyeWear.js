@@ -4,7 +4,7 @@ import CenterModal from "../../general/components/CenterModal";
 import SizeGuideMainForEyeWear from "./SizeGuideMainForEyeWear";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
-export default class SizeGuideModal extends React.Component {
+export default class SizeSelectorForEyeWear extends React.Component {
   render() {
     return (
       <React.Fragment>
