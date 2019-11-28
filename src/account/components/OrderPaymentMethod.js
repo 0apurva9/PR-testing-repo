@@ -65,19 +65,7 @@ export default class OrderPaymentMethod extends React.Component {
   }
 
   render() {
-    // let isDelivered = false;
-    // each(this.props.statusDisplay, (status, i) => {
-    //   each(status.value.statusList, statusNew => {
-    //     if (
-    //       statusNew.responseCode === "DELIVERED" ||
-    //       statusNew.responseCode === "ORDER_COLLECTED"
-    //     ) {
-    //       isDelivered = true;
-    //     }
-    //   });
-    // });
     let addressLine1 = this.props && this.props.deliveryAddress;
-    console.log("address from api", this.props);
     return (
       <div className={styles.base}>
         {(this.props.paymentMethod || this.props.isInvoiceAvailable) && (

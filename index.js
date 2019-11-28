@@ -2,6 +2,19 @@ const express = require("express");
 const app = express();
 var url = require("url");
 
+app.use(function(req, res, next) {
+  res.removeHeader("Transfer-Encoding");
+  res.removeHeader("X-Powered-By");
+  res.setHeader(
+    "x-frame-options",
+    "ALLOW-FROM https://*.tatacliq.com/ https://*.tataque.com/ https://*.tataunistore.com/"
+  );
+  res.setHeader(
+    "content-security-policy",
+    "frame-ancestors https://*.tatacliq.com"
+  );
+  next();
+});
 app.get("*.js", function(req, res, next) {
   const encodings = req.acceptsEncodings();
   if (req.url !== "/service-worker.js") {

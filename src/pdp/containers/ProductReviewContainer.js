@@ -49,7 +49,6 @@ const mapDispatchToProps = dispatch => {
       dispatch(showModal(DESKTOP_AUTH));
     },
     showReviewGuidelineModal: () => {
-      console.log("hello");
       dispatch(showModal(REVIEW_GUIDLINE_MODAL));
     },
     setUrlToRedirectToAfterAuth: url => {

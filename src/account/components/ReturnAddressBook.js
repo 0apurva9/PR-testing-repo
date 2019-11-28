@@ -92,7 +92,8 @@ export default class ReturnAddressBook extends React.Component {
           path: this.props.location.pathname,
           addAddress: true,
           urlAddress: window.location.href,
-          addressDetails: address
+          addressDetails: address,
+          isFromOrderDetailsPage: true
         }
       });
     } else
@@ -219,7 +220,6 @@ export default class ReturnAddressBook extends React.Component {
     //   }
     // }
 
-    console.log("props in Change Address:", this.props);
     return (
       <div className={styles.addressBase}>
         {this.props.userAddress && (

@@ -12,7 +12,13 @@ import {
   showPdpPiqPage,
   hidePdpPiqPage,
   getPdpOffers,
-  getManufacturerDetails
+  getManufacturerDetails,
+  getBundleproduct,
+  getBundleProductPinCode,
+  openInApp,
+  getRelevantBundleProduct,
+  relevantProductServibilty,
+  relevantBundleProductCode
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -35,6 +41,7 @@ import {
   CLIQ_PIQ_MODAL,
   MANUFACTURER_MODAL,
   TERMSNCONDITIONS_MODAL,
+  BUNDLEDPRODUCT_MODAL,
   SIMILAR_PRODUCTS_MODAL,
   SIMILAR_PRODUCTS_OOS_MODAL,
   SIZE_SELECTOR_OOS_MODAL
@@ -83,7 +90,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showOfferDetails: data => {
       dispatch(showModal(OFFER_MODAL, data));
     },
-
+    showBundledProduct: data => {
+      //debugger;
+      dispatch(showModal(BUNDLEDPRODUCT_MODAL, data));
+    },
     showTermsNConditions: data => {
       dispatch(showModal(TERMSNCONDITIONS_MODAL, data));
     },
@@ -164,6 +174,36 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getMinicartProducts: async () => {
       return dispatch(getMinicartProducts());
+    },
+    getBundleproduct: async data => {
+      return dispatch(getBundleproduct(data));
+    },
+    getBundleProductPinCode: async (pinCode, productCode, ussId) => {
+      return await dispatch(
+        getBundleProductPinCode(pinCode, productCode, ussId)
+      );
+    },
+    openInApp: async () => {
+      return await dispatch(openInApp());
+    },
+    getRelevantBundleProduct: async (productCode, temp, sequence) => {
+      return await dispatch(
+        getRelevantBundleProduct(productCode, temp, sequence)
+      );
+    },
+    relevantProductServibilty: async (pinCode, productCode, ussId) => {
+      return await dispatch(
+        relevantProductServibilty(pinCode, productCode, ussId)
+      );
+    },
+    relevantBundleProductCode: async () => {
+      return await dispatch(relevantBundleProductCode());
+    },
+    // addProductToCart: (productDetails, callback) => {
+    // 	return dispatch(addProductToCart(productDetails), callback());
+    // },
+    addProductToCart1: async productDetails => {
+      return await dispatch(addProductToCart(productDetails));
     }
   };
 };
@@ -179,7 +219,16 @@ const mapStateToProps = state => {
     userAddress: state.profile.userAddress,
     offers: state.productDescription.offerDetails,
     impulseOfferCalloutList: state.productDescription.impulseOfferCalloutList,
-    manufacturerDetails: state.productDescription.manufacturerDetails
+    manufacturerDetails: state.productDescription.manufacturerDetails,
+    bundleProductData: state.productDescription.bundleProductData,
+    relevantBundleProductData:
+      state.productDescription.relevantBundleProductData,
+    relevantProductPinCodeStatus:
+      state.productDescription.relevantProductPinCodeStatus,
+    secondaryBundleProductData:
+      state.productDescription.secondaryBundleProductData,
+    relevantBundleProductCodeData:
+      state.productDescription.relevantBundleProductCodeData
   };
 };
 

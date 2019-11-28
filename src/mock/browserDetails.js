@@ -1,5 +1,4 @@
 export function getBrowserAndDeviceDetails(value) {
-  console.log("checking Value:", navigator);
   var nAgt = navigator.userAgent;
   var fullVersion = "" + parseFloat(navigator.appVersion);
   var nameOffset, verOffset, ix, browserName;

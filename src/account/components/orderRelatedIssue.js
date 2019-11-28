@@ -294,6 +294,11 @@ export default class OrderRelatedIssue extends React.Component {
           this.state.file
         );
         if (uploadFileResponse && uploadFileResponse.status === SUCCESS) {
+          submitDetailsObject = Object.assign({}, submitDetailsObject, {
+            imageURL:
+              uploadFileResponse.uploadUserFile &&
+              uploadFileResponse.uploadUserFile.fileURL
+          });
           if (this.props.submitOrderDetails) {
             const submitOrderDetailsResponse = await this.props.submitOrderDetails(
               submitDetailsObject

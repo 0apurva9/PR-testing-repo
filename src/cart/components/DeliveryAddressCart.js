@@ -5,6 +5,9 @@ import PropTypes from "prop-types";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 export default class DeliveryAddressCopy extends React.Component {
+  constructor() {
+    super();
+  }
   handleClick() {
     if (this.props.selectItem) {
       this.props.selectItem();

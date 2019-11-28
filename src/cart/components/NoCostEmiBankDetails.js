@@ -213,6 +213,11 @@ export default class NoCostEmiBankDetails extends React.Component {
     }
   };
 
+  noCostEMIClick() {
+    localStorage.setItem("emiType", "No Cost EMI");
+    this.props.onCheckout();
+  }
+
   async applyNoCostEmi(index, val) {
     if (val && this.props.applyNoCostEmi) {
       const applyNoCostEmiReponse = await this.props.applyNoCostEmi(
@@ -361,7 +366,7 @@ export default class NoCostEmiBankDetails extends React.Component {
                         color: "#FFF",
                         fontSize: 14
                       }}
-                      onClick={this.props.onCheckout}
+                      onClick={() => this.noCostEMIClick()}
                     />
                   </div>
                 </div>

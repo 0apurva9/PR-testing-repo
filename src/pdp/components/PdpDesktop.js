@@ -15,6 +15,8 @@ import LoadableVisibility from "react-loadable-visibility/react-loadable";
 import Button from "../../general/components/Button";
 import SearchAndUpdate from "./SearchAndUpdate";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import Image from "../../xelpmoc-core/Image";
+import { RUPEE_SYMBOL } from "../../lib/constants";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import {
   setDataLayerForCartDirectCalls,
@@ -54,9 +56,13 @@ import {
   ERROR
 } from "../../lib/constants";
 import styles from "./ProductDescriptionPage.css";
+import RevelantBundling from "./RevelantBundling";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 import PdpFlags from "../components/PdpFlags.js";
 import FlixMediaContainer from "./FlixMediaContainer";
+// import CheckBox from '../../general/components/CheckBox.js';
+import MultiCheckbox from "./MultiCheckbox";
+let testcheck = false;
 
 const WASH = "Wash";
 const NECK_COLLAR = "Neck/Collar";
@@ -171,10 +177,18 @@ export default class PdpApparel extends React.Component {
       goToCartPageFlag:
         this.props.location.state && this.props.location.state.goToCartPageFlag
           ? this.props.location.state.goToCartPageFlag
-          : false
+          : false,
+      showGotoCartButton: false,
+      bundledProductList: [],
+      selectedBundledProduct: [],
+      checkedItems: true,
+      firstRelevantProduct: {},
+      secondRelevantProduct: {},
+      selected: false
     };
+    this.handleChange = this.handleChange.bind(this);
   }
-  componentDidMount() {
+  componentDidMount = async () => {
     document.title = this.props.productDetails.seo.title;
     this.props.getUserAddress();
     this.props.getPdpOffers();
@@ -187,9 +201,130 @@ export default class PdpApparel extends React.Component {
     } else {
       window.gemPageId = "0002321000100700";
     }
-
     /* End- Gemini Script */
-  }
+    let data = await this.props.openInApp();
+    if (
+      data &&
+      data.openInAppDetails &&
+      data.openInAppDetails.applicationProperties &&
+      data.openInAppDetails.applicationProperties[0] &&
+      data.openInAppDetails.applicationProperties[0].value
+    ) {
+      if (data.openInAppDetails.applicationProperties[0].value === "Y") {
+        this.setState({ showGotoCartButton: true });
+      }
+    }
+    /***relavant Bundling Product */
+    if (
+      this.props &&
+      this.props.productDetails &&
+      this.props.productDetails.rootCategory === "Electronics" &&
+      this.props.productDetails.allOOStock === false
+    ) {
+      let bundlePrdouct =
+        this.props.relevantBundleProductCodeData &&
+        this.props.relevantBundleProductCodeData.applicationProperties &&
+        this.props.relevantBundleProductCodeData.applicationProperties[0] &&
+        this.props.relevantBundleProductCodeData.applicationProperties[0].value;
+      if (bundlePrdouct) {
+        bundlePrdouct = JSON.parse(bundlePrdouct);
+      }
+
+      let arrayBundledDescription = [];
+      let productId = this.props.productDetails.productListingId;
+      if (bundlePrdouct) {
+        let bundleIteamList = this.relevantBundleProductId(
+          bundlePrdouct.bundledItems,
+          productId
+        );
+
+        await bundleIteamList
+          .then(result => {
+            if (result) {
+              let status;
+              result &&
+                result.bundleItems.forEach((listId, i) => {
+                  let res = this.props.getRelevantBundleProduct(
+                    listId.productCode,
+                    "temp",
+                    i
+                  );
+                  res.then(data => {
+                    if (
+                      data &&
+                      data.status === "success" &&
+                      data.data.rootCategory !== "Electronics"
+                    ) {
+                      return false;
+                    }
+                    // else{
+                    if (data.status === "success") {
+                      let pinCode = localStorage.getItem(
+                        DEFAULT_PIN_CODE_LOCAL_STORAGE
+                      )
+                        ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+                        : this.props.productDetails &&
+                          this.props.productDetails.isServiceableToPincode &&
+                          this.props.productDetails.isServiceableToPincode
+                            .pinCode;
+                      this.props
+                        .relevantProductServibilty(
+                          pinCode,
+                          listId.productCode,
+                          listId.ussid
+                        )
+                        .then(serviceCheck => {
+                          if (serviceCheck.status != "error") {
+                            arrayBundledDescription.push(data.data);
+                            this.setState({
+                              bundledProductList: arrayBundledDescription
+                            });
+                          }
+                        });
+                    }
+                    // }
+                  });
+                });
+            }
+          })
+          .catch(e => {
+            throw Error(e);
+          });
+      }
+    }
+  };
+  relevantProductServibilty = async params => {
+    let pinCode = "208007";
+    // let pinCode =
+    //   this.props.productDetails &&
+    //   this.props.productDetails.isServiceableToPincode &&
+    //   this.props.productDetails.isServiceableToPincode.pinCode;
+    return await this.props.relevantProductServibilty(
+      pinCode,
+      params.productCode,
+      params.ussid
+    );
+  };
+  getRelevantBundleProduct = async data => {
+    let status;
+    data &&
+      data.bundleItems.forEach((listId, i) => {
+        let res = this.props.getRelevantBundleProduct(
+          listId.productCode,
+          "temp",
+          i
+        );
+
+        res.then(data => {
+          if (data.status === "success") {
+            status = this.relevantProductServibilty(listId);
+          }
+        });
+      });
+
+    return status;
+  };
+
   componentDidUpdate(prevProps) {
     if (
       this.props.productDetails &&
@@ -201,6 +336,24 @@ export default class PdpApparel extends React.Component {
         this.props.productDetails.serviceableSellerMessage
       );
     }
+  }
+  selectProduct() {
+    this.setState({
+      selected: !this.state.selected
+    });
+    this.totalSelectedProducts();
+  }
+
+  totalSelectedProducts(e) {
+    let tmp = this.state.totalSelectedProducts;
+    if (tmp.indexOf(e) > -1 && tmp.length > 0) {
+      tmp.splice(tmp.indexOf(e), 1);
+    } else {
+      tmp.push(e);
+    }
+    this.setState({
+      totalSelectedProducts: tmp
+    });
   }
   visitBrand() {
     if (this.props.visitBrandStore) {
@@ -325,7 +478,7 @@ export default class PdpApparel extends React.Component {
                   BUY_NOW_PRODUCT_DETAIL,
                   JSON.stringify(productDetails)
                 );
-                this.navigateToLogin();
+                this.navigateToLogin(buyNowFlag);
               } else {
                 const buyNowResponse = await this.props.buyNow(productDetails);
                 this.setState({ isLoader: false });
@@ -369,9 +522,13 @@ export default class PdpApparel extends React.Component {
       }
     }
   };
-  navigateToLogin() {
+  navigateToLogin(isBuyNow) {
     const url = this.props.location.pathname;
-    this.props.setUrlToRedirectToAfterAuth(url);
+    if (isBuyNow) {
+      this.props.setUrlToRedirectToAfterAuth(PRODUCT_CART_ROUTER);
+    } else {
+      this.props.setUrlToRedirectToAfterAuth(url);
+    }
     this.props.history.push(LOGIN_PATH);
   }
   goToReviewPage = isNeedToSetDataLayer => {
@@ -567,6 +724,20 @@ export default class PdpApparel extends React.Component {
       behavior: "smooth"
     });
   };
+
+  relevantBundleProductId = async (bundlePrdouct, relevantBundleProductId) => {
+    let x;
+    await bundlePrdouct.map(bundle => {
+      if (relevantBundleProductId) {
+        if (bundle.primaryProductCode === relevantBundleProductId) {
+          x = bundle;
+        }
+      }
+    });
+
+    return x;
+  };
+
   // method needed TPR-10076
   displayPrdDetails = (prdDetails, key) => {
     let details = prdDetails;
@@ -647,7 +818,11 @@ export default class PdpApparel extends React.Component {
       }
     );
   }
-
+  handleChange(e) {
+    let bundledList = this.state.bundledProductList;
+    !this.state.selectedBundledProduct.includes(e.target.value) &&
+      this.state.selectedBundledProduct.push(e.target.value);
+  }
   render() {
     let seasonData = {};
     if (this.props.productDetails["seasonDetails"] !== undefined) {
@@ -655,6 +830,7 @@ export default class PdpApparel extends React.Component {
         return item.key === "Season";
       });
     }
+    let bundledList = this.state.bundledProductList;
     const getPinCode =
       this.props &&
       this.props.userAddress &&
@@ -666,7 +842,6 @@ export default class PdpApparel extends React.Component {
       userCookie = JSON.parse(userCookie);
     }
     const productData = this.props.productDetails;
-
     const manufacturerDetails = this.props.manufacturerDetails;
     let mshProduct = productData && productData.brandURL;
     const tailedKnowMoreV2 =
@@ -767,6 +942,31 @@ export default class PdpApparel extends React.Component {
         flixModelNo = productData.details.find(detail => {
           return detail.key === "Model Number";
         });
+      }
+      let Bundledprice = "";
+      let BundleddiscountPrice = "";
+      let BundledseoDoublePrice = 0;
+      if (
+        productData.winningSellerPrice &&
+        productData.winningSellerPrice.doubleValue
+      ) {
+        BundledseoDoublePrice = productData.winningSellerPrice.doubleValue;
+      } else if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
+        BundledseoDoublePrice = productData.mrpPrice.doubleValue;
+      }
+      if (
+        productData.mrpPrice &&
+        productData.mrpPrice.formattedValueNoDecimal
+      ) {
+        Bundledprice = productData.mrpPrice.formattedValueNoDecimal;
+      }
+
+      if (
+        productData.winningSellerPrice &&
+        productData.winningSellerPrice.formattedValueNoDecimal
+      ) {
+        BundleddiscountPrice =
+          productData.winningSellerPrice.formattedValueNoDecimal;
       }
       return (
         <PdpFrame
@@ -904,12 +1104,22 @@ export default class PdpApparel extends React.Component {
                     showEmiModal={() => this.showEmiModal()}
                   />
                   <OfferCard
+                    {...this.props}
                     productListings={this.props.productDetails}
+                    showBundledProduct={this.props.showBundledProduct}
                     showDetails={this.props.showTermsNConditions}
                     showVoucherOffersModal={this.props.showOfferDetails}
                     potentialPromotions={productData.potentialPromotions}
                     secondaryPromotions={productData.productOfferMsg}
                     offers={this.props.offers}
+                    defaultPinCode={localStorage.getItem(
+                      DEFAULT_PIN_CODE_LOCAL_STORAGE
+                    )}
+                    getBundleproduct={this.props.getBundleproduct}
+                    getProductPinCode={(pinCode, productCode) =>
+                      this.props.getProductPinCode(pinCode, productCode)
+                    }
+                    getBundleProductPinCode={this.props.getBundleProductPinCode}
                   />
                 </div>
                 {productData.variantOptions && (
@@ -1036,62 +1246,80 @@ export default class PdpApparel extends React.Component {
                   </div>
                 )}
 
-                <div className={styles.buttonWrapper}>
-                  <div
-                    className={
-                      this.state.isLoader
-                        ? styles.nonClickButton
-                        : styles.buttonHolder
-                    }
-                  >
-                    {this.state.isLoader && (
-                      <div className={styles.loaderHolder}>
-                        <div className={styles.loader} />
+                {this.state.showGotoCartButton && (
+                  <div className={styles.openInAppButton}>
+                    <AddToWishListButtonContainer
+                      type="wishlistTextPDP"
+                      productListingId={productData.productListingId}
+                      winningUssID={productData.winningUssID}
+                      setDataLayerType={
+                        SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP
+                      }
+                      isSizeSelectedForAddToWishlist={this.isSizeSelectedForAddToWishlist()}
+                      showSizeSelector={this.isSizeNotSelectedForAddToWishlist}
+                      ussid={productData.winningUssID}
+                    />
+                  </div>
+                )}
+                {!this.state.showGotoCartButton && (
+                  <div className={styles.buttonWrapper}>
+                    <div
+                      className={
+                        this.state.isLoader
+                          ? styles.nonClickButton
+                          : styles.buttonHolder
+                      }
+                    >
+                      {this.state.isLoader && (
+                        <div className={styles.loaderHolder}>
+                          <div className={styles.loader} />
+                        </div>
+                      )}
+                      <div className={styles.buttonAddToBag}>
+                        <Button
+                          type="primary"
+                          height={45}
+                          width={195}
+                          label="Buy Now"
+                          onClick={this.onClickOfBuyNow}
+                          disabled={
+                            productData.allOOStock ||
+                            !productData.winningSellerPrice ||
+                            (productData.winningSellerAvailableStock === "0" &&
+                              this.checkIfSizeSelected())
+                          }
+                        />
                       </div>
-                    )}
-                    <div className={styles.buttonAddToBag}>
-                      <Button
-                        type="primary"
-                        height={45}
-                        width={195}
-                        label="Buy Now"
-                        onClick={this.onClickOfBuyNow}
-                        disabled={
-                          productData.allOOStock ||
-                          !productData.winningSellerPrice ||
-                          (productData.winningSellerAvailableStock === "0" &&
-                            this.checkIfSizeSelected())
-                        }
-                      />
+                    </div>
+                    <div className={styles.buttonHolder}>
+                      <div className={styles.buttonAddToBag}>
+                        <Button
+                          type="hollow"
+                          height={45}
+                          width={195}
+                          color={"#ff1744"}
+                          label={
+                            this.state.goToCartPageFlag
+                              ? "Go to bag"
+                              : "Add to bag"
+                          }
+                          onClick={
+                            this.state.goToCartPageFlag
+                              ? () => this.goToCart({ goToBag: true })
+                              : () => this.addToCart(false)
+                          }
+                          disabled={
+                            productData.allOOStock ||
+                            !productData.winningSellerPrice ||
+                            (productData.winningSellerAvailableStock === "0" &&
+                              this.checkIfSizeSelected())
+                          }
+                        />
+                      </div>
                     </div>
                   </div>
-                  <div className={styles.buttonHolder}>
-                    <div className={styles.buttonAddToBag}>
-                      <Button
-                        type="hollow"
-                        height={45}
-                        width={195}
-                        color={"#ff1744"}
-                        label={
-                          this.state.goToCartPageFlag
-                            ? "Go to bag"
-                            : "Add to bag"
-                        }
-                        onClick={
-                          this.state.goToCartPageFlag
-                            ? () => this.goToCart({ goToBag: true })
-                            : () => this.addToCart(false)
-                        }
-                        disabled={
-                          productData.allOOStock ||
-                          !productData.winningSellerPrice ||
-                          (productData.winningSellerAvailableStock === "0" &&
-                            this.checkIfSizeSelected())
-                        }
-                      />
-                    </div>
-                  </div>
-                </div>
+                )}
+
                 {productData &&
                   productData.details &&
                   productData.rootCategory === "Electronics" && (
@@ -1325,6 +1553,12 @@ export default class PdpApparel extends React.Component {
                   <div id="yp_widget" className={styles.yp_widget} />
                 </div>
               </div>
+              {this.state.bundledProductList.length > 0 && (
+                <RevelantBundling
+                  {...this.props}
+                  bundledItem={this.state.bundledProductList}
+                />
+              )}
 
               <div className={styles.pageCenter}>
                 <div
