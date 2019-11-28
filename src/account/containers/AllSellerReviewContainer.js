@@ -7,6 +7,10 @@ import { withRouter } from "react-router-dom";
 import AllSellerReviewed from "../components/AllSellerReviewed";
 import { setHeaderText } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions.js";
+import {
+  SELLER_REVIEW_SUBMIT_REMOVAL_POP_UP,
+  showModal
+} from "../../general/modal.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getAllSellersReviewDetails: showDataAccordingToUser => {
@@ -30,6 +34,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     removeSellerReviewByUser: params => {
       dispatch(removeSellerReviewByUser(params));
+    },
+    sellerReviewSubmitRemovalPopup: () => {
+      dispatch(showModal(SELLER_REVIEW_SUBMIT_REMOVAL_POP_UP));
     }
   };
 };
