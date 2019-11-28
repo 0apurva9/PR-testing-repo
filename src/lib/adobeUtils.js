@@ -504,7 +504,11 @@ const ADD_TO_WISHLIST_PLP = "plp_add_to_wishlist";
 export const ADOBE_ADD_TO_WISHLIST_PLP = "ADOBE_ADD_TO_WISHLIST_PLP";
 const WISHLIST_PLP_REMOVE = "plp_remove_from_wishlist";
 export const ADOBE_WISHLIST_PLP_REMOVE = "ADOBE_WISHLIST_PLP_REMOVE";
+const WISHLIST_PDP_REMOVE = "pdp_remove_from_wishlist";
+export const ADOBE_WISHLIST_PDP_REMOVE = "ADOBE_WISHLIST_PDP_REMOVE";
 const SIMILAR_PRODUCT_PDP = "pdp_view_similar_products";
+const ADD_TO_WISHLIST_PDP = "pdp_add_to_wishlist";
+export const ADOBE_ADD_TO_WISHLIST_PDP = "ADOBE_ADD_TO_WISHLIST_PDP";
 
 export function setDataLayer(
   type,
@@ -567,6 +571,13 @@ export function setDataLayer(
       window._satellite.track(SIMILAR_PRODUCTS_PLP);
     }
   }
+  if (type === ADOBE_ADD_TO_WISHLIST_PDP) {
+    let newVariable = getDigitalDataForPdp(type, response);
+    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    if (window._satellite) {
+      window._satellite.track(ADD_TO_WISHLIST_PDP);
+    }
+  }
   if (type === ADOBE_ADD_TO_WISHLIST_PLP) {
     let newVariable = getDigitalDataForPlp(type, response);
     window.digitalData = Object.assign(previousDigitalData, newVariable);
@@ -579,6 +590,13 @@ export function setDataLayer(
     window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(WISHLIST_PLP_REMOVE);
+    }
+  }
+  if (type === ADOBE_WISHLIST_PDP_REMOVE) {
+    let newVariable = getDigitalDataForPdp(type, response);
+    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    if (window._satellite) {
+      window._satellite.track(WISHLIST_PDP_REMOVE);
     }
   }
 
@@ -2684,6 +2702,15 @@ export function setDataLayerForFollowAndUnFollowBrand(type, response) {
 export function setDataLayerForPinCode(response) {
   const previousData = cloneDeep(window.digitalData);
   if (previousData) {
+    if (previousData.geolocation) {
+      Object.assign(previousData.geolocation, {
+        pin: { code: response }
+      });
+    } else {
+      Object.assign(previousData, {
+        geolocation: { pin: { code: response } }
+      });
+    }
     if (previousData.page) {
       if (previousData.page.pin) {
         Object.assign(previousData.page.pin, {

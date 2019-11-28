@@ -23,7 +23,9 @@ import Button from "../../general/components/Button";
 import {
   setDataLayer,
   ADOBE_WISHLIST_PLP_REMOVE,
-  ADOBE_ADD_TO_WISHLIST_PLP
+  ADOBE_WISHLIST_PDP_REMOVE,
+  ADOBE_ADD_TO_WISHLIST_PLP,
+  ADOBE_ADD_TO_WISHLIST_PDP
 } from "../../lib/adobeUtils";
 export const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 export const WISHLIST_FOOTER_ICON_TYPE = "wishlistIcon";
@@ -41,6 +43,8 @@ export default class AddToWishListButton extends React.Component {
       let path = this.props.location.pathname;
       if (!PRODUCT_CODE_REGEX.test(path)) {
         setDataLayer(ADOBE_ADD_TO_WISHLIST_PLP, this.props.productListings);
+      } else {
+        setDataLayer(ADOBE_ADD_TO_WISHLIST_PDP, this.props.productListings);
       }
     }
     if (e) {
@@ -167,6 +171,8 @@ export default class AddToWishListButton extends React.Component {
       let path = this.props.location.pathname;
       if (!PRODUCT_CODE_REGEX.test(path)) {
         setDataLayer(ADOBE_WISHLIST_PLP_REMOVE, this.props.productListings);
+      } else {
+        setDataLayer(ADOBE_WISHLIST_PDP_REMOVE, this.props.productListings);
       }
     }
   }
