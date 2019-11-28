@@ -1,6 +1,6 @@
 import React from "react";
 
-export default class Countdown extends React.Component {
+export default class OrderCountdown extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,6 +16,8 @@ export default class Countdown extends React.Component {
           {this.state.hrs} {this.state.mins}
         </div>
       );
+    } else {
+      return null;
     }
   }
 }

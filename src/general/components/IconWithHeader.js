@@ -13,7 +13,7 @@ import {
   SELECTED_DELIVERY_MODE,
   SHORT_SAME_DAY_DELIVERY
 } from "../../lib/constants";
-import Countdown from "./Countdown";
+import OrderCountdown from "./OrderCountdown";
 import format from "date-fns/format";
 export default class IconWithHeader extends React.Component {
   getDateMonthFormate(date, month) {
@@ -224,7 +224,7 @@ export default class IconWithHeader extends React.Component {
                 : this.props.header}
             </span>
           )}
-          <Countdown />
+          <OrderCountdown />
           {this.props.placedTimeForCod && (
             <div className={styles.spanBlock}>
               {this.props.placedTimeForCod}
