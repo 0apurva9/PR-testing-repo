@@ -551,7 +551,7 @@ export function setDataLayer(
         }
       };
     }
-    window.digitalData = Object.assign(dataSort, previousDigitalData);
+    window.digitalData = Object.assign(previousDigitalData, dataSort);
     // window.digitalData = getDigitalDataForSort(response);
     if (window._satellite) {
       window._satellite.track(ADOBE_SORT_BY_CLICK);
@@ -690,7 +690,7 @@ export function setDataLayer(
       const badge = window.digitalData.cpj.product.badge;
       Object.assign(digitalDataForPDP.cpj.product, { badge });
     }
-    window.digitalData = digitalDataForPDP;
+    window.digitalData = Object.assign(previousDigitalData, digitalDataForPDP);
     if (response && response.allOOStock) {
       if (window._satellite) {
         window._satellite.track(ADOBE_OUT_OF_STOCK_PDP);
@@ -750,55 +750,78 @@ export function setDataLayer(
     window.digitalData = Object.assign(previousDigitalData, newVariable);
   }
   if (type === ADOBE_MY_ACCOUNT_SAVED_LIST) {
-    window.digitalData = getDigitalDataForMyAccount(
+    let myAccountDetails = getDigitalDataForMyAccount(
       MY_ACCOUNT_SAVED_LIST,
       response
     );
+    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_ADDRESS_BOOK) {
-    window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_ADDRESS_BOOK);
+    let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_ADDRESS_BOOK);
+    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_BRANDS) {
-    window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_BRANDS);
+    let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_BRANDS);
+    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_ORDER_HISTORY) {
-    window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_ORDER_HISTORY);
+    let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_ORDER_HISTORY);
+    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_SAVED_PAYMENTS) {
-    window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_SAVED_PAYMENTS);
+    let myAccountDetails = getDigitalDataForMyAccount(
+      MY_ACCOUNT_SAVED_PAYMENTS
+    );
+    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_ALERTS) {
-    window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_ALERTS);
+    let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_ALERTS);
+    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_USEFUL_LINKS) {
-    window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_USEFUL_LINKS);
+    let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_USEFUL_LINKS);
+    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_COUPONS) {
-    window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_COUPONS);
+    let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_COUPONS);
+    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_GIFT_CARD) {
-    window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_GIFT_CARD);
+    let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_GIFT_CARD);
+    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_CLIQ_CASH) {
-    window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_CLIQ_CASH);
+    let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_CLIQ_CASH);
+    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
   }
   if (type === AODBE_MY_ACCOUNT_SETTINGS) {
-    window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_SETTING);
+    let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_SETTING);
+    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
   }
   if (type === AODBE_MY_ACCOUNT_REVIEW) {
-    window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_REVIEW);
+    let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_REVIEW);
+    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_ORDER_DETAILS) {
-    window.digitalData = getDigitalDataForMyAccount(MY_ACCOUNT_ORDER_DETAIL);
+    let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_ORDER_DETAIL);
+    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
   }
   if (type === ADOBE_BLP_PAGE_LOAD) {
-    window.digitalData = getDigitalDataForBLP(BRAND_PAGE, response);
+    let digitalDataForBrandPage = getDigitalDataForBLP(BRAND_PAGE, response);
+    window.digitalData = Object.assign(
+      previousDigitalData,
+      digitalDataForBrandPage
+    );
     if (window._satellite) {
       window._satellite.track(ADOBE_BLP_DIRECT_CALL);
     }
   }
   if (type === ADOBE_CLP_PAGE_LOAD) {
-    window.digitalData = getDigitalDataForCLP(response);
+    let digitalDataForCategoryPage = getDigitalDataForCLP(response);
+    window.digitalData = Object.assign(
+      previousDigitalData,
+      digitalDataForCategoryPage
+    );
     if (window._satellite) {
       window._satellite.track(ADOBE_CLP_DIRECT_CALL);
     }
@@ -812,13 +835,25 @@ export function setDataLayer(
     type === ADOBE_DEFAULT_BLP_PAGE_LOAD ||
     type === ADOBE_DEFAULT_CLP_PAGE_LOAD
   ) {
-    window.digitalData = getDigitalDataForDefaultBlpOrClp(response);
+    let digitalDataForBlpOrClp = getDigitalDataForDefaultBlpOrClp(response);
+    window.digitalData = Object.assign(
+      previousDigitalData,
+      digitalDataForBlpOrClp
+    );
   }
   if (type === ADOBE_LOGIN_AND_SIGN_UP_PAGE) {
-    window.digitalData = getDigitalDataForLoginAndSignup(response);
+    let digitalDataForLogin = getDigitalDataForLoginAndSignup(response);
+    window.digitalData = Object.assign(
+      previousDigitalData,
+      digitalDataForLogin
+    );
   }
   if (type === ADOBE_STATIC_PAGE) {
-    window.digitalData = getDigitalDataForStatic(response);
+    let digitalDataForStaticData = getDigitalDataForStatic(response);
+    window.digitalData = Object.assign(
+      previousDigitalData,
+      digitalDataForStaticData
+    );
   }
   if (type === ADOBE_HELP) {
     const data = window.digitalData;
@@ -833,22 +868,26 @@ export function setDataLayer(
   }
 
   if (icidType === ICID2) {
-    window.digitalData.flag = INTERNAL_CAMPAIGN;
-    window.digitalData.internal = {
+    let data = window.digitalData;
+    data.flag = INTERNAL_CAMPAIGN;
+    data.internal = {
       campaign: {
         id: icid
       }
     };
+    window.digitalData = data;
     if (window._satellite) {
       window._satellite.track(INTERNAL_CAMPAIGN_TRACK);
     }
   } else if (icidType === CID) {
-    window.digitalData.external = {
+    let data = window.digitalData;
+    data.external = {
       campaign: {
         id: icid
       }
     };
-    window.digitalData.flag = EXTERNAL_CAMPAIGN;
+    data.flag = EXTERNAL_CAMPAIGN;
+    window.digitalData = data;
   }
 
   if (userDetails) {
@@ -1031,10 +1070,11 @@ function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
   const data = {
     cpj: {
       product: {
-        id: pdpResponse.productListingId
+        id: pdpResponse ? pdpResponse.productListingId : "",
+        category: pdpResponse ? pdpResponse.productCategory : ""
       },
       brand: {
-        name: pdpResponse.brandName
+        name: pdpResponse ? pdpResponse.brandName : ""
       }
     },
 
@@ -1074,7 +1114,7 @@ function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
       hierarchy: displayHierarchy
     }
   });
-  if (pdpResponse.mrpPrice && pdpResponse.mrpPrice.doubleValue) {
+  if (pdpResponse && pdpResponse.mrpPrice && pdpResponse.mrpPrice.doubleValue) {
     Object.assign(data.cpj.product, {
       price: pdpResponse.mrpPrice.doubleValue
     });
@@ -1857,6 +1897,7 @@ function getDigitalDataForPlp(type, response) {
   return data;
 }
 export function getDigitalDataForSearchPageSuccess(response, type) {
+  debugger;
   const offersCount =
     response &&
     response.searchresult &&
@@ -1888,7 +1929,9 @@ export function getDigitalDataForSearchPageSuccess(response, type) {
     },
     internal: {
       search: {
-        category: "all",
+        category: response.currentQuery
+          ? response.currentQuery.searchQuery
+          : "all",
         results: response.pagination ? response.pagination.totalResults : 0,
         term: response.currentQuery ? response.currentQuery.searchQuery : null,
         offersCount,
@@ -1940,6 +1983,7 @@ export function getDigitalDataForSearchPageSuccess(response, type) {
     });
   }
   if (response && response.searchresult && response.searchresult.length > 0) {
+    debugger;
     const productCodes = response.searchresult.splice(0, 9).map(product => {
       return product.productId.toLowerCase();
     });
@@ -1950,7 +1994,7 @@ export function getDigitalDataForSearchPageSuccess(response, type) {
       }
     });
     let searchResultObj = {
-      category: response.categoryCode,
+      category: response.currentQuery.query.value.split(":")[0],
       results: response.pagination.totalResults,
       term: response.currentQuery.query.value.split(":")[0],
       offersCount: offersCount,
