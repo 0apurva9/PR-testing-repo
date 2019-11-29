@@ -23,6 +23,7 @@ import Loadable from "react-loadable";
 import delay from "lodash.delay";
 import {
   setDataLayer,
+  ADOBE_VIRTUAL_PAGELOAD,
   ADOBE_HOME_TYPE,
   setDataLayerForLogin,
   ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER
@@ -358,6 +359,7 @@ class Feed extends Component {
     if (!userDetails) {
       setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
     }
+    setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
     this.props.seo
       ? this.props.seo.title
         ? (document.title = this.props.seo.title)

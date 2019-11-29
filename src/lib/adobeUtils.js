@@ -966,7 +966,9 @@ export function setDataLayer(
   }
 
   if (type === ADOBE_VIRTUAL_PAGELOAD) {
-    window._satellite.track(ADOBE_SATELLITE_CODE);
+    if (window._satellite) {
+      window._satellite.track(ADOBE_SATELLITE_CODE);
+    }
   }
 
   //return flow
