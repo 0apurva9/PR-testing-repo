@@ -1713,7 +1713,7 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
         }
       });
     }
-    window.digitalData = data;
+    window.digitalData = Object.assign(previousDigitalData, data);
     if (window._satellite) {
       window._satellite.track(ADOBE_REVIEW_AND_RATING);
     }
@@ -3027,6 +3027,9 @@ export function widgetsTracking(widgetObj: {}) {
       break;
     case AUTOMATED_BRAND_PRODUCT_CAROUSAL:
       widgetType = AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE;
+      if (window._satellite) {
+        window._satellite.track(AUTOMATED_BRAND_PRODUCT_CAROUSAL);
+      }
       break;
     case BANNER_PRODUCT_CAROUSAL:
       widgetType = BANNER_PRODUCT_CAROUSAL_ADOBE;

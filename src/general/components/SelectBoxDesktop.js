@@ -12,6 +12,7 @@ const GREY = "grey";
 const HOLLOW_BOX = "hollowBox";
 const BLACK_BOX = "blackBox";
 const GREY_BOX = "greyBox";
+const PRODUCT_REGEX_CART = /cart(.*)/i;
 export default class SelectBoxDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -36,7 +37,12 @@ export default class SelectBoxDesktop extends React.Component {
 
   handleChange(event) {
     if (event && event.target && event.target.value) {
-      setDataLayer(ADOBE_SORT_SELECT, event.target.value);
+      if (this.props && this.props.location && this.props.location.pathname) {
+        let path = this.props.location.pathname;
+        if (!PRODUCT_REGEX_CART.test(path)) {
+          setDataLayer(ADOBE_SORT_SELECT, event.target.value);
+        }
+      }
     }
     if (!this.props.disabled) {
       const selectedValue = event.target.value;

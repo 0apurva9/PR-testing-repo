@@ -33,6 +33,7 @@ export const WISHLIST_BUTTON_TEXT_TYPE = "wishlistText";
 export const WISHLIST_BUTTON_TEXT_TYPE_SMALL = "wishlistTextSmall";
 export const ONLY_ICON = "wishlistIconForPdp";
 const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
+const PRODUCT_REGEX_CART = /cart(.*)/i;
 
 export default class AddToWishListButton extends React.Component {
   state = {
@@ -42,7 +43,9 @@ export default class AddToWishListButton extends React.Component {
     if (this.props && this.props.location && this.props.location.pathname) {
       let path = this.props.location.pathname;
       if (!PRODUCT_CODE_REGEX.test(path)) {
-        setDataLayer(ADOBE_ADD_TO_WISHLIST_PLP, this.props.productListings);
+        if (!PRODUCT_REGEX_CART.test(path)) {
+          setDataLayer(ADOBE_ADD_TO_WISHLIST_PLP, this.props.productListings);
+        }
       } else {
         setDataLayer(ADOBE_ADD_TO_WISHLIST_PDP, this.props.productListings);
       }
