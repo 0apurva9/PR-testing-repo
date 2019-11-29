@@ -572,29 +572,29 @@ export function setDataLayer(
     }
   }
   if (type === ADOBE_ADD_TO_WISHLIST_PDP) {
-    let newVariable = getDigitalDataForPdp(type, response);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    // let newVariable = getDigitalDataForPdp(type, response);
+    // window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADD_TO_WISHLIST_PDP);
     }
   }
   if (type === ADOBE_ADD_TO_WISHLIST_PLP) {
-    let newVariable = getDigitalDataForPlp(type, response);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    // let newVariable = getDigitalDataForPlp(type, response);
+    // window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADD_TO_WISHLIST_PLP);
     }
   }
   if (type === ADOBE_WISHLIST_PLP_REMOVE) {
-    let newVariable = getDigitalDataForPlp(type, response);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    // let newVariable = getDigitalDataForPlp(type, response);
+    // window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(WISHLIST_PLP_REMOVE);
     }
   }
   if (type === ADOBE_WISHLIST_PDP_REMOVE) {
-    let newVariable = getDigitalDataForPdp(type, response);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    // let newVariable = getDigitalDataForPdp(type, response);
+    // window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(WISHLIST_PDP_REMOVE);
     }
@@ -663,15 +663,44 @@ export function setDataLayer(
     }
   }
   if (type === ADOBE_ERROR_TOAST_MESSAGE) {
-    const digitalData = window.digitalData;
-    if (digitalData && digitalData.page) {
-      Object.assign(digitalData && digitalData.page, {
-        error: {
-          name: response.msg,
-          type: response.type
-        }
-      });
+    let previousData = cloneDeep(window.digitalData);
+    let data = window.digitalData;
+    if (window.digitalData) {
+      if (data.page) {
+        Object.assign(data.page, {
+          error: {
+            name: response.msg,
+            type: response.type
+          },
+          pageInfo: {
+            pageName:
+              previousData && previousData.page && previousData.page.pageInfo
+                ? previousData.page.pageInfo.pageName
+                : previousData.cpj &&
+                  previousData.cpj.pdp &&
+                  previousData.cpj.pdp.findingMethod
+          }
+        });
+      } else {
+        Object.assign(data, {
+          page: {
+            error: {
+              name: response.msg,
+              type: response.type
+            },
+            pageInfo: {
+              pageName:
+                previousData && previousData.page && previousData.page.pageInfo
+                  ? previousData.page.pageInfo.pageName
+                  : previousData.cpj &&
+                    previousData.cpj.pdp &&
+                    previousData.cpj.pdp.findingMethod
+            }
+          }
+        });
+      }
     }
+    window.digitalData = Object.assign(previousData, data);
     if (window._satellite) {
       window._satellite.track(ERROR_TOAST_MESSAGE);
     }
