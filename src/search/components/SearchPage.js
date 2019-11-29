@@ -210,11 +210,11 @@ export default class SearchPage extends React.Component {
       if (code) {
         if (code.includes("MSH")) {
           const topCategories = this.props.searchResult.topCategories;
-          const indexOfCurrentCategories = topCategories.findIndex(
-            categories => {
+          const indexOfCurrentCategories =
+            topCategories &&
+            topCategories.findIndex(categories => {
               return categories.categoryCode === code;
-            }
-          );
+            });
           this.handleCategoryClick(
             code,
             {

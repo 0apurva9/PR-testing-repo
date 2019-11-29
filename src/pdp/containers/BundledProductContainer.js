@@ -22,7 +22,10 @@ const mapStateToProps = state => {
 };
 
 const BundledProductContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(BundledProductModal)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(BundledProductModal)
 );
 
 export default BundledProductContainer;

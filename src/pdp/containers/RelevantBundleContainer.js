@@ -36,7 +36,10 @@ const mapStateToProps = state => {
 };
 
 const RelevantBundleContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(RelevantBundling)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(RelevantBundling)
 );
 
 export default RelevantBundleContainer;

@@ -134,20 +134,19 @@ export default class BundledProduct extends React.Component {
                           : `${RUPEE_SYMBOL}${Math.floor(discountPrice)}`}
                       </div>
                     )}
-                  {!baseProduct.isRange &&
-                    price && (
-                      <div
-                        className={
-                          discountPrice === price
-                            ? styles.discount
-                            : styles.priceCancelled
-                        }
-                      >
-                        {price.toString().includes(RUPEE_SYMBOL)
-                          ? price
-                          : `${RUPEE_SYMBOL}${Math.floor(price)}`}
-                      </div>
-                    )}
+                  {!baseProduct.isRange && price && (
+                    <div
+                      className={
+                        discountPrice === price
+                          ? styles.discount
+                          : styles.priceCancelled
+                      }
+                    >
+                      {price.toString().includes(RUPEE_SYMBOL)
+                        ? price
+                        : `${RUPEE_SYMBOL}${Math.floor(price)}`}
+                    </div>
+                  )}
                   {baseProduct.discount &&
                   baseProduct.discount !== "0" &&
                   baseProduct.productCategory !== "FineJewellery" ? (

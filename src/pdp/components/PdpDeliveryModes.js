@@ -9,6 +9,7 @@ import {
 import PropTypes from "prop-types";
 import styles from "./PdpDeliveryModes.css";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
+import { isBrowser } from "browser-or-node";
 export default class PdpDeliveryModes extends React.Component {
   render() {
     const eligibleDeliveryModes = this.props.eligibleDeliveryModes;
@@ -87,9 +88,9 @@ export default class PdpDeliveryModes extends React.Component {
               .includes(COLLECT)}
             showCliqAndPiqButton={false}
             isClickable={true}
-            isShowCliqAndPiqUnderLineText={localStorage.getItem(
-              DEFAULT_PIN_CODE_LOCAL_STORAGE
-            )}
+            isShowCliqAndPiqUnderLineText={
+              isBrowser && localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+            }
             iconShow={this.props.iconShow}
           />
         </div>
