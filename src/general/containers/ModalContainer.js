@@ -408,7 +408,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 const ModalContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ModalRoot)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ModalRoot)
 );
 
 export default ModalContainer;

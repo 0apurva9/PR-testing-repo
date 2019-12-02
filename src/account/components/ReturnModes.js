@@ -137,9 +137,7 @@ export default class ReturnModes extends React.Component {
   navigateToReturnLanding() {
     return (
       <Redirect
-        to={`${RETURNS_PREFIX}/${
-          this.props.data.sellerorderno
-        }${RETURN_LANDING}${RETURNS_REASON}`}
+        to={`${RETURNS_PREFIX}/${this.props.data.sellerorderno}${RETURN_LANDING}${RETURNS_REASON}`}
       />
     );
   }
@@ -207,9 +205,7 @@ export default class ReturnModes extends React.Component {
     if (updateReturnConfirmation.status === "success") {
       //go to success page
       this.props.history.push({
-        pathname: `${RETURNS_PREFIX}/${
-          this.props.data.sellerorderno
-        }${RETURN_LANDING}${REFUND_SUMMARY}`,
+        pathname: `${RETURNS_PREFIX}/${this.props.data.sellerorderno}${RETURN_LANDING}${REFUND_SUMMARY}`,
         state: {
           authorizedRequest: true,
           isRefundTransactionPage: true,
@@ -408,10 +404,8 @@ export default class ReturnModes extends React.Component {
                           </div>
                         </div>
                         <div className={styles.addressText}>
-                          {deliveryAddress.line1} ,{deliveryAddress.landmark} ,{
-                            deliveryAddress.town
-                          }{" "}
-                          ,&nbsp;
+                          {deliveryAddress.line1} ,{deliveryAddress.landmark} ,
+                          {deliveryAddress.town} ,&nbsp;
                           {deliveryAddress.state}, {deliveryAddress.postalCode}
                         </div>
                       </div>

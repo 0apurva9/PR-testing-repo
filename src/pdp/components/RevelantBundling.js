@@ -336,20 +336,19 @@ export default class RevelantBundling extends React.Component {
                       : `${RUPEE_SYMBOL}${Math.floor(BundleddiscountPrice)}`}
                   </div>
                 )}
-              {!this.props.productDetails.isRange &&
-                Bundledprice && (
-                  <div
-                    className={
-                      BundleddiscountPrice === Bundledprice
-                        ? styles.discount
-                        : styles.priceCancelled
-                    }
-                  >
-                    {Bundledprice.toString().includes(RUPEE_SYMBOL)
-                      ? Bundledprice
-                      : `${RUPEE_SYMBOL}${Math.floor(Bundledprice)}`}
-                  </div>
-                )}
+              {!this.props.productDetails.isRange && Bundledprice && (
+                <div
+                  className={
+                    BundleddiscountPrice === Bundledprice
+                      ? styles.discount
+                      : styles.priceCancelled
+                  }
+                >
+                  {Bundledprice.toString().includes(RUPEE_SYMBOL)
+                    ? Bundledprice
+                    : `${RUPEE_SYMBOL}${Math.floor(Bundledprice)}`}
+                </div>
+              )}
               {this.props.productDetails.discount &&
               this.props.productDetails.discount !== "0" &&
               this.props.productDetails.productCategory !== "FineJewellery" ? (

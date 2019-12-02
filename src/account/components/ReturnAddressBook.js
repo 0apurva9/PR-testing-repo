@@ -85,9 +85,7 @@ export default class ReturnAddressBook extends React.Component {
       )
     ) {
       this.props.history.push({
-        pathname: `${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${
-          this.props.history.location.state.orderId
-        }${RETURN_TO_ADDRESS}${EDIT}`,
+        pathname: `${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${this.props.history.location.state.orderId}${RETURN_TO_ADDRESS}${EDIT}`,
         state: {
           path: this.props.location.pathname,
           addAddress: true,
@@ -118,9 +116,7 @@ export default class ReturnAddressBook extends React.Component {
       )
     ) {
       this.props.history.push({
-        pathname: `${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${
-          this.props.history.location.state.orderId
-        }${RETURN_TO_ADDRESS}${ADD}`,
+        pathname: `${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${this.props.history.location.state.orderId}${RETURN_TO_ADDRESS}${ADD}`,
         state: {
           path: this.props.location.pathname,
           addAddress: true,
@@ -172,9 +168,7 @@ export default class ReturnAddressBook extends React.Component {
   handleSubmit = () => {
     if (this.props.history.location.state.includes("/my-account/order/")) {
       this.props.history.push({
-        pathname: `${RETURNS_PREFIX}/${
-          this.props.data.sellerorderno
-        }${RETURN_LANDING}${RETURNS_MODES}`,
+        pathname: `${RETURNS_PREFIX}/${this.props.data.sellerorderno}${RETURN_LANDING}${RETURNS_MODES}`,
         state: {
           address: this.state.defaultAddress,
           authorizedRequest: true
@@ -182,9 +176,7 @@ export default class ReturnAddressBook extends React.Component {
       });
     }
     this.props.history.push({
-      pathname: `${RETURNS_PREFIX}/${
-        this.props.data.sellerorderno
-      }${RETURN_LANDING}${RETURNS_MODES}`,
+      pathname: `${RETURNS_PREFIX}/${this.props.data.sellerorderno}${RETURN_LANDING}${RETURNS_MODES}`,
       state: {
         address: this.state.defaultAddress,
         authorizedRequest: true

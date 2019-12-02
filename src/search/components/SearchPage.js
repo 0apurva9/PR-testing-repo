@@ -2,9 +2,16 @@ import React from "react";
 import styles from "./SearchPage.css";
 import SearchHeader from "./SearchHeader";
 import SearchResultItem from "./SearchResultItem";
-import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-import { HOME_ROUTER, USER_SEARCH_LOCAL_STORAGE } from "../../lib/constants";
-import { setDataLayerForAutoSuggestSearch } from "../../lib/adobeUtils";
+import {
+  TATA_CLIQ_ROOT
+} from "../../lib/apiRequest.js";
+import {
+  HOME_ROUTER,
+  USER_SEARCH_LOCAL_STORAGE
+} from "../../lib/constants";
+import {
+  setDataLayerForAutoSuggestSearch
+} from "../../lib/adobeUtils";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import cloneDeep from "lodash.clonedeep";
@@ -30,7 +37,9 @@ export default class SearchPage extends React.Component {
   }
   handleClickOutside(event) {
     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
-      this.setState({ showData: false });
+      this.setState({
+        showData: false
+      });
     }
   }
   setWrapperRef(node) {
@@ -64,13 +73,13 @@ export default class SearchPage extends React.Component {
     const suggestedKeyWord = data && data.suggestionsNew;
     if (data) {
       if (data) {
-        const topBrands = this.props.searchResult.topBrands
-          ? this.props.searchResult.topBrands
-          : [];
+        const topBrands = this.props.searchResult.topBrands ?
+          this.props.searchResult.topBrands :
+          [];
         const suggestionsNew = suggestedKeyWord ? suggestedKeyWord : [];
-        const topCategories = this.props.searchResult.topCategories
-          ? this.props.searchResult.topCategories
-          : [];
+        const topCategories = this.props.searchResult.topCategories ?
+          this.props.searchResult.topCategories :
+          [];
         this.newSearchArray = [
           ...topCategories,
           ...suggestionsNew,
@@ -99,9 +108,13 @@ export default class SearchPage extends React.Component {
       showSearchBar: false,
       setOnClick: true
     });
-    this.setState({ showData: false });
+    this.setState({
+      showData: false
+    });
     setTimeout(() => {
-      this.setState({ setOnClick: false });
+      this.setState({
+        setOnClick: false
+      });
     }, 50);
     const url = `/search/?searchCategory=all&text=${currentString}:relevance:brand:${brandCode}`;
     this.props.history.push(url, {
@@ -128,13 +141,13 @@ export default class SearchPage extends React.Component {
     const suggestedKeyWord = data && data.suggestionsNew;
     if (data) {
       if (data) {
-        const topBrands = this.props.searchResult.topBrands
-          ? this.props.searchResult.topBrands
-          : [];
+        const topBrands = this.props.searchResult.topBrands ?
+          this.props.searchResult.topBrands :
+          [];
         const suggestionsNew = suggestedKeyWord ? suggestedKeyWord : [];
-        const topCategories = this.props.searchResult.topCategories
-          ? this.props.searchResult.topCategories
-          : [];
+        const topCategories = this.props.searchResult.topCategories ?
+          this.props.searchResult.topCategories :
+          [];
         this.newSearchArray = [
           ...topCategories,
           ...suggestionsNew,
@@ -161,23 +174,31 @@ export default class SearchPage extends React.Component {
       currentFlag: null,
       setOnClick: true
     });
-    this.setState({ showData: false });
+    this.setState({
+      showData: false
+    });
     setTimeout(() => {
-      this.setState({ setOnClick: false });
+      this.setState({
+        setOnClick: false
+      });
     }, 50);
     this.props.history.push(url, {
       isFilter: false
     });
   }
   handleSearch(val, e) {
-    this.setState({ showData: true });
+    this.setState({
+      showData: true
+    });
     if (this.state.showSearchBar === false) {
       this.setState({
         currentFlag: null
       });
     }
     if (this.props.getSearchResults) {
-      this.setState({ searchString: val });
+      this.setState({
+        searchString: val
+      });
       this.props.getSearchResults(val);
     }
   }
@@ -190,9 +211,9 @@ export default class SearchPage extends React.Component {
     this.props.history.push(HOME_ROUTER);
   }
   checkIfSingleWordinSearchString() {
-    return this.state.searchString
-      ? this.state.searchString.trim().split(" ").length === 1
-      : true;
+    return this.state.searchString ?
+      this.state.searchString.trim().split(" ").length === 1 :
+      true;
   }
   handleOnSearchString(searchString) {
     var format = /[!@#$%^&*_+=[\]{};:|<>?]+/;
@@ -218,8 +239,7 @@ export default class SearchPage extends React.Component {
               return categories.categoryCode === code;
             });
           this.handleCategoryClick(
-            code,
-            {
+            code, {
               term: currentSearchString
             },
             indexOfCurrentCategories,
@@ -233,8 +253,7 @@ export default class SearchPage extends React.Component {
             return brands.categoryCode === code;
           });
           this.handleBrandClick(
-            code,
-            {
+            code, {
               term: currentSearchString
             },
             indexOfCurrentBrands,
@@ -244,15 +263,13 @@ export default class SearchPage extends React.Component {
         }
       } else {
         this.props.history.push(
-          `/search/?searchCategory=all&text=${currentSearchString}`,
-          {
+          `/search/?searchCategory=all&text=${currentSearchString}`, {
             isFilter: false
           }
         );
       }
       this.props.clearSearchResults();
-      this.setState(
-        {
+      this.setState({
           showResults: false,
           searchString: null,
           showSearchBar: false,
@@ -260,15 +277,16 @@ export default class SearchPage extends React.Component {
           setOnClick: true
         },
         () => {
-          this.setState({ setOnClick: false });
+          this.setState({
+            setOnClick: false
+          });
         }
       );
     }
   }
   handleBlur(event) {
     if (!this.refs.elementScrollRefTop || !this.refs.elementScrollRefBottom) {
-      this.setState(
-        {
+      this.setState({
           showResults: false,
           searchString: null,
           showSearchBar: false,
@@ -276,21 +294,25 @@ export default class SearchPage extends React.Component {
           setOnClick: true
         },
         () => {
-          this.setState({ setOnClick: false });
+          this.setState({
+            setOnClick: false
+          });
         }
       );
     }
   }
   handleUpDownArrow(val) {
-    this.setState({ showData: true });
+    this.setState({
+      showData: true
+    });
     const currentSelectedIndex = this.state.currentFlag;
     const data = this.props.searchResult;
     const firstSuggestionNew = cloneDeep(
       data && data.suggestionsNew ? data.suggestionsNew : ""
     );
-    const firstSuggestedKeyWord = firstSuggestionNew
-      ? firstSuggestionNew.splice(0, 1)
-      : "";
+    const firstSuggestedKeyWord = firstSuggestionNew ?
+      firstSuggestionNew.splice(0, 1) :
+      "";
     if (val === "ArrowDown") {
       if (
         this.state.currentFlag !== null &&
@@ -419,8 +441,7 @@ export default class SearchPage extends React.Component {
       searchResultHistory.splice(searchResultHistory.indexOf(searchString), 1);
     }
     searchResultHistory.unshift(searchString);
-    this.setState(
-      {
+    this.setState({
         showResults: false,
         searchString,
         showSearchBar: false,
@@ -437,7 +458,9 @@ export default class SearchPage extends React.Component {
       }
     );
 
-    this.setState({ boardAddModalShow: true });
+    this.setState({
+      boardAddModalShow: true
+    });
   }
 
   render() {
@@ -446,334 +469,465 @@ export default class SearchPage extends React.Component {
     const firstSuggestionNew = cloneDeep(
       data && data.suggestionsNew ? data.suggestionsNew : ""
     );
-    firstSuggestedKeyWord = firstSuggestionNew
-      ? firstSuggestionNew.splice(0, 1)
-      : "";
+    firstSuggestedKeyWord = firstSuggestionNew ?
+      firstSuggestionNew.splice(0, 1) :
+      "";
     const suggestedKeyWord = data && data.suggestionsNew;
     // Unused right now
     if (data) {
-      const topBrands = this.props.searchResult.topBrands
-        ? this.props.searchResult.topBrands
-        : [];
+      const topBrands = this.props.searchResult.topBrands ?
+        this.props.searchResult.topBrands :
+        [];
       const suggestionsNew = suggestedKeyWord ? suggestedKeyWord : [];
-      const topCategories = this.props.searchResult.topCategories
-        ? this.props.searchResult.topCategories
-        : [];
+      const topCategories = this.props.searchResult.topCategories ?
+        this.props.searchResult.topCategories :
+        [];
       this.searchDown = [...topCategories, ...suggestionsNew, ...topBrands];
     }
     // Unused code till here
-    return (
-      <div className={styles.base}>
-        <div className={styles.searchBar}>
-          <SearchHeader
-            setOnClick={this.state.setOnClick}
-            onSearchOrCloseIconClick={this.onSearchOrCloseIconClick}
-            onSearch={val => this.handleSearch(val)}
-            onClickBack={() => {
-              this.handleBackClick();
-            }}
-            isGoBack={this.props.hasBackButton}
-            text={this.props.header}
-            isLogo={this.props.isLogo}
-            hasCrossButton={this.props.hasCrossButton}
-            toggleSearchBar={this.toggleSearchBar}
-            display={this.state.showSearchBar}
-            onSearchString={val => this.handleOnSearchString(val)}
-            redirectToHome={() => this.redirectToHome()}
-            searchString={this.state.searchString}
-            value={this.state.searchString}
-            onKeyUp={event => {
-              this.handleUpDownArrow(event);
-            }}
-            onBlur={event => this.handleBlur(event)}
-          />
-        </div>
-        <MobileOnly>
-          {this.state.showResults && (
-            <div className={styles.searchResults}>
-              {/* store details or brand details */}
-              {suggestedKeyWord && suggestedKeyWord[0].storeDetails ? (
-                <SearchResultItem
-                  suggestedText={suggestedKeyWord[0].storeDetails.storeTitle}
-                  imageUrl={suggestedKeyWord[0].storeDetails.storeImageUrl}
-                  storeBrandMer={true}
-                  onClick={() => {
+    return ( <
+      div className = {
+        styles.base
+      } >
+      <
+      div className = {
+        styles.searchBar
+      } >
+      <
+      SearchHeader setOnClick = {
+        this.state.setOnClick
+      }
+      onSearchOrCloseIconClick = {
+        this.onSearchOrCloseIconClick
+      }
+      onSearch = {
+        val => this.handleSearch(val)
+      }
+      onClickBack = {
+        () => {
+          this.handleBackClick();
+        }
+      }
+      isGoBack = {
+        this.props.hasBackButton
+      }
+      text = {
+        this.props.header
+      }
+      isLogo = {
+        this.props.isLogo
+      }
+      hasCrossButton = {
+        this.props.hasCrossButton
+      }
+      toggleSearchBar = {
+        this.toggleSearchBar
+      }
+      display = {
+        this.state.showSearchBar
+      }
+      onSearchString = {
+        val => this.handleOnSearchString(val)
+      }
+      redirectToHome = {
+        () => this.redirectToHome()
+      }
+      searchString = {
+        this.state.searchString
+      }
+      value = {
+        this.state.searchString
+      }
+      onKeyUp = {
+        event => {
+          this.handleUpDownArrow(event);
+        }
+      }
+      onBlur = {
+        event => this.handleBlur(event)
+      }
+      /> <
+      /div> <
+      MobileOnly > {
+        this.state.showResults && ( <
+          div className = {
+            styles.searchResults
+          } > {
+            /* store details or brand details */ } {
+            suggestedKeyWord && suggestedKeyWord[0].storeDetails ? ( <
+              SearchResultItem suggestedText = {
+                suggestedKeyWord[0].storeDetails.storeTitle
+              }
+              imageUrl = {
+                suggestedKeyWord[0].storeDetails.storeImageUrl
+              }
+              storeBrandMer = {
+                true
+              }
+              onClick = {
+                () => {
+                  this.handleStoreBrandMerClick(
+                    suggestedKeyWord[0].storeDetails.storeDestinationUrl,
+                    suggestedKeyWord[0].storeDetails.storeTitle
+                  );
+                }
+              }
+              />
+            ) : null
+          } {
+            /* category details */ } {
+            data &&
+              data.topCategories &&
+              data.topCategories.map((val, i) => {
+                return ( <
+                  SearchResultItem key = {
+                    i
+                  }
+                  suggestedText = {
+                    firstSuggestedKeyWord &&
+                    firstSuggestedKeyWord[0] &&
+                    firstSuggestedKeyWord[0].suggestedWord
+                  }
+                  categoryOrBrandText = {
+                    val.categoryName
+                  }
+                  singleWord = {
+                    this.checkIfSingleWordinSearchString()
+                  }
+                  onClick = {
+                    () => {
+                      this.handleCategoryClick(
+                        val.categoryCode, {
+                          term: `${data.suggestionText[0]} in ${
+                              val.categoryName
+                            }`
+                        },
+                        i,
+                        firstSuggestedKeyWord[0].suggestedWord,
+                        true
+                      );
+                    }
+                  }
+                  />
+                );
+              })
+          }
+
+          {
+            /* merchandise details */ } {
+            suggestedKeyWord &&
+              suggestedKeyWord[0].merchandiseDetails &&
+              suggestedKeyWord[0].merchandiseDetails.map((val, i) => {
+                return i < 5 ? ( <
+                  SearchResultItem
+                  // key={j}
+                  storeBrandMer = {
+                    true
+                  }
+                  merchandise = {
+                    val.merchandiseTitle
+                  }
+                  suggestedText = {
+                    suggestedKeyWord[0].keyword + " "
+                  }
+                  onClick = {
+                    () =>
                     this.handleStoreBrandMerClick(
-                      suggestedKeyWord[0].storeDetails.storeDestinationUrl,
-                      suggestedKeyWord[0].storeDetails.storeTitle
-                    );
-                  }}
-                />
-              ) : null}
-              {/* category details */}
-              {data &&
-                data.topCategories &&
-                data.topCategories.map((val, i) => {
-                  return (
-                    <SearchResultItem
-                      key={i}
-                      suggestedText={
+                      val.merchandiseLink,
+                      val.merchandiseTitle
+                    )
+                  }
+                  />
+                ) : null;
+              })
+          }
+
+          {
+            /* keyword details */ } {
+            suggestedKeyWord &&
+              suggestedKeyWord.map((val, i) => {
+                return i < 5 ? ( <
+                  SearchResultItem key = {
+                    i
+                  }
+                  suggestedText = {
+                    val.suggestedWord
+                  }
+                  singleWord = {
+                    this.checkIfSingleWordinSearchString()
+                  }
+                  onClick = {
+                    () => {
+                      this.handleOnSearchString(val.suggestedWord);
+                    }
+                  }
+                  />
+                ) : null;
+              })
+          }
+
+          {
+            /* brands details */ } {
+            data &&
+              data.topBrands &&
+              data.topBrands.map((val, i) => {
+                return ( <
+                  SearchResultItem key = {
+                    i
+                  }
+                  suggestedText = {
+                    firstSuggestedKeyWord &&
+                    firstSuggestedKeyWord[0] &&
+                    firstSuggestedKeyWord[0].suggestedWord
+                  }
+                  categoryOrBrandText = {
+                    val.categoryName
+                  }
+                  singleWord = {
+                    this.checkIfSingleWordinSearchString()
+                  }
+                  onClick = {
+                    () => {
+                      this.handleBrandClick(
+                        val.categoryCode, {
+                          term: `${data.suggestionText[0]} in ${
+                              val.categoryName
+                            }`
+                        },
+                        i,
+                        data.suggestionText[0],
+                        true
+                      );
+                    }
+                  }
+                  />
+                );
+              })
+          } <
+          /div>
+        )
+      } <
+      /MobileOnly> <
+      DesktopOnly > {
+        this.state.searchString && ( <
+          div className = {
+            styles.searchHolder
+          } > {
+            this.state.showData && ( <
+              div className = {
+                styles.searchResults
+              }
+              ref = {
+                this.setWrapperRef
+              } > {
+                /* store details or brand details */ } {
+                suggestedKeyWord && suggestedKeyWord[0].storeDetails ? ( <
+                  SearchResultItem suggestedText = {
+                    suggestedKeyWord[0].storeDetails.storeTitle
+                  }
+                  imageUrl = {
+                    suggestedKeyWord[0].storeDetails.storeImageUrl
+                  }
+                  storeBrandMer = {
+                    true
+                  }
+                  onClick = {
+                    () => {
+                      this.handleStoreBrandMerClick(
+                        suggestedKeyWord[0].storeDetails.storeDestinationUrl,
+                        suggestedKeyWord[0].storeDetails.storeTitle
+                      );
+                    }
+                  }
+                  />
+                ) : null
+              } {
+                /* category details */ }
+
+              {
+                data &&
+                  data.topCategories &&
+                  data.topCategories.map((val, i) => {
+                    return ( <
+                      div ref = {
+                        "elementScrollRefTop"
+                      }
+                      className = {
+                        this.state.currentFlag === i ?
+                        styles.color :
+                          styles.back
+                      } >
+                      <
+                      SearchResultItem key = {
+                        i
+                      }
+                      suggestedText = {
                         firstSuggestedKeyWord &&
                         firstSuggestedKeyWord[0] &&
                         firstSuggestedKeyWord[0].suggestedWord
                       }
-                      categoryOrBrandText={val.categoryName}
-                      singleWord={this.checkIfSingleWordinSearchString()}
-                      onClick={() => {
-                        this.handleCategoryClick(
-                          val.categoryCode,
-                          {
-                            term: `${data.suggestionText[0]} in ${
-                              val.categoryName
-                            }`
-                          },
-                          i,
-                          firstSuggestedKeyWord[0].suggestedWord,
-                          true
-                        );
-                      }}
-                    />
-                  );
-                })}
-
-              {/* merchandise details */}
-              {suggestedKeyWord &&
-                suggestedKeyWord[0].merchandiseDetails &&
-                suggestedKeyWord[0].merchandiseDetails.map((val, i) => {
-                  return i < 5 ? (
-                    <SearchResultItem
+                      categoryOrBrandText = {
+                        val.categoryName
+                      }
+                      singleWord = {
+                        this.checkIfSingleWordinSearchString()
+                      }
+                      onClick = {
+                        () => {
+                          this.handleCategoryClick(
+                            val.categoryCode, {
+                              term: `${data.suggestionText[0]} in ${
+                                    val.categoryName
+                                  }`
+                            },
+                            i,
+                            firstSuggestedKeyWord &&
+                            firstSuggestedKeyWord[0] &&
+                            firstSuggestedKeyWord[0].suggestedWord,
+                            true
+                          );
+                        }
+                      }
+                      /> <
+                      /div>
+                    );
+                  })
+              } {
+                /* merchandise details */ } {
+                suggestedKeyWord &&
+                  suggestedKeyWord[0].merchandiseDetails &&
+                  suggestedKeyWord[0].merchandiseDetails.map((val, i) => {
+                    return i < 5 ? ( <
+                      SearchResultItem
                       // key={j}
-                      storeBrandMer={true}
-                      merchandise={val.merchandiseTitle}
-                      suggestedText={suggestedKeyWord[0].keyword + " "}
-                      onClick={() =>
+                      storeBrandMer = {
+                        true
+                      }
+                      merchandise = {
+                        val.merchandiseTitle
+                      }
+                      suggestedText = {
+                        suggestedKeyWord[0].keyword + " "
+                      }
+                      onClick = {
+                        () =>
                         this.handleStoreBrandMerClick(
                           val.merchandiseLink,
                           val.merchandiseTitle
                         )
                       }
-                    />
-                  ) : null;
-                })}
+                      />
+                    ) : null;
+                  })
+              }
 
-              {/* keyword details */}
-              {suggestedKeyWord &&
-                suggestedKeyWord.map((val, i) => {
-                  return i < 5 ? (
-                    <SearchResultItem
-                      key={i}
-                      suggestedText={val.suggestedWord}
-                      singleWord={this.checkIfSingleWordinSearchString()}
-                      onClick={() => {
-                        this.handleOnSearchString(val.suggestedWord);
-                      }}
-                    />
-                  ) : null;
-                })}
-
-              {/* brands details */}
-              {data &&
-                data.topBrands &&
-                data.topBrands.map((val, i) => {
-                  return (
-                    <SearchResultItem
-                      key={i}
-                      suggestedText={
+              {
+                /* keyword details */ } {
+                suggestedKeyWord &&
+                  suggestedKeyWord.map((val, i) => {
+                    return ( <
+                      div ref = {
+                        "elementScrollRefBottom"
+                      }
+                      className = {
+                        this.state.currentFlag ===
+                        i +
+                        (data.topCategories &&
+                          data.topCategories.length > 0 ?
+                          data.topCategories.length :
+                          0) ?
+                        styles.color :
+                          styles.back
+                      } >
+                      <
+                      SearchResultItem key = {
+                        i
+                      }
+                      suggestedText = {
+                        val.suggestedWord
+                      }
+                      singleWord = {
+                        this.checkIfSingleWordinSearchString()
+                      }
+                      onClick = {
+                        () => {
+                          this.handleOnSearchString(val.suggestedWord);
+                        }
+                      }
+                      /> <
+                      /div>
+                    );
+                  })
+              } {
+                /* brands details */ } {
+                data &&
+                  data.topBrands &&
+                  data.topBrands.map((val, i) => {
+                    return ( <
+                      div className = {
+                        this.state.currentFlag ===
+                        i +
+                        (data.topCategories &&
+                          data.topCategories.length &&
+                          suggestedKeyWord &&
+                          suggestedKeyWord.length ?
+                          data.topCategories.length +
+                          suggestedKeyWord.length :
+                          suggestedKeyWord &&
+                          suggestedKeyWord.length > 0 ?
+                          suggestedKeyWord.length :
+                          data.topCategories &&
+                          data.topBrands.length > 0 ?
+                          data.topCategories.length :
+                          0) ?
+                        styles.color :
+                          styles.back
+                      } >
+                      <
+                      SearchResultItem key = {
+                        i
+                      }
+                      suggestedText = {
                         firstSuggestedKeyWord &&
                         firstSuggestedKeyWord[0] &&
                         firstSuggestedKeyWord[0].suggestedWord
                       }
-                      categoryOrBrandText={val.categoryName}
-                      singleWord={this.checkIfSingleWordinSearchString()}
-                      onClick={() => {
-                        this.handleBrandClick(
-                          val.categoryCode,
-                          {
-                            term: `${data.suggestionText[0]} in ${
-                              val.categoryName
-                            }`
-                          },
-                          i,
-                          data.suggestionText[0],
-                          true
-                        );
-                      }}
-                    />
-                  );
-                })}
-            </div>
-          )}
-        </MobileOnly>
-        <DesktopOnly>
-          {this.state.searchString && (
-            <div className={styles.searchHolder}>
-              {this.state.showData && (
-                <div className={styles.searchResults} ref={this.setWrapperRef}>
-                  {/* store details or brand details */}
-                  {suggestedKeyWord && suggestedKeyWord[0].storeDetails ? (
-                    <SearchResultItem
-                      suggestedText={
-                        suggestedKeyWord[0].storeDetails.storeTitle
+                      categories = {
+                        true
                       }
-                      imageUrl={suggestedKeyWord[0].storeDetails.storeImageUrl}
-                      storeBrandMer={true}
-                      onClick={() => {
-                        this.handleStoreBrandMerClick(
-                          suggestedKeyWord[0].storeDetails.storeDestinationUrl,
-                          suggestedKeyWord[0].storeDetails.storeTitle
-                        );
-                      }}
-                    />
-                  ) : null}
-                  {/* category details */}
-
-                  {data &&
-                    data.topCategories &&
-                    data.topCategories.map((val, i) => {
-                      return (
-                        <div
-                          ref={"elementScrollRefTop"}
-                          className={
-                            this.state.currentFlag === i
-                              ? styles.color
-                              : styles.back
-                          }
-                        >
-                          <SearchResultItem
-                            key={i}
-                            suggestedText={
-                              firstSuggestedKeyWord &&
-                              firstSuggestedKeyWord[0] &&
-                              firstSuggestedKeyWord[0].suggestedWord
-                            }
-                            categoryOrBrandText={val.categoryName}
-                            singleWord={this.checkIfSingleWordinSearchString()}
-                            onClick={() => {
-                              this.handleCategoryClick(
-                                val.categoryCode,
-                                {
-                                  term: `${data.suggestionText[0]} in ${
+                      categoryOrBrandText = {
+                        val.categoryName
+                      }
+                      singleWord = {
+                        this.checkIfSingleWordinSearchString()
+                      }
+                      onClick = {
+                        () => {
+                          this.handleBrandClick(
+                            val.categoryCode, {
+                              term: `${data.suggestionText[0]} in ${
                                     val.categoryName
                                   }`
-                                },
-                                i,
-                                firstSuggestedKeyWord &&
-                                  firstSuggestedKeyWord[0] &&
-                                  firstSuggestedKeyWord[0].suggestedWord,
-                                true
-                              );
-                            }}
-                          />
-                        </div>
-                      );
-                    })}
-                  {/* merchandise details */}
-                  {suggestedKeyWord &&
-                    suggestedKeyWord[0].merchandiseDetails &&
-                    suggestedKeyWord[0].merchandiseDetails.map((val, i) => {
-                      return i < 5 ? (
-                        <SearchResultItem
-                          // key={j}
-                          storeBrandMer={true}
-                          merchandise={val.merchandiseTitle}
-                          suggestedText={suggestedKeyWord[0].keyword + " "}
-                          onClick={() =>
-                            this.handleStoreBrandMerClick(
-                              val.merchandiseLink,
-                              val.merchandiseTitle
-                            )
-                          }
-                        />
-                      ) : null;
-                    })}
-
-                  {/* keyword details */}
-                  {suggestedKeyWord &&
-                    suggestedKeyWord.map((val, i) => {
-                      return (
-                        <div
-                          ref={"elementScrollRefBottom"}
-                          className={
-                            this.state.currentFlag ===
-                            i +
-                              (data.topCategories &&
-                              data.topCategories.length > 0
-                                ? data.topCategories.length
-                                : 0)
-                              ? styles.color
-                              : styles.back
-                          }
-                        >
-                          <SearchResultItem
-                            key={i}
-                            suggestedText={val.suggestedWord}
-                            singleWord={this.checkIfSingleWordinSearchString()}
-                            onClick={() => {
-                              this.handleOnSearchString(val.suggestedWord);
-                            }}
-                          />
-                        </div>
-                      );
-                    })}
-                  {/* brands details */}
-                  {data &&
-                    data.topBrands &&
-                    data.topBrands.map((val, i) => {
-                      return (
-                        <div
-                          className={
-                            this.state.currentFlag ===
-                            i +
-                              (data.topCategories &&
-                              data.topCategories.length &&
-                              suggestedKeyWord &&
-                              suggestedKeyWord.length
-                                ? data.topCategories.length +
-                                  suggestedKeyWord.length
-                                : suggestedKeyWord &&
-                                  suggestedKeyWord.length > 0
-                                  ? suggestedKeyWord.length
-                                  : data.topCategories &&
-                                    data.topBrands.length > 0
-                                    ? data.topCategories.length
-                                    : 0)
-                              ? styles.color
-                              : styles.back
-                          }
-                        >
-                          <SearchResultItem
-                            key={i}
-                            suggestedText={
-                              firstSuggestedKeyWord &&
-                              firstSuggestedKeyWord[0] &&
-                              firstSuggestedKeyWord[0].suggestedWord
-                            }
-                            categories={true}
-                            categoryOrBrandText={val.categoryName}
-                            singleWord={this.checkIfSingleWordinSearchString()}
-                            onClick={() => {
-                              this.handleBrandClick(
-                                val.categoryCode,
-                                {
-                                  term: `${data.suggestionText[0]} in ${
-                                    val.categoryName
-                                  }`
-                                },
-                                i,
-                                data.suggestionText[0],
-                                true
-                              );
-                            }}
-                          />
-                        </div>
-                      );
-                    })}
-                </div>
-              )}
-            </div>
-          )}
-        </DesktopOnly>
-      </div>
+                            },
+                            i,
+                            data.suggestionText[0],
+                            true
+                          );
+                        }
+                      }
+                      /> <
+                      /div>
+                    );
+                  })
+              } <
+              /div>
+            )
+          } <
+          /div>
+        )
+      } <
+      /DesktopOnly> <
+      /div>
     );
   }
 }

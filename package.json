@@ -9,6 +9,7 @@
     "@types/react": "^16.4.7",
     "async-stylesheet-webpack-plugin": "0.4.1",
     "autoprefixer": "7.1.6",
+    "axios": "^0.18.0",
     "babel-core": "6.26.0",
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
@@ -37,6 +38,7 @@
     "html-webpack-plugin": "2.29.0",
     "ignore-styles": "^5.0.1",
     "intersection-observer": "^0.5.0",
+    "isomorphic-fetch": "^2.2.1",
     "jest": "20.0.4",
     "lodash.clonedeep": "^4.5.0",
     "lodash.concat": "^4.5.0",
@@ -98,6 +100,7 @@
   "scripts": {
     "build:server": "NODE_ENV=production REACT_APP_STAGE=production node scripts/build-server.js",
     "run:server": "NODE_ENV=production REACT_APP_STAGE=production node build/server/static/js/main.js",
+    "build-tmpprod:server": "NODE_ENV=production REACT_APP_STAGE=tmpprod node scripts/build-server.js",
     "start": "REACT_APP_STAGE=production node -r dotenv/config scripts/start.js",
     "start:desktop": "REACT_APP_STAGE=production node -r dotenv/config scripts/start.js",
     "stage": " REACT_APP_STAGE=stage node scripts/build.js",
@@ -124,7 +127,13 @@
     "test": "cross-env node scripts/test.js --env=jsdom",
     "lint": "eslint 'src/**/*.js'",
     "pre-build": "yarn run tmpprod-desktop  && sudo pm2 startOrRestart ecosystem.config.js",
-    "deploy": "pm2 deploy ecosystem.config.js production --force",
+    <<
+    << << < HEAD ===
+    === =
+    "pre-build-ssr": "sudo yarn pm2 startOrRestart ecosystem.ssr.config.js",
+    >>>
+    >>> > ae2943ec005f4901f49ce4152d0e8309e3ba1c72 "deploy": "pm2 deploy ecosystem.config.js production --force",
+    "deploy-ssr": "pm2 deploy ecosystem.ssr.config.js ssr --force",
     "precommit": "lint-staged",
     "ssr": "NODE_ENV=DFGDFG server/bootstrap.js"
   },
