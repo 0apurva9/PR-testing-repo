@@ -29,16 +29,17 @@ export default class CleverTapEmailUnsubscribe extends Component {
   }
 
   componentDidMount() {
-    if (window.hasOwnProperty("$WZRK_WR")) window.$WZRK_WR.getEmail();
-    else {
+    if (window.hasOwnProperty("$WZRK_WR")) {
+      window.$WZRK_WR.getEmail();
+    } else {
       setTimeout(() => {
-        this.forceUpdate();
-      }, 100);
+        window.$WZRK_WR.getEmail();
+      }, 1000);
     }
   }
 
   wzrk_email_fetched(emailStr) {
-    document.getElementById("email").value = emailStr;
+    if (emailStr) document.getElementById("email").value = emailStr;
   }
 
   wzrk_email_subscription(status) {
@@ -52,12 +53,10 @@ export default class CleverTapEmailUnsubscribe extends Component {
   }
 
   onUnsubscribe() {
-    window.$WZRK_WR.unSubEmail();
+    if (window.hasOwnProperty("$WZRK_WR")) window.$WZRK_WR.unSubEmail();
   }
 
   render() {
-    if (window.hasOwnProperty("$WZRK_WR")) window.$WZRK_WR.getEmail();
-
     return (
       <div className={styles.base}>
         <div className={styles.emailUnsubscribe}>
