@@ -112,6 +112,23 @@ export default class AllOrderDetails extends React.Component {
   };
   tabSelect(val) {
     this.setState({ isSelected: val });
+    let selectedTab;
+    if (val) {
+      if (val === 0) {
+        selectedTab = "Recent Orders";
+      } else if (val === 1) {
+        selectedTab = "Alerts";
+      } else if (val === 2) {
+        selectedTab = "Coupons";
+      } else if (val === 3) {
+        selectedTab = "Useful Links";
+      } else if (val === 4) {
+        selectedTab = "My review";
+      }
+    } else {
+      selectedTab = "Recent Orders";
+    }
+    setDataLayer(ADOBE_MY_ACCOUNT_TAB_CLICKED, selectedTab);
   }
   onClickImage(isEgvOrder, productCode) {
     if (!isEgvOrder && productCode) {
@@ -337,21 +354,7 @@ export default class AllOrderDetails extends React.Component {
       baseClassName = styles.base;
     }
     let productsDetails = orderDetails && orderDetails.products;
-    if (this.state.isSelected) {
-      let selectedTab;
-      if (this.state.isSelected === 0) {
-        selectedTab = "Recent Order";
-      } else if (this.state.isSelected === 1) {
-        selectedTab = "Alerts";
-      } else if (this.state.isSelected === 2) {
-        selectedTab = "Coupons";
-      } else if (this.state.isSelected === 3) {
-        selectedTab = "Useful Links";
-      } else if (this.state.isSelected === 4) {
-        selectedTab = "My review";
-      }
-      setDataLayer(ADOBE_MY_ACCOUNT_TAB_CLICKED, selectedTab);
-    }
+
     return (
       <div className={baseClassName}>
         <div className={MyAccountStyles.holder}>

@@ -200,14 +200,14 @@ export default class Plp extends React.Component {
                 icid = search.cid;
                 icidType = CID;
               }
-              setDataLayer(
-                ADOBE_PLP_TYPE,
-                this.props.productListings,
-                icid,
-                icidType
-              );
+              // setDataLayer(
+              //   ADOBE_PLP_TYPE,
+              //   this.props.productListings,
+              //   icid,
+              //   icidType
+              // );
             } else {
-              setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
+              // setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
             }
           }
         }
