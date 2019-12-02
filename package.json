@@ -127,12 +127,8 @@
     "test": "cross-env node scripts/test.js --env=jsdom",
     "lint": "eslint 'src/**/*.js'",
     "pre-build": "yarn run tmpprod-desktop  && sudo pm2 startOrRestart ecosystem.config.js",
-    <<
-    << << < HEAD ===
-    === =
     "pre-build-ssr": "sudo yarn pm2 startOrRestart ecosystem.ssr.config.js",
-    >>>
-    >>> > ae2943ec005f4901f49ce4152d0e8309e3ba1c72 "deploy": "pm2 deploy ecosystem.config.js production --force",
+    "deploy": "pm2 deploy ecosystem.config.js production --force",
     "deploy-ssr": "pm2 deploy ecosystem.ssr.config.js ssr --force",
     "precommit": "lint-staged",
     "ssr": "NODE_ENV=DFGDFG server/bootstrap.js"
