@@ -91,9 +91,7 @@ import DesktopOnly from "./general/components/DesktopOnly";
     for user if user dont have pin code in
     local storage already
 */
-if (!localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)) {
-  localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, DEFAULT_PINCODE);
-}
+
 const Loader = () => {
   return (
     <div className={AppStyles.loadingIndicator}>

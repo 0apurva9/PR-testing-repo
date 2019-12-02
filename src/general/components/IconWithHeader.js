@@ -166,6 +166,7 @@ export default class IconWithHeader extends React.Component {
                   placedTime &&
                   placedTime.deliveryDate &&
                   this.getDayNumberSuffix(placedTime.deliveryDate)}
+                <OrderCountdown cutOffTime="14:00" />
               </div>
             )}
           {(this.props.code === SAME_DAY_DELIVERY ||
@@ -179,6 +180,7 @@ export default class IconWithHeader extends React.Component {
                 }
               >
                 Today
+                <OrderCountdown cutOffTime="14:00" />
               </div>
             ) : (
               <div
@@ -190,6 +192,7 @@ export default class IconWithHeader extends React.Component {
                   <span className={styles.titleAboutTime}>Delivery By </span>
                 )}
                 Today
+                <OrderCountdown cutOffTime="14:00" />
               </div>
             ))}
 
@@ -203,6 +206,7 @@ export default class IconWithHeader extends React.Component {
                 }
               >
                 Tomorrow
+                <OrderCountdown cutOffTime="14:00" />
               </div>
             ) : (
               <div
@@ -214,6 +218,7 @@ export default class IconWithHeader extends React.Component {
                   <span className={styles.titleAboutTime}>Delivery By </span>
                 )}
                 Tomorrow
+                <OrderCountdown cutOffTime="14:00" />
               </div>
             ))}
 
@@ -224,7 +229,6 @@ export default class IconWithHeader extends React.Component {
                 : this.props.header}
             </span>
           )}
-          <OrderCountdown />
           {this.props.placedTimeForCod && (
             <div className={styles.spanBlock}>
               {this.props.placedTimeForCod}
