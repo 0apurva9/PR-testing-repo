@@ -17,7 +17,10 @@ export default class Grid extends React.Component {
             this.props.children.map((child, i) => {
               return (
                 <React.Fragment key={i}>
-                  <MediaQuery query="(min-device-width: 1025px)">
+                  <MediaQuery
+                    query="(min-device-width: 1025px)"
+                    values={{ deviceWidth: 1026 }}
+                  >
                     <div
                       className={styles.element}
                       style={{
@@ -32,7 +35,10 @@ export default class Grid extends React.Component {
                       {child}
                     </div>
                   </MediaQuery>
-                  <MediaQuery query="(max-device-width: 1024px)">
+                  <MediaQuery
+                    query="(max-device-width: 1024px)"
+                    values={{ deviceWidth: 1026 }}
+                  >
                     <div
                       className={styles.element}
                       style={{

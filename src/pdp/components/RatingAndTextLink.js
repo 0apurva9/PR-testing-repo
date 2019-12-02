@@ -38,6 +38,11 @@ export default class RatingAndTextLink extends React.Component {
               based on
               <span itemProp="reviewCount"> {this.props.numberOfReview}</span>
               reviews
+              <span itemProp="itemReviewed">
+                {this.props.averageRating
+                  ? Math.round(this.props.averageRating * 10) / 10
+                  : ""}
+              </span>
             </div>
           </div>
         )}

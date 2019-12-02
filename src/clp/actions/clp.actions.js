@@ -78,7 +78,13 @@ export function getHeaderFailure(error) {
 }
 
 export function getHeader() {
-  //let requestSource;
+  // return async (dispatch, getState, { api }) => {
+  //   dispatch(getHeaderRequest());
+  //   try {
+  //     const result = await fetch(
+  //       "https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/desktopservice/header"
+  //     );
+  let requestSource;
 
   return async (dispatch, getState, { api }) => {
     dispatch(getHeaderRequest());

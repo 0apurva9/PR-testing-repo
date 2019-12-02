@@ -20,6 +20,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_BRAND_CLICK,
   setDataLayerForMinibag
 } from "../../lib/adobeUtils";
+import { isBrowser } from "browser-or-node";
 import ProductImage from "./ProductImage.js";
 import Minibag from "./minibag.js";
 const CATEGORY = "Categories";
@@ -198,7 +199,7 @@ export default class DesktopHeader extends React.Component {
     }
   }
   getLuxURL() {
-    const hostName = window.location.href;
+    const hostName = isBrowser ? window.location.href : "";
     switch (hostName) {
       case "https://tmppprd.tataunistore.com/":
         return "https://luxtmppprd.tataunistore.com/";
