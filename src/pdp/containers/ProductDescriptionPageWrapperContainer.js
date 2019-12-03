@@ -233,7 +233,10 @@ const mapStateToProps = state => {
 };
 
 const ProductDescriptionPageWrapperContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ProductDescriptionPageWrapper)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ProductDescriptionPageWrapper)
 );
 
 export default ProductDescriptionPageWrapperContainer;

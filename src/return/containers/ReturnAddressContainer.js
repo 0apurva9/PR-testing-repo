@@ -60,6 +60,9 @@ const mapStateToProps = state => {
 };
 
 const ReturnAddressContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ReturnAddressBook)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ReturnAddressBook)
 );
 export default ReturnAddressContainer;
