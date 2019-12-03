@@ -55,10 +55,21 @@ import {
   LOGIN_PATH,
   ERROR
 } from "../../lib/constants";
+import { isBrowser } from "browser-or-node";
 import styles from "./ProductDescriptionPage.css";
 import RevelantBundling from "./RevelantBundling";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 import PdpFlags from "../components/PdpFlags.js";
+import PdpPaymentInfo from "../components/PdpPaymentInfo";
+import OfferCard from "./OfferCard";
+import OtherSellersLink from "./OtherSellersLink";
+import SizeSelector from "./SizeSelector";
+import ProductDetailsMainCard from "./ProductDetailsMainCard";
+import ProductDetails from "./ProductDetails";
+import Overlay from "./Overlay";
+import PdpDeliveryModes from "./PdpDeliveryModes";
+import PDPRecommendedSectionsContainer from "./PDPRecommendedSections";
+import ColourSelector from "./ColourSelector";
 import FlixMediaContainer from "./FlixMediaContainer";
 // import CheckBox from '../../general/components/CheckBox.js';
 import MultiCheckbox from "./MultiCheckbox";
@@ -68,24 +79,29 @@ const WASH = "Wash";
 const NECK_COLLAR = "Neck/Collar";
 const SLEEVE = "Sleeve";
 
-const ProductDetailsMainCard = LoadableVisibility({
-  loader: () => import("./ProductDetailsMainCard"),
-  loading: () => <div />,
-  delay: 400
-});
+// const ProductDetailsMainCard = LoadableVisibility({
+//   loader: () => import("./ProductDetailsMainCard"),
+//   loading: () => <div />,
+//   delay: 400
+// });
 //const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 export const ONLY_ICON = "wishlistIconForPdp";
+// const ProductDetails = LoadableVisibility({
+//   loader: () => import("./ProductDetails"),
+//   loading: () => <div />,
+//   delay: 400
+// });
 /* const ProductDetails = LoadableVisibility({
   loader: () => import("./ProductDetails"),
   loading: () => <div />,
   delay: 400
 }); */
 
-const Overlay = LoadableVisibility({
-  loader: () => import("./Overlay"),
-  loading: () => <div />,
-  delay: 400
-});
+// const Overlay = LoadableVisibility({
+//   loader: () => import("./Overlay"),
+//   loading: () => <div />,
+//   delay: 400
+// });
 /*
 const PdpPincode = LoadableVisibility({
   loader: () => import("./PdpPincode"),
@@ -111,59 +127,32 @@ const RatingAndTextLink = LoadableVisibility({
   delay: 400
 });
 */
-const PdpPaymentInfo = LoadableVisibility({
-  loader: () => import("./PdpPaymentInfo"),
-  loading: () => <div />,
-  delay: 400
-});
+// const PdpPaymentInfo = LoadableVisibility({
+//   loader: () => import("./PdpPaymentInfo"),
+//   loading: () => <div />,
+//   delay: 400
+// });
 
-const OtherSellersLink = LoadableVisibility({
-  loader: () => import("./OtherSellersLink"),
-  loading: () => <div />,
-  delay: 400
-});
-
-const OfferCard = LoadableVisibility({
-  loader: () => import("./OfferCard"),
-  loading: () => <div />,
-  delay: 400
-});
-
-const SizeSelector = LoadableVisibility({
-  loader: () => import("./SizeSelector"),
-  loading: () => <div />,
-  delay: 400
-});
-
-const ColourSelector = LoadableVisibility({
-  loader: () => import("./ColourSelector"),
-  loading: () => <div />,
-  delay: 400
-});
-
-const PdpDeliveryModes = LoadableVisibility({
-  loader: () => import("./PdpDeliveryModes"),
-  loading: () => <div />,
-  delay: 1000
-});
-
-const PDPRecommendedSectionsContainer = LoadableVisibility({
-  loader: () => import("../containers/PDPRecommendedSectionsContainer"),
-  loading: () => {
-    return <div />;
-  },
-  delay: 400
-});
+// const PDPRecommendedSectionsContainer = LoadableVisibility({
+//   loader: () => import("../containers/PDPRecommendedSectionsContainer"),
+//   loading: () => {
+//     return <div />;
+//   },
+//   delay: 400
+// });
 
 const NO_SIZE = "NO SIZE";
 const FREE_SIZE = "Free Size";
 const PRODUCT_QUANTITY = "1";
 const IMAGE = "Image";
 const env = process.env;
-const samsungChatUrl =
-  env.REACT_APP_SAMSUNG_CHAT_URL +
-  window.location.href +
-  env.REACT_APP_SAMSUNG_CHAT_URL_REFERRER;
+let samsungChatUrl = "";
+if (isBrowser) {
+  samsungChatUrl =
+    env.REACT_APP_SAMSUNG_CHAT_URL +
+    window.location.href +
+    env.REACT_APP_SAMSUNG_CHAT_URL_REFERRER;
+}
 
 export default class PdpApparel extends React.Component {
   constructor(props) {
@@ -535,9 +524,7 @@ export default class PdpApparel extends React.Component {
     setDataLayerForPdpDirectCalls(
       SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT
     );
-    const url = `${
-      this.props.location.pathname
-    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
   renderRatings = () => {
@@ -984,9 +971,7 @@ export default class PdpApparel extends React.Component {
                   productImages={productImages}
                   thumbNailImages={thumbNailImages}
                   zoomImages={zoomImages}
-                  alt={`${productData.productName}-${productData.brandName}-${
-                    productData.rootCategory
-                  }-TATA CLIQ`}
+                  alt={`${productData.productName}-${productData.brandName}-${productData.rootCategory}-TATA CLIQ`}
                   details={productData.details}
                   showSimilarProducts={this.props.showSimilarProducts}
                   category={productData.rootCategory}
@@ -1356,24 +1341,23 @@ export default class PdpApparel extends React.Component {
                 </div>
                 <div className={styles.pinAndDeliveryHolder}>
                   <div className={styles.updatePincodeHolder}>
-                    {getPinCode &&
-                      userCookie && (
-                        <SearchAndUpdate
-                          uiType="hollow"
-                          checkPinCodeAvailability={pincode =>
-                            this.checkPinCodeAvailability(
-                              pincode,
-                              productData.productListingId
-                            )
-                          }
-                          placeholder="Pincode"
-                          value={getPinCode}
-                          hasAutoFocus={false}
-                          labelText={"Check"}
-                          borderColor="transparent"
-                          borderBottom="0px solid #transparent"
-                        />
-                      )}
+                    {getPinCode && userCookie && (
+                      <SearchAndUpdate
+                        uiType="hollow"
+                        checkPinCodeAvailability={pincode =>
+                          this.checkPinCodeAvailability(
+                            pincode,
+                            productData.productListingId
+                          )
+                        }
+                        placeholder="Pincode"
+                        value={getPinCode}
+                        hasAutoFocus={false}
+                        labelText={"Check"}
+                        borderColor="transparent"
+                        borderBottom="0px solid #transparent"
+                      />
+                    )}
 
                     {(!userCookie || !getPinCode) && (
                       <SearchAndUpdate
@@ -1385,10 +1369,14 @@ export default class PdpApparel extends React.Component {
                           )
                         }
                         placeholder={
-                          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+                          isBrowser
                             ? localStorage.getItem(
                                 DEFAULT_PIN_CODE_LOCAL_STORAGE
                               )
+                              ? localStorage.getItem(
+                                  DEFAULT_PIN_CODE_LOCAL_STORAGE
+                                )
+                              : "Enter your PIN code"
                             : "Enter your PIN code"
                         }
                         hasAutoFocus={false}
@@ -1644,9 +1632,7 @@ export default class PdpApparel extends React.Component {
                                                   styles.contentTextForHome
                                                 }
                                               >
-                                                {val.key}
-                                                :
-                                                {val.value}
+                                                {val.key}:{val.value}
                                               </div>
                                             </div>
                                           );

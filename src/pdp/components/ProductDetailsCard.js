@@ -115,6 +115,10 @@ export default class ProductDetailsCard extends React.Component {
                 this.props.numberOfReviews ? this.props.numberOfReviews : 0
               }
             />
+            <meta
+              itemprop="itemReviewed"
+              content={this.props.averageRating ? this.props.averageRating : 0}
+            />
             {this.props.averageRating &&
               !this.props.showAverageRatingWithDays && (
                 <React.Fragment>

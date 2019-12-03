@@ -99,6 +99,10 @@ export default class ProductDetailsCardForSaveList extends React.Component {
                 this.props.numberOfReviews ? this.props.numberOfReviews : 0
               }
             />
+            <meta
+              itemprop="itemReviewed"
+              content={this.props.averageRating ? this.props.averageRating : 0}
+            />
             {this.props.averageRating && (
               <StarRating averageRating={this.props.averageRating} />
             )}
