@@ -3357,6 +3357,79 @@ export function getCustomerQueriesData() {
   };
 }
 
+export function getCustomerQueriesDataRequestv2() {
+  return {
+    type: GET_CUSTOMER_QUERIES_DATA_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getCustomerQueriesDataSuccessv2(customerQueriesData) {
+  return {
+    type: GET_CUSTOMER_QUERIES_DATA_SUCCESS,
+    status: SUCCESS,
+    customerQueriesData
+  };
+}
+export function getCustomerQueriesDataFailurev2() {
+  return {
+    type: GET_CUSTOMER_QUERIES_DATA_FAILURE,
+    status: FAILURE
+  };
+}
+export function getCustomerQueriesDatav2() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getCustomerQueriesDataRequestv2());
+    try {
+      const result = await api.get("v2/mpl/getOrderRelatedQuestions");
+      const resultJson = {
+        listofIssues: [
+          {
+            issueType: "Issue 1",
+            L0: "qwe",
+            L1: "rty",
+            L2: "1234",
+            L3: "234",
+            L4: "344",
+            ticketType: "high",
+            solution:
+              "Try Yourself Try Yourself Try Yourself Try Yourself Try Yourself Try Yourself Try Yourself Try Yourself",
+            webform: "yes",
+            chat: "no",
+            call: "no",
+            click2Call: "no",
+            uItemplateCode: "1234",
+            tat: ""
+          },
+          {
+            issueType: "Issue 2",
+            L0: "rty",
+            L1: "qwe",
+            L2: "5678",
+            L3: "111",
+            L4: "222",
+            ticketType: "",
+            solution: "",
+            webform: "",
+            chat: "",
+            call: "",
+            click2Call: "",
+            uItemplateCode: "",
+            tat: ""
+          }
+        ]
+      };
+      //await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getCustomerQueriesDataSuccessv2(resultJson));
+    } catch (e) {
+      dispatch(getCustomerQueriesDataFailurev2(e.message));
+    }
+  };
+}
+
 export function getOrdersTransactionDataRequest(paginated: false) {
   return {
     type: GET_ORDERS_TRANSACTION_DATA_REQUEST,
@@ -3494,7 +3567,11 @@ export function submitOrderDetails(submitOrderDetails) {
         currentOrderCode,
         currentSubOrderCode;
       if (submitOrderDetails.currentState === 0) {
-        transactionIdWithAttachmentFile = `transactionId=${submitOrderDetails.transactionId}&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${submitOrderDetails.imageURL}`;
+        transactionIdWithAttachmentFile = `transactionId=${
+          submitOrderDetails.transactionId
+        }&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${
+          submitOrderDetails.imageURL
+        }`;
         currentOrderCode = `${submitOrderDetails.orderCode}`;
         currentSubOrderCode = `${submitOrderDetails.subOrderCode}`;
 
@@ -3539,7 +3616,11 @@ export function submitOrderDetails(submitOrderDetails) {
         );
       }
 
-      const resultJson = await result.json();
+      const resultJson = {
+        referenceNum: "E10004IQC7",
+        status: "Success"
+      };
+      //await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);

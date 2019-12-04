@@ -20,6 +20,7 @@ export default class CustomerQueryPopUp extends React.Component {
     }
   }
   render() {
+    console.log("this.props", this.props);
     return (
       <div className={styles.base}>
         <div className={styles.headerTextWithIcon}>
@@ -31,46 +32,43 @@ export default class CustomerQueryPopUp extends React.Component {
           </div>
         </div>
         <div className={styles.subText}>
-          A summary of your query has been sent to your email ID{" "}
-          {this.props.emailId} .We have noted your concern and will update you
-          within 48 hours.
+          We have noted your concern and will update you before 03:57 PM, 16th
+          December 2019
         </div>
         <div className={styles.userDetails}>
-          <div className={styles.userDetailsHeaderWithText}>
-            <div className={styles.userDetailsHeader}>Issue</div>
-            <div className={styles.userDetailsText}>{this.props.issue}</div>
-          </div>
-          {this.props.subIssue && (
-            <div className={styles.userDetailsHeaderWithText}>
-              <div className={styles.userDetailsHeader}>Sub-issue</div>
-              <div className={styles.userDetailsText}>
-                {this.props.subIssue}
+          {this.props.ticketId ||
+            (true && (
+              <div className={styles.userDetailsHeaderWithText}>
+                <div className={styles.userDetailsHeader}>Ticket ID</div>
+                <div className={styles.userDetailsText}>
+                  {this.props.ticketId}
+                </div>
               </div>
-            </div>
-          )}
-          {this.props.anOtherIssue && (
-            <div className={styles.userDetailsHeaderWithText}>
-              <div className={styles.userDetailsHeader}>Sub-issue</div>
-              <div className={styles.userDetailsText}>
-                {this.props.anOtherIssue}
+            ))}
+          {this.props.issueCategory ||
+            (true && (
+              <div className={styles.userDetailsHeaderWithText}>
+                <div className={styles.userDetailsHeader}>Issue Category</div>
+                <div className={styles.userDetailsText}>
+                  {this.props.issueCategory}
+                </div>
               </div>
-            </div>
-          )}
-          {this.props.comment && (
-            <div className={styles.userDetailsHeaderWithCommentText}>
-              <div className={styles.userDetailsHeader}>Comment</div>
-              <div className={styles.userDetailsText}>{this.props.comment}</div>
-            </div>
-          )}
+            ))}
+          {this.props.issue ||
+            (true && (
+              <div className={styles.userDetailsHeaderWithText}>
+                <div className={styles.userDetailsHeader}>Issue</div>
+                <div className={styles.userDetailsText}>{this.props.issue}</div>
+              </div>
+            ))}
         </div>
         <div className={styles.submittedText}>
-          <div className={styles.userDetailsHeaderWithText}>
-            <div className={styles.userDetailsHeader}>Submitted by:</div>
-            <div className={styles.userDetailsText}>
-              {this.props.name}, {this.props.mobileNumber}
-            </div>
+          <div className={styles.subText}>
+            A summary of your query has been sent to your email ID{" "}
+            {this.props.emailId}
           </div>
         </div>
+
         <div className={styles.buttonHolder}>
           <div className={styles.button}>
             <Button
