@@ -1,16 +1,22 @@
 import React from "react";
 import styles from "./SizeGuideMainForEyeWear.css";
 import Image from "../../xelpmoc-core/Image";
-import SizeTableForEyeWear from "./SizeTableForEyeWear";
+//import SizeTableForEyeWear from './SizeTableForEyeWear';
+import SizeTableForEyeWearChangedJson from "./SizeTableForEyeWearChangedJson";
 
 const json = {
   type: "sizeGuideWsDTO",
   status: "Success",
+  imageURL:
+    "https://assets.tatacliq.com/medias/sys_master/images/11781658771486.jpg",
   Guideadvisor: [
     {
       header1: "1.Buying an Eyeglass for the first time?",
       header1Text:
         "Take a credit/debit card and stand infront of a mirror.Put the edge of the card at the center of your nose and make a note of where the other edge ends",
+      header2: "2.Have an existing Eyeglass?",
+      header2Text:
+        "You can easily find the size of your frame on the inner side of your eyeglass temples/arm pieces.Below is a quick guide to help you identify your eyeglasses.",
       image1Url:
         "https://assets.tatacliq.com/medias/sys_master/images/11034180288542.jpg",
       image1UrlText:
@@ -23,61 +29,95 @@ const json = {
         "https://assets.tatacliq.com/medias/sys_master/images/11034180288542.jpg",
       image3UrlText:
         "If the card finishes before the end of the eye, you should buy LARGE SIZE",
-      header2: "2.Have an existing Eyeglass?",
-      header2Url:
-        "https://assets.tatacliq.com/medias/sys_master/images/11034180288542.jpg",
-      header2Text:
-        "You can easily find the size of your frame on the inner side of your eyeglass temples/arm pieces.Below is a quick guide to help you identify your eyeglasses.",
       footerText: "Frame size based on lens width"
     }
   ],
-  sizeGuideList: [
-    {
-      dimensionList: [
-        {
-          dimension: "eyeglasses",
-          dimensionValue: "Below 48",
-          dimensionUnit: "mm"
-        },
-        {
-          dimension: "sunglasses",
-          dimensionValue: "Below 48",
-          dimensionUnit: "mm"
-        }
-      ],
-      dimensionSize: "Small"
-    },
-    {
-      dimensionList: [
-        {
-          dimension: "eyeglasses",
-          dimensionValue: "48 to 55",
-          dimensionUnit: "mm"
-        },
-        {
-          dimension: "sunglasses",
-          dimensionValue: "48 to 55",
-          dimensionUnit: "mm"
-        }
-      ],
-      dimensionSize: "Medium"
-    },
-    {
-      dimensionList: [
-        {
-          dimension: "eyeglasses",
-          dimensionValue: "Above 55",
-          dimensionUnit: "mm"
-        },
-        {
-          dimension: "sunglasses",
-          dimensionValue: "Above 55",
-          dimensionUnit: "mm"
-        }
-      ],
-      dimensionSize: "Large"
-    }
-  ]
+  sizeGuideList: {
+    dimensionList: [
+      {
+        dimension: "EYEGLASSES",
+        dimensionSize: "small",
+        dimensionUnit: "mm",
+        dimensionValue: "Below 48"
+      },
+      {
+        dimension: "SUNGLASSES",
+        dimensionSize: "small",
+        dimensionUnit: "mm",
+        dimensionValue: "Below 48"
+      },
+      {
+        dimension: "EYEGLASSES",
+        dimensionSize: "medium",
+        dimensionUnit: "mm",
+        dimensionValue: "48 to 55"
+      },
+      {
+        dimension: "SUNGLASSES",
+        dimensionSize: "medium",
+        dimensionUnit: "mm",
+        dimensionValue: "48 to 55"
+      },
+      {
+        dimension: "EYEGLASSES",
+        dimensionSize: "large",
+        dimensionUnit: "mm",
+        dimensionValue: "Above 55"
+      },
+      {
+        dimension: "SUNGLASSES",
+        dimensionSize: "large",
+        dimensionUnit: "mm",
+        dimensionValue: "Above 55"
+      }
+    ]
+  }
+  // 	sizeGuideList: [{
+  // 	dimensionList: [
+  // 		{
+  // 			dimension: 'eyeglasses',
+  // 			dimensionValue: 'Below 48',
+  // 			dimensionUnit: 'mm',
+  // 		},
+  // 		{
+  // 			dimension: 'sunglasses',
+  // 			dimensionValue: 'Below 48',
+  // 			dimensionUnit: 'mm',
+  // 		},
+  // 	],
+  // 	dimensionSize: 'Small',
+  // },
+  // {
+  // 	dimensionList: [
+  // 		{
+  // 			dimension: 'eyeglasses',
+  // 			dimensionValue: '48 to 55',
+  // 			dimensionUnit: 'mm',
+  // 		},
+  // 		{
+  // 			dimension: 'sunglasses',
+  // 			dimensionValue: '48 to 55',
+  // 			dimensionUnit: 'mm',
+  // 		},
+  // 	],
+  // 	dimensionSize: 'Medium',
+  // },
+  // {
+  // 	dimensionList: [
+  // 		{
+  // 			dimension: 'eyeglasses',
+  // 			dimensionValue: 'Above 55',
+  // 			dimensionUnit: 'mm',
+  // 		},
+  // 		{
+  // 			dimension: 'sunglasses',
+  // 			dimensionValue: 'Above 55',
+  // 			dimensionUnit: 'mm',
+  // 		},
+  // 	],
+  // 	dimensionSize: 'Large',
+  // },
+  // ],
 };
 export default class SizeGuideMainForEyeWear extends React.Component {
   constructor(props) {
@@ -132,14 +172,14 @@ export default class SizeGuideMainForEyeWear extends React.Component {
           </div>
           <div className={styles.eyeGlassesImage}>
             <div className={styles.image}>
-              <Image fit="contain" image={json.Guideadvisor[0].header2Url} />
+              <Image fit="contain" image={json.imageURL} />
             </div>
           </div>
           <div className={styles.sizeTableText}>
             {json.Guideadvisor[0].footerText}
           </div>
           <div className={styles.sizeGuideTableHolder}>
-            <SizeTableForEyeWear data={json} />
+            <SizeTableForEyeWearChangedJson data={json} />
           </div>
         </div>
       </div>

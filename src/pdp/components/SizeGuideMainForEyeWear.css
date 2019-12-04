@@ -40,12 +40,12 @@ width: 988px;
     color: #212121;
   }
   .sizeGuideTableHolder {
-    width: 50%;
+    width: 42%;
     height: 212px;
     border-radius: 8px;
     background-color: #ffffff;
     margin: auto;
-    border: solid 1px #474747;
+    /* border: solid 1px #474747; */
     /* height: auto; */
     /* display: inline-block; */
     /* vertical-align: top; */
@@ -234,5 +234,4 @@ width: 988px;
       vertical-align: top;
     }
   }
-  
-  
+
