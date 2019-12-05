@@ -8,7 +8,8 @@ import {
   uploadUserFile,
   submitOrderDetails,
   getUserDetails,
-  clearOrderTransactionDetails
+  clearOrderTransactionDetails,
+  getCustomerQueriesDatav2
 } from "../actions/account.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import { showModal, CUSTOMER_QUERY_POPUP } from "../../general/modal.actions";
@@ -16,6 +17,9 @@ const mapDispatchToProps = dispatch => {
   return {
     getCustomerQueriesData: () => {
       dispatch(getCustomerQueriesData());
+    },
+    getCustomerQueriesDatav2: () => {
+      dispatch(getCustomerQueriesDatav2());
     },
     getOrdersTransactionData: paginated => {
       dispatch(getOrdersTransactionData(paginated));
