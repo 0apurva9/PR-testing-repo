@@ -210,6 +210,8 @@ export default class AllSellerDetails extends React.Component {
     );
   }
   navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
     return <Redirect to={LOGIN_PATH} />;
   }
   reSendEmailForGiftCard = orderId => {
@@ -303,6 +305,7 @@ export default class AllSellerDetails extends React.Component {
     if (userDetails) {
       userData = JSON.parse(userDetails);
     }
+    console.log("cookie", userDetails);
     const sellerDetails = this.props.profile.sellerDetails;
     if (this.props.profile.reSendEmailLoader) {
       return Loader();

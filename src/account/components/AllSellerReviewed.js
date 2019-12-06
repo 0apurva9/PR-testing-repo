@@ -21,6 +21,7 @@ import AccountUsefulLink from "./AccountUsefulLink.js";
 import UserCouponsContainer from "../containers/UserCouponsContainer";
 import UserAlertsContainer from "../containers/UserAlertsContainer";
 import RetryPaymentIcon from "./img/payment_retry.svg";
+import { Redirect } from "react-router-dom";
 import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
@@ -29,7 +30,8 @@ import {
   HELP_URL,
   TERMS_AND_CONDITION_URL,
   ABOUT_US_URL,
-  PRIVACY_POLICY_URL
+  PRIVACY_POLICY_URL,
+  LOGIN_PATH
 } from "../../lib/constants";
 import each from "lodash.foreach";
 import OrderCard from "./OrderCard.js";
@@ -235,6 +237,11 @@ export default class AllSellerReviewed extends React.Component {
   onItemStatusChange(selectedStatus) {
     this.setState({ reviewRemoveReason: selectedStatus.Value });
   }
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    return <Redirect to={LOGIN_PATH} />;
+  }
   render() {
     if (this.state.showReasonModal === true) {
       document.body.style.overflow = "hidden";
@@ -248,6 +255,7 @@ export default class AllSellerReviewed extends React.Component {
     if (!userDetails || !customerCookie) {
       return this.navigateToLogin();
     }
+    console.log("cookie", customerCookie);
     if (userDetails) {
       userData = JSON.parse(userDetails);
     }

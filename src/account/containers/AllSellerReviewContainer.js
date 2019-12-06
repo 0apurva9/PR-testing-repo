@@ -11,6 +11,7 @@ import {
   SELLER_REVIEW_SUBMIT_REMOVAL_POP_UP,
   showModal
 } from "../../general/modal.actions";
+import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getAllSellersReviewDetails: showDataAccordingToUser => {
@@ -37,6 +38,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     sellerReviewSubmitRemovalPopup: () => {
       dispatch(showModal(SELLER_REVIEW_SUBMIT_REMOVAL_POP_UP));
+    },
+    setUrlToRedirectToAfterAuth: url => {
+      dispatch(setUrlToRedirectToAfterAuth(url));
     }
   };
 };
