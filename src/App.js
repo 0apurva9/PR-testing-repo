@@ -320,6 +320,21 @@ const NoResultPage = Loadable({
     return <Loader />;
   }
 });
+
+const AllSellerContainer = Loadable({
+  loader: () => import("./account/containers/AllSellerContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const AllSellerReviewContainer = Loadable({
+  loader: () => import("./account/containers/AllSellerReviewContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 class App extends Component {
   componentWillMount() {
     let globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
@@ -646,6 +661,14 @@ class App extends Component {
               exact
               path={REDMI_WALLET_FROM_EMAIL}
               component={MyAccountWrapper}
+            />
+            <Route
+              path={`/store/transactionId=:id&customerId=:id1/seller-review`}
+              component={AllSellerContainer}
+            />
+            <Route
+              path={`/store/transactionId=:id&customerId=:id1/seller-reviewed`}
+              component={AllSellerReviewContainer}
             />
             <Route
               path="/que"
