@@ -30,6 +30,10 @@ export default class FlixMediaContainer extends React.Component {
     flixScript.setAttribute("data-flix-price", "");
     headID.appendChild(flixScript);
     this.setState({ flixModelNo: flixModelNo });
+    console.log(
+      "scrolled page===>",
+      document.getElementById("flixinpage").onscroll
+    );
   }
   render() {
     return <div id="flixinpage" className={styles.flixInpage} />;
