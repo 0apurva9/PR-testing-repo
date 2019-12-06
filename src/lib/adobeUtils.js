@@ -509,6 +509,16 @@ export const ADOBE_WISHLIST_PDP_REMOVE = "ADOBE_WISHLIST_PDP_REMOVE";
 const SIMILAR_PRODUCT_PDP = "pdp_view_similar_products";
 const ADD_TO_WISHLIST_PDP = "pdp_add_to_wishlist";
 export const ADOBE_ADD_TO_WISHLIST_PDP = "ADOBE_ADD_TO_WISHLIST_PDP";
+const MYACCOUNT_DELIVERYMODE_CHANGE_INITIATE =
+  "cpj_myacc_changeDeliveryMode_initiate";
+export const ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_INITIATE =
+  "ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_INITIATE";
+const MYACCOUNT_DELIVERYMODE_CHANGE_SUCCESS =
+  "cpj_myacc_changeDeliveryMode_success";
+export const ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_SUCCESS =
+  "ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_SUCCESS";
+const PDP_KNOW_MORE_CLICK = "pdp_show_more";
+export const ADOBE_PDP_KNOW_MORE_CLICK = "ADOBE_PDP_KNOW_MORE_CLICK";
 
 export function setDataLayer(
   type,
@@ -1095,8 +1105,26 @@ export function setDataLayer(
     let newVariable = getDigitalDataForHome(response);
     window.digitalData = Object.assign(previousDigitalData, newVariable);
   }
+  if (type === ADOBE_PDP_KNOW_MORE_CLICK) {
+    if (window._satellite) {
+      window._satellite.track(PDP_KNOW_MORE_CLICK);
+    }
+  }
 }
 
+export function getDeliveryModeForMyAccountReturn(type, apiResponse) {
+  const response = cloneDeep(apiResponse);
+  if (type === "ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_INITIATE") {
+    if (window._satellite) {
+      window._satellite.track(MYACCOUNT_DELIVERYMODE_CHANGE_INITIATE);
+    }
+  }
+  if (type === "ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_SUCCESS") {
+    if (window._satellite) {
+      window._satellite.track(MYACCOUNT_DELIVERYMODE_CHANGE_SUCCESS);
+    }
+  }
+}
 function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
   const data = {
     cpj: {
