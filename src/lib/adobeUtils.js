@@ -590,7 +590,6 @@ export function setDataLayer(
     }
   }
   if (type === ADOBE_PLP_TYPE) {
-    debugger;
     let newVariable = getDigitalDataForPlp(type, response);
     window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
@@ -1255,7 +1254,6 @@ function getDigitalDataForCart(type, cartResponse) {
     }
   };
   const getProductData = getProductsDigitalData(cartResponse);
-  debugger;
   if (getProductData) {
     let {
       productIdsArray,
@@ -1877,10 +1875,7 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
     }
   }
 
-  console.log("data==", data);
   window.digitalData = previousData;
-  console.log("digitalData==", window.digitalData);
-  debugger;
 }
 function getDigitalDataForPlp(type, response) {
   // let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
@@ -2025,7 +2020,6 @@ export function getDigitalDataForSearchPageSuccess(response, type) {
     });
   }
   if (response && response.searchresult && response.searchresult.length > 0) {
-    debugger;
     const productCodes = response.searchresult.splice(0, 9).map(product => {
       return product.productId.toLowerCase();
     });
@@ -2373,7 +2367,6 @@ export function setDataLayerForOrderConfirmationDirectCalls(
 }
 export function setDataLayerForCheckoutDirectCalls(type, response) {
   let data = cloneDeep(window.digitalData);
-  debugger;
   if (type === ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE) {
     if (window._satellite) {
       window._satellite.track(ADOBE_LANDING_ON_ADDRESS_PAGE);
