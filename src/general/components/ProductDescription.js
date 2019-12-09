@@ -28,6 +28,7 @@ export default class ProductDescription extends Component {
   };
 
   render() {
+    console.log("this.props", this.props);
     let { averageRating, totalNoOfReviews } = this.props;
     let electronicView = this.props.electronicView;
     let headerClass = styles.header;
@@ -150,6 +151,7 @@ export default class ProductDescription extends Component {
               !electronicView &&
               this.props.discountPercent &&
               this.props.discountPercent > 0 &&
+              this.props.seasonTag &&
               this.props.discountPercent !== this.props.price && (
                 <div className={styles.discountPercent}>
                   <h3>
