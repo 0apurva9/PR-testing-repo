@@ -148,6 +148,22 @@ export default class ProductDescription extends Component {
               )}
             {!this.props.isRange &&
               !electronicView &&
+              this.props.discountPercent &&
+              this.props.discountPercent !== this.props.price && (
+                <div className={styles.discountPercent}>
+                  <h3>
+                    {" "}
+                    {this.props.discountPercent
+                      .toString()
+                      .includes(RUPEE_SYMBOL)
+                      ? this.props.discountPercent
+                      : `(${Math.floor(this.props.discountPercent)}% OFF) `}
+                  </h3>
+                </div>
+              )}
+
+            {!this.props.isRange &&
+              !electronicView &&
               this.props.mrpPrice &&
               typeof this.props.mrpPrice !== "object" && (
                 <div className={priceClass}>
