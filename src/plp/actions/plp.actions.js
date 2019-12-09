@@ -263,6 +263,9 @@ export function getProductListings(
       ) {
         encodedString = `${encodedString}${EXCLUDE_OUT_OF_STOCK_FLAG}`;
       }
+      if (isBrowser) {
+        dispatch(setLastPlpPath(""));
+      }
       let keyWordRedirect = currentKeywordRedirect
         ? currentKeywordRedirect
         : false;
