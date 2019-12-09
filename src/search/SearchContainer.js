@@ -20,8 +20,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 const mapDispatchToProps = (dispatch, ownProps) => {
   const throttledSearchResultsFunction = throttle(string => {
-    dispatch(getSearchResults(string));
     dispatch(userSelectedOutOfStock(false));
+    dispatch(getSearchResults(string));
   }, SEARCH_RESULTS_THROTTLE_TIME);
   return {
     goBack: () => dispatch(ownProps.goBack()),

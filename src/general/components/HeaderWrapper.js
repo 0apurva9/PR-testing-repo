@@ -391,6 +391,7 @@ export default class HeaderWrapper extends React.Component {
               goToAlertsAndCoupon={() => this.goToAlertsAndCoupon()}
               goToGiftCard={() => this.goToGiftCard()}
               goToCliqCash={() => this.goToCliqCash()}
+              userSelectedOutOfStock={this.props.userSelectedOutOfStock}
             />
           </DesktopOnly>
         </React.Fragment>
