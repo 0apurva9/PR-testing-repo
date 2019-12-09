@@ -11,11 +11,9 @@ export default class SizeTableForEyeWearChangedJson extends Component {
     this.state = {
       header: null,
       details: null,
-      sizeGuide: null
+      sizeGuide: null,
+      tableDimensionSize: null
     };
-    // this.getHeader = this.getHeader.bind(this);
-    // this.getRowsData = this.getRowsData.bind(this);
-    // this.getKeys = this.getKeys.bind(this);
   }
   getHeader = data => {
     let header = [];
@@ -39,82 +37,72 @@ export default class SizeTableForEyeWearChangedJson extends Component {
       header = [...sizelist];
     }
     this.setState({ header });
-    console.log("header==>", header);
   };
-  // getHeader = function(){
-  //     var keys = this.getKeys();
-  //     console.log("keys ===", keys);
-  //     return keys.map((key, index)=>{
-  //     return <th key={key}>{key.toUpperCase()}</th>
-  //     })
-  //     }
-  // getKeys = function(){
-  //     return Object.keys(this.props.data.sizeGuideList.dimensionList[0]);
-  //     }
-  // getRowsData = function(){
-  //     var items = this.props.data.sizeGuideList.dimensionList;
-  //     var keys = this.getKeys();
-  //     return items.map((row, index)=>{
-  //     return <tr key={index}><RenderRow key={index} data={row} keys={keys}/></tr>
-  //     })
-  //     }
+
   getSizeHeader() {
     let dimensionLargeSize = [];
     let dimensionSmallSize = [];
     let dimensionMediumSize = [];
-    this.props.data.sizeGuideList.dimensionList.map(val => {
-      console.log("val===>", val);
-      if (val.dimensionSize === "small") {
-        dimensionSmallSize.push(val);
-      } else if (val.dimensionSize === "medium") {
-        dimensionMediumSize.push(val);
-      } else if (val.dimensionSize === "large") {
-        dimensionLargeSize.push(val);
-      }
-    });
+    this.props &&
+      this.props.data &&
+      this.props.data.sizeGuideList &&
+      this.props.data.sizeGuideList.dimensionList.map(val => {
+        console.log("val===>", val);
+        if (val.dimensionSize === "small") {
+          dimensionSmallSize.push(val);
+        } else if (val.dimensionSize === "medium") {
+          dimensionMediumSize.push(val);
+        } else if (val.dimensionSize === "large") {
+          dimensionLargeSize.push(val);
+        }
+      });
     // dimensionSize = [...new Set(dimensionSize)];
-    console.log(
-      "=====",
-      dimensionSmallSize,
-      dimensionMediumSize,
-      dimensionLargeSize
-    );
     let tableDimensionSize = [
       {
-        dimensionList: dimensionSmallSize
+        dimensionList: dimensionSmallSize,
+        dimensionSize: "Small"
       },
       {
-        dimensionList: dimensionMediumSize
+        dimensionList: dimensionMediumSize,
+        dimensionSize: "Medium"
       },
       {
-        dimensionList: dimensionLargeSize
+        dimensionList: dimensionLargeSize,
+        dimensionSize: "Large"
       }
     ];
-    console.log("=== new arresy", tableDimensionSize);
+    this.setState({ tableDimensionSize: tableDimensionSize });
   }
   componentDidMount() {
     this.getHeader(this.props.data);
+    this.getSizeHeader();
   }
   componentWillReceiveProps(nextProps) {
     this.getHeader(nextProps.data);
+  }
+  getdata(data) {
+    let value = [];
+    value.length = this.state.header && this.state.header.length;
+    value.fill("-");
+
+    this.state.header &&
+      this.state.header.map((header, key) => {
+        data &&
+          data.map(val => {
+            if (header == val.dimension) {
+              return (value[key] = val.dimensionValue);
+            }
+          });
+      });
+
+    return value.slice(1);
   }
 
   render() {
     var details = "";
     let sizeGuide = [];
 
-    console.log("details====render>", details);
     return (
-      //             <div>
-      //  <table>
-      //  <thead>
-      //  <tr>{this.getHeader()}</tr>
-      //  </thead>
-      //  <tbody>
-      //  {this.getRowsData()}
-      //  </tbody>
-      //  </table>
-      //  </div>
       <div className={styles.tablebase}>
         {this.state.header && (
           <div className={styles.base}>
@@ -129,34 +117,33 @@ export default class SizeTableForEyeWearChangedJson extends Component {
                 return (
                   <div className={styles.headerLabelHolder}>
                     {val.toUpperCase()}
-                    {/* {val.charAt(0).toUpperCase() + val.slice(1).toLowerCase()} */}
                   </div>
                 );
               })}
             </div>
             <div className={styles.tableHolder}>
-              {/* {this.props.data &&
-                this.props.data.sizeGuideList &&
-                this.props.data.sizeGuideList.dimensionList.map(val => {
-					sizeGuide = [... new set(val.dimensionSize)];
-                
-                  return ( */}
-              <div
-                className={
-                  this.state.header.length > 3
-                    ? styles.tableRow
-                    : styles.shortTableRow
-                }
-              >
-                {this.getSizeHeader()}
+              {this.state.tableDimensionSize &&
+                this.state.tableDimensionSize.map(val => {
+                  details = this.getdata(val.dimensionList);
+                  return (
+                    <div
+                      className={
+                        this.state.header.length > 3
+                          ? styles.tableRow
+                          : styles.shortTableRow
+                      }
+                    >
+                      <div className={styles.tableData}>
+                        {val.dimensionSize}
+                      </div>
 
-                {/* {details &&
+                      {details &&
                         details.map((data, i) => {
                           return <div className={styles.tableData}>{data}</div>;
-                        })} */}
-              </div>
-              {/* );
-                })} */}
+                        })}
+                    </div>
+                  );
+                })}
             </div>
           </div>
         )}
