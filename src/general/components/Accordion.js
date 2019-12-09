@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./Accordion.css";
 import PropTypes from "prop-types";
 import { Collapse } from "react-collapse";
+import { setDataLayer, ADOBE_PDP_KNOW_MORE_CLICK } from "../../lib/adobeUtils";
 export default class Accordion extends React.Component {
   constructor(props) {
     super(props);
@@ -18,11 +19,17 @@ export default class Accordion extends React.Component {
     if (this.props.onOpen) {
       this.props.onOpen();
     }
+    if (this.props && this.props.text === "Know More") {
+      setDataLayer(ADOBE_PDP_KNOW_MORE_CLICK);
+    }
   }
   handleClick(evt) {
     if (this.props.handleClick) {
       evt.stopPropagation();
       this.props.handleClick();
+    }
+    if (this.props && this.props.text === "Know More") {
+      setDataLayer(ADOBE_PDP_KNOW_MORE_CLICK);
     }
   }
   componentWillReceiveProps(props) {
