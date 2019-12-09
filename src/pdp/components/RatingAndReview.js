@@ -7,7 +7,8 @@ import ProductImage from "../../general/components/ProductImage.js";
 import {
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_GIFT_CARD_PAGE,
-  REVIEW_GUIDELINES
+  REVIEW_GUIDELINES,
+  SUCCESS
 } from "../../lib/constants";
 import {
   setDataLayerForRatingAndReview,
@@ -18,6 +19,7 @@ import {
 import DesktopOnly from "../../general/components/DesktopOnly";
 import Input from "../../general/components/ControlInput";
 import TextArea from "../../general/components/ControlTextArea";
+import commentArray from "../../mock/lang_profanity.json";
 import FillupRatingOrder from "./FillupRatingOrder";
 import PropTypes from "prop-types";
 
@@ -63,19 +65,11 @@ export default class RatingAndReview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      rating: this.props.productDetails.userRating,
       title: "",
       comment: "",
-      rating: "",
       showReviewGuidelines: false
     };
-  }
-
-  onClickImage() {
-    if (!this.props.isEgvOrder && this.props.productCode) {
-      this.props.history.push(`/p-${this.props.productCode.toLowerCase()}`);
-    } else if (this.props.isEgvOrder) {
-      this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`);
-    }
   }
 
   mouseOut() {
@@ -93,18 +87,78 @@ export default class RatingAndReview extends React.Component {
     this.setState({ comment: val });
   }
 
+  onRatingChange = value => {
+    if (this.props.productDetails.userRating !== value) {
+      setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_MODAL_STAR_CLICK, {
+        rating: value,
+        statusText: ""
+      });
+      this.setState({ rating: value });
+      this.props.submitProductRatingByUser(value, this.props);
+    }
+  };
+
   onCancel = () => {
     if (this.props.closeModal) {
       this.props.closeModal();
+      setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_CANCEL_CLICK);
+      if (this.props.clearOrderDetails && this.props.getAllOrdersDetails) {
+        this.props.clearOrderDetails();
+        this.props.getAllOrdersDetails();
+      }
     }
-    setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_CANCEL_CLICK);
   };
-  onSubmit = () => {
+
+  onSubmit = async () => {
+    let { title, comment, rating } = this.state;
+    let productReview = {
+      comment: comment,
+      rating: rating,
+      headline: title
+    };
+    if (!productReview.headline) {
+      this.props.displayToast("Please enter title");
+      return false;
+    }
+    if (!productReview.comment) {
+      this.props.displayToast("Please enter comment");
+      return false;
+    }
+    if (productReview.comment.length < 50) {
+      this.props.displayToast("Please enter minimum 50 acharacters");
+      return false;
+    }
+    if (productReview.comment) {
+      var c = productReview.comment.toLowerCase().split(" ");
+      let notCommentPossible = commentArray.words.find(words => {
+        if (c.includes(words.toLowerCase())) {
+          return true;
+        }
+      });
+      if (notCommentPossible) {
+        this.props.displayToast("Review comment contains profane words");
+        return false;
+      } else {
+        await this.props.addProductReview(
+          this.props.productDetails.productcode,
+          productReview
+        );
+      }
+    }
     setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_SUBMIT_CLICK);
-    console.log("submit");
+    if (this.props.addReviewStatus === SUCCESS) {
+      this.props.hideModal();
+      if (this.props.clearOrderDetails && this.props.getAllOrdersDetails) {
+        this.props.clearOrderDetails();
+        this.props.getAllOrdersDetails();
+      }
+    }
   };
 
   render() {
+    let { title, comment } = this.state;
+    let isSubmitBtnDisabled = title && comment ? false : true;
+    let { imageURL, productName, deliveryDate } = this.props.productDetails;
     return (
       <div className={styles.base}>
         <div className={styles.header}>
@@ -117,24 +171,19 @@ export default class RatingAndReview extends React.Component {
           <div className={styles.productDetailsHolder}>
             <div className={styles.productWrapper}>
               <div className={styles.productImage}>
-                <ProductImage
-                  image={this.props.imageURL}
-                  onClickImage={() => this.onClick()}
-                />
+                <ProductImage image={imageURL} />
               </div>
               <div className={styles.productData}>
-                <div className={styles.productName}>
-                  {this.props.productName}
-                </div>
-                {this.props.deliveryDate && (
+                <div className={styles.productName}>{productName}</div>
+                {deliveryDate && (
                   <div className={styles.deliveryDate}>
-                    Delivered on {this.props.deliveryDate}
+                    Delivered on {deliveryDate}
                   </div>
                 )}
                 <div className={styles.ratingBar}>
                   <FillupRatingOrder
-                    rating={5}
-                    onChange={this.onRatingChange}
+                    rating={this.state.rating}
+                    onChange={val => this.onRatingChange(val)}
                     // resetRating={this.state.resetRating}
                   />
                 </div>
@@ -202,7 +251,10 @@ export default class RatingAndReview extends React.Component {
                       label="SUBMIT NOW"
                       width={180}
                       textStyle={{ color: "#FFF", fontSize: 14 }}
-                      onClick={this.onSubmit}
+                      onClick={
+                        !isSubmitBtnDisabled ? () => this.onSubmit() : null
+                      }
+                      disabled={isSubmitBtnDisabled}
                     />
                   </div>
                 </div>

@@ -11,9 +11,11 @@ import AllOrderDetails from "../components/AllOrderDetails";
 import { setHeaderText } from "../../general/header.actions";
 import {
   showModal,
+  hideModal,
   DESKTOP_AUTH,
   RATING_AND_REVIEW_MODAL
 } from "../../general/modal.actions";
+import { addProductReview } from "../../pdp/actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -48,13 +50,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     displayToast: message => {
       dispatch(displayToast(message));
     },
-    submitProductRatingByUser: (rating, productDetails, showReviewModal) => {
-      dispatch(
-        submitProductRatingByUser(rating, productDetails, showReviewModal)
-      );
+    submitProductRatingByUser: (rating, productDetails) => {
+      dispatch(submitProductRatingByUser(rating, productDetails));
     },
     showRatingAndReviewModal: data => {
       dispatch(showModal(RATING_AND_REVIEW_MODAL, data));
+    },
+    addProductReview: (productCode, productReview) => {
+      return dispatch(addProductReview(productCode, productReview));
+    },
+    hideModal: () => {
+      dispatch(hideModal());
     }
   };
 };
@@ -64,6 +70,7 @@ const mapStateToProps = (state, ownProps) => {
     profile: state.profile,
     userAddress: state.profile.userAddress,
     ratedProductDetails: state.profile.ratedProductDetails,
+    addReviewStatus: state.productDescription.addReviewStatus,
     ...ownProps
   };
 };

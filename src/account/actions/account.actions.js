@@ -3503,7 +3503,11 @@ export function submitOrderDetails(submitOrderDetails) {
         currentOrderCode,
         currentSubOrderCode;
       if (submitOrderDetails.currentState === 0) {
-        transactionIdWithAttachmentFile = `transactionId=${submitOrderDetails.transactionId}&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${submitOrderDetails.imageURL}`;
+        transactionIdWithAttachmentFile = `transactionId=${
+          submitOrderDetails.transactionId
+        }&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${
+          submitOrderDetails.imageURL
+        }`;
         currentOrderCode = `${submitOrderDetails.orderCode}`;
         currentSubOrderCode = `${submitOrderDetails.subOrderCode}`;
 
@@ -3657,11 +3661,10 @@ export function productRatingByUserRequest() {
   };
 }
 
-export function productRatingByUserSuccess(productDetails) {
+export function productRatingByUserSuccess() {
   return {
     type: GET_USER_RATING_SUCCESS,
-    status: SUCCESS,
-    productDetails
+    status: SUCCESS
   };
 }
 
@@ -3673,47 +3676,63 @@ export function productRatingByUserFailure(error) {
   };
 }
 
-export function submitProductRatingByUser(
-  rating,
-  productDetails,
-  showReviewModal
-) {
+export function submitProductRatingByUser(ratingValue, propsData) {
+  let reviewData = new FormData();
+  reviewData.append("comment", "");
+  reviewData.append("rating", ratingValue);
+  reviewData.append("headline", "");
+  if (
+    propsData &&
+    propsData.productDetails &&
+    propsData.productDetails.ratingId
+  ) {
+    reviewData.append("id", propsData.productDetails.ratingId);
+  }
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     dispatch(productRatingByUserRequest());
-
     try {
-      const result = await api.post(
-        `${PRODUCT_PATH}/${productDetails.productcode}
+      const result = await api.postFormData(
+        `${PRODUCT_PATH}/${propsData.productDetails.productcode}
         /reviews?isPwa=true&access_token=${
           JSON.parse(customerCookie).access_token
         }`,
-        rating
+        reviewData
       );
 
-      // const resultJson = await result.json();
-      //if (resultJson.status === SUCCESS) {
-      dispatch(displayToast(SUCCESSFUL_PRODUCT_RATING_BY_USER));
-      setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_MESSAGE, {
-        rating: null,
-        statusText: SUCCESSFUL_PRODUCT_RATING_BY_USER
-      });
-      //}
-      // if (resultJson.status === FAILURE) {
-      //   dispatch(displayToast(PRODUCT_RATING_FAILURE_TEXT));
-      //   setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_MESSAGE,
-      //    { rating: null, statusText: PRODUCT_RATING_FAILURE_TEXT });
-      // }
-      // const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      // if (resultJsonStatus.status) {
-      //    throw new Error(resultJsonStatus.message);
-      // }
-
-      if (showReviewModal) {
-        dispatch(showModal(RATING_AND_REVIEW_MODAL, productDetails));
+      const resultJson = await result.json();
+      if (resultJson.rating) {
+        dispatch(displayToast(SUCCESSFUL_PRODUCT_RATING_BY_USER));
+        dispatch(clearOrderDetails());
+        dispatch(getAllOrdersDetails());
+        setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_MESSAGE, {
+          rating: null,
+          statusText: SUCCESSFUL_PRODUCT_RATING_BY_USER
+        });
+      } else {
+        dispatch(displayToast(PRODUCT_RATING_FAILURE_TEXT));
+        setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_MESSAGE, {
+          rating: null,
+          statusText: PRODUCT_RATING_FAILURE_TEXT
+        });
       }
-      dispatch(productRatingByUserSuccess(productDetails));
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(productRatingByUserSuccess());
+      if (
+        propsData &&
+        propsData.productDetails &&
+        !propsData.productDetails.hasOwnProperty("userRating")
+      ) {
+        dispatch(
+          showModal(RATING_AND_REVIEW_MODAL, {
+            ...propsData,
+            rating: resultJson.rating
+          })
+        );
+      }
     } catch (e) {
       dispatch(productRatingByUserFailure(e.message));
     }

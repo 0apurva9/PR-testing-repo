@@ -236,7 +236,10 @@ const account = (
     updateReturnHOTCStatus: null,
     loadingForUpdateReturnHOTC: false,
     updateReturnHOTCDetails: null,
-    updateReturnHOTCError: null
+    updateReturnHOTCError: null,
+
+    userRatingStatus: null,
+    userRatingError: null
   },
   action
 ) => {
@@ -1483,14 +1486,18 @@ const account = (
       });
     case accountActions.GET_USER_RATING_REQUEST:
       return Object.assign({}, state, {
+        userRatingStatus: action.status,
         loading: true
       });
     case accountActions.GET_USER_RATING_SUCCESS:
       return Object.assign({}, state, {
+        userRatingStatus: action.status,
         loading: false
       });
     case accountActions.GET_USER_RATING_FAILURE:
       return Object.assign({}, state, {
+        userRatingStatus: action.status,
+        userRatingError: action.error,
         loading: false
       });
     default:

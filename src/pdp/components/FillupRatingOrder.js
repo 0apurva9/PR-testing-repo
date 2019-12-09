@@ -5,7 +5,7 @@ export default class FillupRatingOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rating: null
+      rating: this.props.rating
     };
   }
   rate(rating) {
