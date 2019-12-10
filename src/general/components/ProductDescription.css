@@ -78,12 +78,6 @@
   composes: priceHolder;
   margin-right: 10px;
 }
-.discountPercent{
-  font-size: 12px;;
-  composes: priceHolder;
-  padding-left: 10px;
-  color:#ff1744;
-}
 .priceCancelled {
   composes: priceHolder;
   text-decoration: line-through;
