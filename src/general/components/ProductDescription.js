@@ -28,7 +28,6 @@ export default class ProductDescription extends Component {
   };
 
   render() {
-    console.log("this.props", this.props);
     let { averageRating, totalNoOfReviews } = this.props;
     let electronicView = this.props.electronicView;
     let headerClass = styles.header;
