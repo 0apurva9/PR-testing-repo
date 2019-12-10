@@ -803,6 +803,12 @@ const cart = (
         bankOffer: action.bankOffer,
         loading: false
       });
+    case cartActions.RELEASE_BANK_OFFER_UPDATE_SUCCESS:
+      return Object.assign({}, state, {
+        bankOfferStatus: action.status,
+        bankOffer: action.bankOffer,
+        loading: false
+      });
     case cartActions.RELEASE_BANK_OFFER_FAILURE:
       return Object.assign({}, state, {
         bankOfferStatus: action.status,
