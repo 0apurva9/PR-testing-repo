@@ -57,9 +57,13 @@ const mapStateToProps = (state, ownProps) => {
     facetdatacategory: state.productListings.productListings.facetdatacategory,
     filterSelectedIndex,
     isCategorySelected,
-    query: state.productListings.productListings
-      ? state.productListings.productListings.currentQuery.query.value
-      : null
+    query:
+      state.productListings &&
+      state.productListings.productListings &&
+      state.productListings.productListings.currentQuery &&
+      state.productListings.productListings.currentQuery.query
+        ? state.productListings.productListings.currentQuery.query.value
+        : null
   };
 };
 
