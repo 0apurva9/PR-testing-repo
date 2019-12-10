@@ -26,34 +26,79 @@ export default class CleverTapEmailUnsubscribe extends Component {
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(wzrk, s);
     })();
+    alert("script loaded");
   }
 
   componentDidMount() {
-    if (window.hasOwnProperty("$WZRK_WR")) {
-      window.$WZRK_WR.getEmail();
-    } else {
-      setTimeout(() => {
-        window.$WZRK_WR.getEmail();
-      }, 1000);
-    }
+    var loadScript = function(scriptContent) {
+      var tag = document.createElement("script");
+      tag.async = false;
+      tag.innerHTML = scriptContent;
+      document.getElementsByTagName("body")[0].appendChild(tag);
+    };
+
+    loadScript(
+      `
+        // on  page load, fetch the email id of the user.
+        window.onload = function() {
+          alert("Inside getEmail")
+          $WZRK_WR.getEmail();
+        };
+
+        // will be called after the email id of the user has been fetched
+        function wzrk_email_fetched(emailStr) {
+          alert("Inside fetch email")
+          document.getElementById("email").value = emailStr;
+        }
+
+        // will be called after the subscription preferences for the user have been updated
+        function wzrk_email_subscription(status) {
+          alert("Inside email status")
+          //status 0 : unsubscribed, status 1 : subscribed
+          // todo - you can show a success message to the user from here
+          var statusLabel = 'subscribed';
+          if (status == 0) {
+              statusLabel = 'unsubscribed';
+          }
+          alert("You've been " + statusLabel);
+        }
+
+        // call this function to unsubscribe the user
+        function unsubscribe() {
+          alert("Inside unsubscribe")
+          $WZRK_WR.unSubEmail();
+        }
+      `
+    );
   }
 
-  wzrk_email_fetched(emailStr) {
-    if (emailStr) document.getElementById("email").value = emailStr;
-  }
+  // componentDidMount() {
+  //   if (window.hasOwnProperty("$WZRK_WR")) {
+  //     window.$WZRK_WR.getEmail();
+  //   } else {
+  //     setTimeout(() => {
+  //       window.$WZRK_WR.getEmail();
+  //     }, 1000);
+  //   }
+  // }
 
-  wzrk_email_subscription(status) {
-    //status 0 : unsubscribed, status 1 : subscribed
-    // todo - you can show a success message to the user from here
-    var statusLabel = "subscribed";
-    if (status == 0) {
-      statusLabel = "unsubscribed";
-    }
-    alert("You've been " + statusLabel);
-  }
+  // wzrk_email_fetched(emailStr) {
+  //   if (emailStr) document.getElementById("email").value = emailStr;
+  // }
+
+  // wzrk_email_subscription(status) {
+  //   //status 0 : unsubscribed, status 1 : subscribed
+  //   // todo - you can show a success message to the user from here
+  //   var statusLabel = "subscribed";
+  //   if (status == 0) {
+  //     statusLabel = "unsubscribed";
+  //   }
+  //   alert("You've been " + statusLabel);
+  // }
 
   onUnsubscribe() {
-    if (window.hasOwnProperty("$WZRK_WR")) window.$WZRK_WR.unSubEmail();
+    window.unsubscribe();
+    //if (window.hasOwnProperty("$WZRK_WR")) window.$WZRK_WR.unSubEmail();
   }
 
   render() {
@@ -68,7 +113,7 @@ export default class CleverTapEmailUnsubscribe extends Component {
               id={"email"}
               placeholder="Enter email"
               fontSize={14}
-              disabled={true}
+              //disabled={true}
             />
           </div>
           <div className={styles.btnWrapper}>
