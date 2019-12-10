@@ -40,7 +40,8 @@ import {
   ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE,
   OLD_CART_GU_ID,
   FAILURE_LOWERCASE,
-  BIN_CARD_TYPE
+  BIN_CARD_TYPE,
+  RETRY_PAYMENT_CART_ID
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -1978,13 +1979,18 @@ export function releaseBankOffer(previousCouponCode, newCouponCode: null) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  let retryCartID = localStorage.getItem(RETRY_PAYMENT_CART_ID);
   let cartId;
   const parsedQueryString = queryString.parse(window.location.search);
   const value = parsedQueryString.value;
   if (value) {
     cartId = value;
   } else {
-    cartId = JSON.parse(cartDetails).guid;
+    if (retryCartID) {
+      cartId = retryCartID.replace(/"/g, "");
+    } else {
+      cartId = JSON.parse(cartDetails).guid;
+    }
   }
   return async (dispatch, getState, { api }) => {
     dispatch(releaseBankOfferRequest());
