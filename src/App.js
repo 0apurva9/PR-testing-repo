@@ -632,11 +632,11 @@ class App extends Component {
               path={CATEGORIES_LANDING_PAGE}
               component={CategoriesPageContainer}
             />
-            <Route
+            {/* <Route
               exact
               path={UNSUBSCRIBE_CLEVER_TAP_EMAILS}
               component={CleverTapUnsubscribeEmail}
-            />
+            /> */}
             {/* This *has* to be at the bottom */}
             <Route
               exact
@@ -659,6 +659,13 @@ class App extends Component {
               exact
               path={REDMI_WALLET_FROM_EMAIL}
               component={MyAccountWrapper}
+            />
+            <Route
+              exact
+              path="/Unsubscribe"
+              render={() => {
+                window.location.href = "Unsubscribe.html";
+              }}
             />
             <Route
               path="/que"
