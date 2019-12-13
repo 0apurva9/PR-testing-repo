@@ -108,6 +108,12 @@ class WriteReview extends React.Component {
         this.props.setUrlToRedirectToAfterAuth(url);
         this.props.history.push(LOGIN_PATH);
       }
+    } else {
+      await this.props.onSubmit({
+        comment: this.state.comment,
+        rating: this.state.rating,
+        headline: this.state.title
+      });
     }
     setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_SUBMIT_CLICK);
   };

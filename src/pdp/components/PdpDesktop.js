@@ -505,8 +505,10 @@ export default class PdpApparel extends React.Component {
           }
         } else {
           this.props.displayToast("Please select a size to continue");
-          this.setState({ isLoader: false });
-          this.setState({ sizeError: true });
+          this.setState({
+            sizeError: true,
+            isLoader: true
+          });
         }
       }
     }
@@ -524,7 +526,9 @@ export default class PdpApparel extends React.Component {
     setDataLayerForPdpDirectCalls(
       SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT
     );
-    const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    const url = `${
+      this.props.location.pathname
+    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
   renderRatings = () => {
@@ -544,7 +548,8 @@ export default class PdpApparel extends React.Component {
   updateQuantity = quantity => {
     this.setState({
       productQuantityOption: quantity,
-      quantityError: false
+      quantityError: false,
+      isLoader: false
     });
   };
   updateSize = () => {
@@ -606,8 +611,10 @@ export default class PdpApparel extends React.Component {
   };
   isSizeNotSelectedForAddToWishlist = () => {
     this.props.displayToast("Please select a size to continue");
-    this.setState({ isLoader: false });
-    this.setState({ sizeError: true });
+    this.setState({
+      sizeError: true,
+      isLoader: false
+    });
   };
   showPriceBreakup = () => {
     if (this.props.showPriceBreakup) {
@@ -971,7 +978,9 @@ export default class PdpApparel extends React.Component {
                   productImages={productImages}
                   thumbNailImages={thumbNailImages}
                   zoomImages={zoomImages}
-                  alt={`${productData.productName}-${productData.brandName}-${productData.rootCategory}-TATA CLIQ`}
+                  alt={`${productData.productName}-${productData.brandName}-${
+                    productData.rootCategory
+                  }-TATA CLIQ`}
                   details={productData.details}
                   showSimilarProducts={this.props.showSimilarProducts}
                   category={productData.rootCategory}
@@ -1341,23 +1350,24 @@ export default class PdpApparel extends React.Component {
                 </div>
                 <div className={styles.pinAndDeliveryHolder}>
                   <div className={styles.updatePincodeHolder}>
-                    {getPinCode && userCookie && (
-                      <SearchAndUpdate
-                        uiType="hollow"
-                        checkPinCodeAvailability={pincode =>
-                          this.checkPinCodeAvailability(
-                            pincode,
-                            productData.productListingId
-                          )
-                        }
-                        placeholder="Pincode"
-                        value={getPinCode}
-                        hasAutoFocus={false}
-                        labelText={"Check"}
-                        borderColor="transparent"
-                        borderBottom="0px solid #transparent"
-                      />
-                    )}
+                    {getPinCode &&
+                      userCookie && (
+                        <SearchAndUpdate
+                          uiType="hollow"
+                          checkPinCodeAvailability={pincode =>
+                            this.checkPinCodeAvailability(
+                              pincode,
+                              productData.productListingId
+                            )
+                          }
+                          placeholder="Pincode"
+                          value={getPinCode}
+                          hasAutoFocus={false}
+                          labelText={"Check"}
+                          borderColor="transparent"
+                          borderBottom="0px solid #transparent"
+                        />
+                      )}
 
                     {(!userCookie || !getPinCode) && (
                       <SearchAndUpdate
@@ -1427,34 +1437,35 @@ export default class PdpApparel extends React.Component {
                   )}
                 </div>
                 <div>
-                  {mshProduct.includes("samsung") && (
-                    <div className={styles.sumsungSeparator}>
-                      <div className={styles.chatIcon}>
-                        {productData.brandName === "Samsung" ||
-                        productData.brandName === "SAMSUNG" ? (
-                          <a
-                            href={samsungChatUrl}
-                            target="_blank"
-                            className={styles.samsungChatImgHolder}
-                          >
-                            <img
-                              src="https://assets.tatacliq.com/medias/sys_master/images/11437918060574.png"
-                              alt="Samsung Chat"
-                            />
-                          </a>
-                        ) : null}
-                        <div className={styles.chatText}>
-                          <p>
-                            Chat with the Samsung brand representative directly
-                            for more info
-                          </p>
-                          <a href={samsungChatUrl} target="_blank">
-                            Click here to chat
-                          </a>
+                  {mshProduct &&
+                    mshProduct.includes("samsung") && (
+                      <div className={styles.sumsungSeparator}>
+                        <div className={styles.chatIcon}>
+                          {productData.brandName === "Samsung" ||
+                          productData.brandName === "SAMSUNG" ? (
+                            <a
+                              href={samsungChatUrl}
+                              target="_blank"
+                              className={styles.samsungChatImgHolder}
+                            >
+                              <img
+                                src="https://assets.tatacliq.com/medias/sys_master/images/11437918060574.png"
+                                alt="Samsung Chat"
+                              />
+                            </a>
+                          ) : null}
+                          <div className={styles.chatText}>
+                            <p>
+                              Chat with the Samsung brand representative
+                              directly for more info
+                            </p>
+                            <a href={samsungChatUrl} target="_blank">
+                              Click here to chat
+                            </a>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                 </div>
               </div>
             </div>
