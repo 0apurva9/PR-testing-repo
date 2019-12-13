@@ -656,7 +656,7 @@ class App extends Component {
             />
             <Route
               exact
-              path="/Unsubscribe"
+              path="/Unsubscribe.html"
               render={() => {
                 window.location.href = "Unsubscribe.html";
               }}
