@@ -792,8 +792,7 @@ export default class AllOrderDetails extends React.Component {
                                                 }
                                                 //resetRating={this.state.resetRating}
                                               />
-                                              {product.userRating &&
-                                              !product.isReviewed ? (
+                                              {!product.isReviewed ? (
                                                 <div
                                                   className={
                                                     styles.writeReviewText

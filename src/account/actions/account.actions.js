@@ -3724,8 +3724,6 @@ export function submitProductRatingByUser(ratingValue, propsData) {
       const resultJson = await result.json();
       if (resultJson.rating) {
         dispatch(displayToast(SUCCESSFUL_PRODUCT_RATING_BY_USER));
-        dispatch(clearOrderDetails());
-        dispatch(getAllOrdersDetails());
         setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_MESSAGE, {
           rating: null,
           statusText: SUCCESSFUL_PRODUCT_RATING_BY_USER
@@ -3737,6 +3735,8 @@ export function submitProductRatingByUser(ratingValue, propsData) {
           statusText: PRODUCT_RATING_FAILURE_TEXT
         });
       }
+      dispatch(clearOrderDetails());
+      dispatch(getAllOrdersDetails());
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
@@ -3747,12 +3747,7 @@ export function submitProductRatingByUser(ratingValue, propsData) {
         propsData.productDetails &&
         !propsData.productDetails.hasOwnProperty("userRating")
       ) {
-        dispatch(
-          showModal(RATING_AND_REVIEW_MODAL, {
-            ...propsData,
-            rating: resultJson.rating
-          })
-        );
+        dispatch(showModal(RATING_AND_REVIEW_MODAL, propsData));
       }
     } catch (e) {
       dispatch(productRatingByUserFailure(e.message));

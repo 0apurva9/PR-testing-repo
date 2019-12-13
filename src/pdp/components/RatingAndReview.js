@@ -100,12 +100,8 @@ export default class RatingAndReview extends React.Component {
 
   onCancel = () => {
     if (this.props.closeModal) {
-      this.props.closeModal();
       setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_CANCEL_CLICK);
-      if (this.props.clearOrderDetails && this.props.getAllOrdersDetails) {
-        this.props.clearOrderDetails();
-        this.props.getAllOrdersDetails();
-      }
+      this.props.closeModal();
     }
   };
 
