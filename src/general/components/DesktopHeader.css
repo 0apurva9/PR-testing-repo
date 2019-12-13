@@ -20,6 +20,7 @@
   right: 0;
   top: 0;
   background: #000000;
+  z-index: 0;
 }
 .headerHolder {
   width: 100%;
@@ -28,6 +29,7 @@
   margin: auto;
   padding-left: 185px;
   position: relative;
+  z-index: 1;
 }
 .headerFunctionality {
   width: 100%;

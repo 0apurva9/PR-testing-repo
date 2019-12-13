@@ -505,8 +505,10 @@ export default class PdpApparel extends React.Component {
           }
         } else {
           this.props.displayToast("Please select a size to continue");
-          this.setState({ isLoader: false });
-          this.setState({ sizeError: true });
+          this.setState({
+            sizeError: true,
+            isLoader: true
+          });
         }
       }
     }
@@ -544,7 +546,8 @@ export default class PdpApparel extends React.Component {
   updateQuantity = quantity => {
     this.setState({
       productQuantityOption: quantity,
-      quantityError: false
+      quantityError: false,
+      isLoader: false
     });
   };
   updateSize = () => {
@@ -606,8 +609,10 @@ export default class PdpApparel extends React.Component {
   };
   isSizeNotSelectedForAddToWishlist = () => {
     this.props.displayToast("Please select a size to continue");
-    this.setState({ isLoader: false });
-    this.setState({ sizeError: true });
+    this.setState({
+      sizeError: true,
+      isLoader: false
+    });
   };
   showPriceBreakup = () => {
     if (this.props.showPriceBreakup) {
@@ -1427,34 +1432,35 @@ export default class PdpApparel extends React.Component {
                   )}
                 </div>
                 <div>
-                  {mshProduct.includes("samsung") && (
-                    <div className={styles.sumsungSeparator}>
-                      <div className={styles.chatIcon}>
-                        {productData.brandName === "Samsung" ||
-                        productData.brandName === "SAMSUNG" ? (
-                          <a
-                            href={samsungChatUrl}
-                            target="_blank"
-                            className={styles.samsungChatImgHolder}
-                          >
-                            <img
-                              src="https://assets.tatacliq.com/medias/sys_master/images/11437918060574.png"
-                              alt="Samsung Chat"
-                            />
-                          </a>
-                        ) : null}
-                        <div className={styles.chatText}>
-                          <p>
-                            Chat with the Samsung brand representative directly
-                            for more info
-                          </p>
-                          <a href={samsungChatUrl} target="_blank">
-                            Click here to chat
-                          </a>
+                  {mshProduct &&
+                    mshProduct.includes("samsung") && (
+                      <div className={styles.sumsungSeparator}>
+                        <div className={styles.chatIcon}>
+                          {productData.brandName === "Samsung" ||
+                          productData.brandName === "SAMSUNG" ? (
+                            <a
+                              href={samsungChatUrl}
+                              target="_blank"
+                              className={styles.samsungChatImgHolder}
+                            >
+                              <img
+                                src="https://assets.tatacliq.com/medias/sys_master/images/11437918060574.png"
+                                alt="Samsung Chat"
+                              />
+                            </a>
+                          ) : null}
+                          <div className={styles.chatText}>
+                            <p>
+                              Chat with the Samsung brand representative
+                              directly for more info
+                            </p>
+                            <a href={samsungChatUrl} target="_blank">
+                              Click here to chat
+                            </a>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                 </div>
               </div>
             </div>

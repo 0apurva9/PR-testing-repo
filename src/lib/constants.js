@@ -42,6 +42,7 @@ export const BRAND_PAGE = "/c-(mbh[a-zA-Z0-9]+)";
 export const BRAND_PAGE_WITH_SLUG = `/:slug/c-(mbh[0-9a-zA-z]+)`;
 export const BRAND_PAGE_WITH_QUERY_PARAMS = `/c-(mbh[0-9a-zA-z]+)?&`;
 export const BRAND_PAGE_WITH_SLUG_WITH_QUERY_PARAMS = `/:slug/c-(mbh[0-9a-zA-z]+)?&`;
+export const BRAND_PAGE_WITH_FILTER_SLUG = `/:slug/:slug/c-(mbh[0-9a-zA-Z]+)`;
 
 export const BRAND_AND_CATEGORY_PAGE =
   "/:slug/c-(msh[a-zA-Z0-9]+)/b-(mbh[a-zA-Z0-9]+)";
@@ -87,6 +88,7 @@ export const PRODUCT_CART_ROUTER = "/cart";
 export const ORDER_SUMMARY_ROUTER = "/orderSummary";
 export const CHECKOUT_ROUTER = "/checkout";
 export const CHECKOUT_ROUTER_THANKYOU = "/checkout/";
+export const CHECKOUT_RETRY_PAYMENT_ROUTER = "/checkout/payment-method/";
 export const ACCOUNT_SAVED_CARD_ROUTER = "/savedCards";
 export const MY_ACCOUNT = "/my-account";
 export const SHORT_URL_ORDER_DETAIL = "/trackOrder/beforeTrack/:orderCode";
@@ -476,3 +478,5 @@ export const RETRY_FAILED_ORDER_COUPON =
   "You may attempt to pay again now or retry payment again after 20 minutes using the Payment Retry Link available in your Order History under My Account and your email to avail all the applied Coupon discounts and/or Instant Bank Offer discounts on this Order.";
 export const RETRY_FAILED_ORDER_COUPON_NOTE =
   "Note: If the amount was debited from your account, it will be fully refunded.";
+
+export const FAILED_ORDER = "retryFailedOrder";

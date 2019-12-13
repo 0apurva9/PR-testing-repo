@@ -44,6 +44,7 @@ import {
   BRAND_PAGE,
   CATEGORY_PAGE,
   BRAND_PAGE_WITH_SLUG,
+  BRAND_PAGE_WITH_FILTER_SLUG,
   CATEGORY_PAGE_WITH_SLUG,
   CATEGORY_PAGE_WITH_FILTER_SLUG,
   RETURNS,
@@ -534,6 +535,11 @@ class App extends Component {
             <Route
               exact
               path={BRAND_PAGE_WITH_SLUG}
+              component={PlpBrandCategoryWrapperContainer}
+            />
+            <Route
+              strict
+              path={BRAND_PAGE_WITH_FILTER_SLUG}
               component={PlpBrandCategoryWrapperContainer}
             />
             <Route

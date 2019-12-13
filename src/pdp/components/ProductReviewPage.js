@@ -211,12 +211,18 @@ export default class ProductReviewPage extends Component {
       this.props.displayToast("Please give rating");
       return false;
     }
-    if (!productReview.headline) {
-      this.props.displayToast("Please enter title");
+    if (!productReview.headline && !productReview.comment) {
+      this.props.displayToast("Please add a review title and description");
       return false;
     }
-    if (!productReview.comment) {
-      this.props.displayToast("Please enter comment");
+    if (productReview.comment && !productReview.headline) {
+      this.props.displayToast("Please add a review title");
+      return false;
+    }
+    if (!productReview.comment && productReview.headline) {
+      this.props.displayToast(
+        "Minimum character length for the comment is 50 characters"
+      );
       return false;
     }
     if (productReview.comment) {
@@ -270,6 +276,7 @@ export default class ProductReviewPage extends Component {
     if (this.state.visible) {
       return (
         <WriteReview
+          {...this.props}
           addReviewStatus={this.props.addReviewStatus}
           onSubmit={val => this.onSubmit(val)}
           onCancel={() => this.onCancel()}
