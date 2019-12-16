@@ -386,7 +386,7 @@
 	margin-right: 40px;
 	font-size:14px;
   }
-  
+
   .radioBtnWrapperRemove{
 	display: flex;
 	-ms-flex-align: center;
@@ -399,7 +399,7 @@
 	margin-right: 15px;
   }
 
-  
+
   .ratingHeader{
 	  font-family: semibold;
 	  font-size: 14px;
@@ -422,9 +422,9 @@
     /* overflow: auto; */
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.4);
-    left: 0;	
+    left: 0;
   }
-  
+
   .modalContent{
 	background-color: #fefefe;
     margin: -252px -408px;
@@ -435,7 +435,7 @@
     top: 50%;
     left: 50%;
   }
-  
+
   .options{
 	padding: 10px;
   }
