@@ -36,6 +36,9 @@ export default class SortDesktop extends React.Component {
           searchText = parsedQueryString.text;
         }
       }
+      if (searchText.includes("icid") && this.props.query) {
+        searchText = encodeURI(this.props.query);
+      }
 
       let url = applySortToUrl(
         searchText,
