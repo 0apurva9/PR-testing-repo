@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import styles from "./SizeTable.css";
-const RenderRow = props => {
-  return props.keys.map((key, index) => {
-    return <td key={props.data[key]}>{props.data[key]}</td>;
-  });
-};
+
 export default class SizeTableForEyeWearChangedJson extends Component {
   constructor(props) {
     super(props);
