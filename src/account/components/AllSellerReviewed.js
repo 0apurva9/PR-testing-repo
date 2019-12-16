@@ -243,6 +243,11 @@ export default class AllSellerReviewed extends React.Component {
     return <Redirect to={LOGIN_PATH} />;
   }
   render() {
+    let url = window.location.href;
+    var customerId = url
+      .split("customerId=")
+      .pop()
+      .split("/")[0];
     if (this.state.showReasonModal === true) {
       document.body.style.overflow = "hidden";
     } else {
@@ -253,6 +258,9 @@ export default class AllSellerReviewed extends React.Component {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {
+      return this.navigateToLogin();
+    }
+    if (userData && userData.customerId !== customerId) {
       return this.navigateToLogin();
     }
     console.log("cookie", customerCookie);
@@ -302,48 +310,6 @@ export default class AllSellerReviewed extends React.Component {
             </DesktopOnly>
             <div className={styles.orderDetail}>
               <div className={styles.orderDetailsWithHolder}>
-                <DesktopOnly>
-                  <div
-                    className={
-                      this.state.stickyPortion
-                        ? styles.stickyTabHolder
-                        : styles.tabHolder
-                    }
-                  >
-                    <TabHolder>
-                      <TabData
-                        width="40%"
-                        label="Recent Orders "
-                        selected={this.state.isSelected === 0}
-                        selectItem={() => this.tabSelect(0)}
-                      />
-                      <TabData
-                        width="40%"
-                        label="My reviews "
-                        selected={this.state.isSelected === 4}
-                        selectItem={() => this.tabSelect(4)}
-                      />
-                      <TabData
-                        width="40%"
-                        label="Useful Links "
-                        selected={this.state.isSelected === 3}
-                        selectItem={() => this.tabSelect(3)}
-                      />
-                      <TabData
-                        width="40%"
-                        label="Alerts "
-                        selected={this.state.isSelected === 1}
-                        selectItem={() => this.tabSelect(1)}
-                      />
-                      <TabData
-                        width="40%"
-                        label="Coupons "
-                        selected={this.state.isSelected === 2}
-                        selectItem={() => this.tabSelect(2)}
-                      />
-                    </TabHolder>
-                  </div>
-                </DesktopOnly>
                 <React.Fragment>
                   {this.state.isSelected === 0 && (
                     <div className={styles.dropDownHolder}>

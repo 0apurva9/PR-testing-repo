@@ -21,6 +21,7 @@ export default class FillupRating extends React.Component {
     );
   }
   componentWillReceiveProps(nextProps) {
+    console.log("yahan ayaya", nextProps.resetRating);
     if (nextProps.resetRating === true) {
       this.setState({ rating: null });
     }

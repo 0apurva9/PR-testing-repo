@@ -115,9 +115,6 @@ export default class AllSellerDetails extends React.Component {
     this.setState({ isSelected: val });
   }
 
-  onViewDetails(orderId) {
-    this.props.history.push(`${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`);
-  }
   handleChange(val) {
     this.setState({ comment: val });
   }
@@ -180,6 +177,9 @@ export default class AllSellerDetails extends React.Component {
   componentDidUpdate() {
     if (this.props.shouldCallHeaderContainer) {
       this.props.setHeaderText("Seller Rating");
+    }
+    if (this.state.resetRating === true) {
+      this.setState({ resetRating: false });
     }
   }
 
@@ -296,6 +296,11 @@ export default class AllSellerDetails extends React.Component {
   }
 
   render() {
+    let url = window.location.href;
+    var customerId = url
+      .split("customerId=")
+      .pop()
+      .split("/")[0];
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -306,6 +311,9 @@ export default class AllSellerDetails extends React.Component {
       userData = JSON.parse(userDetails);
     }
     console.log("cookie", userDetails);
+    if (userData && userData.customerId !== customerId) {
+      return this.navigateToLogin();
+    }
     const sellerDetails = this.props.profile.sellerDetails;
     if (this.props.profile.reSendEmailLoader) {
       return Loader();
