@@ -163,7 +163,7 @@
 		width: 60%;
 		margin: auto;
 		display: inline-block;
-		padding: 0px 22px 0px 22px;
+		padding: 0px 22px;
 		max-width: 720px;
 	}
 	.tabHolder {
@@ -366,6 +366,7 @@
 	/* justify-content: space-between; */
 	padding: 5px 0 0 0;
 	margin-bottom: 34px;
+	cursor: pointer;
 }
 .marginIcon {
 	margin-right: 24px;
@@ -509,9 +510,9 @@
 	width: 231px;
  	height:60px;
 	margin: auto;
-	display: inline-block;
 	padding: 10px;
 	cursor: pointer;
+	float:right;
 }
 
 

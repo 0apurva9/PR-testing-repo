@@ -2393,8 +2393,8 @@ export function removeSellerReviewByUser(params) {
 
       const result = await api.post(reqURL, params);
       const resultJson = await result.json();
-      //  dispatch(getAllSellersReviewDetails());
-      //   dispatch(sellerReviewRemoveByUser(resultJson));
+      dispatch(getAllSellersReviewDetails());
+      dispatch(sellerReviewRemoveByUser(resultJson));
     } catch (e) {
       dispatch(sellerReviewRemoveFailure(e.message));
     }
