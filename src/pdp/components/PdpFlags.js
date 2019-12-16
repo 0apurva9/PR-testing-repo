@@ -19,6 +19,12 @@ export default class PdpFlags extends React.Component {
             : this.props.seasonTag}
         </div>
       );
+    } else if (this.props.newProduct === "Y") {
+      return <div className={styles.new}>New</div>;
+    } else if (this.props.isOfferExisting === "Y") {
+      return <div className={styles.offer}>On offer</div>;
+    } else if (this.props.onlineExclusive === "Y") {
+      return <div className={styles.new}>New</div>;
     } else if (
       this.props.discountPercent &&
       this.props.discountPercent !== "0"
@@ -28,12 +34,6 @@ export default class PdpFlags extends React.Component {
           {parseInt(this.props.discountPercent, 10)}% off{" "}
         </div>
       );
-    } else if (this.props.isOfferExisting == "Y") {
-      return <div className={styles.offer}>On offer</div>;
-    } else if (this.props.onlineExclusive == "Y") {
-      return <div className={styles.new}>New</div>;
-    } else if (this.props.newProduct == "Y") {
-      return <div className={styles.new}>New</div>;
     } else {
       return null;
     }

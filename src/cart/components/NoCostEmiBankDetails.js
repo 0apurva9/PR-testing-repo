@@ -37,7 +37,7 @@ export default class NoCostEmiBankDetails extends React.Component {
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(prevProps, prevState) {
     if (this.props.noCostEmiProductCount !== prevProps.noCostEmiProductCount) {
       if (this.props.noCostEmiProductCount > 0) {
         if (
@@ -49,17 +49,45 @@ export default class NoCostEmiBankDetails extends React.Component {
           });
         } else {
           this.setState({
-            noCostEmiText: `*No Cost EMI available only on ${
-              this.props.noCostEmiProductCount
-            } product(s). Standard EMI will apply to products, if any, bought along with it.`
+            noCostEmiText: `*No Cost EMI available only on ${this.props.noCostEmiProductCount} product(s). Standard EMI will apply to products, if any, bought along with it.`
           });
         }
+        this.getDataForRetryPage();
       }
+    }
+
+    if (
+      this.props.noCostEmiProductCount === prevProps.noCostEmiProductCount &&
+      !this.state.selectedBankName
+    ) {
+      this.getDataForRetryPage();
+    }
+  }
+  getDataForRetryPage() {
+    if (
+      this.props.isRetryPaymentFromURL &&
+      this.props.bankList &&
+      this.props.bankList[0]
+    ) {
+      let bankLists = this.props.bankList[0];
+      this.retryBankSelectTenure(0, bankLists);
+
+      // await this.handleSelect(0, bankLists);
+      // //this.selectOtherBank(bankLists);
+      // if (
+      //   bankLists.noCostEMICouponList &&
+      //   bankLists.noCostEMICouponList[0]
+      // ) {
+      //   this.onSelectMonth(0, bankLists.noCostEMICouponList[0]);
+      // }
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedEMIType !== NO_COST_EMI) {
+    if (
+      nextProps.selectedEMIType &&
+      nextProps.selectedEMIType !== NO_COST_EMI
+    ) {
       this.setState({
         selectedBankIndex: null,
         selectedMonth: null,
@@ -108,6 +136,20 @@ export default class NoCostEmiBankDetails extends React.Component {
         selectedBankName: this.state.selectedBankName
       });
     }
+    if (nextProps.cardDetails !== this.props.cardDetails) {
+      if (Object.keys(nextProps.cardDetails).length == 0) {
+        this.setState({
+          selectedBankIndex: null,
+          selectedMonth: null,
+          showAll: false,
+          selectedBankName: null,
+          selectedCode: null,
+          selectedCouponCode: null,
+          selectedTenure: null,
+          selectedFromDropDown: false
+        });
+      }
+    }
   }
   selectOtherBank(val) {
     if (
@@ -147,6 +189,10 @@ export default class NoCostEmiBankDetails extends React.Component {
     }
   }
   handleSelect(index, code) {
+    let selectedFromDropDown = false;
+    if (this.props.isRetryPaymentFromURL) {
+      selectedFromDropDown = true;
+    }
     if (
       this.props.removeNoCostEmi &&
       this.state.selectedCouponCode &&
@@ -175,16 +221,17 @@ export default class NoCostEmiBankDetails extends React.Component {
       let selectedBankCodeObj = this.props.bankList.find(
         bank => bank.code === code
       );
-
-      this.setState({
-        selectedBankIndex: index,
-        selectedMonth: null,
-        selectedBankName: selectedBankCodeObj.bankName,
-        selectedCode: selectedBankCodeObj.code,
-        selectedBankCode: selectedBankCodeObj.bankCode,
-        bankName: null,
-        selectedFromDropDown: false
-      });
+      if (selectedBankCodeObj) {
+        this.setState({
+          selectedBankIndex: index,
+          selectedMonth: null,
+          selectedBankName: selectedBankCodeObj.bankName,
+          selectedCode: selectedBankCodeObj.code,
+          selectedBankCode: selectedBankCodeObj.bankCode,
+          bankName: null,
+          selectedFromDropDown: selectedFromDropDown
+        });
+      }
     }
   }
   termsAndCondition() {
@@ -224,7 +271,11 @@ export default class NoCostEmiBankDetails extends React.Component {
         val.emicouponCode,
         this.state.selectedBankName
       );
-      if (applyNoCostEmiReponse.status === SUCCESS) {
+      if (
+        applyNoCostEmiReponse &&
+        applyNoCostEmiReponse.status &&
+        applyNoCostEmiReponse.status === SUCCESS
+      ) {
         this.setState({
           selectedMonth: index,
           selectedCouponCode: val.emicouponCode,
@@ -250,7 +301,7 @@ export default class NoCostEmiBankDetails extends React.Component {
       }
     }
   }
-  async onSelectMonth(index, val) {
+  async onSelectMonth(index, val, event) {
     if (this.state.selectedBankName !== "Other Bank") {
       if (this.props.removeNoCostEmi && this.state.selectedCouponCode) {
         const removeNoCostEmiResponce = await this.props.removeNoCostEmi(
@@ -267,7 +318,67 @@ export default class NoCostEmiBankDetails extends React.Component {
           });
         }
       } else {
-        this.applyNoCostEmi(index, val);
+        if (this.props.isRetryPaymentFromURL) {
+          this.setState({
+            selectedMonth: index,
+            selectedCouponCode: val.emicouponCode,
+            selectedTenure: val.tenure
+          });
+          if (val.tenure) {
+            localStorage.setItem(EMI_TENURE, val.tenure);
+          }
+          this.onChangeCardDetail({
+            is_emi: true,
+            emi_bank: this.state.selectedBankCode,
+            emi_tenure: val.tenure,
+            selectedMonth: index,
+            selectedCouponCode: val.emicouponCode,
+            selectedBankName: this.state.selectedBankName
+          });
+        } else {
+          this.applyNoCostEmi(index, val);
+        }
+      }
+    }
+  }
+
+  async retryBankSelectTenure(index, val) {
+    if (this.state.selectedBankName !== "Other Bank") {
+      let selectedFromDropDown = false;
+      if (this.props.isRetryPaymentFromURL) {
+        selectedFromDropDown = true;
+      }
+      let selectedBankCodeObj = this.props.bankList.find(
+        bank => bank.code === val.code
+      );
+
+      await this.setState({
+        selectedBankIndex: index,
+        selectedMonth: null,
+        selectedBankName: selectedBankCodeObj.bankName,
+        selectedCode: selectedBankCodeObj.code,
+        selectedBankCode: selectedBankCodeObj.bankCode,
+        bankName: null,
+        selectedFromDropDown: selectedFromDropDown
+      });
+
+      if (val.noCostEMICouponList && val.noCostEMICouponList[0]) {
+        let noCostEMICouponList = val.noCostEMICouponList[0];
+        this.setState({
+          selectedMonth: index,
+          selectedTenure: noCostEMICouponList.tenure
+        });
+        if (noCostEMICouponList.tenure) {
+          localStorage.setItem(EMI_TENURE, noCostEMICouponList.tenure);
+        }
+        this.onChangeCardDetail({
+          is_emi: true,
+          emi_bank: this.state.selectedBankCode,
+          emi_tenure: noCostEMICouponList.tenure,
+          selectedMonth: index,
+          selectedCouponCode: noCostEMICouponList.emicouponCode,
+          selectedBankName: this.state.selectedBankName
+        });
       }
     }
   }
@@ -277,8 +388,7 @@ export default class NoCostEmiBankDetails extends React.Component {
     }
   };
 
-  renderMonthsPlan() {
-    let noCostEmiDetails = this.props.noCostEmiDetails.cartAmount;
+  renderMonthsPlan(noCostEmiDetails) {
     return (
       <div className={styles.monthsPlanDataHolder}>
         <div className={styles.amountPlaneForMonth}>
@@ -352,25 +462,24 @@ export default class NoCostEmiBankDetails extends React.Component {
               </div>
             )}
           <DesktopOnly>
-            {this.props.isNoCostEmiApplied &&
-              !this.props.isNoCostEmiProceeded && (
-                <div className={styles.buttonHolder}>
-                  <div className={styles.button}>
-                    <Button
-                      type="primary"
-                      backgroundColor="#ff1744"
-                      height={40}
-                      label="Pay now"
-                      width={150}
-                      textStyle={{
-                        color: "#FFF",
-                        fontSize: 14
-                      }}
-                      onClick={() => this.noCostEMIClick()}
-                    />
-                  </div>
+            {this.props.isNoCostEmiApplied && !this.props.isNoCostEmiProceeded && (
+              <div className={styles.buttonHolder}>
+                <div className={styles.button}>
+                  <Button
+                    type="primary"
+                    backgroundColor="#ff1744"
+                    height={40}
+                    label="Pay now"
+                    width={150}
+                    textStyle={{
+                      color: "#FFF",
+                      fontSize: 14
+                    }}
+                    onClick={() => this.noCostEMIClick()}
+                  />
                 </div>
-              )}
+              </div>
+            )}
           </DesktopOnly>
         </div>
       </div>
@@ -412,6 +521,14 @@ export default class NoCostEmiBankDetails extends React.Component {
       );
     }
 
+    let noCostEmiDetails =
+      this.props.noCostEmiDetails && this.props.noCostEmiDetails.cartAmount;
+    if (!noCostEmiDetails) {
+      noCostEmiDetails =
+        this.props.retryPaymentDetails &&
+        this.props.retryPaymentDetails.cartAmount;
+    }
+
     return (
       <div className={styles.base}>
         <div className={styles.bankText}>
@@ -428,7 +545,7 @@ export default class NoCostEmiBankDetails extends React.Component {
                   })
                   .map((val, i) => {
                     return (
-                      <div className={styles.bankLogo}>
+                      <div className={styles.bankLogo} key={i}>
                         <BankSelect
                           image={val.logoUrl}
                           value={val.code}
@@ -436,6 +553,9 @@ export default class NoCostEmiBankDetails extends React.Component {
                           key={i}
                           selectItem={() => this.handleSelect(i, val.code)}
                           selected={this.state.selectedCode === val.code}
+                          isRetryPaymentFromURL={
+                            this.props.isRetryPaymentFromURL
+                          }
                         />
                       </div>
                     );
@@ -446,7 +566,9 @@ export default class NoCostEmiBankDetails extends React.Component {
                 <div className={styles.selectHolder}>
                   <SelectBoxMobile2
                     height={33}
-                    placeholder={"Other Bank"}
+                    placeholder={
+                      !this.props.isRetryPaymentFromURL ? "Other Bank" : ""
+                    }
                     backgroundColor="#fff"
                     isEnable={this.state.selectedFromDropDown}
                     options={filteredBankListWithOutLogo.map((val, i) => {
@@ -477,7 +599,7 @@ export default class NoCostEmiBankDetails extends React.Component {
                           className={styles.monthWithCheckbox}
                           key={i}
                           value={val.emicouponCode}
-                          onClick={() => this.onSelectMonth(i, val)}
+                          onClick={event => this.onSelectMonth(i, val, event)}
                         >
                           <div className={styles.checkbox}>
                             <CheckBox
@@ -493,7 +615,11 @@ export default class NoCostEmiBankDetails extends React.Component {
             )}
             {this.state.selectedMonth !== null &&
               this.props.noCostEmiDetails &&
-              this.renderMonthsPlan()}
+              this.renderMonthsPlan(this.props.noCostEmiDetails.cartAmount)}
+            {this.state.selectedMonth !== null &&
+              this.props.isRetryPaymentFromURL &&
+              this.props.retryPaymentDetails &&
+              this.renderMonthsPlan(this.props.retryPaymentDetails.cartAmount)}
             {this.state.selectedBankCode &&
               this.state.selectedBankIndex !== null && (
                 <div className={styles.itemLevelButtonHolder}>
@@ -518,14 +644,13 @@ export default class NoCostEmiBankDetails extends React.Component {
               term={this.state.selectedTenure}
               emiRate="No Cost"
               price={
-                this.props.noCostEmiDetails.cartAmount &&
-                this.props.noCostEmiDetails.cartAmount
-                  .noCostEMIPerMonthPayable &&
+                noCostEmiDetails &&
+                noCostEmiDetails.noCostEMIPerMonthPayable &&
                 `${RUPEE_SYMBOL} ${Math.round(
-                  this.props.noCostEmiDetails.cartAmount
-                    .noCostEMIPerMonthPayable.value * 100
+                  noCostEmiDetails.noCostEMIPerMonthPayable.value * 100
                 ) / 100}`
               }
+              isRetryPaymentFromURL={this.props.isRetryPaymentFromURL}
               changePlan={() => this.changeNoCostEmiPlan()}
             />
             <CreditCardForm

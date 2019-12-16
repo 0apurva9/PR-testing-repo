@@ -90,25 +90,22 @@ export default class SizeGuideMain extends React.Component {
                   })}
                 </div>
               )}
-            {this.props.category === "Footwear" &&
-              this.props.category === "Accessories" && (
-                <DesktopOnly>
-                  <div
-                    className={
-                      this.props.category === "Footwear"
-                        ? styles.imageHolderFootwear
-                        : styles.imageHolder
-                    }
-                  >
-                    <div className={styles.image}>
-                      <Image
-                        fit="contain"
-                        image={this.props.sizeData.imageURL}
-                      />
-                    </div>
+            {(this.props.category === "Footwear" ||
+              this.props.category === "Accessories") && (
+              <DesktopOnly>
+                <div
+                  className={
+                    this.props.category === "Footwear"
+                      ? styles.imageHolderFootwear
+                      : styles.imageHolder
+                  }
+                >
+                  <div className={styles.image}>
+                    <Image fit="contain" image={this.props.sizeData.imageURL} />
                   </div>
-                </DesktopOnly>
-              )}
+                </div>
+              </DesktopOnly>
+            )}
           </div>
         </div>
       );

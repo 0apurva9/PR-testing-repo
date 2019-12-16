@@ -104,7 +104,7 @@ export default class RevelantProductList extends React.Component {
     let widthChange =
       // this.props.array.length > 1
       //   ?
-      styles.reactSelectOption;
+      styles.oneProduct;
     // : styles.oneProduct;
     return (
       <div>
@@ -121,45 +121,47 @@ export default class RevelantProductList extends React.Component {
           />
         </div>
         {this.props.bundleprdouct && (
-          <div className={widthChange}>
-            <div className={styles.bundleContent}>
+          <div className={styles.oneProductBundling}>
+            <div>
               <React.Fragment>
-                <div className={styles.bundledImage}>
+                <div className={styles.bundledImageForOneProduct}>
                   <Image
                     image={mobileGalleryImages && mobileGalleryImages}
                     fit="contain"
                   />
                 </div>
-                <h2 className={styles.brandName}>
-                  <span>{bundleprdouct.brandName}</span>
-                </h2>
-                <h1 className={styles.productName}>
-                  {bundleprdouct.productName}
-                </h1>
               </React.Fragment>
-
+              <div className={styles.bundleContentForOneProduct}>
+                <div className={styles.brandName}>
+                  {bundleprdouct.brandName}
+                </div>
+                <div className={styles.productName}>
+                  {bundleprdouct.productName}
+                </div>
+              </div>
               {!bundleprdouct.isRange &&
                 discountPrice &&
                 discountPrice !== price && (
-                  <div className={styles.discount}>
+                  <div className={styles.discountForOneProduct}>
                     {discountPrice.toString().includes(RUPEE_SYMBOL)
                       ? discountPrice
                       : `${RUPEE_SYMBOL}${Math.floor(discountPrice)}`}
                   </div>
                 )}
-              {!bundleprdouct.isRange && price && (
-                <div
-                  className={
-                    discountPrice === price
-                      ? styles.discount
-                      : styles.priceCancelled
-                  }
-                >
-                  {price.toString().includes(RUPEE_SYMBOL)
-                    ? price
-                    : `${RUPEE_SYMBOL}${Math.floor(price)}`}
-                </div>
-              )}
+              {!bundleprdouct.isRange &&
+                price && (
+                  <div
+                    className={
+                      discountPrice === price
+                        ? styles.discountForOneProduct
+                        : styles.priceCancelled
+                    }
+                  >
+                    {price.toString().includes(RUPEE_SYMBOL)
+                      ? price
+                      : `${RUPEE_SYMBOL}${Math.floor(price)}`}
+                  </div>
+                )}
               {bundleprdouct.discount &&
               bundleprdouct.discount !== "0" &&
               bundleprdouct.productCategory !== "FineJewellery" ? (

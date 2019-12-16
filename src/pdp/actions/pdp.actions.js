@@ -34,6 +34,8 @@ import {
 import { setBagCount } from "../../general/header.actions";
 import { setDataLayer, ADOBE_PDP_TYPE } from "../../lib/adobeUtils.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
+import { isBrowser } from "browser-or-node";
+
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
 import { displayToast, showToast } from "../../general/toast.actions.js";
 export const SUBMIT_REVIEW_TEXT =
@@ -192,7 +194,7 @@ const MSD_REQUEST_PATH = "widgets";
 const API_KEY = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
 const WIDGET_LIST = [0, 4];
 const WIDGET_LIST_FOR_ABOUT_BRAND = [114];
-const NUMBER_RESULTS = [10, 10];
+const NUMBER_RESULTS = [5, 5];
 //TPR-9957 for Desktop
 export const PDP_MANUFACTURER_REQUEST = "PDP_MANUFACTURER_REQUEST";
 export const PDP_MANUFACTURER_SUCCESS = "PDP_MANUFACTURER_SUCCESS";
@@ -252,10 +254,11 @@ export function getProductDescription(
           window.location.pathname = resultJson.seo.alternateURL;
         }
         if (
-          !window.digitalData ||
-          !window.digitalData.cpj ||
-          !window.digitalData.cpj.product ||
-          window.digitalData.cpj.product.id !== resultJson.productListingId
+          isBrowser &&
+          (!window.digitalData ||
+            !window.digitalData.cpj ||
+            !window.digitalData.cpj.product ||
+            window.digitalData.cpj.product.id !== resultJson.productListingId)
         ) {
           if (componentName === "Theme offers component") {
             setDataLayer(
@@ -1063,10 +1066,11 @@ export function getPdpItems(itemIds, widgetKey) {
   return async (dispatch, getState, { api }) => {
     dispatch(getPdpItemsPdpRequest());
     try {
-      let productCodes;
-      each(itemIds, itemId => {
-        productCodes = `${itemId},${productCodes}`;
-      });
+      // let productCodes;
+      // each(itemIds, itemId => {
+      //   productCodes = `${itemId},${productCodes}`;
+      // });
+      let productCodes = itemIds && itemIds.toString();
       const url = `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
       const result = await api.getMiddlewareUrl(url);
       const resultJson = await result.json();
