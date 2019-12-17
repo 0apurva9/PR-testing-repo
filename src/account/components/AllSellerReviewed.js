@@ -253,17 +253,19 @@ export default class AllSellerReviewed extends React.Component {
     } else {
       document.body.style.overflow = "auto";
     }
-    let userData;
     let { reviewRemoveReason } = this.state;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let userData;
+    if (userDetails) {
+      userData = JSON.parse(userDetails);
+    }
     if (!userDetails || !customerCookie) {
       return this.navigateToLogin();
     }
     if (userData && userData.customerId !== customerId) {
       return this.navigateToLogin();
     }
-    console.log("cookie", customerCookie);
     if (userDetails) {
       userData = JSON.parse(userDetails);
     }

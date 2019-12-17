@@ -310,7 +310,7 @@ export default class AllSellerDetails extends React.Component {
     if (userDetails) {
       userData = JSON.parse(userDetails);
     }
-    console.log("cookie", userDetails);
+
     if (userData && userData.customerId !== customerId) {
       return this.navigateToLogin();
     }
