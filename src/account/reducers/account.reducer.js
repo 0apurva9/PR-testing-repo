@@ -239,7 +239,12 @@ const account = (
     updateReturnHOTCError: null,
 
     userRatingStatus: null,
-    userRatingError: null
+    userRatingError: null,
+
+    UserNotificationDetailsStatus: null,
+    UserNotificationDetailsError: null,
+    UserNotificationDetails: null,
+    UserNotificationConfig: null
   },
   action
 ) => {
@@ -275,7 +280,8 @@ const account = (
         updateProfileError: null,
         changePasswordError: null,
         reSendEmailError: null,
-        pinCodeDetails: null
+        pinCodeDetails: null,
+        UserNotificationDetailsError: null
       });
     case accountActions.GET_RETURN_REQUEST:
     case accountActions.RETURN_PRODUCT_DETAILS_REQUEST:
@@ -1498,6 +1504,41 @@ const account = (
       return Object.assign({}, state, {
         userRatingStatus: action.status,
         userRatingError: action.error,
+        loading: false
+      });
+    case accountActions.GET_USER_NOTIFICATION_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        UserNotificationDetailsStatus: action.status,
+        loading: true
+      });
+    case accountActions.GET_USER_NOTIFICATION_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        UserNotificationDetailsStatus: action.status,
+        UserNotificationDetails: action.notificationDetails,
+        UserNotificationConfig: action.notificationDetails,
+        loading: false
+      });
+    case accountActions.GET_USER_NOTIFICATION_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        UserNotificationDetailsStatus: action.status,
+        UserNotificationDetailsError: action.error,
+        loading: false
+      });
+    case accountActions.SET_USER_SMS_NOTIFICATION_REQUEST:
+      return Object.assign({}, state, {
+        UserNotificationDetailsStatus: action.status,
+        loading: true
+      });
+    case accountActions.SET_USER_SMS_NOTIFICATION_SUCCESS:
+      return Object.assign({}, state, {
+        UserNotificationDetailsStatus: action.status,
+        UserNotificationDetails: action.setSMSResponse,
+        loading: false
+      });
+    case accountActions.SET_USER_SMS_NOTIFICATION_FAILURE:
+      return Object.assign({}, state, {
+        UserNotificationDetailsStatus: action.status,
+        UserNotificationDetailsError: action.error,
         loading: false
       });
     case accountActions.RESET_RETRY_PAYMENT:

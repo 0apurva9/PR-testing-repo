@@ -398,6 +398,20 @@ export const GET_USER_RATING_REQUEST = "GET_USER_RATING_REQUEST";
 export const GET_USER_RATING_SUCCESS = "GET_USER_RATING_SUCCESS";
 export const GET_USER_RATING_FAILURE = "GET_USER_RATING_FAILURE";
 
+export const GET_USER_NOTIFICATION_DETAILS_REQUEST =
+  "GET_USER_NOTIFICATION_DETAILS_REQUEST";
+export const GET_USER_NOTIFICATION_DETAILS_SUCCESS =
+  "GET_USER_NOTIFICATION_DETAILS_SUCCESS";
+export const GET_USER_NOTIFICATION_DETAILS_FAILURE =
+  "GET_USER_NOTIFICATION_DETAILS_FAILURE";
+
+export const SET_USER_SMS_NOTIFICATION_REQUEST =
+  "SET_USER_SMS_NOTIFICATION_REQUEST";
+export const SET_USER_SMS_NOTIFICATION_SUCCESS =
+  "SET_USER_SMS_NOTIFICATION_SUCCESS";
+export const SET_USER_SMS_NOTIFICATION_FAILURE =
+  "SET_USER_SMS_NOTIFICATION_FAILURE";
+
 export const RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS =
   "RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS";
 
@@ -3677,8 +3691,7 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
 
 export function productRatingByUserRequest() {
   return {
-    type: GET_USER_RATING_REQUEST,
-    status: REQUESTING
+    type: GET_USER_RATING_REQUEST
   };
 }
 
@@ -3737,10 +3750,6 @@ export function submitProductRatingByUser(ratingValue, propsData) {
       }
       dispatch(clearOrderDetails());
       dispatch(getAllOrdersDetails());
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
-      }
       dispatch(productRatingByUserSuccess());
       if (
         propsData &&
@@ -3762,6 +3771,100 @@ export function submitProductRatingByUser(ratingValue, propsData) {
     }
   };
 }
+
+export function getUserNotificationRequest() {
+  return {
+    type: GET_USER_NOTIFICATION_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getUserNotificationSuccess(notificationDetails) {
+  return {
+    type: GET_USER_NOTIFICATION_DETAILS_SUCCESS,
+    status: SUCCESS,
+    notificationDetails
+  };
+}
+
+export function getUserNotificationFailure(error) {
+  return {
+    type: GET_USER_NOTIFICATION_DETAILS_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+
+export function getUserNotifications() {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getUserNotificationRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getUserPreferences?access_token=${
+          JSON.parse(customerCookie).access_token
+        }`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getUserNotificationSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getUserNotificationFailure(e.message));
+    }
+  };
+}
+
+export function setSMSNotificationRequest() {
+  return {
+    type: SET_USER_SMS_NOTIFICATION_REQUEST,
+    status: REQUESTING
+  };
+}
+export function setSMSNotificationSuccess(setSMSResponse) {
+  return {
+    type: SET_USER_SMS_NOTIFICATION_SUCCESS,
+    status: SUCCESS,
+    setSMSResponse
+  };
+}
+export function setSMSNotificationFailure(error) {
+  return {
+    type: SET_USER_SMS_NOTIFICATION_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+
+export function setSMSNotification(val) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(setSMSNotificationRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/updateUserPreference?channel=web&sms=${val}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(setSMSNotificationSuccess(resultJson));
+    } catch (e) {
+      return dispatch(setSMSNotificationFailure(e.message));
+    }
+  };
+}
+
 export function resetFailedOrderDetails() {
   return { type: RESET_RETRY_PAYMENT };
 }
