@@ -3747,7 +3747,15 @@ export function submitProductRatingByUser(ratingValue, propsData) {
         propsData.productDetails &&
         !propsData.productDetails.hasOwnProperty("userRating")
       ) {
-        dispatch(showModal(RATING_AND_REVIEW_MODAL, propsData));
+        dispatch(
+          showModal(RATING_AND_REVIEW_MODAL, {
+            ...propsData,
+            productDetails: {
+              ...propsData.productDetails,
+              userRating: resultJson.rating
+            }
+          })
+        );
       }
     } catch (e) {
       dispatch(productRatingByUserFailure(e.message));

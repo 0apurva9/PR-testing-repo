@@ -142,13 +142,6 @@ export default class RatingAndReview extends React.Component {
       }
     }
     setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_SUBMIT_CLICK);
-    if (this.props.addReviewStatus === SUCCESS) {
-      this.props.hideModal();
-      if (this.props.clearOrderDetails && this.props.getAllOrdersDetails) {
-        this.props.clearOrderDetails();
-        this.props.getAllOrdersDetails();
-      }
-    }
   };
 
   render() {

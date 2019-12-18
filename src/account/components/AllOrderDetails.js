@@ -146,6 +146,20 @@ export default class AllOrderDetails extends React.Component {
       this.props.getAllOrdersDetails();
     }
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      this.props.addReviewStatus !== nextProps.addReviewStatus &&
+      nextProps.addReviewStatus === SUCCESS
+    ) {
+      this.props.hideModal();
+      if (this.props.clearOrderDetails && this.props.getAllOrdersDetails) {
+        this.props.clearOrderDetails();
+        this.props.getAllOrdersDetails();
+      }
+    }
+  }
+
   componentWillUnmount() {
     this.props.clearOrderDetails();
     window.removeEventListener("scroll", this.throttledScroll);
