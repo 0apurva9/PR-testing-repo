@@ -9,7 +9,8 @@ import {
   PDP_FOLLOW_AND_UN_FOLLOW,
   MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW,
   CHANNEL,
-  EMAIL_SENT_SUCCESS_MESSAGE
+  EMAIL_SENT_SUCCESS_MESSAGE,
+  FAILED_ORDER
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 //import findIndex from "lodash.findindex";
@@ -24,7 +25,10 @@ import {
   SUCCESS_MESSAGE_IN_CANCEL_RETURN_ORDER,
   SUCCESS_MESSAGE_IN_RETURN_TO_HOTC,
   FEMALE,
-  MALE
+  MALE,
+  NO_COST_EMI_COUPON,
+  BANK_COUPON_COOKIE,
+  COUPON_COOKIE
 } from "../../lib/constants";
 import {
   showModal,
@@ -282,6 +286,7 @@ export const GET_USER_REVIEW_SUCCESS = "GET_USER_REVIEW_SUCCESS";
 export const RETRY_PAYMENT_REQUEST = "RETRY_PAYMENT_REQUEST";
 export const RETRY_PAYMENT_SUCCESS = "RETRY_PAYMENT_SUCCESS";
 export const RETRY_PAYMENT_FAILURE = "RETRY_PAYMENT_FAILURE";
+export const RESET_RETRY_PAYMENT = "RESET_RETRY_PAYMENT";
 
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
 export const Clear_ORDER_TRANSACTION_DATA = "Clear_ORDER_TRANSACTION_DATA";
@@ -397,6 +402,9 @@ export const SET_USER_SMS_NOTIFICATION_SUCCESS =
   "SET_USER_SMS_NOTIFICATION_SUCCESS";
 export const SET_USER_SMS_NOTIFICATION_FAILURE =
   "SET_USER_SMS_NOTIFICATION_FAILURE";
+
+export const RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS =
+  "RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS";
 
 export function getDetailsOfCancelledProductRequest() {
   return {
@@ -3508,7 +3516,11 @@ export function submitOrderDetails(submitOrderDetails) {
         currentOrderCode,
         currentSubOrderCode;
       if (submitOrderDetails.currentState === 0) {
-        transactionIdWithAttachmentFile = `transactionId=${submitOrderDetails.transactionId}&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${submitOrderDetails.imageURL}`;
+        transactionIdWithAttachmentFile = `transactionId=${
+          submitOrderDetails.transactionId
+        }&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${
+          submitOrderDetails.imageURL
+        }`;
         currentOrderCode = `${submitOrderDetails.orderCode}`;
         currentSubOrderCode = `${submitOrderDetails.subOrderCode}`;
 
@@ -3648,6 +3660,19 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      if (resultJson.paymentRetryUrl) {
+        localStorage.setItem(FAILED_ORDER, resultJson.paymentRetryUrl);
+      }
+      if (
+        resultJson &&
+        resultJson.bankCouponName &&
+        resultJson.bankCouponName.couponName
+      ) {
+        localStorage.setItem(
+          BANK_COUPON_COOKIE,
+          resultJson.bankCouponName.couponName
+        );
+      }
       return dispatch(retryPaymentSuccess(resultJson));
     } catch (e) {
       return dispatch(retryPaymentFailure(e.message));
@@ -3746,5 +3771,17 @@ export function setSMSNotification(val) {
     } catch (e) {
       return dispatch(setSMSNotificationFailure(e.message));
     }
+  };
+}
+
+export function resetFailedOrderDetails() {
+  return { type: RESET_RETRY_PAYMENT };
+}
+
+export function releaseBankOfferRetryPaymentSuccess(bankOffer) {
+  return {
+    type: RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS,
+    status: SUCCESS,
+    bankOffer
   };
 }

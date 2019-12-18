@@ -67,6 +67,8 @@
   height: auto;
   display: inline-block;
   vertical-align: top;
+  pointer-events: auto;
+  cursor: pointer;
 }
 .buttonHolderForContinueCoupon {
   composes: buttonHolderForPaymentMode;

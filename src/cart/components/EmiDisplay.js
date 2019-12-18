@@ -37,20 +37,22 @@ export default class EmiDisplay extends React.Component {
           {this.props.term} EMI @ {emiRate}
           <span className={styles.price}>Rs. {this.props.price}</span>/Month
         </div>
-        <DesktopOnly>
-          <div className={styles.buttonHolder}>
-            <Button
-              borderRadius={18}
-              borderColor="#ff1744"
-              backgroundColor="#f9f9f9"
-              height={36}
-              label={"Change plan"}
-              width={147}
-              textStyle={{ color: "#ff1744", fontSize: 14 }}
-              onClick={() => this.handleClick()}
-            />
-          </div>
-        </DesktopOnly>
+        {!this.props.isRetryPaymentFromURL && (
+          <DesktopOnly>
+            <div className={styles.buttonHolder}>
+              <Button
+                borderRadius={18}
+                borderColor="#ff1744"
+                backgroundColor="#f9f9f9"
+                height={36}
+                label={"Change plan"}
+                width={147}
+                textStyle={{ color: "#ff1744", fontSize: 14 }}
+                onClick={() => this.handleClick()}
+              />
+            </div>
+          </DesktopOnly>
+        )}
         <MobileOnly>
           <div className={styles.checkBoxHolder}>
             <Image image={image} />
