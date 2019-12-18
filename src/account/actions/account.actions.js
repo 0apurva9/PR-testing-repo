@@ -254,6 +254,13 @@ export const GET_CUSTOMER_QUERIES_DATA_SUCCESS =
 export const GET_CUSTOMER_QUERIES_DATA_FAILURE =
   "GET_CUSTOMER_QUERIES_DATA_FAILURE";
 
+export const GET_CUSTOMER_QUERIES_FIELDS_REQUEST =
+  "GET_CUSTOMER_QUERIES_FIELDS_REQUEST";
+export const GET_CUSTOMER_QUERIES_FIELDS_SUCCESS =
+  "GET_CUSTOMER_QUERIES_FIELDS_SUCCESS";
+export const GET_CUSTOMER_QUERIES_FIELDS_FAILURE =
+  "GET_CUSTOMER_QUERIES_FIELDS_FAILURE";
+
 export const RESEND_EMAIL_FOR_GIFT_CARD_REQUEST =
   "RESEND_EMAIL_FOR_GIFT_CARD_REQUEST";
 export const RESEND_EMAIL_FOR_GIFT_CARD_SUCCESS =
@@ -3426,6 +3433,176 @@ export function getCustomerQueriesDatav2() {
       dispatch(getCustomerQueriesDataSuccessv2(resultJson));
     } catch (e) {
       dispatch(getCustomerQueriesDataFailurev2(e.message));
+    }
+  };
+}
+
+export function getCustomerQueriesFieldsRequestv2() {
+  return {
+    type: GET_CUSTOMER_QUERIES_FIELDS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getCustomerQueriesFieldsSuccessv2(customerQueriesField) {
+  return {
+    type: GET_CUSTOMER_QUERIES_FIELDS_SUCCESS,
+    status: SUCCESS,
+    customerQueriesField
+  };
+}
+export function getCustomerQueriesFieldsFailurev2() {
+  return {
+    type: GET_CUSTOMER_QUERIES_FIELDS_FAILURE,
+    status: FAILURE
+  };
+}
+
+export function getCustomerQueriesFieldsv2() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getCustomerQueriesFieldsRequestv2());
+    try {
+      // const result = await api.get("v2/mpl/getOrderRelatedQuestions");
+      const resultJson = [
+        {
+          componentName: "labelComponent",
+          singleBannerComponent: {
+            componentId: "comp_0000HSGY",
+            items: [
+              {
+                btnText: "",
+                description: "<label>|<size,bold>",
+                hexCode: "",
+                imageURL: "",
+                title: "",
+                webURL: ""
+              }
+            ],
+            title: "",
+            type: "labelComponent"
+          }
+        },
+        {
+          componentName: "textboxComponent",
+          singleBannerComponent: {
+            componentId: "comp_0000HSGY",
+            items: [
+              {
+                btnText: "",
+                description: "<label>|<mandatory(0,1)>|<placeholder>",
+                hexCode: "<isNumeric|alphanumeric|general>",
+                imageURL: "",
+                title:
+                  "<minLength,errorMessage>|<maxLength,errorMessage>|regex,errorMessage>",
+                webURL: ""
+              }
+            ],
+            title: "<formFieldName>",
+            type: "textboxComponent"
+          }
+        },
+        {
+          componentName: "checkboxComponent",
+          singleBannerComponent: {
+            componentId: "comp_0000HSGY",
+            items: [
+              {
+                btnText: "",
+                description: "<label>|<mandatory(0,1)>",
+                hexCode: "",
+                imageURL: "",
+                title:
+                  "<option1,value,1,webFormTemplate>|<option2,value,0,webFormTemplate>",
+                webURL: ""
+              }
+            ],
+            title: "<formFieldName>",
+            type: "checkboxComponent"
+          }
+        },
+        {
+          componentName: "textAreaComponent",
+          singleBannerComponent: {
+            componentId: "comp_0000HSGY",
+            items: [
+              {
+                btnText: "",
+                description: "<label>|<mandatory(0,1)>|<placeholder>",
+                hexCode: "",
+                imageURL: "",
+                title: "<minLength,errorMessage>|<maxLength,errorMessage>",
+                webURL: ""
+              }
+            ],
+            title: "<formFieldName>",
+            type: "textAreaComponent"
+          }
+        },
+        {
+          componentName: "radioComponent",
+          singleBannerComponent: {
+            componentId: "comp_0000HSGY",
+            items: [
+              {
+                btnText: "",
+                description: "<label>|<mandatory(0,1)>",
+                hexCode: "",
+                imageURL: "",
+                title:
+                  "<option1,value,1,webFormTemplate>|<option2,value,0,webFormTemplate>",
+                webURL: ""
+              }
+            ],
+            title: "<formFieldName>",
+            type: "radioComponent"
+          }
+        },
+        {
+          componentName: "checkboxComponent",
+          singleBannerComponent: {
+            componentId: "comp_0000HSGY",
+            items: [
+              {
+                btnText: "",
+                description: "<label>|<mandatory(0,1)>",
+                hexCode: "",
+                imageURL: "",
+                title:
+                  "<option1,value,1,webFormTemplate>|<option2,value,0,webFormTemplate>",
+                webURL: ""
+              }
+            ],
+            title: "<formFieldName>",
+            type: "checkboxComponent"
+          }
+        },
+        {
+          componentName: "attachmentComponent",
+          singleBannerComponent: {
+            componentId: "comp_0000HSGY",
+            items: [
+              {
+                btnText: "",
+                description: "<label(Add Attachment)>|<mandatory(0,1)>",
+                hexCode: "max #file(-1 in case no limit)",
+                imageURL: "",
+                title: "<labelText (Bank Statement or Proof of Debit>",
+                webURL: ""
+              }
+            ],
+            title: "<formFieldName (attachmentFiles)>",
+            type: "attachmentComponent"
+          }
+        }
+      ];
+      //await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getCustomerQueriesFieldsSuccessv2(resultJson));
+    } catch (e) {
+      dispatch(getCustomerQueriesFieldsFailurev2(e.message));
     }
   };
 }

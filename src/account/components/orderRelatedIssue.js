@@ -189,6 +189,7 @@ export default class OrderRelatedIssue extends React.Component {
       uItemplateCode: issue[0].uItemplateCode,
       tat: issue[0].tat
     });
+    this.props.getCustomerQueriesFieldsv2();
   }
   onChangeSubReasonForOrderRelated(val) {
     const code = val.value;

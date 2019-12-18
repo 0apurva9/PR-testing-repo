@@ -1091,6 +1091,7 @@ const account = (
         reSendEmailLoader: false
       });
 
+    //Queries
     case accountActions.GET_CUSTOMER_QUERIES_DATA_REQUEST:
       return Object.assign({}, state, {
         customerQueriesDataStatus: action.status,
@@ -1109,6 +1110,27 @@ const account = (
         customerQueriesDataStatus: action.status,
         customerQueriesDataError: action.error,
         customerQueriesDataLoading: false
+      });
+
+    //Fields
+    case accountActions.GET_CUSTOMER_QUERIES_FIELDS_REQUEST:
+      return Object.assign({}, state, {
+        customerQueriesFieldStatus: action.status,
+        customerQueriesFieldLoading: true
+      });
+
+    case accountActions.GET_CUSTOMER_QUERIES_FIELDS_SUCCESS:
+      return Object.assign({}, state, {
+        customerQueriesFieldStatus: action.status,
+        customerQueriesFieldLoading: false,
+        customerQueriesField: action.customerQueriesField
+      });
+
+    case accountActions.GET_CUSTOMER_QUERIES_FIELDS_FAILURE:
+      return Object.assign({}, state, {
+        customerQueriesFieldStatus: action.status,
+        customerQueriesFieldError: action.error,
+        customerQueriesFieldLoading: false
       });
 
     case accountActions.GET_ORDERS_TRANSACTION_DATA_REQUEST:
