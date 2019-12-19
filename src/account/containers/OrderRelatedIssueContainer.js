@@ -52,7 +52,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 const mapStateToProps = state => {
-  console.log("state.profile", state.profile.customerQueriesField);
   return {
     ordersTransactionDataLoading: state.profile.ordersTransactionDataLoading,
     customerQueriesData: state.profile.customerQueriesData,

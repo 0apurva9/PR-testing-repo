@@ -3467,134 +3467,116 @@ export function getCustomerQueriesFieldsv2() {
         {
           componentName: "labelComponent",
           singleBannerComponent: {
-            componentId: "comp_0000HSGY",
+            componentId: "comp_0000HSGY1",
             items: [
               {
                 btnText: "",
-                description: "<label>|<size,bold>",
+                description: "Please enter following details|16,bold",
                 hexCode: "",
                 imageURL: "",
                 title: "",
                 webURL: ""
               }
             ],
-            title: "",
+            title: "Thanks for using TataCliq",
             type: "labelComponent"
           }
         },
         {
           componentName: "textboxComponent",
           singleBannerComponent: {
-            componentId: "comp_0000HSGY",
+            componentId: "comp_0000HSGY2",
             items: [
               {
                 btnText: "",
-                description: "<label>|<mandatory(0,1)>|<placeholder>",
-                hexCode: "<isNumeric|alphanumeric|general>",
+                description: "Promotion Name|1|Enter your Promotion Name",
+                hexCode: "alphanumeric",
                 imageURL: "",
                 title:
-                  "<minLength,errorMessage>|<maxLength,errorMessage>|regex,errorMessage>",
+                  "10,Promotion Name must be 10 digit long|40,Promotion Name can not exceed 40 digits|[a-zA-Z0-9],Promotion name should only be Alpha-Numeric",
                 webURL: ""
               }
             ],
-            title: "<formFieldName>",
+            title: "formField_text_01",
             type: "textboxComponent"
-          }
-        },
-        {
-          componentName: "checkboxComponent",
-          singleBannerComponent: {
-            componentId: "comp_0000HSGY",
-            items: [
-              {
-                btnText: "",
-                description: "<label>|<mandatory(0,1)>",
-                hexCode: "",
-                imageURL: "",
-                title:
-                  "<option1,value,1,webFormTemplate>|<option2,value,0,webFormTemplate>",
-                webURL: ""
-              }
-            ],
-            title: "<formFieldName>",
-            type: "checkboxComponent"
           }
         },
         {
           componentName: "textAreaComponent",
           singleBannerComponent: {
-            componentId: "comp_0000HSGY",
+            componentId: "comp_0000HSGY3",
             items: [
               {
                 btnText: "",
-                description: "<label>|<mandatory(0,1)>|<placeholder>",
+                description: "Comment(Optional)|1|Type Here...",
                 hexCode: "",
                 imageURL: "",
-                title: "<minLength,errorMessage>|<maxLength,errorMessage>",
+                title:
+                  "240,Comment's length must be 240 |240,Comment's length can not be greater than 240",
                 webURL: ""
               }
             ],
-            title: "<formFieldName>",
+            title: "formField_comment_02",
             type: "textAreaComponent"
           }
         },
         {
           componentName: "radioComponent",
           singleBannerComponent: {
-            componentId: "comp_0000HSGY",
+            componentId: "comp_0000HSGY4",
             items: [
               {
                 btnText: "",
-                description: "<label>|<mandatory(0,1)>",
+                description: "Handed over the product bought from|1",
                 hexCode: "",
                 imageURL: "",
                 title:
-                  "<option1,value,1,webFormTemplate>|<option2,value,0,webFormTemplate>",
+                  "Outer packaging of the parcel was tampered,Rad_101,1>|Product box seal was tampered,Rad_102,0>",
                 webURL: ""
               }
             ],
-            title: "<formFieldName>",
+            title: "formField_radio_03",
             type: "radioComponent"
           }
         },
         {
           componentName: "checkboxComponent",
           singleBannerComponent: {
-            componentId: "comp_0000HSGY",
+            componentId: "comp_0000HSGY5",
             items: [
               {
                 btnText: "",
-                description: "<label>|<mandatory(0,1)>",
+                description: "Select check|1",
                 hexCode: "",
                 imageURL: "",
-                title:
-                  "<option1,value,1,webFormTemplate>|<option2,value,0,webFormTemplate>",
+                title: "Select check 1,Check_101,0|Select check 2,Check_102,0>",
                 webURL: ""
               }
             ],
-            title: "<formFieldName>",
+            title: "formField_check_04",
             type: "checkboxComponent"
           }
         },
         {
           componentName: "attachmentComponent",
           singleBannerComponent: {
-            componentId: "comp_0000HSGY",
+            componentId: "comp_0000HSGY6",
             items: [
               {
                 btnText: "",
-                description: "<label(Add Attachment)>|<mandatory(0,1)>",
-                hexCode: "max #file(-1 in case no limit)",
+                description: "Add Attachment|1",
+                hexCode: "-1",
                 imageURL: "",
-                title: "<labelText (Bank Statement or Proof of Debit>",
+                title: "Bank Statement",
                 webURL: ""
               }
             ],
-            title: "<formFieldName (attachmentFiles)>",
+            title: "formField_attachments_05",
             type: "attachmentComponent"
           }
         }
       ];
+
       //await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {

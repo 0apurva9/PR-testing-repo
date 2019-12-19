@@ -397,6 +397,8 @@ export default class OrderRelatedIssue extends React.Component {
     if (!userDetailsCookie || !customerCookie) {
       return this.navigateToLogin();
     }
+    let customerQueriesField = this.props.customerQueriesField;
+    console.log("customerQueriesField", customerQueriesField);
     let l1OptionsArray, l2OptionsArray, l3OptionsArray;
     if (this.state.isSelected === 0) {
       l1OptionsArray =
@@ -528,7 +530,7 @@ export default class OrderRelatedIssue extends React.Component {
                     onChange={val => this.onChangeReasonForOrderRelated(val)}
                   />
                 </div>
-                {!this.state.solution &&
+                {/* {!this.state.solution &&
                   l2OptionsArray &&
                   l2OptionsArray.children &&
                   l2OptionsArray.children.length > 0 && (
@@ -553,7 +555,7 @@ export default class OrderRelatedIssue extends React.Component {
                         }
                       />
                     </div>
-                  )}
+                  )} */}
                 <div className={styles.selectIssue}>
                   {!this.state.solution &&
                     this.state.L0 && (
