@@ -3577,17 +3577,106 @@ export function getCustomerQueriesFieldsv2() {
         }
       ];
 
+      /**
+       * @author Prashant
+       * Added loop to calculate the response data from the API
+       */
+      var responseData = [];
+      resultJson &&
+        resultJson.map(ele => {
+          if (ele.componentName === "textAreaComponent") {
+            let textAreaData = getTextAreaApiData(ele);
+            responseData.push(textAreaData);
+          }
+        });
+
       //await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(getCustomerQueriesFieldsSuccessv2(resultJson));
+      dispatch(getCustomerQueriesFieldsSuccessv2(responseData));
     } catch (e) {
       dispatch(getCustomerQueriesFieldsFailurev2(e.message));
     }
   };
 }
+
+/**
+ * @author Prashant
+ * Function to get the data related to TextArea
+ */
+const getTextAreaApiData = (apiData = []) => {
+  let items =
+    apiData.singleBannerComponent && apiData.singleBannerComponent.items[0]
+      ? apiData.singleBannerComponent.items[0]
+      : "";
+  let itemsTitle = items && items.title ? items.title : "";
+
+  let returnValue = {
+    componentName: apiData.componentName,
+    componentId: apiData.singleBannerComponent.componentId
+      ? apiData.singleBannerComponent.componentId
+      : "",
+    btnText: items && items.btnText ? items.btnText : "",
+    heading:
+      items && items.description
+        ? items.description.split("|")
+          ? items.description.split("|")[0]
+          : ""
+        : "",
+    isMandatory:
+      items && items.description
+        ? items.description.split("|")
+          ? items.description.split("|")[1]
+          : ""
+        : "",
+    placeholder:
+      items && items.description
+        ? items.description.split("|")
+          ? items.description.split("|")[2]
+          : ""
+        : "",
+    hexCode: items && items.hexCode ? items.hexCode : "",
+    imageURL: items && items.imageURL ? items.imageURL : "",
+    minLimit:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[0]
+        ? itemsTitle.split("|")[0].split(",")[0]
+          ? itemsTitle.split("|")[0].split(",")[0]
+          : ""
+        : "",
+    minLimitError:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[0]
+        ? itemsTitle.split("|")[0].split(",")[1]
+          ? itemsTitle.split("|")[0].split(",")[1]
+          : ""
+        : "",
+    maxLimit:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[1]
+        ? itemsTitle.split("|")[1].split(",")[0]
+          ? itemsTitle.split("|")[0].split(",")[0]
+          : ""
+        : "",
+    maxLimitError:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[1]
+        ? itemsTitle.split("|")[1].split(",")[1]
+          ? itemsTitle.split("|")[1].split(",")[1]
+          : ""
+        : "",
+    webURL: items && items.webURL ? items.webURL : "",
+    title: apiData.singleBannerComponent.title
+      ? apiData.singleBannerComponent.title
+      : "",
+    type: apiData.singleBannerComponent.type
+      ? apiData.singleBannerComponent.type
+      : ""
+  };
+
+  return returnValue;
+};
+/**
+ * EOD
+ */
 
 export function getOrdersTransactionDataRequest(paginated: false) {
   return {

@@ -40,6 +40,13 @@ export default class OrderRelatedIssue extends React.Component {
     super(props);
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const getUserDetails = JSON.parse(userDetailsCookie);
+    /**
+     * @author Prashant
+     * Added following fields fo type boolean with default value of false
+     * customerQryFldLabel, customerQryFldTextBox, customerQryFldTextArea, customerQryFldRadio, customerQryFldCheckBox,
+     * customerQryFldAttachment
+     * they will be responsible for showing their respective fields on the page.
+     */
     this.state = {
       showOrder: false,
       isSelected: 0,
@@ -76,7 +83,13 @@ export default class OrderRelatedIssue extends React.Component {
       productPrice: "",
       productStatus: "",
       l2SelectedReason: null,
-      l3SelectedReason: null
+      l3SelectedReason: null,
+      customerQryFldLabel: false,
+      customerQryFldTextBox: false,
+      customerQryFldTextArea: false,
+      customerQryFldRadio: false,
+      customerQryFldCheckBox: false,
+      customerQryFldAttachment: false
     };
   }
 
@@ -84,6 +97,12 @@ export default class OrderRelatedIssue extends React.Component {
     this.props.getCustomerQueriesData();
     this.props.getOrdersTransactionData(false);
     this.props.setHeaderText(CUSTOMER_CARE);
+
+    /**
+     * @author Prashant
+     * Added the below line to fetch the data from the API
+     */
+    this.props.getCustomerQueriesFieldsv2();
   }
   componentDidUpdate() {
     this.props.setHeaderText(CUSTOMER_CARE);
@@ -166,7 +185,11 @@ export default class OrderRelatedIssue extends React.Component {
     });
     this.props.getCustomerQueriesDatav2();
   }
-  onChangeReasonForOrderRelated(val) {
+  /**
+   * @author Prashant
+   * This function is being called when we are changing option in the "select issue" select box.
+   */
+  onChangeReasonForOrderRelated(val, customerQueriesFieldArray = []) {
     const code = val.uItemplateCode;
     const label = val.issueType;
     let { listofIssues } = this.props.customerQueriesData;
@@ -190,6 +213,15 @@ export default class OrderRelatedIssue extends React.Component {
       tat: issue[0].tat
     });
     this.props.getCustomerQueriesFieldsv2();
+
+    // let customerQueriesFieldArray = this.props.customerQueriesField;
+    if (customerQueriesFieldArray) {
+      customerQueriesFieldArray.map(ele => {
+        if (ele.componentName === "textAreaComponent") {
+          this.setState({ customerQryFldTextArea: true });
+        }
+      });
+    }
   }
   onChangeSubReasonForOrderRelated(val) {
     const code = val.value;
@@ -235,6 +267,33 @@ export default class OrderRelatedIssue extends React.Component {
       //   return false;
     }
 
+    if (this.state.customerQryFldTextArea) {
+      let customerQueriesFieldArray = this.props.customerQueriesField;
+      let textAreaData = [];
+      customerQueriesFieldArray &&
+        customerQueriesFieldArray.map(ele => {
+          if (ele.componentName === "textAreaComponent") {
+            textAreaData = ele;
+          }
+        });
+
+      if (
+        this.state.comment.length === 0 &&
+        parseInt(textAreaData.isMandatory)
+      ) {
+        this.props.displayToast(textAreaData.minLimitError);
+        return false;
+      }
+      if (this.state.comment.length < parseInt(textAreaData.minLimit)) {
+        this.props.displayToast(textAreaData.minLimitError);
+        return false;
+      }
+      if (this.state.comment.length > parseInt(textAreaData.maxLimit)) {
+        this.props.displayToast(textAreaData.maxLimitError);
+        return false;
+      }
+    }
+
     if (!this.state.email) {
       this.props.displayToast(EMAIL_TEXT);
       return false;
@@ -247,6 +306,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.displayToast(MOBILE_TEXT);
       return false;
     }
+
     if (this.state.mobile && !MOBILE_PATTERN.test(this.state.mobile)) {
       this.props.displayToast(MOBILE_VALID_TEXT);
       return false;
@@ -390,6 +450,7 @@ export default class OrderRelatedIssue extends React.Component {
       })
     );
   }
+
   render() {
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -397,13 +458,32 @@ export default class OrderRelatedIssue extends React.Component {
     if (!userDetailsCookie || !customerCookie) {
       return this.navigateToLogin();
     }
-    let customerQueriesField = this.props.customerQueriesField;
-    console.log("customerQueriesField", customerQueriesField);
-    let l1OptionsArray, l2OptionsArray, l3OptionsArray;
+    /**
+     * @author Prashant
+     * @param Array customerQueriesFieldArray
+     * @desc It will contain the array of the API
+     */
+    let l1OptionsArray,
+      l2OptionsArray,
+      l3OptionsArray,
+      customerQueriesFieldArray;
+    let textAreaData = {};
     if (this.state.isSelected === 0) {
       l1OptionsArray =
         this.props.customerQueriesData &&
         this.props.customerQueriesData.listofIssues;
+
+      customerQueriesFieldArray = this.props.customerQueriesField;
+
+      customerQueriesFieldArray &&
+        customerQueriesFieldArray.map(ele => {
+          if (ele.componentName === "textAreaComponent") {
+            textAreaData = ele;
+          }
+        });
+      /**
+       * EOD
+       */
     }
     if (this.state.isSelected === 1) {
       l1OptionsArray =
@@ -530,7 +610,7 @@ export default class OrderRelatedIssue extends React.Component {
                     onChange={val => this.onChangeReasonForOrderRelated(val)}
                   />
                 </div>
-                {/* {!this.state.solution &&
+                {!this.state.solution &&
                   l2OptionsArray &&
                   l2OptionsArray.children &&
                   l2OptionsArray.children.length > 0 && (
@@ -555,7 +635,7 @@ export default class OrderRelatedIssue extends React.Component {
                         }
                       />
                     </div>
-                  )} */}
+                  )}
                 <div className={styles.selectIssue}>
                   {!this.state.solution &&
                     this.state.L0 && (
@@ -855,8 +935,16 @@ export default class OrderRelatedIssue extends React.Component {
                               })
                             }
                             //isEnable={this.state.isEnableForOrderRelated}
+                            /**
+                             * @author Prashant
+                             * Passed the varable "customerQueriesFieldArray" so that fields can be calculated when dropdown
+                             * is changed.
+                             */
                             onChange={val =>
-                              this.onChangeReasonForOrderRelated(val)
+                              this.onChangeReasonForOrderRelated(
+                                val,
+                                customerQueriesFieldArray
+                              )
                             }
                           />
                         </div>
@@ -892,13 +980,29 @@ export default class OrderRelatedIssue extends React.Component {
                             </div>
                           )}
                         <div className={styles.selectIssue}>
+                          {/**
+                           * @author Prashant
+                           * Making change in the TextArea field as per the data from the API
+                           */}
                           {!this.state.solution &&
-                            this.state.L0 && (
-                              <TextArea
-                                placeholder={"Comments(Optional)"}
-                                value={this.state.comment}
-                                onChange={comment => this.onChange({ comment })}
-                              />
+                            this.state.L0 &&
+                            this.state.customerQryFldTextArea && (
+                              <React.Fragment>
+                                <div className={styles.secondOrder}>
+                                  <CheckOutHeader
+                                    indexNumber={"0"}
+                                    confirmTitle={textAreaData.heading}
+                                  />
+                                </div>
+                                <TextArea
+                                  placeholder={textAreaData.placeholder}
+                                  value={this.state.comment}
+                                  onChange={comment =>
+                                    this.onChange({ comment })
+                                  }
+                                  maxLength={parseInt(textAreaData.maxLimit)}
+                                />
+                              </React.Fragment>
                             )}
                         </div>
                       </div>
