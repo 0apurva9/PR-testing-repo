@@ -190,7 +190,8 @@ export default class PdpApparel extends React.Component {
       checkedItems: true,
       firstRelevantProduct: {},
       secondRelevantProduct: {},
-      selected: false
+      selected: false,
+      productCategory: ""
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -218,6 +219,18 @@ export default class PdpApparel extends React.Component {
     ) {
       if (data.openInAppDetails.applicationProperties[0].value === "Y") {
         this.setState({ showGotoCartButton: true });
+      }
+    }
+    if (
+      this.props.productDetails.categoryHierarchy &&
+      this.props.productDetails.rootCategory === "Accessories"
+    ) {
+      if (
+        this.props.productDetails.categoryHierarchy[
+          this.props.productDetails.categoryHierarchy.length - 1
+        ].category_name === "Eyewear"
+      ) {
+        this.setState({ productCategory: "Eyewear" });
       }
     }
     /***relavant Bundling Product */
@@ -1160,6 +1173,9 @@ export default class PdpApparel extends React.Component {
                                     }
                                     showSimilarSizeOOSModal={
                                       this.props.showSimilarSizeOOSModal
+                                    }
+                                    eyeWearSizeGuide={
+                                      this.state.productCategory
                                     }
                                     data={productData.variantOptions}
                                     infoDetails={productData.details}

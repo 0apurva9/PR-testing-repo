@@ -43,7 +43,6 @@ export default class SizeTableForEyeWearChangedJson extends Component {
       this.props.data &&
       this.props.data.sizeGuideList &&
       this.props.data.sizeGuideList.dimensionList.map(val => {
-        console.log("val===>", val);
         if (val.dimensionSize === "small") {
           dimensionSmallSize.push(val);
         } else if (val.dimensionSize === "medium") {

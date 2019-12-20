@@ -198,6 +198,415 @@ export const PDP_MANUFACTURER_REQUEST = "PDP_MANUFACTURER_REQUEST";
 export const PDP_MANUFACTURER_SUCCESS = "PDP_MANUFACTURER_SUCCESS";
 export const PDP_MANUFACTURER_FAILURE = "PDP_MANUFACTURER_FAILURE";
 
+const jsonForProductDetails = {
+  type: "mplNewProductDetailMobileWsData",
+  status: "SUCCESS",
+  allOOStock: false,
+  brandInfo: "Calvin Klein",
+  brandName: "Calvin Klein",
+  brandURL: "/adidas/c-mbh16000009",
+  categoryHierarchy: [
+    {
+      category_id: "MSH16",
+      category_name: "Accessories"
+    },
+    {
+      category_id: "MSH1604"
+    },
+    {
+      category_id: "MSH1604100",
+      category_name: "Eyewear"
+    }
+  ],
+  deliveryModesATP: [
+    {
+      key: "home-delivery",
+      value: "Delivered in 5-8 days."
+    },
+    {
+      key: "express-delivery",
+      value: "Delivered in 1-2 days."
+    }
+  ],
+  details: [
+    {
+      key: "Additional Information",
+      value: "vhjvgiu uu giug h "
+    },
+    {
+      key: "Care Instructions",
+      value: "wash"
+    },
+    {
+      key: "Case Included",
+      value: "No"
+    },
+    {
+      key: "Face Shape",
+      value: "Round"
+    },
+    {
+      key: "Frame Color",
+      value: "Multi"
+    },
+    {
+      key: "Frame Color Brand",
+      value: "grey"
+    },
+    {
+      key: "Frame Material",
+      value: "Metal"
+    },
+    {
+      key: "Frame Pattern",
+      value: "Printed"
+    },
+    {
+      key: "Frame Width",
+      value: "67"
+    },
+    {
+      key: "Ideal For",
+      value: "Boys"
+    },
+    {
+      key: "Lens Color",
+      value: "Coral"
+    },
+    {
+      key: "Lens Features",
+      value: "Mirrored"
+    },
+    {
+      key: "Lens Material",
+      value: "Fibre"
+    },
+    {
+      key: "Lens Width",
+      value: "58"
+    },
+    {
+      key: "Look",
+      value: "Trendy"
+    },
+    {
+      key: "Material Type",
+      value: "Felt"
+    },
+    {
+      key: "Model No",
+      value: "687687"
+    },
+    {
+      key: "Nose Bridge Size",
+      value: "78"
+    },
+    {
+      key: "Nose Pad Material",
+      value: "Aluminium"
+    },
+    {
+      key: "Rim Type",
+      value: "Full Rim"
+    },
+    {
+      key: "Size",
+      value: "Medium"
+    },
+    {
+      key: "Style",
+      value: "Wayfarer"
+    },
+    {
+      key: "Temple Color",
+      value: "Khaki"
+    },
+    {
+      key: "Temple Material",
+      value:
+        "Metal|https://assets.tatacliq.com/medias/sys_master/managed/14476411273246.png"
+    },
+    {
+      key: "Temple Size",
+      value: "45"
+    },
+    {
+      key: "Usage",
+      value: "Driving"
+    },
+    {
+      key: "Warranty",
+      value: "6"
+    },
+    {
+      key: "Weight (gm)",
+      value: "10"
+    }
+  ],
+  discount: "45",
+  isEMIEligible: "N",
+  isExchangeAvailable: false,
+  isOfferExisting: "N",
+  isOnlineExclusive: "N",
+  isProductNew: "N",
+  isSizeOrLength: "Volume",
+  knowMoreEmail: "hello@tatacliq.com",
+  knowMorePhoneNo: "1800-208-8282",
+  maxQuantityAllowed: "10",
+  nceAvailable: false,
+  numberOfReviews: 0,
+  knowMore: [
+    {
+      knowMoreItem:
+        "An order, once placed, can be cancelled until the seller processes it."
+    },
+    {
+      knowMoreItem:
+        "This product can be returned within 0 day(s) of delivery,subject to the Return Policy."
+    },
+    {
+      knowMoreItem:
+        "For any other queries, do reach out to CliQ Care at 1800-208-8282."
+    }
+  ],
+  knowMoreV2: [
+    {
+      knowMoreItemV2: "0 Days Easy Return"
+    },
+    {
+      knowMoreItemV2:
+        "An order, once placed, can be cancelled until the seller processes it."
+    }
+  ],
+  maxQuantityAllowed: "10",
+  mrpPrice: {
+    currencyIso: "INR",
+    doubleValue: 200,
+    formattedValue: "200.00",
+    formattedValueNoDecimal: "200",
+    priceType: "BUY",
+    value: 200
+  },
+  nceAvailable: false,
+  numberOfReviews: 0,
+  prdDetails: [
+    {
+      key: "Additional Information",
+      value: "vhjvgiu uu giug h "
+    },
+    {
+      key: "Care Instructions",
+      value: "wash"
+    },
+    {
+      key: "Case Included",
+      value: "No"
+    },
+    {
+      key: "Face Shape",
+      value: "Round"
+    },
+    {
+      key: "Frame Color",
+      value: "Multi"
+    },
+    {
+      key: "Frame Color Brand",
+      value: "grey"
+    },
+    {
+      key: "Frame Material",
+      value: "Metal"
+    },
+    {
+      key: "Frame Pattern",
+      value: "Printed"
+    },
+    {
+      key: "Frame Width",
+      value: "67"
+    },
+    {
+      key: "Ideal For",
+      value: "Boys"
+    },
+    {
+      key: "Lens Color",
+      value: "Coral"
+    },
+    {
+      key: "Lens Features",
+      value: "Mirrored"
+    },
+    {
+      key: "Lens Material",
+      value: "Fibre"
+    },
+    {
+      key: "Lens Width",
+      value: "58"
+    },
+    {
+      key: "Look",
+      value: "Trendy"
+    },
+    {
+      key: "Material Type",
+      value: "Felt"
+    },
+    {
+      key: "Model No",
+      value: "687687"
+    },
+    {
+      key: "Nose Bridge Size",
+      value: "78"
+    },
+    {
+      key: "Nose Pad Material",
+      value: "Aluminium"
+    },
+    {
+      key: "Rim Type",
+      value: "Full Rim"
+    },
+    {
+      key: "Size",
+      value: "Medium"
+    },
+    {
+      key: "Style",
+      value: "Wayfarer"
+    },
+    {
+      key: "Temple Color",
+      value: "Khaki"
+    },
+    {
+      key: "Temple Material",
+      value:
+        "Metal|https://assets.tatacliq.com/medias/sys_master/managed/14476411273246.png"
+    },
+    {
+      key: "Temple Size",
+      value: "45"
+    },
+    {
+      key: "Usage",
+      value: "Driving"
+    },
+    {
+      key: "Warranty",
+      value: "6"
+    },
+    {
+      key: "Weight (gm)",
+      value: "10"
+    }
+  ],
+  productDescription:
+    "Tortoise Full Rim Rectangle Small Black John Jacobs Rich Acetate JJ E10007-C4 Eyeglasses",
+  productListingId: "MP000000008751090",
+  productName: "Tortoise Full Rim Rectangle Small Eyeglasses",
+  rootCategory: "Accessories",
+  sellerAssociationstatus: "Y",
+  seo: {
+    alternateURL:
+      "/tortoise-full-rim-rectangle-small-black-eyeglasses/p-mp000000008751090",
+    breadcrumbs: [
+      {
+        name: "Tortoise Full Rim Rectangle Small Eyeglasses",
+        url:
+          "/tortoise-full-rim-rectangle-small-black-eyeglasses/p-mp000000008751090"
+      },
+      {
+        name: "Eyewear",
+        url: "/accessories-eyewear/c-msh1604100"
+      },
+      {
+        url: "/accessories-/c-msh1604"
+      },
+      {
+        name: "Accessories",
+        url: "/accessories/c-msh16"
+      }
+    ],
+    canonicalURL:
+      "/tortoise-full-rim-rectangle-small-black-eyeglasses/p-mp000000008751090",
+    description:
+      "Tortoise Full Rim Rectangle Small Black John Jacobs Rich Acetate JJ E10007-C4 Eyeglasses",
+    title: "Tortoise Full Rim Rectangle Small Eyeglasses"
+  },
+  sharedText:
+    "Wow!Check out this amazing find http://localhost:9001/sunglass/p-mp000000999107552 . Like or  comment to tell me what you think, or share for warm fuzzies.",
+  showSizeGuide: true,
+  styleNote:
+    "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when paired with a black jeans and black loafers.",
+  variantOptions: [
+    {
+      colorlink: {
+        color: "Black",
+        colorHexCode: "#000000",
+        colorurl:
+          "/tortoise-full-rim-rectangle-small-black-eyeglasses/p-mp000000008751090",
+        selected: true
+      },
+      sizelink: {
+        isAvailable: true,
+        productCode: "MP000000008751090",
+        size: "S",
+        url:
+          "/tortoise-full-rim-rectangle-small-black-eyeglasses/p-mp000000008751090"
+      }
+    },
+    {
+      colorlink: {
+        color: "Red",
+        colorHexCode: "#FF0000",
+        colorurl:
+          "/tortoise-full-rim-rectangle-medium-red-eyeglasses/p-mp000000008751090",
+        selected: false
+      },
+      sizelink: {
+        isAvailable: true,
+        productCode: "MP000000008751090",
+        size: "M",
+        url:
+          "/tortoise-full-rim-rectangle-medium-red-eyeglasses/p-mp000000008751090"
+      }
+    },
+    {
+      colorlink: {
+        color: "Black",
+        colorHexCode: "#000000",
+        colorurl:
+          "/tortoise-full-rim-rectangle-medium-black-eyeglasses/p-mp000000008751092",
+        selected: false
+      },
+      sizelink: {
+        isAvailable: true,
+        productCode: "MP000000008751092",
+        size: "M",
+        url:
+          "/tortoise-full-rim-rectangle-medium-black-eyeglasses/p-mp000000008751092"
+      }
+    }
+  ],
+  warranty: ["6"],
+  winningSellerAvailableStock: "110",
+  winningSellerID: "100090",
+  winningSellerName: "Miltex Distributors",
+  winningSellerPrice: {
+    currencyIso: "INR",
+    doubleValue: 110,
+    formattedValue: "110.00",
+    formattedValueNoDecimal: "110",
+    priceType: "BUY",
+    value: 110
+  },
+  winningUssID: "100090CKJShirtGreyCMH393Z5W1BR07S"
+};
+
 export function getProductDescriptionRequest() {
   return {
     type: PRODUCT_DESCRIPTION_REQUEST,
@@ -238,378 +647,7 @@ export function getProductDescription(
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
       //const resultJson = await result.json();
-      const resultJson = {
-        type: "mplNewProductDetailMobileWsData",
-        status: "SUCCESS",
-        allOOStock: false,
-        brandInfo: "Calvin Klein",
-        brandName: "Calvin Klein",
-        brandURL: "/adidas/c-mbh16000009",
-        deliveryModesATP: [
-          {
-            key: "home-delivery",
-            value: "Delivered in 5-8 days."
-          },
-          {
-            key: "express-delivery",
-            value: "Delivered in 1-2 days."
-          }
-        ],
-        details: [
-          {
-            key: "Additional Information",
-            value: "vhjvgiu uu giug h "
-          },
-          {
-            key: "Care Instructions",
-            value: "wash"
-          },
-          {
-            key: "Case Included",
-            value: "No"
-          },
-          {
-            key: "Face Shape",
-            value: "Round"
-          },
-          {
-            key: "Frame Color",
-            value: "Multi"
-          },
-          {
-            key: "Frame Color Brand",
-            value: "grey"
-          },
-          {
-            key: "Frame Material",
-            value: "Metal"
-          },
-          {
-            key: "Frame Pattern",
-            value: "Printed"
-          },
-          {
-            key: "Frame Width",
-            value: "67"
-          },
-          {
-            key: "Ideal For",
-            value: "Boys"
-          },
-          {
-            key: "Lens Color",
-            value: "Coral"
-          },
-          {
-            key: "Lens Features",
-            value: "Mirrored"
-          },
-          {
-            key: "Lens Material",
-            value: "Fibre"
-          },
-          {
-            key: "Lens Width",
-            value: "58"
-          },
-          {
-            key: "Look",
-            value: "Trendy"
-          },
-          {
-            key: "Material Type",
-            value: "Felt"
-          },
-          {
-            key: "Model No",
-            value: "687687"
-          },
-          {
-            key: "Nose Bridge Size",
-            value: "78"
-          },
-          {
-            key: "Nose Pad Material",
-            value: "Aluminium"
-          },
-          {
-            key: "Rim Type",
-            value: "Full Rim"
-          },
-          {
-            key: "Size",
-            value: "Medium"
-          },
-          {
-            key: "Style",
-            value: "Wayfarer"
-          },
-          {
-            key: "Temple Color",
-            value: "Khaki"
-          },
-          {
-            key: "Temple Material",
-            value:
-              "Metal|https://assets.tatacliq.com/medias/sys_master/managed/14476411273246.png"
-          },
-          {
-            key: "Temple Size",
-            value: "45"
-          },
-          {
-            key: "Usage",
-            value: "Driving"
-          },
-          {
-            key: "Warranty",
-            value: "6"
-          },
-          {
-            key: "Weight (gm)",
-            value: "10"
-          }
-        ],
-        discount: "45",
-        isEMIEligible: "N",
-        isExchangeAvailable: false,
-        isOfferExisting: "N",
-        isOnlineExclusive: "N",
-        isProductNew: "N",
-        isSizeOrLength: "Size",
-        knowMore: [
-          {
-            knowMoreItem:
-              "An order, once placed, can be cancelled until the seller processes it."
-          },
-          {
-            knowMoreItem:
-              "This product can be returned within 0 day(s) of delivery,subject to the Return Policy."
-          },
-          {
-            knowMoreItem:
-              "For any other queries, do reach out to CliQ Care at 1800-208-8282."
-          }
-        ],
-        knowMoreEmail: "hello@tatacliq.com",
-        knowMorePhoneNo: "1800-208-8282",
-        knowMoreV2: [
-          {
-            knowMoreItemV2: "0 Days Easy Return"
-          },
-          {
-            knowMoreItemV2:
-              "An order, once placed, can be cancelled until the seller processes it."
-          }
-        ],
-        maxQuantityAllowed: "10",
-        mrpPrice: {
-          currencyIso: "INR",
-          doubleValue: 200,
-          formattedValue: "200.00",
-          formattedValueNoDecimal: "200",
-          priceType: "BUY",
-          value: 200
-        },
-        nceAvailable: false,
-        numberOfReviews: 0,
-        prdDetails: [
-          {
-            key: "Additional Information",
-            value: "vhjvgiu uu giug h "
-          },
-          {
-            key: "Care Instructions",
-            value: "wash"
-          },
-          {
-            key: "Case Included",
-            value: "No"
-          },
-          {
-            key: "Face Shape",
-            value: "Round"
-          },
-          {
-            key: "Frame Color",
-            value: "Multi"
-          },
-          {
-            key: "Frame Color Brand",
-            value: "grey"
-          },
-          {
-            key: "Frame Material",
-            value: "Metal"
-          },
-          {
-            key: "Frame Pattern",
-            value: "Printed"
-          },
-          {
-            key: "Frame Width",
-            value: "67"
-          },
-          {
-            key: "Ideal For",
-            value: "Boys"
-          },
-          {
-            key: "Lens Color",
-            value: "Coral"
-          },
-          {
-            key: "Lens Features",
-            value: "Mirrored"
-          },
-          {
-            key: "Lens Material",
-            value: "Fibre"
-          },
-          {
-            key: "Lens Width",
-            value: "58"
-          },
-          {
-            key: "Look",
-            value: "Trendy"
-          },
-          {
-            key: "Material Type",
-            value: "Felt"
-          },
-          {
-            key: "Model No",
-            value: "687687"
-          },
-          {
-            key: "Nose Bridge Size",
-            value: "78"
-          },
-          {
-            key: "Nose Pad Material",
-            value: "Aluminium"
-          },
-          {
-            key: "Rim Type",
-            value: "Full Rim"
-          },
-          {
-            key: "Size",
-            value: "Medium"
-          },
-          {
-            key: "Style",
-            value: "Wayfarer"
-          },
-          {
-            key: "Temple Color",
-            value: "Khaki"
-          },
-          {
-            key: "Temple Material",
-            value:
-              "Metal|https://assets.tatacliq.com/medias/sys_master/managed/14476411273246.png"
-          },
-          {
-            key: "Temple Size",
-            value: "45"
-          },
-          {
-            key: "Usage",
-            value: "Driving"
-          },
-          {
-            key: "Warranty",
-            value: "6"
-          },
-          {
-            key: "Weight (gm)",
-            value: "10"
-          }
-        ],
-        productDescription:
-          "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when paired with a black jeans and black loafers.",
-        productListingId: "MP000000999107552",
-        productName: "Sunglass",
-        rootCategory: "Accessories",
-        sellerAssociationstatus: "Y",
-        seo: {
-          alternateURL: "/sunglass/p-mp000000999107553",
-          breadcrumbs: [
-            {
-              name: "Sunglass",
-              url: "/sunglass/p-mp000000999107552"
-            }
-          ],
-          canonicalURL: "/sunglass/p-mp000000999107553",
-          description:
-            "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when pair",
-          title: "Sunglass"
-        },
-        sharedText:
-          "Wow!Check out this amazing find http://localhost:9001/sunglass/p-mp000000999107552 . Like or  comment to tell me what you think, or share for warm fuzzies.",
-        showSizeGuide: false,
-        styleNote:
-          "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when paired with a black jeans and black loafers.",
-        variantOptions: [
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107553",
-              selected: false
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107553",
-              size: "Medium",
-              url: "/sunglass/p-mp000000999107553"
-            }
-          },
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107422",
-              selected: false
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107422",
-              size: "Large",
-              url: "/sunglass/p-mp000000999107422"
-            }
-          },
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107552",
-              selected: true
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107552",
-              size: "Short",
-              url: "/sunglass/p-mp000000999107552"
-            }
-          }
-        ],
-        warranty: ["6"],
-        winningSellerAvailableStock: "110",
-        winningSellerID: "100090",
-        winningSellerName: "Miltex Distributors",
-        winningSellerPrice: {
-          currencyIso: "INR",
-          doubleValue: 110,
-          formattedValue: "110.00",
-          formattedValueNoDecimal: "110",
-          priceType: "BUY",
-          value: 110
-        },
-        winningUssID: "100090CKJShirtGreyCMH393Z5W1BR07S"
-      };
+      const resultJson = jsonForProductDetails;
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
@@ -1005,378 +1043,7 @@ export function getProductSpecification(productId) {
         `${PRODUCT_SPECIFICATION_PATH}/${productId}`
       );
       //const resultJson = await result.json();
-      const resultJson = {
-        type: "mplNewProductDetailMobileWsData",
-        status: "SUCCESS",
-        allOOStock: false,
-        brandInfo: "Calvin Klein",
-        brandName: "Calvin Klein",
-        brandURL: "/adidas/c-mbh16000009",
-        deliveryModesATP: [
-          {
-            key: "home-delivery",
-            value: "Delivered in 5-8 days."
-          },
-          {
-            key: "express-delivery",
-            value: "Delivered in 1-2 days."
-          }
-        ],
-        details: [
-          {
-            key: "Additional Information",
-            value: "vhjvgiu uu giug h "
-          },
-          {
-            key: "Care Instructions",
-            value: "wash"
-          },
-          {
-            key: "Case Included",
-            value: "No"
-          },
-          {
-            key: "Face Shape",
-            value: "Round"
-          },
-          {
-            key: "Frame Color",
-            value: "Multi"
-          },
-          {
-            key: "Frame Color Brand",
-            value: "grey"
-          },
-          {
-            key: "Frame Material",
-            value: "Metal"
-          },
-          {
-            key: "Frame Pattern",
-            value: "Printed"
-          },
-          {
-            key: "Frame Width",
-            value: "67"
-          },
-          {
-            key: "Ideal For",
-            value: "Boys"
-          },
-          {
-            key: "Lens Color",
-            value: "Coral"
-          },
-          {
-            key: "Lens Features",
-            value: "Mirrored"
-          },
-          {
-            key: "Lens Material",
-            value: "Fibre"
-          },
-          {
-            key: "Lens Width",
-            value: "58"
-          },
-          {
-            key: "Look",
-            value: "Trendy"
-          },
-          {
-            key: "Material Type",
-            value: "Felt"
-          },
-          {
-            key: "Model No",
-            value: "687687"
-          },
-          {
-            key: "Nose Bridge Size",
-            value: "78"
-          },
-          {
-            key: "Nose Pad Material",
-            value: "Aluminium"
-          },
-          {
-            key: "Rim Type",
-            value: "Full Rim"
-          },
-          {
-            key: "Size",
-            value: "Medium"
-          },
-          {
-            key: "Style",
-            value: "Wayfarer"
-          },
-          {
-            key: "Temple Color",
-            value: "Khaki"
-          },
-          {
-            key: "Temple Material",
-            value:
-              "Metal|https://assets.tatacliq.com/medias/sys_master/managed/14476411273246.png"
-          },
-          {
-            key: "Temple Size",
-            value: "45"
-          },
-          {
-            key: "Usage",
-            value: "Driving"
-          },
-          {
-            key: "Warranty",
-            value: "6"
-          },
-          {
-            key: "Weight (gm)",
-            value: "10"
-          }
-        ],
-        discount: "45",
-        isEMIEligible: "N",
-        isExchangeAvailable: false,
-        isOfferExisting: "N",
-        isOnlineExclusive: "N",
-        isProductNew: "N",
-        isSizeOrLength: "Size",
-        knowMore: [
-          {
-            knowMoreItem:
-              "An order, once placed, can be cancelled until the seller processes it."
-          },
-          {
-            knowMoreItem:
-              "This product can be returned within 0 day(s) of delivery,subject to the Return Policy."
-          },
-          {
-            knowMoreItem:
-              "For any other queries, do reach out to CliQ Care at 1800-208-8282."
-          }
-        ],
-        knowMoreEmail: "hello@tatacliq.com",
-        knowMorePhoneNo: "1800-208-8282",
-        knowMoreV2: [
-          {
-            knowMoreItemV2: "0 Days Easy Return"
-          },
-          {
-            knowMoreItemV2:
-              "An order, once placed, can be cancelled until the seller processes it."
-          }
-        ],
-        maxQuantityAllowed: "10",
-        mrpPrice: {
-          currencyIso: "INR",
-          doubleValue: 200,
-          formattedValue: "200.00",
-          formattedValueNoDecimal: "200",
-          priceType: "BUY",
-          value: 200
-        },
-        nceAvailable: false,
-        numberOfReviews: 0,
-        prdDetails: [
-          {
-            key: "Additional Information",
-            value: "vhjvgiu uu giug h "
-          },
-          {
-            key: "Care Instructions",
-            value: "wash"
-          },
-          {
-            key: "Case Included",
-            value: "No"
-          },
-          {
-            key: "Face Shape",
-            value: "Round"
-          },
-          {
-            key: "Frame Color",
-            value: "Multi"
-          },
-          {
-            key: "Frame Color Brand",
-            value: "grey"
-          },
-          {
-            key: "Frame Material",
-            value: "Metal"
-          },
-          {
-            key: "Frame Pattern",
-            value: "Printed"
-          },
-          {
-            key: "Frame Width",
-            value: "67"
-          },
-          {
-            key: "Ideal For",
-            value: "Boys"
-          },
-          {
-            key: "Lens Color",
-            value: "Coral"
-          },
-          {
-            key: "Lens Features",
-            value: "Mirrored"
-          },
-          {
-            key: "Lens Material",
-            value: "Fibre"
-          },
-          {
-            key: "Lens Width",
-            value: "58"
-          },
-          {
-            key: "Look",
-            value: "Trendy"
-          },
-          {
-            key: "Material Type",
-            value: "Felt"
-          },
-          {
-            key: "Model No",
-            value: "687687"
-          },
-          {
-            key: "Nose Bridge Size",
-            value: "78"
-          },
-          {
-            key: "Nose Pad Material",
-            value: "Aluminium"
-          },
-          {
-            key: "Rim Type",
-            value: "Full Rim"
-          },
-          {
-            key: "Size",
-            value: "Medium"
-          },
-          {
-            key: "Style",
-            value: "Wayfarer"
-          },
-          {
-            key: "Temple Color",
-            value: "Khaki"
-          },
-          {
-            key: "Temple Material",
-            value:
-              "Metal|https://assets.tatacliq.com/medias/sys_master/managed/14476411273246.png"
-          },
-          {
-            key: "Temple Size",
-            value: "45"
-          },
-          {
-            key: "Usage",
-            value: "Driving"
-          },
-          {
-            key: "Warranty",
-            value: "6"
-          },
-          {
-            key: "Weight (gm)",
-            value: "10"
-          }
-        ],
-        productDescription:
-          "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when paired with a black jeans and black loafers.",
-        productListingId: "MP000000999107552",
-        productName: "Sunglass",
-        rootCategory: "Accessories",
-        sellerAssociationstatus: "Y",
-        seo: {
-          alternateURL: "/sunglass/p-mp000000999107553",
-          breadcrumbs: [
-            {
-              name: "Sunglass",
-              url: "/sunglass/p-mp000000999107552"
-            }
-          ],
-          canonicalURL: "/sunglass/p-mp000000999107553",
-          description:
-            "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when pair",
-          title: "Sunglass"
-        },
-        sharedText:
-          "Wow!Check out this amazing find http://localhost:9001/sunglass/p-mp000000999107552 . Like or  comment to tell me what you think, or share for warm fuzzies.",
-        showSizeGuide: false,
-        styleNote:
-          "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when paired with a black jeans and black loafers.",
-        variantOptions: [
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107553",
-              selected: false
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107553",
-              size: "Medium",
-              url: "/sunglass/p-mp000000999107553"
-            }
-          },
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107422",
-              selected: false
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107422",
-              size: "Large",
-              url: "/sunglass/p-mp000000999107422"
-            }
-          },
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107552",
-              selected: true
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107552",
-              size: "Short",
-              url: "/sunglass/p-mp000000999107552"
-            }
-          }
-        ],
-        warranty: ["6"],
-        winningSellerAvailableStock: "110",
-        winningSellerID: "100090",
-        winningSellerName: "Miltex Distributors",
-        winningSellerPrice: {
-          currencyIso: "INR",
-          doubleValue: 110,
-          formattedValue: "110.00",
-          formattedValueNoDecimal: "110",
-          priceType: "BUY",
-          value: 110
-        },
-        winningUssID: "100090CKJShirtGreyCMH393Z5W1BR07S"
-      };
+      const resultJson = jsonForProductDetails;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -1475,378 +1142,7 @@ export function editProductReview(productCode, productReviews) {
         }&headline=${productReviews.headLine}`
       );
       //const resultJson = await result.json();
-      const resultJson = {
-        type: "mplNewProductDetailMobileWsData",
-        status: "SUCCESS",
-        allOOStock: false,
-        brandInfo: "Calvin Klein",
-        brandName: "Calvin Klein",
-        brandURL: "/adidas/c-mbh16000009",
-        deliveryModesATP: [
-          {
-            key: "home-delivery",
-            value: "Delivered in 5-8 days."
-          },
-          {
-            key: "express-delivery",
-            value: "Delivered in 1-2 days."
-          }
-        ],
-        details: [
-          {
-            key: "Additional Information",
-            value: "vhjvgiu uu giug h "
-          },
-          {
-            key: "Care Instructions",
-            value: "wash"
-          },
-          {
-            key: "Case Included",
-            value: "No"
-          },
-          {
-            key: "Face Shape",
-            value: "Round"
-          },
-          {
-            key: "Frame Color",
-            value: "Multi"
-          },
-          {
-            key: "Frame Color Brand",
-            value: "grey"
-          },
-          {
-            key: "Frame Material",
-            value: "Metal"
-          },
-          {
-            key: "Frame Pattern",
-            value: "Printed"
-          },
-          {
-            key: "Frame Width",
-            value: "67"
-          },
-          {
-            key: "Ideal For",
-            value: "Boys"
-          },
-          {
-            key: "Lens Color",
-            value: "Coral"
-          },
-          {
-            key: "Lens Features",
-            value: "Mirrored"
-          },
-          {
-            key: "Lens Material",
-            value: "Fibre"
-          },
-          {
-            key: "Lens Width",
-            value: "58"
-          },
-          {
-            key: "Look",
-            value: "Trendy"
-          },
-          {
-            key: "Material Type",
-            value: "Felt"
-          },
-          {
-            key: "Model No",
-            value: "687687"
-          },
-          {
-            key: "Nose Bridge Size",
-            value: "78"
-          },
-          {
-            key: "Nose Pad Material",
-            value: "Aluminium"
-          },
-          {
-            key: "Rim Type",
-            value: "Full Rim"
-          },
-          {
-            key: "Size",
-            value: "Medium"
-          },
-          {
-            key: "Style",
-            value: "Wayfarer"
-          },
-          {
-            key: "Temple Color",
-            value: "Khaki"
-          },
-          {
-            key: "Temple Material",
-            value:
-              "Metal|https://assets.tatacliq.com/medias/sys_master/managed/14476411273246.png"
-          },
-          {
-            key: "Temple Size",
-            value: "45"
-          },
-          {
-            key: "Usage",
-            value: "Driving"
-          },
-          {
-            key: "Warranty",
-            value: "6"
-          },
-          {
-            key: "Weight (gm)",
-            value: "10"
-          }
-        ],
-        discount: "45",
-        isEMIEligible: "N",
-        isExchangeAvailable: false,
-        isOfferExisting: "N",
-        isOnlineExclusive: "N",
-        isProductNew: "N",
-        isSizeOrLength: "Size",
-        knowMore: [
-          {
-            knowMoreItem:
-              "An order, once placed, can be cancelled until the seller processes it."
-          },
-          {
-            knowMoreItem:
-              "This product can be returned within 0 day(s) of delivery,subject to the Return Policy."
-          },
-          {
-            knowMoreItem:
-              "For any other queries, do reach out to CliQ Care at 1800-208-8282."
-          }
-        ],
-        knowMoreEmail: "hello@tatacliq.com",
-        knowMorePhoneNo: "1800-208-8282",
-        knowMoreV2: [
-          {
-            knowMoreItemV2: "0 Days Easy Return"
-          },
-          {
-            knowMoreItemV2:
-              "An order, once placed, can be cancelled until the seller processes it."
-          }
-        ],
-        maxQuantityAllowed: "10",
-        mrpPrice: {
-          currencyIso: "INR",
-          doubleValue: 200,
-          formattedValue: "200.00",
-          formattedValueNoDecimal: "200",
-          priceType: "BUY",
-          value: 200
-        },
-        nceAvailable: false,
-        numberOfReviews: 0,
-        prdDetails: [
-          {
-            key: "Additional Information",
-            value: "vhjvgiu uu giug h "
-          },
-          {
-            key: "Care Instructions",
-            value: "wash"
-          },
-          {
-            key: "Case Included",
-            value: "No"
-          },
-          {
-            key: "Face Shape",
-            value: "Round"
-          },
-          {
-            key: "Frame Color",
-            value: "Multi"
-          },
-          {
-            key: "Frame Color Brand",
-            value: "grey"
-          },
-          {
-            key: "Frame Material",
-            value: "Metal"
-          },
-          {
-            key: "Frame Pattern",
-            value: "Printed"
-          },
-          {
-            key: "Frame Width",
-            value: "67"
-          },
-          {
-            key: "Ideal For",
-            value: "Boys"
-          },
-          {
-            key: "Lens Color",
-            value: "Coral"
-          },
-          {
-            key: "Lens Features",
-            value: "Mirrored"
-          },
-          {
-            key: "Lens Material",
-            value: "Fibre"
-          },
-          {
-            key: "Lens Width",
-            value: "58"
-          },
-          {
-            key: "Look",
-            value: "Trendy"
-          },
-          {
-            key: "Material Type",
-            value: "Felt"
-          },
-          {
-            key: "Model No",
-            value: "687687"
-          },
-          {
-            key: "Nose Bridge Size",
-            value: "78"
-          },
-          {
-            key: "Nose Pad Material",
-            value: "Aluminium"
-          },
-          {
-            key: "Rim Type",
-            value: "Full Rim"
-          },
-          {
-            key: "Size",
-            value: "Medium"
-          },
-          {
-            key: "Style",
-            value: "Wayfarer"
-          },
-          {
-            key: "Temple Color",
-            value: "Khaki"
-          },
-          {
-            key: "Temple Material",
-            value:
-              "Metal|https://assets.tatacliq.com/medias/sys_master/managed/14476411273246.png"
-          },
-          {
-            key: "Temple Size",
-            value: "45"
-          },
-          {
-            key: "Usage",
-            value: "Driving"
-          },
-          {
-            key: "Warranty",
-            value: "6"
-          },
-          {
-            key: "Weight (gm)",
-            value: "10"
-          }
-        ],
-        productDescription:
-          "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when paired with a black jeans and black loafers.",
-        productListingId: "MP000000999107552",
-        productName: "Sunglass",
-        rootCategory: "Accessories",
-        sellerAssociationstatus: "Y",
-        seo: {
-          alternateURL: "/sunglass/p-mp000000999107553",
-          breadcrumbs: [
-            {
-              name: "Sunglass",
-              url: "/sunglass/p-mp000000999107552"
-            }
-          ],
-          canonicalURL: "/sunglass/p-mp000000999107553",
-          description:
-            "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when pair",
-          title: "Sunglass"
-        },
-        sharedText:
-          "Wow!Check out this amazing find http://localhost:9001/sunglass/p-mp000000999107552 . Like or  comment to tell me what you think, or share for warm fuzzies.",
-        showSizeGuide: false,
-        styleNote:
-          "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when paired with a black jeans and black loafers.",
-        variantOptions: [
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107553",
-              selected: false
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107553",
-              size: "Medium",
-              url: "/sunglass/p-mp000000999107553"
-            }
-          },
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107422",
-              selected: false
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107422",
-              size: "Large",
-              url: "/sunglass/p-mp000000999107422"
-            }
-          },
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107552",
-              selected: true
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107552",
-              size: "Short",
-              url: "/sunglass/p-mp000000999107552"
-            }
-          }
-        ],
-        warranty: ["6"],
-        winningSellerAvailableStock: "110",
-        winningSellerID: "100090",
-        winningSellerName: "Miltex Distributors",
-        winningSellerPrice: {
-          currencyIso: "INR",
-          doubleValue: 110,
-          formattedValue: "110.00",
-          formattedValueNoDecimal: "110",
-          priceType: "BUY",
-          value: 110
-        },
-        winningUssID: "100090CKJShirtGreyCMH393Z5W1BR07S"
-      };
+      const resultJson = jsonForProductDetails;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -1892,378 +1188,7 @@ export function deleteProductReview(productCode, reviewId) {
         }`
       );
       //const resultJson = await result.json();
-      const resultJson = {
-        type: "mplNewProductDetailMobileWsData",
-        status: "SUCCESS",
-        allOOStock: false,
-        brandInfo: "Calvin Klein",
-        brandName: "Calvin Klein",
-        brandURL: "/adidas/c-mbh16000009",
-        deliveryModesATP: [
-          {
-            key: "home-delivery",
-            value: "Delivered in 5-8 days."
-          },
-          {
-            key: "express-delivery",
-            value: "Delivered in 1-2 days."
-          }
-        ],
-        details: [
-          {
-            key: "Additional Information",
-            value: "vhjvgiu uu giug h "
-          },
-          {
-            key: "Care Instructions",
-            value: "wash"
-          },
-          {
-            key: "Case Included",
-            value: "No"
-          },
-          {
-            key: "Face Shape",
-            value: "Round"
-          },
-          {
-            key: "Frame Color",
-            value: "Multi"
-          },
-          {
-            key: "Frame Color Brand",
-            value: "grey"
-          },
-          {
-            key: "Frame Material",
-            value: "Metal"
-          },
-          {
-            key: "Frame Pattern",
-            value: "Printed"
-          },
-          {
-            key: "Frame Width",
-            value: "67"
-          },
-          {
-            key: "Ideal For",
-            value: "Boys"
-          },
-          {
-            key: "Lens Color",
-            value: "Coral"
-          },
-          {
-            key: "Lens Features",
-            value: "Mirrored"
-          },
-          {
-            key: "Lens Material",
-            value: "Fibre"
-          },
-          {
-            key: "Lens Width",
-            value: "58"
-          },
-          {
-            key: "Look",
-            value: "Trendy"
-          },
-          {
-            key: "Material Type",
-            value: "Felt"
-          },
-          {
-            key: "Model No",
-            value: "687687"
-          },
-          {
-            key: "Nose Bridge Size",
-            value: "78"
-          },
-          {
-            key: "Nose Pad Material",
-            value: "Aluminium"
-          },
-          {
-            key: "Rim Type",
-            value: "Full Rim"
-          },
-          {
-            key: "Size",
-            value: "Medium"
-          },
-          {
-            key: "Style",
-            value: "Wayfarer"
-          },
-          {
-            key: "Temple Color",
-            value: "Khaki"
-          },
-          {
-            key: "Temple Material",
-            value:
-              "Metal|https://assets.tatacliq.com/medias/sys_master/managed/14476411273246.png"
-          },
-          {
-            key: "Temple Size",
-            value: "45"
-          },
-          {
-            key: "Usage",
-            value: "Driving"
-          },
-          {
-            key: "Warranty",
-            value: "6"
-          },
-          {
-            key: "Weight (gm)",
-            value: "10"
-          }
-        ],
-        discount: "45",
-        isEMIEligible: "N",
-        isExchangeAvailable: false,
-        isOfferExisting: "N",
-        isOnlineExclusive: "N",
-        isProductNew: "N",
-        isSizeOrLength: "Size",
-        knowMore: [
-          {
-            knowMoreItem:
-              "An order, once placed, can be cancelled until the seller processes it."
-          },
-          {
-            knowMoreItem:
-              "This product can be returned within 0 day(s) of delivery,subject to the Return Policy."
-          },
-          {
-            knowMoreItem:
-              "For any other queries, do reach out to CliQ Care at 1800-208-8282."
-          }
-        ],
-        knowMoreEmail: "hello@tatacliq.com",
-        knowMorePhoneNo: "1800-208-8282",
-        knowMoreV2: [
-          {
-            knowMoreItemV2: "0 Days Easy Return"
-          },
-          {
-            knowMoreItemV2:
-              "An order, once placed, can be cancelled until the seller processes it."
-          }
-        ],
-        maxQuantityAllowed: "10",
-        mrpPrice: {
-          currencyIso: "INR",
-          doubleValue: 200,
-          formattedValue: "200.00",
-          formattedValueNoDecimal: "200",
-          priceType: "BUY",
-          value: 200
-        },
-        nceAvailable: false,
-        numberOfReviews: 0,
-        prdDetails: [
-          {
-            key: "Additional Information",
-            value: "vhjvgiu uu giug h "
-          },
-          {
-            key: "Care Instructions",
-            value: "wash"
-          },
-          {
-            key: "Case Included",
-            value: "No"
-          },
-          {
-            key: "Face Shape",
-            value: "Round"
-          },
-          {
-            key: "Frame Color",
-            value: "Multi"
-          },
-          {
-            key: "Frame Color Brand",
-            value: "grey"
-          },
-          {
-            key: "Frame Material",
-            value: "Metal"
-          },
-          {
-            key: "Frame Pattern",
-            value: "Printed"
-          },
-          {
-            key: "Frame Width",
-            value: "67"
-          },
-          {
-            key: "Ideal For",
-            value: "Boys"
-          },
-          {
-            key: "Lens Color",
-            value: "Coral"
-          },
-          {
-            key: "Lens Features",
-            value: "Mirrored"
-          },
-          {
-            key: "Lens Material",
-            value: "Fibre"
-          },
-          {
-            key: "Lens Width",
-            value: "58"
-          },
-          {
-            key: "Look",
-            value: "Trendy"
-          },
-          {
-            key: "Material Type",
-            value: "Felt"
-          },
-          {
-            key: "Model No",
-            value: "687687"
-          },
-          {
-            key: "Nose Bridge Size",
-            value: "78"
-          },
-          {
-            key: "Nose Pad Material",
-            value: "Aluminium"
-          },
-          {
-            key: "Rim Type",
-            value: "Full Rim"
-          },
-          {
-            key: "Size",
-            value: "Medium"
-          },
-          {
-            key: "Style",
-            value: "Wayfarer"
-          },
-          {
-            key: "Temple Color",
-            value: "Khaki"
-          },
-          {
-            key: "Temple Material",
-            value:
-              "Metal|https://assets.tatacliq.com/medias/sys_master/managed/14476411273246.png"
-          },
-          {
-            key: "Temple Size",
-            value: "45"
-          },
-          {
-            key: "Usage",
-            value: "Driving"
-          },
-          {
-            key: "Warranty",
-            value: "6"
-          },
-          {
-            key: "Weight (gm)",
-            value: "10"
-          }
-        ],
-        productDescription:
-          "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when paired with a black jeans and black loafers.",
-        productListingId: "MP000000999107552",
-        productName: "Sunglass",
-        rootCategory: "Accessories",
-        sellerAssociationstatus: "Y",
-        seo: {
-          alternateURL: "/sunglass/p-mp000000999107553",
-          breadcrumbs: [
-            {
-              name: "Sunglass",
-              url: "/sunglass/p-mp000000999107552"
-            }
-          ],
-          canonicalURL: "/sunglass/p-mp000000999107553",
-          description:
-            "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when pair",
-          title: "Sunglass"
-        },
-        sharedText:
-          "Wow!Check out this amazing find http://localhost:9001/sunglass/p-mp000000999107552 . Like or  comment to tell me what you think, or share for warm fuzzies.",
-        showSizeGuide: false,
-        styleNote:
-          "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when paired with a black jeans and black loafers.",
-        variantOptions: [
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107553",
-              selected: false
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107553",
-              size: "Medium",
-              url: "/sunglass/p-mp000000999107553"
-            }
-          },
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107422",
-              selected: false
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107422",
-              size: "Large",
-              url: "/sunglass/p-mp000000999107422"
-            }
-          },
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107552",
-              selected: true
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107552",
-              size: "Short",
-              url: "/sunglass/p-mp000000999107552"
-            }
-          }
-        ],
-        warranty: ["6"],
-        winningSellerAvailableStock: "110",
-        winningSellerID: "100090",
-        winningSellerName: "Miltex Distributors",
-        winningSellerPrice: {
-          currencyIso: "INR",
-          doubleValue: 110,
-          formattedValue: "110.00",
-          formattedValueNoDecimal: "110",
-          priceType: "BUY",
-          value: 110
-        },
-        winningUssID: "100090CKJShirtGreyCMH393Z5W1BR07S"
-      };
+      const resultJson = jsonForProductDetails;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -2604,378 +1529,7 @@ export function getBundleproduct(productCode, isApiCall = 0) {
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
       //const resultJson = await result.json();
-      const resultJson = {
-        type: "mplNewProductDetailMobileWsData",
-        status: "SUCCESS",
-        allOOStock: false,
-        brandInfo: "Calvin Klein",
-        brandName: "Calvin Klein",
-        brandURL: "/adidas/c-mbh16000009",
-        deliveryModesATP: [
-          {
-            key: "home-delivery",
-            value: "Delivered in 5-8 days."
-          },
-          {
-            key: "express-delivery",
-            value: "Delivered in 1-2 days."
-          }
-        ],
-        details: [
-          {
-            key: "Additional Information",
-            value: "vhjvgiu uu giug h "
-          },
-          {
-            key: "Care Instructions",
-            value: "wash"
-          },
-          {
-            key: "Case Included",
-            value: "No"
-          },
-          {
-            key: "Face Shape",
-            value: "Round"
-          },
-          {
-            key: "Frame Color",
-            value: "Multi"
-          },
-          {
-            key: "Frame Color Brand",
-            value: "grey"
-          },
-          {
-            key: "Frame Material",
-            value: "Metal"
-          },
-          {
-            key: "Frame Pattern",
-            value: "Printed"
-          },
-          {
-            key: "Frame Width",
-            value: "67"
-          },
-          {
-            key: "Ideal For",
-            value: "Boys"
-          },
-          {
-            key: "Lens Color",
-            value: "Coral"
-          },
-          {
-            key: "Lens Features",
-            value: "Mirrored"
-          },
-          {
-            key: "Lens Material",
-            value: "Fibre"
-          },
-          {
-            key: "Lens Width",
-            value: "58"
-          },
-          {
-            key: "Look",
-            value: "Trendy"
-          },
-          {
-            key: "Material Type",
-            value: "Felt"
-          },
-          {
-            key: "Model No",
-            value: "687687"
-          },
-          {
-            key: "Nose Bridge Size",
-            value: "78"
-          },
-          {
-            key: "Nose Pad Material",
-            value: "Aluminium"
-          },
-          {
-            key: "Rim Type",
-            value: "Full Rim"
-          },
-          {
-            key: "Size",
-            value: "Medium"
-          },
-          {
-            key: "Style",
-            value: "Wayfarer"
-          },
-          {
-            key: "Temple Color",
-            value: "Khaki"
-          },
-          {
-            key: "Temple Material",
-            value:
-              "Metal|https://assets.tatacliq.com/medias/sys_master/managed/14476411273246.png"
-          },
-          {
-            key: "Temple Size",
-            value: "45"
-          },
-          {
-            key: "Usage",
-            value: "Driving"
-          },
-          {
-            key: "Warranty",
-            value: "6"
-          },
-          {
-            key: "Weight (gm)",
-            value: "10"
-          }
-        ],
-        discount: "45",
-        isEMIEligible: "N",
-        isExchangeAvailable: false,
-        isOfferExisting: "N",
-        isOnlineExclusive: "N",
-        isProductNew: "N",
-        isSizeOrLength: "Size",
-        knowMore: [
-          {
-            knowMoreItem:
-              "An order, once placed, can be cancelled until the seller processes it."
-          },
-          {
-            knowMoreItem:
-              "This product can be returned within 0 day(s) of delivery,subject to the Return Policy."
-          },
-          {
-            knowMoreItem:
-              "For any other queries, do reach out to CliQ Care at 1800-208-8282."
-          }
-        ],
-        knowMoreEmail: "hello@tatacliq.com",
-        knowMorePhoneNo: "1800-208-8282",
-        knowMoreV2: [
-          {
-            knowMoreItemV2: "0 Days Easy Return"
-          },
-          {
-            knowMoreItemV2:
-              "An order, once placed, can be cancelled until the seller processes it."
-          }
-        ],
-        maxQuantityAllowed: "10",
-        mrpPrice: {
-          currencyIso: "INR",
-          doubleValue: 200,
-          formattedValue: "200.00",
-          formattedValueNoDecimal: "200",
-          priceType: "BUY",
-          value: 200
-        },
-        nceAvailable: false,
-        numberOfReviews: 0,
-        prdDetails: [
-          {
-            key: "Additional Information",
-            value: "vhjvgiu uu giug h "
-          },
-          {
-            key: "Care Instructions",
-            value: "wash"
-          },
-          {
-            key: "Case Included",
-            value: "No"
-          },
-          {
-            key: "Face Shape",
-            value: "Round"
-          },
-          {
-            key: "Frame Color",
-            value: "Multi"
-          },
-          {
-            key: "Frame Color Brand",
-            value: "grey"
-          },
-          {
-            key: "Frame Material",
-            value: "Metal"
-          },
-          {
-            key: "Frame Pattern",
-            value: "Printed"
-          },
-          {
-            key: "Frame Width",
-            value: "67"
-          },
-          {
-            key: "Ideal For",
-            value: "Boys"
-          },
-          {
-            key: "Lens Color",
-            value: "Coral"
-          },
-          {
-            key: "Lens Features",
-            value: "Mirrored"
-          },
-          {
-            key: "Lens Material",
-            value: "Fibre"
-          },
-          {
-            key: "Lens Width",
-            value: "58"
-          },
-          {
-            key: "Look",
-            value: "Trendy"
-          },
-          {
-            key: "Material Type",
-            value: "Felt"
-          },
-          {
-            key: "Model No",
-            value: "687687"
-          },
-          {
-            key: "Nose Bridge Size",
-            value: "78"
-          },
-          {
-            key: "Nose Pad Material",
-            value: "Aluminium"
-          },
-          {
-            key: "Rim Type",
-            value: "Full Rim"
-          },
-          {
-            key: "Size",
-            value: "Medium"
-          },
-          {
-            key: "Style",
-            value: "Wayfarer"
-          },
-          {
-            key: "Temple Color",
-            value: "Khaki"
-          },
-          {
-            key: "Temple Material",
-            value:
-              "Metal|https://assets.tatacliq.com/medias/sys_master/managed/14476411273246.png"
-          },
-          {
-            key: "Temple Size",
-            value: "45"
-          },
-          {
-            key: "Usage",
-            value: "Driving"
-          },
-          {
-            key: "Warranty",
-            value: "6"
-          },
-          {
-            key: "Weight (gm)",
-            value: "10"
-          }
-        ],
-        productDescription:
-          "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when paired with a black jeans and black loafers.",
-        productListingId: "MP000000999107552",
-        productName: "Sunglass",
-        rootCategory: "Accessories",
-        sellerAssociationstatus: "Y",
-        seo: {
-          alternateURL: "/sunglass/p-mp000000999107553",
-          breadcrumbs: [
-            {
-              name: "Sunglass",
-              url: "/sunglass/p-mp000000999107552"
-            }
-          ],
-          canonicalURL: "/sunglass/p-mp000000999107553",
-          description:
-            "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when pair",
-          title: "Sunglass"
-        },
-        sharedText:
-          "Wow!Check out this amazing find http://localhost:9001/sunglass/p-mp000000999107552 . Like or  comment to tell me what you think, or share for warm fuzzies.",
-        showSizeGuide: false,
-        styleNote:
-          "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when paired with a black jeans and black loafers.",
-        variantOptions: [
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107553",
-              selected: false
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107553",
-              size: "Medium",
-              url: "/sunglass/p-mp000000999107553"
-            }
-          },
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107422",
-              selected: false
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107422",
-              size: "Large",
-              url: "/sunglass/p-mp000000999107422"
-            }
-          },
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107552",
-              selected: true
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107552",
-              size: "Short",
-              url: "/sunglass/p-mp000000999107552"
-            }
-          }
-        ],
-        warranty: ["6"],
-        winningSellerAvailableStock: "110",
-        winningSellerID: "100090",
-        winningSellerName: "Miltex Distributors",
-        winningSellerPrice: {
-          currencyIso: "INR",
-          doubleValue: 110,
-          formattedValue: "110.00",
-          formattedValueNoDecimal: "110",
-          priceType: "BUY",
-          value: 110
-        },
-        winningUssID: "100090CKJShirtGreyCMH393Z5W1BR07S"
-      };
+      const resultJson = jsonForProductDetails;
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
@@ -3359,378 +1913,7 @@ export function getRelevantBundleProduct(productCode, isApiCall = 0, sequence) {
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
       //const resultJson = await result.json();
-      const resultJson = {
-        type: "mplNewProductDetailMobileWsData",
-        status: "SUCCESS",
-        allOOStock: false,
-        brandInfo: "Calvin Klein",
-        brandName: "Calvin Klein",
-        brandURL: "/adidas/c-mbh16000009",
-        deliveryModesATP: [
-          {
-            key: "home-delivery",
-            value: "Delivered in 5-8 days."
-          },
-          {
-            key: "express-delivery",
-            value: "Delivered in 1-2 days."
-          }
-        ],
-        details: [
-          {
-            key: "Additional Information",
-            value: "vhjvgiu uu giug h "
-          },
-          {
-            key: "Care Instructions",
-            value: "wash"
-          },
-          {
-            key: "Case Included",
-            value: "No"
-          },
-          {
-            key: "Face Shape",
-            value: "Round"
-          },
-          {
-            key: "Frame Color",
-            value: "Multi"
-          },
-          {
-            key: "Frame Color Brand",
-            value: "grey"
-          },
-          {
-            key: "Frame Material",
-            value: "Metal"
-          },
-          {
-            key: "Frame Pattern",
-            value: "Printed"
-          },
-          {
-            key: "Frame Width",
-            value: "67"
-          },
-          {
-            key: "Ideal For",
-            value: "Boys"
-          },
-          {
-            key: "Lens Color",
-            value: "Coral"
-          },
-          {
-            key: "Lens Features",
-            value: "Mirrored"
-          },
-          {
-            key: "Lens Material",
-            value: "Fibre"
-          },
-          {
-            key: "Lens Width",
-            value: "58"
-          },
-          {
-            key: "Look",
-            value: "Trendy"
-          },
-          {
-            key: "Material Type",
-            value: "Felt"
-          },
-          {
-            key: "Model No",
-            value: "687687"
-          },
-          {
-            key: "Nose Bridge Size",
-            value: "78"
-          },
-          {
-            key: "Nose Pad Material",
-            value: "Aluminium"
-          },
-          {
-            key: "Rim Type",
-            value: "Full Rim"
-          },
-          {
-            key: "Size",
-            value: "Medium"
-          },
-          {
-            key: "Style",
-            value: "Wayfarer"
-          },
-          {
-            key: "Temple Color",
-            value: "Khaki"
-          },
-          {
-            key: "Temple Material",
-            value:
-              "Metal|https://assets.tatacliq.com/medias/sys_master/managed/14476411273246.png"
-          },
-          {
-            key: "Temple Size",
-            value: "45"
-          },
-          {
-            key: "Usage",
-            value: "Driving"
-          },
-          {
-            key: "Warranty",
-            value: "6"
-          },
-          {
-            key: "Weight (gm)",
-            value: "10"
-          }
-        ],
-        discount: "45",
-        isEMIEligible: "N",
-        isExchangeAvailable: false,
-        isOfferExisting: "N",
-        isOnlineExclusive: "N",
-        isProductNew: "N",
-        isSizeOrLength: "Size",
-        knowMore: [
-          {
-            knowMoreItem:
-              "An order, once placed, can be cancelled until the seller processes it."
-          },
-          {
-            knowMoreItem:
-              "This product can be returned within 0 day(s) of delivery,subject to the Return Policy."
-          },
-          {
-            knowMoreItem:
-              "For any other queries, do reach out to CliQ Care at 1800-208-8282."
-          }
-        ],
-        knowMoreEmail: "hello@tatacliq.com",
-        knowMorePhoneNo: "1800-208-8282",
-        knowMoreV2: [
-          {
-            knowMoreItemV2: "0 Days Easy Return"
-          },
-          {
-            knowMoreItemV2:
-              "An order, once placed, can be cancelled until the seller processes it."
-          }
-        ],
-        maxQuantityAllowed: "10",
-        mrpPrice: {
-          currencyIso: "INR",
-          doubleValue: 200,
-          formattedValue: "200.00",
-          formattedValueNoDecimal: "200",
-          priceType: "BUY",
-          value: 200
-        },
-        nceAvailable: false,
-        numberOfReviews: 0,
-        prdDetails: [
-          {
-            key: "Additional Information",
-            value: "vhjvgiu uu giug h "
-          },
-          {
-            key: "Care Instructions",
-            value: "wash"
-          },
-          {
-            key: "Case Included",
-            value: "No"
-          },
-          {
-            key: "Face Shape",
-            value: "Round"
-          },
-          {
-            key: "Frame Color",
-            value: "Multi"
-          },
-          {
-            key: "Frame Color Brand",
-            value: "grey"
-          },
-          {
-            key: "Frame Material",
-            value: "Metal"
-          },
-          {
-            key: "Frame Pattern",
-            value: "Printed"
-          },
-          {
-            key: "Frame Width",
-            value: "67"
-          },
-          {
-            key: "Ideal For",
-            value: "Boys"
-          },
-          {
-            key: "Lens Color",
-            value: "Coral"
-          },
-          {
-            key: "Lens Features",
-            value: "Mirrored"
-          },
-          {
-            key: "Lens Material",
-            value: "Fibre"
-          },
-          {
-            key: "Lens Width",
-            value: "58"
-          },
-          {
-            key: "Look",
-            value: "Trendy"
-          },
-          {
-            key: "Material Type",
-            value: "Felt"
-          },
-          {
-            key: "Model No",
-            value: "687687"
-          },
-          {
-            key: "Nose Bridge Size",
-            value: "78"
-          },
-          {
-            key: "Nose Pad Material",
-            value: "Aluminium"
-          },
-          {
-            key: "Rim Type",
-            value: "Full Rim"
-          },
-          {
-            key: "Size",
-            value: "Medium"
-          },
-          {
-            key: "Style",
-            value: "Wayfarer"
-          },
-          {
-            key: "Temple Color",
-            value: "Khaki"
-          },
-          {
-            key: "Temple Material",
-            value:
-              "Metal|https://assets.tatacliq.com/medias/sys_master/managed/14476411273246.png"
-          },
-          {
-            key: "Temple Size",
-            value: "45"
-          },
-          {
-            key: "Usage",
-            value: "Driving"
-          },
-          {
-            key: "Warranty",
-            value: "6"
-          },
-          {
-            key: "Weight (gm)",
-            value: "10"
-          }
-        ],
-        productDescription:
-          "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when paired with a black jeans and black loafers.",
-        productListingId: "MP000000999107552",
-        productName: "Sunglass",
-        rootCategory: "Accessories",
-        sellerAssociationstatus: "Y",
-        seo: {
-          alternateURL: "/sunglass/p-mp000000999107553",
-          breadcrumbs: [
-            {
-              name: "Sunglass",
-              url: "/sunglass/p-mp000000999107552"
-            }
-          ],
-          canonicalURL: "/sunglass/p-mp000000999107553",
-          description:
-            "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when pair",
-          title: "Sunglass"
-        },
-        sharedText:
-          "Wow!Check out this amazing find http://localhost:9001/sunglass/p-mp000000999107552 . Like or  comment to tell me what you think, or share for warm fuzzies.",
-        showSizeGuide: false,
-        styleNote:
-          "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when paired with a black jeans and black loafers.",
-        variantOptions: [
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107553",
-              selected: false
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107553",
-              size: "Medium",
-              url: "/sunglass/p-mp000000999107553"
-            }
-          },
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107422",
-              selected: false
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107422",
-              size: "Large",
-              url: "/sunglass/p-mp000000999107422"
-            }
-          },
-          {
-            colorlink: {
-              color: "Grey",
-              colorHexCode: "#808080",
-              colorurl: "/sunglass/p-mp000000999107552",
-              selected: true
-            },
-            sizelink: {
-              isAvailable: true,
-              productCode: "MP000000999107552",
-              size: "Short",
-              url: "/sunglass/p-mp000000999107552"
-            }
-          }
-        ],
-        warranty: ["6"],
-        winningSellerAvailableStock: "110",
-        winningSellerID: "100090",
-        winningSellerName: "Miltex Distributors",
-        winningSellerPrice: {
-          currencyIso: "INR",
-          doubleValue: 110,
-          formattedValue: "110.00",
-          formattedValueNoDecimal: "110",
-          priceType: "BUY",
-          value: 110
-        },
-        winningUssID: "100090CKJShirtGreyCMH393Z5W1BR07S"
-      };
+      const resultJson = jsonForProductDetails;
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
