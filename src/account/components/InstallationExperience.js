@@ -147,12 +147,16 @@ export default class InstallationExperience extends React.Component {
               {requestCreatedCustomerFacingName}
             </div>
             <div className={styles.eieDateAndTimeHolder}>
-              <div className={styles.eieDateNTimeContainer}>
-                {requestCreatedDate}
-              </div>
-              <div className={styles.eieDateNTimeContainer}>
-                {requestCreatedTime}
-              </div>
+              {requestCreatedDate && (
+                <div className={styles.eieDateNTimeContainer}>
+                  {requestCreatedDate}
+                </div>
+              )}
+              {requestCreatedTime && (
+                <div className={styles.eieDateNTimeContainer}>
+                  {requestCreatedTime}
+                </div>
+              )}
               <div className={styles.eieStatus}>{requestCreatedCallout}</div>
             </div>
           </div>
@@ -181,12 +185,16 @@ export default class InstallationExperience extends React.Component {
               {engineerAssignedCustomerFacingName}
             </div>
             <div className={styles.eieDateAndTimeHolder}>
-              <div className={styles.eieDateNTimeContainer}>
-                {engineerAssignedDate}
-              </div>
-              <div className={styles.eieDateNTimeContainer}>
-                {engineerAssignedTime}
-              </div>
+              {engineerAssignedDate && (
+                <div className={styles.eieDateNTimeContainer}>
+                  {engineerAssignedDate}
+                </div>
+              )}
+              {engineerAssignedTime && (
+                <div className={styles.eieDateNTimeContainer}>
+                  {engineerAssignedTime}
+                </div>
+              )}
               <div className={styles.eieStatus}>{engineerAssignedCallout}</div>
             </div>
           </div>
@@ -217,12 +225,16 @@ export default class InstallationExperience extends React.Component {
                   {requestRescheduleCustomerFacingName}
                 </div>
                 <div className={styles.eieDateAndTimeHolder}>
-                  <div className={styles.eieDateNTimeContainer}>
-                    {requestRescheduleDate}
-                  </div>
-                  <div className={styles.eieDateNTimeContainer}>
-                    {requestRescheduleTime}
-                  </div>
+                  {requestRescheduleDate && (
+                    <div className={styles.eieDateNTimeContainer}>
+                      {requestRescheduleDate}
+                    </div>
+                  )}
+                  {requestRescheduleTime && (
+                    <div className={styles.eieDateNTimeContainer}>
+                      {requestRescheduleTime}
+                    </div>
+                  )}
                   <div className={styles.eieStatus}>
                     {requestRescheduleCallout}
                   </div>
@@ -256,12 +268,16 @@ export default class InstallationExperience extends React.Component {
                   {requestCancelledCustomerFacingName}
                 </div>
                 <div className={styles.eieDateAndTimeHolder}>
-                  <div className={styles.eieDateNTimeContainer}>
-                    {requestCancelledDate}
-                  </div>
-                  <div className={styles.eieDateNTimeContainer}>
-                    {requestCancelledTime}
-                  </div>
+                  {requestCancelledDate && (
+                    <div className={styles.eieDateNTimeContainer}>
+                      {requestCancelledDate}
+                    </div>
+                  )}
+                  {requestCancelledTime && (
+                    <div className={styles.eieDateNTimeContainer}>
+                      {requestCancelledTime}
+                    </div>
+                  )}
                   <div className={styles.eieStatus}>
                     {requestCancelledCallout}
                   </div>
@@ -295,12 +311,16 @@ export default class InstallationExperience extends React.Component {
                   {requestCompletedCustomerFacingName}
                 </div>
                 <div className={styles.eieDateAndTimeHolder}>
-                  <div className={styles.eieDateNTimeContainer}>
-                    {requestCompletedDate}
-                  </div>
-                  <div className={styles.eieDateNTimeContainer}>
-                    {requestCompletedTime}
-                  </div>
+                  {requestCompletedDate && (
+                    <div className={styles.eieDateNTimeContainer}>
+                      {requestCompletedDate}
+                    </div>
+                  )}
+                  {requestCompletedTime && (
+                    <div className={styles.eieDateNTimeContainer}>
+                      {requestCompletedTime}
+                    </div>
+                  )}
                   <div className={styles.eieStatus}>
                     {requestCompletedCallout}
                   </div>

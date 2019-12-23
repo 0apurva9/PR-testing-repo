@@ -25,7 +25,7 @@
 }
 
 .processNameHolderBold {
-	width: 64%;
+	width: 65%;
 	height: auto;
 	display: inline-block;
 	color: #212121;
@@ -35,11 +35,11 @@
 	font-family: semibold;
 	position: absolute;
 	top: -42px;
-	left: 20px;
+	left: 15px;
 }
 
 .processNameHolder {
-	width: 64%;
+	width: 65%;
 	height: auto;
 	display: inline-block;
 	color: #212121;
@@ -51,7 +51,7 @@
 	font-family: light;
 	position: absolute;
 	top: -42px;
-	left: 20px;
+	left: 15px;
 }
 
 .dateAndTimeHolder {
