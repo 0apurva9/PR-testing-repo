@@ -98,6 +98,20 @@
     left: 45px;
     pointer-events: none;
   }
+
+  .exchangeOffer {
+    width: 215px;
+    height: 39px;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 20px;
+    background: url(../components/img/exchangeOffer.svg) no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 90px;
+    left: 0px;
+    pointer-events: none;
+  }
 }
 
 .offer {

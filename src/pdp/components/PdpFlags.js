@@ -9,6 +9,11 @@ export default class PdpFlags extends React.Component {
         </div>
       );
     } else if (
+      this.props.showExchangeTag &&
+      this.props.exchangeOfferAvailable
+    ) {
+      return <div className={styles.exchangeOffer}>Exchange Available</div>;
+    } else if (
       (this.props.seasonSale && this.props.seasonSale.key === "Season") ||
       this.props.seasonTag
     ) {
