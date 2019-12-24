@@ -13,8 +13,15 @@ export default class SavedCard extends React.Component {
     };
   }
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.selected) {
+    if (
+      !this.props.currentPaymentMode &&
+      nextProps.currentPaymentMode !== this.props.currentPaymentMode
+    ) {
       this.setState({ cvv: "" });
+    } else {
+      if (!nextProps.selected) {
+        this.setState({ cvv: "" });
+      }
     }
   }
   onChangeCvv(val) {

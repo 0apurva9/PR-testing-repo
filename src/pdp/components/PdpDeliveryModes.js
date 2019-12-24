@@ -14,6 +14,7 @@ import {
 import PropTypes from "prop-types";
 import styles from "./PdpDeliveryModes.css";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
+import { isBrowser } from "browser-or-node";
 export default class PdpDeliveryModes extends React.Component {
   render() {
     let deliveryMode = "";

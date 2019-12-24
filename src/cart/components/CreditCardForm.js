@@ -211,8 +211,7 @@ export default class CreditCardForm extends React.Component {
                     Please enter a valid card number
                   </span>
                 )}
-              {!this.props.bankGatewayStatus === BANK_GATWAY_DOWN &&
-                this.state.emiInvalidCardError &&
+              {this.state.emiInvalidCardError &&
                 this.state.cardNumber.length > 6 && (
                   <span className={styles.invalidCardText}>
                     {this.state.emiInvalidCardError}

@@ -17,10 +17,11 @@ export default class PreAutomatedBrandProductCarousel extends React.Component {
     if (env.REACT_APP_STAGE === "production") {
       apiUrl = "https://www.tatacliq.com";
     }
-    let productCodes;
-    each(value.itemIds, itemId => {
-      productCodes = `${itemId},${productCodes}`;
-    });
+    // let productCodes;
+    // each(value.itemIds, itemId => {
+    //   productCodes = `${itemId},${productCodes}`;
+    // });
+    let productCodes = value.itemIds && value.itemIds.toString();
     const url = `${apiUrl}/marketplacewebservices/v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
     return fetch(url)
       .then(response => response.json())

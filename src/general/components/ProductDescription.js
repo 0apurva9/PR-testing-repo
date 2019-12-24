@@ -146,6 +146,7 @@ export default class ProductDescription extends Component {
                   </h3>
                 </div>
               )}
+
             {!this.props.isRange &&
               !electronicView &&
               this.props.mrpPrice &&

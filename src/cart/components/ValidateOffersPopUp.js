@@ -125,6 +125,14 @@ export default class ValidateOffersPopUp extends React.Component {
           releaseStatus = await this.props.releaseUserCoupon(
             this.props.result.userCoupon.couponCode
           );
+        } else if (
+          this.props.result.userCoupon &&
+          this.props.result.userCoupon.couponCode
+        ) {
+          releaseStatus = await this.props.releaseUserCoupon(
+            this.props.result.userCoupon.couponCode
+          );
+          this.props.closeModal();
         }
       }
     } else if (this.props.result && this.props.result.bankOffer) {
@@ -185,7 +193,11 @@ export default class ValidateOffersPopUp extends React.Component {
       this.props.closeModal();
     }
   }
+  componentWillUnmount() {
+    document.body.style.pointerEvents = "auto";
+  }
   render() {
+    document.body.style.pointerEvents = "none";
     const parsedQueryString = queryString.parse(this.props.location.search);
     const isPaymentFailureCase = parsedQueryString.status;
 
