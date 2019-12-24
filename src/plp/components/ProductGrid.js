@@ -115,6 +115,8 @@ export default class ProductGrid extends React.Component {
         shouldShowSimilarIcon={true}
         productListings={this.props.productListings}
         ussid={data.ussid}
+        showExchangeTag={data.showExchangeTag}
+        exchangeOfferAvailable={data.exchangeOfferAvailable}
       />
     );
   };
