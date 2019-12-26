@@ -332,14 +332,23 @@ export function getProductPinCode(pinCode: null, productCode) {
       let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
       let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
       let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      let isExchangeAvailable = localStorage.getItem("PDPExchangeAvailable");
       if (userDetails) {
         let userName = JSON.parse(userDetails).userName;
         let accessToken = JSON.parse(customerCookie).access_token;
-        url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}`;
+        if (isExchangeAvailable) {
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=true`;
+        } else {
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}`;
+        }
       } else {
         let userName = ANONYMOUS_USER;
         let accessToken = JSON.parse(globalCookie).access_token;
-        url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}`;
+        if (isExchangeAvailable) {
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=true`;
+        } else {
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}`;
+        }
       }
       const result = await api.post(url);
 
@@ -348,6 +357,17 @@ export function getProductPinCode(pinCode: null, productCode) {
 
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
+      }
+      let isPickupAvailableForExchange =
+        resultJson.isPickupAvailableForExchange;
+      if (isPickupAvailableForExchange) {
+        dispatch(displayToast("Exchange is serviceable at your pincode"));
+      }
+      if (resultJson.pickupCharge && resultJson.pickupCharge.value) {
+        localStorage.setItem(
+          "cashifyPickupCharge",
+          resultJson.pickupCharge.value
+        );
       }
       return dispatch(
         getProductPinCodeSuccess({

@@ -962,6 +962,14 @@ export default class PdpApparel extends React.Component {
         BundleddiscountPrice =
           productData.winningSellerPrice.formattedValueNoDecimal;
       }
+      if (productData.exchangeAvailable) {
+        localStorage.setItem(
+          "PDPExchangeAvailable",
+          productData.exchangeAvailable
+        );
+      } else {
+        localStorage.removeItem("PDPExchangeAvailable");
+      }
       return (
         <PdpFrame
           goToCart={() => this.goToCart()}
