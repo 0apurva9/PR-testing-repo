@@ -68,7 +68,7 @@ export default class OrderRelatedIssue extends React.Component {
           ? getUserDetails.userName
           : "",
       comment: "",
-      file: "",
+      file: [],
       l2SelectedOption: null,
       l3SelectedOption: null,
       isEnableForOrderRelated: false,
@@ -89,7 +89,9 @@ export default class OrderRelatedIssue extends React.Component {
       customerQryFldTextArea: false,
       customerQryFldRadio: false,
       customerQryFldCheckBox: false,
-      customerQryFldAttachment: false
+      customerQryFldAttachment: false,
+      textboxFldData: "",
+      radioSelectedOption: ""
     };
   }
 
@@ -220,6 +222,20 @@ export default class OrderRelatedIssue extends React.Component {
         if (ele.componentName === "textAreaComponent") {
           this.setState({ customerQryFldTextArea: true });
         }
+        if (ele.componentName === "textboxComponent") {
+          this.setState({ customerQryFldTextBox: true });
+        }
+        if (ele.componentName === "radioComponent") {
+          this.setState({ customerQryFldRadio: true });
+          ele.optionArray.map(ele => {
+            if (ele.isSelected === 1) {
+              this.setState({ radioSelectedOption: ele.value });
+            }
+          });
+        }
+        if (ele.componentName === "attachmentComponent") {
+          this.setState({ customerQryFldAttachment: true });
+        }
       });
     }
   }
@@ -267,8 +283,11 @@ export default class OrderRelatedIssue extends React.Component {
       //   return false;
     }
 
+    /**
+     * @author Prashant
+     */
+    let customerQueriesFieldArray = this.props.customerQueriesField;
     if (this.state.customerQryFldTextArea) {
-      let customerQueriesFieldArray = this.props.customerQueriesField;
       let textAreaData = [];
       customerQueriesFieldArray &&
         customerQueriesFieldArray.map(ele => {
@@ -277,10 +296,7 @@ export default class OrderRelatedIssue extends React.Component {
           }
         });
 
-      if (
-        this.state.comment.length === 0 &&
-        parseInt(textAreaData.isMandatory)
-      ) {
+      if (this.state.comment.length === 0 && textAreaData.isMandatory) {
         this.props.displayToast(textAreaData.minLimitError);
         return false;
       }
@@ -293,6 +309,71 @@ export default class OrderRelatedIssue extends React.Component {
         return false;
       }
     }
+
+    if (this.state.customerQryFldRadio) {
+      let radioData = [];
+      customerQueriesFieldArray &&
+        customerQueriesFieldArray.map(ele => {
+          if (ele.componentName === "radioComponent") {
+            radioData = ele;
+          }
+        });
+      if (radioData.isMandatory && this.state.radioSelectedOption === "") {
+        this.props.displayToast("Radio field is mandatory.");
+        return false;
+      }
+    }
+
+    if (this.state.customerQryFldTextBox) {
+      let textBoxData = [];
+      customerQueriesFieldArray &&
+        customerQueriesFieldArray.map(ele => {
+          if (ele.componentName === "textboxComponent") {
+            textBoxData = ele;
+          }
+        });
+      if (
+        !textBoxData.isMandatory ||
+        this.state.textboxFldData.length < textBoxData.minLimit
+      ) {
+        this.props.displayToast(textBoxData.minLimitError);
+        return false;
+      }
+      if (this.state.textboxFldData.length > textBoxData.maxLimit) {
+        this.props.displayToast(textBoxData.maxLimitError);
+        return false;
+      }
+
+      /**
+       * Issue in checking through regex
+       */
+
+      var expression = "^" + textBoxData.regex + "+$";
+      var regexExp = new RegExp(expression);
+
+      if (!regexExp.test(this.state.textboxFldData)) {
+        this.props.displayToast(textBoxData.regexError);
+        return false;
+      }
+    }
+
+    if (this.state.customerQryFldAttachment) {
+      let attachmentData = [];
+      customerQueriesFieldArray &&
+        customerQueriesFieldArray.map(ele => {
+          if (ele.componentName === "attachmentComponent") {
+            attachmentData = ele;
+          }
+        });
+      if (attachmentData.isMandatory && !this.state.file.length) {
+        this.props.displayToast("Please upload file.");
+        return false;
+      }
+    }
+
+    /**
+     * Eod
+     */
 
     if (!this.state.email) {
       this.props.displayToast(EMAIL_TEXT);
@@ -406,10 +487,18 @@ export default class OrderRelatedIssue extends React.Component {
     return <Redirect to={LOGIN_PATH} />;
   }
 
-  onUploadFile(file) {
+  onUploadFile(file, fileUploadLimit = 1) {
     if (file) {
       if (file.size <= 5000000) {
-        this.setState({ file });
+        if (fileUploadLimit === -1) {
+          this.setState({ file: [...this.state.file, file] });
+        } else if (fileUploadLimit => this.state.file.length + 1) {
+          this.setState({ file: [...this.state.file, file] });
+        } else {
+          this.props.displayToast(
+            `Max file upload limit is ${fileUploadLimit}`
+          );
+        }
       } else {
         this.props.displayToast("File size should be less then 5 Mb");
       }
@@ -466,8 +555,14 @@ export default class OrderRelatedIssue extends React.Component {
     let l1OptionsArray,
       l2OptionsArray,
       l3OptionsArray,
-      customerQueriesFieldArray;
-    let textAreaData = {};
+      customerQueriesFieldArray,
+      textAreaData = {},
+      attachmentData = {},
+      textboxData = {},
+      labelData = {},
+      radioData = {},
+      checkboxData = {};
+
     if (this.state.isSelected === 0) {
       l1OptionsArray =
         this.props.customerQueriesData &&
@@ -479,6 +574,21 @@ export default class OrderRelatedIssue extends React.Component {
         customerQueriesFieldArray.map(ele => {
           if (ele.componentName === "textAreaComponent") {
             textAreaData = ele;
+          }
+          if (ele.componentName === "attachmentComponent") {
+            attachmentData = ele;
+          }
+          if (ele.componentName === "textboxComponent") {
+            textboxData = ele;
+          }
+          if (ele.componentName === "labelComponent") {
+            labelData = ele;
+          }
+          if (ele.componentName === "radioComponent") {
+            radioData = ele;
+          }
+          if (ele.componentName === "checkboxComponent") {
+            checkboxData = ele;
           }
         });
       /**
@@ -980,10 +1090,78 @@ export default class OrderRelatedIssue extends React.Component {
                             </div>
                           )}
                         <div className={styles.selectIssue}>
+                          {!this.state.solution &&
+                            this.state.L0 &&
+                            this.state.customerQryFldTextBox && (
+                              <React.Fragment>
+                                <div className={styles.secondOrder}>
+                                  <CheckOutHeader
+                                    indexNumber={"0"}
+                                    confirmTitle={textboxData.heading}
+                                  />
+                                </div>
+                                <div className={styles.textInformationHolder}>
+                                  <FloatingLabelInput
+                                    label={textboxData.placeholder}
+                                    disabled={false}
+                                    value={this.state.textboxFldData}
+                                    onChange={textboxFldData =>
+                                      this.onChange({ textboxFldData })
+                                    }
+                                  />
+                                </div>
+                              </React.Fragment>
+                            )}
+                        </div>
+                        <div className={styles.selectIssue}>
                           {/**
                            * @author Prashant
-                           * Making change in the TextArea field as per the data from the API
+                           * Making change in the TextArea and textbox field as per the data from the API
                            */}
+                          {!this.state.solution &&
+                            this.state.L0 &&
+                            this.state.customerQryFldRadio && (
+                              <React.Fragment>
+                                <div className={styles.secondOrder}>
+                                  <CheckOutHeader
+                                    indexNumber={"0"}
+                                    confirmTitle={radioData.heading}
+                                  />
+                                  {radioData &&
+                                    radioData.optionArray.map(ele => {
+                                      return (
+                                        <div
+                                          key={ele.value}
+                                          className={styles.radioBtnMyAcc}
+                                        >
+                                          <label>
+                                            {ele.optionName}
+                                            <input
+                                              type="radio"
+                                              value={ele.value}
+                                              checked={
+                                                ele.value ==
+                                                this.state.radioSelectedOption
+                                                  ? true
+                                                  : false
+                                              }
+                                              onChange={e =>
+                                                this.setState({
+                                                  radioSelectedOption:
+                                                    e.target.value
+                                                })
+                                              }
+                                            />
+                                            <span />
+                                          </label>
+                                        </div>
+                                      );
+                                    })}
+                                </div>
+                              </React.Fragment>
+                            )}
+                        </div>
+                        <div className={styles.selectIssue}>
                           {!this.state.solution &&
                             this.state.L0 &&
                             this.state.customerQryFldTextArea && (
@@ -1011,7 +1189,8 @@ export default class OrderRelatedIssue extends React.Component {
                   {!this.state.solution &&
                     this.state.L0 &&
                     (l1OptionsArray ||
-                      (l3OptionsArray && !l3OptionsArray.ticketAnswer)) && (
+                      (l3OptionsArray && !l3OptionsArray.ticketAnswer)) &&
+                    this.state.customerQryFldAttachment && (
                       <div className={styles.selectImageHolder}>
                         <div className={styles.formWrapper}>
                           <div className={styles.secondOrder}>
@@ -1019,20 +1198,34 @@ export default class OrderRelatedIssue extends React.Component {
                               indexNumber={
                                 this.state.isSelected === 0 ? "3" : "2"
                               }
-                              confirmTitle="Add attachment (Optional)"
+                              confirmTitle={attachmentData.heading}
                             />
                           </div>
                           <div className={styles.validImage}>
                             Upload JPEG, PNG (Maximum size 5 MB)
                           </div>
                           <div className={styles.imageInput}>
+                            <div className={styles.secondOrder}>
+                              <CheckOutHeader
+                                indexNumber={"0"}
+                                confirmTitle={attachmentData.itemsTitle}
+                              />
+                            </div>
                             <ImageUpload
                               value={
-                                this.state.file
-                                  ? this.state.file.name
+                                this.state.file.length
+                                  ? this.state.file &&
+                                    this.state.file
+                                      .map(ele => ele.name)
+                                      .join(", ")
                                   : "Upload attachment"
                               }
-                              onChange={file => this.onUploadFile(file)}
+                              onChange={file =>
+                                this.onUploadFile(
+                                  file,
+                                  parseInt(attachmentData.hexCode)
+                                )
+                              }
                             />
                           </div>
                         </div>

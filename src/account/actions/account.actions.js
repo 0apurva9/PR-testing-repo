@@ -3531,7 +3531,7 @@ export function getCustomerQueriesFieldsv2() {
                 hexCode: "",
                 imageURL: "",
                 title:
-                  "Outer packaging of the parcel was tampered,Rad_101,1>|Product box seal was tampered,Rad_102,0>",
+                  "Outer packaging of the parcel was tampered,Rad_101,0|Product box seal was tampered,Rad_102,1|Wrong product sent,Rad_103,0",
                 webURL: ""
               }
             ],
@@ -3549,7 +3549,7 @@ export function getCustomerQueriesFieldsv2() {
                 description: "Select check|1",
                 hexCode: "",
                 imageURL: "",
-                title: "Select check 1,Check_101,0|Select check 2,Check_102,0>",
+                title: "Select check 1,Check_101,0|Select check 2,Check_102,0",
                 webURL: ""
               }
             ],
@@ -3565,7 +3565,7 @@ export function getCustomerQueriesFieldsv2() {
               {
                 btnText: "",
                 description: "Add Attachment|1",
-                hexCode: "-1",
+                hexCode: "2",
                 imageURL: "",
                 title: "Bank Statement",
                 webURL: ""
@@ -3587,6 +3587,26 @@ export function getCustomerQueriesFieldsv2() {
           if (ele.componentName === "textAreaComponent") {
             let textAreaData = getTextAreaApiData(ele);
             responseData.push(textAreaData);
+          }
+          if (ele.componentName === "attachmentComponent") {
+            let attachmentData = getAttachmentApiData(ele);
+            responseData.push(attachmentData);
+          }
+          if (ele.componentName === "textboxComponent") {
+            let textBoxData = getTextBoxApiData(ele);
+            responseData.push(textBoxData);
+          }
+          if (ele.componentName === "labelComponent") {
+            let labelData = getLabelApiData(ele);
+            responseData.push(labelData);
+          }
+          if (ele.componentName === "radioComponent") {
+            let radioData = getRadioApiData(ele);
+            responseData.push(radioData);
+          }
+          if (ele.componentName === "checkboxComponent") {
+            let checkboxData = getCheckboxApiData(ele);
+            responseData.push(checkboxData);
           }
         });
 
@@ -3628,7 +3648,7 @@ const getTextAreaApiData = (apiData = []) => {
     isMandatory:
       items && items.description
         ? items.description.split("|")
-          ? items.description.split("|")[1]
+          ? parseInt(items.description.split("|")[1])
           : ""
         : "",
     placeholder:
@@ -3672,6 +3692,273 @@ const getTextAreaApiData = (apiData = []) => {
       : ""
   };
 
+  return returnValue;
+};
+const getAttachmentApiData = (apiData = []) => {
+  let items =
+    apiData.singleBannerComponent && apiData.singleBannerComponent.items[0]
+      ? apiData.singleBannerComponent.items[0]
+      : "";
+  let itemsTitle = items && items.title ? items.title : "";
+
+  let returnValue = {
+    componentName: apiData.componentName,
+    componentId: apiData.singleBannerComponent.componentId
+      ? apiData.singleBannerComponent.componentId
+      : "",
+    btnText: items && items.btnText ? items.btnText : "",
+    heading:
+      items && items.description
+        ? items.description.split("|")
+          ? items.description.split("|")[0]
+          : ""
+        : "",
+    isMandatory:
+      items && items.description
+        ? items.description.split("|")
+          ? parseInt(items.description.split("|")[1])
+          : ""
+        : "",
+    itemsTitle: itemsTitle,
+    hexCode: items && items.hexCode ? items.hexCode : "",
+    imageURL: items && items.imageURL ? items.imageURL : "",
+    webURL: items && items.webURL ? items.webURL : "",
+    title: apiData.singleBannerComponent.title
+      ? apiData.singleBannerComponent.title
+      : "",
+    type: apiData.singleBannerComponent.type
+      ? apiData.singleBannerComponent.type
+      : ""
+  };
+
+  return returnValue;
+};
+const getTextBoxApiData = (apiData = []) => {
+  let items =
+    apiData.singleBannerComponent && apiData.singleBannerComponent.items[0]
+      ? apiData.singleBannerComponent.items[0]
+      : "";
+  let itemsTitle = items && items.title ? items.title : "";
+
+  let returnValue = {
+    componentName: apiData.componentName,
+    componentId: apiData.singleBannerComponent.componentId
+      ? apiData.singleBannerComponent.componentId
+      : "",
+    btnText: items && items.btnText ? items.btnText : "",
+    heading:
+      items && items.description
+        ? items.description.split("|")
+          ? items.description.split("|")[0]
+          : ""
+        : "",
+    isMandatory:
+      items && items.description
+        ? items.description.split("|")
+          ? parseInt(items.description.split("|")[1])
+          : ""
+        : "",
+    placeholder:
+      items && items.description
+        ? items.description.split("|")
+          ? items.description.split("|")[2]
+          : ""
+        : "",
+    hexCode: items && items.hexCode ? items.hexCode : "",
+    imageURL: items && items.imageURL ? items.imageURL : "",
+    minLimit:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[0]
+        ? itemsTitle.split("|")[0].split(",")[0]
+          ? parseInt(itemsTitle.split("|")[0].split(",")[0])
+          : ""
+        : "",
+    minLimitError:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[0]
+        ? itemsTitle.split("|")[0].split(",")[1]
+          ? itemsTitle.split("|")[0].split(",")[1]
+          : ""
+        : "",
+    maxLimit:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[1]
+        ? itemsTitle.split("|")[1].split(",")[0]
+          ? parseInt(itemsTitle.split("|")[1].split(",")[0])
+          : ""
+        : "",
+    maxLimitError:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[1]
+        ? itemsTitle.split("|")[1].split(",")[1]
+          ? itemsTitle.split("|")[1].split(",")[1]
+          : ""
+        : "",
+    regex:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[2]
+        ? itemsTitle.split("|")[2].split(",")[0]
+          ? itemsTitle.split("|")[2].split(",")[0]
+          : ""
+        : "",
+    regexError:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[2]
+        ? itemsTitle.split("|")[2].split(",")[1]
+          ? itemsTitle.split("|")[2].split(",")[1]
+          : ""
+        : "",
+    webURL: items && items.webURL ? items.webURL : "",
+    title: apiData.singleBannerComponent.title
+      ? apiData.singleBannerComponent.title
+      : "",
+    type: apiData.singleBannerComponent.type
+      ? apiData.singleBannerComponent.type
+      : ""
+  };
+
+  return returnValue;
+};
+const getLabelApiData = (apiData = []) => {
+  let items =
+    apiData.singleBannerComponent && apiData.singleBannerComponent.items[0]
+      ? apiData.singleBannerComponent.items[0]
+      : "";
+  let itemsTitle = items && items.title ? items.title : "";
+
+  let returnValue = {
+    componentName: apiData.componentName,
+    componentId: apiData.singleBannerComponent.componentId
+      ? apiData.singleBannerComponent.componentId
+      : "",
+    btnText: items && items.btnText ? items.btnText : "",
+    heading:
+      items && items.description
+        ? items.description.split("|")
+          ? items.description.split("|")[0]
+          : ""
+        : "",
+    fontSize:
+      items &&
+      items.description &&
+      items.description.split("|") &&
+      items.description.split("|")[1] &&
+      items.description.split("|")[1].split(",") &&
+      items.description.split("|")[1].split(",")[0]
+        ? items.description.split("|")[1].split(",")[0]
+        : "",
+    fontStyle:
+      items &&
+      items.description &&
+      items.description.split("|") &&
+      items.description.split("|")[1] &&
+      items.description.split("|")[1].split(",") &&
+      items.description.split("|")[1].split(",")[1]
+        ? items.description.split("|")[1].split(",")[1]
+        : "",
+    hexCode: items && items.hexCode ? items.hexCode : "",
+    imageURL: items && items.imageURL ? items.imageURL : "",
+    itemsTitle: itemsTitle,
+    webURL: items && items.webURL ? items.webURL : "",
+    title: apiData.singleBannerComponent.title
+      ? apiData.singleBannerComponent.title
+      : "",
+    type: apiData.singleBannerComponent.type
+      ? apiData.singleBannerComponent.type
+      : ""
+  };
+  return returnValue;
+};
+
+const getRadioApiData = (apiData = []) => {
+  let items =
+    apiData.singleBannerComponent && apiData.singleBannerComponent.items[0]
+      ? apiData.singleBannerComponent.items[0]
+      : "";
+
+  let optionArray =
+    items &&
+    items.title.split("|").map(ele => {
+      let tempOption = ele.split(",");
+      return {
+        optionName: tempOption[0] ? tempOption[0] : "",
+        value: tempOption[1] ? tempOption[1] : "",
+        isSelected: tempOption[2] ? parseInt(tempOption[2]) : ""
+      };
+    });
+
+  let returnValue = {
+    componentName: apiData.componentName,
+    componentId: apiData.singleBannerComponent.componentId
+      ? apiData.singleBannerComponent.componentId
+      : "",
+    btnText: items && items.btnText ? items.btnText : "",
+    heading:
+      items && items.description
+        ? items.description.split("|")
+          ? items.description.split("|")[0]
+          : ""
+        : "",
+    isMandatory:
+      items && items.description
+        ? items.description.split("|")
+          ? parseInt(items.description.split("|")[1])
+          : ""
+        : "",
+    hexCode: items && items.hexCode ? items.hexCode : "",
+    imageURL: items && items.imageURL ? items.imageURL : "",
+    optionArray,
+    webURL: items && items.webURL ? items.webURL : "",
+    title: apiData.singleBannerComponent.title
+      ? apiData.singleBannerComponent.title
+      : "",
+    type: apiData.singleBannerComponent.type
+      ? apiData.singleBannerComponent.type
+      : ""
+  };
+  return returnValue;
+};
+
+const getCheckboxApiData = (apiData = []) => {
+  let items =
+    apiData.singleBannerComponent && apiData.singleBannerComponent.items[0]
+      ? apiData.singleBannerComponent.items[0]
+      : "";
+
+  let optionArray =
+    items &&
+    items.title.split("|").map(ele => {
+      let tempOption = ele.split(",");
+      return {
+        optionName: tempOption[0] ? tempOption[0] : "",
+        value: tempOption[1] ? tempOption[1] : "",
+        isSelected: tempOption[2] ? tempOption[2] : ""
+      };
+    });
+
+  let returnValue = {
+    componentName: apiData.componentName,
+    componentId: apiData.singleBannerComponent.componentId
+      ? apiData.singleBannerComponent.componentId
+      : "",
+    btnText: items && items.btnText ? items.btnText : "",
+    heading:
+      items && items.description
+        ? items.description.split("|")
+          ? items.description.split("|")[0]
+          : ""
+        : "",
+    isMandatory:
+      items && items.description
+        ? items.description.split("|")
+          ? parseInt(items.description.split("|")[1])
+          : ""
+        : "",
+    hexCode: items && items.hexCode ? items.hexCode : "",
+    imageURL: items && items.imageURL ? items.imageURL : "",
+    optionArray,
+    webURL: items && items.webURL ? items.webURL : "",
+    title: apiData.singleBannerComponent.title
+      ? apiData.singleBannerComponent.title
+      : "",
+    type: apiData.singleBannerComponent.type
+      ? apiData.singleBannerComponent.type
+      : ""
+  };
   return returnValue;
 };
 /**
@@ -3773,11 +4060,23 @@ export function uploadUserFile(file) {
         `${PATH}/crmFileUpload`,
         uploadUserFileObject
       );
-      const resultJson = await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
-      }
+      // const resultJson = await result.json();
+      /**
+       * @author Prashant
+       * Added the below code for testing purpose as we dont have real API as of now.
+       * And also uncomment the below commented code.
+       */
+      const resultJson = {
+        fileURL: "/orderdocs/webform/2019/12/20/Screenshot (6).png",
+        status: "Success"
+      };
+      // const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      // if (resultJsonStatus.status) {
+      //   throw new Error(resultJsonStatus.message);
+      // }
+      /**
+       * EOD
+       */
       return dispatch(uploadUserFileSuccess(resultJson));
     } catch (e) {
       return dispatch(uploadUserFileFailure(e.message));
