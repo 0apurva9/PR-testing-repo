@@ -1117,6 +1117,25 @@ export default class PdpApparel extends React.Component {
                     }
                     getBundleProductPinCode={this.props.getBundleProductPinCode}
                   />
+                  {productData.exchangeAvailable && (
+                    <div className={styles.exchangeMainContainer}>
+                      <div className={styles.exchangeLogo} />
+                      <div className={styles.exchangeContainer}>
+                        <div className={styles.exchangeLink}>
+                          Get upto cashback{" "}
+                          {productData.maxExchangeAmount &&
+                            productData.maxExchangeAmount
+                              .formattedValueNoDecimal}{" "}
+                          <span className={styles.withExchangeLink}>
+                            with exchange
+                          </span>
+                        </div>
+                        <div className={styles.exchangeDetails}>
+                          How exchange works?
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 {productData.variantOptions && (
                   <div>
