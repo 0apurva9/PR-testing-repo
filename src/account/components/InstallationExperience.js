@@ -157,7 +157,9 @@ export default class InstallationExperience extends React.Component {
                   {requestCreatedTime}
                 </div>
               )}
-              <div className={styles.eieStatus}>{requestCreatedCallout}</div>
+              {requestCreatedStatus === "Completed" && (
+                <div className={styles.eieStatus}>{requestCreatedCallout}</div>
+              )}
             </div>
           </div>
 
@@ -195,7 +197,11 @@ export default class InstallationExperience extends React.Component {
                   {engineerAssignedTime}
                 </div>
               )}
-              <div className={styles.eieStatus}>{engineerAssignedCallout}</div>
+              {engineerAssignedStatus === "Completed" && (
+                <div className={styles.eieStatus}>
+                  {engineerAssignedCallout}
+                </div>
+              )}
             </div>
           </div>
 
@@ -235,9 +241,11 @@ export default class InstallationExperience extends React.Component {
                       {requestRescheduleTime}
                     </div>
                   )}
-                  <div className={styles.eieStatus}>
-                    {requestRescheduleCallout}
-                  </div>
+                  {requestRescheduleStatus === "Completed" && (
+                    <div className={styles.eieStatus}>
+                      {requestRescheduleCallout}
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -278,9 +286,11 @@ export default class InstallationExperience extends React.Component {
                       {requestCancelledTime}
                     </div>
                   )}
-                  <div className={styles.eieStatus}>
-                    {requestCancelledCallout}
-                  </div>
+                  {requestCancelledStatus === "Completed" && (
+                    <div className={styles.eieStatus}>
+                      {requestCancelledCallout}
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -321,9 +331,11 @@ export default class InstallationExperience extends React.Component {
                       {requestCompletedTime}
                     </div>
                   )}
-                  <div className={styles.eieStatus}>
-                    {requestCompletedCallout}
-                  </div>
+                  {requestCompletedStatus === "Completed" && (
+                    <div className={styles.eieStatus}>
+                      {requestCompletedCallout}
+                    </div>
+                  )}
                 </div>
               </div>
             )}
