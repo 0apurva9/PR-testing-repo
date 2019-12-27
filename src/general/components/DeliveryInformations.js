@@ -235,18 +235,15 @@ export default class DeliveryInformations extends React.Component {
               this.props.isShowCliqAndPiqUnderLineText &&
               this.props.available && (
                 <div className={styles.underLineButtonHolder}>
-                  <div>
-                    <span className={styles.address}>
-                      UG 89, R City Mall, LBS Road, Ghatkopar West, Mumbai
-                      400070{" "}
-                    </span>
+                  <div className={styles.address}>
+                    UG 89, R City Mall, LBS Road, Ghatkopar West, Mumbai 400070{" "}
                   </div>
                   <span className={styles.buttonHolderPiq}>
                     <UnderLinedButton
                       size={
                         UserAgent.checkUserAgentIsMobile() ? "14px" : "12px"
                       }
-                      fontFamily="light"
+                      fontFamily="semibold"
                       color="#ff1744"
                       size="11px"
                       label={this.props.numberOfStore}

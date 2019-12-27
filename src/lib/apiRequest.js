@@ -27,10 +27,8 @@ if (
   MIDDLEWARE_API_URL_ROOT =
     "https://tmppprd.tataunistore.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "production") {
-  API_URL_ROOT =
-    "https://cors-anywhere.herokuapp.com/https://www.tatacliq.com/marketplacewebservices";
-  MIDDLEWARE_API_URL_ROOT =
-    "https://cors-anywhere.herokuapp.com/https://www.tatacliq.com/marketplacewebservices";
+  API_URL_ROOT = "https://www.tatacliq.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT = "https://www.tatacliq.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "p2") {
   API_URL_ROOT = "https://www.tatacliq.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT = "https://www.tatacliq.com/marketplacewebservices";

@@ -61,14 +61,29 @@ export default class ConfirmAddress extends React.Component {
     }
     return (
       <div className={this.props.isReturn ? styles.baseForReturn : styles.base}>
-        {!this.props.isReturn && (
-          <div className={styles.header}>
-            <CheckOutHeader
-              confirmTitle={this.props.title}
-              indexNumber={this.props.indexNumber}
-            />
-          </div>
-        )}
+        <div className={styles.headerwrapper}>
+          {!this.props.isReturn && (
+            <div className={styles.header}>
+              <CheckOutHeader
+                confirmTitle={this.props.title}
+                indexNumber={this.props.indexNumber}
+              />
+            </div>
+          )}
+          {!this.props.isReturn &&
+            this.props.address &&
+            this.props.address.length > 3 && (
+              <div className={styles.addnewAddress}>
+                <UnderLinedButton
+                  size="14px"
+                  fontFamily="regular"
+                  color="#ff1744"
+                  label="Add new address"
+                  onClick={() => this.onNewAddress()}
+                />
+              </div>
+            )}
+        </div>
         {this.props.showAllAddress && (
           <React.Fragment>
             <div className={styles.addressHolder}>
@@ -125,7 +140,7 @@ export default class ConfirmAddress extends React.Component {
                     <UnderLinedButton
                       size="14px"
                       fontFamily="regular"
-                      color="#000"
+                      color="#ff1744"
                       label={this.state.label}
                       onClick={() => this.showMore()}
                     />
@@ -150,19 +165,6 @@ export default class ConfirmAddress extends React.Component {
                   </div>
                 )}
               </DesktopOnly>
-              {!this.props.isReturn &&
-                this.props.address &&
-                this.props.address.length > 3 && (
-                  <div className={styles.moreButtonHolder}>
-                    <UnderLinedButton
-                      size="14px"
-                      fontFamily="regular"
-                      color="#ff1744"
-                      label="Add new address"
-                      onClick={() => this.onNewAddress()}
-                    />
-                  </div>
-                )}
             </div>
           </React.Fragment>
         )}

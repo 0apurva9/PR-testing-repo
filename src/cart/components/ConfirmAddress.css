@@ -7,7 +7,7 @@
   position: relative;
 }
 .header {
-  width: 100%;
+  /* width: 100%; */
   height: auto;
   padding: 15px 15px 5px 15px;
   display: inline-block;
@@ -77,6 +77,12 @@
 .continueButtonHolderByCnc {
   composes: moreButtonHolderByCnc;
   margin-left: 15px;
+}
+.headerwrapper{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
 }
 @media only screen and (min-width: 1025px) {
   .newAddress {

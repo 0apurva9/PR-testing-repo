@@ -86,7 +86,9 @@
 }
 
 .address{
-  font-size: 14px;
+  font-size: 13px;
   font-family: light;
   color: rgb(33,33,33);
+  width: 56%
+
 }
