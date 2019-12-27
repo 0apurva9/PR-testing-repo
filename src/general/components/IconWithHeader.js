@@ -7,11 +7,13 @@ import VisibilityChild from "../../home/components/VisibilityChild";
 import {
   EXPRESS,
   COLLECT,
+  SHORT_COLLECT,
   HOME_DELIVERY,
   SHORT_EXPRESS,
   SAME_DAY_DELIVERY,
   SELECTED_DELIVERY_MODE,
-  SHORT_SAME_DAY_DELIVERY
+  SHORT_SAME_DAY_DELIVERY,
+  QUIQPIQ
 } from "../../lib/constants";
 import OrderCountdown from "./OrderCountdown";
 import format from "date-fns/format";
@@ -56,6 +58,7 @@ export default class IconWithHeader extends React.Component {
     return this.getDateMonthFormate(date, month);
   }
   render() {
+    console.log("props to iconwithheader", this.props);
     let placedTime = "";
     let getClickAndPiqSelectedDate = "";
     let productDayFormatOfClqAndPiq = "";
@@ -64,7 +67,7 @@ export default class IconWithHeader extends React.Component {
         this.props &&
         this.props.deliveryInformationWithDate &&
         this.props.deliveryInformationWithDate.find(val => {
-          if (val.code === "CNC") {
+          if (val.type === "CNC") {
             return this.props.code === COLLECT;
           } else if (val.type === "HD") {
             return this.props.code === HOME_DELIVERY;
@@ -109,7 +112,11 @@ export default class IconWithHeader extends React.Component {
     }
     let classForSplit = styles.labelHolder;
     if (this.props.splitIntoTwoLine) {
-      classForSplit = styles.autoLabelHolder;
+      if (this.props.type === QUIQPIQ) {
+        classForSplit = styles.autoLabelHolderQuiqPiq;
+      } else {
+        classForSplit = styles.autoLabelHolder;
+      }
     }
     let styleInSameLine = styles.span;
     if (this.props.splitIntoTwoLine) {
@@ -166,7 +173,6 @@ export default class IconWithHeader extends React.Component {
                   placedTime &&
                   placedTime.deliveryDate &&
                   this.getDayNumberSuffix(placedTime.deliveryDate)}
-                <OrderCountdown cutOffTime="14:00" />
               </div>
             )}
           {(this.props.code === SAME_DAY_DELIVERY ||
@@ -275,12 +281,12 @@ export default class IconWithHeader extends React.Component {
                         )}`
                       : nextDayFormat === productDayFormatOfClqAndPiq &&
                         !this.props.notShowDay
-                        ? `, Tomorrow , ${this.getDayNumberSuffix(
-                            getClickAndPiqSelectedDate.pickupDate
-                          )}`
-                        : `, ${this.getDayNumberSuffix(
-                            getClickAndPiqSelectedDate.pickupDate
-                          )}`
+                      ? `, Tomorrow , ${this.getDayNumberSuffix(
+                          getClickAndPiqSelectedDate.pickupDate
+                        )}`
+                      : `, ${this.getDayNumberSuffix(
+                          getClickAndPiqSelectedDate.pickupDate
+                        )}`
                     : ""}
                 </div>
                 <div className={styles.changeButtonHolder}>

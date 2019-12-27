@@ -19,7 +19,7 @@ export default class PdpDeliveryModes extends React.Component {
     let deliveryMode = "";
     let deliveryDates = "";
     const eligibleDeliveryModes = this.props.eligibleDeliveryModes;
-    const deliveryModesATP = this.props.deliveryModesATP;
+    //const deliveryModesATP = this.props.deliveryModesATP;
     let getDeliveryModesByWinningUssid = "";
     if (
       this.props &&
@@ -35,7 +35,8 @@ export default class PdpDeliveryModes extends React.Component {
       );
     }
     const QuiqPiq =
-      getDeliveryModesByWinningUssid && getDeliveryModesByWinningUssid.QUIQPIQ;
+      getDeliveryModesByWinningUssid &&
+      getDeliveryModesByWinningUssid.quickDeliveryMode;
     if (
       getDeliveryModesByWinningUssid &&
       getDeliveryModesByWinningUssid.validDeliveryModes
@@ -43,6 +44,14 @@ export default class PdpDeliveryModes extends React.Component {
       deliveryDates = getDeliveryModesByWinningUssid.validDeliveryModes;
     }
     const isCod = this.props && this.props.isCod;
+
+    console.log(
+      "props, quiqpiq, deliverydates and placedTime in pdpdeliverymodes is : ",
+      this.props,
+      QuiqPiq,
+      deliveryDates
+    );
+
     return (
       <div className={styles.base}>
         {QuiqPiq === "Y" && (
@@ -50,7 +59,8 @@ export default class PdpDeliveryModes extends React.Component {
             isQuiqPiq={QuiqPiq}
             isStaticText={true}
             fontSize={"14px"}
-            available={QuiqPiq === "Y" ? true : false}
+            available={true}
+            type={QUIQPIQ}
           />
         )}
         {deliveryDates &&
@@ -60,8 +70,19 @@ export default class PdpDeliveryModes extends React.Component {
             })
             .includes(SHORT_SAME_DAY_DELIVERY) && (
             <DeliveryInformation
+              isQuiqPiq={QuiqPiq}
               pdpApparel={this.props.pdpApparel}
               type={SHORT_SAME_DAY_DELIVERY}
+              cutOffTime={
+                deliveryDates &&
+                deliveryDates
+                  .filter(val => {
+                    return val.type === SHORT_SAME_DAY_DELIVERY;
+                  })
+                  .map(val => {
+                    return val.cutoffTime;
+                  })[0]
+              }
               available={
                 deliveryDates &&
                 deliveryDates
@@ -77,7 +98,7 @@ export default class PdpDeliveryModes extends React.Component {
                     return val.type === SHORT_SAME_DAY_DELIVERY;
                   })
                   .map(val => {
-                    return val.value;
+                    return val.deliveryDate;
                   })[0]
               }
             />
@@ -89,8 +110,9 @@ export default class PdpDeliveryModes extends React.Component {
             })
             .includes(SHORT_EXPRESS) && (
             <DeliveryInformation
+              isQuiqPiq={QuiqPiq}
               pdpApparel={this.props.pdpApparel}
-              type={EXPRESS}
+              type={SHORT_EXPRESS}
               available={
                 deliveryDates &&
                 deliveryDates
@@ -99,6 +121,16 @@ export default class PdpDeliveryModes extends React.Component {
                   })
                   .includes(SHORT_EXPRESS)
               }
+              cutOffTime={
+                deliveryDates &&
+                deliveryDates
+                  .filter(val => {
+                    return val.type === SHORT_EXPRESS;
+                  })
+                  .map(val => {
+                    return val.cutoffTime;
+                  })[0]
+              }
               placedTime={
                 deliveryDates &&
                 deliveryDates
@@ -106,35 +138,39 @@ export default class PdpDeliveryModes extends React.Component {
                     return val.type === SHORT_EXPRESS;
                   })
                   .map(val => {
-                    return val.value;
+                    return val.deliveryDate;
                   })[0]
               }
             />
           )}
-        {eligibleDeliveryModes
-          .map(val => {
-            return val.code;
-          })
-          .includes(COLLECT) && (
-          <DeliveryInformation
-            pdpApparel={this.props.pdpApparel}
-            onPiq={this.props.onPiq}
-            type={COLLECT}
-            available={eligibleDeliveryModes
-              .map(val => {
-                return val.code;
-              })
-              .includes(COLLECT)}
-            showCliqAndPiqButton={false}
-            isClickable={true}
-            isShowCliqAndPiqUnderLineText={localStorage.getItem(
-              DEFAULT_PIN_CODE_LOCAL_STORAGE
-            )}
-            numberOfStore={`
+        {deliveryDates &&
+          deliveryDates
+            .map(val => {
+              return val.type;
+            })
+            .includes(SHORT_COLLECT) && (
+            <DeliveryInformation
+              pdpApparel={this.props.pdpApparel}
+              onPiq={this.props.onPiq}
+              type={SHORT_COLLECT}
+              available={
+                deliveryDates &&
+                deliveryDates
+                  .map(val => {
+                    return val.type;
+                  })
+                  .includes(SHORT_COLLECT)
+              }
+              showCliqAndPiqButton={false}
+              isClickable={true}
+              isShowCliqAndPiqUnderLineText={localStorage.getItem(
+                DEFAULT_PIN_CODE_LOCAL_STORAGE
+              )}
+              numberOfStore={`
                     ${this.props.availableStores} more stores nearby`}
-            splitIntoTwoLine={false}
-          />
-        )}
+              splitIntoTwoLine={false}
+            />
+          )}
         <div
           className={
             (deliveryDates &&
@@ -147,7 +183,7 @@ export default class PdpDeliveryModes extends React.Component {
               .map(val => {
                 return val.code;
               })
-              .includes(COLLECT) ||
+              .includes(SHORT_COLLECT) ||
             (deliveryDates &&
               deliveryDates
                 .map(val => {
@@ -170,7 +206,7 @@ export default class PdpDeliveryModes extends React.Component {
                   paddingTop={"0px"}
                   paddingBottom={"0px"}
                   paddingRight={"0px"}
-                  type={HOME_DELIVERY}
+                  type={SHORT_HOME_DELIVERY}
                   available={
                     deliveryDates &&
                     deliveryDates
@@ -186,7 +222,7 @@ export default class PdpDeliveryModes extends React.Component {
                         return val.type === SHORT_HOME_DELIVERY;
                       })
                       .map(val => {
-                        return val.value;
+                        return val.deliveryDate;
                       })[0]
                   }
                   notShowDay={true}

@@ -84,3 +84,9 @@
     top: 0px;
   }
 }
+
+.address{
+  font-size: 14px;
+  font-family: light;
+  color: rgb(33,33,33);
+}

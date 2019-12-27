@@ -70,6 +70,7 @@ export default class PdpPincode extends React.Component {
     }
   }
   render() {
+    console.log("pdppincode props are : ", this.props);
     const listOfAllPinCode = this.props.listOfAllPinCode;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let baseClass =
@@ -142,7 +143,8 @@ export default class PdpPincode extends React.Component {
                         <div className={styles.addressDetails}>
                           <span className={styles.pinSection}>
                             {val.postalCode}
-                          </span>,{val.line1},{val.town},{val.state}
+                          </span>
+                          ,{val.line1},{val.town},{val.state}
                         </div>
                       </div>
                     );
@@ -159,14 +161,12 @@ export default class PdpPincode extends React.Component {
                 </div>
               )}
             </div>
-            {userDetails &&
-              listOfAllPinCode &&
-              listOfAllPinCode.length > 2 && (
-                <div
-                  className={styles.moreAddress}
-                  onClick={() => this.onClick()}
-                >{`+ ${listOfAllPinCode.length - 2} more saved addresses`}</div>
-              )}
+            {userDetails && listOfAllPinCode && listOfAllPinCode.length > 2 && (
+              <div
+                className={styles.moreAddress}
+                onClick={() => this.onClick()}
+              >{`+ ${listOfAllPinCode.length - 2} more saved addresses`}</div>
+            )}
           </div>
         )}
       </div>
@@ -190,7 +190,8 @@ export default class PdpPincode extends React.Component {
                         <div className={styles.addressDetails}>
                           <span className={styles.pinSection}>
                             {val.postalCode}
-                          </span>,{val.line1},{val.town},{val.state}
+                          </span>
+                          ,{val.line1},{val.town},{val.state}
                         </div>
                       </div>
                     );
@@ -207,14 +208,12 @@ export default class PdpPincode extends React.Component {
                 </div>
               )}
             </div>
-            {userDetails &&
-              listOfAllPinCode &&
-              listOfAllPinCode.length > 2 && (
-                <div
-                  className={styles.moreAddress}
-                  onClick={() => this.onClick()}
-                >{`+ ${listOfAllPinCode.length - 2} more saved addresses`}</div>
-              )}
+            {userDetails && listOfAllPinCode && listOfAllPinCode.length > 2 && (
+              <div
+                className={styles.moreAddress}
+                onClick={() => this.onClick()}
+              >{`+ ${listOfAllPinCode.length - 2} more saved addresses`}</div>
+            )}
           </div>
         )}
         <div className={styles.borderForNoPinCode}>
@@ -238,7 +237,7 @@ export default class PdpPincode extends React.Component {
               className={styles.button}
               onClick={() => this.onCheckPinCode(this.state.pincode)}
             >
-              check
+              Check
             </div>
           </div>
         </div>

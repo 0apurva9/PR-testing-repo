@@ -855,7 +855,7 @@ class CartPage extends React.Component {
                             }
                             isOutOfStock={product.isOutOfStock}
                             qtySelectedByUser={product.qtySelectedByUser}
-                            isClickable={false}
+                            isClickable={true}
                             onClickImage={() =>
                               this.onClickImage(product.productcode)
                             }
@@ -1037,12 +1037,10 @@ class CartPage extends React.Component {
                     )}
                   {this.props &&
                     this.props.wishListCount !== null &&
-                    (this.props.wishListCount > 0 && (
+                    this.props.wishListCount > 0 && (
                       <div className={styles.wishListCountSection}>
                         <div className={styles.iconWishList} />
-                        <span>{`You have ${
-                          this.props.wishListCount
-                        } items in your saved list`}</span>
+                        <span>{`You have ${this.props.wishListCount} items in your saved list`}</span>
                         <div className={styles.buttonHolder}>
                           <UnderLinedButton
                             size="14px"
@@ -1053,7 +1051,7 @@ class CartPage extends React.Component {
                           />
                         </div>
                       </div>
-                    ))}
+                    )}
                   <div className={styles.disclaimer}>{DISCLAIMER}</div>
                 </div>
               </div>

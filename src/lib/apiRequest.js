@@ -8,9 +8,8 @@ import {
 import * as ErrorHandling from "../general/ErrorHandling.js";
 import { CUSTOMER_ACCESS_TOKEN, GLOBAL_ACCESS_TOKEN } from "../lib/constants";
 import { USER_CART_PATH } from "../cart/actions/cart.actions";
-let API_URL_ROOT = "https://uat2.tataunistore.com/marketplacewebservices";
-let MIDDLEWARE_API_URL_ROOT =
-  "https://tmppprd.tataunistore.com/marketplacewebservices";
+let API_URL_ROOT = "/marketplacewebservices";
+let MIDDLEWARE_API_URL_ROOT = "/que-marketplacewebservices";
 export let TATA_CLIQ_ROOT = /https?:[\/]{2}\S*?(\/\S*)/;
 export const TOKEN_PATH = "oauth/token";
 export let URL_ROOT = "";
@@ -28,8 +27,10 @@ if (
   MIDDLEWARE_API_URL_ROOT =
     "https://tmppprd.tataunistore.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "production") {
-  API_URL_ROOT = "https://www.tatacliq.com/marketplacewebservices";
-  MIDDLEWARE_API_URL_ROOT = "https://www.tatacliq.com/marketplacewebservices";
+  API_URL_ROOT =
+    "https://cors-anywhere.herokuapp.com/https://www.tatacliq.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://cors-anywhere.herokuapp.com/https://www.tatacliq.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "p2") {
   API_URL_ROOT = "https://www.tatacliq.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT = "https://www.tatacliq.com/marketplacewebservices";

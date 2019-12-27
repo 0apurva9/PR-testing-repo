@@ -15,19 +15,23 @@ import codImage from "./img/cod.svg";
 import clockImage from "./img/clock.png";
 import {
   EXPRESS,
+  SHORT_EXPRESS,
   COLLECT,
+  SHORT_COLLECT,
   QUIQPIQ,
   SHORT_SAME_DAY_TEXT,
   SHORT_SAME_DAY_DELIVERY,
   EXPRESS_SHIPPING,
   SAME_DAY_DELIVERY,
   SAME_DAY_DELIVERY_SHIPPING,
-  HOME_DELIVERY
+  HOME_DELIVERY,
+  SHORT_HOME_DELIVERY
 } from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";
-const EXPRESS_TEXT = "Delivery By";
-const HOME_TEXT = "Standard Delivery";
-const COLLECT_TEXT = "QUiQ PiQ";
+import CountDownTimer from "../../pdp/components/CountDownTimer.js";
+const EXPRESS_TEXT = "Delivery by";
+const HOME_TEXT = "Delivery by";
+const COLLECT_TEXT = "Pick from store";
 const COLLECT_TEXT_CART = "Pick from store";
 const COD_TEXT = "Cash on Delivery";
 const NOT_AVAILABLE = "Not Available";
@@ -52,36 +56,117 @@ export default class DeliveryInformations extends React.Component {
       this.props.onPiq();
     }
   }
+
+  getDateMonthFormate(date, month) {
+    let todayDate = new Date().getDate();
+    let nextDayDate = todayDate + 1;
+    let newExpressOrSddText;
+    if (
+      (date === todayDate && this.props.type === SHORT_EXPRESS) ||
+      this.props.type === SHORT_SAME_DAY_DELIVERY
+    ) {
+      newExpressOrSddText = `Today, `;
+    } else if (
+      (date === nextDayDate && this.props.type === SHORT_EXPRESS) ||
+      this.props.type === SHORT_SAME_DAY_DELIVERY
+    ) {
+      newExpressOrSddText = `Tomorrow, `;
+    }
+    let monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+    switch (date) {
+      case 1:
+      case 21:
+      case 31:
+        if (newExpressOrSddText) {
+          return newExpressOrSddText + date + "st " + monthNames[month - 1];
+        } else {
+          return "" + date + "st " + monthNames[month - 1];
+        }
+      case 2:
+      case 22:
+        if (newExpressOrSddText) {
+          return newExpressOrSddText + date + "nd " + monthNames[month - 1];
+        } else {
+          return "" + date + "nd " + monthNames[month - 1];
+        }
+      case 3:
+      case 23:
+        if (newExpressOrSddText) {
+          return newExpressOrSddText + date + "rd " + monthNames[month - 1];
+        } else {
+          return "" + date + "rd " + monthNames[month - 1];
+        }
+      default:
+        if (newExpressOrSddText) {
+          return newExpressOrSddText + date + "th " + monthNames[month - 1];
+        } else {
+          return "" + date + "th " + monthNames[month - 1];
+        }
+    }
+  }
+
+  getDayNumberSuffix(d) {
+    let date = "";
+    let month = "";
+    let splitDate = d.split(" ");
+    let dateMonthsYears = splitDate[0].split("-");
+    date = parseInt(dateMonthsYears[0]);
+    month = parseInt(dateMonthsYears[1]);
+    return this.getDateMonthFormate(date, month);
+  }
+
   render() {
+    console.log("props coming to deliveryInformation is : ", this.props);
     let iconImage = "";
     let typeName = "";
+    let formattedPlacedTime;
+    if (this.props.placedTime) {
+      formattedPlacedTime = this.getDayNumberSuffix(this.props.placedTime);
+    }
     let arrowStyle = styles.arrowLink1;
     let iconSize = null;
     let baseClass = styles.base;
-    if (this.props.type === EXPRESS) {
+    if (this.props.type === SHORT_EXPRESS) {
       iconImage = ExpressImage;
       typeName = !this.props.deliveryInformationByCart
-        ? EXPRESS_TEXT
-        : EXPRESS_SHIPPING;
+        ? `${EXPRESS_TEXT} ${formattedPlacedTime}`
+        : `${EXPRESS_SHIPPING} ${formattedPlacedTime}`;
       arrowStyle = styles.arrowLink;
       iconSize = this.props.inCartPageIcon ? 40 : 35;
-    } else if (this.props.type === HOME_DELIVERY) {
-      iconImage = HomeImage;
-      typeName = HOME_TEXT;
+    } else if (this.props.type === SHORT_HOME_DELIVERY) {
+      iconImage = ExpressImage;
+      typeName = `${HOME_TEXT} ${formattedPlacedTime}`;
       iconSize = 35;
-    } else if (this.props.type === COLLECT) {
+    } else if (this.props.type === SHORT_COLLECT) {
       iconImage = CollectImage;
       typeName = !this.props.deliveryInformationByCart
         ? COLLECT_TEXT
         : COLLECT_TEXT_CART;
       iconSize = 35;
     } else if (this.props.type === SHORT_SAME_DAY_DELIVERY) {
-      iconImage = clockImage;
-      typeName = SHORT_SAME_DAY_TEXT;
+      iconImage = ExpressImage;
+      typeName = `${SHORT_SAME_DAY_TEXT} ${formattedPlacedTime}`;
       iconSize = 35;
     } else if (this.props.type === SAME_DAY_DELIVERY) {
       iconImage = clockImage;
       typeName = SAME_DAY_DELIVERY_SHIPPING;
+      iconSize = 35;
+    } else if (this.props.type === HOME_DELIVERY) {
+      iconImage = HomeImage;
+      typeName = HOME_TEXT;
       iconSize = 35;
     } else if (this.props.isQuiqPiq === "Y") {
       iconImage = quiqpiqImage;
@@ -122,13 +207,22 @@ export default class DeliveryInformations extends React.Component {
             image={iconImage}
             iconShow={this.props.iconShow}
             header={`${typeName} ${deliveryCharge}`}
+            type={this.props.type === QUIQPIQ ? QUIQPIQ : null}
           >
-            {this.props.placedTime &&
+            {this.props.type === SHORT_SAME_DAY_DELIVERY &&
               this.props.available && (
-                <div className={styles.placeTime}>{this.props.placedTime}</div>
+                <CountDownTimer cutOffSeconds={this.props.cutOffTime} />
               )}
+
+            {this.props.available && this.props.placedTimeForCod && (
+              <div className={styles.placeTime}>
+                {this.props.placedTimeForCod}
+              </div>
+            )}
+
             {this.props.deliverText && (
               <div className={styles.placeTime}>
+                ${formattedPlacedTime}
                 {this.props.deliverText}
                 <span className={styles.text}>{this.props.textHeading}</span>
               </div>
@@ -137,10 +231,16 @@ export default class DeliveryInformations extends React.Component {
               <div className={styles.placeTime}>{NOT_AVAILABLE}</div>
             )}
             {this.props.isClickable &&
-              this.props.type === COLLECT &&
+              this.props.type === SHORT_COLLECT &&
               this.props.isShowCliqAndPiqUnderLineText &&
               this.props.available && (
                 <div className={styles.underLineButtonHolder}>
+                  <div>
+                    <span className={styles.address}>
+                      UG 89, R City Mall, LBS Road, Ghatkopar West, Mumbai
+                      400070{" "}
+                    </span>
+                  </div>
                   <span className={styles.buttonHolderPiq}>
                     <UnderLinedButton
                       size={
@@ -149,7 +249,7 @@ export default class DeliveryInformations extends React.Component {
                       fontFamily="light"
                       color="#ff1744"
                       size="11px"
-                      label="Check for pick up options"
+                      label={this.props.numberOfStore}
                       onClick={() => this.onPiq()}
                     />
                   </span>
@@ -183,15 +283,14 @@ export default class DeliveryInformations extends React.Component {
                 </div>
               )}
 
-          {this.props.arrowClick &&
-            this.props.type === COLLECT && (
-              <div
-                className={styles.arrowHolder}
-                onClick={() => this.arrowClick()}
-              >
-                <Icon image={arrowIcon} size={20} />
-              </div>
-            )}
+          {this.props.arrowClick && this.props.type === COLLECT && (
+            <div
+              className={styles.arrowHolder}
+              onClick={() => this.arrowClick()}
+            >
+              <Icon image={arrowIcon} size={20} />
+            </div>
+          )}
           {this.props.showCliqAndPiqButton &&
             this.props.isClickable &&
             !this.props.selected &&

@@ -51,6 +51,13 @@
     width: auto;
     display: inline-block;
   }
+  .autoLabelHolderQuiqPiq {
+    composes: labelHolder;
+    width: auto;
+    display: inline-block;
+    font-size: 14px;
+    font-family: semibold;
+  }
   .spanBlock {
     width: 100%;
     height: auto;

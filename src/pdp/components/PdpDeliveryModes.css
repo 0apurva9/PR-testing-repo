@@ -12,7 +12,7 @@
 .standardAndCashOnDelivery {
   width: 100%;
   height: auto;
-  display: inline-block;
+  display: block;
   background: #fff;
   position: relative;
   padding-top: 20px;
@@ -32,8 +32,8 @@
 .infoHolder {
   width: 50%;
   height: auto;
-  display: inline-block;
-  vertical-align: top;
+  display: block;
+ /*  vertical-align: top; */
 }
 .noStandardAndCashOnDelivery {
   width: 100%;

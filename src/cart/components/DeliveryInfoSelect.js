@@ -50,28 +50,37 @@ export default class DeliveryInfoSelect extends React.Component {
     }
     return (
       <div>
-        {this.props.deliveryInformation.map((datum, i) => {
-          return (
+        {this.props.deliveryInformationWithDate &&
+          this.props.deliveryInformationWithDate.map((datum, i) => {
             <DeliveryInformations
               key={i}
-              type={datum.code}
-              header={datum.name}
+              type={datum.type}
+              //header={datum.name}
               showDeliveryCharge={true}
-              placedTime={datum.desc}
+              placedTime={datum.deliveryDate}
               deliveryCharge={datum.deliveryCost}
               selected={datum.code === this.state.selectedCode}
-              onSelect={val => this.handleSelect(val)}
+              //onSelect={val => this.handleSelect(val)}
+              onSelect={false}
               onPiq={val => this.onPiq(val)}
               showCliqAndPiqButton={true}
               available={true}
               isClickable={this.props.isClickable}
-              numberOfStore={
+              /* numberOfStore={
                 this.props.deliveryInformationWithDate &&
                 this.props.deliveryInformationWithDate.map(val => {
                   if (val.type === "CNC")
                     return `${availableStores &&
                       availableStores.length} stores nearby`;
                 })
+              } */
+              numberOfStore={
+                datum.type === "CNC"
+                  ? `${availableStores && availableStores.length} stores nearby`
+                  : null
+              }
+              cutOffTime={
+                datum.type === "SDD" || "ED" ? datum.cutoffTime : null
               }
               deliveryInformationWithDate={
                 this.props.deliveryInformationWithDate
@@ -81,9 +90,8 @@ export default class DeliveryInfoSelect extends React.Component {
               inCartPage={this.props.inCartPage}
               inCartPageIcon={this.props.inCartPageIcon}
               isArrowIcon={this.props.isArrowIcon}
-            />
-          );
-        })}
+            />;
+          })}
       </div>
     );
   }

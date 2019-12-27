@@ -21,10 +21,10 @@ export default class UnderLinedButton extends React.Component {
         }}
       >
         {this.props.label}
-        <div
+        {/* <div
           className={styles.underline}
           style={{ backgroundColor: this.props.color }}
-        />
+        /> */}
       </div>
     );
   }

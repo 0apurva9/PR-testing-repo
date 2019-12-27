@@ -538,9 +538,7 @@ export default class PdpApparel extends React.Component {
     setDataLayerForPdpDirectCalls(
       SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT
     );
-    const url = `${
-      this.props.location.pathname
-    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
   renderRatings = () => {
@@ -839,6 +837,10 @@ export default class PdpApparel extends React.Component {
       this.state.selectedBundledProduct.push(e.target.value);
   }
   render() {
+    console.log(
+      "pdpdesktop productDetails response is : ",
+      this.props.productDetails
+    );
     let seasonData = {};
     if (this.props.productDetails["seasonDetails"] !== undefined) {
       seasonData = this.props.productDetails["seasonDetails"].find(item => {
@@ -1023,9 +1025,7 @@ export default class PdpApparel extends React.Component {
                   productImages={productImages}
                   thumbNailImages={thumbNailImages}
                   zoomImages={zoomImages}
-                  alt={`${productData.productName}-${productData.brandName}-${
-                    productData.rootCategory
-                  }-TATA CLIQ`}
+                  alt={`${productData.productName}-${productData.brandName}-${productData.rootCategory}-TATA CLIQ`}
                   details={productData.details}
                   showSimilarProducts={this.props.showSimilarProducts}
                   category={productData.rootCategory}
@@ -1449,12 +1449,12 @@ export default class PdpApparel extends React.Component {
                         </div>
                       ) : (
                         <div className={styles.notServiciableTetx}>
-                          * This item non serviceable at your PIN code
+                          * This item is non serviceable at your PIN code
                         </div>
                       )}
                     </div>
                   ) : this.props.productDetails.isServiceableToPincode &&
-                  this.props.productDetails.isServiceableToPincode.pinCode ? (
+                    this.props.productDetails.isServiceableToPincode.pinCode ? (
                     <div className={styles.deliveryModesHolder}>
                       <PdpDeliveryModes
                         onPiq={() => this.handleShowPiqPage()}
@@ -1684,9 +1684,7 @@ export default class PdpApparel extends React.Component {
                                                   styles.contentTextForHome
                                                 }
                                               >
-                                                {val.key}
-                                                :
-                                                {val.value}
+                                                {val.key}:{val.value}
                                               </div>
                                             </div>
                                           );

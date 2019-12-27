@@ -600,7 +600,1935 @@ export function getCartDetails(
       const result = await api.get(
         `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetails?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}`
       );
-      const resultJson = await result.json();
+      let resultJson = await result.json();
+
+      resultJson = {
+        type: "cartDataDetailsWsDTO",
+        status: "Success",
+        cartAmount: {
+          bagTotal: {
+            currencyIso: "INR",
+            doubleValue: 16184,
+            formattedValue: "₹16184.00",
+            formattedValueNoDecimal: "₹16184",
+            priceType: "BUY",
+            value: 16184
+          },
+          paybleAmount: {
+            currencyIso: "INR",
+            doubleValue: 16184,
+            formattedValue: "₹16184.00",
+            formattedValueNoDecimal: "₹16184",
+            priceType: "BUY",
+            value: 16184
+          },
+          totalDiscountAmount: {
+            currencyIso: "INR",
+            doubleValue: 0,
+            formattedValue: "₹0.00",
+            formattedValueNoDecimal: "₹0",
+            priceType: "BUY",
+            value: 0
+          }
+        },
+        cartGuid: "15481123719086096-181152354",
+        count: 2,
+        isBankPromotionApplied: false,
+        isBuyNowCart: true,
+        maxAllowed: 0,
+        products: [
+          {
+            USSID: "123762SWD90064PP01",
+            availableStockCount: 124,
+            categoryHierarchy: [
+              {
+                category_id: "MSH15",
+                category_name: "Watches"
+              },
+              {
+                category_id: "MSH1500",
+                category_name: "Men"
+              },
+              {
+                category_id: "MSH1500004",
+                category_name: "Others"
+              }
+            ],
+            elligibleDeliveryMode: [
+              {
+                charge: {
+                  currencyIso: "INR",
+                  doubleValue: 0,
+                  formattedValue: "₹0.00",
+                  formattedValueNoDecimal: "₹0",
+                  priceType: "BUY",
+                  value: 0
+                },
+                code: "home-delivery",
+                desc: "Delivered in 3-6 days",
+                name: "Home Delivery",
+                priority: 1
+              }
+            ],
+            entryNumber: "0",
+            fullfillmentType: "tship",
+            imageURL:
+              "//img.tatacliq.com/images/i3/252Wx374H/MP000000004040451_252Wx374H_20181210032352.jpeg",
+            isGiveAway: "N",
+            isLuxury: "Marketplace",
+            isOutOfStock: false,
+            maxQuantityAllowed: "5",
+            pinCodeResponse: {
+              cod: "Y",
+              exchangeServiceable: false,
+              isCODLimitFailed: "N",
+              isPrepaidEligible: "Y",
+              isServicable: "Y",
+              stockCount: 300,
+              ussid: "123762SWD90064PP01",
+              validDeliveryModes: [
+                {
+                  deliveryDate: "26-12-2019 19:00:00",
+                  quickDeliveryMode: "Y",
+                  CNCServiceableSlavesData: [
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 4,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TCPS"
+                        }
+                      ],
+                      storeId: "123762-TCPS"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 0,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HCPD"
+                        }
+                      ],
+                      storeId: "123762-HCPD"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 0,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HKBD"
+                        }
+                      ],
+                      storeId: "123762-HKBD"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 2,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TKBN"
+                        }
+                      ],
+                      storeId: "123762-TKBN"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 8,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-FKND"
+                        }
+                      ],
+                      storeId: "123762-FKND"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 5,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TKND"
+                        }
+                      ],
+                      storeId: "123762-TKND"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 0,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HSTE"
+                        }
+                      ],
+                      storeId: "123762-HSTE"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 0,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HLND"
+                        }
+                      ],
+                      storeId: "123762-HLND"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 2,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TLND"
+                        }
+                      ],
+                      storeId: "123762-TLND"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 1,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TTDI"
+                        }
+                      ],
+                      storeId: "123762-TTDI"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 2,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HRGD"
+                        }
+                      ],
+                      storeId: "123762-HRGD"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 2,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TMVG"
+                        }
+                      ],
+                      storeId: "123762-TMVG"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 0,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HAMN"
+                        }
+                      ],
+                      storeId: "123762-HAMN"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 0,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HGMN"
+                        }
+                      ],
+                      storeId: "123762-HGMN"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 0,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TUGN"
+                        }
+                      ],
+                      storeId: "123762-TUGN"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 2,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HSMG"
+                        }
+                      ],
+                      storeId: "123762-HSMG"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 29,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TMAN"
+                        }
+                      ],
+                      storeId: "123762-TMAN"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 2,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TAGH"
+                        }
+                      ],
+                      storeId: "123762-TAGH"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 0,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HGHN"
+                        }
+                      ],
+                      storeId: "123762-HGHN"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 6,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-FMMG"
+                        }
+                      ],
+                      storeId: "123762-FMMG"
+                    }
+                  ],
+                  inventory: "29",
+                  isCOD: false,
+                  type: "CNC"
+                },
+                {
+                  deliveryDate: "29-12-2019 19:00:00",
+                  fulfilmentType: "TSHIP",
+                  inventory: "300",
+                  isCOD: true,
+                  serviceableSlaves: [
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P001",
+                      slaveId: "123762-HLND"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P002",
+                      slaveId: "123762-TMAN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P003",
+                      slaveId: "123762-TKND"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P004",
+                      slaveId: "123762-FKND"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P005",
+                      slaveId: "123762-TTDI"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P006",
+                      slaveId: "123762-HRGD"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P007",
+                      slaveId: "123762-TKBN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P008",
+                      slaveId: "123762-HSTE"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P009",
+                      slaveId: "123762-TLND"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P010",
+                      slaveId: "123762-HAMN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P011",
+                      slaveId: "123762-TCPS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P012",
+                      slaveId: "123762-TLDN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P013",
+                      slaveId: "123762-TSES"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P014",
+                      slaveId: "123762-HCPD"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P015",
+                      slaveId: "123762-HKBD"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P017",
+                      slaveId: "123762-CFANDLH"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P019",
+                      slaveId: "123762-HARD"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P020",
+                      slaveId: "123762-HGHW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P021",
+                      slaveId: "123762-HJJN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P022",
+                      slaveId: "123762-TPSS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P023",
+                      slaveId: "123762-HSRB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P024",
+                      slaveId: "123762-TUGN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P025",
+                      slaveId: "123762-HANA"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P026",
+                      slaveId: "123762-TMVG"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P027",
+                      slaveId: "123762-TLRM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P028",
+                      slaveId: "123762-FFBK"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P029",
+                      slaveId: "123762-TACS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P030",
+                      slaveId: "123762-HJAY"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P031",
+                      slaveId: "123762-TCSS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P032",
+                      slaveId: "123762-HNMW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P033",
+                      slaveId: "123762-HCEN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P034",
+                      slaveId: "123762-HLPM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P035",
+                      slaveId: "123762-SHSR"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P036",
+                      slaveId: "123762-TWEA"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P037",
+                      slaveId: "123762-FCMH"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P038",
+                      slaveId: "123762-TEKS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P039",
+                      slaveId: "123762-THHS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P040",
+                      slaveId: "123762-HGMN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "FEDEX",
+                      priority: "P041",
+                      slaveId: "123762-FMMG"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P042",
+                      slaveId: "123762-TLSS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P043",
+                      slaveId: "123762-HDUW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P044",
+                      slaveId: "123762-FCBM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P045",
+                      slaveId: "123762-TLKN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P046",
+                      slaveId: "123762-TSPS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P047",
+                      slaveId: "123762-TMPN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P048",
+                      slaveId: "123762-TGJB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P049",
+                      slaveId: "123762-TLPM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P050",
+                      slaveId: "123762-TGHS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P051",
+                      slaveId: "123762-HBUB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P052",
+                      slaveId: "123762-HEMC"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P053",
+                      slaveId: "123762-HSMG"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P054",
+                      slaveId: "123762-FFCR"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P055",
+                      slaveId: "123762-THYJ"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P056",
+                      slaveId: "123762-HJMI"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P057",
+                      slaveId: "123762-HPHM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P058",
+                      slaveId: "123762-TMRB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P059",
+                      slaveId: "123762-HSMW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P060",
+                      slaveId: "123762-TJRN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P061",
+                      slaveId: "123762-HAVA"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P062",
+                      slaveId: "123762-HKMS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P063",
+                      slaveId: "123762-WBHI"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P064",
+                      slaveId: "123762-HKMM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P065",
+                      slaveId: "123762-TAGH"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P066",
+                      slaveId: "123762-FPMW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P068",
+                      slaveId: "123762-TGRT"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P069",
+                      slaveId: "123762-THZL"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P070",
+                      slaveId: "123762-HOMM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P071",
+                      slaveId: "123762-HRBP"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P072",
+                      slaveId: "123762-HLTW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P073",
+                      slaveId: "123762-HHVN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P074",
+                      slaveId: "123762-THRB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P075",
+                      slaveId: "123762-TKPM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P076",
+                      slaveId: "123762-FKKS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P077",
+                      slaveId: "123762-TINB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P078",
+                      slaveId: "123762-HMTB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P079",
+                      slaveId: "123762-TDHN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P080",
+                      slaveId: "123762-HWHT"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P081",
+                      slaveId: "123762-TAPW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P082",
+                      slaveId: "123762-HGNL"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P083",
+                      slaveId: "123762-HLPN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P084",
+                      slaveId: "123762-HKHB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P085",
+                      slaveId: "123762-TRMW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P087",
+                      slaveId: "123762-TVMW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P088",
+                      slaveId: "123762-HJUP"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P089",
+                      slaveId: "123762-HVIS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P090",
+                      slaveId: "123762-HGHN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P091",
+                      slaveId: "123762-HMAW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P092",
+                      slaveId: "123762-HASW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P093",
+                      slaveId: "123762-TTMW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P094",
+                      slaveId: "123762-HMBW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P095",
+                      slaveId: "123762-HTBR"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P096",
+                      slaveId: "123762-HMPB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P097",
+                      slaveId: "123762-HVTM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P098",
+                      slaveId: "123762-HTMW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P099",
+                      slaveId: "123762-HBAW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P100",
+                      slaveId: "123762-TDBB"
+                    }
+                  ],
+                  type: "HD"
+                },
+                {
+                  deliveryDate: "24-12-2019 19:00:00",
+                  quickDeliveryMode: "Y",
+                  cutoffTime: 14400,
+                  fulfilmentType: "TSHIP",
+                  inventory: "1963",
+                  isCOD: false,
+                  serviceableSlaves: [
+                    {
+                      codEligible: "Y",
+                      logisticsID: "GATI",
+                      priority: "P001",
+                      slaveId: "777777-1122334455"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "GATI",
+                      priority: "P002",
+                      slaveId: "777777-7788994455"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "GATI",
+                      priority: "P003",
+                      slaveId: "777777-CNCBKC"
+                    }
+                  ],
+                  type: "SDD"
+                }
+              ]
+            },
+            price: 14985,
+            productBrand: "Fastrack",
+            productCategoryId: "MSH1500004",
+            productName:
+              "Fastrack SWD90064PP01 Reflex Wav Unisex Smart Band Watch",
+            productcode: "MP000000004040451",
+            qtySelectedByUser: "3",
+            rootCategory: "Watches",
+            sellerId: "123762",
+            sellerName: "Titan Company Ltd",
+            storeDetails: {
+              active: "Y",
+              address: {
+                addressType: "Home",
+                country: {
+                  isocode: "IN",
+                  name: "India"
+                },
+                defaultAddress: false,
+                firstName: "Amit",
+                formattedAddress: "add1, add2, kol, 500030",
+                id: "8796289728535",
+                lastName: "kc",
+                line1: "add1",
+                line2: "add2",
+                line3: "add3",
+                phone: "9038066993",
+                postalCode: "500030",
+                shippingAddress: true,
+                state: "West Bengal",
+                town: "kol",
+                visibleInAddressBook: true
+              },
+              clicknCollect: "Y",
+              displayName: "Drive India",
+              geoPoint: {
+                latitude: 17.3202127,
+                longitude: 78.4020322
+              },
+              managerName: "Amit",
+              name: "100064-DC01",
+              orderAcceptanceTAT: 0,
+              orderProcessingTAT: 0,
+              phoneNo0: "9038066993",
+              returnPin: "500030",
+              sellerId: "100058",
+              slaveId: "DC01"
+            }
+          },
+          {
+            USSID: "100001300799032001",
+            availableStockCount: 15,
+            categoryHierarchy: [
+              {
+                category_id: "MSH13",
+                category_name: "Footwear"
+              },
+              {
+                category_id: "MSH1310",
+                category_name: "Women"
+              },
+              {
+                category_id: "MSH1310115",
+                category_name: "Sneakers"
+              }
+            ],
+            color: "White",
+            elligibleDeliveryMode: [
+              {
+                charge: {
+                  currencyIso: "INR",
+                  doubleValue: 49,
+                  formattedValue: "₹49.00",
+                  formattedValueNoDecimal: "₹49",
+                  priceType: "BUY",
+                  value: 49
+                },
+                code: "home-delivery",
+                desc: "Delivered in 3-6 days",
+                name: "Home Delivery",
+                priority: 1
+              }
+            ],
+            entryNumber: "1",
+            fullfillmentType: "tship",
+            imageURL:
+              "//img.tatacliq.com/images/i5/252Wx374H/MP000000005551289_252Wx374H_20190919211506.jpeg",
+            isGiveAway: "N",
+            isLuxury: "Marketplace",
+            isOutOfStock: false,
+            maxQuantityAllowed: "5",
+            pinCodeResponse: {
+              cod: "Y",
+              exchangeServiceable: false,
+              isCODLimitFailed: "N",
+              isPrepaidEligible: "Y",
+              isServicable: "Y",
+              stockCount: 300,
+              ussid: "123762SWD90064PP01",
+              validDeliveryModes: [
+                {
+                  CNCServiceableSlavesData: [
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 4,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TCPS"
+                        }
+                      ],
+                      storeId: "123762-TCPS"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 0,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HCPD"
+                        }
+                      ],
+                      storeId: "123762-HCPD"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 0,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HKBD"
+                        }
+                      ],
+                      storeId: "123762-HKBD"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 2,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TKBN"
+                        }
+                      ],
+                      storeId: "123762-TKBN"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 8,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-FKND"
+                        }
+                      ],
+                      storeId: "123762-FKND"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 5,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TKND"
+                        }
+                      ],
+                      storeId: "123762-TKND"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 0,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HSTE"
+                        }
+                      ],
+                      storeId: "123762-HSTE"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 0,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HLND"
+                        }
+                      ],
+                      storeId: "123762-HLND"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 2,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TLND"
+                        }
+                      ],
+                      storeId: "123762-TLND"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 1,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TTDI"
+                        }
+                      ],
+                      storeId: "123762-TTDI"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 2,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HRGD"
+                        }
+                      ],
+                      storeId: "123762-HRGD"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 2,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TMVG"
+                        }
+                      ],
+                      storeId: "123762-TMVG"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 0,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HAMN"
+                        }
+                      ],
+                      storeId: "123762-HAMN"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 0,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HGMN"
+                        }
+                      ],
+                      storeId: "123762-HGMN"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 0,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TUGN"
+                        }
+                      ],
+                      storeId: "123762-TUGN"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 2,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HSMG"
+                        }
+                      ],
+                      storeId: "123762-HSMG"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 29,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TMAN"
+                        }
+                      ],
+                      storeId: "123762-TMAN"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 2,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-TAGH"
+                        }
+                      ],
+                      storeId: "123762-TAGH"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 0,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-HGHN"
+                        }
+                      ],
+                      storeId: "123762-HGHN"
+                    },
+                    {
+                      fulfillmentType: "TSHIP",
+                      qty: 6,
+                      serviceableSlaves: [
+                        {
+                          priority: "1",
+                          slaveId: "123762-FMMG"
+                        }
+                      ],
+                      storeId: "123762-FMMG"
+                    }
+                  ],
+                  quickDeliveryMode: "Y",
+                  inventory: "29",
+                  isCOD: false,
+                  deliveryDate: "26-12-2019 19:00:00",
+                  type: "CNC"
+                },
+                {
+                  deliveryDate: "29-12-2019 19:00:00",
+                  fulfilmentType: "TSHIP",
+                  inventory: "300",
+                  isCOD: true,
+                  serviceableSlaves: [
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P001",
+                      slaveId: "123762-HLND"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P002",
+                      slaveId: "123762-TMAN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P003",
+                      slaveId: "123762-TKND"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P004",
+                      slaveId: "123762-FKND"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P005",
+                      slaveId: "123762-TTDI"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P006",
+                      slaveId: "123762-HRGD"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P007",
+                      slaveId: "123762-TKBN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P008",
+                      slaveId: "123762-HSTE"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P009",
+                      slaveId: "123762-TLND"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P010",
+                      slaveId: "123762-HAMN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P011",
+                      slaveId: "123762-TCPS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P012",
+                      slaveId: "123762-TLDN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P013",
+                      slaveId: "123762-TSES"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P014",
+                      slaveId: "123762-HCPD"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P015",
+                      slaveId: "123762-HKBD"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P017",
+                      slaveId: "123762-CFANDLH"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P019",
+                      slaveId: "123762-HARD"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P020",
+                      slaveId: "123762-HGHW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P021",
+                      slaveId: "123762-HJJN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P022",
+                      slaveId: "123762-TPSS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P023",
+                      slaveId: "123762-HSRB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P024",
+                      slaveId: "123762-TUGN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P025",
+                      slaveId: "123762-HANA"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P026",
+                      slaveId: "123762-TMVG"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P027",
+                      slaveId: "123762-TLRM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P028",
+                      slaveId: "123762-FFBK"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P029",
+                      slaveId: "123762-TACS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P030",
+                      slaveId: "123762-HJAY"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P031",
+                      slaveId: "123762-TCSS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P032",
+                      slaveId: "123762-HNMW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P033",
+                      slaveId: "123762-HCEN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P034",
+                      slaveId: "123762-HLPM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P035",
+                      slaveId: "123762-SHSR"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P036",
+                      slaveId: "123762-TWEA"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P037",
+                      slaveId: "123762-FCMH"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P038",
+                      slaveId: "123762-TEKS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P039",
+                      slaveId: "123762-THHS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P040",
+                      slaveId: "123762-HGMN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "FEDEX",
+                      priority: "P041",
+                      slaveId: "123762-FMMG"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P042",
+                      slaveId: "123762-TLSS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P043",
+                      slaveId: "123762-HDUW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P044",
+                      slaveId: "123762-FCBM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P045",
+                      slaveId: "123762-TLKN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P046",
+                      slaveId: "123762-TSPS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P047",
+                      slaveId: "123762-TMPN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P048",
+                      slaveId: "123762-TGJB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P049",
+                      slaveId: "123762-TLPM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P050",
+                      slaveId: "123762-TGHS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P051",
+                      slaveId: "123762-HBUB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P052",
+                      slaveId: "123762-HEMC"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P053",
+                      slaveId: "123762-HSMG"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P054",
+                      slaveId: "123762-FFCR"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P055",
+                      slaveId: "123762-THYJ"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P056",
+                      slaveId: "123762-HJMI"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P057",
+                      slaveId: "123762-HPHM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P058",
+                      slaveId: "123762-TMRB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P059",
+                      slaveId: "123762-HSMW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P060",
+                      slaveId: "123762-TJRN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P061",
+                      slaveId: "123762-HAVA"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P062",
+                      slaveId: "123762-HKMS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P063",
+                      slaveId: "123762-WBHI"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P064",
+                      slaveId: "123762-HKMM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P065",
+                      slaveId: "123762-TAGH"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P066",
+                      slaveId: "123762-FPMW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P068",
+                      slaveId: "123762-TGRT"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P069",
+                      slaveId: "123762-THZL"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P070",
+                      slaveId: "123762-HOMM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P071",
+                      slaveId: "123762-HRBP"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P072",
+                      slaveId: "123762-HLTW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P073",
+                      slaveId: "123762-HHVN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P074",
+                      slaveId: "123762-THRB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P075",
+                      slaveId: "123762-TKPM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P076",
+                      slaveId: "123762-FKKS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P077",
+                      slaveId: "123762-TINB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P078",
+                      slaveId: "123762-HMTB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P079",
+                      slaveId: "123762-TDHN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P080",
+                      slaveId: "123762-HWHT"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P081",
+                      slaveId: "123762-TAPW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P082",
+                      slaveId: "123762-HGNL"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P083",
+                      slaveId: "123762-HLPN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P084",
+                      slaveId: "123762-HKHB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P085",
+                      slaveId: "123762-TRMW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P087",
+                      slaveId: "123762-TVMW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P088",
+                      slaveId: "123762-HJUP"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P089",
+                      slaveId: "123762-HVIS"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P090",
+                      slaveId: "123762-HGHN"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P091",
+                      slaveId: "123762-HMAW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "EKART",
+                      priority: "P092",
+                      slaveId: "123762-HASW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P093",
+                      slaveId: "123762-TTMW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P094",
+                      slaveId: "123762-HMBW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P095",
+                      slaveId: "123762-HTBR"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "DELHIVERY",
+                      priority: "P096",
+                      slaveId: "123762-HMPB"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P097",
+                      slaveId: "123762-HVTM"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P098",
+                      slaveId: "123762-HTMW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "XPRESSC",
+                      priority: "P099",
+                      slaveId: "123762-HBAW"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "BLUEDART",
+                      priority: "P100",
+                      slaveId: "123762-TDBB"
+                    }
+                  ],
+                  type: "HD"
+                },
+                {
+                  deliveryDate: "24-12-2019 19:00:00",
+                  quickDeliveryMode: "Y",
+                  cutoffTime: 14400,
+                  fulfilmentType: "TSHIP",
+                  inventory: "1963",
+                  isCOD: false,
+                  serviceableSlaves: [
+                    {
+                      codEligible: "Y",
+                      logisticsID: "GATI",
+                      priority: "P001",
+                      slaveId: "777777-1122334455"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "GATI",
+                      priority: "P002",
+                      slaveId: "777777-7788994455"
+                    },
+                    {
+                      codEligible: "Y",
+                      logisticsID: "GATI",
+                      priority: "P003",
+                      slaveId: "777777-CNCBKC"
+                    }
+                  ],
+                  type: "SDD"
+                }
+              ]
+            },
+            price: 1199,
+            productBrand: "LUNA BLU",
+            productCategoryId: "MSH1310115",
+            productName: "LUNA BLU by Westside White Lace-Up Sneakers",
+            productcode: "MP000000005551289",
+            qtySelectedByUser: "1",
+            rootCategory: "Footwear",
+            sellerId: "100001",
+            sellerName: "Westside",
+            storeDetails: {
+              active: "Y",
+              address: {
+                addressType: "Home",
+                country: {
+                  isocode: "IN",
+                  name: "India"
+                },
+                defaultAddress: false,
+                firstName: "Amit",
+                formattedAddress: "add1, add2, kol, 500030",
+                id: "8796289728535",
+                lastName: "kc",
+                line1: "add1",
+                line2: "add2",
+                line3: "add3",
+                phone: "9038066993",
+                postalCode: "500030",
+                shippingAddress: true,
+                state: "West Bengal",
+                town: "kol",
+                visibleInAddressBook: true
+              },
+              clicknCollect: "Y",
+              displayName: "Drive India",
+              geoPoint: {
+                latitude: 17.3202127,
+                longitude: 78.4020322
+              },
+              managerName: "Amit",
+              name: "100064-DC01",
+              orderAcceptanceTAT: 0,
+              orderProcessingTAT: 0,
+              phoneNo0: "9038066993",
+              returnPin: "500030",
+              sellerId: "100058",
+              slaveId: "DC01"
+            },
+            size: "EURO-36"
+          }
+        ]
+      };
+
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
@@ -2640,9 +4568,7 @@ export function createJusPayOrder(
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
@@ -2772,9 +4698,7 @@ export function createJusPayOrderForGiftCard(
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -2830,9 +4754,7 @@ export function createJusPayOrderForNetBanking(
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
@@ -2942,9 +4864,7 @@ export function createJusPayOrderForGiftCardNetBanking(
   bankCode,
   bankName
 ) {
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -2995,9 +4915,7 @@ export function createJusPayOrderForSavedCards(
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
   let cartItem = cartItemObj;
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/multi/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/multi/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
@@ -3107,9 +5025,7 @@ export function createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId) {
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -3173,9 +5089,7 @@ export function createJusPayOrderForCliqCash(
     localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
   }
 
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
@@ -5229,11 +7143,7 @@ export function getFeedBackForm(getUserDetails) {
     dispatch(getFeedBackFormRequest());
     try {
       const result = await api.get(
-        `v2/mpl/getQuestionsForNPS?originalUid=${
-          getUserDetails.originalUid
-        }&transactionId=${getUserDetails.transactionId}&rating=${
-          getUserDetails.rating
-        }&deliveryMode=${getUserDetails.deliveryMode}`
+        `v2/mpl/getQuestionsForNPS?originalUid=${getUserDetails.originalUid}&transactionId=${getUserDetails.transactionId}&rating=${getUserDetails.rating}&deliveryMode=${getUserDetails.deliveryMode}`
       );
       const resultJson = await result.json();
 
@@ -6055,9 +7965,7 @@ export function stripe_juspay_Tokenize(
   retryCartGuid
 ) {
   return async (dispatch, getState, { api }) => {
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let orderDetails = "";
     let inventoryItems = cartItems;
     if (isFromRetryUrl && !isPaymentFailed) {
@@ -6160,9 +8068,7 @@ export function stripe_juspay_TokenizeGiftCard(
   isFromRetryUrl
 ) {
   return async (dispatch, getState, { api }) => {
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     if (cardDetails) {
       let juspayToken = await dispatch(
         jusPayTokenizeForGiftCard(cardDetails, paymentMode, egvCartGuid)
@@ -6246,9 +8152,7 @@ export function collectPaymentOrderForSavedCards(
         .toLowerCase()} Card`;
     }
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let orderDetails = "";
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
     let inventoryItems = cartItem;
@@ -6397,9 +8301,7 @@ export function collectPaymentOrderForGiftCardFromSavedCards(
         .toLowerCase()} Card`;
     }
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let orderDetails = "";
     orderDetails = {
       wrapperItems: [
@@ -6495,9 +8397,7 @@ export function collectPaymentOrderForNetBanking(
     let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
 
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let orderDetails,
       cartDetails = "";
     let inventoryItems = cartItem;
@@ -6650,9 +8550,7 @@ export function collectPaymentOrderForGiftCardNetBanking(
   bankName
 ) {
   return async (dispatch, getState, { api }) => {
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -6778,9 +8676,7 @@ export function collectPaymentOrderForCliqCash(
     const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let orderDetails = "";
     let inventoryItems = cartItem;
     if (isPaymentFailed) {
