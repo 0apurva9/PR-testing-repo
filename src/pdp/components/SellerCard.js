@@ -155,6 +155,18 @@ export default class SellerCard extends React.Component {
             {this.props.hasCod && (
               <div className={styles.offerText}>{this.props.cashText}</div>
             )}
+            {this.props.exchangeAvailable && (
+              <React.Fragment>
+                <div className={styles.exchangeLogo} />
+                <div className={styles.exchangeProduct}>
+                  Exchange Your Old Product
+                </div>
+                <div className={styles.buttonWithArrow}>
+                  <span className={styles.arrowLine} />
+                  <span className={styles.arrow} />
+                </div>
+              </React.Fragment>
+            )}
           </div>
           <div
             className={

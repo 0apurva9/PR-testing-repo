@@ -184,7 +184,7 @@ class ProductSellerPage extends Component {
 
   renderMetaTags = () => {
     const productDetails = this.props.productDetails;
-    return productDetails.seo
+    return productDetails && productDetails.seo
       ? renderMetaTags(productDetails)
       : renderMetaTagsWithoutSeoObject(productDetails);
   };
@@ -216,6 +216,7 @@ class ProductSellerPage extends Component {
     }
     const mobileGalleryImages =
       this.props.productDetails &&
+      this.props.productDetails.galleryImagesList &&
       this.props.productDetails.galleryImagesList
         .map(galleryImageList => {
           return galleryImageList.galleryImages.filter(galleryImages => {
@@ -227,104 +228,216 @@ class ProductSellerPage extends Component {
             return image[0].value;
           }
         });
+    if (!this.props.productDetails) {
+      return null;
+    }
     return (
-      mobileGalleryImages && (
-        <PdpFrame
-          goToCart={() => this.goToCart()}
-          displayToast={message => this.props.displayToast(message)}
-          addProductToBag={buyNowFlag => this.addToCart(buyNowFlag)}
-          gotoPreviousPage={() => this.gotoPreviousPage()}
-        >
-          {this.renderMetaTags()}
+      <PdpFrame
+        goToCart={() => this.goToCart()}
+        displayToast={message => this.props.displayToast(message)}
+        addProductToBag={buyNowFlag => this.addToCart(buyNowFlag)}
+        gotoPreviousPage={() => this.gotoPreviousPage()}
+      >
+        {this.renderMetaTags()}
 
-          <div className={styles.base}>
-            <ProductDetailsCard
-              productImage={mobileGalleryImages[0]}
-              productName={this.props.productDetails.productName}
-              brandName={this.props.productDetails.brandName}
-              price={
-                this.props.productDetails.winningSellerPrice
-                  .formattedValueNoDecimal
-              }
-              discountPrice={
-                this.props.productDetails.mrpPrice.formattedValueNoDecimal
-              }
-              averageRating={this.props.productDetails.averageRating}
-              totalNoOfReviews={this.props.productDetails.productReviewsCount}
-              onClickImage={() =>
-                this.onClickImage(
-                  this.props.productDetails &&
-                    this.props.productDetails.productListingId
-                )
-              }
-            />
-            <MobileOnly>
-              <div className={styles.OtherSeller}>Other sellers</div>
-              <div className={styles.priceWithSeller}>
-                <div className={styles.seller}>
-                  {availableSellers.length} Other Sellers available starting at
-                  ₹
-                  {price}
-                </div>
-                <div className={styles.price}>
-                  <SelectBoxMobile2
-                    label={this.state.sortOption}
-                    height={30}
-                    onChange={val => this.onSortByPrice(val)}
-                    theme={"hollowBox"}
-                    arrowColour={"black"}
-                    value={this.state.sortOption}
-                    options={[
-                      {
-                        label: PRICE_LOW_TO_HIGH,
-                        value: PRICE_LOW_TO_HIGH
-                      },
-                      {
-                        label: PRICE_HIGH_TO_LOW,
-                        value: PRICE_HIGH_TO_LOW
-                      }
-                    ]}
-                  />
-                </div>
+        <div className={styles.base}>
+          <ProductDetailsCard
+            productImage={mobileGalleryImages && mobileGalleryImages[0]}
+            productName={this.props.productDetails.productName}
+            brandName={this.props.productDetails.brandName}
+            price={
+              this.props.productDetails.winningSellerPrice
+                .formattedValueNoDecimal
+            }
+            discountPrice={
+              this.props.productDetails.mrpPrice.formattedValueNoDecimal
+            }
+            averageRating={this.props.productDetails.averageRating}
+            totalNoOfReviews={this.props.productDetails.productReviewsCount}
+            onClickImage={() =>
+              this.onClickImage(
+                this.props.productDetails &&
+                  this.props.productDetails.productListingId
+              )
+            }
+          />
+          <MobileOnly>
+            <div className={styles.OtherSeller}>Other sellers</div>
+            <div className={styles.priceWithSeller}>
+              <div className={styles.seller}>
+                {availableSellers.length} Other Sellers available starting at ₹
+                {price}
               </div>
+              <div className={styles.price}>
+                <SelectBoxMobile2
+                  label={this.state.sortOption}
+                  height={30}
+                  onChange={val => this.onSortByPrice(val)}
+                  theme={"hollowBox"}
+                  arrowColour={"black"}
+                  value={this.state.sortOption}
+                  options={[
+                    {
+                      label: PRICE_LOW_TO_HIGH,
+                      value: PRICE_LOW_TO_HIGH
+                    },
+                    {
+                      label: PRICE_HIGH_TO_LOW,
+                      value: PRICE_HIGH_TO_LOW
+                    }
+                  ]}
+                />
+              </div>
+            </div>
+            <div>
+              {sortedAvailableSellers && (
+                <SellerWithMultiSelect
+                  limit={1}
+                  onSelect={val => {
+                    this.selectSeller(val);
+                  }}
+                >
+                  {sortedAvailableSellers.map((value, index) => {
+                    return (
+                      <SellerCard
+                        heading={value.sellerName}
+                        priceTitle={PRICE_TEXT}
+                        discountPrice={
+                          value.specialPriceSeller.formattedValueNoDecimal
+                        }
+                        price={value.mrpSeller.formattedValueNoDecimal}
+                        offerText={OFFER_AVAILABLE}
+                        deliveryText={DELIVERY_INFORMATION_TEXT}
+                        hasCod={value.isCOD === "Y"}
+                        hasEmi={value.isEMIEligible === "Y"}
+                        eligibleDeliveryModes={value.eligibleDeliveryModes}
+                        cashText={CASH_TEXT}
+                        policyText={DELIVERY_RATES}
+                        key={index}
+                        value={value}
+                        serviceablePincodeList={
+                          this.props.serviceablePincodeList
+                        }
+                      />
+                    );
+                  })}
+                </SellerWithMultiSelect>
+              )}
+            </div>
+            {sortedUnAvailableSellers && (
               <div>
-                {sortedAvailableSellers && (
-                  <SellerWithMultiSelect
-                    limit={1}
-                    onSelect={val => {
-                      this.selectSeller(val);
-                    }}
-                  >
-                    {sortedAvailableSellers.map((value, index) => {
-                      return (
-                        <SellerCard
-                          heading={value.sellerName}
-                          priceTitle={PRICE_TEXT}
-                          discountPrice={
-                            value.specialPriceSeller.formattedValueNoDecimal
-                          }
-                          price={value.mrpSeller.formattedValueNoDecimal}
-                          offerText={OFFER_AVAILABLE}
-                          deliveryText={DELIVERY_INFORMATION_TEXT}
-                          hasCod={value.isCOD === "Y"}
-                          hasEmi={value.isEMIEligible === "Y"}
-                          eligibleDeliveryModes={value.eligibleDeliveryModes}
-                          cashText={CASH_TEXT}
-                          policyText={DELIVERY_RATES}
-                          key={index}
-                          value={value}
-                          serviceablePincodeList={
-                            this.props.serviceablePincodeList
-                          }
-                        />
-                      );
-                    })}
-                  </SellerWithMultiSelect>
-                )}
+                {sortedUnAvailableSellers.map((value, index) => {
+                  return (
+                    <SellerCard
+                      heading={value.sellerName}
+                      priceTitle={PRICE_TEXT}
+                      disabled={true}
+                      discountPrice={
+                        value.specialPriceSeller.formattedValueNoDecimal
+                      }
+                      price={value.mrpSeller.formattedValueNoDecimal}
+                      offerText={OFFER_AVAILABLE}
+                      deliveryText={DELIVERY_INFORMATION_TEXT}
+                      hasCod={value.isCOD === "Y"}
+                      hasEmi={value.isEMIEligible === "Y"}
+                      eligibleDeliveryModes={value.eligibleDeliveryModes}
+                      cashText={CASH_TEXT}
+                      policyText={DELIVERY_RATES}
+                      key={index}
+                      value={value}
+                      serviceablePincodeList={this.props.serviceablePincodeList}
+                    />
+                  );
+                })}
               </div>
-              {sortedUnAvailableSellers && (
-                <div>
-                  {sortedUnAvailableSellers.map((value, index) => {
+            )}
+          </MobileOnly>
+          <DesktopOnly>
+            <div className={styles.OtherSellerHolder}>
+              <div className={styles.OtherSellerHolderWithText}>
+                <div className={styles.headerWrapper}>
+                  <div className={styles.headerWithSellerAvailable}>
+                    <div className={styles.header}>Other sellers</div>
+                    <div className={styles.availableSeller}>
+                      {availableSellers.length} Other Sellers available starting
+                      at ₹ {price}
+                    </div>
+                  </div>
+                  <div className={styles.dropdownWithButton}>
+                    <div className={styles.dropdown}>
+                      <div className={styles.dropDownBox}>
+                        <SelectBoxMobile2
+                          label={this.state.sortOption}
+                          height={35}
+                          onChange={val => this.onSortByPrice(val)}
+                          value={this.state.sortOption}
+                          arrowColour={"black"}
+                          options={[
+                            {
+                              label: PRICE_LOW_TO_HIGH,
+                              value: PRICE_LOW_TO_HIGH
+                            },
+                            {
+                              label: PRICE_HIGH_TO_LOW,
+                              value: PRICE_HIGH_TO_LOW
+                            }
+                          ]}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.sellerCardHeader}>
+                  <div className={styles.sellerCardHeaderText}>
+                    Seller’s Name
+                  </div>
+                  <div className={styles.sellerCardHeaderText}>Price</div>
+                  <div className={styles.sellerCardHeaderText}>
+                    Delivery Information
+                  </div>
+                  <div className={styles.sellerCardHeaderText}>
+                    Buying option
+                  </div>
+                </div>
+                {sortedAvailableSellers &&
+                  sortedAvailableSellers.map((value, index) => {
+                    return (
+                      <SellerCard
+                        heading={value.sellerName}
+                        priceTitle={PRICE_TEXT}
+                        discountPrice={
+                          value.specialPriceSeller.formattedValueNoDecimal
+                        }
+                        price={value.mrpSeller.formattedValueNoDecimal}
+                        offerText={OFFER_AVAILABLE}
+                        deliveryText={DELIVERY_INFORMATION_TEXT}
+                        hasCod={value.isCOD === "Y"}
+                        hasEmi={value.isEMIEligible === "Y"}
+                        eligibleDeliveryModes={value.eligibleDeliveryModes}
+                        cashText={CASH_TEXT}
+                        policyText={DELIVERY_RATES}
+                        key={index}
+                        value={value}
+                        serviceablePincodeList={
+                          this.props.serviceablePincodeList
+                        }
+                        addToBag={() =>
+                          this.addToCartAccordingToTheUssid(value.USSID)
+                        }
+                        goToBag={() => this.goToCart()}
+                        productListingId={
+                          this.props.productDetails &&
+                          this.props.productDetails.productListingId
+                        }
+                        winningUssID={value.USSID}
+                        displayToast={message =>
+                          this.props.displayToast(message)
+                        }
+                      />
+                    );
+                  })}
+                {sortedUnAvailableSellers &&
+                  sortedUnAvailableSellers.map((value, index) => {
                     return (
                       <SellerCard
                         heading={value.sellerName}
@@ -346,128 +459,15 @@ class ProductSellerPage extends Component {
                         serviceablePincodeList={
                           this.props.serviceablePincodeList
                         }
+                        exchangeAvailable={value.exchangeAvailable}
                       />
                     );
                   })}
-                </div>
-              )}
-            </MobileOnly>
-            <DesktopOnly>
-              <div className={styles.OtherSellerHolder}>
-                <div className={styles.OtherSellerHolderWithText}>
-                  <div className={styles.headerWrapper}>
-                    <div className={styles.headerWithSellerAvailable}>
-                      <div className={styles.header}>Other sellers</div>
-                      <div className={styles.availableSeller}>
-                        {availableSellers.length} Other Sellers available
-                        starting at ₹ {price}
-                      </div>
-                    </div>
-                    <div className={styles.dropdownWithButton}>
-                      <div className={styles.dropdown}>
-                        <div className={styles.dropDownBox}>
-                          <SelectBoxMobile2
-                            label={this.state.sortOption}
-                            height={35}
-                            onChange={val => this.onSortByPrice(val)}
-                            value={this.state.sortOption}
-                            arrowColour={"black"}
-                            options={[
-                              {
-                                label: PRICE_LOW_TO_HIGH,
-                                value: PRICE_LOW_TO_HIGH
-                              },
-                              {
-                                label: PRICE_HIGH_TO_LOW,
-                                value: PRICE_HIGH_TO_LOW
-                              }
-                            ]}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className={styles.sellerCardHeader}>
-                    <div className={styles.sellerCardHeaderText}>
-                      Seller’s Name
-                    </div>
-                    <div className={styles.sellerCardHeaderText}>Price</div>
-                    <div className={styles.sellerCardHeaderText}>
-                      Delivery Information
-                    </div>
-                    <div className={styles.sellerCardHeaderText}>
-                      Buying option
-                    </div>
-                  </div>
-                  {sortedAvailableSellers &&
-                    sortedAvailableSellers.map((value, index) => {
-                      return (
-                        <SellerCard
-                          heading={value.sellerName}
-                          priceTitle={PRICE_TEXT}
-                          discountPrice={
-                            value.specialPriceSeller.formattedValueNoDecimal
-                          }
-                          price={value.mrpSeller.formattedValueNoDecimal}
-                          offerText={OFFER_AVAILABLE}
-                          deliveryText={DELIVERY_INFORMATION_TEXT}
-                          hasCod={value.isCOD === "Y"}
-                          hasEmi={value.isEMIEligible === "Y"}
-                          eligibleDeliveryModes={value.eligibleDeliveryModes}
-                          cashText={CASH_TEXT}
-                          policyText={DELIVERY_RATES}
-                          key={index}
-                          value={value}
-                          serviceablePincodeList={
-                            this.props.serviceablePincodeList
-                          }
-                          addToBag={() =>
-                            this.addToCartAccordingToTheUssid(value.USSID)
-                          }
-                          goToBag={() => this.goToCart()}
-                          productListingId={
-                            this.props.productDetails &&
-                            this.props.productDetails.productListingId
-                          }
-                          winningUssID={value.USSID}
-                          displayToast={message =>
-                            this.props.displayToast(message)
-                          }
-                        />
-                      );
-                    })}
-                  {sortedUnAvailableSellers &&
-                    sortedUnAvailableSellers.map((value, index) => {
-                      return (
-                        <SellerCard
-                          heading={value.sellerName}
-                          priceTitle={PRICE_TEXT}
-                          disabled={true}
-                          discountPrice={
-                            value.specialPriceSeller.formattedValueNoDecimal
-                          }
-                          price={value.mrpSeller.formattedValueNoDecimal}
-                          offerText={OFFER_AVAILABLE}
-                          deliveryText={DELIVERY_INFORMATION_TEXT}
-                          hasCod={value.isCOD === "Y"}
-                          hasEmi={value.isEMIEligible === "Y"}
-                          eligibleDeliveryModes={value.eligibleDeliveryModes}
-                          cashText={CASH_TEXT}
-                          policyText={DELIVERY_RATES}
-                          key={index}
-                          value={value}
-                          serviceablePincodeList={
-                            this.props.serviceablePincodeList
-                          }
-                        />
-                      );
-                    })}
-                </div>
               </div>
-            </DesktopOnly>
-          </div>
-        </PdpFrame>
-      )
+            </div>
+          </DesktopOnly>
+        </div>
+      </PdpFrame>
     );
   }
 }
