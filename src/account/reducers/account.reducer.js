@@ -240,7 +240,7 @@ const account = (
   },
   action
 ) => {
-  let currentReturnRequest;
+  let currentReturnRequest, cloneRetryPaymentDetails;
   switch (action.type) {
     case CLEAR_ERROR:
       return Object.assign({}, state, {
@@ -1465,6 +1465,34 @@ const account = (
     case accountActions.CLEAR_TRANSACTION_DATA:
       return Object.assign({}, state, {
         transactionDetails: " "
+      });
+    case accountActions.RESET_RETRY_PAYMENT:
+      return Object.assign({}, state, {
+        retryPaymentDetails: null
+      });
+    case accountActions.RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS:
+      cloneRetryPaymentDetails = state.retryPaymentDetails
+        ? cloneDeep(state.retryPaymentDetails)
+        : {};
+      if (cloneRetryPaymentDetails && action.bankOffer.cartAmount) {
+        Object.assign(cloneRetryPaymentDetails, {
+          cartAmount: action.bankOffer.cartAmount
+        });
+      }
+      if (cloneRetryPaymentDetails && action.bankOffer.deliveryCharge) {
+        Object.assign(cloneRetryPaymentDetails, {
+          deliveryCharges: action.bankOffer.deliveryCharges
+        });
+      }
+      if (cloneRetryPaymentDetails && action.bankOffer.cliqCashPaidAmount) {
+        Object.assign(cloneRetryPaymentDetails, {
+          cliqCashPaidAmount: action.bankOffer.cliqCashPaidAmount
+        });
+      }
+
+      return Object.assign({}, state, {
+        retryPaymentDetails: cloneRetryPaymentDetails,
+        retryPaymentDetailsLoading: false
       });
     default:
       return state;

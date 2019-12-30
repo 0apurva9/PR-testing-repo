@@ -7,3 +7,9 @@
   width: 100%;
   height: auto;
 }
+.noCostRetryPayment {
+  padding-bottom: 20px;
+  display: block;
+  font-size: 14px;
+  color: #db9116;
+}

@@ -6,9 +6,7 @@ import SimilarProductsModal from "../components/SimilarProductsModal";
 const mapDispatchToProps = dispatch => {
   return {
     getMsdRequest: async (productCode, similarProduct) => {
-      await dispatch(
-        getMsdRequest(productCode, similarProduct, null, [20, 20])
-      );
+      await dispatch(getMsdRequest(productCode, similarProduct, null, [5, 5]));
     }
   };
 };
