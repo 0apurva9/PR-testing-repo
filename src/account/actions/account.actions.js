@@ -3549,7 +3549,7 @@ export function getCustomerQueriesFieldsv2() {
                 description: "Select check|1",
                 hexCode: "",
                 imageURL: "",
-                title: "Select check 1,Check_101,0|Select check 2,Check_102,0",
+                title: "Select check 1,Check_101,1|Select check 2,Check_102,0",
                 webURL: ""
               }
             ],
@@ -3926,7 +3926,7 @@ const getCheckboxApiData = (apiData = []) => {
       return {
         optionName: tempOption[0] ? tempOption[0] : "",
         value: tempOption[1] ? tempOption[1] : "",
-        isSelected: tempOption[2] ? tempOption[2] : ""
+        isSelected: tempOption[2] ? parseInt(tempOption[2]) : ""
       };
     });
 

@@ -25,6 +25,8 @@ import {
   LOGIN_PATH
 } from "../../lib/constants";
 import { Redirect } from "react-router-dom";
+import CheckboxAndText from "../../cart/components/CheckboxAndText";
+import FloatingLabelInputWithPlace from "../../general/components/FloatingLabelInputWithPlace";
 const SELECT_ORDER_TEXT = "Please select order ";
 const SELECT_ISSUE_FOR_ORDER_TEXT = "Please select issue ";
 const SELECT_SUB_ISSUE_FOR_ORDER_TEXT = "Please select sub issue ";
@@ -91,7 +93,8 @@ export default class OrderRelatedIssue extends React.Component {
       customerQryFldCheckBox: false,
       customerQryFldAttachment: false,
       textboxFldData: "",
-      radioSelectedOption: ""
+      radioSelectedOption: "",
+      checkBoxDefaultFlag: ""
     };
   }
 
@@ -236,6 +239,9 @@ export default class OrderRelatedIssue extends React.Component {
         if (ele.componentName === "attachmentComponent") {
           this.setState({ customerQryFldAttachment: true });
         }
+        if (ele.componentName === "checkboxComponent") {
+          this.setState({ customerQryFldCheckBox: true });
+        }
       });
     }
   }
@@ -344,15 +350,25 @@ export default class OrderRelatedIssue extends React.Component {
         return false;
       }
 
-      /**
-       * Issue in checking through regex
-       */
-
       var expression = "^" + textBoxData.regex + "+$";
       var regexExp = new RegExp(expression);
 
       if (!regexExp.test(this.state.textboxFldData)) {
         this.props.displayToast(textBoxData.regexError);
+        return false;
+      }
+    }
+
+    if (this.state.customerQryFldCheckBox) {
+      let checkboxData = [];
+      customerQueriesFieldArray &&
+        customerQueriesFieldArray.map(ele => {
+          if (ele.componentName === "checkboxComponent") {
+            checkboxData = ele;
+          }
+        });
+      if (checkboxData.isMandatory && this.state.checkBoxDefaultFlag == "") {
+        this.props.displayToast("Please check the box.");
         return false;
       }
     }
@@ -539,6 +555,11 @@ export default class OrderRelatedIssue extends React.Component {
       })
     );
   }
+  onChangeDefaultFlag(checkvalue) {
+    this.setState(prevState => ({
+      checkBoxDefaultFlag: checkvalue
+    }));
+  }
 
   render() {
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -605,6 +626,7 @@ export default class OrderRelatedIssue extends React.Component {
     }
     l2OptionsArray = this.getOrderRelatedL2Issue(l1OptionsArray);
     l3OptionsArray = this.getOrderRelatedL3Issue(l2OptionsArray);
+
     return (
       <div className={styles.base}>
         <MobileOnly>
@@ -695,138 +717,314 @@ export default class OrderRelatedIssue extends React.Component {
                   )}
                 </div>
               )}
-              <div className={styles.selectIssueHolder}>
-                <div className={styles.secondOrder}>
-                  <CheckOutHeader
-                    indexNumber={this.state.isSelected === 0 ? "2" : "1"}
-                    confirmTitle="Select issue"
-                  />
-                </div>
-                <div className={styles.selectIssue}>
-                  <SelectBoxMobile2
-                    placeholder="Select issue"
-                    arrowColour="black"
-                    height={33}
-                    options={
-                      l1OptionsArray &&
-                      l1OptionsArray.map((val, i) => {
-                        return {
-                          value: val.uItemplateCode,
-                          label: val.issueType
-                        };
-                      })
-                    }
-                    isEnable={this.state.isEnableForOrderRelated}
-                    onChange={val => this.onChangeReasonForOrderRelated(val)}
-                  />
-                </div>
-                {!this.state.solution &&
-                  l2OptionsArray &&
-                  l2OptionsArray.children &&
-                  l2OptionsArray.children.length > 0 && (
-                    <div className={styles.selectIssue}>
-                      <SelectBoxMobile2
-                        placeholder="Select sub-issue"
-                        arrowColour="black"
-                        height={33}
-                        options={
-                          l2OptionsArray &&
-                          l2OptionsArray.children &&
-                          l2OptionsArray.children.map((val, i) => {
-                            return {
-                              value: val.nodeCode,
-                              label: val.nodeDesc
-                            };
-                          })
-                        }
-                        isEnable={this.state.isEnableForSubOrderRelated}
-                        onChange={val =>
-                          this.onChangeSubReasonForOrderRelated(val)
-                        }
-                      />
-                    </div>
-                  )}
-                <div className={styles.selectIssue}>
-                  {!this.state.solution &&
-                    this.state.L0 && (
-                      <TextArea
-                        placeholder={"Comments(Optional)"}
-                        value={this.state.comment}
-                        onChange={comment => this.onChange({ comment })}
-                      />
-                    )}
-                </div>
-              </div>
-              {(!l3OptionsArray ||
-                (l3OptionsArray && !l3OptionsArray.ticketAnswer)) && (
+              {this.state.transactionId && (
                 <div className={styles.selectIssueHolder}>
                   <div className={styles.secondOrder}>
                     <CheckOutHeader
-                      indexNumber={this.state.isSelected === 0 ? "3" : "2"}
-                      confirmTitle="Personal Details"
+                      indexNumber={this.state.isSelected === 0 ? "2" : "1"}
+                      confirmTitle="Select issue"
                     />
                   </div>
-
-                  <div className={styles.textInformationHolder}>
-                    <FloatingLabelInput
-                      label="Email"
-                      disabled={this.state.email ? true : false}
-                      value={this.state.email}
-                      onChange={email => this.onChange({ email })}
+                  {/**
+                   * @author Prashant
+                   * Changes for Mobile devices.
+                   */}
+                  <div className={styles.selectIssue}>
+                    <CheckOutHeader
+                      indexNumber={"0"}
+                      confirmTitle="What is the issue?"
+                      fontSize={"13px"}
+                    />
+                    <SelectBoxMobile2
+                      placeholder="Select issue"
+                      arrowColour="black"
+                      height={33}
+                      options={
+                        l1OptionsArray &&
+                        l1OptionsArray.map((val, i) => {
+                          return {
+                            value: val.uItemplateCode,
+                            label: val.issueType
+                          };
+                        })
+                      }
+                      // isEnable={this.state.isEnableForOrderRelated}
+                      onChange={val =>
+                        this.onChangeReasonForOrderRelated(
+                          val,
+                          customerQueriesFieldArray
+                        )
+                      }
                     />
                   </div>
-                  <div className={styles.textInformationHolder}>
-                    <FloatingLabelInput
-                      label="Phone*"
-                      maxLength={"10"}
-                      value={this.state.mobile}
-                      onChange={mobile => this.onChange({ mobile })}
-                      disabled={this.state.mobile ? true : false}
-                      onlyNumber={true}
-                    />
+                  {this.state.solution && (
+                    <div className={styles.selectIssue}>
+                      {this.state.solution}
+                    </div>
+                  )
+                  /**
+                   * EOD
+                   */
+                  }
+                  {!this.state.solution &&
+                    l2OptionsArray &&
+                    l2OptionsArray.children &&
+                    l2OptionsArray.children.length > 0 && (
+                      <div className={styles.selectIssue}>
+                        <SelectBoxMobile2
+                          placeholder="Select sub-issue"
+                          arrowColour="black"
+                          height={33}
+                          options={
+                            l2OptionsArray &&
+                            l2OptionsArray.children &&
+                            l2OptionsArray.children.map((val, i) => {
+                              return {
+                                value: val.nodeCode,
+                                label: val.nodeDesc
+                              };
+                            })
+                          }
+                          isEnable={this.state.isEnableForSubOrderRelated}
+                          onChange={val =>
+                            this.onChangeSubReasonForOrderRelated(val)
+                          }
+                        />
+                      </div>
+                    )}
+                  <div className={styles.selectIssue}>
+                    {!this.state.solution &&
+                      this.state.L0 &&
+                      this.state.customerQryFldTextBox && (
+                        <React.Fragment>
+                          <div className={styles.secondOrder}>
+                            <CheckOutHeader
+                              indexNumber={"0"}
+                              confirmTitle={textboxData.heading}
+                              fontSize={"12px"}
+                            />
+                          </div>
+                          <div className={styles.textInformationHolder}>
+                            <FloatingLabelInputWithPlace
+                              label={
+                                textboxData.isMandatory
+                                  ? textboxData.placeholder + " *"
+                                  : textboxData.placeholder
+                              }
+                              placeholder={`This is placeholder`}
+                              disabled={false}
+                              value={this.state.textboxFldData}
+                              onChange={textboxFldData =>
+                                this.onChange({ textboxFldData })
+                              }
+                            />
+                          </div>
+                        </React.Fragment>
+                      )}
+                  </div>
+                  <div className={styles.selectIssue}>
+                    {!this.state.solution &&
+                      this.state.L0 &&
+                      this.state.customerQryFldCheckBox && (
+                        <React.Fragment>
+                          <div className={styles.textInformationHolder}>
+                            {checkboxData &&
+                              checkboxData.optionArray.map(ele => {
+                                return (
+                                  <CheckboxAndText
+                                    key={ele.value}
+                                    label={ele.optionName}
+                                    value={ele.value}
+                                    selected={
+                                      this.state.checkBoxDefaultFlag ===
+                                      ele.value
+                                        ? true
+                                        : false
+                                    }
+                                    selectItem={() =>
+                                      this.onChangeDefaultFlag(ele.value)
+                                    }
+                                  />
+                                );
+                              })}
+                          </div>
+                        </React.Fragment>
+                      )}
+                  </div>
+                  <div className={styles.selectIssue}>
+                    {/**
+                     * @author Prashant
+                     * Making change in the TextArea and textbox field as per the data from the API
+                     */}
+                    {!this.state.solution &&
+                      this.state.L0 &&
+                      this.state.customerQryFldRadio && (
+                        <React.Fragment>
+                          <div className={styles.secondOrder}>
+                            <CheckOutHeader
+                              indexNumber={"0"}
+                              confirmTitle={
+                                radioData.isMandatory
+                                  ? radioData.heading + " *"
+                                  : radioData.heading
+                              }
+                              fontSize={"12px"}
+                            />
+                            {radioData &&
+                              radioData.optionArray.map(ele => {
+                                return (
+                                  <div
+                                    key={ele.value}
+                                    className={styles.radioBtnMyAcc}
+                                  >
+                                    <label>
+                                      {ele.optionName}
+                                      <input
+                                        type="radio"
+                                        value={ele.value}
+                                        checked={
+                                          ele.value ==
+                                          this.state.radioSelectedOption
+                                            ? true
+                                            : false
+                                        }
+                                        onChange={e =>
+                                          this.setState({
+                                            radioSelectedOption: e.target.value
+                                          })
+                                        }
+                                      />
+                                      <span />
+                                    </label>
+                                  </div>
+                                );
+                              })}
+                          </div>
+                        </React.Fragment>
+                      )}
+                  </div>
+                  <div className={styles.selectIssue}>
+                    {!this.state.solution &&
+                      this.state.L0 &&
+                      this.state.customerQryFldTextArea && (
+                        <React.Fragment>
+                          <div className={styles.secondOrder}>
+                            <CheckOutHeader
+                              indexNumber={"0"}
+                              confirmTitle={textAreaData.heading}
+                              fontSize={"12px"}
+                            />
+                          </div>
+                          <TextArea
+                            placeholder={textAreaData.placeholder}
+                            value={this.state.comment}
+                            onChange={comment => this.onChange({ comment })}
+                            maxLength={parseInt(textAreaData.maxLimit)}
+                          />
+                        </React.Fragment>
+                      )}
                   </div>
                 </div>
               )}
-              {this.state.isSelected === 0 &&
-                (!l3OptionsArray ||
-                  (l3OptionsArray && !l3OptionsArray.ticketAnswer)) && (
+              {!this.state.solution &&
+                this.state.L0 &&
+                (l1OptionsArray ||
+                  (l3OptionsArray && !l3OptionsArray.ticketAnswer)) &&
+                this.state.customerQryFldAttachment && (
                   <div className={styles.selectImageHolder}>
                     <div className={styles.secondOrder}>
                       <CheckOutHeader
-                        indexNumber="4"
-                        confirmTitle="Add attachment (Optional)"
+                        indexNumber="3"
+                        confirmTitle={
+                          attachmentData.isMandatory
+                            ? attachmentData.heading + " *"
+                            : attachmentData.heading
+                        }
+                        fontSize={"14px"}
                       />
                     </div>
                     <div className={styles.validImage}>
                       Upload JPEG, PNG (Maximum size 5 MB)
                     </div>
                     <div className={styles.imageInput}>
+                      <div className={styles.secondOrder}>
+                        <CheckOutHeader
+                          indexNumber={"0"}
+                          confirmTitle={attachmentData.itemsTitle}
+                          fontSize={"13px"}
+                        />
+                      </div>
                       <ImageUpload
                         value={
-                          this.state.file
-                            ? this.state.file.name
+                          this.state.file.length
+                            ? this.state.file &&
+                              this.state.file.map(ele => ele.name).join(", ")
                             : "Upload attachment"
                         }
-                        onChange={file => this.onUploadFile(file)}
+                        onChange={file =>
+                          this.onUploadFile(
+                            file,
+                            parseInt(attachmentData.hexCode)
+                          )
+                        }
                       />
                     </div>
                   </div>
                 )}
-              {(!l3OptionsArray ||
-                (l3OptionsArray && !l3OptionsArray.ticketAnswer)) && (
-                <div className={styles.buttonHolder}>
-                  <div className={styles.button}>
-                    <Button
-                      type="primary"
-                      height={38}
-                      label={"Submit"}
-                      width={166}
-                      textStyle={{ color: "#fff", fontSize: 14 }}
-                      onClick={() => this.submitCustomerForm()}
-                    />
+              {!this.state.solution &&
+                this.state.L0 &&
+                (l1OptionsArray ||
+                  (l3OptionsArray && !l3OptionsArray.ticketAnswer)) && (
+                  <div className={styles.selectIssueHolder}>
+                    <div className={styles.secondOrder}>
+                      <CheckOutHeader
+                        indexNumber={this.state.isSelected === 0 ? "4" : "3"}
+                        confirmTitle="Communication Details"
+                        fontSize={"14px"}
+                      />
+                    </div>
+
+                    <div className={styles.textInformationHolder}>
+                      <FloatingLabelInput
+                        label="Email"
+                        disabled={this.state.email ? true : false}
+                        value={this.state.email}
+                        onChange={email => this.onChange({ email })}
+                      />
+                    </div>
+                    <div className={styles.textInformationHolder}>
+                      <FloatingLabelInput
+                        label="Phone*"
+                        maxLength={"10"}
+                        value={this.state.mobile}
+                        onChange={mobile => this.onChange({ mobile })}
+                        disabled={this.state.mobile ? true : false}
+                        onlyNumber={true}
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+
+              {this.state.productImageURL &&
+                (this.state.productImageURL &&
+                  this.state.L0 &&
+                  !this.state.solution) &&
+                (!l3OptionsArray ||
+                  (l3OptionsArray && !l3OptionsArray.ticketAnswer)) && (
+                  <div className={styles.buttonHolder}>
+                    <div className={styles.button}>
+                      <Button
+                        type="primary"
+                        height={44}
+                        label={"SUBMIT"}
+                        width={323}
+                        borderRadius={2}
+                        textStyle={{ color: "#fff", fontSize: 14 }}
+                        onClick={() => this.submitCustomerForm()}
+                      />
+                    </div>
+                  </div>
+                )}
             </div>
           )}
           {this.state.showOrder && (
@@ -1028,9 +1226,15 @@ export default class OrderRelatedIssue extends React.Component {
                               this.state.isSelected === 0 ? "2" : "1"
                             }
                             confirmTitle="Select issue"
+                            fontSize={"14px"}
                           />
                         </div>
                         <div className={styles.selectIssue}>
+                          <CheckOutHeader
+                            indexNumber={"0"}
+                            confirmTitle="What is the issue?"
+                            fontSize={"13px"}
+                          />
                           <SelectBoxMobile2
                             placeholder="Select issue"
                             arrowColour="black"
@@ -1098,17 +1302,52 @@ export default class OrderRelatedIssue extends React.Component {
                                   <CheckOutHeader
                                     indexNumber={"0"}
                                     confirmTitle={textboxData.heading}
+                                    fontSize={"12px"}
                                   />
                                 </div>
                                 <div className={styles.textInformationHolder}>
-                                  <FloatingLabelInput
-                                    label={textboxData.placeholder}
+                                  <FloatingLabelInputWithPlace
+                                    label={
+                                      textboxData.isMandatory
+                                        ? textboxData.placeholder + " *"
+                                        : textboxData.placeholder
+                                    }
+                                    placeholder={`This is placeholder`}
                                     disabled={false}
                                     value={this.state.textboxFldData}
                                     onChange={textboxFldData =>
                                       this.onChange({ textboxFldData })
                                     }
                                   />
+                                </div>
+                              </React.Fragment>
+                            )}
+                        </div>
+                        <div className={styles.selectIssue}>
+                          {!this.state.solution &&
+                            this.state.L0 &&
+                            this.state.customerQryFldCheckBox && (
+                              <React.Fragment>
+                                <div className={styles.textInformationHolder}>
+                                  {checkboxData &&
+                                    checkboxData.optionArray.map(ele => {
+                                      return (
+                                        <CheckboxAndText
+                                          key={ele.value}
+                                          label={ele.optionName}
+                                          value={ele.value}
+                                          selected={
+                                            this.state.checkBoxDefaultFlag ===
+                                            ele.value
+                                              ? true
+                                              : false
+                                          }
+                                          selectItem={() =>
+                                            this.onChangeDefaultFlag(ele.value)
+                                          }
+                                        />
+                                      );
+                                    })}
                                 </div>
                               </React.Fragment>
                             )}
@@ -1125,7 +1364,12 @@ export default class OrderRelatedIssue extends React.Component {
                                 <div className={styles.secondOrder}>
                                   <CheckOutHeader
                                     indexNumber={"0"}
-                                    confirmTitle={radioData.heading}
+                                    confirmTitle={
+                                      radioData.isMandatory
+                                        ? radioData.heading + " *"
+                                        : radioData.heading
+                                    }
+                                    fontSize={"12px"}
                                   />
                                   {radioData &&
                                     radioData.optionArray.map(ele => {
@@ -1170,6 +1414,7 @@ export default class OrderRelatedIssue extends React.Component {
                                   <CheckOutHeader
                                     indexNumber={"0"}
                                     confirmTitle={textAreaData.heading}
+                                    fontSize={"12px"}
                                   />
                                 </div>
                                 <TextArea
@@ -1198,7 +1443,12 @@ export default class OrderRelatedIssue extends React.Component {
                               indexNumber={
                                 this.state.isSelected === 0 ? "3" : "2"
                               }
-                              confirmTitle={attachmentData.heading}
+                              confirmTitle={
+                                attachmentData.isMandatory
+                                  ? attachmentData.heading + " *"
+                                  : attachmentData.heading
+                              }
+                              fontSize={"14px"}
                             />
                           </div>
                           <div className={styles.validImage}>
@@ -1209,6 +1459,7 @@ export default class OrderRelatedIssue extends React.Component {
                               <CheckOutHeader
                                 indexNumber={"0"}
                                 confirmTitle={attachmentData.itemsTitle}
+                                fontSize={"12px"}
                               />
                             </div>
                             <ImageUpload
@@ -1242,7 +1493,8 @@ export default class OrderRelatedIssue extends React.Component {
                               indexNumber={
                                 this.state.isSelected === 0 ? "4" : "3"
                               }
-                              confirmTitle="Personal Details"
+                              confirmTitle="Communication Details"
+                              fontSize={"14px"}
                             />
                           </div>
 
@@ -1291,7 +1543,7 @@ export default class OrderRelatedIssue extends React.Component {
                         <Button
                           type="primary"
                           height={38}
-                          label={"Submit"}
+                          label={"SUBMIT NOW"}
                           width={166}
                           textStyle={{ color: "#fff", fontSize: 14 }}
                           onClick={() => this.submitCustomerForm()}

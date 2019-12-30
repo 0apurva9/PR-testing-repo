@@ -8,9 +8,13 @@ import checkIcon from "./img/check.svg";
 
 export default class CheckOutHeader extends React.Component {
   render() {
+    const propFontSize = this.props.fontSize ? this.props.fontSize : 0;
     return (
       <div className={styles.base}>
-        <div className={styles.confirm}>
+        <div
+          className={styles.confirm}
+          style={{ fontSize: propFontSize ? propFontSize : "" }}
+        >
           <DesktopOnly>
             {this.props.indexNumber !== "0" &&
               !this.props.completed && (
