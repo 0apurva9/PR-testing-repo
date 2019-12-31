@@ -3,7 +3,7 @@ import styles from "./writeReview.css";
 import PropTypes from "prop-types";
 import Input from "../../general/components/ControlInput";
 import TextArea from "../../general/components/ControlTextArea";
-import FillupRating from "./FillupRating";
+import FillupRatingOrder from "./FillupRatingOrder";
 import Button from "../../general/components/Button";
 import {
   CUSTOMER_ACCESS_TOKEN,
@@ -32,7 +32,7 @@ class WriteReview extends React.Component {
     this.state = {
       title: "",
       comment: "",
-      rating: "",
+      rating: null,
       resetRating: false
     };
   }
@@ -123,8 +123,8 @@ class WriteReview extends React.Component {
         <div className={styles.ratingContainer}>
           <div className={styles.ratingHeader}>Rate this product</div>
           <div className={styles.ratingBar}>
-            <FillupRating
-              rating={5}
+            <FillupRatingOrder
+              rating={this.state.rating}
               onChange={this.onRatingChange}
               resetRating={this.state.resetRating}
             />
