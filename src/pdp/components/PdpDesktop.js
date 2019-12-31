@@ -817,6 +817,9 @@ export default class PdpApparel extends React.Component {
     !this.state.selectedBundledProduct.includes(e.target.value) &&
       this.state.selectedBundledProduct.push(e.target.value);
   }
+  openExchangeModal() {
+    this.props.showExchangeModal();
+  }
   render() {
     let seasonData = {};
     if (this.props.productDetails["seasonDetails"] !== undefined) {
@@ -1134,7 +1137,10 @@ export default class PdpApparel extends React.Component {
                           {productData.maxExchangeAmount &&
                             productData.maxExchangeAmount
                               .formattedValueNoDecimal}{" "}
-                          <span className={styles.withExchangeLink}>
+                          <span
+                            className={styles.withExchangeLink}
+                            onClick={() => this.openExchangeModal()}
+                          >
                             with exchange
                           </span>
                         </div>

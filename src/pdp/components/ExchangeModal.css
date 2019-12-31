@@ -1,0 +1,236 @@
+.base {
+  position: absolute;
+  width: 496px;
+  max-width: 35%;
+  height: auto;
+  max-height: 100%;
+  background: #fff;
+  padding: 0;
+  transform: translateX(100%);
+  animation: slideIn 200ms forwards;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  min-height: initial;
+}
+.content {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  overflow: auto;
+  padding: 25px;
+}
+.heading{
+  font-family: semibold;
+  font-size: 20px;
+  color: #212121;
+  float: left;
+}
+.exchangeInfoLinks{
+  font-family: semibold;
+  font-size: 14px;
+  line-height: 2;
+  color: #6c6c6c;
+  float: right;
+  cursor: pointer;
+}
+@keyframes slideIn {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+.exchangeButtonContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width:100%;
+  height: 85px;
+  background-color: #f1f1f1;
+}
+.exchangeButton{
+  width: 242px;
+  height: 38px;
+  border-radius: 19.5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+  background-color: #ff1744;
+  font-family: semibold;
+  font-size: 14px;
+  text-align: center;
+  color: #ffffff;
+  padding: 10px;
+  cursor: pointer;
+}
+.sliderContainer{
+  padding-left: 25px;
+  width: 800px;
+  height: 250px;
+  overflow: scroll;
+  position: relative;
+}
+.tabSlider{
+  float: left;
+  margin-right: 15px;
+  width: 360px;
+  height: 238px;
+  border-radius: 4px;
+  border: solid 0.5px #c6c6c6;
+  padding: 15px;
+  font-size:14px;
+}
+.exchangeOfferTable{
+  width: 330px;
+  margin-top: 15px;
+}
+.exchangeOfferTable tr td:nth-child(even){
+  text-align: right;
+}
+.exchangeOfferTable tr td:nth-child(odd){
+  padding-left: 20px;
+}
+.cashbackHeading{
+  font-family: semibold;
+  color: #212121;
+  padding-left: 0 !important;
+  padding-bottom: 3px;
+}
+.cashbackSubtitle{
+  font-family: light;
+  font-size: 12px;
+  color: #4a4a4a;
+  padding: 0 10px 0 0 !important;
+}
+.fontSize12{
+  font-family: light;
+  color: #212121;
+}
+.tabOneRadio{
+  float: left;
+  margin: 0px 5px 0 0;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.tabOneTitle{
+  float: left;
+}
+.freePickUp{
+  font-family: semibold;
+  color: #67b70b;
+}
+.cashbackInfoIcon{
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.cashbackInfoSubtitle{
+  float: left;
+  margin: 1px 4px 0 0;
+}
+.icons{
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+.addDevice{
+  font-size: 12px;
+  line-height: 1.17;
+  text-align: center;
+  color: #8d8d8d;
+  width: 56px;
+  height: auto;
+  margin-top: 65px;
+  cursor: pointer;
+}
+.plusSign::after{
+  content: " \002B";
+  color: #ff1744;
+  font-family: semibold;
+  font-size: 24px;
+}
+.imeiCheckForm{
+  padding: 30px;
+  display: inline-block;
+}
+.imeiInput{
+  float: left;
+  width: 80%;
+  border:none;
+  border-bottom: 1px solid #ccc;
+  font-size: 14px;
+  line-height: 1;
+  font-family: regular;
+  color: #212121;
+}
+.imeiInput:focus{
+  outline:none;
+}
+.imeiInput::placeholder{
+  font-family: light;
+  font-size: 14px;
+  color: #8d8d8d;
+}
+.verifyButton{
+  float: left;
+  width: 20%;
+  text-align: right;
+  border-bottom: 1px solid #ccc;
+  font-family: semibold;
+  font-size: 14px;
+  color: #8d8d8d;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.imeiInputInfo{
+  font-family: light;
+  font-size: 11px;
+  color: #212121;
+  float: left;
+  margin-top: 5px;
+}
+.howToImeiCheck{
+  color:#ff1744;
+  font-family: semibold;
+}
+.effectivePrice{
+  margin: 0 30px;
+  display: inline-block;
+  width: calc(100% - 60px);
+  border-radius: 4px;
+  border: dashed 0.5px #c6c6c6;
+  padding: 15px;
+  font-size: 14px;
+}
+.effectivePriceTrOne{
+  font-family: semibold;
+}
+.effectivePriceTrTwo{
+  text-align: right;
+  font-family: semibold;
+}
+.tncContainer{
+  display: inline-block;
+  width: 100%;
+  padding: 20px 30px;
+}
+.tnc{
+  font-family: light;
+  font-size: 12px;
+  color: #212121;
+  float: left;
+}
+.tncText{
+  color: #ff1744;
+  font-family: semibold;
+  cursor: pointer;
+}
+.tncCheckbox{
+  float: left;
+  margin: 0 10px 0 0;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}

@@ -133,6 +133,13 @@ const TermsNConditionsWrapperModal = Loadable({
   }
 });
 
+const ExchangeModal = Loadable({
+  loader: () => import("../../pdp/components/ExchangeModal"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const ProductCouponDetails = Loadable({
   loader: () => import("../../pdp/components/ProductCouponDetails.js"),
   loading() {
@@ -864,6 +871,12 @@ export default class ModalRoot extends React.Component {
       ),
       TermsNConditionsWrapperModal: (
         <TermsNConditionsWrapperModal
+          closeModal={data => this.handleOfferModalClose(data)}
+          {...this.props.ownProps}
+        />
+      ),
+      ExchangeModal: (
+        <ExchangeModal
           closeModal={data => this.handleOfferModalClose(data)}
           {...this.props.ownProps}
         />

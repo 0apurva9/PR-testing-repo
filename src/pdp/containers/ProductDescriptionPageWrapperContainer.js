@@ -44,7 +44,8 @@ import {
   BUNDLEDPRODUCT_MODAL,
   SIMILAR_PRODUCTS_MODAL,
   SIMILAR_PRODUCTS_OOS_MODAL,
-  SIZE_SELECTOR_OOS_MODAL
+  SIZE_SELECTOR_OOS_MODAL,
+  EXCHANGE_MODAL
 } from "../../general/modal.actions.js";
 import ProductDescriptionPageWrapper from "../components/ProductDescriptionPageWrapper";
 import { withRouter } from "react-router-dom";
@@ -96,6 +97,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showTermsNConditions: data => {
       dispatch(showModal(TERMSNCONDITIONS_MODAL, data));
+    },
+    showExchangeModal: data => {
+      dispatch(showModal(EXCHANGE_MODAL, data));
     },
     showManufactureDetailsModal: data => {
       dispatch(showModal(MANUFACTURER_MODAL, data));
@@ -233,10 +237,7 @@ const mapStateToProps = state => {
 };
 
 const ProductDescriptionPageWrapperContainer = withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ProductDescriptionPageWrapper)
+  connect(mapStateToProps, mapDispatchToProps)(ProductDescriptionPageWrapper)
 );
 
 export default ProductDescriptionPageWrapperContainer;
