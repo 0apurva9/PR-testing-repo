@@ -3,11 +3,24 @@ import styles from "./MarkerStore.css";
 import Icon from "../../xelpmoc-core/Icon";
 import PropTypes from "prop-types";
 export default class MarkerStore extends React.Component {
+  selectedItem = val => {
+    if (this.props.storeClick && val) {
+      this.props.storeClick([val]);
+    }
+  };
   render() {
     return (
       <div className={styles.base}>
         <div className="place" lat={this.props.lat} lng={this.props.lng}>
-          <Icon image={this.props.image} size={20} />
+          <Icon
+            image={this.props.image}
+            width={20}
+            height={30}
+            selectItem={() => this.selectedItem(this.props.slaveID)}
+          />
+          {this.props.text && (
+            <div className={styles.storeName}>{this.props.text}</div>
+          )}
         </div>
       </div>
     );

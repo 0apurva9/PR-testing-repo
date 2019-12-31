@@ -66,7 +66,7 @@ import OtherSellersLink from "./OtherSellersLink";
 import SizeSelector from "./SizeSelector";
 import ProductDetailsMainCard from "./ProductDetailsMainCard";
 import ProductDetails from "./ProductDetails";
-import Overlay from "./Overlay";
+// import Overlay from "./Overlay";
 import PdpDeliveryModes from "./PdpDeliveryModes";
 import PDPRecommendedSectionsContainer from "./PDPRecommendedSections";
 import ColourSelector from "./ColourSelector";
