@@ -111,7 +111,7 @@ export default class Carousel extends React.Component {
           <div className={headerClass}>
             {this.props.header && (
               <div>
-                <h2>{this.props.header}</h2>
+                <h3>{this.props.header}</h3>
                 {this.props.subheader && (
                   <div className={styles.subheader}>{this.props.subheader}</div>
                 )}
