@@ -42,13 +42,6 @@ export default class OrderRelatedIssue extends React.Component {
     super(props);
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const getUserDetails = JSON.parse(userDetailsCookie);
-    /**
-     * @author Prashant
-     * Added following fields fo type boolean with default value of false
-     * customerQryFldLabel, customerQryFldTextBox, customerQryFldTextArea, customerQryFldRadio, customerQryFldCheckBox,
-     * customerQryFldAttachment
-     * they will be responsible for showing their respective fields on the page.
-     */
     this.state = {
       showOrder: false,
       isSelected: 0,
@@ -102,12 +95,6 @@ export default class OrderRelatedIssue extends React.Component {
     this.props.getCustomerQueriesData();
     this.props.getOrdersTransactionData(false);
     this.props.setHeaderText(CUSTOMER_CARE);
-
-    /**
-     * @author Prashant
-     * Added the below line to fetch the data from the API
-     */
-    this.props.getCustomerQueriesFieldsv2();
   }
   componentDidUpdate() {
     this.props.setHeaderText(CUSTOMER_CARE);
@@ -190,10 +177,6 @@ export default class OrderRelatedIssue extends React.Component {
     });
     this.props.getCustomerQueriesDatav2();
   }
-  /**
-   * @author Prashant
-   * This function is being called when we are changing option in the "select issue" select box.
-   */
   onChangeReasonForOrderRelated(val, customerQueriesFieldArray = []) {
     const code = val.uItemplateCode;
     const label = val.issueType;
@@ -289,9 +272,6 @@ export default class OrderRelatedIssue extends React.Component {
       //   return false;
     }
 
-    /**
-     * @author Prashant
-     */
     let customerQueriesFieldArray = this.props.customerQueriesField;
     if (this.state.customerQryFldTextArea) {
       let textAreaData = [];
@@ -527,6 +507,8 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.ordersTransactionData.orderData.length > 0
     ) {
       this.setState({ showOrder: true });
+
+      this.props.getCustomerQueriesFieldsv2();
     } else {
       this.props.displayToast("No Orders");
     }
@@ -568,11 +550,6 @@ export default class OrderRelatedIssue extends React.Component {
     if (!userDetailsCookie || !customerCookie) {
       return this.navigateToLogin();
     }
-    /**
-     * @author Prashant
-     * @param Array customerQueriesFieldArray
-     * @desc It will contain the array of the API
-     */
     let l1OptionsArray,
       l2OptionsArray,
       l3OptionsArray,
@@ -725,10 +702,6 @@ export default class OrderRelatedIssue extends React.Component {
                       confirmTitle="Select issue"
                     />
                   </div>
-                  {/**
-                   * @author Prashant
-                   * Changes for Mobile devices.
-                   */}
                   <div className={styles.selectIssue}>
                     <CheckOutHeader
                       indexNumber={"0"}
@@ -852,10 +825,6 @@ export default class OrderRelatedIssue extends React.Component {
                       )}
                   </div>
                   <div className={styles.selectIssue}>
-                    {/**
-                     * @author Prashant
-                     * Making change in the TextArea and textbox field as per the data from the API
-                     */}
                     {!this.state.solution &&
                       this.state.L0 &&
                       this.state.customerQryFldRadio && (
@@ -1249,11 +1218,6 @@ export default class OrderRelatedIssue extends React.Component {
                               })
                             }
                             //isEnable={this.state.isEnableForOrderRelated}
-                            /**
-                             * @author Prashant
-                             * Passed the varable "customerQueriesFieldArray" so that fields can be calculated when dropdown
-                             * is changed.
-                             */
                             onChange={val =>
                               this.onChangeReasonForOrderRelated(
                                 val,
@@ -1353,10 +1317,6 @@ export default class OrderRelatedIssue extends React.Component {
                             )}
                         </div>
                         <div className={styles.selectIssue}>
-                          {/**
-                           * @author Prashant
-                           * Making change in the TextArea and textbox field as per the data from the API
-                           */}
                           {!this.state.solution &&
                             this.state.L0 &&
                             this.state.customerQryFldRadio && (
