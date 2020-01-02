@@ -77,7 +77,8 @@ import {
   CART_COUNT_FOR_LOGGED_IN_USER,
   PANCARD_PAGE,
   CART_BAG_DETAILS,
-  CANCEL_RETURN_PREFIX
+  CANCEL_RETURN_PREFIX,
+  UNSUBSCRIBE_CLEVER_TAP_EMAILS
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
@@ -331,6 +332,13 @@ const AllSellerContainer = Loadable({
 
 const AllSellerReviewContainer = Loadable({
   loader: () => import("./account/containers/AllSellerReviewContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const CleverTapUnsubscribeEmail = Loadable({
+  loader: () => import("./general/components/CleverTapEmailUnsubscribe"),
   loading() {
     return <Loader />;
   }
@@ -645,6 +653,11 @@ class App extends Component {
               path={CATEGORIES_LANDING_PAGE}
               component={CategoriesPageContainer}
             />
+            <Route
+              exact
+              path={UNSUBSCRIBE_CLEVER_TAP_EMAILS}
+              component={CleverTapUnsubscribeEmail}
+            />
             {/* This *has* to be at the bottom */}
             <Route
               exact
@@ -675,6 +688,13 @@ class App extends Component {
             <Route
               path={`/store/transactionId=:id&customerId=:id1/seller-reviewed`}
               component={AllSellerReviewContainer}
+            />
+            <Route
+              exact
+              path="/Unsubscribe.html"
+              render={() => {
+                window.location.href = "Unsubscribe.html";
+              }}
             />
             <Route
               path="/que"

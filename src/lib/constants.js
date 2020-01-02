@@ -479,3 +479,6 @@ export const RETRY_FAILED_ORDER_COUPON_NOTE =
   "Note: If the amount was debited from your account, it will be fully refunded.";
 
 export const FAILED_ORDER = "retryFailedOrder";
+
+//CleverTap email unsubsctibe
+export const UNSUBSCRIBE_CLEVER_TAP_EMAILS = "/emails-unsubscribe";
