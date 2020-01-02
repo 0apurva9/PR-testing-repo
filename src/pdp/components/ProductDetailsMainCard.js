@@ -109,6 +109,17 @@ export default class ProductDetailsMainCard extends React.Component {
     e.preventDefault();
   };
 
+  getDiscountPercentage() {
+    if (this.props.discountPrice !== this.props.price) {
+      let calculatedPercentage =
+        100 - [this.props.discountPrice * 100 / this.props.price];
+      let flooredPrice = Math.floor(calculatedPercentage);
+      return flooredPrice;
+    } else {
+      return this.props.discount;
+    }
+  }
+
   render() {
     const displayPrice = this.props.discountPrice
       ? this.props.discountPrice
@@ -117,7 +128,6 @@ export default class ProductDetailsMainCard extends React.Component {
     if (this.props.averageRating) {
       averageRating = Math.round(this.props.averageRating * 10) / 10;
     }
-
     return (
       <div className={styles.base}>
         {this.renderSchemaTags()}
@@ -161,7 +171,9 @@ export default class ProductDetailsMainCard extends React.Component {
                 <div className={styles.priceCancelled}>
                   <span className={styles.cancelPrice}>{this.props.price}</span>
                   <span className={styles.discount}>
-                    {this.props.discount && `(${this.props.discount}%)`}
+                    {this.props.discount &&
+                      this.props.discount > 0 &&
+                      `(${this.getDiscountPercentage()}%)`}
                   </span>
                 </div>
               )}
