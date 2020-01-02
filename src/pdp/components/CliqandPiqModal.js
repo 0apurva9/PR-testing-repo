@@ -8,6 +8,7 @@ import GetLocationDetails from "../../cart/components/GetLocationDetails.js";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import PickUpDetails from "../../cart/components/PickUpDetails.js";
 import Button from "../../general/components/Button";
+import { SELECTED_STORE } from "../../lib/constants.js";
 import {
   setDataLayerForCartDirectCalls,
   ADOBE_DIRECT_CALL_FOR_SELECT_STORE
@@ -41,6 +42,14 @@ export default class ReturnToStore extends React.Component {
       const lat = selectedStore && selectedStore.geoPoint.latitude;
       const lng = selectedStore && selectedStore.geoPoint.longitude;
       const storeId = selectedStore && selectedStore.slaveId;
+      if (selectedStore.address) {
+        localStorage.setItem(
+          SELECTED_STORE,
+          `${selectedStore.displayName}, ${selectedStore.address.line1} ${
+            selectedStore.address.line2
+          }, ${selectedStore.address.city} ${selectedStore.address.postalCode}`
+        );
+      }
       this.setState({
         lat,
         lng,

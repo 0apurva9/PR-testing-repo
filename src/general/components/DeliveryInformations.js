@@ -25,7 +25,8 @@ import {
   SAME_DAY_DELIVERY,
   SAME_DAY_DELIVERY_SHIPPING,
   HOME_DELIVERY,
-  SHORT_HOME_DELIVERY
+  SHORT_HOME_DELIVERY,
+  SELECTED_STORE
 } from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";
 import CountDownTimer from "../../pdp/components/CountDownTimer.js";
@@ -136,6 +137,7 @@ export default class DeliveryInformations extends React.Component {
     let typeDate = "";
     let typeText = "";
     let formattedPlacedTime;
+    let selectedStoreAddress = localStorage.getItem(SELECTED_STORE);
     if (this.props.placedTime) {
       formattedPlacedTime = this.getDayNumberSuffix(this.props.placedTime);
     }
@@ -231,11 +233,12 @@ export default class DeliveryInformations extends React.Component {
                 <CountDownTimer cutOffSeconds={this.props.cutOffTime} />
               )}
 
-            {this.props.available && this.props.placedTimeForCod && (
-              <div className={styles.placeTime}>
-                {this.props.placedTimeForCod}
-              </div>
-            )}
+            {this.props.available &&
+              this.props.placedTimeForCod && (
+                <div className={styles.placeTime}>
+                  {this.props.placedTimeForCod}
+                </div>
+              )}
 
             {this.props.deliverText && (
               <div className={styles.placeTime}>
@@ -252,12 +255,15 @@ export default class DeliveryInformations extends React.Component {
               this.props.isShowCliqAndPiqUnderLineText &&
               this.props.available && (
                 <div className={styles.underLineButtonHolder}>
-                  {!this.props.inCartPage && (
-                    <div className={styles.address}>
-                      UG 89, R City Mall, LBS Road, Ghatkopar West, Mumbai
-                      400070{" "}
-                    </div>
-                  )}
+                  {!this.props.inCartPage &&
+                    selectedStoreAddress && (
+                      <div
+                        className={styles.address}
+                        onClick={() => this.onPiq()}
+                      >
+                        {selectedStoreAddress}
+                      </div>
+                    )}
                   <span className={styles.buttonHolderPiq}>
                     <UnderLinedButton
                       size={
@@ -300,14 +306,15 @@ export default class DeliveryInformations extends React.Component {
                 </div>
               )}
 
-          {this.props.arrowClick && this.props.type === COLLECT && (
-            <div
-              className={styles.arrowHolder}
-              onClick={() => this.arrowClick()}
-            >
-              <Icon image={arrowIcon} size={20} />
-            </div>
-          )}
+          {this.props.arrowClick &&
+            this.props.type === COLLECT && (
+              <div
+                className={styles.arrowHolder}
+                onClick={() => this.arrowClick()}
+              >
+                <Icon image={arrowIcon} size={20} />
+              </div>
+            )}
           {this.props.showCliqAndPiqButton &&
             this.props.isClickable &&
             !this.props.selected &&

@@ -488,3 +488,4 @@ export const CNC_TO_HD_ORDER = "/my-account/cncToHd/(.*)";
 export const CNCTOHD = "/cncToHd";
 
 export const FAILED_ORDER = "retryFailedOrder";
+export const SELECTED_STORE = "selectedStoreAddress";

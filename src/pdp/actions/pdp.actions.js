@@ -416,7 +416,7 @@ export function getProductPinCode(
                   cod: "Y",
                   exchangeServiceable: false,
                   isCODLimitFailed: "N",
-                  cutoffTime: "14400",
+                  cutoffTime: 14400,
                   isPrepaidEligible: "Y",
                   isServicable: "Y",
                   stockCount: 300,
@@ -1215,36 +1215,36 @@ export function getProductPinCode(
 
       /*
       //ED, CNC, HD
-      
+
       //SDD, CNC
-       
+
       //HD, CNC
-      resultJson = 
+      resultJson =
 
       //SDD, HD
 
       //ED, HD
 
       //ED(tomorrow), CNC
-      resultJson = 
+      resultJson =
 
       //ED(!tomorrow), CNC
-      resultJson = 
+      resultJson =
 
       //HD
-      resultJson = 
+      resultJson =
 
       //ED(tomorrow)
-      resultJson = 
-      
+      resultJson =
+
       //ED(!tomorrow)
-      resultJson = 
+      resultJson =
 
       //SDD
-      resultJson = 
+      resultJson =
 
       //CNC
-      resultJson = 
+      resultJson =
 
       */
 
