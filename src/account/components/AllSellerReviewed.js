@@ -952,7 +952,7 @@ export default class AllSellerReviewed extends React.Component {
                                 <button
                                   className={styles.submitButton}
                                   onClick={() =>
-                                    this.onSellerReviewRemove(this.params)
+                                    this.onSellerReviewRemove(params)
                                   }
                                 >
                                   {" "}

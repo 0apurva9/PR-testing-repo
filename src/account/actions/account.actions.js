@@ -2256,8 +2256,10 @@ export function getAllSellersDetails(isSetDataLayer: true) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let url = window.location.href;
-  let parts = url.split("/");
-  let transId = parts[parts.length - 1];
+  let transId = url
+    .split("transactionId=")
+    .pop()
+    .split("&")[0];
   return async (dispatch, getState, { api }) => {
     dispatch(getAllSellersRequest());
     dispatch(showSecondaryLoader());

@@ -540,3 +540,8 @@
   width: 200px;
   height: 40px;
 }
+
+.feedbackRemoveButtonDiv{
+	max-width: 64%;
+	float:right;
+}
