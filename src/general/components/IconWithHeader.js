@@ -8,6 +8,7 @@ import {
   EXPRESS,
   COLLECT,
   SHORT_COLLECT,
+  COLLECT_TEXT,
   HOME_DELIVERY,
   SHORT_EXPRESS,
   SAME_DAY_DELIVERY,
@@ -134,7 +135,7 @@ export default class IconWithHeader extends React.Component {
           />
         </div>
         <div
-          id={this.props.header}
+          id={`${this.props.dateFormatted} ${this.props.dateFormattedText}`}
           className={styles.textHolder}
           style={{
             fontFamily: this.props.fontFamily,
@@ -148,7 +149,20 @@ export default class IconWithHeader extends React.Component {
               }
             >
               {" "}
-              {this.props.header}
+              {/*this.props.header*/}
+              <span
+                className={
+                  this.props.dateFormattedText === COLLECT_TEXT
+                    ? styles.fontBold
+                    : null
+                }
+              >
+                {this.props.dateFormattedText}
+              </span>{" "}
+              <span className={styles.dateFormatted}>
+                {this.props.dateFormatted}
+              </span>
+              <span>{this.props.header}</span>
             </div>
           )}
           {this.props.placedTime &&

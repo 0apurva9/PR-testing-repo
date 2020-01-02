@@ -95,3 +95,13 @@
     font-family: light;
   }
 }
+
+.dateFormatted{
+  font-size: 13px;
+  color: #212121;
+  font-weight: bold;
+}
+.cncStoreText{
+  font-weight: bold;
+  font-size: 14px;
+}

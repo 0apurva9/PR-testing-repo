@@ -810,6 +810,10 @@ class CartPage extends React.Component {
                         </MobileOnly>
                         <DesktopOnly>
                           <CartItemForDesktop
+                            isCod={
+                              product.pinCodeResponse &&
+                              product.pinCodeResponse.cod
+                            }
                             isFromCnc={
                               (this.props.location &&
                                 this.props.location.state &&

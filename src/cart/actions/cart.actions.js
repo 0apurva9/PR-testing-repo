@@ -688,7 +688,7 @@ export function getCartDetails(
               ussid: "123762SWD90064PP01",
               validDeliveryModes: [
                 {
-                  deliveryDate: "26-12-2019 19:00:00",
+                  deliveryDate: "30-12-2019 19:00:00",
                   quickDeliveryMode: "Y",
                   CNCServiceableSlavesData: [
                     {
@@ -917,7 +917,7 @@ export function getCartDetails(
                   type: "CNC"
                 },
                 {
-                  deliveryDate: "29-12-2019 19:00:00",
+                  deliveryDate: "06-01-2020 19:00:00",
                   fulfilmentType: "TSHIP",
                   inventory: "300",
                   isCOD: true,
@@ -1502,7 +1502,7 @@ export function getCartDetails(
                   type: "HD"
                 },
                 {
-                  deliveryDate: "24-12-2019 19:00:00",
+                  deliveryDate: "30-12-2019 19:00:00",
                   quickDeliveryMode: "Y",
                   cutoffTime: 14400,
                   fulfilmentType: "TSHIP",
@@ -1858,11 +1858,11 @@ export function getCartDetails(
                   quickDeliveryMode: "Y",
                   inventory: "29",
                   isCOD: false,
-                  deliveryDate: "26-12-2019 19:00:00",
+                  deliveryDate: "30-12-2019 19:00:00",
                   type: "CNC"
                 },
                 {
-                  deliveryDate: "29-12-2019 19:00:00",
+                  deliveryDate: "06-01-2020 19:00:00",
                   fulfilmentType: "TSHIP",
                   inventory: "300",
                   isCOD: true,
@@ -2447,7 +2447,7 @@ export function getCartDetails(
                   type: "HD"
                 },
                 {
-                  deliveryDate: "24-12-2019 19:00:00",
+                  deliveryDate: "30-12-2019 19:00:00",
                   quickDeliveryMode: "Y",
                   cutoffTime: 14400,
                   fulfilmentType: "TSHIP",

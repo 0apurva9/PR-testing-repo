@@ -34,9 +34,7 @@ export default class PdpDeliveryModes extends React.Component {
         }
       );
     }
-    const QuiqPiq =
-      getDeliveryModesByWinningUssid &&
-      getDeliveryModesByWinningUssid.quickDeliveryMode;
+
     if (
       getDeliveryModesByWinningUssid &&
       getDeliveryModesByWinningUssid.validDeliveryModes
@@ -45,8 +43,16 @@ export default class PdpDeliveryModes extends React.Component {
     }
     const isCod = this.props && this.props.isCod;
 
+    const QuiqPiq =
+      deliveryDates &&
+      deliveryDates
+        .map(val => {
+          return val.quickDeliveryMode;
+        })
+        .includes("Y");
+
     console.log(
-      "props, quiqpiq, deliverydates and placedTime in pdpdeliverymodes is : ",
+      "props, quiqpiq and deliverydates in pdpdeliverymodes is : ",
       this.props,
       QuiqPiq,
       deliveryDates
@@ -54,7 +60,7 @@ export default class PdpDeliveryModes extends React.Component {
 
     return (
       <div className={styles.base}>
-        {QuiqPiq === "Y" && (
+        {QuiqPiq === true && (
           <DeliveryInformation
             isQuiqPiq={QuiqPiq}
             isStaticText={true}

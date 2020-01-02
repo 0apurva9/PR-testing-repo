@@ -62,13 +62,15 @@ export default class DeliveryInformations extends React.Component {
     let nextDayDate = todayDate + 1;
     let newExpressOrSddText;
     if (
-      (date === todayDate && this.props.type === SHORT_EXPRESS) ||
-      this.props.type === SHORT_SAME_DAY_DELIVERY
+      date === todayDate &&
+      (this.props.type === SHORT_EXPRESS ||
+        this.props.type === SHORT_SAME_DAY_DELIVERY)
     ) {
       newExpressOrSddText = `Today, `;
     } else if (
-      (date === nextDayDate && this.props.type === SHORT_EXPRESS) ||
-      this.props.type === SHORT_SAME_DAY_DELIVERY
+      date === nextDayDate &&
+      (this.props.type === SHORT_EXPRESS ||
+        this.props.type === SHORT_SAME_DAY_DELIVERY)
     ) {
       newExpressOrSddText = `Tomorrow, `;
     }
@@ -131,7 +133,8 @@ export default class DeliveryInformations extends React.Component {
   render() {
     console.log("props coming to deliveryInformation is : ", this.props);
     let iconImage = "";
-    let typeName = "";
+    let typeDate = "";
+    let typeText = "";
     let formattedPlacedTime;
     if (this.props.placedTime) {
       formattedPlacedTime = this.getDayNumberSuffix(this.props.placedTime);
@@ -141,44 +144,56 @@ export default class DeliveryInformations extends React.Component {
     let baseClass = styles.base;
     if (this.props.type === SHORT_EXPRESS) {
       iconImage = ExpressImage;
-      typeName = !this.props.deliveryInformationByCart
-        ? `${EXPRESS_TEXT} ${formattedPlacedTime}`
-        : `${EXPRESS_SHIPPING} ${formattedPlacedTime}`;
+      if (this.props.inCartPage) {
+        typeDate = `${formattedPlacedTime}`;
+      } else {
+        typeDate = `${formattedPlacedTime}`;
+        typeText = !this.props.deliveryInformationByCart
+          ? `${EXPRESS_TEXT}`
+          : `${EXPRESS_SHIPPING}`;
+      }
       arrowStyle = styles.arrowLink;
       iconSize = this.props.inCartPageIcon ? 40 : 35;
     } else if (this.props.type === SHORT_HOME_DELIVERY) {
       iconImage = ExpressImage;
-      typeName = `${HOME_TEXT} ${formattedPlacedTime}`;
+      typeDate = `${formattedPlacedTime}`;
+      typeText = `${HOME_TEXT}`;
       iconSize = 35;
     } else if (this.props.type === SHORT_COLLECT) {
       iconImage = CollectImage;
-      typeName = !this.props.deliveryInformationByCart
+      typeText = !this.props.deliveryInformationByCart
         ? COLLECT_TEXT
         : COLLECT_TEXT_CART;
       iconSize = 35;
     } else if (this.props.type === SHORT_SAME_DAY_DELIVERY) {
       iconImage = ExpressImage;
-      typeName = `${SHORT_SAME_DAY_TEXT} ${formattedPlacedTime}`;
-      iconSize = 35;
+      if (this.props.inCartPage) {
+        typeDate = `${formattedPlacedTime}`;
+        iconSize = 35;
+      } else {
+        typeDate = `${formattedPlacedTime}`;
+        typeText = `${SHORT_SAME_DAY_TEXT}`;
+        iconSize = 35;
+      }
     } else if (this.props.type === SAME_DAY_DELIVERY) {
       iconImage = clockImage;
-      typeName = SAME_DAY_DELIVERY_SHIPPING;
+      typeText = SAME_DAY_DELIVERY_SHIPPING;
       iconSize = 35;
     } else if (this.props.type === HOME_DELIVERY) {
       iconImage = HomeImage;
-      typeName = HOME_TEXT;
+      typeText = HOME_TEXT;
       iconSize = 35;
-    } else if (this.props.isQuiqPiq === "Y") {
+    } else if (this.props.isQuiqPiq) {
       iconImage = quiqpiqImage;
-      typeName = QUIQPIQ;
+      typeText = QUIQPIQ;
       iconSize = 40;
     } else if (this.props.isCod == "Y") {
       iconImage = codImage;
-      typeName = COD_TEXT;
+      typeText = COD_TEXT;
       iconSize = 35;
     }
     if (!this.props.available) {
-      typeName = `${typeName}`;
+      typeText = `${typeText}`;
     }
 
     let deliveryCharge = "";
@@ -206,7 +221,9 @@ export default class DeliveryInformations extends React.Component {
           <IconWithHeader
             image={iconImage}
             iconShow={this.props.iconShow}
-            header={`${typeName} ${deliveryCharge}`}
+            header={`${deliveryCharge}`}
+            dateFormatted={typeDate}
+            dateFormattedText={typeText}
             type={this.props.type === QUIQPIQ ? QUIQPIQ : null}
           >
             {this.props.type === SHORT_SAME_DAY_DELIVERY &&
@@ -235,9 +252,12 @@ export default class DeliveryInformations extends React.Component {
               this.props.isShowCliqAndPiqUnderLineText &&
               this.props.available && (
                 <div className={styles.underLineButtonHolder}>
-                  <div className={styles.address}>
-                    UG 89, R City Mall, LBS Road, Ghatkopar West, Mumbai 400070{" "}
-                  </div>
+                  {!this.props.inCartPage && (
+                    <div className={styles.address}>
+                      UG 89, R City Mall, LBS Road, Ghatkopar West, Mumbai
+                      400070{" "}
+                    </div>
+                  )}
                   <span className={styles.buttonHolderPiq}>
                     <UnderLinedButton
                       size={

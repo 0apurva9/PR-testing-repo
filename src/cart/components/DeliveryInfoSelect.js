@@ -1,5 +1,18 @@
 import React from "react";
-import DeliveryInformations from "../../general/components/DeliveryInformations.js";
+import DeliveryInformation from "../../general/components/DeliveryInformations.js";
+import styles from "./DeliveryInfoSelect.css";
+import {
+  EXPRESS,
+  COLLECT,
+  HOME_DELIVERY,
+  SAME_DAY_DELIVERY,
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  SHORT_EXPRESS,
+  SHORT_COLLECT,
+  SHORT_HOME_DELIVERY,
+  SHORT_SAME_DAY_DELIVERY
+} from "../../lib/constants";
+
 export default class DeliveryInfoSelect extends React.Component {
   constructor(props) {
     super(props);
@@ -48,6 +61,320 @@ export default class DeliveryInfoSelect extends React.Component {
           return store && store.storeId;
         });
     }
+    let deliveryInformationWithDate = this.props.deliveryInformationWithDate;
+    let elligibleDeliveryModes = this.props.DeliveryInformation;
+    const isCod = this.props.isCod;
+    console.log("props coming to deliveryInfoselect is ", this.props);
+    console.log("styles in deliveryInfo select is ", styles);
+    return (
+      <div className={styles.base}>
+        {deliveryInformationWithDate &&
+          deliveryInformationWithDate
+            .map(val => {
+              return val.type;
+            })
+            .includes(SHORT_SAME_DAY_DELIVERY) && (
+            <DeliveryInformation
+              type={SHORT_SAME_DAY_DELIVERY}
+              showDeliveryCharge={true}
+              selected={
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes.code === this.state.selectedCode
+              }
+              //onSelect={val => this.handleSelect(val)}
+              onSelect={false}
+              onPiq={val => this.onPiq(val)}
+              //showCliqAndPiqButton={true}
+              isClickable={this.props.isClickable}
+              deliveryInformationByCart={true}
+              isTop={this.props.isTop}
+              inCartPage={this.props.inCartPage}
+              inCartPageIcon={this.props.inCartPageIcon}
+              isArrowIcon={this.props.isArrowIcon}
+              deliveryCharge={
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes
+                  .filter(val => {
+                    return val.code === SAME_DAY_DELIVERY;
+                  })
+                  .map(val => {
+                    return val.charge.formattedValueNoDecimal;
+                  })[0]
+              }
+              cutOffTime={
+                deliveryInformationWithDate &&
+                deliveryInformationWithDate
+                  .filter(val => {
+                    return val.type === SHORT_SAME_DAY_DELIVERY;
+                  })
+                  .map(val => {
+                    return val.cutoffTime;
+                  })[0]
+              }
+              available={
+                deliveryInformationWithDate &&
+                deliveryInformationWithDate
+                  .map(val => {
+                    return val.type;
+                  })
+                  .includes(SHORT_SAME_DAY_DELIVERY)
+              }
+              placedTime={
+                deliveryInformationWithDate &&
+                deliveryInformationWithDate
+                  .filter(val => {
+                    return val.type === SHORT_SAME_DAY_DELIVERY;
+                  })
+                  .map(val => {
+                    return val.deliveryDate;
+                  })[0]
+              }
+            />
+          )}
+
+        {deliveryInformationWithDate &&
+          deliveryInformationWithDate
+            .map(val => {
+              return val.type;
+            })
+            .includes(SHORT_EXPRESS) && (
+            <DeliveryInformation
+              type={SHORT_EXPRESS}
+              showDeliveryCharge={true}
+              selected={
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes.code === this.state.selectedCode
+              }
+              //onSelect={val => this.handleSelect(val)}
+              onSelect={false}
+              onPiq={val => this.onPiq(val)}
+              //showCliqAndPiqButton={true}
+              isClickable={this.props.isClickable}
+              deliveryInformationByCart={true}
+              isTop={this.props.isTop}
+              inCartPage={this.props.inCartPage}
+              inCartPageIcon={this.props.inCartPageIcon}
+              isArrowIcon={this.props.isArrowIcon}
+              deliveryCharge={
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes
+                  .filter(val => {
+                    return val.code === SHORT_EXPRESS;
+                  })
+                  .map(val => {
+                    return val.charge.formattedValueNoDecimal;
+                  })[0]
+              }
+              available={
+                deliveryInformationWithDate &&
+                deliveryInformationWithDate
+                  .map(val => {
+                    return val.type;
+                  })
+                  .includes(SHORT_EXPRESS)
+              }
+              cutOffTime={
+                deliveryInformationWithDate &&
+                deliveryInformationWithDate
+                  .filter(val => {
+                    return val.type === SHORT_EXPRESS;
+                  })
+                  .map(val => {
+                    return val.cutoffTime;
+                  })[0]
+              }
+              placedTime={
+                deliveryInformationWithDate &&
+                deliveryInformationWithDate
+                  .filter(val => {
+                    return val.type === SHORT_EXPRESS;
+                  })
+                  .map(val => {
+                    return val.deliveryDate;
+                  })[0]
+              }
+            />
+          )}
+
+        {deliveryInformationWithDate &&
+          deliveryInformationWithDate
+            .map(val => {
+              return val.type;
+            })
+            .includes(SHORT_COLLECT) && (
+            <DeliveryInformation
+              pdpApparel={this.props.pdpApparel}
+              onPiq={this.props.onPiq}
+              type={SHORT_COLLECT}
+              showDeliveryCharge={true}
+              selected={
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes.code === this.state.selectedCode
+              }
+              //onSelect={val => this.handleSelect(val)}
+              onSelect={false}
+              onPiq={val => this.onPiq(val)}
+              showCliqAndPiqButton={true}
+              available={true}
+              isClickable={this.props.isClickable}
+              deliveryInformationByCart={true}
+              isTop={this.props.isTop}
+              inCartPage={this.props.inCartPage}
+              inCartPageIcon={this.props.inCartPageIcon}
+              isArrowIcon={this.props.isArrowIcon}
+              deliveryCharge={
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes
+                  .filter(val => {
+                    return val.code === SHORT_COLLECT;
+                  })
+                  .map(val => {
+                    return val.charge.formattedValueNoDecimal;
+                  })[0]
+              }
+              available={
+                deliveryInformationWithDate &&
+                deliveryInformationWithDate
+                  .map(val => {
+                    return val.type;
+                  })
+                  .includes(SHORT_COLLECT)
+              }
+              isClickable={true}
+              isShowCliqAndPiqUnderLineText={localStorage.getItem(
+                DEFAULT_PIN_CODE_LOCAL_STORAGE
+              )}
+              numberOfStore={
+                deliveryInformationWithDate &&
+                deliveryInformationWithDate
+                  .map(val => {
+                    return val.type;
+                  })
+                  .includes(SHORT_COLLECT) &&
+                `${availableStores &&
+                  availableStores.length} more stores nearby`
+              }
+              splitIntoTwoLine={false}
+            />
+          )}
+        <div
+          className={
+            (deliveryInformationWithDate &&
+              deliveryInformationWithDate
+                .map(val => {
+                  return val.type;
+                })
+                .includes(SHORT_EXPRESS)) ||
+            (elligibleDeliveryModes &&
+              elligibleDeliveryModes
+                .map(val => {
+                  return val.code;
+                })
+                .includes(SHORT_COLLECT)) ||
+            (deliveryInformationWithDate &&
+              deliveryInformationWithDate
+                .map(val => {
+                  return val.type;
+                })
+                .includes(SHORT_SAME_DAY_DELIVERY))
+              ? styles.standardAndCashOnDelivery
+              : styles.noStandardAndCashOnDelivery
+          }
+        >
+          {deliveryInformationWithDate &&
+            deliveryInformationWithDate
+              .map(val => {
+                return val.type;
+              })
+              .includes(SHORT_HOME_DELIVERY) && (
+              <div className={styles.infoHolder}>
+                <DeliveryInformation
+                  paddingTop={"0px"}
+                  paddingBottom={"0px"}
+                  paddingRight={"0px"}
+                  type={SHORT_HOME_DELIVERY}
+                  showDeliveryCharge={true}
+                  selected={
+                    elligibleDeliveryModes &&
+                    elligibleDeliveryModes &&
+                    elligibleDeliveryModes.code === this.state.selectedCode
+                  }
+                  //onSelect={val => this.handleSelect(val)}
+                  onSelect={false}
+                  onPiq={val => this.onPiq(val)}
+                  //showCliqAndPiqButton={true}
+                  isClickable={this.props.isClickable}
+                  deliveryInformationByCart={true}
+                  isTop={this.props.isTop}
+                  inCartPage={this.props.inCartPage}
+                  inCartPageIcon={this.props.inCartPageIcon}
+                  isArrowIcon={this.props.isArrowIcon}
+                  deliveryCharge={
+                    elligibleDeliveryModes &&
+                    elligibleDeliveryModes
+                      .filter(val => {
+                        return val.code === SHORT_HOME_DELIVERY;
+                      })
+                      .map(val => {
+                        return val.charge.formattedValueNoDecimal;
+                      })[0]
+                  }
+                  available={
+                    deliveryInformationWithDate &&
+                    deliveryInformationWithDate
+                      .map(val => {
+                        return val.type;
+                      })
+                      .includes(SHORT_HOME_DELIVERY)
+                  }
+                  placedTime={
+                    deliveryInformationWithDate &&
+                    deliveryInformationWithDate
+                      .filter(val => {
+                        return val.type === SHORT_HOME_DELIVERY;
+                      })
+                      .map(val => {
+                        return val.deliveryDate;
+                      })[0]
+                  }
+                  notShowDay={true}
+                  isHomeDelivery={
+                    deliveryInformationWithDate &&
+                    deliveryInformationWithDate
+                      .map(val => {
+                        return val.type;
+                      })
+                      .includes(SHORT_HOME_DELIVERY)
+                      ? true
+                      : false
+                  }
+                />
+              </div>
+            )}
+          {isCod === "Y" && (
+            <div className={styles.infoHolder}>
+              <DeliveryInformation
+                paddingTop={"0px"}
+                paddingBottom={"0px"}
+                paddingRight={"0px"}
+                pdpApparel={this.props.pdpApparel}
+                isCod={isCod}
+                placedTimeForCod={"Available"}
+                available={isCod === "Y"}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+}
+
+/*
+    {
     return (
       <div>
         {this.props.deliveryInformationWithDate &&
@@ -66,14 +393,15 @@ export default class DeliveryInfoSelect extends React.Component {
               showCliqAndPiqButton={true}
               available={true}
               isClickable={this.props.isClickable}
-              /* numberOfStore={
+              //to be commented if used
+              numberOfStore={
                 this.props.deliveryInformationWithDate &&
                 this.props.deliveryInformationWithDate.map(val => {
                   if (val.type === "CNC")
                     return `${availableStores &&
                       availableStores.length} stores nearby`;
                 })
-              } */
+              }
               numberOfStore={
                 datum.type === "CNC"
                   ? `${availableStores && availableStores.length} stores nearby`
@@ -94,5 +422,4 @@ export default class DeliveryInfoSelect extends React.Component {
           })}
       </div>
     );
-  }
-}
+        } */

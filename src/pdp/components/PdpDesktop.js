@@ -1445,11 +1445,43 @@ export default class PdpApparel extends React.Component {
                       {productData.rootCategory === "Clothing" ||
                       productData.rootCategory === "Footwear" ? (
                         <div className={styles.notServiciableTetx}>
-                          * This item is currently out of stock
+                          {/** This item is currently out of stock*/}
+                          {`* ${
+                            productData &&
+                            productData.pincodeResponseList &&
+                            productData.pincodeResponseList.deliveryOptions &&
+                            productData.pincodeResponseList.deliveryOptions
+                              .pincodeListResponse[0] &&
+                            productData.pincodeResponseList.deliveryOptions
+                              .pincodeListResponse[0]
+                              .productNotServiceabilityMessage
+                              ? productData.pincodeResponseList.deliveryOptions
+                                  .pincodeListResponse[0]
+                                  .productNotServiceabilityMessage
+                              : productData.pincodeResponseList.deliveryOptions
+                                  .pincodeListResponse[0]
+                                  .productOutOfStockMessage
+                          }`}
                         </div>
                       ) : (
                         <div className={styles.notServiciableTetx}>
-                          * This item is non serviceable at your PIN code
+                          {/** This item is non serviceable at your PIN code*/}
+                          {`* ${
+                            productData &&
+                            productData.pincodeResponseList &&
+                            productData.pincodeResponseList.deliveryOptions &&
+                            productData.pincodeResponseList.deliveryOptions
+                              .pincodeListResponse[0] &&
+                            productData.pincodeResponseList.deliveryOptions
+                              .pincodeListResponse[0]
+                              .productNotServiceabilityMessage
+                              ? productData.pincodeResponseList.deliveryOptions
+                                  .pincodeListResponse[0]
+                                  .productNotServiceabilityMessage
+                              : productData.pincodeResponseList.deliveryOptions
+                                  .pincodeListResponse[0]
+                                  .productOutOfStockMessage
+                          }`}
                         </div>
                       )}
                     </div>
