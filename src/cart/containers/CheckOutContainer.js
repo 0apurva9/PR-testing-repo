@@ -91,7 +91,8 @@ import {
   clearPinCodeStatus,
   redeemCliqVoucher,
   retryPayment,
-  fetchOrderDetails
+  fetchOrderDetails,
+  resetFailedOrderDetails
 } from "../../account/actions/account.actions.js";
 
 import { displayToast } from "../../general/toast.actions";
@@ -734,6 +735,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     fetchOrderDetails: (orderId, pageName) => {
       dispatch(fetchOrderDetails(orderId, pageName));
+    },
+    resetFailedOrderDetails: () => {
+      dispatch(resetFailedOrderDetails());
     }
   };
 };
@@ -746,7 +750,8 @@ const mapStateToProps = state => {
     addUserAddressStatus: state.profile.addUserAddressStatus,
     loading: state.profile.loading,
     retryPaymentDetails: state.profile.retryPaymentDetails,
-    retryPaymentDetailsStatus: state.profile.retryPaymentDetailsStatus
+    retryPaymentDetailsStatus: state.profile.retryPaymentDetailsStatus,
+    binValidationStatus: state.cart.binValidationStatus
   };
 };
 

@@ -127,11 +127,29 @@ export default class DesktopCheckout extends React.Component {
                 </div>
               )}
             {cartAmount.noCostEMIDiscountValue &&
+              !this.props.noCostEmiEligibility &&
               cartAmount.noCostEMIDiscountValue.value !== 0 && (
                 <div className={styles.row}>
                   <div className={styles.label}>No Cost EMI Discount</div>
                   <div className={styles.info}>
                     -{cartAmount.noCostEMIDiscountValue.formattedValue}
+                  </div>
+                </div>
+              )}
+            {/* payment retry page - NCE issue - TQTM-1319 */}
+            {!this.props.noCostEMIDiscountValue &&
+              this.props.noCostEmiEligibility &&
+              this.props.noCostEmiEligibility.noCostEMIDiscountValue &&
+              this.props.noCostEmiEligibility.noCostEMIDiscountValue.value &&
+              this.props.noCostEmiEligibility.noCostEMIDiscountValue.value !==
+                0 && (
+                <div className={styles.row}>
+                  <div className={styles.label}>No Cost EMI Discount</div>
+                  <div className={styles.info}>
+                    -{
+                      this.props.noCostEmiEligibility.noCostEMIDiscountValue
+                        .formattedValue
+                    }
                   </div>
                 </div>
               )}

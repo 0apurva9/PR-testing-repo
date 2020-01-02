@@ -408,10 +408,8 @@ export default class ReturnModes extends React.Component {
                           </div>
                         </div>
                         <div className={styles.addressText}>
-                          {deliveryAddress.line1} ,{deliveryAddress.landmark} ,{
-                            deliveryAddress.town
-                          }{" "}
-                          ,&nbsp;
+                          {deliveryAddress.line1} ,{deliveryAddress.landmark} ,
+                          {deliveryAddress.town} ,&nbsp;
                           {deliveryAddress.state}, {deliveryAddress.postalCode}
                         </div>
                       </div>

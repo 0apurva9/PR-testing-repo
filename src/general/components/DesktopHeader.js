@@ -20,6 +20,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_BRAND_CLICK,
   setDataLayerForMinibag
 } from "../../lib/adobeUtils";
+import { isBrowser } from "browser-or-node";
 import ProductImage from "./ProductImage.js";
 import Minibag from "./minibag.js";
 const CATEGORY = "Categories";
@@ -185,6 +186,7 @@ export default class DesktopHeader extends React.Component {
     if (webURL) {
       let urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
       this.props.history.push(urlSuffix);
+      this.props.userSelectedOutOfStock();
       setDataLayerForHeaderAndFooterDirectCalls(
         ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
         ""
@@ -193,7 +195,7 @@ export default class DesktopHeader extends React.Component {
     }
   }
   getLuxURL() {
-    const hostName = window.location.href;
+    const hostName = isBrowser ? window.location.href : "";
     switch (hostName) {
       case "https://tmppprd.tataunistore.com/":
         return "https://luxtmppprd.tataunistore.com/";
@@ -250,9 +252,14 @@ export default class DesktopHeader extends React.Component {
     if (this.props.isSticky) {
       className = styles.stickyBase;
       logo = styles.stickyLogo;
+    } else {
+      if (!this.props.isSearch) {
+        className = `${styles.base} ${styles.CheckoutHeader}`;
+      }
     }
+
     return (
-      <div className={this.props.isSearch ? className : styles.CheckoutHeader}>
+      <div className={this.props.isSearch ? className : className}>
         {this.props.isSearch && <div className={styles.dummyColorHeader} />}
         <div className={styles.headerHolder}>
           <div className={logo} onClick={() => this.redirectToHome()} />

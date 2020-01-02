@@ -7,6 +7,7 @@ import PickUpLocation from "../../cart/components/PickUpLocation.js";
 import GetLocationDetails from "../../cart/components/GetLocationDetails.js";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import PickUpDetails from "../../cart/components/PickUpDetails.js";
+import Button from "../../general/components/Button";
 import {
   setDataLayerForCartDirectCalls,
   ADOBE_DIRECT_CALL_FOR_SELECT_STORE
@@ -21,6 +22,7 @@ export default class ReturnToStore extends React.Component {
       storeId: null,
       showPickupPerson: false,
       selectedStore: null,
+      selectedStoreId: null,
       mobile: this.props.userDetails && this.props.userDetails.mobileNumber,
       name: this.props.userDetails && this.props.userDetails.firstName
     };
@@ -46,10 +48,19 @@ export default class ReturnToStore extends React.Component {
       });
     }
 
+    // if (this.props.from === "Checkout" || this.props.from === "Pdp") {
+    //   if (this.props.addStoreCNC) {
+    //     this.setState({ showPickupPerson: true });
+    //     this.props.addStoreCNC(val[0]);
+    //   }
+    // }
+  };
+
+  selectStoreButtonForDesktop = () => {
     if (this.props.from === "Checkout" || this.props.from === "Pdp") {
-      if (this.props.addStoreCNC) {
+      if (this.props.addStoreCNC && this.state.storeId) {
         this.setState({ showPickupPerson: true });
-        this.props.addStoreCNC(val[0]);
+        this.props.addStoreCNC(this.state.storeId);
       }
     }
   };
@@ -201,6 +212,7 @@ export default class ReturnToStore extends React.Component {
                 availableStores={this.state.availableStores}
                 lat={this.state.lat}
                 lng={this.state.lng}
+                storeClick={val => this.selectStoreForDesktop(val)}
               />
             </div>
             <div className={styles.storeListForDesktop} ref="scrollToView">
@@ -262,6 +274,20 @@ export default class ReturnToStore extends React.Component {
                         />
                       );
                     })}
+                    <div
+                      className={styles.buttonContainer}
+                      onClick={() => this.selectStoreButtonForDesktop()}
+                    >
+                      <div className={styles.button}>
+                        <Button
+                          type="primary"
+                          label="Continue"
+                          color="#fff"
+                          width={121}
+                          disabled={!this.state.storeId}
+                        />
+                      </div>
+                    </div>
                   </GridSelect>
                 )}
               {this.state.showPickupPerson &&

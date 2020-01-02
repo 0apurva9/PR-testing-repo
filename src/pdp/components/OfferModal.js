@@ -4,6 +4,7 @@ import BottomSlideModal from "../../general/components/BottomSlideModal.js";
 import TimerCounter from "../../general/components/TimerCounter";
 import {
   setDataLayer,
+  ADOBE_PRODUCT_BUNDLED_OFFER,
   ADOBE_OFFER_CARD_VIEW_MORE_TNC
 } from "../../lib/adobeUtils";
 import BundledProduct from "./BundledProduct";
@@ -16,7 +17,8 @@ export default class VoucherOfferModal extends React.Component {
 
   handleShowDetails = async (selectedOffer, offers) => {
     let Title = selectedOffer.promotionDisplayText;
-    if (Title.indexOf("bundledProduct") >= 0) {
+    if (Title && Title.indexOf("bundledProduct") >= 0) {
+      setDataLayer(ADOBE_PRODUCT_BUNDLED_OFFER);
       await this.getParams(Title)
         .then(data => {
           if (data.status !== "error" && data.status !== "Failure") {
@@ -73,7 +75,13 @@ export default class VoucherOfferModal extends React.Component {
         return false;
       }
       let cartPromotionText = params && params.cartPromotionText;
-      localStorage.setItem("cartPromotionText", cartPromotionText);
+      var replacedDollarInCartPromotionText = cartPromotionText
+        .split("$")
+        .join(" ");
+      localStorage.setItem(
+        "cartPromotionText",
+        replacedDollarInCartPromotionText
+      );
       if (bundleProduct.status === "success") {
         let pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
           ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
@@ -170,16 +178,25 @@ export default class VoucherOfferModal extends React.Component {
                 onClick={() => this.handleShowDetails(offer, this.props.offers)}
                 dangerouslySetInnerHTML={{ __html: offer.name }}
               />
-              <div
-                className={styles.termsAndConditions}
-                onClick={
-                  bundleItem.indexOf("bundledProduct") >= 0
-                    ? () => this.handleShowDetails(offer, this.props.offers)
-                    : () => this.handleTnCDetails(offer, this.props.offers)
-                }
-              >
-                T&C
-              </div>
+              {bundleItem && bundleItem.indexOf("bundledProduct") ? (
+                <div
+                  className={styles.termsAndConditions}
+                  onClick={() =>
+                    this.handleShowDetails(offer, this.props.offers)
+                  }
+                >
+                  T&C
+                </div>
+              ) : (
+                <div
+                  className={styles.termsAndConditions}
+                  onClick={() =>
+                    this.handleTnCDetails(offer, this.props.offers)
+                  }
+                >
+                  T&C
+                </div>
+              )}
 
               {offer.offerEndTimerStartDateAndTime
                 ? this.checkTimer(

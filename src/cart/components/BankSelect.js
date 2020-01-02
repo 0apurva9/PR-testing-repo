@@ -12,7 +12,7 @@ export default class BankSelect extends React.Component {
     };
   }
   handleClick() {
-    if (this.props.selectItem) {
+    if (this.props.selectItem && !this.props.isRetryPaymentFromURL) {
       this.props.selectItem();
     }
   }

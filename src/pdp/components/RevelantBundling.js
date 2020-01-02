@@ -1,11 +1,16 @@
 import React from "react";
 import Button from "../../general/components/Button.js";
 import RelevatProductList from "./RelevatProductList";
+import RelavantBundlingForOneProduct from "./RelavantBundlingForOneProduct";
 import styles from "./ProductDescriptionPage.css";
 import Loader from "../../general/components/SecondaryLoader";
 import { PRODUCT_CART_ROUTER } from "../../lib/constants";
 import Image from "../../xelpmoc-core/Image";
 import { RUPEE_SYMBOL } from "../../lib/constants";
+import {
+  setDataLayer,
+  ADOBE_BUNDLED_ADD_TO_CONTINUE_CLICK
+} from "../../lib/adobeUtils.js";
 const PRODUCT_QUANTITY = "1";
 export default class RevelantBundling extends React.Component {
   constructor(props) {
@@ -34,20 +39,33 @@ export default class RevelantBundling extends React.Component {
         ) {
           this.props.displayToast("Product is out of stock");
         } else {
+          let analyticsData = {};
+          analyticsData.category = this.props.productDetails.rootCategory;
+          analyticsData.id = this.props.productDetails.productListingId;
+          analyticsData.price = this.props.productDetails.winningSellerPrice.value;
+          setDataLayer(ADOBE_BUNDLED_ADD_TO_CONTINUE_CLICK, analyticsData);
           await this.props.addProductToCart(productDetails);
         }
       }
-
+      let analyticsBundledProduct = {};
       this.state.totalSelectedProducts.map((val, i) => {
         bundleProductDetails[i] = {
           code: val.productListingId,
           ussId: val.winningUssID,
           quantity: 1
         };
+        analyticsBundledProduct[i] = {
+          category: val.rootCategory,
+          id: val.productListingId,
+          price: val.winningSellerPrice.value
+        };
       });
       let response;
-
       for (var key in bundleProductDetails) {
+        setDataLayer(
+          ADOBE_BUNDLED_ADD_TO_CONTINUE_CLICK,
+          analyticsBundledProduct[key]
+        );
         response = await this.props.addProductToCart1(
           bundleProductDetails[key]
         );
@@ -137,6 +155,111 @@ export default class RevelantBundling extends React.Component {
 
   renderLoader() {
     return <Loader />;
+  }
+  baseProductWithOneBundledProduct() {
+    let Bundledprice = "";
+    let BundleddiscountPrice = "";
+    let BundledseoDoublePrice = 0;
+    let price = "";
+    if (
+      this.props.productDetails.winningSellerPrice &&
+      this.props.productDetails.winningSellerPrice.doubleValue
+    ) {
+      BundledseoDoublePrice = this.props.productDetails.winningSellerPrice
+        .doubleValue;
+    } else if (
+      this.props.productDetails.mrpPrice &&
+      this.props.productDetails.mrpPrice.doubleValue
+    ) {
+      BundledseoDoublePrice = this.props.productDetails.mrpPrice.doubleValue;
+    }
+    if (
+      this.props.productDetails.mrpPrice &&
+      this.props.productDetails.mrpPrice.formattedValueNoDecimal
+    ) {
+      Bundledprice = this.props.productDetails.mrpPrice.formattedValueNoDecimal;
+    }
+
+    if (
+      this.props.productDetails.winningSellerPrice &&
+      this.props.productDetails.winningSellerPrice.formattedValueNoDecimal
+    ) {
+      BundleddiscountPrice = this.props.productDetails.winningSellerPrice
+        .formattedValueNoDecimal;
+    }
+    if (this.props.productDetails && this.props.productDetails.mrpPrice) {
+      price = this.props.productDetails.mrpPrice.formattedValueNoDecimal;
+    }
+    return (
+      <React.Fragment>
+        {this.props &&
+          this.props.productDetails &&
+          this.props.productDetails.galleryImagesList[0] && (
+            <div
+              className={
+                this.props.bundledItem.length > 1
+                  ? styles.bundledColumns
+                  : styles.oneProduct
+              }
+            >
+              {this.props.productDetails.galleryImagesList[0].mediaType ===
+                "Image" && (
+                <React.Fragment>
+                  <div className={styles.bundledImageForOneProduct}>
+                    <Image
+                      image={
+                        this.props.productDetails.galleryImagesList[0]
+                          .galleryImages[0].value
+                      }
+                      fit="contain"
+                    />
+                  </div>
+                </React.Fragment>
+              )}
+              <div className={styles.productDetails}>
+                <div className={styles.brandName}>
+                  {this.props.productDetails.brandName}
+                </div>
+                <div className={styles.productName}>
+                  {this.props.productDetails.productName}
+                </div>
+              </div>
+              {!this.props.productDetails.isRange &&
+                BundleddiscountPrice &&
+                BundleddiscountPrice !== price && (
+                  <div className={styles.discountForOneProduct}>
+                    {BundleddiscountPrice.toString().includes(RUPEE_SYMBOL)
+                      ? BundleddiscountPrice
+                      : `${RUPEE_SYMBOL}${Math.floor(BundleddiscountPrice)}`}
+                  </div>
+                )}
+              {!this.props.productDetails.isRange &&
+                Bundledprice && (
+                  <div
+                    className={
+                      BundleddiscountPrice === Bundledprice
+                        ? styles.discountForOneProduct
+                        : styles.priceCancelled
+                    }
+                  >
+                    {Bundledprice.toString().includes(RUPEE_SYMBOL)
+                      ? Bundledprice
+                      : `${RUPEE_SYMBOL}${Math.floor(Bundledprice)}`}
+                  </div>
+                )}
+              {this.props.productDetails.discount &&
+              this.props.productDetails.discount !== "0" &&
+              this.props.productDetails.productCategory !== "FineJewellery" ? (
+                <div className={styles.discountClass}>
+                  {!this.props.productDetails.noBrace && `${"("}`}
+                  {parseInt(this.props.productDetails.discount, 10) + `${"%"}`}
+                  {!this.props.productDetails.noBrace && `${")"}`}
+                </div>
+              ) : null}
+            </div>
+          )}
+      </React.Fragment>
+    );
   }
   baseProduct() {
     let Bundledprice = "";
@@ -291,21 +414,46 @@ export default class RevelantBundling extends React.Component {
             <div className={styles.bundledHeader}>
               Customers buy these together
             </div>
-            <div className={styles.bundleContent}>
-              {this.baseProduct()}
-              {this.props.relevantBundleProductData !== null &&
+            <div
+              className={
+                this.props.bundledItem.length > 1
+                  ? styles.bundleContent
+                  : styles.bundleContentOneProduct
+              }
+            >
+              {this.props.bundledItem.length > 1
+                ? this.baseProduct()
+                : this.baseProductWithOneBundledProduct()}
+              {this.props.bundledItem &&
                 this.props.bundledItem.map((data, key) => {
-                  return (
-                    <RelevatProductList
-                      bundleprdouct={data}
-                      array={this.props.bundledItem}
-                      key={key}
-                      onClick={() => this.totalSelectedProducts(data)}
-                    />
-                  );
+                  if (this.props.bundledItem.length > 1) {
+                    return (
+                      <RelevatProductList
+                        bundleprdouct={data}
+                        array={this.props.bundledItem}
+                        key={key}
+                        onClick={() => this.totalSelectedProducts(data)}
+                      />
+                    );
+                  } else {
+                    return (
+                      <RelavantBundlingForOneProduct
+                        bundleprdouct={data}
+                        array={this.props.bundledItem}
+                        key={key}
+                        onClick={() => this.totalSelectedProducts(data)}
+                      />
+                    );
+                  }
                 })}
             </div>
-            <div className={styles.priceTotal}>
+            <div
+              className={
+                this.props.bundledItem.length > 1
+                  ? styles.priceTotal
+                  : styles.priceTotalForOneProduct
+              }
+            >
               {selectedOne > 0 ? (
                 <React.Fragment>
                   <div className={styles.widthPrice}>

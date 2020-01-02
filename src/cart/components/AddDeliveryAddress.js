@@ -264,6 +264,7 @@ export default class AddDeliveryAddress extends React.Component {
 
       this.setState({
         isOtherLandMarkSelected: true,
+        landmark: landmark.value,
         selectedLandmarkLabel: landmark.value
       });
     } else {
