@@ -1,24 +1,77 @@
 import React from "react";
 import styles from "./StarRating.css";
 import PropTypes from "prop-types";
-import FilledStar from "./img/star-fill.svg";
-import Star from "./img/star-stroke.svg";
+import EmptyStar from "../../general/components/img/empty-star.svg";
+
+import GreenFilledStar from "../../general/components/img/green-filled-star.svg";
+import Green25FilledStar from "./img/green-25-filled.svg";
+import Green50FilledStar from "./img/green-50-filled.svg";
+import Green75FilledStar from "./img/green-75-filled.svg";
+
+import FilledStar from "../../general/components/img/star-fill.svg";
+import Orange25FilledStar from "./img/orange-25-filled.svg";
+import Orange50FilledStar from "./img/orange-50-filled.svg";
+import Orange75FilledStar from "./img/orange-75-filled.svg";
 import Icon from "../../xelpmoc-core/Icon";
+
+const GREEN = "Green";
+const ORANGE = "Orange";
+
 export default class StarRating extends React.Component {
+  getPartiallyFilledStar(value, color) {
+    switch (value) {
+      case 2:
+      case 3:
+        return color === GREEN ? Green25FilledStar : Orange25FilledStar;
+      case 4:
+      case 5:
+      case 6:
+        return color === GREEN ? Green50FilledStar : Orange50FilledStar;
+      case 7:
+      case 8:
+        return color === GREEN ? Green75FilledStar : Orange75FilledStar;
+      case 9:
+        return color === GREEN ? GreenFilledStar : FilledStar;
+    }
+  }
+
   render() {
     const starSpans = [];
-    const rating = this.props.averageRating;
+    let isStarPartiallyFilled = false;
+    let ratingCnt = this.props.averageRating;
+    const rating = Math.floor(ratingCnt);
+    const decimalPoint = Math.floor((ratingCnt - rating) * 10);
+
     for (let i = 1; i <= 5; i++) {
-      if (i <= rating) {
+      if (rating >= i && rating < 3 && rating !== null) {
         starSpans.push(
           <div key={i} className={styles.star}>
             <Icon image={FilledStar} size={this.props.size} />
           </div>
         );
-      } else {
+      } else if (rating >= i && rating >= 3 && rating !== null) {
         starSpans.push(
           <div key={i} className={styles.star}>
-            <Icon image={Star} size={this.props.size} />
+            <Icon image={GreenFilledStar} size={this.props.size} />
+          </div>
+        );
+      } else {
+        let imgSrc = EmptyStar;
+        if (
+          decimalPoint !== 0 &&
+          decimalPoint !== 1 &&
+          !isStarPartiallyFilled
+        ) {
+          if (rating >= 3) {
+            imgSrc = this.getPartiallyFilledStar(decimalPoint, GREEN);
+          } else {
+            imgSrc = this.getPartiallyFilledStar(decimalPoint, ORANGE);
+          }
+          isStarPartiallyFilled = true;
+        }
+        starSpans.push(
+          <div key={i} className={styles.star}>
+            <Icon image={imgSrc} size={this.props.size} />
           </div>
         );
       }
