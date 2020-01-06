@@ -10,7 +10,8 @@ import {
   getUserDetails,
   clearOrderTransactionDetails,
   getCustomerQueriesDatav2,
-  getCustomerQueriesFieldsv2
+  getCustomerQueriesFieldsv2,
+  getNonOrderRelatedQuestions
 } from "../actions/account.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import { showModal, CUSTOMER_QUERY_POPUP } from "../../general/modal.actions";
@@ -21,6 +22,10 @@ const mapDispatchToProps = dispatch => {
     },
     getCustomerQueriesDatav2: () => {
       dispatch(getCustomerQueriesDatav2());
+    },
+    //Self-Serve Non-Order-Related Issue
+    getNonOrderRelatedQuestions: () => {
+      dispatch(getNonOrderRelatedQuestions());
     },
     getCustomerQueriesFieldsv2: () => {
       dispatch(getCustomerQueriesFieldsv2());

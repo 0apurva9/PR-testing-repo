@@ -3436,6 +3436,127 @@ export function getCustomerQueriesDatav2() {
     }
   };
 }
+/**
+ * @author Prashant
+ * Non-Order Related Issue
+ */
+export function getNonOrderRelatedQuestionsRequest() {
+  return {
+    type: GET_CUSTOMER_QUERIES_DATA_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getNonOrderRelatedQuestionsSuccess(customerQueriesData) {
+  return {
+    type: GET_CUSTOMER_QUERIES_DATA_SUCCESS,
+    status: SUCCESS,
+    customerQueriesData
+  };
+}
+export function getNonOrderRelatedQuestionsFailure() {
+  return {
+    type: GET_CUSTOMER_QUERIES_DATA_FAILURE,
+    status: FAILURE
+  };
+}
+export function getNonOrderRelatedQuestions() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getNonOrderRelatedQuestionsRequest());
+    try {
+      const result = await api.get("v2/mpl/getOrderRelatedQuestions");
+      const resultJson = {
+        ParentIssueList: [
+          {
+            parentIssueType: "Parent Issue 1",
+            uItemplateCode: "001",
+            issueType: "Parent Issue 1",
+            listofSubIssues: [
+              {
+                subIssueType: "Sub Issue 1",
+                L0: "qwe",
+                L1: "rty",
+                L2: "1234",
+                L3: "234",
+                L4: "344",
+                ticketType: "",
+                solution: "",
+                webform: "",
+                chat: "",
+                call: "",
+                click2Call: "",
+                uItemplateCode: "0011",
+                tat: ""
+              },
+              {
+                subIssueType: "Sub Issue 2",
+                L0: "rty",
+                L1: "qwe",
+                L2: "5678",
+                L3: "111",
+                L4: "222",
+                ticketType: "",
+                solution: "",
+                webform: "",
+                chat: "",
+                call: "",
+                click2Call: "",
+                uItemplateCode: "0012",
+                tat: ""
+              }
+            ]
+          },
+          {
+            parentIssueType: "Parent Issue 2",
+            uItemplateCode: "002",
+            issueType: "Parent Issue 2",
+            listofSubIssues: [
+              {
+                subIssueType: "Sub Issue 21",
+                L0: "qwe",
+                L1: "rty",
+                L2: "1234",
+                L3: "234",
+                L4: "344",
+                ticketType: "",
+                solution: "",
+                webform: "",
+                chat: "",
+                call: "",
+                click2Call: "",
+                uItemplateCode: "0021",
+                tat: ""
+              },
+              {
+                subIssueType: "Sub Issue 22",
+                L0: "rty",
+                L1: "qwe",
+                L2: "5678",
+                L3: "111",
+                L4: "222",
+                ticketType: "",
+                solution: "",
+                webform: "",
+                chat: "",
+                call: "",
+                click2Call: "",
+                uItemplateCode: "0022",
+                tat: ""
+              }
+            ]
+          }
+        ]
+      };
+      //await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getNonOrderRelatedQuestionsSuccess(resultJson));
+    } catch (e) {
+      dispatch(getNonOrderRelatedQuestionsFailure(e.message));
+    }
+  };
+}
 
 export function getCustomerQueriesFieldsRequestv2() {
   return {
@@ -3512,7 +3633,7 @@ export function getCustomerQueriesFieldsv2() {
                 hexCode: "",
                 imageURL: "",
                 title:
-                  "240,Comment's length must be 240 |240,Comment's length can not be greater than 240",
+                  "10,Comment's length must be 10 |240,Comment's length can not be greater than 240",
                 webURL: ""
               }
             ],
@@ -3662,7 +3783,7 @@ const getTextAreaApiData = (apiData = []) => {
     minLimit:
       itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[0]
         ? itemsTitle.split("|")[0].split(",")[0]
-          ? itemsTitle.split("|")[0].split(",")[0]
+          ? parseInt(itemsTitle.split("|")[0].split(",")[0])
           : ""
         : "",
     minLimitError:
@@ -3674,7 +3795,7 @@ const getTextAreaApiData = (apiData = []) => {
     maxLimit:
       itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[1]
         ? itemsTitle.split("|")[1].split(",")[0]
-          ? itemsTitle.split("|")[0].split(",")[0]
+          ? parseInt(itemsTitle.split("|")[1].split(",")[0])
           : ""
         : "",
     maxLimitError:

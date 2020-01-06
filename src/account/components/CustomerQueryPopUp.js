@@ -20,7 +20,6 @@ export default class CustomerQueryPopUp extends React.Component {
     }
   }
   render() {
-    console.log("this.props", this.props);
     return (
       <div className={styles.base}>
         <div className={styles.headerTextWithIcon}>
@@ -31,9 +30,9 @@ export default class CustomerQueryPopUp extends React.Component {
             <Icon image={checkBlack} size={30} />
           </div>
         </div>
-        <div className={styles.subText}>
-          We have noted your concern and will update you before 03:57 PM, 16th
-          December 2019
+        <div className={(styles.subText, styles.blackBorderBottom)}>
+          We have noted your concern and will update you before{" "}
+          <span className={styles.colorRed}> 03:57 PM, 16th December 2019</span>
         </div>
         <div className={styles.userDetails}>
           {this.props.ticketId ||
@@ -64,8 +63,12 @@ export default class CustomerQueryPopUp extends React.Component {
         </div>
         <div className={styles.submittedText}>
           <div className={styles.subText}>
-            A summary of your query has been sent to your email ID{" "}
-            {this.props.emailId}
+            A summary of your query has been sent to your email ID<span
+              className={styles.colorRed}
+            >
+              {" "}
+              {this.props.emailId}
+            </span>
           </div>
         </div>
 
@@ -73,10 +76,10 @@ export default class CustomerQueryPopUp extends React.Component {
           <div className={styles.button}>
             <Button
               backgroundColor="#000"
-              height={50}
+              height={36}
               label={"DONE"}
-              width={150}
-              textStyle={{ color: "#fff", fontSize: 14 }}
+              width={96}
+              textStyle={{ color: "#fff", fontSize: 14, borderRadius: 4 }}
               onClick={() => this.submit()}
             />
           </div>

@@ -87,7 +87,8 @@ export default class OrderRelatedIssue extends React.Component {
       customerQryFldAttachment: false,
       textboxFldData: "",
       radioSelectedOption: "",
-      checkBoxDefaultFlag: ""
+      checkBoxDefaultFlag: "",
+      showSubIssueField: false
     };
   }
 
@@ -153,6 +154,9 @@ export default class OrderRelatedIssue extends React.Component {
         l3SelectedReason: null
       });
     }
+    if (val === 1) {
+      this.props.getNonOrderRelatedQuestions();
+    }
   }
   setProductDetails(
     orderCode,
@@ -178,53 +182,60 @@ export default class OrderRelatedIssue extends React.Component {
     this.props.getCustomerQueriesDatav2();
   }
   onChangeReasonForOrderRelated(val, customerQueriesFieldArray = []) {
-    const code = val.uItemplateCode;
-    const label = val.issueType;
-    let { listofIssues } = this.props.customerQueriesData;
-    let issue = listofIssues.filter(function(issue) {
-      return issue.issueType === val.label;
-    });
+    // const code = val.uItemplateCode;
+    // const label = val.issueType;
+    if (this.state.isSelected === 0) {
+      let { listofIssues } = this.props.customerQueriesData;
+      let issue = listofIssues.filter(function(issue) {
+        return issue.issueType === val.label;
+      });
 
-    this.setState({
-      L0: issue[0].L0,
-      L1: issue[0].L1,
-      L2: issue[0].L2,
-      L3: issue[0].L3,
-      L4: issue[0].L4,
-      ticketType: issue[0].ticketType,
-      webform: issue[0].webform,
-      chat: issue[0].chat,
-      call: issue[0].call,
-      click2Call: issue[0].click2Call,
-      solution: issue[0].solution,
-      uItemplateCode: issue[0].uItemplateCode,
-      tat: issue[0].tat
-    });
-    this.props.getCustomerQueriesFieldsv2();
+      this.setState({
+        L0: issue[0].L0,
+        L1: issue[0].L1,
+        L2: issue[0].L2,
+        L3: issue[0].L3,
+        L4: issue[0].L4,
+        ticketType: issue[0].ticketType,
+        webform: issue[0].webform,
+        chat: issue[0].chat,
+        call: issue[0].call,
+        click2Call: issue[0].click2Call,
+        solution: issue[0].solution,
+        uItemplateCode: issue[0].uItemplateCode,
+        tat: issue[0].tat
+      });
+      this.props.getCustomerQueriesFieldsv2();
 
-    // let customerQueriesFieldArray = this.props.customerQueriesField;
-    if (customerQueriesFieldArray) {
-      customerQueriesFieldArray.map(ele => {
-        if (ele.componentName === "textAreaComponent") {
-          this.setState({ customerQryFldTextArea: true });
-        }
-        if (ele.componentName === "textboxComponent") {
-          this.setState({ customerQryFldTextBox: true });
-        }
-        if (ele.componentName === "radioComponent") {
-          this.setState({ customerQryFldRadio: true });
-          ele.optionArray.map(ele => {
-            if (ele.isSelected === 1) {
-              this.setState({ radioSelectedOption: ele.value });
-            }
-          });
-        }
-        if (ele.componentName === "attachmentComponent") {
-          this.setState({ customerQryFldAttachment: true });
-        }
-        if (ele.componentName === "checkboxComponent") {
-          this.setState({ customerQryFldCheckBox: true });
-        }
+      // let customerQueriesFieldArray = this.props.customerQueriesField;
+      if (customerQueriesFieldArray) {
+        customerQueriesFieldArray.map(ele => {
+          if (ele.componentName === "textAreaComponent") {
+            this.setState({ customerQryFldTextArea: true });
+          }
+          if (ele.componentName === "textboxComponent") {
+            this.setState({ customerQryFldTextBox: true });
+          }
+          if (ele.componentName === "radioComponent") {
+            this.setState({ customerQryFldRadio: true });
+            ele.optionArray.map(ele => {
+              if (ele.isSelected === 1) {
+                this.setState({ radioSelectedOption: ele.value });
+              }
+            });
+          }
+          if (ele.componentName === "attachmentComponent") {
+            this.setState({ customerQryFldAttachment: true });
+          }
+          if (ele.componentName === "checkboxComponent") {
+            this.setState({ customerQryFldCheckBox: true });
+          }
+        });
+      }
+    } else {
+      this.setState({
+        showSubIssueField: true,
+        uItemplateCode: val.value
       });
     }
   }
@@ -513,16 +524,22 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.displayToast("No Orders");
     }
   }
-  getOrderRelatedL2Issue(orderRelatedIssue) {
+  getSubLevelL2Issue(orderRelatedIssue) {
     const subTab =
-      this.state.l2SelectedOption &&
+      this.state.showSubIssueField &&
       orderRelatedIssue &&
-      orderRelatedIssue.children &&
-      orderRelatedIssue.children.find(l2Object => {
-        return l2Object.nodeCode === this.state.l2SelectedOption;
+      orderRelatedIssue.find(ele => {
+        return this.state.uItemplateCode === ele.uItemplateCode;
       });
-    if (subTab && subTab.children && subTab.children.length > 0) {
-      return subTab;
+    // const subTab =
+    //   this.state.l2SelectedOption &&
+    //   orderRelatedIssue &&
+    //   orderRelatedIssue.children &&
+    //   orderRelatedIssue.children.find(l2Object => {
+    //     return l2Object.nodeCode === this.state.l2SelectedOption;
+    //   });
+    if (subTab && subTab.listofSubIssues && subTab.listofSubIssues.length > 0) {
+      return subTab.listofSubIssues;
     } else {
       return null;
     }
@@ -596,12 +613,15 @@ export default class OrderRelatedIssue extends React.Component {
     if (this.state.isSelected === 1) {
       l1OptionsArray =
         this.props.customerQueriesData &&
-        this.props.customerQueriesData.nodes &&
-        this.props.customerQueriesData.nodes.find(otherIssue => {
-          return otherIssue.nodeDesc === "Any Other Query";
-        });
+        this.props.customerQueriesData.ParentIssueList;
+      // l1OptionsArray =
+      //   this.props.customerQueriesData &&
+      //   this.props.customerQueriesData.nodes &&
+      //   this.props.customerQueriesData.nodes.find(otherIssue => {
+      //     return otherIssue.nodeDesc === "Any Other Query";
+      //   });
     }
-    l2OptionsArray = this.getOrderRelatedL2Issue(l1OptionsArray);
+    l2OptionsArray = this.getSubLevelL2Issue(l1OptionsArray);
     l3OptionsArray = this.getOrderRelatedL3Issue(l2OptionsArray);
 
     return (
@@ -784,7 +804,7 @@ export default class OrderRelatedIssue extends React.Component {
                                   ? textboxData.placeholder + " *"
                                   : textboxData.placeholder
                               }
-                              placeholder={`This is placeholder`}
+                              placeholder={``}
                               disabled={false}
                               value={this.state.textboxFldData}
                               onChange={textboxFldData =>
@@ -1117,76 +1137,413 @@ export default class OrderRelatedIssue extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className={styles.formHolder}>
-                <div className={styles.firstTab}>
-                  {this.state.isSelected === 0 && (
-                    <div
-                      className={styles.selectedOrder}
-                      onClick={() => this.goToOrderPage()}
-                    >
-                      <div className={styles.headingHolder}>
-                        <CheckOutHeader
-                          indexNumber="1"
-                          confirmTitle="Select your order"
-                        />
-                        <div className={styles.iconHolder} />
-                      </div>
-                      {!this.state.productImageURL &&
-                      !this.state.orderDate &&
-                      !this.state.productName &&
-                      !this.state.productPrice &&
-                      !this.state.productStatus ? (
-                        <div
-                          className={styles.dummySelectBoxWithIcon}
-                          onClick={() => this.goToOrderPage()}
-                        />
-                      ) : (
-                        <div
-                          className={styles.productsDisplayHolder}
-                          onClick={() =>
-                            this.setState({
-                              showOrder: true,
-                              productImageURL: "",
-                              orderDate: "",
-                              productName: "",
-                              productPrice: "",
-                              productStatus: ""
-                            })
-                          }
-                        >
-                          <div className={styles.imageHolder}>
-                            <ProductImage image={this.state.productImageURL} />
+              {this.state.isSelected === 0 && (
+                <div className={styles.formHolder}>
+                  <div className={styles.firstTab}>
+                    {this.state.isSelected === 0 && (
+                      <div
+                        className={styles.selectedOrder}
+                        onClick={() => this.goToOrderPage()}
+                      >
+                        <div className={styles.headingHolder}>
+                          <CheckOutHeader
+                            indexNumber="1"
+                            confirmTitle="Select your order"
+                          />
+                          <div className={styles.iconHolder} />
+                        </div>
+                        {!this.state.productImageURL &&
+                        !this.state.orderDate &&
+                        !this.state.productName &&
+                        !this.state.productPrice &&
+                        !this.state.productStatus ? (
+                          <div
+                            className={styles.dummySelectBoxWithIcon}
+                            onClick={() => this.goToOrderPage()}
+                          />
+                        ) : (
+                          <div
+                            className={styles.productsDisplayHolder}
+                            onClick={() =>
+                              this.setState({
+                                showOrder: true,
+                                productImageURL: "",
+                                orderDate: "",
+                                productName: "",
+                                productPrice: "",
+                                productStatus: ""
+                              })
+                            }
+                          >
+                            <div className={styles.imageHolder}>
+                              <ProductImage
+                                image={this.state.productImageURL}
+                              />
+                            </div>
+                            <div className={styles.dataHolder}>
+                              {this.state.productName && (
+                                <div className={styles.dataDescription}>
+                                  {this.state.productName}
+                                </div>
+                              )}
+                              {this.state.orderDate && (
+                                <div className={styles.dataDescription}>
+                                  {`Order on: ${format(
+                                    this.state.orderDate,
+                                    "DD MMM,YYYY"
+                                  )}`}
+                                </div>
+                              )}
+                              {this.state.productPrice && (
+                                <div className={styles.dataDescription}>
+                                  {this.state.productPrice}
+                                </div>
+                              )}
+                              {this.state.productStatus && (
+                                <div className={styles.dataDescription}>
+                                  {this.state.productStatus}
+                                </div>
+                              )}
+                            </div>
                           </div>
-                          <div className={styles.dataHolder}>
-                            {this.state.productName && (
-                              <div className={styles.dataDescription}>
-                                {this.state.productName}
+                        )}
+                      </div>
+                    )}
+                    {this.state.transactionId && (
+                      <div className={styles.selectIssueHolder}>
+                        <div className={styles.formWrapper}>
+                          <div className={styles.secondOrder}>
+                            <CheckOutHeader
+                              indexNumber={
+                                this.state.isSelected === 0 ? "2" : "1"
+                              }
+                              confirmTitle="Select issue"
+                              fontSize={"14px"}
+                            />
+                          </div>
+                          <div className={styles.selectIssue}>
+                            <CheckOutHeader
+                              indexNumber={"0"}
+                              confirmTitle="What is the issue?"
+                              fontSize={"13px"}
+                            />
+                            <SelectBoxMobile2
+                              placeholder="Select issue"
+                              arrowColour="black"
+                              height={33}
+                              options={
+                                l1OptionsArray &&
+                                l1OptionsArray.map((val, i) => {
+                                  return {
+                                    value: val.uItemplateCode,
+                                    label: val.issueType
+                                  };
+                                })
+                              }
+                              //isEnable={this.state.isEnableForOrderRelated}
+                              onChange={val =>
+                                this.onChangeReasonForOrderRelated(
+                                  val,
+                                  customerQueriesFieldArray
+                                )
+                              }
+                            />
+                          </div>
+                          {this.state.solution && (
+                            <div className={styles.selectIssue}>
+                              {this.state.solution}
+                            </div>
+                          )}
+                          {!this.state.solution &&
+                            l2OptionsArray &&
+                            l2OptionsArray.children &&
+                            l2OptionsArray.children.length > 0 && (
+                              <div className={styles.selectIssue}>
+                                <SelectBoxMobile2
+                                  placeholder="Select sub-issue"
+                                  arrowColour="black"
+                                  height={33}
+                                  options={
+                                    l2OptionsArray &&
+                                    l2OptionsArray.children &&
+                                    l2OptionsArray.children.map((val, i) => {
+                                      return {
+                                        value: val.nodeCode,
+                                        label: val.nodeDesc
+                                      };
+                                    })
+                                  }
+                                  isEnable={
+                                    this.state.isEnableForSubOrderRelated
+                                  }
+                                  onChange={val =>
+                                    this.onChangeSubReasonForOrderRelated(val)
+                                  }
+                                />
                               </div>
                             )}
-                            {this.state.orderDate && (
-                              <div className={styles.dataDescription}>
-                                {`Order on: ${format(
-                                  this.state.orderDate,
-                                  "DD MMM,YYYY"
-                                )}`}
+                          <div className={styles.selectIssue}>
+                            {!this.state.solution &&
+                              this.state.L0 &&
+                              this.state.customerQryFldTextBox && (
+                                <React.Fragment>
+                                  <div className={styles.secondOrder}>
+                                    <CheckOutHeader
+                                      indexNumber={"0"}
+                                      confirmTitle={textboxData.heading}
+                                      fontSize={"12px"}
+                                    />
+                                  </div>
+                                  <div className={styles.textInformationHolder}>
+                                    <FloatingLabelInputWithPlace
+                                      label={
+                                        textboxData.isMandatory
+                                          ? textboxData.placeholder + " *"
+                                          : textboxData.placeholder
+                                      }
+                                      placeholder={``}
+                                      disabled={false}
+                                      value={this.state.textboxFldData}
+                                      onChange={textboxFldData =>
+                                        this.onChange({ textboxFldData })
+                                      }
+                                    />
+                                  </div>
+                                </React.Fragment>
+                              )}
+                          </div>
+                          <div className={styles.selectIssue}>
+                            {!this.state.solution &&
+                              this.state.L0 &&
+                              this.state.customerQryFldCheckBox && (
+                                <React.Fragment>
+                                  <div className={styles.textInformationHolder}>
+                                    {checkboxData &&
+                                      checkboxData.optionArray.map(ele => {
+                                        return (
+                                          <CheckboxAndText
+                                            key={ele.value}
+                                            label={ele.optionName}
+                                            value={ele.value}
+                                            selected={
+                                              this.state.checkBoxDefaultFlag ===
+                                              ele.value
+                                                ? true
+                                                : false
+                                            }
+                                            selectItem={() =>
+                                              this.onChangeDefaultFlag(
+                                                ele.value
+                                              )
+                                            }
+                                          />
+                                        );
+                                      })}
+                                  </div>
+                                </React.Fragment>
+                              )}
+                          </div>
+                          <div className={styles.selectIssue}>
+                            {!this.state.solution &&
+                              this.state.L0 &&
+                              this.state.customerQryFldRadio && (
+                                <React.Fragment>
+                                  <div className={styles.secondOrder}>
+                                    <CheckOutHeader
+                                      indexNumber={"0"}
+                                      confirmTitle={
+                                        radioData.isMandatory
+                                          ? radioData.heading + " *"
+                                          : radioData.heading
+                                      }
+                                      fontSize={"12px"}
+                                    />
+                                    {radioData &&
+                                      radioData.optionArray.map(ele => {
+                                        return (
+                                          <div
+                                            key={ele.value}
+                                            className={styles.radioBtnMyAcc}
+                                          >
+                                            <label>
+                                              {ele.optionName}
+                                              <input
+                                                type="radio"
+                                                value={ele.value}
+                                                checked={
+                                                  ele.value ==
+                                                  this.state.radioSelectedOption
+                                                    ? true
+                                                    : false
+                                                }
+                                                onChange={e =>
+                                                  this.setState({
+                                                    radioSelectedOption:
+                                                      e.target.value
+                                                  })
+                                                }
+                                              />
+                                              <span />
+                                            </label>
+                                          </div>
+                                        );
+                                      })}
+                                  </div>
+                                </React.Fragment>
+                              )}
+                          </div>
+                          <div className={styles.selectIssue}>
+                            {!this.state.solution &&
+                              this.state.L0 &&
+                              this.state.customerQryFldTextArea && (
+                                <React.Fragment>
+                                  <div className={styles.secondOrder}>
+                                    <CheckOutHeader
+                                      indexNumber={"0"}
+                                      confirmTitle={textAreaData.heading}
+                                      fontSize={"12px"}
+                                    />
+                                  </div>
+                                  <TextArea
+                                    placeholder={textAreaData.placeholder}
+                                    value={this.state.comment}
+                                    onChange={comment =>
+                                      this.onChange({ comment })
+                                    }
+                                    maxLength={parseInt(textAreaData.maxLimit)}
+                                  />
+                                </React.Fragment>
+                              )}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {!this.state.solution &&
+                      this.state.L0 &&
+                      (l1OptionsArray ||
+                        (l3OptionsArray && !l3OptionsArray.ticketAnswer)) &&
+                      this.state.customerQryFldAttachment && (
+                        <div className={styles.selectImageHolder}>
+                          <div className={styles.formWrapper}>
+                            <div className={styles.secondOrder}>
+                              <CheckOutHeader
+                                indexNumber={
+                                  this.state.isSelected === 0 ? "3" : "2"
+                                }
+                                confirmTitle={
+                                  attachmentData.isMandatory
+                                    ? attachmentData.heading + " *"
+                                    : attachmentData.heading
+                                }
+                                fontSize={"14px"}
+                              />
+                            </div>
+                            <div className={styles.validImage}>
+                              Upload JPEG, PNG (Maximum size 5 MB)
+                            </div>
+                            <div className={styles.imageInput}>
+                              <div className={styles.secondOrder}>
+                                <CheckOutHeader
+                                  indexNumber={"0"}
+                                  confirmTitle={attachmentData.itemsTitle}
+                                  fontSize={"12px"}
+                                />
                               </div>
-                            )}
-                            {this.state.productPrice && (
-                              <div className={styles.dataDescription}>
-                                {this.state.productPrice}
-                              </div>
-                            )}
-                            {this.state.productStatus && (
-                              <div className={styles.dataDescription}>
-                                {this.state.productStatus}
-                              </div>
-                            )}
+                              <ImageUpload
+                                value={
+                                  this.state.file.length
+                                    ? this.state.file &&
+                                      this.state.file
+                                        .map(ele => ele.name)
+                                        .join(", ")
+                                    : "Upload attachment"
+                                }
+                                onChange={file =>
+                                  this.onUploadFile(
+                                    file,
+                                    parseInt(attachmentData.hexCode)
+                                  )
+                                }
+                              />
+                            </div>
                           </div>
                         </div>
                       )}
-                    </div>
-                  )}
-                  {this.state.transactionId && (
+                    {this.state.transactionId &&
+                      !this.state.solution &&
+                      this.state.L0 &&
+                      (!l3OptionsArray ||
+                        (l3OptionsArray && !l3OptionsArray.ticketAnswer)) && (
+                        <div className={styles.selectIssueHolder}>
+                          <div className={styles.formWrapper}>
+                            <div className={styles.secondOrder}>
+                              <CheckOutHeader
+                                indexNumber={
+                                  this.state.isSelected === 0 ? "4" : "3"
+                                }
+                                confirmTitle="Communication Details"
+                                fontSize={"14px"}
+                              />
+                            </div>
+
+                            <div className={styles.textInformationHolder}>
+                              <FloatingLabelInput
+                                label="Email"
+                                disabled={
+                                  getUserDetails &&
+                                  getUserDetails.loginType === "email" &&
+                                  getUserDetails.userName
+                                    ? true
+                                    : false
+                                }
+                                value={this.state.email}
+                                onChange={email => this.onChange({ email })}
+                              />
+                            </div>
+                            <div className={styles.textInformationHolder}>
+                              <FloatingLabelInput
+                                label="Phone*"
+                                maxLength={"10"}
+                                value={this.state.mobile}
+                                onChange={mobile => this.onChange({ mobile })}
+                                disabled={
+                                  getUserDetails &&
+                                  getUserDetails.loginType === "mobile" &&
+                                  getUserDetails.userName
+                                    ? true
+                                    : false
+                                }
+                                onlyNumber={true}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                  </div>
+                  {this.state.productImageURL &&
+                    (this.state.productImageURL &&
+                      this.state.L0 &&
+                      !this.state.solution) &&
+                    (!l3OptionsArray ||
+                      (l3OptionsArray && !l1OptionsArray.solution)) && (
+                      <div className={styles.buttonHolder}>
+                        <div className={styles.button}>
+                          <Button
+                            type="primary"
+                            height={38}
+                            label={"SUBMIT NOW"}
+                            width={166}
+                            textStyle={{ color: "#fff", fontSize: 14 }}
+                            onClick={() => this.submitCustomerForm()}
+                          />
+                        </div>
+                      </div>
+                    )}
+                </div>
+              )}
+              {this.state.isSelected === 1 && (
+                <div className={styles.formHolder}>
+                  <div className={styles.firstTab}>
                     <div className={styles.selectIssueHolder}>
                       <div className={styles.formWrapper}>
                         <div className={styles.secondOrder}>
@@ -1199,11 +1556,6 @@ export default class OrderRelatedIssue extends React.Component {
                           />
                         </div>
                         <div className={styles.selectIssue}>
-                          <CheckOutHeader
-                            indexNumber={"0"}
-                            confirmTitle="What is the issue?"
-                            fontSize={"13px"}
-                          />
                           <SelectBoxMobile2
                             placeholder="Select issue"
                             arrowColour="black"
@@ -1226,15 +1578,9 @@ export default class OrderRelatedIssue extends React.Component {
                             }
                           />
                         </div>
-                        {this.state.solution && (
-                          <div className={styles.selectIssue}>
-                            {this.state.solution}
-                          </div>
-                        )}
-                        {!this.state.solution &&
+                        {this.state.showSubIssueField &&
                           l2OptionsArray &&
-                          l2OptionsArray.children &&
-                          l2OptionsArray.children.length > 0 && (
+                          l2OptionsArray.length > 0 && (
                             <div className={styles.selectIssue}>
                               <SelectBoxMobile2
                                 placeholder="Select sub-issue"
@@ -1242,11 +1588,10 @@ export default class OrderRelatedIssue extends React.Component {
                                 height={33}
                                 options={
                                   l2OptionsArray &&
-                                  l2OptionsArray.children &&
-                                  l2OptionsArray.children.map((val, i) => {
+                                  l2OptionsArray.map((val, i) => {
                                     return {
-                                      value: val.nodeCode,
-                                      label: val.nodeDesc
+                                      value: val.uItemplateCode,
+                                      label: val.subIssueType
                                     };
                                   })
                                 }
@@ -1258,246 +1603,74 @@ export default class OrderRelatedIssue extends React.Component {
                             </div>
                           )}
                         <div className={styles.selectIssue}>
-                          {!this.state.solution &&
-                            this.state.L0 &&
-                            this.state.customerQryFldTextBox && (
-                              <React.Fragment>
-                                <div className={styles.secondOrder}>
-                                  <CheckOutHeader
-                                    indexNumber={"0"}
-                                    confirmTitle={textboxData.heading}
-                                    fontSize={"12px"}
-                                  />
-                                </div>
-                                <div className={styles.textInformationHolder}>
-                                  <FloatingLabelInputWithPlace
-                                    label={
-                                      textboxData.isMandatory
-                                        ? textboxData.placeholder + " *"
-                                        : textboxData.placeholder
-                                    }
-                                    placeholder={`This is placeholder`}
-                                    disabled={false}
-                                    value={this.state.textboxFldData}
-                                    onChange={textboxFldData =>
-                                      this.onChange({ textboxFldData })
-                                    }
-                                  />
-                                </div>
-                              </React.Fragment>
-                            )}
-                        </div>
-                        <div className={styles.selectIssue}>
-                          {!this.state.solution &&
-                            this.state.L0 &&
-                            this.state.customerQryFldCheckBox && (
-                              <React.Fragment>
-                                <div className={styles.textInformationHolder}>
-                                  {checkboxData &&
-                                    checkboxData.optionArray.map(ele => {
-                                      return (
-                                        <CheckboxAndText
-                                          key={ele.value}
-                                          label={ele.optionName}
-                                          value={ele.value}
-                                          selected={
-                                            this.state.checkBoxDefaultFlag ===
-                                            ele.value
-                                              ? true
-                                              : false
-                                          }
-                                          selectItem={() =>
-                                            this.onChangeDefaultFlag(ele.value)
-                                          }
-                                        />
-                                      );
-                                    })}
-                                </div>
-                              </React.Fragment>
-                            )}
-                        </div>
-                        <div className={styles.selectIssue}>
-                          {!this.state.solution &&
-                            this.state.L0 &&
-                            this.state.customerQryFldRadio && (
-                              <React.Fragment>
-                                <div className={styles.secondOrder}>
-                                  <CheckOutHeader
-                                    indexNumber={"0"}
-                                    confirmTitle={
-                                      radioData.isMandatory
-                                        ? radioData.heading + " *"
-                                        : radioData.heading
-                                    }
-                                    fontSize={"12px"}
-                                  />
-                                  {radioData &&
-                                    radioData.optionArray.map(ele => {
-                                      return (
-                                        <div
-                                          key={ele.value}
-                                          className={styles.radioBtnMyAcc}
-                                        >
-                                          <label>
-                                            {ele.optionName}
-                                            <input
-                                              type="radio"
-                                              value={ele.value}
-                                              checked={
-                                                ele.value ==
-                                                this.state.radioSelectedOption
-                                                  ? true
-                                                  : false
-                                              }
-                                              onChange={e =>
-                                                this.setState({
-                                                  radioSelectedOption:
-                                                    e.target.value
-                                                })
-                                              }
-                                            />
-                                            <span />
-                                          </label>
-                                        </div>
-                                      );
-                                    })}
-                                </div>
-                              </React.Fragment>
-                            )}
-                        </div>
-                        <div className={styles.selectIssue}>
-                          {!this.state.solution &&
-                            this.state.L0 &&
-                            this.state.customerQryFldTextArea && (
-                              <React.Fragment>
-                                <div className={styles.secondOrder}>
-                                  <CheckOutHeader
-                                    indexNumber={"0"}
-                                    confirmTitle={textAreaData.heading}
-                                    fontSize={"12px"}
-                                  />
-                                </div>
-                                <TextArea
-                                  placeholder={textAreaData.placeholder}
-                                  value={this.state.comment}
-                                  onChange={comment =>
-                                    this.onChange({ comment })
-                                  }
-                                  maxLength={parseInt(textAreaData.maxLimit)}
-                                />
-                              </React.Fragment>
-                            )}
+                          <div className={styles.secondOrder}>
+                            <CheckOutHeader
+                              indexNumber={"0"}
+                              confirmTitle={``}
+                              fontSize={"12px"}
+                            />
+                          </div>
+                          <TextArea
+                            placeholder="Comments(Optional)"
+                            value={this.state.comment}
+                            onChange={comment => this.onChange({ comment })}
+                            maxLength={240}
+                          />
                         </div>
                       </div>
                     </div>
-                  )}
-                  {!this.state.solution &&
-                    this.state.L0 &&
-                    (l1OptionsArray ||
-                      (l3OptionsArray && !l3OptionsArray.ticketAnswer)) &&
-                    this.state.customerQryFldAttachment && (
-                      <div className={styles.selectImageHolder}>
-                        <div className={styles.formWrapper}>
-                          <div className={styles.secondOrder}>
-                            <CheckOutHeader
-                              indexNumber={
-                                this.state.isSelected === 0 ? "3" : "2"
-                              }
-                              confirmTitle={
-                                attachmentData.isMandatory
-                                  ? attachmentData.heading + " *"
-                                  : attachmentData.heading
-                              }
-                              fontSize={"14px"}
-                            />
-                          </div>
-                          <div className={styles.validImage}>
-                            Upload JPEG, PNG (Maximum size 5 MB)
-                          </div>
-                          <div className={styles.imageInput}>
-                            <div className={styles.secondOrder}>
-                              <CheckOutHeader
-                                indexNumber={"0"}
-                                confirmTitle={attachmentData.itemsTitle}
-                                fontSize={"12px"}
-                              />
-                            </div>
-                            <ImageUpload
-                              value={
-                                this.state.file.length
-                                  ? this.state.file &&
-                                    this.state.file
-                                      .map(ele => ele.name)
-                                      .join(", ")
-                                  : "Upload attachment"
-                              }
-                              onChange={file =>
-                                this.onUploadFile(
-                                  file,
-                                  parseInt(attachmentData.hexCode)
-                                )
-                              }
-                            />
-                          </div>
+                    <div className={styles.selectIssueHolder}>
+                      <div className={styles.formWrapper}>
+                        <div className={styles.secondOrder}>
+                          <CheckOutHeader
+                            indexNumber={`2`}
+                            confirmTitle="Personal Details"
+                            fontSize={"14px"}
+                          />
                         </div>
-                      </div>
-                    )}
-                  {!this.state.solution &&
-                    this.state.L0 &&
-                    (!l3OptionsArray ||
-                      (l3OptionsArray && !l3OptionsArray.ticketAnswer)) && (
-                      <div className={styles.selectIssueHolder}>
-                        <div className={styles.formWrapper}>
-                          <div className={styles.secondOrder}>
-                            <CheckOutHeader
-                              indexNumber={
-                                this.state.isSelected === 0 ? "4" : "3"
-                              }
-                              confirmTitle="Communication Details"
-                              fontSize={"14px"}
-                            />
-                          </div>
+                        <div className={styles.textInformationHolder}>
+                          <FloatingLabelInput
+                            label="Name"
+                            value={this.state.name}
+                            onChange={name => this.onChange({ name })}
+                            onlyAlphabet={true}
+                            disabled={this.state.name ? true : false}
+                          />
+                        </div>
 
-                          <div className={styles.textInformationHolder}>
-                            <FloatingLabelInput
-                              label="Email"
-                              disabled={
-                                getUserDetails &&
-                                getUserDetails.loginType === "email" &&
-                                getUserDetails.userName
-                                  ? true
-                                  : false
-                              }
-                              value={this.state.email}
-                              onChange={email => this.onChange({ email })}
-                            />
-                          </div>
-                          <div className={styles.textInformationHolder}>
-                            <FloatingLabelInput
-                              label="Phone*"
-                              maxLength={"10"}
-                              value={this.state.mobile}
-                              onChange={mobile => this.onChange({ mobile })}
-                              disabled={
-                                getUserDetails &&
-                                getUserDetails.loginType === "mobile" &&
-                                getUserDetails.userName
-                                  ? true
-                                  : false
-                              }
-                              onlyNumber={true}
-                            />
-                          </div>
+                        <div className={styles.textInformationHolder}>
+                          <FloatingLabelInput
+                            label="Email"
+                            disabled={
+                              getUserDetails &&
+                              getUserDetails.loginType === "email" &&
+                              getUserDetails.userName
+                                ? true
+                                : false
+                            }
+                            value={this.state.email}
+                            onChange={email => this.onChange({ email })}
+                          />
+                        </div>
+                        <div className={styles.textInformationHolder}>
+                          <FloatingLabelInput
+                            label="Phone*"
+                            maxLength={"10"}
+                            value={this.state.mobile}
+                            onChange={mobile => this.onChange({ mobile })}
+                            disabled={
+                              getUserDetails &&
+                              getUserDetails.loginType === "mobile" &&
+                              getUserDetails.userName
+                                ? true
+                                : false
+                            }
+                            onlyNumber={true}
+                          />
                         </div>
                       </div>
-                    )}
-                </div>
-                {this.state.productImageURL &&
-                  (this.state.productImageURL &&
-                    this.state.L0 &&
-                    !this.state.solution) &&
-                  (!l3OptionsArray ||
-                    (l3OptionsArray && !l1OptionsArray.solution)) && (
+                    </div>
+
                     <div className={styles.buttonHolder}>
                       <div className={styles.button}>
                         <Button
@@ -1510,8 +1683,9 @@ export default class OrderRelatedIssue extends React.Component {
                         />
                       </div>
                     </div>
-                  )}
-              </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           {this.state.showOrder && (
