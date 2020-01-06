@@ -64,6 +64,7 @@ export default class SizeGuideMain extends React.Component {
                   <SizeGuideElementClothing
                     data={this.props.sizeData}
                     category={this.props.category}
+                    brandName={this.props.brandName}
                   />
                 </div>
               )}
