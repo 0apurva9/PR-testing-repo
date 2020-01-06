@@ -4288,7 +4288,6 @@ export function submitOrderDetails(submitOrderDetails) {
         referenceNum: "E10004IQC7",
         status: "Success"
       };
-      //await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
