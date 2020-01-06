@@ -1,14 +1,14 @@
 import React from "react";
 import styles from "./StarRating.css";
 import PropTypes from "prop-types";
-import EmptyStar from "../../general/components/img/empty-star.svg";
+import EmptyStar from "./img/empty-star.svg";
 
-import GreenFilledStar from "../../general/components/img/green-filled-star.svg";
+import GreenFilledStar from "./img/green-filled-star.svg";
 import Green25FilledStar from "./img/green-25-filled.svg";
 import Green50FilledStar from "./img/green-50-filled.svg";
 import Green75FilledStar from "./img/green-75-filled.svg";
 
-import FilledStar from "../../general/components/img/star-fill.svg";
+import FilledStar from "./img/star-fill.svg";
 import Orange25FilledStar from "./img/orange-25-filled.svg";
 import Orange50FilledStar from "./img/orange-50-filled.svg";
 import Orange75FilledStar from "./img/orange-75-filled.svg";
@@ -58,6 +58,7 @@ export default class StarRating extends React.Component {
       } else {
         let imgSrc = EmptyStar;
         if (
+          ratingCnt !== undefined &&
           decimalPoint !== 0 &&
           decimalPoint !== 1 &&
           !isStarPartiallyFilled
