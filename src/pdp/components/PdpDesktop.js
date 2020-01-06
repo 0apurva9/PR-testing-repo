@@ -526,7 +526,9 @@ export default class PdpApparel extends React.Component {
     setDataLayerForPdpDirectCalls(
       SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT
     );
-    const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    const url = `${
+      this.props.location.pathname
+    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
   renderRatings = () => {
@@ -976,7 +978,9 @@ export default class PdpApparel extends React.Component {
                   productImages={productImages}
                   thumbNailImages={thumbNailImages}
                   zoomImages={zoomImages}
-                  alt={`${productData.productName}-${productData.brandName}-${productData.rootCategory}-TATA CLIQ`}
+                  alt={`${productData.productName}-${productData.brandName}-${
+                    productData.rootCategory
+                  }-TATA CLIQ`}
                   details={productData.details}
                   showSimilarProducts={this.props.showSimilarProducts}
                   category={productData.rootCategory}
@@ -1346,23 +1350,24 @@ export default class PdpApparel extends React.Component {
                 </div>
                 <div className={styles.pinAndDeliveryHolder}>
                   <div className={styles.updatePincodeHolder}>
-                    {getPinCode && userCookie && (
-                      <SearchAndUpdate
-                        uiType="hollow"
-                        checkPinCodeAvailability={pincode =>
-                          this.checkPinCodeAvailability(
-                            pincode,
-                            productData.productListingId
-                          )
-                        }
-                        placeholder="Pincode"
-                        value={getPinCode}
-                        hasAutoFocus={false}
-                        labelText={"Check"}
-                        borderColor="transparent"
-                        borderBottom="0px solid #transparent"
-                      />
-                    )}
+                    {getPinCode &&
+                      userCookie && (
+                        <SearchAndUpdate
+                          uiType="hollow"
+                          checkPinCodeAvailability={pincode =>
+                            this.checkPinCodeAvailability(
+                              pincode,
+                              productData.productListingId
+                            )
+                          }
+                          placeholder="Pincode"
+                          value={getPinCode}
+                          hasAutoFocus={false}
+                          labelText={"Check"}
+                          borderColor="transparent"
+                          borderBottom="0px solid #transparent"
+                        />
+                      )}
 
                     {(!userCookie || !getPinCode) && (
                       <SearchAndUpdate
@@ -1542,11 +1547,11 @@ export default class PdpApparel extends React.Component {
                 </div>
               ) : null}
 
-              <div className={styles.youPlus}>
+              {/* <div className={styles.youPlus}>
                 <div className={styles.pageCenter}>
                   <div id="yp_widget" className={styles.yp_widget} />
                 </div>
-              </div>
+              </div> */}
               {this.state.bundledProductList.length > 0 && (
                 <RevelantBundling
                   {...this.props}

@@ -146,11 +146,11 @@
 	padding: 0 15px;
 }
 
-.youPlus {
+/* .youPlus {
 	width: 100%;
 	height: auto;
 	padding: 0 15px;
-}
+} */
 
 .seasonDetails {
 	margin-top: 60px;
@@ -961,10 +961,10 @@
 	width: 22%;
 	float: left;
 	padding-right: 10px;
-	
+
 }
 .oneProduct {
-	width: 40%; 
+	width: 40%;
 	overflow: hidden;
 	/* display: inline-block; */
 	padding-right: 10px;
@@ -1097,8 +1097,8 @@ width: 20px;
     padding-left: 40px;
   }
   .widthPrice {
-	width: 82px;  
-       height: 100px;  
+	width: 82px;
+       height: 100px;
        float: left;
   }
   .headerPrice{
@@ -1128,8 +1128,8 @@ width: 20px;
 	}
   .iconAddProduct{
 	width: 20px;
-    margin-top: 10px; 
-	height: 20px;  
+    margin-top: 10px;
+	height: 20px;
 	float: left;
 	background: url(./img/Add.svg) no-repeat;
   background-size: contain;
@@ -1159,7 +1159,7 @@ width: 20px;
   }
   .priceTotalText{
 	  width:150px;
-	  height: 100px;  
+	  height: 100px;
        float: left;
   }
   .totalPrice{
