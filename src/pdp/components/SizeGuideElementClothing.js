@@ -145,6 +145,11 @@ export default class SizeGuideElementClothing extends Component {
 
                 <div className={styles.imageHolder}>
                   <div className={styles.image}>
+                    {this.props.brandName == "One Friday" && (
+                      <div className={styles.tips}>
+                        Tip: Measurements are body measurements
+                      </div>
+                    )}
                     <Image fit="contain" image={image} />
                   </div>
                 </div>
@@ -210,6 +215,11 @@ export default class SizeGuideElementClothing extends Component {
               )}
               <div className={styles.imageHolder}>
                 <div className={styles.image}>
+                  {this.props.brandName == "One Friday" && (
+                    <div className={styles.tips}>
+                      Tip: Measurements are body measurements
+                    </div>
+                  )}
                   <Image fit="contain" image={image} />
                 </div>
               </div>

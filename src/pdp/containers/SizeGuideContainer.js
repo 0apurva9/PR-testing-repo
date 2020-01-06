@@ -16,7 +16,8 @@ const mapStateToProps = state => {
     loading: state.productDescription.sizeGuide.loading,
     productCode: state.productDescription.productDetails.productListingId,
     category: state.productDescription.productDetails.rootCategory,
-    productName: state.productDescription.productDetails.productName
+    productName: state.productDescription.productDetails.productName,
+    brandName: state.productDescription.productDetails.brandName
   };
 };
 
