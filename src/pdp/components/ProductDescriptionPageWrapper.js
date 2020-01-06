@@ -23,7 +23,9 @@ import {
   LOGIN_PATH,
   CLIQ_PIQ_PRODUCT_DETAIL,
   REQUESTING,
-  STORE_DETAILS
+  STORE_DETAILS,
+  CHECKOUT_ROUTER,
+  CNC_CART
 } from "../../lib/constants";
 import {
   renderMetaTags,
@@ -295,10 +297,17 @@ export default class ProductDescriptionPageWrapper extends React.Component {
         buyNowResponse.status === SUCCESS &&
         buyNowResponse.cartDetails
       ) {
+        localStorage.setItem(CNC_CART, "true");
         this.setState({
           isCliqAndPiqCartGuid: buyNowResponse.cartDetails.buyNowCartGuid,
           isCliqAndPiqCartCode: buyNowResponse.cartDetails.buyNowCartCode
         });
+        if (productDetailsObject && productDetailsObject.ussId) {
+          let addStore = await this.props.addStoreCNC(
+            productDetailsObject.ussId,
+            selectedSlaveId
+          );
+        }
       }
     }
   };
@@ -348,7 +357,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
         DEFAULT_PIN_CODE_LOCAL_STORAGE
       );
       this.props.history.push({
-        pathname: PRODUCT_CART_ROUTER,
+        pathname: CHECKOUT_ROUTER,
         state: {
           pinCode: defaultPinCode,
           isFromCliqAndPiq: true,

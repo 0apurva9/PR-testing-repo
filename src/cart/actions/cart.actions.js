@@ -73,7 +73,10 @@ import {
 } from "../../lib/constants";
 import queryString from "query-string";
 import { setBagCount } from "../../general/header.actions";
-import { releaseBankOfferRetryPaymentSuccess } from "../../account/actions/account.actions";
+import {
+  releaseBankOfferRetryPaymentSuccess,
+  getUserDetails
+} from "../../account/actions/account.actions";
 import * as browserAndDeviceDetails from "../../mock/browserDetails.js";
 import {
   setDataLayer,
@@ -3650,7 +3653,7 @@ export function addPickupPersonCNC(personMobile, personName) {
       }
 
       dispatch(
-        getCartDetailsCNC(
+        getCartDetails(
           JSON.parse(userDetails).userName,
           JSON.parse(customerCookie).access_token,
           cartId,
@@ -3658,6 +3661,7 @@ export function addPickupPersonCNC(personMobile, personName) {
           false
         )
       );
+      //dispatch(getUserDetails());
       setDataLayerForCheckoutDirectCalls(ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED);
       return dispatch(addPickUpPersonSuccess(resultJson));
     } catch (e) {
@@ -3723,7 +3727,7 @@ export function softReservation() {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(eddInCommerce());
+      dispatch(eddInCommerce(resultJson));
       dispatch(getOrderSummary(pinCode));
       dispatch(softReservationSuccess(resultJson.reservationItem));
     } catch (e) {
@@ -6101,7 +6105,7 @@ export function eddInCommerceFailure(error) {
     error
   };
 }
-export function eddInCommerce() {
+export function eddInCommerce(reservationItem) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
@@ -6115,7 +6119,8 @@ export function eddInCommerce() {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/getEDD?access_token=${
           JSON.parse(customerCookie).access_token
-        }`
+        }`,
+        reservationItem
       );
       const resultJson = await result.json();
 
@@ -6966,11 +6971,18 @@ export function getValidDeliveryModeDetails(
       productDetails.fulfillmentType = isFromRetryUrl
         ? selectedDeliveryModeDetails.fulfilmentType.toLowerCase()
         : product.fullfillmentType;
-      productDetails.deliveryMode = selectedDeliveryModeDetails.type;
-      if (selectedDeliveryModeDetails.serviceableSlaves) {
+      productDetails.deliveryMode =
+        selectedDeliveryModeDetails && selectedDeliveryModeDetails.type;
+      if (
+        selectedDeliveryModeDetails &&
+        selectedDeliveryModeDetails.serviceableSlaves
+      ) {
         productDetails.serviceableSlaves =
           selectedDeliveryModeDetails.serviceableSlaves;
-      } else if (selectedDeliveryModeDetails.CNCServiceableSlavesData) {
+      } else if (
+        selectedDeliveryModeDetails &&
+        selectedDeliveryModeDetails.CNCServiceableSlavesData
+      ) {
         let selectedStoreDetails =
           selectedDeliveryModeDetails &&
           selectedDeliveryModeDetails.CNCServiceableSlavesData.find(

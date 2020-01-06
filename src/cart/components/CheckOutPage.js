@@ -115,13 +115,20 @@ import {
   SHORT_SAME_DAY_DELIVERY,
   SAME_DAY_DELIVERY,
   SAME_DAY_DELIVERY_SHIPPING,
-  FAILED_ORDER
+  FAILED_ORDER,
+  CNC_CART
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
 } from "../../auth/components/Login";
-import { HOME_ROUTER, SUCCESS, CHECKOUT, ERROR } from "../../lib/constants";
+import {
+  HOME_ROUTER,
+  SUCCESS,
+  CHECKOUT,
+  ERROR,
+  SUCCESS_UPPERCASE
+} from "../../lib/constants";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import {
   setDataLayerForCheckoutDirectCalls,
@@ -541,14 +548,14 @@ class CheckOutPage extends React.Component {
     }
     this.setState({ showCliqAndPiq: false });
     const addPickUpPerson = await this.props.addPickupPersonCNC(mobile, name);
-    if (addPickUpPerson.status === SUCCESS) {
+    if (addPickUpPerson.status === SUCCESS_UPPERCASE) {
       const updatedDeliveryModeUssid = this.state.ussIdAndDeliveryModesObj;
 
       updatedDeliveryModeUssid[
         this.state.selectedProductsUssIdForCliqAndPiq
       ] = COLLECT;
 
-      this.setState(
+      await this.setState(
         {
           ussIdAndDeliveryModesObj: updatedDeliveryModeUssid,
           cliqPiqSelected: true,
@@ -1049,9 +1056,11 @@ class CheckOutPage extends React.Component {
       if (defaultAddress) {
         defaultAddressId = defaultAddress.id;
       }
-      this.updateLocalStoragePinCode(
-        defaultAddress && defaultAddress.postalCode
-      );
+      if (!localStorage.getItem(CNC_CART)) {
+        this.updateLocalStoragePinCode(
+          defaultAddress && defaultAddress.postalCode
+        );
+      }
       this.setState({
         addressId: defaultAddressId,
         selectedAddress: defaultAddress
@@ -1124,7 +1133,9 @@ class CheckOutPage extends React.Component {
       if (defaultAddress) {
         defaultAddressId = defaultAddress.id;
       }
-      this.updateLocalStoragePinCode(defaultAddress.postalCode);
+      if (!localStorage.getItem(CNC_CART)) {
+        this.updateLocalStoragePinCode(defaultAddress.postalCode);
+      }
       this.setState({
         addressId: defaultAddressId,
         selectedAddress: defaultAddress
