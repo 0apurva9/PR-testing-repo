@@ -44,22 +44,20 @@ export default class CustomerQueryPopUp extends React.Component {
                 </div>
               </div>
             ))}
-          {this.props.issueCategory ||
-            (true && (
-              <div className={styles.userDetailsHeaderWithText}>
-                <div className={styles.userDetailsHeader}>Issue Category</div>
-                <div className={styles.userDetailsText}>
-                  {this.props.issueCategory}
-                </div>
+          {this.props.issueCategory && (
+            <div className={styles.userDetailsHeaderWithText}>
+              <div className={styles.userDetailsHeader}>Issue Category</div>
+              <div className={styles.userDetailsText}>
+                {this.props.issueCategory}
               </div>
-            ))}
-          {this.props.issue ||
-            (true && (
-              <div className={styles.userDetailsHeaderWithText}>
-                <div className={styles.userDetailsHeader}>Issue</div>
-                <div className={styles.userDetailsText}>{this.props.issue}</div>
-              </div>
-            ))}
+            </div>
+          )}
+          {this.props.issue && (
+            <div className={styles.userDetailsHeaderWithText}>
+              <div className={styles.userDetailsHeader}>Issue</div>
+              <div className={styles.userDetailsText}>{this.props.issue}</div>
+            </div>
+          )}
         </div>
         <div className={styles.submittedText}>
           <div className={styles.subText}>

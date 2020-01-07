@@ -88,7 +88,9 @@ export default class OrderRelatedIssue extends React.Component {
       textboxFldData: "",
       radioSelectedOption: "",
       checkBoxDefaultFlag: "",
-      showSubIssueField: false
+      showSubIssueField: false,
+      issueCategory: "",
+      issue: ""
     };
   }
 
@@ -151,7 +153,9 @@ export default class OrderRelatedIssue extends React.Component {
         productPrice: "",
         productStatus: "",
         l2SelectedReason: null,
-        l3SelectedReason: null
+        l3SelectedReason: null,
+        issueCategory: "",
+        issue: ""
       });
     }
     if (val === 1) {
@@ -203,7 +207,9 @@ export default class OrderRelatedIssue extends React.Component {
         click2Call: issue[0].click2Call,
         solution: issue[0].solution,
         uItemplateCode: issue[0].uItemplateCode,
-        tat: issue[0].tat
+        tat: issue[0].tat,
+        issueCategory: "",
+        issue: val.label
       });
       this.props.getCustomerQueriesFieldsv2();
 
@@ -235,7 +241,8 @@ export default class OrderRelatedIssue extends React.Component {
     } else {
       this.setState({
         showSubIssueField: true,
-        uItemplateCode: val.value
+        uItemplateCode: val.value,
+        issueCategory: val.label
       });
     }
   }
@@ -247,7 +254,8 @@ export default class OrderRelatedIssue extends React.Component {
       l3SelectedReason: label,
 
       isEnableForSubOrderRelated: true,
-      isEnableForAnotherOrderRelated: false
+      isEnableForAnotherOrderRelated: false,
+      issue: val.label
     });
   }
   onChange(val) {
@@ -436,7 +444,8 @@ export default class OrderRelatedIssue extends React.Component {
           mobileNumber: this.state.mobile,
           comment: this.state.comment,
           anOtherIssue: this.state.l4SelectedReason,
-          issue: this.state.l2SelectedReason,
+          issueCategory: this.state.issueCategory,
+          issue: this.state.issue,
           subIssue: this.state.l3SelectedReason
         }
       );
