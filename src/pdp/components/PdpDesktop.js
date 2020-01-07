@@ -917,10 +917,10 @@ export default class PdpApparel extends React.Component {
       let price = "";
       let discountPrice = "";
       if (productData.mrpPrice) {
-        price = productData.mrpPrice.formattedValueNoDecimal;
+        price = productData.mrpPrice.doubleValue;
       }
       if (productData.winningSellerPrice) {
-        discountPrice = productData.winningSellerPrice.formattedValueNoDecimal;
+        discountPrice = productData.winningSellerPrice.doubleValue;
       }
       let seoDoublePrice = 0;
       if (
@@ -1547,11 +1547,11 @@ export default class PdpApparel extends React.Component {
                 </div>
               ) : null}
 
-              <div className={styles.youPlus}>
+              {/* <div className={styles.youPlus}>
                 <div className={styles.pageCenter}>
                   <div id="yp_widget" className={styles.yp_widget} />
                 </div>
-              </div>
+              </div> */}
               {this.state.bundledProductList.length > 0 && (
                 <RevelantBundling
                   {...this.props}

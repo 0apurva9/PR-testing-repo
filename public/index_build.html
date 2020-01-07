@@ -754,7 +754,7 @@
           "rejectButtonText": 'No, thanks',
           "okButtonColor": '#f28046',
           "askAgainTimeInSeconds": 604800,
-          "serviceWorkerPath": "/service-worker.js",
+          "serviceWorkerPath": "/sw.js",
           "okCallback": function () {
             clevertap.event.push("Web Push Notifications", {
               "User Accepted": "Yes"
@@ -870,19 +870,20 @@
   <!-- youPlus -->
   <% if(htmlWebpackPlugin.options.stage === "production") { %>
   <script type="text/javascript">
-    function youPlus(t, e) {
-      var n = e.createElement("script"),
-        o = e.getElementsByTagName("script")[0];
-      (n.async = !0),
-        (n.src =
-          "https://d1uck549nef0ok.cloudfront.net/youplus.opinion.in.js?v=" +
-          Date.now().toString()),
-        (n.charset = "UTF-8"),
-        (n.type = "text/javascript"),
-        o.parentNode.insertBefore(n, o);
-    }
+
+    // function youPlus(t, e) {
+    //   var n = e.createElement("script"),
+    //     o = e.getElementsByTagName("script")[0];
+    //   (n.async = !0),
+    //     (n.src =
+    //       "https://d1uck549nef0ok.cloudfront.net/youplus.opinion.in.js?v=" +
+    //       Date.now().toString()),
+    //     (n.charset = "UTF-8"),
+    //     (n.type = "text/javascript"),
+    //     o.parentNode.insertBefore(n, o);
+    // }
     window.onload = function () {
-      youPlus(window, document);
+      //youPlus(window, document);
       stripev2();
       stripev3();
     };
@@ -890,21 +891,39 @@
   </script>
   <% } else { %>
   <script type="text/javascript">
-    function youPlus(t, e) {
-      var n = e.createElement("script"),
-        o = e.getElementsByTagName("script")[0];
-      n.async = !0, n.src = "https://d1uck549nef0ok.cloudfront.net/youplus.opinion.dev.js?v=" + Date.now().toString(), n.charset = "UTF-8",
-        n.type = "text/javascript",
-        o.parentNode.insertBefore(n, o)
-    };
+
+    // function youPlus(t,e){
+    //   var n=e.createElement("script"),
+    //   o=e.getElementsByTagName("script")[0];
+    //   n.async=!0,n.src="https://d1uck549nef0ok.cloudfront.net/youplus.opinion.dev.js?v="+Date.now().toString(),n.charset="UTF-8",
+    //   n.type="text/javascript",
+    //   o.parentNode.insertBefore(n,o)
+    // };
     window.onload = function () {
-      youPlus(window, document);
+      // youPlus(window, document);
       stripev2();
       stripev3();
     };
   </script>
   <% } %>
   <!-- youPlus end -->
+
+  <script type="text/javascript">
+    //added to avoid msite view in desktop , it removes msite service worker if it is present
+    if ('serviceWorker' in navigator && navigator.userAgent.indexOf("Mobile") === -1) {
+      //check if name equals to msite service worker
+      if (navigator.serviceWorker.controller && navigator.serviceWorker.controller.scriptURL.includes("service-worker.js")) {
+        navigator.serviceWorker.getRegistration().then(function (registration) {
+          var serviceWorkerUnregistered = false;
+          if (registration) {
+            registration.unregister();
+            serviceWorkerUnregistered = true;
+          }
+          serviceWorkerUnregistered && window.location.reload();
+        });
+      }
+    }
+  </script>
 </body>
 
 </html>

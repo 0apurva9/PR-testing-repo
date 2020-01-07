@@ -78,7 +78,7 @@ export default class OrderRelatedPopup extends React.Component {
                                 <CheckBox
                                   selected={
                                     this.props.selectedOrderId ===
-                                    orderDetails.orderId
+                                    productsDetails.transactionId
                                   }
                                 />
                               </div>

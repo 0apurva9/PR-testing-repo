@@ -735,6 +735,7 @@ export default class ModalRoot extends React.Component {
             this.releaseBankOffer(couponCode, newCouponCode)
           }
           {...this.props.ownProps}
+          resetAllPaymentModes={this.props.resetAllPaymentModes}
           displayToast={message => this.props.displayToast(message)}
         />
       ),
