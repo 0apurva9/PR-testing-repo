@@ -91,6 +91,18 @@ export const GET_ALL_ORDERS_REQUEST = "GET_ALL_ORDERS_REQUEST";
 export const GET_ALL_ORDERS_SUCCESS = "GET_ALL_ORDERS_SUCCESS";
 export const GET_ALL_ORDERS_FAILURE = "GET_ALL_ORDERS_FAILURE";
 
+export const GET_ALL_SELLERS_REQUEST = "GET_ALL_SELLERS_REQUEST";
+export const GET_ALL_SELLERS_SUCCESS = "GET_ALL_SELLERS_SUCCESS";
+export const GET_ALL_SELLERS_FAILURE = "GET_ALL_SELLERS_FAILURE";
+
+export const SUBMIT_SELLER_REVIEW_BY_USER = "SUBMIT_SELLER_REVIEW_BY_USER";
+export const SELLER_REVIEW_SUBMIT_FAILURE = "SELLER_REVIEW_SUBMIT_FAILURE";
+export const SELLER_REVIEW_REMOVE_FAILURE = "SELLER_REVIEW_REMOVE_FAILURE";
+export const REMOVE_SELLER_REVIEW_BY_USER = "REMOVE_SELLER_REVIEW_BY_USER";
+export const GET_ALL_SELLERS_REVIEW_REQUEST = "GET_ALL_SELLERS_REVIEW_REQUEST";
+export const GET_ALL_SELLERS_REVIEW_SUCCESS = "GET_ALL_SELLERS_REVIEW_SUCCESS";
+export const GET_ALL_SELLERS_REVIEW_FAILURE = "GET_ALL_SELLERS_REVIEW_FAILURE";
+
 export const RETURN_PRODUCT_DETAILS_REQUEST = "RETURN_PRODUCT_DETAILS_REQUEST";
 export const RETURN_PRODUCT_DETAILS_SUCCESS = "RETURN_PRODUCT_DETAILS_SUCCESS";
 export const RETURN_PRODUCT_DETAILS_FAILURE = "RETURN_PRODUCT_DETAILS_FAILURE";
@@ -2213,6 +2225,189 @@ export function fetchOrderItemDetailsFailure(error) {
     type: FETCH_ORDER_ITEM_DETAILS_FAILURE,
     status: ERROR,
     error
+  };
+}
+
+// Get Seller Review
+export function getAllSellersRequest() {
+  return {
+    type: GET_ALL_SELLERS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getAllSellersSuccess(sellerDetails) {
+  return {
+    type: GET_ALL_SELLERS_SUCCESS,
+    status: SUCCESS,
+    sellerDetails
+  };
+}
+
+export function getAllSellersFailure(error) {
+  return {
+    type: GET_ALL_ORDERS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getAllSellersDetails(isSetDataLayer: true) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let url = window.location.href;
+  let transId = url
+    .split("transactionId=")
+    .pop()
+    .split("&")[0];
+  return async (dispatch, getState, { api }) => {
+    dispatch(getAllSellersRequest());
+    dispatch(showSecondaryLoader());
+    try {
+      let getSellerDetails = "";
+
+      getSellerDetails = `${PATH}/getSellerFeedbackTransactions?transactionId=${transId}&customerId=${
+        JSON.parse(userDetails).customerId
+      }&access_token=${JSON.parse(customerCookie).access_token}`;
+      const result = await api.get(getSellerDetails);
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      if (isSetDataLayer) {
+        setDataLayer(ADOBE_MY_ACCOUNT_ORDER_HISTORY);
+      }
+
+      dispatch(getAllSellersSuccess(resultJson));
+      dispatch(hideSecondaryLoader());
+    } catch (e) {
+      dispatch(hideSecondaryLoader());
+      dispatch(getAllSellersFailure(e.message));
+    }
+  };
+}
+
+export function getAllSellersReviewRequest() {
+  return {
+    type: GET_ALL_SELLERS_REVIEW_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getAllSellersReviewSuccess(sellerDetails) {
+  return {
+    type: GET_ALL_SELLERS_REVIEW_SUCCESS,
+    status: SUCCESS,
+    sellerDetails
+  };
+}
+
+export function getAllSellersReviewFailure(error) {
+  return {
+    type: GET_ALL_SELLERS_REVIEW_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getAllSellersReviewDetails(isSetDataLayer: true) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getAllSellersReviewRequest());
+    dispatch(showSecondaryLoader());
+    try {
+      let getSellerDetails = "";
+      getSellerDetails = `${PATH}/getSellerReviewTransactions?customerId=${
+        JSON.parse(userDetails).customerId
+      }&access_token=${JSON.parse(customerCookie).access_token}`;
+
+      const result = await api.get(getSellerDetails);
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      dispatch(getAllSellersReviewSuccess(resultJson));
+      dispatch(hideSecondaryLoader());
+    } catch (e) {
+      dispatch(hideSecondaryLoader());
+      dispatch(getAllSellersReviewFailure(e.message));
+    }
+  };
+}
+
+export function sellerReviewSubmissionByUser(sellerReviewStatus) {
+  return {
+    type: SUBMIT_SELLER_REVIEW_BY_USER,
+    sellerReviewStatus
+  };
+}
+export function sellerReviewSubmitFailure(error) {
+  return {
+    type: SELLER_REVIEW_SUBMIT_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function submitSellerReviewByUser(params) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS),
+    customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    try {
+      let reqURL = `${USER_PATH}/${
+        JSON.parse(userDetails).userName
+      }/submitCustomerReview?access_token=${
+        JSON.parse(customerCookie).access_token
+      }`;
+
+      const result = await api.post(reqURL, params);
+      const resultJson = await result.json();
+      dispatch(getAllSellersDetails());
+      dispatch(sellerReviewSubmissionByUser(resultJson));
+    } catch (e) {
+      dispatch(sellerReviewSubmitFailure(e.message));
+    }
+  };
+}
+
+export function sellerReviewRemoveByUser(sellerReviewRemoveStatus) {
+  return {
+    type: REMOVE_SELLER_REVIEW_BY_USER,
+    sellerReviewRemoveStatus
+  };
+}
+export function sellerReviewRemoveFailure(error) {
+  return {
+    type: SELLER_REVIEW_REMOVE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function removeSellerReviewByUser(params) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS),
+    customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    try {
+      let reqURL = `${USER_PATH}/${
+        JSON.parse(userDetails).userName
+      }/submitCustomerReview?access_token=${
+        JSON.parse(customerCookie).access_token
+      }`;
+
+      const result = await api.post(reqURL, params);
+      const resultJson = await result.json();
+      dispatch(getAllSellersReviewDetails());
+      dispatch(sellerReviewRemoveByUser(resultJson));
+    } catch (e) {
+      dispatch(sellerReviewRemoveFailure(e.message));
+    }
   };
 }
 

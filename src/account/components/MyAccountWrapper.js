@@ -28,6 +28,8 @@ import {
   EDIT
 } from "../../lib/constants.js";
 import AllOrderContainer from "../containers/AllOrderContainer";
+import AllSellerContainer from "../containers/AllSellerContainer";
+import AllSellerReviewContainer from "../containers/AllSellerReviewContainer";
 
 import MyAccountContainer from "../containers/MyAccountContainer";
 import UserAlertsAndCouponsContainer from "../containers/UserAlertsAndCouponsContainer";
@@ -91,6 +93,7 @@ export default class MyAccountWrapper extends React.Component {
             />
           )}
         />
+
         <Route
           exact
           path={`${MY_ACCOUNT_SUFFIX}${RETURN_TO_ADDRESS}${ADD}`}
@@ -114,6 +117,7 @@ export default class MyAccountWrapper extends React.Component {
           )}
         />
         <Route exact path={MY_ACCOUNT_PAGE} component={MyAccountContainer} />
+
         <Route
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_SAVED_CARDS_PAGE}`}
           component={SavedCardContainer}
@@ -163,6 +167,7 @@ export default class MyAccountWrapper extends React.Component {
           path={`${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`}
           component={SaveListContainer}
         />
+
         <Route
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`}
           component={AllOrderContainer}
@@ -182,6 +187,7 @@ export default class MyAccountWrapper extends React.Component {
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ADDRESS_ADD_PAGE}`}
           component={AddAddressContainer}
         />
+
         <Route path={`${ORDER_PREFIX}`} component={OrderDetailsContainer} />
         <Route
           path={`${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`}

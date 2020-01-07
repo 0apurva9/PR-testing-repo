@@ -322,6 +322,21 @@ const NoResultPage = Loadable({
     return <Loader />;
   }
 });
+
+const AllSellerContainer = Loadable({
+  loader: () => import("./account/containers/AllSellerContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const AllSellerReviewContainer = Loadable({
+  loader: () => import("./account/containers/AllSellerReviewContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const CleverTapUnsubscribeEmail = Loadable({
   loader: () => import("./general/components/CleverTapEmailUnsubscribe"),
   loading() {
@@ -665,6 +680,14 @@ class App extends Component {
               exact
               path={REDMI_WALLET_FROM_EMAIL}
               component={MyAccountWrapper}
+            />
+            <Route
+              path={`/store/transactionId=:id&customerId=:id1/seller-review`}
+              component={AllSellerContainer}
+            />
+            <Route
+              path={`/store/transactionId=:id&customerId=:id1/seller-reviewed`}
+              component={AllSellerReviewContainer}
             />
             <Route
               exact

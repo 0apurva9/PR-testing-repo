@@ -52,11 +52,11 @@ export default class Grid extends React.Component {
               // }
               // return false;
             });
-            if(this.props.banners.heroBanners[1]){
-              if(this.props.banners.heroBanners[1].plpBannerImage){
+            if (this.props.banners.heroBanners[1]) {
+              if (this.props.banners.heroBanners[1].plpBannerImage) {
                 bannerImage = this.props.banners.heroBanners[1].plpBannerImage;
               }
-              if(this.props.banners.heroBanners[1].redirectionURL){
+              if (this.props.banners.heroBanners[1].redirectionURL) {
                 bannerUrl = this.props.banners.heroBanners[1].redirectionURL;
               }
             }
@@ -233,15 +233,14 @@ export default class Grid extends React.Component {
               // return false;
             });
 
-            if(this.props.banners.heroBanners[1]){
-              if(this.props.banners.heroBanners[1].plpBannerImage){
+            if (this.props.banners.heroBanners[1]) {
+              if (this.props.banners.heroBanners[1].plpBannerImage) {
                 bannerImage = this.props.banners.heroBanners[1].plpBannerImage;
               }
-              if(this.props.banners.heroBanners[1].redirectionURL){
+              if (this.props.banners.heroBanners[1].redirectionURL) {
                 bannerUrl = this.props.banners.heroBanners[1].redirectionURL;
               }
             }
-            
           }
 
           str.push(
@@ -264,7 +263,8 @@ export default class Grid extends React.Component {
                         key={i + 161}
                         style={{
                           width: "100%",
-                          margin: banner && banner.plpBannerImage ? "10px 0" : "",
+                          margin:
+                            banner && banner.plpBannerImage ? "10px 0" : "",
                           maxHeight: "180px"
 
                           // marginLeft: this.props.view === LIST ? "0" : "-100%"

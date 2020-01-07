@@ -870,6 +870,7 @@
   <!-- youPlus -->
   <% if(htmlWebpackPlugin.options.stage === "production") { %>
   <script type="text/javascript">
+
     // function youPlus(t, e) {
     //   var n = e.createElement("script"),
     //     o = e.getElementsByTagName("script")[0];
@@ -890,6 +891,7 @@
   </script>
   <% } else { %>
   <script type="text/javascript">
+
     // function youPlus(t,e){
     //   var n=e.createElement("script"),
     //   o=e.getElementsByTagName("script")[0];
@@ -905,6 +907,7 @@
   </script>
   <% } %>
   <!-- youPlus end -->
+
   <script type="text/javascript">
     //added to avoid msite view in desktop , it removes msite service worker if it is present
     if ('serviceWorker' in navigator && navigator.userAgent.indexOf("Mobile") === -1) {

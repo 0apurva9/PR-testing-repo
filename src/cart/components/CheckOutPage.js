@@ -2874,7 +2874,9 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
+            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
+              this.state.cardDetails.emi_bank
+            } card.`
           });
         } else if (
           binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
@@ -2885,7 +2887,9 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${this.state.cardDetails.selectedBankName} card only.`
+            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${
+              this.state.cardDetails.selectedBankName
+            } card only.`
           });
         } else if (
           this.props.cart &&
@@ -2953,7 +2957,9 @@ if you have order id in local storage then you have to show order confirmation p
       ) {
         this.setState({
           emiBinValidationStatus: true,
-          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
+          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
+            this.state.cardDetails.emi_bank
+          } card.`
         });
       } else {
         this.setState({
