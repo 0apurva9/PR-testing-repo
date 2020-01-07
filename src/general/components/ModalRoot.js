@@ -877,7 +877,7 @@ export default class ModalRoot extends React.Component {
       ),
       ExchangeModal: (
         <ExchangeModal
-          closeModal={data => this.handleOfferModalClose(data)}
+          closeModal={() => this.handleClose()}
           {...this.props.ownProps}
         />
       ),

@@ -817,8 +817,8 @@ export default class PdpApparel extends React.Component {
     !this.state.selectedBundledProduct.includes(e.target.value) &&
       this.state.selectedBundledProduct.push(e.target.value);
   }
-  openExchangeModal() {
-    this.props.showExchangeModal();
+  openExchangeModal(data) {
+    this.props.showExchangeModal(data);
   }
   render() {
     let seasonData = {};
@@ -1144,7 +1144,14 @@ export default class PdpApparel extends React.Component {
                             with exchange
                           </span>
                         </div>
-                        <div className={styles.exchangeDetails}>
+                        <div
+                          className={styles.exchangeDetails}
+                          onClick={() =>
+                            this.openExchangeModal({
+                              openHowExchangeWorksModal: true
+                            })
+                          }
+                        >
                           How exchange works?
                         </div>
                       </div>
