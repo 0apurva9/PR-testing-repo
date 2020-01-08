@@ -1230,7 +1230,7 @@ export function getEmiBankDetails(price) {
       const result = await api.get(
         `${CART_PATH}/getBankDetailsforEMI?platformNumber=${PLAT_FORM_NUMBER}&productValue=${price}&access_token=${
           JSON.parse(globalCookie).access_token
-        }&guid=${cartGuid}&isFromNewVersion=true&isPwa=true`
+        }&guid=${cartGuid}&isFromNewVersion=true&isPwa=truee&emiConvChargeFlag=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4571,7 +4571,7 @@ export function getBankAndTenureDetails(
           JSON.parse(userDetails).userName
         }/payments/noCostEmiTenureList?access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartId}&retryFlag=${retryFlagForEmiCoupon}&isUpdatedPwa=true`
+        }&cartGuid=${cartId}&retryFlag=${retryFlagForEmiCoupon}&isUpdatedPwa=true&emiConvChargeFlag=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4678,7 +4678,7 @@ export function applyNoCostEmi(couponCode, cartGuId, cartId, isFromRetryUrl) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/applyNoCostEMI?couponCode=${couponCode}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartGuId}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`
+        }&cartGuid=${cartGuId}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true&emiConvChargeFlag=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4804,7 +4804,8 @@ export function getItemBreakUpDetails(
   couponCode,
   cartGuId,
   noCostEmiText,
-  noCostEmiProductCount
+  noCostEmiProductCount,
+  emiInfo
 ) {
   return async (dispatch, getState, { api }) => {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -4821,7 +4822,7 @@ export function getItemBreakUpDetails(
           JSON.parse(userDetails).userName
         }/payments/noCostEmiItemBreakUp?couponCode=${couponCode}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartGuId}`
+        }&cartGuid=${cartGuId}&emiConvChargeFlag=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4831,7 +4832,8 @@ export function getItemBreakUpDetails(
       }
       let noCostEmiResult = Object.assign({}, resultJson, {
         noCostEmiText: noCostEmiText,
-        noCostEmiProductCount: noCostEmiProductCount
+        noCostEmiProductCount: noCostEmiProductCount,
+        emiInfo: emiInfo
       });
       dispatch(getItemBreakUpDetailsSuccess(resultJson));
       dispatch(showModal(EMI_ITEM_LEVEL_BREAKAGE, noCostEmiResult));

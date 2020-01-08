@@ -182,11 +182,24 @@ export default class NoCostEmiBankDetails extends React.Component {
     });
   }
   itemBreakup() {
+    let emiInfo;
+    if (this.props.cardDetails && this.props.cardDetails.emi_bank) {
+      this.props.bankList &&
+        this.props.bankList.map(bankSelected => {
+          if (bankSelected.bankCode === this.props.cardDetails.emi_bank) {
+            emiInfo =
+              this.props.noCostEmiDetails &&
+              this.props.noCostEmiDetails.cartAmount &&
+              this.props.noCostEmiDetails.cartAmount.emiInfo;
+          }
+        });
+    }
     if (this.props.getItemBreakUpDetails) {
       this.props.getItemBreakUpDetails(
         this.state.selectedCouponCode,
         this.state.noCostEmiText,
-        this.props.noCostEmiProductCount
+        this.props.noCostEmiProductCount,
+        emiInfo
       );
     }
   }
