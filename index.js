@@ -74,6 +74,10 @@ function removeWord(originalWord, searchWord) {
 var ampServicesStartPoint = "https://www.tataque.com";
 var ampCrossDomainUrl = "https://amp.tatacliq.com";
 
+app.get("/marketplacewebservices/v2/mpl/getOrderInvoice/*", (req, res) => {
+  res.redirect("https://www.tatacliq.com" + req.originalUrl);
+});
+
 app.get("/*", (req, res) => {
   const origUrl = req.originalUrl;
 
