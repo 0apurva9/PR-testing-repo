@@ -1,24 +1,31 @@
 import React from "react";
 import styles from "./StarRating.css";
 import PropTypes from "prop-types";
-import FilledStar from "./img/star-fill.svg";
-import Star from "./img/star-stroke.svg";
+import GreenFilledStar from "../../general/components/img/green-filled-star.svg";
+import FilledStar from "../../general/components/img/star-fill.svg";
+import EmptyStar from "../../general/components/img/empty-star.svg";
 import Icon from "../../xelpmoc-core/Icon";
 export default class StarRating extends React.Component {
   render() {
     const starSpans = [];
     const rating = this.props.averageRating;
     for (let i = 1; i <= 5; i++) {
-      if (i <= rating) {
+      if (rating >= i && rating < 3 && rating !== null) {
         starSpans.push(
           <div key={i} className={styles.star}>
             <Icon image={FilledStar} size={this.props.size} />
           </div>
         );
+      } else if (rating >= i && rating >= 3 && rating !== null) {
+        starSpans.push(
+          <div key={i} className={styles.star}>
+            <Icon image={GreenFilledStar} size={this.props.size} />
+          </div>
+        );
       } else {
         starSpans.push(
           <div key={i} className={styles.star}>
-            <Icon image={Star} size={this.props.size} />
+            <Icon image={EmptyStar} size={this.props.size} />
           </div>
         );
       }

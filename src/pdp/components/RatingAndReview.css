@@ -1,0 +1,340 @@
+.base {
+	width: 100%;
+  height: 100%;
+}
+.reviewContainer {
+	width: 100%;
+	height: calc(100% - 56px);
+	padding: 30px 32px 40px 62px;
+}
+.headerText {
+	font-family: semibold;
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #212121;
+}
+.close {
+	width: 16px;
+	height: 16px;
+}
+.header {
+	width: 100%;
+	padding: 16px 33px 16px 60px;
+	background-color: #f9f9f9;
+	display: flex;
+	justify-content: space-between;
+  align-items: center;
+}
+.productImage {
+	width: 95px;
+	height: 130px;
+}
+.imageContainer{
+	width:25%;
+}
+.productData{
+	width: calc(100% - 95px);
+	padding-left: 35px;
+}
+.productDetailsHolder {
+	width: 100%;
+	display: flex;
+}
+.productWrapper {
+	display: flex;
+	width: 83%;
+}
+.cancelHolder {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+.select {
+	width: 100%;
+	height: auto;
+	margin-bottom: 20px;
+}
+.textArea {
+	width: 100%;
+	height: auto;
+}
+.content {
+	width: 100%;
+	height: auto;
+	border-radius: 4px;
+}
+.button {
+	display: inline-block;
+}
+.cancelTitle {
+	font-family: semibold;
+	margin-bottom: 15px;
+	font-size: 18px;
+}
+.textarea {
+	font-size: 12px !important;
+}
+.content > div:first-child {
+	padding: 15px;
+	background-color: #ffffff;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+}
+.cancelReasonForm {
+	padding: 25px 20px;
+	background-color: #ffffff;
+	border-radius: 6px;
+}
+.productSizeColor {
+	width: auto;
+	height: auto;
+	color: #000000;
+	font-size: 12px;
+	font-family: light;
+}
+.selectReasonHolder {
+	width: 100%;
+	height: auto;
+	background: #fff;
+	padding: 20px 30px;
+	border-radius: 4px;
+	overflow: hidden;
+}
+.CancelAndContinueButton {
+	width: 380px;
+	height: auto;
+	padding: 20px 0px;
+}
+.submitButton{
+  background: #ff1744;
+  height: 36px;
+  width: 180px;
+  color: #FFF;
+  font-size: 14px;
+}
+.continueButton{
+  background: #fff;
+  color: #FF1744;
+  font-size: 14px;
+  font-family: semibold;
+}
+.continueButtonHolder{
+	width: 180px;
+	height: 36px;
+	border-radius: 100px;
+	border: solid 2px #212121;
+	padding-right: 34px;
+	float: right;
+}
+.cancelButtonHolder {
+	width: 180px;
+	height: 36px;
+	border-radius: 100px;
+	border: solid 2px #212121;
+	padding-right: 34px;
+	float: right;
+  }
+.buttonHolder {
+	text-align: right;
+}
+.buttonRight {
+	height: auto;
+	display: inline-block;
+	vertical-align: top;
+}  
+.buttonleft {
+	composes: buttonRight;
+	margin-right: 20px;
+}
+.button {
+	width: auto;
+	height: auto;
+	display: inline-block;
+	vertical-align: top;
+}
+.buttonHolder:last-child {
+	margin-bottom: 0px;
+}
+.inputComponent{
+	margin-top: 28px;
+}
+.feedbackHeader{
+	font-family: semibold;
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.22;
+  letter-spacing: normal;
+	color: #212121;
+	margin-bottom: 24px;
+}
+.deliveryDate{
+	font-family: semibold;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.88;
+  letter-spacing: normal;
+	color: #212121;
+	margin-bottom: 26px;
+}
+.productName {
+	width: 100%;
+	height: auto;
+	color: #212121;
+	font-family: light;
+	line-height: 22px;
+	margin-bottom: 10px;
+	font-size: 16px;
+	display: inline-block;
+	word-wrap: break-word;
+	font-weight: 300;
+}
+.ratingContainer {
+	width: 100%;
+	height: 30px;
+	position: relative;
+	margin-bottom: 20px;
+}
+.ratingHeader {
+	display: inline-block;
+	font-size: 14px;
+	line-height: 24px;
+	font-family: regular;
+	margin-right: 10px;
+}
+.ratingBar {
+	height: auto;
+	width: 100%;
+	display: inline-block;
+	cursor: pointer;
+}
+
+.reviewHeading {
+	margin-top: 24px;
+	margin-bottom: 19px;
+	font-family: semibold;
+	font-size: 14px;
+	color: #333333;
+	letter-spacing: 0;
+}
+
+.reviewWrapper {
+	font-family: semibold;
+  font-size: 10px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+	color: #212121;
+	margin-bottom: 15px;
+}
+.input {
+	width: 537px;
+  margin: 10px 0 24px 0;
+}
+.inputComment {
+	width: 537px;
+  margin-top: 10px;
+}	
+.reviewTipsContainer {
+	width: 749px;
+  height: 360px;
+	box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1);
+	background-color: #ffffff;
+	position: fixed;
+	top: 20%;
+	right: 4%;
+	z-index: 101;
+	padding: 30px 200px 55px 42px;
+}
+
+.reviewTipsContainer::after {
+	content: "";
+	position: absolute;
+	width: 0;
+	height: 0;
+	right: 5%;
+	top: 0%;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	border: 11px solid black;
+	border-color: transparent transparent #ffffff #ffffff;
+	-webkit-transform-origin: 0 0;
+	-ms-transform-origin: 0 0;
+	transform-origin: 0 0;
+	-webkit-transform: rotate(135deg);
+	-ms-transform: rotate(135deg);
+	transform: rotate(135deg);
+	-webkit-box-shadow: -3px 3px 3px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: -3px 3px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.headerForGuidelines{
+  font-family: semibold;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #212121;
+}
+.reviewBody{
+  padding-top: 36px;
+  font-size: 12px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #212121;
+}
+
+.contentHeader {
+  font-family: semibold;
+  font-size: 14px;
+} 
+.contentContainer {
+  padding-left: 15px;
+} 
+.reviewTipsText {
+  padding-bottom: 15px;
+  font-size: 12px;
+  font-family: light;
+}
+
+@media screen and (min-width: 1025px) {
+	.centerSubmitButton {
+	  text-align: right;
+	}
+	.cancelButton {
+	  width: auto;
+	  display: inline-block;
+	  margin-right: 20px;
+	  cursor: pointer;
+	}
+	.ratingContainer {
+	  margin-bottom: 25px;
+	}
+
+	.reviewGuidelines {
+		height: 17px;
+	  font-family: semibold;
+	  font-size: 14px;
+	  font-weight: 500;
+	  font-style: normal;
+	  font-stretch: normal;
+	  line-height: normal;
+	  letter-spacing: normal;
+	  text-align: right;
+	  color: #ff1744;
+	}
+}
