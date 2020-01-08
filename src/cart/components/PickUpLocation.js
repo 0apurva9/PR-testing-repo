@@ -160,18 +160,31 @@ export default class PickUpLocation extends React.Component {
       closingTime = this.hoursToMeridiem(closingHour, closingMinute);
     }
 
+    let isSelected = this.props.isReturn
+      ? this.props.selectedId === this.props.slaveId
+        ? true
+        : false
+      : this.props.selected;
+    let baseClass = styles.base;
+    let thumbailClass = styles.thumbnail;
+    if (isSelected) {
+      baseClass = `${styles.base} ${styles.selectedStore}`;
+      thumbailClass = `${styles.thumbnail} ${styles.selectedThumbnail}`;
+    }
+
     return (
-      <div className={styles.base}>
-        <div className={styles.holder}>
+      <div className={baseClass}>
+        <div
+          className={styles.holder}
+          onClick={() => this.handleClickForDesktop()}
+        >
+          <span className={thumbailClass}>{this.props.count}</span>
           {this.props.headingText && (
             <div className={styles.headingText}>{this.props.headingText}</div>
           )}
 
           <DesktopOnly>
-            <div
-              className={styles.checkBoxHolder}
-              onClick={() => this.handleClickForDesktop()}
-            >
+            <div className={styles.checkBoxHolder}>
               <CheckBox
                 selected={
                   this.props.isReturn

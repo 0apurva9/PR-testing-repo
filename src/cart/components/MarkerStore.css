@@ -3,6 +3,7 @@
   height: 100%;
   position: absolute;
 }
+.place {cursor: pointer;}
 .storeName {
   padding: 2px;
   position: absolute;

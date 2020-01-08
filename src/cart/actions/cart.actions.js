@@ -3653,7 +3653,7 @@ export function addPickupPersonCNC(personMobile, personName) {
       }
 
       dispatch(
-        getCartDetails(
+        getCartDetailsCNC(
           JSON.parse(userDetails).userName,
           JSON.parse(customerCookie).access_token,
           cartId,
@@ -7053,7 +7053,7 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
             JSON.parse(userDetails).userName
           }/buyNow/expressBuy?productCode=${productDetails.code}&USSID=${
             productDetails.ussId
-          }&&slaveId=${productDetails.slaveId}&access_token=${
+          }&slaveId=${productDetails.slaveId}&access_token=${
             JSON.parse(customerCookie).access_token
           }&isCNC=yes`
         );

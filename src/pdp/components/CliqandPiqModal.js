@@ -29,9 +29,6 @@ export default class ReturnToStore extends React.Component {
     };
   }
   selectStoreForDesktop = val => {
-    let element = this.refs.scrollToView;
-    element.scrollTop = element.offsetHeight + 40;
-
     if (val.length > 0) {
       let selectedStore =
         this.state.availableStores &&
@@ -56,17 +53,12 @@ export default class ReturnToStore extends React.Component {
         storeId
       });
     }
-
-    // if (this.props.from === "Checkout" || this.props.from === "Pdp") {
-    //   if (this.props.addStoreCNC) {
-    //     this.setState({ showPickupPerson: true });
-    //     this.props.addStoreCNC(val[0]);
-    //   }
-    // }
   };
 
   selectStoreButtonForDesktop = () => {
     if (this.props.from === "Checkout" || this.props.from === "Pdp") {
+      let element = this.refs.scrollToView;
+      element.scrollTop = 0;
       if (this.props.addStoreCNC && this.state.storeId) {
         this.setState({ showPickupPerson: true });
         this.props.addStoreCNC(this.state.storeId);
@@ -261,6 +253,7 @@ export default class ReturnToStore extends React.Component {
                       return (
                         <PickUpLocation
                           key={i}
+                          count={i + 1}
                           address={`${val.address &&
                             val.address.line1} ${val.address &&
                             val.address.line2}, `}
@@ -283,22 +276,26 @@ export default class ReturnToStore extends React.Component {
                         />
                       );
                     })}
-                    <div
-                      className={styles.buttonContainer}
-                      onClick={() => this.selectStoreButtonForDesktop()}
-                    >
-                      <div className={styles.button}>
-                        <Button
-                          type="primary"
-                          label="Continue"
-                          color="#fff"
-                          width={121}
-                          disabled={!this.state.storeId}
-                        />
-                      </div>
-                    </div>
                   </GridSelect>
                 )}
+              <div
+                className={
+                  !this.state.showPickupPerson
+                    ? styles.buttonContainer
+                    : styles.visiblityHidden
+                }
+                onClick={() => this.selectStoreButtonForDesktop()}
+              >
+                <div className={styles.button}>
+                  <Button
+                    type="primary"
+                    label="Continue"
+                    color="#fff"
+                    width={121}
+                    disabled={!this.state.storeId}
+                  />
+                </div>
+              </div>
               {this.state.showPickupPerson &&
                 this.state.selectedStore && (
                   <div className={styles.getLocationDetailsHolder}>

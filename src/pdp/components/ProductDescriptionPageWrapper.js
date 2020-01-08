@@ -302,12 +302,6 @@ export default class ProductDescriptionPageWrapper extends React.Component {
           isCliqAndPiqCartGuid: buyNowResponse.cartDetails.buyNowCartGuid,
           isCliqAndPiqCartCode: buyNowResponse.cartDetails.buyNowCartCode
         });
-        if (productDetailsObject && productDetailsObject.ussId) {
-          let addStore = await this.props.addStoreCNC(
-            productDetailsObject.ussId,
-            selectedSlaveId
-          );
-        }
       }
     }
   };
