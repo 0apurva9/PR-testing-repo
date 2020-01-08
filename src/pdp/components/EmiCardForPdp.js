@@ -20,20 +20,30 @@ export default class EmiCardForPdp extends React.Component {
             </div>
           </div>
           {this.props.showInterestRate && (
-            <div
-              className={styles.row}
-              style={{ width: `${this.props.width}%` }}
-            >
-              <div className={styles.header}>Interest Rate</div>
-              <div className={styles.data}>
-                {this.props.options.map((datum, i) => {
-                  return (
-                    <div className={styles.dataDetails} key={i}>
-                      {datum.interestRate}%
-                    </div>
-                  );
-                })}
+            <div>
+              <div
+                className={styles.row}
+                style={{ width: `${this.props.width}%` }}
+              >
+                <div className={styles.header}>Interest Rate</div>
+                <div className={styles.data}>
+                  {this.props.options.map((datum, i) => {
+                    return (
+                      <div className={styles.dataDetails} key={i}>
+                        {datum.interestRate}%
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
+              {this.props.emiInfo && (
+                <div
+                  className={styles.row}
+                  style={{ width: `${this.props.width}%` }}
+                >
+                  {this.props.emiInfo}
+                </div>
+              )}
             </div>
           )}
           <div className={styles.row} style={{ width: `${this.props.width}%` }}>

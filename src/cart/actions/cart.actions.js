@@ -4804,7 +4804,8 @@ export function getItemBreakUpDetails(
   couponCode,
   cartGuId,
   noCostEmiText,
-  noCostEmiProductCount
+  noCostEmiProductCount,
+  emiInfo
 ) {
   return async (dispatch, getState, { api }) => {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -4831,7 +4832,8 @@ export function getItemBreakUpDetails(
       }
       let noCostEmiResult = Object.assign({}, resultJson, {
         noCostEmiText: noCostEmiText,
-        noCostEmiProductCount: noCostEmiProductCount
+        noCostEmiProductCount: noCostEmiProductCount,
+        emiInfo: emiInfo
       });
       dispatch(getItemBreakUpDetailsSuccess(resultJson));
       dispatch(showModal(EMI_ITEM_LEVEL_BREAKAGE, noCostEmiResult));
