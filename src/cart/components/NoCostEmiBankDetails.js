@@ -430,6 +430,16 @@ export default class NoCostEmiBankDetails extends React.Component {
               </div>
             )}
           {noCostEmiDetails &&
+            noCostEmiDetails.noCostEMIConvCharge &&
+            noCostEmiDetails.noCostEMIConvCharge.value && (
+              <div className={styles.amountData}>
+                <div className={styles.amountLabel}>Bank Convenience Fees</div>
+                <div className={styles.amount}>{`Rs. ${Math.round(
+                  noCostEmiDetails.noCostEMIConvCharge.value
+                )}`}</div>
+              </div>
+            )}
+          {noCostEmiDetails &&
             noCostEmiDetails.noCostEMIDiscountValue &&
             noCostEmiDetails.noCostEMIDiscountValue.value && (
               <div className={styles.discount}>
@@ -630,8 +640,19 @@ export default class NoCostEmiBankDetails extends React.Component {
               </div>
             )}
             {this.state.selectedMonth !== null &&
-              this.props.noCostEmiDetails &&
-              this.renderMonthsPlan(this.props.noCostEmiDetails.cartAmount)}
+              this.props.noCostEmiDetails && (
+                <div>
+                  {this.props.noCostEmiDetails.cartAmount &&
+                    this.props.noCostEmiDetails.cartAmount.emiInfo && (
+                      <div className={styles.charges}>
+                        {this.props.noCostEmiDetails.cartAmount.emiInfo}
+                      </div>
+                    )}
+                  {this.renderMonthsPlan(
+                    this.props.noCostEmiDetails.cartAmount
+                  )}
+                </div>
+              )}
             {this.state.selectedMonth !== null &&
               this.props.isRetryPaymentFromURL &&
               this.props.retryPaymentDetails &&
