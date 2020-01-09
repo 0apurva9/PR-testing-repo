@@ -20,9 +20,17 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    sort: state.productListings.productListings
-      ? state.productListings.productListings.sorts
-      : null
+    sort:
+      state.productListings && state.productListings.productListings
+        ? state.productListings.productListings.sorts
+        : null,
+    query:
+      state.productListings &&
+      state.productListings.productListings &&
+      state.productListings.productListings.currentQuery &&
+      state.productListings.productListings.currentQuery.query
+        ? state.productListings.productListings.currentQuery.query.value
+        : null
   };
 };
 

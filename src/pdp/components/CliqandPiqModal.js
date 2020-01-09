@@ -7,6 +7,8 @@ import PickUpLocation from "../../cart/components/PickUpLocation.js";
 import GetLocationDetails from "../../cart/components/GetLocationDetails.js";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import PickUpDetails from "../../cart/components/PickUpDetails.js";
+import Button from "../../general/components/Button";
+import { SELECTED_STORE } from "../../lib/constants.js";
 import {
   setDataLayerForCartDirectCalls,
   ADOBE_DIRECT_CALL_FOR_SELECT_STORE
@@ -21,6 +23,7 @@ export default class ReturnToStore extends React.Component {
       storeId: null,
       showPickupPerson: false,
       selectedStore: null,
+      selectedStoreId: null,
       mobile: this.props.userDetails && this.props.userDetails.mobileNumber,
       name: this.props.userDetails && this.props.userDetails.firstName
     };
@@ -39,6 +42,12 @@ export default class ReturnToStore extends React.Component {
       const lat = selectedStore && selectedStore.geoPoint.latitude;
       const lng = selectedStore && selectedStore.geoPoint.longitude;
       const storeId = selectedStore && selectedStore.slaveId;
+      if (selectedStore.address) {
+        localStorage.setItem(
+          SELECTED_STORE,
+          `${selectedStore.displayName}, ${selectedStore.address.line1} ${selectedStore.address.line2}, ${selectedStore.address.city} ${selectedStore.address.postalCode}`
+        );
+      }
       this.setState({
         lat,
         lng,
@@ -46,10 +55,19 @@ export default class ReturnToStore extends React.Component {
       });
     }
 
+    // if (this.props.from === "Checkout" || this.props.from === "Pdp") {
+    //   if (this.props.addStoreCNC) {
+    //     this.setState({ showPickupPerson: true });
+    //     this.props.addStoreCNC(val[0]);
+    //   }
+    // }
+  };
+
+  selectStoreButtonForDesktop = () => {
     if (this.props.from === "Checkout" || this.props.from === "Pdp") {
-      if (this.props.addStoreCNC) {
+      if (this.props.addStoreCNC && this.state.storeId) {
         this.setState({ showPickupPerson: true });
-        this.props.addStoreCNC(val[0]);
+        this.props.addStoreCNC(this.state.storeId);
       }
     }
   };
@@ -201,6 +219,7 @@ export default class ReturnToStore extends React.Component {
                 availableStores={this.state.availableStores}
                 lat={this.state.lat}
                 lng={this.state.lng}
+                storeClick={val => this.selectStoreForDesktop(val)}
               />
             </div>
             <div className={styles.storeListForDesktop} ref="scrollToView">
@@ -227,79 +246,89 @@ export default class ReturnToStore extends React.Component {
                   changePincode={pincode => this.getPinCodeDetails(pincode)}
                 />
               </div>
-              {!this.state.showPickupPerson &&
-                this.state.availableStores && (
-                  <GridSelect
-                    limit={1}
-                    offset={0}
-                    elementWidthDesktop={100}
-                    onSelect={val => this.selectStoreForDesktop(val)}
-                    selected={[this.state.storeId]}
-                  >
-                    {this.state.availableStores.map((val, i) => {
-                      return (
-                        <PickUpLocation
-                          key={i}
-                          address={`${val.address &&
-                            val.address.line1} ${val.address &&
-                            val.address.line2}, `}
-                          PickUpKey="Open on: "
-                          workingDays={val.mplWorkingDays}
-                          openingTime={val.mplOpeningTime}
-                          closingTime={val.mplClosingTime}
-                          address2={`${val.returnCity} ${val.returnPin}`}
-                          headingText={val.displayName}
-                          value={val.slaveId}
-                          canSelectStore={this.props.canSelectStore}
-                          slaveId={val.slaveId}
-                          deliveryInformationWithDate={
-                            this.props.pincodeResponse
-                              ? this.props.pincodeResponse
-                              : this.props.pincodeResponseList &&
-                                getDeliveryModesByWinningUssid &&
-                                getDeliveryModesByWinningUssid.validDeliveryModes
-                          }
-                        />
-                      );
-                    })}
-                  </GridSelect>
-                )}
-              {this.state.showPickupPerson &&
-                this.state.selectedStore && (
-                  <div className={styles.getLocationDetailsHolder}>
-                    <div className={styles.getLocationDetails}>
-                      <GetLocationDetails
-                        changeLocation={() => {
-                          this.changeStore();
-                        }}
-                        headingText={this.state.selectedStore.displayName}
-                        address={`${this.state.selectedStore.returnAddress1} ${
-                          this.state.selectedStore.returnAddress2
-                        } ${this.state.selectedStore.returnCity}`}
-                        pickUpKey="Open on: "
-                        pickUpValue={this.state.selectedStore.selectedStoreTime}
-                        workingDays={this.state.selectedStore.mplWorkingDays}
-                        openingTime={this.state.selectedStore.mplOpeningTime}
-                        closingTime={this.state.selectedStore.mplClosingTime}
-                        pincodeDetails={
-                          this.props.isFromCheckOut
+              {!this.state.showPickupPerson && this.state.availableStores && (
+                <GridSelect
+                  limit={1}
+                  offset={0}
+                  elementWidthDesktop={100}
+                  onSelect={val => this.selectStoreForDesktop(val)}
+                  selected={[this.state.storeId]}
+                >
+                  {this.state.availableStores.map((val, i) => {
+                    return (
+                      <PickUpLocation
+                        key={i}
+                        address={`${val.address &&
+                          val.address.line1} ${val.address &&
+                          val.address.line2}, `}
+                        PickUpKey="Open on: "
+                        workingDays={val.mplWorkingDays}
+                        openingTime={val.mplOpeningTime}
+                        closingTime={val.mplClosingTime}
+                        address2={`${val.returnCity} ${val.returnPin}`}
+                        headingText={val.displayName}
+                        value={val.slaveId}
+                        canSelectStore={this.props.canSelectStore}
+                        slaveId={val.slaveId}
+                        deliveryInformationWithDate={
+                          this.props.pincodeResponse
                             ? this.props.pincodeResponse
-                            : getDeliveryModesByWinningUssid
+                            : this.props.pincodeResponseList &&
+                              getDeliveryModesByWinningUssid &&
+                              getDeliveryModesByWinningUssid.validDeliveryModes
                         }
-                        selectedSlaveId={this.state.selectedStore.slaveId}
-                        isFromCheckOut={this.props.isFromCheckOut}
                       />
-                    </div>
-                    <div className={styles.pickUpDetails}>
-                      <PickUpDetails
-                        getValue={val => this.getValue(val)}
-                        onSubmit={() => this.handleSubmit()}
-                        name={this.state.name}
-                        mobile={this.state.mobile}
+                    );
+                  })}
+                  <div
+                    className={styles.buttonContainer}
+                    onClick={() => this.selectStoreButtonForDesktop()}
+                  >
+                    <div className={styles.button}>
+                      <Button
+                        type="primary"
+                        label="Continue"
+                        color="#fff"
+                        width={121}
+                        disabled={!this.state.storeId}
                       />
                     </div>
                   </div>
-                )}
+                </GridSelect>
+              )}
+              {this.state.showPickupPerson && this.state.selectedStore && (
+                <div className={styles.getLocationDetailsHolder}>
+                  <div className={styles.getLocationDetails}>
+                    <GetLocationDetails
+                      changeLocation={() => {
+                        this.changeStore();
+                      }}
+                      headingText={this.state.selectedStore.displayName}
+                      address={`${this.state.selectedStore.returnAddress1} ${this.state.selectedStore.returnAddress2} ${this.state.selectedStore.returnCity}`}
+                      pickUpKey="Open on: "
+                      pickUpValue={this.state.selectedStore.selectedStoreTime}
+                      workingDays={this.state.selectedStore.mplWorkingDays}
+                      openingTime={this.state.selectedStore.mplOpeningTime}
+                      closingTime={this.state.selectedStore.mplClosingTime}
+                      pincodeDetails={
+                        this.props.isFromCheckOut
+                          ? this.props.pincodeResponse
+                          : getDeliveryModesByWinningUssid
+                      }
+                      selectedSlaveId={this.state.selectedStore.slaveId}
+                      isFromCheckOut={this.props.isFromCheckOut}
+                    />
+                  </div>
+                  <div className={styles.pickUpDetails}>
+                    <PickUpDetails
+                      getValue={val => this.getValue(val)}
+                      onSubmit={() => this.handleSubmit()}
+                      name={this.state.name}
+                      mobile={this.state.mobile}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

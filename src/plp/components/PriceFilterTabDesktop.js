@@ -37,13 +37,15 @@ export default class PriceFilterTabDesktop extends React.Component {
         this.state.maxRange.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
       let currentAppliedFilters = "   :relevance";
+      let searchHistory = this.props.history.location.search;
+      if (searchHistory.includes("icid") && this.props.query) {
+        searchHistory = encodeURI(this.props.query);
+      }
       if (/q=/.test(this.props.history.location.search)) {
-        currentAppliedFilters = decodeURIComponent(
-          this.props.history.location.search
-        );
+        currentAppliedFilters = decodeURIComponent(searchHistory);
       } else {
         if (TEXT_REGEX.test(this.props.history.location.search)) {
-          const textParam = TEXT_REGEX.exec(this.props.history.location.search);
+          const textParam = TEXT_REGEX.exec(searchHistory);
           currentAppliedFilters = `   ${
             textParam && textParam[1] ? textParam[1] : ""
           }:relevance`;
@@ -51,13 +53,24 @@ export default class PriceFilterTabDesktop extends React.Component {
       }
       if (currentAppliedFilters) {
         if (PRICE_FILTER_REG_EX.test(currentAppliedFilters)) {
-          currentAppliedFilters = currentAppliedFilters
-            .substring(3)
-            .replace(PRICE_FILTER_REG_EX, `:price:${minRange}-${maxRange}`);
+          if (/q=/.test(currentAppliedFilters)) {
+            currentAppliedFilters = currentAppliedFilters
+              .substring(3)
+              .replace(PRICE_FILTER_REG_EX, `:price:${minRange}-${maxRange}`);
+          } else {
+            currentAppliedFilters = currentAppliedFilters.replace(
+              PRICE_FILTER_REG_EX,
+              `:price:${minRange}-${maxRange}`
+            );
+          }
         } else {
-          currentAppliedFilters = `${currentAppliedFilters.substring(
-            3
-          )}:price:${minRange}-${maxRange}`;
+          if (/q=/.test(currentAppliedFilters)) {
+            currentAppliedFilters = `${currentAppliedFilters.substring(
+              3
+            )}:price:${minRange}-${maxRange}`;
+          } else {
+            currentAppliedFilters = `${currentAppliedFilters}:price:${minRange}-${maxRange}`;
+          }
         }
       } else {
         if (this.props.priceList[0] && this.props.priceList[0].url) {

@@ -103,11 +103,11 @@ export default class CreditCardForm extends React.Component {
           .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
           .trim()
       : this.state.cardNumber
-        ? this.state.cardNumber
-            .replace(REGX_FOR_WHITE_SPACE, "")
-            .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
-            .trim()
-        : "";
+      ? this.state.cardNumber
+          .replace(REGX_FOR_WHITE_SPACE, "")
+          .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
+          .trim()
+      : "";
   }
 
   onChange(val) {
@@ -211,8 +211,7 @@ export default class CreditCardForm extends React.Component {
                     Please enter a valid card number
                   </span>
                 )}
-              {!this.props.bankGatewayStatus === BANK_GATWAY_DOWN &&
-                this.state.emiInvalidCardError &&
+              {this.state.emiInvalidCardError &&
                 this.state.cardNumber.length > 6 && (
                   <span className={styles.invalidCardText}>
                     {this.state.emiInvalidCardError}

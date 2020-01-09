@@ -14,6 +14,8 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import arrowIcon from "../../general/components/img/arrow.svg";
 import PropTypes from "prop-types";
 import MetaTags from "react-meta-tags";
+import { isBrowser } from "browser-or-node";
+
 import {
   setDataLayerForPdpDirectCalls,
   SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT
@@ -135,7 +137,7 @@ export default class ProductDetailsMainCard extends React.Component {
             </div>
             <a
               itemProp="url"
-              href={window.location.href}
+              href={isBrowser ? window.location.href : ""}
               onClick={this.handleLinkClick}
             >
               <div itemProp="name">
@@ -215,10 +217,14 @@ export default class ProductDetailsMainCard extends React.Component {
                   Rating
                   <span className={styles.ratingOffset} itemProp="ratingValue">
                     {averageRating}
-                  </span>/5
+                  </span>
                   <meta
                     itemProp="reviewCount"
                     content={this.props.numberOfReviews}
+                  />
+                  <meta
+                    itemprop="itemReviewed"
+                    content={this.props.averageRating}
                   />
                 </div>
               )}
@@ -228,17 +234,16 @@ export default class ProductDetailsMainCard extends React.Component {
             </StarRating>
           </div>
         )}
-        {!this.props.averageRating &&
-          this.props.isPdp && (
-            <DesktopOnly>
-              <div
-                className={styles.noRatingText}
-                onClick={() => this.handleRatingLink()}
-              >
-                {NO_REVIEW_TEXT}
-              </div>
-            </DesktopOnly>
-          )}
+        {!this.props.averageRating && this.props.isPdp && (
+          <DesktopOnly>
+            <div
+              className={styles.noRatingText}
+              onClick={() => this.handleRatingLink()}
+            >
+              {NO_REVIEW_TEXT}
+            </div>
+          </DesktopOnly>
+        )}
       </div>
     );
   }

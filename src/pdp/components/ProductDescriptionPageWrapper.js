@@ -23,19 +23,22 @@ import {
   LOGIN_PATH,
   CLIQ_PIQ_PRODUCT_DETAIL,
   REQUESTING,
-  STORE_DETAILS
+  STORE_DETAILS,
+  CHECKOUT_ROUTER,
+  CNC_CART
 } from "../../lib/constants";
 import {
   renderMetaTags,
   renderMetaTagsWithoutSeoObject
 } from "../../lib/seoUtils.js";
-import PdpElectronics from "./PdpElectronics";
-import PdpJewellery from "./PdpJewellery";
-import PdpApparel from "./PdpApparel";
-import PdpHome from "./PdpHome";
+// import PdpElectronics from "./PdpElectronics";
+// import PdpJewellery from "./PdpJewellery";
+// import PdpApparel from "./PdpApparel";
+// import PdpHome from "./PdpHome";
 import PdpDesktop from "./PdpDesktop";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import queryString, { parse } from "query-string";
+import { isBrowser } from "browser-or-node";
 import * as Cookie from "../../lib/Cookie";
 import cloneDeep from "lodash.clonedeep";
 import {
@@ -47,6 +50,7 @@ export const CLIQ_AND_PIQ_CART_CODE = "cliqAndPiqCartCode";
 const ERROR_MESSAGE_FOR_PICK_UP_PERSON_NAME =
   "Please enter Pickup person name,character should be greater than 4 ";
 const ERROR_MESSAGE_FOR_MOBILE_NUMBER = "Please enter valid mobile number";
+
 const PiqPageForPdp = Loadable({
   loader: () => import("./PiqPageForPdp"),
   loading() {
@@ -57,14 +61,44 @@ const PiqPageForPdp = Loadable({
     );
   }
 });
-const typeComponentMapping = {
-  Electronics: props => <PdpElectronics {...props} />,
-  Watches: props => <PdpElectronics {...props} />,
-  FashionJewellery: props => <PdpJewellery {...props} />,
-  Clothing: props => <PdpApparel {...props} />,
-  Footwear: props => <PdpApparel {...props} />,
-  HomeFurnishing: props => <PdpHome {...props} />,
-  FineJewellery: props => <PdpJewellery {...props} />
+let typeComponentMapping = {};
+let PdpElectronics;
+let PdpJewellery;
+let PdpApparel;
+let PdpHome;
+
+if (isBrowser) {
+  PdpElectronics = require("./PdpElectronics");
+  PdpJewellery = require("./PdpJewellery");
+  PdpApparel = require("./PdpApparel");
+  PdpHome = require("./PdpHome");
+
+  typeComponentMapping = {
+    Electronics: props => <PdpElectronics {...props} />,
+    Watches: props => <PdpElectronics {...props} />,
+    FashionJewellery: props => <PdpJewellery {...props} />,
+    Clothing: props => <PdpApparel {...props} />,
+    Footwear: props => <PdpApparel {...props} />,
+    HomeFurnishing: props => <PdpHome {...props} />,
+    FineJewellery: props => <PdpJewellery {...props} />
+  };
+}
+const relevantProductBundling = {
+  bundledItems: [
+    {
+      primaryProductCode: "MP000000001679195",
+      bundleItems: [
+        {
+          productCode: "MP000000005170874",
+          ussid: "124873ZopperTV"
+        },
+        {
+          productCode: "MP000000004730788",
+          ussid: "124722OneAssistTV"
+        }
+      ]
+    }
+  ]
 };
 
 const Loader = () => {
@@ -263,10 +297,17 @@ export default class ProductDescriptionPageWrapper extends React.Component {
         buyNowResponse.status === SUCCESS &&
         buyNowResponse.cartDetails
       ) {
+        localStorage.setItem(CNC_CART, "true");
         this.setState({
           isCliqAndPiqCartGuid: buyNowResponse.cartDetails.buyNowCartGuid,
           isCliqAndPiqCartCode: buyNowResponse.cartDetails.buyNowCartCode
         });
+        if (productDetailsObject && productDetailsObject.ussId) {
+          let addStore = await this.props.addStoreCNC(
+            productDetailsObject.ussId,
+            selectedSlaveId
+          );
+        }
       }
     }
   };
@@ -316,7 +357,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
         DEFAULT_PIN_CODE_LOCAL_STORAGE
       );
       this.props.history.push({
-        pathname: PRODUCT_CART_ROUTER,
+        pathname: CHECKOUT_ROUTER,
         state: {
           pinCode: defaultPinCode,
           isFromCliqAndPiq: true,
@@ -332,6 +373,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
     } else {
       this.hideLoader();
     }
+    console.log("PRODUCT DESCRIPTION PAGE WRAPPER RENDER HIT");
     if (
       !checkUserAgentIsMobile() &&
       this.props.showPiqPage &&
@@ -365,9 +407,9 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       this.props.showPdpCliqAndPiqPage(cliqAndPiqDetails);
     }
     if (this.props.productDetails) {
-      if (!this.props.showPiqPage || !checkUserAgentIsMobile()) {
-        return (
-          <div itemScope itemType="http://schema.org/Product">
+      if (!this.props.showPiqPage) {
+        if (checkUserAgentIsMobile()) {
+          return (
             <MobileOnly>
               {this.renderAmpTags()}
               {this.props.productDetails.seo
@@ -375,14 +417,10 @@ export default class ProductDescriptionPageWrapper extends React.Component {
                 : renderMetaTagsWithoutSeoObject(this.props.productDetails)}
               {this.renderRootCategory(this.props.productDetails.rootCategory)}
             </MobileOnly>
-            <DesktopOnly>
-              {this.props.productDetails.seo
-                ? renderMetaTags(this.props.productDetails)
-                : renderMetaTagsWithoutSeoObject(this.props.productDetails)}
-              <PdpDesktop {...this.props} />
-            </DesktopOnly>
-          </div>
-        );
+          );
+        } else {
+          return <PdpDesktop {...this.props} />;
+        }
       } else {
         return (
           <div>

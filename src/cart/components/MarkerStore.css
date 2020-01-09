@@ -3,3 +3,14 @@
   height: 100%;
   position: absolute;
 }
+.storeName {
+  padding: 2px;
+  position: absolute;
+  background-color: #fff;
+  margin-top: 6px;
+  text-align: center;
+  font-family: semibold;
+  font-size: 12px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}

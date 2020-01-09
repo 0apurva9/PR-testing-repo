@@ -18,7 +18,6 @@ import user from "../src/auth/reducers/user.reducer";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import * as api from "../src/lib/apiRequest";
 import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
 
 const rootReducer = combineReducers({
   auth,
@@ -44,12 +43,10 @@ export default function configureStore(preloadedState) {
   let store = createStore(
     rootReducer,
     preloadedState,
-    composeWithDevTools(
-      applyMiddleware(
-        thunk.withExtraArgument({
-          api
-        })
-      )
+    applyMiddleware(
+      thunk.withExtraArgument({
+        api
+      })
     )
   );
   return store;

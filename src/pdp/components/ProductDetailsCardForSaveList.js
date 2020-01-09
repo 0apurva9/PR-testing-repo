@@ -77,12 +77,11 @@ export default class ProductDetailsCardForSaveList extends React.Component {
                 </del>
               )}
           </div>
-          {this.props.size &&
-            this.props.size !== "NO SIZE" && (
-              <div className={styles.sizeHolder}>
-                <span className={styles.size}>Size</span> {this.props.size}
-              </div>
-            )}
+          {this.props.size && this.props.size !== "NO SIZE" && (
+            <div className={styles.sizeHolder}>
+              <span className={styles.size}>Size</span> {this.props.size}
+            </div>
+          )}
           <div
             className={styles.displayRating}
             itemProp="aggregateRating"
@@ -98,6 +97,10 @@ export default class ProductDetailsCardForSaveList extends React.Component {
               content={
                 this.props.numberOfReviews ? this.props.numberOfReviews : 0
               }
+            />
+            <meta
+              itemprop="itemReviewed"
+              content={this.props.averageRating ? this.props.averageRating : 0}
             />
             {this.props.averageRating && (
               <StarRating averageRating={this.props.averageRating} />

@@ -6,6 +6,8 @@ import {
   clearSearchResults
 } from "./actions/search.actions.js";
 
+import { userSelectedOutOfStock } from "../plp/actions/plp.actions.js";
+
 import throttle from "lodash.throttle";
 const SEARCH_RESULTS_THROTTLE_TIME = 500;
 const mapStateToProps = (state, ownProps) => {
@@ -18,6 +20,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 const mapDispatchToProps = (dispatch, ownProps) => {
   const throttledSearchResultsFunction = throttle(string => {
+    dispatch(userSelectedOutOfStock(false));
     dispatch(getSearchResults(string));
   }, SEARCH_RESULTS_THROTTLE_TIME);
   return {

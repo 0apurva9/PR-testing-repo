@@ -6,7 +6,8 @@ import PickUpLocation from "../../cart/components/PickUpLocation";
 import GetLocationDetails from "../../cart/components/GetLocationDetails";
 import PickUpDetails from "../../cart/components/PickUpDetails";
 import styles from "./CliqAndPiqMap.css";
-import WestSideIcon from "../../cart/components/img/googleSearch.png";
+import LocationPinIcon from "../../cart/components/img/googleSearchPin.png";
+import SelectedLocationIcon from "../../cart/components/img/googleSearchSelected.png";
 
 export default class CliqAndPiqMap extends React.Component {
   render() {
@@ -16,12 +17,24 @@ export default class CliqAndPiqMap extends React.Component {
           <Map lat={this.props.lat} lng={this.props.lng} zoom={16}>
             {this.props.availableStores &&
               this.props.availableStores.map((val, i) => {
+                let imgURL = LocationPinIcon;
+                let displayText = "";
+                if (
+                  this.props.lat === val.geoPoint.latitude &&
+                  this.props.lng === val.geoPoint.longitude
+                ) {
+                  imgURL = SelectedLocationIcon;
+                  displayText = val.displayName;
+                }
                 return (
                   <MarkerStore
                     lat={val.geoPoint.latitude}
                     lng={val.geoPoint.longitude}
-                    image={WestSideIcon}
+                    image={imgURL}
                     key={i}
+                    text={displayText}
+                    slaveID={val.slaveId}
+                    storeClick={this.props.storeClick}
                   />
                 );
               })}

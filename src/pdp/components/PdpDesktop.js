@@ -55,10 +55,21 @@ import {
   LOGIN_PATH,
   ERROR
 } from "../../lib/constants";
+import { isBrowser } from "browser-or-node";
 import styles from "./ProductDescriptionPage.css";
 import RevelantBundling from "./RevelantBundling";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 import PdpFlags from "../components/PdpFlags.js";
+import PdpPaymentInfo from "../components/PdpPaymentInfo";
+import OfferCard from "./OfferCard";
+import OtherSellersLink from "./OtherSellersLink";
+import SizeSelector from "./SizeSelector";
+import ProductDetailsMainCard from "./ProductDetailsMainCard";
+import ProductDetails from "./ProductDetails";
+// import Overlay from "./Overlay";
+import PdpDeliveryModes from "./PdpDeliveryModes";
+import PDPRecommendedSectionsContainer from "./PDPRecommendedSections";
+import ColourSelector from "./ColourSelector";
 import FlixMediaContainer from "./FlixMediaContainer";
 // import CheckBox from '../../general/components/CheckBox.js';
 import MultiCheckbox from "./MultiCheckbox";
@@ -68,13 +79,18 @@ const WASH = "Wash";
 const NECK_COLLAR = "Neck/Collar";
 const SLEEVE = "Sleeve";
 
-const ProductDetailsMainCard = LoadableVisibility({
-  loader: () => import("./ProductDetailsMainCard"),
-  loading: () => <div />,
-  delay: 400
-});
+// const ProductDetailsMainCard = LoadableVisibility({
+//   loader: () => import("./ProductDetailsMainCard"),
+//   loading: () => <div />,
+//   delay: 400
+// });
 //const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 export const ONLY_ICON = "wishlistIconForPdp";
+// const ProductDetails = LoadableVisibility({
+//   loader: () => import("./ProductDetails"),
+//   loading: () => <div />,
+//   delay: 400
+// });
 /* const ProductDetails = LoadableVisibility({
   loader: () => import("./ProductDetails"),
   loading: () => <div />,
@@ -110,59 +126,32 @@ const RatingAndTextLink = LoadableVisibility({
   delay: 400
 });
 */
-const PdpPaymentInfo = LoadableVisibility({
-  loader: () => import("./PdpPaymentInfo"),
-  loading: () => <div />,
-  delay: 400
-});
+// const PdpPaymentInfo = LoadableVisibility({
+//   loader: () => import("./PdpPaymentInfo"),
+//   loading: () => <div />,
+//   delay: 400
+// });
 
-const OtherSellersLink = LoadableVisibility({
-  loader: () => import("./OtherSellersLink"),
-  loading: () => <div />,
-  delay: 400
-});
-
-const OfferCard = LoadableVisibility({
-  loader: () => import("./OfferCard"),
-  loading: () => <div />,
-  delay: 400
-});
-
-const SizeSelector = LoadableVisibility({
-  loader: () => import("./SizeSelector"),
-  loading: () => <div />,
-  delay: 400
-});
-
-const ColourSelector = LoadableVisibility({
-  loader: () => import("./ColourSelector"),
-  loading: () => <div />,
-  delay: 400
-});
-
-const PdpDeliveryModes = LoadableVisibility({
-  loader: () => import("./PdpDeliveryModes"),
-  loading: () => <div />,
-  delay: 1000
-});
-
-const PDPRecommendedSectionsContainer = LoadableVisibility({
-  loader: () => import("../containers/PDPRecommendedSectionsContainer"),
-  loading: () => {
-    return <div />;
-  },
-  delay: 400
-});
+// const PDPRecommendedSectionsContainer = LoadableVisibility({
+//   loader: () => import("../containers/PDPRecommendedSectionsContainer"),
+//   loading: () => {
+//     return <div />;
+//   },
+//   delay: 400
+// });
 
 const NO_SIZE = "NO SIZE";
 const FREE_SIZE = "Free Size";
 const PRODUCT_QUANTITY = "1";
 const IMAGE = "Image";
 const env = process.env;
-const samsungChatUrl =
-  env.REACT_APP_SAMSUNG_CHAT_URL +
-  window.location.href +
-  env.REACT_APP_SAMSUNG_CHAT_URL_REFERRER;
+let samsungChatUrl = "";
+if (isBrowser) {
+  samsungChatUrl =
+    env.REACT_APP_SAMSUNG_CHAT_URL +
+    window.location.href +
+    env.REACT_APP_SAMSUNG_CHAT_URL_REFERRER;
+}
 
 export default class PdpApparel extends React.Component {
   constructor(props) {
@@ -516,8 +505,10 @@ export default class PdpApparel extends React.Component {
           }
         } else {
           this.props.displayToast("Please select a size to continue");
-          this.setState({ isLoader: false });
-          this.setState({ sizeError: true });
+          this.setState({
+            sizeError: true,
+            isLoader: true
+          });
         }
       }
     }
@@ -558,7 +549,8 @@ export default class PdpApparel extends React.Component {
   updateQuantity = quantity => {
     this.setState({
       productQuantityOption: quantity,
-      quantityError: false
+      quantityError: false,
+      isLoader: false
     });
   };
   updateSize = () => {
@@ -620,8 +612,10 @@ export default class PdpApparel extends React.Component {
   };
   isSizeNotSelectedForAddToWishlist = () => {
     this.props.displayToast("Please select a size to continue");
-    this.setState({ isLoader: false });
-    this.setState({ sizeError: true });
+    this.setState({
+      sizeError: true,
+      isLoader: false
+    });
   };
   showPriceBreakup = () => {
     if (this.props.showPriceBreakup) {
@@ -1398,6 +1392,10 @@ export default class PdpApparel extends React.Component {
                     {this.props.productDetails.isServiceableToPincode &&
                     this.props.productDetails.isServiceableToPincode.pinCode ? (
                       <PdpPincode
+                        city={
+                          this.props.productDetails.isServiceableToPincode &&
+                          this.props.productDetails.isServiceableToPincode.city
+                        }
                         hasPincode={true}
                         displayToast={val => this.props.displayToast(val)}
                         onCheckPinCode={pincode =>
@@ -1423,6 +1421,10 @@ export default class PdpApparel extends React.Component {
                       />
                     ) : (
                       <PdpPincode
+                        city={
+                          this.props.productDetails.isServiceableToPincode &&
+                          this.props.productDetails.isServiceableToPincode.city
+                        }
                         pdpApparel={true}
                         displayToast={val => this.props.displayToast(val)}
                         onCheckPinCode={pincode =>
@@ -1440,30 +1442,38 @@ export default class PdpApparel extends React.Component {
                   </div>
 
                   {this.props.productDetails.isServiceableToPincode &&
-                  this.props.productDetails.isServiceableToPincode
-                    .productNotServiceableMessage ? (
-                    <div className={styles.overlay}>
-                      <div className={styles.notServiciableTetx}>
-                        *
-                        this.props.productDetails.isServiceableToPincode.productNotServiceableMessage
-                      </div>
-                    </div>
-                  ) : null}
-
-                  {this.props.productDetails.isServiceableToPincode &&
-                  this.props.productDetails.isServiceableToPincode
-                    .productOutOfStockMessage ? (
-                    <div className={styles.overlay}>
-                      <div className={styles.notServiciableTetx}>
-                        *
-                        this.props.productDetails.isServiceableToPincode.productOutOfStockMessage
-                      </div>
-                    </div>
-                  ) : null}
-
-                  {this.props.productDetails.isServiceableToPincode &&
                   this.props.productDetails.isServiceableToPincode.status ===
                     NO ? (
+                    this.props.productDetails.isServiceableToPincode
+                      .productOutOfStockMessage ? (
+                      <div className={styles.overlay}>
+                        <div className={styles.notServiciableTetx}>
+                          *{" "}
+                          {
+                            this.props.productDetails.isServiceableToPincode
+                              .productOutOfStockMessage
+                          }
+                        </div>
+                      </div>
+                    ) : this.props.productDetails.isServiceableToPincode
+                        .productNotServiceableMessage ? (
+                      <div className={styles.overlay}>
+                        <div className={styles.notServiciableTetx}>
+                          *{" "}
+                          {
+                            this.props.productDetails.isServiceableToPincode
+                              .productNotServiceableMessage
+                          }
+                        </div>
+                      </div>
+                    ) : (
+                      <div className={styles.overlay}>
+                        <div className={styles.notServiciableTetx}>
+                          * This item can't be delivered to your PIN code
+                        </div>
+                      </div>
+                    )
+                  ) : /* (
                     <div className={styles.overlay}>
                       {productData.rootCategory === "Clothing" ||
                       productData.rootCategory === "Footwear" ? (
@@ -1476,7 +1486,8 @@ export default class PdpApparel extends React.Component {
                         </div>
                       )}
                     </div>
-                  ) : this.props.productDetails.isServiceableToPincode &&
+                  ) */ this
+                      .props.productDetails.isServiceableToPincode &&
                     this.props.productDetails.isServiceableToPincode.pinCode ? (
                     <div className={styles.deliveryModesHolder}>
                       <PdpDeliveryModes
@@ -1502,7 +1513,7 @@ export default class PdpApparel extends React.Component {
                   )}
                 </div>
                 <div>
-                  {mshProduct.includes("samsung") && (
+                  {mshProduct && mshProduct.includes("samsung") && (
                     <div className={styles.sumsungSeparator}>
                       <div className={styles.chatIcon}>
                         {productData.brandName === "Samsung" ||

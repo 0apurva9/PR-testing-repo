@@ -387,6 +387,16 @@ const WHATSAPP_CHECKBOX_UNCHECK = "cpj_whatsappCheckboxUncheck";
 export const ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING =
   "ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING";
 
+//bundled product
+const PRODUCT_BUNDLED_OFFER = "product_bundle_offer_click";
+const BUNDLED_ADD_BOTH_PRODUCT_TO_CART = "add_both_product_to_cart";
+const BUNDLED_ADD_TO_CONTINUE_CLICK = "add_to_continue_click";
+export const ADOBE_PRODUCT_BUNDLED_OFFER = "ADOBE_PRODUCT_BUNDLED_OFFER";
+export const ADOBE_BUNDLED_ADD_BOTH_PRODUCT_TO_CART =
+  "ADOBE_BUNDLED_ADD_BOTH_PRODUCT_TO_CART";
+export const ADOBE_BUNDLED_ADD_TO_CONTINUE_CLICK =
+  "ADOBE_BUNDLED_ADD_TO_CONTINUE_CLICK";
+
 //return flow
 const ORDER_DETAILS_LINK_CLICKED = "myAccount_orderDetails";
 export const ADOBE_ORDER_DETAILS_LINK_CLICKED =
@@ -502,6 +512,28 @@ export function setDataLayer(
     }
     if (window._satellite) {
       window._satellite.track(ADOBE_PDP_CPJ);
+    }
+  }
+  //bundledProduct
+  if (type === ADOBE_PRODUCT_BUNDLED_OFFER) {
+    if (window._satellite) {
+      window._satellite.track(PRODUCT_BUNDLED_OFFER);
+    }
+  }
+  if (type === ADOBE_BUNDLED_ADD_BOTH_PRODUCT_TO_CART) {
+    window.digitalData.cpj.product.id = apiResponse.id;
+    window.digitalData.cpj.product.category = apiResponse.category;
+    window.digitalData.cpj.product.price = apiResponse.price;
+    if (window._satellite) {
+      window._satellite.track(BUNDLED_ADD_BOTH_PRODUCT_TO_CART);
+    }
+  }
+  if (type === ADOBE_BUNDLED_ADD_TO_CONTINUE_CLICK) {
+    window.digitalData.cpj.product.id = apiResponse.id;
+    window.digitalData.cpj.product.category = apiResponse.category;
+    window.digitalData.cpj.product.price = apiResponse.price;
+    if (window._satellite) {
+      window._satellite.track(BUNDLED_ADD_TO_CONTINUE_CLICK);
     }
   }
   if (type === ADOBE_CHECKOUT_TYPE) {
@@ -1054,8 +1086,8 @@ function getProductsDigitalData(response, type) {
           product.qtySelectedByUser
             ? product.qtySelectedByUser
             : product.quantity
-              ? product.quantity
-              : null,
+            ? product.quantity
+            : null,
           10
         )
       );
@@ -1064,12 +1096,12 @@ function getProductsDigitalData(response, type) {
           product.offerPrice
             ? product.offerPrice
             : product.pricevalue
-              ? product.pricevalue
-              : product.price
-                ? product.price
-                : product.mrp && product.mrp.value
-                  ? product.mrp.value
-                  : null,
+            ? product.pricevalue
+            : product.price
+            ? product.price
+            : product.mrp && product.mrp.value
+            ? product.mrp.value
+            : null,
           10
         )
       );
@@ -1085,22 +1117,22 @@ function getProductsDigitalData(response, type) {
           product.productName === "Gift Card"
             ? "Gift card"
             : product.categoryHierarchy &&
-              product.categoryHierarchy[currentReverseArray] &&
-              product.categoryHierarchy[currentReverseArray].category_name &&
-              product.categoryHierarchy[currentReverseArray].category_name
-                .replace(/ /g, "_")
-                .toLowerCase()
+                product.categoryHierarchy[currentReverseArray] &&
+                product.categoryHierarchy[currentReverseArray].category_name &&
+                product.categoryHierarchy[currentReverseArray].category_name
+                  .replace(/ /g, "_")
+                  .toLowerCase()
         );
       } else if (!type || !type.isReverse) {
         categoryArray.push(
           product.productName === "Gift Card"
             ? "Gift card"
             : product.categoryHierarchy &&
-              product.categoryHierarchy[0] &&
-              product.categoryHierarchy[0].category_name &&
-              product.categoryHierarchy[0].category_name
-                .replace(/ /g, "_")
-                .toLowerCase()
+                product.categoryHierarchy[0] &&
+                product.categoryHierarchy[0].category_name &&
+                product.categoryHierarchy[0].category_name
+                  .replace(/ /g, "_")
+                  .toLowerCase()
         );
       }
     });

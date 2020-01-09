@@ -44,6 +44,7 @@ import {
   BRAND_PAGE,
   CATEGORY_PAGE,
   BRAND_PAGE_WITH_SLUG,
+  BRAND_PAGE_WITH_FILTER_SLUG,
   CATEGORY_PAGE_WITH_SLUG,
   CATEGORY_PAGE_WITH_FILTER_SLUG,
   RETURNS,
@@ -91,7 +92,9 @@ import DesktopOnly from "./general/components/DesktopOnly";
     for user if user dont have pin code in
     local storage already
 */
-
+if (!localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)) {
+  localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, DEFAULT_PINCODE);
+}
 const Loader = () => {
   return (
     <div className={AppStyles.loadingIndicator}>
@@ -524,6 +527,11 @@ class App extends Component {
             <Route
               exact
               path={BRAND_PAGE_WITH_SLUG}
+              component={PlpBrandCategoryWrapperContainer}
+            />
+            <Route
+              strict
+              path={BRAND_PAGE_WITH_FILTER_SLUG}
               component={PlpBrandCategoryWrapperContainer}
             />
             <Route

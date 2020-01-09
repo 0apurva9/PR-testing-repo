@@ -5,6 +5,10 @@ import Video from "../../general/components/Video";
 import { RUPEE_SYMBOL, PRODUCT_CART_ROUTER } from "../../lib/constants";
 import AddIcon from "./img/Add.svg";
 import Loader from "../../general/components/SecondaryLoader";
+import {
+  setDataLayer,
+  ADOBE_BUNDLED_ADD_BOTH_PRODUCT_TO_CART
+} from "../../lib/adobeUtils.js";
 
 export default class BundledProduct extends React.Component {
   handleClose() {
@@ -34,12 +38,25 @@ export default class BundledProduct extends React.Component {
         this.props.displayToast("Product is out of stock");
       } else {
         let self = this;
+        let analyticsData = {};
+        analyticsData.category = this.props.productDetails.rootCategory;
+        analyticsData.id = this.props.productDetails.productListingId;
+        analyticsData.price = this.props.productDetails.winningSellerPrice.value;
+        setDataLayer(ADOBE_BUNDLED_ADD_BOTH_PRODUCT_TO_CART, analyticsData);
         let baseProduct = await this.props.addProductToCart(
           baseProductDetails,
           val => {}
         );
 
         if (baseProduct && baseProduct.status === "success") {
+          let analyticsBundleData = {};
+          analyticsBundleData.category = this.props.bundleProductData.rootCategory;
+          analyticsBundleData.id = this.props.bundleProductData.productListingId;
+          analyticsBundleData.price = this.props.bundleProductData.winningSellerPrice.value;
+          setDataLayer(
+            ADOBE_BUNDLED_ADD_BOTH_PRODUCT_TO_CART,
+            analyticsBundleData
+          );
           let bundleProduct = await self.props.addProductToCart(
             bundleProductDetails,
             val => {}
@@ -134,20 +151,19 @@ export default class BundledProduct extends React.Component {
                           : `${RUPEE_SYMBOL}${Math.floor(discountPrice)}`}
                       </div>
                     )}
-                  {!baseProduct.isRange &&
-                    price && (
-                      <div
-                        className={
-                          discountPrice === price
-                            ? styles.discount
-                            : styles.priceCancelled
-                        }
-                      >
-                        {price.toString().includes(RUPEE_SYMBOL)
-                          ? price
-                          : `${RUPEE_SYMBOL}${Math.floor(price)}`}
-                      </div>
-                    )}
+                  {!baseProduct.isRange && price && (
+                    <div
+                      className={
+                        discountPrice === price
+                          ? styles.discount
+                          : styles.priceCancelled
+                      }
+                    >
+                      {price.toString().includes(RUPEE_SYMBOL)
+                        ? price
+                        : `${RUPEE_SYMBOL}${Math.floor(price)}`}
+                    </div>
+                  )}
                   {baseProduct.discount &&
                   baseProduct.discount !== "0" &&
                   baseProduct.productCategory !== "FineJewellery" ? (

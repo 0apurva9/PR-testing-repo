@@ -32,6 +32,7 @@ export const MAIN_ROUTER = "/";
 export const CUSTOMER_ACCESS_TOKEN = "customerAccessToken";
 export const GLOBAL_ACCESS_TOKEN = "globalAccessToken";
 export const DEFAULT_PIN_CODE_LOCAL_STORAGE = "defaultPinCode";
+export const CNC_CART = "cncCart";
 export const USER_SEARCH_LOCAL_STORAGE = "usersearchlocalstorage";
 export const SOFT_RESERVATION_ITEM = "softReservationItem";
 export const ADDRESS_DETAILS_FOR_PAYMENT = "addressDetailsForPayment";
@@ -42,6 +43,7 @@ export const BRAND_PAGE = "/c-(mbh[a-zA-Z0-9]+)";
 export const BRAND_PAGE_WITH_SLUG = `/:slug/c-(mbh[0-9a-zA-z]+)`;
 export const BRAND_PAGE_WITH_QUERY_PARAMS = `/c-(mbh[0-9a-zA-z]+)?&`;
 export const BRAND_PAGE_WITH_SLUG_WITH_QUERY_PARAMS = `/:slug/c-(mbh[0-9a-zA-z]+)?&`;
+export const BRAND_PAGE_WITH_FILTER_SLUG = `/:slug/:slug/c-(mbh[0-9a-zA-Z]+)`;
 
 export const BRAND_AND_CATEGORY_PAGE =
   "/:slug/c-(msh[a-zA-Z0-9]+)/b-(mbh[a-zA-Z0-9]+)";
@@ -87,6 +89,7 @@ export const PRODUCT_CART_ROUTER = "/cart";
 export const ORDER_SUMMARY_ROUTER = "/orderSummary";
 export const CHECKOUT_ROUTER = "/checkout";
 export const CHECKOUT_ROUTER_THANKYOU = "/checkout/";
+export const CHECKOUT_RETRY_PAYMENT_ROUTER = "/checkout/payment-method/";
 export const ACCOUNT_SAVED_CARD_ROUTER = "/savedCards";
 export const MY_ACCOUNT = "/my-account";
 export const SHORT_URL_ORDER_DETAIL = "/trackOrder/beforeTrack/:orderCode";
@@ -484,3 +487,6 @@ export const IS_COMING_FROM_ORDER_CONFIRMATION =
   "isComingFromOrderConfirmation";
 export const CNC_TO_HD_ORDER = "/my-account/cncToHd/(.*)";
 export const CNCTOHD = "/cncToHd";
+
+export const FAILED_ORDER = "retryFailedOrder";
+export const SELECTED_STORE = "selectedStoreAddress";

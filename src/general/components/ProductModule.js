@@ -14,6 +14,7 @@ import { widgetsTracking } from "../../lib/adobeUtils";
 import Icon from "../../xelpmoc-core/Icon";
 import similarIcon from "../../general/components/img/similarIcon.svg";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
+import { isBrowser } from "browser-or-node";
 const ELECTRONICS = "Electronics";
 
 export default class ProductModule extends React.Component {
@@ -87,10 +88,14 @@ export default class ProductModule extends React.Component {
     //     "Electronics";
     let electronicView = false;
 
-    /* let downloadImage = downloadIcon;
-    if (this.props.isWhite) {
-      downloadImage = downloadIconWhite;
-    } */
+    //  let downloadImage = downloadIcon;
+    // if (this.props.isWhite) {
+    //   downloadImage = downloadIconWhite;
+    // }
+    let href = this.getProductURL();
+    if (isBrowser) {
+      href = `${window.location.origin}${href}`;
+    }
 
     return (
       <React.Fragment>
@@ -116,6 +121,7 @@ export default class ProductModule extends React.Component {
               />
             </div>
           )}
+          {/* Need this atag for SEO stuff.The click event for this exists at the component level.The click on the atag is halted using pointer events  */}
           <div
             className={
               electronicView
@@ -124,50 +130,56 @@ export default class ProductModule extends React.Component {
             }
           >
             <a
-              href={`${window.location.origin}${this.getProductURL()}`}
+              href={href}
               className={styles.aTag}
               style={{ pointerEvents: "none" }}
               title={this.props.alt}
             >
-              <div
-                className={
-                  electronicView
-                    ? styles.ElectronicListimageHolder
-                    : this.props.view === "grid"
+              <a
+                href={`${window.location.origin}${this.getProductURL()}`}
+                className={styles.aTag}
+                style={{ pointerEvents: "none" }}
+                title={this.props.alt}
+              >
+                <div
+                  className={
+                    electronicView
+                      ? styles.ElectronicListimageHolder
+                      : this.props.view === "grid"
                       ? styles.imageHolder
                       : styles.ListimageHolder
-                }
-              >
-                <ProductImage
-                  alt={this.props.alt}
-                  image={this.props.productImage}
-                  electronicView={electronicView}
-                />
-
-                {this.props.onConnect && (
-                  <ConnectButton onClick={this.handleConnect} />
-                )}
-
-                <div className={styles.flagHolder}>
-                  <ProductFlags
-                    discountPercent={this.props.discountPercent}
-                    isOfferExisting={this.props.isOfferExisting}
-                    onlineExclusive={this.props.onlineExclusive}
-                    seasonTag={this.props.seasonTag}
-                    outOfStock={this.props.outOfStock}
-                    newProduct={this.props.newProduct}
+                  }
+                >
+                  <ProductImage
+                    alt={this.props.alt}
+                    image={this.props.productImage}
+                    electronicView={electronicView}
                   />
-                </div>
-              </div>
-            </a>
 
+                  {this.props.onConnect && (
+                    <ConnectButton onClick={this.handleConnect} />
+                  )}
+
+                  <div className={styles.flagHolder}>
+                    <ProductFlags
+                      discountPercent={this.props.discountPercent}
+                      isOfferExisting={this.props.isOfferExisting}
+                      onlineExclusive={this.props.onlineExclusive}
+                      seasonTag={this.props.seasonTag}
+                      outOfStock={this.props.outOfStock}
+                      newProduct={this.props.newProduct}
+                    />
+                  </div>
+                </div>
+              </a>
+            </a>
             <div
               className={
                 electronicView
                   ? styles.electronicViewContent
                   : this.props.view === "grid"
-                    ? styles.content
-                    : styles.Listcontent
+                  ? styles.content
+                  : styles.Listcontent
               }
             >
               <ProductDescription

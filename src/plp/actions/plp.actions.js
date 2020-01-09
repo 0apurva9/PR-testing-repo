@@ -18,6 +18,8 @@ import {
 } from "../../lib/adobeUtils";
 import * as Cookie from "../../lib/Cookie";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent";
+import { COMPONENT_BACK_UP_FAILURE } from "../../home/actions/home.actions";
+import { isBrowser } from "browser-or-node";
 export const PRODUCT_LISTINGS_REQUEST = "PRODUCT_LISTINGS_REQUEST";
 export const PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR =
   "PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR";
@@ -243,6 +245,12 @@ export function getProductListings(
     }
     try {
       const searchState = getState().search;
+      const currentKeywordRedirect =
+        getState().productListings && getState().productListings.productListings
+          ? getState().productListings.productListings.currentQuery
+              .isKeywordRedirect
+          : null;
+
       const listingsPageNumber = getState().productListings.pageNumber;
       const pageNumber = listingsPageNumber ? listingsPageNumber : 0;
       let encodedString =
@@ -255,7 +263,12 @@ export function getProductListings(
       ) {
         encodedString = `${encodedString}${EXCLUDE_OUT_OF_STOCK_FLAG}`;
       }
-      let keyWordRedirect = false;
+      if (isBrowser) {
+        dispatch(setLastPlpPath(""));
+      }
+      let keyWordRedirect = currentKeywordRedirect
+        ? currentKeywordRedirect
+        : false;
       let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true&channel=WEB`;
       if (suffix) {
         queryString = `${queryString}${suffix}`;
@@ -264,18 +277,19 @@ export function getProductListings(
       queryString = `${queryString}${PRODUCT_LISTINGS_SUFFIX}`;
       const result = await api.getMiddlewareUrl(queryString);
       const resultJson = await result.json();
-
-      if (resultJson && resultJson.currentQuery) {
+      if (resultJson && resultJson.currentQuery && isBrowser) {
         keyWordRedirect = resultJson.currentQuery.isKeywordRedirect;
         if (keyWordRedirect && resultJson.currentQuery.pageRedirectType) {
           dispatch(setSearchUrlWithKeywordRedirect(resultJson, encodedString));
         }
       }
+
       if (resultJson.error) {
         if (
+          isBrowser &&
           resultJson &&
-          resultJson.currentQuery &&
-          resultJson.currentQuery.searchQuery
+            resultJson.currentQuery &&
+            resultJson.currentQuery.searchQuery
         ) {
           setDataLayer(
             ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL,
@@ -287,10 +301,11 @@ export function getProductListings(
         throw new Error(`${resultJson.error}`);
       }
       if (
+        isBrowser &&
         resultJson &&
-        resultJson.currentQuery &&
-        resultJson.currentQuery.searchQuery &&
-        !paginated
+          resultJson.currentQuery &&
+          resultJson.currentQuery.searchQuery &&
+          !paginated
       ) {
         setDataLayer(
           ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT,
@@ -301,10 +316,11 @@ export function getProductListings(
         );
       } else {
         if (
+          isBrowser &&
           window.digitalData &&
-          window.digitalData.page &&
-          window.digitalData.page.pageInfo &&
-          window.digitalData.page.pageInfo.pageName !== "product grid"
+            window.digitalData.page &&
+            window.digitalData.page.pageInfo &&
+            window.digitalData.page.pageInfo.pageName !== "product grid"
         ) {
           if (
             componentName === "Flash Sale Component" ||
@@ -331,7 +347,9 @@ export function getProductListings(
         dispatch(updateFacets(resultJson));
         dispatch(hideSecondaryLoader());
       } else {
-        dispatch(setLastPlpPath(window.location.href));
+        if (isBrowser) {
+          dispatch(setLastPlpPath(window.location.href));
+        }
         dispatch(getProductListingsSuccess(resultJson, paginated));
         dispatch(hideSecondaryLoader());
       }
@@ -382,10 +400,12 @@ export function nullSearchMsd() {
       trendingProducts.append("mad_uuid", await getMcvId());
       trendingProducts.append("details", true);
       if (userDetails) {
-        trendingProducts.append("num_results", "[5, 5, 10]");
+        // trendingProducts.append("num_results", "[5, 5, 10]");
+        trendingProducts.append("num_results", "[1, 1, 3]");
         trendingProducts.append("widget_list", "[7, 1, 3]");
       } else {
-        trendingProducts.append("num_results", "[10]");
+        // trendingProducts.append("num_results", "[10]");
+        trendingProducts.append("num_results", "[5]");
         trendingProducts.append("widget_list", "[3]");
       }
       const trendingproductresult = await api.postMsd(
