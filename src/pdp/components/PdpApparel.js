@@ -496,32 +496,13 @@ export default class PdpApparel extends React.Component {
             <PdpPincode onClick={() => this.showPincodeModal()} />
           )}
           {this.props.productDetails.isServiceableToPincode &&
-          this.props.productDetails.isServiceableToPincode.status ===
-            NO /* (
+          this.props.productDetails.isServiceableToPincode.status === NO ? (
             <Overlay labelText="This size is currently out of stock. Please select another size or try another product.">
               <PdpDeliveryModes
                 eligibleDeliveryModes={productData.eligibleDeliveryModes}
                 deliveryModesATP={productData.deliveryModesATP}
               />
             </Overlay>
-          ) */ ? (
-            <div className={styles.overlay}>
-              <div className={styles.notServiciableTetx}>
-                {`* ${
-                  productData &&
-                  productData.pincodeResponseList &&
-                  productData.pincodeResponseList.deliveryOptions &&
-                  productData.pincodeResponseList.deliveryOptions
-                    .pincodeListResponse[0] &&
-                  productData.pincodeResponseList.deliveryOptions
-                    .pincodeListResponse[0].productNotServiceabilityMessage
-                    ? productData.pincodeResponseList.deliveryOptions
-                        .pincodeListResponse[0].productNotServiceabilityMessage
-                    : productData.pincodeResponseList.deliveryOptions
-                        .pincodeListResponse[0].productOutOfStockMessage
-                }`}
-              </div>
-            </div>
           ) : (
             <PdpDeliveryModes
               onPiq={this.handleShowPiqPage}

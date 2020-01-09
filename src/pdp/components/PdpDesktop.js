@@ -1438,6 +1438,29 @@ export default class PdpApparel extends React.Component {
                       />
                     )}
                   </div>
+
+                  {this.props.productDetails.isServiceableToPincode &&
+                  this.props.productDetails.isServiceableToPincode
+                    .productNotServiceableMessage ? (
+                    <div className={styles.overlay}>
+                      <div className={styles.notServiciableTetx}>
+                        *
+                        this.props.productDetails.isServiceableToPincode.productNotServiceableMessage
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {this.props.productDetails.isServiceableToPincode &&
+                  this.props.productDetails.isServiceableToPincode
+                    .productOutOfStockMessage ? (
+                    <div className={styles.overlay}>
+                      <div className={styles.notServiciableTetx}>
+                        *
+                        this.props.productDetails.isServiceableToPincode.productOutOfStockMessage
+                      </div>
+                    </div>
+                  ) : null}
+
                   {this.props.productDetails.isServiceableToPincode &&
                   this.props.productDetails.isServiceableToPincode.status ===
                     NO ? (
@@ -1445,43 +1468,11 @@ export default class PdpApparel extends React.Component {
                       {productData.rootCategory === "Clothing" ||
                       productData.rootCategory === "Footwear" ? (
                         <div className={styles.notServiciableTetx}>
-                          {/** This item is currently out of stock*/}
-                          {`* ${
-                            productData &&
-                            productData.pincodeResponseList &&
-                            productData.pincodeResponseList.deliveryOptions &&
-                            productData.pincodeResponseList.deliveryOptions
-                              .pincodeListResponse[0] &&
-                            productData.pincodeResponseList.deliveryOptions
-                              .pincodeListResponse[0]
-                              .productNotServiceabilityMessage
-                              ? productData.pincodeResponseList.deliveryOptions
-                                  .pincodeListResponse[0]
-                                  .productNotServiceabilityMessage
-                              : productData.pincodeResponseList.deliveryOptions
-                                  .pincodeListResponse[0]
-                                  .productOutOfStockMessage
-                          }`}
+                          * This item is currently out of stock
                         </div>
                       ) : (
                         <div className={styles.notServiciableTetx}>
-                          {/** This item is non serviceable at your PIN code*/}
-                          {`* ${
-                            productData &&
-                            productData.pincodeResponseList &&
-                            productData.pincodeResponseList.deliveryOptions &&
-                            productData.pincodeResponseList.deliveryOptions
-                              .pincodeListResponse[0] &&
-                            productData.pincodeResponseList.deliveryOptions
-                              .pincodeListResponse[0]
-                              .productNotServiceabilityMessage
-                              ? productData.pincodeResponseList.deliveryOptions
-                                  .pincodeListResponse[0]
-                                  .productNotServiceabilityMessage
-                              : productData.pincodeResponseList.deliveryOptions
-                                  .pincodeListResponse[0]
-                                  .productOutOfStockMessage
-                          }`}
+                          * This item is non serviceable at your PIN code
                         </div>
                       )}
                     </div>

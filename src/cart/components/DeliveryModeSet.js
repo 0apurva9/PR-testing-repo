@@ -2,7 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import DeliveryCard from "./DeliveryCard.js";
 import styles from "./DeliveryModeSet.css";
-import { COLLECT, SAME_DAY_DELIVERY_SHIPPING, YES } from "../../lib/constants";
+import {
+  COLLECT,
+  SHORT_COLLECT,
+  SHORT_SAME_DAY_DELIVERY,
+  SAME_DAY_DELIVERY_SHIPPING,
+  YES
+} from "../../lib/constants";
 import format from "date-fns/format";
 export default class DeliveryModeSet extends React.Component {
   handleClick() {
@@ -30,11 +36,11 @@ export default class DeliveryModeSet extends React.Component {
       currentProduct.pinCodeResponse.validDeliveryModes &&
       currentProduct.pinCodeResponse.validDeliveryModes.find(val => {
         if (val.code === "CNC") {
-          return selectedDeliveryModes === COLLECT;
+          return selectedDeliveryModes === SHORT_COLLECT;
         } else if (val.type === "HD") {
           return selectedDeliveryModes === "Home Delivery";
         } else if (val.type === "SDD") {
-          return selectedDeliveryModes === SAME_DAY_DELIVERY_SHIPPING;
+          return selectedDeliveryModes === SHORT_SAME_DAY_DELIVERY;
         } else if (val.type === "ED") {
           return selectedDeliveryModes === "Express Delivery";
         }
@@ -69,8 +75,8 @@ export default class DeliveryModeSet extends React.Component {
       dayFormat === productDayFormat
         ? `Today ,`
         : nextDayFormat === productDayFormat
-          ? `Tomorrow ,`
-          : "";
+        ? `Tomorrow ,`
+        : "";
     switch (date) {
       case 1:
       case 21:
@@ -114,7 +120,7 @@ export default class DeliveryModeSet extends React.Component {
                 : "";
 
             let textForCollect;
-            if (deliveryOption.code === COLLECT) {
+            if (deliveryOption.code === SHORT_COLLECT) {
               textForCollect =
                 data.storeDetails &&
                 `Pickup Store: ${
@@ -136,21 +142,21 @@ export default class DeliveryModeSet extends React.Component {
                       deliveryOption.name === "Home Delivery"
                         ? "Standard Shipping"
                         : deliveryOption.name === "Express Delivery"
-                          ? "Express Delivery"
-                          : deliveryOption.name
+                        ? "Express Delivery"
+                        : deliveryOption.name
                     } ${
-                      deliveryOption.code === COLLECT
+                      deliveryOption.code === SHORT_COLLECT
                         ? textForCollect
                           ? textForCollect
                           : ""
                         : this.props.isShowDate
-                          ? ` : ${this.getDayNumberSuffix(
-                              deliveryOption.name,
-                              data.USSID
-                            )}`
-                          : expectedDeliveryDate
-                            ? expectedDeliveryDate
-                            : ""
+                        ? ` : ${this.getDayNumberSuffix(
+                            deliveryOption.name,
+                            data.USSID
+                          )}`
+                        : expectedDeliveryDate
+                        ? expectedDeliveryDate
+                        : ""
                     }`}
                 </div>
               </div>

@@ -175,6 +175,7 @@ const productDescription = (
           pincodeResponseList: action.productPinCode,
           slaveData: serviceableForExistingSeller.validDeliveryModes,
           isServiceableToPincode: {
+            city: action.productPinCode.city,
             status: YES,
             pinCode: action.productPinCode.pinCode
           }
@@ -244,6 +245,7 @@ const productDescription = (
           isUpdatedOtherSellerList: true,
           pincodeResponseList: action.productPinCode,
           isServiceableToPincode: {
+            city: action.productPinCode.city,
             status: YES,
             pinCode: action.productPinCode.pinCode
           }
@@ -252,6 +254,10 @@ const productDescription = (
         Object.assign(currentPdpDetail, {
           pincodeResponseList: action.productPinCode,
           isServiceableToPincode: {
+            city: action.productPinCode.city,
+            productOutOfStockMessage: action.productPinCode.outOfStockMessage,
+            productNotServiceableMessage:
+              action.productPinCode.notServicableMessage,
             status: NO,
             pinCode: action.productPinCode.pinCode
           }

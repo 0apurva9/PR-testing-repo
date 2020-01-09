@@ -43,7 +43,7 @@ export default class DeliveryInformations extends React.Component {
   }
   handleSelect() {
     if (this.props.onSelect) {
-      this.props.onSelect(this.props.type);
+      this.props.onSelect(this.props.code);
     }
   }
   arrowClick() {
@@ -123,10 +123,10 @@ export default class DeliveryInformations extends React.Component {
   getDayNumberSuffix(d) {
     let date = "";
     let month = "";
-    let splitDate = d.split(" ");
-    let dateMonthsYears = splitDate[0].split("-");
-    date = parseInt(dateMonthsYears[0]);
-    month = parseInt(dateMonthsYears[1]);
+    let dateWithMonth = "";
+    dateWithMonth = new Date(d);
+    date = dateWithMonth.getUTCDate();
+    month = dateWithMonth.getUTCMonth() + 1;
     return this.getDateMonthFormate(date, month);
   }
 
@@ -198,9 +198,10 @@ export default class DeliveryInformations extends React.Component {
 
     let deliveryCharge = "";
     if (this.props.deliveryCharge) {
-      if (this.props.showDeliveryCharge) {
+      //not required as per pincode phase 2 design change
+      /* if (this.props.showDeliveryCharge) {
         deliveryCharge = "(Free)";
-      }
+      } */
       if (parseInt(this.props.deliveryCharge, 10) !== 0) {
         deliveryCharge = `(₹${parseInt(this.props.deliveryCharge, 10)})`;
       }

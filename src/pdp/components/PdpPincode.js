@@ -8,7 +8,8 @@ export default class PdpPincode extends React.Component {
     super(props);
     this.state = {
       pincode: this.props.pincode ? this.props.pincode : "",
-      showDropDown: false
+      showDropDown: false,
+      showCity: true
     };
     this.showDropdownMenu = this.showDropdownMenu.bind(this);
     this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
@@ -32,6 +33,12 @@ export default class PdpPincode extends React.Component {
     } else if (val.length < 3) {
       this.hideDropdownMenu();
     }
+  }
+  onFocus() {
+    this.setState({ showCity: false });
+  }
+  onBlur() {
+    this.setState({ showCity: true });
   }
   showDropdownMenu() {
     this.setState({ showDropDown: true }, () => {
@@ -99,21 +106,30 @@ export default class PdpPincode extends React.Component {
               : styles.pinCodeAndButtonHolder
           }
         >
-          <div className={styles.label}>
-            <Input2
-              boxy={true}
-              textStyle={{ fontSize: 14 }}
-              height={25}
-              maxLength={"6"}
-              onChange={val => this.onChange(val)}
-              onlyNumber={true}
-              border={"none"}
-              value={this.state.pincode}
-              noPadding={true}
-              onKeyUp={event => {
-                this.enterPassword(event.key);
-              }}
-            />
+          <div className={[styles.label, styles.dFlex].join(" ")}>
+            {this.state.showCity ? (
+              <div className={styles.cityName}>{`${
+                this.props.city ? this.props.city : null
+              }, `}</div>
+            ) : null}
+            <div className={styles.pincodeField}>
+              <Input2
+                boxy={true}
+                textStyle={{ fontSize: 14 }}
+                height={25}
+                maxLength={"6"}
+                onChange={val => this.onChange(val)}
+                onlyNumber={true}
+                border={"none"}
+                value={this.state.pincode}
+                noPadding={true}
+                onKeyUp={event => {
+                  this.enterPassword(event.key);
+                }}
+                onFocus={event => this.onFocus(event)}
+                onBlur={event => this.onBlur(event)}
+              />
+            </div>
           </div>
           <div className={buttonHolderClass}>
             <div
