@@ -450,7 +450,7 @@ export default class NoCostEmiBankDetails extends React.Component {
               </div>
             )}
         </div>
-        <div className={styles.totalAmountDisplay}>
+        {/* <div className={styles.totalAmountDisplay}>
           {noCostEmiDetails &&
             noCostEmiDetails.noCostEMITotalPayable &&
             noCostEmiDetails.noCostEMITotalPayable.value && (
@@ -471,7 +471,7 @@ export default class NoCostEmiBankDetails extends React.Component {
                 ) / 100}`}</div>
               </div>
             )}
-        </div>
+        </div> */}
         <div className={styles.itemLevelButtonHolder}>
           {noCostEmiDetails &&
             noCostEmiDetails.noCostEMIPerMonthPayable &&
