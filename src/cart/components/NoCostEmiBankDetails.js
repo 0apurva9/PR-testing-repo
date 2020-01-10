@@ -451,12 +451,14 @@ export default class NoCostEmiBankDetails extends React.Component {
               </div>
             )}
         </div>
-        {/* <div className={styles.totalAmountDisplay}>
+        <div className={styles.totalAmountDisplay}>
           {noCostEmiDetails &&
             noCostEmiDetails.noCostEMITotalPayable &&
             noCostEmiDetails.noCostEMITotalPayable.value && (
               <div className={styles.totalAmountLabel}>
-                <div className={styles.amountPayble}>Total Amount Payable</div>
+                <div className={styles.amountPayble}>
+                  Total Amount Payable to Bank
+                </div>
                 <div className={styles.amount}>{`Rs. ${Math.round(
                   noCostEmiDetails.noCostEMITotalPayable.value * 100
                 ) / 100}`}</div>
@@ -472,7 +474,7 @@ export default class NoCostEmiBankDetails extends React.Component {
                 ) / 100}`}</div>
               </div>
             )}
-        </div> */}
+        </div>
         <div className={styles.itemLevelButtonHolder}>
           {noCostEmiDetails &&
             noCostEmiDetails.noCostEMIPerMonthPayable &&
