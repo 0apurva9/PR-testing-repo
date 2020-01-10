@@ -29,7 +29,7 @@ export default class ReturnToStore extends React.Component {
     };
   }
   selectStoreForDesktop = val => {
-    if (val.length > 0) {
+    if (val.length > 0 && !this.state.showPickupPerson) {
       let selectedStore =
         this.state.availableStores &&
         this.state.availableStores.find(store => {

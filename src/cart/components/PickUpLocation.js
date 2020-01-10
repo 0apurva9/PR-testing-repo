@@ -185,15 +185,7 @@ export default class PickUpLocation extends React.Component {
 
           <DesktopOnly>
             <div className={styles.checkBoxHolder}>
-              <CheckBox
-                selected={
-                  this.props.isReturn
-                    ? this.props.selectedId === this.props.slaveId
-                      ? true
-                      : false
-                    : this.props.selected
-                }
-              />
+              <CheckBox selected={isSelected} />
             </div>
           </DesktopOnly>
           {this.props.iconText && (
