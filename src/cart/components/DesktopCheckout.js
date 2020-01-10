@@ -146,7 +146,8 @@ export default class DesktopCheckout extends React.Component {
                 <div className={styles.row}>
                   <div className={styles.label}>No Cost EMI Discount</div>
                   <div className={styles.info}>
-                    -{
+                    -
+                    {
                       this.props.noCostEmiEligibility.noCostEMIDiscountValue
                         .formattedValue
                     }
@@ -169,7 +170,8 @@ export default class DesktopCheckout extends React.Component {
                     )}
                   </div>
                   <div className={styles.infoForAdditionalDiscount}>
-                    -{cartAmount.additionalDiscount.totalAdditionalDiscount &&
+                    -
+                    {cartAmount.additionalDiscount.totalAdditionalDiscount &&
                       cartAmount.additionalDiscount.totalAdditionalDiscount
                         .formattedValue}
                   </div>
@@ -180,7 +182,8 @@ export default class DesktopCheckout extends React.Component {
                       Shipping Charge Discount
                     </div>
                     <div className={styles.informationAnswerHolder}>
-                      -{cartAmount.additionalDiscount.shippingDiscount &&
+                      -
+                      {cartAmount.additionalDiscount.shippingDiscount &&
                         cartAmount.additionalDiscount.shippingDiscount
                           .formattedValue}
                     </div>

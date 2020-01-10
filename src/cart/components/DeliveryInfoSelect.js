@@ -62,10 +62,13 @@ export default class DeliveryInfoSelect extends React.Component {
         });
     }
     let deliveryInformationWithDate = this.props.deliveryInformationWithDate;
-    let elligibleDeliveryModes = this.props.DeliveryInformation;
+    let elligibleDeliveryModes = this.props.deliveryInformation;
     const isCod = this.props.isCod;
-    console.log("props coming to deliveryInfoselect is ", this.props);
-    console.log("styles in deliveryInfo select is ", styles);
+    console.log(
+      "props coming to deliveryInfoselect is and state is ",
+      this.props,
+      this.state
+    );
     return (
       <div className={styles.base}>
         {deliveryInformationWithDate &&
@@ -75,17 +78,30 @@ export default class DeliveryInfoSelect extends React.Component {
             })
             .includes(SHORT_SAME_DAY_DELIVERY) && (
             <DeliveryInformation
+              code={
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes
+                  .filter(val => {
+                    return val.code === SAME_DAY_DELIVERY;
+                  })
+                  .map(val => {
+                    return val.code;
+                  })[0]
+              }
               type={SHORT_SAME_DAY_DELIVERY}
               showDeliveryCharge={true}
               selected={
-                elligibleDeliveryModes &&
-                elligibleDeliveryModes &&
-                elligibleDeliveryModes.code === this.state.selectedCode
+                (elligibleDeliveryModes &&
+                  elligibleDeliveryModes
+                    .filter(val => {
+                      return val.code === SAME_DAY_DELIVERY;
+                    })
+                    .map(val => {
+                      return val.code;
+                    })[0]) === this.state.selectedCode
               }
-              //onSelect={val => this.handleSelect(val)}
-              onSelect={false}
+              onSelect={val => this.handleSelect(val)}
               onPiq={val => this.onPiq(val)}
-              //showCliqAndPiqButton={true}
               isClickable={this.props.isClickable}
               deliveryInformationByCart={true}
               isTop={this.props.isTop}
@@ -99,7 +115,7 @@ export default class DeliveryInfoSelect extends React.Component {
                     return val.code === SAME_DAY_DELIVERY;
                   })
                   .map(val => {
-                    return val.charge.formattedValueNoDecimal;
+                    return val.deliveryCost;
                   })[0]
               }
               cutOffTime={
@@ -140,17 +156,30 @@ export default class DeliveryInfoSelect extends React.Component {
             })
             .includes(SHORT_EXPRESS) && (
             <DeliveryInformation
+              code={
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes
+                  .filter(val => {
+                    return val.code === EXPRESS;
+                  })
+                  .map(val => {
+                    return val.code;
+                  })[0]
+              }
               type={SHORT_EXPRESS}
               showDeliveryCharge={true}
               selected={
-                elligibleDeliveryModes &&
-                elligibleDeliveryModes &&
-                elligibleDeliveryModes.code === this.state.selectedCode
+                (elligibleDeliveryModes &&
+                  elligibleDeliveryModes
+                    .filter(val => {
+                      return val.code === EXPRESS;
+                    })
+                    .map(val => {
+                      return val.code;
+                    })[0]) === this.state.selectedCode
               }
-              //onSelect={val => this.handleSelect(val)}
-              onSelect={false}
+              onSelect={val => this.handleSelect(val)}
               onPiq={val => this.onPiq(val)}
-              //showCliqAndPiqButton={true}
               isClickable={this.props.isClickable}
               deliveryInformationByCart={true}
               isTop={this.props.isTop}
@@ -161,10 +190,10 @@ export default class DeliveryInfoSelect extends React.Component {
                 elligibleDeliveryModes &&
                 elligibleDeliveryModes
                   .filter(val => {
-                    return val.code === SHORT_EXPRESS;
+                    return val.code === EXPRESS;
                   })
                   .map(val => {
-                    return val.charge.formattedValueNoDecimal;
+                    return val.deliveryCost;
                   })[0]
               }
               available={
@@ -205,17 +234,31 @@ export default class DeliveryInfoSelect extends React.Component {
             })
             .includes(SHORT_COLLECT) && (
             <DeliveryInformation
+              code={
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes
+                  .filter(val => {
+                    return val.code === COLLECT;
+                  })
+                  .map(val => {
+                    return val.code;
+                  })[0]
+              }
               pdpApparel={this.props.pdpApparel}
               onPiq={this.props.onPiq}
               type={SHORT_COLLECT}
               showDeliveryCharge={true}
               selected={
-                elligibleDeliveryModes &&
-                elligibleDeliveryModes &&
-                elligibleDeliveryModes.code === this.state.selectedCode
+                (elligibleDeliveryModes &&
+                  elligibleDeliveryModes
+                    .filter(val => {
+                      return val.code === COLLECT;
+                    })
+                    .map(val => {
+                      return val.code;
+                    })[0]) === this.state.selectedCode
               }
-              //onSelect={val => this.handleSelect(val)}
-              onSelect={false}
+              onSelect={val => this.handleSelect(val)}
               onPiq={val => this.onPiq(val)}
               showCliqAndPiqButton={true}
               available={true}
@@ -229,10 +272,10 @@ export default class DeliveryInfoSelect extends React.Component {
                 elligibleDeliveryModes &&
                 elligibleDeliveryModes
                   .filter(val => {
-                    return val.code === SHORT_COLLECT;
+                    return val.code === COLLECT;
                   })
                   .map(val => {
-                    return val.charge.formattedValueNoDecimal;
+                    return val.deliveryCost;
                   })[0]
               }
               available={
@@ -243,7 +286,7 @@ export default class DeliveryInfoSelect extends React.Component {
                   })
                   .includes(SHORT_COLLECT)
               }
-              isClickable={true}
+              isClickable={this.props.isClickable}
               isShowCliqAndPiqUnderLineText={localStorage.getItem(
                 DEFAULT_PIN_CODE_LOCAL_STORAGE
               )}
@@ -292,20 +335,33 @@ export default class DeliveryInfoSelect extends React.Component {
               .includes(SHORT_HOME_DELIVERY) && (
               <div className={styles.infoHolder}>
                 <DeliveryInformation
+                  code={
+                    elligibleDeliveryModes &&
+                    elligibleDeliveryModes
+                      .filter(val => {
+                        return val.code === HOME_DELIVERY;
+                      })
+                      .map(val => {
+                        return val.code;
+                      })[0]
+                  }
                   paddingTop={"0px"}
                   paddingBottom={"0px"}
                   paddingRight={"0px"}
                   type={SHORT_HOME_DELIVERY}
                   showDeliveryCharge={true}
                   selected={
-                    elligibleDeliveryModes &&
-                    elligibleDeliveryModes &&
-                    elligibleDeliveryModes.code === this.state.selectedCode
+                    (elligibleDeliveryModes &&
+                      elligibleDeliveryModes
+                        .filter(val => {
+                          return val.code === HOME_DELIVERY;
+                        })
+                        .map(val => {
+                          return val.code;
+                        })[0]) === this.state.selectedCode
                   }
-                  //onSelect={val => this.handleSelect(val)}
-                  onSelect={false}
+                  onSelect={val => this.handleSelect(val)}
                   onPiq={val => this.onPiq(val)}
-                  //showCliqAndPiqButton={true}
                   isClickable={this.props.isClickable}
                   deliveryInformationByCart={true}
                   isTop={this.props.isTop}
@@ -316,10 +372,10 @@ export default class DeliveryInfoSelect extends React.Component {
                     elligibleDeliveryModes &&
                     elligibleDeliveryModes
                       .filter(val => {
-                        return val.code === SHORT_HOME_DELIVERY;
+                        return val.code === HOME_DELIVERY;
                       })
                       .map(val => {
-                        return val.charge.formattedValueNoDecimal;
+                        return val.deliveryCost;
                       })[0]
                   }
                   available={
@@ -382,33 +438,20 @@ export default class DeliveryInfoSelect extends React.Component {
             <DeliveryInformations
               key={i}
               type={datum.type}
-              //header={datum.name}
+              header={datum.name}
               showDeliveryCharge={true}
               placedTime={datum.deliveryDate}
               deliveryCharge={datum.deliveryCost}
               selected={datum.code === this.state.selectedCode}
-              //onSelect={val => this.handleSelect(val)}
-              onSelect={false}
+              onSelect={val => this.handleSelect(val)}
               onPiq={val => this.onPiq(val)}
               showCliqAndPiqButton={true}
               available={true}
               isClickable={this.props.isClickable}
-              //to be commented if used
-              numberOfStore={
-                this.props.deliveryInformationWithDate &&
-                this.props.deliveryInformationWithDate.map(val => {
-                  if (val.type === "CNC")
-                    return `${availableStores &&
-                      availableStores.length} stores nearby`;
-                })
-              }
               numberOfStore={
                 datum.type === "CNC"
                   ? `${availableStores && availableStores.length} stores nearby`
                   : null
-              }
-              cutOffTime={
-                datum.type === "SDD" || "ED" ? datum.cutoffTime : null
               }
               deliveryInformationWithDate={
                 this.props.deliveryInformationWithDate

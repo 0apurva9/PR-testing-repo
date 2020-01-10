@@ -860,7 +860,7 @@ class CartPage extends React.Component {
                             }
                             isOutOfStock={product.isOutOfStock}
                             qtySelectedByUser={product.qtySelectedByUser}
-                            isClickable={true}
+                            isClickable={false}
                             onClickImage={() =>
                               this.onClickImage(product.productcode)
                             }

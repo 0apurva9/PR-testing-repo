@@ -45,19 +45,11 @@ export default class PdpDeliveryModes extends React.Component {
     const isCod = this.props && this.props.isCod;
 
     const QuiqPiq =
-      deliveryDates &&
-      deliveryDates
-        .map(val => {
-          return val.quickDeliveryMode;
-        })
-        .includes("Y");
+      getDeliveryModesByWinningUssid &&
+      getDeliveryModesByWinningUssid.quickDeliveryMode &&
+      getDeliveryModesByWinningUssid.quickDeliveryMode === "Y";
 
-    console.log(
-      "props, quiqpiq and deliverydates in pdpdeliverymodes is : ",
-      this.props,
-      QuiqPiq,
-      deliveryDates
-    );
+    console.log("QuiqPiq value and deliveryDates is ", QuiqPiq, deliveryDates);
 
     return (
       <div className={styles.base}>

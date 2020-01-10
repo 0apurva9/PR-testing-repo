@@ -459,10 +459,10 @@ class CheckOutPage extends React.Component {
 
   handleSelectDeliveryMode(deliveryMode, ussId, cartId) {
     let deliverModeInShortTerm;
-    if (deliveryMode === HOME_DELIVERY) {
+    if (deliveryMode === SHORT_HOME_DELIVERY) {
       deliverModeInShortTerm = SHORT_HOME_DELIVERY;
     } else if (
-      deliveryMode === SAME_DAY_DELIVERY ||
+      deliveryMode === SHORT_SAME_DAY_DELIVERY ||
       deliveryMode === SAME_DAY_DELIVERY_SHIPPING
     ) {
       deliverModeInShortTerm = SHORT_SAME_DAY_DELIVERY;
@@ -1296,8 +1296,8 @@ class CheckOutPage extends React.Component {
           }
           if (
             product.isGiveAway === NO &&
-            (product.pinCodeResponse &&
-              product.pinCodeResponse.isServicable !== NO)
+            product.pinCodeResponse &&
+            product.pinCodeResponse.isServicable !== NO
           ) {
             if (
               product.elligibleDeliveryMode &&
@@ -1740,8 +1740,8 @@ if you have order id in local storage then you have to show order confirmation p
       });
     } else if (
       (this.props.location &&
-        (this.props.location.state &&
-          this.props.location.state.isFromRetryUrl)) ||
+        this.props.location.state &&
+        this.props.location.state.isFromRetryUrl) ||
       this.props.location.pathname === `${RETRY_FAILED_ORDER}`
     ) {
       let retryPaymentDetailsObj = JSON.parse(
@@ -3424,9 +3424,9 @@ if you have order id in local storage then you have to show order confirmation p
   validateCard() {
     if (
       !this.state.cardDetails.cardNumber ||
-      (!this.state.cardDetails.cardName ||
-        (this.state.cardDetails.cardName &&
-          this.state.cardDetails.cardName.length < 3)) ||
+      !this.state.cardDetails.cardName ||
+      (this.state.cardDetails.cardName &&
+        this.state.cardDetails.cardName.length < 3) ||
       (this.state.cardDetails.cardName &&
         this.state.cardDetails.cardName.length < 1) ||
       !this.state.cardDetails.monthValue ||
@@ -3561,6 +3561,10 @@ if you have order id in local storage then you have to show order confirmation p
   }
 
   render() {
+    console.log(
+      "ussidanddeliverymodesobj is ",
+      this.state.ussIdAndDeliveryModesObj
+    );
     let labelForButton,
       checkoutButtonStatus = false;
     if (
@@ -3568,10 +3572,10 @@ if you have order id in local storage then you have to show order confirmation p
       !this.state.confirmAddress &&
       !this.state.isGiftCard &&
       !this.state.isComingFromRetryUrl &&
-      (this.props.cart.userAddress &&
-        this.props.cart.userAddress.addresses &&
-        !this.state.isGiftCard &&
-        !this.state.isComingFromRetryUrl)
+      this.props.cart.userAddress &&
+      this.props.cart.userAddress.addresses &&
+      !this.state.isGiftCard &&
+      !this.state.isComingFromRetryUrl
     ) {
       if (!this.state.addressId) {
         checkoutButtonStatus = true;
@@ -3948,11 +3952,12 @@ if you have order id in local storage then you have to show order confirmation p
                     !(
                       this.state.isPaymentFailed && this.state.isCliqCashApplied
                     ) &&
-                    (!this.state.paymentMethod &&
-                      (this.state.confirmAddress && this.state.deliverMode)) &&
-                    (this.props.cart.paymentModes &&
-                      this.props.cart.paymentModes.paymentOffers &&
-                      this.props.cart.paymentModes.paymentOffers.coupons) && (
+                    !this.state.paymentMethod &&
+                    this.state.confirmAddress &&
+                    this.state.deliverMode &&
+                    this.props.cart.paymentModes &&
+                    this.props.cart.paymentModes.paymentOffers &&
+                    this.props.cart.paymentModes.paymentOffers.coupons && (
                       <BankOfferWrapper
                         cart={this.props.cart}
                         applyBankCoupons={val => this.applyBankCoupons(val)}
@@ -3964,7 +3969,8 @@ if you have order id in local storage then you have to show order confirmation p
                     )}
                 </DesktopOnly>
                 {((!this.state.paymentMethod &&
-                  (this.state.confirmAddress && this.state.deliverMode)) ||
+                  this.state.confirmAddress &&
+                  this.state.deliverMode) ||
                   this.state.isPaymentFailed ||
                   this.state.isGiftCard ||
                   this.state.isComingFromRetryUrl) && (

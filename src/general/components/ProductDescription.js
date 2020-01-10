@@ -91,7 +91,7 @@ export default class ProductDescription extends Component {
 
           {this.props.averageRating && electronicView
             ? this.props.averageRating &&
-              (this.props.totalNoOfReviews && (
+              this.props.totalNoOfReviews && (
                 <div className={styles.ratingReviewElectronicsContainer}>
                   <div
                     className={
@@ -115,7 +115,7 @@ export default class ProductDescription extends Component {
                     {reviews === 1 ? `Review` : `Reviews`}
                   </div>
                 </div>
-              ))
+              )
             : ""}
           <React.Fragment>
             {!this.props.isRange &&

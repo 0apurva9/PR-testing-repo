@@ -1396,6 +1396,10 @@ export default class PdpApparel extends React.Component {
                     {this.props.productDetails.isServiceableToPincode &&
                     this.props.productDetails.isServiceableToPincode.pinCode ? (
                       <PdpPincode
+                        city={
+                          this.props.productDetails.isServiceableToPincode &&
+                          this.props.productDetails.isServiceableToPincode.city
+                        }
                         hasPincode={true}
                         displayToast={val => this.props.displayToast(val)}
                         onCheckPinCode={pincode =>
@@ -1421,6 +1425,10 @@ export default class PdpApparel extends React.Component {
                       />
                     ) : (
                       <PdpPincode
+                        city={
+                          this.props.productDetails.isServiceableToPincode &&
+                          this.props.productDetails.isServiceableToPincode.city
+                        }
                         pdpApparel={true}
                         displayToast={val => this.props.displayToast(val)}
                         onCheckPinCode={pincode =>
@@ -1436,54 +1444,54 @@ export default class PdpApparel extends React.Component {
                       />
                     )}
                   </div>
+
                   {this.props.productDetails.isServiceableToPincode &&
                   this.props.productDetails.isServiceableToPincode.status ===
                     NO ? (
+                    this.props.productDetails.isServiceableToPincode
+                      .productOutOfStockMessage ? (
+                      <div className={styles.overlay}>
+                        <div className={styles.notServiciableTetx}>
+                          *{" "}
+                          {
+                            this.props.productDetails.isServiceableToPincode
+                              .productOutOfStockMessage
+                          }
+                        </div>
+                      </div>
+                    ) : this.props.productDetails.isServiceableToPincode
+                      .productNotServiceableMessage ? (
+                      <div className={styles.overlay}>
+                        <div className={styles.notServiciableTetx}>
+                          *{" "}
+                          {
+                            this.props.productDetails.isServiceableToPincode
+                              .productNotServiceableMessage
+                          }
+                        </div>
+                      </div>
+                    ) : (
+                      <div className={styles.overlay}>
+                        <div className={styles.notServiciableTetx}>
+                          * This item can't be delivered to your PIN code
+                        </div>
+                      </div>
+                    )
+                  ) : /* (
                     <div className={styles.overlay}>
                       {productData.rootCategory === "Clothing" ||
                       productData.rootCategory === "Footwear" ? (
                         <div className={styles.notServiciableTetx}>
-                          {/** This item is currently out of stock*/}
-                          {`* ${
-                            productData &&
-                            productData.pincodeResponseList &&
-                            productData.pincodeResponseList.deliveryOptions &&
-                            productData.pincodeResponseList.deliveryOptions
-                              .pincodeListResponse[0] &&
-                            productData.pincodeResponseList.deliveryOptions
-                              .pincodeListResponse[0]
-                              .productNotServiceabilityMessage
-                              ? productData.pincodeResponseList.deliveryOptions
-                                  .pincodeListResponse[0]
-                                  .productNotServiceabilityMessage
-                              : productData.pincodeResponseList.deliveryOptions
-                                  .pincodeListResponse[0]
-                                  .productOutOfStockMessage
-                          }`}
+                          * This item is currently out of stock
                         </div>
                       ) : (
                         <div className={styles.notServiciableTetx}>
-                          {/** This item is non serviceable at your PIN code*/}
-                          {`* ${
-                            productData &&
-                            productData.pincodeResponseList &&
-                            productData.pincodeResponseList.deliveryOptions &&
-                            productData.pincodeResponseList.deliveryOptions
-                              .pincodeListResponse[0] &&
-                            productData.pincodeResponseList.deliveryOptions
-                              .pincodeListResponse[0]
-                              .productNotServiceabilityMessage
-                              ? productData.pincodeResponseList.deliveryOptions
-                                  .pincodeListResponse[0]
-                                  .productNotServiceabilityMessage
-                              : productData.pincodeResponseList.deliveryOptions
-                                  .pincodeListResponse[0]
-                                  .productOutOfStockMessage
-                          }`}
+                          * This item is non serviceable at your PIN code
                         </div>
                       )}
                     </div>
-                  ) : this.props.productDetails.isServiceableToPincode &&
+                  ) */ this
+                    .props.productDetails.isServiceableToPincode &&
                   this.props.productDetails.isServiceableToPincode.pinCode ? (
                     <div className={styles.deliveryModesHolder}>
                       <PdpDeliveryModes

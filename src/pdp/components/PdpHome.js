@@ -235,7 +235,9 @@ export default class PdpApparel extends React.Component {
   };
 
   goToReviewPage = () => {
-    const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    const url = `${
+      this.props.location.pathname
+    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
 
@@ -471,6 +473,10 @@ export default class PdpApparel extends React.Component {
           {this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.pinCode ? (
             <PdpPincode
+              city={
+                this.props.productDetails.isServiceableToPincode &&
+                this.props.productDetails.isServiceableToPincode.city
+              }
               hasPincode={true}
               pincode={this.props.productDetails.isServiceableToPincode.pinCode}
               onClick={() => this.showPincodeModal()}
@@ -480,14 +486,44 @@ export default class PdpApparel extends React.Component {
           )}
           {this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.status === NO ? (
+            this.props.productDetails.isServiceableToPincode
+              .productOutOfStockMessage ? (
+              <div className={styles.overlay}>
+                <div className={styles.notServiciableTetx}>
+                  *{" "}
+                  {
+                    this.props.productDetails.isServiceableToPincode
+                      .productOutOfStockMessage
+                  }
+                </div>
+              </div>
+            ) : this.props.productDetails.isServiceableToPincode
+              .productNotServiceableMessage ? (
+              <div className={styles.overlay}>
+                <div className={styles.notServiciableTetx}>
+                  *{" "}
+                  {
+                    this.props.productDetails.isServiceableToPincode
+                      .productNotServiceableMessage
+                  }
+                </div>
+              </div>
+            ) : (
+              <div className={styles.overlay}>
+                <div className={styles.notServiciableTetx}>
+                  * This item can't be delivered to your PIN code
+                </div>
+              </div>
+            )
+          ) : (
+            /*  (
             <Overlay labelText="This item can't be delivered to your PIN code">
               <PdpDeliveryModes
                 eligibleDeliveryModes={productData.eligibleDeliveryModes}
                 deliveryModesATP={productData.deliveryModesATP}
               />
             </Overlay>
-          ) : (
-            <PdpDeliveryModes
+          ) */ <PdpDeliveryModes
               onPiq={this.handleShowPiqPage}
               eligibleDeliveryModes={productData.eligibleDeliveryModes}
               deliveryModesATP={productData.deliveryModesATP}

@@ -56,9 +56,9 @@ export default class OfferCard extends React.Component {
     if (
       Title &&
       Title.indexOf("bundledProduct") >= 0 &&
-      (this.props &&
-        this.props.productDetails &&
-        this.props.productDetails.rootCategory === "Electronics")
+      this.props &&
+      this.props.productDetails &&
+      this.props.productDetails.rootCategory === "Electronics"
     ) {
       setDataLayer(ADOBE_PRODUCT_BUNDLED_OFFER);
       await this.getParams(Title)

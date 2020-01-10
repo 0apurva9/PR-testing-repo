@@ -287,9 +287,9 @@ export function getProductListings(
       if (resultJson.error) {
         if (
           isBrowser &&
-          (resultJson &&
-            resultJson.currentQuery &&
-            resultJson.currentQuery.searchQuery)
+          resultJson &&
+          resultJson.currentQuery &&
+          resultJson.currentQuery.searchQuery
         ) {
           setDataLayer(
             ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL,
@@ -302,10 +302,10 @@ export function getProductListings(
       }
       if (
         isBrowser &&
-        (resultJson &&
-          resultJson.currentQuery &&
-          resultJson.currentQuery.searchQuery &&
-          !paginated)
+        resultJson &&
+        resultJson.currentQuery &&
+        resultJson.currentQuery.searchQuery &&
+        !paginated
       ) {
         setDataLayer(
           ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT,
@@ -317,10 +317,10 @@ export function getProductListings(
       } else {
         if (
           isBrowser &&
-          (window.digitalData &&
-            window.digitalData.page &&
-            window.digitalData.page.pageInfo &&
-            window.digitalData.page.pageInfo.pageName !== "product grid")
+          window.digitalData &&
+          window.digitalData.page &&
+          window.digitalData.page.pageInfo &&
+          window.digitalData.page.pageInfo.pageName !== "product grid"
         ) {
           if (
             componentName === "Flash Sale Component" ||

@@ -2748,8 +2748,8 @@ export function updateProfile(accountDetails, otp) {
             (resultJson.status === SUCCESS ||
               resultJson.status === SUCCESS_CAMEL_CASE ||
               resultJson.status === SUCCESS_UPPERCASE) &&
-            (resultJson.mobileNumber !== JSON.parse(userDetails).userName &&
-              MOBILE_PATTERN.test(JSON.parse(userDetails).userName))
+            resultJson.mobileNumber !== JSON.parse(userDetails).userName &&
+            MOBILE_PATTERN.test(JSON.parse(userDetails).userName)
           ) {
             dispatch(setBagCount(0));
             dispatch(logoutUserByMobileNumber());
