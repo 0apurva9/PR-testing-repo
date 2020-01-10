@@ -429,16 +429,7 @@ export default class NoCostEmiBankDetails extends React.Component {
                 ) / 100}`}</div>
               </div>
             )}
-          {noCostEmiDetails &&
-            noCostEmiDetails.noCostEMIConvCharge &&
-            noCostEmiDetails.noCostEMIConvCharge.value && (
-              <div className={styles.amountData}>
-                <div className={styles.amountLabel}>Bank Convenience Fees</div>
-                <div className={styles.amount}>{`Rs. ${Math.round(
-                  noCostEmiDetails.noCostEMIConvCharge.value
-                )}`}</div>
-              </div>
-            )}
+
           {noCostEmiDetails &&
             noCostEmiDetails.noCostEMIDiscountValue &&
             noCostEmiDetails.noCostEMIDiscountValue.value && (
@@ -447,6 +438,16 @@ export default class NoCostEmiBankDetails extends React.Component {
                 <div className={styles.amountDiscount}>{`-Rs. ${Math.round(
                   noCostEmiDetails.noCostEMIDiscountValue.value * 100
                 ) / 100}`}</div>
+              </div>
+            )}
+          {noCostEmiDetails &&
+            noCostEmiDetails.noCostEMIConvCharge &&
+            noCostEmiDetails.noCostEMIConvCharge.value && (
+              <div className={styles.amountData}>
+                <div className={styles.amountLabel}>Bank Convenience Fees</div>
+                <div className={styles.amount}>{`Rs. ${Math.round(
+                  noCostEmiDetails.noCostEMIConvCharge.value
+                )}`}</div>
               </div>
             )}
         </div>

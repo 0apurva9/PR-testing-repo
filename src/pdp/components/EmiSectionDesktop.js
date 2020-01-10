@@ -122,6 +122,16 @@ export default class EmiSectionDesktop extends React.Component {
                               }`}</div>
                             </div>
                           )} */}
+
+                        <div className={styles.textAndAmountHolder}>
+                          <div className={styles.textHolder}>
+                            Total Interest paid to bank
+                          </div>
+                          <div className={styles.amountHolder}>{`Rs . ${
+                            val.interestPayable
+                          }`}</div>
+                        </div>
+
                         {convenienceFeeValue && (
                           <div className={styles.textAndAmountHolder}>
                             <div className={styles.textHolder}>
@@ -132,14 +142,6 @@ export default class EmiSectionDesktop extends React.Component {
                             >{`Rs . ${convenienceFeeValue}`}</div>
                           </div>
                         )}
-                        <div className={styles.textAndAmountHolder}>
-                          <div className={styles.textHolder}>
-                            Total Interest paid to bank
-                          </div>
-                          <div className={styles.amountHolder}>{`Rs . ${
-                            val.interestPayable
-                          }`}</div>
-                        </div>
                         {emiInfo && (
                           <div className={styles.convenienceFee}>{emiInfo}</div>
                         )}
