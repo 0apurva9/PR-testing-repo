@@ -194,6 +194,15 @@ export default class NoCostEmiBankDetails extends React.Component {
           }
         });
     }
+    if (
+      this.props.retryPaymentDetails &&
+      this.props.bankList &&
+      this.props.bankList[0].emiInfo
+    ) {
+      if (this.props.bankList[0].bankCode === this.props.cardDetails.emi_bank) {
+        emiInfo = this.props.bankList[0].emiInfo;
+      }
+    }
     if (this.props.getItemBreakUpDetails) {
       this.props.getItemBreakUpDetails(
         this.state.selectedCouponCode,
@@ -658,8 +667,20 @@ export default class NoCostEmiBankDetails extends React.Component {
               )}
             {this.state.selectedMonth !== null &&
               this.props.isRetryPaymentFromURL &&
-              this.props.retryPaymentDetails &&
-              this.renderMonthsPlan(this.props.retryPaymentDetails.cartAmount)}
+              this.props.retryPaymentDetails && (
+                <div>
+                  {this.props.retryPaymentDetails &&
+                    this.props.bankList &&
+                    this.props.bankList[0].emiInfo && (
+                      <div className={styles.charges}>
+                        {this.props.bankList[0].emiInfo}
+                      </div>
+                    )}
+                  {this.renderMonthsPlan(
+                    this.props.retryPaymentDetails.cartAmount
+                  )}
+                </div>
+              )}
             {this.state.selectedBankCode &&
               this.state.selectedBankIndex !== null && (
                 <div className={styles.itemLevelButtonHolder}>
