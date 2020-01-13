@@ -280,8 +280,13 @@ export default class OrderCard extends React.Component {
                 }
               >
                 <div className={styles.calloutMessage}>
-                  {updatedCalloutMessage}
+                  {`123${updatedCalloutMessage}`}
                 </div>
+                {this.props.orderBreachMessage && (
+                  <div className={styles.breechMessage}>
+                    * {this.props.orderBreachMessage}
+                  </div>
+                )}
               </div>
             )}
 
@@ -609,9 +614,9 @@ export default class OrderCard extends React.Component {
               )}
             </div>
           )}
-        {this.props.breechMessage && (
+        {this.props.itemBreachMessage && (
           <div className={styles.breechMessage}>
-            * {this.props.breechMessage}
+            * {this.props.itemBreachMessage}
           </div>
         )}
         {this.props.sellerName && (

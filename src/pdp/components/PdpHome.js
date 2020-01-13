@@ -508,13 +508,7 @@ export default class PdpApparel extends React.Component {
                   }
                 </div>
               </div>
-            ) : (
-              <div className={styles.overlay}>
-                <div className={styles.notServiciableTetx}>
-                  * This item can't be delivered to your PIN code
-                </div>
-              </div>
-            )
+            ) : null
           ) : (
             /*  (
             <Overlay labelText="This item can't be delivered to your PIN code">

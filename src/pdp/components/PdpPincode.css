@@ -96,8 +96,10 @@
   font-size: 14px;
   line-height: 24px;
   font-family: semibold;
-  right: 0;
+  right: -82px;
   cursor: pointer;
+  min-width: 52px;
+  text-align: left;
 }
 .shipToLabel {
   width: 100%;
@@ -178,4 +180,11 @@
   font-family: semibold;
   color: rgba(255, 23, 68);
   cursor: pointer;
+}
+
+.cityName{
+  font-size: 14px;
+  color: #212121;
+  font-family: semibold;
+  padding-right: 2px;
 }

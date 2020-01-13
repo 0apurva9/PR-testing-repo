@@ -1314,13 +1314,20 @@ export default class PdpApparel extends React.Component {
                       )}
                       <div className={styles.buttonAddToBag}>
                         <Button
+                          insidePdpPage={true}
                           type="primary"
                           height={45}
                           width={195}
-                          label="Buy Now"
+                          label="BUY NOW"
                           onClick={this.onClickOfBuyNow}
                           disabled={
                             productData.allOOStock ||
+                            (productData.isServiceableToPincode &&
+                              productData.isServiceableToPincode
+                                .productOutOfStockMessage) ||
+                            (productData.isServiceableToPincode &&
+                              productData.isServiceableToPincode
+                                .productNotServiceableMessage) ||
                             !productData.winningSellerPrice ||
                             (productData.winningSellerAvailableStock === "0" &&
                               this.checkIfSizeSelected())
@@ -1331,14 +1338,15 @@ export default class PdpApparel extends React.Component {
                     <div className={styles.buttonHolder}>
                       <div className={styles.buttonAddToBag}>
                         <Button
+                          insidePdpPage={true}
                           type="hollow"
                           height={45}
                           width={195}
                           color={"#ff1744"}
                           label={
                             this.state.goToCartPageFlag
-                              ? "Go to bag"
-                              : "Add to bag"
+                              ? "GO TO BAG"
+                              : "ADD TO BAG"
                           }
                           onClick={
                             this.state.goToCartPageFlag
@@ -1347,6 +1355,12 @@ export default class PdpApparel extends React.Component {
                           }
                           disabled={
                             productData.allOOStock ||
+                            (productData.isServiceableToPincode &&
+                              productData.isServiceableToPincode
+                                .productOutOfStockMessage) ||
+                            (productData.isServiceableToPincode &&
+                              productData.isServiceableToPincode
+                                .productNotServiceableMessage) ||
                             !productData.winningSellerPrice ||
                             (productData.winningSellerAvailableStock === "0" &&
                               this.checkIfSizeSelected())
@@ -1473,13 +1487,7 @@ export default class PdpApparel extends React.Component {
                           }
                         </div>
                       </div>
-                    ) : (
-                      <div className={styles.overlay}>
-                        <div className={styles.notServiciableTetx}>
-                          * This item can't be delivered to your PIN code
-                        </div>
-                      </div>
-                    )
+                    ) : null
                   ) : /* (
                     <div className={styles.overlay}>
                       {productData.rootCategory === "Clothing" ||

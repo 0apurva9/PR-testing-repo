@@ -41,6 +41,10 @@
   opacity: 0.5;
   pointer-events: none;
 }
+.disabledBuyNowInPdp{
+  composes: base;
+  pointer-events: none;
+}
 .loading.base:after {
   display: block;
 }

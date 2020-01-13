@@ -3,7 +3,7 @@
   width: 100%;
   height: auto;
   background: #fff;
-  padding: 20px 0px 10px 0px;
+  padding: 0 0px 10px 0px;
 }
 .basePdp {
   float: left;
@@ -30,7 +30,7 @@
   z-index: 1;
 }
 .infoHolder {
-  width: 50%;
+  width: 100%;
   height: auto;
   display: block;
  /*  vertical-align: top; */
