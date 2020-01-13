@@ -291,7 +291,9 @@ display: none;
     color: rgb(216,137,0);
     font-family: regular;
     padding-bottom: 8px;
-    padding-right: 150px;
+		/* padding-right: 150px; */
+		line-height: 1.2;
+		max-width: 85%;
 }
 
 @media screen and (min-width: 1025px) {
