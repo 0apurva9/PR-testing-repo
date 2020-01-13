@@ -241,61 +241,64 @@ export default class ReturnToStore extends React.Component {
                 />
               </div>
               {!this.state.showPickupPerson &&
-                this.state.availableStores && (
-                  <GridSelect
-                    limit={1}
-                    offset={0}
-                    elementWidthDesktop={100}
-                    onSelect={val => this.selectStoreForDesktop(val)}
-                    selected={[this.state.storeId]}
-                  >
-                    {this.state.availableStores.map((val, i) => {
-                      return (
-                        <PickUpLocation
-                          key={i}
-                          count={i + 1}
-                          address={`${val.address &&
-                            val.address.line1} ${val.address &&
-                            val.address.line2}, `}
-                          PickUpKey="Open on: "
-                          workingDays={val.mplWorkingDays}
-                          openingTime={val.mplOpeningTime}
-                          closingTime={val.mplClosingTime}
-                          address2={`${val.returnCity} ${val.returnPin}`}
-                          headingText={val.displayName}
-                          value={val.slaveId}
-                          canSelectStore={this.props.canSelectStore}
-                          slaveId={val.slaveId}
-                          deliveryInformationWithDate={
-                            this.props.pincodeResponse
-                              ? this.props.pincodeResponse
-                              : this.props.pincodeResponseList &&
-                                getDeliveryModesByWinningUssid &&
-                                getDeliveryModesByWinningUssid.validDeliveryModes
-                          }
+                this.state.availableStores &&
+                Object.keys(this.state.availableStores).length > 0 && (
+                  <React.Fragment>
+                    <GridSelect
+                      limit={1}
+                      offset={0}
+                      elementWidthDesktop={100}
+                      onSelect={val => this.selectStoreForDesktop(val)}
+                      selected={[this.state.storeId]}
+                    >
+                      {this.state.availableStores.map((val, i) => {
+                        return (
+                          <PickUpLocation
+                            key={i}
+                            count={i + 1}
+                            address={`${val.address &&
+                              val.address.line1} ${val.address &&
+                              val.address.line2}, `}
+                            PickUpKey="Open on: "
+                            workingDays={val.mplWorkingDays}
+                            openingTime={val.mplOpeningTime}
+                            closingTime={val.mplClosingTime}
+                            address2={`${val.returnCity} ${val.returnPin}`}
+                            headingText={val.displayName}
+                            value={val.slaveId}
+                            canSelectStore={this.props.canSelectStore}
+                            slaveId={val.slaveId}
+                            deliveryInformationWithDate={
+                              this.props.pincodeResponse
+                                ? this.props.pincodeResponse
+                                : this.props.pincodeResponseList &&
+                                  getDeliveryModesByWinningUssid &&
+                                  getDeliveryModesByWinningUssid.validDeliveryModes
+                            }
+                          />
+                        );
+                      })}
+                    </GridSelect>
+                    <div
+                      className={
+                        !this.state.showPickupPerson
+                          ? styles.buttonContainer
+                          : styles.visiblityHidden
+                      }
+                      onClick={() => this.selectStoreButtonForDesktop()}
+                    >
+                      <div className={styles.button}>
+                        <Button
+                          type="primary"
+                          label="Continue"
+                          color="#fff"
+                          width={121}
+                          disabled={!this.state.storeId}
                         />
-                      );
-                    })}
-                  </GridSelect>
+                      </div>
+                    </div>
+                  </React.Fragment>
                 )}
-              <div
-                className={
-                  !this.state.showPickupPerson
-                    ? styles.buttonContainer
-                    : styles.visiblityHidden
-                }
-                onClick={() => this.selectStoreButtonForDesktop()}
-              >
-                <div className={styles.button}>
-                  <Button
-                    type="primary"
-                    label="Continue"
-                    color="#fff"
-                    width={121}
-                    disabled={!this.state.storeId}
-                  />
-                </div>
-              </div>
               {this.state.showPickupPerson &&
                 this.state.selectedStore && (
                   <div className={styles.getLocationDetailsHolder}>

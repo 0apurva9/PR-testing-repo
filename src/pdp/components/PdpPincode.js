@@ -77,7 +77,6 @@ export default class PdpPincode extends React.Component {
     }
   }
   render() {
-    console.log("pdppincode props are : ", this.props);
     const listOfAllPinCode = this.props.listOfAllPinCode;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let baseClass =

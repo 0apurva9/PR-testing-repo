@@ -18,7 +18,7 @@
   width: auto;
   height: auto;
   position: absolute;
-  top: 15px;
+  top: 19px;
   right: 15px;
 }
 .checkIconHolder {
@@ -26,27 +26,25 @@
   height: 40px;
   position: absolute;
   right: 15px;
-  top: 50%;
+  bottom: 15px;
   display: inline-block;
 }
 .headerTextHolder {
   width: 100%;
   height: auto;
   display: inline-block;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   font-size: 14px;
   font-family: semibold;
 }
 .subText {
   width: 100%;
   height: auto;
-  display: inline-block;
   margin-bottom: 5px;
-  font-size: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 18px;
   font-family: light;
-  white-space: nowrap;
   padding-right: 60px;
 }
 .pickUpBox {
@@ -68,24 +66,25 @@
 .pickUpDay {
   width: auto;
   height: auto;
-  font-size: 13px;
-  font-family: regular;
+  margin-bottom: 5px;
+  font-size: 12px;
+  font-family: semibold;
   display: inline-block;
   vertical-align: middle;
 }
 .openingTime {
   width: 100%;
   height: auto;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 .openingTime:last-child {
   margin-bottom: 0px;
 }
 .labelHolderForPopUp {
   width: auto;
-  height: ato;
+  height: auto;
   display: inline-block;
-  font-size: 13px;
+  font-size: 12px;
   color: rgba(33, 33, 33, 0.93);
 }
 .label {

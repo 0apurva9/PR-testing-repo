@@ -17,7 +17,14 @@ export default class MarkerStore extends React.Component {
             width={20}
             height={30}
             selectItem={() => this.selectedItem(this.props.slaveID)}
-          />
+          >
+            {this.props.storeNumber &&
+              !this.props.text && (
+                <span className={styles.imageText}>
+                  {this.props.storeNumber}
+                </span>
+              )}
+          </Icon>
           {this.props.text && (
             <div className={styles.storeName}>{this.props.text}</div>
           )}

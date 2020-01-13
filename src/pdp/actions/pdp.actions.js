@@ -369,8 +369,8 @@ export function getProductPinCode(
                  "value" : {
                     "pincodeListResponse" : [
                       {
-                        
-                      } 
+
+                      }
                       ]
                  }
               } ]
@@ -387,8 +387,8 @@ export function getProductPinCode(
                "value" : {
                   "pincodeListResponse" : [
                     {
-                      
-                    } 
+
+                    }
                     ]
                }
             } ]
@@ -461,7 +461,7 @@ export function getProductPinCode(
       }
       /*       if (
         (resultJson && resultJson.productOutOfStockMessage) ||
-        (resultJson && resultJson.productNotServiceabilityMessage) 
+        (resultJson && resultJson.productNotServiceabilityMessage)
       ) {
         dispatch('an action to update productDetails to have this message under isServiceable message');
       } */

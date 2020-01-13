@@ -1438,6 +1438,9 @@ export default class PdpApparel extends React.Component {
                             productData.winningUssID
                           )
                         }
+                        pincode={localStorage.getItem(
+                          DEFAULT_PIN_CODE_LOCAL_STORAGE
+                        )}
                         listOfAllPinCode={address}
                         onClick={() => this.showPincodeModal()}
                         redirectToLoginPage={() => this.navigateToLogin()}
@@ -1490,8 +1493,8 @@ export default class PdpApparel extends React.Component {
                         </div>
                       )}
                     </div>
-                  ) */ this
-                    .props.productDetails.isServiceableToPincode &&
+                  ) */
+                  this.props.productDetails.isServiceableToPincode &&
                   this.props.productDetails.isServiceableToPincode.pinCode ? (
                     <div className={styles.deliveryModesHolder}>
                       <PdpDeliveryModes
@@ -1511,7 +1514,7 @@ export default class PdpApparel extends React.Component {
                     </div>
                   ) : (
                     <div className={styles.invalidPinText}>
-                      To check for delivery options please enter you pincode
+                      To check for delivery options please enter your pincode
                       above{" "}
                     </div>
                   )}
