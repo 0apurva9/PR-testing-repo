@@ -160,7 +160,7 @@ export default class DeliveryInformations extends React.Component {
       iconImage = ExpressImage;
       typeDate = `${formattedPlacedTime}`;
       typeText = `${HOME_TEXT}`;
-      iconSize = 31;
+      iconSize = 38;
     } else if (this.props.type === SHORT_COLLECT) {
       iconImage = CollectImage;
       typeText = !this.props.deliveryInformationByCart
