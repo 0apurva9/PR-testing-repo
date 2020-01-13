@@ -48,6 +48,7 @@
   height: auto;
   font-size: 14px;
   font-family: light;
+  word-break: break-word;
 }
 .noReviews {
   width: 100%;
