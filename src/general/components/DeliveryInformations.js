@@ -155,27 +155,27 @@ export default class DeliveryInformations extends React.Component {
           : `${EXPRESS_SHIPPING}`;
       }
       arrowStyle = styles.arrowLink;
-      iconSize = this.props.inCartPageIcon ? 40 : 35;
+      iconSize = this.props.inCartPageIcon ? 40 : 38;
     } else if (this.props.type === SHORT_HOME_DELIVERY) {
       iconImage = ExpressImage;
       typeDate = `${formattedPlacedTime}`;
       typeText = `${HOME_TEXT}`;
-      iconSize = 35;
+      iconSize = 31;
     } else if (this.props.type === SHORT_COLLECT) {
       iconImage = CollectImage;
       typeText = !this.props.deliveryInformationByCart
         ? COLLECT_TEXT
         : COLLECT_TEXT_CART;
-      iconSize = 35;
+      iconSize = 30;
     } else if (this.props.type === SHORT_SAME_DAY_DELIVERY) {
       iconImage = ExpressImage;
       if (this.props.inCartPage) {
         typeDate = `${formattedPlacedTime}`;
-        iconSize = 35;
+        iconSize = 38;
       } else {
         typeDate = `${formattedPlacedTime}`;
         typeText = `${SHORT_SAME_DAY_TEXT}`;
-        iconSize = 35;
+        iconSize = 38;
       }
     } else if (this.props.type === SAME_DAY_DELIVERY) {
       iconImage = clockImage;
@@ -224,6 +224,7 @@ export default class DeliveryInformations extends React.Component {
           <IconWithHeader
             image={iconImage}
             iconShow={this.props.iconShow}
+            iconSize={iconSize}
             header={`${deliveryCharge}`}
             dateFormatted={typeDate}
             dateFormattedText={typeText}
@@ -234,12 +235,11 @@ export default class DeliveryInformations extends React.Component {
                 <CountDownTimer cutOffSeconds={this.props.cutOffTime} />
               )}
 
-            {this.props.available &&
-              this.props.placedTimeForCod && (
-                <div className={styles.placeTime}>
-                  {this.props.placedTimeForCod}
-                </div>
-              )}
+            {this.props.available && this.props.placedTimeForCod && (
+              <div className={styles.placeTime}>
+                {this.props.placedTimeForCod}
+              </div>
+            )}
 
             {this.props.deliverText && (
               <div className={styles.placeTime}>
@@ -256,15 +256,14 @@ export default class DeliveryInformations extends React.Component {
               this.props.isShowCliqAndPiqUnderLineText &&
               this.props.available && (
                 <div className={styles.underLineButtonHolder}>
-                  {!this.props.inCartPage &&
-                    selectedStoreAddress && (
-                      <div
-                        className={styles.address}
-                        onClick={() => this.onPiq()}
-                      >
-                        {selectedStoreAddress}
-                      </div>
-                    )}
+                  {!this.props.inCartPage && selectedStoreAddress && (
+                    <div
+                      className={styles.address}
+                      onClick={() => this.onPiq()}
+                    >
+                      {selectedStoreAddress}
+                    </div>
+                  )}
                   <span className={styles.buttonHolderPiq}>
                     <UnderLinedButton
                       size={
@@ -317,15 +316,14 @@ export default class DeliveryInformations extends React.Component {
                 </div>
               )}
 
-          {this.props.arrowClick &&
-            this.props.type === COLLECT && (
-              <div
-                className={styles.arrowHolder}
-                onClick={() => this.arrowClick()}
-              >
-                <Icon image={arrowIcon} size={20} />
-              </div>
-            )}
+          {this.props.arrowClick && this.props.type === COLLECT && (
+            <div
+              className={styles.arrowHolder}
+              onClick={() => this.arrowClick()}
+            >
+              <Icon image={arrowIcon} size={20} />
+            </div>
+          )}
           {this.props.showCliqAndPiqButton &&
             this.props.isClickable &&
             !this.props.selected &&
