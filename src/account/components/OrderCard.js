@@ -540,10 +540,7 @@ export default class OrderCard extends React.Component {
           <div className={styles.deliveryDate}>
             Estimated Installation Date:{" "}
             <span className={styles.estimatedDate}>
-              {format(
-                this.props.estimatedCompletionDate.toString(),
-                dateFormat
-              )}
+              {this.props.estimatedCompletionDate}
             </span>
           </div>
         )}
