@@ -234,11 +234,12 @@ export default class DeliveryInformations extends React.Component {
                 <CountDownTimer cutOffSeconds={this.props.cutOffTime} />
               )}
 
-            {this.props.available && this.props.placedTimeForCod && (
-              <div className={styles.placeTime}>
-                {this.props.placedTimeForCod}
-              </div>
-            )}
+            {this.props.available &&
+              this.props.placedTimeForCod && (
+                <div className={styles.placeTime}>
+                  {this.props.placedTimeForCod}
+                </div>
+              )}
 
             {this.props.deliverText && (
               <div className={styles.placeTime}>
@@ -255,14 +256,15 @@ export default class DeliveryInformations extends React.Component {
               this.props.isShowCliqAndPiqUnderLineText &&
               this.props.available && (
                 <div className={styles.underLineButtonHolder}>
-                  {!this.props.inCartPage && selectedStoreAddress && (
-                    <div
-                      className={styles.address}
-                      onClick={() => this.onPiq()}
-                    >
-                      {selectedStoreAddress}
-                    </div>
-                  )}
+                  {!this.props.inCartPage &&
+                    selectedStoreAddress && (
+                      <div
+                        className={styles.address}
+                        onClick={() => this.onPiq()}
+                      >
+                        {selectedStoreAddress}
+                      </div>
+                    )}
                   <span className={styles.buttonHolderPiq}>
                     <UnderLinedButton
                       size={
@@ -315,14 +317,15 @@ export default class DeliveryInformations extends React.Component {
                 </div>
               )}
 
-          {this.props.arrowClick && this.props.type === COLLECT && (
-            <div
-              className={styles.arrowHolder}
-              onClick={() => this.arrowClick()}
-            >
-              <Icon image={arrowIcon} size={20} />
-            </div>
-          )}
+          {this.props.arrowClick &&
+            this.props.type === COLLECT && (
+              <div
+                className={styles.arrowHolder}
+                onClick={() => this.arrowClick()}
+              >
+                <Icon image={arrowIcon} size={20} />
+              </div>
+            )}
           {this.props.showCliqAndPiqButton &&
             this.props.isClickable &&
             !this.props.selected &&

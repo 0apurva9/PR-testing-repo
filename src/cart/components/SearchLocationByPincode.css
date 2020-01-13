@@ -3,7 +3,6 @@
   height: auto;
   display: inline-block;
   position: relative;
-  background-color: #ffffff;
   padding: 20px;
 }
 .header {
@@ -57,6 +56,6 @@
     padding: 30px 0px;
   }
   .base {
-    padding: 10px;
+    padding: 10px 10px 10px 0;
   }
 }

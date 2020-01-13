@@ -18,7 +18,8 @@ import {
   ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE,
   ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE,
   BUY_NOW_PRODUCT_DETAIL,
-  SUCCESS
+  SUCCESS,
+  CNC_CART
 } from "../../lib/constants";
 import SavedProduct from "./SavedProduct";
 import filter from "lodash.filter";
@@ -1044,7 +1045,9 @@ class CartPage extends React.Component {
                     this.props.wishListCount > 0 && (
                       <div className={styles.wishListCountSection}>
                         <div className={styles.iconWishList} />
-                        <span>{`You have ${this.props.wishListCount} items in your saved list`}</span>
+                        <span>{`You have ${
+                          this.props.wishListCount
+                        } items in your saved list`}</span>
                         <div className={styles.buttonHolder}>
                           <UnderLinedButton
                             size="14px"
@@ -1089,6 +1092,9 @@ here we need to hit call for merging cart id if user
     if (!this.navigateToCheckout) {
       if (cartDetails && cartDetails.isBuyNowCart) {
         await this.props.mergeTempCartWithOldCart();
+        if (localStorage.getItem(CNC_CART)) {
+          localStorage.removeItem(CNC_CART);
+        }
       } else {
         // Before leaving cart page call minicart
         this.props.getMinicartProducts();

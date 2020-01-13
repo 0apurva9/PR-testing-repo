@@ -234,16 +234,17 @@ export default class ProductDetailsMainCard extends React.Component {
             </StarRating>
           </div>
         )}
-        {!this.props.averageRating && this.props.isPdp && (
-          <DesktopOnly>
-            <div
-              className={styles.noRatingText}
-              onClick={() => this.handleRatingLink()}
-            >
-              {NO_REVIEW_TEXT}
-            </div>
-          </DesktopOnly>
-        )}
+        {!this.props.averageRating &&
+          this.props.isPdp && (
+            <DesktopOnly>
+              <div
+                className={styles.noRatingText}
+                onClick={() => this.handleRatingLink()}
+              >
+                {NO_REVIEW_TEXT}
+              </div>
+            </DesktopOnly>
+          )}
       </div>
     );
   }

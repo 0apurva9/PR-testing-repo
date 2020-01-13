@@ -21,8 +21,8 @@ export default class ProductImage extends React.Component {
           this.props.electronicView
             ? styles.electronicImageBase
             : this.props.flatImage
-            ? styles.flatImage
-            : styles.base
+              ? styles.flatImage
+              : styles.base
         }
       >
         {/* <div className={styles.imageHolder} onClick={() => this.onClickImage()}> */}

@@ -87,14 +87,15 @@ export default class DesktopCheckout extends React.Component {
                   </div>
                 </div>
               )}
-            {cartAmount.bagDiscount && cartAmount.bagDiscount.value !== 0 && (
-              <div className={styles.row}>
-                <div className={styles.label}>Bag Discount</div>
-                <div className={styles.info}>
-                  -{cartAmount.bagDiscount.formattedValue}
+            {cartAmount.bagDiscount &&
+              cartAmount.bagDiscount.value !== 0 && (
+                <div className={styles.row}>
+                  <div className={styles.label}>Bag Discount</div>
+                  <div className={styles.info}>
+                    -{cartAmount.bagDiscount.formattedValue}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
             {cartAmount.couponDiscountAmount &&
               cartAmount.couponDiscountAmount.value !== 0 && (
                 <div className={styles.row}>
@@ -116,14 +117,15 @@ export default class DesktopCheckout extends React.Component {
                   </div>
                 </div>
               )}
-            {cartAmount.cartDiscount && cartAmount.cartDiscount.value !== 0 && (
-              <div className={styles.row}>
-                <div className={styles.label}>Bank Offer Discount</div>
-                <div className={styles.info}>
-                  -{cartAmount.cartDiscount.formattedValue}
+            {cartAmount.cartDiscount &&
+              cartAmount.cartDiscount.value !== 0 && (
+                <div className={styles.row}>
+                  <div className={styles.label}>Bank Offer Discount</div>
+                  <div className={styles.info}>
+                    -{cartAmount.cartDiscount.formattedValue}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
             {cartAmount.noCostEMIDiscountValue &&
               !this.props.noCostEmiEligibility &&
               cartAmount.noCostEMIDiscountValue.value !== 0 && (
@@ -308,39 +310,41 @@ export default class DesktopCheckout extends React.Component {
                   </div>
                 )}
 
-                {this.props.isOnCartPage && defaultPinCode && (
-                  <div className={styles.button}>
-                    <Button
-                      disabled={this.props.disabled}
-                      type="primary"
-                      backgroundColor="#ff1744"
-                      height={40}
-                      label={this.props.label}
-                      width={150}
-                      textStyle={{
-                        color: "#FFF",
-                        fontSize: 14
-                      }}
-                      onClick={() => this.handleClick()}
-                    />
-                  </div>
-                )}
-                {this.props.isOnCartPage && !defaultPinCode && (
-                  <div className={styles.button}>
-                    <Button
-                      type="primary"
-                      backgroundColor="#ff1744"
-                      height={40}
-                      label={this.props.label}
-                      width={150}
-                      textStyle={{
-                        color: "#FFF",
-                        fontSize: 14
-                      }}
-                      onClick={() => this.handleFocusOnPinCode()}
-                    />
-                  </div>
-                )}
+                {this.props.isOnCartPage &&
+                  defaultPinCode && (
+                    <div className={styles.button}>
+                      <Button
+                        disabled={this.props.disabled}
+                        type="primary"
+                        backgroundColor="#ff1744"
+                        height={40}
+                        label={this.props.label}
+                        width={150}
+                        textStyle={{
+                          color: "#FFF",
+                          fontSize: 14
+                        }}
+                        onClick={() => this.handleClick()}
+                      />
+                    </div>
+                  )}
+                {this.props.isOnCartPage &&
+                  !defaultPinCode && (
+                    <div className={styles.button}>
+                      <Button
+                        type="primary"
+                        backgroundColor="#ff1744"
+                        height={40}
+                        label={this.props.label}
+                        width={150}
+                        textStyle={{
+                          color: "#FFF",
+                          fontSize: 14
+                        }}
+                        onClick={() => this.handleFocusOnPinCode()}
+                      />
+                    </div>
+                  )}
               </React.Fragment>
             )}
           </div>

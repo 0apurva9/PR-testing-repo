@@ -213,8 +213,8 @@ export default class PaymentCardWrapper extends React.Component {
               this.props.isRemainingBalance &&
               !(this.props.isPaymentFailed && this.props.isCliqCashApplied) &&
               this.props.cart.paymentModes &&
-                this.props.cart.paymentModes.paymentOffers &&
-                this.props.cart.paymentModes.paymentOffers.coupons && (
+              this.props.cart.paymentModes.paymentOffers &&
+              this.props.cart.paymentModes.paymentOffers.coupons && (
                 <BankOfferWrapper
                   cart={this.props.cart}
                   applyBankCoupons={this.props.applyBankCoupons}

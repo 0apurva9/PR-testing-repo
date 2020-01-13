@@ -50,7 +50,9 @@ export function getDesktopFooter(pathName) {
           //     "https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/desktopservice/footer";
           // }
           // const result = await fetch(footerApi);
-          footerApi = `v2/mpl/cms/desktopservice/footer?pageID=${urlSearch2[0]}`;
+          footerApi = `v2/mpl/cms/desktopservice/footer?pageID=${
+            urlSearch2[0]
+          }`;
         } else {
           footerApi = `v2/mpl/cms/desktopservice/footer?pageID=${urlSearch[1]}`;
         }

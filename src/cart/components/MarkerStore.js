@@ -11,7 +11,7 @@ export default class MarkerStore extends React.Component {
   render() {
     return (
       <div className={styles.base}>
-        <div className="place" lat={this.props.lat} lng={this.props.lng}>
+        <div className={styles.place} lat={this.props.lat} lng={this.props.lng}>
           <Icon
             image={this.props.image}
             width={20}

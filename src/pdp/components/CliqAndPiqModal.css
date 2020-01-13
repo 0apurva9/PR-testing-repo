@@ -1,16 +1,17 @@
 .storeListForDesktop {
-  width: 32%;
+  width: 37%;
   display: inline-block;
   vertical-align: top;
   height: 100%;
-  background: #fff;
+  background: #f8f8f8;
   overflow: auto;
   border-radius: 4px;
   position: relative;
 }
 .mapDesktop {
-  width: 68%;
+  width: 63%;
   height: 100%;
+  padding-left: 3%;
   display: inline-block;
   vertical-align: top;
   position: relative;
@@ -19,10 +20,10 @@
   content: "";
   width: calc(100% - 20px);
   height: 100%;
+  padding-left: 3%;
   background-image: url("../../general/components/img/loader.gif");
   background-repeat: no-repeat;
   background-size: 240px auto;
-  background-color: #fff;
   background-position: center;
   position: absolute;
   left: 0;
@@ -36,8 +37,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: #f9f9f9;
-  padding: 15px 20px;
+  padding: 1.5% 3%;
 }
 .mapDesktopWithPincode {
   width: 100%;
@@ -80,8 +80,9 @@
 
   padding-top: 75px;
   overflow: hidden;
-  background-color: #fff;
+  background-color: #f8f8f8;
   padding-top: 59px;
+  border-radius: 8px;
 }
 .searchPincode {
   width: 100%;
@@ -89,11 +90,11 @@
   height: auto;
   top: 0px;
   border-radius: 4px 4px 0px 0px;
-  padding: 12px 20px 20px 20px;
+  padding: 12px 30px 20px 60px;
   overflow: hidden;
   border-bottom: 1px solid #ececec;
   z-index: 1;
-  background: #fff;
+  background: #f8f8f8;
 }
 .loadingIndicator {
   width: 100%;
@@ -136,3 +137,4 @@
 .button {
   display: inline-block;
 }
+.visiblityHidden { display: none;}

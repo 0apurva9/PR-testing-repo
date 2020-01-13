@@ -2,15 +2,19 @@
   width: 100%;
   height: auto;
   border-radius: 4px;
-  background-color: #ffffff;
-  padding: 20px;
+  padding-right: 30px;
   white-space: normal;
+}
+.selectedStore {
+  background-color: #fff;
 }
 .holder {
   width: 100%;
   height: auto;
+  padding: 20px 30px 20px 60px;
   position: relative;
   display: inline-block;
+  cursor: pointer;
 }
 .headingText {
   height: auto;
@@ -115,12 +119,28 @@
   padding-left: 10px;
   font-family: light;
 }
+.thumbnail {
+  width:20px;
+  height:20px;
+  display: inline-block;
+  position: absolute;
+  left: 30px;
+  border-radius: 50%;
+  line-height: 21px;
+  font-size: 12px;
+  color: #fff;
+  text-align: center;
+  background-color: #ff1744;
+}
+.selectedThumbnail {
+  background-color: #3297ff;
+}
 @media only screen and (min-width: 1025px) {
   .base {
     border-radius: unset;
-    padding: 20px 30px;
+    padding-right: 30px;
   }
   .holder {
-    padding-right: 30px;
+    padding: 20px 30px 20px 60px;
   }
 }

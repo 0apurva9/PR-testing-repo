@@ -57,8 +57,8 @@ export default class OfferCard extends React.Component {
       Title &&
       Title.indexOf("bundledProduct") >= 0 &&
       this.props &&
-        this.props.productDetails &&
-        this.props.productDetails.rootCategory === "Electronics"
+      this.props.productDetails &&
+      this.props.productDetails.rootCategory === "Electronics"
     ) {
       setDataLayer(ADOBE_PRODUCT_BUNDLED_OFFER);
       await this.getParams(Title)
@@ -306,18 +306,19 @@ export default class OfferCard extends React.Component {
             )}
           </MobileOnly>
           <DesktopOnly>
-            {this.props.secondaryPromotions && getId === "false" && (
-              <div
-                className={styles.headingText}
-                onClick={this.handleShowDetails}
-              >
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: this.props.secondaryPromotions.messageID
-                  }}
-                />
-              </div>
-            )}
+            {this.props.secondaryPromotions &&
+              getId === "false" && (
+                <div
+                  className={styles.headingText}
+                  onClick={this.handleShowDetails}
+                >
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: this.props.secondaryPromotions.messageID
+                    }}
+                  />
+                </div>
+              )}
 
             {this.props.secondaryPromotions &&
               getId === "true" &&

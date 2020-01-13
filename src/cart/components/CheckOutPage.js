@@ -1181,7 +1181,8 @@ class CheckOutPage extends React.Component {
                 selectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
                 selectedSlaveIdObj[
                   this.state.selectedProductsUssIdForCliqAndPiq
-                ] = product.selectedStoreCNC;
+                ] =
+                  product.selectedStoreCNC;
                 this.setState(
                   {
                     ussIdAndDeliveryModesObj: updatedDeliveryModeUssid,
@@ -1533,6 +1534,11 @@ class CheckOutPage extends React.Component {
   componentWillUnmount() {
     // Navigating from checkout page call minicart
     this.props.getMinicartProducts();
+
+    if (localStorage.getItem(CNC_CART)) {
+      localStorage.removeItem(CNC_CART);
+      this.props.history.goBack();
+    }
     // if user go back from checkout page then
     // we have relsease coupon if user applied any coupon
     if (this.props.history.action === "POP") {
@@ -3052,7 +3058,9 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
+            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
+              this.state.cardDetails.emi_bank
+            } card.`
           });
         } else if (
           binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
@@ -3063,7 +3071,9 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${this.state.cardDetails.selectedBankName} card only.`
+            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${
+              this.state.cardDetails.selectedBankName
+            } card only.`
           });
         } else if (
           this.props.cart &&
@@ -3131,7 +3141,9 @@ if you have order id in local storage then you have to show order confirmation p
       ) {
         this.setState({
           emiBinValidationStatus: true,
-          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
+          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
+            this.state.cardDetails.emi_bank
+          } card.`
         });
       } else {
         this.setState({
@@ -3941,19 +3953,20 @@ if you have order id in local storage then you have to show order confirmation p
                       this.state.isPaymentFailed && this.state.isCliqCashApplied
                     ) &&
                     !this.state.paymentMethod &&
-                      this.state.confirmAddress && this.state.deliverMode &&
+                    this.state.confirmAddress &&
+                    this.state.deliverMode &&
                     this.props.cart.paymentModes &&
-                      this.props.cart.paymentModes.paymentOffers &&
-                      this.props.cart.paymentModes.paymentOffers.coupons && (
-                        <BankOfferWrapper
-                          cart={this.props.cart}
-                          applyBankCoupons={val => this.applyBankCoupons(val)}
-                          openBankOffers={() => this.openBankOffers()}
-                          openBankOfferTncModal={() =>
-                            this.props.openBankOfferTncModal()
-                          }
-                        />
-                      )}
+                    this.props.cart.paymentModes.paymentOffers &&
+                    this.props.cart.paymentModes.paymentOffers.coupons && (
+                      <BankOfferWrapper
+                        cart={this.props.cart}
+                        applyBankCoupons={val => this.applyBankCoupons(val)}
+                        openBankOffers={() => this.openBankOffers()}
+                        openBankOfferTncModal={() =>
+                          this.props.openBankOfferTncModal()
+                        }
+                      />
+                    )}
                 </DesktopOnly>
                 {((!this.state.paymentMethod &&
                   this.state.confirmAddress &&
