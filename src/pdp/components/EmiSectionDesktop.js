@@ -99,9 +99,9 @@ export default class EmiSectionDesktop extends React.Component {
                       <div className={styles.tenureDataHolder}>
                         <div className={styles.textAndAmountHolder}>
                           <div className={styles.textHolder}>Interest Rate</div>
-                          <div className={styles.amountHolder}>{`Rs . ${
+                          <div className={styles.amountHolder}>{`${
                             val.interestRate
-                          }`}</div>
+                          } %`}</div>
                         </div>
                         <div className={styles.textAndAmountHolder}>
                           <div className={styles.textHolder}>
