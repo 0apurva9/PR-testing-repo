@@ -280,8 +280,13 @@ export default class OrderCard extends React.Component {
                 }
               >
                 <div className={styles.calloutMessage}>
-                  {updatedCalloutMessage}
+                  {`123${updatedCalloutMessage}`}
                 </div>
+                {this.props.orderBreachMessage && (
+                  <div className={styles.breechMessage}>
+                    * {this.props.orderBreachMessage}
+                  </div>
+                )}
               </div>
             )}
 
@@ -514,7 +519,7 @@ export default class OrderCard extends React.Component {
           )}
         {this.props.isGiveAway === "N" &&
           this.props.consignmentStatus &&
-            this.props.consignmentStatus.includes("CANCEL") &&
+          this.props.consignmentStatus.includes("CANCEL") &&
           date && (
             <div className={styles.commonTitle}>
               <span className={styles.ffsemibold}>{shipmentStatus}</span>
@@ -522,7 +527,7 @@ export default class OrderCard extends React.Component {
           )}
         {this.props.isGiveAway === "N" &&
           this.props.consignmentStatus &&
-            !this.props.consignmentStatus.includes("CANCEL") &&
+          !this.props.consignmentStatus.includes("CANCEL") &&
           date && (
             <div className={styles.commonTitle}>
               {!this.props.calloutMessage ? (
@@ -606,9 +611,9 @@ export default class OrderCard extends React.Component {
               )}
             </div>
           )}
-        {this.props.breechMessage && (
+        {this.props.itemBreachMessage && (
           <div className={styles.breechMessage}>
-            * {this.props.breechMessage}
+            * {this.props.itemBreachMessage}
           </div>
         )}
         {this.props.sellerName && (

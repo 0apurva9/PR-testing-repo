@@ -179,3 +179,10 @@
   color: rgba(255, 23, 68);
   cursor: pointer;
 }
+
+.cityName{
+  font-size: 14px;
+  color: #212121;
+  font-family: semibold;
+  padding-right: 2px;
+}

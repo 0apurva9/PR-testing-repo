@@ -410,7 +410,7 @@ export default class DeliveryInfoSelect extends React.Component {
                 />
               </div>
             )}
-          {isCod === "Y" && (
+          {isCod === "Y" && !this.props.inCartPage && (
             <div className={styles.infoHolder}>
               <DeliveryInformation
                 paddingTop={"0px"}

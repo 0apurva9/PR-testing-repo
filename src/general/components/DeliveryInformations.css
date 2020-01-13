@@ -73,7 +73,12 @@
   }
   .checkboxHolder {
     composes: checkboxHolder;
-    top: -35px;
+  }
+  .topspace0{
+    top: 0px;
+  }
+  .topspace23{
+    top: -23px;
   }
   .arrowLink {
     composes: checkboxHolder;

@@ -255,9 +255,10 @@ const productDescription = (
           pincodeResponseList: action.productPinCode,
           isServiceableToPincode: {
             city: action.productPinCode.city,
-            productOutOfStockMessage: action.productPinCode.outOfStockMessage,
+            productOutOfStockMessage:
+              action.productPinCode.productOutOfStockMessage,
             productNotServiceableMessage:
-              action.productPinCode.notServicableMessage,
+              action.productPinCode.productNotServiceableMessage,
             status: NO,
             pinCode: action.productPinCode.pinCode
           }

@@ -15,7 +15,7 @@
   height: auto;
   font-family: semibold;
   font-size: 14px;
-  line-height: 25px;
+  /* line-height: 25px; */
   display: inline-block;
 }
 .iconHolder {

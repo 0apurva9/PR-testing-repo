@@ -282,7 +282,12 @@ export default class DeliveryInformations extends React.Component {
             ? this.props.selected &&
               this.props.onSelect && (
                 <div
-                  className={styles.checkboxHolder}
+                  className={[
+                    styles.checkboxHolder,
+                    this.props.type === SHORT_HOME_DELIVERY
+                      ? styles.topspace0
+                      : styles.topspace23
+                  ].join(" ")}
                   onClick={() => {
                     this.handleSelect();
                   }}
@@ -294,7 +299,12 @@ export default class DeliveryInformations extends React.Component {
               )
             : this.props.onSelect && (
                 <div
-                  className={styles.checkboxHolder}
+                  className={[
+                    styles.checkboxHolder,
+                    this.props.type === SHORT_HOME_DELIVERY
+                      ? styles.topspace0
+                      : styles.topspace23
+                  ].join(" ")}
                   onClick={() => {
                     this.handleSelect();
                   }}

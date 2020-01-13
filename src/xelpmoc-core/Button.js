@@ -36,11 +36,18 @@ export default class Button extends React.Component {
   }
   render() {
     let className = this.styles.base;
+    let textStyle;
 
     if (this.props.disabled) {
       className = this.styles.disabled;
     }
-
+    if (
+      this.props.disabled &&
+      this.props.insidePdpPage &&
+      this.props.type === "primary"
+    ) {
+      className = this.styles.disabledBuyNowInPdp;
+    }
     if (this.props.loading) {
       className = this.styles.loading;
     }
@@ -52,6 +59,17 @@ export default class Button extends React.Component {
       }
       secondaryIconClass = styles.icon;
     }
+    if (
+      this.props.disabled &&
+      this.props.insidePdpPage &&
+      this.props.type === "hollow"
+    ) {
+      textStyle = Object.assign(this.props.textStyle, {
+        color: "#989898",
+        fontSize: 14,
+        fontFamily: "semibold"
+      });
+    }
 
     return (
       <div
@@ -62,32 +80,51 @@ export default class Button extends React.Component {
           borderRadius: this.props.borderRadius,
           float: this.props.float ? this.props.float : "none",
           background: this.props.background ? this.props.background : "none",
-          backgroundColor: this.state.backgroundColor,
-          border: `2px solid ${this.state.borderColor}`
+          backgroundColor:
+            this.props.disabled &&
+            this.props.insidePdpPage &&
+            this.props.type === "primary"
+              ? "#989898"
+              : this.props.disabled &&
+                this.props.insidePdpPage &&
+                this.props.type === "hollow"
+              ? "#FFF"
+              : this.state.backgroundColor,
+          border: `2px solid ${
+            this.props.disabled &&
+            this.props.insidePdpPage &&
+            this.props.type === "hollow"
+              ? "#989898"
+              : this.state.borderColor
+          }`
         }}
         onMouseEnter={() => this.hoverIn()}
         onMouseLeave={() => this.hoverOut()}
         onClick={e => this.handleClick(e)}
       >
-        {this.props.icon &&
-          this.props.icon.element && (
-            <div
-              className={this.styles.iconWrapper}
-              style={{
-                height: this.props.icon.size,
-                width: this.props.icon.size,
-                marginRight: this.props.icon.offset
-              }}
-            >
-              <div className={iconClass}>{this.props.icon.element}</div>
-              {this.props.icon.hoveredElement && (
-                <div className={secondaryIconClass}>
-                  {this.props.icon.hoveredElement}
-                </div>
-              )}
-            </div>
-          )}
-        <span style={{ ...this.props.textStyle }}>{this.props.label}</span>
+        {this.props.icon && this.props.icon.element && (
+          <div
+            className={this.styles.iconWrapper}
+            style={{
+              height: this.props.icon.size,
+              width: this.props.icon.size,
+              marginRight: this.props.icon.offset
+            }}
+          >
+            <div className={iconClass}>{this.props.icon.element}</div>
+            {this.props.icon.hoveredElement && (
+              <div className={secondaryIconClass}>
+                {this.props.icon.hoveredElement}
+              </div>
+            )}
+          </div>
+        )}
+
+        {textStyle ? (
+          <span style={{ ...textStyle }}>{this.props.label}</span>
+        ) : (
+          <span style={{ ...this.props.textStyle }}>{this.props.label}</span>
+        )}
       </div>
     );
   }
