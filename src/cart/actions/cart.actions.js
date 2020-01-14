@@ -1830,6 +1830,16 @@ export function getPaymentModes(guId) {
         }&cartGuid=${guId}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&isUpdatedPwa=true`
       );
       const resultJson = await result.json();
+      /**
+       * @author Prashant Kumar
+       * @comment Adding a key for UPI as we dont have the updated API data yet.
+       *          THIS WILL BE REMOVED LATTER.
+       * @date 13-Jan-2020
+       */
+      resultJson.paymentModes.push({ key: "UPI", value: true });
+      /**
+       * EOC
+       */
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {

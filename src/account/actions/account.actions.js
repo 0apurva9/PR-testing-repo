@@ -87,6 +87,14 @@ export const REMOVE_SAVED_CARD_REQUEST = "REMOVE_SAVED_CARD_REQUEST";
 export const REMOVE_SAVED_CARD_SUCCESS = "REMOVE_SAVED_CARD_SUCCESS";
 export const REMOVE_SAVED_CARD_FAILURE = "REMOVE_SAVED_CARD_FAILURE";
 
+/**
+ * @author Prashant Kumar
+ * @comment Added consts for the UPI
+ */
+export const REMOVE_SAVED_UPI_REQUEST = "REMOVE_SAVED_UPI_REQUEST";
+export const REMOVE_SAVED_UPI_SUCCESS = "REMOVE_SAVED_UPI_SUCCESS";
+export const REMOVE_SAVED_UPI_FAILURE = "REMOVE_SAVED_UPI_FAILURE";
+
 export const GET_ALL_ORDERS_REQUEST = "GET_ALL_ORDERS_REQUEST";
 export const GET_ALL_ORDERS_SUCCESS = "GET_ALL_ORDERS_SUCCESS";
 export const GET_ALL_ORDERS_FAILURE = "GET_ALL_ORDERS_FAILURE";
@@ -1901,10 +1909,84 @@ export function getSavedCardDetails(userId, customerAccessToken) {
   return async (dispatch, getState, { api }) => {
     dispatch(getSavedCardRequest());
     try {
-      const result = await api.post(
-        `${USER_PATH}/${userId}/payments/savedCards?access_token=${customerAccessToken}&cardType=${CARD_TYPE}`
-      );
-      const resultJson = await result.json();
+      /**
+       * @author Prashant Kumar
+       * @comment Commented the bellow lines as we are using the demo resonse for testing purpose. Hrard coded
+       * values will be removed before sending code to production.
+       */
+      // const result = await api.post(
+      //   `${USER_PATH}/${userId}/payments/savedCards?access_token=${customerAccessToken}&cardType=${CARD_TYPE}`
+      // );
+      // const resultJson = await result.json();
+      const resultJson = {
+        type: "mplSavedCardDTO",
+        savedCardDetailsMap: [
+          {
+            key: "2019-04-25T20:52:40.118",
+            value: {
+              addressLine1: "ZZ Apartment",
+              cardBrand: "MASTERCARD",
+              cardEndingDigits: "2346",
+              cardFingerprint: "7jkih546v33lmpu1206696sn6q",
+              cardISIN: "512345",
+              cardIssuer: "AXIS BANK, LTD.",
+              cardReferenceNumber: "48baa35d0e7e5fde4fd827e845e669fc",
+              cardToken: "1175c7b4-056b-49c4-ac8c-c2bf108457fc",
+              cardType: "CREDIT",
+              city: "New Delhi",
+              country: "India",
+              expired: " ",
+              expiryMonth: "10",
+              expiryYear: "2020",
+              firstName: "Surajit",
+              isDomestic: false,
+              juspayCardType: "CREDIT",
+              lastName: "Pal",
+              nameOnCard: "abc",
+              nickname: "",
+              pincode: "110002",
+              state: "Delhi"
+            }
+          },
+          {
+            key: "2019-04-25T20:42:35.33",
+            value: {
+              cardBrand: "VISA",
+              cardEndingDigits: "1112",
+              cardFingerprint: "6grb5b5p7aqb70db4tfgtfmk59",
+              cardISIN: "401200",
+              cardIssuer: "HDFC BANK, LTD.",
+              cardReferenceNumber: "a304c14b1fa3151d98348b3dcc3b5250",
+              cardToken: "b45b69de-101a-44e2-81a6-28f7bbb573ee",
+              cardType: "DEBIT",
+              expired: " ",
+              expiryMonth: "05",
+              expiryYear: "2020",
+              isDomestic: false,
+              juspayCardType: "DEBIT",
+              nameOnCard: "abc",
+              nickname: ""
+            }
+          }
+        ],
+        savedUpiDetailsMap: [
+          {
+            key: "2019-04-25T20:52:40.118",
+            value: {
+              upiId: "abs@xyz",
+              isActive: "true"
+            }
+          },
+          {
+            key: "2019-04-25T20:42:35.33",
+            value: {
+              upiId: "abs@ybl",
+              isActive: "false"
+            }
+          }
+        ]
+      };
+
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -2117,6 +2199,75 @@ export function removeSavedCardDetails(cardToken) {
     }
   };
 }
+/**
+ *
+ * @author Prashant Kumar
+ * @comment Addded code for the removal of the UPI of the user.
+ *
+ */
+export function removeSavedUpiRequest() {
+  return {
+    type: REMOVE_SAVED_UPI_REQUEST,
+    status: REQUESTING
+  };
+}
+export function removeSavedUpiSuccess() {
+  return {
+    type: REMOVE_SAVED_UPI_SUCCESS,
+    status: SUCCESS
+  };
+}
+
+export function removeSavedUpiFailure(error) {
+  return {
+    type: REMOVE_SAVED_UPI_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function removeSavedUpiDetails(upiId) {
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  return async (dispatch, getState, { api }) => {
+    dispatch(removeSavedUpiRequest());
+    try {
+      /**
+       * @author Prashant Kumar
+       * @comment Commented the below code as for testing purpose we are using the hard coded response.
+       */
+      // const result = await api.post(
+      //   `${USER_PATH}/${
+      //     JSON.parse(userDetails).userName
+      //   }/payments/removeSavedUPIS?access_token=${
+      //     JSON.parse(customerCookie).access_token
+      //   }&upiId=${upiId}`
+      // );
+      // const resultJson = await result.json();
+      const resultJson = { type: "mplDeleteUPIDTO", status: "Success" };
+      /**
+       * EOD
+       */
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(removeSavedUpiSuccess(resultJson));
+      dispatch(
+        getSavedCardDetails(
+          JSON.parse(userDetails).userName,
+          JSON.parse(customerCookie).access_token
+        )
+      );
+    } catch (e) {
+      dispatch(removeSavedUpiFailure(e.message));
+    }
+  };
+}
+/**
+ * EOD
+ */
 export function getAllOrdersRequest(paginated: false) {
   return {
     type: GET_ALL_ORDERS_REQUEST,

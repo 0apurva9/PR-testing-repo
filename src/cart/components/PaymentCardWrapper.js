@@ -12,17 +12,34 @@ import CheckoutCOD from "./CheckoutCOD.js";
 import { PAYTM, OLD_CART_GU_ID, BANK_COUPON_COOKIE } from "../../lib/constants";
 import PaytmOption from "./PaytmOption.js";
 import PayPalOptions from "./PayPalOptions";
-import BankOffer from "./BankOffer.js";
+/**
+ * @author Prashant Kumar
+ * @comment Commented the import as it is not being used anywhere.
+ */
+// import BankOffer from "./BankOffer.js";
 import BankOfferWrapper from "./BankOfferWrapper.js";
 import GiftCardPopup from "./GiftCardPopup.js";
-import GridSelect from "../../general/components/GridSelect";
+/**
+ * @author Prashant Kumar
+ * @comment Commented the import as it is not being used anywhere.
+ */
+// import GridSelect from "../../general/components/GridSelect";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import ManueDetails from "../../general/components/MenuDetails.js";
 import CheckOutHeader from "./CheckOutHeader";
-import { getCookie } from "../../lib/Cookie";
+/**
+ * @author Prashant Kumar
+ * @comment Commented the import as it is not being used anywhere.
+ */
+// import { getCookie } from "../../lib/Cookie";
 import giftCardIcon from "../../general/components/img/Gift.svg";
-const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
+import CheckoutUpi from "./CheckoutUpi";
+/**
+ * @author Prashant Kumar
+ * @comment Commented the const as it is not being used anywhere.
+ */
+// const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
 const payPal = "PayPal";
 const keyForCreditCard = "Credit Card";
 const keyForDebitCard = "Debit Card";
@@ -40,8 +57,13 @@ const sequanceOfPaymentMode = [
   keyForPaytm,
   keyForCOD
 ];
+/**
+ * @author Prashant Kumar
+ * @comment Added condition for showing UPI section of the checkout page in the below const.
+ */
 // prettier-ignore
 const typeComponentMapping = {
+  "UPI": props => <CheckoutUpi {...props} />,
   "Credit Card": props => <CheckoutCreditCard {...props} />,
     "Debit Card": props => <CheckoutDebitCard {...props} />,
     "Netbanking": props => <CheckoutNetbanking {...props} />,
@@ -104,6 +126,18 @@ export default class PaymentCardWrapper extends React.Component {
     }
   };
 
+  /**
+   * @author Prashant Kumar
+   * @comment Added the function for showing the UPI component data.
+   *          VARIOUS CONDITION NEEDED TO BE ADDED HERE FOR THE CHECKOUT PROCESS. LIKE FOR THE
+   *          ORDER AMOUNT.
+   */
+  renderUpiComponents() {
+    return this.renderPaymentCard("UPI");
+  }
+  /**
+   * EOC
+   */
   renderPaymentCardsComponents() {
     let paymentModesToDisplay = sequanceOfPaymentMode.filter(mode => {
       return find(
@@ -230,6 +264,10 @@ export default class PaymentCardWrapper extends React.Component {
                   />
                 </div>
               </MobileOnly>
+              {/**
+               * Rendering the UPI component from here.
+               */
+              this.renderUpiComponents()}
               {!retryNoCostEMI &&
                 this.props.cart.paymentModes &&
                 this.props.cart.paymentModes.savedCardResponse &&

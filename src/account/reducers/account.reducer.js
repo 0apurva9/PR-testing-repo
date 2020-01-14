@@ -487,6 +487,25 @@ const account = (
         loading: false
       });
 
+    case accountActions.REMOVE_SAVED_UPI_REQUEST:
+      return Object.assign({}, state, {
+        status: action.status,
+        loading: true
+      });
+
+    case accountActions.REMOVE_SAVED_UPI_SUCCESS:
+      return Object.assign({}, state, {
+        status: action.status,
+        loading: false
+      });
+
+    case accountActions.REMOVE_SAVED_UPI_FAILURE:
+      return Object.assign({}, state, {
+        status: action.status,
+        error: action.error,
+        loading: false
+      });
+
     case accountActions.GET_ALL_ORDERS_REQUEST:
       return Object.assign({}, state, {
         orderDetailsStatus: action.status,

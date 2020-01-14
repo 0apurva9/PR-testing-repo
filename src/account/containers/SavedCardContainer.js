@@ -4,7 +4,8 @@ import UserSavedCard from "../components/UserSavedCard.js";
 import { setHeaderText } from "../../general/header.actions";
 import {
   getSavedCardDetails,
-  removeSavedCardDetails
+  removeSavedCardDetails,
+  removeSavedUpiDetails
 } from "../actions/account.actions";
 import {
   showSecondaryLoader,
@@ -21,6 +22,9 @@ const mapDispatchToProps = dispatch => {
     },
     removeSavedCardDetails: cardToken => {
       dispatch(removeSavedCardDetails(cardToken));
+    },
+    removeSavedUpiDetails: upiId => {
+      dispatch(removeSavedUpiDetails(upiId));
     },
     showSecondaryLoader: () => {
       dispatch(showSecondaryLoader());

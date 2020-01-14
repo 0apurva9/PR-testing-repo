@@ -29,9 +29,26 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
+import SavedPaymentUpi from "./SavedPaymentUpi";
 const CARD_FORMAT = /\B(?=(\d{4})+(?!\d))/g;
 const NO_SAVED_CARDS = "No Saved Cards";
 export default class UserSavedCard extends React.Component {
+  /**
+   * @author Prashant Kumar
+   * @param Boolean isSelected If 0 then "Saved Card" tab will be active and vice versa
+   */
+  constructor(props) {
+    super(props);
+    this.state = {
+      isSelected: 0
+    };
+  }
+  tabSelect(val) {
+    this.setState({ isSelected: val });
+  }
+  /**
+   * EOD
+   */
   getCardLogo(cardType) {
     switch (cardType) {
       case VISA_CARD:
@@ -80,6 +97,18 @@ export default class UserSavedCard extends React.Component {
       this.props.removeSavedCardDetails(cardToken);
     }
   };
+  /**
+   * @author Prashant Kumar
+   * @comment Added function to removed the UPI of the customer
+   */
+  removeSavedUpiDetails = upiId => {
+    if (this.props.removeSavedUpiDetails) {
+      this.props.removeSavedUpiDetails(upiId);
+    }
+  };
+  /**
+   * EOD
+   */
   render() {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -105,7 +134,8 @@ export default class UserSavedCard extends React.Component {
             </DesktopOnly>
             <div className={styles.saveCardDetail}>
               <div className={styles.saveCardDetailWithHolder}>
-                {this.props.profile.savedCards.savedCardDetailsMap &&
+                {this.state.isSelected === 0 &&
+                  this.props.profile.savedCards.savedCardDetailsMap &&
                   this.props.profile.savedCards.savedCardDetailsMap.map(
                     (data, i) => {
                       let cardNumber = `${data.value.cardISIN}xx xxxx ${
@@ -133,6 +163,24 @@ export default class UserSavedCard extends React.Component {
                             }
                             removeSavedCardDetails={() =>
                               this.removeSavedCardDetails(data.value.cardToken)
+                            }
+                          />
+                        </div>
+                      );
+                    }
+                  )}
+                {this.state.isSelected === 1 &&
+                  this.props.profile.savedCards.savedUpiDetailsMap &&
+                  this.props.profile.savedCards.savedUpiDetailsMap.map(
+                    (data, i) => {
+                      let upiId = data.value.upiId;
+                      return (
+                        <div className={styles.cardHolder}>
+                          <SavedPaymentUpi
+                            key={i}
+                            upiId={upiId}
+                            removeSavedUpiDetails={() =>
+                              this.removeSavedUpiDetails(data.value.upiId)
                             }
                           />
                         </div>
