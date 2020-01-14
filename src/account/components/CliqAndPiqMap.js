@@ -32,6 +32,7 @@ export default class CliqAndPiqMap extends React.Component {
                     lng={val.geoPoint.longitude}
                     image={imgURL}
                     key={i}
+                    storeNumber={i + 1}
                     text={displayText}
                     slaveID={val.slaveId}
                     storeClick={this.props.storeClick}

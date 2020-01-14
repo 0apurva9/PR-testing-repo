@@ -83,12 +83,13 @@ export default class GetLocationDetails extends React.Component {
         return val.type === "CNC";
       });
     if (cncDetailsList && cncDetailsList.CNCServiceableSlavesData) {
-      selectedPickUpDateObject =
-        cncDetailsList &&
-        cncDetailsList.CNCServiceableSlavesData &&
-        cncDetailsList.CNCServiceableSlavesData.find(val => {
-          return val.storeId === this.props.selectedSlaveId;
-        });
+      // selectedPickUpDateObject =
+      //   cncDetailsList &&
+      //   cncDetailsList.CNCServiceableSlavesData &&
+      //   cncDetailsList.CNCServiceableSlavesData.find(val => {
+      //     return val.storeId === this.props.selectedSlaveId;
+      //   });
+      selectedPickUpDateObject = cncDetailsList;
     }
     let day = new Date();
     let dayFormat = format(day, "DD-MMM-YYYY");
@@ -96,11 +97,11 @@ export default class GetLocationDetails extends React.Component {
     let nextDay = new Date(nextWithOutFormatDay);
     let nextDayFormat = format(nextDay, "DD-MMM-YYYY");
     let productDayFormat = format(
-      selectedPickUpDateObject && selectedPickUpDateObject.pickupDate,
+      selectedPickUpDateObject && selectedPickUpDateObject.deliveryDate,
       "DD-MMM-YYYY"
     );
     var date = new Date(
-      selectedPickUpDateObject && selectedPickUpDateObject.pickupDate
+      selectedPickUpDateObject && selectedPickUpDateObject.deliveryDate
     );
     var hours = date.getHours();
     var minutes = date.getMinutes();
@@ -130,9 +131,9 @@ export default class GetLocationDetails extends React.Component {
           <div className={styles.subText}>{this.props.address}</div>
           <div className={styles.buttonHolder}>
             <UnderLinedButton
-              size="14px"
+              size="13px"
               fontFamily="regular"
-              color="#000"
+              color="#ff1744"
               label="Change"
               onClick={() => this.handleClick()}
             />
@@ -152,30 +153,31 @@ export default class GetLocationDetails extends React.Component {
                 <span className={styles.timeSpan}>{closingTime}</span>
               </div>
             )}
-            {this.dateConverter(this.props.workingDays) && (
-              <div className={styles.pickUpDay}>
-                <span className={styles.closedOnLabel}>Closed on</span>
-                {this.dateConverter(this.props.workingDays).map((val, i) => {
-                  return `${val}${
-                    7 - this.props.workingDays.split(",").length - 1 !== i
-                      ? ","
-                      : ""
-                  } `;
-                })}
-              </div>
-            )}
           </div>
         </div>
+        {this.dateConverter(this.props.workingDays) && (
+          <div className={styles.pickUpDay}>
+            <span className={styles.closedOnLabel}>Closed on </span>
+            {this.dateConverter(this.props.workingDays).map((val, i) => {
+              return `${val}${
+                7 - this.props.workingDays.split(",").length - 1 !== i
+                  ? ","
+                  : ""
+              } `;
+            })}
+          </div>
+        )}
         <div className={styles.openingTime}>
           <span className={styles.label}>Pick up by:</span>
           <span className={styles.dateSpan}>
-            {selectedPickUpDateObject && selectedPickUpDateObject.pickupDate ? (
+            {selectedPickUpDateObject &&
+            selectedPickUpDateObject.deliveryDate ? (
               dayFormat === productDayFormat ? (
                 <span>
                   <span className={styles.dayBold}>Today,</span>{" "}
                   {this.getDayNumberSuffix(
                     selectedPickUpDateObject &&
-                      selectedPickUpDateObject.pickupDate
+                      selectedPickUpDateObject.deliveryDate
                   )}
                 </span>
               ) : nextDayFormat === productDayFormat ? (
@@ -183,24 +185,23 @@ export default class GetLocationDetails extends React.Component {
                   <span className={styles.dayBold}>Tomorrow,</span>{" "}
                   {this.getDayNumberSuffix(
                     selectedPickUpDateObject &&
-                      selectedPickUpDateObject.pickupDate
+                      selectedPickUpDateObject.deliveryDate
                   )}
                 </span>
               ) : (
                 this.getDayNumberSuffix(
                   selectedPickUpDateObject &&
-                    selectedPickUpDateObject.pickupDate
+                    selectedPickUpDateObject.deliveryDate
                 )
               )
             ) : (
               ""
             )}
-            {strTime &&
-              hours !== 0 && (
-                <span
-                  className={styles.timeForPickUp}
-                >{` | After ${strTime}`}</span>
-              )}
+            {strTime && hours !== 0 && (
+              <span
+                className={styles.timeForPickUp}
+              >{`, after ${strTime}`}</span>
+            )}
           </span>
         </div>
       </div>

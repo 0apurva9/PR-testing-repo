@@ -3554,10 +3554,6 @@ if you have order id in local storage then you have to show order confirmation p
   }
 
   render() {
-    console.log(
-      "ussidanddeliverymodesobj is ",
-      this.state.ussIdAndDeliveryModesObj
-    );
     let labelForButton,
       checkoutButtonStatus = false;
     if (
@@ -3742,6 +3738,7 @@ if you have order id in local storage then you have to show order confirmation p
                 isCliqCashApplied={this.state.isCliqCashApplied}
                 cliqCashPaidAmount={this.state.cliqCashPaidAmount}
                 isFromMyBag={false}
+                isFromCliqAndPiq={this.state.isFromCliqAndPiq}
               />
             </div>
             <div className={styles.rightSection}>
@@ -3886,6 +3883,7 @@ if you have order id in local storage then you have to show order confirmation p
                       <DeliveryAddressSet
                         addressType={this.state.selectedAddress.addressType}
                         address={this.state.selectedAddress.line1}
+                        isFromCliqAndPiq={this.state.isFromCliqAndPiq}
                         changeDeliveryAddress={() =>
                           this.changeDeliveryAddress()
                         }

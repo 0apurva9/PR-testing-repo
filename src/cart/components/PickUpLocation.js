@@ -121,12 +121,13 @@ export default class PickUpLocation extends React.Component {
       this.props.deliveryInformationWithDate.find(val => {
         return val.type === "CNC";
       });
-    getClickAndPiqSelectedDate =
-      getCNCProduct &&
-      getCNCProduct.CNCServiceableSlavesData &&
-      getCNCProduct.CNCServiceableSlavesData.find(cncDetails => {
-        return cncDetails.storeId === getClickAndPiqSelectedSlaveId;
-      });
+    // getClickAndPiqSelectedDate =
+    //   getCNCProduct &&
+    //   getCNCProduct.CNCServiceableSlavesData &&
+    //   getCNCProduct.CNCServiceableSlavesData.find(cncDetails => {
+    //     return cncDetails.storeId === getClickAndPiqSelectedSlaveId;
+    //   });
+    getClickAndPiqSelectedDate = getCNCProduct;
 
     let day = new Date();
     let dayFormat = format(day, "DD-MMM-YYYY");
@@ -134,11 +135,11 @@ export default class PickUpLocation extends React.Component {
     let nextDay = new Date(nextWithOutFormatDay);
     let nextDayFormat = format(nextDay, "DD-MMM-YYYY");
     productDayFormatOfClqAndPiq = format(
-      getClickAndPiqSelectedDate && getClickAndPiqSelectedDate.pickupDate,
+      getClickAndPiqSelectedDate && getClickAndPiqSelectedDate.deliveryDate,
       "DD-MMM-YYYY"
     );
     var date = new Date(
-      getClickAndPiqSelectedDate && getClickAndPiqSelectedDate.pickupDate
+      getClickAndPiqSelectedDate && getClickAndPiqSelectedDate.deliveryDate
     );
     var hours = date.getHours();
     var minutes = date.getMinutes();
@@ -208,22 +209,22 @@ export default class PickUpLocation extends React.Component {
                   {openingTime} - {closingTime}
                 </div>
               )}
-              {this.dateConverter(this.props.workingDays) && (
-                <div className={styles.pickUpDay}>
-                  <span className={styles.closedOnLabel}>Closed on</span>
-                  {this.dateConverter(this.props.workingDays).map((val, i) => {
-                    return `${val}${
-                      7 - this.props.workingDays.split(",").length - 1 !== i
-                        ? ","
-                        : ""
-                    } `;
-                  })}
-                </div>
-              )}
             </div>
+            {this.dateConverter(this.props.workingDays) && (
+              <div className={styles.pickUpDay}>
+                <span className={styles.closedOnLabel}>Closed on </span>
+                {this.dateConverter(this.props.workingDays).map((val, i) => {
+                  return `${val}${
+                    7 - this.props.workingDays.split(",").length - 1 !== i
+                      ? ","
+                      : ""
+                  } `;
+                })}
+              </div>
+            )}
           </div>
           {getClickAndPiqSelectedDate &&
-            getClickAndPiqSelectedDate.pickupDate && (
+            getClickAndPiqSelectedDate.deliveryDate && (
               <div className={styles.opemimgAndClosingTime}>
                 <div className={styles.labelHolder}>
                   <span className={styles.labelTimings}>Pick up by:</span>
@@ -231,23 +232,24 @@ export default class PickUpLocation extends React.Component {
                 <div className={styles.dataHolder}>
                   <span>
                     {getClickAndPiqSelectedDate &&
-                    getClickAndPiqSelectedDate.pickupDate
+                    getClickAndPiqSelectedDate.deliveryDate
                       ? dayFormat === productDayFormatOfClqAndPiq
                         ? `Today, ${this.getDayNumberSuffix(
-                            getClickAndPiqSelectedDate.pickupDate
+                            getClickAndPiqSelectedDate.deliveryDate
                           )}`
                         : nextDayFormat === productDayFormatOfClqAndPiq
-                          ? `Tomorrow, ${this.getDayNumberSuffix(
-                              getClickAndPiqSelectedDate.pickupDate
-                            )}`
-                          : `${this.getDayNumberSuffix(
-                              getClickAndPiqSelectedDate.pickupDate
-                            )}`
+                        ? `Tomorrow, ${this.getDayNumberSuffix(
+                            getClickAndPiqSelectedDate.deliveryDate
+                          )}`
+                        : `${this.getDayNumberSuffix(
+                            getClickAndPiqSelectedDate.deliveryDate
+                          )}`
                       : ""}
                   </span>
 
-                  {strTime &&
-                    hours !== 0 && <span> {` | After ${strTime}`}</span>}
+                  {strTime && hours !== 0 && (
+                    <span> {`, after ${strTime}`}</span>
+                  )}
                 </div>
               </div>
             )}

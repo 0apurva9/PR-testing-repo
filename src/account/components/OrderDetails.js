@@ -830,7 +830,8 @@ export default class OrderDetails extends React.Component {
                         )}
                       {products.selectedDeliveryMode &&
                         products.selectedDeliveryMode.code === CLICK_COLLECT &&
-                        orderDetails.orderDate && products.returnPolicy && (
+                        orderDetails.orderDate &&
+                        products.returnPolicy && (
                           <React.Fragment>
                             <div className={styles.commonTitle}>
                               <span className={styles.width20}>Pickup</span>

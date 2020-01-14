@@ -29,6 +29,7 @@ export default class Icon extends React.Component {
             backgroundSize: `${this.props.backgroundSize}`
           }}
         />
+        {this.props.children}
       </div>
     );
   }

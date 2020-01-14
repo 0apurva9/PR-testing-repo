@@ -42,9 +42,12 @@ export default class DeliveryInformations extends React.Component {
       this.props.onClick();
     }
   }
-  handleSelect() {
+  async handleSelect(cliqPiq) {
     if (this.props.onSelect) {
-      this.props.onSelect(this.props.code);
+      await this.props.onSelect(this.props.code);
+      if (cliqPiq) {
+        this.onPiq();
+      }
     }
   }
   arrowClick() {
@@ -305,7 +308,7 @@ export default class DeliveryInformations extends React.Component {
                       : styles.topspace23
                   ].join(" ")}
                   onClick={() => {
-                    this.handleSelect();
+                    this.handleSelect(this.props.type === SHORT_COLLECT);
                   }}
                 >
                   {this.props.isClickable && (
