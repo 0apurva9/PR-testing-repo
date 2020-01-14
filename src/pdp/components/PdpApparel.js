@@ -216,9 +216,7 @@ export default class PdpApparel extends React.Component {
   };
 
   goToReviewPage = () => {
-    const url = `${
-      this.props.location.pathname
-    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
 
@@ -359,6 +357,31 @@ export default class PdpApparel extends React.Component {
           })
       : [];
 
+    let getDeliveryModesByWinningUssid = "";
+    if (
+      this.props.productDetails &&
+      this.props.productDetails.pincodeResponseList &&
+      this.props.productDetails.pincodeResponseList.deliveryOptions &&
+      this.props.productDetails.pincodeResponseList.deliveryOptions
+        .pincodeListResponse &&
+      this.props.productDetails.pincodeResponseList.deliveryOptions
+        .pincodeListResponse
+    ) {
+      getDeliveryModesByWinningUssid = this.props.productDetails.pincodeResponseList.deliveryOptions.pincodeListResponse.find(
+        val => {
+          return val.ussid === productData.winningUssID;
+        }
+      );
+    }
+    const firstSlaveData =
+      getDeliveryModesByWinningUssid &&
+      getDeliveryModesByWinningUssid.validDeliveryModes &&
+      getDeliveryModesByWinningUssid.validDeliveryModes.find(val => {
+        return val.type === "CNC";
+      });
+    const availableStores =
+      firstSlaveData && firstSlaveData.CNCServiceableSlavesData;
+
     if (productData) {
       let price = "";
       let discountPrice = "";
@@ -466,17 +489,16 @@ export default class PdpApparel extends React.Component {
 
           {productData.variantOptions && (
             <React.Fragment>
-              {!this.checkIfNoSize() &&
-                !this.checkIfSizeDoesNotExist() && (
-                  <SizeSelector
-                    history={this.props.history}
-                    sizeSelected={this.checkIfSizeSelected()}
-                    productId={productData.productListingId}
-                    hasSizeGuide={productData.showSizeGuide}
-                    showSizeGuide={this.props.showSizeGuide}
-                    data={productData.variantOptions}
-                  />
-                )}
+              {!this.checkIfNoSize() && !this.checkIfSizeDoesNotExist() && (
+                <SizeSelector
+                  history={this.props.history}
+                  sizeSelected={this.checkIfSizeSelected()}
+                  productId={productData.productListingId}
+                  hasSizeGuide={productData.showSizeGuide}
+                  showSizeGuide={this.props.showSizeGuide}
+                  data={productData.variantOptions}
+                />
+              )}
 
               <ColourSelector
                 data={productData.variantOptions}
@@ -504,12 +526,36 @@ export default class PdpApparel extends React.Component {
           )}
           {this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.status === NO ? (
+            this.props.productDetails.isServiceableToPincode
+              .productOutOfStockMessage ? (
+              <div className={styles.overlay}>
+                <div className={styles.notServiciableTetx}>
+                  *{" "}
+                  {
+                    this.props.productDetails.isServiceableToPincode
+                      .productOutOfStockMessage
+                  }
+                </div>
+              </div>
+            ) : this.props.productDetails.isServiceableToPincode
+                .productNotServiceableMessage ? (
+              <div className={styles.overlay}>
+                <div className={styles.notServiciableTetx}>
+                  *{" "}
+                  {
+                    this.props.productDetails.isServiceableToPincode
+                      .productNotServiceableMessage
+                  }
+                </div>
+              </div>
+            ) : null /* (
             <Overlay labelText="This size is currently out of stock. Please select another size or try another product.">
               <PdpDeliveryModes
                 eligibleDeliveryModes={productData.eligibleDeliveryModes}
                 deliveryModesATP={productData.deliveryModesATP}
               />
             </Overlay>
+          ) */
           ) : (
             <PdpDeliveryModes
               onPiq={this.handleShowPiqPage}
@@ -518,11 +564,9 @@ export default class PdpApparel extends React.Component {
               onPiq={this.handleShowPiqPage}
               pincodeDetails={productData.pincodeResponseList}
               isCod={productData.isCOD}
-              /* availableStores={
-                availableStores && availableStores.length
-              } */
+              availableStores={availableStores && availableStores.length}
               winningUssID={productData.winningUssID}
-              // onPiq={() => this.handleShowPiqPage()}
+              onPiq={() => this.handleShowPiqPage()}
             />
           )}
           <div className={styles.separator}>

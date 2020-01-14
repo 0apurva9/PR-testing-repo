@@ -137,7 +137,6 @@ export default class DeliveryInformations extends React.Component {
     let typeDate = "";
     let typeText = "";
     let formattedPlacedTime;
-    let selectedStoreAddress = localStorage.getItem(SELECTED_STORE);
     if (this.props.placedTime) {
       formattedPlacedTime = this.getDayNumberSuffix(this.props.placedTime);
     }
@@ -160,7 +159,7 @@ export default class DeliveryInformations extends React.Component {
       iconImage = ExpressImage;
       typeDate = `${formattedPlacedTime}`;
       typeText = `${HOME_TEXT}`;
-      iconSize = 31;
+      iconSize = 38;
     } else if (this.props.type === SHORT_COLLECT) {
       iconImage = CollectImage;
       typeText = !this.props.deliveryInformationByCart
@@ -256,16 +255,11 @@ export default class DeliveryInformations extends React.Component {
               this.props.isShowCliqAndPiqUnderLineText &&
               this.props.available && (
                 <div className={styles.underLineButtonHolder}>
-                  {!this.props.inCartPage && selectedStoreAddress && (
-                    <div
-                      className={styles.address}
-                      onClick={() => this.onPiq()}
-                    >
-                      {selectedStoreAddress}
-                    </div>
-                  )}
                   <span className={styles.buttonHolderPiq}>
                     <UnderLinedButton
+                      inCheckOutPage={this.props.inCheckOutPage}
+                      inCartPage={this.props.inCartPage}
+                      inPdpPage={this.props.inPdpPage}
                       size={
                         UserAgent.checkUserAgentIsMobile() ? "14px" : "12px"
                       }
@@ -298,6 +292,10 @@ export default class DeliveryInformations extends React.Component {
                   )}
                 </div>
               )
+            : this.props.onSelect &&
+              this.props.isClickable &&
+              this.props.inCartPage
+            ? null
             : this.props.onSelect && (
                 <div
                   className={[

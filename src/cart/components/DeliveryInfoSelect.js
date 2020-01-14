@@ -64,6 +64,7 @@ export default class DeliveryInfoSelect extends React.Component {
     let deliveryInformationWithDate = this.props.deliveryInformationWithDate;
     let elligibleDeliveryModes = this.props.deliveryInformation;
     const isCod = this.props.isCod;
+
     console.log(
       "props coming to deliveryInfoselect is and state is ",
       this.props,
@@ -262,7 +263,9 @@ export default class DeliveryInfoSelect extends React.Component {
               onPiq={val => this.onPiq(val)}
               showCliqAndPiqButton={true}
               available={true}
-              isClickable={this.props.isClickable}
+              isClickable={
+                this.props.inCartPage ? true : this.props.isClickable
+              }
               deliveryInformationByCart={true}
               isTop={this.props.isTop}
               inCartPage={this.props.inCartPage}
@@ -286,7 +289,6 @@ export default class DeliveryInfoSelect extends React.Component {
                   })
                   .includes(SHORT_COLLECT)
               }
-              isClickable={this.props.isClickable}
               isShowCliqAndPiqUnderLineText={localStorage.getItem(
                 DEFAULT_PIN_CODE_LOCAL_STORAGE
               )}
@@ -301,6 +303,7 @@ export default class DeliveryInfoSelect extends React.Component {
                   availableStores.length} more stores nearby`
               }
               splitIntoTwoLine={false}
+              inCheckOutPage={this.props.inCheckOutPage}
             />
           )}
         <div

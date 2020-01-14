@@ -75,6 +75,7 @@ export default class ConfirmAddress extends React.Component {
             this.props.address.length > 3 && (
               <div className={styles.addnewAddress}>
                 <UnderLinedButton
+                  inConfirmAddressPage={true}
                   size="14px"
                   fontFamily="regular"
                   color="#ff1744"
@@ -138,6 +139,7 @@ export default class ConfirmAddress extends React.Component {
                 this.props.address.length > 3 && (
                   <div className={styles.moreButtonHolder}>
                     <UnderLinedButton
+                      inConfirmAddressPage={true}
                       size="14px"
                       fontFamily="regular"
                       color="#ff1744"

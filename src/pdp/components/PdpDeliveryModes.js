@@ -149,6 +149,7 @@ export default class PdpDeliveryModes extends React.Component {
             })
             .includes(SHORT_COLLECT) && (
             <DeliveryInformation
+              inPdpPage={true}
               pdpApparel={this.props.pdpApparel}
               onPiq={this.props.onPiq}
               type={SHORT_COLLECT}
