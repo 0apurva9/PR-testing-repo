@@ -7,7 +7,7 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import styles from "./CreditCardForm.css";
 import stylesx from "./UpiForm.css";
 import MobileOnly from "../../general/components/MobileOnly";
-import upi_opt from "./img/upi_opt.png";
+import upi_opt from "./img/upi_opt.svg";
 const bankErrorMessage = `Your bank is currently unable to process payments due to a technical issue.`;
 
 export default class UpiForm extends React.Component {
@@ -54,14 +54,10 @@ export default class UpiForm extends React.Component {
               <Input2
                 placeholder="Enter your registered UPI ID*"
                 value={this.state.upiId}
-                // onFocus={() => {
-                //   this.handleOnFocusInput();
-                // }}
                 boxy={true}
                 onChange={val => this.setState({ upiId: val })}
                 textStyle={{ fontSize: 14 }}
                 height={45}
-                // onBlur={() => this.onBlurOfCardInput()}
               />
               <div className={stylesx.verifiedState + " " + stylesx.invalidFrm}>
                 <button className={stylesx.verifiedIcon} type="button">
