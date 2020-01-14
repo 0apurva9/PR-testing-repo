@@ -79,3 +79,9 @@
   composes: iconHolder;
   opacity: 0;
 }
+
+.desktopUpiCls {
+  position: absolute;
+  top:5px;
+  right: 15px;
+}

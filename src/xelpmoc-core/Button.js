@@ -52,10 +52,15 @@ export default class Button extends React.Component {
       }
       secondaryIconClass = styles.icon;
     }
+    /**
+     * @author Prashant Kumar
+     * @comment Added UPI specific class which is to be added only for Checkout UPI section.
+     */
+    let desktopUpiCls = this.props.isUpi ? this.styles.desktopUpiCls : "";
 
     return (
       <div
-        className={className}
+        className={className + " " + desktopUpiCls}
         style={{
           height: this.props.height,
           width: this.props.width,
@@ -69,23 +74,24 @@ export default class Button extends React.Component {
         onMouseLeave={() => this.hoverOut()}
         onClick={e => this.handleClick(e)}
       >
-        {this.props.icon && this.props.icon.element && (
-          <div
-            className={this.styles.iconWrapper}
-            style={{
-              height: this.props.icon.size,
-              width: this.props.icon.size,
-              marginRight: this.props.icon.offset
-            }}
-          >
-            <div className={iconClass}>{this.props.icon.element}</div>
-            {this.props.icon.hoveredElement && (
-              <div className={secondaryIconClass}>
-                {this.props.icon.hoveredElement}
-              </div>
-            )}
-          </div>
-        )}
+        {this.props.icon &&
+          this.props.icon.element && (
+            <div
+              className={this.styles.iconWrapper}
+              style={{
+                height: this.props.icon.size,
+                width: this.props.icon.size,
+                marginRight: this.props.icon.offset
+              }}
+            >
+              <div className={iconClass}>{this.props.icon.element}</div>
+              {this.props.icon.hoveredElement && (
+                <div className={secondaryIconClass}>
+                  {this.props.icon.hoveredElement}
+                </div>
+              )}
+            </div>
+          )}
         <span style={{ ...this.props.textStyle }}>{this.props.label}</span>
       </div>
     );
