@@ -36,6 +36,7 @@ const COLLECT_TEXT = "Pick from store";
 const COLLECT_TEXT_CART = "Pick from store";
 const COD_TEXT = "Cash on Delivery";
 const NOT_AVAILABLE = "Not Available";
+const SAME_DAY_DELIVERY_SHIPPING_TEXT = "Delivery by";
 export default class DeliveryInformations extends React.Component {
   handleClick() {
     if (this.props.onClick) {
@@ -161,7 +162,7 @@ export default class DeliveryInformations extends React.Component {
     } else if (this.props.type === SHORT_HOME_DELIVERY) {
       iconImage = ExpressImage;
       typeDate = `${formattedPlacedTime}`;
-      typeText = !this.props.deliveryInformationByCart;
+      typeText = `${HOME_TEXT}`;
       iconSize = 38;
     } else if (this.props.type === SHORT_COLLECT) {
       iconImage = CollectImage;
@@ -176,28 +177,28 @@ export default class DeliveryInformations extends React.Component {
         iconSize = 38;
       } else {
         typeDate = `${formattedPlacedTime}`;
-        typeText = !this.props.deliveryInformationByCart;
+        typeText = `${SHORT_SAME_DAY_TEXT}`;
         iconSize = 38;
       }
     } else if (this.props.type === SAME_DAY_DELIVERY) {
       iconImage = clockImage;
-      typeText = !this.props.deliveryInformationByCart;
+      typeText = SAME_DAY_DELIVERY_SHIPPING_TEXT;
       iconSize = 35;
     } else if (this.props.type === HOME_DELIVERY) {
       iconImage = HomeImage;
-      typeText = !this.props.deliveryInformationByCart;
+      typeText = HOME_TEXT;
       iconSize = 35;
     } else if (this.props.isQuiqPiq) {
       iconImage = quiqpiqImage;
-      typeText = !this.props.deliveryInformationByCart;
+      typeText = QUIQPIQ;
       iconSize = 40;
     } else if (this.props.isCod == "Y") {
       iconImage = codImage;
-      typeText = !this.props.deliveryInformationByCart;
+      typeText = COD_TEXT;
       iconSize = 35;
     }
     if (!this.props.available) {
-      typeText = !this.props.deliveryInformationByCart;
+      typeText = `${typeText}`;
     }
 
     let deliveryCharge = "";

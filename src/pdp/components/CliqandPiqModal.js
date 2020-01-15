@@ -285,24 +285,26 @@ export default class ReturnToStore extends React.Component {
                         );
                       })}
                     </GridSelect>
-                    <div
-                      className={
-                        !this.state.showPickupPerson
-                          ? styles.buttonContainer
-                          : styles.visiblityHidden
-                      }
-                      onClick={() => this.selectStoreButtonForDesktop()}
-                    >
-                      <div className={styles.button}>
-                        <Button
-                          type="primary"
-                          label="Continue"
-                          color="#fff"
-                          width={121}
-                          disabled={!this.state.storeId}
-                        />
+                    {this.props.from !== "Pdp" && (
+                      <div
+                        className={
+                          !this.state.showPickupPerson
+                            ? styles.buttonContainer
+                            : styles.visiblityHidden
+                        }
+                        onClick={() => this.selectStoreButtonForDesktop()}
+                      >
+                        <div className={styles.button}>
+                          <Button
+                            type="primary"
+                            label="Continue"
+                            color="#fff"
+                            width={121}
+                            disabled={!this.state.storeId}
+                          />
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </React.Fragment>
                 )}
               {this.state.showPickupPerson &&
