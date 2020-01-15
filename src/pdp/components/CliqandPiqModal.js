@@ -64,7 +64,14 @@ export default class ReturnToStore extends React.Component {
     }
   };
 
-  getPinCodeDetails = pinCode => {
+  getPinCodeDetails = async pinCode => {
+    if (this.props.getProductPinCode) {
+      await this.props.getProductPinCode(
+        pinCode,
+        this.props.productDetails.productListingId,
+        this.props.productDetails.winningUssID
+      );
+    }
     if (this.props.getAllStoresForCliqAndPiq) {
       this.props.getAllStoresForCliqAndPiq(pinCode);
     }
@@ -112,7 +119,6 @@ export default class ReturnToStore extends React.Component {
           })
         );
       });
-
     // const allStoreIds = [].concat
     //   .apply([], [].concat.apply([], someData))
     //   .map(store => {

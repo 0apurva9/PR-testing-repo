@@ -1430,7 +1430,6 @@ export function getAllStoresForCliqAndPiq(
   } else {
     accessToken = JSON.parse(globalCookie).access_token;
   }
-
   return async (dispatch, getState, { api }) => {
     dispatch(getAllStoresForCliqAndPiqRequest());
     try {

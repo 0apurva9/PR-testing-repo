@@ -378,7 +378,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       cliqAndPiqDetails.loadingForCliqAndPiq = this.props.loadingForCliqAndPiq;
       cliqAndPiqDetails.stores = this.props.stores;
       cliqAndPiqDetails.productDetails = this.props.productDetails;
-      cliqAndPiqDetails.pinCodeUpdateDisabled = true;
+      cliqAndPiqDetails.pinCodeUpdateDisabled = false;
       cliqAndPiqDetails.userDetails = this.props.userDetails;
       cliqAndPiqDetails.from = "Pdp";
       cliqAndPiqDetails.addPickupPersonCNC = (mobile, name) =>
