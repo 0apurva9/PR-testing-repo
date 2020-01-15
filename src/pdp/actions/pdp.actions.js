@@ -200,414 +200,439 @@ export const PDP_MANUFACTURER_REQUEST = "PDP_MANUFACTURER_REQUEST";
 export const PDP_MANUFACTURER_SUCCESS = "PDP_MANUFACTURER_SUCCESS";
 export const PDP_MANUFACTURER_FAILURE = "PDP_MANUFACTURER_FAILURE";
 
-// const jsonForProductDetails = {
-//   type: "mplNewProductDetailMobileWsData",
-//   status: "SUCCESS",
-//   allOOStock: false,
-//   brandInfo: "Calvin Klein",
-//   brandName: "Calvin Klein",
-//   brandURL: "/adidas/c-mbh16000009",
-//   categoryHierarchy: [
-//     {
-//       category_id: "MSH16",
-//       category_name: "Accessories"
-//     },
-//     {
-//       category_id: "MSH1604"
-//     },
-//     {
-//       category_id: "MSH1604100",
-//       category_name: "Eyewear"
-//     }
-//   ],
-//   deliveryModesATP: [
-//     {
-//       key: "home-delivery",
-//       value: "Delivered in 5-8 days."
-//     },
-//     {
-//       key: "express-delivery",
-//       value: "Delivered in 1-2 days."
-//     }
-//   ],
-//   details: [
-//     {
-//       key: "Additional Information",
-//       value: "vhjvgiu uu giug h "
-//     },
-//     {
-//       key: "Care Instructions",
-//       value: "wash"
-//     },
-//     {
-//       key: "Case Included",
-//       value: "No"
-//     },
-//     {
-//       key: "Face Shape",
-//       value: "Round"
-//     },
-//     {
-//       key: "Frame Color",
-//       value: "Multi"
-//     },
-//     {
-//       key: "Frame Color Brand",
-//       value: "grey"
-//     },
-//     {
-//       key: "Frame Material",
-//       value: "Metal"
-//     },
-//     {
-//       key: "Frame Pattern",
-//       value: "Printed"
-//     },
-//     {
-//       key: "Frame Width",
-//       value: "67"
-//     },
-//     {
-//       key: "Ideal For",
-//       value: "Boys"
-//     },
-//     {
-//       key: "Lens Color",
-//       value: "Coral"
-//     },
-//     {
-//       key: "Lens Features",
-//       value: "Mirrored"
-//     },
-//     {
-//       key: "Lens Material",
-//       value: "Fibre"
-//     },
-//     {
-//       key: "Lens Width",
-//       value: "58"
-//     },
-//     {
-//       key: "Look",
-//       value: "Trendy"
-//     },
-//     {
-//       key: "Material Type",
-//       value: "Felt"
-//     },
-//     {
-//       key: "Model No",
-//       value: "687687"
-//     },
-//     {
-//       key: "Nose Bridge Size",
-//       value: "78"
-//     },
-//     {
-//       key: "Nose Pad Material",
-//       value: "Aluminium"
-//     },
-//     {
-//       key: "Rim Type",
-//       value: "Full Rim"
-//     },
-//     {
-//       key: "Size",
-//       value: "Medium"
-//     },
-//     {
-//       key: "Style",
-//       value: "Wayfarer"
-//     },
-//     {
-//       key: "Temple Color",
-//       value: "Khaki"
-//     },
-//     {
-//       key: "Temple Material",
-//       value:
-//         "Metal|https://assets.tatacliq.com/medias/sys_master/managed/14476411273246.png"
-//     },
-//     {
-//       key: "Temple Size",
-//       value: "45"
-//     },
-//     {
-//       key: "Usage",
-//       value: "Driving"
-//     },
-//     {
-//       key: "Warranty",
-//       value: "6"
-//     },
-//     {
-//       key: "Weight (gm)",
-//       value: "10"
-//     }
-//   ],
-//   discount: "45",
-//   isEMIEligible: "N",
-//   isExchangeAvailable: false,
-//   isOfferExisting: "N",
-//   isOnlineExclusive: "N",
-//   isProductNew: "N",
-//   isSizeOrLength: "Volume",
-//   knowMoreEmail: "hello@tatacliq.com",
-//   knowMorePhoneNo: "1800-208-8282",
-//   maxQuantityAllowed: "10",
-//   nceAvailable: false,
-//   numberOfReviews: 0,
-//   knowMore: [
-//     {
-//       knowMoreItem:
-//         "An order, once placed, can be cancelled until the seller processes it."
-//     },
-//     {
-//       knowMoreItem:
-//         "This product can be returned within 0 day(s) of delivery,subject to the Return Policy."
-//     },
-//     {
-//       knowMoreItem:
-//         "For any other queries, do reach out to CliQ Care at 1800-208-8282."
-//     }
-//   ],
-//   knowMoreV2: [
-//     {
-//       knowMoreItemV2: "0 Days Easy Return"
-//     },
-//     {
-//       knowMoreItemV2:
-//         "An order, once placed, can be cancelled until the seller processes it."
-//     }
-//   ],
-//   maxQuantityAllowed: "10",
-//   mrpPrice: {
-//     currencyIso: "INR",
-//     doubleValue: 200,
-//     formattedValue: "200.00",
-//     formattedValueNoDecimal: "200",
-//     priceType: "BUY",
-//     value: 200
-//   },
-//   nceAvailable: false,
-//   numberOfReviews: 0,
-//   prdDetails: [
-//     {
-//       key: "Additional Information",
-//       value: "vhjvgiu uu giug h "
-//     },
-//     {
-//       key: "Care Instructions",
-//       value: "wash"
-//     },
-//     {
-//       key: "Case Included",
-//       value: "No"
-//     },
-//     {
-//       key: "Face Shape",
-//       value: "Round"
-//     },
-//     {
-//       key: "Frame Color",
-//       value: "Multi"
-//     },
-//     {
-//       key: "Frame Color Brand",
-//       value: "grey"
-//     },
-//     {
-//       key: "Frame Material",
-//       value: "Metal"
-//     },
-//     {
-//       key: "Frame Pattern",
-//       value: "Printed"
-//     },
-//     {
-//       key: "Frame Width",
-//       value: "67"
-//     },
-//     {
-//       key: "Ideal For",
-//       value: "Boys"
-//     },
-//     {
-//       key: "Lens Color",
-//       value: "Coral"
-//     },
-//     {
-//       key: "Lens Features",
-//       value: "Mirrored"
-//     },
-//     {
-//       key: "Lens Material",
-//       value: "Fibre"
-//     },
-//     {
-//       key: "Lens Width",
-//       value: "58"
-//     },
-//     {
-//       key: "Look",
-//       value: "Trendy"
-//     },
-//     {
-//       key: "Material Type",
-//       value: "Felt"
-//     },
-//     {
-//       key: "Model No",
-//       value: "687687"
-//     },
-//     {
-//       key: "Nose Bridge Size",
-//       value: "78"
-//     },
-//     {
-//       key: "Nose Pad Material",
-//       value: "Aluminium"
-//     },
-//     {
-//       key: "Rim Type",
-//       value: "Full Rim"
-//     },
-//     {
-//       key: "Size",
-//       value: "Medium"
-//     },
-//     {
-//       key: "Style",
-//       value: "Wayfarer"
-//     },
-//     {
-//       key: "Temple Color",
-//       value: "Khaki"
-//     },
-//     {
-//       key: "Temple Material",
-//       value:
-//         "Metal|https://assets.tatacliq.com/medias/sys_master/managed/14476411273246.png"
-//     },
-//     {
-//       key: "Temple Size",
-//       value: "45"
-//     },
-//     {
-//       key: "Usage",
-//       value: "Driving"
-//     },
-//     {
-//       key: "Warranty",
-//       value: "6"
-//     },
-//     {
-//       key: "Weight (gm)",
-//       value: "10"
-//     }
-//   ],
-//   productDescription:
-//     "Tortoise Full Rim Rectangle Small Black John Jacobs Rich Acetate JJ E10007-C4 Eyeglasses",
-//   productListingId: "MP000000008751090",
-//   productName: "Tortoise Full Rim Rectangle Small Eyeglasses",
-//   rootCategory: "Accessories",
-//   sellerAssociationstatus: "Y",
-//   seo: {
-//     alternateURL:
-//       "/tortoise-full-rim-rectangle-small-black-eyeglasses/p-mp000000008751090",
-//     breadcrumbs: [
-//       {
-//         name: "Tortoise Full Rim Rectangle Small Eyeglasses",
-//         url:
-//           "/tortoise-full-rim-rectangle-small-black-eyeglasses/p-mp000000008751090"
-//       },
-//       {
-//         name: "Eyewear",
-//         url: "/accessories-eyewear/c-msh1604100"
-//       },
-//       {
-//         url: "/accessories-/c-msh1604"
-//       },
-//       {
-//         name: "Accessories",
-//         url: "/accessories/c-msh16"
-//       }
-//     ],
-//     canonicalURL:
-//       "/tortoise-full-rim-rectangle-small-black-eyeglasses/p-mp000000008751090",
-//     description:
-//       "Tortoise Full Rim Rectangle Small Black John Jacobs Rich Acetate JJ E10007-C4 Eyeglasses",
-//     title: "Tortoise Full Rim Rectangle Small Eyeglasses"
-//   },
-//   sharedText:
-//     "Wow!Check out this amazing find http://localhost:9001/sunglass/p-mp000000999107552 . Like or  comment to tell me what you think, or share for warm fuzzies.",
-//   showSizeGuide: true,
-//   styleNote:
-//     "Pick a casual style that spells freshness, simplicity and comfort with this grey casual sunglass from Calvin Klein. Made from cotton, this casual sunglass has a stripe pattern. It goes well when paired with a black jeans and black loafers.",
-//   variantOptions: [
-//     {
-//       colorlink: {
-//         color: "Black",
-//         colorHexCode: "#000000",
-//         colorurl:
-//           "/tortoise-full-rim-rectangle-small-black-eyeglasses/p-mp000000008751090",
-//         selected: true
-//       },
-//       sizelink: {
-//         isAvailable: true,
-//         productCode: "MP000000008751090",
-//         size: "S",
-//         url:
-//           "/tortoise-full-rim-rectangle-small-black-eyeglasses/p-mp000000008751090"
-//       }
-//     },
-//     {
-//       colorlink: {
-//         color: "Red",
-//         colorHexCode: "#FF0000",
-//         colorurl:
-//           "/tortoise-full-rim-rectangle-medium-red-eyeglasses/p-mp000000008751090",
-//         selected: false
-//       },
-//       sizelink: {
-//         isAvailable: true,
-//         productCode: "MP000000008751090",
-//         size: "M",
-//         url:
-//           "/tortoise-full-rim-rectangle-medium-red-eyeglasses/p-mp000000008751090"
-//       }
-//     },
-//     {
-//       colorlink: {
-//         color: "Black",
-//         colorHexCode: "#000000",
-//         colorurl:
-//           "/tortoise-full-rim-rectangle-medium-black-eyeglasses/p-mp000000008751092",
-//         selected: false
-//       },
-//       sizelink: {
-//         isAvailable: true,
-//         productCode: "MP000000008751092",
-//         size: "M",
-//         url:
-//           "/tortoise-full-rim-rectangle-medium-black-eyeglasses/p-mp000000008751092"
-//       }
-//     }
-//   ],
-//   warranty: ["6"],
-//   winningSellerAvailableStock: "110",
-//   winningSellerID: "100090",
-//   winningSellerName: "Miltex Distributors",
-//   winningSellerPrice: {
-//     currencyIso: "INR",
-//     doubleValue: 110,
-//     formattedValue: "110.00",
-//     formattedValueNoDecimal: "110",
-//     priceType: "BUY",
-//     value: 110
-//   },
-//   winningUssID: "100090CKJShirtGreyCMH393Z5W1BR07S"
-// };
+const jsonForProductDetails = {
+  type: "mplNewProductDetailMobileWsData",
+  status: "SUCCESS",
+  allOOStock: false,
+  brandInfo: "Electronics Brand",
+  brandName: "Polaroid",
+  brandURL: "/polaroid/c-mbh16e00568",
+  categoryHierarchy: [
+    {
+      category_id: "MSH23",
+      category_name: "Eyewear"
+    },
+    {
+      category_id: "MSH2311",
+      category_name: "Contact Lenses"
+    },
+    {
+      category_id: "MSH2311100",
+      category_name: "Contact Lenses"
+    }
+  ],
+  deliveryModesATP: [
+    {
+      key: "home-delivery",
+      value: "Delivered in 9-12 days."
+    },
+    {
+      key: "express-delivery",
+      value: "Delivered in 1-2 days."
+    }
+  ],
+  details: [
+    {
+      key: "Care Instructions",
+      value: "NA"
+    },
+    {
+      key: "Contact Lens Material",
+      value: "felt"
+    },
+    {
+      key: "Contact Lens Power Type",
+      value: "Spherical"
+    },
+    {
+      key: "Contact Lens Type",
+      value: "Clear"
+    },
+    {
+      key: "Disposability",
+      value: "Daily"
+    },
+    {
+      key: "Expiry",
+      value: "20/12/2020"
+    },
+    {
+      key: "Ideal For",
+      value: "Boys"
+    },
+    {
+      key: "Lenses Per Box",
+      value: "1"
+    },
+    {
+      key: "Material Type",
+      value: "Canvas"
+    },
+    {
+      key: "Model No",
+      value: "898643"
+    },
+    {
+      key: "Size",
+      value: "Large"
+    },
+    {
+      key: "Weight (gm)",
+      value: "60"
+    }
+  ],
+  discount: "45",
+  eligibleDeliveryModes: [
+    {
+      code: "home-delivery",
+      displayCost: "₹0.00",
+      name: "Home Delivery"
+    }
+  ],
+  fulfillmentType: "tship",
+  galleryImagesList: [
+    {
+      galleryImages: [
+        {
+          key: "product",
+          value:
+            "//pcmuat6.tataunistore.com/images/437Wx649H/MP000000005108253_437Wx649H_20200110184003.jpeg"
+        },
+        {
+          key: "thumbnail",
+          value:
+            "//pcmuat6.tataunistore.com/images/97Wx144H/MP000000005108253_97Wx144H_20200110184003.jpeg"
+        },
+        {
+          key: "searchPage",
+          value:
+            "//pcmuat6.tataunistore.com/images/252Wx374H/MP000000005108253_252Wx374H_20200110184003.jpeg"
+        },
+        {
+          key: "mobilePdpView",
+          value:
+            "//pcmuat6.tataunistore.com/images/450Wx545H/MP000000005108253_450Wx545H_20200110184003.jpeg"
+        },
+        {
+          key: "superZoom",
+          value:
+            "//pcmuat6.tataunistore.com/images/1348Wx2000H/MP000000005108253_1348Wx2000H_20200110184003.jpeg"
+        },
+        {
+          key: "cartIcon",
+          value:
+            "//pcmuat6.tataunistore.com/images/97Wx144H/MP000000005108253_97Wx144H_20200110184003.jpeg"
+        },
+        {
+          key: "zoom",
+          value:
+            "//pcmuat6.tataunistore.com/images/437Wx649H/MP000000005108253_437Wx649H_20200110184003.jpeg"
+        },
+        {
+          key: "cartPage",
+          value:
+            "//pcmuat6.tataunistore.com/images/113Wx168H/MP000000005108253_113Wx168H_20200110184003.jpeg"
+        }
+      ],
+      mediaType: "Image"
+    },
+    {
+      galleryImages: [
+        {
+          key: "product",
+          value:
+            "//pcmuat6.tataunistore.com/images/437Wx649H/MP000000005108253_437Wx649H_20200110183955.jpeg"
+        },
+        {
+          key: "thumbnail",
+          value:
+            "//pcmuat6.tataunistore.com/images/97Wx144H/MP000000005108253_97Wx144H_20200110183955.jpeg"
+        },
+        {
+          key: "searchPage",
+          value:
+            "//pcmuat6.tataunistore.com/images/252Wx374H/MP000000005108253_252Wx374H_20200110183955.jpeg"
+        },
+        {
+          key: "mobilePdpView",
+          value:
+            "//pcmuat6.tataunistore.com/images/450Wx545H/MP000000005108253_450Wx545H_20200110183955.jpeg"
+        },
+        {
+          key: "superZoom",
+          value:
+            "//pcmuat6.tataunistore.com/images/1348Wx2000H/MP000000005108253_1348Wx2000H_20200110183955.jpeg"
+        },
+        {
+          key: "cartIcon",
+          value:
+            "//pcmuat6.tataunistore.com/images/97Wx144H/MP000000005108253_97Wx144H_20200110183955.jpeg"
+        },
+        {
+          key: "zoom",
+          value:
+            "//pcmuat6.tataunistore.com/images/437Wx649H/MP000000005108253_437Wx649H_20200110183955.jpeg"
+        },
+        {
+          key: "cartPage",
+          value:
+            "//pcmuat6.tataunistore.com/images/113Wx168H/MP000000005108253_113Wx168H_20200110183955.jpeg"
+        }
+      ],
+      mediaType: "Image"
+    },
+    {
+      galleryImages: [
+        {
+          key: "product",
+          value:
+            "//pcmuat6.tataunistore.com/images/437Wx649H/MP000000005108253_437Wx649H_20200110183959.jpeg"
+        },
+        {
+          key: "thumbnail",
+          value:
+            "//pcmuat6.tataunistore.com/images/97Wx144H/MP000000005108253_97Wx144H_20200110183959.jpeg"
+        },
+        {
+          key: "searchPage",
+          value:
+            "//pcmuat6.tataunistore.com/images/252Wx374H/MP000000005108253_252Wx374H_20200110183959.jpeg"
+        },
+        {
+          key: "mobilePdpView",
+          value:
+            "//pcmuat6.tataunistore.com/images/450Wx545H/MP000000005108253_450Wx545H_20200110183959.jpeg"
+        },
+        {
+          key: "superZoom",
+          value:
+            "//pcmuat6.tataunistore.com/images/1348Wx2000H/MP000000005108253_1348Wx2000H_20200110183959.jpeg"
+        },
+        {
+          key: "cartIcon",
+          value:
+            "//pcmuat6.tataunistore.com/images/97Wx144H/MP000000005108253_97Wx144H_20200110183959.jpeg"
+        },
+        {
+          key: "zoom",
+          value:
+            "//pcmuat6.tataunistore.com/images/437Wx649H/MP000000005108253_437Wx649H_20200110183959.jpeg"
+        },
+        {
+          key: "cartPage",
+          value:
+            "//pcmuat6.tataunistore.com/images/113Wx168H/MP000000005108253_113Wx168H_20200110183959.jpeg"
+        }
+      ],
+      mediaType: "Image"
+    },
+    {
+      galleryImages: [
+        {
+          key: "product",
+          value:
+            "//pcmuat6.tataunistore.com/images/437Wx649H/MP000000005108253_437Wx649H_20200110184009.jpeg"
+        },
+        {
+          key: "thumbnail",
+          value:
+            "//pcmuat6.tataunistore.com/images/97Wx144H/MP000000005108253_97Wx144H_20200110184009.jpeg"
+        },
+        {
+          key: "searchPage",
+          value:
+            "//pcmuat6.tataunistore.com/images/252Wx374H/MP000000005108253_252Wx374H_20200110184009.jpeg"
+        },
+        {
+          key: "mobilePdpView",
+          value:
+            "//pcmuat6.tataunistore.com/images/450Wx545H/MP000000005108253_450Wx545H_20200110184009.jpeg"
+        },
+        {
+          key: "superZoom",
+          value:
+            "//pcmuat6.tataunistore.com/images/1348Wx2000H/MP000000005108253_1348Wx2000H_20200110184009.jpeg"
+        },
+        {
+          key: "cartIcon",
+          value:
+            "//pcmuat6.tataunistore.com/images/97Wx144H/MP000000005108253_97Wx144H_20200110184009.jpeg"
+        },
+        {
+          key: "zoom",
+          value:
+            "//pcmuat6.tataunistore.com/images/437Wx649H/MP000000005108253_437Wx649H_20200110184009.jpeg"
+        },
+        {
+          key: "cartPage",
+          value:
+            "//pcmuat6.tataunistore.com/images/113Wx168H/MP000000005108253_113Wx168H_20200110184009.jpeg"
+        }
+      ],
+      mediaType: "Image"
+    },
+    {
+      galleryImages: [
+        {
+          key: "product",
+          value:
+            "//pcmuat6.tataunistore.com/images/437Wx649H/MP000000005108253_437Wx649H_20200110184006.jpeg"
+        },
+        {
+          key: "thumbnail",
+          value:
+            "//pcmuat6.tataunistore.com/images/97Wx144H/MP000000005108253_97Wx144H_20200110184006.jpeg"
+        },
+        {
+          key: "searchPage",
+          value:
+            "//pcmuat6.tataunistore.com/images/252Wx374H/MP000000005108253_252Wx374H_20200110184006.jpeg"
+        },
+        {
+          key: "mobilePdpView",
+          value:
+            "//pcmuat6.tataunistore.com/images/450Wx545H/MP000000005108253_450Wx545H_20200110184006.jpeg"
+        },
+        {
+          key: "superZoom",
+          value:
+            "//pcmuat6.tataunistore.com/images/1348Wx2000H/MP000000005108253_1348Wx2000H_20200110184006.jpeg"
+        },
+        {
+          key: "cartIcon",
+          value:
+            "//pcmuat6.tataunistore.com/images/97Wx144H/MP000000005108253_97Wx144H_20200110184006.jpeg"
+        },
+        {
+          key: "zoom",
+          value:
+            "//pcmuat6.tataunistore.com/images/437Wx649H/MP000000005108253_437Wx649H_20200110184006.jpeg"
+        },
+        {
+          key: "cartPage",
+          value:
+            "//pcmuat6.tataunistore.com/images/113Wx168H/MP000000005108253_113Wx168H_20200110184006.jpeg"
+        }
+      ],
+      mediaType: "Image"
+    }
+  ],
+  isCOD: "Y",
+  isEMIEligible: "Y",
+  isExchangeAvailable: false,
+  isOfferExisting: "N",
+  isOnlineExclusive: "N",
+  isProductNew: "Y",
+  isSizeOrLength: "Power",
+  knowMore: [
+    {
+      knowMoreItem:
+        "An order, once placed, can be cancelled until the seller processes it."
+    },
+    {
+      knowMoreItem:
+        "This product can be returned within 7 day(s) of delivery,subject to the Return Policy."
+    },
+    {
+      knowMoreItem:
+        "For any other queries, do reach out to CliQ Care at 1800 208 8282."
+    }
+  ],
+  knowMoreEmail: "hello@tatacliq.com",
+  knowMorePhoneNo: "1800 208 8282",
+  knowMoreV2: [
+    {
+      knowMoreItemV2: "7 Days Easy Return"
+    },
+    {
+      knowMoreItemV2:
+        "An order, once placed, can be cancelled until the seller processes it."
+    }
+  ],
+  maxQuantityAllowed: "10",
+  mrpPrice: {
+    currencyIso: "INR",
+    doubleValue: 10000.0,
+    formattedValue: "₹10000.00",
+    formattedValueNoDecimal: "₹10000",
+    priceType: "BUY",
+    value: 10000
+  },
+  nceAvailable: false,
+  numberOfReviews: 0,
+  productDescription: "Contact Lenses",
+  productListingId: "MP000000005108253",
+  productName: "Lenses",
+  rootCategory: "Accessories",
+  safetyMeasuresAndExp: [
+    {
+      safetyMeasuresAndExpItem: "NA"
+    },
+    {
+      safetyMeasuresAndExpItem: "20/12/2020"
+    }
+  ],
+  seStartingPrice: "337",
+  sellerAssociationstatus: "Y",
+  seo: {
+    alternateURL: "/contact-lenses/p-mp000000005108253",
+    breadcrumbs: [
+      {
+        name: "Lenses",
+        url: "/contact-lenses/p-mp000000005108253"
+      },
+      {
+        name: "Contact Lenses",
+        url: "/eyewear-contact-lenses-contact-lenses/c-msh2311100"
+      },
+      {
+        name: "Contact Lenses",
+        url: "/eyewear-contact-lenses/c-msh2311"
+      },
+      {
+        name: "Eyewear",
+        url: "/eyewear/c-msh23"
+      }
+    ],
+    canonicalURL: "/contact-lenses/p-mp000000005108253",
+    description: "Contact Lenses",
+    imageURL:
+      "//pcmuat6.tataunistore.com/images/97Wx144H/MP000000005108253_97Wx144H_20200110184003.jpeg",
+    title: "Lenses"
+  },
+  sharedText:
+    "Wow!Check out this amazing find http://uat6.tataunistore.com/contact-lenses/p-mp000000005108253 . Like or  comment to tell me what you think, or share for warm fuzzies.",
+  showSizeGuide: false,
+  styleNote: "Contact Lenses",
+  variantOptions: [
+    {
+      colorlink: {
+        color: "Black",
+        colorHexCode: "#000000",
+        colorurl: "/contact-lenses/p-mp000000005108253",
+        selected: true
+      },
+      sizelink: {
+        isAvailable: true,
+        productCode: "MP000000005108253",
+        size: "Large",
+        url: "/contact-lenses/p-mp000000005108253"
+      }
+    }
+  ],
+  winningSellerAvailableStock: "1800",
+  winningSellerID: "100065",
+  winningSellerName: "Directly Voltas",
+  winningSellerPrice: {
+    currencyIso: "INR",
+    doubleValue: 5500.0,
+    formattedValue: "₹5500.00",
+    formattedValueNoDecimal: "₹5500",
+    priceType: "BUY",
+    value: 5500
+  },
+  winningUssID: "1000655000508"
+};
 
 export function getProductDescriptionRequest() {
   return {
@@ -1145,7 +1170,6 @@ export function editProductReview(productCode, productReviews) {
         }&headline=${productReviews.headLine}`
       );
       const resultJson = await result.json();
-      //const resultJson = jsonForProductDetails;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -1191,7 +1215,6 @@ export function deleteProductReview(productCode, reviewId) {
         }`
       );
       const resultJson = await result.json();
-      //const resultJson = jsonForProductDetails;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -1533,7 +1556,6 @@ export function getBundleproduct(productCode, isApiCall = 0) {
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
       const resultJson = await result.json();
-      //const resultJson = jsonForProductDetails;
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
@@ -1917,7 +1939,6 @@ export function getRelevantBundleProduct(productCode, isApiCall = 0, sequence) {
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
       const resultJson = await result.json();
-      //const resultJson = jsonForProductDetails;
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||

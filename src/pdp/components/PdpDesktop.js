@@ -245,9 +245,8 @@ export default class PdpApparel extends React.Component {
       this.props.productDetails.rootCategory === "Accessories"
     ) {
       if (
-        this.props.productDetails.categoryHierarchy[
-          this.props.productDetails.categoryHierarchy.length - 1
-        ].category_name === "Eyewear"
+        this.props.productDetails.categoryHierarchy[0].category_name ===
+        "Eyewear"
       ) {
         this.setState({ productCategory: "Eyewear" });
       }
