@@ -62,13 +62,7 @@ export default class SearchLocationByPincode extends React.Component {
                   : "Enter your Pincode "
             }
             onlyNumber={true}
-            value={
-              this.props.pincode
-                ? `Your pincode: ${this.props.pincode}`
-                : this.state.pincode
-                  ? `Your pincode: ${this.state.pinCode}`
-                  : ""
-            }
+            value={this.state.pincode}
             onChange={val => this.getValue(val)}
             textStyle={{ fontSize: 14 }}
             height={35}
