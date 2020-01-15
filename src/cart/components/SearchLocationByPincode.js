@@ -4,6 +4,7 @@ import Input2 from "../../general/components/Input2.js";
 import gpsIcon from "../../general/components/img/GPS.svg";
 import Icon from "../../xelpmoc-core/Icon";
 import CircleButton from "../../xelpmoc-core/CircleButton";
+import Location from "./img/location.png";
 import styles from "./SearchLocationByPincode.css";
 import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants";
 
@@ -22,9 +23,17 @@ export default class SearchLocationByPincode extends React.Component {
   getValue(pincode) {
     if (pincode.length <= 6) {
       this.setState({ pinCode: pincode });
-      if (pincode.length === 6) {
-        this.onUpdate(pincode);
-      }
+    }
+  }
+
+  checkPincode() {
+    let currentPincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+    if (
+      this.state.pinCode &&
+      this.state.pinCode !== currentPincode &&
+      this.state.pinCode.length === 6
+    ) {
+      this.onUpdate(this.state.pinCode);
     }
   }
 
@@ -62,12 +71,21 @@ export default class SearchLocationByPincode extends React.Component {
                   : "Enter your Pincode "
             }
             onlyNumber={true}
+            maxLength={"6"}
             value={this.state.pincode}
             onChange={val => this.getValue(val)}
             textStyle={{ fontSize: 14 }}
             height={35}
             disabled={this.props.disabled}
           />
+          {!this.props.disabled && (
+            <div
+              className={styles.checkPincodeButton}
+              onClick={() => this.checkPincode()}
+            >
+              <Icon image={Location} size={21} />
+            </div>
+          )}
         </div>
       </div>
     );

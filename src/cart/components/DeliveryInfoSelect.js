@@ -65,11 +65,6 @@ export default class DeliveryInfoSelect extends React.Component {
     let elligibleDeliveryModes = this.props.deliveryInformation;
     const isCod = this.props.isCod;
 
-    console.log(
-      "props coming to deliveryInfoselect is and state is ",
-      this.props,
-      this.state
-    );
     return (
       <div className={styles.base}>
         {deliveryInformationWithDate &&
@@ -413,19 +408,20 @@ export default class DeliveryInfoSelect extends React.Component {
                 />
               </div>
             )}
-          {isCod === "Y" && !this.props.inCartPage && (
-            <div className={styles.infoHolder}>
-              <DeliveryInformation
-                paddingTop={"0px"}
-                paddingBottom={"0px"}
-                paddingRight={"0px"}
-                pdpApparel={this.props.pdpApparel}
-                isCod={isCod}
-                placedTimeForCod={"Available"}
-                available={isCod === "Y"}
-              />
-            </div>
-          )}
+          {isCod === "Y" &&
+            !this.props.inCartPage && (
+              <div className={styles.infoHolder}>
+                <DeliveryInformation
+                  paddingTop={"0px"}
+                  paddingBottom={"0px"}
+                  paddingRight={"0px"}
+                  pdpApparel={this.props.pdpApparel}
+                  isCod={isCod}
+                  placedTimeForCod={"Available"}
+                  available={isCod === "Y"}
+                />
+              </div>
+            )}
         </div>
       </div>
     );

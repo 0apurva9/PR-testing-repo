@@ -106,10 +106,8 @@ export default class PdpPincode extends React.Component {
           }
         >
           <div className={[styles.label, styles.dFlex].join(" ")}>
-            {this.state.showCity ? (
-              <div className={styles.cityName}>
-                {`${this.props.city ? this.props.city : null},`}
-              </div>
+            {this.state.showCity && this.props.city ? (
+              <div className={styles.cityName}>{`${this.props.city}, `}</div>
             ) : null}
             <div className={styles.pincodeField}>
               <Input2
@@ -176,12 +174,14 @@ export default class PdpPincode extends React.Component {
                 </div>
               )}
             </div>
-            {userDetails && listOfAllPinCode && listOfAllPinCode.length > 2 && (
-              <div
-                className={styles.moreAddress}
-                onClick={() => this.onClick()}
-              >{`+ ${listOfAllPinCode.length - 2} more saved addresses`}</div>
-            )}
+            {userDetails &&
+              listOfAllPinCode &&
+              listOfAllPinCode.length > 2 && (
+                <div
+                  className={styles.moreAddress}
+                  onClick={() => this.onClick()}
+                >{`+ ${listOfAllPinCode.length - 2} more saved addresses`}</div>
+              )}
           </div>
         )}
       </div>
@@ -223,12 +223,14 @@ export default class PdpPincode extends React.Component {
                 </div>
               )}
             </div>
-            {userDetails && listOfAllPinCode && listOfAllPinCode.length > 2 && (
-              <div
-                className={styles.moreAddress}
-                onClick={() => this.onClick()}
-              >{`+ ${listOfAllPinCode.length - 2} more saved addresses`}</div>
-            )}
+            {userDetails &&
+              listOfAllPinCode &&
+              listOfAllPinCode.length > 2 && (
+                <div
+                  className={styles.moreAddress}
+                  onClick={() => this.onClick()}
+                >{`+ ${listOfAllPinCode.length - 2} more saved addresses`}</div>
+              )}
           </div>
         )}
         <div className={styles.borderForNoPinCode}>

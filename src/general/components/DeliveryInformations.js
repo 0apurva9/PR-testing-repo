@@ -161,7 +161,7 @@ export default class DeliveryInformations extends React.Component {
     } else if (this.props.type === SHORT_HOME_DELIVERY) {
       iconImage = ExpressImage;
       typeDate = `${formattedPlacedTime}`;
-      typeText = `${HOME_TEXT}`;
+      typeText = !this.props.deliveryInformationByCart;
       iconSize = 38;
     } else if (this.props.type === SHORT_COLLECT) {
       iconImage = CollectImage;
@@ -176,28 +176,28 @@ export default class DeliveryInformations extends React.Component {
         iconSize = 38;
       } else {
         typeDate = `${formattedPlacedTime}`;
-        typeText = `${SHORT_SAME_DAY_TEXT}`;
+        typeText = !this.props.deliveryInformationByCart;
         iconSize = 38;
       }
     } else if (this.props.type === SAME_DAY_DELIVERY) {
       iconImage = clockImage;
-      typeText = SAME_DAY_DELIVERY_SHIPPING;
+      typeText = !this.props.deliveryInformationByCart;
       iconSize = 35;
     } else if (this.props.type === HOME_DELIVERY) {
       iconImage = HomeImage;
-      typeText = HOME_TEXT;
+      typeText = !this.props.deliveryInformationByCart;
       iconSize = 35;
     } else if (this.props.isQuiqPiq) {
       iconImage = quiqpiqImage;
-      typeText = QUIQPIQ;
+      typeText = !this.props.deliveryInformationByCart;
       iconSize = 40;
     } else if (this.props.isCod == "Y") {
       iconImage = codImage;
-      typeText = COD_TEXT;
+      typeText = !this.props.deliveryInformationByCart;
       iconSize = 35;
     }
     if (!this.props.available) {
-      typeText = `${typeText}`;
+      typeText = !this.props.deliveryInformationByCart;
     }
 
     let deliveryCharge = "";
@@ -237,11 +237,12 @@ export default class DeliveryInformations extends React.Component {
                 <CountDownTimer cutOffSeconds={this.props.cutOffTime} />
               )}
 
-            {this.props.available && this.props.placedTimeForCod && (
-              <div className={styles.placeTime}>
-                {this.props.placedTimeForCod}
-              </div>
-            )}
+            {this.props.available &&
+              this.props.placedTimeForCod && (
+                <div className={styles.placeTime}>
+                  {this.props.placedTimeForCod}
+                </div>
+              )}
 
             {this.props.deliverText && (
               <div className={styles.placeTime}>
@@ -298,33 +299,34 @@ export default class DeliveryInformations extends React.Component {
             : this.props.onSelect &&
               this.props.isClickable &&
               this.props.inCartPage
-            ? null
-            : this.props.onSelect && (
-                <div
-                  className={[
-                    styles.checkboxHolder,
-                    this.props.type === SHORT_HOME_DELIVERY
-                      ? styles.topspace0
-                      : styles.topspace23
-                  ].join(" ")}
-                  onClick={() => {
-                    this.handleSelect(this.props.type === SHORT_COLLECT);
-                  }}
-                >
-                  {this.props.isClickable && (
-                    <CheckBox selected={this.props.selected} />
-                  )}
-                </div>
-              )}
+              ? null
+              : this.props.onSelect && (
+                  <div
+                    className={[
+                      styles.checkboxHolder,
+                      this.props.type === SHORT_HOME_DELIVERY
+                        ? styles.topspace0
+                        : styles.topspace23
+                    ].join(" ")}
+                    onClick={() => {
+                      this.handleSelect(this.props.type === SHORT_COLLECT);
+                    }}
+                  >
+                    {this.props.isClickable && (
+                      <CheckBox selected={this.props.selected} />
+                    )}
+                  </div>
+                )}
 
-          {this.props.arrowClick && this.props.type === COLLECT && (
-            <div
-              className={styles.arrowHolder}
-              onClick={() => this.arrowClick()}
-            >
-              <Icon image={arrowIcon} size={20} />
-            </div>
-          )}
+          {this.props.arrowClick &&
+            this.props.type === COLLECT && (
+              <div
+                className={styles.arrowHolder}
+                onClick={() => this.arrowClick()}
+              >
+                <Icon image={arrowIcon} size={20} />
+              </div>
+            )}
           {this.props.showCliqAndPiqButton &&
             this.props.isClickable &&
             !this.props.selected &&

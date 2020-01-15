@@ -23,6 +23,7 @@
   display: inline-block;
   vertical-align: middle;
   padding-top: 8px;
+  position: relative;
 }
 .disabledInput {
   composes: inputHolder;
@@ -46,6 +47,12 @@
   font-size: 14px;
   line-height: 35px;
   padding-left: 10px;
+}
+.checkPincodeButton {
+  position: absolute;
+  top: 15px;
+  right: 12px;
+  cursor: pointer;
 }
 @media screen and (min-width: 1025px) {
   .location {
