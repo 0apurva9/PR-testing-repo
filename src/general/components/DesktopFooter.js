@@ -248,7 +248,7 @@ class DesktopFooter extends React.Component {
                 })}
             </div>
             <div className={styles.copyRightText}>
-              &copy; {new Date().getFullYear()} {TEXT}
+              &copy; {`${new Date().getFullYear()} ${TEXT}`}
             </div>
           </div>
         </div>
