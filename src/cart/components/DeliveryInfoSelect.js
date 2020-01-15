@@ -79,6 +79,7 @@ export default class DeliveryInfoSelect extends React.Component {
             })
             .includes(SHORT_SAME_DAY_DELIVERY) && (
             <DeliveryInformation
+              inCheckOutPage={this.props.inCheckOutPage}
               code={
                 elligibleDeliveryModes &&
                 elligibleDeliveryModes

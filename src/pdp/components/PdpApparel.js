@@ -524,6 +524,7 @@ export default class PdpApparel extends React.Component {
           ) : (
             <PdpPincode onClick={() => this.showPincodeModal()} />
           )}
+
           {this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.status === NO ? (
             this.props.productDetails.isServiceableToPincode

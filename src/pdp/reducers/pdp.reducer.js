@@ -136,7 +136,7 @@ const productDescription = (
 
     case pdpActions.CHECK_PRODUCT_PIN_CODE_SUCCESS:
       const currentPdpDetail = cloneDeep(state.productDetails);
-      let listOfAllServiceableUssid;
+      let listOfAllServiceableUssid = [];
       let pincodeListResponse;
       if (
         action.productPinCode &&
@@ -264,7 +264,6 @@ const productDescription = (
           }
         });
       }
-
       return Object.assign({}, state, {
         status: action.status,
         productDetails: currentPdpDetail,
