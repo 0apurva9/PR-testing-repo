@@ -1,7 +1,7 @@
 import React from "react";
 import SlideModal from "../../general/components/SlideModal";
 import CenterModal from "../../general/components/CenterModal";
-import SizeGuideMainForEyeWear from "./SizeGuideMainForEyeWear";
+import SizeGuideContainerForEyeWear from "../containers/SizeGuideContainerForEyeWear";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 export default class SizeSelectorForEyeWear extends React.Component {
@@ -10,12 +10,12 @@ export default class SizeSelectorForEyeWear extends React.Component {
       <React.Fragment>
         <MobileOnly>
           <SlideModal closeModal={this.props.closeModal}>
-            <SizeGuideMainForEyeWear />
+            <SizeGuideContainerForEyeWear {...this.props} />
           </SlideModal>
         </MobileOnly>
         <DesktopOnly>
           <CenterModal closeModal={this.props.closeModal}>
-            <SizeGuideMainForEyeWear />
+            <SizeGuideContainerForEyeWear {...this.props} />
           </CenterModal>
         </DesktopOnly>
       </React.Fragment>

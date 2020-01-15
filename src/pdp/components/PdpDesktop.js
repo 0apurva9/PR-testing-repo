@@ -1194,8 +1194,14 @@ export default class PdpApparel extends React.Component {
                                     showOOSSizeSelectorModal={
                                       this.props.showOOSSizeSelectorModal
                                     }
+                                    productCode={
+                                      this.props.productDetails.productListingId
+                                    }
                                     showSimilarSizeOOSModal={
                                       this.props.showSimilarSizeOOSModal
+                                    }
+                                    sizeChartData={
+                                      this.props.getProductSizeGuide
                                     }
                                     eyeWearSizeGuide={
                                       this.state.productCategory

@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./SizeGuideMainForEyeWear.css";
 import Image from "../../xelpmoc-core/Image";
+import Loader from "../../general/components/Loader";
 //import SizeTableForEyeWear from './SizeTableForEyeWear';
 import SizeTableForEyeWearChangedJson from "./SizeTableForEyeWearChangedJson";
 
@@ -127,62 +128,77 @@ export default class SizeGuideMainForEyeWear extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.props.getSizeGuide(this.props.productCode);
+  }
+
   render() {
-    return (
-      <div className={styles.base}>
-        <div className={styles.header}>Eyewear Size Chart</div>
-        <div className={styles.container}>
-          <div className={styles.creditCardMethod}>CREDIT CARD METHOD</div>
-          <div className={styles.creditMethodHeader}>
-            Get a credit/debit card & stand in front of a mirror. Put an edge of
-            the card at the center of your nose. Make a note of where the other
-            edge ends
-          </div>
-          <div className={styles.imageHolderContainer}>
-            <div className={styles.imageHolder}>
+    if (this.props.loading) {
+      return <Loader />;
+    }
+    if (this.props.sizeData && this.props.sizeData.sizeGuideList) {
+      return (
+        <div className={styles.base}>
+          <div className={styles.header}>Eyewear Size Chart</div>
+          <div className={styles.container}>
+            <div className={styles.creditCardMethod}>CREDIT CARD METHOD</div>
+            <div className={styles.creditMethodHeader}>
+              Get a credit/debit card & stand in front of a mirror. Put an edge
+              of the card at the center of your nose. Make a note of where the
+              other edge ends
+            </div>
+            <div className={styles.imageHolderContainer}>
+              <div className={styles.imageHolder}>
+                <div className={styles.image}>
+                  <Image fit="contain" image={json.Guideadvisor[0].image1Url} />
+                </div>
+                <div className={styles.imageTextCss}>
+                  {json.Guideadvisor[0].image1UrlText}
+                </div>
+              </div>
+              <div className={styles.imageHolder}>
+                <div className={styles.image}>
+                  <Image fit="contain" image={json.Guideadvisor[0].image2Url} />
+                </div>
+                <div className={styles.imageTextCss}>
+                  {json.Guideadvisor[0].image2UrlText}
+                </div>
+              </div>
+              <div className={styles.imageHolder}>
+                <div className={styles.image}>
+                  <Image fit="contain" image={json.Guideadvisor[0].image3Url} />
+                </div>
+                <div className={styles.imageTextCss}>
+                  {json.Guideadvisor[0].image3UrlText}
+                </div>
+              </div>
+            </div>
+            <div className={styles.eyeGlasses}>
+              {json.Guideadvisor[0].header2}
+            </div>
+            <div className={styles.eyeGlassesHeader}>
+              {json.Guideadvisor[0].header2Text}
+            </div>
+            <div className={styles.eyeGlassesImage}>
               <div className={styles.image}>
-                <Image fit="contain" image={json.Guideadvisor[0].image1Url} />
-              </div>
-              <div className={styles.imageTextCss}>
-                {json.Guideadvisor[0].image1UrlText}
+                <Image fit="contain" image={json.imageURL} />
               </div>
             </div>
-            <div className={styles.imageHolder}>
-              <div className={styles.image}>
-                <Image fit="contain" image={json.Guideadvisor[0].image2Url} />
-              </div>
-              <div className={styles.imageTextCss}>
-                {json.Guideadvisor[0].image2UrlText}
-              </div>
+            <div className={styles.sizeTableText}>
+              {json.Guideadvisor[0].footerText}
             </div>
-            <div className={styles.imageHolder}>
-              <div className={styles.image}>
-                <Image fit="contain" image={json.Guideadvisor[0].image3Url} />
-              </div>
-              <div className={styles.imageTextCss}>
-                {json.Guideadvisor[0].image3UrlText}
-              </div>
+            <div className={styles.sizeGuideTableHolder}>
+              <SizeTableForEyeWearChangedJson data={json} />
             </div>
-          </div>
-          <div className={styles.eyeGlasses}>
-            {json.Guideadvisor[0].header2}
-          </div>
-          <div className={styles.eyeGlassesHeader}>
-            {json.Guideadvisor[0].header2Text}
-          </div>
-          <div className={styles.eyeGlassesImage}>
-            <div className={styles.image}>
-              <Image fit="contain" image={json.imageURL} />
-            </div>
-          </div>
-          <div className={styles.sizeTableText}>
-            {json.Guideadvisor[0].footerText}
-          </div>
-          <div className={styles.sizeGuideTableHolder}>
-            <SizeTableForEyeWearChangedJson data={json} />
           </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div className={styles.noSizeGuideHolder}>
+          <div className={styles.noSizeGuide}>No Size Guide Available</div>
+        </div>
+      );
+    }
   }
 }
