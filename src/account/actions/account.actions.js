@@ -3854,7 +3854,7 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
           JSON.parse(userDetails).userName
         }/payments/failedorderdetails?&access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${retryPaymentGuId}&retryFlag=true&isUpdatedPwa=true&retryUserId=${retryPaymentUserId}`
+        }&cartGuid=${retryPaymentGuId}&retryFlag=true&isUpdatedPwa=true&retryUserId=${retryPaymentUserId}&emiConvChargeFlag=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

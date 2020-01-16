@@ -57,7 +57,9 @@ export default class LevelBreakupCard extends React.Component {
         </div>
         <div className={styles.totalAmountDisplay}>
           <div className={styles.totalAmountLabel}>
-            <div className={styles.amountLabel}>Total Amount Payable</div>
+            <div className={styles.amountLabel}>
+              Total Amount Payable To Bank
+            </div>
             <div className={styles.amount}>{`Rs.${Math.round(
               this.props.totalAmount * 100
             ) / 100}

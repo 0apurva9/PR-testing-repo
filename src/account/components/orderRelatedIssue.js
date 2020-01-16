@@ -1022,7 +1022,7 @@ export default class OrderRelatedIssue extends React.Component {
           </div>
           {this.state.showOrder && (
             <OrderRelatedPopup
-              selectedOrderId={this.state.orderCode}
+              selectedOrderId={this.state.transactionId}
               ordersTransactionData={this.props.ordersTransactionData}
               setProductDetails={(
                 orderCode,
