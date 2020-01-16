@@ -1880,7 +1880,7 @@ export default class PdpApparel extends React.Component {
                         productData.numberOfReviews !== "0") ? (
                         <div className={styles.reviewsHolder}>
                           <div className={styles.reviewsHeader}>
-                            Ratings and Reviews
+                            <h3>Ratings and Reviews</h3>
                             <div className={styles.reviewsButton}>
                               <UnderLinedButton
                                 color="#ff1744"

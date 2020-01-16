@@ -70,7 +70,7 @@ export default class ColourSelector extends React.Component {
               headerComponent={
                 <div className={styles.header}>
                   Colour:{" "}
-                  <span className={styles.colourName}>{selectedColour}</span>
+                  <h3 className={styles.colourName}>{selectedColour}</h3>
                 </div>
               }
             >
@@ -81,8 +81,8 @@ export default class ColourSelector extends React.Component {
           </MobileOnly>
           <DesktopOnly>
             <div className={styles.header}>
-              Colour:{" "}
-              <span className={styles.colourName}>{selectedColour}</span>
+              <h3>Colour:</h3>{" "}
+              <h4 className={styles.colourName}>{selectedColour}</h4>
             </div>
             <div className={styles.colorHolder}>
               {colors.map((datum, i) => {
