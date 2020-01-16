@@ -35,7 +35,8 @@ const mapStateToProps = state => {
     userAddress: state.profile.userAddress,
     loading: state.profile.loading,
     UserNotificationDetails: state.profile.UserNotificationDetails,
-    UserNotificationConfig: state.profile.UserNotificationConfig
+    UserNotificationConfig: state.profile.UserNotificationConfig,
+    notificationHeaderText: state.profile.UserNotificationHeaderText
   };
 };
 
