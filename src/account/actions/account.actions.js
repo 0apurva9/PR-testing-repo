@@ -2179,7 +2179,7 @@ export function getAllOrdersDetails(
       const result = await api.get(getOrderDetails);
       let resultJson = await result.json();
 
-      resultJson = {
+      /*  resultJson = {
         type: "getOrderHistoryListWsDTO",
         status: "Success",
         oldOrderHistoryPresent: false,
@@ -2329,7 +2329,7 @@ export function getAllOrdersDetails(
         pageSize: 3,
         totalNoOfOrders: 15
       };
-
+ */
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -2704,7 +2704,7 @@ export function fetchOrderDetails(orderId, pageName) {
         }&isPwa=true`
       );
       let resultJson = await result.json();
-      resultJson = {
+      /* resultJson = {
         type: "orderTrackingWsDTO",
         status: "Success",
         cliqCashAmountDeducted: 0,
@@ -2860,7 +2860,7 @@ export function fetchOrderDetails(orderId, pageName) {
         subTotal: "15.0",
         totalDiscount: "0.0",
         totalOrderAmount: "15.0"
-      };
+      }; */
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {

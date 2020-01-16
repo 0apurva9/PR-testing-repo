@@ -140,8 +140,8 @@ export default class DeliveryInformations extends React.Component {
     let iconImage = "";
     let typeDate = "";
     let typeText = "";
-    let formattedPlacedTime;
-    if (this.props.placedTime) {
+    let formattedPlacedTime = "";
+    if (this.props.placedTime && this.props.placedTime !== undefined) {
       formattedPlacedTime = this.getDayNumberSuffix(this.props.placedTime);
     }
     let arrowStyle = styles.arrowLink1;
@@ -172,7 +172,7 @@ export default class DeliveryInformations extends React.Component {
       iconSize = 30;
     } else if (this.props.type === SHORT_SAME_DAY_DELIVERY) {
       iconImage = ExpressImage;
-      if (this.props.inCartPage) {
+      if (this.props.inCartPage || this.props.inCheckOutPage) {
         typeDate = `${formattedPlacedTime}`;
         iconSize = 38;
       } else {

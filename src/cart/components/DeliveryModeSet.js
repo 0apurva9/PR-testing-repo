@@ -5,6 +5,7 @@ import styles from "./DeliveryModeSet.css";
 import {
   COLLECT,
   SHORT_COLLECT,
+  SAME_DAY_DELIVERY,
   SHORT_SAME_DAY_DELIVERY,
   SAME_DAY_DELIVERY_SHIPPING,
   YES
@@ -17,12 +18,12 @@ export default class DeliveryModeSet extends React.Component {
     }
   }
   getDayNumberSuffix(selectedDeliveryModes, USSID) {
-    if (selectedDeliveryModes === SAME_DAY_DELIVERY_SHIPPING) {
+    /*     if (selectedDeliveryModes === SAME_DAY_DELIVERY_SHIPPING) {
       return `Today`;
     }
     if (selectedDeliveryModes === "Express Delivery") {
       return `Tomorrow`;
-    }
+    } */
     let placedTime = "";
     let currentProduct =
       this.props &&
@@ -35,12 +36,12 @@ export default class DeliveryModeSet extends React.Component {
       currentProduct.pinCodeResponse &&
       currentProduct.pinCodeResponse.validDeliveryModes &&
       currentProduct.pinCodeResponse.validDeliveryModes.find(val => {
-        if (val.code === "CNC") {
-          return selectedDeliveryModes === SHORT_COLLECT;
+        if (val.type === "CNC") {
+          return selectedDeliveryModes === "Click and Collect";
         } else if (val.type === "HD") {
           return selectedDeliveryModes === "Home Delivery";
         } else if (val.type === "SDD") {
-          return selectedDeliveryModes === SHORT_SAME_DAY_DELIVERY;
+          return selectedDeliveryModes === "Same Day Delivery";
         } else if (val.type === "ED") {
           return selectedDeliveryModes === "Express Delivery";
         }
@@ -50,10 +51,10 @@ export default class DeliveryModeSet extends React.Component {
     let nextWithOutFormatDay = day.setDate(day.getDate() + 1);
     let nextDay = new Date(nextWithOutFormatDay);
     let nextDayFormat = format(nextDay, "DD-MMM-YYYY");
-    let productDayFormat = format(
-      placedTime && placedTime.deliveryDate,
-      "DD-MMM-YYYY"
+    let placedTimeWithoutFormat = new Date(
+      placedTime && placedTime.deliveryDate
     );
+    let productDayFormat = format(placedTimeWithoutFormat, "DD-MMM-YYYY");
     let dateWithMonth = new Date(placedTime && placedTime.deliveryDate);
     let date = dateWithMonth.getDate();
     let month = dateWithMonth.getMonth();
@@ -75,8 +76,8 @@ export default class DeliveryModeSet extends React.Component {
       dayFormat === productDayFormat
         ? `Today ,`
         : nextDayFormat === productDayFormat
-          ? `Tomorrow ,`
-          : "";
+        ? `Tomorrow ,`
+        : "";
     switch (date) {
       case 1:
       case 21:
@@ -142,21 +143,21 @@ export default class DeliveryModeSet extends React.Component {
                       deliveryOption.name === "Home Delivery"
                         ? "Standard Shipping"
                         : deliveryOption.name === "Express Delivery"
-                          ? "Express Delivery"
-                          : deliveryOption.name
+                        ? "Express Delivery"
+                        : deliveryOption.name
                     } ${
                       deliveryOption.code === SHORT_COLLECT
                         ? textForCollect
                           ? textForCollect
                           : ""
                         : this.props.isShowDate
-                          ? ` : ${this.getDayNumberSuffix(
-                              deliveryOption.name,
-                              data.USSID
-                            )}`
-                          : expectedDeliveryDate
-                            ? expectedDeliveryDate
-                            : ""
+                        ? ` : ${this.getDayNumberSuffix(
+                            deliveryOption.name,
+                            data.USSID
+                          )}`
+                        : expectedDeliveryDate
+                        ? expectedDeliveryDate
+                        : ""
                     }`}
                 </div>
               </div>
