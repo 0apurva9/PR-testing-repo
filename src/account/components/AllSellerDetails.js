@@ -69,16 +69,6 @@ const Loader = () => {
   );
 };
 
-const ItemDeliveredAsDescribed = [
-  { Label: "Yes", Value: "yes" },
-  { Label: "No", Value: "no" }
-];
-
-const ItemDeliveredOnCommunicatedTime = [
-  { Label: "Yes", Value: "yes" },
-  { Label: "No", Value: "no" }
-];
-
 export default class AllSellerDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -113,25 +103,6 @@ export default class AllSellerDetails extends React.Component {
 
   tabSelect(val) {
     this.setState({ isSelected: val });
-  }
-
-  handleChange(val) {
-    this.setState({ comment: val });
-  }
-  onRatingChange = val => {
-    this.setState({ rating: val });
-  };
-
-  onItemItemDeliveredAsDescribedChange(selectedStatus, index) {
-    this.setState({ isItemDeliveredAsDescribed: selectedStatus.Value });
-    this.setState({ indexFeedback: index });
-  }
-
-  onItemDeliveredWithInCommunicatedTimeChange(selectedStatus, index) {
-    this.setState({
-      isItemDeliveredWithInCommunicatedTime: selectedStatus.Value
-    });
-    this.setState({ indexFeedback: index });
   }
 
   componentDidMount() {
@@ -252,23 +223,27 @@ export default class AllSellerDetails extends React.Component {
     }
   }
 
-  onSellerReviewSubmit(sellerData) {
-    localStorage.setItem("rating", this.state.rating);
+  onSellerReviewSubmit = (sellerData, reviewData) => {
+    localStorage.setItem("rating", reviewData.rating);
     localStorage.setItem("sellerName", sellerData.sellerName);
     let { orderId, suborderId, transactionId } = sellerData;
     let {
       rating,
       isItemDeliveredAsDescribed,
-      isItemDeliveredWithInCommunicatedTime,
+      isItemDeliveredInCommunicatedTime,
       comment
-    } = this.state;
+    } = reviewData;
 
-    if (
-      rating == null ||
-      isItemDeliveredAsDescribed == null ||
-      isItemDeliveredWithInCommunicatedTime == null
-    ) {
-      this.props.displayToast("Please fill the feedback");
+    if (rating == null) {
+      this.props.displayToast("Please rate your seller");
+      return;
+    } else if (isItemDeliveredAsDescribed == null) {
+      this.props.displayToast("Please select product delivered as described");
+      return;
+    } else if (isItemDeliveredInCommunicatedTime == null) {
+      this.props.displayToast(
+        "Please select product delivered as on communicated time"
+      );
       return;
     }
     let params = {
@@ -277,7 +252,7 @@ export default class AllSellerDetails extends React.Component {
       transactionId: transactionId,
       customerSellerRating: rating.toFixed(1),
       itemDeliveredAsDescribed: isItemDeliveredAsDescribed,
-      itemDeliveredWithInCommunicatedTime: isItemDeliveredWithInCommunicatedTime,
+      itemDeliveredWithInCommunicatedTime: isItemDeliveredInCommunicatedTime,
       customerComment: comment,
       customerReview: "REVIEW"
     };
@@ -289,11 +264,11 @@ export default class AllSellerDetails extends React.Component {
       comment: "",
       resetRating: true
     });
-  }
+  };
 
-  onItemStatusChange(selectedStatus) {
-    this.setState({ isItemDeliveredAsDescribed: selectedStatus.Value });
-  }
+  // onItemStatusChange(selectedStatus) {
+  //   this.setState({ isItemDeliveredAsDescribed: selectedStatus.Value });
+  // }
 
   render() {
     let url = window.location.href;
@@ -340,6 +315,8 @@ export default class AllSellerDetails extends React.Component {
       opacity: 1,
       cursor: "pointer"
     };
+
+    console.log(this.props);
 
     return (
       <div className={baseClassName}>
@@ -399,10 +376,11 @@ export default class AllSellerDetails extends React.Component {
                         orderDate,
                         orderId,
                         sellerName,
-                        imageURL
+                        imageURL,
+                        transactionId
                       } = seller;
                       return (
-                        <div className={styles.order} key={orderId}>
+                        <div className={styles.order} key={transactionId}>
                           <SellerCard
                             title={productName}
                             placedTime={
@@ -411,131 +389,10 @@ export default class AllSellerDetails extends React.Component {
                             orderNumber={orderId}
                             orderFullfilledBy={sellerName}
                             productImage={imageURL}
+                            sellerData={seller}
+                            onSellerReviewSubmit={this.onSellerReviewSubmit}
+                            pathURL={this.props.location.pathname}
                           />
-                          <div
-                            className={styles.orderIdHolder}
-                            style={{
-                              marginBottom: `${15}px`,
-                              borderBottom: `${1}px solid #efefef`,
-                              paddingBottom: `${15}px`
-                            }}
-                          />
-                          <div className={styles.ratingContainer}>
-                            <div className={styles.ratingHeader}>
-                              Rate your Seller
-                            </div>
-                            <div className={styles.ratingBar}>
-                              <FillupRating
-                                rating={5}
-                                onChange={this.onRatingChange}
-                                resetRating={resetRating}
-                              />
-                            </div>
-                          </div>
-                          <div
-                            className={styles.orderIdHolder}
-                            style={{
-                              marginBottom: `${15}px`,
-                              borderBottom: `${1}px solid #efefef`,
-                              paddingBottom: `${15}px`
-                            }}
-                          />
-
-                          <div className={styles.describedItem}>
-                            <div className={styles.itemDeliveredHeader}>
-                              <React.Fragment>
-                                <span className={styles.headerText}>
-                                  Item delivered as described
-                                </span>
-                                <div className={styles.iteDeliveredAsDescribed}>
-                                  {ItemDeliveredAsDescribed &&
-                                    ItemDeliveredAsDescribed.map((item, i) => {
-                                      return (
-                                        <div
-                                          className={styles.radioBtnWrapper}
-                                          key={i}
-                                          value={item.Value}
-                                          onClick={() =>
-                                            this.onItemStatusChange(item)
-                                          }
-                                        >
-                                          <div
-                                            className={styles.radioBtnContent}
-                                          >
-                                            <CheckBox
-                                              selected={
-                                                isItemDeliveredAsDescribed ===
-                                                item.Value
-                                              }
-                                            />
-                                          </div>
-                                          {item.Label}
-                                        </div>
-                                      );
-                                    })}
-                                </div>
-                              </React.Fragment>
-                              <React.Fragment>
-                                <span className={styles.headerText}>
-                                  Item delivered as on communicated time
-                                </span>
-                                <div className={styles.iteDeliveredAsDescribed}>
-                                  {ItemDeliveredOnCommunicatedTime &&
-                                    ItemDeliveredOnCommunicatedTime.map(
-                                      (item, index) => {
-                                        return (
-                                          <div
-                                            className={styles.radioBtnWrapper}
-                                            key={index}
-                                            value={item.Value}
-                                            onClick={() =>
-                                              this.onItemDeliveredWithInCommunicatedTimeChange(
-                                                item,
-                                                i
-                                              )
-                                            }
-                                          >
-                                            <div
-                                              className={styles.radioBtnContent}
-                                            >
-                                              <CheckBox
-                                                selected={
-                                                  this.state.indexFeedback ===
-                                                    i &&
-                                                  isItemDeliveredWithInCommunicatedTime ===
-                                                    item.Value
-                                                }
-                                              />
-                                            </div>
-                                            {item.Label}
-                                          </div>
-                                        );
-                                      }
-                                    )}
-                                </div>
-                              </React.Fragment>
-                            </div>
-                            <div className={styles.itemDescribed}>
-                              <TextArea
-                                onChange={val => this.handleChange(val)}
-                                value={comment}
-                                placeholder={placeholder}
-                              />
-                            </div>
-                            <div className={styles.submitButtonDiv}>
-                              <button
-                                className={styles.submitButton}
-                                style={btnStyle}
-                                onClick={() =>
-                                  this.onSellerReviewSubmit(seller)
-                                }
-                              >
-                                <span className={styles.buttonText}>
-                                  Submit
-                                </span>
-                              </button>
-                            </div>
-                          </div>
                         </div>
                       );
                     })
