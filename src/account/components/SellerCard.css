@@ -1,0 +1,88 @@
+.base {
+  width: 100%;
+  height: auto;
+  background-color: #ececec;
+  color: #000000;
+  padding: 10px;
+  overflow: hidden;
+}
+.buffer {
+  width: 100%;
+  height: auto;
+}
+.textBox {
+  width: 100%;
+  height: auto;
+  background-color: #ffffff;
+  font-family: semibold;
+  border-radius: 4px 4px 0 0;
+  padding: 20px 10px 20px 15px;
+}
+.faded {
+  composes: buffer;
+  opacity: 0.4;
+  pointer-events: none;
+}
+.heading {
+  width: 100%;
+  height: auto;
+  line-height: 20px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  position: relative;
+  padding-right: 25px;
+}
+.priceTitle {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.description {
+  white-space: normal;
+}
+.priceHolder {
+  display: inline-block;
+  line-height: 24px;
+}
+
+.discount {
+  composes: priceHolder;
+  margin-right: 10px;
+  font-size: 14px;
+}
+.offerText {
+  width: 100%;
+  height: auto;
+  font-family: regular;
+  font-size: 14px;
+  line-height: 22px;
+  margin-top: 10px;
+}
+.priceCancelled {
+  composes: priceHolder;
+  text-decoration: line-through;
+  color: #8d8d8d;
+  font-size: 14px;
+  font-family: regular;
+}
+.shippingText {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 22px;
+  font-family: regular;
+}
+.textBox2 {
+  composes: textBox;
+  border-radius: 0 0 4px 4px;
+  margin-top: 1px;
+}
+.checkCircle {
+  position: absolute;
+  width: 20px;
+  height: auto;
+  right: 0px;
+  top: 0;
+}

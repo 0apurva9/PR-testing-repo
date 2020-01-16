@@ -154,12 +154,14 @@ export default class ProductDetailsMainCard extends React.Component {
             <div className={styles.price}>
               <meta itemProp="priceCurrency" content={RUPEE_SYMBOL} />
               <meta itemProp="lowPrice" content={this.props.doublePrice} />
-              <span>{displayPrice}</span>
+              <span>{`${RUPEE_SYMBOL}${Math.floor(displayPrice)}`}</span>
             </div>
             {this.props.discountPrice &&
               this.props.discountPrice !== this.props.price && (
                 <div className={styles.priceCancelled}>
-                  <span className={styles.cancelPrice}>{this.props.price}</span>
+                  <span
+                    className={styles.cancelPrice}
+                  >{`${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}</span>
                   <span className={styles.discount}>
                     {this.props.discount && `(${this.props.discount}%)`}
                   </span>
