@@ -131,7 +131,9 @@ export default class DeliveryInformations extends React.Component {
     dateWithMonth = new Date(d);
     date = dateWithMonth.getUTCDate();
     month = dateWithMonth.getUTCMonth() + 1;
-    return this.getDateMonthFormate(date, month);
+    if (date && month) {
+      return this.getDateMonthFormate(date, month);
+    } else return "";
   }
 
   render() {
@@ -154,7 +156,7 @@ export default class DeliveryInformations extends React.Component {
         typeDate = `${formattedPlacedTime}`;
         typeText = !this.props.deliveryInformationByCart
           ? `${EXPRESS_TEXT}`
-          : `${EXPRESS_SHIPPING}`;
+          : null;
       }
       arrowStyle = styles.arrowLink;
       iconSize = this.props.inCartPageIcon ? 40 : 38;
