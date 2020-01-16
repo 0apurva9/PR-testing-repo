@@ -4,7 +4,7 @@
     position: relative;
 }
 .title{
-    color: #4a4a4a;  
+    color: #4a4a4a;
     padding-bottom: 5px;
 }
 
@@ -15,7 +15,7 @@
 }
 
 .productNameNMoreInfo{
-   
+
     right: 10px;
     top:0px;
 }
@@ -47,4 +47,65 @@
 }
 .productImage{
     padding-bottom: 7px;
+}
+
+
+.orderIdHolder {
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	margin-bottom: 10px;
+}
+.ratingHeader{
+  font-family: semibold;
+  font-size: 14px;
+}
+.ratingBar{
+	width: 56%;
+	margin-top: 20px;
+	cursor: pointer;
+}
+.itemDeliveredHeader{
+  font-family: semibold;
+  font-size: 14px;
+}
+.iteDeliveredAsDescribed {
+	display: flex;
+	margin: 18px 0;
+}
+.radioBtnWrapper {
+	display: flex;
+	align-items: center;
+	margin-right: 40px;
+	font-size:14px;
+}
+
+.radioBtnWrapperRemove{
+	display: flex;
+	-ms-flex-align: center;
+	align-items: center;
+	font-size: 16px;
+	padding: 0px 15px;
+}
+
+.radioBtnContent {
+	margin-right: 15px;
+}
+
+.submitButtonDiv{
+	width: 231px;
+ 	height:60px;
+	margin: auto;
+	padding: 10px;
+	cursor: pointer;
+	float:right;
+}
+.submitButton{
+	background-color: #ff1744;
+	color:#fff ;
+	border-radius: 100px;
+	width:100%;
+	height:100%;
+	border: #ff1744;
+	cursor: pointer;
 }

@@ -252,6 +252,7 @@ const account = (
     userRatingStatus: null,
     userRatingError: null,
 
+    UserNotificationHeaderText: "",
     UserNotificationDetailsStatus: null,
     UserNotificationDetailsError: null,
     UserNotificationDetails: null,
@@ -1601,6 +1602,7 @@ const account = (
       });
     case accountActions.GET_USER_NOTIFICATION_DETAILS_SUCCESS:
       return Object.assign({}, state, {
+        UserNotificationHeaderText: action.notificationDetails.message,
         UserNotificationDetailsStatus: action.status,
         UserNotificationDetails: action.notificationDetails,
         UserNotificationConfig: action.notificationDetails,

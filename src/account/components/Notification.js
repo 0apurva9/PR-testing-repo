@@ -80,11 +80,7 @@ class Notification extends Component {
             <div className={styles.notificationWrapper}>
               <div className={styles.contentWrapper}>
                 <p className={styles.content}>
-                  We will keep you updated regarding your order status, via
-                  alerts, until your package is delivered.<br />
-                  You will receive alerts in case of delays/issues with your
-                  order.<br />
-                  Alert will be sent via:
+                  {this.props.notificationHeaderText}
                 </p>
               </div>
               <div className={styles.notificationTypeHolder}>
