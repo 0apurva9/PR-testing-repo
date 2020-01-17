@@ -1974,16 +1974,44 @@ export function getSavedCardDetails(userId, customerAccessToken) {
             key: "2019-04-25T20:52:40.118",
             value: {
               upiId: "abs@xyz",
-              isActive: "true"
+              isActive: true
             }
           },
           {
             key: "2019-04-25T20:42:35.33",
             value: {
               upiId: "abs@ybl",
-              isActive: "false"
+              isActive: false
             }
           }
+          // {
+          //   key: "2019-04-25T20:42:35.33",
+          //   value: {
+          //     upiId: "12124321290@okhdfc",
+          //     isActive: false
+          //   }
+          // },
+          // {
+          //   key: "2019-04-25T20:42:35.33",
+          //   value: {
+          //     upiId: "8787989089@ksd",
+          //     isActive: true
+          //   }
+          // },
+          // {
+          //   key: "2019-04-25T20:42:35.33",
+          //   value: {
+          //     upiId: "4321290@okhdfc",
+          //     isActive: false
+          //   }
+          // },
+          // {
+          //   key: "2019-04-25T20:42:35.33",
+          //   value: {
+          //     upiId: "zxzx8787989089@ksd",
+          //     isActive: true
+          //   }
+          // }
         ]
       };
 

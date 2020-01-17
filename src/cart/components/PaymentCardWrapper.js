@@ -103,14 +103,14 @@ export default class PaymentCardWrapper extends React.Component {
       this.props.openBankOfferTncModal();
     }
   }
-  renderPaymentCard = datumType => {
+  renderPaymentCard = (datumType, i) => {
     if (
       this.props.retryPaymentDetails &&
       this.props.retryPaymentDetails.orderRetry &&
       this.props.retryPaymentDetails.retryFlagEmiCoupon
     ) {
       return (
-        <React.Fragment>
+        <React.Fragment key={i}>
           {datumType === "EMI" &&
             typeComponentMapping[datumType] &&
             typeComponentMapping[datumType]({ ...this.props })}
@@ -118,7 +118,7 @@ export default class PaymentCardWrapper extends React.Component {
       );
     } else {
       return (
-        <React.Fragment>
+        <React.Fragment key={i}>
           {typeComponentMapping[datumType] &&
             typeComponentMapping[datumType]({ ...this.props })}
         </React.Fragment>
@@ -133,7 +133,7 @@ export default class PaymentCardWrapper extends React.Component {
    *          ORDER AMOUNT.
    */
   renderUpiComponents() {
-    return this.renderPaymentCard("UPI");
+    return this.renderPaymentCard("UPI", "upiKey");
   }
   /**
    * EOC

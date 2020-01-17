@@ -624,7 +624,7 @@ class CheckOutPage extends React.Component {
         {this.props.cart.cartDetailsCNC.products &&
           this.props.cart.cartDetailsCNC.products.map((val, i) => {
             return (
-              <div className={styles.row}>
+              <div className={styles.row} key={i}>
                 <CartItem
                   key={i}
                   selected={this.state.ussIdAndDeliveryModesObj[val.USSID]}
@@ -2874,7 +2874,9 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
+            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
+              this.state.cardDetails.emi_bank
+            } card.`
           });
         } else if (
           binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
@@ -2885,7 +2887,9 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${this.state.cardDetails.selectedBankName} card only.`
+            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${
+              this.state.cardDetails.selectedBankName
+            } card only.`
           });
         } else if (
           this.props.cart &&
@@ -2953,7 +2957,9 @@ if you have order id in local storage then you have to show order confirmation p
       ) {
         this.setState({
           emiBinValidationStatus: true,
-          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
+          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
+            this.state.cardDetails.emi_bank
+          } card.`
         });
       } else {
         this.setState({
@@ -3371,6 +3377,11 @@ if you have order id in local storage then you have to show order confirmation p
   }
 
   render() {
+    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let userName = JSON.parse(userDetails).userName;
+    let access_token = JSON.parse(customerCookie).access_token;
+
     let labelForButton,
       checkoutButtonStatus = false;
     if (
@@ -3860,6 +3871,14 @@ if you have order id in local storage then you have to show order confirmation p
                       selectPayPal={val => this.selectPayPal(val)}
                       displayToast={message => this.props.displayToast(message)}
                       getCODEligibility={() => this.getCODEligibility()}
+                      getSavedCardDetails={() =>
+                        this.props.getSavedCardDetails(userName, access_token)
+                      }
+                      savedCards={this.props.savedCards}
+                      showTermsNConditions={() =>
+                        this.props.showTermsNConditions()
+                      }
+                      showHowToPay={() => this.props.showHowToPay()}
                       getNetBankDetails={() => this.getNetBankDetails()}
                       getEmiBankDetails={() => this.getEmiBankDetails()}
                       getEmiEligibility={() => this.getEmiEligibility()}

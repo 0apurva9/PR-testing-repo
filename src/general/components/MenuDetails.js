@@ -92,7 +92,7 @@ export default class MenuDetails extends React.Component {
 MenuDetails.propTypes = {
   text: PropTypes.string,
   icon: PropTypes.string,
-  onOpenMenu: PropTypes.bool,
+  onOpenMenu: PropTypes.func,
   isNoBorderTop: PropTypes.bool
 };
 

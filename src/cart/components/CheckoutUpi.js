@@ -1,34 +1,29 @@
 import React from "react";
 import creditCardIcon from "./img/credit-card.svg";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import ManueDetails from "../../general/components/MenuDetails.js";
-import { UPI } from "../../lib/constants";
+import {
+  UPI,
+  CUSTOMER_ACCESS_TOKEN,
+  LOGGED_IN_USER_DETAILS
+} from "../../lib/constants";
 import UpiForm from "./UpiForm";
-const PAYMENT_MODE = "Credit Card";
+import * as Cookie from "../../lib/Cookie";
 
 export default class CheckoutUpi extends React.Component {
-  onChangeCvv(i) {
-    if (this.props.onChangeCvv) {
-      this.props.onChangeCvv(i);
+  componentDidMount() {
+    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    if (customerCookie && userDetails) {
+      if (this.props.getSavedCardDetails) {
+        this.props.getSavedCardDetails(
+          JSON.parse(userDetails).userName,
+          JSON.parse(customerCookie).access_token
+        );
+      }
     }
   }
 
-  binValidation = binNo => {
-    if (this.props.binValidation) {
-      this.props.binValidation(PAYMENT_MODE, binNo);
-    }
-  };
-
-  jusPayTokenizeForGiftCard = cardDetails => {
-    if (this.props.jusPayTokenizeForGiftCard) {
-      this.props.jusPayTokenizeForGiftCard(cardDetails);
-    }
-  };
-  onChangeCardDetail = card => {
-    if (this.props.onChangeCardDetail) {
-      this.props.onChangeCardDetail(card);
-    }
-  };
   render() {
     return (
       <ManueDetails
@@ -40,30 +35,20 @@ export default class CheckoutUpi extends React.Component {
         icon={creditCardIcon}
       >
         <UpiForm
-          buttonDisabled={this.props.creditCardValid()}
-          onFocusInput={this.props.onFocusInput}
-          onBlur={this.props.onBlur}
-          cardDetails={this.props.cardDetails}
-          onChangeCvv={i => this.onChangeCvv(i)}
-          binValidation={binNo => this.binValidation(binNo)}
-          onChangeCardDetail={card => this.onChangeCardDetail(card)}
+          savedUpi={
+            this.props.savedCards
+              ? this.props.savedCards.savedUpiDetailsMap
+              : []
+          }
           onCheckout={this.props.onCheckout}
-          bankGatewayStatus={
-            this.props.cart &&
-            this.props.cart.binValidationDetails &&
-            this.props.cart.binValidationDetails.bankGatewayStatus
-          }
-          bankError={
-            this.props.cart &&
-            this.props.cart.binValidationDetails &&
-            this.props.cart.binValidationDetails.errorMsg
-          }
+          showTermsNConditions={() => this.props.showTermsNConditions()}
+          showHowToPay={() => this.props.showHowToPay()}
         />
       </ManueDetails>
     );
   }
 }
 
-CheckoutUpi.propTypes = {
-  onChangeCvv: PropTypes.func
-};
+// CheckoutUpi.propTypes = {
+//   onChangeCvv: PropTypes.func
+// };

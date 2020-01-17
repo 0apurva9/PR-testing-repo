@@ -1,34 +1,41 @@
+.base {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding: 11px 0px 0px 12px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
 .pl12{padding-left:12px !important;}
 .mb20{margin-bottom:20px !important;}
+.mainHed{padding: 10px 0px 0px 10px;font-size: 14px;}
 
-
-.flexRow50{display:flex;margin:0 -10px;}
-.flexRow50Cols{flex:1 1 50%;max-width:50%;padding-left:10px;padding-right:10px;}
+.flexRow50{display:flex;}
+.flexRow50Cols{flex:1 1 50%;max-width:50%;padding-right:10px;}
 .flexRow50New{display:flex;margin:0;}
 .flexRow50NewCols{flex:1 1 50%;max-width:50%;}
-.upiBrdRgt{border-right:1px solid #e7e7e7;}
-.upiHedTxt{padding-left:12px;}
+.upiHedTxt{margin-bottom: 12px;}
 .upiHedTxt p{font-size: 12px;font-family: light;color:#212121;margin:0 0 5px;}
 .moreUpiTxt{font-size: 10px;color:#212121;font-family: light;}
 
-.upiTandCRow{margin:0 0 10px;font-size: 10px;width:78%;border-bottom:1px solid #e7e7e7;font-family: light;color:#212121;padding: 0 0 12px;}
+/* .upiTandCRow{margin:0 0 10px;font-size: 10px;width:78%;border-bottom:1px solid #e7e7e7;font-family: light;color:#212121;padding: 0 0 12px;}
 .upiTandCRow:last-child{border-bottom: 0;}
 .upiTandCRow .upiInfoTxt{font-size: 12px;margin: 0;}
 .upiTandCRow .lblTxt{color:#4a4a4a;margin:0;font-family: semibold;margin:0 0 2px}
-.upiTandCRow .upitncTxt{margin:0;}
+.upiTandCRow .upitncTxt{margin:0;} */
 .frmFeildRow{position: relative;}
 .frmFeild{border:1px solid #e7e7e7;width:100%;padding: 6px 80px 6px 15px;outline: none;height: 45px;font-size: 14px;font-family: regular;color:#212121;}
 .frmFeild:disabled{background:#ffffff;color:#a4a4a6;}
 .frmFeild:disabled + .verifyBtn{background:#e7e7e7;color:#ffffff;cursor: default;}
-.frmStatusBtn{}
 .errorTxt{color:#ff1744;font-size: 10px;margin:3px 0 0;}
 .verifyBtn{position: absolute;top:5px;right:15px;background: #ff1744;border-radius: 5px;font-family:semibold;font-size:12px; color:#fff;border:0;outline: none;height:35px;padding:5px 10px;cursor: pointer;}
 .verifiedState{position: absolute;right:15px;top:15px;font-size: 12px;}
 .verifiedFrm{color:#97ce58}
 .invalidFrm{color:#ff1744}
-.verifiedIcon{display:inline-block;width:14px;height:10px;background:url(./img/done_icon.png) no-repeat 0 0;}
-.invalidIcon{display:inline-block;vertical-align:middle;width:12px;height:12px;background:url(./img/invalid_icon.png) no-repeat 0 0;}
-.upiPayBtnSec{padding:5px 0 0 30px;}
+.verifiedIcon{display:inline-block;width:14px;height:10px;background:url(../../cart/components/img/done_icon.png) no-repeat 0 0;}
+.invalidIcon{display:inline-block;vertical-align:middle;width:12px;height:12px;background:url(../../cart/components/img/invalid_icon.png) no-repeat 0 0;}
+.upiPayBtnSec{padding:18px 0 20px 0px;}
 .upiPayBtn{
     height: 35px;
     padding:6px 20px;
@@ -74,4 +81,4 @@
   .svdUpiLbl .verifiedState{top:5px;right:10px;}
   .addNewUpiBtn{display:block;width:100%;padding:5px 12px;height:40px;width:100%;font-size:12px;color:#ff1744;text-transform:uppercase;cursor:pointer;text-align:center;border:1px solid #e7e7e7;background:#fff;border-radius: 4px;outline:none;}
   .showSavedUpi{font-size: 15px;color: #ff1744;}
-  #howPymntWork{padding-left: 12px;margin: 0 0 5px;font-size: 12px;color: #ff1744;}
+  #howPymntWork{margin: 0 0 5px;font-size: 12px;color: #ff1744;}

@@ -30,21 +30,26 @@ import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
 import SavedPaymentUpi from "./SavedPaymentUpi";
+import TabHolder from "./TabHolder";
+import TabData from "./TabData";
+import Button from "../../xelpmoc-core/Button";
+import MyAccountUpiForm from "./MyAccountUpiForm";
 const CARD_FORMAT = /\B(?=(\d{4})+(?!\d))/g;
 const NO_SAVED_CARDS = "No Saved Cards";
 export default class UserSavedCard extends React.Component {
   /**
    * @author Prashant Kumar
-   * @param Boolean isSelected If 0 then "Saved Card" tab will be active and vice versa
+   * @param Boolean isSavedCardTab If 0 then "Saved Card" tab will be active and vice versa
    */
   constructor(props) {
     super(props);
     this.state = {
-      isSelected: 0
+      isSavedCardTab: 1,
+      showAddNewUpi: 0
     };
   }
   tabSelect(val) {
-    this.setState({ isSelected: val });
+    this.setState({ isSavedCardTab: val });
   }
   /**
    * EOD
@@ -106,6 +111,11 @@ export default class UserSavedCard extends React.Component {
       this.props.removeSavedUpiDetails(upiId);
     }
   };
+  toggleForAddNewUpi = val => {
+    this.setState({
+      showAddNewUpi: val
+    });
+  };
   /**
    * EOD
    */
@@ -133,62 +143,107 @@ export default class UserSavedCard extends React.Component {
               </div>
             </DesktopOnly>
             <div className={styles.saveCardDetail}>
-              <div className={styles.saveCardDetailWithHolder}>
-                {this.state.isSelected === 0 &&
-                  this.props.profile.savedCards.savedCardDetailsMap &&
-                  this.props.profile.savedCards.savedCardDetailsMap.map(
-                    (data, i) => {
-                      let cardNumber = `${data.value.cardISIN}xx xxxx ${
-                        data.value.cardEndingDigits
-                      }`.replace(CARD_FORMAT, " ");
-                      let cardHolderName = data.value.nameOnCard
-                        ? data.value.nameOnCard
-                        : "";
-                      return (
-                        <div className={styles.cardHolder}>
-                          <SavedPaymentCard
-                            key={i}
-                            bankLogo={""}
-                            bankName={data.value.cardIssuer}
-                            cardLogo={this.getCardLogo(data.value.cardBrand)}
-                            cardName={data.value.cardType}
-                            cardHolderName={cardHolderName}
-                            validityDate={`${data.value.expiryMonth}/${
-                              data.value.expiryYear
-                            }`}
-                            cardNumber={cardNumber}
-                            cardImage={data.cardImage}
-                            onChangeCvv={(cvv, cardNo) =>
-                              this.onChangeCvv(cvv, cardNo)
-                            }
-                            removeSavedCardDetails={() =>
-                              this.removeSavedCardDetails(data.value.cardToken)
-                            }
+              {this.state.showAddNewUpi === 0 && (
+                <div className={styles.saveCardDetailWithHolder}>
+                  <MyAccountUpiForm />
+                </div>
+              )}
+              {this.state.showAddNewUpi === 1 && (
+                <div className={styles.saveCardDetailWithHolder}>
+                  <div className={styles.tabHolder}>
+                    <TabHolder>
+                      <TabData
+                        width="47%"
+                        label="Saved Cards"
+                        selected={0}
+                        selectItem={() => this.tabSelect(0)}
+                      />
+                      <TabData
+                        width="47%"
+                        label="Saved UPI"
+                        selected={1}
+                        selectItem={() => this.tabSelect(1)}
+                      />
+                    </TabHolder>
+                  </div>
+
+                  {this.state.isSavedCardTab === 0 &&
+                    this.props.profile.savedCards.savedCardDetailsMap &&
+                    this.props.profile.savedCards.savedCardDetailsMap.map(
+                      (data, i) => {
+                        let cardNumber = `${data.value.cardISIN}xx xxxx ${
+                          data.value.cardEndingDigits
+                        }`.replace(CARD_FORMAT, " ");
+                        let cardHolderName = data.value.nameOnCard
+                          ? data.value.nameOnCard
+                          : "";
+                        return (
+                          <div className={styles.cardHolder} key={i}>
+                            <SavedPaymentCard
+                              key={i}
+                              bankLogo={""}
+                              bankName={data.value.cardIssuer}
+                              cardLogo={this.getCardLogo(data.value.cardBrand)}
+                              cardName={data.value.cardType}
+                              cardHolderName={cardHolderName}
+                              validityDate={`${data.value.expiryMonth}/${
+                                data.value.expiryYear
+                              }`}
+                              cardNumber={cardNumber}
+                              cardImage={data.cardImage}
+                              onChangeCvv={(cvv, cardNo) =>
+                                this.onChangeCvv(cvv, cardNo)
+                              }
+                              removeSavedCardDetails={() =>
+                                this.removeSavedCardDetails(
+                                  data.value.cardToken
+                                )
+                              }
+                            />
+                          </div>
+                        );
+                      }
+                    )}
+                  {this.state.isSavedCardTab === 1 &&
+                    this.props.profile.savedCards.savedUpiDetailsMap &&
+                    this.props.profile.savedCards.savedUpiDetailsMap.map(
+                      (data, i) => {
+                        let upiId = data.value.upiId;
+                        return (
+                          <div className={styles.cardHolder} key={i}>
+                            <SavedPaymentUpi
+                              key={i}
+                              upiId={upiId}
+                              removeSavedUpiDetails={() =>
+                                this.removeSavedUpiDetails(data.value.upiId)
+                              }
+                            />
+                          </div>
+                        );
+                      }
+                    )}
+                  {this.state.isSavedCardTab === 1 &&
+                    this.props.profile.savedCards.savedUpiDetailsMap && (
+                      <div className={styles.buttonHolder}>
+                        <div className={styles.button}>
+                          <Button
+                            type="hollow"
+                            height={40}
+                            label={`Add a new UPI ID`}
+                            backgroundColor={""}
+                            borderColor={"black"}
+                            borderRadius={22}
+                            width={200}
+                            textStyle={{ color: "#212121", fontSize: 14 }}
+                            onClick={() => this.toggleForAddNewUpi(0)}
                           />
                         </div>
-                      );
-                    }
-                  )}
-                {this.state.isSelected === 1 &&
-                  this.props.profile.savedCards.savedUpiDetailsMap &&
-                  this.props.profile.savedCards.savedUpiDetailsMap.map(
-                    (data, i) => {
-                      let upiId = data.value.upiId;
-                      return (
-                        <div className={styles.cardHolder}>
-                          <SavedPaymentUpi
-                            key={i}
-                            upiId={upiId}
-                            removeSavedUpiDetails={() =>
-                              this.removeSavedUpiDetails(data.value.upiId)
-                            }
-                          />
-                        </div>
-                      );
-                    }
-                  )}
-              </div>
+                      </div>
+                    )}
+                </div>
+              )}
             </div>
+
             <DesktopOnly>
               <div className={myAccountStyles.userProfile}>
                 <UserProfile

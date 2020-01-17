@@ -159,6 +159,7 @@ export default class PofileMenuGridForDesktop extends React.Component {
               <div
                 className={styles.holder}
                 onClick={value => this.onSave(datum.url)}
+                key={i}
               >
                 <div className={styles.gridLogo}>
                   <Icon image={datum.image} size={20} />

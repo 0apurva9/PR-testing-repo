@@ -80,7 +80,9 @@ import {
   CLIQ_CASH_AND_NO_COST_EMI_POPUP,
   TNC_FOR_BANK_OFFER_POPUP,
   DESKTOP_AUTH,
-  CONFIRMATION_NOTIFICATION
+  CONFIRMATION_NOTIFICATION,
+  UPITERMSANDCONDITION_MODAL,
+  UPIHOWTOPAY_MODAL
 } from "../../general/modal.actions";
 import {
   getPinCode,
@@ -92,7 +94,8 @@ import {
   redeemCliqVoucher,
   retryPayment,
   fetchOrderDetails,
-  resetFailedOrderDetails
+  resetFailedOrderDetails,
+  getSavedCardDetails
 } from "../../account/actions/account.actions.js";
 
 import { displayToast } from "../../general/toast.actions";
@@ -127,6 +130,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           true // this is using to setting data layer for first time when page loads
         )
       );
+    },
+    getSavedCardDetails: (userId, customerAccessToken) => {
+      dispatch(getSavedCardDetails(userId, customerAccessToken));
+    },
+    showTermsNConditions: data => {
+      dispatch(showModal(UPITERMSANDCONDITION_MODAL, ""));
+    },
+    showHowToPay: data => {
+      dispatch(showModal(UPIHOWTOPAY_MODAL, ""));
     },
     getUserAddress: () => {
       dispatch(getUserAddress());
@@ -743,14 +755,12 @@ const mapStateToProps = state => {
     loading: state.profile.loading,
     retryPaymentDetails: state.profile.retryPaymentDetails,
     retryPaymentDetailsStatus: state.profile.retryPaymentDetailsStatus,
-    binValidationStatus: state.cart.binValidationStatus
+    binValidationStatus: state.cart.binValidationStatus,
+    savedCards: state.profile.savedCards
   };
 };
 
 const CheckoutAddressContainer = withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(CheckOutPage)
+  connect(mapStateToProps, mapDispatchToProps)(CheckOutPage)
 );
 export default CheckoutAddressContainer;
