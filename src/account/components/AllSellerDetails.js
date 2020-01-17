@@ -76,18 +76,12 @@ export default class AllSellerDetails extends React.Component {
       showOrder: null,
       sortValue: "",
       sortLabel: "",
-      comment: "",
-      placeholder: "Add comments (optional)",
-      isItemDeliveredAsDescribed: null,
-      isItemDeliveredWithInCommunicatedTime: null,
-      rating: null,
       deliveredItemStatus: null,
       page: "Submit Feedback",
       redirectPage: "Edit FeedBack",
       isSelected: 6,
       stickyPortion: false,
-      showStickyPortion: 0,
-      indexFeedback: null
+      showStickyPortion: 0
     };
   }
 
@@ -258,17 +252,7 @@ export default class AllSellerDetails extends React.Component {
     };
     this.props.submitSellerReviewByUser(params);
     this.props.sellerReviewSubmitRemovalPopup();
-    this.setState({
-      isItemDeliveredAsDescribed: null,
-      isItemDeliveredWithInCommunicatedTime: null,
-      comment: "",
-      resetRating: true
-    });
   };
-
-  // onItemStatusChange(selectedStatus) {
-  //   this.setState({ isItemDeliveredAsDescribed: selectedStatus.Value });
-  // }
 
   render() {
     let url = window.location.href;
