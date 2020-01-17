@@ -15,15 +15,15 @@ export default class SizeTableForEyeWearChangedJson extends Component {
     let header = [];
     data &&
       data.sizeGuideList &&
-      data.sizeGuideList.dimensionList.map(val => {
+      data.sizeGuideList[0].dimensionList.map(val => {
         if (val.dimensionSize) {
           header.push("FRAME SIZE");
         }
       });
     data &&
       data.sizeGuideList &&
-      data.sizeGuideList.dimensionList &&
-      data.sizeGuideList.dimensionList.map(val => {
+      data.sizeGuideList[0].dimensionList &&
+      data.sizeGuideList[0].dimensionList.map(val => {
         header.push(val.dimension);
         return val.dimension;
       });
@@ -42,7 +42,7 @@ export default class SizeTableForEyeWearChangedJson extends Component {
     this.props &&
       this.props.data &&
       this.props.data.sizeGuideList &&
-      this.props.data.sizeGuideList.dimensionList.map(val => {
+      this.props.data.sizeGuideList[0].dimensionList.map(val => {
         if (val.dimensionSize === "small") {
           dimensionSmallSize.push(val);
         } else if (val.dimensionSize === "medium") {

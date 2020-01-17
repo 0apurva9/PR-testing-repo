@@ -136,59 +136,96 @@ export default class SizeGuideMainForEyeWear extends React.Component {
     if (this.props.loading) {
       return <Loader />;
     }
-    if (this.props.sizeData && this.props.sizeData.sizeGuideList) {
+    if (
+      this.props.sizeData &&
+      this.props.sizeData.sizeGuideList &&
+      this.props.sizeData.sizeGuideHeader
+    ) {
       return (
         <div className={styles.base}>
           <div className={styles.header}>Eyewear Size Chart</div>
           <div className={styles.container}>
-            <div className={styles.creditCardMethod}>CREDIT CARD METHOD</div>
-            <div className={styles.creditMethodHeader}>
-              Get a credit/debit card & stand in front of a mirror. Put an edge
-              of the card at the center of your nose. Make a note of where the
-              other edge ends
-            </div>
+            {this.props.sizeData.sizeGuideHeader.header1 && (
+              <div className={styles.creditCardMethod}>
+                {this.props.sizeData.sizeGuideHeader.header1}
+              </div>
+            )}
+            {this.props.sizeData.sizeGuideHeader.header1Text && (
+              <div className={styles.creditMethodHeader}>
+                {this.props.sizeData.sizeGuideHeader.header1Text}
+              </div>
+            )}
             <div className={styles.imageHolderContainer}>
               <div className={styles.imageHolder}>
-                <div className={styles.image}>
-                  <Image fit="contain" image={json.Guideadvisor[0].image1Url} />
-                </div>
-                <div className={styles.imageTextCss}>
-                  {json.Guideadvisor[0].image1UrlText}
-                </div>
+                {this.props.sizeData.sizeGuideHeader.image1Url && (
+                  <div className={styles.image}>
+                    <Image
+                      fit="contain"
+                      image={this.props.sizeData.sizeGuideHeader.image1Url}
+                    />
+                  </div>
+                )}
+                {this.props.sizeData.sizeGuideHeader.image1UrlText && (
+                  <div className={styles.imageTextCss}>
+                    {this.props.sizeData.sizeGuideHeader.image1UrlText}
+                  </div>
+                )}
               </div>
               <div className={styles.imageHolder}>
-                <div className={styles.image}>
-                  <Image fit="contain" image={json.Guideadvisor[0].image2Url} />
-                </div>
-                <div className={styles.imageTextCss}>
-                  {json.Guideadvisor[0].image2UrlText}
-                </div>
+                {this.props.sizeData.sizeGuideHeader.image2Url && (
+                  <div className={styles.image}>
+                    <Image
+                      fit="contain"
+                      image={this.props.sizeData.sizeGuideHeader.image2Url}
+                    />
+                  </div>
+                )}
+                {this.props.sizeData.sizeGuideHeader.image2UrlText && (
+                  <div className={styles.imageTextCss}>
+                    {this.props.sizeData.sizeGuideHeader.image2UrlText}
+                  </div>
+                )}
               </div>
               <div className={styles.imageHolder}>
+                {this.props.sizeData.sizeGuideHeader.image3Url && (
+                  <div className={styles.image}>
+                    <Image
+                      fit="contain"
+                      image={this.props.sizeData.sizeGuideHeader.image3Url}
+                    />
+                  </div>
+                )}
+                {this.props.sizeData.sizeGuideHeader.image3UrlText && (
+                  <div className={styles.imageTextCss}>
+                    {this.props.sizeData.sizeGuideHeader.image3UrlText}
+                  </div>
+                )}
+              </div>
+            </div>
+            {this.props.sizeData.sizeGuideHeader.header2 && (
+              <div className={styles.eyeGlasses}>
+                {this.props.sizeData.sizeGuideHeader.header2}
+              </div>
+            )}
+            {this.props.sizeData.sizeGuideHeader.header2Text && (
+              <div className={styles.eyeGlassesHeader}>
+                {this.props.sizeData.sizeGuideHeader.header2Text}
+              </div>
+            )}
+            {this.props.sizeData.imageURL && (
+              <div className={styles.eyeGlassesImage}>
                 <div className={styles.image}>
-                  <Image fit="contain" image={json.Guideadvisor[0].image3Url} />
-                </div>
-                <div className={styles.imageTextCss}>
-                  {json.Guideadvisor[0].image3UrlText}
+                  <Image fit="contain" image={this.props.sizeData.imageURL} />
                 </div>
               </div>
-            </div>
-            <div className={styles.eyeGlasses}>
-              {json.Guideadvisor[0].header2}
-            </div>
-            <div className={styles.eyeGlassesHeader}>
-              {json.Guideadvisor[0].header2Text}
-            </div>
-            <div className={styles.eyeGlassesImage}>
-              <div className={styles.image}>
-                <Image fit="contain" image={json.imageURL} />
+            )}
+            {this.props.sizeData.sizeGuideHeader.footerText && (
+              <div className={styles.sizeTableText}>
+                {this.props.sizeData.sizeGuideHeader.footerText}
               </div>
-            </div>
-            <div className={styles.sizeTableText}>
-              {json.Guideadvisor[0].footerText}
-            </div>
+            )}
             <div className={styles.sizeGuideTableHolder}>
-              <SizeTableForEyeWearChangedJson data={json} />
+              <SizeTableForEyeWearChangedJson data={this.props.sizeData} />
             </div>
           </div>
         </div>
