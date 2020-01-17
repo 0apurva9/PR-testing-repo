@@ -60,7 +60,7 @@ export default class DiscoverMoreComponentDesktop extends React.Component {
             className={styles.heading}
             onClick={() => this.onRedirectToHeader(this.props.webURL)}
           >
-            <h2>{this.props.title}</h2>
+            <h3>{this.props.title}</h3>
           </div>
           {this.props.items && (
             <div className={styles.listHolder}>
@@ -76,7 +76,7 @@ export default class DiscoverMoreComponentDesktop extends React.Component {
                         className={styles.listLink}
                         onClick={() => this.goToLink(val.webURL)}
                       >
-                        <h3> {val.title}</h3>
+                        <h4> {val.title}</h4>
                       </div>
                     );
                   })}

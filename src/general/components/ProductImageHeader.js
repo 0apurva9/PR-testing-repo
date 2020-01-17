@@ -37,7 +37,7 @@ export default class ProductImageHeader extends React.Component {
                     <div className={styles.logo}>{this.props.logo}</div>
                   )}
                 </MediaQuery>
-                <h2> {this.props.description}</h2>
+                <span> {this.props.description}</span>
                 {this.props.bottomContent}
               </div>
             )}
