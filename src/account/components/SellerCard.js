@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import CheckBox from "../../general/components/CheckBox.js";
 import Image from "../../xelpmoc-core/Image";
-import FillupRating from "../../pdp/components/FillupRating";
+import FillupRatingOrder from "../../pdp/components/FillupRatingOrder";
 import TextArea from "../../general/components/TextArea";
 import styles from "./SellerCardReview.css";
 
@@ -110,8 +110,8 @@ export default class SellerCard extends React.Component {
             <div className={styles.ratingContainer}>
               <div className={styles.ratingHeader}>Rate your Seller</div>
               <div className={styles.ratingBar}>
-                <FillupRating
-                  rating={5}
+                <FillupRatingOrder
+                  rating={rating}
                   onChange={this.onRatingChange}
                   resetRating={resetRating}
                 />
