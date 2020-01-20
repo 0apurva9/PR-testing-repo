@@ -1191,6 +1191,7 @@ export default class PdpApparel extends React.Component {
                                     showSizeSelectorForEyeWear={
                                       this.props.showSizeSelectorForEyeWear
                                     }
+                                    isSizeOrLength={productData.isSizeOrLength}
                                     showOOSSizeSelectorModal={
                                       this.props.showOOSSizeSelectorModal
                                     }

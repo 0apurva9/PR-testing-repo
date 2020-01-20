@@ -193,7 +193,12 @@ export default class SizeSelector extends React.Component {
       return (
         <div className={styles.size}>
           <div className={styles.header}>
-            Select {this.props.headerText}
+            Select{" "}
+            {this.props.isSizeOrLength
+              ? this.props.isSizeOrLength
+              : this.props.headerText
+                ? this.props.headerText
+                : "SIZE"}
             <div className={styles.button}>
               <MobileOnly>
                 <UnderLinedButton
@@ -221,6 +226,8 @@ export default class SizeSelector extends React.Component {
                 );
               })}{" "}
               {this.props.headerText !== "Volume" &&
+                this.props.isSizeOrLength !== "Volume" &&
+                this.props.isSizeOrLength !== "Power" &&
                 this.props.eyeWearSizeGuide && (
                   <DesktopOnly>
                     <UnderLinedButton
