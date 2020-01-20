@@ -61,7 +61,7 @@ export default class EmiCard extends React.Component {
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Interest Rate</div>
-            <div className={styles.info}>{this.state.interestRate}</div>
+            <div className={styles.info}>{`${this.state.interestRate}%`}</div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>Monthly Installments</div>

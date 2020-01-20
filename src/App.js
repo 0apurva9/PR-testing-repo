@@ -322,6 +322,21 @@ const NoResultPage = Loadable({
     return <Loader />;
   }
 });
+
+const AllSellerContainer = Loadable({
+  loader: () => import("./account/containers/AllSellerContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const AllSellerReviewContainer = Loadable({
+  loader: () => import("./account/containers/AllSellerReviewContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const CleverTapUnsubscribeEmail = Loadable({
   loader: () => import("./general/components/CleverTapEmailUnsubscribe"),
   loading() {
@@ -409,7 +424,6 @@ class App extends Component {
       // Call minicart after landing on the site or reloading page
       this.props.getMinicartProducts();
     }
-    window.prerenderReady = true;
 
     if (!this.props.location.pathname.includes("/my-account")) {
       if (window.od && window.od.messenger && window.od.messenger("update")) {
@@ -665,6 +679,14 @@ class App extends Component {
               exact
               path={REDMI_WALLET_FROM_EMAIL}
               component={MyAccountWrapper}
+            />
+            <Route
+              path={`/store/transactionId=:id&customerId=:id1/seller-review`}
+              component={AllSellerContainer}
+            />
+            <Route
+              path={`/store/transactionId=:id&customerId=:id1/seller-reviewed`}
+              component={AllSellerReviewContainer}
             />
             <Route
               exact

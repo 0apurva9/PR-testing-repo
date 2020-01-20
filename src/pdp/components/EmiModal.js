@@ -156,6 +156,11 @@ export default class EmiModal extends React.Component {
                               item => item && parseInt(item.term, 10)
                             )}
                           />
+                          {val.emiInfo && (
+                            <div className={styles.emiCharges}>
+                              {val.emiInfo}
+                            </div>
+                          )}
                         </Accordion>
                       );
                     })}
@@ -296,7 +301,13 @@ export default class EmiModal extends React.Component {
                               val.emitermsrate,
                               item => item && parseInt(item.term, 10)
                             )}
+                            // emiInfo={val.emiInfo}
                           />
+                          {val.emiInfo && (
+                            <div className={styles.emiCharges}>
+                              {val.emiInfo}
+                            </div>
+                          )}
                         </Accordion>
                       );
                     })}

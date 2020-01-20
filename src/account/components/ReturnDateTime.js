@@ -46,7 +46,9 @@ export default class ReturnDateTime extends React.Component {
                 isSelect={true}
                 addressType={this.props.selectedAddress.addressType}
                 address={this.props.selectedAddress.line1}
-                subAddress={`${this.props.selectedAddress.state} ${this.props.selectedAddress.city} ${this.props.selectedAddress.postalCode}`}
+                subAddress={`${this.props.selectedAddress.state} ${
+                  this.props.selectedAddress.city
+                } ${this.props.selectedAddress.postalCode}`}
               />
             </div>
           </div>

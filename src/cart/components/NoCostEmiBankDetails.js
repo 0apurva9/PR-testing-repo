@@ -49,7 +49,9 @@ export default class NoCostEmiBankDetails extends React.Component {
           });
         } else {
           this.setState({
-            noCostEmiText: `*No Cost EMI available only on ${this.props.noCostEmiProductCount} product(s). Standard EMI will apply to products, if any, bought along with it.`
+            noCostEmiText: `*No Cost EMI available only on ${
+              this.props.noCostEmiProductCount
+            } product(s). Standard EMI will apply to products, if any, bought along with it.`
           });
         }
         this.getDataForRetryPage();
@@ -180,11 +182,33 @@ export default class NoCostEmiBankDetails extends React.Component {
     });
   }
   itemBreakup() {
+    let emiInfo;
+    if (this.props.cardDetails && this.props.cardDetails.emi_bank) {
+      this.props.bankList &&
+        this.props.bankList.map(bankSelected => {
+          if (bankSelected.bankCode === this.props.cardDetails.emi_bank) {
+            emiInfo =
+              this.props.noCostEmiDetails &&
+              this.props.noCostEmiDetails.cartAmount &&
+              this.props.noCostEmiDetails.cartAmount.emiInfo;
+          }
+        });
+    }
+    if (
+      this.props.retryPaymentDetails &&
+      this.props.bankList &&
+      this.props.bankList[0].emiInfo
+    ) {
+      if (this.props.bankList[0].bankCode === this.props.cardDetails.emi_bank) {
+        emiInfo = this.props.bankList[0].emiInfo;
+      }
+    }
     if (this.props.getItemBreakUpDetails) {
       this.props.getItemBreakUpDetails(
         this.state.selectedCouponCode,
         this.state.noCostEmiText,
-        this.props.noCostEmiProductCount
+        this.props.noCostEmiProductCount,
+        emiInfo
       );
     }
   }
@@ -414,6 +438,7 @@ export default class NoCostEmiBankDetails extends React.Component {
                 ) / 100}`}</div>
               </div>
             )}
+
           {noCostEmiDetails &&
             noCostEmiDetails.noCostEMIDiscountValue &&
             noCostEmiDetails.noCostEMIDiscountValue.value && (
@@ -424,13 +449,25 @@ export default class NoCostEmiBankDetails extends React.Component {
                 ) / 100}`}</div>
               </div>
             )}
+          {noCostEmiDetails &&
+            noCostEmiDetails.noCostEMIConvCharge &&
+            noCostEmiDetails.noCostEMIConvCharge.value && (
+              <div className={styles.amountData}>
+                <div className={styles.amountLabel}>Bank Convenience Fees</div>
+                <div className={styles.amount}>{`Rs. ${Math.round(
+                  noCostEmiDetails.noCostEMIConvCharge.value
+                )}`}</div>
+              </div>
+            )}
         </div>
         <div className={styles.totalAmountDisplay}>
           {noCostEmiDetails &&
             noCostEmiDetails.noCostEMITotalPayable &&
             noCostEmiDetails.noCostEMITotalPayable.value && (
               <div className={styles.totalAmountLabel}>
-                <div className={styles.amountPayble}>Total Amount Payable</div>
+                <div className={styles.amountPayble}>
+                  Total Amount Payable to Bank
+                </div>
                 <div className={styles.amount}>{`Rs. ${Math.round(
                   noCostEmiDetails.noCostEMITotalPayable.value * 100
                 ) / 100}`}</div>
@@ -462,24 +499,25 @@ export default class NoCostEmiBankDetails extends React.Component {
               </div>
             )}
           <DesktopOnly>
-            {this.props.isNoCostEmiApplied && !this.props.isNoCostEmiProceeded && (
-              <div className={styles.buttonHolder}>
-                <div className={styles.button}>
-                  <Button
-                    type="primary"
-                    backgroundColor="#ff1744"
-                    height={40}
-                    label="Pay now"
-                    width={150}
-                    textStyle={{
-                      color: "#FFF",
-                      fontSize: 14
-                    }}
-                    onClick={() => this.noCostEMIClick()}
-                  />
+            {this.props.isNoCostEmiApplied &&
+              !this.props.isNoCostEmiProceeded && (
+                <div className={styles.buttonHolder}>
+                  <div className={styles.button}>
+                    <Button
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={40}
+                      label="Pay now"
+                      width={150}
+                      textStyle={{
+                        color: "#FFF",
+                        fontSize: 14
+                      }}
+                      onClick={() => this.noCostEMIClick()}
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </DesktopOnly>
         </div>
       </div>
@@ -614,12 +652,35 @@ export default class NoCostEmiBankDetails extends React.Component {
               </div>
             )}
             {this.state.selectedMonth !== null &&
-              this.props.noCostEmiDetails &&
-              this.renderMonthsPlan(this.props.noCostEmiDetails.cartAmount)}
+              this.props.noCostEmiDetails && (
+                <div>
+                  {this.props.noCostEmiDetails.cartAmount &&
+                    this.props.noCostEmiDetails.cartAmount.emiInfo && (
+                      <div className={styles.charges}>
+                        {this.props.noCostEmiDetails.cartAmount.emiInfo}
+                      </div>
+                    )}
+                  {this.renderMonthsPlan(
+                    this.props.noCostEmiDetails.cartAmount
+                  )}
+                </div>
+              )}
             {this.state.selectedMonth !== null &&
               this.props.isRetryPaymentFromURL &&
-              this.props.retryPaymentDetails &&
-              this.renderMonthsPlan(this.props.retryPaymentDetails.cartAmount)}
+              this.props.retryPaymentDetails && (
+                <div>
+                  {this.props.retryPaymentDetails &&
+                    this.props.bankList &&
+                    this.props.bankList[0].emiInfo && (
+                      <div className={styles.charges}>
+                        {this.props.bankList[0].emiInfo}
+                      </div>
+                    )}
+                  {this.renderMonthsPlan(
+                    this.props.retryPaymentDetails.cartAmount
+                  )}
+                </div>
+              )}
             {this.state.selectedBankCode &&
               this.state.selectedBankIndex !== null && (
                 <div className={styles.itemLevelButtonHolder}>
