@@ -296,6 +296,14 @@ const GiftCardSucessBottomModel = Loadable({
     return <Loader />;
   }
 });
+
+const SellerReviewSubmitRemovalPopup = Loadable({
+  loader: () =>
+    import("../../account/components/SellerReviewSubmitRemovalPopup.js"),
+  loading() {
+    return <Loader />;
+  }
+});
 export default class ModalRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -734,6 +742,7 @@ export default class ModalRoot extends React.Component {
             this.releaseBankOffer(couponCode, newCouponCode)
           }
           {...this.props.ownProps}
+          resetAllPaymentModes={this.props.resetAllPaymentModes}
           displayToast={message => this.props.displayToast(message)}
         />
       ),
@@ -1001,6 +1010,12 @@ export default class ModalRoot extends React.Component {
           }
           cancelModal={() => this.handleClose()}
           updateReturnCancellation={data => this.updateReturnCancellation(data)}
+        />
+      ),
+      SellerReviewSubmitRemovalPopup: (
+        <SellerReviewSubmitRemovalPopup
+          rating={this.props.rating}
+          closeModal={() => this.handleClose()}
         />
       )
     };

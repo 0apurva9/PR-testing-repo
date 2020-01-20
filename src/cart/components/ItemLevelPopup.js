@@ -86,21 +86,30 @@ export default class ItemLevelPopup extends React.Component {
             <div className={styles.emiInfoHeader}>Your EMI Information</div>
             <div className={styles.emiPlanTextHolder} />
             <div>
-              {`\n\u2022  ${
-                this.props.emiItemDetails.noCostEMIDiscountValue.formattedValue
-              } has been given as No Cost EMI  discount (Interest applicable on ${noCostEMIProduct} product in your cart)`}
+              {`\n\u2022  ${this.props.emiItemDetails &&
+                this.props.emiItemDetails.noCostEMIDiscountValue &&
+                this.props.emiItemDetails.noCostEMIDiscountValue
+                  .formattedValue} has been given as No Cost EMI  discount (Interest applicable on ${noCostEMIProduct} product in your cart)`}
             </div>
-            <div>{`\n\u2022  ${
-              this.props.emiItemDetails.cardBlockingAmount.formattedValue
-            } will be blocked on your card now. It will be converted into EMI in 3-4 working days`}</div>
+            <div>{`\n\u2022  ${this.props.emiItemDetails &&
+              this.props.emiItemDetails.cardBlockingAmount &&
+              this.props.emiItemDetails.cardBlockingAmount
+                .formattedValue} will be blocked on your card now. It will be converted into EMI in 3-4 working days`}</div>
             <div>
-              {` \n\u2022  You will pay ${
+              {` \n\u2022  You will pay ${this.props.emiItemDetails &&
+                this.props.emiItemDetails.noCostEMIPerMonthPayable &&
                 this.props.emiItemDetails.noCostEMIPerMonthPayable
-                  .formattedValue
-              }  per month for ${
+                  .formattedValue}  per month for ${
                 emiItemDetails.tenure
               } months. Total amount paid to bank will be equal ro the value of products on offer.`}
             </div>
+            {this.props.emiItemDetails &&
+              this.props.emiItemDetails.emiInfo && (
+                <div>
+                  {`\n\u2022  ${this.props.emiItemDetails &&
+                    this.props.emiItemDetails.emiInfo}`}
+                </div>
+              )}
           </div>
         </div>
       </SlideModal>

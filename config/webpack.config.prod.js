@@ -350,7 +350,7 @@ module.exports = {
       // If a URL is already hashed by Webpack, then there is no concern
       // about it being stale, and the cache-busting can be skipped.
       dontCacheBustUrlsMatching: /\.\w{8}\./,
-      filename: "service-worker.js",
+      filename: "sw.js",
       importScripts: [
         "https://s3-eu-west-1.amazonaws.com/static.wizrocket.com/js/sw_webpush.js"
       ],
@@ -373,7 +373,7 @@ module.exports = {
       // Ignores URLs starting from /__ (useful for Firebase):
       // https://github.com/facebookincubator/create-react-app/issues/2237#issuecomment-302693219
       navigateFallbackWhitelist: [
-        /^(?!\/__|\/que|\/apps*|\/login\/pw\/change|\/amp|\/feedback\/NPSFeedbackForm|\/my-account\/returns\/returnFileDownload).*/
+        /^(?!\/__|\/que|\/apps*|\/login\/pw\/change|\/amp|\/getOrderInvoice|\/feedback\/NPSFeedbackForm|\/my-account\/returns\/returnFileDownload).*/
       ],
       // Don't precache sourcemaps (they're large) and build asset manifest:
       staticFileGlobsIgnorePatterns: [
