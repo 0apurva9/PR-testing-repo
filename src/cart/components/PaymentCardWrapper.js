@@ -40,23 +40,27 @@ import CheckoutUpi from "./CheckoutUpi";
  * @comment Commented the const as it is not being used anywhere.
  */
 // const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
-const payPal = "PayPal";
-const keyForCreditCard = "Credit Card";
-const keyForDebitCard = "Debit Card";
-const keyForNetbanking = "Netbanking";
-const keyForEMI = "EMI";
-const keyForCOD = "COD";
-const keyForPaytm = "PAYTM";
+// const payPal = "PayPal";
+// const keyForCreditCard = "Credit Card";
+// const keyForDebitCard = "Debit Card";
+// const keyForNetbanking = "Netbanking";
+// const keyForEMI = "EMI";
+// const keyForCOD = "COD";
+// const keyForPaytm = "PAYTM";
 const GIFT_CARD = "Have a gift card?";
-const sequanceOfPaymentMode = [
-  payPal,
-  keyForCreditCard,
-  keyForDebitCard,
-  keyForEMI,
-  keyForNetbanking,
-  keyForPaytm,
-  keyForCOD
-];
+/**
+ * @author Prashant Kumar
+ * @comment the below sequence will not be used as now we are showing it as per the API data.
+ */
+// const sequanceOfPaymentMode = [
+//   payPal,
+//   keyForCreditCard,
+//   keyForDebitCard,
+//   keyForEMI,
+//   keyForNetbanking,
+//   keyForPaytm,
+//   keyForCOD
+// ];
 /**
  * @author Prashant Kumar
  * @comment Added condition for showing UPI section of the checkout page in the below const.
@@ -126,32 +130,28 @@ export default class PaymentCardWrapper extends React.Component {
     }
   };
 
-  /**
-   * @author Prashant Kumar
-   * @comment Added the function for showing the UPI component data.
-   *          VARIOUS CONDITION NEEDED TO BE ADDED HERE FOR THE CHECKOUT PROCESS. LIKE FOR THE
-   *          ORDER AMOUNT.
-   */
-  renderUpiComponents() {
-    return this.renderPaymentCard("UPI", "upiKey");
-  }
-  /**
-   * EOC
-   */
   renderPaymentCardsComponents() {
-    let paymentModesToDisplay = sequanceOfPaymentMode.filter(mode => {
-      return find(
-        this.props.cart.paymentModes.paymentModes,
-        availablePaymentMode => {
-          return (
-            availablePaymentMode.key === mode && availablePaymentMode.value
-          );
-        }
-      );
-    });
-    return paymentModesToDisplay.map((feedDatum, i) => {
-      return this.renderPaymentCard(feedDatum, i);
-    });
+    let paymentModesToDisplay =
+      this.props.cart &&
+      this.props.cart.paymentModes &&
+      this.props.cart.paymentModes.paymentModes &&
+      this.props.cart.paymentModes.paymentModes.filter(mode => {
+        return find(
+          this.props.cart.paymentModes.paymentModes,
+          availablePaymentMode => {
+            return (
+              availablePaymentMode.key === mode.key &&
+              availablePaymentMode.value
+            );
+          }
+        );
+      });
+    return (
+      paymentModesToDisplay &&
+      paymentModesToDisplay.map((feedDatum, i) => {
+        return this.renderPaymentCard(feedDatum.key, i);
+      })
+    );
   }
 
   binValidationForSavedCard = cardDetails => {
@@ -243,9 +243,9 @@ export default class PaymentCardWrapper extends React.Component {
             {!this.props.isFromGiftCard &&
               this.props.isRemainingBalance &&
               !(this.props.isPaymentFailed && this.props.isCliqCashApplied) &&
-              (this.props.cart.paymentModes &&
-                this.props.cart.paymentModes.paymentOffers &&
-                this.props.cart.paymentModes.paymentOffers.coupons) && (
+              this.props.cart.paymentModes &&
+              this.props.cart.paymentModes.paymentOffers &&
+              this.props.cart.paymentModes.paymentOffers.coupons && (
                 <BankOfferWrapper
                   cart={this.props.cart}
                   applyBankCoupons={this.props.applyBankCoupons}
@@ -264,10 +264,6 @@ export default class PaymentCardWrapper extends React.Component {
                   />
                 </div>
               </MobileOnly>
-              {/**
-               * Rendering the UPI component from here.
-               */
-              this.renderUpiComponents()}
               {!retryNoCostEMI &&
                 this.props.cart.paymentModes &&
                 this.props.cart.paymentModes.savedCardResponse &&

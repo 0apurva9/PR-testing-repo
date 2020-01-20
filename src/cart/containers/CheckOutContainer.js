@@ -94,8 +94,7 @@ import {
   redeemCliqVoucher,
   retryPayment,
   fetchOrderDetails,
-  resetFailedOrderDetails,
-  getSavedCardDetails
+  resetFailedOrderDetails
 } from "../../account/actions/account.actions.js";
 
 import { displayToast } from "../../general/toast.actions";
@@ -130,9 +129,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           true // this is using to setting data layer for first time when page loads
         )
       );
-    },
-    getSavedCardDetails: (userId, customerAccessToken) => {
-      dispatch(getSavedCardDetails(userId, customerAccessToken));
     },
     showTermsNConditions: data => {
       dispatch(showModal(UPITERMSANDCONDITION_MODAL, ""));
@@ -755,8 +751,7 @@ const mapStateToProps = state => {
     loading: state.profile.loading,
     retryPaymentDetails: state.profile.retryPaymentDetails,
     retryPaymentDetailsStatus: state.profile.retryPaymentDetailsStatus,
-    binValidationStatus: state.cart.binValidationStatus,
-    savedCards: state.profile.savedCards
+    binValidationStatus: state.cart.binValidationStatus
   };
 };
 

@@ -49,6 +49,15 @@
   margin: auto;
 }
 
+.secondIcon {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  left: 70px;
+  top: 12px;
+  margin: auto;
+}
+
 @media only screen and (min-width: 1025px) {
   .base {
     border: none;
@@ -56,6 +65,9 @@
   }
   .debitCardIcon {
     left: 0;
+  }
+  .secondIcon {
+    left: 70;
   }
   .icon {
     right: 0;

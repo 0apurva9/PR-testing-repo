@@ -95,6 +95,10 @@ export const REMOVE_SAVED_UPI_REQUEST = "REMOVE_SAVED_UPI_REQUEST";
 export const REMOVE_SAVED_UPI_SUCCESS = "REMOVE_SAVED_UPI_SUCCESS";
 export const REMOVE_SAVED_UPI_FAILURE = "REMOVE_SAVED_UPI_FAILURE";
 
+export const ADD_USER_UPI_REQUEST = "ADD_USER_UPI_REQUEST";
+export const ADD_USER_UPI_SUCCESS = "ADD_USER_UPI_SUCCESS";
+export const ADD_USER_UPI_FAILURE = "ADD_USER_UPI_FAILURE";
+
 export const GET_ALL_ORDERS_REQUEST = "GET_ALL_ORDERS_REQUEST";
 export const GET_ALL_ORDERS_SUCCESS = "GET_ALL_ORDERS_SUCCESS";
 export const GET_ALL_ORDERS_FAILURE = "GET_ALL_ORDERS_FAILURE";
@@ -2290,6 +2294,52 @@ export function removeSavedUpiDetails(upiId) {
       );
     } catch (e) {
       dispatch(removeSavedUpiFailure(e.message));
+    }
+  };
+}
+
+export function addUserUPIRequest(error) {
+  return {
+    type: ADD_USER_UPI_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function addUserUPISuccess() {
+  return {
+    type: ADD_USER_UPI_SUCCESS,
+    status: SUCCESS
+  };
+}
+
+export function addUserUPIFailure(error) {
+  return {
+    type: ADD_USER_UPI_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function addUPIDetails(upi) {
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  return async (dispatch, getState, { api }) => {
+    dispatch(addUserUPIRequest(upi));
+    dispatch(showSecondaryLoader());
+    try {
+      const addUPI = `${USER_PATH}/${
+        JSON.parse(userDetails).userName
+      }/payments/upiValidation?access_token=${
+        JSON.parse(customerCookie).access_token
+      }&isPwa=true&channel=web&isUpdatedPwa=true&upiId=${upi}&isToValidateUpi=true&isToSaveUpi=true`;
+      const result = await api.get(addUPI);
+      const resultJson = await result.json();
+
+      // const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      dispatch(addUserUPISuccess(resultJson));
+    } catch (e) {
+      dispatch(addUserUPIFailure(e.message));
     }
   };
 }

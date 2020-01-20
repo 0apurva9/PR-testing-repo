@@ -1830,16 +1830,6 @@ export function getPaymentModes(guId) {
         }&cartGuid=${guId}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&isUpdatedPwa=true`
       );
       const resultJson = await result.json();
-      /**
-       * @author Prashant Kumar
-       * @comment Adding a key for UPI as we dont have the updated API data yet.
-       *          THIS WILL BE REMOVED LATTER.
-       * @date 13-Jan-2020
-       */
-      resultJson.paymentModes.push({ key: "UPI", value: true });
-      /**
-       * EOC
-       */
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -1848,7 +1838,7 @@ export function getPaymentModes(guId) {
       // here  we are setting data layer for when user lands on the payment modes
       // page
 
-      dispatch(paymentModesSuccess(resultJson));
+      dispatch(paymentModesSuccess(paymentData));
       dispatch(createPaymentOrder(guId));
       setDataLayerForCheckoutDirectCalls(
         ADOBE_CALL_FOR_LANDING_ON_PAYMENT_MODE
@@ -6894,3 +6884,258 @@ export function collectPaymentOrderForCliqCash(
     }
   };
 }
+/**
+ * @author Prashant Kumar
+ * @comment This is just a hardcoded value whichwill be replaced latter.
+ */
+const paymentData = {
+  type: "paymentServiceWsData",
+  status: "Success",
+  cliqCash: {
+    balanceClearedAsOf: "2020-01-01T15:42:12",
+    totalCliqCashBalance: {
+      currencyIso: "INR",
+      doubleValue: 0.0,
+      formattedValue: "₹0.00",
+      formattedValueNoDecimal: "₹0",
+      priceType: "BUY",
+      value: 0
+    }
+  },
+  cliqCashApplied: false,
+  isWalletCreated: true,
+  isWalletOtpVerified: true,
+  merchantID: "TUL_TMP",
+  merchantKey: "dummy",
+  paymentModes: [
+    {
+      key: "Saved Card",
+      value: true
+    },
+    {
+      key: "UPI",
+      value: true
+    },
+    {
+      key: "Credit Card",
+      value: true
+    },
+    {
+      key: "Debit Card",
+      value: true
+    },
+    {
+      key: "EMI",
+      value: true
+    },
+    {
+      key: "PayPal",
+      value: true
+    },
+    {
+      key: "Cheque",
+      value: false
+    },
+    {
+      key: "Netbanking",
+      value: true
+    },
+    {
+      key: "COD",
+      value: true
+    },
+    {
+      key: "NEFT",
+      value: false
+    },
+    {
+      key: "MRupee",
+      value: false
+    },
+    {
+      key: "PAYTM",
+      value: false
+    },
+    {
+      key: "Cardless EMI",
+      value: true
+    },
+    {
+      key: "Instacred",
+      value: true
+    },
+    {
+      key: "UNKNOWN",
+      value: false
+    },
+    {
+      key: "RTGS",
+      value: false
+    },
+    {
+      key: "Cliq Cash",
+      value: true
+    },
+    {
+      key: "TW",
+      value: false
+    }
+  ],
+  paymentOffers: {},
+  howToPageId: "pageId",
+  combinedLogoURL: "/.../imageALL.jpg",
+  providerSpecificLOGOList: [
+    {
+      key: "GOOGLEPAY",
+      value: "/.../imageGOOGLEPAY.jpg"
+    },
+    {
+      key: "BHIM",
+      value: "/.../imageBHIM.jpg"
+    }
+  ],
+  UPIofferCalloutList: [
+    {
+      offerCode: "UPI_PROVIDER1",
+      couponType: "UPI_OFFER",
+      providerName: "GOOGLEPAY",
+      endDateAndTime: "2020-01-31 00:00:00",
+      name: "Upi_1",
+      priority: 1,
+      promotionDisplayText: "Additional 10% cashback on Google Pay",
+      startDateAndTime: "2020-01-06 00:00:00",
+      TnC: "TnC for Google Pay"
+    },
+    {
+      offerCode: "UPI_PROVIDER2",
+      couponType: "UPI_OFFER",
+      providerName: "BHIM",
+      endDateAndTime: "2020-11-29 00:00:00",
+      name: "Upi_2",
+      priority: 2,
+      promotionDisplayText: "Additional 20% cashback on BHIM",
+      startDateAndTime: "2019-11-29 00:00:00",
+      TnC: "TnC for Bhim"
+    }
+  ],
+  savedUPIidResponse: {
+    savedUPIidDetailsMap: [
+      {
+        key: "2019-06-05T23:54:04.794",
+        value: {
+          upiId: "abcartpage@ybl.com",
+          isActive: true
+        }
+      },
+      {
+        key: "2018-02-05T16:01:54.873",
+        value: {
+          upiId: "axyz@ybl.com",
+          isActive: true
+        }
+      }
+    ]
+  },
+  savedCardResponse: {
+    savedCardDetailsMap: [
+      {
+        key: "2019-06-05T23:54:04.794",
+        value: {
+          cardBrand: "VISA",
+          cardEndingDigits: "8714",
+          cardFingerprint: "7b794m040fr3154d8jrglgrhft",
+          cardISIN: "490223",
+          cardIssuer: "Other Banks - Visa Card",
+          cardReferenceNumber: "803c47cc1d0907ab8a7a7954f3448093",
+          cardToken: "d71a4e26-d70c-4f7e-b545-af8e5a0cfa23",
+          cardType: "DEBIT",
+          expired: " ",
+          expiryMonth: "01",
+          expiryYear: "2023",
+          isDomestic: true,
+          juspayCardType: "DEBIT",
+          nameOnCard: "Anindita Sarkar",
+          nickname: ""
+        }
+      },
+      {
+        key: "2018-02-05T16:01:54.873",
+        value: {
+          addressLine1: "Flat Number 202, 24/97 Motilal Colony, A",
+          addressLine2: "irport Gate Number 1",
+          cardBrand: "VISA",
+          cardEndingDigits: "1111",
+          cardFingerprint: "158vb1de7v7fjeuds3hvofs1el",
+          cardISIN: "411111",
+          cardIssuer: "Other Banks - Visa Card",
+          cardReferenceNumber: "ac0b4e0e165433f4a4ee83153ed6bad0",
+          cardToken: "18887c86-8206-44ac-a485-8eece2f42fae",
+          cardType: "CREDIT",
+          city: "Kolkata",
+          country: "India",
+          expired: " ",
+          expiryMonth: "10",
+          expiryYear: "2020",
+          firstName: "Anindita",
+          isDomestic: false,
+          juspayCardType: "CREDIT",
+          lastName: "Sarkar",
+          nameOnCard: "Ani",
+          nickname: "",
+          pincode: "700028",
+          state: "West Bengal"
+        }
+      },
+      {
+        key: "2017-12-14T17:56:55.25",
+        value: {
+          cardBrand: "VISA",
+          cardEndingDigits: "0667",
+          cardFingerprint: "nt0ajrnqouvl58ketse6lg1ds",
+          cardISIN: "416021",
+          cardIssuer: "HDFC BANK, LTD.-VISA Card",
+          cardReferenceNumber: "27dfcbc3ff99a3ec1565dd509bfff940",
+          cardToken: "efb1329b-1115-4fac-be3e-c007ae403792",
+          cardType: "DEBIT",
+          expired: " ",
+          expiryMonth: "07",
+          expiryYear: "2021",
+          isDomestic: true,
+          juspayCardType: "DEBIT",
+          nameOnCard: "Bhanu",
+          nickname: ""
+        }
+      },
+      {
+        key: "2017-05-16T13:11:25.595",
+        value: {
+          addressLine1:
+            "Flat Number 202, 24/97 Motilal Colony, Airport Gate No 1",
+          cardBrand: "VISA",
+          cardEndingDigits: "4242",
+          cardFingerprint: "4jqgr5e25i2r7kfq9314cbis98",
+          cardISIN: "424242",
+          cardIssuer: "Other Banks - Visa Card",
+          cardReferenceNumber: "6bab2630011b0d1ac3321d61c1f6b6eb",
+          cardToken: "8f59db75-d30f-4622-83a7-6333d3eb0c19",
+          cardType: "CREDIT",
+          city: "Kolkata",
+          country: "India",
+          expired: " ",
+          expiryMonth: "10",
+          expiryYear: "2020",
+          firstName: "Anindita",
+          isDomestic: false,
+          juspayCardType: "CREDIT",
+          lastName: "Sarkar",
+          nameOnCard: "Sanjucta",
+          nickname: "",
+          pincode: "700028",
+          state: "West Bengal"
+        }
+      }
+    ]
+  },
+  whatsapp: false,
+  whatsappText: "Get order update on WhatsApp."
+};

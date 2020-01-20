@@ -1569,8 +1569,8 @@ if you have order id in local storage then you have to show order confirmation p
       });
     } else if (
       (this.props.location &&
-        (this.props.location.state &&
-          this.props.location.state.isFromRetryUrl)) ||
+        this.props.location.state &&
+        this.props.location.state.isFromRetryUrl) ||
       this.props.location.pathname === `${RETRY_FAILED_ORDER}`
     ) {
       let retryPaymentDetailsObj = JSON.parse(
@@ -3240,9 +3240,9 @@ if you have order id in local storage then you have to show order confirmation p
   validateCard() {
     if (
       !this.state.cardDetails.cardNumber ||
-      (!this.state.cardDetails.cardName ||
-        (this.state.cardDetails.cardName &&
-          this.state.cardDetails.cardName.length < 3)) ||
+      !this.state.cardDetails.cardName ||
+      (this.state.cardDetails.cardName &&
+        this.state.cardDetails.cardName.length < 3) ||
       (this.state.cardDetails.cardName &&
         this.state.cardDetails.cardName.length < 1) ||
       !this.state.cardDetails.monthValue ||
@@ -3377,11 +3377,6 @@ if you have order id in local storage then you have to show order confirmation p
   }
 
   render() {
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let userName = JSON.parse(userDetails).userName;
-    let access_token = JSON.parse(customerCookie).access_token;
-
     let labelForButton,
       checkoutButtonStatus = false;
     if (
@@ -3389,10 +3384,10 @@ if you have order id in local storage then you have to show order confirmation p
       !this.state.confirmAddress &&
       !this.state.isGiftCard &&
       !this.state.isComingFromRetryUrl &&
-      (this.props.cart.userAddress &&
-        this.props.cart.userAddress.addresses &&
-        !this.state.isGiftCard &&
-        !this.state.isComingFromRetryUrl)
+      this.props.cart.userAddress &&
+      this.props.cart.userAddress.addresses &&
+      !this.state.isGiftCard &&
+      !this.state.isComingFromRetryUrl
     ) {
       if (!this.state.addressId) {
         checkoutButtonStatus = true;
@@ -3765,11 +3760,12 @@ if you have order id in local storage then you have to show order confirmation p
                     !(
                       this.state.isPaymentFailed && this.state.isCliqCashApplied
                     ) &&
-                    (!this.state.paymentMethod &&
-                      (this.state.confirmAddress && this.state.deliverMode)) &&
-                    (this.props.cart.paymentModes &&
-                      this.props.cart.paymentModes.paymentOffers &&
-                      this.props.cart.paymentModes.paymentOffers.coupons) && (
+                    !this.state.paymentMethod &&
+                    this.state.confirmAddress &&
+                    this.state.deliverMode &&
+                    this.props.cart.paymentModes &&
+                    this.props.cart.paymentModes.paymentOffers &&
+                    this.props.cart.paymentModes.paymentOffers.coupons && (
                       <BankOfferWrapper
                         cart={this.props.cart}
                         applyBankCoupons={val => this.applyBankCoupons(val)}
@@ -3781,7 +3777,8 @@ if you have order id in local storage then you have to show order confirmation p
                     )}
                 </DesktopOnly>
                 {((!this.state.paymentMethod &&
-                  (this.state.confirmAddress && this.state.deliverMode)) ||
+                  this.state.confirmAddress &&
+                  this.state.deliverMode) ||
                   this.state.isPaymentFailed ||
                   this.state.isGiftCard ||
                   this.state.isComingFromRetryUrl) && (
@@ -3871,10 +3868,6 @@ if you have order id in local storage then you have to show order confirmation p
                       selectPayPal={val => this.selectPayPal(val)}
                       displayToast={message => this.props.displayToast(message)}
                       getCODEligibility={() => this.getCODEligibility()}
-                      getSavedCardDetails={() =>
-                        this.props.getSavedCardDetails(userName, access_token)
-                      }
-                      savedCards={this.props.savedCards}
                       showTermsNConditions={() =>
                         this.props.showTermsNConditions()
                       }

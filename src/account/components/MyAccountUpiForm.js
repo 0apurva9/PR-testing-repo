@@ -31,7 +31,7 @@ export default class MyAccountUpiForm extends React.Component {
   }
 
   /**
-   * This functin will verify the status of the saved api
+   * This function will verify the status of the saved api
    */
   verifyUpi = ele => {
     this.setState({
@@ -76,10 +76,9 @@ export default class MyAccountUpiForm extends React.Component {
     }
   }
 
-  showTermsAndConditionPopup = () => {
-    if (this.props.addGiftCard) {
+  showHowToPay = () => {
+    if (this.props.showHowToPay) {
       this.props.showHowToPay();
-      // this.props.showTermsNConditions()
     }
   };
 
@@ -131,10 +130,7 @@ export default class MyAccountUpiForm extends React.Component {
             <p className={stylesx.upiHedTxt}>
               UPI ID is in the format of mobilenumber@upi or username@bank
             </p>
-            <p
-              id={stylesx.howPymntWork}
-              onClick={() => this.showTermsAndConditionPopup()}
-            >
+            <p id={stylesx.howPymntWork} onClick={() => this.showHowToPay()}>
               How UPI Payments work?
             </p>
           </div>

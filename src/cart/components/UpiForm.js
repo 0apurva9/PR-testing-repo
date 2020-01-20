@@ -12,6 +12,7 @@ const bankErrorMessage = `Your bank is currently unable to process payments due 
 const invalidUpi = `Your UPI no longer seems to exist. Try another option.`;
 const VERIFIED = `Verified`;
 const INVALID = `Invalid`;
+const UPI_REGEX = /^[A-Za-z0-9]+@[A-Za-z0-9]\w+$/;
 
 export default class UpiForm extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ export default class UpiForm extends React.Component {
     // 'abcd@ybl','1234@ybl','8787989089@ksd','12124321290@okhdfc'
     this.state = {
       upiId: "",
-      isVerified: false,
+      upiPatternVerified: false,
       isOfferAvailable: false,
       showUpiMsg: {
         upiId: "",
@@ -29,17 +30,8 @@ export default class UpiForm extends React.Component {
       },
       showTermsCondPopup: false,
       isNewUpi: true,
-      savedUpi: [],
-      offerArray: [
-        {
-          discountText: "10% Instant Cashback on Google Pay transactions  T&C",
-          discountValidity: "Offer valid till 12th January"
-        },
-        {
-          discountText: "15% Cashback on Amazon Pay transactions  T&C",
-          discountValidity: "This offer can be claimed only once per user"
-        }
-      ],
+      savedUPIidResponse: [],
+      UPIofferCalloutList: [],
       error: ""
     };
   }
@@ -70,6 +62,7 @@ export default class UpiForm extends React.Component {
   updateUpi = val => {
     this.setState({
       upiId: val,
+      upiPatternVerified: UPI_REGEX.test(val),
       showUpiMsg: {
         upiId: "",
         isVerified: false,
@@ -79,22 +72,32 @@ export default class UpiForm extends React.Component {
     });
   };
 
-  componentDidUpdate(prevProps) {
-    if (
-      this.props.savedUpi !== prevProps.savedUpi &&
-      this.props.savedUpi.length !== 0
-    ) {
-      this.setState({
-        savedUpi: this.props.savedUpi,
-        isNewUpi: true
-      });
-    }
+  componentDidMount() {
+    this.setState({
+      savedUPIidResponse: this.props.savedUPIidResponse,
+      UPIofferCalloutList: this.props.UPIofferCalloutList
+    });
   }
+  // componentDidUpdate(prevProps) {
+  //   if (
+  //     this.props.savedUPIidResponse &&
+  //     this.props.savedUPIidResponse !== prevProps.savedUPIidResponse
+  //   ) {
+  //     this.setState({
+  //       savedUPIidResponse: this.props.savedUPIidResponse,
+  //       isNewUpi: true
+  //     });
+  //   }
+  // }
 
   showTermsAndConditionPopup = () => {
-    if (this.props.addGiftCard) {
+    if (this.props.showTermsNConditions) {
+      this.props.showTermsNConditions();
+    }
+  };
+  showHowToPay = () => {
+    if (this.props.showHowToPay) {
       this.props.showHowToPay();
-      // this.props.showTermsNConditions()
     }
   };
 
@@ -145,8 +148,8 @@ export default class UpiForm extends React.Component {
                       Select from your saved UPI ID’s
                     </h4>
                     <div className={stylesx.flexRow50 + " " + stylesx.flexWrap}>
-                      {this.state.savedUpi &&
-                        this.state.savedUpi.map((ele, i) => (
+                      {this.state.savedUPIidResponse &&
+                        this.state.savedUPIidResponse.map((ele, i) => (
                           <div className={stylesx.flexRow50Cols} key={i}>
                             <div className={stylesx.svdUpiLblBox}>
                               {this.state.showUpiMsg.upiId ===
@@ -238,7 +241,7 @@ export default class UpiForm extends React.Component {
                     </p>
                     <p
                       id={stylesx.howPymntWork}
-                      onClick={() => this.showTermsAndConditionPopup()}
+                      onClick={() => this.showHowToPay()}
                     >
                       How UPI Payments work?
                     </p>
@@ -258,7 +261,7 @@ export default class UpiForm extends React.Component {
                     />
                     {this.state.showUpiMsg.upiId === "" && (
                       <Button
-                        disabled={this.state.upiId ? false : true}
+                        disabled={this.state.upiPatternVerified ? false : true}
                         type="primary"
                         isUpi={true}
                         backgroundColor="#ff1744"
@@ -318,22 +321,35 @@ export default class UpiForm extends React.Component {
                   your details, visit my account.
                 </p>
               </div>
-              <div
-                className={stylesx.upiTandCRow}
-                onClick={() => this.toggleForm()}
-              >
-                <p className={stylesx.upitncTxt + " " + stylesx.showSavedUpi}>
-                  SHOW SAVED UPI ID’s
-                </p>
-              </div>
+              {this.props.savedUPIidResponse &&
+                this.props.savedUPIidResponse.length !== 0 && (
+                  <div
+                    className={stylesx.upiTandCRow}
+                    onClick={() => this.toggleForm()}
+                  >
+                    <p
+                      className={stylesx.upitncTxt + " " + stylesx.showSavedUpi}
+                    >
+                      SHOW SAVED UPI ID’s
+                    </p>
+                  </div>
+                )}
             </React.Fragment>
           )}
 
-          {this.state.offerArray &&
-            this.state.offerArray.map((offer, i) => (
+          {this.state.UPIofferCalloutList &&
+            this.state.UPIofferCalloutList.map((offer, i) => (
               <div className={stylesx.upiTandCRow} key={i}>
-                <p className={stylesx.lblTxt}>{offer.discountText}</p>
-                <p className={stylesx.upitncTxt}>{offer.discountValidity}</p>
+                <p className={stylesx.lblTxt}>
+                  {offer.promotionDisplayText}
+                  <span
+                    className={stylesx.upitncTxt}
+                    onClick={() => this.showTermsAndConditionPopup()}
+                  >
+                    {offer.TnC ? offer.TnC : ""}
+                  </span>
+                </p>
+                {/* <p className={stylesx.upitncTxt}>{offer.discountValidity}</p> */}
               </div>
             ))}
         </DesktopOnly>

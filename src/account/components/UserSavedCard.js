@@ -44,8 +44,8 @@ export default class UserSavedCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isSavedCardTab: 1,
-      showAddNewUpi: 0
+      isSavedCardTab: 0,
+      showAddNewUpi: 1
     };
   }
   tabSelect(val) {
@@ -145,7 +145,9 @@ export default class UserSavedCard extends React.Component {
             <div className={styles.saveCardDetail}>
               {this.state.showAddNewUpi === 0 && (
                 <div className={styles.saveCardDetailWithHolder}>
-                  <MyAccountUpiForm />
+                  <MyAccountUpiForm
+                    showHowToPay={() => this.props.showHowToPay()}
+                  />
                 </div>
               )}
               {this.state.showAddNewUpi === 1 && (
@@ -155,13 +157,13 @@ export default class UserSavedCard extends React.Component {
                       <TabData
                         width="47%"
                         label="Saved Cards"
-                        selected={0}
+                        selected={!this.state.isSavedCardTab}
                         selectItem={() => this.tabSelect(0)}
                       />
                       <TabData
                         width="47%"
                         label="Saved UPI"
-                        selected={1}
+                        selected={this.state.isSavedCardTab}
                         selectItem={() => this.tabSelect(1)}
                       />
                     </TabHolder>
