@@ -207,23 +207,27 @@ export default class CartItemForDesktop extends React.Component {
                 </div>
               )}
               {this.props.isGiveAway === NO &&
-                (!this.props.productIsServiceable
+                (!this.props.productIsServiceable &&
+                this.props.productNotServiceableMessage
                   ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE) && (
                       <React.Fragment>
                         <div className={styles.space}>|</div>
                         <div className={styles.serviceAvailabilityText}>
-                          {`${NOT_SERVICEABLE}`}
+                          {/* `${NOT_SERVICEABLE}` */}
+                          {`${this.props.productNotServiceableMessage}`}
                         </div>
                       </React.Fragment>
                     )
-                  : this.props.isOutOfStock && (
+                  : this.props.isOutOfStock ||
+                    (this.props.productOutOfStockMessage && (
                       <React.Fragment>
                         <div className={styles.space}>|</div>
                         <div className={styles.serviceAvailabilityText}>
-                          {OUT_OF_STOCK}
+                          {/* OUT_OF_STOCK */}
+                          {this.props.productOutOfStockMessage}
                         </div>
                       </React.Fragment>
-                    ))}
+                    )))}
             </div>
             {this.props.isGiveAway === YES && (
               <div className={styles.isGiveAwayQuantity}>
@@ -234,29 +238,30 @@ export default class CartItemForDesktop extends React.Component {
               </div>
             )}
 
-            {this.props.isGiveAway === NO && this.props.hasFooter && (
-              <div className={styles.dropDown}>
-                <SelectBoxDesktop
-                  value={this.props.qtySelectedByUser}
-                  label={this.props.qtySelectedByUser}
-                  height={30}
-                  options={fetchedQuantityList}
-                  onChange={val => this.handleQuantityChange(val)}
-                  size={10}
-                  leftChild={this.props.dropdownLabel}
-                  leftChildSize={80}
-                  rightChildSize={30}
-                  labelWithLeftChild={true}
-                  arrowColour="black"
-                  disabled={this.props.isOutOfStock}
-                  theme="hollowBox"
-                  paddingLeftColour={"#212121"}
-                  paddingLeftFontFamily={"light"}
-                  paddingLeft={"0px"}
-                  rightArrow={0}
-                />
-              </div>
-            )}
+            {this.props.isGiveAway === NO &&
+              this.props.hasFooter && (
+                <div className={styles.dropDown}>
+                  <SelectBoxDesktop
+                    value={this.props.qtySelectedByUser}
+                    label={this.props.qtySelectedByUser}
+                    height={30}
+                    options={fetchedQuantityList}
+                    onChange={val => this.handleQuantityChange(val)}
+                    size={10}
+                    leftChild={this.props.dropdownLabel}
+                    leftChildSize={80}
+                    rightChildSize={30}
+                    labelWithLeftChild={true}
+                    arrowColour="black"
+                    disabled={this.props.isOutOfStock}
+                    theme="hollowBox"
+                    paddingLeftColour={"#212121"}
+                    paddingLeftFontFamily={"light"}
+                    paddingLeft={"0px"}
+                    rightArrow={0}
+                  />
+                </div>
+              )}
             {(this.props.size || this.props.color) && (
               <div className={styles.colourSizeHolder}>
                 {this.props.color && (
@@ -273,25 +278,26 @@ export default class CartItemForDesktop extends React.Component {
               </div>
             )}
           </div>
-          {this.props.isGiveAway === NO && this.props.hasFooter && (
-            <div className={styles.footer}>
-              <div className={styles.wishlist}>
-                <AddToWishListButtonContainer
-                  type={WISHLIST_BUTTON_TEXT_TYPE_SMALL}
-                  productListingId={this.props.product.productcode}
-                  winningUssID={this.props.product.USSID}
-                  setDataLayerType={ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART}
-                  index={this.props.index}
-                />
+          {this.props.isGiveAway === NO &&
+            this.props.hasFooter && (
+              <div className={styles.footer}>
+                <div className={styles.wishlist}>
+                  <AddToWishListButtonContainer
+                    type={WISHLIST_BUTTON_TEXT_TYPE_SMALL}
+                    productListingId={this.props.product.productcode}
+                    winningUssID={this.props.product.USSID}
+                    setDataLayerType={ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART}
+                    index={this.props.index}
+                  />
+                </div>
+                <div
+                  className={styles.removeLabel}
+                  onClick={() => this.handleRemove(this.props.index)}
+                >
+                  {this.props.removeText}
+                </div>
               </div>
-              <div
-                className={styles.removeLabel}
-                onClick={() => this.handleRemove(this.props.index)}
-              >
-                {this.props.removeText}
-              </div>
-            </div>
-          )}
+            )}
         </div>
         {this.props.isFromCnc &&
           this.props.storeDetails &&
@@ -326,12 +332,12 @@ export default class CartItemForDesktop extends React.Component {
                             pickUpDateDetails && pickUpDateDetails.pickupDate
                           )}`
                         : nextDayFormat === productDayFormatOfClqAndPiq
-                        ? `Tomorrow, ${this.getDayNumberSuffix(
-                            pickUpDateDetails && pickUpDateDetails.pickupDate
-                          )}`
-                        : `${this.getDayNumberSuffix(
-                            pickUpDateDetails && pickUpDateDetails.pickupDate
-                          )}`
+                          ? `Tomorrow, ${this.getDayNumberSuffix(
+                              pickUpDateDetails && pickUpDateDetails.pickupDate
+                            )}`
+                          : `${this.getDayNumberSuffix(
+                              pickUpDateDetails && pickUpDateDetails.pickupDate
+                            )}`
                       : ""}
                     {hours !== 0 ? ` | After ${strTime}` : ""}
                   </div>
