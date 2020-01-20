@@ -528,7 +528,8 @@ export function getProductPinCode(
           deliveryOptions: resultJson.listOfDataList[0].value,
           city: resultJson.city,
           productOutOfStockMessage: resultJson.productOutOfStockMessage,
-          productNotServiceableMessage: resultJson.productNotServiceableMessage
+          productNotServiceableMessage:
+            resultJson.productNotServiceabilityMessage
         })
       );
       if (isComingFromPiqPage) {
