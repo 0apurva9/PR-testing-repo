@@ -9,7 +9,8 @@ import hew2 from "../../pdp/components/img/hew2.svg";
 import hew3 from "../../pdp/components/img/hew3.svg";
 import hew4 from "../../pdp/components/img/hew4.svg";
 import hew5 from "../../pdp/components/img/hew5.svg";
-import SelectBoxMobile from "../../general/components/SelectBoxMobile2";
+import SelectBoxMobileExchange from "../../general/components/SelectBoxMobileExchange";
+// import * as customSelectDropDown from "../../mock/customSelectDropdown.js";
 
 export default class ExchangeModal extends React.Component {
   constructor(props) {
@@ -18,7 +19,17 @@ export default class ExchangeModal extends React.Component {
       showHowExchangeWorks: false,
       howExchangeWorksModalOpenedFromPDP: false,
       showTnCModal: false,
-      showCashbackModal: false
+      showCashbackModal: false,
+      makeModelDetails: "",
+      currentModelList: "",
+      isEnableForBrand: false,
+      isEnableForModel: false,
+      exchangeBrandId: "",
+      exchangeBrandName: "",
+      selectedModel: "",
+      firstDevice: "",
+      secondDevice: "",
+      isExchangeDeviceAdded: false
     };
   }
   componentWillMount() {
@@ -26,6 +37,15 @@ export default class ExchangeModal extends React.Component {
     if (this.props.openHowExchangeWorksModal) {
       this.openHowExchangeWorksModal();
       this.setState({ howExchangeWorksModalOpenedFromPDP: true });
+    }
+    if (this.props.makeModelDetails) {
+      this.setState({ makeModelDetails: this.props.makeModelDetails });
+    }
+  }
+  componentDidMount() {
+    // customSelectDropDown.setCssBrand();
+    if (localStorage.getItem("MEFirstDeviceData")) {
+      this.setState({ isExchangeDeviceAdded: true });
     }
   }
   handleClose() {
@@ -53,6 +73,28 @@ export default class ExchangeModal extends React.Component {
   }
   closeCashbackModal() {
     this.setState({ showCashbackModal: false });
+  }
+  onChange(val) {
+    this.setState({
+      currentModelList: JSON.parse(val.modelList),
+      isEnableForBrand: true,
+      isEnableForModel: false,
+      exchangeBrandId: val.value,
+      exchangeBrandName: val.label
+    });
+    // customSelectDropDown.setCssModel();
+  }
+  onChangeSecondary(val) {
+    this.setState({ isEnableForModel: true, selectedModel: val.modelList });
+  }
+  saveDeviceDetails() {
+    let firstDeviceData = {
+      exchangeBrandId: this.state.exchangeBrandId,
+      exchangeBrandName: this.state.exchangeBrandName,
+      model: this.state.selectedModel
+    };
+    localStorage.setItem("MEFirstDeviceData", JSON.stringify(firstDeviceData));
+    this.setState({ isExchangeDeviceAdded: true });
   }
   render() {
     return (
@@ -260,206 +302,238 @@ export default class ExchangeModal extends React.Component {
             How Exchange works?
           </div>
         </div>
-        {/* first screen starts - no device added */}
-        <div className={styles.firstScreen}>
-          <div className={styles.evaluateContainer}>
-            <div className={styles.smallHeading}>Select Device to Evaluate</div>
-            <SelectBoxMobile
-              placeholder={"Select Brand"}
-              options={[1, 2, 3]}
-              onChange={val => this.onChange(val)}
-            />
-            <br />
-            <SelectBoxMobile
-              placeholder={"Select Model"}
-              options={[1, 2, 3]}
-              onChange={val => this.onChangeSecondary(val)}
-            />
-            <div className={styles.evaluateButton}>Evaluate</div>
-          </div>
-          <div className={styles.smallHeading}>
-            How Exchange works?
-            <span
-              className={styles.knowMore}
-              onClick={() => this.openHowExchangeWorksModal()}
-            >
-              Know more
-            </span>
-          </div>
-          <div>
-            <img src={hew1} alt="" className={styles.iconSize} />
-            <div className={styles.contentContainer}>
-              <div className={styles.contentHeading}>
-                1. Share your old product details!{" "}
+        {!this.state.isExchangeDeviceAdded ? (
+          <div className={styles.firstScreen}>
+            <div className={styles.evaluateContainer}>
+              <div className={styles.smallHeading}>
+                Select Device to Evaluate
               </div>
-              <div className={styles.contentDescription}>
-                Either allow access to auto-detect or enter the product details
-                manually
-              </div>
-            </div>
-            <img src={hew2} alt="" className={styles.iconSize} />
-            <div className={styles.contentContainer}>
-              <div className={styles.contentHeading}>
-                2. Check Exchange Cashback value{" "}
-              </div>
-              <div className={styles.contentDescription}>
-                Based on the old product details shared, check the cashback
-                applicable
-              </div>
-            </div>
-            <img src={hew3} alt="" className={styles.iconSize} />
-            <div className={styles.contentContainer}>
-              <div className={styles.contentHeading}>
-                3. Place order with Exchange{" "}
-              </div>
-              <div className={styles.contentDescription}>
-                Complete your product purchase along with exchange
-              </div>
-            </div>
-            <img src={hew4} alt="" className={styles.iconSize} />
-            <div className={styles.contentContainer}>
-              <div className={styles.contentHeading}>
-                4. Lastly, select the Cashback mode{" "}
-              </div>
-              <div className={styles.contentDescription}>
-                Choose your preferred option to process Exchange Cashback for
-                your old product
-              </div>
-            </div>
-            <img src={hew5} alt="" className={styles.iconSize} />
-            <div className={styles.contentContainer}>
-              <div className={styles.contentHeading}>5. Cashback credited </div>
-              <div className={styles.contentDescription}>
-                Cashback would be credited post-delivery of your new product and
-                pickup of old product
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* first screen ends - no device added */}
-        {/* second screen starts - one product added */}
-        <div className={styles.secondScreen}>
-          <div className={styles.sliderContainer}>
-            <div className={styles.tabSlider}>
-              <div className={styles.cashbackHeading}>
-                <input type="radio" className={styles.tabOneRadio} />
-                <span>Apple iPhone 6</span>
-              </div>
-              <table
-                border="0"
-                cellPadding="10"
-                cellSpacing="0"
-                className={styles.exchangeOfferTable}
+
+              <SelectBoxMobileExchange
+                placeholder={"Select Brand"}
+                customSelect="customSelect1"
+                options={
+                  this.state.makeModelDetails &&
+                  this.state.makeModelDetails.map((val, i) => {
+                    return {
+                      value: val.exchangeBrandId,
+                      label: val.exchangeBrandName,
+                      modelList: val.exchangeModelList
+                    };
+                  })
+                }
+                isEnable={this.state.isEnableForBrand}
+                onChange={val => this.onChange(val)}
+              />
+
+              <br />
+              <SelectBoxMobileExchange
+                placeholder={"Select Model"}
+                customSelect="customSelect2"
+                options={
+                  this.state.currentModelList &&
+                  this.state.currentModelList.map((val, i) => {
+                    return {
+                      value: val.exchangeModelName,
+                      label: val.effectiveModelName,
+                      modelList: val
+                    };
+                  })
+                }
+                isEnable={this.state.isEnableForModel}
+                onChange={val => this.onChangeSecondary(val)}
+              />
+              <div
+                className={styles.evaluateButton}
+                onClick={() => this.saveDeviceDetails()}
               >
+                Evaluate
+              </div>
+            </div>
+            <div className={styles.smallHeading}>
+              How Exchange works?
+              <span
+                className={styles.knowMore}
+                onClick={() => this.openHowExchangeWorksModal()}
+              >
+                Know more
+              </span>
+            </div>
+            <div>
+              <img src={hew1} alt="" className={styles.iconSize} />
+              <div className={styles.contentContainer}>
+                <div className={styles.contentHeading}>
+                  1. Share your old product details!{" "}
+                </div>
+                <div className={styles.contentDescription}>
+                  Either allow access to auto-detect or enter the product
+                  details manually
+                </div>
+              </div>
+              <img src={hew2} alt="" className={styles.iconSize} />
+              <div className={styles.contentContainer}>
+                <div className={styles.contentHeading}>
+                  2. Check Exchange Cashback value{" "}
+                </div>
+                <div className={styles.contentDescription}>
+                  Based on the old product details shared, check the cashback
+                  applicable
+                </div>
+              </div>
+              <img src={hew3} alt="" className={styles.iconSize} />
+              <div className={styles.contentContainer}>
+                <div className={styles.contentHeading}>
+                  3. Place order with Exchange{" "}
+                </div>
+                <div className={styles.contentDescription}>
+                  Complete your product purchase along with exchange
+                </div>
+              </div>
+              <img src={hew4} alt="" className={styles.iconSize} />
+              <div className={styles.contentContainer}>
+                <div className={styles.contentHeading}>
+                  4. Lastly, select the Cashback mode{" "}
+                </div>
+                <div className={styles.contentDescription}>
+                  Choose your preferred option to process Exchange Cashback for
+                  your old product
+                </div>
+              </div>
+              <img src={hew5} alt="" className={styles.iconSize} />
+              <div className={styles.contentContainer}>
+                <div className={styles.contentHeading}>
+                  5. Cashback credited{" "}
+                </div>
+                <div className={styles.contentDescription}>
+                  Cashback would be credited post-delivery of your new product
+                  and pickup of old product
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className={styles.secondScreen}>
+            <div className={styles.sliderContainer}>
+              <div className={styles.tabSlider}>
+                <div className={styles.cashbackHeading}>
+                  <input type="radio" className={styles.tabOneRadio} />
+                  <span>Apple iPhone 6</span>
+                </div>
+                <table
+                  border="0"
+                  cellPadding="10"
+                  cellSpacing="0"
+                  className={styles.exchangeOfferTable}
+                >
+                  <tbody>
+                    <tr>
+                      <td className={styles.fontSize12}>
+                        <img
+                          src={baseValueIcon}
+                          alt="Base value"
+                          className={styles.icons}
+                        />
+                        Base value
+                      </td>
+                      <td className={styles.fontSize12}>₹2,300</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <img
+                          src={cliqBonusIcon}
+                          alt="CLiQ Bonus"
+                          className={styles.icons}
+                        />
+                        CLiQ Bonus
+                      </td>
+                      <td>₹5,000</td>
+                    </tr>
+                    <tr>
+                      <td className={styles.fontSize12}>
+                        <img
+                          src={pickUpChargeIcon}
+                          alt="Pick up charge"
+                          className={styles.icons}
+                        />
+                        Pick up charge
+                      </td>
+                      <td className={styles.freePickUp}>FREE </td>
+                    </tr>
+                    <tr>
+                      <td className={styles.cashbackHeading}>
+                        Total Exchange Cashback
+                      </td>
+                      <td className={styles.cashbackHeading}>₹7,300</td>
+                    </tr>
+                    <tr>
+                      <td colSpan="2" className={styles.cashbackSubtitle}>
+                        <span className={styles.cashbackInfoSubtitle}>
+                          Cashback will be credited to your account.
+                        </span>
+                        <img
+                          src={cashbackIcon}
+                          alt="info"
+                          className={styles.cashbackInfoIcon}
+                          onClick={() => this.openCashbackModal()}
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className={styles.tabSlider}>
+                <div className={styles.addDevice}>
+                  <span className={styles.plusSign} />
+                  <br />
+                  Add another mobile to Evaluate
+                </div>
+              </div>
+            </div>
+            <div className={styles.imeiCheckForm}>
+              <input
+                type="text"
+                placeholder="Enter IMEI Number"
+                className={styles.imeiInput}
+              />
+              <div className={styles.verifyButton}>Verify</div>
+              <div className={styles.imeiInputInfo}>
+                Dial <span className={styles.howToImeiCheck}>*#06#</span> from
+                your old device to know your IMEI number{" "}
+              </div>
+            </div>
+            <div className={styles.effectivePrice}>
+              <table cellpadding="0" cellspacing="0" width="100%">
                 <tbody>
                   <tr>
-                    <td className={styles.fontSize12}>
-                      <img
-                        src={baseValueIcon}
-                        alt="Base value"
-                        className={styles.icons}
-                      />
-                      Base value
+                    <td className={styles.effectivePriceTrOne}>
+                      Effective Price after exchange
                     </td>
-                    <td className={styles.fontSize12}>₹2,300</td>
+                    <td className={styles.effectivePriceTrTwo}>₹20,699</td>
                   </tr>
                   <tr>
-                    <td>
-                      <img
-                        src={cliqBonusIcon}
-                        alt="CLiQ Bonus"
-                        className={styles.icons}
-                      />
-                      CLiQ Bonus
-                    </td>
-                    <td>₹5,000</td>
-                  </tr>
-                  <tr>
-                    <td className={styles.fontSize12}>
-                      <img
-                        src={pickUpChargeIcon}
-                        alt="Pick up charge"
-                        className={styles.icons}
-                      />
-                      Pick up charge
-                    </td>
-                    <td className={styles.freePickUp}>FREE </td>
-                  </tr>
-                  <tr>
-                    <td className={styles.cashbackHeading}>
-                      Total Exchange Cashback
-                    </td>
-                    <td className={styles.cashbackHeading}>₹7,300</td>
-                  </tr>
-                  <tr>
-                    <td colSpan="2" className={styles.cashbackSubtitle}>
-                      <span className={styles.cashbackInfoSubtitle}>
-                        Cashback will be credited to your account.
-                      </span>
-                      <img
-                        src={cashbackIcon}
-                        alt="info"
-                        className={styles.cashbackInfoIcon}
-                        onClick={() => this.openCashbackModal()}
-                      />
-                    </td>
+                    <td colSpan="2">for Realme 3i</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <div className={styles.tabSlider}>
-              <div className={styles.addDevice}>
-                <span className={styles.plusSign} />
-                <br />
-                Add another mobile to Evaluate
+            <div className={styles.tncContainer}>
+              <input type="checkbox" className={styles.tncCheckbox} />
+              <div className={styles.tnc}>
+                I understand the{" "}
+                <span
+                  className={styles.tncText}
+                  onClick={() => this.openTnCModal()}
+                >
+                  Terms & Conditions
+                </span>{" "}
+                of exchange.
               </div>
             </div>
-          </div>
-          <div className={styles.imeiCheckForm}>
-            <input
-              type="text"
-              placeholder="Enter IMEI Number"
-              className={styles.imeiInput}
-            />
-            <div className={styles.verifyButton}>Verify</div>
-            <div className={styles.imeiInputInfo}>
-              Dial <span className={styles.howToImeiCheck}>*#06#</span> from
-              your old device to know your IMEI number{" "}
+            <div className={styles.exchangeButtonContainer}>
+              <div className={styles.exchangeButton}>Proceed with exchange</div>
             </div>
           </div>
-          <div className={styles.effectivePrice}>
-            <table cellpadding="0" cellspacing="0" width="100%">
-              <tbody>
-                <tr>
-                  <td className={styles.effectivePriceTrOne}>
-                    Effective Price after exchange
-                  </td>
-                  <td className={styles.effectivePriceTrTwo}>₹20,699</td>
-                </tr>
-                <tr>
-                  <td colSpan="2">for Realme 3i</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div className={styles.tncContainer}>
-            <input type="checkbox" className={styles.tncCheckbox} />
-            <div className={styles.tnc}>
-              I understand the{" "}
-              <span
-                className={styles.tncText}
-                onClick={() => this.openTnCModal()}
-              >
-                Terms & Conditions
-              </span>{" "}
-              of exchange.
-            </div>
-          </div>
-          <div className={styles.exchangeButtonContainer}>
-            <div className={styles.exchangeButton}>Proceed with exchange</div>
-          </div>
-        </div>
-        {/* second screen ends - one product added  */}
+        )}
       </div>
     );
   }

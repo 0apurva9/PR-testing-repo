@@ -306,9 +306,7 @@
 .firstScreen{
   padding: 0 30px;
 }
-.secondScreen{
-  display: none;
-}
+
 .smallHeading{
   font-family: semibold;
   font-size: 14px;
@@ -338,4 +336,7 @@
   padding: 10px;
   cursor: pointer;
   margin-top: 15px;
+}
+.customSelect{
+  width: 200px;
 }

@@ -18,7 +18,8 @@ import {
   openInApp,
   getRelevantBundleProduct,
   relevantProductServibilty,
-  relevantBundleProductCode
+  relevantBundleProductCode,
+  getExchangeDetails
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -208,6 +209,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     // },
     addProductToCart1: async productDetails => {
       return await dispatch(addProductToCart(productDetails));
+    },
+    getExchangeDetails: data => {
+      return dispatch(getExchangeDetails(data));
     }
   };
 };

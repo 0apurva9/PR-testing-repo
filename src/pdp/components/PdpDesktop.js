@@ -818,7 +818,16 @@ export default class PdpApparel extends React.Component {
       this.state.selectedBundledProduct.push(e.target.value);
   }
   openExchangeModal(data) {
-    this.props.showExchangeModal(data);
+    //call exchange details API
+    let apiResponse = this.props.getExchangeDetails();
+    if (data) {
+      Object.assign(data, { makeModelDetails: apiResponse.makeModelDetails });
+      this.props.showExchangeModal(data);
+    } else {
+      this.props.showExchangeModal({
+        makeModelDetails: apiResponse.makeModelDetails
+      });
+    }
   }
   render() {
     let seasonData = {};
