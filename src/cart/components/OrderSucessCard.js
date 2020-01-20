@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ProductImage from "../../general/components/ProductImage.js";
 import styles from "./OrderSucessCard.css";
+const EDD_TEXT = "Estimated Delivery Date";
 export default class OrderSucessCard extends React.Component {
   render() {
     const deliveryOption = this.props.selectedDeliveryMode;
@@ -27,20 +28,12 @@ export default class OrderSucessCard extends React.Component {
           </div>
           <div className={styles.deliveryTimingShow}>
             <div className={styles.timingAndMode}>
-              {this.props.selectedDeliveryMode &&
+              {this.props.edd &&
                 this.props.productName !== "Gift Card" && (
                   <React.Fragment>
-                    <div className={styles.deliveyMode}>
-                      {`${
-                        deliveryOption.name === "Home Delivery"
-                          ? "Standard Shipping"
-                          : deliveryOption.name === "Express Delivery"
-                            ? "Express Shipping"
-                            : deliveryOption.name
-                      } `}
-                    </div>
+                    <div className={styles.deliveyMode}>{EDD_TEXT}</div>
                     <div className={styles.deliveryTime}>
-                      {deliveryOption.desc}
+                      {deliveryOption.edd}
                     </div>
                   </React.Fragment>
                 )}

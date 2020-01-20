@@ -145,12 +145,12 @@ export default class DeliveryModeSet extends React.Component {
                           ? textForCollect
                           : ""
                         : this.props.isShowDate
-                          ? ` : ${this.getDayNumberSuffix(
+                          ? `Delivery by ${this.getDayNumberSuffix(
                               deliveryOption.name,
                               data.USSID
                             )}`
                           : expectedDeliveryDate
-                            ? expectedDeliveryDate
+                            ? `Delivery by ${expectedDeliveryDate}`
                             : ""
                     }`}
                 </div>
