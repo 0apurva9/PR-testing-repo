@@ -214,7 +214,8 @@ export const FOLLOWING = "Following";
 export const SHIPPING_TYPES = {
   HD: "home-delivery",
   CNC: "click-and-collect",
-  ED: "express-delivery"
+  ED: "express-delivery",
+  SDD: "same-day-delivery"
 };
 
 export const PLAT_FORM_NUMBER = "5";

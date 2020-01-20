@@ -108,7 +108,7 @@ export default class PdpPincode extends React.Component {
           <div className={[styles.label, styles.dFlex].join(" ")}>
             {this.state.showCity ? (
               <div className={styles.cityName}>
-                {`${this.props.city ? this.props.city : null},`}
+                {this.props.city ? this.props.city + ", " : ""}
               </div>
             ) : null}
             <div className={styles.pincodeField}>

@@ -504,6 +504,14 @@ class CartPage extends React.Component {
       this.props.cart.userAddress.addresses[0] &&
       this.props.cart.userAddress.addresses[0].postalCode;
 
+    const city =
+      this.props &&
+      this.props.cart &&
+      this.props.cart.cartDetails &&
+      this.props.cart.cartDetails.products &&
+      this.props.cart.cartDetails.products[0].pinCodeResponse &&
+      this.props.cart.cartDetails.products[0].pinCodeResponse.city;
+
     return (
       <div className={styles.base}>
         <DesktopOnly>
@@ -535,6 +543,7 @@ class CartPage extends React.Component {
                     onKeyPress={e => this.onKeyPress()}
                     ovalButton={true}
                     getPinCode={getPinCode}
+                    city={city}
                   />
                 </div>
               </div>
@@ -627,6 +636,13 @@ class CartPage extends React.Component {
       this.props.cart.userAddress.addresses &&
       this.props.cart.userAddress.addresses[0] &&
       this.props.cart.userAddress.addresses[0].postalCode;
+    const city =
+      this.props &&
+      this.props.cart &&
+      this.props.cart.cartDetails &&
+      this.props.cart.cartDetails.products &&
+      this.props.cart.cartDetails.products[0].pinCodeResponse &&
+      this.props.cart.cartDetails.products[0].pinCodeResponse.city;
     const globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     const cartDetailsForAnonymous = Cookie.getCookie(
       CART_DETAILS_FOR_ANONYMOUS
@@ -728,6 +744,7 @@ class CartPage extends React.Component {
                       onKeyPress={e => this.onKeyPress()}
                       ovalButton={true}
                       getPinCode={getPinCode}
+                      city={city}
                     />
                   </div>
                 </div>
@@ -793,6 +810,15 @@ class CartPage extends React.Component {
                               product.elligibleDeliveryMode &&
                               product.elligibleDeliveryMode[0].code
                             }
+                            productOutOfStock={
+                              product.pinCodeResponse &&
+                              product.pinCodeResponse.productOutOfStockMessage
+                            }
+                            productNotServiceable={
+                              product.pinCodeResponse &&
+                              product.pinCodeResponse
+                                .productNotServiceableMessage
+                            }
                             onRemove={this.removeItemFromCart}
                             onQuantityChange={this.updateQuantityInCart}
                             maxQuantityAllowed={
@@ -844,6 +870,15 @@ class CartPage extends React.Component {
                             deliveryInformationWithDate={
                               product.pinCodeResponse &&
                               product.pinCodeResponse.validDeliveryModes
+                            }
+                            productOutOfStock={
+                              product.pinCodeResponse &&
+                              product.pinCodeResponse.productOutOfStockMessage
+                            }
+                            productNotServiceable={
+                              product.pinCodeResponse &&
+                              product.pinCodeResponse
+                                .productNotServiceableMessage
                             }
                             onPiq={() => this.getAllStores(product.USSID)}
                             deliveryType={
@@ -1045,9 +1080,7 @@ class CartPage extends React.Component {
                     this.props.wishListCount > 0 && (
                       <div className={styles.wishListCountSection}>
                         <div className={styles.iconWishList} />
-                        <span>{`You have ${
-                          this.props.wishListCount
-                        } items in your saved list`}</span>
+                        <span>{`You have ${this.props.wishListCount} items in your saved list`}</span>
                         <div className={styles.buttonHolder}>
                           <UnderLinedButton
                             size="14px"

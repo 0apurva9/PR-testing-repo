@@ -72,7 +72,7 @@ export default class ConfirmAddress extends React.Component {
           )}
           {!this.props.isReturn &&
             this.props.address &&
-            this.props.address.length > 3 && (
+            this.props.address.length > 0 && (
               <div className={styles.addnewAddress}>
                 <UnderLinedButton
                   inConfirmAddressPage={true}

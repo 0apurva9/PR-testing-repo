@@ -83,29 +83,33 @@ export default class TextWithUnderLine extends React.Component {
             : styles.noOffset
         }
       >
-        {(defaultPinCode || this.state.getPinCode) && (
-          <div className={styles.headingText}>
-            {defaultPinCode ? defaultPinCode : this.state.getPinCode}
-          </div>
-        )}
-        {!defaultPinCode &&
-          !this.state.getPinCode && (
-            <SearchAndUpdate
-              id="searchAndUpdateInput"
-              focused={true}
-              checkPinCodeAvailability={pincode =>
-                this.checkPinCodeAvailability(pincode)
-              }
-              onFocusInput={event => this.onFocusInput(event)}
-              onBlur={() => this.onBlur()}
-              labelText="Submit"
-              borderColor={this.state.borderColor}
-              borderBottom={this.state.borderBottom}
-              onKeyPress={this.props.onKeyPress}
-              onChange={pincode => this.onChange(pincode)}
-              ovalButton={this.props.ovalButton}
-            />
+        <div className={styles.pincodeBox}>
+          {this.props.city ? (
+            <div className={styles.cityName}>{this.props.city}, </div>
+          ) : null}
+          {(defaultPinCode || this.state.getPinCode) && (
+            <div className={styles.headingText}>
+              {defaultPinCode ? defaultPinCode : this.state.getPinCode}
+            </div>
           )}
+        </div>
+        {!defaultPinCode && !this.state.getPinCode && (
+          <SearchAndUpdate
+            id="searchAndUpdateInput"
+            focused={true}
+            checkPinCodeAvailability={pincode =>
+              this.checkPinCodeAvailability(pincode)
+            }
+            onFocusInput={event => this.onFocusInput(event)}
+            onBlur={() => this.onBlur()}
+            labelText="Submit"
+            borderColor={this.state.borderColor}
+            borderBottom={this.state.borderBottom}
+            onKeyPress={this.props.onKeyPress}
+            onChange={pincode => this.onChange(pincode)}
+            ovalButton={this.props.ovalButton}
+          />
+        )}
 
         {(defaultPinCode || this.state.getPinCode) && (
           <React.Fragment>
