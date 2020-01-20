@@ -106,9 +106,6 @@ export default class PdpPincode extends React.Component {
           }
         >
           <div className={[styles.label, styles.dFlex].join(" ")}>
-            {this.state.showCity && this.props.city ? (
-              <div className={styles.cityName}>{`${this.props.city}, `}</div>
-            ) : null}
             <div className={styles.pincodeField}>
               <Input2
                 boxy={true}
@@ -118,7 +115,11 @@ export default class PdpPincode extends React.Component {
                 onChange={val => this.onChange(val)}
                 onlyNumber={true}
                 border={"none"}
-                value={this.state.pincode}
+                value={
+                  this.state.showCity && this.props.city
+                    ? `${this.props.city}, ${this.state.pincode}`
+                    : this.state.pincode
+                }
                 noPadding={true}
                 onKeyUp={event => {
                   this.enterPassword(event.key);
