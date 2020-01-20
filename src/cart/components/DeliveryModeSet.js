@@ -76,8 +76,8 @@ export default class DeliveryModeSet extends React.Component {
       dayFormat === productDayFormat
         ? `Today ,`
         : nextDayFormat === productDayFormat
-        ? `Tomorrow ,`
-        : "";
+          ? `Tomorrow ,`
+          : "";
     switch (date) {
       case 1:
       case 21:
@@ -140,24 +140,18 @@ export default class DeliveryModeSet extends React.Component {
                 <div className={styles.deliveryWay}>
                   {deliveryOption &&
                     `${
-                      deliveryOption.name === "Home Delivery"
-                        ? "Standard Shipping"
-                        : deliveryOption.name === "Express Delivery"
-                        ? "Express Delivery"
-                        : deliveryOption.name
-                    } ${
                       deliveryOption.code === SHORT_COLLECT
                         ? textForCollect
                           ? textForCollect
                           : ""
                         : this.props.isShowDate
-                        ? ` : ${this.getDayNumberSuffix(
-                            deliveryOption.name,
-                            data.USSID
-                          )}`
-                        : expectedDeliveryDate
-                        ? expectedDeliveryDate
-                        : ""
+                          ? ` : ${this.getDayNumberSuffix(
+                              deliveryOption.name,
+                              data.USSID
+                            )}`
+                          : expectedDeliveryDate
+                            ? expectedDeliveryDate
+                            : ""
                     }`}
                 </div>
               </div>

@@ -42,7 +42,9 @@ export default class ReturnToStore extends React.Component {
       if (selectedStore.address) {
         localStorage.setItem(
           SELECTED_STORE,
-          `${selectedStore.displayName}, ${selectedStore.address.line1} ${selectedStore.address.line2}, ${selectedStore.address.city} ${selectedStore.address.postalCode}`
+          `${selectedStore.displayName}, ${selectedStore.address.line1} ${
+            selectedStore.address.line2
+          }, ${selectedStore.address.city} ${selectedStore.address.postalCode}`
         );
       }
       this.setState({
@@ -283,7 +285,7 @@ export default class ReturnToStore extends React.Component {
                         );
                       })}
                     </GridSelect>
-                    {this.props.from !== "Pdp" && (
+                    {this.props.from === "Checkout" && (
                       <div
                         className={
                           !this.state.showPickupPerson
@@ -305,39 +307,42 @@ export default class ReturnToStore extends React.Component {
                     )}
                   </React.Fragment>
                 )}
-              {this.state.showPickupPerson && this.state.selectedStore && (
-                <div className={styles.getLocationDetailsHolder}>
-                  <div className={styles.getLocationDetails}>
-                    <GetLocationDetails
-                      changeLocation={() => {
-                        this.changeStore();
-                      }}
-                      headingText={this.state.selectedStore.displayName}
-                      address={`${this.state.selectedStore.returnAddress1} ${this.state.selectedStore.returnAddress2} ${this.state.selectedStore.returnCity}`}
-                      pickUpKey="Open on: "
-                      pickUpValue={this.state.selectedStore.selectedStoreTime}
-                      workingDays={this.state.selectedStore.mplWorkingDays}
-                      openingTime={this.state.selectedStore.mplOpeningTime}
-                      closingTime={this.state.selectedStore.mplClosingTime}
-                      pincodeDetails={
-                        this.props.isFromCheckOut
-                          ? this.props.pincodeResponse
-                          : getDeliveryModesByWinningUssid
-                      }
-                      selectedSlaveId={this.state.selectedStore.slaveId}
-                      isFromCheckOut={this.props.isFromCheckOut}
-                    />
+              {this.state.showPickupPerson &&
+                this.state.selectedStore && (
+                  <div className={styles.getLocationDetailsHolder}>
+                    <div className={styles.getLocationDetails}>
+                      <GetLocationDetails
+                        changeLocation={() => {
+                          this.changeStore();
+                        }}
+                        headingText={this.state.selectedStore.displayName}
+                        address={`${this.state.selectedStore.returnAddress1} ${
+                          this.state.selectedStore.returnAddress2
+                        } ${this.state.selectedStore.returnCity}`}
+                        pickUpKey="Open on: "
+                        pickUpValue={this.state.selectedStore.selectedStoreTime}
+                        workingDays={this.state.selectedStore.mplWorkingDays}
+                        openingTime={this.state.selectedStore.mplOpeningTime}
+                        closingTime={this.state.selectedStore.mplClosingTime}
+                        pincodeDetails={
+                          this.props.isFromCheckOut
+                            ? this.props.pincodeResponse
+                            : getDeliveryModesByWinningUssid
+                        }
+                        selectedSlaveId={this.state.selectedStore.slaveId}
+                        isFromCheckOut={this.props.isFromCheckOut}
+                      />
+                    </div>
+                    <div className={styles.pickUpDetails}>
+                      <PickUpDetails
+                        getValue={val => this.getValue(val)}
+                        onSubmit={() => this.handleSubmit()}
+                        name={this.state.name}
+                        mobile={this.state.mobile}
+                      />
+                    </div>
                   </div>
-                  <div className={styles.pickUpDetails}>
-                    <PickUpDetails
-                      getValue={val => this.getValue(val)}
-                      onSubmit={() => this.handleSubmit()}
-                      name={this.state.name}
-                      mobile={this.state.mobile}
-                    />
-                  </div>
-                </div>
-              )}
+                )}
             </div>
           </div>
         </div>

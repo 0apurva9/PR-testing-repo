@@ -138,7 +138,6 @@ export default class DeliveryInformations extends React.Component {
   }
 
   render() {
-    console.log("props coming to deliveryInformation is : ", this.props);
     let iconImage = "";
     let typeDate = "";
     let typeText = "";

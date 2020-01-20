@@ -75,6 +75,24 @@ export default class OrderCard extends React.Component {
     );
   }
 
+  copyToClipBoard = event => {
+    event.preventDefault();
+    event.stopPropagation();
+    let copyText = this.refs.copyThisLink;
+
+    document.addEventListener(
+      "copy",
+      function(e) {
+        e.clipboardData.setData("text/plain", copyText.innerHTML);
+        e.preventDefault();
+      },
+      true
+    );
+
+    document.execCommand("copy");
+    window.open(copyText.innerHTML, "_blank");
+  };
+
   render() {
     let calloutMessage = this.props.calloutMessage;
 
@@ -481,17 +499,6 @@ export default class OrderCard extends React.Component {
         )}
 
         <div>{this.props.additionalContent}</div>
-        {this.props.selectedDeliveryMode &&
-          this.props.selectedDeliveryMode.name && (
-            <div className={styles.commonTitle}>
-              <span className={styles.ffsemibold}>Delivery Mode: </span>
-              <span className={styles.estimatedDate}>
-                {this.getSelectedDeliveryModeName(
-                  this.props.selectedDeliveryMode.name
-                )}
-              </span>
-            </div>
-          )}
         {this.props.consignmentStatus == "PAYMENT_PENDING" && (
           <React.Fragment>
             <div className={styles.commonTitle}>
@@ -622,6 +629,14 @@ export default class OrderCard extends React.Component {
         {this.props.sellerName && (
           <div className={styles.sellerName}>
             Sold By : {this.props.sellerName}
+          </div>
+        )}
+        {this.props.sshipLPUrl && (
+          <div
+            ref="copyThisLink"
+            onClick={event => this.copyToClipBoard(event)}
+          >
+            {this.props.sshipLPUrl}
           </div>
         )}
         {/* <div
