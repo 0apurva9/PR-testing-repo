@@ -5,6 +5,7 @@ import upi_new_icon from "./img/upi_new_icon.svg";
 import ManueDetails from "../../general/components/MenuDetails.js";
 import { UPI } from "../../lib/constants";
 import UpiForm from "./UpiForm";
+const plzVerifyUPIMsg = "Please verify your UPI Address to proceed";
 
 export default class CheckoutUpi extends React.Component {
   render() {
@@ -33,6 +34,7 @@ export default class CheckoutUpi extends React.Component {
           onCheckout={this.props.onCheckout}
           showTermsNConditions={() => this.props.showTermsNConditions()}
           showHowToPay={() => this.props.showHowToPay()}
+          displayToast={() => this.props.displayToast(plzVerifyUPIMsg)}
         />
       </ManueDetails>
     );

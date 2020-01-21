@@ -1,3 +1,9 @@
+.base {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding: 0 20px;
+}
 .pl12 {
   padding-left: 12px !important;
 }
@@ -263,4 +269,10 @@
   margin: 0 0 5px;
   font-size: 12px;
   color: #ff1744;
+}
+
+@media only screen and (min-width: 1025px) {
+  .base {
+    padding: 10px 0 0 0;
+  }
 }

@@ -3,12 +3,9 @@ import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
 import Button from "../../general/components/Button";
 import DesktopOnly from "../../general/components/DesktopOnly";
-import styles from "./CreditCardForm.css";
-import stylesx from "./UpiForm.css";
-import MobileOnly from "../../general/components/MobileOnly";
+import styles from "./UpiForm.css";
 import upi_opt from "./img/upi_opt.svg";
 import BottomSlideModal from "../../general/components/BottomSlideModal.js";
-const bankErrorMessage = `Your bank is currently unable to process payments due to a technical issue.`;
 const invalidUpi = `Your UPI no longer seems to exist. Try another option.`;
 const VERIFIED = `Verified`;
 const INVALID = `Invalid`;
@@ -116,20 +113,20 @@ export default class UpiForm extends React.Component {
   render() {
     let savedUpiVerificationCls = this.state.showUpiMsg.upiId
       ? this.state.showUpiMsg.isVerified
-        ? stylesx.verifiedIcon
-        : stylesx.invalidIcon
+        ? styles.verifiedIcon
+        : styles.invalidIcon
       : "";
     let svdUpiLblHelperCls = this.state.showUpiMsg.upiId
       ? this.state.showUpiMsg.isVerified
-        ? stylesx.verified
-        : stylesx.svdUpErr
+        ? styles.verified
+        : styles.svdUpErr
       : "";
     let verifiedStateHelperCls = this.state.showUpiMsg.upiId
       ? this.state.showUpiMsg.showLoader
-        ? stylesx.invalidFrm
+        ? styles.invalidFrm
         : this.state.showUpiMsg.isVerified
-          ? stylesx.verifiedFrm
-          : stylesx.invalidFrm
+          ? styles.verifiedFrm
+          : styles.invalidFrm
       : "";
     return (
       <div className={styles.base}>
@@ -141,22 +138,22 @@ export default class UpiForm extends React.Component {
           )}
           {!this.state.isNewUpi && (
             <React.Fragment>
-              <div className={stylesx.upiSavedSec}>
-                <div className={stylesx.svdUpiRow}>
-                  <div className={stylesx.svdUpiInfoCol}>
-                    <h4 className={stylesx.svdUpiHedTxt}>
+              <div className={styles.upiSavedSec}>
+                <div className={styles.svdUpiRow}>
+                  <div className={styles.svdUpiInfoCol}>
+                    <h4 className={styles.svdUpiHedTxt}>
                       Select from your saved UPI ID’s
                     </h4>
-                    <div className={stylesx.flexRow50 + " " + stylesx.flexWrap}>
+                    <div className={styles.flexRow50 + " " + styles.flexWrap}>
                       {this.state.savedUPIidResponse &&
                         this.state.savedUPIidResponse.map((ele, i) => (
-                          <div className={stylesx.flexRow50Cols} key={i}>
-                            <div className={stylesx.svdUpiLblBox}>
+                          <div className={styles.flexRow50Cols} key={i}>
+                            <div className={styles.svdUpiLblBox}>
                               {this.state.showUpiMsg.upiId ===
                               ele.value.upiId ? (
                                 <div
                                   className={
-                                    stylesx.svdUpiLbl + " " + svdUpiLblHelperCls
+                                    styles.svdUpiLbl + " " + svdUpiLblHelperCls
                                   }
                                   onClick={() =>
                                     this.verifyUpi(ele.value.upiId)
@@ -165,7 +162,7 @@ export default class UpiForm extends React.Component {
                                   {ele.value.upiId}
                                   <div
                                     className={
-                                      stylesx.verifiedState +
+                                      styles.verifiedState +
                                       " " +
                                       verifiedStateHelperCls
                                     }
@@ -175,14 +172,14 @@ export default class UpiForm extends React.Component {
                                   </div>
                                   {!this.state.showUpiMsg.isVerified &&
                                     !this.state.showUpiMsg.showLoader && (
-                                      <p className={stylesx.errorTxt}>
+                                      <p className={styles.errorTxt}>
                                         {invalidUpi}
                                       </p>
                                     )}
                                 </div>
                               ) : (
                                 <div
-                                  className={stylesx.svdUpiLbl}
+                                  className={styles.svdUpiLbl}
                                   onClick={() =>
                                     this.verifyUpi(ele.value.upiId)
                                   }
@@ -194,10 +191,10 @@ export default class UpiForm extends React.Component {
                           </div>
                         ))}
 
-                      <div className={stylesx.flexRow50Cols}>
+                      <div className={styles.flexRow50Cols}>
                         <button
                           type="button"
-                          className={stylesx.addNewUpiBtn}
+                          className={styles.addNewUpiBtn}
                           onClick={() => this.toggleForm()}
                         >
                           + Add new UPI ID
@@ -205,7 +202,7 @@ export default class UpiForm extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div className={stylesx.svdUpiBtnCol}>
+                  <div className={styles.svdUpiBtnCol}>
                     <Button
                       disabled={this.state.showUpiMsg.isVerified ? false : true}
                       type="primary"
@@ -227,20 +224,18 @@ export default class UpiForm extends React.Component {
           )}
           {this.state.isNewUpi && (
             <React.Fragment>
-              <div className={stylesx.flexRow50 + " " + stylesx.mb20}>
-                <div
-                  className={stylesx.flexRow50Cols + " " + stylesx.upiBrdRgt}
-                >
+              <div className={styles.flexRow50 + " " + styles.mb20}>
+                <div className={styles.flexRow50Cols + " " + styles.upiBrdRgt}>
                   <img src={upi_opt} alt="imgg" />
                 </div>
-                <div className={stylesx.flexRow50Cols}>
-                  <div className={stylesx.upiHedTxt}>
-                    <p className={stylesx.upiHedTxt}>
+                <div className={styles.flexRow50Cols}>
+                  <div className={styles.upiHedTxt}>
+                    <p className={styles.upiHedTxt}>
                       UPI ID is in the format of mobilenumber@upi or
                       username@bank
                     </p>
                     <p
-                      id={stylesx.howPymntWork}
+                      id={styles.howPymntWork}
                       onClick={() => this.showHowToPay()}
                     >
                       How UPI Payments work?
@@ -248,9 +243,9 @@ export default class UpiForm extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className={stylesx.flexRow50New + " " + stylesx.mb20}>
-                <div className={stylesx.flexRow50NewCols}>
-                  <div className={stylesx.frmFeildRow}>
+              <div className={styles.flexRow50New + " " + styles.mb20}>
+                <div className={styles.flexRow50NewCols}>
+                  <div className={styles.frmFeildRow}>
                     <Input2
                       placeholder="Enter your registered UPI ID*"
                       value={this.state.upiId}
@@ -280,7 +275,7 @@ export default class UpiForm extends React.Component {
                       <React.Fragment>
                         <div
                           className={
-                            stylesx.verifiedState + " " + verifiedStateHelperCls
+                            styles.verifiedState + " " + verifiedStateHelperCls
                           }
                         >
                           <span className={savedUpiVerificationCls} />{" "}
@@ -288,7 +283,7 @@ export default class UpiForm extends React.Component {
                         </div>
                         {!this.state.showUpiMsg.isVerified &&
                           !this.state.showUpiMsg.showLoader && (
-                            <p className={stylesx.errorTxt}>
+                            <p className={styles.errorTxt}>
                               Please enter a valid UPI ID
                             </p>
                           )}
@@ -296,8 +291,8 @@ export default class UpiForm extends React.Component {
                     )}
                   </div>
                 </div>
-                <div className={stylesx.flexRow50NewCols}>
-                  <div className={stylesx.upiPayBtnSec}>
+                <div className={styles.flexRow50NewCols}>
+                  <div className={styles.upiPayBtnSec}>
                     <Button
                       disabled={this.state.showUpiMsg.isVerified ? false : true}
                       type="primary"
@@ -315,8 +310,8 @@ export default class UpiForm extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className={stylesx.upiTandCRow}>
-                <p className={stylesx.upiInfoTxt}>
+              <div className={styles.upiTandCRow}>
+                <p className={styles.upiInfoTxt}>
                   We will save your UPI address for a faster checkout. To remove
                   your details, visit my account.
                 </p>
@@ -324,12 +319,10 @@ export default class UpiForm extends React.Component {
               {this.props.savedUPIidResponse &&
                 this.props.savedUPIidResponse.length !== 0 && (
                   <div
-                    className={stylesx.upiTandCRow}
+                    className={styles.upiTandCRow}
                     onClick={() => this.toggleForm()}
                   >
-                    <p
-                      className={stylesx.upitncTxt + " " + stylesx.showSavedUpi}
-                    >
+                    <p className={styles.upitncTxt + " " + styles.showSavedUpi}>
                       SHOW SAVED UPI ID’s
                     </p>
                   </div>
@@ -339,17 +332,17 @@ export default class UpiForm extends React.Component {
 
           {this.state.UPIofferCalloutList &&
             this.state.UPIofferCalloutList.map((offer, i) => (
-              <div className={stylesx.upiTandCRow} key={i}>
-                <p className={stylesx.lblTxt}>
+              <div className={styles.upiTandCRow} key={i}>
+                <p className={styles.lblTxt}>
                   {offer.promotionDisplayText}
                   <span
-                    className={stylesx.upitncTxt}
+                    className={styles.upitncTxt}
                     onClick={() => this.showTermsAndConditionPopup()}
                   >
                     {offer.TnC ? offer.TnC : ""}
                   </span>
                 </p>
-                {/* <p className={stylesx.upitncTxt}>{offer.discountValidity}</p> */}
+                {/* <p className={styles.upitncTxt}>{offer.discountValidity}</p> */}
               </div>
             ))}
         </DesktopOnly>
