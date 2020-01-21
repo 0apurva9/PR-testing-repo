@@ -68,13 +68,15 @@ export default class DeliveryInformations extends React.Component {
     if (
       date === todayDate &&
       (this.props.type === SHORT_EXPRESS ||
-        this.props.type === SHORT_SAME_DAY_DELIVERY)
+        this.props.type === SHORT_SAME_DAY_DELIVERY ||
+        this.props.type === SHORT_HOME_DELIVERY)
     ) {
       newExpressOrSddText = `Today, `;
     } else if (
       date === nextDayDate &&
       (this.props.type === SHORT_EXPRESS ||
-        this.props.type === SHORT_SAME_DAY_DELIVERY)
+        this.props.type === SHORT_SAME_DAY_DELIVERY ||
+        this.props.type === SHORT_HOME_DELIVERY)
     ) {
       newExpressOrSddText = `Tomorrow, `;
     }
