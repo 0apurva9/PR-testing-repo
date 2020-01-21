@@ -209,10 +209,11 @@ export default class DeliveryInformations extends React.Component {
       //not required as per pincode phase 2 design change
       /* if (this.props.showDeliveryCharge) {
         deliveryCharge = "(Free)";
-      } */
+      } 
       if (parseInt(this.props.deliveryCharge, 10) !== 0) {
         deliveryCharge = `(₹${parseInt(this.props.deliveryCharge, 10)})`;
       }
+      */
     }
     if (this.props.pdpApparel) {
       baseClass = styles.basePdp;

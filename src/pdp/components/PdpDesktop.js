@@ -831,10 +831,6 @@ export default class PdpApparel extends React.Component {
       this.state.selectedBundledProduct.push(e.target.value);
   }
   render() {
-    console.log(
-      "pdpdesktop productDetails response is : ",
-      this.props.productDetails
-    );
     let seasonData = {};
     if (this.props.productDetails["seasonDetails"] !== undefined) {
       seasonData = this.props.productDetails["seasonDetails"].find(item => {

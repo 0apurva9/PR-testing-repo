@@ -20,36 +20,40 @@ export default class PdpDeliveryModes extends React.Component {
     let deliveryMode = "";
     let deliveryDates = "";
     const eligibleDeliveryModes = this.props.eligibleDeliveryModes;
-    //const deliveryModesATP = this.props.deliveryModesATP;
     let getDeliveryModesByWinningUssid = "";
-    if (
-      this.props &&
-      this.props.pincodeDetails &&
-      this.props.pincodeDetails.deliveryOptions &&
-      this.props.pincodeDetails.deliveryOptions.pincodeListResponse &&
-      this.props.pincodeDetails.deliveryOptions.pincodeListResponse
-    ) {
-      getDeliveryModesByWinningUssid = this.props.pincodeDetails.deliveryOptions.pincodeListResponse.find(
-        val => {
-          return val.ussid === this.props.winningUssID;
-        }
-      );
+    //const deliveryModesATP = this.props.deliveryModesATP;
+
+    if (this.props.fromSellerCard && this.props.pincodeDetails) {
+      deliveryDates = this.props.pincodeDetails.validDeliveryModes;
+    } else {
+      if (
+        this.props &&
+        this.props.pincodeDetails &&
+        this.props.pincodeDetails.deliveryOptions &&
+        this.props.pincodeDetails.deliveryOptions.pincodeListResponse &&
+        this.props.pincodeDetails.deliveryOptions.pincodeListResponse
+      ) {
+        getDeliveryModesByWinningUssid = this.props.pincodeDetails.deliveryOptions.pincodeListResponse.find(
+          val => {
+            return val.ussid === this.props.winningUssID;
+          }
+        );
+      }
+
+      if (
+        getDeliveryModesByWinningUssid &&
+        getDeliveryModesByWinningUssid.validDeliveryModes
+      ) {
+        deliveryDates = getDeliveryModesByWinningUssid.validDeliveryModes;
+      }
     }
 
-    if (
-      getDeliveryModesByWinningUssid &&
-      getDeliveryModesByWinningUssid.validDeliveryModes
-    ) {
-      deliveryDates = getDeliveryModesByWinningUssid.validDeliveryModes;
-    }
     const isCod = this.props && this.props.isCod;
 
     const QuiqPiq =
       getDeliveryModesByWinningUssid &&
       getDeliveryModesByWinningUssid.quickDeliveryMode &&
       getDeliveryModesByWinningUssid.quickDeliveryMode === "Y";
-
-    console.log("QuiqPiq value and deliveryDates is ", QuiqPiq, deliveryDates);
 
     return (
       <div className={styles.base}>
@@ -179,11 +183,12 @@ export default class PdpDeliveryModes extends React.Component {
                   return val.type;
                 })
                 .includes(SHORT_EXPRESS)) ||
-            eligibleDeliveryModes
-              .map(val => {
-                return val.code;
-              })
-              .includes(SHORT_COLLECT) ||
+            (eligibleDeliveryModes &&
+              eligibleDeliveryModes
+                .map(val => {
+                  return val.code;
+                })
+                .includes(SHORT_COLLECT)) ||
             (deliveryDates &&
               deliveryDates
                 .map(val => {
