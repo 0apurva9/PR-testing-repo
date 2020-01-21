@@ -59,7 +59,6 @@ export default class IconWithHeader extends React.Component {
     return this.getDateMonthFormate(date, month);
   }
   render() {
-    console.log("props to iconwithheader", this.props);
     let placedTime = "";
     let getClickAndPiqSelectedDate = "";
     let productDayFormatOfClqAndPiq = "";

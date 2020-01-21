@@ -7,6 +7,7 @@ import MobileOnly from "../../general/components/MobileOnly";
 import Button from "../../general/components/Button.js";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import { SUCCESS, ADD_TO_BAG_TEXT, SHIPPING_TYPES } from "../../lib/constants";
+import PdpDeliveryModes from "./PdpDeliveryModes";
 export default class SellerCard extends React.Component {
   constructor(props) {
     super(props);
@@ -118,6 +119,9 @@ export default class SellerCard extends React.Component {
             {this.props.hasEmi && (
               <div className={styles.offerText}>EMI Available</div>
             )}
+            {this.props.hasCod && (
+              <div className={styles.offerText}>COD Available</div>
+            )}
           </div>
           <div
             className={
@@ -139,10 +143,36 @@ export default class SellerCard extends React.Component {
                           ) {
                             availableDeliveryModes.push(deliveryMode.type);
                             return (
-                              <div className={styles.shippingText}>
+                              /*  <div className={styles.shippingText}>
                                 {val.name}
                                 {val.description && <span>-</span>}
                                 {val.description}
+                              </div> */
+                              <div className={styles.deliveryModesHolder}>
+                                <PdpDeliveryModes
+                                  fromSellerCard={true}
+                                  //onPiq={() => this.handleShowPiqPage()}
+                                  /* eligibleDeliveryModes={
+                                  productData.eligibleDeliveryModes
+                                }
+                                deliveryModesATP={productData.deliveryModesATP} */
+                                  pdpApparel={true}
+                                  pincodeDetails={
+                                    this.props.serviceablePincodeList &&
+                                    this.props.serviceablePincodeList.find(
+                                      val => {
+                                        return (
+                                          val.ussid === this.props.winningUssID
+                                        );
+                                      }
+                                    )
+                                  }
+                                  /*  isCod={productData.isCOD}
+                                availableStores={
+                                  availableStores && availableStores.length
+                                }
+                                winningUssID={productData.winningUssID} */
+                                />
                               </div>
                             );
                           }
@@ -152,9 +182,6 @@ export default class SellerCard extends React.Component {
                   );
                 }
               })}
-            {this.props.hasCod && (
-              <div className={styles.offerText}>{this.props.cashText}</div>
-            )}
           </div>
           <div
             className={
