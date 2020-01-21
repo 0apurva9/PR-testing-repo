@@ -23,9 +23,9 @@ export default class PickUpDetails extends React.Component {
           OTP will be sent to this number. Please show the OTP while picking up
           the product from the store
         </div>
-        {/* <div className={styles.inputHolder}>
+        <div className={styles.inputHolder}>
           <Input2
-            placeholder="Full name"
+            placeholder="Name"
             boxy={true}
             onChange={name => this.getValue({ name })}
             textStyle={{ fontSize: 14 }}
@@ -33,7 +33,7 @@ export default class PickUpDetails extends React.Component {
             value={this.props.name ? this.props.name : ""}
             onlyAlphabet={true}
           />
-        </div> */}
+        </div>
         <div className={styles.inputHolder}>
           <Input2
             placeholder="Phone number"

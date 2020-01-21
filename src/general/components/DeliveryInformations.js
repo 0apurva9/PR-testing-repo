@@ -44,10 +44,11 @@ export default class DeliveryInformations extends React.Component {
     }
   }
   async handleSelect(cliqPiq) {
-    if (this.props.onSelect) {
-      await this.props.onSelect(this.props.code);
-      if (cliqPiq) {
-        this.onPiq();
+    if (cliqPiq) {
+      this.onPiq();
+    } else {
+      if (this.props.onSelect) {
+        this.props.onSelect(this.props.code);
       }
     }
   }
@@ -59,6 +60,13 @@ export default class DeliveryInformations extends React.Component {
   onPiq() {
     if (this.props.onPiq) {
       this.props.onPiq();
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (this.props.cliqPiqSelected !== prevProps.cliqPiqSelected) {
+      if (this.props.onSelect) {
+        this.props.onSelect(this.props.code);
+      }
     }
   }
 

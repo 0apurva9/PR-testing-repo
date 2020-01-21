@@ -143,6 +143,7 @@ export default class DeliveryInfoSelect extends React.Component {
                     return val.deliveryDate;
                   })[0]
               }
+              cliqPiqSelected={this.props.cliqPiqSelected}
             />
           )}
 
@@ -221,6 +222,7 @@ export default class DeliveryInfoSelect extends React.Component {
                     return val.deliveryDate;
                   })[0]
               }
+              cliqPiqSelected={this.props.cliqPiqSelected}
             />
           )}
 
@@ -300,6 +302,7 @@ export default class DeliveryInfoSelect extends React.Component {
               }
               splitIntoTwoLine={false}
               inCheckOutPage={this.props.inCheckOutPage}
+              cliqPiqSelected={this.props.cliqPiqSelected}
             />
           )}
         <div
@@ -406,6 +409,7 @@ export default class DeliveryInfoSelect extends React.Component {
                       ? true
                       : false
                   }
+                  cliqPiqSelected={this.props.cliqPiqSelected}
                 />
               </div>
             )}
@@ -461,6 +465,7 @@ export default class DeliveryInfoSelect extends React.Component {
               inCartPage={this.props.inCartPage}
               inCartPageIcon={this.props.inCartPageIcon}
               isArrowIcon={this.props.isArrowIcon}
+              cliqPiqSelected={this.props.cliqPiqSelected}
             />;
           })}
       </div>
