@@ -16,7 +16,6 @@ import Button from "../../general/components/Button";
 import SearchAndUpdate from "./SearchAndUpdate";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import Image from "../../xelpmoc-core/Image";
-import { RUPEE_SYMBOL } from "../../lib/constants";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import {
   setDataLayerForCartDirectCalls,
@@ -53,7 +52,9 @@ import {
   BUY_NOW_PRODUCT_DETAIL,
   BUY_NOW_ERROR_MESSAGE,
   LOGIN_PATH,
-  ERROR
+  ERROR,
+  RUPEE_SYMBOL,
+  SELECTED_STORE
 } from "../../lib/constants";
 import { isBrowser } from "browser-or-node";
 import styles from "./ProductDescriptionPage.css";
@@ -460,6 +461,7 @@ export default class PdpApparel extends React.Component {
             this.props.displayToast("Please select a quantity to continue");
             this.setState({ quantityError: true });
           } else {
+            localStorage.removeItem(SELECTED_STORE);
             if (buyNowFlag) {
               setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
               if (!checkUserLoggedIn()) {

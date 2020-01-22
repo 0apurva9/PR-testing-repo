@@ -54,3 +54,6 @@
   top: 5px;
   z-index: 1;
 }
+.quickDeliveryMode {
+  border-bottom: 1px solid #e2e2e2;
+}

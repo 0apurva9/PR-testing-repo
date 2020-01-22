@@ -152,6 +152,7 @@ export default class DeliveryInformations extends React.Component {
     let typeDate = "";
     let typeText = "";
     let formattedPlacedTime = "";
+    let selectedStore = localStorage.getItem(SELECTED_STORE);
     if (this.props.placedTime && this.props.placedTime !== undefined) {
       formattedPlacedTime = this.getDayNumberSuffix(this.props.placedTime);
     }
@@ -217,7 +218,7 @@ export default class DeliveryInformations extends React.Component {
       //not required as per pincode phase 2 design change
       /* if (this.props.showDeliveryCharge) {
         deliveryCharge = "(Free)";
-      } 
+      }
       if (parseInt(this.props.deliveryCharge, 10) !== 0) {
         deliveryCharge = `(₹${parseInt(this.props.deliveryCharge, 10)})`;
       }
@@ -272,6 +273,11 @@ export default class DeliveryInformations extends React.Component {
               this.props.isShowCliqAndPiqUnderLineText &&
               this.props.available && (
                 <div className={styles.underLineButtonHolder}>
+                  {selectedStore && (
+                    <div className={styles.cncDeliveryAddress}>
+                      {selectedStore}
+                    </div>
+                  )}
                   <span className={styles.buttonHolderPiq}>
                     <UnderLinedButton
                       inCheckOutPage={this.props.inCheckOutPage}

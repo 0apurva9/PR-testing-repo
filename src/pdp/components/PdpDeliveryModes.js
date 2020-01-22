@@ -58,123 +58,125 @@ export default class PdpDeliveryModes extends React.Component {
     return (
       <div className={styles.base}>
         {QuiqPiq === true && (
-          <DeliveryInformation
-            isQuiqPiq={QuiqPiq}
-            isStaticText={true}
-            fontSize={"14px"}
-            available={true}
-            type={QUIQPIQ}
-          />
-        )}
-        {deliveryDates &&
-          deliveryDates
-            .map(val => {
-              return val.type;
-            })
-            .includes(SHORT_SAME_DAY_DELIVERY) && (
+          <div className={styles.quickDeliveryMode}>
             <DeliveryInformation
               isQuiqPiq={QuiqPiq}
-              pdpApparel={this.props.pdpApparel}
-              type={SHORT_SAME_DAY_DELIVERY}
-              cutOffTime={
-                deliveryDates &&
-                deliveryDates
-                  .filter(val => {
-                    return val.type === SHORT_SAME_DAY_DELIVERY;
-                  })
-                  .map(val => {
-                    return val.cutoffTime;
-                  })[0]
-              }
-              available={
-                deliveryDates &&
-                deliveryDates
-                  .map(val => {
-                    return val.type;
-                  })
-                  .includes(SHORT_SAME_DAY_DELIVERY)
-              }
-              placedTime={
-                deliveryDates &&
-                deliveryDates
-                  .filter(val => {
-                    return val.type === SHORT_SAME_DAY_DELIVERY;
-                  })
-                  .map(val => {
-                    return val.deliveryDate;
-                  })[0]
-              }
+              isStaticText={true}
+              fontSize={"14px"}
+              available={true}
+              type={QUIQPIQ}
             />
-          )}
-        {deliveryDates &&
-          deliveryDates
-            .map(val => {
-              return val.type;
-            })
-            .includes(SHORT_EXPRESS) && (
-            <DeliveryInformation
-              isQuiqPiq={QuiqPiq}
-              pdpApparel={this.props.pdpApparel}
-              type={SHORT_EXPRESS}
-              available={
-                deliveryDates &&
-                deliveryDates
-                  .map(val => {
-                    return val.type;
-                  })
-                  .includes(SHORT_EXPRESS)
-              }
-              cutOffTime={
-                deliveryDates &&
-                deliveryDates
-                  .filter(val => {
-                    return val.type === SHORT_EXPRESS;
-                  })
-                  .map(val => {
-                    return val.cutoffTime;
-                  })[0]
-              }
-              placedTime={
-                deliveryDates &&
-                deliveryDates
-                  .filter(val => {
-                    return val.type === SHORT_EXPRESS;
-                  })
-                  .map(val => {
-                    return val.deliveryDate;
-                  })[0]
-              }
-            />
-          )}
-        {deliveryDates &&
-          deliveryDates
-            .map(val => {
-              return val.type;
-            })
-            .includes(SHORT_COLLECT) && (
-            <DeliveryInformation
-              inPdpPage={true}
-              pdpApparel={this.props.pdpApparel}
-              onPiq={this.props.onPiq}
-              type={SHORT_COLLECT}
-              available={
-                deliveryDates &&
-                deliveryDates
-                  .map(val => {
-                    return val.type;
-                  })
-                  .includes(SHORT_COLLECT)
-              }
-              showCliqAndPiqButton={false}
-              isClickable={true}
-              isShowCliqAndPiqUnderLineText={localStorage.getItem(
-                DEFAULT_PIN_CODE_LOCAL_STORAGE
+            {deliveryDates &&
+              deliveryDates
+                .map(val => {
+                  return val.type;
+                })
+                .includes(SHORT_SAME_DAY_DELIVERY) && (
+                <DeliveryInformation
+                  isQuiqPiq={QuiqPiq}
+                  pdpApparel={this.props.pdpApparel}
+                  type={SHORT_SAME_DAY_DELIVERY}
+                  cutOffTime={
+                    deliveryDates &&
+                    deliveryDates
+                      .filter(val => {
+                        return val.type === SHORT_SAME_DAY_DELIVERY;
+                      })
+                      .map(val => {
+                        return val.cutoffTime;
+                      })[0]
+                  }
+                  available={
+                    deliveryDates &&
+                    deliveryDates
+                      .map(val => {
+                        return val.type;
+                      })
+                      .includes(SHORT_SAME_DAY_DELIVERY)
+                  }
+                  placedTime={
+                    deliveryDates &&
+                    deliveryDates
+                      .filter(val => {
+                        return val.type === SHORT_SAME_DAY_DELIVERY;
+                      })
+                      .map(val => {
+                        return val.deliveryDate;
+                      })[0]
+                  }
+                />
               )}
-              numberOfStore={`
+            {deliveryDates &&
+              deliveryDates
+                .map(val => {
+                  return val.type;
+                })
+                .includes(SHORT_EXPRESS) && (
+                <DeliveryInformation
+                  isQuiqPiq={QuiqPiq}
+                  pdpApparel={this.props.pdpApparel}
+                  type={SHORT_EXPRESS}
+                  available={
+                    deliveryDates &&
+                    deliveryDates
+                      .map(val => {
+                        return val.type;
+                      })
+                      .includes(SHORT_EXPRESS)
+                  }
+                  cutOffTime={
+                    deliveryDates &&
+                    deliveryDates
+                      .filter(val => {
+                        return val.type === SHORT_EXPRESS;
+                      })
+                      .map(val => {
+                        return val.cutoffTime;
+                      })[0]
+                  }
+                  placedTime={
+                    deliveryDates &&
+                    deliveryDates
+                      .filter(val => {
+                        return val.type === SHORT_EXPRESS;
+                      })
+                      .map(val => {
+                        return val.deliveryDate;
+                      })[0]
+                  }
+                />
+              )}
+            {deliveryDates &&
+              deliveryDates
+                .map(val => {
+                  return val.type;
+                })
+                .includes(SHORT_COLLECT) && (
+                <DeliveryInformation
+                  inPdpPage={true}
+                  pdpApparel={this.props.pdpApparel}
+                  onPiq={this.props.onPiq}
+                  type={SHORT_COLLECT}
+                  available={
+                    deliveryDates &&
+                    deliveryDates
+                      .map(val => {
+                        return val.type;
+                      })
+                      .includes(SHORT_COLLECT)
+                  }
+                  showCliqAndPiqButton={false}
+                  isClickable={true}
+                  isShowCliqAndPiqUnderLineText={localStorage.getItem(
+                    DEFAULT_PIN_CODE_LOCAL_STORAGE
+                  )}
+                  numberOfStore={`
                     ${this.props.availableStores} more stores nearby`}
-              splitIntoTwoLine={false}
-            />
-          )}
+                  splitIntoTwoLine={false}
+                />
+              )}
+          </div>
+        )}
         <div
           className={
             (deliveryDates &&

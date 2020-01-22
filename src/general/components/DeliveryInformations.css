@@ -64,6 +64,12 @@
   composes: buttonHolder;
   margin-left: 0;
 }
+.cncDeliveryAddress {
+  width: 58%;
+  font-family: light;
+  font-size: 14px;
+  line-height: 20px;
+}
 @media only screen and (min-width: 1025px) {
   .base {
     padding-right: 0px;

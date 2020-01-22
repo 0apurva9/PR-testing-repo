@@ -16,7 +16,8 @@ import {
   ANONYMOUS_USER,
   TIME_OUT_FOR_APIS,
   LOW_INTERNET_CONNECTION_MESSAGE,
-  CHANNEL
+  CHANNEL,
+  SELECTED_STORE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -521,7 +522,9 @@ export function getProductPinCode(
           behavior: "smooth"
         });
       }
-
+      if (pinCode) {
+        localStorage.removeItem(SELECTED_STORE);
+      }
       return dispatch(
         getProductPinCodeSuccess({
           pinCode,
