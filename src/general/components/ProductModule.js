@@ -188,6 +188,7 @@ export default class ProductModule extends React.Component {
               />
 
               <ProductInfo
+                isPlp={this.props.isPlp}
                 electronicView={electronicView}
                 averageRating={this.props.averageRating}
                 ratingCount={this.props.ratingCount}
