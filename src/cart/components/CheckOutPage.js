@@ -3871,7 +3871,7 @@ if you have order id in local storage then you have to show order confirmation p
                       showTermsNConditions={() =>
                         this.props.showTermsNConditions()
                       }
-                      showHowToPay={() => this.props.showHowToPay()}
+                      // showHowToPay={() => this.props.showHowToPay()}
                       getNetBankDetails={() => this.getNetBankDetails()}
                       getEmiBankDetails={() => this.getEmiBankDetails()}
                       getEmiEligibility={() => this.getEmiEligibility()}
@@ -3923,6 +3923,9 @@ if you have order id in local storage then you have to show order confirmation p
                         this.state.emiBinValidationErrorMessage
                       }
                       retryPaymentDetails={this.props.retryPaymentDetails}
+                      addUPIDetails={val => this.props.addUPIDetails(val)}
+                      addUserUPIStatus={this.props.addUserUPIStatus}
+                      loading={this.props.loading}
                     />
                   </div>
                 )}

@@ -13,8 +13,8 @@ import {
 } from "../../general/secondaryLoader.actions";
 import {
   showModal,
-  DESKTOP_AUTH,
-  UPIHOWTOPAY_MODAL
+  DESKTOP_AUTH
+  // UPIHOWTOPAY_MODAL
 } from "../../general/modal.actions";
 const mapDispatchToProps = dispatch => {
   return {
@@ -38,10 +38,10 @@ const mapDispatchToProps = dispatch => {
     },
     showAuthPopUp: () => {
       dispatch(showModal(DESKTOP_AUTH));
-    },
-    showHowToPay: data => {
-      dispatch(showModal(UPIHOWTOPAY_MODAL, ""));
     }
+    // showHowToPay: data => {
+    //   dispatch(showModal(UPIHOWTOPAY_MODAL, ""));
+    // }
   };
 };
 

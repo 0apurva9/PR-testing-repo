@@ -6,15 +6,16 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import styles from "./UpiForm.css";
 import upi_opt from "./img/upi_opt.svg";
 import BottomSlideModal from "../../general/components/BottomSlideModal.js";
+import { format } from "date-fns";
 const invalidUpi = `Your UPI no longer seems to exist. Try another option.`;
-const VERIFIED = `Verified`;
+const VALID = `Verified`;
 const INVALID = `Invalid`;
 const UPI_REGEX = /^[A-Za-z0-9]+@[A-Za-z0-9]\w+$/;
+const dateFormat = "DD MMM";
 
 export default class UpiForm extends React.Component {
   constructor(props) {
     super(props);
-    // 'abcd@ybl','1234@ybl','8787989089@ksd','12124321290@okhdfc'
     this.state = {
       upiId: "",
       upiPatternVerified: false,
@@ -25,6 +26,7 @@ export default class UpiForm extends React.Component {
         showLoader: false,
         text: ""
       },
+      isChanged: false,
       showTermsCondPopup: false,
       isNewUpi: true,
       savedUPIidResponse: [],
@@ -33,27 +35,11 @@ export default class UpiForm extends React.Component {
     };
   }
 
-  /**
-   * This functin will verify the status of the saved api
-   */
   verifyUpi = ele => {
+    this.props.addUPIDetails(ele);
     this.setState({
-      showUpiMsg: {
-        upiId: ele,
-        showLoader: true,
-        text: "loader"
-      }
+      isChanged: false
     });
-    setTimeout(() => {
-      this.setState({
-        showUpiMsg: {
-          upiId: ele,
-          isVerified: false,
-          showLoader: false,
-          text: INVALID
-        }
-      });
-    }, 2000);
   };
 
   updateUpi = val => {
@@ -65,38 +51,29 @@ export default class UpiForm extends React.Component {
         isVerified: false,
         showLoader: false,
         text: ""
-      }
+      },
+      isChanged: true
     });
   };
 
   componentDidMount() {
     this.setState({
       savedUPIidResponse: this.props.savedUPIidResponse,
-      UPIofferCalloutList: this.props.UPIofferCalloutList
+      UPIofferCalloutList: this.props.UPIofferCalloutList,
+      isNewUpi: this.props.savedUPIidResponse.length ? false : true
     });
   }
-  // componentDidUpdate(prevProps) {
-  //   if (
-  //     this.props.savedUPIidResponse &&
-  //     this.props.savedUPIidResponse !== prevProps.savedUPIidResponse
-  //   ) {
-  //     this.setState({
-  //       savedUPIidResponse: this.props.savedUPIidResponse,
-  //       isNewUpi: true
-  //     });
-  //   }
-  // }
 
   showTermsAndConditionPopup = () => {
     if (this.props.showTermsNConditions) {
       this.props.showTermsNConditions();
     }
   };
-  showHowToPay = () => {
-    if (this.props.showHowToPay) {
-      this.props.showHowToPay();
-    }
-  };
+  // showHowToPay = () => {
+  //   if (this.props.showHowToPay) {
+  //     this.props.showHowToPay();
+  //   }
+  // };
 
   toggleForm = () => {
     this.setState({
@@ -111,31 +88,32 @@ export default class UpiForm extends React.Component {
   };
 
   render() {
-    let savedUpiVerificationCls = this.state.showUpiMsg.upiId
-      ? this.state.showUpiMsg.isVerified
-        ? styles.verifiedIcon
-        : styles.invalidIcon
-      : "";
-    let svdUpiLblHelperCls = this.state.showUpiMsg.upiId
-      ? this.state.showUpiMsg.isVerified
-        ? styles.verified
-        : styles.svdUpErr
-      : "";
-    let verifiedStateHelperCls = this.state.showUpiMsg.upiId
-      ? this.state.showUpiMsg.showLoader
-        ? styles.invalidFrm
-        : this.state.showUpiMsg.isVerified
-          ? styles.verifiedFrm
-          : styles.invalidFrm
-      : "";
+    let payNowBtnFlag = !(
+      !this.state.isChanged && this.props.addUserUPIStatus === "VALID"
+    );
+    let savedUpiVerificationCls =
+      this.props.addUserUPIStatus !== "undefined"
+        ? this.props.addUserUPIStatus === "VALID"
+          ? styles.verifiedIcon
+          : styles.invalidIcon
+        : "";
+    let svdUpiLblHelperCls =
+      this.props.addUserUPIStatus !== "undefined"
+        ? this.props.addUserUPIStatus === "VALID"
+          ? styles.verified
+          : styles.svdUpErr
+        : "";
+    let verifiedStateHelperCls =
+      this.props.addUserUPIStatus !== "undefined"
+        ? this.props.loading
+          ? styles.invalidFrm
+          : this.props.addUserUPIStatus === "VALID"
+            ? styles.verifiedFrm
+            : styles.invalidFrm
+        : "";
     return (
       <div className={styles.base}>
         <DesktopOnly>
-          {this.state.showTermsCondPopup && (
-            <BottomSlideModal heading="KYC Verification">
-              this is just text
-            </BottomSlideModal>
-          )}
           {!this.state.isNewUpi && (
             <React.Fragment>
               <div className={styles.upiSavedSec}>
@@ -171,7 +149,8 @@ export default class UpiForm extends React.Component {
                                     {this.state.showUpiMsg.text}
                                   </div>
                                   {!this.state.showUpiMsg.isVerified &&
-                                    !this.state.showUpiMsg.showLoader && (
+                                    this.props.loading && (
+                                      // !this.state.showUpiMsg.showLoader && (
                                       <p className={styles.errorTxt}>
                                         {invalidUpi}
                                       </p>
@@ -224,7 +203,7 @@ export default class UpiForm extends React.Component {
           )}
           {this.state.isNewUpi && (
             <React.Fragment>
-              <div className={styles.flexRow50 + " " + styles.mb20}>
+              <div className={styles.flexRow50 + " " + styles.mb15}>
                 <div className={styles.flexRow50Cols + " " + styles.upiBrdRgt}>
                   <img src={upi_opt} alt="imgg" />
                 </div>
@@ -234,12 +213,20 @@ export default class UpiForm extends React.Component {
                       UPI ID is in the format of mobilenumber@upi or
                       username@bank
                     </p>
-                    <p
+                    {/* <p
                       id={styles.howPymntWork}
                       onClick={() => this.showHowToPay()}
+                    > */}
+                    <a
+                      id={styles.howPymntWork}
+                      href="https://www.tatacliq.com/how-upi-works"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
                       How UPI Payments work?
-                    </p>
+                    </a>
+
+                    {/* </p> */}
                   </div>
                 </div>
               </div>
@@ -254,24 +241,22 @@ export default class UpiForm extends React.Component {
                       textStyle={{ fontSize: 14 }}
                       height={45}
                     />
-                    {this.state.showUpiMsg.upiId === "" && (
-                      <Button
+                    {this.state.isChanged ||
+                    this.props.addUserUPIStatus === undefined ? (
+                      <button
                         disabled={this.state.upiPatternVerified ? false : true}
-                        type="primary"
-                        isUpi={true}
-                        backgroundColor="#ff1744"
-                        height={35}
-                        label="Verify"
-                        width={77}
-                        borderRadius={5}
-                        textStyle={{
-                          color: "#FFF",
-                          fontSize: 14
+                        className={styles.verifyBtn}
+                        type="button"
+                        style={{
+                          background: !this.state.upiPatternVerified
+                            ? "rgba(0,0,0,0.2)"
+                            : "#FF1744"
                         }}
-                        onClick={val => this.verifyUpi(val)}
-                      />
-                    )}
-                    {this.state.showUpiMsg.upiId && (
+                        onClick={() => this.verifyUpi(this.state.upiId)}
+                      >
+                        Verify
+                      </button>
+                    ) : (
                       <React.Fragment>
                         <div
                           className={
@@ -279,10 +264,10 @@ export default class UpiForm extends React.Component {
                           }
                         >
                           <span className={savedUpiVerificationCls} />{" "}
-                          {this.state.showUpiMsg.text}
+                          {this.props.addUserUPIStatus}
                         </div>
-                        {!this.state.showUpiMsg.isVerified &&
-                          !this.state.showUpiMsg.showLoader && (
+                        {this.props.addUserUPIStatus === "INVALID" &&
+                          !this.props.loading && (
                             <p className={styles.errorTxt}>
                               Please enter a valid UPI ID
                             </p>
@@ -294,7 +279,7 @@ export default class UpiForm extends React.Component {
                 <div className={styles.flexRow50NewCols}>
                   <div className={styles.upiPayBtnSec}>
                     <Button
-                      disabled={this.state.showUpiMsg.isVerified ? false : true}
+                      disabled={payNowBtnFlag}
                       type="primary"
                       backgroundColor="#ff1744"
                       height={35}
@@ -305,7 +290,7 @@ export default class UpiForm extends React.Component {
                         color: "#FFF",
                         fontSize: 14
                       }}
-                      onClick={val => this.verifyUpi(val)}
+                      // onClick={val => this.verifyUpi(val)}
                     />
                   </div>
                 </div>
@@ -342,7 +327,14 @@ export default class UpiForm extends React.Component {
                     {offer.TnC ? offer.TnC : ""}
                   </span>
                 </p>
-                {/* <p className={styles.upitncTxt}>{offer.discountValidity}</p> */}
+                <p className={styles.upitncTxt}>
+                  {offer.endDateAndTime && (
+                    <div className={styles.offerValidTill}>
+                      Offer valid till{" "}
+                      {format(offer.endDateAndTime, dateFormat)}
+                    </div>
+                  )}
+                </p>
               </div>
             ))}
         </DesktopOnly>

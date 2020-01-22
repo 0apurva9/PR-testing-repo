@@ -10,6 +10,9 @@
 .mb20 {
   margin-bottom: 20px !important;
 }
+.mb15 {
+  margin-bottom: 15px !important;
+}
 
 .flexRow50 {
   display: flex;
@@ -63,11 +66,16 @@
   font-size: 12px;
   margin: 0;
 }
-.upiTandCRow .lblTxt {
+.upiInfoTxt {
   color: #4a4a4a;
+}
+.upiTandCRow .lblTxt {
   margin: 0;
   font-family: semibold;
   margin: 0 0 2px;
+}
+.lblTxt {
+  color: #212121;
 }
 .upiTandCRow .upitncTxt {
   margin: 0;
@@ -115,6 +123,8 @@
   height: 35px;
   padding: 5px 10px;
   cursor: pointer;
+  height: 35px;
+  width: 77px;
 }
 .verifiedState {
   position: absolute;
@@ -261,8 +271,9 @@
   outline: none;
 }
 .showSavedUpi {
-  font-size: 15px;
+  font-size: 12px;
   color: #ff1744;
+  font-family: regular;
 }
 #howPymntWork {
   padding-left: 12px;

@@ -44,12 +44,17 @@ export default class UserSavedCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isSavedCardTab: 0,
+      isSavedCardTab: 1,
       showAddNewUpi: 1
     };
   }
   tabSelect(val) {
     this.setState({ isSavedCardTab: val });
+    if (val === 1) {
+      document.title = "My Saved UPI";
+    } else {
+      document.title = "My Saved Cards ";
+    }
   }
   /**
    * EOD
@@ -146,7 +151,7 @@ export default class UserSavedCard extends React.Component {
               {this.state.showAddNewUpi === 0 && (
                 <div className={styles.saveCardDetailWithHolder}>
                   <MyAccountUpiForm
-                    showHowToPay={() => this.props.showHowToPay()}
+                  // showHowToPay={() => this.props.showHowToPay()}
                   />
                 </div>
               )}

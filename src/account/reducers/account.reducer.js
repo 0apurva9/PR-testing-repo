@@ -941,6 +941,26 @@ const account = (
         addUserAddressError: action.error,
         loading: false
       });
+    // UPI
+    case accountActions.ADD_USER_UPI_REQUEST:
+      return Object.assign({}, state, {
+        addUserUPIStatus: action.status,
+        loading: true
+      });
+
+    case accountActions.ADD_USER_UPI_SUCCESS:
+      return Object.assign({}, state, {
+        addUserUPIStatus: action.status,
+        loading: false
+      });
+
+    case accountActions.ADD_USER_UPI_FAILURE:
+      return Object.assign({}, state, {
+        addUserUPIStatus: action.status,
+        addUserUPIError: action.error,
+        loading: false
+      });
+    // UPI finished
 
     case accountActions.GET_PIN_CODE_REQUEST:
       return Object.assign({}, state, {

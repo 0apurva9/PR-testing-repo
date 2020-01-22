@@ -10,12 +10,14 @@ import BottomSlideModal from "../../general/components/BottomSlideModal.js";
 const invalidUpi = `Your UPI no longer seems to exist. Try another option.`;
 const VERIFIED = `Verified`;
 const INVALID = `Invalid`;
+const UPI_REGEX = /^[A-Za-z0-9]+@[A-Za-z0-9]\w+$/;
 
 export default class MyAccountUpiForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       upiId: "",
+      upiPatternVerified: false,
       isVerified: false,
       isOfferAvailable: false,
       showUpiMsg: {
@@ -56,6 +58,7 @@ export default class MyAccountUpiForm extends React.Component {
   updateUpi = val => {
     this.setState({
       upiId: val,
+      upiPatternVerified: UPI_REGEX.test(val),
       showUpiMsg: {
         upiId: "",
         isVerified: false,
@@ -76,11 +79,11 @@ export default class MyAccountUpiForm extends React.Component {
     }
   }
 
-  showHowToPay = () => {
-    if (this.props.showHowToPay) {
-      this.props.showHowToPay();
-    }
-  };
+  // showHowToPay = () => {
+  //   if (this.props.showHowToPay) {
+  //     this.props.showHowToPay();
+  //   }
+  // };
 
   toggleForm = () => {
     this.setState({
@@ -130,9 +133,16 @@ export default class MyAccountUpiForm extends React.Component {
             <p className={stylesx.upiHedTxt}>
               UPI ID is in the format of mobilenumber@upi or username@bank
             </p>
-            <p id={stylesx.howPymntWork} onClick={() => this.showHowToPay()}>
+            {/* <p id={stylesx.howPymntWork} onClick={() => this.showHowToPay()}> */}
+            <a
+              id={stylesx.howPymntWork}
+              href="https://www.tatacliq.com/how-upi-works"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               How UPI Payments work?
-            </p>
+            </a>
+            {/* </p> */}
           </div>
           <div className={stylesx.flexRow50NewCols}>
             <div className={stylesx.frmFeildRow}>
@@ -144,23 +154,6 @@ export default class MyAccountUpiForm extends React.Component {
                 textStyle={{ fontSize: 14 }}
                 height={45}
               />
-              {this.state.showUpiMsg.upiId === "" && (
-                <Button
-                  disabled={this.state.upiId ? false : true}
-                  type="primary"
-                  isUpi={true}
-                  backgroundColor="#ff1744"
-                  height={35}
-                  label="Verify"
-                  width={77}
-                  borderRadius={5}
-                  textStyle={{
-                    color: "#FFF",
-                    fontSize: 14
-                  }}
-                  onClick={val => this.verifyUpi(val)}
-                />
-              )}
               {this.state.showUpiMsg.upiId && (
                 <React.Fragment>
                   <div
@@ -184,13 +177,13 @@ export default class MyAccountUpiForm extends React.Component {
           <div className={stylesx.flexRow50NewCols}>
             <div className={stylesx.upiPayBtnSec}>
               <Button
-                disabled={this.state.showUpiMsg.isVerified ? false : true}
+                disabled={this.state.upiPatternVerified ? false : true}
                 type="primary"
                 backgroundColor="#ff1744"
-                height={35}
-                label="Save & Continue"
-                width={160}
-                borderRadius={22}
+                height={40}
+                label="Verify & Save"
+                width={152}
+                borderRadius={20}
                 float="left"
                 textStyle={{
                   color: "#FFF",
@@ -199,7 +192,6 @@ export default class MyAccountUpiForm extends React.Component {
                 onClick={val => this.verifyUpi(val)}
               />
               <Button
-                disabled={this.state.showUpiMsg.isVerified ? false : true}
                 type="hollow"
                 backgroundColor="#ff1744"
                 height={35}
@@ -210,7 +202,8 @@ export default class MyAccountUpiForm extends React.Component {
                 border={``}
                 textStyle={{
                   color: "#FFF",
-                  fontSize: 14
+                  fontSize: 14,
+                  fontFamily: "regular"
                 }}
                 onClick={val => this.verifyUpi(val)}
               />

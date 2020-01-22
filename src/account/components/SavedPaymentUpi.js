@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./SavedPaymentCard.css";
+import styles from "./SavedPaymentUpi.css";
 export default class SavedPaymentUpi extends React.Component {
   removeSavedUpiDetails = () => {
     if (this.props.removeSavedUpiDetails) {

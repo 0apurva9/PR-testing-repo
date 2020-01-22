@@ -52,15 +52,10 @@ export default class Button extends React.Component {
       }
       secondaryIconClass = styles.icon;
     }
-    /**
-     * @author Prashant Kumar
-     * @comment Added UPI specific class which is to be added only for Checkout UPI section.
-     */
-    let desktopUpiCls = this.props.isUpi ? this.styles.desktopUpiCls : "";
 
     return (
       <div
-        className={className + " " + desktopUpiCls}
+        className={className}
         style={{
           height: this.props.height,
           width: this.props.width,

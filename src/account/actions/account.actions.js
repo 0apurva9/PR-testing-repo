@@ -2268,15 +2268,15 @@ export function removeSavedUpiDetails(upiId) {
        * @author Prashant Kumar
        * @comment Commented the below code as for testing purpose we are using the hard coded response.
        */
-      // const result = await api.post(
-      //   `${USER_PATH}/${
-      //     JSON.parse(userDetails).userName
-      //   }/payments/removeSavedUPIS?access_token=${
-      //     JSON.parse(customerCookie).access_token
-      //   }&upiId=${upiId}`
-      // );
-      // const resultJson = await result.json();
-      const resultJson = { type: "mplDeleteUPIDTO", status: "Success" };
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/payments/removeSavedUPIS?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&upiId=${upiId}`
+      );
+      const resultJson = await result.json();
+      // const resultJson = { type: "mplDeleteUPIDTO", status: "Success" };
       /**
        * EOD
        */
@@ -2305,10 +2305,10 @@ export function addUserUPIRequest(error) {
   };
 }
 
-export function addUserUPISuccess() {
+export function addUserUPISuccess(upiResponse) {
   return {
     type: ADD_USER_UPI_SUCCESS,
-    status: SUCCESS
+    status: upiResponse.status
   };
 }
 
@@ -2325,7 +2325,6 @@ export function addUPIDetails(upi) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
     dispatch(addUserUPIRequest(upi));
-    dispatch(showSecondaryLoader());
     try {
       const addUPI = `${USER_PATH}/${
         JSON.parse(userDetails).userName
@@ -2334,9 +2333,20 @@ export function addUPIDetails(upi) {
       }&isPwa=true&channel=web&isUpdatedPwa=true&upiId=${upi}&isToValidateUpi=true&isToSaveUpi=true`;
       const result = await api.get(addUPI);
       const resultJson = await result.json();
-
-      // const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
+      /**
+       * @author Prashant Kumar
+       * @comment this hard coded line will be removed along with setTimeout
+       */
+      // const resultJson = {
+      //   type: "upiValidationWsData",
+      //   status: "VALID",
+      //   customerName: "cust",
+      //   upiId: "example@test"
+      // };
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
       dispatch(addUserUPISuccess(resultJson));
     } catch (e) {
       dispatch(addUserUPIFailure(e.message));
@@ -2972,8 +2982,8 @@ export function updateProfile(accountDetails, otp) {
             (resultJson.status === SUCCESS ||
               resultJson.status === SUCCESS_CAMEL_CASE ||
               resultJson.status === SUCCESS_UPPERCASE) &&
-            (resultJson.mobileNumber !== JSON.parse(userDetails).userName &&
-              MOBILE_PATTERN.test(JSON.parse(userDetails).userName))
+            resultJson.mobileNumber !== JSON.parse(userDetails).userName &&
+            MOBILE_PATTERN.test(JSON.parse(userDetails).userName)
           ) {
             dispatch(setBagCount(0));
             dispatch(logoutUserByMobileNumber());

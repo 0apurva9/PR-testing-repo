@@ -33,8 +33,11 @@ export default class CheckoutUpi extends React.Component {
           }
           onCheckout={this.props.onCheckout}
           showTermsNConditions={() => this.props.showTermsNConditions()}
-          showHowToPay={() => this.props.showHowToPay()}
+          // showHowToPay={() => this.props.showHowToPay()}
           displayToast={() => this.props.displayToast(plzVerifyUPIMsg)}
+          addUPIDetails={val => this.props.addUPIDetails(val)}
+          addUserUPIStatus={this.props.addUserUPIStatus}
+          loading={this.props.loading}
         />
       </ManueDetails>
     );

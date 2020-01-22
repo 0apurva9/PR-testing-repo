@@ -81,8 +81,8 @@ import {
   TNC_FOR_BANK_OFFER_POPUP,
   DESKTOP_AUTH,
   CONFIRMATION_NOTIFICATION,
-  UPITERMSANDCONDITION_MODAL,
-  UPIHOWTOPAY_MODAL
+  UPITERMSANDCONDITION_MODAL
+  // UPIHOWTOPAY_MODAL
 } from "../../general/modal.actions";
 import {
   getPinCode,
@@ -94,7 +94,8 @@ import {
   redeemCliqVoucher,
   retryPayment,
   fetchOrderDetails,
-  resetFailedOrderDetails
+  resetFailedOrderDetails,
+  addUPIDetails
 } from "../../account/actions/account.actions.js";
 
 import { displayToast } from "../../general/toast.actions";
@@ -133,9 +134,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showTermsNConditions: data => {
       dispatch(showModal(UPITERMSANDCONDITION_MODAL, ""));
     },
-    showHowToPay: data => {
-      dispatch(showModal(UPIHOWTOPAY_MODAL, ""));
-    },
+    // showHowToPay: data => {
+    //   dispatch(showModal(UPIHOWTOPAY_MODAL, ""));
+    // },
     getUserAddress: () => {
       dispatch(getUserAddress());
     },
@@ -738,6 +739,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     resetFailedOrderDetails: () => {
       dispatch(resetFailedOrderDetails());
+    },
+    addUPIDetails: upiId => {
+      dispatch(addUPIDetails(upiId));
     }
   };
 };
@@ -751,7 +755,8 @@ const mapStateToProps = state => {
     loading: state.profile.loading,
     retryPaymentDetails: state.profile.retryPaymentDetails,
     retryPaymentDetailsStatus: state.profile.retryPaymentDetailsStatus,
-    binValidationStatus: state.cart.binValidationStatus
+    binValidationStatus: state.cart.binValidationStatus,
+    addUserUPIStatus: state.profile.addUserUPIStatus
   };
 };
 

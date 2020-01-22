@@ -83,7 +83,11 @@ export default class MenuDetails extends React.Component {
             {this.props.text}
             {this.props.secondIcon && (
               <div className={styles.secondIcon}>
-                <Icon image={this.props.secondIcon} size={25} />
+                <Icon
+                  image={this.props.secondIcon}
+                  size={37}
+                  backgroundSize={`100%`}
+                />
               </div>
             )}
             <div className={iconActive} />
