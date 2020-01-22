@@ -335,6 +335,7 @@
 	  line-height: normal;
 	  letter-spacing: normal;
 	  text-align: right;
-	  color: #ff1744;
+		color: #ff1744;
+		cursor: default;
 	}
 }
