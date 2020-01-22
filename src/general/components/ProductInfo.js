@@ -20,7 +20,10 @@ export default class ProductInfo extends React.Component {
             )}
             {this.props.averageRating !== 0
               ? this.props.averageRating && (
-                  <StarRating averageRating={this.props.averageRating}>
+                  <StarRating
+                    averageRating={this.props.averageRating}
+                    isPlp={this.props.isPlp}
+                  >
                     {this.props.ratingCount && (
                       <div className={styles.totalNoOfReviews}>{`(${
                         this.props.ratingCount
@@ -39,5 +42,6 @@ ProductInfo.propTypes = {
   bestDeliveryInfo: PropTypes.string,
   offerText: PropTypes.string,
   averageRating: PropTypes.number,
-  ratingCount: PropTypes.string
+  ratingCount: PropTypes.string,
+  isPlp: PropTypes.bool
 };
