@@ -246,10 +246,9 @@ export default class DeliveryInformations extends React.Component {
             dateFormattedText={typeText}
             type={this.props.type === QUIQPIQ ? QUIQPIQ : null}
           >
-            {this.props.type === SHORT_SAME_DAY_DELIVERY &&
-              this.props.available && (
-                <CountDownTimer cutOffSeconds={this.props.cutOffTime} />
-              )}
+            {this.props.cutOffTime && (
+              <CountDownTimer cutOffSeconds={this.props.cutOffTime} />
+            )}
 
             {this.props.available &&
               this.props.placedTimeForCod && (
