@@ -817,7 +817,7 @@ class CartPage extends React.Component {
                             productNotServiceable={
                               product.pinCodeResponse &&
                               product.pinCodeResponse
-                                .productNotServiceableMessage
+                                .productNotServiceabilityMessage
                             }
                             onRemove={this.removeItemFromCart}
                             onQuantityChange={this.updateQuantityInCart}
@@ -878,7 +878,7 @@ class CartPage extends React.Component {
                             productNotServiceable={
                               product.pinCodeResponse &&
                               product.pinCodeResponse
-                                .productNotServiceableMessage
+                                .productNotServiceabilityMessage
                             }
                             onPiq={() => this.getAllStores(product.USSID)}
                             deliveryType={

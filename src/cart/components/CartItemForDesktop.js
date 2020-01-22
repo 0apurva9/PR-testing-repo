@@ -208,23 +208,23 @@ export default class CartItemForDesktop extends React.Component {
               )}
               {this.props.isGiveAway === NO &&
                 (!this.props.productIsServiceable &&
-                this.props.productNotServiceableMessage
+                this.props.productNotServiceable
                   ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE) && (
                       <React.Fragment>
                         <div className={styles.space}>|</div>
                         <div className={styles.serviceAvailabilityText}>
                           {/* `${NOT_SERVICEABLE}` */}
-                          {`${this.props.productNotServiceableMessage}`}
+                          {`${this.props.productNotServiceable}`}
                         </div>
                       </React.Fragment>
                     )
                   : this.props.isOutOfStock ||
-                    (this.props.productOutOfStockMessage && (
+                    (this.props.productOutOfStock && (
                       <React.Fragment>
                         <div className={styles.space}>|</div>
                         <div className={styles.serviceAvailabilityText}>
                           {/* OUT_OF_STOCK */}
-                          {this.props.productOutOfStockMessage}
+                          {this.props.productOutOfStock}
                         </div>
                       </React.Fragment>
                     )))}
