@@ -17,6 +17,15 @@ export default class ProductFlags extends React.Component {
           </div>
         </div>
       );
+    } else if (this.props.newProduct) {
+      return (
+        <div
+          className={styles.base}
+          style={{ backgroundImage: `url(${newFlag})` }}
+        >
+          New
+        </div>
+      );
     } else if (
       (this.props.seasonSale && this.props.seasonSale.key === "Season") ||
       this.props.seasonTag
@@ -29,6 +38,15 @@ export default class ProductFlags extends React.Component {
           {this.props.seasonSale
             ? this.props.seasonSale.value
             : this.props.seasonTag}
+        </div>
+      );
+    } else if (this.props.onlineExclusive) {
+      return (
+        <div
+          className={styles.base}
+          style={{ backgroundImage: `url(${exclusiveFlag})` }}
+        >
+          New
         </div>
       );
     } else if (
@@ -50,24 +68,6 @@ export default class ProductFlags extends React.Component {
           style={{ backgroundImage: `url(${offerplpFlag})` }}
         >
           On offer
-        </div>
-      );
-    } else if (this.props.onlineExclusive) {
-      return (
-        <div
-          className={styles.base}
-          style={{ backgroundImage: `url(${exclusiveFlag})` }}
-        >
-          New
-        </div>
-      );
-    } else if (this.props.newProduct) {
-      return (
-        <div
-          className={styles.base}
-          style={{ backgroundImage: `url(${newFlag})` }}
-        >
-          New
         </div>
       );
     } else {

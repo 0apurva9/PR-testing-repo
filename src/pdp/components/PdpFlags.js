@@ -8,6 +8,8 @@ export default class PdpFlags extends React.Component {
           <div className={styles.base}>Out of Stock</div>
         </div>
       );
+    } else if (this.props.newProduct === "Y") {
+      return <div className={styles.new}>New</div>;
     } else if (
       (this.props.seasonSale && this.props.seasonSale.key === "Season") ||
       this.props.seasonTag
@@ -19,10 +21,6 @@ export default class PdpFlags extends React.Component {
             : this.props.seasonTag}
         </div>
       );
-    } else if (this.props.newProduct === "Y") {
-      return <div className={styles.new}>New</div>;
-    } else if (this.props.isOfferExisting === "Y") {
-      return <div className={styles.offer}>On offer</div>;
     } else if (this.props.onlineExclusive === "Y") {
       return <div className={styles.new}>New</div>;
     } else if (
@@ -34,6 +32,8 @@ export default class PdpFlags extends React.Component {
           {parseInt(this.props.discountPercent, 10)}% off{" "}
         </div>
       );
+    } else if (this.props.isOfferExisting === "Y") {
+      return <div className={styles.offer}>On offer</div>;
     } else {
       return null;
     }
