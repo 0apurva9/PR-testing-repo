@@ -145,7 +145,7 @@ export default class PickUpLocation extends React.Component {
     var minutes = date.getMinutes();
     var salutationOfTime = hours >= 12 ? "PM" : "AM";
     hours = hours % 12;
-    hours = hours ? hours : 0; // the hour '0' should be '12'
+    hours = hours ? hours : 12; // the hour '0' should be '12'
     minutes = minutes < 10 ? "0" + minutes : minutes;
     var strTime = hours + ":" + minutes + " " + salutationOfTime;
     let openingTime = "";
@@ -238,18 +238,17 @@ export default class PickUpLocation extends React.Component {
                             getClickAndPiqSelectedDate.deliveryDate
                           )}`
                         : nextDayFormat === productDayFormatOfClqAndPiq
-                        ? `Tomorrow, ${this.getDayNumberSuffix(
-                            getClickAndPiqSelectedDate.deliveryDate
-                          )}`
-                        : `${this.getDayNumberSuffix(
-                            getClickAndPiqSelectedDate.deliveryDate
-                          )}`
+                          ? `Tomorrow, ${this.getDayNumberSuffix(
+                              getClickAndPiqSelectedDate.deliveryDate
+                            )}`
+                          : `${this.getDayNumberSuffix(
+                              getClickAndPiqSelectedDate.deliveryDate
+                            )}`
                       : ""}
                   </span>
 
-                  {strTime && hours !== 0 && (
-                    <span> {`, after ${strTime}`}</span>
-                  )}
+                  {strTime &&
+                    hours !== 0 && <span> {`, after ${strTime}`}</span>}
                 </div>
               </div>
             )}

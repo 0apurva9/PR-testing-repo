@@ -19,7 +19,8 @@ import {
   ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE,
   BUY_NOW_PRODUCT_DETAIL,
   SUCCESS,
-  CNC_CART
+  CNC_CART,
+  SELECTED_STORE
 } from "../../lib/constants";
 import SavedProduct from "./SavedProduct";
 import filter from "lodash.filter";
@@ -1134,6 +1135,8 @@ here we need to hit call for merging cart id if user
         // Before leaving cart page call minicart
         this.props.getMinicartProducts();
       }
+    } else {
+      localStorage.removeItem(SELECTED_STORE);
     }
 
     if (this.props.clearCartDetails) {

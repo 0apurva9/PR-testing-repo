@@ -159,6 +159,7 @@ export default class DeliveryInformations extends React.Component {
     let arrowStyle = styles.arrowLink1;
     let iconSize = null;
     let baseClass = styles.base;
+    let cncDeliveryAddressClass = styles.cncDeliveryAddress;
     if (this.props.type === SHORT_EXPRESS) {
       iconImage = ExpressImage;
       if (this.props.inCartPage) {
@@ -230,6 +231,9 @@ export default class DeliveryInformations extends React.Component {
     if (this.props.isQuiqPiq === "Y") {
       baseClass = styles.basePdp;
     }
+    if (this.props.inCartPage) {
+      cncDeliveryAddressClass = styles.cncDeliveryAddressCartPage;
+    }
     return (
       <div className={baseClass}>
         <div
@@ -273,7 +277,7 @@ export default class DeliveryInformations extends React.Component {
               this.props.available && (
                 <div className={styles.underLineButtonHolder}>
                   {selectedStore && (
-                    <div className={styles.cncDeliveryAddress}>
+                    <div className={cncDeliveryAddressClass}>
                       {selectedStore}
                     </div>
                   )}
