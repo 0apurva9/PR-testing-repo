@@ -46,12 +46,12 @@
   cursor: pointer;
 }
 .ratingText {
-  width: auto;
+  width: 100%;
   height: auto;
-  display: inline-block;
+  display: flex;
+  align-items: center;
   color: #8d8d8d;
   font-size: 14px;
-  padding: 0px 6px 0px 6px;
 }
 .ratingOffset {
   margin-left: 5px;
@@ -113,6 +113,63 @@
   width: auto;
   color: #ff1744;
   padding-left: 5px;
+}
+.ratingLabel {
+  margin: 0 6px;
+  font-weight: 500;
+  font-family: semibold;
+}
+
+.labelText {
+  font-family: regular;
+  font-size: 14px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  color: #212121;
+  font-family: light;
+}
+
+.reviewElectronicsContainer {
+  width: 44px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: left;
+  background-color: #49a862;
+  color: #ffffff;
+  padding: 0 5px;
+  border-radius: 2px;
+}
+.lessReviewElectronicsContainer {
+  width: 44px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: left;
+  background-color: #f5a623;
+  color: #ffffff;
+  padding: 0 5px;
+  border-radius: 2px;
+}
+
+.reviewElectronics {
+  float: left;
+  font-family: regular;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+.starPLPElectronics {
+  float: left;
+  margin: 6px 0px 6px 4px;
 }
 
 @media screen and (min-width: 1025px) {

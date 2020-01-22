@@ -107,8 +107,9 @@
   display: inline-block;
 }
 .ratingText {
-  width: auto;
-  display: inline-block;
+  width: 100%;
+  display: flex;
+  align-items: center;
   vertical-align: top;
   font-size: 14px;
   color: #8d8d8d;
@@ -126,3 +127,62 @@
   margin-left: 5px;
   padding-top: 4px;
 }
+
+.ratingLabel {
+  margin: 0 6px;
+  font-weight: 500;
+  font-family: semibold;
+}
+
+.labelText {
+  font-family: regular;
+  font-size: 14px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  color: #212121;
+  font-family: light;
+}
+
+.reviewElectronicsContainer {
+  width: 44px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: left;
+  background-color: #49a862;
+  color: #ffffff;
+  padding: 0 5px;
+  border-radius: 2px;
+}
+.lessReviewElectronicsContainer {
+  width: 44px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: left;
+  background-color: #f5a623;
+  color: #ffffff;
+  padding: 0 5px;
+  border-radius: 2px;
+}
+
+.reviewElectronics {
+  float: left;
+  font-family: regular;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+.starPLPElectronics {
+  float: left;
+  margin: 6px 0px 6px 4px;
+}
+
