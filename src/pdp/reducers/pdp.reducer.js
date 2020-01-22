@@ -61,7 +61,12 @@ const productDescription = (
     secondaryBundleProductData: null,
     relevantProductPinCodeStatus: null,
     relevantBundleProductCodeStatus: false,
-    relevantBundleProductCodeData: null
+    relevantBundleProductCodeData: null,
+
+    exchangeDetailsStatus: null,
+    exchangeDetailsLoading: false,
+    exchangeDetails: null,
+    exchangeDetailsError: null
   },
   action
 ) => {
@@ -176,7 +181,10 @@ const productDescription = (
           isServiceableToPincode: {
             status: YES,
             pinCode: action.productPinCode.pinCode
-          }
+          },
+          isPickupAvailableForExchange:
+            action.productPinCode.isPickupAvailableForExchange,
+          cashifyPickupCharge: action.productPinCode.cashifyPickupCharge
         });
       } else if (
         listOfAllServiceableUssid.length &&
@@ -244,7 +252,14 @@ const productDescription = (
           isServiceableToPincode: {
             status: YES,
             pinCode: action.productPinCode.pinCode
-          }
+          },
+          showExchangeTag: leastMrpSellerUssid.showExchangeTag,
+          exchangeAvailable: leastMrpSellerUssid.exchangeAvailable,
+          exchangeOfferAvailable: leastMrpSellerUssid.exchangeOfferAvailable,
+          maxExchangeAmount: leastMrpSellerUssid.maxExchangeAmount,
+          isPickupAvailableForExchange:
+            action.productPinCode.isPickupAvailableForExchange,
+          cashifyPickupCharge: action.productPinCode.cashifyPickupCharge
         });
       } else {
         Object.assign(currentPdpDetail, {
@@ -882,6 +897,38 @@ const productDescription = (
       return Object.assign({}, state, {
         relevantBundleProductCodeStatus: action.status,
         relevantBundleProductCodeData: action.error
+      });
+
+    case pdpActions.EXCHANGE_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        exchangeDetailsStatus: action.status,
+        exchangeDetailsLoading: true
+      });
+
+    case pdpActions.EXCHANGE_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        exchangeDetailsStatus: action.status,
+        exchangeDetailsLoading: false,
+        exchangeDetails: action.data
+      });
+
+    case pdpActions.EXCHANGE_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        exchangeDetailsStatus: action.status,
+        exchangeDetailsLoading: false,
+        exchangeDetailsError: action.error
+      });
+
+    case pdpActions.UPDATE_DETAILS_SUCCESS:
+      const exchangePdpDetail = cloneDeep(state.productDetails);
+      Object.assign(exchangePdpDetail, {
+        selectedProductCashback: action.data.selectedProductCashback,
+        selectedProductName: action.data.selectedProductName
+      });
+      return Object.assign({}, state, {
+        status: action.status,
+        productDetails: exchangePdpDetail,
+        loading: false
       });
 
     default:

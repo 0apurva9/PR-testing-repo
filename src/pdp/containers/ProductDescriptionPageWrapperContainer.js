@@ -210,8 +210,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     addProductToCart1: async productDetails => {
       return await dispatch(addProductToCart(productDetails));
     },
-    getExchangeDetails: data => {
-      return dispatch(getExchangeDetails(data));
+    getExchangeDetails: async (
+      listingId,
+      ussid,
+      maxExchangeAmount,
+      pickupCharge
+    ) => {
+      return await dispatch(
+        getExchangeDetails(listingId, ussid, maxExchangeAmount, pickupCharge)
+      );
     }
   };
 };
@@ -236,7 +243,8 @@ const mapStateToProps = state => {
     secondaryBundleProductData:
       state.productDescription.secondaryBundleProductData,
     relevantBundleProductCodeData:
-      state.productDescription.relevantBundleProductCodeData
+      state.productDescription.relevantBundleProductCodeData,
+    exchangeDetails: state.productDescription.exchangeDetails
   };
 };
 

@@ -817,15 +817,31 @@ export default class PdpApparel extends React.Component {
     !this.state.selectedBundledProduct.includes(e.target.value) &&
       this.state.selectedBundledProduct.push(e.target.value);
   }
-  openExchangeModal(data) {
+  async openExchangeModal(data) {
+    let listingId = this.props.productDetails.productListingId;
+    let ussid = this.props.productDetails.winningUssID;
+    let maxExchangeAmount = this.props.productDetails.maxExchangeAmount.value;
+    let pickupCharge = this.props.productDetails.cashifyPickupCharge;
+    let productName = this.props.productDetails.productName;
     //call exchange details API
-    let apiResponse = this.props.getExchangeDetails();
+    await this.props.getExchangeDetails(
+      listingId,
+      ussid,
+      maxExchangeAmount,
+      pickupCharge
+    );
     if (data) {
-      Object.assign(data, { makeModelDetails: apiResponse.makeModelDetails });
+      //with static data open exchange modal
+      Object.assign(data, {
+        exchangeDetails: this.props.exchangeDetails,
+        productName: productName
+      });
       this.props.showExchangeModal(data);
     } else {
+      //open exchange modal
       this.props.showExchangeModal({
-        makeModelDetails: apiResponse.makeModelDetails
+        exchangeDetails: this.props.exchangeDetails,
+        productName: productName
       });
     }
   }
@@ -982,6 +998,10 @@ export default class PdpApparel extends React.Component {
       } else {
         localStorage.removeItem("PDPExchangeAvailable");
       }
+      let selectedProductCashback = JSON.parse(
+        localStorage.getItem("selectedProductCashback")
+      );
+      let selectedProductName = localStorage.getItem("selectedProductName");
       return (
         <PdpFrame
           goToCart={() => this.goToCart()}
@@ -1141,18 +1161,42 @@ export default class PdpApparel extends React.Component {
                     <div className={styles.exchangeMainContainer}>
                       <div className={styles.exchangeLogo} />
                       <div className={styles.exchangeContainer}>
-                        <div className={styles.exchangeLink}>
-                          Get upto cashback{" "}
-                          {productData.maxExchangeAmount &&
-                            productData.maxExchangeAmount
-                              .formattedValueNoDecimal}{" "}
-                          <span
-                            className={styles.withExchangeLink}
-                            onClick={() => this.openExchangeModal()}
-                          >
-                            with exchange
-                          </span>
-                        </div>
+                        {!productData.selectedProductName &&
+                        !selectedProductName ? (
+                          <div className={styles.exchangeLink}>
+                            Get upto cashback{" "}
+                            {productData.maxExchangeAmount &&
+                              productData.maxExchangeAmount
+                                .formattedValueNoDecimal}{" "}
+                            <span
+                              className={styles.withExchangeLink}
+                              onClick={() => this.openExchangeModal()}
+                            >
+                              with exchange
+                            </span>
+                          </div>
+                        ) : (
+                          <div className={styles.exchangeLink}>
+                            Get{" "}
+                            {productData.selectedProductCashback &&
+                            productData.selectedProductCashback
+                              .formattedValueNoDecimal
+                              ? productData.selectedProductCashback
+                                  .formattedValueNoDecimal
+                              : selectedProductCashback.formattedValueNoDecimal}{" "}
+                            cashback on your{" "}
+                            {productData.selectedProductName
+                              ? productData.selectedProductName
+                              : selectedProductName}{" "}
+                            <span
+                              className={styles.withExchangeLink}
+                              onClick={() => this.openExchangeModal()}
+                            >
+                              with exchange
+                            </span>
+                          </div>
+                        )}
+
                         <div
                           className={styles.exchangeDetails}
                           onClick={() =>

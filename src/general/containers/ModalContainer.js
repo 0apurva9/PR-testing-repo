@@ -37,7 +37,8 @@ import {
 } from "../../lib/constants";
 import {
   getAllStoresForCliqAndPiq,
-  hidePdpPiqPage
+  hidePdpPiqPage,
+  updateProductState
 } from "../../pdp/actions/pdp.actions";
 import { updateProfile } from "../../account/actions/account.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -408,6 +409,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     resetAllPaymentModes: () => {
       return dispatch(resetAllPaymentModes());
+    },
+    updateProductState: data => {
+      dispatch(updateProductState(data));
     }
   };
 };

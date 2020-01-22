@@ -35,7 +35,9 @@ import { setBagCount } from "../../general/header.actions";
 import { setDataLayer, ADOBE_PDP_TYPE } from "../../lib/adobeUtils.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { isBrowser } from "browser-or-node";
-
+import test from "../../mock/test.json";
+import ed from "../../mock/exchangeDetails.json";
+import pincodeResponse from "../../mock/pincodeResponse.json";
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
 import { displayToast, showToast } from "../../general/toast.actions.js";
 export const SUBMIT_REVIEW_TEXT =
@@ -178,6 +180,13 @@ export const GET_ALL_STORES_FOR_CLIQ_AND_PIQ_SUCCESS =
   "GET_ALL_STORES_FOR_CLIQ_AND_PIQ_SUCCESS";
 export const GET_ALL_STORES_FOR_CLIQ_AND_PIQ_FAILURE =
   "GET_ALL_STORES_FOR_CLIQ_AND_PIQ_FAILURE";
+
+export const EXCHANGE_DETAILS_REQUEST = "EXCHANGE_DETAILS_REQUEST";
+export const EXCHANGE_DETAILS_SUCCESS = "EXCHANGE_DETAILS_SUCCESS";
+export const EXCHANGE_DETAILS_FAILURE = "EXCHANGE_DETAILS_FAILURE";
+
+export const UPDATE_DETAILS_SUCCESS = "UPDATE_DETAILS_SUCCESS";
+
 export const SHOW_PDP_PIQ_PAGE = "showPdpPiqPage";
 export const HIDE_PDP_PIQ_PAGE = "hidePdpPiqPage";
 const ALL_STORES_FOR_CLIQ_AND_PIQ_PATH = "v2/mpl/allStores";
@@ -236,10 +245,11 @@ export function getProductDescription(
           dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
         }
       }, TIME_OUT_FOR_APIS);
-      const result = await api.getMiddlewareUrl(
-        `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
-      );
-      const resultJson = await result.json();
+      // const result = await api.getMiddlewareUrl(
+      //   `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
+      // );
+      // const resultJson = await result.json();
+      const resultJson = test;
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
@@ -350,9 +360,10 @@ export function getProductPinCode(pinCode: null, productCode) {
           url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}`;
         }
       }
-      const result = await api.post(url);
+      // const result = await api.post(url);
 
-      const resultJson = await result.json();
+      // const resultJson = await result.json();
+      const resultJson = pincodeResponse;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -363,16 +374,13 @@ export function getProductPinCode(pinCode: null, productCode) {
       if (isPickupAvailableForExchange) {
         dispatch(displayToast("Exchange is serviceable at your pincode"));
       }
-      if (resultJson.pickupCharge && resultJson.pickupCharge.value) {
-        localStorage.setItem(
-          "cashifyPickupCharge",
-          resultJson.pickupCharge.value
-        );
-      }
+
       return dispatch(
         getProductPinCodeSuccess({
           pinCode,
-          deliveryOptions: resultJson.listOfDataList[0].value
+          deliveryOptions: resultJson.listOfDataList[0].value,
+          isPickupAvailableForExchange: resultJson.isPickupAvailableForExchange,
+          cashifyPickupCharge: resultJson.pickupCharge.value
         })
       );
     } catch (e) {
@@ -1699,5 +1707,60 @@ export function relevantBundleProductCode() {
     } catch (e) {
       dispatch(relevantBundleProductCodeFailure(e.message));
     }
+  };
+}
+
+export function getExchangeDetailsRequest() {
+  return {
+    type: EXCHANGE_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getExchangeDetailsSuccess(data) {
+  return {
+    type: EXCHANGE_DETAILS_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function getExchangeDetailsFailure(error) {
+  return {
+    type: EXCHANGE_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getExchangeDetails(
+  listingId,
+  ussid,
+  maxExchangeAmount,
+  pickupCharge
+) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getExchangeDetailsRequest());
+    try {
+      const result = await api.getMiddlewareUrl(
+        `v2/mpl/products/exchangeDetails?listingId=${listingId}&ussid=${ussid}&maxExchangeAmount=${maxExchangeAmount}&pickUpCharge=${pickupCharge}`
+      );
+      // const resultJson = await result.json();
+      const resultJson = ed;
+      if (resultJson.status === SUCCESS) {
+        return dispatch(getExchangeDetailsSuccess(resultJson));
+      } else {
+        throw new Error(`${resultJson.error}`);
+      }
+    } catch (e) {
+      return dispatch(getExchangeDetailsFailure(e.message));
+    }
+  };
+}
+
+export function updateProductState(data) {
+  return {
+    type: UPDATE_DETAILS_SUCCESS,
+    status: SUCCESS,
+    data
   };
 }

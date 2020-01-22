@@ -340,3 +340,12 @@
 .customSelect{
   width: 200px;
 }
+.closeIcon{
+  position: absolute;
+  top: 25px;
+  left: -40px;
+  cursor: pointer;
+}
+.textCaps{
+  text-transform: capitalize;
+}

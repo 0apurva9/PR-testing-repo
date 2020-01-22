@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./ExchangeModal.css";
 import cashbackIcon from "../../general/components/img/infoCashback.svg";
+import closeIcon from "../../general/components/img/closeIcon.svg";
 import baseValueIcon from "./img/baseValue.svg";
 import cliqBonusIcon from "./img/cliqBonus.svg";
 import pickUpChargeIcon from "./img/pickUpCharge.svg";
@@ -27,9 +28,11 @@ export default class ExchangeModal extends React.Component {
       exchangeBrandId: "",
       exchangeBrandName: "",
       selectedModel: "",
-      firstDevice: "",
-      secondDevice: "",
-      isExchangeDeviceAdded: false
+      firstDeviceInfo: "",
+      secondDeviceInfo: "",
+      isExchangeDeviceAdded: false,
+      isFirstDeviceSelected: false,
+      isSecondDeviceSelected: false
     };
   }
   componentWillMount() {
@@ -38,8 +41,11 @@ export default class ExchangeModal extends React.Component {
       this.openHowExchangeWorksModal();
       this.setState({ howExchangeWorksModalOpenedFromPDP: true });
     }
-    if (this.props.makeModelDetails) {
-      this.setState({ makeModelDetails: this.props.makeModelDetails });
+    //get models list
+    if (this.props.exchangeDetails) {
+      this.setState({
+        makeModelDetails: this.props.exchangeDetails.makeModelDetails
+      });
     }
   }
   componentDidMount() {
@@ -47,10 +53,30 @@ export default class ExchangeModal extends React.Component {
     if (localStorage.getItem("MEFirstDeviceData")) {
       this.setState({ isExchangeDeviceAdded: true });
     }
+    //show first device selected if second device not added
+    if (
+      localStorage.getItem("MEFirstDeviceData") &&
+      !localStorage.getItem("MESecondDeviceData")
+    ) {
+      this.setState({ isFirstDeviceSelected: true });
+      localStorage.setItem("currentSelectedDevice", "MEFirstDeviceData");
+    }
   }
   handleClose() {
     if (this.props.closeModal) {
       this.props.closeModal();
+    }
+    let FDD = JSON.parse(localStorage.getItem("MEFirstDeviceData"));
+    if (FDD) {
+      this.props.updateState({
+        selectedProductCashback: FDD.model.totalExchangeCashback,
+        selectedProductName: FDD.model.effectiveModelName
+      });
+      localStorage.setItem(
+        "selectedProductCashback",
+        JSON.stringify(FDD.model.totalExchangeCashback)
+      );
+      localStorage.setItem("selectedProductName", FDD.model.effectiveModelName);
     }
   }
   openHowExchangeWorksModal() {
@@ -91,14 +117,27 @@ export default class ExchangeModal extends React.Component {
     let firstDeviceData = {
       exchangeBrandId: this.state.exchangeBrandId,
       exchangeBrandName: this.state.exchangeBrandName,
-      model: this.state.selectedModel
+      model: JSON.parse(this.state.selectedModel),
+      pickupCharge: this.props.exchangeDetails.pickupCharge,
+      tulBump: this.props.exchangeDetails.TULBump
     };
     localStorage.setItem("MEFirstDeviceData", JSON.stringify(firstDeviceData));
     this.setState({ isExchangeDeviceAdded: true });
   }
+
   render() {
+    let firstDeviceInfo = localStorage.getItem("MEFirstDeviceData");
+    if (firstDeviceInfo) {
+      firstDeviceInfo = JSON.parse(firstDeviceInfo);
+    }
     return (
       <div className={styles.base}>
+        <img
+          src={closeIcon}
+          alt="closeIcon"
+          className={styles.closeIcon}
+          onClick={() => this.handleClose()}
+        />
         {/* modal for how exchange works */}
         {this.state.showHowExchangeWorks ? (
           <div className={styles.howExchangeWorksContainer}>
@@ -416,8 +455,15 @@ export default class ExchangeModal extends React.Component {
             <div className={styles.sliderContainer}>
               <div className={styles.tabSlider}>
                 <div className={styles.cashbackHeading}>
-                  <input type="radio" className={styles.tabOneRadio} />
-                  <span>Apple iPhone 6</span>
+                  <input
+                    type="radio"
+                    className={styles.tabOneRadio}
+                    checked={this.state.isFirstDeviceSelected}
+                  />
+                  <span className={styles.textCaps}>
+                    {firstDeviceInfo &&
+                      firstDeviceInfo.model.effectiveModelName}
+                  </span>
                 </div>
                 <table
                   border="0"
@@ -435,7 +481,11 @@ export default class ExchangeModal extends React.Component {
                         />
                         Base value
                       </td>
-                      <td className={styles.fontSize12}>₹2,300</td>
+                      <td className={styles.fontSize12}>
+                        {firstDeviceInfo &&
+                          firstDeviceInfo.model.exchangeAmountCashify
+                            .formattedValueNoDecimal}
+                      </td>
                     </tr>
                     <tr>
                       <td>
@@ -446,7 +496,10 @@ export default class ExchangeModal extends React.Component {
                         />
                         CLiQ Bonus
                       </td>
-                      <td>₹5,000</td>
+                      <td>
+                        {firstDeviceInfo &&
+                          firstDeviceInfo.tulBump.formattedValueNoDecimal}
+                      </td>
                     </tr>
                     <tr>
                       <td className={styles.fontSize12}>
@@ -457,13 +510,23 @@ export default class ExchangeModal extends React.Component {
                         />
                         Pick up charge
                       </td>
-                      <td className={styles.freePickUp}>FREE </td>
+                      <td className={styles.freePickUp}>
+                        {firstDeviceInfo &&
+                        firstDeviceInfo.pickupCharge.value === 0
+                          ? "FREE"
+                          : firstDeviceInfo.pickupCharge
+                              .formattedValueNoDecimal}
+                      </td>
                     </tr>
                     <tr>
                       <td className={styles.cashbackHeading}>
                         Total Exchange Cashback
                       </td>
-                      <td className={styles.cashbackHeading}>₹7,300</td>
+                      <td className={styles.cashbackHeading}>
+                        {firstDeviceInfo &&
+                          firstDeviceInfo.model.totalExchangeCashback
+                            .formattedValueNoDecimal}
+                      </td>
                     </tr>
                     <tr>
                       <td colSpan="2" className={styles.cashbackSubtitle}>
@@ -508,10 +571,14 @@ export default class ExchangeModal extends React.Component {
                     <td className={styles.effectivePriceTrOne}>
                       Effective Price after exchange
                     </td>
-                    <td className={styles.effectivePriceTrTwo}>₹20,699</td>
+                    <td className={styles.effectivePriceTrTwo}>
+                      {firstDeviceInfo &&
+                        firstDeviceInfo.model.effectiveAmount
+                          .formattedValueNoDecimal}
+                    </td>
                   </tr>
                   <tr>
-                    <td colSpan="2">for Realme 3i</td>
+                    <td colSpan="2">for {this.props.productName}</td>
                   </tr>
                 </tbody>
               </table>
