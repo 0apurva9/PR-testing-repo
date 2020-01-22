@@ -80,9 +80,17 @@ export default class StarRating extends React.Component {
     }
     return (
       <div className={styles.base}>
-        <div className={ratingCnt > 2.5 ? styles.starRatingHigh : styles.starRatingLow}>
-          {ratingCnt}
-          <img src={starFillWhite} className={styles.starFillWhite} alt="star icon" />
+        <div
+          className={
+            ratingCnt > 2.5 ? styles.starRatingHigh : styles.starRatingLow
+          }
+        >
+          {Math.round(ratingCnt * 10) / 10}
+          <img
+            src={starFillWhite}
+            className={styles.starFillWhite}
+            alt="star icon"
+          />
         </div>
         {/* <div className={styles.starHolder}>{starSpans}</div> */}
         {this.props.children && (
