@@ -145,7 +145,7 @@
 	height: auto;
 	display: inline-block;
 	vertical-align: top;
-}  
+}
 .buttonleft {
 	composes: buttonRight;
 	margin-right: 20px;
@@ -163,7 +163,7 @@
 	margin-top: 28px;
 }
 .feedbackHeader{
-	font-family: semibold;
+	font-family: regular;
   font-size: 18px;
   font-weight: normal;
   font-stretch: normal;
@@ -227,7 +227,7 @@
 
 .reviewWrapper {
 	font-family: semibold;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
@@ -243,7 +243,7 @@
 .inputComment {
 	width: 537px;
   margin-top: 10px;
-}	
+}
 .reviewTipsContainer {
 	width: 749px;
   height: 360px;
@@ -301,10 +301,10 @@
 .contentHeader {
   font-family: semibold;
   font-size: 14px;
-} 
+}
 .contentContainer {
   padding-left: 15px;
-} 
+}
 .reviewTipsText {
   padding-bottom: 15px;
   font-size: 12px;
