@@ -240,13 +240,24 @@ export default class PdpApparel extends React.Component {
         this.setState({ showGotoCartButton: true });
       }
     }
+    /***EyeWear Category Filter */
     if (
+      this.props.productDetails &&
       this.props.productDetails.categoryHierarchy &&
       this.props.productDetails.rootCategory === "Accessories"
     ) {
+      let categoryHierarchyCheck = this.props.productDetails.categoryHierarchy;
       if (
-        this.props.productDetails.categoryHierarchy[0].category_name ===
-        "Eyewear"
+        categoryHierarchyCheck[categoryHierarchyCheck.length - 1]
+          .category_name === "Eye Frames" ||
+        categoryHierarchyCheck[categoryHierarchyCheck.length - 1]
+          .category_name === "Frames" ||
+        categoryHierarchyCheck[categoryHierarchyCheck.length - 1]
+          .category_name === "Reading Glasses" ||
+        categoryHierarchyCheck[categoryHierarchyCheck.length - 1]
+          .category_name === "Safety Glasses" ||
+        categoryHierarchyCheck[categoryHierarchyCheck.length - 1]
+          .category_name === "Sunglasses"
       ) {
         this.setState({ productCategory: "Eyewear" });
       }
@@ -1206,6 +1217,11 @@ export default class PdpApparel extends React.Component {
                                     }
                                     eyeWearSizeGuide={
                                       this.state.productCategory
+                                    }
+                                    categoryHierarchy={
+                                      this.props.productDetails &&
+                                      this.props.productDetails
+                                        .categoryHierarchy
                                     }
                                     data={productData.variantOptions}
                                     infoDetails={productData.details}

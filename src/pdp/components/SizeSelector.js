@@ -189,6 +189,13 @@ export default class SizeSelector extends React.Component {
     let OOSProducts = sizes.filter(size => {
       return !size.sizelink.isAvailable;
     });
+    const checkCategoryHierarchy =
+      this.props &&
+      this.props.categoryHierarchy &&
+      this.props.categoryHierarchy[0] &&
+      this.props.categoryHierarchy[0].category_name === "Eyewear"
+        ? true
+        : false;
     if (sizes.length !== 0) {
       return (
         <div className={styles.size}>
@@ -225,10 +232,8 @@ export default class SizeSelector extends React.Component {
                   <div className={styles.size}>{this.renderSize(datum, i)}</div>
                 );
               })}{" "}
-              {this.props.headerText !== "Volume" &&
-                this.props.isSizeOrLength !== "Volume" &&
-                this.props.isSizeOrLength !== "Power" &&
-                this.props.eyeWearSizeGuide && (
+              {this.props.eyeWearSizeGuide &&
+                checkCategoryHierarchy && (
                   <DesktopOnly>
                     <UnderLinedButton
                       // disabled={!this.props.hasSizeGuide}
@@ -241,6 +246,19 @@ export default class SizeSelector extends React.Component {
                     />
                   </DesktopOnly>
                 )}
+              {!checkCategoryHierarchy && (
+                <DesktopOnly>
+                  <UnderLinedButton
+                    // disabled={!this.props.hasSizeGuide}
+                    label={SIZE_GUIDE}
+                    color={this.props.hasSizeGuide ? "#ff1744" : "#212121"}
+                    fontFamily={"light"}
+                    onClick={() => {
+                      this.handleShowSize();
+                    }}
+                  />
+                </DesktopOnly>
+              )}
               {OOSProducts.length > 0 && (
                 <div className={styles.buttonView}>
                   <span className={styles.oosButton}>Size out of stock?</span>{" "}
