@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./ProductDetailsMainCard.css";
 import StarRating from "../../general/components/StarRating.js";
 import Icon from "../../xelpmoc-core/Icon";
+import FilledStarWhite from "../../general/components/img/star-fill-white.svg";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import TimerCounter from "../../general/components/TimerCounterProductDetails";
@@ -11,7 +12,6 @@ import {
   PRODUCT_REVIEWS_PATH_SUFFIX
 } from "../../lib/constants.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-import arrowIcon from "../../general/components/img/arrow.svg";
 import PropTypes from "prop-types";
 import MetaTags from "react-meta-tags";
 import { isBrowser } from "browser-or-node";
@@ -113,9 +113,12 @@ export default class ProductDetailsMainCard extends React.Component {
     const displayPrice = this.props.discountPrice
       ? this.props.discountPrice
       : this.props.price;
-    let averageRating = "";
-    if (this.props.averageRating) {
-      averageRating = Math.round(this.props.averageRating * 10) / 10;
+
+    const { averageRating, ratingCount, numberOfReviews } = this.props;
+
+    let averageRatingNew = "";
+    if (averageRating) {
+      averageRatingNew = Math.round(averageRating * 10) / 10;
     }
 
     return (
@@ -203,40 +206,56 @@ export default class ProductDetailsMainCard extends React.Component {
           </div>
         </div>
 
-        {this.props.averageRating && (
+        {averageRating && (
           <div
             className={styles.ratingHolder}
             onClick={() => this.seeRatingReview()}
           >
-            <StarRating averageRating={this.props.averageRating}>
-              {this.props.averageRating && (
+            <div
+              className={styles.ratingText}
+              itemProp="aggregateRating"
+              itemScope
+              itemType="http://schema.org/AggregateRating"
+            >
+              <div
+                className={
+                  averageRating > 2.5
+                    ? styles.reviewElectronicsContainer
+                    : styles.lessReviewElectronicsContainer
+                }
+              >
                 <div
-                  className={styles.ratingText}
-                  itemProp="aggregateRating"
-                  itemScope
-                  itemType="http://schema.org/AggregateRating"
+                  className={styles.reviewElectronics}
+                  itemProp="ratingValue"
                 >
-                  Rating
-                  <span className={styles.ratingOffset} itemProp="ratingValue">
-                    {averageRating}
-                  </span>
-                  <meta
-                    itemProp="reviewCount"
-                    content={this.props.numberOfReviews}
-                  />
-                  <meta
-                    itemprop="itemReviewed"
-                    content={this.props.averageRating}
-                  />
+                  {averageRatingNew}
                 </div>
-              )}
-              <div className={styles.arrowHolder}>
-                <Icon image={arrowIcon} size={15} />
+                <div className={styles.starPLPElectronics}>
+                  <Icon image={FilledStarWhite} size={10} />
+                </div>
               </div>
-            </StarRating>
+              <div className={styles.labelText}>
+                <span className={styles.ratingLabel} itemProp="ratingCount">
+                  {ratingCount}
+                </span>
+                <span>{ratingCount > 1 ? "Ratings" : "Rating"}</span>
+                {numberOfReviews ? (
+                  <React.Fragment>
+                    {" &"}
+                    <span className={styles.ratingLabel} itemProp="reviewCount">
+                      {numberOfReviews}
+                    </span>
+                    <span>{numberOfReviews > 1 ? "Reviews" : "Review"}</span>
+                  </React.Fragment>
+                ) : null}
+              </div>
+              <meta itemProp="ratingCount" content={ratingCount} />
+              <meta itemProp="reviewCount" content={numberOfReviews} />
+              <meta itemprop="itemReviewed" content={averageRating} />
+            </div>
           </div>
         )}
-        {!this.props.averageRating &&
+        {!averageRating &&
           this.props.isPdp && (
             <DesktopOnly>
               <div
@@ -258,6 +277,7 @@ ProductDetailsMainCard.propTypes = {
   numberOfReviews: PropTypes.number,
   discountPrice: PropTypes.string,
   averageRating: PropTypes.number,
+  ratingCount: PropTypes.number,
   onClick: PropTypes.func,
   discount: PropTypes.string,
   isPdp: PropTypes.bool
