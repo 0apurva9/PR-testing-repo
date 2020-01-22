@@ -364,6 +364,11 @@
     color: #212121;
     letter-spacing: 0;
 }
+.ratingBar {
+	width: 100%;
+	display: inline-flex;
+	align-items: center;
+}
 @media screen and (max-width: 1024px) {
 	.base {
 		padding: 15px 15px 70px 15px;

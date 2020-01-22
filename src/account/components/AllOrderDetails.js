@@ -796,29 +796,31 @@ export default class AllOrderDetails extends React.Component {
                                               >
                                                 {RATE_THIS_ITEM}
                                               </div>
-                                              <FillupRatingOrder
-                                                rating={product.userRating}
-                                                onChange={val =>
-                                                  this.onRatingChange(
-                                                    val,
-                                                    product
-                                                  )
-                                                }
-                                                //resetRating={this.state.resetRating}
-                                              />
-                                              {product.userRating &&
-                                              !product.isReviewed ? (
-                                                <div
-                                                  className={
-                                                    styles.writeReviewText
+                                              <div className={styles.ratingBar}>
+                                                <FillupRatingOrder
+                                                  rating={product.userRating}
+                                                  onChange={val =>
+                                                    this.onRatingChange(
+                                                      val,
+                                                      product
+                                                    )
                                                   }
-                                                  onClick={() =>
-                                                    this.writeReview(product)
-                                                  }
-                                                >
-                                                  Write a Review
-                                                </div>
-                                              ) : null}
+                                                  //resetRating={this.state.resetRating}
+                                                />
+                                                {product.userRating &&
+                                                !product.isReviewed ? (
+                                                  <div
+                                                    className={
+                                                      styles.writeReviewText
+                                                    }
+                                                    onClick={() =>
+                                                      this.writeReview(product)
+                                                    }
+                                                  >
+                                                    Write a Review
+                                                  </div>
+                                                ) : null}
+                                              </div>
                                             </div>
                                           )}
                                       </div>
