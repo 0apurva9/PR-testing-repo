@@ -3866,7 +3866,7 @@ if you have order id in local storage then you have to show order confirmation p
                         this.binValidationForPaytm(val)
                       }
                       selectPayPal={val => this.selectPayPal(val)}
-                      displayToast={message => this.props.displayToast(message)}
+                      // displayToast={message => this.props.displayToast(message)}
                       getCODEligibility={() => this.getCODEligibility()}
                       showTermsNConditions={() =>
                         this.props.showTermsNConditions()
@@ -3926,6 +3926,9 @@ if you have order id in local storage then you have to show order confirmation p
                       addUPIDetails={val => this.props.addUPIDetails(val)}
                       addUserUPIStatus={this.props.addUserUPIStatus}
                       loading={this.props.loading}
+                      checkUPIEligibility={cartGuidUPI =>
+                        this.props.checkUPIEligibility(cartGuidUPI)
+                      }
                     />
                   </div>
                 )}

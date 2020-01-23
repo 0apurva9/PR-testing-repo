@@ -67,7 +67,8 @@ import {
   collectPaymentOrderForNetBanking,
   collectPaymentOrderForSavedCards,
   collectPaymentOrderForGiftCardFromSavedCards,
-  collectPaymentOrderForCliqCash
+  collectPaymentOrderForCliqCash,
+  checkUPIEligibility
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -742,6 +743,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     addUPIDetails: upiId => {
       dispatch(addUPIDetails(upiId));
+    },
+    checkUPIEligibility: async guIdDetails => {
+      return await dispatch(checkUPIEligibility(guIdDetails));
     }
   };
 };

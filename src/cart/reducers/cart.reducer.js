@@ -744,6 +744,33 @@ const cart = (
         paymentModeLoader: false
       });
 
+    /**
+     * @author Prashant Kumar
+     * @comment Changes for the upi eligibility check
+     */
+    case cartActions.GET_UPI_ELIGIBILITY_REQUEST:
+      return Object.assign({}, state, {
+        upiEligibilityCheckStatus: action.status,
+        upiEligibilityCheckLoader: true
+      });
+
+    case cartActions.GET_UPI_ELIGIBILITY_SUCCESS:
+      return Object.assign({}, state, {
+        upiEligibilityCheckStatus: action.status,
+        upiEligibilityCheck: action.checkUPIEligibility,
+        upiEligibilityCheckLoader: false
+      });
+
+    case cartActions.GET_UPI_ELIGIBILITY_FAILURE:
+      return Object.assign({}, state, {
+        upiEligibilityCheckStatus: action.status,
+        upiEligibilityCheckError: action.error,
+        upiEligibilityCheckLoader: false
+      });
+    /**
+     * EOC
+     */
+
     case cartActions.APPLY_BANK_OFFER_REQUEST:
       return Object.assign({}, state, {
         bankOfferStatus: action.status,
@@ -1968,6 +1995,11 @@ const cart = (
         paymentModesStatus: null,
         paymentModesError: null,
         paymentModeLoader: false,
+
+        upiEligibilityCheck: null,
+        upiEligibilityCheckStatus: null,
+        upiEligibilityCheckError: null,
+        upiEligibilityCheckLoader: false,
 
         bankOffer: null,
         bankOfferStatus: null,

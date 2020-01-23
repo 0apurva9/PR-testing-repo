@@ -249,6 +249,10 @@ export const GET_PAYMENT_MODES_REQUEST = "GET_PAYMENT_MODES_REQUEST";
 export const GET_PAYMENT_MODES_SUCCESS = "GET_PAYMENT_MODES_SUCCESS";
 export const GET_PAYMENT_MODES_FAILURE = "GET_PAYMENT_MODES_FAILURE";
 
+export const GET_UPI_ELIGIBILITY_REQUEST = "GET_UPI_ELIGIBILITY_REQUEST";
+export const GET_UPI_ELIGIBILITY_SUCCESS = "GET_UPI_ELIGIBILITY_SUCCESS";
+export const GET_UPI_ELIGIBILITY_FAILURE = "GET_UPI_ELIGIBILITY_FAILURE";
+
 export const RELEASE_BANK_OFFER_REQUEST = "RELEASE_BANK_OFFER_REQUEST";
 export const RELEASE_BANK_OFFER_SUCCESS = "RELEASE_BANK_OFFER_SUCCESS";
 export const RELEASE_BANK_OFFER_FAILURE = "RELEASE_BANK_OFFER_FAILURE";
@@ -1848,6 +1852,79 @@ export function getPaymentModes(guId) {
     }
   };
 }
+
+/**
+ * @author Prashant Kumar
+ * @comment Code for the UPI Eligibility check
+ */
+
+export function checkUPIEligibilityRequest() {
+  return {
+    type: GET_UPI_ELIGIBILITY_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function checkUPIEligibilitySuccess(checkUPIEligibility) {
+  return {
+    type: GET_UPI_ELIGIBILITY_SUCCESS,
+    status: SUCCESS,
+    checkUPIEligibility
+  };
+}
+
+export function checkUPIEligibilityFailure(error) {
+  return {
+    type: GET_UPI_ELIGIBILITY_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function checkUPIEligibility(guId) {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(checkUPIEligibilityRequest());
+    try {
+      // const result = await api.post(
+      //   `${USER_CART_PATH}/${
+      //     JSON.parse(userDetails).userName
+      //   }/payments/checkUPIEligibility?platformNumber=${PLAT_FORM_NUMBER}&access_token=${
+      //     JSON.parse(customerCookie).access_token
+      //   }&cartGuid=${guId}`
+      // );
+
+      // const resultJson = await result.json();
+      // const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      const resultJson = {
+        type: "checkUpiEligibilityDTO",
+        status: "Success",
+        isUpiPaymentEligible: true
+      };
+
+      // if (resultJsonStatus.status) {
+      //   throw new Error(resultJsonStatus.message);
+      // }
+      // here  we are setting data layer for when user lands on the payment modes
+      // page
+      if (!resultJson.isUpiPaymentEligible) {
+        dispatch(displayToast("You are not eligible for this."));
+      }
+      return dispatch(checkUPIEligibilitySuccess(resultJson));
+
+      // dispatch(createPaymentOrder(guId));
+      // setDataLayerForCheckoutDirectCalls(
+      //   ADOBE_CALL_FOR_LANDING_ON_PAYMENT_MODE
+      // );
+    } catch (e) {
+      return dispatch(checkUPIEligibilityFailure(e.message));
+    }
+  };
+}
+/**
+ * EOC
+ */
 
 // Actions to Apply Bank Offer
 export function applyBankOfferRequest() {
