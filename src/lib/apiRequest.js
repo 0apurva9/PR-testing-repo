@@ -73,6 +73,10 @@ if (
   API_URL_ROOT = "https://preprod3.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
     "https://preprod3.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "preprod1") {
+  API_URL_ROOT = "https://preprod1.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://preprod1.tataunistore.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "prod1") {
   API_URL_ROOT = "https://prod1.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
@@ -121,6 +125,8 @@ if (process.env.REACT_APP_STAGE === "tmpprod") {
   URL_ROOT = "https://e2e1.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "preprod3") {
   URL_ROOT = "https://preprod3.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "preprod1") {
+  URL_ROOT = "https://preprod1.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "prod1") {
   URL_ROOT = "https://prod1.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "awsprod1") {
