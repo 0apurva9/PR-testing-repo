@@ -1,13 +1,12 @@
 import React from "react";
 import styles from "./JewelleryDetailsAndLink.css";
-import StarRating from "../../general/components/StarRating.js";
+import FilledStarWhite from "../../general/components/img/star-fill-white.svg";
 import Icon from "../../xelpmoc-core/Icon";
 import PropTypes from "prop-types";
 import { RUPEE_SYMBOL } from "../../lib/constants.js";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import MetaTags from "react-meta-tags";
-import arrowIcon from "../../general/components/img/arrow.svg";
 
 export default class JewelleryDetailsAndLink extends React.Component {
   readMore() {
@@ -47,10 +46,13 @@ export default class JewelleryDetailsAndLink extends React.Component {
     );
   };
   render() {
-    let averageRating = "";
-    if (this.props.averageRating) {
-      averageRating = Math.floor(this.props.averageRating);
+    const { averageRating, ratingCount, numberOfReviews } = this.props;
+
+    let averageRatingNew = "";
+    if (averageRating) {
+      averageRatingNew = Math.round(averageRating * 10) / 10;
     }
+
     return (
       <div className={styles.base}>
         {this.renderSchemaTags()}
@@ -127,31 +129,51 @@ export default class JewelleryDetailsAndLink extends React.Component {
               className={styles.ratingHolder}
               onClick={() => this.handleRatingLink()}
             >
-              <StarRating averageRating={this.props.averageRating}>
-                {this.props.averageRating && (
+              <div
+                className={styles.ratingText}
+                itemProp="aggregateRating"
+                itemScope
+                itemType="http://schema.org/AggregateRating"
+              >
+                <div
+                  className={
+                    averageRating > 2.5
+                      ? styles.reviewElectronicsContainer
+                      : styles.lessReviewElectronicsContainer
+                  }
+                >
                   <div
-                    itemprop="aggregateRating"
-                    itemscope
-                    itemtype="http://schema.org/AggregateRating"
-                    className={styles.ratingText}
+                    className={styles.reviewElectronics}
+                    itemProp="ratingValue"
                   >
-                    Rating {`${averageRating}`} /5
-                    <meta
-                      itemProp="reviewCount"
-                      content={this.props.numberOfReviews}
-                    />
-                    <meta
-                      itemprop="itemReviewed"
-                      content={
-                        this.props.averageRating ? this.props.averageRating : 0
-                      }
-                    />
+                    {averageRatingNew}
                   </div>
-                )}
-                <div className={styles.arrowHolder}>
-                  <Icon image={arrowIcon} size={15} />
+                  <div className={styles.starPLPElectronics}>
+                    <Icon image={FilledStarWhite} size={10} />
+                  </div>
                 </div>
-              </StarRating>
+                <div className={styles.labelText}>
+                  <span className={styles.ratingLabel} itemProp="ratingCount">
+                    {ratingCount}
+                  </span>
+                  <span>{ratingCount > 1 ? "Ratings" : "Rating"}</span>
+                  {numberOfReviews ? (
+                    <React.Fragment>
+                      {" &"}
+                      <span
+                        className={styles.ratingLabel}
+                        itemProp="reviewCount"
+                      >
+                        {numberOfReviews}
+                      </span>
+                      <span>{numberOfReviews > 1 ? "Reviews" : "Review"}</span>
+                    </React.Fragment>
+                  ) : null}
+                </div>
+                <meta itemProp="ratingCount" content={ratingCount} />
+                <meta itemProp="reviewCount" content={numberOfReviews} />
+                <meta itemprop="itemReviewed" content={averageRating} />
+              </div>
             </div>
           )}
         </div>
@@ -183,7 +205,8 @@ JewelleryDetailsAndLink.propTypes = {
   readMore: PropTypes.func,
   viewPlans: PropTypes.func,
   informationText: PropTypes.string,
-  numberOfReviews: PropTypes.number
+  numberOfReviews: PropTypes.number,
+  ratingCount: PropTypes.number
 };
 JewelleryDetailsAndLink.defaultProps = {
   label: "Price Breakup"

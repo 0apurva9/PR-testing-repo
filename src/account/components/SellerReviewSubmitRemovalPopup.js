@@ -23,7 +23,7 @@ export default class SellerReviewSubmitRemovalPopup extends React.Component {
             src={cancelBlack}
             alt="X"
           />
-          {sellerName && (
+          {(rating || sellerName) && (
             <div className={styles.textHolder}>
               Thanks for your feeback
               {sellerName && (
@@ -31,7 +31,7 @@ export default class SellerReviewSubmitRemovalPopup extends React.Component {
               )}
               {rating && (
                 <div className={styles.ratingBar}>
-                  <StarRating averageRating={rating} />
+                  <StarRating averageRating={parseInt(rating)} />
                 </div>
               )}
             </div>

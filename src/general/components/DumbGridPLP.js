@@ -52,12 +52,25 @@ export default class Grid extends React.Component {
               // }
               // return false;
             });
-            if (this.props.banners.heroBanners[1]) {
-              if (this.props.banners.heroBanners[1].plpBannerImage) {
-                bannerImage = this.props.banners.heroBanners[1].plpBannerImage;
-              }
-              if (this.props.banners.heroBanners[1].redirectionURL) {
-                bannerUrl = this.props.banners.heroBanners[1].redirectionURL;
+
+            let newbanner = this.props.banners.heroBanners.find(indexObj => {
+              return (
+                indexObj.plpBannerTitle && indexObj.plpBannerTitle === "desktop"
+              );
+            });
+
+            if (newbanner) {
+              bannerImage = newbanner.plpBannerImage;
+              bannerUrl = newbanner.redirectionURL;
+            } else {
+              if (this.props.banners.heroBanners[1]) {
+                if (this.props.banners.heroBanners[1].plpBannerImage) {
+                  bannerImage = this.props.banners.heroBanners[1]
+                    .plpBannerImage;
+                }
+                if (this.props.banners.heroBanners[1].redirectionURL) {
+                  bannerUrl = this.props.banners.heroBanners[1].redirectionURL;
+                }
               }
             }
           }
@@ -233,12 +246,24 @@ export default class Grid extends React.Component {
               // return false;
             });
 
-            if (this.props.banners.heroBanners[1]) {
-              if (this.props.banners.heroBanners[1].plpBannerImage) {
-                bannerImage = this.props.banners.heroBanners[1].plpBannerImage;
-              }
-              if (this.props.banners.heroBanners[1].redirectionURL) {
-                bannerUrl = this.props.banners.heroBanners[1].redirectionURL;
+            let newbanner = this.props.banners.heroBanners.find(indexObj => {
+              return (
+                indexObj.plpBannerTitle && indexObj.plpBannerTitle === "desktop"
+              );
+            });
+
+            if (newbanner) {
+              bannerImage = newbanner.plpBannerImage;
+              bannerUrl = newbanner.redirectionURL;
+            } else {
+              if (this.props.banners.heroBanners[1]) {
+                if (this.props.banners.heroBanners[1].plpBannerImage) {
+                  bannerImage = this.props.banners.heroBanners[1]
+                    .plpBannerImage;
+                }
+                if (this.props.banners.heroBanners[1].redirectionURL) {
+                  bannerUrl = this.props.banners.heroBanners[1].redirectionURL;
+                }
               }
             }
           }

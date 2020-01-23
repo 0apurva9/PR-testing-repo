@@ -16,9 +16,13 @@
   padding: 0 15px;
   margin-bottom: 15px;
 }
+.header h3 {
+  display: inline;
+}
 .colourName {
   font-family: regular;
   text-transform: capitalize;
+  display: inline;
 }
 @media screen and (min-width: 1025px) {
   .base {

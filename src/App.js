@@ -690,6 +690,14 @@ class App extends Component {
               component={AllSellerReviewContainer}
             />
             <Route
+              path={`/transactionId=:id&customerId=:id1/seller-review`}
+              component={AllSellerContainer}
+            />
+            <Route
+              path={`/transactionId=:id&customerId=:id1/seller-reviewed`}
+              component={AllSellerReviewContainer}
+            />
+            <Route
               exact
               path="/Unsubscribe.html"
               render={() => {

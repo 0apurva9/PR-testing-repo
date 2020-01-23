@@ -872,7 +872,7 @@ export default class AllSellerReviewed extends React.Component {
                       this.params = params;
 
                       return (
-                        <div className={styles.order} key={orderId}>
+                        <div className={styles.order} key={transactionId}>
                           <SellerCard
                             title={productName}
                             placedTime={
@@ -881,6 +881,7 @@ export default class AllSellerReviewed extends React.Component {
                             orderNumber={orderId}
                             orderFullfilledBy={sellerName}
                             productImage={imageURL}
+                            pathURL={this.props.location.pathname}
                           />
                           <div
                             className={styles.orderIdHolder}

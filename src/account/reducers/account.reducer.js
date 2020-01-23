@@ -247,7 +247,16 @@ const account = (
     updateReturnHOTCStatus: null,
     loadingForUpdateReturnHOTC: false,
     updateReturnHOTCDetails: null,
-    updateReturnHOTCError: null
+    updateReturnHOTCError: null,
+
+    userRatingStatus: null,
+    userRatingError: null,
+
+    UserNotificationHeaderText: "",
+    UserNotificationDetailsStatus: null,
+    UserNotificationDetailsError: null,
+    UserNotificationDetails: null,
+    UserNotificationConfig: null
   },
   action
 ) => {
@@ -283,7 +292,8 @@ const account = (
         updateProfileError: null,
         changePasswordError: null,
         reSendEmailError: null,
-        pinCodeDetails: null
+        pinCodeDetails: null,
+        UserNotificationDetailsError: null
       });
     case accountActions.GET_RETURN_REQUEST:
     case accountActions.RETURN_PRODUCT_DETAILS_REQUEST:
@@ -523,6 +533,21 @@ const account = (
           currentPage: 0
         });
       }
+      // let reviewedProductList = [];
+      // if (
+      //   currentOrderDetailObj &&
+      //   currentOrderDetailObj.orderData
+      // ) {
+      //   currentOrderDetailObj.orderData.map(
+      //     order => {
+      //       order.products.forEach(product => {
+      //         if (product.isReviewed)
+      //           reviewedProductList.push(product.productcode)
+      //       })
+      //     }
+      //   )
+      // }
+
       return Object.assign({}, state, {
         orderDetailsStatus: action.status,
         orderDetails: currentOrderDetailObj,
@@ -1553,6 +1578,58 @@ const account = (
     case accountActions.CLEAR_TRANSACTION_DATA:
       return Object.assign({}, state, {
         transactionDetails: " "
+      });
+    case accountActions.GET_USER_RATING_REQUEST:
+      return Object.assign({}, state, {
+        userRatingStatus: action.status,
+        loading: true
+      });
+    case accountActions.GET_USER_RATING_SUCCESS:
+      return Object.assign({}, state, {
+        userRatingStatus: action.status,
+        loading: false
+      });
+    case accountActions.GET_USER_RATING_FAILURE:
+      return Object.assign({}, state, {
+        userRatingStatus: action.status,
+        userRatingError: action.error,
+        loading: false
+      });
+    case accountActions.GET_USER_NOTIFICATION_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        UserNotificationDetailsStatus: action.status,
+        loading: true
+      });
+    case accountActions.GET_USER_NOTIFICATION_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        UserNotificationHeaderText: action.notificationDetails.message,
+        UserNotificationDetailsStatus: action.status,
+        UserNotificationDetails: action.notificationDetails,
+        UserNotificationConfig: action.notificationDetails,
+        loading: false
+      });
+    case accountActions.GET_USER_NOTIFICATION_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        UserNotificationDetailsStatus: action.status,
+        UserNotificationDetailsError: action.error,
+        loading: false
+      });
+    case accountActions.SET_USER_SMS_NOTIFICATION_REQUEST:
+      return Object.assign({}, state, {
+        UserNotificationDetailsStatus: action.status,
+        loading: true
+      });
+    case accountActions.SET_USER_SMS_NOTIFICATION_SUCCESS:
+      return Object.assign({}, state, {
+        UserNotificationDetailsStatus: action.status,
+        UserNotificationDetails: action.setSMSResponse,
+        loading: false
+      });
+    case accountActions.SET_USER_SMS_NOTIFICATION_FAILURE:
+      return Object.assign({}, state, {
+        UserNotificationDetailsStatus: action.status,
+        UserNotificationDetailsError: action.error,
+        loading: false
       });
     case accountActions.RESET_RETRY_PAYMENT:
       return Object.assign({}, state, {
