@@ -50,6 +50,11 @@ export default class ProductFlags extends React.Component {
         </div>
       );
     } else if (
+      this.props.isExchangeAvailable === true &&
+      this.props.showExchangeTag === true
+    ) {
+      return <div className={styles.exhange}>Exchange Offer</div>;
+    } else if (
       this.props.discountPercent &&
       this.props.discountPercent !== "0"
     ) {
