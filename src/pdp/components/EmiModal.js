@@ -7,9 +7,6 @@ import SlideModal from "../../general/components/SlideModal";
 import Accordion from "../../general/components/Accordion";
 import PropTypes from "prop-types";
 import styles from "./EmiModal.css";
-import DesktopOnly from "../../general/components/DesktopOnly";
-import CenterModal from "../../general/components/CenterModal";
-import MobileOnly from "../../general/components/MobileOnly";
 import TabHolder from "../../account/components/TabHolder";
 import TabData from "../../account/components/TabData";
 import {

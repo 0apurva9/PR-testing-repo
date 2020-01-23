@@ -189,7 +189,7 @@ export default class SizeSelector extends React.Component {
       return (
         <div className={styles.size}>
           <div className={styles.header}>
-            Select {this.props.headerText}
+            <h3>Select {this.props.headerText}</h3>
             <div className={styles.button}>
               <MobileOnly>
                 <UnderLinedButton
