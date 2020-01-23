@@ -23,10 +23,11 @@ export default class PdpFlags extends React.Component {
       );
     } else if (this.props.onlineExclusive === "Y") {
       return <div className={styles.new}>New</div>;
-    } else if (
-      this.props.discountPercent &&
-      this.props.discountPercent !== "0"
-    ) {
+    } else if (this.props.isExchangeAvailable === "true") {
+      return <div className={styles.exhange}>Exchange Offer</div>;
+    }
+    //bundled offer tag
+    else if (this.props.discountPercent && this.props.discountPercent !== "0") {
       return (
         <div className={styles.offer}>
           {parseInt(this.props.discountPercent, 10)}% off{" "}

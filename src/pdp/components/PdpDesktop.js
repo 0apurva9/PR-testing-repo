@@ -993,6 +993,7 @@ export default class PdpApparel extends React.Component {
                     outOfStock={productData.allOOStock}
                     seasonSale={seasonData}
                     newProduct={productData.isProductNew}
+                    isExchangeAvailable={productData.isExchangeAvailable}
                   />
                 )}
                 {!productData.winningSellerPrice && (
