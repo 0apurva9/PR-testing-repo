@@ -298,10 +298,10 @@ export default class OrderCard extends React.Component {
                 }
               >
                 <div className={styles.calloutMessage}>
-                  {`123${updatedCalloutMessage}`}
+                  {`${updatedCalloutMessage}`}
                 </div>
                 {this.props.orderBreachMessage && (
-                  <div className={styles.breechMessage}>
+                  <div className={styles.breachMessage}>
                     * {this.props.orderBreachMessage}
                   </div>
                 )}
