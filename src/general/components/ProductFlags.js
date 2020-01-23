@@ -4,6 +4,7 @@ import newFlag from "./img/new.svg";
 import offerFlag from "./img/offer.svg";
 import offerplpFlag from "./img/offerplp.svg";
 import exclusiveFlag from "./img/exclusive.svg";
+import exchangeFlag from "./img/Rectangle43.svg";
 export default class ProductFlags extends React.Component {
   renderFlag = () => {
     if (this.props.outOfStock) {
@@ -53,7 +54,14 @@ export default class ProductFlags extends React.Component {
       this.props.isExchangeAvailable === true &&
       this.props.showExchangeTag === true
     ) {
-      return <div className={styles.exhange}>Exchange Offer</div>;
+      return (
+        <div
+          className={styles.base}
+          style={{ backgroundImage: `url(${exchangeFlag})` }}
+        >
+          Exchange Offer
+        </div>
+      );
     } else if (
       this.props.discountPercent &&
       this.props.discountPercent !== "0"
