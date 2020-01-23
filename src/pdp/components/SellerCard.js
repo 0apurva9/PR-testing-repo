@@ -152,10 +152,8 @@ export default class SellerCard extends React.Component {
                                 <PdpDeliveryModes
                                   fromSellerCard={true}
                                   //onPiq={() => this.handleShowPiqPage()}
-                                  /* eligibleDeliveryModes={
-                                  productData.eligibleDeliveryModes
-                                }
-                                deliveryModesATP={productData.deliveryModesATP} */
+                                  eligibleDeliveryModes={val}
+                                  //deliveryModesATP={productData.deliveryModesATP}
                                   pdpApparel={true}
                                   pincodeDetails={
                                     this.props.serviceablePincodeList &&

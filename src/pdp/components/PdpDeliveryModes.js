@@ -19,12 +19,23 @@ export default class PdpDeliveryModes extends React.Component {
   render() {
     let deliveryMode = "";
     let deliveryDates = "";
+    let baseClass = styles.base;
     const eligibleDeliveryModes = this.props.eligibleDeliveryModes;
     let getDeliveryModesByWinningUssid = "";
+    if (this.props.fromSellerCard) {
+      baseClass = `${styles.base} ${styles.sellerBase}`;
+    }
     //const deliveryModesATP = this.props.deliveryModesATP;
 
     if (this.props.fromSellerCard && this.props.pincodeDetails) {
       deliveryDates = this.props.pincodeDetails.validDeliveryModes;
+      if (
+        this.props &&
+        this.props.pincodeDetails &&
+        this.props.pincodeDetails.quickDeliveryMode
+      ) {
+        getDeliveryModesByWinningUssid = this.props.pincodeDetails;
+      }
     } else {
       if (
         this.props &&
@@ -49,14 +60,35 @@ export default class PdpDeliveryModes extends React.Component {
     }
 
     const isCod = this.props && this.props.isCod;
-
     const QuiqPiq =
       getDeliveryModesByWinningUssid &&
       getDeliveryModesByWinningUssid.quickDeliveryMode &&
       getDeliveryModesByWinningUssid.quickDeliveryMode === "Y";
 
+    let wrapperClass =
+      (deliveryDates &&
+        deliveryDates
+          .map(val => {
+            return val.type;
+          })
+          .includes(SHORT_EXPRESS)) ||
+      (deliveryDates &&
+        deliveryDates
+          .map(val => {
+            return val.code;
+          })
+          .includes(SHORT_COLLECT)) ||
+      (deliveryDates &&
+        deliveryDates
+          .map(val => {
+            return val.type;
+          })
+          .includes(SHORT_SAME_DAY_DELIVERY))
+        ? styles.standardAndCashOnDelivery
+        : styles.noStandardAndCashOnDelivery;
+
     return (
-      <div className={styles.base}>
+      <div className={baseClass}>
         {QuiqPiq === true && (
           <div className={styles.quickDeliveryMode}>
             <DeliveryInformation
@@ -177,30 +209,7 @@ export default class PdpDeliveryModes extends React.Component {
               )}
           </div>
         )}
-        <div
-          className={
-            (deliveryDates &&
-              deliveryDates
-                .map(val => {
-                  return val.type;
-                })
-                .includes(SHORT_EXPRESS)) ||
-            (eligibleDeliveryModes &&
-              eligibleDeliveryModes
-                .map(val => {
-                  return val.code;
-                })
-                .includes(SHORT_COLLECT)) ||
-            (deliveryDates &&
-              deliveryDates
-                .map(val => {
-                  return val.type;
-                })
-                .includes(SHORT_SAME_DAY_DELIVERY))
-              ? styles.standardAndCashOnDelivery
-              : styles.noStandardAndCashOnDelivery
-          }
-        >
+        <div className={wrapperClass}>
           {deliveryDates &&
             deliveryDates
               .map(val => {

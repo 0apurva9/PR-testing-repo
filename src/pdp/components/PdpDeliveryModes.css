@@ -5,6 +5,9 @@
   background: #fff;
   padding: 20px 0px 10px 0px;
 }
+.sellerBase {
+  padding: 0;
+}
 .basePdp {
   float: left;
   width: 100%;
@@ -33,6 +36,9 @@
   height: auto;
   display: block;
  /*  vertical-align: top; */
+}
+.sellerBase .infoHolder {
+  width: 100%;
 }
 .noStandardAndCashOnDelivery {
   width: 100%;
