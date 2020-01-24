@@ -40,6 +40,7 @@ import {
 import * as UserAgent from "../../lib/UserAgent.js";
 export const EMAIL_REGULAR_EXPRESSION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export const MOBILE_PATTERN = /^[6,7,8,9]{1}[0-9]{9}$/;
+export const NUMERIC_ONLY = /^\d+$/;
 const MINIMUM_PASSWORD_LENGTH = "8";
 const FAILED_TO_FETCH = "Failed to fetch";
 export const RETRY_PAYMENT_CART_ID = "retryPaymentCartId";
@@ -215,7 +216,10 @@ class Login extends Component {
         this.props.displayToast("Please enter a valid email address");
         return false;
       }
-      if (userDetails.username.indexOf("@") !== -1) {
+      if (
+        !NUMERIC_ONLY.test(userDetails.username) ||
+        userDetails.username.indexOf("@") !== -1
+      ) {
         if (!EMAIL_REGULAR_EXPRESSION.test(userDetails.username)) {
           this.props.displayToast("Please enter a valid email address");
           return false;
