@@ -92,6 +92,99 @@ export default class OrderCard extends React.Component {
     document.execCommand("copy");
     window.open(copyText.innerHTML, "_blank");
   };
+  getDateMonthFormate(dateWithMonth) {
+    let todayDate = new Date().getDate();
+    let nextDayDate = todayDate + 1;
+    let date = dateWithMonth.getUTCDate();
+    let month = dateWithMonth.getUTCMonth() + 1;
+    let year = dateWithMonth.getUTCFullYear();
+    let newExpressOrSddText = "";
+    let monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+    if (date === todayDate) {
+      newExpressOrSddText = `Today, `;
+    } else if (date === nextDayDate) {
+      newExpressOrSddText = `Tomorrow, `;
+    }
+    switch (date) {
+      case 1:
+      case 21:
+      case 31:
+        if (newExpressOrSddText) {
+          return (
+            newExpressOrSddText +
+            date +
+            "st " +
+            monthNames[month - 1] +
+            " " +
+            year
+          );
+        } else {
+          return "" + date + "st " + monthNames[month - 1] + " " + year;
+        }
+      case 2:
+      case 22:
+        if (newExpressOrSddText) {
+          return (
+            newExpressOrSddText +
+            date +
+            "nd " +
+            monthNames[month - 1] +
+            " " +
+            year
+          );
+        } else {
+          return "" + date + "nd " + monthNames[month - 1] + " " + year;
+        }
+      case 3:
+      case 23:
+        if (newExpressOrSddText) {
+          return (
+            newExpressOrSddText +
+            date +
+            "rd " +
+            monthNames[month - 1] +
+            " " +
+            year
+          );
+        } else {
+          return "" + date + "rd " + monthNames[month - 1];
+        }
+      default:
+        if (newExpressOrSddText) {
+          return (
+            newExpressOrSddText +
+            date +
+            "th " +
+            monthNames[month - 1] +
+            " " +
+            year
+          );
+        } else {
+          return "" + date + "th " + monthNames[month - 1] + " " + year;
+        }
+    }
+  }
+  getDayNumberSuffix(d) {
+    let dateWithMonth = d.replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3");
+    dateWithMonth = new Date(dateWithMonth);
+
+    if (dateWithMonth) {
+      return this.getDateMonthFormate(dateWithMonth);
+    } else return "";
+  }
 
   render() {
     let calloutMessage = this.props.calloutMessage;
@@ -104,10 +197,10 @@ export default class OrderCard extends React.Component {
     let estimatedDeliveryDateFormatted = "";
     let deliveryDate = "",
       deliveryDateFormatted = "";
-    if (this.props && this.props.estimatedDeliveryDate) {
-      estimatedDeliveryDate = this.props.estimatedDeliveryDate;
-      let edd = new Date(estimatedDeliveryDate);
-      estimatedDeliveryDateFormatted = format(edd, dateFormat);
+    if (this.props.estimatedDeliveryDate) {
+      estimatedDeliveryDateFormatted = this.getDayNumberSuffix(
+        this.props.estimatedDeliveryDate
+      );
     }
     if (this.props && this.props.deliveryDate) {
       deliveryDate = this.props.deliveryDate;
@@ -543,8 +636,7 @@ export default class OrderCard extends React.Component {
               {!this.props.calloutMessage ? (
                 <React.Fragment>
                   {this.props.estimatedDeliveryDate &&
-                    !checkStatus &&
-                    (date || returnEligibleDate) && (
+                    !checkStatus && (
                       <React.Fragment>
                         <span className={styles.ffsemibold}>
                           {shipmentStatus &&
@@ -553,14 +645,9 @@ export default class OrderCard extends React.Component {
                             ? ""
                             : shipmentStatus}{" "}
                         </span>
-                        {EstDeliveryDate && (
-                          <span className={styles.styleDate}>
-                            &nbsp;
-                            {this.props.estimatedDeliveryDate
-                              ? estimatedDeliveryDateFormatted
-                              : ""}
-                          </span>
-                        )}
+                        <span className={styles.styleDate}>
+                          {estimatedDeliveryDateFormatted}
+                        </span>
                         {shipmentStatus &&
                           shipmentStatus.includes(
                             "Order Could be collected by"

@@ -64,7 +64,6 @@ export default class PdpDeliveryModes extends React.Component {
       getDeliveryModesByWinningUssid &&
       getDeliveryModesByWinningUssid.quickDeliveryMode &&
       getDeliveryModesByWinningUssid.quickDeliveryMode === "Y";
-
     let wrapperClass =
       (deliveryDates &&
         deliveryDates
@@ -202,8 +201,11 @@ export default class PdpDeliveryModes extends React.Component {
                   isShowCliqAndPiqUnderLineText={localStorage.getItem(
                     DEFAULT_PIN_CODE_LOCAL_STORAGE
                   )}
-                  numberOfStore={`
-                    ${this.props.availableStores} more stores nearby`}
+                  numberOfStore={
+                    this.props.availableStores
+                      ? `${this.props.availableStores} more stores nearby`
+                      : null
+                  }
                   splitIntoTwoLine={false}
                 />
               )}

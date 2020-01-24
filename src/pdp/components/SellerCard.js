@@ -46,6 +46,35 @@ export default class SellerCard extends React.Component {
       priceClass = styles.priceCancelled;
     }
     let availableDeliveryModes = [];
+    let tempValidDeliveryMode = [];
+    let serviceableDeliveryModes = {};
+
+    if (this.props.serviceablePincodeList) {
+      this.props.serviceablePincodeList.map((product, j) => {
+        if (product.ussid === this.props.winningUssID) {
+          serviceableDeliveryModes = Object.assign(product);
+          return (
+            product.validDeliveryModes &&
+            product.validDeliveryModes.map((deliveryMode, k) => {
+              return (
+                this.props.eligibleDeliveryModes &&
+                this.props.eligibleDeliveryModes.map((val, i) => {
+                  if (
+                    SHIPPING_TYPES[deliveryMode.type] === val.code &&
+                    !availableDeliveryModes.includes(deliveryMode.type)
+                  ) {
+                    availableDeliveryModes.push(deliveryMode.type);
+                    console.log(typeof deliveryMode);
+                    tempValidDeliveryMode.push({ deliveryMode });
+                  }
+                })
+              );
+            })
+          );
+          serviceableDeliveryModes.validDeliveryModes = tempValidDeliveryMode;
+        }
+      });
+    }
 
     return (
       <div className={styles.base} onClick={() => this.handleClick(this.props)}>
@@ -128,58 +157,23 @@ export default class SellerCard extends React.Component {
               this.props.disabled ? styles.faded : styles.sellerCardDetails
             }
           >
-            {this.props.serviceablePincodeList &&
-              this.props.serviceablePincodeList.map((product, j) => {
-                if (product.ussid === this.props.winningUssID) {
-                  return (
-                    product.validDeliveryModes &&
-                    product.validDeliveryModes.map((deliveryMode, k) => {
-                      return (
-                        this.props.eligibleDeliveryModes &&
-                        this.props.eligibleDeliveryModes.map((val, i) => {
-                          if (
-                            SHIPPING_TYPES[deliveryMode.type] === val.code &&
-                            !availableDeliveryModes.includes(deliveryMode.type)
-                          ) {
-                            availableDeliveryModes.push(deliveryMode.type);
-                            return (
-                              /*  <div className={styles.shippingText}>
-                                {val.name}
-                                {val.description && <span>-</span>}
-                                {val.description}
-                              </div> */
-                              <div className={styles.deliveryModesHolder}>
-                                <PdpDeliveryModes
-                                  fromSellerCard={true}
-                                  //onPiq={() => this.handleShowPiqPage()}
-                                  eligibleDeliveryModes={val}
-                                  //deliveryModesATP={productData.deliveryModesATP}
-                                  pdpApparel={true}
-                                  pincodeDetails={
-                                    this.props.serviceablePincodeList &&
-                                    this.props.serviceablePincodeList.find(
-                                      val => {
-                                        return (
-                                          val.ussid === this.props.winningUssID
-                                        );
-                                      }
-                                    )
-                                  }
-                                  /*  isCod={productData.isCOD}
-                                availableStores={
-                                  availableStores && availableStores.length
-                                }
-                                winningUssID={productData.winningUssID} */
-                                />
-                              </div>
-                            );
-                          }
-                        })
-                      );
-                    })
-                  );
+            {Object.keys(serviceableDeliveryModes).length !== 0 && (
+              <div className={styles.deliveryModesHolder}>
+                <PdpDeliveryModes
+                  fromSellerCard={true}
+                  //onPiq={() => this.handleShowPiqPage()}
+                  eligibleDeliveryModes={this.props.eligibleDeliveryModes}
+                  //deliveryModesATP={productData.deliveryModesATP}
+                  pdpApparel={true}
+                  pincodeDetails={serviceableDeliveryModes}
+                  /*  isCod={productData.isCOD}
+                availableStores={
+                  availableStores && availableStores.length
                 }
-              })}
+                winningUssID={productData.winningUssID} */
+                />
+              </div>
+            )}
           </div>
           <div
             className={
