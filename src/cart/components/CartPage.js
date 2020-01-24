@@ -89,6 +89,7 @@ class CartPage extends React.Component {
     this.props.history.push(HOME_ROUTER);
   }
   componentDidMount() {
+    localStorage.removeItem(SELECTED_STORE);
     if (localStorage.getItem("cartPromotionText")) {
       let msg = localStorage.getItem("cartPromotionText");
       this.props.displayToast(msg);

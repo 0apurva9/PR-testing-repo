@@ -39,7 +39,7 @@ export default class ReturnToStore extends React.Component {
       const lat = selectedStore && selectedStore.geoPoint.latitude;
       const lng = selectedStore && selectedStore.geoPoint.longitude;
       const storeId = selectedStore && selectedStore.slaveId;
-      if (selectedStore.address) {
+      if (selectedStore.address && this.props.from === "Pdp") {
         localStorage.setItem(
           SELECTED_STORE,
           `${selectedStore.displayName}, ${selectedStore.address.line1} ${
@@ -165,6 +165,19 @@ export default class ReturnToStore extends React.Component {
     setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_SELECT_STORE);
     if (this.props.addPickupPersonCNC) {
       this.props.addPickupPersonCNC(this.state.mobile, this.state.name);
+      if (
+        this.state.selectedStore &&
+        this.state.selectedStore.address &&
+        this.props.from !== "Pdp"
+      ) {
+        let selectedStore = this.state.selectedStore;
+        localStorage.setItem(
+          SELECTED_STORE,
+          `${selectedStore.displayName}, ${selectedStore.address.line1} ${
+            selectedStore.address.line2
+          }, ${selectedStore.address.city} ${selectedStore.address.postalCode}`
+        );
+      }
     }
   }
 
