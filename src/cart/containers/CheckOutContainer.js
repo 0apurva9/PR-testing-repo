@@ -68,7 +68,8 @@ import {
   collectPaymentOrderForSavedCards,
   collectPaymentOrderForGiftCardFromSavedCards,
   collectPaymentOrderForCliqCash,
-  checkUPIEligibility
+  checkUPIEligibility,
+  binValidationForUPI
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -135,9 +136,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showTermsNConditions: data => {
       dispatch(showModal(UPITERMSANDCONDITION_MODAL, ""));
     },
-    // showHowToPay: data => {
-    //   dispatch(showModal(UPIHOWTOPAY_MODAL, ""));
-    // },
     getUserAddress: () => {
       dispatch(getUserAddress());
     },
@@ -746,6 +744,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     checkUPIEligibility: async guIdDetails => {
       return await dispatch(checkUPIEligibility(guIdDetails));
+    },
+    binValidationForUPI: (paymentMode, isFromRetryUrl, retryCartGuid) => {
+      dispatch(binValidationForUPI(paymentMode, isFromRetryUrl, retryCartGuid));
     }
   };
 };

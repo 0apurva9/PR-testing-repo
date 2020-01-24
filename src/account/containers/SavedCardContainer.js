@@ -5,7 +5,8 @@ import { setHeaderText } from "../../general/header.actions";
 import {
   getSavedCardDetails,
   removeSavedCardDetails,
-  removeSavedUpiDetails
+  removeSavedUpiDetails,
+  addUPIDetails
 } from "../actions/account.actions";
 import {
   showSecondaryLoader,
@@ -38,17 +39,20 @@ const mapDispatchToProps = dispatch => {
     },
     showAuthPopUp: () => {
       dispatch(showModal(DESKTOP_AUTH));
+    },
+    addUPIDetails: async val => {
+      const res = await dispatch(addUPIDetails(val));
+      return res;
     }
-    // showHowToPay: data => {
-    //   dispatch(showModal(UPIHOWTOPAY_MODAL, ""));
-    // }
   };
 };
 
 const mapStateToProps = state => {
   return {
     profile: state.profile,
-    userAddress: state.profile.userAddress
+    userAddress: state.profile.userAddress,
+    loading: state.profile.loading,
+    addUserUPIStatus: state.profile.addUserUPIStatus
   };
 };
 

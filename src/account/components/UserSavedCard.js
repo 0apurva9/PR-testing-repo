@@ -44,7 +44,7 @@ export default class UserSavedCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isSavedCardTab: 1,
+      isSavedCardTab: 0,
       showAddNewUpi: 1
     };
   }
@@ -151,7 +151,9 @@ export default class UserSavedCard extends React.Component {
               {this.state.showAddNewUpi === 0 && (
                 <div className={styles.saveCardDetailWithHolder}>
                   <MyAccountUpiForm
-                  // showHowToPay={() => this.props.showHowToPay()}
+                    toggleForAddNewUpi={val => this.toggleForAddNewUpi(val)}
+                    addUPIDetails={val => this.props.addUPIDetails(val)}
+                    loading={this.props.loading}
                   />
                 </div>
               )}

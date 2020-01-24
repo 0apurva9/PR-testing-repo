@@ -99,6 +99,8 @@ export const ADD_USER_UPI_REQUEST = "ADD_USER_UPI_REQUEST";
 export const ADD_USER_UPI_SUCCESS = "ADD_USER_UPI_SUCCESS";
 export const ADD_USER_UPI_FAILURE = "ADD_USER_UPI_FAILURE";
 
+const UPI_ADDED_SUCCESS = "UPI ID added successfully";
+
 export const GET_ALL_ORDERS_REQUEST = "GET_ALL_ORDERS_REQUEST";
 export const GET_ALL_ORDERS_SUCCESS = "GET_ALL_ORDERS_SUCCESS";
 export const GET_ALL_ORDERS_FAILURE = "GET_ALL_ORDERS_FAILURE";
@@ -2332,24 +2334,29 @@ export function addUPIDetails(upi) {
         JSON.parse(customerCookie).access_token
       }&isPwa=true&channel=web&isUpdatedPwa=true&upiId=${upi}&isToValidateUpi=true&isToSaveUpi=true`;
       const result = await api.get(addUPI);
-      const resultJson = await result.json();
+      // const resultJson = await result.json();
       /**
        * @author Prashant Kumar
        * @comment this hard coded line will be removed along with setTimeout
        */
-      // const resultJson = {
-      //   type: "upiValidationWsData",
-      //   status: "VALID",
-      //   customerName: "cust",
-      //   upiId: "example@test"
-      // };
+      const resultJson = {
+        type: "upiValidationWsData",
+        status: "VALID",
+        customerName: "cust",
+        upiId: "example@test"
+      };
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(addUserUPISuccess(resultJson));
+      // setTimeout(() => {
+      if (resultJson.status === "VALID") {
+        dispatch(displayToast(UPI_ADDED_SUCCESS));
+      }
+      return dispatch(addUserUPISuccess(resultJson));
+      // }, 7000);
     } catch (e) {
-      dispatch(addUserUPIFailure(e.message));
+      return dispatch(addUserUPIFailure(e.message));
     }
   };
 }

@@ -767,6 +767,24 @@ const cart = (
         upiEligibilityCheckError: action.error,
         upiEligibilityCheckLoader: false
       });
+
+    case cartActions.BIN_VALIDATION_UPI_REQUEST:
+      return Object.assign({}, state, {
+        binValidationUPIStatus: action.status,
+        loading: false
+      });
+    case cartActions.BIN_VALIDATION_UPI_SUCCESS:
+      return Object.assign({}, state, {
+        binValidationUPIStatus: action.status,
+        binValidationUPIDetails: action.binValidationUPIDetails,
+        loading: false
+      });
+    case cartActions.BIN_VALIDATION_UPI_FAILURE:
+      return Object.assign({}, state, {
+        binValidationUPIStatus: action.status,
+        binValidationUPIDetails: action.binValidationUPIDetails,
+        loading: false
+      });
     /**
      * EOC
      */

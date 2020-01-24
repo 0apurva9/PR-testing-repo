@@ -253,6 +253,10 @@ export const GET_UPI_ELIGIBILITY_REQUEST = "GET_UPI_ELIGIBILITY_REQUEST";
 export const GET_UPI_ELIGIBILITY_SUCCESS = "GET_UPI_ELIGIBILITY_SUCCESS";
 export const GET_UPI_ELIGIBILITY_FAILURE = "GET_UPI_ELIGIBILITY_FAILURE";
 
+export const BIN_VALIDATION_UPI_REQUEST = "BIN_VALIDATION_UPI_REQUEST";
+export const BIN_VALIDATION_UPI_SUCCESS = "BIN_VALIDATION_UPI_SUCCESS";
+export const BIN_VALIDATION_UPI_FAILURE = "BIN_VALIDATION_UPI_FAILURE";
+
 export const RELEASE_BANK_OFFER_REQUEST = "RELEASE_BANK_OFFER_REQUEST";
 export const RELEASE_BANK_OFFER_SUCCESS = "RELEASE_BANK_OFFER_SUCCESS";
 export const RELEASE_BANK_OFFER_FAILURE = "RELEASE_BANK_OFFER_FAILURE";
@@ -453,6 +457,8 @@ const ERROR_CODE_FOR_BANK_OFFER_INVALID_5 = "B9303";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_6 = "B9510";
 const INVALID_COUPON_ERROR_MESSAGE = "invalid coupon";
 const JUS_PAY_STATUS_REG_EX = /(status=[A-Za-z0-9_]*)/;
+
+const upiEligibilityError = "You are not eligible for this transaction";
 
 export const CART_ITEM_COOKIE = "cartItems";
 export const ADDRESS_FOR_PLACE_ORDER = "orderAddress";
@@ -1881,44 +1887,123 @@ export function checkUPIEligibilityFailure(error) {
   };
 }
 
-export function checkUPIEligibility(guId) {
+export function checkUPIEligibility(
+  guId,
+  paymentMode,
+  isFromRetryUrl,
+  retryCartGuid
+) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(checkUPIEligibilityRequest());
     try {
-      // const result = await api.post(
-      //   `${USER_CART_PATH}/${
-      //     JSON.parse(userDetails).userName
-      //   }/payments/checkUPIEligibility?platformNumber=${PLAT_FORM_NUMBER}&access_token=${
-      //     JSON.parse(customerCookie).access_token
-      //   }&cartGuid=${guId}`
-      // );
+      const result = await api.post(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/payments/checkUPIEligibility?platformNumber=${PLAT_FORM_NUMBER}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }&cartGuid=${guId}`
+      );
 
       // const resultJson = await result.json();
-      // const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       const resultJson = {
         type: "checkUpiEligibilityDTO",
         status: "Success",
         isUpiPaymentEligible: true
       };
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
-      // if (resultJsonStatus.status) {
-      //   throw new Error(resultJsonStatus.message);
-      // }
-      // here  we are setting data layer for when user lands on the payment modes
-      // page
-      if (!resultJson.isUpiPaymentEligible) {
-        dispatch(displayToast("You are not eligible for this."));
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
       }
-      return dispatch(checkUPIEligibilitySuccess(resultJson));
+      if (!resultJson.isUpiPaymentEligible) {
+        dispatch(displayToast(upiEligibilityError));
+      }
+      if (resultJson.isUpiPaymentEligible) {
+        // binValidationForUPI(
+        //   paymentMode,
+        //   isFromRetryUrl,
+        //   retryCartGuid,
+        //   resultJson
+        // );
+        return dispatch(checkUPIEligibilitySuccess(resultJson));
+      } else {
+        return dispatch(checkUPIEligibilitySuccess(resultJson));
+      }
 
       // dispatch(createPaymentOrder(guId));
       // setDataLayerForCheckoutDirectCalls(
       //   ADOBE_CALL_FOR_LANDING_ON_PAYMENT_MODE
       // );
     } catch (e) {
+      dispatch(displayToast(upiEligibilityError));
       return dispatch(checkUPIEligibilityFailure(e.message));
+    }
+  };
+}
+
+export function binValidationForUPIRequest() {
+  return {
+    type: BIN_VALIDATION_UPI_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function binValidationForUPISuccess(binValidationUPI) {
+  return {
+    type: BIN_VALIDATION_UPI_SUCCESS,
+    status: SUCCESS,
+    binValidationUPI
+  };
+}
+
+export function binValidationForUPIFailure(error) {
+  return {
+    type: BIN_VALIDATION_UPI_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function binValidationForUPI(
+  paymentMode,
+  isFromRetryUrl,
+  retryCartGuid,
+  resultJsonUPIEligibility
+) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  const parsedQueryString = queryString.parse(window.location.search);
+  let cartId;
+  if (parsedQueryString.value) {
+    cartId = parsedQueryString.value;
+  }
+  if (isFromRetryUrl) {
+    cartId = retryCartGuid;
+  } else {
+    cartId = JSON.parse(cartDetails).guid;
+  }
+  return async (dispatch, getState, { api }) => {
+    dispatch(binValidationForUPIRequest());
+    try {
+      const result = await api.post(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/payments/binValidation?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      // localStorage.setItem(SELECTED_BANK_NAME, "");
+      return dispatch(binValidationForUPISuccess(resultJsonStatus));
+      // if (resultJsonStatus.status) {
+      // return dispatch(checkUPIEligibilitySuccess(resultJsonUPIEligibility));
+      // }
+    } catch (e) {
+      dispatch(binValidationForUPIFailure(e.message));
     }
   };
 }

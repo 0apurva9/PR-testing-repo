@@ -236,7 +236,9 @@ const account = (
     updateReturnHOTCStatus: null,
     loadingForUpdateReturnHOTC: false,
     updateReturnHOTCDetails: null,
-    updateReturnHOTCError: null
+    updateReturnHOTCError: null,
+
+    addUserUPIStatus: false
   },
   action
 ) => {

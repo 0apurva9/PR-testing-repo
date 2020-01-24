@@ -19,75 +19,60 @@ export default class MenuDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false
+      isOpen: this.props.isOpen
     };
   }
-
-  openMenu = async () => {
-    if (this.props.text === "UPI") {
-      if (this.state.isOpen) {
-        this.setState({ isOpen: !this.state.isOpen });
-      } else {
-        let cartGuidUPI = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-        if (cartGuidUPI) {
-          cartGuidUPI = JSON.parse(cartGuidUPI).guid;
-        }
-        const response = await this.props.checkUPIEligibility(cartGuidUPI);
-        if (response.status === "success") {
-          let isOpen = response.checkUPIEligibility.isUpiPaymentEligible;
-          this.setState({
-            isOpen: isOpen
-          });
-          if (isOpen) {
-            setDataLayerForCheckoutDirectCalls(
-              ADOBE_CALL_FOR_SELECTING_PAYMENT_MODES,
-              this.props.textValue ? this.props.textValue : this.props.text
-            );
-          }
-          if (this.props.onOpenMenu) {
-            if (isOpen) {
-              this.props.onOpenMenu(
-                this.props.textValue ? this.props.textValue : this.props.text
-              );
-            } else {
-              this.props.onOpenMenu(null);
-            }
-          }
-        }
-      }
+  checkupi = async () => {
+    if (this.state.isOpen) {
+      this.openMenu();
     } else {
-      let isOpen = !this.state.isOpen;
-      if (isOpen) {
-        setDataLayerForCheckoutDirectCalls(
-          ADOBE_CALL_FOR_SELECTING_PAYMENT_MODES,
-          this.props.textValue ? this.props.textValue : this.props.text
-        );
+      let cartGuidUPI = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      if (cartGuidUPI) {
+        cartGuidUPI = JSON.parse(cartGuidUPI).guid;
       }
-      this.setState({ isOpen });
-      if (this.props.onOpenMenu) {
-        if (isOpen) {
-          this.props.onOpenMenu(
-            this.props.textValue ? this.props.textValue : this.props.text
-          );
-        } else {
-          this.props.onOpenMenu(null);
-        }
-      }
-      if (isOpen) {
-        if (
-          this.props.text === NET_BANKING_PAYMENT_MODE &&
-          !this.props.bankList
-        ) {
-          this.props.getNetBankDetails();
-        } else if (
-          this.props.text === EASY_MONTHLY_INSTALLMENTS &&
-          !this.props.emiList
-        ) {
-          this.props.getEmiBankDetails();
-        }
+      const response = await this.props.checkUPIEligibility(cartGuidUPI);
+      if (
+        response.status &&
+        response.status === "success" &&
+        response.checkUPIEligibility &&
+        response.checkUPIEligibility.isUpiPaymentEligible
+      ) {
+        this.openMenu();
       }
     }
   };
+  openMenu() {
+    let isOpen = !this.state.isOpen;
+    if (isOpen) {
+      setDataLayerForCheckoutDirectCalls(
+        ADOBE_CALL_FOR_SELECTING_PAYMENT_MODES,
+        this.props.textValue ? this.props.textValue : this.props.text
+      );
+    }
+    this.setState({ isOpen });
+    if (this.props.onOpenMenu) {
+      if (isOpen) {
+        this.props.onOpenMenu(
+          this.props.textValue ? this.props.textValue : this.props.text
+        );
+      } else {
+        this.props.onOpenMenu(null);
+      }
+    }
+    if (isOpen) {
+      if (
+        this.props.text === NET_BANKING_PAYMENT_MODE &&
+        !this.props.bankList
+      ) {
+        this.props.getNetBankDetails();
+      } else if (
+        this.props.text === EASY_MONTHLY_INSTALLMENTS &&
+        !this.props.emiList
+      ) {
+        this.props.getEmiBankDetails();
+      }
+    }
+  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.isOpen !== this.state.isOpen) {
       this.setState({ isOpen: nextProps.isOpen });
@@ -107,9 +92,9 @@ export default class MenuDetails extends React.Component {
       >
         <div
           className={styles.holder}
-          onClick={() => {
-            this.openMenu();
-          }}
+          onClick={() =>
+            this.props.text === "UPI" ? this.checkupi() : this.openMenu()
+          }
         >
           <div className={styles.debitCardIcon}>
             <Icon image={this.props.icon} size={25} />

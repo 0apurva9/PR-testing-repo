@@ -8,12 +8,17 @@ import UpiForm from "./UpiForm";
 // const plzVerifyUPIMsg = "Please verify your UPI Address to proceed";
 
 export default class CheckoutUpi extends React.Component {
+  // checkUPIEligibility = cartGuidUPI => {
+  //   if (this.props.checkUPIEligibility) {
+  //     this.props.checkUPIEligibility(cartGuidUPI);
+  //   }
+  // };
   render() {
     return (
       <MenuDetails
         text={UPI}
         isOpen={this.props.currentPaymentMode === UPI}
-        openMenuUPI={currentPaymentMode =>
+        onOpenMenu={currentPaymentMode =>
           this.props.onChange({ currentPaymentMode })
         }
         icon={upiIcon}
@@ -37,8 +42,6 @@ export default class CheckoutUpi extends React.Component {
           }
           onCheckout={this.props.onCheckout}
           showTermsNConditions={() => this.props.showTermsNConditions()}
-          // showHowToPay={() => this.props.showHowToPay()}
-          // displayToast={() => this.props.displayToast(plzVerifyUPIMsg)}
           addUPIDetails={val => this.props.addUPIDetails(val)}
           addUserUPIStatus={this.props.addUserUPIStatus}
           loading={this.props.loading}

@@ -19,7 +19,7 @@ export default class UpiForm extends React.Component {
     this.state = {
       upiId: "",
       upiPatternVerified: false,
-      isOfferAvailable: false,
+      // isOfferAvailable: false,
       showUpiMsg: {
         upiId: "",
         isVerified: false,
@@ -69,11 +69,6 @@ export default class UpiForm extends React.Component {
       this.props.showTermsNConditions();
     }
   };
-  // showHowToPay = () => {
-  //   if (this.props.showHowToPay) {
-  //     this.props.showHowToPay();
-  //   }
-  // };
 
   toggleForm = () => {
     this.setState({
@@ -159,9 +154,9 @@ export default class UpiForm extends React.Component {
                               ) : (
                                 <div
                                   className={styles.svdUpiLbl}
-                                  onClick={() =>
-                                    this.verifyUpi(ele.value.upiId)
-                                  }
+                                  onClick={() => {
+                                    this.verifyUpi(ele.value.upiId);
+                                  }}
                                 >
                                   {ele.value.upiId}
                                 </div>
@@ -213,10 +208,6 @@ export default class UpiForm extends React.Component {
                       UPI ID is in the format of mobilenumber@upi or
                       username@bank
                     </p>
-                    {/* <p
-                      id={styles.howPymntWork}
-                      onClick={() => this.showHowToPay()}
-                    > */}
                     <a
                       id={styles.howPymntWork}
                       href="https://www.tatacliq.com/how-upi-works"
@@ -225,8 +216,6 @@ export default class UpiForm extends React.Component {
                     >
                       How UPI Payments work?
                     </a>
-
-                    {/* </p> */}
                   </div>
                 </div>
               </div>
