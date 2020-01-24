@@ -59,7 +59,7 @@ export default class DeliveryInformations extends React.Component {
   }
   onPiq() {
     if (this.props.onPiq) {
-      this.props.onPiq();
+      this.props.onPiq(this.props.fromSellerCard ? this.props.ussid : null);
     }
   }
   componentDidUpdate(prevProps) {

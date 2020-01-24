@@ -183,12 +183,13 @@ export default class PickUpLocation extends React.Component {
           {this.props.headingText && (
             <div className={styles.headingText}>{this.props.headingText}</div>
           )}
-
-          <DesktopOnly>
-            <div className={styles.checkBoxHolder}>
-              <CheckBox selected={isSelected} />
-            </div>
-          </DesktopOnly>
+          {!this.props.preventSelection && (
+            <DesktopOnly>
+              <div className={styles.checkBoxHolder}>
+                <CheckBox selected={isSelected} />
+              </div>
+            </DesktopOnly>
+          )}
           {this.props.iconText && (
             <div className={styles.textIcon}>{this.props.iconText}</div>
           )}

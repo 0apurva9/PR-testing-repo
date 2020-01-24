@@ -20,6 +20,9 @@ export default class PdpDeliveryModes extends React.Component {
     let deliveryMode = "";
     let deliveryDates = "";
     let baseClass = styles.base;
+    let firstSlaveData;
+    let availableStores = this.props.availableStores;
+    let ussid;
     const eligibleDeliveryModes = this.props.eligibleDeliveryModes;
     let getDeliveryModesByWinningUssid = "";
     if (this.props.fromSellerCard) {
@@ -29,6 +32,17 @@ export default class PdpDeliveryModes extends React.Component {
 
     if (this.props.fromSellerCard && this.props.pincodeDetails) {
       deliveryDates = this.props.pincodeDetails.validDeliveryModes;
+      firstSlaveData =
+        this.props.pincodeDetails &&
+        this.props.pincodeDetails.validDeliveryModes &&
+        this.props.pincodeDetails.validDeliveryModes.find(val => {
+          return val.type === "CNC";
+        });
+      availableStores =
+        firstSlaveData &&
+        firstSlaveData.CNCServiceableSlavesData &&
+        firstSlaveData.CNCServiceableSlavesData.length;
+      ussid = this.props.pincodeDetails.ussid;
       if (
         this.props &&
         this.props.pincodeDetails &&
@@ -187,6 +201,8 @@ export default class PdpDeliveryModes extends React.Component {
                   inPdpPage={true}
                   pdpApparel={this.props.pdpApparel}
                   onPiq={this.props.onPiq}
+                  fromSellerCard={this.props.fromSellerCard}
+                  ussid={ussid}
                   type={SHORT_COLLECT}
                   available={
                     deliveryDates &&
@@ -202,8 +218,8 @@ export default class PdpDeliveryModes extends React.Component {
                     DEFAULT_PIN_CODE_LOCAL_STORAGE
                   )}
                   numberOfStore={
-                    this.props.availableStores
-                      ? `${this.props.availableStores} more stores nearby`
+                    availableStores
+                      ? `${availableStores} more stores nearby`
                       : null
                   }
                   splitIntoTwoLine={false}

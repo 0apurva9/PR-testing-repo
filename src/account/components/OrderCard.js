@@ -592,6 +592,19 @@ export default class OrderCard extends React.Component {
         )}
 
         <div>{this.props.additionalContent}</div>
+        {this.props.selectedDeliveryMode &&
+          this.props.selectedDeliveryMode.name &&
+          this.props.selectedDeliveryMode.name.toLowerCase() ===
+            "click and collect" && (
+            <div className={styles.commonTitle}>
+              <span className={styles.ffsemibold}>Delivery Mode: </span>
+              <span className={styles.estimatedDate}>
+                {this.getSelectedDeliveryModeName(
+                  this.props.selectedDeliveryMode.name
+                )}
+              </span>
+            </div>
+          )}
         {this.props.consignmentStatus == "PAYMENT_PENDING" && (
           <React.Fragment>
             <div className={styles.commonTitle}>
@@ -635,7 +648,7 @@ export default class OrderCard extends React.Component {
             <div className={styles.commonTitle}>
               {!this.props.calloutMessage ? (
                 <React.Fragment>
-                  {this.props.estimatedDeliveryDate &&
+                  {estimatedDeliveryDateFormatted &&
                     !checkStatus && (
                       <React.Fragment>
                         <span className={styles.ffsemibold}>

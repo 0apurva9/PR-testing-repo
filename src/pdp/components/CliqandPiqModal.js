@@ -265,6 +265,7 @@ export default class ReturnToStore extends React.Component {
                             address={`${val.address &&
                               val.address.line1} ${val.address &&
                               val.address.line2}, `}
+                            preventSelection={this.props.preventSelection}
                             PickUpKey="Open on: "
                             workingDays={val.mplWorkingDays}
                             openingTime={val.mplOpeningTime}

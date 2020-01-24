@@ -46,7 +46,8 @@ class ProductSellerPage extends Component {
       winningUssID: this.props.productDetails
         ? this.props.productDetails.winningUssID
         : null,
-      sortOption: PRICE_LOW_TO_HIGH
+      sortOption: PRICE_LOW_TO_HIGH,
+      selectedSellerUssID: null
     };
   }
   priceValue;
@@ -193,7 +194,65 @@ class ProductSellerPage extends Component {
       this.props.history.push(`/p-${productCode.toLowerCase()}`);
     }
   }
+  showLoader = () => {
+    this.props.showSecondaryLoader();
+  };
+  hideLoader = () => {
+    this.props.hideSecondaryLoader();
+  };
+  updateOtherSellerUssID = selectedSellerUssID => {
+    if (this.state.selectedSellerUssID !== selectedSellerUssID) {
+      this.setState({ selectedSellerUssID });
+    }
+  };
   render() {
+    if (this.props.loading) {
+      this.showLoader();
+    } else {
+      this.hideLoader();
+    }
+    console.log("PRODUCT DESCRIPTION PAGE WRAPPER RENDER HIT");
+    if (
+      this.props.showPiqPage &&
+      this.props.stores &&
+      this.props.stores.length > 0
+    ) {
+      let cliqAndPiqDetails = {};
+      let availableDeliveryMode = [];
+      let serviceablePincode;
+      cliqAndPiqDetails.stores = this.props.stores;
+      cliqAndPiqDetails.pinCodeUpdateDisabled = true;
+      cliqAndPiqDetails.productDetails = this.props.productDetails;
+
+      this.props.serviceablePincodeList &&
+        this.props.serviceablePincodeList.map((product, j) => {
+          if (product.ussid === this.state.selectedSellerUssID) {
+            return (
+              product.validDeliveryModes &&
+              product.validDeliveryModes.map((deliveryMode, k) => {
+                return deliveryMode.type === "CNC"
+                  ? availableDeliveryMode.push(deliveryMode)
+                  : null;
+              })
+            );
+          }
+        });
+      cliqAndPiqDetails.productDetails.slaveData = availableDeliveryMode;
+      cliqAndPiqDetails.from = "Pdp";
+      cliqAndPiqDetails.preventSelection = true;
+      cliqAndPiqDetails.pincodeResponseList =
+        this.props &&
+        this.props.productDetails &&
+        this.props.productDetails.pincodeResponseList;
+      cliqAndPiqDetails.winningUssID =
+        this.props &&
+        this.props.productDetails &&
+        this.props.productDetails.winningUssID;
+      cliqAndPiqDetails.pincode = localStorage.getItem(
+        DEFAULT_PIN_CODE_LOCAL_STORAGE
+      );
+      this.props.showPdpCliqAndPiqPage(cliqAndPiqDetails);
+    }
     const sellers = this.props.productDetails
       ? this.props.productDetails.otherSellers
       : [];
@@ -316,6 +375,13 @@ class ProductSellerPage extends Component {
                           serviceablePincodeList={
                             this.props.serviceablePincodeList
                           }
+                          updateOtherSellerUssID={ussid =>
+                            this.updateOtherSellerUssID(ussid)
+                          }
+                          showPdpPiqPage={this.props.showPdpPiqPage}
+                          getAllStoresForCliqAndPiq={
+                            this.props.getAllStoresForCliqAndPiq
+                          }
                         />
                       );
                     })}
@@ -345,6 +411,13 @@ class ProductSellerPage extends Component {
                         value={value}
                         serviceablePincodeList={
                           this.props.serviceablePincodeList
+                        }
+                        updateOtherSellerUssID={ussid =>
+                          this.updateOtherSellerUssID(ussid)
+                        }
+                        showPdpPiqPage={this.props.showPdpPiqPage}
+                        getAllStoresForCliqAndPiq={
+                          this.props.getAllStoresForCliqAndPiq
                         }
                       />
                     );
@@ -433,6 +506,13 @@ class ProductSellerPage extends Component {
                           displayToast={message =>
                             this.props.displayToast(message)
                           }
+                          updateOtherSellerUssID={ussid =>
+                            this.updateOtherSellerUssID(ussid)
+                          }
+                          showPdpPiqPage={this.props.showPdpPiqPage}
+                          getAllStoresForCliqAndPiq={
+                            this.props.getAllStoresForCliqAndPiq
+                          }
                         />
                       );
                     })}
@@ -458,6 +538,13 @@ class ProductSellerPage extends Component {
                           value={value}
                           serviceablePincodeList={
                             this.props.serviceablePincodeList
+                          }
+                          updateOtherSellerUssID={ussid =>
+                            this.updateOtherSellerUssID(ussid)
+                          }
+                          showPdpPiqPage={this.props.showPdpPiqPage}
+                          getAllStoresForCliqAndPiq={
+                            this.props.getAllStoresForCliqAndPiq
                           }
                         />
                       );

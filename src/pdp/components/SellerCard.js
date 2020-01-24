@@ -36,6 +36,13 @@ export default class SellerCard extends React.Component {
       this.props.goToBag();
     }
   }
+  handleShowPiqPage = ussid => {
+    if (this.props.getAllStoresForCliqAndPiq) {
+      this.props.updateOtherSellerUssID(ussid);
+      this.props.showPdpPiqPage();
+      this.props.getAllStoresForCliqAndPiq();
+    }
+  };
 
   render() {
     let priceClass = styles.priceHolder;
@@ -64,7 +71,6 @@ export default class SellerCard extends React.Component {
                     !availableDeliveryModes.includes(deliveryMode.type)
                   ) {
                     availableDeliveryModes.push(deliveryMode.type);
-                    console.log(typeof deliveryMode);
                     tempValidDeliveryMode.push({ deliveryMode });
                   }
                 })
@@ -161,16 +167,16 @@ export default class SellerCard extends React.Component {
               <div className={styles.deliveryModesHolder}>
                 <PdpDeliveryModes
                   fromSellerCard={true}
-                  //onPiq={() => this.handleShowPiqPage()}
+                  onPiq={ussid => this.handleShowPiqPage(ussid)}
                   eligibleDeliveryModes={this.props.eligibleDeliveryModes}
                   //deliveryModesATP={productData.deliveryModesATP}
                   pdpApparel={true}
                   pincodeDetails={serviceableDeliveryModes}
-                  /*  isCod={productData.isCOD}
-                availableStores={
-                  availableStores && availableStores.length
-                }
-                winningUssID={productData.winningUssID} */
+                  //isCod={productData.isCOD}
+                  // availableStores={
+                  //   serviceableDeliveryModes.CNCServiceableSlavesData && serviceableDeliveryModes.CNCServiceableSlavesData.length
+                  // }
+                  //winningUssID={productData.winningUssID}
                 />
               </div>
             )}
