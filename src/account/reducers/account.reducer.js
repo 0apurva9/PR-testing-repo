@@ -29,6 +29,17 @@ const account = (
     fetchOrderDetailsError: null,
     loadingForFetchOrderDetails: false,
 
+    sellerDetails: null,
+    sellerDetailsStatus: null,
+    sellerDetailsError: null,
+    sellerReviewDetails: null,
+    sellerReviewDetailsStatus: null,
+    sellerReviewDetailsError: null,
+
+    sellerReviewStatus: null,
+    sellerReviewError: null,
+    loadingForSellerReview: null,
+
     wishlist: null,
     wishlistStatus: null,
     wishlistError: null,
@@ -527,6 +538,83 @@ const account = (
       return Object.assign({}, state, {
         orderDetailsStatus: action.status,
         orderDetailsError: action.error,
+        loading: false
+      });
+
+    case accountActions.GET_ALL_SELLERS_REQUEST:
+      return Object.assign({}, state, {
+        sellerDetailsStatus: action.status,
+        loading: true
+      });
+    case accountActions.GET_ALL_SELLERS_SUCCESS:
+      let currentSellerDetailObj = state.sellerDetails
+        ? cloneDeep(state.sellerDetails)
+        : {};
+      if (currentSellerDetailObj && currentSellerDetailObj.sellerData) {
+        currentSellerDetailObj.sellerData = currentSellerDetailObj.sellerData.concat(
+          action.sellerDetails.reviewRatingInfo
+        );
+      } else {
+        currentSellerDetailObj = action.sellerDetails;
+        Object.assign(currentSellerDetailObj, {
+          currentPage: 0
+        });
+      }
+      return Object.assign({}, state, {
+        sellerDetailsStatus: action.status,
+        sellerDetails: currentSellerDetailObj,
+        loading: false
+      });
+
+    case accountActions.GET_ALL_SELLERS_FAILURE:
+      return Object.assign({}, state, {
+        sellerDetailsStatus: action.status,
+        sellerDetailsError: action.error,
+        loading: false
+      });
+
+    case accountActions.SUBMIT_SELLER_REVIEW_BY_USER:
+      return Object.assign({}, state, {});
+
+    case accountActions.SELLER_REVIEW_SUBMIT_FAILURE:
+      return Object.assign({}, state, {
+        sellerReviewStatus: action.status,
+        sellerReviewError: action.error,
+        loadingForSellerReview: false
+      });
+
+    case accountActions.GET_ALL_SELLERS_REVIEW_REQUEST:
+      return Object.assign({}, state, {
+        sellerDetailsStatus: action.status,
+        loading: true
+      });
+    case accountActions.GET_ALL_SELLERS_REVIEW_SUCCESS:
+      let currentSellerReviewDetailObj = state.sellerReviewDetails
+        ? cloneDeep(state.sellerReviewDetails)
+        : {};
+      if (
+        currentSellerReviewDetailObj &&
+        currentSellerReviewDetailObj.sellerData
+      ) {
+        currentSellerReviewDetailObj.sellerData = currentSellerReviewDetailObj.sellerData.concat(
+          action.sellerReviewDetails.reviewRatingInfo
+        );
+      } else {
+        currentSellerReviewDetailObj = action.sellerDetails;
+        Object.assign(currentSellerReviewDetailObj, {
+          currentPage: 0
+        });
+      }
+      return Object.assign({}, state, {
+        sellerReviewDetailsStatus: action.status,
+        sellerReviewDetails: currentSellerReviewDetailObj,
+        loading: false
+      });
+
+    case accountActions.GET_ALL_SELLERS_REVIEW_FAILURE:
+      return Object.assign({}, state, {
+        sellerReviewDetailsStatus: action.status,
+        sellerReviewDetailsError: action.error,
         loading: false
       });
     case accountActions.GET_WISHLIST_REQUEST:

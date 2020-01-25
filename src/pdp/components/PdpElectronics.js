@@ -203,7 +203,9 @@ export default class PdpElectronics extends React.Component {
   };
 
   goToReviewPage = () => {
-    const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    const url = `${
+      this.props.location.pathname
+    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
   showPincodeModal() {
@@ -287,18 +289,15 @@ export default class PdpElectronics extends React.Component {
       } else if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
         seoDoublePrice = productData.mrpPrice.doubleValue;
       }
-      if (
-        productData.mrpPrice &&
-        productData.mrpPrice.formattedValueNoDecimal
-      ) {
-        price = productData.mrpPrice.formattedValueNoDecimal;
+      if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
+        price = productData.mrpPrice.doubleValue;
       }
 
       if (
         productData.winningSellerPrice &&
-        productData.winningSellerPrice.formattedValueNoDecimal
+        productData.winningSellerPrice.doubleValue
       ) {
-        discountPrice = productData.winningSellerPrice.formattedValueNoDecimal;
+        discountPrice = productData.winningSellerPrice.doubleValue;
       }
       let flixModelNo = "";
       if (productData.details && productData.details.length) {
@@ -470,7 +469,7 @@ export default class PdpElectronics extends React.Component {
                 </div>
               </div>
             ) : this.props.productDetails.isServiceableToPincode
-                .productNotServiceableMessage ? (
+              .productNotServiceableMessage ? (
               <div className={styles.overlay}>
                 <div className={styles.notServiciableTetx}>
                   *{" "}
@@ -628,12 +627,13 @@ export default class PdpElectronics extends React.Component {
               {productData.details && (
                 <ProductDetails data={productData.details} />
               )}
-              {productData.warranty && productData.warranty.length > 0 && (
-                <ProductFeature
-                  heading="Warranty"
-                  content={productData.warranty[0]}
-                />
-              )}
+              {productData.warranty &&
+                productData.warranty.length > 0 && (
+                  <ProductFeature
+                    heading="Warranty"
+                    content={productData.warranty[0]}
+                  />
+                )}
             </div>
           )}
           {productData.APlusContent && (

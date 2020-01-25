@@ -491,3 +491,6 @@ export const CNCTOHD = "/cncToHd";
 
 export const FAILED_ORDER = "retryFailedOrder";
 export const SELECTED_STORE = "selectedStoreAddress";
+
+//CleverTap email unsubsctibe
+export const UNSUBSCRIBE_CLEVER_TAP_EMAILS = "/emails-unsubscribe";

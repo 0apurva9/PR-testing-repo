@@ -776,7 +776,7 @@ export function getPdpEmi(token, cartValue, productCode, ussId) {
   return async (dispatch, getState, { api }) => {
     dispatch(getPdpEmiRequest());
     try {
-      const url = `${PRODUCT_PDP_EMI_PATH}?isPwa=true&channel=mobile&productValue=${cartValue}&ussids=${ussId}&productCode=${productCode}&nceFlag=true&access_token=${token}`;
+      const url = `${PRODUCT_PDP_EMI_PATH}?isPwa=true&channel=mobile&productValue=${cartValue}&ussids=${ussId}&productCode=${productCode}&nceFlag=true&access_token=${token}&emiConvChargeFlag=true`;
       const result = await api.get(url);
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

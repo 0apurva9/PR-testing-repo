@@ -412,14 +412,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       couponCode,
       cartGuId,
       noCostEmiText,
-      noCostProductCount
+      noCostProductCount,
+      emiInfo
     ) => {
       dispatch(
         getItemBreakUpDetails(
           couponCode,
           cartGuId,
           noCostEmiText,
-          noCostProductCount
+          noCostProductCount,
+          emiInfo
         )
       );
     },

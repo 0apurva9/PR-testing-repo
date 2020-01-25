@@ -18,7 +18,7 @@ app.use(function(req, res, next) {
 });
 app.get("*.js", function(req, res, next) {
   const encodings = req.acceptsEncodings();
-  if (req.url !== "/service-worker.js") {
+  if (req.url !== "/sw.js") {
     if (encodings.indexOf("br") > -1) {
       // use brotli
       req.url = req.url + ".br";
@@ -49,15 +49,6 @@ app.get("*.css", function(req, res, next) {
   next();
 });
 
-var prerender = require("prerender-node").set(
-  "prerenderToken",
-  "NYax1xFNwJGOvG1c0fyj"
-);
-prerender.crawlerUserAgents.push("googlebot");
-prerender.crawlerUserAgents.push("bingbot");
-prerender.crawlerUserAgents.push("yandex");
-app.use(prerender);
-
 app.use(express.static("build"));
 
 function removeWord(originalWord, searchWord) {
@@ -73,6 +64,10 @@ function removeWord(originalWord, searchWord) {
 
 var ampServicesStartPoint = "https://www.tataque.com";
 var ampCrossDomainUrl = "https://amp.tatacliq.com";
+
+app.get("/marketplacewebservices/v2/mpl/getOrderInvoice/*", (req, res) => {
+  res.redirect("https://www.tatacliq.com" + req.originalUrl);
+});
 
 app.get("/*", (req, res) => {
   const origUrl = req.originalUrl;

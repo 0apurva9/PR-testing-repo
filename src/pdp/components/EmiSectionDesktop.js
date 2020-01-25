@@ -45,6 +45,10 @@ export default class EmiSectionDesktop extends React.Component {
 
   render() {
     const bankListData = this.props && this.props.emiData;
+    const emiInfo = bankListData && bankListData[this.state.isSelect].emiInfo;
+    const convenienceFeeValue =
+      bankListData &&
+      bankListData[this.state.isSelect].emitermsrate[0].emiConvCharge;
     const bankDetails =
       bankListData &&
       bankListData &&
@@ -95,9 +99,9 @@ export default class EmiSectionDesktop extends React.Component {
                       <div className={styles.tenureDataHolder}>
                         <div className={styles.textAndAmountHolder}>
                           <div className={styles.textHolder}>Interest Rate</div>
-                          <div className={styles.amountHolder}>{`Rs . ${
+                          <div className={styles.amountHolder}>{`${
                             val.interestRate
-                          }`}</div>
+                          } %`}</div>
                         </div>
                         <div className={styles.textAndAmountHolder}>
                           <div className={styles.textHolder}>
@@ -107,6 +111,18 @@ export default class EmiSectionDesktop extends React.Component {
                             val.monthlyInstallment
                           }`}</div>
                         </div>
+                        {/* {convenienceFee &&
+                          convenienceFee.value && (
+                            <div className={styles.textAndAmountHolder}>
+                              <div className={styles.textHolder}>
+                                Bank Convenience Fees
+                              </div>
+                              <div className={styles.amountHolder}>{`Rs . ${
+                                convenienceFee.value
+                              }`}</div>
+                            </div>
+                          )} */}
+
                         <div className={styles.textAndAmountHolder}>
                           <div className={styles.textHolder}>
                             Total Interest paid to bank
@@ -115,6 +131,20 @@ export default class EmiSectionDesktop extends React.Component {
                             val.interestPayable
                           }`}</div>
                         </div>
+
+                        {convenienceFeeValue && (
+                          <div className={styles.textAndAmountHolder}>
+                            <div className={styles.textHolder}>
+                              Bank Convenience Fees
+                            </div>
+                            <div
+                              className={styles.amountHolder}
+                            >{`Rs . ${convenienceFeeValue}`}</div>
+                          </div>
+                        )}
+                        {emiInfo && (
+                          <div className={styles.convenienceFee}>{emiInfo}</div>
+                        )}
                         {this.props.showButton && (
                           <div className={styles.buttonHolder}>
                             <div className={styles.button}>

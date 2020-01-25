@@ -146,11 +146,11 @@
 	padding: 0 15px;
 }
 
-.youPlus {
+/* .youPlus {
 	width: 100%;
 	height: auto;
 	padding: 0 15px;
-}
+} */
 
 .seasonDetails {
 	margin-top: 60px;
@@ -1046,7 +1046,19 @@
 	height: 100px;
 	float: left;
 }
-.headerPrice{
+.priceTotal{
+	margin-top: 329px;
+	padding-top: 50px;
+	overflow: auto;
+	width: 100%;
+	padding-left: 40px;
+}
+.widthPrice {
+	width: 82px;
+	height: 100px;
+	float: left;
+}
+  .headerPrice{
 	display: inherit;
 	width: 70px;
 	height: 17px;
