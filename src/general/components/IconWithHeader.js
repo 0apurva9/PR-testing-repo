@@ -54,8 +54,8 @@ export default class IconWithHeader extends React.Component {
     let date = "";
     let month = "";
     dateWithMonth = new Date(d);
-    date = dateWithMonth.getUTCDate();
-    month = dateWithMonth.getUTCMonth();
+    date = dateWithMonth.getDate();
+    month = dateWithMonth.getMonth();
     return this.getDateMonthFormate(date, month);
   }
   render() {
@@ -294,12 +294,12 @@ export default class IconWithHeader extends React.Component {
                         )}`
                       : nextDayFormat === productDayFormatOfClqAndPiq &&
                         !this.props.notShowDay
-                      ? `, Tomorrow , ${this.getDayNumberSuffix(
-                          getClickAndPiqSelectedDate.pickupDate
-                        )}`
-                      : `, ${this.getDayNumberSuffix(
-                          getClickAndPiqSelectedDate.pickupDate
-                        )}`
+                        ? `, Tomorrow , ${this.getDayNumberSuffix(
+                            getClickAndPiqSelectedDate.pickupDate
+                          )}`
+                        : `, ${this.getDayNumberSuffix(
+                            getClickAndPiqSelectedDate.pickupDate
+                          )}`
                     : ""}
                 </div>
                 <div className={styles.changeButtonHolder}>

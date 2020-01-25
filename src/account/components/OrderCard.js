@@ -95,9 +95,9 @@ export default class OrderCard extends React.Component {
   getDateMonthFormate(dateWithMonth) {
     let todayDate = new Date().getDate();
     let nextDayDate = todayDate + 1;
-    let date = dateWithMonth.getUTCDate();
-    let month = dateWithMonth.getUTCMonth() + 1;
-    let year = dateWithMonth.getUTCFullYear();
+    let date = dateWithMonth.getDate();
+    let month = dateWithMonth.getMonth() + 1;
+    let year = dateWithMonth.getFullYear();
     let newExpressOrSddText = "";
     let monthNames = [
       "Jan",

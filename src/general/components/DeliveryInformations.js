@@ -140,8 +140,8 @@ export default class DeliveryInformations extends React.Component {
     let month = "";
     let dateWithMonth = "";
     dateWithMonth = new Date(d);
-    date = dateWithMonth.getUTCDate();
-    month = dateWithMonth.getUTCMonth() + 1;
+    date = dateWithMonth.getDate();
+    month = dateWithMonth.getMonth() + 1;
     if (date && month) {
       return this.getDateMonthFormate(date, month);
     } else return "";

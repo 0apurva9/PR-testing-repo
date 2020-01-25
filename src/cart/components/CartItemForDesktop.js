@@ -84,8 +84,8 @@ export default class CartItemForDesktop extends React.Component {
   }
   getDayNumberSuffix(d) {
     let dateWithMonth = new Date(d);
-    let date = dateWithMonth.getUTCDate();
-    let month = dateWithMonth.getUTCMonth();
+    let date = dateWithMonth.getDate();
+    let month = dateWithMonth.getMonth();
     let year = dateWithMonth.getFullYear();
     let monthNames = [
       "Jan",
