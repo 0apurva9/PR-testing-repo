@@ -219,12 +219,12 @@ export default class CartItemForDesktop extends React.Component {
                       </React.Fragment>
                     )
                   : this.props.isOutOfStock ||
-                    (this.props.productOutOfStock && (
+                    (this.props.productOutOfStocks && (
                       <React.Fragment>
                         <div className={styles.space}>|</div>
                         <div className={styles.serviceAvailabilityText}>
                           {/* OUT_OF_STOCK */}
-                          {this.props.productOutOfStock}
+                          {this.props.productOutOfStocks}
                         </div>
                       </React.Fragment>
                     )))}

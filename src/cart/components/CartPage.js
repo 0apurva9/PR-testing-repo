@@ -873,7 +873,7 @@ class CartPage extends React.Component {
                               product.pinCodeResponse &&
                               product.pinCodeResponse.validDeliveryModes
                             }
-                            productOutOfStock={
+                            productOutOfStocks={
                               product.pinCodeResponse &&
                               product.pinCodeResponse.productOutOfStockMessage
                             }
