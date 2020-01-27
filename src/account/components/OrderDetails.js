@@ -507,7 +507,7 @@ export default class OrderDetails extends React.Component {
                 if (requestCancelled && requestCancelled.value.customerFacingName === "Request Cancelled" && requestCancelled.value.status === "Completed") {
                   hideEIETrackDiagram = true;
                 }
-                if (requestCompleted && requestCompleted.value.customerFacingName === "Request Completed" && requestCompleted.value.status === "Completed") {
+                if (requestCompleted && (requestCompleted.value.customerFacingName === "Request Completed" || requestCompleted.value.customerFacingName === "Installation Rescheduled") && requestCompleted.value.status === "Completed") {
                   hideEIETrackDiagram = true;
                 }
                 if (requestClosed && requestClosed.value.customerFacingName === "Request Closed" && requestClosed.value.status === "Completed") {
