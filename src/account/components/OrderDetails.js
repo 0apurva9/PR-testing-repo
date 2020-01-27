@@ -498,9 +498,20 @@ export default class OrderDetails extends React.Component {
                   products.installationDisplayMsg.find(val => {
                     return val.key === "REQUEST_COMPLETED";
                   });
-                let hideIfRequestCompleted = false;
+                const requestClosed =
+                  products.installationDisplayMsg &&
+                  products.installationDisplayMsg.find(val => {
+                    return val.key === "REQUEST_CLOSED";
+                  });
+                let hideEIETrackDiagram = false;
+                if (requestCancelled && requestCancelled.value.customerFacingName === "Request Cancelled" && requestCancelled.value.status === "Completed") {
+                  hideEIETrackDiagram = true;
+                }
                 if (requestCompleted && requestCompleted.value.customerFacingName === "Request Completed" && requestCompleted.value.status === "Completed") {
-                  hideIfRequestCompleted = true;
+                  hideEIETrackDiagram = true;
+                }
+                if (requestClosed && requestClosed.value.customerFacingName === "Request Closed" && requestClosed.value.status === "Completed") {
+                  hideEIETrackDiagram = true;
                 }
                 return (
                   <React.Fragment key={i}>
@@ -834,7 +845,7 @@ export default class OrderDetails extends React.Component {
                               )}
                           </React.Fragment>
                         )}
-                      {products.installationDisplayMsg && !hideIfRequestCompleted && (
+                      {products.installationDisplayMsg && !hideEIETrackDiagram && (
                         <React.Fragment>
                           <div className={styles.borderTop} />
                           <InstallationExperience
