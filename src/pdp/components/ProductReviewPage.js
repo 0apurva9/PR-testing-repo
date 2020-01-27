@@ -476,7 +476,7 @@ export default class ProductReviewPage extends Component {
                     <div className={styles.headerWrapper}>
                       <div className={styles.headerWithRating}>
                         <div className={styles.header1}>
-                          Ratings and Reviews
+                          <h3>Ratings and Reviews</h3>
                         </div>
                       </div>
                     </div>
