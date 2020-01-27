@@ -35,7 +35,7 @@ export default class MyAccountUpiForm extends React.Component {
       }
     });
     if (this.props.addUPIDetails) {
-      const response = await this.props.addUPIDetails(ele);
+      const response = await this.props.addUPIDetails(ele, "myaccount");
       if (response && response.status === "VALID") {
         this.setState({
           showUpiMsg: {

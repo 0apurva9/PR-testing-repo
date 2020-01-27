@@ -97,7 +97,8 @@ import {
   retryPayment,
   fetchOrderDetails,
   resetFailedOrderDetails,
-  addUPIDetails
+  addUPIDetails,
+  addUPIDetailsNullState
 } from "../../account/actions/account.actions.js";
 
 import { displayToast } from "../../general/toast.actions";
@@ -739,14 +740,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     resetFailedOrderDetails: () => {
       dispatch(resetFailedOrderDetails());
     },
-    addUPIDetails: upiId => {
-      dispatch(addUPIDetails(upiId));
+    addUPIDetails: (upiId, pageType) => {
+      dispatch(addUPIDetails(upiId, pageType));
+    },
+    addUPIDetailsNullState: () => {
+      dispatch(addUPIDetailsNullState());
     },
     checkUPIEligibility: async guIdDetails => {
       return await dispatch(checkUPIEligibility(guIdDetails));
     },
-    binValidationForUPI: (paymentMode, isFromRetryUrl, retryCartGuid) => {
-      dispatch(binValidationForUPI(paymentMode, isFromRetryUrl, retryCartGuid));
+    binValidationForUPI: async (paymentMode, isFromRetryUrl, retryCartGuid) => {
+      return await dispatch(
+        binValidationForUPI(paymentMode, isFromRetryUrl, retryCartGuid)
+      );
     }
   };
 };

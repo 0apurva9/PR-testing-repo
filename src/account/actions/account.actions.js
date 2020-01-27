@@ -98,6 +98,7 @@ export const REMOVE_SAVED_UPI_FAILURE = "REMOVE_SAVED_UPI_FAILURE";
 export const ADD_USER_UPI_REQUEST = "ADD_USER_UPI_REQUEST";
 export const ADD_USER_UPI_SUCCESS = "ADD_USER_UPI_SUCCESS";
 export const ADD_USER_UPI_FAILURE = "ADD_USER_UPI_FAILURE";
+export const ADD_USER_UPI_NULL_STATE = "ADD_USER_UPI_NULL_STATE";
 
 const UPI_ADDED_SUCCESS = "UPI ID added successfully";
 
@@ -2322,7 +2323,19 @@ export function addUserUPIFailure(error) {
   };
 }
 
-export function addUPIDetails(upi) {
+export function addUPIDetailsNullStateRequest() {
+  return {
+    type: ADD_USER_UPI_NULL_STATE,
+    status: null
+  };
+}
+export function addUPIDetailsNullState() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(addUPIDetailsNullStateRequest());
+  };
+}
+
+export function addUPIDetails(upi, pageType) {
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
@@ -2341,7 +2354,7 @@ export function addUPIDetails(upi) {
        */
       const resultJson = {
         type: "upiValidationWsData",
-        status: "VALID",
+        status: "INVALID",
         customerName: "cust",
         upiId: "example@test"
       };
@@ -2350,11 +2363,11 @@ export function addUPIDetails(upi) {
         throw new Error(resultJsonStatus.message);
       }
       // setTimeout(() => {
-      if (resultJson.status === "VALID") {
+      if (resultJson.status === "VALID" && pageType === "myaccount") {
         dispatch(displayToast(UPI_ADDED_SUCCESS));
       }
       return dispatch(addUserUPISuccess(resultJson));
-      // }, 7000);
+      // }, 3000);
     } catch (e) {
       return dispatch(addUserUPIFailure(e.message));
     }

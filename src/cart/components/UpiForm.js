@@ -7,6 +7,7 @@ import styles from "./UpiForm.css";
 import upi_opt from "./img/upi_opt.svg";
 import BottomSlideModal from "../../general/components/BottomSlideModal.js";
 import { format } from "date-fns";
+import loader from "../../account/components/img/loader.gif";
 const invalidUpi = `Your UPI no longer seems to exist. Try another option.`;
 const VALID = `Verified`;
 const INVALID = `Invalid`;
@@ -19,11 +20,10 @@ export default class UpiForm extends React.Component {
     this.state = {
       upiId: "",
       upiPatternVerified: false,
-      // isOfferAvailable: false,
       showUpiMsg: {
         upiId: "",
         isVerified: false,
-        showLoader: false,
+        // showLoader: false,
         text: ""
       },
       isChanged: false,
@@ -36,8 +36,11 @@ export default class UpiForm extends React.Component {
   }
 
   verifyUpi = ele => {
-    this.props.addUPIDetails(ele);
+    this.props.addUPIDetails(ele, "checkout");
     this.setState({
+      showUpiMsg: {
+        upiId: ele
+      },
       isChanged: false
     });
   };
@@ -49,7 +52,6 @@ export default class UpiForm extends React.Component {
       showUpiMsg: {
         upiId: "",
         isVerified: false,
-        showLoader: false,
         text: ""
       },
       isChanged: true
@@ -71,12 +73,14 @@ export default class UpiForm extends React.Component {
   };
 
   toggleForm = () => {
+    if (this.props.addUPIDetailsNullState) {
+      this.props.addUPIDetailsNullState();
+    }
     this.setState({
       isNewUpi: !this.state.isNewUpi,
       showUpiMsg: {
         upiId: "",
         isVerified: false,
-        showLoader: false,
         text: ""
       }
     });
@@ -87,19 +91,20 @@ export default class UpiForm extends React.Component {
       !this.state.isChanged && this.props.addUserUPIStatus === "VALID"
     );
     let savedUpiVerificationCls =
-      this.props.addUserUPIStatus !== "undefined"
+      this.props.addUserUPIStatus !== "requesting" &&
+      this.props.addUserUPIStatus
         ? this.props.addUserUPIStatus === "VALID"
           ? styles.verifiedIcon
           : styles.invalidIcon
         : "";
     let svdUpiLblHelperCls =
-      this.props.addUserUPIStatus !== "undefined"
+      this.props.addUserUPIStatus !== "requesting"
         ? this.props.addUserUPIStatus === "VALID"
           ? styles.verified
           : styles.svdUpErr
         : "";
     let verifiedStateHelperCls =
-      this.props.addUserUPIStatus !== "undefined"
+      this.props.addUserUPIStatus !== "requesting"
         ? this.props.loading
           ? styles.invalidFrm
           : this.props.addUserUPIStatus === "VALID"
@@ -122,35 +127,64 @@ export default class UpiForm extends React.Component {
                         this.state.savedUPIidResponse.map((ele, i) => (
                           <div className={styles.flexRow50Cols} key={i}>
                             <div className={styles.svdUpiLblBox}>
-                              {this.state.showUpiMsg.upiId ===
-                              ele.value.upiId ? (
-                                <div
-                                  className={
-                                    styles.svdUpiLbl + " " + svdUpiLblHelperCls
-                                  }
-                                  onClick={() =>
-                                    this.verifyUpi(ele.value.upiId)
-                                  }
-                                >
-                                  {ele.value.upiId}
-                                  <div
-                                    className={
-                                      styles.verifiedState +
-                                      " " +
-                                      verifiedStateHelperCls
-                                    }
-                                  >
-                                    <span className={savedUpiVerificationCls} />{" "}
-                                    {this.state.showUpiMsg.text}
-                                  </div>
-                                  {!this.state.showUpiMsg.isVerified &&
-                                    this.props.loading && (
-                                      // !this.state.showUpiMsg.showLoader && (
-                                      <p className={styles.errorTxt}>
-                                        {invalidUpi}
-                                      </p>
-                                    )}
-                                </div>
+                              {this.props.addUserUPIStatus === "requesting" ||
+                              this.props.addUserUPIStatus === "VALID" ||
+                              this.props.addUserUPIStatus === "INVALID" ? (
+                                <React.Fragment>
+                                  {this.state.showUpiMsg.upiId ===
+                                    ele.value.upiId && (
+                                    <div
+                                      className={
+                                        styles.svdUpiLbl +
+                                        " " +
+                                        svdUpiLblHelperCls
+                                      }
+                                      onClick={() =>
+                                        this.verifyUpi(ele.value.upiId)
+                                      }
+                                    >
+                                      {ele.value.upiId}
+                                      <React.Fragment>
+                                        <div
+                                          className={
+                                            styles.verifiedState +
+                                            " " +
+                                            verifiedStateHelperCls
+                                          }
+                                        >
+                                          <span
+                                            className={savedUpiVerificationCls}
+                                          />{" "}
+                                          {this.props.addUserUPIStatus ===
+                                            "requesting" && (
+                                            <img src={loader} alt="Loader" />
+                                          )}
+                                          {this.props.addUserUPIStatus !==
+                                            "requesting" &&
+                                            this.props.addUserUPIStatus}
+                                          {/* {this.state.showUpiMsg.text} */}
+                                        </div>
+                                        {this.props.addUserUPIStatus ===
+                                          "INVALID" && (
+                                          <p className={styles.errorTxt2}>
+                                            {invalidUpi}
+                                          </p>
+                                        )}
+                                      </React.Fragment>
+                                    </div>
+                                  )}
+                                  {this.state.showUpiMsg.upiId !==
+                                    ele.value.upiId && (
+                                    <div
+                                      className={styles.svdUpiLbl}
+                                      onClick={() => {
+                                        this.verifyUpi(ele.value.upiId);
+                                      }}
+                                    >
+                                      {ele.value.upiId}
+                                    </div>
+                                  )}
+                                </React.Fragment>
                               ) : (
                                 <div
                                   className={styles.svdUpiLbl}
@@ -178,7 +212,7 @@ export default class UpiForm extends React.Component {
                   </div>
                   <div className={styles.svdUpiBtnCol}>
                     <Button
-                      disabled={this.state.showUpiMsg.isVerified ? false : true}
+                      disabled={payNowBtnFlag}
                       type="primary"
                       backgroundColor="#ff1744"
                       height={35}
@@ -230,8 +264,7 @@ export default class UpiForm extends React.Component {
                       textStyle={{ fontSize: 14 }}
                       height={45}
                     />
-                    {this.state.isChanged ||
-                    this.props.addUserUPIStatus === undefined ? (
+                    {this.state.isChanged || !this.props.addUserUPIStatus ? (
                       <button
                         disabled={this.state.upiPatternVerified ? false : true}
                         className={styles.verifyBtn}
@@ -253,7 +286,11 @@ export default class UpiForm extends React.Component {
                           }
                         >
                           <span className={savedUpiVerificationCls} />{" "}
-                          {this.props.addUserUPIStatus}
+                          {this.props.addUserUPIStatus === "requesting" && (
+                            <img src={loader} alt="Loader" />
+                          )}
+                          {this.props.addUserUPIStatus !== "requesting" &&
+                            this.props.addUserUPIStatus}
                         </div>
                         {this.props.addUserUPIStatus === "INVALID" &&
                           !this.props.loading && (

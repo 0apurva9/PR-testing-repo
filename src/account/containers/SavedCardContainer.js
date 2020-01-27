@@ -40,8 +40,8 @@ const mapDispatchToProps = dispatch => {
     showAuthPopUp: () => {
       dispatch(showModal(DESKTOP_AUTH));
     },
-    addUPIDetails: async val => {
-      const res = await dispatch(addUPIDetails(val));
+    addUPIDetails: async (val, pageType) => {
+      const res = await dispatch(addUPIDetails(val, pageType));
       return res;
     }
   };

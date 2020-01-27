@@ -31,6 +31,7 @@ export default class MenuDetails extends React.Component {
         cartGuidUPI = JSON.parse(cartGuidUPI).guid;
       }
       const response = await this.props.checkUPIEligibility(cartGuidUPI);
+      // const binResponse = await this.props.binValidationForUPI("UPI");
       if (
         response.status &&
         response.status === "success" &&

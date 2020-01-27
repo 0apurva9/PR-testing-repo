@@ -152,7 +152,9 @@ export default class UserSavedCard extends React.Component {
                 <div className={styles.saveCardDetailWithHolder}>
                   <MyAccountUpiForm
                     toggleForAddNewUpi={val => this.toggleForAddNewUpi(val)}
-                    addUPIDetails={val => this.props.addUPIDetails(val)}
+                    addUPIDetails={(val, pageType) =>
+                      this.props.addUPIDetails(val, pageType)
+                    }
                     loading={this.props.loading}
                   />
                 </div>

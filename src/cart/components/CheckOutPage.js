@@ -3922,11 +3922,19 @@ if you have order id in local storage then you have to show order confirmation p
                         this.state.emiBinValidationErrorMessage
                       }
                       retryPaymentDetails={this.props.retryPaymentDetails}
-                      addUPIDetails={val => this.props.addUPIDetails(val)}
+                      addUPIDetails={(val, pageType) =>
+                        this.props.addUPIDetails(val, pageType)
+                      }
+                      addUPIDetailsNullState={() =>
+                        this.props.addUPIDetailsNullState()
+                      }
                       addUserUPIStatus={this.props.addUserUPIStatus}
                       loading={this.props.loading}
                       checkUPIEligibility={cartGuidUPI =>
                         this.props.checkUPIEligibility(cartGuidUPI)
+                      }
+                      binValidationForUPI={paymentMode =>
+                        this.props.binValidationForUPI(paymentMode)
                       }
                     />
                   </div>
