@@ -748,6 +748,8 @@ export default class OrderDetails extends React.Component {
                               mediationRequired={products.mediationRequired}
                               paymentMethod={orderDetails.paymentMethod}
                               consignmentStatus={products.consignmentStatus}
+                              sshipAwbTrackingUrl={products.sshipAwbTrackingUrl}
+                              displayToast={this.props.displayToast}
                             />
 
                             {/* Block of code ends here */}
@@ -901,6 +903,10 @@ export default class OrderDetails extends React.Component {
                                   mediationRequired={products.mediationRequired}
                                   paymentMethod={orderDetails.paymentMethod}
                                   consignmentStatus={products.consignmentStatus}
+                                  sshipAwbTrackingUrl={
+                                    products.sshipAwbTrackingUrl
+                                  }
+                                  displayToast={this.props.displayToast}
                                 />
                               )}
                           </React.Fragment>
