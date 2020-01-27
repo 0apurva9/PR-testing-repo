@@ -499,7 +499,7 @@ export default class OrderDetails extends React.Component {
                     return val.key === "REQUEST_COMPLETED";
                   });
                 let hideIfRequestCompleted = false;
-                if (requestCompleted && requestCompleted.value.status === "Completed") {
+                if (requestCompleted && requestCompleted.value.customerFacingName === "Request Completed" && requestCompleted.value.status === "Completed") {
                   hideIfRequestCompleted = true;
                 }
                 return (
