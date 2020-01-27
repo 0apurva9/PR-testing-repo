@@ -14,6 +14,7 @@ import Orange50FilledStar from "./img/orange-50-filled.svg";
 import Orange75FilledStar from "./img/orange-75-filled.svg";
 import Icon from "../../xelpmoc-core/Icon";
 
+import starFillWhite from "../../general/components/img/star-fill-white.svg";
 const GREEN = "Green";
 const ORANGE = "Orange";
 
@@ -79,7 +80,22 @@ export default class StarRating extends React.Component {
     }
     return (
       <div className={styles.base}>
-        <div className={styles.starHolder}>{starSpans}</div>
+        {this.props.isPlp ? (
+          <div
+            className={
+              ratingCnt > 2.5 ? styles.starRatingHigh : styles.starRatingLow
+            }
+          >
+            {Math.round(ratingCnt * 10) / 10}
+            <img
+              src={starFillWhite}
+              className={styles.starFillWhite}
+              alt="star icon"
+            />
+          </div>
+        ) : (
+          <div className={styles.starHolder}>{starSpans}</div>
+        )}
         {this.props.children && (
           <div className={styles.content}>{this.props.children}</div>
         )}
@@ -88,7 +104,8 @@ export default class StarRating extends React.Component {
   }
 }
 StarRating.propTypes = {
-  averageRating: PropTypes.number
+  averageRating: PropTypes.number,
+  isPlp: PropTypes.bool
 };
 StarRating.defaultProps = {
   size: 15

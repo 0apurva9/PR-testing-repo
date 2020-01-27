@@ -116,6 +116,7 @@ export const MY_ACCOUNT_CLIQ_CASH_PAGE = "/cliq-cash";
 export const EDIT_ADDRESS_BOOK = "/my-account/address-book/edit";
 export const COSTUMER_ORDER_RELATED_QUERY_ROUTE = "/order-related";
 export const CUSTOMER_CARE = "Customer Care";
+export const MY_ACCOUNT_USER_NOTIFICATION_PAGE = "/notifications";
 //returns
 export const RETURNS_PREFIX = "/returns";
 export const RETURNS = "/returns/(.*)";
@@ -183,6 +184,8 @@ export const ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE =
 export const CART_COUNT_FOR_LOGGED_IN_USER = "bagCount";
 export const PRODUCT_CANCEL = "Cancel Item";
 
+export const RATE_THIS_ITEM = "Rate this item";
+export const REVIEW_GUIDELINES = "Review Guidelines";
 export const SAVE_LIST_PAGE = "/default/wishList";
 export const PAYMENT_MODE_TYPE = "paymentMode";
 export const BIN_CARD_TYPE = "binCardType";
@@ -489,6 +492,9 @@ export const IS_COMING_FROM_ORDER_CONFIRMATION =
 export const CNC_TO_HD_ORDER = "/my-account/cncToHd/(.*)";
 export const CNCTOHD = "/cncToHd";
 
+// Toast Messages for rating submission
+export const SUCCESSFUL_PRODUCT_RATING_BY_USER = "Thank you for your rating";
+export const PRODUCT_RATING_FAILURE_TEXT = "Oops we missed your response";
 export const FAILED_ORDER = "retryFailedOrder";
 export const SELECTED_STORE = "selectedStoreAddress";
 

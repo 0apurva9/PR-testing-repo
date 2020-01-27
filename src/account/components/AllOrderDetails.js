@@ -47,7 +47,8 @@ import {
   RETRY_PAYMENT_CART_ID,
   RETRY_PAYMENT_DETAILS,
   COSTUMER_ORDER_RELATED_QUERY_ROUTE,
-  CNCTOHD
+  CNCTOHD,
+  RATE_THIS_ITEM
 } from "../../lib/constants";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
 import ProfileMenu from "./ProfileMenu";
@@ -56,11 +57,13 @@ import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import throttle from "lodash.throttle";
 import {
   setDataLayer,
+  setDataLayerForRatingAndReview,
   ADOBE_MY_ACCOUNT_ORDER_HISTORY,
   ADOBE_ORDER_DETAILS_LINK_CLICKED,
-  ADOBE_HELP_SUPPORT_LINK_CLICKED
+  ADOBE_HELP_SUPPORT_LINK_CLICKED,
+  SET_DATA_LAYER_RATING_STAR_CLICK
 } from "../../lib/adobeUtils";
-//import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
+import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
 import Icon from "../../xelpmoc-core/Icon";
 import * as UserAgent from "../../lib/UserAgent.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
@@ -122,9 +125,9 @@ export default class AllOrderDetails extends React.Component {
     setDataLayer(ADOBE_ORDER_DETAILS_LINK_CLICKED);
     this.props.history.push(`${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`);
   }
-  writeReview(productCode) {
-    if (productCode && this.props.history) {
-      this.props.history.push(`/p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
+  writeReview(productDetails) {
+    if (this.props.showRatingAndReviewModal) {
+      this.props.showRatingAndReviewModal({ ...this.props, productDetails });
     }
   }
   componentDidMount() {
@@ -146,6 +149,20 @@ export default class AllOrderDetails extends React.Component {
       this.props.getAllOrdersDetails();
     }
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      this.props.addReviewStatus !== nextProps.addReviewStatus &&
+      nextProps.addReviewStatus === SUCCESS
+    ) {
+      this.props.hideModal();
+      if (this.props.clearOrderDetails && this.props.getAllOrdersDetails) {
+        this.props.clearOrderDetails();
+        this.props.getAllOrdersDetails();
+      }
+    }
+  }
+
   componentWillUnmount() {
     this.props.clearOrderDetails();
     window.removeEventListener("scroll", this.throttledScroll);
@@ -157,6 +174,18 @@ export default class AllOrderDetails extends React.Component {
       this.props.setHeaderText(ORDER_HISTORY);
     }
   }
+  onRatingChange = (val, productDetails) => {
+    setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_STAR_CLICK, {
+      rating: val,
+      statusText: ""
+    });
+    if (productDetails.userRating !== val) {
+      this.props.submitProductRatingByUser(val, {
+        ...this.props,
+        productDetails: productDetails
+      });
+    }
+  };
   redirectToHelp = url => {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
@@ -821,17 +850,35 @@ export default class AllOrderDetails extends React.Component {
                                             <div
                                               className={styles.reviewHolder}
                                             >
-                                              <div className={styles.boxReview}>
-                                                <div
-                                                  className={styles.reviewText}
-                                                  onClick={val =>
-                                                    this.writeReview(
-                                                      product.productcode
+                                              <div
+                                                className={styles.reviewHeading}
+                                              >
+                                                {RATE_THIS_ITEM}
+                                              </div>
+                                              <div className={styles.ratingBar}>
+                                                <FillupRatingOrder
+                                                  rating={product.userRating}
+                                                  onChange={val =>
+                                                    this.onRatingChange(
+                                                      val,
+                                                      product
                                                     )
                                                   }
-                                                >
-                                                  WRITE A REVIEW
-                                                </div>
+                                                  //resetRating={this.state.resetRating}
+                                                />
+                                                {product.userRating &&
+                                                !product.isReviewed ? (
+                                                  <div
+                                                    className={
+                                                      styles.writeReviewText
+                                                    }
+                                                    onClick={() =>
+                                                      this.writeReview(product)
+                                                    }
+                                                  >
+                                                    Write a Review
+                                                  </div>
+                                                ) : null}
                                               </div>
                                             </div>
                                           )}

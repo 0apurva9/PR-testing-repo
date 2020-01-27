@@ -1229,3 +1229,46 @@
 	padding-left: 18px;
 	float: left;
 }
+
+.reviewListHolder {
+	width: 100%;
+	height: auto;
+	display: flex;
+	align-items: center;
+}
+.ratingTextContainer {
+	display: flex;
+	align-items: center;
+}
+.ratingText {
+	font-family: regular;
+  font-size: 40px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  text-align: center;
+	color: #212121;
+}
+
+.starPLPElectronics {
+  margin: 0 12px 0 10px;
+}
+
+.ratingLabel {
+  margin: 0 6px;
+  font-weight: 500;
+  font-family: semibold;
+}
+
+.labelText {
+  font-family: regular;
+  font-size: 14px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  color: #4d4d4d;
+  font-family: light;
+}
+
+

@@ -374,6 +374,7 @@ export default class PdpElectronics extends React.Component {
                   numberOfReviews={productData.numberOfReviews}
                   discountPrice={discountPrice}
                   averageRating={productData.averageRating}
+                  ratingCount={productData.ratingCount}
                   goToReviewPage={this.goToReviewPage}
                   discount={productData.discount}
                 />
@@ -389,6 +390,7 @@ export default class PdpElectronics extends React.Component {
                   numberOfReviews={productData.numberOfReviews}
                   discountPrice={price}
                   averageRating={productData.averageRating}
+                  ratingCount={productData.ratingCount}
                   goToReviewPage={this.goToReviewPage}
                   discount={productData.discount}
                 />

@@ -292,7 +292,7 @@ export default class DesktopHeader extends React.Component {
           {this.props.isSearch && (
             <div className={styles.headerFunctionality}>
               <div className={styles.upperHeader}>
-                <a href={this.getLuxURL()} target="_blank">
+                <a href={this.getLuxURL()} rel="nofollow" target="_blank">
                   {" "}
                   <div
                     className={styles.luxeryTab}
