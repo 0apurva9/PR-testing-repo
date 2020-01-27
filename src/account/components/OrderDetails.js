@@ -503,6 +503,11 @@ export default class OrderDetails extends React.Component {
                   products.installationDisplayMsg.find(val => {
                     return val.key === "REQUEST_CLOSED";
                   });
+                const requestReschedule =
+                  products.installationDisplayMsg &&
+                  products.installationDisplayMsg.find(val => {
+                    return val.key === "REQUEST_RESCHEDULE";
+                  });
                 let hideEIETrackDiagram = false;
                 if (requestCancelled && requestCancelled.value.customerFacingName === "Request Cancelled" && requestCancelled.value.status === "Completed") {
                   hideEIETrackDiagram = true;
@@ -511,6 +516,9 @@ export default class OrderDetails extends React.Component {
                   hideEIETrackDiagram = true;
                 }
                 if (requestClosed && requestClosed.value.customerFacingName === "Request Closed" && requestClosed.value.status === "Completed") {
+                  hideEIETrackDiagram = true;
+                }
+                if (requestReschedule && requestReschedule.value.customerFacingName === "Installation Rescheduled" && requestReschedule.value.status === "Completed") {
                   hideEIETrackDiagram = true;
                 }
                 return (
