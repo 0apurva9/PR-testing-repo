@@ -152,6 +152,7 @@
   font-size: 24px;
 }
 .imeiCheckForm{
+  width: 100%;
   padding: 30px;
   display: inline-block;
 }
@@ -173,7 +174,18 @@
   font-size: 14px;
   color: #8d8d8d;
 }
-.verifyButton{
+.enableVerifyButton{
+  float: left;
+  width: 20%;
+  text-align: right;
+  border-bottom: 1px solid #ccc;
+  font-family: semibold;
+  font-size: 14px;
+  color: #ff1744;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.disableVerifyButton{
   float: left;
   width: 20%;
   text-align: right;
@@ -182,7 +194,7 @@
   font-size: 14px;
   color: #8d8d8d;
   line-height: 1.4;
-  cursor: pointer;
+  pointer-events: none;
 }
 .imeiInputInfo{
   font-family: light;
@@ -348,4 +360,12 @@
 }
 .textCaps{
   text-transform: capitalize;
+}
+.verifySuccessButton{
+  color: #67b70b;
+}
+.checkIcon{
+  display: inline-block;
+  vertical-align: text-top;
+  margin-right: 5px;
 }

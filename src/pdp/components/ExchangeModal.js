@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./ExchangeModal.css";
 import cashbackIcon from "../../general/components/img/infoCashback.svg";
 import closeIcon from "../../general/components/img/closeIcon.svg";
+import check from "../../pdp/components/img/verifyCheck.svg";
 import baseValueIcon from "./img/baseValue.svg";
 import cliqBonusIcon from "./img/cliqBonus.svg";
 import pickUpChargeIcon from "./img/pickUpCharge.svg";
@@ -32,7 +33,15 @@ export default class ExchangeModal extends React.Component {
       secondDeviceInfo: "",
       isExchangeDeviceAdded: false,
       isFirstDeviceSelected: false,
-      isSecondDeviceSelected: false
+      isSecondDeviceSelected: false,
+      enableVerifyButton: false,
+      checkIMEIMessage:
+        "Dial <span style='color:#ff1744;font-family:semibold;'>*#06#</span> from your old device to know your IMEI number",
+      IMEISuccessMessage:
+        "<span style='color:#67b70b;'>IMEI number will be matched against your mobile at pick-up</span>",
+      IMEIFailureMessage:
+        "<span style='color:#c47403;'>We are having problem detecting your phone’s IMEI number. Please enter valid IMEI no.</span>",
+      IMEIVerified: false
     };
   }
   componentWillMount() {
@@ -68,7 +77,7 @@ export default class ExchangeModal extends React.Component {
     }
     let FDD = JSON.parse(localStorage.getItem("MEFirstDeviceData"));
     if (FDD) {
-      this.props.updateState({
+      this.props.updateProductState({
         selectedProductCashback: FDD.model.totalExchangeCashback,
         selectedProductName: FDD.model.effectiveModelName
       });
@@ -124,7 +133,25 @@ export default class ExchangeModal extends React.Component {
     localStorage.setItem("MEFirstDeviceData", JSON.stringify(firstDeviceData));
     this.setState({ isExchangeDeviceAdded: true });
   }
-
+  verifyIMEI(e) {
+    if (e.target.value.length === 15 || e.target.value.length === 16) {
+      this.setState({ enableVerifyButton: true });
+    } else {
+      this.setState({ enableVerifyButton: false });
+    }
+  }
+  checkIMEI() {
+    //get from API
+    let isIMEIVerified = true;
+    if (isIMEIVerified) {
+      this.setState({
+        checkIMEIMessage: this.state.IMEISuccessMessage,
+        IMEIVerified: true
+      });
+    } else {
+      this.setState({ checkIMEIMessage: this.state.IMEIFailureMessage });
+    }
+  }
   render() {
     let firstDeviceInfo = localStorage.getItem("MEFirstDeviceData");
     if (firstDeviceInfo) {
@@ -458,7 +485,7 @@ export default class ExchangeModal extends React.Component {
                   <input
                     type="radio"
                     className={styles.tabOneRadio}
-                    checked={this.state.isFirstDeviceSelected}
+                    defaultChecked={this.state.isFirstDeviceSelected}
                   />
                   <span className={styles.textCaps}>
                     {firstDeviceInfo &&
@@ -557,15 +584,34 @@ export default class ExchangeModal extends React.Component {
                 type="text"
                 placeholder="Enter IMEI Number"
                 className={styles.imeiInput}
+                onChange={e => this.verifyIMEI(e)}
               />
-              <div className={styles.verifyButton}>Verify</div>
-              <div className={styles.imeiInputInfo}>
-                Dial <span className={styles.howToImeiCheck}>*#06#</span> from
-                your old device to know your IMEI number{" "}
+              <div
+                className={
+                  this.state.enableVerifyButton
+                    ? styles.enableVerifyButton
+                    : styles.disableVerifyButton
+                }
+                onClick={() => this.checkIMEI()}
+              >
+                {this.state.IMEIVerified ? (
+                  <span className={styles.verifySuccessButton}>
+                    <img src={check} alt="check" className={styles.checkIcon} />{" "}
+                    Verified
+                  </span>
+                ) : (
+                  "Verify"
+                )}
               </div>
+              <div
+                className={styles.imeiInputInfo}
+                dangerouslySetInnerHTML={{
+                  __html: this.state.checkIMEIMessage
+                }}
+              />
             </div>
             <div className={styles.effectivePrice}>
-              <table cellpadding="0" cellspacing="0" width="100%">
+              <table cellPadding="0" cellSpacing="0" width="100%">
                 <tbody>
                   <tr>
                     <td className={styles.effectivePriceTrOne}>
