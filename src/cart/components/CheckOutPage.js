@@ -112,7 +112,9 @@ import {
   RETRY_FAILED_ORDER_COUPON,
   RETRY_FAILED_ORDER_COUPON_NOTE,
   FAILURE_TEXT,
-  FAILED_ORDER
+  FAILED_ORDER,
+  UPI,
+  UPI_ID
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -2133,7 +2135,7 @@ if you have order id in local storage then you have to show order confirmation p
 
     return productServiceAvailability;
   };
-  handleSubmitAfterPaymentFailure = () => {
+  handleSubmitAfterPaymentFailure = async () => {
     if (this.state.isNoCostEmiApplied) {
       this.setState({ isNoCostEmiProceeded: true });
     }
@@ -2354,6 +2356,32 @@ if you have order id in local storage then you have to show order confirmation p
         );
       }
     }
+    if (this.state.currentPaymentMode === UPI_ID) {
+      if (this.state.isGiftCard) {
+        if (this.props.collectPaymentOrderForUPI) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            await this.props.createPaymentOrder(this.state.egvCartGuid, true);
+          }
+
+          this.props.collectPaymentOrderForUPI(this.state.egvCartGuid);
+        }
+      } else {
+        if (this.props.cart.isCreatePaymentOrderFailed) {
+          await this.props.createPaymentOrder("", true);
+        }
+
+        this.props.collectPaymentOrderForUPI(
+          UPI,
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+          "",
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+          false,
+          "",
+          "",
+          true
+        );
+      }
+    }
     if (!this.state.isRemainingAmount && this.state.isCliqCashApplied) {
       if (this.props.cart.isCreatePaymentOrderFailed) {
         this.props.createPaymentOrder();
@@ -2381,7 +2409,7 @@ if you have order id in local storage then you have to show order confirmation p
       }
     }
   };
-  handleSubmit = () => {
+  handleSubmit = async () => {
     localStorage.setItem(
       ADDRESS_FOR_PLACE_ORDER,
       JSON.stringify(this.state.selectedAddress)
@@ -2629,6 +2657,47 @@ if you have order id in local storage then you have to show order confirmation p
             "",
             localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
             ""
+          );
+        }
+      }
+      if (this.state.currentPaymentMode === UPI_ID) {
+        if (this.state.isGiftCard) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            await this.props.createPaymentOrder(
+              this.props.location.state.egvCartGuid,
+              true
+            );
+          }
+          this.props.collectPaymentOrderForGiftCardUPI(
+            this.props.location.state.egvCartGuid,
+            this.state.bankCodeForNetBanking,
+            this.state.bankNameForNetBanking
+          );
+        } else if (this.state.isComingFromRetryUrl) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            await this.props.createPaymentOrder(this.state.retryCartGuid, true);
+          }
+
+          this.props.collectPaymentOrderForUPI(
+            UPI,
+            JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+            this.state.bankCodeForNetBanking,
+            localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+            true,
+            this.state.retryCartGuid,
+            this.state.bankNameForNetBanking
+          );
+        } else {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            await this.props.createPaymentOrder("", true);
+          }
+
+          this.props.softReservationPaymentForUPI(
+            UPI,
+            "",
+            "",
+            localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+            UPI
           );
         }
       }

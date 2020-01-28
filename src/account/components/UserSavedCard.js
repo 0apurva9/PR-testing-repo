@@ -180,6 +180,16 @@ export default class UserSavedCard extends React.Component {
 
                   {this.state.isSavedCardTab === 0 &&
                     this.props.profile.savedCards.savedCardDetailsMap &&
+                    this.props.profile.savedCards.savedCardDetailsMap.length ===
+                      0 && (
+                      <div className={styles.noSavedCardBlock}>
+                        {NO_SAVED_CARDS}
+                      </div>
+                    )}
+                  {this.state.isSavedCardTab === 0 &&
+                    this.props.profile.savedCards.savedCardDetailsMap &&
+                    this.props.profile.savedCards.savedCardDetailsMap.length !==
+                      0 &&
                     this.props.profile.savedCards.savedCardDetailsMap.map(
                       (data, i) => {
                         let cardNumber = `${data.value.cardISIN}xx xxxx ${
@@ -291,6 +301,22 @@ export default class UserSavedCard extends React.Component {
             </DesktopOnly>
             <div className={styles.saveCardDetail}>
               <div className={styles.saveCardDetailWithHolder}>
+                <div className={styles.tabHolder}>
+                  <TabHolder>
+                    <TabData
+                      width="47%"
+                      label="Saved Cards"
+                      selected={!this.state.isSavedCardTab}
+                      selectItem={() => this.tabSelect(0)}
+                    />
+                    <TabData
+                      width="47%"
+                      label="Saved UPI"
+                      selected={this.state.isSavedCardTab}
+                      selectItem={() => this.tabSelect(1)}
+                    />
+                  </TabHolder>
+                </div>
                 <div className={styles.noSavedCardBlock}>{NO_SAVED_CARDS}</div>
               </div>
             </div>

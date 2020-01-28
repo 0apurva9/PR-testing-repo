@@ -69,7 +69,10 @@ import {
   collectPaymentOrderForGiftCardFromSavedCards,
   collectPaymentOrderForCliqCash,
   checkUPIEligibility,
-  binValidationForUPI
+  binValidationForUPI,
+  collectPaymentOrderForUPI,
+  collectPaymentOrderForGiftCardUPI,
+  createJusPayOrderForUPI
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -752,6 +755,49 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     binValidationForUPI: async (paymentMode, isFromRetryUrl, retryCartGuid) => {
       return await dispatch(
         binValidationForUPI(paymentMode, isFromRetryUrl, retryCartGuid)
+      );
+    },
+    collectPaymentOrderForUPI: (
+      paymentMethodType,
+      cartItem,
+      bankCode,
+      pinCode,
+      isFromRetryUrl,
+      retryCartGuid,
+      bankName,
+      isPaymentFailed
+    ) => {
+      dispatch(
+        collectPaymentOrderForUPI(
+          paymentMethodType,
+          cartItem,
+          bankCode,
+          pinCode,
+          isFromRetryUrl,
+          retryCartGuid,
+          bankName,
+          isPaymentFailed
+        )
+      );
+    },
+    collectPaymentOrderForGiftCardUPI: (guId, bankCode, bankName) => {
+      dispatch(collectPaymentOrderForGiftCardUPI(guId, bankCode, bankName));
+    },
+    createJusPayOrderForUPI: (
+      cardDetails,
+      cartItem,
+      isPaymentFailed,
+      isFromRetryUrl,
+      retryCartGuid
+    ) => {
+      dispatch(
+        createJusPayOrderForUPI(
+          cardDetails,
+          cartItem,
+          isPaymentFailed,
+          isFromRetryUrl,
+          retryCartGuid
+        )
       );
     }
   };

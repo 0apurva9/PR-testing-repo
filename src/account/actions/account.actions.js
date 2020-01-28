@@ -1921,106 +1921,106 @@ export function getSavedCardDetails(userId, customerAccessToken) {
        * @comment Commented the bellow lines as we are using the demo resonse for testing purpose. Hrard coded
        * values will be removed before sending code to production.
        */
-      // const result = await api.post(
-      //   `${USER_PATH}/${userId}/payments/savedCards?access_token=${customerAccessToken}&cardType=${CARD_TYPE}`
-      // );
-      // const resultJson = await result.json();
-      const resultJson = {
-        type: "mplSavedCardDTO",
-        savedCardDetailsMap: [
-          {
-            key: "2019-04-25T20:52:40.118",
-            value: {
-              addressLine1: "ZZ Apartment",
-              cardBrand: "MASTERCARD",
-              cardEndingDigits: "2346",
-              cardFingerprint: "7jkih546v33lmpu1206696sn6q",
-              cardISIN: "512345",
-              cardIssuer: "AXIS BANK, LTD.",
-              cardReferenceNumber: "48baa35d0e7e5fde4fd827e845e669fc",
-              cardToken: "1175c7b4-056b-49c4-ac8c-c2bf108457fc",
-              cardType: "CREDIT",
-              city: "New Delhi",
-              country: "India",
-              expired: " ",
-              expiryMonth: "10",
-              expiryYear: "2020",
-              firstName: "Surajit",
-              isDomestic: false,
-              juspayCardType: "CREDIT",
-              lastName: "Pal",
-              nameOnCard: "abc",
-              nickname: "",
-              pincode: "110002",
-              state: "Delhi"
-            }
-          },
-          {
-            key: "2019-04-25T20:42:35.33",
-            value: {
-              cardBrand: "VISA",
-              cardEndingDigits: "1112",
-              cardFingerprint: "6grb5b5p7aqb70db4tfgtfmk59",
-              cardISIN: "401200",
-              cardIssuer: "HDFC BANK, LTD.",
-              cardReferenceNumber: "a304c14b1fa3151d98348b3dcc3b5250",
-              cardToken: "b45b69de-101a-44e2-81a6-28f7bbb573ee",
-              cardType: "DEBIT",
-              expired: " ",
-              expiryMonth: "05",
-              expiryYear: "2020",
-              isDomestic: false,
-              juspayCardType: "DEBIT",
-              nameOnCard: "abc",
-              nickname: ""
-            }
-          }
-        ],
-        savedUpiDetailsMap: [
-          {
-            key: "2019-04-25T20:52:40.118",
-            value: {
-              upiId: "abs@xyz",
-              isActive: true
-            }
-          },
-          {
-            key: "2019-04-25T20:42:35.33",
-            value: {
-              upiId: "abs@ybl",
-              isActive: false
-            }
-          }
-          // {
-          //   key: "2019-04-25T20:42:35.33",
-          //   value: {
-          //     upiId: "12124321290@okhdfc",
-          //     isActive: false
-          //   }
-          // },
-          // {
-          //   key: "2019-04-25T20:42:35.33",
-          //   value: {
-          //     upiId: "8787989089@ksd",
-          //     isActive: true
-          //   }
-          // },
-          // {
-          //   key: "2019-04-25T20:42:35.33",
-          //   value: {
-          //     upiId: "4321290@okhdfc",
-          //     isActive: false
-          //   }
-          // },
-          // {
-          //   key: "2019-04-25T20:42:35.33",
-          //   value: {
-          //     upiId: "zxzx8787989089@ksd",
-          //     isActive: true
-          //   }
-          // }
-        ]
-      };
+      const result = await api.post(
+        `${USER_PATH}/${userId}/payments/savedCards?access_token=${customerAccessToken}&cardType=${CARD_TYPE}`
+      );
+      const resultJson = await result.json();
+      // const resultJson = {
+      //   type: "mplSavedCardDTO",
+      //   savedCardDetailsMap: [
+      //     // {
+      //     //   key: "2019-04-25T20:52:40.118",
+      //     //   value: {
+      //     //     addressLine1: "ZZ Apartment",
+      //     //     cardBrand: "MASTERCARD",
+      //     //     cardEndingDigits: "2346",
+      //     //     cardFingerprint: "7jkih546v33lmpu1206696sn6q",
+      //     //     cardISIN: "512345",
+      //     //     cardIssuer: "AXIS BANK, LTD.",
+      //     //     cardReferenceNumber: "48baa35d0e7e5fde4fd827e845e669fc",
+      //     //     cardToken: "1175c7b4-056b-49c4-ac8c-c2bf108457fc",
+      //     //     cardType: "CREDIT",
+      //     //     city: "New Delhi",
+      //     //     country: "India",
+      //     //     expired: " ",
+      //     //     expiryMonth: "10",
+      //     //     expiryYear: "2020",
+      //     //     firstName: "Surajit",
+      //     //     isDomestic: false,
+      //     //     juspayCardType: "CREDIT",
+      //     //     lastName: "Pal",
+      //     //     nameOnCard: "abc",
+      //     //     nickname: "",
+      //     //     pincode: "110002",
+      //     //     state: "Delhi"
+      //     //   }
+      //     // },
+      //     // {
+      //     //   key: "2019-04-25T20:42:35.33",
+      //     //   value: {
+      //     //     cardBrand: "VISA",
+      //     //     cardEndingDigits: "1112",
+      //     //     cardFingerprint: "6grb5b5p7aqb70db4tfgtfmk59",
+      //     //     cardISIN: "401200",
+      //     //     cardIssuer: "HDFC BANK, LTD.",
+      //     //     cardReferenceNumber: "a304c14b1fa3151d98348b3dcc3b5250",
+      //     //     cardToken: "b45b69de-101a-44e2-81a6-28f7bbb573ee",
+      //     //     cardType: "DEBIT",
+      //     //     expired: " ",
+      //     //     expiryMonth: "05",
+      //     //     expiryYear: "2020",
+      //     //     isDomestic: false,
+      //     //     juspayCardType: "DEBIT",
+      //     //     nameOnCard: "abc",
+      //     //     nickname: ""
+      //     //   }
+      //     // }
+      //   ],
+      //   savedUpiDetailsMap: []
+      //   // {
+      //   //   key: "2019-04-25T20:52:40.118",
+      //   //   value: {
+      //   //     upiId: "abs@xyz",
+      //   //     isActive: true
+      //   //   }
+      //   // },
+      //   // {
+      //   //   key: "2019-04-25T20:42:35.33",
+      //   //   value: {
+      //   //     upiId: "abs@ybl",
+      //   //     isActive: false
+      //   //   }
+      //   // }
+      //   // {
+      //   //   key: "2019-04-25T20:42:35.33",
+      //   //   value: {
+      //   //     upiId: "12124321290@okhdfc",
+      //   //     isActive: false
+      //   //   }
+      //   // },
+      //   // {
+      //   //   key: "2019-04-25T20:42:35.33",
+      //   //   value: {
+      //   //     upiId: "8787989089@ksd",
+      //   //     isActive: true
+      //   //   }
+      //   // },
+      //   // {
+      //   //   key: "2019-04-25T20:42:35.33",
+      //   //   value: {
+      //   //     upiId: "4321290@okhdfc",
+      //   //     isActive: false
+      //   //   }
+      //   // },
+      //   // {
+      //   //   key: "2019-04-25T20:42:35.33",
+      //   //   value: {
+      //   //     upiId: "zxzx8787989089@ksd",
+      //   //     isActive: true
+      //   //   }
+      //   // }
+      //   // ]
+      // };
 
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
@@ -2267,10 +2267,6 @@ export function removeSavedUpiDetails(upiId) {
   return async (dispatch, getState, { api }) => {
     dispatch(removeSavedUpiRequest());
     try {
-      /**
-       * @author Prashant Kumar
-       * @comment Commented the below code as for testing purpose we are using the hard coded response.
-       */
       const result = await api.post(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
@@ -2279,10 +2275,6 @@ export function removeSavedUpiDetails(upiId) {
         }&upiId=${upiId}`
       );
       const resultJson = await result.json();
-      // const resultJson = { type: "mplDeleteUPIDTO", status: "Success" };
-      /**
-       * EOD
-       */
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -2347,27 +2339,25 @@ export function addUPIDetails(upi, pageType) {
         JSON.parse(customerCookie).access_token
       }&isPwa=true&channel=web&isUpdatedPwa=true&upiId=${upi}&isToValidateUpi=true&isToSaveUpi=true`;
       const result = await api.get(addUPI);
-      // const resultJson = await result.json();
+      const resultJson = await result.json();
       /**
        * @author Prashant Kumar
        * @comment this hard coded line will be removed along with setTimeout
        */
-      const resultJson = {
-        type: "upiValidationWsData",
-        status: "INVALID",
-        customerName: "cust",
-        upiId: "example@test"
-      };
+      // const resultJson = {
+      //   type: "upiValidationWsData",
+      //   status: "INVALID",
+      //   customerName: "cust",
+      //   upiId: "example@test"
+      // };
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      // setTimeout(() => {
       if (resultJson.status === "VALID" && pageType === "myaccount") {
         dispatch(displayToast(UPI_ADDED_SUCCESS));
       }
       return dispatch(addUserUPISuccess(resultJson));
-      // }, 3000);
     } catch (e) {
       return dispatch(addUserUPIFailure(e.message));
     }

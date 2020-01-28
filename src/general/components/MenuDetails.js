@@ -11,7 +11,8 @@ import {
 import {
   EASY_MONTHLY_INSTALLMENTS,
   NET_BANKING_PAYMENT_MODE,
-  CART_DETAILS_FOR_LOGGED_IN_USER
+  CART_DETAILS_FOR_LOGGED_IN_USER,
+  UPI
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 
@@ -31,7 +32,7 @@ export default class MenuDetails extends React.Component {
         cartGuidUPI = JSON.parse(cartGuidUPI).guid;
       }
       const response = await this.props.checkUPIEligibility(cartGuidUPI);
-      // const binResponse = await this.props.binValidationForUPI("UPI");
+      const binResponse = await this.props.binValidationForUPI(UPI);
       if (
         response.status &&
         response.status === "success" &&
@@ -94,7 +95,7 @@ export default class MenuDetails extends React.Component {
         <div
           className={styles.holder}
           onClick={() =>
-            this.props.text === "UPI" ? this.checkupi() : this.openMenu()
+            this.props.text === UPI ? this.checkupi() : this.openMenu()
           }
         >
           <div className={styles.debitCardIcon}>

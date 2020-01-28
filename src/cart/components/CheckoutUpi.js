@@ -5,7 +5,6 @@ import upi_new_icon from "./img/upi_new_icon.svg";
 import MenuDetails from "../../general/components/MenuDetails.js";
 import { UPI } from "../../lib/constants";
 import UpiForm from "./UpiForm";
-// const plzVerifyUPIMsg = "Please verify your UPI Address to proceed";
 
 export default class CheckoutUpi extends React.Component {
   render() {
@@ -28,13 +27,16 @@ export default class CheckoutUpi extends React.Component {
       >
         <UpiForm
           savedUPIidResponse={
-            this.props.cart.paymentModes
+            this.props.cart.paymentModes &&
+            this.props.cart.paymentModes.savedUPIidResponse &&
+            this.props.cart.paymentModes.savedUPIidResponse.savedUPIidDetailsMap
               ? this.props.cart.paymentModes.savedUPIidResponse
                   .savedUPIidDetailsMap
               : []
           }
           UPIofferCalloutList={
-            this.props.cart.paymentModes
+            this.props.cart.paymentModes &&
+            this.props.cart.paymentModes.UPIofferCalloutList
               ? this.props.cart.paymentModes.UPIofferCalloutList
               : []
           }

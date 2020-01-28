@@ -301,6 +301,7 @@ export const BANK_GATWAY_DOWN = "0";
  * @comment Added const for the UPI
  */
 export const UPI = "UPI";
+export const UPI_ID = "UPI ID";
 // META TAGS CONSTANTS
 
 export const GOOGLE_TAG_TITLE_DEFAULT =

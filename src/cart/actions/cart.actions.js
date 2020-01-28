@@ -41,7 +41,8 @@ import {
   OLD_CART_GU_ID,
   FAILURE_LOWERCASE,
   BIN_CARD_TYPE,
-  RETRY_PAYMENT_CART_ID
+  RETRY_PAYMENT_CART_ID,
+  UPI
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -256,6 +257,13 @@ export const GET_UPI_ELIGIBILITY_FAILURE = "GET_UPI_ELIGIBILITY_FAILURE";
 export const BIN_VALIDATION_UPI_REQUEST = "BIN_VALIDATION_UPI_REQUEST";
 export const BIN_VALIDATION_UPI_SUCCESS = "BIN_VALIDATION_UPI_SUCCESS";
 export const BIN_VALIDATION_UPI_FAILURE = "BIN_VALIDATION_UPI_FAILURE";
+
+export const COLLECT_PAYMENT_ORDER_FOR_UPI_REQUEST =
+  "COLLECT_PAYMENT_ORDER_FOR_UPI_REQUEST";
+export const COLLECT_PAYMENT_ORDER_FOR_UPI_SUCCESS =
+  "COLLECT_PAYMENT_ORDER_FOR_UPI_SUCCESS";
+export const COLLECT_PAYMENT_ORDER_FOR_UPI_FAILURE =
+  "COLLECT_PAYMENT_ORDER_FOR_UPI_FAILURE";
 
 export const RELEASE_BANK_OFFER_REQUEST = "RELEASE_BANK_OFFER_REQUEST";
 export const RELEASE_BANK_OFFER_SUCCESS = "RELEASE_BANK_OFFER_SUCCESS";
@@ -1848,7 +1856,7 @@ export function getPaymentModes(guId) {
       // here  we are setting data layer for when user lands on the payment modes
       // page
 
-      dispatch(paymentModesSuccess(paymentData));
+      dispatch(paymentModesSuccess(resultJson));
       dispatch(createPaymentOrder(guId));
       setDataLayerForCheckoutDirectCalls(
         ADOBE_CALL_FOR_LANDING_ON_PAYMENT_MODE
@@ -1901,12 +1909,16 @@ export function checkUPIEligibility(guId) {
         }&cartGuid=${guId}`
       );
 
-      // const resultJson = await result.json();
-      const resultJson = {
-        type: "checkUpiEligibilityDTO",
-        status: "Success",
-        isUpiPaymentEligible: true
-      };
+      const resultJson = await result.json();
+      /**
+       * @author Prashant Kumar
+       * @comment Mock data to be removed
+       */
+      // const resultJson = {
+      //   type: "checkUpiEligibilityDTO",
+      //   status: "Success",
+      //   isUpiPaymentEligible: true
+      // };
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -1916,21 +1928,10 @@ export function checkUPIEligibility(guId) {
         dispatch(displayToast(upiEligibilityError));
       }
       if (resultJson.isUpiPaymentEligible) {
-        // binValidationForUPI(
-        //   paymentMode,
-        //   isFromRetryUrl,
-        //   retryCartGuid,
-        //   resultJson
-        // );
         return dispatch(checkUPIEligibilitySuccess(resultJson));
       } else {
         return dispatch(checkUPIEligibilitySuccess(resultJson));
       }
-
-      // dispatch(createPaymentOrder(guId));
-      // setDataLayerForCheckoutDirectCalls(
-      //   ADOBE_CALL_FOR_LANDING_ON_PAYMENT_MODE
-      // );
     } catch (e) {
       dispatch(displayToast(upiEligibilityError));
       return dispatch(checkUPIEligibilityFailure(e.message));
@@ -2002,6 +2003,443 @@ export function binValidationForUPI(
     }
   };
 }
+
+export function collectPaymentOrderForUPIRequest() {
+  return {
+    type: COLLECT_PAYMENT_ORDER_FOR_UPI_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function collectPaymentOrderForUPISuccess(collectPaymentOrder, guid) {
+  return {
+    type: COLLECT_PAYMENT_ORDER_FOR_UPI_SUCCESS,
+    status: SUCCESS,
+    collectPaymentOrder,
+    guid
+  };
+}
+
+export function collectPaymentOrderForUPIFailure(error) {
+  return {
+    type: COLLECT_PAYMENT_ORDER_FOR_UPI_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function collectPaymentOrderForGiftCardUPI(
+  egvCartGuid,
+  bankCode,
+  bankName
+) {
+  return async (dispatch, getState, { api }) => {
+    const returnUrl = `${
+      window.location.origin
+    }/checkout/payment-method/cardPayment`;
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
+    let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
+    let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
+    let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
+    let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
+    let firstName = bankCode;
+
+    let orderDetails = {
+      wrapperItems: [
+        {
+          wrapperInventoryItems: [
+            {
+              item: []
+            }
+          ],
+          wrapperAddressItems: [
+            {
+              addressItems: []
+            }
+          ],
+          wrapperPspItems: [
+            {
+              pspItems: [
+                {
+                  pspName: "Juspay",
+                  token: "",
+                  cardToken: "",
+                  cardFingerprint: "",
+                  cardRefNo: "",
+                  returnUrl: returnUrl
+                },
+                {
+                  pspName: "Stripe",
+                  token: "",
+                  cardToken: "",
+                  cardFingerprint: "",
+                  cardRefNo: "",
+                  returnUrl: returnUrl
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    dispatch(collectPaymentOrderForGiftCardRequest());
+    try {
+      const result = await api.post(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/collectPaymentOrder?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&saveCard=false&sameAsShipping=true&cartGuid=${egvCartGuid}&isPwa=true&platform=22&firstName=${firstName}&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${currentSelectedPaymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`,
+        orderDetails
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
+      dispatch(collectPaymentOrderForGiftCardSuccess(resultJson, egvCartGuid));
+      dispatch(
+        jusPayPaymentMethodTypeForGiftCardUPI(
+          resultJson.pspAuditId,
+          bankCode,
+          egvCartGuid
+        )
+      );
+    } catch (e) {
+      dispatch(collectPaymentOrderForUPIFailure(e));
+    }
+  };
+}
+
+export function collectPaymentOrderForUPI(
+  cardDetails,
+  cartItem,
+  isPaymentFailed,
+  isFromRetryUrl,
+  retryCartGuid
+) {
+  return async (dispatch, getState, { api }) => {
+    let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
+    let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
+    let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
+    let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
+    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let productDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    let cartGuId = productDetails
+      ? JSON.parse(productDetails).guid
+      : Cookie.getCookie(OLD_CART_GU_ID);
+    let cartDetails;
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
+    let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    const binCardType = localStorage.getItem(BIN_CARD_TYPE);
+    if (binCardType && paymentMode !== "EMI") {
+      paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
+        .slice(1)
+        .toLowerCase()} Card`;
+    }
+    const bankName = localStorage.getItem(SELECTED_BANK_NAME);
+    let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
+    const returnUrl = `${
+      window.location.origin
+    }/checkout/payment-method/cardPayment`;
+    let orderDetails = "";
+    let inventoryItems = cartItem;
+    if (isPaymentFailed) {
+      let url = queryString.parse(window.location.search);
+      cartGuId =
+        url && url.value ? url.value : Cookie.getCookie(OLD_CART_GU_ID);
+    } else {
+      if (isFromRetryUrl) {
+        cartGuId = retryCartGuid;
+        if (!isPaymentFailed) {
+          inventoryItems = getValidDeliveryModeDetails(
+            getState().cart.getUserAddressAndDeliveryModesByRetryPayment
+              .products,
+            true,
+            getState().cart.getUserAddressAndDeliveryModesByRetryPayment
+          );
+          localStorage.setItem(
+            CART_ITEM_COOKIE,
+            JSON.stringify(inventoryItems)
+          );
+        }
+      } else {
+        cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+        cartGuId = cartDetails
+          ? JSON.parse(cartDetails).guid
+          : Cookie.getCookie(OLD_CART_GU_ID);
+      }
+    }
+    if (inventoryItems && address) {
+      orderDetails = {
+        wrapperItems: [
+          {
+            wrapperInventoryItems: [
+              {
+                ...inventoryItems
+              }
+            ],
+            wrapperAddressItems: [
+              {
+                addressItems: [
+                  {
+                    addressType: "Shipping",
+                    firstName: address.firstName,
+                    lastName: address.lastName,
+                    addressLine1: address.line1,
+                    addressLine2: address.line2 ? address.line2 : "",
+                    addressLine3: address.line3 ? address.line3 : "",
+                    country: address.country && address.country.isocode,
+                    city: address.city,
+                    postalCode: address.postalCode,
+                    state: address.state,
+                    phone: address.phone
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      };
+    }
+
+    dispatch(collectPaymentOrderRequest());
+    try {
+      const result = await api.post(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/collectPaymentOrder?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&saveCard=${false}&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platform=22&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`,
+        orderDetails
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        if (
+          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
+          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
+        ) {
+          dispatch(collectPaymentOrderFailure(INVALID_COUPON_ERROR_MESSAGE));
+          return dispatch(
+            showModal(INVALID_BANK_COUPON_POPUP, {
+              result: resultJson
+            })
+          );
+        } else {
+          throw new Error(resultJson.message);
+        }
+      }
+      localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
+      dispatch(collectPaymentOrderSuccess(resultJson));
+      dispatch(
+        jusPayPaymentMethodTypeForUPI(resultJson.pspAuditId, cardDetails)
+      );
+    } catch (e) {
+      dispatch(
+        displayToast(ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL + " Please Retry.")
+      );
+      dispatch(collectPaymentOrderFailure(e));
+    }
+  };
+}
+
+export function jusPayPaymentMethodTypeForUPI(juspayOrderId, cardDetails) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(jusPayPaymentMethodTypeRequest());
+    let cardObject = new FormData();
+    cardObject.append("payment_method_type", UPI);
+    cardObject.append("redirect_after_payment", "true");
+    cardObject.append("format", "json");
+    cardObject.append("card_security_code", cardDetails.cvvNumber);
+    cardObject.append("merchant_id", getState().cart.paymentModes.merchantID);
+    cardObject.append("card_token", cardDetails.cardToken);
+    cardObject.append("order_id", juspayOrderId);
+    cardObject.append("payment_method", UPI);
+    try {
+      const result = await api.postJusPay(`txns?`, cardObject);
+      const resultJson = await result.json();
+      if (
+        resultJson.status === JUS_PAY_PENDING ||
+        resultJson.status === SUCCESS ||
+        resultJson.status === SUCCESS_CAMEL_CASE ||
+        resultJson.status === SUCCESS_UPPERCASE ||
+        resultJson.status === JUS_PAY_CHARGED
+      ) {
+        dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
+        dispatch(setBagCount(0));
+        localStorage.setItem(CART_BAG_DETAILS, []);
+        dispatch(generateCartIdAfterOrderPlace());
+      } else {
+        throw new Error(resultJson.error_message);
+      }
+    } catch (e) {
+      dispatch(jusPayPaymentMethodTypeFailure(e.message));
+    }
+  };
+}
+
+export function jusPayPaymentMethodTypeForGiftCardUPI(
+  juspayOrderId,
+  bankName,
+  guId
+) {
+  return async (dispatch, getState, { api }) => {
+    let cardObject = new FormData();
+    cardObject.append("payment_method_type", UPI);
+    cardObject.append("redirect_after_payment", "true");
+    cardObject.append("format", "json");
+    cardObject.append("merchant_id", getState().cart.paymentModes.merchantID);
+    cardObject.append("order_id", juspayOrderId);
+    cardObject.append("payment_method", bankName);
+    dispatch(jusPayPaymentMethodTypeRequest());
+    try {
+      const result = await api.postJusPay(`txns?`, cardObject);
+      const resultJson = await result.json();
+
+      if (
+        resultJson.status === JUS_PAY_PENDING ||
+        resultJson.status === SUCCESS ||
+        resultJson.status === SUCCESS_CAMEL_CASE ||
+        resultJson.status === SUCCESS_UPPERCASE ||
+        resultJson.status === JUS_PAY_CHARGED
+      ) {
+        dispatch(jusPayPaymentMethodTypeForGiftCardSuccess(resultJson, guId));
+      } else {
+        throw new Error(resultJson.error_message);
+      }
+    } catch (e) {
+      dispatch(jusPayPaymentMethodTypeFailure(e.message));
+    }
+  };
+}
+
+export function createJusPayOrderForUPI(
+  cardDetails,
+  cartItemObj,
+  isPaymentFailed,
+  isFromRetryUrl,
+  retryCartGuid
+) {
+  let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
+  let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
+  let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
+  let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
+  let cartItem = cartItemObj;
+  const jusPayUrl = `${
+    window.location.origin
+  }/checkout/multi/payment-method/cardPayment`;
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
+  let cartDetails, cartId;
+  if (isPaymentFailed) {
+    let url = queryString.parse(window.location.search);
+    cartId = url && url.value ? url.value : Cookie.getCookie(OLD_CART_GU_ID);
+  } else {
+    if (isFromRetryUrl) {
+      cartId = retryCartGuid;
+    } else {
+      cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      cartId = cartDetails
+        ? JSON.parse(cartDetails).guid
+        : Cookie.getCookie(OLD_CART_GU_ID);
+    }
+  }
+  const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+  const bankName = localStorage.getItem(SELECTED_BANK_NAME);
+  return async (dispatch, getState, { api }) => {
+    dispatch(createJusPayOrderRequest());
+    try {
+      let productItems = "";
+      let result = "";
+      if (isFromRetryUrl) {
+        productItems = getValidDeliveryModeDetails(
+          getState().cart.getUserAddressAndDeliveryModesByRetryPayment.products,
+          true,
+          getState().cart.getUserAddressAndDeliveryModesByRetryPayment
+        );
+      }
+      if (isFromRetryUrl) {
+        result = await api.post(
+          `${USER_CART_PATH}/${
+            JSON.parse(userDetails).userName
+          }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&platform=22&platformNumber=5&appVersion=&cardFingerPrint=${
+            cardDetails.cardFingerprint
+          }&pincode=${localStorage.getItem(
+            DEFAULT_PIN_CODE_LOCAL_STORAGE
+          )}&city=&cartGuid=${retryCartGuid}&token=&cardRefNo=${
+            cardDetails.cardReferenceNumber
+          }&country=&addressLine1=&access_token=${
+            JSON.parse(customerCookie).access_token
+          }&juspayUrl=${encodeURIComponent(
+            jusPayUrl
+          )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
+            bankName ? bankName : ""
+          }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+            whatsappNotification ? "&whatsapp=true" : ""
+          }`,
+          productItems
+        );
+      } else {
+        result = await api.post(
+          `${USER_CART_PATH}/${
+            JSON.parse(userDetails).userName
+          }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&platform=22&platformNumber=5&appVersion=&cardFingerPrint=${
+            cardDetails.cardFingerprint
+          }&pincode=${localStorage.getItem(
+            DEFAULT_PIN_CODE_LOCAL_STORAGE
+          )}&city=&cartGuid=${cartId}&token=&cardRefNo=${
+            cardDetails.cardReferenceNumber
+          }&country=&addressLine1=&access_token=${
+            JSON.parse(customerCookie).access_token
+          }&juspayUrl=${encodeURIComponent(
+            jusPayUrl
+          )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
+            bankName ? bankName : ""
+          }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+            whatsappNotification ? "&whatsapp=true" : ""
+          }`,
+          cartItem
+        );
+      }
+
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        if (
+          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
+          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
+        ) {
+          dispatch(createJusPayOrderFailure(INVALID_COUPON_ERROR_MESSAGE));
+          return dispatch(
+            showModal(INVALID_BANK_COUPON_POPUP, {
+              result: resultJson
+            })
+          );
+        } else {
+          dispatch(displayToast("Please Retry."));
+          throw new Error(resultJson.message);
+        }
+      }
+      dispatch(
+        jusPayPaymentMethodTypeForUPI(resultJson.juspayOrderId, cardDetails)
+      );
+    } catch (e) {
+      dispatch(createJusPayOrderFailure(e.message));
+    }
+  };
+}
+
 /**
  * EOC
  */
