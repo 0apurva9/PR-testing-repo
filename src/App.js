@@ -437,7 +437,9 @@ class App extends Component {
     // Are we adding new items to the list?
     // Capture the scroll position so we can adjust scroll later.
     if (prevProps.location.pathname != this.props.location.pathname) {
-      setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
+      setTimeout(() => {
+        setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
+      }, 300);
     }
   }
 
