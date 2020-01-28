@@ -39,7 +39,10 @@ export default class ReturnToStore extends React.Component {
       const lat = selectedStore && selectedStore.geoPoint.latitude;
       const lng = selectedStore && selectedStore.geoPoint.longitude;
       const storeId = selectedStore && selectedStore.slaveId;
-      if (selectedStore.address && this.props.from === "Pdp") {
+      if (
+        selectedStore.address &&
+        (this.props.from === "Pdp" || this.props.from === "Cart")
+      ) {
         localStorage.setItem(
           SELECTED_STORE,
           `${selectedStore.displayName}, ${selectedStore.address.line1} ${

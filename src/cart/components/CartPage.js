@@ -621,6 +621,7 @@ class CartPage extends React.Component {
       currentSelectedProduct.pinCodeResponse &&
       currentSelectedProduct.pinCodeResponse.validDeliveryModes;
     let cliqAndPiqDetails = {};
+    cliqAndPiqDetails.from = "Cart";
     cliqAndPiqDetails.stores = this.props.cart.storeDetails;
     cliqAndPiqDetails.productDetails = currentSelectedProduct;
     cliqAndPiqDetails.pinCodeUpdateDisabled = true;
