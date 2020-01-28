@@ -9,7 +9,8 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   LOGIN_PATH,
   WRITE_REVIEWS_WITH_SLUG,
-  WRITE_REVIEWS
+  WRITE_REVIEWS,
+  REVIEW_GUIDELINES
 } from "../../lib/constants";
 import { withRouter } from "react-router-dom";
 import * as Cookie from "../../lib/Cookie";
@@ -18,7 +19,12 @@ import {
   ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT,
   ADOBE_REVIEW_SUBMIT_BUTTON,
   setDataLayer,
-  ADOBE_REVIEW_STAR_RATING
+  ADOBE_REVIEW_STAR_RATING,
+  setDataLayerForRatingAndReview,
+  SET_DATA_LAYER_RATING_STAR_CLICK,
+  SET_DATA_LAYER_REVIEW_SUBMIT_CLICK,
+  SET_DATA_LAYER_REVIEW_CANCEL_CLICK,
+  SET_DATA_LAYER_REVIEW_GUIDELINE
 } from "../../lib/adobeUtils";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -29,7 +35,7 @@ class WriteReview extends React.Component {
     this.state = {
       title: "",
       comment: "",
-      rating: "",
+      rating: null,
       resetRating: false
     };
   }
@@ -53,17 +59,23 @@ class WriteReview extends React.Component {
       ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT
     );
     setDataLayer(ADOBE_REVIEW_STAR_RATING);
+    setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_STAR_CLICK, {
+      rating: val,
+      statusText: ""
+    });
     this.setState({ rating: val });
   };
   onCancel() {
     if (this.props.onCancel) {
       this.props.onCancel();
     }
+    setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_CANCEL_CLICK);
   }
   showReviewGuidelineModal = () => {
     if (this.props.showReviewGuidelineModal) {
       this.props.showReviewGuidelineModal();
     }
+    setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_GUIDELINE);
   };
   onSubmit = async () => {
     setDataLayer(ADOBE_REVIEW_SUBMIT_BUTTON);
@@ -92,9 +104,9 @@ class WriteReview extends React.Component {
               this.setState({ resetRating: false });
             }
           }
-          let url = this.props.location.pathname;
-          url = url.replace("/write-review", "");
-          this.props.history.push(url);
+          // let url = this.props.location.pathname;
+          // url = url.replace("/write-review", "");
+          // this.props.history.push(url);
         }
       } else {
         const url = this.props.location.pathname;
@@ -108,6 +120,7 @@ class WriteReview extends React.Component {
         headline: this.state.title
       });
     }
+    setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_SUBMIT_CLICK);
   };
   render() {
     return (
@@ -116,21 +129,21 @@ class WriteReview extends React.Component {
           <div className={styles.ratingHeader}>Rate this product</div>
           <div className={styles.ratingBar}>
             <FillupRating
-              rating={5}
+              rating={this.state.rating}
               onChange={this.onRatingChange}
               resetRating={this.state.resetRating}
             />
           </div>
-          {/* <div className={styles.reviewGuidelinesBar}>
+          <div className={styles.reviewGuidelinesBar}>
             <div
               className={styles.reviewGuidelines}
               onClick={() => {
                 this.showReviewGuidelineModal();
               }}
             >
-              Tips to write a review
+              {REVIEW_GUIDELINES}
             </div>
-          </div> */}
+          </div>
         </div>
         <div className={styles.input}>
           <Input

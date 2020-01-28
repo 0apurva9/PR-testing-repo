@@ -78,6 +78,9 @@ import ColourSelector from "./ColourSelector";
 import FlixMediaContainer from "./FlixMediaContainer";
 // import CheckBox from '../../general/components/CheckBox.js';
 import MultiCheckbox from "./MultiCheckbox";
+import Icon from "../../xelpmoc-core/Icon";
+import FilledStarBlack from "../../general/components/img/star-fill-black.svg";
+
 let testcheck = false;
 
 const WASH = "Wash";
@@ -512,8 +515,10 @@ export default class PdpApparel extends React.Component {
           }
         } else {
           this.props.displayToast("Please select a size to continue");
-          this.setState({ isLoader: false });
-          this.setState({ sizeError: true });
+          this.setState({
+            sizeError: true,
+            isLoader: true
+          });
         }
       }
     }
@@ -553,7 +558,8 @@ export default class PdpApparel extends React.Component {
   updateQuantity = quantity => {
     this.setState({
       productQuantityOption: quantity,
-      quantityError: false
+      quantityError: false,
+      isLoader: false
     });
   };
   updateSize = () => {
@@ -615,8 +621,10 @@ export default class PdpApparel extends React.Component {
   };
   isSizeNotSelectedForAddToWishlist = () => {
     this.props.displayToast("Please select a size to continue");
-    this.setState({ isLoader: false });
-    this.setState({ sizeError: true });
+    this.setState({
+      sizeError: true,
+      isLoader: false
+    });
   };
   showPriceBreakup = () => {
     if (this.props.showPriceBreakup) {
@@ -925,10 +933,10 @@ export default class PdpApparel extends React.Component {
       let price = "";
       let discountPrice = "";
       if (productData.mrpPrice) {
-        price = productData.mrpPrice.formattedValueNoDecimal;
+        price = productData.mrpPrice.doubleValue;
       }
       if (productData.winningSellerPrice) {
-        discountPrice = productData.winningSellerPrice.formattedValueNoDecimal;
+        discountPrice = productData.winningSellerPrice.doubleValue;
       }
       let seoDoublePrice = 0;
       if (
@@ -1040,6 +1048,7 @@ export default class PdpApparel extends React.Component {
                         ScrollReviewList={this.ScrollIntoView}
                         doublePrice={seoDoublePrice}
                         discountPrice={discountPrice}
+                        ratingCount={productData.ratingCount}
                         averageRating={productData.averageRating}
                         numberOfReviews={productData.numberOfReviews}
                         goToReviewPage={this.goToReviewPage}
@@ -1445,39 +1454,35 @@ export default class PdpApparel extends React.Component {
                   )}
                 </div>
                 <div>
-                  {mshProduct.includes("samsung") && (
-                    <div className={styles.sumsungSeparator}>
-                      <div className={styles.chatIcon}>
-                        {productData.brandName === "Samsung" ||
-                        productData.brandName === "SAMSUNG" ? (
-                          <a
-                            href={samsungChatUrl}
-                            target="_blank"
-                            className={styles.samsungChatImgHolder}
-                            onClick={this.clickedSamsungChatIcon}
-                          >
-                            <img
-                              src="https://assets.tatacliq.com/medias/sys_master/images/11437918060574.png"
-                              alt="Samsung Chat"
-                            />
-                          </a>
-                        ) : null}
-                        <div className={styles.chatText}>
-                          <p>
-                            Chat with the Samsung brand representative directly
-                            for more info
-                          </p>
-                          <a
-                            href={samsungChatUrl}
-                            target="_blank"
-                            onClick={this.clickedSamsungChat}
-                          >
-                            Click here to chat
-                          </a>
+                  {mshProduct &&
+                    mshProduct.includes("samsung") && (
+                      <div className={styles.sumsungSeparator}>
+                        <div className={styles.chatIcon}>
+                          {productData.brandName === "Samsung" ||
+                          productData.brandName === "SAMSUNG" ? (
+                            <a
+                              href={samsungChatUrl}
+                              target="_blank"
+                              className={styles.samsungChatImgHolder}
+                            >
+                              <img
+                                src="https://assets.tatacliq.com/medias/sys_master/images/11437918060574.png"
+                                alt="Samsung Chat"
+                              />
+                            </a>
+                          ) : null}
+                          <div className={styles.chatText}>
+                            <p>
+                              Chat with the Samsung brand representative
+                              directly for more info
+                            </p>
+                            <a href={samsungChatUrl} target="_blank">
+                              Click here to chat
+                            </a>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                 </div>
               </div>
             </div>
@@ -1559,11 +1564,11 @@ export default class PdpApparel extends React.Component {
                 </div>
               ) : null}
 
-              <div className={styles.youPlus}>
+              {/* <div className={styles.youPlus}>
                 <div className={styles.pageCenter}>
                   <div id="yp_widget" className={styles.yp_widget} />
                 </div>
-              </div>
+              </div> */}
               {this.state.bundledProductList.length > 0 && (
                 <RevelantBundling
                   {...this.props}
@@ -1892,7 +1897,7 @@ export default class PdpApparel extends React.Component {
                         productData.numberOfReviews !== "0") ? (
                         <div className={styles.reviewsHolder}>
                           <div className={styles.reviewsHeader}>
-                            Ratings and Reviews
+                            <h3>Ratings and Reviews</h3>
                             <div className={styles.reviewsButton}>
                               <UnderLinedButton
                                 color="#ff1744"
@@ -1902,6 +1907,48 @@ export default class PdpApparel extends React.Component {
                               />
                             </div>
                           </div>
+                          {productData.averageRating && (
+                            <div className={styles.reviewListHolder}>
+                              <div className={styles.ratingTextContainer}>
+                                <div className={styles.ratingText}>
+                                  {Math.round(productData.averageRating * 10) /
+                                    10}
+                                </div>
+                                <div className={styles.starPLPElectronics}>
+                                  <Icon image={FilledStarBlack} size={26} />
+                                </div>
+                              </div>
+                              <div className={styles.labelText}>
+                                <span
+                                  className={styles.ratingLabel}
+                                  itemProp="ratingCount"
+                                >
+                                  {productData.ratingCount}
+                                </span>
+                                <span>
+                                  {productData.ratingCount > 1
+                                    ? "Ratings"
+                                    : "Rating"}
+                                </span>
+                                {productData.numberOfReviews ? (
+                                  <React.Fragment>
+                                    {" &"}
+                                    <span
+                                      className={styles.ratingLabel}
+                                      itemProp="reviewCount"
+                                    >
+                                      {productData.numberOfReviews}
+                                    </span>
+                                    <span>
+                                      {productData.numberOfReviews > 1
+                                        ? "Reviews"
+                                        : "Review"}
+                                    </span>
+                                  </React.Fragment>
+                                ) : null}
+                              </div>
+                            </div>
+                          )}
                           <ProductReviewListContainer
                             limit={true}
                             productId={productData.productListingId}

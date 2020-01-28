@@ -89,6 +89,9 @@ class BankOffersDetails extends Component {
           });
         }
       }
+      if (this.props.resetAllPaymentModes) {
+        this.props.resetAllPaymentModes();
+      }
     }
   }
 

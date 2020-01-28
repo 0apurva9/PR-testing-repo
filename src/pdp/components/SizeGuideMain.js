@@ -64,6 +64,7 @@ export default class SizeGuideMain extends React.Component {
                   <SizeGuideElementClothing
                     data={this.props.sizeData}
                     category={this.props.category}
+                    brandName={this.props.brandName}
                   />
                 </div>
               )}
@@ -90,25 +91,22 @@ export default class SizeGuideMain extends React.Component {
                   })}
                 </div>
               )}
-            {this.props.category === "Footwear" &&
-              this.props.category === "Accessories" && (
-                <DesktopOnly>
-                  <div
-                    className={
-                      this.props.category === "Footwear"
-                        ? styles.imageHolderFootwear
-                        : styles.imageHolder
-                    }
-                  >
-                    <div className={styles.image}>
-                      <Image
-                        fit="contain"
-                        image={this.props.sizeData.imageURL}
-                      />
-                    </div>
+            {(this.props.category === "Footwear" ||
+              this.props.category === "Accessories") && (
+              <DesktopOnly>
+                <div
+                  className={
+                    this.props.category === "Footwear"
+                      ? styles.imageHolderFootwear
+                      : styles.imageHolder
+                  }
+                >
+                  <div className={styles.image}>
+                    <Image fit="contain" image={this.props.sizeData.imageURL} />
                   </div>
-                </DesktopOnly>
-              )}
+                </div>
+              </DesktopOnly>
+            )}
           </div>
         </div>
       );

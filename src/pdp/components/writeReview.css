@@ -69,7 +69,7 @@
   }
   .ratingBar {
     height: auto;
-    width: 150px;
+    width: 300px;
     display: inline-block;
   }
   .reviewGuidelinesBar {
@@ -92,9 +92,11 @@
     width: 100%;
   }
   .reviewGuidelines {
-    font-family: Rubik;
+    font-family: semibold;
     font-size: 14px;
     font-weight: 500;
+    width: 148px;
+    height: 17px;
     font-style: normal;
     font-stretch: normal;
     line-height: normal;

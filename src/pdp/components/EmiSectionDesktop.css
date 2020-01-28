@@ -102,3 +102,15 @@
     background: #fff;
   }
 }
+.convenienceFee {
+  width: 344px;
+  height: 28px;
+  font-family: regular;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #212121;
+}

@@ -29,6 +29,17 @@ const account = (
     fetchOrderDetailsError: null,
     loadingForFetchOrderDetails: false,
 
+    sellerDetails: null,
+    sellerDetailsStatus: null,
+    sellerDetailsError: null,
+    sellerReviewDetails: null,
+    sellerReviewDetailsStatus: null,
+    sellerReviewDetailsError: null,
+
+    sellerReviewStatus: null,
+    sellerReviewError: null,
+    loadingForSellerReview: null,
+
     wishlist: null,
     wishlistStatus: null,
     wishlistError: null,
@@ -236,11 +247,20 @@ const account = (
     updateReturnHOTCStatus: null,
     loadingForUpdateReturnHOTC: false,
     updateReturnHOTCDetails: null,
-    updateReturnHOTCError: null
+    updateReturnHOTCError: null,
+
+    userRatingStatus: null,
+    userRatingError: null,
+
+    UserNotificationHeaderText: "",
+    UserNotificationDetailsStatus: null,
+    UserNotificationDetailsError: null,
+    UserNotificationDetails: null,
+    UserNotificationConfig: null
   },
   action
 ) => {
-  let currentReturnRequest;
+  let currentReturnRequest, cloneRetryPaymentDetails;
   switch (action.type) {
     case CLEAR_ERROR:
       return Object.assign({}, state, {
@@ -272,7 +292,8 @@ const account = (
         updateProfileError: null,
         changePasswordError: null,
         reSendEmailError: null,
-        pinCodeDetails: null
+        pinCodeDetails: null,
+        UserNotificationDetailsError: null
       });
     case accountActions.GET_RETURN_REQUEST:
     case accountActions.RETURN_PRODUCT_DETAILS_REQUEST:
@@ -512,6 +533,21 @@ const account = (
           currentPage: 0
         });
       }
+      // let reviewedProductList = [];
+      // if (
+      //   currentOrderDetailObj &&
+      //   currentOrderDetailObj.orderData
+      // ) {
+      //   currentOrderDetailObj.orderData.map(
+      //     order => {
+      //       order.products.forEach(product => {
+      //         if (product.isReviewed)
+      //           reviewedProductList.push(product.productcode)
+      //       })
+      //     }
+      //   )
+      // }
+
       return Object.assign({}, state, {
         orderDetailsStatus: action.status,
         orderDetails: currentOrderDetailObj,
@@ -522,6 +558,83 @@ const account = (
       return Object.assign({}, state, {
         orderDetailsStatus: action.status,
         orderDetailsError: action.error,
+        loading: false
+      });
+
+    case accountActions.GET_ALL_SELLERS_REQUEST:
+      return Object.assign({}, state, {
+        sellerDetailsStatus: action.status,
+        loading: true
+      });
+    case accountActions.GET_ALL_SELLERS_SUCCESS:
+      let currentSellerDetailObj = state.sellerDetails
+        ? cloneDeep(state.sellerDetails)
+        : {};
+      if (currentSellerDetailObj && currentSellerDetailObj.sellerData) {
+        currentSellerDetailObj.sellerData = currentSellerDetailObj.sellerData.concat(
+          action.sellerDetails.reviewRatingInfo
+        );
+      } else {
+        currentSellerDetailObj = action.sellerDetails;
+        Object.assign(currentSellerDetailObj, {
+          currentPage: 0
+        });
+      }
+      return Object.assign({}, state, {
+        sellerDetailsStatus: action.status,
+        sellerDetails: currentSellerDetailObj,
+        loading: false
+      });
+
+    case accountActions.GET_ALL_SELLERS_FAILURE:
+      return Object.assign({}, state, {
+        sellerDetailsStatus: action.status,
+        sellerDetailsError: action.error,
+        loading: false
+      });
+
+    case accountActions.SUBMIT_SELLER_REVIEW_BY_USER:
+      return Object.assign({}, state, {});
+
+    case accountActions.SELLER_REVIEW_SUBMIT_FAILURE:
+      return Object.assign({}, state, {
+        sellerReviewStatus: action.status,
+        sellerReviewError: action.error,
+        loadingForSellerReview: false
+      });
+
+    case accountActions.GET_ALL_SELLERS_REVIEW_REQUEST:
+      return Object.assign({}, state, {
+        sellerDetailsStatus: action.status,
+        loading: true
+      });
+    case accountActions.GET_ALL_SELLERS_REVIEW_SUCCESS:
+      let currentSellerReviewDetailObj = state.sellerReviewDetails
+        ? cloneDeep(state.sellerReviewDetails)
+        : {};
+      if (
+        currentSellerReviewDetailObj &&
+        currentSellerReviewDetailObj.sellerData
+      ) {
+        currentSellerReviewDetailObj.sellerData = currentSellerReviewDetailObj.sellerData.concat(
+          action.sellerReviewDetails.reviewRatingInfo
+        );
+      } else {
+        currentSellerReviewDetailObj = action.sellerDetails;
+        Object.assign(currentSellerReviewDetailObj, {
+          currentPage: 0
+        });
+      }
+      return Object.assign({}, state, {
+        sellerReviewDetailsStatus: action.status,
+        sellerReviewDetails: currentSellerReviewDetailObj,
+        loading: false
+      });
+
+    case accountActions.GET_ALL_SELLERS_REVIEW_FAILURE:
+      return Object.assign({}, state, {
+        sellerReviewDetailsStatus: action.status,
+        sellerReviewDetailsError: action.error,
         loading: false
       });
     case accountActions.GET_WISHLIST_REQUEST:
@@ -1466,9 +1579,85 @@ const account = (
       return Object.assign({}, state, {
         transactionDetails: " "
       });
+    case accountActions.GET_USER_RATING_REQUEST:
+      return Object.assign({}, state, {
+        userRatingStatus: action.status,
+        loading: true
+      });
+    case accountActions.GET_USER_RATING_SUCCESS:
+      return Object.assign({}, state, {
+        userRatingStatus: action.status,
+        loading: false
+      });
+    case accountActions.GET_USER_RATING_FAILURE:
+      return Object.assign({}, state, {
+        userRatingStatus: action.status,
+        userRatingError: action.error,
+        loading: false
+      });
+    case accountActions.GET_USER_NOTIFICATION_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        UserNotificationDetailsStatus: action.status,
+        loading: true
+      });
+    case accountActions.GET_USER_NOTIFICATION_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        UserNotificationHeaderText: action.notificationDetails.message,
+        UserNotificationDetailsStatus: action.status,
+        UserNotificationDetails: action.notificationDetails,
+        UserNotificationConfig: action.notificationDetails,
+        loading: false
+      });
+    case accountActions.GET_USER_NOTIFICATION_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        UserNotificationDetailsStatus: action.status,
+        UserNotificationDetailsError: action.error,
+        loading: false
+      });
+    case accountActions.SET_USER_SMS_NOTIFICATION_REQUEST:
+      return Object.assign({}, state, {
+        UserNotificationDetailsStatus: action.status,
+        loading: true
+      });
+    case accountActions.SET_USER_SMS_NOTIFICATION_SUCCESS:
+      return Object.assign({}, state, {
+        UserNotificationDetailsStatus: action.status,
+        UserNotificationDetails: action.setSMSResponse,
+        loading: false
+      });
+    case accountActions.SET_USER_SMS_NOTIFICATION_FAILURE:
+      return Object.assign({}, state, {
+        UserNotificationDetailsStatus: action.status,
+        UserNotificationDetailsError: action.error,
+        loading: false
+      });
     case accountActions.RESET_RETRY_PAYMENT:
       return Object.assign({}, state, {
         retryPaymentDetails: null
+      });
+    case accountActions.RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS:
+      cloneRetryPaymentDetails = state.retryPaymentDetails
+        ? cloneDeep(state.retryPaymentDetails)
+        : {};
+      if (cloneRetryPaymentDetails && action.bankOffer.cartAmount) {
+        Object.assign(cloneRetryPaymentDetails, {
+          cartAmount: action.bankOffer.cartAmount
+        });
+      }
+      if (cloneRetryPaymentDetails && action.bankOffer.deliveryCharge) {
+        Object.assign(cloneRetryPaymentDetails, {
+          deliveryCharges: action.bankOffer.deliveryCharges
+        });
+      }
+      if (cloneRetryPaymentDetails && action.bankOffer.cliqCashPaidAmount) {
+        Object.assign(cloneRetryPaymentDetails, {
+          cliqCashPaidAmount: action.bankOffer.cliqCashPaidAmount
+        });
+      }
+
+      return Object.assign({}, state, {
+        retryPaymentDetails: cloneRetryPaymentDetails,
+        retryPaymentDetailsLoading: false
       });
     default:
       return state;

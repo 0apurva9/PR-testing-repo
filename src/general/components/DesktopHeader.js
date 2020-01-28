@@ -191,6 +191,7 @@ export default class DesktopHeader extends React.Component {
     if (webURL) {
       let urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
       this.props.history.push(urlSuffix);
+      this.props.userSelectedOutOfStock();
       setDataLayerForHeaderAndFooterDirectCalls(
         ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
         ""
@@ -256,9 +257,14 @@ export default class DesktopHeader extends React.Component {
     if (this.props.isSticky) {
       className = styles.stickyBase;
       logo = styles.stickyLogo;
+    } else {
+      if (!this.props.isSearch) {
+        className = `${styles.base} ${styles.CheckoutHeader}`;
+      }
     }
+
     return (
-      <div className={this.props.isSearch ? className : styles.CheckoutHeader}>
+      <div className={this.props.isSearch ? className : className}>
         {this.props.isSearch && <div className={styles.dummyColorHeader} />}
         <div
           className={styles.headerHolder}
@@ -294,7 +300,7 @@ export default class DesktopHeader extends React.Component {
           {this.props.isSearch && (
             <div className={styles.headerFunctionality}>
               <div className={styles.upperHeader}>
-                <a href={this.getLuxURL()} target="_blank">
+                <a href={this.getLuxURL()} rel="nofollow" target="_blank">
                   {" "}
                   <div
                     className={styles.luxeryTab}

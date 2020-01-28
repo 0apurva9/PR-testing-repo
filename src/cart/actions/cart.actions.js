@@ -40,7 +40,8 @@ import {
   ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE,
   OLD_CART_GU_ID,
   FAILURE_LOWERCASE,
-  BIN_CARD_TYPE
+  BIN_CARD_TYPE,
+  RETRY_PAYMENT_CART_ID
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -70,6 +71,7 @@ import {
 } from "../../lib/constants";
 import queryString from "query-string";
 import { setBagCount } from "../../general/header.actions";
+import { releaseBankOfferRetryPaymentSuccess } from "../../account/actions/account.actions";
 import * as browserAndDeviceDetails from "../../mock/browserDetails.js";
 import {
   setDataLayer,
@@ -250,6 +252,8 @@ export const GET_PAYMENT_MODES_FAILURE = "GET_PAYMENT_MODES_FAILURE";
 export const RELEASE_BANK_OFFER_REQUEST = "RELEASE_BANK_OFFER_REQUEST";
 export const RELEASE_BANK_OFFER_SUCCESS = "RELEASE_BANK_OFFER_SUCCESS";
 export const RELEASE_BANK_OFFER_FAILURE = "RELEASE_BANK_OFFER_FAILURE";
+export const RELEASE_BANK_OFFER_UPDATE_SUCCESS =
+  "RELEASE_BANK_OFFER_UPDATE_SUCCESS";
 
 export const APPLY_BANK_OFFER_REQUEST = "APPLY_BANK_OFFER_REQUEST";
 export const APPLY_BANK_OFFER_SUCCESS = "APPLY_BANK_OFFER_SUCCESS";
@@ -1226,7 +1230,7 @@ export function getEmiBankDetails(price) {
       const result = await api.get(
         `${CART_PATH}/getBankDetailsforEMI?platformNumber=${PLAT_FORM_NUMBER}&productValue=${price}&access_token=${
           JSON.parse(globalCookie).access_token
-        }&guid=${cartGuid}&isFromNewVersion=true&isPwa=true`
+        }&guid=${cartGuid}&isFromNewVersion=true&isPwa=truee&emiConvChargeFlag=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1958,6 +1962,13 @@ export function releaseBankOfferSuccess(bankOffer) {
     bankOffer
   };
 }
+export function releaseBankOfferUpdateSuccess(bankOffer) {
+  return {
+    type: RELEASE_BANK_OFFER_UPDATE_SUCCESS,
+    status: SUCCESS,
+    bankOffer
+  };
+}
 export function releaseBankOfferFailure(error) {
   return {
     type: RELEASE_BANK_OFFER_FAILURE,
@@ -1970,13 +1981,18 @@ export function releaseBankOffer(previousCouponCode, newCouponCode: null) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  let retryCartID = localStorage.getItem(RETRY_PAYMENT_CART_ID);
   let cartId;
   const parsedQueryString = queryString.parse(window.location.search);
   const value = parsedQueryString.value;
   if (value) {
     cartId = value;
   } else {
-    cartId = JSON.parse(cartDetails).guid;
+    if (retryCartID) {
+      cartId = retryCartID.replace(/"/g, "");
+    } else {
+      cartId = JSON.parse(cartDetails).guid;
+    }
   }
   return async (dispatch, getState, { api }) => {
     dispatch(releaseBankOfferRequest());
@@ -1998,7 +2014,15 @@ export function releaseBankOffer(previousCouponCode, newCouponCode: null) {
       if (newCouponCode) {
         return dispatch(applyBankOffer(newCouponCode));
       }
-      return dispatch(releaseBankOfferSuccess(resultJson));
+      if (
+        !getState().cart.cartDetailsCNC &&
+        getState().profile.retryPaymentDetails
+      ) {
+        dispatch(releaseBankOfferUpdateSuccess(resultJson));
+        return dispatch(releaseBankOfferRetryPaymentSuccess(resultJson));
+      } else {
+        return dispatch(releaseBankOfferSuccess(resultJson));
+      }
     } catch (e) {
       return dispatch(releaseBankOfferFailure(e.message));
     }
@@ -4549,7 +4573,7 @@ export function getBankAndTenureDetails(
           JSON.parse(userDetails).userName
         }/payments/noCostEmiTenureList?access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartId}&retryFlag=${retryFlagForEmiCoupon}&isUpdatedPwa=true`
+        }&cartGuid=${cartId}&retryFlag=${retryFlagForEmiCoupon}&isUpdatedPwa=true&emiConvChargeFlag=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4656,7 +4680,7 @@ export function applyNoCostEmi(couponCode, cartGuId, cartId, isFromRetryUrl) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/applyNoCostEMI?couponCode=${couponCode}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartGuId}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true`
+        }&cartGuid=${cartGuId}&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true&emiConvChargeFlag=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4782,7 +4806,8 @@ export function getItemBreakUpDetails(
   couponCode,
   cartGuId,
   noCostEmiText,
-  noCostEmiProductCount
+  noCostEmiProductCount,
+  emiInfo
 ) {
   return async (dispatch, getState, { api }) => {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -4799,7 +4824,7 @@ export function getItemBreakUpDetails(
           JSON.parse(userDetails).userName
         }/payments/noCostEmiItemBreakUp?couponCode=${couponCode}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartGuId}`
+        }&cartGuid=${cartGuId}&emiConvChargeFlag=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4809,7 +4834,8 @@ export function getItemBreakUpDetails(
       }
       let noCostEmiResult = Object.assign({}, resultJson, {
         noCostEmiText: noCostEmiText,
-        noCostEmiProductCount: noCostEmiProductCount
+        noCostEmiProductCount: noCostEmiProductCount,
+        emiInfo: emiInfo
       });
       dispatch(getItemBreakUpDetailsSuccess(resultJson));
       dispatch(showModal(EMI_ITEM_LEVEL_BREAKAGE, noCostEmiResult));
@@ -4860,7 +4886,7 @@ export function getPaymentFailureOrderDetails() {
           JSON.parse(userDetails).userName
         }/payments/failedorderdetails?access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartGuId}&isUpdatedPwa=true`
+        }&cartGuid=${cartGuId}&isUpdatedPwa=true&emiConvChargeFlag=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

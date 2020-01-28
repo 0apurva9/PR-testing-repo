@@ -22,7 +22,8 @@ import {
   tempCartIdForLoggedInUser,
   getCartCountForLoggedInUser,
   getOrderUpdateOnWhatsapp,
-  getMinicartProducts
+  getMinicartProducts,
+  resetAllPaymentModes
 } from "../../cart/actions/cart.actions";
 import {
   SUCCESS,
@@ -404,6 +405,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       if (updateReturnForHOTCDetails.status === SUCCESS) {
         ownProps.history.go();
       }
+    },
+    resetAllPaymentModes: () => {
+      return dispatch(resetAllPaymentModes());
     }
   };
 };

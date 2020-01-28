@@ -306,7 +306,8 @@ class CheckOutPage extends React.Component {
       paymentModeSelected: null,
       binValidationCOD: false,
       emiBinValidationErrorMessage: null,
-      emiBinValidationStatus: false
+      emiBinValidationStatus: false,
+      currentSelectedEMIType: null
     });
   };
   navigateToJusPayOnGET(url) {
@@ -1021,6 +1022,7 @@ class CheckOutPage extends React.Component {
         selectedAddress: defaultAddress
       });
     }
+
     if (
       nextProps.retryPaymentDetails &&
       nextProps.retryPaymentDetailsStatus === "success"
@@ -1031,12 +1033,42 @@ class CheckOutPage extends React.Component {
         : Cookie.getCookie(OLD_CART_GU_ID);
       let retryPaymentDetailsObject = {};
       retryPaymentDetailsObject.retryCartGuid = guId;
-      retryPaymentDetailsObject.retryPaymentDetails =
-        nextProps.retryPaymentDetails;
-      localStorage.setItem(
-        RETRY_PAYMENT_DETAILS,
-        JSON.stringify(retryPaymentDetailsObject)
-      );
+      if (localStorage.getItem(RETRY_PAYMENT_DETAILS)) {
+        localStorage.removeItem(RETRY_PAYMENT_DETAILS);
+      }
+      if (
+        this.props.cart.cartDetails &&
+        this.props.cart.cartDetails.cartAmount
+      ) {
+        const { cartAmount, ...paymentDetails } = nextProps.retryPaymentDetails;
+        const updatedPaymentDetails = {
+          ...this.props.cart.cartDetails,
+          ...paymentDetails
+        };
+        retryPaymentDetailsObject.retryPaymentDetails = updatedPaymentDetails;
+        localStorage.setItem(
+          RETRY_PAYMENT_DETAILS,
+          JSON.stringify(retryPaymentDetailsObject)
+        );
+      } else {
+        retryPaymentDetailsObject.retryPaymentDetails =
+          nextProps.retryPaymentDetails;
+        localStorage.setItem(
+          RETRY_PAYMENT_DETAILS,
+          JSON.stringify(retryPaymentDetailsObject)
+        );
+      }
+      // Updated total amount in state for retry payment
+      this.setState({
+        payableAmount:
+          Math.round(
+            retryPaymentDetailsObject &&
+              retryPaymentDetailsObject.retryPaymentDetails &&
+              retryPaymentDetailsObject.retryPaymentDetails.cartAmount &&
+              retryPaymentDetailsObject.retryPaymentDetails.cartAmount
+                .paybleAmount.doubleValue * 100
+          ) / 100
+      });
     }
     // end of adding default address is selected
     // adding selected default delivery modes for every product for retry payment
@@ -1650,12 +1682,15 @@ if you have order id in local storage then you have to show order confirmation p
       );
     }
     let failedorderRetryPayment = localStorage.getItem(FAILED_ORDER);
-    if (
-      this.props.location.pathname === `${RETRY_FAILED_ORDER}` ||
-      failedorderRetryPayment
-    ) {
-      let querySearch = this.props.location.search;
-      if (failedorderRetryPayment && !this.state.isComingFromRetryUrl) {
+    if (this.props.location.pathname === `${RETRY_FAILED_ORDER}`) {
+      let querySearch = this.props.location.search
+        ? this.props.location.search
+        : window.location.search;
+      if (
+        !querySearch &&
+        failedorderRetryPayment &&
+        !this.state.isComingFromRetryUrl
+      ) {
         querySearch = failedorderRetryPayment.includes("?")
           ? failedorderRetryPayment.split("?")[1]
           : failedorderRetryPayment;
@@ -1663,6 +1698,7 @@ if you have order id in local storage then you have to show order confirmation p
       const parsedQueryString = queryString.parse(querySearch);
 
       let guId = parsedQueryString.value;
+
       let userId = parsedQueryString.userId;
       let userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       const userDetails = JSON.parse(userDetailsCookie);
@@ -1895,7 +1931,12 @@ if you have order id in local storage then you have to show order confirmation p
     }
   };
 
-  getItemBreakUpDetails = (couponCode, noCostEmiText, noCostProductCount) => {
+  getItemBreakUpDetails = (
+    couponCode,
+    noCostEmiText,
+    noCostProductCount,
+    emiInfo
+  ) => {
     if (this.state.isPaymentFailed) {
       const parsedQueryString = queryString.parse(this.props.location.search);
       const cartGuId = parsedQueryString.value
@@ -1905,7 +1946,8 @@ if you have order id in local storage then you have to show order confirmation p
         couponCode,
         cartGuId,
         noCostEmiText,
-        noCostProductCount
+        noCostProductCount,
+        emiInfo
       );
     } else {
       if (this.props.getItemBreakUpDetails) {
@@ -1913,7 +1955,8 @@ if you have order id in local storage then you have to show order confirmation p
           couponCode,
           null,
           noCostEmiText,
-          noCostProductCount
+          noCostProductCount,
+          emiInfo
         );
       }
     }
@@ -3726,6 +3769,8 @@ if you have order id in local storage then you have to show order confirmation p
                     !(
                       this.state.isPaymentFailed && this.state.isCliqCashApplied
                     ) &&
+                    (!this.state.paymentMethod &&
+                      (this.state.confirmAddress && this.state.deliverMode)) &&
                     (this.props.cart.paymentModes &&
                       this.props.cart.paymentModes.paymentOffers &&
                       this.props.cart.paymentModes.paymentOffers.coupons) && (
@@ -3848,12 +3893,14 @@ if you have order id in local storage then you have to show order confirmation p
                       getItemBreakUpDetails={(
                         couponCode,
                         noCostEmiText,
-                        noCostProductCount
+                        noCostProductCount,
+                        emiInfo
                       ) =>
                         this.getItemBreakUpDetails(
                           couponCode,
                           noCostEmiText,
-                          noCostProductCount
+                          noCostProductCount,
+                          emiInfo
                         )
                       }
                       isNoCostEmiProceeded={this.state.isNoCostEmiProceeded}

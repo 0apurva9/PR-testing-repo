@@ -161,3 +161,9 @@
     display: inline-block;
   }
 }
+.charges{
+  font-size: 12px;
+  font-family: regular;
+  color: #212121;
+  padding-bottom: 15px;
+}

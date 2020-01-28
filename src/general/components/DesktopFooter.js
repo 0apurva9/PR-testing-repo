@@ -9,7 +9,8 @@ import {
   LOGGED_IN_USER_DETAILS,
   MY_ACCOUNT_PAGE,
   SAVE_LIST_PAGE,
-  MY_ACCOUNT_ORDERS_PAGE
+  MY_ACCOUNT_ORDERS_PAGE,
+  TITLE_DEFAULT
 } from "../../../src/lib/constants";
 import TrustComponent from "../../general/components/TrustComponent";
 import {
@@ -19,7 +20,7 @@ import {
 } from "../../lib/adobeUtils";
 import * as Cookie from "../../lib/Cookie";
 import DesktopFooterProductList from "./DesktopFooterProductList";
-const TEXT = "© 2019 Tata CLiQ | All rights reserved";
+const TEXT = " Tata CLiQ | All rights reserved";
 class DesktopFooter extends React.Component {
   componentDidMount() {
     const currentUrl = this.props.location.pathname;
@@ -118,7 +119,6 @@ class DesktopFooter extends React.Component {
       this.props.productListings.searchresult
         ? false
         : true;
-
     return (
       <div className={styles.contentHolder}>
         <TrustComponent />
@@ -252,7 +252,9 @@ class DesktopFooter extends React.Component {
                   );
                 })}
             </div>
-            <div className={styles.copyRightText}>{TEXT}</div>
+            <div className={styles.copyRightText}>
+              &copy; {`${new Date().getFullYear()} ${TEXT}`}
+            </div>
           </div>
         </div>
 
@@ -303,15 +305,25 @@ class DesktopFooter extends React.Component {
 
         {isNotPdp &&
           !isPlp && (
-            <div
-              className={styles.footerData}
-              dangerouslySetInnerHTML={{
-                __html:
-                  footerData &&
-                  footerData.items &&
-                  footerData.items[0].pageSpecificFooterData
-              }}
-            />
+            <div>
+              {this.props.footer && this.props.footer.title ? (
+                <h1 className={styles.seoPagetitle}>
+                  {this.props.footer.title}
+                </h1>
+              ) : (
+                <h1 className={styles.seoPagetitle}>{TITLE_DEFAULT}</h1>
+              )}
+
+              <div
+                className={styles.footerData}
+                dangerouslySetInnerHTML={{
+                  __html:
+                    footerData &&
+                    footerData.items &&
+                    footerData.items[0].pageSpecificFooterData
+                }}
+              />
+            </div>
           )}
         {isNotPdp &&
           !isPlp && (

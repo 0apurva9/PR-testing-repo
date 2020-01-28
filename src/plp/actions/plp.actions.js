@@ -249,6 +249,12 @@ export function getProductListings(
     }
     try {
       const searchState = getState().search;
+      const currentKeywordRedirect =
+        getState().productListings && getState().productListings.productListings
+          ? getState().productListings.productListings.currentQuery
+              .isKeywordRedirect
+          : null;
+
       const listingsPageNumber = getState().productListings.pageNumber;
       const pageNumber = listingsPageNumber ? listingsPageNumber : 0;
       let encodedString =
@@ -261,7 +267,12 @@ export function getProductListings(
       ) {
         encodedString = `${encodedString}${EXCLUDE_OUT_OF_STOCK_FLAG}`;
       }
-      let keyWordRedirect = false;
+      if (isBrowser) {
+        dispatch(setLastPlpPath(""));
+      }
+      let keyWordRedirect = currentKeywordRedirect
+        ? currentKeywordRedirect
+        : false;
       let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true&channel=WEB`;
       if (suffix) {
         queryString = `${queryString}${suffix}`;
@@ -421,10 +432,12 @@ export function nullSearchMsd() {
       trendingProducts.append("mad_uuid", await getMcvId());
       trendingProducts.append("details", true);
       if (userDetails) {
-        trendingProducts.append("num_results", "[5, 5, 10]");
+        // trendingProducts.append("num_results", "[5, 5, 10]");
+        trendingProducts.append("num_results", "[1, 1, 3]");
         trendingProducts.append("widget_list", "[7, 1, 3]");
       } else {
-        trendingProducts.append("num_results", "[10]");
+        // trendingProducts.append("num_results", "[10]");
+        trendingProducts.append("num_results", "[5]");
         trendingProducts.append("widget_list", "[3]");
       }
       const trendingproductresult = await api.postMsd(

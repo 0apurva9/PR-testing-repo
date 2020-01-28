@@ -5,7 +5,7 @@ export default class FillupRatingOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rating: null
+      rating: this.props.rating
     };
   }
   rate(rating) {
@@ -29,8 +29,19 @@ export default class FillupRatingOrder extends React.Component {
     const starSpans = [];
     for (let i = 1; i <= 5; i++) {
       let classStar = styles.ratingStar;
-      if (this.state.rating >= i && this.state.rating !== null) {
+      if (
+        this.state.rating >= i &&
+        this.state.rating < 3 &&
+        this.state.rating !== null
+      ) {
         classStar = styles.ratingFillStar;
+      }
+      if (
+        this.state.rating >= i &&
+        this.state.rating >= 3 &&
+        this.state.rating !== null
+      ) {
+        classStar = styles.ratingFillGreenStar;
       }
       starSpans.push(
         <div className={styles.ratingHolder} key={i}>

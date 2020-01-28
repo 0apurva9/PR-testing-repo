@@ -88,6 +88,7 @@ export const PRODUCT_CART_ROUTER = "/cart";
 export const ORDER_SUMMARY_ROUTER = "/orderSummary";
 export const CHECKOUT_ROUTER = "/checkout";
 export const CHECKOUT_ROUTER_THANKYOU = "/checkout/";
+export const CHECKOUT_RETRY_PAYMENT_ROUTER = "/checkout/payment-method/";
 export const ACCOUNT_SAVED_CARD_ROUTER = "/savedCards";
 export const MY_ACCOUNT = "/my-account";
 export const SHORT_URL_ORDER_DETAIL = "/trackOrder/beforeTrack/:orderCode";
@@ -114,6 +115,7 @@ export const MY_ACCOUNT_CLIQ_CASH_PAGE = "/cliq-cash";
 export const EDIT_ADDRESS_BOOK = "/my-account/address-book/edit";
 export const COSTUMER_ORDER_RELATED_QUERY_ROUTE = "/order-related";
 export const CUSTOMER_CARE = "Customer Care";
+export const MY_ACCOUNT_USER_NOTIFICATION_PAGE = "/notifications";
 //returns
 export const RETURNS_PREFIX = "/returns";
 export const RETURNS = "/returns/(.*)";
@@ -181,6 +183,8 @@ export const ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE =
 export const CART_COUNT_FOR_LOGGED_IN_USER = "bagCount";
 export const PRODUCT_CANCEL = "Cancel Item";
 
+export const RATE_THIS_ITEM = "Rate this item";
+export const REVIEW_GUIDELINES = "Review Guidelines";
 export const SAVE_LIST_PAGE = "/default/wishList";
 export const PAYMENT_MODE_TYPE = "paymentMode";
 export const BIN_CARD_TYPE = "binCardType";
@@ -477,4 +481,10 @@ export const RETRY_FAILED_ORDER_COUPON =
 export const RETRY_FAILED_ORDER_COUPON_NOTE =
   "Note: If the amount was debited from your account, it will be fully refunded.";
 
+// Toast Messages for rating submission
+export const SUCCESSFUL_PRODUCT_RATING_BY_USER = "Thank you for your rating";
+export const PRODUCT_RATING_FAILURE_TEXT = "Oops we missed your response";
 export const FAILED_ORDER = "retryFailedOrder";
+
+//CleverTap email unsubsctibe
+export const UNSUBSCRIBE_CLEVER_TAP_EMAILS = "/emails-unsubscribe";

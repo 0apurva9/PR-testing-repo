@@ -12,6 +12,9 @@
   margin-bottom: 20px;
   padding: 0 15px;
 }
+.header h3{
+  display : inline-block;
+}
 .button {
   width: auto;
   padding-left: 15px;

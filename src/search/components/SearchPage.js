@@ -30,7 +30,9 @@ export default class SearchPage extends React.Component {
   }
   handleClickOutside(event) {
     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
-      this.setState({ showData: false });
+      this.setState({
+        showData: false
+      });
     }
   }
   setWrapperRef(node) {
@@ -93,9 +95,13 @@ export default class SearchPage extends React.Component {
       showSearchBar: false,
       setOnClick: true
     });
-    this.setState({ showData: false });
+    this.setState({
+      showData: false
+    });
     setTimeout(() => {
-      this.setState({ setOnClick: false });
+      this.setState({
+        setOnClick: false
+      });
     }, 50);
     const url = `/search/?searchCategory=all&text=${currentString}:relevance:brand:${brandCode}`;
     this.props.history.push(url, {
@@ -155,23 +161,31 @@ export default class SearchPage extends React.Component {
       currentFlag: null,
       setOnClick: true
     });
-    this.setState({ showData: false });
+    this.setState({
+      showData: false
+    });
     setTimeout(() => {
-      this.setState({ setOnClick: false });
+      this.setState({
+        setOnClick: false
+      });
     }, 50);
     this.props.history.push(url, {
       isFilter: false
     });
   }
   handleSearch(val, e) {
-    this.setState({ showData: true });
+    this.setState({
+      showData: true
+    });
     if (this.state.showSearchBar === false) {
       this.setState({
         currentFlag: null
       });
     }
     if (this.props.getSearchResults) {
-      this.setState({ searchString: val });
+      this.setState({
+        searchString: val
+      });
       this.props.getSearchResults(val);
     }
   }
@@ -254,7 +268,9 @@ export default class SearchPage extends React.Component {
           setOnClick: true
         },
         () => {
-          this.setState({ setOnClick: false });
+          this.setState({
+            setOnClick: false
+          });
         }
       );
     }
@@ -270,13 +286,17 @@ export default class SearchPage extends React.Component {
           setOnClick: true
         },
         () => {
-          this.setState({ setOnClick: false });
+          this.setState({
+            setOnClick: false
+          });
         }
       );
     }
   }
   handleUpDownArrow(val) {
-    this.setState({ showData: true });
+    this.setState({
+      showData: true
+    });
     const currentSelectedIndex = this.state.currentFlag;
     const data = this.props.searchResult;
     const firstSuggestionNew = cloneDeep(
@@ -431,7 +451,9 @@ export default class SearchPage extends React.Component {
       }
     );
 
-    this.setState({ boardAddModalShow: true });
+    this.setState({
+      boardAddModalShow: true
+    });
   }
 
   render() {
@@ -483,8 +505,10 @@ export default class SearchPage extends React.Component {
           />
         </div>
         <MobileOnly>
+          {" "}
           {this.state.showResults && (
             <div className={styles.searchResults}>
+              {" "}
               {/* store details or brand details */}
               {suggestedKeyWord && suggestedKeyWord[0].storeDetails ? (
                 <SearchResultItem
@@ -498,7 +522,7 @@ export default class SearchPage extends React.Component {
                     );
                   }}
                 />
-              ) : null}
+              ) : null}{" "}
               {/* category details */}
               {data &&
                 data.topCategories &&
@@ -529,7 +553,6 @@ export default class SearchPage extends React.Component {
                     />
                   );
                 })}
-
               {/* merchandise details */}
               {suggestedKeyWord &&
                 suggestedKeyWord[0].merchandiseDetails &&
@@ -549,7 +572,6 @@ export default class SearchPage extends React.Component {
                     />
                   ) : null;
                 })}
-
               {/* keyword details */}
               {suggestedKeyWord &&
                 suggestedKeyWord.map((val, i) => {
@@ -564,8 +586,7 @@ export default class SearchPage extends React.Component {
                     />
                   ) : null;
                 })}
-
-              {/* brands details */}
+              {/* brands details */}{" "}
               {data &&
                 data.topBrands &&
                 data.topBrands.map((val, i) => {
@@ -594,15 +615,18 @@ export default class SearchPage extends React.Component {
                       }}
                     />
                   );
-                })}
+                })}{" "}
             </div>
-          )}
+          )}{" "}
         </MobileOnly>
         <DesktopOnly>
+          {" "}
           {this.state.searchString && (
             <div className={styles.searchHolder}>
+              {" "}
               {this.state.showData && (
                 <div className={styles.searchResults} ref={this.setWrapperRef}>
+                  {" "}
                   {/* store details or brand details */}
                   {suggestedKeyWord && suggestedKeyWord[0].storeDetails ? (
                     <SearchResultItem
@@ -618,9 +642,8 @@ export default class SearchPage extends React.Component {
                         );
                       }}
                     />
-                  ) : null}
+                  ) : null}{" "}
                   {/* category details */}
-
                   {data &&
                     data.topCategories &&
                     data.topCategories.map((val, i) => {
@@ -660,7 +683,7 @@ export default class SearchPage extends React.Component {
                           />
                         </div>
                       );
-                    })}
+                    })}{" "}
                   {/* merchandise details */}
                   {suggestedKeyWord &&
                     suggestedKeyWord[0].merchandiseDetails &&
@@ -680,8 +703,7 @@ export default class SearchPage extends React.Component {
                         />
                       ) : null;
                     })}
-
-                  {/* keyword details */}
+                  {/* keyword details */}{" "}
                   {suggestedKeyWord &&
                     suggestedKeyWord.map((val, i) => {
                       return (
@@ -708,8 +730,8 @@ export default class SearchPage extends React.Component {
                           />
                         </div>
                       );
-                    })}
-                  {/* brands details */}
+                    })}{" "}
+                  {/* brands details */}{" "}
                   {data &&
                     data.topBrands &&
                     data.topBrands.map((val, i) => {

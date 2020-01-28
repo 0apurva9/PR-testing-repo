@@ -488,6 +488,7 @@ export default class FilterDesktop extends React.Component {
                                       customRange={facetDataValues.customeRange}
                                       history={this.props.history}
                                       onFilterClick={this.onFilterClick}
+                                      query={this.props.query}
                                     />
                                   </div>
                                 )}
@@ -604,6 +605,7 @@ export default class FilterDesktop extends React.Component {
                                     customRange={facetDataValues.customeRange}
                                     history={this.props.history}
                                     onFilterClick={this.onFilterClick}
+                                    query={this.props.query}
                                   />
                                 )}
                               </div>
