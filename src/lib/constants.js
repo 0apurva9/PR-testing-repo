@@ -497,6 +497,6 @@ export const SUCCESSFUL_PRODUCT_RATING_BY_USER = "Thank you for your rating";
 export const PRODUCT_RATING_FAILURE_TEXT = "Oops we missed your response";
 export const FAILED_ORDER = "retryFailedOrder";
 export const SELECTED_STORE = "selectedStoreAddress";
-
+export const EDD_TEXT = "Estimated Delivery Date";
 //CleverTap email unsubsctibe
 export const UNSUBSCRIBE_CLEVER_TAP_EMAILS = "/emails-unsubscribe";

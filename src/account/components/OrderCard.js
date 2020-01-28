@@ -10,7 +10,8 @@ import {
   MY_ACCOUNT,
   ORDER,
   ORDER_CODE,
-  PRODUCT_CANCEL
+  PRODUCT_CANCEL,
+  EDD_TEXT
 } from "../../lib/constants";
 import {
   setDataLayer,
@@ -476,6 +477,19 @@ export default class OrderCard extends React.Component {
                 {this.props.children}
               </div>
             )}
+          {this.props.orderStatusCode &&
+            this.props.orderStatusCode !== "DELIVERED" &&
+            this.props.orderStatusCode !== "PAYMENT_PENDING" &&
+            !this.props.calloutMessage &&
+            estimatedDeliveryDateFormatted && (
+              <div className={styles.edd}>
+                <span className={styles.ffsemibold}>{EDD_TEXT}:</span>
+                <span>
+                  &nbsp;
+                  {estimatedDeliveryDateFormatted}
+                </span>
+              </div>
+            )}
 
           {!this.props.isEgvOrder &&
             !this.props.retryPaymentUrl &&
@@ -649,8 +663,9 @@ export default class OrderCard extends React.Component {
             <div className={styles.commonTitle}>
               {!this.props.calloutMessage ? (
                 <React.Fragment>
-                  {estimatedDeliveryDateFormatted &&
-                    !checkStatus && (
+                  {this.props.estimatedDeliveryDate &&
+                    !checkStatus &&
+                    (date || returnEligibleDate) && (
                       <React.Fragment>
                         <span className={styles.ffsemibold}>
                           {shipmentStatus &&
@@ -659,9 +674,9 @@ export default class OrderCard extends React.Component {
                             ? ""
                             : shipmentStatus}{" "}
                         </span>
-                        <span className={styles.styleDate}>
-                          {estimatedDeliveryDateFormatted}
-                        </span>
+                        {/* <span className={styles.styleDate}>
+                          {this.props.estimatedDeliveryDate}
+                        </span> */}
                         {shipmentStatus &&
                           shipmentStatus.includes(
                             "Order Could be collected by"
