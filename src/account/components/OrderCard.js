@@ -525,15 +525,35 @@ export default class OrderCard extends React.Component {
               </span>
             </div>
           )}
-        {this.props.installationCompletedDate && (
-          <div className={styles.deliveryDate}>
-            Installation Completed On:{" "}
-            <span className={styles.estimatedDate}>
-              {this.props.installationCompletedDate}
-            </span>
-          </div>
-        )}
-        {this.props.estimatedCompletionDate && (
+        {this.props.installationCompletedDate &&
+          this.props.installationRequestCompleted &&
+          this.props.installationRequestCompleted.value.customerFacingName === "Request Completed" && this.props.installationRequestCompleted.value.status === "Completed" && (
+            <div className={styles.deliveryDate}>
+              Installation Completed On:{" "}
+              <span className={styles.estimatedDate}>
+                {this.props.installationCompletedDate}
+              </span>
+            </div>
+          )}
+        {this.props.installationRequestReschedule && this.props.installationRequestReschedule.value.status ===
+          "Completed" && (
+            <div className={styles.commonTitle}>
+              <span className={styles.ffsemibold}>
+                Installation Rescheduled On:{" "}
+              </span>
+              {this.props.installationRequestReschedule.value.date}
+            </div>
+          )}
+        {this.props.installationRequestClosed && this.props.installationRequestClosed.value.status ===
+          "Completed" && (
+            <div className={styles.commonTitle}>
+              <span className={styles.ffsemibold}>
+                Installation Closed On:{" "}
+              </span>
+              {this.props.installationRequestClosed.value.date}
+            </div>
+          )}
+        {this.props.estimatedCompletionDate && !this.props.hideEstimatedInstallationDate && (
           <div className={styles.deliveryDate}>
             Estimated Installation Date by:{" "}
             <span className={styles.estimatedDate}>

@@ -509,15 +509,25 @@ export default class OrderDetails extends React.Component {
                     return val.key === "REQUEST_RESCHEDULE";
                   });
                 let hideEIETrackDiagram = false;
+                let hideEstimatedInstallationDate = false;
+                //request cancelled
                 if (requestCancelled && requestCancelled.value.customerFacingName === "Request Cancelled" && requestCancelled.value.status === "Completed") {
                   hideEIETrackDiagram = true;
                 }
-                if (requestCompleted && (requestCompleted.value.customerFacingName === "Request Completed" || requestCompleted.value.customerFacingName === "Installation Rescheduled") && requestCompleted.value.status === "Completed") {
+                //request completed
+                if (requestCompleted && requestCompleted.value.customerFacingName === "Request Completed" && requestCompleted.value.status === "Completed") {
+                  hideEIETrackDiagram = true;
+                  hideEstimatedInstallationDate = true;
+                }
+                //installation rescheduled
+                if (requestCompleted && requestCompleted.value.customerFacingName === "Installation Rescheduled" && requestCompleted.value.status === "Completed") {
                   hideEIETrackDiagram = true;
                 }
+                //request closed
                 if (requestClosed && requestClosed.value.customerFacingName === "Request Closed" && requestClosed.value.status === "Completed") {
                   hideEIETrackDiagram = true;
                 }
+                //installation rescheduled
                 if (requestReschedule && requestReschedule.value.customerFacingName === "Installation Rescheduled" && requestReschedule.value.status === "Completed") {
                   hideEIETrackDiagram = true;
                 }
@@ -596,6 +606,10 @@ export default class OrderDetails extends React.Component {
                         estimatedCompletionDate={
                           products.estimatedCompletionDate
                         }
+                        hideEstimatedInstallationDate={hideEstimatedInstallationDate}
+                        installationRequestReschedule={requestReschedule}
+                        installationRequestClosed={requestClosed}
+                        installationRequestCompleted={requestCompleted}
                       />
 
                       {products.awbPopupLink === AWB_POPUP_TRUE && (
