@@ -288,6 +288,14 @@ export function getProductDescription(
               );
             }
           }
+        } else {
+          setDataLayer(
+            ADOBE_PDP_TYPE,
+            resultJson,
+            null,
+            null,
+            behaviorOfPageTheCurrent
+          );
         }
         return dispatch(getProductDescriptionSuccess(resultJson));
       } else {

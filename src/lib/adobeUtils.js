@@ -540,7 +540,7 @@ const REVIEW_GUIDELINE = "review_guideline";
 export const SET_DATA_LAYER_REVIEW_GUIDELINE =
   "SET_DATA_LAYER_REVIEW_GUIDELINE";
 
-export function setDataLayer(
+export async function setDataLayer(
   type,
   apiResponse,
   icid,
@@ -583,6 +583,14 @@ export function setDataLayer(
         }
       };
     }
+  } else {
+    const mcvId = await getMcvId();
+    window.digitalData.account = {
+      login: {
+        customerID: "anonumous"
+      },
+      mcvId: mcvId
+    };
   }
   const previousDigitalData = cloneDeep(window.digitalData);
   // if (type === ADOBE_PDP_SIMILAR_PRODUCT) {
