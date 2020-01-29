@@ -977,6 +977,9 @@
     };
   </script>
   <!-- Stripe.js end -->
+  <script type="text/javascript">
+    window.prerenderReady = false;
+  </script>
   <script defer="defer" type="text/javascript">
       <% if (htmlWebpackPlugin.options.stage === "production") { %>
       var clevertap_account_id = "867-R5K-8R5Z";
