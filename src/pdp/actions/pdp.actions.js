@@ -257,7 +257,10 @@ export function getProductDescription(
           isBrowser &&
           (!window.digitalData ||
             !window.digitalData.cpj ||
-            !window.digitalData.cpj.product ||
+            !window.digitalData.cpj.product) &&
+          (window.digitalData &&
+            window.digitalData.cpj &&
+            window.digitalData.cpj.product &&
             window.digitalData.cpj.product.id !== resultJson.productListingId)
         ) {
           if (componentName === "Theme offers component") {
