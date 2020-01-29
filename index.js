@@ -3,7 +3,7 @@ const app = express();
 const isBrowser = require("browser-or-node");
 var url = require("url");
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.removeHeader("Transfer-Encoding");
   res.removeHeader("X-Powered-By");
   res.setHeader(
@@ -16,7 +16,7 @@ app.use(function(req, res, next) {
   );
   next();
 });
-app.get("*.js", function(req, res, next) {
+app.get("*.js", function (req, res, next) {
   const encodings = req.acceptsEncodings();
   if (req.url !== "/sw.js") {
     if (encodings.indexOf("br") > -1) {
@@ -33,7 +33,7 @@ app.get("*.js", function(req, res, next) {
   next();
 });
 
-app.get("*.css", function(req, res, next) {
+app.get("*.css", function (req, res, next) {
   const encodings = req.acceptsEncodings();
   if (encodings.indexOf("br") > -1) {
     // use brotli
@@ -48,15 +48,6 @@ app.get("*.css", function(req, res, next) {
 
   next();
 });
-
-var prerender = require("prerender-node").set(
-  "prerenderToken",
-  "NYax1xFNwJGOvG1c0fyj"
-);
-prerender.crawlerUserAgents.push("googlebot");
-prerender.crawlerUserAgents.push("bingbot");
-prerender.crawlerUserAgents.push("yandex");
-app.use(prerender);
 
 app.use(express.static("build"));
 
