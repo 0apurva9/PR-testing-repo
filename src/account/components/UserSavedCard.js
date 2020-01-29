@@ -136,8 +136,8 @@ export default class UserSavedCard extends React.Component {
       this.props.hideSecondaryLoader();
     }
     if (
-      this.props.profile.savedCards &&
-      this.props.profile.savedCards.status !== "No UPI available"
+      this.props.profile.savedCards
+      // this.props.profile.savedCards.status !== "No UPI available"
     ) {
       return (
         <div className={styles.base}>
@@ -179,9 +179,8 @@ export default class UserSavedCard extends React.Component {
                   </div>
 
                   {this.state.isSavedCardTab === 0 &&
-                    this.props.profile.savedCards.savedCardDetailsMap &&
-                    this.props.profile.savedCards.savedCardDetailsMap.length ===
-                      0 && (
+                    this.props.profile.savedCards &&
+                    !this.props.profile.savedCards.savedCardDetailsMap && (
                       <div className={styles.noSavedCardBlock}>
                         {NO_SAVED_CARDS}
                       </div>
@@ -226,8 +225,8 @@ export default class UserSavedCard extends React.Component {
                       }
                     )}
                   {this.state.isSavedCardTab === 1 &&
-                    this.props.profile.savedCards.savedUpiDetailsMap &&
-                    this.props.profile.savedCards.savedUpiDetailsMap.map(
+                    this.props.profile.savedCards.savedUPIDetailsMap &&
+                    this.props.profile.savedCards.savedUPIDetailsMap.map(
                       (data, i) => {
                         let upiId = data.value.upiId;
                         return (
@@ -243,24 +242,23 @@ export default class UserSavedCard extends React.Component {
                         );
                       }
                     )}
-                  {this.state.isSavedCardTab === 1 &&
-                    this.props.profile.savedCards.savedUpiDetailsMap && (
-                      <div className={styles.buttonHolder}>
-                        <div className={styles.button}>
-                          <Button
-                            type="hollow"
-                            height={40}
-                            label={`Add a new UPI ID`}
-                            backgroundColor={""}
-                            borderColor={"black"}
-                            borderRadius={22}
-                            width={200}
-                            textStyle={{ color: "#212121", fontSize: 14 }}
-                            onClick={() => this.toggleForAddNewUpi(0)}
-                          />
-                        </div>
+                  {this.state.isSavedCardTab === 1 && (
+                    <div className={styles.buttonHolder}>
+                      <div className={styles.button}>
+                        <Button
+                          type="hollow"
+                          height={40}
+                          label={`Add a new UPI ID`}
+                          backgroundColor={""}
+                          borderColor={"black"}
+                          borderRadius={22}
+                          width={200}
+                          textStyle={{ color: "#212121", fontSize: 14 }}
+                          onClick={() => this.toggleForAddNewUpi(0)}
+                        />
                       </div>
-                    )}
+                    </div>
+                  )}
                 </div>
               )}
             </div>

@@ -2303,7 +2303,8 @@ export function addUserUPIRequest(error) {
 export function addUserUPISuccess(upiResponse) {
   return {
     type: ADD_USER_UPI_SUCCESS,
-    status: upiResponse.status
+    status: upiResponse.status,
+    upiResponse
   };
 }
 
@@ -2338,7 +2339,7 @@ export function addUPIDetails(upi, pageType) {
       }/payments/upiValidation?access_token=${
         JSON.parse(customerCookie).access_token
       }&isPwa=true&channel=web&isUpdatedPwa=true&upiId=${upi}&isToValidateUpi=true&isToSaveUpi=true`;
-      const result = await api.get(addUPI);
+      const result = await api.post(addUPI);
       const resultJson = await result.json();
       /**
        * @author Prashant Kumar
@@ -2346,7 +2347,8 @@ export function addUPIDetails(upi, pageType) {
        */
       // const resultJson = {
       //   type: "upiValidationWsData",
-      //   status: "INVALID",
+      //   status: "Success",
+      //   upiStatus: "VALID",
       //   customerName: "cust",
       //   upiId: "example@test"
       // };
@@ -2354,7 +2356,7 @@ export function addUPIDetails(upi, pageType) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      if (resultJson.status === "VALID" && pageType === "myaccount") {
+      if (resultJson.upiStatus === "VALID" && pageType === "myaccount") {
         dispatch(displayToast(UPI_ADDED_SUCCESS));
       }
       return dispatch(addUserUPISuccess(resultJson));

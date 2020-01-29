@@ -36,7 +36,11 @@ export default class MyAccountUpiForm extends React.Component {
     });
     if (this.props.addUPIDetails) {
       const response = await this.props.addUPIDetails(ele, "myaccount");
-      if (response && response.status === "VALID") {
+      if (
+        response &&
+        response.upiResponse &&
+        response.upiResponse.upiStatus === "VALID"
+      ) {
         this.setState({
           showUpiMsg: {
             upiId: "",
@@ -45,7 +49,11 @@ export default class MyAccountUpiForm extends React.Component {
           }
         });
         this.toggleForAddNewUpi(1);
-      } else if (response && response.status === "INVALID") {
+      } else if (
+        response &&
+        response.upiResponse &&
+        response.upiStatus === "INVALID"
+      ) {
         this.setState({
           showUpiMsg: {
             upiId: ele,
@@ -146,8 +154,7 @@ export default class MyAccountUpiForm extends React.Component {
                             styles.verifiedState + " " + verifiedStateHelperCls
                           }
                         >
-                          <span className={savedUpiVerificationCls} />{" "}
-                          {this.state.showUpiMsg.text}
+                          <span className={savedUpiVerificationCls} /> {INVALID}
                         </div>
                         <p className={styles.errorTxt}>{INVALID_UPI_ERROR}</p>
                       </React.Fragment>

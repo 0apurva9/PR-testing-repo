@@ -239,6 +239,7 @@ const account = (
     updateReturnHOTCError: null,
 
     addUserUPIStatus: false,
+    addUserUPIDetails: null,
     addUserUPIError: null
   },
   action
@@ -954,7 +955,8 @@ const account = (
     case accountActions.ADD_USER_UPI_SUCCESS:
       return Object.assign({}, state, {
         addUserUPIStatus: action.status,
-        loading: false
+        loading: false,
+        addUserUPIDetails: action.upiResponse
       });
 
     case accountActions.ADD_USER_UPI_FAILURE:

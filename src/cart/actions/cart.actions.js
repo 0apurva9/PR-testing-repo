@@ -2016,10 +2016,10 @@ export function checkUPIEligibility(guId) {
   return async (dispatch, getState, { api }) => {
     dispatch(checkUPIEligibilityRequest());
     try {
-      const result = await api.post(
+      const result = await api.get(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/payments/checkUPIEligibility?platformNumber=${PLAT_FORM_NUMBER}&access_token=${
+        }/payments/getUpiEligibility?platformNumber=${PLAT_FORM_NUMBER}&access_token=${
           JSON.parse(customerCookie).access_token
         }&cartGuid=${guId}`
       );
@@ -2036,11 +2036,13 @@ export function checkUPIEligibility(guId) {
       // };
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
+      if (resultJsonStatus.status && !resultJson.isUpiPaymentEligible) {
+        dispatch(displayToast(resultJson.error));
+      } else if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.error);
       }
       if (!resultJson.isUpiPaymentEligible) {
-        dispatch(displayToast(upiEligibilityError));
+        dispatch(displayToast(resultJson.error));
       }
       if (resultJson.isUpiPaymentEligible) {
         return dispatch(checkUPIEligibilitySuccess(resultJson));
@@ -2048,7 +2050,6 @@ export function checkUPIEligibility(guId) {
         return dispatch(checkUPIEligibilitySuccess(resultJson));
       }
     } catch (e) {
-      dispatch(displayToast(upiEligibilityError));
       return dispatch(checkUPIEligibilityFailure(e.message));
     }
   };
