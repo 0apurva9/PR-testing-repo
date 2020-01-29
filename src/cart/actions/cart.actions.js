@@ -258,6 +258,20 @@ export const BIN_VALIDATION_UPI_REQUEST = "BIN_VALIDATION_UPI_REQUEST";
 export const BIN_VALIDATION_UPI_SUCCESS = "BIN_VALIDATION_UPI_SUCCESS";
 export const BIN_VALIDATION_UPI_FAILURE = "BIN_VALIDATION_UPI_FAILURE";
 
+export const UPI_MIDDLE_LAYER_IS_NEW_REQUEST =
+  "UPI_MIDDLE_LAYER_IS_NEW_REQUEST";
+export const UPI_MIDDLE_LAYER_IS_NEW_SUCCESS =
+  "UPI_MIDDLE_LAYER_IS_NEW_SUCCESS";
+export const UPI_MIDDLE_LAYER_IS_NEW_FAILURE =
+  "UPI_MIDDLE_LAYER_IS_NEW_FAILURE";
+
+export const UPI_MIDDLE_LAYER_IS_ENABLE_REQUEST =
+  "UPI_MIDDLE_LAYER_IS_ENABLE_REQUEST";
+export const UPI_MIDDLE_LAYER_IS_ENABLE_SUCCESS =
+  "UPI_MIDDLE_LAYER_IS_ENABLE_SUCCESS";
+export const UPI_MIDDLE_LAYER_IS_ENABLE_FAILURE =
+  "UPI_MIDDLE_LAYER_IS_ENABLE_FAILURE";
+
 export const COLLECT_PAYMENT_ORDER_FOR_UPI_REQUEST =
   "COLLECT_PAYMENT_ORDER_FOR_UPI_REQUEST";
 export const COLLECT_PAYMENT_ORDER_FOR_UPI_SUCCESS =
@@ -1866,6 +1880,107 @@ export function getPaymentModes(guId) {
     }
   };
 }
+
+/**
+ * @author Prashant Kumar
+ * @comment Code for checking the middle ware of the UPI
+ */
+
+export function upiPaymentIsNewMidddleLayerRequest() {
+  return {
+    type: UPI_MIDDLE_LAYER_IS_NEW_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function upiPaymentIsNewMidddleLayerSuccess(
+  upiPaymentIsNewMidddleLayerDetails
+) {
+  return {
+    type: UPI_MIDDLE_LAYER_IS_NEW_SUCCESS,
+    status: SUCCESS,
+    upiPaymentIsNewMidddleLayerDetails
+  };
+}
+
+export function upiPaymentIsNewMidddleLayerFailure(error) {
+  return {
+    type: UPI_MIDDLE_LAYER_IS_NEW_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function upiPaymentIsNewMidddleLayer(orderId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(upiPaymentIsNewMidddleLayerRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=IS_UPI_NEW`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(upiPaymentIsNewMidddleLayerSuccess(resultJson));
+    } catch (e) {
+      dispatch(upiPaymentIsNewMidddleLayerFailure(e.message));
+    }
+  };
+}
+
+export function upiPaymentISEnableMidddleLayerRequest() {
+  return {
+    type: UPI_MIDDLE_LAYER_IS_ENABLE_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function upiPaymentISEnableMidddleLayerSuccess(
+  upiPaymentISEnableMidddleLayerDetails
+) {
+  return {
+    type: UPI_MIDDLE_LAYER_IS_ENABLE_SUCCESS,
+    status: SUCCESS,
+    upiPaymentISEnableMidddleLayerDetails
+  };
+}
+
+export function upiPaymentISEnableMidddleLayerFailure(error) {
+  return {
+    type: UPI_MIDDLE_LAYER_IS_ENABLE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function upiPaymentISEnableMidddleLayer(orderId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(upiPaymentISEnableMidddleLayerRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=MP_DESKTOP_UPI_ENABLED`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(upiPaymentISEnableMidddleLayerSuccess(resultJson));
+    } catch (e) {
+      dispatch(upiPaymentISEnableMidddleLayerFailure(e.message));
+    }
+  };
+}
+
+/**
+ * EOC
+ */
 
 /**
  * @author Prashant Kumar

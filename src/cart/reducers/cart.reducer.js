@@ -264,7 +264,12 @@ const cart = (
     orderConfirmationBannerDetailsStatus: null,
     orderConfirmationBannerDetails: null,
     orderConfirmationBannerDetailsLoading: false,
-    orderConfirmationBannerDetailsError: null
+    orderConfirmationBannerDetailsError: null,
+
+    upiMiddleLayerIsNewStatus: null,
+    upiMiddleLayerIsNew: null,
+    upiMiddleLayerIsNewLoading: false,
+    upiMiddleLayerIsNewError: null
   },
   action
 ) => {
@@ -785,6 +790,53 @@ const cart = (
         binValidationUPIDetails: action.binValidationUPIDetails,
         binValidationUPIloading: false
       });
+    /**
+     * EOC
+     */
+    /**
+     * @author Prashant Kumar
+     * @comment Change for the UPI middle layer
+     */
+    case cartActions.UPI_MIDDLE_LAYER_IS_NEW_REQUEST:
+      return Object.assign({}, state, {
+        upiMiddleLayerIsNewStatus: action.status,
+        upiMiddleLayerIsNewLoading: true
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_IS_NEW_SUCCESS:
+      return Object.assign({}, state, {
+        upiMiddleLayerIsNewStatus: action.status,
+        upiMiddleLayerIsNew: action.upiPaymentIsNewMidddleLayerDetails,
+        upiMiddleLayerIsNewLoading: false
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_IS_NEW_FAILURE:
+      return Object.assign({}, state, {
+        upiMiddleLayerIsNewStatus: action.status,
+        upiMiddleLayerIsNewError: action.error,
+        upiMiddleLayerIsNewLoading: false
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_IS_ENABLE_REQUEST:
+      return Object.assign({}, state, {
+        upiMiddleLayerIsEnableStatus: action.status,
+        upiMiddleLayerIsEnableLoading: true
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_IS_ENABLE_SUCCESS:
+      return Object.assign({}, state, {
+        upiMiddleLayerIsEnableStatus: action.status,
+        upiMiddleLayerIsEnable: action.upiPaymentISEnableMidddleLayerDetails,
+        upiMiddleLayerIsEnableLoading: false
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_IS_ENABLE_FAILURE:
+      return Object.assign({}, state, {
+        upiMiddleLayerIsEnableStatus: action.status,
+        upiMiddleLayerIsEnableError: action.error,
+        upiMiddleLayerIsEnableLoading: false
+      });
+
     /**
      * EOC
      */

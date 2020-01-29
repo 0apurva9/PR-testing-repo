@@ -137,7 +137,7 @@ export default class UserSavedCard extends React.Component {
     }
     if (
       this.props.profile.savedCards &&
-      this.props.profile.savedCards.savedCardDetailsMap
+      this.props.profile.savedCards.status !== "No UPI available"
     ) {
       return (
         <div className={styles.base}>
@@ -300,25 +300,60 @@ export default class UserSavedCard extends React.Component {
               </div>
             </DesktopOnly>
             <div className={styles.saveCardDetail}>
-              <div className={styles.saveCardDetailWithHolder}>
-                <div className={styles.tabHolder}>
-                  <TabHolder>
-                    <TabData
-                      width="47%"
-                      label="Saved Cards"
-                      selected={!this.state.isSavedCardTab}
-                      selectItem={() => this.tabSelect(0)}
-                    />
-                    <TabData
-                      width="47%"
-                      label="Saved UPI"
-                      selected={this.state.isSavedCardTab}
-                      selectItem={() => this.tabSelect(1)}
-                    />
-                  </TabHolder>
+              {this.state.showAddNewUpi === 0 && (
+                <div className={styles.saveCardDetailWithHolder}>
+                  <MyAccountUpiForm
+                    toggleForAddNewUpi={val => this.toggleForAddNewUpi(val)}
+                    addUPIDetails={(val, pageType) =>
+                      this.props.addUPIDetails(val, pageType)
+                    }
+                    loading={this.props.loading}
+                  />
                 </div>
-                <div className={styles.noSavedCardBlock}>{NO_SAVED_CARDS}</div>
-              </div>
+              )}
+              {this.state.showAddNewUpi === 1 && (
+                <div className={styles.saveCardDetailWithHolder}>
+                  <div className={styles.tabHolder}>
+                    <TabHolder>
+                      <TabData
+                        width="47%"
+                        label="Saved Cards"
+                        selected={!this.state.isSavedCardTab}
+                        selectItem={() => this.tabSelect(0)}
+                      />
+                      <TabData
+                        width="47%"
+                        label="Saved UPI"
+                        selected={this.state.isSavedCardTab}
+                        selectItem={() => this.tabSelect(1)}
+                      />
+                    </TabHolder>
+                  </div>
+                  {this.state.isSavedCardTab === 0 && (
+                    <div className={styles.noSavedCardBlock}>
+                      {NO_SAVED_CARDS}
+                    </div>
+                  )}
+
+                  {this.state.isSavedCardTab === 1 && (
+                    <div className={styles.buttonHolder}>
+                      <div className={styles.button}>
+                        <Button
+                          type="hollow"
+                          height={40}
+                          label={`Add a new UPI ID`}
+                          backgroundColor={""}
+                          borderColor={"black"}
+                          borderRadius={22}
+                          width={200}
+                          textStyle={{ color: "#212121", fontSize: 14 }}
+                          onClick={() => this.toggleForAddNewUpi(0)}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
             <DesktopOnly>
               <div className={myAccountStyles.userProfile}>

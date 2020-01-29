@@ -72,7 +72,9 @@ import {
   binValidationForUPI,
   collectPaymentOrderForUPI,
   collectPaymentOrderForGiftCardUPI,
-  createJusPayOrderForUPI
+  createJusPayOrderForUPI,
+  upiPaymentIsNewMidddleLayer,
+  upiPaymentISEnableMidddleLayer
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -799,6 +801,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           retryCartGuid
         )
       );
+    },
+    upiPaymentIsNewMidddleLayer: async () => {
+      return await dispatch(upiPaymentIsNewMidddleLayer());
+    },
+    upiPaymentISEnableMidddleLayer: async () => {
+      return await dispatch(upiPaymentISEnableMidddleLayer());
     }
   };
 };

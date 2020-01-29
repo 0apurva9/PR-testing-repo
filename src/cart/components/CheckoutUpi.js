@@ -7,6 +7,14 @@ import { UPI } from "../../lib/constants";
 import UpiForm from "./UpiForm";
 
 export default class CheckoutUpi extends React.Component {
+  async componentDidMount() {
+    if (this.props.upiPaymentIsNewMidddleLayer) {
+      this.props.upiPaymentIsNewMidddleLayer();
+    }
+    if (this.props.upiPaymentISEnableMidddleLayerDetails) {
+      this.props.upiPaymentISEnableMidddleLayerDetails();
+    }
+  }
   render() {
     return (
       <MenuDetails
