@@ -234,7 +234,7 @@ export default class FilterDesktop extends React.Component {
     setDataLayerForSelectedFilterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_FILTER_OPTION,
       filterType,
-      filterValue
+      filterType === "Colour" ? colourValue : filterValue
     );
     if (filterType === "Availability") {
       this.props.userSelectedOutOfStock(filterSelected);
