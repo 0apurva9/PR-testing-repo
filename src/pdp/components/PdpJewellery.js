@@ -211,9 +211,7 @@ export default class PdpJewellery extends React.Component {
   };
 
   goToReviewPage = () => {
-    const url = `${
-      this.props.location.pathname
-    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
   showPincodeModal() {
@@ -429,25 +427,21 @@ export default class PdpJewellery extends React.Component {
               showPriceBreakUp={this.showPriceBreakup}
             />
           </div>
-          {productData.details &&
-            productData.details.length > 0 && (
-              <div className={styles.info}>
-                <span className={styles.textOffset}>
-                  {productData.details[0].value}
+          {productData.details && productData.details.length > 0 && (
+            <div className={styles.info}>
+              <span className={styles.textOffset}>
+                {productData.details[0].value}
+              </span>
+              {this.state.showProductDetails && (
+                <div>{productData.productDescription}</div>
+              )}
+              {!this.state.showProductDetails && (
+                <span className={styles.link} onClick={this.showProductDetails}>
+                  Read More
                 </span>
-                {this.state.showProductDetails && (
-                  <div>{productData.productDescription}</div>
-                )}
-                {!this.state.showProductDetails && (
-                  <span
-                    className={styles.link}
-                    onClick={this.showProductDetails}
-                  >
-                    Read More
-                  </span>
-                )}
-              </div>
-            )}
+              )}
+            </div>
+          )}
           <PdpPaymentInfo
             hasEmi={productData.isEMIEligible}
             hasCod={productData.isCOD}
@@ -530,7 +524,7 @@ export default class PdpJewellery extends React.Component {
                 </div>
               </div>
             ) : this.props.productDetails.isServiceableToPincode
-              .productNotServiceableMessage ? (
+                .productNotServiceableMessage ? (
               <div className={styles.overlay}>
                 <div className={styles.notServiciableTetx}>
                   *{" "}
@@ -559,10 +553,22 @@ export default class PdpJewellery extends React.Component {
             />
           )}
           <div className={styles.separator}>
-            <OtherSellersLink
-              otherSellers={productData.otherSellers}
-              winningSeller={productData.winningSellerName}
-            />
+            {this.props.productDetails.pincodeResponseList && (
+              <OtherSellersLink
+                otherSellers={productData.otherSellers}
+                winningSeller={productData.winningSellerName}
+                pinCodeResponse={
+                  this.props.productDetails &&
+                  this.props.productDetails.pincodeResponseList &&
+                  this.props.productDetails.pincodeResponseList
+                    .deliveryOptions &&
+                  this.props.productDetails.pincodeResponseList.deliveryOptions
+                    .pincodeListResponse &&
+                  this.props.productDetails.pincodeResponseList.deliveryOptions
+                    .pincodeListResponse
+                }
+              />
+            )}
           </div>
           <div className={styles.details}>
             {productData.details && (

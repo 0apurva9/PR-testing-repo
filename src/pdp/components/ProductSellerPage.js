@@ -163,7 +163,7 @@ class ProductSellerPage extends Component {
 
       if (
         !this.props.serviceablePincodeList &&
-        (productDetailsResponse && productDetailsResponse.status === SUCCESS)
+        productDetailsResponse && productDetailsResponse.status === SUCCESS
       ) {
         const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
         if (pinCode) {
@@ -273,6 +273,22 @@ class ProductSellerPage extends Component {
       sortedAvailableSellers = availableSellers.reverse();
       sortedUnAvailableSellers = unAvailableSellers.reverse();
     }
+
+    let pincodeResponseList = this.props.serviceablePincodeList || [];
+
+    let actualSortedAvailableSeller = [];
+    pincodeResponseList.map(pincodeSeller => {
+      actualSortedAvailableSeller = sortedAvailableSellers.filter(
+        otherSeller => {
+          return (
+            otherSeller.USSID === pincodeSeller.ussid &&
+            pincodeSeller.stockCount > 0 &&
+            pincodeSeller.isServicable === "Y"
+          );
+        }
+      );
+    });
+
     const mobileGalleryImages =
       this.props.productDetails &&
       this.props.productDetails.galleryImagesList
@@ -322,8 +338,7 @@ class ProductSellerPage extends Component {
               <div className={styles.priceWithSeller}>
                 <div className={styles.seller}>
                   {availableSellers.length} Other Sellers available starting at
-                  ₹
-                  {price}
+                  ₹{price}
                 </div>
                 <div className={styles.price}>
                   <SelectBoxMobile2
@@ -347,14 +362,14 @@ class ProductSellerPage extends Component {
                 </div>
               </div>
               <div>
-                {sortedAvailableSellers && (
+                {actualSortedAvailableSeller && (
                   <SellerWithMultiSelect
                     limit={1}
                     onSelect={val => {
                       this.selectSeller(val);
                     }}
                   >
-                    {sortedAvailableSellers.map((value, index) => {
+                    {actualSortedAvailableSeller.map((value, index) => {
                       return (
                         <SellerCard
                           heading={value.sellerName}
@@ -389,7 +404,7 @@ class ProductSellerPage extends Component {
                   </SellerWithMultiSelect>
                 )}
               </div>
-              {sortedUnAvailableSellers && (
+              {/*   {sortedUnAvailableSellers && (
                 <div>
                   {sortedUnAvailableSellers.map((value, index) => {
                     return (
@@ -425,7 +440,7 @@ class ProductSellerPage extends Component {
                     );
                   })}
                 </div>
-              )}
+              )} */}
             </MobileOnly>
             <DesktopOnly>
               <div className={styles.OtherSellerHolder}>
@@ -474,8 +489,8 @@ class ProductSellerPage extends Component {
                       Buying option
                     </div>
                   </div>
-                  {sortedAvailableSellers &&
-                    sortedAvailableSellers.map((value, index) => {
+                  {actualSortedAvailableSeller &&
+                    actualSortedAvailableSeller.map((value, index) => {
                       return (
                         <SellerCard
                           heading={value.sellerName}
@@ -519,7 +534,7 @@ class ProductSellerPage extends Component {
                         />
                       );
                     })}
-                  {sortedUnAvailableSellers &&
+                  {/*   {sortedUnAvailableSellers &&
                     sortedUnAvailableSellers.map((value, index) => {
                       return (
                         <SellerCard
@@ -552,7 +567,7 @@ class ProductSellerPage extends Component {
                           }
                         />
                       );
-                    })}
+                    })} */}
                 </div>
               </div>
             </DesktopOnly>
