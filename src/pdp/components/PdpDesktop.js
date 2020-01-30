@@ -178,6 +178,8 @@ export default class PdpApparel extends React.Component {
       secondRelevantProduct: {},
       selected: false
     };
+    this.reviewListRef = React.createRef();
+    this.ScrollIntoView = this.ScrollIntoView.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount = async () => {
@@ -808,12 +810,17 @@ export default class PdpApparel extends React.Component {
     window.location.href = value;
   }
   ScrollIntoView() {
-    document.getElementById("ratingSection").scrollIntoView(
-      { behavior: "smooth" },
-      {
-        offsetTop: -100
-      }
-    );
+    if (this.reviewListRef.current) {
+      let headerOffset = 45,
+        elementPosition = this.reviewListRef.current.getBoundingClientRect()
+          .top,
+        offsetPosition = elementPosition - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
   }
   handleChange(e) {
     let bundledList = this.state.bundledProductList;
@@ -1877,12 +1884,15 @@ export default class PdpApparel extends React.Component {
                         />
                       )}
                     </React.Fragment>
-                    <div className={styles.blankSeparator} id="ratingSection" />
+                    <div className={styles.blankSeparator} />
                     <React.Fragment>
                       {productData.numberOfReviews &&
                       (productData.numberOfReviews !== 0 ||
                         productData.numberOfReviews !== "0") ? (
-                        <div className={styles.reviewsHolder}>
+                        <div
+                          className={styles.reviewsHolder}
+                          ref={this.reviewListRef}
+                        >
                           <div className={styles.reviewsHeader}>
                             <h3>Ratings and Reviews</h3>
                             <div className={styles.reviewsButton}>
