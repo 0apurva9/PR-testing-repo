@@ -433,7 +433,7 @@ class App extends Component {
       }
     }
   }
-  getSnapshotBeforeUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     // Are we adding new items to the list?
     // Capture the scroll position so we can adjust scroll later.
     if (prevProps.location.pathname != this.props.location.pathname) {
