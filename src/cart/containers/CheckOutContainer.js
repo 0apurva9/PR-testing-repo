@@ -74,7 +74,8 @@ import {
   collectPaymentOrderForGiftCardUPI,
   createJusPayOrderForUPI,
   upiPaymentIsNewMidddleLayer,
-  upiPaymentISEnableMidddleLayer
+  upiPaymentISEnableMidddleLayer,
+  softReservationPaymentForUPI
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -808,6 +809,23 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     upiPaymentISEnableMidddleLayer: async () => {
       return await dispatch(upiPaymentISEnableMidddleLayer());
+    },
+    softReservationPaymentForUPI: (
+      paymentMethodType,
+      paymentMode,
+      bankCode,
+      pinCode,
+      bankName
+    ) => {
+      dispatch(
+        softReservationPaymentForUPI(
+          paymentMethodType,
+          paymentMode,
+          bankCode,
+          pinCode,
+          bankName
+        )
+      );
     }
   };
 };

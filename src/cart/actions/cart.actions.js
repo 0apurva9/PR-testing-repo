@@ -2274,18 +2274,18 @@ export function collectPaymentOrderForUPI(
     } else {
       if (isFromRetryUrl) {
         cartGuId = retryCartGuid;
-        if (!isPaymentFailed) {
-          inventoryItems = getValidDeliveryModeDetails(
-            getState().cart.getUserAddressAndDeliveryModesByRetryPayment
-              .products,
-            true,
-            getState().cart.getUserAddressAndDeliveryModesByRetryPayment
-          );
-          localStorage.setItem(
-            CART_ITEM_COOKIE,
-            JSON.stringify(inventoryItems)
-          );
-        }
+        // if (!isPaymentFailed) {
+        //   inventoryItems = getValidDeliveryModeDetails(
+        //     getState().cart.getUserAddressAndDeliveryModesByRetryPayment
+        //       .products,
+        //     true,
+        //     getState().cart.getUserAddressAndDeliveryModesByRetryPayment
+        //   );
+        //   localStorage.setItem(
+        //     CART_ITEM_COOKIE,
+        //     JSON.stringify(inventoryItems)
+        //   );
+        // }
       } else {
         cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
         cartGuId = cartDetails
@@ -2365,6 +2365,63 @@ export function collectPaymentOrderForUPI(
         displayToast(ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL + " Please Retry.")
       );
       dispatch(collectPaymentOrderFailure(e));
+    }
+  };
+}
+export function softReservationPaymentForUPI(
+  paymentMethodType,
+  paymentMode,
+  bankCode,
+  pinCode,
+  bankName
+) {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    let productItems = "";
+    let cartDetails = "";
+    let cartId = "";
+
+    productItems = await getValidDeliveryModeDetails(
+      getState().cart.cartDetailsCNC.products
+    );
+    if (productItems) {
+      localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(productItems));
+    }
+    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    cartId = JSON.parse(cartDetails).guid;
+
+    dispatch(softReservationForPaymentRequest());
+    try {
+      const result = await api.post(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/carts/softReservationForPayment?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&cartGuid=${cartId}&pincode=${pinCode}&type=payment`,
+        productItems
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(
+        // change this code
+        collectPaymentOrderForUPI(
+          paymentMethodType,
+          productItems,
+          bankCode,
+          pinCode,
+          false,
+          "",
+          bankName
+        )
+      );
+      setDataLayerForCheckoutDirectCalls(ADOBE_FINAL_PAYMENT_MODES);
+    } catch (e) {
+      dispatch(softReservationForPaymentFailure(e.message));
     }
   };
 }

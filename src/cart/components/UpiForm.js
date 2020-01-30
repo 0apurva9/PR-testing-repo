@@ -240,7 +240,7 @@ export default class UpiForm extends React.Component {
                         color: "#FFF",
                         fontSize: 14
                       }}
-                      onClick={val => this.verifyUpi(val)}
+                      onClick={() => this.props.onCheckout()}
                     />
                   </div>
                 </div>
@@ -336,7 +336,7 @@ export default class UpiForm extends React.Component {
                         color: "#FFF",
                         fontSize: 14
                       }}
-                      // onClick={val => this.verifyUpi(val)}
+                      onClick={() => this.props.onCheckout()}
                     />
                   </div>
                 </div>
