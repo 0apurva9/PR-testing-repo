@@ -3998,6 +3998,7 @@ if you have order id in local storage then you have to show order confirmation p
                         this.props.addUPIDetailsNullState()
                       }
                       addUserUPIStatus={this.props.addUserUPIStatus}
+                      addUserUPIDetails={this.props.addUserUPIDetails}
                       loading={this.props.loading}
                       checkUPIEligibility={cartGuidUPI =>
                         this.props.checkUPIEligibility(cartGuidUPI)

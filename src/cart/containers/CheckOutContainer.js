@@ -745,8 +745,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     resetFailedOrderDetails: () => {
       dispatch(resetFailedOrderDetails());
     },
-    addUPIDetails: (upiId, pageType) => {
-      dispatch(addUPIDetails(upiId, pageType));
+    addUPIDetails: async (upiId, pageType) => {
+      const res = await dispatch(addUPIDetails(upiId, pageType));
+      return res;
     },
     addUPIDetailsNullState: () => {
       dispatch(addUPIDetailsNullState());
@@ -821,7 +822,8 @@ const mapStateToProps = state => {
     retryPaymentDetails: state.profile.retryPaymentDetails,
     retryPaymentDetailsStatus: state.profile.retryPaymentDetailsStatus,
     binValidationStatus: state.cart.binValidationStatus,
-    addUserUPIStatus: state.profile.addUserUPIStatus
+    addUserUPIStatus: state.profile.addUserUPIStatus,
+    addUserUPIDetails: state.profile.addUserUPIDetails
   };
 };
 

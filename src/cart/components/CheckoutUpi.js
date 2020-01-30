@@ -44,8 +44,9 @@ export default class CheckoutUpi extends React.Component {
           }
           UPIofferCalloutList={
             this.props.cart.paymentModes &&
-            this.props.cart.paymentModes.UPIofferCalloutList
-              ? this.props.cart.paymentModes.UPIofferCalloutList
+            this.props.cart.paymentModes.upiOffers &&
+            this.props.cart.paymentModes.upiOffers.upiOfferCalloutList
+              ? this.props.cart.paymentModes.upiOffers.upiOfferCalloutList
               : []
           }
           onCheckout={this.props.onCheckout}
@@ -55,6 +56,7 @@ export default class CheckoutUpi extends React.Component {
           }
           addUPIDetailsNullState={() => this.props.addUPIDetailsNullState()}
           addUserUPIStatus={this.props.addUserUPIStatus}
+          addUserUPIDetails={this.props.addUserUPIDetails}
           loading={this.props.loading}
         />
       </MenuDetails>

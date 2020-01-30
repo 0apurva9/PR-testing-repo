@@ -2353,9 +2353,19 @@ export function addUPIDetails(upi, pageType) {
       //   upiId: "example@test"
       // };
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
+
+      if (
+        resultJsonStatus.status &&
+        resultJson.upiStatus === "INVALID" &&
+        pageType !== "myaccount"
+      ) {
+        return dispatch(addUserUPISuccess(resultJson));
+      } else if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.error);
       }
+      // if (resultJsonStatus.status) {
+      //   throw new Error(resultJsonStatus.message);
+      // }
       if (resultJson.upiStatus === "VALID" && pageType === "myaccount") {
         dispatch(displayToast(UPI_ADDED_SUCCESS));
       }

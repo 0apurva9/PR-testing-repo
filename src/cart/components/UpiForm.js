@@ -35,14 +35,23 @@ export default class UpiForm extends React.Component {
     };
   }
 
-  verifyUpi = ele => {
-    this.props.addUPIDetails(ele, "checkout");
+  verifyUpi = async ele => {
     this.setState({
       showUpiMsg: {
         upiId: ele
       },
       isChanged: false
     });
+    const response = await this.props.addUPIDetails(ele, "checkout");
+    // if (
+    //   response &&
+    //   response.upiResponse &&
+    //   response.upiResponse.upiStatus === "VALID"
+    // ) {
+    //   this.setState({
+    //     isChanged: false
+    //   });
+    // }
   };
 
   updateUpi = val => {
@@ -88,18 +97,24 @@ export default class UpiForm extends React.Component {
 
   render() {
     let payNowBtnFlag = !(
-      !this.state.isChanged && this.props.addUserUPIStatus === "VALID"
+      !this.state.isChanged &&
+      this.props.addUserUPIDetails &&
+      this.props.addUserUPIDetails.upiStatus === "VALID"
     );
     let savedUpiVerificationCls =
-      this.props.addUserUPIStatus !== "requesting" &&
-      this.props.addUserUPIStatus
-        ? this.props.addUserUPIStatus === "VALID"
+      this.props.addUserUPIStatus &&
+      this.props.addUserUPIStatus !== "requesting"
+        ? this.props.addUserUPIStatus === "Success" &&
+          this.props.addUserUPIDetails &&
+          this.props.addUserUPIDetails.upiStatus === "VALID"
           ? styles.verifiedIcon
           : styles.invalidIcon
         : "";
     let svdUpiLblHelperCls =
       this.props.addUserUPIStatus !== "requesting"
-        ? this.props.addUserUPIStatus === "VALID"
+        ? this.props.addUserUPIStatus === "Success" &&
+          this.props.addUserUPIDetails &&
+          this.props.addUserUPIDetails.upiStatus === "VALID"
           ? styles.verified
           : styles.svdUpErr
         : "";
@@ -107,7 +122,8 @@ export default class UpiForm extends React.Component {
       this.props.addUserUPIStatus !== "requesting"
         ? this.props.loading
           ? styles.invalidFrm
-          : this.props.addUserUPIStatus === "VALID"
+          : this.props.addUserUPIDetails &&
+            this.props.addUserUPIDetails.upiStatus === "VALID"
             ? styles.verifiedFrm
             : styles.invalidFrm
         : "";
@@ -164,12 +180,13 @@ export default class UpiForm extends React.Component {
                                             this.props.addUserUPIStatus}
                                           {/* {this.state.showUpiMsg.text} */}
                                         </div>
-                                        {this.props.addUserUPIStatus ===
-                                          "INVALID" && (
-                                          <p className={styles.errorTxt2}>
-                                            {invalidUpi}
-                                          </p>
-                                        )}
+                                        {this.props.addUserUPIDetails &&
+                                          this.props.addUserUPIDetails
+                                            .upiStatus === "INVALID" && (
+                                            <p className={styles.errorTxt2}>
+                                              {invalidUpi}
+                                            </p>
+                                          )}
                                       </React.Fragment>
                                     </div>
                                   )}
@@ -264,7 +281,7 @@ export default class UpiForm extends React.Component {
                       textStyle={{ fontSize: 14 }}
                       height={45}
                     />
-                    {this.state.isChanged || !this.props.addUserUPIStatus ? (
+                    {this.state.isChanged || this.state.upiId === "" ? (
                       <button
                         disabled={this.state.upiPatternVerified ? false : true}
                         className={styles.verifyBtn}
@@ -290,9 +307,12 @@ export default class UpiForm extends React.Component {
                             <img src={loader} alt="Loader" />
                           )}
                           {this.props.addUserUPIStatus !== "requesting" &&
-                            this.props.addUserUPIStatus}
+                            this.props.addUserUPIDetails &&
+                            this.props.addUserUPIDetails.upiStatus}
                         </div>
-                        {this.props.addUserUPIStatus === "INVALID" &&
+                        {this.props.addUserUPIDetails &&
+                          this.props.addUserUPIDetails.upiStatus ===
+                            "INVALID" &&
                           !this.props.loading && (
                             <p className={styles.errorTxt}>
                               Please enter a valid UPI ID
