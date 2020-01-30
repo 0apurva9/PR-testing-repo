@@ -1489,6 +1489,12 @@ export default class PdpApparel extends React.Component {
                           }
                         </div>
                       </div>
+                    ) : this.props.pincodeError ? (
+                      <div className={styles.overlay}>
+                        <div className={styles.notServiciableTetx}>
+                          * {this.props.pincodeError}
+                        </div>
+                      </div>
                     ) : null
                   ) : /* (
                     <div className={styles.overlay}>

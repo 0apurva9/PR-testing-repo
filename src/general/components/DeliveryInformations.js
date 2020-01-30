@@ -156,6 +156,9 @@ export default class DeliveryInformations extends React.Component {
     if (this.props.placedTime && this.props.placedTime !== undefined) {
       formattedPlacedTime = this.getDayNumberSuffix(this.props.placedTime);
     }
+    if (!formattedPlacedTime && this.props.deliveryMessage) {
+      formattedPlacedTime = this.props.deliveryMessage;
+    }
     let arrowStyle = styles.arrowLink1;
     let iconSize = null;
     let baseClass = styles.base;

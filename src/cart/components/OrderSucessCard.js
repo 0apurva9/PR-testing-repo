@@ -101,10 +101,14 @@ export default class OrderSucessCard extends React.Component {
   }
   render() {
     let estimatedDeliveryDateFormatted = "";
-    if (this.props.edd && this.props.edd !== undefined) {
+    const deliveryOption = this.props.selectedDeliveryMode;
+    if (this.props.edd && !this.props.edd.includes("DeliveryTAT not found")) {
       estimatedDeliveryDateFormatted = this.getDayNumberSuffix(this.props.edd);
     }
-    const deliveryOption = this.props.selectedDeliveryMode;
+    if (!estimatedDeliveryDateFormatted && deliveryOption) {
+      estimatedDeliveryDateFormatted = deliveryOption.desc;
+    }
+
     return (
       <div className={styles.base}>
         <div className={styles.imageHolder}>

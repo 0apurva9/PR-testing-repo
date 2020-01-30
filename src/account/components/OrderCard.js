@@ -198,10 +198,16 @@ export default class OrderCard extends React.Component {
     let estimatedDeliveryDateFormatted = "";
     let deliveryDate = "",
       deliveryDateFormatted = "";
-    if (this.props.estimatedDeliveryDate) {
+    if (
+      this.props.estimatedDeliveryDate &&
+      !this.props.estimatedDeliveryDate.includes("DeliveryTAT not found")
+    ) {
       estimatedDeliveryDateFormatted = this.getDayNumberSuffix(
         this.props.estimatedDeliveryDate
       );
+    }
+    if (!estimatedDeliveryDateFormatted && this.props.selectedDeliveryMode) {
+      estimatedDeliveryDateFormatted = this.props.selectedDeliveryMode.desc;
     }
     if (this.props && this.props.deliveryDate) {
       deliveryDate = this.props.deliveryDate;
@@ -663,7 +669,7 @@ export default class OrderCard extends React.Component {
             <div className={styles.commonTitle}>
               {!this.props.calloutMessage ? (
                 <React.Fragment>
-                  {this.props.estimatedDeliveryDate &&
+                  {estimatedDeliveryDateFormatted &&
                     !checkStatus &&
                     (date || returnEligibleDate) && (
                       <React.Fragment>
@@ -672,11 +678,13 @@ export default class OrderCard extends React.Component {
                           shipmentStatus.includes("Eligible for Return till") &&
                           !this.props.deliveryDate
                             ? ""
-                            : shipmentStatus}{" "}
+                            : `${shipmentStatus}:`}{" "}
                         </span>
-                        {/* <span className={styles.styleDate}>
-                          {this.props.estimatedDeliveryDate}
-                        </span> */}
+                        {shipmentStatus.includes(EDD_TEXT) && (
+                          <span className={styles.styleDate}>
+                            {estimatedDeliveryDateFormatted}
+                          </span>
+                        )}
                         {shipmentStatus &&
                           shipmentStatus.includes(
                             "Order Could be collected by"

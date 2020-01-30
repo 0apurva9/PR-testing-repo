@@ -9,7 +9,8 @@ import {
   SHORT_EXPRESS,
   SHORT_COLLECT,
   SHORT_HOME_DELIVERY,
-  SHORT_SAME_DAY_DELIVERY
+  SHORT_SAME_DAY_DELIVERY,
+  SAME_DAY_DELIVERY
 } from "../../lib/constants";
 import PropTypes from "prop-types";
 import styles from "./PdpDeliveryModes.css";
@@ -23,12 +24,11 @@ export default class PdpDeliveryModes extends React.Component {
     let firstSlaveData;
     let availableStores = this.props.availableStores;
     let ussid;
-    const eligibleDeliveryModes = this.props.eligibleDeliveryModes;
+    const { eligibleDeliveryModes, deliveryModesATP } = this.props;
     let getDeliveryModesByWinningUssid = "";
     if (this.props.fromSellerCard) {
       baseClass = `${styles.base} ${styles.sellerBase}`;
     }
-    //const deliveryModesATP = this.props.deliveryModesATP;
 
     if (this.props.fromSellerCard && this.props.pincodeDetails) {
       deliveryDates = this.props.pincodeDetails.validDeliveryModes;
@@ -99,7 +99,6 @@ export default class PdpDeliveryModes extends React.Component {
           .includes(SHORT_SAME_DAY_DELIVERY))
         ? styles.standardAndCashOnDelivery
         : styles.noStandardAndCashOnDelivery;
-
     return (
       <div className={baseClass}>
         {QuiqPiq === true && (
@@ -149,6 +148,16 @@ export default class PdpDeliveryModes extends React.Component {
                         return val.deliveryDate;
                       })[0]
                   }
+                  deliveryMessage={
+                    deliveryModesATP &&
+                    deliveryModesATP
+                      .filter(val => {
+                        return val.key === SAME_DAY_DELIVERY;
+                      })
+                      .map(val => {
+                        return val.value;
+                      })[0]
+                  }
                 />
               )}
             {deliveryDates &&
@@ -189,6 +198,16 @@ export default class PdpDeliveryModes extends React.Component {
                         return val.deliveryDate;
                       })[0]
                   }
+                  deliveryMessage={
+                    deliveryModesATP &&
+                    deliveryModesATP
+                      .filter(val => {
+                        return val.key === EXPRESS;
+                      })
+                      .map(val => {
+                        return val.value;
+                      })[0]
+                  }
                 />
               )}
             {deliveryDates &&
@@ -223,6 +242,16 @@ export default class PdpDeliveryModes extends React.Component {
                       : null
                   }
                   splitIntoTwoLine={false}
+                  deliveryMessage={
+                    deliveryModesATP &&
+                    deliveryModesATP
+                      .filter(val => {
+                        return val.key === COLLECT;
+                      })
+                      .map(val => {
+                        return val.value;
+                      })[0]
+                  }
                 />
               )}
           </div>
@@ -269,6 +298,16 @@ export default class PdpDeliveryModes extends React.Component {
                       .includes(SHORT_HOME_DELIVERY)
                       ? true
                       : false
+                  }
+                  deliveryMessage={
+                    deliveryModesATP &&
+                    deliveryModesATP
+                      .filter(val => {
+                        return val.key === HOME_DELIVERY;
+                      })
+                      .map(val => {
+                        return val.value;
+                      })[0]
                   }
                 />
               </div>

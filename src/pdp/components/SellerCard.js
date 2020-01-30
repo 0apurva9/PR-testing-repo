@@ -169,7 +169,7 @@ export default class SellerCard extends React.Component {
                   fromSellerCard={true}
                   onPiq={ussid => this.handleShowPiqPage(ussid)}
                   eligibleDeliveryModes={this.props.eligibleDeliveryModes}
-                  //deliveryModesATP={productData.deliveryModesATP}
+                  deliveryModesATP={this.props.deliveryModesATP}
                   pdpApparel={true}
                   pincodeDetails={serviceableDeliveryModes}
                   //isCod={productData.isCOD}

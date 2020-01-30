@@ -64,7 +64,6 @@ export default class DeliveryInfoSelect extends React.Component {
     let deliveryInformationWithDate = this.props.deliveryInformationWithDate;
     let elligibleDeliveryModes = this.props.deliveryInformation;
     const isCod = this.props.isCod;
-
     return (
       <div className={styles.base}>
         {deliveryInformationWithDate &&
@@ -144,6 +143,16 @@ export default class DeliveryInfoSelect extends React.Component {
                   })[0]
               }
               cliqPiqSelected={this.props.cliqPiqSelected}
+              deliveryMessage={
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes
+                  .filter(val => {
+                    return val.code === SAME_DAY_DELIVERY;
+                  })
+                  .map(val => {
+                    return val.desc;
+                  })[0]
+              }
             />
           )}
 
@@ -223,6 +232,16 @@ export default class DeliveryInfoSelect extends React.Component {
                   })[0]
               }
               cliqPiqSelected={this.props.cliqPiqSelected}
+              deliveryMessage={
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes
+                  .filter(val => {
+                    return val.code === EXPRESS;
+                  })
+                  .map(val => {
+                    return val.desc;
+                  })[0]
+              }
             />
           )}
 
@@ -303,6 +322,16 @@ export default class DeliveryInfoSelect extends React.Component {
               splitIntoTwoLine={false}
               inCheckOutPage={this.props.inCheckOutPage}
               cliqPiqSelected={this.props.cliqPiqSelected}
+              deliveryMessage={
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes
+                  .filter(val => {
+                    return val.code === COLLECT;
+                  })
+                  .map(val => {
+                    return val.desc;
+                  })[0]
+              }
             />
           )}
         <div
@@ -410,6 +439,16 @@ export default class DeliveryInfoSelect extends React.Component {
                       : false
                   }
                   cliqPiqSelected={this.props.cliqPiqSelected}
+                  deliveryMessage={
+                    elligibleDeliveryModes &&
+                    elligibleDeliveryModes
+                      .filter(val => {
+                        return val.code === HOME_DELIVERY;
+                      })
+                      .map(val => {
+                        return val.desc;
+                      })[0]
+                  }
                 />
               </div>
             )}

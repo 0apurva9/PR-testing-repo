@@ -61,7 +61,8 @@ const productDescription = (
     secondaryBundleProductData: null,
     relevantProductPinCodeStatus: null,
     relevantBundleProductCodeStatus: false,
-    relevantBundleProductCodeData: null
+    relevantBundleProductCodeData: null,
+    pincodeError: null
   },
   action
 ) => {
@@ -131,7 +132,8 @@ const productDescription = (
       return Object.assign({}, state, {
         status: action.status,
         loading: true,
-        serviceablePincodeListResponse: null
+        serviceablePincodeListResponse: null,
+        pincodeError: null
       });
 
     case pdpActions.CHECK_PRODUCT_PIN_CODE_SUCCESS:
@@ -268,7 +270,8 @@ const productDescription = (
         status: action.status,
         productDetails: currentPdpDetail,
         loading: false,
-        serviceablePincodeListResponse: pincodeListResponse
+        serviceablePincodeListResponse: pincodeListResponse,
+        pincodeError: action.productPinCode.pincodeError
       });
 
     case pdpActions.CHECK_PRODUCT_PIN_CODE_FAILURE:
@@ -276,7 +279,8 @@ const productDescription = (
         status: action.status,
         error: action.error,
         loading: false,
-        serviceablePincodeListResponse: null
+        serviceablePincodeListResponse: null,
+        pincodeError: null
       });
 
     case pdpActions.ADD_PRODUCT_TO_CART_REQUEST:

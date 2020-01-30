@@ -311,7 +311,8 @@ const mapStateToProps = state => {
     userDetails: state.profile.userDetails,
     loadingOfBuyNowSuccess: state.cart.tempCartIdForLoggedInUserStatus,
     loadingForAddStoreToCnc: state.cart.loadingForAddStore,
-    loadingForCartDetail: state.cart.loadingForCartDetail
+    loadingForCartDetail: state.cart.loadingForCartDetail,
+    pincodeError: state.productDescription.pincodeError
   };
 };
 
