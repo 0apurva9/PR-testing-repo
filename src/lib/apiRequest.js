@@ -73,6 +73,34 @@ if (
   API_URL_ROOT = "https://preprod3.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
     "https://preprod3.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "qa8") {
+  API_URL_ROOT = "https://qa8.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://qa8.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "qa9") {
+  API_URL_ROOT = "https://qa9.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://qa9.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "preprod1") {
+  API_URL_ROOT = "https://preprod1.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://preprod1.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "prod1") {
+  API_URL_ROOT = "https://prod1.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://prod1.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "awsprod1") {
+  API_URL_ROOT = "https://awsprod1.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://awsprod1.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "awsprod2") {
+  API_URL_ROOT = "https://awsprod2.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://awsprod2.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "awsprod3") {
+  API_URL_ROOT = "https://awsprod3.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://awsprod3.tataunistore.com/marketplacewebservices";
 }
 
 if (process.env.REACT_APP_STAGE === "tmpprod") {
@@ -105,6 +133,20 @@ if (process.env.REACT_APP_STAGE === "tmpprod") {
   URL_ROOT = "https://e2e1.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "preprod3") {
   URL_ROOT = "https://preprod3.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "qa8") {
+  URL_ROOT = "https://qa8.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "qa9") {
+  URL_ROOT = "https://qa9.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "preprod1") {
+  URL_ROOT = "https://preprod1.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "prod1") {
+  URL_ROOT = "https://prod1.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "awsprod1") {
+  URL_ROOT = "https://awsprod1.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "awsprod2") {
+  URL_ROOT = "https://awsprod2.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "awsprod3") {
+  URL_ROOT = "https://awsprod3.tataunistore.com";
 }
 
 export const API_URL_ROOT_DUMMY =
@@ -133,10 +175,10 @@ export async function postAdobeTargetUrl(
   const result = await new Promise((resolve, reject) => {
     window.adobe.target.getOffer({
       mbox: mbox,
-      success: function(offer) {
+      success: function (offer) {
         resolve(offer);
       },
-      error: function(status, error) {
+      error: function (status, error) {
         reject(error);
       }
     });
@@ -390,7 +432,7 @@ async function logoutUserOnInvalidRefreshToken() {
   try {
     const result = await postFormData(
       `v2/mpl/users/logout?userId=${
-        JSON.parse(userDetails).userName
+      JSON.parse(userDetails).userName
       }&access_token=${JSON.parse(globalAccessToken).access_token}`
     );
     const resultJson = await result.json();
@@ -504,7 +546,7 @@ async function refreshCustomerAccessToken() {
   }
   const refreshTokenResponse = await post(
     `${TOKEN_PATH}?refresh_token=${
-      JSON.parse(customerCookie).refresh_token
+    JSON.parse(customerCookie).refresh_token
     }&client_id=${CLIENT_ID}&client_secret=secret&grant_type=refresh_token`
   );
   let refreshTokenResultJson = await refreshTokenResponse.json();
@@ -550,7 +592,7 @@ async function refreshCartIdForLoggedUser() {
 
   const resultForGetCartId = await get(
     `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/carts?access_token=${
-      JSON.parse(customerCookie).access_token
+    JSON.parse(customerCookie).access_token
     }&isPwa=true`
   );
   const resultForGetCartIdJson = await resultForGetCartId.json();
@@ -564,9 +606,9 @@ async function refreshCartIdForLoggedUser() {
   ) {
     const resultForCreateCartId = await post(
       `${USER_CART_PATH}/${
-        JSON.parse(userDetails).userName
+      JSON.parse(userDetails).userName
       }/carts?access_token=${
-        JSON.parse(customerCookie).access_token
+      JSON.parse(customerCookie).access_token
       }&isPwa=true`
     );
     const resultForCreateCartIdJson = await resultForCreateCartId.json();
@@ -584,7 +626,7 @@ async function refreshCartIdForAnonymous() {
   let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
   const resultForCreateCartId = await post(
     `${USER_CART_PATH}/anonymous/carts?access_token=${
-      JSON.parse(globalCookie).access_token
+    JSON.parse(globalCookie).access_token
     }&isPwa=true`
   );
   const resultForCreateCartIdJson = await resultForCreateCartId.json();
@@ -657,12 +699,12 @@ export async function postStripe(postData) {
   if (window.Stripe) {
     const stripe = window.Stripe;
     stripe.setPublishableKey(STRIPE_ACCESTOKEN);
-    let stripeResponse = new Promise(function(resolve, reject) {
+    let stripeResponse = new Promise(function (resolve, reject) {
       stripe.card.createToken(postData, (status, response) => {
         resolve(response);
       });
     });
-    return await stripeResponse.then(function(result) {
+    return await stripeResponse.then(function (result) {
       return result;
     });
   }
@@ -710,26 +752,26 @@ export async function pdpOffersApi(code, sellerId, categoryCode, brandCode) {
   }
   return await fetch(
     API_URL_ROOT +
-      "/v2/mpl/products/" +
-      code +
-      "/voucherSequence?access_token=" +
-      accessToken.access_token +
-      "&sellerId=" +
-      sellerId +
-      "&categoryCode=" +
-      categoryCode +
-      "&brandCode=" +
-      brandCode +
-      "&channel=Web&updatedFlag=true"
+    "/v2/mpl/products/" +
+    code +
+    "/voucherSequence?access_token=" +
+    accessToken.access_token +
+    "&sellerId=" +
+    sellerId +
+    "&categoryCode=" +
+    categoryCode +
+    "&brandCode=" +
+    brandCode +
+    "&channel=Web&updatedFlag=true"
   );
 }
 export async function pdpManufacturersApi(categoryCode, brandCode) {
   return await fetch(
     API_URL_ROOT +
-      "/v2/mpl/products/manufacturingdetails?category=" +
-      categoryCode +
-      "&brand=" +
-      brandCode
+    "/v2/mpl/products/manufacturingdetails?category=" +
+    categoryCode +
+    "&brand=" +
+    brandCode
   );
 }
 export async function getPlpBanners(categoryCode) {
