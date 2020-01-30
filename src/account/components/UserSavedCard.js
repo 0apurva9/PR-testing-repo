@@ -120,6 +120,16 @@ export default class UserSavedCard extends React.Component {
     this.setState({
       showAddNewUpi: val
     });
+    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    if (customerCookie && userDetails) {
+      if (this.props.getSavedCardDetails) {
+        this.props.getSavedCardDetails(
+          JSON.parse(userDetails).userName,
+          JSON.parse(customerCookie).access_token
+        );
+      }
+    }
   };
   /**
    * EOD
