@@ -532,6 +532,7 @@ export const ORDER_CONFIRMATION_BANNER_SUCCESS =
   "ORDER_CONFIRMATION_BANNER_SUCCESS";
 export const ORDER_CONFIRMATION_BANNER_FAILURE =
   "ORDER_CONFIRMATION_BANNER_FAILURE";
+export const UPI_VPA = "upi_vpa";
 
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
@@ -2253,6 +2254,8 @@ export function collectPaymentOrderForUPI(
     let cartDetails;
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
+
+    let upi_vpa = localStorage.getItem(UPI_VPA);
     let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
     const binCardType = localStorage.getItem(BIN_CARD_TYPE);
     if (binCardType && paymentMode !== "EMI") {
@@ -2265,6 +2268,7 @@ export function collectPaymentOrderForUPI(
     const returnUrl = `${
       window.location.origin
     }/checkout/payment-method/cardPayment`;
+
     let orderDetails = "";
     let inventoryItems = cartItem;
     if (isPaymentFailed) {
@@ -2320,6 +2324,28 @@ export function collectPaymentOrderForUPI(
                   }
                 ]
               }
+            ],
+            wrapperPspItems: [
+              {
+                pspItems: [
+                  {
+                    pspName: "Juspay",
+                    token: "",
+                    cardToken: "",
+                    cardFingerprint: "",
+                    cardRefNo: "",
+                    returnUrl: returnUrl
+                  },
+                  {
+                    pspName: "Stripe",
+                    token: "",
+                    cardToken: "",
+                    cardFingerprint: "",
+                    cardRefNo: "",
+                    returnUrl: returnUrl
+                  }
+                ]
+              }
             ]
           }
         ]
@@ -2355,11 +2381,8 @@ export function collectPaymentOrderForUPI(
           throw new Error(resultJson.message);
         }
       }
-      localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       dispatch(collectPaymentOrderSuccess(resultJson));
-      dispatch(
-        jusPayPaymentMethodTypeForUPI(resultJson.pspAuditId, cardDetails)
-      );
+      dispatch(jusPayPaymentMethodTypeForUPI(resultJson.pspAuditId, upi_vpa));
     } catch (e) {
       dispatch(
         displayToast(ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL + " Please Retry.")
@@ -2409,12 +2432,13 @@ export function softReservationPaymentForUPI(
       }
       dispatch(
         // change this code
+
         collectPaymentOrderForUPI(
           paymentMethodType,
           productItems,
           bankCode,
-          pinCode,
           false,
+          cartId,
           "",
           bankName
         )
@@ -2426,20 +2450,27 @@ export function softReservationPaymentForUPI(
   };
 }
 
-export function jusPayPaymentMethodTypeForUPI(juspayOrderId, cardDetails) {
+export function jusPayPaymentMethodTypeForUPI(juspayOrderId, upi_vpa) {
   return async (dispatch, getState, { api }) => {
     dispatch(jusPayPaymentMethodTypeRequest());
-    let cardObject = new FormData();
-    cardObject.append("payment_method_type", UPI);
-    cardObject.append("redirect_after_payment", "true");
-    cardObject.append("format", "json");
-    cardObject.append("card_security_code", cardDetails.cvvNumber);
-    cardObject.append("merchant_id", getState().cart.paymentModes.merchantID);
-    cardObject.append("card_token", cardDetails.cardToken);
-    cardObject.append("order_id", juspayOrderId);
-    cardObject.append("payment_method", UPI);
+
+    const params = {
+      payment_method_type: "UPI",
+      redirect_after_payment: "true",
+      format: "json",
+      merchant_id: getState().cart.paymentModes.merchantID,
+      txn_type: "UPI_COLLECT",
+      order_id: juspayOrderId,
+      payment_method: "UPI",
+      upi_vpa: upi_vpa
+    };
+    let cardObject = Object.keys(params)
+      .map(key => {
+        return encodeURIComponent(key) + "=" + encodeURIComponent(params[key]);
+      })
+      .join("&");
     try {
-      const result = await api.postJusPay(`txns?`, cardObject);
+      const result = await api.postJusPayUrlEncode(`txns?`, cardObject);
       const resultJson = await result.json();
       if (
         resultJson.status === JUS_PAY_PENDING ||
@@ -2468,7 +2499,7 @@ export function jusPayPaymentMethodTypeForGiftCardUPI(
 ) {
   return async (dispatch, getState, { api }) => {
     let cardObject = new FormData();
-    cardObject.append("payment_method_type", UPI);
+    cardObject.append("payment_method_type", "UPI");
     cardObject.append("redirect_after_payment", "true");
     cardObject.append("format", "json");
     cardObject.append("merchant_id", getState().cart.paymentModes.merchantID);
@@ -2507,10 +2538,9 @@ export function createJusPayOrderForUPI(
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
+  let upi_vpa = JSON.parse(localStorage.getItem(UPI_VPA));
   let cartItem = cartItemObj;
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/multi/payment-method/cardPayment`;
+  const jusPayUrl = `uat.tataunistore.com/checkout/multi/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
@@ -2605,7 +2635,7 @@ export function createJusPayOrderForUPI(
         }
       }
       dispatch(
-        jusPayPaymentMethodTypeForUPI(resultJson.juspayOrderId, cardDetails)
+        jusPayPaymentMethodTypeForUPI(resultJson.juspayOrderId, upi_vpa)
       );
     } catch (e) {
       dispatch(createJusPayOrderFailure(e.message));
