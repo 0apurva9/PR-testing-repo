@@ -168,8 +168,9 @@ export default class DeliveryInformations extends React.Component {
     let cncDeliveryAddressClass = styles.cncDeliveryAddress;
     if (this.props.type === SHORT_EXPRESS) {
       iconImage = ExpressImage;
-      if (this.props.inCartPage) {
+      if (this.props.inCartPage || this.props.inCheckOutPage) {
         typeDate = `${formattedPlacedTime}`;
+        typeText = `${EXPRESS_TEXT}`;
       } else {
         typeDate = `${formattedPlacedTime}`;
         typeText = !this.props.deliveryInformationByCart

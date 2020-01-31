@@ -242,6 +242,7 @@ export default class DeliveryInfoSelect extends React.Component {
                     return val.desc;
                   })[0]
               }
+              inCheckOutPage={this.props.inCheckOutPage}
             />
           )}
 
@@ -449,6 +450,7 @@ export default class DeliveryInfoSelect extends React.Component {
                         return val.desc;
                       })[0]
                   }
+                  inCheckOutPage={this.props.inCheckOutPage}
                 />
               </div>
             )}
