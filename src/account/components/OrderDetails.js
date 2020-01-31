@@ -6,6 +6,7 @@ import OrderCard from "./OrderCard.js";
 import OrderViewPaymentDetails from "./OrderViewPaymentDetails";
 import OrderPaymentMethod from "./OrderPaymentMethod";
 import OrderStatusVertical from "./OrderStatusVerticalV2";
+import InstallationExperience from "./InstallationExperience";
 import PropTypes from "prop-types";
 import format from "date-fns/format";
 import each from "lodash.foreach";
@@ -487,6 +488,74 @@ export default class OrderDetails extends React.Component {
                     }
                   );
                 });
+                const requestCancelled =
+                  products.installationDisplayMsg &&
+                  products.installationDisplayMsg.find(val => {
+                    return val.key === "REQUEST_CANCELLED";
+                  });
+                const requestCompleted =
+                  products.installationDisplayMsg &&
+                  products.installationDisplayMsg.find(val => {
+                    return val.key === "REQUEST_COMPLETED";
+                  });
+                const requestClosed =
+                  products.installationDisplayMsg &&
+                  products.installationDisplayMsg.find(val => {
+                    return val.key === "REQUEST_CLOSED";
+                  });
+                const requestReschedule =
+                  products.installationDisplayMsg &&
+                  products.installationDisplayMsg.find(val => {
+                    return val.key === "REQUEST_RESCHEDULE";
+                  });
+                let hideEIETrackDiagram = false;
+                let hideEstimatedInstallationDate = false;
+                //request cancelled
+                if (
+                  requestCancelled &&
+                  requestCancelled.value.customerFacingName ===
+                    "Request Cancelled" &&
+                  requestCancelled.value.status === "Completed"
+                ) {
+                  hideEIETrackDiagram = true;
+                  hideEstimatedInstallationDate = true;
+                }
+                //request completed
+                if (
+                  requestCompleted &&
+                  requestCompleted.value.customerFacingName ===
+                    "Request Completed" &&
+                  requestCompleted.value.status === "Completed"
+                ) {
+                  hideEIETrackDiagram = true;
+                  hideEstimatedInstallationDate = true;
+                }
+                //installation rescheduled
+                if (
+                  requestCompleted &&
+                  requestCompleted.value.customerFacingName ===
+                    "Installation Rescheduled" &&
+                  requestCompleted.value.status === "Completed"
+                ) {
+                  hideEIETrackDiagram = true;
+                }
+                //request closed
+                if (
+                  requestClosed &&
+                  requestClosed.value.customerFacingName === "Request Closed" &&
+                  requestClosed.value.status === "Completed"
+                ) {
+                  hideEIETrackDiagram = true;
+                }
+                //installation rescheduled
+                if (
+                  requestReschedule &&
+                  requestReschedule.value.customerFacingName ===
+                    "Installation Rescheduled" &&
+                  requestReschedule.value.status === "Completed"
+                ) {
+                  hideEIETrackDiagram = true;
+                }
                 return (
                   <React.Fragment key={i}>
                     <div className={styles.order} key={i}>
@@ -555,6 +624,19 @@ export default class OrderDetails extends React.Component {
                         isOrderReturnable={products.isReturned}
                         returnMode={products.returnMode}
                         returnPolicy={products.returnPolicy}
+                        installationCompletedDate={
+                          products.installationCompletedDate
+                        }
+                        installationRequestCancelled={requestCancelled}
+                        estimatedCompletionDate={
+                          products.estimatedCompletionDate
+                        }
+                        hideEstimatedInstallationDate={
+                          hideEstimatedInstallationDate
+                        }
+                        installationRequestReschedule={requestReschedule}
+                        installationRequestClosed={requestClosed}
+                        installationRequestCompleted={requestCompleted}
                       />
 
                       {products.awbPopupLink === AWB_POPUP_TRUE && (
@@ -812,7 +894,17 @@ export default class OrderDetails extends React.Component {
                               )}
                           </React.Fragment>
                         )}
-
+                      {products.installationDisplayMsg &&
+                        !hideEIETrackDiagram && (
+                          <React.Fragment>
+                            <div className={styles.borderTop} />
+                            <InstallationExperience
+                              installationDisplayMsg={
+                                products.installationDisplayMsg
+                              }
+                            />
+                          </React.Fragment>
+                        )}
                       {products.awbPopupLink === AWB_POPUP_FALSE && (
                         <div
                           className={

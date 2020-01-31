@@ -101,7 +101,7 @@ export default class ProductGrid extends React.Component {
         onOffer={data.isOfferExisting}
         newProduct={data.newProduct}
         averageRating={data.averageRating}
-        totalNoOfReviews={data.totalNoOfReviews}
+        ratingCount={data.ratingCount}
         view={this.props.view}
         winningUssID={data.winningUssID ? data.winningUssID : data.ussid}
         onClick={(url, data, ref) =>
