@@ -35,9 +35,12 @@ import { setBagCount } from "../../general/header.actions";
 import { setDataLayer, ADOBE_PDP_TYPE } from "../../lib/adobeUtils.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { isBrowser } from "browser-or-node";
+
 import test from "../../mock/test.json";
 import ed from "../../mock/exchangeDetails.json";
 import pincodeResponse from "../../mock/pincodeResponse.json";
+import imeijson from "../../mock/imei.json";
+
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
 import { displayToast, showToast } from "../../general/toast.actions.js";
 export const SUBMIT_REVIEW_TEXT =
@@ -186,6 +189,10 @@ export const EXCHANGE_DETAILS_SUCCESS = "EXCHANGE_DETAILS_SUCCESS";
 export const EXCHANGE_DETAILS_FAILURE = "EXCHANGE_DETAILS_FAILURE";
 
 export const UPDATE_DETAILS_SUCCESS = "UPDATE_DETAILS_SUCCESS";
+
+export const CHECK_IMEI_NUMBER_REQUEST = "CHECK_IMEI_NUMBER_REQUEST";
+export const CHECK_IMEI_NUMBER_SUCCESS = "CHECK_IMEI_NUMBER_SUCCESS";
+export const CHECK_IMEI_NUMBER_FAILURE = "CHECK_IMEI_NUMBER_FAILURE";
 
 export const SHOW_PDP_PIQ_PAGE = "showPdpPiqPage";
 export const HIDE_PDP_PIQ_PAGE = "hidePdpPiqPage";
@@ -1762,5 +1769,57 @@ export function updateProductState(data) {
     type: UPDATE_DETAILS_SUCCESS,
     status: SUCCESS,
     data
+  };
+}
+
+export function verifyIMEINumberRequest() {
+  return {
+    type: CHECK_IMEI_NUMBER_REQUEST,
+    status: REQUESTING
+  };
+}
+export function verifyIMEINumberSuccess(data) {
+  return {
+    type: CHECK_IMEI_NUMBER_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function verifyIMEINumberFailure(error) {
+  return {
+    type: CHECK_IMEI_NUMBER_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function verifyIMEINumber(
+  IMEINumber,
+  exchangeProductId,
+  exchangeAmountCashify,
+  tulBump,
+  pickUpCharge,
+  listingId,
+  ussId
+) {
+  console.log(IMEINumber);
+  return async (dispatch, getState, { api }) => {
+    dispatch(verifyIMEINumberRequest());
+    try {
+      // const result = await api.getMiddlewareUrl(
+      //   `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&exchangeAmountCashify=${exchangeAmountCashify}&TulBump=${tulBump}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}`
+      // );
+      // const resultJson = await result.json();
+      const resultJson = imeijson;
+      return resultJson;
+      // if (resultJson.status === SUCCESS) {
+      //   return dispatch(verifyIMEINumberSuccess(resultJson));
+      //   return resultJson;
+      // } else {
+      //   throw new Error(`${resultJson.error}`);
+      // }
+    } catch (e) {
+      return dispatch(verifyIMEINumberFailure(e.message));
+    }
   };
 }

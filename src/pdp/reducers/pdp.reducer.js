@@ -66,7 +66,12 @@ const productDescription = (
     exchangeDetailsStatus: null,
     exchangeDetailsLoading: false,
     exchangeDetails: null,
-    exchangeDetailsError: null
+    exchangeDetailsError: null,
+
+    checkIMEINumberStatus: null,
+    checkIMEINumberLoading: false,
+    checkIMEINumberDetails: null,
+    checkIMEINumberError: null
   },
   action
 ) => {
@@ -929,6 +934,26 @@ const productDescription = (
         status: action.status,
         productDetails: exchangePdpDetail,
         loading: false
+      });
+
+    case pdpActions.CHECK_IMEI_NUMBER_REQUEST:
+      return Object.assign({}, state, {
+        checkIMEINumberStatus: action.status,
+        checkIMEINumberLoading: true
+      });
+
+    case pdpActions.CHECK_IMEI_NUMBER_SUCCESS:
+      return Object.assign({}, state, {
+        checkIMEINumberStatus: action.status,
+        checkIMEINumberLoading: false,
+        checkIMEINumberDetails: action.data
+      });
+
+    case pdpActions.CHECK_IMEI_NUMBER_FAILURE:
+      return Object.assign({}, state, {
+        checkIMEINumberStatus: action.status,
+        checkIMEINumberLoading: false,
+        checkIMEINumberError: action.error
       });
 
     default:

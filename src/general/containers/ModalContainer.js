@@ -38,7 +38,8 @@ import {
 import {
   getAllStoresForCliqAndPiq,
   hidePdpPiqPage,
-  updateProductState
+  updateProductState,
+  verifyIMEINumber
 } from "../../pdp/actions/pdp.actions";
 import { updateProfile } from "../../account/actions/account.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -412,6 +413,27 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     updateProductState: data => {
       dispatch(updateProductState(data));
+    },
+    verifyIMEINumber: async (
+      IMEINumber,
+      exchangeProductId,
+      exchangeAmountCashify,
+      tulBump,
+      pickUpCharge,
+      listingId,
+      ussId
+    ) => {
+      return await dispatch(
+        verifyIMEINumber(
+          IMEINumber,
+          exchangeProductId,
+          exchangeAmountCashify,
+          tulBump,
+          pickUpCharge,
+          listingId,
+          ussId
+        )
+      );
     }
   };
 };

@@ -35,13 +35,16 @@ export default class ExchangeModal extends React.Component {
       isFirstDeviceSelected: false,
       isSecondDeviceSelected: false,
       enableVerifyButton: false,
+      initialIMEIMessage:
+        "Dial <span style='font-family:regular;'>*#06#</span> from your old device to know your IMEI number",
       checkIMEIMessage:
-        "Dial <span style='color:#ff1744;font-family:semibold;'>*#06#</span> from your old device to know your IMEI number",
+        "Dial <span style='font-family:regular;'>*#06#</span> from your old device to know your IMEI number",
       IMEISuccessMessage:
         "<span style='color:#67b70b;'>IMEI number will be matched against your mobile at pick-up</span>",
       IMEIFailureMessage:
         "<span style='color:#c47403;'>We are having problem detecting your phone’s IMEI number. Please enter valid IMEI no.</span>",
-      IMEIVerified: false
+      IMEIVerified: false,
+      IMEINumber: ""
     };
   }
   componentWillMount() {
@@ -59,14 +62,15 @@ export default class ExchangeModal extends React.Component {
   }
   componentDidMount() {
     // customSelectDropDown.setCssBrand();
-    if (localStorage.getItem("MEFirstDeviceData")) {
-      this.setState({ isExchangeDeviceAdded: true });
+    let firstDeviceData = JSON.parse(localStorage.getItem("MEFirstDeviceData"));
+    if (firstDeviceData) {
+      this.setState({
+        isExchangeDeviceAdded: true,
+        firstDeviceInfo: firstDeviceData
+      });
     }
     //show first device selected if second device not added
-    if (
-      localStorage.getItem("MEFirstDeviceData") &&
-      !localStorage.getItem("MESecondDeviceData")
-    ) {
+    if (firstDeviceData && !localStorage.getItem("MESecondDeviceData")) {
       this.setState({ isFirstDeviceSelected: true });
       localStorage.setItem("currentSelectedDevice", "MEFirstDeviceData");
     }
@@ -75,6 +79,8 @@ export default class ExchangeModal extends React.Component {
     if (this.props.closeModal) {
       this.props.closeModal();
     }
+    //need to update below code-once device added set state instead of this fn
+    //set first device details
     let FDD = JSON.parse(localStorage.getItem("MEFirstDeviceData"));
     if (FDD) {
       this.props.updateProductState({
@@ -134,16 +140,44 @@ export default class ExchangeModal extends React.Component {
     this.setState({ isExchangeDeviceAdded: true });
   }
   verifyIMEI(e) {
+    this.setState({
+      IMEIVerified: false,
+      checkIMEIMessage: this.state.initialIMEIMessage
+    });
     if (e.target.value.length === 15 || e.target.value.length === 16) {
-      this.setState({ enableVerifyButton: true });
+      this.setState({ enableVerifyButton: true, IMEINumber: e.target.value });
     } else {
-      this.setState({ enableVerifyButton: false });
+      this.setState({ enableVerifyButton: false, IMEINumber: "" });
     }
   }
-  checkIMEI() {
-    //get from API
-    let isIMEIVerified = true;
-    if (isIMEIVerified) {
+  async checkIMEI() {
+    // IMEINumber,exchangeProductId,exchangeAmountCashify,tulBump,pickUpCharge,listingId,ussId
+    // call check IMEI API
+    let IMEINumber = this.state.IMEINumber;
+    let exchangeProductId =
+      this.state.firstDeviceInfo &&
+      this.state.firstDeviceInfo.model.exchangeProductId;
+    let exchangeAmountCashify =
+      this.state.firstDeviceInfo &&
+      this.state.firstDeviceInfo.model.exchangeAmountCashify.value;
+    let tulBump =
+      this.state.firstDeviceInfo &&
+      this.state.firstDeviceInfo.tulBump.doubleValue;
+    let pickUpCharge =
+      this.state.firstDeviceInfo &&
+      this.state.firstDeviceInfo.pickupCharge.value;
+    let listingId = this.props.listingId;
+    let ussId = this.props.ussId;
+    let data = await this.props.verifyIMEINumber(
+      IMEINumber,
+      exchangeProductId,
+      exchangeAmountCashify,
+      tulBump,
+      pickUpCharge,
+      listingId,
+      ussId
+    );
+    if (data.isIMEIVerified) {
       this.setState({
         checkIMEIMessage: this.state.IMEISuccessMessage,
         IMEIVerified: true
@@ -344,7 +378,8 @@ export default class ExchangeModal extends React.Component {
               </li>
               <li>
                 In case of new phone being returned, the amount refunded would
-                be after deducting the Additional Cashback
+                be after deducting the{" "}
+                <span className={styles.fontRegular}>Additional Cashback</span>
               </li>
               <li>
                 To know more, refer{" "}
@@ -485,7 +520,8 @@ export default class ExchangeModal extends React.Component {
                   <input
                     type="radio"
                     className={styles.tabOneRadio}
-                    defaultChecked={this.state.isFirstDeviceSelected}
+                    // defaultChecked={this.state.isFirstDeviceSelected}
+                    defaultChecked={firstDeviceInfo}
                   />
                   <span className={styles.textCaps}>
                     {firstDeviceInfo &&
@@ -624,7 +660,8 @@ export default class ExchangeModal extends React.Component {
                     </td>
                   </tr>
                   <tr>
-                    <td colSpan="2">for {this.props.productName}</td>
+                    <td>for {this.props.productName}</td>
+                    <td />
                   </tr>
                 </tbody>
               </table>

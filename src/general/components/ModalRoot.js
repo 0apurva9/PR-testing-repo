@@ -639,6 +639,26 @@ export default class ModalRoot extends React.Component {
     this.props.updateProductState(data);
   }
 
+  verifyIMEINumber(
+    IMEINumber,
+    exchangeProductId,
+    exchangeAmountCashify,
+    tulBump,
+    pickUpCharge,
+    listingId,
+    ussId
+  ) {
+    return this.props.verifyIMEINumber(
+      IMEINumber,
+      exchangeProductId,
+      exchangeAmountCashify,
+      tulBump,
+      pickUpCharge,
+      listingId,
+      ussId
+    );
+  }
+
   render() {
     //  const couponCode = localStorage.getItem(BANK_COUPON_COOKIE);
     const MODAL_COMPONENTS = {
@@ -892,6 +912,25 @@ export default class ModalRoot extends React.Component {
         <ExchangeModal
           closeModal={() => this.handleClose()}
           updateProductState={data => this.updateProductState(data)}
+          verifyIMEINumber={(
+            IMEINumber,
+            exchangeProductId,
+            exchangeAmountCashify,
+            tulBump,
+            pickUpCharge,
+            listingId,
+            ussId
+          ) =>
+            this.verifyIMEINumber(
+              IMEINumber,
+              exchangeProductId,
+              exchangeAmountCashify,
+              tulBump,
+              pickUpCharge,
+              listingId,
+              ussId
+            )
+          }
           {...this.props.ownProps}
         />
       ),

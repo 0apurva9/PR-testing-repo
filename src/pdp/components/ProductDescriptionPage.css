@@ -1253,7 +1253,7 @@ width: 20px;
 }
 .exchangeContainer{
 	float: left;
-	width: 80%;
+	width: calc(100% - 55px);
 }
 .exchangeLink{
 	font-family: light;
@@ -1285,4 +1285,7 @@ width: 20px;
 	background: url(/static/media/right-arrow-red.c823dc28.svg) no-repeat;
 	background-position: center;
 	background-size: contain;
+}
+.fontRegular{
+	font-family: regular;
 }

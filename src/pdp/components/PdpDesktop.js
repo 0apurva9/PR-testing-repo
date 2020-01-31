@@ -819,14 +819,14 @@ export default class PdpApparel extends React.Component {
   }
   async openExchangeModal(data) {
     let listingId = this.props.productDetails.productListingId;
-    let ussid = this.props.productDetails.winningUssID;
+    let ussId = this.props.productDetails.winningUssID;
     let maxExchangeAmount = this.props.productDetails.maxExchangeAmount.value;
     let pickupCharge = this.props.productDetails.cashifyPickupCharge;
     let productName = this.props.productDetails.productName;
     //call exchange details API
     await this.props.getExchangeDetails(
       listingId,
-      ussid,
+      ussId,
       maxExchangeAmount,
       pickupCharge
     );
@@ -834,15 +834,26 @@ export default class PdpApparel extends React.Component {
       //with static data open exchange modal
       Object.assign(data, {
         exchangeDetails: this.props.exchangeDetails,
-        productName: productName
+        productName: productName,
+        listingId: listingId,
+        ussId: ussId
       });
       this.props.showExchangeModal(data);
     } else {
       //open exchange modal
       this.props.showExchangeModal({
         exchangeDetails: this.props.exchangeDetails,
-        productName: productName
+        productName: productName,
+        listingId: listingId,
+        ussId: ussId
       });
+    }
+  }
+  trimProductName(productName) {
+    if (productName.length > 22) {
+      return productName.substring(0, 21) + ".. ";
+    } else {
+      return productName;
     }
   }
   render() {
@@ -1178,16 +1189,20 @@ export default class PdpApparel extends React.Component {
                         ) : (
                           <div className={styles.exchangeLink}>
                             Get{" "}
-                            {productData.selectedProductCashback &&
-                            productData.selectedProductCashback
-                              .formattedValueNoDecimal
-                              ? productData.selectedProductCashback
-                                  .formattedValueNoDecimal
-                              : selectedProductCashback.formattedValueNoDecimal}{" "}
+                            <span className={styles.fontRegular}>
+                              {productData.selectedProductCashback &&
+                              productData.selectedProductCashback
+                                .formattedValueNoDecimal
+                                ? productData.selectedProductCashback
+                                    .formattedValueNoDecimal
+                                : selectedProductCashback.formattedValueNoDecimal}{" "}
+                            </span>
                             cashback on your{" "}
-                            {productData.selectedProductName
-                              ? productData.selectedProductName
-                              : selectedProductName}{" "}
+                            {this.trimProductName(
+                              productData.selectedProductName
+                                ? productData.selectedProductName
+                                : selectedProductName
+                            )}{" "}
                             <span
                               className={styles.withExchangeLink}
                               onClick={() => this.openExchangeModal()}
