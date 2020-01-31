@@ -63,7 +63,10 @@ export default class DeliveryInformations extends React.Component {
     }
   }
   componentDidUpdate(prevProps) {
-    if (this.props.cliqPiqSelected !== prevProps.cliqPiqSelected) {
+    if (
+      this.props.type === COLLECT &&
+      this.props.cliqPiqSelected !== prevProps.cliqPiqSelected
+    ) {
       if (this.props.onSelect) {
         this.props.onSelect(this.props.code);
       }

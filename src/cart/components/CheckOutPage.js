@@ -548,7 +548,7 @@ class CheckOutPage extends React.Component {
     }
     this.setState({ showCliqAndPiq: false });
     const addPickUpPerson = await this.props.addPickupPersonCNC(mobile, name);
-    if (addPickUpPerson.status === SUCCESS_UPPERCASE) {
+    if (addPickUpPerson.status === SUCCESS) {
       const updatedDeliveryModeUssid = this.state.ussIdAndDeliveryModesObj;
 
       updatedDeliveryModeUssid[
