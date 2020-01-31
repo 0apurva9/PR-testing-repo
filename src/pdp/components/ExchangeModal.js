@@ -610,8 +610,7 @@ export default class ExchangeModal extends React.Component {
               <div className={styles.tabSlider}>
                 <div className={styles.addDevice}>
                   <span className={styles.plusSign} />
-                  <br />
-                  Add another mobile to Evaluate
+                  Another Mobile to Evaluate
                 </div>
               </div>
             </div>

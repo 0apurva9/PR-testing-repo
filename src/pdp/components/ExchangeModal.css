@@ -80,6 +80,11 @@
   border: solid 0.5px #c6c6c6;
   padding: 15px;
   font-size:14px;
+  position: relative;
+}
+.tabSlider:nth-child(2){
+  border: dashed 0.5px #c6c6c6;
+  background-color: #f8f8f8;
 }
 .exchangeOfferTable{
   width: 330px;
@@ -137,19 +142,22 @@
 }
 .addDevice{
   font-size: 12px;
-  line-height: 1.17;
-  text-align: center;
   color: #8d8d8d;
-  width: 56px;
-  height: auto;
-  margin-top: 65px;
+  width: 170px;
   cursor: pointer;
+  text-align: left;
+  transform: rotate(90deg);
+  position: absolute;
+  left: -45px;
+  top: 110px;
+  letter-spacing: 0.2px;
 }
 .plusSign::after{
   content: " \002B";
   color: #ff1744;
   font-family: semibold;
-  font-size: 24px;
+  font-size: 12px;
+  margin-right: 5px;
 }
 .imeiCheckForm{
   width: 100%;

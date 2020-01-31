@@ -1,19 +1,9 @@
-<svg width="240" height="42" xmlns="http://www.w3.org/2000/svg">
- <defs>
-  <linearGradient y2="0%" y1="100%" x2="0%" x1="100%" id="a">
-   <stop stop-color="#ff007e" offset="0"/>
-   <stop stop-color="#ff1744" offset="1"/>
-  </linearGradient>
- </defs>
- <g>
-  <title>background</title>
-  <rect fill="none" id="canvas_background" height="44" width="242" y="-1" x="-1"/>
- </g>
- <g>
-  <title>Layer 1</title>
-  <g stroke="null" id="svg_1" fill-rule="evenodd" fill="none">
-   <path stroke="null" id="svg_2" fill-opacity="0.9" fill="url(#a)" d="m0,0l239,0l-14.775597,19.476001a3.854839,3 0 0 0 0,3.048l14.775597,19.476001l-239,0l0,-42.000003z"/>
-   <text stroke="null" x="0.364659" y="0.214912" transform="matrix(3.854838710335464,0,0,3.0000002214105437,-1.4057024774180529,-0.6447369211286028) " id="svg_3" fill="#fff"/>
-  </g>
- </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="199" height="42" viewBox="0 0 199 42">
+    <defs>
+        <linearGradient id="a" x1="100%" x2="0%" y1="47.79%" y2="52.102%">
+            <stop offset="0%" stop-color="#C14444"/>
+            <stop offset="100%" stop-color="#9A1660"/>
+        </linearGradient>
+    </defs>
+    <path fill="url(#a)" fill-rule="evenodd" d="M0 0h199l-13.267 20.917L199 41.834H0z"/>
 </svg>
