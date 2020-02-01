@@ -8,11 +8,13 @@ import upi_opt from "./img/upi_opt.svg";
 import BottomSlideModal from "../../general/components/BottomSlideModal.js";
 import { format } from "date-fns";
 import loader from "../../account/components/img/loader.gif";
+import { LocalStorage } from "node-localstorage";
 const invalidUpi = `Your UPI no longer seems to exist. Try another option.`;
 const VALID = `Verified`;
 const INVALID = `Invalid`;
 const UPI_REGEX = /^[A-Za-z0-9]+@[A-Za-z0-9]\w+$/;
 const dateFormat = "DD MMM";
+export const UPI_VPA = "upi_vpa";
 
 export default class UpiForm extends React.Component {
   constructor(props) {
@@ -43,6 +45,14 @@ export default class UpiForm extends React.Component {
       isChanged: false
     });
     const response = await this.props.addUPIDetails(ele, "checkout");
+    if (
+      this.props &&
+      this.props.addUserUPIDetails &&
+      this.props.addUserUPIDetails.upiStatus === "VALID"
+    ) {
+      LocalStorage.setState(UPI_VPA, this.state.upiId);
+    }
+
     // if (
     //   response &&
     //   response.upiResponse &&
