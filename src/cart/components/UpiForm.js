@@ -38,7 +38,6 @@ export default class UpiForm extends React.Component {
   }
 
   verifyUpi = async ele => {
-    debugger;
     this.setState({
       upiId: ele,
       showUpiMsg: {
