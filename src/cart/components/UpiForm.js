@@ -38,6 +38,7 @@ export default class UpiForm extends React.Component {
   }
 
   verifyUpi = async ele => {
+    debugger;
     this.setState({
       showUpiMsg: {
         upiId: ele
@@ -50,7 +51,10 @@ export default class UpiForm extends React.Component {
       this.props.addUserUPIDetails &&
       this.props.addUserUPIDetails.upiStatus === "VALID"
     ) {
-      localStorage.setItem(UPI_VPA, this.state.upiId);
+      localStorage.setItem(
+        UPI_VPA,
+        this.state.upiId || this.state.showUpiMsg.upiId
+      );
     }
 
     // if (
