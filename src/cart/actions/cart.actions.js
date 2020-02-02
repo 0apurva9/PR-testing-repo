@@ -2540,7 +2540,9 @@ export function createJusPayOrderForUPI(
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
   let upi_vpa = JSON.parse(localStorage.getItem(UPI_VPA));
   let cartItem = cartItemObj;
-  const jusPayUrl = `uat.tataunistore.com/checkout/multi/payment-method/cardPayment`;
+  const jusPayUrl = `${
+    window.location.origin
+  }/checkout/multi/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);

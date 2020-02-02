@@ -8,7 +8,7 @@ import upi_opt from "./img/upi_opt.svg";
 import BottomSlideModal from "../../general/components/BottomSlideModal.js";
 import { format } from "date-fns";
 import loader from "../../account/components/img/loader.gif";
-import { LocalStorage } from "node-localstorage";
+// import { LocalStorage } from "node-localstorage";
 const invalidUpi = `Your UPI no longer seems to exist. Try another option.`;
 const VALID = `Verified`;
 const INVALID = `Invalid`;
@@ -50,7 +50,7 @@ export default class UpiForm extends React.Component {
       this.props.addUserUPIDetails &&
       this.props.addUserUPIDetails.upiStatus === "VALID"
     ) {
-      LocalStorage.setState(UPI_VPA, this.state.upiId);
+      localStorage.setItem(UPI_VPA, this.state.upiId);
     }
 
     // if (
