@@ -553,22 +553,12 @@ export default class PdpJewellery extends React.Component {
             />
           )}
           <div className={styles.separator}>
-            {this.props.productDetails.pincodeResponseList && (
-              <OtherSellersLink
-                otherSellers={productData.otherSellers}
-                winningSeller={productData.winningSellerName}
-                pinCodeResponse={
-                  this.props.productDetails &&
-                  this.props.productDetails.pincodeResponseList &&
-                  this.props.productDetails.pincodeResponseList
-                    .deliveryOptions &&
-                  this.props.productDetails.pincodeResponseList.deliveryOptions
-                    .pincodeListResponse &&
-                  this.props.productDetails.pincodeResponseList.deliveryOptions
-                    .pincodeListResponse
-                }
-              />
-            )}
+            <OtherSellersLink
+              //otherSellers={productData.otherSellers}
+              winningSeller={productData.winningSellerName}
+              serviceableOtherSellers={this.props.serviceableOtherSellers}
+              onClick={this.goToSellerPage}
+            />
           </div>
           <div className={styles.details}>
             {productData.details && (

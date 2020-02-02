@@ -163,7 +163,8 @@ class ProductSellerPage extends Component {
 
       if (
         !this.props.serviceablePincodeList &&
-        productDetailsResponse && productDetailsResponse.status === SUCCESS
+        productDetailsResponse &&
+        productDetailsResponse.status === SUCCESS
       ) {
         const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
         if (pinCode) {
@@ -277,15 +278,16 @@ class ProductSellerPage extends Component {
     let pincodeResponseList = this.props.serviceablePincodeList || [];
 
     let actualSortedAvailableSeller = [];
-    pincodeResponseList.map(pincodeSeller => {
-      actualSortedAvailableSeller = sortedAvailableSellers.filter(
-        otherSeller => {
+    actualSortedAvailableSeller = sortedAvailableSellers.filter(otherSeller => {
+      return (
+        pincodeResponseList &&
+        pincodeResponseList.find(pincodeSeller => {
           return (
             otherSeller.USSID === pincodeSeller.ussid &&
             pincodeSeller.stockCount > 0 &&
             pincodeSeller.isServicable === "Y"
           );
-        }
+        })
       );
     });
 
@@ -321,11 +323,14 @@ class ProductSellerPage extends Component {
                 this.props.productDetails.winningSellerPrice
                   .formattedValueNoDecimal
               }
+              //priceDouble={this.props.productDetails.winningSellerPrice.doubleValue}
               discountPrice={
                 this.props.productDetails.mrpPrice.formattedValueNoDecimal
               }
+              //discountPriceDouble={this.props.productDetails.mrpPrice.doubleValue}
               averageRating={this.props.productDetails.averageRating}
               totalNoOfReviews={this.props.productDetails.productReviewsCount}
+              //totalNoOfReviews={this.props.productDetails.numberOfReviews}
               onClickImage={() =>
                 this.onClickImage(
                   this.props.productDetails &&
@@ -337,8 +342,8 @@ class ProductSellerPage extends Component {
               <div className={styles.OtherSeller}>Other sellers</div>
               <div className={styles.priceWithSeller}>
                 <div className={styles.seller}>
-                  {availableSellers.length} Other Sellers available starting at
-                  ₹{price}
+                  {actualSortedAvailableSeller.length} Other Sellers available
+                  starting at ₹{price}
                 </div>
                 <div className={styles.price}>
                   <SelectBoxMobile2
@@ -404,7 +409,9 @@ class ProductSellerPage extends Component {
                   </SellerWithMultiSelect>
                 )}
               </div>
-              {/*   {sortedUnAvailableSellers && (
+              {/*As of now unavailable sellers won't be shown in other seller page to reflect the same
+              behaviour as in ios and android apps.     
+              {sortedUnAvailableSellers && (
                 <div>
                   {sortedUnAvailableSellers.map((value, index) => {
                     return (
@@ -449,8 +456,8 @@ class ProductSellerPage extends Component {
                     <div className={styles.headerWithSellerAvailable}>
                       <div className={styles.header}>Other sellers</div>
                       <div className={styles.availableSeller}>
-                        {availableSellers.length} Other Sellers available
-                        starting at ₹ {price}
+                        {actualSortedAvailableSeller.length} Other Sellers
+                        available starting at ₹ {price}
                       </div>
                     </div>
                     <div className={styles.dropdownWithButton}>
@@ -534,7 +541,9 @@ class ProductSellerPage extends Component {
                         />
                       );
                     })}
-                  {/*   {sortedUnAvailableSellers &&
+                  {/*As of now unavailable sellers won't be shown in other seller page to reflect the same
+                  behaviour as in ios and android apps.     
+                  {sortedUnAvailableSellers &&
                     sortedUnAvailableSellers.map((value, index) => {
                       return (
                         <SellerCard
