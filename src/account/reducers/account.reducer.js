@@ -962,7 +962,7 @@ const account = (
     case accountActions.ADD_USER_UPI_FAILURE:
       return Object.assign({}, state, {
         addUserUPIStatus: action.status,
-        addUserUPIError: action.error,
+        addUserUPIDetails: action.error,
         loading: false
       });
     case accountActions.ADD_USER_UPI_NULL_STATE:

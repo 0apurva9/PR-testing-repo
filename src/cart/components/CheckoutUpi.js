@@ -36,10 +36,9 @@ export default class CheckoutUpi extends React.Component {
         <UpiForm
           savedUPIidResponse={
             this.props.cart.paymentModes &&
-            this.props.cart.paymentModes.savedUPIidResponse &&
-            this.props.cart.paymentModes.savedUPIidResponse.savedUPIidDetailsMap
-              ? this.props.cart.paymentModes.savedUPIidResponse
-                  .savedUPIidDetailsMap
+            this.props.cart.paymentModes.savedUpiResponse &&
+            this.props.cart.paymentModes.savedUpiResponse.savedUpiDetailsMap
+              ? this.props.cart.paymentModes.savedUpiResponse.savedUpiDetailsMap
               : []
           }
           UPIofferCalloutList={

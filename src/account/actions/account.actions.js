@@ -2260,7 +2260,8 @@ export function addUPIDetails(upi, pageType) {
 
       if (
         resultJsonStatus.status &&
-        resultJson.upiStatus === "INVALID" &&
+        (resultJson.upiStatus === "INVALID" ||
+          resultJson.upiStatus === "VALID") &&
         pageType !== "myaccount"
       ) {
         return dispatch(addUserUPISuccess(resultJson));
