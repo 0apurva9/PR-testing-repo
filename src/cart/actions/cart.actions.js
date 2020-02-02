@@ -2270,18 +2270,18 @@ export function collectPaymentOrderForUPI(
     } else {
       if (isFromRetryUrl) {
         cartGuId = retryCartGuid;
-        // if (!isPaymentFailed) {
-        //   inventoryItems = getValidDeliveryModeDetails(
-        //     getState().cart.getUserAddressAndDeliveryModesByRetryPayment
-        //       .products,
-        //     true,
-        //     getState().cart.getUserAddressAndDeliveryModesByRetryPayment
-        //   );
-        //   localStorage.setItem(
-        //     CART_ITEM_COOKIE,
-        //     JSON.stringify(inventoryItems)
-        //   );
-        // }
+        if (!isPaymentFailed) {
+          inventoryItems = getValidDeliveryModeDetails(
+            getState().cart.getUserAddressAndDeliveryModesByRetryPayment
+              .products,
+            true,
+            getState().cart.getUserAddressAndDeliveryModesByRetryPayment
+          );
+          localStorage.setItem(
+            CART_ITEM_COOKIE,
+            JSON.stringify(inventoryItems)
+          );
+        }
       } else {
         cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
         cartGuId = cartDetails
