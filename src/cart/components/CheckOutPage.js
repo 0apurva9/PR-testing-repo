@@ -2356,7 +2356,7 @@ if you have order id in local storage then you have to show order confirmation p
         );
       }
     }
-    if (this.state.currentPaymentMode === UPI_ID) {
+    if (this.state.currentPaymentMode === UPI) {
       if (this.state.isGiftCard) {
         if (this.props.collectPaymentOrderForUPI) {
           if (this.props.cart.isCreatePaymentOrderFailed) {
@@ -4012,6 +4012,7 @@ if you have order id in local storage then you have to show order confirmation p
                       upiPaymentISEnableMidddleLayer={() =>
                         this.props.upiPaymentISEnableMidddleLayer()
                       }
+                      getPaymentModes={val => this.props.getPaymentModes(val)}
                     />
                   </div>
                 )}

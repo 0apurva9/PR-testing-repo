@@ -5,12 +5,12 @@ import Button from "../../general/components/Button";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import styles from "./UpiForm.css";
 import upi_opt from "./img/upi_opt.svg";
-import BottomSlideModal from "../../general/components/BottomSlideModal.js";
 import { format } from "date-fns";
 import loader from "../../account/components/img/loader.gif";
+import { CART_DETAILS_FOR_LOGGED_IN_USER } from "../../lib/constants.js";
+import * as Cookie from "../../lib/Cookie";
 // import { LocalStorage } from "node-localstorage";
 const invalidUpi = `Your UPI no longer seems to exist. Try another option.`;
-const VALID = `Verified`;
 const INVALID = `Invalid`;
 const UPI_REGEX = /^[A-Za-z0-9]+@[A-Za-z0-9]\w+$/;
 const dateFormat = "DD MMM";
@@ -39,29 +39,23 @@ export default class UpiForm extends React.Component {
 
   verifyUpi = async ele => {
     this.setState({
+      upiId: ele,
       showUpiMsg: {
         upiId: ele
       },
       isChanged: false
     });
+    localStorage.setItem(UPI_VPA, ele);
     const response = await this.props.addUPIDetails(ele, "checkout");
-    if (
-      this.props &&
-      this.props.addUserUPIDetails &&
-      this.props.addUserUPIDetails.upiStatus === "VALID"
-    ) {
-      localStorage.setItem(UPI_VPA, this.state.upiId);
+    if (response && response.status === "Success") {
+      let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      if (cartDetails) {
+        let cartGuId = JSON.parse(cartDetails).guid;
+        if (this.props.getPaymentModes) {
+          await this.props.getPaymentModes(cartGuId);
+        }
+      }
     }
-
-    // if (
-    //   response &&
-    //   response.upiResponse &&
-    //   response.upiResponse.upiStatus === "VALID"
-    // ) {
-    //   this.setState({
-    //     isChanged: false
-    //   });
-    // }
   };
 
   updateUpi = val => {
@@ -83,6 +77,14 @@ export default class UpiForm extends React.Component {
       UPIofferCalloutList: this.props.UPIofferCalloutList,
       isNewUpi: this.props.savedUPIidResponse.length ? false : true
     });
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.savedUPIidResponse !== this.props.savedUPIidResponse) {
+      this.setState({
+        savedUPIidResponse: this.props.savedUPIidResponse,
+        UPIofferCalloutList: this.props.UPIofferCalloutList
+      });
+    }
   }
 
   showTermsAndConditionPopup = () => {
@@ -187,10 +189,18 @@ export default class UpiForm extends React.Component {
                                             "requesting" && (
                                             <img src={loader} alt="Loader" />
                                           )}
-                                          {this.props.addUserUPIDetails &&
+                                          {this.props.addUserUPIStatus !==
+                                            "requesting" &&
+                                            this.props.addUserUPIDetails &&
                                             this.props.addUserUPIDetails
                                               .upiStatus === "VALID" &&
                                             "Verified"}
+                                          {this.props.addUserUPIStatus !==
+                                            "requesting" &&
+                                            this.props.addUserUPIDetails &&
+                                            this.props.addUserUPIDetails
+                                              .upiStatus === "INVALID" &&
+                                            "Invalid"}
                                           {/* {this.state.showUpiMsg.text} */}
                                         </div>
                                         {this.props.addUserUPIDetails &&
@@ -321,14 +331,23 @@ export default class UpiForm extends React.Component {
                           )}
                           {this.props.addUserUPIStatus !== "requesting" &&
                             this.props.addUserUPIDetails &&
-                            this.props.addUserUPIDetails.upiStatus}
+                            this.props.addUserUPIDetails.upiStatus ===
+                              "INVALID" &&
+                            "Invalid"}
+                          {this.props.addUserUPIStatus !== "requesting" &&
+                            this.props.addUserUPIDetails &&
+                            this.props.addUserUPIDetails.upiStatus ===
+                              "VALID" &&
+                            "Verified"}
                         </div>
                         {this.props.addUserUPIDetails &&
                           this.props.addUserUPIDetails.upiStatus ===
                             "INVALID" &&
                           !this.props.loading && (
                             <p className={styles.errorTxt}>
-                              Please enter a valid UPI ID
+                              {this.props.addUserUPIDetails.error
+                                ? this.props.addUserUPIDetails.error
+                                : `Please enter a valid UPI ID`}
                             </p>
                           )}
                       </React.Fragment>

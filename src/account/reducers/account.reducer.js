@@ -969,6 +969,7 @@ const account = (
       return Object.assign({}, state, {
         addUserUPIStatus: false,
         addUserUPIError: null,
+        addUserUPIDetails: null,
         loading: false
       });
     // UPI finished

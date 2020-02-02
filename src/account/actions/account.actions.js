@@ -1916,11 +1916,6 @@ export function getSavedCardDetails(userId, customerAccessToken) {
   return async (dispatch, getState, { api }) => {
     dispatch(getSavedCardRequest());
     try {
-      /**
-       * @author Prashant Kumar
-       * @comment Commented the bellow lines as we are using the demo resonse for testing purpose. Hrard coded
-       * values will be removed before sending code to production.
-       */
       const result = await api.post(
         `${USER_PATH}/${userId}/payments/savedCards?access_token=${customerAccessToken}&cardType=${CARD_TYPE}`
       );
@@ -2245,17 +2240,6 @@ export function addUPIDetails(upi, pageType) {
       }&isPwa=true&channel=web&isUpdatedPwa=true&upiId=${upi}&isToValidateUpi=true&isToSaveUpi=true`;
       const result = await api.post(addUPI);
       const resultJson = await result.json();
-      /**
-       * @author Prashant Kumar
-       * @comment this hard coded line will be removed along with setTimeout
-       */
-      // const resultJson = {
-      //   type: "upiValidationWsData",
-      //   status: "Success",
-      //   upiStatus: "VALID",
-      //   customerName: "cust",
-      //   upiId: "example@test"
-      // };
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (
