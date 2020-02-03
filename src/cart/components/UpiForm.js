@@ -60,8 +60,8 @@ export default class UpiForm extends React.Component {
 
   updateUpi = val => {
     this.setState({
-      upiId: val,
-      upiPatternVerified: UPI_REGEX.test(val),
+      upiId: val.trim(),
+      upiPatternVerified: UPI_REGEX.test(val.trim()),
       showUpiMsg: {
         upiId: "",
         isVerified: false,
