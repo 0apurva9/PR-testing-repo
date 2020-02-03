@@ -51,7 +51,6 @@
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
-
       Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
@@ -664,10 +663,8 @@
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
-
       You can add webfonts, meta tags, or analytics to this file.
       The build step will place the bundled scripts into the <body> tag.
-
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
       -->
@@ -715,9 +712,6 @@
     };
   </script>
   <!-- Stripe.js end -->
-  <script type="text/javascript">
-    window.prerenderReady = false;
-  </script>
   <script defer="defer" type="text/javascript">
     <% if (htmlWebpackPlugin.options.stage === "production") { %>
     var clevertap_account_id = "867-R5K-8R5Z";
@@ -849,7 +843,7 @@
         );
       } else {
         loadScript(
-          '//assets.adobedtm.com/launch-EN4ca1ccaf060243baac05f271e668481a-staging.min.js'
+          '//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-5768eb8c6d43533f225815e1e41f7be236249910-staging.js'
         );
       }
     }
