@@ -163,8 +163,9 @@ const productDescription = (
       let pinCodeResponse = pincodeListResponse;
       let serviceableOtherSellers = null;
       potentialAvailableOtherSellers = currentPdpDetail.otherSellers;
-      actualServiceableOtherSellers = potentialAvailableOtherSellers.filter(
-        otherSeller => {
+      actualServiceableOtherSellers =
+        potentialAvailableOtherSellers &&
+        potentialAvailableOtherSellers.filter(otherSeller => {
           return (
             pinCodeResponse &&
             pinCodeResponse.find(pincodeSeller => {
@@ -175,10 +176,12 @@ const productDescription = (
               );
             })
           );
-        }
-      );
+        });
 
-      if (actualServiceableOtherSellers.length > 0) {
+      if (
+        actualServiceableOtherSellers &&
+        actualServiceableOtherSellers.length > 0
+      ) {
         serviceableOtherSellers = actualServiceableOtherSellers.length;
       }
 
