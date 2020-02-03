@@ -2373,9 +2373,12 @@ if you have order id in local storage then you have to show order confirmation p
         this.props.collectPaymentOrderForUPI(
           UPI,
           JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
-          true,
+          "",
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
           false,
-          this.state.retryCartGuid
+          "",
+          "",
+          true
         );
       }
     }
@@ -2678,9 +2681,11 @@ if you have order id in local storage then you have to show order confirmation p
           this.props.collectPaymentOrderForUPI(
             UPI,
             JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+            this.state.bankCodeForNetBanking,
+            localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
             true,
-            true,
-            this.state.retryCartGuid
+            this.state.retryCartGuid,
+            this.state.bankNameForNetBanking
           );
         } else {
           if (this.props.cart.isCreatePaymentOrderFailed) {
