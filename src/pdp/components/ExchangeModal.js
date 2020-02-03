@@ -13,7 +13,6 @@ import hew4 from "../../pdp/components/img/hew4.svg";
 import hew5 from "../../pdp/components/img/hew5.svg";
 import SelectBoxMobileExchange from "../../general/components/SelectBoxMobileExchange";
 // import * as customSelectDropDown from "../../mock/customSelectDropdown.js";
-
 export default class ExchangeModal extends React.Component {
   constructor(props) {
     super(props);
@@ -44,8 +43,10 @@ export default class ExchangeModal extends React.Component {
       IMEIFailureMessage:
         "<span style='color:#c47403;'>We are having problem detecting your phone’s IMEI number. Please enter valid IMEI no.</span>",
       IMEIVerified: false,
-      IMEINumber: ""
+      IMEINumber: "",
+      agreedTnC: false
     };
+    this.agreedTnC = this.agreedTnC.bind(this);
   }
   componentWillMount() {
     //opened directly from PDP
@@ -185,6 +186,21 @@ export default class ExchangeModal extends React.Component {
     } else {
       this.setState({ checkIMEIMessage: this.state.IMEIFailureMessage });
     }
+  }
+  agreedTnC(e) {
+    if (e.target.checked) {
+      this.setState({ agreedTnC: true });
+    } else {
+      this.setState({ agreedTnC: false });
+    }
+  }
+  saveExchangeDetails(IMEINumber) {
+    let FDData = JSON.parse(localStorage.getItem("MEFirstDeviceData"));
+    Object.assign(FDData, {
+      IMEINo: IMEINumber
+    });
+    localStorage.setItem("MEFirstDeviceData", JSON.stringify(FDData));
+    this.handleClose();
   }
   render() {
     let firstDeviceInfo = localStorage.getItem("MEFirstDeviceData");
@@ -666,7 +682,11 @@ export default class ExchangeModal extends React.Component {
               </table>
             </div>
             <div className={styles.tncContainer}>
-              <input type="checkbox" className={styles.tncCheckbox} />
+              <input
+                type="checkbox"
+                className={styles.tncCheckbox}
+                onChange={this.agreedTnC}
+              />
               <div className={styles.tnc}>
                 I understand the{" "}
                 <span
@@ -679,7 +699,20 @@ export default class ExchangeModal extends React.Component {
               </div>
             </div>
             <div className={styles.exchangeButtonContainer}>
-              <div className={styles.exchangeButton}>Proceed with exchange</div>
+              {this.state.IMEIVerified && this.state.agreedTnC ? (
+                <div
+                  className={styles.exchangeButtonEnabled}
+                  onClick={() =>
+                    this.saveExchangeDetails(this.state.IMEINumber)
+                  }
+                >
+                  Proceed with exchange
+                </div>
+              ) : (
+                <div className={styles.exchangeButton}>
+                  Proceed with exchange
+                </div>
+              )}
             </div>
           </div>
         )}
