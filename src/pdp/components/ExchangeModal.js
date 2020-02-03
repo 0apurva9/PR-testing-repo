@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./ExchangeModal.css";
 import cashbackIcon from "../../general/components/img/infoCashback.svg";
 import closeIcon from "../../general/components/img/closeIcon.svg";
-import check from "../../pdp/components/img/verifyCheck.svg";
 import baseValueIcon from "./img/baseValue.svg";
 import cliqBonusIcon from "./img/cliqBonus.svg";
 import pickUpChargeIcon from "./img/pickUpCharge.svg";
@@ -15,6 +14,8 @@ import HowExchangeModalWorks from "./HowExchangeModalWorks";
 import ExchangeTnCModal from "./ExchangeTnCModal";
 import ExchangeCashbackModal from "./ExchangeCashbackModal";
 import SelectDevice from "./SelectDevice";
+import ExchangeModalOtherDetails from "./ExchangeModalOtherDetails";
+import HowExchangeModalWorksLessDetails from "./HowExchangeModalWorksLessDetails";
 // import * as customSelectDropDown from "../../mock/customSelectDropdown.js";
 export default class ExchangeModal extends React.Component {
   constructor(props) {
@@ -302,57 +303,7 @@ export default class ExchangeModal extends React.Component {
                 Know more
               </span>
             </div>
-            <div>
-              <img src={hew1} alt="" className={styles.iconSize} />
-              <div className={styles.contentContainer}>
-                <div className={styles.contentHeading}>
-                  1. Share your old product details!{" "}
-                </div>
-                <div className={styles.contentDescription}>
-                  Either allow access to auto-detect or enter the product
-                  details manually
-                </div>
-              </div>
-              <img src={hew2} alt="" className={styles.iconSize} />
-              <div className={styles.contentContainer}>
-                <div className={styles.contentHeading}>
-                  2. Check Exchange Cashback value{" "}
-                </div>
-                <div className={styles.contentDescription}>
-                  Based on the old product details shared, check the cashback
-                  applicable
-                </div>
-              </div>
-              <img src={hew3} alt="" className={styles.iconSize} />
-              <div className={styles.contentContainer}>
-                <div className={styles.contentHeading}>
-                  3. Place order with Exchange{" "}
-                </div>
-                <div className={styles.contentDescription}>
-                  Complete your product purchase along with exchange
-                </div>
-              </div>
-              <img src={hew4} alt="" className={styles.iconSize} />
-              <div className={styles.contentContainer}>
-                <div className={styles.contentHeading}>
-                  4. Lastly, select the Cashback mode{" "}
-                </div>
-                <div className={styles.contentDescription}>
-                  Choose your preferred option to process Exchange Cashback for
-                  your old product
-                </div>
-              </div>
-              <img src={hew5} alt="" className={styles.iconSize} />
-              <div className={styles.contentContainer}>
-                <div className={styles.contentHeading}>
-                  5. Cashback credited{" "}
-                </div>
-                <div className={styles.contentDescription}>
-                  Cashback would be credited post-delivery of your new product
-                  and pickup of old product
-                </div>
-              </div>
-            </div>
+            <HowExchangeModalWorksLessDetails />
           </div>
         ) : (
           <div className={styles.secondScreen}>
@@ -499,96 +450,22 @@ export default class ExchangeModal extends React.Component {
               </div>
             </div>
             {!this.state.activateSecondTab ? (
-              <React.Fragment>
-                <div className={styles.imeiCheckForm}>
-                  <input
-                    type="text"
-                    placeholder="Enter IMEI Number"
-                    className={styles.imeiInput}
-                    onChange={e => this.verifyIMEI(e)}
-                  />
-                  <div
-                    className={
-                      this.state.enableVerifyButton
-                        ? styles.enableVerifyButton
-                        : styles.disableVerifyButton
-                    }
-                    onClick={() => this.checkIMEI()}
-                  >
-                    {this.state.IMEIVerified ? (
-                      <span className={styles.verifySuccessButton}>
-                        <img
-                          src={check}
-                          alt="check"
-                          className={styles.checkIcon}
-                        />{" "}
-                        Verified
-                      </span>
-                    ) : (
-                      "Verify"
-                    )}
-                  </div>
-                  <div
-                    className={styles.imeiInputInfo}
-                    dangerouslySetInnerHTML={{
-                      __html: this.state.checkIMEIMessage
-                    }}
-                  />
-                </div>
-                <div className={styles.effectivePrice}>
-                  <table cellPadding="0" cellSpacing="0" width="100%">
-                    <tbody>
-                      <tr>
-                        <td className={styles.effectivePriceTrOne}>
-                          Effective Price after exchange
-                        </td>
-                        <td className={styles.effectivePriceTrTwo}>
-                          {firstDeviceInfo &&
-                            firstDeviceInfo.model.effectiveAmount
-                              .formattedValueNoDecimal}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>for {this.props.productName}</td>
-                        <td />
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div className={styles.tncContainer}>
-                  <input
-                    type="checkbox"
-                    className={styles.tncCheckbox}
-                    onChange={this.agreedTnC}
-                  />
-                  <div className={styles.tnc}>
-                    I understand the{" "}
-                    <span
-                      className={styles.tncText}
-                      onClick={() => this.openTnCModal()}
-                    >
-                      Terms & Conditions
-                    </span>{" "}
-                    of exchange.
-                  </div>
-                </div>
-                <div className={styles.exchangeButtonContainer}>
-                  {this.state.IMEIVerified && this.state.agreedTnC ? (
-                    <div
-                      className={styles.exchangeButtonEnabled}
-                      onClick={() =>
-                        this.saveExchangeDetails(this.state.IMEINumber)
-                      }
-                    >
-                      Proceed with exchange
-                    </div>
-                  ) : (
-                    <div className={styles.exchangeButton}>
-                      Proceed with exchange
-                    </div>
-                  )}
-                </div>
-              </React.Fragment>
+              <ExchangeModalOtherDetails
+                verifyIMEI={e => this.verifyIMEI(e)}
+                enableVerifyButton={this.state.enableVerifyButton}
+                checkIMEI={() => this.checkIMEI()}
+                IMEIVerified={this.state.IMEIVerified}
+                checkIMEIMessage={this.state.checkIMEIMessage}
+                deviceInfo={firstDeviceInfo}
+                productName={this.props.productName}
+                agreedTnC={e => this.agreedTnC(e)}
+                openTnCModal={() => this.openTnCModal()}
+                agreedTnCState={this.state.agreedTnC}
+                IMEINumber={this.state.IMEINumber}
+                saveExchangeDetails={IMEINumber =>
+                  this.saveExchangeDetails(IMEINumber)
+                }
+              />
             ) : null}
           </div>
         )}
