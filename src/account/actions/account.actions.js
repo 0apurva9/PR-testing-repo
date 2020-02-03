@@ -2249,13 +2249,23 @@ export function addUPIDetails(upi, pageType) {
         pageType !== "myaccount"
       ) {
         return dispatch(addUserUPISuccess(resultJson));
+      } else if (
+        resultJson.status === "FAILURE" &&
+        resultJson.upiStatus === "VALID" &&
+        pageType === "myaccount"
+      ) {
+        dispatch(displayToast(resultJson.error));
       } else if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.error);
       }
       // if (resultJsonStatus.status) {
       //   throw new Error(resultJsonStatus.message);
       // }
-      if (resultJson.upiStatus === "VALID" && pageType === "myaccount") {
+      if (
+        resultJson.status !== "FAILURE" &&
+        resultJson.upiStatus === "VALID" &&
+        pageType === "myaccount"
+      ) {
         dispatch(displayToast(UPI_ADDED_SUCCESS));
       }
       return dispatch(addUserUPISuccess(resultJson));

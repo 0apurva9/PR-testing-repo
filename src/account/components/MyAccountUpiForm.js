@@ -39,6 +39,20 @@ export default class MyAccountUpiForm extends React.Component {
       if (
         response &&
         response.upiResponse &&
+        response.upiResponse.status === "FAILURE" &&
+        response.upiResponse.upiStatus === "VALID"
+      ) {
+        this.setState({
+          showUpiMsg: {
+            upiId: "",
+            isVerified: true,
+            text: ""
+          }
+        });
+      } else if (
+        response &&
+        response.upiResponse &&
+        response.upiResponse.status === "Success" &&
         response.upiResponse.upiStatus === "VALID"
       ) {
         this.setState({
