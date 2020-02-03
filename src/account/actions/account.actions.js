@@ -26,6 +26,8 @@ import {
   SUCCESS_MESSAGE_IN_RETURN_TO_HOTC,
   FEMALE,
   MALE,
+  SUCCESSFUL_PRODUCT_RATING_BY_USER,
+  PRODUCT_RATING_FAILURE_TEXT,
   NO_COST_EMI_COUPON,
   BANK_COUPON_COOKIE,
   COUPON_COOKIE
@@ -39,7 +41,8 @@ import {
   VERIFY_OTP,
   GIFT_CARD_MODAL,
   UPDATE_REFUND_DETAILS_POPUP,
-  SHOW_RETURN_CONFIRM_POP_UP
+  SHOW_RETURN_CONFIRM_POP_UP,
+  RATING_AND_REVIEW_MODAL
 } from "../../general/modal.actions.js";
 import format from "date-fns/format";
 import { getPaymentModes } from "../../cart/actions/cart.actions.js";
@@ -65,7 +68,9 @@ import {
   setDataLayerForOrderConfirmationDirectCalls,
   ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_SUCCESS,
   ADOBE_RETURN_LINK_CLICKED,
-  ADOBE_RETURN_JOURNEY_INITIATED
+  ADOBE_RETURN_JOURNEY_INITIATED,
+  setDataLayerForRatingAndReview,
+  SET_DATA_LAYER_RATING_MESSAGE
 } from "../../lib/adobeUtils";
 import {
   showSecondaryLoader,
@@ -105,6 +110,18 @@ const UPI_ADDED_SUCCESS = "UPI ID added successfully";
 export const GET_ALL_ORDERS_REQUEST = "GET_ALL_ORDERS_REQUEST";
 export const GET_ALL_ORDERS_SUCCESS = "GET_ALL_ORDERS_SUCCESS";
 export const GET_ALL_ORDERS_FAILURE = "GET_ALL_ORDERS_FAILURE";
+
+export const GET_ALL_SELLERS_REQUEST = "GET_ALL_SELLERS_REQUEST";
+export const GET_ALL_SELLERS_SUCCESS = "GET_ALL_SELLERS_SUCCESS";
+export const GET_ALL_SELLERS_FAILURE = "GET_ALL_SELLERS_FAILURE";
+
+export const SUBMIT_SELLER_REVIEW_BY_USER = "SUBMIT_SELLER_REVIEW_BY_USER";
+export const SELLER_REVIEW_SUBMIT_FAILURE = "SELLER_REVIEW_SUBMIT_FAILURE";
+export const SELLER_REVIEW_REMOVE_FAILURE = "SELLER_REVIEW_REMOVE_FAILURE";
+export const REMOVE_SELLER_REVIEW_BY_USER = "REMOVE_SELLER_REVIEW_BY_USER";
+export const GET_ALL_SELLERS_REVIEW_REQUEST = "GET_ALL_SELLERS_REVIEW_REQUEST";
+export const GET_ALL_SELLERS_REVIEW_SUCCESS = "GET_ALL_SELLERS_REVIEW_SUCCESS";
+export const GET_ALL_SELLERS_REVIEW_FAILURE = "GET_ALL_SELLERS_REVIEW_FAILURE";
 
 export const RETURN_PRODUCT_DETAILS_REQUEST = "RETURN_PRODUCT_DETAILS_REQUEST";
 export const RETURN_PRODUCT_DETAILS_SUCCESS = "RETURN_PRODUCT_DETAILS_SUCCESS";
@@ -403,6 +420,24 @@ export const UPDATE_RETURN_CANCELLATION_FAILURE =
 export const UPDATE_RETURN_HOTC_REQUEST = "UPDATE_RETURN_HOTC_REQUEST";
 export const UPDATE_RETURN_HOTC_SUCCESS = "UPDATE_RETURN_HOTC_SUCCESS";
 export const UPDATE_RETURN_HOTC_FAILURE = "UPDATE_RETURN_HOTC_FAILURE";
+
+export const GET_USER_RATING_REQUEST = "GET_USER_RATING_REQUEST";
+export const GET_USER_RATING_SUCCESS = "GET_USER_RATING_SUCCESS";
+export const GET_USER_RATING_FAILURE = "GET_USER_RATING_FAILURE";
+
+export const GET_USER_NOTIFICATION_DETAILS_REQUEST =
+  "GET_USER_NOTIFICATION_DETAILS_REQUEST";
+export const GET_USER_NOTIFICATION_DETAILS_SUCCESS =
+  "GET_USER_NOTIFICATION_DETAILS_SUCCESS";
+export const GET_USER_NOTIFICATION_DETAILS_FAILURE =
+  "GET_USER_NOTIFICATION_DETAILS_FAILURE";
+
+export const SET_USER_SMS_NOTIFICATION_REQUEST =
+  "SET_USER_SMS_NOTIFICATION_REQUEST";
+export const SET_USER_SMS_NOTIFICATION_SUCCESS =
+  "SET_USER_SMS_NOTIFICATION_SUCCESS";
+export const SET_USER_SMS_NOTIFICATION_FAILURE =
+  "SET_USER_SMS_NOTIFICATION_FAILURE";
 
 export const RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS =
   "RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS";
@@ -2376,6 +2411,189 @@ export function fetchOrderItemDetailsFailure(error) {
   };
 }
 
+// Get Seller Review
+export function getAllSellersRequest() {
+  return {
+    type: GET_ALL_SELLERS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getAllSellersSuccess(sellerDetails) {
+  return {
+    type: GET_ALL_SELLERS_SUCCESS,
+    status: SUCCESS,
+    sellerDetails
+  };
+}
+
+export function getAllSellersFailure(error) {
+  return {
+    type: GET_ALL_ORDERS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getAllSellersDetails(isSetDataLayer: true) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let url = window.location.href;
+  let transId = url
+    .split("transactionId=")
+    .pop()
+    .split("&")[0];
+  return async (dispatch, getState, { api }) => {
+    dispatch(getAllSellersRequest());
+    dispatch(showSecondaryLoader());
+    try {
+      let getSellerDetails = "";
+
+      getSellerDetails = `${PATH}/getSellerFeedbackTransactions?transactionId=${transId}&customerId=${
+        JSON.parse(userDetails).customerId
+      }&access_token=${JSON.parse(customerCookie).access_token}`;
+      const result = await api.get(getSellerDetails);
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      if (isSetDataLayer) {
+        setDataLayer(ADOBE_MY_ACCOUNT_ORDER_HISTORY);
+      }
+
+      dispatch(getAllSellersSuccess(resultJson));
+      dispatch(hideSecondaryLoader());
+    } catch (e) {
+      dispatch(hideSecondaryLoader());
+      dispatch(getAllSellersFailure(e.message));
+    }
+  };
+}
+
+export function getAllSellersReviewRequest() {
+  return {
+    type: GET_ALL_SELLERS_REVIEW_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getAllSellersReviewSuccess(sellerDetails) {
+  return {
+    type: GET_ALL_SELLERS_REVIEW_SUCCESS,
+    status: SUCCESS,
+    sellerDetails
+  };
+}
+
+export function getAllSellersReviewFailure(error) {
+  return {
+    type: GET_ALL_SELLERS_REVIEW_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getAllSellersReviewDetails(isSetDataLayer: true) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getAllSellersReviewRequest());
+    dispatch(showSecondaryLoader());
+    try {
+      let getSellerDetails = "";
+      getSellerDetails = `${PATH}/getSellerReviewTransactions?customerId=${
+        JSON.parse(userDetails).customerId
+      }&access_token=${JSON.parse(customerCookie).access_token}`;
+
+      const result = await api.get(getSellerDetails);
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      dispatch(getAllSellersReviewSuccess(resultJson));
+      dispatch(hideSecondaryLoader());
+    } catch (e) {
+      dispatch(hideSecondaryLoader());
+      dispatch(getAllSellersReviewFailure(e.message));
+    }
+  };
+}
+
+export function sellerReviewSubmissionByUser(sellerReviewStatus) {
+  return {
+    type: SUBMIT_SELLER_REVIEW_BY_USER,
+    sellerReviewStatus
+  };
+}
+export function sellerReviewSubmitFailure(error) {
+  return {
+    type: SELLER_REVIEW_SUBMIT_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function submitSellerReviewByUser(params) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS),
+    customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    try {
+      let reqURL = `${USER_PATH}/${
+        JSON.parse(userDetails).userName
+      }/submitCustomerReview?access_token=${
+        JSON.parse(customerCookie).access_token
+      }`;
+
+      const result = await api.post(reqURL, params);
+      const resultJson = await result.json();
+      dispatch(getAllSellersDetails());
+      dispatch(sellerReviewSubmissionByUser(resultJson));
+    } catch (e) {
+      dispatch(sellerReviewSubmitFailure(e.message));
+    }
+  };
+}
+
+export function sellerReviewRemoveByUser(sellerReviewRemoveStatus) {
+  return {
+    type: REMOVE_SELLER_REVIEW_BY_USER,
+    sellerReviewRemoveStatus
+  };
+}
+export function sellerReviewRemoveFailure(error) {
+  return {
+    type: SELLER_REVIEW_REMOVE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function removeSellerReviewByUser(params) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS),
+    customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    try {
+      let reqURL = `${USER_PATH}/${
+        JSON.parse(userDetails).userName
+      }/submitCustomerReview?access_token=${
+        JSON.parse(customerCookie).access_token
+      }`;
+
+      const result = await api.post(reqURL, params);
+      const resultJson = await result.json();
+      dispatch(getAllSellersReviewDetails());
+      dispatch(sellerReviewRemoveByUser(resultJson));
+    } catch (e) {
+      dispatch(sellerReviewRemoveFailure(e.message));
+    }
+  };
+}
+
 export function getUserDetailsRequest() {
   return {
     type: GET_USER_DETAILS_REQUEST,
@@ -3796,7 +4014,7 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
           JSON.parse(userDetails).userName
         }/payments/failedorderdetails?&access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${retryPaymentGuId}&retryFlag=true&isUpdatedPwa=true&retryUserId=${retryPaymentUserId}`
+        }&cartGuid=${retryPaymentGuId}&retryFlag=true&isUpdatedPwa=true&retryUserId=${retryPaymentUserId}&emiConvChargeFlag=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3822,6 +4040,182 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
       return dispatch(retryPaymentSuccess(resultJson));
     } catch (e) {
       return dispatch(retryPaymentFailure(e.message));
+    }
+  };
+}
+
+export function productRatingByUserRequest() {
+  return {
+    type: GET_USER_RATING_REQUEST
+  };
+}
+
+export function productRatingByUserSuccess() {
+  return {
+    type: GET_USER_RATING_SUCCESS,
+    status: SUCCESS
+  };
+}
+
+export function productRatingByUserFailure(error) {
+  return {
+    type: GET_USER_RATING_FAILURE,
+    error,
+    status: FAILURE
+  };
+}
+
+export function submitProductRatingByUser(ratingValue, propsData) {
+  let reviewData = new FormData();
+  reviewData.append("comment", "");
+  reviewData.append("rating", ratingValue);
+  reviewData.append("headline", "");
+  if (
+    propsData &&
+    propsData.productDetails &&
+    propsData.productDetails.ratingId
+  ) {
+    reviewData.append("id", propsData.productDetails.ratingId);
+  }
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(productRatingByUserRequest());
+    try {
+      const result = await api.postFormData(
+        `${PRODUCT_PATH}/${propsData.productDetails.productcode}
+        /reviews?isPwa=true&access_token=${
+          JSON.parse(customerCookie).access_token
+        }`,
+        reviewData
+      );
+
+      const resultJson = await result.json();
+      if (resultJson.rating) {
+        dispatch(displayToast(SUCCESSFUL_PRODUCT_RATING_BY_USER));
+        setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_MESSAGE, {
+          rating: null,
+          statusText: SUCCESSFUL_PRODUCT_RATING_BY_USER
+        });
+      } else {
+        dispatch(displayToast(PRODUCT_RATING_FAILURE_TEXT));
+        setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_MESSAGE, {
+          rating: null,
+          statusText: PRODUCT_RATING_FAILURE_TEXT
+        });
+      }
+      dispatch(clearOrderDetails());
+      dispatch(getAllOrdersDetails());
+      dispatch(productRatingByUserSuccess());
+      if (
+        propsData &&
+        propsData.productDetails &&
+        !propsData.productDetails.hasOwnProperty("userRating")
+      ) {
+        dispatch(
+          showModal(RATING_AND_REVIEW_MODAL, {
+            ...propsData,
+            productDetails: {
+              ...propsData.productDetails,
+              userRating: resultJson.rating
+            }
+          })
+        );
+      }
+    } catch (e) {
+      dispatch(productRatingByUserFailure(e.message));
+    }
+  };
+}
+
+export function getUserNotificationRequest() {
+  return {
+    type: GET_USER_NOTIFICATION_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getUserNotificationSuccess(notificationDetails) {
+  return {
+    type: GET_USER_NOTIFICATION_DETAILS_SUCCESS,
+    status: SUCCESS,
+    notificationDetails
+  };
+}
+
+export function getUserNotificationFailure(error) {
+  return {
+    type: GET_USER_NOTIFICATION_DETAILS_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+
+export function getUserNotifications() {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getUserNotificationRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getUserPreferences?access_token=${
+          JSON.parse(customerCookie).access_token
+        }`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getUserNotificationSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getUserNotificationFailure(e.message));
+    }
+  };
+}
+
+export function setSMSNotificationRequest() {
+  return {
+    type: SET_USER_SMS_NOTIFICATION_REQUEST,
+    status: REQUESTING
+  };
+}
+export function setSMSNotificationSuccess(setSMSResponse) {
+  return {
+    type: SET_USER_SMS_NOTIFICATION_SUCCESS,
+    status: SUCCESS,
+    setSMSResponse
+  };
+}
+export function setSMSNotificationFailure(error) {
+  return {
+    type: SET_USER_SMS_NOTIFICATION_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+
+export function setSMSNotification(val) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(setSMSNotificationRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/updateUserPreference?channel=web&sms=${val}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(setSMSNotificationSuccess(resultJson));
+    } catch (e) {
+      return dispatch(setSMSNotificationFailure(e.message));
     }
   };
 }

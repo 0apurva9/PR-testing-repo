@@ -334,11 +334,11 @@ export default class PdpApparel extends React.Component {
       let price = "";
       let discountPrice = "";
       if (productData.mrpPrice) {
-        price = productData.mrpPrice.formattedValueNoDecimal;
+        price = productData.mrpPrice.doubleValue;
       }
 
       if (productData.winningSellerPrice) {
-        discountPrice = productData.winningSellerPrice.formattedValueNoDecimal;
+        discountPrice = productData.winningSellerPrice.doubleValue;
       }
       let seoDoublePrice = 0;
       if (
@@ -398,6 +398,7 @@ export default class PdpApparel extends React.Component {
                 doublePrice={seoDoublePrice}
                 goToReviewPage={this.goToReviewPage}
                 discountPrice={discountPrice}
+                ratingCount={productData.ratingCount}
                 averageRating={productData.averageRating}
                 numberOfReviews={productData.numberOfReviews}
                 discount={productData.discount}

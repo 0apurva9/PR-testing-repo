@@ -73,6 +73,9 @@ import ColourSelector from "./ColourSelector";
 import FlixMediaContainer from "./FlixMediaContainer";
 // import CheckBox from '../../general/components/CheckBox.js';
 import MultiCheckbox from "./MultiCheckbox";
+import Icon from "../../xelpmoc-core/Icon";
+import FilledStarBlack from "../../general/components/img/star-fill-black.svg";
+
 let testcheck = false;
 
 const WASH = "Wash";
@@ -526,7 +529,9 @@ export default class PdpApparel extends React.Component {
     setDataLayerForPdpDirectCalls(
       SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT
     );
-    const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    const url = `${
+      this.props.location.pathname
+    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
   renderRatings = () => {
@@ -915,10 +920,10 @@ export default class PdpApparel extends React.Component {
       let price = "";
       let discountPrice = "";
       if (productData.mrpPrice) {
-        price = productData.mrpPrice.formattedValueNoDecimal;
+        price = productData.mrpPrice.doubleValue;
       }
       if (productData.winningSellerPrice) {
-        discountPrice = productData.winningSellerPrice.formattedValueNoDecimal;
+        discountPrice = productData.winningSellerPrice.doubleValue;
       }
       let seoDoublePrice = 0;
       if (
@@ -976,7 +981,9 @@ export default class PdpApparel extends React.Component {
                   productImages={productImages}
                   thumbNailImages={thumbNailImages}
                   zoomImages={zoomImages}
-                  alt={`${productData.productName}-${productData.brandName}-${productData.rootCategory}-TATA CLIQ`}
+                  alt={`${productData.productName}-${productData.brandName}-${
+                    productData.rootCategory
+                  }-TATA CLIQ`}
                   details={productData.details}
                   showSimilarProducts={this.props.showSimilarProducts}
                   category={productData.rootCategory}
@@ -1028,6 +1035,7 @@ export default class PdpApparel extends React.Component {
                         ScrollReviewList={this.ScrollIntoView}
                         doublePrice={seoDoublePrice}
                         discountPrice={discountPrice}
+                        ratingCount={productData.ratingCount}
                         averageRating={productData.averageRating}
                         numberOfReviews={productData.numberOfReviews}
                         goToReviewPage={this.goToReviewPage}
@@ -1346,23 +1354,24 @@ export default class PdpApparel extends React.Component {
                 </div>
                 <div className={styles.pinAndDeliveryHolder}>
                   <div className={styles.updatePincodeHolder}>
-                    {getPinCode && userCookie && (
-                      <SearchAndUpdate
-                        uiType="hollow"
-                        checkPinCodeAvailability={pincode =>
-                          this.checkPinCodeAvailability(
-                            pincode,
-                            productData.productListingId
-                          )
-                        }
-                        placeholder="Pincode"
-                        value={getPinCode}
-                        hasAutoFocus={false}
-                        labelText={"Check"}
-                        borderColor="transparent"
-                        borderBottom="0px solid #transparent"
-                      />
-                    )}
+                    {getPinCode &&
+                      userCookie && (
+                        <SearchAndUpdate
+                          uiType="hollow"
+                          checkPinCodeAvailability={pincode =>
+                            this.checkPinCodeAvailability(
+                              pincode,
+                              productData.productListingId
+                            )
+                          }
+                          placeholder="Pincode"
+                          value={getPinCode}
+                          hasAutoFocus={false}
+                          labelText={"Check"}
+                          borderColor="transparent"
+                          borderBottom="0px solid #transparent"
+                        />
+                      )}
 
                     {(!userCookie || !getPinCode) && (
                       <SearchAndUpdate
@@ -1542,11 +1551,11 @@ export default class PdpApparel extends React.Component {
                 </div>
               ) : null}
 
-              <div className={styles.youPlus}>
+              {/* <div className={styles.youPlus}>
                 <div className={styles.pageCenter}>
                   <div id="yp_widget" className={styles.yp_widget} />
                 </div>
-              </div>
+              </div> */}
               {this.state.bundledProductList.length > 0 && (
                 <RevelantBundling
                   {...this.props}
@@ -1875,7 +1884,7 @@ export default class PdpApparel extends React.Component {
                         productData.numberOfReviews !== "0") ? (
                         <div className={styles.reviewsHolder}>
                           <div className={styles.reviewsHeader}>
-                            Ratings and Reviews
+                            <h3>Ratings and Reviews</h3>
                             <div className={styles.reviewsButton}>
                               <UnderLinedButton
                                 color="#ff1744"
@@ -1885,6 +1894,48 @@ export default class PdpApparel extends React.Component {
                               />
                             </div>
                           </div>
+                          {productData.averageRating && (
+                            <div className={styles.reviewListHolder}>
+                              <div className={styles.ratingTextContainer}>
+                                <div className={styles.ratingText}>
+                                  {Math.round(productData.averageRating * 10) /
+                                    10}
+                                </div>
+                                <div className={styles.starPLPElectronics}>
+                                  <Icon image={FilledStarBlack} size={26} />
+                                </div>
+                              </div>
+                              <div className={styles.labelText}>
+                                <span
+                                  className={styles.ratingLabel}
+                                  itemProp="ratingCount"
+                                >
+                                  {productData.ratingCount}
+                                </span>
+                                <span>
+                                  {productData.ratingCount > 1
+                                    ? "Ratings"
+                                    : "Rating"}
+                                </span>
+                                {productData.numberOfReviews ? (
+                                  <React.Fragment>
+                                    {" &"}
+                                    <span
+                                      className={styles.ratingLabel}
+                                      itemProp="reviewCount"
+                                    >
+                                      {productData.numberOfReviews}
+                                    </span>
+                                    <span>
+                                      {productData.numberOfReviews > 1
+                                        ? "Reviews"
+                                        : "Review"}
+                                    </span>
+                                  </React.Fragment>
+                                ) : null}
+                              </div>
+                            </div>
+                          )}
                           <ProductReviewListContainer
                             limit={true}
                             productId={productData.productListingId}

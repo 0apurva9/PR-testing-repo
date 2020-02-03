@@ -1932,7 +1932,12 @@ if you have order id in local storage then you have to show order confirmation p
     }
   };
 
-  getItemBreakUpDetails = (couponCode, noCostEmiText, noCostProductCount) => {
+  getItemBreakUpDetails = (
+    couponCode,
+    noCostEmiText,
+    noCostProductCount,
+    emiInfo
+  ) => {
     if (this.state.isPaymentFailed) {
       const parsedQueryString = queryString.parse(this.props.location.search);
       const cartGuId = parsedQueryString.value
@@ -1942,7 +1947,8 @@ if you have order id in local storage then you have to show order confirmation p
         couponCode,
         cartGuId,
         noCostEmiText,
-        noCostProductCount
+        noCostProductCount,
+        emiInfo
       );
     } else {
       if (this.props.getItemBreakUpDetails) {
@@ -1950,7 +1956,8 @@ if you have order id in local storage then you have to show order confirmation p
           couponCode,
           null,
           noCostEmiText,
-          noCostProductCount
+          noCostProductCount,
+          emiInfo
         );
       }
     }
@@ -3958,12 +3965,14 @@ if you have order id in local storage then you have to show order confirmation p
                       getItemBreakUpDetails={(
                         couponCode,
                         noCostEmiText,
-                        noCostProductCount
+                        noCostProductCount,
+                        emiInfo
                       ) =>
                         this.getItemBreakUpDetails(
                           couponCode,
                           noCostEmiText,
-                          noCostProductCount
+                          noCostProductCount,
+                          emiInfo
                         )
                       }
                       isNoCostEmiProceeded={this.state.isNoCostEmiProceeded}

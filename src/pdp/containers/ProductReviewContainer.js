@@ -15,7 +15,8 @@ import {
 import {
   showModal,
   DESKTOP_AUTH,
-  REVIEW_GUIDLINE_MODAL
+  REVIEW_GUIDLINE_MODAL,
+  RATING_AND_REVIEW_MODAL
 } from "../../general/modal.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 
@@ -51,6 +52,9 @@ const mapDispatchToProps = dispatch => {
     showReviewGuidelineModal: () => {
       dispatch(showModal(REVIEW_GUIDLINE_MODAL));
     },
+    showRatingAndReviewModal: () => {
+      dispatch(showModal(RATING_AND_REVIEW_MODAL));
+    },
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));
     },
@@ -71,10 +75,7 @@ const mapStateToProps = state => {
 };
 
 const ProductReviewContainer = withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ProductReviewPage)
+  connect(mapStateToProps, mapDispatchToProps)(ProductReviewPage)
 );
 
 export default ProductReviewContainer;
