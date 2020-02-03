@@ -100,6 +100,21 @@
   border: dashed 0.5px #c6c6c6;
   background-color: #f8f8f8;
 }
+.tabSliderTwo{
+  float: right;
+  margin-right: 15px;
+  width: 360px;
+  height: 238px;
+  border-radius: 4px;
+  border: solid 0.5px #c6c6c6;
+  padding: 15px;
+  font-size:14px;
+  position: relative;
+}
+.tabSliderTwo:first-child{
+  background-color: #f8f8f8;
+  margin-right: 30px;
+}
 .exchangeOfferTable{
   width: 330px;
   margin-top: 15px;
@@ -359,6 +374,12 @@ ul.contentHeading{
   padding: 25px;
   margin-bottom: 30px;
 }
+.evaluateContainerTwo{
+  float: left;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 10px;
+}
 .evaluateButton{
   float: right;
   width: 143px;
@@ -396,4 +417,12 @@ ul.contentHeading{
 }
 .fontRegular{
 	font-family: regular;
+}
+.firstDeviceName{
+  transform: rotate(90deg);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  text-transform: capitalize;
+  cursor: pointer;
 }
