@@ -41,7 +41,7 @@ export default class OrderCard extends React.Component {
     let deliveryModeNameLowerCase = deliveryModeName.toLowerCase();
     switch (deliveryModeNameLowerCase) {
       case "click and collect":
-        return "Cliq n Piq";
+        return "QuiQ PiQ";
 
       case "home delivery":
         return "Standard Delivery";
@@ -392,7 +392,7 @@ export default class OrderCard extends React.Component {
               <div
                 className={
                   this.props.orderStatusCode === "PAYMENT_PENDING" ||
-                    this.props.orderStatusCode === "PAYMENT_TIMEOUT"
+                  this.props.orderStatusCode === "PAYMENT_TIMEOUT"
                     ? styles.calloutMessagePayment
                     : styles.calloutMessage
                 }
@@ -415,13 +415,13 @@ export default class OrderCard extends React.Component {
                   {this.props.showIsGiveAway && (
                     <div className={styles.price}>
                       {this.props.isGiveAway === NO &&
-                        !this.props.isEgvOrder &&
-                        this.props.productName === "Gift Card"
+                      !this.props.isEgvOrder &&
+                      this.props.productName === "Gift Card"
                         ? "Gift card detail will be sent you on your specified email id shortly."
                         : this.props.price
                           ? `${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
-                            this.props.price
-                          )}`
+                              this.props.price
+                            )}`
                           : null}
                     </div>
                   )}
@@ -444,10 +444,10 @@ export default class OrderCard extends React.Component {
                     )}
                 </div>
               ) : (
-                  <div className={styles.priceHolder}>
-                    <div className={styles.price}>Free</div>
-                  </div>
-                )}
+                <div className={styles.priceHolder}>
+                  <div className={styles.price}>Free</div>
+                </div>
+              )}
             </div>
           )}
           {this.props.idFromAllOrderDetails != "Y" && (
@@ -655,7 +655,7 @@ export default class OrderCard extends React.Component {
           )}
         {this.props.installationRequestCancelled &&
           this.props.installationRequestCancelled.value.status ===
-          "Completed" && (
+            "Completed" && (
             <div className={styles.deliveryDate}>
               Installation Cancelled On:{" "}
               <span className={styles.estimatedDate}>
@@ -665,7 +665,10 @@ export default class OrderCard extends React.Component {
           )}
         {this.props.installationCompletedDate &&
           this.props.installationRequestCompleted &&
-          this.props.installationRequestCompleted.value.customerFacingName === "Request Completed" && this.props.installationRequestCompleted.value.status === "Completed" && (
+          this.props.installationRequestCompleted.value.customerFacingName ===
+            "Request Completed" &&
+          this.props.installationRequestCompleted.value.status ===
+            "Completed" && (
             <div className={styles.deliveryDate}>
               Installation Completed On:{" "}
               <span className={styles.estimatedDate}>
@@ -673,8 +676,9 @@ export default class OrderCard extends React.Component {
               </span>
             </div>
           )}
-        {this.props.installationRequestReschedule && this.props.installationRequestReschedule.value.status ===
-          "Completed" && (
+        {this.props.installationRequestReschedule &&
+          this.props.installationRequestReschedule.value.status ===
+            "Completed" && (
             <div className={styles.commonTitle}>
               <span className={styles.ffsemibold}>
                 Installation Rescheduled On:{" "}
@@ -682,8 +686,8 @@ export default class OrderCard extends React.Component {
               {this.props.installationRequestReschedule.value.date}
             </div>
           )}
-        {this.props.installationRequestClosed && this.props.installationRequestClosed.value.status ===
-          "Completed" && (
+        {this.props.installationRequestClosed &&
+          this.props.installationRequestClosed.value.status === "Completed" && (
             <div className={styles.commonTitle}>
               <span className={styles.ffsemibold}>
                 Installation Closed On:{" "}
@@ -691,14 +695,15 @@ export default class OrderCard extends React.Component {
               {this.props.installationRequestClosed.value.date}
             </div>
           )}
-        {this.props.estimatedCompletionDate && !this.props.hideEstimatedInstallationDate && (
-          <div className={styles.deliveryDate}>
-            Estimated Installation Date by:{" "}
-            <span className={styles.estimatedDate}>
-              {this.props.estimatedCompletionDate}
-            </span>
-          </div>
-        )}
+        {this.props.estimatedCompletionDate &&
+          !this.props.hideEstimatedInstallationDate && (
+            <div className={styles.deliveryDate}>
+              Estimated Installation Date by:{" "}
+              <span className={styles.estimatedDate}>
+                {this.props.estimatedCompletionDate}
+              </span>
+            </div>
+          )}
         {this.props.isGiveAway === "N" &&
           this.props.consignmentStatus &&
           this.props.consignmentStatus.includes("CANCEL") &&
@@ -721,8 +726,8 @@ export default class OrderCard extends React.Component {
                       <React.Fragment>
                         <span className={styles.ffsemibold}>
                           {shipmentStatus &&
-                            shipmentStatus.includes("Eligible for Return till") &&
-                            !this.props.deliveryDate
+                          shipmentStatus.includes("Eligible for Return till") &&
+                          !this.props.deliveryDate
                             ? ""
                             : `${shipmentStatus}:`}{" "}
                         </span>
@@ -746,7 +751,7 @@ export default class OrderCard extends React.Component {
                         <span className={styles.styleDate}>
                           {(this.props.consignmentStatus === "DELIVERED" ||
                             this.props.consignmentStatus ===
-                            "ORDER_COLLECTED") &&
+                              "ORDER_COLLECTED") &&
                             this.props.deliveryDate &&
                             format(returnEligibleDate.toString(), dateFormat)}
                         </span>
@@ -758,8 +763,8 @@ export default class OrderCard extends React.Component {
                       <React.Fragment>
                         <span className={styles.ffsemibold}>
                           {shipmentStatus &&
-                            shipmentStatus.includes("Eligible for Return till") &&
-                            !this.props.deliveryDate
+                          shipmentStatus.includes("Eligible for Return till") &&
+                          !this.props.deliveryDate
                             ? ""
                             : shipmentStatus}{" "}
                         </span>
@@ -777,7 +782,7 @@ export default class OrderCard extends React.Component {
                         <span className={styles.styleDate}>
                           {(this.props.consignmentStatus === "DELIVERED" ||
                             this.props.consignmentStatus ===
-                            "ORDER_COLLECTED") &&
+                              "ORDER_COLLECTED") &&
                             this.props.deliveryDate &&
                             format(returnEligibleDate.toString(), dateFormat)}
                         </span>
@@ -785,10 +790,10 @@ export default class OrderCard extends React.Component {
                     )}
                 </React.Fragment>
               ) : (
-                  <div className={styles.commonTitle}>
-                    {this.props.calloutMessage}
-                  </div>
-                )}
+                <div className={styles.commonTitle}>
+                  {this.props.calloutMessage}
+                </div>
+              )}
             </div>
           )}
         {this.props.itemBreachMessage && (
