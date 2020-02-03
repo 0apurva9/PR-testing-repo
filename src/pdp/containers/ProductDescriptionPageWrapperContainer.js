@@ -312,7 +312,8 @@ const mapStateToProps = state => {
     loadingOfBuyNowSuccess: state.cart.tempCartIdForLoggedInUserStatus,
     loadingForAddStoreToCnc: state.cart.loadingForAddStore,
     loadingForCartDetail: state.cart.loadingForCartDetail,
-    pincodeError: state.productDescription.pincodeError
+    pincodeError: state.productDescription.pincodeError,
+    serviceableOtherSellers: state.productDescription.serviceableOtherSellers
   };
 };
 

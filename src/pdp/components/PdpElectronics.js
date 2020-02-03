@@ -497,23 +497,12 @@ export default class PdpElectronics extends React.Component {
             />
           )}
           <div className={styles.separator}>
-            {this.props.productDetails.pincodeResponseList && (
-              <OtherSellersLink
-                pinCodeResponse={
-                  this.props.productDetails &&
-                  this.props.productDetails.pincodeResponseList &&
-                  this.props.productDetails.pincodeResponseList
-                    .deliveryOptions &&
-                  this.props.productDetails.pincodeResponseList.deliveryOptions
-                    .pincodeListResponse &&
-                  this.props.productDetails.pincodeResponseList.deliveryOptions
-                    .pincodeListResponse
-                }
-                onClick={this.goToSellerPage}
-                otherSellers={productData.otherSellers}
-                winningSeller={productData.winningSellerName}
-              />
-            )}
+            <OtherSellersLink
+              serviceableOtherSellers={this.props.serviceableOtherSellers}
+              onClick={this.goToSellerPage}
+              //otherSellers={productData.otherSellers}
+              winningSeller={productData.winningSellerName}
+            />
           </div>
           {productData.rootCategory !== "Watches" && (
             <div className={styles.details}>

@@ -62,7 +62,10 @@ const productDescription = (
     relevantProductPinCodeStatus: null,
     relevantBundleProductCodeStatus: false,
     relevantBundleProductCodeData: null,
-    pincodeError: null
+    pincodeError: null,
+    productOutOfStockMessage: null,
+    productNotServiceableMessage: null,
+    serviceableOtherSellers: null
   },
   action
 ) => {
@@ -152,6 +155,31 @@ const productDescription = (
         );
         pincodeListResponse =
           action.productPinCode.deliveryOptions.pincodeListResponse;
+      }
+
+      //find all other sellers serviceable in a given pincode with stock count > 0
+      let potentialAvailableOtherSellers = [];
+      let actualServiceableOtherSellers = [];
+      let pinCodeResponse = pincodeListResponse;
+      let serviceableOtherSellers = null;
+      potentialAvailableOtherSellers = currentPdpDetail.otherSellers;
+      actualServiceableOtherSellers = potentialAvailableOtherSellers.filter(
+        otherSeller => {
+          return (
+            pinCodeResponse &&
+            pinCodeResponse.find(pincodeSeller => {
+              return (
+                otherSeller.USSID === pincodeSeller.ussid &&
+                pincodeSeller.stockCount > 0 &&
+                pincodeSeller.isServicable === "Y"
+              );
+            })
+          );
+        }
+      );
+
+      if (actualServiceableOtherSellers.length > 0) {
+        serviceableOtherSellers = actualServiceableOtherSellers.length;
       }
 
       let eligibleDeliveryModes = [];
@@ -271,7 +299,8 @@ const productDescription = (
         productDetails: currentPdpDetail,
         loading: false,
         serviceablePincodeListResponse: pincodeListResponse,
-        pincodeError: action.productPinCode.pincodeError
+        pincodeError: action.productPinCode.pincodeError,
+        serviceableOtherSellers: serviceableOtherSellers
       });
 
     case pdpActions.CHECK_PRODUCT_PIN_CODE_FAILURE:
