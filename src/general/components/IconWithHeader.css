@@ -9,6 +9,9 @@
 .baseCheckout {
   padding: 10px 30px 10px 46px;
 }
+.basePdp {
+  padding: 10px 0px 10px 57px;
+}
 .baseNoPadding {
   composes: base;
   padding: 5px 0px 5px 0px;

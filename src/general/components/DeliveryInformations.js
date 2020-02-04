@@ -181,7 +181,7 @@ export default class DeliveryInformations extends React.Component {
             : null;
       }
       arrowStyle = styles.arrowLink;
-      iconSize = this.props.inCartPageIcon ? 40 : 38;
+      iconSize = this.props.inCartPageIcon ? 34 : 38;
     } else if (this.props.type === SHORT_HOME_DELIVERY) {
       iconImage = deliveryIcon;
       typeDate = `${formattedPlacedTime}`;
@@ -212,7 +212,7 @@ export default class DeliveryInformations extends React.Component {
       typeText = this.props.placedTime ? HOME_TEXT : null;
       iconSize = 34;
     } else if (this.props.isQuiqPiq) {
-      iconImage = quiqIcon;
+      iconImage = quiqpiqImage;
       typeText = QUIQPIQ;
       iconSize = 29;
     } else if (this.props.isCod == "Y") {
@@ -257,6 +257,7 @@ export default class DeliveryInformations extends React.Component {
             dateFormatted={typeDate}
             dateFormattedText={typeText}
             inCheckOutPage={this.props.inCheckOutPage}
+            inPdpPage={this.props.pdpApparel}
             type={this.props.type === QUIQPIQ ? QUIQPIQ : null}
           >
             {this.props.cutOffTime && (

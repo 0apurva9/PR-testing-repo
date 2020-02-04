@@ -106,6 +106,7 @@ export default class PdpDeliveryModes extends React.Component {
             <DeliveryInformation
               isQuiqPiq={QuiqPiq}
               isStaticText={true}
+              pdpApparel={this.props.pdpApparel}
               fontSize={"14px"}
               available={true}
               type={QUIQPIQ}

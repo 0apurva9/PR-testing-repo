@@ -125,6 +125,8 @@ export default class IconWithHeader extends React.Component {
     let baseClass = styles.base;
     if (this.props.inCheckOutPage) {
       baseClass = `${styles.base} ${styles.baseCheckout}`;
+    } else if (this.props.inPdpPage) {
+      baseClass = `${styles.base} ${styles.basePdp}`;
     }
     return (
       <div
