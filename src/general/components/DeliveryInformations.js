@@ -192,7 +192,7 @@ export default class DeliveryInformations extends React.Component {
       typeText = !this.props.deliveryInformationByCart
         ? COLLECT_TEXT
         : COLLECT_TEXT_CART;
-      iconSize = 34;
+      iconSize = 29;
     } else if (this.props.type === SHORT_SAME_DAY_DELIVERY) {
       iconImage = deliveryIcon;
       if (this.props.inCartPage || this.props.inCheckOutPage) {
@@ -214,7 +214,7 @@ export default class DeliveryInformations extends React.Component {
     } else if (this.props.isQuiqPiq) {
       iconImage = quiqpiqImage;
       typeText = QUIQPIQ;
-      iconSize = 29;
+      iconSize = 40;
     } else if (this.props.isCod == "Y") {
       iconImage = codImage;
       typeText = COD_TEXT;
