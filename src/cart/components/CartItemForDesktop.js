@@ -12,7 +12,8 @@ import {
   YES,
   NO,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  SHORT_COLLECT
+  SHORT_COLLECT,
+  NOT_SERVICEABLE
 } from "../../lib/constants";
 import ProductImage from "../../general/components/ProductImage.js";
 import styles from "./CartItemForDesktop.css";
@@ -22,7 +23,6 @@ import { WISHLIST_BUTTON_TEXT_TYPE_SMALL } from "../../wishlist/components/AddTo
 import { ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART } from "../../lib/adobeUtils";
 import format from "date-fns/format";
 const NO_SIZE = "NO SIZE";
-const NOT_SERVICEABLE = "Not available at your PIN code";
 const OUT_OF_STOCK = "Product is out of stock";
 export default class CartItemForDesktop extends React.Component {
   constructor(props) {
@@ -128,6 +128,9 @@ export default class CartItemForDesktop extends React.Component {
         });
       }
     }
+    let productMessage = this.props.productNotServiceable
+      ? this.props.productNotServiceable
+      : NOT_SERVICEABLE;
     let pickUpDateDetails = "";
     if (this.props.storeDetails && this.props.storeDetails.slaveId) {
       let productSlaveId = this.props.storeDetails.slaveId;
@@ -207,14 +210,13 @@ export default class CartItemForDesktop extends React.Component {
                 </div>
               )}
               {this.props.isGiveAway === NO &&
-                (!this.props.productIsServiceable &&
-                this.props.productNotServiceable
+                (!this.props.productIsServiceable && productMessage
                   ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE) && (
                       <React.Fragment>
                         <div className={styles.space}>|</div>
                         <div className={styles.serviceAvailabilityText}>
                           {/* `${NOT_SERVICEABLE}` */}
-                          {`${this.props.productNotServiceable}`}
+                          {`${productMessage}`}
                         </div>
                       </React.Fragment>
                     )

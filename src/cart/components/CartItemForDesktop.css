@@ -12,11 +12,11 @@
   display: inline-block;
 }
 .productInformation {
-  width: 45%;
+  width: 44%;
   height: auto;
   display: inline-block;
   vertical-align: top;
-  padding-left: 30px;
+  padding-left: 25px;
   padding-top: 10px;
 }
 .productInformationHolder {
@@ -104,11 +104,11 @@
   cursor: pointer;
 }
 .deliveryInfo {
-  width: 35%;
+  width: 36%;
   height: auto;
   display: inline-block;
   vertical-align: top;
-  padding-left: 30px;
+  padding-left: 15px;
 }
 .isGiveAwayText {
   color: #ff1744;

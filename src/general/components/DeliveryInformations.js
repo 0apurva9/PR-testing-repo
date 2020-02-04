@@ -13,6 +13,8 @@ import CollectImage from "./img/collect.svg";
 import quiqpiqImage from "./img/quiqlogo.png";
 import codImage from "./img/cod.svg";
 import clockImage from "./img/clock.png";
+import quiqIcon from "./img/QuiQIcon.svg";
+import deliveryIcon from "./img/deliveryIcon.svg";
 import {
   EXPRESS,
   SHORT_EXPRESS,
@@ -167,51 +169,52 @@ export default class DeliveryInformations extends React.Component {
     let baseClass = styles.base;
     let cncDeliveryAddressClass = styles.cncDeliveryAddress;
     if (this.props.type === SHORT_EXPRESS) {
-      iconImage = ExpressImage;
+      iconImage = deliveryIcon;
       if (this.props.inCartPage || this.props.inCheckOutPage) {
         typeDate = `${formattedPlacedTime}`;
-        typeText = `${EXPRESS_TEXT}`;
+        typeText = this.props.placedTime ? `${EXPRESS_TEXT}` : null;
       } else {
         typeDate = `${formattedPlacedTime}`;
-        typeText = !this.props.deliveryInformationByCart
-          ? `${EXPRESS_TEXT}`
-          : null;
+        typeText =
+          !this.props.deliveryInformationByCart && this.props.placedTime
+            ? `${EXPRESS_TEXT}`
+            : null;
       }
       arrowStyle = styles.arrowLink;
       iconSize = this.props.inCartPageIcon ? 40 : 38;
     } else if (this.props.type === SHORT_HOME_DELIVERY) {
-      iconImage = ExpressImage;
+      iconImage = deliveryIcon;
       typeDate = `${formattedPlacedTime}`;
-      typeText = `${HOME_TEXT}`;
-      iconSize = 38;
+      typeText = this.props.placedTime ? `${HOME_TEXT}` : null;
+      iconSize = 34;
     } else if (this.props.type === SHORT_COLLECT) {
-      iconImage = CollectImage;
+      iconImage = quiqIcon;
       typeText = !this.props.deliveryInformationByCart
         ? COLLECT_TEXT
         : COLLECT_TEXT_CART;
-      iconSize = 30;
+      iconSize = 34;
     } else if (this.props.type === SHORT_SAME_DAY_DELIVERY) {
-      iconImage = ExpressImage;
+      iconImage = deliveryIcon;
       if (this.props.inCartPage || this.props.inCheckOutPage) {
         typeDate = `${formattedPlacedTime}`;
-        iconSize = 38;
+        iconSize = 34;
       } else {
         typeDate = `${formattedPlacedTime}`;
-        typeText = `${SHORT_SAME_DAY_TEXT}`;
-        iconSize = 38;
+        typeText = this.props.placedTime ? `${SHORT_SAME_DAY_TEXT}` : null;
+        iconSize = 34;
       }
     } else if (this.props.type === SAME_DAY_DELIVERY) {
-      iconImage = clockImage;
-      typeText = SAME_DAY_DELIVERY_SHIPPING_TEXT;
-      iconSize = 35;
+      iconImage = deliveryIcon;
+      typeText = this.props.placedTime ? SAME_DAY_DELIVERY_SHIPPING_TEXT : null;
+      iconSize = 34;
     } else if (this.props.type === HOME_DELIVERY) {
-      iconImage = HomeImage;
-      typeText = HOME_TEXT;
-      iconSize = 35;
+      iconImage = deliveryIcon;
+      typeText = this.props.placedTime ? HOME_TEXT : null;
+      iconSize = 34;
     } else if (this.props.isQuiqPiq) {
-      iconImage = quiqpiqImage;
+      iconImage = quiqIcon;
       typeText = QUIQPIQ;
-      iconSize = 40;
+      iconSize = 29;
     } else if (this.props.isCod == "Y") {
       iconImage = codImage;
       typeText = COD_TEXT;
@@ -222,15 +225,13 @@ export default class DeliveryInformations extends React.Component {
     }
 
     let deliveryCharge = "";
-    if (this.props.deliveryCharge) {
-      //not required as per pincode phase 2 design change
-      /* if (this.props.showDeliveryCharge) {
-        deliveryCharge = "(Free)";
+    if (this.props.deliveryCharge && this.props.type !== SHORT_COLLECT) {
+      if (this.props.showDeliveryCharge) {
+        deliveryCharge = "Free";
       }
       if (parseInt(this.props.deliveryCharge, 10) !== 0) {
-        deliveryCharge = `(₹${parseInt(this.props.deliveryCharge, 10)})`;
+        deliveryCharge = `₹${parseInt(this.props.deliveryCharge, 10)}`;
       }
-      */
     }
     if (this.props.pdpApparel) {
       baseClass = styles.basePdp;
@@ -255,6 +256,7 @@ export default class DeliveryInformations extends React.Component {
             header={`${deliveryCharge}`}
             dateFormatted={typeDate}
             dateFormattedText={typeText}
+            inCheckOutPage={this.props.inCheckOutPage}
             type={this.props.type === QUIQPIQ ? QUIQPIQ : null}
           >
             {this.props.cutOffTime && (

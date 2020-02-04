@@ -2,9 +2,12 @@
   width: 100%;
   height: auto;
   background-color: #fff;
-  padding: 10px 0px 10px 60px;
+  padding: 10px 0px 10px 46px;
   display: inline-block;
   position: relative;
+}
+.baseCheckout {
+  padding: 10px 30px 10px 46px;
 }
 .baseNoPadding {
   composes: base;
@@ -26,6 +29,24 @@
   top: 0px;
   bottom: 0px;
   margin: auto;
+}
+.dateFormatted{
+  font-size: 13px;
+  color: #212121;
+  font-weight: bold;
+}
+.cncStoreText{
+  font-weight: bold;
+  font-size: 14px;
+}
+.deliveyCharge::before {
+  content: "";
+  width: 1px;
+  height: 16px;
+  margin: 0 6px 0;
+  display: inline-block;
+  vertical-align: middle;
+  border-left: 1px solid #8d8d8d;
 }
 @media only screen and (min-width: 1025px) {
   .textHolder {
@@ -94,14 +115,4 @@
   .classLight {
     font-family: light;
   }
-}
-
-.dateFormatted{
-  font-size: 13px;
-  color: #212121;
-  font-weight: bold;
-}
-.cncStoreText{
-  font-weight: bold;
-  font-size: 14px;
 }

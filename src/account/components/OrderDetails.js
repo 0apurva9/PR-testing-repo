@@ -148,7 +148,7 @@ export default class OrderDetails extends React.Component {
     const arr1 = [1, 2, 3, 4, 5, 6, 0];
     let dayText = "";
     let dayTextArr = [];
-    var arr2 = mplWorkingDays.split(",").map(function (item) {
+    var arr2 = mplWorkingDays.split(",").map(function(item) {
       return parseInt(item, 10);
     });
     const finalarr = [];
@@ -160,7 +160,7 @@ export default class OrderDetails extends React.Component {
     if (finalarr.length === 0) {
       return "";
     } else if (finalarr.length > 0) {
-      finalarr.forEach(function (curr_val) {
+      finalarr.forEach(function(curr_val) {
         if (curr_val === 1) {
           dayText = "Mondays";
         } else if (curr_val === 2) {
@@ -542,8 +542,8 @@ export default class OrderDetails extends React.Component {
                 each(products && products.statusDisplayMsg, orderStatus => {
                   each(
                     orderStatus &&
-                    orderStatus.value &&
-                    orderStatus.value.statusList,
+                      orderStatus.value &&
+                      orderStatus.value.statusList,
                     status => {
                       if (
                         status.responseCode === "DELIVERED" ||
@@ -583,25 +583,49 @@ export default class OrderDetails extends React.Component {
                 let hideEIETrackDiagram = false;
                 let hideEstimatedInstallationDate = false;
                 //request cancelled
-                if (requestCancelled && requestCancelled.value.customerFacingName === "Request Cancelled" && requestCancelled.value.status === "Completed") {
+                if (
+                  requestCancelled &&
+                  requestCancelled.value.customerFacingName ===
+                    "Request Cancelled" &&
+                  requestCancelled.value.status === "Completed"
+                ) {
                   hideEIETrackDiagram = true;
                   hideEstimatedInstallationDate = true;
                 }
                 //request completed
-                if (requestCompleted && requestCompleted.value.customerFacingName === "Request Completed" && requestCompleted.value.status === "Completed") {
+                if (
+                  requestCompleted &&
+                  requestCompleted.value.customerFacingName ===
+                    "Request Completed" &&
+                  requestCompleted.value.status === "Completed"
+                ) {
                   hideEIETrackDiagram = true;
                   hideEstimatedInstallationDate = true;
                 }
                 //installation rescheduled
-                if (requestCompleted && requestCompleted.value.customerFacingName === "Installation Rescheduled" && requestCompleted.value.status === "Completed") {
+                if (
+                  requestCompleted &&
+                  requestCompleted.value.customerFacingName ===
+                    "Installation Rescheduled" &&
+                  requestCompleted.value.status === "Completed"
+                ) {
                   hideEIETrackDiagram = true;
                 }
                 //request closed
-                if (requestClosed && requestClosed.value.customerFacingName === "Request Closed" && requestClosed.value.status === "Completed") {
+                if (
+                  requestClosed &&
+                  requestClosed.value.customerFacingName === "Request Closed" &&
+                  requestClosed.value.status === "Completed"
+                ) {
                   hideEIETrackDiagram = true;
                 }
                 //installation rescheduled
-                if (requestReschedule && requestReschedule.value.customerFacingName === "Installation Rescheduled" && requestReschedule.value.status === "Completed") {
+                if (
+                  requestReschedule &&
+                  requestReschedule.value.customerFacingName ===
+                    "Installation Rescheduled" &&
+                  requestReschedule.value.status === "Completed"
+                ) {
                   hideEIETrackDiagram = true;
                 }
                 return (
@@ -699,7 +723,9 @@ export default class OrderDetails extends React.Component {
                         estimatedCompletionDate={
                           products.estimatedCompletionDate
                         }
-                        hideEstimatedInstallationDate={hideEstimatedInstallationDate}
+                        hideEstimatedInstallationDate={
+                          hideEstimatedInstallationDate
+                        }
                         installationRequestReschedule={requestReschedule}
                         installationRequestClosed={requestClosed}
                         installationRequestCompleted={requestCompleted}
@@ -728,12 +754,12 @@ export default class OrderDetails extends React.Component {
                         products.consignmentStatus != "ORDER_ALLOCATED" &&
                         products.consignmentStatus != "PACKED" &&
                         products.consignmentStatus !=
-                        "RETURNINITIATED_BY_RTO" &&
+                          "RETURNINITIATED_BY_RTO" &&
                         products.consignmentStatus != "OUT_FOR_DELIVERY" &&
                         products.consignmentStatus != "HOTC" &&
                         products.consignmentStatus != "UNDELIVERED" &&
                         products.consignmentStatus !=
-                        "CANCELLATION_INITIATED" &&
+                          "CANCELLATION_INITIATED" &&
                         products.consignmentStatus != "PAYMENT_TIMEOUT" &&
                         products.consignmentStatus != "PICK_CONFIRMED" &&
                         products.consignmentStatus != "ORDER_UNCOLLECTED" && (
@@ -784,7 +810,7 @@ export default class OrderDetails extends React.Component {
                         products.consignmentStatus != "PAYMENT_SUCCESSFUL" &&
                         products.consignmentStatus != "PAYMENT_FAILED" &&
                         products.consignmentStatus !=
-                        "RMS_VERIFICATION_PENDING" &&
+                          "RMS_VERIFICATION_PENDING" &&
                         products.price &&
                         products.price != 0.01 && (
                           <div className={styles.orderStatusVertical}>
@@ -839,27 +865,27 @@ export default class OrderDetails extends React.Component {
                            */}
                                 {products.storeDetails.displayName &&
                                   products.storeDetails.displayName !=
-                                  undefined &&
+                                    undefined &&
                                   products.storeDetails.displayName !=
-                                  "undefined" && (
+                                    "undefined" && (
                                     <span>
                                       {products.storeDetails.displayName} ,
                                     </span>
                                   )}{" "}
                                 {products.storeDetails.returnAddress1 &&
                                   products.storeDetails.returnAddress1 !=
-                                  undefined &&
+                                    undefined &&
                                   products.storeDetails.returnAddress1 !=
-                                  "undefined" && (
+                                    "undefined" && (
                                     <span>
                                       {products.storeDetails.returnAddress1} ,
                                     </span>
                                   )}{" "}
                                 {products.storeDetails.returnAddress2 &&
                                   products.storeDetails.returnAddress2 !=
-                                  undefined &&
+                                    undefined &&
                                   products.storeDetails.returnAddress2 !=
-                                  "undefined" && (
+                                    "undefined" && (
                                     <span>
                                       {products.storeDetails.returnAddress2}
                                     </span>
@@ -874,9 +900,7 @@ export default class OrderDetails extends React.Component {
                             </div>
                             {/* </div> */}
                             <div className={styles.commonTitle}>
-                              <span className={styles.width20}>
-                                Store Timings
-                              </span>
+                              <span className={styles.width20}>Open from</span>
                               <span className={styles.colon}>:</span>
                               <span className={styles.width75}>
                                 <div
@@ -923,7 +947,7 @@ export default class OrderDetails extends React.Component {
                             >
                               <div className={styles.commonTitle}>
                                 <span className={styles.width20}>
-                                  Contact Details
+                                  Pickup Details
                                 </span>
                                 <span className={styles.colon}>:</span>
                                 <span className={styles.width75}>
@@ -940,10 +964,10 @@ export default class OrderDetails extends React.Component {
                               products.consignmentStatus != "PAYMENT_TIMEOUT" &&
                               products.consignmentStatus != "PAYMENT_PENDING" &&
                               products.consignmentStatus !=
-                              "PAYMENT_SUCCESSFUL" &&
+                                "PAYMENT_SUCCESSFUL" &&
                               products.consignmentStatus != "PAYMENT_FAILED" &&
                               products.consignmentStatus !=
-                              "ORDER_COLLECTED" && (
+                                "ORDER_COLLECTED" && (
                                 <OrderStatusVertical
                                   trackingAWB={products.trackingAWB}
                                   courier={products.reverseLogisticName}
@@ -967,22 +991,23 @@ export default class OrderDetails extends React.Component {
                               )}
                           </React.Fragment>
                         )}
-                      {products.installationDisplayMsg && !hideEIETrackDiagram && (
-                        <React.Fragment>
-                          <div className={styles.borderTop} />
-                          <InstallationExperience
-                            installationDisplayMsg={
-                              products.installationDisplayMsg
-                            }
-                          />
-                        </React.Fragment>
-                      )}
+                      {products.installationDisplayMsg &&
+                        !hideEIETrackDiagram && (
+                          <React.Fragment>
+                            <div className={styles.borderTop} />
+                            <InstallationExperience
+                              installationDisplayMsg={
+                                products.installationDisplayMsg
+                              }
+                            />
+                          </React.Fragment>
+                        )}
                       {products.awbPopupLink === AWB_POPUP_FALSE && (
                         <div
                           className={
                             products.consignmentStatus != "PAYMENT_TIMEOUT" &&
-                              products.consignmentStatus != "PAYMENT_PENDING" &&
-                              products.consignmentStatus != "ORDER_COLLECTED"
+                            products.consignmentStatus != "PAYMENT_PENDING" &&
+                            products.consignmentStatus != "ORDER_COLLECTED"
                               ? styles.buttonHolder
                               : styles.buttonHolderForPaymentPending
                           }
@@ -1061,9 +1086,9 @@ export default class OrderDetails extends React.Component {
                                 (products.consignmentStatus === "DELIVERED" ||
                                   products.consignmentStatus === "HOTC" ||
                                   products.consignmentStatus ===
-                                  "ORDER_COLLECTED" ||
+                                    "ORDER_COLLECTED" ||
                                   products.consignmentStatus ===
-                                  "RETURN_CANCELLED_CUS") && (
+                                    "RETURN_CANCELLED_CUS") && (
                                   <div
                                     className={styles.cancelProduct}
                                     onClick={() =>
@@ -1095,8 +1120,8 @@ export default class OrderDetails extends React.Component {
                         <div
                           className={
                             products.consignmentStatus != "PAYMENT_TIMEOUT" &&
-                              products.consignmentStatus != "PAYMENT_PENDING" &&
-                              products.consignmentStatus != "ORDER_COLLECTED"
+                            products.consignmentStatus != "PAYMENT_PENDING" &&
+                            products.consignmentStatus != "ORDER_COLLECTED"
                               ? styles.buttonHolder
                               : styles.buttonHolderForPaymentPending
                           }
@@ -1166,42 +1191,42 @@ export default class OrderDetails extends React.Component {
                   <OrderViewPaymentDetails
                     SubTotal={
                       orderDetails.orderAmount &&
-                        orderDetails.orderAmount.bagTotal &&
-                        orderDetails.orderAmount.bagTotal.value
+                      orderDetails.orderAmount.bagTotal &&
+                      orderDetails.orderAmount.bagTotal.value
                         ? Math.round(
-                          orderDetails.orderAmount.bagTotal.value * 100
-                        ) / 100
+                            orderDetails.orderAmount.bagTotal.value * 100
+                          ) / 100
                         : "0.00"
                     }
                     DeliveryCharges={orderDetails.deliveryCharge}
                     Discount={
                       orderDetails.orderAmount &&
-                        orderDetails.orderAmount.totalDiscountAmount &&
-                        orderDetails.orderAmount.totalDiscountAmount.value
+                      orderDetails.orderAmount.totalDiscountAmount &&
+                      orderDetails.orderAmount.totalDiscountAmount.value
                         ? Math.round(
-                          orderDetails.orderAmount.totalDiscountAmount.value *
-                          100
-                        ) / 100
+                            orderDetails.orderAmount.totalDiscountAmount.value *
+                              100
+                          ) / 100
                         : "0.00"
                     }
                     coupon={
                       orderDetails.orderAmount &&
-                        orderDetails.orderAmount.couponDiscountAmount &&
-                        orderDetails.orderAmount.couponDiscountAmount.value
+                      orderDetails.orderAmount.couponDiscountAmount &&
+                      orderDetails.orderAmount.couponDiscountAmount.value
                         ? Math.round(
-                          orderDetails.orderAmount.couponDiscountAmount
-                            .value * 100
-                        ) / 100
+                            orderDetails.orderAmount.couponDiscountAmount
+                              .value * 100
+                          ) / 100
                         : "0.00"
                     }
                     ConvenienceCharges={orderDetails.convenienceCharge}
                     Total={
                       orderDetails.orderAmount &&
-                        orderDetails.orderAmount.paybleAmount &&
-                        orderDetails.orderAmount.paybleAmount.value
+                      orderDetails.orderAmount.paybleAmount &&
+                      orderDetails.orderAmount.paybleAmount.value
                         ? Math.round(
-                          orderDetails.orderAmount.paybleAmount.value * 100
-                        ) / 100
+                            orderDetails.orderAmount.paybleAmount.value * 100
+                          ) / 100
                         : "0.00"
                     }
                     cliqCashAmountDeducted={
@@ -1231,19 +1256,19 @@ export default class OrderDetails extends React.Component {
                       orderId={orderDetails.orderId}
                       clickcollect={
                         orderDetails.products[0].selectedDeliveryMode.code ===
-                          CLICK_COLLECT
+                        CLICK_COLLECT
                           ? true
                           : false
                       }
                       orderDetails={orderDetails}
-                    //isInvoiceAvailable={products.isInvoiceAvailable}
-                    //statusDisplay={products.statusDisplayMsg}
-                    // request={() =>
-                    //   this.requestInvoice(
-                    //     products.transactionId,
-                    //     products.sellerorderno
-                    //   )
-                    // }
+                      //isInvoiceAvailable={products.isInvoiceAvailable}
+                      //statusDisplay={products.statusDisplayMsg}
+                      // request={() =>
+                      //   this.requestInvoice(
+                      //     products.transactionId,
+                      //     products.sellerorderno
+                      //   )
+                      // }
                     />
                   </React.Fragment>
                 </div>

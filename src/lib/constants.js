@@ -500,3 +500,4 @@ export const SELECTED_STORE = "selectedStoreAddress";
 export const EDD_TEXT = "Estimated Delivery Date";
 //CleverTap email unsubsctibe
 export const UNSUBSCRIBE_CLEVER_TAP_EMAILS = "/emails-unsubscribe";
+export const NOT_SERVICEABLE = "Not available at your PIN code";

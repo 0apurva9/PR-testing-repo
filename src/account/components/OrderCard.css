@@ -397,6 +397,7 @@ display: none;
 		font-family: light;
 	}
 	.commonTitle {
+		margin-top: 15px;
 		font-size: 12px;
 		letter-spacing: 0.02px;
 		color: rgb(33, 33, 33);

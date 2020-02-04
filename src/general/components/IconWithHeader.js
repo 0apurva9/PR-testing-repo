@@ -122,9 +122,13 @@ export default class IconWithHeader extends React.Component {
     if (this.props.splitIntoTwoLine) {
       styleInSameLine = styles.spanInSameLine;
     }
+    let baseClass = styles.base;
+    if (this.props.inCheckOutPage) {
+      baseClass = `${styles.base} ${styles.baseCheckout}`;
+    }
     return (
       <div
-        className={styles.base}
+        className={baseClass}
         style={{ marginBottom: this.props.marginBottom }}
       >
         <div className={styles.iconHolder}>
@@ -161,7 +165,11 @@ export default class IconWithHeader extends React.Component {
               <span className={styles.dateFormatted}>
                 {this.props.dateFormatted}
               </span>
-              <span>{this.props.header}</span>
+              {this.props.header && (
+                <span className={styles.deliveyCharge}>
+                  {this.props.header}
+                </span>
+              )}
             </div>
           )}
           {this.props.placedTime &&
