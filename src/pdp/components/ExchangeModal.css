@@ -114,6 +114,7 @@
 .tabSliderTwo:first-child{
   background-color: #f8f8f8;
   margin-right: 30px;
+  border: dashed 0.5px #c6c6c6;
 }
 .exchangeOfferTable{
   width: 330px;
@@ -123,7 +124,7 @@
   text-align: right;
 }
 .exchangeOfferTable tr td:nth-child(odd){
-  padding-left: 20px;
+  padding-left: 0;
 }
 .cashbackHeading{
   font-family: semibold;
@@ -419,12 +420,6 @@ ul.contentHeading{
 	font-family: regular;
 }
 .firstDeviceName{
-  /* transform: rotate(90deg);
-  position: absolute;
-  top: 50%;
-  left: 0;
-  text-transform: capitalize;
-  cursor: pointer; */
   -webkit-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
@@ -438,4 +433,14 @@ ul.contentHeading{
   overflow: hidden;
   white-space: nowrap;
   text-align: center;
+}
+.secondDeviceName{
+  width: 180px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 14px;
+  color: #212121;
 }

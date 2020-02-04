@@ -1,21 +1,13 @@
 import React from "react";
 import styles from "./ExchangeModal.css";
-import cashbackIcon from "../../general/components/img/infoCashback.svg";
 import closeIcon from "../../general/components/img/closeIcon.svg";
-import baseValueIcon from "./img/baseValue.svg";
-import cliqBonusIcon from "./img/cliqBonus.svg";
-import pickUpChargeIcon from "./img/pickUpCharge.svg";
-import hew1 from "../../pdp/components/img/hew1.svg";
-import hew2 from "../../pdp/components/img/hew2.svg";
-import hew3 from "../../pdp/components/img/hew3.svg";
-import hew4 from "../../pdp/components/img/hew4.svg";
-import hew5 from "../../pdp/components/img/hew5.svg";
 import HowExchangeModalWorks from "./HowExchangeModalWorks";
 import ExchangeTnCModal from "./ExchangeTnCModal";
 import ExchangeCashbackModal from "./ExchangeCashbackModal";
 import SelectDevice from "./SelectDevice";
 import ExchangeModalOtherDetails from "./ExchangeModalOtherDetails";
 import HowExchangeModalWorksLessDetails from "./HowExchangeModalWorksLessDetails";
+import ExchangeProductDetailsTab from "./ExchangeProductDetailsTab";
 // import * as customSelectDropDown from "../../mock/customSelectDropdown.js";
 export default class ExchangeModal extends React.Component {
   constructor(props) {
@@ -316,98 +308,10 @@ export default class ExchangeModal extends React.Component {
                 }
               >
                 {!this.state.activateSecondTab ? (
-                  <React.Fragment>
-                    <div className={styles.cashbackHeading}>
-                      <input
-                        type="radio"
-                        className={styles.tabOneRadio}
-                        // defaultChecked={this.state.isFirstDeviceSelected}
-                        defaultChecked={firstDeviceInfo}
-                      />
-                      <span className={styles.textCaps}>
-                        {firstDeviceInfo &&
-                          firstDeviceInfo.model.effectiveModelName}
-                      </span>
-                    </div>
-                    <table
-                      border="0"
-                      cellPadding="10"
-                      cellSpacing="0"
-                      className={styles.exchangeOfferTable}
-                    >
-                      <tbody>
-                        <tr>
-                          <td className={styles.fontSize12}>
-                            <img
-                              src={baseValueIcon}
-                              alt="Base value"
-                              className={styles.icons}
-                            />
-                            Base value
-                          </td>
-                          <td className={styles.fontSize12}>
-                            {firstDeviceInfo &&
-                              firstDeviceInfo.model.exchangeAmountCashify
-                                .formattedValueNoDecimal}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <img
-                              src={cliqBonusIcon}
-                              alt="CLiQ Bonus"
-                              className={styles.icons}
-                            />
-                            CLiQ Bonus
-                          </td>
-                          <td>
-                            {firstDeviceInfo &&
-                              firstDeviceInfo.tulBump.formattedValueNoDecimal}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className={styles.fontSize12}>
-                            <img
-                              src={pickUpChargeIcon}
-                              alt="Pick up charge"
-                              className={styles.icons}
-                            />
-                            Pick up charge
-                          </td>
-                          <td className={styles.freePickUp}>
-                            {firstDeviceInfo &&
-                            firstDeviceInfo.pickupCharge.value === 0
-                              ? "FREE"
-                              : firstDeviceInfo.pickupCharge
-                                  .formattedValueNoDecimal}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className={styles.cashbackHeading}>
-                            Total Exchange Cashback
-                          </td>
-                          <td className={styles.cashbackHeading}>
-                            {firstDeviceInfo &&
-                              firstDeviceInfo.model.totalExchangeCashback
-                                .formattedValueNoDecimal}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colSpan="2" className={styles.cashbackSubtitle}>
-                            <span className={styles.cashbackInfoSubtitle}>
-                              Cashback will be credited to your account.
-                            </span>
-                            <img
-                              src={cashbackIcon}
-                              alt="info"
-                              className={styles.cashbackInfoIcon}
-                              onClick={() => this.openCashbackModal()}
-                            />
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </React.Fragment>
+                  <ExchangeProductDetailsTab
+                    deviceInfo={firstDeviceInfo}
+                    openCashbackModal={() => this.openCashbackModal()}
+                  />
                 ) : (
                   <div
                     className={styles.firstDeviceName}
@@ -430,22 +334,40 @@ export default class ExchangeModal extends React.Component {
                     className={styles.addDevice}
                     onClick={() => this.switchTabs(2)}
                   >
-                    <span className={styles.plusSign} />
-                    Another Mobile to Evaluate
+                    {secondDeviceInfo ? (
+                      <div className={styles.secondDeviceName}>
+                        {secondDeviceInfo &&
+                          secondDeviceInfo.model.effectiveModelName}
+                      </div>
+                    ) : (
+                      <React.Fragment>
+                        <span className={styles.plusSign} />
+                        Another Mobile to Evaluate
+                      </React.Fragment>
+                    )}
                   </div>
                 ) : (
-                  <div className={styles.evaluateContainerTwo}>
-                    <SelectDevice
-                      heading="Select Device to Evaluate"
-                      makeModelDetails={this.state.makeModelDetails}
-                      isEnableForBrand={this.state.isEnableForBrand}
-                      onChange={val => this.onChange(val)}
-                      currentModelList={this.state.currentModelList}
-                      isEnableForModel={this.state.isEnableForModel}
-                      onChangeSecondary={val => this.onChangeSecondary(val)}
-                      saveDeviceDetails={() => this.saveDeviceDetails()}
-                    />
-                  </div>
+                  <React.Fragment>
+                    {secondDeviceInfo ? (
+                      <ExchangeProductDetailsTab
+                        deviceInfo={secondDeviceInfo}
+                        openCashbackModal={() => this.openCashbackModal()}
+                      />
+                    ) : (
+                      <div className={styles.evaluateContainerTwo}>
+                        <SelectDevice
+                          heading="Select Device to Evaluate"
+                          makeModelDetails={this.state.makeModelDetails}
+                          isEnableForBrand={this.state.isEnableForBrand}
+                          onChange={val => this.onChange(val)}
+                          currentModelList={this.state.currentModelList}
+                          isEnableForModel={this.state.isEnableForModel}
+                          onChangeSecondary={val => this.onChangeSecondary(val)}
+                          saveDeviceDetails={() => this.saveDeviceDetails()}
+                        />
+                      </div>
+                    )}
+                  </React.Fragment>
                 )}
               </div>
             </div>
@@ -466,7 +388,24 @@ export default class ExchangeModal extends React.Component {
                   this.saveExchangeDetails(IMEINumber)
                 }
               />
-            ) : null}
+            ) : (
+              <ExchangeModalOtherDetails
+                verifyIMEI={e => this.verifyIMEI(e)}
+                enableVerifyButton={this.state.enableVerifyButton}
+                checkIMEI={() => this.checkIMEI()}
+                IMEIVerified={this.state.IMEIVerified}
+                checkIMEIMessage={this.state.checkIMEIMessage}
+                deviceInfo={secondDeviceInfo}
+                productName={this.props.productName}
+                agreedTnC={e => this.agreedTnC(e)}
+                openTnCModal={() => this.openTnCModal()}
+                agreedTnCState={this.state.agreedTnC}
+                IMEINumber={this.state.IMEINumber}
+                saveExchangeDetails={IMEINumber =>
+                  this.saveExchangeDetails(IMEINumber)
+                }
+              />
+            )}
           </div>
         )}
       </div>
