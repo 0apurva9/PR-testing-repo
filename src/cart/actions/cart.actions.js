@@ -265,6 +265,20 @@ export const UPI_MIDDLE_LAYER_IS_NEW_SUCCESS =
 export const UPI_MIDDLE_LAYER_IS_NEW_FAILURE =
   "UPI_MIDDLE_LAYER_IS_NEW_FAILURE";
 
+export const UPI_MIDDLE_LAYER_HOW_IT_WORKS_REQUEST =
+  "UPI_MIDDLE_LAYER_HOW_IT_WORKS_REQUEST";
+export const UPI_MIDDLE_LAYER_HOW_IT_WORKS_SUCCESS =
+  "UPI_MIDDLE_LAYER_HOW_IT_WORKS_SUCCESS";
+export const UPI_MIDDLE_LAYER_HOW_IT_WORKS_FAILURE =
+  "UPI_MIDDLE_LAYER_HOW_IT_WORKS_FAILURE";
+
+export const UPI_MIDDLE_LAYER_COMBINED_LOGO_REQUEST =
+  "UPI_MIDDLE_LAYER_COMBINED_LOGO_REQUEST";
+export const UPI_MIDDLE_LAYER_COMBINED_LOGO_SUCCESS =
+  "UPI_MIDDLE_LAYER_COMBINED_LOGO_SUCCESS";
+export const UPI_MIDDLE_LAYER_COMBINED_LOGO_FAILURE =
+  "UPI_MIDDLE_LAYER_COMBINED_LOGO_FAILURE";
+
 export const UPI_MIDDLE_LAYER_IS_ENABLE_REQUEST =
   "UPI_MIDDLE_LAYER_IS_ENABLE_REQUEST";
 export const UPI_MIDDLE_LAYER_IS_ENABLE_SUCCESS =
@@ -1886,6 +1900,97 @@ export function getPaymentModes(guId) {
  * @author Prashant Kumar
  * @comment Code for checking the middle ware of the UPI
  */
+
+export function upiPaymentCombinedLogoMidddleLayerRequest() {
+  return {
+    type: UPI_MIDDLE_LAYER_COMBINED_LOGO_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function upiPaymentCombinedLogoMidddleLayerSuccess(
+  upiPaymentCombinedLogoMidddleLayerDetails
+) {
+  return {
+    type: UPI_MIDDLE_LAYER_COMBINED_LOGO_SUCCESS,
+    status: SUCCESS,
+    upiPaymentCombinedLogoMidddleLayerDetails
+  };
+}
+
+export function upiPaymentCombinedLogoMidddleLayerFailure(error) {
+  return {
+    type: UPI_MIDDLE_LAYER_COMBINED_LOGO_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function upiPaymentCombinedLogoMidddleLayer(orderId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(upiPaymentCombinedLogoMidddleLayerRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=MP_UPI_COMBINED_LOGO_URL`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(upiPaymentCombinedLogoMidddleLayerSuccess(resultJson));
+    } catch (e) {
+      dispatch(upiPaymentCombinedLogoMidddleLayerFailure(e.message));
+    }
+  };
+}
+export function upiPaymentHowItWorksMidddleLayerRequest() {
+  return {
+    type: UPI_MIDDLE_LAYER_HOW_IT_WORKS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function upiPaymentHowItWorksMidddleLayerSuccess(
+  upiPaymentHowItWorksMidddleLayerDetails
+) {
+  return {
+    type: UPI_MIDDLE_LAYER_HOW_IT_WORKS_SUCCESS,
+    status: SUCCESS,
+    upiPaymentHowItWorksMidddleLayerDetails
+  };
+}
+
+export function upiPaymentHowItWorksMidddleLayerFailure(error) {
+  return {
+    type: UPI_MIDDLE_LAYER_HOW_IT_WORKS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function upiPaymentHowItWorksMidddleLayer(orderId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(upiPaymentHowItWorksMidddleLayerRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=MP_UPI_HOW_IT_WORKS_PAGEID`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(upiPaymentHowItWorksMidddleLayerSuccess(resultJson));
+    } catch (e) {
+      dispatch(upiPaymentHowItWorksMidddleLayerFailure(e.message));
+    }
+  };
+}
 
 export function upiPaymentIsNewMidddleLayerRequest() {
   return {

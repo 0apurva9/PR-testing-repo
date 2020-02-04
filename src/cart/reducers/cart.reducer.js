@@ -269,7 +269,17 @@ const cart = (
     upiMiddleLayerIsNewStatus: null,
     upiMiddleLayerIsNew: null,
     upiMiddleLayerIsNewLoading: false,
-    upiMiddleLayerIsNewError: null
+    upiMiddleLayerIsNewError: null,
+
+    upiMiddleLayerHowItWorksStatus: null,
+    upiMiddleLayerHowItWorks: null,
+    upiMiddleLayerHowItWorksLoading: false,
+    upiMiddleLayerHowItWorksError: null,
+
+    upiMiddleLayerCombinedLogoStatus: null,
+    upiMiddleLayerCombinedLogo: null,
+    upiMiddleLayerCombinedLogoLoading: false,
+    upiMiddleLayerCombinedLogoError: null
   },
   action
 ) => {
@@ -797,6 +807,46 @@ const cart = (
      * @author Prashant Kumar
      * @comment Change for the UPI middle layer
      */
+    case cartActions.UPI_MIDDLE_LAYER_HOW_IT_WORKS_REQUEST:
+      return Object.assign({}, state, {
+        upiMiddleLayerHowItWorksStatus: action.status,
+        upiMiddleLayerHowItWorksLoading: true
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_HOW_IT_WORKS_SUCCESS:
+      return Object.assign({}, state, {
+        upiMiddleLayerHowItWorksStatus: action.status,
+        upiMiddleLayerHowItWorks:
+          action.upiPaymentHowItWorksMidddleLayerDetails,
+        upiMiddleLayerHowItWorksLoading: false
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_HOW_IT_WORKS_FAILURE:
+      return Object.assign({}, state, {
+        upiMiddleLayerHowItWorksStatus: action.status,
+        upiMiddleLayerHowItWorksError: action.error,
+        upiMiddleLayerHowItWorksLoading: false
+      });
+    case cartActions.UPI_MIDDLE_LAYER_COMBINED_LOGO_REQUEST:
+      return Object.assign({}, state, {
+        upiMiddleLayerCombinedLogoStatus: action.status,
+        upiMiddleLayerCombinedLogoLoading: true
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_COMBINED_LOGO_SUCCESS:
+      return Object.assign({}, state, {
+        upiMiddleLayerCombinedLogoStatus: action.status,
+        upiMiddleLayerCombinedLogo:
+          action.upiPaymentCombinedLogoMidddleLayerDetails,
+        upiMiddleLayerCombinedLogoLoading: false
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_COMBINED_LOGO_FAILURE:
+      return Object.assign({}, state, {
+        upiMiddleLayerCombinedLogoStatus: action.status,
+        upiMiddleLayerCombinedLogoError: action.error,
+        upiMiddleLayerCombinedLogoLoading: false
+      });
     case cartActions.UPI_MIDDLE_LAYER_IS_NEW_REQUEST:
       return Object.assign({}, state, {
         upiMiddleLayerIsNewStatus: action.status,

@@ -4021,6 +4021,12 @@ if you have order id in local storage then you have to show order confirmation p
                       upiPaymentISEnableMidddleLayer={() =>
                         this.props.upiPaymentISEnableMidddleLayer()
                       }
+                      upiPaymentHowItWorksMidddleLayer={() =>
+                        this.props.upiPaymentHowItWorksMidddleLayer()
+                      }
+                      upiPaymentCombinedLogoMidddleLayer={() =>
+                        this.props.upiPaymentCombinedLogoMidddleLayer()
+                      }
                       getPaymentModes={val => this.props.getPaymentModes(val)}
                     />
                   </div>

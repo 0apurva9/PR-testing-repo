@@ -75,7 +75,9 @@ import {
   createJusPayOrderForUPI,
   upiPaymentIsNewMidddleLayer,
   upiPaymentISEnableMidddleLayer,
-  softReservationPaymentForUPI
+  softReservationPaymentForUPI,
+  upiPaymentHowItWorksMidddleLayer,
+  upiPaymentCombinedLogoMidddleLayer
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -806,11 +808,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         )
       );
     },
-    upiPaymentIsNewMidddleLayer: async () => {
-      return await dispatch(upiPaymentIsNewMidddleLayer());
+    upiPaymentIsNewMidddleLayer: () => {
+      dispatch(upiPaymentIsNewMidddleLayer());
     },
-    upiPaymentISEnableMidddleLayer: async () => {
-      return await dispatch(upiPaymentISEnableMidddleLayer());
+    upiPaymentISEnableMidddleLayer: () => {
+      dispatch(upiPaymentISEnableMidddleLayer());
+    },
+    upiPaymentHowItWorksMidddleLayer: () => {
+      dispatch(upiPaymentHowItWorksMidddleLayer());
+    },
+    upiPaymentCombinedLogoMidddleLayer: () => {
+      dispatch(upiPaymentCombinedLogoMidddleLayer());
     },
     softReservationPaymentForUPI: (
       paymentMethodType,

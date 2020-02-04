@@ -7,12 +7,18 @@ import { UPI } from "../../lib/constants";
 import UpiForm from "./UpiForm";
 
 export default class CheckoutUpi extends React.Component {
-  async componentDidMount() {
+  componentDidMount() {
     if (this.props.upiPaymentIsNewMidddleLayer) {
       this.props.upiPaymentIsNewMidddleLayer();
     }
     if (this.props.upiPaymentISEnableMidddleLayerDetails) {
       this.props.upiPaymentISEnableMidddleLayerDetails();
+    }
+    if (this.props.upiPaymentHowItWorksMidddleLayer) {
+      this.props.upiPaymentHowItWorksMidddleLayer();
+    }
+    if (this.props.upiPaymentCombinedLogoMidddleLayer) {
+      this.props.upiPaymentCombinedLogoMidddleLayer();
     }
   }
   render() {
