@@ -124,7 +124,7 @@ export default class DeliveryModeSet extends React.Component {
             if (deliveryOption.code === COLLECT) {
               textForCollect =
                 data.storeDetails &&
-                `Pickup Store: ${
+                `Pick From Store: ${
                   data.storeDetails.displayName
                     ? data.storeDetails.displayName
                     : ""
