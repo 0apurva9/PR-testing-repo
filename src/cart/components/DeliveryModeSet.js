@@ -121,7 +121,7 @@ export default class DeliveryModeSet extends React.Component {
                 : "";
 
             let textForCollect;
-            if (deliveryOption.code === SHORT_COLLECT) {
+            if (deliveryOption.code === COLLECT) {
               textForCollect =
                 data.storeDetails &&
                 `Pickup Store: ${
@@ -136,11 +136,11 @@ export default class DeliveryModeSet extends React.Component {
             }
             return (
               <div className={styles.base} key={i}>
-                <div className={styles.productName}>{data.productName}</div>
+                <div className={styles.productName}>{data.productName}:</div>
                 <div className={styles.deliveryWay}>
                   {deliveryOption &&
                     `${
-                      deliveryOption.code === SHORT_COLLECT
+                      deliveryOption.code === COLLECT
                         ? textForCollect
                           ? textForCollect
                           : ""

@@ -239,7 +239,7 @@ export default class DeliveryInformations extends React.Component {
     if (this.props.isQuiqPiq === "Y") {
       baseClass = styles.basePdp;
     }
-    if (this.props.inCartPage) {
+    if (this.props.inCartPage || this.props.inCheckOutPage) {
       cncDeliveryAddressClass = styles.cncDeliveryAddressCartPage;
     }
     return (
