@@ -91,6 +91,7 @@ export default class CartItemForDesktop extends React.Component {
         });
       }
     }
+    let SizeType = this.props.sizeType ? this.props.sizeType : "Size";
     return (
       <div className={styles.base}>
         <div className={styles.productImage}>
@@ -186,7 +187,7 @@ export default class CartItemForDesktop extends React.Component {
                 {this.props.size &&
                   this.props.size.toUpperCase() !== NO_SIZE && (
                     <div className={styles.colourText}>
-                      {`Size:  ${this.props.size}`}
+                      {`${SizeType}: ${this.props.size}`}
                     </div>
                   )}
               </div>

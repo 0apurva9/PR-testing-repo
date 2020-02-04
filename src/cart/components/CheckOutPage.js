@@ -634,6 +634,7 @@ class CheckOutPage extends React.Component {
                   color={val.color}
                   quantity={val.qtySelectedByUser}
                   isGiveAway={val.isGiveAway}
+                  sizeType={val.isSizeOrLength}
                   //productDetails={val.productBrand}
                   productName={val.productName}
                   price={val.price}
@@ -652,6 +653,7 @@ class CheckOutPage extends React.Component {
                   onPiq={() => this.getAllStores(val.USSID)}
                   onClickImage={() => this.onClickImage(val.productcode)}
                   isClickable={true}
+                  sizeType={val.isSizeOrLength}
                 />
               </div>
             );

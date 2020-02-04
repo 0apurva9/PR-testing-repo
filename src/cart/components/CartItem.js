@@ -99,6 +99,7 @@ export default class CartItem extends React.Component {
             isServiceAvailable={this.props.productIsServiceable}
             onClickImage={() => this.onClick()}
             index={this.props.index}
+            sizeType={this.props.sizeType}
           />
         </div>
         {this.props.deliveryInformation &&

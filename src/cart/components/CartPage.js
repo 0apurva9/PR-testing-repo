@@ -729,6 +729,7 @@ class CartPage extends React.Component {
                               product.elligibleDeliveryMode &&
                               product.elligibleDeliveryMode[0].desc
                             }
+                            sizeType={product.isSizeOrLength}
                             deliveryType={
                               product.elligibleDeliveryMode &&
                               product.elligibleDeliveryMode[0].code
