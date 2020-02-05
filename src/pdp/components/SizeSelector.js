@@ -261,7 +261,8 @@ export default class SizeSelector extends React.Component {
           </MobileOnly>
           <DesktopOnly>
             <div>
-              {!checkCategoryHierarchy &&
+              {this.props.isSizeOrLength !== "Power" &&
+                sizes &&
                 sizes.map((datum, i) => {
                   return (
                     <div className={styles.size}>

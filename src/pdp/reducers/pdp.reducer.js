@@ -122,24 +122,64 @@ const productDescription = (
           getProductDetailsLoading: false,
           visitedNewProduct: true
         });
-      } else {
-        let positiveArray = [];
-        let negativeArray = [];
+      } else if (
+        data.isSizeOrLength === "Power" &&
+        data &&
+        data.categoryHierarchy &&
+        data.categoryHierarchy[0] &&
+        data.categoryHierarchy[0].category_name === "Eyewear"
+      ) {
+        let positivePowerArray = [];
+        let negativePowerArray = [];
         data.variantOptions.map(power => {
           if (power.sizelink && power.sizelink.size) {
             if (power.sizelink.size > 0) {
-              positiveArray.push(power);
+              positivePowerArray.push(power);
             } else {
-              negativeArray.push(power);
+              negativePowerArray.push(power);
             }
           }
         });
-        negativeArray = negativeArray.reverse();
-        negativeArray = [...negativeArray, ...positiveArray];
-        data.variantOptions = negativeArray;
+        negativePowerArray = negativePowerArray.reverse();
+        negativePowerArray = [...negativePowerArray, ...positivePowerArray];
+        let clonedPower = [...negativePowerArray];
+        let selectedJson = clonedPower.find(value => {
+          if (
+            value.colorlink.selected &&
+            value.colorlink.colorurl.includes(
+              data.productListingId.toLowerCase()
+            )
+          ) {
+            return value;
+          }
+        });
+        let filtedData = [];
+        if (selectedJson) {
+          filtedData = clonedPower.filter(power => {
+            return power.colorlink.colorurl !== selectedJson.colorlink.colorurl;
+          });
+          filtedData.unshift(selectedJson);
+          negativePowerArray = filtedData;
+        }
+
+        data.variantOptions = negativePowerArray;
         return Object.assign({}, state, {
           status: action.status,
           productDetails: data,
+          loading: false,
+          getProductDetailsLoading: false,
+          visitedNewProduct: true
+        });
+      } else if (
+        data.isSizeOrLength !== "Power" &&
+        data &&
+        data.categoryHierarchy &&
+        data.categoryHierarchy[0] &&
+        data.categoryHierarchy[0].category_name === "Eyewear"
+      ) {
+        return Object.assign({}, state, {
+          status: action.status,
+          productDetails: action.productDescription,
           loading: false,
           getProductDetailsLoading: false,
           visitedNewProduct: true
@@ -436,24 +476,62 @@ const productDescription = (
           productDetails: action.productDetails,
           loading: false
         });
-      } else {
-        let positiveArray = [];
-        let negativeArray = [];
+      } else if (
+        data.isSizeOrLength === "Power" &&
+        data &&
+        data.categoryHierarchy &&
+        data.categoryHierarchy[0] &&
+        data.categoryHierarchy[0].category_name === "Eyewear"
+      ) {
+        let positivePowerArray = [];
+        let negativePowerArray = [];
         data.variantOptions.map(power => {
           if (power.sizelink && power.sizelink.size) {
             if (power.sizelink.size > 0) {
-              positiveArray.push(power);
+              positivePowerArray.push(power);
             } else {
-              negativeArray.push(power);
+              negativePowerArray.push(power);
             }
           }
         });
-        negativeArray = negativeArray.reverse();
-        negativeArray = [...negativeArray, ...positiveArray];
-        data.variantOptions = negativeArray;
+        negativePowerArray = negativePowerArray.reverse();
+        negativePowerArray = [...negativePowerArray, ...positivePowerArray];
+        let clonedPower = [...negativePowerArray];
+        let selectedJson = clonedPower.find(value => {
+          if (
+            value.colorlink.selected &&
+            value.colorlink.colorurl.includes(
+              data.productListingId.toLowerCase()
+            )
+          ) {
+            return value;
+          }
+        });
+        let filtedData = [];
+        if (selectedJson) {
+          filtedData = clonedPower.filter(power => {
+            return power.colorlink.colorurl !== selectedJson.colorlink.colorurl;
+          });
+          filtedData.unshift(selectedJson);
+          negativePowerArray = filtedData;
+        }
+
+        data.variantOptions = negativePowerArray;
         return Object.assign({}, state, {
           status: action.status,
           productDetails: data,
+          loading: false
+        });
+      } else if (
+        data.isSizeOrLength !== "Power" &&
+        data &&
+        data.categoryHierarchy &&
+        data.categoryHierarchy[0] &&
+        data.categoryHierarchy[0].category_name === "Eyewear"
+      ) {
+        return Object.assign({}, state, {
+          status: action.status,
+          productDetails: action.productDetails,
           loading: false
         });
       }
