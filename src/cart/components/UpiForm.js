@@ -55,6 +55,19 @@ export default class UpiForm extends React.Component {
           await this.props.getPaymentModes(cartGuId);
         }
       }
+    } else if (
+      response &&
+      response.upiResponse &&
+      response.upiResponse.status === "FAILURE" &&
+      response.upiResponse.upiStatus === "INVALID"
+    ) {
+      this.setState({
+        upiId: ele,
+        showUpiMsg: {
+          upiId: ele,
+          text: response.upiResponse.error
+        }
+      });
     }
   };
 
@@ -98,6 +111,7 @@ export default class UpiForm extends React.Component {
       this.props.addUPIDetailsNullState();
     }
     this.setState({
+      upiId: "",
       isNewUpi: !this.state.isNewUpi,
       showUpiMsg: {
         upiId: "",
@@ -134,8 +148,8 @@ export default class UpiForm extends React.Component {
           ? styles.invalidFrm
           : this.props.addUserUPIDetails &&
             this.props.addUserUPIDetails.upiStatus === "VALID"
-            ? styles.verifiedFrm
-            : styles.invalidFrm
+          ? styles.verifiedFrm
+          : styles.invalidFrm
         : "";
     return (
       <div className={styles.base}>
@@ -207,7 +221,7 @@ export default class UpiForm extends React.Component {
                                           this.props.addUserUPIDetails
                                             .upiStatus === "INVALID" && (
                                             <p className={styles.errorTxt2}>
-                                              {invalidUpi}
+                                              {this.state.showUpiMsg.text}
                                             </p>
                                           )}
                                       </React.Fragment>
@@ -347,7 +361,7 @@ export default class UpiForm extends React.Component {
                             <p className={styles.errorTxt}>
                               {this.props.addUserUPIDetails.error
                                 ? this.props.addUserUPIDetails.error
-                                : `Please enter a valid UPI ID`}
+                                : this.props.addUserUPIDetails.error}
                             </p>
                           )}
                       </React.Fragment>

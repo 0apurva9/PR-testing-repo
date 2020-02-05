@@ -24,7 +24,7 @@ export default class CheckoutUpi extends React.Component {
   render() {
     return (
       <MenuDetails
-        text={UPI}
+        text={"UPI ID"}
         isOpen={this.props.currentPaymentMode === UPI}
         onOpenMenu={currentPaymentMode =>
           this.props.onChange({ currentPaymentMode })
