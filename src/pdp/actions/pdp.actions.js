@@ -414,9 +414,9 @@ export function getProductPinCode(
           behavior: "smooth"
         });
       }
-      if (pinCode) {
-        localStorage.removeItem(SELECTED_STORE);
-      }
+      // if (pinCode) {
+      //   localStorage.removeItem(SELECTED_STORE);
+      // }
       return dispatch(
         getProductPinCodeSuccess({
           pinCode,

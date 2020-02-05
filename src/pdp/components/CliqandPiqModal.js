@@ -39,17 +39,19 @@ export default class ReturnToStore extends React.Component {
       const lat = selectedStore && selectedStore.geoPoint.latitude;
       const lng = selectedStore && selectedStore.geoPoint.longitude;
       const storeId = selectedStore && selectedStore.slaveId;
-      if (
-        selectedStore.address &&
-        (this.props.from === "Pdp" || this.props.from === "Cart")
-      ) {
-        localStorage.setItem(
-          SELECTED_STORE,
-          `${selectedStore.displayName}, ${selectedStore.address.line1} ${
-            selectedStore.address.line2
-          }, ${selectedStore.address.city} ${selectedStore.address.postalCode}`
-        );
-      }
+      // if (
+      //   selectedStore.address &&
+      //   (this.props.from === "Pdp" || this.props.from === "Cart")
+      // ) {
+      localStorage.setItem(
+        SELECTED_STORE,
+        `{"address": "${selectedStore.displayName}, ${
+          selectedStore.address.line1
+        } ${selectedStore.address.line2}, ${selectedStore.address.city} ${
+          selectedStore.address.postalCode
+        }", "storeId": "${storeId}"}`
+      );
+      // }
       this.setState({
         lat,
         lng,
@@ -86,13 +88,20 @@ export default class ReturnToStore extends React.Component {
       this.props.CloseCliqAndPiqModal();
     }
   };
-  componentDidUpdate(nextProps) {
+  async componentDidUpdate(nextProps) {
     if (this.props.stores !== nextProps.stores) {
-      this.getAvailableStores();
+      await this.getAvailableStores();
+      // If user selected store on PDP page or cart page then automatically
+      // selects store on checkout page
+      let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
+      if (selectedStore && selectedStore.storeId) {
+        this.selectStoreForDesktop([selectedStore.storeId]);
+      }
     }
   }
   componentDidMount() {
     this.getAvailableStores();
+
     if (this.props.getUserDetails) {
       this.props.getUserDetails();
     }
@@ -176,9 +185,11 @@ export default class ReturnToStore extends React.Component {
         let selectedStore = this.state.selectedStore;
         localStorage.setItem(
           SELECTED_STORE,
-          `${selectedStore.displayName}, ${selectedStore.address.line1} ${
-            selectedStore.address.line2
-          }, ${selectedStore.address.city} ${selectedStore.address.postalCode}`
+          `{"address": "${selectedStore.displayName}, ${
+            selectedStore.address.line1
+          } ${selectedStore.address.line2}, ${selectedStore.address.city} ${
+            selectedStore.address.postalCode
+          }", "storeId": "${this.state.storeId}"}`
         );
       }
     }

@@ -89,7 +89,7 @@ class CartPage extends React.Component {
     this.props.history.push(HOME_ROUTER);
   }
   componentDidMount() {
-    localStorage.removeItem(SELECTED_STORE);
+    //localStorage.removeItem(SELECTED_STORE);
     if (localStorage.getItem("cartPromotionText")) {
       let msg = localStorage.getItem("cartPromotionText");
       this.props.displayToast(msg);
@@ -1138,7 +1138,7 @@ here we need to hit call for merging cart id if user
         this.props.getMinicartProducts();
       }
     } else {
-      localStorage.removeItem(SELECTED_STORE);
+      //localStorage.removeItem(SELECTED_STORE);
     }
 
     if (this.props.clearCartDetails) {

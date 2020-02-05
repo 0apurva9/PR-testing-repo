@@ -157,7 +157,7 @@ export default class DeliveryInformations extends React.Component {
     let typeDate = "";
     let typeText = "";
     let formattedPlacedTime = "";
-    let selectedStore = localStorage.getItem(SELECTED_STORE);
+    let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
     if (this.props.placedTime && this.props.placedTime !== undefined) {
       formattedPlacedTime = this.getDayNumberSuffix(this.props.placedTime);
     }
@@ -286,11 +286,12 @@ export default class DeliveryInformations extends React.Component {
               this.props.isShowCliqAndPiqUnderLineText &&
               this.props.available && (
                 <div className={styles.underLineButtonHolder}>
-                  {selectedStore && (
-                    <div className={cncDeliveryAddressClass}>
-                      {selectedStore}
-                    </div>
-                  )}
+                  {selectedStore &&
+                    selectedStore.address && (
+                      <div className={cncDeliveryAddressClass}>
+                        {selectedStore.address}
+                      </div>
+                    )}
                   <span className={styles.buttonHolderPiq}>
                     <UnderLinedButton
                       inCheckOutPage={this.props.inCheckOutPage}
