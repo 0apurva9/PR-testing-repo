@@ -331,6 +331,9 @@ export default class PdpApparel extends React.Component {
     if (productData) {
       let price = "";
       let discountPrice = "";
+      let discountPdp = "";
+      let mrpDoubleValue = "";
+
       if (productData.mrpPrice) {
         price = productData.mrpPrice.doubleValue;
       }
@@ -349,6 +352,12 @@ export default class PdpApparel extends React.Component {
         productData.winningSellerPrice.doubleValue
       ) {
         seoDoublePrice = productData.mrpPrice.doubleValue;
+      }
+      if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
+        mrpDoubleValue = productData.mrpPrice.doubleValue;
+        discountPdp = Math.round(
+          ((mrpDoubleValue - seoDoublePrice) / mrpDoubleValue) * 100
+        );
       }
       return (
         <PdpFrame
@@ -399,7 +408,7 @@ export default class PdpApparel extends React.Component {
                 ratingCount={productData.ratingCount}
                 averageRating={productData.averageRating}
                 numberOfReviews={productData.numberOfReviews}
-                discount={productData.discount}
+                discount={discountPdp}
               />
             </div>
             <PdpPaymentInfo

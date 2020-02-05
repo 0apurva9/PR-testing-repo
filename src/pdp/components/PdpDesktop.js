@@ -958,6 +958,9 @@ export default class PdpApparel extends React.Component {
     if (productData) {
       let price = "";
       let discountPrice = "";
+      let discountPdp = "";
+      let mrpDoubleValue = "";
+
       if (productData.mrpPrice) {
         price = productData.mrpPrice.doubleValue;
       }
@@ -972,6 +975,12 @@ export default class PdpApparel extends React.Component {
         seoDoublePrice = productData.winningSellerPrice.doubleValue;
       } else if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
         seoDoublePrice = productData.mrpPrice.doubleValue;
+      }
+      if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
+        mrpDoubleValue = productData.mrpPrice.doubleValue;
+        discountPdp = Math.round(
+          ((mrpDoubleValue - seoDoublePrice) / mrpDoubleValue) * 100
+        );
       }
       let flixModelNo = "";
       if (productData.details && productData.details.length) {
@@ -1076,7 +1085,7 @@ export default class PdpApparel extends React.Component {
                         averageRating={productData.averageRating}
                         numberOfReviews={productData.numberOfReviews}
                         goToReviewPage={this.goToReviewPage}
-                        discount={productData.discount}
+                        discount={discountPdp}
                         hasPriceBreakUp={
                           productData.showPriceBrkUpPDP === "Yes"
                         }

@@ -279,6 +279,8 @@ export default class PdpElectronics extends React.Component {
       let price = "";
       let discountPrice = "";
       let seoDoublePrice = 0;
+      let discountPdp = "";
+      let mrpDoubleValue = "";
       if (
         productData.winningSellerPrice &&
         productData.winningSellerPrice.doubleValue
@@ -297,6 +299,13 @@ export default class PdpElectronics extends React.Component {
       ) {
         discountPrice = productData.winningSellerPrice.doubleValue;
       }
+      if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
+        mrpDoubleValue = productData.mrpPrice.doubleValue;
+        discountPdp = Math.round(
+          ((mrpDoubleValue - seoDoublePrice) / mrpDoubleValue) * 100
+        );
+      }
+
       let flixModelNo = "";
       if (productData.details && productData.details.length) {
         flixModelNo = productData.details.find(detail => {
@@ -374,7 +383,7 @@ export default class PdpElectronics extends React.Component {
                   averageRating={productData.averageRating}
                   ratingCount={productData.ratingCount}
                   goToReviewPage={this.goToReviewPage}
-                  discount={productData.discount}
+                  discount={discountPdp}
                 />
               )}
               {productData.rootCategory === "Watches" && (
@@ -390,7 +399,7 @@ export default class PdpElectronics extends React.Component {
                   averageRating={productData.averageRating}
                   ratingCount={productData.ratingCount}
                   goToReviewPage={this.goToReviewPage}
-                  discount={productData.discount}
+                  discount={discountPdp}
                 />
               )}
             </div>
