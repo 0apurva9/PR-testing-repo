@@ -3,14 +3,14 @@ import styles from "./ExchangeModal.css";
 import check from "../../pdp/components/img/verifyCheck.svg";
 
 export default class ExchangeModalOtherDetails extends React.Component {
-  verifyIMEI(e) {
-    this.props.verifyIMEI(e);
+  verifyIMEI(e, deviceNo) {
+    this.props.verifyIMEI(e, deviceNo);
   }
-  checkIMEI() {
-    this.props.checkIMEI();
+  checkIMEI(deviceNo) {
+    this.props.checkIMEI(deviceNo);
   }
-  agreedTnC(e) {
-    this.props.agreedTnC(e);
+  agreedTnC(e, deviceNo) {
+    this.props.agreedTnC(e, deviceNo);
   }
   openTnCModal() {
     this.props.openTnCModal();
@@ -26,7 +26,8 @@ export default class ExchangeModalOtherDetails extends React.Component {
             type="text"
             placeholder="Enter IMEI Number"
             className={styles.imeiInput}
-            onChange={e => this.verifyIMEI(e)}
+            onChange={(e, deviceNo) => this.verifyIMEI(e, this.props.deviceNo)}
+            value={this.props.currentIMEI}
           />
           <div
             className={
@@ -34,7 +35,7 @@ export default class ExchangeModalOtherDetails extends React.Component {
                 ? styles.enableVerifyButton
                 : styles.disableVerifyButton
             }
-            onClick={() => this.checkIMEI()}
+            onClick={deviceNo => this.checkIMEI(this.props.deviceNo)}
           >
             {this.props.IMEIVerified ? (
               <span className={styles.verifySuccessButton}>
@@ -76,7 +77,8 @@ export default class ExchangeModalOtherDetails extends React.Component {
           <input
             type="checkbox"
             className={styles.tncCheckbox}
-            onChange={e => this.agreedTnC(e)}
+            onChange={(e, deviceNo) => this.agreedTnC(e, this.props.deviceNo)}
+            checked={this.props.agreedTnCState}
           />
           <div className={styles.tnc}>
             I understand the{" "}

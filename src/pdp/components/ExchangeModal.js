@@ -27,24 +27,33 @@ export default class ExchangeModal extends React.Component {
       firstDeviceInfo: "",
       secondDeviceInfo: "",
       isExchangeDeviceAdded: false,
-      isFirstDeviceSelected: false,
-      isSecondDeviceSelected: false,
-      enableVerifyButton: false,
+      // isFirstDeviceSelected: false,
+      // isSecondDeviceSelected: false,
+      enableVerifyButtonFirstDevice: false,
+      enableVerifyButtonSecondDevice: false,
       initialIMEIMessage:
         "Dial <span style='font-family:regular;'>*#06#</span> from your old device to know your IMEI number",
-      checkIMEIMessage:
+      checkIMEIMessageFirstDevice:
+        "Dial <span style='font-family:regular;'>*#06#</span> from your old device to know your IMEI number",
+      checkIMEIMessageSecondDevice:
         "Dial <span style='font-family:regular;'>*#06#</span> from your old device to know your IMEI number",
       IMEISuccessMessage:
         "<span style='color:#67b70b;'>IMEI number will be matched against your mobile at pick-up</span>",
       IMEIFailureMessage:
         "<span style='color:#c47403;'>We are having problem detecting your phone’s IMEI number. Please enter valid IMEI no.</span>",
-      IMEIVerified: false,
-      IMEINumber: "",
-      agreedTnC: false,
-      activateSecondTab: false
+      IMEIVerifiedFirstDevice: false,
+      IMEIVerifiedSecondDevice: false,
+      IMEINumberFirstDevice: "",
+      IMEINumberSecondDevice: "",
+      agreedTnCFirstDevice: false,
+      agreedTnCSecondDevice: false,
+      activateSecondTab: false,
+      currentIMEIFirstDevice: "",
+      currentIMEISecondDevice: ""
     };
     this.agreedTnC = this.agreedTnC.bind(this);
   }
+
   componentWillMount() {
     //opened directly from PDP
     if (this.props.openHowExchangeWorksModal) {
@@ -58,61 +67,69 @@ export default class ExchangeModal extends React.Component {
       });
     }
   }
+
   componentDidMount() {
     // customSelectDropDown.setCssBrand();
     let firstDeviceData = JSON.parse(localStorage.getItem("MEFirstDeviceData"));
     if (firstDeviceData) {
-      this.setState({
-        isExchangeDeviceAdded: true,
-        firstDeviceInfo: firstDeviceData
-      });
+      this.setState({ firstDeviceInfo: firstDeviceData });
+    }
+    let secondDeviceData = JSON.parse(
+      localStorage.getItem("MESecondDeviceData")
+    );
+    if (secondDeviceData) {
+      this.setState({ secondDeviceInfo: secondDeviceData });
+    }
+    if (firstDeviceData || secondDeviceData) {
+      this.setState({ isExchangeDeviceAdded: true });
     }
     //show first device selected if second device not added
-    if (firstDeviceData && !localStorage.getItem("MESecondDeviceData")) {
-      this.setState({ isFirstDeviceSelected: true });
-      localStorage.setItem("currentSelectedDevice", "MEFirstDeviceData");
+    // if (firstDeviceData && !localStorage.getItem("MESecondDeviceData")) {
+    //   this.setState({ isFirstDeviceSelected: true });
+    //   localStorage.setItem("currentSelectedDevice", "MEFirstDeviceData");
+    // }
+    //keep selected tab active - even if modal closed
+    let currentSelectedDevice = localStorage.getItem("currentSelectedDevice");
+    if (currentSelectedDevice === "2") {
+      this.setState({ activateSecondTab: true });
+    } else {
+      this.setState({ activateSecondTab: false });
     }
   }
+
   handleClose() {
     if (this.props.closeModal) {
       this.props.closeModal();
     }
-    //need to update below code-once device added set state instead of this fn
-    //set first device details
-    let FDD = JSON.parse(localStorage.getItem("MEFirstDeviceData"));
-    if (FDD) {
-      this.props.updateProductState({
-        selectedProductCashback: FDD.model.totalExchangeCashback,
-        selectedProductName: FDD.model.effectiveModelName
-      });
-      localStorage.setItem(
-        "selectedProductCashback",
-        JSON.stringify(FDD.model.totalExchangeCashback)
-      );
-      localStorage.setItem("selectedProductName", FDD.model.effectiveModelName);
-    }
   }
+
   openHowExchangeWorksModal() {
     this.setState({ showHowExchangeWorks: true });
   }
+
   closeHowExchangeWorksModal() {
     this.setState({ showHowExchangeWorks: false });
     if (this.state.howExchangeWorksModalOpenedFromPDP) {
       this.handleClose();
     }
   }
+
   openTnCModal() {
     this.setState({ showTnCModal: true });
   }
+
   closeTnCModal() {
     this.setState({ showTnCModal: false });
   }
+
   openCashbackModal() {
     this.setState({ showCashbackModal: true });
   }
+
   closeCashbackModal() {
     this.setState({ showCashbackModal: false });
   }
+
   onChange(val) {
     this.setState({
       currentModelList: JSON.parse(val.modelList),
@@ -123,9 +140,14 @@ export default class ExchangeModal extends React.Component {
     });
     // customSelectDropDown.setCssModel();
   }
+
   onChangeSecondary(val) {
-    this.setState({ isEnableForModel: true, selectedModel: val.modelList });
+    this.setState({
+      isEnableForModel: true,
+      selectedModel: JSON.parse(val.modelList)
+    });
   }
+
   saveDeviceDetails() {
     let MDEFirstDevice = localStorage.getItem("MEFirstDeviceData");
     let MDESecondDevice = localStorage.getItem("MESecondDeviceData");
@@ -134,7 +156,7 @@ export default class ExchangeModal extends React.Component {
       let firstDeviceData = {
         exchangeBrandId: this.state.exchangeBrandId,
         exchangeBrandName: this.state.exchangeBrandName,
-        model: JSON.parse(this.state.selectedModel),
+        model: this.state.selectedModel,
         pickupCharge: this.props.exchangeDetails.pickupCharge,
         tulBump: this.props.exchangeDetails.TULBump
       };
@@ -142,12 +164,28 @@ export default class ExchangeModal extends React.Component {
         "MEFirstDeviceData",
         JSON.stringify(firstDeviceData)
       );
+      //update product details state
+      if (this.state.selectedModel) {
+        this.props.updateProductState({
+          selectedProductCashback: this.state.selectedModel
+            .totalExchangeCashback,
+          selectedProductName: this.state.selectedModel.effectiveModelName
+        });
+        localStorage.setItem(
+          "selectedProductCashback",
+          JSON.stringify(this.state.selectedModel.totalExchangeCashback)
+        );
+        localStorage.setItem(
+          "selectedProductName",
+          this.state.selectedModel.effectiveModelName
+        );
+      }
     } else {
       //one device added previously
       let secondDeviceData = {
         exchangeBrandId: this.state.exchangeBrandId,
         exchangeBrandName: this.state.exchangeBrandName,
-        model: JSON.parse(this.state.selectedModel),
+        model: this.state.selectedModel,
         pickupCharge: this.props.exchangeDetails.pickupCharge,
         tulBump: this.props.exchangeDetails.TULBump
       };
@@ -155,25 +193,69 @@ export default class ExchangeModal extends React.Component {
         "MESecondDeviceData",
         JSON.stringify(secondDeviceData)
       );
+      //update product details state
+      if (this.state.selectedModel) {
+        this.props.updateProductState({
+          selectedProductCashback: this.state.selectedModel
+            .totalExchangeCashback,
+          selectedProductName: this.state.selectedModel.effectiveModelName
+        });
+        localStorage.setItem(
+          "selectedProductCashback",
+          JSON.stringify(this.state.selectedModel.totalExchangeCashback)
+        );
+        localStorage.setItem(
+          "selectedProductName",
+          this.state.selectedModel.effectiveModelName
+        );
+      }
     }
-
     this.setState({ isExchangeDeviceAdded: true });
   }
-  verifyIMEI(e) {
+
+  verifyIMEI(e, deviceNo) {
     this.setState({
-      IMEIVerified: false,
-      checkIMEIMessage: this.state.initialIMEIMessage
+      IMEIVerifiedFirstDevice: false,
+      IMEIVerifiedSecondDevice: false,
+      checkIMEIMessageFirstDevice: this.state.initialIMEIMessage,
+      checkIMEIMessageSecondDevice: this.state.initialIMEIMessage
     });
     if (e.target.value.length === 15 || e.target.value.length === 16) {
-      this.setState({ enableVerifyButton: true, IMEINumber: e.target.value });
+      if (deviceNo === 1) {
+        this.setState({
+          enableVerifyButtonFirstDevice: true,
+          IMEINumberFirstDevice: e.target.value
+        });
+      } else {
+        this.setState({
+          enableVerifyButtonSecondDevice: true,
+          IMEINumberSecondDevice: e.target.value
+        });
+      }
     } else {
-      this.setState({ enableVerifyButton: false, IMEINumber: "" });
+      if (deviceNo === 1) {
+        this.setState({
+          enableVerifyButtonFirstDevice: false,
+          IMEINumberFirstDevice: ""
+        });
+      } else {
+        this.setState({
+          enableVerifyButtonSecondDevice: false,
+          IMEINumberSecondDevice: ""
+        });
+      }
+    }
+    if (deviceNo === 1) {
+      this.setState({ currentIMEIFirstDevice: e.target.value });
+    } else {
+      this.setState({ currentIMEISecondDevice: e.target.value });
     }
   }
-  async checkIMEI() {
+
+  async checkIMEI(deviceNo) {
     // IMEINumber,exchangeProductId,exchangeAmountCashify,tulBump,pickUpCharge,listingId,ussId
     // call check IMEI API
-    let IMEINumber = this.state.IMEINumber;
+    let IMEINumber = this.state.IMEINumberFirstDevice;
     let exchangeProductId =
       this.state.firstDeviceInfo &&
       this.state.firstDeviceInfo.model.exchangeProductId;
@@ -186,6 +268,23 @@ export default class ExchangeModal extends React.Component {
     let pickUpCharge =
       this.state.firstDeviceInfo &&
       this.state.firstDeviceInfo.pickupCharge.value;
+
+    if (deviceNo === 2) {
+      IMEINumber = this.state.IMEINumberSecondDevice;
+      exchangeProductId =
+        this.state.secondDeviceInfo &&
+        this.state.secondDeviceInfo.model.exchangeProductId;
+      exchangeAmountCashify =
+        this.state.secondDeviceInfo &&
+        this.state.secondDeviceInfo.model.exchangeAmountCashify.value;
+      tulBump =
+        this.state.secondDeviceInfo &&
+        this.state.secondDeviceInfo.tulBump.doubleValue;
+      pickUpCharge =
+        this.state.secondDeviceInfo &&
+        this.state.secondDeviceInfo.pickupCharge.value;
+    }
+
     let listingId = this.props.listingId;
     let ussId = this.props.ussId;
     let data = await this.props.verifyIMEINumber(
@@ -198,36 +297,91 @@ export default class ExchangeModal extends React.Component {
       ussId
     );
     if (data.isIMEIVerified) {
-      this.setState({
-        checkIMEIMessage: this.state.IMEISuccessMessage,
-        IMEIVerified: true
-      });
+      if (deviceNo === 1) {
+        this.setState({
+          checkIMEIMessageFirstDevice: this.state.IMEISuccessMessage,
+          IMEIVerifiedFirstDevice: true
+        });
+      } else {
+        this.setState({
+          checkIMEIMessageSecondDevice: this.state.IMEISuccessMessage,
+          IMEIVerifiedSecondDevice: true
+        });
+      }
     } else {
-      this.setState({ checkIMEIMessage: this.state.IMEIFailureMessage });
+      if (deviceNo === 1) {
+        this.setState({
+          checkIMEIMessageFirstDevice: this.state.IMEIFailureMessage
+        });
+      } else {
+        this.setState({
+          checkIMEIMessageSecondDevice: this.state.IMEIFailureMessage
+        });
+      }
     }
   }
-  agreedTnC(e) {
+
+  agreedTnC(e, deviceNo) {
     if (e.target.checked) {
-      this.setState({ agreedTnC: true });
+      if (deviceNo === 1) {
+        this.setState({ agreedTnCFirstDevice: true });
+      } else {
+        this.setState({ agreedTnCSecondDevice: true });
+      }
     } else {
-      this.setState({ agreedTnC: false });
+      if (deviceNo === 1) {
+        this.setState({ agreedTnCFirstDevice: false });
+      } else {
+        this.setState({ agreedTnCSecondDevice: false });
+      }
     }
   }
-  saveExchangeDetails(IMEINumber) {
-    let FDData = JSON.parse(localStorage.getItem("MEFirstDeviceData"));
-    Object.assign(FDData, {
-      IMEINo: IMEINumber
-    });
-    localStorage.setItem("MEFirstDeviceData", JSON.stringify(FDData));
+
+  saveExchangeDetails(IMEINumber, deviceNo) {
+    if (deviceNo === 1) {
+      //update first device details with imei
+      let FDData = JSON.parse(localStorage.getItem("MEFirstDeviceData"));
+      Object.assign(FDData, {
+        IMEINo: IMEINumber
+      });
+      localStorage.setItem("MEFirstDeviceData", JSON.stringify(FDData));
+    } else {
+      //update second device details with imei
+      let SDData = JSON.parse(localStorage.getItem("MESecondDeviceData"));
+      Object.assign(SDData, {
+        IMEINo: IMEINumber
+      });
+      localStorage.setItem("MESecondDeviceData", JSON.stringify(SDData));
+    }
     this.handleClose();
   }
-  switchTabs(deviceNo) {
+
+  switchTabs(deviceNo, deviceInfo) {
+    //switch tabs
     if (deviceNo === 2) {
       this.setState({ activateSecondTab: true });
+      //set storage for currently selected device
+      localStorage.setItem("currentSelectedDevice", 2);
     } else {
       this.setState({ activateSecondTab: false });
+      //set storage for currently selected device
+      localStorage.setItem("currentSelectedDevice", 1);
     }
+    //and update data
+    this.props.updateProductState({
+      selectedProductCashback: deviceInfo.model.totalExchangeCashback,
+      selectedProductName: deviceInfo.model.effectiveModelName
+    });
+    localStorage.setItem(
+      "selectedProductCashback",
+      JSON.stringify(deviceInfo.model.totalExchangeCashback)
+    );
+    localStorage.setItem(
+      "selectedProductName",
+      deviceInfo.model.effectiveModelName
+    );
   }
+
   render() {
     let firstDeviceInfo = localStorage.getItem("MEFirstDeviceData");
     if (firstDeviceInfo) {
@@ -315,7 +469,7 @@ export default class ExchangeModal extends React.Component {
                 ) : (
                   <div
                     className={styles.firstDeviceName}
-                    onClick={() => this.switchTabs(1)}
+                    onClick={() => this.switchTabs(1, firstDeviceInfo)}
                   >
                     {firstDeviceInfo &&
                       firstDeviceInfo.model.effectiveModelName}
@@ -332,7 +486,7 @@ export default class ExchangeModal extends React.Component {
                 {!this.state.activateSecondTab ? (
                   <div
                     className={styles.addDevice}
-                    onClick={() => this.switchTabs(2)}
+                    onClick={() => this.switchTabs(2, secondDeviceInfo)}
                   >
                     {secondDeviceInfo ? (
                       <div className={styles.secondDeviceName}>
@@ -373,36 +527,38 @@ export default class ExchangeModal extends React.Component {
             </div>
             {!this.state.activateSecondTab ? (
               <ExchangeModalOtherDetails
-                verifyIMEI={e => this.verifyIMEI(e)}
-                enableVerifyButton={this.state.enableVerifyButton}
-                checkIMEI={() => this.checkIMEI()}
-                IMEIVerified={this.state.IMEIVerified}
-                checkIMEIMessage={this.state.checkIMEIMessage}
+                verifyIMEI={(e, deviceNo) => this.verifyIMEI(e, 1)}
+                enableVerifyButton={this.state.enableVerifyButtonFirstDevice}
+                checkIMEI={deviceNo => this.checkIMEI(1)}
+                IMEIVerified={this.state.IMEIVerifiedFirstDevice}
+                checkIMEIMessage={this.state.checkIMEIMessageFirstDevice}
                 deviceInfo={firstDeviceInfo}
                 productName={this.props.productName}
-                agreedTnC={e => this.agreedTnC(e)}
+                agreedTnC={(e, deviceNo) => this.agreedTnC(e, 1)}
                 openTnCModal={() => this.openTnCModal()}
-                agreedTnCState={this.state.agreedTnC}
-                IMEINumber={this.state.IMEINumber}
-                saveExchangeDetails={IMEINumber =>
-                  this.saveExchangeDetails(IMEINumber)
+                agreedTnCState={this.state.agreedTnCFirstDevice}
+                currentIMEI={this.state.currentIMEIFirstDevice}
+                IMEINumber={this.state.IMEINumberFirstDevice}
+                saveExchangeDetails={(IMEINumber, deviceNo) =>
+                  this.saveExchangeDetails(IMEINumber, 1)
                 }
               />
             ) : (
               <ExchangeModalOtherDetails
-                verifyIMEI={e => this.verifyIMEI(e)}
-                enableVerifyButton={this.state.enableVerifyButton}
-                checkIMEI={() => this.checkIMEI()}
-                IMEIVerified={this.state.IMEIVerified}
-                checkIMEIMessage={this.state.checkIMEIMessage}
+                verifyIMEI={(e, deviceNo) => this.verifyIMEI(e, 2)}
+                enableVerifyButton={this.state.enableVerifyButtonSecondDevice}
+                checkIMEI={deviceNo => this.checkIMEI(2)}
+                IMEIVerified={this.state.IMEIVerifiedSecondDevice}
+                checkIMEIMessage={this.state.checkIMEIMessageSecondDevice}
                 deviceInfo={secondDeviceInfo}
                 productName={this.props.productName}
-                agreedTnC={e => this.agreedTnC(e)}
+                agreedTnC={(e, deviceNo) => this.agreedTnC(e, 2)}
                 openTnCModal={() => this.openTnCModal()}
-                agreedTnCState={this.state.agreedTnC}
-                IMEINumber={this.state.IMEINumber}
-                saveExchangeDetails={IMEINumber =>
-                  this.saveExchangeDetails(IMEINumber)
+                agreedTnCState={this.state.agreedTnCSecondDevice}
+                currentIMEI={this.state.currentIMEISecondDevice}
+                IMEINumber={this.state.IMEINumberSecondDevice}
+                saveExchangeDetails={(IMEINumber, deviceNo) =>
+                  this.saveExchangeDetails(IMEINumber, 2)
                 }
               />
             )}
