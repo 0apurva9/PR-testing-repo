@@ -1432,6 +1432,9 @@ if you have order id in local storage then you have to show order confirmation p
     const parsedQueryString = queryString.parse(this.props.location.search);
     const value = parsedQueryString.status;
     const orderId = parsedQueryString.order_id;
+    if (value == JUS_PAY_CHARGED && stripeDetails) {
+      this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
+    }
     if (!orderId) {
       setDataLayerForCheckoutDirectCalls(
         ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE
