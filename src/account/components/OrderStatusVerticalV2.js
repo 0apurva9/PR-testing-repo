@@ -1094,6 +1094,21 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                     AWB No: {this.props.trackingAWB}
                                   </span>
                                 )}
+                                {this.props.sshipAwbTrackingUrl && (
+                                  <div
+                                    className={styles.courierInfoHolder}
+                                    ref="copyThisLink"
+                                    onClick={event =>
+                                      this.copySshipAwbTrackingUrl(
+                                        event,
+                                        this.props.sshipAwbTrackingUrl,
+                                        this.props.trackingAWB
+                                      )
+                                    }
+                                  >
+                                    More details
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </React.Fragment>
@@ -1442,6 +1457,21 @@ export default class OrderStatusVerticalV2 extends React.Component {
                               AWB No: {this.props.trackingAWB}
                             </span>
                           )}
+                          {this.props.sshipAwbTrackingUrl && (
+                            <div
+                              className={styles.courierInfoHolder}
+                              ref="copyThisLink"
+                              onClick={event =>
+                                this.copySshipAwbTrackingUrl(
+                                  event,
+                                  this.props.sshipAwbTrackingUrl,
+                                  this.props.trackingAWB
+                                )
+                              }
+                            >
+                              More details
+                            </div>
+                          )}
                         </div>
                       </div>
                     )}
@@ -1771,6 +1801,21 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                   <span className={styles.itemPackedDetails}>
                                     AWB No: {this.props.trackingAWB}
                                   </span>
+                                )}
+                                {this.props.sshipAwbTrackingUrl && (
+                                  <div
+                                    className={styles.courierInfoHolder}
+                                    ref="copyThisLink"
+                                    onClick={event =>
+                                      this.copySshipAwbTrackingUrl(
+                                        event,
+                                        this.props.sshipAwbTrackingUrl,
+                                        this.props.trackingAWB
+                                      )
+                                    }
+                                  >
+                                    More details
+                                  </div>
                                 )}
                               </div>
                             </div>
