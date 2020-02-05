@@ -274,7 +274,7 @@ export default class DesktopCheckout extends React.Component {
                   this.props.onContinue ? styles.price : styles.checkoutPrice
                 }
               >
-                {`Rs. ${this.props.payableForCartPage}`}
+                {`₹ ${this.props.payableForCartPage}`}
               </div>
             )}
             {this.props.isFromRetryUrl && (
@@ -287,7 +287,7 @@ export default class DesktopCheckout extends React.Component {
                 this.props.payable.paybleAmount &&
                 this.props.payable.paybleAmount.formattedValue
                   ? this.props.payable.paybleAmount.formattedValue
-                  : `Rs. ${this.props.amount}`}
+                  : `₹ ${this.props.amount}`}
               </div>
             )}
             {this.props.onContinue && (

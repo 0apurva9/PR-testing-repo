@@ -91,7 +91,7 @@ export default class GiftCard extends React.Component {
           )
         ) {
           this.props.displayToast(
-            "Amount should be greater than Rs. 15 and less than Rs. 10,000."
+            "Amount should be greater than ₹ 15 and less than ₹ 10,000."
           );
           return false;
         }
@@ -155,7 +155,7 @@ export default class GiftCard extends React.Component {
             <MediaQuery query="(max-device-width: 1024px)">
               <div className={styles.displayAmountHolder}>
                 {this.state.amountText === "" && (
-                  <span>Rs. 0 (Please select the amount from below)</span>
+                  <span>₹ 0 (Please select the amount from below)</span>
                 )}
                 {this.state.amountText !== "" && (
                   <span className={styles.amountSign}>
@@ -168,7 +168,7 @@ export default class GiftCard extends React.Component {
               <div className={styles.displayAmountHolder}>
                 {this.state.amountText === "" && (
                   <span>
-                    <span className={styles.amountHeading}>Rs. 0 </span>
+                    <span className={styles.amountHeading}>₹ 0 </span>
                     <span className={styles.amountSubHeading}>
                       (Please select the amount from below)
                     </span>

@@ -52,8 +52,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
     );
 
     document.execCommand("copy");
-    this.props.displayToast("Copied!");
-    window.open(sshipAwbTrackingUrl, "_blank");
+    this.props.displayToast("AWB Copied to Clipboard!");
+    setTimeout(function() {
+      window.open(sshipAwbTrackingUrl, "_blank");
+    }, 1000);
   };
   render() {
     if (!this.props.statusMessageList) {
@@ -1215,17 +1217,25 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                         More details
                                       </div>
                                     ) : (
-                                      <div
-                                        className={styles.courierInfoHolder}
-                                        onClick={() =>
-                                          this.handleMoreDetails({
-                                            shippingList,
-                                            orderCode
-                                          })
-                                        }
-                                      >
-                                        More details
-                                      </div>
+                                      <React.Fragment>
+                                        {shippingList &&
+                                          shippingList.length > 0 &&
+                                          orderCode && (
+                                            <div
+                                              className={
+                                                styles.courierInfoHolder
+                                              }
+                                              onClick={() =>
+                                                this.handleMoreDetails({
+                                                  shippingList,
+                                                  orderCode
+                                                })
+                                              }
+                                            >
+                                              More details
+                                            </div>
+                                          )}
+                                      </React.Fragment>
                                     )}
                                   </div>
                                 ) : completedSteps.includes(ITEM_PACKED) &&
@@ -1277,6 +1287,21 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                             className={styles.itemPackedDetails}
                                           >
                                             AWB No: {this.props.trackingAWB}
+                                          </div>
+                                        )}
+                                        {this.props.sshipAwbTrackingUrl && (
+                                          <div
+                                            className={styles.courierInfoHolder}
+                                            ref="copyThisLink"
+                                            onClick={event =>
+                                              this.copySshipAwbTrackingUrl(
+                                                event,
+                                                this.props.sshipAwbTrackingUrl,
+                                                this.props.trackingAWB
+                                              )
+                                            }
+                                          >
+                                            More details
                                           </div>
                                         )}
                                       </div>
@@ -1671,17 +1696,39 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                   </div>
                                 </div>
                               )}
-                              <div
-                                className={styles.courierInfoHolder}
-                                onClick={() =>
-                                  this.handleMoreDetails({
-                                    shippingList,
-                                    orderCode
-                                  })
-                                }
-                              >
-                                More details
-                              </div>
+                              {this.props.sshipAwbTrackingUrl ? (
+                                <div
+                                  className={styles.courierInfoHolder}
+                                  ref="copyThisLink"
+                                  onClick={event =>
+                                    this.copySshipAwbTrackingUrl(
+                                      event,
+                                      this.props.sshipAwbTrackingUrl,
+                                      this.props.trackingAWB
+                                    )
+                                  }
+                                >
+                                  More details
+                                </div>
+                              ) : (
+                                <React.Fragment>
+                                  {shippingList &&
+                                    shippingList.length > 0 &&
+                                    orderCode && (
+                                      <div
+                                        className={styles.courierInfoHolder}
+                                        onClick={() =>
+                                          this.handleMoreDetails({
+                                            shippingList,
+                                            orderCode
+                                          })
+                                        }
+                                      >
+                                        More details
+                                      </div>
+                                    )}
+                                </React.Fragment>
+                              )}
                             </div>
                           ) : completedSteps.includes(ITEM_PACKED) &&
                           this.props.consignmentStatus !== "ORDER_REJECTED" ? (

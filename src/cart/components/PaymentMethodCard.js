@@ -45,7 +45,7 @@ export default class PaymentMethodCard extends React.Component {
                 <div className={styles.casBalanceText}>
                   {this.props.cashText}
                 </div>
-                <div className={styles.cashRupyText}>{`Rs. ${
+                <div className={styles.cashRupyText}>{`₹ ${
                   this.props.price
                 } available`}</div>
               </div>
