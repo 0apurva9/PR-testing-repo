@@ -288,7 +288,6 @@ const CancelReturnRequestPopUp = Loadable({
   }
 });
 /**
- * @author Prashant Kumar
  * @comment Added below code for showing popup on the UPI section on the checkout page.
  */
 const UpiTermsAndCondition = Loadable({
@@ -1019,7 +1018,6 @@ export default class ModalRoot extends React.Component {
         />
       ),
       /**
-       * @author Prashant Kumar
        * @comment Added below code for showing popup on the UPI section on the checkout page.
        */
       UpiTermsAndCondition: (

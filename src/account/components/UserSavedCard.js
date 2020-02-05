@@ -38,7 +38,6 @@ const CARD_FORMAT = /\B(?=(\d{4})+(?!\d))/g;
 const NO_SAVED_CARDS = "No Saved Cards";
 export default class UserSavedCard extends React.Component {
   /**
-   * @author Prashant Kumar
    * @param Boolean isSavedCardTab If 0 then "Saved Card" tab will be active and vice versa
    */
   constructor(props) {
@@ -108,7 +107,6 @@ export default class UserSavedCard extends React.Component {
     }
   };
   /**
-   * @author Prashant Kumar
    * @comment Added function to removed the UPI of the customer
    */
   removeSavedUpiDetails = upiId => {
@@ -201,9 +199,10 @@ export default class UserSavedCard extends React.Component {
                       0 &&
                     this.props.profile.savedCards.savedCardDetailsMap.map(
                       (data, i) => {
-                        let cardNumber = `${data.value.cardISIN}xx xxxx ${
-                          data.value.cardEndingDigits
-                        }`.replace(CARD_FORMAT, " ");
+                        let cardNumber = `${data.value.cardISIN}xx xxxx ${data.value.cardEndingDigits}`.replace(
+                          CARD_FORMAT,
+                          " "
+                        );
                         let cardHolderName = data.value.nameOnCard
                           ? data.value.nameOnCard
                           : "";
@@ -216,9 +215,7 @@ export default class UserSavedCard extends React.Component {
                               cardLogo={this.getCardLogo(data.value.cardBrand)}
                               cardName={data.value.cardType}
                               cardHolderName={cardHolderName}
-                              validityDate={`${data.value.expiryMonth}/${
-                                data.value.expiryYear
-                              }`}
+                              validityDate={`${data.value.expiryMonth}/${data.value.expiryYear}`}
                               cardNumber={cardNumber}
                               cardImage={data.cardImage}
                               onChangeCvv={(cvv, cardNo) =>

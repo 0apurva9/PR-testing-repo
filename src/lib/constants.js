@@ -213,7 +213,7 @@ export const SHIPPING_TYPES = {
   ED: "express-delivery"
 };
 
-export const PLAT_FORM_NUMBER = "5";
+export const PLAT_FORM_NUMBER = "11";
 export const CHANNEL = "web";
 
 export const TRUE = "true";
@@ -300,7 +300,6 @@ export const RUPEE_SYMBOL = "₹";
 export const STRIPE_DETAILS = "stripeDetails";
 export const BANK_GATWAY_DOWN = "0";
 /**
- * @author Prashant Kumar
  * @comment Added const for the UPI
  */
 export const UPI = "UPI";

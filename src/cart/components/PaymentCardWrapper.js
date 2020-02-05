@@ -13,14 +13,12 @@ import { PAYTM, OLD_CART_GU_ID, BANK_COUPON_COOKIE } from "../../lib/constants";
 import PaytmOption from "./PaytmOption.js";
 import PayPalOptions from "./PayPalOptions";
 /**
- * @author Prashant Kumar
  * @comment Commented the import as it is not being used anywhere.
  */
 // import BankOffer from "./BankOffer.js";
 import BankOfferWrapper from "./BankOfferWrapper.js";
 import GiftCardPopup from "./GiftCardPopup.js";
 /**
- * @author Prashant Kumar
  * @comment Commented the import as it is not being used anywhere.
  */
 // import GridSelect from "../../general/components/GridSelect";
@@ -29,14 +27,12 @@ import MobileOnly from "../../general/components/MobileOnly";
 import ManueDetails from "../../general/components/MenuDetails.js";
 import CheckOutHeader from "./CheckOutHeader";
 /**
- * @author Prashant Kumar
  * @comment Commented the import as it is not being used anywhere.
  */
 // import { getCookie } from "../../lib/Cookie";
 import giftCardIcon from "../../general/components/img/Gift.svg";
 import CheckoutUpi from "./CheckoutUpi";
 /**
- * @author Prashant Kumar
  * @comment Commented the const as it is not being used anywhere.
  */
 // const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
@@ -49,7 +45,6 @@ import CheckoutUpi from "./CheckoutUpi";
 // const keyForPaytm = "PAYTM";
 const GIFT_CARD = "Have a gift card?";
 /**
- * @author Prashant Kumar
  * @comment the below sequence will not be used as now we are showing it as per the API data.
  */
 // const sequanceOfPaymentMode = [
@@ -62,7 +57,6 @@ const GIFT_CARD = "Have a gift card?";
 //   keyForCOD
 // ];
 /**
- * @author Prashant Kumar
  * @comment Added condition for showing UPI section of the checkout page in the below const.
  */
 // prettier-ignore

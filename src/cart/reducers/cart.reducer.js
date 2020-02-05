@@ -760,7 +760,6 @@ const cart = (
       });
 
     /**
-     * @author Prashant Kumar
      * @comment Changes for the upi eligibility check
      */
     case cartActions.GET_UPI_ELIGIBILITY_REQUEST:
@@ -804,7 +803,6 @@ const cart = (
      * EOC
      */
     /**
-     * @author Prashant Kumar
      * @comment Change for the UPI middle layer
      */
     case cartActions.UPI_MIDDLE_LAYER_HOW_IT_WORKS_REQUEST:

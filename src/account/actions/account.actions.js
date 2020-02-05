@@ -93,7 +93,6 @@ export const REMOVE_SAVED_CARD_SUCCESS = "REMOVE_SAVED_CARD_SUCCESS";
 export const REMOVE_SAVED_CARD_FAILURE = "REMOVE_SAVED_CARD_FAILURE";
 
 /**
- * @author Prashant Kumar
  * @comment Added consts for the UPI
  */
 export const REMOVE_SAVED_UPI_REQUEST = "REMOVE_SAVED_UPI_REQUEST";
@@ -2170,7 +2169,6 @@ export function removeSavedCardDetails(cardToken) {
 }
 /**
  *
- * @author Prashant Kumar
  * @comment Addded code for the removal of the UPI of the user.
  *
  */
@@ -2290,6 +2288,12 @@ export function addUPIDetails(upi, pageType) {
         pageType === "myaccount"
       ) {
         dispatch(displayToast(resultJson.error));
+      } else if (
+        resultJson.status === "FAILURE" &&
+        resultJson.upiStatus === "INVALID" &&
+        pageType === "myaccount"
+      ) {
+        return dispatch(addUserUPISuccess(resultJson));
       } else if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.error);
       }
@@ -3880,11 +3884,7 @@ export function submitOrderDetails(submitOrderDetails) {
         currentOrderCode,
         currentSubOrderCode;
       if (submitOrderDetails.currentState === 0) {
-        transactionIdWithAttachmentFile = `transactionId=${
-          submitOrderDetails.transactionId
-        }&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${
-          submitOrderDetails.imageURL
-        }`;
+        transactionIdWithAttachmentFile = `transactionId=${submitOrderDetails.transactionId}&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${submitOrderDetails.imageURL}`;
         currentOrderCode = `${submitOrderDetails.orderCode}`;
         currentSubOrderCode = `${submitOrderDetails.subOrderCode}`;
 
