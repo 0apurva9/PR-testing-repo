@@ -113,7 +113,7 @@
 }
 .tabSliderTwo:first-child{
   background-color: #f8f8f8;
-  margin-right: 30px;
+  margin-right: 35px;
   border: dashed 0.5px #c6c6c6;
 }
 .exchangeOfferTable{
@@ -272,12 +272,12 @@
   color: #212121;
   float: left;
 }
-.tncText,.knowMore{
+.tncText,.knowMore,.changeDevice{
   color: #ff1744;
   font-family: semibold;
   cursor: pointer;
 }
-.knowMore{
+.knowMore,.changeDevice{
   font-size: 12px;
   float: right;
 }
