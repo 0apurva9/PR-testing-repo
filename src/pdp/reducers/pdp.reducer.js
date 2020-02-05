@@ -105,14 +105,47 @@ const productDescription = (
         productDetails: null
       });
 
-    case pdpActions.PRODUCT_DESCRIPTION_SUCCESS:
-      return Object.assign({}, state, {
-        status: action.status,
-        productDetails: action.productDescription,
-        loading: false,
-        getProductDetailsLoading: false,
-        visitedNewProduct: true
-      });
+    case pdpActions.PRODUCT_DESCRIPTION_SUCCESS: {
+      let data = {
+        ...action.productDescription
+      };
+      if (
+        data &&
+        data.categoryHierarchy &&
+        data.categoryHierarchy[0] &&
+        data.categoryHierarchy[0].category_name !== "Eyewear"
+      ) {
+        return Object.assign({}, state, {
+          status: action.status,
+          productDetails: action.productDescription,
+          loading: false,
+          getProductDetailsLoading: false,
+          visitedNewProduct: true
+        });
+      } else {
+        let positiveArray = [];
+        let negativeArray = [];
+        data.variantOptions.map(power => {
+          if (power.sizelink && power.sizelink.size) {
+            if (power.sizelink.size > 0) {
+              positiveArray.push(power);
+            } else {
+              negativeArray.push(power);
+            }
+          }
+        });
+        negativeArray = negativeArray.reverse();
+        negativeArray = [...negativeArray, ...positiveArray];
+        data.variantOptions = negativeArray;
+        return Object.assign({}, state, {
+          status: action.status,
+          productDetails: data,
+          loading: false,
+          getProductDetailsLoading: false,
+          visitedNewProduct: true
+        });
+      }
+    }
 
     case pdpActions.PRODUCT_DESCRIPTION_FAILURE:
       return Object.assign({}, state, {
@@ -390,12 +423,41 @@ const productDescription = (
         loading: true
       });
 
-    case pdpActions.PRODUCT_SPECIFICATION_SUCCESS:
-      return Object.assign({}, state, {
-        status: action.status,
-        productDetails: action.productDetails,
-        loading: false
-      });
+    case pdpActions.PRODUCT_SPECIFICATION_SUCCESS: {
+      let data = { ...action.productDetails };
+      if (
+        data &&
+        data.categoryHierarchy &&
+        data.categoryHierarchy[0] &&
+        data.categoryHierarchy[0].category_name !== "Eyewear"
+      ) {
+        return Object.assign({}, state, {
+          status: action.status,
+          productDetails: action.productDetails,
+          loading: false
+        });
+      } else {
+        let positiveArray = [];
+        let negativeArray = [];
+        data.variantOptions.map(power => {
+          if (power.sizelink && power.sizelink.size) {
+            if (power.sizelink.size > 0) {
+              positiveArray.push(power);
+            } else {
+              negativeArray.push(power);
+            }
+          }
+        });
+        negativeArray = negativeArray.reverse();
+        negativeArray = [...negativeArray, ...positiveArray];
+        data.variantOptions = negativeArray;
+        return Object.assign({}, state, {
+          status: action.status,
+          productDetails: data,
+          loading: false
+        });
+      }
+    }
 
     case pdpActions.PRODUCT_SPECIFICATION_FAILURE:
       return Object.assign({}, state, {

@@ -92,7 +92,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(showModal(OFFER_MODAL, data));
     },
     showBundledProduct: data => {
-      //debugger;
       dispatch(showModal(BUNDLEDPRODUCT_MODAL, data));
     },
     showTermsNConditions: data => {

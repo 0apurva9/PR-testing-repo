@@ -12,8 +12,12 @@ export default class SizeSelect extends React.Component {
     let className = styles.base;
     if (this.props.disabled) {
       className = styles.disabled;
-    } else if (this.props.selected) {
+    } else if (this.props.selected && !this.props.categoryEyeWear) {
       className = styles.baseActive;
+    } else if (this.props.selected && this.props.categoryEyeWear) {
+      className = styles.baseActiveEyeWear;
+    } else if (this.props.categoryEyeWear) {
+      className = styles.powerStyle;
     }
     return (
       <div className={className} onClick={() => this.handleClick()}>

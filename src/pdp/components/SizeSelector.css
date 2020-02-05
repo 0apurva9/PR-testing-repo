@@ -19,6 +19,17 @@
   display: inline-block;
   padding-bottom: 5px;
 }
+.buttonHolder {
+  display: inline-block;
+}
+.buttonShowViewMore {
+  width: auto;
+  padding-left: 288px;
+  display: inline-block;
+  padding-bottom: 5px;
+  color: #ff1744;
+  cursor: pointer;
+}
 .oosButton{
   font-size: 13px;
   font-family: regular;

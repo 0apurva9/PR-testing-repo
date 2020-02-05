@@ -33,12 +33,36 @@
   padding: 0 15px;
   transition: 200ms;
 }
+.powerStyle {
+  width: 56px !important;
+  min-width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  padding: 15px 0;
+  margin: auto;
+  box-shadow: inset 0 0 0 2px #fff;
+  position: relative;
+  background-color: white;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05);
+  margin-bottom: 2px;
+  transition: 200ms;
+  cursor: pointer;
+  user-select: none;
+  display: inline-block;
+  margin-right: 10px;
+}
 .selected {
   composes: textHolder;
   color: #fff;
 }
 .baseActive {
   composes: base;
+  background-color: #212121;
+  box-shadow: inset 0 0 0 2px #000;
+}
+.baseActiveEyeWear {
+  composes: base;
+  width: 56px !important;
   background-color: #212121;
   box-shadow: inset 0 0 0 2px #000;
 }

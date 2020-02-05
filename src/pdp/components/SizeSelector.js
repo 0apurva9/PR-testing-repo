@@ -29,9 +29,12 @@ export default class SizeSelector extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      goToCartPageFlag: false
+      goToCartPageFlag: false,
+      label: "View More",
+      arrangedPower: []
     };
   }
+
   navigateToLogin() {
     const url = this.props.location.pathname;
     this.props.setUrlToRedirectToAfterAuth(url);
@@ -148,6 +151,14 @@ export default class SizeSelector extends React.Component {
       this.props.closeModal();
     }
   }
+  showSeeAll = () => {
+    if (this.state.label === "View More") {
+      this.setState({ label: "View Less" });
+    } else {
+      this.setState({ label: "View More" });
+    }
+  };
+
   renderSize(datum, i) {
     let infoDetails = [];
     if (this.props.infoDetails) {
@@ -170,6 +181,14 @@ export default class SizeSelector extends React.Component {
           value={datum.sizelink.size}
           fontSize={this.props.textSize}
           onSelect={() => this.updateSize(datum.sizelink.url)}
+          categoryEyeWear={
+            this.props &&
+            this.props.categoryHierarchy &&
+            this.props.categoryHierarchy[0] &&
+            this.props.categoryHierarchy[0].category_name === "Eyewear"
+              ? true
+              : false
+          }
         />
       </React.Fragment>
     );
@@ -186,6 +205,7 @@ export default class SizeSelector extends React.Component {
       .map(val => {
         return val;
       });
+
     let OOSProducts = sizes.filter(size => {
       return !size.sizelink.isAvailable;
     });
@@ -196,6 +216,8 @@ export default class SizeSelector extends React.Component {
       this.props.categoryHierarchy[0].category_name === "Eyewear"
         ? true
         : false;
+    let sizeViewOption = [];
+
     if (sizes.length !== 0) {
       return (
         <div className={styles.size}>
@@ -206,6 +228,18 @@ export default class SizeSelector extends React.Component {
               : this.props.headerText
                 ? this.props.headerText
                 : "SIZE"}
+            {checkCategoryHierarchy &&
+              this.props.isSizeOrLength === "Power" &&
+              sizes.length > 6 && (
+                <div
+                  className={styles.buttonShowViewMore}
+                  onClick={() => {
+                    this.showSeeAll();
+                  }}
+                >
+                  {this.state.label}
+                </div>
+              )}
             <div className={styles.button}>
               <MobileOnly>
                 <UnderLinedButton
@@ -227,11 +261,38 @@ export default class SizeSelector extends React.Component {
           </MobileOnly>
           <DesktopOnly>
             <div>
-              {sizes.map((datum, i) => {
-                return (
-                  <div className={styles.size}>{this.renderSize(datum, i)}</div>
-                );
-              })}{" "}
+              {!checkCategoryHierarchy &&
+                sizes.map((datum, i) => {
+                  return (
+                    <div className={styles.size}>
+                      {this.renderSize(datum, i)}
+                    </div>
+                  );
+                })}{" "}
+              {checkCategoryHierarchy &&
+                this.props.isSizeOrLength === "Power" &&
+                this.state.label === "View More" &&
+                sizes &&
+                sizes.map((datum, i) => {
+                  if (i < 7) {
+                    return (
+                      <div className={styles.size}>
+                        {this.renderSize(datum, i)}
+                      </div>
+                    );
+                  }
+                })}
+              {checkCategoryHierarchy &&
+                this.props.isSizeOrLength === "Power" &&
+                this.state.label === "View Less" &&
+                sizes &&
+                sizes.map((datum, i) => {
+                  return (
+                    <div className={styles.size}>
+                      {this.renderSize(datum, i)}
+                    </div>
+                  );
+                })}
               {this.props.eyeWearSizeGuide &&
                 checkCategoryHierarchy && (
                   <DesktopOnly>
