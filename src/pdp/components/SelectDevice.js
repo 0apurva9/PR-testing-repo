@@ -8,8 +8,8 @@ export default class SelectDevice extends React.Component {
   onChangeSecondary(val) {
     this.props.onChangeSecondary(val);
   }
-  saveDeviceDetails() {
-    this.props.saveDeviceDetails();
+  saveDeviceDetails(deviceNo) {
+    this.props.saveDeviceDetails(deviceNo);
   }
   render() {
     return (
@@ -50,7 +50,7 @@ export default class SelectDevice extends React.Component {
         />
         <div
           className={styles.evaluateButton}
-          onClick={() => this.saveDeviceDetails()}
+          onClick={deviceNo => this.saveDeviceDetails(this.props.deviceNo)}
         >
           Evaluate
         </div>
