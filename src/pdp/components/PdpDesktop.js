@@ -73,6 +73,9 @@ import ColourSelector from "./ColourSelector";
 import FlixMediaContainer from "./FlixMediaContainer";
 // import CheckBox from '../../general/components/CheckBox.js';
 import MultiCheckbox from "./MultiCheckbox";
+import Icon from "../../xelpmoc-core/Icon";
+import FilledStarBlack from "../../general/components/img/star-fill-black.svg";
+
 let testcheck = false;
 
 const WASH = "Wash";
@@ -1093,6 +1096,7 @@ export default class PdpApparel extends React.Component {
                         ScrollReviewList={this.ScrollIntoView}
                         doublePrice={seoDoublePrice}
                         discountPrice={discountPrice}
+                        ratingCount={productData.ratingCount}
                         averageRating={productData.averageRating}
                         numberOfReviews={productData.numberOfReviews}
                         goToReviewPage={this.goToReviewPage}
@@ -1959,7 +1963,7 @@ export default class PdpApparel extends React.Component {
                         productData.numberOfReviews !== "0") ? (
                         <div className={styles.reviewsHolder}>
                           <div className={styles.reviewsHeader}>
-                            Ratings and Reviews
+                            <h3>Ratings and Reviews</h3>
                             <div className={styles.reviewsButton}>
                               <UnderLinedButton
                                 color="#ff1744"
@@ -1969,6 +1973,48 @@ export default class PdpApparel extends React.Component {
                               />
                             </div>
                           </div>
+                          {productData.averageRating && (
+                            <div className={styles.reviewListHolder}>
+                              <div className={styles.ratingTextContainer}>
+                                <div className={styles.ratingText}>
+                                  {Math.round(productData.averageRating * 10) /
+                                    10}
+                                </div>
+                                <div className={styles.starPLPElectronics}>
+                                  <Icon image={FilledStarBlack} size={26} />
+                                </div>
+                              </div>
+                              <div className={styles.labelText}>
+                                <span
+                                  className={styles.ratingLabel}
+                                  itemProp="ratingCount"
+                                >
+                                  {productData.ratingCount}
+                                </span>
+                                <span>
+                                  {productData.ratingCount > 1
+                                    ? "Ratings"
+                                    : "Rating"}
+                                </span>
+                                {productData.numberOfReviews ? (
+                                  <React.Fragment>
+                                    {" &"}
+                                    <span
+                                      className={styles.ratingLabel}
+                                      itemProp="reviewCount"
+                                    >
+                                      {productData.numberOfReviews}
+                                    </span>
+                                    <span>
+                                      {productData.numberOfReviews > 1
+                                        ? "Reviews"
+                                        : "Review"}
+                                    </span>
+                                  </React.Fragment>
+                                ) : null}
+                              </div>
+                            </div>
+                          )}
                           <ProductReviewListContainer
                             limit={true}
                             productId={productData.productListingId}

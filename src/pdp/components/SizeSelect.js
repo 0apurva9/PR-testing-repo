@@ -25,7 +25,7 @@ export default class SizeSelect extends React.Component {
           className={this.props.selected ? styles.selected : styles.textHolder}
           style={{ fontSize: this.props.fontSize }}
         >
-          {this.props.size}
+          <h4>{this.props.size}</h4>
         </div>
       </div>
     );
