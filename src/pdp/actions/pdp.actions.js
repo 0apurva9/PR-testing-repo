@@ -206,11 +206,12 @@ export function getProductDescriptionRequest() {
     status: REQUESTING
   };
 }
-export function getProductDescriptionSuccess(productDescription) {
+export function getProductDescriptionSuccess(productDescription, sizeSelected) {
   return {
     type: PRODUCT_DESCRIPTION_SUCCESS,
     status: SUCCESS,
-    productDescription
+    productDescription,
+    sizeSelected
   };
 }
 
@@ -225,7 +226,8 @@ export function getProductDescription(
   productCode,
   behaviorOfPage,
   isApiCall: 0,
-  componentName
+  componentName,
+  sizeSelected
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(getProductDescriptionRequest());
@@ -278,7 +280,7 @@ export function getProductDescription(
             );
           }
         }
-        return dispatch(getProductDescriptionSuccess(resultJson));
+        return dispatch(getProductDescriptionSuccess(resultJson, sizeSelected));
       } else {
         if (resultJson.status === 404 && isApiCall === 0) {
           isApiCall = isApiCall + 1;
@@ -612,11 +614,12 @@ export function ProductSpecificationRequest() {
     status: REQUESTING
   };
 }
-export function ProductSpecificationSuccess(productDetails) {
+export function ProductSpecificationSuccess(productDetails, productCode) {
   return {
     type: PRODUCT_SPECIFICATION_SUCCESS,
     status: SUCCESS,
-    productDetails
+    productDetails,
+    productCode
   };
 }
 
@@ -641,7 +644,7 @@ export function getProductSpecification(productId) {
         throw new Error(resultJsonStatus.message);
       }
 
-      dispatch(ProductSpecificationSuccess(resultJson));
+      dispatch(ProductSpecificationSuccess(resultJson, productId));
     } catch (e) {
       dispatch(ProductSpecificationFailure(e.message));
     }

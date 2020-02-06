@@ -143,25 +143,26 @@ const productDescription = (
         negativePowerArray = negativePowerArray.reverse();
         negativePowerArray = [...negativePowerArray, ...positivePowerArray];
         let clonedPower = [...negativePowerArray];
-        let selectedJson = clonedPower.find(value => {
+        if (action.sizeSelected) {
+          let selectedJson = negativePowerArray.find(
+            value =>
+              value.colorlink.selected &&
+              value.colorlink.colorurl.includes(
+                data.productListingId.toLowerCase()
+              )
+          );
           if (
-            value.colorlink.selected &&
-            value.colorlink.colorurl.includes(
-              data.productListingId.toLowerCase()
-            )
+            typeof selectedJson === "object" &&
+            Object.keys(selectedJson).length
           ) {
-            return value;
+            negativePowerArray = negativePowerArray.filter(power => {
+              return (
+                power.colorlink.colorurl !== selectedJson.colorlink.colorurl
+              );
+            });
+            negativePowerArray.unshift(selectedJson);
           }
-        });
-        let filtedData = [];
-        if (selectedJson) {
-          filtedData = clonedPower.filter(power => {
-            return power.colorlink.colorurl !== selectedJson.colorlink.colorurl;
-          });
-          filtedData.unshift(selectedJson);
-          negativePowerArray = filtedData;
         }
-
         data.variantOptions = negativePowerArray;
         return Object.assign({}, state, {
           status: action.status,
@@ -497,25 +498,28 @@ const productDescription = (
         negativePowerArray = negativePowerArray.reverse();
         negativePowerArray = [...negativePowerArray, ...positivePowerArray];
         let clonedPower = [...negativePowerArray];
-        let selectedJson = clonedPower.find(value => {
-          if (
-            value.colorlink.selected &&
-            value.colorlink.colorurl.includes(
-              data.productListingId.toLowerCase()
-            )
-          ) {
-            return value;
-          }
-        });
-        let filtedData = [];
-        if (selectedJson) {
-          filtedData = clonedPower.filter(power => {
-            return power.colorlink.colorurl !== selectedJson.colorlink.colorurl;
+        if (action.productCode) {
+          let selectedJson = clonedPower.find(value => {
+            if (
+              value.colorlink.selected &&
+              value.colorlink.colorurl.includes(
+                data.productListingId.toLowerCase()
+              )
+            ) {
+              return value;
+            }
           });
-          filtedData.unshift(selectedJson);
-          negativePowerArray = filtedData;
+          let filtedData = [];
+          if (selectedJson) {
+            filtedData = clonedPower.filter(power => {
+              return (
+                power.colorlink.colorurl !== selectedJson.colorlink.colorurl
+              );
+            });
+            filtedData.unshift(selectedJson);
+            negativePowerArray = filtedData;
+          }
         }
-
         data.variantOptions = negativePowerArray;
         return Object.assign({}, state, {
           status: action.status,

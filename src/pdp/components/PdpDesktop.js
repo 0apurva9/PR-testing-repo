@@ -1233,6 +1233,9 @@ export default class PdpApparel extends React.Component {
                                     infoDetails={productData.details}
                                     showSizeSelectorIcon={false}
                                     textSize={12}
+                                    getProductDescription={
+                                      this.props.getProductDescription
+                                    }
                                   />
                                 </div>
                               )}
