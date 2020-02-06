@@ -2691,7 +2691,7 @@ if you have order id in local storage then you have to show order confirmation p
           this.props.collectPaymentOrderForUPI(
             UPI,
             JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
-            this.state.bankCodeForNetBanking,
+            false,
             localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
             true,
             this.state.retryCartGuid,
