@@ -116,19 +116,17 @@ import {
   SAME_DAY_DELIVERY,
   SAME_DAY_DELIVERY_SHIPPING,
   FAILED_ORDER,
-  CNC_CART
-} from "../../lib/constants";
-import {
-  EMAIL_REGULAR_EXPRESSION,
-  MOBILE_PATTERN
-} from "../../auth/components/Login";
-import {
+  CNC_CART,
   HOME_ROUTER,
   SUCCESS,
   CHECKOUT,
   ERROR,
   SUCCESS_UPPERCASE
 } from "../../lib/constants";
+import {
+  EMAIL_REGULAR_EXPRESSION,
+  MOBILE_PATTERN
+} from "../../auth/components/Login";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import {
   setDataLayerForCheckoutDirectCalls,
