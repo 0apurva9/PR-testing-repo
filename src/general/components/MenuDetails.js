@@ -102,7 +102,7 @@ export default class MenuDetails extends React.Component {
             <Icon image={this.props.icon} size={25} />
           </div>
           <div className={styles.textBox}>
-            {this.props.text}
+            {this.props.text === UPI ? "UPI ID" : this.props.text}
             {this.props.secondIcon && !this.state.isOpen && (
               <div className={styles.secondIcon}>
                 <Icon
