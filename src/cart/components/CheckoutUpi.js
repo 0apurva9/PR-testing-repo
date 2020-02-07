@@ -64,6 +64,7 @@ export default class CheckoutUpi extends React.Component {
           addUserUPIDetails={this.props.addUserUPIDetails}
           loading={this.props.loading}
           getPaymentModes={val => this.props.getPaymentModes(val)}
+          displayToast={message => this.props.displayToast(message)}
         />
       </MenuDetails>
     );

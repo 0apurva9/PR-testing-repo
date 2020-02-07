@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
-import Button from "../../general/components/Button";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import styles from "./UpiForm.css";
 import upi_opt from "./img/upi_opt.svg";
@@ -10,8 +9,6 @@ import loader from "../../account/components/img/loader.gif";
 import { CART_DETAILS_FOR_LOGGED_IN_USER } from "../../lib/constants.js";
 import * as Cookie from "../../lib/Cookie";
 // import { LocalStorage } from "node-localstorage";
-const invalidUpi = `Your UPI no longer seems to exist. Try another option.`;
-const INVALID = `Invalid`;
 const UPI_REGEX = /^[A-Za-z0-9]+@[A-Za-z0-9]\w+$/;
 const dateFormat = "DD MMM";
 export const UPI_VPA = "upi_vpa";
@@ -119,6 +116,13 @@ export default class UpiForm extends React.Component {
         text: ""
       }
     });
+  };
+  onCheckout = payNowBtnFlag => {
+    if (payNowBtnFlag) {
+      this.props.displayToast("Please verify your UPI Address to proceed");
+    } else if (this.props.onCheckout) {
+      this.props.onCheckout();
+    }
   };
 
   render() {
@@ -265,20 +269,18 @@ export default class UpiForm extends React.Component {
                     </div>
                   </div>
                   <div className={styles.svdUpiBtnCol}>
-                    <Button
-                      disabled={payNowBtnFlag}
-                      type="primary"
-                      backgroundColor="#ff1744"
-                      height={35}
-                      label="Pay Now"
-                      width={124}
-                      borderRadius={22}
-                      textStyle={{
-                        color: "#FFF",
-                        fontSize: 14
+                    <button
+                      className={styles.payNow}
+                      type="button"
+                      style={{
+                        background: payNowBtnFlag
+                          ? "rgba(0,0,0,0.2)"
+                          : "#FF1744"
                       }}
-                      onClick={() => this.props.onCheckout()}
-                    />
+                      onClick={() => this.onCheckout(payNowBtnFlag)}
+                    >
+                      Pay Now
+                    </button>
                   </div>
                 </div>
               </div>
@@ -370,20 +372,18 @@ export default class UpiForm extends React.Component {
                 </div>
                 <div className={styles.flexRow50NewCols}>
                   <div className={styles.upiPayBtnSec}>
-                    <Button
-                      disabled={payNowBtnFlag}
-                      type="primary"
-                      backgroundColor="#ff1744"
-                      height={35}
-                      label="Pay Now"
-                      width={124}
-                      borderRadius={22}
-                      textStyle={{
-                        color: "#FFF",
-                        fontSize: 14
+                    <button
+                      className={styles.payNow}
+                      type="button"
+                      style={{
+                        background: payNowBtnFlag
+                          ? "rgba(0,0,0,0.2)"
+                          : "#FF1744"
                       }}
-                      onClick={() => this.props.onCheckout()}
-                    />
+                      onClick={() => this.onCheckout(payNowBtnFlag)}
+                    >
+                      Pay Now
+                    </button>
                   </div>
                 </div>
               </div>
