@@ -65,7 +65,7 @@ const productDescription = (
     pincodeError: null,
     productOutOfStockMessage: null,
     productNotServiceableMessage: null,
-    serviceableOtherSellers: null
+    serviceableOtherSellersUssid: null
   },
   action
 ) => {
@@ -161,7 +161,7 @@ const productDescription = (
       let potentialAvailableOtherSellers = [];
       let actualServiceableOtherSellers = [];
       let pinCodeResponse = pincodeListResponse;
-      let serviceableOtherSellers = null;
+      let serviceableOtherSellersUssid = null;
       potentialAvailableOtherSellers = currentPdpDetail.otherSellers;
       actualServiceableOtherSellers =
         potentialAvailableOtherSellers &&
@@ -182,7 +182,7 @@ const productDescription = (
         actualServiceableOtherSellers &&
         actualServiceableOtherSellers.length > 0
       ) {
-        serviceableOtherSellers = actualServiceableOtherSellers.length;
+        serviceableOtherSellersUssid = actualServiceableOtherSellers;
       }
 
       let eligibleDeliveryModes = [];
@@ -303,7 +303,7 @@ const productDescription = (
         loading: false,
         serviceablePincodeListResponse: pincodeListResponse,
         pincodeError: action.productPinCode.pincodeError,
-        serviceableOtherSellers: serviceableOtherSellers
+        serviceableOtherSellersUssid: serviceableOtherSellersUssid
       });
 
     case pdpActions.CHECK_PRODUCT_PIN_CODE_FAILURE:
