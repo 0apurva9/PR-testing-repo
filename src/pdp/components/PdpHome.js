@@ -536,10 +536,13 @@ export default class PdpApparel extends React.Component {
           )}
           <div className={styles.separator}>
             <OtherSellersLink
-              serviceableOtherSellers={this.props.serviceableOtherSellers}
+              serviceableOtherSellersUssid={
+                this.props.serviceableOtherSellersUssid
+              }
               onClick={this.goToSellerPage}
               //otherSellers={productData.otherSellers}
               winningSeller={productData.winningSellerName}
+              winnningSellerUssId={productData.winningUssID}
             />
           </div>
           {productData.classifications && (

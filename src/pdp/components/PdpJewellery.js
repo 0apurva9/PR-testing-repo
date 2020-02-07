@@ -556,8 +556,11 @@ export default class PdpJewellery extends React.Component {
             <OtherSellersLink
               //otherSellers={productData.otherSellers}
               winningSeller={productData.winningSellerName}
-              serviceableOtherSellers={this.props.serviceableOtherSellers}
+              serviceableOtherSellersUssid={
+                this.props.serviceableOtherSellersUssid
+              }
               onClick={this.goToSellerPage}
+              winnningSellerUssId={productData.winningUssID}
             />
           </div>
           <div className={styles.details}>

@@ -19,17 +19,17 @@ export default class OtherSellersLink extends React.Component {
     return validSellersCount;
   }; */
 
-  renderLink = () => {
+  renderLink = serviceableOtherSellersCount => {
     return (
       <div className={sellers}>
         Sold directly by{" "}
         <span className={winningSellerText}>{this.props.winningSeller}</span>
-        {this.props.serviceableOtherSellers && (
+        {serviceableOtherSellersCount > 0 ? (
           <span className={otherText}>
             {" "}
-            and {this.props.serviceableOtherSellers} other seller(s)
+            and {serviceableOtherSellersCount} other seller(s)
           </span>
-        )}
+        ) : null}
       </div>
     );
   };
@@ -40,14 +40,31 @@ export default class OtherSellersLink extends React.Component {
   };
 
   render() {
+    let serviceableOtherSellersCount =
+      this.props.serviceableOtherSellersUssid &&
+      this.props.serviceableOtherSellersUssid.length;
+    let serviceableOtherSellersUssid =
+      this.props.serviceableOtherSellersUssid &&
+      this.props.serviceableOtherSellersUssid;
+    let foundWinningSellerInOtherSeller = [];
+    if (serviceableOtherSellersUssid && this.props.winnningSellerUssId) {
+      foundWinningSellerInOtherSeller = serviceableOtherSellersUssid.filter(
+        seller => {
+          return seller.USSID === this.props.winnningSellerUssId;
+        }
+      );
+    }
+    if (foundWinningSellerInOtherSeller.length > 0) {
+      serviceableOtherSellersCount = serviceableOtherSellersCount - 1;
+    }
     let noLink = false;
-    if (!this.props.serviceableOtherSellers) {
+    if (serviceableOtherSellersCount <= 0) {
       noLink = true;
     }
     if (this.props.winningSeller) {
       return (
         <PdpLink noLink={noLink} onClick={this.handleClick}>
-          {this.renderLink()}
+          {this.renderLink(serviceableOtherSellersCount)}
         </PdpLink>
       );
     } else {
