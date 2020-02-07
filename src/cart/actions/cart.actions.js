@@ -2251,6 +2251,7 @@ export function collectPaymentOrderForGiftCardUPI(
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
+    let upi_vpa = localStorage.getItem(UPI_VPA);
     let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
     let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
     let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
@@ -2318,7 +2319,7 @@ export function collectPaymentOrderForGiftCardUPI(
       dispatch(
         jusPayPaymentMethodTypeForGiftCardUPI(
           resultJson.pspAuditId,
-          bankCode,
+          upi_vpa,
           egvCartGuid
         )
       );
@@ -2591,20 +2592,27 @@ export function jusPayPaymentMethodTypeForUPI(juspayOrderId, upi_vpa) {
 
 export function jusPayPaymentMethodTypeForGiftCardUPI(
   juspayOrderId,
-  bankName,
+  upi_vpa,
   guId
 ) {
   return async (dispatch, getState, { api }) => {
-    let cardObject = new FormData();
-    cardObject.append("payment_method_type", "UPI");
-    cardObject.append("redirect_after_payment", "true");
-    cardObject.append("format", "json");
-    cardObject.append("merchant_id", getState().cart.paymentModes.merchantID);
-    cardObject.append("order_id", juspayOrderId);
-    cardObject.append("payment_method", bankName);
-    dispatch(jusPayPaymentMethodTypeRequest());
+    const params = {
+      payment_method_type: "UPI",
+      redirect_after_payment: "true",
+      format: "json",
+      merchant_id: getState().cart.paymentModes.merchantID,
+      txn_type: "UPI_COLLECT",
+      order_id: juspayOrderId,
+      payment_method: "UPI",
+      upi_vpa: upi_vpa
+    };
+    let cardObject = Object.keys(params)
+      .map(key => {
+        return encodeURIComponent(key) + "=" + encodeURIComponent(params[key]);
+      })
+      .join("&");
     try {
-      const result = await api.postJusPay(`txns?`, cardObject);
+      const result = await api.postJusPayUrlEncode(`txns?`, cardObject);
       const resultJson = await result.json();
 
       if (
