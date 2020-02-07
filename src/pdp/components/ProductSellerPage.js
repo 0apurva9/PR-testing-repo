@@ -193,6 +193,29 @@ class ProductSellerPage extends Component {
       this.props.history.push(`/p-${productCode.toLowerCase()}`);
     }
   }
+  async openExchangeModal(data) {
+    let listingId = this.props.productDetails.productListingId;
+    let ussId = data.USSID;
+    let maxExchangeAmount = data.maxExchangeAmount.value;
+    let pickupCharge = this.props.productDetails.cashifyPickupCharge;
+    let productName = this.props.productDetails.productName;
+    //call exchange details API
+    await this.props.getExchangeDetails(
+      listingId,
+      ussId,
+      maxExchangeAmount,
+      pickupCharge
+    );
+
+    //open exchange modal
+    this.props.showExchangeModal({
+      exchangeDetails: this.props.exchangeDetails,
+      productName: productName,
+      listingId: listingId,
+      ussId: ussId
+    });
+  }
+
   render() {
     const sellers = this.props.productDetails
       ? this.props.productDetails.otherSellers
@@ -433,6 +456,8 @@ class ProductSellerPage extends Component {
                         displayToast={message =>
                           this.props.displayToast(message)
                         }
+                        exchangeAvailable={value.exchangeAvailable}
+                        openExchangeModal={() => this.openExchangeModal(value)}
                       />
                     );
                   })}
@@ -460,6 +485,7 @@ class ProductSellerPage extends Component {
                           this.props.serviceablePincodeList
                         }
                         exchangeAvailable={value.exchangeAvailable}
+                        openExchangeModal={() => this.openExchangeModal(value)}
                       />
                     );
                   })}

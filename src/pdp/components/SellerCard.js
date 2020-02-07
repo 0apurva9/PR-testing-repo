@@ -35,6 +35,9 @@ export default class SellerCard extends React.Component {
       this.props.goToBag();
     }
   }
+  openExchangeModal() {
+    this.props.openExchangeModal();
+  }
 
   render() {
     let priceClass = styles.priceHolder;
@@ -161,7 +164,10 @@ export default class SellerCard extends React.Component {
                 <div className={styles.exchangeProduct}>
                   Exchange Your Old Product
                 </div>
-                <div className={styles.buttonWithArrow}>
+                <div
+                  className={styles.buttonWithArrow}
+                  onClick={() => this.openExchangeModal()}
+                >
                   <span className={styles.arrowLine} />
                   <span className={styles.arrow} />
                 </div>

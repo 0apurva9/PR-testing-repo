@@ -4,12 +4,14 @@ import { withRouter } from "react-router-dom";
 import {
   addProductToCart,
   getProductDescription,
-  getProductPinCode
+  getProductPinCode,
+  getExchangeDetails
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
 import { SUCCESS, DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants";
+import { showModal, EXCHANGE_MODAL } from "../../general/modal.actions.js";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     addProductToCart: async productDetails => {
@@ -29,6 +31,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getProductPinCode: (pinCode, productCode) => {
       dispatch(getProductPinCode(pinCode, productCode));
+    },
+    getExchangeDetails: async (
+      listingId,
+      ussid,
+      maxExchangeAmount,
+      pickupCharge
+    ) => {
+      return await dispatch(
+        getExchangeDetails(listingId, ussid, maxExchangeAmount, pickupCharge)
+      );
+    },
+    showExchangeModal: data => {
+      dispatch(showModal(EXCHANGE_MODAL, data));
     }
   };
 };
@@ -36,7 +51,8 @@ const mapStateToProps = state => {
   return {
     productDetails: state.productDescription.productDetails,
     serviceablePincodeList:
-      state.productDescription.serviceablePincodeListResponse
+      state.productDescription.serviceablePincodeListResponse,
+    exchangeDetails: state.productDescription.exchangeDetails
   };
 };
 
