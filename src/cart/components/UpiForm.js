@@ -35,6 +35,13 @@ export default class UpiForm extends React.Component {
   }
 
   verifyUpi = async ele => {
+    if (this.state.isNewUpi && this.state.upiId === "") {
+      return this.props.displayToast(
+        "Please verify your UPI Address to proceed"
+      );
+    } else if (this.state.isNewUpi && !UPI_REGEX.test(ele.trim())) {
+      return;
+    }
     this.setState({
       upiId: ele,
       showUpiMsg: {
@@ -322,7 +329,7 @@ export default class UpiForm extends React.Component {
                     />
                     {this.state.isChanged || this.state.upiId === "" ? (
                       <button
-                        disabled={this.state.upiPatternVerified ? false : true}
+                        // disabled={this.state.upiPatternVerified ? false : true}
                         className={styles.verifyBtn}
                         type="button"
                         style={{
