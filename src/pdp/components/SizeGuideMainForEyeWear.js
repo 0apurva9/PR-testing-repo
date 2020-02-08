@@ -219,14 +219,14 @@ export default class SizeGuideMainForEyeWear extends React.Component {
                 </div>
               </div>
             )}
+            <div className={styles.sizeGuideTableHolder}>
+              <SizeTableForEyeWearChangedJson data={this.props.sizeData} />
+            </div>
             {this.props.sizeData.sizeGuideHeader.footerText && (
               <div className={styles.sizeTableText}>
                 {this.props.sizeData.sizeGuideHeader.footerText}
               </div>
             )}
-            <div className={styles.sizeGuideTableHolder}>
-              <SizeTableForEyeWearChangedJson data={this.props.sizeData} />
-            </div>
           </div>
         </div>
       );
