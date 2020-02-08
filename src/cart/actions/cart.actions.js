@@ -2189,6 +2189,8 @@ export function binValidationForUPI(
   }
   if (isFromRetryUrl) {
     cartId = retryCartGuid;
+  } else if (Cookie.getCookie("egvCartGuid")) {
+    cartId = Cookie.getCookie("egvCartGuid");
   } else {
     cartId = JSON.parse(cartDetails).guid;
   }

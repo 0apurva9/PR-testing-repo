@@ -1301,6 +1301,7 @@ export function createGiftCardRequest() {
   };
 }
 export function createGiftCardSuccess(giftCardDetails) {
+  console.log("giftCardDetails", giftCardDetails);
   return {
     type: CREATE_GIFT_CARD_SUCCESS,
     status: SUCCESS,
@@ -1330,11 +1331,14 @@ export function createGiftCardDetails(giftCardDetails) {
         }`,
         giftCardDetails
       );
+
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      Cookie.createCookie("egvCartGuid", resultJson.egvCartGuid);
+      console.log("egvCartGuid", resultJson.egvCartGuid);
       return dispatch(createGiftCardSuccess(resultJson));
     } catch (e) {
       dispatch(createGiftCardFailure(e.message));
@@ -3884,7 +3888,11 @@ export function submitOrderDetails(submitOrderDetails) {
         currentOrderCode,
         currentSubOrderCode;
       if (submitOrderDetails.currentState === 0) {
-        transactionIdWithAttachmentFile = `transactionId=${submitOrderDetails.transactionId}&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${submitOrderDetails.imageURL}`;
+        transactionIdWithAttachmentFile = `transactionId=${
+          submitOrderDetails.transactionId
+        }&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${
+          submitOrderDetails.imageURL
+        }`;
         currentOrderCode = `${submitOrderDetails.orderCode}`;
         currentSubOrderCode = `${submitOrderDetails.subOrderCode}`;
 

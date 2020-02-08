@@ -28,10 +28,19 @@ export default class MenuDetails extends React.Component {
       this.openMenu();
     } else {
       let cartGuidUPI = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      let egvGuidUPI = Cookie.getCookie("egvCartGuid");
+
       if (cartGuidUPI) {
         cartGuidUPI = JSON.parse(cartGuidUPI).guid;
       }
-      const response = await this.props.checkUPIEligibility(cartGuidUPI);
+      let response;
+      if (egvGuidUPI) {
+        response = await this.props.checkUPIEligibility(egvGuidUPI);
+      }
+      if (cartGuidUPI) {
+        response = await this.props.checkUPIEligibility(cartGuidUPI);
+      }
+
       const binResponse = await this.props.binValidationForUPI(UPI);
       if (
         response.status &&
@@ -44,6 +53,8 @@ export default class MenuDetails extends React.Component {
     }
   };
   openMenu() {
+    let cartGuidUPI = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    console.log("CART_GUID", cartGuidUPI);
     let isOpen = !this.state.isOpen;
     if (isOpen) {
       setDataLayerForCheckoutDirectCalls(
@@ -103,15 +114,16 @@ export default class MenuDetails extends React.Component {
           </div>
           <div className={styles.textBox}>
             {this.props.text === UPI ? "UPI ID" : this.props.text}
-            {this.props.secondIcon && !this.state.isOpen && (
-              <div className={styles.secondIcon}>
-                <Icon
-                  image={this.props.secondIcon}
-                  size={37}
-                  backgroundSize={`100%`}
-                />
-              </div>
-            )}
+            {this.props.secondIcon &&
+              !this.state.isOpen && (
+                <div className={styles.secondIcon}>
+                  <Icon
+                    image={this.props.secondIcon}
+                    size={37}
+                    backgroundSize={`100%`}
+                  />
+                </div>
+              )}
             <div className={iconActive} />
           </div>
         </div>
