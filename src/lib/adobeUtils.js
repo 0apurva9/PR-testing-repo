@@ -465,6 +465,19 @@ export const SET_DATA_LAYER_REVIEW_CANCEL_CLICK =
 const REVIEW_GUIDELINE = "review_guideline";
 export const SET_DATA_LAYER_REVIEW_GUIDELINE =
   "SET_DATA_LAYER_REVIEW_GUIDELINE";
+export const SET_DATA_LAYER_VERIFY_BUTTON_UPI =
+  "SET_DATA_LAYER_VERIFY_BUTTON_UPI";
+const UPI_VERIFY_CLICK = "upi_Verify_Click";
+export const SET_DATA_LAYER_UID_SELECTION = "SET_DATA_LAYER_UID_SELECTION";
+const UID_SELECTION = "upi_Id_Selection";
+
+export const SET_DATA_LAYER_UID_REMOVE = "SET_DATA_LAYER_UID_REMOVE";
+export const TRACK_UID_REMOVE = "upi_Remove_Click";
+
+export const SET_DATA_LAYER_UID_ADD = "SET_DATA_LAYER_UID_ADD";
+export const TRACK_UID_ADD = "upi_AddNewUPIID_Click";
+export const SET_DATA_LAYER_UID_SAVE = "SET_DATA_LAYER_UID_SAVE";
+export const TRACK_UID_SAVE = "upi_Save";
 
 export function setDataLayer(
   type,
@@ -823,6 +836,31 @@ export function setDataLayer(
     window.digitalData.refundAddressPincode = apiResponse.refundAddressPincode;
     if (window._satellite) {
       window._satellite.track(MODE_OF_RETURN_SUBMITTED);
+    }
+  }
+  if (type === SET_DATA_LAYER_VERIFY_BUTTON_UPI) {
+    if (window._satellite) {
+      window._satellite.track(UPI_VERIFY_CLICK);
+    }
+  }
+  if (type === SET_DATA_LAYER_UID_SELECTION) {
+    if (window._satellite) {
+      window._satellite.track(UID_SELECTION);
+    }
+  }
+  if (type === SET_DATA_LAYER_UID_REMOVE) {
+    if (window._satellite) {
+      window._satellite.track(TRACK_UID_REMOVE);
+    }
+  }
+  if (type === SET_DATA_LAYER_UID_ADD) {
+    if (window._satellite) {
+      window._satellite.track(TRACK_UID_ADD);
+    }
+  }
+  if (type === SET_DATA_LAYER_UID_SAVE) {
+    if (window._satellite) {
+      window._satellite.track(TRACK_UID_SAVE);
     }
   }
 }

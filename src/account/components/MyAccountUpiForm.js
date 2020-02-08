@@ -6,6 +6,7 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import styles from "./MyAccountUpiForm.css";
 import upi_opt from "../../cart/components/img/upi_opt.svg";
 import loader from "./img/loader.gif";
+import { setDataLayer, SET_DATA_LAYER_UID_ADD } from "../../lib/adobeUtils";
 const INVALID = `Invalid`;
 const UPI_REGEX = /^[A-Za-z0-9]+@[A-Za-z0-9]\w+$/;
 const INVALID_UPI_ERROR =
@@ -77,6 +78,7 @@ export default class MyAccountUpiForm extends React.Component {
         });
       }
     }
+    setDataLayer(SET_DATA_LAYER_UID_ADD);
   };
 
   updateUpi = val => {
@@ -101,13 +103,13 @@ export default class MyAccountUpiForm extends React.Component {
     let savedUpiVerificationCls = this.props.loading
       ? ""
       : this.state.showUpiMsg.isVerified
-      ? styles.verifiedIcon
-      : styles.invalidIcon;
+        ? styles.verifiedIcon
+        : styles.invalidIcon;
     let verifiedStateHelperCls = this.props.loading
       ? ""
       : this.state.showUpiMsg.isVerified
-      ? ""
-      : styles.invalidFrm;
+        ? ""
+        : styles.invalidFrm;
     return (
       <div className={styles.base}>
         <DesktopOnly>
@@ -160,20 +162,21 @@ export default class MyAccountUpiForm extends React.Component {
                       </React.Fragment>
                     )}
                   </div>
-                  {!this.props.loading && !this.state.showUpiMsg.isVerified && (
-                    <React.Fragment>
-                      <div
-                        className={
-                          styles.verifiedState + " " + verifiedStateHelperCls
-                        }
-                      >
-                        <span className={savedUpiVerificationCls} /> {INVALID}
-                      </div>
-                      <p className={styles.errorTxt}>
-                        {this.state.showUpiMsg.text}
-                      </p>
-                    </React.Fragment>
-                  )}
+                  {!this.props.loading &&
+                    !this.state.showUpiMsg.isVerified && (
+                      <React.Fragment>
+                        <div
+                          className={
+                            styles.verifiedState + " " + verifiedStateHelperCls
+                          }
+                        >
+                          <span className={savedUpiVerificationCls} /> {INVALID}
+                        </div>
+                        <p className={styles.errorTxt}>
+                          {this.state.showUpiMsg.text}
+                        </p>
+                      </React.Fragment>
+                    )}
                 </React.Fragment>
               )}
             </div>

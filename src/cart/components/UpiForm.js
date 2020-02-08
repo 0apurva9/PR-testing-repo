@@ -8,6 +8,11 @@ import { format } from "date-fns";
 import loader from "../../account/components/img/loader.gif";
 import { CART_DETAILS_FOR_LOGGED_IN_USER } from "../../lib/constants.js";
 import * as Cookie from "../../lib/Cookie";
+import {
+  setDataLayer,
+  SET_DATA_LAYER_VERIFY_BUTTON_UPI,
+  SET_DATA_LAYER_UID_SELECTION
+} from "../../lib/adobeUtils";
 // import { LocalStorage } from "node-localstorage";
 const UPI_REGEX = /^[A-Za-z0-9]+@[A-Za-z0-9]\w+$/;
 const dateFormat = "DD MMM";
@@ -73,6 +78,7 @@ export default class UpiForm extends React.Component {
         }
       });
     }
+    setDataLayer(SET_DATA_LAYER_UID_SELECTION, ele);
   };
 
   updateUpi = val => {
@@ -86,6 +92,7 @@ export default class UpiForm extends React.Component {
       },
       isChanged: true
     });
+    setDataLayer(SET_DATA_LAYER_UID_SELECTION, val);
   };
 
   componentDidMount() {
@@ -159,8 +166,8 @@ export default class UpiForm extends React.Component {
           ? styles.invalidFrm
           : this.props.addUserUPIDetails &&
             this.props.addUserUPIDetails.upiStatus === "VALID"
-          ? styles.verifiedFrm
-          : styles.invalidFrm
+            ? styles.verifiedFrm
+            : styles.invalidFrm
         : "";
     return (
       <div className={styles.base}>
