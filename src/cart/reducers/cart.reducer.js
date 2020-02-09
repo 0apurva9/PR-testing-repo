@@ -1897,7 +1897,7 @@ const cart = (
     case cartActions.CLEAR_CART_DETAILS:
       localStorage.removeItem(RETRY_PAYMENT_CART_ID);
       localStorage.removeItem(RETRY_PAYMENT_DETAILS);
-      localStorage.removeItem(SELECTED_STORE);
+
       return Object.assign({}, state, {
         status: null,
         error: null,

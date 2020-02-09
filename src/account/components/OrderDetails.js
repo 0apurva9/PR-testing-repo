@@ -182,6 +182,16 @@ export default class OrderDetails extends React.Component {
       return dayTextArrToString;
     }
   }
+  getWorkingDays = mplWorkingDays => {
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    let noMatch = 0;
+    let workingDays = [];
+
+    mplWorkingDays.split(",").forEach(function(curr_val) {
+      workingDays.push(days[curr_val]);
+    });
+    console.log("============", workingDays);
+  };
   getStoreDateNTime(mplWorkingDays, mplOpeningTime, mplClosingTime) {
     let getDaysText = this.getNonWorkingDays(mplWorkingDays);
     let mplOpeningTimeText = "";
@@ -844,6 +854,7 @@ export default class OrderDetails extends React.Component {
                               consignmentStatus={products.consignmentStatus}
                               sshipAwbTrackingUrl={products.sshipAwbTrackingUrl}
                               displayToast={this.props.displayToast}
+                              fulfillment={products.fulfillment}
                             />
 
                             {/* Block of code ends here */}
@@ -998,6 +1009,7 @@ export default class OrderDetails extends React.Component {
                                     products.sshipAwbTrackingUrl
                                   }
                                   displayToast={this.props.displayToast}
+                                  fulfillment={products.fulfillment}
                                 />
                               )}
                           </React.Fragment>
