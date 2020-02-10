@@ -489,13 +489,24 @@ export default class OrderCard extends React.Component {
             this.props.orderStatusCode !== "PAYMENT_PENDING" &&
             !this.props.calloutMessage &&
             estimatedDeliveryDateFormatted && (
-              <div className={styles.edd}>
-                <span className={styles.ffsemibold}>{EDD_TEXT}:</span>
-                <span>
-                  &nbsp;
-                  {estimatedDeliveryDateFormatted}
-                </span>
-              </div>
+              <React.Fragment>
+                <div className={styles.edd}>
+                  <span className={styles.ffsemibold}>
+                    {this.props.clickAndCollect === true
+                      ? "Pickup Date"
+                      : EDD_TEXT}:
+                  </span>
+                  <span>
+                    &nbsp;
+                    {estimatedDeliveryDateFormatted}
+                  </span>
+                </div>
+                {this.props.orderBreachMessage && (
+                  <div className={styles.breachMessage}>
+                    * {this.props.orderBreachMessage}
+                  </div>
+                )}
+              </React.Fragment>
             )}
 
           {!this.props.isEgvOrder &&
@@ -730,7 +741,9 @@ export default class OrderCard extends React.Component {
                           shipmentStatus.includes("Eligible for Return till") &&
                           !this.props.deliveryDate
                             ? ""
-                            : `${shipmentStatus}:`}{" "}
+                            : this.props.clickAndCollect === true
+                              ? "Pickup Date:"
+                              : `${shipmentStatus}:`}{" "}
                         </span>
                         {shipmentStatus.includes(EDD_TEXT) && (
                           <span className={styles.styleDate}>
