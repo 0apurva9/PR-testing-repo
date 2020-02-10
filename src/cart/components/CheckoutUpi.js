@@ -115,7 +115,7 @@ export default class CheckoutUpi extends React.Component {
                 : []
             }
             onCheckout={this.props.onCheckout}
-            showTermsNConditions={() => this.props.showTermsNConditions()}
+            showTermsNConditions={val => this.props.showTermsNConditions(val)}
             addUPIDetails={(val, pageType) =>
               this.props.addUPIDetails(val, pageType)
             }

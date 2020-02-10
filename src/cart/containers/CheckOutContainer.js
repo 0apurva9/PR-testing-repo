@@ -143,7 +143,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       );
     },
     showTermsNConditions: data => {
-      dispatch(showModal(UPITERMSANDCONDITION_MODAL, ""));
+      dispatch(showModal(UPITERMSANDCONDITION_MODAL, data));
     },
     getUserAddress: () => {
       dispatch(getUserAddress());

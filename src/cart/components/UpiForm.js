@@ -111,9 +111,9 @@ export default class UpiForm extends React.Component {
     }
   }
 
-  showTermsAndConditionPopup = () => {
+  showTermsAndConditionPopup = val => {
     if (this.props.showTermsNConditions) {
-      this.props.showTermsNConditions();
+      this.props.showTermsNConditions(val);
     }
   };
 
@@ -434,10 +434,14 @@ export default class UpiForm extends React.Component {
                 <p className={styles.lblTxt}>
                   {offer.promotionDisplayText}
                   <span
-                    className={styles.upitncTxt}
-                    onClick={() => this.showTermsAndConditionPopup()}
+                    className={styles.upitncTxt + " " + styles.upitncTxtLink}
+                    onClick={() =>
+                      this.showTermsAndConditionPopup(
+                        offer.termsAndConditions ? offer.termsAndConditions : ""
+                      )
+                    }
                   >
-                    {offer.TnC ? offer.TnC : ""}
+                    {offer.termsAndConditions ? " T&C" : ""}
                   </span>
                 </p>
                 <p className={styles.upitncTxt}>
