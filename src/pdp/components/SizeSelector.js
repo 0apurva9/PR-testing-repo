@@ -180,6 +180,7 @@ export default class SizeSelector extends React.Component {
           size={datum.sizelink.size}
           value={datum.sizelink.size}
           fontSize={this.props.textSize}
+          isSizeOrLength={this.props.isSizeOrLength}
           onSelect={() => this.updateSize(datum.sizelink.url)}
           categoryEyeWear={
             this.props &&

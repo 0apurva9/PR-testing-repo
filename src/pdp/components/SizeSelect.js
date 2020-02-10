@@ -12,11 +12,18 @@ export default class SizeSelect extends React.Component {
     let className = styles.base;
     if (this.props.disabled) {
       className = styles.disabled;
-    } else if (this.props.selected && !this.props.categoryEyeWear) {
+    } else if (this.props.selected && this.props.isSizeOrLength !== "Power") {
       className = styles.baseActive;
-    } else if (this.props.selected && this.props.categoryEyeWear) {
+    } else if (
+      this.props.selected &&
+      this.props.categoryEyeWear &&
+      this.props.isSizeOrLength === "Power"
+    ) {
       className = styles.baseActiveEyeWear;
-    } else if (this.props.categoryEyeWear) {
+    } else if (
+      this.props.categoryEyeWear &&
+      this.props.isSizeOrLength === "Power"
+    ) {
       className = styles.powerStyle;
     }
     return (

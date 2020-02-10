@@ -81,7 +81,7 @@
   .textHolder {
     height: 100%;
     text-align: center;
-    /* line-height: 36px; */
+    line-height: 36px;
     padding: 0px 10px;
   }
 }
