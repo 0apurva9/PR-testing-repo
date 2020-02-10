@@ -277,12 +277,11 @@ export default class HeaderWrapper extends React.Component {
       companyLogoInPdp = true;
     }
     if (UserAgent.checkUserAgentIsMobile()) {
-      if (
-        url === LOGIN_PATH ||
-        url === SIGN_UP_PATH ||
-        url.includes("404") ||
-        url.includes("how-upi-works")
-      ) {
+      if (url === LOGIN_PATH || url === SIGN_UP_PATH) {
+        shouldRenderHeader = false;
+      }
+    } else {
+      if (url.includes("how-upi-works")) {
         shouldRenderHeader = false;
       }
     }
