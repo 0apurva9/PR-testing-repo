@@ -355,6 +355,7 @@ export default class OrderDetails extends React.Component {
     if (!deliveryDate) {
       return false;
     }
+    deliveryDate = deliveryDate.replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3");
     let dateWithMonth = new Date(deliveryDate);
     let date = dateWithMonth.getDate();
     let month = dateWithMonth.getMonth();
@@ -948,7 +949,9 @@ export default class OrderDetails extends React.Component {
                               <span className={styles.width75}>
                                 <span>
                                   {this.getDayNumberSuffix(
-                                    products.deliveryDate
+                                    products.estimateddeliverydate
+                                      ? products.estimateddeliverydate
+                                      : products.deliveryDate
                                   )}
                                 </span>
                               </span>
