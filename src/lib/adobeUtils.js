@@ -841,11 +841,22 @@ export function setDataLayer(
   if (type === SET_DATA_LAYER_VERIFY_BUTTON_UPI) {
     if (window._satellite) {
       window._satellite.track(UPI_VERIFY_CLICK);
+      Object.assign(previousDigitalData, {
+        upi: {
+          status: "VALID"
+        }
+      });
     }
   }
+
   if (type === SET_DATA_LAYER_UID_SELECTION) {
     if (window._satellite) {
       window._satellite.track(UID_SELECTION);
+      Object.assign(previousDigitalData, {
+        upi: {
+          status: "VALID"
+        }
+      });
     }
   }
   if (type === SET_DATA_LAYER_UID_REMOVE) {
@@ -861,6 +872,11 @@ export function setDataLayer(
   if (type === SET_DATA_LAYER_UID_SAVE) {
     if (window._satellite) {
       window._satellite.track(TRACK_UID_SAVE);
+      Object.assign(previousDigitalData, {
+        upi: {
+          status: "VALID"
+        }
+      });
     }
   }
 }
