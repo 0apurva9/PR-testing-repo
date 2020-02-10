@@ -11,8 +11,8 @@ export default class CheckoutUpi extends React.Component {
     if (this.props.upiPaymentIsNewMidddleLayer) {
       this.props.upiPaymentIsNewMidddleLayer();
     }
-    if (this.props.upiPaymentISEnableMidddleLayerDetails) {
-      this.props.upiPaymentISEnableMidddleLayerDetails();
+    if (this.props.upiPaymentISEnableMidddleLayer) {
+      this.props.upiPaymentISEnableMidddleLayer();
     }
     if (this.props.upiPaymentHowItWorksMidddleLayer) {
       this.props.upiPaymentHowItWorksMidddleLayer();
@@ -22,52 +22,115 @@ export default class CheckoutUpi extends React.Component {
     }
   }
   render() {
-    return (
-      <MenuDetails
-        text={UPI}
-        isOpen={this.props.currentPaymentMode === UPI}
-        onOpenMenu={currentPaymentMode =>
-          this.props.onChange({ currentPaymentMode })
-        }
-        icon={upiIcon}
-        secondIcon={upi_new_icon}
-        checkUPIEligibility={cartGuidUPI =>
-          this.props.checkUPIEligibility(cartGuidUPI)
-        }
-        binValidationForUPI={paymentMode =>
-          this.props.binValidationForUPI(paymentMode)
-        }
-        cart={this.props.cart}
-      >
-        <UpiForm
-          savedUPIidResponse={
-            this.props.cart.paymentModes &&
-            this.props.cart.paymentModes.savedUpiResponse &&
-            this.props.cart.paymentModes.savedUpiResponse.savedUpiDetailsMap
-              ? this.props.cart.paymentModes.savedUpiResponse.savedUpiDetailsMap
-              : []
+    let isNew = false;
+    let isEnabled = false;
+    let combinedLogoUrl = "";
+    let howUpiWorksPageId = "";
+    if (
+      this.props.cart &&
+      this.props.cart.upiMiddleLayerIsNewStatus &&
+      this.props.cart.upiMiddleLayerIsNewStatus === "success"
+    ) {
+      isNew =
+        this.props.cart.upiMiddleLayerIsNew &&
+        this.props.cart.upiMiddleLayerIsNew.applicationProperties &&
+        this.props.cart.upiMiddleLayerIsNew.applicationProperties[0].value
+          ? this.props.cart.upiMiddleLayerIsNew.applicationProperties[0].value
+          : false;
+    }
+    if (
+      this.props.cart &&
+      this.props.cart.upiMiddleLayerIsEnableStatus &&
+      this.props.cart.upiMiddleLayerIsEnableStatus === "success"
+    ) {
+      isEnabled =
+        this.props.cart.upiMiddleLayerIsEnable &&
+        this.props.cart.upiMiddleLayerIsEnable.applicationProperties &&
+        this.props.cart.upiMiddleLayerIsEnable.applicationProperties[0].value
+          ? this.props.cart.upiMiddleLayerIsEnable.applicationProperties[0]
+              .value
+          : upi_new_icon;
+    }
+    if (
+      this.props.cart &&
+      this.props.cart.upiMiddleLayerCombinedLogoStatus &&
+      this.props.cart.upiMiddleLayerCombinedLogoStatus === "success"
+    ) {
+      combinedLogoUrl =
+        this.props.cart.upiMiddleLayerCombinedLogo &&
+        this.props.cart.upiMiddleLayerCombinedLogo.applicationProperties &&
+        this.props.cart.upiMiddleLayerCombinedLogo.applicationProperties[0]
+          .value
+          ? this.props.cart.upiMiddleLayerCombinedLogo.applicationProperties[0]
+              .value
+          : "";
+    }
+    if (
+      this.props.cart &&
+      this.props.cart.upiMiddleLayerHowItWorksStatus &&
+      this.props.cart.upiMiddleLayerHowItWorksStatus === "success"
+    ) {
+      howUpiWorksPageId =
+        this.props.cart.upiMiddleLayerHowItWorks &&
+        this.props.cart.upiMiddleLayerHowItWorks.applicationProperties &&
+        this.props.cart.upiMiddleLayerHowItWorks.applicationProperties[0].value
+          ? this.props.cart.upiMiddleLayerHowItWorks.applicationProperties[0]
+              .value
+          : "";
+    }
+    if (!isEnabled) {
+      return null;
+    } else {
+      return (
+        <MenuDetails
+          text={UPI}
+          isOpen={this.props.currentPaymentMode === UPI}
+          onOpenMenu={currentPaymentMode =>
+            this.props.onChange({ currentPaymentMode })
           }
-          UPIofferCalloutList={
-            this.props.cart.paymentModes &&
-            this.props.cart.paymentModes.upiOffers &&
-            this.props.cart.paymentModes.upiOffers.upiOfferCalloutList
-              ? this.props.cart.paymentModes.upiOffers.upiOfferCalloutList
-              : []
+          icon={upiIcon}
+          secondIcon={isNew ? upi_new_icon : ""}
+          checkUPIEligibility={cartGuidUPI =>
+            this.props.checkUPIEligibility(cartGuidUPI)
           }
-          onCheckout={this.props.onCheckout}
-          showTermsNConditions={() => this.props.showTermsNConditions()}
-          addUPIDetails={(val, pageType) =>
-            this.props.addUPIDetails(val, pageType)
+          binValidationForUPI={paymentMode =>
+            this.props.binValidationForUPI(paymentMode)
           }
-          addUPIDetailsNullState={() => this.props.addUPIDetailsNullState()}
-          addUserUPIStatus={this.props.addUserUPIStatus}
-          addUserUPIDetails={this.props.addUserUPIDetails}
-          loading={this.props.loading}
-          getPaymentModes={val => this.props.getPaymentModes(val)}
-          displayToast={message => this.props.displayToast(message)}
-        />
-      </MenuDetails>
-    );
+          cart={this.props.cart}
+        >
+          <UpiForm
+            savedUPIidResponse={
+              this.props.cart.paymentModes &&
+              this.props.cart.paymentModes.savedUpiResponse &&
+              this.props.cart.paymentModes.savedUpiResponse.savedUpiDetailsMap
+                ? this.props.cart.paymentModes.savedUpiResponse
+                    .savedUpiDetailsMap
+                : []
+            }
+            UPIofferCalloutList={
+              this.props.cart.paymentModes &&
+              this.props.cart.paymentModes.upiOffers &&
+              this.props.cart.paymentModes.upiOffers.upiOfferCalloutList
+                ? this.props.cart.paymentModes.upiOffers.upiOfferCalloutList
+                : []
+            }
+            onCheckout={this.props.onCheckout}
+            showTermsNConditions={() => this.props.showTermsNConditions()}
+            addUPIDetails={(val, pageType) =>
+              this.props.addUPIDetails(val, pageType)
+            }
+            addUPIDetailsNullState={() => this.props.addUPIDetailsNullState()}
+            addUserUPIStatus={this.props.addUserUPIStatus}
+            addUserUPIDetails={this.props.addUserUPIDetails}
+            loading={this.props.loading}
+            getPaymentModes={val => this.props.getPaymentModes(val)}
+            displayToast={message => this.props.displayToast(message)}
+            combinedLogoUrl={combinedLogoUrl}
+            howUpiWorksPageId={howUpiWorksPageId}
+          />
+        </MenuDetails>
+      );
+    }
   }
 }
 

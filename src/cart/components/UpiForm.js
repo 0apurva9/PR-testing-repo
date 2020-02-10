@@ -166,9 +166,12 @@ export default class UpiForm extends React.Component {
           ? styles.invalidFrm
           : this.props.addUserUPIDetails &&
             this.props.addUserUPIDetails.upiStatus === "VALID"
-            ? styles.verifiedFrm
-            : styles.invalidFrm
+          ? styles.verifiedFrm
+          : styles.invalidFrm
         : "";
+    let combinedLogoUrl = this.props.combinedLogoUrl
+      ? this.props.combinedLogoUrl
+      : upi_opt;
     return (
       <div className={styles.base}>
         <DesktopOnly>
@@ -304,7 +307,11 @@ export default class UpiForm extends React.Component {
             <React.Fragment>
               <div className={styles.flexRow50 + " " + styles.mb15}>
                 <div className={styles.flexRow50Cols + " " + styles.upiBrdRgt}>
-                  <img src={upi_opt} alt="imgg" />
+                  <img
+                    src={combinedLogoUrl}
+                    className={styles.combinedLogoUrl}
+                    alt="imgg"
+                  />
                 </div>
                 <div className={styles.flexRow50Cols}>
                   <div className={styles.upiHedTxt}>
