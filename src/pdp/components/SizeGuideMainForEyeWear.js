@@ -219,6 +219,7 @@ export default class SizeGuideMainForEyeWear extends React.Component {
                 </div>
               </div>
             )}
+            <div className={styles.tableHeader}>LENS WIDTH & FRAME SIZE</div>
             <div className={styles.sizeGuideTableHolder}>
               <SizeTableForEyeWearChangedJson data={this.props.sizeData} />
             </div>

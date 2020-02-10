@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import styles from "./SizeTable.css";
+import styles from "./SizeTableForEyeWear.css";
+// import styles from "./SizeTable.css";
 
 export default class SizeTableForEyeWearChangedJson extends Component {
   constructor(props) {
