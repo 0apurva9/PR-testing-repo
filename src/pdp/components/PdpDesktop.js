@@ -1015,6 +1015,16 @@ export default class PdpApparel extends React.Component {
         BundleddiscountPrice =
           productData.winningSellerPrice.formattedValueNoDecimal;
       }
+      let disabledStatus =
+        productData.allOOStock ||
+        (productData.isServiceableToPincode &&
+          productData.isServiceableToPincode.productOutOfStockMessage) ||
+        (productData.isServiceableToPincode &&
+          productData.isServiceableToPincode.productNotServiceableMessage) ||
+        !productData.winningSellerPrice ||
+        (productData.winningSellerAvailableStock === "0" &&
+          this.checkIfSizeSelected());
+
       return (
         <PdpFrame
           goToCart={() => this.goToCart()}
@@ -1323,7 +1333,12 @@ export default class PdpApparel extends React.Component {
                           <div className={styles.loader} />
                         </div>
                       )}
-                      <div className={styles.buttonAddToBag}>
+                      <div
+                        className={[
+                          styles.buttonAddToBag,
+                          disabledStatus ? "" : styles.shadowBtn
+                        ].join(" ")}
+                      >
                         <Button
                           insidePdpPage={true}
                           type="primary"
@@ -1331,23 +1346,17 @@ export default class PdpApparel extends React.Component {
                           width={195}
                           label="BUY NOW"
                           onClick={this.onClickOfBuyNow}
-                          disabled={
-                            productData.allOOStock ||
-                            (productData.isServiceableToPincode &&
-                              productData.isServiceableToPincode
-                                .productOutOfStockMessage) ||
-                            (productData.isServiceableToPincode &&
-                              productData.isServiceableToPincode
-                                .productNotServiceableMessage) ||
-                            !productData.winningSellerPrice ||
-                            (productData.winningSellerAvailableStock === "0" &&
-                              this.checkIfSizeSelected())
-                          }
+                          disabled={disabledStatus}
                         />
                       </div>
                     </div>
                     <div className={styles.buttonHolder}>
-                      <div className={styles.buttonAddToBag}>
+                      <div
+                        className={[
+                          styles.buttonAddToBag,
+                          disabledStatus ? "" : styles.shadowBtn
+                        ].join(" ")}
+                      >
                         <Button
                           insidePdpPage={true}
                           type="hollow"
@@ -1364,18 +1373,7 @@ export default class PdpApparel extends React.Component {
                               ? () => this.goToCart({ goToBag: true })
                               : () => this.addToCart(false)
                           }
-                          disabled={
-                            productData.allOOStock ||
-                            (productData.isServiceableToPincode &&
-                              productData.isServiceableToPincode
-                                .productOutOfStockMessage) ||
-                            (productData.isServiceableToPincode &&
-                              productData.isServiceableToPincode
-                                .productNotServiceableMessage) ||
-                            !productData.winningSellerPrice ||
-                            (productData.winningSellerAvailableStock === "0" &&
-                              this.checkIfSizeSelected())
-                          }
+                          disabled={disabledStatus}
                         />
                       </div>
                     </div>
