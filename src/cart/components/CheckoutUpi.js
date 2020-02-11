@@ -122,8 +122,8 @@ export default class CheckoutUpi extends React.Component {
             }
             onCheckout={this.props.onCheckout}
             showTermsNConditions={val => this.props.showTermsNConditions(val)}
-            addUPIDetails={(val, pageType) =>
-              this.props.addUPIDetails(val, pageType)
+            addUPIDetails={(val, pageType, btnType) =>
+              this.props.addUPIDetails(val, pageType, btnType)
             }
             addUPIDetailsNullState={() => this.props.addUPIDetailsNullState()}
             addUserUPIStatus={this.props.addUserUPIStatus}

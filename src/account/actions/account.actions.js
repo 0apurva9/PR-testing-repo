@@ -2264,11 +2264,31 @@ export function addUPIDetailsNullState() {
   };
 }
 
-export function addUPIDetails(upi, pageType) {
+export function addUPIDetails(upi, pageType, btnType) {
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
     dispatch(addUserUPIRequest(upi));
+
+    let APPROVED_UPI = [];
+    if (localStorage.getItem("APPROVED_UPI_VPA")) {
+      APPROVED_UPI = JSON.parse(localStorage.getItem("APPROVED_UPI_VPA"));
+    }
+    if (
+      pageType === "checkout" &&
+      btnType === "select" &&
+      APPROVED_UPI.includes(upi)
+    ) {
+      return dispatch(
+        addUserUPISuccess({
+          type: "upiValidationDTO",
+          error: "This UPI id already exists",
+          errorCode: "UPI007",
+          status: "FAILURE",
+          upiStatus: "VALID"
+        })
+      );
+    }
     try {
       const addUPI = `${USER_PATH}/${
         JSON.parse(userDetails).userName
@@ -3888,11 +3908,7 @@ export function submitOrderDetails(submitOrderDetails) {
         currentOrderCode,
         currentSubOrderCode;
       if (submitOrderDetails.currentState === 0) {
-        transactionIdWithAttachmentFile = `transactionId=${
-          submitOrderDetails.transactionId
-        }&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${
-          submitOrderDetails.imageURL
-        }`;
+        transactionIdWithAttachmentFile = `transactionId=${submitOrderDetails.transactionId}&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${submitOrderDetails.imageURL}`;
         currentOrderCode = `${submitOrderDetails.orderCode}`;
         currentSubOrderCode = `${submitOrderDetails.subOrderCode}`;
 

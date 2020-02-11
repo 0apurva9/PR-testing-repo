@@ -750,8 +750,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     resetFailedOrderDetails: () => {
       dispatch(resetFailedOrderDetails());
     },
-    addUPIDetails: async (upiId, pageType) => {
-      const res = await dispatch(addUPIDetails(upiId, pageType));
+    addUPIDetails: async (upiId, pageType, btnType) => {
+      const res = await dispatch(addUPIDetails(upiId, pageType, btnType));
       return res;
     },
     addUPIDetailsNullState: () => {

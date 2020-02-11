@@ -1399,6 +1399,7 @@ class CheckOutPage extends React.Component {
     }
   }
   componentDidMount() {
+    localStorage.setItem("APPROVED_UPI_VPA", []);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let cartDetailsLoggedInUser = Cookie.getCookie(
@@ -3998,8 +3999,8 @@ if you have order id in local storage then you have to show order confirmation p
                         this.state.emiBinValidationErrorMessage
                       }
                       retryPaymentDetails={this.props.retryPaymentDetails}
-                      addUPIDetails={(val, pageType) =>
-                        this.props.addUPIDetails(val, pageType)
+                      addUPIDetails={(val, pageType, btnType) =>
+                        this.props.addUPIDetails(val, pageType, btnType)
                       }
                       addUPIDetailsNullState={() =>
                         this.props.addUPIDetailsNullState()

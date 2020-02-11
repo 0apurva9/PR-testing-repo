@@ -17,6 +17,7 @@ import {
 const UPI_REGEX = /^[A-Za-z0-9]+@[A-Za-z0-9]\w+$/;
 const dateFormat = "DD MMM";
 export const UPI_VPA = "upi_vpa";
+const APPROVED_UPI_VPA = "APPROVED_UPI_VPA";
 
 export default class UpiForm extends React.Component {
   constructor(props) {
@@ -47,6 +48,10 @@ export default class UpiForm extends React.Component {
     } else if (this.state.isNewUpi && !UPI_REGEX.test(ele.trim())) {
       return;
     }
+    let APPROVED_UPI = [];
+    if (localStorage.getItem(APPROVED_UPI_VPA)) {
+      APPROVED_UPI = JSON.parse(localStorage.getItem(APPROVED_UPI_VPA));
+    }
     this.setState({
       upiId: ele,
       showUpiMsg: {
@@ -55,7 +60,7 @@ export default class UpiForm extends React.Component {
       isChanged: false
     });
     localStorage.setItem(UPI_VPA, ele);
-    const response = await this.props.addUPIDetails(ele, "checkout");
+    const response = await this.props.addUPIDetails(ele, "checkout", btnType);
     if (response && response.status === "Success") {
       let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
       if (cartDetails) {
@@ -63,19 +68,6 @@ export default class UpiForm extends React.Component {
         if (this.props.getPaymentModes) {
           await this.props.getPaymentModes(cartGuId);
         }
-      }
-      if (
-        response.upiResponse &&
-        response.upiResponse.upiStatus === "VALID" &&
-        btnType === "input"
-      ) {
-        setDataLayer(SET_DATA_LAYER_VERIFY_BUTTON_UPI, "VALID");
-      } else if (
-        response.upiResponse &&
-        response.upiResponse.upiStatus === "VALID" &&
-        btnType === "select"
-      ) {
-        setDataLayer(SET_DATA_LAYER_UID_SELECTION, "VALID");
       }
     } else if (
       response &&
@@ -90,6 +82,25 @@ export default class UpiForm extends React.Component {
           text: response.upiResponse.error
         }
       });
+    }
+    if (
+      response &&
+      response.upiResponse &&
+      response.upiResponse.upiStatus === "VALID" &&
+      btnType === "input"
+    ) {
+      setDataLayer(SET_DATA_LAYER_VERIFY_BUTTON_UPI, "VALID");
+    } else if (
+      response &&
+      response.upiResponse &&
+      response.upiResponse.upiStatus === "VALID" &&
+      btnType === "select"
+    ) {
+      setDataLayer(SET_DATA_LAYER_UID_SELECTION, "VALID");
+      if (!APPROVED_UPI.includes(ele)) {
+        APPROVED_UPI.push(ele);
+        localStorage.setItem(APPROVED_UPI_VPA, JSON.stringify(APPROVED_UPI));
+      }
     }
   };
 
