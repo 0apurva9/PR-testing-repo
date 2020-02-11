@@ -39,7 +39,7 @@ export default class UpiForm extends React.Component {
     };
   }
 
-  verifyUpi = async ele => {
+  verifyUpi = async (ele, btnType) => {
     if (this.state.isNewUpi && this.state.upiId === "") {
       return this.props.displayToast(
         "Please verify your UPI Address to proceed"
@@ -64,6 +64,19 @@ export default class UpiForm extends React.Component {
           await this.props.getPaymentModes(cartGuId);
         }
       }
+      if (
+        response.upiResponse &&
+        response.upiResponse.upiStatus === "VALID" &&
+        btnType === "input"
+      ) {
+        setDataLayer(SET_DATA_LAYER_VERIFY_BUTTON_UPI, "VALID");
+      } else if (
+        response.upiResponse &&
+        response.upiResponse.upiStatus === "VALID" &&
+        btnType === "select"
+      ) {
+        setDataLayer(SET_DATA_LAYER_UID_SELECTION, "VALID");
+      }
     } else if (
       response &&
       response.upiResponse &&
@@ -78,7 +91,6 @@ export default class UpiForm extends React.Component {
         }
       });
     }
-    setDataLayer(SET_DATA_LAYER_UID_SELECTION, ele);
   };
 
   updateUpi = val => {
@@ -205,7 +217,10 @@ export default class UpiForm extends React.Component {
                                         svdUpiLblHelperCls
                                       }
                                       onClick={() =>
-                                        this.verifyUpi(ele.value.upiId)
+                                        this.verifyUpi(
+                                          ele.value.upiId,
+                                          "select"
+                                        )
                                       }
                                     >
                                       {ele.value.upiId}
@@ -253,7 +268,10 @@ export default class UpiForm extends React.Component {
                                     <div
                                       className={styles.svdUpiLbl}
                                       onClick={() => {
-                                        this.verifyUpi(ele.value.upiId);
+                                        this.verifyUpi(
+                                          ele.value.upiId,
+                                          "select"
+                                        );
                                       }}
                                     >
                                       {ele.value.upiId}
@@ -264,7 +282,7 @@ export default class UpiForm extends React.Component {
                                 <div
                                   className={styles.svdUpiLbl}
                                   onClick={() => {
-                                    this.verifyUpi(ele.value.upiId);
+                                    this.verifyUpi(ele.value.upiId, "select");
                                   }}
                                 >
                                   {ele.value.upiId}
@@ -351,7 +369,9 @@ export default class UpiForm extends React.Component {
                             ? "rgba(0,0,0,0.2)"
                             : "#FF1744"
                         }}
-                        onClick={() => this.verifyUpi(this.state.upiId)}
+                        onClick={() =>
+                          this.verifyUpi(this.state.upiId, "input")
+                        }
                       >
                         Verify
                       </button>
@@ -441,7 +461,7 @@ export default class UpiForm extends React.Component {
                       )
                     }
                   >
-                    {offer.termsAndConditions ? " T&C" : ""}
+                    {offer.termsAndConditions ? "T&C" : ""}
                   </span>
                 </p>
                 <p className={styles.upitncTxt}>
