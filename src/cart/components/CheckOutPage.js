@@ -116,19 +116,18 @@ import {
   SAME_DAY_DELIVERY,
   SAME_DAY_DELIVERY_SHIPPING,
   FAILED_ORDER,
-  CNC_CART
+  CNC_CART,
+  HOME_ROUTER,
+  SUCCESS,
+  CHECKOUT,
+  ERROR,
+  SUCCESS_UPPERCASE,
+  SELECTED_STORE
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
 } from "../../auth/components/Login";
-import {
-  HOME_ROUTER,
-  SUCCESS,
-  CHECKOUT,
-  ERROR,
-  SUCCESS_UPPERCASE
-} from "../../lib/constants";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import {
   setDataLayerForCheckoutDirectCalls,
@@ -1552,17 +1551,20 @@ class CheckOutPage extends React.Component {
       this.props.cart.orderConfirmationDetailsStatus === SUCCESS
     ) {
       localStorage.removeItem(ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE);
+      localStorage.removeItem(SELECTED_STORE);
     }
     if (
       this.props.cart &&
       this.props.cart.getPrepaidOrderPaymentConfirmationStatus === SUCCESS
     ) {
       localStorage.removeItem(ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE);
+      localStorage.removeItem(SELECTED_STORE);
     }
     this.props.clearCartDetails();
     this.props.resetIsSoftReservationFailed();
     if (this.props.retryPaymentDetails) {
       this.props.resetFailedOrderDetails();
+      localStorage.removeItem(SELECTED_STORE);
     }
     if (localStorage.getItem(FAILED_ORDER)) {
       localStorage.removeItem(FAILED_ORDER);

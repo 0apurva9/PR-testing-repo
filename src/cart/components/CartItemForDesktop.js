@@ -130,7 +130,9 @@ export default class CartItemForDesktop extends React.Component {
     }
     let productMessage = this.props.productNotServiceable
       ? this.props.productNotServiceable
-      : NOT_SERVICEABLE;
+      : !this.props.productOutOfStocks
+        ? NOT_SERVICEABLE
+        : null;
     let pickUpDateDetails = "";
     if (this.props.storeDetails && this.props.storeDetails.slaveId) {
       let productSlaveId = this.props.storeDetails.slaveId;

@@ -1233,7 +1233,9 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                       </div>
                                     ) : (
                                       <React.Fragment>
-                                        {shippingList &&
+                                        {this.props.fulfillment &&
+                                          this.props.fulfillment != "sship" &&
+                                          shippingList &&
                                           shippingList.length > 0 &&
                                           orderCode && (
                                             <div
@@ -1742,7 +1744,9 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                 </div>
                               ) : (
                                 <React.Fragment>
-                                  {shippingList &&
+                                  {this.props.fulfillment &&
+                                    this.props.fulfillment != "sship" &&
+                                    shippingList &&
                                     shippingList.length > 0 &&
                                     orderCode && (
                                       <div

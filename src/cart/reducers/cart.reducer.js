@@ -12,7 +12,8 @@ import {
   CART_BAG_DETAILS,
   CLIQ_CASH_APPLIED_LOCAL_STORAGE,
   EMI_TENURE,
-  BANK_COUPON_COOKIE
+  BANK_COUPON_COOKIE,
+  SELECTED_STORE
 } from "../../lib/constants";
 export const EGV_GIFT_CART_ID = "giftCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
@@ -1896,6 +1897,7 @@ const cart = (
     case cartActions.CLEAR_CART_DETAILS:
       localStorage.removeItem(RETRY_PAYMENT_CART_ID);
       localStorage.removeItem(RETRY_PAYMENT_DETAILS);
+
       return Object.assign({}, state, {
         status: null,
         error: null,
