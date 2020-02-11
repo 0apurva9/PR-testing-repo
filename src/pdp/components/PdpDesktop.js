@@ -737,7 +737,9 @@ export default class PdpApparel extends React.Component {
       this.props.productDetails.variantOptions.length === 1 &&
       this.props.productDetails.rootCategory !== "HomeFurnishing" &&
       this.props.productDetails.rootCategory !== "FineJewellery" &&
-      this.props.productDetails.rootCategory !== "FashionJewellery"
+      this.props.productDetails.rootCategory !== "FashionJewellery" &&
+      this.props.productDetails.categoryHierarchy.length &&
+      this.props.productDetails.categoryHierarchy[0].category_name !== "Eyewear"
     ) {
       return true;
     } else {

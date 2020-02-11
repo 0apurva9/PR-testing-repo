@@ -30,7 +30,8 @@ export default class SizeSelector extends React.Component {
     super(props);
     this.state = {
       goToCartPageFlag: false,
-      label: "View More",
+      label: "Select",
+      showLensPower: false,
       arrangedPower: []
     };
   }
@@ -151,12 +152,8 @@ export default class SizeSelector extends React.Component {
       this.props.closeModal();
     }
   }
-  showSeeAll = () => {
-    if (this.state.label === "View More") {
-      this.setState({ label: "View Less" });
-    } else {
-      this.setState({ label: "View More" });
-    }
+  showAllLensPower = () => {
+    this.setState({ showLensPower: !this.state.showLensPower });
   };
 
   renderSize(datum, i) {
@@ -210,7 +207,7 @@ export default class SizeSelector extends React.Component {
     let OOSProducts = sizes.filter(size => {
       return !size.sizelink.isAvailable;
     });
-    const checkCategoryHierarchy =
+    const isEyeWearCategory =
       this.props &&
       this.props.categoryHierarchy &&
       this.props.categoryHierarchy[0] &&
@@ -218,6 +215,29 @@ export default class SizeSelector extends React.Component {
         ? true
         : false;
     let sizeViewOption = [];
+
+    let { showLensPower, label } = this.state;
+
+    let zeroPowerLens =
+      sizes && sizes.length
+        ? sizes.filter(sizeData => sizeData.sizelink.size === "0.00")
+        : [];
+
+    let isPowerLensSizeSelected = false,
+      selectedLensSize =
+        sizes && sizes.length
+          ? sizes.filter(item => item.colorlink.selected)
+          : [];
+    if (
+      this.props &&
+      this.props.history &&
+      this.props.history.location &&
+      this.props.history.location.state &&
+      this.props.history.location.state.isSizeSelected &&
+      selectedLensSize.length
+    ) {
+      isPowerLensSizeSelected = true;
+    }
 
     if (sizes.length !== 0) {
       return (
@@ -229,16 +249,15 @@ export default class SizeSelector extends React.Component {
               : this.props.headerText
                 ? this.props.headerText
                 : "SIZE"}
-            {checkCategoryHierarchy &&
-              this.props.isSizeOrLength === "Power" &&
-              sizes.length > 6 && (
+            {isEyeWearCategory &&
+              this.props.isSizeOrLength === "Power" && (
                 <div
                   className={styles.buttonShowViewMore}
                   onClick={() => {
-                    this.showSeeAll();
+                    this.showAllLensPower();
                   }}
                 >
-                  {this.state.label}
+                  {isPowerLensSizeSelected ? "Change" : label}
                 </div>
               )}
             <div className={styles.button}>
@@ -261,7 +280,15 @@ export default class SizeSelector extends React.Component {
             </DumbCarousel>
           </MobileOnly>
           <DesktopOnly>
-            <div>
+            <div
+              className={
+                isEyeWearCategory &&
+                this.props.isSizeOrLength === "Power" &&
+                showLensPower
+                  ? styles.eyewearPowerHolder
+                  : null
+              }
+            >
               {this.props.isSizeOrLength !== "Power" &&
                 sizes &&
                 sizes.map((datum, i) => {
@@ -271,32 +298,53 @@ export default class SizeSelector extends React.Component {
                     </div>
                   );
                 })}{" "}
-              {checkCategoryHierarchy &&
+              {isEyeWearCategory &&
                 this.props.isSizeOrLength === "Power" &&
-                this.state.label === "View More" &&
-                sizes &&
-                sizes.map((datum, i) => {
-                  if (i < 7) {
-                    return (
-                      <div className={styles.size}>
-                        {this.renderSize(datum, i)}
-                      </div>
-                    );
-                  }
-                })}
-              {checkCategoryHierarchy &&
-                this.props.isSizeOrLength === "Power" &&
-                this.state.label === "View Less" &&
-                sizes &&
-                sizes.map((datum, i) => {
-                  return (
-                    <div className={styles.size}>
-                      {this.renderSize(datum, i)}
-                    </div>
-                  );
-                })}
+                (showLensPower ? (
+                  <React.Fragment>
+                    <React.Fragment>
+                      {zeroPowerLens.length &&
+                        zeroPowerLens.map((datum, i) => {
+                          return (
+                            <div className={styles.size}>
+                              {this.renderSize(datum, i)}
+                            </div>
+                          );
+                        })}
+                      {zeroPowerLens.length && <br />}
+                    </React.Fragment>
+                    <React.Fragment>
+                      {sizes &&
+                        sizes.map((datum, i) => {
+                          if (datum.sizelink.size !== "0.00") {
+                            return (
+                              <div className={styles.size}>
+                                {this.renderSize(
+                                  datum,
+                                  zeroPowerLens.length ? i + 1 : i
+                                )}
+                              </div>
+                            );
+                          }
+                        })}
+                    </React.Fragment>
+                  </React.Fragment>
+                ) : (
+                  <div
+                    className={
+                      isPowerLensSizeSelected
+                        ? styles.selectedPowerLens
+                        : styles.lensPowerLabel
+                    }
+                    onClick={() => this.showAllLensPower()}
+                  >
+                    {isPowerLensSizeSelected
+                      ? selectedLensSize[0].sizelink.size
+                      : label}
+                  </div>
+                ))}
               {this.props.eyeWearSizeGuide &&
-                checkCategoryHierarchy &&
+                isEyeWearCategory &&
                 this.props.hasSizeGuide && (
                   <DesktopOnly>
                     <UnderLinedButton
@@ -310,7 +358,7 @@ export default class SizeSelector extends React.Component {
                     />
                   </DesktopOnly>
                 )}
-              {!checkCategoryHierarchy &&
+              {!isEyeWearCategory &&
                 this.props.hasSizeGuide && (
                   <DesktopOnly>
                     <UnderLinedButton

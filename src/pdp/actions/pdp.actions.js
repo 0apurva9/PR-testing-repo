@@ -206,12 +206,11 @@ export function getProductDescriptionRequest() {
     status: REQUESTING
   };
 }
-export function getProductDescriptionSuccess(productDescription, sizeSelected) {
+export function getProductDescriptionSuccess(productDescription) {
   return {
     type: PRODUCT_DESCRIPTION_SUCCESS,
     status: SUCCESS,
-    productDescription,
-    sizeSelected
+    productDescription
   };
 }
 
@@ -226,8 +225,7 @@ export function getProductDescription(
   productCode,
   behaviorOfPage,
   isApiCall: 0,
-  componentName,
-  sizeSelected
+  componentName
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(getProductDescriptionRequest());
@@ -280,7 +278,7 @@ export function getProductDescription(
             );
           }
         }
-        return dispatch(getProductDescriptionSuccess(resultJson, sizeSelected));
+        return dispatch(getProductDescriptionSuccess(resultJson));
       } else {
         if (resultJson.status === 404 && isApiCall === 0) {
           isApiCall = isApiCall + 1;

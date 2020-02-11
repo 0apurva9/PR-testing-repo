@@ -63,17 +63,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     ownProps.location.state.componentName
       ? ownProps.location.state.componentName
       : "";
-  let sizeSelected =
-    ownProps &&
-    ownProps.location &&
-    ownProps.location.state &&
-    ownProps.location.state.isSizeSelected
-      ? ownProps.location.state.isSizeSelected
-      : "";
   return {
     getProductDescription: async productCode => {
       const productDetailsResponse = await dispatch(
-        getProductDescription(productCode, "", "", "", sizeSelected)
+        getProductDescription(productCode)
       );
 
       if (productDetailsResponse && productDetailsResponse.status === SUCCESS) {

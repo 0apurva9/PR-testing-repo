@@ -106,86 +106,25 @@ const productDescription = (
       });
 
     case pdpActions.PRODUCT_DESCRIPTION_SUCCESS: {
-      let data = {
-        ...action.productDescription
-      };
+      let productData = cloneDeep(action.productDescription);
       if (
-        data &&
-        data.categoryHierarchy &&
-        data.categoryHierarchy[0] &&
-        data.categoryHierarchy[0].category_name !== "Eyewear"
+        productData &&
+        productData.categoryHierarchy &&
+        productData.categoryHierarchy[0] &&
+        productData.categoryHierarchy[0].category_name === "Eyewear" &&
+        productData.isSizeOrLength === "Power"
       ) {
-        return Object.assign({}, state, {
-          status: action.status,
-          productDetails: action.productDescription,
-          loading: false,
-          getProductDetailsLoading: false,
-          visitedNewProduct: true
-        });
-      } else if (
-        data.isSizeOrLength === "Power" &&
-        data &&
-        data.categoryHierarchy &&
-        data.categoryHierarchy[0] &&
-        data.categoryHierarchy[0].category_name === "Eyewear"
-      ) {
-        let positivePowerArray = [];
-        let negativePowerArray = [];
-        data.variantOptions.map(power => {
-          if (power.sizelink && power.sizelink.size) {
-            if (power.sizelink.size > 0) {
-              positivePowerArray.push(power);
-            } else {
-              negativePowerArray.push(power);
-            }
-          }
-        });
-        negativePowerArray = negativePowerArray.reverse();
-        negativePowerArray = [...negativePowerArray, ...positivePowerArray];
-        let clonedPower = [...negativePowerArray];
-        if (action.sizeSelected) {
-          let selectedJson = negativePowerArray.find(
-            value =>
-              value.colorlink.selected &&
-              value.colorlink.colorurl.includes(
-                data.productListingId.toLowerCase()
-              )
-          );
-          if (
-            typeof selectedJson === "object" &&
-            Object.keys(selectedJson).length
-          ) {
-            negativePowerArray = negativePowerArray.filter(power => {
-              return (
-                power.colorlink.colorurl !== selectedJson.colorlink.colorurl
-              );
-            });
-            negativePowerArray.unshift(selectedJson);
-          }
-        }
-        data.variantOptions = negativePowerArray;
-        return Object.assign({}, state, {
-          status: action.status,
-          productDetails: data,
-          loading: false,
-          getProductDetailsLoading: false,
-          visitedNewProduct: true
-        });
-      } else if (
-        data.isSizeOrLength !== "Power" &&
-        data &&
-        data.categoryHierarchy &&
-        data.categoryHierarchy[0] &&
-        data.categoryHierarchy[0].category_name === "Eyewear"
-      ) {
-        return Object.assign({}, state, {
-          status: action.status,
-          productDetails: action.productDescription,
-          loading: false,
-          getProductDetailsLoading: false,
-          visitedNewProduct: true
-        });
+        productData.variantOptions = getSortedPowerList(
+          productData.variantOptions
+        );
       }
+      return Object.assign({}, state, {
+        status: action.status,
+        productDetails: productData,
+        loading: false,
+        getProductDetailsLoading: false,
+        visitedNewProduct: true
+      });
     }
 
     case pdpActions.PRODUCT_DESCRIPTION_FAILURE:
@@ -465,80 +404,23 @@ const productDescription = (
       });
 
     case pdpActions.PRODUCT_SPECIFICATION_SUCCESS: {
-      let data = { ...action.productDetails };
+      let productData = cloneDeep(action.productDetails);
       if (
-        data &&
-        data.categoryHierarchy &&
-        data.categoryHierarchy[0] &&
-        data.categoryHierarchy[0].category_name !== "Eyewear"
+        productData &&
+        productData.categoryHierarchy &&
+        productData.categoryHierarchy[0] &&
+        productData.categoryHierarchy[0].category_name === "Eyewear" &&
+        productData.isSizeOrLength === "Power"
       ) {
-        return Object.assign({}, state, {
-          status: action.status,
-          productDetails: action.productDetails,
-          loading: false
-        });
-      } else if (
-        data.isSizeOrLength === "Power" &&
-        data &&
-        data.categoryHierarchy &&
-        data.categoryHierarchy[0] &&
-        data.categoryHierarchy[0].category_name === "Eyewear"
-      ) {
-        let positivePowerArray = [];
-        let negativePowerArray = [];
-        data.variantOptions.map(power => {
-          if (power.sizelink && power.sizelink.size) {
-            if (power.sizelink.size > 0) {
-              positivePowerArray.push(power);
-            } else {
-              negativePowerArray.push(power);
-            }
-          }
-        });
-        negativePowerArray = negativePowerArray.reverse();
-        negativePowerArray = [...negativePowerArray, ...positivePowerArray];
-        let clonedPower = [...negativePowerArray];
-        if (action.productCode) {
-          let selectedJson = clonedPower.find(value => {
-            if (
-              value.colorlink.selected &&
-              value.colorlink.colorurl.includes(
-                data.productListingId.toLowerCase()
-              )
-            ) {
-              return value;
-            }
-          });
-          let filtedData = [];
-          if (selectedJson) {
-            filtedData = clonedPower.filter(power => {
-              return (
-                power.colorlink.colorurl !== selectedJson.colorlink.colorurl
-              );
-            });
-            filtedData.unshift(selectedJson);
-            negativePowerArray = filtedData;
-          }
-        }
-        data.variantOptions = negativePowerArray;
-        return Object.assign({}, state, {
-          status: action.status,
-          productDetails: data,
-          loading: false
-        });
-      } else if (
-        data.isSizeOrLength !== "Power" &&
-        data &&
-        data.categoryHierarchy &&
-        data.categoryHierarchy[0] &&
-        data.categoryHierarchy[0].category_name === "Eyewear"
-      ) {
-        return Object.assign({}, state, {
-          status: action.status,
-          productDetails: action.productDetails,
-          loading: false
-        });
+        productData.variantOptions = getSortedPowerList(
+          productData.variantOptions
+        );
       }
+      return Object.assign({}, state, {
+        status: action.status,
+        productDetails: productData,
+        loading: false
+      });
     }
 
     case pdpActions.PRODUCT_SPECIFICATION_FAILURE:
@@ -1034,3 +916,22 @@ const productDescription = (
 };
 
 export default productDescription;
+
+function getSortedPowerList(powerList) {
+  let positivePowerList = [],
+    negativePowerList = [],
+    sortedPowerList = [];
+
+  powerList.map(power => {
+    if (power.sizelink && power.sizelink.size) {
+      if (power.sizelink.size > 0) {
+        positivePowerList.push(power);
+      } else {
+        negativePowerList.push(power);
+      }
+    }
+  });
+  negativePowerList = negativePowerList.reverse();
+  sortedPowerList = [...negativePowerList, ...positivePowerList];
+  return sortedPowerList;
+}
