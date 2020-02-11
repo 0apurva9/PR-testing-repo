@@ -27,23 +27,27 @@ export default class MenuDetails extends React.Component {
     if (this.state.isOpen) {
       this.openMenu();
     } else {
+      let response;
       let cartGuidUPI = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
       let egvGuidUPI = Cookie.getCookie("egvCartGuid");
 
       if (cartGuidUPI) {
         cartGuidUPI = JSON.parse(cartGuidUPI).guid;
       }
-      let response;
-      if (egvGuidUPI) {
-        response = await this.props.checkUPIEligibility(egvGuidUPI);
-      }
-      if (cartGuidUPI) {
-        if (this.props.retryCartGuid) {
-          response = await this.props.checkUPIEligibility(
-            this.props.retryCartGuid
-          );
-        } else {
-          response = await this.props.checkUPIEligibility(cartGuidUPI);
+
+      if (this.props.isFromGiftCard) {
+        if (egvGuidUPI) {
+          response = await this.props.checkUPIEligibility(egvGuidUPI);
+        }
+      } else {
+        if (cartGuidUPI) {
+          if (this.props.retryCartGuid) {
+            response = await this.props.checkUPIEligibility(
+              this.props.retryCartGuid
+            );
+          } else {
+            response = await this.props.checkUPIEligibility(cartGuidUPI);
+          }
         }
       }
 

@@ -97,6 +97,12 @@ export default class CheckoutUpi extends React.Component {
             this.props.binValidationForUPI(paymentMode)
           }
           cart={this.props.cart}
+          isFromGiftCard={
+            this.props.isFromGiftCard ? this.props.isFromGiftCard : false
+          }
+          retryCartGuid={
+            this.props.retryCartGuid ? this.props.retryCartGuid : null
+          }
         >
           <UpiForm
             savedUPIidResponse={
@@ -127,9 +133,6 @@ export default class CheckoutUpi extends React.Component {
             displayToast={message => this.props.displayToast(message)}
             combinedLogoUrl={combinedLogoUrl}
             howUpiWorksPageId={howUpiWorksPageId}
-            retryCartGuid={
-              this.props.retryCartGuid ? this.props.retryCartGuid : null
-            }
           />
         </MenuDetails>
       );
