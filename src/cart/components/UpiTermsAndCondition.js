@@ -17,12 +17,12 @@ export default class UpiTermsAndCondition extends React.Component {
         <div className={styles.base}>
           <div className={styles.bottomHolder}>
             <div className={styles.applicationForm}>
-              <div className={styles.labelHedaer}>
-                {/* dangerouslySetInnerHTML={{
-                    __html: this.props.ownProps
-                  }} */}
-                {this.props.ownProps}
-              </div>
+              <div
+                className={styles.labelHedaer}
+                dangerouslySetInnerHTML={{
+                  __html: this.props.ownProps ? this.props.ownProps : ""
+                }}
+              ></div>
             </div>
           </div>
         </div>
