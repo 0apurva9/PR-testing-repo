@@ -38,7 +38,13 @@ export default class MenuDetails extends React.Component {
         response = await this.props.checkUPIEligibility(egvGuidUPI);
       }
       if (cartGuidUPI) {
-        response = await this.props.checkUPIEligibility(cartGuidUPI);
+        if (this.props.retryCartGuid) {
+          response = await this.props.checkUPIEligibility(
+            this.props.retryCartGuid
+          );
+        } else {
+          response = await this.props.checkUPIEligibility(cartGuidUPI);
+        }
       }
 
       const binResponse = await this.props.binValidationForUPI(UPI);
@@ -114,16 +120,15 @@ export default class MenuDetails extends React.Component {
           </div>
           <div className={styles.textBox}>
             {this.props.text === UPI ? "UPI ID" : this.props.text}
-            {this.props.secondIcon &&
-              !this.state.isOpen && (
-                <div className={styles.secondIcon}>
-                  <Icon
-                    image={this.props.secondIcon}
-                    size={37}
-                    backgroundSize={`100%`}
-                  />
-                </div>
-              )}
+            {this.props.secondIcon && !this.state.isOpen && (
+              <div className={styles.secondIcon}>
+                <Icon
+                  image={this.props.secondIcon}
+                  size={37}
+                  backgroundSize={`100%`}
+                />
+              </div>
+            )}
             <div className={iconActive} />
           </div>
         </div>

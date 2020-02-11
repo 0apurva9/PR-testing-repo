@@ -127,6 +127,9 @@ export default class CheckoutUpi extends React.Component {
             displayToast={message => this.props.displayToast(message)}
             combinedLogoUrl={combinedLogoUrl}
             howUpiWorksPageId={howUpiWorksPageId}
+            retryCartGuid={
+              this.props.retryCartGuid ? this.props.retryCartGuid : null
+            }
           />
         </MenuDetails>
       );
