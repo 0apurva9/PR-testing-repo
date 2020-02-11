@@ -368,6 +368,10 @@ export default class CartItemForDesktop extends React.Component {
                 inCartPage={this.props.inCartPage}
                 inCartPageIcon={true}
                 isArrowIcon={this.props.isArrowIcon}
+                productCode={
+                  this.props.product && this.props.product.productcode
+                }
+                winningUssID={this.props.product && this.props.product.USSID}
               />
             </div>
           )}

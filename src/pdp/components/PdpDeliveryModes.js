@@ -10,7 +10,8 @@ import {
   SHORT_COLLECT,
   SHORT_HOME_DELIVERY,
   SHORT_SAME_DAY_DELIVERY,
-  SAME_DAY_DELIVERY
+  SAME_DAY_DELIVERY,
+  SELECTED_STORE
 } from "../../lib/constants";
 import PropTypes from "prop-types";
 import styles from "./PdpDeliveryModes.css";
@@ -78,6 +79,19 @@ export default class PdpDeliveryModes extends React.Component {
       getDeliveryModesByWinningUssid &&
       getDeliveryModesByWinningUssid.quickDeliveryMode &&
       getDeliveryModesByWinningUssid.quickDeliveryMode === "Y";
+    let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
+    let storeDetails =
+      selectedStore &&
+      selectedStore.find(store => {
+        return store.ussId === this.props.winningUssID;
+      });
+    if (storeDetails && storeDetails.storeId && availableStores) {
+      availableStores = parseInt(availableStores) - 1;
+      if (availableStores === 0) {
+        availableStores = " ";
+      }
+    }
+
     let wrapperClass =
       (deliveryDates &&
         deliveryDates
@@ -253,6 +267,7 @@ export default class PdpDeliveryModes extends React.Component {
                         return val.value;
                       })[0]
                   }
+                  storeDetails={storeDetails}
                 />
               )}
           </div>

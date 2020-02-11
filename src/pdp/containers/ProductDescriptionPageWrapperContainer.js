@@ -51,7 +51,8 @@ import { withRouter } from "react-router-dom";
 import {
   SUCCESS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  NO
+  NO,
+  SELECTED_STORE
 } from "../../lib/constants.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 import {
@@ -146,6 +147,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(showModal(ADDRESS, { productCode }, { winningUssID }));
     },
     getProductPinCode: (pinCode, productCode, winningUssID) => {
+      localStorage.removeItem(SELECTED_STORE);
       return dispatch(getProductPinCode(pinCode, productCode, winningUssID));
     },
     hideSecondaryLoader: () => {

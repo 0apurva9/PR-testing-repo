@@ -679,6 +679,7 @@ class CheckOutPage extends React.Component {
                   }
                   selectedStoreDetails={val.storeDetails}
                   cliqPiqSelected={this.state.cliqPiqSelected}
+                  product={val}
                 />
               </div>
             );
@@ -825,6 +826,7 @@ class CheckOutPage extends React.Component {
             pincodeResponse={firstSlaveData}
             pincode={localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)}
             isFromCheckOut={true}
+            selectedStore={JSON.parse(localStorage.getItem(SELECTED_STORE))}
           />
         </ModalPanel>
       );

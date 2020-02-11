@@ -184,16 +184,35 @@ export default class OrderDetails extends React.Component {
   }
   getWorkingDays = mplWorkingDays => {
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    let noMatch = 0;
+    let noMatch = false;
+    let j = 0;
     let workingDays = [];
-
-    mplWorkingDays.split(",").forEach(function(curr_val) {
-      workingDays.push(days[curr_val]);
-    });
-    console.log("============", workingDays);
+    let getWorkingDays = "0,2,3,5,6".split(",");
+    for (let i = 0; i < days.length; i++) {
+      if (i == getWorkingDays[j]) {
+        if (!noMatch || i === days.length - 1) {
+          if (!workingDays.includes(days[i])) {
+            workingDays.push(days[i]);
+          }
+        } else {
+          if (noMatch && workingDays[workingDays.length - 1] !== "-") {
+            workingDays.push("-");
+          }
+        }
+        j++;
+        noMatch = true;
+      } else {
+        if (noMatch && !workingDays.includes(days[i - 1])) {
+          //workingDays.splice(-1, 1);
+          workingDays.push(days[i - 1]);
+        }
+        noMatch = false;
+      }
+    }
+    return workingDays.toString().replace(/,-,/g, "-");
   };
   getStoreDateNTime(mplWorkingDays, mplOpeningTime, mplClosingTime) {
-    let getDaysText = this.getNonWorkingDays(mplWorkingDays);
+    let getDaysText = this.getWorkingDays(mplWorkingDays);
     let mplOpeningTimeText = "";
     let mplClosingTimeText = "";
     // let displayDateNTime = "";

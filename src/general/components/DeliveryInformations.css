@@ -65,13 +65,17 @@
   margin-left: 0;
 }
 .cncDeliveryAddress,
-.cncDeliveryAddressCartPage {
+.cncDeliveryAddressCartPage,
+.cncDeliveryAddressFullWidth {
   font-family: light;
   font-size: 14px;
   line-height: 20px;
 }
 .cncDeliveryAddress {
   width: 58%;
+}
+.cncDeliveryAddressFullWidth {
+  width: 100%;
 }
 @media only screen and (min-width: 1025px) {
   .base {

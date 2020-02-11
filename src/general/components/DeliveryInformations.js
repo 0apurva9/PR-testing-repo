@@ -239,9 +239,13 @@ export default class DeliveryInformations extends React.Component {
     if (this.props.isQuiqPiq === "Y") {
       baseClass = styles.basePdp;
     }
+    if (this.props.fromSellerCard) {
+      cncDeliveryAddressClass = styles.cncDeliveryAddressFullWidth;
+    }
     if (this.props.inCartPage || this.props.inCheckOutPage) {
       cncDeliveryAddressClass = styles.cncDeliveryAddressCartPage;
     }
+    let storeDetails = this.props.storeDetails;
     return (
       <div className={baseClass}>
         <div
@@ -286,10 +290,10 @@ export default class DeliveryInformations extends React.Component {
               this.props.isShowCliqAndPiqUnderLineText &&
               this.props.available && (
                 <div className={styles.underLineButtonHolder}>
-                  {selectedStore &&
-                    selectedStore.address && (
+                  {storeDetails &&
+                    storeDetails.address && (
                       <div className={cncDeliveryAddressClass}>
-                        {selectedStore.address}
+                        {storeDetails.address}
                       </div>
                     )}
                   <span className={styles.buttonHolderPiq}>

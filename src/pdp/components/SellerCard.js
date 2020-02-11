@@ -172,11 +172,12 @@ export default class SellerCard extends React.Component {
                   deliveryModesATP={this.props.deliveryModesATP}
                   pdpApparel={true}
                   pincodeDetails={serviceableDeliveryModes}
+                  productCode={this.props.productListingId}
                   //isCod={productData.isCOD}
                   // availableStores={
                   //   serviceableDeliveryModes.CNCServiceableSlavesData && serviceableDeliveryModes.CNCServiceableSlavesData.length
                   // }
-                  //winningUssID={productData.winningUssID}
+                  winningUssID={this.props.winningUssID}
                 />
               </div>
             )}
