@@ -101,6 +101,15 @@ export default class UpiForm extends React.Component {
         APPROVED_UPI.push(ele);
         localStorage.setItem(APPROVED_UPI_VPA, JSON.stringify(APPROVED_UPI));
       }
+    } else if (
+      response &&
+      response.upiResponse &&
+      response.upiResponse.upiStatus === "INVALID" &&
+      btnType === "select"
+    ) {
+      setDataLayer(SET_DATA_LAYER_UID_SELECTION, "INVALID");
+    } else {
+      setDataLayer(SET_DATA_LAYER_VERIFY_BUTTON_UPI, "INVALID");
     }
   };
 
@@ -115,7 +124,6 @@ export default class UpiForm extends React.Component {
       },
       isChanged: true
     });
-    setDataLayer(SET_DATA_LAYER_UID_SELECTION, val);
   };
 
   componentDidMount() {
@@ -189,8 +197,8 @@ export default class UpiForm extends React.Component {
           ? styles.invalidFrm
           : this.props.addUserUPIDetails &&
             this.props.addUserUPIDetails.upiStatus === "VALID"
-          ? styles.verifiedFrm
-          : styles.invalidFrm
+            ? styles.verifiedFrm
+            : styles.invalidFrm
         : "";
     let combinedLogoUrl = this.props.combinedLogoUrl
       ? this.props.combinedLogoUrl

@@ -6,7 +6,7 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import styles from "./MyAccountUpiForm.css";
 import upi_opt from "../../cart/components/img/upi_opt.svg";
 import loader from "./img/loader.gif";
-import { setDataLayer, SET_DATA_LAYER_UID_ADD } from "../../lib/adobeUtils";
+import { setDataLayer, SET_DATA_LAYER_UID_SAVE } from "../../lib/adobeUtils";
 const INVALID = `Invalid`;
 const UPI_REGEX = /^[A-Za-z0-9]+@[A-Za-z0-9]\w+$/;
 const INVALID_UPI_ERROR =
@@ -64,6 +64,7 @@ export default class MyAccountUpiForm extends React.Component {
           }
         });
         this.toggleForAddNewUpi(1);
+        setDataLayer(SET_DATA_LAYER_UID_SAVE, "VALID");
       } else if (
         response &&
         response.upiResponse &&
@@ -76,9 +77,9 @@ export default class MyAccountUpiForm extends React.Component {
             text: response.upiResponse.error
           }
         });
+        setDataLayer(SET_DATA_LAYER_UID_SAVE, "INVALID");
       }
     }
-    setDataLayer(SET_DATA_LAYER_UID_ADD);
   };
 
   updateUpi = val => {

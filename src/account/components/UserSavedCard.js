@@ -25,6 +25,7 @@ import {
   JCB_CARD,
   MASTER
 } from "../../lib/constants";
+import { setDataLayer, SET_DATA_LAYER_UID_ADD } from "../../lib/adobeUtils";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";
@@ -128,6 +129,7 @@ export default class UserSavedCard extends React.Component {
         );
       }
     }
+    setDataLayer(SET_DATA_LAYER_UID_ADD);
   };
   /**
    * EOD
@@ -199,10 +201,9 @@ export default class UserSavedCard extends React.Component {
                       0 &&
                     this.props.profile.savedCards.savedCardDetailsMap.map(
                       (data, i) => {
-                        let cardNumber = `${data.value.cardISIN}xx xxxx ${data.value.cardEndingDigits}`.replace(
-                          CARD_FORMAT,
-                          " "
-                        );
+                        let cardNumber = `${data.value.cardISIN}xx xxxx ${
+                          data.value.cardEndingDigits
+                        }`.replace(CARD_FORMAT, " ");
                         let cardHolderName = data.value.nameOnCard
                           ? data.value.nameOnCard
                           : "";
@@ -215,7 +216,9 @@ export default class UserSavedCard extends React.Component {
                               cardLogo={this.getCardLogo(data.value.cardBrand)}
                               cardName={data.value.cardType}
                               cardHolderName={cardHolderName}
-                              validityDate={`${data.value.expiryMonth}/${data.value.expiryYear}`}
+                              validityDate={`${data.value.expiryMonth}/${
+                                data.value.expiryYear
+                              }`}
                               cardNumber={cardNumber}
                               cardImage={data.cardImage}
                               onChangeCvv={(cvv, cardNo) =>
