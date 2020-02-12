@@ -821,6 +821,20 @@ export default class PdpApparel extends React.Component {
       }
     });
   };
+  displayPrdImage = prdDetails => {
+    let details = prdDetails;
+
+    return details.map((imageDetail, index) => {
+      return (
+        <div className={styles.tableCellSingleComponent} key={index}>
+          {<img src={imageDetail.url} alt="" height={86} width={93} />}
+          <div className={styles.width95px}>
+            <div className={styles.textAlignCenter}>{imageDetail.value}</div>
+          </div>
+        </div>
+      );
+    });
+  };
 
   tail = ([x, ...xs]) => xs;
 
@@ -1001,6 +1015,20 @@ export default class PdpApparel extends React.Component {
           return detail.key === "Model Number";
         });
       }
+      let imageArray = [];
+      if (productData.prdDetails) {
+        productData.prdDetails.forEach(detail => {
+          if (/(\|)/g.test(detail.value)) {
+            let valueArray = detail.value.split("|");
+            imageArray.push({
+              key: detail.key,
+              value: valueArray[0],
+              url: valueArray[1]
+            });
+          }
+        });
+      }
+
       let Bundledprice = "";
       let BundleddiscountPrice = "";
       let BundledseoDoublePrice = 0;
@@ -1675,22 +1703,29 @@ export default class PdpApparel extends React.Component {
                                 productData.prdDetails
                               )}
                           </div>
-                          {productData.prdDetails && (
-                            <div className={styles.productDetailsImagesCard}>
-                              {this.displayPrdDetails(
-                                productData.prdDetails,
-                                WASH
-                              )}
-                              {this.displayPrdDetails(
-                                productData.prdDetails,
-                                NECK_COLLAR
-                              )}
-                              {this.displayPrdDetails(
-                                productData.prdDetails,
-                                SLEEVE
-                              )}
-                            </div>
-                          )}
+                          {productData.prdDetails &&
+                            productData.rootCategory !== "Accessories" && (
+                              <div className={styles.productDetailsImagesCard}>
+                                {this.displayPrdDetails(
+                                  productData.prdDetails,
+                                  WASH
+                                )}
+                                {this.displayPrdDetails(
+                                  productData.prdDetails,
+                                  NECK_COLLAR
+                                )}
+                                {this.displayPrdDetails(
+                                  productData.prdDetails,
+                                  SLEEVE
+                                )}
+                              </div>
+                            )}
+                          {productData.rootCategory === "Accessories" &&
+                            imageArray && (
+                              <div className={styles.productDetailsImagesCard}>
+                                {this.displayPrdImage(imageArray)}
+                              </div>
+                            )}
                           {productData.rootCategory === "Electronics" && (
                             <div
                               style={{
