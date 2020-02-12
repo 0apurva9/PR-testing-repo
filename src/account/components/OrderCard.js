@@ -216,7 +216,8 @@ export default class OrderCard extends React.Component {
     }
 
     let date = "",
-      shipmentStatus = "";
+      shipmentStatus = "",
+      responseCode = "";
     if (statusDisplayMsg && statusDisplayMsg.length > 0) {
       let statusDisplayMsgL1 = statusDisplayMsg[statusDisplayMsg.length - 1];
       let statusList =
@@ -238,6 +239,7 @@ export default class OrderCard extends React.Component {
       }
       if (LaststatusDisplayList && LaststatusDisplayList.shipmentStatus) {
         shipmentStatus = LaststatusDisplayList.shipmentStatus;
+        responseCode = LaststatusDisplayList.responseCode;
       }
     }
     let returnEligibleDate = "";
@@ -730,45 +732,45 @@ export default class OrderCard extends React.Component {
             <div className={styles.commonTitle}>
               {!this.props.calloutMessage ? (
                 <React.Fragment>
-                  {estimatedDeliveryDateFormatted &&
-                    !checkStatus &&
-                    (date || returnEligibleDate) && (
-                      <React.Fragment>
-                        <span className={styles.ffsemibold}>
-                          {shipmentStatus &&
-                          shipmentStatus.includes("Eligible for Return till") &&
-                          !this.props.deliveryDate
-                            ? ""
-                            : this.props.clickAndCollect === true
-                            ? "Pickup Date:"
-                            : `${shipmentStatus}:`}{" "}
+                  {!checkStatus && (date || returnEligibleDate) && (
+                    <React.Fragment>
+                      <span className={styles.ffsemibold}>
+                        {shipmentStatus &&
+                        shipmentStatus.includes("Eligible for Return till") &&
+                        !this.props.deliveryDate
+                          ? ""
+                          : this.props.clickAndCollect === true
+                          ? "Pickup Date:"
+                          : responseCode !== "REFUND_INITIATED"
+                          ? `${shipmentStatus}:`
+                          : null}{" "}
+                      </span>
+                      {shipmentStatus.includes(EDD_TEXT) &&
+                      estimatedDeliveryDateFormatted ? (
+                        <span className={styles.styleDate}>
+                          {estimatedDeliveryDateFormatted}
                         </span>
-                        {shipmentStatus.includes(EDD_TEXT) && (
+                      ) : null}
+                      {shipmentStatus &&
+                        shipmentStatus.includes(
+                          "Order Could be collected by"
+                        ) && (
                           <span className={styles.styleDate}>
-                            {estimatedDeliveryDateFormatted}
+                            {format(
+                              orderCouldbeCollected.toString(),
+                              dateFormat
+                            )}
                           </span>
                         )}
-                        {shipmentStatus &&
-                          shipmentStatus.includes(
-                            "Order Could be collected by"
-                          ) && (
-                            <span className={styles.styleDate}>
-                              {format(
-                                orderCouldbeCollected.toString(),
-                                dateFormat
-                              )}
-                            </span>
-                          )}
 
-                        <span className={styles.styleDate}>
-                          {(this.props.consignmentStatus === "DELIVERED" ||
-                            this.props.consignmentStatus ===
-                              "ORDER_COLLECTED") &&
-                            this.props.deliveryDate &&
-                            format(returnEligibleDate.toString(), dateFormat)}
-                        </span>
-                      </React.Fragment>
-                    )}
+                      <span className={styles.styleDate}>
+                        {(this.props.consignmentStatus === "DELIVERED" ||
+                          this.props.consignmentStatus === "ORDER_COLLECTED") &&
+                          this.props.deliveryDate &&
+                          format(returnEligibleDate.toString(), dateFormat)}
+                      </span>
+                    </React.Fragment>
+                  )}
                   {!this.props.estimatedDeliveryDate &&
                     !checkStatus &&
                     (date || returnEligibleDate) && (
