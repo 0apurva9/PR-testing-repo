@@ -68,7 +68,7 @@
 }
 .selectedPowerLens {
   composes: lensPowerLabel;
-  padding: 13px 0;
+  padding: 10px 0;
   background-color: #212121;
   box-shadow: 0 2px 4px 0 rgba(0,0,0, 0.13);
   color: #fff;
@@ -78,6 +78,7 @@
   text-align: center;
   display: inline-block;
   font-family: semibold;
+  font-size: 15px;
 }
 .eyewearPowerHolder {
   width: 289px;
