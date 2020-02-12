@@ -241,7 +241,8 @@ export default class SizeSelector extends React.Component {
       this.props.categoryHierarchy[0].category_name === "Eyewear"
         ? true
         : false;
-    let sizeViewOption = [];
+    let positivePowerIndex =
+      sizes && sizes.findIndex(val => val.sizelink.size > 0);
 
     let { showLensPower, label } = this.state;
 
@@ -350,14 +351,17 @@ export default class SizeSelector extends React.Component {
                         sizes.map((datum, i) => {
                           if (datum.sizelink.size !== "0.00") {
                             return (
-                              <div
-                                className={styles.size}
-                                ref={ref => {
-                                  this.powerSizeRef[i] = ref;
-                                }}
-                              >
-                                {this.renderSize(datum, i)}
-                              </div>
+                              <React.Fragment>
+                                {positivePowerIndex === i ? <br /> : null}
+                                <div
+                                  className={styles.size}
+                                  ref={ref => {
+                                    this.powerSizeRef[i] = ref;
+                                  }}
+                                >
+                                  {this.renderSize(datum, i)}
+                                </div>
+                              </React.Fragment>
                             );
                           }
                         })}

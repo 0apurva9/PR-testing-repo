@@ -1697,6 +1697,7 @@ export default class PdpApparel extends React.Component {
                             {productData.rootCategory !== "Electronics" &&
                               productData.rootCategory !== "FashionJewellery" &&
                               productData.rootCategory !== "FineJewellery" &&
+                              productData.rootCategory !== "Accessories" &&
                               productData.details &&
                               this.filterDetails(
                                 productData.details,
@@ -1721,7 +1722,7 @@ export default class PdpApparel extends React.Component {
                               </div>
                             )}
                           {productData.rootCategory === "Accessories" &&
-                            imageArray && (
+                            imageArray.length > 0 && (
                               <div className={styles.productDetailsImagesCard}>
                                 {this.displayPrdImage(imageArray)}
                               </div>
@@ -1820,6 +1821,29 @@ export default class PdpApparel extends React.Component {
                               } else {
                                 return null;
                               }
+                            })}
+                          </div>
+                        </Accordion>
+                      )}
+                    {productData.rootCategory === "Accessories" &&
+                      productData.details && (
+                        <Accordion
+                          text="Features & Functions"
+                          headerFontSize={18}
+                          isOpen={false}
+                        >
+                          <div className={styles.accordionContent}>
+                            {productData.details.map(val => {
+                              return (
+                                <div className={styles.contentDetails}>
+                                  <div className={styles.headerDetails}>
+                                    {val.key}
+                                  </div>
+                                  <div className={styles.descriptionDetails}>
+                                    {val.value}
+                                  </div>
+                                </div>
+                              );
                             })}
                           </div>
                         </Accordion>
