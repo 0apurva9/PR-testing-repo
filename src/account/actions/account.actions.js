@@ -92,6 +92,20 @@ export const REMOVE_SAVED_CARD_REQUEST = "REMOVE_SAVED_CARD_REQUEST";
 export const REMOVE_SAVED_CARD_SUCCESS = "REMOVE_SAVED_CARD_SUCCESS";
 export const REMOVE_SAVED_CARD_FAILURE = "REMOVE_SAVED_CARD_FAILURE";
 
+/**
+ * @comment Added consts for the UPI
+ */
+export const REMOVE_SAVED_UPI_REQUEST = "REMOVE_SAVED_UPI_REQUEST";
+export const REMOVE_SAVED_UPI_SUCCESS = "REMOVE_SAVED_UPI_SUCCESS";
+export const REMOVE_SAVED_UPI_FAILURE = "REMOVE_SAVED_UPI_FAILURE";
+
+export const ADD_USER_UPI_REQUEST = "ADD_USER_UPI_REQUEST";
+export const ADD_USER_UPI_SUCCESS = "ADD_USER_UPI_SUCCESS";
+export const ADD_USER_UPI_FAILURE = "ADD_USER_UPI_FAILURE";
+export const ADD_USER_UPI_NULL_STATE = "ADD_USER_UPI_NULL_STATE";
+
+const UPI_ADDED_SUCCESS = "UPI ID added successfully";
+
 export const GET_ALL_ORDERS_REQUEST = "GET_ALL_ORDERS_REQUEST";
 export const GET_ALL_ORDERS_SUCCESS = "GET_ALL_ORDERS_SUCCESS";
 export const GET_ALL_ORDERS_FAILURE = "GET_ALL_ORDERS_FAILURE";
@@ -1287,6 +1301,7 @@ export function createGiftCardRequest() {
   };
 }
 export function createGiftCardSuccess(giftCardDetails) {
+  console.log("giftCardDetails", giftCardDetails);
   return {
     type: CREATE_GIFT_CARD_SUCCESS,
     status: SUCCESS,
@@ -1316,11 +1331,14 @@ export function createGiftCardDetails(giftCardDetails) {
         }`,
         giftCardDetails
       );
+
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      Cookie.createCookie("egvCartGuid", resultJson.egvCartGuid);
+      console.log("egvCartGuid", resultJson.egvCartGuid);
       return dispatch(createGiftCardSuccess(resultJson));
     } catch (e) {
       dispatch(createGiftCardFailure(e.message));
@@ -1940,6 +1958,7 @@ export function getSavedCardDetails(userId, customerAccessToken) {
         `${USER_PATH}/${userId}/payments/savedCards?access_token=${customerAccessToken}&cardType=${CARD_TYPE}`
       );
       const resultJson = await result.json();
+
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -2152,6 +2171,175 @@ export function removeSavedCardDetails(cardToken) {
     }
   };
 }
+/**
+ *
+ * @comment Addded code for the removal of the UPI of the user.
+ *
+ */
+export function removeSavedUpiRequest() {
+  return {
+    type: REMOVE_SAVED_UPI_REQUEST,
+    status: REQUESTING
+  };
+}
+export function removeSavedUpiSuccess() {
+  return {
+    type: REMOVE_SAVED_UPI_SUCCESS,
+    status: SUCCESS
+  };
+}
+
+export function removeSavedUpiFailure(error) {
+  return {
+    type: REMOVE_SAVED_UPI_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function removeSavedUpiDetails(upiId) {
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  return async (dispatch, getState, { api }) => {
+    dispatch(removeSavedUpiRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/payments/removeSavedUPIS?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&upiId=${upiId}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(removeSavedUpiSuccess(resultJson));
+      dispatch(
+        getSavedCardDetails(
+          JSON.parse(userDetails).userName,
+          JSON.parse(customerCookie).access_token
+        )
+      );
+    } catch (e) {
+      dispatch(removeSavedUpiFailure(e.message));
+    }
+  };
+}
+
+export function addUserUPIRequest(error) {
+  return {
+    type: ADD_USER_UPI_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function addUserUPISuccess(upiResponse) {
+  return {
+    type: ADD_USER_UPI_SUCCESS,
+    status: upiResponse.status,
+    upiResponse
+  };
+}
+
+export function addUserUPIFailure(error) {
+  return {
+    type: ADD_USER_UPI_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function addUPIDetailsNullStateRequest() {
+  return {
+    type: ADD_USER_UPI_NULL_STATE,
+    status: null
+  };
+}
+export function addUPIDetailsNullState() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(addUPIDetailsNullStateRequest());
+  };
+}
+
+export function addUPIDetails(upi, pageType, btnType) {
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  return async (dispatch, getState, { api }) => {
+    dispatch(addUserUPIRequest(upi));
+
+    let APPROVED_UPI = [];
+    if (localStorage.getItem("APPROVED_UPI_VPA")) {
+      APPROVED_UPI = JSON.parse(localStorage.getItem("APPROVED_UPI_VPA"));
+    }
+    if (
+      pageType === "checkout" &&
+      btnType === "select" &&
+      APPROVED_UPI.includes(upi)
+    ) {
+      return dispatch(
+        addUserUPISuccess({
+          type: "upiValidationDTO",
+          error: "This UPI id already exists",
+          errorCode: "UPI007",
+          status: "FAILURE",
+          upiStatus: "VALID"
+        })
+      );
+    }
+    try {
+      const addUPI = `${USER_PATH}/${
+        JSON.parse(userDetails).userName
+      }/payments/upiValidation?access_token=${
+        JSON.parse(customerCookie).access_token
+      }&isPwa=true&channel=web&isUpdatedPwa=true&upiId=${upi}&isToValidateUpi=true&isToSaveUpi=true`;
+      const result = await api.post(addUPI);
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (
+        resultJsonStatus.status &&
+        (resultJson.upiStatus === "INVALID" ||
+          resultJson.upiStatus === "VALID") &&
+        pageType !== "myaccount"
+      ) {
+        return dispatch(addUserUPISuccess(resultJson));
+      } else if (
+        resultJson.status === "FAILURE" &&
+        resultJson.upiStatus === "VALID" &&
+        pageType === "myaccount"
+      ) {
+        dispatch(displayToast(resultJson.error));
+      } else if (
+        resultJson.status === "FAILURE" &&
+        resultJson.upiStatus === "INVALID" &&
+        pageType === "myaccount"
+      ) {
+        return dispatch(addUserUPISuccess(resultJson));
+      } else if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.error);
+      }
+      // if (resultJsonStatus.status) {
+      //   throw new Error(resultJsonStatus.message);
+      // }
+      if (
+        resultJson.status !== "FAILURE" &&
+        resultJson.upiStatus === "VALID" &&
+        pageType === "myaccount"
+      ) {
+        dispatch(displayToast(UPI_ADDED_SUCCESS));
+      }
+      return dispatch(addUserUPISuccess(resultJson));
+    } catch (e) {
+      return dispatch(addUserUPIFailure(e.message));
+    }
+  };
+}
+/**
+ * EOD
+ */
 export function getAllOrdersRequest(paginated: false) {
   return {
     type: GET_ALL_ORDERS_REQUEST,
@@ -2961,8 +3149,8 @@ export function updateProfile(accountDetails, otp) {
             (resultJson.status === SUCCESS ||
               resultJson.status === SUCCESS_CAMEL_CASE ||
               resultJson.status === SUCCESS_UPPERCASE) &&
-            (resultJson.mobileNumber !== JSON.parse(userDetails).userName &&
-              MOBILE_PATTERN.test(JSON.parse(userDetails).userName))
+            resultJson.mobileNumber !== JSON.parse(userDetails).userName &&
+            MOBILE_PATTERN.test(JSON.parse(userDetails).userName)
           ) {
             dispatch(setBagCount(0));
             dispatch(logoutUserByMobileNumber());
@@ -3720,11 +3908,7 @@ export function submitOrderDetails(submitOrderDetails) {
         currentOrderCode,
         currentSubOrderCode;
       if (submitOrderDetails.currentState === 0) {
-        transactionIdWithAttachmentFile = `transactionId=${
-          submitOrderDetails.transactionId
-        }&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${
-          submitOrderDetails.imageURL
-        }`;
+        transactionIdWithAttachmentFile = `transactionId=${submitOrderDetails.transactionId}&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${submitOrderDetails.imageURL}`;
         currentOrderCode = `${submitOrderDetails.orderCode}`;
         currentSubOrderCode = `${submitOrderDetails.subOrderCode}`;
 

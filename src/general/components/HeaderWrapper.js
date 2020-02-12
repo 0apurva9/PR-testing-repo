@@ -280,6 +280,10 @@ export default class HeaderWrapper extends React.Component {
       if (url === LOGIN_PATH || url === SIGN_UP_PATH) {
         shouldRenderHeader = false;
       }
+    } else {
+      if (url.includes("how-upi-works")) {
+        shouldRenderHeader = false;
+      }
     }
 
     if (this.props.location.pathname.includes(CHECKOUT_ROUTER_THANKYOU)) {
