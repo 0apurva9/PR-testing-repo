@@ -119,7 +119,7 @@ class DesktopFooter extends React.Component {
         : true;
     return (
       <div className={styles.contentHolder}>
-        <TrustComponent />
+        {!url.includes("how-upi-work") && <TrustComponent />}
         {!url.includes("how-upi-work") && (
           <div className={styles.linkAndSuscribeHolder}>
             <div className={styles.linkHolder}>
