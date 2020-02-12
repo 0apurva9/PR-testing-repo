@@ -309,6 +309,14 @@ const SellerReviewSubmitRemovalPopup = Loadable({
     return <Loader />;
   }
 });
+
+const ProductInBagWithExchange = Loadable({
+  loader: () => import("../../pdp/components/ProductInBagWithExchange"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 export default class ModalRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -664,6 +672,10 @@ export default class ModalRoot extends React.Component {
     );
   }
 
+  addProductToCart(productDetails) {
+    this.props.addProductToCart(productDetails);
+  }
+
   render() {
     //  const couponCode = localStorage.getItem(BANK_COUPON_COOKIE);
     const MODAL_COMPONENTS = {
@@ -948,6 +960,9 @@ export default class ModalRoot extends React.Component {
               ussId
             )
           }
+          addProductToCart={productDetails =>
+            this.props.addProductToCart(productDetails)
+          }
           {...this.props.ownProps}
         />
       ),
@@ -1077,6 +1092,12 @@ export default class ModalRoot extends React.Component {
         <SellerReviewSubmitRemovalPopup
           rating={this.props.rating}
           closeModal={() => this.handleClose()}
+        />
+      ),
+      ProductInBagWithExchange: (
+        <ProductInBagWithExchange
+          closeModal={() => this.handleClose()}
+          history={this.props.history}
         />
       )
     };

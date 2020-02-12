@@ -50,7 +50,8 @@ export default class ExchangeModal extends React.Component {
       activateSecondTab: false,
       currentIMEIFirstDevice: "",
       currentIMEISecondDevice: "",
-      changeDeviceNumber: ""
+      changeDeviceNumber: "",
+      verifyIMEINumberAPIResponse: ""
     };
     this.agreedTnC = this.agreedTnC.bind(this);
   }
@@ -215,12 +216,20 @@ export default class ExchangeModal extends React.Component {
   }
 
   verifyIMEI(e, deviceNo) {
-    this.setState({
-      IMEIVerifiedFirstDevice: false,
-      IMEIVerifiedSecondDevice: false,
-      checkIMEIMessageFirstDevice: this.state.initialIMEIMessage,
-      checkIMEIMessageSecondDevice: this.state.initialIMEIMessage
-    });
+    //on change keep imei verified false
+    if (deviceNo === 1) {
+      this.setState({
+        IMEIVerifiedFirstDevice: false,
+        checkIMEIMessageFirstDevice: this.state.initialIMEIMessage
+      });
+    }
+    if (deviceNo === 2) {
+      this.setState({
+        IMEIVerifiedSecondDevice: false,
+        checkIMEIMessageSecondDevice: this.state.initialIMEIMessage
+      });
+    }
+
     if (e.target.value.length === 15 || e.target.value.length === 16) {
       if (deviceNo === 1) {
         this.setState({
@@ -309,6 +318,8 @@ export default class ExchangeModal extends React.Component {
           IMEIVerifiedSecondDevice: true
         });
       }
+      // this state is used in add to cart api call
+      this.setState({ verifyIMEINumberAPIResponse: data });
     } else {
       if (deviceNo === 1) {
         this.setState({
@@ -356,7 +367,18 @@ export default class ExchangeModal extends React.Component {
       localStorage.setItem("MESecondDeviceData", JSON.stringify(SDData));
       this.setState({ secondDeviceInfo: SDData });
     }
-    this.handleClose();
+    // this.handleClose();
+    // code , ussId , quantity, isFromMobileExchange
+    let listingId = this.props.listingId;
+    let ussId = this.props.ussId;
+    let data = {
+      code: listingId,
+      ussId: ussId,
+      quantity: 1,
+      isFromMobileExchange: true,
+      verifyIMEINumberAPIResponse: this.state.verifyIMEINumberAPIResponse
+    };
+    this.props.addProductToCart(data);
   }
 
   switchTabs(deviceNo, deviceInfo) {

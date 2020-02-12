@@ -29,7 +29,8 @@ import {
 import each from "lodash.foreach";
 import {
   showModal,
-  GO_TO_CART_PAGE_POPUP
+  GO_TO_CART_PAGE_POPUP,
+  PRODUCTINBAGWITHEXCHANGE_MODAL
 } from "../../general/modal.actions.js";
 import { setBagCount } from "../../general/header.actions";
 import { setDataLayer, ADOBE_PDP_TYPE } from "../../lib/adobeUtils.js";
@@ -435,23 +436,80 @@ export function addProductToCart(productDetails) {
   let cartId = cartDetails ? JSON.parse(cartDetails).code : null;
 
   return async (dispatch, getState, { api }) => {
+    //get verify imei api response,check exchange avail or not,get product already in cart
+    let IMEIApiResponse = productDetails.verifyIMEINumberAPIResponse;
+    let PDPExchangeAvailable = localStorage.getItem("PDPExchangeAvailable");
+    let existingProductData = JSON.parse(
+      localStorage.getItem("exchangedProductInCart")
+    );
+    let exchangedProduct =
+      productDetails.code +
+      "_" +
+      productDetails.ussId +
+      "_" +
+      IMEIApiResponse.exchangeProductId;
+    //if product already in cart show modal
+    if (
+      PDPExchangeAvailable &&
+      IMEIApiResponse &&
+      existingProductData.indexOf(exchangedProduct) > -1
+    ) {
+      dispatch(showModal(PRODUCTINBAGWITHEXCHANGE_MODAL));
+      return false;
+    }
     dispatch(addProductToCartRequest());
     try {
-      const result = await api.post(
-        `${PRODUCT_DETAILS_PATH}/${userId}/carts/${
-          cartId ? cartId + "/" : ""
-        }productAdditionToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
-          productDetails.code
-        }&USSID=${productDetails.ussId}&quantity=${
-          productDetails.quantity
-        }&addedToCartWl=false&channel=${CHANNEL}`
-      );
+      let result;
+      // Checked with string as local storage returns as string format
+      // If exchange available and IMEI verified then only send exchange details
+      if (
+        PDPExchangeAvailable === "true" &&
+        IMEIApiResponse &&
+        productDetails.isFromMobileExchange
+      ) {
+        let requestParams = {
+          quoteId: IMEIApiResponse.quoteId,
+          requestId: IMEIApiResponse.requestId,
+          quoteExpiryDate: IMEIApiResponse.quoteExpiryDate,
+          exchangeBrandId: IMEIApiResponse.exchangeBrandId,
+          exchangeBrandName: IMEIApiResponse.exchangeBrandName,
+          exchangeProductId: IMEIApiResponse.exchangeProductId,
+          exchangeModelName: IMEIApiResponse.exchangeModelName,
+          effectiveModelName: IMEIApiResponse.effectiveModelName,
+          exchangeAmountCashify: IMEIApiResponse.exchangeAmountCashify.value,
+          pickupCharge: IMEIApiResponse.pickupCharge.value,
+          TULBump: IMEIApiResponse.TULBump.value,
+          totalExchangeCashback: IMEIApiResponse.totalExchangeCashback.value,
+          effectiveAmount: IMEIApiResponse.effectiveAmount.value
+        };
+        result = await api.post(
+          `${PRODUCT_DETAILS_PATH}/${userId}/carts/${
+            cartId ? cartId + "/" : ""
+          }productAdditionToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
+            productDetails.code
+          }&USSID=${productDetails.ussId}&quantity=${
+            productDetails.quantity
+          }&addedToCartWl=false&channel=${CHANNEL}`,
+          requestParams
+        );
+      } else {
+        //normal add to cart
+        result = await api.post(
+          `${PRODUCT_DETAILS_PATH}/${userId}/carts/${
+            cartId ? cartId + "/" : ""
+          }productAdditionToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
+            productDetails.code
+          }&USSID=${productDetails.ussId}&quantity=${
+            productDetails.quantity
+          }&addedToCartWl=false&channel=${CHANNEL}`
+        );
+      }
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
-      }
+      // if (resultJsonStatus.status) {
+      //   throw new Error(resultJsonStatus.message);
+      // }
 
       //set local storage
       let bagItem = localStorage.getItem(CART_BAG_DETAILS);
@@ -467,6 +525,29 @@ export function addProductToCart(productDetails) {
       // here we dispatch a modal to show something was added to the bag
       dispatch(setBagCount(bagItemsInJsonFormat.length));
       setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT);
+      //if mobile device exchange, set localstorage
+      if (
+        PDPExchangeAvailable === "true" &&
+        IMEIApiResponse &&
+        productDetails.isFromMobileExchange
+      ) {
+        // if(resultJson.status === "Success" && resultJson.count > 0){
+        let exchangedProductInCart = [];
+        if (existingProductData) {
+          exchangedProductInCart = existingProductData;
+          if (existingProductData.indexOf(exchangedProduct) === -1) {
+            exchangedProductInCart.push(exchangedProduct);
+          }
+        } else {
+          exchangedProductInCart.push(exchangedProduct);
+        }
+        // console.log(exchangedProductInCart)
+        localStorage.setItem(
+          "exchangedProductInCart",
+          JSON.stringify(exchangedProductInCart)
+        );
+        // }
+      }
 
       return dispatch(addProductToCartSuccess(resultJson));
       // ADOBE_ADD_TO_CART
@@ -1802,7 +1883,6 @@ export function verifyIMEINumber(
   listingId,
   ussId
 ) {
-  console.log(IMEINumber);
   return async (dispatch, getState, { api }) => {
     dispatch(verifyIMEINumberRequest());
     try {
@@ -1811,13 +1891,10 @@ export function verifyIMEINumber(
       // );
       // const resultJson = await result.json();
       const resultJson = imeijson;
-      return resultJson;
       // if (resultJson.status === SUCCESS) {
       //   return dispatch(verifyIMEINumberSuccess(resultJson));
-      //   return resultJson;
-      // } else {
-      //   throw new Error(`${resultJson.error}`);
       // }
+      return resultJson;
     } catch (e) {
       return dispatch(verifyIMEINumberFailure(e.message));
     }
