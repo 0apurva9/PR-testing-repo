@@ -362,7 +362,12 @@ export default class UpiForm extends React.Component {
                     </p>
                     <a
                       id={styles.howPymntWork}
-                      href="https://www.tatacliq.com/how-upi-works"
+                      // href="https://www.tatacliq.com/how-upi-works"
+                      href={
+                        this.props.howUpiWorksPageId
+                          ? this.props.howUpiWorksPageId
+                          : "how-upi-works"
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                     >
