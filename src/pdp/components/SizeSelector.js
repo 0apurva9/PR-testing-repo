@@ -34,6 +34,8 @@ export default class SizeSelector extends React.Component {
       showLensPower: false,
       arrangedPower: []
     };
+
+    this.powerSizeRef = [];
   }
 
   navigateToLogin() {
@@ -155,6 +157,31 @@ export default class SizeSelector extends React.Component {
   showAllLensPower = () => {
     this.setState({ showLensPower: !this.state.showLensPower });
   };
+
+  scrollToPowerSizeRef = () => {
+    let index = this.props.data.findIndex(d => d.colorlink.selected);
+    if (
+      this.props &&
+      this.props.history &&
+      this.props.history.location &&
+      this.props.history.location.state &&
+      this.props.history.location.state.isSizeSelected &&
+      this.powerSizeRef.length &&
+      this.powerSizeRef[index] !== null
+    ) {
+      this.powerSizeRef[index].scrollIntoView({
+        block: "end",
+        behavior: "smooth",
+        inline: "end"
+      });
+    }
+  };
+
+  componentDidUpdate() {
+    if (this.state.showLensPower) {
+      this.scrollToPowerSizeRef();
+    }
+  }
 
   renderSize(datum, i) {
     let infoDetails = [];
@@ -306,7 +333,12 @@ export default class SizeSelector extends React.Component {
                       {zeroPowerLens.length &&
                         zeroPowerLens.map((datum, i) => {
                           return (
-                            <div className={styles.size}>
+                            <div
+                              className={styles.size}
+                              ref={ref => {
+                                this.powerSizeRef[i] = ref;
+                              }}
+                            >
                               {this.renderSize(datum, i)}
                             </div>
                           );
@@ -318,11 +350,13 @@ export default class SizeSelector extends React.Component {
                         sizes.map((datum, i) => {
                           if (datum.sizelink.size !== "0.00") {
                             return (
-                              <div className={styles.size}>
-                                {this.renderSize(
-                                  datum,
-                                  zeroPowerLens.length ? i + 1 : i
-                                )}
+                              <div
+                                className={styles.size}
+                                ref={ref => {
+                                  this.powerSizeRef[i] = ref;
+                                }}
+                              >
+                                {this.renderSize(datum, i)}
                               </div>
                             );
                           }
@@ -338,9 +372,18 @@ export default class SizeSelector extends React.Component {
                     }
                     onClick={() => this.showAllLensPower()}
                   >
-                    {isPowerLensSizeSelected
-                      ? selectedLensSize[0].sizelink.size
-                      : label}
+                    {isPowerLensSizeSelected ? (
+                      selectedLensSize[0].sizelink.size > 0 ? (
+                        <React.Fragment>
+                          <span className={styles.plusSign}>+</span>
+                          {selectedLensSize[0].sizelink.size}
+                        </React.Fragment>
+                      ) : (
+                        selectedLensSize[0].sizelink.size
+                      )
+                    ) : (
+                      label
+                    )}
                   </div>
                 ))}
               {this.props.eyeWearSizeGuide &&

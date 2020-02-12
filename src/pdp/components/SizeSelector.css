@@ -55,7 +55,7 @@
   box-shadow: inset 0 0 0 2px #fff;
   position: relative;
   background-color: white;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.13);
   transition: 200ms;
   cursor: pointer;
   user-select: none;
@@ -73,6 +73,11 @@
   box-shadow: 0 2px 4px 0 rgba(0,0,0, 0.13);
   color: #fff;
 
+}
+.plusSign {
+  text-align: center;
+  display: inline-block;
+  font-family: semibold;
 }
 .eyewearPowerHolder {
   width: 289px;

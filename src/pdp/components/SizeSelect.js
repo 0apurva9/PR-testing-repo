@@ -26,13 +26,17 @@ export default class SizeSelect extends React.Component {
     ) {
       className = styles.powerStyle;
     }
+    let sizeText = this.props.size;
+    if (this.props.isSizeOrLength === "Power" && this.props.size > 0) {
+      sizeText = `+${this.props.size}`;
+    }
     return (
       <div className={className} onClick={() => this.handleClick()}>
         <div
           className={this.props.selected ? styles.selected : styles.textHolder}
           style={{ fontSize: this.props.fontSize }}
         >
-          <h4>{this.props.size}</h4>
+          <h4>{sizeText}</h4>
         </div>
       </div>
     );
