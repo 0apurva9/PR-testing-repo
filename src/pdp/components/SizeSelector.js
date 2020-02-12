@@ -375,6 +375,13 @@ export default class SizeSelector extends React.Component {
                         : styles.lensPowerLabel
                     }
                     onClick={() => this.showAllLensPower()}
+                    style={{
+                      padding:
+                        isPowerLensSizeSelected &&
+                        selectedLensSize[0].sizelink.size > 0
+                          ? "10px 0"
+                          : null
+                    }}
                   >
                     {isPowerLensSizeSelected ? (
                       selectedLensSize[0].sizelink.size > 0 ? (
