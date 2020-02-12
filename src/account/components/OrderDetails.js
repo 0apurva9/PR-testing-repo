@@ -187,7 +187,7 @@ export default class OrderDetails extends React.Component {
     let noMatch = false;
     let j = 0;
     let workingDays = [];
-    let getWorkingDays = "0,2,3,5,6".split(",");
+    let getWorkingDays = mplWorkingDays.split(",");
     for (let i = 0; i < days.length; i++) {
       if (i == getWorkingDays[j]) {
         if (!noMatch || i === days.length - 1) {
@@ -233,7 +233,7 @@ export default class OrderDetails extends React.Component {
       mplClosingTimeText = mplClosingTimeConverted.toFixed(2) + "PM";
     }
     let displayDateNTime =
-      mplOpeningTimeText + " - " + mplClosingTimeText + getDaysText;
+      getDaysText + ", " + mplOpeningTimeText + " - " + mplClosingTimeText;
     return { __html: displayDateNTime };
   }
   redirectToHelpPage() {
