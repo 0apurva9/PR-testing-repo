@@ -735,7 +735,8 @@ export default class OrderCard extends React.Component {
             <div className={styles.commonTitle}>
               {!this.props.calloutMessage ? (
                 <React.Fragment>
-                  {!checkStatus &&
+                  {estimatedDeliveryDateFormatted &&
+                    !checkStatus &&
                     (date || returnEligibleDate) && (
                       <React.Fragment>
                         <span className={styles.ffsemibold}>
@@ -743,7 +744,10 @@ export default class OrderCard extends React.Component {
                           shipmentStatus.includes("Eligible for Return till") &&
                           !this.props.deliveryDate
                             ? ""
-                            : this.props.clickAndCollect === true
+                            : this.props.clickAndCollect === true &&
+                              !shipmentStatus.includes(
+                                "Order Could be collected by"
+                              )
                               ? "Pickup Date:"
                               : responseCode !== "REFUND_INITIATED"
                                 ? `${shipmentStatus}:`
@@ -776,7 +780,7 @@ export default class OrderCard extends React.Component {
                         </span>
                       </React.Fragment>
                     )}
-                  {!this.props.estimatedDeliveryDate &&
+                  {!estimatedDeliveryDateFormatted &&
                     !checkStatus &&
                     (date || returnEligibleDate) && (
                       <React.Fragment>

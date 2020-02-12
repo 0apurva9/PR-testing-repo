@@ -14,7 +14,7 @@ export default class CliqAndPiqMap extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.map}>
-          <Map lat={this.props.lat} lng={this.props.lng} zoom={16}>
+          <Map lat={this.props.lat} lng={this.props.lng} zoom={14}>
             {this.props.availableStores &&
               this.props.availableStores.map((val, i) => {
                 let imgURL = LocationPinIcon;
