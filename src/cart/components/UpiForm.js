@@ -197,8 +197,8 @@ export default class UpiForm extends React.Component {
           ? styles.invalidFrm
           : this.props.addUserUPIDetails &&
             this.props.addUserUPIDetails.upiStatus === "VALID"
-            ? styles.verifiedFrm
-            : styles.invalidFrm
+          ? styles.verifiedFrm
+          : styles.invalidFrm
         : "";
     let combinedLogoUrl = this.props.combinedLogoUrl
       ? this.props.combinedLogoUrl
@@ -324,7 +324,11 @@ export default class UpiForm extends React.Component {
                   </div>
                   <div className={styles.svdUpiBtnCol}>
                     <button
-                      className={styles.payNow}
+                      className={
+                        !payNowBtnFlag
+                          ? styles.payNowPointer + " " + styles.payNow
+                          : styles.payNow
+                      }
                       type="button"
                       style={{
                         background: payNowBtnFlag
@@ -433,7 +437,11 @@ export default class UpiForm extends React.Component {
                 <div className={styles.flexRow50NewCols}>
                   <div className={styles.upiPayBtnSec}>
                     <button
-                      className={styles.payNow}
+                      className={
+                        !payNowBtnFlag
+                          ? styles.payNowPointer + " " + styles.payNow
+                          : styles.payNow
+                      }
                       type="button"
                       style={{
                         background: payNowBtnFlag
