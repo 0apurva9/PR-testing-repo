@@ -80,7 +80,12 @@ export default class ProductDetailsCardForSaveList extends React.Component {
           {this.props.size &&
             this.props.size !== "NO SIZE" && (
               <div className={styles.sizeHolder}>
-                <span className={styles.size}>Size</span> {this.props.size}
+                <span className={styles.size}>
+                  {this.props.isSizeOrLength
+                    ? this.props.isSizeOrLength
+                    : `Size`}
+                </span>{" "}
+                {this.props.size}
               </div>
             )}
           <div
