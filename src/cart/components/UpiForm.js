@@ -11,7 +11,8 @@ import * as Cookie from "../../lib/Cookie";
 import {
   setDataLayer,
   SET_DATA_LAYER_VERIFY_BUTTON_UPI,
-  SET_DATA_LAYER_UID_SELECTION
+  SET_DATA_LAYER_UID_SELECTION,
+  SET_DATA_LAYER_UID_ADD
 } from "../../lib/adobeUtils";
 // import { LocalStorage } from "node-localstorage";
 const UPI_REGEX = /^[A-Za-z0-9]+@[A-Za-z0-9]\w+$/;
@@ -161,6 +162,9 @@ export default class UpiForm extends React.Component {
         text: ""
       }
     });
+    if (!this.state.isNewUpi) {
+      setDataLayer(SET_DATA_LAYER_UID_ADD);
+    }
   };
   onCheckout = payNowBtnFlag => {
     if (payNowBtnFlag) {
@@ -171,6 +175,7 @@ export default class UpiForm extends React.Component {
   };
 
   render() {
+    console.log("isNewUpi", this.state.isNewUpi);
     let payNowBtnFlag = !(
       !this.state.isChanged &&
       this.props.addUserUPIDetails &&
@@ -197,8 +202,8 @@ export default class UpiForm extends React.Component {
           ? styles.invalidFrm
           : this.props.addUserUPIDetails &&
             this.props.addUserUPIDetails.upiStatus === "VALID"
-          ? styles.verifiedFrm
-          : styles.invalidFrm
+            ? styles.verifiedFrm
+            : styles.invalidFrm
         : "";
     let combinedLogoUrl = this.props.combinedLogoUrl
       ? this.props.combinedLogoUrl
@@ -315,7 +320,7 @@ export default class UpiForm extends React.Component {
                         <button
                           type="button"
                           className={styles.addNewUpiBtn}
-                          onClick={() => this.toggleForm()}
+                          onClick={() => this.toggleForm("")}
                         >
                           + Add new UPI ID
                         </button>

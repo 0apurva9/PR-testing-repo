@@ -127,7 +127,9 @@ export default class UserSavedCard extends React.Component {
           JSON.parse(userDetails).userName,
           JSON.parse(customerCookie).access_token
         );
-        setDataLayer(SET_DATA_LAYER_UID_ADD);
+        if (val == 0) {
+          setDataLayer(SET_DATA_LAYER_UID_ADD);
+        }
       }
     }
   };
