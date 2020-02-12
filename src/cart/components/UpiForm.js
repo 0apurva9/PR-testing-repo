@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import styles from "./UpiForm.css";
-import upi_opt from "./img/upi_opt.svg";
 import { format } from "date-fns";
 import loader from "../../account/components/img/loader.gif";
 import { CART_DETAILS_FOR_LOGGED_IN_USER } from "../../lib/constants.js";
@@ -175,7 +174,6 @@ export default class UpiForm extends React.Component {
   };
 
   render() {
-    console.log("isNewUpi", this.state.isNewUpi);
     let payNowBtnFlag = !(
       !this.state.isChanged &&
       this.props.addUserUPIDetails &&
@@ -207,7 +205,7 @@ export default class UpiForm extends React.Component {
         : "";
     let combinedLogoUrl = this.props.combinedLogoUrl
       ? this.props.combinedLogoUrl
-      : upi_opt;
+      : "";
     return (
       <div className={styles.base}>
         <DesktopOnly>
@@ -352,13 +350,17 @@ export default class UpiForm extends React.Component {
           {this.state.isNewUpi && (
             <React.Fragment>
               <div className={styles.flexRow50 + " " + styles.mb15}>
-                <div className={styles.flexRow50Cols + " " + styles.upiBrdRgt}>
-                  <img
-                    src={combinedLogoUrl}
-                    className={styles.combinedLogoUrl}
-                    alt="imgg"
-                  />
-                </div>
+                {combinedLogoUrl && (
+                  <div
+                    className={styles.flexRow50Cols + " " + styles.upiBrdRgt}
+                  >
+                    <img
+                      src={combinedLogoUrl}
+                      className={styles.combinedLogoUrl}
+                      alt=""
+                    />
+                  </div>
+                )}
                 <div className={styles.flexRow50Cols}>
                   <div className={styles.upiHedTxt}>
                     <p className={styles.upiHedTxt}>

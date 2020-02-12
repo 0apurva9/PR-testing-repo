@@ -57,12 +57,8 @@ export default class CheckoutUpi extends React.Component {
       this.props.cart.upiMiddleLayerCombinedLogoStatus === "success"
     ) {
       combinedLogoUrl =
-        this.props.cart.upiMiddleLayerCombinedLogo &&
-        this.props.cart.upiMiddleLayerCombinedLogo.applicationProperties &&
-        this.props.cart.upiMiddleLayerCombinedLogo.applicationProperties[0]
-          .value
-          ? this.props.cart.upiMiddleLayerCombinedLogo.applicationProperties[0]
-              .value
+        this.props.cart && this.props.cart.paymentModes.combinedLogoURL
+          ? this.props.cart.paymentModes.combinedLogoURL
           : "";
     }
     if (
