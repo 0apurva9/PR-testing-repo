@@ -127,7 +127,8 @@ import {
   ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE,
   ADOBE_CALL_FOR_SELECT_DELIVERY_MODE,
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE,
-  setDataLayerForWhatsappUncheck
+  setDataLayerForWhatsappUncheck,
+  ADOBE_CHECKOUT_DEFAULT_NEW_ADDRESS
 } from "../../lib/adobeUtils";
 import {
   CART_ITEM_COOKIE,
@@ -2832,6 +2833,7 @@ if you have order id in local storage then you have to show order confirmation p
     this.setState({ isOpenTransactionFailedPopUp: false });
   }
   addNewAddress = () => {
+    setDataLayerForCheckoutDirectCalls(ADOBE_CHECKOUT_DEFAULT_NEW_ADDRESS);
     this.setState({ addNewAddress: true });
   };
   binValidationForPaytm = val => {

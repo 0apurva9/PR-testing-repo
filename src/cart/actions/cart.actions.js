@@ -2805,6 +2805,7 @@ export function applyBankOffer(couponCode) {
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       localStorage.setItem(BANK_COUPON_COOKIE, couponCode);
+      console.log("resultJson---->", resultJsonStatus);
       if (resultJsonStatus.status) {
         setDataLayerForCheckoutDirectCalls(
           ADOBE_CALL_FOR_APPLY_COUPON_FAILURE,
@@ -2842,11 +2843,12 @@ export function applyBankOffer(couponCode) {
           dispatch(displayToast(resultJson.message));
           throw new Error(resultJsonStatus.message);
         }
+      } else {
+        setDataLayerForCheckoutDirectCalls(
+          ADOBE_CALL_FOR_APPLY_COUPON_SUCCESS,
+          couponCode
+        );
       }
-      setDataLayerForCheckoutDirectCalls(
-        ADOBE_CALL_FOR_APPLY_COUPON_SUCCESS,
-        couponCode
-      );
       return dispatch(applyBankOfferSuccess(resultJson));
     } catch (e) {
       return dispatch(applyBankOfferFailure(e.message));

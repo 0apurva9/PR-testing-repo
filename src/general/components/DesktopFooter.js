@@ -35,6 +35,11 @@ class DesktopFooter extends React.Component {
       }
     }
   }
+  // footerClick() {
+  //   setDataLayerForHeaderAndFooterDirectCalls(
+  //     ADOBE_DIRECT_CALL_FOR_FOOTER_CLICK
+  //   );
+  // }
 
   onClick = (url, value) => {
     let userCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);

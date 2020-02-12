@@ -8,7 +8,10 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import {
   setDataLayerForHeaderAndFooterDirectCalls,
-  ADOBE_DIRECT_CALL_FOR_HEADER_CLICK
+  setDataLayerForLogin,
+  ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER,
+  ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
+  ADOBE_LOGOUT_SUCCESSFULL
 } from "../../lib/adobeUtils";
 const LOGOUT_TEXT = "You have logged out successfully";
 let clevertap = { logout: () => {} };
@@ -22,6 +25,11 @@ export default class LogoutButton extends React.Component {
         ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
         "Logout"
       );
+      setDataLayerForHeaderAndFooterDirectCalls(
+        ADOBE_LOGOUT_SUCCESSFULL,
+        "logout_successful"
+      );
+      setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
       const logoutResponse = await this.props.logoutUser();
       this.props.displayToast(LOGOUT_TEXT);
       if (
