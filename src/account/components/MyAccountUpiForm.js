@@ -132,7 +132,7 @@ export default class MyAccountUpiForm extends React.Component {
             </p>
             <a
               id={styles.howPymntWork}
-              href="https://www.tatacliq.com/how-upi-works"
+              href="/how-upi-works"
               target="_blank"
               rel="noopener noreferrer"
             >
