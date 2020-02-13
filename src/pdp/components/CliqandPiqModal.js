@@ -169,7 +169,10 @@ export default class ReturnToStore extends React.Component {
     }
   };
   async componentDidUpdate(nextProps) {
-    if (this.props.stores !== nextProps.stores) {
+    if (
+      this.props.stores !== nextProps.stores &&
+      this.props.from === "Checkout"
+    ) {
       await this.getAvailableStores();
       // If user selected store on PDP page or cart page then automatically
       // selects store on checkout page

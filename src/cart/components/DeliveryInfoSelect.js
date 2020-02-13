@@ -336,7 +336,13 @@ export default class DeliveryInfoSelect extends React.Component {
                     return val.type;
                   })
                   .includes(SHORT_COLLECT) &&
-                `${availableStores > 1 ? "more stores" : "more store"} nearby`
+                `${
+                  availableStores > 1
+                    ? availableStores + " more stores"
+                    : availableStores === 1
+                      ? availableStores + " more store"
+                      : "more store"
+                } nearby`
               }
               splitIntoTwoLine={false}
               inCheckOutPage={this.props.inCheckOutPage}

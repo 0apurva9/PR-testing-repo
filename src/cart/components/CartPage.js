@@ -392,6 +392,13 @@ class CartPage extends React.Component {
       changePinCode: false,
       showCheckoutSection: true
     });
+    let storeDetails = localStorage.getItem(SELECTED_STORE);
+    if (
+      storeDetails &&
+      localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE) !== val
+    ) {
+      localStorage.removeItem(SELECTED_STORE);
+    }
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, val);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
