@@ -2,15 +2,24 @@
   width: 100%;
   height: auto;
   background-color: #fff;
-  padding: 10px 0px 10px 46px;
+  /* padding: 10px 0px 10px 46px;
   display: inline-block;
-  position: relative;
+  position: relative; */
+  display: flex;
+    align-items: center;
+    padding: 12px 0px;
 }
 .baseCheckout {
-  padding: 10px 30px 10px 46px;
+  /* padding: 10px 30px 10px 46px; */
 }
 .basePdp {
-  padding: 15px 0px 15px 57px;
+  /* display: flex;
+    align-items: center; */
+  /* padding: 15px 0px 15px 57px; */
+}
+.alignSelf{
+  align-self: end;
+  margin-top: -5px;
 }
 .baseNoPadding {
   composes: base;
@@ -21,18 +30,34 @@
   height: auto;
   font-family: semibold;
   font-size: 14px;
+  /* margin-top: 4px; */
   /* line-height: 25px; */
   display: inline-block;
 }
 .iconHolder {
   width: 35px;
   height: 35px;
-  position: absolute;
+  
+  /* position: absolute;
   left: 0px;
   top: 0px;
   bottom: 0px;
-  margin: auto;
+  margin: auto; */
 }
+.paddingRight70{
+  padding-right: 64px;
+}
+.paddingRight50{
+  padding-right: 50px;
+}
+
+.paddingZero{
+  padding-right:0px; 
+}
+.paddingDefault{
+  padding-right:24px; 
+}
+
 .dateFormatted{
   font-size: 14px;
   color: #212121;
@@ -85,9 +110,6 @@ font-family: regular;
     display: inline-block;
   }
   .autoLabelHolderQuiqPiq {
-    composes: labelHolder;
-    width: auto;
-    display: inline-block;
     font-size: 14px;
     font-family: semibold;
   }

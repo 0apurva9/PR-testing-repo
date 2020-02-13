@@ -186,13 +186,13 @@ export default class DeliveryInformations extends React.Component {
       iconImage = deliveryIcon;
       typeDate = `${formattedPlacedTime}`;
       typeText = this.props.placedTime ? `${HOME_TEXT}` : null;
-      iconSize = 34;
+      iconSize = 38;
     } else if (this.props.type === SHORT_COLLECT) {
       iconImage = quiqIcon;
       typeText = !this.props.deliveryInformationByCart
         ? COLLECT_TEXT
         : COLLECT_TEXT_CART;
-      iconSize = 29;
+      iconSize = 30;
     } else if (this.props.type === SHORT_SAME_DAY_DELIVERY) {
       iconImage = deliveryIcon;
       if (this.props.inCartPage || this.props.inCheckOutPage) {
@@ -201,7 +201,7 @@ export default class DeliveryInformations extends React.Component {
       } else {
         typeDate = `${formattedPlacedTime}`;
         typeText = this.props.placedTime ? `${SHORT_SAME_DAY_TEXT}` : null;
-        iconSize = 34;
+        iconSize = 38;
       }
     } else if (this.props.type === SAME_DAY_DELIVERY) {
       iconImage = deliveryIcon;
@@ -263,6 +263,7 @@ export default class DeliveryInformations extends React.Component {
             inCheckOutPage={this.props.inCheckOutPage}
             inPdpPage={this.props.pdpApparel}
             type={this.props.type}
+            inCartPage={this.props.inCartPage}
           >
             {this.props.cutOffTime && (
               <CountDownTimer cutOffSeconds={this.props.cutOffTime} />
@@ -299,12 +300,12 @@ export default class DeliveryInformations extends React.Component {
                       inCheckOutPage={this.props.inCheckOutPage}
                       inCartPage={this.props.inCartPage}
                       inPdpPage={this.props.inPdpPage}
-                      size={
+                      /*    size={
                         UserAgent.checkUserAgentIsMobile() ? "14px" : "12px"
-                      }
+                      } */
                       fontFamily="semibold"
                       color="#ff1744"
-                      size="11px"
+                      size="14px"
                       label={this.props.numberOfStore}
                       onClick={() => this.onPiq()}
                     />
@@ -312,46 +313,45 @@ export default class DeliveryInformations extends React.Component {
                 </div>
               )}
           </IconWithHeader>
-          {this.props.type === COLLECT
-            ? this.props.selected &&
-              this.props.onSelect && (
-                <div
-                  className={[
-                    styles.checkboxHolder,
-                    this.props.type === SHORT_HOME_DELIVERY
-                      ? styles.topspace0
-                      : styles.topspace23
-                  ].join(" ")}
-                  onClick={() => {
-                    this.handleSelect();
-                  }}
-                >
-                  {this.props.isClickable && (
-                    <CheckBox selected={this.props.selected} />
-                  )}
-                </div>
-              )
-            : this.props.onSelect &&
-              this.props.isClickable &&
-              this.props.inCartPage
-            ? null
-            : this.props.onSelect && (
-                <div
-                  className={[
-                    styles.checkboxHolder,
-                    this.props.type === SHORT_HOME_DELIVERY
-                      ? styles.topspace0
-                      : styles.topspace23
-                  ].join(" ")}
-                  onClick={() => {
-                    this.handleSelect(this.props.type === SHORT_COLLECT);
-                  }}
-                >
-                  {this.props.isClickable && (
-                    <CheckBox selected={this.props.selected} />
-                  )}
-                </div>
+          {this.props.type === COLLECT ? (
+            this.props.selected &&
+            this.props.onSelect && (
+              <div
+                className={[
+                  styles.checkboxHolder,
+                  this.props.type === SHORT_HOME_DELIVERY
+                    ? styles.topspace0
+                    : styles.topspace23
+                ].join(" ")}
+                onClick={() => {
+                  this.handleSelect();
+                }}
+              >
+                {this.props.isClickable && (
+                  <CheckBox selected={this.props.selected} />
+                )}
+              </div>
+            )
+          ) : this.props.onSelect &&
+            this.props.isClickable &&
+            this.props.inCartPage ? null : this.props.onSelect &&
+            !this.props.inCartPage ? (
+            <div
+              className={[
+                styles.checkboxHolder,
+                this.props.type === SHORT_HOME_DELIVERY
+                  ? styles.topspace0
+                  : styles.topspace23
+              ].join(" ")}
+              onClick={() => {
+                this.handleSelect(this.props.type === SHORT_COLLECT);
+              }}
+            >
+              {this.props.isClickable && (
+                <CheckBox selected={this.props.selected} />
               )}
+            </div>
+          ) : null}
 
           {this.props.arrowClick && this.props.type === COLLECT && (
             <div
