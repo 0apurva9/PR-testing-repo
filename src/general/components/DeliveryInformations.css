@@ -8,6 +8,8 @@
 .dataHolder {
   width: 100%;
   height: auto;
+  display: flex;
+    align-items: flex-start;
 }
 .notAvailable {
   composes: dataHolder;
@@ -45,12 +47,13 @@
 .checkboxHolder {
   width: 20px;
   height: 20px;
-  position: absolute;
+  /* position: absolute;
   right: 6px;
   top: 0;
   bottom: 0;
-  margin: auto;
+  margin: auto; */
   z-index: 1;
+    margin-top: 12px;
 }
 .arrowHolder {
   composes: checkboxHolder;
@@ -63,6 +66,7 @@
 .buttonHolderPiq {
   composes: buttonHolder;
   margin-left: 0;
+  margin-top: 4px;
 }
 .cncDeliveryAddress,
 .cncDeliveryAddressCartPage,
@@ -70,9 +74,11 @@
   font-family: light;
   font-size: 14px;
   line-height: 20px;
+
 }
 .cncDeliveryAddress {
-  width: 58%;
+  width: 72%;
+  padding-top: 5px;
 }
 .cncDeliveryAddressFullWidth {
   width: 100%;
@@ -87,12 +93,12 @@
   .checkboxHolder {
     composes: checkboxHolder;
   }
-  .topspace0{
+  /* .topspace0{
     top: 0px;
   }
   .topspace23{
     top: -23px;
-  }
+  } */
   .arrowLink {
     composes: checkboxHolder;
     top: -21px;
