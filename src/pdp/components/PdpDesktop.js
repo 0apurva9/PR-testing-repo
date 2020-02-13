@@ -827,7 +827,7 @@ export default class PdpApparel extends React.Component {
     return details.map((imageDetail, index) => {
       return (
         <div className={styles.tableCellSingleComponent} key={index}>
-          {<img src={imageDetail.url} alt="" height={86} width={93} />}
+          {<img src={imageDetail.url} alt="" height={"auto"} width={93} />}
           <div className={styles.width95px}>
             <div className={styles.textAlignCenter}>{imageDetail.value}</div>
           </div>
@@ -1016,6 +1016,7 @@ export default class PdpApparel extends React.Component {
         });
       }
       let imageArray = [];
+      let featuresData = [];
       if (productData.prdDetails) {
         productData.prdDetails.forEach(detail => {
           if (/(\|)/g.test(detail.value)) {
@@ -1024,6 +1025,22 @@ export default class PdpApparel extends React.Component {
               key: detail.key,
               value: valueArray[0],
               url: valueArray[1]
+            });
+          }
+        });
+      }
+      if (productData.details) {
+        productData.details.forEach(detail => {
+          if (/(\|)/g.test(detail.value)) {
+            let valueArray = detail.value.split("|");
+            featuresData.push({
+              key: detail.key,
+              value: valueArray[0]
+            });
+          } else {
+            featuresData.push({
+              key: detail.key,
+              value: detail.value
             });
           }
         });
@@ -1826,14 +1843,15 @@ export default class PdpApparel extends React.Component {
                         </Accordion>
                       )}
                     {productData.rootCategory === "Accessories" &&
-                      productData.details && (
+                      productData.details &&
+                      featuresData && (
                         <Accordion
                           text="Features & Functions"
                           headerFontSize={18}
                           isOpen={false}
                         >
                           <div className={styles.accordionContent}>
-                            {productData.details.map(val => {
+                            {featuresData.map(val => {
                               return (
                                 <div className={styles.contentDetails}>
                                   <div className={styles.headerDetails}>
