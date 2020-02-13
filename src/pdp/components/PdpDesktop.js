@@ -213,7 +213,8 @@ export default class PdpApparel extends React.Component {
       firstRelevantProduct: {},
       secondRelevantProduct: {},
       selected: false,
-      productCategory: ""
+      productCategory: "",
+      eyeWearCheck: ""
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -263,6 +264,9 @@ export default class PdpApparel extends React.Component {
           .category_name === "Sunglasses"
       ) {
         this.setState({ productCategory: "Eyewear" });
+      }
+      if (categoryHierarchyCheck[0].category_name === "Eyewear") {
+        this.setState({ eyeWearCheck: "EyeWear" });
       }
     }
     /***relavant Bundling Product */
@@ -826,8 +830,8 @@ export default class PdpApparel extends React.Component {
 
     return details.map((imageDetail, index) => {
       return (
-        <div className={styles.tableCellSingleComponent} key={index}>
-          {<img src={imageDetail.url} alt="" height={"auto"} width={93} />}
+        <div className={styles.tableCellSingleComponentForEyeWear} key={index}>
+          {<img src={imageDetail.url} alt="" height={"auto"} width={110} />}
           <div className={styles.width95px}>
             <div className={styles.textAlignCenter}>{imageDetail.value}</div>
           </div>
@@ -1714,7 +1718,7 @@ export default class PdpApparel extends React.Component {
                             {productData.rootCategory !== "Electronics" &&
                               productData.rootCategory !== "FashionJewellery" &&
                               productData.rootCategory !== "FineJewellery" &&
-                              productData.rootCategory !== "Accessories" &&
+                              !this.state.eyeWearCheck &&
                               productData.details &&
                               this.filterDetails(
                                 productData.details,
@@ -1722,7 +1726,7 @@ export default class PdpApparel extends React.Component {
                               )}
                           </div>
                           {productData.prdDetails &&
-                            productData.rootCategory !== "Accessories" && (
+                            !this.state.eyeWearCheck && (
                               <div className={styles.productDetailsImagesCard}>
                                 {this.displayPrdDetails(
                                   productData.prdDetails,
@@ -1739,6 +1743,7 @@ export default class PdpApparel extends React.Component {
                               </div>
                             )}
                           {productData.rootCategory === "Accessories" &&
+                            this.state.eyeWearCheck &&
                             imageArray.length > 0 && (
                               <div className={styles.productDetailsImagesCard}>
                                 {this.displayPrdImage(imageArray)}
@@ -1814,7 +1819,8 @@ export default class PdpApparel extends React.Component {
                         </Accordion>
                       )}
                     {productData.rootCategory !== "Electronics" &&
-                      productData.classifications && (
+                      productData.classifications &&
+                      !this.state.eyeWearCheck && (
                         <Accordion
                           text="Features & Functions"
                           headerFontSize={18}
@@ -1843,6 +1849,7 @@ export default class PdpApparel extends React.Component {
                         </Accordion>
                       )}
                     {productData.rootCategory === "Accessories" &&
+                      this.state.eyeWearCheck &&
                       productData.details &&
                       featuresData && (
                         <Accordion
@@ -1940,7 +1947,8 @@ export default class PdpApparel extends React.Component {
                       </Accordion>
                     )}
                     {productData.rootCategory !== "Electronics" &&
-                      productData.warranty && (
+                      productData.warranty &&
+                      !this.state.eyeWearCheck && (
                         <Accordion text="Warranty" headerFontSize={18}>
                           <div className={styles.containerWithBottomBorder}>
                             {productData.warranty &&
@@ -1950,13 +1958,14 @@ export default class PdpApparel extends React.Component {
                           </div>
                         </Accordion>
                       )}
-                    {productData.brandInfo && (
-                      <Accordion text="Brand Info" headerFontSize={18}>
-                        <div className={styles.accordionContentWithoutBorder}>
-                          {productData.brandInfo}
-                        </div>
-                      </Accordion>
-                    )}
+                    {productData.brandInfo &&
+                      !this.state.eyeWearCheck && (
+                        <Accordion text="Brand Info" headerFontSize={18}>
+                          <div className={styles.accordionContentWithoutBorder}>
+                            {productData.brandInfo}
+                          </div>
+                        </Accordion>
+                      )}
 
                     {manufacturerDetails &&
                       manufacturerDetails.countryOfOrigin && (

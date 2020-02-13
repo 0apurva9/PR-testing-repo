@@ -578,6 +578,11 @@
 		display: table-cell;
 		padding: 0px 50px;
 	}
+	.tableCellSingleComponentForEyeWear {
+		display: table-cell;
+		padding: 0px 50px;
+		width:10%;
+	}
 
 	.width95px {
 		width: 98px;
