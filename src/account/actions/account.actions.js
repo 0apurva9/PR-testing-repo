@@ -10,7 +10,8 @@ import {
   MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW,
   CHANNEL,
   EMAIL_SENT_SUCCESS_MESSAGE,
-  FAILED_ORDER
+  FAILED_ORDER,
+  PAYMENT_MODE_TYPE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 //import findIndex from "lodash.findindex";
@@ -2269,6 +2270,7 @@ export function addUPIDetails(upi, pageType, btnType) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
     dispatch(addUserUPIRequest(upi));
+    localStorage.setItem(PAYMENT_MODE_TYPE, "UPI");
 
     let APPROVED_UPI = [];
     if (localStorage.getItem("APPROVED_UPI_VPA")) {

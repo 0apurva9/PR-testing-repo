@@ -2376,7 +2376,7 @@ if you have order id in local storage then you have to show order confirmation p
             await this.props.createPaymentOrder(this.state.egvCartGuid, true);
           }
 
-          this.props.collectPaymentOrderForUPI(this.state.egvCartGuid);
+          this.props.collectPaymentOrderForGiftCardUPI(this.state.egvCartGuid);
         }
       } else {
         if (this.props.cart.isCreatePaymentOrderFailed) {
