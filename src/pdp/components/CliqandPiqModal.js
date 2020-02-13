@@ -29,12 +29,16 @@ export default class ReturnToStore extends React.Component {
     };
   }
   selectStoreForDesktop = val => {
+    if (val.length === 0 && !this.state.showPickupPerson) {
+      this.setState({ storeId: null });
+    }
     if (val.length > 0 && !this.state.showPickupPerson) {
       let selectedStore =
         this.state.availableStores &&
         this.state.availableStores.find(store => {
           return store.slaveId === val[0];
         });
+
       this.setState({ selectedStore: selectedStore });
       const lat = selectedStore && selectedStore.geoPoint.latitude;
       const lng = selectedStore && selectedStore.geoPoint.longitude;
@@ -69,7 +73,7 @@ export default class ReturnToStore extends React.Component {
         this.props.addStoreCNC(this.state.storeId);
       }
     } else {
-      if (this.state.selectedStore) {
+      if (this.state.selectedStore && this.state.storeId) {
         let selectedStore = this.state.selectedStore;
         let productListingId =
           this.props.productDetails &&
@@ -252,7 +256,12 @@ export default class ReturnToStore extends React.Component {
       });
     } else {
       this.setState({
-        availableStores: availableStores
+        availableStores: availableStores,
+        lat,
+        lng,
+        storeId:
+          availableStores && availableStores[0] && availableStores[0].slaveId,
+        selectedStore: availableStores[0]
       });
     }
   }
@@ -480,6 +489,9 @@ export default class ReturnToStore extends React.Component {
                           label={ctaLable}
                           color="#fff"
                           width={121}
+                          backgroundColor={
+                            !this.state.storeId ? "#989898" : "#FF1744"
+                          }
                           disabled={!this.state.storeId}
                         />
                       </div>

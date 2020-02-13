@@ -34,6 +34,11 @@ export default class Button extends React.Component {
       this.props.onClick(e);
     }
   }
+  componentDidUpdate(nextProps) {
+    if (nextProps.backgroundColor !== this.props.backgroundColor) {
+      this.setState({ backgroundColor: this.props.backgroundColor });
+    }
+  }
   render() {
     let className = this.styles.base;
     let textStyle;
@@ -88,8 +93,8 @@ export default class Button extends React.Component {
               : this.props.disabled &&
                 this.props.insidePdpPage &&
                 this.props.type === "hollow"
-              ? "#FFF"
-              : this.state.backgroundColor,
+                ? "#FFF"
+                : this.state.backgroundColor,
           border: `2px solid ${
             this.props.disabled &&
             this.props.insidePdpPage &&
@@ -102,23 +107,24 @@ export default class Button extends React.Component {
         onMouseLeave={() => this.hoverOut()}
         onClick={e => this.handleClick(e)}
       >
-        {this.props.icon && this.props.icon.element && (
-          <div
-            className={this.styles.iconWrapper}
-            style={{
-              height: this.props.icon.size,
-              width: this.props.icon.size,
-              marginRight: this.props.icon.offset
-            }}
-          >
-            <div className={iconClass}>{this.props.icon.element}</div>
-            {this.props.icon.hoveredElement && (
-              <div className={secondaryIconClass}>
-                {this.props.icon.hoveredElement}
-              </div>
-            )}
-          </div>
-        )}
+        {this.props.icon &&
+          this.props.icon.element && (
+            <div
+              className={this.styles.iconWrapper}
+              style={{
+                height: this.props.icon.size,
+                width: this.props.icon.size,
+                marginRight: this.props.icon.offset
+              }}
+            >
+              <div className={iconClass}>{this.props.icon.element}</div>
+              {this.props.icon.hoveredElement && (
+                <div className={secondaryIconClass}>
+                  {this.props.icon.hoveredElement}
+                </div>
+              )}
+            </div>
+          )}
 
         {textStyle ? (
           <span style={{ ...textStyle }}>{this.props.label}</span>

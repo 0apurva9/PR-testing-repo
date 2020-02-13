@@ -10,7 +10,11 @@ export default class Button extends React.Component {
         return (
           <CoreButton
             {...other}
-            backgroundColor={"#FF1744"}
+            backgroundColor={
+              this.props.backgroundColor
+                ? this.props.backgroundColor
+                : "#FF1744"
+            }
             borderRadius={this.props.height / 2}
             textStyle={{
               color: "#FFF",

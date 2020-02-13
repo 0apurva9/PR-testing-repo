@@ -391,7 +391,8 @@ export default class OrderCard extends React.Component {
             this.props.orderStatusCode &&
             !CNCcallOut &&
             this.props.price != 0.01 &&
-            this.props.calloutMessage && (
+            this.props.calloutMessage &&
+            !this.props.calloutMessage.includes(EDD_TEXT) && (
               <div
                 className={
                   this.props.orderStatusCode === "PAYMENT_PENDING" ||
@@ -422,20 +423,21 @@ export default class OrderCard extends React.Component {
                       this.props.productName === "Gift Card"
                         ? "Gift card detail will be sent you on your specified email id shortly."
                         : this.props.price
-                        ? `${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
-                            this.props.price
-                          )}`
-                        : null}
+                          ? `${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
+                              this.props.price
+                            )}`
+                          : null}
                     </div>
                   )}
-                  {this.props.isEgvOrder && this.props.resendAvailable && (
-                    <div
-                      className={styles.reSendEmail}
-                      onClick={() => this.reSendEmailForGiftCard()}
-                    >
-                      Resend Email
-                    </div>
-                  )}
+                  {this.props.isEgvOrder &&
+                    this.props.resendAvailable && (
+                      <div
+                        className={styles.reSendEmail}
+                        onClick={() => this.reSendEmailForGiftCard()}
+                      >
+                        Resend Email
+                      </div>
+                    )}
                   {this.props.discountPrice &&
                     this.props.discountPrice != this.props.price && (
                       <div className={styles.discountPrice}>
@@ -467,14 +469,15 @@ export default class OrderCard extends React.Component {
               )}
             </div>
           )}
-          {this.props.idFromAllOrderDetails != "Y" && this.props.quantity && (
-            <div className={styles.priceWithQuantity}>
-              <div className={styles.price}>Qty</div>
-              <div className={styles.quantity}>
-                {this.props.numberOfQuantity}
+          {this.props.idFromAllOrderDetails != "Y" &&
+            this.props.quantity && (
+              <div className={styles.priceWithQuantity}>
+                <div className={styles.price}>Qty</div>
+                <div className={styles.quantity}>
+                  {this.props.numberOfQuantity}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
           {this.props.children &&
             this.props.idFromAllOrderDetails != "Y" &&
@@ -487,7 +490,6 @@ export default class OrderCard extends React.Component {
           {this.props.orderStatusCode &&
             this.props.orderStatusCode !== "DELIVERED" &&
             this.props.orderStatusCode !== "PAYMENT_PENDING" &&
-            !this.props.calloutMessage &&
             estimatedDeliveryDateFormatted && (
               <React.Fragment>
                 <div className={styles.edd}>
@@ -556,46 +558,47 @@ export default class OrderCard extends React.Component {
                 )}
               </div>
             )}
-          {this.props && this.props.returnMode != "REFNOPCK" && (
-            <React.Fragment>
-              <div className={styles.pickupAddressHolder}>
-                <div className={styles.pickupAddressTitle}>
-                  {this.props.returnModeSelected == "Pick Up"
-                    ? "Pick up from"
-                    : this.props.returnModeSelected == "Self Courier"
-                    ? "Delivery Address"
-                    : this.props.returnModeSelected == "Return To Store"
-                    ? "Store Address"
-                    : ""}
+          {this.props &&
+            this.props.returnMode != "REFNOPCK" && (
+              <React.Fragment>
+                <div className={styles.pickupAddressHolder}>
+                  <div className={styles.pickupAddressTitle}>
+                    {this.props.returnModeSelected == "Pick Up"
+                      ? "Pick up from"
+                      : this.props.returnModeSelected == "Self Courier"
+                        ? "Delivery Address"
+                        : this.props.returnModeSelected == "Return To Store"
+                          ? "Store Address"
+                          : ""}
+                  </div>
+                  {this.props.pickupAddress && (
+                    <div className={styles.pickupAddressText}>
+                      {this.props.pickupAddress.line1}{" "}
+                      {this.props.pickupAddress.line1 ? "," : ""}&nbsp;
+                      {this.props.pickupAddress.landmark}{" "}
+                      {this.props.pickupAddress.landmark ? "," : ""}&nbsp;
+                      {this.props.pickupAddress.city}{" "}
+                      {this.props.pickupAddress.city ? "," : ""}&nbsp;
+                      {this.props.pickupAddress.state}{" "}
+                      {this.props.pickupAddress.state ? "," : ""}&nbsp;
+                      {this.props.pickupAddress.postalCode}
+                    </div>
+                  )}
+                  {this.props.returnStoreAddress && (
+                    <div className={styles.pickupAddressText}>
+                      {this.props.returnStoreAddress.address &&
+                        this.props.returnStoreAddress.address.line1}{" "}
+                      ,&nbsp;
+                      {this.props.returnStoreAddress.address &&
+                        this.props.returnStoreAddress.address.city}{" "}
+                      ,&nbsp;
+                      {this.props.returnStoreAddress.address &&
+                        this.props.returnStoreAddress.address.postalCode}
+                    </div>
+                  )}
                 </div>
-                {this.props.pickupAddress && (
-                  <div className={styles.pickupAddressText}>
-                    {this.props.pickupAddress.line1}{" "}
-                    {this.props.pickupAddress.line1 ? "," : ""}&nbsp;
-                    {this.props.pickupAddress.landmark}{" "}
-                    {this.props.pickupAddress.landmark ? "," : ""}&nbsp;
-                    {this.props.pickupAddress.city}{" "}
-                    {this.props.pickupAddress.city ? "," : ""}&nbsp;
-                    {this.props.pickupAddress.state}{" "}
-                    {this.props.pickupAddress.state ? "," : ""}&nbsp;
-                    {this.props.pickupAddress.postalCode}
-                  </div>
-                )}
-                {this.props.returnStoreAddress && (
-                  <div className={styles.pickupAddressText}>
-                    {this.props.returnStoreAddress.address &&
-                      this.props.returnStoreAddress.address.line1}{" "}
-                    ,&nbsp;
-                    {this.props.returnStoreAddress.address &&
-                      this.props.returnStoreAddress.address.city}{" "}
-                    ,&nbsp;
-                    {this.props.returnStoreAddress.address &&
-                      this.props.returnStoreAddress.address.postalCode}
-                  </div>
-                )}
-              </div>
-            </React.Fragment>
-          )}
+              </React.Fragment>
+            )}
         </div>
         {this.props.children &&
           this.props.idFromAllOrderDetails === "Y" &&
@@ -732,46 +735,52 @@ export default class OrderCard extends React.Component {
             <div className={styles.commonTitle}>
               {!this.props.calloutMessage ? (
                 <React.Fragment>
-                  {!checkStatus && (date || returnEligibleDate) && (
-                    <React.Fragment>
-                      <span className={styles.ffsemibold}>
-                        {shipmentStatus &&
-                        shipmentStatus.includes("Eligible for Return till") &&
-                        !this.props.deliveryDate
-                          ? ""
-                          : this.props.clickAndCollect === true
-                          ? "Pickup Date:"
-                          : responseCode !== "REFUND_INITIATED"
-                          ? `${shipmentStatus}:`
-                          : null}{" "}
-                      </span>
-                      {shipmentStatus.includes(EDD_TEXT) &&
-                      estimatedDeliveryDateFormatted ? (
-                        <span className={styles.styleDate}>
-                          {estimatedDeliveryDateFormatted}
+                  {estimatedDeliveryDateFormatted &&
+                    !checkStatus &&
+                    (date || returnEligibleDate) && (
+                      <React.Fragment>
+                        <span className={styles.ffsemibold}>
+                          {shipmentStatus &&
+                          shipmentStatus.includes("Eligible for Return till") &&
+                          !this.props.deliveryDate
+                            ? ""
+                            : this.props.clickAndCollect === true &&
+                              !shipmentStatus.includes(
+                                "Order Could be collected by"
+                              )
+                              ? "Pickup Date:"
+                              : responseCode !== "REFUND_INITIATED"
+                                ? `${shipmentStatus}:`
+                                : null}{" "}
                         </span>
-                      ) : null}
-                      {shipmentStatus &&
-                        shipmentStatus.includes(
-                          "Order Could be collected by"
-                        ) && (
+                        {shipmentStatus.includes(EDD_TEXT) &&
+                        estimatedDeliveryDateFormatted ? (
                           <span className={styles.styleDate}>
-                            {format(
-                              orderCouldbeCollected.toString(),
-                              dateFormat
-                            )}
+                            {estimatedDeliveryDateFormatted}
                           </span>
-                        )}
+                        ) : null}
+                        {shipmentStatus &&
+                          shipmentStatus.includes(
+                            "Order Could be collected by"
+                          ) && (
+                            <span className={styles.styleDate}>
+                              {format(
+                                orderCouldbeCollected.toString(),
+                                dateFormat
+                              )}
+                            </span>
+                          )}
 
-                      <span className={styles.styleDate}>
-                        {(this.props.consignmentStatus === "DELIVERED" ||
-                          this.props.consignmentStatus === "ORDER_COLLECTED") &&
-                          this.props.deliveryDate &&
-                          format(returnEligibleDate.toString(), dateFormat)}
-                      </span>
-                    </React.Fragment>
-                  )}
-                  {!this.props.estimatedDeliveryDate &&
+                        <span className={styles.styleDate}>
+                          {(this.props.consignmentStatus === "DELIVERED" ||
+                            this.props.consignmentStatus ===
+                              "ORDER_COLLECTED") &&
+                            this.props.deliveryDate &&
+                            format(returnEligibleDate.toString(), dateFormat)}
+                        </span>
+                      </React.Fragment>
+                    )}
+                  {!estimatedDeliveryDateFormatted &&
                     !checkStatus &&
                     (date || returnEligibleDate) && (
                       <React.Fragment>
@@ -804,9 +813,13 @@ export default class OrderCard extends React.Component {
                     )}
                 </React.Fragment>
               ) : (
-                <div className={styles.commonTitle}>
-                  {this.props.calloutMessage}
-                </div>
+                <React.Fragment>
+                  {!this.props.calloutMessage.includes(EDD_TEXT) && (
+                    <div className={styles.commonTitle}>
+                      {this.props.calloutMessage}
+                    </div>
+                  )}
+                </React.Fragment>
               )}
             </div>
           )}
