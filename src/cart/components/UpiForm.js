@@ -15,7 +15,7 @@ import {
   SET_DATA_LAYER_UID_ADD
 } from "../../lib/adobeUtils";
 // import { LocalStorage } from "node-localstorage";
-const UPI_REGEX = /^[A-Za-z0-9.]+@[A-Za-z0-9]\w+$/;
+const UPI_REGEX = /^[A-Za-z0-9_\-\.]+@[A-Za-z0-9]\w+$/;
 const dateFormat = "DD MMM";
 export const UPI_VPA = "upi_vpa";
 const APPROVED_UPI_VPA = "APPROVED_UPI_VPA";
