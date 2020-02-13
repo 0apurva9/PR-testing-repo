@@ -243,13 +243,10 @@ export default class SizeSelector extends React.Component {
         : false;
     let positivePowerIndex =
       sizes && sizes.findIndex(val => val.sizelink.size > 0);
+    let zeroPowerIndex =
+      sizes && sizes.findIndex(val => val.sizelink.size === "0.00");
 
     let { showLensPower, label } = this.state;
-
-    let zeroPowerLens =
-      sizes && sizes.length
-        ? sizes.filter(sizeData => sizeData.sizelink.size === "0.00")
-        : [];
 
     let isPowerLensSizeSelected = false,
       selectedLensSize =
@@ -330,10 +327,11 @@ export default class SizeSelector extends React.Component {
                 this.props.isSizeOrLength === "Power" &&
                 (showLensPower ? (
                   <React.Fragment>
-                    <React.Fragment>
-                      {zeroPowerLens.length &&
-                        zeroPowerLens.map((datum, i) => {
-                          return (
+                    {sizes &&
+                      sizes.map((datum, i) => {
+                        return (
+                          <React.Fragment>
+                            {positivePowerIndex === i ? <br /> : null}
                             <div
                               className={styles.size}
                               ref={ref => {
@@ -342,30 +340,10 @@ export default class SizeSelector extends React.Component {
                             >
                               {this.renderSize(datum, i)}
                             </div>
-                          );
-                        })}
-                      {zeroPowerLens.length && <br />}
-                    </React.Fragment>
-                    <React.Fragment>
-                      {sizes &&
-                        sizes.map((datum, i) => {
-                          if (datum.sizelink.size !== "0.00") {
-                            return (
-                              <React.Fragment>
-                                {positivePowerIndex === i ? <br /> : null}
-                                <div
-                                  className={styles.size}
-                                  ref={ref => {
-                                    this.powerSizeRef[i] = ref;
-                                  }}
-                                >
-                                  {this.renderSize(datum, i)}
-                                </div>
-                              </React.Fragment>
-                            );
-                          }
-                        })}
-                    </React.Fragment>
+                            {zeroPowerIndex === i ? <br /> : null}
+                          </React.Fragment>
+                        );
+                      })}
                   </React.Fragment>
                 ) : (
                   <div
