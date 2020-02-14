@@ -125,3 +125,88 @@
 .isGiveAwayQuantityValue {
   padding-left: 12px;
 }
+.exchangeDetails{
+  position: relative;
+  margin-left: 181px;
+  border-radius: 2px;
+  border: solid 0.5px #d2d2d2;
+  padding: 10px 15px;
+}
+.exchangeDetailsHeading{
+  font-size: 14px;
+  font-family: light;
+  display: inline-block;
+  padding: 8px 0 0 8px;
+  vertical-align: top;
+}
+.exchangeProductName{
+  font-family: regular;
+}
+.exchangeIcon{
+  display: inline-block;
+}
+.exchangePriceNDetails{
+  float: right;
+}
+.exchangePrice{
+  font-size: 14px;
+  text-align: right;
+  margin-bottom: 2px;
+}
+.exchangeViewDetails,.exchangeViewLessDetails{
+  font-size: 12px;
+  color: #ff1744;
+  font-family: semibold;
+  cursor: pointer;
+}
+.tncLink{
+  color: #ff1744;
+}
+.exchangeViewLessDetails{
+  width: 30%;
+  display: inline-block;
+  text-align: right;
+}
+.closeIcon{
+  background-color: #212121;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 1;
+  right: -7px;
+  top: -7px;
+}
+.font14LightLeft,.font14LightRight{
+  font-size:14px;
+  font-family:light;
+  display: inline-block;
+  width: 50%;
+  margin-bottom: 10px;
+}
+.font14LightRight{
+  text-align: right;
+}
+.exchangePickupDetails{
+  font-size:14px;
+  font-family:light;
+  display: inline-block;
+  width: 100%;
+  border-top: 0.5px solid #ececec;
+  border-bottom: 0.5px solid #ececec;
+  padding: 10px 0;
+  margin: 10px 0;
+}
+.font14bold{
+  font-size:14px;
+  font-family:semibold;
+}
+.font14green{
+  font-size: 14px;
+  color: #417505;
+  font-family: regular;
+}
+.font12light{
+  font-size: 12px;
+  font-family: light;
+  display: inline-block;
+  width: 70%;
+}

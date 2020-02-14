@@ -442,12 +442,16 @@ export function addProductToCart(productDetails) {
     let existingProductData = JSON.parse(
       localStorage.getItem("exchangedProductInCart")
     );
-    let exchangedProduct =
-      productDetails.code +
-      "_" +
-      productDetails.ussId +
-      "_" +
-      IMEIApiResponse.exchangeProductId;
+    let exchangedProduct;
+    if (productDetails && IMEIApiResponse) {
+      exchangedProduct =
+        productDetails.code +
+        "_" +
+        productDetails.ussId +
+        "_" +
+        IMEIApiResponse.exchangeProductId;
+    }
+
     //if product already in cart show modal
     if (
       PDPExchangeAvailable &&
