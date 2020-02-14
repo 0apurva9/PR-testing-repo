@@ -631,6 +631,7 @@ class CartPage extends React.Component {
     cliqAndPiqDetails.from = "Cart";
     cliqAndPiqDetails.stores = this.props.cart.storeDetails;
     cliqAndPiqDetails.productDetails = currentSelectedProduct;
+    cliqAndPiqDetails.winningUssID = currentSelectedProduct.USSID;
     cliqAndPiqDetails.pinCodeUpdateDisabled = true;
     cliqAndPiqDetails.pincodeResponse = firstSlaveData;
     cliqAndPiqDetails.pincode = localStorage.getItem(

@@ -1609,13 +1609,18 @@ export function getAllStoresCNCFailure(error) {
 // Action Creator for getting all stores CNC
 export function getAllStoresCNC(pinCode) {
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+  let accessToken;
+  if (customerCookie) {
+    accessToken = JSON.parse(customerCookie).access_token;
+  } else {
+    accessToken = JSON.parse(globalCookie).access_token;
+  }
   return async (dispatch, getState, { api }) => {
     dispatch(getAllStoresCNCRequest());
     try {
       const result = await api.get(
-        `${ALL_STORES_PATH}/${pinCode}?access_token=${
-          JSON.parse(customerCookie).access_token
-        }`
+        `${ALL_STORES_PATH}/${pinCode}?access_token=${accessToken}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
