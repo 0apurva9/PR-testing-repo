@@ -141,6 +141,7 @@ export default class PickUpLocation extends React.Component {
     var date = new Date(
       getClickAndPiqSelectedDate && getClickAndPiqSelectedDate.deliveryDate
     );
+
     var hours = date.getHours();
     var minutes = date.getMinutes();
     var salutationOfTime = hours >= 12 ? "PM" : "AM";

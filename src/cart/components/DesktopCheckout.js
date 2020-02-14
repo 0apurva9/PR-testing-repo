@@ -309,7 +309,6 @@ export default class DesktopCheckout extends React.Component {
                     />
                   </div>
                 )}
-
                 {this.props.isOnCartPage &&
                   defaultPinCode && (
                     <div className={styles.button}>

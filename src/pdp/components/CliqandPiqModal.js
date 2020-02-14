@@ -504,6 +504,11 @@ export default class ReturnToStore extends React.Component {
                           ? styles.buttonContainer
                           : styles.visiblityHidden
                       }
+                      style={
+                        Object.keys(this.state.availableStores).length === 1
+                          ? { position: "absolute" }
+                          : null
+                      }
                       onClick={() => this.selectStoreButtonForDesktop()}
                     >
                       <div className={styles.button}>

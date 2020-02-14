@@ -238,7 +238,7 @@ export default class OrderCard extends React.Component {
         date = LaststatusDisplayList.statusMessageList[0].date;
       }
       if (LaststatusDisplayList && LaststatusDisplayList.shipmentStatus) {
-        shipmentStatus = LaststatusDisplayList.shipmentStatus;
+        shipmentStatus = LaststatusDisplayList.shipmentStatus.trim();
         responseCode = LaststatusDisplayList.responseCode;
       }
     }
@@ -750,7 +750,9 @@ export default class OrderCard extends React.Component {
                               )
                               ? "Pickup Date:"
                               : responseCode !== "REFUND_INITIATED"
-                                ? `${shipmentStatus}:`
+                                ? `${
+                                    shipmentStatus ? shipmentStatus + ":" : ""
+                                  }`
                                 : null}{" "}
                         </span>
                         {shipmentStatus.includes(EDD_TEXT) &&
