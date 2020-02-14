@@ -7,6 +7,7 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN
 } from "../../lib/constants";
+import { setDataLayer, AODBE_MY_ACCOUNT_REVIEW } from "../../lib/adobeUtils";
 import Loader from "../../general/components/Loader";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -16,6 +17,7 @@ import format from "date-fns/format";
 const dateFormat = "DD MMM YYYY";
 export default class UserReview extends React.Component {
   componentDidMount() {
+    setDataLayer(AODBE_MY_ACCOUNT_REVIEW);
     if (this.props.getUserReview) {
       const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);

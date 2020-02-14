@@ -11,8 +11,13 @@ import DesktopOnly from "../../general/components/DesktopOnly.js";
 import CommonCenter from "../../general/components/CommonCenter.js";
 import Button from "../../general/components/Button";
 import propTypes from "prop-types";
+import {
+  setDataLayerForCartDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING
+} from "../../lib/adobeUtils";
 export default class SearchresultNullpage extends Component {
   handleOnContinue() {
+    setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
   }
   redirectToPlp(webUrl) {

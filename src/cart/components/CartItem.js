@@ -180,7 +180,7 @@ CartItem.propTypes = {
   productImage: PropTypes.string,
   productName: PropTypes.string,
   productDetails: PropTypes.string,
-  price: PropTypes.string,
+  price: PropTypes.number,
   deliverTime: PropTypes.string,
   dropdownLabel: PropTypes.string,
   deliveryInfoToggle: PropTypes.bool,

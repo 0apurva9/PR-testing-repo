@@ -3,9 +3,14 @@ import styles from "./GiftCardSucess.css";
 import Button from "../../general/components/Button";
 import PropTypes from "prop-types";
 import { HOME_ROUTER } from "../../lib/constants";
+import {
+  setDataLayerForCartDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING
+} from "../../lib/adobeUtils";
 
 export default class GiftCardSucess extends Component {
   renderToContinueShopping = () => {
+    setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(`${HOME_ROUTER}`);
   };
   renderToCliqCash = () => {

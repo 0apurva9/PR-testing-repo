@@ -46,12 +46,14 @@ import {
 } from "../../lib/constants";
 import {
   setDataLayer,
+  ADOBE_MY_ACCOUNT_WRITE_REVIEW,
   setDataLayerForMyAccountDirectCalls,
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL,
   ADOBE_RETURN_LINK_CLICKED,
   ADOBE_REQUEST_INVOICE_LINK_CLICKED,
   ADOBE_HELP_SUPPORT_LINK_CLICKED,
-  ADOBE_RETURN_JOURNEY_INITIATED
+  ADOBE_RETURN_JOURNEY_INITIATED,
+  ADOBE_MY_ACCOUNT_RETURN_CANCEL
 } from "../../lib/adobeUtils";
 const dateFormat = "DD MMM YYYY";
 const PRODUCT_RETURN = "Return";
@@ -132,6 +134,7 @@ export default class OrderDetails extends React.Component {
   }
 
   writeReview(productCode) {
+    setDataLayer(ADOBE_MY_ACCOUNT_WRITE_REVIEW);
     this.props.history.push(`/p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
   }
   getNonWorkingDays(mplWorkingDays) {
@@ -320,6 +323,7 @@ export default class OrderDetails extends React.Component {
     return pickupDate;
   }
   cancelReturnRequest(transactionId, orderCode) {
+    setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_RETURN_CANCEL);
     this.props.history.push({
       pathname: `${CANCEL_RETURN_REQUEST}/${orderCode}/${transactionId}`
     });

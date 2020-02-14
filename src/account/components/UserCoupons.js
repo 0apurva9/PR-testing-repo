@@ -7,8 +7,10 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN
 } from "../../lib/constants";
+import { setDataLayer, ADOBE_MY_ACCOUNT_COUPONS } from "../../lib/adobeUtils";
 export default class UserCoupons extends React.Component {
   componentDidMount() {
+    setDataLayer(ADOBE_MY_ACCOUNT_COUPONS);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (userDetails && customerCookie && this.props.getUserCoupons) {

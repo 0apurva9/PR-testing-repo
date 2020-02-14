@@ -213,7 +213,7 @@ export const SHIPPING_TYPES = {
   ED: "express-delivery"
 };
 
-export const PLAT_FORM_NUMBER = "5";
+export const PLAT_FORM_NUMBER = "11";
 export const CHANNEL = "web";
 
 export const TRUE = "true";
@@ -299,6 +299,11 @@ export const CASH_ON_DELIVERY_PAYMENT_MODE = "Cash on Delivery";
 export const RUPEE_SYMBOL = "₹";
 export const STRIPE_DETAILS = "stripeDetails";
 export const BANK_GATWAY_DOWN = "0";
+/**
+ * @comment Added const for the UPI
+ */
+export const UPI = "UPI";
+export const UPI_ID = "UPI ID";
 // META TAGS CONSTANTS
 
 export const GOOGLE_TAG_TITLE_DEFAULT =

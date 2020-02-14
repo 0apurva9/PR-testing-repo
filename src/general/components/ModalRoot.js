@@ -295,6 +295,24 @@ const CancelReturnRequestPopUp = Loadable({
     return <Loader />;
   }
 });
+/**
+ * @comment Added below code for showing popup on the UPI section on the checkout page.
+ */
+const UpiTermsAndCondition = Loadable({
+  loader: () => import("../../cart/components/UpiTermsAndCondition.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+const UpiHowToPay = Loadable({
+  loader: () => import("../../cart/components/UpiHowToPay.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+/**
+ * EOD
+ */
 
 const GiftCardSucessBottomModel = Loadable({
   loader: () => import("../../account/components/GiftCardSucessBottomModel"),
@@ -1010,6 +1028,26 @@ export default class ModalRoot extends React.Component {
           closeModal={() => this.handleClose()}
         />
       ),
+      /**
+       * @comment Added below code for showing popup on the UPI section on the checkout page.
+       */
+      UpiTermsAndCondition: (
+        <UpiTermsAndCondition
+          {...this.props}
+          history={this.props.history}
+          closeModal={() => this.handleClose()}
+        />
+      ),
+      UpiHowToPay: (
+        <UpiHowToPay
+          {...this.props}
+          history={this.props.history}
+          closeModal={() => this.handleClose()}
+        />
+      ),
+      /**
+       * EOD
+       */
 
       NotificationConfirmation: (
         <NotificationConfirmation

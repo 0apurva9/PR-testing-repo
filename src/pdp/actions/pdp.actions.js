@@ -257,26 +257,45 @@ export function getProductDescription(
           isBrowser &&
           (!window.digitalData ||
             !window.digitalData.cpj ||
-            !window.digitalData.cpj.product ||
+            !window.digitalData.cpj.product) &&
+          (window.digitalData &&
+            window.digitalData.cpj &&
+            window.digitalData.cpj.product &&
             window.digitalData.cpj.product.id !== resultJson.productListingId)
         ) {
           if (componentName === "Theme offers component") {
-            setDataLayer(
-              ADOBE_PDP_TYPE,
-              resultJson,
-              null,
-              null,
-              behaviorOfPageTheCurrent
-            );
+            const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
+            let path = this.props.location.pathname;
+            if (PRODUCT_CODE_REGEX.test(path)) {
+              setDataLayer(
+                ADOBE_PDP_TYPE,
+                resultJson,
+                null,
+                null,
+                behaviorOfPageTheCurrent
+              );
+            }
           } else {
-            setDataLayer(
-              ADOBE_PDP_TYPE,
-              resultJson,
-              getState().icid.value,
-              getState().icid.icidType,
-              behaviorOfPageTheCurrent
-            );
+            const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
+            let path = this.props.location.pathname;
+            if (PRODUCT_CODE_REGEX.test(path)) {
+              setDataLayer(
+                ADOBE_PDP_TYPE,
+                resultJson,
+                getState().icid.value,
+                getState().icid.icidType,
+                behaviorOfPageTheCurrent
+              );
+            }
           }
+        } else {
+          setDataLayer(
+            ADOBE_PDP_TYPE,
+            resultJson,
+            null,
+            null,
+            behaviorOfPageTheCurrent
+          );
         }
         return dispatch(getProductDescriptionSuccess(resultJson));
       } else {

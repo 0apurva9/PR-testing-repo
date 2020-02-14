@@ -88,6 +88,7 @@ import ProductDescriptionPageWrapperContainer from "./pdp/containers/ProductDesc
 
 import MobileOnly from "./general/components/MobileOnly";
 import DesktopOnly from "./general/components/DesktopOnly";
+import { setDataLayer, ADOBE_VIRTUAL_PAGELOAD } from "../src/lib/adobeUtils";
 /*
     Setting default pin code
     for user if user dont have pin code in
@@ -424,11 +425,21 @@ class App extends Component {
       // Call minicart after landing on the site or reloading page
       this.props.getMinicartProducts();
     }
+    window.prerenderReady = true;
 
     if (!this.props.location.pathname.includes("/my-account")) {
       if (window.od && window.od.messenger && window.od.messenger("update")) {
         window.od.messenger("update");
       }
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    // Are we adding new items to the list?
+    // Capture the scroll position so we can adjust scroll later.
+    if (prevProps.location.pathname != this.props.location.pathname) {
+      setTimeout(() => {
+        setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
+      }, 300);
     }
   }
 
@@ -441,6 +452,7 @@ class App extends Component {
   }
 
   render() {
+    console.log("UPI");
     if (!this.props.location.pathname.includes("/my-account")) {
       if (window.od && window.od.messenger && window.od.messenger("update")) {
         window.od.messenger("update");
