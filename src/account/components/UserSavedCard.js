@@ -28,7 +28,8 @@ import {
 
 import {
   setDataLayer,
-  ADOBE_MY_ACCOUNT_SAVED_PAYMENTS, SET_DATA_LAYER_UID_ADD
+  ADOBE_MY_ACCOUNT_SAVED_PAYMENTS,
+  SET_DATA_LAYER_UID_ADD
 } from "../../lib/adobeUtils";
 
 import DesktopOnly from "../../general/components/DesktopOnly";
