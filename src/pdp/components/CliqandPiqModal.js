@@ -193,11 +193,31 @@ export default class ReturnToStore extends React.Component {
       }
     }
   }
-  componentDidMount() {
-    this.getAvailableStores();
+  async componentDidMount() {
+    await this.getAvailableStores();
 
     if (this.props.getUserDetails) {
       this.props.getUserDetails();
+    }
+    let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
+    if (
+      this.props.from !== "Checkout" &&
+      selectedStore &&
+      selectedStore.length > 0
+    ) {
+      let ussId = this.props.winningUssID
+        ? this.props.winningUssID
+        : this.props.productDetails && this.props.productDetails.USSID
+          ? this.props.productDetails.USSID
+          : null;
+      let storeDetails =
+        selectedStore &&
+        selectedStore.find(store => {
+          return store.ussId === ussId;
+        });
+      if (storeDetails && storeDetails.storeId) {
+        await this.selectStoreForDesktop([storeDetails.storeId]);
+      }
     }
   }
 
