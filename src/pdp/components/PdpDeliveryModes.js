@@ -167,10 +167,14 @@ export default class PdpDeliveryModes extends React.Component {
                     deliveryModesATP &&
                     deliveryModesATP
                       .filter(val => {
-                        return val.key === SAME_DAY_DELIVERY;
+                        return !this.props.fromSellerCard
+                          ? val.key === SAME_DAY_DELIVERY
+                          : val.code === SAME_DAY_DELIVERY;
                       })
                       .map(val => {
-                        return val.value;
+                        return !this.props.fromSellerCard
+                          ? val.value
+                          : val.description;
                       })[0]
                   }
                 />
@@ -217,10 +221,14 @@ export default class PdpDeliveryModes extends React.Component {
                     deliveryModesATP &&
                     deliveryModesATP
                       .filter(val => {
-                        return val.key === EXPRESS;
+                        return !this.props.fromSellerCard
+                          ? val.key === EXPRESS
+                          : val.code === EXPRESS;
                       })
                       .map(val => {
-                        return val.value;
+                        return !this.props.fromSellerCard
+                          ? val.value
+                          : val.description;
                       })[0]
                   }
                 />
@@ -257,8 +265,8 @@ export default class PdpDeliveryModes extends React.Component {
                           availableStores > 1
                             ? availableStores + " more stores"
                             : availableStores === 1
-                            ? availableStores + " more store"
-                            : "more store"
+                              ? availableStores + " more store"
+                              : "more store"
                         } nearby`
                       : null
                   }
@@ -267,10 +275,14 @@ export default class PdpDeliveryModes extends React.Component {
                     deliveryModesATP &&
                     deliveryModesATP
                       .filter(val => {
-                        return val.key === COLLECT;
+                        return !this.props.fromSellerCard
+                          ? val.key === COLLECT
+                          : val.code === COLLECT;
                       })
                       .map(val => {
-                        return val.value;
+                        return !this.props.fromSellerCard
+                          ? val.value
+                          : val.description;
                       })[0]
                   }
                   storeDetails={storeDetails}
@@ -325,10 +337,14 @@ export default class PdpDeliveryModes extends React.Component {
                     deliveryModesATP &&
                     deliveryModesATP
                       .filter(val => {
-                        return val.key === HOME_DELIVERY;
+                        return !this.props.fromSellerCard
+                          ? val.key === HOME_DELIVERY
+                          : val.code === HOME_DELIVERY;
                       })
                       .map(val => {
-                        return val.value;
+                        return !this.props.fromSellerCard
+                          ? val.value
+                          : val.description;
                       })[0]
                   }
                 />

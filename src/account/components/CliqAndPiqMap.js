@@ -6,8 +6,8 @@ import PickUpLocation from "../../cart/components/PickUpLocation";
 import GetLocationDetails from "../../cart/components/GetLocationDetails";
 import PickUpDetails from "../../cart/components/PickUpDetails";
 import styles from "./CliqAndPiqMap.css";
-import LocationPinIcon from "../../cart/components/img/googleSearchPin.png";
-import SelectedLocationIcon from "../../cart/components/img/googleSearchSelected.png";
+import LocationPinIcon from "../../cart/components/img/newGoogleSearchPin.svg";
+import SelectedLocationIcon from "../../cart/components/img/newGoogleSearchSelected.svg";
 
 export default class CliqAndPiqMap extends React.Component {
   render() {

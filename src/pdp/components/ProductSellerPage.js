@@ -393,7 +393,7 @@ class ProductSellerPage extends Component {
                           hasCod={value.isCOD === "Y"}
                           hasEmi={value.isEMIEligible === "Y"}
                           eligibleDeliveryModes={value.eligibleDeliveryModes}
-                          deliveryModesATP={value.deliveryModesATP}
+                          deliveryModesATP={value.eligibleDeliveryModes}
                           cashText={CASH_TEXT}
                           policyText={DELIVERY_RATES}
                           key={index}
@@ -516,7 +516,7 @@ class ProductSellerPage extends Component {
                           hasCod={value.isCOD === "Y"}
                           hasEmi={value.isEMIEligible === "Y"}
                           eligibleDeliveryModes={value.eligibleDeliveryModes}
-                          deliveryModesATP={value.deliveryModesATP}
+                          deliveryModesATP={value.eligibleDeliveryModes}
                           cashText={CASH_TEXT}
                           policyText={DELIVERY_RATES}
                           key={index}
