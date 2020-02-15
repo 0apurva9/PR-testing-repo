@@ -40,7 +40,7 @@
   composes: base;
   pointer-events: none;
 }
-.disabledBuyNowInPdp{
+.disableBtnGrey{
   composes: base;
   pointer-events: none;
 }
