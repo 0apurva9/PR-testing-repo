@@ -206,6 +206,12 @@ class ProductSellerPage extends Component {
       this.setState({ selectedSellerUssID });
     }
   };
+  showQuiqPage(ussId) {
+    if (this.props.showPdpPiqPage) {
+      this.setState({ winningUssID: ussId });
+      this.props.showPdpPiqPage();
+    }
+  }
   render() {
     if (this.props.loading) {
       this.showLoader();
@@ -245,10 +251,9 @@ class ProductSellerPage extends Component {
         this.props &&
         this.props.productDetails &&
         this.props.productDetails.pincodeResponseList;
-      cliqAndPiqDetails.winningUssID =
-        this.props &&
-        this.props.productDetails &&
-        this.props.productDetails.winningUssID;
+      cliqAndPiqDetails.winningUssID = this.state.winningUssID
+        ? this.state.winningUssID
+        : this.props.productDetails.winningUssID;
       cliqAndPiqDetails.pincode = localStorage.getItem(
         DEFAULT_PIN_CODE_LOCAL_STORAGE
       );
@@ -410,7 +415,7 @@ class ProductSellerPage extends Component {
                 )}
               </div>
               {/*As of now unavailable sellers won't be shown in other seller page to reflect the same
-              behaviour as in ios and android apps.     
+              behaviour as in ios and android apps.
               {sortedUnAvailableSellers && (
                 <div>
                   {sortedUnAvailableSellers.map((value, index) => {
@@ -534,7 +539,7 @@ class ProductSellerPage extends Component {
                           updateOtherSellerUssID={ussid =>
                             this.updateOtherSellerUssID(ussid)
                           }
-                          showPdpPiqPage={this.props.showPdpPiqPage}
+                          showPdpPiqPage={() => this.showQuiqPage(value.USSID)}
                           getAllStoresForCliqAndPiq={
                             this.props.getAllStoresForCliqAndPiq
                           }
@@ -542,7 +547,7 @@ class ProductSellerPage extends Component {
                       );
                     })}
                   {/*As of now unavailable sellers won't be shown in other seller page to reflect the same
-                  behaviour as in ios and android apps.     
+                  behaviour as in ios and android apps.
                   {sortedUnAvailableSellers &&
                     sortedUnAvailableSellers.map((value, index) => {
                       return (

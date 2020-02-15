@@ -392,6 +392,13 @@ class CartPage extends React.Component {
       changePinCode: false,
       showCheckoutSection: true
     });
+    let storeDetails = localStorage.getItem(SELECTED_STORE);
+    if (
+      storeDetails &&
+      localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE) !== val
+    ) {
+      localStorage.removeItem(SELECTED_STORE);
+    }
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, val);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
@@ -624,6 +631,7 @@ class CartPage extends React.Component {
     cliqAndPiqDetails.from = "Cart";
     cliqAndPiqDetails.stores = this.props.cart.storeDetails;
     cliqAndPiqDetails.productDetails = currentSelectedProduct;
+    cliqAndPiqDetails.winningUssID = currentSelectedProduct.USSID;
     cliqAndPiqDetails.pinCodeUpdateDisabled = true;
     cliqAndPiqDetails.pincodeResponse = firstSlaveData;
     cliqAndPiqDetails.pincode = localStorage.getItem(
@@ -1083,9 +1091,7 @@ class CartPage extends React.Component {
                     this.props.wishListCount > 0 && (
                       <div className={styles.wishListCountSection}>
                         <div className={styles.iconWishList} />
-                        <span>{`You have ${
-                          this.props.wishListCount
-                        } items in your saved list`}</span>
+                        <span>{`You have ${this.props.wishListCount} items in your saved list`}</span>
                         <div className={styles.buttonHolder}>
                           <UnderLinedButton
                             size="14px"
