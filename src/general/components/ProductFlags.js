@@ -4,6 +4,7 @@ import newFlag from "./img/new.svg";
 import offerFlag from "./img/offer.svg";
 import offerplpFlag from "./img/offerplp.svg";
 import exclusiveFlag from "./img/exclusive.svg";
+import exchangeFlag from "./img/Rectangle43.svg";
 export default class ProductFlags extends React.Component {
   renderFlag = () => {
     if (this.props.outOfStock) {
@@ -15,6 +16,15 @@ export default class ProductFlags extends React.Component {
           >
             Out of Stock
           </div>
+        </div>
+      );
+    } else if (this.props.newProduct) {
+      return (
+        <div
+          className={styles.base}
+          style={{ backgroundImage: `url(${newFlag})` }}
+        >
+          New
         </div>
       );
     } else if (
@@ -29,6 +39,27 @@ export default class ProductFlags extends React.Component {
           {this.props.seasonSale
             ? this.props.seasonSale.value
             : this.props.seasonTag}
+        </div>
+      );
+    } else if (this.props.onlineExclusive) {
+      return (
+        <div
+          className={styles.base}
+          style={{ backgroundImage: `url(${exclusiveFlag})` }}
+        >
+          New
+        </div>
+      );
+    } else if (
+      this.props.isExchangeAvailable === true &&
+      this.props.showExchangeTag === true
+    ) {
+      return (
+        <div
+          className={styles.base}
+          style={{ backgroundImage: `url(${exchangeFlag})` }}
+        >
+          Exchange Offer
         </div>
       );
     } else if (
@@ -50,24 +81,6 @@ export default class ProductFlags extends React.Component {
           style={{ backgroundImage: `url(${offerplpFlag})` }}
         >
           On offer
-        </div>
-      );
-    } else if (this.props.onlineExclusive) {
-      return (
-        <div
-          className={styles.base}
-          style={{ backgroundImage: `url(${exclusiveFlag})` }}
-        >
-          New
-        </div>
-      );
-    } else if (this.props.newProduct) {
-      return (
-        <div
-          className={styles.base}
-          style={{ backgroundImage: `url(${newFlag})` }}
-        >
-          New
         </div>
       );
     } else {

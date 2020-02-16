@@ -7,6 +7,10 @@ import { LOGGED_IN_USER_DETAILS, HOME_ROUTER } from "../../lib/constants.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import Image from "../../xelpmoc-core/Image";
 import paymentConfirmation from "./img/orderConfirmation.svg";
+import {
+  setDataLayerForCartDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING
+} from "../../lib/adobeUtils";
 const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 export default class OrderBanner extends React.Component {
   handleClick() {
@@ -15,6 +19,7 @@ export default class OrderBanner extends React.Component {
     }
   }
   onContinueShopping() {
+    setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
   }
   render() {

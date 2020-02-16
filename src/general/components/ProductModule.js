@@ -10,7 +10,11 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import { Link } from "react-router-dom";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
-import { widgetsTracking } from "../../lib/adobeUtils";
+import {
+  widgetsTracking,
+  setDataLayer,
+  ADOBE_SIMILAR_PRODUCTS_PLP
+} from "../../lib/adobeUtils";
 import Icon from "../../xelpmoc-core/Icon";
 import similarIcon from "../../general/components/img/similarIcon.svg";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
@@ -61,6 +65,7 @@ export default class ProductModule extends React.Component {
   };
 
   onClickSimilar() {
+    setDataLayer(ADOBE_SIMILAR_PRODUCTS_PLP, this.props.productListings);
     this.props.setviewSimilarProductsOfId(this.props.productId);
     this.props.showSimilarProducts();
   }
@@ -168,6 +173,8 @@ export default class ProductModule extends React.Component {
                       seasonTag={this.props.seasonTag}
                       outOfStock={this.props.outOfStock}
                       newProduct={this.props.newProduct}
+                      isExchangeAvailable={this.props.isExchangeAvailable}
+                      showExchangeTag={this.props.showExchangeTag}
                     />
                   </div>
                 </div>

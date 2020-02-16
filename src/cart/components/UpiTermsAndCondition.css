@@ -1,0 +1,60 @@
+.base {
+  width: 100%;
+  height: auto;
+}
+.bottomHolder {
+  width: 100%;
+  height: auto;
+}
+.applicationForm {
+  width: 100%;
+  height: auto;
+  padding: 25px 30px;
+  background: #fff;
+}
+.header {
+  width: 100%;
+  height: auto;
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+  /* font-family: semibold; */
+  margin-bottom: 20px;
+  background: #fff;
+}
+.labelHedaer {
+  width: 100%;
+  height: auto;
+  color: #000;
+  font-size: 12px;
+  font-family: regular;
+  margin-bottom: 15px;
+}
+
+
+.loader {
+  width: 211px;
+  height: 36px;
+  background-color: #ff1744;
+  border-radius: 18px;
+}
+@media screen and (min-width: 1025px) {
+  .base {
+    position: relative;
+    min-height: 329px;
+  }
+  .applicationForm {
+    padding: 30px 46px;
+    border-radius: 0px 0px 4px 4px;
+  }
+  .header {
+    font-size: 16px;
+  }
+  .formHolder {
+    padding: 0px 38px;
+    margin-top: 30px;
+  }
+  /* .labelHedaer {
+    text-align: center;
+  } */
+}

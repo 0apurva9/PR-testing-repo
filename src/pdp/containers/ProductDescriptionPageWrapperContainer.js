@@ -37,6 +37,7 @@ import {
   ADDRESS,
   PRICE_BREAKUP,
   SIZE_SELECTOR,
+  SIZE_SELECTOR_FOR_EYEWEAR,
   SIZE_GUIDE,
   CLIQ_PIQ_MODAL,
   MANUFACTURER_MODAL,
@@ -79,7 +80,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getProductDescription: async productCode => {
       const productDetailsResponse = await dispatch(
-        getProductDescription(productCode, componentName)
+        getProductDescription(productCode)
       );
       if (productDetailsResponse && productDetailsResponse.status === SUCCESS) {
         const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
@@ -110,7 +111,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(showModal(OFFER_MODAL, data));
     },
     showBundledProduct: data => {
-      //debugger;
       dispatch(showModal(BUNDLEDPRODUCT_MODAL, data));
     },
     showTermsNConditions: data => {
@@ -133,6 +133,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showSizeGuide: () => {
       dispatch(showModal(SIZE_GUIDE));
+    },
+    showSizeSelectorForEyeWear: data => {
+      dispatch(showModal(SIZE_SELECTOR_FOR_EYEWEAR, data));
     },
     getPdpEmi: (token, cartValue, productCode, ussId) => {
       dispatch(getPdpEmi(token, cartValue, productCode, ussId));

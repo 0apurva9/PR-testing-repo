@@ -26,6 +26,7 @@ export default class Minibag extends React.Component {
       (this.props.cart.products.length > 2
         ? styles.mybagProductCard
         : styles.mybagProductCardShort);
+
     return (
       <div className={styles.mybag}>
         <div
@@ -78,7 +79,9 @@ export default class Minibag extends React.Component {
                       {product.size &&
                         product.size.toUpperCase() !== NO_SIZE && (
                           <div className={styles.sizeText}>
-                            {`Size:  ${product.size}`}
+                            {product.isSizeOrLength
+                              ? `${product.isSizeOrLength}: ${product.size}`
+                              : `Size: ${product.size}`}
                           </div>
                         )}
                       {product.quantity && (

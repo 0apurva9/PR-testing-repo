@@ -186,3 +186,8 @@
     margin-top: 5px;
   }
 }
+.removeUpi {
+  float: right;
+    font-size: 13px;
+    color: #ff1744;
+}

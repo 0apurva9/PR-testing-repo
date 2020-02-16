@@ -253,6 +253,9 @@ const account = (
     cncToHdDetailsStatus: null,
     cncToHdDetailsError: null,
     cncToHdDetailsLoading: false,
+    addUserUPIStatus: false,
+    addUserUPIDetails: null,
+    addUserUPIError: null,
     userRatingStatus: null,
     userRatingError: null,
 
@@ -506,6 +509,25 @@ const account = (
       });
 
     case accountActions.REMOVE_SAVED_CARD_FAILURE:
+      return Object.assign({}, state, {
+        status: action.status,
+        error: action.error,
+        loading: false
+      });
+
+    case accountActions.REMOVE_SAVED_UPI_REQUEST:
+      return Object.assign({}, state, {
+        status: action.status,
+        loading: true
+      });
+
+    case accountActions.REMOVE_SAVED_UPI_SUCCESS:
+      return Object.assign({}, state, {
+        status: action.status,
+        loading: false
+      });
+
+    case accountActions.REMOVE_SAVED_UPI_FAILURE:
       return Object.assign({}, state, {
         status: action.status,
         error: action.error,
@@ -1039,6 +1061,34 @@ const account = (
         addUserAddressError: action.error,
         loading: false
       });
+    // UPI
+    case accountActions.ADD_USER_UPI_REQUEST:
+      return Object.assign({}, state, {
+        addUserUPIStatus: action.status,
+        loading: true
+      });
+
+    case accountActions.ADD_USER_UPI_SUCCESS:
+      return Object.assign({}, state, {
+        addUserUPIStatus: action.status,
+        loading: false,
+        addUserUPIDetails: action.upiResponse
+      });
+
+    case accountActions.ADD_USER_UPI_FAILURE:
+      return Object.assign({}, state, {
+        addUserUPIStatus: action.status,
+        addUserUPIDetails: action.error,
+        loading: false
+      });
+    case accountActions.ADD_USER_UPI_NULL_STATE:
+      return Object.assign({}, state, {
+        addUserUPIStatus: false,
+        addUserUPIError: null,
+        addUserUPIDetails: null,
+        loading: false
+      });
+    // UPI finished
 
     case accountActions.GET_PIN_CODE_REQUEST:
       return Object.assign({}, state, {

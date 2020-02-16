@@ -176,10 +176,10 @@ export async function postAdobeTargetUrl(
   const result = await new Promise((resolve, reject) => {
     window.adobe.target.getOffer({
       mbox: mbox,
-      success: function (offer) {
+      success: function(offer) {
         resolve(offer);
       },
-      error: function (status, error) {
+      error: function(status, error) {
         reject(error);
       }
     });
@@ -287,7 +287,8 @@ export async function coreGetMiddlewareUrl(url) {
 
   return await fetch(`${MIDDLEWARE_API_URL_ROOT}/${url}`, {
     headers: {
-      Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#")
+      Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#"),
+      mode: "no-cors"
     }
   });
 }
@@ -433,7 +434,7 @@ async function logoutUserOnInvalidRefreshToken() {
   try {
     const result = await postFormData(
       `v2/mpl/users/logout?userId=${
-      JSON.parse(userDetails).userName
+        JSON.parse(userDetails).userName
       }&access_token=${JSON.parse(globalAccessToken).access_token}`
     );
     const resultJson = await result.json();
@@ -547,7 +548,7 @@ async function refreshCustomerAccessToken() {
   }
   const refreshTokenResponse = await post(
     `${TOKEN_PATH}?refresh_token=${
-    JSON.parse(customerCookie).refresh_token
+      JSON.parse(customerCookie).refresh_token
     }&client_id=${CLIENT_ID}&client_secret=secret&grant_type=refresh_token`
   );
   let refreshTokenResultJson = await refreshTokenResponse.json();
@@ -593,7 +594,7 @@ async function refreshCartIdForLoggedUser() {
 
   const resultForGetCartId = await get(
     `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/carts?access_token=${
-    JSON.parse(customerCookie).access_token
+      JSON.parse(customerCookie).access_token
     }&isPwa=true`
   );
   const resultForGetCartIdJson = await resultForGetCartId.json();
@@ -607,9 +608,9 @@ async function refreshCartIdForLoggedUser() {
   ) {
     const resultForCreateCartId = await post(
       `${USER_CART_PATH}/${
-      JSON.parse(userDetails).userName
+        JSON.parse(userDetails).userName
       }/carts?access_token=${
-      JSON.parse(customerCookie).access_token
+        JSON.parse(customerCookie).access_token
       }&isPwa=true`
     );
     const resultForCreateCartIdJson = await resultForCreateCartId.json();
@@ -627,7 +628,7 @@ async function refreshCartIdForAnonymous() {
   let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
   const resultForCreateCartId = await post(
     `${USER_CART_PATH}/anonymous/carts?access_token=${
-    JSON.parse(globalCookie).access_token
+      JSON.parse(globalCookie).access_token
     }&isPwa=true`
   );
   const resultForCreateCartIdJson = await resultForCreateCartId.json();
@@ -700,12 +701,12 @@ export async function postStripe(postData) {
   if (window.Stripe) {
     const stripe = window.Stripe;
     stripe.setPublishableKey(STRIPE_ACCESTOKEN);
-    let stripeResponse = new Promise(function (resolve, reject) {
+    let stripeResponse = new Promise(function(resolve, reject) {
       stripe.card.createToken(postData, (status, response) => {
         resolve(response);
       });
     });
-    return await stripeResponse.then(function (result) {
+    return await stripeResponse.then(function(result) {
       return result;
     });
   }
@@ -753,26 +754,26 @@ export async function pdpOffersApi(code, sellerId, categoryCode, brandCode) {
   }
   return await fetch(
     API_URL_ROOT +
-    "/v2/mpl/products/" +
-    code +
-    "/voucherSequence?access_token=" +
-    accessToken.access_token +
-    "&sellerId=" +
-    sellerId +
-    "&categoryCode=" +
-    categoryCode +
-    "&brandCode=" +
-    brandCode +
-    "&channel=Web&updatedFlag=true"
+      "/v2/mpl/products/" +
+      code +
+      "/voucherSequence?access_token=" +
+      accessToken.access_token +
+      "&sellerId=" +
+      sellerId +
+      "&categoryCode=" +
+      categoryCode +
+      "&brandCode=" +
+      brandCode +
+      "&channel=Web&updatedFlag=true"
   );
 }
 export async function pdpManufacturersApi(categoryCode, brandCode) {
   return await fetch(
     API_URL_ROOT +
-    "/v2/mpl/products/manufacturingdetails?category=" +
-    categoryCode +
-    "&brand=" +
-    brandCode
+      "/v2/mpl/products/manufacturingdetails?category=" +
+      categoryCode +
+      "&brand=" +
+      brandCode
   );
 }
 export async function getPlpBanners(categoryCode) {

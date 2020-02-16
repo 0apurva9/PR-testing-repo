@@ -122,7 +122,10 @@ import {
   CHECKOUT,
   ERROR,
   SUCCESS_UPPERCASE,
-  SELECTED_STORE
+  SELECTED_STORE,
+  FAILED_ORDER,
+  UPI,
+  UPI_ID
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -134,7 +137,8 @@ import {
   ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE,
   ADOBE_CALL_FOR_SELECT_DELIVERY_MODE,
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE,
-  setDataLayerForWhatsappUncheck
+  setDataLayerForWhatsappUncheck,
+  ADOBE_CHECKOUT_DEFAULT_NEW_ADDRESS
 } from "../../lib/adobeUtils";
 import {
   CART_ITEM_COOKIE,
@@ -643,7 +647,7 @@ class CheckOutPage extends React.Component {
         {this.props.cart.cartDetailsCNC.products &&
           this.props.cart.cartDetailsCNC.products.map((val, i) => {
             return (
-              <div className={styles.row}>
+              <div className={styles.row} key={i}>
                 <CartItem
                   inCheckOutPage={true}
                   isTop={false}
@@ -655,6 +659,7 @@ class CheckOutPage extends React.Component {
                   color={val.color}
                   quantity={val.qtySelectedByUser}
                   isGiveAway={val.isGiveAway}
+                  sizeType={val.isSizeOrLength}
                   //productDetails={val.productBrand}
                   productName={val.productName}
                   price={val.price}
@@ -680,6 +685,7 @@ class CheckOutPage extends React.Component {
                   selectedStoreDetails={val.storeDetails}
                   cliqPiqSelected={this.state.cliqPiqSelected}
                   product={val}
+                  sizeType={val.isSizeOrLength}
                 />
               </div>
             );
@@ -1573,6 +1579,7 @@ class CheckOutPage extends React.Component {
     }
   }
   componentDidMount() {
+    localStorage.setItem("APPROVED_UPI_VPA", []);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let cartDetailsLoggedInUser = Cookie.getCookie(
@@ -1606,6 +1613,10 @@ if you have order id in local storage then you have to show order confirmation p
     const parsedQueryString = queryString.parse(this.props.location.search);
     const value = parsedQueryString.status;
     const orderId = parsedQueryString.order_id;
+    if (value == JUS_PAY_CHARGED && stripeDetails) {
+      this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
+      return;
+    }
     if (!orderId) {
       setDataLayerForCheckoutDirectCalls(
         ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE
@@ -2325,7 +2336,7 @@ if you have order id in local storage then you have to show order confirmation p
 
     return productServiceAvailability;
   };
-  handleSubmitAfterPaymentFailure = () => {
+  handleSubmitAfterPaymentFailure = async () => {
     if (this.state.isNoCostEmiApplied) {
       this.setState({ isNoCostEmiProceeded: true });
     }
@@ -2546,6 +2557,32 @@ if you have order id in local storage then you have to show order confirmation p
         );
       }
     }
+    if (this.state.currentPaymentMode === UPI) {
+      if (this.state.isGiftCard) {
+        if (this.props.collectPaymentOrderForUPI) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            await this.props.createPaymentOrder(this.state.egvCartGuid, true);
+          }
+
+          this.props.collectPaymentOrderForGiftCardUPI(this.state.egvCartGuid);
+        }
+      } else {
+        if (this.props.cart.isCreatePaymentOrderFailed) {
+          await this.props.createPaymentOrder("", true);
+        }
+
+        this.props.collectPaymentOrderForUPI(
+          UPI,
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+          "",
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+          false,
+          "",
+          "",
+          true
+        );
+      }
+    }
     if (!this.state.isRemainingAmount && this.state.isCliqCashApplied) {
       if (this.props.cart.isCreatePaymentOrderFailed) {
         this.props.createPaymentOrder();
@@ -2573,7 +2610,7 @@ if you have order id in local storage then you have to show order confirmation p
       }
     }
   };
-  handleSubmit = () => {
+  handleSubmit = async () => {
     localStorage.setItem(
       ADDRESS_FOR_PLACE_ORDER,
       JSON.stringify(this.state.selectedAddress)
@@ -2828,6 +2865,47 @@ if you have order id in local storage then you have to show order confirmation p
           );
         }
       }
+      if (this.state.currentPaymentMode === UPI) {
+        if (this.state.isGiftCard) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            await this.props.createPaymentOrder(
+              this.props.location.state.egvCartGuid,
+              true
+            );
+          }
+          this.props.collectPaymentOrderForGiftCardUPI(
+            this.props.location.state.egvCartGuid,
+            this.state.bankCodeForNetBanking,
+            this.state.bankNameForNetBanking
+          );
+        } else if (this.state.isComingFromRetryUrl) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            await this.props.createPaymentOrder(this.state.retryCartGuid, true);
+          }
+
+          this.props.collectPaymentOrderForUPI(
+            UPI,
+            JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+            false,
+            localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+            true,
+            this.state.retryCartGuid,
+            this.state.bankNameForNetBanking
+          );
+        } else {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            await this.props.createPaymentOrder("", true);
+          }
+
+          this.props.softReservationPaymentForUPI(
+            UPI,
+            "",
+            "",
+            localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+            UPI
+          );
+        }
+      }
       if (this.state.isNoCostEmiApplied) {
         this.setState({ isNoCostEmiProceeded: true });
       }
@@ -2947,6 +3025,7 @@ if you have order id in local storage then you have to show order confirmation p
     this.setState({ isOpenTransactionFailedPopUp: false });
   }
   addNewAddress = () => {
+    setDataLayerForCheckoutDirectCalls(ADOBE_CHECKOUT_DEFAULT_NEW_ADDRESS);
     this.setState({ addNewAddress: true });
   };
   binValidationForPaytm = val => {
@@ -4070,6 +4149,9 @@ if you have order id in local storage then you have to show order confirmation p
                       selectPayPal={val => this.selectPayPal(val)}
                       displayToast={message => this.props.displayToast(message)}
                       getCODEligibility={() => this.getCODEligibility()}
+                      showTermsNConditions={val =>
+                        this.props.showTermsNConditions(val)
+                      }
                       getNetBankDetails={() => this.getNetBankDetails()}
                       getEmiBankDetails={() => this.getEmiBankDetails()}
                       getEmiEligibility={() => this.getEmiEligibility()}
@@ -4124,6 +4206,35 @@ if you have order id in local storage then you have to show order confirmation p
                       }
                       isFromCliqAndPiq={this.state.isComingFromCliqAndPiq}
                       retryPaymentDetails={this.props.retryPaymentDetails}
+                      addUPIDetails={(val, pageType, btnType) =>
+                        this.props.addUPIDetails(val, pageType, btnType)
+                      }
+                      addUPIDetailsNullState={() =>
+                        this.props.addUPIDetailsNullState()
+                      }
+                      addUserUPIStatus={this.props.addUserUPIStatus}
+                      addUserUPIDetails={this.props.addUserUPIDetails}
+                      loading={this.props.loading}
+                      checkUPIEligibility={cartGuidUPI =>
+                        this.props.checkUPIEligibility(cartGuidUPI)
+                      }
+                      binValidationForUPI={paymentMode =>
+                        this.props.binValidationForUPI(paymentMode)
+                      }
+                      upiPaymentIsNewMidddleLayer={() =>
+                        this.props.upiPaymentIsNewMidddleLayer()
+                      }
+                      upiPaymentISEnableMidddleLayer={() =>
+                        this.props.upiPaymentISEnableMidddleLayer()
+                      }
+                      upiPaymentHowItWorksMidddleLayer={() =>
+                        this.props.upiPaymentHowItWorksMidddleLayer()
+                      }
+                      upiPaymentCombinedLogoMidddleLayer={() =>
+                        this.props.upiPaymentCombinedLogoMidddleLayer()
+                      }
+                      getPaymentModes={val => this.props.getPaymentModes(val)}
+                      retryCartGuid={this.state.retryCartGuid}
                     />
                   </div>
                 )}

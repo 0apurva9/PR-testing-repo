@@ -19,7 +19,18 @@ import {
 } from "../../lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
-import { setDataLayer, ADOBE_HELP } from "../../lib/adobeUtils";
+import {
+  setDataLayer,
+  ADOBE_HELP,
+  SET_DATA_LAYER_FAQ,
+  SET_DATA_LAYER_ABOUTUS,
+  SET_DATA_LAYER_CC,
+  SET_DATA_LAYER_CONTACTUS,
+  ABOUT_US,
+  FAQ,
+  CONTACT_US,
+  setDataLayerForFaqAndTc
+} from "../../lib/adobeUtils";
 export default class HelpDetails extends React.Component {
   componentDidMount() {
     this.props.setHeaderText(HELP);
@@ -30,7 +41,14 @@ export default class HelpDetails extends React.Component {
     this.props.setHeaderText(HELP);
   }
   onClickCustomerCare() {}
-  onClick = url => {
+  onClick = (url, type) => {
+    if (type === FAQ) {
+      setDataLayerForFaqAndTc(SET_DATA_LAYER_FAQ);
+    } else if (type === ABOUT_US) {
+      setDataLayerForFaqAndTc(SET_DATA_LAYER_ABOUTUS);
+    } else if (type === CONTACT_US) {
+      setDataLayerForFaqAndTc(SET_DATA_LAYER_CONTACTUS);
+    }
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
@@ -39,6 +57,7 @@ export default class HelpDetails extends React.Component {
     this.props.history.push(url);
   };
   redirectToOrderRelatedPage() {
+    setDataLayerForFaqAndTc(SET_DATA_LAYER_CC);
     this.props.history.push(
       `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
     );
@@ -50,7 +69,7 @@ export default class HelpDetails extends React.Component {
         <div className={styles.helpListHolder}>
           <div
             className={styles.helpCard}
-            onClick={() => this.onClick(FAQ_URL)}
+            onClick={() => this.onClick(FAQ_URL, FAQ)}
           >
             <div className={styles.helpCardWithIcon}>
               <div className={styles.faq}>
@@ -66,7 +85,7 @@ export default class HelpDetails extends React.Component {
           <DesktopOnly>
             <div
               className={styles.helpCard}
-              onClick={() => this.onClick(CONTACT_URL)}
+              onClick={() => this.onClick(CONTACT_URL, CONTACT_US)}
             >
               <div className={styles.helpCardWithIcon}>
                 <div className={styles.contactUs}>
@@ -134,7 +153,7 @@ export default class HelpDetails extends React.Component {
           </MobileOnly>
           <div
             className={styles.helpCard}
-            onClick={() => this.onClick(ABOUT_US_URL)}
+            onClick={() => this.onClick(ABOUT_US_URL, ABOUT_US)}
           >
             <div className={styles.helpCardWithIcon}>
               <div className={styles.aboutUs}>

@@ -4,7 +4,11 @@ import PropTypes from "prop-types";
 import styles from "./ProductGalleryDesktop.css";
 import Icon from "../../xelpmoc-core/Icon";
 import similarIcon from "../../general/components/img/similarIcon.svg";
-import { setDataLayer, ADOBE_SIMILAR_PRODUCTS_PDP } from "../../lib/adobeUtils";
+import {
+  setDataLayer,
+  ADOBE_PDP_SIMILAR_PRODUCT,
+  ADOBE_SIMILAR_PRODUCTS_PDP
+} from "../../lib/adobeUtils";
 import Video from "../../general/components/Video";
 const MODEL_FIT = "Model fit";
 const FABRIC = "Fabric";
@@ -59,6 +63,7 @@ export default class ProductGalleryDesktop extends React.Component {
 
   showSimilarProducts() {
     this.props.showSimilarProducts();
+    //setDataLayer(ADOBE_PDP_SIMILAR_PRODUCT, this.props.productDetails);
     setDataLayer(ADOBE_SIMILAR_PRODUCTS_PDP, this.props.productDetails);
   }
   componentDidMount() {

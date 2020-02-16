@@ -17,6 +17,9 @@ import * as Cookie from "../../lib/Cookie";
 import {
   setDataLayerForPdpDirectCalls,
   ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT,
+  ADOBE_REVIEW_SUBMIT_BUTTON,
+  setDataLayer,
+  ADOBE_REVIEW_STAR_RATING,
   setDataLayerForRatingAndReview,
   SET_DATA_LAYER_RATING_STAR_CLICK,
   SET_DATA_LAYER_REVIEW_SUBMIT_CLICK,
@@ -55,6 +58,7 @@ class WriteReview extends React.Component {
     setDataLayerForPdpDirectCalls(
       ADOBE_DIRECT_CALL_FOR_REVIEW_RATE_THE_PRODUCT
     );
+    setDataLayer(ADOBE_REVIEW_STAR_RATING);
     setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_STAR_CLICK, {
       rating: val,
       statusText: ""
@@ -74,6 +78,7 @@ class WriteReview extends React.Component {
     setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_GUIDELINE);
   };
   onSubmit = async () => {
+    setDataLayer(ADOBE_REVIEW_SUBMIT_BUTTON);
     if (
       /\s*[0-9a-zA-Z]+/.test(this.state.comment) &&
       /\s*[0-9a-zA-Z]+/.test(this.state.title)

@@ -10,8 +10,11 @@ import {
 } from "../../lib/adobeUtils";
 import {
   EASY_MONTHLY_INSTALLMENTS,
-  NET_BANKING_PAYMENT_MODE
+  NET_BANKING_PAYMENT_MODE,
+  CART_DETAILS_FOR_LOGGED_IN_USER,
+  UPI
 } from "../../lib/constants";
+import * as Cookie from "../../lib/Cookie";
 
 export default class MenuDetails extends React.Component {
   constructor(props) {
@@ -20,8 +23,48 @@ export default class MenuDetails extends React.Component {
       isOpen: this.props.isOpen
     };
   }
+  checkupi = async () => {
+    if (this.state.isOpen) {
+      this.openMenu();
+    } else {
+      let response;
+      let cartGuidUPI = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      let egvGuidUPI = Cookie.getCookie("egvCartGuid");
 
+      if (cartGuidUPI) {
+        cartGuidUPI = JSON.parse(cartGuidUPI).guid;
+      }
+
+      if (this.props.isFromGiftCard) {
+        if (egvGuidUPI) {
+          response = await this.props.checkUPIEligibility(egvGuidUPI);
+        }
+      } else {
+        if (cartGuidUPI) {
+          if (this.props.retryCartGuid) {
+            response = await this.props.checkUPIEligibility(
+              this.props.retryCartGuid
+            );
+          } else {
+            response = await this.props.checkUPIEligibility(cartGuidUPI);
+          }
+        }
+      }
+
+      const binResponse = await this.props.binValidationForUPI(UPI);
+      if (
+        response.status &&
+        response.status === "success" &&
+        response.checkUPIEligibility &&
+        response.checkUPIEligibility.isUpiPaymentEligible
+      ) {
+        this.openMenu();
+      }
+    }
+  };
   openMenu() {
+    let cartGuidUPI = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    console.log("CART_GUID", cartGuidUPI);
     let isOpen = !this.state.isOpen;
     if (isOpen) {
       setDataLayerForCheckoutDirectCalls(
@@ -72,15 +115,25 @@ export default class MenuDetails extends React.Component {
       >
         <div
           className={styles.holder}
-          onClick={() => {
-            this.openMenu();
-          }}
+          onClick={() =>
+            this.props.text === UPI ? this.checkupi() : this.openMenu()
+          }
         >
           <div className={styles.debitCardIcon}>
             <Icon image={this.props.icon} size={25} />
           </div>
           <div className={styles.textBox}>
-            {this.props.text}
+            {this.props.text === UPI ? "UPI ID" : this.props.text}
+            {this.props.secondIcon &&
+              !this.state.isOpen && (
+                <div className={styles.secondIcon}>
+                  <Icon
+                    image={this.props.secondIcon}
+                    size={37}
+                    backgroundSize={`100%`}
+                  />
+                </div>
+              )}
             <div className={iconActive} />
           </div>
         </div>
@@ -92,7 +145,7 @@ export default class MenuDetails extends React.Component {
 MenuDetails.propTypes = {
   text: PropTypes.string,
   icon: PropTypes.string,
-  onOpenMenu: PropTypes.bool,
+  onOpenMenu: PropTypes.func,
   isNoBorderTop: PropTypes.bool
 };
 

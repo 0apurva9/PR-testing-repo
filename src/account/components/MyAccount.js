@@ -34,6 +34,10 @@ import {
   setDataLayerForFaqAndTc,
   SET_DATA_LAYER_FAQ,
   SET_DATA_LAYER_TC,
+  SET_DATA_LAYER_ABOUTUS,
+  SET_DATA_LAYER_HELP,
+  SET_DATA_LAYER_CC,
+  ABOUT_US,
   FAQ,
   TC
 } from "../../lib/adobeUtils";
@@ -58,11 +62,14 @@ export default class MyAccount extends React.Component {
       setDataLayerForFaqAndTc(SET_DATA_LAYER_FAQ);
     } else if (type === TC) {
       setDataLayerForFaqAndTc(SET_DATA_LAYER_TC);
+    } else if (type === ABOUT_US) {
+      setDataLayerForFaqAndTc(SET_DATA_LAYER_ABOUTUS);
     }
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
   redirectToHelp = url => {
+    setDataLayerForFaqAndTc(SET_DATA_LAYER_HELP);
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
@@ -213,7 +220,7 @@ export default class MyAccount extends React.Component {
                   </div>
                 </AccountUsefulLink>
                 <AccountUsefulLink
-                  onClick={() => this.redirectPage(ABOUT_US_URL)}
+                  onClick={() => this.redirectPage(ABOUT_US_URL, ABOUT_US)}
                 >
                   <div className={styles.usefulLinkText}>About us</div>
                 </AccountUsefulLink>

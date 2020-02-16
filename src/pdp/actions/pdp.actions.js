@@ -262,26 +262,45 @@ export function getProductDescription(
           isBrowser &&
           (!window.digitalData ||
             !window.digitalData.cpj ||
-            !window.digitalData.cpj.product ||
+            !window.digitalData.cpj.product) &&
+          (window.digitalData &&
+            window.digitalData.cpj &&
+            window.digitalData.cpj.product &&
             window.digitalData.cpj.product.id !== resultJson.productListingId)
         ) {
           if (componentName === "Theme offers component") {
-            setDataLayer(
-              ADOBE_PDP_TYPE,
-              resultJson,
-              null,
-              null,
-              behaviorOfPageTheCurrent
-            );
+            const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
+            let path = this.props.location.pathname;
+            if (PRODUCT_CODE_REGEX.test(path)) {
+              setDataLayer(
+                ADOBE_PDP_TYPE,
+                resultJson,
+                null,
+                null,
+                behaviorOfPageTheCurrent
+              );
+            }
           } else {
-            setDataLayer(
-              ADOBE_PDP_TYPE,
-              resultJson,
-              getState().icid.value,
-              getState().icid.icidType,
-              behaviorOfPageTheCurrent
-            );
+            const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
+            let path = this.props.location.pathname;
+            if (PRODUCT_CODE_REGEX.test(path)) {
+              setDataLayer(
+                ADOBE_PDP_TYPE,
+                resultJson,
+                getState().icid.value,
+                getState().icid.icidType,
+                behaviorOfPageTheCurrent
+              );
+            }
           }
+        } else {
+          setDataLayer(
+            ADOBE_PDP_TYPE,
+            resultJson,
+            null,
+            null,
+            behaviorOfPageTheCurrent
+          );
         }
         return dispatch(getProductDescriptionSuccess(resultJson));
       } else {
@@ -689,11 +708,12 @@ export function ProductSpecificationRequest() {
     status: REQUESTING
   };
 }
-export function ProductSpecificationSuccess(productDetails) {
+export function ProductSpecificationSuccess(productDetails, productCode) {
   return {
     type: PRODUCT_SPECIFICATION_SUCCESS,
     status: SUCCESS,
-    productDetails
+    productDetails,
+    productCode
   };
 }
 
@@ -718,7 +738,7 @@ export function getProductSpecification(productId) {
         throw new Error(resultJsonStatus.message);
       }
 
-      dispatch(ProductSpecificationSuccess(resultJson));
+      dispatch(ProductSpecificationSuccess(resultJson, productId));
     } catch (e) {
       dispatch(ProductSpecificationFailure(e.message));
     }
@@ -1582,7 +1602,6 @@ export function getRelevantBundleProduct(productCode, isApiCall = 0, sequence) {
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
       const resultJson = await result.json();
-
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
