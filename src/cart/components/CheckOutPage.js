@@ -123,7 +123,6 @@ import {
   ERROR,
   SUCCESS_UPPERCASE,
   SELECTED_STORE,
-  FAILED_ORDER,
   UPI,
   UPI_ID
 } from "../../lib/constants";
