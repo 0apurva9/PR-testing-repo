@@ -25,7 +25,7 @@ export default class DeliveryModeSet extends React.Component {
       return `Tomorrow`;
     } */
     let placedTime = "";
-    let defaultText = "Delivery by";
+    let defaultText = "Delivery by ";
     let currentProduct =
       this.props &&
       this.props.productDelivery &&

@@ -1034,9 +1034,9 @@ class CheckOutPage extends React.Component {
       }
     }
     this.availabilityOfUserCoupon();
+
     if (
       !this.state.isCheckoutAddressSelected &&
-      nextProps.cart.getUserAddressStatus === SUCCESS &&
       nextProps.cart &&
       nextProps.cart.userAddress &&
       nextProps.cart.userAddress.addresses
