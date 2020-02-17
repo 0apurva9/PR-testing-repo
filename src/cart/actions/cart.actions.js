@@ -44,7 +44,8 @@ import {
   SAME_DAY_DELIVERY,
   SHORT_SAME_DAY_DELIVERY,
   RETRY_PAYMENT_CART_ID,
-  UPI
+  UPI,
+  SELECTED_STORE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -1203,6 +1204,15 @@ export function addAddressToCart(addressId, pinCode, isComingFromCliqAndPiq) {
 
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
+      }
+      let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
+      let storeDetails =
+        selectedStore &&
+        selectedStore.find(store => {
+          return store.pincode === newPinCode;
+        });
+      if (selectedStore && !storeDetails) {
+        localStorage.removeItem(SELECTED_STORE);
       }
       dispatch(
         getCartDetailsCNC(userId, access_token, cartId, newPinCode, false)

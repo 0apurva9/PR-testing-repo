@@ -246,6 +246,7 @@ class ProductSellerPage extends Component {
         });
       cliqAndPiqDetails.productDetails.slaveData = availableDeliveryMode;
       cliqAndPiqDetails.from = "Pdp";
+      cliqAndPiqDetails.fromSellersPage = true;
       cliqAndPiqDetails.preventSelection = true;
       cliqAndPiqDetails.pincodeResponseList =
         this.props &&
