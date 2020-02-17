@@ -39,6 +39,7 @@
 .disabled {
   composes: base;
   pointer-events: none;
+  opacity: 0.5;
 }
 .disableBtnGrey{
   composes: base;
