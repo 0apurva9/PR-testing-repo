@@ -86,11 +86,13 @@ export default class Button extends React.Component {
           float: this.props.float ? this.props.float : "none",
           background: this.props.background ? this.props.background : "none",
           backgroundColor:
-            this.props.disabled ||
-            (this.props.disabledBgGrey && this.props.type === "primary")
+            this.props.disabled &&
+            this.props.disabledBgGrey &&
+            this.props.type === "primary"
               ? "#989898"
-              : this.props.disabled ||
-                (this.props.disabledBgGrey && this.props.type === "hollow")
+              : this.props.disabled &&
+                this.props.disabledBgGrey &&
+                this.props.type === "hollow"
                 ? "#FFF"
                 : this.state.backgroundColor,
           border: `2px solid ${
