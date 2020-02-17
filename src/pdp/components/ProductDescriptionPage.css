@@ -681,8 +681,10 @@
 		width: auto;
 		height: auto;
 		border-radius: 22.5px;
-		box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
 		transition: 300ms;
+	}
+	.shadowBtn{
+		box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
 	}
 	.shadowBtn:hover {
 		box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
