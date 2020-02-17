@@ -1730,6 +1730,12 @@ const account = (
         retryPaymentDetails: cloneRetryPaymentDetails,
         retryPaymentDetailsLoading: false
       });
+    case accountActions.RESET_USER_ADDRESS:
+      return Object.assign({}, state, {
+        userAddressStatus: action.status,
+        userAddress: null,
+        loading: false
+      });
     default:
       return state;
   }

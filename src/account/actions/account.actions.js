@@ -325,6 +325,8 @@ export const CNC_TO_HD_DETAILS_REQUEST = "CNC_TO_HD_DETAILS_REQUEST";
 export const CNC_TO_HD_DETAILS_SUCCESS = "CNC_TO_HD_DETAILS_SUCCESS";
 export const CNC_TO_HD_DETAILS_FAILURE = "CNC_TO_HD_DETAILS_FAILURE";
 
+export const RESET_USER_ADDRESS = "RESET_USER_ADDRESS";
+
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
 export const Clear_ORDER_TRANSACTION_DATA = "Clear_ORDER_TRANSACTION_DATA";
 export const RE_SET_ADD_ADDRESS_DETAILS = "RE_SET_ADD_ADDRESS_DETAILS";
@@ -4688,5 +4690,12 @@ export function releaseBankOfferRetryPaymentSuccess(bankOffer) {
     type: RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS,
     status: SUCCESS,
     bankOffer
+  };
+}
+
+export function resetUserAddressAfterLogout() {
+  return {
+    type: RESET_USER_ADDRESS,
+    status: SUCCESS
   };
 }

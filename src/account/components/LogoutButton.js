@@ -1,5 +1,10 @@
 import React from "react";
-import { HOME_ROUTER, SUCCESS, SUCCESS_UPPERCASE } from "../../lib/constants";
+import {
+  HOME_ROUTER,
+  SUCCESS,
+  SUCCESS_UPPERCASE,
+  SUCCESS_CAMEL_CASE
+} from "../../lib/constants";
 import PropTypes from "prop-types";
 import styles from "./LogoutButton.css";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
@@ -42,7 +47,8 @@ export default class LogoutButton extends React.Component {
       } else {
         this.props.history.push(`${HOME_ROUTER}`);
       }
-      if (logoutResponse.status === SUCCESS) {
+      if (logoutResponse.status == SUCCESS) {
+        this.props.resetUserAddressAfterLogout();
         if (this.props.setBagCount) {
           this.props.setBagCount(0);
         }
