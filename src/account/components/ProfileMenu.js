@@ -14,7 +14,8 @@ import {
   SAVE_LIST_PAGE,
   ORDER_PREFIX,
   RETURNS,
-  REDMI_WALLET_FROM_EMAIL
+  REDMI_WALLET_FROM_EMAIL,
+  MY_ACCOUNT_USER_NOTIFICATION_PAGE
 } from "../../lib/constants";
 import savedList from "../../general/components/img/download.svg";
 import savedListRed from "./img/SaveListRed.png";
@@ -31,6 +32,8 @@ import alertsCouponsRed from "./img/alertRed.svg";
 import cliqCash from "./img/cliqCash.svg";
 import cliqCashRed from "./img/cliqCashRed.svg";
 import giftCards from "./img/giftCards.svg";
+import notification from "./img/notification.svg";
+import notificationRed from "./img/notificationRed.svg";
 import settings from "./img/settings.svg";
 import settingsRed from "./img/settingsRed.svg";
 import Icon from "../../xelpmoc-core/Icon";
@@ -74,6 +77,9 @@ export default class PofileMenuGridForDesktop extends React.Component {
       pathName === REDMI_WALLET_FROM_EMAIL
     ) {
       selected = "CLiQ Cash";
+    }
+    if (pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_USER_NOTIFICATION_PAGE}`) {
+      selected = "Manage Notifications";
     }
     if (pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_UPDATE_PROFILE_PAGE}`) {
       selected = "Profile";
@@ -143,6 +149,14 @@ export default class PofileMenuGridForDesktop extends React.Component {
       },
       {
         image:
+          pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_USER_NOTIFICATION_PAGE}`
+            ? addressBookRed
+            : addressBook,
+        text: "Manage Notifications",
+        url: MY_ACCOUNT_USER_NOTIFICATION_PAGE
+      },
+      {
+        image:
           pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_UPDATE_PROFILE_PAGE}`
             ? settingsRed
             : settings,
@@ -159,6 +173,7 @@ export default class PofileMenuGridForDesktop extends React.Component {
               <div
                 className={styles.holder}
                 onClick={value => this.onSave(datum.url)}
+                key={i}
               >
                 <div className={styles.gridLogo}>
                   <Icon image={datum.image} size={20} />

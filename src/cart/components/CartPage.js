@@ -729,6 +729,7 @@ class CartPage extends React.Component {
                               product.elligibleDeliveryMode &&
                               product.elligibleDeliveryMode[0].desc
                             }
+                            sizeType={product.isSizeOrLength}
                             deliveryType={
                               product.elligibleDeliveryMode &&
                               product.elligibleDeliveryMode[0].code
@@ -922,7 +923,7 @@ class CartPage extends React.Component {
                     )}
                   {this.props &&
                     this.props.wishListCount !== null &&
-                    (this.props.wishListCount > 0 && (
+                    this.props.wishListCount > 0 && (
                       <div className={styles.wishListCountSection}>
                         <div className={styles.iconWishList} />
                         <span>{`You have ${this.props.wishListCount} items in your saved list`}</span>
@@ -936,7 +937,7 @@ class CartPage extends React.Component {
                           />
                         </div>
                       </div>
-                    ))}
+                    )}
                   <div className={styles.disclaimer}>{DISCLAIMER}</div>
                 </div>
               </div>

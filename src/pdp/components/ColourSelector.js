@@ -12,8 +12,8 @@ export default class ColourSelector extends React.Component {
       displayColour: this.props.selected ? this.props.selected[0] : [""]
     };
   }
-  updateColour(productUrl, selectedColour, currentColour) {
-    if (selectedColour !== currentColour) {
+  updateColour(productUrl, selectedColourUrl, currentColour) {
+    if (selectedColourUrl !== productUrl) {
       if (
         this.props.history.location.state &&
         this.props.history.location.state.isSizeSelected
@@ -27,15 +27,15 @@ export default class ColourSelector extends React.Component {
       }
     }
   }
-  renderColours(datum, i, selectedColour) {
+  renderColours(datum, i, selectedColourUrl) {
     return (
       <ColourSelect
         key={i}
         colour={datum.colorHexCode}
         value={datum.color}
-        selected={datum.color === selectedColour}
+        selected={datum.selected}
         onSelect={() =>
-          this.updateColour(datum.colorurl, selectedColour, datum.color)
+          this.updateColour(datum.colorurl, selectedColourUrl, datum.color)
         }
       />
     );
@@ -47,6 +47,9 @@ export default class ColourSelector extends React.Component {
     const selectedColour = this.props.data.filter(val => {
       return val.colorlink.selected;
     })[0].colorlink.color;
+    const selectedColourUrl = this.props.data.filter(val => {
+      return val.colorlink.selected;
+    })[0].colorlink.colorurl;
 
     const colors = this.props.data
       .filter(val => {
@@ -70,7 +73,7 @@ export default class ColourSelector extends React.Component {
               headerComponent={
                 <div className={styles.header}>
                   Colour:{" "}
-                  <span className={styles.colourName}>{selectedColour}</span>
+                  <h3 className={styles.colourName}>{selectedColour}</h3>
                 </div>
               }
             >
@@ -81,14 +84,14 @@ export default class ColourSelector extends React.Component {
           </MobileOnly>
           <DesktopOnly>
             <div className={styles.header}>
-              Colour:{" "}
-              <span className={styles.colourName}>{selectedColour}</span>
+              <h3>Colour:</h3>{" "}
+              <h4 className={styles.colourName}>{selectedColour}</h4>
             </div>
             <div className={styles.colorHolder}>
               {colors.map((datum, i) => {
                 return (
                   <div className={styles.colour}>
-                    {this.renderColours(datum, i, selectedColour)}
+                    {this.renderColours(datum, i, selectedColourUrl)}
                   </div>
                 );
               })}

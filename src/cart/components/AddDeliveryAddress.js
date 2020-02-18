@@ -56,7 +56,8 @@ import {
   ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_OFFICE,
   setDataLayerForCheckoutDirectCalls,
   ADOBE_ADD_NEW_ADDRESS_ON_CHECKOUT_PAGE,
-  ADOBE_ADD_NEW_ADDRESS_ON_MY_ACCOUNT_PAGE
+  ADOBE_ADD_NEW_ADDRESS_ON_MY_ACCOUNT_PAGE,
+  ADOBE_CHECKOUT_DEFAULT_NEW_ADDRESS
 } from "../../lib/adobeUtils";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
@@ -436,8 +437,8 @@ export default class AddDeliveryAddress extends React.Component {
               !this.props.label
                 ? styles.onlyLeft
                 : this.props.isReturn
-                  ? styles.forReturn
-                  : styles.base
+                ? styles.forReturn
+                : styles.base
             }
           >
             <div className={styles.pageCenter}>

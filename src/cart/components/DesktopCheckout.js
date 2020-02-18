@@ -87,15 +87,14 @@ export default class DesktopCheckout extends React.Component {
                   </div>
                 </div>
               )}
-            {cartAmount.bagDiscount &&
-              cartAmount.bagDiscount.value !== 0 && (
-                <div className={styles.row}>
-                  <div className={styles.label}>Bag Discount</div>
-                  <div className={styles.info}>
-                    -{cartAmount.bagDiscount.formattedValue}
-                  </div>
+            {cartAmount.bagDiscount && cartAmount.bagDiscount.value !== 0 && (
+              <div className={styles.row}>
+                <div className={styles.label}>Bag Discount</div>
+                <div className={styles.info}>
+                  -{cartAmount.bagDiscount.formattedValue}
                 </div>
-              )}
+              </div>
+            )}
             {cartAmount.couponDiscountAmount &&
               cartAmount.couponDiscountAmount.value !== 0 && (
                 <div className={styles.row}>
@@ -117,21 +116,39 @@ export default class DesktopCheckout extends React.Component {
                   </div>
                 </div>
               )}
-            {cartAmount.cartDiscount &&
-              cartAmount.cartDiscount.value !== 0 && (
-                <div className={styles.row}>
-                  <div className={styles.label}>Bank Offer Discount</div>
-                  <div className={styles.info}>
-                    -{cartAmount.cartDiscount.formattedValue}
-                  </div>
+            {cartAmount.cartDiscount && cartAmount.cartDiscount.value !== 0 && (
+              <div className={styles.row}>
+                <div className={styles.label}>Bank Offer Discount</div>
+                <div className={styles.info}>
+                  -{cartAmount.cartDiscount.formattedValue}
                 </div>
-              )}
+              </div>
+            )}
             {cartAmount.noCostEMIDiscountValue &&
+              !this.props.noCostEmiEligibility &&
               cartAmount.noCostEMIDiscountValue.value !== 0 && (
                 <div className={styles.row}>
                   <div className={styles.label}>No Cost EMI Discount</div>
                   <div className={styles.info}>
                     -{cartAmount.noCostEMIDiscountValue.formattedValue}
+                  </div>
+                </div>
+              )}
+            {/* payment retry page - NCE issue - TQTM-1319 */}
+            {!this.props.noCostEMIDiscountValue &&
+              this.props.noCostEmiEligibility &&
+              this.props.noCostEmiEligibility.noCostEMIDiscountValue &&
+              this.props.noCostEmiEligibility.noCostEMIDiscountValue.value &&
+              this.props.noCostEmiEligibility.noCostEMIDiscountValue.value !==
+                0 && (
+                <div className={styles.row}>
+                  <div className={styles.label}>No Cost EMI Discount</div>
+                  <div className={styles.info}>
+                    -
+                    {
+                      this.props.noCostEmiEligibility.noCostEMIDiscountValue
+                        .formattedValue
+                    }
                   </div>
                 </div>
               )}
@@ -151,7 +168,8 @@ export default class DesktopCheckout extends React.Component {
                     )}
                   </div>
                   <div className={styles.infoForAdditionalDiscount}>
-                    -{cartAmount.additionalDiscount.totalAdditionalDiscount &&
+                    -
+                    {cartAmount.additionalDiscount.totalAdditionalDiscount &&
                       cartAmount.additionalDiscount.totalAdditionalDiscount
                         .formattedValue}
                   </div>
@@ -162,7 +180,8 @@ export default class DesktopCheckout extends React.Component {
                       Shipping Charge Discount
                     </div>
                     <div className={styles.informationAnswerHolder}>
-                      -{cartAmount.additionalDiscount.shippingDiscount &&
+                      -
+                      {cartAmount.additionalDiscount.shippingDiscount &&
                         cartAmount.additionalDiscount.shippingDiscount
                           .formattedValue}
                     </div>
@@ -289,41 +308,39 @@ export default class DesktopCheckout extends React.Component {
                   </div>
                 )}
 
-                {this.props.isOnCartPage &&
-                  defaultPinCode && (
-                    <div className={styles.button}>
-                      <Button
-                        disabled={this.props.disabled}
-                        type="primary"
-                        backgroundColor="#ff1744"
-                        height={40}
-                        label={this.props.label}
-                        width={150}
-                        textStyle={{
-                          color: "#FFF",
-                          fontSize: 14
-                        }}
-                        onClick={() => this.handleClick()}
-                      />
-                    </div>
-                  )}
-                {this.props.isOnCartPage &&
-                  !defaultPinCode && (
-                    <div className={styles.button}>
-                      <Button
-                        type="primary"
-                        backgroundColor="#ff1744"
-                        height={40}
-                        label={this.props.label}
-                        width={150}
-                        textStyle={{
-                          color: "#FFF",
-                          fontSize: 14
-                        }}
-                        onClick={() => this.handleFocusOnPinCode()}
-                      />
-                    </div>
-                  )}
+                {this.props.isOnCartPage && defaultPinCode && (
+                  <div className={styles.button}>
+                    <Button
+                      disabled={this.props.disabled}
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={40}
+                      label={this.props.label}
+                      width={150}
+                      textStyle={{
+                        color: "#FFF",
+                        fontSize: 14
+                      }}
+                      onClick={() => this.handleClick()}
+                    />
+                  </div>
+                )}
+                {this.props.isOnCartPage && !defaultPinCode && (
+                  <div className={styles.button}>
+                    <Button
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={40}
+                      label={this.props.label}
+                      width={150}
+                      textStyle={{
+                        color: "#FFF",
+                        fontSize: 14
+                      }}
+                      onClick={() => this.handleFocusOnPinCode()}
+                    />
+                  </div>
+                )}
               </React.Fragment>
             )}
           </div>

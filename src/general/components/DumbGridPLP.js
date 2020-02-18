@@ -40,6 +40,8 @@ export default class Grid extends React.Component {
           let child3 = this.props.children[i + 3];
           // let child4 = this.props.children[i + 4];
           // let child5 = this.props.children[i + 5];
+          let bannerImage = "";
+          let bannerUrl = "";
           if (this.props.banners && this.props.banners.heroBanners) {
             banner = this.props.banners.heroBanners.find(b => {
               // if (this.props.view === LIST) {
@@ -50,6 +52,27 @@ export default class Grid extends React.Component {
               // }
               // return false;
             });
+
+            let newbanner = this.props.banners.heroBanners.find(indexObj => {
+              return (
+                indexObj.plpBannerTitle && indexObj.plpBannerTitle === "desktop"
+              );
+            });
+
+            if (newbanner) {
+              bannerImage = newbanner.plpBannerImage;
+              bannerUrl = newbanner.redirectionURL;
+            } else {
+              if (this.props.banners.heroBanners[1]) {
+                if (this.props.banners.heroBanners[1].plpBannerImage) {
+                  bannerImage = this.props.banners.heroBanners[1]
+                    .plpBannerImage;
+                }
+                if (this.props.banners.heroBanners[1].redirectionURL) {
+                  bannerUrl = this.props.banners.heroBanners[1].redirectionURL;
+                }
+              }
+            }
           }
 
           str.push(
@@ -62,10 +85,10 @@ export default class Grid extends React.Component {
                   }}
                 >
                   {banner && banner.plpBannerImage ? (
-                    <a href={banner.redirectionURL}>
+                    <a href={bannerUrl}>
                       <img
                         alt="bannerimg"
-                        src={banner && banner.plpBannerImage}
+                        src={bannerImage}
                         key={i + 161}
                         style={{
                           width: "100%",
@@ -89,8 +112,8 @@ export default class Grid extends React.Component {
                         width: this.props.electronicView
                           ? { width: "100%" }
                           : child.props && child.props.gridWidthDesktop
-                            ? `${child.props.gridWidthDesktop}%`
-                            : `${this.props.elementWidthDesktop}%`,
+                          ? `${child.props.gridWidthDesktop}%`
+                          : `${this.props.elementWidthDesktop}%`,
 
                         padding: `${this.props.offset / 2}px`
                       }}
@@ -109,8 +132,8 @@ export default class Grid extends React.Component {
                         width: this.props.electronicView
                           ? { width: "100%" }
                           : child1.props && child1.props.gridWidthDesktop
-                            ? `${child1.props.gridWidthDesktop}%`
-                            : `${this.props.elementWidthDesktop}%`,
+                          ? `${child1.props.gridWidthDesktop}%`
+                          : `${this.props.elementWidthDesktop}%`,
 
                         padding: `${this.props.offset / 2}px`
                       }}
@@ -129,8 +152,8 @@ export default class Grid extends React.Component {
                         width: this.props.electronicView
                           ? { width: "100%" }
                           : child2.props && child2.props.gridWidthDesktop
-                            ? `${child1.props.gridWidthDesktop}%`
-                            : `${this.props.elementWidthDesktop}%`,
+                          ? `${child1.props.gridWidthDesktop}%`
+                          : `${this.props.elementWidthDesktop}%`,
 
                         padding: `${this.props.offset / 2}px`
                       }}
@@ -149,8 +172,8 @@ export default class Grid extends React.Component {
                         width: this.props.electronicView
                           ? { width: "100%" }
                           : child3.props && child3.props.gridWidthDesktop
-                            ? `${child1.props.gridWidthDesktop}%`
-                            : `${this.props.elementWidthDesktop}%`,
+                          ? `${child1.props.gridWidthDesktop}%`
+                          : `${this.props.elementWidthDesktop}%`,
 
                         padding: `${this.props.offset / 2}px`
                       }}
@@ -211,6 +234,8 @@ export default class Grid extends React.Component {
           let child3 = this.props.children[i + 3];
           // let child4 = this.props.children[i + 4];
           // let child5 = this.props.children[i + 5];
+          let bannerImage = "";
+          let bannerUrl = "";
           if (this.props.banners && this.props.banners.heroBanners) {
             banner = this.props.banners.heroBanners.find(b => {
               // if (this.props.view === LIST) {
@@ -220,6 +245,27 @@ export default class Grid extends React.Component {
               // }
               // return false;
             });
+
+            let newbanner = this.props.banners.heroBanners.find(indexObj => {
+              return (
+                indexObj.plpBannerTitle && indexObj.plpBannerTitle === "desktop"
+              );
+            });
+
+            if (newbanner) {
+              bannerImage = newbanner.plpBannerImage;
+              bannerUrl = newbanner.redirectionURL;
+            } else {
+              if (this.props.banners.heroBanners[1]) {
+                if (this.props.banners.heroBanners[1].plpBannerImage) {
+                  bannerImage = this.props.banners.heroBanners[1]
+                    .plpBannerImage;
+                }
+                if (this.props.banners.heroBanners[1].redirectionURL) {
+                  bannerUrl = this.props.banners.heroBanners[1].redirectionURL;
+                }
+              }
+            }
           }
 
           str.push(
@@ -233,12 +279,12 @@ export default class Grid extends React.Component {
                 >
                   {banner && banner.plpBannerImage ? (
                     <a
-                      href={banner.redirectionURL}
+                      href={bannerUrl}
                       // onClick={this.recordScreenScroll()}
                     >
                       <img
                         alt="bannerimg"
-                        src={banner && banner.plpBannerImage}
+                        src={bannerImage}
                         key={i + 161}
                         style={{
                           width: "100%",

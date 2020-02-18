@@ -91,6 +91,11 @@ export default class CartItemForDesktop extends React.Component {
         });
       }
     }
+    let SizeType = this.props.sizeType ? this.props.sizeType : "Size";
+    let sizeValue = this.props.size;
+    if (this.props.sizeType === "Power" && this.props.size > 0) {
+      sizeValue = `+${this.props.size}`;
+    }
     return (
       <div className={styles.base}>
         <div className={styles.productImage}>
@@ -152,30 +157,29 @@ export default class CartItemForDesktop extends React.Component {
               </div>
             )}
 
-            {this.props.isGiveAway === NO &&
-              this.props.hasFooter && (
-                <div className={styles.dropDown}>
-                  <SelectBoxDesktop
-                    value={this.props.qtySelectedByUser}
-                    label={this.props.qtySelectedByUser}
-                    height={30}
-                    options={fetchedQuantityList}
-                    onChange={val => this.handleQuantityChange(val)}
-                    size={10}
-                    leftChild={this.props.dropdownLabel}
-                    leftChildSize={80}
-                    rightChildSize={30}
-                    labelWithLeftChild={true}
-                    arrowColour="black"
-                    disabled={this.props.isOutOfStock}
-                    theme="hollowBox"
-                    paddingLeftColour={"#212121"}
-                    paddingLeftFontFamily={"light"}
-                    paddingLeft={"0px"}
-                    rightArrow={0}
-                  />
-                </div>
-              )}
+            {this.props.isGiveAway === NO && this.props.hasFooter && (
+              <div className={styles.dropDown}>
+                <SelectBoxDesktop
+                  value={this.props.qtySelectedByUser}
+                  label={this.props.qtySelectedByUser}
+                  height={30}
+                  options={fetchedQuantityList}
+                  onChange={val => this.handleQuantityChange(val)}
+                  size={10}
+                  leftChild={this.props.dropdownLabel}
+                  leftChildSize={80}
+                  rightChildSize={30}
+                  labelWithLeftChild={true}
+                  arrowColour="black"
+                  disabled={this.props.isOutOfStock}
+                  theme="hollowBox"
+                  paddingLeftColour={"#212121"}
+                  paddingLeftFontFamily={"light"}
+                  paddingLeft={"0px"}
+                  rightArrow={0}
+                />
+              </div>
+            )}
             {(this.props.size || this.props.color) && (
               <div className={styles.colourSizeHolder}>
                 {this.props.color && (
@@ -186,46 +190,44 @@ export default class CartItemForDesktop extends React.Component {
                 {this.props.size &&
                   this.props.size.toUpperCase() !== NO_SIZE && (
                     <div className={styles.colourText}>
-                      {`Size:  ${this.props.size}`}
+                      {`${SizeType}: ${sizeValue}`}
                     </div>
                   )}
               </div>
             )}
           </div>
-          {this.props.isGiveAway === NO &&
-            this.props.hasFooter && (
-              <div className={styles.footer}>
-                <div className={styles.wishlist}>
-                  <AddToWishListButtonContainer
-                    type={WISHLIST_BUTTON_TEXT_TYPE_SMALL}
-                    productListingId={this.props.product.productcode}
-                    winningUssID={this.props.product.USSID}
-                    setDataLayerType={ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART}
-                    index={this.props.index}
-                  />
-                </div>
-                <div
-                  className={styles.removeLabel}
-                  onClick={() => this.handleRemove(this.props.index)}
-                >
-                  {this.props.removeText}
-                </div>
+          {this.props.isGiveAway === NO && this.props.hasFooter && (
+            <div className={styles.footer}>
+              <div className={styles.wishlist}>
+                <AddToWishListButtonContainer
+                  type={WISHLIST_BUTTON_TEXT_TYPE_SMALL}
+                  productListingId={this.props.product.productcode}
+                  winningUssID={this.props.product.USSID}
+                  setDataLayerType={ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART}
+                  index={this.props.index}
+                />
               </div>
-            )}
-        </div>
-
-        {this.props.isGiveAway === NO &&
-          this.props.deliveryInformation && (
-            <div className={styles.deliveryInfo}>
-              <DeliveryInfoSelect
-                deliveryInformation={this.props.deliveryInformation}
-                selected={this.props.selected}
-                onSelect={val => this.selectDeliveryMode(val)}
-                onPiq={val => this.getPickUpDetails()}
-                isClickable={this.props.isClickable}
-              />
+              <div
+                className={styles.removeLabel}
+                onClick={() => this.handleRemove(this.props.index)}
+              >
+                {this.props.removeText}
+              </div>
             </div>
           )}
+        </div>
+
+        {this.props.isGiveAway === NO && this.props.deliveryInformation && (
+          <div className={styles.deliveryInfo}>
+            <DeliveryInfoSelect
+              deliveryInformation={this.props.deliveryInformation}
+              selected={this.props.selected}
+              onSelect={val => this.selectDeliveryMode(val)}
+              onPiq={val => this.getPickUpDetails()}
+              isClickable={this.props.isClickable}
+            />
+          </div>
+        )}
       </div>
     );
   }

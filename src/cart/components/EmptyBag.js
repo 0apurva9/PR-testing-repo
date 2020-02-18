@@ -9,10 +9,12 @@ import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import {
   setDataLayerForCartDirectCalls,
-  ADOBE_DIRECT_CALL_FOR_CART_SAVED_LIST
+  ADOBE_DIRECT_CALL_FOR_CART_SAVED_LIST,
+  ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING
 } from "../../lib/adobeUtils";
 export default class EmptyBag extends React.Component {
   handleOnContinue() {
+    setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     if (this.props.onContinueShopping) {
       this.props.onContinueShopping();
     }

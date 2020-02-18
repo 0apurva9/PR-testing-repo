@@ -102,9 +102,10 @@ export default class RevelantProductList extends React.Component {
             })[0]
         : [];
     let widthChange =
-      this.props.array.length > 1
-        ? styles.reactSelectOption
-        : styles.oneProduct;
+      // this.props.array.length > 1
+      //   ?
+      styles.reactSelectOption;
+    // : styles.oneProduct;
     return (
       <div>
         <div className={styles.iconAddBundledProduct} />

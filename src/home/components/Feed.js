@@ -21,7 +21,13 @@ import {
 } from "../../lib/seoUtils";
 import Loadable from "react-loadable";
 import delay from "lodash.delay";
-import { setDataLayer, ADOBE_HOME_TYPE } from "../../lib/adobeUtils";
+import {
+  setDataLayer,
+  ADOBE_VIRTUAL_PAGELOAD,
+  ADOBE_HOME_TYPE,
+  setDataLayerForLogin,
+  ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER
+} from "../../lib/adobeUtils";
 
 export const PRODUCT_RECOMMENDATION_TYPE = "productRecommendationWidget";
 const DEFAULT_TITLE =
@@ -349,6 +355,11 @@ class Feed extends Component {
     this.pageSize = this.props.pageSize;
   }
   componentDidMount() {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    if (!userDetails) {
+      setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
+    }
+    setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
     this.props.seo
       ? this.props.seo.title
         ? (document.title = this.props.seo.title)
@@ -377,6 +388,10 @@ class Feed extends Component {
     }
   }
   componentDidUpdate() {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    if (!userDetails) {
+      setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
+    }
     if (this.props.homeFeedData && !this.props.headerMessage) {
       const titleObj =
         this.props.homeFeedData &&
@@ -454,7 +469,9 @@ class Feed extends Component {
   componentWillMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-
+    if (!userDetails) {
+      setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
+    }
     if (
       this.props.feedType === HOME_FEED_TYPE &&
       this.props.homeFeedData.length === 0

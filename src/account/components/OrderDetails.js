@@ -6,6 +6,7 @@ import OrderCard from "./OrderCard.js";
 import OrderViewPaymentDetails from "./OrderViewPaymentDetails";
 import OrderPaymentMethod from "./OrderPaymentMethod";
 import OrderStatusVertical from "./OrderStatusVerticalV2";
+import InstallationExperience from "./InstallationExperience";
 import PropTypes from "prop-types";
 import format from "date-fns/format";
 import each from "lodash.foreach";
@@ -45,12 +46,14 @@ import {
 } from "../../lib/constants";
 import {
   setDataLayer,
+  ADOBE_MY_ACCOUNT_WRITE_REVIEW,
   setDataLayerForMyAccountDirectCalls,
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL,
   ADOBE_RETURN_LINK_CLICKED,
   ADOBE_REQUEST_INVOICE_LINK_CLICKED,
   ADOBE_HELP_SUPPORT_LINK_CLICKED,
-  ADOBE_RETURN_JOURNEY_INITIATED
+  ADOBE_RETURN_JOURNEY_INITIATED,
+  ADOBE_MY_ACCOUNT_RETURN_CANCEL
 } from "../../lib/adobeUtils";
 const dateFormat = "DD MMM YYYY";
 const PRODUCT_RETURN = "Return";
@@ -131,6 +134,7 @@ export default class OrderDetails extends React.Component {
   }
 
   writeReview(productCode) {
+    setDataLayer(ADOBE_MY_ACCOUNT_WRITE_REVIEW);
     this.props.history.push(`/p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
   }
   getNonWorkingDays(mplWorkingDays) {
@@ -319,6 +323,7 @@ export default class OrderDetails extends React.Component {
     return pickupDate;
   }
   cancelReturnRequest(transactionId, orderCode) {
+    setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_RETURN_CANCEL);
     this.props.history.push({
       pathname: `${CANCEL_RETURN_REQUEST}/${orderCode}/${transactionId}`
     });
@@ -485,6 +490,74 @@ export default class OrderDetails extends React.Component {
                     }
                   );
                 });
+                const requestCancelled =
+                  products.installationDisplayMsg &&
+                  products.installationDisplayMsg.find(val => {
+                    return val.key === "REQUEST_CANCELLED";
+                  });
+                const requestCompleted =
+                  products.installationDisplayMsg &&
+                  products.installationDisplayMsg.find(val => {
+                    return val.key === "REQUEST_COMPLETED";
+                  });
+                const requestClosed =
+                  products.installationDisplayMsg &&
+                  products.installationDisplayMsg.find(val => {
+                    return val.key === "REQUEST_CLOSED";
+                  });
+                const requestReschedule =
+                  products.installationDisplayMsg &&
+                  products.installationDisplayMsg.find(val => {
+                    return val.key === "REQUEST_RESCHEDULE";
+                  });
+                let hideEIETrackDiagram = false;
+                let hideEstimatedInstallationDate = false;
+                //request cancelled
+                if (
+                  requestCancelled &&
+                  requestCancelled.value.customerFacingName ===
+                    "Request Cancelled" &&
+                  requestCancelled.value.status === "Completed"
+                ) {
+                  hideEIETrackDiagram = true;
+                  hideEstimatedInstallationDate = true;
+                }
+                //request completed
+                if (
+                  requestCompleted &&
+                  requestCompleted.value.customerFacingName ===
+                    "Request Completed" &&
+                  requestCompleted.value.status === "Completed"
+                ) {
+                  hideEIETrackDiagram = true;
+                  hideEstimatedInstallationDate = true;
+                }
+                //installation rescheduled
+                if (
+                  requestCompleted &&
+                  requestCompleted.value.customerFacingName ===
+                    "Installation Rescheduled" &&
+                  requestCompleted.value.status === "Completed"
+                ) {
+                  hideEIETrackDiagram = true;
+                }
+                //request closed
+                if (
+                  requestClosed &&
+                  requestClosed.value.customerFacingName === "Request Closed" &&
+                  requestClosed.value.status === "Completed"
+                ) {
+                  hideEIETrackDiagram = true;
+                }
+                //installation rescheduled
+                if (
+                  requestReschedule &&
+                  requestReschedule.value.customerFacingName ===
+                    "Installation Rescheduled" &&
+                  requestReschedule.value.status === "Completed"
+                ) {
+                  hideEIETrackDiagram = true;
+                }
                 return (
                   <React.Fragment key={i}>
                     <div className={styles.order} key={i}>
@@ -552,6 +625,19 @@ export default class OrderDetails extends React.Component {
                         isOrderReturnable={products.isReturned}
                         returnMode={products.returnMode}
                         returnPolicy={products.returnPolicy}
+                        installationCompletedDate={
+                          products.installationCompletedDate
+                        }
+                        installationRequestCancelled={requestCancelled}
+                        estimatedCompletionDate={
+                          products.estimatedCompletionDate
+                        }
+                        hideEstimatedInstallationDate={
+                          hideEstimatedInstallationDate
+                        }
+                        installationRequestReschedule={requestReschedule}
+                        installationRequestClosed={requestClosed}
+                        installationRequestCompleted={requestCompleted}
                       />
 
                       {products.awbPopupLink === AWB_POPUP_TRUE && (
@@ -739,7 +825,7 @@ export default class OrderDetails extends React.Component {
                         )}
                       {products.selectedDeliveryMode &&
                         products.selectedDeliveryMode.code === CLICK_COLLECT &&
-                        (orderDetails.orderDate && products.returnPolicy) && (
+                        orderDetails.orderDate && products.returnPolicy && (
                           <React.Fragment>
                             <div className={styles.commonTitle}>
                               <span className={styles.width20}>Pickup</span>
@@ -809,7 +895,16 @@ export default class OrderDetails extends React.Component {
                               )}
                           </React.Fragment>
                         )}
-
+                      {products.installationDisplayMsg && !hideEIETrackDiagram && (
+                        <React.Fragment>
+                          <div className={styles.borderTop} />
+                          <InstallationExperience
+                            installationDisplayMsg={
+                              products.installationDisplayMsg
+                            }
+                          />
+                        </React.Fragment>
+                      )}
                       {products.awbPopupLink === AWB_POPUP_FALSE && (
                         <div
                           className={

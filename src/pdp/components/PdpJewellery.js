@@ -211,9 +211,7 @@ export default class PdpJewellery extends React.Component {
   };
 
   goToReviewPage = () => {
-    const url = `${
-      this.props.location.pathname
-    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
   showPincodeModal() {
@@ -417,6 +415,7 @@ export default class PdpJewellery extends React.Component {
               productName={productData.productName}
               price={price}
               discountPrice={discountPrice}
+              ratingCount={productData.ratingCount}
               averageRating={productData.averageRating}
               numberOfReviews={productData.numberOfReviews}
               goToReviewPage={this.goToReviewPage}
@@ -428,25 +427,21 @@ export default class PdpJewellery extends React.Component {
               showPriceBreakUp={this.showPriceBreakup}
             />
           </div>
-          {productData.details &&
-            productData.details.length > 0 && (
-              <div className={styles.info}>
-                <span className={styles.textOffset}>
-                  {productData.details[0].value}
+          {productData.details && productData.details.length > 0 && (
+            <div className={styles.info}>
+              <span className={styles.textOffset}>
+                {productData.details[0].value}
+              </span>
+              {this.state.showProductDetails && (
+                <div>{productData.productDescription}</div>
+              )}
+              {!this.state.showProductDetails && (
+                <span className={styles.link} onClick={this.showProductDetails}>
+                  Read More
                 </span>
-                {this.state.showProductDetails && (
-                  <div>{productData.productDescription}</div>
-                )}
-                {!this.state.showProductDetails && (
-                  <span
-                    className={styles.link}
-                    onClick={this.showProductDetails}
-                  >
-                    Read More
-                  </span>
-                )}
-              </div>
-            )}
+              )}
+            </div>
+          )}
           <PdpPaymentInfo
             hasEmi={productData.isEMIEligible}
             hasCod={productData.isCOD}

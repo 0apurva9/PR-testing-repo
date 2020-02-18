@@ -10,7 +10,11 @@ export default class Button extends React.Component {
         return (
           <CoreButton
             {...other}
-            backgroundColor={"#FF1744"}
+            backgroundColor={
+              this.props.backgroundColor
+                ? this.props.backgroundColor
+                : "#FF1744"
+            }
             borderRadius={
               this.props.borderRadius
                 ? this.props.borderRadius
@@ -57,11 +61,14 @@ export default class Button extends React.Component {
             {...other}
             backgroundColor={"transparent"}
             borderRadius={this.props.height / 2}
-            borderColor={this.props.color}
+            borderColor={this.props.borderColor === "" ? "" : this.props.color}
             textStyle={{
               color: this.props.color,
               fontSize: 14,
-              fontFamily: "semibold"
+              fontFamily:
+                this.props.textStyle && this.props.textStyle.fontFamily
+                  ? this.props.textStyle.fontFamily
+                  : "semibold"
             }}
           />
         );
@@ -76,9 +83,7 @@ export default class Button extends React.Component {
               fontSize: 14,
               fontFamily: "semibold"
             }}
-            background={`linear-gradient(${this.props.linearColor.fromColor},${
-              this.props.linearColor.toColor
-            })`}
+            background={`linear-gradient(${this.props.linearColor.fromColor},${this.props.linearColor.toColor})`}
           />
         );
       default:

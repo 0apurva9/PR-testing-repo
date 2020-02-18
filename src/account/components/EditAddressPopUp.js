@@ -127,6 +127,11 @@ export default class EditAddressPopUp extends React.Component {
     }
   }
   componentWillReceiveProps(nextProps) {
+    let updatedState =
+      nextProps &&
+      nextProps.location &&
+      nextProps.location.state &&
+      nextProps.location.state.addressDetails;
     let landmarkList = [];
     if (nextProps.getPincodeStatus === ERROR) {
       this.setState({ pinCodeFailure: true });
@@ -145,26 +150,36 @@ export default class EditAddressPopUp extends React.Component {
           { landmark: OTHER_LANDMARK }
         ];
         this.setState({
-          state:
-            nextProps.getPinCodeDetails &&
-            nextProps.getPinCodeDetails.state &&
-            nextProps.getPinCodeDetails.state.name,
-          town:
-            nextProps.getPinCodeDetails && nextProps.getPinCodeDetails.cityName,
+          state: updatedState
+            ? updatedState.state
+            : nextProps.getPinCodeDetails &&
+              nextProps.getPinCodeDetails.state &&
+              nextProps.getPinCodeDetails.state.name
+            ? nextProps.getPinCodeDetails.state.name
+            : "",
+          town: updatedState
+            ? updatedState.city
+            : nextProps.getPinCodeDetails &&
+              nextProps.getPinCodeDetails.cityName
+            ? nextProps.getPinCodeDetails &&
+              nextProps.getPinCodeDetails.cityName
+            : "",
           landmarkList
         });
       } else {
         landmarkList = [{ landmark: OTHER_LANDMARK }];
-        let stateName =
-          nextProps.getPinCodeDetails &&
-          nextProps.getPinCodeDetails.state &&
-          nextProps.getPinCodeDetails.state.name
-            ? nextProps.getPinCodeDetails.state.name
-            : "";
-        let townName =
-          nextProps.getPinCodeDetails && nextProps.getPinCodeDetails.cityName
-            ? nextProps.getPinCodeDetails.cityName
-            : "";
+        let stateName = updatedState
+          ? updatedState.state
+          : nextProps.getPinCodeDetails &&
+            nextProps.getPinCodeDetails.state &&
+            nextProps.getPinCodeDetails.state.name
+          ? nextProps.getPinCodeDetails.state.name
+          : "";
+        let townName = updatedState
+          ? updatedState.city
+          : nextProps.getPinCodeDetails && nextProps.getPinCodeDetails.cityName
+          ? nextProps.getPinCodeDetails.cityName
+          : "";
         this.setState({
           state: stateName,
           town: townName,

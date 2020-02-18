@@ -92,6 +92,14 @@ const SizeGuideModal = Loadable({
     return <Loader />;
   }
 });
+
+const SizeSelectorForEyeWear = Loadable({
+  loader: () => import("../../pdp/components/SizeSelectorForEyeWear"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const StoryWidgetContainer = Loadable({
   loader: () => import("../../home/containers/StoryWidgetContainer"),
   loading() {
@@ -153,13 +161,18 @@ const ManufacturerDetailsModal = Loadable({
     return <Loader />;
   }
 });
-const ReviewGuidelineModal = Loadable({
-  loader: () => import("../../pdp/components/ReviewGuidelineModal.js"),
+const ReviewGuidelineWrapperModal = Loadable({
+  loader: () => import("../../pdp/components/ReviewGuidelineWrapperModal.js"),
   loading() {
     return <Loader />;
   }
 });
-
+const RatingAndReviewWrapperModal = Loadable({
+  loader: () => import("../../pdp/components/RatingAndReviewWrapperModal.js"),
+  loading() {
+    return <Loader />;
+  }
+});
 const BankOffersDetails = Loadable({
   loader: () => import("../../cart/components/BankOffersDetails.js"),
   loading() {
@@ -282,9 +295,35 @@ const CancelReturnRequestPopUp = Loadable({
     return <Loader />;
   }
 });
+/**
+ * @comment Added below code for showing popup on the UPI section on the checkout page.
+ */
+const UpiTermsAndCondition = Loadable({
+  loader: () => import("../../cart/components/UpiTermsAndCondition.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+const UpiHowToPay = Loadable({
+  loader: () => import("../../cart/components/UpiHowToPay.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+/**
+ * EOD
+ */
 
 const GiftCardSucessBottomModel = Loadable({
   loader: () => import("../../account/components/GiftCardSucessBottomModel"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const SellerReviewSubmitRemovalPopup = Loadable({
+  loader: () =>
+    import("../../account/components/SellerReviewSubmitRemovalPopup.js"),
   loading() {
     return <Loader />;
   }
@@ -727,6 +766,7 @@ export default class ModalRoot extends React.Component {
             this.releaseBankOffer(couponCode, newCouponCode)
           }
           {...this.props.ownProps}
+          resetAllPaymentModes={this.props.resetAllPaymentModes}
           displayToast={message => this.props.displayToast(message)}
         />
       ),
@@ -755,6 +795,9 @@ export default class ModalRoot extends React.Component {
         />
       ),
       SizeGuide: <SizeGuideModal closeModal={() => this.handleClose()} />,
+      SizeSelectorForEyeWear: (
+        <SizeSelectorForEyeWear closeModal={() => this.handleClose()} />
+      ),
 
       StoryModal: (
         <StoryWidgetContainer
@@ -846,6 +889,18 @@ export default class ModalRoot extends React.Component {
       ),
       ManufacturerModal: (
         <ManufacturerDetailsModal
+          closeModal={() => this.handleClose()}
+          {...this.props.ownProps}
+        />
+      ),
+      ReviewGuidelineWrapperModal: (
+        <ReviewGuidelineWrapperModal
+          {...this.props.ownProps}
+          closeModal={() => this.handleClose()}
+        />
+      ),
+      RatingAndReviewWrapperModal: (
+        <RatingAndReviewWrapperModal
           closeModal={() => this.handleClose()}
           {...this.props.ownProps}
         />
@@ -973,6 +1028,26 @@ export default class ModalRoot extends React.Component {
           closeModal={() => this.handleClose()}
         />
       ),
+      /**
+       * @comment Added below code for showing popup on the UPI section on the checkout page.
+       */
+      UpiTermsAndCondition: (
+        <UpiTermsAndCondition
+          {...this.props}
+          history={this.props.history}
+          closeModal={() => this.handleClose()}
+        />
+      ),
+      UpiHowToPay: (
+        <UpiHowToPay
+          {...this.props}
+          history={this.props.history}
+          closeModal={() => this.handleClose()}
+        />
+      ),
+      /**
+       * EOD
+       */
 
       NotificationConfirmation: (
         <NotificationConfirmation
@@ -988,6 +1063,12 @@ export default class ModalRoot extends React.Component {
           }
           cancelModal={() => this.handleClose()}
           updateReturnCancellation={data => this.updateReturnCancellation(data)}
+        />
+      ),
+      SellerReviewSubmitRemovalPopup: (
+        <SellerReviewSubmitRemovalPopup
+          rating={this.props.rating}
+          closeModal={() => this.handleClose()}
         />
       )
     };

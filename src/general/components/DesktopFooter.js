@@ -9,7 +9,8 @@ import {
   LOGGED_IN_USER_DETAILS,
   MY_ACCOUNT_PAGE,
   SAVE_LIST_PAGE,
-  MY_ACCOUNT_ORDERS_PAGE
+  MY_ACCOUNT_ORDERS_PAGE,
+  TITLE_DEFAULT
 } from "../../../src/lib/constants";
 import TrustComponent from "../../general/components/TrustComponent";
 import {
@@ -19,7 +20,7 @@ import {
 } from "../../lib/adobeUtils";
 import * as Cookie from "../../lib/Cookie";
 import DesktopFooterProductList from "./DesktopFooterProductList";
-const TEXT = "© 2019 Tata CLiQ | All rights reserved";
+const TEXT = " Tata CLiQ | All rights reserved";
 class DesktopFooter extends React.Component {
   componentDidMount() {
     const currentUrl = this.props.location.pathname;
@@ -34,6 +35,11 @@ class DesktopFooter extends React.Component {
       }
     }
   }
+  // footerClick() {
+  //   setDataLayerForHeaderAndFooterDirectCalls(
+  //     ADOBE_DIRECT_CALL_FOR_FOOTER_CLICK
+  //   );
+  // }
 
   onClick = (url, value) => {
     let userCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -98,6 +104,9 @@ class DesktopFooter extends React.Component {
   };
 
   render() {
+    let shouldRenderHeader = true;
+    const url = this.props.location.pathname;
+
     const footerData = this.props && this.props.DesktopFooterDetails;
     const isNotPdp = /p-mp[0-9]+/.test(this.props.location.pathname)
       ? false
@@ -113,141 +122,152 @@ class DesktopFooter extends React.Component {
       this.props.productListings.searchresult
         ? false
         : true;
-
     return (
       <div className={styles.contentHolder}>
-        <TrustComponent />
-        <div className={styles.linkAndSuscribeHolder}>
-          <div className={styles.linkHolder}>
-            {footerData &&
-              footerData.items &&
-              footerData.items[0] &&
-              footerData.items[0].pageLinks &&
-              footerData.items[0].pageLinks.map((val, i) => {
-                return (
-                  <div className={styles.linkSection}>
-                    <div className={styles.linkHeader}>
-                      {val && val.heading}
+        {!url.includes("how-upi-work") && <TrustComponent />}
+        {!url.includes("how-upi-work") && (
+          <div className={styles.linkAndSuscribeHolder}>
+            <div className={styles.linkHolder}>
+              {footerData &&
+                footerData.items &&
+                footerData.items[0] &&
+                footerData.items[0].pageLinks &&
+                footerData.items[0].pageLinks.map((val, i) => {
+                  return (
+                    <div className={styles.linkSection}>
+                      <div className={styles.linkHeader}>
+                        {val && val.heading}
+                      </div>
+                      {val &&
+                        val.list &&
+                        val.list.map((data, i) => {
+                          return (
+                            <div
+                              className={styles.link}
+                              onClick={() =>
+                                this.onClick(data.webUrl, data.text)
+                              }
+                            >
+                              {data.text}
+                            </div>
+                          );
+                        })}
                     </div>
-                    {val &&
-                      val.list &&
-                      val.list.map((data, i) => {
-                        return (
-                          <div
-                            className={styles.link}
-                            onClick={() => this.onClick(data.webUrl, data.text)}
-                          >
-                            {data.text}
-                          </div>
-                        );
-                      })}
-                  </div>
-                );
-              })}
-          </div>
-          <div className={styles.newsLetterSection}>
-            {footerData &&
-              footerData.items &&
-              footerData.items[0] &&
-              footerData.items[0].newsLetter &&
-              footerData.items[0].newsLetter.heading && (
-                <div className={styles.newsLetterHeading}>
-                  {footerData.items[0].newsLetter.heading}
-                </div>
-              )}
-
-            <div className={styles.buttonAndTextBoxHolder}>
+                  );
+                })}
+            </div>
+            <div className={styles.newsLetterSection}>
               {footerData &&
                 footerData.items &&
                 footerData.items[0] &&
                 footerData.items[0].newsLetter &&
-                footerData.items[0].newsLetter.placeholderText && (
-                  <div className={styles.textBoxHolder}>
-                    <Input2
-                      boxy={true}
-                      placeholder={
-                        footerData.items[0].newsLetter.placeholderText
-                      }
-                      textStyle={{ fontSize: 14 }}
-                      height={33}
-                      type="text"
-                    />
+                footerData.items[0].newsLetter.heading && (
+                  <div className={styles.newsLetterHeading}>
+                    {footerData.items[0].newsLetter.heading}
                   </div>
                 )}
-              <div className={styles.buttonHolder}>
+
+              <div className={styles.buttonAndTextBoxHolder}>
                 {footerData &&
                   footerData.items &&
                   footerData.items[0] &&
                   footerData.items[0].newsLetter &&
-                  footerData.items[0].newsLetter.btnText && (
-                    <div className={styles.button}>
-                      <Button
-                        type="hollow"
-                        label={footerData.items[0].newsLetter.btnText}
-                        height={36}
-                        width={180}
-                        textStyle={{ color: "#212121", fontSize: 14 }}
-                        onClick={() => this.onSuscribe()}
+                  footerData.items[0].newsLetter.placeholderText && (
+                    <div className={styles.textBoxHolder}>
+                      <Input2
+                        boxy={true}
+                        placeholder={
+                          footerData.items[0].newsLetter.placeholderText
+                        }
+                        textStyle={{ fontSize: 14 }}
+                        height={33}
+                        type="text"
                       />
                     </div>
                   )}
+                <div className={styles.buttonHolder}>
+                  {footerData &&
+                    footerData.items &&
+                    footerData.items[0] &&
+                    footerData.items[0].newsLetter &&
+                    footerData.items[0].newsLetter.btnText && (
+                      <div className={styles.button}>
+                        <Button
+                          type="hollow"
+                          label={footerData.items[0].newsLetter.btnText}
+                          height={36}
+                          width={180}
+                          textStyle={{ color: "#212121", fontSize: 14 }}
+                          onClick={() => this.onSuscribe()}
+                        />
+                      </div>
+                    )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
         <div className={styles.footerBottomHolder}>
           <div className={styles.socialLinkAndLogoHolder}>
             {/* <div className={styles.companyLogo}>
               <Icon image={companyLogo} size={80} />
             </div> */}
-            <div className={styles.downLoadAppHolder}>
-              {footerData &&
-                footerData.items &&
-                footerData.items[0] &&
-                footerData.items[0].socialLinks &&
-                footerData.items[0].socialLinks[1] &&
-                footerData.items[0].socialLinks[1].heading && (
-                  <div className={styles.downLoaAppText}>
-                    {footerData.items[0].socialLinks[1].heading}
-                  </div>
-                )}
-              {footerData &&
-                footerData.items &&
-                footerData.items[0] &&
-                footerData.items[0].socialLinks &&
-                footerData.items[0].socialLinks[1] &&
-                footerData.items[0].socialLinks[1].list &&
-                footerData.items[0].socialLinks[1].list.map((val, i) => {
-                  return (
-                    <a href={val.webUrl} target="_blank">
-                      <div className={styles.appIconHolder}>
-                        <Icon image={val.imageURL} size={20} />
-                      </div>
-                    </a>
-                  );
-                })}
-            </div>
-            <div className={styles.socialIconHolder}>
-              {footerData &&
-                footerData.items &&
-                footerData.items[0] &&
-                footerData.items[0].socialLinks &&
-                footerData.items[0].socialLinks[0] &&
-                footerData.items[0].socialLinks[0].list &&
-                footerData.items[0].socialLinks[0].list.map((val, i) => {
-                  return (
-                    <a href={val.webUrl} target="_blank">
-                      <div
-                        className={styles.socialIcon}
-                        onClick={() => this.onClickSocialMedia(val.webUrl)}
-                      >
-                        <Icon image={val.imageURL} size={20} />
-                      </div>
-                    </a>
-                  );
-                })}
-            </div>
-            <div className={styles.copyRightText}>{TEXT}</div>
+            {!url.includes("how-upi-work") && (
+              <div className={styles.downLoadAppHolder}>
+                {footerData &&
+                  footerData.items &&
+                  footerData.items[0] &&
+                  footerData.items[0].socialLinks &&
+                  footerData.items[0].socialLinks[1] &&
+                  footerData.items[0].socialLinks[1].heading && (
+                    <div className={styles.downLoaAppText}>
+                      {footerData.items[0].socialLinks[1].heading}
+                    </div>
+                  )}
+                {footerData &&
+                  footerData.items &&
+                  footerData.items[0] &&
+                  footerData.items[0].socialLinks &&
+                  footerData.items[0].socialLinks[1] &&
+                  footerData.items[0].socialLinks[1].list &&
+                  footerData.items[0].socialLinks[1].list.map((val, i) => {
+                    return (
+                      <a href={val.webUrl} target="_blank">
+                        <div className={styles.appIconHolder}>
+                          <Icon image={val.imageURL} size={20} />
+                        </div>
+                      </a>
+                    );
+                  })}
+              </div>
+            )}
+            {!url.includes("how-upi-work") && (
+              <div className={styles.socialIconHolder}>
+                {footerData &&
+                  footerData.items &&
+                  footerData.items[0] &&
+                  footerData.items[0].socialLinks &&
+                  footerData.items[0].socialLinks[0] &&
+                  footerData.items[0].socialLinks[0].list &&
+                  footerData.items[0].socialLinks[0].list.map((val, i) => {
+                    return (
+                      <a href={val.webUrl} target="_blank">
+                        <div
+                          className={styles.socialIcon}
+                          onClick={() => this.onClickSocialMedia(val.webUrl)}
+                        >
+                          <Icon image={val.imageURL} size={20} />
+                        </div>
+                      </a>
+                    );
+                  })}
+              </div>
+            )}
+            {!url.includes("how-upi-work") && (
+              <div className={styles.copyRightText}>
+                &copy; {`${new Date().getFullYear()} ${TEXT}`}
+              </div>
+            )}
           </div>
         </div>
 
@@ -296,8 +316,14 @@ class DesktopFooter extends React.Component {
           </div>
         )}
 
-        {isNotPdp &&
-          !isPlp && (
+        {isNotPdp && !isPlp && !url.includes("how-upi-work") && (
+          <div>
+            {this.props.footer && this.props.footer.title ? (
+              <h1 className={styles.seoPagetitle}>{this.props.footer.title}</h1>
+            ) : (
+              <h1 className={styles.seoPagetitle}>{TITLE_DEFAULT}</h1>
+            )}
+
             <div
               className={styles.footerData}
               dangerouslySetInnerHTML={{
@@ -307,19 +333,19 @@ class DesktopFooter extends React.Component {
                   footerData.items[0].pageSpecificFooterData
               }}
             />
-          )}
-        {isNotPdp &&
-          !isPlp && (
-            <div
-              className={styles.footerData}
-              dangerouslySetInnerHTML={{
-                __html:
-                  footerData &&
-                  footerData.items &&
-                  footerData.items[0].popularSearches
-              }}
-            />
-          )}
+          </div>
+        )}
+        {isNotPdp && !isPlp && (
+          <div
+            className={styles.footerData}
+            dangerouslySetInnerHTML={{
+              __html:
+                footerData &&
+                footerData.items &&
+                footerData.items[0].popularSearches
+            }}
+          />
+        )}
       </div>
     );
   }

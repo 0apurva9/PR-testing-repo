@@ -30,6 +30,17 @@ export default class EmiPanel extends React.Component {
     ) {
       this.props.getEmiEligibility();
     }
+    if (this.props.isFromRetryUrl) {
+      if (
+        this.props.retryPaymentDetails &&
+        this.props.retryPaymentDetails.orderRetry &&
+        this.props.retryPaymentDetails.retryFlagEmiCoupon
+      ) {
+        this.props.onChange({ currentPaymentMode: PAYMENT_MODE });
+        this.onSetEMIType(NO_COST_EMI);
+        this.getBankAndTenureDetails();
+      }
+    }
   };
   onBankSelect(val) {
     if (this.props.onBankSelect) {
@@ -67,12 +78,18 @@ export default class EmiPanel extends React.Component {
       return this.props.removeNoCostEmi(couponCode);
     }
   };
-  getItemBreakUpDetails = (couponCode, noCostEmiText, noCostProductCount) => {
+  getItemBreakUpDetails = (
+    couponCode,
+    noCostEmiText,
+    noCostProductCount,
+    emiInfo
+  ) => {
     if (this.props.getItemBreakUpDetails) {
       this.props.getItemBreakUpDetails(
         couponCode,
         noCostEmiText,
-        noCostProductCount
+        noCostProductCount,
+        emiInfo
       );
     }
   };
@@ -103,16 +120,41 @@ export default class EmiPanel extends React.Component {
     this.props.changeSubEmiOption(currentSelectedEMIType);
     this.setState({ currentSelectedEMIType });
   }
+  onSetEMIType(currentSelectedEMIType) {
+    this.props.setSunEmiOption(currentSelectedEMIType);
+    this.setState({ currentSelectedEMIType });
+  }
   render() {
     if (this.props.isCliqCashApplied) {
       return null;
     }
+    let isOpen = this.props.currentPaymentMode === EMI;
+    let isOpenSubEMI = this.state.currentSelectedEMIType === NO_COST_EMI;
+    let isRetryPaymentFromURL = false;
+    if (this.props.isFromRetryUrl) {
+      if (
+        this.props.retryPaymentDetails &&
+        this.props.retryPaymentDetails.orderRetry &&
+        this.props.retryPaymentDetails.retryFlagEmiCoupon
+      ) {
+        isOpen = true;
+        isOpenSubEMI = true;
+        isRetryPaymentFromURL = true;
+      }
+    }
     return (
       <div className={styles.base}>
+        {isRetryPaymentFromURL && (
+          <span className={styles.noCostRetryPayment}>
+            * Please note that the payment can be completed using the previously
+            selected No Cost EMI option only – this is to ensure that the
+            original discount(s) can be entirely redeemed.
+          </span>
+        )}
         <MenuDetails
           text={"Easy Monthly Installments"}
           icon={emiIcon}
-          isOpen={this.props.currentPaymentMode === EMI}
+          isOpen={isOpen}
           onOpenMenu={currentPaymentMode =>
             this.props.onChange({ currentPaymentMode })
           }
@@ -125,9 +167,7 @@ export default class EmiPanel extends React.Component {
               <div className={styles.subListHolder}>
                 <NoCostEmi
                   EMIText={NO_COST_EMI}
-                  isOpenSubEMI={
-                    this.state.currentSelectedEMIType === NO_COST_EMI
-                  }
+                  isOpenSubEMI={isOpenSubEMI}
                   onChangeEMIType={currentSelectedEMIType =>
                     this.onChangeEMIType(currentSelectedEMIType)
                   }
@@ -164,12 +204,14 @@ export default class EmiPanel extends React.Component {
                     getItemBreakUpDetails={(
                       couponCode,
                       noCostEmiText,
-                      noCostProductCount
+                      noCostProductCount,
+                      emiInfo
                     ) =>
                       this.getItemBreakUpDetails(
                         couponCode,
                         noCostEmiText,
-                        noCostProductCount
+                        noCostProductCount,
+                        emiInfo
                       )
                     }
                     isNoCostEmiProceeded={this.props.isNoCostEmiProceeded}
@@ -187,36 +229,42 @@ export default class EmiPanel extends React.Component {
                     emiBinValidationErrorMessage={
                       this.props.emiBinValidationErrorMessage
                     }
+                    isRetryPaymentFromURL={isRetryPaymentFromURL}
+                    retryPaymentDetails={this.props.retryPaymentDetails}
                   />
                 </NoCostEmi>
               </div>
             )}
-          <div className={styles.subListHolder}>
-            <NoCostEmi
-              isOpenSubEMI={this.state.currentSelectedEMIType === STANDARD_EMI}
-              EMIText={STANDARD_EMI}
-              onChangeEMIType={currentSelectedEMIType =>
-                this.onChangeEMIType(currentSelectedEMIType)
-              }
-              getEmiBankDetails={() => this.getEmiBankDetails()}
-              emiList={
-                this.props.cart.emiBankDetails &&
-                this.props.cart.emiBankDetails.bankList
-              }
-              onChangeCardDetail={val => this.onChangeCardDetail(val)}
-            >
-              <CheckoutEmi
-                {...this.props}
-                selectedEMIType={this.state.currentSelectedEMIType}
-                changeEmiPlan={() => this.changeEmiPlan()}
-                onCheckout={this.props.onCheckout}
-                creditCardValid={this.props.creditCardValid}
-                emiBinValidationErrorMessage={
-                  this.props.emiBinValidationErrorMessage
+          {!isRetryPaymentFromURL && (
+            <div className={styles.subListHolder}>
+              <NoCostEmi
+                isOpenSubEMI={
+                  this.state.currentSelectedEMIType === STANDARD_EMI
                 }
-              />
-            </NoCostEmi>
-          </div>
+                EMIText={STANDARD_EMI}
+                onChangeEMIType={currentSelectedEMIType =>
+                  this.onChangeEMIType(currentSelectedEMIType)
+                }
+                getEmiBankDetails={() => this.getEmiBankDetails()}
+                emiList={
+                  this.props.cart.emiBankDetails &&
+                  this.props.cart.emiBankDetails.bankList
+                }
+                onChangeCardDetail={val => this.onChangeCardDetail(val)}
+              >
+                <CheckoutEmi
+                  {...this.props}
+                  selectedEMIType={this.state.currentSelectedEMIType}
+                  changeEmiPlan={() => this.changeEmiPlan()}
+                  onCheckout={this.props.onCheckout}
+                  creditCardValid={this.props.creditCardValid}
+                  emiBinValidationErrorMessage={
+                    this.props.emiBinValidationErrorMessage
+                  }
+                />
+              </NoCostEmi>
+            </div>
+          )}
         </MenuDetails>
       </div>
     );

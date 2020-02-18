@@ -36,6 +36,11 @@ export default class DesktopHeader extends React.Component {
       bagHover: false
     };
   }
+  // headerClicked() {
+  //   setDataLayerForHeaderAndFooterDirectCalls(
+  //     ADOBE_DIRECT_CALL_FOR_HEADER_CLICK
+  //   );
+  // }
   redirectToHome() {
     setDataLayerForHeaderAndFooterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
@@ -186,6 +191,7 @@ export default class DesktopHeader extends React.Component {
     if (webURL) {
       let urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
       this.props.history.push(urlSuffix);
+      this.props.userSelectedOutOfStock();
       setDataLayerForHeaderAndFooterDirectCalls(
         ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
         ""
@@ -251,11 +257,19 @@ export default class DesktopHeader extends React.Component {
     if (this.props.isSticky) {
       className = styles.stickyBase;
       logo = styles.stickyLogo;
+    } else {
+      if (!this.props.isSearch) {
+        className = `${styles.base} ${styles.CheckoutHeader}`;
+      }
     }
+
     return (
-      <div className={this.props.isSearch ? className : styles.CheckoutHeader}>
+      <div className={this.props.isSearch ? className : className}>
         {this.props.isSearch && <div className={styles.dummyColorHeader} />}
-        <div className={styles.headerHolder}>
+        <div
+          className={styles.headerHolder}
+          // onClick={() => this.headerClicked()}
+        >
           <div className={logo} onClick={() => this.redirectToHome()} />
           {this.props.profileDetails && (
             <div className={styles.profileWonerHolder}>
@@ -285,7 +299,7 @@ export default class DesktopHeader extends React.Component {
           {this.props.isSearch && (
             <div className={styles.headerFunctionality}>
               <div className={styles.upperHeader}>
-                <a href={this.getLuxURL()} target="_blank">
+                <a href={this.getLuxURL()} rel="nofollow" target="_blank">
                   {" "}
                   <div
                     className={styles.luxeryTab}
@@ -637,11 +651,11 @@ export default class DesktopHeader extends React.Component {
                     onMouseLeave={() => this.hoverOut()}
                   >
                     {this.props.bagCount !== null &&
-                      (this.props.bagCount > 0 && (
+                      this.props.bagCount > 0 && (
                         <span
                           className={styles.cartCount}
                         >{`${this.props.bagCount}`}</span>
-                      ))}
+                      )}
                     {this.props.minicart &&
                       this.props.minicart.products &&
                       this.state.bagHover && (
@@ -657,11 +671,11 @@ export default class DesktopHeader extends React.Component {
                   >
                     {userCookie &&
                       this.props.wishListCount !== null &&
-                      (this.props.wishListCount > 0 && (
+                      this.props.wishListCount > 0 && (
                         <div
                           className={styles.cartCount}
                         >{`${this.props.wishListCount}`}</div>
-                      ))}
+                      )}
                   </div>
                 </div>
                 {this.props.searchHolder && (

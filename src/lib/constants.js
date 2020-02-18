@@ -42,6 +42,7 @@ export const BRAND_PAGE = "/c-(mbh[a-zA-Z0-9]+)";
 export const BRAND_PAGE_WITH_SLUG = `/:slug/c-(mbh[0-9a-zA-z]+)`;
 export const BRAND_PAGE_WITH_QUERY_PARAMS = `/c-(mbh[0-9a-zA-z]+)?&`;
 export const BRAND_PAGE_WITH_SLUG_WITH_QUERY_PARAMS = `/:slug/c-(mbh[0-9a-zA-z]+)?&`;
+export const BRAND_PAGE_WITH_FILTER_SLUG = `/:slug/:slug/c-(mbh[0-9a-zA-Z]+)`;
 
 export const BRAND_AND_CATEGORY_PAGE =
   "/:slug/c-(msh[a-zA-Z0-9]+)/b-(mbh[a-zA-Z0-9]+)";
@@ -87,6 +88,7 @@ export const PRODUCT_CART_ROUTER = "/cart";
 export const ORDER_SUMMARY_ROUTER = "/orderSummary";
 export const CHECKOUT_ROUTER = "/checkout";
 export const CHECKOUT_ROUTER_THANKYOU = "/checkout/";
+export const CHECKOUT_RETRY_PAYMENT_ROUTER = "/checkout/payment-method/";
 export const ACCOUNT_SAVED_CARD_ROUTER = "/savedCards";
 export const MY_ACCOUNT = "/my-account";
 export const SHORT_URL_ORDER_DETAIL = "/trackOrder/beforeTrack/:orderCode";
@@ -113,6 +115,7 @@ export const MY_ACCOUNT_CLIQ_CASH_PAGE = "/cliq-cash";
 export const EDIT_ADDRESS_BOOK = "/my-account/address-book/edit";
 export const COSTUMER_ORDER_RELATED_QUERY_ROUTE = "/order-related";
 export const CUSTOMER_CARE = "Customer Care";
+export const MY_ACCOUNT_USER_NOTIFICATION_PAGE = "/notifications";
 //returns
 export const RETURNS_PREFIX = "/returns";
 export const RETURNS = "/returns/(.*)";
@@ -180,6 +183,8 @@ export const ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE =
 export const CART_COUNT_FOR_LOGGED_IN_USER = "bagCount";
 export const PRODUCT_CANCEL = "Cancel Item";
 
+export const RATE_THIS_ITEM = "Rate this item";
+export const REVIEW_GUIDELINES = "Review Guidelines";
 export const SAVE_LIST_PAGE = "/default/wishList";
 export const PAYMENT_MODE_TYPE = "paymentMode";
 export const BIN_CARD_TYPE = "binCardType";
@@ -208,7 +213,7 @@ export const SHIPPING_TYPES = {
   ED: "express-delivery"
 };
 
-export const PLAT_FORM_NUMBER = "5";
+export const PLAT_FORM_NUMBER = "11";
 export const CHANNEL = "web";
 
 export const TRUE = "true";
@@ -294,6 +299,11 @@ export const CASH_ON_DELIVERY_PAYMENT_MODE = "Cash on Delivery";
 export const RUPEE_SYMBOL = "₹";
 export const STRIPE_DETAILS = "stripeDetails";
 export const BANK_GATWAY_DOWN = "0";
+/**
+ * @comment Added const for the UPI
+ */
+export const UPI = "UPI";
+export const UPI_ID = "UPI ID";
 // META TAGS CONSTANTS
 
 export const GOOGLE_TAG_TITLE_DEFAULT =
@@ -475,3 +485,11 @@ export const RETRY_FAILED_ORDER_COUPON =
   "You may attempt to pay again now or retry payment again after 20 minutes using the Payment Retry Link available in your Order History under My Account and your email to avail all the applied Coupon discounts and/or Instant Bank Offer discounts on this Order.";
 export const RETRY_FAILED_ORDER_COUPON_NOTE =
   "Note: If the amount was debited from your account, it will be fully refunded.";
+
+// Toast Messages for rating submission
+export const SUCCESSFUL_PRODUCT_RATING_BY_USER = "Thank you for your rating";
+export const PRODUCT_RATING_FAILURE_TEXT = "Oops we missed your response";
+export const FAILED_ORDER = "retryFailedOrder";
+
+//CleverTap email unsubsctibe
+export const UNSUBSCRIBE_CLEVER_TAP_EMAILS = "/emails-unsubscribe";

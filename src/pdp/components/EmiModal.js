@@ -7,9 +7,6 @@ import SlideModal from "../../general/components/SlideModal";
 import Accordion from "../../general/components/Accordion";
 import PropTypes from "prop-types";
 import styles from "./EmiModal.css";
-import DesktopOnly from "../../general/components/DesktopOnly";
-import CenterModal from "../../general/components/CenterModal";
-import MobileOnly from "../../general/components/MobileOnly";
 import TabHolder from "../../account/components/TabHolder";
 import TabData from "../../account/components/TabData";
 import {
@@ -126,292 +123,291 @@ export default class EmiModal extends React.Component {
                   )}
               </React.Fragment>
             )}
-            {this.state.isSelected === 0 &&
-              this.state.noCostEmiArray && (
-                <React.Fragment>
-                  {this.state.noCostEmiArray.heading && (
-                    <div className={styles.info}>
-                      {this.state.noCostEmiArray.title}
-                    </div>
-                  )}
-                  {this.state.noCostEmiArray.bankList &&
-                    this.state.noCostEmiArray.bankList.map((val, i) => {
-                      return (
-                        <Accordion
-                          controlled={true}
-                          text={val.emiBank}
-                          key={i}
-                          offset={20}
-                          activeBackground="#f8f8f8"
-                          isOpen={this.state.openIndex === i}
-                          onOpen={() =>
-                            this.handleOpen(i, this.state.noCostEmiArray)
-                          }
-                        >
-                          <EmiCardForPdp
-                            width={33.3}
-                            showInterestRate={false}
-                            options={sortBy(
-                              val.emitermsrate,
-                              item => item && parseInt(item.term, 10)
-                            )}
-                          />
-                        </Accordion>
-                      );
-                    })}
-                  <div className={styles.termsAndConditionsHeading}>
-                    Terms & Conditions
+            {this.state.isSelected === 0 && this.state.noCostEmiArray && (
+              <React.Fragment>
+                {this.state.noCostEmiArray.heading && (
+                  <div className={styles.info}>
+                    {this.state.noCostEmiArray.title}
                   </div>
-                  {this.state.noCostEmiArray.bankSpecificTnC &&
-                    this.state.noCostEmiArray.bankSpecificTnC.length > 0 &&
-                    this.state.noCostEmiArray.bankSpecificTnC.map((bank, i) => {
-                      let className = styles.headingWithHideButton;
-                      if (this.state.showBank === bank.title) {
-                        className = styles.onActiveHolder;
-                      }
-                      return (
-                        <React.Fragment>
-                          <div className={className}>
-                            <div className={styles.bankInfo} key={i}>
-                              {this.state.showBank === bank.title ? (
-                                <div>{bank.title}</div>
-                              ) : (
-                                <UnderLinedButton
-                                  label={bank.title}
-                                  onClick={() => {
-                                    this.toggleBankView(bank.title);
-                                  }}
-                                  fontFamily="regular"
-                                  size={12}
-                                />
-                              )}
-                            </div>
-                            {this.state.showBank === bank.title && (
-                              <div className={styles.hideButton}>
-                                <UnderLinedButton
-                                  label={"Hide"}
-                                  onClick={() => {
-                                    this.toggleBankView();
-                                  }}
-                                  fontFamily="regular"
-                                  size={12}
-                                />
-                              </div>
-                            )}
-                            {this.state.showBank === bank.title && (
-                              <div className={styles.content}>
-                                <div className={styles.termsAndConditions}>
-                                  <div
-                                    dangerouslySetInnerHTML={{
-                                      __html: bank.description
-                                    }}
-                                  />
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </React.Fragment>
-                      );
-                    })}
-                  {!this.state.showEmi &&
-                    this.state.noCostEmiArray.termsAndConditions &&
-                    this.state.noCostEmiArray.termsAndConditions.title && (
-                      <div className={styles.viewTermsAndcondition}>
-                        <UnderLinedButton
-                          label={
-                            this.state.noCostEmiArray.termsAndConditions.title
-                          }
-                          onClick={() => {
-                            this.toggleTermsView();
-                          }}
-                          fontFamily="regular"
-                          size={12}
-                        />
-                      </div>
-                    )}
-                  {this.state.showEmi &&
-                    this.state.noCostEmiArray.termsAndConditions && (
-                      <div className={styles.headingWithDescription}>
-                        {this.state.noCostEmiArray.termsAndConditions.title && (
-                          <div className={styles.headingWithHideButton}>
-                            <div className={styles.heading}>
-                              {
-                                this.state.noCostEmiArray.termsAndConditions
-                                  .title
-                              }
-                            </div>
-
-                            <div className={styles.hideButtonForTNCCard}>
-                              <UnderLinedButton
-                                label={"Hide"}
-                                onClick={() => {
-                                  this.toggleTermsView();
-                                }}
-                                fontFamily="regular"
-                                size={12}
-                              />
-                            </div>
-                          </div>
-                        )}
-                        {this.state.noCostEmiArray.termsAndConditions
-                          .description && (
-                          <div className={styles.content}>
-                            <div
-                              className={styles.termsAndConditions}
-                              dangerouslySetInnerHTML={{
-                                __html: this.state.noCostEmiArray
-                                  .termsAndConditions.description
-                              }}
-                            />
-                          </div>
-                        )}
-                      </div>
-                    )}
-                </React.Fragment>
-              )}
-            {this.state.isSelected === 1 &&
-              this.state.standardEmiArray && (
-                <React.Fragment>
-                  {this.state.standardEmiArray.heading && (
-                    <div className={styles.info}>
-                      {this.state.standardEmiArray.title}
-                    </div>
-                  )}
-                  {this.state.standardEmiArray.bankList &&
-                    this.state.standardEmiArray.bankList.map((val, i) => {
-                      return (
-                        <Accordion
-                          controlled={true}
-                          text={val.emiBank}
-                          key={i}
-                          offset={20}
-                          activeBackground="#f8f8f8"
-                          isOpen={this.state.openIndex === i}
-                          onOpen={() =>
-                            this.handleOpen(i, this.state.standardEmiArray)
-                          }
-                        >
-                          <EmiCardForPdp
-                            options={sortBy(
-                              val.emitermsrate,
-                              item => item && parseInt(item.term, 10)
-                            )}
-                          />
-                        </Accordion>
-                      );
-                    })}
-                  <div className={styles.termsAndConditionsHeading}>
-                    Terms & Conditions
-                  </div>
-                  {this.state.standardEmiArray.bankSpecificTnC &&
-                    this.state.standardEmiArray.bankSpecificTnC.length > 0 &&
-                    this.state.standardEmiArray.bankSpecificTnC.map(
-                      (bank, i) => {
-                        let className = styles.headingWithHideButton;
-                        if (this.state.showBank === bank.title) {
-                          className = styles.onActiveHolder;
+                )}
+                {this.state.noCostEmiArray.bankList &&
+                  this.state.noCostEmiArray.bankList.map((val, i) => {
+                    return (
+                      <Accordion
+                        controlled={true}
+                        text={val.emiBank}
+                        key={i}
+                        offset={20}
+                        activeBackground="#f8f8f8"
+                        isOpen={this.state.openIndex === i}
+                        onOpen={() =>
+                          this.handleOpen(i, this.state.noCostEmiArray)
                         }
-                        return (
-                          <React.Fragment>
-                            <div className={className}>
-                              <div className={styles.bankInfo} key={i}>
-                                {this.state.showBank === bank.title ? (
-                                  <div> {bank.title}</div>
-                                ) : (
-                                  <UnderLinedButton
-                                    label={bank.title}
-                                    onClick={() => {
-                                      this.toggleBankView(bank.title);
-                                    }}
-                                    fontFamily="regular"
-                                    size={12}
-                                  />
-                                )}
-                              </div>
-                              {this.state.showBank === bank.title && (
-                                <div className={styles.hideButton}>
-                                  <UnderLinedButton
-                                    label={"Hide"}
-                                    onClick={() => {
-                                      this.toggleBankView();
-                                    }}
-                                    fontFamily="regular"
-                                    size={12}
-                                  />
-                                </div>
-                              )}
-                              {this.state.showBank === bank.title && (
-                                <div className={styles.content}>
-                                  <div className={styles.termsAndConditions}>
-                                    <div
-                                      dangerouslySetInnerHTML={{
-                                        __html: bank.description
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </React.Fragment>
-                        );
-                      }
-                    )}
-                  {!this.state.showEmi &&
-                    this.state.standardEmiArray.termsAndConditions &&
-                    this.state.standardEmiArray.termsAndConditions.title && (
-                      <div className={styles.viewTermsAndcondition}>
-                        <UnderLinedButton
-                          label={
-                            this.state.standardEmiArray.termsAndConditions.title
-                          }
-                          onClick={() => {
-                            this.toggleTermsView();
-                          }}
-                          fontFamily="regular"
-                          size={12}
+                      >
+                        <EmiCardForPdp
+                          width={33.3}
+                          showInterestRate={false}
+                          options={sortBy(
+                            val.emitermsrate,
+                            item => item && parseInt(item.term, 10)
+                          )}
                         />
-                      </div>
-                    )}
-                  {this.state.showEmi &&
-                    this.state.standardEmiArray.termsAndConditions && (
-                      <div className={termsAndCondition} id="scrollView">
-                        {this.state.standardEmiArray.termsAndConditions
-                          .title && (
-                          <div className={styles.headingWithHideButton}>
-                            <div className={styles.heading}>
-                              {
-                                this.state.standardEmiArray.termsAndConditions
-                                  .title
-                              }
-                            </div>
-                            <div className={styles.hideButtonForTNCCard}>
+                        {val.emiInfo && (
+                          <div className={styles.emiCharges}>{val.emiInfo}</div>
+                        )}
+                      </Accordion>
+                    );
+                  })}
+                <div className={styles.termsAndConditionsHeading}>
+                  Terms & Conditions
+                </div>
+                {this.state.noCostEmiArray.bankSpecificTnC &&
+                  this.state.noCostEmiArray.bankSpecificTnC.length > 0 &&
+                  this.state.noCostEmiArray.bankSpecificTnC.map((bank, i) => {
+                    let className = styles.headingWithHideButton;
+                    if (this.state.showBank === bank.title) {
+                      className = styles.onActiveHolder;
+                    }
+                    return (
+                      <React.Fragment>
+                        <div className={className}>
+                          <div className={styles.bankInfo} key={i}>
+                            {this.state.showBank === bank.title ? (
+                              <div>{bank.title}</div>
+                            ) : (
+                              <UnderLinedButton
+                                label={bank.title}
+                                onClick={() => {
+                                  this.toggleBankView(bank.title);
+                                }}
+                                fontFamily="regular"
+                                size={12}
+                              />
+                            )}
+                          </div>
+                          {this.state.showBank === bank.title && (
+                            <div className={styles.hideButton}>
                               <UnderLinedButton
                                 label={"Hide"}
                                 onClick={() => {
-                                  this.toggleTermsView();
+                                  this.toggleBankView();
                                 }}
                                 fontFamily="regular"
                                 size={12}
                               />
                             </div>
+                          )}
+                          {this.state.showBank === bank.title && (
+                            <div className={styles.content}>
+                              <div className={styles.termsAndConditions}>
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html: bank.description
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </React.Fragment>
+                    );
+                  })}
+                {!this.state.showEmi &&
+                  this.state.noCostEmiArray.termsAndConditions &&
+                  this.state.noCostEmiArray.termsAndConditions.title && (
+                    <div className={styles.viewTermsAndcondition}>
+                      <UnderLinedButton
+                        label={
+                          this.state.noCostEmiArray.termsAndConditions.title
+                        }
+                        onClick={() => {
+                          this.toggleTermsView();
+                        }}
+                        fontFamily="regular"
+                        size={12}
+                      />
+                    </div>
+                  )}
+                {this.state.showEmi &&
+                  this.state.noCostEmiArray.termsAndConditions && (
+                    <div className={styles.headingWithDescription}>
+                      {this.state.noCostEmiArray.termsAndConditions.title && (
+                        <div className={styles.headingWithHideButton}>
+                          <div className={styles.heading}>
+                            {this.state.noCostEmiArray.termsAndConditions.title}
                           </div>
-                        )}
-                        {this.state.standardEmiArray.termsAndConditions
-                          .description && (
-                          <div className={styles.content}>
-                            <div
-                              className={styles.termsAndConditions}
-                              dangerouslySetInnerHTML={{
-                                __html: this.state.standardEmiArray
-                                  .termsAndConditions.description
+
+                          <div className={styles.hideButtonForTNCCard}>
+                            <UnderLinedButton
+                              label={"Hide"}
+                              onClick={() => {
+                                this.toggleTermsView();
                               }}
+                              fontFamily="regular"
+                              size={12}
                             />
                           </div>
+                        </div>
+                      )}
+                      {this.state.noCostEmiArray.termsAndConditions
+                        .description && (
+                        <div className={styles.content}>
+                          <div
+                            className={styles.termsAndConditions}
+                            dangerouslySetInnerHTML={{
+                              __html: this.state.noCostEmiArray
+                                .termsAndConditions.description
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
+              </React.Fragment>
+            )}
+            {this.state.isSelected === 1 && this.state.standardEmiArray && (
+              <React.Fragment>
+                {this.state.standardEmiArray.heading && (
+                  <div className={styles.info}>
+                    {this.state.standardEmiArray.title}
+                  </div>
+                )}
+                {this.state.standardEmiArray.bankList &&
+                  this.state.standardEmiArray.bankList.map((val, i) => {
+                    return (
+                      <Accordion
+                        controlled={true}
+                        text={val.emiBank}
+                        key={i}
+                        offset={20}
+                        activeBackground="#f8f8f8"
+                        isOpen={this.state.openIndex === i}
+                        onOpen={() =>
+                          this.handleOpen(i, this.state.standardEmiArray)
+                        }
+                      >
+                        <EmiCardForPdp
+                          options={sortBy(
+                            val.emitermsrate,
+                            item => item && parseInt(item.term, 10)
+                          )}
+                          // emiInfo={val.emiInfo}
+                        />
+                        {val.emiInfo && (
+                          <div className={styles.emiCharges}>{val.emiInfo}</div>
                         )}
-                      </div>
-                    )}
-                </React.Fragment>
-              )}
+                      </Accordion>
+                    );
+                  })}
+                <div className={styles.termsAndConditionsHeading}>
+                  Terms & Conditions
+                </div>
+                {this.state.standardEmiArray.bankSpecificTnC &&
+                  this.state.standardEmiArray.bankSpecificTnC.length > 0 &&
+                  this.state.standardEmiArray.bankSpecificTnC.map((bank, i) => {
+                    let className = styles.headingWithHideButton;
+                    if (this.state.showBank === bank.title) {
+                      className = styles.onActiveHolder;
+                    }
+                    return (
+                      <React.Fragment>
+                        <div className={className}>
+                          <div className={styles.bankInfo} key={i}>
+                            {this.state.showBank === bank.title ? (
+                              <div> {bank.title}</div>
+                            ) : (
+                              <UnderLinedButton
+                                label={bank.title}
+                                onClick={() => {
+                                  this.toggleBankView(bank.title);
+                                }}
+                                fontFamily="regular"
+                                size={12}
+                              />
+                            )}
+                          </div>
+                          {this.state.showBank === bank.title && (
+                            <div className={styles.hideButton}>
+                              <UnderLinedButton
+                                label={"Hide"}
+                                onClick={() => {
+                                  this.toggleBankView();
+                                }}
+                                fontFamily="regular"
+                                size={12}
+                              />
+                            </div>
+                          )}
+                          {this.state.showBank === bank.title && (
+                            <div className={styles.content}>
+                              <div className={styles.termsAndConditions}>
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html: bank.description
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </React.Fragment>
+                    );
+                  })}
+                {!this.state.showEmi &&
+                  this.state.standardEmiArray.termsAndConditions &&
+                  this.state.standardEmiArray.termsAndConditions.title && (
+                    <div className={styles.viewTermsAndcondition}>
+                      <UnderLinedButton
+                        label={
+                          this.state.standardEmiArray.termsAndConditions.title
+                        }
+                        onClick={() => {
+                          this.toggleTermsView();
+                        }}
+                        fontFamily="regular"
+                        size={12}
+                      />
+                    </div>
+                  )}
+                {this.state.showEmi &&
+                  this.state.standardEmiArray.termsAndConditions && (
+                    <div className={termsAndCondition} id="scrollView">
+                      {this.state.standardEmiArray.termsAndConditions.title && (
+                        <div className={styles.headingWithHideButton}>
+                          <div className={styles.heading}>
+                            {
+                              this.state.standardEmiArray.termsAndConditions
+                                .title
+                            }
+                          </div>
+                          <div className={styles.hideButtonForTNCCard}>
+                            <UnderLinedButton
+                              label={"Hide"}
+                              onClick={() => {
+                                this.toggleTermsView();
+                              }}
+                              fontFamily="regular"
+                              size={12}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {this.state.standardEmiArray.termsAndConditions
+                        .description && (
+                        <div className={styles.content}>
+                          <div
+                            className={styles.termsAndConditions}
+                            dangerouslySetInnerHTML={{
+                              __html: this.state.standardEmiArray
+                                .termsAndConditions.description
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
+              </React.Fragment>
+            )}
           </div>
         </div>
       </SlideModal>

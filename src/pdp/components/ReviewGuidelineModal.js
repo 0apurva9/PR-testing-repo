@@ -1,18 +1,22 @@
 import React from "react";
-import CenterModal from "../../general/components/CenterModal";
-import ReviewGuideline from "./ReviewGuideline";
-import DesktopOnly from "../../general/components/DesktopOnly";
-
+import styles from "./ReviewGuidelineModal.css";
 export default class ReviewGuidelineModal extends React.Component {
+  handleClose() {
+    if (this.props.closeModal) {
+      this.props.closeModal();
+    }
+  }
   render() {
     return (
-      <React.Fragment>
-        <DesktopOnly>
-          <CenterModal closeModal={this.props.closeModal}>
-            <ReviewGuideline />
-          </CenterModal>
-        </DesktopOnly>
-      </React.Fragment>
+      <div className={styles.base}>
+        <div
+          className={styles.cancel}
+          onClick={() => {
+            this.handleClose();
+          }}
+        />
+        <div className={styles.content}>{this.props.children}</div>
+      </div>
     );
   }
 }

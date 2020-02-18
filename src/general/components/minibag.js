@@ -26,6 +26,7 @@ export default class Minibag extends React.Component {
       (this.props.cart.products.length > 2
         ? styles.mybagProductCard
         : styles.mybagProductCardShort);
+
     return (
       <div className={styles.mybag}>
         <div
@@ -50,22 +51,20 @@ export default class Minibag extends React.Component {
                           {`${RUPEE_SYMBOL}${product.price}`}
                         </div>
                       )}
-                      {product.MRP &&
-                        product.price !== product.MRP && (
-                          <div
-                            className={
-                              !product.price ? styles.mrp : styles.strikemrp
-                            }
-                          >
-                            {`${RUPEE_SYMBOL}${product.MRP}`}
-                          </div>
-                        )}
-                      {!!product.discount &&
-                        product.discount > 0 && (
-                          <div className={styles.discount}>
-                            {`(${product.discount}%)`}
-                          </div>
-                        )}
+                      {product.MRP && product.price !== product.MRP && (
+                        <div
+                          className={
+                            !product.price ? styles.mrp : styles.strikemrp
+                          }
+                        >
+                          {`${RUPEE_SYMBOL}${product.MRP}`}
+                        </div>
+                      )}
+                      {!!product.discount && product.discount > 0 && (
+                        <div className={styles.discount}>
+                          {`(${product.discount}%)`}
+                        </div>
+                      )}
                     </div>
                   )}
                   {(product.size || product.color || product.quantity) && (
@@ -78,7 +77,9 @@ export default class Minibag extends React.Component {
                       {product.size &&
                         product.size.toUpperCase() !== NO_SIZE && (
                           <div className={styles.sizeText}>
-                            {`Size:  ${product.size}`}
+                            {product.isSizeOrLength
+                              ? `${product.isSizeOrLength}: ${product.size}`
+                              : `Size: ${product.size}`}
                           </div>
                         )}
                       {product.quantity && (

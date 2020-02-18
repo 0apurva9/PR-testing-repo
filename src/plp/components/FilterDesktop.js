@@ -82,9 +82,7 @@ export default class FilterDesktop extends React.Component {
 
           let url = `${this.props.location.pathname}?q=${clearedQuery}`;
           if (searchQuery.match(/inStockFlag%3Atrue/i)) {
-            url = `${
-              this.props.location.pathname
-            }?q=${clearedQuery}${EOOF_Flag}`;
+            url = `${this.props.location.pathname}?q=${clearedQuery}${EOOF_Flag}`;
           }
           this.props.history.push(url, {
             isFilter: false
@@ -99,7 +97,14 @@ export default class FilterDesktop extends React.Component {
   onApply = () => {
     this.props.onApply();
   };
-  onCategorySelect = (val, filterType, filterValue, filterName, isFilter) => {
+  onCategorySelect = (
+    val,
+    filterType,
+    filterValue,
+    filterName,
+    isFilter,
+    i
+  ) => {
     setDataLayerForSelectedFilterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_FILTER_OPTION,
       filterType,
@@ -172,14 +177,14 @@ export default class FilterDesktop extends React.Component {
       this.props.onL3CategorySelect();
     }
   };
-  onL1Click = (val, filterType, filterValue, filterName) => {
-    this.onCategorySelect(val, filterType, filterValue, filterName, false);
+  onL1Click = (val, filterType, filterValue, filterName, i) => {
+    this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
   };
-  onL2Click = (val, filterType, filterValue, filterName) => {
-    this.onCategorySelect(val, filterType, filterValue, filterName, false);
+  onL2Click = (val, filterType, filterValue, filterName, i) => {
+    this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
   };
-  onL3Click = (val, filterType, filterValue, filterName) => {
-    this.onCategorySelect(val, filterType, filterValue, filterName, false);
+  onL3Click = (val, filterType, filterValue, filterName, i) => {
+    this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
   };
   onFilterClick = (
     val,
@@ -227,7 +232,7 @@ export default class FilterDesktop extends React.Component {
     setDataLayerForSelectedFilterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_FILTER_OPTION,
       filterType,
-      filterValue
+      filterType === "Colour" ? colourValue : filterValue
     );
     if (filterType === "Availability") {
       this.props.userSelectedOutOfStock(filterSelected);
@@ -329,6 +334,7 @@ export default class FilterDesktop extends React.Component {
                                 onClick={this.onL2Click}
                                 onL3Click={this.onL3Click}
                                 categoryTypeList={val.childFilters}
+                                key={i}
                               />
                             </FilterCategoryL1>
                           );
@@ -466,25 +472,23 @@ export default class FilterDesktop extends React.Component {
                                 )}
                             </DesktopOnly>
                           </div>
-                          {facetDataValues &&
-                            facetDataValues.name === PRICE && (
-                              <div className={styles.filterPriceHolder}>
-                                {facetDataValues.values && (
-                                  <div>
-                                    <PriceFilterTabDesktop
-                                      rangeApplied={
-                                        facetDataValues.rangeApplied
-                                      }
-                                      typeOfFilter={facetDataValues.name}
-                                      priceList={facetDataValues.values}
-                                      customRange={facetDataValues.customeRange}
-                                      history={this.props.history}
-                                      onFilterClick={this.onFilterClick}
-                                    />
-                                  </div>
-                                )}
-                              </div>
-                            )}
+                          {facetDataValues && facetDataValues.name === PRICE && (
+                            <div className={styles.filterPriceHolder}>
+                              {facetDataValues.values && (
+                                <div>
+                                  <PriceFilterTabDesktop
+                                    rangeApplied={facetDataValues.rangeApplied}
+                                    typeOfFilter={facetDataValues.name}
+                                    priceList={facetDataValues.values}
+                                    customRange={facetDataValues.customeRange}
+                                    history={this.props.history}
+                                    onFilterClick={this.onFilterClick}
+                                    query={this.props.query}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          )}
                           {facetDataValues &&
                             facetDataValues.name !== COLOUR &&
                             facetDataValues.name !== BRAND &&
@@ -596,6 +600,7 @@ export default class FilterDesktop extends React.Component {
                                     customRange={facetDataValues.customeRange}
                                     history={this.props.history}
                                     onFilterClick={this.onFilterClick}
+                                    query={this.props.query}
                                   />
                                 )}
                               </div>

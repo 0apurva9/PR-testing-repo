@@ -58,9 +58,7 @@ export default class ProductGrid extends React.Component {
   };
 
   renderComponent = (data, index) => {
-    const altTag = `${data.productname}-${data.brandname}-${
-      data.productCategoryType
-    }-TATA CLIQ`;
+    const altTag = `${data.productname}-${data.brandname}-${data.productCategoryType}-TATA CLIQ`;
     return (
       <ProductModuleContainer
         key={index}
@@ -101,7 +99,7 @@ export default class ProductGrid extends React.Component {
         onOffer={data.isOfferExisting}
         newProduct={data.newProduct}
         averageRating={data.averageRating}
-        totalNoOfReviews={data.totalNoOfReviews}
+        ratingCount={data.ratingCount}
         view={this.props.view}
         winningUssID={data.winningUssID ? data.winningUssID : data.ussid}
         onClick={(url, data, ref) =>
@@ -115,6 +113,8 @@ export default class ProductGrid extends React.Component {
         shouldShowSimilarIcon={true}
         productListings={this.props.productListings}
         ussid={data.ussid}
+        isExchangeAvailable={data.exchangeOfferAvailable}
+        showExchangeTag={data.showExchangeTag}
       />
     );
   };

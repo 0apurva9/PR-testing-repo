@@ -11,7 +11,10 @@ export const ADDRESS = "Address";
 export const EMI_MODAL = "EmiModal";
 export const OFFER_MODAL = "OfferDetailsModal";
 export const TERMSNCONDITIONS_MODAL = "TermsNConditionsWrapperModal";
+export const UPITERMSANDCONDITION_MODAL = "UpiTermsAndCondition";
+// export const UPIHOWTOPAY_MODAL = "UpiHowToPay";
 export const SIZE_SELECTOR = "SizeSelector";
+export const SIZE_SELECTOR_FOR_EYEWEAR = "SizeSelectorForEyeWear";
 export const PRICE_BREAKUP = "PriceBreakup";
 export const BANK_OFFERS = "BankOffers";
 export const OTP_LOGIN_MODAL = "OtpLoginModal";
@@ -44,7 +47,8 @@ export const CLIQ_PIQ_MODAL = "CliqAndPiqModal";
 export const CUSTOMER_QUERY_POPUP = "CustomerQueryPopUp";
 export const VALIDATE_OFFERS_POPUP = "ValidateOffersPopUp";
 export const MANUFACTURER_MODAL = "ManufacturerModal";
-export const REVIEW_GUIDLINE_MODAL = "ReviewGuidelineModal";
+export const REVIEW_GUIDLINE_MODAL = "ReviewGuidelineWrapperModal";
+export const RATING_AND_REVIEW_MODAL = "RatingAndReviewWrapperModal";
 export const SIMILAR_PRODUCTS_MODAL = "SimilarProductsModal";
 export const SIMILAR_PRODUCTS_OOS_MODAL = "SimilarProductsOOSModal";
 export const SIZE_SELECTOR_OOS_MODAL = "SizeSelectorOOSModal";
@@ -52,6 +56,8 @@ export const CONFIRMATION_NOTIFICATION = "NotificationConfirmation";
 export const CANCEL_RETURN_REQUEST_POP_UP = "CancelReturnRequestPopUp";
 export const SHOW_RETURN_CONFIRM_POP_UP = "ShowReturnConfirmPopup";
 export const SHOW_DELIVERY_CONFIRM_POP_UP = "ShowDeliveryConfirmPopup";
+export const SELLER_REVIEW_SUBMIT_REMOVAL_POP_UP =
+  "SellerReviewSubmitRemovalPopup";
 
 export function showModal(type, ownProps) {
   const scrollPosition =

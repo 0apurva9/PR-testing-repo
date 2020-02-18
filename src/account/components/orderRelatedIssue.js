@@ -1004,9 +1004,9 @@ export default class OrderRelatedIssue extends React.Component {
                 )}
 
               {this.state.productImageURL &&
-                (this.state.productImageURL &&
+                this.state.productImageURL &&
                   this.state.L0 &&
-                  !this.state.solution) &&
+                  !this.state.solution &&
                 (!l3OptionsArray ||
                   (l3OptionsArray && !l3OptionsArray.ticketAnswer)) && (
                   <div className={styles.buttonHolder}>
@@ -1530,9 +1530,9 @@ export default class OrderRelatedIssue extends React.Component {
                       )}
                   </div>
                   {this.state.productImageURL &&
-                    (this.state.productImageURL &&
+                    this.state.productImageURL &&
                       this.state.L0 &&
-                      !this.state.solution) &&
+                      !this.state.solution &&
                     (!l3OptionsArray ||
                       (l3OptionsArray && !l1OptionsArray.solution)) && (
                       <div className={styles.buttonHolder}>
@@ -1699,7 +1699,7 @@ export default class OrderRelatedIssue extends React.Component {
           </div>
           {this.state.showOrder && (
             <OrderRelatedPopup
-              selectedOrderId={this.state.orderCode}
+              selectedOrderId={this.state.transactionId}
               ordersTransactionData={this.props.ordersTransactionData}
               setProductDetails={(
                 orderCode,

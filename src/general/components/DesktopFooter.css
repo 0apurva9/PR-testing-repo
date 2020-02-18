@@ -206,3 +206,8 @@
 .popularSearches {
   margin-top: 30px;
 }
+.seoPagetitle {
+  text-indent: -99999px;
+  position: absolute;
+  height: 0;
+}

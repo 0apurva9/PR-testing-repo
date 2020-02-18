@@ -111,7 +111,10 @@ import {
   RETRY_FAILED_ORDER_COUPON_HEADER,
   RETRY_FAILED_ORDER_COUPON,
   RETRY_FAILED_ORDER_COUPON_NOTE,
-  FAILURE_TEXT
+  FAILURE_TEXT,
+  FAILED_ORDER,
+  UPI,
+  UPI_ID
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -124,7 +127,8 @@ import {
   ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE,
   ADOBE_CALL_FOR_SELECT_DELIVERY_MODE,
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE,
-  setDataLayerForWhatsappUncheck
+  setDataLayerForWhatsappUncheck,
+  ADOBE_CHECKOUT_DEFAULT_NEW_ADDRESS
 } from "../../lib/adobeUtils";
 import {
   CART_ITEM_COOKIE,
@@ -222,7 +226,10 @@ class CheckOutPage extends React.Component {
       retryFlagForEmiCoupon: false,
       emiBinValidationErrorMessage: null,
       emiBinValidationStatus: false,
-      whatsappSelected: true
+      whatsappSelected: true,
+      retryPaymentDetails: props.retryPaymentDetails
+        ? props.retryPaymentDetails
+        : null
     };
   }
 
@@ -285,7 +292,7 @@ class CheckOutPage extends React.Component {
       await this.removeNoCostEmi(noCostEmiCouponCode);
     }
     //here we need to reset captch if if already done .but payment mode is changed
-    if (this.state.captchaReseponseForCOD) {
+    if (this.state.captchaReseponseForCOD && window.grecaptcha) {
       window.grecaptcha.reset();
     }
     this.setState(val);
@@ -301,7 +308,8 @@ class CheckOutPage extends React.Component {
       paymentModeSelected: null,
       binValidationCOD: false,
       emiBinValidationErrorMessage: null,
-      emiBinValidationStatus: false
+      emiBinValidationStatus: false,
+      currentSelectedEMIType: null
     });
   };
   navigateToJusPayOnGET(url) {
@@ -345,6 +353,17 @@ class CheckOutPage extends React.Component {
     if (noCostEmiCouponCode) {
       this.removeNoCostEmi(noCostEmiCouponCode);
     }
+    this.setState({
+      currentSelectedEMIType,
+      cardDetails: {},
+      noCostEmiBankName: null,
+      noCostEmiDiscount: "0.00",
+      isNoCostEmiApplied: false,
+      emiBinValidationErrorMessage: null,
+      emiBinValidationStatus: false
+    });
+  }
+  setSunEmiOption(currentSelectedEMIType) {
     this.setState({
       currentSelectedEMIType,
       cardDetails: {},
@@ -608,7 +627,7 @@ class CheckOutPage extends React.Component {
         {this.props.cart.cartDetailsCNC.products &&
           this.props.cart.cartDetailsCNC.products.map((val, i) => {
             return (
-              <div className={styles.row}>
+              <div className={styles.row} key={i}>
                 <CartItem
                   key={i}
                   selected={this.state.ussIdAndDeliveryModesObj[val.USSID]}
@@ -618,6 +637,7 @@ class CheckOutPage extends React.Component {
                   color={val.color}
                   quantity={val.qtySelectedByUser}
                   isGiveAway={val.isGiveAway}
+                  sizeType={val.isSizeOrLength}
                   //productDetails={val.productBrand}
                   productName={val.productName}
                   price={val.price}
@@ -636,6 +656,7 @@ class CheckOutPage extends React.Component {
                   onPiq={() => this.getAllStores(val.USSID)}
                   onClickImage={() => this.onClickImage(val.productcode)}
                   isClickable={true}
+                  sizeType={val.isSizeOrLength}
                 />
               </div>
             );
@@ -895,6 +916,7 @@ class CheckOutPage extends React.Component {
           egvCartGuid: giftCartObj.egvCartGuid
         });
       }
+
       if (localStorage.getItem(RETRY_PAYMENT_CART_ID)) {
         let retryPaymentDetailsObj = JSON.parse(
           localStorage.getItem(RETRY_PAYMENT_DETAILS)
@@ -959,6 +981,18 @@ class CheckOutPage extends React.Component {
         isNoCostEmiProceeded: false
       });
     }
+    if (
+      !nextProps.cart.isNoCostEmiApplied &&
+      !this.state.isNoCostEmiApplied &&
+      nextProps.retryPaymentDetails
+    ) {
+      if (nextProps.retryPaymentDetails.retryFlagEmiCoupon) {
+        this.setState({
+          isNoCostEmiApplied: true,
+          isNoCostEmiProceeded: false
+        });
+      }
+    }
     this.availabilityOfUserCoupon();
     if (
       !this.state.isCheckoutAddressSelected &&
@@ -992,6 +1026,7 @@ class CheckOutPage extends React.Component {
         selectedAddress: defaultAddress
       });
     }
+
     if (
       nextProps.retryPaymentDetails &&
       nextProps.retryPaymentDetailsStatus === "success"
@@ -1002,12 +1037,42 @@ class CheckOutPage extends React.Component {
         : Cookie.getCookie(OLD_CART_GU_ID);
       let retryPaymentDetailsObject = {};
       retryPaymentDetailsObject.retryCartGuid = guId;
-      retryPaymentDetailsObject.retryPaymentDetails =
-        nextProps.retryPaymentDetails;
-      localStorage.setItem(
-        RETRY_PAYMENT_DETAILS,
-        JSON.stringify(retryPaymentDetailsObject)
-      );
+      if (localStorage.getItem(RETRY_PAYMENT_DETAILS)) {
+        localStorage.removeItem(RETRY_PAYMENT_DETAILS);
+      }
+      if (
+        this.props.cart.cartDetails &&
+        this.props.cart.cartDetails.cartAmount
+      ) {
+        const { cartAmount, ...paymentDetails } = nextProps.retryPaymentDetails;
+        const updatedPaymentDetails = {
+          ...this.props.cart.cartDetails,
+          ...paymentDetails
+        };
+        retryPaymentDetailsObject.retryPaymentDetails = updatedPaymentDetails;
+        localStorage.setItem(
+          RETRY_PAYMENT_DETAILS,
+          JSON.stringify(retryPaymentDetailsObject)
+        );
+      } else {
+        retryPaymentDetailsObject.retryPaymentDetails =
+          nextProps.retryPaymentDetails;
+        localStorage.setItem(
+          RETRY_PAYMENT_DETAILS,
+          JSON.stringify(retryPaymentDetailsObject)
+        );
+      }
+      // Updated total amount in state for retry payment
+      this.setState({
+        payableAmount:
+          Math.round(
+            retryPaymentDetailsObject &&
+              retryPaymentDetailsObject.retryPaymentDetails &&
+              retryPaymentDetailsObject.retryPaymentDetails.cartAmount &&
+              retryPaymentDetailsObject.retryPaymentDetails.cartAmount
+                .paybleAmount.doubleValue * 100
+          ) / 100
+      });
     }
     // end of adding default address is selected
     // adding selected default delivery modes for every product for retry payment
@@ -1329,8 +1394,15 @@ class CheckOutPage extends React.Component {
     }
     this.props.clearCartDetails();
     this.props.resetIsSoftReservationFailed();
+    if (this.props.retryPaymentDetails) {
+      this.props.resetFailedOrderDetails();
+    }
+    if (localStorage.getItem(FAILED_ORDER)) {
+      localStorage.removeItem(FAILED_ORDER);
+    }
   }
   componentDidMount() {
+    localStorage.setItem("APPROVED_UPI_VPA", []);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let cartDetailsLoggedInUser = Cookie.getCookie(
@@ -1364,6 +1436,10 @@ if you have order id in local storage then you have to show order confirmation p
     const parsedQueryString = queryString.parse(this.props.location.search);
     const value = parsedQueryString.status;
     const orderId = parsedQueryString.order_id;
+    if (value == JUS_PAY_CHARGED && stripeDetails) {
+      this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
+      return;
+    }
     if (!orderId) {
       setDataLayerForCheckoutDirectCalls(
         ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE
@@ -1390,6 +1466,7 @@ if you have order id in local storage then you have to show order confirmation p
         }
       }
       this.props.getPaymentFailureOrderDetails();
+
       if (localStorage.getItem(EGV_GIFT_CART_ID)) {
         let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
         this.setState({
@@ -1502,14 +1579,20 @@ if you have order id in local storage then you have to show order confirmation p
       });
     } else if (
       (this.props.location &&
-        (this.props.location.state &&
-          this.props.location.state.isFromRetryUrl)) ||
+        this.props.location.state &&
+        this.props.location.state.isFromRetryUrl) ||
       this.props.location.pathname === `${RETRY_FAILED_ORDER}`
     ) {
       let retryPaymentDetailsObj = JSON.parse(
         localStorage.getItem(RETRY_PAYMENT_DETAILS)
       );
       let retryCartId = JSON.parse(localStorage.getItem(RETRY_PAYMENT_CART_ID));
+      if (!retryCartId) {
+        let querySearch = this.props.location.search;
+        const parsedQueryString = queryString.parse(querySearch);
+        retryCartId = parsedQueryString.value;
+      }
+
       this.setState(
         {
           isComingFromRetryUrl: true,
@@ -1607,9 +1690,24 @@ if you have order id in local storage then you have to show order confirmation p
         JSON.stringify(this.props.location.state)
       );
     }
+    let failedorderRetryPayment = localStorage.getItem(FAILED_ORDER);
     if (this.props.location.pathname === `${RETRY_FAILED_ORDER}`) {
-      const parsedQueryString = queryString.parse(this.props.location.search);
+      let querySearch = this.props.location.search
+        ? this.props.location.search
+        : window.location.search;
+      if (
+        !querySearch &&
+        failedorderRetryPayment &&
+        !this.state.isComingFromRetryUrl
+      ) {
+        querySearch = failedorderRetryPayment.includes("?")
+          ? failedorderRetryPayment.split("?")[1]
+          : failedorderRetryPayment;
+      }
+      const parsedQueryString = queryString.parse(querySearch);
+
       let guId = parsedQueryString.value;
+
       let userId = parsedQueryString.userId;
       let userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       const userDetails = JSON.parse(userDetailsCookie);
@@ -1842,7 +1940,12 @@ if you have order id in local storage then you have to show order confirmation p
     }
   };
 
-  getItemBreakUpDetails = (couponCode, noCostEmiText, noCostProductCount) => {
+  getItemBreakUpDetails = (
+    couponCode,
+    noCostEmiText,
+    noCostProductCount,
+    emiInfo
+  ) => {
     if (this.state.isPaymentFailed) {
       const parsedQueryString = queryString.parse(this.props.location.search);
       const cartGuId = parsedQueryString.value
@@ -1852,7 +1955,8 @@ if you have order id in local storage then you have to show order confirmation p
         couponCode,
         cartGuId,
         noCostEmiText,
-        noCostProductCount
+        noCostProductCount,
+        emiInfo
       );
     } else {
       if (this.props.getItemBreakUpDetails) {
@@ -1860,7 +1964,8 @@ if you have order id in local storage then you have to show order confirmation p
           couponCode,
           null,
           noCostEmiText,
-          noCostProductCount
+          noCostProductCount,
+          emiInfo
         );
       }
     }
@@ -2045,7 +2150,7 @@ if you have order id in local storage then you have to show order confirmation p
 
     return productServiceAvailability;
   };
-  handleSubmitAfterPaymentFailure = () => {
+  handleSubmitAfterPaymentFailure = async () => {
     if (this.state.isNoCostEmiApplied) {
       this.setState({ isNoCostEmiProceeded: true });
     }
@@ -2266,6 +2371,32 @@ if you have order id in local storage then you have to show order confirmation p
         );
       }
     }
+    if (this.state.currentPaymentMode === UPI) {
+      if (this.state.isGiftCard) {
+        if (this.props.collectPaymentOrderForUPI) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            await this.props.createPaymentOrder(this.state.egvCartGuid, true);
+          }
+
+          this.props.collectPaymentOrderForGiftCardUPI(this.state.egvCartGuid);
+        }
+      } else {
+        if (this.props.cart.isCreatePaymentOrderFailed) {
+          await this.props.createPaymentOrder("", true);
+        }
+
+        this.props.collectPaymentOrderForUPI(
+          UPI,
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+          "",
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+          false,
+          "",
+          "",
+          true
+        );
+      }
+    }
     if (!this.state.isRemainingAmount && this.state.isCliqCashApplied) {
       if (this.props.cart.isCreatePaymentOrderFailed) {
         this.props.createPaymentOrder();
@@ -2293,7 +2424,7 @@ if you have order id in local storage then you have to show order confirmation p
       }
     }
   };
-  handleSubmit = () => {
+  handleSubmit = async () => {
     localStorage.setItem(
       ADDRESS_FOR_PLACE_ORDER,
       JSON.stringify(this.state.selectedAddress)
@@ -2544,6 +2675,47 @@ if you have order id in local storage then you have to show order confirmation p
           );
         }
       }
+      if (this.state.currentPaymentMode === UPI) {
+        if (this.state.isGiftCard) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            await this.props.createPaymentOrder(
+              this.props.location.state.egvCartGuid,
+              true
+            );
+          }
+          this.props.collectPaymentOrderForGiftCardUPI(
+            this.props.location.state.egvCartGuid,
+            this.state.bankCodeForNetBanking,
+            this.state.bankNameForNetBanking
+          );
+        } else if (this.state.isComingFromRetryUrl) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            await this.props.createPaymentOrder(this.state.retryCartGuid, true);
+          }
+
+          this.props.collectPaymentOrderForUPI(
+            UPI,
+            JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+            false,
+            localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+            true,
+            this.state.retryCartGuid,
+            this.state.bankNameForNetBanking
+          );
+        } else {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            await this.props.createPaymentOrder("", true);
+          }
+
+          this.props.softReservationPaymentForUPI(
+            UPI,
+            "",
+            "",
+            localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+            UPI
+          );
+        }
+      }
       if (this.state.isNoCostEmiApplied) {
         this.setState({ isNoCostEmiProceeded: true });
       }
@@ -2663,6 +2835,7 @@ if you have order id in local storage then you have to show order confirmation p
     this.setState({ isOpenTransactionFailedPopUp: false });
   }
   addNewAddress = () => {
+    setDataLayerForCheckoutDirectCalls(ADOBE_CHECKOUT_DEFAULT_NEW_ADDRESS);
     this.setState({ addNewAddress: true });
   };
   binValidationForPaytm = val => {
@@ -2716,6 +2889,7 @@ if you have order id in local storage then you have to show order confirmation p
         }
       }
     }
+    this.onChangePaymentMode({ currentPaymentMode: null });
   };
   openBankOffers = () => {
     this.props.showCouponModal({
@@ -3145,9 +3319,9 @@ if you have order id in local storage then you have to show order confirmation p
   validateCard() {
     if (
       !this.state.cardDetails.cardNumber ||
-      (!this.state.cardDetails.cardName ||
-        (this.state.cardDetails.cardName &&
-          this.state.cardDetails.cardName.length < 3)) ||
+      !this.state.cardDetails.cardName ||
+      (this.state.cardDetails.cardName &&
+        this.state.cardDetails.cardName.length < 3) ||
       (this.state.cardDetails.cardName &&
         this.state.cardDetails.cardName.length < 1) ||
       !this.state.cardDetails.monthValue ||
@@ -3223,7 +3397,11 @@ if you have order id in local storage then you have to show order confirmation p
       if (!this.state.savedCardDetails) {
         return true;
       } else {
-        return false;
+        if (this.props.binValidationStatus !== "success") {
+          return true;
+        } else {
+          return false;
+        }
       }
     } else return false;
   };
@@ -3285,10 +3463,10 @@ if you have order id in local storage then you have to show order confirmation p
       !this.state.confirmAddress &&
       !this.state.isGiftCard &&
       !this.state.isComingFromRetryUrl &&
-      (this.props.cart.userAddress &&
-        this.props.cart.userAddress.addresses &&
-        !this.state.isGiftCard &&
-        !this.state.isComingFromRetryUrl)
+      this.props.cart.userAddress &&
+      this.props.cart.userAddress.addresses &&
+      !this.state.isGiftCard &&
+      !this.state.isComingFromRetryUrl
     ) {
       if (!this.state.addressId) {
         checkoutButtonStatus = true;
@@ -3661,9 +3839,12 @@ if you have order id in local storage then you have to show order confirmation p
                     !(
                       this.state.isPaymentFailed && this.state.isCliqCashApplied
                     ) &&
-                    (this.props.cart.paymentModes &&
-                      this.props.cart.paymentModes.paymentOffers &&
-                      this.props.cart.paymentModes.paymentOffers.coupons) && (
+                    !this.state.paymentMethod &&
+                    this.state.confirmAddress &&
+                    this.state.deliverMode &&
+                    this.props.cart.paymentModes &&
+                    this.props.cart.paymentModes.paymentOffers &&
+                    this.props.cart.paymentModes.paymentOffers.coupons && (
                       <BankOfferWrapper
                         cart={this.props.cart}
                         applyBankCoupons={val => this.applyBankCoupons(val)}
@@ -3675,7 +3856,8 @@ if you have order id in local storage then you have to show order confirmation p
                     )}
                 </DesktopOnly>
                 {((!this.state.paymentMethod &&
-                  (this.state.confirmAddress && this.state.deliverMode)) ||
+                  this.state.confirmAddress &&
+                  this.state.deliverMode) ||
                   this.state.isPaymentFailed ||
                   this.state.isGiftCard ||
                   this.state.isComingFromRetryUrl) && (
@@ -3700,6 +3882,9 @@ if you have order id in local storage then you have to show order confirmation p
                       paymentModeSelected={this.state.paymentModeSelected}
                       changeSubEmiOption={currentSelectedEMIType =>
                         this.changeSubEmiOption(currentSelectedEMIType)
+                      }
+                      setSunEmiOption={currentSelectedEMIType =>
+                        this.setSunEmiOption(currentSelectedEMIType)
                       }
                       selectedSavedCardDetails={this.state.savedCardDetails}
                       selectedBankOfferCode={this.state.selectedBankOfferCode}
@@ -3762,6 +3947,9 @@ if you have order id in local storage then you have to show order confirmation p
                       selectPayPal={val => this.selectPayPal(val)}
                       displayToast={message => this.props.displayToast(message)}
                       getCODEligibility={() => this.getCODEligibility()}
+                      showTermsNConditions={val =>
+                        this.props.showTermsNConditions(val)
+                      }
                       getNetBankDetails={() => this.getNetBankDetails()}
                       getEmiBankDetails={() => this.getEmiBankDetails()}
                       getEmiEligibility={() => this.getEmiEligibility()}
@@ -3780,12 +3968,14 @@ if you have order id in local storage then you have to show order confirmation p
                       getItemBreakUpDetails={(
                         couponCode,
                         noCostEmiText,
-                        noCostProductCount
+                        noCostProductCount,
+                        emiInfo
                       ) =>
                         this.getItemBreakUpDetails(
                           couponCode,
                           noCostEmiText,
-                          noCostProductCount
+                          noCostProductCount,
+                          emiInfo
                         )
                       }
                       isNoCostEmiProceeded={this.state.isNoCostEmiProceeded}
@@ -3812,6 +4002,36 @@ if you have order id in local storage then you have to show order confirmation p
                       emiBinValidationErrorMessage={
                         this.state.emiBinValidationErrorMessage
                       }
+                      retryPaymentDetails={this.props.retryPaymentDetails}
+                      addUPIDetails={(val, pageType, btnType) =>
+                        this.props.addUPIDetails(val, pageType, btnType)
+                      }
+                      addUPIDetailsNullState={() =>
+                        this.props.addUPIDetailsNullState()
+                      }
+                      addUserUPIStatus={this.props.addUserUPIStatus}
+                      addUserUPIDetails={this.props.addUserUPIDetails}
+                      loading={this.props.loading}
+                      checkUPIEligibility={cartGuidUPI =>
+                        this.props.checkUPIEligibility(cartGuidUPI)
+                      }
+                      binValidationForUPI={paymentMode =>
+                        this.props.binValidationForUPI(paymentMode)
+                      }
+                      upiPaymentIsNewMidddleLayer={() =>
+                        this.props.upiPaymentIsNewMidddleLayer()
+                      }
+                      upiPaymentISEnableMidddleLayer={() =>
+                        this.props.upiPaymentISEnableMidddleLayer()
+                      }
+                      upiPaymentHowItWorksMidddleLayer={() =>
+                        this.props.upiPaymentHowItWorksMidddleLayer()
+                      }
+                      upiPaymentCombinedLogoMidddleLayer={() =>
+                        this.props.upiPaymentCombinedLogoMidddleLayer()
+                      }
+                      getPaymentModes={val => this.props.getPaymentModes(val)}
+                      retryCartGuid={this.state.retryCartGuid}
                     />
                   </div>
                 )}

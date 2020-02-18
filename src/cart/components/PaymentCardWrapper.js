@@ -12,36 +12,56 @@ import CheckoutCOD from "./CheckoutCOD.js";
 import { PAYTM, OLD_CART_GU_ID, BANK_COUPON_COOKIE } from "../../lib/constants";
 import PaytmOption from "./PaytmOption.js";
 import PayPalOptions from "./PayPalOptions";
-import BankOffer from "./BankOffer.js";
+/**
+ * @comment Commented the import as it is not being used anywhere.
+ */
+// import BankOffer from "./BankOffer.js";
 import BankOfferWrapper from "./BankOfferWrapper.js";
 import GiftCardPopup from "./GiftCardPopup.js";
-import GridSelect from "../../general/components/GridSelect";
+/**
+ * @comment Commented the import as it is not being used anywhere.
+ */
+// import GridSelect from "../../general/components/GridSelect";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import ManueDetails from "../../general/components/MenuDetails.js";
 import CheckOutHeader from "./CheckOutHeader";
-import { getCookie } from "../../lib/Cookie";
+/**
+ * @comment Commented the import as it is not being used anywhere.
+ */
+// import { getCookie } from "../../lib/Cookie";
 import giftCardIcon from "../../general/components/img/Gift.svg";
-const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
-const payPal = "PayPal";
-const keyForCreditCard = "Credit Card";
-const keyForDebitCard = "Debit Card";
-const keyForNetbanking = "Netbanking";
-const keyForEMI = "EMI";
-const keyForCOD = "COD";
-const keyForPaytm = "PAYTM";
+import CheckoutUpi from "./CheckoutUpi";
+/**
+ * @comment Commented the const as it is not being used anywhere.
+ */
+// const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
+// const payPal = "PayPal";
+// const keyForCreditCard = "Credit Card";
+// const keyForDebitCard = "Debit Card";
+// const keyForNetbanking = "Netbanking";
+// const keyForEMI = "EMI";
+// const keyForCOD = "COD";
+// const keyForPaytm = "PAYTM";
 const GIFT_CARD = "Have a gift card?";
-const sequanceOfPaymentMode = [
-  payPal,
-  keyForCreditCard,
-  keyForDebitCard,
-  keyForEMI,
-  keyForNetbanking,
-  keyForPaytm,
-  keyForCOD
-];
+/**
+ * @comment the below sequence will not be used as now we are showing it as per the API data.
+ */
+// const sequanceOfPaymentMode = [
+//   payPal,
+//   keyForCreditCard,
+//   keyForDebitCard,
+//   keyForEMI,
+//   keyForNetbanking,
+//   keyForPaytm,
+//   keyForCOD
+// ];
+/**
+ * @comment Added condition for showing UPI section of the checkout page in the below const.
+ */
 // prettier-ignore
 const typeComponentMapping = {
+  "UPI": props => <CheckoutUpi {...props} />,
   "Credit Card": props => <CheckoutCreditCard {...props} />,
     "Debit Card": props => <CheckoutDebitCard {...props} />,
     "Netbanking": props => <CheckoutNetbanking {...props} />,
@@ -81,29 +101,51 @@ export default class PaymentCardWrapper extends React.Component {
       this.props.openBankOfferTncModal();
     }
   }
-  renderPaymentCard = datumType => {
-    return (
-      <React.Fragment>
-        {typeComponentMapping[datumType] &&
-          typeComponentMapping[datumType]({ ...this.props })}
-      </React.Fragment>
-    );
+  renderPaymentCard = (datumType, i) => {
+    if (
+      this.props.retryPaymentDetails &&
+      this.props.retryPaymentDetails.orderRetry &&
+      this.props.retryPaymentDetails.retryFlagEmiCoupon
+    ) {
+      return (
+        <React.Fragment key={i}>
+          {datumType === "EMI" &&
+            typeComponentMapping[datumType] &&
+            typeComponentMapping[datumType]({ ...this.props })}
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <React.Fragment key={i}>
+          {typeComponentMapping[datumType] &&
+            typeComponentMapping[datumType]({ ...this.props })}
+        </React.Fragment>
+      );
+    }
   };
 
   renderPaymentCardsComponents() {
-    let paymentModesToDisplay = sequanceOfPaymentMode.filter(mode => {
-      return find(
-        this.props.cart.paymentModes.paymentModes,
-        availablePaymentMode => {
-          return (
-            availablePaymentMode.key === mode && availablePaymentMode.value
-          );
-        }
-      );
-    });
-    return paymentModesToDisplay.map((feedDatum, i) => {
-      return this.renderPaymentCard(feedDatum, i);
-    });
+    let paymentModesToDisplay =
+      this.props.cart &&
+      this.props.cart.paymentModes &&
+      this.props.cart.paymentModes.paymentModes &&
+      this.props.cart.paymentModes.paymentModes.filter(mode => {
+        return find(
+          this.props.cart.paymentModes.paymentModes,
+          availablePaymentMode => {
+            return (
+              availablePaymentMode.key === mode.key &&
+              availablePaymentMode.value
+            );
+          }
+        );
+      });
+    return (
+      paymentModesToDisplay &&
+      paymentModesToDisplay.map((feedDatum, i) => {
+        return this.renderPaymentCard(feedDatum.key, i);
+      })
+    );
   }
 
   binValidationForSavedCard = cardDetails => {
@@ -153,6 +195,10 @@ export default class PaymentCardWrapper extends React.Component {
 
   render() {
     if (this.props.cart.paymentModes) {
+      let retryNoCostEMI =
+        this.props.retryPaymentDetails &&
+        this.props.retryPaymentDetails.orderRetry &&
+        this.props.retryPaymentDetails.retryFlagEmiCoupon;
       return (
         <div className={styles.base}>
           <DesktopOnly>
@@ -191,9 +237,9 @@ export default class PaymentCardWrapper extends React.Component {
             {!this.props.isFromGiftCard &&
               this.props.isRemainingBalance &&
               !(this.props.isPaymentFailed && this.props.isCliqCashApplied) &&
-              (this.props.cart.paymentModes &&
-                this.props.cart.paymentModes.paymentOffers &&
-                this.props.cart.paymentModes.paymentOffers.coupons) && (
+              this.props.cart.paymentModes &&
+              this.props.cart.paymentModes.paymentOffers &&
+              this.props.cart.paymentModes.paymentOffers.coupons && (
                 <BankOfferWrapper
                   cart={this.props.cart}
                   applyBankCoupons={this.props.applyBankCoupons}
@@ -212,7 +258,8 @@ export default class PaymentCardWrapper extends React.Component {
                   />
                 </div>
               </MobileOnly>
-              {this.props.cart.paymentModes &&
+              {!retryNoCostEMI &&
+                this.props.cart.paymentModes &&
                 this.props.cart.paymentModes.savedCardResponse &&
                 this.props.cart.paymentModes.savedCardResponse
                   .savedCardDetailsMap &&

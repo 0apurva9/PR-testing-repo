@@ -44,6 +44,7 @@ import {
   BRAND_PAGE,
   CATEGORY_PAGE,
   BRAND_PAGE_WITH_SLUG,
+  BRAND_PAGE_WITH_FILTER_SLUG,
   CATEGORY_PAGE_WITH_SLUG,
   CATEGORY_PAGE_WITH_FILTER_SLUG,
   RETURNS,
@@ -76,7 +77,8 @@ import {
   CART_COUNT_FOR_LOGGED_IN_USER,
   PANCARD_PAGE,
   CART_BAG_DETAILS,
-  CANCEL_RETURN_PREFIX
+  CANCEL_RETURN_PREFIX,
+  UNSUBSCRIBE_CLEVER_TAP_EMAILS
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
@@ -86,6 +88,7 @@ import ProductDescriptionPageWrapperContainer from "./pdp/containers/ProductDesc
 
 import MobileOnly from "./general/components/MobileOnly";
 import DesktopOnly from "./general/components/DesktopOnly";
+import { setDataLayer, ADOBE_VIRTUAL_PAGELOAD } from "../src/lib/adobeUtils";
 /*
     Setting default pin code
     for user if user dont have pin code in
@@ -320,6 +323,28 @@ const NoResultPage = Loadable({
     return <Loader />;
   }
 });
+
+const AllSellerContainer = Loadable({
+  loader: () => import("./account/containers/AllSellerContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const AllSellerReviewContainer = Loadable({
+  loader: () => import("./account/containers/AllSellerReviewContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const CleverTapUnsubscribeEmail = Loadable({
+  loader: () => import("./general/components/CleverTapEmailUnsubscribe"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 class App extends Component {
   componentWillMount() {
     let globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
@@ -408,6 +433,15 @@ class App extends Component {
       }
     }
   }
+  componentDidUpdate(prevProps, prevState) {
+    // Are we adding new items to the list?
+    // Capture the scroll position so we can adjust scroll later.
+    if (prevProps.location.pathname != this.props.location.pathname) {
+      setTimeout(() => {
+        setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
+      }, 300);
+    }
+  }
 
   renderLoader() {
     return (
@@ -418,6 +452,7 @@ class App extends Component {
   }
 
   render() {
+    console.log("UPI");
     if (!this.props.location.pathname.includes("/my-account")) {
       if (window.od && window.od.messenger && window.od.messenger("update")) {
         window.od.messenger("update");
@@ -529,6 +564,11 @@ class App extends Component {
               component={PlpBrandCategoryWrapperContainer}
             />
             <Route
+              strict
+              path={BRAND_PAGE_WITH_FILTER_SLUG}
+              component={PlpBrandCategoryWrapperContainer}
+            />
+            <Route
               exact
               path={BRAND_PAGE_WITH_SLUG_WITH_QUERY_PARAMS}
               component={PlpBrandCategoryWrapperContainer}
@@ -624,6 +664,11 @@ class App extends Component {
               path={CATEGORIES_LANDING_PAGE}
               component={CategoriesPageContainer}
             />
+            <Route
+              exact
+              path={UNSUBSCRIBE_CLEVER_TAP_EMAILS}
+              component={CleverTapUnsubscribeEmail}
+            />
             {/* This *has* to be at the bottom */}
             <Route
               exact
@@ -646,6 +691,29 @@ class App extends Component {
               exact
               path={REDMI_WALLET_FROM_EMAIL}
               component={MyAccountWrapper}
+            />
+            <Route
+              path={`/store/transactionId=:id&customerId=:id1/seller-review`}
+              component={AllSellerContainer}
+            />
+            <Route
+              path={`/store/transactionId=:id&customerId=:id1/seller-reviewed`}
+              component={AllSellerReviewContainer}
+            />
+            <Route
+              path={`/transactionId=:id&customerId=:id1/seller-review`}
+              component={AllSellerContainer}
+            />
+            <Route
+              path={`/transactionId=:id&customerId=:id1/seller-reviewed`}
+              component={AllSellerReviewContainer}
+            />
+            <Route
+              exact
+              path="/Unsubscribe.html"
+              render={() => {
+                window.location.href = "Unsubscribe.html";
+              }}
             />
             <Route
               path="/que"

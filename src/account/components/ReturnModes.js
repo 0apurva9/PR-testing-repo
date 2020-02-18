@@ -21,7 +21,10 @@ import {
 import {
   setDataLayer,
   ADOBE_CHANGE_PICKUPADDRESS_LINK_CLICKED,
-  ADOBE_MODE_OF_RETURN_SUBMITTED
+  ADOBE_MODE_OF_RETURN_SUBMITTED,
+  ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_SUCCESS,
+  ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_INITIATE,
+  getDeliveryModeForMyAccountReturn
 } from "../../lib/adobeUtils";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import ProfileMenu from "../../account/components/ProfileMenu.js";
@@ -67,6 +70,11 @@ export default class ReturnModes extends React.Component {
     if (data.status === "success") {
       this.setState({ returnModesDetails: data.returnModesDetails });
       let pickupAddress = {};
+      if (data && data.returnModesDetails) {
+        getDeliveryModeForMyAccountReturn(
+          ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_INITIATE
+        );
+      }
       //if address changed
       if (
         this.props.location &&
@@ -168,6 +176,9 @@ export default class ReturnModes extends React.Component {
   radioChange(e) {
     const target = e.currentTarget;
     this.setState({ selectedOption: target.value });
+    getDeliveryModeForMyAccountReturn(
+      ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_SUCCESS
+    );
   }
   radioChangeStores(e) {
     const target = e.currentTarget;

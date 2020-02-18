@@ -16,6 +16,11 @@ export default class ProductDetailsCardForSaveList extends React.Component {
   };
 
   render() {
+    let sizeText = this.props.size;
+    if (this.props.isSizeOrLength === "Power" && this.props.size > 0) {
+      sizeText = `+${this.props.size}`;
+    }
+
     return (
       <div className={styles.base}>
         <div className={styles.productImageHolder}>
@@ -77,12 +82,14 @@ export default class ProductDetailsCardForSaveList extends React.Component {
                 </del>
               )}
           </div>
-          {this.props.size &&
-            this.props.size !== "NO SIZE" && (
-              <div className={styles.sizeHolder}>
-                <span className={styles.size}>Size</span> {this.props.size}
-              </div>
-            )}
+          {this.props.size && this.props.size !== "NO SIZE" && (
+            <div className={styles.sizeHolder}>
+              <span className={styles.size}>
+                {this.props.isSizeOrLength ? this.props.isSizeOrLength : `Size`}
+              </span>{" "}
+              {sizeText}
+            </div>
+          )}
           <div
             className={styles.displayRating}
             itemProp="aggregateRating"

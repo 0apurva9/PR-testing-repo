@@ -203,9 +203,7 @@ export default class PdpElectronics extends React.Component {
   };
 
   goToReviewPage = () => {
-    const url = `${
-      this.props.location.pathname
-    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
   showPincodeModal() {
@@ -289,18 +287,15 @@ export default class PdpElectronics extends React.Component {
       } else if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
         seoDoublePrice = productData.mrpPrice.doubleValue;
       }
-      if (
-        productData.mrpPrice &&
-        productData.mrpPrice.formattedValueNoDecimal
-      ) {
-        price = productData.mrpPrice.formattedValueNoDecimal;
+      if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
+        price = productData.mrpPrice.doubleValue;
       }
 
       if (
         productData.winningSellerPrice &&
-        productData.winningSellerPrice.formattedValueNoDecimal
+        productData.winningSellerPrice.doubleValue
       ) {
-        discountPrice = productData.winningSellerPrice.formattedValueNoDecimal;
+        discountPrice = productData.winningSellerPrice.doubleValue;
       }
       let flixModelNo = "";
       if (productData.details && productData.details.length) {
@@ -377,6 +372,7 @@ export default class PdpElectronics extends React.Component {
                   numberOfReviews={productData.numberOfReviews}
                   discountPrice={discountPrice}
                   averageRating={productData.averageRating}
+                  ratingCount={productData.ratingCount}
                   goToReviewPage={this.goToReviewPage}
                   discount={productData.discount}
                 />
@@ -392,6 +388,7 @@ export default class PdpElectronics extends React.Component {
                   numberOfReviews={productData.numberOfReviews}
                   discountPrice={price}
                   averageRating={productData.averageRating}
+                  ratingCount={productData.ratingCount}
                   goToReviewPage={this.goToReviewPage}
                   discount={productData.discount}
                 />
@@ -599,13 +596,12 @@ export default class PdpElectronics extends React.Component {
               {productData.details && (
                 <ProductDetails data={productData.details} />
               )}
-              {productData.warranty &&
-                productData.warranty.length > 0 && (
-                  <ProductFeature
-                    heading="Warranty"
-                    content={productData.warranty[0]}
-                  />
-                )}
+              {productData.warranty && productData.warranty.length > 0 && (
+                <ProductFeature
+                  heading="Warranty"
+                  content={productData.warranty[0]}
+                />
+              )}
             </div>
           )}
           {productData.APlusContent && (

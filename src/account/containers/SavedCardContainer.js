@@ -4,13 +4,19 @@ import UserSavedCard from "../components/UserSavedCard.js";
 import { setHeaderText } from "../../general/header.actions";
 import {
   getSavedCardDetails,
-  removeSavedCardDetails
+  removeSavedCardDetails,
+  removeSavedUpiDetails,
+  addUPIDetails
 } from "../actions/account.actions";
 import {
   showSecondaryLoader,
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
-import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
+import {
+  showModal,
+  DESKTOP_AUTH
+  // UPIHOWTOPAY_MODAL
+} from "../../general/modal.actions";
 const mapDispatchToProps = dispatch => {
   return {
     getSavedCardDetails: (userId, customerAccessToken) => {
@@ -22,6 +28,9 @@ const mapDispatchToProps = dispatch => {
     removeSavedCardDetails: cardToken => {
       dispatch(removeSavedCardDetails(cardToken));
     },
+    removeSavedUpiDetails: upiId => {
+      dispatch(removeSavedUpiDetails(upiId));
+    },
     showSecondaryLoader: () => {
       dispatch(showSecondaryLoader());
     },
@@ -30,6 +39,10 @@ const mapDispatchToProps = dispatch => {
     },
     showAuthPopUp: () => {
       dispatch(showModal(DESKTOP_AUTH));
+    },
+    addUPIDetails: async (val, pageType) => {
+      const res = await dispatch(addUPIDetails(val, pageType));
+      return res;
     }
   };
 };
@@ -37,7 +50,9 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     profile: state.profile,
-    userAddress: state.profile.userAddress
+    userAddress: state.profile.userAddress,
+    loading: state.profile.loading,
+    addUserUPIStatus: state.profile.addUserUPIStatus
   };
 };
 

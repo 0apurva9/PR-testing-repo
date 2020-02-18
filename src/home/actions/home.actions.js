@@ -72,9 +72,9 @@ export const GET_PRODUCT_CAPSULES_FAILURE = "GET_PRODUCT_CAPSULES_FAILURE";
 export const CLEAR_ITEMS_FOR_PARTICULAR_POSITION =
   "CLEAR_ITEMS_FOR_PARTICULAR_POSITION";
 const ADOBE_TARGET_DELAY = 2500;
-const MSD_NUM_PRODUCTS = 10;
-const MSD_NUM_RESULTS = 10;
-const MSD_NUM_RESULTS_FOR_AUTOMATED_BRAND_COMPONENT = 20;
+const MSD_NUM_PRODUCTS = 5;
+const MSD_NUM_RESULTS = 5;
+const MSD_NUM_RESULTS_FOR_AUTOMATED_BRAND_COMPONENT = 5;
 const MSD_NUM_BRANDS = 1;
 const DISCOVER_MORE_NUM_RESULTS = 10;
 const FOLLOWED_WIDGET_WIDGET_LIST = [112]; // weirdly it's not done.
@@ -235,10 +235,11 @@ export function getItems(positionInFeed, itemIds, feedType) {
   return async (dispatch, getState, { api }) => {
     dispatch(getItemsRequest(positionInFeed));
     try {
-      let productCodes;
-      each(itemIds, itemId => {
-        productCodes = `${itemId},${productCodes}`;
-      });
+      // let productCodes;
+      // each(itemIds, itemId => {
+      //   productCodes = `${itemId},${productCodes}`;
+      // });
+      let productCodes = itemIds && itemIds.toString();
       const url = `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
       const result = await api.getMiddlewareUrl(url);
       const resultJson = await result.json();

@@ -99,30 +99,30 @@ export default class CartItem extends React.Component {
             isServiceAvailable={this.props.productIsServiceable}
             onClickImage={() => this.onClick()}
             index={this.props.index}
+            sizeType={this.props.sizeType}
           />
         </div>
-        {this.props.deliveryInformation &&
-          this.props.deliveryInfoToggle && (
-            <div className={styles.deliveryInfo}>
-              {this.props.deliveryInformation.length > 1 && (
-                <div className={styles.hideButton}>
-                  <UnderLinedButton
-                    size="14px"
-                    fontFamily="regular"
-                    color="#000"
-                    label={this.state.label}
-                    onClick={() => this.onHide()}
-                  />
-                </div>
+        {this.props.deliveryInformation && this.props.deliveryInfoToggle && (
+          <div className={styles.deliveryInfo}>
+            {this.props.deliveryInformation.length > 1 && (
+              <div className={styles.hideButton}>
+                <UnderLinedButton
+                  size="14px"
+                  fontFamily="regular"
+                  color="#000"
+                  label={this.state.label}
+                  onClick={() => this.onHide()}
+                />
+              </div>
+            )}
+            <span>
+              {this.getDeliveryName(this.props.deliveryType)}{" "}
+              {this.props.deliverTime && (
+                <span>{`: ${this.props.deliverTime}`}</span>
               )}
-              <span>
-                {this.getDeliveryName(this.props.deliveryType)}{" "}
-                {this.props.deliverTime && (
-                  <span>{`: ${this.props.deliverTime}`}</span>
-                )}
-              </span>
-            </div>
-          )}
+            </span>
+          </div>
+        )}
 
         {this.props.isGiveAway === NO &&
           this.state.showDelivery &&
@@ -137,30 +137,29 @@ export default class CartItem extends React.Component {
               />
             </div>
           )}
-        {this.props.isGiveAway === NO &&
-          this.props.hasFooter && (
-            <div className={styles.footer}>
-              <BagPageFooter
-                productCode={this.props.product.productcode}
-                winningUssID={this.props.product.USSID}
-                onRemove={() => this.handleRemove(this.props.index)}
-                index={this.props.index}
-              />
-              <div className={styles.dropdown}>
-                <div className={styles.dropdownLabel}>
-                  {this.props.dropdownLabel}
-                </div>
-                <SelectBoxMobile2
-                  disabled={this.props.isOutOfStock}
-                  theme="hollowBox"
-                  options={fetchedQuantityList}
-                  onChange={val => this.handleQuantityChange(val)}
-                  value={this.props.qtySelectedByUser}
-                  label={this.props.qtySelectedByUser}
-                />
+        {this.props.isGiveAway === NO && this.props.hasFooter && (
+          <div className={styles.footer}>
+            <BagPageFooter
+              productCode={this.props.product.productcode}
+              winningUssID={this.props.product.USSID}
+              onRemove={() => this.handleRemove(this.props.index)}
+              index={this.props.index}
+            />
+            <div className={styles.dropdown}>
+              <div className={styles.dropdownLabel}>
+                {this.props.dropdownLabel}
               </div>
+              <SelectBoxMobile2
+                disabled={this.props.isOutOfStock}
+                theme="hollowBox"
+                options={fetchedQuantityList}
+                onChange={val => this.handleQuantityChange(val)}
+                value={this.props.qtySelectedByUser}
+                label={this.props.qtySelectedByUser}
+              />
             </div>
-          )}
+          </div>
+        )}
         {this.props.isGiveAway === YES && (
           <div className={styles.footerForFreeProduct}>
             <div className={styles.footerText}>
@@ -179,7 +178,7 @@ CartItem.propTypes = {
   productImage: PropTypes.string,
   productName: PropTypes.string,
   productDetails: PropTypes.string,
-  price: PropTypes.string,
+  price: PropTypes.number,
   deliverTime: PropTypes.string,
   dropdownLabel: PropTypes.string,
   deliveryInfoToggle: PropTypes.bool,

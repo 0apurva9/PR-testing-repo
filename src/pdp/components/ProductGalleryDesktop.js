@@ -4,7 +4,11 @@ import PropTypes from "prop-types";
 import styles from "./ProductGalleryDesktop.css";
 import Icon from "../../xelpmoc-core/Icon";
 import similarIcon from "../../general/components/img/similarIcon.svg";
-import { setDataLayer, ADOBE_SIMILAR_PRODUCTS_PDP } from "../../lib/adobeUtils";
+import {
+  setDataLayer,
+  ADOBE_PDP_SIMILAR_PRODUCT,
+  ADOBE_SIMILAR_PRODUCTS_PDP
+} from "../../lib/adobeUtils";
 import Video from "../../general/components/Video";
 const MODEL_FIT = "Model fit";
 const FABRIC = "Fabric";
@@ -59,6 +63,7 @@ export default class ProductGalleryDesktop extends React.Component {
 
   showSimilarProducts() {
     this.props.showSimilarProducts();
+    //setDataLayer(ADOBE_PDP_SIMILAR_PRODUCT, this.props.productDetails);
     setDataLayer(ADOBE_SIMILAR_PRODUCTS_PDP, this.props.productDetails);
   }
   componentDidMount() {
@@ -73,9 +78,10 @@ export default class ProductGalleryDesktop extends React.Component {
       (window.pageYOffset || this.refs.zoom.scrollTop) -
       (this.refs.zoom.clientTop || 0);
     const zoomX =
-      (evt.clientX - this.zoomPositionX) / this.zoomWidth * -100 + 25;
+      ((evt.clientX - this.zoomPositionX) / this.zoomWidth) * -100 + 25;
     const zoomY =
-      (evt.clientY - this.zoomPositionY + scrollTop) / this.zoomHeight * -100 +
+      ((evt.clientY - this.zoomPositionY + scrollTop) / this.zoomHeight) *
+        -100 +
       25;
     setTimeout(() => {
       if (zoomX <= 0 && zoomX >= -51) {
@@ -242,9 +248,7 @@ export default class ProductGalleryDesktop extends React.Component {
           <div
             className={styles.zoomer}
             style={{
-              transform: `translateX(${this.state.zoomX}%) translateY(${
-                this.state.zoomY
-              }%)`
+              transform: `translateX(${this.state.zoomX}%) translateY(${this.state.zoomY}%)`
             }}
           >
             <Image

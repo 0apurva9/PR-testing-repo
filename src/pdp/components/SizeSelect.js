@@ -12,8 +12,23 @@ export default class SizeSelect extends React.Component {
     let className = styles.base;
     if (this.props.disabled) {
       className = styles.disabled;
-    } else if (this.props.selected) {
+    } else if (this.props.selected && this.props.isSizeOrLength !== "Power") {
       className = styles.baseActive;
+    } else if (
+      this.props.selected &&
+      this.props.categoryEyeWear &&
+      this.props.isSizeOrLength === "Power"
+    ) {
+      className = styles.baseActiveEyeWear;
+    } else if (
+      this.props.categoryEyeWear &&
+      this.props.isSizeOrLength === "Power"
+    ) {
+      className = styles.powerStyle;
+    }
+    let sizeText = this.props.size;
+    if (this.props.isSizeOrLength === "Power" && this.props.size > 0) {
+      sizeText = `+${this.props.size}`;
     }
     return (
       <div className={className} onClick={() => this.handleClick()}>
@@ -21,7 +36,7 @@ export default class SizeSelect extends React.Component {
           className={this.props.selected ? styles.selected : styles.textHolder}
           style={{ fontSize: this.props.fontSize }}
         >
-          {this.props.size}
+          <h4>{sizeText}</h4>
         </div>
       </div>
     );

@@ -5,6 +5,10 @@ import Button from "../../general/components/Button";
 import * as Cookie from "../../lib/Cookie.js";
 import { LOGGED_IN_USER_DETAILS, HOME_ROUTER } from "../../lib/constants.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
+import {
+  setDataLayerForCartDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING
+} from "../../lib/adobeUtils";
 const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 export default class OrderBanner extends React.Component {
   handleClick() {
@@ -13,6 +17,7 @@ export default class OrderBanner extends React.Component {
     }
   }
   onContinueShopping() {
+    setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
   }
   render() {
@@ -29,9 +34,9 @@ export default class OrderBanner extends React.Component {
           <div
             className={styles.orderHeading}
           >{`Thanks ${firstName} We've received your order`}</div>
-          <div className={styles.orderLabel}>{`Order Id: ${
-            this.props.label
-          }`}</div>
+          <div
+            className={styles.orderLabel}
+          >{`Order Id: ${this.props.label}`}</div>
           {this.props.isTrack && (
             <div className={styles.buttonHolder}>
               <Button

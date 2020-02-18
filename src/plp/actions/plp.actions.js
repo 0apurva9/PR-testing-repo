@@ -13,6 +13,8 @@ import {
   setDataLayer,
   ADOBE_PLP_TYPE,
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT,
+  ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_SP,
+  ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_TRENDING,
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL,
   getMcvId
 } from "../../lib/adobeUtils";
@@ -159,8 +161,8 @@ export function getProductListingsRequest(paginated: false, isFilter: false) {
   };
 }
 export function getProductListingsRequestWithoutClear(
-  paginated: false,
-  isFilter: false
+  paginated = false,
+  isFilter = false
 ) {
   return {
     type: PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR,
@@ -231,9 +233,11 @@ export function viewSimilarProducts(productListingId) {
 }
 
 export function getProductListings(
-  suffix: null,
-  paginated: false,
-  isFilter: false,
+  suffix = null,
+  paginated = false,
+  isFilter,
+  searchHistory = false,
+  searchTrending = false,
   componentName
 ) {
   return async (dispatch, getState, { api }) => {
@@ -245,6 +249,12 @@ export function getProductListings(
     }
     try {
       const searchState = getState().search;
+      const currentKeywordRedirect =
+        getState().productListings && getState().productListings.productListings
+          ? getState().productListings.productListings.currentQuery
+              .isKeywordRedirect
+          : null;
+
       const listingsPageNumber = getState().productListings.pageNumber;
       const pageNumber = listingsPageNumber ? listingsPageNumber : 0;
       let encodedString =
@@ -257,7 +267,12 @@ export function getProductListings(
       ) {
         encodedString = `${encodedString}${EXCLUDE_OUT_OF_STOCK_FLAG}`;
       }
-      let keyWordRedirect = false;
+      if (isBrowser) {
+        dispatch(setLastPlpPath(""));
+      }
+      let keyWordRedirect = currentKeywordRedirect
+        ? currentKeywordRedirect
+        : false;
       let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true&channel=WEB`;
       if (suffix) {
         queryString = `${queryString}${suffix}`;
@@ -276,9 +291,9 @@ export function getProductListings(
       if (resultJson.error) {
         if (
           isBrowser &&
-          (resultJson &&
+          resultJson &&
             resultJson.currentQuery &&
-            resultJson.currentQuery.searchQuery)
+            resultJson.currentQuery.searchQuery
         ) {
           setDataLayer(
             ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL,
@@ -291,10 +306,10 @@ export function getProductListings(
       }
       if (
         isBrowser &&
-        (resultJson &&
+        resultJson &&
           resultJson.currentQuery &&
           resultJson.currentQuery.searchQuery &&
-          !paginated)
+          !paginated
       ) {
         setDataLayer(
           ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT,
@@ -303,13 +318,41 @@ export function getProductListings(
           getState().icid.icidType,
           componentName
         );
+      } else if (
+        resultJson &&
+        resultJson.currentQuery &&
+        resultJson.currentQuery.query &&
+        resultJson.currentQuery.query.value.split(":")[0] !== "" &&
+        !paginated &&
+        searchHistory
+      ) {
+        setDataLayer(
+          ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_SP,
+          resultJson,
+          getState().icid.value,
+          getState().icid.icidType
+        );
+      } else if (
+        resultJson &&
+        resultJson.currentQuery &&
+        resultJson.currentQuery.query &&
+        resultJson.currentQuery.query.value.split(":")[0] != "" &&
+        !paginated &&
+        searchTrending
+      ) {
+        setDataLayer(
+          ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_TRENDING,
+          resultJson,
+          getState().icid.value,
+          getState().icid.icidType
+        );
       } else {
         if (
           isBrowser &&
-          (window.digitalData &&
+          window.digitalData &&
             window.digitalData.page &&
             window.digitalData.page.pageInfo &&
-            window.digitalData.page.pageInfo.pageName !== "product grid")
+            window.digitalData.page.pageInfo.pageName !== "product grid"
         ) {
           if (
             componentName === "Flash Sale Component" ||
@@ -389,10 +432,12 @@ export function nullSearchMsd() {
       trendingProducts.append("mad_uuid", await getMcvId());
       trendingProducts.append("details", true);
       if (userDetails) {
-        trendingProducts.append("num_results", "[5, 5, 10]");
+        // trendingProducts.append("num_results", "[5, 5, 10]");
+        trendingProducts.append("num_results", "[1, 1, 3]");
         trendingProducts.append("widget_list", "[7, 1, 3]");
       } else {
-        trendingProducts.append("num_results", "[10]");
+        // trendingProducts.append("num_results", "[10]");
+        trendingProducts.append("num_results", "[5]");
         trendingProducts.append("widget_list", "[3]");
       }
       const trendingproductresult = await api.postMsd(

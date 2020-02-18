@@ -101,8 +101,8 @@ export default class SizeGuideElementClothing extends Component {
                     !sizeGuidForInch.length
                       ? sizeGuidForCms && sizeGuidForCms[0]
                       : this.state.inchActive
-                        ? sizeGuidForInch && sizeGuidForInch[0]
-                        : sizeGuidForCms && sizeGuidForCms[0]
+                      ? sizeGuidForInch && sizeGuidForInch[0]
+                      : sizeGuidForCms && sizeGuidForCms[0]
                   }
                 />
                 <div className={styles.imageHolder}>
@@ -130,8 +130,8 @@ export default class SizeGuideElementClothing extends Component {
                     !sizeGuidForInch.length
                       ? sizeGuidForCms && sizeGuidForCms[0]
                       : this.state.inchActive
-                        ? sizeGuidForInch && sizeGuidForInch[0]
-                        : sizeGuidForCms && sizeGuidForCms[0]
+                      ? sizeGuidForInch && sizeGuidForInch[0]
+                      : sizeGuidForCms && sizeGuidForCms[0]
                   }
                 />
                 {(tip1 || tip2) && (
@@ -145,6 +145,11 @@ export default class SizeGuideElementClothing extends Component {
 
                 <div className={styles.imageHolder}>
                   <div className={styles.image}>
+                    {this.props.brandName == "One Friday" && (
+                      <div className={styles.tips}>
+                        Tip: Measurements are body measurements
+                      </div>
+                    )}
                     <Image fit="contain" image={image} />
                   </div>
                 </div>
@@ -210,6 +215,11 @@ export default class SizeGuideElementClothing extends Component {
               )}
               <div className={styles.imageHolder}>
                 <div className={styles.image}>
+                  {this.props.brandName == "One Friday" && (
+                    <div className={styles.tips}>
+                      Tip: Measurements are body measurements
+                    </div>
+                  )}
                   <Image fit="contain" image={image} />
                 </div>
               </div>
@@ -224,8 +234,8 @@ export default class SizeGuideElementClothing extends Component {
                   !sizeGuidForInch.length
                     ? sizeGuidForCms && sizeGuidForCms[0]
                     : this.state.inchActive
-                      ? sizeGuidForInch && sizeGuidForInch[0]
-                      : sizeGuidForCms && sizeGuidForCms[0]
+                    ? sizeGuidForInch && sizeGuidForInch[0]
+                    : sizeGuidForCms && sizeGuidForCms[0]
                 }
               />
             </div>

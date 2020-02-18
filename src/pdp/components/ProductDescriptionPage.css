@@ -146,11 +146,11 @@
 	padding: 0 15px;
 }
 
-.youPlus {
+/* .youPlus {
 	width: 100%;
 	height: auto;
 	padding: 0 15px;
-}
+} */
 
 .seasonDetails {
 	margin-top: 60px;
@@ -578,6 +578,11 @@
 		display: table-cell;
 		padding: 0px 50px;
 	}
+	.tableCellSingleComponentForEyeWear {
+		display: table-cell;
+		padding: 0px 50px;
+		width:10%;
+	}
 
 	.width95px {
 		width: 98px;
@@ -929,7 +934,7 @@
 	padding-bottom: 5.3px;
 }
 .brandName {
-	width: 100px;
+	width: 200px;
 	height: 17px;
 	font-family: regular;
 	font-size: 14px;
@@ -939,12 +944,12 @@
 	line-height: normal;
 	letter-spacing: normal;
 	color: rgba(33, 33, 33, 0.93);
-	display: inline-block;
 	margin-bottom: 10px;
 	padding-left: 4px;
+	float: left;
 }
 .productName {
-	width: 145px;
+	width: 210px;
 	height: auto;
 	font-family: light;
 	font-size: 14px;
@@ -955,26 +960,27 @@
 	letter-spacing: normal;
 	color: rgba(33, 33, 33, 0.93);
 	padding-left: 4px;
+	float: left;
 }
 .reactSelectOption {
 	width: 22%;
 	float: left;
 	padding-right: 10px;
-	
+
 }
 .oneProduct {
-	width: 30%; 
-	float: left;
+	width: 40%;
+	overflow: hidden;
 	/* display: inline-block; */
 	padding-right: 10px;
 }
+
 .oneProduct:first-child,
 .reactSelectOption:first-child,
 .bundledColumns:first-child  {
 	padding-left: 40px;
 }
-.reactSelectOption:last-child,
-.oneProduct:last-child {
+.reactSelectOption:last-child {
 	padding-right: 0px;
 }
 .bundledColumns:first-child  {
@@ -1021,19 +1027,24 @@
 	color: #212121;
 	/* padding-top: 10px; */
 	font-family: light;
+	float: left;
+	width: auto;
+	padding-left: 5px;
 }
 .priceCancelled {
 	composes: priceHolder;
 	text-decoration: line-through;
 	color: #9b9b9b;
 	font-size: 14px;
+	float: left;
 }
 .discountClass {
 	color: rgb(255, 23, 68);
-	display: inline-block;
 	margin-left: 6px;
 	font-size: 14px;
 	font-family: light;
+	float: left;
+    line-height: 1.7;
 }
 .checkbox {
 	width: 20px;
@@ -1091,8 +1102,8 @@ width: 20px;
     padding-left: 40px;
   }
   .widthPrice {
-	width: 82px;  
-       height: 100px;  
+	width: 82px;
+       height: 100px;
        float: left;
   }
   .headerPrice{
@@ -1122,8 +1133,8 @@ width: 20px;
 	}
   .iconAddProduct{
 	width: 20px;
-    margin-top: 10px; 
-	height: 20px;  
+    margin-top: 10px;
+	height: 20px;
 	float: left;
 	background: url(./img/Add.svg) no-repeat;
   background-size: contain;
@@ -1153,7 +1164,7 @@ width: 20px;
   }
   .priceTotalText{
 	  width:150px;
-	  height: 100px;  
+	  height: 100px;
        float: left;
   }
   .totalPrice{
@@ -1184,3 +1195,92 @@ width: 20px;
 	line-height: normal;
 	letter-spacing: normal;
   }
+  .productDetails {
+	overflow: hidden;
+	padding-left: 11px;
+  }
+  .bundledImageForOneProduct{
+	width: 150.2px;
+	height: 199.7px;
+	float: left;
+  }
+  .bundleContentOneProduct{
+	  display: flex;
+  }
+  .priceTotalForOneProduct{
+	/* margin-top: 329px; */
+    padding-top: 50px;
+    overflow: auto;
+    width: 100%;
+    padding-left: 40px;
+  }
+  .oneProductBundling{
+	  width:30%;
+	  display: inline
+  }
+  .bundleContentForOneProduct{
+	width: 50%;
+	padding-left: 15px;
+	float: left;
+  }
+  .discountClassForOneProduct{
+	color: rgb(255, 23, 68);
+	display: inline-block;
+	margin-left: 6px;
+	font-size: 14px;
+	font-family: light;
+	padding-left: 15px;
+  }
+  .discountForOneProduct {
+	composes: priceHolder;
+	margin-right: 6px;
+	font-size: 14px;
+	color: #212121;
+	/* padding-top: 10px; */
+	font-family: light;
+	padding-left: 18px;
+	float: left;
+}
+
+.reviewListHolder {
+	width: 100%;
+	height: auto;
+	display: flex;
+	align-items: center;
+}
+.ratingTextContainer {
+	display: flex;
+	align-items: center;
+}
+.ratingText {
+	font-family: regular;
+  font-size: 40px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  text-align: center;
+	color: #212121;
+}
+
+.starPLPElectronics {
+  margin: 0 12px 0 10px;
+}
+
+.ratingLabel {
+  margin: 0 6px;
+  font-weight: 500;
+  font-family: semibold;
+}
+
+.labelText {
+  font-family: regular;
+  font-size: 14px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  color: #4d4d4d;
+  font-family: light;
+}
+
+

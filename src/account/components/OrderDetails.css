@@ -121,6 +121,7 @@
 	height: 36px;
 	width: 180px;
 	border: 2px solid black;
+	cursor: pointer;
 	/* margin-top: -23px; */
 	/* margin-bottom: 21px; */
 }
@@ -273,6 +274,13 @@
 .retryCallOutMessage {
 	display: inline-block;
 	margin-left: 22px;
+}
+.borderTop{
+	width: 100%;
+    display: block;
+    border-top: 1px solid #ececec;
+    padding-top: 35px;
+    margin-top: 25px;
 }
 @media screen and (min-width: 1025px) {
 	.base {
