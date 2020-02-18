@@ -419,22 +419,7 @@ ul.contentHeading{
 .fontRegular{
 	font-family: regular;
 }
-.firstDeviceName{
-  -webkit-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  transform: rotate(90deg);
-  position: absolute;
-  top: 50%;
-  left: -60px;
-  text-transform: capitalize;
-  cursor: pointer;
-  width: 200px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  text-align: center;
-}
-.secondDeviceName{
+.firstDeviceName,.secondDeviceName{
   width: 180px;
   text-overflow: ellipsis;
   overflow: hidden;

@@ -456,6 +456,7 @@ export function addProductToCart(productDetails) {
     if (
       PDPExchangeAvailable &&
       IMEIApiResponse &&
+      existingProductData &&
       existingProductData.indexOf(exchangedProduct) > -1
     ) {
       dispatch(showModal(PRODUCTINBAGWITHEXCHANGE_MODAL));

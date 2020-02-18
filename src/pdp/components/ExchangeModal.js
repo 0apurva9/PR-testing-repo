@@ -412,9 +412,25 @@ export default class ExchangeModal extends React.Component {
   changeDevice(deviceNo) {
     this.setState({ changeDeviceNumber: deviceNo });
     if (deviceNo === 2) {
-      this.setState({ secondDeviceInfo: "" });
+      this.setState({
+        secondDeviceInfo: "",
+        enableVerifyButtonSecondDevice: false,
+        IMEIVerifiedSecondDevice: false,
+        checkIMEIMessageSecondDevice: this.state.initialIMEIMessage,
+        agreedTnCSecondDevice: false,
+        currentIMEISecondDevice: "",
+        IMEINumberSecondDevice: ""
+      });
     } else {
-      this.setState({ firstDeviceInfo: "" });
+      this.setState({
+        firstDeviceInfo: "",
+        enableVerifyButtonFirstDevice: false,
+        IMEIVerifiedFirstDevice: false,
+        checkIMEIMessageFirstDevice: this.state.initialIMEIMessage,
+        agreedTnCFirstDevice: false,
+        currentIMEIFirstDevice: "",
+        IMEINumberFirstDevice: ""
+      });
     }
   }
 
@@ -551,11 +567,20 @@ export default class ExchangeModal extends React.Component {
                   </React.Fragment>
                 ) : (
                   <div
-                    className={styles.firstDeviceName}
+                    className={styles.addDevice}
                     onClick={() => this.switchTabs(1, firstDeviceInfo)}
                   >
-                    {firstDeviceInfo &&
-                      firstDeviceInfo.model.effectiveModelName}
+                    {firstDeviceInfo ? (
+                      <div className={styles.firstDeviceName}>
+                        {firstDeviceInfo &&
+                          firstDeviceInfo.model.effectiveModelName}
+                      </div>
+                    ) : (
+                      <React.Fragment>
+                        <span className={styles.plusSign} />
+                        Another Mobile to Evaluate
+                      </React.Fragment>
+                    )}
                   </div>
                 )}
               </div>
@@ -613,43 +638,49 @@ export default class ExchangeModal extends React.Component {
                 )}
               </div>
             </div>
-            {!this.state.activateSecondTab ? (
-              <ExchangeModalOtherDetails
-                verifyIMEI={(e, deviceNo) => this.verifyIMEI(e, 1)}
-                enableVerifyButton={this.state.enableVerifyButtonFirstDevice}
-                checkIMEI={deviceNo => this.checkIMEI(1)}
-                IMEIVerified={this.state.IMEIVerifiedFirstDevice}
-                checkIMEIMessage={this.state.checkIMEIMessageFirstDevice}
-                deviceInfo={firstDeviceInfo}
-                productName={this.props.productName}
-                agreedTnC={(e, deviceNo) => this.agreedTnC(e, 1)}
-                openTnCModal={() => this.openTnCModal()}
-                agreedTnCState={this.state.agreedTnCFirstDevice}
-                currentIMEI={this.state.currentIMEIFirstDevice}
-                IMEINumber={this.state.IMEINumberFirstDevice}
-                saveExchangeDetails={(IMEINumber, deviceNo) =>
-                  this.saveExchangeDetails(IMEINumber, 1)
-                }
-              />
-            ) : (
-              <ExchangeModalOtherDetails
-                verifyIMEI={(e, deviceNo) => this.verifyIMEI(e, 2)}
-                enableVerifyButton={this.state.enableVerifyButtonSecondDevice}
-                checkIMEI={deviceNo => this.checkIMEI(2)}
-                IMEIVerified={this.state.IMEIVerifiedSecondDevice}
-                checkIMEIMessage={this.state.checkIMEIMessageSecondDevice}
-                deviceInfo={secondDeviceInfo}
-                productName={this.props.productName}
-                agreedTnC={(e, deviceNo) => this.agreedTnC(e, 2)}
-                openTnCModal={() => this.openTnCModal()}
-                agreedTnCState={this.state.agreedTnCSecondDevice}
-                currentIMEI={this.state.currentIMEISecondDevice}
-                IMEINumber={this.state.IMEINumberSecondDevice}
-                saveExchangeDetails={(IMEINumber, deviceNo) =>
-                  this.saveExchangeDetails(IMEINumber, 2)
-                }
-              />
-            )}
+            {!this.state.activateSecondTab
+              ? this.state.firstDeviceInfo && (
+                  <ExchangeModalOtherDetails
+                    verifyIMEI={(e, deviceNo) => this.verifyIMEI(e, 1)}
+                    enableVerifyButton={
+                      this.state.enableVerifyButtonFirstDevice
+                    }
+                    checkIMEI={deviceNo => this.checkIMEI(1)}
+                    IMEIVerified={this.state.IMEIVerifiedFirstDevice}
+                    checkIMEIMessage={this.state.checkIMEIMessageFirstDevice}
+                    deviceInfo={firstDeviceInfo}
+                    productName={this.props.productName}
+                    agreedTnC={(e, deviceNo) => this.agreedTnC(e, 1)}
+                    openTnCModal={() => this.openTnCModal()}
+                    agreedTnCState={this.state.agreedTnCFirstDevice}
+                    currentIMEI={this.state.currentIMEIFirstDevice}
+                    IMEINumber={this.state.IMEINumberFirstDevice}
+                    saveExchangeDetails={(IMEINumber, deviceNo) =>
+                      this.saveExchangeDetails(IMEINumber, 1)
+                    }
+                  />
+                )
+              : this.state.secondDeviceInfo && (
+                  <ExchangeModalOtherDetails
+                    verifyIMEI={(e, deviceNo) => this.verifyIMEI(e, 2)}
+                    enableVerifyButton={
+                      this.state.enableVerifyButtonSecondDevice
+                    }
+                    checkIMEI={deviceNo => this.checkIMEI(2)}
+                    IMEIVerified={this.state.IMEIVerifiedSecondDevice}
+                    checkIMEIMessage={this.state.checkIMEIMessageSecondDevice}
+                    deviceInfo={secondDeviceInfo}
+                    productName={this.props.productName}
+                    agreedTnC={(e, deviceNo) => this.agreedTnC(e, 2)}
+                    openTnCModal={() => this.openTnCModal()}
+                    agreedTnCState={this.state.agreedTnCSecondDevice}
+                    currentIMEI={this.state.currentIMEISecondDevice}
+                    IMEINumber={this.state.IMEINumberSecondDevice}
+                    saveExchangeDetails={(IMEINumber, deviceNo) =>
+                      this.saveExchangeDetails(IMEINumber, 2)
+                    }
+                  />
+                )}
           </div>
         )}
       </div>
