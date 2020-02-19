@@ -101,7 +101,8 @@ export default class GetLocationDetails extends React.Component {
       "DD-MMM-YYYY"
     );
     var date = new Date(
-      selectedPickUpDateObject && selectedPickUpDateObject.deliveryDate
+      selectedPickUpDateObject &&
+        selectedPickUpDateObject.deliveryDate.replace(/-/g, "/")
     );
     var hours = date.getHours();
     var minutes = date.getMinutes();
@@ -122,6 +123,17 @@ export default class GetLocationDetails extends React.Component {
       const closingMinute = parseInt(this.props.closingTime.split(":")[1], 10);
       closingTime = this.hoursToMeridiem(closingHour, closingMinute);
     }
+
+    let formattedDeliveryDate = null;
+    if (selectedPickUpDateObject && selectedPickUpDateObject.deliveryDate) {
+      //converting "MM-DD-YYYY HH:MM:SS"(API value) to "MM/DD/YYYY" for cross browser support
+      // JS date object does'nt support "MM-DD-YYYY HH:MM:SS" format in safari, mozilla and IE
+      let dateArray = selectedPickUpDateObject.deliveryDate
+        .split(" ")[0]
+        .split("-");
+      formattedDeliveryDate = `${dateArray[0]}/${dateArray[1]}/${dateArray[2]}`;
+    }
+
     return (
       <div className={styles.base}>
         <div className={styles.address}>
@@ -175,24 +187,15 @@ export default class GetLocationDetails extends React.Component {
               dayFormat === productDayFormat ? (
                 <span>
                   <span className={styles.dayBold}>Today,</span>{" "}
-                  {this.getDayNumberSuffix(
-                    selectedPickUpDateObject &&
-                      selectedPickUpDateObject.deliveryDate
-                  )}
+                  {this.getDayNumberSuffix(formattedDeliveryDate)}
                 </span>
               ) : nextDayFormat === productDayFormat ? (
                 <span>
                   <span className={styles.dayBold}>Tomorrow,</span>{" "}
-                  {this.getDayNumberSuffix(
-                    selectedPickUpDateObject &&
-                      selectedPickUpDateObject.deliveryDate
-                  )}
+                  {this.getDayNumberSuffix(formattedDeliveryDate)}
                 </span>
               ) : (
-                this.getDayNumberSuffix(
-                  selectedPickUpDateObject &&
-                    selectedPickUpDateObject.deliveryDate
-                )
+                this.getDayNumberSuffix(formattedDeliveryDate)
               )
             ) : (
               ""

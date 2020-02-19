@@ -139,7 +139,8 @@ export default class PickUpLocation extends React.Component {
       "DD-MMM-YYYY"
     );
     var date = new Date(
-      getClickAndPiqSelectedDate && getClickAndPiqSelectedDate.deliveryDate
+      getClickAndPiqSelectedDate &&
+        getClickAndPiqSelectedDate.deliveryDate.replace(/-/g, "/")
     );
 
     var hours = date.getHours();
@@ -172,6 +173,16 @@ export default class PickUpLocation extends React.Component {
     if (isSelected) {
       baseClass = `${styles.base} ${styles.selectedStore}`;
       thumbailClass = `${styles.thumbnail} ${styles.selectedThumbnail}`;
+    }
+
+    let formattedDeliveryDate = null;
+    if (getClickAndPiqSelectedDate && getClickAndPiqSelectedDate.deliveryDate) {
+      //converting "MM-DD-YYYY HH:MM:SS"(API value) to "MM/DD/YYYY" for cross browser support
+      // JS date object does'nt support "MM-DD-YYYY HH:MM:SS" format in safari, mozilla and IE
+      let dateArray = getClickAndPiqSelectedDate.deliveryDate
+        .split(" ")[0]
+        .split("-");
+      formattedDeliveryDate = `${dateArray[0]}/${dateArray[1]}/${dateArray[2]}`;
     }
 
     return (
@@ -235,21 +246,18 @@ export default class PickUpLocation extends React.Component {
                     getClickAndPiqSelectedDate.deliveryDate
                       ? dayFormat === productDayFormatOfClqAndPiq
                         ? `Today, ${this.getDayNumberSuffix(
-                            getClickAndPiqSelectedDate.deliveryDate
+                            formattedDeliveryDate
                           )}`
                         : nextDayFormat === productDayFormatOfClqAndPiq
-                        ? `Tomorrow, ${this.getDayNumberSuffix(
-                            getClickAndPiqSelectedDate.deliveryDate
-                          )}`
-                        : `${this.getDayNumberSuffix(
-                            getClickAndPiqSelectedDate.deliveryDate
-                          )}`
+                          ? `Tomorrow, ${this.getDayNumberSuffix(
+                              formattedDeliveryDate
+                            )}`
+                          : `${this.getDayNumberSuffix(formattedDeliveryDate)}`
                       : ""}
                   </span>
 
-                  {strTime && hours !== 0 && (
-                    <span> {`, after ${strTime}`}</span>
-                  )}
+                  {strTime &&
+                    hours !== 0 && <span> {`, after ${strTime}`}</span>}
                 </div>
               </div>
             )}
