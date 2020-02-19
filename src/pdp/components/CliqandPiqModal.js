@@ -190,7 +190,11 @@ export default class ReturnToStore extends React.Component {
         selectedStore.find(store => {
           return store.ussId === ussId;
         });
-      if (storeDetails && storeDetails.storeId) {
+      if (
+        storeDetails &&
+        storeDetails.storeId &&
+        storeDetails.pincode === this.props.pincode
+      ) {
         await this.selectStoreForDesktop([storeDetails.storeId]);
         this.selectStoreButtonForDesktop();
       }
@@ -226,7 +230,11 @@ export default class ReturnToStore extends React.Component {
         selectedStore.find(store => {
           return store.ussId === ussId;
         });
-      if (storeDetails && storeDetails.storeId) {
+      if (
+        storeDetails &&
+        storeDetails.storeId &&
+        storeDetails.pincode === this.props.pincode
+      ) {
         await this.selectStoreForDesktop([storeDetails.storeId]);
       }
     }
