@@ -154,7 +154,11 @@ export default class DeliveryInformations extends React.Component {
     let formattedPlacedTime = "";
     let selectedStore = localStorage.getItem(SELECTED_STORE);
     if (this.props.placedTime && this.props.placedTime !== undefined) {
-      formattedPlacedTime = this.getDayNumberSuffix(this.props.placedTime);
+      //converting "MM-DD-YYYY HH:MM:SS"(API value) to "MM/DD/YYYY" for cross browser support
+      // JS date object does'nt support "MM-DD-YYYY HH:MM:SS" format in safari, mozilla and IE
+      let dateArray = this.props.placedTime.split(" ")[0].split("-"),
+        newFormattedDate = `${dateArray[0]}/${dateArray[1]}/${dateArray[2]}`;
+      formattedPlacedTime = this.getDayNumberSuffix(newFormattedDate);
     }
     let arrowStyle = styles.arrowLink1;
     let iconSize = null;
