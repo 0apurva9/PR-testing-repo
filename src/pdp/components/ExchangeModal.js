@@ -421,6 +421,22 @@ export default class ExchangeModal extends React.Component {
         currentIMEISecondDevice: "",
         IMEINumberSecondDevice: ""
       });
+      //to show remaining products name & cashback on pdp
+      let deviceInfo = JSON.parse(localStorage.getItem("MEFirstDeviceData"));
+      if (deviceInfo) {
+        this.props.updateProductState({
+          selectedProductCashback: deviceInfo.model.totalExchangeCashback,
+          selectedProductName: deviceInfo.model.effectiveModelName
+        });
+        localStorage.setItem(
+          "selectedProductCashback",
+          JSON.stringify(deviceInfo.model.totalExchangeCashback)
+        );
+        localStorage.setItem(
+          "selectedProductName",
+          deviceInfo.model.effectiveModelName
+        );
+      }
     } else {
       this.setState({
         firstDeviceInfo: "",
@@ -431,6 +447,30 @@ export default class ExchangeModal extends React.Component {
         currentIMEIFirstDevice: "",
         IMEINumberFirstDevice: ""
       });
+      //to show remaining products name & cashback on pdp
+      let deviceInfo = JSON.parse(localStorage.getItem("MESecondDeviceData"));
+      if (deviceInfo) {
+        this.props.updateProductState({
+          selectedProductCashback: deviceInfo.model.totalExchangeCashback,
+          selectedProductName: deviceInfo.model.effectiveModelName
+        });
+        localStorage.setItem(
+          "selectedProductCashback",
+          JSON.stringify(deviceInfo.model.totalExchangeCashback)
+        );
+        localStorage.setItem(
+          "selectedProductName",
+          deviceInfo.model.effectiveModelName
+        );
+      }
+    }
+  }
+
+  trimProductname(productName) {
+    if (productName.length > 15) {
+      return productName.substring(0, 14) + "...";
+    } else {
+      return productName;
     }
   }
 
@@ -571,9 +611,17 @@ export default class ExchangeModal extends React.Component {
                     onClick={() => this.switchTabs(1, firstDeviceInfo)}
                   >
                     {firstDeviceInfo ? (
-                      <div className={styles.firstDeviceName}>
+                      <div className={styles.firstDeviceNameContainer}>
+                        <span className={styles.firstDeviceName}>
+                          {firstDeviceInfo &&
+                            this.trimProductname(
+                              firstDeviceInfo.model.effectiveModelName
+                            )}
+                        </span>
+                        {" - "}
                         {firstDeviceInfo &&
-                          firstDeviceInfo.model.effectiveModelName}
+                          firstDeviceInfo.model.totalExchangeCashback
+                            .formattedValueNoDecimal}
                       </div>
                     ) : (
                       <React.Fragment>
@@ -598,9 +646,17 @@ export default class ExchangeModal extends React.Component {
                     onClick={() => this.switchTabs(2, secondDeviceInfo)}
                   >
                     {secondDeviceInfo ? (
-                      <div className={styles.secondDeviceName}>
+                      <div className={styles.secondDeviceNameContainer}>
+                        <span className={styles.secondDeviceName}>
+                          {secondDeviceInfo &&
+                            this.trimProductname(
+                              secondDeviceInfo.model.effectiveModelName
+                            )}
+                        </span>
+                        {" - "}
                         {secondDeviceInfo &&
-                          secondDeviceInfo.model.effectiveModelName}
+                          secondDeviceInfo.model.totalExchangeCashback
+                            .formattedValueNoDecimal}
                       </div>
                     ) : (
                       <React.Fragment>

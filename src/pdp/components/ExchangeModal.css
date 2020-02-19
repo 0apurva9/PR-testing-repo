@@ -419,13 +419,13 @@ ul.contentHeading{
 .fontRegular{
 	font-family: regular;
 }
-.firstDeviceName,.secondDeviceName{
+.firstDeviceNameContainer,.secondDeviceNameContainer{
   width: 180px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
   text-align: center;
   text-transform: capitalize;
   font-size: 14px;
   color: #212121;
+}
+.firstDeviceName,.secondDeviceName{
+  display: inline-block;
 }
