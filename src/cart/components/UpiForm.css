@@ -115,7 +115,7 @@
 .verifyBtn {
   position: absolute;
   top: 5px;
-  right: 15px;
+  right: 5px;
   background: #ff1744;
   border-radius: 5px;
   font-family: semibold;
@@ -241,7 +241,12 @@
   line-height: 30px;
   margin: 0 0 7px;
   position: relative;
+  cursor: pointer;
 }
+.svdUpiLbl:hover{
+  border: 1px solid #000;
+}
+
 .svdUpiLbl.verified {
   border-color: #97ce58;
   text-align: left;
@@ -273,10 +278,14 @@
   border-radius: 4px;
   outline: none;
 }
+.addNewUpiBtn:hover{
+  border: 1px solid #000;
+}
 .showSavedUpi {
   font-size: 12px;
   color: #ff1744;
   font-family: regular;
+  cursor: pointer;
 }
 #howPymntWork {
   padding-left: 12px;
@@ -312,4 +321,5 @@
 .upitncTxtLink {
   color:#ff1744;
   padding:0px 3px;
+  cursor: pointer;
 }
