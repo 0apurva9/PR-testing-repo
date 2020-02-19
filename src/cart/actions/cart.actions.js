@@ -1205,6 +1205,15 @@ export function addAddressToCart(addressId, pinCode, isComingFromCliqAndPiq) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
+      let storeDetails =
+        selectedStore &&
+        selectedStore.find(store => {
+          return store.pincode === newPinCode;
+        });
+      if (selectedStore && !storeDetails) {
+        localStorage.removeItem(SELECTED_STORE);
+      }
       dispatch(
         getCartDetailsCNC(userId, access_token, cartId, newPinCode, false)
       );
