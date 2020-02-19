@@ -173,6 +173,8 @@ export default class ProductModule extends React.Component {
                       seasonTag={this.props.seasonTag}
                       outOfStock={this.props.outOfStock}
                       newProduct={this.props.newProduct}
+                      isExchangeAvailable={this.props.isExchangeAvailable}
+                      showExchangeTag={this.props.showExchangeTag}
                     />
                   </div>
                 </div>

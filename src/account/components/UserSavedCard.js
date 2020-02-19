@@ -28,7 +28,8 @@ import {
 
 import {
   setDataLayer,
-  ADOBE_MY_ACCOUNT_SAVED_PAYMENTS
+  ADOBE_MY_ACCOUNT_SAVED_PAYMENTS,
+  SET_DATA_LAYER_UID_ADD
 } from "../../lib/adobeUtils";
 
 import DesktopOnly from "../../general/components/DesktopOnly";
@@ -211,10 +212,9 @@ export default class UserSavedCard extends React.Component {
                       0 &&
                     this.props.profile.savedCards.savedCardDetailsMap.map(
                       (data, i) => {
-                        let cardNumber = `${data.value.cardISIN}xx xxxx ${data.value.cardEndingDigits}`.replace(
-                          CARD_FORMAT,
-                          " "
-                        );
+                        let cardNumber = `${data.value.cardISIN}xx xxxx ${
+                          data.value.cardEndingDigits
+                        }`.replace(CARD_FORMAT, " ");
                         let cardHolderName = data.value.nameOnCard
                           ? data.value.nameOnCard
                           : "";
@@ -227,7 +227,9 @@ export default class UserSavedCard extends React.Component {
                               cardLogo={this.getCardLogo(data.value.cardBrand)}
                               cardName={data.value.cardType}
                               cardHolderName={cardHolderName}
-                              validityDate={`${data.value.expiryMonth}/${data.value.expiryYear}`}
+                              validityDate={`${data.value.expiryMonth}/${
+                                data.value.expiryYear
+                              }`}
                               cardNumber={cardNumber}
                               cardImage={data.cardImage}
                               onChangeCvv={(cvv, cardNo) =>

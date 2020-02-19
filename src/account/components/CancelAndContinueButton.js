@@ -28,6 +28,7 @@ export default class CancelAndContinueButton extends React.Component {
                 textStyle={{ color: "#FFF", fontSize: 14 }}
                 disabled={this.props.disabled}
                 onClick={() => this.handleContinue()}
+                disabledBgGrey={true}
               />
             </div>
             <div className={styles.cancelButtonHolder}>
@@ -58,6 +59,7 @@ export default class CancelAndContinueButton extends React.Component {
                 width={175}
                 textStyle={{ color: "#FFF", fontSize: 14 }}
                 onClick={() => this.handleContinue()}
+                disabledBgGrey={true}
               />
             </div>
             <div className={styles.cancelButtonHolder1}>

@@ -7,6 +7,7 @@ import {
   generateCartIdForAnonymous,
   getMinicartProducts
 } from "../../cart/actions/cart.actions";
+import { resetUserAddressAfterLogout } from "../../account/actions/account.actions.js";
 import { setFalseForAllAuthCallHasSucceedFlag } from "../../auth/actions/auth.actions";
 import { setBagCount } from "../../general/header.actions";
 const mapDispatchToProps = dispatch => {
@@ -28,6 +29,9 @@ const mapDispatchToProps = dispatch => {
     },
     getMinicartProducts: async () => {
       return dispatch(getMinicartProducts());
+    },
+    resetUserAddressAfterLogout: () => {
+      dispatch(resetUserAddressAfterLogout());
     }
   };
 };

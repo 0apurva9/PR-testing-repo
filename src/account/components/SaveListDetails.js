@@ -132,6 +132,7 @@ export default class SaveListDetails extends React.Component {
                             this.removeItem(product.USSID)
                           }
                           size={product.size}
+                          isSizeOrLength={product.isSizeOrLength}
                         />
                       </div>
                     );

@@ -333,6 +333,9 @@ export default class PdpApparel extends React.Component {
     if (productData) {
       let price = "";
       let discountPrice = "";
+      let discountPdp = "";
+      let mrpDoubleValue = "";
+
       if (productData.mrpPrice) {
         price = productData.mrpPrice.doubleValue;
       }
@@ -351,6 +354,12 @@ export default class PdpApparel extends React.Component {
         productData.winningSellerPrice.doubleValue
       ) {
         seoDoublePrice = productData.mrpPrice.doubleValue;
+      }
+      if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
+        mrpDoubleValue = productData.mrpPrice.doubleValue;
+        discountPdp = Math.round(
+          (mrpDoubleValue - seoDoublePrice) / mrpDoubleValue * 100
+        );
       }
       return (
         <PdpFrame
@@ -401,7 +410,7 @@ export default class PdpApparel extends React.Component {
                 ratingCount={productData.ratingCount}
                 averageRating={productData.averageRating}
                 numberOfReviews={productData.numberOfReviews}
-                discount={productData.discount}
+                discount={discountPdp}
               />
             </div>
             <PdpPaymentInfo
@@ -474,6 +483,10 @@ export default class PdpApparel extends React.Component {
           {this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.pinCode ? (
             <PdpPincode
+              city={
+                this.props.productDetails.isServiceableToPincode &&
+                this.props.productDetails.isServiceableToPincode.city
+              }
               hasPincode={true}
               pincode={this.props.productDetails.isServiceableToPincode.pinCode}
               onClick={() => this.showPincodeModal()}
@@ -481,25 +494,57 @@ export default class PdpApparel extends React.Component {
           ) : (
             <PdpPincode onClick={() => this.showPincodeModal()} />
           )}
+
           {this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.status === NO ? (
+            this.props.productDetails.isServiceableToPincode
+              .productOutOfStockMessage ? (
+              <div className={styles.overlay}>
+                <div className={styles.notServiciableTetx}>
+                  *{" "}
+                  {
+                    this.props.productDetails.isServiceableToPincode
+                      .productOutOfStockMessage
+                  }
+                </div>
+              </div>
+            ) : this.props.productDetails.isServiceableToPincode
+              .productNotServiceableMessage ? (
+              <div className={styles.overlay}>
+                <div className={styles.notServiciableTetx}>
+                  *{" "}
+                  {
+                    this.props.productDetails.isServiceableToPincode
+                      .productNotServiceableMessage
+                  }
+                </div>
+              </div>
+            ) : null
+          ) : (
+            /*  (
             <Overlay labelText="This item can't be delivered to your PIN code">
               <PdpDeliveryModes
                 eligibleDeliveryModes={productData.eligibleDeliveryModes}
                 deliveryModesATP={productData.deliveryModesATP}
               />
             </Overlay>
-          ) : (
-            <PdpDeliveryModes
+          ) */ <PdpDeliveryModes
               onPiq={this.handleShowPiqPage}
               eligibleDeliveryModes={productData.eligibleDeliveryModes}
               deliveryModesATP={productData.deliveryModesATP}
+              pincodeDetails={productData.pincodeResponseList}
+              isCod={productData.isCOD}
             />
           )}
           <div className={styles.separator}>
             <OtherSellersLink
-              otherSellers={productData.otherSellers}
+              serviceableOtherSellersUssid={
+                this.props.serviceableOtherSellersUssid
+              }
+              onClick={this.goToSellerPage}
+              //otherSellers={productData.otherSellers}
               winningSeller={productData.winningSellerName}
+              winnningSellerUssId={productData.winningUssID}
             />
           </div>
           {productData.classifications && (

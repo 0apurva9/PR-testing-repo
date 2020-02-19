@@ -14,6 +14,7 @@ export const TERMSNCONDITIONS_MODAL = "TermsNConditionsWrapperModal";
 export const UPITERMSANDCONDITION_MODAL = "UpiTermsAndCondition";
 // export const UPIHOWTOPAY_MODAL = "UpiHowToPay";
 export const SIZE_SELECTOR = "SizeSelector";
+export const SIZE_SELECTOR_FOR_EYEWEAR = "SizeSelectorForEyeWear";
 export const PRICE_BREAKUP = "PriceBreakup";
 export const BANK_OFFERS = "BankOffers";
 export const OTP_LOGIN_MODAL = "OtpLoginModal";

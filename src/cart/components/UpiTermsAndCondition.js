@@ -22,7 +22,7 @@ export default class UpiTermsAndCondition extends React.Component {
                 dangerouslySetInnerHTML={{
                   __html: this.props.ownProps ? this.props.ownProps : ""
                 }}
-              ></div>
+              />
             </div>
           </div>
         </div>

@@ -16,7 +16,8 @@ import {
   ANONYMOUS_USER,
   TIME_OUT_FOR_APIS,
   LOW_INTERNET_CONNECTION_MESSAGE,
-  CHANNEL
+  CHANNEL,
+  SELECTED_STORE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -239,7 +240,11 @@ export function getProductDescription(
       const result = await api.getMiddlewareUrl(
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
-      const resultJson = await result.json();
+
+      let resultJson = await result.json();
+
+      //resultJson = {"type":"mplNewProductDetailMobileWsData","status":"SUCCESS","allOOStock":false,"brandInfo":"Sonata is a brand that is synonymous with trust. Take a look at these amazing analogue and digital watches from Sonata on Tata CliQ.","brandName":"Sonata","brandURL":"/sonata/c-mbh15w00181","categoryHierarchy":[{"category_id":"MSH15","category_name":"Watches"},{"category_id":"MSH1501","category_name":"Women"},{"category_id":"MSH1501000","category_name":"Analog"}],"classifications":[{"groupName":"watch_group_008","specifications":[{"key":"Care Instructions","value":"Please refer instruction manual"}]},{"groupName":"watch_group_002","specifications":[{"key":"Collection Name","value":"Play"},{"key":"Water Resistance","value":"30 m"},{"key":"Functionality","value":"Plain 3-Hand"},{"key":"Occasion","value":"Casual"},{"key":"Dial Color Brand","value":"Rose Gold"},{"key":"Gender","value":"Women"},{"key":"Unisex","value":"No"}]},{"groupName":"watch_group_003","specifications":[{"key":"Dial Type","value":"Stick"},{"key":"Movement","value":"Quartz"},{"key":"Watch Glass/Crystal","value":"Mineral Glass"},{"key":"Dial Color","value":"Gold"},{"key":"Special Features","value":"Water Resistant"}]},{"groupName":"watch_group_004","specifications":[{"key":"Dial Diameter","value":"32 mm"},{"key":"Dial Shape","value":"Round"},{"key":"Dial Size","value":"Medium"},{"key":"Case Material","value":"Brass"}]},{"groupName":"watch_group_010","specifications":[{"key":"Strap Color","value":"Rose Gold"},{"key":"Strap Type","value":"Metal"}]},{"groupName":"watch_group_011","specifications":[{"key":"Strap Color Brand","value":"Rose Gold"},{"key":"Band Style","value":"Bracelet"},{"key":"Clasp Type","value":"Hook Buckle"},{"key":"Strap Width","value":"20 mm"}]},{"groupName":"watch_group_001","specifications":[{"key":"Style Code","value":"8141WM01"},{"key":"Warranty Details","value":"12 months manufacturer warranty"},{"key":"Model Number","value":"8141WM01"}]}],"deliveryModesATP":[{"key":"home-delivery","value":"Delivered in 3-6 days."},{"key":"express-delivery","value":"Delivered in 1-2 days."}],"details":[{"key":"Care Instructions","value":"Please refer instruction manual"},{"key":"Case Material","value":"Brass"},{"key":"Collection Name","value":"Play"},{"key":"Dial Color","value":"Gold"},{"key":"Dial Diameter","value":"32mm"},{"key":"Dial Shape","value":"Round"},{"key":"Dial Type","value":"Stick"},{"key":"Functionality","value":"Plain 3-Hand"},{"key":"Model Number","value":"8141WM01"},{"key":"Movement","value":"Quartz"},{"key":"Special Features","value":"Water Resistant"},{"key":"Strap Color","value":"Rose Gold"},{"key":"Strap Type","value":"Metal"},{"key":"Strap Width","value":"20mm"},{"key":"Warranty Details","value":"12 months manufacturer warranty"},{"key":"Watch Glass/Crystal","value":"Mineral Glass"},{"key":"Water Resistance","value":"30 m"}],"discount":"0","eligibleDeliveryModes":[{"code":"click-and-collect","displayCost":"₹0.00","name":"Click and Collect"},{"code":"home-delivery","displayCost":"₹0.00","name":"Home Delivery"},{"code":"express-delivery","displayCost":"₹0.00","name":"Express Delivery"},{"code":"home-delivery","displayCost":"₹0.00","name":"Home Delivery"}],"fulfillmentType":"tship","galleryImagesList":[{"galleryImages":[{"key":"product","value":"//img.tatacliq.com/images/i4/437Wx649H/MP000000005291532_437Wx649H_20190823173405.jpeg"},{"key":"thumbnail","value":"//img.tatacliq.com/images/i4/97Wx144H/MP000000005291532_97Wx144H_20190823173405.jpeg"},{"key":"searchPage","value":"//img.tatacliq.com/images/i4/252Wx374H/MP000000005291532_252Wx374H_20190823173405.jpeg"},{"key":"mobilePdpView","value":"//img.tatacliq.com/images/i4/450Wx545H/MP000000005291532_450Wx545H_20190823173405.jpeg"},{"key":"superZoom","value":"//img.tatacliq.com/images/i4/1348Wx2000H/MP000000005291532_1348Wx2000H_20190823173405.jpeg"},{"key":"cartIcon","value":"//img.tatacliq.com/images/i4/97Wx144H/MP000000005291532_97Wx144H_20190823173405.jpeg"},{"key":"zoom","value":"//img.tatacliq.com/images/i4/437Wx649H/MP000000005291532_437Wx649H_20190823173405.jpeg"},{"key":"cartPage","value":"//img.tatacliq.com/images/i4/113Wx168H/MP000000005291532_113Wx168H_20190823173405.jpeg"}],"mediaType":"Image"},{"galleryImages":[{"key":"product","value":"//img.tatacliq.com/images/i4/437Wx649H/MP000000005291532_437Wx649H_20190823173409.jpeg"},{"key":"thumbnail","value":"//img.tatacliq.com/images/i4/97Wx144H/MP000000005291532_97Wx144H_20190823173409.jpeg"},{"key":"searchPage","value":"//img.tatacliq.com/images/i4/252Wx374H/MP000000005291532_252Wx374H_20190823173409.jpeg"},{"key":"mobilePdpView","value":"//img.tatacliq.com/images/i4/450Wx545H/MP000000005291532_450Wx545H_20190823173409.jpeg"},{"key":"superZoom","value":"//img.tatacliq.com/images/i4/1348Wx2000H/MP000000005291532_1348Wx2000H_20190823173409.jpeg"},{"key":"cartIcon","value":"//img.tatacliq.com/images/i4/97Wx144H/MP000000005291532_97Wx144H_20190823173409.jpeg"},{"key":"zoom","value":"//img.tatacliq.com/images/i4/437Wx649H/MP000000005291532_437Wx649H_20190823173409.jpeg"},{"key":"cartPage","value":"//img.tatacliq.com/images/i4/113Wx168H/MP000000005291532_113Wx168H_20190823173409.jpeg"}],"mediaType":"Image"},{"galleryImages":[{"key":"product","value":"//img.tatacliq.com/images/i4/437Wx649H/MP000000005291532_437Wx649H_20190823173402.jpeg"},{"key":"thumbnail","value":"//img.tatacliq.com/images/i4/97Wx144H/MP000000005291532_97Wx144H_20190823173402.jpeg"},{"key":"searchPage","value":"//img.tatacliq.com/images/i4/252Wx374H/MP000000005291532_252Wx374H_20190823173402.jpeg"},{"key":"mobilePdpView","value":"//img.tatacliq.com/images/i4/450Wx545H/MP000000005291532_450Wx545H_20190823173402.jpeg"},{"key":"superZoom","value":"//img.tatacliq.com/images/i4/1348Wx2000H/MP000000005291532_1348Wx2000H_20190823173402.jpeg"},{"key":"cartIcon","value":"//img.tatacliq.com/images/i4/97Wx144H/MP000000005291532_97Wx144H_20190823173402.jpeg"},{"key":"zoom","value":"//img.tatacliq.com/images/i4/437Wx649H/MP000000005291532_437Wx649H_20190823173402.jpeg"},{"key":"cartPage","value":"//img.tatacliq.com/images/i4/113Wx168H/MP000000005291532_113Wx168H_20190823173402.jpeg"}],"mediaType":"Image"},{"galleryImages":[{"key":"product","value":"//img.tatacliq.com/images/i4/437Wx649H/MP000000005291532_437Wx649H_20190823173416.jpeg"},{"key":"thumbnail","value":"//img.tatacliq.com/images/i4/97Wx144H/MP000000005291532_97Wx144H_20190823173416.jpeg"},{"key":"searchPage","value":"//img.tatacliq.com/images/i4/252Wx374H/MP000000005291532_252Wx374H_20190823173416.jpeg"},{"key":"mobilePdpView","value":"//img.tatacliq.com/images/i4/450Wx545H/MP000000005291532_450Wx545H_20190823173416.jpeg"},{"key":"superZoom","value":"//img.tatacliq.com/images/i4/1348Wx2000H/MP000000005291532_1348Wx2000H_20190823173416.jpeg"},{"key":"cartIcon","value":"//img.tatacliq.com/images/i4/97Wx144H/MP000000005291532_97Wx144H_20190823173416.jpeg"},{"key":"zoom","value":"//img.tatacliq.com/images/i4/437Wx649H/MP000000005291532_437Wx649H_20190823173416.jpeg"},{"key":"cartPage","value":"//img.tatacliq.com/images/i4/113Wx168H/MP000000005291532_113Wx168H_20190823173416.jpeg"}],"mediaType":"Image"},{"galleryImages":[{"key":"product","value":"//img.tatacliq.com/images/i4/437Wx649H/MP000000005291532_437Wx649H_20190823173413.jpeg"},{"key":"thumbnail","value":"//img.tatacliq.com/images/i4/97Wx144H/MP000000005291532_97Wx144H_20190823173413.jpeg"},{"key":"searchPage","value":"//img.tatacliq.com/images/i4/252Wx374H/MP000000005291532_252Wx374H_20190823173413.jpeg"},{"key":"mobilePdpView","value":"//img.tatacliq.com/images/i4/450Wx545H/MP000000005291532_450Wx545H_20190823173413.jpeg"},{"key":"superZoom","value":"//img.tatacliq.com/images/i4/1348Wx2000H/MP000000005291532_1348Wx2000H_20190823173413.jpeg"},{"key":"cartIcon","value":"//img.tatacliq.com/images/i4/97Wx144H/MP000000005291532_97Wx144H_20190823173413.jpeg"},{"key":"zoom","value":"//img.tatacliq.com/images/i4/437Wx649H/MP000000005291532_437Wx649H_20190823173413.jpeg"},{"key":"cartPage","value":"//img.tatacliq.com/images/i4/113Wx168H/MP000000005291532_113Wx168H_20190823173413.jpeg"}],"mediaType":"Image"}],"isCOD":"Y","isEMIEligible":"N","isExchangeAvailable":false,"isOfferExisting":"N","isOnlineExclusive":"N","isProductNew":"N","knowMore":[{"knowMoreItem":"An order, once placed, can be cancelled until the seller processes it."},{"knowMoreItem":"This product can be returned within 15 day(s) of delivery,subject to the Return Policy."},{"knowMoreItem":"For any other queries, do reach out to CliQ Care at 90291 08282."}],"knowMoreEmail":"hello@tatacliq.com","knowMorePhoneNo":"90291 08282","knowMoreV2":[{"knowMoreItemV2":"15 Days Easy Return"},{"knowMoreItemV2":"An order, once placed, can be cancelled until the seller processes it."}],"maxQuantityAllowed":"5","mrpPrice":{"currencyIso":"INR","doubleValue":1825,"formattedValue":"₹1825.00","formattedValueNoDecimal":"₹1825","priceType":"BUY","value":1825},"nceAvailable":false,"numberOfReviews":0,"productDescription":"Set your fashion parameters high with this women's analog watch from the Play collection by Sonata. Protected by a mineral glass, the rose gold round dial is housed in a 32 mm case. It exudes plain three hands, bold stick hour markings and a crown for time adjustment. The metal strap vaunts a rose gold hue that enhances the look of the watch. Moreover, it is fitted with a hook buckle clasp that ensures a secure fit on the wrist.","productListingId":"MP000000005291532","productName":"Sonata 8141WM01 Play Analog Watch for Women","rootCategory":"Watches","sellerAssociationstatus":"Y","seo":{"alternateURL":"/sonata-8141wm01-play-analog-watch-for-women/p-mp000000005291532","breadcrumbs":[{"name":"Sonata 8141WM01 Play Analog Watch for Women","url":"/sonata-8141wm01-play-analog-watch-for-women/p-mp000000005291532"},{"name":"Analog","url":"/watches-women-analog/c-msh1501000"},{"name":"Women","url":"/watches-women/c-msh1501"},{"name":"Watches","url":"/watches/c-msh15"}],"canonicalURL":"/sonata-8141wm01-play-analog-watch-for-women/p-mp000000005291532","description":"Sonata 8141WM01 Play Analog Watch for Women in India - Shop for Sonata 8141WM01 Play Analog Watch for Women online at best price on Tata CLiQ.","imageURL":"//img.tatacliq.com/images/i4/97Wx144H/MP000000005291532_97Wx144H_20190823173405.jpeg","keywords":"Sonata 8141WM01 Play Analog Watch for Women, buy, online, Tata CLiQ","title":"Buy Sonata 8141WM01 Play Analog Watch for Women at Best Price @ Tata CLiQ"},"sharedText":"Wow!Check out this amazing find http://www.tatacliq.com/sonata-8141wm01-play-analog-watch-for-women/p-mp000000005291532 . Like or  comment to tell me what you think, or share for warm fuzzies.","showSizeGuide":false,"styleNote":"Set your fashion parameters high with this women's analog watch from the Play collection by Sonata. Protected by a mineral glass, the rose gold round dial is housed in a 32 mm case. It exudes plain three hands, bold stick hour markings and a crown for time adjustment. The metal strap vaunts a rose gold hue that enhances the look of the watch. Moreover, it is fitted with a hook buckle clasp that ensures a secure fit on the wrist.","warranty":["12 months manufacturer warranty"],"winningSellerAvailableStock":"0","winningSellerID":"123762","winningSellerName":"Titan Company Ltd","winningSellerPrice":{"currencyIso":"INR","doubleValue":1825,"formattedValue":"₹1825.00","formattedValueNoDecimal":"₹1825","priceType":"BUY","value":1825},"winningUssID":"1237628141WM01"}
+
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
@@ -338,7 +343,13 @@ export function getProductPinCodeFailure(error) {
   };
 }
 
-export function getProductPinCode(pinCode: null, productCode) {
+export function getProductPinCode(
+  pinCode: null,
+  productCode,
+  winningUssID,
+  isComingFromPiqPage,
+  isFirstTimeRender = false
+) {
   let validProductCode = productCode.toUpperCase();
   if (pinCode) {
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, pinCode);
@@ -359,20 +370,86 @@ export function getProductPinCode(pinCode: null, productCode) {
         let accessToken = JSON.parse(globalCookie).access_token;
         url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}`;
       }
-      const result = await api.post(url);
+      let result = await api.post(url);
+      let resultJson = await result.json();
 
-      const resultJson = await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
+      let cncDeliveryModes = "";
+      let getDeliveryModesByWinningUssid = "";
+      let pincodeError;
+      if (
+        isComingFromPiqPage &&
+        resultJson &&
+        resultJson.listOfDataList &&
+        resultJson.listOfDataList[0] &&
+        resultJson.listOfDataList[0].value &&
+        resultJson.listOfDataList[0].value.pincodeListResponse
+      ) {
+        getDeliveryModesByWinningUssid = resultJson.listOfDataList[0].value.pincodeListResponse.find(
+          val => {
+            return val.ussid === winningUssID;
+          }
+        );
       }
+      if (
+        isComingFromPiqPage &&
+        getDeliveryModesByWinningUssid &&
+        getDeliveryModesByWinningUssid.validDeliveryModes
+      ) {
+        cncDeliveryModes = getDeliveryModesByWinningUssid.validDeliveryModes.find(
+          val => {
+            return val.type === "CNC";
+          }
+        );
+      }
+      if (
+        resultJson &&
+        resultJson.listOfDataList &&
+        resultJson.listOfDataList[0] &&
+        resultJson.listOfDataList[0].value &&
+        Object.keys(resultJson.listOfDataList[0].value).length === 0
+      ) {
+        if (
+          !resultJson.productOutOfStockMessage ||
+          !resultJson.productNotServiceableMessage
+        ) {
+          pincodeError = "Please enter a valid pincode";
+          dispatch(displayToast("Please enter a valid pincode"));
+        }
+      } else if (
+        isComingFromPiqPage &&
+        getDeliveryModesByWinningUssid &&
+        (!getDeliveryModesByWinningUssid.validDeliveryModes ||
+          !cncDeliveryModes ||
+          !cncDeliveryModes.CNCServiceableSlavesData)
+      ) {
+        dispatch(
+          displayToast(
+            "Unfortunately, we're currently unable to ship this item to your PIN code. Can we ship it to another address?"
+          )
+        );
+        dispatch(hidePdpPiqPage());
+        window.scroll({
+          top: 230,
+          behavior: "smooth"
+        });
+      }
+      // if (pinCode) {
+      //   localStorage.removeItem(SELECTED_STORE);
+      // }
       return dispatch(
         getProductPinCodeSuccess({
           pinCode,
-          deliveryOptions: resultJson.listOfDataList[0].value
+          deliveryOptions: resultJson.listOfDataList[0].value,
+          city: resultJson.city,
+          productOutOfStockMessage: resultJson.productOutOfStockMessage,
+          productNotServiceableMessage:
+            resultJson.productNotServiceabilityMessage,
+          pincodeError
         })
       );
+      if (isComingFromPiqPage) {
+        dispatch(getAllStoresForCliqAndPiq());
+      }
     } catch (e) {
       return dispatch(getProductPinCodeFailure(e.message));
     }
@@ -631,11 +708,12 @@ export function ProductSpecificationRequest() {
     status: REQUESTING
   };
 }
-export function ProductSpecificationSuccess(productDetails) {
+export function ProductSpecificationSuccess(productDetails, productCode) {
   return {
     type: PRODUCT_SPECIFICATION_SUCCESS,
     status: SUCCESS,
-    productDetails
+    productDetails,
+    productCode
   };
 }
 
@@ -660,7 +738,7 @@ export function getProductSpecification(productId) {
         throw new Error(resultJsonStatus.message);
       }
 
-      dispatch(ProductSpecificationSuccess(resultJson));
+      dispatch(ProductSpecificationSuccess(resultJson, productId));
     } catch (e) {
       dispatch(ProductSpecificationFailure(e.message));
     }
@@ -1249,9 +1327,13 @@ export function getAllStoresForCliqAndPiqFailure(error) {
 }
 
 // Action Creator for getting all stores CNC
-export function getAllStoresForCliqAndPiq(newPinCode = null) {
+export function getAllStoresForCliqAndPiq(
+  newPinCode = null,
+  isComingFromCliqAndPiq = false,
+  isComingFromCheckoutPage = false
+) {
   let pinCode;
-  if (newPinCode) {
+  if (newPinCode && !isComingFromCliqAndPiq) {
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, newPinCode);
     pinCode = newPinCode;
   } else {
@@ -1265,7 +1347,6 @@ export function getAllStoresForCliqAndPiq(newPinCode = null) {
   } else {
     accessToken = JSON.parse(globalCookie).access_token;
   }
-
   return async (dispatch, getState, { api }) => {
     dispatch(getAllStoresForCliqAndPiqRequest());
     try {
@@ -1521,7 +1602,6 @@ export function getRelevantBundleProduct(productCode, isApiCall = 0, sequence) {
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
       const resultJson = await result.json();
-
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||

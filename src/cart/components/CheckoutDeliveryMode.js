@@ -103,6 +103,7 @@ export default class CheckoutDeliveryMode extends React.Component {
                           this.state.cartId
                         )
                       }
+                      sizeType={val.isSizeOrLength}
                     />
                   </div>
                 );

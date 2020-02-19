@@ -86,6 +86,12 @@
   right: 0px;
   top: 0;
 }
+.deliveyModesHolder {
+  width: 100%;
+  height: auto;
+  margin-top: 5px;
+  display: inline-block;
+}
 @media screen and (min-width: 1025px) {
   .base {
     background-color: #fff;

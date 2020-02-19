@@ -70,7 +70,6 @@ import {
   WRITE_REVIEWS_WITH_SLUG,
   WRITE_REVIEWS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  DEFAULT_PINCODE,
   REDMI_WALLET_FROM_EMAIL,
   FEEDBACK_PAGE,
   RETRY_FAILED_ORDER,
@@ -78,6 +77,7 @@ import {
   PANCARD_PAGE,
   CART_BAG_DETAILS,
   CANCEL_RETURN_PREFIX,
+  DEFAULT_PINCODE,
   UNSUBSCRIBE_CLEVER_TAP_EMAILS
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
@@ -452,6 +452,7 @@ class App extends Component {
   }
 
   render() {
+    console.log("UPI");
     if (!this.props.location.pathname.includes("/my-account")) {
       if (window.od && window.od.messenger && window.od.messenger("update")) {
         window.od.messenger("update");

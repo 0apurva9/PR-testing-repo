@@ -146,7 +146,8 @@ export default class DesktopCheckout extends React.Component {
                 <div className={styles.row}>
                   <div className={styles.label}>No Cost EMI Discount</div>
                   <div className={styles.info}>
-                    -{
+                    -
+                    {
                       this.props.noCostEmiEligibility.noCostEMIDiscountValue
                         .formattedValue
                     }
@@ -169,7 +170,8 @@ export default class DesktopCheckout extends React.Component {
                     )}
                   </div>
                   <div className={styles.infoForAdditionalDiscount}>
-                    -{cartAmount.additionalDiscount.totalAdditionalDiscount &&
+                    -
+                    {cartAmount.additionalDiscount.totalAdditionalDiscount &&
                       cartAmount.additionalDiscount.totalAdditionalDiscount
                         .formattedValue}
                   </div>
@@ -180,7 +182,8 @@ export default class DesktopCheckout extends React.Component {
                       Shipping Charge Discount
                     </div>
                     <div className={styles.informationAnswerHolder}>
-                      -{cartAmount.additionalDiscount.shippingDiscount &&
+                      -
+                      {cartAmount.additionalDiscount.shippingDiscount &&
                         cartAmount.additionalDiscount.shippingDiscount
                           .formattedValue}
                     </div>
@@ -271,7 +274,7 @@ export default class DesktopCheckout extends React.Component {
                   this.props.onContinue ? styles.price : styles.checkoutPrice
                 }
               >
-                {`Rs. ${this.props.payableForCartPage}`}
+                {`₹ ${this.props.payableForCartPage}`}
               </div>
             )}
             {this.props.isFromRetryUrl && (
@@ -284,15 +287,21 @@ export default class DesktopCheckout extends React.Component {
                 this.props.payable.paybleAmount &&
                 this.props.payable.paybleAmount.formattedValue
                   ? this.props.payable.paybleAmount.formattedValue
-                  : `Rs. ${this.props.amount}`}
+                  : `₹ ${this.props.amount}`}
               </div>
             )}
             {this.props.onContinue && (
               <React.Fragment>
                 {!this.props.isOnCartPage && (
-                  <div className={styles.button}>
+                  <div
+                    className={[
+                      styles.button,
+                      this.props.disabled ? "" : styles.shadowBtn
+                    ].join(" ")}
+                  >
                     <Button
                       disabled={this.props.disabled}
+                      disabledBgGrey={true}
                       type="primary"
                       backgroundColor="#ff1744"
                       height={40}
@@ -309,9 +318,15 @@ export default class DesktopCheckout extends React.Component {
 
                 {this.props.isOnCartPage &&
                   defaultPinCode && (
-                    <div className={styles.button}>
+                    <div
+                      className={[
+                        styles.button,
+                        this.props.disabled ? "" : styles.shadowBtn
+                      ].join(" ")}
+                    >
                       <Button
                         disabled={this.props.disabled}
+                        disabledBgGrey={true}
                         type="primary"
                         backgroundColor="#ff1744"
                         height={40}
@@ -327,8 +342,15 @@ export default class DesktopCheckout extends React.Component {
                   )}
                 {this.props.isOnCartPage &&
                   !defaultPinCode && (
-                    <div className={styles.button}>
+                    <div
+                      className={[
+                        styles.button,
+                        this.props.disabled ? "" : styles.shadowBtn
+                      ].join(" ")}
+                    >
                       <Button
+                        disabled={this.props.disabled}
+                        disabledBgGrey={true}
                         type="primary"
                         backgroundColor="#ff1744"
                         height={40}

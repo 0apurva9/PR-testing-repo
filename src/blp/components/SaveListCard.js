@@ -37,6 +37,7 @@ export default class SaveListCard extends React.Component {
             price={this.props.price}
             onClickImage={() => this.onClickImage()}
             size={this.props.size}
+            isSizeOrLength={this.props.isSizeOrLength}
           />
           <div className={styles.rating}>
             {this.props.totalNoOfReviews && (
@@ -54,13 +55,13 @@ export default class SaveListCard extends React.Component {
           <div className={styles.textContainer}>
             <div className={styles.offers}>{`${
               this.props.offer
-            } offers from Rs.${this.props.offerPrice}`}</div>
+            } offers from ₹${this.props.offerPrice}`}</div>
           </div>
         </MediaQuery>
         <MediaQuery query="(min-device-width: 1025px)">
           <div className={styles.textContainer}>
             <div className={styles.offers}>
-              <span>{this.props.offer}</span> <span>offers from Rs.</span>{" "}
+              <span>{this.props.offer}</span> <span>offers from ₹</span>{" "}
               <span className={styles.highlitedDate}>
                 {this.props.offerPrice}
               </span>

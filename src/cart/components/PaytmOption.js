@@ -63,7 +63,7 @@ export default class PaytmOption extends React.Component {
                   <div className={styles.currentBalanceText}>
                     Current wallet balance
                   </div>
-                  <div className={styles.currentBalanceAmount}>{`Rs. ${
+                  <div className={styles.currentBalanceAmount}>{`₹ ${
                     this.props.balance
                   }`}</div>
                 </div>

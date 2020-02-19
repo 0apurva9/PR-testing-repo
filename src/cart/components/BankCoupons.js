@@ -33,7 +33,7 @@ export default class BankCoupons extends React.Component {
               <div className={styles.amountExpireHolder}>
                 <div className={styles.dataHeader}>Max Discount</div>
                 <div className={styles.dataInformation}>
-                  Rs.
+                  ₹
                   {this.props.offerMaxDiscount}
                 </div>
               </div>
@@ -42,7 +42,7 @@ export default class BankCoupons extends React.Component {
               <div className={styles.amountExpireHolder}>
                 <div className={styles.dataHeader}>Min.bag amount</div>
                 <div className={styles.dataInformation}>
-                  Rs.
+                  ₹
                   {this.props.offerMinCartValue}
                 </div>
               </div>
