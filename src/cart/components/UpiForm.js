@@ -297,7 +297,9 @@ export default class UpiForm extends React.Component {
                                         );
                                       }}
                                     >
-                                      {ele.value.upiId}
+                                      <span className={styles.svdUpiSpan}>
+                                        {ele.value.upiId}
+                                      </span>
                                     </div>
                                   )}
                                 </React.Fragment>
@@ -308,7 +310,9 @@ export default class UpiForm extends React.Component {
                                     this.verifyUpi(ele.value.upiId, "select");
                                   }}
                                 >
-                                  {ele.value.upiId}
+                                  <span className={styles.svdUpiSpan}>
+                                    {ele.value.upiId}
+                                  </span>
                                 </div>
                               )}
                             </div>

@@ -323,3 +323,12 @@
   padding:0px 3px;
   cursor: pointer;
 }
+.svdUpiSpan{
+      /* overflow-x: hidden; */
+      width: 100%;
+      display: inline-block;
+      text-wrap: initial;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+}
