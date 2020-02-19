@@ -12,7 +12,8 @@ import {
   YES,
   NO,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  SHORT_COLLECT
+  SHORT_COLLECT,
+  NOT_SERVICEABLE
 } from "../../lib/constants";
 import ProductImage from "../../general/components/ProductImage.js";
 import styles from "./CartItemForDesktop.css";
@@ -22,7 +23,6 @@ import { WISHLIST_BUTTON_TEXT_TYPE_SMALL } from "../../wishlist/components/AddTo
 import { ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART } from "../../lib/adobeUtils";
 import format from "date-fns/format";
 const NO_SIZE = "NO SIZE";
-const NOT_SERVICEABLE = "Not available at your PIN code";
 const OUT_OF_STOCK = "Product is out of stock";
 export default class CartItemForDesktop extends React.Component {
   constructor(props) {
@@ -128,6 +128,11 @@ export default class CartItemForDesktop extends React.Component {
         });
       }
     }
+    let productMessage = this.props.productNotServiceable
+      ? this.props.productNotServiceable
+      : !this.props.productOutOfStocks
+        ? NOT_SERVICEABLE
+        : null;
     let pickUpDateDetails = "";
     if (this.props.storeDetails && this.props.storeDetails.slaveId) {
       let productSlaveId = this.props.storeDetails.slaveId;
@@ -173,6 +178,11 @@ export default class CartItemForDesktop extends React.Component {
       minutes = minutes < 10 ? "0" + minutes : minutes;
       strTime = hours + ":" + minutes + " " + salutationOfTime;
     }
+    let SizeType = this.props.sizeType ? this.props.sizeType : "Size";
+    let sizeValue = this.props.size;
+    if (this.props.sizeType === "Power" && this.props.size > 0) {
+      sizeValue = `+${this.props.size}`;
+    }
     return (
       <div className={styles.base}>
         <div className={styles.productImage}>
@@ -207,14 +217,13 @@ export default class CartItemForDesktop extends React.Component {
                 </div>
               )}
               {this.props.isGiveAway === NO &&
-                (!this.props.productIsServiceable &&
-                this.props.productNotServiceable
+                (!this.props.productIsServiceable && productMessage
                   ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE) && (
                       <React.Fragment>
                         <div className={styles.space}>|</div>
                         <div className={styles.serviceAvailabilityText}>
                           {/* `${NOT_SERVICEABLE}` */}
-                          {`${this.props.productNotServiceable}`}
+                          {`${productMessage}`}
                         </div>
                       </React.Fragment>
                     )
@@ -272,7 +281,7 @@ export default class CartItemForDesktop extends React.Component {
                 {this.props.size &&
                   this.props.size.toUpperCase() !== NO_SIZE && (
                     <div className={styles.colourText}>
-                      {`Size:  ${this.props.size}`}
+                      {`${SizeType}: ${sizeValue}`}
                     </div>
                   )}
               </div>
@@ -364,6 +373,10 @@ export default class CartItemForDesktop extends React.Component {
                 inCartPage={this.props.inCartPage}
                 inCartPageIcon={true}
                 isArrowIcon={this.props.isArrowIcon}
+                productCode={
+                  this.props.product && this.props.product.productcode
+                }
+                winningUssID={this.props.product && this.props.product.USSID}
               />
             </div>
           )}

@@ -57,10 +57,15 @@ import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import throttle from "lodash.throttle";
 import {
   setDataLayer,
+  setDataLayerForCartDirectCalls,
+  ADOBE_MY_ACCOUNT_TAB_CLICKED,
+  ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING,
   setDataLayerForRatingAndReview,
   ADOBE_MY_ACCOUNT_ORDER_HISTORY,
+  ADOBE_MY_ACCOUNT_WRITE_REVIEW,
   ADOBE_ORDER_DETAILS_LINK_CLICKED,
   ADOBE_HELP_SUPPORT_LINK_CLICKED,
+  ADOBE_MY_ACCOUNT_HELP_AND_SUPPORT,
   SET_DATA_LAYER_RATING_STAR_CLICK
 } from "../../lib/adobeUtils";
 import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
@@ -113,6 +118,23 @@ export default class AllOrderDetails extends React.Component {
   };
   tabSelect(val) {
     this.setState({ isSelected: val });
+    let selectedTab;
+    if (val) {
+      if (val === 0) {
+        selectedTab = "Recent Orders";
+      } else if (val === 1) {
+        selectedTab = "Alerts";
+      } else if (val === 2) {
+        selectedTab = "Coupons";
+      } else if (val === 3) {
+        selectedTab = "Useful Links";
+      } else if (val === 4) {
+        selectedTab = "My review";
+      }
+    } else {
+      selectedTab = "Recent Orders";
+    }
+    setDataLayer(ADOBE_MY_ACCOUNT_TAB_CLICKED, selectedTab);
   }
   onClickImage(isEgvOrder, productCode) {
     if (!isEgvOrder && productCode) {
@@ -126,6 +148,7 @@ export default class AllOrderDetails extends React.Component {
     this.props.history.push(`${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`);
   }
   writeReview(productDetails) {
+    setDataLayer(ADOBE_MY_ACCOUNT_WRITE_REVIEW);
     if (this.props.showRatingAndReviewModal) {
       this.props.showRatingAndReviewModal({ ...this.props, productDetails });
     }
@@ -191,6 +214,7 @@ export default class AllOrderDetails extends React.Component {
     this.props.history.push(urlSuffix);
   };
   renderToContinueShopping() {
+    setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
   }
   handleScroll = () => {
@@ -338,6 +362,7 @@ export default class AllOrderDetails extends React.Component {
     }
   }
   redirectToHelpPage() {
+    setDataLayer(ADOBE_MY_ACCOUNT_HELP_AND_SUPPORT);
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
     this.props.history.push(
       `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
@@ -383,6 +408,7 @@ export default class AllOrderDetails extends React.Component {
       baseClassName = styles.base;
     }
     let productsDetails = orderDetails && orderDetails.products;
+
     return (
       <div className={baseClassName}>
         <div className={MyAccountStyles.holder}>
@@ -726,7 +752,7 @@ export default class AllOrderDetails extends React.Component {
                                   >
                                     <OrderCard
                                       orderBreachMessage={
-                                        orderDetails.EDDBreachMessage
+                                        product.eddBreechMessage
                                       }
                                       isComingFromAllOrderPage={true}
                                       estimatedDeliveryDate={

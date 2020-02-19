@@ -557,6 +557,12 @@
 		display: table-cell;
 		padding: 0px 50px;
 	}
+	.tableCellSingleComponentForEyeWear {
+		display: table-cell;
+		padding: 0px 50px;
+		width:10%;
+	}
+
 	.width95px {
 		width: 98px;
 		height: 20px;
@@ -649,7 +655,7 @@
 		height: auto;
     	display: inline-block;
 		position: relative;
-		padding-left: 75px;
+		padding-left: 65px;
 		/* margin: 15px 0; */
 	}
 	.overlay {
@@ -681,8 +687,13 @@
 		width: auto;
 		height: auto;
 		border-radius: 22.5px;
-		/* box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12); */
 		transition: 300ms;
+	}
+	.shadowBtn{
+		box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+	}
+	.shadowBtn:hover {
+		box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
 	}
 	.buttonDisabled{
     composes:buttonAddToBag;
@@ -723,9 +734,7 @@
 			transform: rotate(360deg);
 		}
 	}
-	.buttonAddToBag:hover {
-		box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
-	}
+
 	.cardHeaderHolder {
 		width: 100%;
 		height: auto;
@@ -1172,10 +1181,9 @@
 	width: 100%;
 	height: auto;
 	display: inline-block;
-	color: rgb(255, 23, 68);
+	color: #d88600;
 	font-size: 12px;
 	font-family: regular;
-	padding-left: 75px;
 }
 .deliveryModesHolder {
 	width: 100%;

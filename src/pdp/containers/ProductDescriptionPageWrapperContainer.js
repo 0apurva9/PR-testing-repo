@@ -37,6 +37,7 @@ import {
   ADDRESS,
   PRICE_BREAKUP,
   SIZE_SELECTOR,
+  SIZE_SELECTOR_FOR_EYEWEAR,
   SIZE_GUIDE,
   CLIQ_PIQ_MODAL,
   MANUFACTURER_MODAL,
@@ -51,7 +52,8 @@ import { withRouter } from "react-router-dom";
 import {
   SUCCESS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  NO
+  NO,
+  SELECTED_STORE
 } from "../../lib/constants.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 import {
@@ -78,7 +80,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getProductDescription: async productCode => {
       const productDetailsResponse = await dispatch(
-        getProductDescription(productCode, componentName)
+        getProductDescription(productCode)
       );
       if (productDetailsResponse && productDetailsResponse.status === SUCCESS) {
         const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
@@ -109,7 +111,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(showModal(OFFER_MODAL, data));
     },
     showBundledProduct: data => {
-      //debugger;
       dispatch(showModal(BUNDLEDPRODUCT_MODAL, data));
     },
     showTermsNConditions: data => {
@@ -133,6 +134,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showSizeGuide: () => {
       dispatch(showModal(SIZE_GUIDE));
     },
+    showSizeSelectorForEyeWear: data => {
+      dispatch(showModal(SIZE_SELECTOR_FOR_EYEWEAR, data));
+    },
     getPdpEmi: (token, cartValue, productCode, ussId) => {
       dispatch(getPdpEmi(token, cartValue, productCode, ussId));
     },
@@ -146,6 +150,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(showModal(ADDRESS, { productCode }, { winningUssID }));
     },
     getProductPinCode: (pinCode, productCode, winningUssID) => {
+      localStorage.removeItem(SELECTED_STORE);
       return dispatch(getProductPinCode(pinCode, productCode, winningUssID));
     },
     hideSecondaryLoader: () => {
@@ -311,7 +316,10 @@ const mapStateToProps = state => {
     userDetails: state.profile.userDetails,
     loadingOfBuyNowSuccess: state.cart.tempCartIdForLoggedInUserStatus,
     loadingForAddStoreToCnc: state.cart.loadingForAddStore,
-    loadingForCartDetail: state.cart.loadingForCartDetail
+    loadingForCartDetail: state.cart.loadingForCartDetail,
+    pincodeError: state.productDescription.pincodeError,
+    serviceableOtherSellersUssid:
+      state.productDescription.serviceableOtherSellersUssid
   };
 };
 

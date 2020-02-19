@@ -7,8 +7,10 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN
 } from "../../lib/constants";
+import { setDataLayer, ADOBE_MY_ACCOUNT_ALERTS } from "../../lib/adobeUtils";
 export default class UserAlerts extends React.Component {
   componentDidMount() {
+    setDataLayer(ADOBE_MY_ACCOUNT_ALERTS);
     if (this.props.getUserAlerts) {
       const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);

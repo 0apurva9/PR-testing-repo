@@ -18,6 +18,12 @@ export default class ProductDetailsCard extends React.Component {
   };
 
   render() {
+    /* let discount = "";
+    if(this.props.priceDouble && this.props.discountPriceDouble){
+      discount = Math.round(
+        ((this.props.discountPriceDouble - this.props.priceDouble)/this.props.discountPriceDouble) * 100
+        );
+    } */
     return (
       <div className={styles.base}>
         <div className={styles.productImageHolder}>
@@ -88,17 +94,19 @@ export default class ProductDetailsCard extends React.Component {
                     </span>
                   </del>
                 )}
+              {/*   <span className={styles.discount}>
+                {discount && discount > 0 &&`(${discount}%)`}
+              </span>  */}
             </div>
           )}
           {this.props.productTitle && (
             <div className={styles.productTitle}>{this.props.productTitle}</div>
           )}
-          {this.props.size &&
-            this.props.size !== "NO SIZE" && (
-              <div className={styles.sizeHolder}>
-                <span className={styles.size}>size</span> {this.props.size}
-              </div>
-            )}
+          {this.props.size && this.props.size !== "NO SIZE" && (
+            <div className={styles.sizeHolder}>
+              <span className={styles.size}>size</span> {this.props.size}
+            </div>
+          )}
           <div
             className={styles.displayRating}
             itemProp="aggregateRating"
@@ -119,41 +127,36 @@ export default class ProductDetailsCard extends React.Component {
               itemprop="itemReviewed"
               content={this.props.averageRating ? this.props.averageRating : 0}
             />
-            {this.props.averageRating &&
-              !this.props.showAverageRatingWithDays && (
-                <React.Fragment>
-                  <MobileOnly>
-                    <StarRating averageRating={this.props.averageRating} />
-                  </MobileOnly>
-                  <DesktopOnly>
-                    <StarRating
-                      averageRating={this.props.averageRating}
-                      size={20}
-                    />
-                  </DesktopOnly>
-                </React.Fragment>
-              )}
-            {this.props.averageRating &&
-              this.props.showAverageRatingWithDays && (
-                <StarRating averageRating={this.props.averageRating}>
-                  <span className={styles.showAverageRatingWithDays}>
-                    {this.props.daysAgo}
-                  </span>
-                </StarRating>
-              )}
-          </div>
-          {this.props.averageRating &&
-            !this.props.showAverageRatingWithDays && (
-              <div className={styles.displayRatingText}>
-                Rating{" "}
-                <span>
-                  {" "}
-                  <span>
-                    {Math.round(this.props.averageRating * 10) / 10}
-                  </span>/5
-                </span>
-              </div>
+            {this.props.averageRating && !this.props.showAverageRatingWithDays && (
+              <React.Fragment>
+                <MobileOnly>
+                  <StarRating averageRating={this.props.averageRating} />
+                </MobileOnly>
+                <DesktopOnly>
+                  <StarRating
+                    averageRating={this.props.averageRating}
+                    size={20}
+                  />
+                </DesktopOnly>
+              </React.Fragment>
             )}
+            {this.props.averageRating && this.props.showAverageRatingWithDays && (
+              <StarRating averageRating={this.props.averageRating}>
+                <span className={styles.showAverageRatingWithDays}>
+                  {this.props.daysAgo}
+                </span>
+              </StarRating>
+            )}
+          </div>
+          {this.props.averageRating && !this.props.showAverageRatingWithDays && (
+            <div className={styles.displayRatingText}>
+              Rating{" "}
+              <span>
+                {" "}
+                <span>{Math.round(this.props.averageRating * 10) / 10}</span>/5
+              </span>
+            </div>
+          )}
         </div>
       </div>
     );

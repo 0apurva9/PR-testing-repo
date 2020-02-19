@@ -25,7 +25,7 @@
 }
 
 .processNameHolderBold {
-	width: 64%;
+	width: 65%;
 	height: auto;
 	display: inline-block;
 	color: #212121;
@@ -35,11 +35,11 @@
 	font-family: semibold;
 	position: absolute;
 	top: -42px;
-	left: 20px;
+	left: 15px;
 }
 
 .processNameHolder {
-	width: 64%;
+	width: 65%;
 	height: auto;
 	display: inline-block;
 	color: #212121;
@@ -51,7 +51,7 @@
 	font-family: light;
 	position: absolute;
 	top: -42px;
-	left: 20px;
+	left: 15px;
 }
 
 .dateAndTimeHolder {
@@ -101,6 +101,7 @@
 	line-height: 16px;
 	margin-left: 39px;
 	text-align: center;
+	color: #ff1744;
 }
 /* .dateHolder:first-child {
 	padding-left: 15px;
@@ -207,4 +208,29 @@ div .step:before {
 	letter-spacing: 0px;
 	text-align: center;
 	margin-right: 25px;
+}
+.eieStatus{
+	font-size: 12px;
+	text-align: left;
+	/* padding-left: 35px; */
+	padding-top: 5px;
+	clear: left;
+}
+.eieDateAndTimeHolder {
+	width: 186px;
+	height: auto;
+	display: inline-block;
+	vertical-align: top;
+}
+.eieDateNTimeContainer {
+	float: left;
+	width: auto;
+	height: auto;
+	color: #8d8d8d;
+	font-size: 12px;
+	font-family: light;
+}
+.eieDateNTimeContainer:first-child::after{
+	content: "|";
+    padding: 0 5px;
 }

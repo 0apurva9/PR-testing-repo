@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="47px" viewBox="0 0 30 47" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63 (92445) - https://sketch.com -->
+    <title>Group 6</title>
+    <desc>Created with Sketch.</desc>
+    <g id="phase-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop_QuiQ-PiQ-2" transform="translate(-526.000000, -501.000000)">
+            <g id="Group-19" transform="translate(145.000000, 69.000000)">
+                <g id="Group-5" transform="translate(303.000000, 432.000000)">
+                    <g id="Group-6" transform="translate(78.000000, 0.000000)">
+                        <path d="M13.2,33.6 L13.2,44.4 C13.2,45.0627417 13.7372583,45.6 14.4,45.6 C15.0627417,45.6 15.6,45.0627417 15.6,44.4 L15.6,33.6 L15.6,33.6 L13.2,33.6 Z" id="Path-4" fill="#212121"></path>
+                        <g id="Group-7">
+                            <path d="M15.6650371,45.5370464 C24.5816795,29.9900085 29.0400006,19.6509932 29.0400006,14.5200003 C29.0400006,6.50082557 22.5391751,0 14.5200003,0 C6.50082557,0 0,6.50082557 0,14.5200003 C0,19.6509946 4.45832374,29.9900145 13.3749712,45.5370599 L13.3749945,45.5370465 C13.7376802,46.1694243 14.5443384,46.388053 15.1767162,46.0253673 C15.3799405,45.9088128 15.5484826,45.7402707 15.6650371,45.5370464 Z" id="Oval" fill="#007DFF"></path>
+                            <circle id="Oval" fill="#0057B1" cx="14.5200003" cy="17.1600004" r="5.28000011"></circle>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

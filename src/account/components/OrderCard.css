@@ -290,7 +290,7 @@ display: none;
 
 .breachMessage{
     font-size: 12px;
-    color: rgb(216,137,0);
+    color: #D88900;
     font-family: regular;
     padding-bottom: 8px;
 		/* padding-right: 150px; */
@@ -397,6 +397,7 @@ display: none;
 		font-family: light;
 	}
 	.commonTitle {
+		margin-top: 15px;
 		font-size: 12px;
 		letter-spacing: 0.02px;
 		color: rgb(33, 33, 33);

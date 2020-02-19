@@ -9,7 +9,9 @@ import {
   SHORT_EXPRESS,
   SHORT_COLLECT,
   SHORT_HOME_DELIVERY,
-  SHORT_SAME_DAY_DELIVERY
+  SHORT_SAME_DAY_DELIVERY,
+  SAME_DAY_DELIVERY,
+  SELECTED_STORE
 } from "../../lib/constants";
 import PropTypes from "prop-types";
 import styles from "./PdpDeliveryModes.css";
@@ -23,12 +25,11 @@ export default class PdpDeliveryModes extends React.Component {
     let firstSlaveData;
     let availableStores = this.props.availableStores;
     let ussid;
-    const eligibleDeliveryModes = this.props.eligibleDeliveryModes;
+    const { eligibleDeliveryModes, deliveryModesATP } = this.props;
     let getDeliveryModesByWinningUssid = "";
     if (this.props.fromSellerCard) {
       baseClass = `${styles.base} ${styles.sellerBase}`;
     }
-    //const deliveryModesATP = this.props.deliveryModesATP;
 
     if (this.props.fromSellerCard && this.props.pincodeDetails) {
       deliveryDates = this.props.pincodeDetails.validDeliveryModes;
@@ -78,6 +79,19 @@ export default class PdpDeliveryModes extends React.Component {
       getDeliveryModesByWinningUssid &&
       getDeliveryModesByWinningUssid.quickDeliveryMode &&
       getDeliveryModesByWinningUssid.quickDeliveryMode === "Y";
+    let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
+    let storeDetails =
+      selectedStore &&
+      selectedStore.find(store => {
+        return store.ussId === this.props.winningUssID;
+      });
+    if (storeDetails && storeDetails.storeId && availableStores) {
+      availableStores = parseInt(availableStores) - 1;
+      if (availableStores === 0) {
+        availableStores = " ";
+      }
+    }
+
     let wrapperClass =
       (deliveryDates &&
         deliveryDates
@@ -99,7 +113,6 @@ export default class PdpDeliveryModes extends React.Component {
           .includes(SHORT_SAME_DAY_DELIVERY))
         ? styles.standardAndCashOnDelivery
         : styles.noStandardAndCashOnDelivery;
-
     return (
       <div className={baseClass}>
         {QuiqPiq === true && (
@@ -107,6 +120,7 @@ export default class PdpDeliveryModes extends React.Component {
             <DeliveryInformation
               isQuiqPiq={QuiqPiq}
               isStaticText={true}
+              pdpApparel={this.props.pdpApparel}
               fontSize={"14px"}
               available={true}
               type={QUIQPIQ}
@@ -149,6 +163,20 @@ export default class PdpDeliveryModes extends React.Component {
                         return val.deliveryDate;
                       })[0]
                   }
+                  deliveryMessage={
+                    deliveryModesATP &&
+                    deliveryModesATP
+                      .filter(val => {
+                        return !this.props.fromSellerCard
+                          ? val.key === SAME_DAY_DELIVERY
+                          : val.code === SAME_DAY_DELIVERY;
+                      })
+                      .map(val => {
+                        return !this.props.fromSellerCard
+                          ? val.value
+                          : val.description;
+                      })[0]
+                  }
                 />
               )}
             {deliveryDates &&
@@ -189,6 +217,20 @@ export default class PdpDeliveryModes extends React.Component {
                         return val.deliveryDate;
                       })[0]
                   }
+                  deliveryMessage={
+                    deliveryModesATP &&
+                    deliveryModesATP
+                      .filter(val => {
+                        return !this.props.fromSellerCard
+                          ? val.key === EXPRESS
+                          : val.code === EXPRESS;
+                      })
+                      .map(val => {
+                        return !this.props.fromSellerCard
+                          ? val.value
+                          : val.description;
+                      })[0]
+                  }
                 />
               )}
             {deliveryDates &&
@@ -219,10 +261,31 @@ export default class PdpDeliveryModes extends React.Component {
                   )}
                   numberOfStore={
                     availableStores
-                      ? `${availableStores} more stores nearby`
+                      ? `${
+                          availableStores > 1
+                            ? availableStores + " more stores"
+                            : availableStores === 1
+                              ? availableStores + " more store"
+                              : "more store"
+                        } nearby`
                       : null
                   }
                   splitIntoTwoLine={false}
+                  deliveryMessage={
+                    deliveryModesATP &&
+                    deliveryModesATP
+                      .filter(val => {
+                        return !this.props.fromSellerCard
+                          ? val.key === COLLECT
+                          : val.code === COLLECT;
+                      })
+                      .map(val => {
+                        return !this.props.fromSellerCard
+                          ? val.value
+                          : val.description;
+                      })[0]
+                  }
+                  storeDetails={storeDetails}
                 />
               )}
           </div>
@@ -269,6 +332,20 @@ export default class PdpDeliveryModes extends React.Component {
                       .includes(SHORT_HOME_DELIVERY)
                       ? true
                       : false
+                  }
+                  deliveryMessage={
+                    deliveryModesATP &&
+                    deliveryModesATP
+                      .filter(val => {
+                        return !this.props.fromSellerCard
+                          ? val.key === HOME_DELIVERY
+                          : val.code === HOME_DELIVERY;
+                      })
+                      .map(val => {
+                        return !this.props.fromSellerCard
+                          ? val.value
+                          : val.description;
+                      })[0]
                   }
                 />
               </div>

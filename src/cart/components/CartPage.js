@@ -89,7 +89,7 @@ class CartPage extends React.Component {
     this.props.history.push(HOME_ROUTER);
   }
   componentDidMount() {
-    localStorage.removeItem(SELECTED_STORE);
+    //localStorage.removeItem(SELECTED_STORE);
     if (localStorage.getItem("cartPromotionText")) {
       let msg = localStorage.getItem("cartPromotionText");
       this.props.displayToast(msg);
@@ -392,6 +392,13 @@ class CartPage extends React.Component {
       changePinCode: false,
       showCheckoutSection: true
     });
+    let storeDetails = localStorage.getItem(SELECTED_STORE);
+    if (
+      storeDetails &&
+      localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE) !== val
+    ) {
+      localStorage.removeItem(SELECTED_STORE);
+    }
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, val);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
@@ -624,6 +631,7 @@ class CartPage extends React.Component {
     cliqAndPiqDetails.from = "Cart";
     cliqAndPiqDetails.stores = this.props.cart.storeDetails;
     cliqAndPiqDetails.productDetails = currentSelectedProduct;
+    cliqAndPiqDetails.winningUssID = currentSelectedProduct.USSID;
     cliqAndPiqDetails.pinCodeUpdateDisabled = true;
     cliqAndPiqDetails.pincodeResponse = firstSlaveData;
     cliqAndPiqDetails.pincode = localStorage.getItem(
@@ -884,6 +892,7 @@ class CartPage extends React.Component {
                                 .productNotServiceabilityMessage
                             }
                             onPiq={() => this.getAllStores(product.USSID)}
+                            sizeType={product.isSizeOrLength}
                             deliveryType={
                               product.elligibleDeliveryMode &&
                               product.elligibleDeliveryMode[0].code
@@ -1138,7 +1147,7 @@ here we need to hit call for merging cart id if user
         this.props.getMinicartProducts();
       }
     } else {
-      localStorage.removeItem(SELECTED_STORE);
+      //localStorage.removeItem(SELECTED_STORE);
     }
 
     if (this.props.clearCartDetails) {

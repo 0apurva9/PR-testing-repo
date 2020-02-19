@@ -10,7 +10,8 @@ import {
   SHORT_EXPRESS,
   SHORT_COLLECT,
   SHORT_HOME_DELIVERY,
-  SHORT_SAME_DAY_DELIVERY
+  SHORT_SAME_DAY_DELIVERY,
+  SELECTED_STORE
 } from "../../lib/constants";
 
 export default class DeliveryInfoSelect extends React.Component {
@@ -61,10 +62,27 @@ export default class DeliveryInfoSelect extends React.Component {
           return store && store.storeId;
         });
     }
+    let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
+    let storeDetails =
+      selectedStore &&
+      selectedStore.find(store => {
+        return store.ussId === this.props.winningUssID;
+      });
+    if (
+      storeDetails &&
+      storeDetails.storeId &&
+      availableStores && availableStores.length
+    ) {
+      availableStores = parseInt(availableStores.length) - 1;
+      if (availableStores === 0) {
+        availableStores = " ";
+      }
+    } else {
+      availableStores = parseInt(availableStores.length);
+    }
     let deliveryInformationWithDate = this.props.deliveryInformationWithDate;
     let elligibleDeliveryModes = this.props.deliveryInformation;
     const isCod = this.props.isCod;
-
     return (
       <div className={styles.base}>
         {deliveryInformationWithDate &&
@@ -144,6 +162,16 @@ export default class DeliveryInfoSelect extends React.Component {
                   })[0]
               }
               cliqPiqSelected={this.props.cliqPiqSelected}
+              deliveryMessage={
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes
+                  .filter(val => {
+                    return val.code === SAME_DAY_DELIVERY;
+                  })
+                  .map(val => {
+                    return val.desc;
+                  })[0]
+              }
             />
           )}
 
@@ -223,6 +251,17 @@ export default class DeliveryInfoSelect extends React.Component {
                   })[0]
               }
               cliqPiqSelected={this.props.cliqPiqSelected}
+              deliveryMessage={
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes
+                  .filter(val => {
+                    return val.code === EXPRESS;
+                  })
+                  .map(val => {
+                    return val.desc;
+                  })[0]
+              }
+              inCheckOutPage={this.props.inCheckOutPage}
             />
           )}
 
@@ -297,12 +336,28 @@ export default class DeliveryInfoSelect extends React.Component {
                     return val.type;
                   })
                   .includes(SHORT_COLLECT) &&
-                `${availableStores &&
-                  availableStores.length} more stores nearby`
+                `${
+                  availableStores > 1
+                    ? availableStores + " more stores"
+                    : availableStores === 1
+                    ? availableStores + " more store"
+                    : "more store"
+                } nearby`
               }
               splitIntoTwoLine={false}
               inCheckOutPage={this.props.inCheckOutPage}
               cliqPiqSelected={this.props.cliqPiqSelected}
+              deliveryMessage={
+                elligibleDeliveryModes &&
+                elligibleDeliveryModes
+                  .filter(val => {
+                    return val.code === COLLECT;
+                  })
+                  .map(val => {
+                    return val.desc;
+                  })[0]
+              }
+              storeDetails={storeDetails}
             />
           )}
         <div
@@ -410,23 +465,33 @@ export default class DeliveryInfoSelect extends React.Component {
                       : false
                   }
                   cliqPiqSelected={this.props.cliqPiqSelected}
+                  deliveryMessage={
+                    elligibleDeliveryModes &&
+                    elligibleDeliveryModes
+                      .filter(val => {
+                        return val.code === HOME_DELIVERY;
+                      })
+                      .map(val => {
+                        return val.desc;
+                      })[0]
+                  }
+                  inCheckOutPage={this.props.inCheckOutPage}
                 />
               </div>
             )}
-          {isCod === "Y" &&
-            !this.props.inCartPage && (
-              <div className={styles.infoHolder}>
-                <DeliveryInformation
-                  paddingTop={"0px"}
-                  paddingBottom={"0px"}
-                  paddingRight={"0px"}
-                  pdpApparel={this.props.pdpApparel}
-                  isCod={isCod}
-                  placedTimeForCod={"Available"}
-                  available={isCod === "Y"}
-                />
-              </div>
-            )}
+          {isCod === "Y" && !this.props.inCartPage && (
+            <div className={styles.infoHolder}>
+              <DeliveryInformation
+                paddingTop={"0px"}
+                paddingBottom={"0px"}
+                paddingRight={"0px"}
+                pdpApparel={this.props.pdpApparel}
+                isCod={isCod}
+                placedTimeForCod={"Available"}
+                available={isCod === "Y"}
+              />
+            </div>
+          )}
         </div>
       </div>
     );

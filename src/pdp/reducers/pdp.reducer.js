@@ -61,7 +61,11 @@ const productDescription = (
     secondaryBundleProductData: null,
     relevantProductPinCodeStatus: null,
     relevantBundleProductCodeStatus: false,
-    relevantBundleProductCodeData: null
+    relevantBundleProductCodeData: null,
+    pincodeError: null,
+    productOutOfStockMessage: null,
+    productNotServiceableMessage: null,
+    serviceableOtherSellersUssid: null
   },
   action
 ) => {
@@ -105,14 +109,27 @@ const productDescription = (
         productDetails: null
       });
 
-    case pdpActions.PRODUCT_DESCRIPTION_SUCCESS:
+    case pdpActions.PRODUCT_DESCRIPTION_SUCCESS: {
+      let productData = cloneDeep(action.productDescription);
+      if (
+        productData &&
+        productData.categoryHierarchy &&
+        productData.categoryHierarchy[0] &&
+        productData.categoryHierarchy[0].category_name === "Eyewear" &&
+        productData.isSizeOrLength === "Power"
+      ) {
+        productData.variantOptions = getSortedPowerList(
+          productData.variantOptions
+        );
+      }
       return Object.assign({}, state, {
         status: action.status,
-        productDetails: action.productDescription,
+        productDetails: productData,
         loading: false,
         getProductDetailsLoading: false,
         visitedNewProduct: true
       });
+    }
 
     case pdpActions.PRODUCT_DESCRIPTION_FAILURE:
       return Object.assign({}, state, {
@@ -131,7 +148,8 @@ const productDescription = (
       return Object.assign({}, state, {
         status: action.status,
         loading: true,
-        serviceablePincodeListResponse: null
+        serviceablePincodeListResponse: null,
+        pincodeError: null
       });
 
     case pdpActions.CHECK_PRODUCT_PIN_CODE_SUCCESS:
@@ -150,6 +168,34 @@ const productDescription = (
         );
         pincodeListResponse =
           action.productPinCode.deliveryOptions.pincodeListResponse;
+      }
+
+      //find all other sellers serviceable in a given pincode with stock count > 0
+      let potentialAvailableOtherSellers = [];
+      let actualServiceableOtherSellers = [];
+      let pinCodeResponse = pincodeListResponse;
+      let serviceableOtherSellersUssid = null;
+      potentialAvailableOtherSellers = currentPdpDetail.otherSellers;
+      actualServiceableOtherSellers =
+        potentialAvailableOtherSellers &&
+        potentialAvailableOtherSellers.filter(otherSeller => {
+          return (
+            pinCodeResponse &&
+            pinCodeResponse.find(pincodeSeller => {
+              return (
+                otherSeller.USSID === pincodeSeller.ussid &&
+                pincodeSeller.stockCount > 0 &&
+                pincodeSeller.isServicable === "Y"
+              );
+            })
+          );
+        });
+
+      if (
+        actualServiceableOtherSellers &&
+        actualServiceableOtherSellers.length > 0
+      ) {
+        serviceableOtherSellersUssid = actualServiceableOtherSellers;
       }
 
       let eligibleDeliveryModes = [];
@@ -268,7 +314,9 @@ const productDescription = (
         status: action.status,
         productDetails: currentPdpDetail,
         loading: false,
-        serviceablePincodeListResponse: pincodeListResponse
+        serviceablePincodeListResponse: pincodeListResponse,
+        pincodeError: action.productPinCode.pincodeError,
+        serviceableOtherSellersUssid: serviceableOtherSellersUssid
       });
 
     case pdpActions.CHECK_PRODUCT_PIN_CODE_FAILURE:
@@ -276,7 +324,8 @@ const productDescription = (
         status: action.status,
         error: action.error,
         loading: false,
-        serviceablePincodeListResponse: null
+        serviceablePincodeListResponse: null,
+        pincodeError: null
       });
 
     case pdpActions.ADD_PRODUCT_TO_CART_REQUEST:
@@ -399,12 +448,25 @@ const productDescription = (
         loading: true
       });
 
-    case pdpActions.PRODUCT_SPECIFICATION_SUCCESS:
+    case pdpActions.PRODUCT_SPECIFICATION_SUCCESS: {
+      let productData = cloneDeep(action.productDetails);
+      if (
+        productData &&
+        productData.categoryHierarchy &&
+        productData.categoryHierarchy[0] &&
+        productData.categoryHierarchy[0].category_name === "Eyewear" &&
+        productData.isSizeOrLength === "Power"
+      ) {
+        productData.variantOptions = getSortedPowerList(
+          productData.variantOptions
+        );
+      }
       return Object.assign({}, state, {
         status: action.status,
-        productDetails: action.productDetails,
+        productDetails: productData,
         loading: false
       });
+    }
 
     case pdpActions.PRODUCT_SPECIFICATION_FAILURE:
       return Object.assign({}, state, {
@@ -899,3 +961,22 @@ const productDescription = (
 };
 
 export default productDescription;
+
+function getSortedPowerList(powerList) {
+  let positivePowerList = [],
+    negativePowerList = [],
+    sortedPowerList = [];
+
+  powerList.map(power => {
+    if (power.sizelink && power.sizelink.size) {
+      if (power.sizelink.size > 0) {
+        positivePowerList.push(power);
+      } else {
+        negativePowerList.push(power);
+      }
+    }
+  });
+  negativePowerList = negativePowerList.reverse();
+  sortedPowerList = [...negativePowerList, ...positivePowerList];
+  return sortedPowerList;
+}

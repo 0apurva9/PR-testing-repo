@@ -122,210 +122,243 @@ export default class IconWithHeader extends React.Component {
     if (this.props.splitIntoTwoLine) {
       styleInSameLine = styles.spanInSameLine;
     }
+    let baseClass = styles.base;
+    if (this.props.inCheckOutPage) {
+      baseClass = `${styles.base} ${styles.baseCheckout}`;
+    } else if (this.props.inPdpPage) {
+      baseClass = `${styles.base} ${styles.basePdp}`;
+    }
     return (
       <div
-        className={styles.base}
+        className={baseClass}
         style={{ marginBottom: this.props.marginBottom }}
       >
-        <div className={styles.iconHolder}>
+        <div
+          className={[
+            styles.iconHolder,
+            this.props.inPdpPage
+              ? styles.paddingRight70
+              : styles.paddingRight50,
+            this.props.type === SHORT_COLLECT ? styles.alignSelf : null
+          ].join(" ")}
+        >
           <Icon
             image={this.props.image}
             size={this.props.iconSize ? this.props.iconSize : 30}
           />
         </div>
         <div
-          id={`${this.props.dateFormatted} ${this.props.dateFormattedText}`}
-          className={styles.textHolder}
-          style={{
-            fontFamily: this.props.fontFamily,
-            fontSize: this.props.fontSize
-          }}
+          className={
+            this.props.inCartPage ? styles.paddingZero : styles.paddingDefault
+          }
         >
-          {this.props.isTop && (
-            <div
-              className={
-                this.props.isStaticText ? styles.labelHolderBold : classForSplit
-              }
-            >
-              {" "}
-              {/*this.props.header*/}
-              <span
-                className={
-                  this.props.dateFormattedText === COLLECT_TEXT
-                    ? styles.fontBold
-                    : null
-                }
-              >
-                {this.props.dateFormattedText}
-              </span>{" "}
-              <span className={styles.dateFormatted}>
-                {this.props.dateFormatted}
-              </span>
-              <span>{this.props.header}</span>
-            </div>
-          )}
-          {this.props.placedTime &&
-            this.props.code !== SAME_DAY_DELIVERY &&
-            this.props.code !== SHORT_SAME_DAY_DELIVERY &&
-            this.props.code !== EXPRESS &&
-            this.props.code !== SHORT_EXPRESS && (
+          <div
+            id={`${this.props.dateFormatted} ${this.props.dateFormattedText}`}
+            className={styles.textHolder}
+            style={{
+              fontFamily: this.props.fontFamily,
+              fontSize: this.props.fontSize
+            }}
+          >
+            {this.props.isTop && (
               <div
                 className={
-                  this.props.isHomeDelivery ? styles.spanBlock : styles.span
+                  this.props.isStaticText
+                    ? styles.labelHolderBold
+                    : classForSplit
                 }
               >
-                {this.props.deliveryInformationByCart &&
-                  !this.props.inCartPage && (
+                {" "}
+                {/*this.props.header*/}
+                <span
+                  className={
+                    this.props.type === SHORT_COLLECT
+                      ? styles.fontRegular
+                      : null
+                  }
+                >
+                  {this.props.dateFormattedText}
+                </span>{" "}
+                <span className={styles.dateFormatted}>
+                  {this.props.dateFormatted}
+                </span>
+                {this.props.header && (
+                  <span className={styles.deliveyCharge}>
+                    {this.props.header}
+                  </span>
+                )}
+              </div>
+            )}
+            {this.props.placedTime &&
+              this.props.code !== SAME_DAY_DELIVERY &&
+              this.props.code !== SHORT_SAME_DAY_DELIVERY &&
+              this.props.code !== EXPRESS &&
+              this.props.code !== SHORT_EXPRESS && (
+                <div
+                  className={
+                    this.props.isHomeDelivery ? styles.spanBlock : styles.span
+                  }
+                >
+                  {this.props.deliveryInformationByCart &&
+                    !this.props.inCartPage && (
+                      <span className={styles.titleAboutTime}>
+                        Delivery By{" "}
+                      </span>
+                    )}
+                  {!this.props.deliveryInformationByCart &&
+                    this.props.placedTime &&
+                    this.props.placedTime.deliveryDate &&
+                    this.getDayNumberSuffix(this.props.placedTime.deliveryDate)}
+                  {this.props.deliveryInformationByCart &&
+                    placedTime &&
+                    placedTime.deliveryDate &&
+                    this.getDayNumberSuffix(placedTime.deliveryDate)}
+                </div>
+              )}
+            {(this.props.code === SAME_DAY_DELIVERY ||
+              this.props.code === SHORT_SAME_DAY_DELIVERY) &&
+              (this.props.inCartPage ? (
+                <div
+                  className={
+                    this.props.isHomeDelivery
+                      ? styles.spanBlock
+                      : styles.cartPageData
+                  }
+                >
+                  Today
+                  <OrderCountdown cutOffTime="14:00" />
+                </div>
+              ) : (
+                <div
+                  className={
+                    this.props.isHomeDelivery
+                      ? styles.spanBlock
+                      : styleInSameLine
+                  }
+                >
+                  {this.props.deliveryInformationByCart && (
                     <span className={styles.titleAboutTime}>Delivery By </span>
                   )}
-                {!this.props.deliveryInformationByCart &&
-                  this.props.placedTime &&
-                  this.props.placedTime.deliveryDate &&
-                  this.getDayNumberSuffix(this.props.placedTime.deliveryDate)}
-                {this.props.deliveryInformationByCart &&
-                  placedTime &&
-                  placedTime.deliveryDate &&
-                  this.getDayNumberSuffix(placedTime.deliveryDate)}
-              </div>
-            )}
-          {(this.props.code === SAME_DAY_DELIVERY ||
-            this.props.code === SHORT_SAME_DAY_DELIVERY) &&
-            (this.props.inCartPage ? (
-              <div
-                className={
-                  this.props.isHomeDelivery
-                    ? styles.spanBlock
-                    : styles.cartPageData
-                }
-              >
-                Today
-                <OrderCountdown cutOffTime="14:00" />
-              </div>
-            ) : (
-              <div
-                className={
-                  this.props.isHomeDelivery ? styles.spanBlock : styleInSameLine
-                }
-              >
-                {this.props.deliveryInformationByCart && (
-                  <span className={styles.titleAboutTime}>Delivery By </span>
-                )}
-                Today
-                <OrderCountdown cutOffTime="14:00" />
-              </div>
-            ))}
+                  Today
+                  <OrderCountdown cutOffTime="14:00" />
+                </div>
+              ))}
 
-          {(this.props.code === EXPRESS || this.props.code === SHORT_EXPRESS) &&
-            (this.props.inCartPage ? (
-              <div
-                className={
-                  this.props.isHomeDelivery
-                    ? styles.spanBlock
-                    : styles.cartPageData
-                }
-              >
-                Tomorrow
-                <OrderCountdown cutOffTime="14:00" />
-              </div>
-            ) : (
-              <div
-                className={
-                  this.props.isHomeDelivery ? styles.spanBlock : styleInSameLine
-                }
-              >
-                {this.props.deliveryInformationByCart && (
-                  <span className={styles.titleAboutTime}>Delivery By </span>
-                )}
-                Tomorrow
-                <OrderCountdown cutOffTime="14:00" />
-              </div>
-            ))}
-
-          {!this.props.isTop && (
-            <span className={this.props.inCartPage ? styles.classLight : ""}>
-              {this.props.deliveryModes === "Express delivery"
-                ? "Express Delivery"
-                : this.props.header}
-            </span>
-          )}
-          {this.props.placedTimeForCod && (
-            <div className={styles.spanBlock}>
-              {this.props.placedTimeForCod}
-            </div>
-          )}
-          {this.props.selectedDeliveryMode !== COLLECT &&
-            this.props.isShowCliqAndPiqUnderLineText &&
-            !this.props.isNotUnderLineButton && (
-              <span
-                className={
-                  this.props.isHomeDelivery ? styles.spanBlock : styles.span
-                }
-              >
-                <span
-                  className={styles.storeCount}
-                  onClick={() => this.props.onPiq()}
-                  id="checkForPickUpOpt"
+            {(this.props.code === EXPRESS ||
+              this.props.code === SHORT_EXPRESS) &&
+              (this.props.inCartPage ? (
+                <div
+                  className={
+                    this.props.isHomeDelivery
+                      ? styles.spanBlock
+                      : styles.cartPageData
+                  }
                 >
-                  {this.props.numberOfStore}
-                </span>
+                  Tomorrow
+                  <OrderCountdown cutOffTime="14:00" />
+                </div>
+              ) : (
+                <div
+                  className={
+                    this.props.isHomeDelivery
+                      ? styles.spanBlock
+                      : styleInSameLine
+                  }
+                >
+                  {this.props.deliveryInformationByCart && (
+                    <span className={styles.titleAboutTime}>Delivery By </span>
+                  )}
+                  Tomorrow
+                  <OrderCountdown cutOffTime="14:00" />
+                </div>
+              ))}
+
+            {!this.props.isTop && (
+              <span className={this.props.inCartPage ? styles.classLight : ""}>
+                {this.props.deliveryModes === "Express delivery"
+                  ? "Express Delivery"
+                  : this.props.header}
               </span>
             )}
-          {this.props.isShowCliqAndPiqUnderLineText &&
-            !this.props.isNotUnderLineButton &&
-            this.props.selectedDeliveryMode === COLLECT && (
-              <React.Fragment>
-                <div className={styles.storeDetails}>
-                  <span>
-                    {this.props &&
-                      this.props.selectedStoreDetails &&
-                      this.props.selectedStoreDetails.returnAddress1}
-                  </span>{" "}
-                  <span>
-                    {this.props &&
-                      this.props.selectedStoreDetails &&
-                      this.props.selectedStoreDetails.returnAddress2}
+            {this.props.placedTimeForCod && (
+              <div className={styles.spanBlock}>
+                {this.props.placedTimeForCod}
+              </div>
+            )}
+            {this.props.selectedDeliveryMode !== COLLECT &&
+              this.props.isShowCliqAndPiqUnderLineText &&
+              !this.props.isNotUnderLineButton && (
+                <span
+                  className={
+                    this.props.isHomeDelivery ? styles.spanBlock : styles.span
+                  }
+                >
+                  <span
+                    className={styles.storeCount}
+                    onClick={() => this.props.onPiq()}
+                    id="checkForPickUpOpt"
+                  >
+                    {this.props.numberOfStore}
                   </span>
-                  {getClickAndPiqSelectedDate &&
-                  getClickAndPiqSelectedDate.pickupDate
-                    ? dayFormat === productDayFormatOfClqAndPiq &&
-                      !this.props.notShowDay
-                      ? `, Today , ${this.getDayNumberSuffix(
-                          getClickAndPiqSelectedDate.pickupDate
-                        )}`
-                      : nextDayFormat === productDayFormatOfClqAndPiq &&
+                </span>
+              )}
+            {this.props.isShowCliqAndPiqUnderLineText &&
+              !this.props.isNotUnderLineButton &&
+              this.props.selectedDeliveryMode === COLLECT && (
+                <React.Fragment>
+                  <div className={styles.storeDetails}>
+                    <span>
+                      {this.props &&
+                        this.props.selectedStoreDetails &&
+                        this.props.selectedStoreDetails.returnAddress1}
+                    </span>{" "}
+                    <span>
+                      {this.props &&
+                        this.props.selectedStoreDetails &&
+                        this.props.selectedStoreDetails.returnAddress2}
+                    </span>
+                    {getClickAndPiqSelectedDate &&
+                    getClickAndPiqSelectedDate.pickupDate
+                      ? dayFormat === productDayFormatOfClqAndPiq &&
                         !this.props.notShowDay
+                        ? `, Today , ${this.getDayNumberSuffix(
+                            getClickAndPiqSelectedDate.pickupDate
+                          )}`
+                        : nextDayFormat === productDayFormatOfClqAndPiq &&
+                          !this.props.notShowDay
                         ? `, Tomorrow , ${this.getDayNumberSuffix(
                             getClickAndPiqSelectedDate.pickupDate
                           )}`
                         : `, ${this.getDayNumberSuffix(
                             getClickAndPiqSelectedDate.pickupDate
                           )}`
-                    : ""}
-                </div>
-                <div className={styles.changeButtonHolder}>
-                  <UnderLinedButton
-                    size="13px"
-                    fontFamily="semibold"
-                    color="#ff1744"
-                    label={"Change"}
-                    onClick={() => this.props.onPiq()}
-                  />
-                </div>
-              </React.Fragment>
-            )}
-          {this.props.isShowCliqAndPiqUnderLineText &&
-            this.props.isNotUnderLineButton && (
-              <span
-                id="checkForPickUpOpt"
-                className={styles.storeClass}
-                onClick={() => this.props.onPiq()}
-              >
-                {" "}
-                {this.props.numberOfStore}
-              </span>
-            )}
+                      : ""}
+                  </div>
+                  <div className={styles.changeButtonHolder}>
+                    <UnderLinedButton
+                      size="13px"
+                      fontFamily="semibold"
+                      color="#ff1744"
+                      label={"Change"}
+                      onClick={() => this.props.onPiq()}
+                    />
+                  </div>
+                </React.Fragment>
+              )}
+            {this.props.isShowCliqAndPiqUnderLineText &&
+              this.props.isNotUnderLineButton && (
+                <span
+                  id="checkForPickUpOpt"
+                  className={styles.storeClass}
+                  onClick={() => this.props.onPiq()}
+                >
+                  {" "}
+                  {this.props.numberOfStore}
+                </span>
+              )}
+          </div>
+          {this.props.children}
         </div>
-        {this.props.children}
       </div>
     );
   }

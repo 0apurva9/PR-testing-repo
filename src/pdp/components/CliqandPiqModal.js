@@ -29,27 +29,33 @@ export default class ReturnToStore extends React.Component {
     };
   }
   selectStoreForDesktop = val => {
+    if (val.length === 0 && !this.state.showPickupPerson) {
+      this.setState({ storeId: null });
+    }
     if (val.length > 0 && !this.state.showPickupPerson) {
       let selectedStore =
         this.state.availableStores &&
         this.state.availableStores.find(store => {
           return store.slaveId === val[0];
         });
+
       this.setState({ selectedStore: selectedStore });
       const lat = selectedStore && selectedStore.geoPoint.latitude;
       const lng = selectedStore && selectedStore.geoPoint.longitude;
       const storeId = selectedStore && selectedStore.slaveId;
-      if (
-        selectedStore.address &&
-        (this.props.from === "Pdp" || this.props.from === "Cart")
-      ) {
-        localStorage.setItem(
-          SELECTED_STORE,
-          `${selectedStore.displayName}, ${selectedStore.address.line1} ${
-            selectedStore.address.line2
-          }, ${selectedStore.address.city} ${selectedStore.address.postalCode}`
-        );
-      }
+      // if (
+      //   selectedStore.address &&
+      //   (this.props.from === "Pdp" || this.props.from === "Cart")
+      // ) {
+      // localStorage.setItem(
+      //   SELECTED_STORE,
+      //   `{"address": "${selectedStore.displayName}, ${
+      //     selectedStore.address.line1
+      //   } ${selectedStore.address.line2}, ${selectedStore.address.city} ${
+      //     selectedStore.address.postalCode
+      //   }", "storeId": "${storeId}"}`
+      // );
+      // }
       this.setState({
         lat,
         lng,
@@ -59,12 +65,91 @@ export default class ReturnToStore extends React.Component {
   };
 
   selectStoreButtonForDesktop = () => {
-    if (this.props.from === "Checkout" || this.props.from === "Pdp") {
+    if (this.props.from === "Checkout") {
       let element = this.refs.scrollToView;
       element.scrollTop = 0;
       if (this.props.addStoreCNC && this.state.storeId) {
         this.setState({ showPickupPerson: true });
         this.props.addStoreCNC(this.state.storeId);
+      }
+    } else {
+      if (this.state.selectedStore && this.state.storeId) {
+        let selectedStore = this.state.selectedStore;
+        let productListingId =
+          this.props.productDetails &&
+          this.props.productDetails.productListingId;
+        let ussId = this.props.winningUssID;
+        let selectedStorefromStorage = JSON.parse(
+          localStorage.getItem(SELECTED_STORE)
+        );
+        let selectedStoreLength =
+          selectedStorefromStorage && selectedStorefromStorage.length;
+        let storeFind =
+          selectedStorefromStorage &&
+          selectedStorefromStorage.find(store => {
+            return store.ussId === ussId;
+          });
+        if (selectedStoreLength > 0 && !storeFind) {
+          selectedStorefromStorage.push({
+            address: `${selectedStore.displayName}, ${
+              selectedStore.address.line1
+            } ${selectedStore.address.line2}, ${selectedStore.address.city} ${
+              selectedStore.address.postalCode
+            }`,
+            storeId: `${selectedStore.slaveId}`,
+            ussId: `${ussId}`,
+            productcode: `${productListingId}`,
+            sellerId: `${selectedStore.sellerId}`,
+            pincode: this.props.pincode
+          });
+          localStorage.setItem(
+            SELECTED_STORE,
+            JSON.stringify(selectedStorefromStorage)
+          );
+        } else if (selectedStoreLength > 0 && storeFind) {
+          let storeIndex = selectedStorefromStorage.findIndex(
+            x => x.ussId === ussId
+          );
+
+          selectedStorefromStorage.splice(storeIndex, 1);
+
+          selectedStorefromStorage.push({
+            address: `${selectedStore.displayName}, ${
+              selectedStore.address.line1
+            } ${selectedStore.address.line2}, ${selectedStore.address.city} ${
+              selectedStore.address.postalCode
+            }`,
+            storeId: `${selectedStore.slaveId}`,
+            ussId: `${ussId}`,
+            productcode: `${productListingId}`,
+            sellerId: `${selectedStore.sellerId}`,
+            pincode: this.props.pincode
+          });
+
+          localStorage.setItem(
+            SELECTED_STORE,
+            JSON.stringify(selectedStorefromStorage)
+          );
+        } else {
+          localStorage.setItem(
+            SELECTED_STORE,
+            JSON.stringify([
+              {
+                address: `${selectedStore.displayName}, ${
+                  selectedStore.address.line1
+                } ${selectedStore.address.line2}, ${
+                  selectedStore.address.city
+                } ${selectedStore.address.postalCode}`,
+                storeId: `${selectedStore.slaveId}`,
+                ussId: `${ussId}`,
+                productcode: `${productListingId}`,
+                sellerId: `${selectedStore.sellerId}`,
+                pincode: this.props.pincode
+              }
+            ])
+          );
+        }
+        this.props.CloseCliqAndPiqModal();
       }
     }
   };
@@ -86,15 +171,56 @@ export default class ReturnToStore extends React.Component {
       this.props.CloseCliqAndPiqModal();
     }
   };
-  componentDidUpdate(nextProps) {
-    if (this.props.stores !== nextProps.stores) {
-      this.getAvailableStores();
+  async componentDidUpdate(nextProps) {
+    if (
+      this.props.stores !== nextProps.stores &&
+      this.props.from === "Checkout"
+    ) {
+      await this.getAvailableStores();
+      // If user selected store on PDP page or cart page then automatically
+      // selects store on checkout page
+      let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
+      let ussId = this.props.winningUssID
+        ? this.props.winningUssID
+        : this.props.productDetails && this.props.productDetails.USSID
+          ? this.props.productDetails.USSID
+          : null;
+      let storeDetails =
+        selectedStore &&
+        selectedStore.find(store => {
+          return store.ussId === ussId;
+        });
+      if (storeDetails && storeDetails.storeId) {
+        await this.selectStoreForDesktop([storeDetails.storeId]);
+        this.selectStoreButtonForDesktop();
+      }
     }
   }
-  componentDidMount() {
-    this.getAvailableStores();
+  async componentDidMount() {
+    await this.getAvailableStores();
+
     if (this.props.getUserDetails) {
       this.props.getUserDetails();
+    }
+    let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
+    if (
+      this.props.from !== "Checkout" &&
+      selectedStore &&
+      selectedStore.length > 0
+    ) {
+      let ussId = this.props.winningUssID
+        ? this.props.winningUssID
+        : this.props.productDetails && this.props.productDetails.USSID
+          ? this.props.productDetails.USSID
+          : null;
+      let storeDetails =
+        selectedStore &&
+        selectedStore.find(store => {
+          return store.ussId === ussId;
+        });
+      if (storeDetails && storeDetails.storeId) {
+        await this.selectStoreForDesktop([storeDetails.storeId]);
+      }
     }
   }
 
@@ -156,7 +282,12 @@ export default class ReturnToStore extends React.Component {
       });
     } else {
       this.setState({
-        availableStores: availableStores
+        availableStores: availableStores,
+        lat,
+        lng,
+        storeId:
+          availableStores && availableStores[0] && availableStores[0].slaveId,
+        selectedStore: availableStores[0]
       });
     }
   }
@@ -174,12 +305,81 @@ export default class ReturnToStore extends React.Component {
         this.props.from !== "Pdp"
       ) {
         let selectedStore = this.state.selectedStore;
-        localStorage.setItem(
-          SELECTED_STORE,
-          `${selectedStore.displayName}, ${selectedStore.address.line1} ${
-            selectedStore.address.line2
-          }, ${selectedStore.address.city} ${selectedStore.address.postalCode}`
+        let productListingId =
+          this.props.productDetails && this.props.productDetails.productcode;
+        let ussId = this.props.productDetails.USSID;
+        let selectedStorefromStorage = JSON.parse(
+          localStorage.getItem(SELECTED_STORE)
         );
+        let selectedStoreLength =
+          selectedStorefromStorage && selectedStorefromStorage.length;
+        let storeFind =
+          selectedStorefromStorage &&
+          selectedStorefromStorage.find(store => {
+            return store.ussId === ussId;
+          });
+
+        if (selectedStoreLength > 0 && !storeFind) {
+          selectedStorefromStorage.push({
+            address: `${selectedStore.displayName}, ${
+              selectedStore.address.line1
+            } ${selectedStore.address.line2}, ${selectedStore.address.city} ${
+              selectedStore.address.postalCode
+            }`,
+            storeId: `${selectedStore.slaveId}`,
+            ussId: `${ussId}`,
+            productcode: `${productListingId}`,
+            sellerId: `${selectedStore.sellerId}`,
+            pincode: this.props.pincode
+          });
+
+          localStorage.setItem(
+            SELECTED_STORE,
+            JSON.stringify(selectedStorefromStorage)
+          );
+        } else if (selectedStoreLength > 0 && storeFind) {
+          let storeIndex = selectedStorefromStorage.findIndex(
+            x => x.ussId === ussId
+          );
+
+          selectedStorefromStorage.splice(storeIndex, 1);
+
+          selectedStorefromStorage.push({
+            address: `${selectedStore.displayName}, ${
+              selectedStore.address.line1
+            } ${selectedStore.address.line2}, ${selectedStore.address.city} ${
+              selectedStore.address.postalCode
+            }`,
+            storeId: `${selectedStore.slaveId}`,
+            ussId: `${ussId}`,
+            productcode: `${productListingId}`,
+            sellerId: `${selectedStore.sellerId}`,
+            pincode: this.props.pincode
+          });
+
+          localStorage.setItem(
+            SELECTED_STORE,
+            JSON.stringify(selectedStorefromStorage)
+          );
+        } else {
+          localStorage.setItem(
+            SELECTED_STORE,
+            JSON.stringify([
+              {
+                address: `${selectedStore.displayName}, ${
+                  selectedStore.address.line1
+                } ${selectedStore.address.line2}, ${
+                  selectedStore.address.city
+                } ${selectedStore.address.postalCode}`,
+                storeId: `${selectedStore.slaveId}`,
+                ussId: `${ussId}`,
+                productcode: `${productListingId}`,
+                sellerId: `${selectedStore.sellerId}`,
+                pincode: this.props.pincode
+              }
+            ])
+          );
+        }
       }
     }
   }
@@ -199,6 +399,7 @@ export default class ReturnToStore extends React.Component {
 
   render() {
     let getDeliveryModesByWinningUssid = "";
+    let ctaLable = "Continue";
     if (!this.props.isFromCheckOut) {
       if (
         this.props &&
@@ -212,6 +413,7 @@ export default class ReturnToStore extends React.Component {
           }
         );
       }
+      ctaLable = "Select";
     }
     if (!this.state.availableStores) {
       return (
@@ -292,36 +494,45 @@ export default class ReturnToStore extends React.Component {
                             canSelectStore={this.props.canSelectStore}
                             slaveId={val.slaveId}
                             deliveryInformationWithDate={
-                              this.props.pincodeResponse
-                                ? this.props.pincodeResponse
-                                : this.props.pincodeResponseList &&
-                                  getDeliveryModesByWinningUssid &&
-                                  getDeliveryModesByWinningUssid.validDeliveryModes
+                              this.props.fromSellersPage
+                                ? this.props.productDetails &&
+                                  this.props.productDetails.slaveData
+                                : this.props.pincodeResponse
+                                  ? this.props.pincodeResponse
+                                  : this.props.pincodeResponseList &&
+                                    getDeliveryModesByWinningUssid &&
+                                    getDeliveryModesByWinningUssid.validDeliveryModes
                             }
                           />
                         );
                       })}
                     </GridSelect>
-                    {this.props.from === "Checkout" && (
-                      <div
-                        className={
-                          !this.state.showPickupPerson
-                            ? styles.buttonContainer
-                            : styles.visiblityHidden
-                        }
-                        onClick={() => this.selectStoreButtonForDesktop()}
-                      >
-                        <div className={styles.button}>
-                          <Button
-                            type="primary"
-                            label="Continue"
-                            color="#fff"
-                            width={121}
-                            disabled={!this.state.storeId}
-                          />
-                        </div>
+                    <div
+                      className={
+                        !this.state.showPickupPerson
+                          ? styles.buttonContainer
+                          : styles.visiblityHidden
+                      }
+                      style={
+                        Object.keys(this.state.availableStores).length === 1
+                          ? { position: "absolute" }
+                          : null
+                      }
+                      onClick={() => this.selectStoreButtonForDesktop()}
+                    >
+                      <div className={styles.button}>
+                        <Button
+                          type="primary"
+                          label={ctaLable}
+                          color="#fff"
+                          width={121}
+                          backgroundColor={
+                            !this.state.storeId ? "#989898" : "#FF1744"
+                          }
+                          disabled={!this.state.storeId}
+                        />
                       </div>
-                    )}
+                    </div>
                   </React.Fragment>
                 )}
               {this.state.showPickupPerson &&

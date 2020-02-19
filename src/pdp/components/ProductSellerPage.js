@@ -163,7 +163,8 @@ class ProductSellerPage extends Component {
 
       if (
         !this.props.serviceablePincodeList &&
-        (productDetailsResponse && productDetailsResponse.status === SUCCESS)
+        productDetailsResponse &&
+        productDetailsResponse.status === SUCCESS
       ) {
         const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
         if (pinCode) {
@@ -205,6 +206,12 @@ class ProductSellerPage extends Component {
       this.setState({ selectedSellerUssID });
     }
   };
+  showQuiqPage(ussId) {
+    if (this.props.showPdpPiqPage) {
+      this.setState({ winningUssID: ussId });
+      this.props.showPdpPiqPage();
+    }
+  }
   render() {
     if (this.props.loading) {
       this.showLoader();
@@ -239,15 +246,15 @@ class ProductSellerPage extends Component {
         });
       cliqAndPiqDetails.productDetails.slaveData = availableDeliveryMode;
       cliqAndPiqDetails.from = "Pdp";
+      cliqAndPiqDetails.fromSellersPage = true;
       cliqAndPiqDetails.preventSelection = true;
       cliqAndPiqDetails.pincodeResponseList =
         this.props &&
         this.props.productDetails &&
         this.props.productDetails.pincodeResponseList;
-      cliqAndPiqDetails.winningUssID =
-        this.props &&
-        this.props.productDetails &&
-        this.props.productDetails.winningUssID;
+      cliqAndPiqDetails.winningUssID = this.state.winningUssID
+        ? this.state.winningUssID
+        : this.props.productDetails.winningUssID;
       cliqAndPiqDetails.pincode = localStorage.getItem(
         DEFAULT_PIN_CODE_LOCAL_STORAGE
       );
@@ -273,6 +280,23 @@ class ProductSellerPage extends Component {
       sortedAvailableSellers = availableSellers.reverse();
       sortedUnAvailableSellers = unAvailableSellers.reverse();
     }
+
+    let pincodeResponseList = this.props.serviceablePincodeList || [];
+
+    let actualSortedAvailableSeller = [];
+    actualSortedAvailableSeller = sortedAvailableSellers.filter(otherSeller => {
+      return (
+        pincodeResponseList &&
+        pincodeResponseList.find(pincodeSeller => {
+          return (
+            otherSeller.USSID === pincodeSeller.ussid &&
+            pincodeSeller.stockCount > 0 &&
+            pincodeSeller.isServicable === "Y"
+          );
+        })
+      );
+    });
+
     const mobileGalleryImages =
       this.props.productDetails &&
       this.props.productDetails.galleryImagesList
@@ -305,11 +329,14 @@ class ProductSellerPage extends Component {
                 this.props.productDetails.winningSellerPrice
                   .formattedValueNoDecimal
               }
+              //priceDouble={this.props.productDetails.winningSellerPrice.doubleValue}
               discountPrice={
                 this.props.productDetails.mrpPrice.formattedValueNoDecimal
               }
+              //discountPriceDouble={this.props.productDetails.mrpPrice.doubleValue}
               averageRating={this.props.productDetails.averageRating}
               totalNoOfReviews={this.props.productDetails.productReviewsCount}
+              //totalNoOfReviews={this.props.productDetails.numberOfReviews}
               onClickImage={() =>
                 this.onClickImage(
                   this.props.productDetails &&
@@ -321,9 +348,8 @@ class ProductSellerPage extends Component {
               <div className={styles.OtherSeller}>Other sellers</div>
               <div className={styles.priceWithSeller}>
                 <div className={styles.seller}>
-                  {availableSellers.length} Other Sellers available starting at
-                  ₹
-                  {price}
+                  {actualSortedAvailableSeller.length} Other Sellers available
+                  starting at ₹{price}
                 </div>
                 <div className={styles.price}>
                   <SelectBoxMobile2
@@ -347,14 +373,14 @@ class ProductSellerPage extends Component {
                 </div>
               </div>
               <div>
-                {sortedAvailableSellers && (
+                {actualSortedAvailableSeller && (
                   <SellerWithMultiSelect
                     limit={1}
                     onSelect={val => {
                       this.selectSeller(val);
                     }}
                   >
-                    {sortedAvailableSellers.map((value, index) => {
+                    {actualSortedAvailableSeller.map((value, index) => {
                       return (
                         <SellerCard
                           heading={value.sellerName}
@@ -368,6 +394,7 @@ class ProductSellerPage extends Component {
                           hasCod={value.isCOD === "Y"}
                           hasEmi={value.isEMIEligible === "Y"}
                           eligibleDeliveryModes={value.eligibleDeliveryModes}
+                          deliveryModesATP={value.eligibleDeliveryModes}
                           cashText={CASH_TEXT}
                           policyText={DELIVERY_RATES}
                           key={index}
@@ -388,6 +415,8 @@ class ProductSellerPage extends Component {
                   </SellerWithMultiSelect>
                 )}
               </div>
+              {/*As of now unavailable sellers won't be shown in other seller page to reflect the same
+              behaviour as in ios and android apps.
               {sortedUnAvailableSellers && (
                 <div>
                   {sortedUnAvailableSellers.map((value, index) => {
@@ -405,6 +434,7 @@ class ProductSellerPage extends Component {
                         hasCod={value.isCOD === "Y"}
                         hasEmi={value.isEMIEligible === "Y"}
                         eligibleDeliveryModes={value.eligibleDeliveryModes}
+                        deliveryModesATP={value.deliveryModesATP}
                         cashText={CASH_TEXT}
                         policyText={DELIVERY_RATES}
                         key={index}
@@ -423,7 +453,7 @@ class ProductSellerPage extends Component {
                     );
                   })}
                 </div>
-              )}
+              )} */}
             </MobileOnly>
             <DesktopOnly>
               <div className={styles.OtherSellerHolder}>
@@ -432,8 +462,8 @@ class ProductSellerPage extends Component {
                     <div className={styles.headerWithSellerAvailable}>
                       <div className={styles.header}>Other sellers</div>
                       <div className={styles.availableSeller}>
-                        {availableSellers.length} Other Sellers available
-                        starting at ₹ {price}
+                        {actualSortedAvailableSeller.length} Other Sellers
+                        available starting at ₹ {price}
                       </div>
                     </div>
                     <div className={styles.dropdownWithButton}>
@@ -472,8 +502,8 @@ class ProductSellerPage extends Component {
                       Buying option
                     </div>
                   </div>
-                  {sortedAvailableSellers &&
-                    sortedAvailableSellers.map((value, index) => {
+                  {actualSortedAvailableSeller &&
+                    actualSortedAvailableSeller.map((value, index) => {
                       return (
                         <SellerCard
                           heading={value.sellerName}
@@ -487,6 +517,7 @@ class ProductSellerPage extends Component {
                           hasCod={value.isCOD === "Y"}
                           hasEmi={value.isEMIEligible === "Y"}
                           eligibleDeliveryModes={value.eligibleDeliveryModes}
+                          deliveryModesATP={value.eligibleDeliveryModes}
                           cashText={CASH_TEXT}
                           policyText={DELIVERY_RATES}
                           key={index}
@@ -509,13 +540,15 @@ class ProductSellerPage extends Component {
                           updateOtherSellerUssID={ussid =>
                             this.updateOtherSellerUssID(ussid)
                           }
-                          showPdpPiqPage={this.props.showPdpPiqPage}
+                          showPdpPiqPage={() => this.showQuiqPage(value.USSID)}
                           getAllStoresForCliqAndPiq={
                             this.props.getAllStoresForCliqAndPiq
                           }
                         />
                       );
                     })}
+                  {/*As of now unavailable sellers won't be shown in other seller page to reflect the same
+                  behaviour as in ios and android apps.
                   {sortedUnAvailableSellers &&
                     sortedUnAvailableSellers.map((value, index) => {
                       return (
@@ -532,6 +565,7 @@ class ProductSellerPage extends Component {
                           hasCod={value.isCOD === "Y"}
                           hasEmi={value.isEMIEligible === "Y"}
                           eligibleDeliveryModes={value.eligibleDeliveryModes}
+                          deliveryModesATP={value.deliveryModesATP}
                           cashText={CASH_TEXT}
                           policyText={DELIVERY_RATES}
                           key={index}
@@ -548,7 +582,7 @@ class ProductSellerPage extends Component {
                           }
                         />
                       );
-                    })}
+                    })} */}
                 </div>
               </div>
             </DesktopOnly>

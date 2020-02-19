@@ -6,6 +6,7 @@ import OrderCard from "./OrderCard.js";
 import OrderViewPaymentDetails from "./OrderViewPaymentDetails";
 import OrderPaymentMethod from "./OrderPaymentMethod";
 import OrderStatusVertical from "./OrderStatusVerticalV2";
+import InstallationExperience from "./InstallationExperience";
 import PropTypes from "prop-types";
 import format from "date-fns/format";
 import each from "lodash.foreach";
@@ -48,12 +49,14 @@ import {
 } from "../../lib/constants";
 import {
   setDataLayer,
+  ADOBE_MY_ACCOUNT_WRITE_REVIEW,
   setDataLayerForMyAccountDirectCalls,
   ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL,
   ADOBE_RETURN_LINK_CLICKED,
   ADOBE_REQUEST_INVOICE_LINK_CLICKED,
   ADOBE_HELP_SUPPORT_LINK_CLICKED,
-  ADOBE_RETURN_JOURNEY_INITIATED
+  ADOBE_RETURN_JOURNEY_INITIATED,
+  ADOBE_MY_ACCOUNT_RETURN_CANCEL
 } from "../../lib/adobeUtils";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import * as UserAgent from "../../lib/UserAgent.js";
@@ -141,6 +144,7 @@ export default class OrderDetails extends React.Component {
   }
 
   writeReview(productCode) {
+    setDataLayer(ADOBE_MY_ACCOUNT_WRITE_REVIEW);
     this.props.history.push(`/p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
   }
   getNonWorkingDays(mplWorkingDays) {
@@ -181,8 +185,37 @@ export default class OrderDetails extends React.Component {
       return dayTextArrToString;
     }
   }
+  getWorkingDays = mplWorkingDays => {
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    let noMatch = false;
+    let j = 0;
+    let workingDays = [];
+    let getWorkingDays = mplWorkingDays.split(",");
+    for (let i = 0; i < days.length; i++) {
+      if (i == getWorkingDays[j]) {
+        if (!noMatch || i === days.length - 1) {
+          if (!workingDays.includes(days[i])) {
+            workingDays.push(days[i]);
+          }
+        } else {
+          if (noMatch && workingDays[workingDays.length - 1] !== "-") {
+            workingDays.push("-");
+          }
+        }
+        j++;
+        noMatch = true;
+      } else {
+        if (noMatch && !workingDays.includes(days[i - 1])) {
+          //workingDays.splice(-1, 1);
+          workingDays.push(days[i - 1]);
+        }
+        noMatch = false;
+      }
+    }
+    return workingDays.toString().replace(/,-,/g, "-");
+  };
   getStoreDateNTime(mplWorkingDays, mplOpeningTime, mplClosingTime) {
-    let getDaysText = this.getNonWorkingDays(mplWorkingDays);
+    let getDaysText = this.getWorkingDays(mplWorkingDays);
     let mplOpeningTimeText = "";
     let mplClosingTimeText = "";
     // let displayDateNTime = "";
@@ -203,7 +236,7 @@ export default class OrderDetails extends React.Component {
       mplClosingTimeText = mplClosingTimeConverted.toFixed(2) + "PM";
     }
     let displayDateNTime =
-      mplOpeningTimeText + " - " + mplClosingTimeText + getDaysText;
+      getDaysText + ", " + mplOpeningTimeText + " - " + mplClosingTimeText;
     return { __html: displayDateNTime };
   }
   redirectToHelpPage() {
@@ -340,11 +373,22 @@ export default class OrderDetails extends React.Component {
       .format(dateFormat);
     return pickupDate;
   }
-  getDayNumberSuffix(d) {
-    let dateWithMonth = new Date(d);
+  getDayNumberSuffix(deliveryDate) {
+    if (!deliveryDate) {
+      return false;
+    }
+    deliveryDate = deliveryDate.replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3");
+    let dateWithMonth = new Date(deliveryDate);
     let date = dateWithMonth.getDate();
     let month = dateWithMonth.getMonth();
     let year = dateWithMonth.getFullYear();
+    let hours = dateWithMonth.getHours();
+    let minutes = dateWithMonth.getMinutes();
+    let salutationOfTime = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    let strTime = `After ${hours}:${minutes} ${salutationOfTime}, `;
     let monthNames = [
       "Jan",
       "Feb",
@@ -359,19 +403,20 @@ export default class OrderDetails extends React.Component {
       "Nov",
       "Dec"
     ];
+
     switch (date) {
       case 1:
       case 21:
       case 31:
-        return "" + date + "st " + monthNames[month] + " " + year;
+        return strTime + date + "st " + monthNames[month] + " " + year;
       case 2:
       case 22:
-        return "" + date + "nd " + monthNames[month] + " " + year;
+        return strTime + date + "nd " + monthNames[month] + " " + year;
       case 3:
       case 23:
-        return "" + date + "rd " + monthNames[month] + " " + year;
+        return strTime + date + "rd " + monthNames[month] + " " + year;
       default:
-        return "" + date + "th " + monthNames[month] + " " + year;
+        return strTime + date + "th " + monthNames[month] + " " + year;
     }
   }
   onClickCncToHd(orderId, transactionId) {
@@ -391,6 +436,7 @@ export default class OrderDetails extends React.Component {
     });
   }
   cancelReturnRequest(transactionId, orderCode) {
+    setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_RETURN_CANCEL);
     this.props.history.push({
       pathname: `${CANCEL_RETURN_REQUEST}/${orderCode}/${transactionId}`
     });
@@ -551,6 +597,7 @@ export default class OrderDetails extends React.Component {
                         isOrderReturnable = true;
                       }
                       if (
+                        status.responseCode &&
                         !status.responseCode.includes("REFUND") &&
                         !isNotRefund
                       ) {
@@ -559,6 +606,74 @@ export default class OrderDetails extends React.Component {
                     }
                   );
                 });
+                const requestCancelled =
+                  products.installationDisplayMsg &&
+                  products.installationDisplayMsg.find(val => {
+                    return val.key === "REQUEST_CANCELLED";
+                  });
+                const requestCompleted =
+                  products.installationDisplayMsg &&
+                  products.installationDisplayMsg.find(val => {
+                    return val.key === "REQUEST_COMPLETED";
+                  });
+                const requestClosed =
+                  products.installationDisplayMsg &&
+                  products.installationDisplayMsg.find(val => {
+                    return val.key === "REQUEST_CLOSED";
+                  });
+                const requestReschedule =
+                  products.installationDisplayMsg &&
+                  products.installationDisplayMsg.find(val => {
+                    return val.key === "REQUEST_RESCHEDULE";
+                  });
+                let hideEIETrackDiagram = false;
+                let hideEstimatedInstallationDate = false;
+                //request cancelled
+                if (
+                  requestCancelled &&
+                  requestCancelled.value.customerFacingName ===
+                    "Request Cancelled" &&
+                  requestCancelled.value.status === "Completed"
+                ) {
+                  hideEIETrackDiagram = true;
+                  hideEstimatedInstallationDate = true;
+                }
+                //request completed
+                if (
+                  requestCompleted &&
+                  requestCompleted.value.customerFacingName ===
+                    "Request Completed" &&
+                  requestCompleted.value.status === "Completed"
+                ) {
+                  hideEIETrackDiagram = true;
+                  hideEstimatedInstallationDate = true;
+                }
+                //installation rescheduled
+                if (
+                  requestCompleted &&
+                  requestCompleted.value.customerFacingName ===
+                    "Installation Rescheduled" &&
+                  requestCompleted.value.status === "Completed"
+                ) {
+                  hideEIETrackDiagram = true;
+                }
+                //request closed
+                if (
+                  requestClosed &&
+                  requestClosed.value.customerFacingName === "Request Closed" &&
+                  requestClosed.value.status === "Completed"
+                ) {
+                  hideEIETrackDiagram = true;
+                }
+                //installation rescheduled
+                if (
+                  requestReschedule &&
+                  requestReschedule.value.customerFacingName ===
+                    "Installation Rescheduled" &&
+                  requestReschedule.value.status === "Completed"
+                ) {
+                  hideEIETrackDiagram = true;
+                }
                 return (
                   <React.Fragment key={i}>
                     <div className={styles.order} key={i}>
@@ -603,7 +718,7 @@ export default class OrderDetails extends React.Component {
                         statusDisplayMsg={products.statusDisplayMsg}
                         estimatedDeliveryDate={products.estimateddeliverydate}
                         estimatedDeliveryDateWithTime={products.EDD}
-                        orderBreachMessage={orderDetails.EDDBreachMessage}
+                        orderBreachMessage={products.eddBreechMessage}
                         statusDisplay={products.statusDisplay}
                         imageUrl={products.imageURL}
                         productBrand={products.productBrand}
@@ -647,6 +762,19 @@ export default class OrderDetails extends React.Component {
                         isOrderReturnable={products.isReturned}
                         returnMode={products.returnMode}
                         returnPolicy={products.returnPolicy}
+                        installationCompletedDate={
+                          products.installationCompletedDate
+                        }
+                        installationRequestCancelled={requestCancelled}
+                        estimatedCompletionDate={
+                          products.estimatedCompletionDate
+                        }
+                        hideEstimatedInstallationDate={
+                          hideEstimatedInstallationDate
+                        }
+                        installationRequestReschedule={requestReschedule}
+                        installationRequestClosed={requestClosed}
+                        installationRequestCompleted={requestCompleted}
                       />
 
                       {products.awbPopupLink === AWB_POPUP_TRUE && (
@@ -750,6 +878,7 @@ export default class OrderDetails extends React.Component {
                               consignmentStatus={products.consignmentStatus}
                               sshipAwbTrackingUrl={products.sshipAwbTrackingUrl}
                               displayToast={this.props.displayToast}
+                              fulfillment={products.fulfillment}
                             />
 
                             {/* Block of code ends here */}
@@ -818,9 +947,7 @@ export default class OrderDetails extends React.Component {
                             </div>
                             {/* </div> */}
                             <div className={styles.commonTitle}>
-                              <span className={styles.width20}>
-                                Store Timings
-                              </span>
+                              <span className={styles.width20}>Open from</span>
                               <span className={styles.colon}>:</span>
                               <span className={styles.width75}>
                                 <div
@@ -844,9 +971,10 @@ export default class OrderDetails extends React.Component {
                               <span className={styles.colon}>:</span>
                               <span className={styles.width75}>
                                 <span>
-                                  {this.getPickUpDate(
-                                    orderDetails.orderDate,
-                                    products.returnPolicy
+                                  {this.getDayNumberSuffix(
+                                    products.estimateddeliverydate
+                                      ? products.estimateddeliverydate
+                                      : products.deliveryDate
                                   )}
                                 </span>
                               </span>
@@ -867,7 +995,7 @@ export default class OrderDetails extends React.Component {
                             >
                               <div className={styles.commonTitle}>
                                 <span className={styles.width20}>
-                                  Contact Details
+                                  Pickup Details
                                 </span>
                                 <span className={styles.colon}>:</span>
                                 <span className={styles.width75}>
@@ -907,11 +1035,22 @@ export default class OrderDetails extends React.Component {
                                     products.sshipAwbTrackingUrl
                                   }
                                   displayToast={this.props.displayToast}
+                                  fulfillment={products.fulfillment}
                                 />
                               )}
                           </React.Fragment>
                         )}
-
+                      {products.installationDisplayMsg &&
+                        !hideEIETrackDiagram && (
+                          <React.Fragment>
+                            <div className={styles.borderTop} />
+                            <InstallationExperience
+                              installationDisplayMsg={
+                                products.installationDisplayMsg
+                              }
+                            />
+                          </React.Fragment>
+                        )}
                       {products.awbPopupLink === AWB_POPUP_FALSE && (
                         <div
                           className={

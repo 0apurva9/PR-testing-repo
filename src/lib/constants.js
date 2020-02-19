@@ -200,7 +200,7 @@ export const EXPRESS = "express-delivery";
 export const COLLECT = "click-and-collect";
 export const HOME_DELIVERY = "home-delivery";
 export const SHORT_EXPRESS = "ED";
-export const QUIQPIQ = "QIUQ PIQ";
+export const QUIQPIQ = "QuiQ";
 export const SHORT_SAME_DAY_DELIVERY = "SDD";
 export const SAME_DAY_DELIVERY = "same-day-delivery";
 export const SAME_DAY_DELIVERY_SHIPPING = "Same Day Delivery";
@@ -221,7 +221,7 @@ export const SHIPPING_TYPES = {
   SDD: "same-day-delivery"
 };
 
-export const PLAT_FORM_NUMBER = "5";
+export const PLAT_FORM_NUMBER = "11";
 export const CHANNEL = "web";
 
 export const TRUE = "true";
@@ -307,6 +307,11 @@ export const CASH_ON_DELIVERY_PAYMENT_MODE = "Cash on Delivery";
 export const RUPEE_SYMBOL = "₹";
 export const STRIPE_DETAILS = "stripeDetails";
 export const BANK_GATWAY_DOWN = "0";
+/**
+ * @comment Added const for the UPI
+ */
+export const UPI = "UPI";
+export const UPI_ID = "UPI ID";
 // META TAGS CONSTANTS
 
 export const GOOGLE_TAG_TITLE_DEFAULT =
@@ -500,3 +505,4 @@ export const SELECTED_STORE = "selectedStoreAddress";
 export const EDD_TEXT = "Estimated Delivery Date";
 //CleverTap email unsubsctibe
 export const UNSUBSCRIBE_CLEVER_TAP_EMAILS = "/emails-unsubscribe";
+export const NOT_SERVICEABLE = "Not available at your PIN code";

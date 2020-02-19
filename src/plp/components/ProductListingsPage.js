@@ -325,13 +325,14 @@ class ProductListingsPage extends Component {
       return;
     }
     if (this.props.location.state && !this.props.location.state.isFilter) {
+      let component = "DirectSearch";
       const searchText = this.getSearchTextFromUrl();
       const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
       if (pageMatch) {
         page = pageMatch[1] ? pageMatch[1] : 1;
         page = page - 1;
       }
-      this.props.getProductListings(searchText, SUFFIX, page);
+      this.props.getProductListings(searchText, SUFFIX, page, component);
       return;
     }
     if (!this.props.location.state) {

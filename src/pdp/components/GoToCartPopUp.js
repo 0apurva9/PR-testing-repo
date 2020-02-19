@@ -2,6 +2,10 @@ import React from "react";
 import Button from "../../general/components/Button.js";
 import styles from "./GoToCartPopUp.css";
 import BottomSlideModal from "../../general/components/BottomSlideModal";
+import {
+  setDataLayerForCartDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING
+} from "../../lib/adobeUtils";
 export default class GoToCartPopUp extends React.Component {
   goToCartPage() {
     if (this.props.goToCartPage) {
@@ -9,6 +13,7 @@ export default class GoToCartPopUp extends React.Component {
     }
   }
   goToHomePage() {
+    setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     if (this.props.goToHomePage) {
       this.props.goToHomePage();
     }

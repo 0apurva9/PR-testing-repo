@@ -18,6 +18,10 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import Image from "../../xelpmoc-core/Image";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import {
+  ADOBE_SUMSUNG_CHAT_LINK_CLICK,
+  setDataLayer,
+  ADOBE_VIRTUAL_PAGELOAD,
+  ADOBE_SUMSUNG_CHAT_ICON,
   setDataLayerForCartDirectCalls,
   setDataLayerForPdpDirectCalls,
   SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP,
@@ -27,6 +31,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
   ADOBE_DIRECT_CALL_FOR_GO_TO_BAG,
+  SET_DATA_LAYER_FOR_ADOBE_ADD_TO_CART_BUTTON,
   ADOBE_DIRECT_CALL_FOR_PICK_UP_OPTION
 } from "../../lib/adobeUtils";
 import { reverse } from "../reducers/utils";
@@ -136,6 +141,42 @@ const RatingAndTextLink = LoadableVisibility({
 //   delay: 400
 // });
 
+// const OtherSellersLink = LoadableVisibility({
+//   loader: () => import("./OtherSellersLink"),
+//   loading: () => <div />,
+//   delay: 400
+// });
+
+// const OfferCard = LoadableVisibility({
+//   loader: () => import("./OfferCard"),
+//   loading: () => <div />,
+//   delay: 400
+// });
+
+// const SizeSelector = LoadableVisibility({
+//   loader: () => import("./SizeSelector"),
+//   loading: () => <div />,
+//   delay: 400
+// });
+
+// const SizeSelectorForEyeWear = LoadableVisibility({
+//   loader: () => import("./SizeSelectorForEyeWear"),
+//   loading: () => <div />,
+//   delay: 400
+// });
+
+// const ColourSelector = LoadableVisibility({
+//   loader: () => import("./ColourSelector"),
+//   loading: () => <div />,
+//   delay: 400
+// });
+
+// const PdpDeliveryModes = LoadableVisibility({
+//   loader: () => import("./PdpDeliveryModes"),
+//   loading: () => <div />,
+//   delay: 1000
+// });
+
 // const PDPRecommendedSectionsContainer = LoadableVisibility({
 //   loader: () => import("../containers/PDPRecommendedSectionsContainer"),
 //   loading: () => {
@@ -176,11 +217,14 @@ export default class PdpApparel extends React.Component {
       checkedItems: true,
       firstRelevantProduct: {},
       secondRelevantProduct: {},
-      selected: false
+      selected: false,
+      productCategory: "",
+      eyeWearCheck: ""
     };
     this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount = async () => {
+    setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
     document.title = this.props.productDetails.seo.title;
     this.props.getUserAddress();
     this.props.getPdpOffers();
@@ -204,6 +248,31 @@ export default class PdpApparel extends React.Component {
     ) {
       if (data.openInAppDetails.applicationProperties[0].value === "Y") {
         this.setState({ showGotoCartButton: true });
+      }
+    }
+    /***EyeWear Category Filter */
+    if (
+      this.props.productDetails &&
+      this.props.productDetails.categoryHierarchy &&
+      this.props.productDetails.rootCategory === "Accessories"
+    ) {
+      let categoryHierarchyCheck = this.props.productDetails.categoryHierarchy;
+      if (
+        categoryHierarchyCheck[categoryHierarchyCheck.length - 1]
+          .category_name === "Eye Frames" ||
+        categoryHierarchyCheck[categoryHierarchyCheck.length - 1]
+          .category_name === "Frames" ||
+        categoryHierarchyCheck[categoryHierarchyCheck.length - 1]
+          .category_name === "Reading Glasses" ||
+        categoryHierarchyCheck[categoryHierarchyCheck.length - 1]
+          .category_name === "Safety Glasses" ||
+        categoryHierarchyCheck[categoryHierarchyCheck.length - 1]
+          .category_name === "Sunglasses"
+      ) {
+        this.setState({ productCategory: "Eyewear" });
+      }
+      if (categoryHierarchyCheck[0].category_name === "Eyewear") {
+        this.setState({ eyeWearCheck: "EyeWear" });
       }
     }
     /***relavant Bundling Product */
@@ -431,6 +500,7 @@ export default class PdpApparel extends React.Component {
     productDetails.code = this.props.productDetails.productListingId;
     productDetails.quantity = PRODUCT_QUANTITY;
     productDetails.ussId = this.props.productDetails.winningUssID;
+    setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_ADOBE_ADD_TO_CART_BUTTON);
     //let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     //let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     //let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -464,7 +534,7 @@ export default class PdpApparel extends React.Component {
             this.props.displayToast("Please select a quantity to continue");
             this.setState({ quantityError: true });
           } else {
-            localStorage.removeItem(SELECTED_STORE);
+            //localStorage.removeItem(SELECTED_STORE);
             if (buyNowFlag) {
               setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
               if (!checkUserLoggedIn()) {
@@ -683,7 +753,9 @@ export default class PdpApparel extends React.Component {
       this.props.productDetails.variantOptions.length === 1 &&
       this.props.productDetails.rootCategory !== "HomeFurnishing" &&
       this.props.productDetails.rootCategory !== "FineJewellery" &&
-      this.props.productDetails.rootCategory !== "FashionJewellery"
+      this.props.productDetails.rootCategory !== "FashionJewellery" &&
+      this.props.productDetails.categoryHierarchy.length &&
+      this.props.productDetails.categoryHierarchy[0].category_name !== "Eyewear"
     ) {
       return true;
     } else {
@@ -777,6 +849,20 @@ export default class PdpApparel extends React.Component {
       }
     });
   };
+  displayPrdImage = prdDetails => {
+    let details = prdDetails;
+
+    return details.map((imageDetail, index) => {
+      return (
+        <div className={styles.tableCellSingleComponentForEyeWear} key={index}>
+          {<img src={imageDetail.url} alt="" height={"auto"} width={110} />}
+          <div className={styles.width95px}>
+            <div className={styles.textAlignCenter}>{imageDetail.value}</div>
+          </div>
+        </div>
+      );
+    });
+  };
 
   tail = ([x, ...xs]) => xs;
 
@@ -836,6 +922,12 @@ export default class PdpApparel extends React.Component {
     let bundledList = this.state.bundledProductList;
     !this.state.selectedBundledProduct.includes(e.target.value) &&
       this.state.selectedBundledProduct.push(e.target.value);
+  }
+  clickedSamsungChatIcon() {
+    setDataLayerForPdpDirectCalls(ADOBE_SUMSUNG_CHAT_ICON);
+  }
+  clickedSamsungChat() {
+    setDataLayerForPdpDirectCalls(ADOBE_SUMSUNG_CHAT_LINK_CLICK);
   }
   render() {
     let seasonData = {};
@@ -960,6 +1052,9 @@ export default class PdpApparel extends React.Component {
     if (productData) {
       let price = "";
       let discountPrice = "";
+      let discountPdp = "";
+      let mrpDoubleValue = "";
+
       if (productData.mrpPrice) {
         price = productData.mrpPrice.doubleValue;
       }
@@ -975,12 +1070,49 @@ export default class PdpApparel extends React.Component {
       } else if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
         seoDoublePrice = productData.mrpPrice.doubleValue;
       }
+      if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
+        mrpDoubleValue = productData.mrpPrice.doubleValue;
+        discountPdp = Math.round(
+          (mrpDoubleValue - seoDoublePrice) / mrpDoubleValue * 100
+        );
+      }
       let flixModelNo = "";
       if (productData.details && productData.details.length) {
         flixModelNo = productData.details.find(detail => {
           return detail.key === "Model Number";
         });
       }
+      let imageArray = [];
+      let featuresData = [];
+      if (productData.prdDetails) {
+        productData.prdDetails.forEach(detail => {
+          if (/(\|)/g.test(detail.value)) {
+            let valueArray = detail.value.split("|");
+            imageArray.push({
+              key: detail.key,
+              value: valueArray[0],
+              url: valueArray[1]
+            });
+          }
+        });
+      }
+      if (productData.details) {
+        productData.details.forEach(detail => {
+          if (/(\|)/g.test(detail.value)) {
+            let valueArray = detail.value.split("|");
+            featuresData.push({
+              key: detail.key,
+              value: valueArray[0]
+            });
+          } else {
+            featuresData.push({
+              key: detail.key,
+              value: detail.value
+            });
+          }
+        });
+      }
+
       let Bundledprice = "";
       let BundleddiscountPrice = "";
       let BundledseoDoublePrice = 0;
@@ -1006,6 +1138,16 @@ export default class PdpApparel extends React.Component {
         BundleddiscountPrice =
           productData.winningSellerPrice.formattedValueNoDecimal;
       }
+      let disabledStatus =
+        productData.allOOStock ||
+        (productData.isServiceableToPincode &&
+          productData.isServiceableToPincode.productOutOfStockMessage) ||
+        (productData.isServiceableToPincode &&
+          productData.isServiceableToPincode.productNotServiceableMessage) ||
+        !productData.winningSellerPrice ||
+        (productData.winningSellerAvailableStock === "0" &&
+          this.checkIfSizeSelected());
+
       return (
         <PdpFrame
           goToCart={() => this.goToCart()}
@@ -1037,6 +1179,8 @@ export default class PdpApparel extends React.Component {
                     outOfStock={productData.allOOStock}
                     seasonSale={seasonData}
                     newProduct={productData.isProductNew}
+                    isExchangeAvailable={productData.exchangeOfferAvailable}
+                    showExchangeTag={productData.showExchangeTag}
                   />
                 )}
                 {!productData.winningSellerPrice && (
@@ -1080,7 +1224,7 @@ export default class PdpApparel extends React.Component {
                         averageRating={productData.averageRating}
                         numberOfReviews={productData.numberOfReviews}
                         goToReviewPage={this.goToReviewPage}
-                        discount={productData.discount}
+                        discount={discountPdp}
                         hasPriceBreakUp={
                           productData.showPriceBrkUpPDP === "Yes"
                         }
@@ -1185,16 +1329,37 @@ export default class PdpApparel extends React.Component {
                                     productId={productData.productListingId}
                                     hasSizeGuide={productData.showSizeGuide}
                                     showSizeGuide={this.props.showSizeGuide}
+                                    showSizeSelectorForEyeWear={
+                                      this.props.showSizeSelectorForEyeWear
+                                    }
+                                    isSizeOrLength={productData.isSizeOrLength}
                                     showOOSSizeSelectorModal={
                                       this.props.showOOSSizeSelectorModal
                                     }
+                                    productCode={
+                                      this.props.productDetails.productListingId
+                                    }
                                     showSimilarSizeOOSModal={
                                       this.props.showSimilarSizeOOSModal
+                                    }
+                                    sizeChartData={
+                                      this.props.getProductSizeGuide
+                                    }
+                                    eyeWearSizeGuide={
+                                      this.state.productCategory
+                                    }
+                                    categoryHierarchy={
+                                      this.props.productDetails &&
+                                      this.props.productDetails
+                                        .categoryHierarchy
                                     }
                                     data={productData.variantOptions}
                                     infoDetails={productData.details}
                                     showSizeSelectorIcon={false}
                                     textSize={12}
+                                    getProductDescription={
+                                      this.props.getProductDescription
+                                    }
                                   />
                                 </div>
                               )}
@@ -1314,33 +1479,32 @@ export default class PdpApparel extends React.Component {
                           <div className={styles.loader} />
                         </div>
                       )}
-                      <div className={styles.buttonAddToBag}>
+                      <div
+                        className={[
+                          styles.buttonAddToBag,
+                          disabledStatus ? "" : styles.shadowBtn
+                        ].join(" ")}
+                      >
                         <Button
-                          insidePdpPage={true}
+                          disabledBgGrey={true}
                           type="primary"
                           height={45}
                           width={195}
                           label="BUY NOW"
                           onClick={this.onClickOfBuyNow}
-                          disabled={
-                            productData.allOOStock ||
-                            (productData.isServiceableToPincode &&
-                              productData.isServiceableToPincode
-                                .productOutOfStockMessage) ||
-                            (productData.isServiceableToPincode &&
-                              productData.isServiceableToPincode
-                                .productNotServiceableMessage) ||
-                            !productData.winningSellerPrice ||
-                            (productData.winningSellerAvailableStock === "0" &&
-                              this.checkIfSizeSelected())
-                          }
+                          disabled={disabledStatus}
                         />
                       </div>
                     </div>
                     <div className={styles.buttonHolder}>
-                      <div className={styles.buttonAddToBag}>
+                      <div
+                        className={[
+                          styles.buttonAddToBag,
+                          disabledStatus ? "" : styles.shadowBtn
+                        ].join(" ")}
+                      >
                         <Button
-                          insidePdpPage={true}
+                          disabledBgGrey={true}
                           type="hollow"
                           height={45}
                           width={195}
@@ -1355,18 +1519,7 @@ export default class PdpApparel extends React.Component {
                               ? () => this.goToCart({ goToBag: true })
                               : () => this.addToCart(false)
                           }
-                          disabled={
-                            productData.allOOStock ||
-                            (productData.isServiceableToPincode &&
-                              productData.isServiceableToPincode
-                                .productOutOfStockMessage) ||
-                            (productData.isServiceableToPincode &&
-                              productData.isServiceableToPincode
-                                .productNotServiceableMessage) ||
-                            !productData.winningSellerPrice ||
-                            (productData.winningSellerAvailableStock === "0" &&
-                              this.checkIfSizeSelected())
-                          }
+                          disabled={disabledStatus}
                         />
                       </div>
                     </div>
@@ -1398,12 +1551,17 @@ export default class PdpApparel extends React.Component {
                       )}
                     </div>
                   )}
+
                 <div className={styles.horizontalOffset}>
                   <div className={styles.separator}>
                     <OtherSellersLink
+                      serviceableOtherSellersUssid={
+                        this.props.serviceableOtherSellersUssid
+                      }
                       onClick={this.goToSellerPage}
-                      otherSellers={productData.otherSellers}
+                      //otherSellers={productData.otherSellers}
                       winningSeller={productData.winningSellerName}
+                      winnningSellerUssId={productData.winningUssID}
                     />
                   </div>
                 </div>
@@ -1489,6 +1647,12 @@ export default class PdpApparel extends React.Component {
                           }
                         </div>
                       </div>
+                    ) : this.props.pincodeError ? (
+                      <div className={styles.overlay}>
+                        <div className={styles.notServiciableTetx}>
+                          * {this.props.pincodeError}
+                        </div>
+                      </div>
                     ) : null
                   ) : /* (
                     <div className={styles.overlay}>
@@ -1520,6 +1684,7 @@ export default class PdpApparel extends React.Component {
                           availableStores && availableStores.length
                         }
                         winningUssID={productData.winningUssID}
+                        productCode={productData.productListingId}
                       />
                     </div>
                   ) : (
@@ -1674,28 +1839,37 @@ export default class PdpApparel extends React.Component {
                             {productData.rootCategory !== "Electronics" &&
                               productData.rootCategory !== "FashionJewellery" &&
                               productData.rootCategory !== "FineJewellery" &&
+                              !this.state.eyeWearCheck &&
                               productData.details &&
                               this.filterDetails(
                                 productData.details,
                                 productData.prdDetails
                               )}
                           </div>
-                          {productData.prdDetails && (
-                            <div className={styles.productDetailsImagesCard}>
-                              {this.displayPrdDetails(
-                                productData.prdDetails,
-                                WASH
-                              )}
-                              {this.displayPrdDetails(
-                                productData.prdDetails,
-                                NECK_COLLAR
-                              )}
-                              {this.displayPrdDetails(
-                                productData.prdDetails,
-                                SLEEVE
-                              )}
-                            </div>
-                          )}
+                          {productData.prdDetails &&
+                            !this.state.eyeWearCheck && (
+                              <div className={styles.productDetailsImagesCard}>
+                                {this.displayPrdDetails(
+                                  productData.prdDetails,
+                                  WASH
+                                )}
+                                {this.displayPrdDetails(
+                                  productData.prdDetails,
+                                  NECK_COLLAR
+                                )}
+                                {this.displayPrdDetails(
+                                  productData.prdDetails,
+                                  SLEEVE
+                                )}
+                              </div>
+                            )}
+                          {productData.rootCategory === "Accessories" &&
+                            this.state.eyeWearCheck &&
+                            imageArray.length > 0 && (
+                              <div className={styles.productDetailsImagesCard}>
+                                {this.displayPrdImage(imageArray)}
+                              </div>
+                            )}
                           {productData.rootCategory === "Electronics" && (
                             <div
                               style={{
@@ -1766,7 +1940,8 @@ export default class PdpApparel extends React.Component {
                         </Accordion>
                       )}
                     {productData.rootCategory !== "Electronics" &&
-                      productData.classifications && (
+                      productData.classifications &&
+                      !this.state.eyeWearCheck && (
                         <Accordion
                           text="Features & Functions"
                           headerFontSize={18}
@@ -1790,6 +1965,31 @@ export default class PdpApparel extends React.Component {
                               } else {
                                 return null;
                               }
+                            })}
+                          </div>
+                        </Accordion>
+                      )}
+                    {productData.rootCategory === "Accessories" &&
+                      this.state.eyeWearCheck &&
+                      productData.details &&
+                      featuresData && (
+                        <Accordion
+                          text="Features & Functions"
+                          headerFontSize={18}
+                          isOpen={false}
+                        >
+                          <div className={styles.accordionContent}>
+                            {featuresData.map(val => {
+                              return (
+                                <div className={styles.contentDetails}>
+                                  <div className={styles.headerDetails}>
+                                    {val.key}
+                                  </div>
+                                  <div className={styles.descriptionDetails}>
+                                    {val.value}
+                                  </div>
+                                </div>
+                              );
                             })}
                           </div>
                         </Accordion>
@@ -1868,7 +2068,8 @@ export default class PdpApparel extends React.Component {
                       </Accordion>
                     )}
                     {productData.rootCategory !== "Electronics" &&
-                      productData.warranty && (
+                      productData.warranty &&
+                      !this.state.eyeWearCheck && (
                         <Accordion text="Warranty" headerFontSize={18}>
                           <div className={styles.containerWithBottomBorder}>
                             {productData.warranty &&
@@ -1878,13 +2079,14 @@ export default class PdpApparel extends React.Component {
                           </div>
                         </Accordion>
                       )}
-                    {productData.brandInfo && (
-                      <Accordion text="Brand Info" headerFontSize={18}>
-                        <div className={styles.accordionContentWithoutBorder}>
-                          {productData.brandInfo}
-                        </div>
-                      </Accordion>
-                    )}
+                    {productData.brandInfo &&
+                      !this.state.eyeWearCheck && (
+                        <Accordion text="Brand Info" headerFontSize={18}>
+                          <div className={styles.accordionContentWithoutBorder}>
+                            {productData.brandInfo}
+                          </div>
+                        </Accordion>
+                      )}
 
                     {manufacturerDetails &&
                       manufacturerDetails.countryOfOrigin && (

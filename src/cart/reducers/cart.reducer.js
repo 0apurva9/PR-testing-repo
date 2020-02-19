@@ -12,7 +12,9 @@ import {
   CART_BAG_DETAILS,
   CLIQ_CASH_APPLIED_LOCAL_STORAGE,
   EMI_TENURE,
-  BANK_COUPON_COOKIE
+  BANK_COUPON_COOKIE,
+  SELECTED_STORE,
+  DEFAULT_PIN_CODE_LOCAL_STORAGE
 } from "../../lib/constants";
 export const EGV_GIFT_CART_ID = "giftCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
@@ -264,7 +266,22 @@ const cart = (
     orderConfirmationBannerDetailsStatus: null,
     orderConfirmationBannerDetails: null,
     orderConfirmationBannerDetailsLoading: false,
-    orderConfirmationBannerDetailsError: null
+    orderConfirmationBannerDetailsError: null,
+
+    upiMiddleLayerIsNewStatus: null,
+    upiMiddleLayerIsNew: null,
+    upiMiddleLayerIsNewLoading: false,
+    upiMiddleLayerIsNewError: null,
+
+    upiMiddleLayerHowItWorksStatus: null,
+    upiMiddleLayerHowItWorks: null,
+    upiMiddleLayerHowItWorksLoading: false,
+    upiMiddleLayerHowItWorksError: null,
+
+    upiMiddleLayerCombinedLogoStatus: null,
+    upiMiddleLayerCombinedLogo: null,
+    upiMiddleLayerCombinedLogoLoading: false,
+    upiMiddleLayerCombinedLogoError: null
   },
   action
 ) => {
@@ -448,6 +465,21 @@ const cart = (
       });
 
     case cartActions.GET_USER_ADDRESS_SUCCESS:
+      let address =
+        action.userAddress &&
+        action.userAddress.addresses.find(address => {
+          return address.defaultAddress;
+        });
+      if (
+        !localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE) &&
+        address &&
+        address.postalCode
+      ) {
+        localStorage.setItem(
+          DEFAULT_PIN_CODE_LOCAL_STORAGE,
+          address.postalCode
+        );
+      }
       return Object.assign({}, state, {
         getUserAddressStatus: action.status,
         userAddress: action.userAddress,
@@ -743,6 +775,136 @@ const cart = (
         paymentModesError: action.error,
         paymentModeLoader: false
       });
+
+    /**
+     * @comment Changes for the upi eligibility check
+     */
+    case cartActions.GET_UPI_ELIGIBILITY_REQUEST:
+      return Object.assign({}, state, {
+        upiEligibilityCheckStatus: action.status,
+        upiEligibilityCheckLoader: true
+      });
+
+    case cartActions.GET_UPI_ELIGIBILITY_SUCCESS:
+      return Object.assign({}, state, {
+        upiEligibilityCheckStatus: action.status,
+        upiEligibilityCheck: action.checkUPIEligibility,
+        upiEligibilityCheckLoader: false
+      });
+
+    case cartActions.GET_UPI_ELIGIBILITY_FAILURE:
+      return Object.assign({}, state, {
+        upiEligibilityCheckStatus: action.status,
+        upiEligibilityCheckError: action.error,
+        upiEligibilityCheckLoader: false
+      });
+
+    case cartActions.BIN_VALIDATION_UPI_REQUEST:
+      return Object.assign({}, state, {
+        binValidationUPIStatus: action.status,
+        binValidationUPIloading: false
+      });
+    case cartActions.BIN_VALIDATION_UPI_SUCCESS:
+      return Object.assign({}, state, {
+        binValidationUPIStatus: action.status,
+        binValidationUPIDetails: action.binValidationUPIDetails,
+        binValidationUPIloading: false
+      });
+    case cartActions.BIN_VALIDATION_UPI_FAILURE:
+      return Object.assign({}, state, {
+        binValidationUPIStatus: action.status,
+        binValidationUPIDetails: action.binValidationUPIDetails,
+        binValidationUPIloading: false
+      });
+    /**
+     * EOC
+     */
+    /**
+     * @comment Change for the UPI middle layer
+     */
+    case cartActions.UPI_MIDDLE_LAYER_HOW_IT_WORKS_REQUEST:
+      return Object.assign({}, state, {
+        upiMiddleLayerHowItWorksStatus: action.status,
+        upiMiddleLayerHowItWorksLoading: true
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_HOW_IT_WORKS_SUCCESS:
+      return Object.assign({}, state, {
+        upiMiddleLayerHowItWorksStatus: action.status,
+        upiMiddleLayerHowItWorks:
+          action.upiPaymentHowItWorksMidddleLayerDetails,
+        upiMiddleLayerHowItWorksLoading: false
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_HOW_IT_WORKS_FAILURE:
+      return Object.assign({}, state, {
+        upiMiddleLayerHowItWorksStatus: action.status,
+        upiMiddleLayerHowItWorksError: action.error,
+        upiMiddleLayerHowItWorksLoading: false
+      });
+    case cartActions.UPI_MIDDLE_LAYER_COMBINED_LOGO_REQUEST:
+      return Object.assign({}, state, {
+        upiMiddleLayerCombinedLogoStatus: action.status,
+        upiMiddleLayerCombinedLogoLoading: true
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_COMBINED_LOGO_SUCCESS:
+      return Object.assign({}, state, {
+        upiMiddleLayerCombinedLogoStatus: action.status,
+        upiMiddleLayerCombinedLogo:
+          action.upiPaymentCombinedLogoMidddleLayerDetails,
+        upiMiddleLayerCombinedLogoLoading: false
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_COMBINED_LOGO_FAILURE:
+      return Object.assign({}, state, {
+        upiMiddleLayerCombinedLogoStatus: action.status,
+        upiMiddleLayerCombinedLogoError: action.error,
+        upiMiddleLayerCombinedLogoLoading: false
+      });
+    case cartActions.UPI_MIDDLE_LAYER_IS_NEW_REQUEST:
+      return Object.assign({}, state, {
+        upiMiddleLayerIsNewStatus: action.status,
+        upiMiddleLayerIsNewLoading: true
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_IS_NEW_SUCCESS:
+      return Object.assign({}, state, {
+        upiMiddleLayerIsNewStatus: action.status,
+        upiMiddleLayerIsNew: action.upiPaymentIsNewMidddleLayerDetails,
+        upiMiddleLayerIsNewLoading: false
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_IS_NEW_FAILURE:
+      return Object.assign({}, state, {
+        upiMiddleLayerIsNewStatus: action.status,
+        upiMiddleLayerIsNewError: action.error,
+        upiMiddleLayerIsNewLoading: false
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_IS_ENABLE_REQUEST:
+      return Object.assign({}, state, {
+        upiMiddleLayerIsEnableStatus: action.status,
+        upiMiddleLayerIsEnableLoading: true
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_IS_ENABLE_SUCCESS:
+      return Object.assign({}, state, {
+        upiMiddleLayerIsEnableStatus: action.status,
+        upiMiddleLayerIsEnable: action.upiPaymentISEnableMidddleLayerDetails,
+        upiMiddleLayerIsEnableLoading: false
+      });
+
+    case cartActions.UPI_MIDDLE_LAYER_IS_ENABLE_FAILURE:
+      return Object.assign({}, state, {
+        upiMiddleLayerIsEnableStatus: action.status,
+        upiMiddleLayerIsEnableError: action.error,
+        upiMiddleLayerIsEnableLoading: false
+      });
+
+    /**
+     * EOC
+     */
 
     case cartActions.APPLY_BANK_OFFER_REQUEST:
       return Object.assign({}, state, {
@@ -1896,6 +2058,7 @@ const cart = (
     case cartActions.CLEAR_CART_DETAILS:
       localStorage.removeItem(RETRY_PAYMENT_CART_ID);
       localStorage.removeItem(RETRY_PAYMENT_DETAILS);
+
       return Object.assign({}, state, {
         status: null,
         error: null,
@@ -1968,6 +2131,15 @@ const cart = (
         paymentModesStatus: null,
         paymentModesError: null,
         paymentModeLoader: false,
+
+        upiEligibilityCheck: null,
+        upiEligibilityCheckStatus: null,
+        upiEligibilityCheckError: null,
+        upiEligibilityCheckLoader: false,
+
+        binValidationUPIStatus: null,
+        binValidationUPIDetails: null,
+        binValidationUPIloading: false,
 
         bankOffer: null,
         bankOfferStatus: null,

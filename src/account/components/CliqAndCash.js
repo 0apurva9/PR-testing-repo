@@ -106,7 +106,7 @@ export default class CliqAndCash extends React.Component {
                 </div>
                 <div className={styles.cliqCashBalanceHolder}>
                   {this.props.cliqCashUserDetails.totalCliqCashBalance && (
-                    <div className={styles.balance}>{`Rs. ${
+                    <div className={styles.balance}>{`₹ ${
                       this.props.cliqCashUserDetails.totalCliqCashBalance
                         .formattedValue
                     }`}</div>

@@ -19,6 +19,7 @@ export default class BagPageItem extends React.Component {
     }
   }
   render() {
+    let SizeType = this.props.sizeType ? this.props.sizeType : "Size";
     return (
       <div className={styles.base}>
         <div
@@ -74,7 +75,7 @@ export default class BagPageItem extends React.Component {
           {this.props.size &&
             this.props.size.toUpperCase() !== NO_SIZE && (
               <div className={styles.informationText}>
-                {`Size: ${this.props.size}`}
+                {`${SizeType}: ${this.props.size}`}
               </div>
             )}
           {this.props.color && (

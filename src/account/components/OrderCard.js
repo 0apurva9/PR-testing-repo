@@ -41,7 +41,7 @@ export default class OrderCard extends React.Component {
     let deliveryModeNameLowerCase = deliveryModeName.toLowerCase();
     switch (deliveryModeNameLowerCase) {
       case "click and collect":
-        return "Cliq n Piq";
+        return "QuiQ PiQ";
 
       case "home delivery":
         return "Standard Delivery";
@@ -198,10 +198,16 @@ export default class OrderCard extends React.Component {
     let estimatedDeliveryDateFormatted = "";
     let deliveryDate = "",
       deliveryDateFormatted = "";
-    if (this.props.estimatedDeliveryDate) {
+    if (
+      this.props.estimatedDeliveryDate &&
+      !this.props.estimatedDeliveryDate.includes("DeliveryTAT not found")
+    ) {
       estimatedDeliveryDateFormatted = this.getDayNumberSuffix(
         this.props.estimatedDeliveryDate
       );
+    }
+    if (!estimatedDeliveryDateFormatted && this.props.selectedDeliveryMode) {
+      estimatedDeliveryDateFormatted = this.props.selectedDeliveryMode.desc;
     }
     if (this.props && this.props.deliveryDate) {
       deliveryDate = this.props.deliveryDate;
@@ -210,7 +216,8 @@ export default class OrderCard extends React.Component {
     }
 
     let date = "",
-      shipmentStatus = "";
+      shipmentStatus = "",
+      responseCode = "";
     if (statusDisplayMsg && statusDisplayMsg.length > 0) {
       let statusDisplayMsgL1 = statusDisplayMsg[statusDisplayMsg.length - 1];
       let statusList =
@@ -224,13 +231,15 @@ export default class OrderCard extends React.Component {
       //written to avoid for loop
       if (
         LaststatusDisplayList &&
+        LaststatusDisplayList.statusMessageList &&
         LaststatusDisplayList.statusMessageList[0] &&
         LaststatusDisplayList.statusMessageList[0].date
       ) {
         date = LaststatusDisplayList.statusMessageList[0].date;
       }
       if (LaststatusDisplayList && LaststatusDisplayList.shipmentStatus) {
-        shipmentStatus = LaststatusDisplayList.shipmentStatus;
+        shipmentStatus = LaststatusDisplayList.shipmentStatus.trim();
+        responseCode = LaststatusDisplayList.responseCode;
       }
     }
     let returnEligibleDate = "";
@@ -382,7 +391,8 @@ export default class OrderCard extends React.Component {
             this.props.orderStatusCode &&
             !CNCcallOut &&
             this.props.price != 0.01 &&
-            this.props.calloutMessage && (
+            this.props.calloutMessage &&
+            !this.props.calloutMessage.includes(EDD_TEXT) && (
               <div
                 className={
                   this.props.orderStatusCode === "PAYMENT_PENDING" ||
@@ -394,11 +404,11 @@ export default class OrderCard extends React.Component {
                 <div className={styles.calloutMessage}>
                   {`${updatedCalloutMessage}`}
                 </div>
-                {this.props.orderBreachMessage && (
+                {/* {this.props.orderBreachMessage && (
                   <div className={styles.breachMessage}>
                     * {this.props.orderBreachMessage}
                   </div>
-                )}
+                )} */}
               </div>
             )}
 
@@ -480,15 +490,26 @@ export default class OrderCard extends React.Component {
           {this.props.orderStatusCode &&
             this.props.orderStatusCode !== "DELIVERED" &&
             this.props.orderStatusCode !== "PAYMENT_PENDING" &&
-            !this.props.calloutMessage &&
             estimatedDeliveryDateFormatted && (
-              <div className={styles.edd}>
-                <span className={styles.ffsemibold}>{EDD_TEXT}:</span>
-                <span>
-                  &nbsp;
-                  {estimatedDeliveryDateFormatted}
-                </span>
-              </div>
+              <React.Fragment>
+                <div className={styles.edd}>
+                  <span className={styles.ffsemibold}>
+                    {this.props.clickAndCollect === true
+                      ? "Pickup Date"
+                      : EDD_TEXT}
+                    :
+                  </span>
+                  <span>
+                    &nbsp;
+                    {estimatedDeliveryDateFormatted}
+                  </span>
+                </div>
+                {this.props.orderBreachMessage && (
+                  <div className={styles.breachMessage}>
+                    * {this.props.orderBreachMessage}
+                  </div>
+                )}
+              </React.Fragment>
             )}
 
           {!this.props.isEgvOrder &&
@@ -647,6 +668,57 @@ export default class OrderCard extends React.Component {
               </span>
             </div>
           )}
+        {this.props.installationRequestCancelled &&
+          this.props.installationRequestCancelled.value.status ===
+            "Completed" && (
+            <div className={styles.deliveryDate}>
+              Installation Cancelled On:{" "}
+              <span className={styles.estimatedDate}>
+                {this.props.installationRequestCancelled.value.date}
+              </span>
+            </div>
+          )}
+        {this.props.installationCompletedDate &&
+          this.props.installationRequestCompleted &&
+          this.props.installationRequestCompleted.value.customerFacingName ===
+            "Request Completed" &&
+          this.props.installationRequestCompleted.value.status ===
+            "Completed" && (
+            <div className={styles.deliveryDate}>
+              Installation Completed On:{" "}
+              <span className={styles.estimatedDate}>
+                {this.props.installationCompletedDate}
+              </span>
+            </div>
+          )}
+        {this.props.installationRequestReschedule &&
+          this.props.installationRequestReschedule.value.status ===
+            "Completed" && (
+            <div className={styles.commonTitle}>
+              <span className={styles.ffsemibold}>
+                Installation Rescheduled On:{" "}
+              </span>
+              {this.props.installationRequestReschedule.value.date}
+            </div>
+          )}
+        {this.props.installationRequestClosed &&
+          this.props.installationRequestClosed.value.status === "Completed" && (
+            <div className={styles.commonTitle}>
+              <span className={styles.ffsemibold}>
+                Installation Closed On:{" "}
+              </span>
+              {this.props.installationRequestClosed.value.date}
+            </div>
+          )}
+        {this.props.estimatedCompletionDate &&
+          !this.props.hideEstimatedInstallationDate && (
+            <div className={styles.deliveryDate}>
+              Estimated Installation Date by:{" "}
+              <span className={styles.estimatedDate}>
+                {this.props.estimatedCompletionDate}
+              </span>
+            </div>
+          )}
         {this.props.isGiveAway === "N" &&
           this.props.consignmentStatus &&
           this.props.consignmentStatus.includes("CANCEL") &&
@@ -663,7 +735,7 @@ export default class OrderCard extends React.Component {
             <div className={styles.commonTitle}>
               {!this.props.calloutMessage ? (
                 <React.Fragment>
-                  {this.props.estimatedDeliveryDate &&
+                  {estimatedDeliveryDateFormatted &&
                     !checkStatus &&
                     (date || returnEligibleDate) && (
                       <React.Fragment>
@@ -672,11 +744,23 @@ export default class OrderCard extends React.Component {
                           shipmentStatus.includes("Eligible for Return till") &&
                           !this.props.deliveryDate
                             ? ""
-                            : shipmentStatus}{" "}
+                            : this.props.clickAndCollect === true &&
+                              !shipmentStatus.includes(
+                                "Order Could be collected by"
+                              )
+                              ? "Pickup Date:"
+                              : responseCode !== "REFUND_INITIATED"
+                                ? `${
+                                    shipmentStatus ? shipmentStatus + ":" : ""
+                                  }`
+                                : null}{" "}
                         </span>
-                        {/* <span className={styles.styleDate}>
-                          {this.props.estimatedDeliveryDate}
-                        </span> */}
+                        {shipmentStatus.includes(EDD_TEXT) &&
+                        estimatedDeliveryDateFormatted ? (
+                          <span className={styles.styleDate}>
+                            {estimatedDeliveryDateFormatted}
+                          </span>
+                        ) : null}
                         {shipmentStatus &&
                           shipmentStatus.includes(
                             "Order Could be collected by"
@@ -698,7 +782,7 @@ export default class OrderCard extends React.Component {
                         </span>
                       </React.Fragment>
                     )}
-                  {!this.props.estimatedDeliveryDate &&
+                  {!estimatedDeliveryDateFormatted &&
                     !checkStatus &&
                     (date || returnEligibleDate) && (
                       <React.Fragment>
@@ -731,14 +815,18 @@ export default class OrderCard extends React.Component {
                     )}
                 </React.Fragment>
               ) : (
-                <div className={styles.commonTitle}>
-                  {this.props.calloutMessage}
-                </div>
+                <React.Fragment>
+                  {!this.props.calloutMessage.includes(EDD_TEXT) && (
+                    <div className={styles.commonTitle}>
+                      {this.props.calloutMessage}
+                    </div>
+                  )}
+                </React.Fragment>
               )}
             </div>
           )}
         {this.props.itemBreachMessage && (
-          <div className={styles.breechMessage}>
+          <div className={styles.breachMessage}>
             * {this.props.itemBreachMessage}
           </div>
         )}

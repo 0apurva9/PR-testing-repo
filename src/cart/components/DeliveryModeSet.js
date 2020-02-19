@@ -17,7 +17,7 @@ export default class DeliveryModeSet extends React.Component {
       this.props.changeDeliveryModes();
     }
   }
-  getDayNumberSuffix(selectedDeliveryModes, USSID) {
+  getDayNumberSuffix(selectedDeliveryModes, USSID, expectedDeliveryDate) {
     /*     if (selectedDeliveryModes === SAME_DAY_DELIVERY_SHIPPING) {
       return `Today`;
     }
@@ -25,6 +25,7 @@ export default class DeliveryModeSet extends React.Component {
       return `Tomorrow`;
     } */
     let placedTime = "";
+    let defaultText = "Delivery by ";
     let currentProduct =
       this.props &&
       this.props.productDelivery &&
@@ -46,51 +47,56 @@ export default class DeliveryModeSet extends React.Component {
           return selectedDeliveryModes === "Express Delivery";
         }
       });
-    let day = new Date();
-    let dayFormat = format(day, "DD-MMM-YYYY");
-    let nextWithOutFormatDay = day.setDate(day.getDate() + 1);
-    let nextDay = new Date(nextWithOutFormatDay);
-    let nextDayFormat = format(nextDay, "DD-MMM-YYYY");
-    let placedTimeWithoutFormat = new Date(
-      placedTime && placedTime.deliveryDate
-    );
-    let productDayFormat = format(placedTimeWithoutFormat, "DD-MMM-YYYY");
-    let dateWithMonth = new Date(placedTime && placedTime.deliveryDate);
-    let date = dateWithMonth.getDate();
-    let month = dateWithMonth.getMonth();
-    let monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
-    ];
-    let dayBehavior =
-      dayFormat === productDayFormat
-        ? `Today ,`
-        : nextDayFormat === productDayFormat
-          ? `Tomorrow ,`
-          : "";
-    switch (date) {
-      case 1:
-      case 21:
-      case 31:
-        return "" + dayBehavior + date + "st " + monthNames[month];
-      case 2:
-      case 22:
-        return "" + dayBehavior + date + "nd " + monthNames[month];
-      case 3:
-      case 23:
-        return "" + dayBehavior + date + "rd " + monthNames[month];
-      default:
-        return "" + dayBehavior + date + "th " + monthNames[month];
+    if (placedTime && placedTime.deliveryDate) {
+      let day = new Date();
+      let dayFormat = format(day, "DD-MMM-YYYY");
+      let nextWithOutFormatDay = day.setDate(day.getDate() + 1);
+      let nextDay = new Date(nextWithOutFormatDay);
+      let nextDayFormat = format(nextDay, "DD-MMM-YYYY");
+      let placedTimeWithoutFormat = new Date(
+        placedTime && placedTime.deliveryDate
+      );
+      let productDayFormat = format(placedTimeWithoutFormat, "DD-MMM-YYYY");
+
+      let dateWithMonth = new Date(placedTime && placedTime.deliveryDate);
+      let date = dateWithMonth.getDate();
+      let month = dateWithMonth.getMonth();
+      let monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ];
+      let dayBehavior =
+        dayFormat === productDayFormat
+          ? `Today ,`
+          : nextDayFormat === productDayFormat
+            ? `Tomorrow ,`
+            : "";
+      switch (date) {
+        case 1:
+        case 21:
+        case 31:
+          return defaultText + dayBehavior + date + "st " + monthNames[month];
+        case 2:
+        case 22:
+          return defaultText + dayBehavior + date + "nd " + monthNames[month];
+        case 3:
+        case 23:
+          return defaultText + dayBehavior + date + "rd " + monthNames[month];
+        default:
+          return defaultText + dayBehavior + date + "th " + monthNames[month];
+      }
+    } else {
+      return expectedDeliveryDate;
     }
   }
   render() {
@@ -117,14 +123,14 @@ export default class DeliveryModeSet extends React.Component {
               });
             let expectedDeliveryDate =
               deliveryOption && deliveryOption.desc
-                ? `:${deliveryOption.desc}`
+                ? `${deliveryOption.desc}`
                 : "";
 
             let textForCollect;
-            if (deliveryOption.code === SHORT_COLLECT) {
+            if (deliveryOption && deliveryOption.code === COLLECT) {
               textForCollect =
                 data.storeDetails &&
-                `Pickup Store: ${
+                `Pick From Store: ${
                   data.storeDetails.displayName
                     ? data.storeDetails.displayName
                     : ""
@@ -136,22 +142,19 @@ export default class DeliveryModeSet extends React.Component {
             }
             return (
               <div className={styles.base} key={i}>
-                <div className={styles.productName}>{data.productName}</div>
+                <div className={styles.productName}>{data.productName}:</div>
                 <div className={styles.deliveryWay}>
                   {deliveryOption &&
                     `${
-                      deliveryOption.code === SHORT_COLLECT
+                      deliveryOption.code === COLLECT
                         ? textForCollect
                           ? textForCollect
                           : ""
-                        : this.props.isShowDate
-                          ? `Delivery by ${this.getDayNumberSuffix(
-                              deliveryOption.name,
-                              data.USSID
-                            )}`
-                          : expectedDeliveryDate
-                            ? `Delivery by ${expectedDeliveryDate}`
-                            : ""
+                        : this.getDayNumberSuffix(
+                            deliveryOption.name,
+                            data.USSID,
+                            expectedDeliveryDate
+                          )
                     }`}
                 </div>
               </div>
