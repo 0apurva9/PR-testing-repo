@@ -262,11 +262,13 @@ export default class PdpDeliveryModes extends React.Component {
                   numberOfStore={
                     availableStores
                       ? `${
-                          availableStores > 1
+                          availableStores > 1 && storeDetails
                             ? availableStores + " more stores"
-                            : availableStores === 1
-                              ? availableStores + " more store"
-                              : "more store"
+                            : availableStores > 1
+                              ? availableStores + " stores"
+                              : availableStores === 1
+                                ? availableStores + " more store"
+                                : "more store"
                         } nearby`
                       : null
                   }

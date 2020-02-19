@@ -71,7 +71,8 @@ export default class DeliveryInfoSelect extends React.Component {
     if (
       storeDetails &&
       storeDetails.storeId &&
-      availableStores && availableStores.length
+      availableStores &&
+      availableStores.length
     ) {
       availableStores = parseInt(availableStores.length) - 1;
       if (availableStores === 0) {
@@ -337,11 +338,13 @@ export default class DeliveryInfoSelect extends React.Component {
                   })
                   .includes(SHORT_COLLECT) &&
                 `${
-                  availableStores > 1
+                  availableStores > 1 && storeDetails
                     ? availableStores + " more stores"
-                    : availableStores === 1
-                    ? availableStores + " more store"
-                    : "more store"
+                    : availableStores > 1
+                      ? availableStores + " stores"
+                      : availableStores === 1
+                        ? availableStores + " more store"
+                        : "more store"
                 } nearby`
               }
               splitIntoTwoLine={false}
@@ -479,19 +482,20 @@ export default class DeliveryInfoSelect extends React.Component {
                 />
               </div>
             )}
-          {isCod === "Y" && !this.props.inCartPage && (
-            <div className={styles.infoHolder}>
-              <DeliveryInformation
-                paddingTop={"0px"}
-                paddingBottom={"0px"}
-                paddingRight={"0px"}
-                pdpApparel={this.props.pdpApparel}
-                isCod={isCod}
-                placedTimeForCod={"Available"}
-                available={isCod === "Y"}
-              />
-            </div>
-          )}
+          {isCod === "Y" &&
+            !this.props.inCartPage && (
+              <div className={styles.infoHolder}>
+                <DeliveryInformation
+                  paddingTop={"0px"}
+                  paddingBottom={"0px"}
+                  paddingRight={"0px"}
+                  pdpApparel={this.props.pdpApparel}
+                  isCod={isCod}
+                  placedTimeForCod={"Available"}
+                  available={isCod === "Y"}
+                />
+              </div>
+            )}
         </div>
       </div>
     );

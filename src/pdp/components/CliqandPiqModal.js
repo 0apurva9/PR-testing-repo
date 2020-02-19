@@ -198,11 +198,19 @@ export default class ReturnToStore extends React.Component {
   }
   async componentDidMount() {
     await this.getAvailableStores();
+    let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
+    if (
+      this.props.from === "Checkout" &&
+      (selectedStore && selectedStore.length > 0) &&
+      this.state.storeId
+    ) {
+      this.setState({ showPickupPerson: true });
+    }
 
     if (this.props.getUserDetails) {
       this.props.getUserDetails();
     }
-    let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
+
     if (
       this.props.from !== "Checkout" &&
       selectedStore &&
