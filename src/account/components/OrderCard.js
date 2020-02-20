@@ -17,6 +17,7 @@ import {
   ADOBE_ITEM_DETAILS_LINK_CLICKED
 } from "../../lib/adobeUtils";
 import * as NumberFormatter from "../../lib/NumberFormatter.js";
+import exchangeIconLight from "../../cart/components/img/exchangeIconLight.svg";
 const dateFormat = "DD MMM YYYY";
 const dateTimeFormat = "DD MMM YYYY | HH:mm:ss";
 export default class OrderCard extends React.Component {
@@ -227,6 +228,19 @@ export default class OrderCard extends React.Component {
               </React.Fragment>
             )}
           </div>
+
+          {this.props.idFromAllOrderDetails === "Y" && (
+            <div className={styles.exchangeDetailsContainer}>
+              <img
+                src={exchangeIconLight}
+                alt="exchange icon"
+                className={styles.exchangeIconLight}
+              />
+              <div className={styles.exchangeProductText}>
+                Exchange Product: Apple iPhone 6
+              </div>
+            </div>
+          )}
 
           {this.props.retryPaymentUrl && (
             <React.Fragment>

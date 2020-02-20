@@ -21,6 +21,7 @@ import { Redirect } from "react-router-dom";
 import Icon from "../../xelpmoc-core/Icon";
 import Button from "../../general/components/Button";
 import RetryPaymentIcon from "./img/payment_retry.svg";
+import exchangeIconLight from "../../cart/components/img/exchangeIconLight.svg";
 import {
   CASH_ON_DELIVERY,
   ORDER_PREFIX,
@@ -658,6 +659,37 @@ export default class OrderDetails extends React.Component {
                           </div>
                         </div>
                       )}
+
+                      <div className={styles.exchangeDetailsContainer}>
+                        <img
+                          src={exchangeIconLight}
+                          alt="exchange icon"
+                          className={styles.exchangeIconLight}
+                        />
+                        <div className={styles.exchangeProductText}>
+                          <span className={styles.fontFamilySemibold}>
+                            Exchange Product:
+                          </span>{" "}
+                          Apple iPhone 6
+                        </div>
+                        <table className={styles.exchangePricingDetails}>
+                          <tbody>
+                            <tr>
+                              <td>Exchange Cashback</td>
+                              <td>₹2,300</td>
+                            </tr>
+                            <tr>
+                              <td>CLiQ Bonus</td>
+                              <td>₹5,000</td>
+                            </tr>
+                            <tr>
+                              <td>Pick up charge: </td>
+                              <td>FREE</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
                       {products.consignmentStatus &&
                         products.consignmentStatus != "ORDER_ALLOCATED" &&
                         products.consignmentStatus != "PACKED" &&

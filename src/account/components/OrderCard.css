@@ -70,6 +70,9 @@
 	display: inline-block;
 	word-wrap: break-word;
 }
+.productName{
+	line-height: normal;
+}
 .withCheckBox {
 	composes: productName;
 	position: relative;
@@ -253,6 +256,20 @@
 	font-family: semibold;
 	font-size: 16px;
 	padding-bottom: 21px;
+}
+.exchangeDetailsContainer{
+	margin-bottom: 15px;
+}
+.exchangeIconLight{
+	display: inline-block;
+	vertical-align: middle;
+	width: 24px;
+	margin-right: 10px;
+}
+.exchangeProductText{
+	display: inline-block;
+	font-size: 14px;
+	font-family: light;
 }
 @media screen and (min-width: 1025px) {
 	.productImageHolder {

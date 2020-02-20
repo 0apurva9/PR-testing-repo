@@ -277,10 +277,38 @@
 }
 .borderTop{
 	width: 100%;
-    display: block;
-    border-top: 1px solid #ececec;
-    padding-top: 35px;
-    margin-top: 25px;
+	display: block;
+	border-top: 1px solid #ececec;
+	padding-top: 35px;
+	margin-top: 25px;
+}
+.exchangeDetailsContainer{
+	margin: 0 0 25px 0;
+	padding-top: 25px;
+	border-top: 1px solid #e5e5e5;
+}
+.exchangeIconLight{
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 10px;
+}
+.exchangeProductText{
+	display: inline-block;
+	font-size: 14px;
+	font-family: light;
+}
+.fontFamilySemibold{
+	font-family: semibold;
+}
+.exchangePricingDetails{
+	font-size: 12px;
+	font-family:light;
+  line-height: 1.17;
+	color: #181818;
+	margin: 0 auto;
+}
+.exchangePricingDetails tbody tr td{
+	width: 92%;
 }
 @media screen and (min-width: 1025px) {
 	.base {
