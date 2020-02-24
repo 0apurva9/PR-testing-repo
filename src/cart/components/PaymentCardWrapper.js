@@ -203,7 +203,10 @@ export default class PaymentCardWrapper extends React.Component {
         <div className={styles.base}>
           <DesktopOnly>
             <div className={styles.card}>
-              <CheckOutHeader confirmTitle="Payment Method" indexNumber="3" />
+              <CheckOutHeader
+                confirmTitle="Payment Method"
+                indexNumber={this.props.isFromCliqAndPiq ? "2" : "3"}
+              />
             </div>
           </DesktopOnly>
           {!this.props.isFromGiftCard &&

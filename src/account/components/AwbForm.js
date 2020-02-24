@@ -91,7 +91,7 @@ export default class AwbForm extends React.Component {
         <div className={styles.inputHolder}>
           <Input3
             boxy={true}
-            placeholder="Courier charges in Rs."
+            placeholder="Courier charges in ₹"
             value={
               this.props.courierCharge
                 ? this.props.courierCharge

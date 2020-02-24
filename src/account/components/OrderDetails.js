@@ -42,7 +42,10 @@ import {
   CANCEL_RETURN_REQUEST,
   SUCCESS,
   HELP_URL,
-  COSTUMER_ORDER_RELATED_QUERY_ROUTE
+  COSTUMER_ORDER_RELATED_QUERY_ROUTE,
+  MY_ACCOUNT,
+  CNCTOHD,
+  ORDER_CODE
 } from "../../lib/constants";
 import {
   setDataLayer,
@@ -55,6 +58,9 @@ import {
   ADOBE_RETURN_JOURNEY_INITIATED,
   ADOBE_MY_ACCOUNT_RETURN_CANCEL
 } from "../../lib/adobeUtils";
+import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import * as UserAgent from "../../lib/UserAgent.js";
+let isShowDeliveryAddress = false;
 const dateFormat = "DD MMM YYYY";
 const PRODUCT_RETURN = "Return";
 const RETURN = "RETURN";
@@ -87,6 +93,10 @@ export default class OrderDetails extends React.Component {
       this.props.showShippingDetails(val);
     }
   }
+  redirectToHelp = url => {
+    const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
+    this.props.history.push(urlSuffix);
+  };
   backToOrderHistory() {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`);
   }
@@ -175,8 +185,37 @@ export default class OrderDetails extends React.Component {
       return dayTextArrToString;
     }
   }
+  getWorkingDays = mplWorkingDays => {
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    let noMatch = false;
+    let j = 0;
+    let workingDays = [];
+    let getWorkingDays = mplWorkingDays.split(",");
+    for (let i = 0; i < days.length; i++) {
+      if (i == getWorkingDays[j]) {
+        if (!noMatch || i === days.length - 1) {
+          if (!workingDays.includes(days[i])) {
+            workingDays.push(days[i]);
+          }
+        } else {
+          if (noMatch && workingDays[workingDays.length - 1] !== "-") {
+            workingDays.push("-");
+          }
+        }
+        j++;
+        noMatch = true;
+      } else {
+        if (noMatch && !workingDays.includes(days[i - 1])) {
+          //workingDays.splice(-1, 1);
+          workingDays.push(days[i - 1]);
+        }
+        noMatch = false;
+      }
+    }
+    return workingDays.toString().replace(/,-,/g, "-");
+  };
   getStoreDateNTime(mplWorkingDays, mplOpeningTime, mplClosingTime) {
-    let getDaysText = this.getNonWorkingDays(mplWorkingDays);
+    let getDaysText = this.getWorkingDays(mplWorkingDays);
     let mplOpeningTimeText = "";
     let mplClosingTimeText = "";
     // let displayDateNTime = "";
@@ -197,7 +236,7 @@ export default class OrderDetails extends React.Component {
       mplClosingTimeText = mplClosingTimeConverted.toFixed(2) + "PM";
     }
     let displayDateNTime =
-      mplOpeningTimeText + " - " + mplClosingTimeText + getDaysText;
+      getDaysText + ", " + mplOpeningTimeText + " - " + mplClosingTimeText;
     return { __html: displayDateNTime };
   }
   redirectToHelpPage() {
@@ -313,6 +352,18 @@ export default class OrderDetails extends React.Component {
     // if (nextProps.sendInvoiceSatus === SUCCESS) {
     //   this.props.displayToast("Invoice has been sent");
     // }
+    isShowDeliveryAddress =
+      nextProps.orderDetails &&
+      nextProps.orderDetails.products.find(products => {
+        if (
+          products.selectedDeliveryMode &&
+          products.selectedDeliveryMode.code !== CLICK_COLLECT
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      });
   }
   getPickUpDate(orderdate, returnPolicy) {
     let pickupDate = "";
@@ -321,6 +372,68 @@ export default class OrderDetails extends React.Component {
       .add(returnPolicy, "days")
       .format(dateFormat);
     return pickupDate;
+  }
+  getDayNumberSuffix(deliveryDate) {
+    if (!deliveryDate) {
+      return false;
+    }
+    deliveryDate = deliveryDate.replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3");
+    let dateWithMonth = new Date(deliveryDate);
+    let date = dateWithMonth.getDate();
+    let month = dateWithMonth.getMonth();
+    let year = dateWithMonth.getFullYear();
+    let hours = dateWithMonth.getHours();
+    let minutes = dateWithMonth.getMinutes();
+    let salutationOfTime = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    let strTime = `After ${hours}:${minutes} ${salutationOfTime}, `;
+    let monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+
+    switch (date) {
+      case 1:
+      case 21:
+      case 31:
+        return strTime + date + "st " + monthNames[month] + " " + year;
+      case 2:
+      case 22:
+        return strTime + date + "nd " + monthNames[month] + " " + year;
+      case 3:
+      case 23:
+        return strTime + date + "rd " + monthNames[month] + " " + year;
+      default:
+        return strTime + date + "th " + monthNames[month] + " " + year;
+    }
+  }
+  onClickCncToHd(orderId, transactionId) {
+    let isCncToHdOrderDetails = "";
+    const orderDetails = this.props.orderDetails;
+    isCncToHdOrderDetails =
+      orderDetails &&
+      orderDetails.products.find(products => {
+        return products.transactionId === transactionId;
+      });
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT}${CNCTOHD}/?${ORDER_CODE}=${orderId}`,
+      state: {
+        orderDetails: isCncToHdOrderDetails,
+        orderId: orderId
+      }
+    });
   }
   cancelReturnRequest(transactionId, orderCode) {
     setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_RETURN_CANCEL);
@@ -484,6 +597,7 @@ export default class OrderDetails extends React.Component {
                         isOrderReturnable = true;
                       }
                       if (
+                        status.responseCode &&
                         !status.responseCode.includes("REFUND") &&
                         !isNotRefund
                       ) {
@@ -603,6 +717,8 @@ export default class OrderDetails extends React.Component {
                       <OrderCard
                         statusDisplayMsg={products.statusDisplayMsg}
                         estimatedDeliveryDate={products.estimateddeliverydate}
+                        estimatedDeliveryDateWithTime={products.EDD}
+                        orderBreachMessage={products.eddBreechMessage}
                         statusDisplay={products.statusDisplay}
                         imageUrl={products.imageURL}
                         productBrand={products.productBrand}
@@ -614,6 +730,24 @@ export default class OrderDetails extends React.Component {
                           products.selectedDeliveryMode.code === CLICK_COLLECT
                             ? true
                             : false
+                        }
+                        itemBreachMessage={products.eddBreechMessage}
+                        storeDetails={products && products.storeDetails}
+                        isOrderDetails={true}
+                        paymentMethod={orderDetails.paymentMethod}
+                        statusDisplayMsg={products.statusDisplayMsg}
+                        phoneNumber={orderDetails.pickupPersonMobile}
+                        soldBy={products.sellerName}
+                        //isCncToHd={true}
+                        isCncToHd={products && products.isCncToHd}
+                        isCNCToHDConverted={
+                          products && products.isCNCToHDConverted
+                        }
+                        onClickCncToHd={() =>
+                          this.onClickCncToHd(
+                            orderDetails.orderId,
+                            products.transactionId
+                          )
                         }
                         onClick={() => this.onClickImage(products.productcode)}
                         quantity={true}
@@ -742,6 +876,9 @@ export default class OrderDetails extends React.Component {
                               mediationRequired={products.mediationRequired}
                               paymentMethod={orderDetails.paymentMethod}
                               consignmentStatus={products.consignmentStatus}
+                              sshipAwbTrackingUrl={products.sshipAwbTrackingUrl}
+                              displayToast={this.props.displayToast}
+                              fulfillment={products.fulfillment}
                             />
 
                             {/* Block of code ends here */}
@@ -810,9 +947,7 @@ export default class OrderDetails extends React.Component {
                             </div>
                             {/* </div> */}
                             <div className={styles.commonTitle}>
-                              <span className={styles.width20}>
-                                Store Timings
-                              </span>
+                              <span className={styles.width20}>Open from</span>
                               <span className={styles.colon}>:</span>
                               <span className={styles.width75}>
                                 <div
@@ -828,16 +963,18 @@ export default class OrderDetails extends React.Component {
                         )}
                       {products.selectedDeliveryMode &&
                         products.selectedDeliveryMode.code === CLICK_COLLECT &&
-                        (orderDetails.orderDate && products.returnPolicy) && (
+                        orderDetails.orderDate &&
+                        products.returnPolicy && (
                           <React.Fragment>
                             <div className={styles.commonTitle}>
                               <span className={styles.width20}>Pickup</span>
                               <span className={styles.colon}>:</span>
                               <span className={styles.width75}>
                                 <span>
-                                  {this.getPickUpDate(
-                                    orderDetails.orderDate,
-                                    products.returnPolicy
+                                  {this.getDayNumberSuffix(
+                                    products.estimateddeliverydate
+                                      ? products.estimateddeliverydate
+                                      : products.deliveryDate
                                   )}
                                 </span>
                               </span>
@@ -858,7 +995,7 @@ export default class OrderDetails extends React.Component {
                             >
                               <div className={styles.commonTitle}>
                                 <span className={styles.width20}>
-                                  Contact Details
+                                  Pickup Details
                                 </span>
                                 <span className={styles.colon}>:</span>
                                 <span className={styles.width75}>
@@ -894,6 +1031,11 @@ export default class OrderDetails extends React.Component {
                                   mediationRequired={products.mediationRequired}
                                   paymentMethod={orderDetails.paymentMethod}
                                   consignmentStatus={products.consignmentStatus}
+                                  sshipAwbTrackingUrl={
+                                    products.sshipAwbTrackingUrl
+                                  }
+                                  displayToast={this.props.displayToast}
+                                  fulfillment={products.fulfillment}
                                 />
                               )}
                           </React.Fragment>
@@ -961,7 +1103,7 @@ export default class OrderDetails extends React.Component {
                                 )}
                               {products.isReturnCancelable && (
                                 <div
-                                  className={styles.review}
+                                  className={styles.cancelProduct}
                                   onClick={() =>
                                     this.cancelReturnRequest(
                                       products.transactionId,
@@ -1235,5 +1377,6 @@ OrderDetails.propTypes = {
 };
 OrderDetails.defaultProps = {
   underlineButtonLabel: "Request Invoice",
-  underlineButtonColour: "#181818"
+  underlineButtonColour: "#181818",
+  isInvoiceAvailable: false
 };

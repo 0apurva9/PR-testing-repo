@@ -130,11 +130,20 @@ export default class CartItem extends React.Component {
           this.props.deliveryInformation && (
             <div className={styles.deliveryInfo}>
               <DeliveryInfoSelect
+                inCheckOutPage={this.props.inCheckOutPage}
                 deliveryInformation={this.props.deliveryInformation}
                 selected={this.props.selected}
                 onSelect={val => this.selectDeliveryMode(val)}
                 onPiq={val => this.getPickUpDetails()}
                 isClickable={this.props.isClickable}
+                deliveryInformationWithDate={
+                  this.props.deliveryInformationWithDate
+                }
+                isTop={this.props.isTop}
+                inCartPage={this.props.inCartPage}
+                inCartPageIcon={true}
+                cliqPiqSelected={this.props.cliqPiqSelected}
+                winningUssID={this.props.product && this.props.product.USSID}
               />
             </div>
           )}

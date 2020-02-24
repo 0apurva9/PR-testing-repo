@@ -36,13 +36,13 @@ export default class LevelBreakupCard extends React.Component {
           </div>
           <div className={styles.amountData}>
             <div className={styles.amountLabel}>Item Value</div>
-            <div className={styles.amount}>{`Rs.${Math.round(
+            <div className={styles.amount}>{`₹${Math.round(
               this.props.itemValue * 100
             ) / 100}`}</div>
           </div>
           <div className={styles.amountData}>
             <div className={styles.amountLabel}>Interest (charged by bank)</div>
-            <div className={styles.amount}>{`Rs.${Math.round(
+            <div className={styles.amount}>{`₹${Math.round(
               this.props.Interest * 100
             ) / 100}`}</div>
           </div>
@@ -50,7 +50,7 @@ export default class LevelBreakupCard extends React.Component {
             <div className={styles.amountLabel}>No Cost EMI Discount</div>
             <div className={styles.amountDiscount}>
               {this.props.discount > 0
-                ? `-Rs.${Math.round(this.props.discount * 100) / 100}`
+                ? `-₹${Math.round(this.props.discount * 100) / 100}`
                 : 0}
             </div>
           </div>
@@ -60,14 +60,14 @@ export default class LevelBreakupCard extends React.Component {
             <div className={styles.amountLabel}>
               Total Amount Payable To Bank
             </div>
-            <div className={styles.amount}>{`Rs.${Math.round(
+            <div className={styles.amount}>{`₹${Math.round(
               this.props.totalAmount * 100
             ) / 100}
             `}</div>
           </div>
           <div className={styles.amountData}>
             <div className={styles.amountLabel}>EMI p.m</div>
-            <div className={styles.amountEmi}>{`Rs.${Math.round(
+            <div className={styles.amountEmi}>{`₹${Math.round(
               this.props.emiAmount * 100
             ) / 100}`}</div>
           </div>

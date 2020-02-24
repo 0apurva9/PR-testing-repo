@@ -5,6 +5,8 @@ import Button from "../../general/components/Button";
 import * as Cookie from "../../lib/Cookie.js";
 import { LOGGED_IN_USER_DETAILS, HOME_ROUTER } from "../../lib/constants.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
+import Image from "../../xelpmoc-core/Image";
+import paymentConfirmation from "./img/orderConfirmation.svg";
 import {
   setDataLayerForCartDirectCalls,
   ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING
@@ -31,12 +33,34 @@ export default class OrderBanner extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.orderInnerBox}>
-          <div
-            className={styles.orderHeading}
-          >{`Thanks ${firstName} We've received your order`}</div>
-          <div className={styles.orderLabel}>{`Order Id: ${
-            this.props.label
-          }`}</div>
+          <div className={styles.PaymentConfirmationImage}>
+            <Image image={paymentConfirmation} />
+          </div>
+          {this.props.pickUpPersonMobile ? (
+            <React.Fragment>
+              <div className={styles.orderHeading}>
+                Thank You! Your payment is confirmed.
+              </div>
+              <div className={styles.orderLabel}>
+                <span className={styles.boldText}>OTP</span>{" "}
+                {` has been sent to `}{" "}
+                <span className={styles.boldText}>
+                  {`+91- ${this.props.pickUpPersonMobile}`}
+                </span>
+              </div>
+              <div className={styles.pickStoreHeading}>
+                Please show OTP while picking up the order from the Store.
+              </div>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <div
+                className={styles.orderHeading}
+              >{`Thank You! We received your order Order Id: ${
+                this.props.label
+              }`}</div>
+            </React.Fragment>
+          )}
           {this.props.isTrack && (
             <div className={styles.buttonHolder}>
               <Button
@@ -63,7 +87,7 @@ export default class OrderBanner extends React.Component {
               <div className={styles.buttonHolder} style={{ marginLeft: 10 }}>
                 <Button
                   type="hollow"
-                  color="#fff"
+                  color="#212121"
                   label="View order details"
                   height={37}
                   width={175}

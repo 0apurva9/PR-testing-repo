@@ -15,6 +15,10 @@ import {
   setDataLayer,
   ADOBE_HELP_SUPPORT_LINK_CLICKED
 } from "../../lib/adobeUtils";
+import UnderLinedButton from "../../general/components/UnderLinedButton";
+import each from "lodash.foreach";
+import { HELP_URL } from "../../lib/constants";
+
 export default class OrderPaymentMethod extends React.Component {
   // request() {
   //   if (this.props.request) {
@@ -62,6 +66,11 @@ export default class OrderPaymentMethod extends React.Component {
           this.props.history.location.state.address) ||
         deliveryAddress
     });
+  }
+  redirectToHelp() {
+    if (this.props.redirectToHelp) {
+      this.props.redirectToHelp();
+    }
   }
 
   render() {

@@ -656,11 +656,11 @@ export default class DesktopHeader extends React.Component {
                     onMouseLeave={() => this.hoverOut()}
                   >
                     {this.props.bagCount !== null &&
-                      (this.props.bagCount > 0 && (
+                      this.props.bagCount > 0 && (
                         <span className={styles.cartCount}>{`${
                           this.props.bagCount
                         }`}</span>
-                      ))}
+                      )}
                     {this.props.minicart &&
                       this.props.minicart.products &&
                       this.state.bagHover && (
@@ -676,11 +676,11 @@ export default class DesktopHeader extends React.Component {
                   >
                     {userCookie &&
                       this.props.wishListCount !== null &&
-                      (this.props.wishListCount > 0 && (
+                      this.props.wishListCount > 0 && (
                         <div className={styles.cartCount}>{`${
                           this.props.wishListCount
                         }`}</div>
-                      ))}
+                      )}
                   </div>
                 </div>
                 {this.props.searchHolder && (

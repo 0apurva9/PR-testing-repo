@@ -7,25 +7,51 @@ import PropTypes from "prop-types";
 import Icon from "../../xelpmoc-core/Icon";
 import ExpressImage from "./img/expressDelivery.svg";
 import HomeImage from "./img/homeDelivery.svg";
-
 import arrowIcon from "./img/arrowBackblack.svg";
 import greyArrow from "./img/greyArrow.svg";
 import CollectImage from "./img/collect.svg";
-import { EXPRESS, COLLECT, HOME_DELIVERY } from "../../lib/constants";
+import quiqpiqImage from "./img/quiqlogo.png";
+import codImage from "./img/cod.svg";
+import clockImage from "./img/clock.png";
+import quiqIcon from "./img/QuiQIcon.svg";
+import deliveryIcon from "./img/deliveryIcon.svg";
+import {
+  EXPRESS,
+  SHORT_EXPRESS,
+  COLLECT,
+  SHORT_COLLECT,
+  QUIQPIQ,
+  SHORT_SAME_DAY_TEXT,
+  SHORT_SAME_DAY_DELIVERY,
+  EXPRESS_SHIPPING,
+  SAME_DAY_DELIVERY,
+  SAME_DAY_DELIVERY_SHIPPING,
+  HOME_DELIVERY,
+  SHORT_HOME_DELIVERY,
+  SELECTED_STORE
+} from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";
-const EXPRESS_TEXT = "Express Delivery";
-const HOME_TEXT = "Standard Delivery";
-const COLLECT_TEXT = "QUiQ PiQ";
+import CountDownTimer from "../../pdp/components/CountDownTimer.js";
+const EXPRESS_TEXT = "Delivery by";
+const HOME_TEXT = "Delivery by";
+const COLLECT_TEXT = "Pick from Store";
+const COLLECT_TEXT_CART = "Pick from Store";
+const COD_TEXT = "Cash on Delivery";
 const NOT_AVAILABLE = "Not Available";
+const SAME_DAY_DELIVERY_SHIPPING_TEXT = "Delivery by";
 export default class DeliveryInformations extends React.Component {
   handleClick() {
     if (this.props.onClick) {
       this.props.onClick();
     }
   }
-  handleSelect() {
-    if (this.props.onSelect) {
-      this.props.onSelect(this.props.type);
+  async handleSelect(cliqPiq) {
+    if (cliqPiq) {
+      this.onPiq();
+    } else {
+      if (this.props.onSelect) {
+        this.props.onSelect(this.props.code);
+      }
     }
   }
   arrowClick() {
@@ -34,39 +60,198 @@ export default class DeliveryInformations extends React.Component {
     }
   }
   onPiq() {
-    if (this.props.onPiq && this.props.isClickable) {
-      this.props.onPiq();
+    if (this.props.onPiq) {
+      this.props.onPiq(this.props.fromSellerCard ? this.props.ussid : null);
     }
   }
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.type === COLLECT &&
+      this.props.cliqPiqSelected !== prevProps.cliqPiqSelected
+    ) {
+      if (this.props.onSelect) {
+        this.props.onSelect(this.props.code);
+      }
+    }
+  }
+
+  getDateMonthFormate(date, month) {
+    let todayDate = new Date().getDate();
+    let nextDayDate = todayDate + 1;
+    let newExpressOrSddText;
+    if (
+      date === todayDate &&
+      (this.props.type === SHORT_EXPRESS ||
+        this.props.type === SHORT_SAME_DAY_DELIVERY ||
+        this.props.type === SHORT_HOME_DELIVERY)
+    ) {
+      newExpressOrSddText = `Today, `;
+    } else if (
+      date === nextDayDate &&
+      (this.props.type === SHORT_EXPRESS ||
+        this.props.type === SHORT_SAME_DAY_DELIVERY ||
+        this.props.type === SHORT_HOME_DELIVERY)
+    ) {
+      newExpressOrSddText = `Tomorrow, `;
+    }
+    let monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+    switch (date) {
+      case 1:
+      case 21:
+      case 31:
+        if (newExpressOrSddText) {
+          return newExpressOrSddText + date + "st " + monthNames[month - 1];
+        } else {
+          return "" + date + "st " + monthNames[month - 1];
+        }
+      case 2:
+      case 22:
+        if (newExpressOrSddText) {
+          return newExpressOrSddText + date + "nd " + monthNames[month - 1];
+        } else {
+          return "" + date + "nd " + monthNames[month - 1];
+        }
+      case 3:
+      case 23:
+        if (newExpressOrSddText) {
+          return newExpressOrSddText + date + "rd " + monthNames[month - 1];
+        } else {
+          return "" + date + "rd " + monthNames[month - 1];
+        }
+      default:
+        if (newExpressOrSddText) {
+          return newExpressOrSddText + date + "th " + monthNames[month - 1];
+        } else {
+          return "" + date + "th " + monthNames[month - 1];
+        }
+    }
+  }
+
+  getDayNumberSuffix(d) {
+    let date = "";
+    let month = "";
+    let dateWithMonth = "";
+    dateWithMonth = new Date(d);
+    date = dateWithMonth.getDate();
+    month = dateWithMonth.getMonth() + 1;
+    if (date && month) {
+      return this.getDateMonthFormate(date, month);
+    } else return "";
+  }
+
   render() {
     let iconImage = "";
-    let typeName = "";
+    let typeDate = "";
+    let typeText = "";
+    let formattedPlacedTime = "";
+    let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
+    if (this.props.placedTime && this.props.placedTime !== undefined) {
+      //converting "MM-DD-YYYY HH:MM:SS"(API value) to "MM/DD/YYYY" for cross browser support
+      // JS date object does'nt support "MM-DD-YYYY HH:MM:SS" format in safari, mozilla and IE
+      let dateArray = this.props.placedTime.split(" ")[0].split("-"),
+        newFormattedDate = `${dateArray[0]}/${dateArray[1]}/${dateArray[2]}`;
+      formattedPlacedTime = this.getDayNumberSuffix(newFormattedDate);
+    }
+    if (!formattedPlacedTime && this.props.deliveryMessage) {
+      formattedPlacedTime = this.props.deliveryMessage;
+    }
     let arrowStyle = styles.arrowLink1;
-    if (this.props.type === EXPRESS) {
-      iconImage = ExpressImage;
-      typeName = EXPRESS_TEXT;
+    let iconSize = null;
+    let baseClass = styles.base;
+    let cncDeliveryAddressClass = styles.cncDeliveryAddress;
+    if (this.props.type === SHORT_EXPRESS) {
+      iconImage = deliveryIcon;
+      if (this.props.inCartPage || this.props.inCheckOutPage) {
+        typeDate = `${formattedPlacedTime}`;
+        typeText = this.props.placedTime ? `${EXPRESS_TEXT}` : null;
+      } else {
+        typeDate = `${formattedPlacedTime}`;
+        typeText =
+          !this.props.deliveryInformationByCart && this.props.placedTime
+            ? `${EXPRESS_TEXT}`
+            : null;
+      }
       arrowStyle = styles.arrowLink;
+      iconSize = this.props.inCartPageIcon ? 34 : 38;
+    } else if (this.props.type === SHORT_HOME_DELIVERY) {
+      iconImage = deliveryIcon;
+      typeDate = `${formattedPlacedTime}`;
+      typeText = this.props.placedTime ? `${HOME_TEXT}` : null;
+      iconSize = 38;
+    } else if (this.props.type === SHORT_COLLECT) {
+      iconImage = quiqIcon;
+      typeText = !this.props.deliveryInformationByCart
+        ? COLLECT_TEXT
+        : COLLECT_TEXT_CART;
+      iconSize = 30;
+    } else if (this.props.type === SHORT_SAME_DAY_DELIVERY) {
+      iconImage = deliveryIcon;
+      if (this.props.inCartPage || this.props.inCheckOutPage) {
+        typeDate = `${formattedPlacedTime}`;
+        iconSize = 34;
+      } else {
+        typeDate = `${formattedPlacedTime}`;
+        typeText = this.props.placedTime ? `${SHORT_SAME_DAY_TEXT}` : null;
+        iconSize = 38;
+      }
+    } else if (this.props.type === SAME_DAY_DELIVERY) {
+      iconImage = deliveryIcon;
+      typeText = this.props.placedTime ? SAME_DAY_DELIVERY_SHIPPING_TEXT : null;
+      iconSize = 34;
     } else if (this.props.type === HOME_DELIVERY) {
-      iconImage = HomeImage;
-      typeName = HOME_TEXT;
-    } else if (this.props.type === COLLECT) {
-      iconImage = CollectImage;
-      typeName = COLLECT_TEXT;
+      iconImage = deliveryIcon;
+      typeText = this.props.placedTime ? HOME_TEXT : null;
+      iconSize = 34;
+    } else if (this.props.isQuiqPiq) {
+      iconImage = quiqpiqImage;
+      typeText = QUIQPIQ;
+      iconSize = 40;
+    } else if (this.props.isCod == "Y") {
+      iconImage = codImage;
+      typeText = COD_TEXT;
+      iconSize = 35;
     }
     if (!this.props.available) {
-      typeName = `${typeName}`;
+      typeText = `${typeText}`;
     }
+
     let deliveryCharge = "";
-    if (this.props.deliveryCharge) {
+    if (this.props.deliveryCharge && this.props.type !== SHORT_COLLECT) {
       if (this.props.showDeliveryCharge) {
-        deliveryCharge = "(Free)";
+        deliveryCharge = "Free";
       }
       if (parseInt(this.props.deliveryCharge, 10) !== 0) {
-        deliveryCharge = `(₹${parseInt(this.props.deliveryCharge, 10)})`;
+        deliveryCharge = `₹${parseInt(this.props.deliveryCharge, 10)}`;
       }
     }
+    if (this.props.pdpApparel) {
+      baseClass = styles.basePdp;
+    }
+    if (this.props.isQuiqPiq === "Y") {
+      baseClass = styles.basePdp;
+    }
+    if (this.props.fromSellerCard) {
+      cncDeliveryAddressClass = styles.cncDeliveryAddressFullWidth;
+    }
+    if (this.props.inCartPage || this.props.inCheckOutPage) {
+      cncDeliveryAddressClass = styles.cncDeliveryAddressCartPage;
+    }
+    let storeDetails = this.props.storeDetails;
     return (
-      <div className={styles.base}>
+      <div className={baseClass}>
         <div
           className={
             this.props.available ? styles.dataHolder : styles.notAvailable
@@ -75,14 +260,28 @@ export default class DeliveryInformations extends React.Component {
           <IconWithHeader
             image={iconImage}
             iconShow={this.props.iconShow}
-            header={`${typeName} ${deliveryCharge}`}
+            iconSize={iconSize}
+            header={`${deliveryCharge}`}
+            dateFormatted={typeDate}
+            dateFormattedText={typeText}
+            inCheckOutPage={this.props.inCheckOutPage}
+            inPdpPage={this.props.pdpApparel}
+            type={this.props.type}
+            inCartPage={this.props.inCartPage}
           >
-            {this.props.placedTime &&
-              this.props.available && (
-                <div className={styles.placeTime}>{this.props.placedTime}</div>
-              )}
+            {this.props.cutOffTime && (
+              <CountDownTimer cutOffSeconds={this.props.cutOffTime} />
+            )}
+
+            {this.props.available && this.props.placedTimeForCod && (
+              <div className={styles.placeTime}>
+                {this.props.placedTimeForCod}
+              </div>
+            )}
+
             {this.props.deliverText && (
               <div className={styles.placeTime}>
+                ${formattedPlacedTime}
                 {this.props.deliverText}
                 <span className={styles.text}>{this.props.textHeading}</span>
               </div>
@@ -91,61 +290,81 @@ export default class DeliveryInformations extends React.Component {
               <div className={styles.placeTime}>{NOT_AVAILABLE}</div>
             )}
             {this.props.isClickable &&
-              this.props.type === COLLECT &&
+              this.props.type === SHORT_COLLECT &&
               this.props.isShowCliqAndPiqUnderLineText &&
               this.props.available && (
                 <div className={styles.underLineButtonHolder}>
+                  {storeDetails && storeDetails.address && (
+                    <div className={cncDeliveryAddressClass}>
+                      {storeDetails.address}
+                    </div>
+                  )}
                   <span className={styles.buttonHolderPiq}>
                     <UnderLinedButton
-                      size={
+                      inCheckOutPage={this.props.inCheckOutPage}
+                      inCartPage={this.props.inCartPage}
+                      inPdpPage={this.props.inPdpPage}
+                      /*    size={
                         UserAgent.checkUserAgentIsMobile() ? "14px" : "12px"
-                      }
-                      fontFamily="light"
+                      } */
+                      fontFamily="semibold"
                       color="#ff1744"
-                      size="11px"
-                      label="Check for pick up options"
+                      size="14px"
+                      label={this.props.numberOfStore}
                       onClick={() => this.onPiq()}
                     />
                   </span>
                 </div>
               )}
           </IconWithHeader>
-          {this.props.type === COLLECT
-            ? this.props.selected &&
-              this.props.onSelect && (
-                <div
-                  className={styles.checkboxHolder}
-                  onClick={() => {
-                    this.handleSelect();
-                  }}
-                >
-                  {this.props.isClickable && (
-                    <CheckBox selected={this.props.selected} />
-                  )}
-                </div>
-              )
-            : this.props.onSelect && (
-                <div
-                  className={styles.checkboxHolder}
-                  onClick={() => {
-                    this.handleSelect();
-                  }}
-                >
-                  {this.props.isClickable && (
-                    <CheckBox selected={this.props.selected} />
-                  )}
-                </div>
-              )}
-
-          {this.props.arrowClick &&
-            this.props.type === COLLECT && (
+          {this.props.type === COLLECT ? (
+            this.props.selected &&
+            this.props.onSelect && (
               <div
-                className={styles.arrowHolder}
-                onClick={() => this.arrowClick()}
+                className={[
+                  styles.checkboxHolder,
+                  this.props.type === SHORT_HOME_DELIVERY
+                    ? styles.topspace0
+                    : styles.topspace23
+                ].join(" ")}
+                onClick={() => {
+                  this.handleSelect();
+                }}
               >
-                <Icon image={arrowIcon} size={20} />
+                {this.props.isClickable && (
+                  <CheckBox selected={this.props.selected} />
+                )}
               </div>
-            )}
+            )
+          ) : this.props.onSelect &&
+            this.props.isClickable &&
+            this.props.inCartPage ? null : this.props.onSelect &&
+            !this.props.inCartPage ? (
+            <div
+              className={[
+                styles.checkboxHolder,
+                this.props.type === SHORT_HOME_DELIVERY
+                  ? styles.topspace0
+                  : styles.topspace23
+              ].join(" ")}
+              onClick={() => {
+                this.handleSelect(this.props.type === SHORT_COLLECT);
+              }}
+            >
+              {this.props.isClickable && (
+                <CheckBox selected={this.props.selected} />
+              )}
+            </div>
+          ) : null}
+
+          {this.props.arrowClick && this.props.type === COLLECT && (
+            <div
+              className={styles.arrowHolder}
+              onClick={() => this.arrowClick()}
+            >
+              <Icon image={arrowIcon} size={20} />
+            </div>
+          )}
           {this.props.showCliqAndPiqButton &&
             this.props.isClickable &&
             !this.props.selected &&
@@ -173,12 +392,19 @@ DeliveryInformations.propTypes = {
   available: PropTypes.bool,
   showDeliveryCharge: PropTypes.bool,
   isShowCliqAndPiqUnderLineText: PropTypes.bool,
-  iconShow: PropTypes.bool
+  isArrowIcon: PropTypes.bool,
+  isCartForMargin: PropTypes.bool,
+  inCartPage: PropTypes.bool,
+  inCartPageIcon: PropTypes.bool
 };
 
 DeliveryInformations.defaultProps = {
   showCliqAndPiqButton: true,
   showDeliveryCharge: false,
   isShowCliqAndPiqUnderLineText: true,
-  iconShow: false
+  isArrowIcon: true,
+  deliveryInformationByCart: false,
+  isCartForMargin: false,
+  inCartPage: false,
+  inCartPageIcon: false
 };

@@ -119,14 +119,19 @@ export default class Input2 extends React.Component {
               height: `${this.props.height}px`,
               borderColor: `${this.props.borderColor}`,
               borderBottom: `${this.props.borderBottom}`,
-              background: `${this.props.background}`
+              background: `${this.props.background}`,
+              border: `${this.props.border}`
             }}
           >
             <input
               type={this.props.type}
               id={this.props.id}
               placeholder={this.props.placeholder}
-              className={styles.inputBox}
+              className={
+                this.props.noPadding
+                  ? styles.inputBoxNoPadding
+                  : styles.inputBox
+              }
               onFocus={event => this.handleFocus(event)}
               onBlur={event => this.handleBlur(event)}
               onChange={event => this.handleChange(event)}

@@ -175,6 +175,6 @@ SearchAndUpdate.defaultProps = {
   labelText: "Check",
   hasAutoFocus: false,
   uiType: "default",
-  placeholder: "Enter your PIN code",
+  placeholder: "Enter Pincode",
   ovalButton: false
 };
