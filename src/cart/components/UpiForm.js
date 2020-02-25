@@ -359,7 +359,7 @@ export default class UpiForm extends React.Component {
                   <img
                     src={combinedLogoUrl}
                     className={styles.combinedLogoUrl}
-                    alt="imgg"
+                    alt=""
                   />
                 </div>
                 <div className={styles.flexRow50Cols}>
@@ -481,7 +481,7 @@ export default class UpiForm extends React.Component {
                     onClick={() => this.toggleForm()}
                   >
                     <p className={styles.upitncTxt + " " + styles.showSavedUpi}>
-                      SHOW SAVED UPI ID’s
+                      SHOW SAVED UPI IDs
                     </p>
                   </div>
                 )}
