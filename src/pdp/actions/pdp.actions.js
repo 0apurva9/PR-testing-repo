@@ -37,10 +37,10 @@ import { setDataLayer, ADOBE_PDP_TYPE } from "../../lib/adobeUtils.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { isBrowser } from "browser-or-node";
 
-import test from "../../mock/test.json";
-import ed from "../../mock/exchangeDetails.json";
-import pincodeResponse from "../../mock/pincodeResponse.json";
-import imeijson from "../../mock/imei.json";
+// import test from "../../mock/test.json";
+// import ed from "../../mock/exchangeDetails.json";
+// import pincodeResponse from "../../mock/pincodeResponse.json";
+// import imeijson from "../../mock/imei.json";
 
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
 import { displayToast, showToast } from "../../general/toast.actions.js";
@@ -253,11 +253,11 @@ export function getProductDescription(
           dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
         }
       }, TIME_OUT_FOR_APIS);
-      // const result = await api.getMiddlewareUrl(
-      //   `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
-      // );
-      // const resultJson = await result.json();
-      const resultJson = test;
+      const result = await api.getMiddlewareUrl(
+        `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
+      );
+      const resultJson = await result.json();
+      // const resultJson = test;
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
@@ -368,10 +368,10 @@ export function getProductPinCode(pinCode: null, productCode) {
           url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false`;
         }
       }
-      // const result = await api.post(url);
+      const result = await api.post(url);
 
-      // const resultJson = await result.json();
-      const resultJson = pincodeResponse;
+      const resultJson = await result.json();
+      // const resultJson = pincodeResponse;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -1837,8 +1837,8 @@ export function getExchangeDetails(
       const result = await api.getMiddlewareUrl(
         `v2/mpl/products/exchangeDetails?listingId=${listingId}&ussid=${ussid}&maxExchangeAmount=${maxExchangeAmount}&pickUpCharge=${pickupCharge}`
       );
-      // const resultJson = await result.json();
-      const resultJson = ed;
+      const resultJson = await result.json();
+      // const resultJson = ed;
       if (resultJson.status === SUCCESS) {
         return dispatch(getExchangeDetailsSuccess(resultJson));
       } else {
@@ -1891,11 +1891,11 @@ export function verifyIMEINumber(
   return async (dispatch, getState, { api }) => {
     dispatch(verifyIMEINumberRequest());
     try {
-      // const result = await api.getMiddlewareUrl(
-      //   `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&exchangeAmountCashify=${exchangeAmountCashify}&TulBump=${tulBump}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}`
-      // );
-      // const resultJson = await result.json();
-      const resultJson = imeijson;
+      const result = await api.getMiddlewareUrl(
+        `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&exchangeAmountCashify=${exchangeAmountCashify}&TulBump=${tulBump}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}`
+      );
+      const resultJson = await result.json();
+      // const resultJson = imeijson;
       // if (resultJson.status === SUCCESS) {
       //   return dispatch(verifyIMEINumberSuccess(resultJson));
       // }
