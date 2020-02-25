@@ -338,11 +338,13 @@ export default class DeliveryInfoSelect extends React.Component {
                   })
                   .includes(SHORT_COLLECT) &&
                 `${
-                  availableStores > 1
+                  availableStores > 1 && storeDetails
                     ? availableStores + " more stores"
-                    : availableStores === 1
-                      ? availableStores + " more store"
-                      : "more store"
+                    : availableStores > 1
+                      ? availableStores + " stores"
+                      : availableStores === 1
+                        ? availableStores + " more store"
+                        : "more store"
                 } nearby`
               }
               splitIntoTwoLine={false}

@@ -57,9 +57,9 @@ export default class PdpPaymentInfo extends React.Component {
             </div>
           )
         )}
-        {this.props.hasCod === "Y" && (
+        {/* {this.props.hasCod === "Y" && (
           <div className={styles.content}>Cash on Delivery available</div>
-        )}
+        )} */}
       </div>
     );
   }

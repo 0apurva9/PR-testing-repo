@@ -54,11 +54,13 @@ export default class DeliveryModeSet extends React.Component {
       let nextDay = new Date(nextWithOutFormatDay);
       let nextDayFormat = format(nextDay, "DD-MMM-YYYY");
       let placedTimeWithoutFormat = new Date(
-        placedTime && placedTime.deliveryDate
+        placedTime && placedTime.deliveryDate.replace(/-/g, "/")
       );
       let productDayFormat = format(placedTimeWithoutFormat, "DD-MMM-YYYY");
 
-      let dateWithMonth = new Date(placedTime && placedTime.deliveryDate);
+      let dateWithMonth = new Date(
+        placedTime && placedTime.deliveryDate.replace(/-/g, "/")
+      );
       let date = dateWithMonth.getDate();
       let month = dateWithMonth.getMonth();
       let monthNames = [
@@ -77,9 +79,9 @@ export default class DeliveryModeSet extends React.Component {
       ];
       let dayBehavior =
         dayFormat === productDayFormat
-          ? `Today ,`
+          ? `Today, `
           : nextDayFormat === productDayFormat
-            ? `Tomorrow ,`
+            ? `Tomorrow, `
             : "";
       switch (date) {
         case 1:

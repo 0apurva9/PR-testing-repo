@@ -190,7 +190,11 @@ export default class ReturnToStore extends React.Component {
         selectedStore.find(store => {
           return store.ussId === ussId;
         });
-      if (storeDetails && storeDetails.storeId) {
+      if (
+        storeDetails &&
+        storeDetails.storeId &&
+        storeDetails.pincode === this.props.pincode
+      ) {
         await this.selectStoreForDesktop([storeDetails.storeId]);
         this.selectStoreButtonForDesktop();
       }
@@ -198,11 +202,19 @@ export default class ReturnToStore extends React.Component {
   }
   async componentDidMount() {
     await this.getAvailableStores();
+    let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
+    if (
+      this.props.from === "Checkout" &&
+      (selectedStore && selectedStore.length > 0) &&
+      this.state.storeId
+    ) {
+      this.setState({ showPickupPerson: true });
+    }
 
     if (this.props.getUserDetails) {
       this.props.getUserDetails();
     }
-    let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
+
     if (
       this.props.from !== "Checkout" &&
       selectedStore &&
@@ -218,7 +230,11 @@ export default class ReturnToStore extends React.Component {
         selectedStore.find(store => {
           return store.ussId === ussId;
         });
-      if (storeDetails && storeDetails.storeId) {
+      if (
+        storeDetails &&
+        storeDetails.storeId &&
+        storeDetails.pincode === this.props.pincode
+      ) {
         await this.selectStoreForDesktop([storeDetails.storeId]);
       }
     }

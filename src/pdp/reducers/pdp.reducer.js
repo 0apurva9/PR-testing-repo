@@ -184,6 +184,7 @@ const productDescription = (
             pinCodeResponse.find(pincodeSeller => {
               return (
                 otherSeller.USSID === pincodeSeller.ussid &&
+                otherSeller.availableStock > 0 &&
                 pincodeSeller.stockCount > 0 &&
                 pincodeSeller.isServicable === "Y"
               );
