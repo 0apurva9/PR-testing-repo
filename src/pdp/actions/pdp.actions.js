@@ -381,6 +381,11 @@ export function getProductPinCode(pinCode: null, productCode) {
         resultJson.isPickupAvailableForExchange;
       if (isPickupAvailableForExchange) {
         dispatch(displayToast("Exchange is serviceable at your pincode"));
+      } else {
+        dispatch(displayToast("Exchange is not serviceable at your pincode"));
+        return dispatch(
+          getProductPinCodeFailure("PickupNotAvailableForExchange")
+        );
       }
 
       return dispatch(

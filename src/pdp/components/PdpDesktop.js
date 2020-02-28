@@ -393,9 +393,9 @@ export default class PdpApparel extends React.Component {
       pincode,
       productCode
     );
-    if (productPincodeObj.status === ERROR) {
-      this.props.displayToast("Please enter a valid pincode");
-    }
+    // if (productPincodeObj.status === ERROR) {
+    //   this.props.displayToast("Please enter a valid pincode");
+    // }
     if (
       productPincodeObj.status === SUCCESS &&
       this.props.productDetails &&
@@ -1176,56 +1176,67 @@ export default class PdpApparel extends React.Component {
                     <div className={styles.exchangeMainContainer}>
                       <div className={styles.exchangeLogo} />
                       <div className={styles.exchangeContainer}>
-                        {!productData.selectedProductName &&
-                        !selectedProductName ? (
+                        {this.props.pincodeError ===
+                          "PickupNotAvailableForExchange" && (
                           <div className={styles.exchangeLink}>
-                            Get upto cashback{" "}
-                            {productData.maxExchangeAmount &&
-                              productData.maxExchangeAmount
-                                .formattedValueNoDecimal}{" "}
-                            <span
-                              className={styles.withExchangeLink}
-                              onClick={() => this.openExchangeModal()}
-                            >
-                              with exchange
-                            </span>
-                          </div>
-                        ) : (
-                          <div className={styles.exchangeLink}>
-                            Get{" "}
-                            <span className={styles.fontRegular}>
-                              {productData.selectedProductCashback &&
-                              productData.selectedProductCashback
-                                .formattedValueNoDecimal
-                                ? productData.selectedProductCashback
-                                    .formattedValueNoDecimal
-                                : selectedProductCashback.formattedValueNoDecimal}{" "}
-                            </span>
-                            cashback on your{" "}
-                            {this.trimProductName(
-                              productData.selectedProductName
-                                ? productData.selectedProductName
-                                : selectedProductName
-                            )}{" "}
-                            <span
-                              className={styles.withExchangeLink}
-                              onClick={() => this.openExchangeModal()}
-                            >
-                              with exchange
-                            </span>
+                            Change Pincode to Avail Exchange.
                           </div>
                         )}
+                        {this.props.pincodeError !==
+                          "PickupNotAvailableForExchange" && (
+                          <React.Fragment>
+                            {!productData.selectedProductName &&
+                            !selectedProductName ? (
+                              <div className={styles.exchangeLink}>
+                                Get upto cashback{" "}
+                                {productData.maxExchangeAmount &&
+                                  productData.maxExchangeAmount
+                                    .formattedValueNoDecimal}{" "}
+                                <span
+                                  className={styles.withExchangeLink}
+                                  onClick={() => this.openExchangeModal()}
+                                >
+                                  with exchange
+                                </span>
+                              </div>
+                            ) : (
+                              <div className={styles.exchangeLink}>
+                                Get{" "}
+                                <span className={styles.fontRegular}>
+                                  {productData.selectedProductCashback &&
+                                  productData.selectedProductCashback
+                                    .formattedValueNoDecimal
+                                    ? productData.selectedProductCashback
+                                        .formattedValueNoDecimal
+                                    : selectedProductCashback.formattedValueNoDecimal}{" "}
+                                </span>
+                                cashback on your{" "}
+                                {this.trimProductName(
+                                  productData.selectedProductName
+                                    ? productData.selectedProductName
+                                    : selectedProductName
+                                )}{" "}
+                                <span
+                                  className={styles.withExchangeLink}
+                                  onClick={() => this.openExchangeModal()}
+                                >
+                                  with exchange
+                                </span>
+                              </div>
+                            )}
 
-                        <div
-                          className={styles.exchangeDetails}
-                          onClick={() =>
-                            this.openExchangeModal({
-                              openHowExchangeWorksModal: true
-                            })
-                          }
-                        >
-                          How exchange works?
-                        </div>
+                            <div
+                              className={styles.exchangeDetails}
+                              onClick={() =>
+                                this.openExchangeModal({
+                                  openHowExchangeWorksModal: true
+                                })
+                              }
+                            >
+                              How exchange works?
+                            </div>
+                          </React.Fragment>
+                        )}
                       </div>
                     </div>
                   )}

@@ -244,7 +244,8 @@ const mapStateToProps = state => {
       state.productDescription.secondaryBundleProductData,
     relevantBundleProductCodeData:
       state.productDescription.relevantBundleProductCodeData,
-    exchangeDetails: state.productDescription.exchangeDetails
+    exchangeDetails: state.productDescription.exchangeDetails,
+    pincodeError: state.productDescription.error
   };
 };
 

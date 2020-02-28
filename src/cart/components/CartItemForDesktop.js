@@ -237,57 +237,59 @@ export default class CartItemForDesktop extends React.Component {
             </div>
           )}
 
-        <div className={styles.exchangeDetails}>
-          <img
-            src={closeIcon}
-            alt="exchange icon"
-            className={styles.closeIcon}
-          />
-          <img
-            src={exchangeIconLight}
-            alt="exchange icon"
-            className={styles.exchangeIcon}
-          />
-          <div className={styles.exchangeDetailsHeading}>
-            Exchange Cashback for{" "}
-            <span className={styles.exchangeProductName}>Apple iPhone 6</span>
-          </div>
-          <div className={styles.exchangePriceNDetails}>
-            <div className={styles.exchangePrice}>₹7,300</div>
-            {!this.state.showMore && (
-              <div
-                className={styles.exchangeViewDetails}
-                onClick={() => this.viewMoreDetails()}
-              >
-                View Details
-              </div>
+        {this.props.exchangeDetails && (
+          <div className={styles.exchangeDetails}>
+            <img
+              src={closeIcon}
+              alt="exchange icon"
+              className={styles.closeIcon}
+            />
+            <img
+              src={exchangeIconLight}
+              alt="exchange icon"
+              className={styles.exchangeIcon}
+            />
+            <div className={styles.exchangeDetailsHeading}>
+              Exchange Cashback for{" "}
+              <span className={styles.exchangeProductName}>Apple iPhone 6</span>
+            </div>
+            <div className={styles.exchangePriceNDetails}>
+              <div className={styles.exchangePrice}>₹7,300</div>
+              {!this.state.showMore && (
+                <div
+                  className={styles.exchangeViewDetails}
+                  onClick={() => this.viewMoreDetails()}
+                >
+                  View Details
+                </div>
+              )}
+            </div>
+            {this.state.showMore && (
+              <React.Fragment>
+                <div className={styles.font14LightLeft}>Base Value</div>
+                <div className={styles.font14LightRight}>₹2,300</div>
+                <div className={styles.font14LightLeft}>CLiQ Bonus</div>
+                <div className={styles.font14LightRight}>₹5,000</div>
+                <div className={styles.exchangePickupDetails}>
+                  <span className={styles.font14bold}>Pick up</span>: Within 3
+                  days of Product Delivery |{" "}
+                  <span className={styles.font14bold}>Pick up charge</span>:{" "}
+                  <span className={styles.font14green}>FREE</span>{" "}
+                </div>
+                <div className={styles.font12light}>
+                  Your old mobile will be examined before pick up.{" "}
+                  <span className={styles.tncLink}>T&amp;C</span>{" "}
+                </div>
+                <div
+                  className={styles.exchangeViewLessDetails}
+                  onClick={() => this.viewLessDetails()}
+                >
+                  View Less
+                </div>
+              </React.Fragment>
             )}
           </div>
-          {this.state.showMore && (
-            <React.Fragment>
-              <div className={styles.font14LightLeft}>Base Value</div>
-              <div className={styles.font14LightRight}>₹2,300</div>
-              <div className={styles.font14LightLeft}>CLiQ Bonus</div>
-              <div className={styles.font14LightRight}>₹5,000</div>
-              <div className={styles.exchangePickupDetails}>
-                <span className={styles.font14bold}>Pick up</span>: Within 3
-                days of Product Delivery |{" "}
-                <span className={styles.font14bold}>Pick up charge</span>:{" "}
-                <span className={styles.font14green}>FREE</span>{" "}
-              </div>
-              <div className={styles.font12light}>
-                Your old mobile will be examined before pick up.{" "}
-                <span className={styles.tncLink}>T&amp;C</span>{" "}
-              </div>
-              <div
-                className={styles.exchangeViewLessDetails}
-                onClick={() => this.viewLessDetails()}
-              >
-                View Less
-              </div>
-            </React.Fragment>
-          )}
-        </div>
+        )}
       </div>
     );
   }
