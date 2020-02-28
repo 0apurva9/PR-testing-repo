@@ -5,7 +5,7 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import styles from "./UpiForm.css";
 import upi_opt from "./img/upi_opt.svg";
 import { format } from "date-fns";
-import loader from "../../account/components/img/loader.gif";
+import loader from "../../account/components/img/loader.svg";
 import { CART_DETAILS_FOR_LOGGED_IN_USER } from "../../lib/constants.js";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -260,7 +260,13 @@ export default class UpiForm extends React.Component {
                                           />{" "}
                                           {this.props.addUserUPIStatus ===
                                             "requesting" && (
-                                            <img src={loader} alt="Loader" />
+                                            <img
+                                              src={loader}
+                                              alt="Loader"
+                                              width="25px"
+                                              height="25px"
+                                              alt=""
+                                            />
                                           )}
                                           {this.props.addUserUPIStatus !==
                                             "requesting" &&
