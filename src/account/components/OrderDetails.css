@@ -296,6 +296,7 @@
 	display: inline-block;
 	font-size: 14px;
 	font-family: light;
+	margin-bottom: 15px;
 }
 .fontFamilySemibold{
 	font-family: semibold;
@@ -309,6 +310,90 @@
 }
 .exchangePricingDetails tbody tr td{
 	width: 92%;
+	padding-bottom: 10px;
+}
+.borderWithPaddingTop{
+	border-top: 1px solid #ececec;
+	padding-top: 10px;
+	font-family: regular;
+}
+.exchangePricingDetails tbody tr td:nth-child(even){
+	text-align: right;
+}
+.pickupCharge{
+	color: #67b70b;
+}
+.effectivePrice{
+	width:50%;
+	font-size: 12px;
+	display: inline-block;
+	font-family: regular;
+}
+.effectivePriceContainer{
+	width: 85%;
+	margin: 0 auto;
+	border-top: 1px solid #ececec;
+	padding: 10px 0;
+	border-bottom: 1px solid #ececec;
+}
+.effectivePrice:nth-child(even){
+	text-align: right;
+}
+.fontLight{
+	font-family: light;
+}
+.fontBold{
+	font-family: semibold;
+}
+.exchangeEDDContainer{
+	width: 85%;
+	margin: 0 auto;
+	font-size: 14px;
+	padding-top: 10px;
+}
+.exchangeCashbackDetails{
+	padding: 10px 15px;
+	border: 0.5px solid #979797;
+	border-radius: 4px;
+	width: 85%;
+	margin: 10px auto;
+}
+.exchangeCashbackTextContainer{
+	width: 75%;
+  display: inline-block;
+}
+.exchangeCashbackChangeMode{
+	width: 25%;
+	display: inline-block;
+	vertical-align: top;
+	line-height: 2.5;
+	text-align: right;
+	font-size: 14px;
+	color: #ff1744;
+	font-family: semibold;
+}
+.exchangeCashbackText{
+	font-size: 12px;
+}
+.exchangeCashbackAccountText{
+	font-size: 12px;
+	font-family: semibold;
+}
+.exchangeCancelledText{
+	font-size: 13px;
+	color: #c47403;
+	font-family: light;
+	padding: 10px 0;
+	width: 85%;
+	margin: 0 auto;
+}
+.exchangeProcessedText{
+	font-size: 13px;
+	color: #67b70b;
+	font-family: light;
+	padding: 10px 0;
+	width: 85%;
+	margin: 0 auto;
 }
 @media screen and (min-width: 1025px) {
 	.base {

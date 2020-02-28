@@ -672,7 +672,11 @@ export default class OrderDetails extends React.Component {
                           </span>{" "}
                           Apple iPhone 6
                         </div>
-                        <table className={styles.exchangePricingDetails}>
+                        <table
+                          className={styles.exchangePricingDetails}
+                          cellPadding={0}
+                          cellSpacing={0}
+                        >
                           <tbody>
                             <tr>
                               <td>Exchange Cashback</td>
@@ -684,10 +688,86 @@ export default class OrderDetails extends React.Component {
                             </tr>
                             <tr>
                               <td>Pick up charge: </td>
-                              <td>FREE</td>
+                              <td className={styles.pickupCharge}>FREE</td>
+                            </tr>
+                            <tr>
+                              <td className={styles.borderWithPaddingTop}>
+                                Total Exchange Cashback:{" "}
+                              </td>
+                              <td className={styles.borderWithPaddingTop}>
+                                ₹7,300
+                              </td>
                             </tr>
                           </tbody>
                         </table>
+                        <div className={styles.effectivePriceContainer}>
+                          <div className={styles.effectivePrice}>
+                            <span className={styles.fontLight}>
+                              Effective Price for
+                            </span>{" "}
+                            Realmi3i 32 GB
+                          </div>
+                          <div className={styles.effectivePrice}>₹20,699</div>
+                        </div>
+                        <div className={styles.exchangeEDDContainer}>
+                          <span className={styles.fontBold}>
+                            Estimated Exchange Pick up by:
+                          </span>
+                          <span className={styles.fontLight}>
+                            {" "}
+                            25th Nov 2019
+                          </span>
+                        </div>
+                        <div className={styles.exchangeEDDContainer}>
+                          <span className={styles.fontBold}>
+                            Estimated Exchange Pick up Date:
+                          </span>
+                          <span className={styles.fontLight}>
+                            {" "}
+                            24th Nov 2019
+                          </span>
+                        </div>
+                        <div className={styles.exchangeEDDContainer}>
+                          <span className={styles.fontBold}>
+                            Exchange Product Picked up on:
+                          </span>
+                          <span className={styles.fontLight}>
+                            {" "}
+                            24th Nov 2019
+                          </span>
+                        </div>
+                        <div className={styles.exchangeCashbackDetails}>
+                          <div className={styles.exchangeCashbackTextContainer}>
+                            <span className={styles.exchangeCashbackText}>
+                              You will receive exchange cashback, post your old
+                              phone pickup, in{" "}
+                            </span>
+                            <span
+                              className={styles.exchangeCashbackAccountText}
+                            >
+                              A/c xxxx xxxx xxxx 1234
+                            </span>
+                            <span
+                              className={styles.exchangeCashbackAccountText}
+                            >
+                              CLiQ Cash wallet
+                            </span>
+                          </div>
+                          <div className={styles.exchangeCashbackChangeMode}>
+                            Change Mode
+                          </div>
+                        </div>
+                        <div className={styles.exchangeCancelledText}>
+                          Your Exchange has been cancelled since you failed to
+                          update the account details.
+                        </div>
+                        <div className={styles.exchangeCancelledText}>
+                          Your Exchange has been cancelled since IMEI number is
+                          already processed.
+                        </div>
+                        <div className={styles.exchangeProcessedText}>
+                          Exchange has been processed sucessfully.
+                        </div>
                       </div>
 
                       {products.consignmentStatus &&
