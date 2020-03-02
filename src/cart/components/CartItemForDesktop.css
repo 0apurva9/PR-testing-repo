@@ -182,6 +182,9 @@
   width: 50%;
   margin-bottom: 10px;
 }
+.font14LightLeft{
+  padding-left: 40px;
+}
 .font14LightRight{
   text-align: right;
 }
@@ -209,4 +212,14 @@
   font-family: light;
   display: inline-block;
   width: 70%;
+}
+.separator{
+  padding: 0 40px;
+}
+.exchangeProductNotServiceable{
+  color: #ff1744;
+  font-size: 13px;
+  font-family:light;
+  margin-left: 181px;
+  margin-top: 5px;
 }
