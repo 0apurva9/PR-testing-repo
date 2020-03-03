@@ -125,12 +125,17 @@
 .isGiveAwayQuantityValue {
   padding-left: 12px;
 }
-.exchangeDetails{
+.exchangeDetails,.exchangeDetailsPickupNotAvail{
   position: relative;
   margin-left: 181px;
   border-radius: 2px;
-  border: solid 0.5px #d2d2d2;
   padding: 10px 15px;
+}
+.exchangeDetails{
+  border: solid 0.5px #d2d2d2;
+}
+.exchangeDetailsPickupNotAvail{
+  border: solid 0.5px #ff1744;
 }
 .exchangeDetailsHeading{
   font-size: 14px;
@@ -138,6 +143,7 @@
   display: inline-block;
   padding: 8px 0 0 8px;
   vertical-align: top;
+  width: calc(100% - 110px);
 }
 .exchangeProductName{
   font-family: regular;
@@ -151,7 +157,7 @@
 .exchangePrice{
   font-size: 14px;
   text-align: right;
-  margin-bottom: 2px;
+  padding-top: 8px;
 }
 .exchangeViewDetails,.exchangeViewLessDetails{
   font-size: 12px;

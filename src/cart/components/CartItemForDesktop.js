@@ -101,6 +101,20 @@ export default class CartItemForDesktop extends React.Component {
         });
       }
     }
+    let isPickupAvailableForExchange = false;
+    if (
+      this.props &&
+      this.props.product &&
+      this.props.product.pinCodeResponse
+    ) {
+      if (
+        this.props.product.pinCodeResponse.isPickupAvailableForExchange ||
+        typeof this.props.product.pinCodeResponse
+          .isPickupAvailableForExchange === "undefined"
+      ) {
+        isPickupAvailableForExchange = true;
+      }
+    }
     return (
       <div className={styles.base}>
         <div className={styles.productImage}>
@@ -237,9 +251,15 @@ export default class CartItemForDesktop extends React.Component {
             </div>
           )}
 
-        {
+        {this.props.product.exchangeDetails && (
           <React.Fragment>
-            <div className={styles.exchangeDetails}>
+            <div
+              className={
+                isPickupAvailableForExchange
+                  ? styles.exchangeDetails
+                  : styles.exchangeDetailsPickupNotAvail
+              }
+            >
               <img
                 src={closeIcon}
                 alt="exchange icon"
@@ -253,11 +273,16 @@ export default class CartItemForDesktop extends React.Component {
               <div className={styles.exchangeDetailsHeading}>
                 Exchange Cashback for{" "}
                 <span className={styles.exchangeProductName}>
-                  Apple iPhone 6
+                  {this.props.product.exchangeDetails.exchangeModelName}
                 </span>
               </div>
               <div className={styles.exchangePriceNDetails}>
-                <div className={styles.exchangePrice}>₹7,300</div>
+                <div className={styles.exchangePrice}>
+                  {
+                    this.props.product.exchangeDetails.exchangePriceDetail
+                      .totalExchangeCashback.formattedValueNoDecimal
+                  }
+                </div>
                 {!this.state.showMore && (
                   <div
                     className={styles.exchangeViewDetails}
@@ -270,16 +295,37 @@ export default class CartItemForDesktop extends React.Component {
               {this.state.showMore && (
                 <React.Fragment>
                   <div className={styles.font14LightLeft}>Base Value</div>
-                  <div className={styles.font14LightRight}>₹2,300</div>
+                  <div className={styles.font14LightRight}>
+                    {
+                      this.props.product.exchangeDetails.exchangePriceDetail
+                        .exchangeAmountCashify.formattedValueNoDecimal
+                    }
+                  </div>
                   <div className={styles.font14LightLeft}>CLiQ Bonus</div>
-                  <div className={styles.font14LightRight}>₹5,000</div>
+                  <div className={styles.font14LightRight}>
+                    {
+                      this.props.product.exchangeDetails.exchangePriceDetail
+                        .TULBump.formattedValueNoDecimal
+                    }
+                  </div>
                   <div className={styles.exchangePickupDetails}>
                     <span className={styles.font14bold}>Pick up</span>: Within 3
                     days of Product Delivery{" "}
                     <span className={styles.separator}>|</span>
                     <span className={styles.font14bold}>
                       Pick up charge
-                    </span>: <span className={styles.font14green}>FREE</span>{" "}
+                    </span>:{" "}
+                    {this.props.product.exchangeDetails.exchangePriceDetail
+                      .pickupCharge.value === 0 ? (
+                      <span className={styles.font14green}>FREE</span>
+                    ) : (
+                      <span>
+                        {
+                          this.props.product.exchangeDetails.exchangePriceDetail
+                            .pickupCharge.formattedValueNoDecimal
+                        }
+                      </span>
+                    )}
                   </div>
                   <div className={styles.font12light}>
                     Your old mobile will be examined before pick up.{" "}
@@ -294,15 +340,18 @@ export default class CartItemForDesktop extends React.Component {
                 </React.Fragment>
               )}
             </div>
-            <React.Fragment>
-              {!this.props.productIsServiceable && (
-                <div className={styles.exchangeProductNotServiceable}>
-                  Cannot service exchange since main product not serviceable
-                </div>
-              )}
-            </React.Fragment>
+            {!isPickupAvailableForExchange && (
+              <div className={styles.exchangeProductNotServiceable}>
+                {this.props.product.pinCodeResponse.errorMessage}
+              </div>
+            )}
+            {!this.props.productIsServiceable && (
+              <div className={styles.exchangeProductNotServiceable}>
+                Cannot service exchange since main product not serviceable
+              </div>
+            )}
           </React.Fragment>
-        }
+        )}
       </div>
     );
   }

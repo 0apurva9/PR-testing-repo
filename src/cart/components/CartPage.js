@@ -577,6 +577,8 @@ class CartPage extends React.Component {
             : "0.00";
         }
       }
+      let productHasPickupAvailable = [];
+
       return (
         <div className={styles.base}>
           <MobileOnly>
@@ -660,6 +662,10 @@ class CartPage extends React.Component {
               <div className={styles.desktopBuffer}>
                 {cartDetails.products &&
                   cartDetails.products.map((product, i) => {
+                    // check if isPickupAvailableForExchange is false , create array and send values to disable checkout button
+                    productHasPickupAvailable.push(
+                      product.pinCodeResponse.isPickupAvailableForExchange
+                    );
                     let serviceable = false;
                     if (product.pinCodeResponse) {
                       if (product.pinCodeResponse.isServicable === YES) {
@@ -917,6 +923,7 @@ class CartPage extends React.Component {
                           changePinCode={this.changePinCode}
                           isFromMyBag={true}
                           showDetails={this.state.showCartDetails}
+                          productHasPickupAvailable={productHasPickupAvailable}
                         />
                       </div>
                     )}

@@ -30,6 +30,15 @@ export default class DesktopCheckout extends React.Component {
     });
   };
   renderCheckout = () => {
+    let disableButton = false;
+    if (
+      (this.props &&
+        this.props.productHasPickupAvailable &&
+        this.props.productHasPickupAvailable.includes(false)) ||
+      this.props.disabled
+    ) {
+      disableButton = true;
+    }
     const { cartAmount } = this.props;
     let bagSubTotal;
     if (cartAmount && cartAmount.bagTotal) {
@@ -311,7 +320,7 @@ export default class DesktopCheckout extends React.Component {
                   defaultPinCode && (
                     <div className={styles.button}>
                       <Button
-                        disabled={this.props.disabled}
+                        disabled={disableButton}
                         type="primary"
                         backgroundColor="#ff1744"
                         height={40}
