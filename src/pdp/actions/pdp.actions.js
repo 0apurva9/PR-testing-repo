@@ -444,29 +444,29 @@ export function addProductToCart(productDetails) {
     //get verify imei api response,check exchange avail or not,get product already in cart
     let IMEIApiResponse = productDetails.verifyIMEINumberAPIResponse;
     let PDPExchangeAvailable = localStorage.getItem("PDPExchangeAvailable");
-    let existingProductData = JSON.parse(
-      localStorage.getItem("exchangedProductInCart")
-    );
-    let exchangedProduct;
-    if (productDetails && IMEIApiResponse) {
-      exchangedProduct =
-        productDetails.code +
-        "_" +
-        productDetails.ussId +
-        "_" +
-        IMEIApiResponse.exchangeProductId;
-    }
+    // let existingProductData = JSON.parse(
+    //   localStorage.getItem("exchangedProductInCart")
+    // );
+    // let exchangedProduct;
+    // if (productDetails && IMEIApiResponse) {
+    //   exchangedProduct =
+    //     productDetails.code +
+    //     "_" +
+    //     productDetails.ussId +
+    //     "_" +
+    //     IMEIApiResponse.exchangeProductId;
+    // }
 
     //if product already in cart show modal
-    if (
-      PDPExchangeAvailable &&
-      IMEIApiResponse &&
-      existingProductData &&
-      existingProductData.indexOf(exchangedProduct) > -1
-    ) {
-      dispatch(showModal(PRODUCTINBAGWITHEXCHANGE_MODAL));
-      return false;
-    }
+    // if (
+    //   PDPExchangeAvailable &&
+    //   IMEIApiResponse &&
+    //   existingProductData &&
+    //   existingProductData.indexOf(exchangedProduct) > -1
+    // ) {
+    //   dispatch(showModal(PRODUCTINBAGWITHEXCHANGE_MODAL));
+    //   return false;
+    // }
     dispatch(addProductToCartRequest());
     try {
       let result;
@@ -515,11 +515,14 @@ export function addProductToCart(productDetails) {
         );
       }
       const resultJson = await result.json();
+      // const resultJson = addToCartError;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
-      // if (resultJsonStatus.status) {
-      //   throw new Error(resultJsonStatus.message);
-      // }
+      if (resultJsonStatus.status) {
+        dispatch(displayToast(resultJson.ErrorMessage));
+        // throw new Error(resultJsonStatus.message);
+        return dispatch(addProductToCartFailure(resultJson.ErrorMessage));
+      }
 
       //set local storage
       let bagItem = localStorage.getItem(CART_BAG_DETAILS);
@@ -536,28 +539,28 @@ export function addProductToCart(productDetails) {
       dispatch(setBagCount(bagItemsInJsonFormat.length));
       setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT);
       //if mobile device exchange, set localstorage
-      if (
-        PDPExchangeAvailable === "true" &&
-        IMEIApiResponse &&
-        productDetails.isFromMobileExchange
-      ) {
-        // if(resultJson.status === "Success" && resultJson.count > 0){
-        let exchangedProductInCart = [];
-        if (existingProductData) {
-          exchangedProductInCart = existingProductData;
-          if (existingProductData.indexOf(exchangedProduct) === -1) {
-            exchangedProductInCart.push(exchangedProduct);
-          }
-        } else {
-          exchangedProductInCart.push(exchangedProduct);
-        }
-        // console.log(exchangedProductInCart)
-        localStorage.setItem(
-          "exchangedProductInCart",
-          JSON.stringify(exchangedProductInCart)
-        );
-        // }
-      }
+      // if (
+      //   PDPExchangeAvailable === "true" &&
+      //   IMEIApiResponse &&
+      //   productDetails.isFromMobileExchange
+      // ) {
+      //   if(resultJson.status === "Success" && resultJson.count > 0){
+      //     let exchangedProductInCart = [];
+      //     if (existingProductData) {
+      //       exchangedProductInCart = existingProductData;
+      //       if (existingProductData.indexOf(exchangedProduct) === -1) {
+      //         exchangedProductInCart.push(exchangedProduct);
+      //       }
+      //     } else {
+      //       exchangedProductInCart.push(exchangedProduct);
+      //     }
+      //     // console.log(exchangedProductInCart)
+      //     localStorage.setItem(
+      //       "exchangedProductInCart",
+      //       JSON.stringify(exchangedProductInCart)
+      //     );
+      //   }
+      // }
 
       return dispatch(addProductToCartSuccess(resultJson));
       // ADOBE_ADD_TO_CART
