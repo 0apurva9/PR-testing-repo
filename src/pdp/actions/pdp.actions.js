@@ -339,11 +339,14 @@ export function getProductPinCodeFailure(error) {
 
 export function getProductPinCode(pinCode: null, productCode) {
   let validProductCode = productCode.toUpperCase();
-  //debugger;
   if (pinCode) {
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, pinCode);
   }
   return async (dispatch, getState, { api }) => {
+    let rootCategory = "";
+    if (getState().productDescription.productDetails.rootCategory) {
+      rootCategory = getState().productDescription.productDetails.rootCategory;
+    }
     dispatch(getProductPinCodeRequest());
     try {
       let url;
@@ -382,7 +385,9 @@ export function getProductPinCode(pinCode: null, productCode) {
       if (isPickupAvailableForExchange) {
         dispatch(displayToast("Exchange is serviceable at your pincode"));
       } else {
-        dispatch(displayToast("Exchange is not serviceable at your pincode"));
+        if (rootCategory && rootCategory === "Electronics") {
+          dispatch(displayToast("Exchange is not serviceable at your pincode"));
+        }
         return dispatch(
           getProductPinCodeFailure("PickupNotAvailableForExchange")
         );
