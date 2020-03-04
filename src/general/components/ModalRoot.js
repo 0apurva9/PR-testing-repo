@@ -140,6 +140,13 @@ const ExchangeModal = Loadable({
   }
 });
 
+const ExchangeTnCModal = Loadable({
+  loader: () => import("../../pdp/components/ExchangeTnCModal"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const ProductCouponDetails = Loadable({
   loader: () => import("../../pdp/components/ProductCouponDetails.js"),
   loading() {
@@ -673,7 +680,7 @@ export default class ModalRoot extends React.Component {
   }
 
   addProductToCart(productDetails) {
-    this.props.addProductToCart(productDetails);
+    return this.props.addProductToCart(productDetails);
   }
 
   render() {
@@ -964,7 +971,12 @@ export default class ModalRoot extends React.Component {
             this.props.addProductToCart(productDetails)
           }
           {...this.props.ownProps}
+          history={this.props.history}
+          displayToast={this.props.displayToast}
         />
+      ),
+      ExchangeTnCModal: (
+        <ExchangeTnCModal closeTnCModal={() => this.handleClose()} />
       ),
       NoCostEmiItemBreakUp: (
         <ItemLevelPopup

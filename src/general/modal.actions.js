@@ -12,6 +12,7 @@ export const EMI_MODAL = "EmiModal";
 export const OFFER_MODAL = "OfferDetailsModal";
 export const TERMSNCONDITIONS_MODAL = "TermsNConditionsWrapperModal";
 export const EXCHANGE_MODAL = "ExchangeModal";
+export const EXCHANGE_TnC_MODAL = "ExchangeTnCModal";
 export const SIZE_SELECTOR = "SizeSelector";
 export const PRICE_BREAKUP = "PriceBreakup";
 export const BANK_OFFERS = "BankOffers";

@@ -15,8 +15,8 @@ export default class ExchangeModalOtherDetails extends React.Component {
   openTnCModal() {
     this.props.openTnCModal();
   }
-  saveExchangeDetails(IMEINumber) {
-    this.props.saveExchangeDetails(IMEINumber);
+  async saveExchangeDetails(IMEINumber) {
+    await this.props.saveExchangeDetails(IMEINumber);
   }
   render() {
     return (

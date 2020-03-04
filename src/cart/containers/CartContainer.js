@@ -31,7 +31,8 @@ import {
   PRODUCT_COUPONS,
   showModal,
   ADDRESS,
-  DESKTOP_AUTH
+  DESKTOP_AUTH,
+  EXCHANGE_TnC_MODAL
 } from "../../general/modal.actions";
 import { SUCCESS, NO } from "../../lib/constants";
 import {
@@ -170,6 +171,9 @@ const mapDispatchToProps = dispatch => {
     },
     getMinicartProducts: () => {
       dispatch(getMinicartProducts());
+    },
+    showExchangeTnCModal: () => {
+      dispatch(showModal(EXCHANGE_TnC_MODAL));
     }
   };
 };

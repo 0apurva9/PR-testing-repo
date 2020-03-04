@@ -167,6 +167,7 @@
 }
 .tncLink{
   color: #ff1744;
+  cursor: pointer;
 }
 .exchangeViewLessDetails{
   width: 30%;

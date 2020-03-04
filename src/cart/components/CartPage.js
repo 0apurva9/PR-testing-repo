@@ -753,6 +753,9 @@ class CartPage extends React.Component {
                             onClickImage={() =>
                               this.onClickImage(product.productcode)
                             }
+                            showExchangeTnCModal={
+                              this.props.showExchangeTnCModal
+                            }
                           />
                         </DesktopOnly>
                       </div>

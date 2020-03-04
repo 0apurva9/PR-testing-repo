@@ -9,6 +9,7 @@ import ExchangeModalOtherDetails from "./ExchangeModalOtherDetails";
 import HowExchangeModalWorksLessDetails from "./HowExchangeModalWorksLessDetails";
 import ExchangeProductDetailsTab from "./ExchangeProductDetailsTab";
 // import * as customSelectDropDown from "../../mock/customSelectDropdown.js";
+import { ADD_TO_BAG_TEXT, PRODUCT_CART_ROUTER } from "../../lib/constants";
 export default class ExchangeModal extends React.Component {
   constructor(props) {
     super(props);
@@ -349,7 +350,7 @@ export default class ExchangeModal extends React.Component {
     }
   }
 
-  saveExchangeDetails(IMEINumber, deviceNo) {
+  async saveExchangeDetails(IMEINumber, deviceNo) {
     if (deviceNo === 1) {
       //update first device details with imei
       let FDData = JSON.parse(localStorage.getItem("MEFirstDeviceData"));
@@ -378,7 +379,11 @@ export default class ExchangeModal extends React.Component {
       isFromMobileExchange: true,
       verifyIMEINumberAPIResponse: this.state.verifyIMEINumberAPIResponse
     };
-    this.props.addProductToCart(data);
+    let addProductToCartResponse = await this.props.addProductToCart(data);
+    if (addProductToCartResponse.status === "success") {
+      this.props.displayToast(ADD_TO_BAG_TEXT);
+      this.props.history.push(PRODUCT_CART_ROUTER);
+    }
   }
 
   switchTabs(deviceNo, deviceInfo) {

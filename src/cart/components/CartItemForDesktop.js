@@ -21,7 +21,6 @@ import { WISHLIST_BUTTON_TEXT_TYPE_SMALL } from "../../wishlist/components/AddTo
 import { ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART } from "../../lib/adobeUtils";
 import exchangeIconLight from "../../cart/components/img/exchangeIconLight.svg";
 import closeIcon from "../../cart/components/img/exchangeCloseIcon.svg";
-
 const NO_SIZE = "NO SIZE";
 const NOT_SERVICEABLE = "Not available at your PIN code";
 const OUT_OF_STOCK = "Product is out of stock";
@@ -88,6 +87,9 @@ export default class CartItemForDesktop extends React.Component {
   }
   viewLessDetails() {
     this.setState({ showMore: false });
+  }
+  openTnCModal() {
+    this.props.showExchangeTnCModal();
   }
   render() {
     let fetchedQuantityList = [];
@@ -329,7 +331,12 @@ export default class CartItemForDesktop extends React.Component {
                   </div>
                   <div className={styles.font12light}>
                     Your old mobile will be examined before pick up.{" "}
-                    <span className={styles.tncLink}>T&amp;C</span>{" "}
+                    <span
+                      className={styles.tncLink}
+                      onClick={() => this.openTnCModal()}
+                    >
+                      T&amp;C
+                    </span>{" "}
                   </div>
                   <div
                     className={styles.exchangeViewLessDetails}

@@ -387,7 +387,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(tempCartIdForLoggedInUser(productDetails));
     },
     addProductToCart: productDetails => {
-      dispatch(addProductToCart(productDetails));
+      return dispatch(addProductToCart(productDetails));
     },
     subscribeWhatsapp: () => {
       dispatch(getOrderUpdateOnWhatsapp());
