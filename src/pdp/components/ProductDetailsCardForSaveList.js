@@ -84,20 +84,22 @@ export default class ProductDetailsCardForSaveList extends React.Component {
                 <span className={styles.size}>Size</span> {this.props.size}
               </div>
             )}
-          <div className={styles.exchangeDetailsContainer}>
-            <img
-              src={exchangeIconLight}
-              alt="exchange icon"
-              className={styles.exchangeIconLight}
-            />
-            <div className={styles.exchangeProductText}>
-              Your{" "}
-              <span className={styles.fontFamilyRegular}>Apple iPhone 6</span>{" "}
-              is applicable for{" "}
-              <span className={styles.fontFamilyRegular}>₹7,300</span> exchange
-              cashback.
+          {this.props.exchangeDetails && (
+            <div className={styles.exchangeDetailsContainer}>
+              <img
+                src={exchangeIconLight}
+                alt="exchange icon"
+                className={styles.exchangeIconLight}
+              />
+              <div className={styles.exchangeProductText}>
+                Your{" "}
+                <span className={styles.fontFamilyRegular}>Apple iPhone 6</span>{" "}
+                is applicable for{" "}
+                <span className={styles.fontFamilyRegular}>₹7,300</span>{" "}
+                exchange cashback.
+              </div>
             </div>
-          </div>
+          )}
           <div
             className={styles.displayRating}
             itemProp="aggregateRating"

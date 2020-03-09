@@ -229,18 +229,19 @@ export default class OrderCard extends React.Component {
             )}
           </div>
 
-          {this.props.idFromAllOrderDetails === "Y" && (
-            <div className={styles.exchangeDetailsContainer}>
-              <img
-                src={exchangeIconLight}
-                alt="exchange icon"
-                className={styles.exchangeIconLight}
-              />
-              <div className={styles.exchangeProductText}>
-                Exchange Product: Apple iPhone 6
+          {this.props.exchangeDetails &&
+            this.props.idFromAllOrderDetails === "Y" && (
+              <div className={styles.exchangeDetailsContainer}>
+                <img
+                  src={exchangeIconLight}
+                  alt="exchange icon"
+                  className={styles.exchangeIconLight}
+                />
+                <div className={styles.exchangeProductText}>
+                  Exchange Product: Apple iPhone 6
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
           {this.props.retryPaymentUrl && (
             <React.Fragment>
