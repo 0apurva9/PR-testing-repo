@@ -5,8 +5,18 @@ import MenuDetails from "../../general/components/MenuDetails.js";
 import emiIcon from "./img/emi.svg";
 import NoCostEmi from "./NoCostEmi.js";
 import CheckoutEmi from "./CheckoutEmi.js";
+import CheckoutCardless from "./CheckoutCardless.js";
 import NoCostEmiBankDetails from "./NoCostEmiBankDetails.js";
-import { EMI, NO_COST_EMI, STANDARD_EMI } from "../../lib/constants";
+import {
+  EMI,
+  NO_COST_EMI,
+  STANDARD_EMI,
+  CARDLESS_EMI,
+  INSTACRED,
+  CATEGORY_FINE_JEWELLERY,
+  CATEGORY_FASHION_JEWELLERY,
+  PAYMENT_FAILURE_CART_PRODUCT
+} from "../../lib/constants";
 const PAYMENT_MODE = "EMI";
 export default class EmiPanel extends React.Component {
   constructor(props) {
@@ -128,7 +138,9 @@ export default class EmiPanel extends React.Component {
     if (this.props.isCliqCashApplied) {
       return null;
     }
-    let isOpen = this.props.currentPaymentMode === EMI;
+    let isOpen =
+      this.props.currentPaymentMode === EMI ||
+      this.props.currentPaymentMode === INSTACRED;
     let isOpenSubEMI = this.state.currentSelectedEMIType === NO_COST_EMI;
     let isRetryPaymentFromURL = false;
     if (this.props.isFromRetryUrl) {
@@ -141,6 +153,44 @@ export default class EmiPanel extends React.Component {
         isOpenSubEMI = true;
         isRetryPaymentFromURL = true;
       }
+    }
+    let { cart, isJewelleryItemAvailable } = this.props;
+    let paymentMode =
+      this.props.cart &&
+      this.props.cart.paymentModes &&
+      this.props.cart.paymentModes.paymentModes;
+    var instacredMode =
+      paymentMode &&
+      paymentMode.filter(obj => {
+        return obj.key === INSTACRED;
+      });
+
+    let isJewelleryProduct = false;
+    let cartProductData = [];
+    if (localStorage.getItem(PAYMENT_FAILURE_CART_PRODUCT)) {
+      cartProductData = [
+        ...JSON.parse(localStorage.getItem(PAYMENT_FAILURE_CART_PRODUCT))
+      ];
+    } else if (
+      cart &&
+      cart.orderSummary &&
+      cart.orderSummary.products &&
+      cart.orderSummary.products.length > 0
+    ) {
+      cartProductData = [...cart.orderSummary.products];
+    }
+
+    cartProductData.map(item => {
+      if (
+        item.rootCategory === CATEGORY_FINE_JEWELLERY ||
+        item.rootCategory === CATEGORY_FASHION_JEWELLERY
+      ) {
+        isJewelleryProduct = true;
+      }
+    });
+
+    if (isJewelleryItemAvailable) {
+      isJewelleryProduct = isJewelleryItemAvailable;
     }
     return (
       <div className={styles.base}>
@@ -265,6 +315,32 @@ export default class EmiPanel extends React.Component {
               </NoCostEmi>
             </div>
           )}
+
+          {!isJewelleryProduct
+            ? !isRetryPaymentFromURL && (
+                <div className={styles.subListHolder}>
+                  {paymentMode &&
+                    instacredMode.length > 0 &&
+                    instacredMode[0].value === true && (
+                      <NoCostEmi
+                        isOpenSubEMI={
+                          this.state.currentSelectedEMIType === CARDLESS_EMI
+                        }
+                        onChangeEMIType={currentSelectedEMIType =>
+                          this.onChangeEMIType(currentSelectedEMIType)
+                        }
+                        {...this.props}
+                        EMIText={CARDLESS_EMI}
+                      >
+                        <CheckoutCardless
+                          {...this.props}
+                          selectedEMIType={this.state.currentSelectedEMIType}
+                        />
+                      </NoCostEmi>
+                    )}
+                </div>
+              )
+            : null}
         </MenuDetails>
       </div>
     );

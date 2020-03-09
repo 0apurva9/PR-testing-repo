@@ -1913,14 +1913,114 @@ export function getPaymentModes(guId) {
   return async (dispatch, getState, { api }) => {
     dispatch(paymentModesRequest());
     try {
-      const result = await api.post(
-        `${USER_CART_PATH}/${
-          JSON.parse(userDetails).userName
-        }/payments/getPaymentModes?access_token=${
-          JSON.parse(customerCookie).access_token
-        }&cartGuid=${guId}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&isUpdatedPwa=true`
-      );
-      const resultJson = await result.json();
+      // const result = await api.post(
+      //   `${USER_CART_PATH}/${
+      //     JSON.parse(userDetails).userName
+      //   }/payments/getPaymentModes?access_token=${
+      //     JSON.parse(customerCookie).access_token
+      //   }&cartGuid=${guId}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&isUpdatedPwa=true`
+      // );
+      const resultJson = {
+        type: "paymentServiceWsData",
+        status: "Success",
+        cliqCash: {
+          totalCliqCashBalance: {
+            currencyIso: "INR",
+            doubleValue: 0.0,
+            formattedValue: "₹0.00",
+            formattedValueNoDecimal: "₹0",
+            priceType: "BUY",
+            value: 0
+          }
+        },
+        cliqCashApplied: false,
+        combinedLogoURL: "/adminstatic/img/group_4.png",
+        howToPageId: "sm:app:tech:howupiworks:170120",
+        isWalletCreated: false,
+        isWalletOtpVerified: false,
+        merchantID: "TUL_TMP",
+        merchantKey: "dummy",
+        paymentModes: [
+          {
+            key: "Saved Card",
+            value: true
+          },
+          {
+            key: "UPI",
+            value: true
+          },
+          {
+            key: "Credit Card",
+            value: true
+          },
+          {
+            key: "Debit Card",
+            value: true
+          },
+          {
+            key: "EMI",
+            value: true
+          },
+          {
+            key: "PayPal",
+            value: true
+          },
+          {
+            key: "Cheque",
+            value: false
+          },
+          {
+            key: "Netbanking",
+            value: true
+          },
+          {
+            key: "COD",
+            value: true
+          },
+          {
+            key: "NEFT",
+            value: false
+          },
+          {
+            key: "MRupee",
+            value: false
+          },
+          {
+            key: "PAYTM",
+            value: false
+          },
+          {
+            key: "Cardless EMI",
+            value: true
+          },
+          {
+            key: "Instacred",
+            value: true
+          },
+          {
+            key: "UNKNOWN",
+            value: false
+          },
+          {
+            key: "RTGS",
+            value: false
+          },
+          {
+            key: "Cliq Cash",
+            value: true
+          },
+          {
+            key: "TW",
+            value: false
+          }
+        ],
+        paymentOffers: {},
+        savedCardResponse: {},
+        upiOffers: {},
+        whatsapp: false,
+        whatsappText: "Get order update on WhatsApp."
+      };
+      //  await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {

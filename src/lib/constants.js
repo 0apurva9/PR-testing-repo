@@ -307,11 +307,16 @@ export const CASH_ON_DELIVERY_PAYMENT_MODE = "Cash on Delivery";
 export const RUPEE_SYMBOL = "₹";
 export const STRIPE_DETAILS = "stripeDetails";
 export const BANK_GATWAY_DOWN = "0";
+export const CARDLESS_EMI = "Cardless EMI";
+export const INSTACRED = "Instacred";
 /**
  * @comment Added const for the UPI
  */
 export const UPI = "UPI";
 export const UPI_ID = "UPI ID";
+export const PAYMENT_FAILURE_CART_PRODUCT = "paymentFailureCartProduct";
+export const CATEGORY_FINE_JEWELLERY = "FineJewellery";
+export const CATEGORY_FASHION_JEWELLERY = "FashionJewellery";
 // META TAGS CONSTANTS
 
 export const GOOGLE_TAG_TITLE_DEFAULT =

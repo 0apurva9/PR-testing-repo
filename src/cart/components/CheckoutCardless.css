@@ -1,0 +1,40 @@
+.errorText {
+  font-size: 12px;
+  font-family: regular;
+  display: inline-block;
+  color: #f22424;
+  padding: 5px;
+  margin-top: -10px;
+  margin-bottom:10px;
+}
+.displayNone{
+    visibility: hidden;
+    display: none;
+}
+.instacredComponent{
+  padding: 0 15px;
+}
+.instacredImg{
+  width:120px;
+}
+.inputHolder{
+  margin : 15px 0px
+}
+.contentHolder {
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+}
+.buttonHolder {
+  width: auto;
+  height: auto;
+  right: 0;
+  margin: auto;
+  margin-bottom: 30px;
+  margin-left: 20px;
+}
+.buttonHolderDiv{
+  width:200px;
+  float: right;
+}

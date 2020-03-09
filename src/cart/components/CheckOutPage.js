@@ -124,7 +124,9 @@ import {
   SUCCESS_UPPERCASE,
   SELECTED_STORE,
   UPI,
-  UPI_ID
+  UPI_ID,
+  INSTACRED,
+  CARDLESS_EMI
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -2556,6 +2558,34 @@ if you have order id in local storage then you have to show order confirmation p
         );
       }
     }
+    if (this.state.currentPaymentMode === INSTACRED) {
+      if (this.state.isGiftCard) {
+        if (this.props.collectPaymentOrderForGiftCardNetBanking) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            await this.props.createPaymentOrder(this.state.egvCartGuid, true);
+          }
+
+          this.props.collectPaymentOrderForGiftCardNetBanking(
+            this.state.egvCartGuid
+          );
+        }
+      } else {
+        if (this.props.cart.isCreatePaymentOrderFailed) {
+          await this.props.createPaymentOrder("", true);
+        }
+
+        this.props.collectPaymentOrderForNetBanking(
+          INSTACRED,
+          JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+          "",
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+          false,
+          "",
+          "",
+          true
+        );
+      }
+    }
     if (this.state.currentPaymentMode === UPI) {
       if (this.state.isGiftCard) {
         if (this.props.collectPaymentOrderForUPI) {
@@ -2864,6 +2894,49 @@ if you have order id in local storage then you have to show order confirmation p
           );
         }
       }
+      if (this.state.currentPaymentMode === INSTACRED) {
+        debugger;
+        if (this.state.isGiftCard) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            await this.props.createPaymentOrder(
+              this.props.location.state.egvCartGuid,
+              true
+            );
+          }
+
+          this.props.collectPaymentOrderForGiftCardNetBanking(
+            this.props.location.state.egvCartGuid,
+            this.state.bankCodeForNetBanking,
+            this.state.bankNameForNetBanking
+          );
+        } else if (this.state.isComingFromRetryUrl) {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            await this.props.createPaymentOrder(this.state.retryCartGuid, true);
+          }
+
+          this.props.collectPaymentOrderForNetBanking(
+            INSTACRED,
+            JSON.parse(localStorage.getItem(CART_ITEM_COOKIE)),
+            this.state.bankCodeForNetBanking,
+            localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+            true,
+            this.state.retryCartGuid,
+            this.state.bankNameForNetBanking
+          );
+        } else {
+          if (this.props.cart.isCreatePaymentOrderFailed) {
+            await this.props.createPaymentOrder("", true);
+          }
+
+          this.props.softReservationPaymentForNetBanking(
+            WALLET,
+            INSTACRED,
+            "",
+            localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+            ""
+          );
+        }
+      }
       if (this.state.currentPaymentMode === UPI) {
         if (this.state.isGiftCard) {
           if (this.props.cart.isCreatePaymentOrderFailed) {
@@ -3058,6 +3131,26 @@ if you have order id in local storage then you have to show order confirmation p
       this.setState({ paymentModeSelected: null });
     }
   };
+  selectInstacred = val => {
+    if (val) {
+      localStorage.setItem(PAYMENT_MODE_TYPE, INSTACRED);
+      this.setState({ paymentModeSelected: INSTACRED });
+      this.props.binValidationForNetBanking(
+        NET_BANKING_PAYMENT_MODE,
+        INSTACRED,
+        this.state.isComingFromRetryUrl,
+        this.state.retryCartGuid
+      );
+    } else {
+      if (localStorage.getItem(PAYMENT_MODE_TYPE)) {
+        localStorage.removeItem(PAYMENT_MODE_TYPE);
+      }
+      this.setState({ paymentModeSelected: null });
+    }
+  };
+  instacredOn(val) {
+    this.setState({ instacredOn: val });
+  }
   applyBankCoupons = async val => {
     if (val.length > 0) {
       const applyCouponReq = await this.props.applyBankOffer(val[0]);
@@ -3706,6 +3799,24 @@ if you have order id in local storage then you have to show order confirmation p
         } else {
           checkoutButtonStatus = true;
         }
+      } else if (this.state.currentSelectedEMIType === CARDLESS_EMI) {
+        if (
+          this.state.cardDetails &&
+          this.state.cardDetails.emi_bank &&
+          this.state.cardDetails.emi_bank !== null
+        ) {
+          labelForButton = PAY_NOW;
+        } else {
+          checkoutButtonStatus = false;
+        }
+      } else {
+        checkoutButtonStatus = true;
+        labelForButton = PAY_NOW;
+      }
+    } else if (this.state.currentPaymentMode === INSTACRED) {
+      if (this.state.instacredOn === true) {
+        checkoutButtonStatus = false;
+        labelForButton = PAY_NOW;
       } else {
         checkoutButtonStatus = true;
         labelForButton = PAY_NOW;
@@ -4146,6 +4257,8 @@ if you have order id in local storage then you have to show order confirmation p
                         this.binValidationForPaytm(val)
                       }
                       selectPayPal={val => this.selectPayPal(val)}
+                      selectInstacred={val => this.selectInstacred(val)}
+                      instacredStatus={val => this.instacredOn(val)}
                       displayToast={message => this.props.displayToast(message)}
                       getCODEligibility={() => this.getCODEligibility()}
                       showTermsNConditions={val =>

@@ -86,11 +86,15 @@ if (
   process.env.REACT_APP_STAGE === "awsprod3"
 ) {
   process.env.REACT_APP_FACEBOOK_CLIENT_ID = "552270434933633";
+  process.env.REACT_APP_FLEXMONEYAPI = "staging";
+  process.env.REACT_APP_MERCHANTID = "694339";
 } else if (
   process.env.REACT_APP_STAGE === "p2" ||
   process.env.REACT_APP_STAGE === "production"
 ) {
   process.env.REACT_APP_FACEBOOK_CLIENT_ID = "484004418446735";
+  process.env.REACT_APP_FLEXMONEYAPI = "production";
+  process.env.REACT_APP_MERCHANTID = "694339";
 } else if (process.env.REACT_APP_STAGE === "local") {
   process.env.REACT_APP_FACEBOOK_CLIENT_ID = "1444012285724567";
 } else if (process.env.REACT_APP_STAGE === "stage") {
