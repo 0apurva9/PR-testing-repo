@@ -32,7 +32,8 @@ import {
   showModal,
   ADDRESS,
   DESKTOP_AUTH,
-  EXCHANGE_TnC_MODAL
+  EXCHANGE_TnC_MODAL,
+  EXCHANGE_REMOVE_MODAL
 } from "../../general/modal.actions";
 import { SUCCESS, NO } from "../../lib/constants";
 import {
@@ -174,6 +175,9 @@ const mapDispatchToProps = dispatch => {
     },
     showExchangeTnCModal: () => {
       dispatch(showModal(EXCHANGE_TnC_MODAL));
+    },
+    showRemoveExchangeModal: data => {
+      dispatch(showModal(EXCHANGE_REMOVE_MODAL, data));
     }
   };
 };

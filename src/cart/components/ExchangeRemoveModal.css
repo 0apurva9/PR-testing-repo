@@ -9,7 +9,7 @@
   animation: slideIn 200ms forwards;
   top: 35%;
   margin: auto;
-  padding: 30px 70px;;
+  padding: 30px 55px;
 }
 @keyframes slideIn {
   0% {

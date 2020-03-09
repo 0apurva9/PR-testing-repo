@@ -264,7 +264,12 @@ const cart = (
     orderConfirmationBannerDetailsStatus: null,
     orderConfirmationBannerDetails: null,
     orderConfirmationBannerDetailsLoading: false,
-    orderConfirmationBannerDetailsError: null
+    orderConfirmationBannerDetailsError: null,
+
+    removeExchangeStatus: null,
+    removeExchangeLoading: false,
+    removeExchangeDetails: null,
+    removeExchangeError: null
   },
   action
 ) => {
@@ -2140,6 +2145,26 @@ const cart = (
       return Object.assign({}, state, {
         minicartStatus: action.status,
         minicart: action.minicartDetails
+      });
+
+    case cartActions.REMOVE_EXCHANGE_REQUEST:
+      return Object.assign({}, state, {
+        removeExchangeStatus: action.status,
+        removeExchangeLoading: true
+      });
+
+    case cartActions.REMOVE_EXCHANGE_SUCCESS:
+      return Object.assign({}, state, {
+        removeExchangeStatus: action.status,
+        removeExchangeLoading: false,
+        removeExchangeDetails: action.data
+      });
+
+    case cartActions.REMOVE_EXCHANGE_FAILURE:
+      return Object.assign({}, state, {
+        removeExchangeStatus: action.status,
+        removeExchangeLoading: false,
+        removeExchangeError: action.error
       });
 
     default:

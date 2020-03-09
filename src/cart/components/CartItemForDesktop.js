@@ -91,6 +91,14 @@ export default class CartItemForDesktop extends React.Component {
   openTnCModal() {
     this.props.showExchangeTnCModal();
   }
+  async removeExchange() {
+    return await this.props.showRemoveExchangeModal({
+      cartGuid: this.props.cartGuid,
+      entryNumber: this.props.entryNumber,
+      quoteId: this.props.product.exchangeDetails.quoteId,
+      IMEINumber: this.props.product.exchangeDetails.IMEINumber
+    });
+  }
   render() {
     let fetchedQuantityList = [];
     if (this.props.isOutOfStock) {
@@ -266,6 +274,7 @@ export default class CartItemForDesktop extends React.Component {
                 src={closeIcon}
                 alt="exchange icon"
                 className={styles.closeIcon}
+                onClick={() => this.removeExchange()}
               />
               <img
                 src={exchangeIconLight}

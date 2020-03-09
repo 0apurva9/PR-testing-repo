@@ -181,6 +181,7 @@
   z-index: 1;
   right: -7px;
   top: -7px;
+  cursor: pointer;
 }
 .font14LightLeft,.font14LightRight{
   font-size:14px;

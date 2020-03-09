@@ -756,6 +756,10 @@ class CartPage extends React.Component {
                             showExchangeTnCModal={
                               this.props.showExchangeTnCModal
                             }
+                            showRemoveExchangeModal={data =>
+                              this.props.showRemoveExchangeModal(data)
+                            }
+                            cartGuid={cartDetails.cartGuid}
                           />
                         </DesktopOnly>
                       </div>

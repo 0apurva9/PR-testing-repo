@@ -13,6 +13,7 @@ export const OFFER_MODAL = "OfferDetailsModal";
 export const TERMSNCONDITIONS_MODAL = "TermsNConditionsWrapperModal";
 export const EXCHANGE_MODAL = "ExchangeModal";
 export const EXCHANGE_TnC_MODAL = "ExchangeTnCModal";
+export const EXCHANGE_REMOVE_MODAL = "ExchangeRemoveModal";
 export const SIZE_SELECTOR = "SizeSelector";
 export const PRICE_BREAKUP = "PriceBreakup";
 export const BANK_OFFERS = "BankOffers";
@@ -57,7 +58,6 @@ export const SHOW_RETURN_CONFIRM_POP_UP = "ShowReturnConfirmPopup";
 export const SHOW_DELIVERY_CONFIRM_POP_UP = "ShowDeliveryConfirmPopup";
 export const SELLER_REVIEW_SUBMIT_REMOVAL_POP_UP =
   "SellerReviewSubmitRemovalPopup";
-export const PRODUCTINBAGWITHEXCHANGE_MODAL = "ProductInBagWithExchange";
 
 export function showModal(type, ownProps) {
   const scrollPosition =

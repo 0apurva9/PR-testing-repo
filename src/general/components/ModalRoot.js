@@ -317,8 +317,8 @@ const SellerReviewSubmitRemovalPopup = Loadable({
   }
 });
 
-const ProductInBagWithExchange = Loadable({
-  loader: () => import("../../pdp/components/ProductInBagWithExchange"),
+const ExchangeRemoveModal = Loadable({
+  loader: () => import("../../cart/components/ExchangeRemoveModal"),
   loading() {
     return <Loader />;
   }
@@ -681,6 +681,10 @@ export default class ModalRoot extends React.Component {
 
   addProductToCart(productDetails) {
     return this.props.addProductToCart(productDetails);
+  }
+
+  async removeExchange(data) {
+    return await this.props.removeExchange(data);
   }
 
   render() {
@@ -1106,10 +1110,11 @@ export default class ModalRoot extends React.Component {
           closeModal={() => this.handleClose()}
         />
       ),
-      ProductInBagWithExchange: (
-        <ProductInBagWithExchange
+      ExchangeRemoveModal: (
+        <ExchangeRemoveModal
+          {...this.props.ownProps}
           closeModal={() => this.handleClose()}
-          history={this.props.history}
+          removeExchange={data => this.removeExchange(data)}
         />
       )
     };

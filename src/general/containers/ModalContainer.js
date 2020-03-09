@@ -23,7 +23,8 @@ import {
   getCartCountForLoggedInUser,
   getOrderUpdateOnWhatsapp,
   getMinicartProducts,
-  resetAllPaymentModes
+  resetAllPaymentModes,
+  removeExchange
 } from "../../cart/actions/cart.actions";
 import {
   SUCCESS,
@@ -434,6 +435,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           ussId
         )
       );
+    },
+    removeExchange: async data => {
+      return await dispatch(removeExchange(data));
     }
   };
 };

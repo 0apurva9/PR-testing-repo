@@ -99,6 +99,9 @@ import {
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
 } from "../../lib/adobeUtils";
 
+// import cartDetailsResponse from "../../mock/cartDetailsResponse.json";
+// import miniCartResponse from "../../mock/miniCartResponse.json";
+
 const EGV_GIFT_CART_ID = "giftCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
 export const CLEAR_CART_DETAILS = "CLEAR_CART_DETAILS";
@@ -501,6 +504,10 @@ export const ORDER_CONFIRMATION_BANNER_SUCCESS =
 export const ORDER_CONFIRMATION_BANNER_FAILURE =
   "ORDER_CONFIRMATION_BANNER_FAILURE";
 
+export const REMOVE_EXCHANGE_REQUEST = "REMOVE_EXCHANGE_REQUEST";
+export const REMOVE_EXCHANGE_SUCCESS = "REMOVE_EXCHANGE_SUCCESS";
+export const REMOVE_EXCHANGE_FAILURE = "REMOVE_EXCHANGE_FAILURE";
+
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
   return {
@@ -598,12 +605,12 @@ export function getCartDetails(
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(cartDetailsRequest());
-
     try {
       const result = await api.get(
         `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetails?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
+      // const resultJson = cartDetailsResponse;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
@@ -5627,6 +5634,7 @@ export function getMinicartProducts() {
         `${USER_CART_PATH}/${userId}/carts/${cartCode}/miniCartDetails?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
+      // const resultJson = miniCartResponse;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       // Check failure response status if found then throw an error
@@ -6883,6 +6891,73 @@ export function collectPaymentOrderForCliqCash(
         displayToast(ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL + " Please Retry.")
       );
       dispatch(collectPaymentOrderForCliqCashFailure(e));
+    }
+  };
+}
+
+export function removeExchangeRequest() {
+  return {
+    type: REMOVE_EXCHANGE_REQUEST,
+    status: REQUESTING
+  };
+}
+export function removeExchangeSuccess(data) {
+  return {
+    type: REMOVE_EXCHANGE_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function removeExchangeFailure(error) {
+  return {
+    type: REMOVE_EXCHANGE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function removeExchange(data) {
+  return async (dispatch, getState, { api }) => {
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const cartDetailsCookie = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    const cartDetailsForAnonymous = Cookie.getCookie(
+      CART_DETAILS_FOR_ANONYMOUS
+    );
+    const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+    let user = "anonymous";
+    let cartId =
+      cartDetailsForAnonymous && JSON.parse(cartDetailsForAnonymous).guid;
+    let accessToken = globalCookie && JSON.parse(globalCookie).access_token;
+    if (customerCookie) {
+      user = JSON.parse(userDetails).userName;
+      cartId = cartDetailsCookie && JSON.parse(cartDetailsCookie).code;
+      accessToken = JSON.parse(customerCookie).access_token;
+    }
+    dispatch(removeExchangeRequest());
+    try {
+      const result = await api.getMiddlewareUrl(
+        `v2/mpl/users/${user}/products/cancelExchange?guid=${
+          data.cartGuid
+        }&entryNumber=${data.entryNumber}&quoteId=${data.quoteId}&IMEINumber=${
+          data.IMEINumber
+        }`
+      );
+      const resultJson = await result.json();
+      if (resultJson.status === "success") {
+        //display toast and call cartdetails
+        dispatch(displayToast("Exchange for product removed"));
+        dispatch(removeExchangeSuccess(resultJson));
+        dispatch(getCartDetails(user, accessToken, cartId, defaultPinCode));
+      }
+      if (resultJson.status === "failure") {
+        dispatch(displayToast(resultJson.message));
+        return dispatch(removeExchangeFailure(resultJson.message));
+      }
+      return resultJson;
+    } catch (e) {
+      return dispatch(removeExchangeFailure(e.message));
     }
   };
 }
