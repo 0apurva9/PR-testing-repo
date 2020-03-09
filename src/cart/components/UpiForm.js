@@ -263,8 +263,8 @@ export default class UpiForm extends React.Component {
                                             <img
                                               src={loader}
                                               alt="Loader"
-                                              width="25px"
-                                              height="25px"
+                                              width="15px"
+                                              height="15px"
                                               alt=""
                                             />
                                           )}
@@ -426,7 +426,12 @@ export default class UpiForm extends React.Component {
                         >
                           <span className={savedUpiVerificationCls} />{" "}
                           {this.props.addUserUPIStatus === "requesting" && (
-                            <img src={loader} alt="Loader" />
+                            <img
+                              src={loader}
+                              alt=""
+                              width="15px"
+                              height="15px"
+                            />
                           )}
                           {this.props.addUserUPIStatus !== "requesting" &&
                             this.props.addUserUPIDetails &&
