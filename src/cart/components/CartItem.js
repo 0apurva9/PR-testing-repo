@@ -100,6 +100,7 @@ export default class CartItem extends React.Component {
             onClickImage={() => this.onClick()}
             index={this.props.index}
             sizeType={this.props.sizeType}
+            exchangeDetails={this.props.product.exchangeDetails}
           />
         </div>
         {this.props.deliveryInformation &&

@@ -49,7 +49,31 @@
   display: inline-block;
   font-family: regular;
 }
-
+.exchangeProductName{
+  font-size: 14px;
+  margin-top: 10px;
+}
+.exchangeCashback,.exchangePickup{
+  font-size: 12px;
+}
+.exchangeProductName,.exchangeCashback{
+  margin-bottom: 10px;
+}
+.exchangePickup{
+  white-space: nowrap;
+}
+.exchangePickup > span{
+  display: inline-block;
+}
+.exchangeProductName span:first-child{
+  font-family: semibold;
+}
+.spacer{
+  margin: 0 5px;
+}
+.freePickup{
+  color:#417505;
+}
 @media only screen and (min-width:1025px){
   .base {
     border:none;
