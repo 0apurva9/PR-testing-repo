@@ -10,7 +10,9 @@ import {
   MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW,
   CHANNEL,
   EMAIL_SENT_SUCCESS_MESSAGE,
-  FAILED_ORDER
+  ISO_CODE,
+  FAILED_ORDER,
+  PAYMENT_MODE_TYPE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 //import findIndex from "lodash.findindex";
@@ -91,6 +93,20 @@ export const CLEAR_TRANSACTION_DATA = "CLEAR_TRANSACTION_DATA";
 export const REMOVE_SAVED_CARD_REQUEST = "REMOVE_SAVED_CARD_REQUEST";
 export const REMOVE_SAVED_CARD_SUCCESS = "REMOVE_SAVED_CARD_SUCCESS";
 export const REMOVE_SAVED_CARD_FAILURE = "REMOVE_SAVED_CARD_FAILURE";
+
+/**
+ * @comment Added consts for the UPI
+ */
+export const REMOVE_SAVED_UPI_REQUEST = "REMOVE_SAVED_UPI_REQUEST";
+export const REMOVE_SAVED_UPI_SUCCESS = "REMOVE_SAVED_UPI_SUCCESS";
+export const REMOVE_SAVED_UPI_FAILURE = "REMOVE_SAVED_UPI_FAILURE";
+
+export const ADD_USER_UPI_REQUEST = "ADD_USER_UPI_REQUEST";
+export const ADD_USER_UPI_SUCCESS = "ADD_USER_UPI_SUCCESS";
+export const ADD_USER_UPI_FAILURE = "ADD_USER_UPI_FAILURE";
+export const ADD_USER_UPI_NULL_STATE = "ADD_USER_UPI_NULL_STATE";
+
+const UPI_ADDED_SUCCESS = "UPI ID added successfully";
 
 export const GET_ALL_ORDERS_REQUEST = "GET_ALL_ORDERS_REQUEST";
 export const GET_ALL_ORDERS_SUCCESS = "GET_ALL_ORDERS_SUCCESS";
@@ -304,6 +320,12 @@ export const RETRY_PAYMENT_REQUEST = "RETRY_PAYMENT_REQUEST";
 export const RETRY_PAYMENT_SUCCESS = "RETRY_PAYMENT_SUCCESS";
 export const RETRY_PAYMENT_FAILURE = "RETRY_PAYMENT_FAILURE";
 export const RESET_RETRY_PAYMENT = "RESET_RETRY_PAYMENT";
+
+export const CNC_TO_HD_DETAILS_REQUEST = "CNC_TO_HD_DETAILS_REQUEST";
+export const CNC_TO_HD_DETAILS_SUCCESS = "CNC_TO_HD_DETAILS_SUCCESS";
+export const CNC_TO_HD_DETAILS_FAILURE = "CNC_TO_HD_DETAILS_FAILURE";
+
+export const RESET_USER_ADDRESS = "RESET_USER_ADDRESS";
 
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
 export const Clear_ORDER_TRANSACTION_DATA = "Clear_ORDER_TRANSACTION_DATA";
@@ -1287,6 +1309,7 @@ export function createGiftCardRequest() {
   };
 }
 export function createGiftCardSuccess(giftCardDetails) {
+  console.log("giftCardDetails", giftCardDetails);
   return {
     type: CREATE_GIFT_CARD_SUCCESS,
     status: SUCCESS,
@@ -1316,11 +1339,14 @@ export function createGiftCardDetails(giftCardDetails) {
         }`,
         giftCardDetails
       );
+
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      Cookie.createCookie("egvCartGuid", resultJson.egvCartGuid);
+      console.log("egvCartGuid", resultJson.egvCartGuid);
       return dispatch(createGiftCardSuccess(resultJson));
     } catch (e) {
       dispatch(createGiftCardFailure(e.message));
@@ -1940,6 +1966,7 @@ export function getSavedCardDetails(userId, customerAccessToken) {
         `${USER_PATH}/${userId}/payments/savedCards?access_token=${customerAccessToken}&cardType=${CARD_TYPE}`
       );
       const resultJson = await result.json();
+
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -2152,6 +2179,176 @@ export function removeSavedCardDetails(cardToken) {
     }
   };
 }
+/**
+ *
+ * @comment Addded code for the removal of the UPI of the user.
+ *
+ */
+export function removeSavedUpiRequest() {
+  return {
+    type: REMOVE_SAVED_UPI_REQUEST,
+    status: REQUESTING
+  };
+}
+export function removeSavedUpiSuccess() {
+  return {
+    type: REMOVE_SAVED_UPI_SUCCESS,
+    status: SUCCESS
+  };
+}
+
+export function removeSavedUpiFailure(error) {
+  return {
+    type: REMOVE_SAVED_UPI_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function removeSavedUpiDetails(upiId) {
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  return async (dispatch, getState, { api }) => {
+    dispatch(removeSavedUpiRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/payments/removeSavedUPIS?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&upiId=${upiId}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(removeSavedUpiSuccess(resultJson));
+      dispatch(
+        getSavedCardDetails(
+          JSON.parse(userDetails).userName,
+          JSON.parse(customerCookie).access_token
+        )
+      );
+    } catch (e) {
+      dispatch(removeSavedUpiFailure(e.message));
+    }
+  };
+}
+
+export function addUserUPIRequest(error) {
+  return {
+    type: ADD_USER_UPI_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function addUserUPISuccess(upiResponse) {
+  return {
+    type: ADD_USER_UPI_SUCCESS,
+    status: upiResponse.status,
+    upiResponse
+  };
+}
+
+export function addUserUPIFailure(error) {
+  return {
+    type: ADD_USER_UPI_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function addUPIDetailsNullStateRequest() {
+  return {
+    type: ADD_USER_UPI_NULL_STATE,
+    status: null
+  };
+}
+export function addUPIDetailsNullState() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(addUPIDetailsNullStateRequest());
+  };
+}
+
+export function addUPIDetails(upi, pageType, btnType) {
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  return async (dispatch, getState, { api }) => {
+    dispatch(addUserUPIRequest(upi));
+    localStorage.setItem(PAYMENT_MODE_TYPE, "UPI");
+
+    let APPROVED_UPI = [];
+    if (localStorage.getItem("APPROVED_UPI_VPA")) {
+      APPROVED_UPI = JSON.parse(localStorage.getItem("APPROVED_UPI_VPA"));
+    }
+    if (
+      pageType === "checkout" &&
+      btnType === "select" &&
+      APPROVED_UPI.includes(upi)
+    ) {
+      return dispatch(
+        addUserUPISuccess({
+          type: "upiValidationDTO",
+          error: "This UPI id already exists",
+          errorCode: "UPI007",
+          status: "FAILURE",
+          upiStatus: "VALID"
+        })
+      );
+    }
+    try {
+      const addUPI = `${USER_PATH}/${
+        JSON.parse(userDetails).userName
+      }/payments/upiValidation?access_token=${
+        JSON.parse(customerCookie).access_token
+      }&isPwa=true&channel=web&isUpdatedPwa=true&upiId=${upi}&isToValidateUpi=true&isToSaveUpi=true`;
+      const result = await api.post(addUPI);
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (
+        resultJsonStatus.status &&
+        (resultJson.upiStatus === "INVALID" ||
+          resultJson.upiStatus === "VALID") &&
+        pageType !== "myaccount"
+      ) {
+        return dispatch(addUserUPISuccess(resultJson));
+      } else if (
+        resultJson.status === "FAILURE" &&
+        resultJson.upiStatus === "VALID" &&
+        pageType === "myaccount"
+      ) {
+        dispatch(displayToast(resultJson.error));
+      } else if (
+        resultJson.status === "FAILURE" &&
+        resultJson.upiStatus === "INVALID" &&
+        pageType === "myaccount"
+      ) {
+        return dispatch(addUserUPISuccess(resultJson));
+      } else if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.error);
+      }
+      // if (resultJsonStatus.status) {
+      //   throw new Error(resultJsonStatus.message);
+      // }
+      if (
+        resultJson.status !== "FAILURE" &&
+        resultJson.upiStatus === "VALID" &&
+        pageType === "myaccount"
+      ) {
+        dispatch(displayToast(UPI_ADDED_SUCCESS));
+      }
+      return dispatch(addUserUPISuccess(resultJson));
+    } catch (e) {
+      return dispatch(addUserUPIFailure(e.message));
+    }
+  };
+}
+/**
+ * EOD
+ */
 export function getAllOrdersRequest(paginated: false) {
   return {
     type: GET_ALL_ORDERS_REQUEST,
@@ -2207,7 +2404,159 @@ export function getAllOrdersDetails(
         }&channel=mobile&currentPage=${currentPage}&pageSize=${PAGE_SIZE}`;
       }
       const result = await api.get(getOrderDetails);
-      const resultJson = await result.json();
+      let resultJson = await result.json();
+
+      /*  resultJson = {
+        type: "getOrderHistoryListWsDTO",
+        status: "Success",
+        oldOrderHistoryPresent: false,
+        orderData: [
+          {
+            deliveryAddress: {
+              addressLine1:
+                "Cfycfyygccyccygugugcguxtxutuxxtx8ttxiutx7txt7xt8xtx7t8xxy8c8yy8cyc88yc8ycy8cy8c8cyy8c8cyt8cyc8",
+              addressType: "Home",
+              country: "India",
+              defaultAddress: false,
+              firstName: "Nidhi",
+              id: "9176675450903",
+              lastName: "Upretu",
+              phone: "918475950662",
+              postalcode: "110001",
+              shippingFlag: true,
+              state: "Delhi",
+              town: "New Delhi"
+            },
+            giftCardStatus: "FAILED",
+            isEgvOrder: true,
+            orderDate: "2019-12-13T16:04:11+0530",
+            orderId: "300005176",
+            EDDBreachMessage:
+              "This field will contain the exact message to be shown in case of EDD breach",
+            products: [
+              {
+                USSID: "8801402979558",
+                changeDeliveryMode: false,
+                displayStatusName: "Payment Confirmation Failed",
+                imageURL:
+                  "//assetsuat6-tcs.tataunistore.com/medias/sys_master/images/12212683669534.jpg",
+                isGiveAway: "N",
+                isTrackable: false,
+                orderStatusCode: "RMS_VERIFICATION_FAILED",
+                orderStatusName: "RMS verification Failed",
+                price: "500.0",
+                productName: "Gift Card",
+                productcode: "880140297",
+                sellerID: "855995",
+                sellerName: "Qwikcilver"
+              }
+            ],
+            resendAttemptedCount: 0,
+            resendAvailable: false,
+            totalFinalPayableOrderAmount: "₹500.00"
+          },
+          {
+            deliveryAddress: {
+              addressLine1:
+                "Cfycfyygccyccygugugcguxtxutuxxtx8ttxiutx7txt7xt8xtx7t8xxy8c8yy8cyc88yc8ycy8cy8c8cyy8c8cyt8cyc8",
+              addressType: "Home",
+              country: "India",
+              defaultAddress: false,
+              firstName: "Nidhi",
+              id: "9176304091159",
+              lastName: "Upretu",
+              phone: "918475950662",
+              postalcode: "110001",
+              shippingFlag: true,
+              state: "Delhi",
+              town: "New Delhi"
+            },
+            isEgvOrder: false,
+            orderDate: "2019-12-02T13:42:56+0530",
+            orderId: "300004181",
+            EDDBreachMessage:
+              "This field will contain the exact message to be shown in case of EDD breach",
+            products: [
+              {
+                USSID: "124204OTHAC",
+                calloutMessage: "Estimated Delivery Date 04 Dec 2019",
+                changeDeliveryMode: false,
+                deliveryMode: "",
+                displayStatusName: "Order in Process",
+                imageURL:
+                  "//pcmtmppprd.tataunistore.com/images/i2/97Wx144H/MP000000004209013_97Wx144H_20180210151222.jpeg",
+                isGiveAway: "N",
+                isRTSOnceRetInit: false,
+                isTrackable: true,
+                orderStatusCode: "PICK_CONFIRMED",
+                orderStatusName: "Pick Confirmed",
+                price: "1949.0",
+                productName: "OTHER AC",
+                productcode: "MP000000004209013",
+                sellerID: "124204",
+                sellerName: "Hmesell",
+                transactionId: "124204001904629"
+              }
+            ],
+            resendAttemptedCount: 0,
+            resendAvailable: false,
+            totalFinalPayableOrderAmount: "₹1949.00"
+          },
+          {
+            deliveryAddress: {
+              addressLine1:
+                "Cfycfyygccyccygugugcguxtxutuxxtx8ttxiutx7txt7xt8xtx7t8xxy8c8yy8cyc88yc8ycy8cy8c8cyy8c8cyt8cyc8",
+              addressType: "Home",
+              country: "India",
+              defaultAddress: false,
+              firstName: "Nidhi",
+              id: "9176303861783",
+              lastName: "Upretu",
+              phone: "918475950662",
+              postalcode: "110001",
+              shippingFlag: true,
+              state: "Delhi",
+              town: "New Delhi"
+            },
+            isEgvOrder: false,
+            orderDate: "2019-12-02T13:28:06+0530",
+            orderId: "300004179",
+            EDDBreachMessage:
+              "This field will contain the exact message to be shown in case of EDD breach",
+            products: [
+              {
+                USSID: "124204TMHBBLBSSB01",
+                calloutMessage: "Estimated Delivery Date 04 Dec 2019",
+                changeDeliveryMode: false,
+                deliveryMode: "",
+                displayStatusName: "Order in Process",
+                imageURL:
+                  "//assetsuat6-tcs.tataunistore.com/medias/sys_master/images/12209817354270.jpg",
+                isGiveAway: "N",
+                isRTSOnceRetInit: false,
+                isTrackable: true,
+                orderStatusCode: "PICK_CONFIRMED",
+                orderStatusName: "Pick Confirmed",
+                price: "15.0",
+                productColour: "#808080",
+                productColourName: "Grey",
+                productName: "Ethnicity Fabric Bedding Set - Pink",
+                productSize: "California King",
+                productcode: "MP000000002213566",
+                sellerID: "124204",
+                sellerName: "Hmesell",
+                transactionId: "124204001904627"
+              }
+            ],
+            resendAttemptedCount: 0,
+            resendAvailable: false,
+            totalFinalPayableOrderAmount: "₹15.00"
+          }
+        ],
+        pageSize: 3,
+        totalNoOfOrders: 15
+      };
+ */
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -2764,7 +3113,164 @@ export function fetchOrderDetails(orderId, pageName) {
           JSON.parse(customerCookie).access_token
         }&isPwa=true`
       );
-      const resultJson = await result.json();
+      let resultJson = await result.json();
+      /* resultJson = {
+        type: "orderTrackingWsDTO",
+        status: "Success",
+        cliqCashAmountDeducted: 0,
+        convenienceCharge: "0.0",
+        deliveryAddress: {
+          addressLine1:
+            "Cfycfyygccyccygugugcguxtxutuxxtx8ttxiutx7txt7xt8xtx7t8xxy8c8yy8cyc88yc8ycy8cy8c8cyy8c8cyt8cyc8",
+          addressType: "Home",
+          country: "India",
+          defaultAddress: false,
+          firstName: "Nidhi",
+          id: "9176303861783",
+          lastName: "Upretu",
+          phone: "918475950662",
+          postalcode: "110001",
+          shippingFlag: true,
+          state: "Delhi",
+          town: "New Delhi"
+        },
+        deliveryCharge: "0.0",
+        giftWrapCharge: "0",
+        isCDA: true,
+        isEgvOrder: false,
+        isPickupUpdatable: false,
+        isWalletPay: false,
+        juspayAmountDeducted: 15,
+        orderAmount: {
+          bagTotal: {
+            currencyIso: "INR",
+            doubleValue: 15,
+            formattedValue: "₹15.00",
+            formattedValueNoDecimal: "₹15",
+            priceType: "BUY",
+            value: 15
+          },
+          paybleAmount: {
+            currencyIso: "INR",
+            doubleValue: 15,
+            formattedValue: "₹15.00",
+            formattedValueNoDecimal: "₹15",
+            priceType: "BUY",
+            value: 15
+          },
+          totalDiscountAmount: {
+            currencyIso: "INR",
+            doubleValue: 0,
+            formattedValue: "₹0.00",
+            formattedValueNoDecimal: "₹0",
+            priceType: "BUY",
+            value: 0
+          }
+        },
+        orderDate: "2019-12-02T13:28:06+0530",
+        orderId: "300004179",
+        paymentMethod: "COD",
+        products: [
+          {
+            USSID: "124204TMHBBLBSSB01",
+            awbPopupLink: "N",
+            cancel: true,
+            categoryHierarchy: [
+              { category_id: "MSH22", category_name: "Home" },
+              { category_id: "MSH2213", category_name: "Bed Linen" },
+              { category_id: "MSH2213101", category_name: "Bed Sheets" }
+            ],
+            consignmentStatus: "PICK_CONFIRMED",
+            eddBreechMessage:
+              "This field will contain the exact message to be shown in case of EDD breach for getselected order details call",
+            estimateddeliverydate: "Dec 04 2019",
+            exchangePolicy: "0",
+            fulfillment: "tship",
+            imageURL:
+              "//assetsuat6-tcs.tataunistore.com/medias/sys_master/images/12209817354270.jpg",
+            isGiveAway: "N",
+            isInvoiceAvailable: false,
+            isReturnCancelable: false,
+            isReturned: false,
+            price: "15.0",
+            productBrand: "TYD",
+            productColour: "#808080",
+            productColourName: "Grey",
+            productName: "Ethnicity Fabric Bedding Set - Pink",
+            productSize: "California King",
+            productcode: "MP000000002213566",
+            returnPolicy: "7",
+            reverseLogisticName: "null",
+            selectedDeliveryMode: {
+              code: "home-delivery",
+              deliveryCost: "0.0",
+              desc: "Delivered in 3-6 days",
+              name: "Home Delivery"
+            },
+            selfCourierDocumentLink:
+              "http://uat6-tcs.tataunistore.com:80/my-account/returns/returnFileDownload?orderCode=191202-002-342242&transactionId=124204001904627",
+            sellerID: "124204",
+            sellerName: "Hmesell",
+            sellerorderno: "191202-002-342242",
+            serialno: "",
+            shipmentdetails: {
+              status: "NA",
+              statusDate: "2020-01-13T14:25:42+0530"
+            },
+            statusDisplay: "Order in Process",
+            statusDisplayMsg: [
+              {
+                key: "ORDER_CONFIRMED",
+                value: {
+                  customerFacingName: "Order Confirmed",
+                  statusList: [
+                    {
+                      currentFlag: true,
+                      responseCode: "PAYMENT_SUCCESSFUL",
+                      shipmentStatus: "Estimated Delivery Date",
+                      statusMessageList: [
+                        { date: "02 Dec 2019", time: "01:28 PM" }
+                      ]
+                    },
+                    {
+                      currentFlag: true,
+                      responseCode: "ORDER_ALLOCATED",
+                      shipmentStatus: "Estimated Delivery Date",
+                      statusMessageList: [
+                        { date: "02 Dec 2019", time: "01:28 PM" }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                key: "ORDER_IN_PROCESS",
+                value: {
+                  customerFacingName: "Order in Process",
+                  statusList: [
+                    {
+                      currentFlag: true,
+                      responseCode: "PICK_CONFIRMED",
+                      shipmentStatus: "Estimated Delivery Date",
+                      statusMessageList: [
+                        { date: "02 Dec 2019", time: "06:44 PM" }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            transactionId: "124204001904627"
+          }
+        ],
+        recipientname: "Nidhi Upretu",
+        resendAttemptedCount: 0,
+        resendAvailable: false,
+        statusDisplay: "processing",
+        subTotal: "15.0",
+        totalDiscount: "0.0",
+        totalOrderAmount: "15.0"
+      }; */
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -2961,8 +3467,8 @@ export function updateProfile(accountDetails, otp) {
             (resultJson.status === SUCCESS ||
               resultJson.status === SUCCESS_CAMEL_CASE ||
               resultJson.status === SUCCESS_UPPERCASE) &&
-            (resultJson.mobileNumber !== JSON.parse(userDetails).userName &&
-              MOBILE_PATTERN.test(JSON.parse(userDetails).userName))
+            resultJson.mobileNumber !== JSON.parse(userDetails).userName &&
+            MOBILE_PATTERN.test(JSON.parse(userDetails).userName)
           ) {
             dispatch(setBagCount(0));
             dispatch(logoutUserByMobileNumber());
@@ -3883,6 +4389,121 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
     }
   };
 }
+export function submitCncToHdDetailsRequest() {
+  return {
+    type: CNC_TO_HD_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function submitCncToHdDetailsSuccess(cncToHdDetails) {
+  return {
+    type: CNC_TO_HD_DETAILS_SUCCESS,
+    status: SUCCESS,
+    cncToHdDetails
+  };
+}
+export function submitCncToHdDetailsFailure() {
+  return {
+    type: CNC_TO_HD_DETAILS_FAILURE,
+    status: FAILURE
+  };
+}
+export function submitCncToHdDetails(userAddress, transactionId, orderId) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(submitCncToHdDetailsRequest());
+    let addressDetails = Object.assign(
+      {},
+      {
+        countryIso: ISO_CODE,
+        addressType: userAddress.addressType,
+        postalCode: userAddress.postalCode
+          ? userAddress.postalCode
+          : userAddress.postalcode,
+        state: userAddress.state,
+        town: userAddress.town,
+        defaultFlag: userAddress.defaultAddress,
+        emailId: JSON.parse(userDetails).userName
+      }
+    );
+    if (userAddress.phone) {
+      Object.assign(addressDetails, {
+        phone: userAddress.phone
+      });
+    }
+    if (userAddress.firstName) {
+      Object.assign(addressDetails, {
+        firstName: userAddress.firstName.trim()
+      });
+    }
+    if (userAddress.lastName) {
+      Object.assign(addressDetails, {
+        lastName: userAddress.lastName.trim()
+      });
+    }
+    if (userAddress.line1 || userAddress.addressLine1) {
+      Object.assign(addressDetails, {
+        line1: userAddress.line1
+          ? userAddress.line1.trim()
+          : userAddress.addressLine1.trim()
+      });
+    } else if (!userAddress.line1 && !userAddress.addressLine1) {
+      Object.assign(addressDetails, {
+        line1: ""
+      });
+    }
+    if (userAddress.line3 || userAddress.addressLine3) {
+      Object.assign(addressDetails, {
+        line1: userAddress.line3
+          ? userAddress.line3.trim()
+          : userAddress.addressLine3.trim()
+      });
+    } else if (!userAddress.line1 && !userAddress.addressLine1) {
+      Object.assign(addressDetails, {
+        line3: ""
+      });
+    }
+    if (userAddress.line2 || userAddress.addressLine2) {
+      Object.assign(addressDetails, {
+        line1: userAddress.line2
+          ? userAddress.line2.trim()
+          : userAddress.addressLine2.trim()
+      });
+    } else if (!userAddress.line2 && !userAddress.addressLine2) {
+      Object.assign(addressDetails, {
+        line2: ""
+      });
+    }
+    if (userAddress.landmark) {
+      Object.assign(addressDetails, {
+        landmark: userAddress.landmark
+      });
+    } else if (!userAddress.landmark) {
+      Object.assign(addressDetails, {
+        landmark: ""
+      });
+    }
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/cncToHd/${orderId}?channel=${CHANNEL}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&orderlineId=${transactionId}`,
+        addressDetails
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        return resultJson;
+      }
+      return dispatch(submitCncToHdDetailsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(submitCncToHdDetailsFailure(e.message));
+    }
+  };
+}
 
 export function productRatingByUserRequest() {
   return {
@@ -4069,5 +4690,12 @@ export function releaseBankOfferRetryPaymentSuccess(bankOffer) {
     type: RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS,
     status: SUCCESS,
     bankOffer
+  };
+}
+
+export function resetUserAddressAfterLogout() {
+  return {
+    type: RESET_USER_ADDRESS,
+    status: SUCCESS
   };
 }

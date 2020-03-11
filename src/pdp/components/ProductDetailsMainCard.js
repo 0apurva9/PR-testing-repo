@@ -166,7 +166,9 @@ export default class ProductDetailsMainCard extends React.Component {
                     className={styles.cancelPrice}
                   >{`${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}</span>
                   <span className={styles.discount}>
-                    {this.props.discount && `(${this.props.discount}%)`}
+                    {this.props.discount && this.props.discount > 0
+                      ? `(${this.props.discount}%)`
+                      : null}
                   </span>
                 </div>
               )}

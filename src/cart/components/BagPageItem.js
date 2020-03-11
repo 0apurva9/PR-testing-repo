@@ -19,9 +19,13 @@ export default class BagPageItem extends React.Component {
     }
   }
   render() {
+    let SizeType = this.props.sizeType ? this.props.sizeType : "Size";
     return (
       <div className={styles.base}>
-        <div className={styles.productDescription}>
+        <div
+          className={styles.productDescription}
+          style={{ width: this.props.dataWith }}
+        >
           {this.props.isGiveAway === NO &&
             (!this.props.isServiceAvailable
               ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE) && (
@@ -71,7 +75,7 @@ export default class BagPageItem extends React.Component {
           {this.props.size &&
             this.props.size.toUpperCase() !== NO_SIZE && (
               <div className={styles.informationText}>
-                {`Size: ${this.props.size}`}
+                {`${SizeType}: ${this.props.size}`}
               </div>
             )}
           {this.props.color && (
@@ -85,7 +89,10 @@ export default class BagPageItem extends React.Component {
             </div>
           )}
         </div>
-        <div className={styles.productImage}>
+        <div
+          className={styles.productImage}
+          style={{ width: this.props.width }}
+        >
           <ProductImage
             image={this.props.productImage}
             onClickImage={() => this.onClick()}
@@ -99,5 +106,7 @@ BagPageItem.propTypes = {
   productImage: PropTypes.string,
   productName: PropTypes.string,
   price: PropTypes.string,
+  width: PropTypes.string,
+  dataWith: PropTypes.string,
   productDetails: PropTypes.string
 };

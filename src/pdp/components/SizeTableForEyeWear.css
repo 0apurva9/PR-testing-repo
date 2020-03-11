@@ -1,0 +1,72 @@
+.base {
+  width: 100%;
+  height: auto;
+  display: flex;
+  border: solid 0.5px #474747;
+  flex-direction: column;
+  overflow-x: scroll;
+  border-radius: 4px;
+}
+.tablebase {
+  width: auto;
+  height: auto;
+}
+.header {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+}
+.shortHeader {
+  composes: header;
+  border-bottom: solid 0.5px #4a4a4a;
+  justify-content: center;
+}
+.headerLabelHolder {
+  width: 33%;
+  height: 30px;
+  min-width: 25%;
+  max-width: 40%;
+  display: flex;
+  border-right: solid 0.5px #4a4a4a;
+  font-size: 12px;
+  color: rgb(74, 74, 74);
+  align-items: center;
+  text-align: center;
+  justify-content: space-evenly;
+  font-family: semibold;
+}
+.tableHolder {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.tableRow {
+  composes: header;
+  /* background: #fff; */
+}
+.shortTableRow {
+  composes: tableRow;
+  border-bottom: solid 0.5px #4a4a4a;
+  justify-content: center;
+}
+.tableData {
+  width: 33%;
+  height: 30px;
+  min-width: 25%;
+  max-width: 40%;
+  display: flex;
+  border-right: solid 0.5px #4a4a4a;
+  font-size: 10px;
+  color: rgba(33, 33, 33, 0.93);
+  align-items: center;
+  text-align: center;
+  justify-content: space-evenly;
+  font-family: regular;
+}
+.shortTableRow:last-of-type,
+.headerLabelHolder:last-of-type,
+.tableData:last-of-type {
+  border: none;
+}

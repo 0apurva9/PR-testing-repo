@@ -1,5 +1,10 @@
 import React from "react";
-import { HOME_ROUTER, SUCCESS, SUCCESS_UPPERCASE } from "../../lib/constants";
+import {
+  HOME_ROUTER,
+  SUCCESS,
+  SUCCESS_UPPERCASE,
+  SUCCESS_CAMEL_CASE
+} from "../../lib/constants";
 import PropTypes from "prop-types";
 import styles from "./LogoutButton.css";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
@@ -8,7 +13,10 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import {
   setDataLayerForHeaderAndFooterDirectCalls,
-  ADOBE_DIRECT_CALL_FOR_HEADER_CLICK
+  setDataLayerForLogin,
+  ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER,
+  ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
+  ADOBE_LOGOUT_SUCCESSFULL
 } from "../../lib/adobeUtils";
 const LOGOUT_TEXT = "You have logged out successfully";
 let clevertap = { logout: () => {} };
@@ -22,6 +30,11 @@ export default class LogoutButton extends React.Component {
         ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
         "Logout"
       );
+      setDataLayerForHeaderAndFooterDirectCalls(
+        ADOBE_LOGOUT_SUCCESSFULL,
+        "logout_successful"
+      );
+      setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
       const logoutResponse = await this.props.logoutUser();
       this.props.displayToast(LOGOUT_TEXT);
       if (
@@ -34,7 +47,8 @@ export default class LogoutButton extends React.Component {
       } else {
         this.props.history.push(`${HOME_ROUTER}`);
       }
-      if (logoutResponse.status === SUCCESS) {
+      if (logoutResponse.status == SUCCESS) {
+        this.props.resetUserAddressAfterLogout();
         if (this.props.setBagCount) {
           this.props.setBagCount(0);
         }

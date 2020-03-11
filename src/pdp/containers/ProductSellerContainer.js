@@ -5,13 +5,22 @@ import {
   addProductToCart,
   getProductDescription,
   getProductPinCode,
-  getExchangeDetails
+  getExchangeDetails,
+  showPdpPiqPage,
+  getAllStoresForCliqAndPiq
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
-import { SUCCESS, DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants";
-import { showModal, EXCHANGE_MODAL } from "../../general/modal.actions.js";
+import {
+  showModal,
+  CLIQ_PIQ_MODAL,
+  EXCHANGE_MODAL
+} from "../../general/modal.actions.js";
+import {
+  showSecondaryLoader,
+  hideSecondaryLoader
+} from "../../general/secondaryLoader.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     addProductToCart: async productDetails => {
@@ -44,6 +53,21 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showExchangeModal: data => {
       dispatch(showModal(EXCHANGE_MODAL, data));
+    },
+    getAllStoresForCliqAndPiq: pinCode => {
+      dispatch(getAllStoresForCliqAndPiq(pinCode));
+    },
+    showPdpPiqPage: () => {
+      dispatch(showPdpPiqPage());
+    },
+    showPdpCliqAndPiqPage: storeDetails => {
+      dispatch(showModal(CLIQ_PIQ_MODAL, storeDetails));
+    },
+    hideSecondaryLoader: () => {
+      dispatch(hideSecondaryLoader());
+    },
+    showSecondaryLoader: () => {
+      dispatch(showSecondaryLoader());
     }
   };
 };
@@ -52,7 +76,10 @@ const mapStateToProps = state => {
     productDetails: state.productDescription.productDetails,
     serviceablePincodeList:
       state.productDescription.serviceablePincodeListResponse,
-    exchangeDetails: state.productDescription.exchangeDetails
+    exchangeDetails: state.productDescription.exchangeDetails,
+    loading: state.productDescription.loading,
+    stores: state.productDescription.storeDetails,
+    showPiqPage: state.productDescription.showPiqPage
   };
 };
 

@@ -36,6 +36,11 @@ export default class DesktopHeader extends React.Component {
       bagHover: false
     };
   }
+  // headerClicked() {
+  //   setDataLayerForHeaderAndFooterDirectCalls(
+  //     ADOBE_DIRECT_CALL_FOR_HEADER_CLICK
+  //   );
+  // }
   redirectToHome() {
     setDataLayerForHeaderAndFooterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
@@ -261,7 +266,10 @@ export default class DesktopHeader extends React.Component {
     return (
       <div className={this.props.isSearch ? className : className}>
         {this.props.isSearch && <div className={styles.dummyColorHeader} />}
-        <div className={styles.headerHolder}>
+        <div
+          className={styles.headerHolder}
+          // onClick={() => this.headerClicked()}
+        >
           <div className={logo} onClick={() => this.redirectToHome()} />
           {this.props.profileDetails && (
             <div className={styles.profileWonerHolder}>
@@ -648,11 +656,11 @@ export default class DesktopHeader extends React.Component {
                     onMouseLeave={() => this.hoverOut()}
                   >
                     {this.props.bagCount !== null &&
-                      (this.props.bagCount > 0 && (
+                      this.props.bagCount > 0 && (
                         <span className={styles.cartCount}>{`${
                           this.props.bagCount
                         }`}</span>
-                      ))}
+                      )}
                     {this.props.minicart &&
                       this.props.minicart.products &&
                       this.state.bagHover && (
@@ -668,11 +676,11 @@ export default class DesktopHeader extends React.Component {
                   >
                     {userCookie &&
                       this.props.wishListCount !== null &&
-                      (this.props.wishListCount > 0 && (
+                      this.props.wishListCount > 0 && (
                         <div className={styles.cartCount}>{`${
                           this.props.wishListCount
                         }`}</div>
-                      ))}
+                      )}
                   </div>
                 </div>
                 {this.props.searchHolder && (

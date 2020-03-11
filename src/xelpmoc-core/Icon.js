@@ -9,12 +9,14 @@ export default class Icon extends React.Component {
     }
   }
   render() {
+    let iconWidth = this.props.width ? this.props.width : this.props.size;
+    let iconHeight = this.props.height ? this.props.height : this.props.size;
     return (
       <div
         className={styles.base}
         style={{
-          width: this.props.size,
-          height: this.props.size
+          width: iconWidth,
+          height: iconHeight
         }}
         onClick={() => {
           this.handleClick();
@@ -27,13 +29,14 @@ export default class Icon extends React.Component {
             backgroundSize: `${this.props.backgroundSize}`
           }}
         />
+        {this.props.children}
       </div>
     );
   }
 }
 
 Icon.propTypes = {
-  size: PropTypes.number.isRequired,
+  size: PropTypes.number,
   backgroundSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   image: PropTypes.string.isRequired
 };

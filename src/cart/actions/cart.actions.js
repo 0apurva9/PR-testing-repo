@@ -41,7 +41,11 @@ import {
   OLD_CART_GU_ID,
   FAILURE_LOWERCASE,
   BIN_CARD_TYPE,
-  RETRY_PAYMENT_CART_ID
+  SAME_DAY_DELIVERY,
+  SHORT_SAME_DAY_DELIVERY,
+  RETRY_PAYMENT_CART_ID,
+  UPI,
+  SELECTED_STORE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -71,7 +75,10 @@ import {
 } from "../../lib/constants";
 import queryString from "query-string";
 import { setBagCount } from "../../general/header.actions";
-import { releaseBankOfferRetryPaymentSuccess } from "../../account/actions/account.actions";
+import {
+  releaseBankOfferRetryPaymentSuccess,
+  getUserDetails
+} from "../../account/actions/account.actions";
 import * as browserAndDeviceDetails from "../../mock/browserDetails.js";
 import {
   setDataLayer,
@@ -251,6 +258,49 @@ export const SOFT_RESERVATION_FAILURE = "SOFT_RESERVATION_FAILURE";
 export const GET_PAYMENT_MODES_REQUEST = "GET_PAYMENT_MODES_REQUEST";
 export const GET_PAYMENT_MODES_SUCCESS = "GET_PAYMENT_MODES_SUCCESS";
 export const GET_PAYMENT_MODES_FAILURE = "GET_PAYMENT_MODES_FAILURE";
+
+export const GET_UPI_ELIGIBILITY_REQUEST = "GET_UPI_ELIGIBILITY_REQUEST";
+export const GET_UPI_ELIGIBILITY_SUCCESS = "GET_UPI_ELIGIBILITY_SUCCESS";
+export const GET_UPI_ELIGIBILITY_FAILURE = "GET_UPI_ELIGIBILITY_FAILURE";
+
+export const BIN_VALIDATION_UPI_REQUEST = "BIN_VALIDATION_UPI_REQUEST";
+export const BIN_VALIDATION_UPI_SUCCESS = "BIN_VALIDATION_UPI_SUCCESS";
+export const BIN_VALIDATION_UPI_FAILURE = "BIN_VALIDATION_UPI_FAILURE";
+
+export const UPI_MIDDLE_LAYER_IS_NEW_REQUEST =
+  "UPI_MIDDLE_LAYER_IS_NEW_REQUEST";
+export const UPI_MIDDLE_LAYER_IS_NEW_SUCCESS =
+  "UPI_MIDDLE_LAYER_IS_NEW_SUCCESS";
+export const UPI_MIDDLE_LAYER_IS_NEW_FAILURE =
+  "UPI_MIDDLE_LAYER_IS_NEW_FAILURE";
+
+export const UPI_MIDDLE_LAYER_HOW_IT_WORKS_REQUEST =
+  "UPI_MIDDLE_LAYER_HOW_IT_WORKS_REQUEST";
+export const UPI_MIDDLE_LAYER_HOW_IT_WORKS_SUCCESS =
+  "UPI_MIDDLE_LAYER_HOW_IT_WORKS_SUCCESS";
+export const UPI_MIDDLE_LAYER_HOW_IT_WORKS_FAILURE =
+  "UPI_MIDDLE_LAYER_HOW_IT_WORKS_FAILURE";
+
+export const UPI_MIDDLE_LAYER_COMBINED_LOGO_REQUEST =
+  "UPI_MIDDLE_LAYER_COMBINED_LOGO_REQUEST";
+export const UPI_MIDDLE_LAYER_COMBINED_LOGO_SUCCESS =
+  "UPI_MIDDLE_LAYER_COMBINED_LOGO_SUCCESS";
+export const UPI_MIDDLE_LAYER_COMBINED_LOGO_FAILURE =
+  "UPI_MIDDLE_LAYER_COMBINED_LOGO_FAILURE";
+
+export const UPI_MIDDLE_LAYER_IS_ENABLE_REQUEST =
+  "UPI_MIDDLE_LAYER_IS_ENABLE_REQUEST";
+export const UPI_MIDDLE_LAYER_IS_ENABLE_SUCCESS =
+  "UPI_MIDDLE_LAYER_IS_ENABLE_SUCCESS";
+export const UPI_MIDDLE_LAYER_IS_ENABLE_FAILURE =
+  "UPI_MIDDLE_LAYER_IS_ENABLE_FAILURE";
+
+export const COLLECT_PAYMENT_ORDER_FOR_UPI_REQUEST =
+  "COLLECT_PAYMENT_ORDER_FOR_UPI_REQUEST";
+export const COLLECT_PAYMENT_ORDER_FOR_UPI_SUCCESS =
+  "COLLECT_PAYMENT_ORDER_FOR_UPI_SUCCESS";
+export const COLLECT_PAYMENT_ORDER_FOR_UPI_FAILURE =
+  "COLLECT_PAYMENT_ORDER_FOR_UPI_FAILURE";
 
 export const RELEASE_BANK_OFFER_REQUEST = "RELEASE_BANK_OFFER_REQUEST";
 export const RELEASE_BANK_OFFER_SUCCESS = "RELEASE_BANK_OFFER_SUCCESS";
@@ -453,6 +503,8 @@ const ERROR_CODE_FOR_BANK_OFFER_INVALID_6 = "B9510";
 const INVALID_COUPON_ERROR_MESSAGE = "invalid coupon";
 const JUS_PAY_STATUS_REG_EX = /(status=[A-Za-z0-9_]*)/;
 
+const upiEligibilityError = "You are not eligible for this transaction";
+
 export const CART_ITEM_COOKIE = "cartItems";
 export const ADDRESS_FOR_PLACE_ORDER = "orderAddress";
 export const ANONYMOUS_USER = "anonymous";
@@ -503,6 +555,7 @@ export const ORDER_CONFIRMATION_BANNER_SUCCESS =
   "ORDER_CONFIRMATION_BANNER_SUCCESS";
 export const ORDER_CONFIRMATION_BANNER_FAILURE =
   "ORDER_CONFIRMATION_BANNER_FAILURE";
+export const UPI_VPA = "upi_vpa";
 
 export const REMOVE_EXCHANGE_REQUEST = "REMOVE_EXCHANGE_REQUEST";
 export const REMOVE_EXCHANGE_SUCCESS = "REMOVE_EXCHANGE_SUCCESS";
@@ -680,7 +733,10 @@ export function getCartDetailsCNC(
       const result = await api.get(
         `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}`
       );
-      const resultJson = await result.json();
+      let resultJson = await result.json();
+
+      //resultJson = {"type":"cartDataDetailsWsDTO","addressDetailsList":{"addresses":[{"addressType":"Office","city":"New Delhi","country":{"isocode":"IN"},"defaultAddress":true,"firstName":"Nikhil","id":"10346389078039","lastName":"Raturi","line1":"Rispana Pul, Dehradun, Uttarakhand","phone":"9910252434","postalCode":"110011","state":"Delhi","town":"New Delhi"},{"addressType":"Home","city":"Dehradun","country":{"isocode":"IN"},"defaultAddress":false,"firstName":"Limbraj","id":"10363829714967","lastName":"Malekar","line1":"Lane No.1 Vishnupuram Dehradun","phone":"9910232131","postalCode":"248001","state":"Uttaranchal","town":"Dehradun"},{"addressType":"Office","city":"Dehradun","country":{"isocode":"IN"},"defaultAddress":false,"firstName":"Rajeev","id":"10364053782551","lastName":"Kumar","line1":"Lane No.1 Vishnupuram Dehradun","phone":"9910232131","postalCode":"248001","state":"Uttaranchal","town":"Dehradun"},{"addressType":"Home","city":"Dehradun","country":{"isocode":"IN"},"defaultAddress":false,"firstName":"Vinay","id":"10364221456407","lastName":"Kumar","line1":"Lane No.1 Vishnupuram Dehradun","phone":"9910232131","postalCode":"248001","state":"Uttaranchal","town":"Dehradun"},{"addressType":"Home","city":"Dehradun","country":{"isocode":"IN"},"defaultAddress":false,"firstName":"Utkarsh","id":"10346555310103","lastName":"Kukreti","line1":"Lane No.1 Vishnupuram Dehradun","phone":"9910232131","postalCode":"248001","state":"Uttaranchal","town":"Dehradun"}]},"cartAmount":{"bagTotal":{"currencyIso":"INR","doubleValue":1825,"formattedValue":"₹1825.00","formattedValueNoDecimal":"₹1825","priceType":"BUY","value":1825},"paybleAmount":{"currencyIso":"INR","doubleValue":1825,"formattedValue":"₹1825.00","formattedValueNoDecimal":"₹1825","priceType":"BUY","value":1825},"totalDiscountAmount":{"currencyIso":"INR","doubleValue":0,"formattedValue":"₹0.00","formattedValueNoDecimal":"₹0","priceType":"BUY","value":0}},"count":1,"discountPrice":"0.00","isBankPromotionApplied":false,"isBuyNowCart":false,"maxAllowed":0,"products":[{"USSID":"1237628141WM01","categoryHierarchy":[{"category_id":"MSH15","category_name":"Watches"},{"category_id":"MSH1501","category_name":"Women"},{"category_id":"MSH1501000","category_name":"Analog"}],"elligibleDeliveryMode":[{"code":"same-day-delivery","deliveryCost":"0.00","desc":"Delivered in 1-2 days","name":"Same Day Delivery","priority":0},{"code":"home-delivery","deliveryCost":"0.00","desc":"Delivered in 3-6 days","name":"Home Delivery","priority":1},{"code":"click-and-collect","deliveryCost":"0.00","name":"Click and Collect","priority":2}],"entryNumber":"0","fullfillmentType":"tship","imageURL":"//img.tatacliq.com/images/i4/97Wx144H/MP000000005291532_97Wx144H_20190823173405.jpeg","isGiveAway":"N","isLuxury":"Marketplace","maxQuantityAllowed":"5","pinCodeResponse":{"cod":"Y","exchangeServiceable":false,"isCODLimitFailed":"N","isPrepaidEligible":"Y","isServicable":"Y","ussid":"1237628141WM01","quickDeliveryMode":"Y","validDeliveryModes":[{"deliveryDate":"01-14-2020 19:00:00","cutoffTime":4800,"fulfilmentType":"TSHIP","inventory":"3","isCOD":true,"serviceableSlaves":[{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P001","slaveId":"123762-TSES"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P003","slaveId":"123762-TLND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P004","slaveId":"123762-TMAN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P005","slaveId":"123762-TKBN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P008","slaveId":"123762-FKND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P009","slaveId":"123762-TCPS"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P010","slaveId":"123762-TKND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P012","slaveId":"123762-TLDN"}],"type":"SDD"},{"deliveryDate":"01-23-2020 19:00:00","fulfilmentType":"TSHIP","inventory":"23","isCOD":true,"serviceableSlaves":[{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P001","slaveId":"123762-HLND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P002","slaveId":"123762-TMAN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P003","slaveId":"123762-TKND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P004","slaveId":"123762-FKND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P005","slaveId":"123762-TTDI"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P006","slaveId":"123762-HRGD"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P007","slaveId":"123762-TKBN"},{"codEligible":"Y","logisticsID":"EKART","priority":"P008","slaveId":"123762-HSTE"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P009","slaveId":"123762-TLND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P010","slaveId":"123762-HAMN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P011","slaveId":"123762-TCPS"},{"codEligible":"Y","logisticsID":"EKART","priority":"P012","slaveId":"123762-TLDN"},{"codEligible":"Y","logisticsID":"EKART","priority":"P013","slaveId":"123762-TSES"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P014","slaveId":"123762-HCPD"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P015","slaveId":"123762-HKBD"},{"codEligible":"Y","logisticsID":"EKART","priority":"P017","slaveId":"123762-CFANDLH"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P019","slaveId":"123762-HARD"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P020","slaveId":"123762-HGHW"},{"codEligible":"Y","logisticsID":"EKART","priority":"P021","slaveId":"123762-HJJN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P022","slaveId":"123762-TPSS"},{"codEligible":"Y","logisticsID":"EKART","priority":"P023","slaveId":"123762-HSRB"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P024","slaveId":"123762-TUGN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P025","slaveId":"123762-HANA"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P026","slaveId":"123762-TMVG"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P027","slaveId":"123762-TLRM"},{"codEligible":"Y","logisticsID":"EKART","priority":"P028","slaveId":"123762-FFBK"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P029","slaveId":"123762-TACS"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P030","slaveId":"123762-HJAY"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P031","slaveId":"123762-TCSS"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P032","slaveId":"123762-HNMW"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P033","slaveId":"123762-HCEN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P034","slaveId":"123762-HLPM"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P035","slaveId":"123762-SHSR"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P036","slaveId":"123762-TWEA"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P037","slaveId":"123762-FCMH"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P038","slaveId":"123762-TEKS"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P039","slaveId":"123762-THHS"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P040","slaveId":"123762-HGMN"},{"codEligible":"Y","logisticsID":"FEDEX","priority":"P041","slaveId":"123762-FMMG"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P042","slaveId":"123762-TLSS"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P043","slaveId":"123762-HDUW"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P044","slaveId":"123762-FCBM"},{"codEligible":"Y","logisticsID":"EKART","priority":"P045","slaveId":"123762-TLKN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P046","slaveId":"123762-TSPS"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P047","slaveId":"123762-TMPN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P048","slaveId":"123762-TGJB"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P049","slaveId":"123762-TLPM"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P050","slaveId":"123762-TGHS"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P051","slaveId":"123762-HBUB"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P052","slaveId":"123762-HEMC"},{"codEligible":"Y","logisticsID":"EKART","priority":"P053","slaveId":"123762-HSMG"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P054","slaveId":"123762-FFCR"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P055","slaveId":"123762-THYJ"},{"codEligible":"Y","logisticsID":"EKART","priority":"P056","slaveId":"123762-HJMI"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P057","slaveId":"123762-HPHM"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P058","slaveId":"123762-TMRB"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P059","slaveId":"123762-HSMW"},{"codEligible":"Y","logisticsID":"EKART","priority":"P060","slaveId":"123762-TJRN"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P061","slaveId":"123762-HAVA"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P062","slaveId":"123762-HKMS"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P063","slaveId":"123762-WBHI"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P064","slaveId":"123762-HKMM"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P065","slaveId":"123762-TAGH"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P066","slaveId":"123762-FPMW"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P068","slaveId":"123762-TGRT"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P069","slaveId":"123762-THZL"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P070","slaveId":"123762-HOMM"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P071","slaveId":"123762-HRBP"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P072","slaveId":"123762-HLTW"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P073","slaveId":"123762-HHVN"},{"codEligible":"Y","logisticsID":"EKART","priority":"P074","slaveId":"123762-THRB"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P075","slaveId":"123762-TKPM"},{"codEligible":"Y","logisticsID":"EKART","priority":"P076","slaveId":"123762-FKKS"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P077","slaveId":"123762-TINB"},{"codEligible":"Y","logisticsID":"EKART","priority":"P078","slaveId":"123762-HMTB"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P079","slaveId":"123762-TDHN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P080","slaveId":"123762-HWHT"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P081","slaveId":"123762-TAPW"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P082","slaveId":"123762-HGNL"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P083","slaveId":"123762-HLPN"},{"codEligible":"Y","logisticsID":"EKART","priority":"P084","slaveId":"123762-HKHB"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P085","slaveId":"123762-TRMW"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P087","slaveId":"123762-TVMW"},{"codEligible":"Y","logisticsID":"EKART","priority":"P088","slaveId":"123762-HJUP"},{"codEligible":"Y","logisticsID":"EKART","priority":"P089","slaveId":"123762-HVIS"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P090","slaveId":"123762-HGHN"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P091","slaveId":"123762-HMAW"},{"codEligible":"Y","logisticsID":"EKART","priority":"P092","slaveId":"123762-HASW"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P093","slaveId":"123762-TTMW"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P094","slaveId":"123762-HMBW"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P095","slaveId":"123762-HTBR"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P096","slaveId":"123762-HMPB"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P096","slaveId":"123762-TKPMW"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P097","slaveId":"123762-HVTM"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P098","slaveId":"123762-HTMW"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P099","slaveId":"123762-HBAW"},{"codEligible":"Y","logisticsID":"FEDEX","priority":"P100","slaveId":"123762-TDBB"}],"type":"HD"},{"deliveryDate":"01-14-2020 19:00:00","CNCServiceableSlavesData":[{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HCPD"}],"storeId":"123762-HCPD"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TCPS"}],"storeId":"123762-TCPS"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HSTE"}],"storeId":"123762-HSTE"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HLND"}],"storeId":"123762-HLND"},{"fulfillmentType":"TSHIP","qty":1,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TLND"}],"storeId":"123762-TLND"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HKBD"}],"storeId":"123762-HKBD"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TKBN"}],"storeId":"123762-TKBN"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-FKND"}],"storeId":"123762-FKND"},{"fulfillmentType":"TSHIP","qty":2,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TKND"}],"storeId":"123762-TKND"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HAMN"}],"storeId":"123762-HAMN"},{"fulfillmentType":"TSHIP","qty":1,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TTDI"}],"storeId":"123762-TTDI"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HRGD"}],"storeId":"123762-HRGD"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HGMN"}],"storeId":"123762-HGMN"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TUGN"}],"storeId":"123762-TUGN"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TMVG"}],"storeId":"123762-TMVG"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TMAN"}],"storeId":"123762-TMAN"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TAGH"}],"storeId":"123762-TAGH"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HGHN"}],"storeId":"123762-HGHN"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HSMG"}],"storeId":"123762-HSMG"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-FMMG"}],"storeId":"123762-FMMG"}],"inventory":"2","isCOD":false,"type":"CNC"}]},"price":1825,"productBrand":"Sonata","productCategoryId":"MSH1501000","productLevelDiscount":0,"productName":"Sonata 8141WM01 Play Analog Watch for Women","productcode":"MP000000005291532","qtySelectedByUser":"1","rootCategory":"Watches","sellerId":"123762","sellerName":"Titan Company Ltd"}],"subtotalPrice":"1825.00","totalPrice":"1825.00"}
+
       if (resultJson.status === FAILURE) {
         throw new Error(`${resultJson.message}`);
       }
@@ -1128,7 +1184,13 @@ export function addAddressToCartFailure(error) {
   };
 }
 
-export function addAddressToCart(addressId, pinCode) {
+export function addAddressToCart(addressId, pinCode, isComingFromCliqAndPiq) {
+  let newPinCode;
+  if (isComingFromCliqAndPiq) {
+    newPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+  } else {
+    newPinCode = pinCode;
+  }
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -1147,11 +1209,25 @@ export function addAddressToCart(addressId, pinCode) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(getCartDetailsCNC(userId, access_token, cartId, pinCode, false));
-      dispatch(addAddressToCartSuccess());
+      let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
+      let storeDetails =
+        selectedStore &&
+        selectedStore.find(store => {
+          return store.pincode === newPinCode;
+        });
+      if (selectedStore && !storeDetails) {
+        localStorage.removeItem(SELECTED_STORE);
+      }
+      dispatch(
+        getCartDetailsCNC(userId, access_token, cartId, newPinCode, false)
+      );
       setDataLayerForCheckoutDirectCalls(ADOBE_ADD_ADDRESS_TO_ORDER);
+      if (isComingFromCliqAndPiq) {
+        dispatch(softReservation());
+      }
+      return dispatch(addAddressToCartSuccess());
     } catch (e) {
-      dispatch(userAddressFailure(e.message));
+      return dispatch(userAddressFailure(e.message));
     }
   };
 }
@@ -1230,14 +1306,20 @@ export function emiBankingDetailsFailure(error) {
 export function getEmiBankDetails(price) {
   let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-  let cartGuid = JSON.parse(cartDetails).guid;
+  let retryCartID = localStorage.getItem(RETRY_PAYMENT_CART_ID);
+  let cartId;
+  if (retryCartID) {
+    cartId = retryCartID.replace(/"/g, "");
+  } else {
+    cartId = JSON.parse(cartDetails).guid;
+  }
   return async (dispatch, getState, { api }) => {
     dispatch(emiBankingDetailsRequest());
     try {
       const result = await api.get(
         `${CART_PATH}/getBankDetailsforEMI?platformNumber=${PLAT_FORM_NUMBER}&productValue=${price}&access_token=${
           JSON.parse(globalCookie).access_token
-        }&guid=${cartGuid}&isFromNewVersion=true&isPwa=truee&emiConvChargeFlag=true`
+        }&guid=${cartId}&isFromNewVersion=true&isPwa=truee&emiConvChargeFlag=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1594,13 +1676,18 @@ export function getAllStoresCNCFailure(error) {
 // Action Creator for getting all stores CNC
 export function getAllStoresCNC(pinCode) {
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+  let accessToken;
+  if (customerCookie) {
+    accessToken = JSON.parse(customerCookie).access_token;
+  } else {
+    accessToken = JSON.parse(globalCookie).access_token;
+  }
   return async (dispatch, getState, { api }) => {
     dispatch(getAllStoresCNCRequest());
     try {
       const result = await api.get(
-        `${ALL_STORES_PATH}/${pinCode}?access_token=${
-          JSON.parse(customerCookie).access_token
-        }`
+        `${ALL_STORES_PATH}/${pinCode}?access_token=${accessToken}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1608,9 +1695,9 @@ export function getAllStoresCNC(pinCode) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(getAllStoresCNCSuccess(resultJson.stores));
+      return dispatch(getAllStoresCNCSuccess(resultJson.stores));
     } catch (e) {
-      dispatch(getAllStoresCNCFailure(e.message));
+      return dispatch(getAllStoresCNCFailure(e.message));
     }
   };
 }
@@ -1661,9 +1748,9 @@ export function addStoreCNC(ussId, slaveId) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(addStoreCNCSuccess(resultJson));
+      return dispatch(addStoreCNCSuccess(resultJson));
     } catch (e) {
-      dispatch(addStoreCNCFailure(e.message));
+      return dispatch(addStoreCNCFailure(e.message));
     }
   };
 }
@@ -1724,6 +1811,7 @@ export function addPickupPersonCNC(personMobile, personName) {
           false
         )
       );
+      //dispatch(getUserDetails());
       setDataLayerForCheckoutDirectCalls(ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED);
       return dispatch(addPickUpPersonSuccess(resultJson));
     } catch (e) {
@@ -1789,7 +1877,7 @@ export function softReservation() {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(eddInCommerce());
+      dispatch(eddInCommerce(resultJson));
       dispatch(getOrderSummary(pinCode));
       dispatch(softReservationSuccess(resultJson.reservationItem));
     } catch (e) {
@@ -1856,6 +1944,866 @@ export function getPaymentModes(guId) {
   };
 }
 
+/**
+ * @comment Code for checking the middle ware of the UPI
+ */
+
+export function upiPaymentCombinedLogoMidddleLayerRequest() {
+  return {
+    type: UPI_MIDDLE_LAYER_COMBINED_LOGO_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function upiPaymentCombinedLogoMidddleLayerSuccess(
+  upiPaymentCombinedLogoMidddleLayerDetails
+) {
+  return {
+    type: UPI_MIDDLE_LAYER_COMBINED_LOGO_SUCCESS,
+    status: SUCCESS,
+    upiPaymentCombinedLogoMidddleLayerDetails
+  };
+}
+
+export function upiPaymentCombinedLogoMidddleLayerFailure(error) {
+  return {
+    type: UPI_MIDDLE_LAYER_COMBINED_LOGO_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function upiPaymentCombinedLogoMidddleLayer(orderId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(upiPaymentCombinedLogoMidddleLayerRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=MP_UPI_COMBINED_LOGO_URL`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(upiPaymentCombinedLogoMidddleLayerSuccess(resultJson));
+    } catch (e) {
+      dispatch(upiPaymentCombinedLogoMidddleLayerFailure(e.message));
+    }
+  };
+}
+export function upiPaymentHowItWorksMidddleLayerRequest() {
+  return {
+    type: UPI_MIDDLE_LAYER_HOW_IT_WORKS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function upiPaymentHowItWorksMidddleLayerSuccess(
+  upiPaymentHowItWorksMidddleLayerDetails
+) {
+  return {
+    type: UPI_MIDDLE_LAYER_HOW_IT_WORKS_SUCCESS,
+    status: SUCCESS,
+    upiPaymentHowItWorksMidddleLayerDetails
+  };
+}
+
+export function upiPaymentHowItWorksMidddleLayerFailure(error) {
+  return {
+    type: UPI_MIDDLE_LAYER_HOW_IT_WORKS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function upiPaymentHowItWorksMidddleLayer(orderId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(upiPaymentHowItWorksMidddleLayerRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=MP_UPI_HOW_IT_WORKS_PAGEID`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(upiPaymentHowItWorksMidddleLayerSuccess(resultJson));
+    } catch (e) {
+      dispatch(upiPaymentHowItWorksMidddleLayerFailure(e.message));
+    }
+  };
+}
+
+export function upiPaymentIsNewMidddleLayerRequest() {
+  return {
+    type: UPI_MIDDLE_LAYER_IS_NEW_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function upiPaymentIsNewMidddleLayerSuccess(
+  upiPaymentIsNewMidddleLayerDetails
+) {
+  return {
+    type: UPI_MIDDLE_LAYER_IS_NEW_SUCCESS,
+    status: SUCCESS,
+    upiPaymentIsNewMidddleLayerDetails
+  };
+}
+
+export function upiPaymentIsNewMidddleLayerFailure(error) {
+  return {
+    type: UPI_MIDDLE_LAYER_IS_NEW_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function upiPaymentIsNewMidddleLayer(orderId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(upiPaymentIsNewMidddleLayerRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=IS_UPI_NEW`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(upiPaymentIsNewMidddleLayerSuccess(resultJson));
+    } catch (e) {
+      dispatch(upiPaymentIsNewMidddleLayerFailure(e.message));
+    }
+  };
+}
+
+export function upiPaymentISEnableMidddleLayerRequest() {
+  return {
+    type: UPI_MIDDLE_LAYER_IS_ENABLE_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function upiPaymentISEnableMidddleLayerSuccess(
+  upiPaymentISEnableMidddleLayerDetails
+) {
+  return {
+    type: UPI_MIDDLE_LAYER_IS_ENABLE_SUCCESS,
+    status: SUCCESS,
+    upiPaymentISEnableMidddleLayerDetails
+  };
+}
+
+export function upiPaymentISEnableMidddleLayerFailure(error) {
+  return {
+    type: UPI_MIDDLE_LAYER_IS_ENABLE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function upiPaymentISEnableMidddleLayer(orderId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(upiPaymentISEnableMidddleLayerRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=MP_DESKTOP_UPI_ENABLED`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(upiPaymentISEnableMidddleLayerSuccess(resultJson));
+    } catch (e) {
+      dispatch(upiPaymentISEnableMidddleLayerFailure(e.message));
+    }
+  };
+}
+
+/**
+ * EOC
+ */
+
+/**
+ * @comment Code for the UPI Eligibility check
+ */
+
+export function checkUPIEligibilityRequest() {
+  return {
+    type: GET_UPI_ELIGIBILITY_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function checkUPIEligibilitySuccess(checkUPIEligibility) {
+  return {
+    type: GET_UPI_ELIGIBILITY_SUCCESS,
+    status: SUCCESS,
+    checkUPIEligibility
+  };
+}
+
+export function checkUPIEligibilityFailure(error) {
+  return {
+    type: GET_UPI_ELIGIBILITY_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function checkUPIEligibility(guId) {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(checkUPIEligibilityRequest());
+    try {
+      const result = await api.get(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/payments/getUpiEligibility?platformNumber=${PLAT_FORM_NUMBER}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }&cartGuid=${guId}`
+      );
+
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status && !resultJson.isUpiPaymentEligible) {
+        dispatch(displayToast(resultJson.error));
+      } else if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.error);
+      }
+      if (!resultJson.isUpiPaymentEligible) {
+        dispatch(displayToast(resultJson.error));
+      }
+      if (resultJson.isUpiPaymentEligible) {
+        return dispatch(checkUPIEligibilitySuccess(resultJson));
+      } else {
+        return dispatch(checkUPIEligibilitySuccess(resultJson));
+      }
+    } catch (e) {
+      return dispatch(checkUPIEligibilityFailure(e.message));
+    }
+  };
+}
+
+export function binValidationForUPIRequest() {
+  return {
+    type: BIN_VALIDATION_UPI_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function binValidationForUPISuccess(binValidationUPI) {
+  return {
+    type: BIN_VALIDATION_UPI_SUCCESS,
+    status: SUCCESS,
+    binValidationUPI
+  };
+}
+
+export function binValidationForUPIFailure(error) {
+  return {
+    type: BIN_VALIDATION_UPI_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function binValidationForUPI(
+  paymentMode,
+  isFromRetryUrl,
+  retryCartGuid,
+  resultJsonUPIEligibility
+) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  const parsedQueryString = queryString.parse(window.location.search);
+  let cartId;
+  if (parsedQueryString.value) {
+    cartId = parsedQueryString.value;
+  }
+  if (isFromRetryUrl) {
+    cartId = retryCartGuid;
+  } else if (Cookie.getCookie("egvCartGuid")) {
+    cartId = Cookie.getCookie("egvCartGuid");
+  } else {
+    cartId = JSON.parse(cartDetails).guid;
+  }
+  return async (dispatch, getState, { api }) => {
+    dispatch(binValidationForUPIRequest());
+    try {
+      const result = await api.post(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/payments/binValidation?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      // localStorage.setItem(SELECTED_BANK_NAME, "");
+      return dispatch(binValidationForUPISuccess(resultJsonStatus));
+      // if (resultJsonStatus.status) {
+      // return dispatch(checkUPIEligibilitySuccess(resultJsonUPIEligibility));
+      // }
+    } catch (e) {
+      dispatch(binValidationForUPIFailure(e.message));
+    }
+  };
+}
+
+export function collectPaymentOrderForUPIRequest() {
+  return {
+    type: COLLECT_PAYMENT_ORDER_FOR_UPI_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function collectPaymentOrderForUPISuccess(collectPaymentOrder, guid) {
+  return {
+    type: COLLECT_PAYMENT_ORDER_FOR_UPI_SUCCESS,
+    status: SUCCESS,
+    collectPaymentOrder,
+    guid
+  };
+}
+
+export function collectPaymentOrderForUPIFailure(error) {
+  return {
+    type: COLLECT_PAYMENT_ORDER_FOR_UPI_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function collectPaymentOrderForGiftCardUPI(
+  egvCartGuid,
+  bankCode,
+  bankName
+) {
+  return async (dispatch, getState, { api }) => {
+    const returnUrl = `${
+      window.location.origin
+    }/checkout/payment-method/cardPayment`;
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
+    let upi_vpa = localStorage.getItem(UPI_VPA);
+    let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
+    let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
+    let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
+    let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
+    let firstName = bankCode;
+
+    let orderDetails = {
+      wrapperItems: [
+        {
+          wrapperInventoryItems: [
+            {
+              item: []
+            }
+          ],
+          wrapperAddressItems: [
+            {
+              addressItems: []
+            }
+          ],
+          wrapperPspItems: [
+            {
+              pspItems: [
+                {
+                  pspName: "Juspay",
+                  token: "",
+                  cardToken: "",
+                  cardFingerprint: "",
+                  cardRefNo: "",
+                  returnUrl: returnUrl
+                },
+                {
+                  pspName: "Stripe",
+                  token: "",
+                  cardToken: "",
+                  cardFingerprint: "",
+                  cardRefNo: "",
+                  returnUrl: returnUrl
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    dispatch(collectPaymentOrderForGiftCardRequest());
+    try {
+      const result = await api.post(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/collectPaymentOrder?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&saveCard=false&sameAsShipping=true&cartGuid=${egvCartGuid}&isPwa=true&platform=22&firstName=${firstName}&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${currentSelectedPaymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`,
+        orderDetails
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
+      dispatch(collectPaymentOrderForGiftCardSuccess(resultJson, egvCartGuid));
+      dispatch(
+        jusPayPaymentMethodTypeForGiftCardUPI(
+          resultJson.pspAuditId,
+          upi_vpa,
+          egvCartGuid
+        )
+      );
+    } catch (e) {
+      dispatch(collectPaymentOrderForUPIFailure(e));
+    }
+  };
+}
+
+export function collectPaymentOrderForUPI(
+  cardDetails,
+  cartItem,
+  isPaymentFailed,
+  pinCode,
+  isFromRetryUrl,
+  retryCartGuid
+) {
+  return async (dispatch, getState, { api }) => {
+    let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
+    let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
+    let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
+    let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
+    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let productDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    let cartGuId = productDetails
+      ? JSON.parse(productDetails).guid
+      : Cookie.getCookie(OLD_CART_GU_ID);
+    let cartDetails;
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
+
+    let upi_vpa = localStorage.getItem(UPI_VPA);
+    let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+    const binCardType = localStorage.getItem(BIN_CARD_TYPE);
+    if (binCardType && paymentMode !== "EMI") {
+      paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType
+        .slice(1)
+        .toLowerCase()} Card`;
+    }
+    const bankName = localStorage.getItem(SELECTED_BANK_NAME);
+    let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
+    const returnUrl = `${
+      window.location.origin
+    }/checkout/payment-method/cardPayment`;
+
+    let orderDetails = "";
+    let inventoryItems = cartItem;
+    if (isPaymentFailed) {
+      let url = queryString.parse(window.location.search);
+      cartGuId =
+        url && url.value ? url.value : Cookie.getCookie(OLD_CART_GU_ID);
+    } else {
+      if (isFromRetryUrl) {
+        cartGuId = retryCartGuid;
+        if (!isPaymentFailed) {
+          inventoryItems = getValidDeliveryModeDetails(
+            getState().cart.getUserAddressAndDeliveryModesByRetryPayment
+              .products,
+            true,
+            getState().cart.getUserAddressAndDeliveryModesByRetryPayment
+          );
+          localStorage.setItem(
+            CART_ITEM_COOKIE,
+            JSON.stringify(inventoryItems)
+          );
+        }
+      } else {
+        cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+        cartGuId = cartDetails
+          ? JSON.parse(cartDetails).guid
+          : Cookie.getCookie(OLD_CART_GU_ID);
+      }
+    }
+    if (inventoryItems && address) {
+      orderDetails = {
+        wrapperItems: [
+          {
+            wrapperInventoryItems: [
+              {
+                ...inventoryItems
+              }
+            ],
+            wrapperAddressItems: [
+              {
+                addressItems: [
+                  {
+                    addressType: "Shipping",
+                    firstName: address.firstName,
+                    lastName: address.lastName,
+                    addressLine1: address.line1,
+                    addressLine2: address.line2 ? address.line2 : "",
+                    addressLine3: address.line3 ? address.line3 : "",
+                    country: address.country && address.country.isocode,
+                    city: address.city,
+                    postalCode: address.postalCode,
+                    state: address.state,
+                    phone: address.phone
+                  }
+                ]
+              }
+            ],
+            wrapperPspItems: [
+              {
+                pspItems: [
+                  {
+                    pspName: "Juspay",
+                    token: "",
+                    cardToken: "",
+                    cardFingerprint: "",
+                    cardRefNo: "",
+                    returnUrl: returnUrl
+                  },
+                  {
+                    pspName: "Stripe",
+                    token: "",
+                    cardToken: "",
+                    cardFingerprint: "",
+                    cardRefNo: "",
+                    returnUrl: returnUrl
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      };
+    }
+
+    dispatch(collectPaymentOrderRequest());
+    try {
+      const result = await api.post(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/collectPaymentOrder?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&saveCard=${false}&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platform=22&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=${
+          whatsappNotification ? "&whatsapp=true" : ""
+        }`,
+        orderDetails
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
+      if (resultJsonStatus.status) {
+        if (
+          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
+          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
+        ) {
+          dispatch(collectPaymentOrderFailure(INVALID_COUPON_ERROR_MESSAGE));
+          return dispatch(
+            showModal(INVALID_BANK_COUPON_POPUP, {
+              result: resultJson
+            })
+          );
+        } else {
+          throw new Error(resultJson.message);
+        }
+      }
+      dispatch(collectPaymentOrderSuccess(resultJson));
+      dispatch(jusPayPaymentMethodTypeForUPI(resultJson.pspAuditId, upi_vpa));
+    } catch (e) {
+      dispatch(
+        displayToast(ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL + " Please Retry.")
+      );
+      dispatch(collectPaymentOrderFailure(e));
+    }
+  };
+}
+export function softReservationPaymentForUPI(
+  paymentMethodType,
+  paymentMode,
+  bankCode,
+  pinCode,
+  bankName
+) {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    let productItems = "";
+    let cartDetails = "";
+    let cartId = "";
+
+    productItems = await getValidDeliveryModeDetails(
+      getState().cart.cartDetailsCNC.products
+    );
+    if (productItems) {
+      localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(productItems));
+    }
+    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    cartId = JSON.parse(cartDetails).guid;
+
+    dispatch(softReservationForPaymentRequest());
+    try {
+      const result = await api.post(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/carts/softReservationForPayment?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&cartGuid=${cartId}&pincode=${pinCode}&type=payment`,
+        productItems
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(
+        // change this code
+
+        collectPaymentOrderForUPI(
+          paymentMethodType,
+          productItems,
+          bankCode,
+          pinCode,
+          false,
+          cartId,
+          "",
+          bankName
+        )
+      );
+      setDataLayerForCheckoutDirectCalls(ADOBE_FINAL_PAYMENT_MODES);
+    } catch (e) {
+      dispatch(softReservationForPaymentFailure(e.message));
+    }
+  };
+}
+
+export function jusPayPaymentMethodTypeForUPI(juspayOrderId, upi_vpa) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(jusPayPaymentMethodTypeRequest());
+
+    const params = {
+      payment_method_type: "UPI",
+      redirect_after_payment: "true",
+      format: "json",
+      merchant_id: getState().cart.paymentModes.merchantID,
+      txn_type: "UPI_COLLECT",
+      order_id: juspayOrderId,
+      payment_method: "UPI",
+      upi_vpa: upi_vpa
+    };
+    let cardObject = Object.keys(params)
+      .map(key => {
+        return encodeURIComponent(key) + "=" + encodeURIComponent(params[key]);
+      })
+      .join("&");
+    try {
+      const result = await api.postJusPayUrlEncode(`txns?`, cardObject);
+      const resultJson = await result.json();
+      if (
+        resultJson.status === JUS_PAY_PENDING ||
+        resultJson.status === SUCCESS ||
+        resultJson.status === SUCCESS_CAMEL_CASE ||
+        resultJson.status === SUCCESS_UPPERCASE ||
+        resultJson.status === JUS_PAY_CHARGED
+      ) {
+        dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
+        dispatch(setBagCount(0));
+        localStorage.setItem(CART_BAG_DETAILS, []);
+        dispatch(generateCartIdAfterOrderPlace());
+      } else {
+        throw new Error(resultJson.error_message);
+      }
+    } catch (e) {
+      dispatch(jusPayPaymentMethodTypeFailure(e.message));
+    }
+  };
+}
+
+export function jusPayPaymentMethodTypeForGiftCardUPI(
+  juspayOrderId,
+  upi_vpa,
+  guId
+) {
+  return async (dispatch, getState, { api }) => {
+    const params = {
+      payment_method_type: "UPI",
+      redirect_after_payment: "true",
+      format: "json",
+      merchant_id: getState().cart.paymentModes.merchantID,
+      txn_type: "UPI_COLLECT",
+      order_id: juspayOrderId,
+      payment_method: "UPI",
+      upi_vpa: upi_vpa
+    };
+    let cardObject = Object.keys(params)
+      .map(key => {
+        return encodeURIComponent(key) + "=" + encodeURIComponent(params[key]);
+      })
+      .join("&");
+    try {
+      const result = await api.postJusPayUrlEncode(`txns?`, cardObject);
+      const resultJson = await result.json();
+
+      if (
+        resultJson.status === JUS_PAY_PENDING ||
+        resultJson.status === SUCCESS ||
+        resultJson.status === SUCCESS_CAMEL_CASE ||
+        resultJson.status === SUCCESS_UPPERCASE ||
+        resultJson.status === JUS_PAY_CHARGED
+      ) {
+        dispatch(jusPayPaymentMethodTypeForGiftCardSuccess(resultJson, guId));
+      } else {
+        throw new Error(resultJson.error_message);
+      }
+    } catch (e) {
+      dispatch(jusPayPaymentMethodTypeFailure(e.message));
+    }
+  };
+}
+
+export function createJusPayOrderForUPI(
+  cardDetails,
+  cartItemObj,
+  isPaymentFailed,
+  isFromRetryUrl,
+  retryCartGuid
+) {
+  let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
+  let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
+  let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
+  let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
+  let upi_vpa = JSON.parse(localStorage.getItem(UPI_VPA));
+  let cartItem = cartItemObj;
+  const jusPayUrl = `${
+    window.location.origin
+  }/checkout/multi/payment-method/cardPayment`;
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
+  let cartDetails, cartId;
+  if (isPaymentFailed) {
+    let url = queryString.parse(window.location.search);
+    cartId = url && url.value ? url.value : Cookie.getCookie(OLD_CART_GU_ID);
+  } else {
+    if (isFromRetryUrl) {
+      cartId = retryCartGuid;
+    } else {
+      cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      cartId = cartDetails
+        ? JSON.parse(cartDetails).guid
+        : Cookie.getCookie(OLD_CART_GU_ID);
+    }
+  }
+  const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+  const bankName = localStorage.getItem(SELECTED_BANK_NAME);
+  return async (dispatch, getState, { api }) => {
+    dispatch(createJusPayOrderRequest());
+    try {
+      let productItems = "";
+      let result = "";
+      if (isFromRetryUrl) {
+        productItems = getValidDeliveryModeDetails(
+          getState().cart.getUserAddressAndDeliveryModesByRetryPayment.products,
+          true,
+          getState().cart.getUserAddressAndDeliveryModesByRetryPayment
+        );
+      }
+      if (isFromRetryUrl) {
+        result = await api.post(
+          `${USER_CART_PATH}/${
+            JSON.parse(userDetails).userName
+          }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&platform=22&platformNumber=${PLAT_FORM_NUMBER}&appVersion=&cardFingerPrint=${
+            cardDetails.cardFingerprint
+          }&pincode=${localStorage.getItem(
+            DEFAULT_PIN_CODE_LOCAL_STORAGE
+          )}&city=&cartGuid=${retryCartGuid}&token=&cardRefNo=${
+            cardDetails.cardReferenceNumber
+          }&country=&addressLine1=&access_token=${
+            JSON.parse(customerCookie).access_token
+          }&juspayUrl=${encodeURIComponent(
+            jusPayUrl
+          )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
+            bankName ? bankName : ""
+          }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+            whatsappNotification ? "&whatsapp=true" : ""
+          }`,
+          productItems
+        );
+      } else {
+        result = await api.post(
+          `${USER_CART_PATH}/${
+            JSON.parse(userDetails).userName
+          }/createJuspayOrder?state=&addressLine2=&lastName=&firstName=&addressLine3=&sameAsShipping=null&cardSaved=false&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&platform=22&platformNumber=${PLAT_FORM_NUMBER}&appVersion=&cardFingerPrint=${
+            cardDetails.cardFingerprint
+          }&pincode=${localStorage.getItem(
+            DEFAULT_PIN_CODE_LOCAL_STORAGE
+          )}&city=&cartGuid=${cartId}&token=&cardRefNo=${
+            cardDetails.cardReferenceNumber
+          }&country=&addressLine1=&access_token=${
+            JSON.parse(customerCookie).access_token
+          }&juspayUrl=${encodeURIComponent(
+            jusPayUrl
+          )}&paymentMode=${currentSelectedPaymentMode}&bankName=${
+            bankName ? bankName : ""
+          }&isPwa=true&channel=${CHANNEL}&isUpdatedPwa=true${
+            whatsappNotification ? "&whatsapp=true" : ""
+          }`,
+          cartItem
+        );
+      }
+
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        if (
+          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
+          resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
+        ) {
+          dispatch(createJusPayOrderFailure(INVALID_COUPON_ERROR_MESSAGE));
+          return dispatch(
+            showModal(INVALID_BANK_COUPON_POPUP, {
+              result: resultJson
+            })
+          );
+        } else {
+          dispatch(displayToast("Please Retry."));
+          throw new Error(resultJson.message);
+        }
+      }
+      dispatch(
+        jusPayPaymentMethodTypeForUPI(resultJson.juspayOrderId, upi_vpa)
+      );
+    } catch (e) {
+      dispatch(createJusPayOrderFailure(e.message));
+    }
+  };
+}
+
+/**
+ * EOC
+ */
+
 // Actions to Apply Bank Offer
 export function applyBankOfferRequest() {
   return {
@@ -1905,6 +2853,7 @@ export function applyBankOffer(couponCode) {
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       localStorage.setItem(BANK_COUPON_COOKIE, couponCode);
+      console.log("resultJson---->", resultJsonStatus);
       if (resultJsonStatus.status) {
         setDataLayerForCheckoutDirectCalls(
           ADOBE_CALL_FOR_APPLY_COUPON_FAILURE,
@@ -1942,11 +2891,12 @@ export function applyBankOffer(couponCode) {
           dispatch(displayToast(resultJson.message));
           throw new Error(resultJsonStatus.message);
         }
+      } else {
+        setDataLayerForCheckoutDirectCalls(
+          ADOBE_CALL_FOR_APPLY_COUPON_SUCCESS,
+          couponCode
+        );
       }
-      setDataLayerForCheckoutDirectCalls(
-        ADOBE_CALL_FOR_APPLY_COUPON_SUCCESS,
-        couponCode
-      );
       return dispatch(applyBankOfferSuccess(resultJson));
     } catch (e) {
       return dispatch(applyBankOfferFailure(e.message));
@@ -3215,7 +4165,6 @@ export function createJusPayOrderForCliqCash(
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     cartId = JSON.parse(cartDetails).guid;
   }
-
   return async (dispatch, getState, { api }) => {
     dispatch(createJusPayOrderRequest());
 
@@ -3451,11 +4400,9 @@ export function jusPayPaymentMethodTypeForSavedCards(
     cardObject.append("merchant_id", getState().cart.paymentModes.merchantID);
     cardObject.append("card_token", cardDetails.cardToken);
     cardObject.append("order_id", juspayOrderId);
-
     try {
       const result = await api.postJusPay(`txns?`, cardObject);
       const resultJson = await result.json();
-
       if (
         resultJson.status === JUS_PAY_PENDING ||
         resultJson.status === SUCCESS ||
@@ -4170,9 +5117,10 @@ export function eddInCommerceFailure(error) {
     error
   };
 }
-export function eddInCommerce() {
+export function eddInCommerce(reservationItem) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
   return async (dispatch, getState, { api }) => {
     const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     const cartId = JSON.parse(cartDetails).code;
@@ -4184,7 +5132,8 @@ export function eddInCommerce() {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/getEDD?access_token=${
           JSON.parse(customerCookie).access_token
-        }`
+        }&pincode=${pinCode}`,
+        reservationItem
       );
       const resultJson = await result.json();
 
@@ -4998,7 +5947,15 @@ export function getValidDeliveryModeDetails(
       selectedDeliverMode[productMode] === "ED"
     ) {
       updatedDeliveryModes[productMode] = SHORT_EXPRESS;
-    } else if (selectedDeliverMode[productMode] === COLLECT) {
+    } else if (
+      selectedDeliverMode[productMode] === SAME_DAY_DELIVERY ||
+      selectedDeliverMode[productMode] === SHORT_SAME_DAY_DELIVERY
+    ) {
+      updatedDeliveryModes[productMode] = SHORT_SAME_DAY_DELIVERY;
+    } else if (
+      selectedDeliverMode[productMode] === COLLECT ||
+      selectedDeliverMode[productMode] === "CNC"
+    ) {
       updatedDeliveryModes[productMode] = SHORT_COLLECT;
     }
   });
@@ -5029,16 +5986,29 @@ export function getValidDeliveryModeDetails(
       productDetails.fulfillmentType = isFromRetryUrl
         ? selectedDeliveryModeDetails.fulfilmentType.toLowerCase()
         : product.fullfillmentType;
-      productDetails.deliveryMode = selectedDeliveryModeDetails.type;
-      if (selectedDeliveryModeDetails.serviceableSlaves) {
+      productDetails.deliveryMode =
+        selectedDeliveryModeDetails && selectedDeliveryModeDetails.type;
+      if (
+        selectedDeliveryModeDetails &&
+        selectedDeliveryModeDetails.serviceableSlaves
+      ) {
         productDetails.serviceableSlaves =
           selectedDeliveryModeDetails.serviceableSlaves;
-      } else if (selectedDeliveryModeDetails.CNCServiceableSlavesData) {
-        let selectedStoreDetails = selectedDeliveryModeDetails.CNCServiceableSlavesData.find(
-          storeDetails => {
-            return storeDetails.storeId === product.storeDetails.slaveId;
-          }
-        );
+      } else if (
+        selectedDeliveryModeDetails &&
+        selectedDeliveryModeDetails.CNCServiceableSlavesData
+      ) {
+        let selectedStoreDetails =
+          selectedDeliveryModeDetails &&
+          selectedDeliveryModeDetails.CNCServiceableSlavesData.find(
+            storeDetails => {
+              if (isFromRetryUrl) {
+                return storeDetails.storeId === product.selectedStoreCNC;
+              } else {
+                return storeDetails.storeId === product.storeDetails.slaveId;
+              }
+            }
+          );
         productDetails.serviceableSlaves =
           selectedStoreDetails && selectedStoreDetails.serviceableSlaves;
       }
@@ -5091,17 +6061,29 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
   return async (dispatch, getState, { api }) => {
     dispatch(tempCartIdForLoggedInUserRequest());
     try {
-      const result = await api.get(
-        `${USER_CART_PATH}/${
-          JSON.parse(userDetails).userName
-        }/buyNow/expressBuy?access_token=${
-          JSON.parse(customerCookie).access_token
-        }&isPwa=true&channel=${CHANNEL}&productCode=${
-          productDetails.code
-        }&USSID=${productDetails.ussId}`
-      );
+      let result = "";
+      if (productDetails.isCNC) {
+        result = await api.get(
+          `${USER_CART_PATH}/${
+            JSON.parse(userDetails).userName
+          }/buyNow/expressBuy?productCode=${productDetails.code}&USSID=${
+            productDetails.ussId
+          }&slaveId=${productDetails.slaveId}&access_token=${
+            JSON.parse(customerCookie).access_token
+          }&isCNC=yes`
+        );
+      } else {
+        result = await api.get(
+          `${USER_CART_PATH}/${
+            JSON.parse(userDetails).userName
+          }/buyNow/expressBuy?access_token=${
+            JSON.parse(customerCookie).access_token
+          }&isPwa=true&channel=${CHANNEL}&productCode=${
+            productDetails.code
+          }&USSID=${productDetails.ussId}`
+        );
+      }
       const resultJson = await result.json();
-
       if (resultJson.status !== SUCCESS_CAMEL_CASE) {
         throw new Error(resultJson.message);
       }

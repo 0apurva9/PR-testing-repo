@@ -160,6 +160,22 @@
 	border-top: 1px solid #ececec;
 	padding-top: 20px;
 }
+.paymentBase {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.paymentHeading {
+  width: 100%;
+  height: auto;
+  font-size: 14px;
+  font-family: semibold;
+  color: #212121;
+}
 .orderStatusVertical {
 	/* padding: 30px 0px; */
 	padding: 56px 0px 0px;
@@ -407,7 +423,11 @@
 		height: auto;
 		position: relative;
 		display: inline-block;
-		margin-bottom: 20px;
+    padding: 0px 150px 20px 0px;
+		/* margin-bottom: 20px; */
+		border-radius: 4px;
+    overflow: hidden;
+		background: #fff;
 	}
 	.orderIdHolder {
 		width: 100%;
@@ -487,8 +507,15 @@
 		font-family: light;
 		cursor: pointer;
 	}
-
 	.writeReviedButton:hover {
 		box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
 	}
+	.itemHeader {
+    width: 100%;
+    height: auto;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+    font-family: semibold;
+    margin-bottom: 20px;
+  }
 }

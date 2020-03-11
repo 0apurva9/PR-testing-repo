@@ -38,6 +38,7 @@ import {
   ADDRESS,
   PRICE_BREAKUP,
   SIZE_SELECTOR,
+  SIZE_SELECTOR_FOR_EYEWEAR,
   SIZE_GUIDE,
   CLIQ_PIQ_MODAL,
   MANUFACTURER_MODAL,
@@ -52,28 +53,40 @@ import ProductDescriptionPageWrapper from "../components/ProductDescriptionPageW
 import { withRouter } from "react-router-dom";
 import {
   SUCCESS,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  NO,
+  SELECTED_STORE
 } from "../../lib/constants.js";
-import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
+import {
+  tempCartIdForLoggedInUser,
+  getCartDetails,
+  addStoreCNC,
+  addPickupPersonCNC,
+  mergeTempCartWithOldCart
+} from "../../cart/actions/cart.actions";
+import {
+  setDataLayerForCartDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
+  ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE
+} from "../../lib/adobeUtils";
+import { getUserDetails } from "../../account/actions/account.actions.js";
 const mapDispatchToProps = (dispatch, ownProps) => {
-  let componentName =
-    ownProps &&
-    ownProps.location &&
-    ownProps.location.state &&
-    ownProps.location.state.componentName
-      ? ownProps.location.state.componentName
-      : "";
   return {
     getProductDescription: async productCode => {
       const productDetailsResponse = await dispatch(
-        getProductDescription(productCode, componentName)
+        getProductDescription(productCode)
       );
-
       if (productDetailsResponse && productDetailsResponse.status === SUCCESS) {
         const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
         if (pinCode) {
-          dispatch(getProductPinCode(pinCode, productCode));
+          dispatch(
+            getProductPinCode(
+              pinCode,
+              productCode,
+              productDetailsResponse.productDescription.winningUssID
+            )
+          );
         }
       }
     },
@@ -93,7 +106,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(showModal(OFFER_MODAL, data));
     },
     showBundledProduct: data => {
-      //debugger;
       dispatch(showModal(BUNDLEDPRODUCT_MODAL, data));
     },
     showTermsNConditions: data => {
@@ -120,6 +132,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showSizeGuide: () => {
       dispatch(showModal(SIZE_GUIDE));
     },
+    showSizeSelectorForEyeWear: data => {
+      dispatch(showModal(SIZE_SELECTOR_FOR_EYEWEAR, data));
+    },
     getPdpEmi: (token, cartValue, productCode, ussId) => {
       dispatch(getPdpEmi(token, cartValue, productCode, ussId));
     },
@@ -129,11 +144,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showEmiModal: () => {
       dispatch(showModal(EMI_MODAL));
     },
-    showPincodeModal: productCode => {
-      dispatch(showModal(ADDRESS, { productCode }));
+    showPincodeModal: (productCode, winningUssID) => {
+      dispatch(showModal(ADDRESS, { productCode }, { winningUssID }));
     },
-    getProductPinCode: (pinCode, productCode) => {
-      return dispatch(getProductPinCode(pinCode, productCode));
+    getProductPinCode: (pinCode, productCode, winningUssID) => {
+      localStorage.removeItem(SELECTED_STORE);
+      return dispatch(getProductPinCode(pinCode, productCode, winningUssID));
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());
@@ -219,6 +235,64 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return await dispatch(
         getExchangeDetails(listingId, ussid, maxExchangeAmount, pickupCharge)
       );
+    },
+    /** */
+    addressModal: pinCodeObj => {
+      dispatch(showModal(ADDRESS, pinCodeObj));
+    },
+    getCartDetails: async (
+      cartId,
+      userId,
+      accessToken,
+      pinCode,
+      setDataLayerForPincode: false
+    ) => {
+      const cartDetailsObj = await dispatch(
+        getCartDetails(cartId, userId, accessToken, pinCode, true)
+      );
+      let productServiceAvailability =
+        cartDetailsObj &&
+        cartDetailsObj.cartDetails &&
+        cartDetailsObj.cartDetails.products &&
+        cartDetailsObj.cartDetails.products.filter(product => {
+          return (
+            product.isGiveAway === NO &&
+            (product.pinCodeResponse === undefined ||
+              (product.pinCodeResponse &&
+                product.pinCodeResponse.isServicable === "N") ||
+              product.isOutOfStock)
+          );
+        });
+      // here we are setting data layer for pincode change on cart page
+      if (setDataLayerForPincode) {
+        if (
+          cartDetailsObj.status === SUCCESS &&
+          productServiceAvailability.length === 0
+        ) {
+          setDataLayerForCartDirectCalls(
+            ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
+            pinCode
+          );
+        } else {
+          setDataLayerForCartDirectCalls(
+            ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
+            pinCode
+          );
+        }
+      }
+    },
+    /** */
+    getUserDetails: () => {
+      dispatch(getUserDetails());
+    },
+    addStoreCNC: (ussId, slaveId) => {
+      return dispatch(addStoreCNC(ussId, slaveId));
+    },
+    addPickupPersonCNC: (personMobile, personName) => {
+      return dispatch(addPickupPersonCNC(personMobile, personName));
+    },
+    mergeTempCartWithOldCart: () => {
+      dispatch(mergeTempCartWithOldCart());
     }
   };
 };
@@ -245,7 +319,13 @@ const mapStateToProps = state => {
     relevantBundleProductCodeData:
       state.productDescription.relevantBundleProductCodeData,
     exchangeDetails: state.productDescription.exchangeDetails,
-    pincodeError: state.productDescription.error
+    userDetails: state.profile.userDetails,
+    loadingOfBuyNowSuccess: state.cart.tempCartIdForLoggedInUserStatus,
+    loadingForAddStoreToCnc: state.cart.loadingForAddStore,
+    loadingForCartDetail: state.cart.loadingForCartDetail,
+    pincodeError: state.productDescription.pincodeError,
+    serviceableOtherSellersUssid:
+      state.productDescription.serviceableOtherSellersUssid
   };
 };
 

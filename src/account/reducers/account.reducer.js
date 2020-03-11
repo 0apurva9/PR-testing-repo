@@ -249,6 +249,13 @@ const account = (
     updateReturnHOTCDetails: null,
     updateReturnHOTCError: null,
 
+    cncToHdDetails: null,
+    cncToHdDetailsStatus: null,
+    cncToHdDetailsError: null,
+    cncToHdDetailsLoading: false,
+    addUserUPIStatus: false,
+    addUserUPIDetails: null,
+    addUserUPIError: null,
     userRatingStatus: null,
     userRatingError: null,
 
@@ -502,6 +509,25 @@ const account = (
       });
 
     case accountActions.REMOVE_SAVED_CARD_FAILURE:
+      return Object.assign({}, state, {
+        status: action.status,
+        error: action.error,
+        loading: false
+      });
+
+    case accountActions.REMOVE_SAVED_UPI_REQUEST:
+      return Object.assign({}, state, {
+        status: action.status,
+        loading: true
+      });
+
+    case accountActions.REMOVE_SAVED_UPI_SUCCESS:
+      return Object.assign({}, state, {
+        status: action.status,
+        loading: false
+      });
+
+    case accountActions.REMOVE_SAVED_UPI_FAILURE:
       return Object.assign({}, state, {
         status: action.status,
         error: action.error,
@@ -1035,6 +1061,34 @@ const account = (
         addUserAddressError: action.error,
         loading: false
       });
+    // UPI
+    case accountActions.ADD_USER_UPI_REQUEST:
+      return Object.assign({}, state, {
+        addUserUPIStatus: action.status,
+        loading: true
+      });
+
+    case accountActions.ADD_USER_UPI_SUCCESS:
+      return Object.assign({}, state, {
+        addUserUPIStatus: action.status,
+        loading: false,
+        addUserUPIDetails: action.upiResponse
+      });
+
+    case accountActions.ADD_USER_UPI_FAILURE:
+      return Object.assign({}, state, {
+        addUserUPIStatus: action.status,
+        addUserUPIDetails: action.error,
+        loading: false
+      });
+    case accountActions.ADD_USER_UPI_NULL_STATE:
+      return Object.assign({}, state, {
+        addUserUPIStatus: false,
+        addUserUPIError: null,
+        addUserUPIDetails: null,
+        loading: false
+      });
+    // UPI finished
 
     case accountActions.GET_PIN_CODE_REQUEST:
       return Object.assign({}, state, {
@@ -1349,7 +1403,6 @@ const account = (
         retryPaymentDetailsStatus: action.status,
         retryPaymentDetailsLoading: true
       });
-
     case accountActions.RETRY_PAYMENT_SUCCESS:
       return Object.assign({}, state, {
         retryPaymentDetailsStatus: action.status,
@@ -1579,6 +1632,24 @@ const account = (
       return Object.assign({}, state, {
         transactionDetails: " "
       });
+
+    case accountActions.CNC_TO_HD_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        cncToHdDetailsStatus: action.status,
+        cncToHdDetailsLoading: true
+      });
+    case accountActions.CNC_TO_HD_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        cncToHdDetailsStatus: action.status,
+        cncToHdDetailsLoading: false,
+        cncToHdDetails: action.cncToHdDetails
+      });
+    case accountActions.CNC_TO_HD_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        cncToHdDetailsStatus: action.status,
+        cncToHdDetailsError: action.error,
+        cncToHdDetailsLoading: false
+      });
     case accountActions.GET_USER_RATING_REQUEST:
       return Object.assign({}, state, {
         userRatingStatus: action.status,
@@ -1658,6 +1729,12 @@ const account = (
       return Object.assign({}, state, {
         retryPaymentDetails: cloneRetryPaymentDetails,
         retryPaymentDetailsLoading: false
+      });
+    case accountActions.RESET_USER_ADDRESS:
+      return Object.assign({}, state, {
+        userAddressStatus: action.status,
+        userAddress: null,
+        loading: false
       });
     default:
       return state;

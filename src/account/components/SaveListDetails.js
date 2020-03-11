@@ -18,7 +18,9 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import { HOME_ROUTER } from "../../lib/constants";
 import {
   setDataLayerForMyAccountDirectCalls,
-  ADOBE_MY_ACCOUNT_WISHLIST_REMOVE
+  ADOBE_MY_ACCOUNT_WISHLIST_REMOVE,
+  setDataLayerForCartDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING
 } from "../../lib/adobeUtils";
 const dateFormat = "MMMM DD YYYY";
 const PRODUCT_QUANTITY = "1";
@@ -61,6 +63,7 @@ export default class SaveListDetails extends React.Component {
     }
   }
   renderToContinueShopping() {
+    setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
   }
   onClickImage(productCode) {
@@ -129,6 +132,7 @@ export default class SaveListDetails extends React.Component {
                             this.removeItem(product.USSID)
                           }
                           size={product.size}
+                          isSizeOrLength={product.isSizeOrLength}
                         />
                       </div>
                     );

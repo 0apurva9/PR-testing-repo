@@ -18,6 +18,15 @@ export default class ProductFlags extends React.Component {
           </div>
         </div>
       );
+    } else if (this.props.newProduct) {
+      return (
+        <div
+          className={styles.base}
+          style={{ backgroundImage: `url(${newFlag})` }}
+        >
+          New
+        </div>
+      );
     } else if (
       this.props.showExchangeTag &&
       this.props.exchangeOfferAvailable
@@ -44,6 +53,15 @@ export default class ProductFlags extends React.Component {
             : this.props.seasonTag}
         </div>
       );
+    } else if (this.props.onlineExclusive) {
+      return (
+        <div
+          className={styles.base}
+          style={{ backgroundImage: `url(${exclusiveFlag})` }}
+        >
+          New
+        </div>
+      );
     } else if (
       this.props.discountPercent &&
       this.props.discountPercent !== "0"
@@ -63,24 +81,6 @@ export default class ProductFlags extends React.Component {
           style={{ backgroundImage: `url(${offerplpFlag})` }}
         >
           On offer
-        </div>
-      );
-    } else if (this.props.onlineExclusive) {
-      return (
-        <div
-          className={styles.base}
-          style={{ backgroundImage: `url(${exclusiveFlag})` }}
-        >
-          New
-        </div>
-      );
-    } else if (this.props.newProduct) {
-      return (
-        <div
-          className={styles.base}
-          style={{ backgroundImage: `url(${newFlag})` }}
-        >
-          New
         </div>
       );
     } else {

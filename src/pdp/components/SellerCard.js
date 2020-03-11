@@ -7,6 +7,7 @@ import MobileOnly from "../../general/components/MobileOnly";
 import Button from "../../general/components/Button.js";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import { SUCCESS, ADD_TO_BAG_TEXT, SHIPPING_TYPES } from "../../lib/constants";
+import PdpDeliveryModes from "./PdpDeliveryModes";
 export default class SellerCard extends React.Component {
   constructor(props) {
     super(props);
@@ -38,6 +39,13 @@ export default class SellerCard extends React.Component {
   openExchangeModal() {
     this.props.openExchangeModal();
   }
+  handleShowPiqPage = ussid => {
+    if (this.props.getAllStoresForCliqAndPiq) {
+      this.props.updateOtherSellerUssID(ussid);
+      this.props.showPdpPiqPage();
+      this.props.getAllStoresForCliqAndPiq();
+    }
+  };
 
   render() {
     let priceClass = styles.priceHolder;
@@ -48,6 +56,34 @@ export default class SellerCard extends React.Component {
       priceClass = styles.priceCancelled;
     }
     let availableDeliveryModes = [];
+    let tempValidDeliveryMode = [];
+    let serviceableDeliveryModes = {};
+
+    if (this.props.serviceablePincodeList) {
+      this.props.serviceablePincodeList.map((product, j) => {
+        if (product.ussid === this.props.winningUssID) {
+          serviceableDeliveryModes = Object.assign(product);
+          return (
+            product.validDeliveryModes &&
+            product.validDeliveryModes.map((deliveryMode, k) => {
+              return (
+                this.props.eligibleDeliveryModes &&
+                this.props.eligibleDeliveryModes.map((val, i) => {
+                  if (
+                    SHIPPING_TYPES[deliveryMode.type] === val.code &&
+                    !availableDeliveryModes.includes(deliveryMode.type)
+                  ) {
+                    availableDeliveryModes.push(deliveryMode.type);
+                    tempValidDeliveryMode.push({ deliveryMode });
+                  }
+                })
+              );
+            })
+          );
+          serviceableDeliveryModes.validDeliveryModes = tempValidDeliveryMode;
+        }
+      });
+    }
 
     return (
       <div className={styles.base} onClick={() => this.handleClick(this.props)}>
@@ -121,42 +157,32 @@ export default class SellerCard extends React.Component {
             {this.props.hasEmi && (
               <div className={styles.offerText}>EMI Available</div>
             )}
+            {this.props.hasCod && (
+              <div className={styles.offerText}>COD Available</div>
+            )}
           </div>
           <div
             className={
               this.props.disabled ? styles.faded : styles.sellerCardDetails
             }
           >
-            {this.props.serviceablePincodeList &&
-              this.props.serviceablePincodeList.map((product, j) => {
-                if (product.ussid === this.props.winningUssID) {
-                  return (
-                    product.validDeliveryModes &&
-                    product.validDeliveryModes.map((deliveryMode, k) => {
-                      return (
-                        this.props.eligibleDeliveryModes &&
-                        this.props.eligibleDeliveryModes.map((val, i) => {
-                          if (
-                            SHIPPING_TYPES[deliveryMode.type] === val.code &&
-                            !availableDeliveryModes.includes(deliveryMode.type)
-                          ) {
-                            availableDeliveryModes.push(deliveryMode.type);
-                            return (
-                              <div className={styles.shippingText}>
-                                {val.name}
-                                {val.description && <span>-</span>}
-                                {val.description}
-                              </div>
-                            );
-                          }
-                        })
-                      );
-                    })
-                  );
-                }
-              })}
-            {this.props.hasCod && (
-              <div className={styles.offerText}>{this.props.cashText}</div>
+            {Object.keys(serviceableDeliveryModes).length !== 0 && (
+              <div className={styles.deliveryModesHolder}>
+                <PdpDeliveryModes
+                  fromSellerCard={true}
+                  onPiq={ussid => this.handleShowPiqPage(ussid)}
+                  eligibleDeliveryModes={this.props.eligibleDeliveryModes}
+                  deliveryModesATP={this.props.deliveryModesATP}
+                  pdpApparel={true}
+                  pincodeDetails={serviceableDeliveryModes}
+                  productCode={this.props.productListingId}
+                  //isCod={productData.isCOD}
+                  // availableStores={
+                  //   serviceableDeliveryModes.CNCServiceableSlavesData && serviceableDeliveryModes.CNCServiceableSlavesData.length
+                  // }
+                  winningUssID={this.props.winningUssID}
+                />
+              </div>
             )}
             {this.props.exchangeAvailable && (
               <React.Fragment>

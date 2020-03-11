@@ -13,6 +13,8 @@ import {
   setDataLayer,
   ADOBE_PLP_TYPE,
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT,
+  ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_SP,
+  ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_TRENDING,
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL,
   getMcvId
 } from "../../lib/adobeUtils";
@@ -159,8 +161,8 @@ export function getProductListingsRequest(paginated: false, isFilter: false) {
   };
 }
 export function getProductListingsRequestWithoutClear(
-  paginated: false,
-  isFilter: false
+  paginated = false,
+  isFilter = false
 ) {
   return {
     type: PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR,
@@ -231,9 +233,11 @@ export function viewSimilarProducts(productListingId) {
 }
 
 export function getProductListings(
-  suffix: null,
-  paginated: false,
-  isFilter: false,
+  suffix = null,
+  paginated = false,
+  isFilter,
+  searchHistory = false,
+  searchTrending = false,
   componentName
 ) {
   return async (dispatch, getState, { api }) => {
@@ -287,9 +291,9 @@ export function getProductListings(
       if (resultJson.error) {
         if (
           isBrowser &&
-          (resultJson &&
-            resultJson.currentQuery &&
-            resultJson.currentQuery.searchQuery)
+          resultJson &&
+          resultJson.currentQuery &&
+          resultJson.currentQuery.searchQuery
         ) {
           setDataLayer(
             ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL,
@@ -302,10 +306,10 @@ export function getProductListings(
       }
       if (
         isBrowser &&
-        (resultJson &&
-          resultJson.currentQuery &&
-          resultJson.currentQuery.searchQuery &&
-          !paginated)
+        resultJson &&
+        resultJson.currentQuery &&
+        resultJson.currentQuery.searchQuery &&
+        !paginated
       ) {
         setDataLayer(
           ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT,
@@ -314,13 +318,41 @@ export function getProductListings(
           getState().icid.icidType,
           componentName
         );
+      } else if (
+        resultJson &&
+        resultJson.currentQuery &&
+        resultJson.currentQuery.query &&
+        resultJson.currentQuery.query.value.split(":")[0] !== "" &&
+        !paginated &&
+        searchHistory
+      ) {
+        setDataLayer(
+          ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_SP,
+          resultJson,
+          getState().icid.value,
+          getState().icid.icidType
+        );
+      } else if (
+        resultJson &&
+        resultJson.currentQuery &&
+        resultJson.currentQuery.query &&
+        resultJson.currentQuery.query.value.split(":")[0] != "" &&
+        !paginated &&
+        searchTrending
+      ) {
+        setDataLayer(
+          ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_TRENDING,
+          resultJson,
+          getState().icid.value,
+          getState().icid.icidType
+        );
       } else {
         if (
           isBrowser &&
-          (window.digitalData &&
-            window.digitalData.page &&
-            window.digitalData.page.pageInfo &&
-            window.digitalData.page.pageInfo.pageName !== "product grid")
+          window.digitalData &&
+          window.digitalData.page &&
+          window.digitalData.page.pageInfo &&
+          window.digitalData.page.pageInfo.pageName !== "product grid"
         ) {
           if (
             componentName === "Flash Sale Component" ||

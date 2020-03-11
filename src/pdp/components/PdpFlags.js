@@ -8,6 +8,8 @@ export default class PdpFlags extends React.Component {
           <div className={styles.base}>Out of Stock</div>
         </div>
       );
+    } else if (this.props.newProduct === "Y") {
+      return <div className={styles.new}>New</div>;
     } else if (
       this.props.showExchangeTag &&
       this.props.exchangeOfferAvailable
@@ -24,21 +26,18 @@ export default class PdpFlags extends React.Component {
             : this.props.seasonTag}
         </div>
       );
-    } else if (this.props.newProduct === "Y") {
-      return <div className={styles.new}>New</div>;
-    } else if (this.props.isOfferExisting === "Y") {
-      return <div className={styles.offer}>On offer</div>;
     } else if (this.props.onlineExclusive === "Y") {
       return <div className={styles.new}>New</div>;
-    } else if (
-      this.props.discountPercent &&
-      this.props.discountPercent !== "0"
-    ) {
+    }
+    //bundled offer tag
+    else if (this.props.discountPercent && this.props.discountPercent !== "0") {
       return (
         <div className={styles.offer}>
           {parseInt(this.props.discountPercent, 10)}% off{" "}
         </div>
       );
+    } else if (this.props.isOfferExisting === "Y") {
+      return <div className={styles.offer}>On offer</div>;
     } else {
       return null;
     }

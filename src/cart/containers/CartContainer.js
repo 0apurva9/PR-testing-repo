@@ -14,7 +14,8 @@ import {
   clearCartDetails,
   getPaymentModes,
   mergeTempCartWithOldCart,
-  getMinicartProducts
+  getMinicartProducts,
+  getAllStoresCNC
 } from "../actions/cart.actions.js";
 import { displayToast } from "../../general/toast.actions";
 import { withRouter } from "react-router-dom";
@@ -33,7 +34,8 @@ import {
   ADDRESS,
   DESKTOP_AUTH,
   EXCHANGE_TnC_MODAL,
-  EXCHANGE_REMOVE_MODAL
+  EXCHANGE_REMOVE_MODAL,
+  CLIQ_PIQ_MODAL
 } from "../../general/modal.actions";
 import { SUCCESS, NO } from "../../lib/constants";
 import {
@@ -178,6 +180,12 @@ const mapDispatchToProps = dispatch => {
     },
     showRemoveExchangeModal: data => {
       dispatch(showModal(EXCHANGE_REMOVE_MODAL, data));
+    },
+    getAllStoresCNC: pinCode => {
+      return dispatch(getAllStoresCNC(pinCode));
+    },
+    showPdpCliqAndPiqPage: storeDetails => {
+      dispatch(showModal(CLIQ_PIQ_MODAL, storeDetails));
     }
   };
 };

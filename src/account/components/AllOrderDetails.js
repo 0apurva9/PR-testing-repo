@@ -9,6 +9,7 @@ import format from "date-fns/format";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
+import PriceAndLink from "./PriceAndLink.js";
 import * as Cookie from "../../lib/Cookie";
 import UserCouponsContainer from "../containers/UserCouponsContainer";
 import UserAlertsContainer from "../containers/UserAlertsContainer";
@@ -46,6 +47,7 @@ import {
   RETRY_PAYMENT_CART_ID,
   RETRY_PAYMENT_DETAILS,
   COSTUMER_ORDER_RELATED_QUERY_ROUTE,
+  CNCTOHD,
   RATE_THIS_ITEM
 } from "../../lib/constants";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
@@ -55,10 +57,15 @@ import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import throttle from "lodash.throttle";
 import {
   setDataLayer,
+  setDataLayerForCartDirectCalls,
+  ADOBE_MY_ACCOUNT_TAB_CLICKED,
+  ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING,
   setDataLayerForRatingAndReview,
   ADOBE_MY_ACCOUNT_ORDER_HISTORY,
+  ADOBE_MY_ACCOUNT_WRITE_REVIEW,
   ADOBE_ORDER_DETAILS_LINK_CLICKED,
   ADOBE_HELP_SUPPORT_LINK_CLICKED,
+  ADOBE_MY_ACCOUNT_HELP_AND_SUPPORT,
   SET_DATA_LAYER_RATING_STAR_CLICK
 } from "../../lib/adobeUtils";
 import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
@@ -74,6 +81,7 @@ const dateFormat = "DD MMM YYYY";
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
 const PAY_PAL = "PayPal";
+let isShowDeliveryAddress = false;
 const Loader = () => {
   return (
     <div>
@@ -110,6 +118,23 @@ export default class AllOrderDetails extends React.Component {
   };
   tabSelect(val) {
     this.setState({ isSelected: val });
+    let selectedTab;
+    if (val) {
+      if (val === 0) {
+        selectedTab = "Recent Orders";
+      } else if (val === 1) {
+        selectedTab = "Alerts";
+      } else if (val === 2) {
+        selectedTab = "Coupons";
+      } else if (val === 3) {
+        selectedTab = "Useful Links";
+      } else if (val === 4) {
+        selectedTab = "My review";
+      }
+    } else {
+      selectedTab = "Recent Orders";
+    }
+    setDataLayer(ADOBE_MY_ACCOUNT_TAB_CLICKED, selectedTab);
   }
   onClickImage(isEgvOrder, productCode) {
     if (!isEgvOrder && productCode) {
@@ -123,6 +148,7 @@ export default class AllOrderDetails extends React.Component {
     this.props.history.push(`${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`);
   }
   writeReview(productDetails) {
+    setDataLayer(ADOBE_MY_ACCOUNT_WRITE_REVIEW);
     if (this.props.showRatingAndReviewModal) {
       this.props.showRatingAndReviewModal({ ...this.props, productDetails });
     }
@@ -188,6 +214,7 @@ export default class AllOrderDetails extends React.Component {
     this.props.history.push(urlSuffix);
   };
   renderToContinueShopping() {
+    setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
   }
   handleScroll = () => {
@@ -335,15 +362,38 @@ export default class AllOrderDetails extends React.Component {
     }
   }
   redirectToHelpPage() {
+    setDataLayer(ADOBE_MY_ACCOUNT_HELP_AND_SUPPORT);
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
     this.props.history.push(
       `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
     );
   }
+  onClickCncToHd(orderId, transactionId) {
+    let isCncToHdOrderDetails = "";
+    const orderDetails = this.props.profile.orderDetails;
+    let isCncToHdOrderDetailsByOrderId =
+      orderDetails &&
+      orderDetails.orderData.find(orderDetailsByOrderId => {
+        return orderDetailsByOrderId.orderId === orderId;
+      });
+    isCncToHdOrderDetails =
+      isCncToHdOrderDetailsByOrderId &&
+      isCncToHdOrderDetailsByOrderId.products.find(products => {
+        return products.transactionId === transactionId;
+      });
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT}${CNCTOHD}/?${ORDER_CODE}=${orderId}`,
+      state: {
+        orderDetails: isCncToHdOrderDetails,
+        orderId: orderId
+      }
+    });
+  }
   render() {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const orderDetails = this.props.profile.orderDetails;
+    console.log("allOrderdetials, ", this.props);
     if (this.props.profile.reSendEmailLoader) {
       return Loader();
     }
@@ -358,6 +408,7 @@ export default class AllOrderDetails extends React.Component {
       baseClassName = styles.base;
     }
     let productsDetails = orderDetails && orderDetails.products;
+
     return (
       <div className={baseClassName}>
         <div className={MyAccountStyles.holder}>
@@ -525,7 +576,19 @@ export default class AllOrderDetails extends React.Component {
                         orderDetails.deliveryAddress.firstName
                       } ${orderDetails.deliveryAddress.lastName}`;
 
-                      let deliveryAddress =
+                      let deliveryAddress = "";
+                      let isShowDeliveryAddress = false;
+                      isShowDeliveryAddress =
+                        orderDetails &&
+                        orderDetails.products &&
+                        orderDetails.products.find(products => {
+                          if (products.deliveryMode !== "click-and-collect") {
+                            return true;
+                          } else {
+                            return false;
+                          }
+                        });
+                      deliveryAddress =
                         orderDetails.pickupPersonName ||
                         orderDetails.pickupPersonMobile
                           ? `${
@@ -539,6 +602,7 @@ export default class AllOrderDetails extends React.Component {
                             }`
                           : `${
                               orderDetails &&
+                              orderDetails.deliveryAddress &&
                               orderDetails.deliveryAddress.addressLine1
                                 ? orderDetails.deliveryAddress.addressLine1
                                 : ""
@@ -552,6 +616,7 @@ export default class AllOrderDetails extends React.Component {
                                 : ""
                             } ${
                               orderDetails &&
+                              orderDetails.deliveryAddress &&
                               orderDetails.deliveryAddress.postalcode
                                 ? orderDetails.deliveryAddress.postalcode
                                 : ""
@@ -686,8 +751,15 @@ export default class AllOrderDetails extends React.Component {
                                     }
                                   >
                                     <OrderCard
+                                      orderBreachMessage={
+                                        product.eddBreechMessage
+                                      }
+                                      isComingFromAllOrderPage={true}
                                       estimatedDeliveryDate={
                                         product.estimateddeliverydate
+                                      }
+                                      estimatedDeliveryDateWithTime={
+                                        product.EDD
                                       }
                                       imageUrl={product.imageURL}
                                       hasProduct={product}
@@ -721,6 +793,19 @@ export default class AllOrderDetails extends React.Component {
                                           orderDetails.isEgvOrder,
                                           product.productcode
                                         )
+                                      }
+                                      selectedDeliveryMode={
+                                        product && product.deliveryMode
+                                      }
+                                      onClickCncToHd={() =>
+                                        this.onClickCncToHd(
+                                          orderDetails.orderId,
+                                          product.transactionId
+                                        )
+                                      }
+                                      isCncToHd={product && product.isCncToHd}
+                                      isCNCToHDConverted={
+                                        product && product.isCNCToHDConverted
                                       }
                                       orderStatusCode={product.orderStatusCode}
                                       displayStatusName={
@@ -828,6 +913,92 @@ export default class AllOrderDetails extends React.Component {
                                   </div>
                                 );
                               })}
+                            <MobileOnly>
+                              <React.Fragment>
+                                <div
+                                  style={{
+                                    paddingBottom:
+                                      orderDetails &&
+                                      orderDetails.retryPaymentUrl
+                                        ? "20px"
+                                        : "0px",
+                                    borderBottom:
+                                      orderDetails &&
+                                      orderDetails.retryPaymentUrl
+                                        ? "1px solid #ececec"
+                                        : "none"
+                                  }}
+                                >
+                                  <PriceAndLink
+                                    onViewDetails={() =>
+                                      this.onViewDetails(
+                                        orderDetails && orderDetails.orderId
+                                      )
+                                    }
+                                    isEgvOrder={orderDetails.isEgvOrder}
+                                    status={orderDetails.giftCardStatus}
+                                    price={
+                                      orderDetails &&
+                                      orderDetails.totalFinalPayableOrderAmount
+                                    }
+                                    borderColor={
+                                      orderDetails &&
+                                      orderDetails.retryPaymentUrl
+                                        ? "#fff"
+                                        : "#ececec"
+                                    }
+                                  />
+                                  {!orderDetails.isEgvOrder &&
+                                    orderDetails &&
+                                    orderDetails.retryPaymentUrl && (
+                                      <div className={styles.retryPayment}>
+                                        <div
+                                          className={
+                                            styles.buttonHolderForRetryPayment
+                                          }
+                                        >
+                                          <Button
+                                            type="hollow"
+                                            height={36}
+                                            label="Retry payment"
+                                            color="#ff1744"
+                                            textStyle={{
+                                              color: "#212121",
+                                              fontSize: 14
+                                            }}
+                                            onClick={() =>
+                                              this.onClickRetryPayment(
+                                                orderDetails.retryPaymentUrl
+                                              )
+                                            }
+                                          />
+                                        </div>
+                                      </div>
+                                    )}
+                                </div>
+                                {orderDetails &&
+                                  orderDetails.deliveryAddress && (
+                                    <OrderDelivered
+                                      deliveredAddress={deliveryAddress}
+                                      orderDeliveryHeaderText={placeHolder}
+                                      deliveredDate={
+                                        orderDetails &&
+                                        orderDetails.products &&
+                                        orderDetails.products[0] &&
+                                        orderDetails.products.length &&
+                                        orderDetails.products[0].deliveryDate
+                                      }
+                                      soldBy={
+                                        orderDetails &&
+                                        orderDetails.products &&
+                                        orderDetails.products[0] &&
+                                        orderDetails.products.length &&
+                                        orderDetails.products[0].sellerName
+                                      }
+                                    />
+                                  )}
+                              </React.Fragment>
+                            </MobileOnly>
                             <DesktopOnly>
                               {!orderDetails.isEgvOrder &&
                                 orderDetails &&
@@ -913,6 +1084,10 @@ export default class AllOrderDetails extends React.Component {
                                           orderDetails.products.length &&
                                           orderDetails.products[0].cancel
                                         }
+                                        retryPaymentUrl={
+                                          orderDetails &&
+                                          orderDetails.retryPaymentUrl
+                                        }
                                         borderBottom={"#fff"}
                                       >
                                         <div
@@ -982,7 +1157,7 @@ AllOrderDetails.propTypes = {
       orderDate: PropTypes.string,
       orderId: PropTypes.string,
       totalOrderAmount: PropTypes.string,
-      billingAddress: PropTypes.arrayOf(
+      deliveryAddress: PropTypes.arrayOf(
         PropTypes.shape({
           addressLine1: PropTypes.string,
           town: PropTypes.string,

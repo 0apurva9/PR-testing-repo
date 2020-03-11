@@ -40,7 +40,8 @@ import {
   getAllStoresForCliqAndPiq,
   hidePdpPiqPage,
   updateProductState,
-  verifyIMEINumber
+  verifyIMEINumber,
+  getProductPinCode
 } from "../../pdp/actions/pdp.actions";
 import { updateProfile } from "../../account/actions/account.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -378,8 +379,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         dispatch(displayToast(ERROR_MESSAGE_IN_CANCELING_ORDER));
       }
     },
-    getAllStoresForCliqAndPiq: pinCode => {
+    getAllStoresForCliqAndPiq: async pinCode => {
+      //await dispatch(getProductPinCode(pinCode));
       dispatch(getAllStoresForCliqAndPiq(pinCode));
+    },
+    getProductPinCode: (pinCode, productCode, winningUssID) => {
+      return dispatch(getProductPinCode(pinCode, productCode, winningUssID));
     },
     hidePdpPiqPage: () => {
       dispatch(hidePdpPiqPage());

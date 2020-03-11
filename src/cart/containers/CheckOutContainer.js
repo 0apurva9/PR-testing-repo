@@ -67,7 +67,17 @@ import {
   collectPaymentOrderForNetBanking,
   collectPaymentOrderForSavedCards,
   collectPaymentOrderForGiftCardFromSavedCards,
-  collectPaymentOrderForCliqCash
+  collectPaymentOrderForCliqCash,
+  checkUPIEligibility,
+  binValidationForUPI,
+  collectPaymentOrderForUPI,
+  collectPaymentOrderForGiftCardUPI,
+  createJusPayOrderForUPI,
+  upiPaymentIsNewMidddleLayer,
+  upiPaymentISEnableMidddleLayer,
+  softReservationPaymentForUPI,
+  upiPaymentHowItWorksMidddleLayer,
+  upiPaymentCombinedLogoMidddleLayer
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -80,7 +90,9 @@ import {
   CLIQ_CASH_AND_NO_COST_EMI_POPUP,
   TNC_FOR_BANK_OFFER_POPUP,
   DESKTOP_AUTH,
-  CONFIRMATION_NOTIFICATION
+  CONFIRMATION_NOTIFICATION,
+  UPITERMSANDCONDITION_MODAL
+  // UPIHOWTOPAY_MODAL
 } from "../../general/modal.actions";
 import {
   getPinCode,
@@ -92,7 +104,9 @@ import {
   redeemCliqVoucher,
   retryPayment,
   fetchOrderDetails,
-  resetFailedOrderDetails
+  resetFailedOrderDetails,
+  addUPIDetails,
+  addUPIDetailsNullState
 } from "../../account/actions/account.actions.js";
 
 import { displayToast } from "../../general/toast.actions";
@@ -108,6 +122,7 @@ import {
   SUCCESS,
   MY_ACCOUNT
 } from "../../lib/constants.js";
+import { getAllStoresForCliqAndPiq } from "../../pdp/actions/pdp.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getCartDetailsCNC: (
@@ -127,6 +142,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           true // this is using to setting data layer for first time when page loads
         )
       );
+    },
+    showTermsNConditions: data => {
+      dispatch(showModal(UPITERMSANDCONDITION_MODAL, data));
     },
     getUserAddress: () => {
       dispatch(getUserAddress());
@@ -168,8 +186,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         });
       }
     },
-    addAddressToCart: (addressId, pinCode) => {
-      dispatch(addAddressToCart(addressId, pinCode));
+    addAddressToCart: async (addressId, pinCode, isComingFromCliqAndPiq) => {
+      let addAddressToCartResponse = await dispatch(
+        addAddressToCart(addressId, pinCode, isComingFromCliqAndPiq)
+      );
+      // if (addAddressToCartResponse.status === SUCCESS) {
+      //   dispatch(
+      //     getAllStoresForCliqAndPiq(pinCode, isComingFromCliqAndPiq, true)
+      //   );
+      // }
     },
     getOrderSummary: pinCode => {
       dispatch(getOrderSummary(pinCode));
@@ -732,6 +757,93 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     resetFailedOrderDetails: () => {
       dispatch(resetFailedOrderDetails());
+    },
+    addUPIDetails: async (upiId, pageType, btnType) => {
+      const res = await dispatch(addUPIDetails(upiId, pageType, btnType));
+      return res;
+    },
+    addUPIDetailsNullState: () => {
+      dispatch(addUPIDetailsNullState());
+    },
+    checkUPIEligibility: async guIdDetails => {
+      return await dispatch(checkUPIEligibility(guIdDetails));
+    },
+    binValidationForUPI: async (paymentMode, isFromRetryUrl, retryCartGuid) => {
+      return await dispatch(
+        binValidationForUPI(paymentMode, isFromRetryUrl, retryCartGuid)
+      );
+    },
+    collectPaymentOrderForUPI: (
+      paymentMethodType,
+      cartItem,
+      bankCode,
+      pinCode,
+      isFromRetryUrl,
+      retryCartGuid,
+      bankName,
+      isPaymentFailed
+    ) => {
+      dispatch(
+        collectPaymentOrderForUPI(
+          paymentMethodType,
+          cartItem,
+          bankCode,
+          pinCode,
+          isFromRetryUrl,
+          retryCartGuid,
+          bankName,
+          isPaymentFailed
+        )
+      );
+    },
+    collectPaymentOrderForGiftCardUPI: (guId, bankCode, bankName) => {
+      dispatch(collectPaymentOrderForGiftCardUPI(guId, bankCode, bankName));
+    },
+    createJusPayOrderForUPI: (
+      cardDetails,
+      cartItem,
+      isPaymentFailed,
+      isFromRetryUrl,
+      retryCartGuid
+    ) => {
+      dispatch(
+        createJusPayOrderForUPI(
+          cardDetails,
+          cartItem,
+          isPaymentFailed,
+          isFromRetryUrl,
+          retryCartGuid
+        )
+      );
+    },
+    upiPaymentIsNewMidddleLayer: () => {
+      dispatch(upiPaymentIsNewMidddleLayer());
+    },
+    upiPaymentISEnableMidddleLayer: () => {
+      dispatch(upiPaymentISEnableMidddleLayer());
+    },
+    upiPaymentHowItWorksMidddleLayer: () => {
+      dispatch(upiPaymentHowItWorksMidddleLayer());
+    },
+    upiPaymentCombinedLogoMidddleLayer: () => {
+      dispatch(upiPaymentCombinedLogoMidddleLayer());
+    },
+    softReservationPaymentForUPI: (
+      paymentMethodType,
+      paymentMode,
+      bankCode,
+      pinCode,
+      bankName
+    ) => {
+      dispatch(
+        softReservationPaymentForUPI(
+          paymentMethodType,
+          paymentMode,
+          bankCode,
+          pinCode,
+          bankName
+        )
+      );
     }
   };
 };
@@ -745,7 +857,9 @@ const mapStateToProps = state => {
     loading: state.profile.loading,
     retryPaymentDetails: state.profile.retryPaymentDetails,
     retryPaymentDetailsStatus: state.profile.retryPaymentDetailsStatus,
-    binValidationStatus: state.cart.binValidationStatus
+    binValidationStatus: state.cart.binValidationStatus,
+    addUserUPIStatus: state.profile.addUserUPIStatus,
+    addUserUPIDetails: state.profile.addUserUPIDetails
   };
 };
 

@@ -190,12 +190,43 @@
 	margin-bottom: 10px;
 }
 .estimatedDeliveryDate {
-	display: none;
+display: none;
 	font-size: 14px;
 	margin-bottom: 10px;
 	/* letter-spacing: 0.02px;
 	color: black;
 	font-family: Medium; */
+}
+.estimatedDeliveryDateByOrderHistory {
+  font-size: 14px;
+  margin-bottom: 10px;
+  font-family: light;
+}
+.estimatedDeliveryDateForHistory {
+  font-size: 14px;
+  margin-bottom: 10px;
+  font-family: light;
+}
+.boldText {
+  font-family: semibold;
+  padding-right: 5px;
+}
+.deliveryModeHolder {
+  font-size: 14px;
+  margin-bottom: 10px;
+  font-family: light;
+  margin-top: 15px;
+}
+.deliveryModeHolderByOrderHistory {
+  font-size: 14px;
+  margin-bottom: 10px;
+  font-family: light;
+  margin-top: 15px;
+}
+.deliveryModeHolderByOrderHistoryForOutSide {
+  composes: deliveryModeHolderByOrderHistory;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 .ffsemibold {
 	letter-spacing: 0.02px;
@@ -218,7 +249,9 @@
 	line-height: 14px;
 	color: black;
 }
-.calloutMessage {
+.calloutMessage,
+.edd,
+.edd .ffsemibold {
 	font-family: light;
 	font-size: 14px;
 	line-height: 22px;
@@ -271,11 +304,68 @@
 	font-size: 14px;
 	font-family: light;
 }
+
+.breachMessage{
+    font-size: 12px;
+    color: #D88900;
+    font-family: regular;
+    padding-bottom: 8px;
+		/* padding-right: 150px; */
+		line-height: 1.2;
+		max-width: 85%;
+}
+
 @media screen and (min-width: 1025px) {
 	.productImageHolder {
 		width: 16%;
 		cursor: pointer;
 	}
+	.eddMessage {
+    width: 75%;
+    font-size: 12px;
+    color: #d88900;
+    padding-bottom: 10px;
+  }
+  .message {
+    font-size: 12px;
+    font-family: light;
+    color: #4a4a4a;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #eeeeee;
+  }
+  .qPicDetailsHolder {
+    padding: 24px 0px;
+    border-bottom: 1px solid #eeeeee;
+  }
+  .labelHolder {
+    width: 100%;
+    display: inline-block;
+    padding-bottom: 14px;
+  }
+  .label {
+    width: 20%;
+    display: inline-block;
+    font-size: 14px;
+    color: #212121;
+    font-family: semibold;
+    vertical-align: top;
+  }
+  .semiColon {
+    width: 10%;
+    display: inline-block;
+    font-size: 14px;
+    color: #212121;
+    font-family: semibold;
+    vertical-align: top;
+  }
+  .labelDetails {
+    width: 70%;
+    display: inline-block;
+    font-size: 14px;
+    columns: #212121;
+    font-family: light;
+    vertical-align: top;
+  }
 	.productDetails {
 		width: 84%;
 		padding-left: 21.6px;
@@ -288,7 +378,9 @@
 		font-family: semibold;
 		margin-bottom: 10px;
 	}
-
+	.productName {
+    font-family: light;
+  }
 	.onHollow {
 		composes: base;
 		background: #fff;
@@ -322,6 +414,7 @@
 		font-family: light;
 	}
 	.commonTitle {
+		margin-top: 15px;
 		font-size: 12px;
 		letter-spacing: 0.02px;
 		color: rgb(33, 33, 33);
@@ -339,6 +432,10 @@
 		width: auto;
 		float: right;
 	}
+	.quantityHolderRight {
+    width: auto;
+    float: right;
+  }
 	.base {
 		margin-bottom: 0px;
 	}
@@ -348,6 +445,31 @@
 		margin-top: 2px;
 		padding-left: 10px;
 		float: right;
+		cursor: pointer;
+	}
+	.deliveryModeText {
+		width: 70%;
+		height: auto;
+		display: inline-block;
+	}
+	.changeButton {
+		width: 30%;
+		height: auto;
+		display: inline-block;
+		text-align: right;
+		font-size: 14px;
+		font-family: semibold;
+		color: #ff1744;
+		cursor: pointer;
+	}
+	.changeButtonForOrderHistory {
+		width: 100%;
+		height: auto;
+		display: inline-block;
+		font-size: 14px;
+		font-family: semibold;
+		color: #ff1744;
+		margin-bottom: 5px;
 		cursor: pointer;
 	}
 	.egvText {

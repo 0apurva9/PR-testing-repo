@@ -66,7 +66,6 @@ export default class ProductGrid extends React.Component {
         key={index}
         isRange={data.price.isRange}
         productCategoryType={data.productCategoryType}
-        isRange={data.price.isRange}
         maxPrice={
           data.price &&
           data.price.maxPrice &&

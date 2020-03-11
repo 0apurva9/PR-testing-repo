@@ -61,7 +61,7 @@ export default class UserProfile extends React.Component {
                   })
                   .map((datum, i) => {
                     return (
-                      <div className={styles.addressWrap}>
+                      <div className={styles.addressWrap} key={i}>
                         {datum.addressType && (
                           <div className={styles.defaultAddressHeader}>
                             {datum.addressType}
