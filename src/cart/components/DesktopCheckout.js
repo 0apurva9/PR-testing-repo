@@ -250,6 +250,20 @@ export default class DesktopCheckout extends React.Component {
                         100
                     ) / 100
                   )}{" "}
+                  {this.props.totalDiscount.totalExchangeAmount &&
+                    this.props.totalDiscount.totalExchangeAmount.doubleValue &&
+                    this.props.totalDiscount.totalExchangeAmount.doubleValue !==
+                      0 && (
+                      <span>
+                        {" "}
+                        and get{" "}
+                        {
+                          this.props.totalDiscount.totalExchangeAmount
+                            .formattedValue
+                        }{" "}
+                        Exchange Cashback{" "}
+                      </span>
+                    )}
                   on this order
                 </div>
               </div>

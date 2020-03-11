@@ -684,7 +684,6 @@ class CheckOutPage extends React.Component {
                   selectedStoreDetails={val.storeDetails}
                   cliqPiqSelected={this.state.cliqPiqSelected}
                   product={val}
-                  sizeType={val.isSizeOrLength}
                 />
               </div>
             );

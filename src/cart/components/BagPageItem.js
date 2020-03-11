@@ -104,23 +104,25 @@ export default class BagPageItem extends React.Component {
                       .totalExchangeCashback.formattedValueNoDecimal}
                 </span>
               </div>
-              <div className={styles.exchangePickup}>
-                <span>Pick up: Within 3 days of product delivery</span>
-                <span className={styles.spacer}>|</span>
-                {this.props.exchangeDetails.exchangePriceDetail &&
-                this.props.exchangeDetails.exchangePriceDetail.pickupCharge &&
-                this.props.exchangeDetails.exchangePriceDetail.pickupCharge
-                  .doubleValue === 0 ? (
-                  <span className={styles.freePickup}>FREE</span>
-                ) : (
-                  <span>
-                    {
-                      this.props.exchangeDetails.exchangePriceDetail
-                        .pickupCharge.formattedValueNoDecimal
-                    }
-                  </span>
+              {this.props.pinCodeResponse &&
+                this.props.pinCodeResponse.isPickupAvailableForExchange && (
+                  <div className={styles.exchangePickup}>
+                    <span>Pick up: Within 3 days of product delivery</span>
+                    <span className={styles.spacer}>|</span>
+                    {this.props.pinCodeResponse.pickupCharge &&
+                    this.props.pinCodeResponse.pickupCharge.doubleValue ===
+                      0 ? (
+                      <span className={styles.freePickup}>FREE</span>
+                    ) : (
+                      <span>
+                        {
+                          this.props.pinCodeResponse.pickupCharge
+                            .formattedValueNoDecimal
+                        }
+                      </span>
+                    )}
+                  </div>
                 )}
-              </div>
             </div>
           )}
         </div>
