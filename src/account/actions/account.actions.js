@@ -12,7 +12,8 @@ import {
   EMAIL_SENT_SUCCESS_MESSAGE,
   ISO_CODE,
   FAILED_ORDER,
-  PAYMENT_MODE_TYPE
+  PAYMENT_MODE_TYPE,
+  BANK_COUPON_COOKIE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 //import findIndex from "lodash.findindex";
@@ -29,10 +30,7 @@ import {
   FEMALE,
   MALE,
   SUCCESSFUL_PRODUCT_RATING_BY_USER,
-  PRODUCT_RATING_FAILURE_TEXT,
-  NO_COST_EMI_COUPON,
-  BANK_COUPON_COOKIE,
-  COUPON_COOKIE
+  PRODUCT_RATING_FAILURE_TEXT
 } from "../../lib/constants";
 import {
   showModal,
@@ -81,6 +79,7 @@ import {
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { setBagCount } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions";
+
 export const GET_USER_DETAILS_REQUEST = "GET_USER_DETAILS_REQUEST";
 export const GET_USER_DETAILS_SUCCESS = "GET_USER_DETAILS_SUCCESS";
 export const GET_USER_DETAILS_FAILURE = "GET_USER_DETAILS_FAILURE";
@@ -2395,168 +2394,17 @@ export function getAllOrdersDetails(
           JSON.parse(userDetails).userName
         }/orderhistorylist_V1?access_token=${
           JSON.parse(customerCookie).access_token
-        }&channel=mobile&currentPage=${currentPage}&pageSize=${PAGE_SIZE}&orderYear=${showDataAccordingToUser}`;
+        }&channel=web&currentPage=${currentPage}&pageSize=${PAGE_SIZE}&orderYear=${showDataAccordingToUser}`;
       } else {
         getOrderDetails = `${USER_PATH}/${
           JSON.parse(userDetails).userName
         }/orderhistorylist_V1?access_token=${
           JSON.parse(customerCookie).access_token
-        }&channel=mobile&currentPage=${currentPage}&pageSize=${PAGE_SIZE}`;
+        }&channel=web&currentPage=${currentPage}&pageSize=${PAGE_SIZE}`;
       }
       const result = await api.get(getOrderDetails);
       let resultJson = await result.json();
 
-      /*  resultJson = {
-        type: "getOrderHistoryListWsDTO",
-        status: "Success",
-        oldOrderHistoryPresent: false,
-        orderData: [
-          {
-            deliveryAddress: {
-              addressLine1:
-                "Cfycfyygccyccygugugcguxtxutuxxtx8ttxiutx7txt7xt8xtx7t8xxy8c8yy8cyc88yc8ycy8cy8c8cyy8c8cyt8cyc8",
-              addressType: "Home",
-              country: "India",
-              defaultAddress: false,
-              firstName: "Nidhi",
-              id: "9176675450903",
-              lastName: "Upretu",
-              phone: "918475950662",
-              postalcode: "110001",
-              shippingFlag: true,
-              state: "Delhi",
-              town: "New Delhi"
-            },
-            giftCardStatus: "FAILED",
-            isEgvOrder: true,
-            orderDate: "2019-12-13T16:04:11+0530",
-            orderId: "300005176",
-            EDDBreachMessage:
-              "This field will contain the exact message to be shown in case of EDD breach",
-            products: [
-              {
-                USSID: "8801402979558",
-                changeDeliveryMode: false,
-                displayStatusName: "Payment Confirmation Failed",
-                imageURL:
-                  "//assetsuat6-tcs.tataunistore.com/medias/sys_master/images/12212683669534.jpg",
-                isGiveAway: "N",
-                isTrackable: false,
-                orderStatusCode: "RMS_VERIFICATION_FAILED",
-                orderStatusName: "RMS verification Failed",
-                price: "500.0",
-                productName: "Gift Card",
-                productcode: "880140297",
-                sellerID: "855995",
-                sellerName: "Qwikcilver"
-              }
-            ],
-            resendAttemptedCount: 0,
-            resendAvailable: false,
-            totalFinalPayableOrderAmount: "₹500.00"
-          },
-          {
-            deliveryAddress: {
-              addressLine1:
-                "Cfycfyygccyccygugugcguxtxutuxxtx8ttxiutx7txt7xt8xtx7t8xxy8c8yy8cyc88yc8ycy8cy8c8cyy8c8cyt8cyc8",
-              addressType: "Home",
-              country: "India",
-              defaultAddress: false,
-              firstName: "Nidhi",
-              id: "9176304091159",
-              lastName: "Upretu",
-              phone: "918475950662",
-              postalcode: "110001",
-              shippingFlag: true,
-              state: "Delhi",
-              town: "New Delhi"
-            },
-            isEgvOrder: false,
-            orderDate: "2019-12-02T13:42:56+0530",
-            orderId: "300004181",
-            EDDBreachMessage:
-              "This field will contain the exact message to be shown in case of EDD breach",
-            products: [
-              {
-                USSID: "124204OTHAC",
-                calloutMessage: "Estimated Delivery Date 04 Dec 2019",
-                changeDeliveryMode: false,
-                deliveryMode: "",
-                displayStatusName: "Order in Process",
-                imageURL:
-                  "//pcmtmppprd.tataunistore.com/images/i2/97Wx144H/MP000000004209013_97Wx144H_20180210151222.jpeg",
-                isGiveAway: "N",
-                isRTSOnceRetInit: false,
-                isTrackable: true,
-                orderStatusCode: "PICK_CONFIRMED",
-                orderStatusName: "Pick Confirmed",
-                price: "1949.0",
-                productName: "OTHER AC",
-                productcode: "MP000000004209013",
-                sellerID: "124204",
-                sellerName: "Hmesell",
-                transactionId: "124204001904629"
-              }
-            ],
-            resendAttemptedCount: 0,
-            resendAvailable: false,
-            totalFinalPayableOrderAmount: "₹1949.00"
-          },
-          {
-            deliveryAddress: {
-              addressLine1:
-                "Cfycfyygccyccygugugcguxtxutuxxtx8ttxiutx7txt7xt8xtx7t8xxy8c8yy8cyc88yc8ycy8cy8c8cyy8c8cyt8cyc8",
-              addressType: "Home",
-              country: "India",
-              defaultAddress: false,
-              firstName: "Nidhi",
-              id: "9176303861783",
-              lastName: "Upretu",
-              phone: "918475950662",
-              postalcode: "110001",
-              shippingFlag: true,
-              state: "Delhi",
-              town: "New Delhi"
-            },
-            isEgvOrder: false,
-            orderDate: "2019-12-02T13:28:06+0530",
-            orderId: "300004179",
-            EDDBreachMessage:
-              "This field will contain the exact message to be shown in case of EDD breach",
-            products: [
-              {
-                USSID: "124204TMHBBLBSSB01",
-                calloutMessage: "Estimated Delivery Date 04 Dec 2019",
-                changeDeliveryMode: false,
-                deliveryMode: "",
-                displayStatusName: "Order in Process",
-                imageURL:
-                  "//assetsuat6-tcs.tataunistore.com/medias/sys_master/images/12209817354270.jpg",
-                isGiveAway: "N",
-                isRTSOnceRetInit: false,
-                isTrackable: true,
-                orderStatusCode: "PICK_CONFIRMED",
-                orderStatusName: "Pick Confirmed",
-                price: "15.0",
-                productColour: "#808080",
-                productColourName: "Grey",
-                productName: "Ethnicity Fabric Bedding Set - Pink",
-                productSize: "California King",
-                productcode: "MP000000002213566",
-                sellerID: "124204",
-                sellerName: "Hmesell",
-                transactionId: "124204001904627"
-              }
-            ],
-            resendAttemptedCount: 0,
-            resendAvailable: false,
-            totalFinalPayableOrderAmount: "₹15.00"
-          }
-        ],
-        pageSize: 3,
-        totalNoOfOrders: 15
-      };
- */
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {

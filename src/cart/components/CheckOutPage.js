@@ -3763,7 +3763,9 @@ if you have order id in local storage then you have to show order confirmation p
       if (isExchangeServiceableArray.includes(false)) {
         checkoutButtonStatus = true;
         let errMsg = exchangeServiceableErrorMessageArray.filter(Boolean);
-        this.props.displayToast(errMsg[0]);
+        if (errMsg.length !== 0) {
+          this.props.displayToast(errMsg[0]);
+        }
       }
     }
 

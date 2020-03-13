@@ -251,7 +251,8 @@ export default class DesktopCheckout extends React.Component {
                     ) / 100
                   )}{" "}
                   {/* cart page */}
-                  {this.props.cartAmount &&
+                  {this.props.isOnCartPage &&
+                    this.props.cartAmount &&
                     this.props.cartAmount.totalExchangeAmount &&
                     this.props.cartAmount.totalExchangeAmount.doubleValue &&
                     this.props.cartAmount.totalExchangeAmount.doubleValue !==
@@ -267,7 +268,8 @@ export default class DesktopCheckout extends React.Component {
                       </span>
                     )}
                   {/* checkout page */}
-                  {this.props.totalDiscount &&
+                  {!this.props.isOnCartPage &&
+                    this.props.totalDiscount &&
                     this.props.totalDiscount.totalExchangeAmount &&
                     this.props.totalDiscount.totalExchangeAmount.doubleValue &&
                     this.props.totalDiscount.totalExchangeAmount.doubleValue !==

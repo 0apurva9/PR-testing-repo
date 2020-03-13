@@ -359,7 +359,8 @@ export default class OrderCard extends React.Component {
                   className={styles.exchangeIconLight}
                 />
                 <div className={styles.exchangeProductText}>
-                  Exchange Product: Apple iPhone 6
+                  Exchange Product:{" "}
+                  {this.props.exchangeDetails.effectiveModelName}
                 </div>
               </div>
             )}
