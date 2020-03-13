@@ -790,9 +790,9 @@ class CartPage extends React.Component {
               <div className={styles.desktopBuffer}>
                 {cartDetails.products &&
                   cartDetails.products.map((product, i) => {
-                    // check if isPickupAvailableForExchange is false , create array and send values to disable checkout button
+                    // check if exchangeServiceable is false , create array and send values to disable checkout button
                     productHasPickupAvailable.push(
-                      product.pinCodeResponse.isPickupAvailableForExchange
+                      product.pinCodeResponse.exchangeServiceable
                     );
                     let serviceable = false;
                     if (product.pinCodeResponse) {
