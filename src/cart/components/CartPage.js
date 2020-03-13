@@ -704,7 +704,7 @@ class CartPage extends React.Component {
             : "0.00";
         }
       }
-      let productHasPickupAvailable = [];
+      let productExchangeServiceable = [];
 
       return (
         <div className={styles.base}>
@@ -791,7 +791,7 @@ class CartPage extends React.Component {
                 {cartDetails.products &&
                   cartDetails.products.map((product, i) => {
                     // check if exchangeServiceable is false , create array and send values to disable checkout button
-                    productHasPickupAvailable.push(
+                    productExchangeServiceable.push(
                       product.pinCodeResponse.exchangeServiceable
                     );
                     let serviceable = false;
@@ -1097,7 +1097,9 @@ class CartPage extends React.Component {
                           changePinCode={this.changePinCode}
                           isFromMyBag={true}
                           showDetails={this.state.showCartDetails}
-                          productHasPickupAvailable={productHasPickupAvailable}
+                          productExchangeServiceable={
+                            productExchangeServiceable
+                          }
                         />
                       </div>
                     )}

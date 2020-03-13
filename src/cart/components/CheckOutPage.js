@@ -3742,6 +3742,31 @@ if you have order id in local storage then you have to show order confirmation p
       checkoutButtonStatus = false;
       labelForButton = PAY_NOW;
     }
+    //if exchange not serviceable disable checkout button and show error toast
+    if (
+      this.props.cart &&
+      this.props.cart.cartDetailsCNC &&
+      this.props.cart.cartDetailsCNC.products
+    ) {
+      let isExchangeServiceableArray = [];
+      let exchangeServiceableErrorMessageArray = [];
+      this.props.cart.cartDetailsCNC.products.map(product => {
+        if (product.pinCodeResponse) {
+          isExchangeServiceableArray.push(
+            product.pinCodeResponse.exchangeServiceable
+          );
+          exchangeServiceableErrorMessageArray.push(
+            product.pinCodeResponse.errorMessage
+          );
+        }
+      });
+      if (isExchangeServiceableArray.includes(false)) {
+        checkoutButtonStatus = true;
+        let errMsg = exchangeServiceableErrorMessageArray.filter(Boolean);
+        this.props.displayToast(errMsg[0]);
+      }
+    }
+
     const OrderIdForOrderUsingNonJusPayPayments = localStorage.getItem(
       ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE
     );

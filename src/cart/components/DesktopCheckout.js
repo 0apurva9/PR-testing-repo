@@ -33,8 +33,8 @@ export default class DesktopCheckout extends React.Component {
     let disableButton = false;
     if (
       (this.props &&
-        this.props.productHasPickupAvailable &&
-        this.props.productHasPickupAvailable.includes(false)) ||
+        this.props.productExchangeServiceable &&
+        this.props.productExchangeServiceable.includes(false)) ||
       this.props.disabled
     ) {
       disableButton = true;
@@ -250,7 +250,8 @@ export default class DesktopCheckout extends React.Component {
                         100
                     ) / 100
                   )}{" "}
-                  {this.props.totalDiscount.totalExchangeAmount &&
+                  {this.props.totalDiscount &&
+                    this.props.totalDiscount.totalExchangeAmount &&
                     this.props.totalDiscount.totalExchangeAmount.doubleValue &&
                     this.props.totalDiscount.totalExchangeAmount.doubleValue !==
                       0 && (
