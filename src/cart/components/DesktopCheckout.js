@@ -250,6 +250,23 @@ export default class DesktopCheckout extends React.Component {
                         100
                     ) / 100
                   )}{" "}
+                  {/* cart page */}
+                  {this.props.cartAmount &&
+                    this.props.cartAmount.totalExchangeAmount &&
+                    this.props.cartAmount.totalExchangeAmount.doubleValue &&
+                    this.props.cartAmount.totalExchangeAmount.doubleValue !==
+                      0 && (
+                      <span>
+                        {" "}
+                        and get{" "}
+                        {
+                          this.props.cartAmount.totalExchangeAmount
+                            .formattedValue
+                        }{" "}
+                        Exchange Cashback{" "}
+                      </span>
+                    )}
+                  {/* checkout page */}
                   {this.props.totalDiscount &&
                     this.props.totalDiscount.totalExchangeAmount &&
                     this.props.totalDiscount.totalExchangeAmount.doubleValue &&
