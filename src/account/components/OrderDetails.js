@@ -736,7 +736,6 @@ export default class OrderDetails extends React.Component {
                         storeDetails={products && products.storeDetails}
                         isOrderDetails={true}
                         paymentMethod={orderDetails.paymentMethod}
-                        statusDisplayMsg={products.statusDisplayMsg}
                         phoneNumber={orderDetails.pickupPersonMobile}
                         soldBy={products.sellerName}
                         //isCncToHd={true}
@@ -798,7 +797,7 @@ export default class OrderDetails extends React.Component {
                         </div>
                       )}
 
-                      {this.props.exchangeDetails && (
+                      {products.exchangeDetails && (
                         <div className={styles.exchangeDetailsContainer}>
                           <img
                             src={exchangeIconLight}
@@ -809,44 +808,78 @@ export default class OrderDetails extends React.Component {
                             <span className={styles.fontFamilySemibold}>
                               Exchange Product:
                             </span>{" "}
-                            Apple iPhone 6
+                            {products.exchangeDetails.effectiveModelName}
                           </div>
-                          <table
-                            className={styles.exchangePricingDetails}
-                            cellPadding={0}
-                            cellSpacing={0}
-                          >
-                            <tbody>
-                              <tr>
-                                <td>Exchange Cashback</td>
-                                <td>₹2,300</td>
-                              </tr>
-                              <tr>
-                                <td>CLiQ Bonus</td>
-                                <td>₹5,000</td>
-                              </tr>
-                              <tr>
-                                <td>Pick up charge: </td>
-                                <td className={styles.pickupCharge}>FREE</td>
-                              </tr>
-                              <tr>
-                                <td className={styles.borderWithPaddingTop}>
-                                  Total Exchange Cashback:{" "}
-                                </td>
-                                <td className={styles.borderWithPaddingTop}>
-                                  ₹7,300
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                          {products.exchangeDetails.exchangePriceDetail && (
+                            <table
+                              className={styles.exchangePricingDetails}
+                              cellPadding={0}
+                              cellSpacing={0}
+                            >
+                              <tbody>
+                                <tr>
+                                  <td>Exchange Cashback</td>
+                                  <td>₹2,300</td>
+                                </tr>
+                                <tr>
+                                  <td>CLiQ Bonus</td>
+                                  <td>
+                                    {
+                                      products.exchangeDetails
+                                        .exchangePriceDetail.TULBump
+                                        .formattedValueNoDecimal
+                                    }
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Pick up charge: </td>
+                                  {products.exchangeDetails.exchangePriceDetail
+                                    .pickupCharge.doubleValue === 0 && (
+                                    <td className={styles.pickupCharge}>
+                                      FREE
+                                    </td>
+                                  )}
+                                  {products.exchangeDetails.exchangePriceDetail
+                                    .pickupCharge.doubleValue !== 0 && (
+                                    <td>
+                                      {
+                                        products.exchangeDetails
+                                          .exchangePriceDetail.pickupCharge
+                                          .formattedValueNoDecimal
+                                      }
+                                    </td>
+                                  )}
+                                </tr>
+                                <tr>
+                                  <td className={styles.borderWithPaddingTop}>
+                                    Total Exchange Cashback:{" "}
+                                  </td>
+                                  <td className={styles.borderWithPaddingTop}>
+                                    {
+                                      products.exchangeDetails
+                                        .exchangePriceDetail
+                                        .totalExchangeCashback
+                                        .formattedValueNoDecimal
+                                    }
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          )}
+
                           <div className={styles.effectivePriceContainer}>
                             <div className={styles.effectivePrice}>
                               <span className={styles.fontLight}>
                                 Effective Price for
                               </span>{" "}
-                              Realmi3i 32 GB
+                              {products.exchangeDetails.effectiveModelName}
                             </div>
-                            <div className={styles.effectivePrice}>₹20,699</div>
+                            <div className={styles.effectivePrice}>
+                              {
+                                products.exchangeDetails.exchangePriceDetail
+                                  .effectiveAmount.formattedValueNoDecimal
+                              }
+                            </div>
                           </div>
                           <div className={styles.exchangeEDDContainer}>
                             <span className={styles.fontBold}>
