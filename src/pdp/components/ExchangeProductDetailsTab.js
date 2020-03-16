@@ -81,9 +81,14 @@ export default class ExchangeProductDetailsTab extends React.Component {
               </td>
               <td className={styles.freePickUp}>
                 {this.props.deviceInfo &&
-                this.props.deviceInfo.pickupCharge.value === 0
-                  ? "FREE"
-                  : this.props.deviceInfo.pickupCharge.formattedValueNoDecimal}
+                  this.props.deviceInfo.pickupCharge && (
+                    <React.Fragment>
+                      {this.props.deviceInfo.pickupCharge.value === 0
+                        ? "FREE"
+                        : this.props.deviceInfo.pickupCharge
+                            .formattedValueNoDecimal}}
+                    </React.Fragment>
+                  )}
               </td>
             </tr>
             <tr>

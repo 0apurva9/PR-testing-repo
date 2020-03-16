@@ -927,7 +927,8 @@ export default class PdpApparel extends React.Component {
     let listingId = this.props.productDetails.productListingId;
     let ussId = this.props.productDetails.winningUssID;
     let maxExchangeAmount = this.props.productDetails.maxExchangeAmount.value;
-    let pickupCharge = this.props.productDetails.cashifyPickupCharge;
+    let pickupCharge = this.props.productDetails.pincodeResponseList
+      .cashifyPickupCharge;
     let productName = this.props.productDetails.productName;
     //call exchange details API
     await this.props.getExchangeDetails(
