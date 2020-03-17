@@ -872,7 +872,7 @@ export default class OrderDetails extends React.Component {
                               <span className={styles.fontLight}>
                                 Effective Price for
                               </span>{" "}
-                              {products.exchangeDetails.effectiveModelName}
+                              <span>{products.productName}</span>
                             </div>
                             <div className={styles.effectivePrice}>
                               {
@@ -908,29 +908,48 @@ export default class OrderDetails extends React.Component {
                               24th Nov 2019
                             </span>
                           </div>
-                          <div className={styles.exchangeCashbackDetails}>
-                            <div
-                              className={styles.exchangeCashbackTextContainer}
-                            >
-                              <span className={styles.exchangeCashbackText}>
-                                You will receive exchange cashback, post your
-                                old phone pickup, in{" "}
-                              </span>
-                              <span
-                                className={styles.exchangeCashbackAccountText}
-                              >
-                                A/c xxxx xxxx xxxx 1234
-                              </span>
-                              <span
-                                className={styles.exchangeCashbackAccountText}
-                              >
-                                CLiQ Cash wallet
-                              </span>
-                            </div>
-                            <div className={styles.exchangeCashbackChangeMode}>
-                              Change Mode
-                            </div>
-                          </div>
+                          {products.exchangeDetails.exchangePaymentDetails &&
+                            products.exchangeDetails
+                              .exchangePaymentDetails[0] &&
+                            products.exchangeDetails.exchangePaymentDetails[0]
+                              .exchangePaymentMode && (
+                              <div className={styles.exchangeCashbackDetails}>
+                                <div
+                                  className={
+                                    styles.exchangeCashbackTextContainer
+                                  }
+                                >
+                                  <span className={styles.exchangeCashbackText}>
+                                    You will receive exchange cashback, post
+                                    your old phone pickup, in{" "}
+                                  </span>
+                                  {products.exchangeDetails
+                                    .exchangePaymentDetails[0]
+                                    .exchangePaymentMode === "CLIQ_CASH" ? (
+                                    <span
+                                      className={
+                                        styles.exchangeCashbackAccountText
+                                      }
+                                    >
+                                      CLiQ Cash wallet
+                                    </span>
+                                  ) : (
+                                    <span
+                                      className={
+                                        styles.exchangeCashbackAccountText
+                                      }
+                                    >
+                                      A/c xxxx xxxx xxxx 1234
+                                    </span>
+                                  )}
+                                </div>
+                                <div
+                                  className={styles.exchangeCashbackChangeMode}
+                                >
+                                  Change Mode
+                                </div>
+                              </div>
+                            )}
                           <div className={styles.exchangeCancelledText}>
                             Your Exchange has been cancelled since you failed to
                             update the account details.

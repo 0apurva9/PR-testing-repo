@@ -2002,7 +2002,7 @@ export function verifyIMEINumber(
     dispatch(verifyIMEINumberRequest());
     try {
       const result = await api.getMiddlewareUrl(
-        `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&exchangeAmountCashify=${exchangeAmountCashify}&TulBump=${tulBump}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}`
+        `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&ExchangeAmountCashify=${exchangeAmountCashify}&TulBump=${tulBump}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}`
       );
       const resultJson = await result.json();
       // const resultJson = imeijson;
