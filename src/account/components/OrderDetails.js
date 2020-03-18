@@ -7,6 +7,7 @@ import OrderViewPaymentDetails from "./OrderViewPaymentDetails";
 import OrderPaymentMethod from "./OrderPaymentMethod";
 import OrderStatusVertical from "./OrderStatusVerticalV2";
 import InstallationExperience from "./InstallationExperience";
+import ExchangeDetailsTrack from "./ExchangeDetailsTrack";
 import PropTypes from "prop-types";
 import format from "date-fns/format";
 import each from "lodash.foreach";
@@ -819,7 +820,14 @@ export default class OrderDetails extends React.Component {
                               <tbody>
                                 <tr>
                                   <td>Exchange Cashback</td>
-                                  <td>₹2,300</td>
+                                  <td>
+                                    {
+                                      products.exchangeDetails
+                                        .exchangePriceDetail
+                                        .exchangeAmountCashify
+                                        .formattedValueNoDecimal
+                                    }
+                                  </td>
                                 </tr>
                                 <tr>
                                   <td>CLiQ Bonus</td>
@@ -961,6 +969,12 @@ export default class OrderDetails extends React.Component {
                           <div className={styles.exchangeProcessedText}>
                             Exchange has been processed sucessfully.
                           </div>
+
+                          <ExchangeDetailsTrack
+                            exchangeTrackDiagram={
+                              products.exchangeDetails.exchangeTrackDiagram
+                            }
+                          />
                         </div>
                       )}
 
