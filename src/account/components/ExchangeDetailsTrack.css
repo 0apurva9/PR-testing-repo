@@ -115,3 +115,14 @@ div .stepInactive:last-child:before {
 	background-position: center;
 	border: none;
 }
+.eieDateAndTimeHolder {
+	width: 121px;
+	height: auto;
+}
+.eieDateNTimeContainer {
+	width: auto;
+	height: auto;
+	color: #8d8d8d;
+	font-size: 12px;
+	font-family: light;
+}

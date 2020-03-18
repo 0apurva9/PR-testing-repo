@@ -76,8 +76,10 @@ export default class OrderDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      itemDetails: false
+      itemDetails: false,
+      isToggleOn: true
     };
+    this.toggle = this.toggle.bind(this);
   }
   onClickImage(productCode) {
     if (productCode) {
@@ -468,6 +470,11 @@ export default class OrderDetails extends React.Component {
       }
     }
   };
+  toggle() {
+    this.setState(state => ({
+      isToggleOn: !state.isToggleOn
+    }));
+  }
   render() {
     if (this.props.loadingForFetchOrderDetails) {
       this.props.showSecondaryLoader();
@@ -810,85 +817,115 @@ export default class OrderDetails extends React.Component {
                               Exchange Product:
                             </span>{" "}
                             {products.exchangeDetails.effectiveModelName}
+                            <span
+                              className={
+                                !this.state.isToggleOn
+                                  ? styles.downArrowRotate
+                                  : styles.downArrow
+                              }
+                              onClick={() => this.toggle()}
+                            />
                           </div>
-                          {products.exchangeDetails.exchangePriceDetail && (
-                            <table
-                              className={styles.exchangePricingDetails}
-                              cellPadding={0}
-                              cellSpacing={0}
-                            >
-                              <tbody>
-                                <tr>
-                                  <td>Exchange Cashback</td>
-                                  <td>
-                                    {
-                                      products.exchangeDetails
-                                        .exchangePriceDetail
-                                        .exchangeAmountCashify
-                                        .formattedValueNoDecimal
-                                    }
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>CLiQ Bonus</td>
-                                  <td>
-                                    {
-                                      products.exchangeDetails
-                                        .exchangePriceDetail.TULBump
-                                        .formattedValueNoDecimal
-                                    }
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>Pick up charge: </td>
-                                  {products.exchangeDetails.exchangePriceDetail
-                                    .pickupCharge.doubleValue === 0 && (
-                                    <td className={styles.pickupCharge}>
-                                      FREE
-                                    </td>
-                                  )}
-                                  {products.exchangeDetails.exchangePriceDetail
-                                    .pickupCharge.doubleValue !== 0 && (
-                                    <td>
+
+                          {!this.state.isToggleOn ? (
+                            <React.Fragment>
+                              {products.exchangeDetails.exchangePriceDetail && (
+                                <React.Fragment>
+                                  <table
+                                    className={styles.exchangePricingDetails}
+                                    cellPadding={0}
+                                    cellSpacing={0}
+                                  >
+                                    <tbody>
+                                      <tr>
+                                        <td>Exchange Cashback</td>
+                                        <td>
+                                          {
+                                            products.exchangeDetails
+                                              .exchangePriceDetail
+                                              .exchangeAmountCashify
+                                              .formattedValueNoDecimal
+                                          }
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>CLiQ Bonus</td>
+                                        <td>
+                                          {
+                                            products.exchangeDetails
+                                              .exchangePriceDetail.TULBump
+                                              .formattedValueNoDecimal
+                                          }
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Pick up charge: </td>
+                                        {products.exchangeDetails
+                                          .exchangePriceDetail.pickupCharge
+                                          .doubleValue === 0 && (
+                                          <td className={styles.pickupCharge}>
+                                            FREE
+                                          </td>
+                                        )}
+                                        {products.exchangeDetails
+                                          .exchangePriceDetail.pickupCharge
+                                          .doubleValue !== 0 && (
+                                          <td>
+                                            {
+                                              products.exchangeDetails
+                                                .exchangePriceDetail
+                                                .pickupCharge
+                                                .formattedValueNoDecimal
+                                            }
+                                          </td>
+                                        )}
+                                      </tr>
+                                      <tr>
+                                        <td
+                                          className={
+                                            styles.borderWithPaddingTop
+                                          }
+                                        >
+                                          Total Exchange Cashback:{" "}
+                                        </td>
+                                        <td
+                                          className={
+                                            styles.borderWithPaddingTop
+                                          }
+                                        >
+                                          {
+                                            products.exchangeDetails
+                                              .exchangePriceDetail
+                                              .totalExchangeCashback
+                                              .formattedValueNoDecimal
+                                          }
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <div
+                                    className={styles.effectivePriceContainer}
+                                  >
+                                    <div className={styles.effectivePrice}>
+                                      <span className={styles.fontLight}>
+                                        Effective Price for
+                                      </span>{" "}
+                                      <span>{products.productName}</span>
+                                    </div>
+                                    <div className={styles.effectivePrice}>
                                       {
                                         products.exchangeDetails
-                                          .exchangePriceDetail.pickupCharge
+                                          .exchangePriceDetail.effectiveAmount
                                           .formattedValueNoDecimal
                                       }
-                                    </td>
-                                  )}
-                                </tr>
-                                <tr>
-                                  <td className={styles.borderWithPaddingTop}>
-                                    Total Exchange Cashback:{" "}
-                                  </td>
-                                  <td className={styles.borderWithPaddingTop}>
-                                    {
-                                      products.exchangeDetails
-                                        .exchangePriceDetail
-                                        .totalExchangeCashback
-                                        .formattedValueNoDecimal
-                                    }
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          )}
+                                    </div>
+                                  </div>
+                                </React.Fragment>
+                              )}
+                            </React.Fragment>
+                          ) : null}
+                          <div className={styles.bb} />
 
-                          <div className={styles.effectivePriceContainer}>
-                            <div className={styles.effectivePrice}>
-                              <span className={styles.fontLight}>
-                                Effective Price for
-                              </span>{" "}
-                              <span>{products.productName}</span>
-                            </div>
-                            <div className={styles.effectivePrice}>
-                              {
-                                products.exchangeDetails.exchangePriceDetail
-                                  .effectiveAmount.formattedValueNoDecimal
-                              }
-                            </div>
-                          </div>
                           <div className={styles.exchangeEDDContainer}>
                             <span className={styles.fontBold}>
                               Estimated Exchange Pick up by:

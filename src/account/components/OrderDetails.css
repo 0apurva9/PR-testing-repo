@@ -313,6 +313,8 @@
 	font-size: 14px;
 	font-family: light;
 	margin-bottom: 15px;
+	position: relative;
+	width: calc(100% - 45px);
 }
 .fontFamilySemibold{
 	font-family: semibold;
@@ -350,6 +352,8 @@
 	margin: 0 auto;
 	border-top: 1px solid #ececec;
 	padding: 10px 0;
+}
+.bb{
 	border-bottom: 1px solid #ececec;
 }
 .effectivePrice:nth-child(even){
@@ -518,4 +522,23 @@
     font-family: semibold;
     margin-bottom: 20px;
   }
+}
+.downArrow {
+	border: solid #000000;
+	border-width: 0 2px 2px 0;
+	padding: 3px;
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	position: absolute;
+	top: 2px;
+	right: 0;
+	cursor: pointer;
+	transition: 300ms;
+}
+.downArrowRotate{
+	composes : downArrow;
+	-ms-transform: rotate(225deg);
+	transform: rotate(225deg);
+	-webkit-transform: rotate(225deg);
 }
