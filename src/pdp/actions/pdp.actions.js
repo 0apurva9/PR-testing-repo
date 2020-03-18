@@ -471,9 +471,9 @@ export function getProductPinCode(
         if (rootCategory && rootCategory === "Electronics") {
           dispatch(displayToast("Exchange is not serviceable at your pincode"));
         }
-        return dispatch(
-          getProductPinCodeFailure("PickupNotAvailableForExchange")
-        );
+        // return dispatch(
+        //   getProductPinCodeFailure("PickupNotAvailableForExchange")
+        // );
       }
 
       // if (pinCode) {
@@ -484,7 +484,8 @@ export function getProductPinCode(
           pinCode,
           deliveryOptions: resultJson.listOfDataList[0].value,
           isPickupAvailableForExchange: resultJson.isPickupAvailableForExchange,
-          cashifyPickupCharge: resultJson.pickupCharge.value,
+          cashifyPickupCharge:
+            resultJson.pickupCharge && resultJson.pickupCharge.value,
           city: resultJson.city,
           productOutOfStockMessage: resultJson.productOutOfStockMessage,
           productNotServiceableMessage:
