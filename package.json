@@ -122,6 +122,7 @@
     "awsprod2": "REACT_APP_STAGE=awsprod2 node scripts/build.js",
     "awsprod3": "REACT_APP_STAGE=awsprod3 node scripts/build.js",
     "preprod1": "REACT_APP_STAGE=preprod1 node scripts/build.js",
+    "preprod2": "REACT_APP_STAGE=preprod2 node scripts/build.js",
     "preprod3": "REACT_APP_STAGE=preprod3 node scripts/build.js",
     "awspreprod1": "REACT_APP_STAGE=awspreprod1 node scripts/build.js",
     "awspreprod2": "REACT_APP_STAGE=awspreprod2 node scripts/build.js",

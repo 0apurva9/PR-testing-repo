@@ -72,6 +72,10 @@ if (
   API_URL_ROOT = "https://preprod3.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
     "https://preprod3.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "preprod2") {
+  API_URL_ROOT = "https://preprod2.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://preprod2.tataunistore.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "qa8") {
   API_URL_ROOT = "https://qa8.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
