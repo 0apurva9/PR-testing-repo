@@ -61,6 +61,7 @@ export const SHOW_RETURN_CONFIRM_POP_UP = "ShowReturnConfirmPopup";
 export const SHOW_DELIVERY_CONFIRM_POP_UP = "ShowDeliveryConfirmPopup";
 export const SELLER_REVIEW_SUBMIT_REMOVAL_POP_UP =
   "SellerReviewSubmitRemovalPopup";
+export const PRODUCT_IN_BAG_MODAL = "ProductInBagModal";
 
 export function showModal(type, ownProps) {
   const scrollPosition =

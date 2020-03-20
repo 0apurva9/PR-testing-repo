@@ -350,6 +350,12 @@ const ExchangeRemoveModal = Loadable({
   }
 });
 
+const ProductInBagModal = Loadable({
+  loader: () => import("../../pdp/components/ProductInBagModal"),
+  loading() {
+    return <Loader />;
+  }
+});
 export default class ModalRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -1166,6 +1172,12 @@ export default class ModalRoot extends React.Component {
           {...this.props.ownProps}
           closeModal={() => this.handleClose()}
           removeExchange={data => this.removeExchange(data)}
+        />
+      ),
+      ProductInBagModal: (
+        <ProductInBagModal
+          closeModal={() => this.handleClose()}
+          history={this.props.history}
         />
       )
     };

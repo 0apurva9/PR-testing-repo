@@ -16,8 +16,7 @@ import {
   ANONYMOUS_USER,
   TIME_OUT_FOR_APIS,
   LOW_INTERNET_CONNECTION_MESSAGE,
-  CHANNEL,
-  SELECTED_STORE
+  CHANNEL
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -27,11 +26,10 @@ import {
   QA2_MCV_ID,
   SET_DATA_LAYER_FOR_SUBMIT_REVIEW
 } from "../../lib/adobeUtils.js";
-import each from "lodash.foreach";
+// import each from "lodash.foreach";
 import {
   showModal,
-  GO_TO_CART_PAGE_POPUP,
-  PRODUCTINBAGWITHEXCHANGE_MODAL
+  PRODUCT_IN_BAG_MODAL
 } from "../../general/modal.actions.js";
 import { setBagCount } from "../../general/header.actions";
 import { setDataLayer, ADOBE_PDP_TYPE } from "../../lib/adobeUtils.js";
@@ -44,7 +42,7 @@ import { isBrowser } from "browser-or-node";
 // import imeijson from "../../mock/imei.json";
 
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
-import { displayToast, showToast } from "../../general/toast.actions.js";
+import { displayToast } from "../../general/toast.actions.js";
 export const SUBMIT_REVIEW_TEXT =
   "Thanks for submitting the review. Your review will start appearing shortly";
 export const PRODUCT_DESCRIPTION_REQUEST = "PRODUCT_DESCRIPTION_REQUEST";
@@ -398,7 +396,6 @@ export function getProductPinCode(
         }
       }
       const result = await api.post(url);
-
       const resultJson = await result.json();
       // const resultJson = pincodeResponse;
       // const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -544,29 +541,22 @@ export function addProductToCart(productDetails) {
     //get verify imei api response,check exchange avail or not,get product already in cart
     let IMEIApiResponse = productDetails.verifyIMEINumberAPIResponse;
     let PDPExchangeAvailable = localStorage.getItem("PDPExchangeAvailable");
-    // let existingProductData = JSON.parse(
-    //   localStorage.getItem("exchangedProductInCart")
-    // );
-    // let exchangedProduct;
-    // if (productDetails && IMEIApiResponse) {
-    //   exchangedProduct =
-    //     productDetails.code +
-    //     "_" +
-    //     productDetails.ussId +
-    //     "_" +
-    //     IMEIApiResponse.exchangeProductId;
-    // }
+
+    //get ussid in cart
+    let existingProductData = JSON.parse(
+      localStorage.getItem("cartBagDetails")
+    );
 
     //if product already in cart show modal
-    // if (
-    //   PDPExchangeAvailable &&
-    //   IMEIApiResponse &&
-    //   existingProductData &&
-    //   existingProductData.indexOf(exchangedProduct) > -1
-    // ) {
-    //   dispatch(showModal(PRODUCTINBAGWITHEXCHANGE_MODAL));
-    //   return false;
-    // }
+    if (
+      existingProductData &&
+      existingProductData.includes(productDetails.ussId)
+    ) {
+      // console.log('Product is already present in cart. Do you want to add more ?')
+      dispatch(showModal(PRODUCT_IN_BAG_MODAL));
+      return false;
+    }
+
     dispatch(addProductToCartRequest());
     try {
       let result;
@@ -638,30 +628,6 @@ export function addProductToCart(productDetails) {
       // here we dispatch a modal to show something was added to the bag
       dispatch(setBagCount(bagItemsInJsonFormat.length));
       setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT);
-      //if mobile device exchange, set localstorage
-      // if (
-      //   PDPExchangeAvailable === "true" &&
-      //   IMEIApiResponse &&
-      //   productDetails.isFromMobileExchange
-      // ) {
-      //   if(resultJson.status === "Success" && resultJson.count > 0){
-      //     let exchangedProductInCart = [];
-      //     if (existingProductData) {
-      //       exchangedProductInCart = existingProductData;
-      //       if (existingProductData.indexOf(exchangedProduct) === -1) {
-      //         exchangedProductInCart.push(exchangedProduct);
-      //       }
-      //     } else {
-      //       exchangedProductInCart.push(exchangedProduct);
-      //     }
-      //     // console.log(exchangedProductInCart)
-      //     localStorage.setItem(
-      //       "exchangedProductInCart",
-      //       JSON.stringify(exchangedProductInCart)
-      //     );
-      //   }
-      // }
-
       return dispatch(addProductToCartSuccess(resultJson));
       // ADOBE_ADD_TO_CART
     } catch (e) {
