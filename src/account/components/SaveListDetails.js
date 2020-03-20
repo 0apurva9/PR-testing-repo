@@ -133,6 +133,7 @@ export default class SaveListDetails extends React.Component {
                           }
                           size={product.size}
                           isSizeOrLength={product.isSizeOrLength}
+                          exchangeDetails={product.exchangeDetails}
                         />
                       </div>
                     );

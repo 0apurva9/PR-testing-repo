@@ -635,6 +635,11 @@ export default class OrderDetails extends React.Component {
                   products.installationDisplayMsg.find(val => {
                     return val.key === "REQUEST_RESCHEDULE";
                   });
+                const cashbackCredited =
+                  products.exchangeDetails &&
+                  products.exchangeDetails.exchangeTrackDiagram.find(val => {
+                    return val.displayMessage === "Cashback Credited";
+                  });
                 let hideEIETrackDiagram = false;
                 let hideEstimatedInstallationDate = false;
                 //request cancelled
@@ -925,34 +930,39 @@ export default class OrderDetails extends React.Component {
                             </React.Fragment>
                           ) : null}
                           <div className={styles.bb} />
+                          {/* show below as per API response */}
+                          {this.props.pickupDate && (
+                            <React.Fragment>
+                              <div className={styles.exchangeEDDContainer}>
+                                <span className={styles.fontBold}>
+                                  Estimated Exchange Pick up by:
+                                </span>
+                                <span className={styles.fontLight}>
+                                  {" "}
+                                  25th Nov 2019
+                                </span>
+                              </div>
+                              <div className={styles.exchangeEDDContainer}>
+                                <span className={styles.fontBold}>
+                                  Estimated Exchange Pick up Date:
+                                </span>
+                                <span className={styles.fontLight}>
+                                  {" "}
+                                  24th Nov 2019
+                                </span>
+                              </div>
+                              <div className={styles.exchangeEDDContainer}>
+                                <span className={styles.fontBold}>
+                                  Exchange Product Picked up on:
+                                </span>
+                                <span className={styles.fontLight}>
+                                  {" "}
+                                  24th Nov 2019
+                                </span>
+                              </div>
+                            </React.Fragment>
+                          )}
 
-                          <div className={styles.exchangeEDDContainer}>
-                            <span className={styles.fontBold}>
-                              Estimated Exchange Pick up by:
-                            </span>
-                            <span className={styles.fontLight}>
-                              {" "}
-                              25th Nov 2019
-                            </span>
-                          </div>
-                          <div className={styles.exchangeEDDContainer}>
-                            <span className={styles.fontBold}>
-                              Estimated Exchange Pick up Date:
-                            </span>
-                            <span className={styles.fontLight}>
-                              {" "}
-                              24th Nov 2019
-                            </span>
-                          </div>
-                          <div className={styles.exchangeEDDContainer}>
-                            <span className={styles.fontBold}>
-                              Exchange Product Picked up on:
-                            </span>
-                            <span className={styles.fontLight}>
-                              {" "}
-                              24th Nov 2019
-                            </span>
-                          </div>
                           {products.exchangeDetails.exchangePaymentDetails &&
                             products.exchangeDetails
                               .exchangePaymentDetails[0] &&
@@ -995,17 +1005,20 @@ export default class OrderDetails extends React.Component {
                                 </div>
                               </div>
                             )}
-                          <div className={styles.exchangeCancelledText}>
+                          {/* show below as per API response */}
+                          {/* <div className={styles.exchangeCancelledText}>
                             Your Exchange has been cancelled since you failed to
                             update the account details.
                           </div>
                           <div className={styles.exchangeCancelledText}>
                             Your Exchange has been cancelled since IMEI number
                             is already processed.
-                          </div>
-                          <div className={styles.exchangeProcessedText}>
-                            Exchange has been processed sucessfully.
-                          </div>
+                          </div> */}
+                          {cashbackCredited && (
+                            <div className={styles.exchangeProcessedText}>
+                              Exchange has been processed sucessfully.
+                            </div>
+                          )}
 
                           <ExchangeDetailsTrack
                             exchangeTrackDiagram={
