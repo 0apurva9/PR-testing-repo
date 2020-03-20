@@ -195,6 +195,7 @@ export default class OrderConfirmation extends React.Component {
                           quantity={order.quantity}
                           selectedDeliveryMode={order.selectedDeliveryMode}
                           edd={order.EDD}
+                          exchangeDetails={order.exchangeDetails}
                         />
                       </DesktopOnly>
                     </React.Fragment>
@@ -210,6 +211,7 @@ export default class OrderConfirmation extends React.Component {
                     this.props.orderDetails.selectedDeliveryMode
                   }
                   edd={this.props.orderDetails.EDD}
+                  exchangeDetails={this.props.orderDetails.exchangeDetails}
                 />
               )}
               <MobileOnly>

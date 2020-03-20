@@ -149,6 +149,71 @@ export default class OrderSucessCard extends React.Component {
               </div>
             </div>
           </div>
+          {this.props.exchangeDetails && (
+            <div>
+              <div className={styles.exchangeProductName}>
+                <span>Exchange Product: </span>
+                <span>{this.props.exchangeDetails.effectiveModelName}</span>
+              </div>
+              {this.props.exchangeDetails.exchangePriceDetail && (
+                <React.Fragment>
+                  <div className={styles.exchangeCashback}>
+                    <span>Total Exchange Cashback: </span>
+                    <span>
+                      {this.props.exchangeDetails.exchangePriceDetail
+                        .totalExchangeCashback &&
+                        this.props.exchangeDetails.exchangePriceDetail
+                          .totalExchangeCashback.formattedValueNoDecimal}
+                    </span>
+                  </div>
+                  <div className={styles.exchangePickup}>
+                    <span>Pick up: Within 3 days of product delivery</span>
+                    <span className={styles.spacer}>|</span>
+                    {this.props.exchangeDetails.exchangePriceDetail
+                      .pickupCharge &&
+                    this.props.exchangeDetails.exchangePriceDetail.pickupCharge
+                      .doubleValue === 0 ? (
+                      <span className={styles.freePickup}>FREE</span>
+                    ) : (
+                      <span>
+                        {
+                          this.props.exchangeDetails.exchangePriceDetail
+                            .pickupCharge.formattedValueNoDecimal
+                        }
+                      </span>
+                    )}
+                  </div>
+                </React.Fragment>
+              )}
+
+              {this.props.exchangeDetails.exchangePaymentDetails &&
+                this.props.exchangeDetails.exchangePaymentDetails[0] &&
+                this.props.exchangeDetails.exchangePaymentDetails[0]
+                  .exchangePaymentMode && (
+                  <div className={styles.exchangeCashbackDetails}>
+                    <div className={styles.exchangeCashbackTextContainer}>
+                      <span className={styles.exchangeCashbackText}>
+                        You will receive exchange cashback, post your old phone
+                        pickup, in{" "}
+                      </span>
+                      {this.props.exchangeDetails.exchangePaymentDetails[0]
+                        .exchangePaymentMode === "CLIQ_CASH" ? (
+                        <span className={styles.exchangeCashbackAccountText}>
+                          CLiQ Cash wallet
+                        </span>
+                      ) : (
+                        <span className={styles.exchangeCashbackAccountText}>
+                          A/c xxxx xxxx xxxx 1234
+                        </span>
+                      )}
+                    </div>
+                    <div className={styles.exchangeCashbackChangeMode}>
+                      Change Mode
+                    </div>
+                  </div>
+                )}
+            </div>
+          )}
         </div>
       </div>
     );

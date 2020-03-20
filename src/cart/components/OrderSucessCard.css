@@ -95,3 +95,56 @@
   background-size: auto 40px;
   background-position: center;
 }
+.exchangeProductName{
+  font-size: 14px;
+  margin-top: 10px;
+}
+.exchangeCashback,.exchangePickup{
+  font-size: 12px;
+}
+.exchangeProductName,.exchangeCashback{
+  margin-bottom: 10px;
+}
+.exchangePickup{
+  white-space: nowrap;
+}
+.exchangePickup > span{
+  display: inline-block;
+}
+.exchangeProductName span:first-child{
+  font-family: semibold;
+}
+.spacer{
+  margin: 0 5px;
+}
+.freePickup{
+  color:#417505;
+}
+.exchangeCashbackDetails{
+	padding: 10px 15px;
+	border: 0.5px solid #979797;
+	border-radius: 4px;
+	width: 100%;
+	margin: 10px auto;
+}
+.exchangeCashbackTextContainer{
+	width: 75%;
+  display: inline-block;
+}
+.exchangeCashbackChangeMode{
+	width: 25%;
+	display: inline-block;
+	vertical-align: top;
+	line-height: 2.5;
+	text-align: right;
+	font-size: 14px;
+	color: #ff1744;
+	font-family: semibold;
+}
+.exchangeCashbackText{
+	font-size: 12px;
+}
+.exchangeCashbackAccountText{
+	font-size: 12px;
+	font-family: semibold;
+}

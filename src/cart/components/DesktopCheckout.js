@@ -31,12 +31,9 @@ export default class DesktopCheckout extends React.Component {
   };
   renderCheckout = () => {
     let disableButton = false;
-    if (
-      (this.props &&
-        this.props.productExchangeServiceable &&
-        this.props.productExchangeServiceable.includes(false)) ||
-      this.props.disabled
-    ) {
+    // this.props.productExchangeServiceable &&
+    // this.props.productExchangeServiceable.includes(false)) ||
+    if (this.props.disabled) {
       disableButton = true;
     }
     const { cartAmount } = this.props;
