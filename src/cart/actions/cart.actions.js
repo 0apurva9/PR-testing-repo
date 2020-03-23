@@ -6210,17 +6210,21 @@ export function getFeedBackFormFailure(error) {
     error
   };
 }
-export function getFeedBackForm(getUserDetails) {
+export function getFeedBackForm(getUserDetails, isReturnFlow) {
   return async (dispatch, getState, { api }) => {
     dispatch(getFeedBackFormRequest());
+    let apiEndPoint = isReturnFlow
+      ? "getQuestionsForReturnNPS"
+      : "getQuestionsForNPS";
     try {
       const result = await api.get(
-        `v2/mpl/getQuestionsForNPS?originalUid=${
+        `v2/mpl/${apiEndPoint}?originalUid=${
           getUserDetails.originalUid
         }&transactionId=${getUserDetails.transactionId}&rating=${
           getUserDetails.rating
         }&deliveryMode=${getUserDetails.deliveryMode}`
       );
+
       const resultJson = await result.json();
 
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -6259,7 +6263,8 @@ export function postFeedBackForm(
   commemt,
   questionRatingArray,
   transactionId,
-  originalUid
+  originalUid,
+  isReturnFlow
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(postFeedBackFormRequest());
@@ -6270,10 +6275,11 @@ export function postFeedBackForm(
       productDetails.anyotherfeedback = commemt;
       productDetails.items = questionRatingArray;
 
-      const result = await api.post(
-        `v2/mpl/getFeedbackCapturedData`,
-        productDetails
-      );
+      let apiEndPoint = isReturnFlow
+        ? "submitReturnNPSFeedback"
+        : "getFeedbackCapturedData";
+
+      const result = await api.post(`v2/mpl/${apiEndPoint}`, productDetails);
       const resultJson = await result.json();
 
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

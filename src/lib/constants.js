@@ -153,6 +153,7 @@ export const CHANGE_RETURN_ADDRESS = "/changeReturnAddress";
 export const MY_ACCOUNT_ADDRESS_EDIT_PAGE = "/address-book/edit";
 export const MY_ACCOUNT_ADDRESS_ADD_PAGE = "/address-book/add";
 export const FEEDBACK_PAGE = "/feedback/NPSFeedbackForm(.*)";
+export const RETURN_FEEDBACK_PAGE = "/feedback/ReturnNPSFeedbackForm(.*)";
 export const CLIQ_AND_PIQ = "/select-stores";
 export const PRODUCT_CART_DELIVERY_MODES = "/deliveryModes";
 export const PRODUCT_DELIVERY_ADDRESSES = "/deliveryAddress";
