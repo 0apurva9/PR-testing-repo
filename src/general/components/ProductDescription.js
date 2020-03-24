@@ -190,7 +190,10 @@ export default class ProductDescription extends Component {
           {this.props.isRange &&
             this.props.minPrice &&
             this.props.maxPrice && (
-              <div className={styles.description}>
+              <div
+                className={styles.description}
+                style={{ display: "inline-flex" }}
+              >
                 {this.props.maxPrice !== this.props.minPrice && (
                   <React.Fragment>
                     <h3>
