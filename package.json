@@ -139,6 +139,7 @@
     "awspt2": "REACT_APP_STAGE=awspt2 node scripts/build.js",
     "qa8": "REACT_APP_STAGE=qa8 node scripts/build.js",
     "qa9": "REACT_APP_STAGE=qa9 node scripts/build.js",
+    "qa10": "REACT_APP_STAGE=qa10 node scripts/build.js",
     "qa2": "REACT_APP_STAGE=qa2 node scripts/build.js",
     "pt": "REACT_APP_STAGE=pt node scripts/build.js",
     "production": "GENERATE_SOURCEMAP=false REACT_APP_STAGE=production node scripts/build.js",
