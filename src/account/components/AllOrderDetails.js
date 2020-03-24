@@ -76,6 +76,7 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import AccountUsefulLink from "./AccountUsefulLink.js";
 import TabHolder from "./TabHolder";
 import TabData from "./TabData";
+import ratingSuccessStar from "./img/ratingSuccessStar.svg";
 const RETURN = "RETURN";
 const PRODUCT_RETURN = "Return";
 const dateFormat = "DD MMM YYYY";
@@ -99,7 +100,8 @@ export default class AllOrderDetails extends React.Component {
       stickyPortion: false,
       showStickyPortion: 0,
       sortValue: "",
-      sortLabel: ""
+      sortLabel: "",
+      showCustomToast: false
     };
     const currentYear = new Date().getFullYear();
     this.filterOptions = [
@@ -198,18 +200,26 @@ export default class AllOrderDetails extends React.Component {
       this.props.setHeaderText(ORDER_HISTORY);
     }
   }
-  onRatingChange = (val, productDetails) => {
+  onRatingChange = async (val, productDetails) => {
     setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_STAR_CLICK, {
       rating: val,
       statusText: ""
     });
     if (productDetails.userRating !== val) {
-      this.props.submitProductRatingByUser(val, {
+      let response = await this.props.submitProductRatingByUser(val, {
         ...this.props,
         productDetails: productDetails
       });
+      if (response.rating) {
+        //show custom toast
+        this.setState({ showCustomToast: true });
+        setTimeout(() => {
+          this.setState({ showCustomToast: false });
+        }, 3000);
+      }
     }
   };
+
   redirectToHelp = url => {
     // const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     // this.props.history.push(urlSuffix);
@@ -420,11 +430,22 @@ export default class AllOrderDetails extends React.Component {
     if (UserAgent.checkUserAgentIsMobile()) {
       baseClassName = styles.base;
     }
-    let productsDetails = orderDetails && orderDetails.products;
+    // let productsDetails = orderDetails && orderDetails.products;
 
     return (
       <div className={baseClassName}>
         <div className={MyAccountStyles.holder}>
+          {this.state.showCustomToast ? (
+            <div className={styles.toastContainer}>
+              <img
+                src={ratingSuccessStar}
+                alt="rating star"
+                className={styles.ratingSuccessStar}
+              />
+              <div>SUBMITTED</div>
+              <div>Thank you for rating</div>
+            </div>
+          ) : null}
           <DesktopOnly>
             <div
               className={
@@ -895,7 +916,7 @@ export default class AllOrderDetails extends React.Component {
                                               <div
                                                 className={styles.reviewHeading}
                                               >
-                                                {RATE_THIS_ITEM}
+                                                Rate this product
                                               </div>
                                               <div className={styles.ratingBar}>
                                                 <FillupRatingOrder

@@ -393,3 +393,21 @@
 .marginIcon {
 	margin-right: 24px;
 }
+.toastContainer{
+	position: absolute;
+	top:10%;
+	right: 0;
+	left: 0;
+	width: 380px;
+  height: 256px;
+  border-radius: 8px;
+	background-color: rgba(33, 33, 33, 0.8);
+	margin: 0 auto;
+	z-index: 700;
+	text-align: center;
+	color: #fff;
+	font-size: 20px;
+}
+.ratingSuccessStar{
+	margin: 40px 0;
+}
