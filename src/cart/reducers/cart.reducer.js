@@ -12,7 +12,9 @@ import {
   CART_BAG_DETAILS,
   CLIQ_CASH_APPLIED_LOCAL_STORAGE,
   EMI_TENURE,
-  BANK_COUPON_COOKIE
+  BANK_COUPON_COOKIE,
+  SELECTED_STORE,
+  DEFAULT_PIN_CODE_LOCAL_STORAGE
 } from "../../lib/constants";
 export const EGV_GIFT_CART_ID = "giftCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
@@ -463,6 +465,21 @@ const cart = (
       });
 
     case cartActions.GET_USER_ADDRESS_SUCCESS:
+      let address =
+        action.userAddress &&
+        action.userAddress.addresses.find(address => {
+          return address.defaultAddress;
+        });
+      if (
+        !localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE) &&
+        address &&
+        address.postalCode
+      ) {
+        localStorage.setItem(
+          DEFAULT_PIN_CODE_LOCAL_STORAGE,
+          address.postalCode
+        );
+      }
       return Object.assign({}, state, {
         getUserAddressStatus: action.status,
         userAddress: action.userAddress,
@@ -2041,6 +2058,7 @@ const cart = (
     case cartActions.CLEAR_CART_DETAILS:
       localStorage.removeItem(RETRY_PAYMENT_CART_ID);
       localStorage.removeItem(RETRY_PAYMENT_DETAILS);
+
       return Object.assign({}, state, {
         status: null,
         error: null,

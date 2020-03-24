@@ -26,18 +26,16 @@ import {
   MY_ACCOUNT_SUFFIX,
   ADD,
   EDIT,
+  CNC_TO_HD_ORDER,
   MY_ACCOUNT_USER_NOTIFICATION_PAGE
 } from "../../lib/constants.js";
 import AllOrderContainer from "../containers/AllOrderContainer";
-import AllSellerContainer from "../containers/AllSellerContainer";
 import AllSellerReviewContainer from "../containers/AllSellerReviewContainer";
 
 import MyAccountContainer from "../containers/MyAccountContainer";
 import UserAlertsAndCouponsContainer from "../containers/UserAlertsAndCouponsContainer";
-
 import MyAccountBrandsContainer from "../containers/MyAccountBrandsContainer";
 import UpdateProfileContainer from "../containers/UpdateProfileContainer.js";
-
 import EditAddressBookContainer from "../containers/EditAddressBookContainer.js";
 import AddAddressContainer from "../containers/AddAddressContainer.js";
 import SaveListContainer from "../containers/SaveListContainer";
@@ -53,6 +51,7 @@ import TransactionHistoryContainer from "../containers/TransactionHistoryContain
 import ReturnAddressContainer from "../../return/containers/ReturnAddressContainer.js";
 import ReturnEditAddressContainer from "../../return/containers/ReturnEditAddressContainer.js";
 import ReturnAddAddressContainer from "../../return/containers/ReturnAddAddressContainer.js";
+import CncToHdFlowContainer from "../containers/CncToHdFlowContainer.js";
 import NotificationContainer from "../containers/NotificationContainer.js";
 
 export default class MyAccountWrapper extends React.Component {
@@ -195,6 +194,7 @@ export default class MyAccountWrapper extends React.Component {
           path={`${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`}
           component={OrderRelatedIssueContainer}
         />
+        <Route path={`${CNC_TO_HD_ORDER}`} component={CncToHdFlowContainer} />
         <Route
           exact
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_USER_NOTIFICATION_PAGE}`}

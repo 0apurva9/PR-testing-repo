@@ -13,7 +13,10 @@ export default class OrderDelivered extends React.Component {
     return (
       <div
         className={styles.base}
-        style={{ borderBottom: `1px solid ${this.props.borderBottom}` }}
+        style={{
+          borderTop:
+            this.props && this.props.borderTop ? "1px solid #ececec" : "none"
+        }}
       >
         <MobileOnly>
           {deliveredAddress && (
@@ -117,10 +120,12 @@ OrderDelivered.propTypes = {
   deliveredDate: PropTypes.string,
   soldBy: PropTypes.string,
   isShowDataHorizontal: PropTypes.bool,
+  borderTop: PropTypes.bool,
   borderBottom: PropTypes.string
 };
 OrderDelivered.defaultProps = {
-  orderDeliveryHeaderText: "Delivery address",
+  orderDeliveryHeaderText: "Delivery Address",
   isShowDataHorizontal: false,
-  borderBottom: "#ececec"
+  borderBottom: "#ececec",
+  borderTop: false
 };

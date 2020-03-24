@@ -1,0 +1,65 @@
+.base {
+  width: 100%;
+  height: auto;
+  background: rgb(236, 236, 236);
+  margin: auto;
+  padding: 80px 120px;
+}
+.product {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  background: #fff;
+  border-radius: 4px;
+  padding: 25px;
+}
+.itemClass {
+  width: 70%;
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
+}
+.standardDelivery {
+  width: 30%;
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
+}
+.addressHolder {
+  width: 100%;
+  height: auto;
+  background: #fff;
+  padding: 20px;
+  margin-top: 30px;
+  display: inline-block;
+  border-radius: 4px;
+}
+.iconLabelCheckboxHolder {
+  width: 100%;
+  height: auto;
+  min-height: 25px;
+  position: relative;
+  padding: 0px 35px;
+}
+.iconHolder {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+.checkBoxHolder {
+  composes: iconHolder;
+  right: 0;
+  left: initial;
+}
+.deliveryText {
+  width: 100%;
+  height: auto;
+  color: #212121;
+  font-size: 13px;
+  font-family: regular;
+  line-height: 25px;
+}

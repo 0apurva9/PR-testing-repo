@@ -4,11 +4,19 @@ import { withRouter } from "react-router-dom";
 import {
   addProductToCart,
   getProductDescription,
-  getProductPinCode
+  getProductPinCode,
+  showPdpPiqPage,
+  getAllStoresForCliqAndPiq,
+  hidePdpPiqPage
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
+import { showModal, CLIQ_PIQ_MODAL } from "../../general/modal.actions.js";
+import {
+  showSecondaryLoader,
+  hideSecondaryLoader
+} from "../../general/secondaryLoader.actions";
 import { SUCCESS, DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -29,6 +37,21 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getProductPinCode: (pinCode, productCode) => {
       dispatch(getProductPinCode(pinCode, productCode));
+    },
+    getAllStoresForCliqAndPiq: pinCode => {
+      dispatch(getAllStoresForCliqAndPiq(pinCode));
+    },
+    showPdpPiqPage: () => {
+      dispatch(showPdpPiqPage());
+    },
+    showPdpCliqAndPiqPage: storeDetails => {
+      dispatch(showModal(CLIQ_PIQ_MODAL, storeDetails));
+    },
+    hideSecondaryLoader: () => {
+      dispatch(hideSecondaryLoader());
+    },
+    showSecondaryLoader: () => {
+      dispatch(showSecondaryLoader());
     }
   };
 };
@@ -36,7 +59,10 @@ const mapStateToProps = state => {
   return {
     productDetails: state.productDescription.productDetails,
     serviceablePincodeList:
-      state.productDescription.serviceablePincodeListResponse
+      state.productDescription.serviceablePincodeListResponse,
+    loading: state.productDescription.loading,
+    stores: state.productDescription.storeDetails,
+    showPiqPage: state.productDescription.showPiqPage
   };
 };
 

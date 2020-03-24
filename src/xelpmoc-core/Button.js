@@ -34,13 +34,25 @@ export default class Button extends React.Component {
       this.props.onClick(e);
     }
   }
+  componentDidUpdate(nextProps) {
+    if (nextProps.backgroundColor !== this.props.backgroundColor) {
+      this.setState({ backgroundColor: this.props.backgroundColor });
+    }
+  }
   render() {
     let className = this.styles.base;
+    let textStyle;
 
     if (this.props.disabled) {
       className = this.styles.disabled;
     }
-
+    if (
+      this.props.disabled &&
+      this.props.disabledBgGrey &&
+      this.props.type === "primary"
+    ) {
+      className = this.styles.disableBtnGrey;
+    }
     if (this.props.loading) {
       className = this.styles.loading;
     }
@@ -52,6 +64,17 @@ export default class Button extends React.Component {
       }
       secondaryIconClass = styles.icon;
     }
+    if (
+      this.props.disabled &&
+      this.props.disabledBgGrey &&
+      this.props.type === "hollow"
+    ) {
+      textStyle = Object.assign(this.props.textStyle, {
+        color: "#989898",
+        fontSize: 14,
+        fontFamily: "semibold"
+      });
+    }
 
     return (
       <div
@@ -62,8 +85,23 @@ export default class Button extends React.Component {
           borderRadius: this.props.borderRadius,
           float: this.props.float ? this.props.float : "none",
           background: this.props.background ? this.props.background : "none",
-          backgroundColor: this.state.backgroundColor,
-          border: `2px solid ${this.state.borderColor}`
+          backgroundColor:
+            this.props.disabled &&
+            this.props.disabledBgGrey &&
+            this.props.type === "primary"
+              ? "#989898"
+              : this.props.disabled &&
+                this.props.disabledBgGrey &&
+                this.props.type === "hollow"
+                ? "#FFF"
+                : this.state.backgroundColor,
+          border: `2px solid ${
+            this.props.disabled &&
+            this.props.disabledBgGrey &&
+            this.props.type === "hollow"
+              ? "#989898"
+              : this.state.borderColor
+          }`
         }}
         onMouseEnter={() => this.hoverIn()}
         onMouseLeave={() => this.hoverOut()}
@@ -87,7 +125,12 @@ export default class Button extends React.Component {
               )}
             </div>
           )}
-        <span style={{ ...this.props.textStyle }}>{this.props.label}</span>
+
+        {textStyle ? (
+          <span style={{ ...textStyle }}>{this.props.label}</span>
+        ) : (
+          <span style={{ ...this.props.textStyle }}>{this.props.label}</span>
+        )}
       </div>
     );
   }

@@ -61,7 +61,11 @@ const productDescription = (
     secondaryBundleProductData: null,
     relevantProductPinCodeStatus: null,
     relevantBundleProductCodeStatus: false,
-    relevantBundleProductCodeData: null
+    relevantBundleProductCodeData: null,
+    pincodeError: null,
+    productOutOfStockMessage: null,
+    productNotServiceableMessage: null,
+    serviceableOtherSellersUssid: null
   },
   action
 ) => {
@@ -144,12 +148,13 @@ const productDescription = (
       return Object.assign({}, state, {
         status: action.status,
         loading: true,
-        serviceablePincodeListResponse: null
+        serviceablePincodeListResponse: null,
+        pincodeError: null
       });
 
     case pdpActions.CHECK_PRODUCT_PIN_CODE_SUCCESS:
       const currentPdpDetail = cloneDeep(state.productDetails);
-      let listOfAllServiceableUssid;
+      let listOfAllServiceableUssid = [];
       let pincodeListResponse;
       if (
         action.productPinCode &&
@@ -163,6 +168,35 @@ const productDescription = (
         );
         pincodeListResponse =
           action.productPinCode.deliveryOptions.pincodeListResponse;
+      }
+
+      //find all other sellers serviceable in a given pincode with stock count > 0
+      let potentialAvailableOtherSellers = [];
+      let actualServiceableOtherSellers = [];
+      let pinCodeResponse = pincodeListResponse;
+      let serviceableOtherSellersUssid = null;
+      potentialAvailableOtherSellers = currentPdpDetail.otherSellers;
+      actualServiceableOtherSellers =
+        potentialAvailableOtherSellers &&
+        potentialAvailableOtherSellers.filter(otherSeller => {
+          return (
+            pinCodeResponse &&
+            pinCodeResponse.find(pincodeSeller => {
+              return (
+                otherSeller.USSID === pincodeSeller.ussid &&
+                otherSeller.availableStock > 0 &&
+                pincodeSeller.stockCount > 0 &&
+                pincodeSeller.isServicable === "Y"
+              );
+            })
+          );
+        });
+
+      if (
+        actualServiceableOtherSellers &&
+        actualServiceableOtherSellers.length > 0
+      ) {
+        serviceableOtherSellersUssid = actualServiceableOtherSellers;
       }
 
       let eligibleDeliveryModes = [];
@@ -185,8 +219,10 @@ const productDescription = (
         );
         Object.assign(currentPdpDetail, {
           eligibleDeliveryModes,
+          pincodeResponseList: action.productPinCode,
           slaveData: serviceableForExistingSeller.validDeliveryModes,
           isServiceableToPincode: {
+            city: action.productPinCode.city,
             status: YES,
             pinCode: action.productPinCode.pinCode
           }
@@ -254,25 +290,34 @@ const productDescription = (
           winningUssID: leastMrpSellerUssid.USSID,
           otherSellers: otherSellersList,
           isUpdatedOtherSellerList: true,
+          pincodeResponseList: action.productPinCode,
           isServiceableToPincode: {
+            city: action.productPinCode.city,
             status: YES,
             pinCode: action.productPinCode.pinCode
           }
         });
       } else {
         Object.assign(currentPdpDetail, {
+          pincodeResponseList: action.productPinCode,
           isServiceableToPincode: {
+            city: action.productPinCode.city,
+            productOutOfStockMessage:
+              action.productPinCode.productOutOfStockMessage,
+            productNotServiceableMessage:
+              action.productPinCode.productNotServiceableMessage,
             status: NO,
             pinCode: action.productPinCode.pinCode
           }
         });
       }
-
       return Object.assign({}, state, {
         status: action.status,
         productDetails: currentPdpDetail,
         loading: false,
-        serviceablePincodeListResponse: pincodeListResponse
+        serviceablePincodeListResponse: pincodeListResponse,
+        pincodeError: action.productPinCode.pincodeError,
+        serviceableOtherSellersUssid: serviceableOtherSellersUssid
       });
 
     case pdpActions.CHECK_PRODUCT_PIN_CODE_FAILURE:
@@ -280,7 +325,8 @@ const productDescription = (
         status: action.status,
         error: action.error,
         loading: false,
-        serviceablePincodeListResponse: null
+        serviceablePincodeListResponse: null,
+        pincodeError: null
       });
 
     case pdpActions.ADD_PRODUCT_TO_CART_REQUEST:

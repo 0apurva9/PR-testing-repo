@@ -38,7 +38,11 @@
 }
 .disabled {
   composes: base;
+  pointer-events: none;
   opacity: 0.5;
+}
+.disableBtnGrey{
+  composes: base;
   pointer-events: none;
 }
 .loading.base:after {

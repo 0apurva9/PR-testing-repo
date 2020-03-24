@@ -23,6 +23,8 @@ import {
   ERROR
 } from "../../lib/constants";
 import BundledProduct from "./BundledProduct";
+import DesktopOnly from "../../general/components/DesktopOnly";
+import MobileOnly from "../../general/components/MobileOnly";
 // const bundledObject = {
 //   channel: "ALL",
 //   couponType: "PRODUCT_PROMOTION",
@@ -54,9 +56,9 @@ export default class OfferCard extends React.Component {
     if (
       Title &&
       Title.indexOf("bundledProduct") >= 0 &&
-      (this.props &&
-        this.props.productDetails &&
-        this.props.productDetails.rootCategory === "Electronics")
+      this.props &&
+      this.props.productDetails &&
+      this.props.productDetails.rootCategory === "Electronics"
     ) {
       setDataLayer(ADOBE_PRODUCT_BUNDLED_OFFER);
       await this.getParams(Title)
@@ -218,6 +220,12 @@ export default class OfferCard extends React.Component {
   render() {
     let offers = [];
     let offersTobeShown = [];
+    let getId =
+      this.props.secondaryPromotions &&
+      this.props.secondaryPromotions.isNoCostEmi;
+    let getMessage =
+      this.props.secondaryPromotions &&
+      this.props.secondaryPromotions.messageID;
 
     if (this.props.offers) {
       offers = [...this.props.offers];
@@ -282,6 +290,52 @@ export default class OfferCard extends React.Component {
             </div> */}
             </div>
           ) : null}
+
+          <MobileOnly>
+            {this.props.secondaryPromotions && (
+              <div
+                className={styles.headingText}
+                onClick={this.handleShowDetails}
+              >
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: this.props.secondaryPromotions.messageID
+                  }}
+                />
+              </div>
+            )}
+          </MobileOnly>
+          <DesktopOnly>
+            {this.props.secondaryPromotions &&
+              getId === "false" && (
+                <div
+                  className={styles.headingText}
+                  onClick={this.handleShowDetails}
+                >
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: this.props.secondaryPromotions.messageID
+                    }}
+                  />
+                </div>
+              )}
+
+            {this.props.secondaryPromotions &&
+              getId === "true" &&
+              getMessage &&
+              !getMessage.includes("No Cost EMI") && (
+                <div
+                  className={styles.headingText}
+                  onClick={this.handleShowDetails}
+                >
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: this.props.secondaryPromotions.messageID
+                    }}
+                  />
+                </div>
+              )}
+          </DesktopOnly>
         </div>
       );
     } else {

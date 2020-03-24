@@ -249,6 +249,10 @@ const account = (
     updateReturnHOTCDetails: null,
     updateReturnHOTCError: null,
 
+    cncToHdDetails: null,
+    cncToHdDetailsStatus: null,
+    cncToHdDetailsError: null,
+    cncToHdDetailsLoading: false,
     addUserUPIStatus: false,
     addUserUPIDetails: null,
     addUserUPIError: null,
@@ -1399,7 +1403,6 @@ const account = (
         retryPaymentDetailsStatus: action.status,
         retryPaymentDetailsLoading: true
       });
-
     case accountActions.RETRY_PAYMENT_SUCCESS:
       return Object.assign({}, state, {
         retryPaymentDetailsStatus: action.status,
@@ -1629,6 +1632,24 @@ const account = (
       return Object.assign({}, state, {
         transactionDetails: " "
       });
+
+    case accountActions.CNC_TO_HD_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        cncToHdDetailsStatus: action.status,
+        cncToHdDetailsLoading: true
+      });
+    case accountActions.CNC_TO_HD_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        cncToHdDetailsStatus: action.status,
+        cncToHdDetailsLoading: false,
+        cncToHdDetails: action.cncToHdDetails
+      });
+    case accountActions.CNC_TO_HD_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        cncToHdDetailsStatus: action.status,
+        cncToHdDetailsError: action.error,
+        cncToHdDetailsLoading: false
+      });
     case accountActions.GET_USER_RATING_REQUEST:
       return Object.assign({}, state, {
         userRatingStatus: action.status,
@@ -1708,6 +1729,12 @@ const account = (
       return Object.assign({}, state, {
         retryPaymentDetails: cloneRetryPaymentDetails,
         retryPaymentDetailsLoading: false
+      });
+    case accountActions.RESET_USER_ADDRESS:
+      return Object.assign({}, state, {
+        userAddressStatus: action.status,
+        userAddress: null,
+        loading: false
       });
     default:
       return state;
