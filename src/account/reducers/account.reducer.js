@@ -165,6 +165,11 @@ const account = (
     customerQueriesDataLoading: false,
     customerQueriesData: null,
 
+    cliqCareWmsStatus: null,
+    cliqCareWmsError: null,
+    cliqCareWmsLoading: false,
+    cliqCareWms: null,
+
     ordersTransactionDataStatus: null,
     ordersTransactionDataError: null,
     ordersTransactionDataLoading: false,
@@ -1294,6 +1299,26 @@ const account = (
         customerQueriesFieldStatus: action.status,
         customerQueriesFieldError: action.error,
         customerQueriesFieldLoading: false
+      });
+
+    case accountActions.GET_CLIQ_CARE_WMS_REQUEST:
+      return Object.assign({}, state, {
+        cliqCareWmsStatus: action.status,
+        cliqCareWmsLoading: true
+      });
+
+    case accountActions.GET_CLIQ_CARE_WMS_SUCCESS:
+      return Object.assign({}, state, {
+        cliqCareWmsStatus: action.status,
+        cliqCareWmsLoading: false,
+        cliqCareWms: action.cliqCareWmsResponse
+      });
+
+    case accountActions.GET_CLIQ_CARE_WMS_FAILURE:
+      return Object.assign({}, state, {
+        cliqCareWmsStatus: action.status,
+        cliqCareWmsError: action.error,
+        cliqCareWmsLoading: false
       });
 
     case accountActions.GET_ORDERS_TRANSACTION_DATA_REQUEST:

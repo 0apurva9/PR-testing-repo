@@ -9,20 +9,21 @@ import {
   submitOrderDetails,
   getUserDetails,
   clearOrderTransactionDetails,
-  getCustomerQueriesDatav2,
+  // getCustomerQueriesDatav2,
   getCustomerQueriesFieldsv2,
-  getNonOrderRelatedQuestions
+  getNonOrderRelatedQuestions,
+  getCliqCareWmsResponse
 } from "../actions/account.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import { showModal, CUSTOMER_QUERY_POPUP } from "../../general/modal.actions";
 const mapDispatchToProps = dispatch => {
   return {
-    getCustomerQueriesData: () => {
-      dispatch(getCustomerQueriesData());
+    getCustomerQueriesData: transactionId => {
+      dispatch(getCustomerQueriesData(transactionId));
     },
-    getCustomerQueriesDatav2: () => {
-      dispatch(getCustomerQueriesDatav2());
-    },
+    // getCustomerQueriesDatav2: () => {
+    //   dispatch(getCustomerQueriesDatav2());
+    // },
     //Self-Serve Non-Order-Related Issue
     getNonOrderRelatedQuestions: () => {
       dispatch(getNonOrderRelatedQuestions());
@@ -53,6 +54,12 @@ const mapDispatchToProps = dispatch => {
     },
     clearOrderTransactionDetails: () => {
       dispatch(clearOrderTransactionDetails());
+    },
+    /**
+     * this function will be integrated to "getCustomerQueriesFieldsv2"
+     */
+    getCliqCareWmsResponse: () => {
+      dispatch(getCliqCareWmsResponse());
     }
   };
 };

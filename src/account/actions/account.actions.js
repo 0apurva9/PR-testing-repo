@@ -46,7 +46,10 @@ import {
   RATING_AND_REVIEW_MODAL
 } from "../../general/modal.actions.js";
 import format from "date-fns/format";
-import { getPaymentModes } from "../../cart/actions/cart.actions.js";
+import {
+  getPaymentModes,
+  USER_CART_PATH
+} from "../../cart/actions/cart.actions.js";
 import {
   getMcvId,
   setDataLayerForMyAccountDirectCalls,
@@ -262,6 +265,10 @@ export const UPDATE_PROFILE_SUCCESS = "UPDATE_PROFILE_SUCCESS";
 export const UPDATE_PROFILE_FAILURE = "UPDATE_PROFILE_FAILURE";
 export const LOG_OUT_ACCOUNT_USING_MOBILE_NUMBER =
   "LOG_OUT_ACCOUNT_USING_MOBILE_NUMBER";
+
+export const GET_CLIQ_CARE_WMS_FAILURE = "GET_CLIQ_CARE_WMS_FAILURE";
+export const GET_CLIQ_CARE_WMS_SUCCESS = "GET_CLIQ_CARE_WMS_SUCCESS";
+export const GET_CLIQ_CARE_WMS_REQUEST = "GET_CLIQ_CARE_WMS_REQUEST";
 
 export const LOG_OUT_USER_REQUEST = "LOG_OUT_USER_REQUEST";
 export const LOG_OUT_USER_SUCCESS = "LOG_OUT_USER_SUCCESS";
@@ -1309,7 +1316,6 @@ export function createGiftCardRequest() {
   };
 }
 export function createGiftCardSuccess(giftCardDetails) {
-  console.log("giftCardDetails", giftCardDetails);
   return {
     type: CREATE_GIFT_CARD_SUCCESS,
     status: SUCCESS,
@@ -1346,7 +1352,6 @@ export function createGiftCardDetails(giftCardDetails) {
         throw new Error(resultJsonStatus.message);
       }
       Cookie.createCookie("egvCartGuid", resultJson.egvCartGuid);
-      console.log("egvCartGuid", resultJson.egvCartGuid);
       return dispatch(createGiftCardSuccess(resultJson));
     } catch (e) {
       dispatch(createGiftCardFailure(e.message));
@@ -3763,22 +3768,26 @@ export function getCustomerQueriesDataFailure() {
     status: FAILURE
   };
 }
-export function getCustomerQueriesData() {
-  return async (dispatch, getState, { api }) => {
-    dispatch(getCustomerQueriesDataRequest());
-    try {
-      const result = await api.get("v2/mpl/getWebCRMNodes");
-      const resultJson = await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
-      }
-      dispatch(getCustomerQueriesDataSuccess(resultJson));
-    } catch (e) {
-      dispatch(getCustomerQueriesDataFailure(e.message));
-    }
-  };
-}
+/**
+ * demo
+ * Function related to it will also be commented.
+ */
+// export function getCustomerQueriesData() {
+//   return async (dispatch, getState, { api }) => {
+//     dispatch(getCustomerQueriesDataRequest());
+//     try {
+//       const result = await api.get("v2/mpl/getWebCRMNodes");
+//       const resultJson = await result.json();
+//       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+//       if (resultJsonStatus.status) {
+//         throw new Error(resultJsonStatus.message);
+//       }
+//       dispatch(getCustomerQueriesDataSuccess(resultJson));
+//     } catch (e) {
+//       dispatch(getCustomerQueriesDataFailure(e.message));
+//     }
+//   };
+// }
 
 export function getCustomerQueriesDataRequestv2() {
   return {
@@ -3799,48 +3808,62 @@ export function getCustomerQueriesDataFailurev2() {
     status: FAILURE
   };
 }
-export function getCustomerQueriesDatav2() {
+/**
+ * Demo
+ * This function is to be replaced by "getCustomerQueriesData"
+ */
+export function getCustomerQueriesData(transactionId) {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(getCustomerQueriesDataRequestv2());
     try {
-      const result = await api.get("v2/mpl/getOrderRelatedQuestions");
-      const resultJson = {
-        listofIssues: [
-          {
-            issueType: "Issue 1",
-            L0: "qwe",
-            L1: "rty",
-            L2: "1234",
-            L3: "234",
-            L4: "344",
-            ticketType: "high",
-            solution:
-              "Try Yourself Try Yourself Try Yourself Try Yourself Try Yourself Try Yourself Try Yourself Try Yourself",
-            webform: "yes",
-            chat: "no",
-            call: "no",
-            click2Call: "no",
-            uItemplateCode: "1234",
-            tat: ""
-          },
-          {
-            issueType: "Issue 2",
-            L0: "rty",
-            L1: "qwe",
-            L2: "5678",
-            L3: "111",
-            L4: "222",
-            ticketType: "",
-            solution: "",
-            webform: "",
-            chat: "",
-            call: "",
-            click2Call: "",
-            uItemplateCode: "",
-            tat: ""
-          }
-        ]
-      };
+      const result = await api.post(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getOrderRelatedQuestions?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&transactionId=${transactionId}`
+      );
+      const resultJson = await result.json();
+
+      // const resultJson = {
+      //   listofIssues: [
+      //     {
+      //       issueType: "Issue 1",
+      //       L0: "qwe",
+      //       L1: "rty",
+      //       L2: "1234",
+      //       L3: "234",
+      //       L4: "344",
+      //       ticketType: "high",
+      //       solution:
+      //         "Try Yourself Try Yourself Try Yourself Try Yourself Try Yourself Try Yourself Try Yourself Try Yourself",
+      //       webform: "No",
+      //       chat: "no",
+      //       call: "no",
+      //       click2Call: "no",
+      //       uItemplateCode: "1234",
+      //       tat: ""
+      //     },
+      //     {
+      //       issueType: "Issue 2",
+      //       L0: "rty",
+      //       L1: "qwe",
+      //       L2: "5678",
+      //       L3: "111",
+      //       L4: "222",
+      //       ticketType: "",
+      //       solution: "",
+      //       webform: "Yes",
+      //       chat: "",
+      //       call: "",
+      //       click2Call: "",
+      //       uItemplateCode: "",
+      //       tat: ""
+      //     }
+      //   ]
+      // };
       //await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
@@ -3879,89 +3902,91 @@ export function getNonOrderRelatedQuestions() {
   return async (dispatch, getState, { api }) => {
     dispatch(getNonOrderRelatedQuestionsRequest());
     try {
-      const result = await api.get("v2/mpl/getOrderRelatedQuestions");
-      const resultJson = {
-        ParentIssueList: [
-          {
-            parentIssueType: "Parent Issue 1",
-            uItemplateCode: "001",
-            issueType: "Parent Issue 1",
-            listofSubIssues: [
-              {
-                subIssueType: "Sub Issue 1",
-                L0: "qwe",
-                L1: "rty",
-                L2: "1234",
-                L3: "234",
-                L4: "344",
-                ticketType: "",
-                solution: "",
-                webform: "",
-                chat: "",
-                call: "",
-                click2Call: "",
-                uItemplateCode: "0011",
-                tat: ""
-              },
-              {
-                subIssueType: "Sub Issue 2",
-                L0: "rty",
-                L1: "qwe",
-                L2: "5678",
-                L3: "111",
-                L4: "222",
-                ticketType: "",
-                solution: "",
-                webform: "",
-                chat: "",
-                call: "",
-                click2Call: "",
-                uItemplateCode: "0012",
-                tat: ""
-              }
-            ]
-          },
-          {
-            parentIssueType: "Parent Issue 2",
-            uItemplateCode: "002",
-            issueType: "Parent Issue 2",
-            listofSubIssues: [
-              {
-                subIssueType: "Sub Issue 21",
-                L0: "qwe",
-                L1: "rty",
-                L2: "1234",
-                L3: "234",
-                L4: "344",
-                ticketType: "",
-                solution: "",
-                webform: "",
-                chat: "",
-                call: "",
-                click2Call: "",
-                uItemplateCode: "0021",
-                tat: ""
-              },
-              {
-                subIssueType: "Sub Issue 22",
-                L0: "rty",
-                L1: "qwe",
-                L2: "5678",
-                L3: "111",
-                L4: "222",
-                ticketType: "",
-                solution: "",
-                webform: "",
-                chat: "",
-                call: "",
-                click2Call: "",
-                uItemplateCode: "0022",
-                tat: ""
-              }
-            ]
-          }
-        ]
-      };
+      const result = await api.get(`${PATH}/getNonOrderRelatedQuestions`);
+      const resultJson = await result.json();
+      // console.log("=======",resultJson)
+      // const resultJson = {
+      //   ParentIssueList: [
+      //     {
+      //       parentIssueType: "Parent Issue 1",
+      //       uItemplateCode: "001",
+      //       issueType: "Parent Issue 1",
+      //       listofSubIssues: [
+      //         {
+      //           subIssueType: "Sub Issue 1",
+      //           L0: "qwe",
+      //           L1: "rty",
+      //           L2: "1234",
+      //           L3: "234",
+      //           L4: "344",
+      //           ticketType: "",
+      //           solution: "",
+      //           webform: "",
+      //           chat: "",
+      //           call: "",
+      //           click2Call: "",
+      //           uItemplateCode: "0011",
+      //           tat: ""
+      //         },
+      //         {
+      //           subIssueType: "Sub Issue 2",
+      //           L0: "rty",
+      //           L1: "qwe",
+      //           L2: "5678",
+      //           L3: "111",
+      //           L4: "222",
+      //           ticketType: "",
+      //           solution: "",
+      //           webform: "",
+      //           chat: "",
+      //           call: "",
+      //           click2Call: "",
+      //           uItemplateCode: "0012",
+      //           tat: ""
+      //         }
+      //       ]
+      //     },
+      //     {
+      //       parentIssueType: "Parent Issue 2",
+      //       uItemplateCode: "002",
+      //       issueType: "Parent Issue 2",
+      //       listofSubIssues: [
+      //         {
+      //           subIssueType: "Sub Issue 21",
+      //           L0: "qwe",
+      //           L1: "rty",
+      //           L2: "1234",
+      //           L3: "234",
+      //           L4: "344",
+      //           ticketType: "",
+      //           solution: "",
+      //           webform: "",
+      //           chat: "",
+      //           call: "",
+      //           click2Call: "",
+      //           uItemplateCode: "0021",
+      //           tat: ""
+      //         },
+      //         {
+      //           subIssueType: "Sub Issue 22",
+      //           L0: "rty",
+      //           L1: "qwe",
+      //           L2: "5678",
+      //           L3: "111",
+      //           L4: "222",
+      //           ticketType: "",
+      //           solution: "",
+      //           webform: "",
+      //           chat: "",
+      //           call: "",
+      //           click2Call: "",
+      //           uItemplateCode: "0022",
+      //           tat: ""
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // };
       //await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
@@ -3970,6 +3995,46 @@ export function getNonOrderRelatedQuestions() {
       dispatch(getNonOrderRelatedQuestionsSuccess(resultJson));
     } catch (e) {
       dispatch(getNonOrderRelatedQuestionsFailure(e.message));
+    }
+  };
+}
+
+export function getCliqCareWmsRequest() {
+  return {
+    type: GET_CLIQ_CARE_WMS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getCliqCareWmsSuccess(cliqCareWmsResponse) {
+  return {
+    type: GET_CLIQ_CARE_WMS_SUCCESS,
+    status: SUCCESS,
+    cliqCareWmsResponse
+  };
+}
+
+export function getCliqCareWmsFailure(error) {
+  return {
+    type: GET_CLIQ_CARE_WMS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function getCliqCareWmsResponse(pageId = "ss-vibhore-test") {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getCliqCareWmsRequest());
+    try {
+      const result = await api.get(`v2/mpl/cms/defaultpage?pageId=${pageId}`);
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getCliqCareWmsSuccess(resultJson));
+    } catch (e) {
+      dispatch(getCliqCareWmsFailure(e.message));
     }
   };
 }
@@ -3995,124 +4060,176 @@ export function getCustomerQueriesFieldsFailurev2() {
   };
 }
 
-export function getCustomerQueriesFieldsv2() {
+export function getCustomerQueriesFieldsv2(UItemplateCode) {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(getCustomerQueriesFieldsRequestv2());
     try {
-      // const result = await api.get("v2/mpl/getOrderRelatedQuestions");
-      const resultJson = [
-        {
-          componentName: "labelComponent",
-          singleBannerComponent: {
-            componentId: "comp_0000HSGY1",
-            items: [
-              {
-                btnText: "",
-                description: "Please enter following details|16,bold",
-                hexCode: "",
-                imageURL: "",
-                title: "",
-                webURL: ""
-              }
-            ],
-            title: "Thanks for using TataCliq",
-            type: "labelComponent"
+      // const result = await api.post(`${USER_CART_PATH}/${
+      //   JSON.parse(userDetails).userName
+      // }/getOrderRelatedQuestions?access_token=${
+      //   JSON.parse(customerCookie).access_token
+      // }&transactionId=100065001905177`);
+      // const resultJsonRes = await result.json();
+      let resultJson = [];
+      if (1) {
+        resultJson = [
+          {
+            componentName: "labelComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000HSGY1",
+              items: [
+                {
+                  btnText: "",
+                  description: "Please enter following details|16,bold",
+                  hexCode: "",
+                  imageURL: "",
+                  title: "",
+                  webURL: ""
+                }
+              ],
+              title: "Thanks for using TataCliq",
+              type: "labelComponent"
+            }
+          },
+          {
+            componentName: "textboxComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000HSGY2",
+              items: [
+                {
+                  btnText: "",
+                  description: "Promotion Name|1|Enter your Promotion Name",
+                  hexCode: "alphanumeric",
+                  imageURL: "",
+                  title:
+                    "10,Promotion Name must be 10 digit long|40,Promotion Name can not exceed 40 digits|[a-zA-Z0-9],Promotion name should only be Alpha-Numeric",
+                  webURL: ""
+                }
+              ],
+              title: "formField_text_01",
+              type: "textboxComponent"
+            }
+          },
+          {
+            componentName: "textAreaComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000HSGY3",
+              items: [
+                {
+                  btnText: "",
+                  description: "Comment(Optional)|1|Type Here...",
+                  hexCode: "",
+                  imageURL: "",
+                  title:
+                    "10,Comment's length must be 10 |240,Comment's length can not be greater than 240",
+                  webURL: ""
+                }
+              ],
+              title: "formField_comment_02",
+              type: "textAreaComponent"
+            }
+          },
+          {
+            componentName: "radioComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000HSGY4",
+              items: [
+                {
+                  btnText: "",
+                  description: "Handed over the product bought from|1",
+                  hexCode: "",
+                  imageURL: "",
+                  title:
+                    "Outer packaging of the parcel was tampered,Rad_101,0|Product box seal was tampered,Rad_102,1|Wrong product sent,Rad_103,0",
+                  webURL: ""
+                }
+              ],
+              title: "formField_radio_03",
+              type: "radioComponent"
+            }
+          },
+          {
+            componentName: "checkboxComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000HSGY5",
+              items: [
+                {
+                  btnText: "",
+                  description: "Select check|1",
+                  hexCode: "",
+                  imageURL: "",
+                  title:
+                    "Select check 1,Check_101,1|Select check 2,Check_102,0",
+                  webURL: ""
+                }
+              ],
+              title: "formField_check_04",
+              type: "checkboxComponent"
+            }
+          },
+          {
+            componentName: "attachmentComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000HSGY6",
+              items: [
+                {
+                  btnText: "",
+                  description: "Add Attachment|1",
+                  hexCode: "2",
+                  imageURL: "",
+                  title: "Bank Statement",
+                  webURL: ""
+                }
+              ],
+              title: "formField_attachments_05",
+              type: "attachmentComponent"
+            }
           }
-        },
-        {
-          componentName: "textboxComponent",
-          singleBannerComponent: {
-            componentId: "comp_0000HSGY2",
-            items: [
-              {
-                btnText: "",
-                description: "Promotion Name|1|Enter your Promotion Name",
-                hexCode: "alphanumeric",
-                imageURL: "",
-                title:
-                  "10,Promotion Name must be 10 digit long|40,Promotion Name can not exceed 40 digits|[a-zA-Z0-9],Promotion name should only be Alpha-Numeric",
-                webURL: ""
-              }
-            ],
-            title: "formField_text_01",
-            type: "textboxComponent"
+        ];
+      } else {
+        resultJson = [
+          {
+            componentName: "labelComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000HSGY1",
+              items: [
+                {
+                  btnText: "",
+                  description: "Please enter following details|16,bold",
+                  hexCode: "",
+                  imageURL: "",
+                  title: "",
+                  webURL: ""
+                }
+              ],
+              title: "Thanks for using TataCliq",
+              type: "labelComponent"
+            }
+          },
+          {
+            componentName: "textboxComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000HSGY2",
+              items: [
+                {
+                  btnText: "",
+                  description: "Promotion Name|1|Enter your Promotion Name",
+                  hexCode: "alphanumeric",
+                  imageURL: "",
+                  title:
+                    "10,Promotion Name must be 10 digit long|40,Promotion Name can not exceed 40 digits|[a-zA-Z0-9],Promotion name should only be Alpha-Numeric",
+                  webURL: ""
+                }
+              ],
+              title: "formField_text_01",
+              type: "textboxComponent"
+            }
           }
-        },
-        {
-          componentName: "textAreaComponent",
-          singleBannerComponent: {
-            componentId: "comp_0000HSGY3",
-            items: [
-              {
-                btnText: "",
-                description: "Comment(Optional)|1|Type Here...",
-                hexCode: "",
-                imageURL: "",
-                title:
-                  "10,Comment's length must be 10 |240,Comment's length can not be greater than 240",
-                webURL: ""
-              }
-            ],
-            title: "formField_comment_02",
-            type: "textAreaComponent"
-          }
-        },
-        {
-          componentName: "radioComponent",
-          singleBannerComponent: {
-            componentId: "comp_0000HSGY4",
-            items: [
-              {
-                btnText: "",
-                description: "Handed over the product bought from|1",
-                hexCode: "",
-                imageURL: "",
-                title:
-                  "Outer packaging of the parcel was tampered,Rad_101,0|Product box seal was tampered,Rad_102,1|Wrong product sent,Rad_103,0",
-                webURL: ""
-              }
-            ],
-            title: "formField_radio_03",
-            type: "radioComponent"
-          }
-        },
-        {
-          componentName: "checkboxComponent",
-          singleBannerComponent: {
-            componentId: "comp_0000HSGY5",
-            items: [
-              {
-                btnText: "",
-                description: "Select check|1",
-                hexCode: "",
-                imageURL: "",
-                title: "Select check 1,Check_101,1|Select check 2,Check_102,0",
-                webURL: ""
-              }
-            ],
-            title: "formField_check_04",
-            type: "checkboxComponent"
-          }
-        },
-        {
-          componentName: "attachmentComponent",
-          singleBannerComponent: {
-            componentId: "comp_0000HSGY6",
-            items: [
-              {
-                btnText: "",
-                description: "Add Attachment|1",
-                hexCode: "2",
-                imageURL: "",
-                title: "Bank Statement",
-                webURL: ""
-              }
-            ],
-            title: "formField_attachments_05",
-            type: "attachmentComponent"
-          }
-        }
-      ];
+        ];
+      }
+      // console.log("======",resultJson)
 
       /**
        * @author Prashant
@@ -4695,7 +4812,7 @@ export function submitOrderDetails(submitOrderDetails) {
           }`
         );
       }
-
+      //Demo data
       const resultJson = {
         referenceNum: "E10004IQC7",
         status: "Success"

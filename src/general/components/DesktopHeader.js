@@ -370,7 +370,7 @@ export default class DesktopHeader extends React.Component {
                         this.renderToAnotherUrlForHelp(HELP_URL, "Help", event)
                       }
                     >
-                      Help
+                      CLiQ Care
                     </div>
                   </a>
                   <a href={""} target="_blank">

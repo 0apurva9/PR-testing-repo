@@ -90,7 +90,14 @@ export default class FloatingLabelInputWithPlace extends React.Component {
         className={this.props.disabled ? styles.disabled : styles.base}
         styles={{ height: this.props.height }}
       >
-        <span className={styles.activeFloatingLabel}>{this.props.label}</span>
+        <span
+          className={styles.activeFloatingLabel}
+          style={{
+            fontSize: this.props.fontSize
+          }}
+        >
+          {this.props.label}
+        </span>
         <input
           onKeyUp={event => this.handleKeyUp(event)}
           onKeyPress={event => this.handleKeyPress(event)}
