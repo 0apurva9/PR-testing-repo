@@ -127,14 +127,18 @@ export default class DeliveryInformations extends React.Component {
         case 21:
         case 31:
           fromDateText = "" + fromDate + "st " + prevMonthText + " and ";
+          break;
         case 2:
         case 22:
           fromDateText = "" + fromDate + "nd " + prevMonthText + " and ";
+          break;
         case 3:
         case 23:
           fromDateText = "" + fromDate + "rd " + prevMonthText + " and ";
+          break;
         default:
           fromDateText = "" + fromDate + "th " + prevMonthText + " and ";
+          break;
       }
     }
     switch (date) {
