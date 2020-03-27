@@ -1213,7 +1213,7 @@ export function getDeliveryModeForMyAccountReturn(type, apiResponse) {
     }
   }
 }
-function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
+export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
   const data = {
     cpj: {
       product: {
