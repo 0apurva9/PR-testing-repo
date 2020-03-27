@@ -74,7 +74,7 @@ import ProductDetailsMainCard from "./ProductDetailsMainCard";
 import ProductDetails from "./ProductDetails";
 // import Overlay from "./Overlay";
 import PdpDeliveryModes from "./PdpDeliveryModes";
-import PDPRecommendedSectionsContainer from "./PDPRecommendedSections";
+import PDPRecommendedSectionsContainer from "../containers/PDPRecommendedSectionsContainer";
 import ColourSelector from "./ColourSelector";
 import FlixMediaContainer from "./FlixMediaContainer";
 // import CheckBox from '../../general/components/CheckBox.js';
@@ -353,6 +353,8 @@ export default class PdpApparel extends React.Component {
           });
       }
     }
+    // let dataRecommended = document.getElementById("recommendedSection");
+    // console.log("props", dataRecommended)
   };
   relevantProductServibilty = async params => {
     let pinCode = "208007";

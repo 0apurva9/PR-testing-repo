@@ -29,7 +29,8 @@ import {
   getDigitalDataForPdp,
   SIMILAR_PRODUCTS_PDP_WIDGET,
   setDataLayerForMsdItemWidgets,
-  ADOBE_CAROUSEL_CLICK
+  ADOBE_CAROUSEL_CLICK,
+  ADOBE_CAROUSEL_SHOW
 } from "../../lib/adobeUtils.js";
 
 // only want to kick off a request for the MSD stuff if they are visible.
@@ -222,6 +223,7 @@ class PDPRecommendedSections extends React.Component {
   }
 
   renderProductModuleSection(title, key) {
+    setDataLayerForMsdItemWidgets("", ADOBE_CAROUSEL_SHOW);
     if (this.props.msdItems) {
       return this.props.msdItems[key] ? (
         <div className={styles.brandSection}>
