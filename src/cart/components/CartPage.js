@@ -927,6 +927,30 @@ class CartPage extends React.Component {
                             isTop={false}
                             inCartPage={true}
                             storeDetails={product.storeDetails}
+                            verifyIMEINumber={(
+                              IMEINumber,
+                              exchangeProductId,
+                              exchangeAmountCashify,
+                              tulBump,
+                              pickUpCharge,
+                              listingId,
+                              ussId,
+                              guid,
+                              entry
+                            ) =>
+                              this.props.verifyIMEINumber(
+                                IMEINumber,
+                                exchangeProductId,
+                                exchangeAmountCashify,
+                                tulBump,
+                                pickUpCharge,
+                                listingId,
+                                ussId,
+                                guid,
+                                entry
+                              )
+                            }
+                            displayToast={this.props.displayToast}
                           />
                         </DesktopOnly>
                       </div>

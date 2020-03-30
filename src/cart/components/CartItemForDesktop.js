@@ -136,6 +136,30 @@ export default class CartItemForDesktop extends React.Component {
         return "" + date + "th " + monthNames[month];
     }
   }
+  async verifyIMEINumber() {
+    if (this.props) {
+      let response = await this.props.verifyIMEINumber(
+        this.props.product.exchangeDetails.IMEINumber,
+        this.props.product.exchangeDetails.exchangeProductId,
+        this.props.product.exchangeDetails.exchangePriceDetail
+          .exchangeAmountCashify.value,
+        this.props.product.exchangeDetails.exchangePriceDetail.TULBump.value,
+        this.props.product.exchangeDetails.exchangePriceDetail.pickupCharge
+          .value,
+        this.props.product.productcode,
+        this.props.product.USSID,
+        this.props.cartGuid,
+        this.props.product.entryNumber
+      );
+      if (response.status === "Success") {
+        this.props.displayToast("Exchange Cashback has been updated");
+        // load cart page to call cart details API and get updated response
+        window.location.reload();
+      } else {
+        this.props.displayToast(response.error);
+      }
+    }
+  }
   render() {
     let fetchedQuantityList = [];
     if (this.props.isOutOfStock) {
@@ -440,23 +464,38 @@ export default class CartItemForDesktop extends React.Component {
                 <span className={styles.exchangeProductName}>
                   {this.props.product.exchangeDetails.exchangeModelName}
                 </span>
-              </div>
-              <div className={styles.exchangePriceNDetails}>
-                <div className={styles.exchangePrice}>
-                  {
-                    this.props.product.exchangeDetails.exchangePriceDetail
-                      .totalExchangeCashback.formattedValueNoDecimal
-                  }
-                </div>
-                {!this.state.showMore && (
-                  <div
-                    className={styles.exchangeViewDetails}
-                    onClick={() => this.viewMoreDetails()}
-                  >
-                    View Details
-                  </div>
+                {this.props.product.exchangeDetails.quoteExpired && (
+                  <span> has been updated</span>
                 )}
               </div>
+              {this.props.product.exchangeDetails.quoteExpired ? (
+                <div className={styles.exchangePriceNDetails}>
+                  <div
+                    className={styles.getNewPrice}
+                    onClick={() => this.verifyIMEINumber()}
+                  >
+                    Get New Price
+                  </div>
+                </div>
+              ) : (
+                <div className={styles.exchangePriceNDetails}>
+                  <div className={styles.exchangePrice}>
+                    {
+                      this.props.product.exchangeDetails.exchangePriceDetail
+                        .totalExchangeCashback.formattedValueNoDecimal
+                    }
+                  </div>
+                  {!this.state.showMore && (
+                    <div
+                      className={styles.exchangeViewDetails}
+                      onClick={() => this.viewMoreDetails()}
+                    >
+                      View Details
+                    </div>
+                  )}
+                </div>
+              )}
+
               {this.state.showMore && (
                 <React.Fragment>
                   <div className={styles.font14LightLeft}>Base Value</div>

@@ -1963,14 +1963,18 @@ export function verifyIMEINumber(
   tulBump,
   pickUpCharge,
   listingId,
-  ussId
+  ussId,
+  guid: null,
+  entry: null
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(verifyIMEINumberRequest());
     try {
-      const result = await api.getMiddlewareUrl(
-        `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&ExchangeAmountCashify=${exchangeAmountCashify}&TulBump=${tulBump}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}`
-      );
+      let url = `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&ExchangeAmountCashify=${exchangeAmountCashify}&TulBump=${tulBump}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}`;
+      if (guid && entry) {
+        url = `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&ExchangeAmountCashify=${exchangeAmountCashify}&TulBump=${tulBump}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}&guid=${guid}&entry=${entry}`;
+      }
+      const result = await api.getMiddlewareUrl(url);
       const resultJson = await result.json();
       // const resultJson = imeijson;
       // if (resultJson.status === SUCCESS) {

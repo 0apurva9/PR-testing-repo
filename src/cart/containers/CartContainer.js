@@ -43,6 +43,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE
 } from "../../lib/adobeUtils";
+import { verifyIMEINumber } from "../../pdp/actions/pdp.actions";
 const mapDispatchToProps = dispatch => {
   return {
     displayToast: toastMessage => {
@@ -186,6 +187,31 @@ const mapDispatchToProps = dispatch => {
     },
     showPdpCliqAndPiqPage: storeDetails => {
       dispatch(showModal(CLIQ_PIQ_MODAL, storeDetails));
+    },
+    verifyIMEINumber: async (
+      IMEINumber,
+      exchangeProductId,
+      exchangeAmountCashify,
+      tulBump,
+      pickUpCharge,
+      listingId,
+      ussId,
+      guid,
+      entry
+    ) => {
+      return await dispatch(
+        verifyIMEINumber(
+          IMEINumber,
+          exchangeProductId,
+          exchangeAmountCashify,
+          tulBump,
+          pickUpCharge,
+          listingId,
+          ussId,
+          guid,
+          entry
+        )
+      );
     }
   };
 };
