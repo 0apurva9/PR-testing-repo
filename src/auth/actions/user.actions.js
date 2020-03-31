@@ -222,6 +222,19 @@ export function signUpUser(userObj) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      if (resultJson.status && resultJson.status != "Failure") {
+        window.clevertap.profile.push({
+          Site: {
+            CustomerId: resultJson && resultJson.customerId,
+            Email: userObj && userObj.emailId,
+
+            "MSG-email": true, // Enable email notifications
+            "MSG-push": true, // Enable push notifications
+            "MSG-sms": true, // Enable sms notifications
+            "MSG-whatsapp": true // Enable whatsapp notifications
+          }
+        });
+      }
       return dispatch(
         signUpUserSuccess(resultJson.customerId, userObj.emailId)
       );
