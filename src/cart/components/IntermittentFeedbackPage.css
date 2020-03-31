@@ -1,0 +1,168 @@
+.base {
+  width: 100%;
+  height: auto;
+  background: #f2f2f2;
+  padding: 24px 125px;
+
+}
+.feedBackPageContainer {
+  width: 100%;
+  height: 100%;
+  max-width: 1190px;
+  background: #fff;
+}
+
+.feedBackPageHeader {
+  height: 65px;
+  width: 100%;
+  padding: 32px 42px 0 42px;
+  display: inline-block;
+}
+
+.headerTextWrapper {
+  display: inline-flex;
+  margin-bottom: 21px;
+  align-items: center;
+}
+
+.headerText {
+  font-family: semibold;
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.67;
+  letter-spacing: normal;
+  text-align: center;
+  color: #212121;
+  margin-left: 11px;
+}
+.check {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 2px solid #67b70b;
+	background: #fff;
+}
+.checkActive {
+	composes: check;
+	background: url(../../general/components/img/checkOrder.svg) no-repeat;
+	background-size: auto 40px;
+	background-position: center;
+	border: none;
+}
+.headerSeperator {
+  border: 1px solid #ececec;
+}
+
+.mainTextWrapper {
+  display: block;
+  text-align: center;
+  margin-top: 21px;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  line-height: normal;
+}
+.mainText {
+  font-family: semibold;
+  font-size: 24px;
+  font-weight: 500;
+  color: #212121;
+  margin-bottom: 7px;
+}
+.subMainText {
+  font-family: regular;
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 1;
+  color: #4a4a4a;
+}
+
+.productContainer {
+  width: 100%;
+  height: 100%;
+  padding: 53px 226px 130px 226px;
+}
+.productRatingWrapper{
+  display: block;
+  margin-bottom: 36px;
+}
+.rating {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 21px;
+}
+.ratingCicrle {
+  height: 58px;
+  width: 58px;
+  border-radius: 50%;
+  font-family: semibold;
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #ffffff;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.ratingLabelWrapper {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 5px;
+  position: relative;
+}
+.ratingLabel {
+  font-family: regular;
+  font-size: 16px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #212121;
+}
+
+.productDetailsContainer {
+  border-top: 1px solid #ececec;
+  border-bottom: 1px solid #ececec;
+}
+.productDetailsWrapper {
+  margin: 24px 0;
+}
+.productImageHolder {
+  width: 15%;
+	height: auto;
+	display: inline-block;
+}
+.productDetails {
+	width: 85%;
+	height: auto;
+	display: inline-block;
+	padding-left: 20px;
+	vertical-align: top;
+}
+.productName {
+  font-family: regular;
+  font-size: 18px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.22;
+  letter-spacing: normal;
+  color: #212121;
+  margin-bottom: 3px;
+}
+.deliveryDate {
+  font-family: semibold;
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.89;
+  letter-spacing: normal;
+  color: #212121;
+}

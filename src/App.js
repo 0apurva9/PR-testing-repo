@@ -72,6 +72,8 @@ import {
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   REDMI_WALLET_FROM_EMAIL,
   FEEDBACK_PAGE,
+  FEEDBACK_INTERMITTENT_PAGE,
+  FEEDBACK_RETURN_INTERMITTENT_PAGE,
   RETRY_FAILED_ORDER,
   CART_COUNT_FOR_LOGGED_IN_USER,
   PANCARD_PAGE,
@@ -113,6 +115,12 @@ const MyAccountWrapper = Loadable({
 });
 const FeedBackContainer = Loadable({
   loader: () => import("./cart/containers/FeedBackContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+const IntermittentFeedbackContainer = Loadable({
+  loader: () => import("./cart/containers/IntermittentFeedbackContainer"),
   loading() {
     return <Loader />;
   }
@@ -642,6 +650,16 @@ class App extends Component {
               component={CheckoutAddressContainer}
             />
             <Route exact path={FEEDBACK_PAGE} component={FeedBackContainer} />
+            <Route
+              exact
+              path={FEEDBACK_INTERMITTENT_PAGE}
+              component={IntermittentFeedbackContainer}
+            />
+            <Route
+              exact
+              path={FEEDBACK_RETURN_INTERMITTENT_PAGE}
+              component={IntermittentFeedbackContainer}
+            />
             <Route
               exact
               path={PRODUCT_CART_DELIVERY_MODES}
