@@ -223,7 +223,8 @@ class PDPRecommendedSections extends React.Component {
   }
 
   renderProductModuleSection(title, key) {
-    setDataLayerForMsdItemWidgets("", ADOBE_CAROUSEL_SHOW);
+    this.props.msdItems &&
+      setDataLayerForMsdItemWidgets("", ADOBE_CAROUSEL_SHOW);
     if (this.props.msdItems) {
       return this.props.msdItems[key] ? (
         <div className={styles.brandSection}>
