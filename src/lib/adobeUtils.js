@@ -1211,11 +1211,14 @@ export function getDeliveryModeForMyAccountReturn(type, apiResponse) {
   }
 }
 function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
+  let productCategoryId = pdpResponse && pdpResponse.categoryHierarchy;
   const data = {
     cpj: {
       product: {
         id: pdpResponse ? pdpResponse.productListingId : "",
-        category: pdpResponse ? pdpResponse.productCategory : ""
+        category: pdpResponse ? pdpResponse.productCategory : "",
+        category_id:
+          productCategoryId && productCategoryId[productCategoryId.length - 1]
       },
       brand: {
         name: pdpResponse ? pdpResponse.brandName : ""
@@ -1232,6 +1235,7 @@ function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
   if (subCategories) {
     Object.assign(data.page.category, { ...subCategories });
   }
+
   const productBreadcrumbs = getProductBreadCrumbs(pdpResponse);
   if (productBreadcrumbs) {
     if (behaviorOfPage === IS_COMING_FOR_REVIEW_PAGE) {
