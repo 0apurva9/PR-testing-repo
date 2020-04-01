@@ -173,8 +173,23 @@ export function loginUser(userLoginDetails) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      if (resultJson.status && resultJson.status != "Failure") {
+      if (resultJson.status && resultJson.status === "Success") {
         window.clevertap.profile.push({
+          Site: {
+            Email:
+              resultJson &&
+              resultJson.customerInfo &&
+              resultJson.customerInfo.emailId,
+            CustomerId: resultJson && resultJson.customerId,
+            FirstName: resultJson && resultJson.firstName,
+            LastName: resultJson && resultJson.lastName,
+            "MSG-email": true, // Enable email notifications
+            "MSG-push": true, // Enable push notifications
+            "MSG-sms": true, // Enable sms notifications
+            "MSG-whatsapp": true // Enable whatsapp notifications
+          }
+        });
+        window.clevertap.onUserLogin.push({
           Site: {
             Email:
               resultJson &&
