@@ -315,6 +315,17 @@ display: none;
 		max-width: 85%;
 }
 
+.cancelExchangeMessage{
+	display: inline-block;
+	font-size: 12px;
+	color: #c47403;
+	font-family: light;
+	border-radius: 4px;
+	background-color: #fff2e0;
+	padding: 5px;
+	margin-top: 15px;
+}
+
 @media screen and (min-width: 1025px) {
 	.productImageHolder {
 		width: 16%;

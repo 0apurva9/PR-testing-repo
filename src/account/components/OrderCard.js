@@ -642,7 +642,17 @@ export default class OrderCard extends React.Component {
           </div>
         )}
 
-        <div>{this.props.additionalContent}</div>
+        {this.props.additionalContent && (
+          <React.Fragment>{this.props.additionalContent}</React.Fragment>
+        )}
+
+        {this.props.title === PRODUCT_CANCEL &&
+          this.props.exchangeDetails && (
+            <div className={styles.cancelExchangeMessage}>
+              {this.props.exchangeDetails.exchangeCancelMessage}
+            </div>
+          )}
+
         {this.props.selectedDeliveryMode &&
           this.props.selectedDeliveryMode.name &&
           this.props.selectedDeliveryMode.name.toLowerCase() ===
