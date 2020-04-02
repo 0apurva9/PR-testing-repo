@@ -36,6 +36,12 @@ import {
 // only want to kick off a request for the MSD stuff if they are visible.
 
 class PDPRecommendedSections extends React.Component {
+  componentDidUpdate(prevProps, prevState) {
+    console.log("=========***", prevProps, this.props);
+    if (this.props.msdItems != prevProps.msdItems) {
+      setDataLayerForMsdItemWidgets(" ", ADOBE_CAROUSEL_SHOW);
+    }
+  }
   goToProductDescription = (url, items, widgetName, index) => {
     let similarWidgetData = {
       widgetName: widgetName,
@@ -223,8 +229,6 @@ class PDPRecommendedSections extends React.Component {
   }
 
   renderProductModuleSection(title, key) {
-    this.props.msdItems &&
-      setDataLayerForMsdItemWidgets("", ADOBE_CAROUSEL_SHOW);
     if (this.props.msdItems) {
       return this.props.msdItems[key] ? (
         <div className={styles.brandSection}>
