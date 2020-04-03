@@ -86,7 +86,7 @@ export default class ExchangeProductDetailsTab extends React.Component {
                       {this.props.deviceInfo.pickupCharge.value === 0
                         ? "FREE"
                         : this.props.deviceInfo.pickupCharge
-                            .formattedValueNoDecimal}}
+                            .formattedValueNoDecimal}
                     </React.Fragment>
                   )}
               </td>

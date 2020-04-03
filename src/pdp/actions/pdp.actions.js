@@ -1916,7 +1916,7 @@ export function getExchangeDetails(
       );
       const resultJson = await result.json();
       // const resultJson = ed;
-      if (resultJson.status === SUCCESS) {
+      if (resultJson.status && resultJson.status.toLowerCase() === "success") {
         return dispatch(getExchangeDetailsSuccess(resultJson));
       } else {
         throw new Error(`${resultJson.error}`);
@@ -1970,9 +1970,9 @@ export function verifyIMEINumber(
   return async (dispatch, getState, { api }) => {
     dispatch(verifyIMEINumberRequest());
     try {
-      let url = `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&ExchangeAmountCashify=${exchangeAmountCashify}&TulBump=${tulBump}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}`;
+      let url = `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&ExchangeAmountCashify=${exchangeAmountCashify}&tulBump=${tulBump}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}`;
       if (guid && entry) {
-        url = `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&ExchangeAmountCashify=${exchangeAmountCashify}&TulBump=${tulBump}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}&guid=${guid}&entry=${entry}`;
+        url = `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&ExchangeAmountCashify=${exchangeAmountCashify}&tulBump=${tulBump}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}&guid=${guid}&entry=${entry}`;
       }
       const result = await api.getMiddlewareUrl(url);
       const resultJson = await result.json();
