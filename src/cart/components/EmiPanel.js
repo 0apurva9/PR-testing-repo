@@ -121,6 +121,7 @@ export default class EmiPanel extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (
       nextProps.currentPaymentMode !== EMI &&
+      nextProps.currentPaymentMode !== INSTACRED &&
       this.state.currentSelectedEMIType !== null
     ) {
       this.setState({ currentSelectedEMIType: null });

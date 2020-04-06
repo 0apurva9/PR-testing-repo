@@ -22,6 +22,7 @@ export default class NoCostEmi extends React.Component {
       isOpen
     });
     if (this.props.onChangeEMIType) {
+      debugger;
       if (isOpen) {
         this.props.onChangeEMIType(this.props.EMIText);
       } else {
@@ -29,6 +30,7 @@ export default class NoCostEmi extends React.Component {
       }
     }
     if (this.props.EMIText === "Cardless EMI") {
+      debugger;
       this.props.selectInstacred(true);
       this.props.onChange({ currentPaymentMode: INSTACRED });
     }
@@ -47,7 +49,6 @@ export default class NoCostEmi extends React.Component {
     ) {
       this.props.getBankAndTenureDetails();
     }
-    debugger;
     if (isOpen && this.props.EMIText === CARDLESS_EMI) {
       const isOpen = true;
       this.setState({
@@ -61,6 +62,7 @@ export default class NoCostEmi extends React.Component {
     }
   }
   render() {
+    console.log("this.props", this.props);
     let rotateIcon = styles.iconHolder;
     if (this.state.isOpen) {
       rotateIcon = styles.rot;
