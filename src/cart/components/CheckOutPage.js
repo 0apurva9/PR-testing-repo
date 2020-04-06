@@ -3753,7 +3753,7 @@ if you have order id in local storage then you have to show order confirmation p
       this.props.cart.cartDetailsCNC.products.map(product => {
         if (product.pinCodeResponse) {
           isExchangeServiceableArray.push(
-            product.pinCodeResponse.exchangeServiceable
+            product.pinCodeResponse.isPickupAvailableForExchange
           );
           exchangeServiceableErrorMessageArray.push(
             product.pinCodeResponse.errorMessage

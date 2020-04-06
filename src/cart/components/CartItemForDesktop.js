@@ -172,18 +172,18 @@ export default class CartItemForDesktop extends React.Component {
         });
       }
     }
-    let isExchangeServiceable = false;
+    let isPickupAvailableForExchange = false;
     if (
       this.props &&
       this.props.product &&
       this.props.product.pinCodeResponse
     ) {
       if (
-        this.props.product.pinCodeResponse.exchangeServiceable ||
-        typeof this.props.product.pinCodeResponse.exchangeServiceable ===
-          "undefined"
+        this.props.product.pinCodeResponse.isPickupAvailableForExchange ||
+        typeof this.props.product.pinCodeResponse
+          .isPickupAvailableForExchange === "undefined"
       ) {
-        isExchangeServiceable = true;
+        isPickupAvailableForExchange = true;
       }
     }
     let productMessage = this.props.productNotServiceable
@@ -443,7 +443,7 @@ export default class CartItemForDesktop extends React.Component {
           <React.Fragment>
             <div
               className={
-                isExchangeServiceable
+                isPickupAvailableForExchange
                   ? styles.exchangeDetails
                   : styles.exchangeDetailsPickupNotAvail
               }
@@ -549,7 +549,7 @@ export default class CartItemForDesktop extends React.Component {
                 </React.Fragment>
               )}
             </div>
-            {!isExchangeServiceable && (
+            {!isPickupAvailableForExchange && (
               <div className={styles.exchangeProductNotServiceable}>
                 {this.props.product.pinCodeResponse.errorMessage}
               </div>
