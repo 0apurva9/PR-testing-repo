@@ -460,19 +460,20 @@ export function getProductPinCode(
           behavior: "smooth"
         });
       }
-      let isPickupAvailableForExchange =
-        resultJson.isPickupAvailableForExchange;
-      if (isPickupAvailableForExchange) {
-        dispatch(displayToast("Exchange is serviceable at your pincode"));
-      } else {
-        if (rootCategory && rootCategory === "Electronics") {
-          dispatch(displayToast("Exchange is not serviceable at your pincode"));
+      if (
+        !resultJson.productNotServiceabilityMessage ||
+        !resultJson.productOutOfStockMessage
+      ) {
+        if (resultJson.isPickupAvailableForExchange) {
+          dispatch(displayToast("Exchange is serviceable at your pincode"));
+        } else {
+          if (rootCategory && rootCategory === "Electronics") {
+            dispatch(
+              displayToast("Exchange is not serviceable at your pincode")
+            );
+          }
         }
-        // return dispatch(
-        //   getProductPinCodeFailure("PickupNotAvailableForExchange")
-        // );
       }
-
       // if (pinCode) {
       //   localStorage.removeItem(SELECTED_STORE);
       // }
@@ -486,8 +487,7 @@ export function getProductPinCode(
           city: resultJson.city,
           productOutOfStockMessage: resultJson.productOutOfStockMessage,
           productNotServiceableMessage:
-            resultJson.productNotServiceabilityMessage,
-          pincodeError
+            resultJson.productNotServiceabilityMessage
         })
       );
       // if (isComingFromPiqPage) {

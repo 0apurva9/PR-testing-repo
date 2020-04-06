@@ -1317,16 +1317,39 @@
 	font-family: semibold;
 	display: inline-block;
 	cursor: pointer;
+	position: relative;
 }
 .withExchangeLink::after{
 	content: "";
-	width: 10px;
-	height: 10px;
+	border: 1px solid #ff1744;
+	border-width: 0 1px 1px 0;
+	padding: 3px;
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	-webkit-transform: rotate(-45deg);
+	cursor: pointer;
+	position: absolute;
+	top: 4px;
+	right: -10px;
+}
+.withDisabledExchangeLink{
+	font-size: 14px;
+	color: #8d8d8d;
+	font-family: semibold;
 	display: inline-block;
-	margin-left: 5px;
-	background: url(/static/media/right-arrow-red.c823dc28.svg) no-repeat;
-	background-position: center;
-	background-size: contain;
+	position: relative;
+}
+.withDisabledExchangeLink::after{
+	content: "";
+	border: 1px solid #8d8d8d;
+	border-width: 0 1px 1px 0;
+	padding: 3px;
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	-webkit-transform: rotate(-45deg);
+	position: absolute;
+	top: 4px;
+	right: -10px;
 }
 .fontRegular{
 	font-family: regular;
