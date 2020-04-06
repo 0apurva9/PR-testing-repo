@@ -164,9 +164,7 @@ export default class Plp extends React.Component {
       this.props.pageNumber <
         this.props.productListings.pagination.totalPages - 1
     ) {
-      if (this.props.status !== REQUESTING) {
-        this.props.paginate(this.props.pageNumber + 1, SUFFIX);
-      }
+      this.props.paginate(this.props.pageNumber + 1, SUFFIX);
     }
   }
   componentDidMount() {
@@ -405,7 +403,6 @@ export default class Plp extends React.Component {
 
   renderPageTags = () => {
     console.log("RENDER PAGE TAGS");
-    console.log(this.props.productListings.currentQuery);
     let url = `${URL_ROOT}${this.props.productListings.currentQuery.url}`;
     if (this.props.productListings.pagination) {
       const lastPage = Number.parseInt(
