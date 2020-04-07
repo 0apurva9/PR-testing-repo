@@ -792,7 +792,7 @@ class CartPage extends React.Component {
                 {cartDetails.products &&
                   cartDetails.products.map((product, i) => {
                     // check if exchange avail then create array and send values to disable checkout button with isPickupAvailableForExchange is true/false
-                    if (product.exchangeDetails) {
+                    if (product.exchangeDetails && product.pinCodeResponse) {
                       productExchangeServiceable.push(
                         product.pinCodeResponse.isPickupAvailableForExchange
                       );

@@ -3394,7 +3394,11 @@ if you have order id in local storage then you have to show order confirmation p
     }
   };
 
-  renderDesktopCheckout = checkoutButtonStatus => {
+  renderDesktopCheckout = (
+    checkoutButtonStatus,
+    isExchangeServiceableArray,
+    isQuoteExpired
+  ) => {
     let retryPaymentDetailsObj = JSON.parse(
       localStorage.getItem(RETRY_PAYMENT_DETAILS)
     );
@@ -3457,6 +3461,13 @@ if you have order id in local storage then you have to show order confirmation p
               this.props.cart.cartDetailsCNC.cartAmount
         }
         isFromRetryUrl={this.state.isComingFromRetryUrl}
+        totalExchangeAmount={
+          this.props.cart &&
+          this.props.cart.cartDetailsCNC &&
+          this.props.cart.cartDetailsCNC.totalExchangeAmount
+        }
+        isExchangeServiceableArray={isExchangeServiceableArray}
+        isQuoteExpiredCheckout={isQuoteExpired}
       />
     );
   };
@@ -3743,25 +3754,34 @@ if you have order id in local storage then you have to show order confirmation p
       labelForButton = PAY_NOW;
     }
     //if exchange not serviceable disable checkout button and show error toast
+    let isExchangeServiceableArray = [];
+    let exchangeServiceableErrorMessageArray = [];
+    let isQuoteExpired = [];
     if (
       this.props.cart &&
       this.props.cart.cartDetailsCNC &&
       this.props.cart.cartDetailsCNC.products
     ) {
-      let isExchangeServiceableArray = [];
-      let exchangeServiceableErrorMessageArray = [];
       this.props.cart.cartDetailsCNC.products.map(product => {
-        if (product.pinCodeResponse) {
+        if (product.exchangeDetails && product.pinCodeResponse) {
           isExchangeServiceableArray.push(
             product.pinCodeResponse.isPickupAvailableForExchange
           );
           exchangeServiceableErrorMessageArray.push(
             product.pinCodeResponse.errorMessage
           );
+          isQuoteExpired.push(product.exchangeDetails.quoteExpired);
         }
       });
-      if (isExchangeServiceableArray.includes(false)) {
-        // checkoutButtonStatus = true;
+      if (
+        (isExchangeServiceableArray &&
+          isExchangeServiceableArray.length > 0 &&
+          isExchangeServiceableArray.includes(false)) ||
+        (isQuoteExpired &&
+          isQuoteExpired.length > 0 &&
+          isQuoteExpired.includes(true))
+      ) {
+        checkoutButtonStatus = true;
         let errMsg = exchangeServiceableErrorMessageArray.filter(Boolean);
         if (errMsg.length !== 0) {
           this.props.displayToast(errMsg[0]);
@@ -3865,7 +3885,11 @@ if you have order id in local storage then you have to show order confirmation p
               />
             </div>
             <div className={styles.rightSection}>
-              {this.renderDesktopCheckout(false)}
+              {this.renderDesktopCheckout(
+                false,
+                isExchangeServiceableArray,
+                isQuoteExpired
+              )}
             </div>
           </div>
         </div>
@@ -4292,7 +4316,11 @@ if you have order id in local storage then you have to show order confirmation p
               </div>
               <DesktopOnly>
                 <div className={styles.rightSection}>
-                  {this.renderDesktopCheckout(checkoutButtonStatus)}
+                  {this.renderDesktopCheckout(
+                    checkoutButtonStatus,
+                    isExchangeServiceableArray,
+                    isQuoteExpired
+                  )}
                   <div className={styles.disclaimer}>{DISCLAIMER}</div>
                   {this.props.cart.paymentModes &&
                     this.props.cart.paymentModes.whatsappText && (
