@@ -17,7 +17,7 @@ export default class CheckoutCardless extends React.Component {
   constructor() {
     super();
     this.state = {
-      instacredEligible: null,
+      instacredEligible: false,
       instacredData: ""
     };
     //this.onChangePhoneDetail = this.onChangePhoneDetail.bind(this);
@@ -65,7 +65,7 @@ export default class CheckoutCardless extends React.Component {
         });
     } else if (val.length < 10) {
       self.props.instacredStatus(false);
-      self.setState({ instacredEligible: null });
+      self.setState({ instacredEligible: false });
     }
   };
 
@@ -77,7 +77,7 @@ export default class CheckoutCardless extends React.Component {
 
   componentWillUnmount() {
     this.props.instacredStatus(false);
-    this.setState({ instacredEligible: null });
+    this.setState({ instacredEligible: false });
     localStorage.removeItem("amount");
     localStorage.removeItem("phone");
   }
@@ -112,7 +112,7 @@ export default class CheckoutCardless extends React.Component {
             {this.state.message && (
               <div
                 className={
-                  this.state.instacredEligible === null ||
+                  this.state.instacredEligible === false ||
                   this.state.instacredEligible === true
                     ? styles.displayNone
                     : styles.errorText
@@ -124,7 +124,7 @@ export default class CheckoutCardless extends React.Component {
             {this.state.message === "" && (
               <div
                 className={
-                  this.state.instacredEligible === null ||
+                  this.state.instacredEligible === false ||
                   this.state.instacredEligible === true
                     ? styles.displayNone
                     : styles.errorText
@@ -139,16 +139,7 @@ export default class CheckoutCardless extends React.Component {
               <div className={styles.buttonHolderDiv}>
                 <div className={styles.buttonHolder}>
                   <Button
-                    disabled={
-                      (this.props.bankBinFailedDetails &&
-                        this.props.bankBinFailedDetails.bankGatewayStatus ===
-                          BANK_GATWAY_DOWN) ||
-                      (this.props.binValidationSucessDetails &&
-                        this.props.binValidationSucessDetails
-                          .bankGatewayStatus === BANK_GATWAY_DOWN)
-                        ? true
-                        : this.props.validateNetBanking()
-                    }
+                    disabled={!this.state.instacredEligible}
                     type="primary"
                     backgroundColor="#ff1744"
                     height={40}

@@ -22,7 +22,6 @@ export default class NoCostEmi extends React.Component {
       isOpen
     });
     if (this.props.onChangeEMIType) {
-      debugger;
       if (isOpen) {
         this.props.onChangeEMIType(this.props.EMIText);
       } else {
@@ -30,7 +29,6 @@ export default class NoCostEmi extends React.Component {
       }
     }
     if (this.props.EMIText === "Cardless EMI") {
-      debugger;
       this.props.selectInstacred(true);
       this.props.onChange({ currentPaymentMode: INSTACRED });
     }
