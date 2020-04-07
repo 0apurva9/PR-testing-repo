@@ -466,12 +466,6 @@ export function getProductPinCode(
       ) {
         if (resultJson.isPickupAvailableForExchange) {
           dispatch(displayToast("Exchange is serviceable at your pincode"));
-        } else {
-          if (rootCategory && rootCategory === "Electronics") {
-            dispatch(
-              displayToast("Exchange is not serviceable at your pincode")
-            );
-          }
         }
       }
       // if (pinCode) {
@@ -487,7 +481,8 @@ export function getProductPinCode(
           city: resultJson.city,
           productOutOfStockMessage: resultJson.productOutOfStockMessage,
           productNotServiceableMessage:
-            resultJson.productNotServiceabilityMessage
+            resultJson.productNotServiceabilityMessage,
+          pincodeError
         })
       );
       // if (isComingFromPiqPage) {
