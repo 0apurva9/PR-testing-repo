@@ -1,7 +1,7 @@
 import React from "react";
 import instacred from "./img/InstaCred.svg";
 // import { SUCCESS, ERROR } from "../../lib/constants";
-import Input3 from "../../general/components/Input3";
+import Input from "../../general/components/Input";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import Button from "../../general/components/Button";
 import { BANK_GATWAY_DOWN } from "../../lib/constants";
@@ -95,71 +95,76 @@ export default class CheckoutCardless extends React.Component {
     return (
       <div className={styles.instacredComponent}>
         <img src={instacred} alt="" className={styles.instacredImg} />
-        <div className={styles.inputHolder}>
-          <Input3
-            placeholder={PREAPPROVED_NUMBER}
-            onlyNumber={true}
-            maxLength={"10"}
-            onChange={phone => this.onChangePhoneDetail(phone)}
-            inputClass={inputClass}
-            onClick={phone => this.onChangePhoneDetail(phone)}
-            onKeyUp={phone => this.onChangePhoneDetail(phone)}
-          />
-        </div>
-        {this.state.message && (
-          <div
-            className={
-              this.state.instacredEligible === null ||
-              this.state.instacredEligible === true
-                ? styles.displayNone
-                : styles.errorText
-            }
-          >
-            {this.state.message}
+        <div className={styles.inputHolderNButton}>
+          <div className={styles.inputHolder}>
+            <div>
+              <Input
+                placeholder={PREAPPROVED_NUMBER}
+                onlyNumber={true}
+                maxLength={"10"}
+                onChange={phone => this.onChangePhoneDetail(phone)}
+                inputClass={inputClass}
+                onClick={phone => this.onChangePhoneDetail(phone)}
+                onKeyUp={phone => this.onChangePhoneDetail(phone)}
+              />
+            </div>
+
+            {this.state.message && (
+              <div
+                className={
+                  this.state.instacredEligible === null ||
+                  this.state.instacredEligible === true
+                    ? styles.displayNone
+                    : styles.errorText
+                }
+              >
+                {this.state.message}
+              </div>
+            )}
+            {this.state.message === "" && (
+              <div
+                className={
+                  this.state.instacredEligible === null ||
+                  this.state.instacredEligible === true
+                    ? styles.displayNone
+                    : styles.errorText
+                }
+              >
+                {NOT_APPROVED}
+              </div>
+            )}
           </div>
-        )}
-        {this.state.message === "" && (
-          <div
-            className={
-              this.state.instacredEligible === null ||
-              this.state.instacredEligible === true
-                ? styles.displayNone
-                : styles.errorText
-            }
-          >
-            {NOT_APPROVED}
-          </div>
-        )}
-        <DesktopOnly>
-          <div className={styles.contentHolder}>
-            <div className={styles.buttonHolderDiv}>
-              <div className={styles.buttonHolder}>
-                <Button
-                  disabled={
-                    (this.props.bankBinFailedDetails &&
-                      this.props.bankBinFailedDetails.bankGatewayStatus ===
-                        BANK_GATWAY_DOWN) ||
-                    (this.props.binValidationSucessDetails &&
-                      this.props.binValidationSucessDetails
-                        .bankGatewayStatus === BANK_GATWAY_DOWN)
-                      ? true
-                      : this.props.validateNetBanking()
-                  }
-                  type="primary"
-                  backgroundColor="#ff1744"
-                  height={40}
-                  label="Pay now"
-                  width={150}
-                  textStyle={{
-                    color: "#FFF",
-                    fontSize: 14
-                  }}
-                  onClick={this.handleCheckout}
-                />
+          <DesktopOnly>
+            <div className={styles.contentHolder}>
+              <div className={styles.buttonHolderDiv}>
+                <div className={styles.buttonHolder}>
+                  <Button
+                    disabled={
+                      (this.props.bankBinFailedDetails &&
+                        this.props.bankBinFailedDetails.bankGatewayStatus ===
+                          BANK_GATWAY_DOWN) ||
+                      (this.props.binValidationSucessDetails &&
+                        this.props.binValidationSucessDetails
+                          .bankGatewayStatus === BANK_GATWAY_DOWN)
+                        ? true
+                        : this.props.validateNetBanking()
+                    }
+                    type="primary"
+                    backgroundColor="#ff1744"
+                    height={40}
+                    label="Pay now"
+                    width={150}
+                    textStyle={{
+                      color: "#FFF",
+                      fontSize: 14
+                    }}
+                    onClick={this.handleCheckout}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        </DesktopOnly>
+          </DesktopOnly>
+        </div>
       </div>
     );
   }

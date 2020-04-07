@@ -4,7 +4,7 @@
   display: inline-block;
   color: #f22424;
   padding: 5px;
-  margin-top: -10px;
+  margin-top: 10px;
   margin-bottom:10px;
 }
 .displayNone{
@@ -18,13 +18,17 @@
   width:120px;
 }
 .inputHolder{
-  margin : 15px 0px
+  margin: 15px 0px;
+  width: 60%;
+  float: left;
+
 }
 .contentHolder {
-  width: 100%;
-  display: inline-block;
-  vertical-align: top;
-  position: relative;
+  width: 40%;
+  display: inline;
+float: right;
+  margin : 15px 0px
+
 }
 .buttonHolder {
   width: auto;
@@ -36,5 +40,5 @@
 }
 .buttonHolderDiv{
   width:200px;
-  float: right;
+  float: left;
 }
