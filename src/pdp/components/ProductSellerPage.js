@@ -214,8 +214,8 @@ class ProductSellerPage extends Component {
   }
   async openExchangeModal(data) {
     let listingId = this.props.productDetails.productListingId;
-    let ussId = data.USSID;
-    let maxExchangeAmount = data.maxExchangeAmount.value;
+    let ussId = data && data.USSID;
+    let maxExchangeAmount = this.props.productDetails.maxExchangeAmount.value;
     let pickupCharge = this.props.productDetails.cashifyPickupCharge;
     let productName = this.props.productDetails.productName;
     //call exchange details API

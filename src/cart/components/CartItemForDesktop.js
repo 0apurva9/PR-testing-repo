@@ -326,6 +326,7 @@ export default class CartItemForDesktop extends React.Component {
                     paddingLeftFontFamily={"light"}
                     paddingLeft={"0px"}
                     rightArrow={0}
+                    hideArrow={isPickupAvailableForExchange}
                   />
                 </div>
               )}

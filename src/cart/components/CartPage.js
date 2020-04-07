@@ -705,6 +705,7 @@ class CartPage extends React.Component {
         }
       }
       let productExchangeServiceable = [];
+      let isQuoteExpired = [];
 
       return (
         <div className={styles.base}>
@@ -790,10 +791,13 @@ class CartPage extends React.Component {
               <div className={styles.desktopBuffer}>
                 {cartDetails.products &&
                   cartDetails.products.map((product, i) => {
-                    // check if isPickupAvailableForExchange is false , create array and send values to disable checkout button
-                    productExchangeServiceable.push(
-                      product.pinCodeResponse.isPickupAvailableForExchange
-                    );
+                    // check if exchange avail then create array and send values to disable checkout button with isPickupAvailableForExchange is true/false
+                    if (product.exchangeDetails) {
+                      productExchangeServiceable.push(
+                        product.pinCodeResponse.isPickupAvailableForExchange
+                      );
+                      isQuoteExpired.push(product.exchangeDetails.quoteExpired);
+                    }
                     let serviceable = false;
                     if (product.pinCodeResponse) {
                       if (product.pinCodeResponse.isServicable === YES) {
@@ -1124,6 +1128,8 @@ class CartPage extends React.Component {
                           productExchangeServiceable={
                             productExchangeServiceable
                           }
+                          totalExchangeAmount={cartDetails.totalExchangeAmount}
+                          isQuoteExpired={isQuoteExpired}
                         />
                       </div>
                     )}

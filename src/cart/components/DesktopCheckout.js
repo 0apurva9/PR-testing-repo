@@ -31,9 +31,15 @@ export default class DesktopCheckout extends React.Component {
   };
   renderCheckout = () => {
     let disableButton = false;
-    // this.props.productExchangeServiceable &&
-    // this.props.productExchangeServiceable.includes(false)) ||
-    if (this.props.disabled) {
+    if (
+      (this.props.productExchangeServiceable &&
+        this.props.productExchangeServiceable.length > 0 &&
+        this.props.productExchangeServiceable.includes(false)) ||
+      (this.props.isQuoteExpired &&
+        this.props.isQuoteExpired.length > 0 &&
+        this.props.isQuoteExpired.includes(true)) ||
+      this.props.disabled
+    ) {
       disableButton = true;
     }
     const { cartAmount } = this.props;
@@ -249,17 +255,15 @@ export default class DesktopCheckout extends React.Component {
                   )}{" "}
                   {/* cart page */}
                   {this.props.isOnCartPage &&
-                    this.props.cartAmount &&
-                    this.props.cartAmount.totalExchangeAmount &&
-                    this.props.cartAmount.totalExchangeAmount.doubleValue &&
-                    this.props.cartAmount.totalExchangeAmount.doubleValue !==
-                      0 && (
+                    this.props.totalExchangeAmount &&
+                    (this.props.productExchangeServiceable.length > 0 &&
+                      !this.props.productExchangeServiceable.includes(false) &&
+                      (this.props.isQuoteExpired.length > 0 &&
+                        !this.props.isQuoteExpired.includes(true))) && (
                       <span>
                         {" "}
-                        and get{" "}
-                        {
-                          this.props.cartAmount.totalExchangeAmount
-                            .formattedValue
+                        and get {
+                          this.props.totalExchangeAmount.formattedValue
                         }{" "}
                         Exchange Cashback{" "}
                       </span>

@@ -580,7 +580,8 @@ export function addProductToCart(productDetails) {
           pickupCharge: IMEIApiResponse.pickupCharge.value,
           TULBump: IMEIApiResponse.TULBump.value,
           totalExchangeCashback: IMEIApiResponse.totalExchangeCashback.value,
-          effectiveAmount: IMEIApiResponse.effectiveAmount.value
+          effectiveAmount: IMEIApiResponse.effectiveAmount.value,
+          IMEINumber: IMEIApiResponse.IMEINumber
         };
         result = await api.post(
           `${PRODUCT_DETAILS_PATH}/${userId}/carts/${
