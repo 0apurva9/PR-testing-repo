@@ -1695,7 +1695,7 @@ export default class PdpApparel extends React.Component {
                     </div>
                   )}
                 </div>
-                <div>
+                <React.Fragment>
                   {mshProduct &&
                     mshProduct.includes("samsung") && (
                       <div className={styles.sumsungSeparator}>
@@ -1725,7 +1725,7 @@ export default class PdpApparel extends React.Component {
                         </div>
                       </div>
                     )}
-                </div>
+                </React.Fragment>
               </div>
             </div>
             <div className={styles.details}>
