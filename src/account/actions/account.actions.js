@@ -3826,59 +3826,13 @@ export function getCustomerQueriesData(transactionId) {
         }&transactionId=${transactionId}`
       );
       const resultJson = await result.json();
-
-      // const resultJson = {
-      //   listofIssues: [
-      //     {
-      //       issueType: "Issue 1",
-      //       L0: "qwe",
-      //       L1: "rty",
-      //       L2: "1234",
-      //       L3: "234",
-      //       L4: "344",
-      //       ticketType: "high",
-      //       solution:
-      //         "Try Yourself Try Yourself Try Yourself Try Yourself Try Yourself Try Yourself Try Yourself Try Yourself",
-      //       webform: "No",
-      //       chat: "no",
-      //       call: "no",
-      //       click2Call: "no",
-      //       uItemplateCode: "1234",
-      //       tat: ""
-      //     },
-      //     {
-      //       issueType: "Issue 2",
-      //       L0: "rty",
-      //       L1: "qwe",
-      //       L2: "5678",
-      //       L3: "111",
-      //       L4: "222",
-      //       ticketType: "",
-      //       solution: "",
-      //       webform: "Yes",
-      //       chat: "",
-      //       call: "",
-      //       click2Call: "",
-      //       uItemplateCode: "",
-      //       tat: ""
-      //     }
-      //   ]
-      // };
-      //await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
-      }
       dispatch(getCustomerQueriesDataSuccessv2(resultJson));
     } catch (e) {
       dispatch(getCustomerQueriesDataFailurev2(e.message));
     }
   };
 }
-/**
- * @author Prashant
- * Non-Order Related Issue
- */
+
 export function getNonOrderRelatedQuestionsRequest() {
   return {
     type: GET_CUSTOMER_QUERIES_DATA_REQUEST,
@@ -3904,90 +3858,6 @@ export function getNonOrderRelatedQuestions() {
     try {
       const result = await api.get(`${PATH}/getNonOrderRelatedQuestions`);
       const resultJson = await result.json();
-      // console.log("=======",resultJson)
-      // const resultJson = {
-      //   ParentIssueList: [
-      //     {
-      //       parentIssueType: "Parent Issue 1",
-      //       uItemplateCode: "001",
-      //       issueType: "Parent Issue 1",
-      //       listofSubIssues: [
-      //         {
-      //           subIssueType: "Sub Issue 1",
-      //           L0: "qwe",
-      //           L1: "rty",
-      //           L2: "1234",
-      //           L3: "234",
-      //           L4: "344",
-      //           ticketType: "",
-      //           solution: "",
-      //           webform: "",
-      //           chat: "",
-      //           call: "",
-      //           click2Call: "",
-      //           uItemplateCode: "0011",
-      //           tat: ""
-      //         },
-      //         {
-      //           subIssueType: "Sub Issue 2",
-      //           L0: "rty",
-      //           L1: "qwe",
-      //           L2: "5678",
-      //           L3: "111",
-      //           L4: "222",
-      //           ticketType: "",
-      //           solution: "",
-      //           webform: "",
-      //           chat: "",
-      //           call: "",
-      //           click2Call: "",
-      //           uItemplateCode: "0012",
-      //           tat: ""
-      //         }
-      //       ]
-      //     },
-      //     {
-      //       parentIssueType: "Parent Issue 2",
-      //       uItemplateCode: "002",
-      //       issueType: "Parent Issue 2",
-      //       listofSubIssues: [
-      //         {
-      //           subIssueType: "Sub Issue 21",
-      //           L0: "qwe",
-      //           L1: "rty",
-      //           L2: "1234",
-      //           L3: "234",
-      //           L4: "344",
-      //           ticketType: "",
-      //           solution: "",
-      //           webform: "",
-      //           chat: "",
-      //           call: "",
-      //           click2Call: "",
-      //           uItemplateCode: "0021",
-      //           tat: ""
-      //         },
-      //         {
-      //           subIssueType: "Sub Issue 22",
-      //           L0: "rty",
-      //           L1: "qwe",
-      //           L2: "5678",
-      //           L3: "111",
-      //           L4: "222",
-      //           ticketType: "",
-      //           solution: "",
-      //           webform: "",
-      //           chat: "",
-      //           call: "",
-      //           click2Call: "",
-      //           uItemplateCode: "0022",
-      //           tat: ""
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // };
-      //await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
@@ -4061,183 +3931,20 @@ export function getCustomerQueriesFieldsFailurev2() {
 }
 
 export function getCustomerQueriesFieldsv2(UItemplateCode) {
-  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(getCustomerQueriesFieldsRequestv2());
     try {
-      // const result = await api.post(`${USER_CART_PATH}/${
-      //   JSON.parse(userDetails).userName
-      // }/getOrderRelatedQuestions?access_token=${
-      //   JSON.parse(customerCookie).access_token
-      // }&transactionId=100065001905177`);
-      // const resultJsonRes = await result.json();
-      let resultJson = [];
-      if (1) {
-        resultJson = [
-          {
-            componentName: "labelComponent",
-            singleBannerComponent: {
-              componentId: "comp_0000HSGY1",
-              items: [
-                {
-                  btnText: "",
-                  description: "Please enter following details|16,bold",
-                  hexCode: "",
-                  imageURL: "",
-                  title: "",
-                  webURL: ""
-                }
-              ],
-              title: "Thanks for using TataCliq",
-              type: "labelComponent"
-            }
-          },
-          {
-            componentName: "textboxComponent",
-            singleBannerComponent: {
-              componentId: "comp_0000HSGY2",
-              items: [
-                {
-                  btnText: "",
-                  description: "Promotion Name|1|Enter your Promotion Name",
-                  hexCode: "alphanumeric",
-                  imageURL: "",
-                  title:
-                    "10,Promotion Name must be 10 digit long|40,Promotion Name can not exceed 40 digits|[a-zA-Z0-9],Promotion name should only be Alpha-Numeric",
-                  webURL: ""
-                }
-              ],
-              title: "formField_text_01",
-              type: "textboxComponent"
-            }
-          },
-          {
-            componentName: "textAreaComponent",
-            singleBannerComponent: {
-              componentId: "comp_0000HSGY3",
-              items: [
-                {
-                  btnText: "",
-                  description: "Comment(Optional)|1|Type Here...",
-                  hexCode: "",
-                  imageURL: "",
-                  title:
-                    "10,Comment's length must be 10 |240,Comment's length can not be greater than 240",
-                  webURL: ""
-                }
-              ],
-              title: "formField_comment_02",
-              type: "textAreaComponent"
-            }
-          },
-          {
-            componentName: "radioComponent",
-            singleBannerComponent: {
-              componentId: "comp_0000HSGY4",
-              items: [
-                {
-                  btnText: "",
-                  description: "Handed over the product bought from|1",
-                  hexCode: "",
-                  imageURL: "",
-                  title:
-                    "Outer packaging of the parcel was tampered,Rad_101,0|Product box seal was tampered,Rad_102,1|Wrong product sent,Rad_103,0",
-                  webURL: ""
-                }
-              ],
-              title: "formField_radio_03",
-              type: "radioComponent"
-            }
-          },
-          {
-            componentName: "checkboxComponent",
-            singleBannerComponent: {
-              componentId: "comp_0000HSGY5",
-              items: [
-                {
-                  btnText: "",
-                  description: "Select check|1",
-                  hexCode: "",
-                  imageURL: "",
-                  title:
-                    "Select check 1,Check_101,1|Select check 2,Check_102,0",
-                  webURL: ""
-                }
-              ],
-              title: "formField_check_04",
-              type: "checkboxComponent"
-            }
-          },
-          {
-            componentName: "attachmentComponent",
-            singleBannerComponent: {
-              componentId: "comp_0000HSGY6",
-              items: [
-                {
-                  btnText: "",
-                  description: "Add Attachment|1",
-                  hexCode: "2",
-                  imageURL: "",
-                  title: "Bank Statement",
-                  webURL: ""
-                }
-              ],
-              title: "formField_attachments_05",
-              type: "attachmentComponent"
-            }
-          }
-        ];
-      } else {
-        resultJson = [
-          {
-            componentName: "labelComponent",
-            singleBannerComponent: {
-              componentId: "comp_0000HSGY1",
-              items: [
-                {
-                  btnText: "",
-                  description: "Please enter following details|16,bold",
-                  hexCode: "",
-                  imageURL: "",
-                  title: "",
-                  webURL: ""
-                }
-              ],
-              title: "Thanks for using TataCliq",
-              type: "labelComponent"
-            }
-          },
-          {
-            componentName: "textboxComponent",
-            singleBannerComponent: {
-              componentId: "comp_0000HSGY2",
-              items: [
-                {
-                  btnText: "",
-                  description: "Promotion Name|1|Enter your Promotion Name",
-                  hexCode: "alphanumeric",
-                  imageURL: "",
-                  title:
-                    "10,Promotion Name must be 10 digit long|40,Promotion Name can not exceed 40 digits|[a-zA-Z0-9],Promotion name should only be Alpha-Numeric",
-                  webURL: ""
-                }
-              ],
-              title: "formField_text_01",
-              type: "textboxComponent"
-            }
-          }
-        ];
+      const result = await api.get(
+        `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
       }
-      // console.log("======",resultJson)
-
-      /**
-       * @author Prashant
-       * Added loop to calculate the response data from the API
-       */
       var responseData = [];
       resultJson &&
-        resultJson.map(ele => {
+        resultJson.items.map(ele => {
           if (ele.componentName === "textAreaComponent") {
             let textAreaData = getTextAreaApiData(ele);
             responseData.push(textAreaData);
@@ -4263,23 +3970,14 @@ export function getCustomerQueriesFieldsv2(UItemplateCode) {
             responseData.push(checkboxData);
           }
         });
-
-      //await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
-      }
-      dispatch(getCustomerQueriesFieldsSuccessv2(responseData));
+      return dispatch(getCustomerQueriesFieldsSuccessv2(responseData));
     } catch (e) {
-      dispatch(getCustomerQueriesFieldsFailurev2(e.message));
+      return dispatch(getCustomerQueriesFieldsFailurev2(e.message));
     }
   };
 }
 
-/**
- * @author Prashant
- * Function to get the data related to TextArea
- */
+
 const getTextAreaApiData = (apiData = []) => {
   let items =
     apiData.singleBannerComponent && apiData.singleBannerComponent.items[0]
@@ -4374,7 +4072,18 @@ const getAttachmentApiData = (apiData = []) => {
           : ""
         : "",
     itemsTitle: itemsTitle,
-    hexCode: items && items.hexCode ? items.hexCode : "",
+    maxFileLimit:
+      items && items.hexCode
+        ? items.hexCode.split("|").length
+          ? parseInt(items.hexCode.split("|")[0])
+          : ""
+        : "",
+    maxFileSize:
+      items && items.hexCode
+        ? items.hexCode.split("|").length
+          ? parseInt(items.hexCode.split("|")[1])
+          : ""
+        : "",
     imageURL: items && items.imageURL ? items.imageURL : "",
     webURL: items && items.webURL ? items.webURL : "",
     title: apiData.singleBannerComponent.title
@@ -4613,11 +4322,10 @@ const getCheckboxApiData = (apiData = []) => {
       ? apiData.singleBannerComponent.type
       : ""
   };
+
   return returnValue;
 };
-/**
- * EOD
- */
+
 
 export function getOrdersTransactionDataRequest(paginated: false) {
   return {
@@ -4644,6 +4352,7 @@ export function getOrdersTransactionDataFailure(error, isPaginated) {
     isPaginated
   };
 }
+
 export function getOrdersTransactionData(paginated) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -4680,6 +4389,7 @@ export function getOrdersTransactionData(paginated) {
     }
   };
 }
+
 export function clearOrderTransactionDetails() {
   return {
     type: Clear_ORDER_TRANSACTION_DATA
@@ -4704,33 +4414,22 @@ export function uploadUserFileFailure() {
     status: FAILURE
   };
 }
-export function uploadUserFile(file) {
+export function uploadUserFile(title, file) {
   return async (dispatch, getState, { api }) => {
     dispatch(uploadUserFileRequest());
     try {
       let uploadUserFileObject = new FormData();
-      uploadUserFileObject.append("uploadFile", file);
+      uploadUserFileObject.append(title, file);
       const result = await api.postFormData(
-        `${PATH}/crmFileUpload`,
+        `${PATH}/attachmentUpload`,
         uploadUserFileObject
       );
-      // const resultJson = await result.json();
-      /**
-       * @author Prashant
-       * Added the below code for testing purpose as we dont have real API as of now.
-       * And also uncomment the below commented code.
-       */
-      const resultJson = {
-        fileURL: "/orderdocs/webform/2019/12/20/Screenshot (6).png",
-        status: "Success"
-      };
-      // const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      // if (resultJsonStatus.status) {
-      //   throw new Error(resultJsonStatus.message);
-      // }
-      /**
-       * EOD
-       */
+
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
       return dispatch(uploadUserFileSuccess(resultJson));
     } catch (e) {
       return dispatch(uploadUserFileFailure(e.message));
@@ -4757,66 +4456,21 @@ export function submitOrderDetailsFailure() {
     status: FAILURE
   };
 }
-export function submitOrderDetails(submitOrderDetails) {
+
+export function submitOrderDetails(raiseTicketObj) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(submitOrderDetailsRequest());
     try {
-      let result,
-        transactionIdWithAttachmentFile,
-        currentOrderCode,
-        currentSubOrderCode;
-      if (submitOrderDetails.currentState === 0) {
-        transactionIdWithAttachmentFile = `transactionId=${submitOrderDetails.transactionId}&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${submitOrderDetails.imageURL}`;
-        currentOrderCode = `${submitOrderDetails.orderCode}`;
-        currentSubOrderCode = `${submitOrderDetails.subOrderCode}`;
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/raiseTicket?access_token=${JSON.parse(customerCookie).access_token}`,
+        raiseTicketObj
+      );
 
-        result = await api.post(
-          `${USER_PATH}/${
-            JSON.parse(userDetails).userName
-          }/submitTicket?&${transactionIdWithAttachmentFile}&contactEmail=${
-            submitOrderDetails.contactEmail
-          }&contactMobile=${
-            submitOrderDetails.contactMobile
-          }&orderCode=${currentOrderCode}&ticketType=CL&nodeL0=${
-            submitOrderDetails.nodeL0
-          }&nodeL3=${submitOrderDetails.nodeL3}&contactName=${
-            submitOrderDetails.contactName
-          }&access_token=${JSON.parse(customerCookie).access_token}&nodeL1=${
-            submitOrderDetails.nodeL1
-          }&comment=${encodeURIComponent(submitOrderDetails.comment)}&nodeL4=${
-            submitOrderDetails.nodeL4 ? submitOrderDetails.nodeL4 : " "
-          }&subOrderCode=${currentSubOrderCode}`
-        );
-      } else {
-        transactionIdWithAttachmentFile = `nodeL2=${submitOrderDetails.nodeL2}`;
-        //currentOrderCode = `""`;
-        //currentSubOrderCode = `""`;
-
-        result = await api.post(
-          `${USER_PATH}/${
-            JSON.parse(userDetails).userName
-          }/submitTicket?&${transactionIdWithAttachmentFile}&contactEmail=${
-            submitOrderDetails.contactEmail
-          }&contactMobile=${
-            submitOrderDetails.contactMobile
-          }&ticketType=CL&nodeL0=${submitOrderDetails.nodeL0}&nodeL3=${
-            submitOrderDetails.nodeL3
-          }&contactName=${submitOrderDetails.contactName}&access_token=${
-            JSON.parse(customerCookie).access_token
-          }&nodeL1=${submitOrderDetails.nodeL1}&comment=${encodeURIComponent(
-            submitOrderDetails.comment
-          )}&nodeL4=${
-            submitOrderDetails.nodeL4 ? submitOrderDetails.nodeL4 : " "
-          }`
-        );
-      }
-      //Demo data
-      const resultJson = {
-        referenceNum: "E10004IQC7",
-        status: "Success"
-      };
+      const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);

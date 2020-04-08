@@ -12,8 +12,12 @@ import {
   // getCustomerQueriesDatav2,
   getCustomerQueriesFieldsv2,
   getNonOrderRelatedQuestions,
-  getCliqCareWmsResponse
+  getCliqCareWmsResponse,  
 } from "../actions/account.actions";
+import {
+  showSecondaryLoader,
+  hideSecondaryLoader
+} from "../../general/secondaryLoader.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import { showModal, CUSTOMER_QUERY_POPUP } from "../../general/modal.actions";
 const mapDispatchToProps = dispatch => {
@@ -28,8 +32,8 @@ const mapDispatchToProps = dispatch => {
     getNonOrderRelatedQuestions: () => {
       dispatch(getNonOrderRelatedQuestions());
     },
-    getCustomerQueriesFieldsv2: () => {
-      dispatch(getCustomerQueriesFieldsv2());
+    getCustomerQueriesFieldsv2: uItemplateCode => {
+      dispatch(getCustomerQueriesFieldsv2(uItemplateCode));
     },
     getOrdersTransactionData: paginated => {
       dispatch(getOrdersTransactionData(paginated));
@@ -40,11 +44,11 @@ const mapDispatchToProps = dispatch => {
     displayToast: message => {
       dispatch(displayToast(message));
     },
-    uploadUserFile: async file => {
-      return dispatch(uploadUserFile(file));
+    uploadUserFile: async (title, file) => {
+      return dispatch(uploadUserFile(title, file));
     },
-    submitOrderDetails: async submitOrderDetailsObject => {
-      return dispatch(submitOrderDetails(submitOrderDetailsObject));
+    submitOrderDetails: async raiseTicketObj => {
+      return dispatch(submitOrderDetails(raiseTicketObj));
     },
     setHeaderText: text => {
       dispatch(setHeaderText(text));
@@ -54,6 +58,12 @@ const mapDispatchToProps = dispatch => {
     },
     clearOrderTransactionDetails: () => {
       dispatch(clearOrderTransactionDetails());
+    },
+    showSecondaryLoader: () => {
+      dispatch(showSecondaryLoader());
+    },
+    hideSecondaryLoader: () => {
+      dispatch(hideSecondaryLoader());
     },
     /**
      * this function will be integrated to "getCustomerQueriesFieldsv2"
@@ -65,11 +75,14 @@ const mapDispatchToProps = dispatch => {
 };
 const mapStateToProps = state => {
   return {
-    ordersTransactionDataLoading: state.profile.ordersTransactionDataLoading,
+    ordersRelatedLoading: state.profile.ordersRelatedLoading,
     customerQueriesData: state.profile.customerQueriesData,
     ordersTransactionData: state.profile.ordersTransactionData,
     userDetails: state.profile.userDetails,
-    customerQueriesField: state.profile.customerQueriesField
+    customerQueriesField: state.profile.customerQueriesField,
+    uploadUserFileStatus:state.profile.uploadUserFileStatus,
+    uploadUserFileData:state.profile.uploadUserFile
+
   };
 };
 

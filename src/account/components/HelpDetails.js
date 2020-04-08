@@ -57,10 +57,10 @@ export default class HelpDetails extends React.Component {
     this.props.history.push(url);
   };
   redirectToOrderRelatedPage() {
-    setDataLayerForFaqAndTc(SET_DATA_LAYER_CC);
-    this.props.history.push(
-      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
-    );
+    // setDataLayerForFaqAndTc(SET_DATA_LAYER_CC);
+    // this.props.history.push(
+    //   `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
+    // );
   }
   render() {
     return (

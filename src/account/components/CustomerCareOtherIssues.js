@@ -27,8 +27,8 @@ export default class CustomerCareOtherIssues extends React.Component {
     return (
       <div className={styles.formHolder}>
         <div className={styles.firstTab}>
-          <div className={styles.selectIssueHolder}>
-            <div className={styles.formWrapper}>
+          <div className={styles.formBox}>
+            <div className={styles.formWidth}>
               <div className={styles.secondOrder}>
                 <CheckOutHeader
                   indexNumber={isSelected === 0 ? "2" : "1"}
@@ -93,8 +93,8 @@ export default class CustomerCareOtherIssues extends React.Component {
               </div>
             </div>
           </div>
-          <div className={styles.selectIssueHolder}>
-            <div className={styles.formWrapper}>
+          <div className={styles.formBox}>
+            <div className={styles.formWidth}>
               <div className={styles.secondOrder}>
                 <CheckOutHeader
                   indexNumber={`2`}
@@ -102,7 +102,7 @@ export default class CustomerCareOtherIssues extends React.Component {
                   fontSize={"14px"}
                 />
               </div>
-              <div className={styles.textInformationHolder}>
+              <div className={styles.conmmunicationalDetails}>
                 <FloatingLabelInput
                   label="Name"
                   value={name}
@@ -112,7 +112,7 @@ export default class CustomerCareOtherIssues extends React.Component {
                 />
               </div>
 
-              <div className={styles.textInformationHolder}>
+              <div className={styles.conmmunicationalDetails}>
                 <FloatingLabelInput
                   label="Email"
                   disabled={
@@ -126,7 +126,7 @@ export default class CustomerCareOtherIssues extends React.Component {
                   onChange={email => this.onChange({ email })}
                 />
               </div>
-              <div className={styles.textInformationHolder}>
+              <div className={styles.conmmunicationalDetails}>
                 <FloatingLabelInput
                   label="Phone*"
                   maxLength={"10"}

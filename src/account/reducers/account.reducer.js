@@ -172,7 +172,7 @@ const account = (
 
     ordersTransactionDataStatus: null,
     ordersTransactionDataError: null,
-    ordersTransactionDataLoading: false,
+    ordersRelatedLoading: false,
     ordersTransactionData: null,
 
     uploadUserFileStatus: null,
@@ -1263,13 +1263,13 @@ const account = (
     case accountActions.GET_CUSTOMER_QUERIES_DATA_REQUEST:
       return Object.assign({}, state, {
         customerQueriesDataStatus: action.status,
-        customerQueriesDataLoading: true
+        ordersRelatedLoading: true
       });
 
     case accountActions.GET_CUSTOMER_QUERIES_DATA_SUCCESS:
       return Object.assign({}, state, {
         customerQueriesDataStatus: action.status,
-        customerQueriesDataLoading: false,
+        ordersRelatedLoading: false,
         customerQueriesData: action.customerQueriesData
       });
 
@@ -1277,20 +1277,20 @@ const account = (
       return Object.assign({}, state, {
         customerQueriesDataStatus: action.status,
         customerQueriesDataError: action.error,
-        customerQueriesDataLoading: false
+        ordersRelatedLoading: false
       });
 
     //Fields
     case accountActions.GET_CUSTOMER_QUERIES_FIELDS_REQUEST:
       return Object.assign({}, state, {
         customerQueriesFieldStatus: action.status,
-        customerQueriesFieldLoading: true
+        ordersRelatedLoading: true
       });
 
     case accountActions.GET_CUSTOMER_QUERIES_FIELDS_SUCCESS:
       return Object.assign({}, state, {
         customerQueriesFieldStatus: action.status,
-        customerQueriesFieldLoading: false,
+        ordersRelatedLoading: false,
         customerQueriesField: action.customerQueriesField
       });
 
@@ -1298,7 +1298,7 @@ const account = (
       return Object.assign({}, state, {
         customerQueriesFieldStatus: action.status,
         customerQueriesFieldError: action.error,
-        customerQueriesFieldLoading: false
+        ordersRelatedLoading: false
       });
 
     case accountActions.GET_CLIQ_CARE_WMS_REQUEST:
@@ -1324,7 +1324,7 @@ const account = (
     case accountActions.GET_ORDERS_TRANSACTION_DATA_REQUEST:
       return Object.assign({}, state, {
         ordersTransactionDataStatus: action.status,
-        ordersTransactionDataLoading: true
+        ordersRelatedLoading: true
       });
     case accountActions.GET_ORDERS_TRANSACTION_DATA_SUCCESS:
       let currentOrderTransactionDetailObj = state.ordersTransactionData
@@ -1349,39 +1349,42 @@ const account = (
       return Object.assign({}, state, {
         ordersTransactionDataStatus: action.status,
         ordersTransactionData: currentOrderTransactionDetailObj,
-        ordersTransactionDataLoading: false
+        ordersRelatedLoading: false
       });
     case accountActions.GET_ORDERS_TRANSACTION_DATA_FAILURE:
       return Object.assign({}, state, {
         ordersTransactionDataStatus: action.status,
         ordersTransactionDataError: action.error,
-        ordersTransactionDataLoading: false
+        ordersRelatedLoading: false
       });
     case accountActions.Clear_ORDER_TRANSACTION_DATA: {
       return Object.assign({}, state, {
         type: null,
         status: null,
         ordersTransactionData: null,
-        ordersTransactionDataLoading: false
+        ordersRelatedLoading: false
       });
     }
     case accountActions.UPLOAD_USER_FILE_REQUEST:
       return Object.assign({}, state, {
         uploadUserFileStatus: action.status,
-        uploadUserFileLoading: true
+        uploadUserFileLoading: true,
+        ordersRelatedLoading:true
       });
 
     case accountActions.UPLOAD_USER_FILE_SUCCESS:
       return Object.assign({}, state, {
         uploadUserFileStatus: action.status,
         uploadUserFileLoading: false,
+        ordersRelatedLoading:false,
         uploadUserFile: action.uploadUserFile
       });
     case accountActions.UPLOAD_USER_FILE_FAILURE:
       return Object.assign({}, state, {
         uploadUserFileStatus: action.status,
         uploadUserFileError: action.error,
-        uploadUserFileLoading: false
+        uploadUserFileLoading: false,
+        ordersRelatedLoading:false
       });
 
     case accountActions.SUBMIT_ORDER_DETAILS_REQUEST:

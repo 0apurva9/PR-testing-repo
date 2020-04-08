@@ -48,23 +48,45 @@
   composes: iconHolder;
   transform: rotate(180deg);
 }
-.selectIssueHolder {
+.formBox {
   width: 100%;
   height: auto;
   background: #fff;
   margin-bottom: 20px;
   border-radius: 4px;
   overflow: hidden;
-  padding: 20px;
+  padding: 15px;
 }
+
 .secondOrder {
   width: 100%;
   height: auto;
+  /* margin-top: 14px; */
+}
+.conmmunicationalDetails{
+  width: 100%;
+    height: auto;
+    position: relative;
+  margin-top: 19px;
+}
+.secondOrder:not(:first-child){
+  margin-top: 10px;
 }
 .selectIssue {
   width: 100%;
   height: auto;
   padding-top: 20px;
+}
+.detailsTitle {
+  font-family: semibold;
+  font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #212121;
+  margin-bottom: 10px;
 }
 .selectImageHolder {
   width: 100%;
@@ -79,7 +101,7 @@
 .validImage {
   width: 100%;
   height: auto;
-  display: inline-block;
+  /* display: inline-block; */
   font-size: 10px;
   text-align: left;
   color: #212121;
@@ -112,7 +134,7 @@
   width: 100%;
   height: auto;
   position: relative;
-  margin-top: 22px;
+  /* margin-top: 22px; */
 }
 .orderCardHolder {
   width: 100%;
@@ -244,7 +266,7 @@
     flex-direction: column;
     padding-left: 20px;
   }
-  .formWrapper {
+  .formWidth {
     width: 40%;
     height: auto;
   }
@@ -317,7 +339,7 @@
     padding: 10px 10px 0px 20px;
   }
 }
-.radioBtnMyAcc{display: block;margin: 16px 0px 21px 0px;font-size: 12px;}
+.radioBtnMyAcc{display: block;margin: 12px 0px 15px 0px;font-size: 12px;}
 .radioBtnMyAcc label{padding: 0 0 0 25px;position: relative;display: block;color: #2d2d2d;}
 .radioBtnMyAcc label input[type="radio"]{opacity:0;position: absolute;left:0;top:0;width:17px;height: 17px;margin:0;padding: 0;}
 .radioBtnMyAcc label input[type="radio"] + span{    width: 17px;
@@ -360,4 +382,7 @@
   -webkit-transition: 300ms;
   -o-transition: 300ms;
   transition: 300ms;
+}
+.labelComponent{
+  margin-top: 20px;
 }
