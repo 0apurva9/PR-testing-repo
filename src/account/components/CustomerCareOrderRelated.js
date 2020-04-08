@@ -459,6 +459,7 @@ export default class CustomerCareOrderRelated extends React.Component {
     console.log("sdfsdf", this.state);
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const getUserDetail = JSON.parse(userDetailsCookie);
+    console.log("getUserDetail", getUserDetail);
     let {
       l1OptionsArray,
       customerQueriesFieldArray,
@@ -492,7 +493,7 @@ export default class CustomerCareOrderRelated extends React.Component {
               <div className={styles.headingHolder}>
                 <CheckOutHeader
                   indexNumber="1"
-                  confirmTitle="Select your order3"
+                  confirmTitle="Select your order"
                 />
                 <div className={styles.iconHolder} />
               </div>

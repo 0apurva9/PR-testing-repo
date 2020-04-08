@@ -1205,7 +1205,7 @@ export default class OrderRelatedIssue extends React.Component {
                     }
                     onClick={() => this.tabSelect(0)}
                   >
-                    Order Related1
+                    Order Related
                     <div
                       className={
                         this.state.isSelected === 0
@@ -1222,7 +1222,7 @@ export default class OrderRelatedIssue extends React.Component {
                     }
                     onClick={() => this.tabSelect(1)}
                   >
-                    Other Issues2
+                    Other Issues
                     <div
                       className={
                         this.state.isSelected === 1
