@@ -172,6 +172,7 @@ export const EMI_TYPE = "emiType";
 export const CART_DETAILS_FOR_ANONYMOUS = "cartDetailsForAnonymous";
 export const CART_DETAILS_FOR_LOGGED_IN_USER = "cartDetails";
 export const LOGGED_IN_USER_DETAILS = "userDetails";
+export const NON_LOGGED_IN_USER_DETAILS = "LogInFailed";
 export const CATEGORIES_LANDING_PAGE = "/categories";
 export const ANONYMOUS_USER = "anonymous";
 export const COUPON_COOKIE = "couponCode";
@@ -444,6 +445,9 @@ export const MULTIPLE_BANNER_COMPONENT_NAME_HC = "multipleBannerComponent";
 export const QUICK_LINKS_COMPONENT_NAME_HC = "quickLinksComponent";
 export const HARD_CODED_KEY_FOR_COMPONENT = "singleBannerComponent";
 export const IS_COMING_FOR_REVIEW_PAGE = "isComingForProductReview";
+export const MSD_AUTOMATED_BRAND_CAROUSEL =
+  "msdAutomatedBannerProductCarouselComponent";
+export const MSD_DISCOVER_MORE = "msdAutoDiscoverMoreComponent";
 
 export const DESKTOP_THEME_OFFER_CN = "desktopThemeOfferComponent";
 export const THEME_OFFER_CN = "themeOffersComponent";
