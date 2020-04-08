@@ -46,11 +46,11 @@ export default class OrderRelatedIssue extends React.Component {
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const getUserDetails = JSON.parse(userDetailsCookie);
     this.state = {
-      webFormStatus:false,
+      webFormStatus: false,
       showOrder: false,
       isSelected: 0,
       isSelectedOrder: false,
-      labelDataShow:false,
+      labelDataShow: false,
       name:
         getUserDetails && getUserDetails.firstName
           ? getUserDetails.firstName.trim()
@@ -96,10 +96,9 @@ export default class OrderRelatedIssue extends React.Component {
       showSubIssueField: false,
       issueCategory: "",
       issue: "",
-      selectedObj:'',
-      subIssueList:null,
-      uploadedAttachments:[]
-      
+      selectedObj: "",
+      subIssueList: null,
+      uploadedAttachments: []
     };
   }
 
@@ -124,17 +123,16 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.getOrdersTransactionData(true);
     }
   }
-  
 
   tabSelect(val) {
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const getUserDetails = JSON.parse(userDetailsCookie);
     if (this.state.isSelected !== val) {
       this.setState({
-        selectedObj:null,
-        webFormStatus:false,
+        selectedObj: null,
+        webFormStatus: false,
         isSelected: val,
-        listOfSubIssue:null,
+        listOfSubIssue: null,
         name:
           getUserDetails && getUserDetails.firstName
             ? getUserDetails.firstName.trim()
@@ -170,8 +168,7 @@ export default class OrderRelatedIssue extends React.Component {
         webform: "No",
         // l3SelectedReason: null,
         issueCategory: "",
-        issue: "",
-        
+        issue: ""
       });
     }
     if (val === 1) {
@@ -199,7 +196,7 @@ export default class OrderRelatedIssue extends React.Component {
       productName: productName,
       productPrice: productPrice,
       productStatus: productStatus,
-      webFormStatus:false
+      webFormStatus: false
     });
 
     this.props.getCustomerQueriesData(transactionId);
@@ -220,8 +217,9 @@ export default class OrderRelatedIssue extends React.Component {
     // }
 
     this.setState({
-      listOfSubIssue: subTab && subTab.listofSubIssues ? subTab.listofSubIssues : [],
-      webFormStatus:false
+      listOfSubIssue:
+        subTab && subTab.listofSubIssues ? subTab.listofSubIssues : [],
+      webFormStatus: false
       // l2SelectedOption:
       //   subTab && subTab.listofSubIssues ? subTab.listofSubIssues : [],
       // showSubIssueField: true,
@@ -233,14 +231,14 @@ export default class OrderRelatedIssue extends React.Component {
    * @comment Demo method. planning to remove the non order condition
    */
   onChangeReasonForOrderRelated(obj) {
-    this.setState({selectedObj:obj})
+    this.setState({ selectedObj: obj });
+    console.log("500000", obj);
     // const code = val.value;
     // const label = val.label;
     // let { listOfIssues } = this.props.customerQueriesData;
     // let issue = listOfIssues.filter(function(issue) {
     //   return issue.issueType === val.label;
     // });
-
 
     // this.setState({
     //   l2SelectedOption: code,
@@ -263,34 +261,34 @@ export default class OrderRelatedIssue extends React.Component {
     // });
     if (obj[0].webform === "Yes") {
       this.props.getCustomerQueriesFieldsv2(obj[0].UItemplateCode);
-        this.setState({webFormStatus:true})
+      this.setState({ webFormStatus: true });
 
       // if (customerQueriesFieldArray) {
       //   customerQueriesFieldArray.map(ele => {
-          // if(ele.componentName==="labelComponent"){
-          //   this.setState({labelDataShow:true})
-          // }
-          // if (ele.componentName === "textAreaComponent") {
-          //   this.setState({ customerQryFldTextArea: true });
-          // }
-          // if (ele.componentName === "textboxComponent") {
-          //   this.setState({ customerQryFldTextBox: true });
-          // }
-          // if (ele.componentName === "radioComponent") {
-            // this.setState({ customerQryFldRadio: true });
-          //   ele.optionArray.map(ele => {
-          //     if (ele.isSelected === 1) {
-          //       this.setState({ radioSelectedOption: ele.value });
-          //     }
-          //   });
-          // }
-          // if (ele.componentName === "attachmentComponent") {
-          //   this.setState({ customerQryFldAttachment: true });
-          // }
-          // if (ele.componentName === "checkboxComponent") {
-          //   this.setState({ customerQryFldCheckBox: true });
-          // }
-        // });
+      // if(ele.componentName==="labelComponent"){
+      //   this.setState({labelDataShow:true})
+      // }
+      // if (ele.componentName === "textAreaComponent") {
+      //   this.setState({ customerQryFldTextArea: true });
+      // }
+      // if (ele.componentName === "textboxComponent") {
+      //   this.setState({ customerQryFldTextBox: true });
+      // }
+      // if (ele.componentName === "radioComponent") {
+      // this.setState({ customerQryFldRadio: true });
+      //   ele.optionArray.map(ele => {
+      //     if (ele.isSelected === 1) {
+      //       this.setState({ radioSelectedOption: ele.value });
+      //     }
+      //   });
+      // }
+      // if (ele.componentName === "attachmentComponent") {
+      //   this.setState({ customerQryFldAttachment: true });
+      // }
+      // if (ele.componentName === "checkboxComponent") {
+      //   this.setState({ customerQryFldCheckBox: true });
+      // }
+      // });
       // }
     }
   }
@@ -315,40 +313,35 @@ export default class OrderRelatedIssue extends React.Component {
   closeModal() {
     this.setState({ showOrder: false });
   }
-  async submitCustomerForms(formData){    
-      if (this.props.submitOrderDetails) {
-        let getCustomerQueryDetailsObject = Object.assign(
-          {},
-          {
-            ticketID: null,
-            emailId: formData.customerInfo.email,
-            issue: "issueSelected",
-            tat:"tat"
-          }
-        );
-        const submitOrderDetailsResponse = await this.props.submitOrderDetails(
-          formData
-        );
-        if (submitOrderDetailsResponse.status === SUCCESS) {
-          if (
-            submitOrderDetailsResponse.submitOrder &&
-            submitOrderDetailsResponse.submitOrder.referenceNum !==
-              "duplicate"
-          ) {
-            getCustomerQueryDetailsObject.ticketID =
-              submitOrderDetailsResponse.submitOrder.referenceNum;
-            this.props.showCustomerQueryModal(
-              getCustomerQueryDetailsObject
-            );
-          } else {
-            this.props.displayToast(DUPLICATE_QUERY);
-          }
+  async submitCustomerForms(formData) {
+    if (this.props.submitOrderDetails) {
+      let getCustomerQueryDetailsObject = Object.assign(
+        {},
+        {
+          ticketID: null,
+          emailId: formData.customerInfo.email,
+          issue: "issueSelected",
+          tat: "tat"
+        }
+      );
+      const submitOrderDetailsResponse = await this.props.submitOrderDetails(
+        formData
+      );
+      if (submitOrderDetailsResponse.status === SUCCESS) {
+        if (
+          submitOrderDetailsResponse.submitOrder &&
+          submitOrderDetailsResponse.submitOrder.referenceNum !== "duplicate"
+        ) {
+          getCustomerQueryDetailsObject.ticketID =
+            submitOrderDetailsResponse.submitOrder.referenceNum;
+          this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+        } else {
+          this.props.displayToast(DUPLICATE_QUERY);
         }
       }
-    
+    }
   }
   async submitCustomerForm(formData) {
-   
     let l1OptionsArray, l2OptionsArray, l3OptionsArray;
     if (this.state.isSelected === 0) {
       let { listOfIssues } = this.props.customerQueriesData;
@@ -384,20 +377,20 @@ export default class OrderRelatedIssue extends React.Component {
             textAreaData = ele;
           }
         });
-        if(textAreaData.isMandatory==1){
-          if (this.state.comment.length === 0 && textAreaData.isMandatory) {
-            this.props.displayToast(textAreaData.minLimitError);
-            return false;
-          }
-          if (this.state.comment.length < parseInt(textAreaData.minLimit)) {
-            this.props.displayToast(textAreaData.minLimitError);
-            return false;
-          }
-          if (this.state.comment.length > parseInt(textAreaData.maxLimit)) {
-            this.props.displayToast(textAreaData.maxLimitError);
-            return false;
-          }
+      if (textAreaData.isMandatory == 1) {
+        if (this.state.comment.length === 0 && textAreaData.isMandatory) {
+          this.props.displayToast(textAreaData.minLimitError);
+          return false;
         }
+        if (this.state.comment.length < parseInt(textAreaData.minLimit)) {
+          this.props.displayToast(textAreaData.minLimitError);
+          return false;
+        }
+        if (this.state.comment.length > parseInt(textAreaData.maxLimit)) {
+          this.props.displayToast(textAreaData.maxLimitError);
+          return false;
+        }
+      }
     }
 
     if (this.state.customerQryFldRadio) {
@@ -587,11 +580,8 @@ export default class OrderRelatedIssue extends React.Component {
   navigateToLogin() {
     return <Redirect to={LOGIN_PATH} />;
   }
-  async onUploadFiles(title,file){
-    const uploadFileResponse = await this.props.uploadUserFile(
-      title,
-      file
-    );
+  async onUploadFiles(title, file) {
+    const uploadFileResponse = await this.props.uploadUserFile(title, file);
     let { uploadUserFile, status } = uploadFileResponse;
     if (uploadFileResponse && status === SUCCESS) {
       this.setState({
@@ -600,15 +590,12 @@ export default class OrderRelatedIssue extends React.Component {
     }
   }
 
-
-
-  displayToast(toastData){
-    if(this.props.displayToast){
+  displayToast(toastData) {
+    if (this.props.displayToast) {
       this.props.displayToast(toastData);
     }
-    
   }
-  
+
   goToOrderPage() {
     if (
       this.props.ordersTransactionData &&
@@ -675,7 +662,7 @@ export default class OrderRelatedIssue extends React.Component {
     if (!userDetailsCookie || !customerCookie) {
       return this.navigateToLogin();
     }
-    
+
     let l1OptionsArray,
       l2OptionsArray,
       l3OptionsArray,
@@ -686,12 +673,11 @@ export default class OrderRelatedIssue extends React.Component {
       labelData = {},
       radioData = {},
       checkboxData = {};
-      if(this.props.ordersRelatedLoading){
-        this.props.showSecondaryLoader();
-      }
-      else{
-        this.props.hideSecondaryLoader();
-      }
+    if (this.props.ordersRelatedLoading) {
+      this.props.showSecondaryLoader();
+    } else {
+      this.props.hideSecondaryLoader();
+    }
     if (this.state.isSelected === 0) {
       l1OptionsArray =
         this.props.customerQueriesData &&
@@ -1248,49 +1234,49 @@ export default class OrderRelatedIssue extends React.Component {
                 </div>
               </div>
               {/* OrderRelated issue */}
-              
-                <React.Fragment>
-                  <CustomerCareOrderRelated
-                    l1OptionsArray={l1OptionsArray}
-                    customerQueriesFieldArray={this.props.customerQueriesField ||[]}
-                    isSelected={this.state.isSelected}
-                    productImageURL={this.state.productImageURL}
-                    orderDate={this.state.orderDate}
-                    productName={this.state.productName}
-                    productPrice={this.state.productPrice}
-                    productStatus={this.state.productStatus}
-                    transactionId={this.state.transactionId}
-                    orderCode={this.state.orderCode}
-                    subOrderCode={this.state.sellerOrderNumber}
-                    webform={this.state.webform}
-                    webFormStatus={this.state.webFormStatus}
-                    displayToast={toastData=> this.displayToast(toastData)}
-                    selectedObj={this.state.selectedObj}
-                    uploadUserFile={(title,file)=>this.onUploadFiles(title,file)}
-                    uploadedAttachments={this.state.uploadedAttachments}
-                    uploadUserFileData={this.props.uploadUserFileData}
-                    subIssueList={this.state.listOfSubIssue}
-                    onChange={val => this.onChange(val)}
-                    // updateState={(key,value) => this.updateState(key,value)}
-                    onChangeReasonForOrderRelated={(
-                      obj,
-                     
-                    ) =>
-                      this.onChangeReasonForOrderRelated(
-                        obj,
-                       
-                      )
-                    }
-                    onChangeDefaultFlag={val => this.onChangeDefaultFlag(val)}
-                    onUploadFile={(file, data) => this.onUploadFile(file, data)}
-                    submitCustomerForm={formData => this.submitCustomerForms(formData)}
-                    goToOrderPage={() => this.goToOrderPage()}
-                    onChangeReasonForNonOrderRelated={(val, l1OptionsArray) =>
-                      this.onChangeReasonForNonOrderRelated(val, l1OptionsArray)
-                    }
-                  />
-                </React.Fragment>
-              
+
+              <React.Fragment>
+                <CustomerCareOrderRelated
+                  l1OptionsArray={l1OptionsArray}
+                  customerQueriesFieldArray={
+                    this.props.customerQueriesField || []
+                  }
+                  isSelected={this.state.isSelected}
+                  productImageURL={this.state.productImageURL}
+                  orderDate={this.state.orderDate}
+                  productName={this.state.productName}
+                  productPrice={this.state.productPrice}
+                  productStatus={this.state.productStatus}
+                  transactionId={this.state.transactionId}
+                  orderCode={this.state.orderCode}
+                  subOrderCode={this.state.sellerOrderNumber}
+                  webform={this.state.webform}
+                  webFormStatus={this.state.webFormStatus}
+                  displayToast={toastData => this.displayToast(toastData)}
+                  selectedObj={this.state.selectedObj}
+                  uploadUserFile={(title, file) =>
+                    this.onUploadFiles(title, file)
+                  }
+                  uploadedAttachments={this.state.uploadedAttachments}
+                  uploadUserFileData={this.props.uploadUserFileData}
+                  subIssueList={this.state.listOfSubIssue}
+                  onChange={val => this.onChange(val)}
+                  // updateState={(key,value) => this.updateState(key,value)}
+                  onChangeReasonForOrderRelated={obj =>
+                    this.onChangeReasonForOrderRelated(obj)
+                  }
+                  onChangeDefaultFlag={val => this.onChangeDefaultFlag(val)}
+                  onUploadFile={(file, data) => this.onUploadFile(file, data)}
+                  submitCustomerForm={formData =>
+                    this.submitCustomerForms(formData)
+                  }
+                  goToOrderPage={() => this.goToOrderPage()}
+                  onChangeReasonForNonOrderRelated={(val, l1OptionsArray) =>
+                    this.onChangeReasonForNonOrderRelated(val, l1OptionsArray)
+                  }
+                />
+              </React.Fragment>
+
               {/* other Related issue */}
               {/* {this.state.isSelected === 1 && (
                 <CustomerCareOtherIssues

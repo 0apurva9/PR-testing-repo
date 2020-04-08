@@ -11,7 +11,17 @@ import ImageUpload from "./ImageUpload";
 import Button from "../../general/components/Button.js";
 import format from "date-fns/format";
 import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
+
+import {
+  EMAIL_REGULAR_EXPRESSION,
+  MOBILE_PATTERN
+} from "../../auth/components/Login";
+
 import * as Cookie from "../../lib/Cookie";
+const MOBILE_TEXT = "Please enter mobile number";
+const MOBILE_VALID_TEXT = "Please enter valid mobile number";
+const EMAIL_TEXT = "Please enter emailId";
+const EMAIL_VALID_TEXT = "Please enter  valid emailId";
 
 export default class CustomerCareOrderRelated extends React.Component {
   constructor(props) {
@@ -38,7 +48,8 @@ export default class CustomerCareOrderRelated extends React.Component {
           ? getUserDetail.userName
           : "",
       issueData: "",
-      nonOrderRelatedSubIssue: ""
+      nonOrderRelatedSubIssue: "",
+      attachmentName: "Upload attachment"
     };
   }
 
@@ -55,7 +66,11 @@ export default class CustomerCareOrderRelated extends React.Component {
     ) {
       nextProps.customerQueriesFieldArray.map(field => {
         if (field.componentName === "attachmentComponent") {
-          this.setState({ attachment: field });
+          this.setState({
+            attachment: field,
+            [field.componentId]: "",
+            uploadFileTitle: field.title
+          });
         } else {
           if (field.optionArray) {
             field.optionArray.map(option => {
@@ -92,15 +107,11 @@ export default class CustomerCareOrderRelated extends React.Component {
           return (
             <React.Fragment>
               <div className={styles.secondOrder}>
-                <CheckOutHeader
-                  indexNumber={"0"}
-                  confirmTitle={
-                    listOfField.isMandatory == 1
-                      ? listOfField.heading + "*"
-                      : listOfField.heading
-                  }
-                  fontSize={"12px"}
-                />
+                <div className={styles.fieldLabel}>
+                  {listOfField.isMandatory == 1
+                    ? listOfField.heading + "*"
+                    : listOfField.heading}
+                </div>
               </div>
               <div className={styles.textInformationHolder}>
                 <FloatingLabelInputWithPlace
@@ -122,7 +133,12 @@ export default class CustomerCareOrderRelated extends React.Component {
         if (listOfField.componentName == "radioComponent") {
           return (
             <div className={styles.secondOrder}>
-              <CheckOutHeader
+              <div className={styles.fieldLabel}>
+                {listOfField.isMandatory == 1
+                  ? listOfField.heading + "*"
+                  : listOfField.heading}
+              </div>
+              {/* <CheckOutHeader
                 indexNumber={"0"}
                 confirmTitle={
                   listOfField.isMandatory
@@ -130,7 +146,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                     : listOfField.heading
                 }
                 fontSize={"12px"}
-              />
+              /> */}
               {listOfField &&
                 listOfField.optionArray.map(ele => {
                   return (
@@ -163,12 +179,12 @@ export default class CustomerCareOrderRelated extends React.Component {
           return (
             <React.Fragment>
               <div className={styles.secondOrder}>
-                <CheckOutHeader
+                {/* <CheckOutHeader
                   indexNumber={"0"}
                   confirmTitle={listOfField.heading}
                   fontSize={"12px"}
-                  isAdditionsTextRight={false}
-                />
+                /> */}
+                <div className={styles.fieldLabel}>{listOfField.heading}</div>
               </div>
               <TextArea
                 placeholder={listOfField.placeholder}
@@ -186,12 +202,13 @@ export default class CustomerCareOrderRelated extends React.Component {
           return (
             <div className={styles.textInformationHolder}>
               <div className={styles.secondOrder}>
-                <CheckOutHeader
+                <div className={styles.fieldLabel}>{listOfField.heading}</div>
+                {/* <CheckOutHeader
                   indexNumber={"0"}
                   confirmTitle={listOfField.heading}
                   fontSize={"12px"}
                   isAdditionsTextRight={false}
-                />
+                /> */}
               </div>
               {listOfField &&
                 listOfField.optionArray.map(ele => {
@@ -220,52 +237,61 @@ export default class CustomerCareOrderRelated extends React.Component {
     );
   }
 
-  onUploadFile(file, { maxFileLimit, maxFileSize, title }) {
-    // this.setState({ file: file });
-    this.props.uploadUserFile(title, file);
+  onUploadFile(file, attachment) {
+    // console.log("file",file);
+    // let uplodaState=this.state[attachment.componentId];
+    // this.setState({[attachment.componentId]:[...uplodaState,file]},()=>{
+    //   // for (let i=0 ;i<uplodaState.length;i++){
 
-   
-    // if (file) {
-    //   let combinedSize = 0;
-    //   for (let f of file) combinedSize += f.size;
-    //   if (
-    //     combinedSize <= maxFileSize * 1000000 &&
-    //     file.length <= maxFileLimit
-    //   ) {
-    //     const uploadFileResponse = await this.props.uploadUserFile(
-    //       title,
-    //       file[0]
-    //     );
-    //     let { uploadUserFile, status } = uploadFileResponse;
-    //     if (uploadFileResponse && status === SUCCESS) {
-    //       this.setState({
-    //         file: file,
-    //         uploadedAttachment: uploadUserFile.imageURLlist
-    //       });
-    //     }
-    //   } else {
-    //     if (file.length > maxFileLimit)
-    //       this.props.displayToast(
-    //         `Maximum ${maxFileSize} No. of files allowed`
-    //       );
-    //     else
-    //       this.props.displayToast(
-    //         `File size should be less then ${maxFileSize} MB`
-    //       );
-    //   }
-    // }
+    //   //   let combineSize=0;
+    //   //   combineSize+=uplodaState[i].size;
+    //   //   if(combineSize<=attachment.maxFileSize*1000000&&uplodaState.length<=attachment.maxFileLimit)
+    //   //   console.log("dsdsd",uplodaState[i].size);
+
+    //   // }
+    // })
+    let combinedSize = 0;
+    // this.props.uploadUserFile(attachment.title, file);
+    // for (let f of file) combinedSize += f.size;
+    // console.log("combinedSize",combinedSize);
+    // this.setState({ file: file });
+    // this.props.uploadUserFile(attachment.title, file);
+
+    if (file) {
+      // let combinedSize = 0;
+      // for (let f of file) combinedSize += f.size;
+      if (file.size <= attachment.maxFileSize * 1000000) {
+        this.setState({
+          [attachment.componentId]: [
+            ...this.state[attachment.componentId],
+            file
+          ],
+          attachmentName: file.name
+        });
+        this.props.uploadUserFile(attachment.title, file);
+      } else {
+        // if (file.length > maxFileLimit)
+        //   this.props.displayToast(
+        //     `Maximum ${maxFileSize} No. of files allowed`
+        //   );
+        // else
+        this.props.displayToast(
+          `File size should be less then ${attachment.maxFileSize} MB`
+        );
+      }
+    }
   }
   formValidate(fieldObj) {
     if (fieldObj.componentName === "labelComponent") {
       return false;
     }
     if (fieldObj.isMandatory == 1) {
-      if (fieldObj.componentName === "attachmentComponent") {
-        if (this.state.file.length == 0) {
-          this.props.displayToast(fieldObj.itemsTitle + " is mandatory");
-          return false;
-        }
-      }
+      // if (fieldObj.componentName === "attachmentComponent") {
+      //   if (this.state.file.length == 0) {
+      //     this.props.displayToast(fieldObj.itemsTitle + " is mandatory");
+      //     return false;
+      //   }
+      // }
       if (this.state[fieldObj.componentId] == "") {
         this.props.displayToast(fieldObj.heading + " is mandatory");
         return false;
@@ -292,6 +318,7 @@ export default class CustomerCareOrderRelated extends React.Component {
   }
 
   submitCustomerForm() {
+    const { email, mobile, name } = this.state;
     const additionalInfo = {
       extracomments: "",
       attachment: "",
@@ -345,45 +372,67 @@ export default class CustomerCareOrderRelated extends React.Component {
         const validateStatus = this.formValidate(field);
         if (validateStatus) {
           for (let [key, value] of Object.entries(additionalInfo)) {
-            if (this.props.uploadedAttachments) {
-              additionalInfo.attachment = this.props.uploadedAttachments[0].urlList;
+            if (this.props.uploadedAttachments.length > 0) {
+              additionalInfo[
+                this.state.uploadFileTitle
+              ] = this.props.uploadedAttachments[0].urlList;
             }
             if (key == field.title) {
               additionalInfo[field.title] = this.state[field.componentId];
             }
           }
         }
-        
       });
-    let ticketInfo = Object.assign(
-      {},
-      {
-        subIssueType: this.props.selectedObj[0].subIssueType,
-        l0: this.props.selectedObj[0].l0,
-        l1: this.props.selectedObj[0].l1,
-        l2: this.props.selectedObj[0].l2,
-        l3: this.props.selectedObj[0].l3,
-        l4: this.props.selectedObj[0].l4,
-        ticketType: this.props.selectedObj[0].ticketType,
-        transactionId: this.props.transactionId,
-        orderCode: this.props.orderCode,
-        subOrderCode: this.props.subOrderCode
-      }
-    );
-    let customerInfo = Object.assign(
-      {},
-      {
-        contactEmail: this.state.email,
-        contactPhn: this.state.mobile,
-        contactName: this.state.name ? this.state.name : "no name"
-      }
-    );
-    let raiseTicketObj = {
-      additionalInfo,
-      ticketInfo,
-      customerInfo
-    };
-    this.props.submitCustomerForm(raiseTicketObj);
+
+    if (!email) {
+      this.props.displayToast(EMAIL_TEXT);
+      return false;
+    }
+    if (email && !EMAIL_REGULAR_EXPRESSION.test(email)) {
+      this.props.displayToast(EMAIL_VALID_TEXT);
+      return false;
+    }
+    if (!mobile) {
+      this.props.displayToast(MOBILE_TEXT);
+      return false;
+    }
+    if (mobile && !MOBILE_PATTERN.test(mobile)) {
+      this.props.displayToast(MOBILE_VALID_TEXT);
+      return false;
+    } else {
+      let ticketInfo = Object.assign(
+        {},
+        {
+          subIssueType: this.props.selectedObj[0].subIssueType
+            ? this.props.selectedObj[0].subIssueType
+            : "",
+          l0: this.props.selectedObj[0].l0,
+          l1: this.props.selectedObj[0].l1,
+          l2: this.props.selectedObj[0].l2,
+          l3: this.props.selectedObj[0].l3,
+          l4: this.props.selectedObj[0].l4,
+          ticketType: this.props.selectedObj[0].ticketType,
+          transactionId: this.props.transactionId,
+          orderCode: this.props.orderCode,
+          subOrderCode: this.props.subOrderCode
+        }
+      );
+      let customerInfo = Object.assign(
+        {},
+        {
+          contactEmail: email,
+          contactPhn: mobile,
+          contactName: name ? name : "no name"
+        }
+      );
+      let raiseTicketObj = {
+        additionalInfo,
+        ticketInfo,
+        customerInfo
+      };
+      console.log("raiseTicketObj", raiseTicketObj);
+      this.props.submitCustomerForm(raiseTicketObj);
+    }
   }
   onChangeReasonForOrderRelated(val) {
     let { l1OptionsArray, isSelected } = this.props;
@@ -407,6 +456,7 @@ export default class CustomerCareOrderRelated extends React.Component {
   }
 
   render() {
+    console.log("sdfsdf", this.state);
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const getUserDetail = JSON.parse(userDetailsCookie);
     let {
@@ -425,6 +475,12 @@ export default class CustomerCareOrderRelated extends React.Component {
       selectedObj,
       subIssueList
     } = this.props;
+    let attachmentName = "Upload attachment";
+    // if (this.state.a) {
+    //   let fileName = [];
+    //   for (let f of file) fileName.push(f.name);
+    //   attachmentName = fileName.join(",");
+    // }
     return (
       <div className={styles.formHolder}>
         <div className={styles.firstTab}>
@@ -662,12 +718,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                       />
                     </div>
                     <ImageUpload
-                      value={
-                        this.state.file.length
-                          ? this.state.file &&
-                            this.state.file.map(ele => ele.name).join(", ")
-                          : "Upload attachment"
-                      }
+                      value={this.state.attachmentName}
                       onChange={file =>
                         this.onUploadFile(file, this.state.attachment)
                       }
@@ -701,7 +752,6 @@ export default class CustomerCareOrderRelated extends React.Component {
                   <div className={styles.conmmunicationalDetails}>
                     <FloatingLabelInput
                       label="Name *"
-                      maxLength={"10"}
                       value={this.state.name}
                       fontSize={"12px"}
                       onChange={name => this.setState({ name: name })}
