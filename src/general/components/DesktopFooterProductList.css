@@ -53,7 +53,6 @@
   text-overflow: ellipsis;
 }
 .productListDetail {
-  display: inline-block;
   text-decoration: underline;
   height: auto;
 }
