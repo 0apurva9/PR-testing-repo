@@ -19,7 +19,6 @@
 	background: #fff;
 	border-radius: 4px;
 	max-width: 1190px;
-	max-height: 323px;
 	margin: 0px auto 24px auto;
 }
 .card {
@@ -82,4 +81,31 @@
 }
 .marginRightSpan {
 	margin-right: 34px;
+}
+.exchangeDetailsWithReturn{
+	border-top: 1px solid #d5d5d5;
+  margin-top: 15px;
+}
+.cancelExchangeMessage{
+	display: inline-block;
+	font-size: 12px;
+	color: #c47403;
+	font-family: light;
+	border-radius: 4px;
+	background-color: #fff2e0;
+	padding: 5px;
+	margin-top: 15px;
+}
+.exchangeModelName{
+	font-size: 14px;
+	margin: 10px 0;
+}
+.fontLight{
+	font-family: light;
+}
+.fontBold{
+	font-family: semibold;
+}
+.totalExchangeCashback{
+	font-size: 12px;
 }

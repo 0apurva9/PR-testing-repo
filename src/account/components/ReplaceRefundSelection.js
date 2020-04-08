@@ -552,6 +552,12 @@ export default class ReplaceRefundSelection extends React.Component {
                             orderDetails.orderProductWsDTO[0].productcode
                         )
                       }
+                      exchangeDetails={
+                        data &&
+                        data.products &&
+                        data.products[0] &&
+                        data.products[0].exchangeDetails
+                      }
                     >
                       {returnProductDetails &&
                         returnProductDetails.orderProductWsDTO &&

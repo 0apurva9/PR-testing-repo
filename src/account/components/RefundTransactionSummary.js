@@ -137,12 +137,14 @@ export default class RefundTransactionSummary extends React.Component {
               summaryDetails.getRefundTransactionDetails && (
                 <OrderCard
                   imageUrl={
+                    summaryDetails.getRefundTransactionDetails.products &&
                     summaryDetails.getRefundTransactionDetails.products[0]
                       .imageURL
                   }
                   imageHolderWidth="98px"
                   imageHolderHeight="130px"
                   productName={
+                    summaryDetails.getRefundTransactionDetails.products &&
                     summaryDetails.getRefundTransactionDetails.products[0]
                       .productName
                   }
@@ -154,10 +156,12 @@ export default class RefundTransactionSummary extends React.Component {
                       .returnStoreAddress
                   }
                   productSize={
+                    summaryDetails.getRefundTransactionDetails.products &&
                     summaryDetails.getRefundTransactionDetails.products[0]
                       .productSize
                   }
                   productColourName={
+                    summaryDetails.getRefundTransactionDetails.products &&
                     summaryDetails.getRefundTransactionDetails.products[0]
                       .productColour
                   }
@@ -196,6 +200,40 @@ export default class RefundTransactionSummary extends React.Component {
             >
               Track Order
             </div>
+            {summaryDetails &&
+              summaryDetails.getRefundTransactionDetails &&
+              summaryDetails.getRefundTransactionDetails.products &&
+              summaryDetails.getRefundTransactionDetails.products[0] &&
+              summaryDetails.getRefundTransactionDetails.products[0]
+                .exchangeDetails && (
+                <div className={styles.exchangeDetailsWithReturn}>
+                  <div className={styles.cancelExchangeMessage}>
+                    {
+                      summaryDetails.getRefundTransactionDetails.products[0]
+                        .exchangeDetails.exchangeCancelMessage
+                    }
+                  </div>
+                  <div className={styles.exchangeModelName}>
+                    <span className={styles.fontBold}>Exchange Phone: </span>
+                    <span className={styles.fontLight}>
+                      {
+                        summaryDetails.getRefundTransactionDetails.products[0]
+                          .exchangeDetails.exchangeModelName
+                      }
+                    </span>
+                  </div>
+                  <div className={styles.totalExchangeCashback}>
+                    <span>Total Exchange Cashback: </span>
+                    <span>
+                      {summaryDetails.getRefundTransactionDetails.products[0]
+                        .exchangeDetails.totalExchangeCashback &&
+                        summaryDetails.getRefundTransactionDetails.products[0]
+                          .exchangeDetails.totalExchangeCashback
+                          .formattedValueNoDecimal}
+                    </span>
+                  </div>
+                </div>
+              )}
           </div>
         </div>
       </div>

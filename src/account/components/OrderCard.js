@@ -646,8 +646,9 @@ export default class OrderCard extends React.Component {
           <React.Fragment>{this.props.additionalContent}</React.Fragment>
         )}
 
-        {this.props.title === PRODUCT_CANCEL &&
-          this.props.exchangeDetails && (
+        {(this.props.title === PRODUCT_CANCEL || this.props.returnFlow) &&
+          this.props.exchangeDetails &&
+          this.props.exchangeDetails.exchangeCancelMessage && (
             <div className={styles.cancelExchangeMessage}>
               {this.props.exchangeDetails.exchangeCancelMessage}
             </div>
