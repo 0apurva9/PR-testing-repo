@@ -85,13 +85,10 @@ export default class CheckoutCardless extends React.Component {
   render() {
     let inputClass = "";
     if (this.state.instacredEligible === true) {
-      debugger;
       inputClass = "inputBoxShowIcon";
     } else if (this.state.instacredEligible === false) {
-      debugger;
       inputClass = "inputBoxHideIcon";
     } else {
-      debugger;
       inputClass = "inputBoxHideIcon";
     }
 
