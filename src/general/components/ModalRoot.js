@@ -988,6 +988,8 @@ export default class ModalRoot extends React.Component {
       CliqAndPiqModal: (
         <CliqAndPiq
           CloseCliqAndPiqModal={() => this.handleClose()}
+          getAllStoresForCliqAndPiq={this.props.getAllStoresForCliqAndPiq}
+          getProductPinCode={this.props.getProductPinCode}
           {...this.props.ownProps}
         />
       ),

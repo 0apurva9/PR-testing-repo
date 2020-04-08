@@ -10,7 +10,8 @@ import {
   MY_ACCOUNT,
   ORDER,
   ORDER_CODE,
-  PRODUCT_CANCEL
+  PRODUCT_CANCEL,
+  EDD_TEXT
 } from "../../lib/constants";
 import {
   setDataLayer,
@@ -40,7 +41,7 @@ export default class OrderCard extends React.Component {
     let deliveryModeNameLowerCase = deliveryModeName.toLowerCase();
     switch (deliveryModeNameLowerCase) {
       case "click and collect":
-        return "Cliq n Piq";
+        return "QuiQ PiQ";
 
       case "home delivery":
         return "Standard Delivery";
@@ -75,6 +76,117 @@ export default class OrderCard extends React.Component {
     );
   }
 
+  copyToClipBoard = event => {
+    event.preventDefault();
+    event.stopPropagation();
+    let copyText = this.refs.copyThisLink;
+
+    document.addEventListener(
+      "copy",
+      function(e) {
+        e.clipboardData.setData("text/plain", copyText.innerHTML);
+        e.preventDefault();
+      },
+      true
+    );
+
+    document.execCommand("copy");
+    window.open(copyText.innerHTML, "_blank");
+  };
+  getDateMonthFormate(dateWithMonth) {
+    let todayDate = new Date().getDate();
+    let nextDayDate = todayDate + 1;
+    let date = dateWithMonth.getDate();
+    let month = dateWithMonth.getMonth() + 1;
+    let year = dateWithMonth.getFullYear();
+    let newExpressOrSddText = "";
+    let monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+    if (date === todayDate) {
+      newExpressOrSddText = `Today, `;
+    } else if (date === nextDayDate) {
+      newExpressOrSddText = `Tomorrow, `;
+    }
+    switch (date) {
+      case 1:
+      case 21:
+      case 31:
+        if (newExpressOrSddText) {
+          return (
+            newExpressOrSddText +
+            date +
+            "st " +
+            monthNames[month - 1] +
+            " " +
+            year
+          );
+        } else {
+          return "" + date + "st " + monthNames[month - 1] + " " + year;
+        }
+      case 2:
+      case 22:
+        if (newExpressOrSddText) {
+          return (
+            newExpressOrSddText +
+            date +
+            "nd " +
+            monthNames[month - 1] +
+            " " +
+            year
+          );
+        } else {
+          return "" + date + "nd " + monthNames[month - 1] + " " + year;
+        }
+      case 3:
+      case 23:
+        if (newExpressOrSddText) {
+          return (
+            newExpressOrSddText +
+            date +
+            "rd " +
+            monthNames[month - 1] +
+            " " +
+            year
+          );
+        } else {
+          return "" + date + "rd " + monthNames[month - 1];
+        }
+      default:
+        if (newExpressOrSddText) {
+          return (
+            newExpressOrSddText +
+            date +
+            "th " +
+            monthNames[month - 1] +
+            " " +
+            year
+          );
+        } else {
+          return "" + date + "th " + monthNames[month - 1] + " " + year;
+        }
+    }
+  }
+  getDayNumberSuffix(d) {
+    let dateWithMonth = d.replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3");
+    dateWithMonth = new Date(dateWithMonth);
+
+    if (dateWithMonth) {
+      return this.getDateMonthFormate(dateWithMonth);
+    } else return "";
+  }
+
   render() {
     let calloutMessage = this.props.calloutMessage;
 
@@ -86,10 +198,16 @@ export default class OrderCard extends React.Component {
     let estimatedDeliveryDateFormatted = "";
     let deliveryDate = "",
       deliveryDateFormatted = "";
-    if (this.props && this.props.estimatedDeliveryDate) {
-      estimatedDeliveryDate = this.props.estimatedDeliveryDate;
-      let edd = new Date(estimatedDeliveryDate);
-      estimatedDeliveryDateFormatted = format(edd, dateFormat);
+    if (
+      this.props.estimatedDeliveryDate &&
+      !this.props.estimatedDeliveryDate.includes("DeliveryTAT not found")
+    ) {
+      estimatedDeliveryDateFormatted = this.getDayNumberSuffix(
+        this.props.estimatedDeliveryDate
+      );
+    }
+    if (!estimatedDeliveryDateFormatted && this.props.selectedDeliveryMode) {
+      estimatedDeliveryDateFormatted = this.props.selectedDeliveryMode.desc;
     }
     if (this.props && this.props.deliveryDate) {
       deliveryDate = this.props.deliveryDate;
@@ -98,7 +216,8 @@ export default class OrderCard extends React.Component {
     }
 
     let date = "",
-      shipmentStatus = "";
+      shipmentStatus = "",
+      responseCode = "";
     if (statusDisplayMsg && statusDisplayMsg.length > 0) {
       let statusDisplayMsgL1 = statusDisplayMsg[statusDisplayMsg.length - 1];
       let statusList =
@@ -112,13 +231,15 @@ export default class OrderCard extends React.Component {
       //written to avoid for loop
       if (
         LaststatusDisplayList &&
+        LaststatusDisplayList.statusMessageList &&
         LaststatusDisplayList.statusMessageList[0] &&
         LaststatusDisplayList.statusMessageList[0].date
       ) {
         date = LaststatusDisplayList.statusMessageList[0].date;
       }
       if (LaststatusDisplayList && LaststatusDisplayList.shipmentStatus) {
-        shipmentStatus = LaststatusDisplayList.shipmentStatus;
+        shipmentStatus = LaststatusDisplayList.shipmentStatus.trim();
+        responseCode = LaststatusDisplayList.responseCode;
       }
     }
     let returnEligibleDate = "";
@@ -270,7 +391,8 @@ export default class OrderCard extends React.Component {
             this.props.orderStatusCode &&
             !CNCcallOut &&
             this.props.price != 0.01 &&
-            this.props.calloutMessage && (
+            this.props.calloutMessage &&
+            !this.props.calloutMessage.includes(EDD_TEXT) && (
               <div
                 className={
                   this.props.orderStatusCode === "PAYMENT_PENDING" ||
@@ -280,8 +402,13 @@ export default class OrderCard extends React.Component {
                 }
               >
                 <div className={styles.calloutMessage}>
-                  {updatedCalloutMessage}
+                  {`${updatedCalloutMessage}`}
                 </div>
+                {/* {this.props.orderBreachMessage && (
+                  <div className={styles.breachMessage}>
+                    * {this.props.orderBreachMessage}
+                  </div>
+                )} */}
               </div>
             )}
 
@@ -296,20 +423,21 @@ export default class OrderCard extends React.Component {
                       this.props.productName === "Gift Card"
                         ? "Gift card detail will be sent you on your specified email id shortly."
                         : this.props.price
-                        ? `${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
-                            this.props.price
-                          )}`
-                        : null}
+                          ? `${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
+                              this.props.price
+                            )}`
+                          : null}
                     </div>
                   )}
-                  {this.props.isEgvOrder && this.props.resendAvailable && (
-                    <div
-                      className={styles.reSendEmail}
-                      onClick={() => this.reSendEmailForGiftCard()}
-                    >
-                      Resend Email
-                    </div>
-                  )}
+                  {this.props.isEgvOrder &&
+                    this.props.resendAvailable && (
+                      <div
+                        className={styles.reSendEmail}
+                        onClick={() => this.reSendEmailForGiftCard()}
+                      >
+                        Resend Email
+                      </div>
+                    )}
                   {this.props.discountPrice &&
                     this.props.discountPrice != this.props.price && (
                       <div className={styles.discountPrice}>
@@ -341,14 +469,15 @@ export default class OrderCard extends React.Component {
               )}
             </div>
           )}
-          {this.props.idFromAllOrderDetails != "Y" && this.props.quantity && (
-            <div className={styles.priceWithQuantity}>
-              <div className={styles.price}>Qty</div>
-              <div className={styles.quantity}>
-                {this.props.numberOfQuantity}
+          {this.props.idFromAllOrderDetails != "Y" &&
+            this.props.quantity && (
+              <div className={styles.priceWithQuantity}>
+                <div className={styles.price}>Qty</div>
+                <div className={styles.quantity}>
+                  {this.props.numberOfQuantity}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
           {this.props.children &&
             this.props.idFromAllOrderDetails != "Y" &&
@@ -357,6 +486,30 @@ export default class OrderCard extends React.Component {
               <div className={styles.additionalContent}>
                 {this.props.children}
               </div>
+            )}
+          {this.props.orderStatusCode &&
+            this.props.orderStatusCode !== "DELIVERED" &&
+            this.props.orderStatusCode !== "PAYMENT_PENDING" &&
+            estimatedDeliveryDateFormatted && (
+              <React.Fragment>
+                <div className={styles.edd}>
+                  <span className={styles.ffsemibold}>
+                    {this.props.clickAndCollect === true
+                      ? "Pickup Date"
+                      : EDD_TEXT}
+                    :
+                  </span>
+                  <span>
+                    &nbsp;
+                    {estimatedDeliveryDateFormatted}
+                  </span>
+                </div>
+                {this.props.orderBreachMessage && (
+                  <div className={styles.breachMessage}>
+                    * {this.props.orderBreachMessage}
+                  </div>
+                )}
+              </React.Fragment>
             )}
 
           {!this.props.isEgvOrder &&
@@ -405,46 +558,47 @@ export default class OrderCard extends React.Component {
                 )}
               </div>
             )}
-          {this.props && this.props.returnMode != "REFNOPCK" && (
-            <React.Fragment>
-              <div className={styles.pickupAddressHolder}>
-                <div className={styles.pickupAddressTitle}>
-                  {this.props.returnModeSelected == "Pick Up"
-                    ? "Pick up from"
-                    : this.props.returnModeSelected == "Self Courier"
-                    ? "Delivery Address"
-                    : this.props.returnModeSelected == "Return To Store"
-                    ? "Store Address"
-                    : ""}
+          {this.props &&
+            this.props.returnMode != "REFNOPCK" && (
+              <React.Fragment>
+                <div className={styles.pickupAddressHolder}>
+                  <div className={styles.pickupAddressTitle}>
+                    {this.props.returnModeSelected == "Pick Up"
+                      ? "Pick up from"
+                      : this.props.returnModeSelected == "Self Courier"
+                        ? "Delivery Address"
+                        : this.props.returnModeSelected == "Return To Store"
+                          ? "Store Address"
+                          : ""}
+                  </div>
+                  {this.props.pickupAddress && (
+                    <div className={styles.pickupAddressText}>
+                      {this.props.pickupAddress.line1}{" "}
+                      {this.props.pickupAddress.line1 ? "," : ""}&nbsp;
+                      {this.props.pickupAddress.landmark}{" "}
+                      {this.props.pickupAddress.landmark ? "," : ""}&nbsp;
+                      {this.props.pickupAddress.city}{" "}
+                      {this.props.pickupAddress.city ? "," : ""}&nbsp;
+                      {this.props.pickupAddress.state}{" "}
+                      {this.props.pickupAddress.state ? "," : ""}&nbsp;
+                      {this.props.pickupAddress.postalCode}
+                    </div>
+                  )}
+                  {this.props.returnStoreAddress && (
+                    <div className={styles.pickupAddressText}>
+                      {this.props.returnStoreAddress.address &&
+                        this.props.returnStoreAddress.address.line1}{" "}
+                      ,&nbsp;
+                      {this.props.returnStoreAddress.address &&
+                        this.props.returnStoreAddress.address.city}{" "}
+                      ,&nbsp;
+                      {this.props.returnStoreAddress.address &&
+                        this.props.returnStoreAddress.address.postalCode}
+                    </div>
+                  )}
                 </div>
-                {this.props.pickupAddress && (
-                  <div className={styles.pickupAddressText}>
-                    {this.props.pickupAddress.line1}{" "}
-                    {this.props.pickupAddress.line1 ? "," : ""}&nbsp;
-                    {this.props.pickupAddress.landmark}{" "}
-                    {this.props.pickupAddress.landmark ? "," : ""}&nbsp;
-                    {this.props.pickupAddress.city}{" "}
-                    {this.props.pickupAddress.city ? "," : ""}&nbsp;
-                    {this.props.pickupAddress.state}{" "}
-                    {this.props.pickupAddress.state ? "," : ""}&nbsp;
-                    {this.props.pickupAddress.postalCode}
-                  </div>
-                )}
-                {this.props.returnStoreAddress && (
-                  <div className={styles.pickupAddressText}>
-                    {this.props.returnStoreAddress.address &&
-                      this.props.returnStoreAddress.address.line1}{" "}
-                    ,&nbsp;
-                    {this.props.returnStoreAddress.address &&
-                      this.props.returnStoreAddress.address.city}{" "}
-                    ,&nbsp;
-                    {this.props.returnStoreAddress.address &&
-                      this.props.returnStoreAddress.address.postalCode}
-                  </div>
-                )}
-              </div>
-            </React.Fragment>
-          )}
+              </React.Fragment>
+            )}
         </div>
         {this.props.children &&
           this.props.idFromAllOrderDetails === "Y" &&
@@ -474,7 +628,9 @@ export default class OrderCard extends React.Component {
 
         <div>{this.props.additionalContent}</div>
         {this.props.selectedDeliveryMode &&
-          this.props.selectedDeliveryMode.name && (
+          this.props.selectedDeliveryMode.name &&
+          this.props.selectedDeliveryMode.name.toLowerCase() ===
+            "click and collect" && (
             <div className={styles.commonTitle}>
               <span className={styles.ffsemibold}>Delivery Mode: </span>
               <span className={styles.estimatedDate}>
@@ -565,7 +721,8 @@ export default class OrderCard extends React.Component {
           )}
         {this.props.isGiveAway === "N" &&
           this.props.consignmentStatus &&
-            this.props.consignmentStatus.includes("CANCEL") &&
+          this.props.consignmentStatus.includes("CANCEL") &&
+          !shipmentStatus.includes("Estimated Delivery Date") &&
           date && (
             <div className={styles.commonTitle}>
               <span className={styles.ffsemibold}>{shipmentStatus}</span>
@@ -573,12 +730,12 @@ export default class OrderCard extends React.Component {
           )}
         {this.props.isGiveAway === "N" &&
           this.props.consignmentStatus &&
-            !this.props.consignmentStatus.includes("CANCEL") &&
+          !this.props.consignmentStatus.includes("CANCEL") &&
           date && (
             <div className={styles.commonTitle}>
               {!this.props.calloutMessage ? (
                 <React.Fragment>
-                  {this.props.estimatedDeliveryDate &&
+                  {estimatedDeliveryDateFormatted &&
                     !checkStatus &&
                     (date || returnEligibleDate) && (
                       <React.Fragment>
@@ -587,16 +744,23 @@ export default class OrderCard extends React.Component {
                           shipmentStatus.includes("Eligible for Return till") &&
                           !this.props.deliveryDate
                             ? ""
-                            : shipmentStatus}{" "}
+                            : this.props.clickAndCollect === true &&
+                              !shipmentStatus.includes(
+                                "Order Could be collected by"
+                              )
+                              ? "Pickup Date:"
+                              : responseCode !== "REFUND_INITIATED"
+                                ? `${
+                                    shipmentStatus ? shipmentStatus + ":" : ""
+                                  }`
+                                : null}{" "}
                         </span>
-                        {EstDeliveryDate && (
+                        {shipmentStatus.includes(EDD_TEXT) &&
+                        estimatedDeliveryDateFormatted ? (
                           <span className={styles.styleDate}>
-                            &nbsp;
-                            {this.props.estimatedDeliveryDate
-                              ? estimatedDeliveryDateFormatted
-                              : ""}
+                            {estimatedDeliveryDateFormatted}
                           </span>
-                        )}
+                        ) : null}
                         {shipmentStatus &&
                           shipmentStatus.includes(
                             "Order Could be collected by"
@@ -618,7 +782,7 @@ export default class OrderCard extends React.Component {
                         </span>
                       </React.Fragment>
                     )}
-                  {!this.props.estimatedDeliveryDate &&
+                  {!estimatedDeliveryDateFormatted &&
                     !checkStatus &&
                     (date || returnEligibleDate) && (
                       <React.Fragment>
@@ -651,16 +815,32 @@ export default class OrderCard extends React.Component {
                     )}
                 </React.Fragment>
               ) : (
-                <div className={styles.commonTitle}>
-                  {this.props.calloutMessage}
-                </div>
+                <React.Fragment>
+                  {!this.props.calloutMessage.includes(EDD_TEXT) && (
+                    <div className={styles.commonTitle}>
+                      {this.props.calloutMessage}
+                    </div>
+                  )}
+                </React.Fragment>
               )}
             </div>
           )}
-
+        {this.props.itemBreachMessage && (
+          <div className={styles.breachMessage}>
+            * {this.props.itemBreachMessage}
+          </div>
+        )}
         {this.props.sellerName && (
           <div className={styles.sellerName}>
             Sold By : {this.props.sellerName}
+          </div>
+        )}
+        {this.props.sshipLPUrl && (
+          <div
+            ref="copyThisLink"
+            onClick={event => this.copyToClipBoard(event)}
+          >
+            {this.props.sshipLPUrl}
           </div>
         )}
         {/* <div

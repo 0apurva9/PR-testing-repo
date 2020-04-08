@@ -83,11 +83,16 @@ export default class TextWithUnderLine extends React.Component {
             : styles.noOffset
         }
       >
-        {(defaultPinCode || this.state.getPinCode) && (
-          <div className={styles.headingText}>
-            {defaultPinCode ? defaultPinCode : this.state.getPinCode}
-          </div>
-        )}
+        <div className={styles.pincodeBox}>
+          {this.props.city ? (
+            <div className={styles.cityName}>{this.props.city}, </div>
+          ) : null}
+          {(defaultPinCode || this.state.getPinCode) && (
+            <div className={styles.headingText}>
+              {defaultPinCode ? defaultPinCode : this.state.getPinCode}
+            </div>
+          )}
+        </div>
         {!defaultPinCode &&
           !this.state.getPinCode && (
             <SearchAndUpdate

@@ -12,11 +12,35 @@ const REFUND_INITIATED = "REFUND_INITIATED";
 const READY_FOR_COLLECTION = "READY_FOR_COLLECTION";
 const ORDER_COLLECTED = "ORDER_COLLECTED";
 export default class OrderStatusVertical extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      copied: false
+    };
+  }
   handleMoreDetails(val) {
     if (this.props.showShippingDetails && val) {
       this.props.showShippingDetails(val);
     }
   }
+  copySshipAwbTrackingUrl = (event, sshipAwbTrackingUrl, trackingAWB) => {
+    event.preventDefault();
+    event.stopPropagation();
+    let copyText = this.refs.copyThisLink;
+
+    document.addEventListener(
+      "copy",
+      function(e) {
+        e.clipboardData.setData("text/plain", trackingAWB);
+        e.preventDefault();
+      },
+      true
+    );
+
+    document.execCommand("copy");
+    this.props.displayToast("Copied!");
+    window.open(sshipAwbTrackingUrl, "_blank");
+  };
   render() {
     const completedSteps = this.props.statusMessageList.map(val => {
       return val.key;
@@ -264,17 +288,33 @@ export default class OrderStatusVertical extends React.Component {
                           </div>
                         </div>
                       )}
-                      <div className={styles.courierInfoHolder}>
-                        <UnderLinedButton
-                          label="More details"
-                          onClick={() =>
-                            this.handleMoreDetails({
-                              shippingList,
-                              orderCode
-                            })
+                      {this.props.sshipAwbTrackingUrl ? (
+                        <div
+                          className={styles.courierInfoHolder}
+                          ref="copyThisLink"
+                          onClick={event =>
+                            this.copySshipAwbTrackingUrl(
+                              event,
+                              this.props.sshipAwbTrackingUrl,
+                              this.props.trackingAWB
+                            )
                           }
-                        />
-                      </div>
+                        >
+                          More details
+                        </div>
+                      ) : (
+                        <div className={styles.courierInfoHolder}>
+                          <UnderLinedButton
+                            label="More details"
+                            onClick={() =>
+                              this.handleMoreDetails({
+                                shippingList,
+                                orderCode
+                              })
+                            }
+                          />
+                        </div>
+                      )}
 
                       <div className={styles.moreAnswerHolder} />
                     </div>

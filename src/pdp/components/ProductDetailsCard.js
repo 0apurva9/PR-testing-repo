@@ -18,6 +18,12 @@ export default class ProductDetailsCard extends React.Component {
   };
 
   render() {
+    /* let discount = "";
+    if(this.props.priceDouble && this.props.discountPriceDouble){
+      discount = Math.round(
+        ((this.props.discountPriceDouble - this.props.priceDouble)/this.props.discountPriceDouble) * 100
+        );
+    } */
     return (
       <div className={styles.base}>
         <div className={styles.productImageHolder}>
@@ -88,6 +94,9 @@ export default class ProductDetailsCard extends React.Component {
                     </span>
                   </del>
                 )}
+              {/*   <span className={styles.discount}>
+                {discount && discount > 0 &&`(${discount}%)`}
+              </span>  */}
             </div>
           )}
           {this.props.productTitle && (

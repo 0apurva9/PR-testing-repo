@@ -1,4 +1,5 @@
 import React from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import styles from "./OrderStatusHorizontal.css";
 import PropTypes from "prop-types";
 import {
@@ -25,11 +26,37 @@ import {
 } from "../../lib/constants";
 
 export default class OrderStatusVerticalV2 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      copied: false
+    };
+  }
   handleMoreDetails(val) {
     if (this.props.showShippingDetails && val) {
       this.props.showShippingDetails(val);
     }
   }
+  copySshipAwbTrackingUrl = (event, sshipAwbTrackingUrl, trackingAWB) => {
+    event.preventDefault();
+    event.stopPropagation();
+    let copyText = this.refs.copyThisLink;
+
+    document.addEventListener(
+      "copy",
+      function(e) {
+        e.clipboardData.setData("text/plain", trackingAWB);
+        e.preventDefault();
+      },
+      true
+    );
+
+    document.execCommand("copy");
+    this.props.displayToast("AWB Copied to Clipboard!");
+    setTimeout(function() {
+      window.open(sshipAwbTrackingUrl, "_blank");
+    }, 1000);
+  };
   render() {
     if (!this.props.statusMessageList) {
       return null;
@@ -694,7 +721,6 @@ export default class OrderStatusVerticalV2 extends React.Component {
         refundSuccessfulData.value.statusList[0].statusMessageList[0].time;
     }
     const orderCode = this.props.orderCode;
-
     return (
       <React.Fragment>
         <div className={styles.base}>
@@ -973,8 +999,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
               )}
               {!this.props.isCNC &&
                 !responseCode.includes("RETURN_CLOSED") &&
-                  !responseCode.includes("RETURNINITIATED_BY_RTO") &&
-                  !responseCode.includes("REFUND_INITIATED") && (
+                !responseCode.includes("RETURNINITIATED_BY_RTO") &&
+                !responseCode.includes("REFUND_INITIATED") && (
                   <React.Fragment>
                     {/* {check if order is cancelled then show cancelled status} */}
                     {completedSteps.includes(ORDER_CANCELLED) &&
@@ -1067,6 +1093,21 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                   <span className={styles.itemPackedDetails}>
                                     AWB No: {this.props.trackingAWB}
                                   </span>
+                                )}
+                                {this.props.sshipAwbTrackingUrl && (
+                                  <div
+                                    className={styles.courierInfoHolder}
+                                    ref="copyThisLink"
+                                    onClick={event =>
+                                      this.copySshipAwbTrackingUrl(
+                                        event,
+                                        this.props.sshipAwbTrackingUrl,
+                                        this.props.trackingAWB
+                                      )
+                                    }
+                                  >
+                                    More details
+                                  </div>
                                 )}
                               </div>
                             </div>
@@ -1176,23 +1217,49 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                         </div>
                                       </div>
                                     )}
-                                    <div
-                                      className={styles.courierInfoHolder}
-                                      onClick={() =>
-                                        this.handleMoreDetails({
-                                          shippingList,
-                                          orderCode
-                                        })
-                                      }
-                                    >
-                                      More details
-                                    </div>
+                                    {this.props.sshipAwbTrackingUrl ? (
+                                      <div
+                                        className={styles.courierInfoHolder}
+                                        ref="copyThisLink"
+                                        onClick={event =>
+                                          this.copySshipAwbTrackingUrl(
+                                            event,
+                                            this.props.sshipAwbTrackingUrl,
+                                            this.props.trackingAWB
+                                          )
+                                        }
+                                      >
+                                        More details
+                                      </div>
+                                    ) : (
+                                      <React.Fragment>
+                                        {this.props.fulfillment &&
+                                          this.props.fulfillment != "sship" &&
+                                          shippingList &&
+                                          shippingList.length > 0 &&
+                                          orderCode && (
+                                            <div
+                                              className={
+                                                styles.courierInfoHolder
+                                              }
+                                              onClick={() =>
+                                                this.handleMoreDetails({
+                                                  shippingList,
+                                                  orderCode
+                                                })
+                                              }
+                                            >
+                                              More details
+                                            </div>
+                                          )}
+                                      </React.Fragment>
+                                    )}
                                   </div>
                                 ) : completedSteps.includes(ITEM_PACKED) &&
-                                  this.props.consignmentStatus !==
-                                    "ORDER_REJECTED" &&
-                                  this.props.consignmentStatus !==
-                                    "REFUND_IN_PROGRESS" ? (
+                                this.props.consignmentStatus !==
+                                  "ORDER_REJECTED" &&
+                                this.props.consignmentStatus !==
+                                  "REFUND_IN_PROGRESS" ? (
                                   <React.Fragment>
                                     {/* <div className={styles.orderProcessHolder}>{itemPackedCustomerFacingName}</div> */}
                                     <div
@@ -1237,6 +1304,21 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                             className={styles.itemPackedDetails}
                                           >
                                             AWB No: {this.props.trackingAWB}
+                                          </div>
+                                        )}
+                                        {this.props.sshipAwbTrackingUrl && (
+                                          <div
+                                            className={styles.courierInfoHolder}
+                                            ref="copyThisLink"
+                                            onClick={event =>
+                                              this.copySshipAwbTrackingUrl(
+                                                event,
+                                                this.props.sshipAwbTrackingUrl,
+                                                this.props.trackingAWB
+                                              )
+                                            }
+                                          >
+                                            More details
                                           </div>
                                         )}
                                       </div>
@@ -1376,6 +1458,21 @@ export default class OrderStatusVerticalV2 extends React.Component {
                             <span className={styles.itemPackedDetails}>
                               AWB No: {this.props.trackingAWB}
                             </span>
+                          )}
+                          {this.props.sshipAwbTrackingUrl && (
+                            <div
+                              className={styles.courierInfoHolder}
+                              ref="copyThisLink"
+                              onClick={event =>
+                                this.copySshipAwbTrackingUrl(
+                                  event,
+                                  this.props.sshipAwbTrackingUrl,
+                                  this.props.trackingAWB
+                                )
+                              }
+                            >
+                              More details
+                            </div>
                           )}
                         </div>
                       </div>
@@ -1631,21 +1728,44 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                   </div>
                                 </div>
                               )}
-                              <div
-                                className={styles.courierInfoHolder}
-                                onClick={() =>
-                                  this.handleMoreDetails({
-                                    shippingList,
-                                    orderCode
-                                  })
-                                }
-                              >
-                                More details
-                              </div>
+                              {this.props.sshipAwbTrackingUrl ? (
+                                <div
+                                  className={styles.courierInfoHolder}
+                                  ref="copyThisLink"
+                                  onClick={event =>
+                                    this.copySshipAwbTrackingUrl(
+                                      event,
+                                      this.props.sshipAwbTrackingUrl,
+                                      this.props.trackingAWB
+                                    )
+                                  }
+                                >
+                                  More details
+                                </div>
+                              ) : (
+                                <React.Fragment>
+                                  {this.props.fulfillment &&
+                                    this.props.fulfillment != "sship" &&
+                                    shippingList &&
+                                    shippingList.length > 0 &&
+                                    orderCode && (
+                                      <div
+                                        className={styles.courierInfoHolder}
+                                        onClick={() =>
+                                          this.handleMoreDetails({
+                                            shippingList,
+                                            orderCode
+                                          })
+                                        }
+                                      >
+                                        More details
+                                      </div>
+                                    )}
+                                </React.Fragment>
+                              )}
                             </div>
                           ) : completedSteps.includes(ITEM_PACKED) &&
-                            this.props.consignmentStatus !==
-                              "ORDER_REJECTED" ? (
+                          this.props.consignmentStatus !== "ORDER_REJECTED" ? (
                             <div
                               className={
                                 completedSteps.includes(ITEM_PACKED)
@@ -1685,6 +1805,21 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                   <span className={styles.itemPackedDetails}>
                                     AWB No: {this.props.trackingAWB}
                                   </span>
+                                )}
+                                {this.props.sshipAwbTrackingUrl && (
+                                  <div
+                                    className={styles.courierInfoHolder}
+                                    ref="copyThisLink"
+                                    onClick={event =>
+                                      this.copySshipAwbTrackingUrl(
+                                        event,
+                                        this.props.sshipAwbTrackingUrl,
+                                        this.props.trackingAWB
+                                      )
+                                    }
+                                  >
+                                    More details
+                                  </div>
                                 )}
                               </div>
                             </div>

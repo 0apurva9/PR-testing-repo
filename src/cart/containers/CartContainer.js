@@ -14,7 +14,8 @@ import {
   clearCartDetails,
   getPaymentModes,
   mergeTempCartWithOldCart,
-  getMinicartProducts
+  getMinicartProducts,
+  getAllStoresCNC
 } from "../actions/cart.actions.js";
 import { displayToast } from "../../general/toast.actions";
 import { withRouter } from "react-router-dom";
@@ -31,7 +32,8 @@ import {
   PRODUCT_COUPONS,
   showModal,
   ADDRESS,
-  DESKTOP_AUTH
+  DESKTOP_AUTH,
+  CLIQ_PIQ_MODAL
 } from "../../general/modal.actions";
 import { SUCCESS, NO } from "../../lib/constants";
 import {
@@ -170,6 +172,12 @@ const mapDispatchToProps = dispatch => {
     },
     getMinicartProducts: () => {
       dispatch(getMinicartProducts());
+    },
+    getAllStoresCNC: pinCode => {
+      return dispatch(getAllStoresCNC(pinCode));
+    },
+    showPdpCliqAndPiqPage: storeDetails => {
+      dispatch(showModal(CLIQ_PIQ_MODAL, storeDetails));
     }
   };
 };
@@ -180,7 +188,8 @@ const mapStateToProps = state => {
     user: state.user,
     loginFromMyBag: state.cart.loginFromMyBag,
     loadingForCartDetail: state.cart.loadingForCartDetail,
-    wishListCount: state.wishlistItems.count
+    wishListCount: state.wishlistItems.count,
+    loadingForCartDetail: state.cart.loadingForCartDetail
   };
 };
 const CartContainer = withRouter(

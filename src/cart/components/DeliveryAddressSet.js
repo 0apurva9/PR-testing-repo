@@ -9,10 +9,14 @@ export default class DeliveryAddressSet extends React.Component {
     }
   }
   render() {
+    let addressLable = "Delivery Address";
+    if (this.props.isFromCliqAndPiq) {
+      addressLable = "Billing Address";
+    }
     return (
       <DeliveryCard
         onClick={() => this.handleClick()}
-        confirmTitle="Delivery Address"
+        confirmTitle={addressLable}
         indexNumber="1"
         completed={true}
       >

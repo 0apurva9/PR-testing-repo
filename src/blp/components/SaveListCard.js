@@ -42,9 +42,9 @@ export default class SaveListCard extends React.Component {
           <div className={styles.rating}>
             {this.props.totalNoOfReviews && (
               <StarRating averageRating={this.props.averageRating}>
-                <div
-                  className={styles.noOfReviews}
-                >{`(${this.props.totalNoOfReviews})`}</div>
+                <div className={styles.noOfReviews}>{`(${
+                  this.props.totalNoOfReviews
+                })`}</div>
               </StarRating>
             )}
           </div>
@@ -55,13 +55,13 @@ export default class SaveListCard extends React.Component {
           <div className={styles.textContainer}>
             <div className={styles.offers}>{`${
               this.props.offer
-            } offers from Rs.${this.props.offerPrice}`}</div>
+            } offers from ₹${this.props.offerPrice}`}</div>
           </div>
         </MediaQuery>
         <MediaQuery query="(min-device-width: 1025px)">
           <div className={styles.textContainer}>
             <div className={styles.offers}>
-              <span>{this.props.offer}</span> <span>offers from Rs.</span>{" "}
+              <span>{this.props.offer}</span> <span>offers from ₹</span>{" "}
               <span className={styles.highlitedDate}>
                 {this.props.offerPrice}
               </span>

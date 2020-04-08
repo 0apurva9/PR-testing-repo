@@ -265,6 +265,7 @@ export default class AddDeliveryAddress extends React.Component {
 
       this.setState({
         isOtherLandMarkSelected: true,
+        landmark: landmark.value,
         selectedLandmarkLabel: landmark.value
       });
     } else {
@@ -437,8 +438,8 @@ export default class AddDeliveryAddress extends React.Component {
               !this.props.label
                 ? styles.onlyLeft
                 : this.props.isReturn
-                ? styles.forReturn
-                : styles.base
+                  ? styles.forReturn
+                  : styles.base
             }
           >
             <div className={styles.pageCenter}>

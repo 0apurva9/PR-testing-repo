@@ -203,7 +203,9 @@ export default class PdpElectronics extends React.Component {
   };
 
   goToReviewPage = () => {
-    const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    const url = `${
+      this.props.location.pathname
+    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
   showPincodeModal() {
@@ -279,6 +281,8 @@ export default class PdpElectronics extends React.Component {
       let price = "";
       let discountPrice = "";
       let seoDoublePrice = 0;
+      let discountPdp = "";
+      let mrpDoubleValue = "";
       if (
         productData.winningSellerPrice &&
         productData.winningSellerPrice.doubleValue
@@ -297,6 +301,13 @@ export default class PdpElectronics extends React.Component {
       ) {
         discountPrice = productData.winningSellerPrice.doubleValue;
       }
+      if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
+        mrpDoubleValue = productData.mrpPrice.doubleValue;
+        discountPdp = Math.round(
+          (mrpDoubleValue - seoDoublePrice) / mrpDoubleValue * 100
+        );
+      }
+
       let flixModelNo = "";
       if (productData.details && productData.details.length) {
         flixModelNo = productData.details.find(detail => {
@@ -374,7 +385,7 @@ export default class PdpElectronics extends React.Component {
                   averageRating={productData.averageRating}
                   ratingCount={productData.ratingCount}
                   goToReviewPage={this.goToReviewPage}
-                  discount={productData.discount}
+                  discount={discountPdp}
                 />
               )}
               {productData.rootCategory === "Watches" && (
@@ -390,7 +401,7 @@ export default class PdpElectronics extends React.Component {
                   averageRating={productData.averageRating}
                   ratingCount={productData.ratingCount}
                   goToReviewPage={this.goToReviewPage}
-                  discount={productData.discount}
+                  discount={discountPdp}
                 />
               )}
             </div>
@@ -442,6 +453,10 @@ export default class PdpElectronics extends React.Component {
           {this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.pinCode ? (
             <PdpPincode
+              city={
+                this.props.productDetails.isServiceableToPincode &&
+                this.props.productDetails.isServiceableToPincode.city
+              }
               hasPincode={true}
               pincode={this.props.productDetails.isServiceableToPincode.pinCode}
               onClick={() => this.showPincodeModal()}
@@ -450,26 +465,57 @@ export default class PdpElectronics extends React.Component {
           ) : (
             <PdpPincode onClick={() => this.showPincodeModal()} />
           )}
+
           {this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.status === NO ? (
+            this.props.productDetails.isServiceableToPincode
+              .productOutOfStockMessage ? (
+              <div className={styles.overlay}>
+                <div className={styles.notServiciableTetx}>
+                  *{" "}
+                  {
+                    this.props.productDetails.isServiceableToPincode
+                      .productOutOfStockMessage
+                  }
+                </div>
+              </div>
+            ) : this.props.productDetails.isServiceableToPincode
+              .productNotServiceableMessage ? (
+              <div className={styles.overlay}>
+                <div className={styles.notServiciableTetx}>
+                  *{" "}
+                  {
+                    this.props.productDetails.isServiceableToPincode
+                      .productNotServiceableMessage
+                  }
+                </div>
+              </div>
+            ) : null
+          ) : (
+            /* (
             <Overlay labelText="This item can't be delivered to your PIN code">
               <PdpDeliveryModes
                 eligibleDeliveryModes={productData.eligibleDeliveryModes}
                 deliveryModesATP={productData.deliveryModesATP}
               />
             </Overlay>
-          ) : (
-            <PdpDeliveryModes
+          ) */ <PdpDeliveryModes
               onPiq={this.handleShowPiqPage}
               eligibleDeliveryModes={productData.eligibleDeliveryModes}
               deliveryModesATP={productData.deliveryModesATP}
+              pincodeDetails={productData.pincodeResponseList}
+              isCod={productData.isCOD}
             />
           )}
           <div className={styles.separator}>
             <OtherSellersLink
+              serviceableOtherSellersUssid={
+                this.props.serviceableOtherSellersUssid
+              }
               onClick={this.goToSellerPage}
-              otherSellers={productData.otherSellers}
+              //otherSellers={productData.otherSellers}
               winningSeller={productData.winningSellerName}
+              winnningSellerUssId={productData.winningUssID}
             />
           </div>
           {productData.rootCategory !== "Watches" && (
@@ -596,12 +642,13 @@ export default class PdpElectronics extends React.Component {
               {productData.details && (
                 <ProductDetails data={productData.details} />
               )}
-              {productData.warranty && productData.warranty.length > 0 && (
-                <ProductFeature
-                  heading="Warranty"
-                  content={productData.warranty[0]}
-                />
-              )}
+              {productData.warranty &&
+                productData.warranty.length > 0 && (
+                  <ProductFeature
+                    heading="Warranty"
+                    content={productData.warranty[0]}
+                  />
+                )}
             </div>
           )}
           {productData.APlusContent && (

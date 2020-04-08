@@ -102,64 +102,75 @@ export default class CartItem extends React.Component {
             sizeType={this.props.sizeType}
           />
         </div>
-        {this.props.deliveryInformation && this.props.deliveryInfoToggle && (
-          <div className={styles.deliveryInfo}>
-            {this.props.deliveryInformation.length > 1 && (
-              <div className={styles.hideButton}>
-                <UnderLinedButton
-                  size="14px"
-                  fontFamily="regular"
-                  color="#000"
-                  label={this.state.label}
-                  onClick={() => this.onHide()}
-                />
-              </div>
-            )}
-            <span>
-              {this.getDeliveryName(this.props.deliveryType)}{" "}
-              {this.props.deliverTime && (
-                <span>{`: ${this.props.deliverTime}`}</span>
+        {this.props.deliveryInformation &&
+          this.props.deliveryInfoToggle && (
+            <div className={styles.deliveryInfo}>
+              {this.props.deliveryInformation.length > 1 && (
+                <div className={styles.hideButton}>
+                  <UnderLinedButton
+                    size="14px"
+                    fontFamily="regular"
+                    color="#000"
+                    label={this.state.label}
+                    onClick={() => this.onHide()}
+                  />
+                </div>
               )}
-            </span>
-          </div>
-        )}
+              <span>
+                {this.getDeliveryName(this.props.deliveryType)}{" "}
+                {this.props.deliverTime && (
+                  <span>{`: ${this.props.deliverTime}`}</span>
+                )}
+              </span>
+            </div>
+          )}
 
         {this.props.isGiveAway === NO &&
           this.state.showDelivery &&
           this.props.deliveryInformation && (
             <div className={styles.deliveryInfo}>
               <DeliveryInfoSelect
+                inCheckOutPage={this.props.inCheckOutPage}
                 deliveryInformation={this.props.deliveryInformation}
                 selected={this.props.selected}
                 onSelect={val => this.selectDeliveryMode(val)}
                 onPiq={val => this.getPickUpDetails()}
                 isClickable={this.props.isClickable}
+                deliveryInformationWithDate={
+                  this.props.deliveryInformationWithDate
+                }
+                isTop={this.props.isTop}
+                inCartPage={this.props.inCartPage}
+                inCartPageIcon={true}
+                cliqPiqSelected={this.props.cliqPiqSelected}
+                winningUssID={this.props.product && this.props.product.USSID}
               />
             </div>
           )}
-        {this.props.isGiveAway === NO && this.props.hasFooter && (
-          <div className={styles.footer}>
-            <BagPageFooter
-              productCode={this.props.product.productcode}
-              winningUssID={this.props.product.USSID}
-              onRemove={() => this.handleRemove(this.props.index)}
-              index={this.props.index}
-            />
-            <div className={styles.dropdown}>
-              <div className={styles.dropdownLabel}>
-                {this.props.dropdownLabel}
-              </div>
-              <SelectBoxMobile2
-                disabled={this.props.isOutOfStock}
-                theme="hollowBox"
-                options={fetchedQuantityList}
-                onChange={val => this.handleQuantityChange(val)}
-                value={this.props.qtySelectedByUser}
-                label={this.props.qtySelectedByUser}
+        {this.props.isGiveAway === NO &&
+          this.props.hasFooter && (
+            <div className={styles.footer}>
+              <BagPageFooter
+                productCode={this.props.product.productcode}
+                winningUssID={this.props.product.USSID}
+                onRemove={() => this.handleRemove(this.props.index)}
+                index={this.props.index}
               />
+              <div className={styles.dropdown}>
+                <div className={styles.dropdownLabel}>
+                  {this.props.dropdownLabel}
+                </div>
+                <SelectBoxMobile2
+                  disabled={this.props.isOutOfStock}
+                  theme="hollowBox"
+                  options={fetchedQuantityList}
+                  onChange={val => this.handleQuantityChange(val)}
+                  value={this.props.qtySelectedByUser}
+                  label={this.props.qtySelectedByUser}
+                />
+              </div>
             </div>
-          </div>
-        )}
+          )}
         {this.props.isGiveAway === YES && (
           <div className={styles.footerForFreeProduct}>
             <div className={styles.footerText}>

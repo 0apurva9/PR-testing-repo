@@ -124,6 +124,7 @@ export default class PaymentConfirmationPage extends React.Component {
                             productName={order.productName}
                             quantity={order.quantity}
                             selectedDeliveryMode={order.selectedDeliveryMode}
+                            edd={order.EDD}
                           />
                         </DesktopOnly>
                       </React.Fragment>

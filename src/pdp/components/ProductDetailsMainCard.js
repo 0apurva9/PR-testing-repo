@@ -166,7 +166,9 @@ export default class ProductDetailsMainCard extends React.Component {
                     className={styles.cancelPrice}
                   >{`${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}</span>
                   <span className={styles.discount}>
-                    {this.props.discount && `(${this.props.discount}%)`}
+                    {this.props.discount && this.props.discount > 0
+                      ? `(${this.props.discount}%)`
+                      : null}
                   </span>
                 </div>
               )}
@@ -255,16 +257,17 @@ export default class ProductDetailsMainCard extends React.Component {
             </div>
           </div>
         )}
-        {!averageRating && this.props.isPdp && (
-          <DesktopOnly>
-            <div
-              className={styles.noRatingText}
-              onClick={() => this.handleRatingLink()}
-            >
-              {NO_REVIEW_TEXT}
-            </div>
-          </DesktopOnly>
-        )}
+        {!averageRating &&
+          this.props.isPdp && (
+            <DesktopOnly>
+              <div
+                className={styles.noRatingText}
+                onClick={() => this.handleRatingLink()}
+              >
+                {NO_REVIEW_TEXT}
+              </div>
+            </DesktopOnly>
+          )}
       </div>
     );
   }
