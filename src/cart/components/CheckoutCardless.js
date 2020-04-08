@@ -1,7 +1,7 @@
 import React from "react";
 import instacred from "./img/InstaCred.svg";
 // import { SUCCESS, ERROR } from "../../lib/constants";
-import Input from "../../general/components/Input";
+import Input4 from "../../general/components/Input4";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import Button from "../../general/components/Button";
 import { BANK_GATWAY_DOWN } from "../../lib/constants";
@@ -85,10 +85,13 @@ export default class CheckoutCardless extends React.Component {
   render() {
     let inputClass = "";
     if (this.state.instacredEligible === true) {
+      debugger;
       inputClass = "inputBoxShowIcon";
     } else if (this.state.instacredEligible === false) {
+      debugger;
       inputClass = "inputBoxHideIcon";
     } else {
+      debugger;
       inputClass = "inputBoxHideIcon";
     }
 
@@ -98,7 +101,7 @@ export default class CheckoutCardless extends React.Component {
         <div className={styles.inputHolderNButton}>
           <div className={styles.inputHolder}>
             <div>
-              <Input
+              <Input4
                 placeholder={PREAPPROVED_NUMBER}
                 onlyNumber={true}
                 maxLength={"10"}
