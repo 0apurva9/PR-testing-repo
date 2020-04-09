@@ -924,37 +924,41 @@ export default class PdpApparel extends React.Component {
       this.state.selectedBundledProduct.push(e.target.value);
   }
   async openExchangeModal(data) {
-    let listingId = this.props.productDetails.productListingId;
-    let ussId = this.props.productDetails.winningUssID;
-    let maxExchangeAmount = this.props.productDetails.maxExchangeAmount.value;
-    let pickupCharge =
-      this.props.productDetails.pincodeResponseList &&
-      this.props.productDetails.pincodeResponseList.cashifyPickupCharge;
-    let productName = this.props.productDetails.productName;
-    //call exchange details API
-    await this.props.getExchangeDetails(
-      listingId,
-      ussId,
-      maxExchangeAmount,
-      pickupCharge
-    );
-    if (data) {
-      //with static data open exchange modal
-      Object.assign(data, {
-        exchangeDetails: this.props.exchangeDetails,
-        productName: productName,
-        listingId: listingId,
-        ussId: ussId
-      });
-      this.props.showExchangeModal(data);
-    } else {
-      //open exchange modal
-      this.props.showExchangeModal({
-        exchangeDetails: this.props.exchangeDetails,
-        productName: productName,
-        listingId: listingId,
-        ussId: ussId
-      });
+    if (this.props.productDetails) {
+      let listingId = this.props.productDetails.productListingId;
+      let ussId = this.props.productDetails.winningUssID;
+      let maxExchangeAmount =
+        this.props.productDetails.maxExchangeAmount &&
+        this.props.productDetails.maxExchangeAmount.value;
+      let pickupCharge =
+        this.props.productDetails.pincodeResponseList &&
+        this.props.productDetails.pincodeResponseList.cashifyPickupCharge;
+      let productName = this.props.productDetails.productName;
+      //call exchange details API
+      await this.props.getExchangeDetails(
+        listingId,
+        ussId,
+        maxExchangeAmount,
+        pickupCharge
+      );
+      if (data) {
+        //with static data open exchange modal
+        Object.assign(data, {
+          exchangeDetails: this.props.exchangeDetails,
+          productName: productName,
+          listingId: listingId,
+          ussId: ussId
+        });
+        this.props.showExchangeModal(data);
+      } else {
+        //open exchange modal
+        this.props.showExchangeModal({
+          exchangeDetails: this.props.exchangeDetails,
+          productName: productName,
+          listingId: listingId,
+          ussId: ussId
+        });
+      }
     }
   }
   trimProductName(productName) {

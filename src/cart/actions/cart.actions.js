@@ -7920,9 +7920,9 @@ export function removeExchange(data) {
     dispatch(removeExchangeRequest());
     try {
       const result = await api.getMiddlewareUrl(
-        `v2/mpl/users/${user}/products/cancelExchange?guid=${
+        `v2/mpl/products/cancelExchange?access_token=${accessToken}&guid=${
           data.cartGuid
-        }&entryNumber=${data.entryNumber}&quoteId=${data.quoteId}&IMEINumber=${
+        }&entryNumber=${data.entryNumber}&quoteId=${data.quoteId}&imeiNumber=${
           data.IMEINumber
         }`
       );

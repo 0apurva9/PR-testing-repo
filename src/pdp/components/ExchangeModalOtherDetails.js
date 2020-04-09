@@ -62,6 +62,8 @@ export default class ExchangeModalOtherDetails extends React.Component {
                 </td>
                 <td className={styles.effectivePriceTrTwo}>
                   {this.props.deviceInfo &&
+                    this.props.deviceInfo.model &&
+                    this.props.deviceInfo.model.effectiveAmount &&
                     this.props.deviceInfo.model.effectiveAmount
                       .formattedValueNoDecimal}
                 </td>

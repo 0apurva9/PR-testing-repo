@@ -23,6 +23,7 @@ export default class ExchangeProductDetailsTab extends React.Component {
           /> */}
           <span className={styles.textCaps}>
             {this.props.deviceInfo &&
+              this.props.deviceInfo.model &&
               this.props.deviceInfo.model.effectiveModelName}
           </span>
           {this.props.bothDeviceAdded && (
@@ -52,6 +53,8 @@ export default class ExchangeProductDetailsTab extends React.Component {
               </td>
               <td className={styles.fontSize12}>
                 {this.props.deviceInfo &&
+                  this.props.deviceInfo.model &&
+                  this.props.deviceInfo.model.exchangeAmountCashify &&
                   this.props.deviceInfo.model.exchangeAmountCashify
                     .formattedValueNoDecimal}
               </td>
@@ -67,6 +70,7 @@ export default class ExchangeProductDetailsTab extends React.Component {
               </td>
               <td>
                 {this.props.deviceInfo &&
+                  this.props.deviceInfo.tulBump &&
                   this.props.deviceInfo.tulBump.formattedValueNoDecimal}
               </td>
             </tr>
@@ -97,6 +101,8 @@ export default class ExchangeProductDetailsTab extends React.Component {
               </td>
               <td className={styles.cashbackHeading}>
                 {this.props.deviceInfo &&
+                  this.props.deviceInfo.model &&
+                  this.props.deviceInfo.model.totalExchangeCashback &&
                   this.props.deviceInfo.model.totalExchangeCashback
                     .formattedValueNoDecimal}
               </td>

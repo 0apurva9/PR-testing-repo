@@ -2,10 +2,19 @@ import React from "react";
 import styles from "./ExchangeModal.css";
 import SelectBoxMobileExchange from "../../general/components/SelectBoxMobileExchange";
 export default class SelectDevice extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isBrandSelected: false,
+      isModelSelected: false
+    };
+  }
   onChange(val) {
+    this.setState({ isBrandSelected: true });
     this.props.onChange(val);
   }
   onChangeSecondary(val) {
+    this.setState({ isModelSelected: true });
     this.props.onChangeSecondary(val);
   }
   saveDeviceDetails(deviceNo) {
@@ -48,12 +57,16 @@ export default class SelectDevice extends React.Component {
           isEnable={this.props.isEnableForModel}
           onChange={val => this.onChangeSecondary(val)}
         />
-        <div
-          className={styles.evaluateButton}
-          onClick={deviceNo => this.saveDeviceDetails(this.props.deviceNo)}
-        >
-          Evaluate
-        </div>
+        {this.state.isBrandSelected && this.state.isModelSelected ? (
+          <div
+            className={styles.evaluateButton}
+            onClick={deviceNo => this.saveDeviceDetails(this.props.deviceNo)}
+          >
+            Evaluate
+          </div>
+        ) : (
+          <div className={styles.evaluateButtonDisabled}>Evaluate</div>
+        )}
       </React.Fragment>
     );
   }
