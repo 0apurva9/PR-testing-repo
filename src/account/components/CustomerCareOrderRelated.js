@@ -27,25 +27,25 @@ export default class CustomerCareOrderRelated extends React.Component {
   constructor(props) {
     super(props);
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const getUserDetail = JSON.parse(userDetailsCookie);
+    const getUserDetails = JSON.parse(userDetailsCookie);
     this.state = {
       attachment: null,
       file: [],
       name:
-        getUserDetail && getUserDetail.firstName
-          ? getUserDetail.firstName.trim()
+        getUserDetails && getUserDetails.firstName
+          ? getUserDetails.firstName.trim()
           : "",
       mobile:
-        getUserDetail &&
-        getUserDetail.loginType === "mobile" &&
-        getUserDetail.userName
-          ? getUserDetail.userName
+        getUserDetails &&
+        getUserDetails.loginType === "mobile" &&
+        getUserDetails.userName
+          ? getUserDetails.userName
           : "",
       email:
-        getUserDetail &&
-        getUserDetail.loginType === "email" &&
-        getUserDetail.userName
-          ? getUserDetail.userName
+        getUserDetails &&
+        getUserDetails.loginType === "email" &&
+        getUserDetails.userName
+          ? getUserDetails.userName
           : "",
       issueData: "",
       nonOrderRelatedSubIssue: "",
@@ -83,6 +83,19 @@ export default class CustomerCareOrderRelated extends React.Component {
           }
           this.setState({ [field.componentId]: "" });
         }
+      });
+    }
+    if (nextProps && nextProps.userDetails) {
+      this.setState({
+        email: nextProps.userDetails.emailID
+          ? nextProps.userDetails.emailID
+          : "",
+        name: nextProps.userDetails.firstName
+          ? nextProps.userDetails.firstName
+          : "",
+        mobile: nextProps.userDetails.mobileNumber
+          ? nextProps.userDetails.mobileNumber
+          : ""
       });
     }
   }
@@ -763,13 +776,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                     <FloatingLabelInput
                       label="Email"
                       fontSize={"12px"}
-                      disabled={
-                        getUserDetail &&
-                        getUserDetail.loginType === "email" &&
-                        getUserDetail.userName
-                          ? true
-                          : false
-                      }
+                      disabled={this.state.email ? true : false}
                       value={this.state.email}
                       onChange={email => this.setState({ email: email })}
                     />
@@ -781,13 +788,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                       value={this.state.mobile}
                       fontSize={"12px"}
                       onChange={mobile => this.setState({ mobile: mobile })}
-                      disabled={
-                        getUserDetail &&
-                        getUserDetail.loginType === "mobile" &&
-                        getUserDetail.userName
-                          ? true
-                          : false
-                      }
+                      disabled={this.state.mobile ? true : false}
                       onlyNumber={true}
                     />
                   </div>

@@ -104,6 +104,7 @@ export default class OrderRelatedIssue extends React.Component {
 
   componentDidMount() {
     // this.props.getCustomerQueriesData();
+    this.props.getUserDetails();
     this.props.getOrdersTransactionData(false);
     this.props.setHeaderText(CUSTOMER_CARE);
   }
@@ -263,7 +264,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.getCustomerQueriesFieldsv2(obj[0].UItemplateCode);
       this.setState({ webFormStatus: true });
 
-      // if (customerQueriesFieldArray) {
+      // if (customerQueriesFieldArray) {ticketID
       //   customerQueriesFieldArray.map(ele => {
       // if(ele.componentName==="labelComponent"){
       //   this.setState({labelDataShow:true})
@@ -314,19 +315,29 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState({ showOrder: false });
   }
   async submitCustomerForms(formData) {
+    console.log("formData", formData);
     if (this.props.submitOrderDetails) {
       let getCustomerQueryDetailsObject = Object.assign(
         {},
         {
           ticketID: null,
-          emailId: formData.customerInfo.email,
-          issue: "issueSelected",
-          tat: "tat"
+          emailId: formData.customerInfo.contactEmail,
+          issue:
+            this.state.isSelected == 1
+              ? this.state.selectedObj[0].subIssueType
+              : this.state.selectedObj[0].issueType,
+          tat: this.state.selectedObj[0].tat
         }
       );
+      console.log(
+        "getCustomerQueryDetailsObject",
+        getCustomerQueryDetailsObject
+      );
+      console.log("this state", this.state);
       const submitOrderDetailsResponse = await this.props.submitOrderDetails(
         formData
       );
+      console.log("submitOrderDetailsResponse", submitOrderDetailsResponse);
       if (submitOrderDetailsResponse.status === SUCCESS) {
         if (
           submitOrderDetailsResponse.submitOrder &&
@@ -1253,6 +1264,7 @@ export default class OrderRelatedIssue extends React.Component {
                   webform={this.state.webform}
                   webFormStatus={this.state.webFormStatus}
                   displayToast={toastData => this.displayToast(toastData)}
+                  userDetails={this.props.userDetails}
                   selectedObj={this.state.selectedObj}
                   uploadUserFile={(title, file) =>
                     this.onUploadFiles(title, file)

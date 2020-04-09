@@ -1394,20 +1394,23 @@ const account = (
     case accountActions.SUBMIT_ORDER_DETAILS_REQUEST:
       return Object.assign({}, state, {
         submitOrderDetailsStatus: action.status,
-        submitOrderDetailsLoading: true
+        submitOrderDetailsLoading: true,
+        ordersRelatedLoading: true
       });
 
     case accountActions.SUBMIT_ORDER_DETAILS_SUCCESS:
       return Object.assign({}, state, {
         submitOrderDetailsStatus: action.status,
         submitOrderDetailsLoading: false,
+        ordersRelatedLoading: false,
         submitOrderDetails: action.submitOrderDetails
       });
     case accountActions.SUBMIT_ORDER_DETAILS_FAILURE:
       return Object.assign({}, state, {
         submitOrderDetailsStatus: action.status,
         submitOrderDetailsError: action.error,
-        submitOrderDetailsLoading: false
+        submitOrderDetailsLoading: false,
+        ordersRelatedLoading: false
       });
 
     case accountActions.GET_USER_REVIEW_REQUEST:

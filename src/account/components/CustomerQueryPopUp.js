@@ -20,6 +20,7 @@ export default class CustomerQueryPopUp extends React.Component {
     }
   }
   render() {
+    console.log("this.props", this.props);
     return (
       <div className={styles.base}>
         <div className={styles.headerTextWithIcon}>
@@ -35,15 +36,10 @@ export default class CustomerQueryPopUp extends React.Component {
           <span className={styles.colorRed}> 03:57 PM, 16th December 2019</span>
         </div>
         <div className={styles.userDetails}>
-          {this.props.ticketId ||
-            (true && (
-              <div className={styles.userDetailsHeaderWithText}>
-                <div className={styles.userDetailsHeader}>Ticket ID</div>
-                <div className={styles.userDetailsText}>
-                  {this.props.ticketId}
-                </div>
-              </div>
-            ))}
+          <div className={styles.userDetailsHeaderWithText}>
+            <div className={styles.userDetailsHeader}>Ticket ID</div>
+            <div className={styles.userDetailsText}>{this.props.ticketID}</div>
+          </div>
           {this.props.issueCategory && (
             <div className={styles.userDetailsHeaderWithText}>
               <div className={styles.userDetailsHeader}>Issue Category</div>
@@ -61,12 +57,8 @@ export default class CustomerQueryPopUp extends React.Component {
         </div>
         <div className={styles.submittedText}>
           <div className={styles.subText}>
-            A summary of your query has been sent to your email ID<span
-              className={styles.colorRed}
-            >
-              {" "}
-              {this.props.emailId}
-            </span>
+            A summary of your query has been sent to your email ID
+            <span className={styles.colorRed}> {this.props.emailId}</span>
           </div>
         </div>
 
