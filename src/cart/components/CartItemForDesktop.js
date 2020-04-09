@@ -13,8 +13,12 @@ import {
   NO,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   SHORT_COLLECT,
-  NOT_SERVICEABLE
+  NOT_SERVICEABLE,
+  LOGGED_IN_USER_DETAILS,
+  CART_DETAILS_FOR_ANONYMOUS,
+  CART_DETAILS_FOR_LOGGED_IN_USER
 } from "../../lib/constants";
+import * as Cookie from "../../lib/Cookie";
 import ProductImage from "../../general/components/ProductImage.js";
 import styles from "./CartItemForDesktop.css";
 import { RUPEE_SYMBOL } from "../../lib/constants";
@@ -138,6 +142,12 @@ export default class CartItemForDesktop extends React.Component {
   }
   async verifyIMEINumber() {
     if (this.props) {
+      let loggedInUserDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+      if (loggedInUserDetails) {
+        cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+      }
+      let guid = JSON.parse(cartDetails).guid;
       let response = await this.props.verifyIMEINumber(
         this.props.product.exchangeDetails.IMEINumber,
         this.props.product.exchangeDetails.exchangeProductId,
@@ -148,7 +158,7 @@ export default class CartItemForDesktop extends React.Component {
           .value,
         this.props.product.productcode,
         this.props.product.USSID,
-        this.props.cartGuid,
+        guid,
         this.props.product.entryNumber
       );
       if (response.status === "Success") {
