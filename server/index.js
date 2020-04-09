@@ -12,14 +12,17 @@ const router = express.Router();
 app.use(function(req, res, next) {
   res.removeHeader("Transfer-Encoding");
   res.removeHeader("X-Powered-By");
+  res.setHeader("X-XSS-Protection", "1");
   res.setHeader(
     "x-frame-options",
     "ALLOW-FROM https://*.tatacliq.com/ https://*.tataque.com/ https://*.tataunistore.com/"
   );
   res.setHeader(
     "content-security-policy",
-    "frame-ancestors https://*.tatacliq.com"
+    "frame-ancestors https://*.tatacliq.com; connect-src 'self' *.tatacliq.com *.tataque.com *.tataunistore.com *.facebook.com *.google.com *.google-analytics.com *.flixcar.com *.juspay.in *.stripe.com *.instacred.me *.ed-sys.net *.appsflyer.com *.madstreetden.com *.demdex.net https://tataunistore.tt.omtrdc.net"
   );
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Cache-Control", "max-age=0, no-cache, no-store");
   next();
 });
 app.get("*.css", function(req, res, next) {
