@@ -1259,6 +1259,39 @@ export async function setDataLayer(
 }
 
 function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
+  const selectedColour =
+    pdpResponse &&
+    pdpResponse.variantOptions &&
+    pdpResponse.variantOptions.filter(val => {
+      return val.colorlink.selected;
+    })[0].colorlink.color;
+  let seasonData = {};
+  if (pdpResponse && pdpResponse.seasonDetails !== undefined) {
+    seasonData = pdpResponse.seasonDetails.find(item => {
+      return item.key === "Season";
+    });
+  }
+  let productTag =
+    pdpResponse && pdpResponse.allOOStock === true
+      ? "Out of Stock"
+      : pdpResponse && pdpResponse.isProductNew === "Y"
+        ? "New"
+        : seasonData && seasonData.key === "Season"
+          ? seasonData.value
+          : pdpResponse.isOnlineExclusive === "Y"
+            ? "New"
+            : pdpResponse.isExchangeAvailable === true &&
+              pdpResponse.showExchangeTag === true
+              ? "Exchange Offer"
+              : pdpResponse &&
+                pdpResponse.discount &&
+                pdpResponse.discount !== "0"
+                ? `${parseInt(pdpResponse.discount, 10)}% off`
+                : pdpResponse &&
+                  pdpResponse.isOfferExisting &&
+                  pdpResponse.isOfferExisting == "Y"
+                  ? "On Offer"
+                  : "";
   let productCategoryId = pdpResponse && pdpResponse.categoryHierarchy;
   const data = {
     cpj: {
@@ -1266,7 +1299,9 @@ function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
         id: pdpResponse ? pdpResponse.productListingId : "",
         category: pdpResponse ? pdpResponse.productCategory : "",
         category_id:
-          productCategoryId && productCategoryId[productCategoryId.length - 1]
+          productCategoryId && productCategoryId[productCategoryId.length - 1],
+        colour: selectedColour ? selectedColour : "",
+        tag: productTag ? productTag : ""
       },
       brand: {
         name: pdpResponse ? pdpResponse.brandName : ""
@@ -1823,8 +1858,19 @@ export function getDeliveryModeForMyAccountReturn(type, apiResponse) {
     }
   }
 }
-export function setDataLayerForPdpDirectCalls(type, layerData: null) {
+export function setDataLayerForPdpDirectCalls(type, layerData: null, response) {
   const previousDigitalData = cloneDeep(window.digitalData);
+  if (response) {
+    Object.assign(
+      previousDigitalData &&
+        previousDigitalData.cpj &&
+        previousDigitalData.cpj.product,
+      {
+        size: response
+      }
+    );
+  }
+  window.digitalData = previousDigitalData;
   let data = window.digitalData;
   if (type === SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT) {
     if (window._satellite) {
