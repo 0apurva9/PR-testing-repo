@@ -240,11 +240,13 @@ export default class OrderRelatedIssue extends React.Component {
     } else {
       this.setState({ selectedObj: obj });
       if (obj[0].webform === "Yes") {
-        this.props.getCustomerQueriesFieldsv2("SSW_08", isSelecteRadio);
+        this.props.getCustomerQueriesFieldsv2(
+          obj[0].UItemplateCode,
+          isSelecteRadio
+        );
         this.setState({ webFormStatus: true });
       }
     }
-    //obj[0].UItemplateCode
   }
   onChangeSubReasonForOrderRelated(val) {
     // const code = val.value;
@@ -268,7 +270,6 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState({ showOrder: false });
   }
   async submitCustomerForms(formData) {
-    console.log("formData", formData);
     if (this.props.submitOrderDetails) {
       let getCustomerQueryDetailsObject = Object.assign(
         {},
@@ -282,15 +283,9 @@ export default class OrderRelatedIssue extends React.Component {
           tat: this.state.selectedObj[0].tat
         }
       );
-      console.log(
-        "getCustomerQueryDetailsObject",
-        getCustomerQueryDetailsObject
-      );
-      console.log("this state", this.state);
       const submitOrderDetailsResponse = await this.props.submitOrderDetails(
         formData
       );
-      console.log("submitOrderDetailsResponse", submitOrderDetailsResponse);
       if (submitOrderDetailsResponse.status === SUCCESS) {
         if (
           submitOrderDetailsResponse.submitOrder &&
@@ -616,7 +611,6 @@ export default class OrderRelatedIssue extends React.Component {
         customerQueriesField.push(allObj);
       });
     }
-    console.log("check", customerQueriesField);
     if (this.props.ordersRelatedLoading) {
       this.props.showSecondaryLoader();
     } else {

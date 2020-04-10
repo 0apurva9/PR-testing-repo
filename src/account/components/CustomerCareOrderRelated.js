@@ -466,7 +466,6 @@ export default class CustomerCareOrderRelated extends React.Component {
           ticketInfo,
           customerInfo
         };
-        console.log("raiseTicketObj", raiseTicketObj);
         this.props.submitCustomerForm(raiseTicketObj);
       }
     }
