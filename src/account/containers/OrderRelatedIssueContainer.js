@@ -12,7 +12,7 @@ import {
   // getCustomerQueriesDatav2,
   getCustomerQueriesFieldsv2,
   getNonOrderRelatedQuestions,
-  getCliqCareWmsResponse,  
+  getCliqCareWmsResponse
 } from "../actions/account.actions";
 import {
   showSecondaryLoader,
@@ -32,8 +32,8 @@ const mapDispatchToProps = dispatch => {
     getNonOrderRelatedQuestions: () => {
       dispatch(getNonOrderRelatedQuestions());
     },
-    getCustomerQueriesFieldsv2: uItemplateCode => {
-      dispatch(getCustomerQueriesFieldsv2(uItemplateCode));
+    getCustomerQueriesFieldsv2: (uItemplateCode, isSelectRadio) => {
+      dispatch(getCustomerQueriesFieldsv2(uItemplateCode, isSelectRadio));
     },
     getOrdersTransactionData: paginated => {
       dispatch(getOrdersTransactionData(paginated));
@@ -80,9 +80,8 @@ const mapStateToProps = state => {
     ordersTransactionData: state.profile.ordersTransactionData,
     userDetails: state.profile.userDetails,
     customerQueriesField: state.profile.customerQueriesField,
-    uploadUserFileStatus:state.profile.uploadUserFileStatus,
-    uploadUserFileData:state.profile.uploadUserFile
-
+    uploadUserFileStatus: state.profile.uploadUserFileStatus,
+    uploadUserFileData: state.profile.uploadUserFile
   };
 };
 

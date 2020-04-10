@@ -386,3 +386,15 @@
 .labelComponent{
   margin-top: 20px;
 }
+.fieldLabel{
+  font-size: 12px;
+  color: #212121;
+  font-family: semibold;
+  margin-bottom: 4px;
+}
+.fieldLabelTxt{
+  font-size: 11px;
+  color: #212121;
+  font-family: semibold;
+  margin-bottom: 4px;
+}

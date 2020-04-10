@@ -4245,48 +4245,67 @@ export function getCustomerQueriesFieldsFailurev2() {
     status: FAILURE
   };
 }
-
-export function getCustomerQueriesFieldsv2(UItemplateCode) {
+let firstData = [];
+export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
   return async (dispatch, getState, { api }) => {
     dispatch(getCustomerQueriesFieldsRequestv2());
     try {
       const result = await api.get(
         `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
       );
+      // ${UItemplateCode}
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      var responseData = [];
+      let fetchData = [];
+      let redioData = [];
       resultJson &&
         resultJson.items.map(ele => {
           if (ele.componentName === "textAreaComponent") {
             let textAreaData = getTextAreaApiData(ele);
-            responseData.push(textAreaData);
+            fetchData.push(textAreaData);
           }
           if (ele.componentName === "attachmentComponent") {
             let attachmentData = getAttachmentApiData(ele);
-            responseData.push(attachmentData);
+            fetchData.push(attachmentData);
           }
           if (ele.componentName === "textboxComponent") {
             let textBoxData = getTextBoxApiData(ele);
-            responseData.push(textBoxData);
+            fetchData.push(textBoxData);
           }
           if (ele.componentName === "labelComponent") {
             let labelData = getLabelApiData(ele);
-            responseData.push(labelData);
+            fetchData.push(labelData);
           }
           if (ele.componentName === "radioComponent") {
             let radioData = getRadioApiData(ele);
-            responseData.push(radioData);
+            fetchData.push(radioData);
           }
           if (ele.componentName === "checkboxComponent") {
             let checkboxData = getCheckboxApiData(ele);
-            responseData.push(checkboxData);
+            fetchData.push(checkboxData);
           }
         });
-      return dispatch(getCustomerQueriesFieldsSuccessv2(responseData));
+
+      if (isSelectRadio) {
+        redioData = [...firstData];
+        let index =
+          redioData.findIndex(
+            f =>
+              f.componentName === "radioComponent" ||
+              f.componentName === "checkboxComponent"
+          ) + 1;
+        redioData.splice(index, 0, ...fetchData);
+      } else {
+        firstData = [...fetchData];
+      }
+      console.log("firstData", firstData);
+      console.log("redioData", redioData);
+      return dispatch(
+        getCustomerQueriesFieldsSuccessv2(isSelectRadio ? redioData : firstData)
+      );
     } catch (e) {
       return dispatch(getCustomerQueriesFieldsFailurev2(e.message));
     }
@@ -4555,7 +4574,8 @@ const getRadioApiData = (apiData = []) => {
       return {
         optionName: tempOption[0] ? tempOption[0] : "",
         value: tempOption[1] ? tempOption[1] : "",
-        isSelected: tempOption[2] ? parseInt(tempOption[2]) : ""
+        isSelected: tempOption[2] ? parseInt(tempOption[2]) : "",
+        webFormTemplate: tempOption[3] ? tempOption[3] : ""
       };
     });
 
@@ -4604,7 +4624,8 @@ const getCheckboxApiData = (apiData = []) => {
       return {
         optionName: tempOption[0] ? tempOption[0] : "",
         value: tempOption[1] ? tempOption[1] : "",
-        isSelected: tempOption[2] ? parseInt(tempOption[2]) : ""
+        isSelected: tempOption[2] ? parseInt(tempOption[2]) : "",
+        webFormTemplate: tempOption[3] ? tempOption[3] : ""
       };
     });
 

@@ -231,67 +231,20 @@ export default class OrderRelatedIssue extends React.Component {
   /**
    * @comment Demo method. planning to remove the non order condition
    */
-  onChangeReasonForOrderRelated(obj) {
-    this.setState({ selectedObj: obj });
-    console.log("500000", obj);
-    // const code = val.value;
-    // const label = val.label;
-    // let { listOfIssues } = this.props.customerQueriesData;
-    // let issue = listOfIssues.filter(function(issue) {
-    //   return issue.issueType === val.label;
-    // });
-
-    // this.setState({
-    //   l2SelectedOption: code,
-    //   l2SelectedReason: label,
-    //   L0: issue[0].L0,
-    //   L1: issue[0].L1,
-    //   L2: issue[0].L2,
-    //   L3: issue[0].L3,
-    //   L4: issue[0].L4,
-    //   ticketType: issue[0].ticketType,
-    //   webform: issue[0].webform,
-    //   chat: issue[0].chat,
-    //   call: issue[0].call,
-    //   click2Call: issue[0].click2Call,
-    //   solution: issue[0].solution,
-    //   uItemplateCode: issue[0].uItemplateCode,
-    //   tat: issue[0].tat,
-    //   issueCategory: "",
-    //   issue: val.label
-    // });
-    if (obj[0].webform === "Yes") {
-      this.props.getCustomerQueriesFieldsv2(obj[0].UItemplateCode);
-      this.setState({ webFormStatus: true });
-
-      // if (customerQueriesFieldArray) {ticketID
-      //   customerQueriesFieldArray.map(ele => {
-      // if(ele.componentName==="labelComponent"){
-      //   this.setState({labelDataShow:true})
-      // }
-      // if (ele.componentName === "textAreaComponent") {
-      //   this.setState({ customerQryFldTextArea: true });
-      // }
-      // if (ele.componentName === "textboxComponent") {
-      //   this.setState({ customerQryFldTextBox: true });
-      // }
-      // if (ele.componentName === "radioComponent") {
-      // this.setState({ customerQryFldRadio: true });
-      //   ele.optionArray.map(ele => {
-      //     if (ele.isSelected === 1) {
-      //       this.setState({ radioSelectedOption: ele.value });
-      //     }
-      //   });
-      // }
-      // if (ele.componentName === "attachmentComponent") {
-      //   this.setState({ customerQryFldAttachment: true });
-      // }
-      // if (ele.componentName === "checkboxComponent") {
-      //   this.setState({ customerQryFldCheckBox: true });
-      // }
-      // });
-      // }
+  onChangeReasonForOrderRelated(obj, isSelecteRadio = false) {
+    if (isSelecteRadio) {
+      this.props.getCustomerQueriesFieldsv2(
+        obj.webFormTemplate,
+        isSelecteRadio
+      );
+    } else {
+      this.setState({ selectedObj: obj });
+      if (obj[0].webform === "Yes") {
+        this.props.getCustomerQueriesFieldsv2("SSW_08", isSelecteRadio);
+        this.setState({ webFormStatus: true });
+      }
     }
+    //obj[0].UItemplateCode
   }
   onChangeSubReasonForOrderRelated(val) {
     // const code = val.value;
@@ -620,33 +573,6 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.displayToast("No Orders");
     }
   }
-  /**
-   *
-   * @comment To be removed
-   */
-  // getSubLevelL2Issue(orderRelatedIssue) {
-  //   const subTab =
-  //     this.state.showSubIssueField &&
-  //     orderRelatedIssue &&
-  //     orderRelatedIssue.find(ele => {
-  //       return this.state.uItemplateCode === ele.parentIssueType;
-  //     });
-  //   if (subTab && subTab.listofSubIssues && subTab.listofSubIssues.length > 0) {
-  //     return subTab.listofSubIssues;
-  //   } else {
-  //     return null;
-  //   }
-  // }
-  // getOrderRelatedL3Issue(l2OptionsArray) {
-  //   return (
-  //     this.state.l3SelectedOption &&
-  //     l2OptionsArray &&
-  //     l2OptionsArray.children &&
-  //     l2OptionsArray.children.find(l3Object => {
-  //       return l3Object.nodeCode === this.state.l3SelectedOption;
-  //     })
-  //   );
-  // }
   onChangeDefaultFlag(checkvalue) {
     this.setState(prevState => ({
       checkBoxDefaultFlag: checkvalue
@@ -678,12 +604,19 @@ export default class OrderRelatedIssue extends React.Component {
       l2OptionsArray,
       l3OptionsArray,
       customerQueriesFieldArray,
+      customerQueriesField = [],
       textAreaData = {},
       attachmentData = {},
       textboxData = {},
       labelData = {},
       radioData = {},
       checkboxData = {};
+    if (this.props.customerQueriesField) {
+      this.props.customerQueriesField.map(allObj => {
+        customerQueriesField.push(allObj);
+      });
+    }
+    console.log("check", customerQueriesField);
     if (this.props.ordersRelatedLoading) {
       this.props.showSecondaryLoader();
     } else {
@@ -693,33 +626,6 @@ export default class OrderRelatedIssue extends React.Component {
       l1OptionsArray =
         this.props.customerQueriesData &&
         this.props.customerQueriesData.listOfIssues;
-
-      // customerQueriesFieldArray = this.props.customerQueriesField;
-
-      // customerQueriesFieldArray &&
-      //   customerQueriesFieldArray.map(ele => {
-      //     if (ele.componentName === "textAreaComponent") {
-      //       textAreaData = ele;
-      //     }
-      //     if (ele.componentName === "attachmentComponent") {
-      //       attachmentData = ele;
-      //     }
-      //     if (ele.componentName === "textboxComponent") {
-      //       textboxData = ele;
-      //     }
-      //     if (ele.componentName === "labelComponent") {
-      //       labelData = ele;
-      //     }
-      //     if (ele.componentName === "radioComponent") {
-      //       radioData = ele;
-      //     }
-      //     if (ele.componentName === "checkboxComponent") {
-      //       checkboxData = ele;
-      //     }
-      //   });
-      /**
-       * EODwebFormStatus
-       */
     }
     if (this.state.isSelected === 1) {
       l1OptionsArray =
@@ -1249,9 +1155,7 @@ export default class OrderRelatedIssue extends React.Component {
               <React.Fragment>
                 <CustomerCareOrderRelated
                   l1OptionsArray={l1OptionsArray}
-                  customerQueriesFieldArray={
-                    this.props.customerQueriesField || []
-                  }
+                  customerQueriesFieldArray={customerQueriesField || []}
                   isSelected={this.state.isSelected}
                   productImageURL={this.state.productImageURL}
                   orderDate={this.state.orderDate}
@@ -1274,8 +1178,8 @@ export default class OrderRelatedIssue extends React.Component {
                   subIssueList={this.state.listOfSubIssue}
                   onChange={val => this.onChange(val)}
                   // updateState={(key,value) => this.updateState(key,value)}
-                  onChangeReasonForOrderRelated={obj =>
-                    this.onChangeReasonForOrderRelated(obj)
+                  onChangeReasonForOrderRelated={(obj, isSelecteRadio) =>
+                    this.onChangeReasonForOrderRelated(obj, isSelecteRadio)
                   }
                   onChangeDefaultFlag={val => this.onChangeDefaultFlag(val)}
                   onUploadFile={(file, data) => this.onUploadFile(file, data)}

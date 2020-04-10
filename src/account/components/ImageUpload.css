@@ -38,6 +38,7 @@
 	font-family: regular;
 	border-radius: 2px;
 	opacity: 0.7;
+	overflow: hidden;
 }
 .pathUploadHolderWithoutBorder {
 	width: 100%;
