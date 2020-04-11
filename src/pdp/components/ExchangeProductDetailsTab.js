@@ -59,21 +59,23 @@ export default class ExchangeProductDetailsTab extends React.Component {
                     .formattedValueNoDecimal}
               </td>
             </tr>
-            <tr>
-              <td>
-                <img
-                  src={cliqBonusIcon}
-                  alt="CLiQ Bonus"
-                  className={styles.icons}
-                />
-                CLiQ Bonus
-              </td>
-              <td>
-                {this.props.deviceInfo &&
-                  this.props.deviceInfo.tulBump &&
-                  this.props.deviceInfo.tulBump.formattedValueNoDecimal}
-              </td>
-            </tr>
+            {this.props.deviceInfo &&
+              this.props.deviceInfo.tulBump && (
+                <tr>
+                  <td>
+                    <img
+                      src={cliqBonusIcon}
+                      alt="CLiQ Bonus"
+                      className={styles.icons}
+                    />
+                    CLiQ Bonus
+                  </td>
+                  <td>
+                    {this.props.deviceInfo.tulBump.formattedValueNoDecimal}
+                  </td>
+                </tr>
+              )}
+
             <tr>
               <td className={styles.fontSize12}>
                 <img

@@ -1956,7 +1956,7 @@ export function verifyIMEINumber(
   IMEINumber,
   exchangeProductId,
   exchangeAmountCashify,
-  tulBump,
+  tulBump: null,
   pickUpCharge,
   listingId,
   ussId,
@@ -1966,9 +1966,15 @@ export function verifyIMEINumber(
   return async (dispatch, getState, { api }) => {
     dispatch(verifyIMEINumberRequest());
     try {
-      let url = `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&ExchangeAmountCashify=${exchangeAmountCashify}&tulBump=${tulBump}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}`;
-      if (guid && entry) {
+      let url = `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&ExchangeAmountCashify=${exchangeAmountCashify}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}`;
+      if (tulBump) {
+        url = `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&ExchangeAmountCashify=${exchangeAmountCashify}&tulBump=${tulBump}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}`;
+      }
+      if (guid && entry && tulBump) {
         url = `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&ExchangeAmountCashify=${exchangeAmountCashify}&tulBump=${tulBump}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}&guid=${guid}&entry=${entry}`;
+      }
+      if (guid && entry && !tulBump) {
+        url = `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&ExchangeAmountCashify=${exchangeAmountCashify}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}&guid=${guid}&entry=${entry}`;
       }
       const result = await api.getMiddlewareUrl(url);
       const resultJson = await result.json();

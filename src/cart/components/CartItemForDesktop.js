@@ -161,11 +161,21 @@ export default class CartItemForDesktop extends React.Component {
         guid,
         this.props.product.entryNumber
       );
-      if (response.status === "Success") {
+      if (
+        response.status &&
+        response.status.toLowerCase() === "success" &&
+        response.isIMEIVerified
+      ) {
         this.props.displayToast("Exchange Cashback has been updated");
         // load cart page to call cart details API and get updated response
         window.location.reload();
-      } else {
+      }
+      if (
+        response.status &&
+        response.status.toLowerCase() === "failure" &&
+        !response.isIMEIVerified &&
+        response.error
+      ) {
         this.props.displayToast(response.error);
       }
     }

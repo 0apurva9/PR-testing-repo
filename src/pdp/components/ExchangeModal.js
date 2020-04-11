@@ -269,30 +269,40 @@ export default class ExchangeModal extends React.Component {
     let IMEINumber = this.state.IMEINumberFirstDevice;
     let exchangeProductId =
       this.state.firstDeviceInfo &&
+      this.state.firstDeviceInfo.model &&
       this.state.firstDeviceInfo.model.exchangeProductId;
     let exchangeAmountCashify =
       this.state.firstDeviceInfo &&
+      this.state.firstDeviceInfo.model &&
+      this.state.firstDeviceInfo.model.exchangeAmountCashify &&
       this.state.firstDeviceInfo.model.exchangeAmountCashify.value;
     let tulBump =
       this.state.firstDeviceInfo &&
+      this.state.firstDeviceInfo.tulBump &&
       this.state.firstDeviceInfo.tulBump.doubleValue;
     let pickUpCharge =
       this.state.firstDeviceInfo &&
+      this.state.firstDeviceInfo.pickupCharge &&
       this.state.firstDeviceInfo.pickupCharge.value;
 
     if (deviceNo === 2) {
       IMEINumber = this.state.IMEINumberSecondDevice;
       exchangeProductId =
         this.state.secondDeviceInfo &&
+        this.state.secondDeviceInfo.model &&
         this.state.secondDeviceInfo.model.exchangeProductId;
       exchangeAmountCashify =
         this.state.secondDeviceInfo &&
+        this.state.secondDeviceInfo.model &&
+        this.state.secondDeviceInfo.model.exchangeAmountCashify &&
         this.state.secondDeviceInfo.model.exchangeAmountCashify.value;
       tulBump =
         this.state.secondDeviceInfo &&
+        this.state.secondDeviceInfo.tulBump &&
         this.state.secondDeviceInfo.tulBump.doubleValue;
       pickUpCharge =
         this.state.secondDeviceInfo &&
+        this.state.secondDeviceInfo.pickupCharge &&
         this.state.secondDeviceInfo.pickupCharge.value;
     }
 
@@ -307,7 +317,11 @@ export default class ExchangeModal extends React.Component {
       listingId,
       ussId
     );
-    if (data.isIMEIVerified) {
+    if (
+      data.status &&
+      data.status.toLowerCase() === "success" &&
+      data.isIMEIVerified
+    ) {
       if (deviceNo === 1) {
         this.setState({
           checkIMEIMessageFirstDevice: this.state.IMEISuccessMessage,
@@ -321,7 +335,12 @@ export default class ExchangeModal extends React.Component {
       }
       // this state is used in add to cart api call
       this.setState({ verifyIMEINumberAPIResponse: data });
-    } else {
+    }
+    if (
+      data.status &&
+      data.status.toLowerCase() === "failure" &&
+      !data.isIMEIVerified
+    ) {
       if (deviceNo === 1) {
         this.setState({
           checkIMEIMessageFirstDevice: this.state.IMEIFailureMessage
