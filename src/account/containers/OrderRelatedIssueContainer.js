@@ -44,8 +44,8 @@ const mapDispatchToProps = dispatch => {
     displayToast: message => {
       dispatch(displayToast(message));
     },
-    uploadUserFile: async (title, file) => {
-      return dispatch(uploadUserFile(title, file));
+    uploadUserFile: async uploadUserFileObject => {
+      return dispatch(uploadUserFile(uploadUserFileObject));
     },
     submitOrderDetails: async raiseTicketObj => {
       return dispatch(submitOrderDetails(raiseTicketObj));

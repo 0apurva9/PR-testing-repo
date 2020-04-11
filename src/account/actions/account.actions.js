@@ -4292,17 +4292,11 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
       if (isSelectRadio) {
         redioData = [...firstData];
         let index =
-          redioData.findIndex(
-            f =>
-              f.componentName === "radioComponent" ||
-              f.componentName === "checkboxComponent"
-          ) + 1;
+          redioData.findIndex(f => f.componentName === "radioComponent") + 1;
         redioData.splice(index, 0, ...fetchData);
       } else {
         firstData = [...fetchData];
       }
-      console.log("firstData", firstData);
-      console.log("redioData", redioData);
       return dispatch(
         getCustomerQueriesFieldsSuccessv2(isSelectRadio ? redioData : firstData)
       );
@@ -4749,12 +4743,12 @@ export function uploadUserFileFailure() {
     status: FAILURE
   };
 }
-export function uploadUserFile(title, file) {
+export function uploadUserFile(uploadUserFileObject) {
   return async (dispatch, getState, { api }) => {
     dispatch(uploadUserFileRequest());
     try {
-      let uploadUserFileObject = new FormData();
-      uploadUserFileObject.append(title, file);
+      // let uploadUserFileObject = new FormData();
+      // uploadUserFileObject.append(title, file);
       const result = await api.postFormData(
         `${PATH}/attachmentUpload`,
         uploadUserFileObject

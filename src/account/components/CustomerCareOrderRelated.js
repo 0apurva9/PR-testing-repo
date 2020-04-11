@@ -22,7 +22,6 @@ const MOBILE_TEXT = "Please enter mobile number";
 const MOBILE_VALID_TEXT = "Please enter valid mobile number";
 const EMAIL_TEXT = "Please enter emailId";
 const EMAIL_VALID_TEXT = "Please enter  valid emailId";
-
 export default class CustomerCareOrderRelated extends React.Component {
   constructor(props) {
     super(props);
@@ -49,7 +48,7 @@ export default class CustomerCareOrderRelated extends React.Component {
           : "",
       issueData: "",
       nonOrderRelatedSubIssue: "",
-      attachmentName: "Upload attachment",
+      // attachmentName: "Upload attachment",
       uItemplateFeieldArray: [],
       file: []
     };
@@ -71,7 +70,6 @@ export default class CustomerCareOrderRelated extends React.Component {
         if (field.componentName === "attachmentComponent") {
           this.setState({
             attachment: field,
-            // [field.componentId]: "",
             uploadFileTitle: field.title
           });
         } else {
@@ -189,11 +187,8 @@ export default class CustomerCareOrderRelated extends React.Component {
                               ? true
                               : false
                           }
-                          onChange={
-                            e => this.onChangeCheck(e, listOfField, ele)
-                            // this.setState({
-                            //   [listOfField.componentId]: e.target.value
-                            // })
+                          onChange={e =>
+                            this.onChangeCheck(e, listOfField, ele)
                           }
                         />
                         <span />
@@ -207,13 +202,14 @@ export default class CustomerCareOrderRelated extends React.Component {
         if (listOfField.componentName == "textAreaComponent") {
           return (
             <React.Fragment>
-              <div className={styles.secondOrder}>
-                {/* <CheckOutHeader
-                  indexNumber={"0"}
-                  confirmTitle={listOfField.heading}
-                  fontSize={"12px"}
-                /> */}
+              <div className={styles.textAreaHeading}>
                 <div className={styles.fieldLabel}>{listOfField.heading}</div>
+                <div className={styles.maxLimitBox}>
+                  <span className={styles.totalText}>
+                    {this.state[listOfField.componentId].length}
+                  </span>
+                  /<span>{listOfField.maxLimit}</span>
+                </div>
               </div>
               <TextArea
                 placeholder={listOfField.placeholder}
@@ -232,12 +228,6 @@ export default class CustomerCareOrderRelated extends React.Component {
             <div className={styles.textInformationHolder}>
               <div className={styles.secondOrder}>
                 <div className={styles.fieldLabel}>{listOfField.heading}</div>
-                {/* <CheckOutHeader
-                  indexNumber={"0"}
-                  confirmTitle={listOfField.heading}
-                  fontSize={"12px"}
-                  isAdditionsTextRight={false}
-                /> */}
               </div>
               {listOfField &&
                 listOfField.optionArray.map(ele => {
@@ -267,7 +257,6 @@ export default class CustomerCareOrderRelated extends React.Component {
   }
 
   onChangeCheck(evt, selectObj, option) {
-    // console.log("evt,selectObj",evt,selectObj,option);
     this.setState({ [selectObj.componentId]: evt.target.value }, () => {
       if (option.webFormTemplate) {
         this.props.onChangeReasonForOrderRelated(option, true);
@@ -276,81 +265,68 @@ export default class CustomerCareOrderRelated extends React.Component {
   }
 
   onUploadFile(file, attachment) {
-    // console.log("file",file);
-    // let uplodaState=this.state[attachment.componentId];
-    // this.setState({[attachment.componentId]:[...uplodaState,file]},()=>{
-    //   // for (let i=0 ;i<uplodaState.length;i++){
-
-    //   //   let combineSize=0;
-    //   //   combineSize+=uplodaState[i].size;
-    //   //   if(combineSize<=attachment.maxFileSize*1000000&&uplodaState.length<=attachment.maxFileLimit)
-    //   //   console.log("dsdsd",uplodaState[i].size);
-
-    //   // }
-    // })
-    let combinedSize = 0;
-    // this.props.uploadUserFile(attachment.title, file);
-    // for (let f of file) combinedSize += f.size;
-    // console.log("combinedSize",combinedSize);
-    // this.setState({ file: file });
-    // this.props.uploadUserFile(attachment.title, file);
-
     if (file) {
-      // let combinedSize = 0;
-      // for (let f of file) combinedSize += f.size;
-      if (file.size <= attachment.maxFileSize * 1000000) {
-        this.setState({
-          file: file,
-          attachmentName: file.name
-        });
-        this.props.uploadUserFile(attachment.title, file);
+      let combinedSize = 0;
+      for (let f of file) combinedSize += f.size;
+      if (
+        combinedSize <= attachment.maxFileSize * 1000000 &&
+        file.length <= attachment.maxFileLimit
+      ) {
+        let uploadUserFileObject = new FormData();
+        let uploadFiles = [];
+        for (let files of file) {
+          uploadUserFileObject.append(attachment.title, files);
+          uploadFiles.push(files);
+        }
+        this.setState({ file: uploadFiles });
+        this.props.uploadUserFile(uploadUserFileObject);
       } else {
-        // if (file.length > maxFileLimit)
-        //   this.props.displayToast(
-        //     `Maximum ${maxFileSize} No. of files allowed`
-        //   );
-        // else
-        this.props.displayToast(
-          `File size should be less then ${attachment.maxFileSize} MB`
-        );
+        if (file.length > attachment.maxFileLimit)
+          this.props.displayToast(
+            `Maximum ${attachment.maxFileSize} No. of files allowed`
+          );
+        else
+          this.props.displayToast(
+            `File size should be less then ${attachment.maxFileSize} MB`
+          );
       }
     }
   }
   formValidate(fieldObj) {
-    // if (fieldObj.componentName === "labelComponent") {
-    //   return false;
-    // }
     if (fieldObj.isMandatory == 1) {
-      if (fieldObj.componentName === "attachmentComponent") {
-        return true;
-        // if (this.state.file.length == 0) {
-        //   this.props.displayToast(fieldObj.itemsTitle + " is mandatory");
-        //   return false;
-      }
-
-      if (this.state[fieldObj.componentId] == "") {
+      if (
+        fieldObj.componentName === "attachmentComponent" &&
+        this.state.file.length <= 0
+      ) {
         this.props.displayToast(fieldObj.heading + " is mandatory");
         return false;
+      } else if (this.state[fieldObj.componentId] == "") {
+        this.props.displayToast(fieldObj.heading + " is mandatory");
+        return false;
+      } else if (
+        fieldObj.minLimit &&
+        this.state[fieldObj.componentId].length < fieldObj.minLimit
+      ) {
+        this.props.displayToast(
+          fieldObj.heading + " " + fieldObj.minLimitError
+        );
+        return false;
       }
-      if (fieldObj.minLimit) {
-        if (this.state[fieldObj.componentId].length < fieldObj.minLimit) {
-          this.props.displayToast(
-            fieldObj.heading + " " + fieldObj.minLimitError
-          );
-          return false;
-        }
-      }
-      //  if(fieldObj.regex){
-      //   var expression = "^" + fieldObj.regex + "+$";
-      //   var regexExp = new RegExp(expression);
-      //    if(!regexExp.test(this.state[fieldObj.componentId])){
-      //     this.props.displayToast(fieldObj.regexError);
-      //       return false;
-      //   }
-      //  }
+      return true;
     } else {
       return true;
     }
+    //   //  if(fieldObj.regex){
+    //   //   var expression = "^" + fieldObj.regex + "+$";
+    //   //   var regexExp = new RegExp(expression);
+    //   //    if(!regexExp.test(this.state[fieldObj.componentId])){
+    //   //     this.props.displayToast(fieldObj.regexError);
+    //   //       return false;
+    //   //   }
+    //   //  }
+    // } else {
+    //   return true;
+    // }
   }
 
   submitCustomerForm() {
@@ -402,38 +378,45 @@ export default class CustomerCareOrderRelated extends React.Component {
       missingAccessories: ""
     };
     let validateStatus = false;
-
-    const { issueData } = this.state;
-    this.props.customerQueriesFieldArray &&
-      this.props.customerQueriesFieldArray.map(field => {
-        validateStatus = this.formValidate(field);
+    for (let obj of this.props.customerQueriesFieldArray) {
+      validateStatus = this.formValidate(obj);
+      if (!validateStatus) {
+        break;
+      } else {
         for (let [key, value] of Object.entries(additionalInfo)) {
-          if (this.props.uploadedAttachments.length > 0) {
-            additionalInfo[
-              this.state.uploadFileTitle
-            ] = this.props.uploadedAttachments[0].urlList;
-          }
-          if (key == field.title) {
-            additionalInfo[field.title] = this.state[field.componentId];
+          if (key == this.state.uploadFileTitle) {
+            if (this.props.uploadedAttachments.length) {
+              additionalInfo[
+                this.state.uploadFileTitle
+              ] = this.props.uploadedAttachments[0].urlList;
+            } else {
+              additionalInfo[this.state.uploadFileTitle] = "";
+            }
+          } else if (key == obj.title) {
+            additionalInfo[obj.title] = this.state[obj.componentId];
           }
         }
-      });
-
+      }
+    }
     if (validateStatus) {
       if (!email) {
         this.props.displayToast(EMAIL_TEXT);
+        this.setState({ email: "" });
         return false;
       }
       if (email && !EMAIL_REGULAR_EXPRESSION.test(email)) {
         this.props.displayToast(EMAIL_VALID_TEXT);
+        this.setState({ email: "" });
         return false;
       }
       if (!mobile) {
         this.props.displayToast(MOBILE_TEXT);
+        this.setState({ mobile: "" });
         return false;
       }
       if (mobile && !MOBILE_PATTERN.test(mobile)) {
         this.props.displayToast(MOBILE_VALID_TEXT);
+        this.setState({ mobile: "" });
         return false;
       } else {
         let ticketInfo = Object.assign(
@@ -506,14 +489,25 @@ export default class CustomerCareOrderRelated extends React.Component {
       webFormStatus,
       goToOrderPage,
       selectedObj,
-      subIssueList
+      subIssueList,
+      parentIssueLabel
     } = this.props;
     let attachmentName = "Upload attachment";
-    // if (this.state.a) {
-    //   let fileName = [];
-    //   for (let f of file) fileName.push(f.name);
-    //   attachmentName = fileName.join(",");
-    // }
+    if (this.state.file.length) {
+      let fileName = [];
+      for (let f of this.state.file) fileName.push(f.name);
+      attachmentName = fileName.join(",");
+    }
+    let parentIssueLabels = "Select issue",
+      childIssueLabels = "Select sub-issue";
+    if (parentIssueLabel) {
+      parentIssueLabels = parentIssueLabel;
+    }
+
+    if (selectedObj) {
+      childIssueLabels = selectedObj[0].subIssueType;
+    }
+
     return (
       <div className={styles.formHolder}>
         <div className={styles.firstTab}>
@@ -593,12 +587,19 @@ export default class CustomerCareOrderRelated extends React.Component {
                       fontSize={"14px"}
                     />
                   </div>
-                  <div className={styles.selectIssue}>
-                    <CheckOutHeader
+                  <div
+                    className={[styles.selectIssue, styles.paddingBottom].join(
+                      " "
+                    )}
+                  >
+                    {/* <CheckOutHeader
                       indexNumber={"0"}
                       confirmTitle="What is the issue?"
                       fontSize={"13px"}
-                    />
+                    /> */}
+                    <div className={styles.issueHeadingBox}>
+                      What is the issue?
+                    </div>
                     <SelectBoxMobile2
                       placeholder="Select issue"
                       arrowColour="black"
@@ -613,7 +614,6 @@ export default class CustomerCareOrderRelated extends React.Component {
                           };
                         })
                       }
-                      //isEnable={this.state.isEnableForOrderRelated}
                       onChange={val =>
                         this.onChangeReasonForOrderRelated(
                           val,
@@ -646,13 +646,18 @@ export default class CustomerCareOrderRelated extends React.Component {
                     />
                   </div>
                   <div className={styles.selectIssue}>
-                    <CheckOutHeader
+                    <div className={styles.issueHeadingBox}>
+                      What is the issue?
+                    </div>
+
+                    {/* <CheckOutHeader
                       indexNumber={"0"}
                       confirmTitle="What is the issue?"
                       fontSize={"13px"}
-                    />
+                    /> */}
                     <SelectBoxMobile2
                       placeholder="Select issue"
+                      label={parentIssueLabels}
                       arrowColour="black"
                       height={33}
                       extraVisibleBoxCss={true}
@@ -665,7 +670,6 @@ export default class CustomerCareOrderRelated extends React.Component {
                           };
                         })
                       }
-                      //isEnable={this.state.isEnableForOrderRelated}
                       onChange={val =>
                         this.onChangeReasonForNonOrderRelated(
                           val,
@@ -675,14 +679,24 @@ export default class CustomerCareOrderRelated extends React.Component {
                     />
                   </div>
                   {subIssueList && (
-                    <div className={styles.selectIssue}>
-                      <CheckOutHeader
+                    <div
+                      className={[
+                        styles.selectIssue,
+                        styles.paddingBottom
+                      ].join(" ")}
+                    >
+                      {/* <CheckOutHeader
                         indexNumber={"0"}
                         confirmTitle="Select sub issue?"
                         fontSize={"13px"}
-                      />
+                      /> */}
+                      <div className={styles.issueHeadingBox}>
+                        Select sub issue?
+                      </div>
+
                       <SelectBoxMobile2
-                        placeholder="Select issue"
+                        placeholder="Select sub-issue"
+                        label={childIssueLabels}
                         arrowColour="black"
                         height={33}
                         extraVisibleBoxCss={true}
@@ -695,7 +709,6 @@ export default class CustomerCareOrderRelated extends React.Component {
                             };
                           })
                         }
-                        //isEnable={this.state.isEnableForOrderRelated}
                         onChange={val =>
                           this.onChangeReasonForOrderRelated(
                             val,
@@ -741,14 +754,6 @@ export default class CustomerCareOrderRelated extends React.Component {
 
                   <div className={styles.imageInput}>
                     <div className={styles.secondOrder}>
-                      {/* <CheckOutHeader
-                        indexNumber={"0"}
-                        confirmTitle={
-                          this.state.attachment.heading &&
-                          this.state.attachment.heading
-                        }
-                        fontSize={"12px"}
-                      /> */}
                       {this.state.attachment.heading && (
                         <div className={styles.fieldLabel}>
                           {this.state.attachment.heading}
@@ -756,20 +761,13 @@ export default class CustomerCareOrderRelated extends React.Component {
                       )}
                     </div>
                     <ImageUpload
-                      value={this.state.attachmentName}
+                      value={attachmentName}
                       onChange={file =>
                         this.onUploadFile(file, this.state.attachment)
                       }
+                      isMultipleUpload={true}
                     />
                     <div className={styles.secondOrder}>
-                      {/* <CheckOutHeader
-                        indexNumber={"0"}
-                        confirmTitle={
-                          this.state.attachment.itemsTitle &&
-                          this.state.attachment.itemsTitle
-                        }
-                        fontSize={"12px"}
-                      /> */}
                       {this.state.attachment.itemsTitle && (
                         <div className={styles.fieldLabel}>
                           {this.state.attachment.itemsTitle}

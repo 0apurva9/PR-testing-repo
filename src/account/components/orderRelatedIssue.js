@@ -98,7 +98,8 @@ export default class OrderRelatedIssue extends React.Component {
       issue: "",
       selectedObj: "",
       subIssueList: null,
-      uploadedAttachments: []
+      uploadedAttachments: [],
+      parentIssueLabel: ""
     };
   }
 
@@ -220,7 +221,8 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState({
       listOfSubIssue:
         subTab && subTab.listofSubIssues ? subTab.listofSubIssues : [],
-      webFormStatus: false
+      webFormStatus: false,
+      parentIssueLabel: val.label
       // l2SelectedOption:
       //   subTab && subTab.listofSubIssues ? subTab.listofSubIssues : [],
       // showSubIssueField: true,
@@ -539,8 +541,11 @@ export default class OrderRelatedIssue extends React.Component {
   navigateToLogin() {
     return <Redirect to={LOGIN_PATH} />;
   }
-  async onUploadFiles(title, file) {
-    const uploadFileResponse = await this.props.uploadUserFile(title, file);
+
+  async onUploadFiles(uploadUserFileObject) {
+    const uploadFileResponse = await this.props.uploadUserFile(
+      uploadUserFileObject
+    );
     let { uploadUserFile, status } = uploadFileResponse;
     if (uploadFileResponse && status === SUCCESS) {
       this.setState({
@@ -1144,8 +1149,6 @@ export default class OrderRelatedIssue extends React.Component {
                   </div>
                 </div>
               </div>
-              {/* OrderRelated issue */}
-
               <React.Fragment>
                 <CustomerCareOrderRelated
                   l1OptionsArray={l1OptionsArray}
@@ -1161,11 +1164,12 @@ export default class OrderRelatedIssue extends React.Component {
                   subOrderCode={this.state.sellerOrderNumber}
                   webform={this.state.webform}
                   webFormStatus={this.state.webFormStatus}
+                  parentIssueLabel={this.state.parentIssueLabel}
                   displayToast={toastData => this.displayToast(toastData)}
                   userDetails={this.props.userDetails}
                   selectedObj={this.state.selectedObj}
-                  uploadUserFile={(title, file) =>
-                    this.onUploadFiles(title, file)
+                  uploadUserFile={uploadUserFileObject =>
+                    this.onUploadFiles(uploadUserFileObject)
                   }
                   uploadedAttachments={this.state.uploadedAttachments}
                   uploadUserFileData={this.props.uploadUserFileData}
@@ -1175,8 +1179,6 @@ export default class OrderRelatedIssue extends React.Component {
                   onChangeReasonForOrderRelated={(obj, isSelecteRadio) =>
                     this.onChangeReasonForOrderRelated(obj, isSelecteRadio)
                   }
-                  onChangeDefaultFlag={val => this.onChangeDefaultFlag(val)}
-                  onUploadFile={(file, data) => this.onUploadFile(file, data)}
                   submitCustomerForm={formData =>
                     this.submitCustomerForms(formData)
                   }
@@ -1186,27 +1188,8 @@ export default class OrderRelatedIssue extends React.Component {
                   }
                 />
               </React.Fragment>
-
-              {/* other Related issue */}
-              {/* {this.state.isSelected === 1 && (
-                <CustomerCareOtherIssues
-                  l1OptionsArray={l1OptionsArray}
-                  getUserDetails={getUserDetails}
-                  isSelected={this.state.isSelected}
-                  onChangeReasonForNonOrderRelated={(val, l1OptionsArray) =>
-                    this.onChangeReasonForNonOrderRelated(val, l1OptionsArray)
-                  }
-                  showSubIssueField={this.state.showSubIssueField}
-                  l2SelectedOption={this.state.l2SelectedOption}
-                  comment={this.state.comment}
-                  name={this.state.name}
-                  email={this.state.email}
-                  mobile={this.state.mobile}
-                />
-              )} */}
             </div>
           </div>
-          {/* Order related Popup */}
           {this.state.showOrder && (
             <OrderRelatedPopup
               selectedOrderId={this.state.transactionId}
