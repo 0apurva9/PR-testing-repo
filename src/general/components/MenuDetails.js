@@ -64,7 +64,6 @@ export default class MenuDetails extends React.Component {
   };
   openMenu() {
     let cartGuidUPI = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-    console.log("CART_GUID", cartGuidUPI);
     let isOpen = !this.state.isOpen;
     if (isOpen) {
       setDataLayerForCheckoutDirectCalls(

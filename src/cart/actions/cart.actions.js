@@ -2853,7 +2853,6 @@ export function applyBankOffer(couponCode) {
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       localStorage.setItem(BANK_COUPON_COOKIE, couponCode);
-      console.log("resultJson---->", resultJsonStatus);
       if (resultJsonStatus.status) {
         setDataLayerForCheckoutDirectCalls(
           ADOBE_CALL_FOR_APPLY_COUPON_FAILURE,

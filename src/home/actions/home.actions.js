@@ -371,8 +371,6 @@ export function getFeed(pageId: null) {
         }
 
         resultJson = await result.json();
-        console.log("RESULT JSON");
-        console.log(resultJson);
         if (resultJson.errors) {
           dispatch(secondaryFeedSuccess([], feedTypeRequest));
         } else {
