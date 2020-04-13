@@ -182,6 +182,34 @@ class CartPage extends React.Component {
     if (localStorage.getItem(ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE)) {
       localStorage.removeItem(ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE);
     }
+    // writting below code because of existing issue
+    // cartDetails cookie sometimes not available because of that even if cart exists , cart page shown as blank
+    // reference bug - https://tataunistore.atlassian.net/browse/MDEQ-96
+    // logged in user, not having cart details
+    if (!cartDetailsLoggedInUser && userDetails) {
+      this.getCartCodeAndGuid(userDetails, customerCookie, defaultPinCode);
+    }
+  }
+
+  async getCartCodeAndGuid(userDetails, customerCookie, defaultPinCode) {
+    let response = await this.props.getCartCodeAndGuidForLoggedInUser();
+    if (
+      response &&
+      response.status === "Success" &&
+      response.count > 0 &&
+      response.code
+    ) {
+      this.props.getCartDetails(
+        JSON.parse(userDetails).userName,
+        JSON.parse(customerCookie).access_token,
+        response.code,
+        defaultPinCode
+      );
+      Cookie.createCookie(
+        CART_DETAILS_FOR_LOGGED_IN_USER,
+        JSON.stringify(response)
+      );
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -420,6 +448,7 @@ class CartPage extends React.Component {
           ? this.props.location.state.isCliqAndPiqCartCode
           : JSON.parse(localStorage.getItem(CLIQ_AND_PIQ_CART_CODE));
     }
+
     if (userDetails) {
       this.props.getCartDetails(
         JSON.parse(userDetails).userName,
@@ -674,7 +703,8 @@ class CartPage extends React.Component {
     if (!globalAccessToken && !cartDetailsForAnonymous) {
       return <Redirect exact to={HOME_ROUTER} />;
     }
-
+    console.log(this.props);
+    console.log(this.props.cartDetails);
     if (this.props.cart.cartDetails && this.props.cart.cartDetails.products) {
       const cartDetails = this.props.cart.cartDetails;
       let defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);

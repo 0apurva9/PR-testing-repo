@@ -174,14 +174,31 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			delete bankData.status;
 			delete bankData.customerName;
 			delete bankData.reEnterAccountNumber;
-			this.props.updateCustomerBankDetails(bankData);
 			setDataLayer(ADOBE_SAVE_BANKDETAILS_BUTTON_CLICKED);
-			this.props.history.push({
-				pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_LANDING}${REPLACE_REFUND_SELECTION}`,
-				state: {
-					authorizedRequest: true,
-				},
-			});
+			if (this.state.bankDetail.fromPage === "ExchangeModeSelection") {
+				this.props.history.push({
+					pathname: this.state.bankDetail.fromPageURL,
+					state: {
+						authorizedRequest: true,
+						ExchangeModeSelected: "BANK_ACCOUNT"
+					},
+				});
+				//remove unnecessary field
+				delete bankData.exchangePaymentMode;
+				delete bankData.message;
+				delete bankData.IFSCCode;
+				delete bankData.fromPage;
+				delete bankData.fromPageURL;
+				this.props.updateCustomerBankDetails(bankData);
+			} else {
+				this.props.updateCustomerBankDetails(bankData);
+				this.props.history.push({
+					pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_LANDING}${REPLACE_REFUND_SELECTION}`,
+					state: {
+						authorizedRequest: true,
+					},
+				});
+			}
 		}
 	};
 	onSelectMode(mode: any) {

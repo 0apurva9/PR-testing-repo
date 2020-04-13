@@ -7926,19 +7926,49 @@ export function removeExchange(data) {
         }`
       );
       const resultJson = await result.json();
-      if (resultJson.status === "success") {
+      if (
+        resultJson &&
+        resultJson.status &&
+        resultJson.status.toLowerCase() === "success"
+      ) {
         //display toast and call cartdetails
         dispatch(displayToast("Exchange for product removed"));
         dispatch(removeExchangeSuccess(resultJson));
         dispatch(getCartDetails(user, accessToken, cartId, defaultPinCode));
       }
-      if (resultJson.status === "failure") {
+      if (
+        resultJson &&
+        resultJson.status &&
+        resultJson.status.toLowerCase() === "failure"
+      ) {
         dispatch(displayToast(resultJson.message));
         return dispatch(removeExchangeFailure(resultJson.message));
       }
       return resultJson;
     } catch (e) {
       return dispatch(removeExchangeFailure(e.message));
+    }
+  };
+}
+
+// get cart code and guid for logged in user
+// this is only get request which gives existing cart code and guid
+export function getCartCodeAndGuidForLoggedInUser() {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    try {
+      const result = await api.get(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/carts?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&channel=${CHANNEL}`
+      );
+      const resultJson = await result.json();
+      return resultJson;
+    } catch (e) {
+      console.log(e.message);
     }
   };
 }

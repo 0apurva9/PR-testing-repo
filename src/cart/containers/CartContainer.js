@@ -15,7 +15,8 @@ import {
   getPaymentModes,
   mergeTempCartWithOldCart,
   getMinicartProducts,
-  getAllStoresCNC
+  getAllStoresCNC,
+  getCartCodeAndGuidForLoggedInUser
 } from "../actions/cart.actions.js";
 import { displayToast } from "../../general/toast.actions";
 import { withRouter } from "react-router-dom";
@@ -212,6 +213,9 @@ const mapDispatchToProps = dispatch => {
           entry
         )
       );
+    },
+    getCartCodeAndGuidForLoggedInUser: async () => {
+      return await dispatch(getCartCodeAndGuidForLoggedInUser());
     }
   };
 };
