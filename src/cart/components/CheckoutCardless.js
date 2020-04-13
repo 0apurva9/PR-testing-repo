@@ -47,24 +47,23 @@ export default class CheckoutCardless extends React.Component {
       fm_api
         .smartUserDetect(val, env.REACT_APP_MERCHANTID, amount)
         .done(function(data) {
-          console.log("datadatadata", data);
           if (data.eligible === true) {
             self.setState({
               instacredEligible: true
             });
-            self.props.instacredStatus(true);
+            // self.props.instacredStatus(true);
           } else if (data.eligible === false) {
             self.setState({
               instacredEligible: false,
               message: data.message || ""
             });
-            self.props.instacredStatus(false);
+            // self.props.instacredStatus(false);
           } else {
             self.setState({ instacredEligible: false });
           }
         });
     } else if (val.length < 10) {
-      self.props.instacredStatus(false);
+      // self.props.instacredStatus(false);
       self.setState({ instacredEligible: false });
     }
   };
@@ -124,10 +123,9 @@ export default class CheckoutCardless extends React.Component {
             {this.state.message === "" && (
               <div
                 className={
-                  this.state.instacredEligible === false ||
-                  this.state.instacredEligible === true
-                    ? styles.displayNone
-                    : styles.errorText
+                  this.state.instacredEligible === false
+                    ? styles.errorText
+                    : styles.displayNone
                 }
               >
                 {NOT_APPROVED}
