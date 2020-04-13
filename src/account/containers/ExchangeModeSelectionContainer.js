@@ -1,7 +1,8 @@
 import { connect } from "react-redux";
 import {
   getCliqCashDetailsRefund,
-  submitProductRatingByUser
+  submitProductRatingByUser,
+  getExchangeCashbackDetails
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import ExchangeModeSelection from "../components/ExchangeModeSelection";
@@ -11,6 +12,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getCliqCashDetailsRefund: async () => {
       return await dispatch(getCliqCashDetailsRefund());
+    },
+    getExchangeCashbackDetails: async orderId => {
+      return await dispatch(getExchangeCashbackDetails(orderId));
     },
     setHeaderText: text => {
       dispatch(setHeaderText(text));
@@ -27,7 +31,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     profile: state.profile,
     userAddress: state.profile.userAddress,
-    ...ownProps
+    ...ownProps,
+    exchangeCashbackDetails: state.profile.exchangeCashbackDetails
   };
 };
 

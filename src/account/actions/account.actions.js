@@ -450,6 +450,13 @@ export const SET_USER_SMS_NOTIFICATION_FAILURE =
 export const RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS =
   "RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS";
 
+export const GET_EXCHANGE_CASHBACK_DETAILS_REQUEST =
+  "GET_EXCHANGE_CASHBACK_DETAILS_REQUEST";
+export const GET_EXCHANGE_CASHBACK_DETAILS_SUCCESS =
+  "GET_EXCHANGE_CASHBACK_DETAILS_SUCCESS";
+export const GET_EXCHANGE_CASHBACK_DETAILS_FAILURE =
+  "GET_EXCHANGE_CASHBACK_DETAILS_FAILURE";
+
 export function getDetailsOfCancelledProductRequest() {
   return {
     type: GET_CANCEL_PRODUCT_DETAILS_REQUEST,
@@ -4391,5 +4398,53 @@ export function resetUserAddressAfterLogout() {
   return {
     type: RESET_USER_ADDRESS,
     status: SUCCESS
+  };
+}
+
+export function getExchangeCashbackDetailsRequest() {
+  return {
+    type: GET_EXCHANGE_CASHBACK_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getExchangeCashbackDetailsSuccess(exchangeCashbackDetails) {
+  return {
+    type: GET_EXCHANGE_CASHBACK_DETAILS_SUCCESS,
+    status: SUCCESS,
+    exchangeCashbackDetails
+  };
+}
+
+export function getExchangeCashbackDetailsFailure(error) {
+  return {
+    type: GET_EXCHANGE_CASHBACK_DETAILS_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+
+export function getExchangeCashbackDetails(parentOrderId) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getExchangeCashbackDetailsRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getAccountInfoForExchange?parentOrderId=${parentOrderId}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getExchangeCashbackDetailsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getExchangeCashbackDetailsFailure(e.message));
+    }
   };
 }

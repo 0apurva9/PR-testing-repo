@@ -1,7 +1,6 @@
 // Exchange Cashback Mode Selection Page
 import React from "react";
 import styles from "./ExchangeModeSelection.css";
-import SecondaryLoader from "../../general/components/SecondaryLoader";
 import * as Cookie from "../../lib/Cookie";
 import {
   LOGGED_IN_USER_DETAILS,
@@ -17,20 +16,14 @@ import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import Instant from "../../general/components/img/pathCopy7.png";
 import Icon from "../../xelpmoc-core/Icon";
 import Button from "../../general/components/Button";
-const Loader = () => {
-  return (
-    <div>
-      <SecondaryLoader />
-    </div>
-  );
-};
 export default class ExchangeModeSelection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       stickyPortion: false,
       showStickyPortion: 0,
-      selectedOption: ""
+      selectedOption: "",
+      orderId: ""
     };
     this.radioChange = this.radioChange.bind(this);
   }
@@ -48,6 +41,11 @@ export default class ExchangeModeSelection extends React.Component {
     ) {
       this.setState({ selectedOption: "BANK_ACCOUNT" });
     }
+
+    const urlParams = new URLSearchParams(this.props.location.search);
+    let orderId = urlParams.get("parentOrderId");
+    this.setState({ orderId: orderId });
+    this.props.getExchangeCashbackDetails(orderId);
   }
 
   componentDidUpdate() {
@@ -62,7 +60,6 @@ export default class ExchangeModeSelection extends React.Component {
 
   async radioChange(e) {
     const target = e.currentTarget;
-    console.log(target);
     this.setState({ selectedOption: target.value });
     //cliq cash
     if (target.value === "CLIQ_CASH") {
@@ -92,17 +89,16 @@ export default class ExchangeModeSelection extends React.Component {
       data.fromPage = "ExchangeModeSelection";
     }
 
-    const urlParams = new URLSearchParams(this.props.location.search);
-    let orderId = urlParams.get("parentOrderId");
-
     //go to add/update bank details screen with bank details
     this.props.history.push({
-      pathname: `${RETURNS_PREFIX}/${orderId}${RETURN_LANDING}${RETURNS_STORE_BANK_FORM}`,
+      pathname: `${RETURNS_PREFIX}/${
+        this.state.orderId
+      }${RETURN_LANDING}${RETURNS_STORE_BANK_FORM}`,
       state: {
         authorizedRequest: true,
         bankData: data,
-        orderId: orderId,
-        transactionId: orderId
+        orderId: this.state.orderId,
+        transactionId: this.state.orderId
       }
     });
   }
@@ -113,41 +109,11 @@ export default class ExchangeModeSelection extends React.Component {
   }
 
   render() {
-    // console.log(this.props.profile)
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    if (this.props.profile.reSendEmailLoader) {
-      return Loader();
-    }
     if (userDetails) {
       userData = JSON.parse(userDetails);
     }
-
-    // const refundModesDetail = this.props.getRefundModesDetails;
-    let exchangeDetails = {
-      type: "exchangeModelListDTO",
-      status: "SUCCESS",
-      exchangePaymentDetails: [
-        {
-          exchangePaymentMode: "CLIQ_CASH",
-          message: "Note: CLiQ Cash cannot be transferred to Bank Account"
-        },
-        {
-          exchangePaymentMode: "BANK_ACCOUNT",
-          message:
-            "The Cashback will be credited in the bank account in 3-4 business days",
-          IFSCCode: "HDFC0000794",
-          accountHolderName: "Shayeri",
-          accountNumber: "44456789045",
-          bankName: "HDFC",
-          customerName: "hati@tcs.com",
-          title: "Mrs"
-        }
-      ],
-      isIMEIVerified: false,
-      isPickupAvailableForExchange: false,
-      quoteExpired: false
-    };
     let bankDetails = "";
     let cliqCashDetails = "";
     let disabled = true;
@@ -186,8 +152,8 @@ export default class ExchangeModeSelection extends React.Component {
                   </div>
                   <div className={styles.modeContent}>
                     <form>
-                      {exchangeDetails &&
-                        exchangeDetails.exchangePaymentDetails.map(
+                      {this.props.exchangeCashbackDetails &&
+                        this.props.exchangeCashbackDetails.exchangePaymentDetails.map(
                           (value, index) => {
                             if (
                               value.exchangePaymentMode === "BANK_ACCOUNT" &&
