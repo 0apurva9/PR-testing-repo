@@ -11,7 +11,6 @@ import ImageUpload from "./ImageUpload";
 import Button from "../../general/components/Button.js";
 import format from "date-fns/format";
 import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
-
 import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
@@ -50,7 +49,8 @@ export default class CustomerCareOrderRelated extends React.Component {
       nonOrderRelatedSubIssue: "",
       // attachmentName: "Upload attachment",
       uItemplateFeieldArray: [],
-      file: []
+      file: [],
+      subIssue: ""
     };
   }
 
@@ -273,6 +273,9 @@ export default class CustomerCareOrderRelated extends React.Component {
         file.length <= attachment.maxFileLimit
       ) {
         let uploadUserFileObject = new FormData();
+        let issueType =
+          this.props.isSelected == 1 ? "NonOrderRelated" : "orderRelated";
+        uploadUserFileObject.append("IssueType", issueType);
         let uploadFiles = [];
         for (let files of file) {
           uploadUserFileObject.append(attachment.title, files);
@@ -386,9 +389,15 @@ export default class CustomerCareOrderRelated extends React.Component {
         for (let [key, value] of Object.entries(additionalInfo)) {
           if (key == this.state.uploadFileTitle) {
             if (this.props.uploadedAttachments.length) {
-              additionalInfo[
-                this.state.uploadFileTitle
-              ] = this.props.uploadedAttachments[0].urlList;
+              let imgUlrWithComma = Array.prototype.map
+                .call(this.props.uploadedAttachments[0].urlList, function(
+                  item
+                ) {
+                  return item.fileURL;
+                })
+                .join(",");
+              const imgUrlList = [{ fileURL: imgUlrWithComma }];
+              additionalInfo[this.state.uploadFileTitle] = imgUrlList;
             } else {
               additionalInfo[this.state.uploadFileTitle] = "";
             }
@@ -457,6 +466,7 @@ export default class CustomerCareOrderRelated extends React.Component {
     let { l1OptionsArray, isSelected } = this.props;
     let issue = "";
     if (isSelected == 1) {
+      this.setState({ subIssue: val.label });
       issue = this.props.subIssueList.filter(function(issue) {
         return issue.subIssueType === val.label;
       });
@@ -471,6 +481,7 @@ export default class CustomerCareOrderRelated extends React.Component {
     }
   }
   onChangeReasonForNonOrderRelated(val, l1OptionsArray) {
+    this.setState({ subIssue: "" });
     this.props.onChangeReasonForNonOrderRelated(val, l1OptionsArray);
   }
 
@@ -504,8 +515,8 @@ export default class CustomerCareOrderRelated extends React.Component {
       parentIssueLabels = parentIssueLabel;
     }
 
-    if (selectedObj) {
-      childIssueLabels = selectedObj[0].subIssueType;
+    if (this.state.subIssue) {
+      childIssueLabels = this.state.subIssue;
     }
 
     return (
@@ -592,11 +603,6 @@ export default class CustomerCareOrderRelated extends React.Component {
                       " "
                     )}
                   >
-                    {/* <CheckOutHeader
-                      indexNumber={"0"}
-                      confirmTitle="What is the issue?"
-                      fontSize={"13px"}
-                    /> */}
                     <div className={styles.issueHeadingBox}>
                       What is the issue?
                     </div>
@@ -649,12 +655,6 @@ export default class CustomerCareOrderRelated extends React.Component {
                     <div className={styles.issueHeadingBox}>
                       What is the issue?
                     </div>
-
-                    {/* <CheckOutHeader
-                      indexNumber={"0"}
-                      confirmTitle="What is the issue?"
-                      fontSize={"13px"}
-                    /> */}
                     <SelectBoxMobile2
                       placeholder="Select issue"
                       label={parentIssueLabels}
@@ -685,11 +685,6 @@ export default class CustomerCareOrderRelated extends React.Component {
                         styles.paddingBottom
                       ].join(" ")}
                     >
-                      {/* <CheckOutHeader
-                        indexNumber={"0"}
-                        confirmTitle="Select sub issue?"
-                        fontSize={"13px"}
-                      /> */}
                       <div className={styles.issueHeadingBox}>
                         Select sub issue?
                       </div>
@@ -785,7 +780,13 @@ export default class CustomerCareOrderRelated extends React.Component {
                 <div className={styles.formWidth}>
                   <div className={styles.secondOrder}>
                     <CheckOutHeader
-                      indexNumber={isSelected === 0 ? "4" : "3"}
+                      indexNumber={
+                        isSelected === 0 && this.state.attachment
+                          ? "4"
+                          : isSelected === 1 && !this.state.attachment
+                          ? "2"
+                          : "3"
+                      }
                       confirmTitle="Communication Details"
                       fontSize={"14px"}
                     />
