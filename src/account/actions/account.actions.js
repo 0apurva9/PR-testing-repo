@@ -457,6 +457,13 @@ export const GET_EXCHANGE_CASHBACK_DETAILS_SUCCESS =
 export const GET_EXCHANGE_CASHBACK_DETAILS_FAILURE =
   "GET_EXCHANGE_CASHBACK_DETAILS_FAILURE";
 
+export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_REQUEST =
+  "SUBMIT_EXCHANGE_CASHBACK_DETAILS_REQUEST";
+export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_SUCCESS =
+  "SUBMIT_EXCHANGE_CASHBACK_DETAILS_SUCCESS";
+export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_FAILURE =
+  "SUBMIT_EXCHANGE_CASHBACK_DETAILS_FAILURE";
+
 export function getDetailsOfCancelledProductRequest() {
   return {
     type: GET_CANCEL_PRODUCT_DETAILS_REQUEST,
@@ -4445,6 +4452,55 @@ export function getExchangeCashbackDetails(parentOrderId) {
       return dispatch(getExchangeCashbackDetailsSuccess(resultJson));
     } catch (e) {
       return dispatch(getExchangeCashbackDetailsFailure(e.message));
+    }
+  };
+}
+
+export function submitExchangeCashbackDetailsRequest() {
+  return {
+    type: SUBMIT_EXCHANGE_CASHBACK_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function submitExchangeCashbackDetailsSuccess(cashbackDetails) {
+  return {
+    type: SUBMIT_EXCHANGE_CASHBACK_DETAILS_SUCCESS,
+    status: SUCCESS,
+    cashbackDetails
+  };
+}
+
+export function submitExchangeCashbackDetailsFailure(error) {
+  return {
+    type: SUBMIT_EXCHANGE_CASHBACK_DETAILS_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+
+export function submitExchangeCashbackDetails(orderId, cashbackDetails) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(submitExchangeCashbackDetailsRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/submitExchangePaymentInfo?orderId=${orderId}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }`,
+        cashbackDetails
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(submitExchangeCashbackDetailsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(submitExchangeCashbackDetailsFailure(e.message));
     }
   };
 }

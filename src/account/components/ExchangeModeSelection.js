@@ -103,9 +103,38 @@ export default class ExchangeModeSelection extends React.Component {
     });
   }
 
-  submitDetails(data) {
-    let selectedCashbackDetails = {};
-    selectedCashbackDetails.data = data;
+  async submitDetails(orderId, cashbackDetails) {
+    let response = await this.props.submitExchangeCashbackDetails(
+      orderId,
+      cashbackDetails
+    );
+    let placeHolder = "";
+    if (
+      response &&
+      response.status &&
+      response.status.toLowerCase() === "success"
+    ) {
+      if (cashbackDetails.exchangePaymentMode === "CLIQ_CASH") {
+        placeHolder = "CLiQ Cash";
+      }
+      if (cashbackDetails.exchangePaymentMode === "BANK_ACCOUNT") {
+        placeHolder = "Bank";
+      }
+      let message =
+        "You will receive Exchange Cashback in your " +
+        placeHolder +
+        " account, post old phone pick up.";
+      this.props.displayToast(message);
+      this.props.history.push(`/my-account/orders`);
+    }
+    if (
+      response &&
+      response.status &&
+      response.status.toLowerCase() === "failure" &&
+      response.error
+    ) {
+      this.props.displayToast(response.error);
+    }
   }
 
   render() {
@@ -269,6 +298,7 @@ export default class ExchangeModeSelection extends React.Component {
                 backgroundColor={"#ff1744"}
                 onClick={() =>
                   this.submitDetails(
+                    this.state.orderId,
                     this.state.selectedOption === "BANK_ACCOUNT"
                       ? bankDetails
                       : cliqCashDetails

@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import {
   getCliqCashDetailsRefund,
-  submitProductRatingByUser,
-  getExchangeCashbackDetails
+  getExchangeCashbackDetails,
+  submitExchangeCashbackDetails
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import ExchangeModeSelection from "../components/ExchangeModeSelection";
@@ -22,8 +22,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     displayToast: message => {
       dispatch(displayToast(message));
     },
-    submitProductRatingByUser: (rating, productDetails) => {
-      dispatch(submitProductRatingByUser(rating, productDetails));
+    submitExchangeCashbackDetails: async (orderId, cashbackDetails) => {
+      return await dispatch(
+        submitExchangeCashbackDetails(orderId, cashbackDetails)
+      );
     }
   };
 };
