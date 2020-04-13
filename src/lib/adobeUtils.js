@@ -1318,7 +1318,13 @@ function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
   };
   const subCategories = getSubCategories(pdpResponse);
   if (subCategories) {
-    Object.assign(data.page.category, { ...subCategories });
+    if (data.page && data.page.category) {
+      Object.assign(data.page.category, { ...subCategories });
+    } else {
+      Object.assign(data.page, {
+        category: { ...subCategories }
+      });
+    }
   }
 
   const productBreadcrumbs = getProductBreadCrumbs(pdpResponse);
@@ -1345,13 +1351,11 @@ function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
       }
     } else {
       if (data.page) {
-        Object.assign(data, {
-          page: {
-            pageInfo: {
-              pageName: "product details:".concat(
-                productBreadcrumbs ? productBreadcrumbs : ""
-              )
-            }
+        Object.assign(data.page, {
+          pageInfo: {
+            pageName: "product details:".concat(
+              productBreadcrumbs ? productBreadcrumbs : ""
+            )
           }
         });
       } else {
@@ -1374,15 +1378,15 @@ function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
         hierarchy: displayHierarchy
       }
     });
+  } else {
+    Object.assign(data, {
+      page: {
+        display: {
+          hierarchy: displayHierarchy
+        }
+      }
+    });
   }
-  // else{
-  //   Object.assign(data,
-  //     page: {
-  //       display: {
-  //         hierarchy: displayHierarchy
-  //       }
-  //     })
-  // }
   if (pdpResponse && pdpResponse.mrpPrice && pdpResponse.mrpPrice.doubleValue) {
     Object.assign(data.cpj.product, {
       price: pdpResponse.mrpPrice.doubleValue
@@ -1526,7 +1530,13 @@ function getDigitalDataForCart(type, cartResponse) {
   }
   const categoryHierarchy = getCategoryHierarchy(cartResponse);
   if (categoryHierarchy) {
-    Object.assign(data.page.category, categoryHierarchy);
+    if (data.page && data.page.category) {
+      Object.assign(data.page.category, categoryHierarchy);
+    } else {
+      Object.assign(data.page, {
+        category: categoryHierarchy
+      });
+    }
   }
   return data;
 }
@@ -1567,7 +1577,13 @@ function getDigitalDataForCheckout(type, CheckoutResponse) {
 
   const categoryHierarchy = getCategoryHierarchy(CheckoutResponse);
   if (categoryHierarchy) {
-    Object.assign(data.page.category, categoryHierarchy);
+    if (data.page && data.page.category) {
+      Object.assign(data.page.category, categoryHierarchy);
+    } else {
+      Object.assign(data.page, {
+        category: categoryHierarchy
+      });
+    }
   }
   return data;
 }
@@ -1621,7 +1637,13 @@ function getDigitalDataForOrderConfirmation(type, response) {
   }
   const categoryHierarchy = getCategoryHierarchy(response);
   if (categoryHierarchy) {
-    Object.assign(data.page.category, categoryHierarchy);
+    if (data.page && data.page.category) {
+      Object.assign(data.page.category, categoryHierarchy);
+    } else {
+      Object.assign(data.page, {
+        category: categoryHierarchy
+      });
+    }
   }
   return data;
 }
@@ -2197,7 +2219,7 @@ export function getDigitalDataForPlp(type, response) {
   }
   const subCategories = getSubCategories(response);
   if (subCategories) {
-    Object.assign(data.page.category, { ...subCategories });
+    // Object.assign(data.page.category, { ...subCategories });
     Object.assign(data.page, {
       pageInfo: {
         pageName: `product grid:${
@@ -2205,13 +2227,15 @@ export function getDigitalDataForPlp(type, response) {
         }:${subCategories.subCategory2 ? subCategories.subCategory2 : ""}:${
           subCategories.subCategory3 ? subCategories.subCategory3 : ""
         }`
-      }
+      },
+      category: { ...subCategories }
     });
   } else {
     Object.assign(data.page, {
       pageInfo: {
         pageName: "product grid"
-      }
+      },
+      category: { ...subCategories }
     });
   }
   return data;
@@ -3069,7 +3093,7 @@ export function getDigitalDataForCLP(response) {
   };
   const subCategories = getSubCategories(response);
   if (subCategories) {
-    Object.assign(data.page.category, { ...subCategories });
+    // Object.assign(data.page.category, { ...subCategories });
     Object.assign(data, {
       header: {
         headerName: "Categories",
@@ -3083,7 +3107,8 @@ export function getDigitalDataForCLP(response) {
         } : ${
           subCategories.subCategory2 ? subCategories.subCategory2 : null
         } : ${subCategories.subCategory3 ? subCategories.subCategory3 : null}`
-      }
+      },
+      category: { ...subCategories }
     });
   } else {
     Object.assign(data.page, {
@@ -3174,7 +3199,13 @@ export function getDigitalDataForDefaultBlpOrClp(response) {
   };
   const subCategories = getSubCategories(response);
   if (subCategories) {
-    Object.assign(data.page.category, { ...subCategories });
+    if (data.page && data.page.category) {
+      Object.assign(data.page.category, { ...subCategories });
+    } else {
+      Object.assign(data.page, {
+        category: { ...subCategories }
+      });
+    }
   }
   if (response && response.pageName) {
     if (response.pageName.replace(/ /g, "_").toLowerCase() == "atoz_brands") {
@@ -3235,7 +3266,13 @@ export function getDigitalDataForStatic(response) {
   };
   const subCategories = getSubCategories(response);
   if (subCategories) {
-    Object.assign(data.page.category, { ...subCategories });
+    if (data.page && data.page.category) {
+      Object.assign(data.page.category, { ...subCategories });
+    } else {
+      Object.assign(data.page, {
+        category: { ...subCategories }
+      });
+    }
   }
   if (response && response.pageName) {
     Object.assign(data.page, {
