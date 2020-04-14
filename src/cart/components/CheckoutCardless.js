@@ -51,7 +51,7 @@ export default class CheckoutCardless extends React.Component {
             self.setState({
               instacredEligible: true
             });
-            // self.props.instacredStatus(true);
+            self.props.instacredStatus(true);
           } else if (data.eligible === false) {
             self.setState({
               instacredEligible: false,

@@ -60,7 +60,6 @@ export default class NoCostEmi extends React.Component {
     }
   }
   render() {
-    console.log("this.props", this.props);
     let rotateIcon = styles.iconHolder;
     if (this.state.isOpen) {
       rotateIcon = styles.rot;
