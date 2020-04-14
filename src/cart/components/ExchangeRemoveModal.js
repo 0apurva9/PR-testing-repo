@@ -12,7 +12,7 @@ export default class ExchangeRemoveModal extends React.Component {
       quoteId: this.props.quoteId,
       IMEINumber: this.props.IMEINumber
     });
-    if (data.status === "success") {
+    if (data && data.status && data.status.toLowerCase() === "success") {
       this.closeModal();
     }
   }
