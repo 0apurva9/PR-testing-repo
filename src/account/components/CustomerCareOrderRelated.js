@@ -30,8 +30,8 @@ export default class CustomerCareOrderRelated extends React.Component {
       attachment: null,
       file: [],
       name:
-        getUserDetails && getUserDetails.firstName
-          ? getUserDetails.firstName.trim()
+        getUserDetails && (getUserDetails.firstName || getUserDetails.lastName)
+          ? `${getUserDetails.firstName.trim()} ${getUserDetails.lastName.trim()}`
           : "",
       mobile:
         getUserDetails &&
@@ -111,9 +111,10 @@ export default class CustomerCareOrderRelated extends React.Component {
         email: nextProps.userDetails.emailID
           ? nextProps.userDetails.emailID
           : "",
-        name: nextProps.userDetails.firstName
-          ? nextProps.userDetails.firstName
-          : "",
+        name:
+          nextProps.userDetails.firstName || nextProps.userDetails.lastName
+            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
+            : "",
         mobile: nextProps.userDetails.mobileNumber
           ? nextProps.userDetails.mobileNumber
           : ""
@@ -169,7 +170,7 @@ export default class CustomerCareOrderRelated extends React.Component {
           return (
             <div className={styles.secondOrder}>
               <div className={styles.fieldLabel}>
-                {listOfField.isMandatory == 1
+                {listOfField.isMandatory
                   ? listOfField.heading + "*"
                   : listOfField.heading}
               </div>
@@ -203,7 +204,11 @@ export default class CustomerCareOrderRelated extends React.Component {
           return (
             <React.Fragment>
               <div className={styles.textAreaHeading}>
-                <div className={styles.fieldLabel}>{listOfField.heading}</div>
+                <div className={styles.fieldLabel}>
+                  {listOfField.isMandatory
+                    ? listOfField.heading + "*"
+                    : listOfField.heading}
+                </div>
                 <div className={styles.maxLimitBox}>
                   <span className={styles.totalText}>
                     {this.state[listOfField.componentId].length}
@@ -227,7 +232,11 @@ export default class CustomerCareOrderRelated extends React.Component {
           return (
             <div className={styles.textInformationHolder}>
               <div className={styles.secondOrder}>
-                <div className={styles.fieldLabel}>{listOfField.heading}</div>
+                <div className={styles.fieldLabel}>
+                  {listOfField.isMandatory
+                    ? listOfField.heading + "*"
+                    : listOfField.heading}
+                </div>
               </div>
               {listOfField &&
                 listOfField.optionArray.map(ele => {
@@ -267,9 +276,9 @@ export default class CustomerCareOrderRelated extends React.Component {
   onUploadFile(file, attachment) {
     if (file) {
       let combinedSize = 0;
-      for (let f of file) combinedSize += f.size;
+      for (let f of file) combinedSize += f.size / 1048576; //converting file size into MB
       if (
-        combinedSize <= attachment.maxFileSize * 1000000 &&
+        combinedSize <= attachment.maxFileSize &&
         file.length <= attachment.maxFileLimit
       ) {
         let uploadUserFileObject = new FormData();
@@ -308,28 +317,38 @@ export default class CustomerCareOrderRelated extends React.Component {
         return false;
       } else if (
         fieldObj.minLimit &&
+        fieldObj.minLimit !== -1 &&
         this.state[fieldObj.componentId].length < fieldObj.minLimit
       ) {
         this.props.displayToast(
           fieldObj.heading + " " + fieldObj.minLimitError
         );
         return false;
+      } else if (fieldObj.regex && fieldObj.regex !== "-1") {
+        let expression = fieldObj.regex;
+        if (expression.startsWith("/")) {
+          expression = expression.slice(1);
+        }
+        if (expression.endsWith("/")) {
+          expression = expression.slice(0, expression.length - 1);
+        }
+        let regexExp = new RegExp(expression);
+        console.log("regexExp", regexExp);
+        console.log(
+          "this.state[fieldObj.componentId]",
+          this.state[fieldObj.componentId]
+        );
+        if (!regexExp.test(this.state[fieldObj.componentId])) {
+          this.props.displayToast(fieldObj.regexError);
+          return false;
+        } else {
+          return true;
+        }
       }
       return true;
     } else {
       return true;
     }
-    //   //  if(fieldObj.regex){
-    //   //   var expression = "^" + fieldObj.regex + "+$";
-    //   //   var regexExp = new RegExp(expression);
-    //   //    if(!regexExp.test(this.state[fieldObj.componentId])){
-    //   //     this.props.displayToast(fieldObj.regexError);
-    //   //       return false;
-    //   //   }
-    //   //  }
-    // } else {
-    //   return true;
-    // }
   }
 
   submitCustomerForm() {
@@ -389,15 +408,25 @@ export default class CustomerCareOrderRelated extends React.Component {
         for (let [key, value] of Object.entries(additionalInfo)) {
           if (key == this.state.uploadFileTitle) {
             if (this.props.uploadedAttachments.length) {
-              let imgUlrWithComma = Array.prototype.map
-                .call(this.props.uploadedAttachments[0].urlList, function(
-                  item
-                ) {
-                  return item.fileURL;
-                })
-                .join(",");
-              const imgUrlList = [{ fileURL: imgUlrWithComma }];
-              additionalInfo[this.state.uploadFileTitle] = imgUrlList;
+              let urlListArray = "";
+              this.props.uploadedAttachments.forEach(item => {
+                let urlList = item.urlList.map(url => {
+                  return url.fileURL;
+                });
+                urlListArray = [{ fileURL: urlList.join(",") }];
+              });
+              // let urlList = item.urlList.map(url => {
+              //   return url.fileURL;
+              // });
+              // let imgUlrWithComma = Array.prototype.map
+              //   .call(this.props.uploadedAttachments[0].urlList, function(
+              //     item
+              //   ) {
+              //     return item.fileURL;
+              //   })
+              //   .join(",");
+              // const imgUrlList = [{ fileURL: imgUlrWithComma }];
+              additionalInfo[this.state.uploadFileTitle] = urlListArray;
             } else {
               additionalInfo[this.state.uploadFileTitle] = "";
             }
@@ -407,6 +436,7 @@ export default class CustomerCareOrderRelated extends React.Component {
         }
       }
     }
+    console.log("validateStatus", validateStatus);
     if (validateStatus) {
       if (!email) {
         this.props.displayToast(EMAIL_TEXT);
@@ -450,7 +480,7 @@ export default class CustomerCareOrderRelated extends React.Component {
           {
             contactEmail: email,
             contactPhn: mobile,
-            contactName: name ? name : "no name"
+            contactName: name ? name.trim() : "no name"
           }
         );
         let raiseTicketObj = {
@@ -458,7 +488,8 @@ export default class CustomerCareOrderRelated extends React.Component {
           ticketInfo,
           customerInfo
         };
-        this.props.submitCustomerForm(raiseTicketObj);
+        console.log("raiseTicketObj", raiseTicketObj);
+        // this.props.submitCustomerForm(raiseTicketObj);
       }
     }
   }
@@ -466,10 +497,10 @@ export default class CustomerCareOrderRelated extends React.Component {
     let { l1OptionsArray, isSelected } = this.props;
     let issue = "";
     if (isSelected == 1) {
-      this.setState({ subIssue: val.label });
       issue = this.props.subIssueList.filter(function(issue) {
         return issue.subIssueType === val.label;
       });
+      this.setState({ subIssue: issue[0].subIssueType });
     } else {
       issue = l1OptionsArray.filter(function(issue) {
         return issue.issueType === val.label;
@@ -694,7 +725,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                         label={childIssueLabels}
                         arrowColour="black"
                         height={33}
-                        extraVisibleBoxCss={true}
+                        // extraVisibleBoxCss={true}
                         options={
                           subIssueList &&
                           subIssueList.map((val, i) => {
@@ -791,14 +822,14 @@ export default class CustomerCareOrderRelated extends React.Component {
                       fontSize={"14px"}
                     />
                   </div>
-                  <div className={styles.conmmunicationalDetails}>
+                  {/* <div className={styles.conmmunicationalDetails}>
                     <FloatingLabelInput
                       label="Name *"
                       value={this.state.name}
                       fontSize={"12px"}
                       onChange={name => this.setState({ name: name })}
                     />
-                  </div>
+                  </div> */}
 
                   <div className={styles.conmmunicationalDetails}>
                     <FloatingLabelInput

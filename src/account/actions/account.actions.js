@@ -4430,6 +4430,21 @@ const getTextBoxApiData = (apiData = []) => {
       ? apiData.singleBannerComponent.items[0]
       : "";
   let itemsTitle = items && items.title ? items.title : "";
+  let regExArray =
+    itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[2]
+      ? itemsTitle.split("|")[2].split(",")
+        ? itemsTitle.split("|")[2].split(",")
+        : []
+      : [];
+
+  let regexErr = "",
+    regexExp = null;
+
+  if (regExArray.length) {
+    regexErr = regExArray[regExArray.length - 1];
+    regExArray.splice(-1, 1);
+    regexExp = regExArray.join(",");
+  }
 
   let returnValue = {
     componentName: apiData.componentName,
@@ -4481,18 +4496,20 @@ const getTextBoxApiData = (apiData = []) => {
           ? itemsTitle.split("|")[1].split(",")[1]
           : ""
         : "",
-    regex:
-      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[2]
-        ? itemsTitle.split("|")[2].split(",")[0]
-          ? itemsTitle.split("|")[2].split(",")[0]
-          : ""
-        : "",
-    regexError:
-      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[2]
-        ? itemsTitle.split("|")[2].split(",")[1]
-          ? itemsTitle.split("|")[2].split(",")[1]
-          : ""
-        : "",
+    // regex:
+    //   itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[2]
+    //     ? itemsTitle.split("|")[2].split(",")[0]
+    //       ? itemsTitle.split("|")[2].split(",")[0]
+    //       : ""
+    //     : "",
+    // regexError:
+    //   itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[2]
+    //     ? itemsTitle.split("|")[2].split(",")[1]
+    //       ? itemsTitle.split("|")[2].split(",")[1]
+    //       : ""
+    //     : "",
+    regex: regexExp,
+    regexError: regexErr,
     webURL: items && items.webURL ? items.webURL : "",
     title: apiData.singleBannerComponent.title
       ? apiData.singleBannerComponent.title
