@@ -23,7 +23,7 @@ export default class ExchangeModalOtherDetails extends React.Component {
       <React.Fragment>
         <div className={styles.imeiCheckForm}>
           <input
-            type="text"
+            type="number"
             placeholder="Enter IMEI Number"
             className={styles.imeiInput}
             onChange={(e, deviceNo) => this.verifyIMEI(e, this.props.deviceNo)}
