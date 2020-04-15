@@ -9,7 +9,12 @@ import CheckoutDebitCard from "./CheckoutDebitCard.js";
 import CheckoutNetbanking from "./CheckoutNetbanking.js";
 import CheckoutSavedCard from "./CheckoutSavedCard.js";
 import CheckoutCOD from "./CheckoutCOD.js";
-import { PAYTM, OLD_CART_GU_ID, BANK_COUPON_COOKIE } from "../../lib/constants";
+import {
+  PAYTM,
+  OLD_CART_GU_ID,
+  BANK_COUPON_COOKIE,
+  PAYMENT_FAILURE_CART_PRODUCT
+} from "../../lib/constants";
 import PaytmOption from "./PaytmOption.js";
 import PayPalOptions from "./PayPalOptions";
 /**
@@ -194,6 +199,18 @@ export default class PaymentCardWrapper extends React.Component {
   }
 
   render() {
+    if (
+      this.props &&
+      this.props.cart &&
+      this.props.cart.orderSummary &&
+      this.props.cart.orderSummary.products &&
+      this.props.cart.orderSummary.products.length > 0
+    ) {
+      localStorage.setItem(
+        PAYMENT_FAILURE_CART_PRODUCT,
+        JSON.stringify(this.props.cart.orderSummary.products)
+      );
+    }
     if (this.props.cart.paymentModes) {
       let retryNoCostEMI =
         this.props.retryPaymentDetails &&
