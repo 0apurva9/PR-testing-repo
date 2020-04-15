@@ -475,6 +475,11 @@ export default class OrderDetails extends React.Component {
       isToggleOn: !state.isToggleOn
     }));
   }
+  goToEchangeCashbackSelection(orderId) {
+    let exchangeCashbackSelectionURL =
+      "/my-account/getAccountInfoForExchange?parentOrderId=" + orderId;
+    this.props.history.push(exchangeCashbackSelectionURL);
+  }
   render() {
     if (this.props.loadingForFetchOrderDetails) {
       this.props.showSecondaryLoader();
@@ -637,8 +642,9 @@ export default class OrderDetails extends React.Component {
                   });
                 const cashbackCredited =
                   products.exchangeDetails &&
+                  products.exchangeDetails.exchangeTrackDiagram &&
                   products.exchangeDetails.exchangeTrackDiagram.find(val => {
-                    return val.displayMessage === "Cashback Credited";
+                    return val.customerFacingName === "Cashback Credited";
                   });
                 let hideEIETrackDiagram = false;
                 let hideEstimatedInstallationDate = false;
@@ -821,7 +827,7 @@ export default class OrderDetails extends React.Component {
                             <span className={styles.fontFamilySemibold}>
                               Exchange Product:
                             </span>{" "}
-                            {products.exchangeDetails.effectiveModelName}
+                            {products.exchangeDetails.exchangeModelName}
                             <span
                               className={
                                 !this.state.isToggleOn
@@ -994,12 +1000,24 @@ export default class OrderDetails extends React.Component {
                                         styles.exchangeCashbackAccountText
                                       }
                                     >
-                                      A/c xxxx xxxx xxxx 1234
+                                      A/c{" "}
+                                      {products.exchangeDetails
+                                        .exchangePaymentDetails[0]
+                                        .accountNumber &&
+                                        products.exchangeDetails.exchangePaymentDetails[0].accountNumber.replace(
+                                          /.(?=.{4,}$)/g,
+                                          "x"
+                                        )}
                                     </span>
                                   )}
                                 </div>
                                 <div
                                   className={styles.exchangeCashbackChangeMode}
+                                  onClick={() =>
+                                    this.goToEchangeCashbackSelection(
+                                      orderDetails.orderId
+                                    )
+                                  }
                                 >
                                   Change Mode
                                 </div>
@@ -1014,11 +1032,13 @@ export default class OrderDetails extends React.Component {
                             Your Exchange has been cancelled since IMEI number
                             is already processed.
                           </div> */}
-                          {cashbackCredited && (
-                            <div className={styles.exchangeProcessedText}>
-                              Exchange has been processed sucessfully.
-                            </div>
-                          )}
+                          {cashbackCredited &&
+                            cashbackCredited.status &&
+                            cashbackCredited.status === "Complete" && (
+                              <div className={styles.exchangeProcessedText}>
+                                Exchange has been processed sucessfully.
+                              </div>
+                            )}
 
                           <ExchangeDetailsTrack
                             exchangeTrackDiagram={

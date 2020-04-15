@@ -4438,7 +4438,7 @@ export function getExchangeCashbackDetails(parentOrderId) {
     dispatch(getExchangeCashbackDetailsRequest());
     try {
       const result = await api.get(
-        `${USER_PATH}/${
+        `${PATH}/${
           JSON.parse(userDetails).userName
         }/getAccountInfoForExchange?parentOrderId=${parentOrderId}&access_token=${
           JSON.parse(customerCookie).access_token
@@ -4482,16 +4482,20 @@ export function submitExchangeCashbackDetailsFailure(error) {
 export function submitExchangeCashbackDetails(orderId, cashbackDetails) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let cashbackDetailsData = new FormData();
+  Object.keys(cashbackDetails).forEach(key =>
+    cashbackDetailsData.append(key, cashbackDetails[key])
+  );
   return async (dispatch, getState, { api }) => {
     dispatch(submitExchangeCashbackDetailsRequest());
     try {
-      const result = await api.post(
-        `${USER_PATH}/${
+      const result = await api.postFormData(
+        `${PATH}/${
           JSON.parse(userDetails).userName
         }/submitExchangePaymentInfo?orderId=${orderId}&access_token=${
           JSON.parse(customerCookie).access_token
         }`,
-        cashbackDetails
+        cashbackDetailsData
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

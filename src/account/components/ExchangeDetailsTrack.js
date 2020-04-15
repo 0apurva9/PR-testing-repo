@@ -14,7 +14,7 @@ export default class ExchangeDetailsTrack extends React.Component {
     let completedStatus = [];
     const completedSteps = this.props.exchangeTrackDiagram.map(val => {
       //get current completed steps
-      if (val.status === "Completed") {
+      if (val.status === "Complete") {
         completedStatus.push(val.displayMessage);
       }
       //get all steps
@@ -108,16 +108,18 @@ export default class ExchangeDetailsTrack extends React.Component {
                 : "Pick Up in Progress"}
             </div>
             <div className={styles.eieDateAndTimeHolder}>
-              {pickUpInProgress.displayDate && (
-                <div className={styles.eieDateNTimeContainer}>
-                  {pickUpInProgress.displayDate}
-                </div>
-              )}
-              {pickUpInProgress.displayTime && (
-                <div className={styles.eieDateNTimeContainer}>
-                  {pickUpInProgress.displayTime}
-                </div>
-              )}
+              {pickUpInProgress &&
+                pickUpInProgress.displayDate && (
+                  <div className={styles.eieDateNTimeContainer}>
+                    {pickUpInProgress.displayDate}
+                  </div>
+                )}
+              {pickUpInProgress &&
+                pickUpInProgress.displayTime && (
+                  <div className={styles.eieDateNTimeContainer}>
+                    {pickUpInProgress.displayTime}
+                  </div>
+                )}
             </div>
           </div>
 

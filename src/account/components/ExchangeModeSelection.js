@@ -44,6 +44,15 @@ export default class ExchangeModeSelection extends React.Component {
 
     const urlParams = new URLSearchParams(this.props.location.search);
     let orderId = urlParams.get("parentOrderId");
+    if (!this.props.location.search) {
+      if (
+        this.props.location &&
+        this.props.location.state &&
+        this.props.location.state.orderId
+      ) {
+        orderId = this.props.location.state.orderId;
+      }
+    }
     this.setState({ orderId: orderId });
     this.props.getExchangeCashbackDetails(orderId);
   }
@@ -234,7 +243,9 @@ export default class ExchangeModeSelection extends React.Component {
 
                                 <div className={styles.radioBtnSubText}>
                                   <span className={styles.span}>
-                                    {value.message}
+                                    {value.exchangePaymentMode === "CLIQ_CASH"
+                                      ? "Note: CLiQ Cash cannot be transferred to Bank Account"
+                                      : "The Cashback will be credited in the bank account in 3-4 business days"}
                                   </span>
                                 </div>
                               </label>

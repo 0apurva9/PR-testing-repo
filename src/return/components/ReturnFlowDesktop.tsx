@@ -180,7 +180,8 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 					pathname: this.state.bankDetail.fromPageURL,
 					state: {
 						authorizedRequest: true,
-						ExchangeModeSelected: "BANK_ACCOUNT"
+						ExchangeModeSelected: "BANK_ACCOUNT",
+						orderId: this.orderCode
 					},
 				});
 				//remove unnecessary field
