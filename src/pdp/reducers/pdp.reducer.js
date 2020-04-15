@@ -329,7 +329,9 @@ const productDescription = (
               action.productPinCode.productNotServiceableMessage,
             status: NO,
             pinCode: action.productPinCode.pinCode
-          }
+          },
+          isPickupAvailableForExchange:
+            action.productPinCode.isPickupAvailableForExchange
         });
       }
       return Object.assign({}, state, {

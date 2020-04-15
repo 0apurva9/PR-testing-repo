@@ -1206,6 +1206,17 @@ export default class PdpApparel extends React.Component {
         (productData.winningSellerAvailableStock === "0" &&
           this.checkIfSizeSelected());
 
+      let exchangeDisabled = false;
+      if (disabledStatus) {
+        if (!productData.isPickupAvailableForExchange) {
+          exchangeDisabled = true;
+        }
+      } else {
+        if (!productData.isPickupAvailableForExchange) {
+          exchangeDisabled = true;
+        }
+      }
+
       return (
         <PdpFrame
           goToCart={() => this.goToCart()}
@@ -1374,7 +1385,7 @@ export default class PdpApparel extends React.Component {
                               {productData.maxExchangeAmount &&
                                 productData.maxExchangeAmount
                                   .formattedValueNoDecimal}{" "}
-                              {disabledStatus ? (
+                              {exchangeDisabled ? (
                                 <span
                                   className={styles.withDisabledExchangeLink}
                                 >
@@ -1406,7 +1417,7 @@ export default class PdpApparel extends React.Component {
                                   ? productData.selectedProductName
                                   : selectedProductName
                               )}{" "}
-                              {disabledStatus ? (
+                              {exchangeDisabled ? (
                                 <span
                                   className={styles.withDisabledExchangeLink}
                                 >
@@ -1422,7 +1433,7 @@ export default class PdpApparel extends React.Component {
                               )}
                             </div>
                           )}
-                          {disabledStatus && (
+                          {exchangeDisabled && (
                             <div className={styles.notServiciableTetx}>
                               Exchange is non serviceable at your pincode
                             </div>
