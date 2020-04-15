@@ -422,13 +422,13 @@ export function getFeed(pageId: null) {
           }
         }
       } else {
-        let mbox = ADOBE_TARGET_HOME_FEED_MBOX_NAME;
+        // let mbox = ADOBE_TARGET_HOME_FEED_MBOX_NAME;
 
-        if (process.env.REACT_APP_STAGE === "production") {
-          mbox = ADOBE_TARGET_PRODUCTION_HOME_FEED_MBOX_NAME;
-        } else if (process.env.REACT_APP_STAGE === "p2") {
-          mbox = ADOBE_TARGET_P2_HOME_FEED_MBOX_NAME;
-        }
+        // if (process.env.REACT_APP_STAGE === "production") {
+        //   mbox = ADOBE_TARGET_PRODUCTION_HOME_FEED_MBOX_NAME;
+        // } else if (process.env.REACT_APP_STAGE === "p2") {
+        //   mbox = ADOBE_TARGET_P2_HOME_FEED_MBOX_NAME;
+        // }
         delay(() => {
           const isHomeFeedLoading = getState().feed.loading;
           if (isHomeFeedLoading) {
@@ -436,29 +436,29 @@ export function getFeed(pageId: null) {
           }
         }, ADOBE_TARGET_DELAY);
 
-        const mcvId = await getMcvId();
-        resultJson = await api.postAdobeTargetUrl(
-          null,
-          mbox,
-          mcvId,
-          null,
-          true
-        );
-        resultJson = resultJson[0];
-        feedTypeRequest = HOME_FEED_TYPE;
-        if (
-          !window.digitalData ||
-          !window.digitalData.page ||
-          !window.digitalData.page.pageInfo ||
-          window.digitalData.page.pageInfo.pageName !== "homepage"
-        ) {
-          setDataLayer(
-            ADOBE_HOME_TYPE,
-            null,
-            getState().icid.value,
-            getState().icid.icidType
-          );
-        }
+        //   const mcvId = await getMcvId();
+        //   resultJson = await api.postAdobeTargetUrl(
+        //     null,
+        //     mbox,
+        //     mcvId,
+        //     null,
+        //     true
+        //   );
+        //   resultJson = resultJson[0];
+        //   feedTypeRequest = HOME_FEED_TYPE;
+        //   if (
+        //     !window.digitalData ||
+        //     !window.digitalData.page ||
+        //     !window.digitalData.page.pageInfo ||
+        //     window.digitalData.page.pageInfo.pageName !== "homepage"
+        //   ) {
+        //     setDataLayer(
+        //       ADOBE_HOME_TYPE,
+        //       null,
+        //       getState().icid.value,
+        //       getState().icid.icidType
+        //     );
+        //   }
       }
 
       if (
