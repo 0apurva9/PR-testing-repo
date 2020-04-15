@@ -333,11 +333,7 @@ export default class CustomerCareOrderRelated extends React.Component {
           expression = expression.slice(0, expression.length - 1);
         }
         let regexExp = new RegExp(expression);
-        console.log("regexExp", regexExp);
-        console.log(
-          "this.state[fieldObj.componentId]",
-          this.state[fieldObj.componentId]
-        );
+
         if (!regexExp.test(this.state[fieldObj.componentId])) {
           this.props.displayToast(fieldObj.regexError);
           return false;
@@ -413,8 +409,9 @@ export default class CustomerCareOrderRelated extends React.Component {
                 let urlList = item.urlList.map(url => {
                   return url.fileURL;
                 });
-                urlListArray = [{ fileURL: urlList.join(",") }];
+                urlListArray = urlList.join(",");
               });
+              // urlListArray = [{ fileURL: urlList.join(",") }];
               // let urlList = item.urlList.map(url => {
               //   return url.fileURL;
               // });
@@ -436,7 +433,6 @@ export default class CustomerCareOrderRelated extends React.Component {
         }
       }
     }
-    console.log("validateStatus", validateStatus);
     if (validateStatus) {
       if (!email) {
         this.props.displayToast(EMAIL_TEXT);
@@ -488,8 +484,7 @@ export default class CustomerCareOrderRelated extends React.Component {
           ticketInfo,
           customerInfo
         };
-        console.log("raiseTicketObj", raiseTicketObj);
-        // this.props.submitCustomerForm(raiseTicketObj);
+        this.props.submitCustomerForm(raiseTicketObj);
       }
     }
   }
