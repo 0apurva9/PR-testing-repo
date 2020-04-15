@@ -43,7 +43,6 @@ export default class CheckoutCardless extends React.Component {
       let amount = localStorage.getItem("amount");
       this.setState({ selected: false });
       localStorage.setItem("phone", val);
-      console.log("fm_api", fm_api);
       fm_api
         .smartUserDetect(val, env.REACT_APP_MERCHANTID, amount)
         .done(function(data) {
@@ -64,7 +63,7 @@ export default class CheckoutCardless extends React.Component {
         });
     } else if (val.length < 10) {
       // self.props.instacredStatus(false);
-      self.setState({ instacredEligible: false });
+      self.setState({ instacredEligible: false, message: "" });
     }
   };
 
@@ -84,9 +83,9 @@ export default class CheckoutCardless extends React.Component {
   render() {
     let inputClass = "";
     if (this.state.instacredEligible === true) {
-      inputClass = "inputBoxShowIcon";
+      inputClass = "inputBoxShowIcon " + styles.displayNone;
     } else if (this.state.instacredEligible === false) {
-      inputClass = "inputBoxHideIcon";
+      inputClass = "inputBoxHideIcon " + styles.errorText;
     } else {
       inputClass = "inputBoxHideIcon";
     }
@@ -109,16 +108,7 @@ export default class CheckoutCardless extends React.Component {
             </div>
 
             {this.state.message && (
-              <div
-                className={
-                  this.state.instacredEligible === false ||
-                  this.state.instacredEligible === true
-                    ? styles.displayNone
-                    : styles.errorText
-                }
-              >
-                {this.state.message}
-              </div>
+              <div className={inputClass}>{this.state.message}</div>
             )}
             {this.state.message === "" && (
               <div
