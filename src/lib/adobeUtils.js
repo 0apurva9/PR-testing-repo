@@ -642,14 +642,6 @@ export async function setDataLayer(
     Object.assign(previousDigitalData.account, {
       mcvId: mcvId
     });
-  } else {
-    const mcvId = await getMcvId();
-    Object.assign(previousDigitalData.account, {
-      login: {
-        customerID: "anonumous"
-      },
-      mcvId: mcvId
-    });
   }
 
   // if (type === ADOBE_PDP_SIMILAR_PRODUCT) {
