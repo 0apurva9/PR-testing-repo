@@ -50,7 +50,7 @@ export default class CheckoutCardless extends React.Component {
             self.setState({
               instacredEligible: true
             });
-            self.props.instacredStatus(true);
+            // self.props.instacredStatus(true);
           } else if (data.eligible === false) {
             self.setState({
               instacredEligible: false,
@@ -83,9 +83,9 @@ export default class CheckoutCardless extends React.Component {
   render() {
     let inputClass = "";
     if (this.state.instacredEligible === true) {
-      inputClass = "inputBoxShowIcon " + styles.displayNone;
+      inputClass = "inputBoxShowIcon";
     } else if (this.state.instacredEligible === false) {
-      inputClass = "inputBoxHideIcon " + styles.errorText;
+      inputClass = "inputBoxHideIcon";
     } else {
       inputClass = "inputBoxHideIcon";
     }
@@ -108,7 +108,7 @@ export default class CheckoutCardless extends React.Component {
             </div>
 
             {this.state.message !== "" && (
-              <div className={inputClass}>{this.state.message}</div>
+              <div className={styles.errorText}>{this.state.message}</div>
             )}
           </div>
           <DesktopOnly>
