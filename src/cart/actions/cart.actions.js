@@ -7910,20 +7910,20 @@ export function removeExchange(data) {
     let user = "anonymous";
     let cartId =
       cartDetailsForAnonymous && JSON.parse(cartDetailsForAnonymous).guid;
+    let guId = cartId;
     let accessToken = globalCookie && JSON.parse(globalCookie).access_token;
     if (customerCookie) {
       user = JSON.parse(userDetails).userName;
       cartId = cartDetailsCookie && JSON.parse(cartDetailsCookie).code;
+      guId = cartDetailsCookie && JSON.parse(cartDetailsCookie).guid;
       accessToken = JSON.parse(customerCookie).access_token;
     }
     dispatch(removeExchangeRequest());
     try {
       const result = await api.getMiddlewareUrl(
-        `v2/mpl/products/cancelExchange?access_token=${accessToken}&guid=${
-          data.cartGuid
-        }&entryNumber=${data.entryNumber}&quoteId=${data.quoteId}&imeiNumber=${
-          data.IMEINumber
-        }`
+        `v2/mpl/products/cancelExchange?access_token=${accessToken}&guid=${guId}&entryNumber=${
+          data.entryNumber
+        }&quoteId=${data.quoteId}&imeiNumber=${data.IMEINumber}`
       );
       const resultJson = await result.json();
       if (
