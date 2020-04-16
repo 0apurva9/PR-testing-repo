@@ -19,8 +19,8 @@ import addressIcon from "../../general/components/img/addressbook.svg";
 import savedPayments from "../../general/components/img/card.svg";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
-import ModalPanel from "../../general/components/ModalPanel.js";
-import BottomSlideModal2 from "../../general/components/BottomSlideModal2.js";
+// import ModalPanel from "../../general/components/ModalPanel.js";
+// import BottomSlideModal2 from "../../general/components/BottomSlideModal2.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import {
   setDataLayerForGiftCard,
@@ -32,9 +32,10 @@ export default class OrderConfirmation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showBanner: false,
-      bannerImg: "",
-      bannerPDPUrl: ""
+      commonExchangePaymentDetails: ""
+      // showBanner: false,
+      // bannerImg: "",
+      // bannerPDPUrl: ""
     };
     this.onCancel = this.onCancel.bind(this);
   }
@@ -42,36 +43,69 @@ export default class OrderConfirmation extends React.Component {
     if (this.props.orderDetails.isEgvOrder) {
       setDataLayerForGiftCard(SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT);
     }
-    let firstProductCategory = this.props.orderDetails.products[0]
-      .productCategory;
-    let bannerData = await this.props.orderConfirmationBanner();
-    let bannerCategoryCodes =
-      bannerData &&
-      JSON.parse(
-        bannerData.orderConfirmationBannerDetails.applicationProperties[0].value
-      );
-    let matchedCategoryCode = "";
-    let matchedPDPUrl = "";
-    if (bannerCategoryCodes) {
-      for (var key in bannerCategoryCodes.categoryCodes) {
-        if (key === firstProductCategory) {
-          matchedCategoryCode = key;
-          matchedPDPUrl = bannerCategoryCodes.categoryCodes[key];
+    // commented as it is not required - will remove code after confirmation
+    // let firstProductCategory = this.props.orderDetails.products[0]
+    //   .productCategory;
+    // let bannerData = await this.props.orderConfirmationBanner();
+    // let bannerCategoryCodes =
+    //   bannerData &&
+    //   JSON.parse(
+    //     bannerData.orderConfirmationBannerDetails.applicationProperties[0].value
+    //   );
+    // let matchedCategoryCode = "";
+    // let matchedPDPUrl = "";
+    // if (bannerCategoryCodes) {
+    //   for (var key in bannerCategoryCodes.categoryCodes) {
+    //     if (key === firstProductCategory) {
+    //       matchedCategoryCode = key;
+    //       matchedPDPUrl = bannerCategoryCodes.categoryCodes[key];
+    //     }
+    //   }
+    //   let bannerImgUrl = bannerCategoryCodes.bannerUrl;
+    //   if (bannerImgUrl) {
+    //     this.setState({ bannerImg: bannerImgUrl });
+    //   }
+    //   if (matchedPDPUrl) {
+    //     this.setState({ bannerPDPUrl: matchedPDPUrl });
+    //   }
+    //   if (matchedCategoryCode) {
+    //     this.showBanner();
+    //   }
+    // }
+
+    let data = {};
+    let commonExchangePaymentDetails = {};
+    if (this.props.orderDetails) {
+      this.props.orderDetails.products.map(product => {
+        if (
+          product.exchangeDetails &&
+          product.exchangeDetails.exchangePaymentDetails
+        ) {
+          commonExchangePaymentDetails =
+            product.exchangeDetails.exchangePaymentDetails;
         }
-      }
-      let bannerImgUrl = bannerCategoryCodes.bannerUrl;
-      if (bannerImgUrl) {
-        this.setState({ bannerImg: bannerImgUrl });
-      }
-      if (matchedPDPUrl) {
-        this.setState({ bannerPDPUrl: matchedPDPUrl });
-      }
-      if (matchedCategoryCode) {
-        // commented as it is not required - will remove code after confirmation
-        // this.showBanner();
+      });
+      //check for isComingFromCncToHd
+      if (
+        this.props.isComingFromCncToHd &&
+        this.props.orderDetails.exchangeDetails &&
+        this.props.orderDetails.exchangeDetails.exchangePaymentDetails
+      ) {
+        commonExchangePaymentDetails = this.props.orderDetails.exchangeDetails
+          .exchangePaymentDetails;
       }
     }
+    if (commonExchangePaymentDetails) {
+      this.setState({
+        commonExchangePaymentDetails: commonExchangePaymentDetails
+      });
+      data.orderId = this.props.orderId;
+      data.exchangePaymentMode =
+        commonExchangePaymentDetails[0].exchangePaymentMode;
+      this.props.showChangeExchangeCashabackModal(data);
+    }
   }
+
   captureOrderExperience = rating => {
     this.props.captureOrderExperience(rating);
   };
@@ -106,11 +140,17 @@ export default class OrderConfirmation extends React.Component {
     }
   }
 
+  goToEchangeCashbackSelection(orderId) {
+    let exchangeCashbackSelectionURL =
+      "/my-account/getAccountInfoForExchange?parentOrderId=" + orderId;
+    this.props.history.push(exchangeCashbackSelectionURL);
+  }
+
   render() {
     return (
       <div className={styles.base}>
         <div className={styles.pageCenter}>
-          {this.state.showBanner && (
+          {/* {this.state.showBanner && (
             <ModalPanel>
               <BottomSlideModal2 onCancel={this.onCancel}>
                 <div className={styles.popup}>
@@ -124,7 +164,7 @@ export default class OrderConfirmation extends React.Component {
                 </div>
               </BottomSlideModal2>
             </ModalPanel>
-          )}
+          )} */}
           <DesktopOnly>
             <div className={styles.thanKText}>Thank you</div>
           </DesktopOnly>
@@ -197,7 +237,6 @@ export default class OrderConfirmation extends React.Component {
                           selectedDeliveryMode={order.selectedDeliveryMode}
                           edd={order.EDD}
                           exchangeDetails={order.exchangeDetails}
-                          orderId={this.props.orderId}
                         />
                       </DesktopOnly>
                     </React.Fragment>
@@ -214,7 +253,6 @@ export default class OrderConfirmation extends React.Component {
                   }
                   edd={this.props.orderDetails.EDD}
                   exchangeDetails={this.props.orderDetails.exchangeDetails}
-                  orderId={this.props.orderId}
                 />
               )}
               <MobileOnly>
@@ -225,6 +263,45 @@ export default class OrderConfirmation extends React.Component {
                 />
                 <div className={styles.dummySection} />
               </MobileOnly>
+              {this.state.commonExchangePaymentDetails &&
+                this.state.commonExchangePaymentDetails[0] &&
+                this.state.commonExchangePaymentDetails[0]
+                  .exchangePaymentMode && (
+                  <div className={styles.exchangeCashbackDetailsContainer}>
+                    <div className={styles.exchangeCashbackDetails}>
+                      <div className={styles.exchangeCashbackTextContainer}>
+                        <span className={styles.exchangeCashbackText}>
+                          You will receive exchange cashback, post your old
+                          phone pickup, in{" "}
+                        </span>
+                        {this.state.commonExchangePaymentDetails[0]
+                          .exchangePaymentMode === "CLIQ_CASH" ? (
+                          <span className={styles.exchangeCashbackAccountText}>
+                            CLiQ Cash wallet
+                          </span>
+                        ) : (
+                          <span className={styles.exchangeCashbackAccountText}>
+                            A/c{" "}
+                            {this.state.commonExchangePaymentDetails[0]
+                              .accountNumber &&
+                              this.state.commonExchangePaymentDetails[0].accountNumber.replace(
+                                /.(?=.{4,}$)/g,
+                                "x"
+                              )}
+                          </span>
+                        )}
+                      </div>
+                      <div
+                        className={styles.exchangeCashbackChangeMode}
+                        onClick={() =>
+                          this.goToEchangeCashbackSelection(this.props.orderId)
+                        }
+                      >
+                        Change Mode
+                      </div>
+                    </div>
+                  </div>
+                )}
             </div>
             <DesktopOnly>
               <div className={styles.rightSection}>

@@ -42,7 +42,7 @@ export default class ChangeExchangeCashabackModal extends React.Component {
         <div className={styles.subHeading}>
           Exchange Cashback will be credited in your{" "}
           <span className={styles.fontBold}>{this.state.placeHolder}</span>{" "}
-          within 48hours, post old phone pick up.
+          within 48 hours, post old phone pick up.
         </div>
         <div className={styles.subHeading}>
           You can also change it later from Order Details Page

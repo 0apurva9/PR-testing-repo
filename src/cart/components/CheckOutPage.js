@@ -4363,6 +4363,9 @@ if you have order id in local storage then you have to show order confirmation p
                 orderConfirmationBanner={() =>
                   this.props.orderConfirmationBanner()
                 }
+                showChangeExchangeCashabackModal={data =>
+                  this.props.showChangeExchangeCashabackModal(data)
+                }
               />
             </div>
           )}
@@ -4384,6 +4387,9 @@ if you have order id in local storage then you have to show order confirmation p
                   )
                 }
                 orderDetails={this.props.cart.cliqCashJusPayDetails}
+                showChangeExchangeCashabackModal={data =>
+                  this.props.showChangeExchangeCashabackModal(data)
+                }
               />
             </div>
           )}

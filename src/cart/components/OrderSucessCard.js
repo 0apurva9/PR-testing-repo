@@ -97,11 +97,6 @@ export default class OrderSucessCard extends React.Component {
       return this.getDateMonthFormate(dateWithMonth);
     } else return "";
   }
-  goToEchangeCashbackSelection(orderId) {
-    let exchangeCashbackSelectionURL =
-      "/my-account/getAccountInfoForExchange?parentOrderId=" + orderId;
-    this.props.history.push(exchangeCashbackSelectionURL);
-  }
   render() {
     let estimatedDeliveryDateFormatted = "";
     const deliveryOption = this.props.selectedDeliveryMode;
@@ -188,44 +183,6 @@ export default class OrderSucessCard extends React.Component {
                   </div>
                 </React.Fragment>
               )}
-
-              {this.props.exchangeDetails.exchangePaymentDetails &&
-                this.props.exchangeDetails.exchangePaymentDetails[0] &&
-                this.props.exchangeDetails.exchangePaymentDetails[0]
-                  .exchangePaymentMode && (
-                  <div className={styles.exchangeCashbackDetails}>
-                    <div className={styles.exchangeCashbackTextContainer}>
-                      <span className={styles.exchangeCashbackText}>
-                        You will receive exchange cashback, post your old phone
-                        pickup, in{" "}
-                      </span>
-                      {this.props.exchangeDetails.exchangePaymentDetails[0]
-                        .exchangePaymentMode === "CLIQ_CASH" ? (
-                        <span className={styles.exchangeCashbackAccountText}>
-                          CLiQ Cash wallet
-                        </span>
-                      ) : (
-                        <span className={styles.exchangeCashbackAccountText}>
-                          A/c{" "}
-                          {this.props.exchangeDetails.exchangePaymentDetails[0]
-                            .accountNumber &&
-                            this.props.exchangeDetails.exchangePaymentDetails[0].accountNumber.replace(
-                              /.(?=.{4,}$)/g,
-                              "x"
-                            )}
-                        </span>
-                      )}
-                    </div>
-                    <div
-                      className={styles.exchangeCashbackChangeMode}
-                      onClick={() =>
-                        this.goToEchangeCashbackSelection(this.props.orderId)
-                      }
-                    >
-                      Change Mode
-                    </div>
-                  </div>
-                )}
             </div>
           )}
         </div>

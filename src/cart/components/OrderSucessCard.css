@@ -120,31 +120,3 @@
 .freePickup{
   color:#417505;
 }
-.exchangeCashbackDetails{
-	padding: 10px 15px;
-	border: 0.5px solid #979797;
-	border-radius: 4px;
-	width: 100%;
-	margin: 10px auto;
-}
-.exchangeCashbackTextContainer{
-	width: 75%;
-  display: inline-block;
-}
-.exchangeCashbackChangeMode{
-	width: 25%;
-	display: inline-block;
-	vertical-align: top;
-	line-height: 2.5;
-	text-align: right;
-	font-size: 14px;
-	color: #ff1744;
-	font-family: semibold;
-}
-.exchangeCashbackText{
-	font-size: 12px;
-}
-.exchangeCashbackAccountText{
-	font-size: 12px;
-	font-family: semibold;
-}
