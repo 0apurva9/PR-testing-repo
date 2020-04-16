@@ -91,7 +91,8 @@ import {
   TNC_FOR_BANK_OFFER_POPUP,
   DESKTOP_AUTH,
   CONFIRMATION_NOTIFICATION,
-  UPITERMSANDCONDITION_MODAL
+  UPITERMSANDCONDITION_MODAL,
+  CHANGE_EXCHANGE_CASHBACK_MODAL
   // UPIHOWTOPAY_MODAL
 } from "../../general/modal.actions";
 import {
@@ -844,6 +845,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           bankName
         )
       );
+    },
+    showChangeExchangeCashabackModal: data => {
+      dispatch(showModal(CHANGE_EXCHANGE_CASHBACK_MODAL, data));
     }
   };
 };

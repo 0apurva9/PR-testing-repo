@@ -827,7 +827,7 @@ export default class OrderDetails extends React.Component {
                             <span className={styles.fontFamilySemibold}>
                               Exchange Product:
                             </span>{" "}
-                            {products.exchangeDetails.exchangeModelName}
+                            {products.exchangeDetails.effectiveModelName}
                             <span
                               className={
                                 !this.state.isToggleOn

@@ -2,8 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import ProductImage from "../../general/components/ProductImage.js";
 import styles from "./OrderSucessCard.css";
-import format from "date-fns/format";
-const dateFormat = "DD MMM YYYY";
 const EDD_TEXT = "Estimated Delivery Date";
 export default class OrderSucessCard extends React.Component {
   getDateMonthFormate(dateWithMonth) {
@@ -98,6 +96,11 @@ export default class OrderSucessCard extends React.Component {
     if (dateWithMonth) {
       return this.getDateMonthFormate(dateWithMonth);
     } else return "";
+  }
+  goToEchangeCashbackSelection(orderId) {
+    let exchangeCashbackSelectionURL =
+      "/my-account/getAccountInfoForExchange?parentOrderId=" + orderId;
+    this.props.history.push(exchangeCashbackSelectionURL);
   }
   render() {
     let estimatedDeliveryDateFormatted = "";
@@ -203,11 +206,22 @@ export default class OrderSucessCard extends React.Component {
                         </span>
                       ) : (
                         <span className={styles.exchangeCashbackAccountText}>
-                          A/c xxxx xxxx xxxx 1234
+                          A/c{" "}
+                          {this.props.exchangeDetails.exchangePaymentDetails[0]
+                            .accountNumber &&
+                            this.props.exchangeDetails.exchangePaymentDetails[0].accountNumber.replace(
+                              /.(?=.{4,}$)/g,
+                              "x"
+                            )}
                         </span>
                       )}
                     </div>
-                    <div className={styles.exchangeCashbackChangeMode}>
+                    <div
+                      className={styles.exchangeCashbackChangeMode}
+                      onClick={() =>
+                        this.goToEchangeCashbackSelection(this.props.orderId)
+                      }
+                    >
                       Change Mode
                     </div>
                   </div>

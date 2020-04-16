@@ -67,7 +67,8 @@ export default class OrderConfirmation extends React.Component {
         this.setState({ bannerPDPUrl: matchedPDPUrl });
       }
       if (matchedCategoryCode) {
-        this.showBanner();
+        // commented as it is not required - will remove code after confirmation
+        // this.showBanner();
       }
     }
   }
@@ -196,6 +197,7 @@ export default class OrderConfirmation extends React.Component {
                           selectedDeliveryMode={order.selectedDeliveryMode}
                           edd={order.EDD}
                           exchangeDetails={order.exchangeDetails}
+                          orderId={this.props.orderId}
                         />
                       </DesktopOnly>
                     </React.Fragment>
@@ -212,6 +214,7 @@ export default class OrderConfirmation extends React.Component {
                   }
                   edd={this.props.orderDetails.EDD}
                   exchangeDetails={this.props.orderDetails.exchangeDetails}
+                  orderId={this.props.orderId}
                 />
               )}
               <MobileOnly>

@@ -605,7 +605,9 @@ export function addProductToCart(productDetails) {
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
-        dispatch(displayToast(resultJson.ErrorMessage));
+        if (resultJson.errorCode === "EX05") {
+          dispatch(displayToast(resultJson.error));
+        }
         // throw new Error(resultJsonStatus.message);
         return dispatch(addProductToCartFailure(resultJson.ErrorMessage));
       }

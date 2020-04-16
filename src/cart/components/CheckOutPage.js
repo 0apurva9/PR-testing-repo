@@ -4405,6 +4405,12 @@ if you have order id in local storage then you have to show order confirmation p
             fetchOrderDetails={(orderId, pageName) =>
               this.props.fetchOrderDetails(orderId, pageName)
             }
+            exchangeDetails={
+              this.props.cart.getPrepaidOrderPaymentConfirmation.exchangeDetails
+            }
+            showChangeExchangeCashabackModal={data =>
+              this.props.showChangeExchangeCashabackModal(data)
+            }
           />
         </div>
       );

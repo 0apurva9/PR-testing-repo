@@ -356,6 +356,13 @@ const ProductInBagModal = Loadable({
     return <Loader />;
   }
 });
+
+const ChangeExchangeCashabackModal = Loadable({
+  loader: () => import("../../cart/components/ChangeExchangeCashabackModal"),
+  loading() {
+    return <Loader />;
+  }
+});
 export default class ModalRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -1176,6 +1183,13 @@ export default class ModalRoot extends React.Component {
       ),
       ProductInBagModal: (
         <ProductInBagModal
+          closeModal={() => this.handleClose()}
+          history={this.props.history}
+        />
+      ),
+      ChangeExchangeCashabackModal: (
+        <ChangeExchangeCashabackModal
+          {...this.props.ownProps}
           closeModal={() => this.handleClose()}
           history={this.props.history}
         />
