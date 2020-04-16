@@ -411,18 +411,6 @@ export default class CustomerCareOrderRelated extends React.Component {
                 });
                 urlListArray = urlList.join(",");
               });
-              // urlListArray = [{ fileURL: urlList.join(",") }];
-              // let urlList = item.urlList.map(url => {
-              //   return url.fileURL;
-              // });
-              // let imgUlrWithComma = Array.prototype.map
-              //   .call(this.props.uploadedAttachments[0].urlList, function(
-              //     item
-              //   ) {
-              //     return item.fileURL;
-              //   })
-              //   .join(",");
-              // const imgUrlList = [{ fileURL: imgUlrWithComma }];
               additionalInfo[this.state.uploadFileTitle] = urlListArray;
             } else {
               additionalInfo[this.state.uploadFileTitle] = "";

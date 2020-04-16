@@ -285,6 +285,9 @@ export default class OrderRelatedIssue extends React.Component {
           tat: this.state.selectedObj[0].tat
         }
       );
+      if (this.state.isSelected == 1) {
+        getCustomerQueryDetailsObject.issueCategory = this.state.parentIssueLabel;
+      }
       const submitOrderDetailsResponse = await this.props.submitOrderDetails(
         formData
       );

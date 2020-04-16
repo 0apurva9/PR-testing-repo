@@ -3,13 +3,64 @@ import styles from "./CustomerQueryPopUp.css";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import Icon from "../../xelpmoc-core/Icon";
-import checkBlack from "../../general/components/img/checkBlack.svg";
+import orderSuccess from "../components/img/orderSuccess.svg";
 import { MY_ACCOUNT_PAGE } from "../../lib/constants";
 export default class CustomerQueryPopUp extends React.Component {
   constructor() {
     super();
     this.clickedOnSubmitButton = false;
   }
+
+  getDayNumberSuffix(d) {
+    let newDate = new Date(d);
+    let date = newDate.getDate();
+    let month = newDate.getMonth();
+    let year = newDate.getFullYear();
+    let monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
+    switch (date) {
+      case 1:
+      case 21:
+      case 31:
+        return "" + date + "st " + monthNames[month] + " " + year;
+      case 2:
+      case 22:
+        return "" + date + "nd " + monthNames[month] + " " + year;
+      case 3:
+      case 23:
+        return "" + date + "rd " + monthNames[month] + " " + year;
+      default:
+        return "" + date + "th " + monthNames[month] + " " + year;
+    }
+  }
+  hoursToMeridiem = (hour, minute) => {
+    const min = minute === 0 ? "00" : minute.toString();
+    if (hour > 12) {
+      return `${hour - 12}:${min} PM`;
+    }
+    if (hour === 0) {
+      return `${12}:${min} AM`;
+    }
+    if (hour === 12) {
+      return `${12}:${min} PM`;
+    }
+    if (hour < 12) {
+      return `${hour}:${min} AM`;
+    }
+  };
+
   submit() {
     this.clickedOnSubmitButton = true;
     this.props.history.push(MY_ACCOUNT_PAGE);
@@ -20,26 +71,38 @@ export default class CustomerQueryPopUp extends React.Component {
     }
   }
   render() {
-    console.log("this.props", this.props);
+    let { tat, issueCategory, ticketID, issue, emailId } = this.props;
+    let today = new Date();
+    let extraDays = !isNaN(parseInt(tat)) ? Math.round(parseInt(tat) / 24) : 0;
+    let queryDate = new Date();
+    let displayDate = this.getDayNumberSuffix(
+      queryDate.setDate(today.getDate() + extraDays)
+    );
+    let displayTime = this.hoursToMeridiem(
+      queryDate.getHours(),
+      queryDate.getMinutes()
+    );
+
     return (
       <div className={styles.base}>
         <div className={styles.headerTextWithIcon}>
+          <Icon image={orderSuccess} size={38} />
           <div className={styles.headerText}>
             Your Query is Submitted Successfully
-          </div>
-          <div className={styles.icon}>
-            <Icon image={checkBlack} size={30} />
           </div>
         </div>
         <div className={(styles.subText, styles.blackBorderBottom)}>
           We have noted your concern and will update you before{" "}
-          <span className={styles.colorRed}> 03:57 PM, 16th December 2019</span>
+          <div className={styles.colorRed}>
+            {" "}
+            {`${displayTime}, ${displayDate}`}
+          </div>
         </div>
         <div className={styles.userDetails}>
-          <div className={styles.userDetailsHeaderWithText}>
+          {/* <div className={styles.userDetailsHeaderWithText}>
             <div className={styles.userDetailsHeader}>Ticket ID</div>
             <div className={styles.userDetailsText}>{this.props.ticketID}</div>
-          </div>
+          </div> */}
           {this.props.issueCategory && (
             <div className={styles.userDetailsHeaderWithText}>
               <div className={styles.userDetailsHeader}>Issue Category</div>
@@ -68,6 +131,7 @@ export default class CustomerQueryPopUp extends React.Component {
               backgroundColor="#000"
               height={36}
               label={"DONE"}
+              borderRadius={"4"}
               width={96}
               textStyle={{ color: "#fff", fontSize: 14, borderRadius: 4 }}
               onClick={() => this.submit()}
