@@ -37,6 +37,15 @@ export default class Checkout extends React.Component {
         ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
         : null;
 
+    let amountWithoutSymbol;
+    if (this.props.amount && this.props.amount.toString().includes("₹")) {
+      amountWithoutSymbol =
+        this.props.amount && this.props.amount.replace("₹", "");
+    } else {
+      amountWithoutSymbol = this.props.amount;
+    }
+    this.props.amount && localStorage.setItem("amount", amountWithoutSymbol);
+
     return (
       <React.Fragment>
         <div className={styles.base}>
@@ -61,41 +70,39 @@ export default class Checkout extends React.Component {
               </div>
             )}
 
-            {this.props.isOnCartPage &&
-              defaultPinCode && (
-                <div className={styles.checkoutButtonHolder}>
-                  <Button
-                    disabled={this.props.disabled}
-                    type="primary"
-                    backgroundColor="#ff1744"
-                    height={40}
-                    label={this.props.label}
-                    width={120}
-                    textStyle={{
-                      color: "#FFF",
-                      fontSize: 14
-                    }}
-                    onClick={() => this.handleClick()}
-                  />
-                </div>
-              )}
-            {this.props.isOnCartPage &&
-              !defaultPinCode && (
-                <div className={styles.checkoutButtonHolder}>
-                  <Button
-                    type="primary"
-                    backgroundColor="#ff1744"
-                    height={40}
-                    label={this.props.label}
-                    width={120}
-                    textStyle={{
-                      color: "#FFF",
-                      fontSize: 14
-                    }}
-                    onClick={() => this.handleFocusOnPinCode()}
-                  />
-                </div>
-              )}
+            {this.props.isOnCartPage && defaultPinCode && (
+              <div className={styles.checkoutButtonHolder}>
+                <Button
+                  disabled={this.props.disabled}
+                  type="primary"
+                  backgroundColor="#ff1744"
+                  height={40}
+                  label={this.props.label}
+                  width={120}
+                  textStyle={{
+                    color: "#FFF",
+                    fontSize: 14
+                  }}
+                  onClick={() => this.handleClick()}
+                />
+              </div>
+            )}
+            {this.props.isOnCartPage && !defaultPinCode && (
+              <div className={styles.checkoutButtonHolder}>
+                <Button
+                  type="primary"
+                  backgroundColor="#ff1744"
+                  height={40}
+                  label={this.props.label}
+                  width={120}
+                  textStyle={{
+                    color: "#FFF",
+                    fontSize: 14
+                  }}
+                  onClick={() => this.handleFocusOnPinCode()}
+                />
+              </div>
+            )}
 
             <div className={styles.amountHolder}>
               {this.props.isRetryUrl && (
