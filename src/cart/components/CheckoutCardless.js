@@ -54,7 +54,7 @@ export default class CheckoutCardless extends React.Component {
           } else if (data.eligible === false) {
             self.setState({
               instacredEligible: false,
-              message: data.message || ""
+              message: data.message || NOT_APPROVED
             });
             // self.props.instacredStatus(false);
           } else {
@@ -107,19 +107,8 @@ export default class CheckoutCardless extends React.Component {
               />
             </div>
 
-            {this.state.message && (
+            {this.state.message !== "" && (
               <div className={inputClass}>{this.state.message}</div>
-            )}
-            {this.state.message === "" && (
-              <div
-                className={
-                  this.state.instacredEligible === false
-                    ? styles.errorText
-                    : styles.displayNone
-                }
-              >
-                {NOT_APPROVED}
-              </div>
             )}
           </div>
           <DesktopOnly>
