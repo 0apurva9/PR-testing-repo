@@ -115,10 +115,26 @@ export default class AddToWishListButton extends React.Component {
         this.props.showSizeSelector();
       } else {
         if (indexOfProduct < 0) {
-          this.props.addProductToWishList({
-            productListingId,
-            winningUssID
-          });
+          // if product is having exchange details
+          if (this.props.exchangeDetails) {
+            let addToWlWithExchangeTrue = "addToWlWithExchangeTrue";
+            let quoteId = this.props.exchangeDetails.quoteId;
+            let IMEINumber = this.props.exchangeDetails.IMEINumber;
+            let exchangeId = this.props.exchangeDetails.exchangeProductId;
+            this.props.addProductToWishList({
+              productListingId,
+              winningUssID,
+              addToWlWithExchangeTrue,
+              quoteId,
+              IMEINumber,
+              exchangeId
+            });
+          } else {
+            this.props.addProductToWishList({
+              productListingId,
+              winningUssID
+            });
+          }
         } else {
           this.props.displayToast();
         }

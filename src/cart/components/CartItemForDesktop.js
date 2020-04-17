@@ -376,6 +376,7 @@ export default class CartItemForDesktop extends React.Component {
                     winningUssID={this.props.product.USSID}
                     setDataLayerType={ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART}
                     index={this.props.index}
+                    exchangeDetails={this.props.product.exchangeDetails}
                   />
                 </div>
                 <div

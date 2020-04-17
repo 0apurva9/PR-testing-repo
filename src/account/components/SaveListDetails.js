@@ -62,6 +62,17 @@ export default class SaveListDetails extends React.Component {
       this.props.removeProductFromWishList(productDetails);
     }
   }
+  removeItemWithExchange(ussid, exchangeDetails) {
+    const productDetails = {};
+    productDetails.ussId = ussid;
+    productDetails.removeFromWlWithExchange = true;
+    productDetails.quoteId = exchangeDetails.quoteId;
+    productDetails.IMEINumber = exchangeDetails.IMEINumber;
+    productDetails.exchangeId = exchangeDetails.exchangeProductId;
+    if (this.props.removeProductFromWishList) {
+      this.props.removeProductFromWishList(productDetails);
+    }
+  }
   renderToContinueShopping() {
     setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
@@ -128,8 +139,14 @@ export default class SaveListDetails extends React.Component {
                           onClickImage={() =>
                             this.onClickImage(product.productcode)
                           }
-                          removeItem={productUssid =>
-                            this.removeItem(product.USSID)
+                          removeItem={
+                            product.exchangeDetails
+                              ? () =>
+                                  this.removeItemWithExchange(
+                                    product.USSID,
+                                    product.exchangeDetails
+                                  )
+                              : productUssid => this.removeItem(product.USSID)
                           }
                           size={product.size}
                           isSizeOrLength={product.isSizeOrLength}

@@ -141,6 +141,13 @@ export function addProductToWishList(productDetails, setDataLayerType: null) {
     productToBeAdd.append("ussid", productDetails.winningUssID);
     productToBeAdd.append("productCode", productDetails.productListingId);
     productToBeAdd.append("wishlistName", MY_WISH_LIST);
+    // send exchange related details
+    if (productDetails.addToWlWithExchangeTrue) {
+      productToBeAdd.append("addToWlWithExchange", true);
+      productToBeAdd.append("quoteId", productDetails.quoteId);
+      productToBeAdd.append("IMEINumber", productDetails.IMEINumber);
+      productToBeAdd.append("exchangeId", productDetails.exchangeId);
+    }
     try {
       const result = await api.postFormData(
         `${PRODUCT_DETAILS_PATH}/${
@@ -200,6 +207,16 @@ export function removeProductFromWishList(productDetails) {
     const productToBeRemove = new FormData();
     productToBeRemove.append("USSID", productDetails.ussId);
     productToBeRemove.append("wishlistName", MY_WISH_LIST);
+    // if exchange details present
+    if (productDetails.removeFromWlWithExchange) {
+      productToBeRemove.append(
+        "removeFromWlWithExchange",
+        productDetails.removeFromWlWithExchange
+      );
+      productToBeRemove.append("quoteId", productDetails.quoteId);
+      productToBeRemove.append("IMEINumber", productDetails.IMEINumber);
+      productToBeRemove.append("exchangeId", productDetails.exchangeId);
+    }
     dispatch(removeProductFromWishListRequest());
     dispatch(showSecondaryLoader());
     try {
