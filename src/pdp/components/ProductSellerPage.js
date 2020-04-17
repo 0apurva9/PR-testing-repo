@@ -47,7 +47,8 @@ class ProductSellerPage extends Component {
         ? this.props.productDetails.winningUssID
         : null,
       sortOption: PRICE_LOW_TO_HIGH,
-      selectedSellerUssID: null
+      selectedSellerUssID: null,
+      pickupCharge: ""
     };
   }
   priceValue;
@@ -174,6 +175,12 @@ class ProductSellerPage extends Component {
     } else {
       //need to show error page
     }
+    // on click of other seller link - pickcharge is avail
+    // as check pincode api is not called - we are not getting pickup charge
+    // so setting in state
+    if (this.props.location && this.props.location.state) {
+      this.setState({ pickupCharge: this.props.location.state.pickupCharge });
+    }
   }
   onSortByPrice(val) {
     this.setState({ sortOption: val.value });
@@ -216,7 +223,9 @@ class ProductSellerPage extends Component {
     let listingId = this.props.productDetails.productListingId;
     let ussId = data && data.USSID;
     let maxExchangeAmount = this.props.productDetails.maxExchangeAmount.value;
-    let pickupCharge = this.props.productDetails.cashifyPickupCharge;
+    let pickupCharge = this.props.productDetails.cashifyPickupCharge
+      ? this.props.productDetails.cashifyPickupCharge
+      : this.state.pickupCharge;
     let productName = this.props.productDetails.productName;
     //call exchange details API
     await this.props.getExchangeDetails(
