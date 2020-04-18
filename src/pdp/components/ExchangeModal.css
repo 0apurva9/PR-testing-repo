@@ -281,6 +281,9 @@
   font-size: 12px;
   float: right;
 }
+.changeDevice{
+  margin-right: 10px;
+}
 .tncCheckbox{
   float: left;
   margin: 0 10px 0 0;
@@ -442,4 +445,12 @@ ul.contentHeading{
 }
 .firstDeviceName,.secondDeviceName{
   display: inline-block;
+}
+.effectiveModelText{
+  float: left;
+  width: 260px;
+  text-transform: capitalize;
+  overflow-x: hidden;
+	white-space: nowrap;
+  text-overflow: ellipsis;
 }

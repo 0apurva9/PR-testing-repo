@@ -16,12 +16,7 @@ export default class ExchangeProductDetailsTab extends React.Component {
     return (
       <React.Fragment>
         <div className={styles.cashbackHeading}>
-          {/* <input
-            type="radio"
-            className={styles.tabOneRadio}
-            defaultChecked={this.props.deviceInfo}
-          /> */}
-          <span className={styles.textCaps}>
+          <span className={styles.effectiveModelText}>
             {this.props.deviceInfo &&
               this.props.deviceInfo.model &&
               this.props.deviceInfo.model.effectiveModelName}

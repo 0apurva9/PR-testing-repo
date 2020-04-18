@@ -547,7 +547,6 @@ export function addProductToCart(productDetails) {
       existingProductData &&
       existingProductData.includes(productDetails.ussId)
     ) {
-      // console.log('Product is already present in cart. Do you want to add more ?')
       dispatch(showModal(PRODUCT_IN_BAG_MODAL));
       return false;
     }

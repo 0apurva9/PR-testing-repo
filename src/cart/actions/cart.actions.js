@@ -7941,7 +7941,13 @@ export function removeExchange(data) {
         resultJson.status &&
         resultJson.status.toLowerCase() === "failure"
       ) {
-        dispatch(displayToast(resultJson.message));
+        if (
+          resultJson.error &&
+          resultJson.errorCode &&
+          resultJson.errorCode === "EX05"
+        ) {
+          dispatch(displayToast(resultJson.error));
+        }
         return dispatch(removeExchangeFailure(resultJson.message));
       }
       return resultJson;

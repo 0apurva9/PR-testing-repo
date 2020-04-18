@@ -86,11 +86,6 @@ export default class ExchangeModal extends React.Component {
     if (firstDeviceData || secondDeviceData) {
       this.setState({ isExchangeDeviceAdded: true });
     }
-    //show first device selected if second device not added
-    // if (firstDeviceData && !localStorage.getItem("MESecondDeviceData")) {
-    //   this.setState({ isFirstDeviceSelected: true });
-    //   localStorage.setItem("currentSelectedDevice", "MEFirstDeviceData");
-    // }
     //keep selected tab active - even if modal closed
     let currentSelectedDevice = localStorage.getItem("currentSelectedDevice");
     if (currentSelectedDevice === "2") {
