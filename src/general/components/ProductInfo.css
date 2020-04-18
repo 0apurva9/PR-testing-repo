@@ -26,3 +26,14 @@
   composes: base;
   padding-bottom: 5px;
 }
+.exchangeIconLight{
+  width: 15px;
+  margin-right: 2px;
+}
+.exchangeCashback{
+  display: inline-block;
+  vertical-align: text-top;
+  line-height: 1.5;
+  font-family: semibold;
+  font-size: 11px;
+}

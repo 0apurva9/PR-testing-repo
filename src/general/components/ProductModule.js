@@ -201,6 +201,7 @@ export default class ProductModule extends React.Component {
                 ratingCount={this.props.ratingCount}
                 offerText={this.props.offerText}
                 bestDeliveryInfo={this.props.bestDeliveryInfo}
+                maxExchangePrice={this.props.maxExchangePrice}
               />
             </div>
           </div>

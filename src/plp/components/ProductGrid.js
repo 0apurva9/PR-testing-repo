@@ -116,6 +116,7 @@ export default class ProductGrid extends React.Component {
         ussid={data.ussid}
         showExchangeTag={data.showExchangeTag}
         exchangeOfferAvailable={data.exchangeOfferAvailable}
+        maxExchangePrice={data.maxExchangePrice}
       />
     );
   };
