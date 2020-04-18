@@ -36,7 +36,7 @@ export default class ProductFlags extends React.Component {
           className={styles.base}
           style={{ backgroundImage: `url(${exchangeOfferFlag})` }}
         >
-          Exchange Offer
+          Offers on Exchange
         </div>
       );
     } else if (
