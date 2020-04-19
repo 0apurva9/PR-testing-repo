@@ -222,7 +222,8 @@ class ProductSellerPage extends Component {
   async openExchangeModal(data) {
     let listingId = this.props.productDetails.productListingId;
     let ussId = data && data.USSID;
-    let maxExchangeAmount = this.props.productDetails.maxExchangeAmount.value;
+    let maxExchangeAmount =
+      data && data.maxExchangeAmount && data.maxExchangeAmount.value;
     let pickupCharge = this.props.productDetails.cashifyPickupCharge
       ? this.props.productDetails.cashifyPickupCharge
       : this.state.pickupCharge;
