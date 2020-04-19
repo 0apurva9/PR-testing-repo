@@ -942,29 +942,48 @@ export default class PdpApparel extends React.Component {
         this.props.productDetails.pincodeResponseList.cashifyPickupCharge;
       let productName = this.props.productDetails.productName;
       //call exchange details API
-      await this.props.getExchangeDetails(
+      let response = await this.props.getExchangeDetails(
         listingId,
         ussId,
         maxExchangeAmount,
         pickupCharge
       );
-      if (data) {
-        //with static data open exchange modal
-        Object.assign(data, {
-          exchangeDetails: this.props.exchangeDetails,
-          productName: productName,
-          listingId: listingId,
-          ussId: ussId
-        });
-        this.props.showExchangeModal(data);
-      } else {
-        //open exchange modal
-        this.props.showExchangeModal({
-          exchangeDetails: this.props.exchangeDetails,
-          productName: productName,
-          listingId: listingId,
-          ussId: ussId
-        });
+      // if brand n model details are present then only show exchange modal
+      if (
+        response &&
+        response.status &&
+        response.status.toLowerCase() === "success" &&
+        response.data &&
+        response.data.makeModelDetails
+      ) {
+        if (data) {
+          //with static data open exchange modal
+          Object.assign(data, {
+            exchangeDetails: this.props.exchangeDetails,
+            productName: productName,
+            listingId: listingId,
+            ussId: ussId
+          });
+          this.props.showExchangeModal(data);
+        } else {
+          //open exchange modal
+          this.props.showExchangeModal({
+            exchangeDetails: this.props.exchangeDetails,
+            productName: productName,
+            listingId: listingId,
+            ussId: ussId
+          });
+        }
+      }
+      // if brand n model details are not avail show toast
+      if (
+        response &&
+        response.status &&
+        response.status.toLowerCase() === "success" &&
+        response.data &&
+        !response.data.makeModelDetails
+      ) {
+        this.props.displayToast("Please try after some time.");
       }
     }
   }

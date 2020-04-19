@@ -229,19 +229,37 @@ class ProductSellerPage extends Component {
       : this.state.pickupCharge;
     let productName = this.props.productDetails.productName;
     //call exchange details API
-    await this.props.getExchangeDetails(
+    let response = await this.props.getExchangeDetails(
       listingId,
       ussId,
       maxExchangeAmount,
       pickupCharge
     );
-    //open exchange modal
-    this.props.showExchangeModal({
-      exchangeDetails: this.props.exchangeDetails,
-      productName: productName,
-      listingId: listingId,
-      ussId: ussId
-    });
+    // if brand n model details are present then only show exchange modal
+    if (
+      response &&
+      response.status &&
+      response.status.toLowerCase() === "success" &&
+      response.data &&
+      response.data.makeModelDetails
+    ) {
+      this.props.showExchangeModal({
+        exchangeDetails: this.props.exchangeDetails,
+        productName: productName,
+        listingId: listingId,
+        ussId: ussId
+      });
+    }
+    // if brand n model details are not avail show toast
+    if (
+      response &&
+      response.status &&
+      response.status.toLowerCase() === "success" &&
+      response.data &&
+      !response.data.makeModelDetails
+    ) {
+      this.props.displayToast("Please try after some time.");
+    }
   }
   render() {
     if (this.props.loading) {
