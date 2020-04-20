@@ -1866,7 +1866,7 @@ export default class PdpApparel extends React.Component {
                     </div>
                   )}
                 </div>
-                <div>
+                <React.Fragment>
                   {mshProduct &&
                     mshProduct.includes("samsung") && (
                       <div className={styles.sumsungSeparator}>
@@ -1896,7 +1896,7 @@ export default class PdpApparel extends React.Component {
                         </div>
                       </div>
                     )}
-                </div>
+                </React.Fragment>
               </div>
             </div>
             <div className={styles.details}>
@@ -2196,7 +2196,7 @@ export default class PdpApparel extends React.Component {
                       </Accordion>
                     )}
                     {productData.knowMoreV2 && (
-                      <Accordion text="Return & Exchange" headerFontSize={18}>
+                      <Accordion text="Return & Refunds" headerFontSize={18}>
                         <div className={styles.containerWithBottomBorder}>
                           <div className={styles.accordionContentBold}>
                             {productData.knowMoreV2[0].knowMoreItemV2}

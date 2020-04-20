@@ -1163,12 +1163,6 @@
 	line-height: normal;
 	letter-spacing: normal;
 }
-.samsungChatImgHolder {
-	position: fixed;
-	right: 0;
-	top: 80%;
-	z-index: 1;
-}
 .invalidPinText {
 	width: 100%;
 	height: auto;
