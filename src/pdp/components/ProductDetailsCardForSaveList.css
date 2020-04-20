@@ -132,7 +132,9 @@
 .exchangeProductText{
 	display: inline-block;
 	font-size: 12px;
-	font-family: light;
+  font-family: light;
+  width: calc(100% - 35px);
+  vertical-align: top;
 }
 .fontFamilyRegular{
   font-family: regular;

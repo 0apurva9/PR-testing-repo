@@ -73,26 +73,17 @@ export default class ExchangeModal extends React.Component {
 
   componentDidMount() {
     // customSelectDropDown.setCssBrand();
-    let firstDeviceData = JSON.parse(localStorage.getItem("MEFirstDeviceData"));
-    if (firstDeviceData) {
-      this.setState({ firstDeviceInfo: firstDeviceData });
-    }
-    let secondDeviceData = JSON.parse(
-      localStorage.getItem("MESecondDeviceData")
-    );
-    if (secondDeviceData) {
-      this.setState({ secondDeviceInfo: secondDeviceData });
-    }
-    if (firstDeviceData || secondDeviceData) {
+    if (this.state.firstDeviceInfo || this.state.secondDeviceInfo) {
       this.setState({ isExchangeDeviceAdded: true });
     }
-    //keep selected tab active - even if modal closed
-    let currentSelectedDevice = localStorage.getItem("currentSelectedDevice");
-    if (currentSelectedDevice === "2") {
-      this.setState({ activateSecondTab: true });
-    } else {
-      this.setState({ activateSecondTab: false });
-    }
+  }
+
+  componentWillUnmount() {
+    // as the modal closed , remove the values to update UI in PDP
+    this.props.updateProductState({
+      selectedProductCashback: null,
+      selectedProductName: null
+    });
   }
 
   handleClose() {
@@ -156,10 +147,6 @@ export default class ExchangeModal extends React.Component {
         pickupCharge: this.props.exchangeDetails.pickupCharge,
         tulBump: this.props.exchangeDetails.TULBump
       };
-      localStorage.setItem(
-        "MEFirstDeviceData",
-        JSON.stringify(firstDeviceData)
-      );
       this.setState({ firstDeviceInfo: firstDeviceData });
       //update product details state
       if (this.state.selectedModel) {
@@ -168,14 +155,6 @@ export default class ExchangeModal extends React.Component {
             .totalExchangeCashback,
           selectedProductName: this.state.selectedModel.effectiveModelName
         });
-        localStorage.setItem(
-          "selectedProductCashback",
-          JSON.stringify(this.state.selectedModel.totalExchangeCashback)
-        );
-        localStorage.setItem(
-          "selectedProductName",
-          this.state.selectedModel.effectiveModelName
-        );
       }
     } else {
       //one device added previously - add second device OR change second device
@@ -186,10 +165,6 @@ export default class ExchangeModal extends React.Component {
         pickupCharge: this.props.exchangeDetails.pickupCharge,
         tulBump: this.props.exchangeDetails.TULBump
       };
-      localStorage.setItem(
-        "MESecondDeviceData",
-        JSON.stringify(secondDeviceData)
-      );
       this.setState({ secondDeviceInfo: secondDeviceData });
       //update product details state
       if (this.state.selectedModel) {
@@ -198,14 +173,6 @@ export default class ExchangeModal extends React.Component {
             .totalExchangeCashback,
           selectedProductName: this.state.selectedModel.effectiveModelName
         });
-        localStorage.setItem(
-          "selectedProductCashback",
-          JSON.stringify(this.state.selectedModel.totalExchangeCashback)
-        );
-        localStorage.setItem(
-          "selectedProductName",
-          this.state.selectedModel.effectiveModelName
-        );
       }
     }
     this.setState({ isExchangeDeviceAdded: true });
@@ -259,7 +226,6 @@ export default class ExchangeModal extends React.Component {
   }
 
   async checkIMEI(deviceNo) {
-    // IMEINumber,exchangeProductId,exchangeAmountCashify,tulBump,pickUpCharge,listingId,ussId
     // call check IMEI API
     let IMEINumber = this.state.IMEINumberFirstDevice;
     let exchangeProductId =
@@ -367,19 +333,17 @@ export default class ExchangeModal extends React.Component {
   async saveExchangeDetails(IMEINumber, deviceNo) {
     if (deviceNo === 1) {
       //update first device details with imei
-      let FDData = JSON.parse(localStorage.getItem("MEFirstDeviceData"));
+      let FDData = this.state.firstDeviceInfo;
       Object.assign(FDData, {
         IMEINo: IMEINumber
       });
-      localStorage.setItem("MEFirstDeviceData", JSON.stringify(FDData));
       this.setState({ firstDeviceInfo: FDData });
     } else {
       //update second device details with imei
-      let SDData = JSON.parse(localStorage.getItem("MESecondDeviceData"));
+      let SDData = this.state.secondDeviceInfo;
       Object.assign(SDData, {
         IMEINo: IMEINumber
       });
-      localStorage.setItem("MESecondDeviceData", JSON.stringify(SDData));
       this.setState({ secondDeviceInfo: SDData });
     }
     // this.handleClose();
@@ -404,12 +368,8 @@ export default class ExchangeModal extends React.Component {
     //switch tabs
     if (deviceNo === 2) {
       this.setState({ activateSecondTab: true });
-      //set storage for currently selected device
-      localStorage.setItem("currentSelectedDevice", 2);
     } else {
       this.setState({ activateSecondTab: false });
-      //set storage for currently selected device
-      localStorage.setItem("currentSelectedDevice", 1);
     }
     //and update data
     if (deviceInfo) {
@@ -417,14 +377,6 @@ export default class ExchangeModal extends React.Component {
         selectedProductCashback: deviceInfo.model.totalExchangeCashback,
         selectedProductName: deviceInfo.model.effectiveModelName
       });
-      localStorage.setItem(
-        "selectedProductCashback",
-        JSON.stringify(deviceInfo.model.totalExchangeCashback)
-      );
-      localStorage.setItem(
-        "selectedProductName",
-        deviceInfo.model.effectiveModelName
-      );
     }
   }
 
@@ -441,20 +393,12 @@ export default class ExchangeModal extends React.Component {
         IMEINumberSecondDevice: ""
       });
       //to show remaining products name & cashback on pdp
-      let deviceInfo = JSON.parse(localStorage.getItem("MEFirstDeviceData"));
+      let deviceInfo = this.state.firstDeviceInfo;
       if (deviceInfo) {
         this.props.updateProductState({
           selectedProductCashback: deviceInfo.model.totalExchangeCashback,
           selectedProductName: deviceInfo.model.effectiveModelName
         });
-        localStorage.setItem(
-          "selectedProductCashback",
-          JSON.stringify(deviceInfo.model.totalExchangeCashback)
-        );
-        localStorage.setItem(
-          "selectedProductName",
-          deviceInfo.model.effectiveModelName
-        );
       }
     } else {
       this.setState({
@@ -467,20 +411,12 @@ export default class ExchangeModal extends React.Component {
         IMEINumberFirstDevice: ""
       });
       //to show remaining products name & cashback on pdp
-      let deviceInfo = JSON.parse(localStorage.getItem("MESecondDeviceData"));
+      let deviceInfo = this.state.secondDeviceInfo;
       if (deviceInfo) {
         this.props.updateProductState({
           selectedProductCashback: deviceInfo.model.totalExchangeCashback,
           selectedProductName: deviceInfo.model.effectiveModelName
         });
-        localStorage.setItem(
-          "selectedProductCashback",
-          JSON.stringify(deviceInfo.model.totalExchangeCashback)
-        );
-        localStorage.setItem(
-          "selectedProductName",
-          deviceInfo.model.effectiveModelName
-        );
       }
     }
   }
@@ -494,13 +430,13 @@ export default class ExchangeModal extends React.Component {
   }
 
   render() {
-    let firstDeviceInfo = localStorage.getItem("MEFirstDeviceData");
-    if (firstDeviceInfo) {
-      firstDeviceInfo = JSON.parse(firstDeviceInfo);
+    let firstDeviceInfo = "";
+    if (this.state.firstDeviceInfo) {
+      firstDeviceInfo = this.state.firstDeviceInfo;
     }
-    let secondDeviceInfo = localStorage.getItem("MESecondDeviceData");
-    if (secondDeviceInfo) {
-      secondDeviceInfo = JSON.parse(secondDeviceInfo);
+    let secondDeviceInfo = "";
+    if (this.state.secondDeviceInfo) {
+      secondDeviceInfo = this.state.secondDeviceInfo;
     }
     //to show change device link
     let bothDeviceAdded = false;
@@ -514,7 +450,7 @@ export default class ExchangeModal extends React.Component {
       this.state.changeDeviceNumber === 1 &&
       !this.state.firstDeviceInfo
     ) {
-      localStorage.removeItem("MEFirstDeviceData");
+      this.setState({ firstDeviceInfo: "" });
       firstDeviceInfo = "";
     }
     //onclick change link - remove second device
@@ -524,7 +460,7 @@ export default class ExchangeModal extends React.Component {
       this.state.changeDeviceNumber === 2 &&
       !this.state.secondDeviceInfo
     ) {
-      localStorage.removeItem("MESecondDeviceData");
+      this.setState({ secondDeviceInfo: "" });
       secondDeviceInfo = "";
     }
     return (

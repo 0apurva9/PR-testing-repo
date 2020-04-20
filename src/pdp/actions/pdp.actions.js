@@ -535,8 +535,6 @@ export function addProductToCart(productDetails) {
   return async (dispatch, getState, { api }) => {
     //get verify imei api response,check exchange avail or not,get product already in cart
     let IMEIApiResponse = productDetails.verifyIMEINumberAPIResponse;
-    let PDPExchangeAvailable = localStorage.getItem("PDPExchangeAvailable");
-
     //get ussid in cart
     let existingProductData = JSON.parse(
       localStorage.getItem("cartBagDetails")
@@ -556,11 +554,7 @@ export function addProductToCart(productDetails) {
       let result;
       // Checked with string as local storage returns as string format
       // If exchange available and IMEI verified then only send exchange details
-      if (
-        PDPExchangeAvailable === "true" &&
-        IMEIApiResponse &&
-        productDetails.isFromMobileExchange
-      ) {
+      if (IMEIApiResponse && productDetails.isFromMobileExchange) {
         let requestParams = {
           quoteId: IMEIApiResponse.quoteId,
           requestId: IMEIApiResponse.requestId,

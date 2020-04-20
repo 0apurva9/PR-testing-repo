@@ -92,7 +92,7 @@ export default class BagPageItem extends React.Component {
             <div>
               <div className={styles.exchangeProductName}>
                 <span>Exchange Product: </span>
-                <span>{this.props.exchangeDetails.exchangeModelName}</span>
+                <span>{this.props.exchangeDetails.effectiveModelName}</span>
               </div>
               <div className={styles.exchangeCashback}>
                 <span>Total Exchange Cashback: </span>

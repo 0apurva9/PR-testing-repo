@@ -224,6 +224,14 @@ export default class PdpApparel extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount = async () => {
+    // added code temporary starts
+    localStorage.removeItem("MEFirstDeviceData");
+    localStorage.removeItem("MESecondDeviceData");
+    localStorage.removeItem("currentSelectedDevice");
+    localStorage.removeItem("selectedProductCashback");
+    localStorage.removeItem("selectedProductName");
+
+    // added code temporary ends
     setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
     document.title = this.props.productDetails.seo.title;
     this.props.getUserAddress();
@@ -1217,10 +1225,6 @@ export default class PdpApparel extends React.Component {
       } else {
         localStorage.removeItem("PDPExchangeAvailable");
       }
-      let selectedProductCashback = JSON.parse(
-        localStorage.getItem("selectedProductCashback")
-      );
-      let selectedProductName = localStorage.getItem("selectedProductName");
       let disabledStatus =
         productData.allOOStock ||
         this.props.pincodeError ||
@@ -1404,8 +1408,7 @@ export default class PdpApparel extends React.Component {
                       <div className={styles.exchangeLogo} />
                       <div className={styles.exchangeContainer}>
                         <React.Fragment>
-                          {!productData.selectedProductName &&
-                          !selectedProductName ? (
+                          {!productData.selectedProductName ? (
                             <div className={styles.exchangeLink}>
                               Get upto cashback{" "}
                               {productData.maxExchangeAmount &&
@@ -1431,17 +1434,12 @@ export default class PdpApparel extends React.Component {
                               Get{" "}
                               <span className={styles.fontRegular}>
                                 {productData.selectedProductCashback &&
-                                productData.selectedProductCashback
-                                  .formattedValueNoDecimal
-                                  ? productData.selectedProductCashback
-                                      .formattedValueNoDecimal
-                                  : selectedProductCashback.formattedValueNoDecimal}{" "}
+                                  productData.selectedProductCashback
+                                    .formattedValueNoDecimal}{" "}
                               </span>
                               cashback on your{" "}
                               {this.trimProductName(
                                 productData.selectedProductName
-                                  ? productData.selectedProductName
-                                  : selectedProductName
                               )}{" "}
                               {exchangeDisabled ? (
                                 <span
