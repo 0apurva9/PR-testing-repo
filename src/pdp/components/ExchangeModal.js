@@ -267,6 +267,24 @@ export default class ExchangeModal extends React.Component {
         this.state.secondDeviceInfo.pickupCharge.value;
     }
 
+    // check for same device details - remove one device if both have same details
+    if (this.state.firstDeviceInfo && this.state.secondDeviceInfo) {
+      if (
+        this.state.firstDeviceInfo.exchangeBrandId ===
+          this.state.secondDeviceInfo.exchangeBrandId &&
+        this.state.firstDeviceInfo.model.exchangeProductId ===
+          this.state.secondDeviceInfo.model.exchangeProductId &&
+        this.state.IMEINumberFirstDevice === this.state.IMEINumberSecondDevice
+      ) {
+        if (deviceNo === 1) {
+          this.changeDevice(2);
+        }
+        if (deviceNo === 2) {
+          this.changeDevice(1);
+        }
+      }
+    }
+
     let listingId = this.props.listingId;
     let ussId = this.props.ussId;
     let data = await this.props.verifyIMEINumber(
@@ -346,8 +364,6 @@ export default class ExchangeModal extends React.Component {
       });
       this.setState({ secondDeviceInfo: SDData });
     }
-    // this.handleClose();
-    // code , ussId , quantity, isFromMobileExchange
     let listingId = this.props.listingId;
     let ussId = this.props.ussId;
     let data = {

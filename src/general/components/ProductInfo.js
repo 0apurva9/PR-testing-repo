@@ -35,7 +35,7 @@ export default class ProductInfo extends React.Component {
               : ""}
             {this.props.maxExchangePrice &&
               this.props.maxExchangePrice.formattedValueNoDecimal && (
-                <React.Fragment>
+                <div className={styles.exchangeCashbackContainer}>
                   <img
                     src={exchangeIconLight}
                     className={styles.exchangeIconLight}
@@ -45,7 +45,7 @@ export default class ProductInfo extends React.Component {
                     Upto {this.props.maxExchangePrice.formattedValueNoDecimal}{" "}
                     Exchange Cashback
                   </div>
-                </React.Fragment>
+                </div>
               )}
           </div>
         )}

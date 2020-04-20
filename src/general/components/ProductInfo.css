@@ -26,6 +26,9 @@
   composes: base;
   padding-bottom: 5px;
 }
+.exchangeCashbackContainer{
+  margin-top: 5px;
+}
 .exchangeIconLight{
   width: 15px;
   margin-right: 2px;
