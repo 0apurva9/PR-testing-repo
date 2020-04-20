@@ -782,12 +782,19 @@ export function msdDiscoverMoreHomeComponents(type) {
       // const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       dispatch(msdHomeComponentsRequest());
       let data;
+      let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      if (userDetails) {
+        userDetails = JSON.parse(userDetails);
+      }
       let discoverMoreData = new FormData();
       discoverMoreData.append("api_key", api_key);
       discoverMoreData.append("widget_list", [110]);
       discoverMoreData.append("num_results", [10]);
       discoverMoreData.append("mad_uuid", await getMcvId());
       discoverMoreData.append("details", false);
+      if (userDetails && userDetails.userName) {
+        discoverMoreData.append("user_id", userDetails.userName);
+      }
       const discoverMoreresult = await api.postMsd(
         `${MSD_ROOT_PATH}/widgets`,
         discoverMoreData
