@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import OrderRelatedIssue from "../components/orderRelatedIssue";
 import { setHeaderText } from "../../general/header.actions";
 import {
-  getCustomerQueriesData,
+  getOrderRelatedQuestions,
   getOrdersTransactionData,
   uploadUserFile,
   submitOrderDetails,
@@ -22,8 +22,8 @@ import { displayToast } from "../../general/toast.actions.js";
 import { showModal, CUSTOMER_QUERY_POPUP } from "../../general/modal.actions";
 const mapDispatchToProps = dispatch => {
   return {
-    getCustomerQueriesData: transactionId => {
-      dispatch(getCustomerQueriesData(transactionId));
+    getOrderRelatedQuestions: async transactionId => {
+      return dispatch(getOrderRelatedQuestions(transactionId));
     },
     // getCustomerQueriesDatav2: () => {
     //   dispatch(getCustomerQueriesDatav2());
@@ -38,50 +38,57 @@ const mapDispatchToProps = dispatch => {
     getOrdersTransactionData: paginated => {
       dispatch(getOrdersTransactionData(paginated));
     },
-    getUserDetails: () => {
-      dispatch(getUserDetails());
-    },
-    displayToast: message => {
-      dispatch(displayToast(message));
-    },
-    uploadUserFile: async uploadUserFileObject => {
-      return dispatch(uploadUserFile(uploadUserFileObject));
-    },
-    submitOrderDetails: async raiseTicketObj => {
-      return dispatch(submitOrderDetails(raiseTicketObj));
-    },
-    setHeaderText: text => {
-      dispatch(setHeaderText(text));
-    },
-    showCustomerQueryModal: getCustomerQueryDetailsObject => {
-      dispatch(showModal(CUSTOMER_QUERY_POPUP, getCustomerQueryDetailsObject));
-    },
-    clearOrderTransactionDetails: () => {
-      dispatch(clearOrderTransactionDetails());
-    },
     showSecondaryLoader: () => {
       dispatch(showSecondaryLoader());
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());
-    },
-    /**
-     * this function will be integrated to "getCustomerQueriesFieldsv2"
-     */
-    getCliqCareWmsResponse: () => {
-      dispatch(getCliqCareWmsResponse());
     }
+    // getUserDetails: () => {
+    //   dispatch(getUserDetails());
+    // },
+    // displayToast: message => {
+    //   dispatch(displayToast(message));
+    // },
+    // uploadUserFile: async uploadUserFileObject => {
+    //   return dispatch(uploadUserFile(uploadUserFileObject));
+    // },
+    // submitOrderDetails: async raiseTicketObj => {
+    //   return dispatch(submitOrderDetails(raiseTicketObj));
+    // },
+    // setHeaderText: text => {
+    //   dispatch(setHeaderText(text));
+    // },
+    // showCustomerQueryModal: getCustomerQueryDetailsObject => {
+    //   dispatch(showModal(CUSTOMER_QUERY_POPUP, getCustomerQueryDetailsObject));
+    // },
+    // clearOrderTransactionDetails: () => {
+    //   dispatch(clearOrderTransactionDetails());
+    // },
+
+    // getCliqCareWmsResponse: () => {
+    //   dispatch(getCliqCareWmsResponse());
+    // }
   };
 };
 const mapStateToProps = state => {
   return {
-    ordersRelatedLoading: state.profile.ordersRelatedLoading,
-    customerQueriesData: state.profile.customerQueriesData,
+    // ordersRelatedLoading: state.profile.ordersRelatedLoading,
+    // customerQueriesData: state.profile.customerQueriesData,
+
+    // userDetails: state.profile.userDetails,
+    // customerQueriesField: state.profile.customerQueriesField,
+    // uploadUserFileStatus: state.profile.uploadUserFileStatus,
+    // uploadUserFileData: state.profile.uploadUserFile,
     ordersTransactionData: state.profile.ordersTransactionData,
-    userDetails: state.profile.userDetails,
-    customerQueriesField: state.profile.customerQueriesField,
-    uploadUserFileStatus: state.profile.uploadUserFileStatus,
-    uploadUserFileData: state.profile.uploadUserFile
+    customerQueriesOtherIssueDataStatus:
+      state.profile.customerQueriesOtherIssueDataStatus,
+    orderRelatedIssueLoading: state.profile.orderRelatedIssueLoading,
+    customerQueriesOtherIssueData: state.profile.customerQueriesOtherIssueData,
+    orderRelatedQuestionsStatus: state.profile.orderRelatedQuestionsStatus,
+    orderRelatedQuestionsData: state.profile.orderRelatedQuestionsData,
+    customerQueriesFieldStatus: state.profile.customerQueriesFieldStatus,
+    customerQueriesField: state.profile.customerQueriesField
   };
 };
 

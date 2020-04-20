@@ -165,6 +165,15 @@ const account = (
     customerQueriesDataLoading: false,
     customerQueriesData: null,
 
+    customerQueriesOtherIssueDataStatus: null,
+    customerQueriesOtherIssueDataError: null,
+    orderRelatedIssueLoading: false,
+    customerQueriesOtherIssueData: null,
+
+    orderRelatedQuestionsStatus: null,
+    orderRelatedQuestionsError: null,
+    orderRelatedQuestionsData: null,
+
     cliqCareWmsStatus: null,
     cliqCareWmsError: null,
     cliqCareWmsLoading: false,
@@ -1263,27 +1272,68 @@ const account = (
         reSendEmailLoader: false
       });
 
+    // //Queries
+    // case accountActions.GET_CUSTOMER_QUERIES_DATA_REQUEST:
+    //   return Object.assign({}, state, {
+    //     customerQueriesDataStatus: action.status,
+    //     ordersRelatedLoading: true
+    //   });
+
+    // case accountActions.GET_CUSTOMER_QUERIES_DATA_SUCCESS:
+    //   return Object.assign({}, state, {
+    //     customerQueriesDataStatus: action.status,
+    //     ordersRelatedLoading: false,
+    //     customerQueriesData: action.customerQueriesData
+    //   });
+
+    // case accountActions.GET_CUSTOMER_QUERIES_DATA_FAILURE:
+    //   return Object.assign({}, state, {
+    //     customerQueriesDataStatus: action.status,
+    //     customerQueriesDataError: action.error,
+    //     ordersRelatedLoading: false
+    //   });
+
     //Queries
-    case accountActions.GET_CUSTOMER_QUERIES_DATA_REQUEST:
+
+    case accountActions.GET_CUSTOMER_OTHER_ISSUE_DATA_REQUEST:
       return Object.assign({}, state, {
-        customerQueriesDataStatus: action.status,
-        ordersRelatedLoading: true
+        customerQueriesOtherIssueDataStatus: action.status,
+        orderRelatedIssueLoading: true
       });
 
-    case accountActions.GET_CUSTOMER_QUERIES_DATA_SUCCESS:
+    case accountActions.GET_CUSTOMER_OTHER_ISSUE_DATA_SUCCESS:
       return Object.assign({}, state, {
-        customerQueriesDataStatus: action.status,
-        ordersRelatedLoading: false,
-        customerQueriesData: action.customerQueriesData
+        customerQueriesOtherIssueDataStatus: action.status,
+        orderRelatedIssueLoading: false,
+        customerQueriesOtherIssueData: action.customerQueriesData
       });
 
-    case accountActions.GET_CUSTOMER_QUERIES_DATA_FAILURE:
+    case accountActions.GET_CUSTOMER_OTHER_ISSUE_DATA_FAILURE:
       return Object.assign({}, state, {
-        customerQueriesDataStatus: action.status,
-        customerQueriesDataError: action.error,
-        ordersRelatedLoading: false
+        customerQueriesOtherIssueDataStatus: action.status,
+        customerQueriesOtherIssueDataError: action.error,
+        orderRelatedIssueLoading: false
       });
 
+    case accountActions.GET_ORDER_RELATED_QUESTIONS_REQUEST:
+      return Object.assign({}, state, {
+        orderRelatedQuestionsStatus: action.status,
+        orderRelatedIssueLoading: true
+      });
+
+    case accountActions.GET_ORDER_RELATED_QUESTIONS_SUCCESS:
+      return Object.assign({}, state, {
+        orderRelatedQuestionsStatus: action.status,
+        orderRelatedIssueLoading: false,
+        orderRelatedQuestionsData: action.orderRelatedQuestions
+      });
+
+    case accountActions.GET_ORDER_RELATED_QUESTIONS_FAILURE:
+      return Object.assign({}, state, {
+        orderRelatedQuestionsStatus: action.status,
+        orderRelatedQuestionsError: action.error,
+        orderRelatedIssueLoading: false
+      });
     //Fields
     case accountActions.GET_CUSTOMER_QUERIES_FIELDS_REQUEST:
       return Object.assign({}, state, {

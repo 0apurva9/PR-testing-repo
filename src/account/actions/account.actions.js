@@ -298,6 +298,20 @@ export const GET_CUSTOMER_QUERIES_DATA_SUCCESS =
 export const GET_CUSTOMER_QUERIES_DATA_FAILURE =
   "GET_CUSTOMER_QUERIES_DATA_FAILURE";
 
+export const GET_CUSTOMER_OTHER_ISSUE_DATA_REQUEST =
+  "GET_CUSTOMER_OTHER_ISSUE_DATA_REQUEST";
+export const GET_CUSTOMER_OTHER_ISSUE_DATA_SUCCESS =
+  "GET_CUSTOMER_OTHER_ISSUE_DATA_SUCCESS";
+export const GET_CUSTOMER_OTHER_ISSUE_DATA_FAILURE =
+  "GET_CUSTOMER_OTHER_ISSUE_DATA_FAILURE";
+
+export const GET_ORDER_RELATED_QUESTIONS_REQUEST =
+  "GET_ORDER_RELATED_QUESTIONS_REQUEST";
+export const GET_ORDER_RELATED_QUESTIONS_SUCCESS =
+  "GET_ORDER_RELATED_QUESTIONS_SUCCESS";
+export const GET_ORDER_RELATED_QUESTIONS_FAILURE =
+  "GET_ORDER_RELATED_QUESTIONS_FAILURE";
+
 export const GET_CUSTOMER_QUERIES_FIELDS_REQUEST =
   "GET_CUSTOMER_QUERIES_FIELDS_REQUEST";
 export const GET_CUSTOMER_QUERIES_FIELDS_SUCCESS =
@@ -2418,157 +2432,6 @@ export function getAllOrdersDetails(
       const result = await api.get(getOrderDetails);
       let resultJson = await result.json();
 
-      /*  resultJson = {
-        type: "getOrderHistoryListWsDTO",
-        status: "Success",
-        oldOrderHistoryPresent: false,
-        orderData: [
-          {
-            deliveryAddress: {
-              addressLine1:
-                "Cfycfyygccyccygugugcguxtxutuxxtx8ttxiutx7txt7xt8xtx7t8xxy8c8yy8cyc88yc8ycy8cy8c8cyy8c8cyt8cyc8",
-              addressType: "Home",
-              country: "India",
-              defaultAddress: false,
-              firstName: "Nidhi",
-              id: "9176675450903",
-              lastName: "Upretu",
-              phone: "918475950662",
-              postalcode: "110001",
-              shippingFlag: true,
-              state: "Delhi",
-              town: "New Delhi"
-            },
-            giftCardStatus: "FAILED",
-            isEgvOrder: true,
-            orderDate: "2019-12-13T16:04:11+0530",
-            orderId: "300005176",
-            EDDBreachMessage:
-              "This field will contain the exact message to be shown in case of EDD breach",
-            products: [
-              {
-                USSID: "8801402979558",
-                changeDeliveryMode: false,
-                displayStatusName: "Payment Confirmation Failed",
-                imageURL:
-                  "//assetsuat6-tcs.tataunistore.com/medias/sys_master/images/12212683669534.jpg",
-                isGiveAway: "N",
-                isTrackable: false,
-                orderStatusCode: "RMS_VERIFICATION_FAILED",
-                orderStatusName: "RMS verification Failed",
-                price: "500.0",
-                productName: "Gift Card",
-                productcode: "880140297",
-                sellerID: "855995",
-                sellerName: "Qwikcilver"
-              }
-            ],
-            resendAttemptedCount: 0,
-            resendAvailable: false,
-            totalFinalPayableOrderAmount: "₹500.00"
-          },
-          {
-            deliveryAddress: {
-              addressLine1:
-                "Cfycfyygccyccygugugcguxtxutuxxtx8ttxiutx7txt7xt8xtx7t8xxy8c8yy8cyc88yc8ycy8cy8c8cyy8c8cyt8cyc8",
-              addressType: "Home",
-              country: "India",
-              defaultAddress: false,
-              firstName: "Nidhi",
-              id: "9176304091159",
-              lastName: "Upretu",
-              phone: "918475950662",
-              postalcode: "110001",
-              shippingFlag: true,
-              state: "Delhi",
-              town: "New Delhi"
-            },
-            isEgvOrder: false,
-            orderDate: "2019-12-02T13:42:56+0530",
-            orderId: "300004181",
-            EDDBreachMessage:
-              "This field will contain the exact message to be shown in case of EDD breach",
-            products: [
-              {
-                USSID: "124204OTHAC",
-                calloutMessage: "Estimated Delivery Date 04 Dec 2019",
-                changeDeliveryMode: false,
-                deliveryMode: "",
-                displayStatusName: "Order in Process",
-                imageURL:
-                  "//pcmtmppprd.tataunistore.com/images/i2/97Wx144H/MP000000004209013_97Wx144H_20180210151222.jpeg",
-                isGiveAway: "N",
-                isRTSOnceRetInit: false,
-                isTrackable: true,
-                orderStatusCode: "PICK_CONFIRMED",
-                orderStatusName: "Pick Confirmed",
-                price: "1949.0",
-                productName: "OTHER AC",
-                productcode: "MP000000004209013",
-                sellerID: "124204",
-                sellerName: "Hmesell",
-                transactionId: "124204001904629"
-              }
-            ],
-            resendAttemptedCount: 0,
-            resendAvailable: false,
-            totalFinalPayableOrderAmount: "₹1949.00"
-          },
-          {
-            deliveryAddress: {
-              addressLine1:
-                "Cfycfyygccyccygugugcguxtxutuxxtx8ttxiutx7txt7xt8xtx7t8xxy8c8yy8cyc88yc8ycy8cy8c8cyy8c8cyt8cyc8",
-              addressType: "Home",
-              country: "India",
-              defaultAddress: false,
-              firstName: "Nidhi",
-              id: "9176303861783",
-              lastName: "Upretu",
-              phone: "918475950662",
-              postalcode: "110001",
-              shippingFlag: true,
-              state: "Delhi",
-              town: "New Delhi"
-            },
-            isEgvOrder: false,
-            orderDate: "2019-12-02T13:28:06+0530",
-            orderId: "300004179",
-            EDDBreachMessage:
-              "This field will contain the exact message to be shown in case of EDD breach",
-            products: [
-              {
-                USSID: "124204TMHBBLBSSB01",
-                calloutMessage: "Estimated Delivery Date 04 Dec 2019",
-                changeDeliveryMode: false,
-                deliveryMode: "",
-                displayStatusName: "Order in Process",
-                imageURL:
-                  "//assetsuat6-tcs.tataunistore.com/medias/sys_master/images/12209817354270.jpg",
-                isGiveAway: "N",
-                isRTSOnceRetInit: false,
-                isTrackable: true,
-                orderStatusCode: "PICK_CONFIRMED",
-                orderStatusName: "Pick Confirmed",
-                price: "15.0",
-                productColour: "#808080",
-                productColourName: "Grey",
-                productName: "Ethnicity Fabric Bedding Set - Pink",
-                productSize: "California King",
-                productcode: "MP000000002213566",
-                sellerID: "124204",
-                sellerName: "Hmesell",
-                transactionId: "124204001904627"
-              }
-            ],
-            resendAttemptedCount: 0,
-            resendAvailable: false,
-            totalFinalPayableOrderAmount: "₹15.00"
-          }
-        ],
-        pageSize: 3,
-        totalNoOfOrders: 15
-      };
- */
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -3126,163 +2989,6 @@ export function fetchOrderDetails(orderId, pageName) {
         }&isPwa=true`
       );
       let resultJson = await result.json();
-      /* resultJson = {
-        type: "orderTrackingWsDTO",
-        status: "Success",
-        cliqCashAmountDeducted: 0,
-        convenienceCharge: "0.0",
-        deliveryAddress: {
-          addressLine1:
-            "Cfycfyygccyccygugugcguxtxutuxxtx8ttxiutx7txt7xt8xtx7t8xxy8c8yy8cyc88yc8ycy8cy8c8cyy8c8cyt8cyc8",
-          addressType: "Home",
-          country: "India",
-          defaultAddress: false,
-          firstName: "Nidhi",
-          id: "9176303861783",
-          lastName: "Upretu",
-          phone: "918475950662",
-          postalcode: "110001",
-          shippingFlag: true,
-          state: "Delhi",
-          town: "New Delhi"
-        },
-        deliveryCharge: "0.0",
-        giftWrapCharge: "0",
-        isCDA: true,
-        isEgvOrder: false,
-        isPickupUpdatable: false,
-        isWalletPay: false,
-        juspayAmountDeducted: 15,
-        orderAmount: {
-          bagTotal: {
-            currencyIso: "INR",
-            doubleValue: 15,
-            formattedValue: "₹15.00",
-            formattedValueNoDecimal: "₹15",
-            priceType: "BUY",
-            value: 15
-          },
-          paybleAmount: {
-            currencyIso: "INR",
-            doubleValue: 15,
-            formattedValue: "₹15.00",
-            formattedValueNoDecimal: "₹15",
-            priceType: "BUY",
-            value: 15
-          },
-          totalDiscountAmount: {
-            currencyIso: "INR",
-            doubleValue: 0,
-            formattedValue: "₹0.00",
-            formattedValueNoDecimal: "₹0",
-            priceType: "BUY",
-            value: 0
-          }
-        },
-        orderDate: "2019-12-02T13:28:06+0530",
-        orderId: "300004179",
-        paymentMethod: "COD",
-        products: [
-          {
-            USSID: "124204TMHBBLBSSB01",
-            awbPopupLink: "N",
-            cancel: true,
-            categoryHierarchy: [
-              { category_id: "MSH22", category_name: "Home" },
-              { category_id: "MSH2213", category_name: "Bed Linen" },
-              { category_id: "MSH2213101", category_name: "Bed Sheets" }
-            ],
-            consignmentStatus: "PICK_CONFIRMED",
-            eddBreechMessage:
-              "This field will contain the exact message to be shown in case of EDD breach for getselected order details call",
-            estimateddeliverydate: "Dec 04 2019",
-            exchangePolicy: "0",
-            fulfillment: "tship",
-            imageURL:
-              "//assetsuat6-tcs.tataunistore.com/medias/sys_master/images/12209817354270.jpg",
-            isGiveAway: "N",
-            isInvoiceAvailable: false,
-            isReturnCancelable: false,
-            isReturned: false,
-            price: "15.0",
-            productBrand: "TYD",
-            productColour: "#808080",
-            productColourName: "Grey",
-            productName: "Ethnicity Fabric Bedding Set - Pink",
-            productSize: "California King",
-            productcode: "MP000000002213566",
-            returnPolicy: "7",
-            reverseLogisticName: "null",
-            selectedDeliveryMode: {
-              code: "home-delivery",
-              deliveryCost: "0.0",
-              desc: "Delivered in 3-6 days",
-              name: "Home Delivery"
-            },
-            selfCourierDocumentLink:
-              "http://uat6-tcs.tataunistore.com:80/my-account/returns/returnFileDownload?orderCode=191202-002-342242&transactionId=124204001904627",
-            sellerID: "124204",
-            sellerName: "Hmesell",
-            sellerorderno: "191202-002-342242",
-            serialno: "",
-            shipmentdetails: {
-              status: "NA",
-              statusDate: "2020-01-13T14:25:42+0530"
-            },
-            statusDisplay: "Order in Process",
-            statusDisplayMsg: [
-              {
-                key: "ORDER_CONFIRMED",
-                value: {
-                  customerFacingName: "Order Confirmed",
-                  statusList: [
-                    {
-                      currentFlag: true,
-                      responseCode: "PAYMENT_SUCCESSFUL",
-                      shipmentStatus: "Estimated Delivery Date",
-                      statusMessageList: [
-                        { date: "02 Dec 2019", time: "01:28 PM" }
-                      ]
-                    },
-                    {
-                      currentFlag: true,
-                      responseCode: "ORDER_ALLOCATED",
-                      shipmentStatus: "Estimated Delivery Date",
-                      statusMessageList: [
-                        { date: "02 Dec 2019", time: "01:28 PM" }
-                      ]
-                    }
-                  ]
-                }
-              },
-              {
-                key: "ORDER_IN_PROCESS",
-                value: {
-                  customerFacingName: "Order in Process",
-                  statusList: [
-                    {
-                      currentFlag: true,
-                      responseCode: "PICK_CONFIRMED",
-                      shipmentStatus: "Estimated Delivery Date",
-                      statusMessageList: [
-                        { date: "02 Dec 2019", time: "06:44 PM" }
-                      ]
-                    }
-                  ]
-                }
-              }
-            ],
-            transactionId: "124204001904627"
-          }
-        ],
-        recipientname: "Nidhi Upretu",
-        resendAttemptedCount: 0,
-        resendAvailable: false,
-        statusDisplay: "processing",
-        subTotal: "15.0",
-        totalDiscount: "0.0",
-        totalOrderAmount: "15.0"
-      }; */
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -4105,34 +3811,70 @@ export function getCustomerQueriesDataFailure() {
 //   };
 // }
 
-export function getCustomerQueriesDataRequestv2() {
+// export function getCustomerQueriesDataRequestv2() {
+//   return {
+//     type: GET_CUSTOMER_QUERIES_DATA_REQUEST,
+//     status: REQUESTING
+//   };
+// }
+// export function getCustomerQueriesDataSuccessv2(customerQueriesData) {
+//   return {
+//     type: GET_CUSTOMER_QUERIES_DATA_SUCCESS,
+//     status: SUCCESS,
+//     customerQueriesData
+//   };
+// }
+// export function getCustomerQueriesDataFailurev2() {
+//   return {
+//     type: GET_CUSTOMER_QUERIES_DATA_FAILURE,
+//     status: FAILURE
+//   };
+// }
+// export function getCustomerQueriesData(transactionId) {
+//   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+//   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+//   return async (dispatch, getState, { api }) => {
+//     dispatch(getCustomerQueriesDataRequestv2());
+//     try {
+//       const result = await api.post(
+//         `${USER_CART_PATH}/${
+//           JSON.parse(userDetails).userName
+//         }/getOrderRelatedQuestions?access_token=${
+//           JSON.parse(customerCookie).access_token
+//         }&transactionId=${transactionId}`
+//       );
+//       const resultJson = await result.json();
+//       dispatch(getCustomerQueriesDataSuccessv2(resultJson));
+//     } catch (e) {
+//       dispatch(getCustomerQueriesDataFailurev2(e.message));
+//     }
+//   };
+// }
+
+export function getOrderRelatedQuestionsRequest() {
   return {
-    type: GET_CUSTOMER_QUERIES_DATA_REQUEST,
+    type: GET_ORDER_RELATED_QUESTIONS_REQUEST,
     status: REQUESTING
   };
 }
-export function getCustomerQueriesDataSuccessv2(customerQueriesData) {
+export function getOrderRelatedQuestionsSuccess(orderRelatedQuestions) {
   return {
-    type: GET_CUSTOMER_QUERIES_DATA_SUCCESS,
+    type: GET_ORDER_RELATED_QUESTIONS_SUCCESS,
     status: SUCCESS,
-    customerQueriesData
+    orderRelatedQuestions
   };
 }
-export function getCustomerQueriesDataFailurev2() {
+export function getOrderRelatedQuestionsFailure() {
   return {
-    type: GET_CUSTOMER_QUERIES_DATA_FAILURE,
+    type: GET_ORDER_RELATED_QUESTIONS_FAILURE,
     status: FAILURE
   };
 }
-/**
- * Demo
- * This function is to be replaced by "getCustomerQueriesData"
- */
-export function getCustomerQueriesData(transactionId) {
+export function getOrderRelatedQuestions(transactionId) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
-    dispatch(getCustomerQueriesDataRequestv2());
+    dispatch(getOrderRelatedQuestionsRequest());
     try {
       const result = await api.post(
         `${USER_CART_PATH}/${
@@ -4142,32 +3884,53 @@ export function getCustomerQueriesData(transactionId) {
         }&transactionId=${transactionId}`
       );
       const resultJson = await result.json();
-      dispatch(getCustomerQueriesDataSuccessv2(resultJson));
+      return dispatch(getOrderRelatedQuestionsSuccess(resultJson));
     } catch (e) {
-      dispatch(getCustomerQueriesDataFailurev2(e.message));
+      return dispatch(getOrderRelatedQuestionsFailure(e.message));
     }
   };
 }
 
+// export function getNonOrderRelatedQuestionsRequest() {
+//   return {
+//     type: GET_CUSTOMER_QUERIES_DATA_REQUEST,
+//     status: REQUESTING
+//   };
+// }
+// export function getNonOrderRelatedQuestionsSuccess(customerQueriesData) {
+//   return {
+//     type: GET_CUSTOMER_QUERIES_DATA_SUCCESS,
+//     status: SUCCESS,
+//     customerQueriesData
+//   };
+// }
+// export function getNonOrderRelatedQuestionsFailure() {
+//   return {
+//     type: GET_CUSTOMER_QUERIES_DATA_FAILURE,
+//     status: FAILURE
+//   };
+// }
+
 export function getNonOrderRelatedQuestionsRequest() {
   return {
-    type: GET_CUSTOMER_QUERIES_DATA_REQUEST,
+    type: GET_CUSTOMER_OTHER_ISSUE_DATA_REQUEST,
     status: REQUESTING
   };
 }
 export function getNonOrderRelatedQuestionsSuccess(customerQueriesData) {
   return {
-    type: GET_CUSTOMER_QUERIES_DATA_SUCCESS,
+    type: GET_CUSTOMER_OTHER_ISSUE_DATA_SUCCESS,
     status: SUCCESS,
     customerQueriesData
   };
 }
 export function getNonOrderRelatedQuestionsFailure() {
   return {
-    type: GET_CUSTOMER_QUERIES_DATA_FAILURE,
+    type: GET_CUSTOMER_OTHER_ISSUE_DATA_FAILURE,
     status: FAILURE
   };
 }
+
 export function getNonOrderRelatedQuestions() {
   return async (dispatch, getState, { api }) => {
     dispatch(getNonOrderRelatedQuestionsRequest());
