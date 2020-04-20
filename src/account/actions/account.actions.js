@@ -3511,11 +3511,18 @@ export function getFollowedBrands(isSetDataLayer) {
 
     dispatch(getFollowedBrandsRequest());
     let msdFormData = new FormData();
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    if (userDetails) {
+      userDetails = JSON.parse(userDetails);
+    }
     msdFormData.append("api_key", API_KEY_FOR_MSD);
     msdFormData.append("num_results", NUMBER_OF_RESULTS_FOR_BRANDS);
     msdFormData.append("mad_uuid", mcvId);
     msdFormData.append("details", true);
     msdFormData.append("widget_list", WIDGETS_LIST_FOR_BRANDS);
+    if (userDetails && userDetails.userName) {
+      msdFormData.append("user_id", userDetails.userName);
+    }
     try {
       const result = await api.postMsd(`${MSD_ROOT_PATH}/widgets`, msdFormData);
       const resultJson = await result.json();
@@ -3980,9 +3987,16 @@ export function updateProfileMsd(gender) {
       msdData.action = "follow";
 
       let msdRequestObject = new FormData();
+      let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      if (userDetails) {
+        userDetails = JSON.parse(userDetails);
+      }
       msdRequestObject.append("api_key", MSD_API_KEY);
       msdRequestObject.append("data", JSON.stringify([msdData]));
       msdRequestObject.append("mad_uuid", MAD_UUID);
+      if (userDetails && userDetails.userName) {
+        msdRequestObject.append("user_id", userDetails.userName);
+      }
 
       const result = await api.postMsd(
         `${API_MSD_URL_ROOT}/${MSD_FEEDBACK}`,
