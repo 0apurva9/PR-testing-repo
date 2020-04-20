@@ -2,8 +2,7 @@
   width: 100%;
   height: auto;
   display: inline-block;
-  padding: 15px 0px;
-  border-bottom: 1px solid #ececec;
+  padding-top: 34px;
 }
 .addressHolder {
   width: 100%;
@@ -77,10 +76,12 @@
 }
 @media screen and (min-width: 1025px) {
   .deliveredTo {
-    font-family: regular;
+    font-family: semibold;
     margin-bottom: 10px;
   }
   .address {
+    width: auto;
+    padding-right: 5px;
     font-family: light;
   }
   .labelText {
@@ -104,10 +105,10 @@
     display: inline-block;
   }
   .addressHolder {
-    width: 50%;
+    width: 70%;
   }
   .orderSoldBy {
-    width: 50%;
+    width: 30%;
     vertical-align: top;
   }
   .soldLabelText {

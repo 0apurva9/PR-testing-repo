@@ -19,11 +19,11 @@ export default class ProductDescription extends Component {
         <div
           className={electronicView ? styles.electronicHeaderText : headerText}
         >
-          <h2>{this.props.title}</h2>
+          <h3>{this.props.title}</h3>
         </div>
       );
     } else {
-      return <h2 className={headerText}>{this.props.title}</h2>;
+      return <h3 className={headerText}>{this.props.title}</h3>;
     }
   };
 

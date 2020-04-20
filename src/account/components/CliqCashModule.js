@@ -72,7 +72,7 @@ export default class CliqCashModule extends Component {
                 <Input2
                   placeholder={"Gift Card Number"}
                   hollow={true}
-                  border={"none"}
+                  // border={"none"}
                   borderBottom="1px solid #4a4a4a"
                   textStyle={{ fontSize: 14, letterSpacing: "0.03px" }}
                   height={33}
@@ -88,7 +88,7 @@ export default class CliqCashModule extends Component {
               <div className={styles.cardNumber}>
                 <Input2
                   hollow={true}
-                  border={"none"}
+                  // border={"none"}
                   borderBottom="1px solid #4a4a4a"
                   onlyNumber={true}
                   placeholder="Gift Card Pin"

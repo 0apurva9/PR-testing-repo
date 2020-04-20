@@ -16,7 +16,8 @@ import {
   ANONYMOUS_USER,
   TIME_OUT_FOR_APIS,
   LOW_INTERNET_CONNECTION_MESSAGE,
-  CHANNEL
+  CHANNEL,
+  SELECTED_STORE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -239,7 +240,9 @@ export function getProductDescription(
       const result = await api.getMiddlewareUrl(
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
-      const resultJson = await result.json();
+
+      let resultJson = await result.json();
+
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
@@ -338,7 +341,13 @@ export function getProductPinCodeFailure(error) {
   };
 }
 
-export function getProductPinCode(pinCode: null, productCode) {
+export function getProductPinCode(
+  pinCode: null,
+  productCode,
+  winningUssID,
+  isComingFromPiqPage,
+  isFirstTimeRender = false
+) {
   let validProductCode = productCode.toUpperCase();
   if (pinCode) {
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, pinCode);
@@ -359,20 +368,86 @@ export function getProductPinCode(pinCode: null, productCode) {
         let accessToken = JSON.parse(globalCookie).access_token;
         url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}`;
       }
-      const result = await api.post(url);
+      let result = await api.post(url);
+      let resultJson = await result.json();
 
-      const resultJson = await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
+      let cncDeliveryModes = "";
+      let getDeliveryModesByWinningUssid = "";
+      let pincodeError;
+      if (
+        isComingFromPiqPage &&
+        resultJson &&
+        resultJson.listOfDataList &&
+        resultJson.listOfDataList[0] &&
+        resultJson.listOfDataList[0].value &&
+        resultJson.listOfDataList[0].value.pincodeListResponse
+      ) {
+        getDeliveryModesByWinningUssid = resultJson.listOfDataList[0].value.pincodeListResponse.find(
+          val => {
+            return val.ussid === winningUssID;
+          }
+        );
       }
+      if (
+        isComingFromPiqPage &&
+        getDeliveryModesByWinningUssid &&
+        getDeliveryModesByWinningUssid.validDeliveryModes
+      ) {
+        cncDeliveryModes = getDeliveryModesByWinningUssid.validDeliveryModes.find(
+          val => {
+            return val.type === "CNC";
+          }
+        );
+      }
+      if (
+        resultJson &&
+        resultJson.listOfDataList &&
+        resultJson.listOfDataList[0] &&
+        resultJson.listOfDataList[0].value &&
+        Object.keys(resultJson.listOfDataList[0].value).length === 0
+      ) {
+        if (
+          !resultJson.productOutOfStockMessage ||
+          !resultJson.productNotServiceableMessage
+        ) {
+          pincodeError = "Please enter a valid pincode";
+          dispatch(displayToast("Please enter a valid pincode"));
+        }
+      } else if (
+        isComingFromPiqPage &&
+        getDeliveryModesByWinningUssid &&
+        (!getDeliveryModesByWinningUssid.validDeliveryModes ||
+          !cncDeliveryModes ||
+          !cncDeliveryModes.CNCServiceableSlavesData)
+      ) {
+        dispatch(
+          displayToast(
+            "Unfortunately, we're currently unable to ship this item to your PIN code. Can we ship it to another address?"
+          )
+        );
+        dispatch(hidePdpPiqPage());
+        window.scroll({
+          top: 230,
+          behavior: "smooth"
+        });
+      }
+      // if (pinCode) {
+      //   localStorage.removeItem(SELECTED_STORE);
+      // }
       return dispatch(
         getProductPinCodeSuccess({
           pinCode,
-          deliveryOptions: resultJson.listOfDataList[0].value
+          deliveryOptions: resultJson.listOfDataList[0].value,
+          city: resultJson.city,
+          productOutOfStockMessage: resultJson.productOutOfStockMessage,
+          productNotServiceableMessage:
+            resultJson.productNotServiceabilityMessage,
+          pincodeError
         })
       );
+      if (isComingFromPiqPage) {
+        dispatch(getAllStoresForCliqAndPiq());
+      }
     } catch (e) {
       return dispatch(getProductPinCodeFailure(e.message));
     }
@@ -1250,9 +1325,13 @@ export function getAllStoresForCliqAndPiqFailure(error) {
 }
 
 // Action Creator for getting all stores CNC
-export function getAllStoresForCliqAndPiq(newPinCode = null) {
+export function getAllStoresForCliqAndPiq(
+  newPinCode = null,
+  isComingFromCliqAndPiq = false,
+  isComingFromCheckoutPage = false
+) {
   let pinCode;
-  if (newPinCode) {
+  if (newPinCode && !isComingFromCliqAndPiq) {
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, newPinCode);
     pinCode = newPinCode;
   } else {
@@ -1266,7 +1345,6 @@ export function getAllStoresForCliqAndPiq(newPinCode = null) {
   } else {
     accessToken = JSON.parse(globalCookie).access_token;
   }
-
   return async (dispatch, getState, { api }) => {
     dispatch(getAllStoresForCliqAndPiqRequest());
     try {

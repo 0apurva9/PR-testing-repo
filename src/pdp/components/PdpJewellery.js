@@ -211,9 +211,7 @@ export default class PdpJewellery extends React.Component {
   };
 
   goToReviewPage = () => {
-    const url = `${
-      this.props.location.pathname
-    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
   showPincodeModal() {
@@ -429,25 +427,21 @@ export default class PdpJewellery extends React.Component {
               showPriceBreakUp={this.showPriceBreakup}
             />
           </div>
-          {productData.details &&
-            productData.details.length > 0 && (
-              <div className={styles.info}>
-                <span className={styles.textOffset}>
-                  {productData.details[0].value}
+          {productData.details && productData.details.length > 0 && (
+            <div className={styles.info}>
+              <span className={styles.textOffset}>
+                {productData.details[0].value}
+              </span>
+              {this.state.showProductDetails && (
+                <div>{productData.productDescription}</div>
+              )}
+              {!this.state.showProductDetails && (
+                <span className={styles.link} onClick={this.showProductDetails}>
+                  Read More
                 </span>
-                {this.state.showProductDetails && (
-                  <div>{productData.productDescription}</div>
-                )}
-                {!this.state.showProductDetails && (
-                  <span
-                    className={styles.link}
-                    onClick={this.showProductDetails}
-                  >
-                    Read More
-                  </span>
-                )}
-              </div>
-            )}
+              )}
+            </div>
+          )}
           <PdpPaymentInfo
             hasEmi={productData.isEMIEligible}
             hasCod={productData.isCOD}
@@ -504,6 +498,10 @@ export default class PdpJewellery extends React.Component {
           {this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.pinCode ? (
             <PdpPincode
+              city={
+                this.props.productDetails.isServiceableToPincode &&
+                this.props.productDetails.isServiceableToPincode.city
+              }
               hasPincode={true}
               pincode={this.props.productDetails.isServiceableToPincode.pinCode}
               onClick={() => this.showPincodeModal()}
@@ -511,26 +509,58 @@ export default class PdpJewellery extends React.Component {
           ) : (
             <PdpPincode onClick={() => this.showPincodeModal()} />
           )}
+
           {this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.status === NO ? (
+            this.props.productDetails.isServiceableToPincode
+              .productOutOfStockMessage ? (
+              <div className={styles.overlay}>
+                <div className={styles.notServiciableTetx}>
+                  *{" "}
+                  {
+                    this.props.productDetails.isServiceableToPincode
+                      .productOutOfStockMessage
+                  }
+                </div>
+              </div>
+            ) : this.props.productDetails.isServiceableToPincode
+                .productNotServiceableMessage ? (
+              <div className={styles.overlay}>
+                <div className={styles.notServiciableTetx}>
+                  *{" "}
+                  {
+                    this.props.productDetails.isServiceableToPincode
+                      .productNotServiceableMessage
+                  }
+                </div>
+              </div>
+            ) : null
+          ) : (
+            /* (
             <Overlay labelText="This item can't be delivered to your PIN code">
               <PdpDeliveryModes
                 eligibleDeliveryModes={productData.eligibleDeliveryModes}
                 deliveryModesATP={productData.deliveryModesATP}
               />
             </Overlay>
-          ) : (
-            <PdpDeliveryModes
+          ) */ <PdpDeliveryModes
               onPiq={this.handleShowPiqPage}
               getAllStoresForCliqAndPiq={this.props.getAllStoresForCliqAndPiq}
               eligibleDeliveryModes={productData.eligibleDeliveryModes}
               deliveryModesATP={productData.deliveryModesATP}
+              pincodeDetails={productData.pincodeResponseList}
+              isCod={productData.isCOD}
             />
           )}
           <div className={styles.separator}>
             <OtherSellersLink
-              otherSellers={productData.otherSellers}
+              //otherSellers={productData.otherSellers}
               winningSeller={productData.winningSellerName}
+              serviceableOtherSellersUssid={
+                this.props.serviceableOtherSellersUssid
+              }
+              onClick={this.goToSellerPage}
+              winnningSellerUssId={productData.winningUssID}
             />
           </div>
           <div className={styles.details}>

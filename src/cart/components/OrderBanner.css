@@ -3,7 +3,7 @@
   height: auto;
   padding: 20px;
   object-fit: contain;
-  background-image: linear-gradient(237deg, #10e368, #18d0b4);
+  background: #fff;
   border-radius: 4px;
 }
 
@@ -16,18 +16,23 @@
 .orderHeading {
   width: 100%;
   height: auto;
-  color: #fff;
-  font-size: 16px;
-  line-height: 20px;
+  color: #212121;
+  font-size: 17px;
+  line-height: 30px;
   font-family: semibold;
 }
 .orderLabel {
   width: 100%;
   height: auto;
-  color: #fff;
+  color: #212121;
   font-size: 14px;
   line-height: 30px;
   text-align: center;
+  font-family: light;
+}
+.boldText {
+  compose: orderLabel;
+  font-family: semibold;
 }
 .buttonHolder {
   width: auto;
@@ -39,20 +44,31 @@
   width: 175px;
   height: 37px;
   border-radius: 18.5px;
-  background: #fff;
-  color: #16d4a3;
+  background: #ff1744;
+  color: #fff;
   cursor: pointer;
   line-height: 37px;
   font-size: 14px;
   font-family: semibold;
 }
+.pickStoreHeading {
+  width: 100%;
+  height: auto;
+  color: #212121;
+  font-size: 14px;
+  font-family: light;
+  text-align: center;
+}
+.PaymentConfirmationImage {
+  width: 94px;
+  height: 75px;
+  margin: auto;
+  margin-bottom: 13px;
+}
 @media only screen and (min-width: 1025px) {
   .base {
     padding: 50px 20px;
     min-height: 216px;
-    background-image: url("https://assets.tatacliq.com/medias/sys_master/pwaImg/thank_you_page_banner.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+    background: #fff;
   }
 }

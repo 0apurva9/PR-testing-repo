@@ -3,3 +3,24 @@
   height: 100%;
   position: absolute;
 }
+.place {cursor: pointer;}
+.storeName {
+  padding: 2px;
+  position: absolute;
+  background-color: #fff;
+  margin-top: 6px;
+  text-align: center;
+  font-family: semibold;
+  font-size: 12px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.imageText {
+  width: 20px;
+  display: inline-block;
+  position: absolute;
+  top: 3px;
+  font-size: 12px;
+  text-align: center;
+  color: #fff;
+}
