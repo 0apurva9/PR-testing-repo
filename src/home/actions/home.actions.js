@@ -339,10 +339,12 @@ export function homeFeedBackUp() {
   return async (dispatch, getState, { api }) => {
     dispatch(homeFeedBackUpRequest());
     try {
-      // const result = await api.get(
-      //   `v2/mpl/cms/defaultpage?pageId=defaulthomepage&channel=${WCMS_PLATFORM}`
-      // );
-      const result = await api.get(`v2/mpl/cms/defaultpage?pageId=MSD-WCMS`);
+      const result = await api.get(
+        `v2/mpl/cms/defaultpage?pageId=defaulthomepage&channel=${WCMS_PLATFORM}`
+      );
+      //https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=msd-test&channel=desktop
+      //const result = await api.get(`v2/mpl/cms/defaultpage?pageId=msd-test`);
+      //const result = await api.get(`v2/mpl/cms/defaultpage?pageId=msd-test&channel=desktop`)
       const resultJson = await result.json();
       const failureResponse = ErrorHandling.getFailureResponse(resultJson);
       if (failureResponse.status) {
