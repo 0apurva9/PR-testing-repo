@@ -969,7 +969,8 @@ export default class OrderDetails extends React.Component {
                             </React.Fragment>
                           )}
 
-                          {products.exchangeDetails.exchangePaymentDetails &&
+                          {products.consignmentStatus !== "ORDER_CANCELLED" &&
+                            products.exchangeDetails.exchangePaymentDetails &&
                             products.exchangeDetails
                               .exchangePaymentDetails[0] &&
                             products.exchangeDetails.exchangePaymentDetails[0]
@@ -1032,6 +1033,15 @@ export default class OrderDetails extends React.Component {
                             Your Exchange has been cancelled since IMEI number
                             is already processed.
                           </div> */}
+                          {products.consignmentStatus === "ORDER_CANCELLED" && (
+                            <React.Fragment>
+                              <div className={styles.exchangeCancelledText}>
+                                Your Exchange has been cancelled since you have
+                                cancelled your order.
+                              </div>
+                              <div className={styles.bb} />
+                            </React.Fragment>
+                          )}
                           {cashbackCredited &&
                             cashbackCredited.status &&
                             cashbackCredited.status === "Complete" && (
@@ -1039,12 +1049,13 @@ export default class OrderDetails extends React.Component {
                                 Exchange has been processed sucessfully.
                               </div>
                             )}
-
-                          <ExchangeDetailsTrack
-                            exchangeTrackDiagram={
-                              products.exchangeDetails.exchangeTrackDiagram
-                            }
-                          />
+                          {products.consignmentStatus !== "ORDER_CANCELLED" && (
+                            <ExchangeDetailsTrack
+                              exchangeTrackDiagram={
+                                products.exchangeDetails.exchangeTrackDiagram
+                              }
+                            />
+                          )}
                         </div>
                       )}
 
