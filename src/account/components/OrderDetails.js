@@ -936,40 +936,39 @@ export default class OrderDetails extends React.Component {
                             </React.Fragment>
                           ) : null}
                           <div className={styles.bb} />
-                          {products.exchangeDetails &&
-                            products.exchangeDetails
-                              .exchangePickupPromiseDate && (
-                              <div className={styles.exchangeEDDContainer}>
-                                <span className={styles.fontBold}>
-                                  Estimated Exchange Pick up Date:
-                                </span>
-                                <span className={styles.fontLight}>
-                                  {" "}
-                                  {format(
-                                    products.exchangeDetails
-                                      .exchangePickupPromiseDate,
-                                    dateFormat
-                                  )}
-                                </span>
-                              </div>
-                            )}
-                          {products.exchangeDetails &&
-                            products.exchangeDetails.exchangePickUpDate && (
-                              <div className={styles.exchangeEDDContainer}>
-                                <span className={styles.fontBold}>
-                                  Exchange Product Picked up on:
-                                </span>
-                                <span className={styles.fontLight}>
-                                  {" "}
-                                  {format(
-                                    products.exchangeDetails.exchangePickUpDate,
-                                    dateFormat
-                                  )}
-                                </span>
-                              </div>
-                            )}
+                          {products.exchangeDetails
+                            .exchangePickupPromiseDate && (
+                            <div className={styles.exchangeEDDContainer}>
+                              <span className={styles.fontBold}>
+                                Estimated Exchange Pick up Date:
+                              </span>
+                              <span className={styles.fontLight}>
+                                {" "}
+                                {format(
+                                  products.exchangeDetails
+                                    .exchangePickupPromiseDate,
+                                  dateFormat
+                                )}
+                              </span>
+                            </div>
+                          )}
+                          {products.exchangeDetails.exchangePickUpDate && (
+                            <div className={styles.exchangeEDDContainer}>
+                              <span className={styles.fontBold}>
+                                Exchange Product Picked up on:
+                              </span>
+                              <span className={styles.fontLight}>
+                                {" "}
+                                {format(
+                                  products.exchangeDetails.exchangePickUpDate,
+                                  dateFormat
+                                )}
+                              </span>
+                            </div>
+                          )}
                           {!products.consignmentStatus.includes("CANCEL") &&
                             !products.consignmentStatus.includes("REFUND") &&
+                            !products.exchangeDetails.exchangeTrackDiagram &&
                             products.exchangeDetails.exchangePaymentDetails &&
                             products.exchangeDetails
                               .exchangePaymentDetails[0] &&
@@ -1025,19 +1024,16 @@ export default class OrderDetails extends React.Component {
                               </div>
                             )}
 
-                          {products.exchangeDetails &&
-                            (products.consignmentStatus.includes("CANCEL") ||
-                              products.consignmentStatus.includes(
-                                "REFUND"
-                              )) && (
-                              <React.Fragment>
-                                <div className={styles.exchangeCancelledText}>
-                                  Your Exchange has been cancelled since you
-                                  have cancelled your order.
-                                </div>
-                                <div className={styles.bb} />
-                              </React.Fragment>
-                            )}
+                          {(products.consignmentStatus.includes("CANCEL") ||
+                            products.consignmentStatus.includes("REFUND")) && (
+                            <React.Fragment>
+                              <div className={styles.exchangeCancelledText}>
+                                Your Exchange has been cancelled since you have
+                                cancelled your order.
+                              </div>
+                              <div className={styles.bb} />
+                            </React.Fragment>
+                          )}
                           {cashbackCredited &&
                             cashbackCredited.status &&
                             cashbackCredited.status === "Complete" && (
