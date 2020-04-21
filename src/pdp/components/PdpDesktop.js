@@ -991,7 +991,9 @@ export default class PdpApparel extends React.Component {
         response.data &&
         !response.data.makeModelDetails
       ) {
-        this.props.displayToast("Please try after some time.");
+        this.props.displayToast(
+          "Exchange cannot be processed right now. Please try again after sometime"
+        );
       }
     }
   }
