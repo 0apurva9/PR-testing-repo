@@ -536,10 +536,8 @@ export function addProductToCart(productDetails) {
     //get verify imei api response,check exchange avail or not,get product already in cart
     let IMEIApiResponse = productDetails.verifyIMEINumberAPIResponse;
     //get ussid in cart
-    let existingProductData = JSON.parse(
-      localStorage.getItem("cartBagDetails")
-    );
-
+    let cartBagDetails = localStorage.getItem("cartBagDetails");
+    let existingProductData = cartBagDetails && JSON.parse(cartBagDetails);
     //if product already in cart show modal
     if (
       existingProductData &&
@@ -548,7 +546,6 @@ export function addProductToCart(productDetails) {
       dispatch(showModal(PRODUCT_IN_BAG_MODAL));
       return false;
     }
-
     dispatch(addProductToCartRequest());
     try {
       let result;
@@ -566,11 +563,13 @@ export function addProductToCart(productDetails) {
           effectiveModelName: IMEIApiResponse.effectiveModelName,
           exchangeAmountCashify: IMEIApiResponse.exchangeAmountCashify.value,
           pickupCharge: IMEIApiResponse.pickupCharge.value,
-          TULBump: IMEIApiResponse.TULBump.value,
           totalExchangeCashback: IMEIApiResponse.totalExchangeCashback.value,
           effectiveAmount: IMEIApiResponse.effectiveAmount.value,
           IMEINumber: IMEIApiResponse.IMEINumber
         };
+        if (IMEIApiResponse.TULBump && IMEIApiResponse.TULBump.value) {
+          requestParams.TULBump = IMEIApiResponse.TULBump.value;
+        }
         result = await api.post(
           `${PRODUCT_DETAILS_PATH}/${userId}/carts/${
             cartId ? cartId + "/" : ""
