@@ -43,16 +43,20 @@ export default class ExchangeDetailsTrack extends React.Component {
         <React.Fragment>
           <div
             className={
-              exchangeInitiated.status === "Pending"
-                ? styles.stepInactive
-                : styles.step
+              exchangeInitiated
+                ? exchangeInitiated.status === "Pending"
+                  ? styles.stepInactive
+                  : styles.step
+                : styles.stepInactive
             }
           >
             <div
               className={
-                exchangeInitiated.status === "Pending"
-                  ? styles.check
-                  : styles.checkActive
+                exchangeInitiated
+                  ? exchangeInitiated.status === "Pending"
+                    ? styles.check
+                    : styles.checkActive
+                  : styles.check
               }
             />
             <div
@@ -62,19 +66,21 @@ export default class ExchangeDetailsTrack extends React.Component {
                   : styles.processNameHolder
               }
             >
-              {exchangeInitiated.displayMessage}
+              {exchangeInitiated && exchangeInitiated.displayMessage}
             </div>
             <div className={styles.eieDateAndTimeHolder}>
-              {exchangeInitiated.displayDate && (
-                <div className={styles.eieDateNTimeContainer}>
-                  {exchangeInitiated.displayDate}
-                </div>
-              )}
-              {exchangeInitiated.displayTime && (
-                <div className={styles.eieDateNTimeContainer}>
-                  {exchangeInitiated.displayTime}
-                </div>
-              )}
+              {exchangeInitiated &&
+                exchangeInitiated.displayDate && (
+                  <div className={styles.eieDateNTimeContainer}>
+                    {exchangeInitiated.displayDate}
+                  </div>
+                )}
+              {exchangeInitiated &&
+                exchangeInitiated.displayTime && (
+                  <div className={styles.eieDateNTimeContainer}>
+                    {exchangeInitiated.displayTime}
+                  </div>
+                )}
             </div>
           </div>
 
