@@ -31,18 +31,24 @@ export default class BankDetailsV2 extends React.Component {
       userBankDetails.reEnterAccountNumber = userBankDetails.accountNumber;
       this.props.updateStateForBankDetails(userBankDetails);
 
-      let accountNumber = this.props.history.location.state.bankData.accountNumber.replace(
-        /\d(?=\d{4})/g,
-        "*"
-      );
-      let reEnterAccountNumber = this.props.history.location.state.bankData.reEnterAccountNumber.replace(
-        /\d(?=\d{4})/g,
-        "*"
-      );
-      let ifscCode = this.props.history.location.state.bankData.IFSCCode.replace(
-        /\d(?=\d{4})/g,
-        "*"
-      );
+      let accountNumber =
+        this.props.history.location.state.bankData.accountNumber &&
+        this.props.history.location.state.bankData.accountNumber.replace(
+          /\d(?=\d{4})/g,
+          "*"
+        );
+      let reEnterAccountNumber =
+        this.props.history.location.state.bankData.reEnterAccountNumber &&
+        this.props.history.location.state.bankData.reEnterAccountNumber.replace(
+          /\d(?=\d{4})/g,
+          "*"
+        );
+      let ifscCode =
+        this.props.history.location.state.bankData.IFSCCode &&
+        this.props.history.location.state.bankData.IFSCCode.replace(
+          /\d(?=\d{4})/g,
+          "*"
+        );
       this.setState({
         RE_ENTER_ACCOUNTNO_REGEX_VALUE: reEnterAccountNumber,
         ACCOUNTNO_REGEX_VALUE: accountNumber,

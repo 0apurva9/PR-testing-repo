@@ -88,14 +88,15 @@ export default class ExchangeModeSelection extends React.Component {
   addBankDetails(data) {
     // url is used to redirect back after updating bank details
     let currentURL = this.props.location.pathname + this.props.location.search;
+    let details = {};
     if (data) {
-      data.fromPageURL = currentURL;
-      data.fromPage = "ExchangeModeSelection";
-      data.ifscCode = data.IFSCCode;
+      details = data;
+      details.fromPageURL = currentURL;
+      details.fromPage = "ExchangeModeSelection";
+      details.ifscCode = data.IFSCCode;
     } else {
-      let data = {};
-      data.fromPageURL = currentURL;
-      data.fromPage = "ExchangeModeSelection";
+      details.fromPageURL = currentURL;
+      details.fromPage = "ExchangeModeSelection";
     }
 
     //go to add/update bank details screen with bank details
@@ -105,7 +106,7 @@ export default class ExchangeModeSelection extends React.Component {
       }${RETURN_LANDING}${RETURNS_STORE_BANK_FORM}`,
       state: {
         authorizedRequest: true,
-        bankData: data,
+        bankData: details,
         orderId: this.state.orderId,
         transactionId: this.state.orderId
       }
@@ -252,6 +253,26 @@ export default class ExchangeModeSelection extends React.Component {
                             );
                           }
                         )}
+                      {!bankDetails && (
+                        <label>
+                          <input
+                            className={styles.radioBtn}
+                            type="radio"
+                            value="BANK_ACCOUNT"
+                            checked={
+                              this.state.selectedOption === "BANK_ACCOUNT"
+                            }
+                            onChange={this.radioChange}
+                          />
+                          Bank Account
+                          <div className={styles.radioBtnSubText}>
+                            <span className={styles.span}>
+                              The Cashback will be credited in the bank account
+                              in 3-4 business days
+                            </span>
+                          </div>
+                        </label>
+                      )}
                     </form>
                     {bankDetails &&
                       this.state.selectedOption === "BANK_ACCOUNT" && (
