@@ -729,9 +729,12 @@ export default class CustomerCareOrderRelated extends React.Component {
                   )}
 
                   {selectedObj && selectedObj[0].webform === "No" && (
-                    <div className={styles.selectIssue}>
-                      {selectedObj && selectedObj[0].solution}
-                    </div>
+                    <div
+                      className={styles.solution}
+                      dangerouslySetInnerHTML={{
+                        __html: selectedObj && selectedObj[0].solution
+                      }}
+                    ></div>
                   )}
                   {selectedObj &&
                   selectedObj[0].webform === "Yes" &&

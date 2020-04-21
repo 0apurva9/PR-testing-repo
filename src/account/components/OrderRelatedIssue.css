@@ -63,20 +63,19 @@
   height: auto;
   /* margin-top: 14px; */
 }
-.conmmunicationalDetails{
+.conmmunicationalDetails {
   width: 100%;
-    height: auto;
-    position: relative;
+  height: auto;
+  position: relative;
   margin-top: 19px;
 }
-.secondOrder:not(:first-child){
+.secondOrder:not(:first-child) {
   margin-top: 10px;
 }
 .selectIssue {
   width: 100%;
   height: auto;
   padding-top: 20px;
-  
 }
 
 .detailsTitle {
@@ -341,35 +340,70 @@
     padding: 10px 10px 0px 20px;
   }
 }
-.radioBtnMyAcc{display: block;margin: 12px 0px 15px 0px;font-size: 12px; font-family: regular;}
-.radioBtnMyAcc label{padding: 0 0 0 25px;position: relative;display: block;color: #2d2d2d;}
-.radioBtnMyAcc label input[type="radio"]{opacity:0;position: absolute;left:0;top:0;width:17px;height: 17px;margin:0;padding: 0;}
-.radioBtnMyAcc label input[type="radio"] + span{    width: 17px;
-    height: 17px;
-    position: absolute;
-    left: 0;
-    top: -1px;
-    background: #ffffff;
-    border: 1px solid #212121;
-    border-radius: 100%;}
-.radioBtnMyAcc label input[type="radio"] + span:after{content:"";background:#fe1345;width:9px;height:9px;border-radius:100%;position: absolute;left:3px;top:3px;transform:scale(0);}
-.radioBtnMyAcc label input[type="radio"]:checked + span{border-color:#fe1345;}
-.radioBtnMyAcc label input[type="radio"]:checked + span:after{transform:scale(1);}
+.radioBtnMyAcc {
+  display: block;
+  margin: 12px 0px 15px 0px;
+  font-size: 12px;
+  font-family: regular;
+}
+.radioBtnMyAcc label {
+  padding: 0 0 0 25px;
+  position: relative;
+  display: block;
+  color: #2d2d2d;
+}
+.radioBtnMyAcc label input[type="radio"] {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  padding: 0;
+}
+.radioBtnMyAcc label input[type="radio"] + span {
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  left: 0;
+  top: -1px;
+  background: #ffffff;
+  border: 1px solid #212121;
+  border-radius: 100%;
+}
+.radioBtnMyAcc label input[type="radio"] + span:after {
+  content: "";
+  background: #fe1345;
+  width: 9px;
+  height: 9px;
+  border-radius: 100%;
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  transform: scale(0);
+}
+.radioBtnMyAcc label input[type="radio"]:checked + span {
+  border-color: #fe1345;
+}
+.radioBtnMyAcc label input[type="radio"]:checked + span:after {
+  transform: scale(1);
+}
 
 .selectNonOrder {
   background: transparent;
-    width: 313px;
-    padding: 9px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    font-family: light;
+  width: 313px;
+  padding: 9px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  font-family: light;
 }
 .selectNonOrder {
-   /*For FireFox*/
-   -webkit-appearance: none;
-   /*For Chrome*/
-   -moz-appearance: none;
+  /*For FireFox*/
+  -webkit-appearance: none;
+  /*For Chrome*/
+  -moz-appearance: none;
 }
 .arrowSelect {
   width: 20px;
@@ -385,39 +419,50 @@
   -o-transition: 300ms;
   transition: 300ms;
 }
-.labelComponent{
+.labelComponent {
   margin-top: 20px;
 }
-.fieldLabel{
+.fieldLabel {
   font-size: 12px;
   color: #212121;
   font-family: semibold;
   margin-bottom: 4px;
 }
-.fieldLabelTxt{
+.fieldLabelTxt {
   font-size: 11px;
   color: #212121;
   font-family: regular;
   margin-bottom: 4px;
 }
-.textAreaHeading{
+.textAreaHeading {
   margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.maxLimitBox{
+.maxLimitBox {
   font-size: 13px;
-    font-family: regular;
+  font-family: regular;
 }
-.totalText{
-color: #fe1345;
+.totalText {
+  color: #fe1345;
 }
-.issueHeadingBox{
+.issueHeadingBox {
   font-size: 13px;
   font-family: regular;
   padding-bottom: 10px;
 }
-.paddingBottom{
+.paddingBottom {
   padding-bottom: 20px;
+}
+.solution {
+  font-family: regular;
+  font-size: 14px;
+  color: #212121;
+  padding-bottom: 20px;
+}
+.solution a {
+  border-bottom: 2px solid #ff1744;
+  font-family: semibold;
+  color: #ff1744;
 }

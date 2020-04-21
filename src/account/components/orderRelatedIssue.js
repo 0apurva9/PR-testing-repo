@@ -246,7 +246,10 @@ export default class OrderRelatedIssue extends React.Component {
           obj[0].UItemplateCode,
           isSelecteRadio
         );
-        this.setState({ webFormStatus: true });
+        // const {customerQueriesFieldStatus,customerQueriesField}=this.props;
+        // if (this.props.customerQueriesField) {
+        //   this.setState({ webFormStatus: true });
+        // }
       }
     }
   }
@@ -636,6 +639,10 @@ export default class OrderRelatedIssue extends React.Component {
     }
     if (this.state.webform === "Yes") {
       l2OptionsArray = this.getOrderRelatedL2Issue(l1OptionsArray);
+    }
+    let webFormStatus = false;
+    if (this.props.customerQueriesField) {
+      webFormStatus = true;
     }
 
     return (
@@ -1166,7 +1173,7 @@ export default class OrderRelatedIssue extends React.Component {
                   orderCode={this.state.orderCode}
                   subOrderCode={this.state.sellerOrderNumber}
                   webform={this.state.webform}
-                  webFormStatus={this.state.webFormStatus}
+                  webFormStatus={webFormStatus}
                   parentIssueLabel={this.state.parentIssueLabel}
                   displayToast={toastData => this.displayToast(toastData)}
                   userDetails={this.props.userDetails}
