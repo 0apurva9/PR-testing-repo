@@ -553,6 +553,16 @@ export const TRACK_UID_ADD = "upi_AddNewUPIID_Click";
 export const SET_DATA_LAYER_UID_SAVE = "SET_DATA_LAYER_UID_SAVE";
 export const TRACK_UID_SAVE = "upi_Save";
 
+// mobile device exchange - MDE
+const ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP_MOBILE_EXCHANGE =
+  "plp_With_Exchange_Offer";
+const ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP_WITHOUT_MOBILE_EXCHANGE =
+  "plp_Without_Exchange_Offer";
+export const ADOBE_CLICK_ON_PRODUCTS_PLP_WITH_EXCHANGE =
+  "ADOBE_CLICK_ON_PRODUCTS_PLP_WITH_EXCHANGE";
+export const ADOBE_CLICK_ON_PRODUCTS_PLP_WITHOUT_EXCHANGE =
+  "ADOBE_CLICK_ON_PRODUCTS_PLP_WITHOUT_EXCHANGE";
+
 export async function setDataLayer(
   type,
   apiResponse,
@@ -1193,6 +1203,24 @@ export async function setDataLayer(
   if (type === ADOBE_PDP_KNOW_MORE_CLICK) {
     if (window._satellite) {
       window._satellite.track(PDP_KNOW_MORE_CLICK);
+    }
+  }
+
+  // mobile device exchnage
+  if (type === ADOBE_CLICK_ON_PRODUCTS_PLP_WITH_EXCHANGE) {
+    window.digitalData.cpj.product = { id: apiResponse };
+    if (window._satellite) {
+      window._satellite.track(
+        ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP_MOBILE_EXCHANGE
+      );
+    }
+  }
+  if (type === ADOBE_CLICK_ON_PRODUCTS_PLP_WITHOUT_EXCHANGE) {
+    window.digitalData.cpj.product = { id: apiResponse };
+    if (window._satellite) {
+      window._satellite.track(
+        ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP_WITHOUT_MOBILE_EXCHANGE
+      );
     }
   }
 }

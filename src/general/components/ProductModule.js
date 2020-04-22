@@ -13,7 +13,9 @@ import MobileOnly from "../../general/components/MobileOnly";
 import {
   widgetsTracking,
   setDataLayer,
-  ADOBE_SIMILAR_PRODUCTS_PLP
+  ADOBE_SIMILAR_PRODUCTS_PLP,
+  ADOBE_CLICK_ON_PRODUCTS_PLP_WITH_EXCHANGE,
+  ADOBE_CLICK_ON_PRODUCTS_PLP_WITHOUT_EXCHANGE
 } from "../../lib/adobeUtils";
 import Icon from "../../xelpmoc-core/Icon";
 import similarIcon from "../../general/components/img/similarIcon.svg";
@@ -38,7 +40,19 @@ export default class ProductModule extends React.Component {
     }
     return urlSuffix;
   }
-  handleClickOnLink = event => {
+  handleClickOnLink = (event, exchangeOfferAvailable) => {
+    if (exchangeOfferAvailable) {
+      setDataLayer(
+        ADOBE_CLICK_ON_PRODUCTS_PLP_WITH_EXCHANGE,
+        this.props.productId
+      );
+    } else {
+      setDataLayer(
+        ADOBE_CLICK_ON_PRODUCTS_PLP_WITHOUT_EXCHANGE,
+        this.props.productId
+      );
+    }
+
     event.preventDefault();
   };
   onClick = val => {
@@ -230,7 +244,12 @@ export default class ProductModule extends React.Component {
                 }}
                 target="_blank"
                 title={this.props.alt}
-                onClick={event => this.handleClickOnLink(event)}
+                onClick={event =>
+                  this.handleClickOnLink(
+                    event,
+                    this.props.exchangeOfferAvailable
+                  )
+                }
               >
                 <div className={styles.dummyDiv} />
               </Link>
