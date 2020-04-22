@@ -220,7 +220,7 @@ export default class UpiForm extends React.Component {
                 <div className={styles.svdUpiRow}>
                   <div className={styles.svdUpiInfoCol}>
                     <h4 className={styles.svdUpiHedTxt}>
-                      Select from your saved UPI ID’s
+                      Select from your saved UPI IDs
                     </h4>
                     <div className={styles.flexRow50 + " " + styles.flexWrap}>
                       {this.state.savedUPIidResponse &&

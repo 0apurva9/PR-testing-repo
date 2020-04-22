@@ -309,6 +309,10 @@
     font-weight: 600;
     background: none rgb(255, 23, 68);
 }
+.payNow:hover{
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
+  transition:0.3
+}
 .payNowPointer {
   cursor: pointer;
 }
