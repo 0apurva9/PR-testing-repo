@@ -54,6 +54,19 @@ export default class SaveListDetails extends React.Component {
     productDetails.quantity = PRODUCT_QUANTITY;
     this.props.addProductToCart(productDetails);
   }
+  addToBagItemWithExchange(ussid, productcode, exchangeDetails) {
+    const productDetails = {};
+    productDetails.ussId = ussid;
+    productDetails.code = productcode;
+    productDetails.quantity = PRODUCT_QUANTITY;
+    productDetails.isFromMobileExchange = true;
+    productDetails.verifyIMEINumberAPIResponse = exchangeDetails;
+    Object.assign(
+      productDetails.verifyIMEINumberAPIResponse,
+      exchangeDetails.exchangePriceDetail
+    );
+    this.props.addProductToCart(productDetails);
+  }
   removeItem(ussid) {
     setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_WISHLIST_REMOVE);
     const productDetails = {};
@@ -129,11 +142,19 @@ export default class SaveListDetails extends React.Component {
                           offerPrice={product.mop && product.mop.value}
                           image={product.imageURL}
                           productCode={product.productcode}
-                          addToBagItem={() =>
-                            this.addToBagItem(
-                              product.USSID,
-                              product.productcode
-                            )
+                          addToBagItem={
+                            product.exchangeDetails
+                              ? () =>
+                                  this.addToBagItemWithExchange(
+                                    product.USSID,
+                                    product.productcode,
+                                    product.exchangeDetails
+                                  )
+                              : () =>
+                                  this.addToBagItem(
+                                    product.USSID,
+                                    product.productcode
+                                  )
                           }
                           brandName={product.brandName}
                           onClickImage={() =>

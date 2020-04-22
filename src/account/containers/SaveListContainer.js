@@ -39,6 +39,9 @@ const mapDispatchToProps = dispatch => {
             dispatch(hideSecondaryLoader());
           });
         }
+        if (result.status === "error") {
+          dispatch(hideSecondaryLoader());
+        }
       });
     },
     removeProductFromWishList: productDetails => {

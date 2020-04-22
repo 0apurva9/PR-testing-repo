@@ -74,7 +74,17 @@ export default class AddToWishListButton extends React.Component {
       //   winningUssID: winningUssID
       // });
       // this.props.history.push(LOGIN_PATH);
+      if (this.props.exchangeDetails) {
+        let addToWlWithExchangeTrue = "addToWlWithExchangeTrue";
+        let quoteId = this.props.exchangeDetails.quoteId;
+        let IMEINumber = this.props.exchangeDetails.IMEINumber;
+        let exchangeId = this.props.exchangeDetails.exchangeProductId;
 
+        addToWishListObj.addToWlWithExchangeTrue = addToWlWithExchangeTrue;
+        addToWishListObj.quoteId = quoteId;
+        addToWishListObj.IMEINumber = IMEINumber;
+        addToWishListObj.exchangeId = exchangeId;
+      }
       localStorage.setItem(
         PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST,
         JSON.stringify(addToWishListObj)

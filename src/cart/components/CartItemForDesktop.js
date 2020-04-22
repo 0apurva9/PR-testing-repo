@@ -571,11 +571,12 @@ export default class CartItemForDesktop extends React.Component {
                 </React.Fragment>
               )}
             </div>
-            {!isPickupAvailableForExchange && (
-              <div className={styles.exchangeProductNotServiceable}>
-                {this.props.product.pinCodeResponse.errorMessage}
-              </div>
-            )}
+            {!isPickupAvailableForExchange &&
+              this.props.product.pinCodeResponse && (
+                <div className={styles.exchangeProductNotServiceable}>
+                  {this.props.product.pinCodeResponse.errorMessage}
+                </div>
+              )}
             {!this.props.productIsServiceable && (
               <div className={styles.exchangeProductNotServiceable}>
                 Cannot service exchange since main product not serviceable

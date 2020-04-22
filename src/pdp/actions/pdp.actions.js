@@ -564,9 +564,14 @@ export function addProductToCart(productDetails) {
           exchangeAmountCashify: IMEIApiResponse.exchangeAmountCashify.value,
           pickupCharge: IMEIApiResponse.pickupCharge.value,
           totalExchangeCashback: IMEIApiResponse.totalExchangeCashback.value,
-          effectiveAmount: IMEIApiResponse.effectiveAmount.value,
           IMEINumber: IMEIApiResponse.IMEINumber
         };
+        if (
+          IMEIApiResponse.effectiveAmount &&
+          IMEIApiResponse.effectiveAmount.value
+        ) {
+          requestParams.effectiveAmount = IMEIApiResponse.effectiveAmount.value;
+        }
         if (IMEIApiResponse.TULBump && IMEIApiResponse.TULBump.value) {
           requestParams.TULBump = IMEIApiResponse.TULBump.value;
         }
@@ -601,7 +606,7 @@ export function addProductToCart(productDetails) {
           dispatch(displayToast(resultJson.error));
         }
         // throw new Error(resultJsonStatus.message);
-        return dispatch(addProductToCartFailure(resultJson.ErrorMessage));
+        return dispatch(addProductToCartFailure(resultJson.error));
       }
 
       //set local storage
