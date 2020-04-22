@@ -4417,6 +4417,7 @@ if you have order id in local storage then you have to show order confirmation p
             showChangeExchangeCashabackModal={data =>
               this.props.showChangeExchangeCashabackModal(data)
             }
+            orderDetailsPaymentPage={this.props.orderDetailsPaymentPage}
           />
         </div>
       );

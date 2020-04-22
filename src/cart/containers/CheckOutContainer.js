@@ -753,8 +753,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         collectPaymentOrderForCliqCash(pinCode, cartItem, isPaymentFailed)
       );
     },
-    fetchOrderDetails: (orderId, pageName) => {
-      dispatch(fetchOrderDetails(orderId, pageName));
+    fetchOrderDetails: async (orderId, pageName) => {
+      await dispatch(fetchOrderDetails(orderId, pageName));
     },
     resetFailedOrderDetails: () => {
       dispatch(resetFailedOrderDetails());
@@ -863,7 +863,8 @@ const mapStateToProps = state => {
     retryPaymentDetailsStatus: state.profile.retryPaymentDetailsStatus,
     binValidationStatus: state.cart.binValidationStatus,
     addUserUPIStatus: state.profile.addUserUPIStatus,
-    addUserUPIDetails: state.profile.addUserUPIDetails
+    addUserUPIDetails: state.profile.addUserUPIDetails,
+    orderDetailsPaymentPage: state.profile.fetchOrderDetails
   };
 };
 

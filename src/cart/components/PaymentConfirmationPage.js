@@ -47,21 +47,31 @@ export default class PaymentConfirmationPage extends React.Component {
       await this.wait(7000);
       this.setState({ showloader: true });
       await this.props.fetchOrderDetails(orderId, pageName);
-    }
-    let data = {};
-    if (
-      this.props &&
-      this.props.exchangeDetails &&
-      this.props.exchangeDetails.exchangePaymentDetails &&
-      this.props.exchangeDetails.exchangePaymentDetails[0]
-    ) {
-      this.setState({
-        exchangePaymentDetails: this.props.exchangeDetails
-          .exchangePaymentDetails[0]
-      });
-      data.orderId = orderId;
-      data.exchangePaymentMode = this.props.exchangeDetails.exchangePaymentDetails[0].exchangePaymentMode;
-      this.props.showChangeExchangeCashabackModal(data);
+      let response = this.props.orderDetailsPaymentPage;
+      let data = {};
+      let commonExchangePaymentDetails = {};
+      if (
+        response &&
+        response.status &&
+        response.status.toLowerCase() === "success"
+      ) {
+        response.products.map(product => {
+          if (
+            product.exchangeDetails &&
+            product.exchangeDetails.exchangePaymentDetails
+          ) {
+            commonExchangePaymentDetails =
+              product.exchangeDetails.exchangePaymentDetails;
+          }
+        });
+        this.setState({
+          exchangePaymentDetails: commonExchangePaymentDetails[0]
+        });
+        data.orderId = orderId;
+        data.exchangePaymentMode =
+          commonExchangePaymentDetails[0].exchangePaymentMode;
+        this.props.showChangeExchangeCashabackModal(data);
+      }
     }
   }
 
