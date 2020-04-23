@@ -292,6 +292,13 @@ export const UPI_MIDDLE_LAYER_IS_ENABLE_SUCCESS =
 export const UPI_MIDDLE_LAYER_IS_ENABLE_FAILURE =
   "UPI_MIDDLE_LAYER_IS_ENABLE_FAILURE";
 
+export const INSTACRED_MIDDLE_LAYER_IS_ENABLE_REQUEST =
+  "INSTACRED_MIDDLE_LAYER_IS_ENABLE_REQUEST";
+export const INSTACRED_MIDDLE_LAYER_IS_ENABLE_SUCCESS =
+  "INSTACRED_MIDDLE_LAYER_IS_ENABLE_SUCCESS";
+export const INSTACRED_MIDDLE_LAYER_IS_ENABLE_FAILURE =
+  "INSTACRED_MIDDLE_LAYER_IS_ENABLE_FAILURE";
+
 export const COLLECT_PAYMENT_ORDER_FOR_UPI_REQUEST =
   "COLLECT_PAYMENT_ORDER_FOR_UPI_REQUEST";
 export const COLLECT_PAYMENT_ORDER_FOR_UPI_SUCCESS =
@@ -2127,6 +2134,65 @@ export function upiPaymentISEnableMidddleLayer(orderId) {
   };
 }
 
+/**
+ * EOC
+ */
+
+/**
+ * Code for Instacred Middle Layer
+ */
+
+export function instaCredISEnableMidddleLayerRequest() {
+  return {
+    type: INSTACRED_MIDDLE_LAYER_IS_ENABLE_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function instaCredISEnableMidddleLayerSuccess(
+  instaCredISEnableMidddleLayerDetails
+) {
+  return {
+    type: INSTACRED_MIDDLE_LAYER_IS_ENABLE_SUCCESS,
+    status: SUCCESS,
+    instaCredISEnableMidddleLayerDetails
+  };
+}
+
+export function instaCredISEnableMidddleLayerFailure(error) {
+  return {
+    type: INSTACRED_MIDDLE_LAYER_IS_ENABLE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function instaCredISEnableMidddleLayer() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(instaCredISEnableMidddleLayerRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=MP_DESKTOP_INSTACRED_ENABLED`
+      );
+      // const resultJson = await result.json();
+      /**
+       * Mock Data. To be removed
+       */
+      const resultJson = {
+        applicationProperties: [{ name: "name", value: true }]
+      };
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(instaCredISEnableMidddleLayerSuccess(resultJson));
+    } catch (e) {
+      dispatch(instaCredISEnableMidddleLayerFailure(e.message));
+    }
+  };
+}
 /**
  * EOC
  */

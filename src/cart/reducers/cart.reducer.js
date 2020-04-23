@@ -273,6 +273,11 @@ const cart = (
     upiMiddleLayerIsNewLoading: false,
     upiMiddleLayerIsNewError: null,
 
+    instacredMiddleLayerISEnableStatus: null,
+    instacredMiddleLayerISEnable: null,
+    instacredMiddleLayerISEnableLoading: false,
+    instacredMiddleLayerISEnableError: null,
+
     upiMiddleLayerHowItWorksStatus: null,
     upiMiddleLayerHowItWorks: null,
     upiMiddleLayerHowItWorksLoading: false,
@@ -905,6 +910,30 @@ const cart = (
     /**
      * EOC
      */
+    /**
+     * Instacred Middle Layer
+     */
+
+    case cartActions.INSTACRED_MIDDLE_LAYER_IS_ENABLE_REQUEST:
+      return Object.assign({}, state, {
+        instacredMiddleLayerISEnableStatus: action.status,
+        instacredMiddleLayerISEnableLoading: true
+      });
+
+    case cartActions.INSTACRED_MIDDLE_LAYER_IS_ENABLE_SUCCESS:
+      return Object.assign({}, state, {
+        instacredMiddleLayerISEnableStatus: action.status,
+        instacredMiddleLayerISEnable:
+          action.instaCredISEnableMidddleLayerDetails,
+        instacredMiddleLayerISEnableLoading: false
+      });
+
+    case cartActions.INSTACRED_MIDDLE_LAYER_IS_ENABLE_FAILURE:
+      return Object.assign({}, state, {
+        instacredMiddleLayerISEnableStatus: action.status,
+        instacredMiddleLayerISEnableError: action.error,
+        instacredMiddleLayerISEnableLoading: false
+      });
 
     case cartActions.APPLY_BANK_OFFER_REQUEST:
       return Object.assign({}, state, {

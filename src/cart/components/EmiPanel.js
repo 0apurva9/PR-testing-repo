@@ -51,6 +51,9 @@ export default class EmiPanel extends React.Component {
         this.getBankAndTenureDetails();
       }
     }
+    if (this.props.instaCredISEnableMidddleLayer) {
+      this.props.instaCredISEnableMidddleLayer();
+    }
   };
   onBankSelect(val) {
     if (this.props.onBankSelect) {
@@ -193,6 +196,21 @@ export default class EmiPanel extends React.Component {
     if (isJewelleryItemAvailable) {
       isJewelleryProduct = isJewelleryItemAvailable;
     }
+    let instacredMiddleLayerISEnable = false;
+    if (
+      this.props.cart &&
+      this.props.cart.instacredMiddleLayerISEnableStatus &&
+      this.props.cart.instacredMiddleLayerISEnableStatus === "success"
+    ) {
+      instacredMiddleLayerISEnable =
+        this.props.cart.instacredMiddleLayerISEnable &&
+        this.props.cart.instacredMiddleLayerISEnable.applicationProperties &&
+        this.props.cart.instacredMiddleLayerISEnable.applicationProperties[0]
+          .value
+          ? this.props.cart.instacredMiddleLayerISEnable
+              .applicationProperties[0].value
+          : false;
+    }
     return (
       <div className={styles.base}>
         {isRetryPaymentFromURL && (
@@ -317,7 +335,7 @@ export default class EmiPanel extends React.Component {
             </div>
           )}
 
-          {!isJewelleryProduct
+          {instacredMiddleLayerISEnable && !isJewelleryProduct
             ? !isRetryPaymentFromURL && (
                 <div className={styles.subListHolder}>
                   {paymentMode &&

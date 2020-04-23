@@ -4337,6 +4337,9 @@ if you have order id in local storage then you have to show order confirmation p
                       upiPaymentCombinedLogoMidddleLayer={() =>
                         this.props.upiPaymentCombinedLogoMidddleLayer()
                       }
+                      instaCredISEnableMidddleLayer={() =>
+                        this.props.instaCredISEnableMidddleLayer()
+                      }
                       getPaymentModes={val => this.props.getPaymentModes(val)}
                       retryCartGuid={this.state.retryCartGuid}
                       isJewelleryItemAvailable={
