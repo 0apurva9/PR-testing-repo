@@ -1965,17 +1965,22 @@ export function verifyIMEINumber(
   return async (dispatch, getState, { api }) => {
     dispatch(verifyIMEINumberRequest());
     try {
-      let url = `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&ExchangeAmountCashify=${exchangeAmountCashify}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}`;
+      let bodyParams = {
+        IMEINumber: IMEINumber,
+        exchangeProductId: exchangeProductId,
+        exchangeAmountCashify: exchangeAmountCashify,
+        pickUpCharge: pickUpCharge,
+        listingId: listingId,
+        ussid: ussId
+      };
       if (tulBump) {
-        url = `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&ExchangeAmountCashify=${exchangeAmountCashify}&tulBump=${tulBump}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}`;
+        bodyParams.tulBump = tulBump;
       }
-      if (guid && entry && tulBump) {
-        url = `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&ExchangeAmountCashify=${exchangeAmountCashify}&tulBump=${tulBump}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}&guid=${guid}&entry=${entry}`;
+      if (guid && entry) {
+        bodyParams.guid = guid;
+        bodyParams.entry = entry;
       }
-      if (guid && entry && !tulBump) {
-        url = `v2/mpl/products/verifyIMEINumber?IMEINumber=${IMEINumber}&exchangeProductId=${exchangeProductId}&ExchangeAmountCashify=${exchangeAmountCashify}&pickUpCharge=${pickUpCharge}&listingId=${listingId}&ussid=${ussId}&guid=${guid}&entry=${entry}`;
-      }
-      const result = await api.getMiddlewareUrl(url);
+      const result = await api.post(`v2/mpl/verifyIMEINumber`, bodyParams);
       const resultJson = await result.json();
       // const resultJson = imeijson;
       // if (resultJson.status === SUCCESS) {
