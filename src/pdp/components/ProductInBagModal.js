@@ -1,11 +1,21 @@
 import React from "react";
 import styles from "./ProductInBagModal.css";
-
+import {
+  setDataLayer,
+  ADOBE_MDE_PRODUCT_ALREADY_IN_CART,
+  ADOBE_MDE_PRODUCT_ALREADY_IN_CART_GO_TO_BAG,
+  ADOBE_MDE_PRODUCT_ALREADY_IN_CART_CANCEL
+} from "../../lib/adobeUtils";
 export default class ProductInBagModal extends React.Component {
+  componentDidMount() {
+    setDataLayer(ADOBE_MDE_PRODUCT_ALREADY_IN_CART);
+  }
   closeModal() {
+    setDataLayer(ADOBE_MDE_PRODUCT_ALREADY_IN_CART_CANCEL);
     this.props.closeModal();
   }
   goToBag() {
+    setDataLayer(ADOBE_MDE_PRODUCT_ALREADY_IN_CART_GO_TO_BAG);
     this.props.history.push(`/cart`);
   }
   render() {

@@ -36,6 +36,10 @@ import {
   renderMetaTagsWithoutSeoObject
 } from "../../lib/seoUtils";
 import { checkUserLoggedIn } from "../../lib/userUtils";
+import {
+  setDataLayer,
+  ADOBE_MDE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER
+} from "../../lib/adobeUtils";
 const PRODUCT_QUANTITY = "1";
 const PRICE_LOW_TO_HIGH = "Price Low - High";
 const PRICE_HIGH_TO_LOW = "Price High - Low";
@@ -249,6 +253,7 @@ class ProductSellerPage extends Component {
         listingId: listingId,
         ussId: ussId
       });
+      setDataLayer(ADOBE_MDE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER);
     }
     // if brand n model details are not avail show toast
     if (
@@ -258,7 +263,9 @@ class ProductSellerPage extends Component {
       response.data &&
       !response.data.makeModelDetails
     ) {
-      this.props.displayToast("Please try after some time.");
+      this.props.displayToast(
+        "Exchange cannot be processed right now. Please try again after sometime"
+      );
     }
   }
   render() {

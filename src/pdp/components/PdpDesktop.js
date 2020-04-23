@@ -32,7 +32,8 @@ import {
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
   ADOBE_DIRECT_CALL_FOR_GO_TO_BAG,
   SET_DATA_LAYER_FOR_ADOBE_ADD_TO_CART_BUTTON,
-  ADOBE_DIRECT_CALL_FOR_PICK_UP_OPTION
+  ADOBE_DIRECT_CALL_FOR_PICK_UP_OPTION,
+  ADOBE_MDE_CLICK_ON_EXCHANGE_LINK
 } from "../../lib/adobeUtils";
 import { reverse } from "../reducers/utils";
 import * as Cookie from "../../lib/Cookie";
@@ -982,6 +983,10 @@ export default class PdpApparel extends React.Component {
             ussId: ussId
           });
         }
+        setDataLayer(
+          ADOBE_MDE_CLICK_ON_EXCHANGE_LINK,
+          this.props.productDetails.productListingId
+        );
       }
       // if brand n model details are not avail show toast
       if (

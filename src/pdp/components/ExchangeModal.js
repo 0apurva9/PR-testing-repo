@@ -10,6 +10,11 @@ import HowExchangeModalWorksLessDetails from "./HowExchangeModalWorksLessDetails
 import ExchangeProductDetailsTab from "./ExchangeProductDetailsTab";
 // import * as customSelectDropDown from "../../mock/customSelectDropdown.js";
 import { ADD_TO_BAG_TEXT, PRODUCT_CART_ROUTER } from "../../lib/constants";
+import {
+  setDataLayer,
+  ADOBE_MDE_CLICK_ON_CHANGE_DEVICE,
+  ADOBE_MDE_CLICK_ON_HOW_EXCHANGE_WORKS
+} from "../../lib/adobeUtils";
 export default class ExchangeModal extends React.Component {
   constructor(props) {
     super(props);
@@ -94,6 +99,7 @@ export default class ExchangeModal extends React.Component {
 
   openHowExchangeWorksModal() {
     this.setState({ showHowExchangeWorks: true });
+    setDataLayer(ADOBE_MDE_CLICK_ON_HOW_EXCHANGE_WORKS);
   }
 
   closeHowExchangeWorksModal() {
@@ -435,6 +441,7 @@ export default class ExchangeModal extends React.Component {
         });
       }
     }
+    setDataLayer(ADOBE_MDE_CLICK_ON_CHANGE_DEVICE);
   }
 
   trimProductname(productName) {

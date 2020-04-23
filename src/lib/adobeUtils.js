@@ -563,6 +563,33 @@ export const ADOBE_CLICK_ON_PRODUCTS_PLP_WITH_EXCHANGE =
 export const ADOBE_CLICK_ON_PRODUCTS_PLP_WITHOUT_EXCHANGE =
   "ADOBE_CLICK_ON_PRODUCTS_PLP_WITHOUT_EXCHANGE";
 
+const ADOBE_CLICK_ON_EXCHANGE_LINK = "pdp_Exchange_Widget";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_LINK =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_LINK";
+
+const ADOBE_CLICK_ON_CHANGE_DEVICE = "pdp_Exchange_Change_Widget";
+export const ADOBE_MDE_CLICK_ON_CHANGE_DEVICE =
+  "ADOBE_MDE_CLICK_ON_CHANGE_DEVICE";
+
+const ADOBE_CLICK_ON_HOW_EXCHANGE_WORKS = "pdp_How_Exchange_Works";
+export const ADOBE_MDE_CLICK_ON_HOW_EXCHANGE_WORKS =
+  "ADOBE_MDE_CLICK_ON_HOW_EXCHANGE_WORKS";
+
+const ADOBE_PRODUCT_ALREADY_IN_CART = "pdp_Already_Added_Cart";
+const ADOBE_PRODUCT_ALREADY_IN_CART_GO_TO_BAG = "pdp_Already_Cart_GotoBag";
+const ADOBE_PRODUCT_ALREADY_IN_CART_CANCEL = "pdp_Already_Cart_Cancel";
+export const ADOBE_MDE_PRODUCT_ALREADY_IN_CART =
+  "ADOBE_MDE_PRODUCT_ALREADY_IN_CART";
+export const ADOBE_MDE_PRODUCT_ALREADY_IN_CART_GO_TO_BAG =
+  "ADOBE_MDE_PRODUCT_ALREADY_IN_CART_GO_TO_BAG";
+export const ADOBE_MDE_PRODUCT_ALREADY_IN_CART_CANCEL =
+  "ADOBE_MDE_PRODUCT_ALREADY_IN_CART_CANCEL";
+
+const ADOBE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER =
+  "pdp_Exchange_Through_Seller";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER";
+
 export async function setDataLayer(
   type,
   apiResponse,
@@ -1221,6 +1248,42 @@ export async function setDataLayer(
       window._satellite.track(
         ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP_WITHOUT_MOBILE_EXCHANGE
       );
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_LINK) {
+    window.digitalData.cpj.product = { id: apiResponse };
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_LINK);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CHANGE_DEVICE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CHANGE_DEVICE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_HOW_EXCHANGE_WORKS) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_HOW_EXCHANGE_WORKS);
+    }
+  }
+  if (type === ADOBE_MDE_PRODUCT_ALREADY_IN_CART) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_PRODUCT_ALREADY_IN_CART);
+    }
+  }
+  if (type === ADOBE_MDE_PRODUCT_ALREADY_IN_CART_GO_TO_BAG) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_PRODUCT_ALREADY_IN_CART_GO_TO_BAG);
+    }
+  }
+  if (type === ADOBE_MDE_PRODUCT_ALREADY_IN_CART_CANCEL) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_PRODUCT_ALREADY_IN_CART_CANCEL);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER);
     }
   }
 }
