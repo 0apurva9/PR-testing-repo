@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./ExchangeDetailsTrack.css";
-const EXCHANGE_INITIATED = "Exchange Initiated";
-const PICK_UP_IN_PROGRESS = "Pick Up in Progress";
-const PICKED_UP = "Picked Up";
-const CASHBACK_CREDITED = "Cashback Credited";
-const CANCELLED = "Cancelled";
+const EXCHANGE_INITIATED = "EXCHANGE_INITIATED"; // Exchange Initiated
+const PICK_UP_IN_PROGRESS = "PICKUP_INITIATED"; //Pick Up in Progress
+const PICKED_UP = "PICKUP_COMPLETE"; // Picked Up
+const CASHBACK_CREDITED = "PAYMENT_COMPLETED"; // Cashback Credited
+const CANCELLED = "CANCELLED"; //Cancelled
 
 export default class ExchangeDetailsTrack extends React.Component {
   render() {
@@ -66,7 +66,7 @@ export default class ExchangeDetailsTrack extends React.Component {
                   : styles.processNameHolder
               }
             >
-              {exchangeInitiated && exchangeInitiated.displayMessage}
+              {exchangeInitiated && exchangeInitiated.customerFacingName}
             </div>
             <div className={styles.eieDateAndTimeHolder}>
               {exchangeInitiated &&
@@ -109,8 +109,8 @@ export default class ExchangeDetailsTrack extends React.Component {
                   : styles.processNameHolder
               }
             >
-              {pickUpInProgress && pickUpInProgress.displayMessage
-                ? pickUpInProgress.displayMessage
+              {pickUpInProgress && pickUpInProgress.customerFacingName
+                ? pickUpInProgress.customerFacingName
                 : "Pick Up in Progress"}
             </div>
             <div className={styles.eieDateAndTimeHolder}>
@@ -155,8 +155,8 @@ export default class ExchangeDetailsTrack extends React.Component {
                     : styles.processNameHolder
                 }
               >
-                {pickedUp && pickedUp.displayMessage
-                  ? pickedUp.displayMessage
+                {pickedUp && pickedUp.customerFacingName
+                  ? pickedUp.customerFacingName
                   : "Picked Up"}
               </div>
               <div className={styles.eieDateAndTimeHolder}>
@@ -202,8 +202,8 @@ export default class ExchangeDetailsTrack extends React.Component {
                     : styles.processNameHolder
                 }
               >
-                {cashbackCredited && cashbackCredited.displayMessage
-                  ? cashbackCredited.displayMessage
+                {cashbackCredited && cashbackCredited.customerFacingName
+                  ? cashbackCredited.customerFacingName
                   : "Cashback Credited"}
               </div>
               <div className={styles.eieDateAndTimeHolder}>
@@ -251,8 +251,8 @@ export default class ExchangeDetailsTrack extends React.Component {
                       : styles.processNameHolder
                   }
                 >
-                  {Cancelled && Cancelled.displayMessage
-                    ? Cancelled.displayMessage
+                  {Cancelled && Cancelled.customerFacingName
+                    ? Cancelled.customerFacingName
                     : "Cancelled"}
                 </div>
                 <div className={styles.eieDateAndTimeHolder}>
