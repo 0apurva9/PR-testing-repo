@@ -572,7 +572,7 @@ const ADOBE_CLICK_ON_EXCHANGE_LINK = "pdp_Exchange_Widget";
 export const ADOBE_MDE_CLICK_ON_EXCHANGE_LINK =
   "ADOBE_MDE_CLICK_ON_EXCHANGE_LINK";
 
-const ADOBE_CLICK_ON_CHANGE_DEVICE = "pdp_Exchange_Change_Widget";
+const ADOBE_CLICK_ON_CHANGE_DEVICE = "exchange_Model_Change";
 export const ADOBE_MDE_CLICK_ON_CHANGE_DEVICE =
   "ADOBE_MDE_CLICK_ON_CHANGE_DEVICE";
 
@@ -594,6 +594,28 @@ const ADOBE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER =
   "pdp_Exchange_Through_Seller";
 export const ADOBE_MDE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER =
   "ADOBE_MDE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER";
+
+const ADOBE_CLICK_ON_EXCHANGE_MODAL_KNOW_MORE = "exchange_Model_Know_More";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_KNOW_MORE =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_KNOW_MORE";
+
+const ADOBE_CLICK_ON_EXCHANGE_MODAL_TNC = "exchange_Model_T&c";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_TNC =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_TNC";
+
+const ADOBE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE =
+  "exchange_Model_Add_Another_Mobile";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE";
+
+const ADOBE_CLICK_ON_PROCEED_WITH_EXCHANGE =
+  "exchange_Model_Proceed_with_Exchange";
+export const ADOBE_MDE_CLICK_ON_PROCEED_WITH_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_PROCEED_WITH_EXCHANGE";
+
+const ADOBE_CLICK_ON_CASHBACK_DETAILS = "exchange_Model_Cashback_Details";
+export const ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS =
+  "ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS";
 
 export async function setDataLayer(
   type,
@@ -1295,6 +1317,31 @@ export async function setDataLayer(
   if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER) {
     if (window._satellite) {
       window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_KNOW_MORE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_MODAL_KNOW_MORE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_TNC) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_MODAL_TNC);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_PROCEED_WITH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_PROCEED_WITH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CASHBACK_DETAILS);
     }
   }
 }

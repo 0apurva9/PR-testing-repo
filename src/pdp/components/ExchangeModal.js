@@ -13,7 +13,12 @@ import { ADD_TO_BAG_TEXT, PRODUCT_CART_ROUTER } from "../../lib/constants";
 import {
   setDataLayer,
   ADOBE_MDE_CLICK_ON_CHANGE_DEVICE,
-  ADOBE_MDE_CLICK_ON_HOW_EXCHANGE_WORKS
+  ADOBE_MDE_CLICK_ON_HOW_EXCHANGE_WORKS,
+  ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_KNOW_MORE,
+  ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_TNC,
+  ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE,
+  ADOBE_MDE_CLICK_ON_PROCEED_WITH_EXCHANGE,
+  ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS
 } from "../../lib/adobeUtils";
 export default class ExchangeModal extends React.Component {
   constructor(props) {
@@ -102,6 +107,11 @@ export default class ExchangeModal extends React.Component {
     setDataLayer(ADOBE_MDE_CLICK_ON_HOW_EXCHANGE_WORKS);
   }
 
+  knowMore() {
+    this.setState({ showHowExchangeWorks: true });
+    setDataLayer(ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_KNOW_MORE);
+  }
+
   closeHowExchangeWorksModal() {
     this.setState({ showHowExchangeWorks: false });
     if (this.state.howExchangeWorksModalOpenedFromPDP) {
@@ -111,6 +121,7 @@ export default class ExchangeModal extends React.Component {
 
   openTnCModal() {
     this.setState({ showTnCModal: true });
+    setDataLayer(ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_TNC);
   }
 
   closeTnCModal() {
@@ -119,6 +130,7 @@ export default class ExchangeModal extends React.Component {
 
   openCashbackModal() {
     this.setState({ showCashbackModal: true });
+    setDataLayer(ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS);
   }
 
   closeCashbackModal() {
@@ -370,6 +382,7 @@ export default class ExchangeModal extends React.Component {
       });
       this.setState({ secondDeviceInfo: SDData });
     }
+    setDataLayer(ADOBE_MDE_CLICK_ON_PROCEED_WITH_EXCHANGE);
     let listingId = this.props.listingId;
     let ussId = this.props.ussId;
     let data = {
@@ -399,6 +412,8 @@ export default class ExchangeModal extends React.Component {
         selectedProductCashback: deviceInfo.model.totalExchangeCashback,
         selectedProductName: deviceInfo.model.effectiveModelName
       });
+    } else {
+      setDataLayer(ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE);
     }
   }
 
@@ -537,10 +552,7 @@ export default class ExchangeModal extends React.Component {
             </div>
             <div className={styles.smallHeading}>
               How Exchange works?
-              <span
-                className={styles.knowMore}
-                onClick={() => this.openHowExchangeWorksModal()}
-              >
+              <span className={styles.knowMore} onClick={() => this.knowMore()}>
                 Know more
               </span>
             </div>
