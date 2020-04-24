@@ -34,7 +34,8 @@ export default class ProductInfo extends React.Component {
                 )
               : ""}
             {this.props.maxExchangePrice &&
-              this.props.maxExchangePrice.formattedValueNoDecimal && (
+              this.props.maxExchangePrice.formattedValueNoDecimal &&
+              this.props.maxExchangePrice.formattedValueNoDecimal !== "₹0" && (
                 <div className={styles.exchangeCashbackContainer}>
                   <img
                     src={exchangeIconLight}
