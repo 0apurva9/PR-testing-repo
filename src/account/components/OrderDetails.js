@@ -640,12 +640,6 @@ export default class OrderDetails extends React.Component {
                   products.installationDisplayMsg.find(val => {
                     return val.key === "REQUEST_RESCHEDULE";
                   });
-                const cashbackCredited =
-                  products.exchangeDetails &&
-                  products.exchangeDetails.exchangeTrackDiagram &&
-                  products.exchangeDetails.exchangeTrackDiagram.find(val => {
-                    return val.customerFacingName === "Cashback Credited";
-                  });
                 let hideEIETrackDiagram = false;
                 let hideEstimatedInstallationDate = false;
                 //request cancelled
@@ -693,6 +687,36 @@ export default class OrderDetails extends React.Component {
                   requestReschedule.value.status === "Completed"
                 ) {
                   hideEIETrackDiagram = true;
+                }
+                // MDE
+                const cashbackCredited =
+                  products.exchangeDetails &&
+                  products.exchangeDetails.exchangeTrackDiagram &&
+                  products.exchangeDetails.exchangeTrackDiagram.find(val => {
+                    return val.displayMessage === "PAYMENT_COMPLETED";
+                  });
+                const exchangeCanceled =
+                  products.exchangeDetails &&
+                  products.exchangeDetails.exchangeTrackDiagram &&
+                  products.exchangeDetails.exchangeTrackDiagram.find(val => {
+                    return val.displayMessage === "PICKUP_CANCEL";
+                  });
+                let hideExchangeDetails = false;
+                let hideDetailsWhenCashbackCredited = false;
+                if (
+                  exchangeCanceled &&
+                  exchangeCanceled.status &&
+                  exchangeCanceled.status === "Complete"
+                ) {
+                  hideExchangeDetails = true;
+                }
+                if (
+                  cashbackCredited &&
+                  cashbackCredited.status &&
+                  cashbackCredited.status === "Complete"
+                ) {
+                  hideExchangeDetails = true;
+                  hideDetailsWhenCashbackCredited = true;
                 }
                 return (
                   <React.Fragment key={i}>
@@ -936,36 +960,39 @@ export default class OrderDetails extends React.Component {
                             </React.Fragment>
                           ) : null}
                           <div className={styles.bb} />
-                          {products.exchangeDetails
-                            .exchangePickupPromiseDate && (
-                            <div className={styles.exchangeEDDContainer}>
-                              <span className={styles.fontBold}>
-                                Estimated Exchange Pick up Date:
-                              </span>
-                              <span className={styles.fontLight}>
-                                {" "}
-                                {format(
-                                  products.exchangeDetails
-                                    .exchangePickupPromiseDate,
-                                  dateFormat
-                                )}
-                              </span>
-                            </div>
-                          )}
-                          {products.exchangeDetails.exchangePickUpDate && (
-                            <div className={styles.exchangeEDDContainer}>
-                              <span className={styles.fontBold}>
-                                Exchange Product Picked up on:
-                              </span>
-                              <span className={styles.fontLight}>
-                                {" "}
-                                {format(
-                                  products.exchangeDetails.exchangePickUpDate,
-                                  dateFormat
-                                )}
-                              </span>
-                            </div>
-                          )}
+                          {products.exchangeDetails.exchangePickupPromiseDate &&
+                            !products.exchangeDetails.exchangePickedUpDate &&
+                            !hideExchangeDetails && (
+                              <div className={styles.exchangeEDDContainer}>
+                                <span className={styles.fontBold}>
+                                  Estimated Exchange Pick up Date:
+                                </span>
+                                <span className={styles.fontLight}>
+                                  {" "}
+                                  {format(
+                                    products.exchangeDetails
+                                      .exchangePickupPromiseDate,
+                                    dateFormat
+                                  )}
+                                </span>
+                              </div>
+                            )}
+                          {products.exchangeDetails.exchangePickedUpDate &&
+                            !hideExchangeDetails && (
+                              <div className={styles.exchangeEDDContainer}>
+                                <span className={styles.fontBold}>
+                                  Exchange Product Picked up on:
+                                </span>
+                                <span className={styles.fontLight}>
+                                  {" "}
+                                  {format(
+                                    products.exchangeDetails
+                                      .exchangePickedUpDate,
+                                    dateFormat
+                                  )}
+                                </span>
+                              </div>
+                            )}
                           {!products.consignmentStatus.includes("CANCEL") &&
                             !products.consignmentStatus.includes("REFUND") &&
                             !products.exchangeDetails.exchangeTrackDiagram &&
@@ -1024,8 +1051,7 @@ export default class OrderDetails extends React.Component {
                               </div>
                             )}
 
-                          {(products.consignmentStatus.includes("CANCEL") ||
-                            products.consignmentStatus.includes("REFUND")) && (
+                          {products.consignmentStatus.includes("CANCEL") && (
                             <React.Fragment>
                               <div className={styles.exchangeCancelledText}>
                                 Your Exchange has been cancelled since you have
@@ -1034,6 +1060,7 @@ export default class OrderDetails extends React.Component {
                               <div className={styles.bb} />
                             </React.Fragment>
                           )}
+
                           {cashbackCredited &&
                             cashbackCredited.status &&
                             cashbackCredited.status === "Complete" && (
@@ -1042,7 +1069,7 @@ export default class OrderDetails extends React.Component {
                               </div>
                             )}
                           {!products.consignmentStatus.includes("CANCEL") &&
-                            !products.consignmentStatus.includes("REFUND") && (
+                            !hideDetailsWhenCashbackCredited && (
                               <ExchangeDetailsTrack
                                 exchangeTrackDiagram={
                                   products.exchangeDetails.exchangeTrackDiagram

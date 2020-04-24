@@ -4,7 +4,7 @@ const EXCHANGE_INITIATED = "EXCHANGE_INITIATED"; // Exchange Initiated
 const PICK_UP_IN_PROGRESS = "PICKUP_INITIATED"; //Pick Up in Progress
 const PICKED_UP = "PICKUP_COMPLETE"; // Picked Up
 const CASHBACK_CREDITED = "PAYMENT_COMPLETED"; // Cashback Credited
-const CANCELLED = "CANCELLED"; //Cancelled
+const CANCELLED = "PICKUP_CANCEL"; //Cancelled
 
 export default class ExchangeDetailsTrack extends React.Component {
   render() {
