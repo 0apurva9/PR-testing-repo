@@ -554,6 +554,11 @@ export const SET_DATA_LAYER_UID_SAVE = "SET_DATA_LAYER_UID_SAVE";
 export const TRACK_UID_SAVE = "upi_Save";
 
 // mobile device exchange - MDE
+const ADOBE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER =
+  "plp_Exchange_Available_Filter";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER";
+
 const ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP_MOBILE_EXCHANGE =
   "plp_With_Exchange_Offer";
 const ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP_WITHOUT_MOBILE_EXCHANGE =
@@ -1234,6 +1239,12 @@ export async function setDataLayer(
   }
 
   // mobile device exchnage
+
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER);
+    }
+  }
   if (type === ADOBE_CLICK_ON_PRODUCTS_PLP_WITH_EXCHANGE) {
     window.digitalData.cpj.product = { id: apiResponse };
     if (window._satellite) {
