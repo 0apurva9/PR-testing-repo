@@ -109,6 +109,17 @@ export default class ProductDetailsMainCard extends React.Component {
     e.preventDefault();
   };
 
+  getDiscountPercentage() {
+    if (this.props.discountPrice !== this.props.price) {
+      let calculatedPercentage =
+        100 - [this.props.discountPrice * 100 / this.props.price];
+      let flooredPrice = Math.floor(calculatedPercentage);
+      return flooredPrice;
+    } else {
+      return this.props.discount;
+    }
+  }
+
   render() {
     const displayPrice = this.props.discountPrice
       ? this.props.discountPrice
@@ -120,7 +131,6 @@ export default class ProductDetailsMainCard extends React.Component {
     if (averageRating) {
       averageRatingNew = Math.round(averageRating * 10) / 10;
     }
-
     return (
       <div className={styles.base}>
         {this.renderSchemaTags()}
@@ -257,16 +267,17 @@ export default class ProductDetailsMainCard extends React.Component {
             </div>
           </div>
         )}
-        {!averageRating && this.props.isPdp && (
-          <DesktopOnly>
-            <div
-              className={styles.noRatingText}
-              onClick={() => this.handleRatingLink()}
-            >
-              {NO_REVIEW_TEXT}
-            </div>
-          </DesktopOnly>
-        )}
+        {!averageRating &&
+          this.props.isPdp && (
+            <DesktopOnly>
+              <div
+                className={styles.noRatingText}
+                onClick={() => this.handleRatingLink()}
+              >
+                {NO_REVIEW_TEXT}
+              </div>
+            </DesktopOnly>
+          )}
       </div>
     );
   }
