@@ -99,7 +99,10 @@ export default class OrderRelatedIssue extends React.Component {
       selectedObj: "",
       subIssueList: null,
       uploadedAttachments: [],
-      parentIssueLabel: ""
+      parentIssueLabel: "",
+      issueSelected: "",
+      mainIssue: "",
+      customerQueriesField: []
     };
   }
 
@@ -170,7 +173,8 @@ export default class OrderRelatedIssue extends React.Component {
         webform: "No",
         // l3SelectedReason: null,
         issueCategory: "",
-        issue: ""
+        issue: "",
+        customerQueriesField: []
       });
     }
     if (val === 1) {
@@ -198,7 +202,9 @@ export default class OrderRelatedIssue extends React.Component {
       productName: productName,
       productPrice: productPrice,
       productStatus: productStatus,
-      webFormStatus: false
+      webFormStatus: false,
+      issueSelected: "Select issue",
+      customerQueriesField: []
     });
 
     this.props.getCustomerQueriesData(transactionId);
@@ -222,7 +228,10 @@ export default class OrderRelatedIssue extends React.Component {
       listOfSubIssue:
         subTab && subTab.listofSubIssues ? subTab.listofSubIssues : [],
       webFormStatus: false,
-      parentIssueLabel: val.label
+      mainIssue: val.value,
+      issueSelected: "",
+      customerQueriesField: []
+      // parentIssueLabel: val.label
       // l2SelectedOption:
       //   subTab && subTab.listofSubIssues ? subTab.listofSubIssues : [],
       // showSubIssueField: true,
@@ -230,26 +239,32 @@ export default class OrderRelatedIssue extends React.Component {
       // issueCategory: val.label
     });
   };
-  /**
-   * @comment Demo method. planning to remove the non order condition
-   */
-  onChangeReasonForOrderRelated(obj, isSelecteRadio = false) {
+
+  async onChangeReasonForOrderRelated(obj, isSelecteRadio = false) {
     if (isSelecteRadio) {
-      this.props.getCustomerQueriesFieldsv2(
+      const response = await this.props.getCustomerQueriesFieldsv2(
         obj.webFormTemplate,
         isSelecteRadio
       );
+      const { status, customerQueriesField } = response;
+      if (status == SUCCESS) {
+        this.setState({ customerQueriesField: customerQueriesField });
+      }
     } else {
-      this.setState({ selectedObj: obj });
+      this.setState({
+        selectedObj: obj,
+        issueSelected:
+          this.state.isSelected == 1 ? obj[0].subIssueType : obj[0].issueType
+      });
       if (obj[0].webform === "Yes") {
-        this.props.getCustomerQueriesFieldsv2(
+        const response = await this.props.getCustomerQueriesFieldsv2(
           obj[0].UItemplateCode,
           isSelecteRadio
         );
-        // const {customerQueriesFieldStatus,customerQueriesField}=this.props;
-        // if (this.props.customerQueriesField) {
-        //   this.setState({ webFormStatus: true });
-        // }
+        const { status, customerQueriesField } = response;
+        if (status == SUCCESS) {
+          this.setState({ customerQueriesField: customerQueriesField });
+        }
       }
     }
   }
@@ -548,17 +563,17 @@ export default class OrderRelatedIssue extends React.Component {
     return <Redirect to={LOGIN_PATH} />;
   }
 
-  async onUploadFiles(uploadUserFileObject) {
-    const uploadFileResponse = await this.props.uploadUserFile(
-      uploadUserFileObject
-    );
-    let { uploadUserFile, status } = uploadFileResponse;
-    if (uploadFileResponse && status === SUCCESS) {
-      this.setState({
-        uploadedAttachments: uploadUserFile.imageURLlist
-      });
-    }
-  }
+  // async onUploadFiles(uploadUserFileObject) {
+  //   const uploadFileResponse = await this.props.uploadUserFile(
+  //     uploadUserFileObject
+  //   );
+  //   let { uploadUserFile, status } = uploadFileResponse;
+  //   if (uploadFileResponse && status === SUCCESS) {
+  //     this.setState({
+  //       uploadedAttachments: uploadUserFile.imageURLlist
+  //     });
+  //   }
+  // }
 
   displayToast(toastData) {
     if (this.props.displayToast) {
@@ -641,7 +656,7 @@ export default class OrderRelatedIssue extends React.Component {
       l2OptionsArray = this.getOrderRelatedL2Issue(l1OptionsArray);
     }
     let webFormStatus = false;
-    if (this.props.customerQueriesField) {
+    if (this.state.customerQueriesField.length > 0) {
       webFormStatus = true;
     }
 
@@ -1162,7 +1177,7 @@ export default class OrderRelatedIssue extends React.Component {
               <React.Fragment>
                 <CustomerCareOrderRelated
                   l1OptionsArray={l1OptionsArray}
-                  customerQueriesFieldArray={customerQueriesField || []}
+                  customerQueriesFieldArray={this.state.customerQueriesField}
                   isSelected={this.state.isSelected}
                   productImageURL={this.state.productImageURL}
                   orderDate={this.state.orderDate}
@@ -1172,14 +1187,16 @@ export default class OrderRelatedIssue extends React.Component {
                   transactionId={this.state.transactionId}
                   orderCode={this.state.orderCode}
                   subOrderCode={this.state.sellerOrderNumber}
+                  mainIssue={this.state.mainIssue}
+                  issueSelected={this.state.issueSelected}
                   webform={this.state.webform}
                   webFormStatus={webFormStatus}
                   parentIssueLabel={this.state.parentIssueLabel}
                   displayToast={toastData => this.displayToast(toastData)}
                   userDetails={this.props.userDetails}
                   selectedObj={this.state.selectedObj}
-                  uploadUserFile={uploadUserFileObject =>
-                    this.onUploadFiles(uploadUserFileObject)
+                  uploadUserFile={(issueType, title, file) =>
+                    this.props.uploadUserFile(issueType, title, file)
                   }
                   uploadedAttachments={this.state.uploadedAttachments}
                   uploadUserFileData={this.props.uploadUserFileData}

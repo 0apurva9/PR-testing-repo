@@ -4760,12 +4760,16 @@ export function uploadUserFileFailure() {
     status: FAILURE
   };
 }
-export function uploadUserFile(uploadUserFileObject) {
+
+export function uploadUserFile(issueType, title, file) {
   return async (dispatch, getState, { api }) => {
     dispatch(uploadUserFileRequest());
     try {
-      // let uploadUserFileObject = new FormData();
-      // uploadUserFileObject.append(title, file);
+      let uploadUserFileObject = new FormData();
+      uploadUserFileObject.append("IssueType", issueType);
+      file.forEach(val => {
+        uploadUserFileObject.append(title, val);
+      });
       const result = await api.postFormData(
         `${PATH}/attachmentUpload`,
         uploadUserFileObject

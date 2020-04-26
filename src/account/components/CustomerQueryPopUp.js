@@ -46,18 +46,21 @@ export default class CustomerQueryPopUp extends React.Component {
     }
   }
   hoursToMeridiem = (hour, minute) => {
-    const min = minute === 0 ? "00" : minute.toString();
+    //const min = minute === 0 ? "00" : minute.toString();
+    if (minute !== 0) {
+      hour += 1;
+    }
     if (hour > 12) {
-      return `${hour - 12}:${min} PM`;
+      return `${hour - 12}:00 PM`;
     }
     if (hour === 0) {
-      return `${12}:${min} AM`;
+      return `${12}:00 AM`;
     }
     if (hour === 12) {
-      return `${12}:${min} PM`;
+      return `${12}:00 PM`;
     }
     if (hour < 12) {
-      return `${hour}:${min} AM`;
+      return `${hour}:00 AM`;
     }
   };
 
@@ -103,25 +106,23 @@ export default class CustomerQueryPopUp extends React.Component {
             <div className={styles.userDetailsHeader}>Ticket ID</div>
             <div className={styles.userDetailsText}>{this.props.ticketID}</div>
           </div> */}
-          {this.props.issueCategory && (
+          {issueCategory && (
             <div className={styles.userDetailsHeaderWithText}>
               <div className={styles.userDetailsHeader}>Issue Category</div>
-              <div className={styles.userDetailsText}>
-                {this.props.issueCategory}
-              </div>
+              <div className={styles.userDetailsText}>{issueCategory}</div>
             </div>
           )}
-          {this.props.issue && (
+          {issue && (
             <div className={styles.userDetailsHeaderWithText}>
               <div className={styles.userDetailsHeader}>Issue</div>
-              <div className={styles.userDetailsText}>{this.props.issue}</div>
+              <div className={styles.userDetailsText}>{issue}</div>
             </div>
           )}
         </div>
         <div className={styles.submittedText}>
           <div className={styles.subText}>
             A summary of your query has been sent to your email ID
-            <span className={styles.colorRed}> {this.props.emailId}</span>
+            <span className={styles.colorRed}> {emailId}</span>
           </div>
         </div>
 

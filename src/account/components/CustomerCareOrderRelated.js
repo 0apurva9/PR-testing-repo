@@ -10,7 +10,11 @@ import TextArea from "../../general/components/TextArea";
 import ImageUpload from "./ImageUpload";
 import Button from "../../general/components/Button.js";
 import format from "date-fns/format";
-import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
+import {
+  LOGGED_IN_USER_DETAILS,
+  SUCCESS,
+  ORDER_CODE
+} from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
@@ -50,7 +54,8 @@ export default class CustomerCareOrderRelated extends React.Component {
       // attachmentName: "Upload attachment",
       uItemplateFeieldArray: [],
       file: [],
-      subIssue: ""
+      subIssue: "",
+      uploadedAttachment: ""
     };
   }
 
@@ -273,42 +278,78 @@ export default class CustomerCareOrderRelated extends React.Component {
     });
   }
 
-  onUploadFile(file, attachment) {
-    if (file) {
-      let combinedSize = 0;
-      for (let f of file) combinedSize += f.size / 1048576; //converting file size into MB
-      if (
-        combinedSize <= attachment.maxFileSize &&
-        file.length <= attachment.maxFileLimit
-      ) {
-        let uploadUserFileObject = new FormData();
-        let issueType =
-          this.props.isSelected == 1 ? "NonOrderRelated" : "orderRelated";
-        uploadUserFileObject.append("IssueType", issueType);
-        let uploadFiles = [];
-        for (let files of file) {
-          uploadUserFileObject.append(attachment.title, files);
-          uploadFiles.push(files);
+  async onUploadFile(newFile, { maxFileLimit, maxFileSize, title }) {
+    if (newFile) {
+      let combinedSize = 0,
+        totalFile = [...newFile, ...this.state.file];
+      for (let f of totalFile) combinedSize += f.size / 1048576; //converting file size into MB
+      let issueType =
+        this.props.isSelected == 1 ? "NonOrderRelated" : "orderRelated";
+      if (combinedSize <= maxFileSize && totalFile.length <= maxFileLimit) {
+        const uploadFileResponse = await this.props.uploadUserFile(
+          issueType,
+          title,
+          Array.from(newFile)
+        );
+        let { uploadUserFile, status } = uploadFileResponse;
+        if (uploadFileResponse && status === SUCCESS) {
+          this.setState(prevState => ({
+            file: [...prevState.file, ...newFile],
+            uploadedAttachment: [
+              ...prevState.uploadedAttachment,
+              ...uploadUserFile.imageURLlist
+            ]
+          }));
         }
-        this.setState({ file: uploadFiles });
-        this.props.uploadUserFile(uploadUserFileObject);
       } else {
-        if (file.length > attachment.maxFileLimit)
+        if (totalFile.length > maxFileLimit)
           this.props.displayToast(
-            `Maximum ${attachment.maxFileSize} No. of files allowed`
+            `Maximum ${maxFileLimit} No. of files allowed`
           );
         else
           this.props.displayToast(
-            `File size should be less then ${attachment.maxFileSize} MB`
+            `File size should be less then ${maxFileSize} MB`
           );
       }
     }
   }
+
+  // onUploadFile(file, attachment) {
+  //   if (file) {
+  //     let combinedSize = 0;
+  //     for (let f of file) combinedSize += f.size / 1048576;
+  //     if (
+  //       combinedSize <= attachment.maxFileSize &&
+  //       file.length <= attachment.maxFileLimit
+  //     ) {
+  //       let uploadUserFileObject = new FormData();
+  //       let issueType =
+  //         this.props.isSelected == 1 ? "NonOrderRelated" : "orderRelated";
+  //       uploadUserFileObject.append("IssueType", issueType);
+  //       let uploadFiles = [];
+  //       for (let files of file) {
+  //         uploadUserFileObject.append(attachment.title, files);
+  //         uploadFiles.push(files);
+  //       }
+  //       this.setState({ file: uploadFiles });
+  //       this.props.uploadUserFile(uploadUserFileObject);
+  //     } else {
+  //       if (file.length > attachment.maxFileLimit)
+  //         this.props.displayToast(
+  //           `Maximum ${attachment.maxFileSize} No. of files allowed`
+  //         );
+  //       else
+  //         this.props.displayToast(
+  //           `File size should be less then ${attachment.maxFileSize} MB`
+  //         );
+  //     }
+  //   }
+  // }
   formValidate(fieldObj) {
     if (fieldObj.isMandatory == 1) {
       if (
         fieldObj.componentName === "attachmentComponent" &&
-        this.state.file.length <= 0
+        this.state.uploadedAttachment <= 0
       ) {
         this.props.displayToast(fieldObj.heading + " is mandatory");
         return false;
@@ -403,15 +444,13 @@ export default class CustomerCareOrderRelated extends React.Component {
       } else {
         for (let [key, value] of Object.entries(additionalInfo)) {
           if (key == this.state.uploadFileTitle) {
-            if (this.props.uploadedAttachments.length) {
-              let urlListArray = "";
-              this.props.uploadedAttachments.forEach(item => {
-                let urlList = item.urlList.map(url => {
-                  return url.fileURL;
-                });
-                urlListArray = urlList.join(",");
+            if (this.state.uploadedAttachment.length) {
+              let urlList = [];
+              this.state.uploadedAttachment.forEach(item => {
+                let list = item.urlList.map(url => url.fileURL);
+                urlList.push(...list);
               });
-              additionalInfo[this.state.uploadFileTitle] = urlListArray;
+              additionalInfo[this.state.uploadFileTitle] = urlList.join(",");
             } else {
               additionalInfo[this.state.uploadFileTitle] = "";
             }
@@ -515,7 +554,9 @@ export default class CustomerCareOrderRelated extends React.Component {
       goToOrderPage,
       selectedObj,
       subIssueList,
-      parentIssueLabel
+      // parentIssueLabel,
+      mainIssue,
+      issueSelected
     } = this.props;
     let attachmentName = "Upload attachment";
     if (this.state.file.length) {
@@ -523,16 +564,40 @@ export default class CustomerCareOrderRelated extends React.Component {
       for (let f of this.state.file) fileName.push(f.name);
       attachmentName = fileName.join(",");
     }
-    let parentIssueLabels = "Select issue",
-      childIssueLabels = "Select sub-issue";
-    if (parentIssueLabel) {
-      parentIssueLabels = parentIssueLabel;
+    let parentIssueLabel = "Select issue",
+      childIssueLabel = "Select sub-issue";
+
+    if (isSelected) {
+      if (mainIssue) parentIssueLabel = mainIssue;
+      if (issueSelected) childIssueLabel = issueSelected;
+    } else {
+      parentIssueLabel = issueSelected;
     }
 
-    if (this.state.subIssue) {
-      childIssueLabels = this.state.subIssue;
-    }
+    let newSolution = "";
+    if (selectedObj && selectedObj[0].solution) {
+      const solution = selectedObj[0].solution;
+      let newSolution = solution;
+      if (solution.indexOf("<a") !== -1) {
+        let startIndex = newSolution.indexOf("<a"),
+          endIndex = newSolution.indexOf("</a>");
+        let link = newSolution.slice(startIndex, endIndex + 4);
+        let div = document.createElement("div");
+        div.innerHTML = link.trim();
 
+        if (div.firstChild.href.indexOf(`/?${ORDER_CODE}=`) !== -1) {
+          let newURL = div.firstChild.href.slice(
+            0,
+            div.firstChild.href.indexOf(`{`)
+          );
+          newURL = `${newURL}${this.props.orderCode}`;
+          div.firstChild.setAttribute("href", newURL);
+          newSolution = `${newSolution.slice(0, startIndex)}${
+            div.firstChild.outerHTML
+          }${newSolution.slice(endIndex + 4)}`;
+        }
+      }
+    }
     return (
       <div className={styles.formHolder}>
         <div className={styles.firstTab}>
@@ -622,6 +687,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                     </div>
                     <SelectBoxMobile2
                       placeholder="Select issue"
+                      label={parentIssueLabel}
                       arrowColour="black"
                       height={33}
                       extraVisibleBoxCss={true}
@@ -643,9 +709,12 @@ export default class CustomerCareOrderRelated extends React.Component {
                     />
                   </div>
                   {selectedObj && selectedObj[0].webform === "No" && (
-                    <div className={styles.selectIssue}>
-                      {selectedObj && selectedObj[0].solution}
-                    </div>
+                    <div
+                      className={styles.solution}
+                      dangerouslySetInnerHTML={{
+                        __html: newSolution
+                      }}
+                    ></div>
                   )}
                   {selectedObj &&
                   selectedObj[0].webform === "Yes" &&
@@ -671,7 +740,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                     </div>
                     <SelectBoxMobile2
                       placeholder="Select issue"
-                      label={parentIssueLabels}
+                      label={parentIssueLabel}
                       arrowColour="black"
                       height={33}
                       extraVisibleBoxCss={true}
@@ -705,7 +774,7 @@ export default class CustomerCareOrderRelated extends React.Component {
 
                       <SelectBoxMobile2
                         placeholder="Select sub-issue"
-                        label={childIssueLabels}
+                        label={childIssueLabel}
                         arrowColour="black"
                         height={33}
                         // extraVisibleBoxCss={true}
@@ -732,7 +801,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                     <div
                       className={styles.solution}
                       dangerouslySetInnerHTML={{
-                        __html: selectedObj && selectedObj[0].solution
+                        __html: newSolution
                       }}
                     ></div>
                   )}
@@ -833,7 +902,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                       value={this.state.mobile}
                       fontSize={"12px"}
                       onChange={mobile => this.setState({ mobile: mobile })}
-                      disabled={this.state.mobile ? true : false}
+                      // disabled={this.state.mobile ? true : false}
                       onlyNumber={true}
                     />
                   </div>

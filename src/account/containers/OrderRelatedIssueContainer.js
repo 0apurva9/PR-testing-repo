@@ -32,8 +32,10 @@ const mapDispatchToProps = dispatch => {
     getNonOrderRelatedQuestions: () => {
       dispatch(getNonOrderRelatedQuestions());
     },
-    getCustomerQueriesFieldsv2: (uItemplateCode, isSelectRadio) => {
-      dispatch(getCustomerQueriesFieldsv2(uItemplateCode, isSelectRadio));
+    getCustomerQueriesFieldsv2: async (uItemplateCode, isSelectRadio) => {
+      return dispatch(
+        getCustomerQueriesFieldsv2(uItemplateCode, isSelectRadio)
+      );
     },
     getOrdersTransactionData: paginated => {
       dispatch(getOrdersTransactionData(paginated));
@@ -44,8 +46,11 @@ const mapDispatchToProps = dispatch => {
     displayToast: message => {
       dispatch(displayToast(message));
     },
-    uploadUserFile: async uploadUserFileObject => {
-      return dispatch(uploadUserFile(uploadUserFileObject));
+    // uploadUserFile: async uploadUserFileObject => {
+    //   return dispatch(uploadUserFile(uploadUserFileObject));
+    // },
+    uploadUserFile: async (issueType, title, file) => {
+      return dispatch(uploadUserFile(issueType, title, file));
     },
     submitOrderDetails: async raiseTicketObj => {
       return dispatch(submitOrderDetails(raiseTicketObj));
