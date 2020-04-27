@@ -18,7 +18,8 @@ import {
   ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_TNC,
   ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE,
   ADOBE_MDE_CLICK_ON_PROCEED_WITH_EXCHANGE,
-  ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS
+  ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS,
+  ADOBE_MDE_CLICK_ON_VERIFY_IMEI
 } from "../../lib/adobeUtils";
 export default class ExchangeModal extends React.Component {
   constructor(props) {
@@ -348,6 +349,7 @@ export default class ExchangeModal extends React.Component {
         });
       }
     }
+    setDataLayer(ADOBE_MDE_CLICK_ON_VERIFY_IMEI, data.status);
   }
 
   agreedTnC(e, deviceNo) {

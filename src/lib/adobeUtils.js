@@ -617,6 +617,9 @@ const ADOBE_CLICK_ON_CASHBACK_DETAILS = "exchange_Model_Cashback_Details";
 export const ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS =
   "ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS";
 
+const ADOBE_CLICK_ON_VERIFY_IMEI = "exchange_Model_Verify";
+export const ADOBE_MDE_CLICK_ON_VERIFY_IMEI = "ADOBE_MDE_CLICK_ON_VERIFY_IMEI";
+
 export async function setDataLayer(
   type,
   apiResponse,
@@ -1342,6 +1345,12 @@ export async function setDataLayer(
   if (type === ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS) {
     if (window._satellite) {
       window._satellite.track(ADOBE_CLICK_ON_CASHBACK_DETAILS);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_VERIFY_IMEI) {
+    window.digitalData.exchange = { imei: { status: apiResponse } };
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_VERIFY_IMEI);
     }
   }
 }
