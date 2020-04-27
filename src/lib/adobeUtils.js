@@ -651,6 +651,14 @@ const ADOBE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE = "cart_Exchange_CliqCash";
 export const ADOBE_MDE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE =
   "ADOBE_MDE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE";
 
+const ADOBE_CLICK_ON_CANCEL_WITH_EXCHANGE = "OD_Exchange_Cancel";
+export const ADOBE_MDE_CLICK_ON_CANCEL_WITH_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_CANCEL_WITH_EXCHANGE";
+
+const ADOBE_CLICK_ON_RETURN_WITH_EXCHANGE = "OD_Exchange_Returns";
+export const ADOBE_MDE_CLICK_ON_RETURN_WITH_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_RETURN_WITH_EXCHANGE";
+
 export async function setDataLayer(
   type,
   apiResponse,
@@ -1422,6 +1430,16 @@ export async function setDataLayer(
   if (type === ADOBE_MDE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE) {
     if (window._satellite) {
       window._satellite.track(ADOBE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CANCEL_WITH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CANCEL_WITH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_RETURN_WITH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_RETURN_WITH_EXCHANGE);
     }
   }
 }
