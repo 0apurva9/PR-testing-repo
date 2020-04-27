@@ -28,6 +28,14 @@ import { ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART } from "../../lib/adobeUtils";
 import exchangeIconLight from "../../cart/components/img/exchangeIconLight.svg";
 import closeIcon from "../../cart/components/img/exchangeCloseIcon.svg";
 import format from "date-fns/format";
+import {
+  setDataLayer,
+  ADOBE_MDE_CLICK_ON_REMOVE_EXCHANGE,
+  ADOBE_MDE_CLICK_ON_GET_NEW_PRICE,
+  ADOBE_MDE_CLICK_ON_CART_VIEW_MORE,
+  ADOBE_MDE_CLICK_ON_CART_VIEW_LESS,
+  ADOBE_MDE_CLICK_ON_CART_TNC
+} from "../../lib/adobeUtils";
 const NO_SIZE = "NO SIZE";
 const OUT_OF_STOCK = "Product is out of stock";
 export default class CartItemForDesktop extends React.Component {
@@ -91,20 +99,24 @@ export default class CartItemForDesktop extends React.Component {
   }
   viewMoreDetails() {
     this.setState({ showMore: true });
+    setDataLayer(ADOBE_MDE_CLICK_ON_CART_VIEW_MORE);
   }
   viewLessDetails() {
     this.setState({ showMore: false });
+    setDataLayer(ADOBE_MDE_CLICK_ON_CART_VIEW_LESS);
   }
   openTnCModal() {
     this.props.showExchangeTnCModal();
+    setDataLayer(ADOBE_MDE_CLICK_ON_CART_TNC);
   }
   async removeExchange() {
-    return await this.props.showRemoveExchangeModal({
+    await this.props.showRemoveExchangeModal({
       cartGuid: this.props.cartGuid,
       entryNumber: this.props.entryNumber,
       quoteId: this.props.product.exchangeDetails.quoteId,
       IMEINumber: this.props.product.exchangeDetails.IMEINumber
     });
+    setDataLayer(ADOBE_MDE_CLICK_ON_REMOVE_EXCHANGE);
   }
   getDayNumberSuffix(d) {
     let dateWithMonth = new Date(d);
@@ -178,6 +190,7 @@ export default class CartItemForDesktop extends React.Component {
       ) {
         this.props.displayToast(response.error);
       }
+      setDataLayer(ADOBE_MDE_CLICK_ON_GET_NEW_PRICE);
     }
   }
   render() {

@@ -25,7 +25,8 @@ import {
   ADOBE_WISHLIST_PLP_REMOVE,
   ADOBE_WISHLIST_PDP_REMOVE,
   ADOBE_ADD_TO_WISHLIST_PLP,
-  ADOBE_ADD_TO_WISHLIST_PDP
+  ADOBE_ADD_TO_WISHLIST_PDP,
+  ADOBE_MDE_CLICK_ON_SAVE_TO_WISHLIST
 } from "../../lib/adobeUtils";
 export const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 export const WISHLIST_FOOTER_ICON_TYPE = "wishlistIcon";
@@ -52,6 +53,9 @@ export default class AddToWishListButton extends React.Component {
     }
     if (e) {
       e.stopPropagation();
+    }
+    if (this.props.exchangeDetails) {
+      setDataLayer(ADOBE_MDE_CLICK_ON_SAVE_TO_WISHLIST);
     }
     const { productListingId, winningUssID, wishlistItems, index } = this.props;
     let addToWishListObj = Object.assign(

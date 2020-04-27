@@ -620,6 +620,29 @@ export const ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS =
 const ADOBE_CLICK_ON_VERIFY_IMEI = "exchange_Model_Verify";
 export const ADOBE_MDE_CLICK_ON_VERIFY_IMEI = "ADOBE_MDE_CLICK_ON_VERIFY_IMEI";
 
+const ADOBE_CLICK_ON_REMOVE_EXCHANGE = "cart_Exchange_Remove";
+export const ADOBE_MDE_CLICK_ON_REMOVE_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_REMOVE_EXCHANGE";
+
+const ADOBE_CLICK_ON_GET_NEW_PRICE = "cart_Exchange_Get_New_Price";
+export const ADOBE_MDE_CLICK_ON_GET_NEW_PRICE =
+  "ADOBE_MDE_CLICK_ON_GET_NEW_PRICE";
+
+const ADOBE_CLICK_ON_CART_VIEW_MORE = "cart_Exchange_View_More";
+export const ADOBE_MDE_CLICK_ON_CART_VIEW_MORE =
+  "ADOBE_MDE_CLICK_ON_CART_VIEW_MORE";
+
+const ADOBE_CLICK_ON_CART_VIEW_LESS = "cart_Exchange_View_Less";
+export const ADOBE_MDE_CLICK_ON_CART_VIEW_LESS =
+  "ADOBE_MDE_CLICK_ON_CART_VIEW_LESS";
+
+const ADOBE_CLICK_ON_CART_TNC = "cart_Exchange_t&c";
+export const ADOBE_MDE_CLICK_ON_CART_TNC = "ADOBE_MDE_CLICK_ON_CART_TNC";
+
+const ADOBE_CLICK_ON_SAVE_TO_WISHLIST = "cart_Exchange_Save";
+export const ADOBE_MDE_CLICK_ON_SAVE_TO_WISHLIST =
+  "ADOBE_MDE_CLICK_ON_SAVE_TO_WISHLIST";
+
 export async function setDataLayer(
   type,
   apiResponse,
@@ -1351,6 +1374,36 @@ export async function setDataLayer(
     window.digitalData.exchange = { imei: { status: apiResponse } };
     if (window._satellite) {
       window._satellite.track(ADOBE_CLICK_ON_VERIFY_IMEI);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_REMOVE_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_REMOVE_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_GET_NEW_PRICE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_GET_NEW_PRICE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CART_VIEW_MORE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CART_VIEW_MORE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CART_VIEW_LESS) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CART_VIEW_LESS);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CART_TNC) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CART_TNC);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_SAVE_TO_WISHLIST) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_SAVE_TO_WISHLIST);
     }
   }
 }

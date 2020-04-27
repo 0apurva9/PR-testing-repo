@@ -703,8 +703,6 @@ class CartPage extends React.Component {
     if (!globalAccessToken && !cartDetailsForAnonymous) {
       return <Redirect exact to={HOME_ROUTER} />;
     }
-    console.log(this.props);
-    console.log(this.props.cartDetails);
     if (this.props.cart.cartDetails && this.props.cart.cartDetails.products) {
       const cartDetails = this.props.cart.cartDetails;
       let defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
