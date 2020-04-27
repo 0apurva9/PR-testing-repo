@@ -32,6 +32,10 @@ import CheckOutHeader from "./CheckOutHeader";
 // import { getCookie } from "../../lib/Cookie";
 import giftCardIcon from "../../general/components/img/Gift.svg";
 import CheckoutUpi from "./CheckoutUpi";
+import {
+  setDataLayer,
+  ADOBE_MDE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE
+} from "../../lib/adobeUtils";
 /**
  * @comment Commented the const as it is not being used anywhere.
  */
@@ -177,6 +181,12 @@ export default class PaymentCardWrapper extends React.Component {
   handleClick = toggleState => {
     if (toggleState) {
       this.props.applyCliqCash();
+      if (
+        this.props.isExchangeServiceableArray &&
+        this.props.isExchangeServiceableArray.includes(true)
+      ) {
+        setDataLayer(ADOBE_MDE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE);
+      }
     } else {
       this.props.removeCliqCash();
     }

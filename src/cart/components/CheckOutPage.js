@@ -4284,6 +4284,7 @@ if you have order id in local storage then you have to show order confirmation p
                       }
                       getPaymentModes={val => this.props.getPaymentModes(val)}
                       retryCartGuid={this.state.retryCartGuid}
+                      isExchangeServiceableArray={isExchangeServiceableArray}
                     />
                   </div>
                 )}

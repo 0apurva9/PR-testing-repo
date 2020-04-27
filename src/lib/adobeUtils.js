@@ -643,6 +643,14 @@ const ADOBE_CLICK_ON_SAVE_TO_WISHLIST = "cart_Exchange_Save";
 export const ADOBE_MDE_CLICK_ON_SAVE_TO_WISHLIST =
   "ADOBE_MDE_CLICK_ON_SAVE_TO_WISHLIST";
 
+const ADOBE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE = "cart_Exchange_Checkout";
+export const ADOBE_MDE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE";
+
+const ADOBE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE = "cart_Exchange_CliqCash";
+export const ADOBE_MDE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE";
+
 export async function setDataLayer(
   type,
   apiResponse,
@@ -1404,6 +1412,16 @@ export async function setDataLayer(
   if (type === ADOBE_MDE_CLICK_ON_SAVE_TO_WISHLIST) {
     if (window._satellite) {
       window._satellite.track(ADOBE_CLICK_ON_SAVE_TO_WISHLIST);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE);
     }
   }
 }

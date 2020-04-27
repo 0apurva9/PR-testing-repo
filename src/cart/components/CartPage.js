@@ -48,7 +48,9 @@ import {
   setDataLayerForCartDirectCalls,
   ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT,
   ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING,
-  ADOBE_DIRECT_CALL_FOR_CART_SAVED_LIST
+  ADOBE_DIRECT_CALL_FOR_CART_SAVED_LIST,
+  setDataLayer,
+  ADOBE_MDE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE
 } from "../../lib/adobeUtils";
 import * as UserAgent from "../../lib/UserAgent.js";
 import SaveAndSecure from "../../general/components/SaveAndSecure";
@@ -377,7 +379,14 @@ class CartPage extends React.Component {
       this.props.history.push(`/p-${productCode.toLowerCase()}`);
     }
   }
-  renderToCheckOutPage() {
+  renderToCheckOutPage(productExchangeServiceable) {
+    // if product has exchange available
+    if (
+      productExchangeServiceable &&
+      productExchangeServiceable.includes(true)
+    ) {
+      setDataLayer(ADOBE_MDE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE);
+    }
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 
@@ -1147,7 +1156,11 @@ class CartPage extends React.Component {
                                 ) / 100
                               : "0.00"
                           }
-                          onCheckout={() => this.renderToCheckOutPage()}
+                          onCheckout={() =>
+                            this.renderToCheckOutPage(
+                              productExchangeServiceable
+                            )
+                          }
                           label={CHECKOUT__TEXT}
                           isOnCartPage={true}
                           changePinCode={this.changePinCode}
