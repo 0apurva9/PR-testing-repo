@@ -659,6 +659,18 @@ const ADOBE_CLICK_ON_RETURN_WITH_EXCHANGE = "OD_Exchange_Returns";
 export const ADOBE_MDE_CLICK_ON_RETURN_WITH_EXCHANGE =
   "ADOBE_MDE_CLICK_ON_RETURN_WITH_EXCHANGE";
 
+const ADOBE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE = "OC_Change_Account";
+export const ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE";
+
+const ADOBE_CASHBACK_MODE_CLIQCASH_EXCHANGE = "OC_Cliq_Cash";
+export const ADOBE_MDE_CASHBACK_MODE_CLIQCASH_EXCHANGE =
+  "ADOBE_MDE_CASHBACK_MODE_CLIQCASH_EXCHANGE";
+
+const ADOBE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE = "OC_Account_Details_CM";
+export const ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE =
+  "ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE";
+
 export async function setDataLayer(
   type,
   apiResponse,
@@ -1440,6 +1452,21 @@ export async function setDataLayer(
   if (type === ADOBE_MDE_CLICK_ON_RETURN_WITH_EXCHANGE) {
     if (window._satellite) {
       window._satellite.track(ADOBE_CLICK_ON_RETURN_WITH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CASHBACK_MODE_CLIQCASH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CASHBACK_MODE_CLIQCASH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE);
     }
   }
 }

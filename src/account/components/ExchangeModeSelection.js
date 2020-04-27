@@ -16,6 +16,11 @@ import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import Instant from "../../general/components/img/pathCopy7.png";
 import Icon from "../../xelpmoc-core/Icon";
 import Button from "../../general/components/Button";
+import {
+  setDataLayer,
+  ADOBE_MDE_CASHBACK_MODE_CLIQCASH_EXCHANGE,
+  ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE
+} from "../../lib/adobeUtils";
 export default class ExchangeModeSelection extends React.Component {
   constructor(props) {
     super(props);
@@ -82,6 +87,10 @@ export default class ExchangeModeSelection extends React.Component {
       } else {
         this.setState({ selectedOption: "" });
       }
+      setDataLayer(ADOBE_MDE_CASHBACK_MODE_CLIQCASH_EXCHANGE);
+    }
+    if (target.value === "BANK_ACCOUNT") {
+      setDataLayer(ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE);
     }
   }
 

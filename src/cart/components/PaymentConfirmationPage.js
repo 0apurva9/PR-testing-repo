@@ -20,6 +20,10 @@ import savedPayments from "../../general/components/img/card.svg";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import loader from "../../general/components/img/loader.gif";
+import {
+  setDataLayer,
+  ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE
+} from "../../lib/adobeUtils";
 export default class PaymentConfirmationPage extends React.Component {
   constructor(props) {
     super(props);
@@ -92,6 +96,7 @@ export default class PaymentConfirmationPage extends React.Component {
     }
   }
   goToEchangeCashbackSelection(orderId) {
+    setDataLayer(ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE);
     let exchangeCashbackSelectionURL =
       "/my-account/getAccountInfoForExchange?parentOrderId=" + orderId;
     this.props.history.push(exchangeCashbackSelectionURL);

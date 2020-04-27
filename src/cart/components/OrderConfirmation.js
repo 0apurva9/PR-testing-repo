@@ -23,8 +23,10 @@ import MobileOnly from "../../general/components/MobileOnly";
 // import BottomSlideModal2 from "../../general/components/BottomSlideModal2.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import {
+  setDataLayer,
   setDataLayerForGiftCard,
-  SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT
+  SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT,
+  ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE
 } from "../../lib/adobeUtils";
 
 import PaymentBanner from "./PaymentBanner.js";
@@ -141,6 +143,7 @@ export default class OrderConfirmation extends React.Component {
   }
 
   goToEchangeCashbackSelection(orderId) {
+    setDataLayer(ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE);
     let exchangeCashbackSelectionURL =
       "/my-account/getAccountInfoForExchange?parentOrderId=" + orderId;
     this.props.history.push(exchangeCashbackSelectionURL);
