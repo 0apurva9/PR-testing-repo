@@ -111,7 +111,7 @@ export default class CustomerCareOrderRelated extends React.Component {
         }
       });
     }
-    if (nextProps && nextProps.userDetails) {
+    if (nextProps && nextProps.userDetails !== this.props.userDetails) {
       this.setState({
         email: nextProps.userDetails.emailID
           ? nextProps.userDetails.emailID
@@ -314,37 +314,6 @@ export default class CustomerCareOrderRelated extends React.Component {
     }
   }
 
-  // onUploadFile(file, attachment) {
-  //   if (file) {
-  //     let combinedSize = 0;
-  //     for (let f of file) combinedSize += f.size / 1048576;
-  //     if (
-  //       combinedSize <= attachment.maxFileSize &&
-  //       file.length <= attachment.maxFileLimit
-  //     ) {
-  //       let uploadUserFileObject = new FormData();
-  //       let issueType =
-  //         this.props.isSelected == 1 ? "NonOrderRelated" : "orderRelated";
-  //       uploadUserFileObject.append("IssueType", issueType);
-  //       let uploadFiles = [];
-  //       for (let files of file) {
-  //         uploadUserFileObject.append(attachment.title, files);
-  //         uploadFiles.push(files);
-  //       }
-  //       this.setState({ file: uploadFiles });
-  //       this.props.uploadUserFile(uploadUserFileObject);
-  //     } else {
-  //       if (file.length > attachment.maxFileLimit)
-  //         this.props.displayToast(
-  //           `Maximum ${attachment.maxFileSize} No. of files allowed`
-  //         );
-  //       else
-  //         this.props.displayToast(
-  //           `File size should be less then ${attachment.maxFileSize} MB`
-  //         );
-  //     }
-  //   }
-  // }
   formValidate(fieldObj) {
     if (fieldObj.isMandatory == 1) {
       if (
@@ -463,22 +432,22 @@ export default class CustomerCareOrderRelated extends React.Component {
     if (validateStatus) {
       if (!email) {
         this.props.displayToast(EMAIL_TEXT);
-        this.setState({ email: "" });
+        // this.setState({ email: "" });
         return false;
       }
       if (email && !EMAIL_REGULAR_EXPRESSION.test(email)) {
         this.props.displayToast(EMAIL_VALID_TEXT);
-        this.setState({ email: "" });
+        // this.setState({ email: "" });
         return false;
       }
       if (!mobile) {
         this.props.displayToast(MOBILE_TEXT);
-        this.setState({ mobile: "" });
+        // this.setState({ mobile: "" });
         return false;
       }
       if (mobile && !MOBILE_PATTERN.test(mobile)) {
         this.props.displayToast(MOBILE_VALID_TEXT);
-        this.setState({ mobile: "" });
+        // this.setState({ mobile: "" });
         return false;
       } else {
         let ticketInfo = Object.assign(

@@ -204,7 +204,8 @@ export default class OrderRelatedIssue extends React.Component {
       productStatus: productStatus,
       webFormStatus: false,
       issueSelected: "Select issue",
-      customerQueriesField: []
+      customerQueriesField: [],
+      selectedObj: null
     });
 
     this.props.getCustomerQueriesData(transactionId);
