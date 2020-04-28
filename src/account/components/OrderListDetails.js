@@ -190,7 +190,17 @@ class OrderListDetails extends Component {
         </div>
         {this.props.isQuesryForm && (
           <CustomerQueryForm
+            getQuestyTesting={() => this.props.getQuestyTesting()}
             customerQueriesField={this.props.customerQueriesField}
+            uploadUserFile={(issueType, title, file) =>
+              this.props.uploadUserFile(issueType, title, file)
+            }
+            uploadedAttachments={this.props.uploadedAttachments}
+            userDetails={this.props.userDetails}
+            submitCustomerForms={formaData =>
+              this.props.submitCustomerForms(formaData)
+            }
+            displayToast={message => this.props.displayToast(message)}
           />
         )}
       </div>

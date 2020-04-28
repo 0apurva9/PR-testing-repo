@@ -14,9 +14,13 @@ export default class OrderRelatedIssue extends React.Component {
     isIssueOptions: false,
     selectedQuestion: null,
     isQuesryForm: false,
+    // isQuesryForm: true,
     orderList: true,
     isOrderDatails: false,
-    selectedOrder: null
+    // orderList: false,
+    // isOrderDatails: true,
+    selectedOrder: null,
+    uploadedAttachments: null
   };
   tabSelect(val) {
     this.setState({ isSelected: val });
@@ -28,6 +32,13 @@ export default class OrderRelatedIssue extends React.Component {
     if (this.props.getOrdersTransactionData) {
       this.props.getOrdersTransactionData();
     }
+    if (this.props.getUserDetails) {
+      this.props.getUserDetails();
+    }
+  }
+  getQuestyTesting() {
+    //Only testing remove if form validation is completed
+    this.props.getCustomerQueriesFieldsv2("SSW_18", false);
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.customerQueriesFieldStatus == SUCCESS) {
@@ -64,6 +75,61 @@ export default class OrderRelatedIssue extends React.Component {
     }
   }
 
+  async uploadUserFile(uploadUserFileObject) {
+    const uploadFileResponse = await this.props.uploadUserFile(
+      uploadUserFileObject
+    );
+    let { uploadUserFile, status } = uploadFileResponse;
+    if (uploadFileResponse && status === SUCCESS) {
+      this.setState({
+        uploadedAttachments: uploadUserFile.imageURLlist
+      });
+    }
+  }
+
+  async submitCustomerForms(formData) {
+    if (this.props.submitOrderDetails) {
+      let getCustomerQueryDetailsObject = Object.assign(
+        {},
+        {
+          // ticketID: null,
+          // emailId: formData.customerInfo.contactEmail,
+          // issue:
+          //   this.state.isSelected == 1
+          //     ? this.state.selectedObj[0].subIssueType
+          //     : this.state.selectedObj[0].issueType,
+          // tat: this.state.selectedObj[0].tat
+
+          ticketID: "sedtasldfd12",
+          // emailId: formData.customerInfo.contactEmail,
+          issue: "Issue type",
+          tat: "123"
+        }
+      );
+      console.log("text show modal");
+      this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+
+      // if (this.state.isSelected == 1) {
+      //   getCustomerQueryDetailsObject.issueCategory = this.state.parentIssueLabel;
+      // }
+      // const submitOrderDetailsResponse = await this.props.submitOrderDetails(
+      //   formData
+      // );
+      // if (submitOrderDetailsResponse.status === SUCCESS) {
+      //   if (
+      //     submitOrderDetailsResponse.submitOrder &&
+      //     submitOrderDetailsResponse.submitOrder.referenceNum !== "duplicate"
+      //   ) {
+      //     getCustomerQueryDetailsObject.ticketID =
+      //       submitOrderDetailsResponse.submitOrder.referenceNum;
+      //     this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+      //   } else {
+      //     this.props.displayToast(DUPLICATE_QUERY);
+      //   }
+      // }
+    }
+  }
+
   render() {
     console.log("ordersTransactionData", this.state.selectedQuestion);
 
@@ -95,7 +161,7 @@ export default class OrderRelatedIssue extends React.Component {
             <div className={styles.baseWrapper}>
               <div className={styles.formAbdTabHolder}>
                 <div className={styles.tabHolder}>
-                  <div
+                  {/* <div
                     className={[styles.tabHolderBox, styles.recentTicket].join(
                       " "
                     )}
@@ -114,7 +180,7 @@ export default class OrderRelatedIssue extends React.Component {
                         Lorem ipsum dorem lorem
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   <div className={styles.tabHolderBox}>
                     <div className={styles.tabHeader}>All Help Topics</div>
 
@@ -224,6 +290,16 @@ export default class OrderRelatedIssue extends React.Component {
                     orderRelatedQuestionsStatus={orderRelatedQuestionsStatus}
                     customerQueriesField={customerQueriesField}
                     isQuesryForm={this.state.isQuesryForm}
+                    getQuestyTesting={() => this.getQuestyTesting()}
+                    uploadUserFile={(issueType, title, file) =>
+                      this.props.uploadUserFile(issueType, title, file)
+                    }
+                    uploadedAttachments={this.state.uploadedAttachments}
+                    userDetails={this.props.userDetails}
+                    submitCustomerForms={formaData =>
+                      this.submitCustomerForms(formaData)
+                    }
+                    displayToast={message => this.props.displayToast(message)}
                   />
                 </div>
               </div>

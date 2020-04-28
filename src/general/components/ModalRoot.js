@@ -995,6 +995,7 @@ export default class ModalRoot extends React.Component {
       ),
       CustomerQueryPopUp: (
         <CustomerQueryPopUp
+          closeModal={() => this.handleClose()}
           {...this.props.ownProps}
           history={this.props.history}
         />

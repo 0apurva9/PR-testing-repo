@@ -43,25 +43,27 @@ const mapDispatchToProps = dispatch => {
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());
+    },
+    uploadUserFile: async (issueType, title, file) => {
+      return dispatch(uploadUserFile(issueType, title, file));
+    },
+    getUserDetails: () => {
+      dispatch(getUserDetails());
+    },
+    showCustomerQueryModal: getCustomerQueryDetailsObject => {
+      dispatch(showModal(CUSTOMER_QUERY_POPUP, getCustomerQueryDetailsObject));
+    },
+    displayToast: message => {
+      dispatch(displayToast(message));
+    },
+
+    submitOrderDetails: async raiseTicketObj => {
+      return dispatch(submitOrderDetails(raiseTicketObj));
     }
-    // getUserDetails: () => {
-    //   dispatch(getUserDetails());
-    // },
-    // displayToast: message => {
-    //   dispatch(displayToast(message));
-    // },
-    // uploadUserFile: async uploadUserFileObject => {
-    //   return dispatch(uploadUserFile(uploadUserFileObject));
-    // },
-    // submitOrderDetails: async raiseTicketObj => {
-    //   return dispatch(submitOrderDetails(raiseTicketObj));
-    // },
     // setHeaderText: text => {
     //   dispatch(setHeaderText(text));
     // },
-    // showCustomerQueryModal: getCustomerQueryDetailsObject => {
-    //   dispatch(showModal(CUSTOMER_QUERY_POPUP, getCustomerQueryDetailsObject));
-    // },
+
     // clearOrderTransactionDetails: () => {
     //   dispatch(clearOrderTransactionDetails());
     // },
@@ -80,6 +82,7 @@ const mapStateToProps = state => {
     // customerQueriesField: state.profile.customerQueriesField,
     // uploadUserFileStatus: state.profile.uploadUserFileStatus,
     // uploadUserFileData: state.profile.uploadUserFile,
+    userDetails: state.profile.userDetails,
     ordersTransactionData: state.profile.ordersTransactionData,
     customerQueriesOtherIssueDataStatus:
       state.profile.customerQueriesOtherIssueDataStatus,

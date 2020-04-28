@@ -14,7 +14,7 @@ const OtherQuestions = props => {
               parrentIssue => {
                 return (
                   <div className={styles.listHolder}>
-                    <div className={styles.circle}></div>
+                    {/* <div className={styles.circle}></div> */}
                     <div className={styles.listItem}>
                       <div className={styles.parrentIssue}>
                         {parrentIssue.parentIssueType}

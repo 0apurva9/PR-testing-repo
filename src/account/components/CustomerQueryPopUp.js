@@ -3,7 +3,9 @@ import styles from "./CustomerQueryPopUp.css";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import Icon from "../../xelpmoc-core/Icon";
-import orderSuccess from "../components/img/orderSuccess.svg";
+// import orderSuccess from "../components/img/orderSuccess.svg";
+import raisedTicket from "../components/img/raisedTicket.svg";
+import cancleSvg from "../components/img/cancleSvg.svg";
 import { MY_ACCOUNT_PAGE } from "../../lib/constants";
 export default class CustomerQueryPopUp extends React.Component {
   constructor() {
@@ -70,6 +72,9 @@ export default class CustomerQueryPopUp extends React.Component {
       this.props.history.push(MY_ACCOUNT_PAGE);
     }
   }
+  closeModal() {
+    this.props.closeModal();
+  }
   render() {
     let { tat, issueCategory, ticketID, issue, emailId } = this.props;
     let today = new Date();
@@ -85,25 +90,41 @@ export default class CustomerQueryPopUp extends React.Component {
 
     return (
       <div className={styles.base}>
-        <div className={styles.headerTextWithIcon}>
-          <Icon image={orderSuccess} size={38} />
-          <div className={styles.headerText}>
-            Your Query is Submitted Successfully
+        <div className={styles.closeModal} onClick={() => this.closeModal()}>
+          <Icon image={cancleSvg} size={20}></Icon>
+        </div>
+        <div className={styles.headerText}>Your Ticket Detials</div>
+        <div className={styles.image}>
+          <Icon image={raisedTicket} size={214}></Icon>
+        </div>
+        <div className={styles.expTime}>
+          <div className={styles.txt}>
+            {" "}
+            Our team is working on priority to resolve it. We will get back to
+            you within
+          </div>
+          <div className={styles.expDateTime}>
+            {`${displayTime}, ${displayDate}`}
           </div>
         </div>
-        <div className={(styles.subText, styles.blackBorderBottom)}>
+        <div className={styles.ticketIdBox}>
+          <div className={styles.txt}>Your ticket reference number is</div>
+          <div className={styles.ticketId}>142364413</div>
+        </div>
+        {/* <div className={(styles.subText, styles.blackBorderBottom)}>
           We have noted your concern and will update you before{" "}
           <div className={styles.colorRed}>
             {" "}
             {`${displayTime}, ${displayDate}`}
           </div>
-        </div>
-        <div className={styles.userDetails}>
-          {/* <div className={styles.userDetailsHeaderWithText}>
+        </div> */}
+
+        {/* <div className={styles.userDetails}> */}
+        {/* <div className={styles.userDetailsHeaderWithText}>
             <div className={styles.userDetailsHeader}>Ticket ID</div>
             <div className={styles.userDetailsText}>{this.props.ticketID}</div>
           </div> */}
-          {this.props.issueCategory && (
+        {/* {this.props.issueCategory && (
             <div className={styles.userDetailsHeaderWithText}>
               <div className={styles.userDetailsHeader}>Issue Category</div>
               <div className={styles.userDetailsText}>
@@ -117,26 +138,25 @@ export default class CustomerQueryPopUp extends React.Component {
               <div className={styles.userDetailsText}>{this.props.issue}</div>
             </div>
           )}
-        </div>
-        <div className={styles.submittedText}>
+        </div> */}
+        {/* <div className={styles.submittedText}>
           <div className={styles.subText}>
             A summary of your query has been sent to your email ID
             <span className={styles.colorRed}> {this.props.emailId}</span>
           </div>
-        </div>
+        </div> */}
 
         <div className={styles.buttonHolder}>
-          <div className={styles.button}>
-            <Button
-              backgroundColor="#000"
-              height={36}
-              label={"DONE"}
-              borderRadius={"4"}
-              width={96}
-              textStyle={{ color: "#fff", fontSize: 14, borderRadius: 4 }}
-              onClick={() => this.submit()}
-            />
-          </div>
+          <Button
+            type="primary"
+            backgroundColor="#da1c5c"
+            height={40}
+            label={"Ok"}
+            width={165}
+            textStyle={{ color: "#FFF", fontSize: 14 }}
+            // disabled={true}
+            onClick={() => this.submit()}
+          />
         </div>
       </div>
     );

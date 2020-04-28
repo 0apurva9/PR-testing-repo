@@ -9,7 +9,7 @@ import OrderListDetails from "./OrderListDetails";
 
 export default class CustomerIssue extends React.Component {
   state = {
-    isLogin: true
+    isLogin: false
     // isOrderDatails: false,
     // orderList: true,
     // isOrderDatails: true,
@@ -67,18 +67,17 @@ export default class CustomerIssue extends React.Component {
                   this.props.getOrderRelatedQuestions(orderData)
                 }
               />
-              // <h1>here is order list</h1>
             )}
           </div>
         )}
 
-        {/* {this.props.orderList && (
+        {this.props.orderList && (
           <OtherQuestions
             customerQueriesOtherIssueData={
               this.props.customerQueriesOtherIssueData
             }
           />
-        )} */}
+        )}
 
         {this.props.isOrderDatails && (
           <OrderListDetails
@@ -87,6 +86,16 @@ export default class CustomerIssue extends React.Component {
             orderRelatedQuestionsData={this.props.orderRelatedQuestionsData}
             customerQueriesField={this.props.customerQueriesField}
             isQuesryForm={this.props.isQuesryForm}
+            getQuestyTesting={() => this.props.getQuestyTesting()}
+            uploadUserFile={(issueType, title, file) =>
+              this.props.uploadUserFile(issueType, title, file)
+            }
+            uploadedAttachments={this.props.uploadedAttachments}
+            userDetails={this.props.userDetails}
+            submitCustomerForms={formaData =>
+              this.props.submitCustomerForms(formaData)
+            }
+            displayToast={message => this.props.displayToast(message)}
           />
         )}
       </div>
