@@ -255,6 +255,18 @@ const RecommendationWidget = Loadable({
     return <div />;
   }
 });
+const DiscoverMoreMsd = Loadable({
+  loader: () => import("./DiscoverMoreMsd.js"),
+  loading() {
+    return <div />;
+  }
+});
+const MsdAutomatedBrandProductCarousel = Loadable({
+  loader: () => import("./MsdAutomatedBrandProductCarousel.js"),
+  loading() {
+    return <div />;
+  }
+});
 
 export const typeComponentMapping = {
   "Product Capsules Component": props => (
@@ -319,6 +331,10 @@ export const typeComponentMapping = {
   "Multi Click Banner Component": props => (
     <MultiClickBannerComponent {...props} />
   ),
+  msdAutomatedBannerProductCarouselComponent: props => (
+    <MsdAutomatedBrandProductCarousel {...props} />
+  ),
+  msdAutoDiscoverMoreComponent: props => <DiscoverMoreMsd {...props} />,
 
   "Simple Banner Component": props => {
     return (
