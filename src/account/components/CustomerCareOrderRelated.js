@@ -574,30 +574,31 @@ export default class CustomerCareOrderRelated extends React.Component {
       parentIssueLabel = issueSelected;
     }
 
-    let newSolution = "";
-    if (selectedObj && selectedObj[0].solution) {
-      const solution = selectedObj[0].solution;
-      let newSolution = solution;
-      if (solution.indexOf("<a") !== -1) {
-        let startIndex = newSolution.indexOf("<a"),
-          endIndex = newSolution.indexOf("</a>");
-        let link = newSolution.slice(startIndex, endIndex + 4);
-        let div = document.createElement("div");
-        div.innerHTML = link.trim();
+    // let newSolution = "";
+    // if (selectedObj && selectedObj[0].solution) {
+    //   const solution = selectedObj[0].solution;
+    //   let newSolution = solution;
+    //   if (solution.indexOf("<a") !== -1) {
+    //     let startIndex = newSolution.indexOf("<a"),
+    //       endIndex = newSolution.indexOf("</a>");
+    //     let link = newSolution.slice(startIndex, endIndex + 4);
+    //     let div = document.createElement("div");
+    //     div.innerHTML = link.trim();
 
-        if (div.firstChild.href.indexOf(`/?${ORDER_CODE}=`) !== -1) {
-          let newURL = div.firstChild.href.slice(
-            0,
-            div.firstChild.href.indexOf(`{`)
-          );
-          newURL = `${newURL}${this.props.orderCode}`;
-          div.firstChild.setAttribute("href", newURL);
-          newSolution = `${newSolution.slice(0, startIndex)}${
-            div.firstChild.outerHTML
-          }${newSolution.slice(endIndex + 4)}`;
-        }
-      }
-    }
+    //     if (div.firstChild.href.indexOf(`/?${ORDER_CODE}=`) !== -1) {
+    //       let newURL = div.firstChild.href.slice(
+    //         0,
+    //         div.firstChild.href.indexOf(`{`)
+    //       );
+    //       newURL = `${newURL}${this.props.orderCode}`;
+    //       div.firstChild.setAttribute("href", newURL);
+    //       newSolution = `${newSolution.slice(0, startIndex)}${
+    //         div.firstChild.outerHTML
+    //       }${newSolution.slice(endIndex + 4)}`;
+    //     }
+    //   }
+    // }
+
     return (
       <div className={styles.formHolder}>
         <div className={styles.firstTab}>
@@ -712,7 +713,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                     <div
                       className={styles.solution}
                       dangerouslySetInnerHTML={{
-                        __html: newSolution
+                        __html: selectedObj[0].solution
                       }}
                     ></div>
                   )}
@@ -801,7 +802,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                     <div
                       className={styles.solution}
                       dangerouslySetInnerHTML={{
-                        __html: newSolution
+                        __html: selectedObj[0].solution
                       }}
                     ></div>
                   )}
