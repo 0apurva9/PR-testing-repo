@@ -1017,6 +1017,13 @@ export function getMsdRequest(
 ) {
   return async (dispatch, getState, { api }) => {
     let msdRequestObject = new FormData();
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    if (userDetails) {
+      userDetails = JSON.parse(userDetails);
+    }
+    if (userDetails && userDetails.userName) {
+      msdRequestObject.append("user_id", userDetails.userName);
+    }
     msdRequestObject.append("api_key", API_KEY);
     if (process.env.REACT_APP_STAGE === "qa2") {
       msdRequestObject.append("mad_uuid", QA2_MCV_ID);
@@ -1096,6 +1103,13 @@ export function pdpAboutBrandSuccess(brandDetails) {
 export function pdpAboutBrand(productCode) {
   return async (dispatch, getState, { api }) => {
     let msdRequestObject = new FormData();
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    if (userDetails) {
+      userDetails = JSON.parse(userDetails);
+    }
+    if (userDetails && userDetails.userName) {
+      msdRequestObject.append("user_id", userDetails.userName);
+    }
     msdRequestObject.append("api_key", API_KEY);
     msdRequestObject.append(
       "widget_list",
