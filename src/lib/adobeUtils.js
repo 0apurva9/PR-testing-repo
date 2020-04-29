@@ -519,6 +519,10 @@ export const ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_SUCCESS =
   "ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_SUCCESS";
 const PDP_KNOW_MORE_CLICK = "pdp_show_more";
 export const ADOBE_PDP_KNOW_MORE_CLICK = "ADOBE_PDP_KNOW_MORE_CLICK";
+export const SIMILAR_PRODUCTS_PDP_WIDGET = "SIMILAR_PRODUCTS_PDP_WIDGET";
+export const ADOBE_CAROUSEL_SWIPE = "ADOBE_CAROUSEL_SWIPE";
+export const ADOBE_CAROUSEL_CLICK = "ADOBE_CAROUSEL_CLICK";
+export const ADOBE_CAROUSEL_SHOW = "ADOBE_CAROUSEL_SHOW";
 
 //Rating and Review
 const RATING_STAR_CLICK = "rating_Star_Click";
@@ -2231,6 +2235,28 @@ export function getDigitalDataForPlp(type, response) {
     });
   }
   return data;
+}
+export function setDataLayerForMsdItemWidgets(response, type) {
+  let digitalDataForCarousel = window.digitalData;
+  if (type === ADOBE_CAROUSEL_SWIPE) {
+    let dataSwipe = Object.assign(digitalDataForCarousel, response);
+    window.digitalData = dataSwipe;
+    if (window._satellite) {
+      window._satellite.track("carouselSwipe");
+    }
+  }
+  if (type === ADOBE_CAROUSEL_CLICK) {
+    let dataSwipe = Object.assign(digitalDataForCarousel, response);
+    window.digitalData = dataSwipe;
+    if (window._satellite) {
+      window._satellite.track("carouselClick");
+    }
+  }
+  if (type === ADOBE_CAROUSEL_SHOW) {
+    if (window._satellite) {
+      window._satellite.track("CarouselShow");
+    }
+  }
 }
 export function getDigitalDataForSearchPageSuccess(response, type) {
   const offersCount =

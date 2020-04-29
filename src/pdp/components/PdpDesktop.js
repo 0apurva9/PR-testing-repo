@@ -353,6 +353,8 @@ export default class PdpApparel extends React.Component {
           });
       }
     }
+    // let dataRecommended = document.getElementById("recommendedSection");
+    // console.log("props", dataRecommended)
   };
   relevantProductServibilty = async params => {
     let pinCode = "208007";
@@ -2253,8 +2255,11 @@ export default class PdpApparel extends React.Component {
                         </div>
                       ) : null}
                     </React.Fragment>
+                    <div id="recommendedSection" />
                     <React.Fragment>
-                      <PDPRecommendedSectionsContainer />
+                      <PDPRecommendedSectionsContainer
+                        productData={this.props}
+                      />
                     </React.Fragment>
                   </React.Fragment>
                 </div>
