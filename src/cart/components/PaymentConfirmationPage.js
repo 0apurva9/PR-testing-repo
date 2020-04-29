@@ -29,7 +29,6 @@ export default class PaymentConfirmationPage extends React.Component {
     super(props);
     this.state = {
       showloader: false,
-      orderId: "",
       exchangePaymentDetails: ""
     };
   }
@@ -45,7 +44,6 @@ export default class PaymentConfirmationPage extends React.Component {
       let stripeDetailsJson = JSON.parse(stripeDetails);
       orderId = stripeDetailsJson.orderId;
     }
-    this.setState({ orderId: orderId });
     if (orderId) {
       let pageName = "paymentConfirmation";
       await this.wait(7000);
@@ -74,6 +72,9 @@ export default class PaymentConfirmationPage extends React.Component {
         data.orderId = orderId;
         data.exchangePaymentMode =
           commonExchangePaymentDetails[0].exchangePaymentMode;
+        if (commonExchangePaymentDetails[0].accountNumber) {
+          data.accountNumber = commonExchangePaymentDetails[0].accountNumber;
+        }
         this.props.showChangeExchangeCashabackModal(data);
       }
     }
@@ -129,49 +130,6 @@ export default class PaymentConfirmationPage extends React.Component {
                     }
                   />
                 </div>
-                {this.state.exchangePaymentDetails &&
-                  this.state.exchangePaymentDetails.exchangePaymentMode && (
-                    <div className={styles.exchangeCashbackDetailsContainer}>
-                      <div className={styles.exchangeCashbackDetails}>
-                        <div className={styles.exchangeCashbackTextContainer}>
-                          <span className={styles.exchangeCashbackText}>
-                            You will receive exchange cashback, post your old
-                            phone pickup, in{" "}
-                          </span>
-                          {this.state.exchangePaymentDetails
-                            .exchangePaymentMode === "CLIQ_CASH" ? (
-                            <span
-                              className={styles.exchangeCashbackAccountText}
-                            >
-                              CLiQ Cash wallet
-                            </span>
-                          ) : (
-                            <span
-                              className={styles.exchangeCashbackAccountText}
-                            >
-                              A/c{" "}
-                              {this.state.exchangePaymentDetails
-                                .accountNumber &&
-                                this.state.exchangePaymentDetails.accountNumber.replace(
-                                  /.(?=.{4,}$)/g,
-                                  "x"
-                                )}
-                            </span>
-                          )}
-                        </div>
-                        <div
-                          className={styles.exchangeCashbackChangeMode}
-                          onClick={() =>
-                            this.goToEchangeCashbackSelection(
-                              this.state.orderId
-                            )
-                          }
-                        >
-                          Change Mode
-                        </div>
-                      </div>
-                    </div>
-                  )}
                 <MobileOnly>
                   <div className={styles.rateHolder}>
                     <RateYourExperienceCard

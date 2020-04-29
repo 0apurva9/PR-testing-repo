@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./ChangeExchangeCashabackModal.css";
-import Icon from "../../xelpmoc-core/Icon";
 import exchangeCashbackIcon from "./img/exchangeCashback.svg";
 
 export default class ChangeExchangeCashabackModal extends React.Component {
@@ -41,7 +40,17 @@ export default class ChangeExchangeCashabackModal extends React.Component {
         <div className={styles.title}>Exchange Cashback Details</div>
         <div className={styles.subHeading}>
           Exchange Cashback will be credited in your{" "}
-          <span className={styles.fontBold}>{this.state.placeHolder}</span>{" "}
+          <span className={styles.fontBold}>
+            {this.props.exchangePaymentMode === "BANK_ACCOUNT" ? (
+              <React.Fragment>
+                Ac{" "}
+                {this.props.accountNumber &&
+                  this.props.accountNumber.replace(/.(?=.{4,}$)/g, "x")}
+              </React.Fragment>
+            ) : (
+              this.state.placeHolder
+            )}
+          </span>{" "}
           within 48 hours, post old phone pick up.
         </div>
         <div className={styles.subHeading}>
