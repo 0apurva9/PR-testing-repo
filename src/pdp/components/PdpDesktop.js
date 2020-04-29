@@ -2031,7 +2031,7 @@ export default class PdpApparel extends React.Component {
                         />
                       )}
                     {productData.returnAndRefund && (
-                      <Accordion text="Return & Refunds" headerFontSize={18}>
+                      <Accordion text="Return & Refund" headerFontSize={18}>
                         {productData.returnAndRefund.map(val => {
                           return (
                             <div
@@ -2045,7 +2045,7 @@ export default class PdpApparel extends React.Component {
                       </Accordion>
                     )}
                     {productData.knowMoreV2 && (
-                      <Accordion text="Return & Refunds" headerFontSize={18}>
+                      <Accordion text="Return & Refund" headerFontSize={18}>
                         <div className={styles.containerWithBottomBorder}>
                           <div className={styles.accordionContentBold}>
                             {productData.knowMoreV2[0].knowMoreItemV2}

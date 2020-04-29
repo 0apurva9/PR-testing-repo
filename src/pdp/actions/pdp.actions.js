@@ -25,7 +25,10 @@ import {
   setDataLayerForPdpDirectCalls,
   SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT,
   QA2_MCV_ID,
-  SET_DATA_LAYER_FOR_SUBMIT_REVIEW
+  SET_DATA_LAYER_FOR_SUBMIT_REVIEW,
+  setDataLayerForCartDirectCalls,
+  ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
+  ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS
 } from "../../lib/adobeUtils.js";
 import each from "lodash.foreach";
 import {
@@ -434,6 +437,24 @@ export function getProductPinCode(
       // if (pinCode) {
       //   localStorage.removeItem(SELECTED_STORE);
       // }
+      if (
+        resultJson &&
+        resultJson.listOfDataList[0] &&
+        resultJson.listOfDataList[0].value &&
+        resultJson.listOfDataList[0].value.pincodeListResponse &&
+        resultJson.listOfDataList[0].value.pincodeListResponse[0]
+          .isServicable != "N"
+      ) {
+        setDataLayerForCartDirectCalls(
+          ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
+          pinCode
+        );
+      } else {
+        setDataLayerForCartDirectCalls(
+          ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
+          pinCode
+        );
+      }
       return dispatch(
         getProductPinCodeSuccess({
           pinCode,
@@ -449,6 +470,11 @@ export function getProductPinCode(
         dispatch(getAllStoresForCliqAndPiq());
       }
     } catch (e) {
+      pinCode = "00000";
+      setDataLayerForCartDirectCalls(
+        ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
+        pinCode
+      );
       return dispatch(getProductPinCodeFailure(e.message));
     }
   };
