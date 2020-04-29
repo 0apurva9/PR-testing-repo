@@ -175,6 +175,7 @@ export const EMI_TYPE = "emiType";
 export const CART_DETAILS_FOR_ANONYMOUS = "cartDetailsForAnonymous";
 export const CART_DETAILS_FOR_LOGGED_IN_USER = "cartDetails";
 export const LOGGED_IN_USER_DETAILS = "userDetails";
+export const NON_LOGGED_IN_USER_DETAILS = "LogInFailed";
 export const CATEGORIES_LANDING_PAGE = "/categories";
 export const ANONYMOUS_USER = "anonymous";
 export const COUPON_COOKIE = "couponCode";
