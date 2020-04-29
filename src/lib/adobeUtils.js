@@ -1256,7 +1256,7 @@ export async function setDataLayer(
   }
 }
 
-function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
+export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
   const selectedColour =
     pdpResponse &&
     pdpResponse.variantOptions &&
