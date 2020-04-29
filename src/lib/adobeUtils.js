@@ -2117,13 +2117,13 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
     }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS) {
-    window.digitalData = setDataLayerForPinCode(response);
+    window.digitalData = setDataLayerForPinCode(response, type);
     if (window._satellite) {
       window._satellite.track(PINCODE_SUCCESS);
     }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE) {
-    window.digitalData = setDataLayerForPinCode(response);
+    window.digitalData = setDataLayerForPinCode(response, type);
     if (window._satellite) {
       window._satellite.track(PINCODE_FAILURE);
     }
@@ -3177,7 +3177,7 @@ export function setDataLayerForFollowAndUnFollowBrand(type, response) {
     }
   }
 }
-export function setDataLayerForPinCode(response) {
+export function setDataLayerForPinCode(response, type) {
   const previousData = cloneDeep(window.digitalData);
   if (previousData) {
     if (previousData.geolocation) {
@@ -3204,7 +3204,49 @@ export function setDataLayerForPinCode(response) {
         page: { pin: { value: response } }
       });
     }
+    if (previousData.cpj) {
+      Object.assign(previousData.cpj, {
+        pin: {
+          status:
+            type === ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS
+              ? "success"
+              : "failure"
+        }
+      });
+    } else {
+      Object.assign(previousData, {
+        cpj: {
+          pin: {
+            status:
+              type === ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS
+                ? "success"
+                : "failure"
+          }
+        }
+      });
+    }
   } else {
+    if (previousData.cpj) {
+      Object.assign(previousData.cpj, {
+        pin: {
+          status:
+            type === ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS
+              ? "success"
+              : "failure"
+        }
+      });
+    } else {
+      Object.assign(previousData, {
+        cpj: {
+          pin: {
+            status:
+              type === ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS
+                ? "success"
+                : "failure"
+          }
+        }
+      });
+    }
     Object.assign(previousData, {
       page: { pin: { value: response } }
     });
