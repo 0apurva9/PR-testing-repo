@@ -39,8 +39,6 @@ import UserProfile from "./UserProfile";
 import SavedPaymentUpi from "./SavedPaymentUpi";
 import TabHolder from "./TabHolder";
 import TabData from "./TabData";
-import Button from "../../xelpmoc-core/Button";
-import MyAccountUpiForm from "./MyAccountUpiForm";
 const CARD_FORMAT = /\B(?=(\d{4})+(?!\d))/g;
 const NO_SAVED_CARDS = "No Saved Cards";
 export default class UserSavedCard extends React.Component {
@@ -123,24 +121,25 @@ export default class UserSavedCard extends React.Component {
       this.props.removeSavedUpiDetails(upiId);
     }
   };
-  toggleForAddNewUpi = val => {
-    this.setState({
-      showAddNewUpi: val
-    });
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    if (customerCookie && userDetails) {
-      if (this.props.getSavedCardDetails) {
-        this.props.getSavedCardDetails(
-          JSON.parse(userDetails).userName,
-          JSON.parse(customerCookie).access_token
-        );
-        if (val == 0) {
-          setDataLayer(SET_DATA_LAYER_UID_ADD);
-        }
-      }
-    }
-  };
+  //Disabled the functionality to Add New UPI on My Account page as per TPR-13532
+  // toggleForAddNewUpi = val => {
+  //   this.setState({
+  //     showAddNewUpi: val
+  //   });
+  //   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  //   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  //   if (customerCookie && userDetails) {
+  //     if (this.props.getSavedCardDetails) {
+  //       this.props.getSavedCardDetails(
+  //         JSON.parse(userDetails).userName,
+  //         JSON.parse(customerCookie).access_token
+  //       );
+  //       if (val == 0) {
+  //         setDataLayer(SET_DATA_LAYER_UID_ADD);
+  //       }
+  //     }
+  //   }
+  // };
   /**
    * EOD
    */
@@ -168,6 +167,8 @@ export default class UserSavedCard extends React.Component {
               </div>
             </DesktopOnly>
             <div className={styles.saveCardDetail}>
+              {/*
+              Disabled the functionality to Add New UPI on My Account page as per TPR-13532
               {this.state.showAddNewUpi === 0 && (
                 <div className={styles.saveCardDetailWithHolder}>
                   <MyAccountUpiForm
@@ -178,7 +179,7 @@ export default class UserSavedCard extends React.Component {
                     loading={this.props.loading}
                   />
                 </div>
-              )}
+              )} */}
               {this.state.showAddNewUpi === 1 && (
                 <div className={styles.saveCardDetailWithHolder}>
                   <div className={styles.tabHolder}>
@@ -262,6 +263,8 @@ export default class UserSavedCard extends React.Component {
                         );
                       }
                     )}
+                  {/*
+                  Disabled the functionality to Add New UPI on My Account page as per TPR-13532
                   {this.state.isSavedCardTab === 1 && (
                     <div className={styles.buttonHolder}>
                       <div className={styles.button}>
@@ -278,7 +281,7 @@ export default class UserSavedCard extends React.Component {
                         />
                       </div>
                     </div>
-                  )}
+                  )} */}
                 </div>
               )}
             </div>
@@ -318,6 +321,8 @@ export default class UserSavedCard extends React.Component {
               </div>
             </DesktopOnly>
             <div className={styles.saveCardDetail}>
+              {/*
+              Disabled the functionality to Add New UPI on My Account page as per TPR-13532
               {this.state.showAddNewUpi === 0 && (
                 <div className={styles.saveCardDetailWithHolder}>
                   <MyAccountUpiForm
@@ -328,7 +333,7 @@ export default class UserSavedCard extends React.Component {
                     loading={this.props.loading}
                   />
                 </div>
-              )}
+              )} */}
               {this.state.showAddNewUpi === 1 && (
                 <div className={styles.saveCardDetailWithHolder}>
                   <div className={styles.tabHolder}>
@@ -353,6 +358,8 @@ export default class UserSavedCard extends React.Component {
                     </div>
                   )}
 
+                  {/*
+                  Disabled the functionality to Add New UPI on My Account page as per TPR-13532
                   {this.state.isSavedCardTab === 1 && (
                     <div className={styles.buttonHolder}>
                       <div className={styles.button}>
@@ -369,7 +376,7 @@ export default class UserSavedCard extends React.Component {
                         />
                       </div>
                     </div>
-                  )}
+                  )} */}
                 </div>
               )}
             </div>
