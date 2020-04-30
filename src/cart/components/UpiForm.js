@@ -5,7 +5,7 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import styles from "./UpiForm.css";
 import upi_opt from "./img/upi_opt.svg";
 import { format } from "date-fns";
-import loader from "../../account/components/img/loader.gif";
+import loader from "../../account/components/img/loader.svg";
 import { CART_DETAILS_FOR_LOGGED_IN_USER } from "../../lib/constants.js";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -115,6 +115,7 @@ export default class UpiForm extends React.Component {
   };
 
   updateUpi = val => {
+    console.log("yaahahahahahah");
     this.setState({
       upiId: val.trim(),
       upiPatternVerified: UPI_REGEX.test(val.trim()),
@@ -155,6 +156,7 @@ export default class UpiForm extends React.Component {
     }
     this.setState({
       upiId: "",
+      upiPatternVerified: false,
       isNewUpi: !this.state.isNewUpi,
       showUpiMsg: {
         upiId: "",
@@ -201,12 +203,14 @@ export default class UpiForm extends React.Component {
           ? styles.invalidFrm
           : this.props.addUserUPIDetails &&
             this.props.addUserUPIDetails.upiStatus === "VALID"
-            ? styles.verifiedFrm
-            : styles.invalidFrm
+          ? styles.verifiedFrm
+          : styles.invalidFrm
         : "";
     let combinedLogoUrl = this.props.combinedLogoUrl
       ? this.props.combinedLogoUrl
       : upi_opt;
+
+    console.log("this.state", this.state);
     return (
       <div className={styles.base}>
         <DesktopOnly>
@@ -216,7 +220,7 @@ export default class UpiForm extends React.Component {
                 <div className={styles.svdUpiRow}>
                   <div className={styles.svdUpiInfoCol}>
                     <h4 className={styles.svdUpiHedTxt}>
-                      Select from your saved UPI ID’s
+                      Select from your saved UPI IDs
                     </h4>
                     <div className={styles.flexRow50 + " " + styles.flexWrap}>
                       {this.state.savedUPIidResponse &&
@@ -260,7 +264,13 @@ export default class UpiForm extends React.Component {
                                           />{" "}
                                           {this.props.addUserUPIStatus ===
                                             "requesting" && (
-                                            <img src={loader} alt="Loader" />
+                                            <img
+                                              src={loader}
+                                              alt="Loader"
+                                              width="15px"
+                                              height="15px"
+                                              alt=""
+                                            />
                                           )}
                                           {this.props.addUserUPIStatus !==
                                             "requesting" &&
@@ -297,7 +307,9 @@ export default class UpiForm extends React.Component {
                                         );
                                       }}
                                     >
-                                      {ele.value.upiId}
+                                      <span className={styles.svdUpiSpan}>
+                                        {ele.value.upiId}
+                                      </span>
                                     </div>
                                   )}
                                 </React.Fragment>
@@ -308,7 +320,9 @@ export default class UpiForm extends React.Component {
                                     this.verifyUpi(ele.value.upiId, "select");
                                   }}
                                 >
-                                  {ele.value.upiId}
+                                  <span className={styles.svdUpiSpan}>
+                                    {ele.value.upiId}
+                                  </span>
                                 </div>
                               )}
                             </div>
@@ -355,7 +369,7 @@ export default class UpiForm extends React.Component {
                   <img
                     src={combinedLogoUrl}
                     className={styles.combinedLogoUrl}
-                    alt="imgg"
+                    alt=""
                   />
                 </div>
                 <div className={styles.flexRow50Cols}>
@@ -416,7 +430,12 @@ export default class UpiForm extends React.Component {
                         >
                           <span className={savedUpiVerificationCls} />{" "}
                           {this.props.addUserUPIStatus === "requesting" && (
-                            <img src={loader} alt="Loader" />
+                            <img
+                              src={loader}
+                              alt=""
+                              width="15px"
+                              height="15px"
+                            />
                           )}
                           {this.props.addUserUPIStatus !== "requesting" &&
                             this.props.addUserUPIDetails &&
@@ -477,7 +496,7 @@ export default class UpiForm extends React.Component {
                     onClick={() => this.toggleForm()}
                   >
                     <p className={styles.upitncTxt + " " + styles.showSavedUpi}>
-                      SHOW SAVED UPI ID’s
+                      SHOW SAVED UPI IDs
                     </p>
                   </div>
                 )}
