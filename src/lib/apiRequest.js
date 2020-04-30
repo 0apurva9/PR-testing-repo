@@ -481,10 +481,11 @@ async function handleInvalidGlobalAccesssTokenOrCustomerAccessToken(
   url
 ) {
   let newUrl = url;
-  count++;
   try {
-    if (count === 1) {
+    if (count === 0) {
       newUrl = await handleInvalidCustomerAccessToken(message, url);
+      count = 1;
+      window.location.reload();
     }
     if (newUrl) {
       return newUrl;
