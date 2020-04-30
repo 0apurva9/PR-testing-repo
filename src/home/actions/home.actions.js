@@ -13,6 +13,7 @@ import delay from "lodash.delay";
 import { MSD_WIDGET_PLATFORM } from "../../lib/config.js";
 import {
   setDataLayer,
+  setPageNameAndPageType,
   ADOBE_HOME_TYPE,
   ADOBE_BLP_PAGE_LOAD,
   ADOBE_CLP_PAGE_LOAD,
@@ -343,6 +344,13 @@ export function homeFeedBackUp() {
         `v2/mpl/cms/defaultpage?pageId=defaulthomepage&channel=${WCMS_PLATFORM}`
       );
       const resultJson = await result.json();
+      if (resultJson && resultJson.pageName) {
+        let pageData = {
+          pageName: resultJson.pageName,
+          pageType: resultJson && resultJson.pageType
+        };
+        setPageNameAndPageType(pageData);
+      }
       const failureResponse = ErrorHandling.getFailureResponse(resultJson);
       if (failureResponse.status) {
         dispatch(new Error(failureResponse.message));
@@ -382,6 +390,13 @@ export function getFeed(pageId: null) {
         }
 
         resultJson = await result.json();
+        if (resultJson && resultJson.pageName) {
+          let pageData = {
+            pageName: resultJson.pageName,
+            pageType: resultJson && resultJson.pageType
+          };
+          setPageNameAndPageType(pageData);
+        }
         console.log("RESULT JSON");
         console.log(resultJson);
         if (resultJson.errors) {

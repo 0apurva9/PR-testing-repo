@@ -3858,3 +3858,15 @@ export function setDataLayerForRatingAndReview(type, reviewData) {
   }
   window.digitalData = previousDigitalData;
 }
+export function setPageNameAndPageType(response) {
+  if (response) {
+    let digitalDataForPageName = window.digitalData;
+    Object.assign(digitalDataForPageName.page, {
+      pageInfo: {
+        pageName: response.pageName,
+        pageType: response.pageType
+      }
+    });
+    Object.assign(window.digitalData, digitalDataForPageName);
+  }
+}
