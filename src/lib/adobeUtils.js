@@ -697,29 +697,21 @@ export async function setDataLayer(
     }
   }
   if (type === ADOBE_ADD_TO_WISHLIST_PDP) {
-    // let newVariable = getDigitalDataForPdp(type, response);
-    // window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADD_TO_WISHLIST_PDP);
     }
   }
   if (type === ADOBE_ADD_TO_WISHLIST_PLP) {
-    // let newVariable = getDigitalDataForPlp(type, response);
-    // window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADD_TO_WISHLIST_PLP);
     }
   }
   if (type === ADOBE_WISHLIST_PLP_REMOVE) {
-    // let newVariable = getDigitalDataForPlp(type, response);
-    // window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(WISHLIST_PLP_REMOVE);
     }
   }
   if (type === ADOBE_WISHLIST_PDP_REMOVE) {
-    // let newVariable = getDigitalDataForPdp(type, response);
-    // window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(WISHLIST_PDP_REMOVE);
     }
