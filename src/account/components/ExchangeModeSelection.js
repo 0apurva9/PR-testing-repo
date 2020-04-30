@@ -13,8 +13,6 @@ import {
 import ProfileMenu from "./ProfileMenu";
 import UserProfile from "./UserProfile";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
-import Instant from "../../general/components/img/pathCopy7.png";
-import Icon from "../../xelpmoc-core/Icon";
 import Button from "../../general/components/Button";
 import {
   setDataLayer,
@@ -142,7 +140,7 @@ export default class ExchangeModeSelection extends React.Component {
       let message =
         "You will receive Exchange Cashback in your " +
         placeHolder +
-        " account, post old phone pick up.";
+        " account within 48 hours, post old phone pick up.";
       this.props.displayToast(message);
       this.props.history.push(`/my-account/orders`);
     }
@@ -239,17 +237,6 @@ export default class ExchangeModeSelection extends React.Component {
                                 {value.exchangePaymentMode === "CLIQ_CASH"
                                   ? "CLiQ Cash"
                                   : "Bank Account"}
-
-                                {value.exchangePaymentMode === "CLIQ_CASH" ? (
-                                  <React.Fragment>
-                                    <div className={styles.InstantImage}>
-                                      <Icon image={Instant} size={20} />
-                                    </div>
-                                    <div className={styles.cliqCashInstant}>
-                                      Instant
-                                    </div>
-                                  </React.Fragment>
-                                ) : null}
 
                                 <div className={styles.radioBtnSubText}>
                                   <span className={styles.span}>

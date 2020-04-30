@@ -22,7 +22,8 @@ export default class ProductInBagModal extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.heading}>
-          Product is already present in cart.
+          Product is already in cart{" "}
+          {this.props.isWithExchange ? "with Exchange" : null}.
         </div>
         <div className={styles.cancelButton} onClick={() => this.closeModal()}>
           CANCEL

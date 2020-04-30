@@ -543,7 +543,11 @@ export function addProductToCart(productDetails) {
       existingProductData &&
       existingProductData.includes(productDetails.ussId)
     ) {
-      dispatch(showModal(PRODUCT_IN_BAG_MODAL));
+      dispatch(
+        showModal(PRODUCT_IN_BAG_MODAL, {
+          isWithExchange: productDetails.isFromMobileExchange
+        })
+      );
       return false;
     }
     dispatch(addProductToCartRequest());

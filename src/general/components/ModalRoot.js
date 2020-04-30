@@ -1183,6 +1183,7 @@ export default class ModalRoot extends React.Component {
       ),
       ProductInBagModal: (
         <ProductInBagModal
+          {...this.props.ownProps}
           closeModal={() => this.handleClose()}
           history={this.props.history}
         />
