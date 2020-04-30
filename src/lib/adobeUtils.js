@@ -2109,13 +2109,15 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
     }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS) {
-    window.digitalData = setDataLayerForPinCode(response, type);
+    let pinCodeData = setDataLayerForPinCode(response, type);
+    Object.assign(previousData, pinCodeData);
     if (window._satellite) {
       window._satellite.track(PINCODE_SUCCESS);
     }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE) {
-    window.digitalData = setDataLayerForPinCode(response, type);
+    let pinCodeData = setDataLayerForPinCode(response, type);
+    Object.assign(previousData, pinCodeData);
     if (window._satellite) {
       window._satellite.track(PINCODE_FAILURE);
     }
