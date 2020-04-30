@@ -15,7 +15,7 @@ let MIDDLEWARE_API_URL_ROOT = "/que-marketplacewebservices";
 export let TATA_CLIQ_ROOT = /https?:[\/]{2}\S*?(\/\S*)/;
 export const TOKEN_PATH = "oauth/token";
 export let URL_ROOT = "";
-
+let count = 0;
 if (
   process.env.REACT_APP_STAGE === "devxelp" ||
   process.env.REACT_APP_STAGE === "uat2" ||
@@ -481,8 +481,11 @@ async function handleInvalidGlobalAccesssTokenOrCustomerAccessToken(
   url
 ) {
   let newUrl = url;
+  count++;
   try {
-    newUrl = await handleInvalidCustomerAccessToken(message, url);
+    if (count === 1) {
+      newUrl = await handleInvalidCustomerAccessToken(message, url);
+    }
     if (newUrl) {
       return newUrl;
     }

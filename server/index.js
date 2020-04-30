@@ -23,6 +23,10 @@ app.use(function(req, res, next) {
   );
   res.setHeader("Pragma", "no-cache");
   res.setHeader("Cache-Control", "max-age=0, no-cache, no-store");
+  res.setHeader(
+    "Strict-Transport-Security",
+    "max-age=16070400; includeSubDomains"
+  );
   next();
 });
 app.get("*.css", function(req, res, next) {
