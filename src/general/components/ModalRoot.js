@@ -1022,7 +1022,10 @@ export default class ModalRoot extends React.Component {
         />
       ),
       ExchangeTnCModal: (
-        <ExchangeTnCModal closeTnCModal={() => this.handleClose()} />
+        <ExchangeTnCModal
+          history={this.props.history}
+          closeTnCModal={() => this.handleClose()}
+        />
       ),
       NoCostEmiItemBreakUp: (
         <ItemLevelPopup

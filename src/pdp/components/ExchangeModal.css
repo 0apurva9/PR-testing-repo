@@ -369,6 +369,8 @@ ul.contentHeading{
   font-size: 14px;
   color: #212121;
   margin-bottom: 10px;
+  width: 100%;
+  display: inline-block;
 }
 .evaluateContainer{
   float: left;
@@ -454,4 +456,8 @@ ul.contentHeading{
   overflow-x: hidden;
 	white-space: nowrap;
   text-overflow: ellipsis;
+}
+.clickLink{
+  cursor: pointer;
+  text-decoration: underline;
 }

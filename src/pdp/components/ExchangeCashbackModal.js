@@ -18,17 +18,20 @@ export default class ExchangeCashbackModal extends React.Component {
         <div className={styles.howExchangeWorksHeading}>Cashback Details</div>
         <ul className={styles.contentHeading}>
           <li>
-            Cashback would be credited post-delivery of your new product and
-            pickup of old product
+            After placing the order for your new phone along with exchange
+            offer. Remember to select your preferred payment mode for receiving
+            Exchange Cashback
           </li>
           <li>
-            After placing your order, provide your preferred option to process
-            Exchange Cashback for your old product
+            Exchange Cashback would be credited to your preferred mode within 2
+            business days after delivery of your new product and pickup of the
+            old product
           </li>
           <li>
-            In case of new phone being returned, the amount refunded would be
-            after deducting the{" "}
-            <span className={styles.fontRegular}>Additional Cashback</span>
+            In case of the new phone being returned, the amount refunded would
+            be after deducting the{" "}
+            <span className={styles.fontRegular}>"CLiQ Exclusive"</span>{" "}
+            Cashback.
           </li>
           <li>
             To know more, refer{" "}

@@ -519,7 +519,10 @@ export default class ExchangeModal extends React.Component {
         ) : null}
         {/* Modal for terms and condiions */}
         {this.state.showTnCModal ? (
-          <ExchangeTnCModal closeTnCModal={() => this.closeTnCModal()} />
+          <ExchangeTnCModal
+            history={this.props.history}
+            closeTnCModal={() => this.closeTnCModal()}
+          />
         ) : null}
         {/* Modal for Cashback details */}
         {this.state.showCashbackModal ? (

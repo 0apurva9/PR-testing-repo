@@ -13,7 +13,7 @@ export default class HowExchangeModalWorksLessDetails extends React.Component {
         <img src={hew1} alt="" className={styles.iconSize} />
         <div className={styles.contentContainer}>
           <div className={styles.contentHeading}>
-            1. Share your old product details!{" "}
+            1. Share your old product details{" "}
           </div>
           <div className={styles.contentDescription}>
             Either allow access to auto-detect or enter the product details
@@ -23,26 +23,25 @@ export default class HowExchangeModalWorksLessDetails extends React.Component {
         <img src={hew2} alt="" className={styles.iconSize} />
         <div className={styles.contentContainer}>
           <div className={styles.contentHeading}>
-            2. Check Exchange Cashback value{" "}
+            2. Check applicable Exchange Cashback value{" "}
           </div>
           <div className={styles.contentDescription}>
-            Based on the old product details shared, check the cashback
-            applicable
+            Cashback value is proposed based on the old product details
           </div>
         </div>
         <img src={hew3} alt="" className={styles.iconSize} />
         <div className={styles.contentContainer}>
           <div className={styles.contentHeading}>
-            3. Place order with Exchange{" "}
+            3. Place your order with exchange{" "}
           </div>
           <div className={styles.contentDescription}>
-            Complete your product purchase along with exchange
+            Complete your product purchase along with exchange offer
           </div>
         </div>
         <img src={hew4} alt="" className={styles.iconSize} />
         <div className={styles.contentContainer}>
           <div className={styles.contentHeading}>
-            4. Lastly, select the Cashback mode{" "}
+            4. Select Exchange Cashback mode{" "}
           </div>
           <div className={styles.contentDescription}>
             Choose your preferred option to process Exchange Cashback for your
@@ -51,10 +50,13 @@ export default class HowExchangeModalWorksLessDetails extends React.Component {
         </div>
         <img src={hew5} alt="" className={styles.iconSize} />
         <div className={styles.contentContainer}>
-          <div className={styles.contentHeading}>5. Cashback credited </div>
+          <div className={styles.contentHeading}>
+            5. Receive Exchange Cashback{" "}
+          </div>
           <div className={styles.contentDescription}>
-            Cashback would be credited post-delivery of your new product and
-            pickup of old product
+            Exchange Cashback would be credited to your preferred mode within 2
+            business days after delivery of your new product and pickup of the
+            old product
           </div>
         </div>
       </div>
