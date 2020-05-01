@@ -480,20 +480,22 @@ async function handleInvalidGlobalAccesssTokenOrCustomerAccessToken(
   message,
   url
 ) {
-  let newUrl = url;
-  try {
-    newUrl = await handleInvalidCustomerAccessToken(message, url);
-    if (newUrl) {
-      return newUrl;
-    }
-    newUrl = await handleInvalidGlobalAccessToken(message, url);
-    if (newUrl) {
-      return newUrl;
-    }
-    return newUrl;
-  } catch (e) {
-    throw e;
-  }
+  clearCookie();
+  window.location.replace("/");
+  // let newUrl = url;
+  // try {
+  //   newUrl = await handleInvalidCustomerAccessToken(message, url);
+  //   if (newUrl) {
+  //     return newUrl;
+  //   }
+  //   newUrl = await handleInvalidGlobalAccessToken(message, url);
+  //   if (newUrl) {
+  //     return newUrl;
+  //   }
+  //   return newUrl;
+  // } catch (e) {
+  //   throw e;
+  // }
 }
 
 async function handleInvalidCustomerAccessToken(message, oldUrl) {
@@ -537,6 +539,7 @@ async function logoutUserOnInvalidRefreshToken() {
 
 async function clearCookie() {
   Cookie.deleteCookie(CUSTOMER_ACCESS_TOKEN);
+  Cookie.deleteCookie(GLOBAL_ACCESS_TOKEN);
   Cookie.deleteCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
   Cookie.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
   Cookie.deleteCookie(LOGGED_IN_USER_DETAILS);
