@@ -39,7 +39,6 @@ export default class OrderRelatedPopup extends React.Component {
     }
   }
   render() {
-    console.log("this.props.ordersTransactionData",this.props.ordersTransactionData);
     return (
       <div className={styles.base}>
         <div className={styles.allOrderHolder}>

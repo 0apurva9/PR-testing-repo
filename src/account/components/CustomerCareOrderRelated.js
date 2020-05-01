@@ -472,7 +472,7 @@ export default class CustomerCareOrderRelated extends React.Component {
           {
             contactEmail: email,
             contactPhn: mobile,
-            contactName: name ? name.trim() : "no name"
+            contactName: name ? name.trim() : " "
           }
         );
         let raiseTicketObj = {
@@ -793,7 +793,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                   <div className={styles.secondOrder}>
                     <CheckOutHeader
                       indexNumber={this.props.isSelected === 0 ? "3" : "2"}
-                      confirmTitle={`Add Attachment${
+                      confirmTitle={`Add Attachment ${
                         this.state.attachment.isMandatory ? "*" : "(optional)"
                       }`}
                       fontSize={"14px"}
