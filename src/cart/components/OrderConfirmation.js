@@ -104,6 +104,9 @@ export default class OrderConfirmation extends React.Component {
       data.orderId = this.props.orderId;
       data.exchangePaymentMode =
         commonExchangePaymentDetails[0].exchangePaymentMode;
+      if (commonExchangePaymentDetails[0].accountNumber) {
+        data.accountNumber = commonExchangePaymentDetails[0].accountNumber;
+      }
       this.props.showChangeExchangeCashabackModal(data);
     }
   }

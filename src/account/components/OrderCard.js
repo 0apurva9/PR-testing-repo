@@ -360,7 +360,7 @@ export default class OrderCard extends React.Component {
                 />
                 <div className={styles.exchangeProductText}>
                   Exchange Product:{" "}
-                  {this.props.exchangeDetails.effectiveModelName}
+                  {this.props.exchangeDetails.exchangeModelName}
                 </div>
               </div>
             )}

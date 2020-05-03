@@ -151,7 +151,7 @@ export default class OrderSucessCard extends React.Component {
             <div>
               <div className={styles.exchangeProductName}>
                 <span>Exchange Product: </span>
-                <span>{this.props.exchangeDetails.effectiveModelName}</span>
+                <span>{this.props.exchangeDetails.exchangeModelName}</span>
               </div>
               {this.props.exchangeDetails.exchangePriceDetail && (
                 <React.Fragment>

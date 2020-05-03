@@ -101,14 +101,14 @@ export default class ProductDetailsCardForSaveList extends React.Component {
                 alt="exchange icon"
                 className={styles.exchangeIconLight}
               />
-              {this.props.exchangeDetails.effectiveModelName &&
+              {this.props.exchangeDetails.exchangeModelName &&
                 this.props.exchangeDetails.exchangePriceDetail &&
                 this.props.exchangeDetails.exchangePriceDetail
                   .totalExchangeCashback && (
                   <div className={styles.exchangeProductText}>
                     Your{" "}
                     <span className={styles.fontFamilyRegular}>
-                      {this.props.exchangeDetails.effectiveModelName}
+                      {this.props.exchangeDetails.exchangeModelName}
                     </span>{" "}
                     is applicable for{" "}
                     <span className={styles.fontFamilyRegular}>

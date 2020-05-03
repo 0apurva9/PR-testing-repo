@@ -341,8 +341,17 @@
 .pickupCharge{
 	color: #67b70b;
 }
+.effectivePriceText{
+	width:60%;
+	font-size: 12px;
+	display: inline-block;
+	font-family: regular;
+	white-space: nowrap;
+  text-overflow: ellipsis;
+	overflow-x: hidden;
+}
 .effectivePrice{
-	width:50%;
+	width:40%;
 	font-size: 12px;
 	display: inline-block;
 	font-family: regular;

@@ -52,6 +52,7 @@
 .exchangeProductName{
   font-size: 14px;
   margin-top: 10px;
+  white-space: nowrap;
 }
 .exchangeCashback,.exchangePickup{
   font-size: 12px;

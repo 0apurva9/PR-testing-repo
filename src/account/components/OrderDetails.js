@@ -866,7 +866,7 @@ export default class OrderDetails extends React.Component {
                             <span className={styles.fontFamilySemibold}>
                               Exchange Product:
                             </span>{" "}
-                            {products.exchangeDetails.effectiveModelName}
+                            {products.exchangeDetails.exchangeModelName}
                             <span
                               className={
                                 !this.state.isToggleOn
@@ -956,7 +956,7 @@ export default class OrderDetails extends React.Component {
                                   <div
                                     className={styles.effectivePriceContainer}
                                   >
-                                    <div className={styles.effectivePrice}>
+                                    <div className={styles.effectivePriceText}>
                                       <span className={styles.fontLight}>
                                         Effective Price for
                                       </span>{" "}
