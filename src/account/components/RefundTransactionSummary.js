@@ -213,25 +213,6 @@ export default class RefundTransactionSummary extends React.Component {
                         .exchangeDetails.exchangeCancelMessage
                     }
                   </div>
-                  <div className={styles.exchangeModelName}>
-                    <span className={styles.fontBold}>Exchange Phone: </span>
-                    <span className={styles.fontLight}>
-                      {
-                        summaryDetails.getRefundTransactionDetails.products[0]
-                          .exchangeDetails.exchangeModelName
-                      }
-                    </span>
-                  </div>
-                  <div className={styles.totalExchangeCashback}>
-                    <span>Total Exchange Cashback: </span>
-                    <span>
-                      {summaryDetails.getRefundTransactionDetails.products[0]
-                        .exchangeDetails.totalExchangeCashback &&
-                        summaryDetails.getRefundTransactionDetails.products[0]
-                          .exchangeDetails.totalExchangeCashback
-                          .formattedValueNoDecimal}
-                    </span>
-                  </div>
                 </div>
               )}
           </div>
