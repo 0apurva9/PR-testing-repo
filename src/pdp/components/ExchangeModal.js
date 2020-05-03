@@ -534,18 +534,20 @@ export default class ExchangeModal extends React.Component {
         {/* all modals ends here */}
         <div className={styles.content}>
           <div className={styles.heading}>Exchange Details</div>
-          {/* <div
-            className={styles.exchangeInfoLinks}
-            onClick={() => this.openHowExchangeWorksModal()}
-          >
-            How Exchange works?
-          </div> */}
+          {(this.state.firstDeviceInfo || this.state.secondDeviceInfo) && (
+            <div
+              className={styles.exchangeInfoLinks}
+              onClick={() => this.openHowExchangeWorksModal()}
+            >
+              How Exchange works?
+            </div>
+          )}
         </div>
         {!this.state.isExchangeDeviceAdded ? (
           <div className={styles.firstScreen}>
             <div className={styles.evaluateContainer}>
               <SelectDevice
-                heading="Select Device to Evaluate"
+                heading="Please Select Brand and Model"
                 makeModelDetails={this.state.makeModelDetails}
                 isEnableForBrand={this.state.isEnableForBrand}
                 onChange={val => this.onChange(val)}
@@ -586,7 +588,7 @@ export default class ExchangeModal extends React.Component {
                     ) : (
                       <div className={styles.evaluateContainerTwo}>
                         <SelectDevice
-                          heading="Select Device to Evaluate"
+                          heading="Please Select Brand and Model"
                           makeModelDetails={this.state.makeModelDetails}
                           isEnableForBrand={this.state.isEnableForBrand}
                           onChange={val => this.onChange(val)}
@@ -620,8 +622,8 @@ export default class ExchangeModal extends React.Component {
                       </div>
                     ) : (
                       <React.Fragment>
-                        <span className={styles.plusSign} />
-                        Another Mobile to Evaluate
+                        Evaluate another Phone
+                        <span className={styles.arrowRight} />
                       </React.Fragment>
                     )}
                   </div>
@@ -655,8 +657,8 @@ export default class ExchangeModal extends React.Component {
                       </div>
                     ) : (
                       <React.Fragment>
-                        <span className={styles.plusSign} />
-                        Another Mobile to Evaluate
+                        Evaluate another Phone
+                        <span className={styles.arrowRight} />
                       </React.Fragment>
                     )}
                   </div>
@@ -672,7 +674,7 @@ export default class ExchangeModal extends React.Component {
                     ) : (
                       <div className={styles.evaluateContainerTwo}>
                         <SelectDevice
-                          heading="Select Device to Evaluate"
+                          heading="Please Select Brand and Model"
                           makeModelDetails={this.state.makeModelDetails}
                           isEnableForBrand={this.state.isEnableForBrand}
                           onChange={val => this.onChange(val)}

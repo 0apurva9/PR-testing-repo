@@ -183,12 +183,17 @@
   top: 110px;
   letter-spacing: 0.2px;
 }
-.plusSign::after{
-  content: " \002B";
-  color: #ff1744;
-  font-family: semibold;
-  font-size: 12px;
-  margin-right: 5px;
+.arrowRight::after{
+  content: "";
+  border: 1px solid #ff1744;
+  border-width: 0 1px 1px 0;
+  padding: 3px;
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  cursor: pointer;
+  position: absolute;
+  top: 4px;
 }
 .imeiCheckForm{
   width: 100%;
@@ -443,7 +448,7 @@ ul.contentHeading{
   width: 180px;
   text-align: center;
   text-transform: capitalize;
-  font-size: 14px;
+  font-size: 13px;
   color: #212121;
 }
 .firstDeviceName,.secondDeviceName{

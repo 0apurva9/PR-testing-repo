@@ -188,7 +188,7 @@ export default class SellerCard extends React.Component {
               <React.Fragment>
                 <div className={styles.exchangeLogo} />
                 <div className={styles.exchangeProduct}>
-                  Exchange Your Old Product
+                  Exchange Your Old Phone
                 </div>
                 <div
                   className={styles.buttonWithArrow}

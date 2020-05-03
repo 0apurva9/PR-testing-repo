@@ -888,7 +888,7 @@ export default class OrderDetails extends React.Component {
                                   >
                                     <tbody>
                                       <tr>
-                                        <td>Exchange Cashback</td>
+                                        <td>Base Value</td>
                                         <td>
                                           {
                                             products.exchangeDetails
@@ -899,7 +899,7 @@ export default class OrderDetails extends React.Component {
                                         </td>
                                       </tr>
                                       <tr>
-                                        <td>CLiQ Bonus</td>
+                                        <td>Additional Value</td>
                                         <td>
                                           {
                                             products.exchangeDetails
@@ -909,7 +909,7 @@ export default class OrderDetails extends React.Component {
                                         </td>
                                       </tr>
                                       <tr>
-                                        <td>Pick up charge: </td>
+                                        <td>Pick Up Charge </td>
                                         {products.exchangeDetails
                                           .exchangePriceDetail.pickupCharge
                                           .doubleValue === 0 && (
@@ -936,7 +936,7 @@ export default class OrderDetails extends React.Component {
                                             styles.borderWithPaddingTop
                                           }
                                         >
-                                          Total Exchange Cashback:{" "}
+                                          Total Exchange Cashback{" "}
                                         </td>
                                         <td
                                           className={

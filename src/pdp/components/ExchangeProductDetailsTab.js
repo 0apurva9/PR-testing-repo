@@ -63,7 +63,7 @@ export default class ExchangeProductDetailsTab extends React.Component {
                       alt="CLiQ Bonus"
                       className={styles.icons}
                     />
-                    CLiQ Bonus
+                    Additional Value
                   </td>
                   <td>
                     {this.props.deviceInfo.tulBump.formattedValueNoDecimal}
@@ -78,7 +78,7 @@ export default class ExchangeProductDetailsTab extends React.Component {
                   alt="Pick up charge"
                   className={styles.icons}
                 />
-                Pick up charge
+                Pick Up Charge
               </td>
               <td className={styles.freePickUp}>
                 {this.props.deviceInfo &&

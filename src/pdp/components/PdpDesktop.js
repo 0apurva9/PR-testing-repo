@@ -1412,6 +1412,17 @@ export default class PdpApparel extends React.Component {
                   />
                   {productData.exchangeAvailable && (
                     <div className={styles.exchangeMainContainer}>
+                      {productData.totalTulBump &&
+                        productData.totalTulBump.formattedValueNoDecimal && (
+                          <div className={styles.cliqExclusive}>
+                            <span className={styles.cliqExclusiveLogo} />
+                            CLiQ Exclusive - Extra{" "}
+                            {
+                              productData.totalTulBump.formattedValueNoDecimal
+                            }{" "}
+                            cashback
+                          </div>
+                        )}
                       <div className={styles.exchangeLogo} />
                       <div className={styles.exchangeContainer}>
                         <React.Fragment>
@@ -1464,11 +1475,6 @@ export default class PdpApparel extends React.Component {
                               )}
                             </div>
                           )}
-                          {exchangeDisabled && (
-                            <div className={styles.notServiciableTetx}>
-                              Exchange is non serviceable at your pincode
-                            </div>
-                          )}
                           <div
                             className={styles.exchangeDetails}
                             onClick={() =>
@@ -1481,6 +1487,11 @@ export default class PdpApparel extends React.Component {
                           </div>
                         </React.Fragment>
                       </div>
+                    </div>
+                  )}
+                  {exchangeDisabled && (
+                    <div className={styles.notServiciableTetx}>
+                      Exchange is non serviceable at your pincode
                     </div>
                   )}
                 </div>

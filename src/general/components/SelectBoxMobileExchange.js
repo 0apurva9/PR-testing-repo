@@ -3,14 +3,7 @@ import PropTypes from "prop-types";
 import Icon from "../../xelpmoc-core/Icon";
 import styles from "./SelectBoxMobileExchange.css";
 import GreyArrow from "./img/down-arrow-grey.svg";
-// import BlackArrow from "./img/down-arrow.svg";
-// import WhiteArrow from "./img/down-arrow-white.svg";
-// const BLACK = "black";
-// const WHITE = "white";
 const GREY = "grey";
-// const HOLLOW_BOX = "hollowBox";
-// const BLACK_BOX = "blackBox";
-// const GREY_BOX = "greyBox";
 export default class SelectBoxMobileExchange extends React.Component {
   constructor(props) {
     super(props);
@@ -73,42 +66,12 @@ export default class SelectBoxMobileExchange extends React.Component {
   }
   render() {
     let arrow = GreyArrow;
-    // if (this.props.arrowColour === BLACK) {
-    //   arrow = BlackArrow;
-    // }
-    // if (this.props.arrowColour === GREY) {
-    //   arrow = GreyArrow;
-    // }
-    // if (this.props.arrowColour === WHITE) {
-    //   arrow = WhiteArrow;
-    // }
     let themeClass = styles.base;
     if (this.props.disabled) {
       themeClass = styles.disabled;
     } else {
       themeClass = styles.base;
     }
-    // if (this.props.theme === BLACK_BOX) {
-    //   if (this.props.disabled) {
-    //     themeClass = styles.disabledBlack;
-    //   } else {
-    //     themeClass = styles.blackBox;
-    //   }
-    // }
-    // if (this.props.theme === HOLLOW_BOX) {
-    //   if (this.props.disabled) {
-    //     themeClass = styles.disabledHollow;
-    //   } else {
-    //     themeClass = styles.hollowBox;
-    //   }
-    // }
-    // if (this.props.theme === GREY_BOX) {
-    //   if (this.props.disabled) {
-    //     themeClass = styles.disabled;
-    //   } else {
-    //     themeClass = styles.base;
-    //   }
-    // }
     return (
       <div
         className={themeClass}
@@ -168,8 +131,6 @@ SelectBoxMobileExchange.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({ value: PropTypes.string, label: PropTypes.string })
   ),
-  // arrowColour: PropTypes.oneOf([BLACK, GREY, WHITE]),
-  // theme: PropTypes.oneOf([HOLLOW_BOX, BLACK_BOX, GREY_BOX]),
   disabled: PropTypes.bool
 };
 SelectBoxMobileExchange.defaultProps = {
