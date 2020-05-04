@@ -206,14 +206,8 @@ export default class CartItemForDesktop extends React.Component {
       }
     }
     let isPickupAvailableForExchange = false;
-    if (
-      this.props &&
-      this.props.product &&
-      this.props.product.pinCodeResponse
-    ) {
-      if (this.props.product.pinCodeResponse.isPickupAvailableForExchange) {
-        isPickupAvailableForExchange = true;
-      }
+    if (this.props.product && this.props.product.exchangeDetails) {
+      isPickupAvailableForExchange = true;
     }
     let productMessage = this.props.productNotServiceable
       ? this.props.productNotServiceable

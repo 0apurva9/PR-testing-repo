@@ -1069,8 +1069,7 @@ export default class OrderDetails extends React.Component {
                           {products.consignmentStatus.includes("CANCEL") && (
                             <React.Fragment>
                               <div className={styles.exchangeCancelledText}>
-                                Your Exchange has been cancelled since you have
-                                cancelled your order.
+                                {products.exchangeDetails.exchangeCancelMessage}
                               </div>
                               <div className={styles.bb} />
                             </React.Fragment>
