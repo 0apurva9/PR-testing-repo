@@ -6,6 +6,7 @@
 .subListHolder {
   width: 100%;
   height: auto;
+  cursor: pointer;
 }
 .noCostRetryPayment {
   padding-bottom: 20px;
