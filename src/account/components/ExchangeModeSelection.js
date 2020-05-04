@@ -19,6 +19,7 @@ import {
   ADOBE_MDE_CASHBACK_MODE_CLIQCASH_EXCHANGE,
   ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE
 } from "../../lib/adobeUtils";
+import LoaderForComponent from "../../general/components/LoaderForComponent";
 export default class ExchangeModeSelection extends React.Component {
   constructor(props) {
     super(props);
@@ -57,7 +58,9 @@ export default class ExchangeModeSelection extends React.Component {
       }
     }
     this.setState({ orderId: orderId });
-    this.props.getExchangeCashbackDetails(orderId);
+    setTimeout(() => {
+      this.props.getExchangeCashbackDetails(orderId);
+    }, 500);
   }
 
   componentDidUpdate() {
@@ -75,16 +78,16 @@ export default class ExchangeModeSelection extends React.Component {
     this.setState({ selectedOption: target.value });
     //cliq cash
     if (target.value === "CLIQ_CASH") {
-      let cliqCashCheck = await this.props.getCliqCashDetailsRefund();
-      if (
-        cliqCashCheck &&
-        cliqCashCheck.status === "Success" &&
-        (cliqCashCheck.isWalletCreated && cliqCashCheck.isWalletOtpVerified)
-      ) {
-        this.setState({ cliqCashCheckSuccess: true });
-      } else {
-        this.setState({ selectedOption: "" });
-      }
+      // let cliqCashCheck = await this.props.getCliqCashDetailsRefund();
+      // if (
+      //   cliqCashCheck &&
+      //   cliqCashCheck.status === "Success" &&
+      //   (cliqCashCheck.isWalletCreated && cliqCashCheck.isWalletOtpVerified)
+      // ) {
+      //   this.setState({ cliqCashCheckSuccess: true });
+      // } else {
+      //   this.setState({ selectedOption: "" });
+      // }
       setDataLayer(ADOBE_MDE_CASHBACK_MODE_CLIQCASH_EXCHANGE);
     }
     if (target.value === "BANK_ACCOUNT") {
@@ -190,16 +193,16 @@ export default class ExchangeModeSelection extends React.Component {
               >
                 Back to Order History
               </div>
-
-              <React.Fragment>
-                <div className={styles.refundModeContainer}>
-                  <div className={styles.chooseMode}>
-                    Choose mode to receive Exchange Cashback
-                  </div>
-                  <div className={styles.modeContent}>
-                    <form>
-                      {this.props.exchangeCashbackDetails &&
-                        this.props.exchangeCashbackDetails.exchangePaymentDetails.map(
+              {this.props.exchangeCashbackDetails &&
+              this.props.exchangeCashbackDetails.exchangePaymentDetails ? (
+                <React.Fragment>
+                  <div className={styles.refundModeContainer}>
+                    <div className={styles.chooseMode}>
+                      Choose mode to receive Exchange Cashback
+                    </div>
+                    <div className={styles.modeContent}>
+                      <form>
+                        {this.props.exchangeCashbackDetails.exchangePaymentDetails.map(
                           (value, index) => {
                             if (
                               value.exchangePaymentMode === "BANK_ACCOUNT" &&
@@ -249,73 +252,76 @@ export default class ExchangeModeSelection extends React.Component {
                             );
                           }
                         )}
-                      {!bankDetails && (
-                        <label>
-                          <input
-                            className={styles.radioBtn}
-                            type="radio"
-                            value="BANK_ACCOUNT"
-                            checked={
-                              this.state.selectedOption === "BANK_ACCOUNT"
-                            }
-                            onChange={this.radioChange}
-                          />
-                          Bank Account
-                          <div className={styles.radioBtnSubText}>
-                            <span className={styles.span}>
-                              The Cashback will be credited in the bank account
-                              in 3-4 business days
-                            </span>
-                          </div>
-                        </label>
-                      )}
-                    </form>
-                    {bankDetails &&
-                      this.state.selectedOption === "BANK_ACCOUNT" && (
-                        <React.Fragment>
-                          <div className={styles.bankDetailsHeading}>
-                            Your Account Details:
-                          </div>
-                          <div
-                            className={styles.changeBankDetails}
-                            onClick={() => this.addBankDetails(bankDetails)}
-                          >
-                            Change
-                          </div>
-                          <div className={styles.bankDetailsText}>Name:</div>
-                          <div className={styles.bankDetailsText}>
-                            {bankDetails.accountHolderName}
-                          </div>
-                          <div className={styles.bankDetailsText}>Bank:</div>
-                          <div className={styles.bankDetailsText}>
-                            {bankDetails.bankName}
-                          </div>
-                          <div className={styles.bankDetailsText}>
-                            IFSC code:
-                          </div>
-                          <div className={styles.bankDetailsText}>
-                            {bankDetails.IFSCCode}
-                          </div>
-                          <div className={styles.bankDetailsText}>
-                            Account number:
-                          </div>
-                          <div className={styles.bankDetailsText}>
-                            {bankDetails.accountNumber}
-                          </div>
-                        </React.Fragment>
-                      )}
-                  </div>
-                </div>
-                {!bankDetails &&
-                  this.state.selectedOption === "BANK_ACCOUNT" && (
-                    <div
-                      className={styles.addBankDetailsButton}
-                      onClick={() => this.addBankDetails()}
-                    >
-                      ADD BANK DETAILS
+                        {!bankDetails && (
+                          <label>
+                            <input
+                              className={styles.radioBtn}
+                              type="radio"
+                              value="BANK_ACCOUNT"
+                              checked={
+                                this.state.selectedOption === "BANK_ACCOUNT"
+                              }
+                              onChange={this.radioChange}
+                            />
+                            Bank Account
+                            <div className={styles.radioBtnSubText}>
+                              <span className={styles.span}>
+                                The Cashback will be credited in the bank
+                                account in 3-4 business days
+                              </span>
+                            </div>
+                          </label>
+                        )}
+                      </form>
+                      {bankDetails &&
+                        this.state.selectedOption === "BANK_ACCOUNT" && (
+                          <React.Fragment>
+                            <div className={styles.bankDetailsHeading}>
+                              Your Account Details:
+                            </div>
+                            <div
+                              className={styles.changeBankDetails}
+                              onClick={() => this.addBankDetails(bankDetails)}
+                            >
+                              Change
+                            </div>
+                            <div className={styles.bankDetailsText}>Name:</div>
+                            <div className={styles.bankDetailsText}>
+                              {bankDetails.accountHolderName}
+                            </div>
+                            <div className={styles.bankDetailsText}>Bank:</div>
+                            <div className={styles.bankDetailsText}>
+                              {bankDetails.bankName}
+                            </div>
+                            <div className={styles.bankDetailsText}>
+                              IFSC code:
+                            </div>
+                            <div className={styles.bankDetailsText}>
+                              {bankDetails.IFSCCode}
+                            </div>
+                            <div className={styles.bankDetailsText}>
+                              Account number:
+                            </div>
+                            <div className={styles.bankDetailsText}>
+                              {bankDetails.accountNumber}
+                            </div>
+                          </React.Fragment>
+                        )}
                     </div>
-                  )}
-              </React.Fragment>
+                  </div>
+                  {!bankDetails &&
+                    this.state.selectedOption === "BANK_ACCOUNT" && (
+                      <div
+                        className={styles.addBankDetailsButton}
+                        onClick={() => this.addBankDetails()}
+                      >
+                        ADD BANK DETAILS
+                      </div>
+                    )}
+                </React.Fragment>
+              ) : (
+                <LoaderForComponent />
+              )}
             </div>
             <div className={styles.continueButtonHolder}>
               <Button

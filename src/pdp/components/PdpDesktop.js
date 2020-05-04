@@ -1489,11 +1489,12 @@ export default class PdpApparel extends React.Component {
                       </div>
                     </div>
                   )}
-                  {exchangeDisabled && (
-                    <div className={styles.notServiciableTetx}>
-                      Exchange is non serviceable at your pincode
-                    </div>
-                  )}
+                  {productData.exchangeAvailable &&
+                    exchangeDisabled && (
+                      <div className={styles.notServiciableTetx}>
+                        Exchange is non serviceable at your pincode
+                      </div>
+                    )}
                 </div>
                 {productData.variantOptions && (
                   <div>

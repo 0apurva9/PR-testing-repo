@@ -460,14 +460,14 @@ export function getProductPinCode(
           behavior: "smooth"
         });
       }
-      if (
-        !resultJson.productNotServiceabilityMessage ||
-        !resultJson.productOutOfStockMessage
-      ) {
-        if (resultJson.isPickupAvailableForExchange) {
-          dispatch(displayToast("Exchange is serviceable at your pincode"));
-        }
-      }
+      // if (
+      //   !resultJson.productNotServiceabilityMessage ||
+      //   !resultJson.productOutOfStockMessage
+      // ) {
+      //   if (resultJson.isPickupAvailableForExchange) {
+      //     dispatch(displayToast("Exchange is serviceable at your pincode"));
+      //   }
+      // }
       // if (pinCode) {
       //   localStorage.removeItem(SELECTED_STORE);
       // }
