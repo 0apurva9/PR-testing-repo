@@ -574,7 +574,7 @@ export async function setDataLayer(
     userLoginFailed = JSON.parse(userLoginFailed);
   }
   const previousDigitalData = cloneDeep(window.digitalData);
-  if (userDetails) {
+  if (userDetails && previousDigitalData && previousDigitalData.account) {
     if (userDetails.loginType === LOGIN_WITH_EMAIL) {
       Object.assign(previousDigitalData.account, {
         login: {

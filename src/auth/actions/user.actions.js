@@ -181,9 +181,8 @@ export function loginUser(userLoginDetails) {
               resultJson &&
               resultJson.customerInfo &&
               resultJson.customerInfo.emailId,
-            CustomerId: resultJson && resultJson.customerId,
-            FirstName: resultJson && resultJson.firstName,
-            LastName: resultJson && resultJson.lastName,
+            Identity: resultJson && resultJson.customerId,
+            Name: resultJson && resultJson.firstName,
             "MSG-email": true, // Enable email notifications
             "MSG-push": true, // Enable push notifications
             "MSG-sms": true, // Enable sms notifications
@@ -196,13 +195,14 @@ export function loginUser(userLoginDetails) {
               resultJson &&
               resultJson.customerInfo &&
               resultJson.customerInfo.emailId,
-            CustomerId: resultJson && resultJson.customerId,
-            FirstName: resultJson && resultJson.firstName,
-            LastName: resultJson && resultJson.lastName,
+            Identity: resultJson && resultJson.customerId,
+            Name: resultJson && resultJson.firstName,
             "MSG-email": true, // Enable email notifications
             "MSG-push": true, // Enable push notifications
             "MSG-sms": true, // Enable sms notifications
-            "MSG-whatsapp": true // Enable whatsapp notifications
+            "MSG-whatsapp": true, // Enable whatsapp notifications
+            "test-Notification": `test check ${resultJson &&
+              resultJson.firstName}`
           }
         });
       }
