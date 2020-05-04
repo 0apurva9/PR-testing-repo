@@ -2174,13 +2174,7 @@ export function instaCredISEnableMidddleLayer() {
       const result = await api.customGetMiddlewareUrl(
         `/otatacliq/getApplicationProperties.json?propertyNames=MP_DESKTOP_INSTACRED_ENABLED`
       );
-      // const resultJson = await result.json();
-      /**
-       * Mock Data. To be removed
-       */
-      const resultJson = {
-        applicationProperties: [{ name: "name", value: true }]
-      };
+      const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
