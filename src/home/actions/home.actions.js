@@ -763,15 +763,13 @@ export function msdAbcComponents(fetchURL) {
       let postData;
       let result;
       let resultJson;
-      const msdABPCBrandCount = [3];
-
+      const widgetSpecificPostData = [113];
+      const msdABPCBrandCount = [10];
       let msdNumberOfResults = 5;
-      const widgetSpecificPostData = getMsdPostData(
-        AUTOMATED_BRAND_CAROUSEL_WIDGET_LIST
-      );
-      postData = await getMsdFormData(widgetSpecificPostData.widget_list, [
+      postData = await getMsdFormData(AUTOMATED_BRAND_CAROUSEL_WIDGET_LIST, [
         msdNumberOfResults
       ]);
+      postData.append("widget_list", JSON.stringify(widgetSpecificPostData));
       postData.append("num_brands", JSON.stringify(msdABPCBrandCount));
       postData.append("num_products", JSON.stringify(MSD_NUM_PRODUCTS));
       postData.append("channel", "pwa");
