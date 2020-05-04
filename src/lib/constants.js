@@ -99,6 +99,9 @@ export const ORDER = "/order";
 export const TRANSACTION_DETAIL_PAGE = "/transaction";
 export const TRANSACTION_HISTORY = "/transactionHistory";
 export const RETURN_SUCCESS_MESSAGE = "Return has been initiated";
+export const MSD_AUTOMATED_BRAND_CAROUSEL =
+  "msdAutomatedBannerProductCarouselComponent";
+export const MSD_DISCOVER_MORE = "msdAutoDiscoverMoreComponent";
 // MyAccount Routes
 export const MY_ACCOUNT_PAGE_ROOT = "/my-account/.*";
 export const MY_ACCOUNT_PAGE = "/my-account";

@@ -74,7 +74,7 @@ import ProductDetailsMainCard from "./ProductDetailsMainCard";
 import ProductDetails from "./ProductDetails";
 // import Overlay from "./Overlay";
 import PdpDeliveryModes from "./PdpDeliveryModes";
-import PDPRecommendedSectionsContainer from "./PDPRecommendedSections";
+import PDPRecommendedSectionsContainer from "../containers/PDPRecommendedSectionsContainer";
 import ColourSelector from "./ColourSelector";
 import FlixMediaContainer from "./FlixMediaContainer";
 // import CheckBox from '../../general/components/CheckBox.js';
@@ -1691,7 +1691,7 @@ export default class PdpApparel extends React.Component {
                     </div>
                   )}
                 </div>
-                <div>
+                <React.Fragment>
                   {mshProduct && mshProduct.includes("samsung") && (
                     <div className={styles.sumsungSeparator}>
                       <div className={styles.chatIcon}>
@@ -1720,7 +1720,7 @@ export default class PdpApparel extends React.Component {
                       </div>
                     </div>
                   )}
-                </div>
+                </React.Fragment>
               </div>
             </div>
             <div className={styles.details}>
@@ -2019,7 +2019,7 @@ export default class PdpApparel extends React.Component {
                       </Accordion>
                     )}
                     {productData.knowMoreV2 && (
-                      <Accordion text="Return & Exchange" headerFontSize={18}>
+                      <Accordion text="Return & Refunds" headerFontSize={18}>
                         <div className={styles.containerWithBottomBorder}>
                           <div className={styles.accordionContentBold}>
                             {productData.knowMoreV2[0].knowMoreItemV2}

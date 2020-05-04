@@ -75,12 +75,16 @@ export default class DeliveryInformations extends React.Component {
     }
   }
 
-  getDateMonthFormate(date, month) {
+  getDateMonthFormate(date, month, dateObj) {
     let todayDate = new Date().getDate();
+    let currentMonth = new Date().getMonth() + 1;
+    let fromDate = date - 4;
     let nextDayDate = todayDate + 1;
     let newExpressOrSddText;
+    let fromDateText = "";
     if (
       date === todayDate &&
+      month === currentMonth &&
       (this.props.type === SHORT_EXPRESS ||
         this.props.type === SHORT_SAME_DAY_DELIVERY ||
         this.props.type === SHORT_HOME_DELIVERY)
@@ -88,6 +92,7 @@ export default class DeliveryInformations extends React.Component {
       newExpressOrSddText = `Today, `;
     } else if (
       date === nextDayDate &&
+      month === currentMonth &&
       (this.props.type === SHORT_EXPRESS ||
         this.props.type === SHORT_SAME_DAY_DELIVERY ||
         this.props.type === SHORT_HOME_DELIVERY)
@@ -108,6 +113,34 @@ export default class DeliveryInformations extends React.Component {
       "Nov",
       "Dec"
     ];
+    if (this.props.pdpApparel) {
+      dateObj.setDate(0);
+      let prevMonth = dateObj.getMonth() + 1;
+      let prevMonthText = "";
+
+      if (fromDate <= 0) {
+        fromDate = dateObj.getDate() - fromDate * -1;
+        prevMonthText = monthNames[prevMonth - 1];
+      }
+      switch (fromDate) {
+        case 1:
+        case 21:
+        case 31:
+          fromDateText = "" + fromDate + "st " + prevMonthText + " and ";
+          break;
+        case 2:
+        case 22:
+          fromDateText = "" + fromDate + "nd " + prevMonthText + " and ";
+          break;
+        case 3:
+        case 23:
+          fromDateText = "" + fromDate + "rd " + prevMonthText + " and ";
+          break;
+        default:
+          fromDateText = "" + fromDate + "th " + prevMonthText + " and ";
+          break;
+      }
+    }
     switch (date) {
       case 1:
       case 21:
@@ -115,27 +148,27 @@ export default class DeliveryInformations extends React.Component {
         if (newExpressOrSddText) {
           return newExpressOrSddText + date + "st " + monthNames[month - 1];
         } else {
-          return "" + date + "st " + monthNames[month - 1];
+          return fromDateText + "" + date + "st " + monthNames[month - 1];
         }
       case 2:
       case 22:
         if (newExpressOrSddText) {
           return newExpressOrSddText + date + "nd " + monthNames[month - 1];
         } else {
-          return "" + date + "nd " + monthNames[month - 1];
+          return fromDateText + "" + date + "nd " + monthNames[month - 1];
         }
       case 3:
       case 23:
         if (newExpressOrSddText) {
           return newExpressOrSddText + date + "rd " + monthNames[month - 1];
         } else {
-          return "" + date + "rd " + monthNames[month - 1];
+          return fromDateText + "" + date + "rd " + monthNames[month - 1];
         }
       default:
         if (newExpressOrSddText) {
           return newExpressOrSddText + date + "th " + monthNames[month - 1];
         } else {
-          return "" + date + "th " + monthNames[month - 1];
+          return fromDateText + "" + date + "th " + monthNames[month - 1];
         }
     }
   }
@@ -148,7 +181,7 @@ export default class DeliveryInformations extends React.Component {
     date = dateWithMonth.getDate();
     month = dateWithMonth.getMonth() + 1;
     if (date && month) {
-      return this.getDateMonthFormate(date, month);
+      return this.getDateMonthFormate(date, month, dateWithMonth);
     } else return "";
   }
 
@@ -226,6 +259,10 @@ export default class DeliveryInformations extends React.Component {
     }
     if (!this.props.available) {
       typeText = `${typeText}`;
+    }
+
+    if (this.props.pdpApparel && typeDate.includes(" and ")) {
+      typeText = "Delivery between";
     }
 
     let deliveryCharge = "";
