@@ -1078,9 +1078,40 @@ export default class OrderDetails extends React.Component {
                           {cashbackCredited &&
                             cashbackCredited.status &&
                             cashbackCredited.status === "Complete" && (
-                              <div className={styles.exchangeProcessedText}>
-                                Exchange has been processed sucessfully.
-                              </div>
+                              <React.Fragment>
+                                {products.exchangeDetails
+                                  .exchangePaymentDetails &&
+                                  products.exchangeDetails
+                                    .exchangePaymentDetails[0] && (
+                                    <div className={styles.exchangeProductText}>
+                                      <span
+                                        className={styles.fontFamilySemibold}
+                                      >
+                                        Cashback Credited:
+                                      </span>
+                                      {products.exchangeDetails
+                                        .exchangePaymentDetails[0]
+                                        .exchangePaymentMode === "CLIQ_CASH" ? (
+                                        "Cliq Cash Wallet"
+                                      ) : (
+                                        <span>
+                                          Ac no.{" "}
+                                          {products.exchangeDetails
+                                            .exchangePaymentDetails[0]
+                                            .accountNumber &&
+                                            products.exchangeDetails.exchangePaymentDetails[0].accountNumber.replace(
+                                              /.(?=.{4,}$)/g,
+                                              "x"
+                                            )}
+                                        </span>
+                                      )}
+                                    </div>
+                                  )}
+                                <div className={styles.bb} />
+                                <div className={styles.exchangeProcessedText}>
+                                  Exchange has been processed sucessfully.
+                                </div>
+                              </React.Fragment>
                             )}
                           {!products.consignmentStatus.includes("CANCEL") &&
                             !hideDetailsWhenCashbackCredited && (
