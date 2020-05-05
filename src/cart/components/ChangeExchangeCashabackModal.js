@@ -26,10 +26,12 @@ export default class ChangeExchangeCashabackModal extends React.Component {
   closeModal() {
     this.props.closeModal();
   }
-  goToEchangeCashbackSelection(orderId) {
-    let exchangeCashbackSelectionURL =
-      "/my-account/getAccountInfoForExchange?parentOrderId=" + orderId;
-    this.props.history.push(exchangeCashbackSelectionURL);
+  goToEchangeCashbackSelection(orderId, currentCashbackMode) {
+    let exchangeCashbackSelectionURL = `/my-account/getAccountInfoForExchange?parentOrderId=${orderId}`;
+    this.props.history.push({
+      pathname: exchangeCashbackSelectionURL,
+      state: { currentCashbackMode: currentCashbackMode, orderId: orderId }
+    });
   }
   render() {
     return (
@@ -58,7 +60,12 @@ export default class ChangeExchangeCashabackModal extends React.Component {
         </div>
         <div
           className={styles.okButton}
-          onClick={() => this.goToEchangeCashbackSelection(this.state.orderId)}
+          onClick={() =>
+            this.goToEchangeCashbackSelection(
+              this.state.orderId,
+              this.props.exchangePaymentMode
+            )
+          }
         >
           Change the cashback mode now
         </div>

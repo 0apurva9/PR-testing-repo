@@ -96,11 +96,13 @@ export default class PaymentConfirmationPage extends React.Component {
       this.props.history.push(`${MY_ACCOUNT_PAGE}${value}`);
     }
   }
-  goToEchangeCashbackSelection(orderId) {
+  goToEchangeCashbackSelection(orderId, currentCashbackMode) {
     setDataLayer(ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE);
-    let exchangeCashbackSelectionURL =
-      "/my-account/getAccountInfoForExchange?parentOrderId=" + orderId;
-    this.props.history.push(exchangeCashbackSelectionURL);
+    let exchangeCashbackSelectionURL = `/my-account/getAccountInfoForExchange?parentOrderId=${orderId}`;
+    this.props.history.push({
+      pathname: exchangeCashbackSelectionURL,
+      state: { currentCashbackMode: currentCashbackMode, orderId: orderId }
+    });
   }
   render() {
     return (

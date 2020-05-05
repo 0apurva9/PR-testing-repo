@@ -490,10 +490,12 @@ export default class OrderDetails extends React.Component {
       isToggleOn: !state.isToggleOn
     }));
   }
-  goToEchangeCashbackSelection(orderId) {
-    let exchangeCashbackSelectionURL =
-      "/my-account/getAccountInfoForExchange?parentOrderId=" + orderId;
-    this.props.history.push(exchangeCashbackSelectionURL);
+  goToEchangeCashbackSelection(orderId, currentCashbackMode) {
+    let exchangeCashbackSelectionURL = `/my-account/getAccountInfoForExchange?parentOrderId=${orderId}`;
+    this.props.history.push({
+      pathname: exchangeCashbackSelectionURL,
+      state: { currentCashbackMode: currentCashbackMode, orderId: orderId }
+    });
   }
   render() {
     if (this.props.loadingForFetchOrderDetails) {
@@ -1057,7 +1059,10 @@ export default class OrderDetails extends React.Component {
                                   className={styles.exchangeCashbackChangeMode}
                                   onClick={() =>
                                     this.goToEchangeCashbackSelection(
-                                      orderDetails.orderId
+                                      orderDetails.orderId,
+                                      products.exchangeDetails
+                                        .exchangePaymentDetails[0]
+                                        .exchangePaymentMode
                                     )
                                   }
                                 >

@@ -145,11 +145,13 @@ export default class OrderConfirmation extends React.Component {
     }
   }
 
-  goToEchangeCashbackSelection(orderId) {
+  goToEchangeCashbackSelection(orderId, currentCashbackMode) {
     setDataLayer(ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE);
-    let exchangeCashbackSelectionURL =
-      "/my-account/getAccountInfoForExchange?parentOrderId=" + orderId;
-    this.props.history.push(exchangeCashbackSelectionURL);
+    let exchangeCashbackSelectionURL = `/my-account/getAccountInfoForExchange?parentOrderId=${orderId}`;
+    this.props.history.push({
+      pathname: exchangeCashbackSelectionURL,
+      state: { currentCashbackMode: currentCashbackMode, orderId: orderId }
+    });
   }
 
   render() {
@@ -300,7 +302,11 @@ export default class OrderConfirmation extends React.Component {
                       <div
                         className={styles.exchangeCashbackChangeMode}
                         onClick={() =>
-                          this.goToEchangeCashbackSelection(this.props.orderId)
+                          this.goToEchangeCashbackSelection(
+                            this.props.orderId,
+                            this.state.commonExchangePaymentDetails[0]
+                              .exchangePaymentMode
+                          )
                         }
                       >
                         Change Mode

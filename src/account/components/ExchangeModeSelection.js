@@ -37,6 +37,24 @@ export default class ExchangeModeSelection extends React.Component {
     if (this.props.shouldCallHeaderContainer) {
       this.props.setHeaderText("Exchange Cashback Mode Selection");
     }
+    // show current cashback mode selected
+    if (
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.currentCashbackMode &&
+      this.props.location.state.currentCashbackMode === "BANK_ACCOUNT"
+    ) {
+      this.setState({ selectedOption: "BANK_ACCOUNT" });
+    }
+    if (
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.currentCashbackMode &&
+      this.props.location.state.currentCashbackMode === "CLIQ_CASH"
+    ) {
+      this.setState({ selectedOption: "CLIQ_CASH" });
+    }
+    // after updating bank details show bank account option selected
     if (
       this.props.location &&
       this.props.location.state &&
@@ -45,7 +63,6 @@ export default class ExchangeModeSelection extends React.Component {
     ) {
       this.setState({ selectedOption: "BANK_ACCOUNT" });
     }
-
     const urlParams = new URLSearchParams(this.props.location.search);
     let orderId = urlParams.get("parentOrderId");
     if (!this.props.location.search) {
