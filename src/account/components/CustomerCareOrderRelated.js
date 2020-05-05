@@ -390,7 +390,7 @@ export default class CustomerCareOrderRelated extends React.Component {
       LPName: "",
       deliveryPersonName: "",
       deliveryPersonContact: "",
-      eGVNumber: "",
+      EGVNumber: "",
       deactivationReason: "",
       alternateContact: "",
       customerEmail: "",
