@@ -466,3 +466,9 @@
   font-family: semibold;
   color: #ff1744;
 }
+.imgSubTitle{
+  font-size: 12px;
+    color: #212121;
+    font-family: light;
+    margin-bottom: 4px;
+}

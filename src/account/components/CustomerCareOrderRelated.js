@@ -393,7 +393,7 @@ export default class CustomerCareOrderRelated extends React.Component {
       EGVNumber: "",
       deactivationReason: "",
       alternateContact: "",
-      customerEmail: "",
+      additionalEmail: "",
       bulkProduct: "",
       bulkQuantity: "",
       pincodedetail: "",
@@ -820,7 +820,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                     />
                     <div className={styles.secondOrder}>
                       {this.state.attachment.itemsTitle && (
-                        <div className={styles.fieldLabel}>
+                        <div className={styles.imgSubTitle}>
                           {this.state.attachment.itemsTitle}
                         </div>
                       )}
