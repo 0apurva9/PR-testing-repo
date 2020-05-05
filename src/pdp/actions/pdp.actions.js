@@ -1047,8 +1047,8 @@ export function getMsdRequest(
     if (userDetails) {
       userDetails = JSON.parse(userDetails);
     }
-    if (userDetails && userDetails.userName) {
-      msdRequestObject.append("user_id", userDetails.userName);
+    if (userDetails && userDetails.customerId) {
+      msdRequestObject.append("user_id", userDetails.customerId);
     }
     msdRequestObject.append("api_key", API_KEY);
     if (process.env.REACT_APP_STAGE === "qa2") {
@@ -1133,8 +1133,8 @@ export function pdpAboutBrand(productCode) {
     if (userDetails) {
       userDetails = JSON.parse(userDetails);
     }
-    if (userDetails && userDetails.userName) {
-      msdRequestObject.append("user_id", userDetails.userName);
+    if (userDetails && userDetails.customerId) {
+      msdRequestObject.append("user_id", userDetails.customerId);
     }
     msdRequestObject.append("api_key", API_KEY);
     msdRequestObject.append(

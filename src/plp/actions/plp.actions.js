@@ -420,8 +420,8 @@ export function nullSearchMsd() {
       }
       dispatch(nullSearchMsdRequest());
       let discoverMoreData = new FormData();
-      if (userDetails && userDetails.userName) {
-        discoverMoreData.append("user_id", userDetails.userName);
+      if (userDetails && userDetails.customerId) {
+        discoverMoreData.append("user_id", userDetails.customerId);
       }
       discoverMoreData.append("api_key", api_key);
       discoverMoreData.append("widget_list", [109]);
@@ -434,8 +434,8 @@ export function nullSearchMsd() {
       );
       const discoverMoreresultJson = await discoverMoreresult.json();
       let trendingProducts = new FormData();
-      if (userDetails && userDetails.userName) {
-        trendingProducts.append("user_id", userDetails.userName);
+      if (userDetails && userDetails.customerId) {
+        trendingProducts.append("user_id", userDetails.customerId);
       }
       trendingProducts.append("api_key", api_key);
       trendingProducts.append("mad_uuid", await getMcvId());

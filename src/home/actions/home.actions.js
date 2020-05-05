@@ -805,8 +805,8 @@ export function msdDiscoverMoreHomeComponents(type) {
       discoverMoreData.append("num_results", [10]);
       discoverMoreData.append("mad_uuid", await getMcvId());
       discoverMoreData.append("details", false);
-      if (userDetails && userDetails.userName) {
-        discoverMoreData.append("user_id", userDetails.userName);
+      if (userDetails && userDetails.customerId) {
+        discoverMoreData.append("user_id", userDetails.customerId);
       }
       const discoverMoreresult = await api.postMsd(
         `${MSD_ROOT_PATH}/widgets`,

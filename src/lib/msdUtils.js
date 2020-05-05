@@ -26,8 +26,8 @@ export async function getMsdFormData(widgetList, numberOfResults: [10]) {
   const mcvId = await getMcvId();
   msdRequestObject.append("mad_uuid", mcvId);
   msdRequestObject.append("details", false);
-  if (userDetails && userDetails.userName) {
-    msdRequestObject.append("user_id", userDetails.userName);
+  if (userDetails && userDetails.customerId) {
+    msdRequestObject.append("user_id", userDetails.customerId);
   }
   return msdRequestObject;
 }

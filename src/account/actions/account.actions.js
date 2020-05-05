@@ -3520,8 +3520,8 @@ export function getFollowedBrands(isSetDataLayer) {
     msdFormData.append("mad_uuid", mcvId);
     msdFormData.append("details", true);
     msdFormData.append("widget_list", WIDGETS_LIST_FOR_BRANDS);
-    if (userDetails && userDetails.userName) {
-      msdFormData.append("user_id", userDetails.userName);
+    if (userDetails && userDetails.customerId) {
+      msdFormData.append("user_id", userDetails.customerId);
     }
     try {
       const result = await api.postMsd(`${MSD_ROOT_PATH}/widgets`, msdFormData);
@@ -3994,8 +3994,8 @@ export function updateProfileMsd(gender) {
       msdRequestObject.append("api_key", MSD_API_KEY);
       msdRequestObject.append("data", JSON.stringify([msdData]));
       msdRequestObject.append("mad_uuid", MAD_UUID);
-      if (userDetails && userDetails.userName) {
-        msdRequestObject.append("user_id", userDetails.userName);
+      if (userDetails && userDetails.customerId) {
+        msdRequestObject.append("user_id", userDetails.customerId);
       }
 
       const result = await api.postMsd(
