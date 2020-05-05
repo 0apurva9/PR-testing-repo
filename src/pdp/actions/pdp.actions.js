@@ -1964,7 +1964,8 @@ export function verifyIMEINumber(
   listingId,
   ussId,
   guid: null,
-  entry: null
+  entry: null,
+  wishlistName: null
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(verifyIMEINumberRequest());
@@ -1983,6 +1984,9 @@ export function verifyIMEINumber(
       if (guid && entry) {
         bodyParams.guid = guid;
         bodyParams.entry = entry;
+      }
+      if (wishlistName) {
+        bodyParams.wishlistName = wishlistName;
       }
       const result = await api.post(`v2/mpl/verifyIMEINumber`, bodyParams);
       const resultJson = await result.json();

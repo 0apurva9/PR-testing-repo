@@ -54,7 +54,40 @@ export default class SaveListDetails extends React.Component {
     productDetails.quantity = PRODUCT_QUANTITY;
     this.props.addProductToCart(productDetails);
   }
-  addToBagItemWithExchange(ussid, productcode, exchangeDetails) {
+  async addToBagItemWithExchange(ussid, productcode, exchangeDetails) {
+    // check if quote is expired , call verifyIMEI API then add to bag
+    if (exchangeDetails.quoteExpired) {
+      let response = await this.props.verifyIMEINumber(
+        exchangeDetails.IMEINumber,
+        exchangeDetails.exchangeProductId,
+        exchangeDetails.exchangePriceDetail.exchangeAmountCashify.value,
+        exchangeDetails.exchangePriceDetail.TULBump.value,
+        exchangeDetails.exchangePriceDetail.pickupCharge.value,
+        productcode,
+        ussid,
+        this.props.wishlistName
+      );
+      if (
+        response.status &&
+        response.status.toLowerCase() === "success" &&
+        response.isIMEIVerified
+      ) {
+        this.addProductToBag(ussid, productcode, exchangeDetails);
+      }
+      if (
+        response.status &&
+        response.status.toLowerCase() === "failure" &&
+        !response.isIMEIVerified &&
+        response.error
+      ) {
+        this.props.displayToast(response.error);
+      }
+    } else {
+      this.addProductToBag(ussid, productcode, exchangeDetails);
+    }
+  }
+
+  addProductToBag(ussid, productcode, exchangeDetails) {
     const productDetails = {};
     productDetails.ussId = ussid;
     productDetails.code = productcode;
@@ -67,6 +100,7 @@ export default class SaveListDetails extends React.Component {
     );
     this.props.addProductToCart(productDetails);
   }
+
   removeItem(ussid) {
     setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_WISHLIST_REMOVE);
     const productDetails = {};

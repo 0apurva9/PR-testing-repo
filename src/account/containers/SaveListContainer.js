@@ -7,7 +7,10 @@ import { withRouter } from "react-router-dom";
 import SaveListDetails from "../components/SaveListDetails";
 import { setHeaderText } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions";
-import { addProductToCart } from "../../pdp/actions/pdp.actions";
+import {
+  addProductToCart,
+  verifyIMEINumber
+} from "../../pdp/actions/pdp.actions";
 import { SUCCESS } from "../../lib/constants";
 import { SUCCESS_FOR_ADDING_TO_BAG } from "../../lib/constants.js";
 import { showModal, DESKTOP_AUTH } from "../../general/modal.actions";
@@ -50,6 +53,29 @@ const mapDispatchToProps = dispatch => {
           dispatch(displayToast(REMOVED_SAVELIST));
         }
       });
+    },
+    verifyIMEINumber: async (
+      IMEINumber,
+      exchangeProductId,
+      exchangeAmountCashify,
+      tulBump,
+      pickUpCharge,
+      listingId,
+      ussId,
+      wishlistName
+    ) => {
+      return await dispatch(
+        verifyIMEINumber(
+          IMEINumber,
+          exchangeProductId,
+          exchangeAmountCashify,
+          tulBump,
+          pickUpCharge,
+          listingId,
+          ussId,
+          wishlistName
+        )
+      );
     }
   };
 };
@@ -58,7 +84,8 @@ const mapStateToProps = state => {
     wishList: state.wishlistItems.wishlistItems,
     loading: state.wishlistItems.loading,
     count: state.wishlistItems.count,
-    userAddress: state.profile.userAddress
+    userAddress: state.profile.userAddress,
+    wishlistName: state.wishlistItems.name
   };
 };
 
