@@ -16,7 +16,9 @@ import {
   NOT_SERVICEABLE,
   LOGGED_IN_USER_DETAILS,
   CART_DETAILS_FOR_ANONYMOUS,
-  CART_DETAILS_FOR_LOGGED_IN_USER
+  CART_DETAILS_FOR_LOGGED_IN_USER,
+  CUSTOMER_ACCESS_TOKEN,
+  GLOBAL_ACCESS_TOKEN
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import ProductImage from "../../general/components/ProductImage.js";
@@ -154,11 +156,22 @@ export default class CartItemForDesktop extends React.Component {
   }
   async verifyIMEINumber() {
     if (this.props) {
+      const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+      const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
       let loggedInUserDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+      let user = "anonymous";
+      let accessToken = globalCookie && JSON.parse(globalCookie).access_token;
+      let cartId = cartDetails && JSON.parse(cartDetails).guid;
       if (loggedInUserDetails) {
+        user = JSON.parse(loggedInUserDetails).userName;
         cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+        accessToken = JSON.parse(customerCookie).access_token;
+        cartId = cartDetails && JSON.parse(cartDetails).code;
       }
+      const defaultPinCode = localStorage.getItem(
+        DEFAULT_PIN_CODE_LOCAL_STORAGE
+      );
       let guid = JSON.parse(cartDetails).guid;
       let response = await this.props.verifyIMEINumber(
         this.props.product.exchangeDetails.IMEINumber,
@@ -179,8 +192,7 @@ export default class CartItemForDesktop extends React.Component {
         response.isIMEIVerified
       ) {
         this.props.displayToast("Exchange Cashback has been updated");
-        // load cart page to call cart details API and get updated response
-        window.location.reload();
+        this.props.getCartDetails(user, accessToken, cartId, defaultPinCode);
       }
       if (
         response.status &&

@@ -992,6 +992,7 @@ class CartPage extends React.Component {
                               )
                             }
                             displayToast={this.props.displayToast}
+                            getCartDetails={this.props.getCartDetails}
                           />
                         </DesktopOnly>
                       </div>
