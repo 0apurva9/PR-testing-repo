@@ -643,9 +643,11 @@ export async function setDataLayer(
       });
     }
     const mcvId = await getMcvId();
-    Object.assign(previousDigitalData.account, {
-      mcvId: mcvId
-    });
+    if (previousDigitalData && previousDigitalData.account) {
+      Object.assign(previousDigitalData.account, {
+        mcvId: mcvId
+      });
+    }
   }
 
   // if (type === ADOBE_PDP_SIMILAR_PRODUCT) {
