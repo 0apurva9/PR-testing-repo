@@ -4142,6 +4142,9 @@ export function getCustomerQueriesData(transactionId) {
         }&transactionId=${transactionId}`
       );
       const resultJson = await result.json();
+      if (resultJson.error) {
+        dispatch(displayToast(resultJson.error));
+      }
       dispatch(getCustomerQueriesDataSuccessv2(resultJson));
     } catch (e) {
       dispatch(getCustomerQueriesDataFailurev2(e.message));

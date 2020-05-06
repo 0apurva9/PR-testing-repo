@@ -637,7 +637,7 @@ export default class CustomerCareOrderRelated extends React.Component {
           )}
 
           <div className={styles.queryFieldBox}>
-            {transactionId && (
+            {transactionId && l1OptionsArray && (
               <div className={styles.formBox}>
                 <div className={styles.formWidth}>
                   <div className={styles.secondOrder}>
@@ -647,6 +647,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                       fontSize={"14px"}
                     />
                   </div>
+                  {/* <div className={styles.noQuestion}>No questions</div> */}
                   <div
                     className={[styles.selectIssue, styles.paddingBottom].join(
                       " "
