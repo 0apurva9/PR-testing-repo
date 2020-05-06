@@ -498,7 +498,10 @@ export default class PdpApparel extends React.Component {
     this.setState({ isLoader: true });
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
-    productDetails.quantity = PRODUCT_QUANTITY;
+    //Updating Product quantity(selected by user) when user clicks on Add To Bag
+    productDetails.quantity = buyNowFlag
+      ? PRODUCT_QUANTITY
+      : this.state.productQuantityOption.value;
     productDetails.ussId = this.props.productDetails.winningUssID;
     setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_ADOBE_ADD_TO_CART_BUTTON);
     //let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
