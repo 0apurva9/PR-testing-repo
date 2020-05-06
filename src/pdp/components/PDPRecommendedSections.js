@@ -245,6 +245,19 @@ class PDPRecommendedSections extends React.Component {
       return null;
     }
   }
+  renderRecentlyBoughtTogetherModuleSection(title, key) {
+    if (this.props.recentlyViewedProduct) {
+      return this.props.recentlyViewedProduct ? (
+        <div className={styles.brandSection}>
+          <h3 className={styles.brandHeader}>{title}</h3>
+          {this.props.recentlyViewedProduct &&
+            this.renderCarousel(this.props.recentlyViewedProduct, title)}
+        </div>
+      ) : null;
+    } else {
+      return null;
+    }
+  }
 
   handleIntersection = event => {
     if (event.isIntersecting) {
@@ -260,6 +273,9 @@ class PDPRecommendedSections extends React.Component {
           this.props.getMsdRequest(this.props.match.params[1]);
           this.props.pdpAboutBrand(this.props.match.params[1]);
         }
+      }
+      if (this.props.getRecentlyViewedProduct) {
+        this.props.getRecentlyViewedProduct();
       }
     }
   };
@@ -282,6 +298,10 @@ class PDPRecommendedSections extends React.Component {
           {this.renderProductModuleSection(
             "Frequently Bought Together",
             SIMILAR_PRODUCTS_WIDGET_KEY
+          )}
+          {this.renderRecentlyBoughtTogetherModuleSection(
+            "Recently Viewed Products",
+            "Recently Viewed"
           )}
         </div>
       </React.Fragment>
