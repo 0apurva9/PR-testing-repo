@@ -16,7 +16,7 @@ export default class HowExchangeModalWorksLessDetails extends React.Component {
             1. Share your old product details{" "}
           </div>
           <div className={styles.contentDescription}>
-            Either allow access to auto-detect or enter the product details
+            Allow access to auto-detect your old product details or enter them
             manually
           </div>
         </div>
