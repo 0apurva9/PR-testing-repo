@@ -901,7 +901,7 @@ export default class OrderDetails extends React.Component {
                                         </td>
                                       </tr>
                                       <tr>
-                                        <td>Additional Value</td>
+                                        <td>CLiQ Exclusive Cashback</td>
                                         <td>
                                           {
                                             products.exchangeDetails

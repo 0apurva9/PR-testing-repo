@@ -544,7 +544,9 @@ export default class CartItemForDesktop extends React.Component {
                         .exchangeAmountCashify.formattedValueNoDecimal
                     }
                   </div>
-                  <div className={styles.font14LightLeft}>CLiQ Bonus</div>
+                  <div className={styles.font14LightLeft}>
+                    CLiQ Exclusive Cashback
+                  </div>
                   <div className={styles.font14LightRight}>
                     {
                       this.props.product.exchangeDetails.exchangePriceDetail

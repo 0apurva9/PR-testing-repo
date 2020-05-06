@@ -60,10 +60,10 @@ export default class ExchangeProductDetailsTab extends React.Component {
                   <td>
                     <img
                       src={cliqBonusIcon}
-                      alt="CLiQ Bonus"
+                      alt="CLiQ Exclusive Cashback"
                       className={styles.icons}
                     />
-                    Additional Value
+                    CLiQ Exclusive Cashback
                   </td>
                   <td>
                     {this.props.deviceInfo.tulBump.formattedValueNoDecimal}
