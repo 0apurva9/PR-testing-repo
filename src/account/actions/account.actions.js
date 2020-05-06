@@ -4112,6 +4112,7 @@ export function getCustomerQueriesDataRequestv2() {
   };
 }
 export function getCustomerQueriesDataSuccessv2(customerQueriesData) {
+  console.log("call");
   return {
     type: GET_CUSTOMER_QUERIES_DATA_SUCCESS,
     status: SUCCESS,
@@ -4141,10 +4142,18 @@ export function getCustomerQueriesData(transactionId) {
           JSON.parse(customerCookie).access_token
         }&transactionId=${transactionId}`
       );
+
       const resultJson = await result.json();
+      let noQuestion = false;
       if (resultJson.error) {
-        dispatch(displayToast("No questions"));
+        dispatch(getCustomerQueriesDataSuccessv2(resultJson));
+        dispatch(displayToast(resultJson.error));
       }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
       dispatch(getCustomerQueriesDataSuccessv2(resultJson));
     } catch (e) {
       dispatch(getCustomerQueriesDataFailurev2(e.message));
