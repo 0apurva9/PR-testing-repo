@@ -495,7 +495,6 @@ export default class PdpApparel extends React.Component {
     }
   };
   addToCart = async buyNowFlag => {
-    this.setState({ isLoader: true });
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
     //Updating Product quantity(selected by user) when user clicks on Add To Bag
@@ -538,6 +537,7 @@ export default class PdpApparel extends React.Component {
             this.setState({ quantityError: true });
           } else {
             //localStorage.removeItem(SELECTED_STORE);
+            this.setState({ isLoader: true });
             if (buyNowFlag) {
               setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
               if (!checkUserLoggedIn()) {
