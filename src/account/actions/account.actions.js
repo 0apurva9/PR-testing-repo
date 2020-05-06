@@ -4143,7 +4143,7 @@ export function getCustomerQueriesData(transactionId) {
       );
       const resultJson = await result.json();
       if (resultJson.error) {
-        dispatch(displayToast(resultJson.error));
+        dispatch(displayToast("No questions"));
       }
       dispatch(getCustomerQueriesDataSuccessv2(resultJson));
     } catch (e) {
