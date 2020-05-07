@@ -39,8 +39,21 @@ export default class CheckoutCardless extends React.Component {
       environment: env.REACT_APP_FLEXMONEYAPI,
       merchantId: env.REACT_APP_MERCHANTID
     });
+
     if (val.length >= 10) {
-      let amount = localStorage.getItem("amount");
+      let amount =
+        this.props.cart &&
+        this.props.cart.cartDetailsCNC &&
+        this.props.cart.cartDetailsCNC.cartAmount &&
+        this.props.cart.cartDetailsCNC.cartAmount.paybleAmount.formattedValue &&
+        this.props.cart.cartDetailsCNC.cartAmount.paybleAmount.formattedValue
+          ? this.props.cart.cartDetailsCNC.cartAmount.paybleAmount.formattedValue.replace(
+              "₹",
+              ""
+            )
+          : "";
+
+      // let amount = localStorage.getItem("amount");
       this.setState({ selected: false });
       localStorage.setItem("phone", val);
       fm_api
