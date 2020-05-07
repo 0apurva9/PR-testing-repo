@@ -519,10 +519,11 @@ export default class CartItemForDesktop extends React.Component {
               ) : (
                 <div className={styles.exchangePriceNDetails}>
                   <div className={styles.exchangePrice}>
-                    {
+                    {this.props.product.exchangeDetails.exchangePriceDetail &&
                       this.props.product.exchangeDetails.exchangePriceDetail
-                        .totalExchangeCashback.formattedValueNoDecimal
-                    }
+                        .totalExchangeCashback &&
+                      this.props.product.exchangeDetails.exchangePriceDetail
+                        .totalExchangeCashback.formattedValueNoDecimal}
                   </div>
                   {!this.state.showMore && (
                     <div
@@ -537,22 +538,36 @@ export default class CartItemForDesktop extends React.Component {
 
               {this.state.showMore && (
                 <React.Fragment>
-                  <div className={styles.font14LightLeft}>Base Value</div>
-                  <div className={styles.font14LightRight}>
-                    {
-                      this.props.product.exchangeDetails.exchangePriceDetail
-                        .exchangeAmountCashify.formattedValueNoDecimal
-                    }
-                  </div>
-                  <div className={styles.font14LightLeft}>
-                    CLiQ Exclusive Cashback
-                  </div>
-                  <div className={styles.font14LightRight}>
-                    {
-                      this.props.product.exchangeDetails.exchangePriceDetail
-                        .TULBump.formattedValueNoDecimal
-                    }
-                  </div>
+                  {this.props.product.exchangeDetails.exchangePriceDetail &&
+                    this.props.product.exchangeDetails.exchangePriceDetail
+                      .exchangeAmountCashify && (
+                      <React.Fragment>
+                        <div className={styles.font14LightLeft}>Base Value</div>
+                        <div className={styles.font14LightRight}>
+                          {
+                            this.props.product.exchangeDetails
+                              .exchangePriceDetail.exchangeAmountCashify
+                              .formattedValueNoDecimal
+                          }
+                        </div>
+                      </React.Fragment>
+                    )}
+                  {this.props.product.exchangeDetails.exchangePriceDetail &&
+                    this.props.product.exchangeDetails.exchangePriceDetail
+                      .TULBump && (
+                      <React.Fragment>
+                        <div className={styles.font14LightLeft}>
+                          CLiQ Exclusive Cashback
+                        </div>
+                        <div className={styles.font14LightRight}>
+                          {
+                            this.props.product.exchangeDetails
+                              .exchangePriceDetail.TULBump
+                              .formattedValueNoDecimal
+                          }
+                        </div>
+                      </React.Fragment>
+                    )}
                   <div className={styles.exchangePickupDetails}>
                     <span className={styles.font14bold}>Pick up</span>: Within 3
                     days of Product Delivery{" "}
@@ -560,15 +575,20 @@ export default class CartItemForDesktop extends React.Component {
                     <span className={styles.font14bold}>
                       Pick up charge
                     </span>:{" "}
-                    {this.props.product.exchangeDetails.exchangePriceDetail
+                    {this.props.product.exchangeDetails.exchangePriceDetail &&
+                    this.props.product.exchangeDetails.exchangePriceDetail
+                      .pickupCharge &&
+                    this.props.product.exchangeDetails.exchangePriceDetail
                       .pickupCharge.value === 0 ? (
                       <span className={styles.font14green}>FREE</span>
                     ) : (
                       <span>
-                        {
+                        {this.props.product.exchangeDetails
+                          .exchangePriceDetail &&
                           this.props.product.exchangeDetails.exchangePriceDetail
-                            .pickupCharge.formattedValueNoDecimal
-                        }
+                            .pickupCharge &&
+                          this.props.product.exchangeDetails.exchangePriceDetail
+                            .pickupCharge.formattedValueNoDecimal}
                       </span>
                     )}
                   </div>
