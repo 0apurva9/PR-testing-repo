@@ -253,7 +253,7 @@ export function getProductDescription(
         }
       }, TIME_OUT_FOR_APIS);
       const result = await api.getMiddlewareUrl(
-        `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
+        `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true&isMDE=true`
       );
       const resultJson = await result.json();
       // const resultJson = test;
@@ -382,17 +382,17 @@ export function getProductPinCode(
         let userName = JSON.parse(userDetails).userName;
         let accessToken = JSON.parse(customerCookie).access_token;
         if (isExchangeAvailable) {
-          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=true`;
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=true&isMDE=true`;
         } else {
-          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false`;
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false&isMDE=true`;
         }
       } else {
         let userName = ANONYMOUS_USER;
         let accessToken = JSON.parse(globalCookie).access_token;
         if (isExchangeAvailable) {
-          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=true`;
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=true&isMDE=true`;
         } else {
-          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false`;
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false&isMDE=true`;
         }
       }
       const result = await api.post(url);
@@ -586,7 +586,7 @@ export function addProductToCart(productDetails) {
             productDetails.code
           }&USSID=${productDetails.ussId}&quantity=${
             productDetails.quantity
-          }&addedToCartWl=false&channel=${CHANNEL}`,
+          }&addedToCartWl=false&channel=${CHANNEL}&isMDE=true`,
           requestParams
         );
       } else {
@@ -598,7 +598,7 @@ export function addProductToCart(productDetails) {
             productDetails.code
           }&USSID=${productDetails.ussId}&quantity=${
             productDetails.quantity
-          }&addedToCartWl=false&channel=${CHANNEL}`
+          }&addedToCartWl=false&channel=${CHANNEL}&isMDE=true`
         );
       }
       const resultJson = await result.json();

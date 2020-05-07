@@ -508,7 +508,7 @@ export function getDetailsOfCancelledProduct(cancelProductDetails) {
           JSON.parse(userDetails).userName
         }/returnProductDetails?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`,
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&isMDE=true`,
         cancelProductObject
       );
       const resultJson = await result.json();
@@ -625,7 +625,7 @@ export function cancelProduct(cancelProductDetails, productDetails) {
           JSON.parse(userDetails).userName
         }/initiateRefund?access_token=${
           JSON.parse(customerCookie).access_token
-        }&login=${JSON.parse(userDetails).userName}&isPwa=true`,
+        }&login=${JSON.parse(userDetails).userName}&isPwa=true&isMDE=true`,
         cancelProductObject
       );
       const resultJson = await result.json();
@@ -749,7 +749,7 @@ export function getReturnModes(
           JSON.parse(userDetails).userName
         }/getPickupAddrReturnPincodeServcblty?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`,
+        }&isPwa=true&isMDE=true`,
         data
       );
 
@@ -845,7 +845,7 @@ export function updateReturnConfirmation(
           JSON.parse(userDetails).userName
         }/updateReturnConfirmation/${orderId}/${transactionId}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`,
+        }&isPwa=true&isMDE=true`,
         data
       );
       const resultJson = await result.json();
@@ -898,7 +898,7 @@ export function getRefundTransactionSummary(orderId, transactionId, returnId) {
           JSON.parse(userDetails).userName
         }/getReturnTransactionSummary/${orderId}/${transactionId}/${returnId}/?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`
+        }&isPwa=true&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1001,7 +1001,9 @@ export function updateReturnCancellation(data) {
           JSON.parse(userDetails).userName
         }/updateReturnCancellation/${data.orderId}/${
           data.transactionId
-        }?access_token=${JSON.parse(customerCookie).access_token}&isPwa=true`,
+        }?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&isMDE=true`,
         apiData
       );
       const resultJson = await result.json();
@@ -1509,7 +1511,7 @@ export function getReturnReasonsWithProductDetails(productDetails) {
           productDetails.orderCode
         }/${productDetails.transactionId}/?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`
+        }&isPwa=true&isMDE=true`
       );
 
       const resultJson = await result.json();
@@ -1637,7 +1639,7 @@ export function getRefundOptionsData(
           JSON.parse(userDetails).userName
         }/updateReturnReasonGetReturnType/${orderId}/${transactionId}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`,
+        }&isPwa=true&isMDE=true`,
         data
       );
       const resultJson = await result.json();
@@ -1692,7 +1694,7 @@ export function getRefundModes(orderId, transactionId, returnId, typeOfReturn) {
           JSON.parse(userDetails).userName
         }/updateReturnTypeGetRefundMode/${orderId}/${transactionId}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`,
+        }&isPwa=true&isMDE=true`,
         data
       );
       const resultJson = await result.json();
@@ -1747,7 +1749,7 @@ export function updateRefundMode(orderId, transactionId, returnId, refundMode) {
           JSON.parse(userDetails).userName
         }/updateRefundMode/${orderId}/${transactionId}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`,
+        }&isPwa=true&isMDE=true`,
         data
       );
       const resultJson = await result.json();
@@ -2410,13 +2412,13 @@ export function getAllOrdersDetails(
           JSON.parse(userDetails).userName
         }/orderhistorylist_V1?access_token=${
           JSON.parse(customerCookie).access_token
-        }&channel=web&currentPage=${currentPage}&pageSize=${PAGE_SIZE}&orderYear=${showDataAccordingToUser}`;
+        }&channel=web&currentPage=${currentPage}&pageSize=${PAGE_SIZE}&orderYear=${showDataAccordingToUser}&isMDE=true`;
       } else {
         getOrderDetails = `${USER_PATH}/${
           JSON.parse(userDetails).userName
         }/orderhistorylist_V1?access_token=${
           JSON.parse(customerCookie).access_token
-        }&channel=web&currentPage=${currentPage}&pageSize=${PAGE_SIZE}`;
+        }&channel=web&currentPage=${currentPage}&pageSize=${PAGE_SIZE}&isMDE=true`;
       }
       const result = await api.get(getOrderDetails);
       let resultJson = await result.json();
@@ -2975,7 +2977,7 @@ export function fetchOrderDetails(orderId, pageName) {
           JSON.parse(userDetails).userName
         }/getSelectedOrder_V1/${orderId}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`
+        }&isPwa=true&isMDE=true`
       );
       let resultJson = await result.json();
       // let resultJson = orderDetails;
@@ -3015,7 +3017,7 @@ export function fetchOrderItemDetails(orderId, transactionId) {
           JSON.parse(userDetails).userName
         }/getSelectedTransaction/${orderId}/${transactionId}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`
+        }&isPwa=true&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

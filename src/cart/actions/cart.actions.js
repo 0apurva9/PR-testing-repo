@@ -657,7 +657,7 @@ export function getCartDetails(
     dispatch(cartDetailsRequest());
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetails?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}`
+        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetails?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}&isMDE=true`
       );
       const resultJson = await result.json();
       // const resultJson = cartDetailsResponse;
@@ -728,7 +728,7 @@ export function getCartDetailsCNC(
     dispatch(cartDetailsCNCRequest());
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}`
+        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}&isMDE=true`
       );
       let resultJson = await result.json();
       // let resultJson = cartCNC;
@@ -1570,7 +1570,7 @@ export function mergeCartId(cartGuId) {
           JSON.parse(userDetails).userName
         }&oldCartId=${JSON.parse(cartDetailsAnonymous).guid}${
           cartGuId ? "&toMergeCartGuid=" + cartGuId : ""
-        }&channel=${CHANNEL}`
+        }&channel=${CHANNEL}&isMDE=true`
       );
       const resultJson = await result.json();
       const currentBagObject = localStorage.getItem(CART_BAG_DETAILS);
@@ -4660,7 +4660,7 @@ export function orderConfirmation(orderId) {
           JSON.parse(userDetails).userName
         }/orderConfirmation/${orderId}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true`
+        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -5183,7 +5183,7 @@ export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/deleteEntries/${cartListItemPosition}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -5257,7 +5257,7 @@ export function removeItemFromCartLoggedOut(cartListItemPosition, pinCode) {
           JSON.parse(cartDetailsAnonymous).guid
         }/deleteEntries/${cartListItemPosition}?access_token=${
           JSON.parse(globalCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -6069,7 +6069,7 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
             productDetails.ussId
           }&slaveId=${productDetails.slaveId}&access_token=${
             JSON.parse(customerCookie).access_token
-          }&isCNC=yes`
+          }&isCNC=yes&isMDE=true`
         );
       } else {
         result = await api.get(
@@ -6079,7 +6079,7 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
             JSON.parse(customerCookie).access_token
           }&isPwa=true&channel=${CHANNEL}&productCode=${
             productDetails.code
-          }&USSID=${productDetails.ussId}`
+          }&USSID=${productDetails.ussId}&isMDE=true`
         );
       }
       const resultJson = await result.json();
@@ -6138,7 +6138,7 @@ export function mergeTempCartWithOldCart() {
           JSON.parse(userDetails).userName
         }/buyNow/mergeBuyNowCart?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&channel=${CHANNEL}&cartGuid=${cartGuId}`
+        }&isPwa=true&channel=${CHANNEL}&cartGuid=${cartGuId}&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

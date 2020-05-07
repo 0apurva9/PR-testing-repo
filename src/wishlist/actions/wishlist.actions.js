@@ -84,7 +84,7 @@ export function getWishListItems(isSetDataLayer) {
           JSON.parse(userDetails).userName
         }/getAllWishlist?platformNumber=${PLAT_FORM_NUMBER}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`
+        }&isPwa=true&isMDE=true`
       );
 
       const resultJson = await result.json();
@@ -154,7 +154,7 @@ export function addProductToWishList(productDetails, setDataLayerType: null) {
           JSON.parse(userDetails).userName
         }/addProductInWishlist?platformNumber=${PLAT_FORM_NUMBER}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`,
+        }&isPwa=true&isMDE=true`,
         productToBeAdd
       );
       const resultJson = await result.json();
@@ -223,9 +223,9 @@ export function removeProductFromWishList(productDetails) {
       const result = await api.postFormData(
         `${PRODUCT_DETAILS_PATH}/${
           JSON.parse(userDetails).userName
-        }/removeProductFromWishlist?&access_token=${
+        }/removeProductFromWishlist?access_token=${
           JSON.parse(customerCookie).access_token
-        }`,
+        }&isMDE=true`,
         productToBeRemove
       );
       const resultJson = await result.json();
