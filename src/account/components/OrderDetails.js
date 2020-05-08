@@ -1088,11 +1088,13 @@ export default class OrderDetails extends React.Component {
                                   .exchangePaymentDetails &&
                                   products.exchangeDetails
                                     .exchangePaymentDetails[0] && (
-                                    <div className={styles.exchangeProductText}>
+                                    <div
+                                      className={styles.cashbackCreditedText}
+                                    >
                                       <span
                                         className={styles.fontFamilySemibold}
                                       >
-                                        Cashback Credited:
+                                        Cashback Credited:{" "}
                                       </span>
                                       {products.exchangeDetails
                                         .exchangePaymentDetails[0]

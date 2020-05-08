@@ -1295,7 +1295,13 @@ export default class PdpApparel extends React.Component {
                     getBundleProductPinCode={this.props.getBundleProductPinCode}
                   />
                   {productData.exchangeAvailable && (
-                    <div className={styles.exchangeMainContainer}>
+                    <div
+                      className={
+                        productData.totalTulBump
+                          ? styles.exchangeMainContainer
+                          : styles.exchangeMainContainerLessPadding
+                      }
+                    >
                       {productData.totalTulBump &&
                         productData.totalTulBump.formattedValueNoDecimal && (
                           <div className={styles.cliqExclusive}>

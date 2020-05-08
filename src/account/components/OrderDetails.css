@@ -422,8 +422,17 @@
 	color: #67b70b;
 	font-family: light;
 	padding: 10px 0;
-	width: 85%;
+	width: 86%;
 	margin: 0 auto;
+}
+.cashbackCreditedText{
+	display: inline-block;
+	font-size: 14px;
+	font-family: light;
+	margin-bottom: 15px;
+	position: relative;
+	width: calc(100% - 45px);
+	padding: 15px 0 0 42px;
 }
 @media screen and (min-width: 1025px) {
 	.base {
