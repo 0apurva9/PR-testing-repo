@@ -84,7 +84,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             getProductPinCode(
               pinCode,
               productCode,
-              productDetailsResponse.productDescription.winningUssID
+              productDetailsResponse.productDescription.winningUssID,
+              false,
+              productDetailsResponse.productDescription.exchangeAvailable,
+              false
             )
           );
         }
@@ -147,9 +150,25 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showPincodeModal: (productCode, winningUssID) => {
       dispatch(showModal(ADDRESS, { productCode }, { winningUssID }));
     },
-    getProductPinCode: (pinCode, productCode, winningUssID) => {
+    getProductPinCode: (
+      pinCode,
+      productCode,
+      winningUssID,
+      isComingFromPiqPage,
+      isExchangeAvailable,
+      isComingFromClickEvent
+    ) => {
       localStorage.removeItem(SELECTED_STORE);
-      return dispatch(getProductPinCode(pinCode, productCode, winningUssID));
+      return dispatch(
+        getProductPinCode(
+          pinCode,
+          productCode,
+          winningUssID,
+          isComingFromPiqPage,
+          isExchangeAvailable,
+          isComingFromClickEvent
+        )
+      );
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());

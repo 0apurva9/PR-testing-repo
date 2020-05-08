@@ -1276,18 +1276,37 @@
 .exchangeMainContainer{
 	position: relative;
 	display: inline-block;
+	width: 350px;
 	margin-top: 15px;
 	border: 1px solid #e5e5e5;
-	padding: 20px 20px 10px 5px;
+	padding: 20px 10px 10px 5px;
 	border-radius: 8px;
 }
-.exchangeLogo{
-	width: 45px;
-	height: 38px;
-	background: url(../components/img/exchangeLogo.svg) no-repeat;
-	background-size: contain;
+.exchangeLogoContainer{
+	position: relative;
 	float: left;
 	margin-right: 10px;
+}
+.exchangeLogo{
+	width: 28px;
+	height: 24px;
+	background: url(../components/img/exchangeLogo.svg) no-repeat;
+	background-size: contain;
+	margin: 8px 8px;
+}
+.exchangeLogoLoader {
+	position: absolute;
+	animation: rotation 2s infinite linear;
+	width: 45px;
+	height: 39px;
+}
+@keyframes rotation {
+	from {
+			-webkit-transform: rotate(0deg);
+	}
+	to {
+			-webkit-transform: rotate(359deg);
+	}
 }
 .exchangeContainer{
 	float: left;
@@ -1314,6 +1333,9 @@
 	display: inline-block;
 	cursor: pointer;
 	position: relative;
+}
+.withExchangeLink:hover{
+	text-shadow: 0.1px 0.1px #ff1744;
 }
 .withExchangeLink::after{
 	content: "";
@@ -1373,4 +1395,7 @@
 	background-size: contain;
 	margin-right: 5px;
 	vertical-align: middle;
+}
+.fontBold{
+	font-family: semibold;
 }

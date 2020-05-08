@@ -360,24 +360,20 @@ export function getProductPinCode(
   productCode,
   winningUssID,
   isComingFromPiqPage,
-  isFirstTimeRender = false
+  isExchangeAvailable,
+  isComingFromClickEvent = false
 ) {
   let validProductCode = productCode.toUpperCase();
   if (pinCode) {
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, pinCode);
   }
   return async (dispatch, getState, { api }) => {
-    let rootCategory = "";
-    if (getState().productDescription.productDetails.rootCategory) {
-      rootCategory = getState().productDescription.productDetails.rootCategory;
-    }
     dispatch(getProductPinCodeRequest());
     try {
       let url;
       let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
       let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
       let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-      let isExchangeAvailable = localStorage.getItem("PDPExchangeAvailable");
       if (userDetails) {
         let userName = JSON.parse(userDetails).userName;
         let accessToken = JSON.parse(customerCookie).access_token;
@@ -460,14 +456,14 @@ export function getProductPinCode(
           behavior: "smooth"
         });
       }
-      // if (
-      //   !resultJson.productNotServiceabilityMessage ||
-      //   !resultJson.productOutOfStockMessage
-      // ) {
-      //   if (resultJson.isPickupAvailableForExchange) {
-      //     dispatch(displayToast("Exchange is serviceable at your pincode"));
-      //   }
-      // }
+      if (
+        !resultJson.productNotServiceabilityMessage ||
+        !resultJson.productOutOfStockMessage
+      ) {
+        if (isComingFromClickEvent && resultJson.isPickupAvailableForExchange) {
+          dispatch(displayToast("Exchange is serviceable at your pincode"));
+        }
+      }
       // if (pinCode) {
       //   localStorage.removeItem(SELECTED_STORE);
       // }

@@ -11,11 +11,8 @@ import ProductReviewListContainer from "../containers/ProductReviewListContainer
 import SizeQuantitySelect from "./SizeQuantitySelect";
 import APlusTemplate from "./APlusTemplate";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
-//import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import Button from "../../general/components/Button";
-import SearchAndUpdate from "./SearchAndUpdate";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-import Image from "../../xelpmoc-core/Image";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import {
   ADOBE_SUMSUNG_CHAT_LINK_CLICK,
@@ -38,12 +35,8 @@ import {
 import { reverse } from "../reducers/utils";
 import * as Cookie from "../../lib/Cookie";
 import {
-  // CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
   GLOBAL_ACCESS_TOKEN,
-  //CART_DETAILS_FOR_LOGGED_IN_USER,
-  //CART_DETAILS_FOR_ANONYMOUS,
-  //ANONYMOUS_USER,
   PRODUCT_SELLER_ROUTER_SUFFIX,
   PRODUCT_CART_ROUTER,
   PRODUCT_REVIEWS_PATH_SUFFIX,
@@ -57,10 +50,7 @@ import {
   HOME_ROUTER,
   BUY_NOW_PRODUCT_DETAIL,
   BUY_NOW_ERROR_MESSAGE,
-  LOGIN_PATH,
-  ERROR,
-  RUPEE_SYMBOL,
-  SELECTED_STORE
+  LOGIN_PATH
 } from "../../lib/constants";
 import { isBrowser } from "browser-or-node";
 import styles from "./ProductDescriptionPage.css";
@@ -72,40 +62,18 @@ import OfferCard from "./OfferCard";
 import OtherSellersLink from "./OtherSellersLink";
 import SizeSelector from "./SizeSelector";
 import ProductDetailsMainCard from "./ProductDetailsMainCard";
-import ProductDetails from "./ProductDetails";
-// import Overlay from "./Overlay";
 import PdpDeliveryModes from "./PdpDeliveryModes";
 import PDPRecommendedSectionsContainer from "./PDPRecommendedSections";
 import ColourSelector from "./ColourSelector";
 import FlixMediaContainer from "./FlixMediaContainer";
-// import CheckBox from '../../general/components/CheckBox.js';
-import MultiCheckbox from "./MultiCheckbox";
 import Icon from "../../xelpmoc-core/Icon";
 import FilledStarBlack from "../../general/components/img/star-fill-black.svg";
-
-let testcheck = false;
+import exchangeLogoLoader from "./img/exchangeLogoLoader.svg";
 
 const WASH = "Wash";
 const NECK_COLLAR = "Neck/Collar";
 const SLEEVE = "Sleeve";
-
-// const ProductDetailsMainCard = LoadableVisibility({
-//   loader: () => import("./ProductDetailsMainCard"),
-//   loading: () => <div />,
-//   delay: 400
-// });
-//const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 export const ONLY_ICON = "wishlistIconForPdp";
-// const ProductDetails = LoadableVisibility({
-//   loader: () => import("./ProductDetails"),
-//   loading: () => <div />,
-//   delay: 400
-// });
-/* const ProductDetails = LoadableVisibility({
-  loader: () => import("./ProductDetails"),
-  loading: () => <div />,
-  delay: 400
-}); */
 
 const Overlay = LoadableVisibility({
   loader: () => import("./Overlay"),
@@ -117,74 +85,6 @@ const PdpPincode = LoadableVisibility({
   loading: () => <div />,
   delay: 1000
 });
-
-/*const ProductFeature = LoadableVisibility({
-  loader: () => import("./ProductFeature"),
-  loading: () => <div />,
-  delay: 400
-});
-
-const AllDescription = LoadableVisibility({
-  loader: () => import("./AllDescription"),
-  loading: () => <div />,
-  delay: 400
-});
-
-const RatingAndTextLink = LoadableVisibility({
-  loader: () => import("./RatingAndTextLink"),
-  loading: () => <div />,
-  delay: 400
-});
-*/
-// const PdpPaymentInfo = LoadableVisibility({
-//   loader: () => import("./PdpPaymentInfo"),
-//   loading: () => <div />,
-//   delay: 400
-// });
-
-// const OtherSellersLink = LoadableVisibility({
-//   loader: () => import("./OtherSellersLink"),
-//   loading: () => <div />,
-//   delay: 400
-// });
-
-// const OfferCard = LoadableVisibility({
-//   loader: () => import("./OfferCard"),
-//   loading: () => <div />,
-//   delay: 400
-// });
-
-// const SizeSelector = LoadableVisibility({
-//   loader: () => import("./SizeSelector"),
-//   loading: () => <div />,
-//   delay: 400
-// });
-
-// const SizeSelectorForEyeWear = LoadableVisibility({
-//   loader: () => import("./SizeSelectorForEyeWear"),
-//   loading: () => <div />,
-//   delay: 400
-// });
-
-// const ColourSelector = LoadableVisibility({
-//   loader: () => import("./ColourSelector"),
-//   loading: () => <div />,
-//   delay: 400
-// });
-
-// const PdpDeliveryModes = LoadableVisibility({
-//   loader: () => import("./PdpDeliveryModes"),
-//   loading: () => <div />,
-//   delay: 1000
-// });
-
-// const PDPRecommendedSectionsContainer = LoadableVisibility({
-//   loader: () => import("../containers/PDPRecommendedSectionsContainer"),
-//   loading: () => {
-//     return <div />;
-//   },
-//   delay: 400
-// });
 
 const NO_SIZE = "NO SIZE";
 const FREE_SIZE = "Free Size";
@@ -225,14 +125,6 @@ export default class PdpApparel extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount = async () => {
-    // added code temporary starts
-    localStorage.removeItem("MEFirstDeviceData");
-    localStorage.removeItem("MESecondDeviceData");
-    localStorage.removeItem("currentSelectedDevice");
-    localStorage.removeItem("selectedProductCashback");
-    localStorage.removeItem("selectedProductName");
-
-    // added code temporary ends
     setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
     document.title = this.props.productDetails.seo.title;
     this.props.getUserAddress();
@@ -1224,14 +1116,6 @@ export default class PdpApparel extends React.Component {
         BundleddiscountPrice =
           productData.winningSellerPrice.formattedValueNoDecimal;
       }
-      if (productData.exchangeAvailable) {
-        localStorage.setItem(
-          "PDPExchangeAvailable",
-          productData.exchangeAvailable
-        );
-      } else {
-        localStorage.removeItem("PDPExchangeAvailable");
-      }
       let disabledStatus =
         productData.allOOStock ||
         this.props.pincodeError ||
@@ -1423,15 +1307,25 @@ export default class PdpApparel extends React.Component {
                             cashback
                           </div>
                         )}
-                      <div className={styles.exchangeLogo} />
+                      <div className={styles.exchangeLogoContainer}>
+                        <img
+                          src={exchangeLogoLoader}
+                          className={styles.exchangeLogoLoader}
+                          alt="exchangeLogoLoader"
+                        />
+                        <div className={styles.exchangeLogo} />
+                      </div>
                       <div className={styles.exchangeContainer}>
                         <React.Fragment>
                           {!productData.selectedProductName ? (
                             <div className={styles.exchangeLink}>
-                              Get upto cashback{" "}
-                              {productData.maxExchangeAmount &&
-                                productData.maxExchangeAmount
-                                  .formattedValueNoDecimal}{" "}
+                              Get upto{" "}
+                              <span className={styles.fontRegular}>
+                                {productData.maxExchangeAmount &&
+                                  productData.maxExchangeAmount
+                                    .formattedValueNoDecimal}
+                              </span>{" "}
+                              cashback{" "}
                               {exchangeDisabled ? (
                                 <span
                                   className={styles.withDisabledExchangeLink}
@@ -1771,7 +1665,10 @@ export default class PdpApparel extends React.Component {
                           this.props.getProductPinCode(
                             pincode,
                             productData.productListingId,
-                            productData.winningUssID
+                            productData.winningUssID,
+                            false,
+                            productData.exchangeAvailable,
+                            true
                           )
                         }
                         pincode={
@@ -1800,7 +1697,10 @@ export default class PdpApparel extends React.Component {
                           this.props.getProductPinCode(
                             pincode,
                             productData.productListingId,
-                            productData.winningUssID
+                            productData.winningUssID,
+                            false,
+                            productData.exchangeAvailable,
+                            true
                           )
                         }
                         pincode={localStorage.getItem(
