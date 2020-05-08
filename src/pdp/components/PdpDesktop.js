@@ -503,6 +503,9 @@ export default class PdpApparel extends React.Component {
     productDetails.quantity = buyNowFlag
       ? PRODUCT_QUANTITY
       : this.state.productQuantityOption.value;
+    if (!productDetails.quantity) {
+      productDetails.quantity = PRODUCT_QUANTITY;
+    }
     productDetails.ussId = this.props.productDetails.winningUssID;
     setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_ADOBE_ADD_TO_CART_BUTTON);
     //let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
