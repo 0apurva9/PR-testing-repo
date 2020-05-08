@@ -38,8 +38,24 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     buyNow: async productDetails => {
       return dispatch(tempCartIdForLoggedInUser(productDetails));
     },
-    getProductPinCode: (pinCode, productCode) => {
-      dispatch(getProductPinCode(pinCode, productCode));
+    getProductPinCode: (
+      pinCode,
+      productCode,
+      winningUssID,
+      isComingFromPiqPage,
+      isExchangeAvailable,
+      isComingFromClickEvent
+    ) => {
+      dispatch(
+        getProductPinCode(
+          pinCode,
+          productCode,
+          winningUssID,
+          isComingFromPiqPage,
+          isExchangeAvailable,
+          isComingFromClickEvent
+        )
+      );
     },
     getExchangeDetails: async (
       listingId,

@@ -51,8 +51,7 @@ class ProductSellerPage extends Component {
         ? this.props.productDetails.winningUssID
         : null,
       sortOption: PRICE_LOW_TO_HIGH,
-      selectedSellerUssID: null,
-      pickupCharge: ""
+      selectedSellerUssID: null
     };
   }
   priceValue;
@@ -165,25 +164,23 @@ class ProductSellerPage extends Component {
       const productDetailsResponse = await this.props.getProductDescription(
         productCode
       );
-
-      if (
-        !this.props.serviceablePincodeList &&
-        productDetailsResponse &&
-        productDetailsResponse.status === SUCCESS
-      ) {
+      // on page reload required exchange related details so updated below condition
+      if (productDetailsResponse && productDetailsResponse.status === SUCCESS) {
         const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+        const exchangeAvailable =
+          productDetailsResponse.productDescription &&
+          productDetailsResponse.productDescription.exchangeAvailable;
         if (pinCode) {
-          this.props.getProductPinCode(pinCode, productCode);
+          this.props.getProductPinCode(
+            pinCode,
+            productCode,
+            null,
+            false,
+            exchangeAvailable,
+            false
+          );
         }
       }
-    } else {
-      //need to show error page
-    }
-    // on click of other seller link - pickcharge is avail
-    // as check pincode api is not called - we are not getting pickup charge
-    // so setting in state
-    if (this.props.location && this.props.location.state) {
-      this.setState({ pickupCharge: this.props.location.state.pickupCharge });
     }
   }
   onSortByPrice(val) {
@@ -226,11 +223,8 @@ class ProductSellerPage extends Component {
   async openExchangeModal(data) {
     let listingId = this.props.productDetails.productListingId;
     let ussId = data && data.USSID;
-    let maxExchangeAmount =
-      data && data.maxExchangeAmount && data.maxExchangeAmount.value;
-    let pickupCharge = this.props.productDetails.cashifyPickupCharge
-      ? this.props.productDetails.cashifyPickupCharge
-      : this.state.pickupCharge;
+    let maxExchangeAmount = this.props.productDetails.maxExchangeAmount.value;
+    let pickupCharge = this.props.productDetails.cashifyPickupCharge;
     let productName = this.props.productDetails.productName;
     //call exchange details API
     let response = await this.props.getExchangeDetails(

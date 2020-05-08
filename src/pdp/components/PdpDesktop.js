@@ -336,14 +336,7 @@ export default class PdpApparel extends React.Component {
       } else {
         productId = this.props.location.pathname.match(expressionRuleSecond)[1];
       }
-      this.props.history.push({
-        pathname: `/p-${productId}${PRODUCT_SELLER_ROUTER_SUFFIX}`,
-        state: {
-          pickupCharge:
-            this.props.productDetails.pincodeResponseList &&
-            this.props.productDetails.pincodeResponseList.cashifyPickupCharge
-        }
-      });
+      this.props.history.push(`/p-${productId}${PRODUCT_SELLER_ROUTER_SUFFIX}`);
     }
   };
   goToCart = isClickOnGoToBag => {
