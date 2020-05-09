@@ -119,21 +119,16 @@
   transition: 300ms;
   transform: scale(1);
 }
-/* .myBagShow:hover {
-  transform: scale(1.2);
-} */
 .mybag {
   width: 362px;
-  /* border: 1px solid #6c6c6c; */
   position: absolute;
-  top: 25px;
+  top: 45px;
   right: 0;
-  background-color: #212121;
-  box-shadow: 0 0 6px 0 rgba(33, 33, 33, 0.93);
-
-    -webkit-transition: 300ms;
-    -o-transition: 300ms;
-    transition: 300ms;
+  background-color: #ffffff;
+  box-shadow: -1px 1px 5px 0 #bdbdbd;
+  -webkit-transition: 300ms;
+  -o-transition: 300ms;
+  transition: 300ms;
 }
 .mybag::after,
 .mybag::before {
@@ -145,16 +140,16 @@
   pointer-events: none;
 }
 .mybag::before {
-  top: -9px;
+  top: -29px;
   border-color: rgba(194, 225, 245, 0);
-  border-bottom-color: #6c6c6c;
+  border-bottom-color: #bdbdbd;
   border-width: 15px;
   right: 6px;
 }
 .mybag::after {
-  top: -5px;
+  top: -25px;
   border-color: rgba(136, 183, 213, 0);
-  border-bottom-color: #212121;
+  border-bottom-color: #ffffff;
   border-width: 13px;
   right: 8px;
 }
@@ -167,19 +162,20 @@
 }
 .mybagHeading {
   padding: 10px 0 10px;
-  margin-top: 20px;
-  border: 1px solid #6c6c6c;
+  border: 1px solid #efefef;
+  border-top: none;
   font-family: semibold;
   font-size: 14px;
   line-height: normal;
   letter-spacing: normal;
-  color: #fff;
+  color: #212121;
   text-align: center;
+  background-color: #ffffff;
 }
 .mybagProductsContainer,
 .totalAmount {
-  border-left: 1px solid #6c6c6c;
-  border-right: 1px solid #6c6c6c;
+  border-left: 1px solid #efefef;
+  border-right: 1px solid #efefef;
 }
 .mybagImage,
 .mybagProductInformation,
@@ -203,24 +199,25 @@
 .mybagProductCard,
 .mybagProductCardShort {
   padding: 15px 20px;
-  border-bottom: 1px solid #6c6c6c;
+  border-bottom: 1px solid #efefef;
+  background-color: #ffffff;
 }
 .mybagProductCard:last-child {
   height: 30px;
   border-bottom: none;
   overflow: hidden;
 }
-.mybagProductInformation h4 {
+.productTitle {
   margin: 0 0 5px;
   font-family: light;
   font-size: 12px;
   line-height: 14px;
   letter-spacing: normal;
-  color: #fff;
+  color: #212121;
 }
 .informationTextWithBolder {
   margin: 0 0 5px;
-  font-family: semibold;
+  font-family: regular;
 }
 .productVariantsHolder {
   font-family: light;
@@ -230,12 +227,15 @@
   font-size: 12px;
   line-height: 17px;
   letter-spacing: normal;
-  color: #fff;
+  color: #212121;
 }
 .informationTextWithBolder > div {
   margin: 0 7px 0 0;
 }
-.strikemrp { text-decoration-line: line-through; }
+.strikemrp {
+  text-decoration-line: line-through;
+  color: #6c6c6c;
+}
 .informationTextWithBolder .discount {
   color: #ff1744;
 }
@@ -250,15 +250,18 @@
 .totalAmount {
   padding: 15px 20px;
   line-height: 20px;
-  }
+  background-color: #ffffff;
+  color: #212121;
+}
 .totalAmount > span { float: right; }
 .viewBagButtonHolder {
   width: 100%;
   height: auto;
   padding: 20px 0px;
-  border: 1px solid #6c6c6c;
+  border: 1px solid #efefef;
   display: inline-block;
   text-align: center;
+  background-color: #ffffff;
 }
 .buttonViewBag {
   width: auto;
@@ -648,19 +651,20 @@
 .exchangeProductDetailsContainer{
   line-height: normal;
   margin-top: 5px;
+  background-color: #f8f8f8;
+  padding: 5px;
 }
 .exchangeIcon{
   width: 16px;
   height: 16px;
+  display: inline-block;
+  vertical-align: middle;
 }
 .exchangeProductDetails{
   padding-left: 5px;
-  vertical-align: top;
-  padding-top: 1px;
-  display: inline-block;
-  line-height: normal;
   font-size: 12px;
   font-family: regular;
+  color: #212121;
 }
 .fontLight{
   font-family: light;

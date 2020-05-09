@@ -1012,6 +1012,7 @@ export default class OrderDetails extends React.Component {
                             )}
                           {!products.consignmentStatus.includes("CANCEL") &&
                             !products.consignmentStatus.includes("REFUND") &&
+                            !products.consignmentStatus.includes("DELIVERED") &&
                             !products.exchangeDetails.exchangeTrackDiagram &&
                             products.exchangeDetails.exchangePaymentDetails &&
                             products.exchangeDetails

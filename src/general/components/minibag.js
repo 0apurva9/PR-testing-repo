@@ -40,7 +40,7 @@ export default class Minibag extends React.Component {
                   <img alt={product.title} src={product.imageURL} />
                 </div>
                 <div className={styles.mybagProductInformation}>
-                  <h4>{product.title}</h4>
+                  <div className={styles.productTitle}>{product.title}</div>
                   {(product.price || product.MRP || product.discount) && (
                     <div className={styles.informationTextWithBolder}>
                       {product.price && (
@@ -97,7 +97,7 @@ export default class Minibag extends React.Component {
                       className={styles.exchangeIcon}
                     />
                     <span className={styles.exchangeProductDetails}>
-                      Exchange Product :
+                      Exchange Phone:{" "}
                       <span className={styles.fontLight}>
                         {product.exchangeDetails.exchangeModelName}
                       </span>
@@ -115,12 +115,13 @@ export default class Minibag extends React.Component {
         <div className={styles.viewBagButtonHolder}>
           <div className={styles.buttonViewBag}>
             <Button
-              type="hollow"
+              type="primary"
+              backgroundColor="#ff1744"
               height={36}
               label="View Bag"
               width={147}
-              color="#fff"
-              textStyle={{ color: "#fff", fontSize: 14 }}
+              color="#ffffff"
+              textStyle={{ color: "#ffffff", fontSize: 14 }}
               onClick={() => this.navigateToCart()}
             />
           </div>

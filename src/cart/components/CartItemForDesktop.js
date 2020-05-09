@@ -487,54 +487,58 @@ export default class CartItemForDesktop extends React.Component {
                   : styles.exchangeDetails
               }
             >
-              <img
-                src={closeIcon}
-                alt="exchange icon"
-                className={styles.closeIcon}
-                onClick={() => this.removeExchange()}
-              />
-              <img
-                src={exchangeIconLight}
-                alt="exchange icon"
-                className={styles.exchangeIcon}
-              />
-              <div className={styles.exchangeDetailsHeading}>
-                Exchange Cashback for{" "}
-                <span className={styles.exchangeProductName}>
-                  {this.props.product.exchangeDetails.exchangeModelName}
-                </span>
-                {this.props.product.exchangeDetails.quoteExpired && (
-                  <span> has been updated</span>
-                )}
-              </div>
-              {this.props.product.exchangeDetails.quoteExpired ? (
-                <div className={styles.exchangePriceNDetails}>
-                  <div
-                    className={styles.getNewPrice}
-                    onClick={() => this.verifyIMEINumber()}
-                  >
-                    Get New Price
-                  </div>
-                </div>
-              ) : (
-                <div className={styles.exchangePriceNDetails}>
-                  <div className={styles.exchangePrice}>
-                    {this.props.product.exchangeDetails.exchangePriceDetail &&
-                      this.props.product.exchangeDetails.exchangePriceDetail
-                        .totalExchangeCashback &&
-                      this.props.product.exchangeDetails.exchangePriceDetail
-                        .totalExchangeCashback.formattedValueNoDecimal}
-                  </div>
-                  {!this.state.showMore && (
-                    <div
-                      className={styles.exchangeViewDetails}
-                      onClick={() => this.viewMoreDetails()}
-                    >
-                      View Details
-                    </div>
+              <div className={styles.exchangeDetailsSectionOne}>
+                <img
+                  src={closeIcon}
+                  alt="exchange icon"
+                  className={styles.closeIcon}
+                  onClick={() => this.removeExchange()}
+                />
+                <img
+                  src={exchangeIconLight}
+                  alt="exchange icon"
+                  className={styles.exchangeIcon}
+                />
+                <div className={styles.exchangeDetailsHeading}>
+                  Exchange Cashback for{" "}
+                  <span className={styles.exchangeProductName}>
+                    {this.props.product.exchangeDetails.exchangeModelName}
+                  </span>
+                  {this.props.product.exchangeDetails.quoteExpired && (
+                    <span> has been updated</span>
                   )}
                 </div>
-              )}
+              </div>
+              <div className={styles.exchangeDetailsSectionTwo}>
+                {this.props.product.exchangeDetails.quoteExpired ? (
+                  <div className={styles.exchangePriceNDetails}>
+                    <div
+                      className={styles.getNewPrice}
+                      onClick={() => this.verifyIMEINumber()}
+                    >
+                      Get New Price
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.exchangePriceNDetails}>
+                    <div className={styles.exchangePrice}>
+                      {this.props.product.exchangeDetails.exchangePriceDetail &&
+                        this.props.product.exchangeDetails.exchangePriceDetail
+                          .totalExchangeCashback &&
+                        this.props.product.exchangeDetails.exchangePriceDetail
+                          .totalExchangeCashback.formattedValueNoDecimal}
+                    </div>
+                    {!this.state.showMore && (
+                      <div
+                        className={styles.exchangeViewDetails}
+                        onClick={() => this.viewMoreDetails()}
+                      >
+                        View Details
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
 
               {this.state.showMore && (
                 <React.Fragment>
@@ -619,7 +623,7 @@ export default class CartItemForDesktop extends React.Component {
               )}
             {!this.props.productIsServiceable && (
               <div className={styles.exchangeProductNotServiceable}>
-                Cannot service exchange since main product not serviceable
+                Cannot service Exchange since main product not serviceable
               </div>
             )}
           </React.Fragment>

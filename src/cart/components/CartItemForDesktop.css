@@ -126,6 +126,16 @@
 .isGiveAwayQuantityValue {
   padding-left: 12px;
 }
+.exchangeDetailsSectionOne{
+  display: inline-block;
+  width: 70%;
+  vertical-align: middle;
+}
+.exchangeDetailsSectionTwo{
+  display: inline-block;
+  width: 30%;
+  vertical-align: middle;
+}
 .exchangeDetails,.exchangeDetailsPickupNotAvail{
   position: relative;
   margin-left: 181px;
@@ -142,29 +152,25 @@
   font-size: 14px;
   font-family: light;
   display: inline-block;
-  padding: 8px 0 0 8px;
-  vertical-align: top;
-  width: calc(100% - 130px);
+  padding-left: 8px;
 }
 .exchangeProductName{
   font-family: regular;
 }
 .exchangeIcon{
   display: inline-block;
-}
-.exchangePriceNDetails{
-  float: right;
+  vertical-align: middle;
 }
 .exchangePrice{
   font-size: 14px;
   text-align: right;
-  padding-top: 8px;
 }
 .exchangeViewDetails,.exchangeViewLessDetails{
   font-size: 12px;
   color: #ff1744;
   font-family: semibold;
   cursor: pointer;
+  text-align: right;
 }
 .tncLink{
   color: #ff1744;
@@ -173,7 +179,6 @@
 .exchangeViewLessDetails{
   width: 30%;
   display: inline-block;
-  text-align: right;
 }
 .closeIcon{
   background-color: #212121;

@@ -602,7 +602,10 @@ export function addProductToCart(productDetails) {
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
-        if (resultJson.errorCode === "EX05") {
+        if (
+          resultJson.errorCode === "EX05" ||
+          resultJson.errorCode === "NU011"
+        ) {
           dispatch(displayToast(resultJson.error));
         }
         // throw new Error(resultJsonStatus.message);

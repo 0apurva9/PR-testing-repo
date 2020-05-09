@@ -39,6 +39,7 @@
 	overflow-x: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	font-weight: 600;
 }
 .hollowBox {
 	composes: base;

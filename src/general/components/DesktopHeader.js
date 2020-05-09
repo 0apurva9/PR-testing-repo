@@ -6,8 +6,7 @@ import {
   MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_CLIQ_CASH_PAGE,
-  HELP_URL,
-  RUPEE_SYMBOL
+  HELP_URL
 } from "../../../src/lib/constants";
 import DropdownMenu from "./DropdownMenu.js";
 import * as Cookie from "../../lib/Cookie";
@@ -21,11 +20,9 @@ import {
   setDataLayerForMinibag
 } from "../../lib/adobeUtils";
 import { isBrowser } from "browser-or-node";
-import ProductImage from "./ProductImage.js";
 import Minibag from "./minibag.js";
 const CATEGORY = "Categories";
 const BRANDS = "Brands";
-const NO_SIZE = "NO SIZE";
 
 export default class DesktopHeader extends React.Component {
   constructor(props) {
