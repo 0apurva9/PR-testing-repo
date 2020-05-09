@@ -130,6 +130,7 @@
   display: inline-block;
   width: 70%;
   vertical-align: middle;
+  margin-bottom: 5px;
 }
 .exchangeDetailsSectionTwo{
   display: inline-block;
@@ -210,7 +211,7 @@
   border-top: 0.5px solid #ececec;
   border-bottom: 0.5px solid #ececec;
   padding: 10px 0;
-  margin: 10px 0;
+  margin: 5px 0;
 }
 .font14bold{
   font-size:14px;

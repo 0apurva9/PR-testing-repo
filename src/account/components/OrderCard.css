@@ -295,9 +295,9 @@ display: none;
 }
 .exchangeIconLight{
 	display: inline-block;
-	vertical-align: middle;
-	width: 24px;
-	margin-right: 10px;
+	vertical-align: text-top;
+	width: 20px;
+	margin-right: 4px;
 }
 .exchangeProductText{
 	display: inline-block;

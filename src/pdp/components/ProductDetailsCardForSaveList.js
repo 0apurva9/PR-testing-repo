@@ -117,7 +117,7 @@ export default class ProductDetailsCardForSaveList extends React.Component {
                           .totalExchangeCashback.formattedValueNoDecimal
                       }
                     </span>{" "}
-                    exchange cashback.
+                    Exchange cashback.
                   </div>
                 )}
             </div>

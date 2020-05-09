@@ -89,9 +89,9 @@ export default class BagPageItem extends React.Component {
             </div>
           )}
           {this.props.exchangeDetails && (
-            <div>
+            <div className={styles.exchangeDetailsContainer}>
               <div className={styles.exchangeProductName}>
-                <span>Exchange Product: </span>
+                <span>Exchange Phone: </span>
                 <span>{this.props.exchangeDetails.exchangeModelName}</span>
               </div>
               <div className={styles.exchangeCashback}>
@@ -107,7 +107,7 @@ export default class BagPageItem extends React.Component {
               {this.props.pinCodeResponse &&
                 this.props.pinCodeResponse.isPickupAvailableForExchange && (
                   <div className={styles.exchangePickup}>
-                    <span>Pick up: Within 3 days of product delivery</span>
+                    <span>Pick Up: Within 3 days of Product Delivery</span>
                     <span className={styles.spacer}>|</span>
                     {this.props.pinCodeResponse.pickupCharge &&
                     this.props.pinCodeResponse.pickupCharge.doubleValue ===

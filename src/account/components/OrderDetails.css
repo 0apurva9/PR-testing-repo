@@ -357,13 +357,18 @@
 	font-family: regular;
 }
 .effectivePriceContainer{
-	width: 85%;
+	width: 86%;
 	margin: 0 auto;
 	border-top: 1px solid #ececec;
 	padding: 10px 0;
 }
 .bb{
 	border-bottom: 1px solid #ececec;
+}
+.bbCustom{
+	border-bottom: 1px solid #ececec;
+	width: 93%;
+	margin-left: 7%;
 }
 .effectivePrice:nth-child(even){
 	text-align: right;
@@ -375,17 +380,17 @@
 	font-family: semibold;
 }
 .exchangeEDDContainer{
-	width: 85%;
+	width: 86%;
 	margin: 0 auto;
 	font-size: 14px;
 	padding-top: 10px;
 }
 .exchangeCashbackDetails{
-	padding: 10px 15px;
+	padding: 10px 10px 15px 10px;
 	border: 0.5px solid #979797;
 	border-radius: 4px;
-	width: 85%;
-	margin: 10px auto;
+	width: auto;
+	margin: 10px 0 10px 44px;
 }
 .exchangeCashbackTextContainer{
 	width: 75%;
@@ -414,7 +419,7 @@
 	color: #c47403;
 	font-family: light;
 	padding: 15px 0;
-	width: 85%;
+	width: 86%;
 	margin: 0 auto;
 }
 .exchangeProcessedText{

@@ -597,7 +597,7 @@ export default class CartItemForDesktop extends React.Component {
                     )}
                   </div>
                   <div className={styles.font12light}>
-                    Your old mobile will be examined before pick up.{" "}
+                    Your mobile will be examined during pick up.{" "}
                     <span
                       className={styles.tncLink}
                       onClick={() => this.openTnCModal()}

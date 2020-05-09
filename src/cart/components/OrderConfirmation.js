@@ -107,7 +107,9 @@ export default class OrderConfirmation extends React.Component {
       if (commonExchangePaymentDetails[0].accountNumber) {
         data.accountNumber = commonExchangePaymentDetails[0].accountNumber;
       }
-      this.props.showChangeExchangeCashabackModal(data);
+      setTimeout(() => {
+        this.props.showChangeExchangeCashabackModal(data);
+      }, 2000);
     }
   }
 
@@ -279,7 +281,7 @@ export default class OrderConfirmation extends React.Component {
                     <div className={styles.exchangeCashbackDetails}>
                       <div className={styles.exchangeCashbackTextContainer}>
                         <span className={styles.exchangeCashbackText}>
-                          You will receive exchange cashback, post your old
+                          You will receive Exchange Cashback, post your old
                           phone pickup, in{" "}
                         </span>
                         {this.state.commonExchangePaymentDetails[0]

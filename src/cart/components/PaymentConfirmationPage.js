@@ -75,7 +75,9 @@ export default class PaymentConfirmationPage extends React.Component {
         if (commonExchangePaymentDetails[0].accountNumber) {
           data.accountNumber = commonExchangePaymentDetails[0].accountNumber;
         }
-        this.props.showChangeExchangeCashabackModal(data);
+        setTimeout(() => {
+          this.props.showChangeExchangeCashabackModal(data);
+        }, 2000);
       }
     }
   }

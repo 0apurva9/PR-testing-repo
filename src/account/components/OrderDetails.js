@@ -976,7 +976,7 @@ export default class OrderDetails extends React.Component {
                               )}
                             </React.Fragment>
                           ) : null}
-                          <div className={styles.bb} />
+                          <div className={styles.bbCustom} />
                           {products.exchangeDetails.exchangePickupPromiseDate &&
                             !products.exchangeDetails.exchangePickedUpDate &&
                             !hideExchangeDetails && (
@@ -1026,7 +1026,7 @@ export default class OrderDetails extends React.Component {
                                   }
                                 >
                                   <span className={styles.exchangeCashbackText}>
-                                    You will receive exchange cashback, post
+                                    You will receive Exchange Cashback, post
                                     your old phone pickup, in{" "}
                                   </span>
                                   {products.exchangeDetails
