@@ -161,13 +161,31 @@
   line-height: 2;
   margin-right: 10px;
 }
-.exchangeLogo{
-	width: 32px;
-	height: 28px;
-	background: url(../components/img/exchangeLogoSmall.svg) no-repeat;
-	background-size: contain;
+.exchangeLogoContainer{
+	position: relative;
 	float: left;
 	margin-right: 10px;
+}
+.exchangeLogo{
+	width: 21px;
+  height: 17px;
+	background: url(../components/img/exchangeLogoSmall.svg) no-repeat;
+	background-size: contain;
+  margin: 6px 5px;
+}
+.exchangeLogoLoader {
+	position: absolute;
+	animation: rotation 2s infinite linear;
+	width: 32px;
+	height: 28px;
+}
+@keyframes rotation {
+	from {
+			-webkit-transform: rotate(0deg);
+	}
+	to {
+			-webkit-transform: rotate(359deg);
+	}
 }
 .buttonWithArrow{
   position: relative;
