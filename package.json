@@ -102,7 +102,6 @@
     "run:server": "NODE_ENV=production REACT_APP_STAGE=production node build/server/static/js/main.js",
     "build-tmpprod:server": "NODE_ENV=production REACT_APP_STAGE=tmpprod node scripts/build-server.js",
     "start": "REACT_APP_STAGE=production node -r dotenv/config scripts/start.js",
-    "qa9b": "REACT_APP_STAGE=qa9 node -r dotenv/config scripts/start.js",
     "start:desktop": "REACT_APP_STAGE=production node -r dotenv/config scripts/start.js",
     "stage": " REACT_APP_STAGE=stage node scripts/build.js",
     "tmpprod": " REACT_APP_STAGE=tmpprod node scripts/build.js",
