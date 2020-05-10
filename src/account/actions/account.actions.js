@@ -305,6 +305,10 @@ export const GET_CUSTOMER_OTHER_ISSUE_DATA_SUCCESS =
 export const GET_CUSTOMER_OTHER_ISSUE_DATA_FAILURE =
   "GET_CUSTOMER_OTHER_ISSUE_DATA_FAILURE";
 
+export const GET_FAQ_QUESTIONS_LIST_REQUEST = "GET_FAQ_QUESTIONS_LIST_REQUEST";
+export const GET_FAQ_QUESTIONS_LIST_SUCCESS = "GET_FAQ_QUESTIONS_LIST_SUCCESS";
+export const GET_FAQ_QUESTIONS_LIST_FAILURE = "GET_FAQ_QUESTIONS_LIST_FAILURE";
+
 export const GET_ORDER_RELATED_QUESTIONS_REQUEST =
   "GET_ORDER_RELATED_QUESTIONS_REQUEST";
 export const GET_ORDER_RELATED_QUESTIONS_SUCCESS =
@@ -3864,10 +3868,11 @@ export function getOrderRelatedQuestionsSuccess(orderRelatedQuestions) {
     orderRelatedQuestions
   };
 }
-export function getOrderRelatedQuestionsFailure() {
+export function getOrderRelatedQuestionsFailure(error) {
   return {
     type: GET_ORDER_RELATED_QUESTIONS_FAILURE,
-    status: FAILURE
+    status: FAILURE,
+    error
   };
 }
 export function getOrderRelatedQuestions(transactionId) {
@@ -3884,12 +3889,77 @@ export function getOrderRelatedQuestions(transactionId) {
         }&transactionId=${transactionId}`
       );
       const resultJson = await result.json();
+      // if (resultJson.error) {
+      //   dispatch(getOrderRelatedQuestionsSuccess(resultJson));
+      //   dispatch(displayToast(resultJson.error));
+      // }
+      // const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      // if (resultJsonStatus.status) {
+      //   throw new Error(resultJsonStatus.message);
+      // }
+
       return dispatch(getOrderRelatedQuestionsSuccess(resultJson));
     } catch (e) {
       return dispatch(getOrderRelatedQuestionsFailure(e.message));
     }
   };
 }
+
+export function getFAQQuestionsRequest() {
+  return {
+    type: GET_FAQ_QUESTIONS_LIST_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getFAQQuestionsSuccess(customerQueriesData) {
+  return {
+    type: GET_FAQ_QUESTIONS_LIST_SUCCESS,
+    status: SUCCESS,
+    customerQueriesData
+  };
+}
+export function getFAQQuestionsFailure() {
+  return {
+    type: GET_FAQ_QUESTIONS_LIST_FAILURE,
+    status: FAILURE
+  };
+}
+
+export function getFAQQuestions() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getFAQQuestionsRequest());
+    try {
+      const result = await api.get(`${PATH}/cms/defaultpage?pageId=SS_FAQ`);
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      const formatList = [];
+      for (let list of resultJson.items) {
+        const format = formatFaqList(list);
+        formatList.push(format);
+      }
+      dispatch(getFAQQuestionsSuccess(formatList));
+    } catch (e) {
+      dispatch(getFAQQuestionsFailure(e.message));
+    }
+  };
+}
+
+const formatFaqList = (list = []) => {
+  const items = list.cmsParagraphComponent.content.split("|");
+  const returnFormat = {
+    image: items && items[0] ? items[0] : "",
+    FAQHeader: items && items[1] ? items[1] : "",
+    FAQSubHeader: items && items[2] ? items[2] : "",
+    FAQPageId: items && items[3] ? items[3] : "",
+    componentName: list.componentName,
+    type: list.cmsParagraphComponent.type ? list.cmsParagraphComponent.type : ""
+  };
+  return returnFormat;
+};
 
 // export function getNonOrderRelatedQuestionsRequest() {
 //   return {
@@ -4002,10 +4072,11 @@ export function getCustomerQueriesFieldsSuccessv2(customerQueriesField) {
     customerQueriesField
   };
 }
-export function getCustomerQueriesFieldsFailurev2() {
+export function getCustomerQueriesFieldsFailurev2(error) {
   return {
     type: GET_CUSTOMER_QUERIES_FIELDS_FAILURE,
-    status: FAILURE
+    status: FAILURE,
+    error: error
   };
 }
 let firstData = [];
@@ -4060,10 +4131,12 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
       } else {
         firstData = [...fetchData];
       }
+      console.log("dfdfdfdf23455");
       return dispatch(
         getCustomerQueriesFieldsSuccessv2(isSelectRadio ? redioData : firstData)
       );
     } catch (e) {
+      console.log("dfdfdfdf");
       return dispatch(getCustomerQueriesFieldsFailurev2(e.message));
     }
   };
@@ -4523,12 +4596,16 @@ export function uploadUserFileFailure() {
     status: FAILURE
   };
 }
-export function uploadUserFile(uploadUserFileObject) {
+
+export function uploadUserFile(issueType, title, file) {
   return async (dispatch, getState, { api }) => {
     dispatch(uploadUserFileRequest());
     try {
-      // let uploadUserFileObject = new FormData();
-      // uploadUserFileObject.append(title, file);
+      let uploadUserFileObject = new FormData();
+      uploadUserFileObject.append("IssueType", issueType);
+      file.forEach(val => {
+        uploadUserFileObject.append(title, val);
+      });
       const result = await api.postFormData(
         `${PATH}/attachmentUpload`,
         uploadUserFileObject
@@ -4559,10 +4636,11 @@ export function submitOrderDetailsSuccess(submitOrder) {
     submitOrder
   };
 }
-export function submitOrderDetailsFailure() {
+export function submitOrderDetailsFailure(error) {
   return {
     type: SUBMIT_ORDER_DETAILS_FAILURE,
-    status: FAILURE
+    status: FAILURE,
+    error
   };
 }
 

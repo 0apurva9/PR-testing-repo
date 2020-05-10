@@ -179,12 +179,22 @@ export default class DesktopHeader extends React.Component {
       bagHover: false
     });
   }
+
   renderToAnotherUrlForHelp(webURL, value, event) {
     event.preventDefault();
     setDataLayerForFaqAndTc(SET_DATA_LAYER_CC);
-    this.props.history.push(
-      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
-    );
+
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`,
+      state: {
+        isCliqCare: true
+      }
+    });
+
+    // this.props.history.push(
+    //   ``
+
+    // );
     // if (webURL) {
     //   const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
     //   this.props.history.push(urlSuffix);
@@ -291,10 +301,9 @@ export default class DesktopHeader extends React.Component {
                     onClick={() => this.goToMyAccount()}
                   />
                   <span className={styles.nameSpan}>
-                    {userCookie &&
-                      userCookie.firstName && (
-                        <span>{userCookie.firstName}</span>
-                      )}
+                    {userCookie && userCookie.firstName && (
+                      <span>{userCookie.firstName}</span>
+                    )}
                   </span>
                   {userCookie &&
                     userCookie.firstName === " " &&
@@ -326,42 +335,40 @@ export default class DesktopHeader extends React.Component {
                     <div className={styles.logOutDropDown}>
                       <DropdownMenu {...this.props} />
                     </div>
-                    {!userCookie &&
-                      !userCookie && (
-                        <div
-                          className={styles.loginTab}
-                          onClick={() =>
-                            this.openSignUpPopUp("Sign in / Sign Up")
-                          }
-                        >
-                          Sign in / Sign Up
+                    {!userCookie && !userCookie && (
+                      <div
+                        className={styles.loginTab}
+                        onClick={() =>
+                          this.openSignUpPopUp("Sign in / Sign Up")
+                        }
+                      >
+                        Sign in / Sign Up
+                      </div>
+                    )}
+                    {userCookie && userCookie && (
+                      <div className={styles.userDetails}>
+                        <div className={styles.nameAndContact}>
+                          <div className={styles.dropDownArrow} />
+                          <div
+                            className={styles.iconPersonHolder}
+                            onClick={() => this.goToMyAccount()}
+                          />
+                          <span className={styles.nameSpan}>
+                            {userCookie.firstName !== " " && (
+                              <span>
+                                {userCookie &&
+                                  userCookie.firstName &&
+                                  `${userCookie.firstName}`}
+                              </span>
+                            )}
+                          </span>
+                          {userCookie &&
+                            userCookie.firstName === " " &&
+                            userCookie.lastName === " " &&
+                            userCookie.userName && <span>Hello</span>}
                         </div>
-                      )}
-                    {userCookie &&
-                      userCookie && (
-                        <div className={styles.userDetails}>
-                          <div className={styles.nameAndContact}>
-                            <div className={styles.dropDownArrow} />
-                            <div
-                              className={styles.iconPersonHolder}
-                              onClick={() => this.goToMyAccount()}
-                            />
-                            <span className={styles.nameSpan}>
-                              {userCookie.firstName !== " " && (
-                                <span>
-                                  {userCookie &&
-                                    userCookie.firstName &&
-                                    `${userCookie.firstName}`}
-                                </span>
-                              )}
-                            </span>
-                            {userCookie &&
-                              userCookie.firstName === " " &&
-                              userCookie.lastName === " " &&
-                              userCookie.userName && <span>Hello</span>}
-                          </div>
-                        </div>
-                      )}
+                      </div>
+                    )}
                   </div>
                   <a href={""} target="_blank">
                     <div
@@ -572,58 +579,56 @@ export default class DesktopHeader extends React.Component {
                             </div>
                             <div className={styles.subBrandsDetailsHolder}>
                               <React.Fragment>
-                                {currentBrand &&
-                                  currentBrand.popularBrands && (
-                                    <div className={styles.popularBrands}>
-                                      <div className={styles.brandsHeader}>
-                                        Popular brands
-                                      </div>
-                                      {currentBrand.popularBrands.map(
-                                        popularBrands => {
-                                          return (
-                                            <div
-                                              className={styles.brandsDetails}
-                                              onClick={() =>
-                                                this.renderToAnotherURL(
-                                                  popularBrands.webURL,
-                                                  ADOBE_DIRECT_CALL_FOR_BRAND_CLICK,
-                                                  popularBrands.brandName
-                                                )
-                                              }
-                                            >
-                                              {popularBrands.brandName}
-                                            </div>
-                                          );
-                                        }
-                                      )}
+                                {currentBrand && currentBrand.popularBrands && (
+                                  <div className={styles.popularBrands}>
+                                    <div className={styles.brandsHeader}>
+                                      Popular brands
                                     </div>
-                                  )}
-                                {currentBrand &&
-                                  currentBrand.featuredBrands && (
-                                    <div className={styles.featureBrands}>
-                                      <div className={styles.brandsHeader}>
-                                        Featured brands
-                                      </div>
-                                      {currentBrand.featuredBrands.map(
-                                        featuredBrands => {
-                                          return (
-                                            <div
-                                              className={styles.brandsDetails}
-                                              onClick={() =>
-                                                this.renderToAnotherURL(
-                                                  featuredBrands.webURL,
-                                                  ADOBE_DIRECT_CALL_FOR_BRAND_CLICK,
-                                                  featuredBrands.brandName
-                                                )
-                                              }
-                                            >
-                                              {featuredBrands.brandName}
-                                            </div>
-                                          );
-                                        }
-                                      )}
+                                    {currentBrand.popularBrands.map(
+                                      popularBrands => {
+                                        return (
+                                          <div
+                                            className={styles.brandsDetails}
+                                            onClick={() =>
+                                              this.renderToAnotherURL(
+                                                popularBrands.webURL,
+                                                ADOBE_DIRECT_CALL_FOR_BRAND_CLICK,
+                                                popularBrands.brandName
+                                              )
+                                            }
+                                          >
+                                            {popularBrands.brandName}
+                                          </div>
+                                        );
+                                      }
+                                    )}
+                                  </div>
+                                )}
+                                {currentBrand && currentBrand.featuredBrands && (
+                                  <div className={styles.featureBrands}>
+                                    <div className={styles.brandsHeader}>
+                                      Featured brands
                                     </div>
-                                  )}
+                                    {currentBrand.featuredBrands.map(
+                                      featuredBrands => {
+                                        return (
+                                          <div
+                                            className={styles.brandsDetails}
+                                            onClick={() =>
+                                              this.renderToAnotherURL(
+                                                featuredBrands.webURL,
+                                                ADOBE_DIRECT_CALL_FOR_BRAND_CLICK,
+                                                featuredBrands.brandName
+                                              )
+                                            }
+                                          >
+                                            {featuredBrands.brandName}
+                                          </div>
+                                        );
+                                      }
+                                    )}
+                                  </div>
+                                )}
                               </React.Fragment>
                             </div>
                             <div className={styles.subBrandsLogoHolder}>
@@ -664,9 +669,9 @@ export default class DesktopHeader extends React.Component {
                   >
                     {this.props.bagCount !== null &&
                       this.props.bagCount > 0 && (
-                        <span className={styles.cartCount}>{`${
-                          this.props.bagCount
-                        }`}</span>
+                        <span
+                          className={styles.cartCount}
+                        >{`${this.props.bagCount}`}</span>
                       )}
                     {this.props.minicart &&
                       this.props.minicart.products &&
@@ -684,9 +689,9 @@ export default class DesktopHeader extends React.Component {
                     {userCookie &&
                       this.props.wishListCount !== null &&
                       this.props.wishListCount > 0 && (
-                        <div className={styles.cartCount}>{`${
-                          this.props.wishListCount
-                        }`}</div>
+                        <div
+                          className={styles.cartCount}
+                        >{`${this.props.wishListCount}`}</div>
                       )}
                   </div>
                 </div>

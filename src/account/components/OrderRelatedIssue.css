@@ -43,62 +43,34 @@
     padding: 0px 24px 57px 24px;
     border-radius: 10px;
   }
-  .helpHeading {
+  .faqHeader {
     font-size: 14px;
     font-family: regular;
     color: #212121;
   }
-  .helpTxt {
+  .faqSubheading {
     font-size: 12px;
     font-family: light;
     color: #4a4a4a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 176px;
   }
-  .helpList {
+  .faqList {
     position: relative;
-    padding-left: 53px;
+    /* padding-left: 53px; */
     line-height: 19px;
     margin-top: 24px;
-    /* cursor: pointer; */
+    cursor: pointer;
   }
-  .orderIcon::before {
-    content: url(../components/img/orders.svg);
-    position: absolute;
-    left: 0px;
+  .faqListBox{
+    display: flex;
+    /* align-items: center; */
+    margin-bottom: 18px;
   }
-  .installationIcon::before {
-    content: url(../components/img/installation.svg);
-    position: absolute;
-    left: 0px;
-  }
-  .invoiceIcon::before {
-    content: url(../components/img/invoice.svg);
-    position: absolute;
-    left: 0px;
-  }
-  .modificationIcon::before {
-    content: url(../components/img/modification.svg);
-    position: absolute;
-    left: 0px;
-  }
-  .shoppingIcon::before {
-    content: url(../components/img/shoping.svg);
-    position: absolute;
-    left: 0px;
-  }
-  .paymentsIcon::before {
-    content: url(../components/img/payments.svg);
-    position: absolute;
-    left: 0px;
-  }
-  .accountIcon::before {
-    content: url(../components/img/account.svg);
-    position: absolute;
-    left: 0px;
-  }
-  .contactIcon::before {
-    content: url(../components/img/contactUs.svg);
-    position: absolute;
-    left: 0px;
+  .faqIcon{
+    padding-right: 27px;
   }
   .recentTicket {
     margin-bottom: 16px;

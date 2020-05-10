@@ -172,3 +172,38 @@ export const getWholeDayTimeFormat = (date, timeDetails) => {
   }
   return dateString + " " + timeString;
 };
+
+export const getDayNumberSuffix = d => {
+  let newDate = new Date(d);
+  let date = newDate.getDate();
+  let month = newDate.getMonth();
+  let year = newDate.getFullYear();
+  let monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ];
+  switch (date) {
+    case 1:
+    case 21:
+    case 31:
+      return "" + date + "st " + monthNames[month] + " " + year;
+    case 2:
+    case 22:
+      return "" + date + "nd " + monthNames[month] + " " + year;
+    case 3:
+    case 23:
+      return "" + date + "rd " + monthNames[month] + " " + year;
+    default:
+      return "" + date + "th " + monthNames[month] + " " + year;
+  }
+};

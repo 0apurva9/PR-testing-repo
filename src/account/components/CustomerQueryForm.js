@@ -1,31 +1,31 @@
 import React, { Component } from "react";
 import FloatingLabelInputWithPlace from "../../general/components/FloatingLabelInputWithPlace";
-// import FloatingLabelInput from "../../general/components/FloatingLabelInput";
 import TextArea from "../../general/components/TextArea";
 import Icon from "../../xelpmoc-core/Icon";
-import * as Cookie from "../../lib/Cookie";
 import CheckboxAndText from "../../cart/components/CheckboxAndText";
+
+import {
+  EMAIL_REGULAR_EXPRESSION,
+  MOBILE_PATTERN
+} from "../../auth/components/Login";
+
 import styles from "./CustomerQueryForm.css";
 import Button from "../../general/components/Button.js";
 import UploadIcon from "../components/img/Upload.svg";
 import cancelred from "../components/img/cancelred.svg";
-import {
-  LOGGED_IN_USER_DETAILS,
-  // CUSTOMER_ACCESS_TOKEN,
-  // LOGIN_PATH
-  SUCCESS
-} from "../../lib/constants";
+import { SUCCESS } from "../../lib/constants";
 const BASIC_FORM = "bacisform";
 const ATTACHEMENT = "attachment";
 const COMMUNICATION = "communication";
 const TICKET_TATACLIQ = "tataCliq";
 const TICKET_OTHER_ECOMMERCE = "Other e-Commerce";
+const MOBILE_VALID_TEXT = "Please enter valid mobile number";
+const EMAIL_VALID_TEXT = "Please enter  valid emailId";
 
 export default class CustomerQueryForm extends Component {
   constructor(props) {
     super(props);
-    const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const getUserDetails = JSON.parse(userDetailsCookie);
+
     this.state = {
       basicForm: true,
       attachment: false,
@@ -39,28 +39,32 @@ export default class CustomerQueryForm extends Component {
       files: [],
       uploadedAttachment: "",
       filesData: [],
-      name:
-        getUserDetails && (getUserDetails.firstName || getUserDetails.lastName)
-          ? `${getUserDetails.firstName.trim()} ${getUserDetails.lastName.trim()}`
-          : "",
-      mobile:
-        getUserDetails &&
-        getUserDetails.loginType === "mobile" &&
-        getUserDetails.userName
-          ? getUserDetails.userName
-          : "",
-      email:
-        getUserDetails &&
-        getUserDetails.loginType === "email" &&
-        getUserDetails.userName
-          ? getUserDetails.userName
-          : ""
+      name: this.props.name,
+      email: this.props.email,
+      mobile: this.props.mobile
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.customerQueriesField !== this.props.customerQueriesField) {
-      nextProps.customerQueriesField.map(field => {
+    if (
+      nextProps &&
+      nextProps.customerQueriesField !== this.props.customerQueriesField
+    ) {
+      this.initialState(true);
+    }
+  }
+
+  componentWillUnmount() {
+    this.setState({});
+  }
+
+  componentDidMount() {
+    this.initialState(false);
+  }
+
+  initialState(isAppend) {
+    this.props.customerQueriesField &&
+      this.props.customerQueriesField.map(field => {
         if (field.componentName === "attachmentComponent") {
           this.setState({
             attachementData: field,
@@ -68,9 +72,18 @@ export default class CustomerQueryForm extends Component {
             isAttachment: true
           });
         } else {
-          if (field.isMandatory) {
-            this.setState({ btnDisable: true });
+          if (isAppend) {
+            if (field.isMandatory) {
+              if (this.state[field.componentId] == "") {
+                this.setState({ btnDisable: true });
+              }
+            }
+          } else {
+            if (field.isMandatory) {
+              this.setState({ btnDisable: true });
+            }
           }
+
           if (
             field.componentName === "radioComponent" ||
             field.componentName === "checkboxComponent"
@@ -103,22 +116,8 @@ export default class CustomerQueryForm extends Component {
           }
         }
       });
-    }
-    if (nextProps && nextProps.userDetails) {
-      this.setState({
-        email: nextProps.userDetails.emailID
-          ? nextProps.userDetails.emailID
-          : "",
-        name:
-          nextProps.userDetails.firstName || nextProps.userDetails.lastName
-            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
-            : "",
-        mobile: nextProps.userDetails.mobileNumber
-          ? nextProps.userDetails.mobileNumber
-          : ""
-      });
-    }
   }
+
   formField() {
     return (
       this.props.customerQueriesField &&
@@ -167,32 +166,60 @@ export default class CustomerQueryForm extends Component {
             <div className={styles.radioComponentBox}>
               <div className={styles.txtFieldHeading}>
                 {listOfField.isMandatory
-                  ? listOfField.heading + "*"
+                  ? listOfField.heading + " *"
                   : listOfField.heading}
               </div>
-              {listOfField &&
-                listOfField.optionArray.map(ele => {
-                  return (
-                    <div key={ele.value} className={styles.radioBtnMyAcc}>
-                      <label>
-                        {ele.optionName}
-                        <input
-                          type="radio"
-                          value={ele.value}
-                          checked={
-                            ele.value == this.state[listOfField.componentId]
-                              ? true
-                              : false
-                          }
-                          onChange={e =>
-                            this.onChangeCheck(e, listOfField, ele)
-                          }
-                        />
-                        <span />
-                      </label>
-                    </div>
-                  );
-                })}
+              <div className={styles.selectTicketBox}>
+                {listOfField &&
+                  listOfField.optionArray.map(ele => {
+                    return (
+                      <div
+                        className={[
+                          styles.radioTicketType,
+                          ele.value == this.state[listOfField.componentId]
+                            ? styles.fontBold
+                            : null
+                        ].join(" ")}
+                      >
+                        <label>
+                          {ele.optionName}
+                          <input
+                            type="radio"
+                            value={ele.value}
+                            checked={
+                              ele.value == this.state[listOfField.componentId]
+                                ? true
+                                : false
+                            }
+                            onChange={e =>
+                              this.onChangeCheck(e, listOfField, ele)
+                            }
+                          />
+                          <span />
+                        </label>
+                      </div>
+
+                      // <div key={ele.value} className={styles.radioBtnMyAcc}>
+                      //   <label>
+                      //     {ele.optionName}
+                      //     <input
+                      //       type="radio"
+                      //       value={ele.value}
+                      //       checked={
+                      //         ele.value == this.state[listOfField.componentId]
+                      //           ? true
+                      //           : false
+                      //       }
+                      //       onChange={e =>
+                      //         this.onChangeCheck(e, listOfField, ele)
+                      //       }
+                      //     />
+                      //     <span />
+                      //   </label>
+                      // </div>
+                    );
+                  })}
+              </div>
             </div>
           );
         }
@@ -208,8 +235,9 @@ export default class CustomerQueryForm extends Component {
                   </div>
                   <div className={styles.maxLimitBox}>
                     <span className={styles.totalText}>
-                      {this.state[listOfField.componentId] &&
-                        this.state[listOfField.componentId].length}
+                      {this.state[listOfField.componentId]
+                        ? this.state[listOfField.componentId].length
+                        : 0}
                     </span>
                     /<span>{listOfField.maxLimit}</span>
                   </div>
@@ -264,8 +292,9 @@ export default class CustomerQueryForm extends Component {
 
   onChangeCheck(evt, selectObj, option) {
     this.setState({ [selectObj.componentId]: evt.target.value }, () => {
+      this.onBlur();
       if (option.webFormTemplate) {
-        this.props.onChangeReasonForOrderRelated(option, true);
+        this.props.getCustomerQueriesFields(option.webFormTemplate, true);
       }
     });
   }
@@ -279,12 +308,15 @@ export default class CustomerQueryForm extends Component {
           break;
         }
       }
-      if (true) {
+      if (validateStatus) {
         this.setState({
           basicForm: false,
           communication: !this.state.isAttachment,
           attachment: this.state.isAttachment,
-          btnDisable: this.state.attachementData.isMandatory ? true : false,
+          btnDisable:
+            this.state.attachementData && this.state.attachementData.isMandatory
+              ? true
+              : false,
           currentStep: this.state.isAttachment ? ATTACHEMENT : COMMUNICATION,
           btnLabel: this.state.isAttachment ? this.state.btnLabel : "SUBMIT"
         });
@@ -319,9 +351,125 @@ export default class CustomerQueryForm extends Component {
       // }
     }
     if (currentStep == COMMUNICATION) {
+      if (
+        this.state.email &&
+        !EMAIL_REGULAR_EXPRESSION.test(this.state.email)
+      ) {
+        this.props.displayToast(EMAIL_VALID_TEXT);
+        return false;
+      }
+      if (this.state.mobile && !MOBILE_PATTERN.test(this.state.mobile)) {
+        this.props.displayToast(MOBILE_VALID_TEXT);
+        return false;
+      } else {
+        const additionalInfo = {
+          extracomments: "",
+          attachment: "",
+          promotionName: "",
+          productName: "",
+          productLink: "",
+          errorScreenshot: "",
+          cardNo: "",
+          couponCode: "",
+          amountPaidBy: "",
+          proofofDebit: "",
+          extraPaidAmount: "",
+          purchaseFrom: "",
+          wrongProductOrderID: "",
+          productInvoice: "",
+          accountName: "",
+          bankName: "",
+          accountNumber: "",
+          IFSC: "",
+          issueWithBox: "",
+          itemImages: "",
+          productSeal: "",
+          productWeight: "",
+          weightCardImage: "",
+          serviceCenterAddress: "",
+          technicianName: "",
+          serviceCenterContact: "",
+          serviceCenterCertificate: "",
+          LPName: "",
+          deliveryPersonName: "",
+          deliveryPersonContact: "",
+          EGVNumber: "",
+          deactivationReason: "",
+          alternateContact: "",
+          additionalEmail: "",
+          bulkProduct: "",
+          bulkQuantity: "",
+          pincodedetail: "",
+          GSTInvoice: "",
+          creditCardStatement: "",
+          bankStatement: "",
+          boxImages: "",
+          balanceScreenshot: "",
+          lastTransactionScreenshot: "",
+          missingAccessories: ""
+        };
+
+        for (let obj of this.props.customerQueriesField) {
+          for (let [key, value] of Object.entries(additionalInfo)) {
+            if (key == this.state.uploadFileTitle) {
+              if (this.state.uploadedAttachment.length) {
+                let urlList = [];
+                this.state.uploadedAttachment.forEach(item => {
+                  let list = item.urlList.map(url => url.fileURL);
+                  urlList.push(...list);
+                });
+                additionalInfo[this.state.uploadFileTitle] = urlList.join(",");
+              } else {
+                additionalInfo[this.state.uploadFileTitle] = "";
+              }
+            } else if (key == obj.title) {
+              additionalInfo[obj.title] = this.state[obj.componentId];
+            }
+          }
+        }
+
+        let ticketInfo = Object.assign(
+          {},
+          {
+            subIssueType: this.props.selectedQuestion.subIssueType
+              ? this.props.selectedQuestion.subIssueType
+              : "",
+            l0: this.props.selectedQuestion.l0,
+            l1: this.props.selectedQuestion.l1,
+            l2: this.props.selectedQuestion.l2,
+            l3: this.props.selectedQuestion.l3,
+            l4: this.props.selectedQuestion.l4,
+            ticketType: this.props.selectedQuestion.ticketType,
+            transactionId:
+              this.props.selectedOrder &&
+              this.props.selectedOrder.products &&
+              this.props.selectedOrder.products[0].transactionId,
+            orderCode:
+              this.props.selectedOrder && this.props.selectedOrder.orderId,
+            subOrderCode:
+              this.props.selectedOrder &&
+              this.props.selectedOrder.products &&
+              this.props.selectedOrder.products[0].sellerorderno
+          }
+        );
+        let customerInfo = Object.assign(
+          {},
+          {
+            contactEmail: this.state.email,
+            contactPhn: this.state.mobile,
+            contactName: this.state.name ? this.state.name.trim() : ""
+          }
+        );
+        let raiseTicketObj = {
+          additionalInfo,
+          ticketInfo,
+          customerInfo
+        };
+
+        this.props.submitCustomerForms(raiseTicketObj);
+      }
       // this.setState({})
-      console.log("calll");
-      this.props.submitCustomerForms("test data");
+      // this.props.submitCustomerForms("test data");
     }
   }
 
@@ -349,7 +497,7 @@ export default class CustomerQueryForm extends Component {
   formValidate(fieldObj) {
     if (
       fieldObj.minLimit &&
-      fieldObj.minLimit !== "-1" &&
+      fieldObj.minLimit != "-1" &&
       this.state[fieldObj.componentId].length < fieldObj.minLimit
     ) {
       this.props.displayToast(fieldObj.heading + " " + fieldObj.minLimitError);
@@ -385,11 +533,9 @@ export default class CustomerQueryForm extends Component {
         combinedSize += f.size / 1048576; //converting file size into MB
         uploadFiles.push(URL.createObjectURL(f));
       }
-      let issueType =
-        this.props.isSelected == 1 ? "NonOrderRelated" : "orderRelated";
       if (combinedSize <= maxFileSize && totalFile.length <= maxFileLimit) {
         const uploadFileResponse = await this.props.uploadUserFile(
-          "orderRelated",
+          this.props.questionType,
           title,
           Array.from(newFile)
         );
@@ -418,9 +564,7 @@ export default class CustomerQueryForm extends Component {
     }
   }
 
-  deleteFiles() {
-    console.log("delete file");
-  }
+  deleteFiles() {}
 
   render() {
     const {
@@ -432,64 +576,52 @@ export default class CustomerQueryForm extends Component {
       ticketType,
       files
     } = this.state;
-    console.log("ticketType", this.props.uploadedAttachments);
     // this.props.displayToast("toaset check")
 
     return (
-      <div className={styles.base}>
+      <div
+        className={[
+          styles.base,
+          !this.props.otherQuestion ? styles.marginTop : null
+        ].join(" ")}
+      >
         {basicForm && (
           <div className={styles.basicForm}>
+            {this.props.otherQuestion && (
+              <div className={styles.otherQuestionBox}>
+                <div className={styles.parentIssueHeader}>
+                  <div className={styles.parentIssue}>
+                    {" "}
+                    {this.props.parentIssueType}
+                  </div>
+                  <div className={styles.goTOOrder}>
+                    <Button
+                      type="hollow"
+                      label="Go to orders"
+                      borderColor={""}
+                      width={118}
+                      height={20}
+                      color={"#da1c5c"}
+                      padding="0px 5px"
+                      // onClick={() => this.props.showAllQuestion()}
+                    />
+                  </div>
+                </div>
+                <div className={styles.subIssueType}>
+                  {this.props.selectedQuestion.subIssueType}
+                </div>
+              </div>
+            )}
             <div className={styles.header}>{"Create your ticket"}</div>
-            <div className={styles.ticketType}>
-              <div className={styles.selectTicketBox}>
-                <div className={styles.radioBox}>
-                  <input
-                    type="radio"
-                    value={TICKET_TATACLIQ}
-                    checked={ticketType == TICKET_TATACLIQ ? true : false}
-                    onChange={e =>
-                      this.setState({ ticketType: e.target.value })
-                    }
-                  />
-                  <label
-                    className={
-                      ticketType == TICKET_TATACLIQ ? styles.fontBold : null
-                    }
-                  >
-                    TATA CLiQ
-                  </label>
-                </div>
-              </div>
-              <div className={styles.selectTicketBox}>
-                <div className={styles.radioBox}>
-                  <input
-                    type="radio"
-                    value={TICKET_OTHER_ECOMMERCE}
-                    checked={
-                      ticketType == TICKET_OTHER_ECOMMERCE ? true : false
-                    }
-                    onChange={e =>
-                      this.setState({ ticketType: e.target.value })
-                    }
-                  />
-                  <label
-                    className={
-                      ticketType == TICKET_OTHER_ECOMMERCE
-                        ? styles.fontBold
-                        : null
-                    }
-                  >
-                    Other e-commerce platform
-                  </label>
-                </div>
-              </div>
-            </div>
             {this.formField()}
           </div>
         )}
         {attachment && this.state.isAttachment && (
           <div className={styles.attachment}>
-            <div className={styles.header}>Add attachements (optional)</div>
+            <div className={styles.header}>
+              Add attachements{" "}
+              {this.state.attachementData.isMandatory ? " *" : " (optional)"}{" "}
+            </div>
             <div className={styles.fileBox}>
               <div className={styles.fileInstruction}>
                 <ol className={styles.fileGroup}>
@@ -611,6 +743,7 @@ export default class CustomerQueryForm extends Component {
               width={205}
               textStyle={{ color: "#FFF", fontSize: 14 }}
               disabled={this.state.btnDisable}
+              disabledLightGray={this.state.btnDisable}
               // disabled={false}
               onClick={() => this.nextField(currentStep)}
             />

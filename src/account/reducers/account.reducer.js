@@ -167,12 +167,18 @@ const account = (
 
     customerQueriesOtherIssueDataStatus: null,
     customerQueriesOtherIssueDataError: null,
-    orderRelatedIssueLoading: false,
+    customerQueriesOtherIssueLoading: false,
     customerQueriesOtherIssueData: null,
+
+    FAQQuestionsListStatus: null,
+    FAQQuestionsListError: null,
+    FAQQuestionsListLoading: false,
+    FAQQuestionsListData: null,
 
     orderRelatedQuestionsStatus: null,
     orderRelatedQuestionsError: null,
     orderRelatedQuestionsData: null,
+    orderRelatedIssueLoading: false,
 
     cliqCareWmsStatus: null,
     cliqCareWmsError: null,
@@ -181,7 +187,7 @@ const account = (
 
     ordersTransactionDataStatus: null,
     ordersTransactionDataError: null,
-    ordersRelatedLoading: false,
+    ordersTransactionLoading: false,
     ordersTransactionData: null,
 
     uploadUserFileStatus: null,
@@ -277,7 +283,12 @@ const account = (
     UserNotificationDetailsStatus: null,
     UserNotificationDetailsError: null,
     UserNotificationDetails: null,
-    UserNotificationConfig: null
+    UserNotificationConfig: null,
+
+    customerQueriesFieldStatus: null,
+    customerQueriesFieldError: null,
+    customerQueriesField: null,
+    customerQueriesLoading: false
   },
   action
 ) => {
@@ -1298,13 +1309,13 @@ const account = (
     case accountActions.GET_CUSTOMER_OTHER_ISSUE_DATA_REQUEST:
       return Object.assign({}, state, {
         customerQueriesOtherIssueDataStatus: action.status,
-        orderRelatedIssueLoading: true
+        customerQueriesOtherIssueLoading: true
       });
 
     case accountActions.GET_CUSTOMER_OTHER_ISSUE_DATA_SUCCESS:
       return Object.assign({}, state, {
         customerQueriesOtherIssueDataStatus: action.status,
-        orderRelatedIssueLoading: false,
+        customerQueriesOtherIssueLoading: false,
         customerQueriesOtherIssueData: action.customerQueriesData
       });
 
@@ -1312,7 +1323,27 @@ const account = (
       return Object.assign({}, state, {
         customerQueriesOtherIssueDataStatus: action.status,
         customerQueriesOtherIssueDataError: action.error,
-        orderRelatedIssueLoading: false
+        customerQueriesOtherIssueLoading: false
+      });
+
+    case accountActions.GET_FAQ_QUESTIONS_LIST_REQUEST:
+      return Object.assign({}, state, {
+        FAQQuestionsListStatus: action.status,
+        FAQQuestionsListLoading: true
+      });
+
+    case accountActions.GET_FAQ_QUESTIONS_LIST_SUCCESS:
+      return Object.assign({}, state, {
+        FAQQuestionsListStatus: action.status,
+        FAQQuestionsListLoading: false,
+        FAQQuestionsListData: action.customerQueriesData
+      });
+
+    case accountActions.GET_FAQ_QUESTIONS_LIST_FAILURE:
+      return Object.assign({}, state, {
+        FAQQuestionsListStatus: action.status,
+        FAQQuestionsListError: action.error,
+        FAQQuestionsListLoading: false
       });
 
     case accountActions.GET_ORDER_RELATED_QUESTIONS_REQUEST:
@@ -1334,17 +1365,18 @@ const account = (
         orderRelatedQuestionsError: action.error,
         orderRelatedIssueLoading: false
       });
+
     //Fields
     case accountActions.GET_CUSTOMER_QUERIES_FIELDS_REQUEST:
       return Object.assign({}, state, {
         customerQueriesFieldStatus: action.status,
-        ordersRelatedLoading: true
+        customerQueriesLoading: true
       });
 
     case accountActions.GET_CUSTOMER_QUERIES_FIELDS_SUCCESS:
       return Object.assign({}, state, {
         customerQueriesFieldStatus: action.status,
-        ordersRelatedLoading: false,
+        customerQueriesLoading: false,
         customerQueriesField: action.customerQueriesField
       });
 
@@ -1352,7 +1384,7 @@ const account = (
       return Object.assign({}, state, {
         customerQueriesFieldStatus: action.status,
         customerQueriesFieldError: action.error,
-        ordersRelatedLoading: false
+        customerQueriesLoading: false
       });
 
     case accountActions.GET_CLIQ_CARE_WMS_REQUEST:
@@ -1378,7 +1410,7 @@ const account = (
     case accountActions.GET_ORDERS_TRANSACTION_DATA_REQUEST:
       return Object.assign({}, state, {
         ordersTransactionDataStatus: action.status,
-        ordersRelatedLoading: true
+        ordersTransactionLoading: true
       });
     case accountActions.GET_ORDERS_TRANSACTION_DATA_SUCCESS:
       let currentOrderTransactionDetailObj = state.ordersTransactionData
@@ -1403,13 +1435,13 @@ const account = (
       return Object.assign({}, state, {
         ordersTransactionDataStatus: action.status,
         ordersTransactionData: currentOrderTransactionDetailObj,
-        ordersRelatedLoading: false
+        ordersTransactionLoading: false
       });
     case accountActions.GET_ORDERS_TRANSACTION_DATA_FAILURE:
       return Object.assign({}, state, {
         ordersTransactionDataStatus: action.status,
         ordersTransactionDataError: action.error,
-        ordersRelatedLoading: false
+        ordersTransactionLoading: false
       });
     case accountActions.Clear_ORDER_TRANSACTION_DATA: {
       return Object.assign({}, state, {
@@ -1422,45 +1454,41 @@ const account = (
     case accountActions.UPLOAD_USER_FILE_REQUEST:
       return Object.assign({}, state, {
         uploadUserFileStatus: action.status,
-        uploadUserFileLoading: true,
-        ordersRelatedLoading: true
+        uploadUserFileLoading: true
       });
 
     case accountActions.UPLOAD_USER_FILE_SUCCESS:
       return Object.assign({}, state, {
         uploadUserFileStatus: action.status,
         uploadUserFileLoading: false,
-        ordersRelatedLoading: false,
+
         uploadUserFile: action.uploadUserFile
       });
     case accountActions.UPLOAD_USER_FILE_FAILURE:
       return Object.assign({}, state, {
         uploadUserFileStatus: action.status,
         uploadUserFileError: action.error,
-        uploadUserFileLoading: false,
-        ordersRelatedLoading: false
+        uploadUserFileLoading: false
       });
 
     case accountActions.SUBMIT_ORDER_DETAILS_REQUEST:
       return Object.assign({}, state, {
         submitOrderDetailsStatus: action.status,
-        submitOrderDetailsLoading: true,
-        ordersRelatedLoading: true
+        submitOrderDetailsLoading: true
       });
 
     case accountActions.SUBMIT_ORDER_DETAILS_SUCCESS:
       return Object.assign({}, state, {
         submitOrderDetailsStatus: action.status,
         submitOrderDetailsLoading: false,
-        ordersRelatedLoading: false,
+
         submitOrderDetails: action.submitOrderDetails
       });
     case accountActions.SUBMIT_ORDER_DETAILS_FAILURE:
       return Object.assign({}, state, {
         submitOrderDetailsStatus: action.status,
         submitOrderDetailsError: action.error,
-        submitOrderDetailsLoading: false,
-        ordersRelatedLoading: false
+        submitOrderDetailsLoading: false
       });
 
     case accountActions.GET_USER_REVIEW_REQUEST:

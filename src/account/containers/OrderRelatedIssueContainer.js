@@ -12,8 +12,13 @@ import {
   // getCustomerQueriesDatav2,
   getCustomerQueriesFieldsv2,
   getNonOrderRelatedQuestions,
-  getCliqCareWmsResponse
+  getCliqCareWmsResponse,
+  getAllOrdersDetails,
+  getFAQQuestions,
+  sendInvoice
+  // setUrlToRedirectToAfterAuth
 } from "../actions/account.actions";
+import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import {
   showSecondaryLoader,
   hideSecondaryLoader
@@ -32,8 +37,10 @@ const mapDispatchToProps = dispatch => {
     getNonOrderRelatedQuestions: () => {
       dispatch(getNonOrderRelatedQuestions());
     },
-    getCustomerQueriesFieldsv2: (uItemplateCode, isSelectRadio) => {
-      dispatch(getCustomerQueriesFieldsv2(uItemplateCode, isSelectRadio));
+    getCustomerQueriesFieldsv2: async (uItemplateCode, isSelectRadio) => {
+      return dispatch(
+        getCustomerQueriesFieldsv2(uItemplateCode, isSelectRadio)
+      );
     },
     getOrdersTransactionData: paginated => {
       dispatch(getOrdersTransactionData(paginated));
@@ -47,6 +54,11 @@ const mapDispatchToProps = dispatch => {
     uploadUserFile: async (issueType, title, file) => {
       return dispatch(uploadUserFile(issueType, title, file));
     },
+
+    getAllOrdersDetails: () => {
+      dispatch(getAllOrdersDetails(false, false, false, false));
+    },
+
     getUserDetails: () => {
       dispatch(getUserDetails());
     },
@@ -59,6 +71,15 @@ const mapDispatchToProps = dispatch => {
 
     submitOrderDetails: async raiseTicketObj => {
       return dispatch(submitOrderDetails(raiseTicketObj));
+    },
+    getFAQQuestions: () => {
+      dispatch(getFAQQuestions());
+    },
+    sendInvoice: (ussid, sellerOrderNo) => {
+      dispatch(sendInvoice(ussid, sellerOrderNo));
+    },
+    setUrlToRedirectToAfterAuth: url => {
+      dispatch(setUrlToRedirectToAfterAuth(url));
     }
     // setHeaderText: text => {
     //   dispatch(setHeaderText(text));
@@ -83,15 +104,25 @@ const mapStateToProps = state => {
     // uploadUserFileStatus: state.profile.uploadUserFileStatus,
     // uploadUserFileData: state.profile.uploadUserFile,
     userDetails: state.profile.userDetails,
+    uploadUserFileLoading: state.profile.uploadUserFileLoading,
+    loadingForUserDetails: state.profile.loadingForUserDetails,
     ordersTransactionData: state.profile.ordersTransactionData,
+    ordersTransactionLoading: state.profile.ordersTransactionLoading,
     customerQueriesOtherIssueDataStatus:
       state.profile.customerQueriesOtherIssueDataStatus,
+    customerQueriesOtherIssueLoading:
+      state.profile.customerQueriesOtherIssueLoading,
     orderRelatedIssueLoading: state.profile.orderRelatedIssueLoading,
     customerQueriesOtherIssueData: state.profile.customerQueriesOtherIssueData,
     orderRelatedQuestionsStatus: state.profile.orderRelatedQuestionsStatus,
     orderRelatedQuestionsData: state.profile.orderRelatedQuestionsData,
     customerQueriesFieldStatus: state.profile.customerQueriesFieldStatus,
-    customerQueriesField: state.profile.customerQueriesField
+    customerQueriesField: state.profile.customerQueriesField,
+    customerQueriesLoading: state.profile.customerQueriesLoading,
+    orderDetails: state.profile.orderDetails,
+    submitOrderDetailsLoading: state.profile.submitOrderDetailsLoading,
+    FAQQuestionsListLoading: state.profile.FAQQuestionsListLoading,
+    FAQQuestionsListData: state.profile.FAQQuestionsListData
   };
 };
 

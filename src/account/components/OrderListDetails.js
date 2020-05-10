@@ -1,14 +1,23 @@
 import React, { Component } from "react";
 import styles from "./CustomerIssue.css";
-import Button from "../../general/components/Button.js";
 import Accordion from "../../general/components/Accordion";
 import QuestionDetails from "./QuestionDetails";
+import { getDayNumberSuffix } from "../../lib/dateTimeFunction";
+import {
+  setDataLayer,
+  ADOBE_REQUEST_INVOICE_LINK_CLICKED
+} from "../../lib/adobeUtils";
 import CustomerQueryForm from "./CustomerQueryForm";
+import QuestionList from "./QuestionList";
 
 class OrderListDetails extends Component {
   state = {
+    // question: this.props.isOrderRelatedQuestion
+    //   ? null
+    //   : this.props.orderRelatedQuestionsData&&this.props.orderRelatedQuestionsData[0],
     question: null,
     showQuestionList: true,
+    // showFeedBack: this.props.isOrderRelatedQuestion ? false : true,
     showFeedBack: false,
     isAnswerHelpFull: false,
     currentQuestionIndex: 0,
@@ -16,26 +25,31 @@ class OrderListDetails extends Component {
     // isQuesryForm:false,
     // isQuesryForm:true
   };
+
+  //   componentWillReceiveProps(){
+  // }
+
+  // componentDidMount(){
+  //   if(this.props.orderRelatedQuestionsData&&this.props.orderRelatedQuestionsData.length>=2){
+  //     this.setState({nextQuestions:this.props.orderRelatedQuestionsData[1],currentQuestionIndex:1})
+  //   }
+  // }
+
   selectQuestion(question, index) {
     this.setState({
       question: question,
-      showQuestionList: false,
+      showQuestionList: true,
       showFeedBack: true
     });
-    for (
-      let i = 0;
-      i < this.props.orderRelatedQuestionsData.listOfIssues.length;
-      i++
-    ) {
+    for (let i = 0; i < this.props.orderRelatedQuestionsData.length; i++) {
       if (i == index)
         this.setState({
-          nextQuestions: this.props.orderRelatedQuestionsData.listOfIssues[
-            i + 1
-          ],
+          nextQuestions: this.props.orderRelatedQuestionsData[i + 1],
           currentQuestionIndex: i + 1
         });
     }
   }
+
   showAllQuestion() {
     this.setState({
       question: null,
@@ -44,29 +58,35 @@ class OrderListDetails extends Component {
       isAnswerHelpFull: false
     });
   }
+
   answerYes() {
     this.setState({ isAnswerHelpFull: true });
   }
+
   nextQuestion() {
-    for (
-      let i = 0;
-      i < this.props.orderRelatedQuestionsData.listOfIssues.length;
-      i++
-    ) {
+    for (let i = 0; i < this.props.orderRelatedQuestionsData.length; i++) {
       if (i == this.state.currentQuestionIndex)
         this.setState({
-          question: this.props.orderRelatedQuestionsData.listOfIssues[
+          question: this.props.orderRelatedQuestionsData[
             this.state.currentQuestionIndex
           ],
-          nextQuestions: this.props.orderRelatedQuestionsData.listOfIssues[
+          nextQuestions: this.props.orderRelatedQuestionsData[
             this.state.currentQuestionIndex + 1
           ],
           currentQuestionIndex: this.state.currentQuestionIndex + 1
         });
     }
   }
+
   // isQuesryFormAction(){
   //   this.setState({isQuesryForm:true})
+  // }
+
+  // requestInvoice(lineID, orderNumber) {
+  //   setDataLayer(ADOBE_REQUEST_INVOICE_LINK_CLICKED);
+  //   if (this.props.sendInvoice) {
+  //     this.props.sendInvoice(lineID, orderNumber);
+  //   }
   // }
 
   render() {
@@ -80,118 +100,147 @@ class OrderListDetails extends Component {
     } = this.state;
     return (
       <div>
-        <div className={styles.whiteCard}>
-          <div className={styles.headerBox}>
-            <div className={styles.header}>Your order details</div>
-            <div className={styles.orderDetalsButton}>
-              <Button
+        {this.props.isQuesryForm && this.props.otherQuestion ? null : (
+          <div className={styles.whiteCard}>
+            <div className={styles.orderHeader}>
+              <div className={styles.header}>
+                {this.props.orderRelatedQuestion && (
+                  <div>Your order details</div>
+                )}
+                {this.props.otherQuestion && !this.props.FAQquestion && (
+                  <div>Other Issues</div>
+                )}
+                {this.props.FAQquestion && <div>Faq Issue</div>}
+                {/* {this.props.isOrderRelatedQuestion
+                ? 
+                : ""} */}
+              </div>
+              <div className={styles.orderDetalsButton}>
+                {/* <Button
                 type="hollow"
                 label="Go to recent orders"
                 borderColor={""}
                 color={"#da1c5c"}
                 height={16}
 
-                // onClick={() => generateOtp()}
+                onClick={() => generateOtp()}
+              /> */}
+              </div>
+            </div>
+
+            {this.props.orderRelatedQuestion && (
+              <div className={styles.orderDetailsBox}>
+                <div className={styles.orderDetailsCard}>
+                  <div className={styles.orderDetailsImgBox}>
+                    <img
+                      className={styles.orderImg}
+                      src={this.props.selectedOrder.products[0].imageURL}
+                      alt="Product image"
+                    />
+                  </div>
+                  <div className={styles.orderDetailsContent}>
+                    <div className={styles.orderDesc}>
+                      {this.props.selectedOrder.products[0].productName}
+                    </div>
+                    <div className={styles.orderDesc}>
+                      {this.props.selectedOrder.products[0].price}
+                    </div>
+                    <div className={styles.orderDesc}>
+                      <span> {"M"} </span> | <span>{"Blue"}</span>
+                    </div>
+                    <div className={styles.orderDesc}>Qty {"1"}</div>
+                    <div className={styles.orderDesc}>
+                      <span className={styles.fontBold}>
+                        Delivery Delivered on:{" "}
+                      </span>
+                      {getDayNumberSuffix(this.props.selectedOrder.orderDate)}
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.moreAction}>
+                  <div className={styles.moreHeader}>More actions</div>
+                  {/* {products.isInvoiceAvailable &&
+                                (products.consignmentStatus === "DELIVERED" ||
+                                  products.consignmentStatus === "HOTC" ||
+                                  products.consignmentStatus ===
+                                    "ORDER_COLLECTED" ||
+                                  products.consignmentStatus ===
+                                    "RETURN_CANCELLED_CUS") && (
+                                  <div
+                                    className={styles.cancelProduct}
+                                    onClick={() =>
+                                      this.requestInvoice(
+                                        products.transactionId,
+                                        products.sellerorderno
+                                      )
+                                    }
+                                  >
+                                    {this.props.underlineButtonLabel}
+                                  </div>
+                                )} */}
+
+                  <button className={styles.btn} type="button">
+                    Download Invoice
+                  </button>
+                  <button className={styles.btn} type="button">
+                    Return Order
+                  </button>
+                  {/* <button className={styles.btn} type="button">
+                     Lorem Ipsum (Placeholder)
+                 </button> */}
+                </div>
+              </div>
+            )}
+
+            {!this.props.isQuesryForm && showFeedBack && (
+              <QuestionDetails
+                question={question}
+                isAnswerHelpFull={isAnswerHelpFull}
+                answerYes={() => this.answerYes()}
+                issueOptions={question => this.props.issueOptions(question)}
+                // issueOptions={()=>this.isQuesryFormAction()}
+                showAllQuestion={() => this.showAllQuestion()}
+                nextQuestion={() => this.nextQuestion()}
+                nextQuestions={nextQuestions}
+                orderRelatedQuestion={this.props.orderRelatedQuestion}
+                otherQuestion={this.props.otherQuestion}
+                FAQquestion={this.props.FAQquestion}
+                parentIssueType={this.props.parentIssueType}
+                selectedOrder={this.props.selectedOrder}
               />
-              {/* <button className={styles.btn} type="button">Go to recent orders</button> */}
-            </div>
-          </div>
-          <div className={styles.orderDetailsBox}>
-            <div className={styles.orderDetailsCard}>
-              <div className={styles.orderDetailsImgBox}>
-                {/* <img
-              className={styles.orderImg}
-              src={props.selectedOrder.products[0].imageURL}
-              alt="Product image"
-              props.selectedOrder.products[0].productName
-              props.selectedOrder.products[0].price
-              {props.selectedOrder.orderDate}""
-            /> */}
-              </div>
-              <div className={styles.orderDetailsContent}>
-                <div className={styles.orderDesc}>
-                  {"Ascot by Westside Indigo Self Patterned Slim…"}
-                </div>
-                <div className={styles.orderDesc}>{"₹999"}</div>
-                <div className={styles.orderDesc}>
-                  <span> {"M"} </span> | <span>{"Blue"}</span>
-                </div>
-                <div className={styles.orderDesc}>Qty {"1"}</div>
-                <div className={styles.orderDesc}>
-                  <span className={styles.fontBold}>
-                    Delivery Delivered on:
-                  </span>
-                  22th Nov 2018
-                </div>
-              </div>
-            </div>
-            <div className={styles.moreAction}>
-              <div className={styles.moreHeader}>More actions</div>
-              <button className={styles.btn} type="button">
-                Download Invoice
-              </button>
-              <button className={styles.btn} type="button">
-                Return Order
-              </button>
-              <button className={styles.btn} type="button">
-                Lorem Ipsum (Placeholder)
-              </button>
-            </div>
-          </div>
+            )}
 
-          {!this.props.isQuesryForm && (
-            <div className={styles.moreDetails}>
-              <Accordion text="More Details">
-                <h1>thid id d</h1>
-              </Accordion>
-            </div>
-          )}
-
-          {!this.props.isQuesryForm && showQuestionList && (
-            <div className={styles.orderRelatedIssueList}>
-              <div className={[styles.header, styles.paddingTB].join(" ")}>
-                Issues regarding your order
-              </div>
-              <ul className={styles.listGroup}>
-                {this.props.orderRelatedQuestionsData &&
-                  this.props.orderRelatedQuestionsData.listOfIssues &&
-                  this.props.orderRelatedQuestionsData.listOfIssues.map(
-                    (listOfIssue, index) => {
-                      return (
-                        <li
-                          className={styles.listGroupItem}
-                          key={`unique${index}`}
-                          onClick={() =>
-                            this.selectQuestion(listOfIssue, index)
-                          }
-                        >
-                          {listOfIssue.issueType}
-                        </li>
-                      );
+            {!this.props.isQuesryForm && !showFeedBack && showQuestionList && (
+              <div className={styles.orderRelatedIssueList}>
+                {this.props.orderRelatedQuestionsData ? (
+                  <QuestionList
+                    showQuestionList={this.state.showQuestionList}
+                    parentIssueType={this.props.parentIssueType}
+                    orderRelatedQuestionsData={
+                      this.props.orderRelatedQuestionsData
                     }
-                  )}
-              </ul>
-            </div>
-          )}
+                    orderRelatedQuestion={this.props.orderRelatedQuestion}
+                    otherQuestion={this.props.otherQuestion}
+                    FAQquestion={this.props.FAQquestion}
+                    selectQuestion={(listOfIssue, index) =>
+                      this.selectQuestion(listOfIssue, index)
+                    }
+                  />
+                ) : (
+                  <div className={styles.noQuestions}>
+                    Sorry, we dont have any relevant issues related to this item
+                    at this moment
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
 
-          {!this.props.isQuesryForm && showFeedBack && (
-            <QuestionDetails
-              question={question}
-              isAnswerHelpFull={isAnswerHelpFull}
-              answerYes={() => this.answerYes()}
-              issueOptions={question => this.props.issueOptions(question)}
-              // issueOptions={()=>this.isQuesryFormAction()}
-              showAllQuestion={() => this.showAllQuestion()}
-              nextQuestion={() => this.nextQuestion()}
-              nextQuestions={nextQuestions}
-            />
-          )}
-          {/* {props.selectedOrder && props.selectedOrder} */}
-        </div>
         {this.props.isQuesryForm && (
           <CustomerQueryForm
             getQuestyTesting={() => this.props.getQuestyTesting()}
-            customerQueriesField={this.props.customerQueriesField}
+            selectedOrder={this.props.selectedOrder}
             uploadUserFile={(issueType, title, file) =>
               this.props.uploadUserFile(issueType, title, file)
             }
@@ -201,6 +250,20 @@ class OrderListDetails extends Component {
               this.props.submitCustomerForms(formaData)
             }
             displayToast={message => this.props.displayToast(message)}
+            customerQueriesField={this.props.customerQueriesField}
+            name={this.props.name}
+            email={this.props.email}
+            mobile={this.props.mobile}
+            getCustomerQueriesFields={(webFormTemplate, isIssueOptions) =>
+              this.props.getCustomerQueriesFields(
+                webFormTemplate,
+                isIssueOptions
+              )
+            }
+            selectedQuestion={this.props.selectedQuestion}
+            questionType={this.props.questionType}
+            parentIssueType={this.props.parentIssueType}
+            otherQuestion={this.props.otherQuestion}
           />
         )}
       </div>

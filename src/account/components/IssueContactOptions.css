@@ -1,9 +1,10 @@
 .baseWrapper {
   width: 100%;
-  height: auto;
+  /* height: auto; */
+  /* height: 100vh; */
   margin: auto;
   background: #fff;
-  padding-bottom: 50px;
+  /* padding-bottom: 50px; */
   /* padding: 60px 0px 100px 0px; */
 }
 .issueOptionsBox {
@@ -39,4 +40,38 @@
 }
 .actionLiveChat {
   margin-right: 18px;
+}
+
+.callChatBox {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  /* text-align: center; */
+  justify-content: center;
+  margin: 24px 0px 34px 0px;
+}
+.lineSeperator {
+  width: 2px;
+  height: 22px;
+  background: #da1c5c;
+}
+.callIconNumber {
+  display: flex;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0px 30px 0px;
+}
+
+.contatUs {
+  font-size: 16px;
+  font-family: light;
+  color: #212121;
+}
+.number {
+  font-size: 14px;
+  font-family: regular;
+  color: #212121;
+  margin-left: 14px;
 }

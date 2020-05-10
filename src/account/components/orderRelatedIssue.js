@@ -2,48 +2,117 @@ import React from "react";
 import styles from "./OrderRelatedIssue.css";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
-// import Icon from "../../xelpmoc-core/Icon";
+import * as Cookie from "../../lib/Cookie";
 import CustomerIssue from "./CustomerIssue.js";
-// import ordersIcon from "../components/img/orders.svg";
 import IssueContactOptions from "./IssueContactOptions";
-import { SUCCESS } from "../../lib/constants";
-
+import {
+  SUCCESS,
+  LOGGED_IN_USER_DETAILS,
+  CUSTOMER_ACCESS_TOKEN,
+  LOGIN_PATH,
+  COSTUMER_ORDER_RELATED_QUERY_ROUTE,
+  MY_ACCOUNT_PAGE
+} from "../../lib/constants";
+import SSRquest from "../../general/components/SSRequest";
+import AccountIcon from "../components/img/Installation.svg";
+import Shopping from "../components/img/Shopping.svg";
+import Orders from "../components/img/Orders.svg";
+import Manage from "../components/img/Manage.svg";
+import Payments from "../components/img/Payments.svg";
+// import AccountIcon from "../components/img/Installation.svg";
+// import AccountIcon from "../components/img/Installation.svg";
+// import AccountIcon from "../components/img/Installation.svg";
+// import AccountIcon from "../components/img/Installation.svg";
+// import AccountIcon from "../components/img/Installation.svg";
+// import AccountIcon from "../components/img/Installation.svg";
+import Icon from "../../xelpmoc-core/Icon";
+// const DUPLICATE_QUERY =
+//   "Your query is already submitted. Please wait for TATACLiQ representative to contact you.";
+const ORDER_REALTED_QUESTION = "orderRelated";
+const NON_ORDER_REALTED_QUESTION = "NonOrderRelated";
 export default class OrderRelatedIssue extends React.Component {
-  state = {
-    isSelected: 0,
-    isIssueOptions: false,
-    selectedQuestion: null,
-    isQuesryForm: false,
-    // isQuesryForm: true,
-    orderList: true,
-    isOrderDatails: false,
-    // orderList: false,
-    // isOrderDatails: true,
-    selectedOrder: null,
-    uploadedAttachments: null
-  };
+  constructor(props) {
+    super(props);
+    // const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    // const getUserDetails = JSON.parse(userDetailsCookie);
+    this.state = {
+      isSelected: 0,
+      isIssueOptions: false,
+      selectedQuestion: null,
+      isQuesryForm: false,
+      questionList: [],
+      // isQuesryForm: true,
+      orderList: true,
+      isOrderDatails: false,
+      orderRelatedQuestion: false,
+      otherQuestion: false,
+      FAQquestion: false,
+      // orderList: false,
+      // isOrderDatails: true,
+      selectedOrder: null,
+      uploadedAttachments: null,
+      orderAllList: false,
+      parentIssueType: null,
+      questionType: "",
+      name: "",
+      mobile: "",
+      email: "",
+      loaderResponse: false,
+      isUserLogin: false
+    };
+  }
   tabSelect(val) {
     this.setState({ isSelected: val });
   }
   componentDidMount() {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (userDetails || customerCookie) {
+      if (
+        this.props.getOrdersTransactionData &&
+        !this.props.ordersTransactionData
+      ) {
+        this.props.getOrdersTransactionData(false);
+      }
+    }
     if (this.props.getNonOrderRelatedQuestions) {
       this.props.getNonOrderRelatedQuestions();
     }
-    if (this.props.getOrdersTransactionData) {
-      this.props.getOrdersTransactionData();
-    }
+
     if (this.props.getUserDetails) {
       this.props.getUserDetails();
     }
+    if (this.props.getFAQQuestions) {
+      this.props.getFAQQuestions();
+    }
+
+    // if (this.props.getAllOrdersDetails) {
+    //   this.props.getAllOrdersDetails();
+    // }
   }
   getQuestyTesting() {
     //Only testing remove if form validation is completed
     this.props.getCustomerQueriesFieldsv2("SSW_18", false);
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.customerQueriesFieldStatus == SUCCESS) {
-      this.setState({ isIssueOptions: false, isQuesryForm: true });
+    if (nextProps && nextProps.userDetails !== this.props.userDetails) {
+      this.setState({
+        email: nextProps.userDetails.emailID
+          ? nextProps.userDetails.emailID
+          : "",
+        name:
+          nextProps.userDetails.firstName || nextProps.userDetails.lastName
+            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
+            : "",
+        mobile: nextProps.userDetails.mobileNumber
+          ? nextProps.userDetails.mobileNumber
+          : ""
+      });
     }
+
+    // if (nextProps.customerQueriesFieldStatus == SUCCESS) {
+    //   this.setState({ isIssueOptions: false, isQuesryForm: true });
+    // }
   }
 
   //  getOrderRelatedQuestions(transactionId) {
@@ -52,14 +121,32 @@ export default class OrderRelatedIssue extends React.Component {
   // }
 
   issueOptions(question) {
-    this.setState({ isIssueOptions: true, selectedQuestion: question });
+    if (this.state.FAQquestion) {
+    } else {
+      this.setState({ isIssueOptions: true, selectedQuestion: question });
+    }
   }
-  getCustomerQueriesFields() {
-    if (this.props.getCustomerQueriesFieldsv2) {
-      this.props.getCustomerQueriesFieldsv2(
-        this.state.selectedQuestion.UItemplateCode,
-        false
+
+  async getCustomerQueriesFields(issue, isSelecteRadio = false) {
+    if (isSelecteRadio) {
+      const response = await this.props.getCustomerQueriesFieldsv2(
+        issue,
+        isSelecteRadio
       );
+      if (response.status == SUCCESS) {
+        this.setState({ isIssueOptions: false, isQuesryForm: true });
+      }
+    } else {
+      if (this.props.getCustomerQueriesFieldsv2) {
+        // this.state.selectedQuestion.UItemplateCode,
+        const response = await this.props.getCustomerQueriesFieldsv2(
+          this.state.selectedQuestion.UItemplateCode,
+          isSelecteRadio
+        );
+        if (response.status == SUCCESS) {
+          this.setState({ isIssueOptions: false, isQuesryForm: true });
+        }
+      }
     }
   }
 
@@ -69,21 +156,20 @@ export default class OrderRelatedIssue extends React.Component {
       const response = await this.props.getOrderRelatedQuestions(
         orderData.products[0].transactionId
       );
-      if (response.status == SUCCESS) {
-        this.setState({ isOrderDatails: true, orderList: false });
-      }
-    }
-  }
+      if (response.status == SUCCESS && response.orderRelatedQuestions) {
+        this.setState({
+          orderAllList: false,
+          isOrderDatails: true,
+          orderList: false,
+          orderRelatedQuestion: true,
+          otherQuestion: false,
+          FAQquestion: false,
 
-  async uploadUserFile(uploadUserFileObject) {
-    const uploadFileResponse = await this.props.uploadUserFile(
-      uploadUserFileObject
-    );
-    let { uploadUserFile, status } = uploadFileResponse;
-    if (uploadFileResponse && status === SUCCESS) {
-      this.setState({
-        uploadedAttachments: uploadUserFile.imageURLlist
-      });
+          questionList: response.orderRelatedQuestions.listOfIssues,
+          parentIssueType: null,
+          questionType: ORDER_REALTED_QUESTION
+        });
+      }
     }
   }
 
@@ -92,76 +178,143 @@ export default class OrderRelatedIssue extends React.Component {
       let getCustomerQueryDetailsObject = Object.assign(
         {},
         {
-          // ticketID: null,
-          // emailId: formData.customerInfo.contactEmail,
-          // issue:
-          //   this.state.isSelected == 1
-          //     ? this.state.selectedObj[0].subIssueType
-          //     : this.state.selectedObj[0].issueType,
-          // tat: this.state.selectedObj[0].tat
-
-          ticketID: "sedtasldfd12",
-          // emailId: formData.customerInfo.contactEmail,
-          issue: "Issue type",
-          tat: "123"
+          ticketID: null,
+          issue:
+            this.state.questionType == ORDER_REALTED_QUESTION
+              ? this.state.selectedQuestion.issueType
+              : this.state.selectedQuestion.subIssueType,
+          tat: this.state.selectedQuestion.tat,
+          emailId: formData.customerInfo.contactEmail
         }
       );
-      console.log("text show modal");
-      this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+      // this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
 
-      // if (this.state.isSelected == 1) {
-      //   getCustomerQueryDetailsObject.issueCategory = this.state.parentIssueLabel;
-      // }
-      // const submitOrderDetailsResponse = await this.props.submitOrderDetails(
-      //   formData
-      // );
-      // if (submitOrderDetailsResponse.status === SUCCESS) {
-      //   if (
-      //     submitOrderDetailsResponse.submitOrder &&
-      //     submitOrderDetailsResponse.submitOrder.referenceNum !== "duplicate"
-      //   ) {
-      //     getCustomerQueryDetailsObject.ticketID =
-      //       submitOrderDetailsResponse.submitOrder.referenceNum;
-      //     this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
-      //   } else {
-      //     this.props.displayToast(DUPLICATE_QUERY);
-      //   }
-      // }
+      if ((this.state.questionType = NON_ORDER_REALTED_QUESTION)) {
+        getCustomerQueryDetailsObject.issueCategory = this.state.parentIssueType;
+      }
+      // this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+
+      // this.props.showCustomerQueryModal(getCustomerQueryDetailsObject)
+      const submitOrderDetailsResponse = await this.props.submitOrderDetails(
+        formData
+      );
+      if (submitOrderDetailsResponse.status === SUCCESS) {
+        getCustomerQueryDetailsObject.ticketID =
+          submitOrderDetailsResponse.submitOrder.referenceNum;
+        this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+      }
     }
   }
 
+  selectOtehrQuestion(selectOtehrQuestion) {
+    this.setState({
+      isOrderDatails: true,
+      orderList: false,
+      orderRelatedQuestion: false,
+      otherQuestion: true,
+      FAQquestion: false,
+
+      questionList: selectOtehrQuestion.listofSubIssues,
+      parentIssueType: selectOtehrQuestion.parentIssueType,
+      questionType: NON_ORDER_REALTED_QUESTION
+    });
+  }
+
+  showAllOrdersList() {
+    this.setState({ orderAllList: true });
+  }
+  hideAllOrder() {
+    this.setState({ orderAllList: false });
+  }
+  navigateLogin() {
+    const url = this.props.location.pathname;
+    if (url === `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`) {
+      if (this.props.setUrlToRedirectToAfterAuth) {
+        this.props.setUrlToRedirectToAfterAuth(url);
+      }
+    }
+    this.props.history.push(LOGIN_PATH);
+  }
+
+  getMoreOrder() {
+    if (
+      this.props.ordersTransactionData &&
+      (this.props.ordersTransactionData.currentPage + 1) *
+        this.props.ordersTransactionData.pageSize <
+        this.props.ordersTransactionData.totalNoOfOrders
+    ) {
+      this.props.getOrdersTransactionData(true);
+    }
+  }
+  faqQuestionSelect(faq) {
+    this.setState({
+      isOrderDatails: true,
+      orderList: false,
+      orderRelatedQuestion: false,
+      otherQuestion: true,
+      FAQquestion: true,
+      questionList: this.props.customerQueriesOtherIssueData.parentIssueList[1]
+        .listofSubIssues,
+      parentIssueType: null
+    });
+  }
+
   render() {
-    console.log("ordersTransactionData", this.state.selectedQuestion);
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let isUserLogin = false;
+    if (userDetails || customerCookie) {
+      isUserLogin = true;
+    }
 
     const {
       customerQueriesOtherIssueData,
+      customerQueriesOtherIssueLoading,
       ordersTransactionData,
       orderRelatedIssueLoading,
       orderRelatedQuestionsData,
       orderRelatedQuestionsStatus,
-      customerQueriesField
+      ordersTransactionLoading,
+      customerQueriesField,
+      loadingForUserDetails,
+      customerQueriesLoading,
+      uploadUserFileLoading,
+      submitOrderDetailsLoading,
+      FAQQuestionsListData
     } = this.props;
-    if (orderRelatedIssueLoading) {
+    if (
+      customerQueriesOtherIssueLoading ||
+      ordersTransactionLoading ||
+      loadingForUserDetails ||
+      orderRelatedIssueLoading ||
+      customerQueriesLoading ||
+      uploadUserFileLoading ||
+      submitOrderDetailsLoading
+    ) {
       this.props.showSecondaryLoader();
     } else {
       this.props.hideSecondaryLoader();
     }
-    return (
-      <div className={styles.base}>
-        <MobileOnly>
-          <h1>Here is only mobile</h1>
-        </MobileOnly>
-        {/* Desktop only code */}
-        <DesktopOnly>
-          {this.state.isIssueOptions ? (
-            <IssueContactOptions
-              getCustomerQueriesFields={() => this.getCustomerQueriesFields()}
-            />
-          ) : (
-            <div className={styles.baseWrapper}>
-              <div className={styles.formAbdTabHolder}>
-                <div className={styles.tabHolder}>
-                  {/* <div
+
+    if (this.state.loaderResponse) {
+      return <SSRquest></SSRquest>;
+    } else {
+      return (
+        <div className={styles.base}>
+          <MobileOnly>
+            <h1>Here is only mobile</h1>
+          </MobileOnly>
+          <DesktopOnly>
+            {this.state.isIssueOptions ? (
+              <IssueContactOptions
+                getCustomerQueriesFields={() => this.getCustomerQueriesFields()}
+                selectedOrder={this.state.selectedQuestion}
+              />
+            ) : (
+              <div className={styles.baseWrapper}>
+                <div className={styles.formAbdTabHolder}>
+                  <div className={styles.tabHolder}>
+                    {/* <div
                     className={[styles.tabHolderBox, styles.recentTicket].join(
                       " "
                     )}
@@ -181,132 +334,99 @@ export default class OrderRelatedIssue extends React.Component {
                       </div>
                     </div>
                   </div> */}
-                  <div className={styles.tabHolderBox}>
-                    <div className={styles.tabHeader}>All Help Topics</div>
+                    <div className={styles.tabHolderBox}>
+                      <div className={styles.tabHeader}>All Help Topics</div>
 
-                    <div
-                      className={[styles.helpList, styles.orderIcon].join(" ")}
-                    >
-                      <div className={styles.helpHeading}>Orders</div>
-                      <div className={styles.helpTxt}>
-                        Lorem ipsum dorem lorem
-                      </div>
-                    </div>
-                    <div
-                      className={[
-                        styles.helpList,
-                        styles.installationIcon
-                      ].join(" ")}
-                    >
-                      <div className={styles.helpHeading}>
-                        Installation & Warranty
-                      </div>
-                      <div className={styles.helpTxt}>
-                        Lorem ipsum dorem lorem
-                      </div>
-                    </div>
-                    <div
-                      className={[styles.helpList, styles.invoiceIcon].join(
-                        " "
-                      )}
-                    >
-                      <div className={styles.helpHeading}>Invoice</div>
-                      <div className={styles.helpTxt}>
-                        Lorem ipsum dorem lorem
-                      </div>
-                    </div>
-                    <div
-                      className={[
-                        styles.helpList,
-                        styles.modificationIcon
-                      ].join(" ")}
-                    >
-                      <div className={styles.helpHeading}>
-                        Order Modification
-                      </div>
-                      <div className={styles.helpTxt}>
-                        Lorem ipsum dorem lorem
-                      </div>
-                    </div>
-                    <div
-                      className={[styles.helpList, styles.shoppingIcon].join(
-                        " "
-                      )}
-                    >
-                      <div className={styles.helpHeading}>Shopping</div>
-                      <div className={styles.helpTxt}>
-                        Lorem ipsum dorem lorem
-                      </div>
-                    </div>
-                    <div
-                      className={[styles.helpList, styles.paymentsIcon].join(
-                        " "
-                      )}
-                    >
-                      <div className={styles.helpHeading}>Payments</div>
-                      <div className={styles.helpTxt}>
-                        Lorem ipsum dorem lorem
-                      </div>
-                    </div>
-                    <div
-                      className={[styles.helpList, styles.accountIcon].join(
-                        " "
-                      )}
-                    >
-                      <div className={styles.helpHeading}>
-                        Manage your Account
-                      </div>
-                      <div className={styles.helpTxt}>
-                        Lorem ipsum dorem lorem
-                      </div>
-                    </div>
-                    <div
-                      className={[styles.helpList, styles.contactIcon].join(
-                        " "
-                      )}
-                    >
-                      <div className={styles.helpHeading}>Contact Us</div>
-                      <div className={styles.helpTxt}>
-                        Lorem ipsum dorem lorem
+                      <div className={styles.faqList}>
+                        {FAQQuestionsListData &&
+                          FAQQuestionsListData.map((faq, index) => {
+                            return (
+                              <div
+                                className={styles.faqListBox}
+                                onClick={() => {
+                                  this.faqQuestionSelect(faq);
+                                }}
+                              >
+                                <div className={styles.faqIcon}>
+                                  <Icon image={AccountIcon}></Icon>
+                                </div>
+                                <div className={styles.faqHederBox}>
+                                  <div className={styles.faqHeader}>
+                                    {faq.FAQHeader}
+                                  </div>
+                                  <div className={styles.faqSubheading}>
+                                    {faq.FAQSubHeader}
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div className={styles.formHolder}>
-                  <CustomerIssue
-                    customerQueriesOtherIssueData={
-                      customerQueriesOtherIssueData
-                    }
-                    selectedOrder={this.state.selectedOrder}
-                    orderList={this.state.orderList}
-                    isOrderDatails={this.state.isOrderDatails}
-                    issueOptions={question => this.issueOptions(question)}
-                    ordersTransactionData={ordersTransactionData}
-                    orderRelatedQuestionsData={orderRelatedQuestionsData}
-                    getOrderRelatedQuestions={selcetOrder =>
-                      this.getOrderRelatedQuestions(selcetOrder)
-                    }
-                    orderRelatedQuestionsStatus={orderRelatedQuestionsStatus}
-                    customerQueriesField={customerQueriesField}
-                    isQuesryForm={this.state.isQuesryForm}
-                    getQuestyTesting={() => this.getQuestyTesting()}
-                    uploadUserFile={(issueType, title, file) =>
-                      this.props.uploadUserFile(issueType, title, file)
-                    }
-                    uploadedAttachments={this.state.uploadedAttachments}
-                    userDetails={this.props.userDetails}
-                    submitCustomerForms={formaData =>
-                      this.submitCustomerForms(formaData)
-                    }
-                    displayToast={message => this.props.displayToast(message)}
-                  />
+                  <div className={styles.formHolder}>
+                    <CustomerIssue
+                      customerQueriesOtherIssueData={
+                        customerQueriesOtherIssueData
+                      }
+                      selectedOrder={this.state.selectedOrder}
+                      orderList={this.state.orderList}
+                      isOrderDatails={this.state.isOrderDatails}
+                      issueOptions={question => this.issueOptions(question)}
+                      ordersTransactionData={ordersTransactionData}
+                      orderRelatedQuestionsData={this.state.questionList}
+                      getOrderRelatedQuestions={selcetOrder =>
+                        this.getOrderRelatedQuestions(selcetOrder)
+                      }
+                      orderRelatedQuestionsStatus={orderRelatedQuestionsStatus}
+                      isQuesryForm={this.state.isQuesryForm}
+                      getQuestyTesting={() => this.getQuestyTesting()}
+                      uploadUserFile={(issueType, title, file) =>
+                        this.props.uploadUserFile(issueType, title, file)
+                      }
+                      uploadedAttachments={this.state.uploadedAttachments}
+                      userDetails={this.props.userDetails}
+                      submitCustomerForms={formaData =>
+                        this.submitCustomerForms(formaData)
+                      }
+                      displayToast={message => this.props.displayToast(message)}
+                      customerQueriesField={customerQueriesField}
+                      name={this.state.name}
+                      email={this.state.email}
+                      mobile={this.state.mobile}
+                      getCustomerQueriesFields={(
+                        webFormTemplate,
+                        isIssueOptions
+                      ) =>
+                        this.getCustomerQueriesFields(
+                          webFormTemplate,
+                          isIssueOptions
+                        )
+                      }
+                      selectedQuestion={this.state.selectedQuestion}
+                      orderRelatedQuestion={this.state.orderRelatedQuestion}
+                      otherQuestion={this.state.otherQuestion}
+                      FAQquestion={this.state.FAQquestion}
+                      selectOtehrQuestion={selectedOtehrQuestion =>
+                        this.selectOtehrQuestion(selectedOtehrQuestion)
+                      }
+                      parentIssueType={this.state.parentIssueType}
+                      orderAllList={this.state.orderAllList}
+                      showAllOrdersList={() => this.showAllOrdersList()}
+                      hideAllOrder={() => this.hideAllOrder()}
+                      questionType={this.state.questionType}
+                      isUserLogin={isUserLogin}
+                      navigateLogin={() => this.navigateLogin()}
+                      getMoreOrder={() => this.getMoreOrder()}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-        </DesktopOnly>
-      </div>
-    );
+            )}
+          </DesktopOnly>
+        </div>
+      );
+    }
   }
 }

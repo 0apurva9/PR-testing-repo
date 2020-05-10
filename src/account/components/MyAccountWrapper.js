@@ -75,10 +75,15 @@ export default class MyAccountWrapper extends React.Component {
     return null;
   }
   render() {
+    console.log("My account", this.props);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (!userDetails || !customerCookie) {
-      return this.navigateToLogin();
+    if (
+      !this.props.location.pathname.includes(COSTUMER_ORDER_RELATED_QUERY_ROUTE)
+    ) {
+      if (!userDetails || !customerCookie) {
+        return this.navigateToLogin();
+      }
     }
 
     return (

@@ -6,6 +6,7 @@ import Icon from "../../xelpmoc-core/Icon";
 // import orderSuccess from "../components/img/orderSuccess.svg";
 import raisedTicket from "../components/img/raisedTicket.svg";
 import cancleSvg from "../components/img/cancleSvg.svg";
+import raiseTicketDuplicate from "../components/img/raiseTicketDuplicate.svg";
 import { MY_ACCOUNT_PAGE } from "../../lib/constants";
 export default class CustomerQueryPopUp extends React.Component {
   constructor() {
@@ -77,6 +78,8 @@ export default class CustomerQueryPopUp extends React.Component {
   }
   render() {
     let { tat, issueCategory, ticketID, issue, emailId } = this.props;
+    const isTicketDuplicate = ticketID == "duplicate";
+    console.log("isTicketDuplicate", isTicketDuplicate);
     let today = new Date();
     let extraDays = !isNaN(parseInt(tat)) ? Math.round(parseInt(tat) / 24) : 0;
     let queryDate = new Date();
@@ -93,24 +96,51 @@ export default class CustomerQueryPopUp extends React.Component {
         <div className={styles.closeModal} onClick={() => this.closeModal()}>
           <Icon image={cancleSvg} size={20}></Icon>
         </div>
-        <div className={styles.headerText}>Your Ticket Detials</div>
+        <div className={styles.headerText}>
+          {isTicketDuplicate ? "Duplicate Ticket" : "Your Ticket Detials"}
+        </div>
         <div className={styles.image}>
-          <Icon image={raisedTicket} size={214}></Icon>
+          {isTicketDuplicate ? (
+            <Icon image={raiseTicketDuplicate} size={214}></Icon>
+          ) : (
+            <Icon image={raisedTicket} size={214}></Icon>
+          )}
         </div>
-        <div className={styles.expTime}>
-          <div className={styles.txt}>
-            {" "}
-            Our team is working on priority to resolve it. We will get back to
-            you within
+        {isTicketDuplicate ? (
+          <div className={styles.duplicate}>
+            <div className={styles.txt}>
+              This looks like a duplicate of an existing ticket
+              <br />
+              for the same issue. attached to{" "}
+              <span className={styles.ticketId}>Ticket ID:</span>{" "}
+              <span className={styles.colorRed}>1285673980</span>
+            </div>
+            <div className={styles.ticketIdBox}>
+              <div className={styles.txt}>We will get back to you by </div>
+              <div className={styles.expDateTime}>
+                {`${displayTime}, ${displayDate}`}
+              </div>
+            </div>
           </div>
-          <div className={styles.expDateTime}>
-            {`${displayTime}, ${displayDate}`}
+        ) : (
+          <div>
+            <div className={styles.expTime}>
+              <div className={styles.txt}>
+                {" "}
+                Our team is working on priority to resolve it. We will get back
+                to you within
+              </div>
+              <div className={styles.expDateTime}>
+                {`${displayTime}, ${displayDate}`}
+              </div>
+            </div>
+            <div className={styles.ticketIdBox}>
+              <div className={styles.txt}>Your ticket reference number is</div>
+              <div className={styles.ticketId}>{ticketID}</div>
+            </div>
           </div>
-        </div>
-        <div className={styles.ticketIdBox}>
-          <div className={styles.txt}>Your ticket reference number is</div>
-          <div className={styles.ticketId}>142364413</div>
-        </div>
+        )}
+
         {/* <div className={(styles.subText, styles.blackBorderBottom)}>
           We have noted your concern and will update you before{" "}
           <div className={styles.colorRed}>
@@ -151,8 +181,8 @@ export default class CustomerQueryPopUp extends React.Component {
             type="primary"
             backgroundColor="#da1c5c"
             height={40}
-            label={"Ok"}
-            width={165}
+            label={isTicketDuplicate ? "Go to Lorem Ipsum" : "Ok"}
+            width={isTicketDuplicate ? 204 : 165}
             textStyle={{ color: "#FFF", fontSize: 14 }}
             // disabled={true}
             onClick={() => this.submit()}

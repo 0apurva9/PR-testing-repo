@@ -5,6 +5,7 @@
   /* height: 200px; */
   border-radius: 10px;
 }
+
 .loginBox {
   display: flex;
   flex-direction: column;
@@ -32,7 +33,7 @@
   padding: 16px;
 }
 .orderImage {
-  width: 71%;
+  width: 100%;
 }
 .orderImageBox {
   width: 100px;
@@ -41,6 +42,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 10px;
 }
 .orderDatils {
   width: 100%;
@@ -53,6 +55,9 @@
   font-family: light;
   color: #4a4a4a;
   padding-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .orderStatus {
   font-size: 12px;
@@ -61,7 +66,7 @@
   padding-bottom: 6px;
 }
 .fontBold {
-  font-family: semibold;
+  font-family: semibold!important;
 }
 
 .headerBox {
@@ -69,6 +74,13 @@
   align-items: center;
   justify-content: space-between;
   padding-bottom: 16px;
+}
+.orderHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee;
 }
 .header {
   font-size: 16px;
@@ -93,12 +105,20 @@
 .orderDetailsBox {
   display: flex;
   padding: 20px 0px;
-  border-top: 1px solid #eee;
+  /* border-bottom: 1px solid #eee;
+    margin-bottom: 20px; */
+  /* border-top: 1px solid #eee; */
   /* border-bottom: 1px solid #eee; */
 }
 .orderDetailsCard {
   width: 50%;
   display: flex;
+}
+.questionListHeading{
+  font-size: 16px;
+    color: #212121;
+    font-family: semibold;
+    margin-bottom: 24px;
 }
 .orderDetailsImgBox {
   width: 24%;
@@ -146,7 +166,7 @@
   border-top: 1px solid #eee;
 }
 .paddingTB {
-  padding: 20px 0px;
+  padding: 5px 0px;
 }
 .listGroup {
   margin: 0px;
@@ -198,10 +218,15 @@
   font-family: semibold;
   padding: 15px 0px;
 }
-.answer {
+.solution {
   font-size: 14px;
   color: #4a4a4a;
   font-family: light;
+}
+.solution a {
+  border-bottom: 2px solid #ff1744;
+  font-family: semibold;
+  color: #ff1744;
 }
 
 .nextIssue {
@@ -242,4 +267,68 @@
 .likeIcon img {
   width: 13px;
   height: 13px;
+}
+.marginBottom{
+  margin-bottom: 20px;
+}
+
+.allOrderDataBox{
+  display: flex;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+/* .allOrderDataBox:not(:last-child){
+margin-bottom: 20px;
+} */
+.allOrderImageBox{
+
+  width: 13%;
+  height: 100px;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.allOrderDatils{
+  width: 87%;
+  /* overflow: hidden; */
+  padding-left: 14px;
+}
+.allOrderImage{
+  width: 100%;
+  height: 78px;
+  border-radius: 4px;
+}
+.prentIssueType{
+    font-size: 14px;
+    color: #212121;
+    font-family: semibold;
+    padding: 0px;
+    margin-top: 20px;
+    
+}
+.parentIssueT{
+  font-size: 16px;
+    color: #212121;
+    font-family: semibold;
+    margin-bottom: 15px;
+    
+margin-top: 20px;
+    
+}
+
+.maginBottom{
+  margin-bottom: 15px;
+}
+
+.noQuestions{
+  font-size: 16px;
+    font-family: regular;
+    color: #212121;
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 90px;
+    text-align: center;
 }

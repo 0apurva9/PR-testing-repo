@@ -1,0 +1,23 @@
+.base{
+    width: 100%;
+    height: 100vh;
+    background: #fff;
+}
+.requestBox{
+    text-align: center;
+    max-width: 700px;
+    width: 100%;
+    margin: auto;
+    padding-top: 32px;
+}
+.requestHeading{
+    font-size: 24px;
+    font-family: semibold;
+    color: #4a4a4a;
+    margin: 40px 0px 17px 0px;
+}
+.requestContetn{
+    font-size: 16px;
+    font-family: light;
+    color: #212121;
+}
