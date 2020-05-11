@@ -171,7 +171,7 @@
   height: 17px;
 	background: url(../components/img/exchangeLogoSmall.svg) no-repeat;
 	background-size: contain;
-  margin: 6px 5px;
+  margin: 6px 5px 6px 6px;
 }
 .exchangeLogoLoader {
 	position: absolute;
