@@ -332,7 +332,7 @@ class ProductListingsPage extends Component {
         page = pageMatch[1] ? pageMatch[1] : 1;
         page = page - 1;
       }
-      this.props.getProductListings(searchText, SUFFIX, page, component);
+      this.props.getProductListings(searchText, SUFFIX, page, false);
       return;
     }
     if (!this.props.location.state) {

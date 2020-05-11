@@ -63,7 +63,7 @@ import OtherSellersLink from "./OtherSellersLink";
 import SizeSelector from "./SizeSelector";
 import ProductDetailsMainCard from "./ProductDetailsMainCard";
 import PdpDeliveryModes from "./PdpDeliveryModes";
-import PDPRecommendedSectionsContainer from "./PDPRecommendedSections";
+import PDPRecommendedSectionsContainer from "../containers/PDPRecommendedSectionsContainer";
 import ColourSelector from "./ColourSelector";
 import FlixMediaContainer from "./FlixMediaContainer";
 import Icon from "../../xelpmoc-core/Icon";

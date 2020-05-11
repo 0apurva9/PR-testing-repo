@@ -18,6 +18,14 @@ export default class Widget extends React.Component {
         this.props.msdABPCBrandCount
       );
     }
+    if (this.props.feedComponentData.type === "msdAutoDiscoverMoreComponent") {
+      this.props.msdDiscoverMoreHomeComponents();
+    } else if (
+      this.props.feedComponentData.type ===
+      "msdAutomatedBannerProductCarouselComponent"
+    ) {
+      this.props.msdAbcComponents();
+    }
   }
 
   render() {

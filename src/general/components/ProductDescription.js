@@ -134,28 +134,30 @@ export default class ProductDescription extends Component {
                 </div>
               )}
 
-            {!this.props.isRange &&
-            !electronicView &&
-            this.props.discountPrice &&
-            this.props.discountPrice !== this.props.price ? (
-              <div className={priceClass}>
-                <span>
-                  {" "}
-                  {this.props.price.toString().includes(RUPEE_SYMBOL)
-                    ? this.props.price
-                    : `${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}
-                </span>
-              </div>
-            ) : (
-              <div className={priceClass}>
-                <h3>
-                  {" "}
-                  {this.props.price.toString().includes(RUPEE_SYMBOL)
-                    ? this.props.price
-                    : `${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}
-                </h3>
-              </div>
-            )}
+            {!this.props.maxPrice &&
+              !this.props.minPrice &&
+              (!this.props.isRange &&
+              !electronicView &&
+              this.props.discountPrice &&
+              this.props.discountPrice !== this.props.price ? (
+                <div className={priceClass}>
+                  <span>
+                    {" "}
+                    {this.props.price.toString().includes(RUPEE_SYMBOL)
+                      ? this.props.price
+                      : `${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}
+                  </span>
+                </div>
+              ) : (
+                <div className={priceClass}>
+                  <h3>
+                    {" "}
+                    {this.props.price.toString().includes(RUPEE_SYMBOL)
+                      ? this.props.price
+                      : `${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}
+                  </h3>
+                </div>
+              ))}
 
             {!this.props.isRange &&
               !electronicView &&
@@ -188,7 +190,10 @@ export default class ProductDescription extends Component {
           {this.props.isRange &&
             this.props.minPrice &&
             this.props.maxPrice && (
-              <div className={styles.description}>
+              <div
+                className={styles.description}
+                style={{ display: "inline-flex" }}
+              >
                 {this.props.maxPrice !== this.props.minPrice && (
                   <React.Fragment>
                     <h3>

@@ -69,6 +69,11 @@ export const GET_PRODUCT_CAPSULES_REQUEST = "GET_PRODUCT_CAPSULES_REQUEST";
 export const GET_PRODUCT_CAPSULES_SUCCESS = "GET_PRODUCT_CAPSULES_SUCCESS";
 export const GET_PRODUCT_CAPSULES_FAILURE = "GET_PRODUCT_CAPSULES_FAILURE";
 
+export const MSD_HOME_COMPONENT_REQUEST = "MSD_HOME_COMPONENT_REQUEST";
+export const MSD_HOME_COMPONENT_SUCCESS = "MSD_HOME_COMPONENT_SUCCESS";
+export const MSD_HOME_ABC_COMPONENT_REQUEST = "MSD_HOME_ABC_COMPONENT_REQUEST";
+export const MSD_HOME_ABC_COMPONENT_SUCCESS = "MSD_HOME_ABC_COMPONENT_SUCCESS";
+
 export const CLEAR_ITEMS_FOR_PARTICULAR_POSITION =
   "CLEAR_ITEMS_FOR_PARTICULAR_POSITION";
 const ADOBE_TARGET_DELAY = 2500;
@@ -92,7 +97,10 @@ const MULTI_CLICK_COMPONENT_WIDGET_LIST = [115];
 const AUTO_PRODUCT_RECOMMENDATION_COMPONENT_WIDGET_LIST = [11];
 
 const AUTO_FRESH_FROM_BRANDS = "Auto Fresh From Brands Component";
+const MSD_AUTOMATED_BRAND_CAROUSEL =
+  "msdAutomatedBannerProductCarouselComponent";
 const DISCOVER_MORE = "Auto Discover More Component";
+const MSD_DISCOVER_MORE = "msdAutoDiscoverMoreComponent";
 const AUTOMATED_BRAND_CAROUSEL = "Automated Banner Product Carousel Component";
 const FOLLOW_WIDGET = "Auto Following Brands Component";
 const MULTI_CLICK_COMPONENT = "Multi Click Component";
@@ -118,6 +126,9 @@ if (!checkUserAgentIsMobile()) {
 export const CATEGORY_REGEX = /msh[a-zA-Z0-9]+/;
 export const BRAND_REGEX = /mbh[a-zA-Z0-9]+/;
 export const SET_PAGE_FEED_SIZE = "SET_PAGE_FEED_SIZE";
+export const MSD_ROOT_PATH = "https://ap-southeast-1-api.madstreetden.com";
+const api_key = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
+
 export function setPageFeedSize(pageSize) {
   return {
     type: SET_PAGE_FEED_SIZE,
@@ -408,13 +419,13 @@ export function getFeed(pageId: null) {
           }
         }
       } else {
-        let mbox = ADOBE_TARGET_HOME_FEED_MBOX_NAME;
+        // let mbox = ADOBE_TARGET_HOME_FEED_MBOX_NAME;
 
-        if (process.env.REACT_APP_STAGE === "production") {
-          mbox = ADOBE_TARGET_PRODUCTION_HOME_FEED_MBOX_NAME;
-        } else if (process.env.REACT_APP_STAGE === "p2") {
-          mbox = ADOBE_TARGET_P2_HOME_FEED_MBOX_NAME;
-        }
+        // if (process.env.REACT_APP_STAGE === "production") {
+        //   mbox = ADOBE_TARGET_PRODUCTION_HOME_FEED_MBOX_NAME;
+        // } else if (process.env.REACT_APP_STAGE === "p2") {
+        //   mbox = ADOBE_TARGET_P2_HOME_FEED_MBOX_NAME;
+        // }
         delay(() => {
           const isHomeFeedLoading = getState().feed.loading;
           if (isHomeFeedLoading) {
@@ -422,29 +433,29 @@ export function getFeed(pageId: null) {
           }
         }, ADOBE_TARGET_DELAY);
 
-        const mcvId = await getMcvId();
-        resultJson = await api.postAdobeTargetUrl(
-          null,
-          mbox,
-          mcvId,
-          null,
-          true
-        );
-        resultJson = resultJson[0];
-        feedTypeRequest = HOME_FEED_TYPE;
-        if (
-          !window.digitalData ||
-          !window.digitalData.page ||
-          !window.digitalData.page.pageInfo ||
-          window.digitalData.page.pageInfo.pageName !== "homepage"
-        ) {
-          setDataLayer(
-            ADOBE_HOME_TYPE,
-            null,
-            getState().icid.value,
-            getState().icid.icidType
-          );
-        }
+        //   const mcvId = await getMcvId();
+        //   resultJson = await api.postAdobeTargetUrl(
+        //     null,
+        //     mbox,
+        //     mcvId,
+        //     null,
+        //     true
+        //   );
+        //   resultJson = resultJson[0];
+        //   feedTypeRequest = HOME_FEED_TYPE;
+        //   if (
+        //     !window.digitalData ||
+        //     !window.digitalData.page ||
+        //     !window.digitalData.page.pageInfo ||
+        //     window.digitalData.page.pageInfo.pageName !== "homepage"
+        //   ) {
+        //     setDataLayer(
+        //       ADOBE_HOME_TYPE,
+        //       null,
+        //       getState().icid.value,
+        //       getState().icid.icidType
+        //     );
+        //   }
       }
 
       if (
@@ -573,7 +584,7 @@ function getMsdPostData(type) {
     return {
       widget_list: FRESH_FROM_BRANDS_WIDGET_LIST
     };
-  } else if (type === DISCOVER_MORE) {
+  } else if (type === DISCOVER_MORE || MSD_DISCOVER_MORE) {
     return {
       widget_list: DISCOVER_MORE_WIDGET_LIST
     };
@@ -614,14 +625,14 @@ export function getComponentData(
       if (postParams && postParams.widgetPlatform === MSD_WIDGET_PLATFORM) {
         const widgetSpecificPostData = getMsdPostData(type);
         let msdNumberOfResults = MSD_NUM_RESULTS;
-        if (type === AUTOMATED_BRAND_CAROUSEL) {
+        if (type === AUTOMATED_BRAND_CAROUSEL || MSD_AUTOMATED_BRAND_CAROUSEL) {
           msdNumberOfResults = MSD_NUM_RESULTS_FOR_AUTOMATED_BRAND_COMPONENT;
         }
         postData = await getMsdFormData(widgetSpecificPostData.widget_list, [
           msdNumberOfResults
         ]);
 
-        if (type === AUTOMATED_BRAND_CAROUSEL) {
+        if (type === AUTOMATED_BRAND_CAROUSEL || MSD_AUTOMATED_BRAND_CAROUSEL) {
           postData.append("num_brands", JSON.stringify(msdABPCBrandCount));
           postData.append("num_products", JSON.stringify(MSD_NUM_PRODUCTS));
           postData.append("channel", "pwa");
@@ -637,7 +648,8 @@ export function getComponentData(
 
         if (
           type === DISCOVER_MORE ||
-          type === AUTO_PRODUCT_RECOMMENDATION_COMPONENT
+          type === AUTO_PRODUCT_RECOMMENDATION_COMPONENT ||
+          MSD_DISCOVER_MORE
         ) {
           postData.set(
             "num_results",
@@ -698,6 +710,101 @@ export function getComponentData(
       } else {
         dispatch(componentDataFailure(positionInFeed, e.message));
       }
+    }
+  };
+}
+export function msdHomeComponentsSuccess(homeMsdData) {
+  return {
+    type: MSD_HOME_COMPONENT_SUCCESS,
+    status: SUCCESS,
+    homeMsdData
+  };
+}
+export function msdHomeComponentsRequest() {
+  return {
+    type: MSD_HOME_COMPONENT_REQUEST,
+    status: REQUESTING
+  };
+}
+export function msdAbcComponentsSuccess(homeAbcMsdData) {
+  return {
+    type: MSD_HOME_ABC_COMPONENT_SUCCESS,
+    status: SUCCESS,
+    homeAbcMsdData
+  };
+}
+export function msdAbcComponentsRequest() {
+  return {
+    type: MSD_HOME_ABC_COMPONENT_REQUEST,
+    status: REQUESTING
+  };
+}
+export function msdAbcComponents(fetchURL) {
+  return async (dispatch, getState, { api }) => {
+    try {
+      dispatch(msdAbcComponentsRequest());
+      let postData;
+      let result;
+      let resultJson;
+      const widgetSpecificPostData = [113];
+
+      let msdNumberOfResults = 5;
+      postData = await getMsdFormData(AUTOMATED_BRAND_CAROUSEL_WIDGET_LIST, [
+        msdNumberOfResults
+      ]);
+      // postData.append("num_brands", JSON.stringify(msdABPCBrandCount));
+      postData.append("num_products", JSON.stringify(MSD_NUM_PRODUCTS));
+      postData.append("channel", "pwa");
+
+      result = await api.postMsd(`${MSD_ROOT_PATH}/widgets`, postData);
+      resultJson = await result.json();
+
+      if (result && result.status && result.status === FAILURE) {
+        throw new Error(`${result.message}`);
+      }
+
+      resultJson = resultJson.data[0];
+      dispatch(msdAbcComponentsSuccess(resultJson));
+    } catch (e) {
+      throw new Error(`${e.message}`);
+    }
+  };
+}
+
+export function msdDiscoverMoreHomeComponents(type) {
+  return async (dispatch, getState, { api }) => {
+    try {
+      // const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      dispatch(msdHomeComponentsRequest());
+      let data;
+      let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      if (userDetails) {
+        userDetails = JSON.parse(userDetails);
+      }
+      let discoverMoreData = new FormData();
+      discoverMoreData.append("api_key", api_key);
+      discoverMoreData.append("widget_list", [110]);
+      discoverMoreData.append("num_results", [10]);
+      discoverMoreData.append("mad_uuid", await getMcvId());
+      discoverMoreData.append("details", false);
+      if (userDetails && userDetails.userName) {
+        discoverMoreData.append("user_id", userDetails.userName);
+      }
+      const discoverMoreresult = await api.postMsd(
+        `${MSD_ROOT_PATH}/widgets`,
+        discoverMoreData
+      );
+      const discoverMoreresultJson = await discoverMoreresult.json();
+      if (discoverMoreresultJson.status === FAILURE) {
+        throw new Error(`${discoverMoreresultJson.message}`);
+      }
+
+      data = {
+        data: discoverMoreresultJson && discoverMoreresultJson.data
+      };
+      dispatch(msdHomeComponentsSuccess(data.data));
+    } catch (e) {
+      throw new Error(`${e.message}`);
     }
   };
 }
