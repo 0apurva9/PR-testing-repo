@@ -24,11 +24,12 @@ export default class ExchangeModalOtherDetails extends React.Component {
         <div className={styles.imeiCheckForm}>
           <input
             type="number"
-            placeholder="Enter IMEI Number"
             className={styles.imeiInput}
             onChange={(e, deviceNo) => this.verifyIMEI(e, this.props.deviceNo)}
             value={this.props.currentIMEI}
+            required
           />
+          <label className={styles.imeiPlaceholder}>Enter IMEI Number</label>
           <div
             className={
               this.props.enableVerifyButton
@@ -58,7 +59,7 @@ export default class ExchangeModalOtherDetails extends React.Component {
             <tbody>
               <tr>
                 <td className={styles.effectivePriceTrOne}>
-                  Effective Price after exchange
+                  Effective Price after Exchange
                 </td>
                 <td className={styles.effectivePriceTrTwo}>
                   {this.props.deviceInfo &&
@@ -69,7 +70,9 @@ export default class ExchangeModalOtherDetails extends React.Component {
                 </td>
               </tr>
               <tr>
-                <td>for {this.props.productName}</td>
+                <td className={styles.productNameTruncated}>
+                  for {this.props.productName}
+                </td>
                 <td />
               </tr>
             </tbody>
@@ -90,7 +93,7 @@ export default class ExchangeModalOtherDetails extends React.Component {
             >
               Terms & Conditions
             </span>{" "}
-            of exchange.
+            of Exchange.
           </div>
         </div>
         <div className={styles.exchangeButtonContainer}>
@@ -99,10 +102,10 @@ export default class ExchangeModalOtherDetails extends React.Component {
               className={styles.exchangeButtonEnabled}
               onClick={() => this.saveExchangeDetails(this.props.IMEINumber)}
             >
-              Proceed with exchange
+              Proceed with Exchange
             </div>
           ) : (
-            <div className={styles.exchangeButton}>Proceed with exchange</div>
+            <div className={styles.exchangeButton}>Proceed with Exchange</div>
           )}
         </div>
       </React.Fragment>

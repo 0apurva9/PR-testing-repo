@@ -49,7 +49,6 @@
   justify-content: center;
   width:100%;
   height: auto;
-  background-color: #f1f1f1;
   padding: 20px 0 35px 0;
 }
 .exchangeButton{
@@ -57,13 +56,12 @@
   height: 38px;
   border-radius: 19.5px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
-  background-color: #ff1744;
+  background-color: #8d8d8d;
   font-family: semibold;
   font-size: 14px;
   text-align: center;
   color: #ffffff;
   padding: 10px;
-  opacity: 0.4;
 }
 .exchangeButtonEnabled{
   width: 242px;
@@ -119,7 +117,7 @@
 }
 .exchangeOfferTable{
   width: 330px;
-  margin-top: 15px;
+  margin-top: 25px;
 }
 .exchangeOfferTable tr td:nth-child(even){
   text-align: right;
@@ -180,7 +178,7 @@
   transform: rotate(90deg);
   position: absolute;
   left: -45px;
-  top: 110px;
+  top: 50%;
   letter-spacing: 0.2px;
 }
 .arrowRight::after{
@@ -196,8 +194,9 @@
   top: 4px;
 }
 .imeiCheckForm{
+  position: relative;
   width: 100%;
-  padding: 25px 30px;
+  padding: 25px;
   display: inline-block;
 }
 .imeiInput{
@@ -205,7 +204,7 @@
   width: 80%;
   border:none;
   border-bottom: 1px solid #ccc;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1;
   font-family: regular;
   color: #212121;
@@ -226,8 +225,9 @@
   font-family: semibold;
   font-size: 14px;
   color: #ff1744;
-  line-height: 1.4;
+  line-height: 1;
   cursor: pointer;
+  height: 22px;
 }
 .disableVerifyButton{
   float: left;
@@ -237,8 +237,9 @@
   font-family: semibold;
   font-size: 14px;
   color: #8d8d8d;
-  line-height: 1.4;
+  line-height: 1;
   pointer-events: none;
+  height: 22px;
 }
 .imeiInputInfo{
   font-family: light;
@@ -252,7 +253,7 @@
   font-family: semibold;
 }
 .effectivePrice{
-  margin: 0 30px;
+  margin: 0 25px;
   display: inline-block;
   width: calc(100% - 60px);
   border-radius: 4px;
@@ -270,7 +271,7 @@
 .tncContainer{
   display: inline-block;
   width: 100%;
-  padding: 20px 30px;
+  padding: 20px 25px;
 }
 .tnc{
   font-family: light;
@@ -465,4 +466,29 @@ ul.contentHeading{
 .clickLink{
   cursor: pointer;
   text-decoration: underline;
+}
+.productNameTruncated{
+  width: 80%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  display: inline-block;
+}
+.imeiPlaceholder {
+  position: absolute;
+  top: 18px;
+  left: 12px;
+  padding: 7px 0 0 13px;
+  transition: all 200ms;
+  opacity: 0.7;
+  width: 200px;
+  color: #8d8d8d;
+  font-size: 14px;
+  pointer-events: none;
+}
+.imeiInput:focus ~ .imeiPlaceholder,
+.imeiInput:not(:focus):valid ~ .imeiPlaceholder{
+  font-size: 11px;
+  transform: translate3d(0, -100%, 0);
+  opacity: 1;
 }
