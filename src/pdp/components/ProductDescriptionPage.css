@@ -1297,11 +1297,11 @@
 	margin-right: 10px;
 }
 .exchangeLogo{
-	width: 28px;
-	height: 24px;
+	width: 31px;
+	height: 25px;
 	background: url(../components/img/exchangeLogo.svg) no-repeat;
 	background-size: contain;
-	margin: 8px 8px;
+	margin: 7px 7px;
 }
 .exchangeLogoLoader {
 	position: absolute;
