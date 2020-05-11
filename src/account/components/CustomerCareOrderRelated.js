@@ -9,6 +9,10 @@ import CheckboxAndText from "../../cart/components/CheckboxAndText";
 import TextArea from "../../general/components/TextArea";
 import ImageUpload from "./ImageUpload";
 import Button from "../../general/components/Button.js";
+import deleteIcon from "../components/img/deleteIcon.svg";
+import txtIcon from "../components/img/txtIcon.svg";
+import pdfIcon from "../components/img/pdfIcon.svg";
+import imageIcon from "../components/img/imageIcon.svg";
 import format from "date-fns/format";
 import {
   LOGGED_IN_USER_DETAILS,
@@ -21,6 +25,7 @@ import {
 } from "../../auth/components/Login";
 
 import * as Cookie from "../../lib/Cookie";
+import Icon from "../../xelpmoc-core/Icon";
 const MOBILE_TEXT = "Please enter mobile number";
 const MOBILE_VALID_TEXT = "Please enter valid mobile number";
 const EMAIL_TEXT = "Please enter emailId";
@@ -413,7 +418,10 @@ export default class CustomerCareOrderRelated extends React.Component {
       } else {
         for (let [key, value] of Object.entries(additionalInfo)) {
           if (key == this.state.uploadFileTitle) {
-            if (this.state.uploadedAttachment.length) {
+            if (
+              this.state.uploadedAttachment &&
+              this.state.uploadedAttachment[0].urlList.length > 0
+            ) {
               let urlList = [];
               this.state.uploadedAttachment.forEach(item => {
                 let list = item.urlList.map(url => url.fileURL);
@@ -507,6 +515,14 @@ export default class CustomerCareOrderRelated extends React.Component {
     this.props.onChangeReasonForNonOrderRelated(val, l1OptionsArray);
   }
 
+  deleteFile(index) {
+    const copyuploadedAttachment = [...this.state.uploadedAttachment];
+    var files = [...this.state.file];
+    copyuploadedAttachment[0].urlList.splice(index, 1);
+    files.splice(index, 1);
+    this.setState({ uploadedAttachment: copyuploadedAttachment, file: files });
+  }
+
   render() {
     let {
       l1OptionsArray,
@@ -527,12 +543,12 @@ export default class CustomerCareOrderRelated extends React.Component {
       mainIssue,
       issueSelected
     } = this.props;
-    let attachmentName = "Upload attachment";
-    if (this.state.file.length) {
-      let fileName = [];
-      for (let f of this.state.file) fileName.push(f.name);
-      attachmentName = fileName.join(",");
-    }
+    // let attachmentName = "Upload attachment";
+    // if (this.state.file.length) {
+    //   let fileName = [];
+    //   for (let f of this.state.file) fileName.push(f.name);
+    //   attachmentName = fileName.join(",");
+    // }
     let parentIssueLabel = "Select issue",
       childIssueLabel = "Select sub-issue";
 
@@ -808,7 +824,8 @@ export default class CustomerCareOrderRelated extends React.Component {
                       )}
                     </div>
                     <ImageUpload
-                      value={attachmentName}
+                      // value={attachmentName}
+                      value={"Upload attachment"}
                       onChange={file =>
                         this.onUploadFile(file, this.state.attachment)
                       }
@@ -822,6 +839,54 @@ export default class CustomerCareOrderRelated extends React.Component {
                       )}
                     </div>
                   </div>
+                </div>
+                <div className={styles.filesBox}>
+                  {this.state.file &&
+                    this.state.file.map((files, index) => {
+                      let fileType = "",
+                        width = "",
+                        height = "";
+                      if (
+                        files.name.includes(".jpg") ||
+                        files.name.includes(".jpeg")
+                      ) {
+                        fileType = imageIcon;
+                        width = 23;
+                        height = 17;
+                      } else if (files.name.includes(".pdf")) {
+                        fileType = pdfIcon;
+                        width = 22;
+                        height = 23;
+                      } else {
+                        fileType = txtIcon;
+                        width = 19;
+                        height = 24;
+                      }
+                      return (
+                        <div className={styles.imageBox}>
+                          <div
+                            className={styles.deleteBOx}
+                            onClick={() => this.deleteFile(index)}
+                          >
+                            <Icon
+                              image={deleteIcon}
+                              width={18}
+                              height={18}
+                            ></Icon>
+                          </div>
+                          <div className={styles.typeOfFileBox}>
+                            <div className={styles.typeOfFile}>
+                              <Icon
+                                image={fileType}
+                                width={width}
+                                height={height}
+                              ></Icon>
+                            </div>
+                            <div className={styles.fileNames}>{files.name}</div>
+                          </div>
+                        </div>
+                      );
+                    })}
                 </div>
               </div>
             ) : null}

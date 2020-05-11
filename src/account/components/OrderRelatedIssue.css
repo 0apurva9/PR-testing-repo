@@ -466,9 +466,43 @@
   font-family: semibold;
   color: #ff1744;
 }
+.filesBox{
+  display: flex;
+    flex-wrap: wrap;
+    /* justify-content: center; */
+    align-items: center;
+    margin-top: 10px;
+}
 .imgSubTitle{
   font-size: 12px;
     color: #212121;
     font-family: light;
     margin-bottom: 4px;
+}
+.imageBox{
+  position: relative;
+    background: #f5f5f5;
+    /* width: 89%; */
+    width: 280px;
+    margin-right: 16px;
+    margin-bottom: 16px;
+    padding: 10px 26px 10px 20px;
+    border-radius: 2px;
+}
+.deleteBOx{
+  position: absolute;
+  right: 0px;
+  /* width: 17px; */
+  top: -5px;
+}
+.typeOfFileBox{
+  display: flex;
+    align-items: center;
+    /* justify-content: center; */
+}
+.fileNames{
+  font-size: 12px;
+  font-family: regular;
+  color: #9d9d9d;
+  padding-left: 14px;
 }

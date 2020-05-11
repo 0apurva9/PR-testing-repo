@@ -4144,7 +4144,6 @@ export function getCustomerQueriesData(transactionId) {
       );
 
       const resultJson = await result.json();
-      let noQuestion = false;
       if (resultJson.error) {
         dispatch(getCustomerQueriesDataSuccessv2(resultJson));
         dispatch(displayToast(resultJson.error));
