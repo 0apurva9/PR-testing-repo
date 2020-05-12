@@ -49,7 +49,7 @@ export default class SelectDevice extends React.Component {
             this.props.currentModelList.map((val, i) => {
               return {
                 value: val.exchangeModelName,
-                label: val.effectiveModelName,
+                label: val.exchangeModelName,
                 modelList: val
               };
             })

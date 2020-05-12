@@ -19,7 +19,7 @@ export default class ExchangeProductDetailsTab extends React.Component {
           <span className={styles.effectiveModelText}>
             {this.props.deviceInfo &&
               this.props.deviceInfo.model &&
-              this.props.deviceInfo.model.effectiveModelName}
+              this.props.deviceInfo.model.exchangeModelName}
           </span>
           {this.props.bothDeviceAdded && (
             <span
