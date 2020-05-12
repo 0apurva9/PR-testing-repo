@@ -413,6 +413,7 @@
 .exchangeCashbackAccountText{
 	font-size: 12px;
 	font-family: semibold;
+	display: inline-block;
 }
 .exchangeCancelledText{
 	font-size: 13px;
