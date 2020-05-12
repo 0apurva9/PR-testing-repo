@@ -1,0 +1,158 @@
+.exchangeDetailsContainer{
+	margin: 0 0 25px 0;
+	padding-top: 15px;
+	border-top: 1px solid #e5e5e5;
+}
+.exchangeIconLight{
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 10px;
+}
+.exchangeProductText{
+	display: inline-block;
+	font-size: 14px;
+	font-family: light;
+	margin-bottom: 15px;
+	position: relative;
+	width: calc(100% - 45px);
+}
+.exchangePricingDetails{
+	font-size: 12px;
+	font-family:light;
+  line-height: 1.17;
+	color: #181818;
+	margin: 0 auto;
+}
+.exchangePricingDetails tbody tr td{
+	width: 92%;
+	padding-bottom: 10px;
+}
+.borderWithPaddingTop{
+	border-top: 1px solid #ececec;
+	padding-top: 10px;
+	font-family: regular;
+}
+.exchangePricingDetails tbody tr td:nth-child(even){
+	text-align: right;
+}
+.pickupCharge{
+	color: #67b70b;
+}
+.effectivePriceText{
+	width:60%;
+	font-size: 12px;
+	display: inline-block;
+	font-family: regular;
+	white-space: nowrap;
+  text-overflow: ellipsis;
+	overflow-x: hidden;
+}
+.effectivePrice{
+	width:40%;
+	font-size: 12px;
+	display: inline-block;
+	font-family: regular;
+}
+.effectivePriceContainer{
+	width: 86%;
+	margin: 0 auto;
+	border-top: 1px solid #ececec;
+	padding: 10px 0;
+}
+.bb{
+	border-bottom: 1px solid #ececec;
+}
+.bbCustom{
+	border-bottom: 1px solid #ececec;
+	width: 93%;
+	margin-left: 7%;
+}
+.effectivePrice:nth-child(even){
+	text-align: right;
+}
+.fontLight{
+	font-family: light;
+}
+.fontBold{
+	font-family: semibold;
+}
+.exchangeEDDContainer{
+	width: 86%;
+	margin: 0 auto;
+	font-size: 14px;
+	padding-top: 10px;
+}
+.exchangeCashbackDetails{
+	padding: 10px 10px 15px 10px;
+	border: 0.5px solid #979797;
+	border-radius: 4px;
+	width: auto;
+	margin: 10px 0 10px 44px;
+}
+.exchangeCashbackTextContainer{
+	width: 75%;
+  display: inline-block;
+}
+.exchangeCashbackChangeMode{
+	width: 25%;
+	display: inline-block;
+	vertical-align: top;
+	line-height: 2.5;
+	text-align: right;
+	font-size: 14px;
+	color: #ff1744;
+	font-family: semibold;
+	cursor: pointer;
+}
+.exchangeCashbackText{
+	font-size: 12px;
+}
+.exchangeCashbackAccountText{
+	font-size: 12px;
+	font-family: semibold;
+	display: inline-block;
+}
+.exchangeCancelledText{
+	font-size: 13px;
+	color: #c47403;
+	font-family: light;
+	padding: 15px 0;
+	width: 86%;
+	margin: 0 auto;
+}
+.exchangeProcessedText{
+	font-size: 13px;
+	color: #67b70b;
+	font-family: light;
+	padding: 10px 0;
+	width: 86%;
+	margin: 0 auto;
+}
+.cashbackCreditedText{
+	display: inline-block;
+	font-size: 14px;
+	font-family: light;
+	margin-bottom: 15px;
+	position: relative;
+	width: calc(100% - 45px);
+	padding: 15px 0 0 42px;
+}
+.downArrow {
+	border: solid #000000;
+	border-width: 0 2px 2px 0;
+	padding: 3px;
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	position: absolute;
+	top: 2px;
+	right: 0;
+	cursor: pointer;
+	transition: 300ms;
+}
+.downArrowRotate{
+	composes : downArrow;
+	-ms-transform: rotate(225deg);
+	transform: rotate(225deg);
+	-webkit-transform: rotate(225deg);
+}

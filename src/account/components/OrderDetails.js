@@ -7,7 +7,6 @@ import OrderViewPaymentDetails from "./OrderViewPaymentDetails";
 import OrderPaymentMethod from "./OrderPaymentMethod";
 import OrderStatusVertical from "./OrderStatusVerticalV2";
 import InstallationExperience from "./InstallationExperience";
-import ExchangeDetailsTrack from "./ExchangeDetailsTrack";
 import PropTypes from "prop-types";
 import format from "date-fns/format";
 import each from "lodash.foreach";
@@ -22,7 +21,7 @@ import { Redirect } from "react-router-dom";
 import Icon from "../../xelpmoc-core/Icon";
 import Button from "../../general/components/Button";
 import RetryPaymentIcon from "./img/payment_retry.svg";
-import exchangeIconLight from "../../cart/components/img/exchangeIconLight.svg";
+import ExchangeDetailsOrderDetails from "./ExchangeDetailsOrderDetails";
 import {
   CASH_ON_DELIVERY,
   ORDER_PREFIX,
@@ -78,10 +77,8 @@ export default class OrderDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      itemDetails: false,
-      isToggleOn: true
+      itemDetails: false
     };
-    this.toggle = this.toggle.bind(this);
   }
   onClickImage(productCode) {
     if (productCode) {
@@ -485,18 +482,7 @@ export default class OrderDetails extends React.Component {
       }
     }
   };
-  toggle() {
-    this.setState(state => ({
-      isToggleOn: !state.isToggleOn
-    }));
-  }
-  goToEchangeCashbackSelection(orderId, currentCashbackMode) {
-    let exchangeCashbackSelectionURL = `/my-account/getAccountInfoForExchange?parentOrderId=${orderId}`;
-    this.props.history.push({
-      pathname: exchangeCashbackSelectionURL,
-      state: { currentCashbackMode: currentCashbackMode, orderId: orderId }
-    });
-  }
+
   render() {
     if (this.props.loadingForFetchOrderDetails) {
       this.props.showSecondaryLoader();
@@ -705,36 +691,7 @@ export default class OrderDetails extends React.Component {
                 ) {
                   hideEIETrackDiagram = true;
                 }
-                // MDE
-                const cashbackCredited =
-                  products.exchangeDetails &&
-                  products.exchangeDetails.exchangeTrackDiagram &&
-                  products.exchangeDetails.exchangeTrackDiagram.find(val => {
-                    return val.displayMessage === "PAYMENT_COMPLETED";
-                  });
-                const exchangeCanceled =
-                  products.exchangeDetails &&
-                  products.exchangeDetails.exchangeTrackDiagram &&
-                  products.exchangeDetails.exchangeTrackDiagram.find(val => {
-                    return val.displayMessage === "PICKUP_CANCEL";
-                  });
-                let hideExchangeDetails = false;
-                let hideDetailsWhenCashbackCredited = false;
-                if (
-                  exchangeCanceled &&
-                  exchangeCanceled.status &&
-                  exchangeCanceled.status === "Complete"
-                ) {
-                  hideExchangeDetails = true;
-                }
-                if (
-                  cashbackCredited &&
-                  cashbackCredited.status &&
-                  cashbackCredited.status === "Complete"
-                ) {
-                  hideExchangeDetails = true;
-                  hideDetailsWhenCashbackCredited = true;
-                }
+
                 return (
                   <React.Fragment key={i}>
                     <div className={styles.order} key={i}>
@@ -857,280 +814,11 @@ export default class OrderDetails extends React.Component {
                         </div>
                       )}
 
-                      {products.exchangeDetails && (
-                        <div className={styles.exchangeDetailsContainer}>
-                          <img
-                            src={exchangeIconLight}
-                            alt="exchange icon"
-                            className={styles.exchangeIconLight}
-                          />
-                          <div className={styles.exchangeProductText}>
-                            <span className={styles.fontFamilySemibold}>
-                              Exchange Product:
-                            </span>{" "}
-                            {products.exchangeDetails.exchangeModelName}
-                            <span
-                              className={
-                                !this.state.isToggleOn
-                                  ? styles.downArrowRotate
-                                  : styles.downArrow
-                              }
-                              onClick={() => this.toggle()}
-                            />
-                          </div>
-
-                          {!this.state.isToggleOn ? (
-                            <React.Fragment>
-                              {products.exchangeDetails.exchangePriceDetail && (
-                                <React.Fragment>
-                                  <table
-                                    className={styles.exchangePricingDetails}
-                                    cellPadding={0}
-                                    cellSpacing={0}
-                                  >
-                                    <tbody>
-                                      <tr>
-                                        <td>Base Value</td>
-                                        <td>
-                                          {
-                                            products.exchangeDetails
-                                              .exchangePriceDetail
-                                              .exchangeAmountCashify
-                                              .formattedValueNoDecimal
-                                          }
-                                        </td>
-                                      </tr>
-                                      <tr>
-                                        <td>CLiQ Exclusive Cashback</td>
-                                        <td>
-                                          {
-                                            products.exchangeDetails
-                                              .exchangePriceDetail.TULBump
-                                              .formattedValueNoDecimal
-                                          }
-                                        </td>
-                                      </tr>
-                                      <tr>
-                                        <td>Pick Up Charge </td>
-                                        {products.exchangeDetails
-                                          .exchangePriceDetail.pickupCharge
-                                          .doubleValue === 0 && (
-                                          <td className={styles.pickupCharge}>
-                                            FREE
-                                          </td>
-                                        )}
-                                        {products.exchangeDetails
-                                          .exchangePriceDetail.pickupCharge
-                                          .doubleValue !== 0 && (
-                                          <td>
-                                            {
-                                              products.exchangeDetails
-                                                .exchangePriceDetail
-                                                .pickupCharge
-                                                .formattedValueNoDecimal
-                                            }
-                                          </td>
-                                        )}
-                                      </tr>
-                                      <tr>
-                                        <td
-                                          className={
-                                            styles.borderWithPaddingTop
-                                          }
-                                        >
-                                          Total Exchange Cashback{" "}
-                                        </td>
-                                        <td
-                                          className={
-                                            styles.borderWithPaddingTop
-                                          }
-                                        >
-                                          {
-                                            products.exchangeDetails
-                                              .exchangePriceDetail
-                                              .totalExchangeCashback
-                                              .formattedValueNoDecimal
-                                          }
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                  <div
-                                    className={styles.effectivePriceContainer}
-                                  >
-                                    <div className={styles.effectivePriceText}>
-                                      <span className={styles.fontLight}>
-                                        Effective Price for
-                                      </span>{" "}
-                                      <span>{products.productName}</span>
-                                    </div>
-                                    <div className={styles.effectivePrice}>
-                                      {
-                                        products.exchangeDetails
-                                          .exchangePriceDetail.effectiveAmount
-                                          .formattedValueNoDecimal
-                                      }
-                                    </div>
-                                  </div>
-                                </React.Fragment>
-                              )}
-                            </React.Fragment>
-                          ) : null}
-                          <div className={styles.bbCustom} />
-                          {products.exchangeDetails.exchangePickupPromiseDate &&
-                            !products.exchangeDetails.exchangePickedUpDate &&
-                            !hideExchangeDetails && (
-                              <div className={styles.exchangeEDDContainer}>
-                                <span className={styles.fontBold}>
-                                  Estimated Exchange Pick up Date:
-                                </span>
-                                <span className={styles.fontLight}>
-                                  {" "}
-                                  {format(
-                                    products.exchangeDetails
-                                      .exchangePickupPromiseDate,
-                                    dateFormat
-                                  )}
-                                </span>
-                              </div>
-                            )}
-                          {products.exchangeDetails.exchangePickedUpDate &&
-                            !hideExchangeDetails && (
-                              <div className={styles.exchangeEDDContainer}>
-                                <span className={styles.fontBold}>
-                                  Exchange Product Picked up on:
-                                </span>
-                                <span className={styles.fontLight}>
-                                  {" "}
-                                  {format(
-                                    products.exchangeDetails
-                                      .exchangePickedUpDate,
-                                    dateFormat
-                                  )}
-                                </span>
-                              </div>
-                            )}
-                          {!products.consignmentStatus.includes("CANCEL") &&
-                            !products.consignmentStatus.includes("REFUND") &&
-                            !products.consignmentStatus.includes("DELIVERED") &&
-                            !products.exchangeDetails.exchangeTrackDiagram &&
-                            products.exchangeDetails.exchangePaymentDetails &&
-                            products.exchangeDetails
-                              .exchangePaymentDetails[0] &&
-                            products.exchangeDetails.exchangePaymentDetails[0]
-                              .exchangePaymentMode && (
-                              <div className={styles.exchangeCashbackDetails}>
-                                <div
-                                  className={
-                                    styles.exchangeCashbackTextContainer
-                                  }
-                                >
-                                  <span className={styles.exchangeCashbackText}>
-                                    You will receive Exchange Cashback, post
-                                    your old phone pickup, in{" "}
-                                  </span>
-                                  {products.exchangeDetails
-                                    .exchangePaymentDetails[0]
-                                    .exchangePaymentMode === "CLIQ_CASH" ? (
-                                    <span
-                                      className={
-                                        styles.exchangeCashbackAccountText
-                                      }
-                                    >
-                                      CLiQ Cash wallet
-                                    </span>
-                                  ) : (
-                                    <span
-                                      className={
-                                        styles.exchangeCashbackAccountText
-                                      }
-                                    >
-                                      A/c{" "}
-                                      {products.exchangeDetails
-                                        .exchangePaymentDetails[0]
-                                        .accountNumber &&
-                                        products.exchangeDetails.exchangePaymentDetails[0].accountNumber.replace(
-                                          /.(?=.{4,}$)/g,
-                                          "x"
-                                        )}
-                                    </span>
-                                  )}
-                                </div>
-                                <div
-                                  className={styles.exchangeCashbackChangeMode}
-                                  onClick={() =>
-                                    this.goToEchangeCashbackSelection(
-                                      orderDetails.orderId,
-                                      products.exchangeDetails
-                                        .exchangePaymentDetails[0]
-                                        .exchangePaymentMode
-                                    )
-                                  }
-                                >
-                                  Change Mode
-                                </div>
-                              </div>
-                            )}
-
-                          {products.consignmentStatus.includes("CANCEL") && (
-                            <React.Fragment>
-                              <div className={styles.exchangeCancelledText}>
-                                {products.exchangeDetails.exchangeCancelMessage}
-                              </div>
-                              <div className={styles.bb} />
-                            </React.Fragment>
-                          )}
-
-                          {cashbackCredited &&
-                            cashbackCredited.status &&
-                            cashbackCredited.status === "Complete" && (
-                              <React.Fragment>
-                                {products.exchangeDetails
-                                  .exchangePaymentDetails &&
-                                  products.exchangeDetails
-                                    .exchangePaymentDetails[0] && (
-                                    <div
-                                      className={styles.cashbackCreditedText}
-                                    >
-                                      <span
-                                        className={styles.fontFamilySemibold}
-                                      >
-                                        Cashback Credited:{" "}
-                                      </span>
-                                      {products.exchangeDetails
-                                        .exchangePaymentDetails[0]
-                                        .exchangePaymentMode === "CLIQ_CASH" ? (
-                                        "Cliq Cash Wallet"
-                                      ) : (
-                                        <span>
-                                          Ac no.{" "}
-                                          {products.exchangeDetails
-                                            .exchangePaymentDetails[0]
-                                            .accountNumber &&
-                                            products.exchangeDetails.exchangePaymentDetails[0].accountNumber.replace(
-                                              /.(?=.{4,}$)/g,
-                                              "x"
-                                            )}
-                                        </span>
-                                      )}
-                                    </div>
-                                  )}
-                                <div className={styles.bb} />
-                                <div className={styles.exchangeProcessedText}>
-                                  Exchange has been processed sucessfully.
-                                </div>
-                              </React.Fragment>
-                            )}
-                          {!products.consignmentStatus.includes("CANCEL") &&
-                            !hideDetailsWhenCashbackCredited && (
-                              <ExchangeDetailsTrack
-                                exchangeTrackDiagram={
-                                  products.exchangeDetails.exchangeTrackDiagram
-                                }
-                              />
-                            )}
-                        </div>
-                      )}
+                      <ExchangeDetailsOrderDetails
+                        products={products}
+                        orderDetails={orderDetails}
+                        history={this.props.history}
+                      />
 
                       {products.consignmentStatus &&
                         products.consignmentStatus != "ORDER_ALLOCATED" &&
