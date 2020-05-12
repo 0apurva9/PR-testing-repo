@@ -590,7 +590,7 @@ export default class PdpApparel extends React.Component {
           this.props.displayToast("Please select a size to continue");
           this.setState({
             sizeError: true,
-            isLoader: true
+            isLoader: false
           });
         }
       }
