@@ -814,11 +814,13 @@ export default class OrderDetails extends React.Component {
                         </div>
                       )}
 
-                      <ExchangeDetailsOrderDetails
-                        products={products}
-                        orderDetails={orderDetails}
-                        history={this.props.history}
-                      />
+                      {products.exchangeDetails && (
+                        <ExchangeDetailsOrderDetails
+                          products={products}
+                          orderDetails={orderDetails}
+                          history={this.props.history}
+                        />
+                      )}
 
                       {products.consignmentStatus &&
                         products.consignmentStatus != "ORDER_ALLOCATED" &&

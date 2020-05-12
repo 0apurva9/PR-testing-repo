@@ -1271,14 +1271,17 @@ export default class PdpApparel extends React.Component {
                     }
                     getBundleProductPinCode={this.props.getBundleProductPinCode}
                   />
-                  <ExchangeDetailsPDPDesktop
-                    productData={productData}
-                    exchangeDisabled={exchangeDisabled}
-                    openExchangeModal={() => this.openExchangeModal()}
-                    openHowExchangeWorksModal={data =>
-                      this.openHowExchangeWorksModal(data)
-                    }
-                  />
+
+                  {productData.exchangeAvailable && (
+                    <ExchangeDetailsPDPDesktop
+                      productData={productData}
+                      exchangeDisabled={exchangeDisabled}
+                      openExchangeModal={() => this.openExchangeModal()}
+                      openHowExchangeWorksModal={data =>
+                        this.openHowExchangeWorksModal(data)
+                      }
+                    />
+                  )}
                 </div>
                 {productData.variantOptions && (
                   <div>
