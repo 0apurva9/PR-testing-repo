@@ -1,0 +1,141 @@
+.exchangeMainContainer{
+	position: relative;
+	display: inline-block;
+	width: 350px;
+	margin-top: 15px;
+	border: 1px solid #e5e5e5;
+	padding: 20px 10px 15px 5px;
+	border-radius: 8px;
+}
+.exchangeMainContainerLessPadding{
+	position: relative;
+	display: inline-block;
+	width: 350px;
+	margin-top: 15px;
+	border: 1px solid #e5e5e5;
+	padding: 15px 10px 15px 5px;
+	border-radius: 8px;
+}
+.exchangeLogoContainer{
+	position: relative;
+	float: left;
+	margin-right: 10px;
+}
+.exchangeLogo{
+	width: 31px;
+	height: 25px;
+	background: url(../components/img/exchangeLogo.svg) no-repeat;
+	background-size: contain;
+	margin: 7px 7px;
+}
+.exchangeLogoLoader {
+	position: absolute;
+	animation: rotation 2s infinite linear;
+	width: 45px;
+	height: 39px;
+}
+@keyframes rotation {
+	from {
+			-webkit-transform: rotate(0deg);
+	}
+	to {
+			-webkit-transform: rotate(359deg);
+	}
+}
+.exchangeContainer{
+	float: left;
+	width: calc(100% - 55px);
+	margin-top: 5px;
+}
+.exchangeLink{
+	font-family: light;
+  font-size: 14px;
+  line-height: 1.2;
+	color: #212121;
+}
+.exchangeDetails{
+	font-family: semibold;
+  font-size: 12px;
+	color: #1c1a17;
+	margin-top: 5px;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.withExchangeLink{
+	font-size: 14px;
+	color: #ff1744;
+	font-family: semibold;
+	display: inline-block;
+	cursor: pointer;
+	position: relative;
+}
+.withExchangeLink:hover{
+	text-shadow: 0.1px 0.1px #ff1744;
+}
+.withExchangeLink::after{
+	content: "";
+	border: 1px solid #ff1744;
+	border-width: 0 1px 1px 0;
+	padding: 3px;
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	-webkit-transform: rotate(-45deg);
+	cursor: pointer;
+	position: absolute;
+	top: 4px;
+	right: -10px;
+}
+.withDisabledExchangeLink{
+	font-size: 14px;
+	color: #8d8d8d;
+	font-family: semibold;
+	display: inline-block;
+	position: relative;
+}
+.withDisabledExchangeLink::after{
+	content: "";
+	border: 1px solid #8d8d8d;
+	border-width: 0 1px 1px 0;
+	padding: 3px;
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	-webkit-transform: rotate(-45deg);
+	position: absolute;
+	top: 4px;
+	right: -10px;
+}
+.fontRegular{
+	font-family: regular;
+}
+.cliqExclusive{
+	background-color: #e6b432;
+	color: #ffffff;
+	font-size: 11px;
+	font-family: semibold;
+	padding: 5px;
+	display: inline-block;
+	position: absolute;
+	top: -13px;
+	left: -1px;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+}
+.cliqExclusiveLogo{
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url(../components/img/cliqExclusiveLogo.svg) no-repeat;
+	background-size: contain;
+	margin-right: 5px;
+	vertical-align: middle;
+}
+.notServiciableTetx {
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	color: #d88600;
+	font-size: 12px;
+	font-family: regular;
+}

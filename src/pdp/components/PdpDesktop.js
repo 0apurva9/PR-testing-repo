@@ -68,8 +68,7 @@ import ColourSelector from "./ColourSelector";
 import FlixMediaContainer from "./FlixMediaContainer";
 import Icon from "../../xelpmoc-core/Icon";
 import FilledStarBlack from "../../general/components/img/star-fill-black.svg";
-import exchangeLogoLoader from "./img/exchangeLogoLoader.svg";
-
+import ExchangeDetailsPDPDesktop from "./ExchangeDetailsPDPDesktop";
 const WASH = "Wash";
 const NECK_COLLAR = "Neck/Collar";
 const SLEEVE = "Sleeve";
@@ -887,13 +886,6 @@ export default class PdpApparel extends React.Component {
       }
     }
   }
-  trimProductName(productName) {
-    if (productName.length > 22) {
-      return productName.substring(0, 21) + ".. ";
-    } else {
-      return productName;
-    }
-  }
   clickedSamsungChatIcon() {
     setDataLayerForPdpDirectCalls(ADOBE_SUMSUNG_CHAT_ICON);
   }
@@ -1287,107 +1279,11 @@ export default class PdpApparel extends React.Component {
                     }
                     getBundleProductPinCode={this.props.getBundleProductPinCode}
                   />
-                  {productData.exchangeAvailable && (
-                    <div
-                      className={
-                        productData.totalTulBump
-                          ? styles.exchangeMainContainer
-                          : styles.exchangeMainContainerLessPadding
-                      }
-                    >
-                      {productData.totalTulBump &&
-                        productData.totalTulBump.formattedValueNoDecimal && (
-                          <div className={styles.cliqExclusive}>
-                            <span className={styles.cliqExclusiveLogo} />
-                            CLiQ Exclusive - Extra{" "}
-                            {
-                              productData.totalTulBump.formattedValueNoDecimal
-                            }{" "}
-                            cashback
-                          </div>
-                        )}
-                      <div className={styles.exchangeLogoContainer}>
-                        <img
-                          src={exchangeLogoLoader}
-                          className={styles.exchangeLogoLoader}
-                          alt="exchangeLogoLoader"
-                        />
-                        <div className={styles.exchangeLogo} />
-                      </div>
-                      <div className={styles.exchangeContainer}>
-                        <React.Fragment>
-                          {!productData.selectedProductName ? (
-                            <div className={styles.exchangeLink}>
-                              Get upto{" "}
-                              <span className={styles.fontRegular}>
-                                {productData.maxExchangeAmount &&
-                                  productData.maxExchangeAmount
-                                    .formattedValueNoDecimal}
-                              </span>{" "}
-                              cashback{" "}
-                              {exchangeDisabled ? (
-                                <span
-                                  className={styles.withDisabledExchangeLink}
-                                >
-                                  with exchange
-                                </span>
-                              ) : (
-                                <span
-                                  className={styles.withExchangeLink}
-                                  onClick={() => this.openExchangeModal()}
-                                >
-                                  with exchange
-                                </span>
-                              )}
-                            </div>
-                          ) : (
-                            <div className={styles.exchangeLink}>
-                              Get{" "}
-                              <span className={styles.fontRegular}>
-                                {productData.selectedProductCashback &&
-                                  productData.selectedProductCashback
-                                    .formattedValueNoDecimal}{" "}
-                              </span>
-                              cashback on your{" "}
-                              {this.trimProductName(
-                                productData.selectedProductName
-                              )}{" "}
-                              {exchangeDisabled ? (
-                                <span
-                                  className={styles.withDisabledExchangeLink}
-                                >
-                                  with exchange
-                                </span>
-                              ) : (
-                                <span
-                                  className={styles.withExchangeLink}
-                                  onClick={() => this.openExchangeModal()}
-                                >
-                                  with exchange
-                                </span>
-                              )}
-                            </div>
-                          )}
-                          <div
-                            className={styles.exchangeDetails}
-                            onClick={() =>
-                              this.openExchangeModal({
-                                openHowExchangeWorksModal: true
-                              })
-                            }
-                          >
-                            How exchange works?
-                          </div>
-                        </React.Fragment>
-                      </div>
-                    </div>
-                  )}
-                  {productData.exchangeAvailable &&
-                    exchangeDisabled && (
-                      <div className={styles.notServiciableTetx}>
-                        Exchange is non serviceable at your pincode
-                      </div>
-                    )}
+                  <ExchangeDetailsPDPDesktop
+                    productData={productData}
+                    exchangeDisabled={exchangeDisabled}
+                    openExchangeModal={data => this.openExchangeModal(data)}
+                  />
                 </div>
                 {productData.variantOptions && (
                   <div>
