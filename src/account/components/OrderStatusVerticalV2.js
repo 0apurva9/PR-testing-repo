@@ -744,10 +744,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
                   </div>
                   <div className={styles.dateAndTimeHolder}>
                     <div className={styles.timeHolder}>
-                      {returnRequestedDate}
+                      {returnRequestedTime}
                     </div>
                     <div className={styles.dateHolder}>
-                      {returnRequestedTime}
+                      {returnRequestedDate}
                     </div>
                   </div>
                 </div>
@@ -770,10 +770,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
                     </div>
                     <div className={styles.dateAndTimeHolder}>
                       <div className={styles.timeHolder}>
-                        {returnInitiatedDate}
+                        {returnInitiatedTime}
                       </div>
                       <div className={styles.dateHolder}>
-                        {returnInitiatedTime}
+                        {returnInitiatedDate}
                       </div>
                     </div>
                   </div>
@@ -800,10 +800,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
                     </div>
                     <div className={styles.dateAndTimeHolder}>
                       <div className={styles.timeHolder}>
-                        {refundInitiatedDate}
+                        {refundInitiatedTime}
                       </div>
                       <div className={styles.dateHolder}>
-                        {refundInitiatedTime}
+                        {refundInitiatedDate}
                       </div>
                     </div>
                   </div>
@@ -827,10 +827,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
                           </div>
                           <div className={styles.dateAndTimeHolder}>
                             <div className={styles.timeHolder}>
-                              {refundInitiatedDate}
+                              {refundInitiatedTime}
                             </div>
                             <div className={styles.dateHolder}>
-                              {refundInitiatedTime}
+                              {refundInitiatedDate}
                             </div>
                           </div>
                         </div>
@@ -864,10 +864,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
                           </div>
                           <div className={styles.dateAndTimeHolder}>
                             <div className={styles.timeHolder}>
-                              {pickupScheduledDate}
+                              {pickupScheduledTime}
                             </div>
                             <div className={styles.dateHolder}>
-                              {pickupScheduledTime}
+                              {pickupScheduledDate}
                             </div>
                           </div>
                         </div>
@@ -892,10 +892,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
                     </div>
                     <div className={styles.dateAndTimeHolder}>
                       <div className={styles.timeHolder}>
-                        {returnCancelledDate}
+                        {returnCancelledTime}
                       </div>
                       <div className={styles.dateHolder}>
-                        {returnCancelledTime}
+                        {returnCancelledDate}
                       </div>
                     </div>
                   </div>
@@ -927,10 +927,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
                     </div>
                     <div className={styles.dateAndTimeHolder}>
                       <div className={styles.timeHolder}>
-                        {returnDeclinedDate}
+                        {returnDeclinedTime}
                       </div>
                       <div className={styles.dateHolder}>
-                        {returnDeclinedTime}
+                        {returnDeclinedDate}
                       </div>
                     </div>
                   </div>
@@ -961,10 +961,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
                   </div>
                   <div className={styles.dateAndTimeHolder}>
                     <div className={styles.timeHolder}>
-                      {refundSuccessfulDate}
+                      {refundSuccessfulTime}
                     </div>
                     <div className={styles.dateHolder}>
-                      {refundSuccessfulTime}
+                      {refundSuccessfulDate}
                     </div>
                   </div>
                 </div>
@@ -1000,6 +1000,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
               {!this.props.isCNC &&
                 (!responseCode.includes("RETURN_CLOSED") &&
                   !responseCode.includes("RETURNINITIATED_BY_RTO") &&
+                  !responseCode.includes("RTO_INITIATED") &&
                   !responseCode.includes("REFUND_INITIATED")) && (
                   <React.Fragment>
                     {/* {check if order is cancelled then show cancelled status} */}
@@ -1166,7 +1167,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                       </div>
                                     </div>
                                   </div>
-                                ) : completedSteps.includes(SHIPPED) ? (
+                                ) : completedSteps.includes(SHIPPED) &&
+                                responseCode.includes("REFUND_INITIATED") ? (
                                   <div
                                     className={
                                       completedSteps.includes(SHIPPED)
@@ -1416,6 +1418,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
               {!this.props.isCNC &&
                 (responseCode.includes("RETURN_CLOSED") ||
                   responseCode.includes("RETURNINITIATED_BY_RTO") ||
+                  responseCode.includes("RTO_INITIATED") ||
+                  this.props.consignmentStatus === "RETURN_COMPLETED" ||
                   this.props.consignmentStatus === "ORDER_CANCELLED" ||
                   this.props.consignmentStatus === "REFUND_IN_PROGRESS" ||
                   this.props.consignmentStatus === "REFUND_INITIATED") && (
@@ -1521,10 +1525,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
                               </div>
                               <div className={styles.dateAndTimeHolder}>
                                 <div className={styles.timeHolder}>
-                                  {returnCancelledDate}
+                                  {returnCancelledTime}
                                 </div>
                                 <div className={styles.dateHolder}>
-                                  {returnCancelledTime}
+                                  {returnCancelledDate}
                                 </div>
                               </div>
                             </div>
@@ -1544,10 +1548,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
                               </div>
                               <div className={styles.dateAndTimeHolder}>
                                 <div className={styles.timeHolder}>
-                                  {returnDeclinedDate}
+                                  {returnDeclinedTime}
                                 </div>
                                 <div className={styles.dateHolder}>
-                                  {returnDeclinedTime}
+                                  {returnDeclinedDate}
                                 </div>
                               </div>
                             </div>
@@ -1578,10 +1582,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
                             </div>
                             <div className={styles.dateAndTimeHolder}>
                               <div className={styles.timeHolder}>
-                                {refundSuccessfulDate}
+                                {refundSuccessfulTime}
                               </div>
                               <div className={styles.dateHolder}>
-                                {refundSuccessfulTime}
+                                {refundSuccessfulDate}
                               </div>
                             </div>
                           </div>
