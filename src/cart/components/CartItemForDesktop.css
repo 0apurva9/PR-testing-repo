@@ -154,6 +154,8 @@
   font-family: light;
   display: inline-block;
   padding-left: 8px;
+  width: calc(100% - 32px);
+  vertical-align: middle;
 }
 .exchangeProductName{
   font-family: regular;
@@ -287,9 +289,9 @@
   line-height: 22px;
 }
 .getNewPrice{
-  padding-top: 8px;
   font-size: 14px;
   color: #ff1744;
   font-family: semibold;
   cursor: pointer;
+  text-align: right;
 }
