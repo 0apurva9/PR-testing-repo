@@ -136,6 +136,10 @@ export const GET_RETURN_REQUEST = "RETURN_REQEUEST";
 export const GET_RETURN_REQUEST_SUCCESS = "GET_RETURN_REQUEST_SUCCESS";
 export const GET_RETURN_REQUEST_FAILURE = "GET_RETURN_REQUEST_FAILURE";
 
+export const GET_CLIQ_CASH_CONFIG_REQUEST = "GET_CLIQ_CASH_CONFIG_REQUEST";
+export const GET_CLIQ_CASH_CONFIG_SUCCESS = "GET_CLIQ_CASH_CONFIG_SUCCESS";
+export const GET_CLIQ_CASH_CONFIG_FAILURE = "GET_CLIQ_CASH_CONFIG_FAILURE";
+
 export const FETCH_ORDER_DETAILS_REQUEST = "FETCH_ORDER_DETAILS_REQUEST";
 export const FETCH_ORDER_DETAILS_SUCCESS = "FETCH_ORDER_DETAILS_SUCCESS";
 export const FETCH_ORDER_DETAILS_FAILURE = "FETCH_ORDER_DETAILS_FAILURE";
@@ -4226,11 +4230,7 @@ export function submitOrderDetails(submitOrderDetails) {
         currentOrderCode,
         currentSubOrderCode;
       if (submitOrderDetails.currentState === 0) {
-        transactionIdWithAttachmentFile = `transactionId=${
-          submitOrderDetails.transactionId
-        }&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${
-          submitOrderDetails.imageURL
-        }`;
+        transactionIdWithAttachmentFile = `transactionId=${submitOrderDetails.transactionId}&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${submitOrderDetails.imageURL}`;
         currentOrderCode = `${submitOrderDetails.orderCode}`;
         currentSubOrderCode = `${submitOrderDetails.subOrderCode}`;
 
@@ -4504,6 +4504,61 @@ export function submitCncToHdDetails(userAddress, transactionId, orderId) {
     }
   };
 }
+
+/**
+ * Cliq Cash configuration API
+ */
+export function getCliqCashPageConfigurationRequest() {
+  return {
+    type: GET_CLIQ_CASH_CONFIG_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getCliqCashPageConfigurationSuccess(cliqCashConfig) {
+  return {
+    type: GET_CLIQ_CASH_CONFIG_SUCCESS,
+    cliqCashConfig,
+    status: SUCCESS
+  };
+}
+
+export function getCliqCashPageConfigurationFailure(error) {
+  return {
+    type: GET_CLIQ_CASH_CONFIG_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+
+export function getCliqCashPageConfiguration(startDate, endDate) {
+  return async (dispatch, getState, { api }) => {
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    dispatch(getCliqCashPageConfigurationRequest());
+
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getCliqCashPageActions?channel=${CHANNEL}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getCliqCashPageConfigurationSuccess(resultJson));
+    } catch (e) {
+      dispatch(getCliqCashPageConfigurationFailure(e.message));
+    }
+  };
+}
+/**
+ * EOC
+ */
 
 export function productRatingByUserRequest() {
   return {
