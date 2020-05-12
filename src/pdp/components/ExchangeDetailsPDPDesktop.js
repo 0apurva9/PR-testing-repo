@@ -31,11 +31,11 @@ export default class ExchangeDetailsPDPDesktop extends React.Component {
               this.props.productData.totalTulBump.formattedValueNoDecimal && (
                 <div className={styles.cliqExclusive}>
                   <span className={styles.cliqExclusiveLogo} />
-                  CLiQ Exclusive - Extra{" "}
+                  CLiQ Exclusive{" "}
                   {
                     this.props.productData.totalTulBump.formattedValueNoDecimal
                   }{" "}
-                  cashback
+                  included in Exchange Cashback
                 </div>
               )}
             <div className={styles.exchangeLogoContainer}>
