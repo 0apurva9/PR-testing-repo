@@ -823,7 +823,10 @@ export default class PdpApparel extends React.Component {
     !this.state.selectedBundledProduct.includes(e.target.value) &&
       this.state.selectedBundledProduct.push(e.target.value);
   }
-  async openExchangeModal(data) {
+  openHowExchangeWorksModal(data) {
+    this.props.showExchangeModal(data);
+  }
+  async openExchangeModal() {
     if (this.props.productDetails) {
       let listingId = this.props.productDetails.productListingId;
       let ussId = this.props.productDetails.winningUssID;
@@ -849,24 +852,13 @@ export default class PdpApparel extends React.Component {
         response.data &&
         response.data.makeModelDetails
       ) {
-        if (data) {
-          //with static data open exchange modal
-          Object.assign(data, {
-            exchangeDetails: this.props.exchangeDetails,
-            productName: productName,
-            listingId: listingId,
-            ussId: ussId
-          });
-          this.props.showExchangeModal(data);
-        } else {
-          //open exchange modal
-          this.props.showExchangeModal({
-            exchangeDetails: this.props.exchangeDetails,
-            productName: productName,
-            listingId: listingId,
-            ussId: ussId
-          });
-        }
+        //open exchange modal
+        this.props.showExchangeModal({
+          exchangeDetails: this.props.exchangeDetails,
+          productName: productName,
+          listingId: listingId,
+          ussId: ussId
+        });
         setDataLayer(
           ADOBE_MDE_CLICK_ON_EXCHANGE_LINK,
           this.props.productDetails.productListingId
@@ -1282,7 +1274,10 @@ export default class PdpApparel extends React.Component {
                   <ExchangeDetailsPDPDesktop
                     productData={productData}
                     exchangeDisabled={exchangeDisabled}
-                    openExchangeModal={data => this.openExchangeModal(data)}
+                    openExchangeModal={() => this.openExchangeModal()}
+                    openHowExchangeWorksModal={data =>
+                      this.openHowExchangeWorksModal(data)
+                    }
                   />
                 </div>
                 {productData.variantOptions && (

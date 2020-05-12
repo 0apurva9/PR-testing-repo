@@ -3,8 +3,11 @@ import styles from "./ExchangeDetailsPDPDesktop.css";
 import exchangeLogoLoader from "./img/exchangeLogoLoader.svg";
 
 export default class ExchangeDetailsPDPDesktop extends React.Component {
-  openExchangeModal(data) {
-    this.props.openExchangeModal(data);
+  openExchangeModal() {
+    this.props.openExchangeModal();
+  }
+  openHowExchangeWorksModal(data) {
+    this.props.openHowExchangeWorksModal(data);
   }
   trimProductName(productName) {
     if (productName.length > 22) {
@@ -96,7 +99,7 @@ export default class ExchangeDetailsPDPDesktop extends React.Component {
                 <div
                   className={styles.exchangeDetails}
                   onClick={() =>
-                    this.openExchangeModal({
+                    this.openHowExchangeWorksModal({
                       openHowExchangeWorksModal: true
                     })
                   }
