@@ -4261,8 +4261,13 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
   return async (dispatch, getState, { api }) => {
     dispatch(getCustomerQueriesFieldsRequestv2());
     try {
-      const result = await api.get(
-        `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
+      // const result = await api.get(
+      //   `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
+      // );
+      // Temporary hitting production api for web form for testing.
+      // need to remove after testing
+      const result = await fetch(
+        `https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
       );
       // ${UItemplateCode}
       const resultJson = await result.json();
