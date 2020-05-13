@@ -3930,11 +3930,140 @@ export function getFAQQuestions() {
     dispatch(getFAQQuestionsRequest());
     try {
       const result = await api.get(`${PATH}/cms/defaultpage?pageId=SS_FAQ`);
-      const resultJson = await result.json();
+      let resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+
+      resultJson = {
+        items: [
+          {
+            cmsParagraphComponent: {
+              content:
+                "Orders.jpg|Orders|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|shopping-faq",
+              type: "CMS Paragraph Component"
+            },
+            componentName: "cmsParagraphComponent"
+          },
+          {
+            cmsParagraphComponent: {
+              content:
+                "Installation.jpg|Installation & Warranty|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|offers-promotion-faq",
+              type: "CMS Paragraph Component"
+            },
+            componentName: "cmsParagraphComponent"
+          },
+          {
+            cmsParagraphComponent: {
+              content:
+                "Invoice.jpg|Invoice|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|payments-faq",
+              type: "CMS Paragraph Component"
+            },
+            componentName: "cmsParagraphComponent"
+          },
+          {
+            cmsParagraphComponent: {
+              content:
+                "Modification.jpg|Order Modification|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|orders-faq",
+              type: "CMS Paragraph Component"
+            },
+            componentName: "cmsParagraphComponent"
+          },
+          {
+            cmsParagraphComponent: {
+              content:
+                "Shopping.jpg|Shopping|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|manage-account",
+              type: "CMS Paragraph Component"
+            },
+            componentName: "cmsParagraphComponent"
+          },
+          {
+            cmsParagraphComponent: {
+              content:
+                "Payments.jpg|Payments|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|shipping-and-delivery",
+              type: "CMS Paragraph Component"
+            },
+            componentName: "cmsParagraphComponent"
+          },
+          {
+            cmsParagraphComponent: {
+              content:
+                "Account.jpg|Manage your Account|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|cancellation-faq",
+              type: "CMS Paragraph Component"
+            },
+            componentName: "cmsParagraphComponent"
+          },
+          {
+            cmsParagraphComponent: {
+              content:
+                "Contact.jpg|Contact Us|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|returns-faq",
+              type: "CMS Paragraph Component"
+            },
+            componentName: "cmsParagraphComponent"
+          },
+          {
+            cmsParagraphComponent: {
+              content:
+                "Invoice1.jpg|Invoice|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|installation-warranty",
+              type: "CMS Paragraph Component"
+            },
+            componentName: "cmsParagraphComponent"
+          },
+          {
+            cmsParagraphComponent: {
+              content:
+                "Modification1.jpg|Order Modification|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|general-questions",
+              type: "CMS Paragraph Component"
+            },
+            componentName: "cmsParagraphComponent"
+          },
+          {
+            cmsParagraphComponent: {
+              content:
+                "Shopping1.jpg|Shopping1|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|installation-warranty",
+              type: "CMS Paragraph Component"
+            },
+            componentName: "cmsParagraphComponent"
+          },
+          {
+            cmsParagraphComponent: {
+              content:
+                "Payments1.jpg|Payments1 |Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|installation-warranty",
+              type: "CMS Paragraph Component"
+            },
+            componentName: "cmsParagraphComponent"
+          },
+          {
+            cmsParagraphComponent: {
+              content:
+                "Account1.jpg|Manage your Account|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|installation-warranty",
+              type: "CMS Paragraph Component"
+            },
+            componentName: "cmsParagraphComponent"
+          },
+          {
+            cmsParagraphComponent: {
+              content:
+                "Contact1.jpg|Contact1 Us|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|installation-warranty",
+              type: "CMS Paragraph Component"
+            },
+            componentName: "cmsParagraphComponent"
+          }
+        ],
+        message: "page_00007BW1",
+        pageName: "Self-Serve FAQ Page",
+        pageType: "faqListComponent",
+        seo: {
+          alternateURL: "",
+          canonicalURL: "",
+          description: "",
+          imageURL: "",
+          keywords: "",
+          title: ""
+        },
+        status: "SUCCESS"
+      };
 
       const formatList = [];
       for (let list of resultJson.items) {

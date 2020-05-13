@@ -9,7 +9,7 @@ import callMeBack from "../components/img/callMeBack.svg";
 import call from "../components/img/call.svg";
 
 const YES = "Yes";
-const IssueContactOptions = props => {
+const MoreHelps = props => {
   return (
     <div className={styles.baseWrapper}>
       <div className={styles.issueOptionsBox}>
@@ -107,4 +107,4 @@ const IssueContactOptions = props => {
   );
 };
 
-export default IssueContactOptions;
+export default MoreHelps;

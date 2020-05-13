@@ -5,9 +5,14 @@ import ssloader from "../components/img/ssloader.svg";
 import ssloaders from "../components/img/ssloaders.svg";
 export default class SSRquest extends Component {
   state = {
-    request: false,
-    success: true
+    request: true,
+    success: false
   };
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ request: false, success: true });
+    }, 2000);
+  }
   render() {
     return (
       <div className={styles.base}>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styles from "./CustomerIssue.css";
 import Accordion from "../../general/components/Accordion";
-import QuestionDetails from "./QuestionDetails";
+import QuestionFeedback from "./QuestionFeedback";
 import { getDayNumberSuffix } from "../../lib/dateTimeFunction";
 import {
   setDataLayer,
@@ -192,12 +192,12 @@ class OrderListDetails extends Component {
               </div>
             )}
 
-            {!this.props.isQuesryForm && showFeedBack && (
-              <QuestionDetails
-                question={question}
+            {this.props.showFeedBack && (
+              <QuestionFeedback
+                question={this.props.question}
                 isAnswerHelpFull={isAnswerHelpFull}
                 answerYes={() => this.answerYes()}
-                issueOptions={question => this.props.issueOptions(question)}
+                moreHelps={() => this.props.moreHelps()}
                 // issueOptions={()=>this.isQuesryFormAction()}
                 showAllQuestion={() => this.showAllQuestion()}
                 nextQuestion={() => this.nextQuestion()}
@@ -210,20 +210,18 @@ class OrderListDetails extends Component {
               />
             )}
 
-            {!this.props.isQuesryForm && !showFeedBack && showQuestionList && (
+            {this.props.showQuestionList && (
               <div className={styles.orderRelatedIssueList}>
-                {this.props.orderRelatedQuestionsData ? (
+                {this.props.questionsList ? (
                   <QuestionList
-                    showQuestionList={this.state.showQuestionList}
+                    // showQuestionList={this.state.showQuestionList}
                     parentIssueType={this.props.parentIssueType}
-                    orderRelatedQuestionsData={
-                      this.props.orderRelatedQuestionsData
-                    }
+                    questionsList={this.props.questionsList}
                     orderRelatedQuestion={this.props.orderRelatedQuestion}
                     otherQuestion={this.props.otherQuestion}
                     FAQquestion={this.props.FAQquestion}
                     selectQuestion={(listOfIssue, index) =>
-                      this.selectQuestion(listOfIssue, index)
+                      this.props.selectQuestion(listOfIssue, index)
                     }
                   />
                 ) : (
@@ -260,7 +258,8 @@ class OrderListDetails extends Component {
                 isIssueOptions
               )
             }
-            selectedQuestion={this.props.selectedQuestion}
+            question={this.props.question}
+            // selectedQuestion={this.props.selectedQuestion}
             questionType={this.props.questionType}
             parentIssueType={this.props.parentIssueType}
             otherQuestion={this.props.otherQuestion}

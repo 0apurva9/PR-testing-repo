@@ -184,16 +184,20 @@
 }
 
 .fileBtn {
-  border: 1px dashed #ff1744;
-  color: #ff1744;
+  border: 1px dashed #da1c5c;
+  color: #da1c5c;
   background-color: white;
-  /* padding: 8px 20px; */
-  border-radius: 8px;
   font-size: 14px;
-  /* font-weight: bold; */
   font-family: semibold;
-  padding: 8px 44px;
-  border-radius: 24px;
+  border-radius: 20px;
+  width: 200px;
+  height: 38px;  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.uploadIcon{
+  margin-right: 20px;
 }
 
 .fileUpload input[type="file"] {

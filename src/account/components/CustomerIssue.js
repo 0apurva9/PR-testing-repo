@@ -6,11 +6,7 @@ import OtherQuestionsList from "./OtherQuestionsList";
 import OrderList from "./OrderList";
 import OrderListDetails from "./OrderListDetails";
 import AllOrdersList from "./AllOrdersList";
-import Accordion from "../../general/components/Accordion";
-
 export default class CustomerIssue extends React.Component {
-  selectOtehrQuestion(selectOtehrQuestion) {}
-
   render() {
     return (
       <div>
@@ -41,7 +37,7 @@ export default class CustomerIssue extends React.Component {
                       <Button
                         type="primary"
                         backgroundColor="#da1c5c"
-                        height={36}
+                        height={40}
                         label="LOGIN"
                         width={205}
                         textStyle={{ color: "#FFF", fontSize: 14 }}
@@ -75,8 +71,13 @@ export default class CustomerIssue extends React.Component {
             {this.props.isOrderDatails && (
               <OrderListDetails
                 selectedOrder={this.props.selectedOrder}
-                issueOptions={question => this.props.issueOptions(question)}
-                orderRelatedQuestionsData={this.props.orderRelatedQuestionsData}
+                moreHelps={() => this.props.moreHelps()}
+                questionsList={this.props.questionsList}
+                selectQuestion={(listOfIssue, index) =>
+                  this.props.selectQuestion(listOfIssue, index)
+                }
+                showFeedBack={this.props.showFeedBack}
+                question={this.props.question}
                 isQuesryForm={this.props.isQuesryForm}
                 getQuestyTesting={() => this.props.getQuestyTesting()}
                 uploadUserFile={(issueType, title, file) =>
@@ -98,13 +99,14 @@ export default class CustomerIssue extends React.Component {
                     isIssueOptions
                   )
                 }
-                selectedQuestion={this.props.selectedQuestion}
+                // selectedQuestion={this.props.selectedQuestion}
                 orderRelatedQuestion={this.props.orderRelatedQuestion}
                 otherQuestion={this.props.otherQuestion}
                 FAQquestion={this.props.FAQquestion}
                 // isOrderRelatedQuestion={this.props.isOrderRelatedQuestion}
                 parentIssueType={this.props.parentIssueType}
                 questionType={this.props.questionType}
+                showQuestionList={this.props.showQuestionList}
               />
             )}
           </div>

@@ -40,7 +40,7 @@
   }
   .tabHolderBox {
     background: #fff;
-    padding: 0px 24px 57px 24px;
+    padding: 0px 24px 11px 24px;
     border-radius: 10px;
   }
   .faqHeader {
@@ -58,19 +58,19 @@
     width: 176px;
   }
   .faqList {
-    position: relative;
+    /* position: relative; */
     /* padding-left: 53px; */
     line-height: 19px;
-    margin-top: 24px;
+    margin-top: 16px;
     cursor: pointer;
   }
   .faqListBox{
     display: flex;
     /* align-items: center; */
-    margin-bottom: 18px;
+    margin-bottom: 24px;
   }
   .faqIcon{
-    padding-right: 27px;
+    padding-right: 20px;
   }
   .recentTicket {
     margin-bottom: 16px;
@@ -80,4 +80,21 @@
     line-height: 19px;
     margin-top: 13px;
   }
+}
+
+.faqIconBox{
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.faqIcon{
+  /* width: 100%;
+    height: 100%;
+    position: absolute; */
+    /* left: 0;
+    top: 0; */
+    /* background-position: center; */
+    /* background-size: 80%; */
+    /* background-repeat: no-repeat; */
 }

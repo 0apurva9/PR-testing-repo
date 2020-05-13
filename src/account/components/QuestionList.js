@@ -21,8 +21,8 @@ export default class QuestionList extends Component {
               )} */}
 
         <ul className={styles.listGroup}>
-          {this.props.orderRelatedQuestionsData &&
-            this.props.orderRelatedQuestionsData.map((listOfIssue, index) => {
+          {this.props.questionsList &&
+            this.props.questionsList.map((listOfIssue, index) => {
               return (
                 <li
                   className={styles.listGroupItem}
@@ -33,7 +33,7 @@ export default class QuestionList extends Component {
                     ? listOfIssue.issueType
                     : null}
                   {this.props.otherQuestion ? listOfIssue.subIssueType : null}
-                  {this.props.FAQquestion ? "faq list" : null}
+                  {this.props.FAQquestion ? listOfIssue.subIssueType : null}
                   {/* {this.props.isOrderRelatedQuestion
                             ? listOfIssue.issueType
                             : listOfIssue.subIssueType} */}

@@ -4,7 +4,7 @@ import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import * as Cookie from "../../lib/Cookie";
 import CustomerIssue from "./CustomerIssue.js";
-import IssueContactOptions from "./IssueContactOptions";
+import MoreHelps from "./MoreHelps";
 import {
   SUCCESS,
   LOGGED_IN_USER_DETAILS,
@@ -14,17 +14,21 @@ import {
   MY_ACCOUNT_PAGE
 } from "../../lib/constants";
 import SSRquest from "../../general/components/SSRequest";
-import AccountIcon from "../components/img/Installation.svg";
-import Shopping from "../components/img/Shopping.svg";
-import Orders from "../components/img/Orders.svg";
-import Manage from "../components/img/Manage.svg";
-import Payments from "../components/img/Payments.svg";
-// import AccountIcon from "../components/img/Installation.svg";
-// import AccountIcon from "../components/img/Installation.svg";
-// import AccountIcon from "../components/img/Installation.svg";
-// import AccountIcon from "../components/img/Installation.svg";
-// import AccountIcon from "../components/img/Installation.svg";
-// import AccountIcon from "../components/img/Installation.svg";
+// import Orders from "../components/img/Orders.svg";
+// import Installation from "../components/img/Installation.svg";
+// import Invoice from "../components/img/Invoice.svg";
+// import Modification from "../components/img/Modification.svg";
+// import Shopping from "../components/img/Shopping.svg";
+// import Payments from "../components/img/Payments.svg";
+// import Account from "../components/img/Account.svg";
+// import Contact from "../components/img/Contact.svg";
+// import Invoice1 from "../components/img/Invoice1.svg";
+// import Modification1 from "../components/img/Modification1.svg";
+// import Shopping1 from "../components/img/Shopping1.svg";
+// import Payments1 from "../components/img/Payments1.svg";
+// import Account1 from "../components/img/Account1.svg";
+// import Contact1 from "../components/img/Contact1.svg";
+// import Shopping1 from "../components/img/Shopping1.svg";
 import Icon from "../../xelpmoc-core/Icon";
 // const DUPLICATE_QUERY =
 //   "Your query is already submitted. Please wait for TATACLiQ representative to contact you.";
@@ -38,7 +42,7 @@ export default class OrderRelatedIssue extends React.Component {
     this.state = {
       isSelected: 0,
       isIssueOptions: false,
-      selectedQuestion: null,
+      // selectedQuestion: null,
       isQuesryForm: false,
       questionList: [],
       // isQuesryForm: true,
@@ -57,8 +61,11 @@ export default class OrderRelatedIssue extends React.Component {
       name: "",
       mobile: "",
       email: "",
-      loaderResponse: false,
-      isUserLogin: false
+      loaderResponse: true,
+      isUserLogin: false,
+      showQuestionList: false,
+      showFeedBack: false,
+      question: null
     };
   }
   tabSelect(val) {
@@ -68,6 +75,7 @@ export default class OrderRelatedIssue extends React.Component {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (userDetails || customerCookie) {
+      this.setState({ isUserLogin: true });
       if (
         this.props.getOrdersTransactionData &&
         !this.props.ordersTransactionData
@@ -120,10 +128,14 @@ export default class OrderRelatedIssue extends React.Component {
   //      this.props.getOrderRelatedQuestions(transactionId);
   // }
 
-  issueOptions(question) {
-    if (this.state.FAQquestion) {
+  moreHelps(question) {
+    if (this.state.isUserLogin) {
+      if (this.state.FAQquestion) {
+      } else {
+        this.setState({ isIssueOptions: true });
+      }
     } else {
-      this.setState({ isIssueOptions: true, selectedQuestion: question });
+      this.navigateLogin();
     }
   }
 
@@ -140,14 +152,66 @@ export default class OrderRelatedIssue extends React.Component {
       if (this.props.getCustomerQueriesFieldsv2) {
         // this.state.selectedQuestion.UItemplateCode,
         const response = await this.props.getCustomerQueriesFieldsv2(
-          this.state.selectedQuestion.UItemplateCode,
+          this.state.question.UItemplateCode,
           isSelecteRadio
         );
         if (response.status == SUCCESS) {
-          this.setState({ isIssueOptions: false, isQuesryForm: true });
+          this.setState({
+            isIssueOptions: false,
+            isQuesryForm: true,
+            showFeedBack: false
+          });
         }
       }
     }
+  }
+
+  async submitCustomerForms(formData) {
+    if (this.props.submitOrderDetails) {
+      let getCustomerQueryDetailsObject = Object.assign(
+        {},
+        {
+          ticketID: null,
+          issue:
+            this.state.questionType == ORDER_REALTED_QUESTION
+              ? this.state.question.issueType
+              : this.state.question.subIssueType,
+          tat: this.state.question.tat,
+          emailId: formData.customerInfo.contactEmail
+        }
+      );
+      // this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+
+      if ((this.state.questionType = NON_ORDER_REALTED_QUESTION)) {
+        getCustomerQueryDetailsObject.issueCategory = this.state.parentIssueType;
+      }
+      console.log("form data", formData);
+      // this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+
+      // this.props.showCustomerQueryModal(getCustomerQueryDetailsObject)
+      // const submitOrderDetailsResponse = await this.props.submitOrderDetails(
+      //   formData
+      // );
+      // if (submitOrderDetailsResponse.status === SUCCESS) {
+      //   getCustomerQueryDetailsObject.ticketID =
+      //     submitOrderDetailsResponse.submitOrder.referenceNum;
+      //   this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+      // }
+    }
+  }
+
+  selectOtehrQuestion(selectOtehrQuestion) {
+    this.setState({
+      isOrderDatails: true,
+      orderList: false,
+      orderRelatedQuestion: false,
+      otherQuestion: true,
+      FAQquestion: false,
+      showQuestionList: true,
+      questionList: selectOtehrQuestion.listofSubIssues,
+      parentIssueType: selectOtehrQuestion.parentIssueType,
+      questionType: NON_ORDER_REALTED_QUESTION
+    });
   }
 
   async getOrderRelatedQuestions(orderData) {
@@ -164,7 +228,7 @@ export default class OrderRelatedIssue extends React.Component {
           orderRelatedQuestion: true,
           otherQuestion: false,
           FAQquestion: false,
-
+          showQuestionList: true,
           questionList: response.orderRelatedQuestions.listOfIssues,
           parentIssueType: null,
           questionType: ORDER_REALTED_QUESTION
@@ -173,50 +237,36 @@ export default class OrderRelatedIssue extends React.Component {
     }
   }
 
-  async submitCustomerForms(formData) {
-    if (this.props.submitOrderDetails) {
-      let getCustomerQueryDetailsObject = Object.assign(
-        {},
-        {
-          ticketID: null,
-          issue:
-            this.state.questionType == ORDER_REALTED_QUESTION
-              ? this.state.selectedQuestion.issueType
-              : this.state.selectedQuestion.subIssueType,
-          tat: this.state.selectedQuestion.tat,
-          emailId: formData.customerInfo.contactEmail
-        }
-      );
-      // this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
-
-      if ((this.state.questionType = NON_ORDER_REALTED_QUESTION)) {
-        getCustomerQueryDetailsObject.issueCategory = this.state.parentIssueType;
-      }
-      // this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
-
-      // this.props.showCustomerQueryModal(getCustomerQueryDetailsObject)
-      const submitOrderDetailsResponse = await this.props.submitOrderDetails(
-        formData
-      );
-      if (submitOrderDetailsResponse.status === SUCCESS) {
-        getCustomerQueryDetailsObject.ticketID =
-          submitOrderDetailsResponse.submitOrder.referenceNum;
-        this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
-      }
-    }
-  }
-
-  selectOtehrQuestion(selectOtehrQuestion) {
+  getFAQQuestionSelect(faq) {
     this.setState({
       isOrderDatails: true,
       orderList: false,
       orderRelatedQuestion: false,
-      otherQuestion: true,
-      FAQquestion: false,
+      otherQuestion: false,
+      FAQquestion: true,
+      showQuestionList: true,
+      questionList: this.props.customerQueriesOtherIssueData.parentIssueList[1]
+        .listofSubIssues,
+      parentIssueType: null,
+      questionType: NON_ORDER_REALTED_QUESTION,
+      showFeedBack: false
 
-      questionList: selectOtehrQuestion.listofSubIssues,
-      parentIssueType: selectOtehrQuestion.parentIssueType,
-      questionType: NON_ORDER_REALTED_QUESTION
+      // isOrderDatails: true,
+      // orderList: false,
+      // orderRelatedQuestion: false,
+      // otherQuestion: true,
+      // FAQquestion: true,
+      // questionList: this.props.customerQueriesOtherIssueData.parentIssueList[1]
+      //   .listofSubIssues,
+      // parentIssueType: null
+    });
+  }
+
+  selectQuestion(question, index) {
+    this.setState({
+      question: question,
+      showQuestionList: false,
+      showFeedBack: true
     });
   }
 
@@ -226,6 +276,7 @@ export default class OrderRelatedIssue extends React.Component {
   hideAllOrder() {
     this.setState({ orderAllList: false });
   }
+
   navigateLogin() {
     const url = this.props.location.pathname;
     if (url === `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`) {
@@ -245,18 +296,6 @@ export default class OrderRelatedIssue extends React.Component {
     ) {
       this.props.getOrdersTransactionData(true);
     }
-  }
-  faqQuestionSelect(faq) {
-    this.setState({
-      isOrderDatails: true,
-      orderList: false,
-      orderRelatedQuestion: false,
-      otherQuestion: true,
-      FAQquestion: true,
-      questionList: this.props.customerQueriesOtherIssueData.parentIssueList[1]
-        .listofSubIssues,
-      parentIssueType: null
-    });
   }
 
   render() {
@@ -288,15 +327,14 @@ export default class OrderRelatedIssue extends React.Component {
       loadingForUserDetails ||
       orderRelatedIssueLoading ||
       customerQueriesLoading ||
-      uploadUserFileLoading ||
-      submitOrderDetailsLoading
+      uploadUserFileLoading
     ) {
       this.props.showSecondaryLoader();
     } else {
       this.props.hideSecondaryLoader();
     }
 
-    if (this.state.loaderResponse) {
+    if (this.props.submitOrderDetailsLoading) {
       return <SSRquest></SSRquest>;
     } else {
       return (
@@ -306,9 +344,9 @@ export default class OrderRelatedIssue extends React.Component {
           </MobileOnly>
           <DesktopOnly>
             {this.state.isIssueOptions ? (
-              <IssueContactOptions
+              <MoreHelps
                 getCustomerQueriesFields={() => this.getCustomerQueriesFields()}
-                selectedOrder={this.state.selectedQuestion}
+                selectedOrder={this.state.question}
               />
             ) : (
               <div className={styles.baseWrapper}>
@@ -344,11 +382,17 @@ export default class OrderRelatedIssue extends React.Component {
                               <div
                                 className={styles.faqListBox}
                                 onClick={() => {
-                                  this.faqQuestionSelect(faq);
+                                  this.getFAQQuestionSelect(faq);
                                 }}
                               >
                                 <div className={styles.faqIcon}>
-                                  <Icon image={AccountIcon}></Icon>
+                                  <Icon
+                                    image={`${require("../components/img/" +
+                                      faq.image.split(".")[0] +
+                                      ".svg")}`}
+                                    width={33}
+                                    height={33}
+                                  ></Icon>
                                 </div>
                                 <div className={styles.faqHederBox}>
                                   <div className={styles.faqHeader}>
@@ -373,9 +417,14 @@ export default class OrderRelatedIssue extends React.Component {
                       selectedOrder={this.state.selectedOrder}
                       orderList={this.state.orderList}
                       isOrderDatails={this.state.isOrderDatails}
-                      issueOptions={question => this.issueOptions(question)}
+                      moreHelps={() => this.moreHelps()}
                       ordersTransactionData={ordersTransactionData}
-                      orderRelatedQuestionsData={this.state.questionList}
+                      questionsList={this.state.questionList}
+                      selectQuestion={(listOfIssue, index) =>
+                        this.selectQuestion(listOfIssue, index)
+                      }
+                      showFeedBack={this.state.showFeedBack}
+                      question={this.state.question}
                       getOrderRelatedQuestions={selcetOrder =>
                         this.getOrderRelatedQuestions(selcetOrder)
                       }
@@ -404,7 +453,7 @@ export default class OrderRelatedIssue extends React.Component {
                           isIssueOptions
                         )
                       }
-                      selectedQuestion={this.state.selectedQuestion}
+                      // selectedQuestion={this.state.selectedQuestion}
                       orderRelatedQuestion={this.state.orderRelatedQuestion}
                       otherQuestion={this.state.otherQuestion}
                       FAQquestion={this.state.FAQquestion}
@@ -419,6 +468,7 @@ export default class OrderRelatedIssue extends React.Component {
                       isUserLogin={isUserLogin}
                       navigateLogin={() => this.navigateLogin()}
                       getMoreOrder={() => this.getMoreOrder()}
+                      showQuestionList={this.state.showQuestionList}
                     />
                   </div>
                 </div>

@@ -11,7 +11,7 @@ import {
 
 import styles from "./CustomerQueryForm.css";
 import Button from "../../general/components/Button.js";
-import UploadIcon from "../components/img/Upload.svg";
+import download from "../components/img/download.svg";
 import cancelred from "../components/img/cancelred.svg";
 import { SUCCESS } from "../../lib/constants";
 const BASIC_FORM = "bacisform";
@@ -431,15 +431,15 @@ export default class CustomerQueryForm extends Component {
         let ticketInfo = Object.assign(
           {},
           {
-            subIssueType: this.props.selectedQuestion.subIssueType
-              ? this.props.selectedQuestion.subIssueType
+            subIssueType: this.props.question.subIssueType
+              ? this.props.question.subIssueType
               : "",
-            l0: this.props.selectedQuestion.l0,
-            l1: this.props.selectedQuestion.l1,
-            l2: this.props.selectedQuestion.l2,
-            l3: this.props.selectedQuestion.l3,
-            l4: this.props.selectedQuestion.l4,
-            ticketType: this.props.selectedQuestion.ticketType,
+            l0: this.props.question.l0,
+            l1: this.props.question.l1,
+            l2: this.props.question.l2,
+            l3: this.props.question.l3,
+            l4: this.props.question.l4,
+            ticketType: this.props.question.ticketType,
             transactionId:
               this.props.selectedOrder &&
               this.props.selectedOrder.products &&
@@ -608,7 +608,7 @@ export default class CustomerQueryForm extends Component {
                   </div>
                 </div>
                 <div className={styles.subIssueType}>
-                  {this.props.selectedQuestion.subIssueType}
+                  {this.props.question.subIssueType}
                 </div>
               </div>
             )}
@@ -639,7 +639,13 @@ export default class CustomerQueryForm extends Component {
               <div className={styles.fileUpload}>
                 <button className={styles.fileBtn}>
                   {" "}
-                  <img src={UploadIcon} alt="Upload"></img> Upload Image
+                  <div className={styles.uploadIcon}>
+                    <Icon image={download} width={14} height={16}></Icon>
+                  </div>
+                  <div className={styles.btnTxt}>
+                    {" "}
+                    <span>Upload Image</span>
+                  </div>
                 </button>
                 <input
                   type="file"
@@ -650,7 +656,10 @@ export default class CustomerQueryForm extends Component {
                   multiple
                 />
                 <div className={styles.fileSize}>
-                  Upload JPEG, PNG (Maximum size per image 2.5 MB)
+                  {`Upload JPEG, PNG (Maximum size per image ${this.state
+                    .attachementData &&
+                    this.state.attachementData.maxFileSize /
+                      this.state.attachementData.maxFileLimit} MB)`}
                 </div>
               </div>
             </div>

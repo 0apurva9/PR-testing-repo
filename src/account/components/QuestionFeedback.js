@@ -5,7 +5,7 @@ import likeIcon from "../components/img/like.png";
 import styles from "./CustomerIssue.css";
 import { ORDER_CODE } from "../../lib/constants";
 
-export default class QuestionSetails extends Component {
+export default class QuestionFeedback extends Component {
   constructor(props) {
     super(props);
   }
@@ -105,7 +105,7 @@ export default class QuestionSetails extends Component {
                 // color="#da1c5c"
                 borderRadius="20px"
                 textStyle={{ color: "#da1c5c", fontSize: 14 }}
-                onClick={() => this.props.issueOptions(this.props.question)}
+                onClick={() => this.props.moreHelps()}
               />
             </div>
           )}
