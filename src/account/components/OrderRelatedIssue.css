@@ -429,7 +429,7 @@
   margin-bottom: 4px;
 }
 .fieldLabelTxt {
-  font-size: 11px;
+  font-size: 12px;
   color: #212121;
   font-family: regular;
   margin-bottom: 4px;
@@ -439,6 +439,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 7px;
 }
 .maxLimitBox {
   font-size: 13px;
