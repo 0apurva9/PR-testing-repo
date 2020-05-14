@@ -203,6 +203,9 @@ const NUMBER_RESULTS = [5, 5];
 export const PDP_MANUFACTURER_REQUEST = "PDP_MANUFACTURER_REQUEST";
 export const PDP_MANUFACTURER_SUCCESS = "PDP_MANUFACTURER_SUCCESS";
 export const PDP_MANUFACTURER_FAILURE = "PDP_MANUFACTURER_FAILURE";
+export const PDP_RECENTLY_VIEWED_REQUEST = "PDP_RECENTLY_VIEWED_REQUEST";
+export const PDP_RECENTLY_VIEWED_SUCCESS = "PDP_RECENTLY_VIEWED_SUCCESS";
+export const PDP_RECENTLY_VIEWED_FAILURE = "PDP_RECENTLY_VIEWED_FAILURE";
 
 export function getProductDescriptionRequest() {
   return {
@@ -1102,6 +1105,85 @@ export function getMsdRequest(
       }
     } catch (e) {
       dispatch(productMsdFailure(e.message));
+    }
+  };
+}
+export function productMsdRecentlyViewedRequest() {
+  return {
+    type: PDP_RECENTLY_VIEWED_REQUEST,
+    status: REQUESTING
+  };
+}
+export function productMsdRecentlyViewedFailure(error) {
+  return {
+    type: PDP_RECENTLY_VIEWED_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function productMsdRecentlyViewedSuccess(recentlyViewedProduct) {
+  return {
+    type: PDP_RECENTLY_VIEWED_SUCCESS,
+    status: SUCCESS,
+    recentlyViewedProduct
+  };
+}
+export function getRecentlyViewedProduct(productCode) {
+  return async (dispatch, getState, { api }) => {
+    let msdRequestObject = new FormData();
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    if (userDetails) {
+      userDetails = JSON.parse(userDetails);
+    }
+    if (userDetails && userDetails.customerId) {
+      msdRequestObject.append("user_id", userDetails.customerId);
+    }
+    msdRequestObject.append("api_key", API_KEY);
+    if (process.env.REACT_APP_STAGE === "qa2") {
+      msdRequestObject.append("mad_uuid", QA2_MCV_ID);
+    } else {
+      const mcvId = await getMcvId();
+      msdRequestObject.append("mad_uuid", mcvId);
+    }
+    msdRequestObject.append("widget_list", [7]);
+    msdRequestObject.append("num_results", [10]);
+    msdRequestObject.append("details", false);
+    dispatch(productMsdRecentlyViewedRequest());
+    try {
+      const result = await api.postMsd(
+        `${API_MSD_URL_ROOT}/${MSD_REQUEST_PATH}`,
+        msdRequestObject
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      let finalProductDetails = null;
+      if (
+        resultJson &&
+        resultJson.data &&
+        resultJson.data[0] &&
+        resultJson.data[0].length > 0
+      ) {
+        let productCode =
+          resultJson.data[0] && resultJson.data[0].map(value => value);
+        productCode = productCode && productCode.toString();
+        const getProductdetails = await api.getMiddlewareUrl(
+          `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
+        );
+        finalProductDetails = await getProductdetails.json();
+      }
+
+      dispatch(
+        productMsdRecentlyViewedSuccess(
+          finalProductDetails && finalProductDetails.results
+        )
+      );
+    } catch (e) {
+      dispatch(productMsdRecentlyViewedFailure(e.message));
     }
   };
 }

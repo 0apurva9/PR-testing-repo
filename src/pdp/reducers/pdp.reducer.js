@@ -20,6 +20,7 @@ const productDescription = (
     error: null,
     loading: false,
     aboutTheBrand: null,
+    recentlyViewedProduct: null,
     productDetails: null,
     isServiceableToPincode: null,
     sizeGuide: {
@@ -954,6 +955,22 @@ const productDescription = (
       return Object.assign({}, state, {
         relevantBundleProductCodeStatus: action.status,
         relevantBundleProductCodeData: action.error
+      });
+    case pdpActions.PDP_RECENTLY_VIEWED_REQUEST:
+      return Object.assign({}, state, {
+        status: action.status
+      });
+    case pdpActions.PDP_RECENTLY_VIEWED_FAILURE:
+      return Object.assign({}, state, {
+        status: action.status,
+        recentlyViewedProduct: null,
+        loading: false
+      });
+    case pdpActions.PDP_RECENTLY_VIEWED_SUCCESS:
+      return Object.assign({}, state, {
+        status: action.status,
+        recentlyViewedProduct: action.recentlyViewedProduct,
+        loading: false
       });
 
     default:
