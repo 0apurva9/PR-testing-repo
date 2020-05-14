@@ -45,24 +45,24 @@ export default class CustomerQueryPopUp extends React.Component {
         return "" + date + "th " + monthNames[month] + " " + year;
     }
   }
-  hoursToMeridiem = (hour, minute) => {
-    //const min = minute === 0 ? "00" : minute.toString();
-    if (minute !== 0) {
-      hour += 1;
-    }
-    if (hour > 12) {
-      return `${hour - 12}:00 PM`;
-    }
-    if (hour === 0) {
-      return `${12}:00 AM`;
-    }
-    if (hour === 12) {
-      return `${12}:00 PM`;
-    }
-    if (hour < 12) {
-      return `${hour}:00 AM`;
-    }
-  };
+  // hoursToMeridiem = (hour, minute) => {
+  //   //const min = minute === 0 ? "00" : minute.toString();
+  //   if (minute !== 0) {
+  //     hour += 1;
+  //   }
+  //   if (hour > 12) {
+  //     return `${hour - 12}:00 PM`;
+  //   }
+  //   if (hour === 0) {
+  //     return `${12}:00 AM`;
+  //   }
+  //   if (hour === 12) {
+  //     return `${12}:00 PM`;
+  //   }
+  //   if (hour < 12) {
+  //     return `${hour}:00 AM`;
+  //   }
+  // };
 
   submit() {
     this.clickedOnSubmitButton = true;
@@ -81,10 +81,11 @@ export default class CustomerQueryPopUp extends React.Component {
     let displayDate = this.getDayNumberSuffix(
       queryDate.setDate(today.getDate() + extraDays)
     );
-    let displayTime = this.hoursToMeridiem(
-      queryDate.getHours(),
-      queryDate.getMinutes()
-    );
+    // Hiding time as per SSQ-114
+    // let displayTime = this.hoursToMeridiem(
+    //   queryDate.getHours(),
+    //   queryDate.getMinutes()
+    // );
 
     return (
       <div className={styles.base}>
@@ -95,11 +96,8 @@ export default class CustomerQueryPopUp extends React.Component {
           </div>
         </div>
         <div className={(styles.subText, styles.blackBorderBottom)}>
-          We have noted your concern and will update you before{" "}
-          <div className={styles.colorRed}>
-            {" "}
-            {`${displayTime}, ${displayDate}`}
-          </div>
+          We have noted your concern and will update you by{" "}
+          <div className={styles.colorRed}> {`${displayDate}`}</div>
         </div>
         <div className={styles.userDetails}>
           {/* <div className={styles.userDetailsHeaderWithText}>
