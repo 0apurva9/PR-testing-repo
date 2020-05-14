@@ -145,23 +145,11 @@ export default class ExchangeModeSelection extends React.Component {
       orderId,
       cashbackDetails
     );
-    let placeHolder = "";
     if (
       response &&
       response.status &&
       response.status.toLowerCase() === "success"
     ) {
-      if (cashbackDetails.exchangePaymentMode === "CLIQ_CASH") {
-        placeHolder = "CLiQ Cash wallet";
-      }
-      if (cashbackDetails.exchangePaymentMode === "BANK_ACCOUNT") {
-        placeHolder = "Bank Account";
-      }
-      let message =
-        "You will receive Exchange Cashback in your " +
-        placeHolder +
-        " within 48 hours, post old phone pickup. This Cashback mode will be used for future Exchange Cashback processing.";
-      this.props.displayToast(message);
       this.props.history.push(`/my-account/orders`);
     }
     if (
@@ -335,6 +323,27 @@ export default class ExchangeModeSelection extends React.Component {
                         ADD BANK DETAILS
                       </div>
                     )}
+                  <div className={styles.detailsContainer}>
+                    <ul>
+                      <li>
+                        You will receive Exchange Cashback in selected mode
+                        within 48hours, post old phone pick up.
+                      </li>
+                      <li>
+                        If you have selected a Bank Account, then this Bank
+                        Account would be used for future cashback and refund
+                        processing.
+                      </li>
+                      <li>
+                        If you have selected CLiQ Cash, then this CLiQ Cash
+                        wallet would be used for future Exchange Cashback.
+                      </li>
+                      <li>
+                        You can also change Exchange Cashback mode later from
+                        Order Details Page.
+                      </li>
+                    </ul>
+                  </div>
                 </React.Fragment>
               ) : (
                 <LoaderForComponent />
