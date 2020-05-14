@@ -35,7 +35,7 @@ import { setBagCount } from "../../general/header.actions";
 import { setDataLayer, ADOBE_PDP_TYPE } from "../../lib/adobeUtils.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { isBrowser } from "browser-or-node";
-
+import { getCartCountForLoggedInUser } from "../../cart/actions/cart.actions.js";
 // import test from "../../mock/test.json";
 // import ed from "../../mock/exchangeDetails.json";
 // import pincodeResponse from "../../mock/pincodeResponse.json";
@@ -531,19 +531,35 @@ export function addProductToCart(productDetails) {
   return async (dispatch, getState, { api }) => {
     //get verify imei api response,check exchange avail or not,get product already in cart
     let IMEIApiResponse = productDetails.verifyIMEINumberAPIResponse;
-    //get ussid in cart
-    let cartBagDetails = localStorage.getItem("cartBagDetails");
-    let existingProductData = cartBagDetails && JSON.parse(cartBagDetails);
-    //if product already in cart show modal
-    if (
-      existingProductData &&
-      existingProductData.includes(productDetails.ussId)
-    ) {
-      dispatch(
-        showModal(PRODUCT_IN_BAG_MODAL, {
-          isWithExchange: productDetails.isFromMobileExchange
-        })
-      );
+    let disableNext = false;
+    await dispatch(getCartCountForLoggedInUser()).then(data => {
+      if (data && data.status === "success" && data.cartDetails.products) {
+        let isProductInCart = data.cartDetails.products.find(val => {
+          return val.USSID === productDetails.ussId;
+        });
+        if (
+          isProductInCart &&
+          isProductInCart.exchangeDetails &&
+          productDetails.isFromMobileExchange
+        ) {
+          dispatch(
+            showModal(PRODUCT_IN_BAG_MODAL, {
+              isWithExchange: true
+            })
+          );
+          disableNext = true;
+        }
+        if (
+          isProductInCart &&
+          !isProductInCart.exchangeDetails &&
+          !productDetails.isFromMobileExchange
+        ) {
+          dispatch(showModal(PRODUCT_IN_BAG_MODAL));
+          disableNext = true;
+        }
+      }
+    });
+    if (disableNext) {
       return false;
     }
     dispatch(addProductToCartRequest());
@@ -604,7 +620,8 @@ export function addProductToCart(productDetails) {
       if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === "EX05" ||
-          resultJson.errorCode === "NU011"
+          resultJson.errorCode === "NU011" ||
+          resultJson.errorCode === "EX06"
         ) {
           dispatch(displayToast(resultJson.error));
         }

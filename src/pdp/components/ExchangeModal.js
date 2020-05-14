@@ -212,7 +212,7 @@ export default class ExchangeModal extends React.Component {
       });
     }
 
-    if (e.target.value.length === 15 || e.target.value.length === 16) {
+    if (e.target.value.length >= 13 && e.target.value.length <= 16) {
       if (deviceNo === 1) {
         this.setState({
           enableVerifyButtonFirstDevice: true,
