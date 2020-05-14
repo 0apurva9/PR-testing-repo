@@ -1285,6 +1285,10 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
                   ? "On Offer"
                   : "";
   let productCategoryId = pdpResponse && pdpResponse.categoryHierarchy;
+  let APlusTamplete =
+    pdpResponse &&
+    pdpResponse.APlusContent &&
+    pdpResponse.APlusContent.temlateName;
   const data = {
     cpj: {
       product: {
@@ -1304,7 +1308,8 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
       category: {
         primaryCategory: "product"
       }
-    }
+    },
+    video: APlusTamplete ? APlusTamplete : ""
   };
   const subCategories = getSubCategories(pdpResponse);
   if (subCategories) {
