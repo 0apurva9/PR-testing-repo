@@ -123,7 +123,9 @@ export default class CustomerCareOrderRelated extends React.Component {
           : "",
         name:
           nextProps.userDetails.firstName || nextProps.userDetails.lastName
-            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
+            ? `${nextProps.userDetails.firstName} ${
+                nextProps.userDetails.lastName
+              }`
             : "",
         mobile: nextProps.userDetails.mobileNumber
           ? nextProps.userDetails.mobileNumber
@@ -572,7 +574,9 @@ export default class CustomerCareOrderRelated extends React.Component {
           0,
           div.firstChild.href.indexOf(`{`)
         );
-        newURL = `${newURL}${this.props.orderCode}&transactionId=${this.props.transactionId}`;
+        newURL = `${newURL}${this.props.orderCode}&transactionId=${
+          this.props.transactionId
+        }`;
         div.firstChild.setAttribute("href", newURL);
         newSolution = `${newSolution.slice(0, startIndex)}${
           div.firstChild.outerHTML
@@ -648,64 +652,67 @@ export default class CustomerCareOrderRelated extends React.Component {
           )}
 
           <div className={styles.queryFieldBox}>
-            {transactionId && l1OptionsArray && (
-              <div className={styles.formBox}>
-                <div className={styles.formWidth}>
-                  <div className={styles.secondOrder}>
-                    <CheckOutHeader
-                      indexNumber={isSelected === 0 ? "2" : "1"}
-                      confirmTitle="Select issue"
-                      fontSize={"14px"}
-                    />
-                  </div>
-                  {/* <div className={styles.noQuestion}>No questions</div> */}
-                  <div
-                    className={[styles.selectIssue, styles.paddingBottom].join(
-                      " "
-                    )}
-                  >
-                    <div className={styles.issueHeadingBox}>
-                      What is the issue?
+            {transactionId &&
+              l1OptionsArray && (
+                <div className={styles.formBox}>
+                  <div className={styles.formWidth}>
+                    <div className={styles.secondOrder}>
+                      <CheckOutHeader
+                        indexNumber={isSelected === 0 ? "2" : "1"}
+                        confirmTitle="Select issue"
+                        fontSize={"14px"}
+                      />
                     </div>
-                    <SelectBoxMobile2
-                      placeholder="Select issue"
-                      label={parentIssueLabel}
-                      arrowColour="black"
-                      height={33}
-                      extraVisibleBoxCss={true}
-                      options={
-                        l1OptionsArray &&
-                        l1OptionsArray.map((val, i) => {
-                          return {
-                            value: val.uItemplateCode,
-                            label: val.issueType
-                          };
-                        })
-                      }
-                      onChange={val =>
-                        this.onChangeReasonForOrderRelated(
-                          val,
-                          customerQueriesFieldArray
-                        )
-                      }
-                    />
-                  </div>
-                  {selectedObj && selectedObj[0].webform === "No" && (
+                    {/* <div className={styles.noQuestion}>No questions</div> */}
                     <div
-                      className={styles.solution}
-                      dangerouslySetInnerHTML={{
-                        __html: newSolution
-                      }}
-                    ></div>
-                  )}
-                  {selectedObj &&
-                  selectedObj[0].webform === "Yes" &&
-                  webFormStatus
-                    ? this.formField()
-                    : null}
+                      className={[
+                        styles.selectIssue,
+                        styles.paddingBottom
+                      ].join(" ")}
+                    >
+                      <div className={styles.issueHeadingBox}>
+                        What is the issue?
+                      </div>
+                      <SelectBoxMobile2
+                        placeholder="Select issue"
+                        label={parentIssueLabel}
+                        arrowColour="black"
+                        height={33}
+                        extraVisibleBoxCss={true}
+                        options={
+                          l1OptionsArray &&
+                          l1OptionsArray.map((val, i) => {
+                            return {
+                              value: val.uItemplateCode,
+                              label: val.issueType
+                            };
+                          })
+                        }
+                        onChange={val =>
+                          this.onChangeReasonForOrderRelated(
+                            val,
+                            customerQueriesFieldArray
+                          )
+                        }
+                      />
+                    </div>
+                    {selectedObj &&
+                      selectedObj[0].webform === "No" && (
+                        <div
+                          className={styles.solution}
+                          dangerouslySetInnerHTML={{
+                            __html: newSolution
+                          }}
+                        />
+                      )}
+                    {selectedObj &&
+                    selectedObj[0].webform === "Yes" &&
+                    webFormStatus
+                      ? this.formField()
+                      : null}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
             {isSelected == 1 && (
               <div className={styles.formBox}>
                 <div className={styles.formWidth}>
@@ -759,7 +766,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                         label={childIssueLabel}
                         arrowColour="black"
                         height={33}
-                        // extraVisibleBoxCss={true}
+                        extraVisibleBoxCss={true}
                         options={
                           subIssueList &&
                           subIssueList.map((val, i) => {
@@ -779,14 +786,15 @@ export default class CustomerCareOrderRelated extends React.Component {
                     </div>
                   )}
 
-                  {selectedObj && selectedObj[0].webform === "No" && (
-                    <div
-                      className={styles.solution}
-                      dangerouslySetInnerHTML={{
-                        __html: newSolution
-                      }}
-                    ></div>
-                  )}
+                  {selectedObj &&
+                    selectedObj[0].webform === "No" && (
+                      <div
+                        className={styles.solution}
+                        dangerouslySetInnerHTML={{
+                          __html: newSolution
+                        }}
+                      />
+                    )}
                   {selectedObj &&
                   selectedObj[0].webform === "Yes" &&
                   webFormStatus
@@ -868,11 +876,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                             className={styles.deleteBOx}
                             onClick={() => this.deleteFile(index)}
                           >
-                            <Icon
-                              image={deleteIcon}
-                              width={18}
-                              height={18}
-                            ></Icon>
+                            <Icon image={deleteIcon} width={18} height={18} />
                           </div>
                           <div className={styles.typeOfFileBox}>
                             <div className={styles.typeOfFile}>
@@ -880,7 +884,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                                 image={fileType}
                                 width={width}
                                 height={height}
-                              ></Icon>
+                              />
                             </div>
                             <div className={styles.fileNames}>{files.name}</div>
                           </div>
@@ -901,8 +905,8 @@ export default class CustomerCareOrderRelated extends React.Component {
                         isSelected === 0 && this.state.attachment
                           ? "4"
                           : isSelected === 1 && !this.state.attachment
-                          ? "2"
-                          : "3"
+                            ? "2"
+                            : "3"
                       }
                       confirmTitle="Communication Details"
                       fontSize={"14px"}
