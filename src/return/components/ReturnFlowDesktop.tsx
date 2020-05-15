@@ -39,7 +39,7 @@ import {
 import {
 	setDataLayer,
 	ADOBE_SAVE_BANKDETAILS_BUTTON_CLICKED
-  } from "../../lib/adobeUtils";
+} from "../../lib/adobeUtils";
 import RefundTransactionSummary from '../../account/components/RefundTransactionSummary.js';
 //import ReturnBankFormForDesktop from './ReturnBankFormForDesktop';
 //import ReturnAndOrderCancelWrapper from './ReturnAndOrderCancelWrapper';
@@ -102,8 +102,23 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 		this.setState({ bankDetail: data });
 	};
 	clearForm() {
-		this.setState({ bankDetail: {} });
+		this.setState({
+			bankDetail: {
+				IFSCCode: "",
+				accountHolderName: "",
+				accountNumber: "",
+				bankName: "",
+				customerName: "",
+				exchangePaymentMode: this.state.bankDetail.exchangePaymentMode ? this.state.bankDetail.exchangePaymentMode : "",
+				fromPage: this.state.bankDetail.fromPage ? this.state.bankDetail.fromPage : "",
+				fromPageURL: this.state.bankDetail.fromPageURL ? this.state.bankDetail.fromPageURL : "",
+				ifscCode: "",
+				reEnterAccountNumber: "",
+				title: ""
+			}
+		});
 	}
+
 	handleContinueForReason = (returnSelectedReason: IReturnSelectedReason) => {
 		if (!returnSelectedReason.reason) {
 			this.props.displayToast('Please select reason ');
@@ -174,6 +189,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			delete bankData.status;
 			delete bankData.customerName;
 			delete bankData.reEnterAccountNumber;
+
 			setDataLayer(ADOBE_SAVE_BANKDETAILS_BUTTON_CLICKED);
 			if (this.state.bankDetail.fromPage === "ExchangeModeSelection") {
 				this.props.history.push({
