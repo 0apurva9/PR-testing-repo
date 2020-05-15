@@ -307,22 +307,21 @@ export default class OrderRelatedIssue extends React.Component {
       if (this.state.isSelected == 1) {
         getCustomerQueryDetailsObject.issueCategory = this.state.parentIssueLabel;
       }
-      this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
-      // const submitOrderDetailsResponse = await this.props.submitOrderDetails(
-      //   formData
-      // );
-      // if (submitOrderDetailsResponse.status === SUCCESS) {
-      //   if (
-      //     submitOrderDetailsResponse.submitOrder &&
-      //     submitOrderDetailsResponse.submitOrder.referenceNum !== "duplicate"
-      //   ) {
-      //     getCustomerQueryDetailsObject.ticketID =
-      //       submitOrderDetailsResponse.submitOrder.referenceNum;
-      //     this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
-      //   } else {
-      //     this.props.displayToast(DUPLICATE_QUERY);
-      //   }
-      // }
+      const submitOrderDetailsResponse = await this.props.submitOrderDetails(
+        formData
+      );
+      if (submitOrderDetailsResponse.status === SUCCESS) {
+        if (
+          submitOrderDetailsResponse.submitOrder &&
+          submitOrderDetailsResponse.submitOrder.referenceNum !== "duplicate"
+        ) {
+          getCustomerQueryDetailsObject.ticketID =
+            submitOrderDetailsResponse.submitOrder.referenceNum;
+          this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+        } else {
+          this.props.displayToast(DUPLICATE_QUERY);
+        }
+      }
     }
   }
   async submitCustomerForm(formData) {
