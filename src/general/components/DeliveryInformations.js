@@ -113,34 +113,7 @@ export default class DeliveryInformations extends React.Component {
       "Nov",
       "Dec"
     ];
-    if (this.props.pdpApparel) {
-      dateObj.setDate(0);
-      let prevMonth = dateObj.getMonth() + 1;
-      let prevMonthText = "";
 
-      if (fromDate <= 0) {
-        fromDate = dateObj.getDate() - fromDate * -1;
-        prevMonthText = monthNames[prevMonth - 1];
-      }
-      switch (fromDate) {
-        case 1:
-        case 21:
-        case 31:
-          fromDateText = "" + fromDate + "st " + prevMonthText + " and ";
-          break;
-        case 2:
-        case 22:
-          fromDateText = "" + fromDate + "nd " + prevMonthText + " and ";
-          break;
-        case 3:
-        case 23:
-          fromDateText = "" + fromDate + "rd " + prevMonthText + " and ";
-          break;
-        default:
-          fromDateText = "" + fromDate + "th " + prevMonthText + " and ";
-          break;
-      }
-    }
     switch (date) {
       case 1:
       case 21:
