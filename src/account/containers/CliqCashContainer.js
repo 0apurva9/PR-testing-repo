@@ -3,7 +3,8 @@ import {
   getCliqCashDetails,
   redeemCliqVoucher,
   getTransactionDetails,
-  clearTransaction
+  clearTransaction,
+  getCliqCashPageConfiguration
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import { setHeaderText } from "../../general/header.actions";
@@ -72,6 +73,9 @@ const mapDispatchToProps = dispatch => {
     },
     cliqCashKnowMore: data => {
       dispatch(showModal(CLIQ_CASH_KNOW_MORE, data));
+    },
+    getCliqCashPageConfiguration: () => {
+      dispatch(getCliqCashPageConfiguration());
     }
   };
 };
@@ -88,7 +92,8 @@ const mapStateToProps = state => {
     transactionDetailsStatus: state.profile.transactionDetailsStatus,
     transactionDetailsError: state.profile.transactionDetailsError,
     loading: state.profile.loading,
-    userAddress: state.profile.userAddress
+    userAddress: state.profile.userAddress,
+    cliqCashConfig: state.profile.cliqCashConfig
   };
 };
 

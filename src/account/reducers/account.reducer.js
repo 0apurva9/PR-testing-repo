@@ -40,6 +40,10 @@ const account = (
     sellerReviewError: null,
     loadingForSellerReview: null,
 
+    cliqCashConfig: null,
+    cliqCashConfigStatus: null,
+    cliqCashConfigError: null,
+
     wishlist: null,
     wishlistStatus: null,
     wishlistError: null,
@@ -806,6 +810,26 @@ const account = (
         fetchOrderItemDetailsStatus: action.status,
         fetchOrderItemDetailsError: action.error,
         loadingForFetchOrderItemDetails: false
+      });
+
+    case accountActions.GET_CLIQ_CASH_CONFIG_REQUEST:
+      return Object.assign({}, state, {
+        cliqCashConfigStatus: action.status,
+        loading: true
+      });
+
+    case accountActions.GET_CLIQ_CASH_CONFIG_SUCCESS:
+      return Object.assign({}, state, {
+        cliqCashConfigStatus: action.status,
+        cliqCashConfig: action.cliqCashConfig,
+        loading: false
+      });
+
+    case accountActions.GET_CLIQ_CASH_CONFIG_FAILURE:
+      return Object.assign({}, state, {
+        cliqCashConfigStatus: action.status,
+        cliqCashConfigError: action.error,
+        loading: false
       });
 
     case accountActions.SEND_INVOICE_REQUEST:
