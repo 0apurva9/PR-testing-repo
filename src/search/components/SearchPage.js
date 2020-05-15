@@ -276,7 +276,7 @@ export default class SearchPage extends React.Component {
     }
   }
   handleBlur(event) {
-    if (!this.refs.elementScrollRefTop || !this.refs.elementScrollRefBottom) {
+    if (!this.refs.elementScrollRefTop && !this.refs.elementScrollRefBottom) {
       this.setState(
         {
           showResults: false,
