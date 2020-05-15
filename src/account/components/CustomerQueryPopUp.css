@@ -1,8 +1,7 @@
 .base {
   width: 90%;
-  height: 345px;
   background-color: #fff;
-  min-height: 345px;
+  /* max-height: 345px; */
   border-radius: 15px;
   position: absolute;
   padding: 20px;
@@ -12,6 +11,14 @@
   left: 0;
   margin: auto;
   animation: slideInUp 200ms forwards;
+}
+.heightOrder{
+  height: 312px;
+
+}
+.heightOther{
+  height: 345px;
+  
 }
 @keyframes slideInUp {
   0% {

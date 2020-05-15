@@ -88,7 +88,12 @@ export default class CustomerQueryPopUp extends React.Component {
     // );
 
     return (
-      <div className={styles.base}>
+      <div
+        className={[
+          styles.base,
+          issueCategory ? styles.heightOther : styles.heightOrder
+        ].join(" ")}
+      >
         <div className={styles.headerTextWithIcon}>
           <Icon image={orderSuccess} size={38} />
           <div className={styles.headerText}>

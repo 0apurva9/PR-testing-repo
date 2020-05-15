@@ -231,8 +231,8 @@ export default class OrderRelatedIssue extends React.Component {
       webFormStatus: false,
       mainIssue: val.value,
       issueSelected: "",
-      customerQueriesField: []
-      // parentIssueLabel: val.label
+      customerQueriesField: [],
+      parentIssueLabel: val.label
       // l2SelectedOption:
       //   subTab && subTab.listofSubIssues ? subTab.listofSubIssues : [],
       // showSubIssueField: true,
@@ -307,21 +307,22 @@ export default class OrderRelatedIssue extends React.Component {
       if (this.state.isSelected == 1) {
         getCustomerQueryDetailsObject.issueCategory = this.state.parentIssueLabel;
       }
-      const submitOrderDetailsResponse = await this.props.submitOrderDetails(
-        formData
-      );
-      if (submitOrderDetailsResponse.status === SUCCESS) {
-        if (
-          submitOrderDetailsResponse.submitOrder &&
-          submitOrderDetailsResponse.submitOrder.referenceNum !== "duplicate"
-        ) {
-          getCustomerQueryDetailsObject.ticketID =
-            submitOrderDetailsResponse.submitOrder.referenceNum;
-          this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
-        } else {
-          this.props.displayToast(DUPLICATE_QUERY);
-        }
-      }
+      this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+      // const submitOrderDetailsResponse = await this.props.submitOrderDetails(
+      //   formData
+      // );
+      // if (submitOrderDetailsResponse.status === SUCCESS) {
+      //   if (
+      //     submitOrderDetailsResponse.submitOrder &&
+      //     submitOrderDetailsResponse.submitOrder.referenceNum !== "duplicate"
+      //   ) {
+      //     getCustomerQueryDetailsObject.ticketID =
+      //       submitOrderDetailsResponse.submitOrder.referenceNum;
+      //     this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+      //   } else {
+      //     this.props.displayToast(DUPLICATE_QUERY);
+      //   }
+      // }
     }
   }
   async submitCustomerForm(formData) {
