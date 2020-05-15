@@ -748,6 +748,7 @@
 		right: 10px;
 		top: 10px;
 		border-radius: 50%;
+		cursor: pointer;
 	}
 	.deliveyModesHolder {
 		width: 100%;

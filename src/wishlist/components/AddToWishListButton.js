@@ -122,7 +122,7 @@ export default class AddToWishListButton extends React.Component {
     } else {
       const indexOfProduct = wishlistItems.findIndex(item => {
         return (
-          item.productcode === productListingId || item.USSID === winningUssID
+          item.productcode === productListingId && item.USSID === winningUssID
         );
       });
       if (this.props.isSizeSelectedForAddToWishlist) {
@@ -168,20 +168,23 @@ export default class AddToWishListButton extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.checkInWishlist(nextProps);
   }
-  componentDidUpdate(prevProps) {
-    if (this.props.wishlistItems !== prevProps.wishlistItems) {
-      this.checkInWishlist(this.props);
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (this.props.wishlistItems !== prevProps.wishlistItems) {
+  //     this.checkInWishlist(this.props);
+  //   }
+  // }
   checkInWishlist(props) {
     if (props.wishlistItems && props.wishlistItems.length) {
+      let self = this;
       let foundWishListItem = props.wishlistItems.find(item => {
-        return (
-          item.winningUssID === this.props.ussid ||
-          item.USSID === this.props.ussid
-        );
+        if (item.winningUssID)
+          return item.winningUssID === self.props.winningUssID;
+        else if (item.USSID) return item.USSID === self.props.winningUssID;
       });
-      if (foundWishListItem) {
+      if (
+        typeof foundWishListItem === "object" &&
+        Object.keys(foundWishListItem).length
+      ) {
         this.setState({ foundInWishList: true });
       } else {
         this.setState({ foundInWishList: false });
