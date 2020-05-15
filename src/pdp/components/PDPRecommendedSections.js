@@ -246,12 +246,18 @@ class PDPRecommendedSections extends React.Component {
     }
   }
   renderRecentlyBoughtTogetherModuleSection(title, key) {
-    if (this.props.recentlyViewedProduct) {
-      return this.props.recentlyViewedProduct ? (
+    if (
+      this.props.recentlyViewedProduct &&
+      this.props.recentlyViewedProduct.RecentlyViewed
+    ) {
+      return this.props.recentlyViewedProduct.RecentlyViewed ? (
         <div className={styles.brandSection}>
           <h3 className={styles.brandHeader}>{title}</h3>
-          {this.props.recentlyViewedProduct &&
-            this.renderCarousel(this.props.recentlyViewedProduct, title)}
+          {this.props.recentlyViewedProduct.RecentlyViewed &&
+            this.renderCarousel(
+              this.props.recentlyViewedProduct.RecentlyViewed,
+              title
+            )}
         </div>
       ) : null;
     } else {

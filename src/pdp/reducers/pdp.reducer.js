@@ -20,7 +20,7 @@ const productDescription = (
     error: null,
     loading: false,
     aboutTheBrand: null,
-    recentlyViewedProduct: null,
+    recentlyViewedProduct: {},
     productDetails: null,
     isServiceableToPincode: null,
     sizeGuide: {
@@ -967,9 +967,21 @@ const productDescription = (
         loading: false
       });
     case pdpActions.PDP_RECENTLY_VIEWED_SUCCESS:
+      const newMsdRecentlyViewedItems = cloneDeep(state.recentlyViewedProduct);
+      if (typeof newMsdRecentlyViewedItems === "object") {
+        if (newMsdRecentlyViewedItems.hasOwnProperty(action.widgetKey)) {
+          newMsdRecentlyViewedItems[action.widgetKey] = [
+            ...newMsdRecentlyViewedItems[action.widgetKey],
+            ...action.recentlyViewedProduct
+          ];
+        } else {
+          newMsdRecentlyViewedItems[action.widgetKey] =
+            action.recentlyViewedProduct;
+        }
+      }
       return Object.assign({}, state, {
         status: action.status,
-        recentlyViewedProduct: action.recentlyViewedProduct,
+        recentlyViewedProduct: newMsdRecentlyViewedItems,
         loading: false
       });
 

@@ -1121,11 +1121,15 @@ export function productMsdRecentlyViewedFailure(error) {
     error
   };
 }
-export function productMsdRecentlyViewedSuccess(recentlyViewedProduct) {
+export function productMsdRecentlyViewedSuccess(
+  recentlyViewedProduct,
+  widgetKey
+) {
   return {
     type: PDP_RECENTLY_VIEWED_SUCCESS,
     status: SUCCESS,
-    recentlyViewedProduct
+    recentlyViewedProduct,
+    widgetKey
   };
 }
 export function getRecentlyViewedProduct(productCode) {
@@ -1168,20 +1172,33 @@ export function getRecentlyViewedProduct(productCode) {
         resultJson.data[0] &&
         resultJson.data[0].length > 0
       ) {
-        let productCode =
-          resultJson.data[0] && resultJson.data[0].map(value => value);
-        productCode = productCode && productCode.toString();
-        const getProductdetails = await api.getMiddlewareUrl(
-          `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
-        );
-        finalProductDetails = await getProductdetails.json();
+        const removedDuplicate = [...new Set(resultJson.data[0])];
+        removedDuplicate &&
+          removedDuplicate.forEach(async id => {
+            try {
+              const getProductdetails = await api.getMiddlewareUrl(
+                `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+              );
+              finalProductDetails = await getProductdetails.json();
+              const resultJsonStatus = ErrorHandling.getFailureResponse(
+                finalProductDetails
+              );
+              if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+              }
+              await dispatch(
+                productMsdRecentlyViewedSuccess(
+                  finalProductDetails.results,
+                  "RecentlyViewed"
+                )
+              );
+            } catch (e) {
+              dispatch(
+                productMsdRecentlyViewedFailure(`${id}-MSD ${e.message}`)
+              );
+            }
+          });
       }
-
-      dispatch(
-        productMsdRecentlyViewedSuccess(
-          finalProductDetails && finalProductDetails.results
-        )
-      );
     } catch (e) {
       dispatch(productMsdRecentlyViewedFailure(e.message));
     }
