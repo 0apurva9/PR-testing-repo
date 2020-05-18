@@ -20,7 +20,7 @@ export default class ExchangeRemoveModal extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.heading}>
-          Are you sure you want to remove exchange for this product?
+          Are you sure you want to remove Exchange for this product?
         </div>
         <div className={styles.cancelButton} onClick={() => this.closeModal()}>
           NO
