@@ -74,7 +74,7 @@ import ProductDetailsMainCard from "./ProductDetailsMainCard";
 import ProductDetails from "./ProductDetails";
 // import Overlay from "./Overlay";
 import PdpDeliveryModes from "./PdpDeliveryModes";
-import PDPRecommendedSectionsContainer from "./PDPRecommendedSections";
+import PDPRecommendedSectionsContainer from "../containers/PDPRecommendedSectionsContainer";
 import ColourSelector from "./ColourSelector";
 import FlixMediaContainer from "./FlixMediaContainer";
 // import CheckBox from '../../general/components/CheckBox.js';
@@ -221,6 +221,8 @@ export default class PdpApparel extends React.Component {
       productCategory: "",
       eyeWearCheck: ""
     };
+    this.reviewListRef = React.createRef();
+    this.ScrollIntoView = this.ScrollIntoView.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount = async () => {
@@ -495,10 +497,15 @@ export default class PdpApparel extends React.Component {
     }
   };
   addToCart = async buyNowFlag => {
-    this.setState({ isLoader: true });
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
-    productDetails.quantity = PRODUCT_QUANTITY;
+    //Updating Product quantity(selected by user) when user clicks on Add To Bag
+    productDetails.quantity = buyNowFlag
+      ? PRODUCT_QUANTITY
+      : this.state.productQuantityOption.value;
+    if (!productDetails.quantity) {
+      productDetails.quantity = PRODUCT_QUANTITY;
+    }
     productDetails.ussId = this.props.productDetails.winningUssID;
     setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_ADOBE_ADD_TO_CART_BUTTON);
     //let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -535,6 +542,7 @@ export default class PdpApparel extends React.Component {
             this.setState({ quantityError: true });
           } else {
             //localStorage.removeItem(SELECTED_STORE);
+            this.setState({ isLoader: true });
             if (buyNowFlag) {
               setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
               if (!checkUserLoggedIn()) {
@@ -582,7 +590,7 @@ export default class PdpApparel extends React.Component {
           this.props.displayToast("Please select a size to continue");
           this.setState({
             sizeError: true,
-            isLoader: true
+            isLoader: false
           });
         }
       }
@@ -909,12 +917,17 @@ export default class PdpApparel extends React.Component {
     window.location.href = value;
   }
   ScrollIntoView() {
-    document.getElementById("ratingSection").scrollIntoView(
-      { behavior: "smooth" },
-      {
-        offsetTop: -100
-      }
-    );
+    if (this.reviewListRef.current) {
+      let headerOffset = 45,
+        elementPosition = this.reviewListRef.current.getBoundingClientRect()
+          .top,
+        offsetPosition = elementPosition - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
   }
   handleChange(e) {
     let bundledList = this.state.bundledProductList;
@@ -1691,7 +1704,7 @@ export default class PdpApparel extends React.Component {
                     </div>
                   )}
                 </div>
-                <div>
+                <React.Fragment>
                   {mshProduct && mshProduct.includes("samsung") && (
                     <div className={styles.sumsungSeparator}>
                       <div className={styles.chatIcon}>
@@ -1720,7 +1733,7 @@ export default class PdpApparel extends React.Component {
                       </div>
                     </div>
                   )}
-                </div>
+                </React.Fragment>
               </div>
             </div>
             <div className={styles.details}>
@@ -2019,7 +2032,7 @@ export default class PdpApparel extends React.Component {
                       </Accordion>
                     )}
                     {productData.knowMoreV2 && (
-                      <Accordion text="Return & Exchange" headerFontSize={18}>
+                      <Accordion text="Return & Refunds" headerFontSize={18}>
                         <div className={styles.containerWithBottomBorder}>
                           <div className={styles.accordionContentBold}>
                             {productData.knowMoreV2[0].knowMoreItemV2}
@@ -2162,12 +2175,15 @@ export default class PdpApparel extends React.Component {
                         />
                       )}
                     </React.Fragment>
-                    <div className={styles.blankSeparator} id="ratingSection" />
+                    <div className={styles.blankSeparator} />
                     <React.Fragment>
                       {productData.numberOfReviews &&
                       (productData.numberOfReviews !== 0 ||
                         productData.numberOfReviews !== "0") ? (
-                        <div className={styles.reviewsHolder}>
+                        <div
+                          className={styles.reviewsHolder}
+                          ref={this.reviewListRef}
+                        >
                           <div className={styles.reviewsHeader}>
                             <h3>Ratings and Reviews</h3>
                             <div className={styles.reviewsButton}>

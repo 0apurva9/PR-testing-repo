@@ -748,6 +748,7 @@
 		right: 10px;
 		top: 10px;
 		border-radius: 50%;
+		cursor: pointer;
 	}
 	.deliveyModesHolder {
 		width: 100%;
@@ -1161,12 +1162,6 @@
 	font-stretch: normal;
 	line-height: normal;
 	letter-spacing: normal;
-}
-.samsungChatImgHolder {
-	position: fixed;
-	right: 0;
-	top: 80%;
-	z-index: 1;
 }
 .invalidPinText {
 	width: 100%;

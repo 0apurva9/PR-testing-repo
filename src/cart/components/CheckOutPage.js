@@ -3761,8 +3761,7 @@ if you have order id in local storage then you have to show order confirmation p
         this.props.cart.selectDeliveryModeLoader ||
         (!this.props.cart.paymentModes && this.state.deliverMode) ||
         this.props.cart.isPaymentProceeded ||
-        this.props.cart.paymentModeLoader ||
-        this.props.loading
+        this.props.cart.paymentModeLoader
       ) {
         this.props.showSecondaryLoader();
       } else {
@@ -4234,6 +4233,8 @@ if you have order id in local storage then you have to show order confirmation p
                       }
                       getPaymentModes={val => this.props.getPaymentModes(val)}
                       retryCartGuid={this.state.retryCartGuid}
+                      showSecondaryLoader={this.props.showSecondaryLoader}
+                      hideSecondaryLoader={this.props.hideSecondaryLoader}
                     />
                   </div>
                 )}
