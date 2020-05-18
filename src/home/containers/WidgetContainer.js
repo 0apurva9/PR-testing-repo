@@ -1,5 +1,10 @@
 import { connect } from "react-redux";
-import { getComponentData, getItems } from "../actions/home.actions";
+import {
+  getComponentData,
+  getItems,
+  msdDiscoverMoreHomeComponents,
+  msdAbcComponents
+} from "../actions/home.actions";
 import { withRouter } from "react-router-dom";
 import Widget from "../components/Widget";
 import { showModal, STORY_MODAL } from "../../general/modal.actions";
@@ -27,6 +32,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         )
       );
     },
+    msdDiscoverMoreHomeComponents: () => {
+      dispatch(msdDiscoverMoreHomeComponents());
+    },
+    msdAbcComponents: () => {
+      dispatch(msdAbcComponents());
+    },
     getItems: (positionInFeed, itemIds) => {
       dispatch(getItems(positionInFeed, itemIds, ownProps.feedType));
     },
@@ -46,7 +57,10 @@ const mapStateToProps = (state, ownProps) => {
   return {
     feedComponentData: feedComponentData,
     positionInFeed,
-    loading: feedComponentData.loading
+    loading: feedComponentData.loading,
+    loadMsdSkeleton: state.feed.loadMsdSkeleton,
+    homeMsdData: state.feed.homeMsdData,
+    homeAbcMsdData: state.feed.homeAbcMsdData
   };
 };
 

@@ -10,7 +10,9 @@ import {
   QUICK_LINKS_COMPONENT_NAME_HC,
   HARD_CODED_KEY_FOR_COMPONENT,
   DESKTOP_THEME_OFFER_CN,
-  THEME_OFFER_CN
+  THEME_OFFER_CN,
+  MSD_DISCOVER_MORE,
+  MSD_AUTOMATED_BRAND_CAROUSEL
 } from "../../lib/constants";
 
 import { transformFetchingItemsOrder } from "./utils";
@@ -33,7 +35,10 @@ const feed = (
     secondaryFeedStatus: null,
     clickedElementId: null,
     pageSize: 1,
-    seo: null
+    seo: null,
+    loadMsdSkeleton: null,
+    homeMsdData: {},
+    homeAbcMsdData: {}
   },
   action
 ) => {
@@ -61,7 +66,9 @@ const feed = (
         if (
           componentName === BANK_OFFER_COMPONENT_NAME_HC ||
           componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
-          componentName === QUICK_LINKS_COMPONENT_NAME_HC
+          componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
+          componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
+          componentName === MSD_DISCOVER_MORE
         ) {
           componentName = HARD_CODED_KEY_FOR_COMPONENT;
         }
@@ -108,7 +115,9 @@ const feed = (
           if (
             componentName === BANK_OFFER_COMPONENT_NAME_HC ||
             componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
-            componentName === QUICK_LINKS_COMPONENT_NAME_HC
+            componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
+            componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
+            componentName === MSD_DISCOVER_MORE
           ) {
             componentName = HARD_CODED_KEY_FOR_COMPONENT;
           }
@@ -170,7 +179,9 @@ const feed = (
           if (
             componentName === BANK_OFFER_COMPONENT_NAME_HC ||
             componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
-            componentName === QUICK_LINKS_COMPONENT_NAME_HC
+            componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
+            componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
+            componentName === MSD_DISCOVER_MORE
           ) {
             componentName = HARD_CODED_KEY_FOR_COMPONENT;
           }
@@ -229,7 +240,9 @@ const feed = (
       if (
         componentName === BANK_OFFER_COMPONENT_NAME_HC ||
         componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
-        componentName === QUICK_LINKS_COMPONENT_NAME_HC
+        componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
+        componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
+        componentName === MSD_DISCOVER_MORE
       ) {
         componentName = HARD_CODED_KEY_FOR_COMPONENT;
       }
@@ -363,7 +376,9 @@ const feed = (
         if (
           componentName === BANK_OFFER_COMPONENT_NAME_HC ||
           componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
-          componentName === QUICK_LINKS_COMPONENT_NAME_HC
+          componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
+          componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
+          componentName === MSD_DISCOVER_MORE
         ) {
           componentName = HARD_CODED_KEY_FOR_COMPONENT;
         }
@@ -417,6 +432,27 @@ const feed = (
       return Object.assign({}, state, {
         status: action.status,
         homeFeed: homeFeedData
+      });
+
+    case homeActions.MSD_HOME_COMPONENT_SUCCESS:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: false,
+        homeMsdData: action.homeMsdData
+      });
+    case homeActions.MSD_HOME_COMPONENT_REQUEST:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: true,
+        loading: false
+      });
+    case homeActions.MSD_HOME_ABC_COMPONENT_SUCCESS:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: false,
+        homeAbcMsdData: action.homeAbcMsdData
+      });
+    case homeActions.MSD_HOME_ABC_COMPONENT_REQUEST:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: true,
+        loading: false
       });
 
     default:
