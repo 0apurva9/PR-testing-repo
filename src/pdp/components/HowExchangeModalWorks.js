@@ -26,7 +26,7 @@ export default class HowExchangeModalWorks extends React.Component {
             <div className={styles.contentHeading}>
               1. Share your old phone details{" "}
             </div>
-            <div className={styles.contentDescription}>
+            <div className={styles.contentDescriptionHEW}>
               Once you have decided which phone to buy, to view the exchange
               offer, allow access to auto-detect your old phone details or enter
               them manually{" "}
@@ -37,7 +37,7 @@ export default class HowExchangeModalWorks extends React.Component {
             <div className={styles.contentHeading}>
               2. Check applicable Exchange Cashback value{" "}
             </div>
-            <div className={styles.contentDescription}>
+            <div className={styles.contentDescriptionHEW}>
               Cashback value is proposed based on the old product details.
             </div>
           </div>
@@ -47,7 +47,7 @@ export default class HowExchangeModalWorks extends React.Component {
               3. Place the order for your new phone and select preferred mode to
               get Exchange Cashback
             </div>
-            <div className={styles.contentDescription}>
+            <div className={styles.contentDescriptionHEW}>
               Place the order for your new phone along with exchange offer.
               Remember to select your preferred payment mode for receiving
               Exchange Cashback
@@ -58,7 +58,7 @@ export default class HowExchangeModalWorks extends React.Component {
             <div className={styles.contentHeading}>
               4. Your new phone would be delivered
             </div>
-            <div className={styles.contentDescription}>
+            <div className={styles.contentDescriptionHEW}>
               Your new phone order will be delivered as per the scheduled post
               which your exchange order will be processed
             </div>
@@ -68,7 +68,7 @@ export default class HowExchangeModalWorks extends React.Component {
             <div className={styles.contentHeading}>
               5. Hand over your old/exchange product
             </div>
-            <div className={styles.contentDescription}>
+            <div className={styles.contentDescriptionHEW}>
               Your old phone will be picked up separately after successful
               delivery of your new phone. Please note that the physical
               condition of the old product such as major screen damage, severe
@@ -81,7 +81,7 @@ export default class HowExchangeModalWorks extends React.Component {
             <div className={styles.contentHeading}>
               6. Receive Exchange Cashback
             </div>
-            <div className={styles.contentDescription}>
+            <div className={styles.contentDescriptionHEW}>
               Upon successful pick-up of your old phone, the Exchange Cashback
               value will be credited to your preferred payment mode within 2
               business days
@@ -91,39 +91,39 @@ export default class HowExchangeModalWorks extends React.Component {
         <div className={styles.contentHeading}>
           The exchange product will be rejected if,
         </div>
-        <div className={styles.contentContainer}>
-          <div className={styles.contentDescription}>
+        <div className={styles.contentContainerHEW}>
+          <div className={styles.contentDescriptionHEW}>
             a) the phone does not power on
           </div>
-          <div className={styles.contentDescription}>
+          <div className={styles.contentDescriptionHEW}>
             b) the brand or model is different from what was mentioned by you on
             Tata CLiQ at the time of purchase of your new phone
           </div>
-          <div className={styles.contentDescription}>
+          <div className={styles.contentDescriptionHEW}>
             c) screen lock (all forms of screen lock viz. pattern, pin,
             password, fingerprint, face recognition, smart lock, etc. need to be
             deactivated) or iCloud lock (Apple) is not removed
           </div>
-          <div className={styles.contentDescription}>
+          <div className={styles.contentDescriptionHEW}>
             d) IMEI No., on dialing *#06#, does not match with that provided by
             you on Tata CLiQ at the time of purchase of your new phone
           </div>
         </div>
-        <div className={styles.contentHeading}>Questions? / FAQs</div>
-        <div className={styles.contentContainer}>
+        <div className={styles.contentHeadingHEW}>Questions? / FAQs</div>
+        <div className={styles.contentContainerHEW}>
           <div className={styles.contentHeading}>
             1) How do I know if my device is eligible for the Exchange Offer?
           </div>
-          <div className={styles.contentDescription}>
+          <div className={styles.contentDescriptionHEW}>
             To verify if your old phone qualifies for the Exchange Offer, check
             the list of eligible devices against the new phone you are buying.
           </div>
         </div>
-        <div className={styles.contentContainer}>
+        <div className={styles.contentContainerHEW}>
           <div className={styles.contentHeading}>
             2) How do I avail the Exchange Offer?
           </div>
-          <div className={styles.contentDescription}>
+          <div className={styles.contentDescriptionHEW}>
             Submit your old phone details, check the proposed Exchange Cashback
             and place order for your new phone. Pick-up of your old phone will
             be scheduled after delivery of your new phone, and you will receive
@@ -131,87 +131,87 @@ export default class HowExchangeModalWorks extends React.Component {
             confirmation.
           </div>
         </div>
-        <div className={styles.contentContainer}>
+        <div className={styles.contentContainerHEW}>
           <div className={styles.contentHeading}>
             3) How do I send my old phone back?
           </div>
-          <div className={styles.contentDescription}>
+          <div className={styles.contentDescriptionHEW}>
             Your old phone will be picked up by us after your new one is
             delivered. Kindly keep your old phone ready with all your data
             backed up, and screen lock, iCloud account lock removed on your
             device.
           </div>
         </div>
-        <div className={styles.contentContainer}>
+        <div className={styles.contentContainerHEW}>
           <div className={styles.contentHeading}>
             4) How do I find the IMEI number of my mobile phone?
           </div>
-          <div className={styles.contentDescription}>
+          <div className={styles.contentDescriptionHEW}>
             The IMEI number can be found by dialing <i>*#06#</i> on your phone
           </div>
         </div>
-        <div className={styles.contentContainer}>
+        <div className={styles.contentContainerHEW}>
           <div className={styles.contentHeading}>
             5) The phone I'm exchanging is a dual SIM device. Do I have to
             provide both the IMEI numbers while filling the Exchange Offer form?
           </div>
-          <div className={styles.contentDescription}>
+          <div className={styles.contentDescriptionHEW}>
             You need to mention only one of the IMEI numbers while filling the
             form.
           </div>
         </div>
-        <div className={styles.contentContainer}>
+        <div className={styles.contentContainerHEW}>
           <div className={styles.contentHeading}>
             6) Should the device be in working condition to qualify for this
             offer?
           </div>
-          <div className={styles.contentDescription}>
+          <div className={styles.contentDescriptionHEW}>
             Yes. The phone needs to be in working condition. It also needs to
             have all screen locks disabled and the iCloud Account unlocked to
             enable pick-up by our partners.
           </div>
         </div>
-        <div className={styles.contentContainer}>
+        <div className={styles.contentContainerHEW}>
           <div className={styles.contentHeading}>
             7) Can I exchange more than one device towards a purchase?
           </div>
-          <div className={styles.contentDescription}>
+          <div className={styles.contentDescriptionHEW}>
             No. You may only exchange one device at a time.
           </div>
         </div>
-        <div className={styles.contentContainer}>
+        <div className={styles.contentContainerHEW}>
           <div className={styles.contentHeading}>
             8) Can I provide one address for pick up and another for delivery?
           </div>
-          <div className={styles.contentDescription}>
+          <div className={styles.contentDescriptionHEW}>
             No. The delivery address and pick-up address must be the same.
           </div>
         </div>
-        <div className={styles.contentContainer}>
+        <div className={styles.contentContainerHEW}>
           <div className={styles.contentHeading}>
             9) In case I wish to return the new phone I bought with the Exchange
             Offer, will my old phone be shipped back to me?
           </div>
-          <div className={styles.contentDescription}>
+          <div className={styles.contentDescriptionHEW}>
             No. Unfortunately, the old phone you have handed over for exchange
             cannot be shipped back to you. We will be refunded the value of your
             new phone after deducting promotional cashback, if any.
           </div>
         </div>
-        <div className={styles.contentContainer}>
+        <div className={styles.contentContainerHEW}>
           <div className={styles.contentHeading}>
             10) Can I hand in a different phone for Exchange?
           </div>
-          <div className={styles.contentDescription}>
+          <div className={styles.contentDescriptionHEW}>
             No. You can only exchange the phone for which you have provided
             details.
           </div>
         </div>
-        <div className={styles.contentContainer}>
+        <div className={styles.contentContainerHEW}>
           <div className={styles.contentHeading}>
             11) Any pointers to keep in mind before I exchange my phone?
           </div>
-          <div className={styles.contentDescription}>
+          <div className={styles.contentDescriptionHEW}>
             Kindly ensure all your data is backed up and cleared from your old
             phone before handing over for exchange. You may also remove any
             external memory card. TATACLiQ.comor the logistic partner will not
@@ -221,11 +221,11 @@ export default class HowExchangeModalWorks extends React.Component {
             your phone being "factory reset" the exchange may not go through.
           </div>
         </div>
-        <div className={styles.contentContainer}>
+        <div className={styles.contentContainerHEW}>
           <div className={styles.contentHeading}>
             12) Why do I see a pickup charge for availing the exchange offer?
           </div>
-          <div className={styles.contentDescription}>
+          <div className={styles.contentDescriptionHEW}>
             When you avail the exchange offer, our courier partner picks up your
             old device right from your doorstep. It is then shipped to the
             seller in lieu of the new device. The pickup charge covers pickup

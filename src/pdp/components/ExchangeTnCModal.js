@@ -18,8 +18,10 @@ export default class ExchangeTnCModal extends React.Component {
         <div className={styles.howExchangeWorksHeading}>
           Terms &amp; Conditions
         </div>
-        <div className={styles.contentHeading}>1) Mobile Exchange Policy </div>
-        <ul className={styles.contentHeading}>
+        <div className={styles.contentHeadingTnC}>
+          1) Mobile Exchange Policy{" "}
+        </div>
+        <ul className={styles.listDetailsTnC}>
           <li>
             When customer chooses a new phone to purchase, he would see all the
             brand-model combination that can be exchanged against it{" "}
@@ -54,10 +56,10 @@ export default class ExchangeTnCModal extends React.Component {
             ownership of the said phone{" "}
           </li>
         </ul>
-        <div className={styles.contentHeading}>
+        <div className={styles.contentHeadingTnC}>
           2) Cancellation, Return &amp; Refund
         </div>
-        <ul className={styles.contentHeading}>
+        <ul className={styles.listDetailsTnC}>
           <li>
             Once the Exchange process is initiated and the old phone pickup is
             scheduled, the Exchange process cannot be cancelled by the customer.
@@ -91,8 +93,8 @@ export default class ExchangeTnCModal extends React.Component {
             Cashback credited would be without the "Additional Value"
           </li>
         </ul>
-        <div className={styles.contentHeading}>3) Payments</div>
-        <ul className={styles.contentHeading}>
+        <div className={styles.contentHeadingTnC}>3) Payments</div>
+        <ul className={styles.listDetailsTnC}>
           <li>
             The Exchange amount of customer old phone will be credited to
             customer’s preferred mode post door-step quality check and pick up
@@ -113,10 +115,10 @@ export default class ExchangeTnCModal extends React.Component {
             their bank accounts within 2 business days
           </li>
         </ul>
-        <div className={styles.contentHeading}>
+        <div className={styles.contentHeadingTnC}>
           4) Complaints &amp; Redressal
         </div>
-        <ul className={styles.contentHeading}>
+        <ul className={styles.listDetailsTnC}>
           <li>
             For payment failure or any other payment related queries please{" "}
             <span

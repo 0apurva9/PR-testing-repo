@@ -16,7 +16,7 @@ export default class ExchangeCashbackModal extends React.Component {
           onClick={() => this.closeCashbackModal()}
         />
         <div className={styles.howExchangeWorksHeading}>Cashback Details</div>
-        <ul className={styles.contentHeading}>
+        <ul className={styles.listDetails}>
           <li>
             After placing the order for your new phone along with exchange
             offer. Remember to select your preferred payment mode for receiving
