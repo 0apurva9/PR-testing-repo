@@ -6213,16 +6213,20 @@ export function getFeedBackFormFailure(error) {
 export function getFeedBackForm(getUserDetails, isReturnFlow) {
   return async (dispatch, getState, { api }) => {
     dispatch(getFeedBackFormRequest());
-    let apiEndPoint = isReturnFlow
-      ? "getQuestionsForReturnNPS"
-      : "getQuestionsForNPS";
+    let apiEndPoint = "getQuestionsForNPS",
+      type = "deliveryMode=";
+
+    if (isReturnFlow) {
+      apiEndPoint = "getQuestionsForReturnNPS";
+      type = "returnType=";
+    }
     try {
       const result = await api.get(
         `v2/mpl/${apiEndPoint}?originalUid=${
           getUserDetails.originalUid
-        }&transactionId=${getUserDetails.transactionId}&rating=${
-          getUserDetails.rating
-        }&deliveryMode=${getUserDetails.deliveryMode}`
+        }&transactionId=${getUserDetails.transactionId}&${type}${
+          getUserDetails.deliveryMode
+        }&rating=${getUserDetails.rating}`
       );
 
       const resultJson = await result.json();
