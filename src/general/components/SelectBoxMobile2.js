@@ -34,9 +34,6 @@ export default class SelectBoxMobile extends React.Component {
   }
 
   handleChange(event) {
-    if (event.target.value == "Select issue") {
-      return false;
-    }
     if (!this.props.disabled) {
       const selectedValue = event.target.value;
       const index = event.nativeEvent.target.selectedIndex;
@@ -135,25 +132,14 @@ export default class SelectBoxMobile extends React.Component {
           label={this.state.label}
         >
           <React.Fragment>
-            {this.props.isOrderRelatedIssue ? (
+            {this.props.placeholder && !this.state.touched && (
               <option
-                value={"Select issue"}
+                value={this.props.placeholder}
                 label={this.props.placeholder}
-                className={styles.placeholderStyle}
+                disabled
               >
                 {this.props.placeholder}
               </option>
-            ) : (
-              this.props.placeholder &&
-              !this.state.touched && (
-                <option
-                  value={this.props.placeholder}
-                  label={this.props.placeholder}
-                  disabled
-                >
-                  {this.props.placeholder}
-                </option>
-              )
             )}
             {this.props.options &&
               this.props.options.map((item, i) => {
