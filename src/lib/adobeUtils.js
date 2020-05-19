@@ -2976,7 +2976,12 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
       window._satellite.track(ADOBE_SELECT_PAYMENT_MODES);
     }
   }
+  data = Object.assign(window.digitalData, data);
   window.digitalData = data;
+  localStorage.setItem(
+    "digitalDataForPaymentConfirmation",
+    JSON.stringify(data)
+  );
 }
 export function setDataLayerForMyAccountDirectCalls(
   type,

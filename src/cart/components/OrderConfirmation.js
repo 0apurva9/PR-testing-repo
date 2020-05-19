@@ -39,6 +39,8 @@ export default class OrderConfirmation extends React.Component {
     this.onCancel = this.onCancel.bind(this);
   }
   async componentDidMount() {
+    let orderData = localStorage.getItem("digitalDataForPaymentConfirmation");
+    Object.assign(window.digitalData, orderData);
     if (this.props.orderDetails.isEgvOrder) {
       setDataLayerForGiftCard(SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT);
     }
