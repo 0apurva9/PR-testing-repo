@@ -29,7 +29,7 @@ export default class ExchangeModalOtherDetails extends React.Component {
             value={this.props.currentIMEI}
             required
           />
-          <label className={styles.imeiPlaceholder}>Enter IMEI Number</label>
+          <label className={styles.imeiPlaceholder}>Enter IMEI Number*</label>
           <div
             className={
               this.props.enableVerifyButton

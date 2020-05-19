@@ -302,13 +302,21 @@ export default class ExchangeModeSelection extends React.Component {
                               IFSC code:
                             </div>
                             <div className={styles.bankDetailsText}>
-                              {bankDetails.IFSCCode}
+                              {bankDetails.IFSCCode &&
+                                bankDetails.IFSCCode.replace(
+                                  /.(?=.{4,}$)/g,
+                                  "*"
+                                )}
                             </div>
                             <div className={styles.bankDetailsText}>
                               Account number:
                             </div>
                             <div className={styles.bankDetailsText}>
-                              {bankDetails.accountNumber}
+                              {bankDetails.accountNumber &&
+                                bankDetails.accountNumber.replace(
+                                  /.(?=.{4,}$)/g,
+                                  "*"
+                                )}
                             </div>
                           </React.Fragment>
                         )}

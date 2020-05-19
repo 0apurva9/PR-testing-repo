@@ -39,6 +39,7 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
       });
     let hideExchangeDetails = false;
     let hideDetailsWhenCashbackCredited = false;
+    let hideTrackDiagram = false;
     if (
       exchangeCanceled &&
       exchangeCanceled.status &&
@@ -53,6 +54,14 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
     ) {
       hideExchangeDetails = true;
       hideDetailsWhenCashbackCredited = true;
+    }
+    if (
+      this.props.products.exchangeDetails.exchangeTrackDiagram &&
+      this.props.products.exchangeDetails.exchangeTrackDiagram[0] &&
+      Object.keys(this.props.products.exchangeDetails.exchangeTrackDiagram[0])
+        .length === 0
+    ) {
+      hideTrackDiagram = true;
     }
     return (
       <div className={styles.exchangeDetailsContainer}>
@@ -151,6 +160,19 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
           </React.Fragment>
         ) : null}
         <div className={styles.bbCustom} />
+        {!this.props.products.consignmentStatus.includes("CANCEL") &&
+          !this.props.products.consignmentStatus.includes("REFUND") &&
+          !this.props.products.consignmentStatus.includes("DELIVERED") &&
+          !this.props.products.exchangeDetails.exchangePickupPromiseDate &&
+          !this.props.products.exchangeDetails.exchangePickedUpDate && (
+            <div className={styles.exchangeEDDContainer}>
+              <span className={styles.fontBold}>Estimated Pick Up by:</span>
+              <span className={styles.fontLight}>
+                {" "}
+                Within 3 days of Product Delivery
+              </span>
+            </div>
+          )}
         {this.props.products.exchangeDetails.exchangePickupPromiseDate &&
           !this.props.products.exchangeDetails.exchangePickedUpDate &&
           !hideExchangeDetails && (
@@ -228,12 +250,12 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
             </div>
           )}
 
-        {this.props.products.consignmentStatus.includes("CANCEL") && (
+        {(this.props.products.consignmentStatus.includes("CANCEL") ||
+          hideTrackDiagram) && (
           <React.Fragment>
             <div className={styles.exchangeCancelledText}>
               {this.props.products.exchangeDetails.exchangeCancelMessage}
             </div>
-            <div className={styles.bb} />
           </React.Fragment>
         )}
 
@@ -270,7 +292,8 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
             </React.Fragment>
           )}
         {!this.props.products.consignmentStatus.includes("CANCEL") &&
-          !hideDetailsWhenCashbackCredited && (
+          !hideDetailsWhenCashbackCredited &&
+          !hideTrackDiagram && (
             <ExchangeDetailsTrack
               exchangeTrackDiagram={
                 this.props.products.exchangeDetails.exchangeTrackDiagram
