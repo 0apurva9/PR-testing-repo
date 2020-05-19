@@ -18,22 +18,25 @@ export default class SelectBoxMobile extends React.Component {
       value: this.props.value
         ? this.props.value
         : this.props.placeholder
-          ? this.props.placeholder
-          : this.props.options
-            ? this.props.options[0].value
-            : "",
+        ? this.props.placeholder
+        : this.props.options
+        ? this.props.options[0].value
+        : "",
       label: this.props.label
         ? this.props.label
         : this.props.placeholder
-          ? this.props.placeholder
-          : this.props.options
-            ? this.props.options[0].label
-            : "",
+        ? this.props.placeholder
+        : this.props.options
+        ? this.props.options[0].label
+        : "",
       touched: false
     };
   }
 
   handleChange(event) {
+    if (event.target.value == "Select issue") {
+      return false;
+    }
     if (!this.props.disabled) {
       const selectedValue = event.target.value;
       const index = event.nativeEvent.target.selectedIndex;
@@ -132,7 +135,16 @@ export default class SelectBoxMobile extends React.Component {
           label={this.state.label}
         >
           <React.Fragment>
-            {this.props.placeholder &&
+            {this.props.isOrderRelatedIssue ? (
+              <option
+                value={"Select issue"}
+                label={this.props.placeholder}
+                className={styles.placeholderStyle}
+              >
+                {this.props.placeholder}
+              </option>
+            ) : (
+              this.props.placeholder &&
               !this.state.touched && (
                 <option
                   value={this.props.placeholder}
@@ -141,7 +153,8 @@ export default class SelectBoxMobile extends React.Component {
                 >
                   {this.props.placeholder}
                 </option>
-              )}
+              )
+            )}
             {this.props.options &&
               this.props.options.map((item, i) => {
                 return (

@@ -69,7 +69,8 @@ export default class CustomerCareOrderRelated extends React.Component {
       this.setState({
         nonOrderRelatedSubIssue: "",
         file: "",
-        attachmentName: "Upload attachment"
+        attachmentName: "Upload attachment",
+        uploadedAttachment: ""
       });
     }
     if (
@@ -670,6 +671,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                     <SelectBoxMobile2
                       placeholder="Select issue"
                       label={parentIssueLabel}
+                      isOrderRelatedIssue={true}
                       arrowColour="black"
                       height={33}
                       extraVisibleBoxCss={true}
@@ -724,6 +726,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                       placeholder="Select issue"
                       label={parentIssueLabel}
                       arrowColour="black"
+                      isOrderRelatedIssue={true}
                       height={33}
                       extraVisibleBoxCss={true}
                       options={
@@ -759,6 +762,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                         label={childIssueLabel}
                         arrowColour="black"
                         height={33}
+                        isOrderRelatedIssue={true}
                         extraVisibleBoxCss={true}
                         options={
                           subIssueList &&

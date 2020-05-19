@@ -232,7 +232,8 @@ export default class OrderRelatedIssue extends React.Component {
       mainIssue: val.value,
       issueSelected: "",
       customerQueriesField: [],
-      parentIssueLabel: val.label
+      parentIssueLabel: val.label,
+      selectedObj: null
       // l2SelectedOption:
       //   subTab && subTab.listofSubIssues ? subTab.listofSubIssues : [],
       // showSubIssueField: true,

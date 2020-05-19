@@ -13,11 +13,11 @@
   animation: slideInUp 200ms forwards;
 }
 .heightOrder{
-  height: 312px;
+  height: 302px;
 
 }
 .heightOther{
-  height: 345px;
+  height: 339px;
   
 }
 @keyframes slideInUp {
