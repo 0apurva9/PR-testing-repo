@@ -34,6 +34,7 @@ const MoreHelps = props => {
                 label="Write to us / Raise a Complain"
                 width={276}
                 // color="#da1c5c"
+                boxShadow="0 0 6px 2px rgba(0, 0, 0, 0.11)"
                 borderRadius="6px"
                 textStyle={{ color: "#fff", fontSize: 14 }}
                 onClick={() => props.getCustomerQueriesFields()}

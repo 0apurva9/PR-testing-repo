@@ -83,6 +83,7 @@ export default class Button extends React.Component {
       <div
         className={className}
         style={{
+          boxShadow: this.props.boxShadow,
           height: this.props.height,
           width: this.props.width,
           borderRadius: this.props.borderRadius,

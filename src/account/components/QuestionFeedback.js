@@ -29,6 +29,7 @@ export default class QuestionFeedback extends Component {
         );
         newURL = `${newURL}${this.props.selectedOrder.orderId}&transactionId=${this.props.selectedOrder.products[0].transactionId}`;
         div.firstChild.setAttribute("href", newURL);
+        div.firstChild.setAttribute("target", "_blank");
         newSolution = `${newSolution.slice(0, startIndex)}${
           div.firstChild.outerHTML
         }${newSolution.slice(endIndex + 4)}`;

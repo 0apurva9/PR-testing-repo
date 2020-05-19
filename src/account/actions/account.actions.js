@@ -4260,12 +4260,11 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
       } else {
         firstData = [...fetchData];
       }
-      console.log("dfdfdfdf23455");
+
       return dispatch(
         getCustomerQueriesFieldsSuccessv2(isSelectRadio ? redioData : firstData)
       );
     } catch (e) {
-      console.log("dfdfdfdf");
       return dispatch(getCustomerQueriesFieldsFailurev2(e.message));
     }
   };

@@ -14,45 +14,22 @@ import {
   MY_ACCOUNT_PAGE
 } from "../../lib/constants";
 import SSRquest from "../../general/components/SSRequest";
-// import Orders from "../components/img/Orders.svg";
-// import Installation from "../components/img/Installation.svg";
-// import Invoice from "../components/img/Invoice.svg";
-// import Modification from "../components/img/Modification.svg";
-// import Shopping from "../components/img/Shopping.svg";
-// import Payments from "../components/img/Payments.svg";
-// import Account from "../components/img/Account.svg";
-// import Contact from "../components/img/Contact.svg";
-// import Invoice1 from "../components/img/Invoice1.svg";
-// import Modification1 from "../components/img/Modification1.svg";
-// import Shopping1 from "../components/img/Shopping1.svg";
-// import Payments1 from "../components/img/Payments1.svg";
-// import Account1 from "../components/img/Account1.svg";
-// import Contact1 from "../components/img/Contact1.svg";
-// import Shopping1 from "../components/img/Shopping1.svg";
 import Icon from "../../xelpmoc-core/Icon";
-// const DUPLICATE_QUERY =
-//   "Your query is already submitted. Please wait for TATACLiQ representative to contact you.";
 const ORDER_REALTED_QUESTION = "orderRelated";
 const NON_ORDER_REALTED_QUESTION = "NonOrderRelated";
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
     super(props);
-    // const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    // const getUserDetails = JSON.parse(userDetailsCookie);
     this.state = {
       isSelected: 0,
       isIssueOptions: false,
-      // selectedQuestion: null,
       isQuesryForm: false,
       questionList: [],
-      // isQuesryForm: true,
       orderList: true,
       isOrderDatails: false,
       orderRelatedQuestion: false,
       otherQuestion: false,
       FAQquestion: false,
-      // orderList: false,
-      // isOrderDatails: true,
       selectedOrder: null,
       uploadedAttachments: null,
       orderAllList: false,
@@ -93,10 +70,6 @@ export default class OrderRelatedIssue extends React.Component {
     if (this.props.getFAQQuestions) {
       this.props.getFAQQuestions();
     }
-
-    // if (this.props.getAllOrdersDetails) {
-    //   this.props.getAllOrdersDetails();
-    // }
   }
   getQuestyTesting() {
     //Only testing remove if form validation is completed
@@ -117,25 +90,17 @@ export default class OrderRelatedIssue extends React.Component {
           : ""
       });
     }
-
-    // if (nextProps.customerQueriesFieldStatus == SUCCESS) {
-    //   this.setState({ isIssueOptions: false, isQuesryForm: true });
-    // }
   }
-
-  //  getOrderRelatedQuestions(transactionId) {
-  //   if (this.props.getOrderRelatedQuestions)
-  //      this.props.getOrderRelatedQuestions(transactionId);
-  // }
-
   moreHelps(question) {
-    if (this.state.isUserLogin) {
-      if (this.state.FAQquestion) {
-      } else {
-        this.setState({ isIssueOptions: true });
-      }
+    if (this.state.FAQquestion) {
+      console.log("FAq no ");
     } else {
-      this.navigateLogin();
+      // if (this.state.isUserLogin) {
+      this.setState({ isIssueOptions: true });
+      // }
+      // else{
+      //   this.navigateLogin();
+      // }
     }
   }
 
@@ -146,22 +111,29 @@ export default class OrderRelatedIssue extends React.Component {
         isSelecteRadio
       );
       if (response.status == SUCCESS) {
-        this.setState({ isIssueOptions: false, isQuesryForm: true });
+        this.setState({
+          isIssueOptions: false,
+          isQuesryForm: true,
+          showFeedBack: false
+        });
       }
     } else {
-      if (this.props.getCustomerQueriesFieldsv2) {
-        // this.state.selectedQuestion.UItemplateCode,
-        const response = await this.props.getCustomerQueriesFieldsv2(
-          this.state.question.UItemplateCode,
-          isSelecteRadio
-        );
-        if (response.status == SUCCESS) {
-          this.setState({
-            isIssueOptions: false,
-            isQuesryForm: true,
-            showFeedBack: false
-          });
+      if (this.state.isUserLogin) {
+        if (this.props.getCustomerQueriesFieldsv2) {
+          const response = await this.props.getCustomerQueriesFieldsv2(
+            this.state.question.UItemplateCode,
+            isSelecteRadio
+          );
+          if (response.status == SUCCESS) {
+            this.setState({
+              isIssueOptions: false,
+              isQuesryForm: true,
+              showFeedBack: false
+            });
+          }
         }
+      } else {
+        this.navigateLogin();
       }
     }
   }
@@ -249,7 +221,8 @@ export default class OrderRelatedIssue extends React.Component {
         .listofSubIssues,
       parentIssueType: null,
       questionType: NON_ORDER_REALTED_QUESTION,
-      showFeedBack: false
+      showFeedBack: false,
+      isQuesryForm: false
 
       // isOrderDatails: true,
       // orderList: false,

@@ -300,9 +300,21 @@ export default class CustomerQueryForm extends Component {
   }
 
   nextField(currentStep) {
+    const { customerQueriesField, question, selectedOrder } = this.props;
+    const {
+      isAttachment,
+      attachementData,
+      btnLabel,
+      mobile,
+      email,
+      uploadFileTitle,
+      uploadedAttachment,
+      name
+    } = this.state;
+
     let validateStatus = false;
     if (currentStep == BASIC_FORM) {
-      for (let obj of this.props.customerQueriesField) {
+      for (let obj of customerQueriesField) {
         validateStatus = this.formValidate(obj);
         if (!validateStatus) {
           break;
@@ -311,14 +323,12 @@ export default class CustomerQueryForm extends Component {
       if (validateStatus) {
         this.setState({
           basicForm: false,
-          communication: !this.state.isAttachment,
-          attachment: this.state.isAttachment,
+          communication: !isAttachment,
+          attachment: isAttachment,
           btnDisable:
-            this.state.attachementData && this.state.attachementData.isMandatory
-              ? true
-              : false,
-          currentStep: this.state.isAttachment ? ATTACHEMENT : COMMUNICATION,
-          btnLabel: this.state.isAttachment ? this.state.btnLabel : "SUBMIT"
+            attachementData && attachementData.isMandatory ? true : false,
+          currentStep: isAttachment ? ATTACHEMENT : COMMUNICATION,
+          btnLabel: isAttachment ? btnLabel : "SUBMIT"
         });
       }
     }
@@ -328,7 +338,7 @@ export default class CustomerQueryForm extends Component {
         attachment: false,
         communication: true,
         currentStep: COMMUNICATION,
-        btnDisable: !this.state.mobile || !this.state.email ? true : false,
+        btnDisable: !mobile || !email ? true : false,
         btnLabel: "SUBMIT"
       });
 
@@ -351,14 +361,11 @@ export default class CustomerQueryForm extends Component {
       // }
     }
     if (currentStep == COMMUNICATION) {
-      if (
-        this.state.email &&
-        !EMAIL_REGULAR_EXPRESSION.test(this.state.email)
-      ) {
+      if (this.state.email && !EMAIL_REGULAR_EXPRESSION.test(email)) {
         this.props.displayToast(EMAIL_VALID_TEXT);
         return false;
       }
-      if (this.state.mobile && !MOBILE_PATTERN.test(this.state.mobile)) {
+      if (this.state.mobile && !MOBILE_PATTERN.test(mobile)) {
         this.props.displayToast(MOBILE_VALID_TEXT);
         return false;
       } else {
@@ -409,18 +416,18 @@ export default class CustomerQueryForm extends Component {
           missingAccessories: ""
         };
 
-        for (let obj of this.props.customerQueriesField) {
+        for (let obj of customerQueriesField) {
           for (let [key, value] of Object.entries(additionalInfo)) {
-            if (key == this.state.uploadFileTitle) {
-              if (this.state.uploadedAttachment.length) {
+            if (key == uploadFileTitle) {
+              if (uploadedAttachment.length) {
                 let urlList = [];
-                this.state.uploadedAttachment.forEach(item => {
+                uploadedAttachment.forEach(item => {
                   let list = item.urlList.map(url => url.fileURL);
                   urlList.push(...list);
                 });
-                additionalInfo[this.state.uploadFileTitle] = urlList.join(",");
+                additionalInfo[uploadFileTitle] = urlList.join(",");
               } else {
-                additionalInfo[this.state.uploadFileTitle] = "";
+                additionalInfo[uploadFileTitle] = "";
               }
             } else if (key == obj.title) {
               additionalInfo[obj.title] = this.state[obj.componentId];
@@ -431,33 +438,37 @@ export default class CustomerQueryForm extends Component {
         let ticketInfo = Object.assign(
           {},
           {
-            subIssueType: this.props.question.subIssueType
-              ? this.props.question.subIssueType
-              : "",
-            l0: this.props.question.l0,
-            l1: this.props.question.l1,
-            l2: this.props.question.l2,
-            l3: this.props.question.l3,
-            l4: this.props.question.l4,
-            ticketType: this.props.question.ticketType,
+            subIssueType: question.subIssueType ? question.subIssueType : "",
+            l0: question.l0,
+            l1: question.l1,
+            l2: question.l2,
+            l3: question.l3,
+            l4: question.l4,
+            ticketType: question.ticketType,
             transactionId:
-              this.props.selectedOrder &&
-              this.props.selectedOrder.products &&
-              this.props.selectedOrder.products[0].transactionId,
+              selectedOrder &&
+              selectedOrder.products &&
+              selectedOrder.products[0].transactionId
+                ? selectedOrder.products[0].transactionId
+                : "",
             orderCode:
-              this.props.selectedOrder && this.props.selectedOrder.orderId,
+              selectedOrder && selectedOrder.orderId
+                ? selectedOrder.orderId
+                : "",
             subOrderCode:
-              this.props.selectedOrder &&
-              this.props.selectedOrder.products &&
-              this.props.selectedOrder.products[0].sellerorderno
+              selectedOrder &&
+              selectedOrder.products &&
+              selectedOrder.products[0].sellerorderno
+                ? selectedOrder.products[0].sellerorderno
+                : ""
           }
         );
         let customerInfo = Object.assign(
           {},
           {
-            contactEmail: this.state.email,
-            contactPhn: this.state.mobile,
-            contactName: this.state.name ? this.state.name.trim() : ""
+            contactEmail: email,
+            contactPhn: mobile,
+            contactName: name ? name.trim() : ""
           }
         );
         let raiseTicketObj = {
@@ -594,7 +605,7 @@ export default class CustomerQueryForm extends Component {
                     {" "}
                     {this.props.parentIssueType}
                   </div>
-                  <div className={styles.goTOOrder}>
+                  {/* <div className={styles.goTOOrder}>
                     <Button
                       type="hollow"
                       label="Go to orders"
@@ -605,7 +616,7 @@ export default class CustomerQueryForm extends Component {
                       padding="0px 5px"
                       // onClick={() => this.props.showAllQuestion()}
                     />
-                  </div>
+                  </div> */}
                 </div>
                 <div className={styles.subIssueType}>
                   {this.props.question.subIssueType}
