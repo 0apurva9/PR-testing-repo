@@ -7,6 +7,8 @@ import {
 import { ARRAY_OF_SORTS } from "./Sort.js";
 export const CATEGORY_URL_REGEX = /(:category:)(.*)/;
 export const CATEGORY_URL_CAPTURE_REGEX = /(:category:)([MSH|msh][a-zA-Z0-9]+)(.*)/;
+export const CATEGORY_CAPTURE_REGEX = /(:category:)([MSH|msh][a-zA-Z0-9]+)/;
+export const CATEGORY_CODE_REGEX = /([MSH|msh][a-zA-Z0-9]+)/;
 export const BRAND_URL_REGEX = /:brand:(.*)/;
 export const TEXT_REGEX = /text=(.*)/;
 export function getSortFromQuery(str) {
@@ -26,6 +28,16 @@ export function insertSubStringAt(str, toInsert, index) {
     str.slice(index)
   ].join("");
   return stringWithSubStringInserted;
+}
+
+export function removeDuplicateCategory(query, newCategoryId) {
+  if (query.match(/category/g).length >= 2) {
+    let removedCategory;
+    removedCategory = query.replace(CATEGORY_CAPTURE_REGEX, "");
+    return removeDuplicateCategory(removedCategory, newCategoryId);
+  } else {
+    return query.replace(CATEGORY_CODE_REGEX, newCategoryId);
+  }
 }
 
 export function createUrlFromQueryAndCategory(query, pathName, val, name) {
@@ -68,9 +80,16 @@ export function createUrlFromQueryAndCategory(query, pathName, val, name) {
         // we have an existing category
         // we want to replace this category
 
-        const test = query.replace(CATEGORY_URL_CAPTURE_REGEX, `$1${val}$3`);
-
-        url = `/${modifiedCode}/?q=${test}`;
+        /*Earlier we were getting multiple 'category' with category code parameter in this function from backend. As per SDI39022 it was decided
+        to remove the duplicate occurences of 'category' with category codes and keep only single category code so that user lands on correct page*/
+        let categoryOccurence = (query.match(/category/g) || []).length;
+        if (categoryOccurence >= 1) {
+          const test = removeDuplicateCategory(query, val);
+          url = `/${modifiedCode}/?q=${test}`;
+        } else {
+          const test = query.replace(CATEGORY_URL_CAPTURE_REGEX, `$1${val}$3`);
+          url = `/${modifiedCode}/?q=${test}`;
+        }
       } else if (hasBrand && !hasCategory) {
         const index = query.indexOf(":brand");
         const queryWithCategoryInserted = insertSubStringAt(
@@ -91,9 +110,7 @@ export function createUrlFromQueryAndCategory(query, pathName, val, name) {
         subquery = subquery.replace(/category:[a-zA-Z0-9]+:/, "");
         subquery = subquery.replace(/:brand:[a-zA-Z0-9]+$/, "");
         const brand = BRAND_URL_REGEX.exec(query);
-        url = `/${modifiedCode}/?q=${subquery}:category:${val}:brand:${
-          brand[1]
-        }`;
+        url = `/${modifiedCode}/?q=${subquery}:category:${val}:brand:${brand[1]}`;
       } else {
         // Now we don't have a category or brand, but we have some q value.
         // As we had the earlier if, we know that there is a sort here, but we don't know if there is a text.
