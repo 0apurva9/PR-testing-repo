@@ -83,7 +83,7 @@ export function createUrlFromQueryAndCategory(query, pathName, val, name) {
         /*Earlier we were getting multiple 'category' with category code parameter in this function from backend. As per SDI39022 it was decided
         to remove the duplicate occurences of 'category' with category codes and keep only single category code so that user lands on correct page*/
         let categoryOccurence = (query.match(/category/g) || []).length;
-        if (categoryOccurence >= 1) {
+        if (categoryOccurence > 1) {
           const test = removeDuplicateCategory(query, val);
           url = `/${modifiedCode}/?q=${test}`;
         } else {
