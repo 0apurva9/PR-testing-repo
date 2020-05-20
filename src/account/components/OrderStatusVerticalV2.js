@@ -1168,8 +1168,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                       </div>
                                     </div>
                                   </div>
-                                ) : completedSteps.includes(SHIPPED) &&
-                                responseCode.includes("REFUND_INITIATED") ? (
+                                ) : completedSteps.includes(SHIPPED) ? (
                                   <div
                                     className={
                                       completedSteps.includes(SHIPPED)
