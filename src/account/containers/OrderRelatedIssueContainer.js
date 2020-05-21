@@ -16,7 +16,8 @@ import {
   getAllOrdersDetails,
   getFAQQuestions,
   sendInvoice,
-  getFAQQuestionsList
+  getFAQQuestionsList,
+  setSelfServeState
   // setUrlToRedirectToAfterAuth
 } from "../actions/account.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -84,6 +85,9 @@ const mapDispatchToProps = dispatch => {
     },
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));
+    },
+    setSelfServeState: currentState => {
+      dispatch(setSelfServeState(currentState));
     }
     // setHeaderText: text => {
     //   dispatch(setHeaderText(text));
@@ -128,7 +132,9 @@ const mapStateToProps = state => {
     FAQQuestionsListLoading: state.profile.FAQQuestionsListLoading,
     FAQQuestionsListData: state.profile.FAQQuestionsListData,
     QuestionsListLoading: state.profile.QuestionsListLoading,
-    QuestionsListData: state.profile.QuestionsListData
+    QuestionsListData: state.profile.QuestionsListData,
+    currentState: state.profile.currentState,
+    logoutUserStatus: state.profile.logoutUserStatus
   };
 };
 

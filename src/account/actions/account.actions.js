@@ -484,6 +484,7 @@ export const SET_USER_SMS_NOTIFICATION_FAILURE =
 
 export const RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS =
   "RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS";
+export const SET_SELF_SERVE_STATE = "SET_SELF_SERVE_STATE";
 
 export function getDetailsOfCancelledProductRequest() {
   return {
@@ -4132,6 +4133,7 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
       const result = await api.get(
         `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
       );
+      console.log("getStategetStategetState", getState().profile);
       // ${UItemplateCode}
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -5123,5 +5125,35 @@ export function resetUserAddressAfterLogout() {
   return {
     type: RESET_USER_ADDRESS,
     status: SUCCESS
+  };
+}
+
+export function dispatchSelfServeState(currentState) {
+  return {
+    type: SET_SELF_SERVE_STATE,
+    currentState: currentState
+  };
+}
+
+export function setSelfServeState(currentState) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(dispatchSelfServeState(currentState));
+    // try {
+    //   const result = await api.post(
+    //     `${USER_PATH}/${
+    //       JSON.parse(userDetails).userName
+    //     }/updateUserPreference?channel=web&sms=${val}&access_token=${
+    //       JSON.parse(customerCookie).access_token
+    //     }`
+    //   );
+    //   const resultJson = await result.json();
+    //   const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+    //   if (resultJsonStatus.status) {
+    //     throw new Error(resultJsonStatus.message);
+    //   }
+    //   return dispatch(setSMSNotificationSuccess(resultJson));
+    // } catch (e) {
+    //   return dispatch(setSMSNotificationFailure(e.message));
+    // }
   };
 }

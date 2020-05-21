@@ -293,7 +293,9 @@ const account = (
     customerQueriesFieldStatus: null,
     customerQueriesFieldError: null,
     customerQueriesField: null,
-    customerQueriesLoading: false
+    customerQueriesLoading: false,
+
+    currentState: null
   },
   action
 ) => {
@@ -1892,6 +1894,16 @@ const account = (
         userAddress: null,
         loading: false
       });
+    case accountActions.SET_SELF_SERVE_STATE:
+      return Object.assign({}, state, {
+        currentState: action.currentState
+      });
+    // export function resetUserAddressAfterLogout(data) {
+    //   return {
+    //     type: SET_USES,
+    //     data: data
+    //   };
+    // }
     default:
       return state;
   }

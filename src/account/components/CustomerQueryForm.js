@@ -3,6 +3,7 @@ import FloatingLabelInputWithPlace from "../../general/components/FloatingLabelI
 import TextArea from "../../general/components/TextArea";
 import Icon from "../../xelpmoc-core/Icon";
 import CheckboxAndText from "../../cart/components/CheckboxAndText";
+import * as Cookie from "../../lib/Cookie";
 
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -13,7 +14,7 @@ import styles from "./CustomerQueryForm.css";
 import Button from "../../general/components/Button.js";
 import download from "../components/img/download.svg";
 import deleteUpload from "../components/img/deleteUpload.svg";
-import { SUCCESS } from "../../lib/constants";
+import { SUCCESS, LOGGED_IN_USER_DETAILS } from "../../lib/constants";
 const BASIC_FORM = "bacisform";
 const ATTACHEMENT = "attachment";
 const COMMUNICATION = "communication";
@@ -25,8 +26,25 @@ const EMAIL_VALID_TEXT = "Please enter  valid emailId";
 export default class CustomerQueryForm extends Component {
   constructor(props) {
     super(props);
-
+    const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const getUserDetails = JSON.parse(userDetailsCookie);
     this.state = {
+      name:
+        getUserDetails && (getUserDetails.firstName || getUserDetails.lastName)
+          ? `${getUserDetails.firstName.trim()} ${getUserDetails.lastName.trim()}`
+          : "",
+      mobile:
+        getUserDetails &&
+        getUserDetails.loginType === "mobile" &&
+        getUserDetails.userName
+          ? getUserDetails.userName
+          : "",
+      email:
+        getUserDetails &&
+        getUserDetails.loginType === "email" &&
+        getUserDetails.userName
+          ? getUserDetails.userName
+          : "",
       basicForm: true,
       attachment: false,
       attachementData: null,
@@ -41,10 +59,7 @@ export default class CustomerQueryForm extends Component {
       file: [],
       // subIssue: "",
       uploadedAttachment: "",
-      filesData: [],
-      name: this.props.name,
-      email: this.props.email,
-      mobile: this.props.mobile
+      filesData: []
     };
   }
 
@@ -55,14 +70,45 @@ export default class CustomerQueryForm extends Component {
     ) {
       this.initialState(true);
     }
+    if (nextProps && nextProps.userDetails !== this.props.userDetails) {
+      this.setState({
+        email: nextProps.userDetails.emailID
+          ? nextProps.userDetails.emailID
+          : "",
+        name:
+          nextProps.userDetails.firstName || nextProps.userDetails.lastName
+            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
+            : "",
+        mobile: nextProps.userDetails.mobileNumber
+          ? nextProps.userDetails.mobileNumber
+          : ""
+      });
+    }
   }
 
   componentWillUnmount() {
     this.setState({});
   }
+  // setUserDetail(){
+
+  // }
 
   componentDidMount() {
     this.initialState(false);
+    if (this.props.userDetails) {
+      this.setState({
+        email: this.props.userDetails.emailID
+          ? this.props.userDetails.emailID
+          : "",
+        name:
+          this.props.userDetails.firstName || this.props.userDetails.lastName
+            ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
+            : "",
+        mobile: this.props.userDetails.mobileNumber
+          ? this.props.userDetails.mobileNumber
+          : ""
+      });
+    }
   }
 
   initialState(isAppend) {
@@ -600,6 +646,7 @@ export default class CustomerQueryForm extends Component {
         if (uploadFileResponse && status === SUCCESS) {
           this.setState(prevState => ({
             file: [...prevState.file, ...newFile],
+            btnDisable: false,
             uploadedAttachment: [
               ...prevState.uploadedAttachment,
               ...uploadUserFile.imageURLlist
@@ -637,8 +684,6 @@ export default class CustomerQueryForm extends Component {
       ticketType,
       files
     } = this.state;
-    // this.props.displayToast("toaset check")
-
     return (
       <div
         className={[
@@ -727,25 +772,6 @@ export default class CustomerQueryForm extends Component {
             <div className={styles.filesBox}>
               {this.state.file &&
                 this.state.file.map((files, index) => {
-                  // let fileType = "",
-                  //   width = "",
-                  //   height = "";
-                  // if (
-                  //   files.name.includes(".jpg") ||
-                  //   files.name.includes(".jpeg")
-                  // ) {
-                  //   fileType = imageIcon;
-                  //   width = 23;
-                  //   height = 17;
-                  // } else if (files.name.includes(".pdf")) {
-                  //   fileType = pdfIcon;
-                  //   width = 22;
-                  //   height = 23;
-                  // } else {
-                  //   fileType = txtIcon;
-                  //   width = 19;
-                  //   height = 24;
-                  // }
                   return (
                     <div className={styles.uploadFilesBox}>
                       <div
@@ -755,13 +781,6 @@ export default class CustomerQueryForm extends Component {
                         <Icon image={deleteUpload} size={20} />
                       </div>
                       <div className={styles.fileName}>
-                        {/* <div className={styles.typeOfFile}>
-                              <Icon
-                                image={fileType}
-                                width={width}
-                                height={height}
-                              />
-                            </div> */}
                         <div className={styles.fileNames}>{files.name}</div>
                       </div>
                     </div>
@@ -792,7 +811,6 @@ export default class CustomerQueryForm extends Component {
               <div className={styles.txtField}>
                 <FloatingLabelInputWithPlace
                   placeholder={"Enter Mobile No"}
-                  // disabled={this.state.mobile ? true : false}
                   maxLength={"10"}
                   value={this.state.mobile}
                   onChange={mobile => this.setState({ mobile: mobile })}
@@ -840,23 +858,9 @@ export default class CustomerQueryForm extends Component {
               textStyle={{ color: "#FFF", fontSize: 14 }}
               disabled={this.state.btnDisable}
               disabledLightGray={this.state.btnDisable}
-              // disabled={false}
               onClick={() => this.nextField(currentStep)}
             />
           </div>
-
-          {/* <div className={styles.nextButton}>
-            <Button
-              type="primary"
-              backgroundColor="#da1c5c"
-              height={40}
-              label={"getQuery"}
-              width={205}
-              textStyle={{ color: "#FFF", fontSize: 14 }}
-              
-              onClick={() => this.props.getQuestyTesting(currentStep)}
-            />
-          </div> */}
         </div>
       </div>
     );

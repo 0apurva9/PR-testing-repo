@@ -100,7 +100,7 @@ export default class QuestionFeedback extends Component {
                 // color="#da1c5c"
                 borderRadius="20px"
                 textStyle={{ color: "#da1c5c", fontSize: 14 }}
-                onClick={() => this.props.answerYes()}
+                onClick={() => this.props.feedBackHelpFull()}
               />
               <Button
                 backgroundColor="#fff"

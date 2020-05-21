@@ -21,12 +21,12 @@ export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isSelected: 0,
       isIssueOptions: false,
       isQuesryForm: false,
       questionList: [],
       orderList: true,
       isOrderDatails: false,
+      isAnswerHelpFull: false,
       orderRelatedQuestion: false,
       otherQuestion: false,
       FAQquestion: false,
@@ -35,19 +35,15 @@ export default class OrderRelatedIssue extends React.Component {
       orderAllList: false,
       parentIssueType: null,
       questionType: "",
-      name: "",
-      mobile: "",
-      email: "",
       loaderResponse: true,
       isUserLogin: false,
       showQuestionList: false,
       showFeedBack: false,
       question: null
     };
+    // this.resetState = this.state
   }
-  tabSelect(val) {
-    this.setState({ isSelected: val });
-  }
+
   componentDidMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -65,37 +61,22 @@ export default class OrderRelatedIssue extends React.Component {
     if (this.props.getFAQQuestions) {
       this.props.getFAQQuestions();
     }
-  }
-  getQuestyTesting() {
-    //Only testing remove if form validation is completed
-    this.props.getCustomerQueriesFieldsv2("SSW_18", false);
+    if (this.props.currentState) {
+      this.setState({ ...this.props.currentState });
+    }
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps && nextProps.userDetails !== this.props.userDetails) {
-      this.setState({
-        email: nextProps.userDetails.emailID
-          ? nextProps.userDetails.emailID
-          : "",
-        name:
-          nextProps.userDetails.firstName || nextProps.userDetails.lastName
-            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
-            : "",
-        mobile: nextProps.userDetails.mobileNumber
-          ? nextProps.userDetails.mobileNumber
-          : ""
-      });
+    if (nextProps.logoutUserStatus !== this.props.logoutUserStatus) {
+      // if(nextProps.logoutUserStatus=="success"){
+      //   this.setState(this.resetState)
+      // }
     }
   }
   moreHelps(question) {
     if (this.state.FAQquestion) {
-      console.log("FAq no ");
+      this.setState({ isAnswerHelpFull: true });
     } else {
-      // if (this.state.isUserLogin) {
       this.setState({ isIssueOptions: true });
-      // }
-      // else{
-      //   this.navigateLogin();
-      // }
     }
   }
 
@@ -115,10 +96,6 @@ export default class OrderRelatedIssue extends React.Component {
     } else {
       const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-      // let isUserLogin = false;
-      // if (userDetails || customerCookie) {
-      //   isUserLogin = true;
-      // }
       if (userDetails || customerCookie) {
         if (this.props.getCustomerQueriesFieldsv2) {
           const response = await this.props.getCustomerQueriesFieldsv2(
@@ -134,9 +111,14 @@ export default class OrderRelatedIssue extends React.Component {
           }
         }
       } else {
+        this.props.setSelfServeState(this.state);
         this.navigateLogin();
       }
     }
+  }
+
+  feedBackHelpFull() {
+    this.setState({ isAnswerHelpFull: true });
   }
 
   async submitCustomerForms(formData) {
@@ -278,12 +260,15 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   render() {
+    console.log("this.props", this.props);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let isUserLogin = false;
     if (userDetails || customerCookie) {
       isUserLogin = true;
     }
+
+    console.log("this.state", this.state);
 
     const {
       customerQueriesOtherIssueData,
@@ -411,10 +396,11 @@ export default class OrderRelatedIssue extends React.Component {
                       }
                       orderRelatedQuestionsStatus={orderRelatedQuestionsStatus}
                       isQuesryForm={this.state.isQuesryForm}
-                      getQuestyTesting={() => this.getQuestyTesting()}
                       uploadUserFile={(issueType, title, file) =>
                         this.props.uploadUserFile(issueType, title, file)
                       }
+                      feedBackHelpFull={() => this.feedBackHelpFull()}
+                      isAnswerHelpFull={this.state.isAnswerHelpFull}
                       uploadedAttachments={this.state.uploadedAttachments}
                       userDetails={this.props.userDetails}
                       submitCustomerForms={formaData =>
@@ -422,9 +408,9 @@ export default class OrderRelatedIssue extends React.Component {
                       }
                       displayToast={message => this.props.displayToast(message)}
                       customerQueriesField={customerQueriesField}
-                      name={this.state.name}
-                      email={this.state.email}
-                      mobile={this.state.mobile}
+                      // name={this.state.name}
+                      // email={this.state.email}
+                      // mobile={this.state.mobile}
                       getCustomerQueriesFields={(
                         webFormTemplate,
                         isIssueOptions

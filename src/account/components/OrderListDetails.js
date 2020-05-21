@@ -19,7 +19,7 @@ class OrderListDetails extends Component {
     showQuestionList: true,
     // showFeedBack: this.props.isOrderRelatedQuestion ? false : true,
     showFeedBack: false,
-    isAnswerHelpFull: false,
+    // isAnswerHelpFull: false,
     currentQuestionIndex: 0,
     nextQuestions: null
     // isQuesryForm:false,
@@ -59,9 +59,9 @@ class OrderListDetails extends Component {
     });
   }
 
-  answerYes() {
-    this.setState({ isAnswerHelpFull: true });
-  }
+  // answerYes() {
+  //   this.setState({ isAnswerHelpFull: true });
+  // }
 
   nextQuestion() {
     for (let i = 0; i < this.props.orderRelatedQuestionsData.length; i++) {
@@ -196,7 +196,8 @@ class OrderListDetails extends Component {
               <QuestionFeedback
                 question={this.props.question}
                 isAnswerHelpFull={isAnswerHelpFull}
-                answerYes={() => this.answerYes()}
+                feedBackHelpFull={() => this.props.feedBackHelpFull()}
+                isAnswerHelpFull={this.props.isAnswerHelpFull}
                 moreHelps={() => this.props.moreHelps()}
                 // issueOptions={()=>this.isQuesryFormAction()}
                 showAllQuestion={() => this.showAllQuestion()}
@@ -237,7 +238,6 @@ class OrderListDetails extends Component {
 
         {this.props.isQuesryForm && (
           <CustomerQueryForm
-            getQuestyTesting={() => this.props.getQuestyTesting()}
             selectedOrder={this.props.selectedOrder}
             uploadUserFile={(issueType, title, file) =>
               this.props.uploadUserFile(issueType, title, file)
@@ -249,9 +249,9 @@ class OrderListDetails extends Component {
             }
             displayToast={message => this.props.displayToast(message)}
             customerQueriesField={this.props.customerQueriesField}
-            name={this.props.name}
-            email={this.props.email}
-            mobile={this.props.mobile}
+            // name={this.props.name}
+            // email={this.props.email}
+            // mobile={this.props.mobile}
             getCustomerQueriesFields={(webFormTemplate, isIssueOptions) =>
               this.props.getCustomerQueriesFields(
                 webFormTemplate,

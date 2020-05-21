@@ -68,6 +68,7 @@ export default class CustomerQueryPopUp extends React.Component {
     this.clickedOnSubmitButton = true;
     this.props.history.push(MY_ACCOUNT_PAGE);
   }
+  duplicateTicket() {}
   componentWillUnmount() {
     if (!this.clickedOnSubmitButton) {
       this.props.history.push(MY_ACCOUNT_PAGE);
@@ -79,7 +80,6 @@ export default class CustomerQueryPopUp extends React.Component {
   render() {
     let { tat, issueCategory, ticketID, issue, emailId } = this.props;
     const isTicketDuplicate = ticketID == "duplicate";
-    console.log("isTicketDuplicate", isTicketDuplicate);
     let today = new Date();
     let extraDays = !isNaN(parseInt(tat)) ? Math.round(parseInt(tat) / 24) : 0;
     let queryDate = new Date();
@@ -156,7 +156,9 @@ export default class CustomerQueryPopUp extends React.Component {
             width={isTicketDuplicate ? 204 : 165}
             textStyle={{ color: "#FFF", fontSize: 14 }}
             // disabled={true}
-            onClick={() => this.submit()}
+            onClick={() =>
+              isTicketDuplicate ? this.duplicateTicket() : this.submit()
+            }
           />
         </div>
       </div>

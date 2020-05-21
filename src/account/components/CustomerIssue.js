@@ -72,6 +72,7 @@ export default class CustomerIssue extends React.Component {
             {this.props.isOrderDatails && (
               <OrderListDetails
                 selectedOrder={this.props.selectedOrder}
+                isUserLogin={this.props.isUserLogin}
                 moreHelps={() => this.props.moreHelps()}
                 questionsList={this.props.questionsList}
                 selectQuestion={(listOfIssue, index) =>
@@ -80,10 +81,11 @@ export default class CustomerIssue extends React.Component {
                 showFeedBack={this.props.showFeedBack}
                 question={this.props.question}
                 isQuesryForm={this.props.isQuesryForm}
-                getQuestyTesting={() => this.props.getQuestyTesting()}
                 uploadUserFile={(issueType, title, file) =>
                   this.props.uploadUserFile(issueType, title, file)
                 }
+                feedBackHelpFull={() => this.props.feedBackHelpFull()}
+                isAnswerHelpFull={this.props.isAnswerHelpFull}
                 uploadedAttachments={this.props.uploadedAttachments}
                 userDetails={this.props.userDetails}
                 submitCustomerForms={formaData =>
@@ -91,9 +93,9 @@ export default class CustomerIssue extends React.Component {
                 }
                 displayToast={message => this.props.displayToast(message)}
                 customerQueriesField={this.props.customerQueriesField}
-                name={this.props.name}
-                email={this.props.email}
-                mobile={this.props.mobile}
+                // name={this.props.name}
+                // email={this.props.email}
+                // mobile={this.props.mobile}
                 getCustomerQueriesFields={(webFormTemplate, isIssueOptions) =>
                   this.props.getCustomerQueriesFields(
                     webFormTemplate,
