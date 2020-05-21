@@ -94,33 +94,39 @@ export default class CustomerQueryPopUp extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.closeModal} onClick={() => this.closeModal()}>
-          <Icon image={cancleSvg} size={20}></Icon>
+          <Icon image={cancleSvg} size={12}></Icon>
         </div>
         <div className={styles.headerText}>
           {isTicketDuplicate ? "Duplicate Ticket" : "Your Ticket Detials"}
         </div>
         <div className={styles.image}>
           {isTicketDuplicate ? (
-            <Icon image={raiseTicketDuplicate} size={214}></Icon>
+            <div className={styles.duplicateIcon}>
+              <Icon
+                image={raiseTicketDuplicate}
+                width={232}
+                height={160}
+              ></Icon>
+            </div>
           ) : (
             <Icon image={raisedTicket} size={214}></Icon>
           )}
         </div>
         {isTicketDuplicate ? (
           <div className={styles.duplicate}>
-            <div className={styles.txt}>
+            <div className={styles.duplicateTxt}>
               This looks like a duplicate of an existing ticket
               <br />
-              for the same issue. attached to{" "}
-              <span className={styles.ticketId}>Ticket ID:</span>{" "}
-              <span className={styles.colorRed}>1285673980</span>
+              for the same issue.
+              {/* <span className={styles.ticketId}>Ticket ID:</span>{" "}
+              <span className={styles.colorRed}>1285673980</span> */}
             </div>
-            <div className={styles.ticketIdBox}>
+            {/* <div className={styles.ticketIdBox}>
               <div className={styles.txt}>We will get back to you by </div>
               <div className={styles.expDateTime}>
                 {`${displayTime}, ${displayDate}`}
               </div>
-            </div>
+            </div> */}
           </div>
         ) : (
           <div>
@@ -140,47 +146,12 @@ export default class CustomerQueryPopUp extends React.Component {
             </div>
           </div>
         )}
-
-        {/* <div className={(styles.subText, styles.blackBorderBottom)}>
-          We have noted your concern and will update you before{" "}
-          <div className={styles.colorRed}>
-            {" "}
-            {`${displayTime}, ${displayDate}`}
-          </div>
-        </div> */}
-
-        {/* <div className={styles.userDetails}> */}
-        {/* <div className={styles.userDetailsHeaderWithText}>
-            <div className={styles.userDetailsHeader}>Ticket ID</div>
-            <div className={styles.userDetailsText}>{this.props.ticketID}</div>
-          </div> */}
-        {/* {this.props.issueCategory && (
-            <div className={styles.userDetailsHeaderWithText}>
-              <div className={styles.userDetailsHeader}>Issue Category</div>
-              <div className={styles.userDetailsText}>
-                {this.props.issueCategory}
-              </div>
-            </div>
-          )}
-          {this.props.issue && (
-            <div className={styles.userDetailsHeaderWithText}>
-              <div className={styles.userDetailsHeader}>Issue</div>
-              <div className={styles.userDetailsText}>{this.props.issue}</div>
-            </div>
-          )}
-        </div> */}
-        {/* <div className={styles.submittedText}>
-          <div className={styles.subText}>
-            A summary of your query has been sent to your email ID
-            <span className={styles.colorRed}> {this.props.emailId}</span>
-          </div>
-        </div> */}
-
         <div className={styles.buttonHolder}>
           <Button
             type="primary"
             backgroundColor="#da1c5c"
             height={40}
+            borderRadius={6}
             label={isTicketDuplicate ? "Go to Lorem Ipsum" : "Ok"}
             width={isTicketDuplicate ? 204 : 165}
             textStyle={{ color: "#FFF", fontSize: 14 }}

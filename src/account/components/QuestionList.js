@@ -10,7 +10,7 @@ export default class QuestionList extends Component {
             Issues regarding your order
           </div>
         )}
-        {this.props.otherQuestion && (
+        {this.props.parentIssueType && (
           <div className={styles.parentIssueT}>
             {this.props.parentIssueType}
           </div>
@@ -33,7 +33,9 @@ export default class QuestionList extends Component {
                     ? listOfIssue.issueType
                     : null}
                   {this.props.otherQuestion ? listOfIssue.subIssueType : null}
-                  {this.props.FAQquestion ? listOfIssue.subIssueType : null}
+                  {this.props.FAQquestion
+                    ? listOfIssue.question_component
+                    : null}
                   {/* {this.props.isOrderRelatedQuestion
                             ? listOfIssue.issueType
                             : listOfIssue.subIssueType} */}

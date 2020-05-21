@@ -39,6 +39,7 @@ export default class CustomerIssue extends React.Component {
                         backgroundColor="#da1c5c"
                         height={40}
                         label="LOGIN"
+                        borderRadius={6}
                         width={205}
                         textStyle={{ color: "#FFF", fontSize: 14 }}
                         onClick={() => this.props.navigateLogin()}

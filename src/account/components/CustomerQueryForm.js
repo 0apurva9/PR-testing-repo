@@ -12,7 +12,7 @@ import {
 import styles from "./CustomerQueryForm.css";
 import Button from "../../general/components/Button.js";
 import download from "../components/img/download.svg";
-import cancelred from "../components/img/cancelred.svg";
+import deleteUpload from "../components/img/deleteUpload.svg";
 import { SUCCESS } from "../../lib/constants";
 const BASIC_FORM = "bacisform";
 const ATTACHEMENT = "attachment";
@@ -36,7 +36,10 @@ export default class CustomerQueryForm extends Component {
       btnLabel: "NEXT",
       ticketType: TICKET_TATACLIQ,
       btnDisable: false,
-      files: [],
+      // files: [],
+      // uploadedAttachment: "",
+      file: [],
+      // subIssue: "",
       uploadedAttachment: "",
       filesData: [],
       name: this.props.name,
@@ -419,7 +422,10 @@ export default class CustomerQueryForm extends Component {
         for (let obj of customerQueriesField) {
           for (let [key, value] of Object.entries(additionalInfo)) {
             if (key == uploadFileTitle) {
-              if (uploadedAttachment.length) {
+              if (
+                uploadedAttachment &&
+                uploadedAttachment[0].urlList.length > 0
+              ) {
                 let urlList = [];
                 uploadedAttachment.forEach(item => {
                   let list = item.urlList.map(url => url.fileURL);
@@ -476,8 +482,9 @@ export default class CustomerQueryForm extends Component {
           ticketInfo,
           customerInfo
         };
+        console.log("raiseTicketObj", raiseTicketObj);
 
-        this.props.submitCustomerForms(raiseTicketObj);
+        // this.props.submitCustomerForms(raiseTicketObj);
       }
       // this.setState({})
       // this.props.submitCustomerForms("test data");
@@ -534,16 +541,55 @@ export default class CustomerQueryForm extends Component {
     }
   }
 
+  // async onUploadFile(event, { maxFileLimit, maxFileSize, title }) {
+  //   const newFile = event.target.files;
+  //   if (newFile) {
+  //     let uploadFiles = [];
+  //     let combinedSize = 0,
+  //       totalFile = [...newFile, ...this.state.filesData];
+  //     for (let f of totalFile) {
+  //       combinedSize += f.size / 1048576; //converting file size into MB
+  //       uploadFiles.push(URL.createObjectURL(f));
+  //     }
+  //     if (combinedSize <= maxFileSize && totalFile.length <= maxFileLimit) {
+  //       const uploadFileResponse = await this.props.uploadUserFile(
+  //         this.props.questionType,
+  //         title,
+  //         Array.from(newFile)
+  //       );
+  //       let { uploadUserFile, status } = uploadFileResponse;
+  //       if (uploadFileResponse && status === SUCCESS) {
+  //         this.setState(prevState => ({
+  //           files: uploadFiles,
+  //           filesData: [...prevState.filesData, ...newFile],
+  //           btnDisable: false,
+  //           uploadedAttachment: [
+  //             ...prevState.uploadedAttachment,
+  //             ...uploadUserFile.imageURLlist
+  //           ]
+  //         }));
+  //       }
+  //     } else {
+  //       if (totalFile.length > maxFileLimit)
+  //         this.props.displayToast(
+  //           `Maximum ${maxFileLimit} No. of files allowed`
+  //         );
+  //       else
+  //         this.props.displayToast(
+  //           `File size should be less then ${maxFileSize} MB`
+  //         );
+  //     }
+  //   }
+  // }
+
   async onUploadFile(event, { maxFileLimit, maxFileSize, title }) {
     const newFile = event.target.files;
     if (newFile) {
-      let uploadFiles = [];
       let combinedSize = 0,
-        totalFile = [...newFile, ...this.state.filesData];
-      for (let f of totalFile) {
-        combinedSize += f.size / 1048576; //converting file size into MB
-        uploadFiles.push(URL.createObjectURL(f));
-      }
+        totalFile = [...newFile, ...this.state.file];
+      for (let f of totalFile) combinedSize += f.size / 1048576; //converting file size into MB
+      let issueType =
+        this.props.isSelected == 1 ? "NonOrderRelated" : "orderRelated";
       if (combinedSize <= maxFileSize && totalFile.length <= maxFileLimit) {
         const uploadFileResponse = await this.props.uploadUserFile(
           this.props.questionType,
@@ -553,9 +599,7 @@ export default class CustomerQueryForm extends Component {
         let { uploadUserFile, status } = uploadFileResponse;
         if (uploadFileResponse && status === SUCCESS) {
           this.setState(prevState => ({
-            files: uploadFiles,
-            filesData: [...prevState.filesData, ...newFile],
-            btnDisable: false,
+            file: [...prevState.file, ...newFile],
             uploadedAttachment: [
               ...prevState.uploadedAttachment,
               ...uploadUserFile.imageURLlist
@@ -575,7 +619,13 @@ export default class CustomerQueryForm extends Component {
     }
   }
 
-  deleteFiles() {}
+  deleteFile(index) {
+    const copyuploadedAttachment = [...this.state.uploadedAttachment];
+    var files = [...this.state.file];
+    copyuploadedAttachment[0].urlList.splice(index, 1);
+    files.splice(index, 1);
+    this.setState({ uploadedAttachment: copyuploadedAttachment, file: files });
+  }
 
   render() {
     const {
@@ -674,24 +724,49 @@ export default class CustomerQueryForm extends Component {
                 </div>
               </div>
             </div>
-            <div className={styles.uploadesFilesBox}>
-              {files.map((file, index) => {
-                return (
-                  <div className={styles.uploadesFiles} key={`files${index}`}>
-                    <div
-                      className={styles.deleteIconBox}
-                      onClick={() => this.deleteFiles()}
-                    >
-                      <Icon image={cancelred} size={20} />
+            <div className={styles.filesBox}>
+              {this.state.file &&
+                this.state.file.map((files, index) => {
+                  // let fileType = "",
+                  //   width = "",
+                  //   height = "";
+                  // if (
+                  //   files.name.includes(".jpg") ||
+                  //   files.name.includes(".jpeg")
+                  // ) {
+                  //   fileType = imageIcon;
+                  //   width = 23;
+                  //   height = 17;
+                  // } else if (files.name.includes(".pdf")) {
+                  //   fileType = pdfIcon;
+                  //   width = 22;
+                  //   height = 23;
+                  // } else {
+                  //   fileType = txtIcon;
+                  //   width = 19;
+                  //   height = 24;
+                  // }
+                  return (
+                    <div className={styles.uploadFilesBox}>
+                      <div
+                        className={styles.deleteBOx}
+                        onClick={() => this.deleteFile(index)}
+                      >
+                        <Icon image={deleteUpload} size={20} />
+                      </div>
+                      <div className={styles.fileName}>
+                        {/* <div className={styles.typeOfFile}>
+                              <Icon
+                                image={fileType}
+                                width={width}
+                                height={height}
+                              />
+                            </div> */}
+                        <div className={styles.fileNames}>{files.name}</div>
+                      </div>
                     </div>
-                    <img
-                      className={styles.uploadsImg}
-                      src={file}
-                      alt="Uploaded files"
-                    ></img>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
           </div>
         )}
@@ -760,6 +835,7 @@ export default class CustomerQueryForm extends Component {
               backgroundColor="#da1c5c"
               height={40}
               label={btnLabel}
+              borderRadius={6}
               width={205}
               textStyle={{ color: "#FFF", fontSize: 14 }}
               disabled={this.state.btnDisable}

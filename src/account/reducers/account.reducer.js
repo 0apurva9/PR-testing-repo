@@ -175,6 +175,11 @@ const account = (
     FAQQuestionsListLoading: false,
     FAQQuestionsListData: null,
 
+    QuestionsListStatus: null,
+    QuestionsListError: null,
+    QuestionsListLoading: false,
+    QuestionsListData: null,
+
     orderRelatedQuestionsStatus: null,
     orderRelatedQuestionsError: null,
     orderRelatedQuestionsData: null,
@@ -1344,6 +1349,26 @@ const account = (
         FAQQuestionsListStatus: action.status,
         FAQQuestionsListError: action.error,
         FAQQuestionsListLoading: false
+      });
+
+    case accountActions.GET_QUESTIONS_LIST_REQUEST:
+      return Object.assign({}, state, {
+        QuestionsListStatus: action.status,
+        QuestionsListLoading: true
+      });
+
+    case accountActions.GET_QUESTIONS_LIST_SUCCESS:
+      return Object.assign({}, state, {
+        QuestionsListStatus: action.status,
+        QuestionsListLoading: false,
+        QuestionsListData: action.customerQueriesData
+      });
+
+    case accountActions.GET_QUESTIONS_LIST_FAILURE:
+      return Object.assign({}, state, {
+        QuestionsListStatus: action.status,
+        QuestionsListError: action.error,
+        QuestionsListLoading: false
       });
 
     case accountActions.GET_ORDER_RELATED_QUESTIONS_REQUEST:

@@ -15,7 +15,8 @@ import {
   getCliqCareWmsResponse,
   getAllOrdersDetails,
   getFAQQuestions,
-  sendInvoice
+  sendInvoice,
+  getFAQQuestionsList
   // setUrlToRedirectToAfterAuth
 } from "../actions/account.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -75,6 +76,9 @@ const mapDispatchToProps = dispatch => {
     getFAQQuestions: () => {
       dispatch(getFAQQuestions());
     },
+    getFAQQuestionsList: async FAQPageId => {
+      return dispatch(getFAQQuestionsList(FAQPageId));
+    },
     sendInvoice: (ussid, sellerOrderNo) => {
       dispatch(sendInvoice(ussid, sellerOrderNo));
     },
@@ -122,7 +126,9 @@ const mapStateToProps = state => {
     orderDetails: state.profile.orderDetails,
     submitOrderDetailsLoading: state.profile.submitOrderDetailsLoading,
     FAQQuestionsListLoading: state.profile.FAQQuestionsListLoading,
-    FAQQuestionsListData: state.profile.FAQQuestionsListData
+    FAQQuestionsListData: state.profile.FAQQuestionsListData,
+    QuestionsListLoading: state.profile.QuestionsListLoading,
+    QuestionsListData: state.profile.QuestionsListData
   };
 };
 

@@ -51,15 +51,10 @@ export default class OrderRelatedIssue extends React.Component {
   componentDidMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (userDetails || customerCookie) {
-      this.setState({ isUserLogin: true });
-      if (
-        this.props.getOrdersTransactionData &&
-        !this.props.ordersTransactionData
-      ) {
-        this.props.getOrdersTransactionData(false);
-      }
+    if (this.props.getOrdersTransactionData) {
+      this.props.getOrdersTransactionData(false);
     }
+
     if (this.props.getNonOrderRelatedQuestions) {
       this.props.getNonOrderRelatedQuestions();
     }
@@ -118,7 +113,13 @@ export default class OrderRelatedIssue extends React.Component {
         });
       }
     } else {
-      if (this.state.isUserLogin) {
+      const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+      let isUserLogin = false;
+      if (userDetails || customerCookie) {
+        isUserLogin = true;
+      }
+      if (isUserLogin) {
         if (this.props.getCustomerQueriesFieldsv2) {
           const response = await this.props.getCustomerQueriesFieldsv2(
             this.state.question.UItemplateCode,
@@ -157,18 +158,18 @@ export default class OrderRelatedIssue extends React.Component {
       if ((this.state.questionType = NON_ORDER_REALTED_QUESTION)) {
         getCustomerQueryDetailsObject.issueCategory = this.state.parentIssueType;
       }
-      console.log("form data", formData);
+      // console.log("form data", formData);
       // this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
 
       // this.props.showCustomerQueryModal(getCustomerQueryDetailsObject)
-      // const submitOrderDetailsResponse = await this.props.submitOrderDetails(
-      //   formData
-      // );
-      // if (submitOrderDetailsResponse.status === SUCCESS) {
-      //   getCustomerQueryDetailsObject.ticketID =
-      //     submitOrderDetailsResponse.submitOrder.referenceNum;
-      //   this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
-      // }
+      const submitOrderDetailsResponse = await this.props.submitOrderDetails(
+        formData
+      );
+      if (submitOrderDetailsResponse.status === SUCCESS) {
+        getCustomerQueryDetailsObject.ticketID =
+          submitOrderDetailsResponse.submitOrder.referenceNum;
+        this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+      }
     }
   }
 
@@ -209,30 +210,32 @@ export default class OrderRelatedIssue extends React.Component {
     }
   }
 
-  getFAQQuestionSelect(faq) {
-    this.setState({
-      isOrderDatails: true,
-      orderList: false,
-      orderRelatedQuestion: false,
-      otherQuestion: false,
-      FAQquestion: true,
-      showQuestionList: true,
-      questionList: this.props.customerQueriesOtherIssueData.parentIssueList[1]
-        .listofSubIssues,
-      parentIssueType: null,
-      questionType: NON_ORDER_REALTED_QUESTION,
-      showFeedBack: false,
-      isQuesryForm: false
-
-      // isOrderDatails: true,
-      // orderList: false,
-      // orderRelatedQuestion: false,
-      // otherQuestion: true,
-      // FAQquestion: true,
-      // questionList: this.props.customerQueriesOtherIssueData.parentIssueList[1]
-      //   .listofSubIssues,
-      // parentIssueType: null
-    });
+  async getFAQQuestionSelect(faq) {
+    if (this.state.parentIssueType !== faq.FAQHeader) {
+      if (this.props.getFAQQuestionsList) {
+        const response = await this.props.getFAQQuestionsList(faq.FAQPageId);
+        if (response.status === SUCCESS) {
+          if (response.faqList && response.faqList.items) {
+            const questioList = JSON.parse(
+              response.faqList.items[1].cmsTextComponent.content
+            );
+            this.setState({
+              isOrderDatails: true,
+              orderList: false,
+              orderRelatedQuestion: false,
+              otherQuestion: false,
+              FAQquestion: true,
+              showQuestionList: true,
+              questionList: questioList,
+              parentIssueType: faq.FAQHeader,
+              questionType: NON_ORDER_REALTED_QUESTION,
+              showFeedBack: false,
+              isQuesryForm: false
+            });
+          }
+        }
+      }
+    }
   }
 
   selectQuestion(question, index) {
@@ -292,7 +295,8 @@ export default class OrderRelatedIssue extends React.Component {
       customerQueriesLoading,
       uploadUserFileLoading,
       submitOrderDetailsLoading,
-      FAQQuestionsListData
+      FAQQuestionsListData,
+      QuestionsListLoading
     } = this.props;
     if (
       customerQueriesOtherIssueLoading ||
@@ -300,7 +304,8 @@ export default class OrderRelatedIssue extends React.Component {
       loadingForUserDetails ||
       orderRelatedIssueLoading ||
       customerQueriesLoading ||
-      uploadUserFileLoading
+      uploadUserFileLoading ||
+      QuestionsListLoading
     ) {
       this.props.showSecondaryLoader();
     } else {
@@ -369,7 +374,7 @@ export default class OrderRelatedIssue extends React.Component {
                                 </div>
                                 <div className={styles.faqHederBox}>
                                   <div className={styles.faqHeader}>
-                                    {faq.FAQHeader}
+                                    {faq.FAQHeader.replace("&amp;", "&")}
                                   </div>
                                   <div className={styles.faqSubheading}>
                                     {faq.FAQSubHeader}

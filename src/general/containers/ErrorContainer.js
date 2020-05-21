@@ -61,6 +61,7 @@ const mapStateToProps = state => {
     customerQueriesFieldError: state.profile.customerQueriesFieldError,
     orderRelatedQuestionsError: state.profile.orderRelatedQuestionsError,
     submitOrderDetailsError: state.profile.submitOrderDetailsError,
+    uploadUserFileError: state.profile.uploadUserFileError,
     updateQuantityLoggedInError: state.cart.updateQuantityLoggedInError,
     updateQuantityLoggedOutError: state.cart.updateQuantityLoggedOutError,
     justPayPaymentDetailsError: state.cart.justPayPaymentDetailsError,

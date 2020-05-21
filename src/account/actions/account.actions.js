@@ -309,6 +309,10 @@ export const GET_FAQ_QUESTIONS_LIST_REQUEST = "GET_FAQ_QUESTIONS_LIST_REQUEST";
 export const GET_FAQ_QUESTIONS_LIST_SUCCESS = "GET_FAQ_QUESTIONS_LIST_SUCCESS";
 export const GET_FAQ_QUESTIONS_LIST_FAILURE = "GET_FAQ_QUESTIONS_LIST_FAILURE";
 
+export const GET_QUESTIONS_LIST_REQUEST = "GET_QUESTIONS_LIST_REQUEST";
+export const GET_QUESTIONS_LIST_SUCCESS = "GET_QUESTIONS_LIST_SUCCESS";
+export const GET_QUESTIONS_LIST_FAILURE = "GET_QUESTIONS_LIST_FAILURE";
+
 export const GET_ORDER_RELATED_QUESTIONS_REQUEST =
   "GET_ORDER_RELATED_QUESTIONS_REQUEST";
 export const GET_ORDER_RELATED_QUESTIONS_SUCCESS =
@@ -3936,135 +3940,6 @@ export function getFAQQuestions() {
         throw new Error(resultJsonStatus.message);
       }
 
-      resultJson = {
-        items: [
-          {
-            cmsParagraphComponent: {
-              content:
-                "Orders.jpg|Orders|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|shopping-faq",
-              type: "CMS Paragraph Component"
-            },
-            componentName: "cmsParagraphComponent"
-          },
-          {
-            cmsParagraphComponent: {
-              content:
-                "Installation.jpg|Installation & Warranty|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|offers-promotion-faq",
-              type: "CMS Paragraph Component"
-            },
-            componentName: "cmsParagraphComponent"
-          },
-          {
-            cmsParagraphComponent: {
-              content:
-                "Invoice.jpg|Invoice|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|payments-faq",
-              type: "CMS Paragraph Component"
-            },
-            componentName: "cmsParagraphComponent"
-          },
-          {
-            cmsParagraphComponent: {
-              content:
-                "Modification.jpg|Order Modification|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|orders-faq",
-              type: "CMS Paragraph Component"
-            },
-            componentName: "cmsParagraphComponent"
-          },
-          {
-            cmsParagraphComponent: {
-              content:
-                "Shopping.jpg|Shopping|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|manage-account",
-              type: "CMS Paragraph Component"
-            },
-            componentName: "cmsParagraphComponent"
-          },
-          {
-            cmsParagraphComponent: {
-              content:
-                "Payments.jpg|Payments|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|shipping-and-delivery",
-              type: "CMS Paragraph Component"
-            },
-            componentName: "cmsParagraphComponent"
-          },
-          {
-            cmsParagraphComponent: {
-              content:
-                "Account.jpg|Manage your Account|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|cancellation-faq",
-              type: "CMS Paragraph Component"
-            },
-            componentName: "cmsParagraphComponent"
-          },
-          {
-            cmsParagraphComponent: {
-              content:
-                "Contact.jpg|Contact Us|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|returns-faq",
-              type: "CMS Paragraph Component"
-            },
-            componentName: "cmsParagraphComponent"
-          },
-          {
-            cmsParagraphComponent: {
-              content:
-                "Invoice1.jpg|Invoice|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|installation-warranty",
-              type: "CMS Paragraph Component"
-            },
-            componentName: "cmsParagraphComponent"
-          },
-          {
-            cmsParagraphComponent: {
-              content:
-                "Modification1.jpg|Order Modification|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|general-questions",
-              type: "CMS Paragraph Component"
-            },
-            componentName: "cmsParagraphComponent"
-          },
-          {
-            cmsParagraphComponent: {
-              content:
-                "Shopping1.jpg|Shopping1|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|installation-warranty",
-              type: "CMS Paragraph Component"
-            },
-            componentName: "cmsParagraphComponent"
-          },
-          {
-            cmsParagraphComponent: {
-              content:
-                "Payments1.jpg|Payments1 |Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|installation-warranty",
-              type: "CMS Paragraph Component"
-            },
-            componentName: "cmsParagraphComponent"
-          },
-          {
-            cmsParagraphComponent: {
-              content:
-                "Account1.jpg|Manage your Account|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|installation-warranty",
-              type: "CMS Paragraph Component"
-            },
-            componentName: "cmsParagraphComponent"
-          },
-          {
-            cmsParagraphComponent: {
-              content:
-                "Contact1.jpg|Contact1 Us|Lorem ipsum dorem lorem ipsum dorem lorem ipsum..|installation-warranty",
-              type: "CMS Paragraph Component"
-            },
-            componentName: "cmsParagraphComponent"
-          }
-        ],
-        message: "page_00007BW1",
-        pageName: "Self-Serve FAQ Page",
-        pageType: "faqListComponent",
-        seo: {
-          alternateURL: "",
-          canonicalURL: "",
-          description: "",
-          imageURL: "",
-          keywords: "",
-          title: ""
-        },
-        status: "SUCCESS"
-      };
-
       const formatList = [];
       for (let list of resultJson.items) {
         const format = formatFaqList(list);
@@ -4089,6 +3964,47 @@ const formatFaqList = (list = []) => {
   };
   return returnFormat;
 };
+
+export function getFAQQuestionsListRequest() {
+  return {
+    type: GET_QUESTIONS_LIST_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getFAQQuestionsListSuccess(faqList) {
+  return {
+    type: GET_QUESTIONS_LIST_SUCCESS,
+    status: SUCCESS,
+    faqList
+  };
+}
+export function getFAQQuestionsListFailure() {
+  return {
+    type: GET_QUESTIONS_LIST_FAILURE,
+    status: FAILURE
+  };
+}
+
+export function getFAQQuestionsList(FAQPageId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getFAQQuestionsListRequest());
+    try {
+      // const result = await api.get(`${PATH}/cms/defaultpage?pageId=SS_FAQ`);
+
+      const result = await fetch(
+        `https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=${FAQPageId}`
+      );
+      let resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getFAQQuestionsListSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getFAQQuestionsListFailure(e.message));
+    }
+  };
+}
 
 // export function getNonOrderRelatedQuestionsRequest() {
 //   return {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Button from "../../general/components/Button.js";
-import feedbackYes from "../components/img/feedbackYes.png";
+import thankYou from "../components/img/thankYou.svg";
 import likeIcon from "../components/img/like.png";
 import styles from "./CustomerIssue.css";
 import { ORDER_CODE } from "../../lib/constants";
@@ -11,7 +11,9 @@ export default class QuestionFeedback extends Component {
   }
 
   render() {
-    let newSolution = this.props.question.solution;
+    let newSolution = this.props.FAQquestion
+      ? this.props.question.answer
+      : this.props.question.solution;
     if (
       this.props.question.solution &&
       this.props.question.solution.indexOf("<a") !== -1
@@ -49,7 +51,9 @@ export default class QuestionFeedback extends Component {
             ? this.props.question.issueType
             : null}
           {this.props.otherQuestion ? this.props.question.subIssueType : null}
-          {this.props.FAQquestion ? "faq list" : null}
+          {this.props.FAQquestion
+            ? this.props.question.question_component
+            : null}
           {/* {this.props.isOrderRelatedQuestion
             ? this.props.question.issueType
             : this.props.question.subIssueType} */}
@@ -84,7 +88,7 @@ export default class QuestionFeedback extends Component {
           </div>
           {this.props.isAnswerHelpFull ? (
             <div className={styles.thankImg}>
-              <img src={feedbackYes} alt="Thank you" />
+              <img src={thankYou} alt="Thank you" />
             </div>
           ) : (
             <div className={styles.feedBackButton}>
