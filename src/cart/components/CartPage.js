@@ -182,6 +182,34 @@ class CartPage extends React.Component {
     if (localStorage.getItem(ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE)) {
       localStorage.removeItem(ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE);
     }
+    // writting below code because of existing issue
+    // cartDetails cookie sometimes not available because of that even if cart exists , cart page shown as blank
+    // reference bug - https://tataunistore.atlassian.net/browse/MDEQ-96
+    // logged in user, not having cart details
+    if (!cartDetailsLoggedInUser && userDetails) {
+      this.getCartCodeAndGuid(userDetails, customerCookie, defaultPinCode);
+    }
+  }
+
+  async getCartCodeAndGuid(userDetails, customerCookie, defaultPinCode) {
+    let response = await this.props.getCartCodeAndGuidForLoggedInUser();
+    if (
+      response &&
+      response.status === "Success" &&
+      response.count > 0 &&
+      response.code
+    ) {
+      this.props.getCartDetails(
+        JSON.parse(userDetails).userName,
+        JSON.parse(customerCookie).access_token,
+        response.code,
+        defaultPinCode
+      );
+      Cookie.createCookie(
+        CART_DETAILS_FOR_LOGGED_IN_USER,
+        JSON.stringify(response)
+      );
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -1092,9 +1120,7 @@ class CartPage extends React.Component {
                     this.props.wishListCount > 0 && (
                       <div className={styles.wishListCountSection}>
                         <div className={styles.iconWishList} />
-                        <span>{`You have ${
-                          this.props.wishListCount
-                        } items in your saved list`}</span>
+                        <span>{`You have ${this.props.wishListCount} items in your saved list`}</span>
                         <div className={styles.buttonHolder}>
                           <UnderLinedButton
                             size="14px"
