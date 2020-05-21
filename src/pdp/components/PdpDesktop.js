@@ -1083,7 +1083,7 @@ export default class PdpApparel extends React.Component {
       }
       if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
         mrpDoubleValue = productData.mrpPrice.doubleValue;
-        discountPdp = Math.round(
+        discountPdp = Math.floor(
           ((mrpDoubleValue - seoDoublePrice) / mrpDoubleValue) * 100
         );
       }
