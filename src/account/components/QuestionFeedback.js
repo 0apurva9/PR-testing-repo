@@ -58,13 +58,13 @@ export default class QuestionFeedback extends Component {
             ? this.props.question.issueType
             : this.props.question.subIssueType} */}
         </div>
-        <div className={styles.propleLike}>
+        {/* <div className={styles.propleLike}>
           <div className={styles.likeIcon}>
             <img src={likeIcon} alt="like" />
           </div>
           <span className={styles.poopleLIke}>{"342"}</span>
           <span>People found it useful</span>
-        </div>
+        </div> */}
         <div
           className={styles.solution}
           dangerouslySetInnerHTML={{

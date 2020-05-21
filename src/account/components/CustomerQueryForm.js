@@ -482,9 +482,9 @@ export default class CustomerQueryForm extends Component {
           ticketInfo,
           customerInfo
         };
-        console.log("raiseTicketObj", raiseTicketObj);
+        // console.log("raiseTicketObj", raiseTicketObj);
 
-        // this.props.submitCustomerForms(raiseTicketObj);
+        this.props.submitCustomerForms(raiseTicketObj);
       }
       // this.setState({})
       // this.props.submitCustomerForms("test data");

@@ -115,11 +115,11 @@ export default class OrderRelatedIssue extends React.Component {
     } else {
       const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-      let isUserLogin = false;
+      // let isUserLogin = false;
+      // if (userDetails || customerCookie) {
+      //   isUserLogin = true;
+      // }
       if (userDetails || customerCookie) {
-        isUserLogin = true;
-      }
-      if (isUserLogin) {
         if (this.props.getCustomerQueriesFieldsv2) {
           const response = await this.props.getCustomerQueriesFieldsv2(
             this.state.question.UItemplateCode,
@@ -216,9 +216,12 @@ export default class OrderRelatedIssue extends React.Component {
         const response = await this.props.getFAQQuestionsList(faq.FAQPageId);
         if (response.status === SUCCESS) {
           if (response.faqList && response.faqList.items) {
-            const questioList = JSON.parse(
-              response.faqList.items[1].cmsTextComponent.content
-            );
+            const questioList =
+              response.faqList.items.length == 1
+                ? JSON.parse(response.faqList.items[0].cmsTextComponent.content)
+                : JSON.parse(
+                    response.faqList.items[1].cmsTextComponent.content
+                  );
             this.setState({
               isOrderDatails: true,
               orderList: false,
