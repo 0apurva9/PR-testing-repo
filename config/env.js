@@ -68,7 +68,6 @@ if (process.env.NODE_ENV !== "development") {
 if (
   process.env.REACT_APP_STAGE === "devxelp" ||
   process.env.REACT_APP_STAGE === "uat2" ||
-  process.env.REACT_APP_STAGE === "tmpprod" ||
   process.env.REACT_APP_STAGE === "uat6tcs" ||
   process.env.REACT_APP_STAGE === "qa2" ||
   process.env.REACT_APP_STAGE === "pt" ||
@@ -99,10 +98,11 @@ if (
   process.env.REACT_APP_STAGE === "awspt1" ||
   process.env.REACT_APP_STAGE === "awspt2"
 ) {
-  process.env.REACT_APP_FACEBOOK_CLIENT_ID = "484004418446735";
+  process.env.REACT_APP_FACEBOOK_CLIENT_ID = "552270434933633";
 } else if (
   process.env.REACT_APP_STAGE === "p2" ||
   process.env.REACT_APP_STAGE === "preprod3" ||
+  process.env.REACT_APP_STAGE === "tmpprod" ||
   process.env.REACT_APP_STAGE === "production"
 ) {
   process.env.REACT_APP_FACEBOOK_CLIENT_ID = "484004418446735";
