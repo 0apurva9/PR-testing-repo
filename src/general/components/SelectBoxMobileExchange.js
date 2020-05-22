@@ -117,7 +117,16 @@ export default class SelectBoxMobileExchange extends React.Component {
               })}
           </React.Fragment>
         </select>
-        <div className={styles.visibleBox}>{this.state.label}</div>
+        <div
+          className={
+            this.state.label === "Select Brand" ||
+            this.state.label === "Select Model"
+              ? styles.visibleBoxLight
+              : styles.visibleBox
+          }
+        >
+          {this.state.label}
+        </div>
         <div className={styles.arrow}>
           <Icon image={arrow} size={12} />
         </div>

@@ -612,7 +612,7 @@ export default class ExchangeModal extends React.Component {
                         <span className={styles.firstDeviceName}>
                           {firstDeviceInfo &&
                             this.trimProductname(
-                              firstDeviceInfo.model.effectiveModelName
+                              firstDeviceInfo.model.exchangeModelName
                             )}
                         </span>
                         {" - "}
@@ -647,7 +647,7 @@ export default class ExchangeModal extends React.Component {
                         <span className={styles.secondDeviceName}>
                           {secondDeviceInfo &&
                             this.trimProductname(
-                              secondDeviceInfo.model.effectiveModelName
+                              secondDeviceInfo.model.exchangeModelName
                             )}
                         </span>
                         {" - "}

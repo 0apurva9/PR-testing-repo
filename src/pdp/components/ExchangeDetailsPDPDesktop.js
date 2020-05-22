@@ -58,14 +58,14 @@ export default class ExchangeDetailsPDPDesktop extends React.Component {
                   cashback{" "}
                   {this.props.exchangeDisabled ? (
                     <span className={styles.withDisabledExchangeLink}>
-                      with exchange
+                      with Exchange
                     </span>
                   ) : (
                     <span
                       className={styles.withExchangeLink}
                       onClick={() => this.openExchangeModal()}
                     >
-                      with exchange
+                      with Exchange
                     </span>
                   )}
                 </div>
@@ -83,14 +83,14 @@ export default class ExchangeDetailsPDPDesktop extends React.Component {
                   )}{" "}
                   {this.props.exchangeDisabled ? (
                     <span className={styles.withDisabledExchangeLink}>
-                      with exchange
+                      with Exchange
                     </span>
                   ) : (
                     <span
                       className={styles.withExchangeLink}
                       onClick={() => this.openExchangeModal()}
                     >
-                      with exchange
+                      with Exchange
                     </span>
                   )}
                 </div>

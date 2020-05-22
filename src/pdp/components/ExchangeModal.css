@@ -176,9 +176,10 @@
   text-align: left;
   transform: rotate(90deg);
   position: absolute;
-  left: -45px;
-  top: 50%;
+  left: -40px;
+  top: 47%;
   letter-spacing: 0.2px;
+  text-align: center;
 }
 .arrowRight::after{
   content: "";
@@ -506,7 +507,7 @@ ul.contentHeading{
 	font-family: regular;
 }
 .firstDeviceNameContainer,.secondDeviceNameContainer{
-  width: 180px;
+  width: 170px;
   text-align: center;
   text-transform: capitalize;
   font-size: 13px;
@@ -551,4 +552,7 @@ ul.contentHeading{
   font-size: 11px;
   transform: translate3d(0, -80%, 0);
   opacity: 1;
+}
+.asterik{
+  color: #ff1744;
 }

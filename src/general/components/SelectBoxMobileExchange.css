@@ -41,6 +41,19 @@
 	text-overflow: ellipsis;
 	font-weight: 600;
 }
+.visibleBoxLight{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	left: 0;
+	top: 0;
+	padding: 0 10px;
+	pointer-events: none;
+	text-align: left;
+	overflow-x: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
 .hollowBox {
 	composes: base;
 	border: none;

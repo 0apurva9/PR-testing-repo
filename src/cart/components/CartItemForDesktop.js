@@ -573,11 +573,11 @@ export default class CartItemForDesktop extends React.Component {
                       </React.Fragment>
                     )}
                   <div className={styles.exchangePickupDetails}>
-                    <span className={styles.font14bold}>Pick up</span>: Within 3
+                    <span className={styles.font14bold}>Pick Up</span>: Within 3
                     days of Product Delivery{" "}
                     <span className={styles.separator}>|</span>
                     <span className={styles.font14bold}>
-                      Pick up charge
+                      Pick Up Charge
                     </span>:{" "}
                     {this.props.product.exchangeDetails.exchangePriceDetail &&
                     this.props.product.exchangeDetails.exchangePriceDetail

@@ -93,14 +93,14 @@ export default class HowExchangeModalWorks extends React.Component {
         </div>
         <div className={styles.contentContainerHEW}>
           <div className={styles.contentDescriptionHEW}>
-            a) the phone does not power on
+            a) The phone does not power on
           </div>
           <div className={styles.contentDescriptionHEW}>
-            b) the brand or model is different from what was mentioned by you on
+            b) The brand or model is different from what was mentioned by you on
             Tata CLiQ at the time of purchase of your new phone
           </div>
           <div className={styles.contentDescriptionHEW}>
-            c) screen lock (all forms of screen lock viz. pattern, pin,
+            c) Screen lock (all forms of screen lock viz. pattern, pin,
             password, fingerprint, face recognition, smart lock, etc. need to be
             deactivated) or iCloud lock (Apple) is not removed
           </div>
