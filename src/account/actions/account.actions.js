@@ -1309,7 +1309,6 @@ export function createGiftCardRequest() {
   };
 }
 export function createGiftCardSuccess(giftCardDetails) {
-  console.log("giftCardDetails", giftCardDetails);
   return {
     type: CREATE_GIFT_CARD_SUCCESS,
     status: SUCCESS,
@@ -1346,7 +1345,6 @@ export function createGiftCardDetails(giftCardDetails) {
         throw new Error(resultJsonStatus.message);
       }
       Cookie.createCookie("egvCartGuid", resultJson.egvCartGuid);
-      console.log("egvCartGuid", resultJson.egvCartGuid);
       return dispatch(createGiftCardSuccess(resultJson));
     } catch (e) {
       dispatch(createGiftCardFailure(e.message));

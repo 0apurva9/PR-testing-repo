@@ -218,7 +218,7 @@ class ProductSellerPage extends Component {
     } else {
       this.hideLoader();
     }
-    console.log("PRODUCT DESCRIPTION PAGE WRAPPER RENDER HIT");
+
     if (
       this.props.showPiqPage &&
       this.props.stores &&

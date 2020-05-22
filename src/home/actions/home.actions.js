@@ -373,7 +373,6 @@ export function getFeed(pageId: null) {
       if (pageId) {
         feedTypeRequest = SECONDARY_FEED_TYPE;
         try {
-          console.log("IN GET FEED");
           result = await api.getMiddlewareUrl(
             `v2/mpl/cms/defaultpage?pageId=${pageId}&channel=${WCMS_PLATFORM}`
           );
@@ -382,8 +381,6 @@ export function getFeed(pageId: null) {
         }
 
         resultJson = await result.json();
-        console.log("RESULT JSON");
-        console.log(resultJson);
         if (resultJson.errors) {
           dispatch(secondaryFeedSuccess([], feedTypeRequest));
         } else {

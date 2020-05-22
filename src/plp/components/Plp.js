@@ -404,8 +404,6 @@ export default class Plp extends React.Component {
   };
 
   renderPageTags = () => {
-    console.log("RENDER PAGE TAGS");
-    console.log(this.props.productListings.currentQuery);
     let url = `${URL_ROOT}${this.props.productListings.currentQuery.url}`;
     if (this.props.productListings.pagination) {
       const lastPage = Number.parseInt(
@@ -517,7 +515,6 @@ export default class Plp extends React.Component {
   };
 
   render() {
-    console.log("ARE WE RENDERING HTE PLP?");
     let selectedFilterCount = 0;
     let selectedFilter = [];
     let filterSelected = false;
