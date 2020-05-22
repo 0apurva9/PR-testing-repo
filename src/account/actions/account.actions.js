@@ -44,7 +44,8 @@ import {
   GIFT_CARD_MODAL,
   UPDATE_REFUND_DETAILS_POPUP,
   SHOW_RETURN_CONFIRM_POP_UP,
-  RATING_AND_REVIEW_MODAL
+  RATING_AND_REVIEW_MODAL,
+  CLIQ_CASH_MODULE
 } from "../../general/modal.actions.js";
 import format from "date-fns/format";
 import { getPaymentModes } from "../../cart/actions/cart.actions.js";
@@ -452,6 +453,10 @@ export const SET_USER_SMS_NOTIFICATION_FAILURE =
 
 export const RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS =
   "RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS";
+
+export const CHECK_BALANCE_REQUEST = "CHECK_BALANCE_REQUEST";
+export const CHECK_BALANCE_SUCCESS = "CHECK_BALANCE_SUCCESS";
+export const CHECK_BALANCE_FAILURE = "CHECK_BALANCE_FAILURE";
 
 export function getDetailsOfCancelledProductRequest() {
   return {
@@ -4752,5 +4757,83 @@ export function resetUserAddressAfterLogout() {
   return {
     type: RESET_USER_ADDRESS,
     status: SUCCESS
+  };
+}
+
+export function checkBalanceRequest() {
+  return {
+    type: CHECK_BALANCE_REQUEST,
+    status: REQUESTING
+  };
+}
+export function checkBalanceSuccess(checkBalanceDetails) {
+  return {
+    type: CHECK_BALANCE_SUCCESS,
+    status: SUCCESS,
+    checkBalanceDetails
+  };
+}
+
+export function checkBalanceFailure(error) {
+  return {
+    type: CHECK_BALANCE_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+
+export function checkBalance(checkBalanceDetails) {
+  return async (dispatch, getState, { api }) => {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    dispatch(checkBalanceRequest());
+    try {
+      let data = {};
+      Object.assign(data, {
+        cardNumber: checkBalanceDetails.cardNumber,
+        cardPin: checkBalanceDetails.pinNumber,
+        sendRecentTransactions: true
+      });
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/giftCardCheckBalance?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&channel=web`,
+        data
+      );
+      let resultJson = await result.json();
+      //   let resultJson = {
+      //     "type" : "gcCheckBalanceDto",
+      //     "error" : "Invalid CardNumber/ CardPin",
+      //     "status" : "Failure"
+      //  }
+      //    let resultJson = {
+      //     "type": "gcCheckBalanceDto",
+      //     "status": "success",
+      //     "amount": {
+      //        "currencyIso": "INR",
+      //        "doubleValue": 500.0,
+      //        "formattedValue": "₹500.00",
+      //        "formattedValueNoDecimal": "₹500",
+      //        "priceType": "BUY",
+      //        "value": 500.00
+      //     },
+      //     "cardNumber": "3000162014812406",
+      //     "cardProgramName": "TUL B2C eGift Card",
+      //     "expiryDate": "2021-04-06T18:00:25.66"
+      //  }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      if (resultJson.status && resultJson.status.toLowerCase() === "success") {
+        dispatch(checkBalanceSuccess(resultJson));
+        dispatch(hideModal(CLIQ_CASH_MODULE));
+      }
+    } catch (e) {
+      dispatch(checkBalanceFailure(e.message));
+    }
   };
 }

@@ -267,7 +267,11 @@ const account = (
     UserNotificationDetailsStatus: null,
     UserNotificationDetailsError: null,
     UserNotificationDetails: null,
-    UserNotificationConfig: null
+    UserNotificationConfig: null,
+
+    checkBalanceStatus: null,
+    checkBalanceDetailsError: null,
+    checkBalanceDetails: null
   },
   action
 ) => {
@@ -1439,6 +1443,7 @@ const account = (
         retryPaymentDetailsError: action.error,
         retryPaymentDetailsLoading: false
       });
+
     case accountActions.SUBMIT_RETURNIMGUPLOAD_DETAILS_REQUEST:
       return Object.assign({}, state, {
         submitImageUploadDetailsStatus: action.status,
@@ -1760,6 +1765,29 @@ const account = (
         userAddress: null,
         loading: false
       });
+
+    case accountActions.CHECK_BALANCE_REQUEST:
+      return Object.assign({}, state, {
+        checkBalanceStatus: action.status,
+        isModal: true,
+        loading: true
+      });
+
+    case accountActions.CHECK_BALANCE_SUCCESS:
+      return Object.assign({}, state, {
+        checkBalanceStatus: action.status,
+        checkBalanceDetails: action.checkBalanceDetails,
+        isModal: false,
+        loading: false
+      });
+    case accountActions.CHECK_BALANCE_FAILURE:
+      return Object.assign({}, state, {
+        checkBalanceStatus: action.status,
+        checkBalanceDetailsError: action.error,
+        loading: false,
+        isModal: true
+      });
+
     default:
       return state;
   }
