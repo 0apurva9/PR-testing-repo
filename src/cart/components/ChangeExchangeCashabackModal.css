@@ -1,6 +1,6 @@
 .base {
   position: absolute;
-  width: 555px;
+  width: 600px;
   height: auto;
   text-align: center;
   max-height: 100%;
@@ -9,7 +9,8 @@
   animation: slideIn 200ms forwards;
   top: 20%;
   margin: auto;
-  padding: 30px 50px;;
+  padding: 30px 50px;
+  border-radius: 8px;
 }
 @keyframes slideIn {
   0% {
@@ -32,19 +33,19 @@
 }
 .title{
   font-family: semibold;
-  font-size: 22px;
+  font-size: 20px;
   margin-bottom: 25px;
 }
 .subHeading{
-  font-size: 18px;
+  font-size: 16px;
   margin-bottom: 30px;
 }
 .okButton{
   border-radius: 18px;
   border: solid 2px #ff1744;
   background-color: #ff1744;
-  font-size: 18px;
-  padding: 5px 20px;
+  font-size: 16px;
+  padding: 8px 20px;
   color: #ffffff;
   font-family: semibold;
   display: inline-block;

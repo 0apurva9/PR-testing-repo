@@ -175,7 +175,7 @@
 }
 .exchangeLogoLoader {
 	position: absolute;
-	animation: rotation 2s infinite linear;
+	animation: rotation 2s infinite ease-out;
 	width: 32px;
 	height: 28px;
 }
