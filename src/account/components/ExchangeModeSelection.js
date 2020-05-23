@@ -145,11 +145,23 @@ export default class ExchangeModeSelection extends React.Component {
       orderId,
       cashbackDetails
     );
+    let placeHolder = "";
     if (
       response &&
       response.status &&
       response.status.toLowerCase() === "success"
     ) {
+      if (cashbackDetails.exchangePaymentMode === "CLIQ_CASH") {
+        placeHolder = "CLiQ Cash wallet";
+      }
+      if (cashbackDetails.exchangePaymentMode === "BANK_ACCOUNT") {
+        placeHolder = "Bank Account";
+      }
+      let message =
+        "You will receive Exchange Cashback in your " +
+        placeHolder +
+        " within 48 hours, post old phone pickup. This Cashback mode will be used for future Exchange Cashback processing.";
+      this.props.displayToast(message);
       this.props.history.push(`/my-account/orders`);
     }
     if (
