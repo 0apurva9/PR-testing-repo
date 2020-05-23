@@ -301,7 +301,6 @@
 .howExchangeWorksContainer,.termsConditionsContainer {
   position: absolute;
   width: 496px;
-  padding: 25px 40px;
   height: auto;
   max-height: 100%;
   background: #fff;
@@ -317,6 +316,18 @@
 }
 .termsConditionsContainer{
   z-index: 2;
+}
+.topContainer{
+  position: sticky;
+  padding: 25px 40px 25px 40px;
+  width: 100%;
+  background-color: #fff;
+  top: 0;
+  z-index: 1;
+}
+.bottomContainer{
+  position: relative;
+  padding: 0px 40px 25px 40px;
 }
 .modalBackArrow{
   border: solid #000;
@@ -335,7 +346,6 @@
   font-size: 20px;
   line-height: 1.2;
   color: #212121;
-  margin-bottom: 24px;
 }
 .contentHeading{
   font-size: 13px;
