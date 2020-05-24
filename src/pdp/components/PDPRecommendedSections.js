@@ -30,7 +30,8 @@ import {
   SIMILAR_PRODUCTS_PDP_WIDGET,
   setDataLayerForMsdItemWidgets,
   ADOBE_CAROUSEL_CLICK,
-  ADOBE_CAROUSEL_SHOW
+  ADOBE_CAROUSEL_SHOW,
+  widgetsTrackingForRecommendation
 } from "../../lib/adobeUtils.js";
 
 // only want to kick off a request for the MSD stuff if they are visible.
@@ -74,6 +75,26 @@ class PDPRecommendedSections extends React.Component {
     };
     setDataLayerForMsdItemWidgets(jsonDetailsForWidgets, ADOBE_CAROUSEL_CLICK);
     this.props.history.push(url);
+    widgetsTrackingForRecommendation({
+      widgetName: widgetName ? widgetName : "",
+      pageName: "pdp",
+      brandName:
+        widgetName == "About the Brand"
+          ? mainProduct && mainProduct.brandName
+          : "",
+      category:
+        widgetName == "About the Brand"
+          ? categoryHierarchy &&
+            categoryHierarchy[categoryHierarchy.length - 1].category_name
+          : widgetName == "Similar Products"
+            ? this.props.recommendedItems.recommendedProducts[index + 1]
+                .ontology
+            : widgetName == "Frequently Bought Together"
+              ? this.props.recommendedItems.similarProducts[index + 1].ontology
+              : "",
+      PositionOfProduct: index + 1,
+      productId: items && items.productListingId
+    });
   };
   visitBrand() {
     if (this.props.aboutTheBrand.webURL) {
@@ -292,24 +313,30 @@ class PDPRecommendedSections extends React.Component {
     };
     return (
       <React.Fragment>
-        <Observer {...options}>
-          <div className={styles.observer} />
-        </Observer>
-        <div ref={this.selector}>
-          {this.renderAboutTheBrand()}
-          {this.renderProductModuleSection(
-            "Similar Products",
-            "recommendedProducts"
-          )}
-          {this.renderProductModuleSection(
-            "Frequently Bought Together",
-            SIMILAR_PRODUCTS_WIDGET_KEY
-          )}
-          {this.renderRecentlyBoughtTogetherModuleSection(
-            "Recently Viewed Products",
-            "Recently Viewed"
-          )}
-        </div>
+        {this.props.targetVisible ? (
+          <React.Fragment>
+            <Observer {...options}>
+              <div className={styles.observer} />
+            </Observer>
+            <div ref={this.selector}>
+              {this.renderAboutTheBrand()}
+              {this.renderProductModuleSection(
+                "Similar Products",
+                "recommendedProducts"
+              )}
+              {this.renderProductModuleSection(
+                "Frequently Bought Together",
+                SIMILAR_PRODUCTS_WIDGET_KEY
+              )}
+              {this.renderRecentlyBoughtTogetherModuleSection(
+                "Recently Viewed Products",
+                "Recently Viewed"
+              )}
+            </div>
+          </React.Fragment>
+        ) : (
+          ""
+        )}
       </React.Fragment>
     );
   }

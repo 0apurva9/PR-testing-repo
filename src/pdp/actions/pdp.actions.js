@@ -1023,11 +1023,12 @@ export function productMsdRequest() {
     status: REQUESTING
   };
 }
-export function productMsdSuccess(msdItems) {
+export function productMsdSuccess(recommendedItems, widgetKey) {
   return {
     type: PRODUCT_MSD_SUCCESS,
     status: SUCCESS,
-    msdItems
+    recommendedItems,
+    widgetKey
   };
 }
 
@@ -1070,7 +1071,7 @@ export function getMsdRequest(
     } else {
       msdRequestObject.append("num_results", JSON.stringify(NUMBER_RESULTS));
     }
-    msdRequestObject.append("details", false);
+    msdRequestObject.append("details", true);
     msdRequestObject.append("product_id", productCode.toUpperCase());
     if (filters) {
       msdRequestObject.append("filters", JSON.stringify(filters));
@@ -1097,11 +1098,17 @@ export function getMsdRequest(
         dispatch(
           getPdpItems(resultJson.data[0], RECOMMENDED_PRODUCTS_WIDGET_KEY)
         );
+        dispatch(
+          productMsdSuccess(resultJson.data[0], RECOMMENDED_PRODUCTS_WIDGET_KEY)
+        );
       } else {
         dispatch(getPdpItems([], RECOMMENDED_PRODUCTS_WIDGET_KEY));
       }
       if (resultJson.data[1] && resultJson.data[1].length > 0) {
         dispatch(getPdpItems(resultJson.data[1], SIMILAR_PRODUCTS_WIDGET_KEY));
+        dispatch(
+          productMsdSuccess(resultJson.data[1], SIMILAR_PRODUCTS_WIDGET_KEY)
+        );
       }
     } catch (e) {
       dispatch(productMsdFailure(e.message));
@@ -1243,7 +1250,7 @@ export function pdpAboutBrand(productCode) {
     msdRequestObject.append("num_results", JSON.stringify(NUMBER_RESULTS));
     const mcvId = await getMcvId();
     msdRequestObject.append("mad_uuid", mcvId);
-    msdRequestObject.append("details", false);
+    msdRequestObject.append("details", true);
     msdRequestObject.append("product_id", productCode.toUpperCase());
 
     dispatch(pdpAboutBrandRequest());
@@ -1299,11 +1306,15 @@ export function getPdpItems(itemIds, widgetKey) {
   return async (dispatch, getState, { api }) => {
     dispatch(getPdpItemsPdpRequest());
     try {
-      // let productCodes;
-      // each(itemIds, itemId => {
-      //   productCodes = `${itemId},${productCodes}`;
-      // });
-      let productCodes = itemIds && itemIds.toString();
+      let productCodes;
+      if (widgetKey === "aboutTheBrand") {
+        productCodes = itemIds && itemIds.toString();
+      } else {
+        productCodes = itemIds.map(obj => {
+          return obj.product_id;
+        });
+        productCodes = productCodes && productCodes.toString();
+      }
       const url = `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
       const result = await api.getMiddlewareUrl(url);
       const resultJson = await result.json();

@@ -3530,6 +3530,53 @@ export function widgetsTracking(widgetObj: {}) {
     window._satellite.track(ADOBE_WIDGET_TRACKING);
   }
 }
+export function widgetsTrackingForRecommendation(widgetObject: {}) {
+  if (!widgetObject.widgetName) {
+    return;
+  }
+  const data = cloneDeep(window.digitalData);
+  const currentDigitalData = window.digitalData;
+  if (currentDigitalData.cpj) {
+    Object.assign(data, {
+      page: {
+        widget: {
+          name: `${widgetObject.productId ? widgetObject.productId : "x"}:${
+            widgetObject.widgetName
+          }:${widgetObject.pageName ? widgetObject.pageName : ""}:${
+            widgetObject.brandName ? widgetObject.brandName : "x"
+          }:${widgetObject.category ? widgetObject.category : "x"}:${
+            widgetObject.PositionOfProduct
+              ? widgetObject.PositionOfProduct
+              : "x"
+          }`
+        }
+      }
+    });
+  } else {
+    Object.assign(data, {
+      cpj: {
+        pdp: {
+          findingMethod: data.page.pageInfo.pageName,
+          widgetname: `${
+            widgetObject.productId ? widgetObject.productId : "x"
+          }:${widgetObject.widgetName}:${
+            widgetObject.pageName ? widgetObject.pageName : ""
+          }:${widgetObject.brandName ? widgetObject.brandName : "x"}:${
+            widgetObject.category ? widgetObject.category : "x"
+          }:${
+            widgetObject.PositionOfProduct
+              ? widgetObject.PositionOfProduct
+              : "x"
+          }`
+        }
+      }
+    });
+  }
+  Object.assign(window.digitalData, data);
+  if (window._satellite) {
+    window._satellite.track(ADOBE_WIDGET_TRACKING);
+  }
+}
 export function setDataLayerForVisitBrand() {
   if (window._satellite) {
     window._satellite.track(VISIT_BRAND);

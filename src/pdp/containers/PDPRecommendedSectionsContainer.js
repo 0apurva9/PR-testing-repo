@@ -31,7 +31,8 @@ const mapStateToProps = state => {
     recentlyViewedProduct: state.productDescription.recentlyViewedProduct,
     aboutTheBrand: state.productDescription.aboutTheBrand,
     visitedNewProduct: state.productDescription.visitedNewProduct,
-    recentlyViewedProduct: state.productDescription.recentlyViewedProduct
+    recentlyViewedProduct: state.productDescription.recentlyViewedProduct,
+    recommendedItems: state.productDescription.recommendedItems
   };
 };
 

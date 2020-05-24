@@ -45,6 +45,7 @@ const productDescription = (
     getProductDetailsLoading: false,
     serviceableSellerMessage: null,
     serviceablePincodeListResponse: null,
+    recommendedItems: {},
 
     manufacturerStatus: null,
     manufacturerError: null,
@@ -575,9 +576,11 @@ const productDescription = (
       });
 
     case pdpActions.PRODUCT_MSD_SUCCESS:
+      const newMsdRecommendedItems = cloneDeep(state.recommendedItems);
+      newMsdRecommendedItems[action.widgetKey] = action.recommendedItems;
       return Object.assign({}, state, {
         status: action.status,
-        msdItems: action.msdItems,
+        recommendedItems: newMsdRecommendedItems,
         loading: false
       });
 
