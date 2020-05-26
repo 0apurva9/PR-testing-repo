@@ -628,6 +628,18 @@ export default class CartItemForDesktop extends React.Component {
             )}
           </React.Fragment>
         )}
+        {this.props.isGiveAway === NO &&
+          this.props.deliveryInformation && (
+            <div className={styles.deliveryInfo}>
+              <DeliveryInfoSelect
+                deliveryInformation={this.props.deliveryInformation}
+                selected={this.props.selected}
+                onSelect={val => this.selectDeliveryMode(val)}
+                onPiq={val => this.getPickUpDetails()}
+                isClickable={this.props.isClickable}
+              />
+            </div>
+          )}
       </div>
     );
   }

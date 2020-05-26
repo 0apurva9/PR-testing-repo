@@ -28,11 +28,13 @@ export default class OrderRelatedPopup extends React.Component {
       );
     }
   }
+
   getMoreOrder() {
     if (this.props.getMoreOrder) {
       this.props.getMoreOrder();
     }
   }
+
   closeModal() {
     if (this.props.closeModal) {
       this.props.closeModal();
