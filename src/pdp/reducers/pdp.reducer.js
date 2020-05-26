@@ -362,15 +362,23 @@ const productDescription = (
       const userDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
 
+      let productJson = action.newProduct;
+      let products = productJson.products.filter(function(item) {
+        delete item.exchangeDetails;
+        return item;
+      });
+      productJson.products = products;
+      console.log(productJson);
+
       if (userDetails && customerCookie) {
         Cookies.createCookie(
           CART_DETAILS_FOR_LOGGED_IN_USER,
-          JSON.stringify(action.newProduct)
+          JSON.stringify(productJson)
         );
       } else {
         Cookies.createCookie(
           CART_DETAILS_FOR_ANONYMOUS,
-          JSON.stringify(action.newProduct)
+          JSON.stringify(productJson)
         );
       }
 
