@@ -79,22 +79,21 @@ export default class DropdownMenu extends React.Component {
     }
     return (
       <div className={styles.base}>
-        {!userCookie &&
-          !userCookie && (
-            <div className={styles.loginAndRegisterButtonHolder}>
-              <div className={styles.loginAndRegisterButton}>
-                <Button
-                  label={"Login/ Register"}
-                  width={135}
-                  height={35}
-                  borderRadius={18}
-                  backgroundColor={"#ff1744"}
-                  onClick={() => this.openSignUpPopUp("Login/ Register")}
-                  textStyle={{ color: "#FFF", fontSize: 14 }}
-                />
-              </div>
+        {!userCookie && !userCookie && (
+          <div className={styles.loginAndRegisterButtonHolder}>
+            <div className={styles.loginAndRegisterButton}>
+              <Button
+                label={"Login/ Register"}
+                width={135}
+                height={35}
+                borderRadius={18}
+                backgroundColor={"#ff1744"}
+                onClick={() => this.openSignUpPopUp("Login/ Register")}
+                textStyle={{ color: "#FFF", fontSize: 14 }}
+              />
             </div>
-          )}
+          </div>
+        )}
         <div className={styles.accountHolder}>
           <div
             className={styles.menuHolder}
@@ -138,12 +137,11 @@ export default class DropdownMenu extends React.Component {
             <div className={styles.menuIconCliqCash} />
             CLiQ Cash
           </div>
-          {userCookie &&
-            userCookie && (
-              <div className={styles.menuHolder}>
-                <LogoutButtonContainer />
-              </div>
-            )}
+          {userCookie && userCookie && (
+            <div className={styles.menuHolder}>
+              <LogoutButtonContainer />
+            </div>
+          )}
         </div>
       </div>
     );

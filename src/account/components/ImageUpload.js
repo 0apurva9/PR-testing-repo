@@ -9,8 +9,10 @@ export default class ImageUpload extends React.Component {
     };
   }
   handleChange(event) {
-    const file = event.target.files[0];
-
+    let file = event.target.files[0];
+    if (this.props.isMultipleUpload) {
+      file = event.target.files;
+    }
     if (this.props.onChange) {
       this.props.onChange(file);
     }
