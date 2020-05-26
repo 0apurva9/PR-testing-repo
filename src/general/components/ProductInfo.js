@@ -10,7 +10,8 @@ export default class ProductInfo extends React.Component {
           <div className={styles.base}>
             {this.props.bestDeliveryInfo && (
               <div className={styles.bestDeliveryInfo}>
-                Get it by&nbsp;<span className={styles.date}>
+                Get it by&nbsp;
+                <span className={styles.date}>
                   {this.props.bestDeliveryInfo}
                 </span>
               </div>
@@ -25,9 +26,9 @@ export default class ProductInfo extends React.Component {
                     isPlp={this.props.isPlp}
                   >
                     {this.props.ratingCount && (
-                      <div className={styles.totalNoOfReviews}>{`(${
-                        this.props.ratingCount
-                      })`}</div>
+                      <div
+                        className={styles.totalNoOfReviews}
+                      >{`(${this.props.ratingCount})`}</div>
                     )}
                   </StarRating>
                 )

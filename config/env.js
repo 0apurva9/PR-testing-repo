@@ -68,7 +68,6 @@ if (process.env.NODE_ENV !== "development") {
 if (
   process.env.REACT_APP_STAGE === "devxelp" ||
   process.env.REACT_APP_STAGE === "uat2" ||
-  process.env.REACT_APP_STAGE === "tmpprod" ||
   process.env.REACT_APP_STAGE === "uat6tcs" ||
   process.env.REACT_APP_STAGE === "qa2" ||
   process.env.REACT_APP_STAGE === "pt" ||
@@ -103,6 +102,7 @@ if (
 } else if (
   process.env.REACT_APP_STAGE === "p2" ||
   process.env.REACT_APP_STAGE === "preprod3" ||
+  process.env.REACT_APP_STAGE === "tmpprod" ||
   process.env.REACT_APP_STAGE === "production"
 ) {
   process.env.REACT_APP_FACEBOOK_CLIENT_ID = "484004418446735";
@@ -131,7 +131,7 @@ if (process.env.REACT_APP_STAGE === "devxelp") {
     "742445068598-2t1f67127eqan2jjt4t7kagofp8rbchl.apps.googleusercontent.com";
 } else if (process.env.REACT_APP_STAGE === "tmpprod") {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
-    "970557259016-ek8mgjvai8eik30oes66g9c44gpmajrp.apps.googleusercontent.com";
+    "742445068598-2t1f67127eqan2jjt4t7kagofp8rbchl.apps.googleusercontent.com";
 } else if (process.env.REACT_APP_STAGE === "stage") {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
     "742445068598-7mra85a3m4lervedu7k7ddt7r8knheoi.apps.googleusercontent.com";

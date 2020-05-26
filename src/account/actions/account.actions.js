@@ -47,7 +47,10 @@ import {
   RATING_AND_REVIEW_MODAL
 } from "../../general/modal.actions.js";
 import format from "date-fns/format";
-import { getPaymentModes } from "../../cart/actions/cart.actions.js";
+import {
+  getPaymentModes,
+  USER_CART_PATH
+} from "../../cart/actions/cart.actions.js";
 import {
   getMcvId,
   setDataLayerForMyAccountDirectCalls,
@@ -264,6 +267,10 @@ export const UPDATE_PROFILE_FAILURE = "UPDATE_PROFILE_FAILURE";
 export const LOG_OUT_ACCOUNT_USING_MOBILE_NUMBER =
   "LOG_OUT_ACCOUNT_USING_MOBILE_NUMBER";
 
+export const GET_CLIQ_CARE_WMS_FAILURE = "GET_CLIQ_CARE_WMS_FAILURE";
+export const GET_CLIQ_CARE_WMS_SUCCESS = "GET_CLIQ_CARE_WMS_SUCCESS";
+export const GET_CLIQ_CARE_WMS_REQUEST = "GET_CLIQ_CARE_WMS_REQUEST";
+
 export const LOG_OUT_USER_REQUEST = "LOG_OUT_USER_REQUEST";
 export const LOG_OUT_USER_SUCCESS = "LOG_OUT_USER_SUCCESS";
 export const LOG_OUT_USER_FAILURE = "LOG_OUT_USER_FAILURE";
@@ -290,6 +297,13 @@ export const GET_CUSTOMER_QUERIES_DATA_SUCCESS =
   "GET_CUSTOMER_QUERIES_DATA_SUCCESS";
 export const GET_CUSTOMER_QUERIES_DATA_FAILURE =
   "GET_CUSTOMER_QUERIES_DATA_FAILURE";
+
+export const GET_CUSTOMER_QUERIES_FIELDS_REQUEST =
+  "GET_CUSTOMER_QUERIES_FIELDS_REQUEST";
+export const GET_CUSTOMER_QUERIES_FIELDS_SUCCESS =
+  "GET_CUSTOMER_QUERIES_FIELDS_SUCCESS";
+export const GET_CUSTOMER_QUERIES_FIELDS_FAILURE =
+  "GET_CUSTOMER_QUERIES_FIELDS_FAILURE";
 
 export const RESEND_EMAIL_FOR_GIFT_CARD_REQUEST =
   "RESEND_EMAIL_FOR_GIFT_CARD_REQUEST";
@@ -4070,22 +4084,621 @@ export function getCustomerQueriesDataFailure() {
     status: FAILURE
   };
 }
-export function getCustomerQueriesData() {
+/**
+ * demo
+ * Function related to it will also be commented.
+ */
+// export function getCustomerQueriesData() {
+//   return async (dispatch, getState, { api }) => {
+//     dispatch(getCustomerQueriesDataRequest());
+//     try {
+//       const result = await api.get("v2/mpl/getWebCRMNodes");
+//       const resultJson = await result.json();
+//       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+//       if (resultJsonStatus.status) {
+//         throw new Error(resultJsonStatus.message);
+//       }
+//       dispatch(getCustomerQueriesDataSuccess(resultJson));
+//     } catch (e) {
+//       dispatch(getCustomerQueriesDataFailure(e.message));
+//     }
+//   };
+// }
+
+export function getCustomerQueriesDataRequestv2() {
+  return {
+    type: GET_CUSTOMER_QUERIES_DATA_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getCustomerQueriesDataSuccessv2(customerQueriesData) {
+  console.log("call");
+  return {
+    type: GET_CUSTOMER_QUERIES_DATA_SUCCESS,
+    status: SUCCESS,
+    customerQueriesData
+  };
+}
+export function getCustomerQueriesDataFailurev2() {
+  return {
+    type: GET_CUSTOMER_QUERIES_DATA_FAILURE,
+    status: FAILURE
+  };
+}
+/**
+ * Demo
+ * This function is to be replaced by "getCustomerQueriesData"
+ */
+export function getCustomerQueriesData(transactionId) {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
-    dispatch(getCustomerQueriesDataRequest());
+    dispatch(getCustomerQueriesDataRequestv2());
     try {
-      const result = await api.get("v2/mpl/getWebCRMNodes");
+      const result = await api.post(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getOrderRelatedQuestions?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&transactionId=${transactionId}`
+      );
+
+      const resultJson = await result.json();
+      if (resultJson.error) {
+        dispatch(getCustomerQueriesDataSuccessv2(resultJson));
+        dispatch(displayToast(resultJson.error));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      dispatch(getCustomerQueriesDataSuccessv2(resultJson));
+    } catch (e) {
+      dispatch(getCustomerQueriesDataFailurev2(e.message));
+    }
+  };
+}
+
+export function getNonOrderRelatedQuestionsRequest() {
+  return {
+    type: GET_CUSTOMER_QUERIES_DATA_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getNonOrderRelatedQuestionsSuccess(customerQueriesData) {
+  return {
+    type: GET_CUSTOMER_QUERIES_DATA_SUCCESS,
+    status: SUCCESS,
+    customerQueriesData
+  };
+}
+export function getNonOrderRelatedQuestionsFailure() {
+  return {
+    type: GET_CUSTOMER_QUERIES_DATA_FAILURE,
+    status: FAILURE
+  };
+}
+export function getNonOrderRelatedQuestions() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getNonOrderRelatedQuestionsRequest());
+    try {
+      const result = await api.get(`${PATH}/getNonOrderRelatedQuestions`);
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(getCustomerQueriesDataSuccess(resultJson));
+      dispatch(getNonOrderRelatedQuestionsSuccess(resultJson));
     } catch (e) {
-      dispatch(getCustomerQueriesDataFailure(e.message));
+      dispatch(getNonOrderRelatedQuestionsFailure(e.message));
     }
   };
 }
+
+export function getCliqCareWmsRequest() {
+  return {
+    type: GET_CLIQ_CARE_WMS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getCliqCareWmsSuccess(cliqCareWmsResponse) {
+  return {
+    type: GET_CLIQ_CARE_WMS_SUCCESS,
+    status: SUCCESS,
+    cliqCareWmsResponse
+  };
+}
+
+export function getCliqCareWmsFailure(error) {
+  return {
+    type: GET_CLIQ_CARE_WMS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function getCliqCareWmsResponse(pageId = "ss-vibhore-test") {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getCliqCareWmsRequest());
+    try {
+      const result = await api.get(`v2/mpl/cms/defaultpage?pageId=${pageId}`);
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getCliqCareWmsSuccess(resultJson));
+    } catch (e) {
+      dispatch(getCliqCareWmsFailure(e.message));
+    }
+  };
+}
+
+export function getCustomerQueriesFieldsRequestv2() {
+  return {
+    type: GET_CUSTOMER_QUERIES_FIELDS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getCustomerQueriesFieldsSuccessv2(customerQueriesField) {
+  return {
+    type: GET_CUSTOMER_QUERIES_FIELDS_SUCCESS,
+    status: SUCCESS,
+    customerQueriesField
+  };
+}
+export function getCustomerQueriesFieldsFailurev2() {
+  return {
+    type: GET_CUSTOMER_QUERIES_FIELDS_FAILURE,
+    status: FAILURE
+  };
+}
+let firstData = [];
+export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getCustomerQueriesFieldsRequestv2());
+    try {
+      const result = await api.get(
+        `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      let fetchData = [];
+      let redioData = [];
+      resultJson &&
+        resultJson.items.map(ele => {
+          if (ele.componentName === "textAreaComponent") {
+            let textAreaData = getTextAreaApiData(ele);
+            fetchData.push(textAreaData);
+          }
+          if (ele.componentName === "attachmentComponent") {
+            let attachmentData = getAttachmentApiData(ele);
+            fetchData.push(attachmentData);
+          }
+          if (ele.componentName === "textboxComponent") {
+            let textBoxData = getTextBoxApiData(ele);
+            fetchData.push(textBoxData);
+          }
+          if (ele.componentName === "labelComponent") {
+            let labelData = getLabelApiData(ele);
+            fetchData.push(labelData);
+          }
+          if (ele.componentName === "radioComponent") {
+            let radioData = getRadioApiData(ele);
+            fetchData.push(radioData);
+          }
+          if (ele.componentName === "checkboxComponent") {
+            let checkboxData = getCheckboxApiData(ele);
+            fetchData.push(checkboxData);
+          }
+        });
+
+      if (isSelectRadio) {
+        redioData = [...firstData];
+        let index =
+          redioData.findIndex(f => f.componentName === "radioComponent") + 1;
+        redioData.splice(index, 0, ...fetchData);
+      } else {
+        firstData = [...fetchData];
+      }
+      return dispatch(
+        getCustomerQueriesFieldsSuccessv2(isSelectRadio ? redioData : firstData)
+      );
+    } catch (e) {
+      return dispatch(getCustomerQueriesFieldsFailurev2(e.message));
+    }
+  };
+}
+
+const getFormattedString = (strValue = "") => {
+  let formattedValue = "",
+    startIndex = null,
+    endIndex = null;
+  if (strValue.includes("(") && strValue.includes(")")) {
+    startIndex = strValue.indexOf("(");
+    endIndex = strValue.indexOf(")");
+    strValue = strValue.slice(0, startIndex - 1) + strValue.slice(startIndex);
+    formattedValue =
+      strValue.slice(0, endIndex - 2) + strValue.slice(endIndex - 1);
+  } else {
+    formattedValue = strValue;
+  }
+
+  return formattedValue;
+};
+
+const getTextAreaApiData = (apiData = []) => {
+  let items =
+    apiData.singleBannerComponent && apiData.singleBannerComponent.items[0]
+      ? apiData.singleBannerComponent.items[0]
+      : "";
+  let itemsTitle = items && items.title ? items.title : "";
+
+  let returnValue = {
+    componentName: apiData.componentName,
+    componentId: apiData.singleBannerComponent.componentId
+      ? apiData.singleBannerComponent.componentId
+      : "",
+    btnText: items && items.btnText ? items.btnText : "",
+    heading:
+      items && items.description
+        ? items.description.split("|")
+          ? getFormattedString(items.description.split("|")[0])
+          : ""
+        : "",
+    isMandatory:
+      items && items.description
+        ? items.description.split("|")
+          ? parseInt(items.description.split("|")[1])
+          : ""
+        : "",
+    placeholder:
+      items && items.description
+        ? items.description.split("|")
+          ? getFormattedString(items.description.split("|")[2])
+          : ""
+        : "",
+    hexCode: items && items.hexCode ? items.hexCode : "",
+    imageURL: items && items.imageURL ? items.imageURL : "",
+    minLimit:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[0]
+        ? itemsTitle.split("|")[0].split(",")[0]
+          ? parseInt(itemsTitle.split("|")[0].split(",")[0])
+          : ""
+        : "",
+    minLimitError:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[0]
+        ? itemsTitle.split("|")[0].split(",")[1]
+          ? itemsTitle.split("|")[0].split(",")[1]
+          : ""
+        : "",
+    maxLimit:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[1]
+        ? itemsTitle.split("|")[1].split(",")[0]
+          ? parseInt(itemsTitle.split("|")[1].split(",")[0])
+          : ""
+        : "",
+    maxLimitError:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[1]
+        ? itemsTitle.split("|")[1].split(",")[1]
+          ? itemsTitle.split("|")[1].split(",")[1]
+          : ""
+        : "",
+    webURL: items && items.webURL ? items.webURL : "",
+    title: apiData.singleBannerComponent.title
+      ? apiData.singleBannerComponent.title
+      : "",
+    type: apiData.singleBannerComponent.type
+      ? apiData.singleBannerComponent.type
+      : ""
+  };
+
+  return returnValue;
+};
+const getAttachmentApiData = (apiData = []) => {
+  let items =
+    apiData.singleBannerComponent && apiData.singleBannerComponent.items[0]
+      ? apiData.singleBannerComponent.items[0]
+      : "";
+  let itemsTitle = items && items.title ? items.title : "";
+
+  let returnValue = {
+    componentName: apiData.componentName,
+    componentId: apiData.singleBannerComponent.componentId
+      ? apiData.singleBannerComponent.componentId
+      : "",
+    btnText: items && items.btnText ? items.btnText : "",
+    heading:
+      items && items.description
+        ? items.description.split("|")
+          ? getFormattedString(items.description.split("|")[0])
+          : ""
+        : "",
+    isMandatory:
+      items && items.description
+        ? items.description.split("|")
+          ? parseInt(items.description.split("|")[1])
+          : ""
+        : "",
+    itemsTitle: getFormattedString(itemsTitle),
+    maxFileLimit:
+      items && items.hexCode
+        ? items.hexCode.split("|").length
+          ? parseInt(items.hexCode.split("|")[0])
+          : ""
+        : "",
+    maxFileSize:
+      items && items.hexCode
+        ? items.hexCode.split("|").length
+          ? parseInt(items.hexCode.split("|")[1])
+          : ""
+        : "",
+    imageURL: items && items.imageURL ? items.imageURL : "",
+    webURL: items && items.webURL ? items.webURL : "",
+    title: apiData.singleBannerComponent.title
+      ? apiData.singleBannerComponent.title
+      : "",
+    type: apiData.singleBannerComponent.type
+      ? apiData.singleBannerComponent.type
+      : ""
+  };
+
+  return returnValue;
+};
+const getTextBoxApiData = (apiData = []) => {
+  let items =
+    apiData.singleBannerComponent && apiData.singleBannerComponent.items[0]
+      ? apiData.singleBannerComponent.items[0]
+      : "";
+  let itemsTitle = items && items.title ? items.title : "";
+  let regExArray =
+    itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[2]
+      ? itemsTitle.split("|")[2].split(",")
+        ? itemsTitle.split("|")[2].split(",")
+        : []
+      : [];
+
+  let regexErr = "",
+    regexExp = null;
+
+  if (regExArray.length) {
+    regexErr = regExArray[regExArray.length - 1];
+    regExArray.splice(-1, 1);
+    regexExp = regExArray.join(",");
+  }
+
+  let returnValue = {
+    componentName: apiData.componentName,
+    componentId: apiData.singleBannerComponent.componentId
+      ? apiData.singleBannerComponent.componentId
+      : "",
+    btnText: items && items.btnText ? items.btnText : "",
+    heading:
+      items && items.description
+        ? items.description.split("|")
+          ? getFormattedString(items.description.split("|")[0])
+          : ""
+        : "",
+    isMandatory:
+      items && items.description
+        ? items.description.split("|")
+          ? parseInt(items.description.split("|")[1])
+          : ""
+        : "",
+    placeholder:
+      items && items.description
+        ? items.description.split("|")
+          ? getFormattedString(items.description.split("|")[2])
+          : ""
+        : "",
+    hexCode: items && items.hexCode ? items.hexCode : "",
+    imageURL: items && items.imageURL ? items.imageURL : "",
+    minLimit:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[0]
+        ? itemsTitle.split("|")[0].split(",")[0]
+          ? parseInt(itemsTitle.split("|")[0].split(",")[0])
+          : ""
+        : "",
+    minLimitError:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[0]
+        ? itemsTitle.split("|")[0].split(",")[1]
+          ? itemsTitle.split("|")[0].split(",")[1]
+          : ""
+        : "",
+    maxLimit:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[1]
+        ? itemsTitle.split("|")[1].split(",")[0]
+          ? parseInt(itemsTitle.split("|")[1].split(",")[0])
+          : ""
+        : "",
+    maxLimitError:
+      itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[1]
+        ? itemsTitle.split("|")[1].split(",")[1]
+          ? itemsTitle.split("|")[1].split(",")[1]
+          : ""
+        : "",
+    // regex:
+    //   itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[2]
+    //     ? itemsTitle.split("|")[2].split(",")[0]
+    //       ? itemsTitle.split("|")[2].split(",")[0]
+    //       : ""
+    //     : "",
+    // regexError:
+    //   itemsTitle && itemsTitle.split("|") && itemsTitle.split("|")[2]
+    //     ? itemsTitle.split("|")[2].split(",")[1]
+    //       ? itemsTitle.split("|")[2].split(",")[1]
+    //       : ""
+    //     : "",
+    regex: getFormattedString(regexExp),
+    regexError: regexErr,
+    webURL: items && items.webURL ? items.webURL : "",
+    title: apiData.singleBannerComponent.title
+      ? apiData.singleBannerComponent.title
+      : "",
+    type: apiData.singleBannerComponent.type
+      ? apiData.singleBannerComponent.type
+      : ""
+  };
+
+  return returnValue;
+};
+const getLabelApiData = (apiData = []) => {
+  let items =
+    apiData.singleBannerComponent && apiData.singleBannerComponent.items[0]
+      ? apiData.singleBannerComponent.items[0]
+      : "";
+  let itemsTitle = items && items.title ? items.title : "";
+
+  let returnValue = {
+    componentName: apiData.componentName,
+    componentId: apiData.singleBannerComponent.componentId
+      ? apiData.singleBannerComponent.componentId
+      : "",
+    btnText: items && items.btnText ? items.btnText : "",
+    heading:
+      items && items.description
+        ? items.description.split("|")
+          ? getFormattedString(items.description.split("|")[0])
+          : ""
+        : "",
+    fontSize:
+      items &&
+      items.description &&
+      items.description.split("|") &&
+      items.description.split("|")[1] &&
+      items.description.split("|")[1].split(",") &&
+      items.description.split("|")[1].split(",")[0]
+        ? items.description.split("|")[1].split(",")[0]
+        : "",
+    fontStyle:
+      items &&
+      items.description &&
+      items.description.split("|") &&
+      items.description.split("|")[1] &&
+      items.description.split("|")[1].split(",") &&
+      items.description.split("|")[1].split(",")[1]
+        ? items.description.split("|")[1].split(",")[1]
+        : "",
+    hexCode: items && items.hexCode ? items.hexCode : "",
+    imageURL: items && items.imageURL ? items.imageURL : "",
+    itemsTitle: itemsTitle,
+    webURL: items && items.webURL ? items.webURL : "",
+    title: apiData.singleBannerComponent.title
+      ? apiData.singleBannerComponent.title
+      : "",
+    type: apiData.singleBannerComponent.type
+      ? apiData.singleBannerComponent.type
+      : ""
+  };
+  return returnValue;
+};
+
+const getRadioApiData = (apiData = []) => {
+  let items =
+    apiData.singleBannerComponent && apiData.singleBannerComponent.items[0]
+      ? apiData.singleBannerComponent.items[0]
+      : "";
+
+  let optionArray =
+    items &&
+    items.title.split("|").map(ele => {
+      let tempOption = ele.split(",");
+      return {
+        optionName: tempOption[0] ? getFormattedString(tempOption[0]) : "",
+        value: tempOption[1] ? tempOption[1] : "",
+        isSelected: tempOption[2] ? parseInt(tempOption[2]) : "",
+        webFormTemplate: tempOption[3] ? tempOption[3] : ""
+      };
+    });
+
+  let returnValue = {
+    componentName: apiData.componentName,
+    componentId: apiData.singleBannerComponent.componentId
+      ? apiData.singleBannerComponent.componentId
+      : "",
+    btnText: items && items.btnText ? items.btnText : "",
+    heading:
+      items && items.description
+        ? items.description.split("|")
+          ? getFormattedString(items.description.split("|")[0])
+          : ""
+        : "",
+    isMandatory:
+      items && items.description
+        ? items.description.split("|")
+          ? parseInt(items.description.split("|")[1])
+          : ""
+        : "",
+    hexCode: items && items.hexCode ? items.hexCode : "",
+    imageURL: items && items.imageURL ? items.imageURL : "",
+    optionArray,
+    webURL: items && items.webURL ? items.webURL : "",
+    title: apiData.singleBannerComponent.title
+      ? apiData.singleBannerComponent.title
+      : "",
+    type: apiData.singleBannerComponent.type
+      ? apiData.singleBannerComponent.type
+      : ""
+  };
+  return returnValue;
+};
+
+const getCheckboxApiData = (apiData = []) => {
+  let items =
+    apiData.singleBannerComponent && apiData.singleBannerComponent.items[0]
+      ? apiData.singleBannerComponent.items[0]
+      : "";
+
+  let optionArray =
+    items &&
+    items.title.split("|").map(ele => {
+      let tempOption = ele.split(",");
+      return {
+        optionName: tempOption[0] ? tempOption[0] : "",
+        value: tempOption[1] ? tempOption[1] : "",
+        isSelected: tempOption[2] ? parseInt(tempOption[2]) : "",
+        webFormTemplate: tempOption[3] ? tempOption[3] : ""
+      };
+    });
+
+  let returnValue = {
+    componentName: apiData.componentName,
+    componentId: apiData.singleBannerComponent.componentId
+      ? apiData.singleBannerComponent.componentId
+      : "",
+    btnText: items && items.btnText ? items.btnText : "",
+    heading:
+      items && items.description
+        ? items.description.split("|")
+          ? items.description.split("|")[0]
+          : ""
+        : "",
+    isMandatory:
+      items && items.description
+        ? items.description.split("|")
+          ? parseInt(items.description.split("|")[1])
+          : ""
+        : "",
+    hexCode: items && items.hexCode ? items.hexCode : "",
+    imageURL: items && items.imageURL ? items.imageURL : "",
+    optionArray,
+    webURL: items && items.webURL ? items.webURL : "",
+    title: apiData.singleBannerComponent.title
+      ? apiData.singleBannerComponent.title
+      : "",
+    type: apiData.singleBannerComponent.type
+      ? apiData.singleBannerComponent.type
+      : ""
+  };
+
+  return returnValue;
+};
 
 export function getOrdersTransactionDataRequest(paginated: false) {
   return {
@@ -4112,6 +4725,7 @@ export function getOrdersTransactionDataFailure(error, isPaginated) {
     isPaginated
   };
 }
+
 export function getOrdersTransactionData(paginated) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -4148,6 +4762,7 @@ export function getOrdersTransactionData(paginated) {
     }
   };
 }
+
 export function clearOrderTransactionDetails() {
   return {
     type: Clear_ORDER_TRANSACTION_DATA
@@ -4172,16 +4787,21 @@ export function uploadUserFileFailure() {
     status: FAILURE
   };
 }
-export function uploadUserFile(file) {
+
+export function uploadUserFile(issueType, title, file) {
   return async (dispatch, getState, { api }) => {
     dispatch(uploadUserFileRequest());
     try {
       let uploadUserFileObject = new FormData();
-      uploadUserFileObject.append("uploadFile", file);
+      uploadUserFileObject.append("IssueType", issueType);
+      file.forEach(val => {
+        uploadUserFileObject.append(title, val);
+      });
       const result = await api.postFormData(
-        `${PATH}/crmFileUpload`,
+        `${PATH}/attachmentUpload`,
         uploadUserFileObject
       );
+
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
@@ -4213,65 +4833,19 @@ export function submitOrderDetailsFailure() {
     status: FAILURE
   };
 }
-export function submitOrderDetails(submitOrderDetails) {
+
+export function submitOrderDetails(raiseTicketObj) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(submitOrderDetailsRequest());
     try {
-      let result,
-        transactionIdWithAttachmentFile,
-        currentOrderCode,
-        currentSubOrderCode;
-      if (submitOrderDetails.currentState === 0) {
-        transactionIdWithAttachmentFile = `transactionId=${
-          submitOrderDetails.transactionId
-        }&nodeL2=${submitOrderDetails.nodeL2}&attachmentFiles=${
-          submitOrderDetails.imageURL
-        }`;
-        currentOrderCode = `${submitOrderDetails.orderCode}`;
-        currentSubOrderCode = `${submitOrderDetails.subOrderCode}`;
-
-        result = await api.post(
-          `${USER_PATH}/${
-            JSON.parse(userDetails).userName
-          }/submitTicket?&${transactionIdWithAttachmentFile}&contactEmail=${
-            submitOrderDetails.contactEmail
-          }&contactMobile=${
-            submitOrderDetails.contactMobile
-          }&orderCode=${currentOrderCode}&ticketType=CL&nodeL0=${
-            submitOrderDetails.nodeL0
-          }&nodeL3=${submitOrderDetails.nodeL3}&contactName=${
-            submitOrderDetails.contactName
-          }&access_token=${JSON.parse(customerCookie).access_token}&nodeL1=${
-            submitOrderDetails.nodeL1
-          }&comment=${encodeURIComponent(submitOrderDetails.comment)}&nodeL4=${
-            submitOrderDetails.nodeL4 ? submitOrderDetails.nodeL4 : " "
-          }&subOrderCode=${currentSubOrderCode}`
-        );
-      } else {
-        transactionIdWithAttachmentFile = `nodeL2=${submitOrderDetails.nodeL2}`;
-        //currentOrderCode = `""`;
-        //currentSubOrderCode = `""`;
-
-        result = await api.post(
-          `${USER_PATH}/${
-            JSON.parse(userDetails).userName
-          }/submitTicket?&${transactionIdWithAttachmentFile}&contactEmail=${
-            submitOrderDetails.contactEmail
-          }&contactMobile=${
-            submitOrderDetails.contactMobile
-          }&ticketType=CL&nodeL0=${submitOrderDetails.nodeL0}&nodeL3=${
-            submitOrderDetails.nodeL3
-          }&contactName=${submitOrderDetails.contactName}&access_token=${
-            JSON.parse(customerCookie).access_token
-          }&nodeL1=${submitOrderDetails.nodeL1}&comment=${encodeURIComponent(
-            submitOrderDetails.comment
-          )}&nodeL4=${
-            submitOrderDetails.nodeL4 ? submitOrderDetails.nodeL4 : " "
-          }`
-        );
-      }
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/raiseTicket?access_token=${JSON.parse(customerCookie).access_token}`,
+        raiseTicketObj
+      );
 
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
