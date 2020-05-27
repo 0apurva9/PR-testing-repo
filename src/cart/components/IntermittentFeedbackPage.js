@@ -4,16 +4,45 @@ import styles from "./IntermittentFeedbackPage.css";
 import ProductImage from "../../general/components/ProductImage.js";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 
+const FORWARD_FLOW_URL = "feedback/NPSFeedbackForm?";
+const RETURN_FLOW_URL = "feedback/ReturnNPSFeedbackForm?";
 class IntermittentFeedbackPage extends Component {
   constructor(props) {
     super(props);
+
+    this.getUserDetails = queryString.parse(this.props.location.search);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    if (this.props.getIntermittentPageData) {
+      let data = {
+        originalUid: "dgupta@tataunistore.com",
+        transactionId: "124192001717751",
+        deliveryMode: "home-delivery"
+      };
+      this.props.getIntermittentPageData(data);
+    }
+  }
 
-  renderRatingData = () => {
-    let rating = feedbackData.data.ratings;
+  onFeedbackRatingClick(ratingValue) {
+    let {
+      originalUid,
+      transactionId,
+      deliveryMode = "",
+      returnType = ""
+    } = this.getUserDetails;
+    let URL = "";
+    if (deliveryMode) {
+      URL = `${FORWARD_FLOW_URL}originalUid=${originalUid}&transactionId=
+            ${transactionId}&deliveryMode=${deliveryMode}&rating=${ratingValue}`;
+    } else {
+      URL = `${RETURN_FLOW_URL}originalUid=${originalUid}&transactionId=
+            ${transactionId}&returnType=${returnType}&rating=${ratingValue}`;
+    }
+    this.props.history.push(URL);
+  }
 
+  renderRatingData = rating => {
     let ratinglist = [];
 
     rating.forEach((r, index) => {
@@ -22,6 +51,7 @@ class IntermittentFeedbackPage extends Component {
           <div
             className={styles.ratingCicrle}
             style={{ backgroundColor: r.hexCode }}
+            onClick={() => this.onFeedbackRatingClick(item)}
           >
             {item}
           </div>
@@ -37,7 +67,12 @@ class IntermittentFeedbackPage extends Component {
       return <SecondaryLoader />;
     }
 
-    let { imageURL, productName, deliveryDate } = feedbackData.data.product;
+    let {
+      product: { imageURL, productName, deliveryDate },
+      ratings,
+      subTitle,
+      title
+    } = feedbackData.data; //this.props.feedbackData.data;
 
     return (
       <div className={styles.base}>
@@ -50,14 +85,12 @@ class IntermittentFeedbackPage extends Component {
             <div className={styles.headerSeperator} />
           </div>
           <div className={styles.mainTextWrapper}>
-            <div className={styles.mainText}>Time to know, did we CLiQ?</div>
-            <span className={styles.subMainText}>
-              How likely are you going to recommend us
-            </span>
+            <div className={styles.mainText}>{title}</div>
+            <span className={styles.subMainText}>{subTitle}</span>
           </div>
           <div className={styles.productContainer}>
             <div className={styles.productRatingWrapper}>
-              {this.renderRatingData()}
+              {this.renderRatingData(ratings)}
               <div className={styles.ratingLabelWrapper}>
                 <span className={styles.ratingLabel}>Not Likely</span>
                 <span
@@ -79,7 +112,6 @@ class IntermittentFeedbackPage extends Component {
                 <div className={styles.productImageHolder}>
                   <ProductImage
                     image={imageURL}
-                    //onClickImage={() => this.onClick()}
                     flatImage={productName === "Gift Card"}
                   />
                 </div>

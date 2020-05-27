@@ -6321,13 +6321,24 @@ export function getIntermittentPageData(getUserDetails) {
   return async (dispatch, getState, { api }) => {
     dispatch(getIntermittentPageDataRequest());
     try {
-      const result = await api.get(
-        `v2/mpl/getQuestionsForNPS?originalUid=${
-          getUserDetails.originalUid
-        }&transactionId=${getUserDetails.transactionId}&rating=${
-          getUserDetails.rating
-        }&deliveryMode=${getUserDetails.deliveryMode}`
-      );
+      let {
+        originalUid,
+        transactionId,
+        deliveryMode,
+        returnType
+      } = getUserDetails;
+      let paramsObj = {},
+        apiEndPoint = "getFwdNPSData";
+      paramsObj.originalUid = originalUid;
+      paramsObj.transactionId = transactionId;
+      if (deliveryMode) {
+        paramsObj.deliveryMode = deliveryMode;
+      } else {
+        paramsObj.returnType = returnType;
+        apiEndPoint = "getReturnNPSData";
+      }
+
+      const result = await api.post(`v2/mpl/${apiEndPoint}`, paramsObj);
       const resultJson = await result.json();
 
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
