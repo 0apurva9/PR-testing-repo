@@ -82,6 +82,7 @@ import {
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { setBagCount } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions";
+import { getCustomerAccessToken } from "../../common/services/common.services";
 export const GET_USER_DETAILS_REQUEST = "GET_USER_DETAILS_REQUEST";
 export const GET_USER_DETAILS_SUCCESS = "GET_USER_DETAILS_SUCCESS";
 export const GET_USER_DETAILS_FAILURE = "GET_USER_DETAILS_FAILURE";
@@ -4784,8 +4785,9 @@ export function checkBalanceFailure(error) {
 
 export function checkBalance(checkBalanceDetails) {
   return async (dispatch, getState, { api }) => {
+    const customerAccessToken = await getCustomerAccessToken();
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    // const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(checkBalanceRequest());
     try {
       let data = {};
@@ -4797,32 +4799,10 @@ export function checkBalance(checkBalanceDetails) {
       const result = await api.post(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/giftCardCheckBalance?access_token=${
-          JSON.parse(customerCookie).access_token
-        }&channel=web`,
+        }/giftCardCheckBalance?access_token=${customerAccessToken}&channel=web`,
         data
       );
       let resultJson = await result.json();
-      //   let resultJson = {
-      //     "type" : "gcCheckBalanceDto",
-      //     "error" : "Invalid CardNumber/ CardPin",
-      //     "status" : "Failure"
-      //  }
-      //    let resultJson = {
-      //     "type": "gcCheckBalanceDto",
-      //     "status": "success",
-      //     "amount": {
-      //        "currencyIso": "INR",
-      //        "doubleValue": 500.0,
-      //        "formattedValue": "₹500.00",
-      //        "formattedValueNoDecimal": "₹500",
-      //        "priceType": "BUY",
-      //        "value": 500.00
-      //     },
-      //     "cardNumber": "3000162014812406",
-      //     "cardProgramName": "TUL B2C eGift Card",
-      //     "expiryDate": "2021-04-06T18:00:25.66"
-      //  }
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
