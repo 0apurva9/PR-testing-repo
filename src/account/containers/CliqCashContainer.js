@@ -93,7 +93,9 @@ const mapStateToProps = state => {
     transactionDetailsError: state.profile.transactionDetailsError,
     loading: state.profile.loading,
     userAddress: state.profile.userAddress,
-    cliqCashConfig: state.profile.cliqCashConfig
+    cliqCashConfig: state.profile.cliqCashConfig,
+    promotionalCashStatementDetails:
+      state.profile.promotionalCashStatementDetails
   };
 };
 

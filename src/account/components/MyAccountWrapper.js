@@ -27,7 +27,8 @@ import {
   ADD,
   EDIT,
   CNC_TO_HD_ORDER,
-  MY_ACCOUNT_USER_NOTIFICATION_PAGE
+  MY_ACCOUNT_USER_NOTIFICATION_PAGE,
+  MY_ACCOUNT_PROMOS_PAGE
 } from "../../lib/constants.js";
 import AllOrderContainer from "../containers/AllOrderContainer";
 import AllSellerReviewContainer from "../containers/AllSellerReviewContainer";
@@ -53,6 +54,7 @@ import ReturnEditAddressContainer from "../../return/containers/ReturnEditAddres
 import ReturnAddAddressContainer from "../../return/containers/ReturnAddAddressContainer.js";
 import CncToHdFlowContainer from "../containers/CncToHdFlowContainer.js";
 import NotificationContainer from "../containers/NotificationContainer.js";
+import CliqCashPromosContainer from "../containers/CliqCashPromosContainer.js";
 
 export default class MyAccountWrapper extends React.Component {
   componentDidMount() {
@@ -138,6 +140,11 @@ export default class MyAccountWrapper extends React.Component {
           exact
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`}
           component={GiftCardContainer}
+        />
+        <Route
+          exact
+          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${MY_ACCOUNT_PROMOS_PAGE}`}
+          component={CliqCashPromosContainer}
         />
         <Route
           exact
