@@ -150,12 +150,6 @@ export default class CliqCashDesktop extends React.Component {
   };
 
   render() {
-    const {
-      cliqCashExpiringDetails,
-      cliqCashConfig,
-      cliqCashUserDetails
-    } = this.props;
-
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let transactions = [];
@@ -199,25 +193,41 @@ export default class CliqCashDesktop extends React.Component {
                           <div className={styles.balance}>
                             <span className={styles.rupee}>₹</span>
                             {this.props &&
-                            cliqCashUserDetails &&
-                            cliqCashUserDetails.totalCliqCashBalance &&
-                            cliqCashUserDetails.totalCliqCashBalance.value &&
-                            cliqCashUserDetails.totalCliqCashBalance.value > 0
+                            this.props.cliqCashUserDetails &&
+                            this.props.cliqCashUserDetails
+                              .totalCliqCashBalance &&
+                            this.props.cliqCashUserDetails.totalCliqCashBalance
+                              .value &&
+                            this.props.cliqCashUserDetails.totalCliqCashBalance
+                              .value > 0
                               ? parseFloat(
                                   Math.round(
-                                    cliqCashUserDetails.totalCliqCashBalance
-                                      .value * 100
+                                    this.props.cliqCashUserDetails
+                                      .totalCliqCashBalance.value * 100
                                   ) / 100
-                                )
-                                  .toFixed(2)
-                                  .toLocaleString("hi-IN")
+                                ).toLocaleString("hi-IN")
                               : "0"}
                             <span className={styles.floatingNumber}>.00</span>
                           </div>
                         </div>
 
-                        <div className={styles.infoBase}>
-                          {cliqCashConfig && cliqCashConfig.topUp ? (
+                        <div className={styles.infoBaseKnowMore}>
+                          <div className={styles.spacing} />
+                          <div className={styles.infoKnowMore}>
+                            A quick and convenient way for faster checkout and
+                            refund.
+                            <div
+                              className={styles.knowMore}
+                              onClick={this.cliqCashKnowMore}
+                            >
+                              Know More.
+                            </div>
+                          </div>
+                        </div>
+
+                        {this.props.cliqCashConfig &&
+                        this.props.cliqCashConfig.topUp ? (
+                          <div className={styles.infoBase}>
                             <React.Fragment>
                               <div className={styles.info}>
                                 For faster checkout
@@ -233,21 +243,24 @@ export default class CliqCashDesktop extends React.Component {
                                   backgroundColor="#da1c5c"
                                   textStyle={{ color: "#fff", fontSize: 12 }}
                                   onClick={() =>
-                                    cliqCashUserDetails &&
-                                    !cliqCashUserDetails.isWalletOtpVerified
+                                    this.props.cliqCashUserDetails &&
+                                    !this.props.cliqCashUserDetails
+                                      .isWalletOtpVerified
                                       ? this.showKycVerification()
                                       : this.navigateTopUp()
                                   }
                                 />
                               </div>
                             </React.Fragment>
-                          ) : null}
-                        </div>
+                          </div>
+                        ) : null}
                       </div>
-                      {cliqCashExpiringDetails &&
-                      cliqCashExpiringDetails.isExpiring ? (
+                      {this.props.cliqCashExpiringDetails &&
+                      this.props.cliqCashExpiringDetails.isExpiring ? (
                         <CliqCashExpiring
-                          cliqCashExpiringDetails={cliqCashExpiringDetails}
+                          cliqCashExpiringDetails={
+                            this.props.cliqCashExpiringDetails
+                          }
                         />
                       ) : null}
                     </div>

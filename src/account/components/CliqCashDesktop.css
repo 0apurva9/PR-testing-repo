@@ -48,16 +48,17 @@
    .cliqCashBalanceHolder {
     width: 100%;
     height: auto;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
     }
  .cliqCashBalanceContainer {
     width: 100%;
-    padding: 25px;
+    height: auto;
+    padding: 24px;
     margin-bottom: 10px;
-    background-color: green;
     background-repeat: no-repeat;
     background-position: 0 0;
     background-size: cover;
+    border-radius: 6px;
   }
   .cliqCashBalanceHeader {
     width: 100%;
@@ -80,7 +81,7 @@
    .balanceHeader {
     width: 100%;
     height: auto;
-    font-size: 10px;
+    font-size: 12px;
     font-family: light;
     color: #212121;
     margin: 0 0 5px;
@@ -114,6 +115,21 @@
     display: inline-block;
     text-transform: uppercase;
     text-align: center;
+  }
+  .infoBaseKnowMore {
+    width: 50%;
+    height: auto;
+    display: inline-block;
+  }
+  .infoKnowMore {
+    width: 90%;
+    height: auto;
+    font-size: 14px;
+    line-height: 20px;
+    color: #8d8d8d;
+    font-family: light;
+    vertical-align: middle;
+    display: inline-block;
   }
   .btnCenter{
     width: 100%;
