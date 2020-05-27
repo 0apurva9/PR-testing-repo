@@ -6213,24 +6213,37 @@ export function getFeedBackFormFailure(error) {
 export function getFeedBackForm(getUserDetails, isReturnFlow) {
   return async (dispatch, getState, { api }) => {
     dispatch(getFeedBackFormRequest());
-    let apiEndPoint = "getQuestionsForNPS",
-      type = "deliveryMode=";
-
-    if (isReturnFlow) {
-      apiEndPoint = "getQuestionsForReturnNPS";
-      type = "returnType=";
-    }
     try {
-      const result = await api.get(
-        `v2/mpl/${apiEndPoint}?originalUid=${
-          getUserDetails.originalUid
-        }&transactionId=${getUserDetails.transactionId}&${type}${
-          getUserDetails.deliveryMode
-        }&rating=${getUserDetails.rating}`
-      );
+      const {
+        originalUid,
+        transactionId,
+        deliveryMode,
+        returnType,
+        rating
+      } = getUserDetails;
+      let result = null;
+
+      if (isReturnFlow) {
+        let returnParamsObj = {};
+        returnParamsObj.originalUid = originalUid;
+        returnParamsObj.transactionId = transactionId;
+        returnParamsObj.returnType = returnType;
+        returnParamsObj.rating = rating;
+        returnParamsObj.isLux = false;
+        result = await api.post(
+          `v2/mpl/getQuestionsForReturnNPS`,
+          returnParamsObj
+        );
+      } else {
+        result = await api.get(
+          `v2/mpl/getQuestionsForNPS?originalUid=${originalUid}
+          &transactionId=${transactionId}
+          &deliveryMode=${deliveryMode}
+          &rating=${rating}`
+        );
+      }
 
       const resultJson = await result.json();
-
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
