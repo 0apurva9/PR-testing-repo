@@ -160,7 +160,7 @@ export default class ExchangeModeSelection extends React.Component {
       let message =
         "You will receive Exchange Cashback in your " +
         placeHolder +
-        " within 48 hours, post old phone pickup. This Cashback mode will be used for future Exchange Cashback processing.";
+        " within 48 hours, post old phone pickup.";
       this.props.displayToast(message);
       this.props.history.push(`/my-account/orders`);
     }
