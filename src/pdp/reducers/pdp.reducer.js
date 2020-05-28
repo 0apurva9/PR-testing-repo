@@ -362,23 +362,24 @@ const productDescription = (
       const userDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
 
-      let productJson = action.newProduct;
-      let products = productJson.products.filter(function(item) {
+      // below code added for safari browser fix - cart related details saved in cookie
+      // as exchange introduced , cookie size gots increased after saving details , so removing exchange details
+      let cartInfoJson = action.newProduct;
+      let products = cartInfoJson.products.filter(function(item) {
         delete item.exchangeDetails;
         return item;
       });
-      productJson.products = products;
-      console.log(productJson);
+      cartInfoJson.products = products;
 
       if (userDetails && customerCookie) {
         Cookies.createCookie(
           CART_DETAILS_FOR_LOGGED_IN_USER,
-          JSON.stringify(productJson)
+          JSON.stringify(cartInfoJson)
         );
       } else {
         Cookies.createCookie(
           CART_DETAILS_FOR_ANONYMOUS,
-          JSON.stringify(productJson)
+          JSON.stringify(cartInfoJson)
         );
       }
 

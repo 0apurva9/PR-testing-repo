@@ -2270,15 +2270,24 @@ const cart = (
       });
 
     case cartActions.GET_CART_COUNT_FOR_LOGGED_IN_USER_SUCCESS:
+      // below code added for safari browser fix - cart related details saved in cookie
+      // as exchange introduced , cookie size gots increased after saving details , so removing exchange details
+      let cartInfoJson = action.cartDetails;
+      let products = cartInfoJson.products.filter(function(item) {
+        delete item.exchangeDetails;
+        return item;
+      });
+      cartInfoJson.products = products;
+
       if (action.userDetails) {
         Cookies.createCookie(
           CART_DETAILS_FOR_LOGGED_IN_USER,
-          JSON.stringify(action.cartDetails)
+          JSON.stringify(cartInfoJson)
         );
       } else {
         Cookies.createCookie(
           CART_DETAILS_FOR_ANONYMOUS,
-          JSON.stringify(action.cartDetails)
+          JSON.stringify(cartInfoJson)
         );
       }
       return Object.assign({}, state, {
