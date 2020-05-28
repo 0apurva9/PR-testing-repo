@@ -82,7 +82,7 @@
 .productContainer {
   width: 100%;
   height: 100%;
-  padding: 53px 226px 130px 226px;
+  padding: 53px 226px 100px 226px;
 }
 .productRatingWrapper{
   display: block;
@@ -108,6 +108,7 @@
   justify-content: center;
   align-items: center;
   display: flex;
+  cursor: pointer;
 }
 .ratingLabelWrapper {
   display: flex;
@@ -135,7 +136,7 @@
 }
 .productImageHolder {
   width: 15%;
-	height: auto;
+	height: 130px;
 	display: inline-block;
 }
 .productDetails {
@@ -154,7 +155,7 @@
   line-height: 1.22;
   letter-spacing: normal;
   color: #212121;
-  margin-bottom: 3px;
+  margin-bottom: 6px;
 }
 .deliveryDate {
   font-family: semibold;
