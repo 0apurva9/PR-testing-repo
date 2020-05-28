@@ -77,11 +77,13 @@ export default class CheckBalance extends Component {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let transactions = [];
     this.props.transactionDetails &&
-      this.props.transactionDetails.map(data => {
+      this.props.transactionDetails.isArray &&
+      this.props.transactionDetails.forEach(data => {
         if (data.items) {
           return transactions.push(...data.items);
         }
       });
+
     if (userDetails) {
       userData = JSON.parse(userDetails);
     }
@@ -144,7 +146,6 @@ export default class CheckBalance extends Component {
               image={userData && userData.imageUrl}
               userLogin={userData && userData.userName}
               loginType={userData && userData.loginType}
-              onClick={() => this.renderToAccountSetting()}
               firstName={
                 userData &&
                 userData.firstName &&
@@ -172,5 +173,8 @@ CheckBalance.propTypes = {
   expiryDate: PropTypes.string,
   cliqCashUserDetails: PropTypes.object,
   checkBalanceDetails: PropTypes.object,
-  transactionDetails: PropTypes.array
+  transactionDetails: PropTypes.array,
+  showCliqCashModule: PropTypes.func,
+  openPopUp: PropTypes.func,
+  userAddress: PropTypes.object
 };

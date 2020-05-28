@@ -4787,20 +4787,13 @@ export function checkBalance(checkBalanceDetails) {
   return async (dispatch, getState, { api }) => {
     const customerAccessToken = await getCustomerAccessToken();
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    // const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(checkBalanceRequest());
     try {
-      let data = {};
-      Object.assign(data, {
-        cardNumber: checkBalanceDetails.cardNumber,
-        cardPin: checkBalanceDetails.pinNumber,
-        sendRecentTransactions: true
-      });
       const result = await api.post(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
         }/giftCardCheckBalance?access_token=${customerAccessToken}&channel=web`,
-        data
+        checkBalanceDetails
       );
       let resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

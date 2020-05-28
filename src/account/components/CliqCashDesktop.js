@@ -40,7 +40,7 @@ export default class CliqCashDesktop extends React.Component {
     super(props);
     this.state = {
       cardNumber: this.props.cardNumber ? this.props.cardNumber : "",
-      pinNumber: this.props.pinNumber ? this.props.cardNumber : "",
+      pinNumber: this.props.pinNumber ? this.props.pinNumber : "",
       cliqCashUpdate: false
     };
   }
@@ -73,14 +73,14 @@ export default class CliqCashDesktop extends React.Component {
     }
   }
 
-  redeemCliqVoucher() {
-    if (this.state.cardNumber && this.state.pinNumber) {
-      this.setState({ cliqCashUpdate: true });
-      if (this.props.redeemCliqVoucher) {
-        this.props.redeemCliqVoucher(this.state);
-      }
-    }
-  }
+  // redeemCliqVoucher() {
+  //   if (this.state.cardNumber && this.state.pinNumber) {
+  //     this.setState({ cliqCashUpdate: true });
+  //     if (this.props.redeemCliqVoucher) {
+  //       this.props.redeemCliqVoucher(this.state);
+  //     }
+  //   }
+  // }
   transactiondetailPage(data) {
     setDataLayerForGiftCard(SET_DATA_LAYER_CLIQ_CASH_LAST_FIVE_TRANSACTION);
 
@@ -104,7 +104,7 @@ export default class CliqCashDesktop extends React.Component {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`);
   };
 
-  getShowCliqCashModulePop = () => {
+  showCliqCashModulePopUp = () => {
     setDataLayerForGiftCard(SET_DATA_LAYER_ADD_GIFT_CARD);
     if (this.props.showCliqCashModule) {
       const obj = {};
@@ -115,7 +115,7 @@ export default class CliqCashDesktop extends React.Component {
     }
   };
 
-  showKycVerification = () => {
+  kycVerification = () => {
     if (this.props.showKycVerification) {
       this.props.showKycVerification(this.props);
     }
@@ -180,11 +180,17 @@ export default class CliqCashDesktop extends React.Component {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let transactions = [];
     this.props.transactionDetails &&
-      this.props.transactionDetails.map(data => {
+      this.props.transactionDetails.isArray &&
+      this.props.transactionDetails.forEach(data => {
         if (data.items) {
           return transactions.push(...data.items);
         }
       });
+    // this.props.transactionDetails.map(data => {
+    //   if (data.items) {
+    //     return transactions.push(...data.items);
+    //   }
+    // });
     if (userDetails) {
       userData = JSON.parse(userDetails);
     }
@@ -247,7 +253,7 @@ export default class CliqCashDesktop extends React.Component {
                                 this.props.cliqCashUserDetails &&
                                 !this.props.cliqCashUserDetails
                                   .isWalletOtpVerified
-                                  ? this.showKycVerification()
+                                  ? this.kycVerification()
                                   : this.navigateCheckBalance()
                               }
                               className={styles.buttonSimple}
@@ -279,7 +285,7 @@ export default class CliqCashDesktop extends React.Component {
                               !this.props.cliqCashUserDetails
                                 .isWalletOtpVerified
                                 ? this.showKycVerification()
-                                : this.getShowCliqCashModulePop()
+                                : this.showCliqCashModulePopUp()
                             }
                           >
                             <div className={styles.addGiftCardButton}>
@@ -576,5 +582,16 @@ CliqCashDesktop.propTypes = {
   balance: PropTypes.string,
   cardNumber: PropTypes.number,
   pinNumber: PropTypes.number,
-  showCliqCashModule: PropTypes.func
+  showCliqCashModule: PropTypes.func,
+  showKycVerification: PropTypes.func,
+  setHeaderText: PropTypes.func,
+  clearTransaction: PropTypes.func,
+  getCliqCashDetails: PropTypes.func,
+  getTransactionDetails: PropTypes.func,
+  getCliqCashPageConfiguration: PropTypes.func,
+  cliqCashKnowMore: PropTypes.func,
+  cliqCashUserDetails: PropTypes.object,
+  hideSecondaryLoader: PropTypes.func,
+  showSecondaryLoader: PropTypes.func,
+  cliqCashConfig: PropTypes.object
 };

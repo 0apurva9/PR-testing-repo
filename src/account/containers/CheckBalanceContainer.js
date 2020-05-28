@@ -33,7 +33,8 @@ const mapStateToProps = state => {
     checkBalanceDetailsError: state.profile.checkBalanceDetailsError,
     checkBalanceStatus: state.profile.checkBalanceStatus,
     isModal: state.profile.isModal,
-    loading: state.profile.loading
+    loading: state.profile.loading,
+    userAddress: state.profile.userAddress
   };
 };
 

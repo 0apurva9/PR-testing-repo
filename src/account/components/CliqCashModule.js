@@ -7,7 +7,9 @@ import PropTypes from "prop-types";
 import {
   GIFT_CARD_HEADER_TEXT,
   MY_ACCOUNT_PAGE,
-  MY_ACCOUNT_CHECK_BALANCE_PAGE
+  MY_ACCOUNT_CHECK_BALANCE_PAGE,
+  FAILURE_LOWERCASE,
+  SUCCESS
 } from "../../lib/constants";
 
 const NUMBER_REGEX = /^[0-9]+$/;
@@ -17,15 +19,16 @@ export default class CliqCashModule extends Component {
     super(props);
     this.state = {
       cardNumber: this.props.cardNumber ? this.props.cardNumber : "",
-      pinNumber: this.props.pinNumber ? this.props.cardNumber : "",
-      cardError: false
+      cardPin: this.props.pinNumber ? this.props.pinNumber : "",
+      cardError: false,
+      sendRecentTransactions: true
     };
   }
   componentDidMount() {
     this.props.setHeaderText(GIFT_CARD_HEADER_TEXT);
   }
   getRedeemCliqVoucher = () => {
-    if (this.state.cardNumber && this.state.pinNumber) {
+    if (this.state.cardNumber && this.state.cardPin) {
       this.setState({ cliqCashUpdate: true });
       if (this.props.redeemCliqVoucher && this.props.addCard) {
         this.props.redeemCliqVoucher(this.state);
@@ -43,14 +46,14 @@ export default class CliqCashModule extends Component {
       this.props.checkBalance &&
       this.props.isCheckBalance &&
       nextProps.checkBalanceStatus &&
-      nextProps.checkBalanceStatus.toLowerCase() === "failure"
+      nextProps.checkBalanceStatus.toLowerCase() === FAILURE_LOWERCASE
     ) {
       this.setState({ cardError: true });
     } else if (
       this.props.checkBalance &&
       this.props.isCheckBalance &&
       nextProps.checkBalanceStatus &&
-      nextProps.checkBalanceStatus.toLowerCase() === "success"
+      nextProps.checkBalanceStatus.toLowerCase() === SUCCESS
     ) {
       this.props.history.push({
         pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CHECK_BALANCE_PAGE}`,
@@ -68,11 +71,11 @@ export default class CliqCashModule extends Component {
         this.setState({ cardNumber: cardNumber });
       }
   }
-  onChangePinNumber(pinNumber) {
+  onChangePinNumber(cardPin) {
     this.setState({ cardError: false });
-    if (pinNumber === "" || NUMBER_REGEX.test(pinNumber))
-      if (pinNumber.length <= 6) {
-        this.setState({ pinNumber: pinNumber });
+    if (cardPin === "" || NUMBER_REGEX.test(cardPin))
+      if (cardPin.length <= 6) {
+        this.setState({ cardPin });
       }
   }
   onCancel() {
@@ -127,8 +130,6 @@ export default class CliqCashModule extends Component {
                   noPadding={true}
                   placeholderMoving={true}
                   placeholder={"Gift Card Number"}
-                  hollow={true}
-                  // border={"none"}
                   borderBottom="1px solid #4a4a4a"
                   textStyle={{ fontSize: 14, letterSpacing: "0.03px" }}
                   height={33}
@@ -163,9 +164,9 @@ export default class CliqCashModule extends Component {
                   value={
                     this.props.pinNumber
                       ? this.props.pinNumber
-                      : this.state.pinNumber
+                      : this.state.cardPin
                   }
-                  onChange={pinNumber => this.onChangePinNumber(pinNumber)}
+                  onChange={cardPin => this.onChangePinNumber(cardPin)}
                   textStyle={{ fontSize: 14 }}
                   height={33}
                   required={true}
@@ -197,5 +198,15 @@ CliqCashModule.propTypes = {
   pinNumber: PropTypes.number,
   redeemCliqVoucher: PropTypes.func,
   showCliqCashSucessModule: PropTypes.func,
-  closeModal: PropTypes.func
+  closeModal: PropTypes.func,
+  setHeaderText: PropTypes.func,
+  addCard: PropTypes.bool,
+  checkBalance: PropTypes.func,
+  isCheckBalance: PropTypes.bool,
+  displayToast: PropTypes.func,
+  history: PropTypes.object,
+  hideSecondaryLoader: PropTypes.func,
+  showSecondaryLoader: PropTypes.func,
+  checkBalanceDetailsError: PropTypes.string,
+  btnLabel: PropTypes.string
 };
