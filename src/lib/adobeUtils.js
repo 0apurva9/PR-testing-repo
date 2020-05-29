@@ -1519,8 +1519,8 @@ function getProductsDigitalData(response, type) {
           product.qtySelectedByUser
             ? product.qtySelectedByUser
             : product.quantity
-              ? product.quantity
-              : 1,
+            ? product.quantity
+            : 1,
           10
         )
       );
@@ -1529,12 +1529,12 @@ function getProductsDigitalData(response, type) {
           product.offerPrice
             ? product.offerPrice
             : product.pricevalue
-              ? product.pricevalue
-              : product.price
-                ? product.price
-                : product.mrp && product.mrp.value
-                  ? product.mrp.value
-                  : null,
+            ? product.pricevalue
+            : product.price
+            ? product.price
+            : product.mrp && product.mrp.value
+            ? product.mrp.value
+            : null,
           10
         )
       );
@@ -1550,22 +1550,22 @@ function getProductsDigitalData(response, type) {
           product.productName === "Gift Card"
             ? "Gift card"
             : product.categoryHierarchy &&
-              product.categoryHierarchy[currentReverseArray] &&
-              product.categoryHierarchy[currentReverseArray].category_name &&
-              product.categoryHierarchy[currentReverseArray].category_name
-                .replace(/ /g, "_")
-                .toLowerCase()
+                product.categoryHierarchy[currentReverseArray] &&
+                product.categoryHierarchy[currentReverseArray].category_name &&
+                product.categoryHierarchy[currentReverseArray].category_name
+                  .replace(/ /g, "_")
+                  .toLowerCase()
         );
       } else if (!type || !type.isReverse) {
         categoryArray.push(
           product.productName === "Gift Card"
             ? "Gift card"
             : product.categoryHierarchy &&
-              product.categoryHierarchy[0] &&
-              product.categoryHierarchy[0].category_name &&
-              product.categoryHierarchy[0].category_name
-                .replace(/ /g, "_")
-                .toLowerCase()
+                product.categoryHierarchy[0] &&
+                product.categoryHierarchy[0].category_name &&
+                product.categoryHierarchy[0].category_name
+                  .replace(/ /g, "_")
+                  .toLowerCase()
         );
       }
     });
