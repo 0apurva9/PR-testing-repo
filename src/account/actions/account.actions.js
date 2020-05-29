@@ -3835,6 +3835,7 @@ export function getOrderRelatedQuestions(transactionId) {
           JSON.parse(customerCookie).access_token
         }&transactionId=${transactionId}`
       );
+
       const resultJson = await result.json();
       // if (resultJson.error) {
       //   dispatch(getOrderRelatedQuestionsSuccess(resultJson));
@@ -4101,7 +4102,7 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
       const result = await api.get(
         `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
       );
-      console.log("getStategetStategetState", getState().profile);
+
       // ${UItemplateCode}
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4156,6 +4157,23 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
   };
 }
 
+const getFormattedString = (strValue = "") => {
+  let formattedValue = "",
+    startIndex = null,
+    endIndex = null;
+  if (strValue.includes("(") && strValue.includes(")")) {
+    startIndex = strValue.indexOf("(");
+    endIndex = strValue.indexOf(")");
+    strValue = strValue.slice(0, startIndex - 1) + strValue.slice(startIndex);
+    formattedValue =
+      strValue.slice(0, endIndex - 2) + strValue.slice(endIndex - 1);
+  } else {
+    formattedValue = strValue;
+  }
+
+  return formattedValue;
+};
+
 const getTextAreaApiData = (apiData = []) => {
   let items =
     apiData.singleBannerComponent && apiData.singleBannerComponent.items[0]
@@ -4172,7 +4190,7 @@ const getTextAreaApiData = (apiData = []) => {
     heading:
       items && items.description
         ? items.description.split("|")
-          ? items.description.split("|")[0]
+          ? getFormattedString(items.description.split("|")[0])
           : ""
         : "",
     isMandatory:
@@ -4184,7 +4202,7 @@ const getTextAreaApiData = (apiData = []) => {
     placeholder:
       items && items.description
         ? items.description.split("|")
-          ? items.description.split("|")[2]
+          ? getFormattedString(items.description.split("|")[2])
           : ""
         : "",
     hexCode: items && items.hexCode ? items.hexCode : "",
@@ -4240,7 +4258,7 @@ const getAttachmentApiData = (apiData = []) => {
     heading:
       items && items.description
         ? items.description.split("|")
-          ? items.description.split("|")[0]
+          ? getFormattedString(items.description.split("|")[0])
           : ""
         : "",
     isMandatory:
@@ -4249,7 +4267,7 @@ const getAttachmentApiData = (apiData = []) => {
           ? parseInt(items.description.split("|")[1])
           : ""
         : "",
-    itemsTitle: itemsTitle,
+    itemsTitle: getFormattedString(itemsTitle),
     maxFileLimit:
       items && items.hexCode
         ? items.hexCode.split("|").length
@@ -4305,7 +4323,7 @@ const getTextBoxApiData = (apiData = []) => {
     heading:
       items && items.description
         ? items.description.split("|")
-          ? items.description.split("|")[0]
+          ? getFormattedString(items.description.split("|")[0])
           : ""
         : "",
     isMandatory:
@@ -4317,7 +4335,7 @@ const getTextBoxApiData = (apiData = []) => {
     placeholder:
       items && items.description
         ? items.description.split("|")
-          ? items.description.split("|")[2]
+          ? getFormattedString(items.description.split("|")[2])
           : ""
         : "",
     hexCode: items && items.hexCode ? items.hexCode : "",
@@ -4358,7 +4376,7 @@ const getTextBoxApiData = (apiData = []) => {
     //       ? itemsTitle.split("|")[2].split(",")[1]
     //       : ""
     //     : "",
-    regex: regexExp,
+    regex: getFormattedString(regexExp),
     regexError: regexErr,
     webURL: items && items.webURL ? items.webURL : "",
     title: apiData.singleBannerComponent.title
@@ -4387,7 +4405,7 @@ const getLabelApiData = (apiData = []) => {
     heading:
       items && items.description
         ? items.description.split("|")
-          ? items.description.split("|")[0]
+          ? getFormattedString(items.description.split("|")[0])
           : ""
         : "",
     fontSize:
@@ -4433,7 +4451,7 @@ const getRadioApiData = (apiData = []) => {
     items.title.split("|").map(ele => {
       let tempOption = ele.split(",");
       return {
-        optionName: tempOption[0] ? tempOption[0] : "",
+        optionName: tempOption[0] ? getFormattedString(tempOption[0]) : "",
         value: tempOption[1] ? tempOption[1] : "",
         isSelected: tempOption[2] ? parseInt(tempOption[2]) : "",
         webFormTemplate: tempOption[3] ? tempOption[3] : ""
@@ -4449,7 +4467,7 @@ const getRadioApiData = (apiData = []) => {
     heading:
       items && items.description
         ? items.description.split("|")
-          ? items.description.split("|")[0]
+          ? getFormattedString(items.description.split("|")[0])
           : ""
         : "",
     isMandatory:

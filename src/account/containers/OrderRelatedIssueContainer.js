@@ -71,7 +71,6 @@ const mapDispatchToProps = dispatch => {
     displayToast: message => {
       dispatch(displayToast(message));
     },
-
     submitOrderDetails: async raiseTicketObj => {
       return dispatch(submitOrderDetails(raiseTicketObj));
     },

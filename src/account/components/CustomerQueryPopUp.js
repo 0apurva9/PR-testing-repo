@@ -48,21 +48,24 @@ export default class CustomerQueryPopUp extends React.Component {
         return "" + date + "th " + monthNames[month] + " " + year;
     }
   }
-  hoursToMeridiem = (hour, minute) => {
-    const min = minute === 0 ? "00" : minute.toString();
-    if (hour > 12) {
-      return `${hour - 12}:${min} PM`;
-    }
-    if (hour === 0) {
-      return `${12}:${min} AM`;
-    }
-    if (hour === 12) {
-      return `${12}:${min} PM`;
-    }
-    if (hour < 12) {
-      return `${hour}:${min} AM`;
-    }
-  };
+  // hoursToMeridiem = (hour, minute) => {
+  //   //const min = minute === 0 ? "00" : minute.toString();
+  //   if (minute !== 0) {
+  //     hour += 1;
+  //   }
+  //   if (hour > 12) {
+  //     return `${hour - 12}:00 PM`;
+  //   }
+  //   if (hour === 0) {
+  //     return `${12}:00 AM`;
+  //   }
+  //   if (hour === 12) {
+  //     return `${12}:00 PM`;
+  //   }
+  //   if (hour < 12) {
+  //     return `${hour}:00 AM`;
+  //   }
+  // };
 
   submit() {
     this.clickedOnSubmitButton = true;
@@ -86,10 +89,11 @@ export default class CustomerQueryPopUp extends React.Component {
     let displayDate = this.getDayNumberSuffix(
       queryDate.setDate(today.getDate() + extraDays)
     );
-    let displayTime = this.hoursToMeridiem(
-      queryDate.getHours(),
-      queryDate.getMinutes()
-    );
+    // Hiding time as per SSQ-114
+    // let displayTime = this.hoursToMeridiem(
+    //   queryDate.getHours(),
+    //   queryDate.getMinutes()
+    // );
 
     return (
       <div className={styles.base}>
@@ -136,9 +140,7 @@ export default class CustomerQueryPopUp extends React.Component {
                 Our team is working on priority to resolve it. We will get back
                 to you within
               </div>
-              <div className={styles.expDateTime}>
-                {`${displayTime}, ${displayDate}`}
-              </div>
+              <div className={styles.expDateTime}>{`${displayDate}`}</div>
             </div>
             <div className={styles.ticketIdBox}>
               <div className={styles.txt}>Your ticket reference number is</div>

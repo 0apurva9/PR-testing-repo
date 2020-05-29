@@ -178,5 +178,6 @@ SelectBoxMobile.propTypes = {
 SelectBoxMobile.defaultProps = {
   height: 35,
   arrowColour: GREY,
-  disabled: false
+  disabled: false,
+  extraVisibleBoxCss: false
 };
