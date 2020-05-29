@@ -554,6 +554,13 @@ export const ORDER_CONFIRMATION_BANNER_FAILURE =
   "ORDER_CONFIRMATION_BANNER_FAILURE";
 export const UPI_VPA = "upi_vpa";
 
+export const GET_INTERMITTENT_FEEDBACK_DATA_REQUEST =
+  "GET_INTERMITTENT_FEEDBACK_DATA_REQUEST";
+export const GET_INTERMITTENT_FEEDBACK_DATA_SUCCESS =
+  "GET_INTERMITTENT_FEEDBACK_DATA_SUCCESS";
+export const GET_INTERMITTENT_FEEDBACK_DATA_FAILURE =
+  "GET_INTERMITTENT_FEEDBACK_DATA_FAILURE";
+
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
   return {
@@ -6307,6 +6314,63 @@ export function postFeedBackForm(
     } catch (e) {
       dispatch(displayToast(e.message));
       dispatch(postFeedBackFormFailure(e.message));
+    }
+  };
+}
+
+export function getIntermittentPageDataRequest() {
+  return {
+    type: GET_INTERMITTENT_FEEDBACK_DATA_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getIntermittentPageDataSuccess(feedBackDetails) {
+  return {
+    type: GET_INTERMITTENT_FEEDBACK_DATA_SUCCESS,
+    status: SUCCESS,
+    feedBackDetails
+  };
+}
+export function getIntermittentPageDataFailure(error) {
+  return {
+    type: GET_INTERMITTENT_FEEDBACK_DATA_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getIntermittentPageData(getUserDetails) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getIntermittentPageDataRequest());
+    try {
+      let {
+        originalUid,
+        transactionId,
+        deliveryMode,
+        returnType
+      } = getUserDetails;
+      let paramsObj = {},
+        apiEndPoint = "getFwdNPSData";
+      paramsObj.originalUid = originalUid;
+      paramsObj.transactionId = transactionId;
+      if (deliveryMode) {
+        paramsObj.deliveryMode = deliveryMode;
+      } else {
+        paramsObj.returnType = returnType;
+        apiEndPoint = "getReturnNPSData";
+      }
+
+      const result = await api.post(`v2/mpl/${apiEndPoint}`, paramsObj);
+      const resultJson = await result.json();
+
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getIntermittentPageDataSuccess(resultJson));
+    } catch (e) {
+      dispatch(getIntermittentPageDataFailure(e.message));
     }
   };
 }
