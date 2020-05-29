@@ -598,6 +598,7 @@ CliqCashDesktop.propTypes = {
   balance: PropTypes.string,
   cardNumber: PropTypes.number,
   pinNumber: PropTypes.number,
-
-  showCliqCashModule: PropTypes.func
+  showCliqCashModule: PropTypes.func,
+  cliqCashExpiringDetails: PropTypes.object,
+  getCliqCashExpiring: PropTypes.func
 };

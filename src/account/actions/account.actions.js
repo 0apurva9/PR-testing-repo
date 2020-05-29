@@ -81,6 +81,7 @@ import {
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { setBagCount } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions";
+import { getCustomerAccessToken } from "../../common/services/common.services";
 export const GET_USER_DETAILS_REQUEST = "GET_USER_DETAILS_REQUEST";
 export const GET_USER_DETAILS_SUCCESS = "GET_USER_DETAILS_SUCCESS";
 export const GET_USER_DETAILS_FAILURE = "GET_USER_DETAILS_FAILURE";
@@ -4592,16 +4593,14 @@ export function getCliqCashExpiringFailure(error) {
 
 export function getCliqCashExpiring() {
   return async (dispatch, getState, { api }) => {
+    const customerAccessToken = await getCustomerAccessToken();
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(getCliqCashExpiringRequest());
     try {
       const result = await api.get(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/getCliqCashExpiring?access_token=${
-          JSON.parse(customerCookie).access_token
-        }`
+        }/getCliqCashExpiring?access_token=${customerAccessToken}`
       );
       let resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
