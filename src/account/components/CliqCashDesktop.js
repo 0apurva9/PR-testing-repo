@@ -48,7 +48,7 @@ export default class CliqCashDesktop extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       nextProps.cliqCashVoucherDetailsStatus === SUCCESS ||
       nextProps.cliqCashVoucherDetailsStatus === SUCCESS_CAMEL_CASE ||
@@ -402,6 +402,7 @@ export default class CliqCashDesktop extends React.Component {
                             return (
                               i < 5 && (
                                 <div
+                                  key={i}
                                   className={
                                     styles.cliqCashTransactionDetailsBase
                                   }
@@ -599,6 +600,17 @@ CliqCashDesktop.propTypes = {
   cardNumber: PropTypes.number,
   pinNumber: PropTypes.number,
   showCliqCashModule: PropTypes.func,
+  showKycVerification: PropTypes.func,
+  setHeaderText: PropTypes.func,
+  clearTransaction: PropTypes.func,
+  getCliqCashDetails: PropTypes.func,
+  getTransactionDetails: PropTypes.func,
+  getCliqCashPageConfiguration: PropTypes.func,
+  cliqCashKnowMore: PropTypes.func,
+  cliqCashUserDetails: PropTypes.object,
+  hideSecondaryLoader: PropTypes.func,
+  showSecondaryLoader: PropTypes.func,
+  cliqCashConfig: PropTypes.object,
   cliqCashExpiringDetails: PropTypes.object,
   getCliqCashExpiring: PropTypes.func
 };
