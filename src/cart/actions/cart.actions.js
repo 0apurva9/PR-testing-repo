@@ -6243,10 +6243,7 @@ export function getFeedBackForm(getUserDetails, isReturnFlow) {
         );
       } else {
         result = await api.get(
-          `v2/mpl/getQuestionsForNPS?originalUid=${originalUid}
-          &transactionId=${transactionId}
-          &deliveryMode=${deliveryMode}
-          &rating=${rating}`
+          `v2/mpl/getQuestionsForNPS?originalUid=${originalUid}&transactionId=${transactionId}&deliveryMode=${deliveryMode}&rating=${rating}`
         );
       }
 
