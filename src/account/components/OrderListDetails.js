@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import styles from "./CustomerIssue.css";
 import Accordion from "../../general/components/Accordion";
 import QuestionFeedback from "./QuestionFeedback";
+import format from "date-fns/format";
+import OrderActionButton from "./OrderActionButton";
 import { getDayNumberSuffix } from "../../lib/dateTimeFunction";
 import {
   setDataLayer,
@@ -9,6 +11,8 @@ import {
 } from "../../lib/adobeUtils";
 import CustomerQueryForm from "./CustomerQueryForm";
 import QuestionList from "./QuestionList";
+import { RUPEE_SYMBOL } from "../../lib/constants";
+const dateFormat = "DD MM YYYY";
 
 class OrderListDetails extends Component {
   state = {
@@ -90,14 +94,11 @@ class OrderListDetails extends Component {
   // }
 
   render() {
-    const {
-      question,
-      showQuestionList,
-      showFeedBack,
-      isAnswerHelpFull,
-      currentQuestionIndex,
-      nextQuestions
-    } = this.state;
+    // const {
+    //   isAnswerHelpFull,
+    //   nextQuestions
+    // } = this.state;
+
     return (
       <div>
         {this.props.isQuesryForm && this.props.otherQuestion ? null : (
@@ -111,9 +112,6 @@ class OrderListDetails extends Component {
                   <div>Other Issues</div>
                 )}
                 {this.props.FAQquestion && <div>Faq Issue</div>}
-                {/* {this.props.isOrderRelatedQuestion
-                ? 
-                : ""} */}
               </div>
               <div className={styles.orderDetalsButton}>
                 {/* <Button
@@ -134,60 +132,66 @@ class OrderListDetails extends Component {
                   <div className={styles.orderDetailsImgBox}>
                     <img
                       className={styles.orderImg}
-                      src={this.props.selectedOrder.products[0].imageURL}
+                      src={
+                        this.props.selectedOrder.products &&
+                        this.props.selectedOrder.products[0].imageURL
+                      }
                       alt="Product image"
                     />
                   </div>
                   <div className={styles.orderDetailsContent}>
                     <div className={styles.orderDesc}>
-                      {this.props.selectedOrder.products[0].productName}
+                      {this.props.selectedOrder.products &&
+                        this.props.selectedOrder.products[0].productName}
                     </div>
                     <div className={styles.orderDesc}>
-                      {this.props.selectedOrder.products[0].price}
+                      {RUPEE_SYMBOL}
+                      {this.props.selectedOrder.products &&
+                        this.props.selectedOrder.products[0].price}
                     </div>
-                    <div className={styles.orderDesc}>
-                      <span> {"M"} </span> | <span>{"Blue"}</span>
-                    </div>
-                    <div className={styles.orderDesc}>Qty {"1"}</div>
-                    <div className={styles.orderDesc}>
-                      <span className={styles.fontBold}>
-                        Delivery Delivered on:{" "}
-                      </span>
-                      {getDayNumberSuffix(this.props.selectedOrder.orderDate)}
-                    </div>
+                    {this.props.selectedOrder.products &&
+                      this.props.selectedOrder.products[0].productSize && (
+                        <div className={styles.orderDesc}>
+                          <span>
+                            {" "}
+                            {this.props.selectedOrder.products &&
+                              this.props.selectedOrder.products[0]
+                                .productSize}{" "}
+                          </span>{" "}
+                          |{" "}
+                          <span>
+                            {this.props.selectedOrder.products &&
+                              this.props.selectedOrder.products[0]
+                                .productColourName}
+                          </span>
+                        </div>
+                      )}
+
+                    {/* <div className={styles.orderDesc}>Qty {"1"}</div> */}
+                    {this.props.selectedOrder.products &&
+                      this.props.selectedOrder.products[0]
+                        .estimateddeliverydate && (
+                        <div className={styles.orderDesc}>
+                          <span className={styles.fontBold}>
+                            Delivered on:{" "}
+                          </span>
+                          {getDayNumberSuffix(
+                            this.props.selectedOrder.products[0]
+                              .estimateddeliverydate,
+                            true
+                          )}
+                        </div>
+                      )}
                   </div>
                 </div>
                 <div className={styles.moreAction}>
                   <div className={styles.moreHeader}>More actions</div>
-                  {/* {products.isInvoiceAvailable &&
-                                (products.consignmentStatus === "DELIVERED" ||
-                                  products.consignmentStatus === "HOTC" ||
-                                  products.consignmentStatus ===
-                                    "ORDER_COLLECTED" ||
-                                  products.consignmentStatus ===
-                                    "RETURN_CANCELLED_CUS") && (
-                                  <div
-                                    className={styles.cancelProduct}
-                                    onClick={() =>
-                                      this.requestInvoice(
-                                        products.transactionId,
-                                        products.sellerorderno
-                                      )
-                                    }
-                                  >
-                                    {this.props.underlineButtonLabel}
-                                  </div>
-                                )} */}
-
-                  <button className={styles.btn} type="button">
-                    Download Invoice
-                  </button>
-                  <button className={styles.btn} type="button">
-                    Return Order
-                  </button>
-                  {/* <button className={styles.btn} type="button">
-                     Lorem Ipsum (Placeholder)
-                 </button> */}
+                  <OrderActionButton
+                    selectedOrder={this.props.selectedOrder}
+                    sendInvoice={(ussid, sellerOrderNo) => {
+                      this.props.sendInvoice(ussid, sellerOrderNo);
+                    }}
+                  />
                 </div>
               </div>
             )}
@@ -195,14 +199,14 @@ class OrderListDetails extends Component {
             {this.props.showFeedBack && (
               <QuestionFeedback
                 question={this.props.question}
-                isAnswerHelpFull={isAnswerHelpFull}
+                // isAnswerHelpFull={isAnswerHelpFull}
                 feedBackHelpFull={() => this.props.feedBackHelpFull()}
                 isAnswerHelpFull={this.props.isAnswerHelpFull}
                 moreHelps={() => this.props.moreHelps()}
                 // issueOptions={()=>this.isQuesryFormAction()}
                 showAllQuestion={() => this.showAllQuestion()}
                 nextQuestion={() => this.nextQuestion()}
-                nextQuestions={nextQuestions}
+                // nextQuestions={nextQuestions}
                 orderRelatedQuestion={this.props.orderRelatedQuestion}
                 otherQuestion={this.props.otherQuestion}
                 FAQquestion={this.props.FAQquestion}

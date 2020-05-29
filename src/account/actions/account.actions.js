@@ -305,13 +305,16 @@ export const GET_CUSTOMER_OTHER_ISSUE_DATA_SUCCESS =
 export const GET_CUSTOMER_OTHER_ISSUE_DATA_FAILURE =
   "GET_CUSTOMER_OTHER_ISSUE_DATA_FAILURE";
 
-export const GET_FAQ_QUESTIONS_LIST_REQUEST = "GET_FAQ_QUESTIONS_LIST_REQUEST";
-export const GET_FAQ_QUESTIONS_LIST_SUCCESS = "GET_FAQ_QUESTIONS_LIST_SUCCESS";
-export const GET_FAQ_QUESTIONS_LIST_FAILURE = "GET_FAQ_QUESTIONS_LIST_FAILURE";
+export const GET_ALL_OTHERS_HELP_REQUEST = "GET_ALL_OTHERS_HELP_REQUEST";
+export const GET_ALL_OTHERS_HELP_SUCCESS = "GET_ALL_OTHERS_HELP_SUCCESS";
+export const GET_ALL_OTHERS_HELP_FAILURE = "GET_ALL_OTHERS_HELP_FAILURE";
 
-export const GET_QUESTIONS_LIST_REQUEST = "GET_QUESTIONS_LIST_REQUEST";
-export const GET_QUESTIONS_LIST_SUCCESS = "GET_QUESTIONS_LIST_SUCCESS";
-export const GET_QUESTIONS_LIST_FAILURE = "GET_QUESTIONS_LIST_FAILURE";
+export const GET_FAQ_RELATED_QUESTIONS_REQUEST =
+  "GET_FAQ_RELATED_QUESTIONS_REQUEST";
+export const GET_FAQ_RELATED_QUESTIONS_SUCCESS =
+  "GET_FAQ_RELATED_QUESTIONS_SUCCESS";
+export const GET_FAQ_RELATED_QUESTIONS_FAILURE =
+  "GET_FAQ_RELATED_QUESTIONS_FAILURE";
 
 export const GET_ORDER_RELATED_QUESTIONS_REQUEST =
   "GET_ORDER_RELATED_QUESTIONS_REQUEST";
@@ -2440,7 +2443,6 @@ export function getAllOrdersDetails(
       }
       const result = await api.get(getOrderDetails);
       let resultJson = await result.json();
-
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -3799,66 +3801,6 @@ export function getCustomerQueriesDataFailure() {
     status: FAILURE
   };
 }
-/**
- * demo
- * Function related to it will also be commented.
- */
-// export function getCustomerQueriesData() {
-//   return async (dispatch, getState, { api }) => {
-//     dispatch(getCustomerQueriesDataRequest());
-//     try {
-//       const result = await api.get("v2/mpl/getWebCRMNodes");
-//       const resultJson = await result.json();
-//       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-//       if (resultJsonStatus.status) {
-//         throw new Error(resultJsonStatus.message);
-//       }
-//       dispatch(getCustomerQueriesDataSuccess(resultJson));
-//     } catch (e) {
-//       dispatch(getCustomerQueriesDataFailure(e.message));
-//     }
-//   };
-// }
-
-// export function getCustomerQueriesDataRequestv2() {
-//   return {
-//     type: GET_CUSTOMER_QUERIES_DATA_REQUEST,
-//     status: REQUESTING
-//   };
-// }
-// export function getCustomerQueriesDataSuccessv2(customerQueriesData) {
-//   return {
-//     type: GET_CUSTOMER_QUERIES_DATA_SUCCESS,
-//     status: SUCCESS,
-//     customerQueriesData
-//   };
-// }
-// export function getCustomerQueriesDataFailurev2() {
-//   return {
-//     type: GET_CUSTOMER_QUERIES_DATA_FAILURE,
-//     status: FAILURE
-//   };
-// }
-// export function getCustomerQueriesData(transactionId) {
-//   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-//   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-//   return async (dispatch, getState, { api }) => {
-//     dispatch(getCustomerQueriesDataRequestv2());
-//     try {
-//       const result = await api.post(
-//         `${USER_CART_PATH}/${
-//           JSON.parse(userDetails).userName
-//         }/getOrderRelatedQuestions?access_token=${
-//           JSON.parse(customerCookie).access_token
-//         }&transactionId=${transactionId}`
-//       );
-//       const resultJson = await result.json();
-//       dispatch(getCustomerQueriesDataSuccessv2(resultJson));
-//     } catch (e) {
-//       dispatch(getCustomerQueriesDataFailurev2(e.message));
-//     }
-//   };
-// }
 
 export function getOrderRelatedQuestionsRequest() {
   return {
@@ -3898,10 +3840,10 @@ export function getOrderRelatedQuestions(transactionId) {
       //   dispatch(getOrderRelatedQuestionsSuccess(resultJson));
       //   dispatch(displayToast(resultJson.error));
       // }
-      // const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      // if (resultJsonStatus.status) {
-      //   throw new Error(resultJsonStatus.message);
-      // }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
 
       return dispatch(getOrderRelatedQuestionsSuccess(resultJson));
     } catch (e) {
@@ -3910,31 +3852,34 @@ export function getOrderRelatedQuestions(transactionId) {
   };
 }
 
-export function getFAQQuestionsRequest() {
+export function getAllOthersHelpRequest() {
   return {
-    type: GET_FAQ_QUESTIONS_LIST_REQUEST,
+    type: GET_ALL_OTHERS_HELP_REQUEST,
     status: REQUESTING
   };
 }
-export function getFAQQuestionsSuccess(customerQueriesData) {
+
+export function getAllOthersHelpSuccess(data) {
   return {
-    type: GET_FAQ_QUESTIONS_LIST_SUCCESS,
+    type: GET_ALL_OTHERS_HELP_SUCCESS,
     status: SUCCESS,
-    customerQueriesData
-  };
-}
-export function getFAQQuestionsFailure() {
-  return {
-    type: GET_FAQ_QUESTIONS_LIST_FAILURE,
-    status: FAILURE
+    data
   };
 }
 
-export function getFAQQuestions() {
+export function getAllOthersHelpFailure(error) {
+  return {
+    type: GET_ALL_OTHERS_HELP_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getAllOthersHelp(pageId) {
   return async (dispatch, getState, { api }) => {
-    dispatch(getFAQQuestionsRequest());
+    dispatch(getAllOthersHelpRequest());
     try {
-      const result = await api.get(`${PATH}/cms/defaultpage?pageId=SS_FAQ`);
+      const result = await api.get(`${PATH}/cms/defaultpage?pageId=${pageId}`);
       let resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
@@ -3946,9 +3891,9 @@ export function getFAQQuestions() {
         const format = formatFaqList(list);
         formatList.push(format);
       }
-      dispatch(getFAQQuestionsSuccess(formatList));
+      dispatch(getAllOthersHelpSuccess(formatList));
     } catch (e) {
-      dispatch(getFAQQuestionsFailure(e.message));
+      dispatch(getAllOthersHelpFailure(e.message));
     }
   };
 }
@@ -3966,29 +3911,52 @@ const formatFaqList = (list = []) => {
   return returnFormat;
 };
 
-export function getFAQQuestionsListRequest() {
+// export function getFaqRelatedQuestionsRequest() {
+//   return {
+//     type: GET_QUESTIONS_LIST_REQUEST,
+//     status: REQUESTING
+//   };
+// }
+// export function getFaqRelatedQuestionsSuccess(faqList) {
+//   return {
+//     type: GET_QUESTIONS_LIST_SUCCESS,
+//     status: SUCCESS,
+//     faqList
+//   };
+// }
+// export function getFaqRelatedQuestionsFailure() {
+//   return {
+//     type: GET_QUESTIONS_LIST_FAILURE,
+//     status: FAILURE
+//   };
+// }
+
+export function getFaqRelatedQuestionsRequest() {
   return {
-    type: GET_QUESTIONS_LIST_REQUEST,
+    type: GET_FAQ_RELATED_QUESTIONS_REQUEST,
     status: REQUESTING
   };
 }
-export function getFAQQuestionsListSuccess(faqList) {
+
+export function getFaqRelatedQuestionsSuccess(data) {
   return {
-    type: GET_QUESTIONS_LIST_SUCCESS,
+    type: GET_FAQ_RELATED_QUESTIONS_SUCCESS,
     status: SUCCESS,
-    faqList
-  };
-}
-export function getFAQQuestionsListFailure() {
-  return {
-    type: GET_QUESTIONS_LIST_FAILURE,
-    status: FAILURE
+    data
   };
 }
 
-export function getFAQQuestionsList(FAQPageId) {
+export function getFaqRelatedQuestionsFailure(error) {
+  return {
+    type: GET_FAQ_RELATED_QUESTIONS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getFaqRelatedQuestions(FAQPageId) {
   return async (dispatch, getState, { api }) => {
-    dispatch(getFAQQuestionsListRequest());
+    dispatch(getFaqRelatedQuestionsRequest());
     try {
       // const result = await api.get(`${PATH}/cms/defaultpage?pageId=SS_FAQ`);
 
@@ -4000,9 +3968,9 @@ export function getFAQQuestionsList(FAQPageId) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      return dispatch(getFAQQuestionsListSuccess(resultJson));
+      return dispatch(getFaqRelatedQuestionsSuccess(resultJson));
     } catch (e) {
-      return dispatch(getFAQQuestionsListFailure(e.message));
+      return dispatch(getFaqRelatedQuestionsFailure(e.message));
     }
   };
 }

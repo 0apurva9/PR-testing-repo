@@ -110,6 +110,9 @@ export default class CustomerIssue extends React.Component {
                 parentIssueType={this.props.parentIssueType}
                 questionType={this.props.questionType}
                 showQuestionList={this.props.showQuestionList}
+                sendInvoice={(ussid, sellerOrderNo) => {
+                  this.props.sendInvoice(ussid, sellerOrderNo);
+                }}
               />
             )}
           </div>

@@ -173,11 +173,10 @@ export const getWholeDayTimeFormat = (date, timeDetails) => {
   return dateString + " " + timeString;
 };
 
-export const getDayNumberSuffix = d => {
-  let newDate = new Date(d);
-  let date = newDate.getDate();
-  let month = newDate.getMonth();
-  let year = newDate.getFullYear();
+export function getDateMonthFormate(dateWithMonth) {
+  let date = dateWithMonth.getDate();
+  let month = dateWithMonth.getMonth() + 1;
+  let year = dateWithMonth.getFullYear();
   let monthNames = [
     "Jan",
     "Feb",
@@ -196,14 +195,27 @@ export const getDayNumberSuffix = d => {
     case 1:
     case 21:
     case 31:
-      return "" + date + "st " + monthNames[month] + " " + year;
+      return "" + date + "st " + monthNames[month - 1] + " " + year;
     case 2:
     case 22:
-      return "" + date + "nd " + monthNames[month] + " " + year;
+      return "" + date + "nd " + monthNames[month - 1] + " " + year;
     case 3:
     case 23:
-      return "" + date + "rd " + monthNames[month] + " " + year;
+      return "" + date + "rd " + monthNames[month - 1] + " " + year;
     default:
-      return "" + date + "th " + monthNames[month] + " " + year;
+      return "" + date + "th " + monthNames[month - 1] + " " + year;
   }
-};
+}
+export function getDayNumberSuffix(d, withTime) {
+  let dateWithMonth = d.replace(/(\d{2}) (\d{2}) (\d{4})/, "$2/$1/$3");
+
+  if (withTime) {
+    dateWithMonth = d.replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3");
+  }
+
+  dateWithMonth = new Date(dateWithMonth);
+
+  if (dateWithMonth) {
+    return getDateMonthFormate(dateWithMonth);
+  } else return "";
+}

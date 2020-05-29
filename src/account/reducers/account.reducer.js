@@ -170,15 +170,15 @@ const account = (
     customerQueriesOtherIssueLoading: false,
     customerQueriesOtherIssueData: null,
 
-    FAQQuestionsListStatus: null,
-    FAQQuestionsListError: null,
-    FAQQuestionsListLoading: false,
-    FAQQuestionsListData: null,
+    getFAQDataStatus: null,
+    FAQDataLoading: false,
+    FAQData: null,
+    getFAQDataError: null,
 
-    QuestionsListStatus: null,
-    QuestionsListError: null,
-    QuestionsListLoading: false,
-    QuestionsListData: null,
+    getFAQRelatedDataStatus: null,
+    FAQRelatedDataLoading: false,
+    FAQRelatedData: null,
+    getFAQRelatedDataError: null,
 
     orderRelatedQuestionsStatus: null,
     orderRelatedQuestionsError: null,
@@ -1333,45 +1333,51 @@ const account = (
         customerQueriesOtherIssueLoading: false
       });
 
-    case accountActions.GET_FAQ_QUESTIONS_LIST_REQUEST:
-      return Object.assign({}, state, {
-        FAQQuestionsListStatus: action.status,
-        FAQQuestionsListLoading: true
-      });
+    case accountActions.GET_ALL_OTHERS_HELP_REQUEST:
+      return {
+        ...state,
+        getFAQDataStatus: action.status,
+        FAQDataLoading: true,
+        getFAQDataError: null
+      };
+    case accountActions.GET_ALL_OTHERS_HELP_SUCCESS:
+      return {
+        ...state,
+        getFAQDataStatus: action.status,
+        FAQDataLoading: false,
+        FAQData: action.data,
+        getFAQDataError: null
+      };
+    case accountActions.GET_ALL_OTHERS_HELP_FAILURE:
+      return {
+        ...state,
+        getFAQDataStatus: action.status,
+        FAQDataLoading: false,
+        getFAQDataError: action.error
+      };
 
-    case accountActions.GET_FAQ_QUESTIONS_LIST_SUCCESS:
-      return Object.assign({}, state, {
-        FAQQuestionsListStatus: action.status,
-        FAQQuestionsListLoading: false,
-        FAQQuestionsListData: action.customerQueriesData
-      });
-
-    case accountActions.GET_FAQ_QUESTIONS_LIST_FAILURE:
-      return Object.assign({}, state, {
-        FAQQuestionsListStatus: action.status,
-        FAQQuestionsListError: action.error,
-        FAQQuestionsListLoading: false
-      });
-
-    case accountActions.GET_QUESTIONS_LIST_REQUEST:
-      return Object.assign({}, state, {
-        QuestionsListStatus: action.status,
-        QuestionsListLoading: true
-      });
-
-    case accountActions.GET_QUESTIONS_LIST_SUCCESS:
-      return Object.assign({}, state, {
-        QuestionsListStatus: action.status,
-        QuestionsListLoading: false,
-        QuestionsListData: action.customerQueriesData
-      });
-
-    case accountActions.GET_QUESTIONS_LIST_FAILURE:
-      return Object.assign({}, state, {
-        QuestionsListStatus: action.status,
-        QuestionsListError: action.error,
-        QuestionsListLoading: false
-      });
+    case accountActions.GET_FAQ_RELATED_QUESTIONS_REQUEST:
+      return {
+        ...state,
+        getFAQRelatedDataStatus: action.status,
+        FAQRelatedDataLoading: true,
+        getFAQRelatedDataError: null
+      };
+    case accountActions.GET_FAQ_RELATED_QUESTIONS_SUCCESS:
+      return {
+        ...state,
+        getFAQRelatedDataStatus: action.status,
+        FAQRelatedDataLoading: false,
+        FAQRelatedData: action.data,
+        getFAQRelatedDataError: null
+      };
+    case accountActions.GET_FAQ_RELATED_QUESTIONS_FAILURE:
+      return {
+        ...state,
+        getFAQRelatedDataStatus: action.status,
+        FAQRelatedDataLoading: false,
+        getFAQRelatedDataError: action.error
+      };
 
     case accountActions.GET_ORDER_RELATED_QUESTIONS_REQUEST:
       return Object.assign({}, state, {

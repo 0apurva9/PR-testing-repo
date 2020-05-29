@@ -5,6 +5,8 @@ import { getDayNumberSuffix } from "../../lib/dateTimeFunction";
 import styles from "./CustomerIssue.css";
 import { withRouter } from "react-router-dom";
 import { HOME_ROUTER } from "../../lib/constants.js";
+import format from "date-fns/format";
+const dateFormat = "DD MM YYYY";
 class OrderList extends Component {
   constructor(props) {
     super(props);
@@ -12,6 +14,7 @@ class OrderList extends Component {
   renderToContinueShopping() {
     this.props.history.push(HOME_ROUTER);
   }
+
   render() {
     if (
       this.props.ordersTransactionData &&
@@ -62,13 +65,17 @@ class OrderList extends Component {
                           Order Status:
                           <span className={styles.fontBold}>
                             {" "}
-                            {orderData.products[0].statusDisplay}
+                            {orderData.products[0].statusDisplay}{" "}
+                            {orderData.orderid}
                           </span>
                         </div>
                         <div className={styles.orderStatus}>
-                          Delivery On:{" "}
+                          Delivered On:{" "}
                           <span className={styles.fontBold}>
-                            {getDayNumberSuffix(orderData.orderDate)}
+                            {getDayNumberSuffix(
+                              orderData.products[0].EDD,
+                              false
+                            )}
                           </span>
                         </div>
                       </div>

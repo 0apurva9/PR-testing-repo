@@ -674,6 +674,10 @@ export default class CustomerQueryForm extends Component {
     this.setState({ uploadedAttachment: copyuploadedAttachment, file: files });
   }
 
+  componentWillUnmount() {
+    console.log("unMount check");
+  }
+
   render() {
     const {
       basicForm,

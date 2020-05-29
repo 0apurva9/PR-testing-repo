@@ -145,19 +145,12 @@
     margin-bottom: 24px;
 }
 .orderDetailsImgBox {
-  /* width: 24%;
-  height: 130px;
-  background: #e8e8e8;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center; */
+  width: 100px;
+  height: 120px;
 }
 .orderImg {
-  /* width: 75%;
-  display: flex;
-  align-items: center;
-  justify-content: center; */
+  width: 100%;
+  height: 100%;
 }
 .orderDetailsContent {
   /* width: 76%; */
@@ -248,6 +241,7 @@
   font-size: 14px;
   color: #4a4a4a;
   font-family: light;
+  line-height: 23px;
 }
 .solution a {
   border-bottom: 2px solid #ff1744;
@@ -355,4 +349,12 @@ margin-top: 20px;
     padding-top: 50px;
     padding-bottom: 90px;
     text-align: center;
+}
+
+.orderActionButton{
+  font-size: 14px;
+  color: #da1c5c;
+  font-family: light;
+  margin-bottom: 12px;
+  cursor: pointer;
 }

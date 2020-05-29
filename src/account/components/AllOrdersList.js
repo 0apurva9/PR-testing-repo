@@ -49,7 +49,7 @@ export default class AllOrdersList extends Component {
                     <div className={styles.orderStatus}>
                       Delivery On:{" "}
                       <span className={styles.fontBold}>
-                        {getDayNumberSuffix(orderData.orderDate)}
+                        {getDayNumberSuffix(orderData.products[0].EDD, false)}
                       </span>
                     </div>
                   </div>

@@ -14,10 +14,11 @@ import {
   getNonOrderRelatedQuestions,
   getCliqCareWmsResponse,
   getAllOrdersDetails,
-  getFAQQuestions,
+  getAllOthersHelp,
   sendInvoice,
-  getFAQQuestionsList,
-  setSelfServeState
+  getFaqRelatedQuestions,
+  setSelfServeState,
+  fetchOrderItemDetails
   // setUrlToRedirectToAfterAuth
 } from "../actions/account.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -74,11 +75,11 @@ const mapDispatchToProps = dispatch => {
     submitOrderDetails: async raiseTicketObj => {
       return dispatch(submitOrderDetails(raiseTicketObj));
     },
-    getFAQQuestions: () => {
-      dispatch(getFAQQuestions());
+    getAllOthersHelp: pageId => {
+      dispatch(getAllOthersHelp(pageId));
     },
-    getFAQQuestionsList: async FAQPageId => {
-      return dispatch(getFAQQuestionsList(FAQPageId));
+    getFaqRelatedQuestions: async FAQPageId => {
+      return dispatch(getFaqRelatedQuestions(FAQPageId));
     },
     sendInvoice: (ussid, sellerOrderNo) => {
       dispatch(sendInvoice(ussid, sellerOrderNo));
@@ -88,6 +89,9 @@ const mapDispatchToProps = dispatch => {
     },
     setSelfServeState: currentState => {
       dispatch(setSelfServeState(currentState));
+    },
+    fetchOrderItemDetails: (orderId, transactionId) => {
+      dispatch(fetchOrderItemDetails(orderId, transactionId));
     }
     // setHeaderText: text => {
     //   dispatch(setHeaderText(text));
@@ -129,12 +133,17 @@ const mapStateToProps = state => {
     customerQueriesLoading: state.profile.customerQueriesLoading,
     orderDetails: state.profile.orderDetails,
     submitOrderDetailsLoading: state.profile.submitOrderDetailsLoading,
-    FAQQuestionsListLoading: state.profile.FAQQuestionsListLoading,
-    FAQQuestionsListData: state.profile.FAQQuestionsListData,
-    QuestionsListLoading: state.profile.QuestionsListLoading,
-    QuestionsListData: state.profile.QuestionsListData,
+
+    FAQDataLoading: state.profile.FAQDataLoading,
+    FAQData: state.profile.FAQData,
+
+    FAQRelatedDataLoading: state.profile.FAQRelatedDataLoading,
+    // QuestionsListData: state.profile.QuestionsListData,
     currentState: state.profile.currentState,
-    logoutUserStatus: state.profile.logoutUserStatus
+    logoutUserStatus: state.profile.logoutUserStatus,
+    loadingForFetchOrderDetails: state.profile.loadingForFetchOrderDetails,
+    selectedOrderDetails: state.profile.fetchOrderDetails,
+    loadingForSendInvoice: state.profile.loadingForSendInvoice
   };
 };
 

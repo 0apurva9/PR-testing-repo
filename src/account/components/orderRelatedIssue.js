@@ -17,9 +17,14 @@ import SSRquest from "../../general/components/SSRequest";
 import Icon from "../../xelpmoc-core/Icon";
 const ORDER_REALTED_QUESTION = "orderRelated";
 const NON_ORDER_REALTED_QUESTION = "NonOrderRelated";
+const FAQ_PAGE = "SS_FAQ";
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
     super(props);
+    const selectedOrderObj =
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.selectedOrderObj;
     this.state = {
       isIssueOptions: false,
       isQuesryForm: false,
@@ -39,14 +44,15 @@ export default class OrderRelatedIssue extends React.Component {
       isUserLogin: false,
       showQuestionList: false,
       showFeedBack: false,
-      question: null
+      question: null,
+      selectedOrderObj: selectedOrderObj
     };
     // this.resetState = this.state
   }
 
   componentDidMount() {
-    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    // const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    // const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (this.props.getOrdersTransactionData) {
       this.props.getOrdersTransactionData(false);
     }
@@ -58,11 +64,15 @@ export default class OrderRelatedIssue extends React.Component {
     if (this.props.getUserDetails) {
       this.props.getUserDetails();
     }
-    if (this.props.getFAQQuestions) {
-      this.props.getFAQQuestions();
+    if (this.props.getAllOthersHelp) {
+      this.props.getAllOthersHelp(FAQ_PAGE);
     }
     if (this.props.currentState) {
       this.setState({ ...this.props.currentState });
+    }
+
+    if (this.state.selectedOrderObj) {
+      this.orderRelatedInfo(this.state.selectedOrderObj);
     }
   }
   componentWillReceiveProps(nextProps) {
@@ -72,8 +82,15 @@ export default class OrderRelatedIssue extends React.Component {
       // }
     }
   }
-  moreHelps(question) {
-    if (this.state.FAQquestion) {
+  moreHelps() {
+    const { FAQquestion, question } = this.state;
+    if (
+      FAQquestion ||
+      (question.webform === "No" &&
+        question.call === "No" &&
+        question.chat === "No" &&
+        question.click2Call === "No")
+    ) {
       this.setState({ isAnswerHelpFull: true });
     } else {
       this.setState({ isIssueOptions: true });
@@ -135,19 +152,14 @@ export default class OrderRelatedIssue extends React.Component {
           emailId: formData.customerInfo.contactEmail
         }
       );
-      // this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
-
       if ((this.state.questionType = NON_ORDER_REALTED_QUESTION)) {
         getCustomerQueryDetailsObject.issueCategory = this.state.parentIssueType;
       }
-      // console.log("form data", formData);
-      // this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
-
-      // this.props.showCustomerQueryModal(getCustomerQueryDetailsObject)
       const submitOrderDetailsResponse = await this.props.submitOrderDetails(
         formData
       );
       if (submitOrderDetailsResponse.status === SUCCESS) {
+        this.props.setSelfServeState(null);
         getCustomerQueryDetailsObject.ticketID =
           submitOrderDetailsResponse.submitOrder.referenceNum;
         this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
@@ -169,11 +181,16 @@ export default class OrderRelatedIssue extends React.Component {
     });
   }
 
-  async getOrderRelatedQuestions(orderData) {
-    this.setState({ selectedOrder: orderData });
+  async orderRelatedInfo(orderData) {
+    if (this.props.fetchOrderItemDetails) {
+      this.props.fetchOrderItemDetails(
+        orderData.orderCode,
+        orderData.transactionId
+      );
+    }
     if (this.props.getOrderRelatedQuestions) {
       const response = await this.props.getOrderRelatedQuestions(
-        orderData.products[0].transactionId
+        orderData.transactionId
       );
       if (response.status == SUCCESS && response.orderRelatedQuestions) {
         this.setState({
@@ -192,18 +209,24 @@ export default class OrderRelatedIssue extends React.Component {
     }
   }
 
-  async getFAQQuestionSelect(faq) {
+  getOrderRelatedQuestions(orderData) {
+    const selectedOrder = {
+      transactionId: orderData.products[0].transactionId,
+      orderCode: orderData.orderId
+    };
+    this.orderRelatedInfo(selectedOrder);
+  }
+
+  async handleFAQClick(faq) {
     if (this.state.parentIssueType !== faq.FAQHeader) {
-      if (this.props.getFAQQuestionsList) {
-        const response = await this.props.getFAQQuestionsList(faq.FAQPageId);
+      if (this.props.getFaqRelatedQuestions) {
+        const response = await this.props.getFaqRelatedQuestions(faq.FAQPageId);
         if (response.status === SUCCESS) {
-          if (response.faqList && response.faqList.items) {
+          if (response.data && response.data.items) {
             const questioList =
-              response.faqList.items.length == 1
-                ? JSON.parse(response.faqList.items[0].cmsTextComponent.content)
-                : JSON.parse(
-                    response.faqList.items[1].cmsTextComponent.content
-                  );
+              response.data.items.length == 1
+                ? JSON.parse(response.data.items[0].cmsTextComponent.content)
+                : JSON.parse(response.data.items[1].cmsTextComponent.content);
             this.setState({
               isOrderDatails: true,
               orderList: false,
@@ -258,18 +281,19 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.getOrdersTransactionData(true);
     }
   }
+  sendInvoice(ussid, sellerOrderNo) {
+    if (this.props.sendInvoice) {
+      this.props.sendInvoice(ussid, sellerOrderNo);
+    }
+  }
 
   render() {
-    console.log("this.props", this.props);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let isUserLogin = false;
     if (userDetails || customerCookie) {
       isUserLogin = true;
     }
-
-    console.log("this.state", this.state);
-
     const {
       customerQueriesOtherIssueData,
       customerQueriesOtherIssueLoading,
@@ -283,8 +307,11 @@ export default class OrderRelatedIssue extends React.Component {
       customerQueriesLoading,
       uploadUserFileLoading,
       submitOrderDetailsLoading,
-      FAQQuestionsListData,
-      QuestionsListLoading
+      FAQData,
+      FAQRelatedDataLoading,
+      FAQDataLoading,
+      loadingForFetchOrderDetails,
+      loadingForSendInvoice
     } = this.props;
     if (
       customerQueriesOtherIssueLoading ||
@@ -293,7 +320,10 @@ export default class OrderRelatedIssue extends React.Component {
       orderRelatedIssueLoading ||
       customerQueriesLoading ||
       uploadUserFileLoading ||
-      QuestionsListLoading
+      FAQDataLoading ||
+      FAQRelatedDataLoading ||
+      loadingForFetchOrderDetails ||
+      loadingForSendInvoice
     ) {
       this.props.showSecondaryLoader();
     } else {
@@ -342,13 +372,13 @@ export default class OrderRelatedIssue extends React.Component {
                       <div className={styles.tabHeader}>All Help Topics</div>
 
                       <div className={styles.faqList}>
-                        {FAQQuestionsListData &&
-                          FAQQuestionsListData.map((faq, index) => {
+                        {FAQData &&
+                          FAQData.map((faq, index) => {
                             return (
                               <div
                                 className={styles.faqListBox}
                                 onClick={() => {
-                                  this.getFAQQuestionSelect(faq);
+                                  this.handleFAQClick(faq);
                                 }}
                               >
                                 <div className={styles.faqIcon}>
@@ -380,7 +410,8 @@ export default class OrderRelatedIssue extends React.Component {
                       customerQueriesOtherIssueData={
                         customerQueriesOtherIssueData
                       }
-                      selectedOrder={this.state.selectedOrder}
+                      // selectedOrder={this.state.selectedOrder}
+                      selectedOrder={this.props.selectedOrderDetails || []}
                       orderList={this.state.orderList}
                       isOrderDatails={this.state.isOrderDatails}
                       moreHelps={() => this.moreHelps()}
@@ -408,9 +439,6 @@ export default class OrderRelatedIssue extends React.Component {
                       }
                       displayToast={message => this.props.displayToast(message)}
                       customerQueriesField={customerQueriesField}
-                      // name={this.state.name}
-                      // email={this.state.email}
-                      // mobile={this.state.mobile}
                       getCustomerQueriesFields={(
                         webFormTemplate,
                         isIssueOptions
@@ -436,6 +464,9 @@ export default class OrderRelatedIssue extends React.Component {
                       navigateLogin={() => this.navigateLogin()}
                       getMoreOrder={() => this.getMoreOrder()}
                       showQuestionList={this.state.showQuestionList}
+                      sendInvoice={(ussid, sellerOrderNo) => {
+                        this.sendInvoice(ussid, sellerOrderNo);
+                      }}
                     />
                   </div>
                 </div>
