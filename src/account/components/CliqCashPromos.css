@@ -5,7 +5,7 @@
 }
 
 .banner{
-    /* height: 46%; */
+    height: 190px;
     background-image: url(./img/promo_banner_desktop.svg);
     background-size: cover;
     background-repeat: no-repeat;
@@ -15,9 +15,8 @@
 }
 
 .promoCliqCashText{
-    /* margin-top: 20px; */
-    margin-left: 30px;
-    font-size: 22px;
+  padding: 24px;
+  font-size: 22px;
 }
 .amountText{
     margin-top: 20px;
