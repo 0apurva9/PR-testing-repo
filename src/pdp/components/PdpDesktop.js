@@ -1586,7 +1586,7 @@ export default class PdpApparel extends React.Component {
                     </div>
                   )}
 
-                <div className={styles.horizontalOffset}>
+                <div className={styles.horizontalOffset} id="DWSN">
                   <div className={styles.separator}>
                     <OtherSellersLink
                       serviceableOtherSellersUssid={
@@ -1599,7 +1599,7 @@ export default class PdpApparel extends React.Component {
                     />
                   </div>
                 </div>
-                <div className={styles.pinAndDeliveryHolder}>
+                <div className={styles.pinAndDeliveryHolder} id="CPIN">
                   <div className={styles.updatePincodeHolder}>
                     {this.props.productDetails.isServiceableToPincode &&
                     this.props.productDetails.isServiceableToPincode.pinCode ? (
@@ -1866,6 +1866,7 @@ export default class PdpApparel extends React.Component {
                         <div
                           className={styles.accordionContent}
                           itemProp="description"
+                          id="EPMD"
                         >
                           {productData.productDescription}
 

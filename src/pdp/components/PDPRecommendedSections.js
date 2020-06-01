@@ -42,7 +42,10 @@ class PDPRecommendedSections extends React.Component {
     this.selector = React.createRef();
   }
   componentDidMount = () => {
-    const widgetsVisible = this.selector.current.getBoundingClientRect();
+    const widgetsVisible =
+      this.selector &&
+      this.selector.current &&
+      this.selector.current.getBoundingClientRect();
     if (widgetsVisible) {
       setDataLayerForMsdItemWidgets(" ", ADOBE_CAROUSEL_SHOW);
     }
@@ -114,7 +117,7 @@ class PDPRecommendedSections extends React.Component {
 
     return (
       this.props.aboutTheBrand && (
-        <div className={styles.brandSection}>
+        <div className={styles.brandSection} id="GMFB">
           <h3 className={styles.brandHeader}>
             <span>About the Brand</span>
             <DesktopOnly>
@@ -221,10 +224,9 @@ class PDPRecommendedSections extends React.Component {
             const transformedDatum = transformData(val);
             const productImage = transformedDatum.image;
             const discountedPrice = transformedDatum.discountPrice;
-            const mrpInteger = parseInt(
-              transformedDatum.price.replace(RUPEE_SYMBOL, ""),
-              10
-            );
+            const mrpInteger =
+              transformedDatum.price &&
+              parseInt(transformedDatum.price.replace(RUPEE_SYMBOL, ""), 10);
             const discount = Math.floor(
               (mrpInteger -
                 parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
@@ -255,8 +257,11 @@ class PDPRecommendedSections extends React.Component {
 
   renderProductModuleSection(title, key) {
     if (this.props.msdItems) {
-      return this.props.msdItems[key] ? (
-        <div className={styles.brandSection}>
+      return this.props.msdItems[key] && this.props.msdItems[key].length > 0 ? (
+        <div
+          className={styles.brandSection}
+          id={title === "Similar Products" ? "HSPW" : "IFBT"}
+        >
           <h3 className={styles.brandHeader}>{title}</h3>
           {this.props.msdItems[key] &&
             this.renderCarousel(this.props.msdItems[key], title)}
@@ -269,10 +274,11 @@ class PDPRecommendedSections extends React.Component {
   renderRecentlyBoughtTogetherModuleSection(title, key) {
     if (
       this.props.recentlyViewedProduct &&
-      this.props.recentlyViewedProduct.RecentlyViewed
+      this.props.recentlyViewedProduct.RecentlyViewed &&
+      this.props.recentlyViewedProduct.RecentlyViewed.length > 0
     ) {
       return this.props.recentlyViewedProduct.RecentlyViewed ? (
-        <div className={styles.brandSection}>
+        <div className={styles.brandSection} id="JRVP">
           <h3 className={styles.brandHeader}>{title}</h3>
           {this.props.recentlyViewedProduct.RecentlyViewed &&
             this.renderCarousel(
@@ -311,32 +317,36 @@ class PDPRecommendedSections extends React.Component {
     const options = {
       onChange: this.handleIntersection
     };
+    // console.log("props============> check", this.props)
     return (
       <React.Fragment>
-        {this.props.targetVisible ? (
-          <React.Fragment>
-            <Observer {...options}>
-              <div className={styles.observer} />
-            </Observer>
-            <div ref={this.selector}>
-              {this.renderAboutTheBrand()}
-              {this.renderProductModuleSection(
-                "Similar Products",
-                "recommendedProducts"
-              )}
-              {this.renderProductModuleSection(
-                "Frequently Bought Together",
-                SIMILAR_PRODUCTS_WIDGET_KEY
-              )}
-              {this.renderRecentlyBoughtTogetherModuleSection(
-                "Recently Viewed Products",
-                "Recently Viewed"
-              )}
-            </div>
-          </React.Fragment>
-        ) : (
-          ""
-        )}
+        {/* <div
+          className={
+            window.targetVisible === "false" ||
+            window.targetVisible === undefined
+              ? styles.hideblock
+              : ""
+          }
+        > */}
+        <Observer {...options}>
+          <div className={styles.observer} />
+        </Observer>
+        <div ref={this.selector}>
+          {this.renderAboutTheBrand()}
+          {this.renderProductModuleSection(
+            "Similar Products",
+            "recommendedProducts"
+          )}
+          {this.renderProductModuleSection(
+            "Frequently Bought Together",
+            SIMILAR_PRODUCTS_WIDGET_KEY
+          )}
+          {this.renderRecentlyBoughtTogetherModuleSection(
+            "Recently Viewed Products",
+            "Recently Viewed"
+          )}
+        </div>
+        {/* </div> */}
       </React.Fragment>
     );
   }

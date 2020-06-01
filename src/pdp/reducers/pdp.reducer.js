@@ -600,7 +600,16 @@ const productDescription = (
 
     case pdpActions.GET_PDP_ITEMS_SUCCESS:
       const newMsdItems = cloneDeep(state.msdItems);
-      newMsdItems[action.widgetKey] = action.items;
+      if (typeof newMsdItems === "object") {
+        if (newMsdItems.hasOwnProperty(action.widgetKey)) {
+          newMsdItems[action.widgetKey] = [
+            ...newMsdItems[action.widgetKey],
+            ...action.items
+          ];
+        } else {
+          newMsdItems[action.widgetKey] = action.items;
+        }
+      }
       return Object.assign({}, state, {
         status: action.status,
         msdItems: newMsdItems,
@@ -966,7 +975,7 @@ const productDescription = (
     case pdpActions.PDP_RECENTLY_VIEWED_FAILURE:
       return Object.assign({}, state, {
         status: action.status,
-        recentlyViewedProduct: null,
+        recentlyViewedProduct: {},
         loading: false
       });
     case pdpActions.PDP_RECENTLY_VIEWED_SUCCESS:
@@ -982,12 +991,15 @@ const productDescription = (
             action.recentlyViewedProduct;
         }
       }
+      console.log(
+        "final recently viewed array==============>",
+        newMsdRecentlyViewedItems
+      );
       return Object.assign({}, state, {
         status: action.status,
         recentlyViewedProduct: newMsdRecentlyViewedItems,
         loading: false
       });
-
     default:
       return state;
   }

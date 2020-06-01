@@ -142,7 +142,7 @@ export default class ProductGalleryDesktop extends React.Component {
               }
 
               return (
-                <div className={imageClass}>
+                <div className={imageClass} id="APIM">
                   {val.type === "image" && (
                     <Image
                       image={val.value}

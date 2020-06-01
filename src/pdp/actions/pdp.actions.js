@@ -1308,23 +1308,30 @@ export function getPdpItems(itemIds, widgetKey) {
     try {
       let productCodes;
       if (widgetKey === "aboutTheBrand") {
-        productCodes = itemIds && itemIds.toString();
+        productCodes = itemIds;
       } else {
         productCodes = itemIds.map(obj => {
           return obj.product_id;
         });
-        productCodes = productCodes && productCodes.toString();
+        productCodes = productCodes;
       }
-      const url = `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
-      const result = await api.getMiddlewareUrl(url);
-      const resultJson = await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
-      }
-
-      dispatch(getPdpItemsPdpSuccess(resultJson.results, widgetKey));
+      productCodes &&
+        productCodes.forEach(async id => {
+          try {
+            const url = `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`;
+            const result = await api.getMiddlewareUrl(url);
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(
+              resultJson
+            );
+            if (resultJsonStatus.status) {
+              throw new Error(resultJsonStatus.message);
+            }
+            dispatch(getPdpItemsPdpSuccess(resultJson.results, widgetKey));
+          } catch (e) {
+            dispatch(getPdpItemsFailure(`${id}-MSD ${e.message}`));
+          }
+        });
     } catch (e) {
       dispatch(getPdpItemsFailure(`MSD ${e.message}`));
     }
