@@ -27,7 +27,8 @@ import {
   ADD,
   EDIT,
   CNC_TO_HD_ORDER,
-  MY_ACCOUNT_USER_NOTIFICATION_PAGE
+  MY_ACCOUNT_USER_NOTIFICATION_PAGE,
+  MY_ACCOUNT_CHECK_BALANCE_PAGE
 } from "../../lib/constants.js";
 import AllOrderContainer from "../containers/AllOrderContainer";
 import AllSellerReviewContainer from "../containers/AllSellerReviewContainer";
@@ -37,6 +38,7 @@ import UserAlertsAndCouponsContainer from "../containers/UserAlertsAndCouponsCon
 import MyAccountBrandsContainer from "../containers/MyAccountBrandsContainer";
 import UpdateProfileContainer from "../containers/UpdateProfileContainer.js";
 import EditAddressBookContainer from "../containers/EditAddressBookContainer.js";
+import CheckBalanceContainer from "../containers/CheckBalanceContainer";
 import AddAddressContainer from "../containers/AddAddressContainer.js";
 import SaveListContainer from "../containers/SaveListContainer";
 import CliqCashContainer from "../containers/CliqCashContainer.js";
@@ -144,6 +146,12 @@ export default class MyAccountWrapper extends React.Component {
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`}
           component={CliqCashContainer}
         />
+        <Route
+          exact
+          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CHECK_BALANCE_PAGE}`}
+          component={CheckBalanceContainer}
+        />
+
         <Route
           exact
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_DETAIL_PAGE}`}

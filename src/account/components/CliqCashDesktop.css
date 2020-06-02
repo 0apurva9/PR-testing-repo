@@ -239,7 +239,6 @@
     height: auto;
   }
   .giftCardHeading {
-    width: 100%;
     height: auto;
     font-size: 16px;
     font-family: semibold;
@@ -250,6 +249,7 @@
     height: auto;
     display: inline-block;
     padding: 24px 0px;
+    border-bottom: 2px dotted #f2f2f2;
   }
 
   .addGiftCardIconHolder {
@@ -272,14 +272,14 @@
     height: auto;
     vertical-align: middle;
   }
-  .addGiftCard::after {
+  /* .addGiftCard::after {
     content: "";
     position: absolute;
     border-bottom: 1px dotted #8d8d8d;
     width: 100%;
     top: 56px;
     left: 0;
-  }
+  } */
   .addGiftCardHeaderAndSubHeading {
     width: 74%;
     height: auto;
@@ -484,4 +484,19 @@
   .cliqCashBalanceHolder {
     border-bottom: 1px solid #ececec;
   }
+}
+.flexJustify {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #d8d8d8;
+}
+.buttonSimple {
+  color: #da1c5c;
+  font-size: 12px;
+  font-family: semibold;
+  background: transparent;
+  border: transparent;
+  padding: 0px;
 }

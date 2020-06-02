@@ -34,18 +34,18 @@ import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
 import FaqAndTcBase from "./FaqAndTcBase";
 const currentDate = new Date();
-const year = currentDate.getFullYear();
+
 export default class CliqCashDesktop extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       cardNumber: this.props.cardNumber ? this.props.cardNumber : "",
-      pinNumber: this.props.pinNumber ? this.props.cardNumber : "",
+      pinNumber: this.props.pinNumber ? this.props.pinNumber : "",
       cliqCashUpdate: false
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       nextProps.cliqCashVoucherDetailsStatus === SUCCESS ||
       nextProps.cliqCashVoucherDetailsStatus === SUCCESS_CAMEL_CASE ||
@@ -68,16 +68,19 @@ export default class CliqCashDesktop extends React.Component {
     if (this.props.getTransactionDetails) {
       this.props.getTransactionDetails();
     }
-  }
-
-  redeemCliqVoucher() {
-    if (this.state.cardNumber && this.state.pinNumber) {
-      this.setState({ cliqCashUpdate: true });
-      if (this.props.redeemCliqVoucher) {
-        this.props.redeemCliqVoucher(this.state);
-      }
+    if (this.props.getCliqCashPageConfiguration) {
+      this.props.getCliqCashPageConfiguration();
     }
   }
+
+  // redeemCliqVoucher() {
+  //   if (this.state.cardNumber && this.state.pinNumber) {
+  //     this.setState({ cliqCashUpdate: true });
+  //     if (this.props.redeemCliqVoucher) {
+  //       this.props.redeemCliqVoucher(this.state);
+  //     }
+  //   }
+  // }
   transactiondetailPage(data) {
     setDataLayerForGiftCard(SET_DATA_LAYER_CLIQ_CASH_LAST_FIVE_TRANSACTION);
 
@@ -101,14 +104,18 @@ export default class CliqCashDesktop extends React.Component {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`);
   };
 
-  showCliqCashModule = () => {
+  showCliqCashModulePopUp = () => {
     setDataLayerForGiftCard(SET_DATA_LAYER_ADD_GIFT_CARD);
     if (this.props.showCliqCashModule) {
-      this.props.showCliqCashModule(this.props);
+      const obj = {};
+      obj.addCard = true;
+      obj.btnLabel = "Add Gift Card";
+      obj.heading = "Gift Card Details";
+      this.props.showCliqCashModule(obj);
     }
   };
 
-  showKycVerification = () => {
+  kycVerification = () => {
     if (this.props.showKycVerification) {
       this.props.showKycVerification(this.props);
     }
@@ -134,11 +141,25 @@ export default class CliqCashDesktop extends React.Component {
       return true;
     }
   };
-  cliqCashKnowMore = () => {
+
+  getCliqCashKnowMore = () => {
     if (this.props.cliqCashKnowMore) {
       this.props.cliqCashKnowMore(this.props);
     }
   };
+
+  navigateCheckBalance() {
+    if (this.props.showCliqCashModule) {
+      const obj = {};
+      obj.isCheckBalance = true;
+      obj.addCard = false;
+      obj.btnLabel = "Check Card Value";
+      obj.heading = "Enter your gift card details";
+      obj.subheading =
+        "The value of your Gift Card will be added to your CLiQ Cash balance. Use it for a seamless experience.";
+      this.props.showCliqCashModule(obj);
+    }
+  }
 
   render() {
     let totalBalance =
@@ -159,11 +180,17 @@ export default class CliqCashDesktop extends React.Component {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let transactions = [];
     this.props.transactionDetails &&
-      this.props.transactionDetails.map(data => {
+      this.props.transactionDetails.isArray &&
+      this.props.transactionDetails.forEach(data => {
         if (data.items) {
           return transactions.push(...data.items);
         }
       });
+    // this.props.transactionDetails.map(data => {
+    //   if (data.items) {
+    //     return transactions.push(...data.items);
+    //   }
+    // });
     if (userDetails) {
       userData = JSON.parse(userDetails);
     }
@@ -205,7 +232,7 @@ export default class CliqCashDesktop extends React.Component {
                             refund.
                             <div
                               className={styles.knowMore}
-                              onClick={this.cliqCashKnowMore}
+                              onClick={this.getCliqCashKnowMore}
                             >
                               Know More.
                             </div>
@@ -214,6 +241,251 @@ export default class CliqCashDesktop extends React.Component {
                       </div>
                     </div>
                   </div>
+                  <div className={styles.giftCardBase}>
+                    <div className={styles.giftCardContainer}>
+                      <div className={styles.flexJustify}>
+                        <div className={styles.giftCardHeading}>Gift Cards</div>
+                        {this.props.cliqCashConfig &&
+                          this.props.cliqCashConfig.checkBalance && (
+                            <button
+                              type="button"
+                              onClick={() =>
+                                this.props.cliqCashUserDetails &&
+                                !this.props.cliqCashUserDetails
+                                  .isWalletOtpVerified
+                                  ? this.kycVerification()
+                                  : this.navigateCheckBalance()
+                              }
+                              className={styles.buttonSimple}
+                            >
+                              Check Balance
+                            </button>
+                          )}
+                      </div>
+                      <div className={styles.addGiftCardContainer}>
+                        <div className={styles.addGiftCardIconHolder}>
+                          <div className={styles.addGiftCardIcon} />
+                        </div>
+                        <div className={styles.addGiftCard}>
+                          <div
+                            className={styles.addGiftCardHeaderAndSubHeading}
+                          >
+                            <div className={styles.addGiftCardHeading}>
+                              Add Gift Card Balance
+                            </div>
+                            <div className={styles.addGiftCardSubHeading}>
+                              Received Gift Card from someone
+                            </div>
+                          </div>
+                          <div
+                            className={styles.addGiftCardButtonHolder}
+                            onClick={() =>
+                              this.props &&
+                              this.props.cliqCashUserDetails &&
+                              !this.props.cliqCashUserDetails
+                                .isWalletOtpVerified
+                                ? this.showKycVerification()
+                                : this.showCliqCashModulePopUp()
+                            }
+                          >
+                            <div className={styles.addGiftCardButton}>
+                              <div className={styles.addGiftCardButtonText}>
+                                Add gift card
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className={styles.buyGiftCardContainer}>
+                        <div className={styles.buyGiftCardIconHolder}>
+                          <div className={styles.buyGiftCardIcon} />
+                        </div>
+                        <div className={styles.buyGiftCard}>
+                          <div
+                            className={styles.buyGiftCardHeaderAndSubHeading}
+                          >
+                            <div className={styles.buyGiftCardHeading}>
+                              Send Gift Card
+                            </div>
+                            <div className={styles.buyGiftCardSubHeading}>
+                              Send Gift Card to someone.
+                            </div>
+                          </div>
+                          <div
+                            className={styles.buyGiftCardButtonHolder}
+                            onClick={() => {
+                              this.buyNewGiftCard();
+                            }}
+                          >
+                            <div className={styles.buyGiftCardButton}>
+                              <div className={styles.buyGiftCardButtonText}>
+                                Buy gift card
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {transactions && transactions.length > 0 && (
+                    <div className={styles.cliqCashTransactionBase}>
+                      <div className={styles.cliqCashTransactionContainer}>
+                        <div className={styles.cliqCashTransactionHeading}>
+                          Your Recent Transactions
+                        </div>
+                        {transactions &&
+                          transactions.splice(0, 5).map((value, i) => {
+                            return (
+                              <div
+                                className={
+                                  styles.cliqCashTransactionDetailsBase
+                                }
+                                onClick={() =>
+                                  this.transactiondetailPage(value)
+                                }
+                                key={i}
+                              >
+                                <div
+                                  className={
+                                    styles.cliqCashTransactionDetailsContainer
+                                  }
+                                >
+                                  <div
+                                    className={
+                                      styles.cliqCashTransactionDetails
+                                    }
+                                  >
+                                    <div
+                                      className={styles.cliqCashTransactionInfo}
+                                    >
+                                      {value.transactionName}
+                                      {value &&
+                                        value.orderInfo &&
+                                        value.orderInfo[0] && (
+                                          <span
+                                            className={
+                                              styles.cliqCashTransactionInfo
+                                            }
+                                          >
+                                            {" "}
+                                            for {value.orderInfo[0].productName}
+                                          </span>
+                                        )}
+                                    </div>
+                                    {value.transactionId &&
+                                      !value.transactionType
+                                        .toUpperCase()
+                                        .match(/\bPAID|RECEIVED REFUND/g) && (
+                                        <div className={styles.cliqCashOrderNo}>
+                                          Transaction ID: {value.transactionId}
+                                        </div>
+                                      )}
+
+                                    {value.orderNo &&
+                                      value.transactionType
+                                        .toUpperCase()
+                                        .match(/\bPAID|RECEIVED REFUND/g) && (
+                                        <div className={styles.cliqCashOrderNo}>
+                                          Order No:{value.orderNo}
+                                        </div>
+                                      )}
+                                    {value.expiryDate &&
+                                      value.expiryDate !=
+                                        EXPIRED_REJECTED_FORMAT &&
+                                      value.transactionType &&
+                                      value.transactionType
+                                        .toUpperCase()
+                                        .match(/\bEXPIRED/g) && (
+                                        <div className={styles.expireDate}>
+                                          {getUTCDateMonthFormat(
+                                            value.expiryDate,
+                                            true,
+                                            true
+                                          ).match(/\bToday|Yesterday/g)
+                                            ? "Expired"
+                                            : "Expired on"}{" "}
+                                          {getUTCDateMonthFormat(
+                                            value.expiryDate,
+                                            true,
+                                            true
+                                          )}
+                                        </div>
+                                      )}
+                                    {value.expiryDate &&
+                                      value.expiryDate !=
+                                        EXPIRED_REJECTED_FORMAT &&
+                                      value.transactionType &&
+                                      !value.transactionType
+                                        .toUpperCase()
+                                        .match(
+                                          /\bEXPIRED|PAID|RECEIVED REFUND/g
+                                        ) &&
+                                      !this.checkDateExpired(
+                                        value.expiryDate
+                                      ) && (
+                                        <div className={styles.expireDate}>
+                                          {getUTCDateMonthFormat(
+                                            value.expiryDate,
+                                            true,
+                                            true,
+                                            true,
+                                            true
+                                          ).match(/\bToday|Tomorrow/g)
+                                            ? "Expiring"
+                                            : "Expiring on"}{" "}
+                                          {getUTCDateMonthFormat(
+                                            value.expiryDate,
+                                            true,
+                                            true,
+                                            true,
+                                            true
+                                          )}
+                                        </div>
+                                      )}
+                                  </div>
+                                  <div className={styles.priceAndTime}>
+                                    <div
+                                      className={
+                                        value.transactionType &&
+                                        !value.transactionType
+                                          .toUpperCase()
+                                          .match(/EXPIRED|PAID/g)
+                                          ? styles.amountAdded
+                                          : styles.price
+                                      }
+                                    >
+                                      {value.transactionType &&
+                                      !value.transactionType
+                                        .toUpperCase()
+                                        .match(/EXPIRED|PAID/g)
+                                        ? "+ "
+                                        : "- "}
+                                      {value &&
+                                        value.amount &&
+                                        value.amount.formattedValue}
+                                    </div>
+                                    <div className={styles.dateAndTime}>
+                                      {getWholeDayTimeFormat(
+                                        value.transactionDate,
+                                        value.transactionTime
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        {transactions && transactions.length >= 5 && (
+                          <div
+                            className={styles.viewMore}
+                            onClick={() => this.showTransactioDetails()}
+                          >
+                            View More
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
                   <div className={styles.aboutCliqCashBase}>
                     <div className={styles.aboutCliqCashContainer}>
                       <div className={styles.aboutCliqCashHeaderText}>
@@ -271,248 +543,6 @@ export default class CliqCashDesktop extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div className={styles.giftCardBase}>
-                    <div className={styles.giftCardContainer}>
-                      <div className={styles.giftCardHeading}>Gift Cards</div>
-                      <div className={styles.addGiftCardContainer}>
-                        <div className={styles.addGiftCardIconHolder}>
-                          <div className={styles.addGiftCardIcon} />
-                        </div>
-                        <div className={styles.addGiftCard}>
-                          <div
-                            className={styles.addGiftCardHeaderAndSubHeading}
-                          >
-                            <div className={styles.addGiftCardHeading}>
-                              Add Gift Card Balance
-                            </div>
-                            <div className={styles.addGiftCardSubHeading}>
-                              Received Gift Card from someone
-                            </div>
-                          </div>
-                          <div
-                            className={styles.addGiftCardButtonHolder}
-                            onClick={() =>
-                              this.props &&
-                              this.props.cliqCashUserDetails &&
-                              !this.props.cliqCashUserDetails
-                                .isWalletOtpVerified
-                                ? this.showKycVerification()
-                                : this.showCliqCashModule()
-                            }
-                          >
-                            <div className={styles.addGiftCardButton}>
-                              <div className={styles.addGiftCardButtonText}>
-                                Add gift card
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.buyGiftCardContainer}>
-                        <div className={styles.buyGiftCardIconHolder}>
-                          <div className={styles.buyGiftCardIcon} />
-                        </div>
-                        <div className={styles.buyGiftCard}>
-                          <div
-                            className={styles.buyGiftCardHeaderAndSubHeading}
-                          >
-                            <div className={styles.buyGiftCardHeading}>
-                              Send Gift Card
-                            </div>
-                            <div className={styles.buyGiftCardSubHeading}>
-                              Send Gift Card to someone.
-                            </div>
-                          </div>
-                          <div
-                            className={styles.buyGiftCardButtonHolder}
-                            onClick={() => {
-                              this.buyNewGiftCard();
-                            }}
-                          >
-                            <div className={styles.buyGiftCardButton}>
-                              <div className={styles.buyGiftCardButtonText}>
-                                Buy gift card
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {transactions &&
-                    transactions.length > 0 && (
-                      <div className={styles.cliqCashTransactionBase}>
-                        <div className={styles.cliqCashTransactionContainer}>
-                          <div className={styles.cliqCashTransactionHeading}>
-                            Your Recent Transactions
-                          </div>
-                          {transactions &&
-                            transactions.map((value, i) => {
-                              return (
-                                i < 5 && (
-                                  <div
-                                    className={
-                                      styles.cliqCashTransactionDetailsBase
-                                    }
-                                    onClick={() =>
-                                      this.transactiondetailPage(value)
-                                    }
-                                  >
-                                    <div
-                                      className={
-                                        styles.cliqCashTransactionDetailsContainer
-                                      }
-                                    >
-                                      <div
-                                        className={
-                                          styles.cliqCashTransactionDetails
-                                        }
-                                      >
-                                        <div
-                                          className={
-                                            styles.cliqCashTransactionInfo
-                                          }
-                                        >
-                                          {value.transactionName}
-                                          {value &&
-                                            value.orderInfo &&
-                                            value.orderInfo[0] && (
-                                              <span
-                                                className={
-                                                  styles.cliqCashTransactionInfo
-                                                }
-                                              >
-                                                {" "}
-                                                for{" "}
-                                                {value.orderInfo[0].productName}
-                                              </span>
-                                            )}
-                                        </div>
-                                        {value.transactionId &&
-                                          !value.transactionType
-                                            .toUpperCase()
-                                            .match(
-                                              /\bPAID|RECEIVED REFUND/g
-                                            ) && (
-                                            <div
-                                              className={styles.cliqCashOrderNo}
-                                            >
-                                              Transaction ID:{" "}
-                                              {value.transactionId}
-                                            </div>
-                                          )}
-
-                                        {value.orderNo &&
-                                          value.transactionType
-                                            .toUpperCase()
-                                            .match(
-                                              /\bPAID|RECEIVED REFUND/g
-                                            ) && (
-                                            <div
-                                              className={styles.cliqCashOrderNo}
-                                            >
-                                              Order No:{value.orderNo}
-                                            </div>
-                                          )}
-                                        {value.expiryDate &&
-                                          value.expiryDate !=
-                                            EXPIRED_REJECTED_FORMAT &&
-                                          value.transactionType &&
-                                          value.transactionType
-                                            .toUpperCase()
-                                            .match(/\bEXPIRED/g) && (
-                                            <div className={styles.expireDate}>
-                                              {getUTCDateMonthFormat(
-                                                value.expiryDate,
-                                                true,
-                                                true
-                                              ).match(/\bToday|Yesterday/g)
-                                                ? "Expired"
-                                                : "Expired on"}{" "}
-                                              {getUTCDateMonthFormat(
-                                                value.expiryDate,
-                                                true,
-                                                true
-                                              )}
-                                            </div>
-                                          )}
-                                        {value.expiryDate &&
-                                          value.expiryDate !=
-                                            EXPIRED_REJECTED_FORMAT &&
-                                          value.transactionType &&
-                                          !value.transactionType
-                                            .toUpperCase()
-                                            .match(
-                                              /\bEXPIRED|PAID|RECEIVED REFUND/g
-                                            ) &&
-                                          !this.checkDateExpired(
-                                            value.expiryDate
-                                          ) && (
-                                            <div className={styles.expireDate}>
-                                              {getUTCDateMonthFormat(
-                                                value.expiryDate,
-                                                true,
-                                                true,
-                                                true,
-                                                true
-                                              ).match(/\bToday|Tomorrow/g)
-                                                ? "Expiring"
-                                                : "Expiring on"}{" "}
-                                              {getUTCDateMonthFormat(
-                                                value.expiryDate,
-                                                true,
-                                                true,
-                                                true,
-                                                true
-                                              )}
-                                            </div>
-                                          )}
-                                      </div>
-                                      <div className={styles.priceAndTime}>
-                                        <div
-                                          className={
-                                            value.transactionType &&
-                                            !value.transactionType
-                                              .toUpperCase()
-                                              .match(/EXPIRED|PAID/g)
-                                              ? styles.amountAdded
-                                              : styles.price
-                                          }
-                                        >
-                                          {value.transactionType &&
-                                          !value.transactionType
-                                            .toUpperCase()
-                                            .match(/EXPIRED|PAID/g)
-                                            ? "+ "
-                                            : "- "}
-                                          {value &&
-                                            value.amount &&
-                                            value.amount.formattedValue}
-                                        </div>
-                                        <div className={styles.dateAndTime}>
-                                          {getWholeDayTimeFormat(
-                                            value.transactionDate,
-                                            value.transactionTime
-                                          )}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                )
-                              );
-                            })}
-                          {transactions &&
-                            transactions.length >= 5 && (
-                              <div
-                                className={styles.viewMore}
-                                onClick={() => this.showTransactioDetails()}
-                              >
-                                View More
-                              </div>
-                            )}
-                        </div>
-                      </div>
-                    )}
                 </div>
 
                 <div className={styles.faqAndTcHolder}>
@@ -552,6 +582,16 @@ CliqCashDesktop.propTypes = {
   balance: PropTypes.string,
   cardNumber: PropTypes.number,
   pinNumber: PropTypes.number,
-
-  showCliqCashModule: PropTypes.func
+  showCliqCashModule: PropTypes.func,
+  showKycVerification: PropTypes.func,
+  setHeaderText: PropTypes.func,
+  clearTransaction: PropTypes.func,
+  getCliqCashDetails: PropTypes.func,
+  getTransactionDetails: PropTypes.func,
+  getCliqCashPageConfiguration: PropTypes.func,
+  cliqCashKnowMore: PropTypes.func,
+  cliqCashUserDetails: PropTypes.object,
+  hideSecondaryLoader: PropTypes.func,
+  showSecondaryLoader: PropTypes.func,
+  cliqCashConfig: PropTypes.object
 };

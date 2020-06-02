@@ -10,7 +10,7 @@ export default class Input2 extends React.Component {
       oldPosition: 0
     };
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.state.value) {
       this.setState({ value: nextProps.value });
     }

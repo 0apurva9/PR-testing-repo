@@ -44,7 +44,8 @@ import {
   GIFT_CARD_MODAL,
   UPDATE_REFUND_DETAILS_POPUP,
   SHOW_RETURN_CONFIRM_POP_UP,
-  RATING_AND_REVIEW_MODAL
+  RATING_AND_REVIEW_MODAL,
+  CLIQ_CASH_MODULE
 } from "../../general/modal.actions.js";
 import format from "date-fns/format";
 import { getPaymentModes } from "../../cart/actions/cart.actions.js";
@@ -81,6 +82,7 @@ import {
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { setBagCount } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions";
+import { getCustomerAccessToken } from "../../common/services/common.services";
 export const GET_USER_DETAILS_REQUEST = "GET_USER_DETAILS_REQUEST";
 export const GET_USER_DETAILS_SUCCESS = "GET_USER_DETAILS_SUCCESS";
 export const GET_USER_DETAILS_FAILURE = "GET_USER_DETAILS_FAILURE";
@@ -452,6 +454,10 @@ export const SET_USER_SMS_NOTIFICATION_FAILURE =
 
 export const RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS =
   "RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS";
+
+export const CHECK_BALANCE_REQUEST = "CHECK_BALANCE_REQUEST";
+export const CHECK_BALANCE_SUCCESS = "CHECK_BALANCE_SUCCESS";
+export const CHECK_BALANCE_FAILURE = "CHECK_BALANCE_FAILURE";
 
 export function getDetailsOfCancelledProductRequest() {
   return {
@@ -4752,5 +4758,55 @@ export function resetUserAddressAfterLogout() {
   return {
     type: RESET_USER_ADDRESS,
     status: SUCCESS
+  };
+}
+
+export function checkBalanceRequest() {
+  return {
+    type: CHECK_BALANCE_REQUEST,
+    status: REQUESTING
+  };
+}
+export function checkBalanceSuccess(checkBalanceDetails) {
+  return {
+    type: CHECK_BALANCE_SUCCESS,
+    status: SUCCESS,
+    checkBalanceDetails
+  };
+}
+
+export function checkBalanceFailure(error) {
+  return {
+    type: CHECK_BALANCE_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+
+export function checkBalance(checkBalanceDetails) {
+  return async (dispatch, getState, { api }) => {
+    const customerAccessToken = await getCustomerAccessToken();
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    dispatch(checkBalanceRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/giftCardCheckBalance?access_token=${customerAccessToken}&channel=web`,
+        checkBalanceDetails
+      );
+      let resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      if (resultJson.status && resultJson.status.toLowerCase() === "success") {
+        dispatch(checkBalanceSuccess(resultJson));
+        dispatch(hideModal(CLIQ_CASH_MODULE));
+      }
+    } catch (e) {
+      dispatch(checkBalanceFailure(e.message));
+    }
   };
 }
