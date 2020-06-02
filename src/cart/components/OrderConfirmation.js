@@ -108,9 +108,7 @@ export default class OrderConfirmation extends React.Component {
         if (commonExchangePaymentDetails[0].accountNumber) {
           data.accountNumber = commonExchangePaymentDetails[0].accountNumber;
         }
-        setTimeout(() => {
-          this.props.showChangeExchangeCashabackModal(data);
-        }, 2000);
+        this.props.showChangeExchangeCashabackModal(data);
       }
     }
   }
