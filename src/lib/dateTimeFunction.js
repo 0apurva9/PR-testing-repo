@@ -170,5 +170,59 @@ export const getWholeDayTimeFormat = (date, timeDetails) => {
   if (timeDetails) {
     timeString = getTimeAmPm(timeDetails);
   }
-  return dateString + " " + timeString;
+  return dateString + ", " + timeString;
 };
+
+export const oridinalNumberDateFormat = date => {
+  const dateSplit = date.split(" ");
+  let oridinalNumber = "";
+  if (dateSplit[0] == 1 || dateSplit[0] == 21 || dateSplit[0] == 31) {
+    oridinalNumber = "st";
+  } else if (dateSplit[0] == 2 || dateSplit[0] == 22) {
+    oridinalNumber = "nd";
+  } else if (dateSplit[0] == 3 || dateSplit[0] == 23) {
+    oridinalNumber = "rd";
+  } else {
+    oridinalNumber = "th";
+  }
+  return `${dateSplit[0]}${oridinalNumber} ${dateSplit[1]} ${dateSplit[2]} ${dateSplit[3]}`;
+};
+
+//Number with thousand seperated value.
+export const numberWithCommas = x =>
+  x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+var a = [
+  "",
+  "one ",
+  "two ",
+  "three ",
+  "four ",
+  "five ",
+  "six ",
+  "seven ",
+  "eight ",
+  "nine ",
+  "ten ",
+  "eleven ",
+  "twelve ",
+  "thirteen ",
+  "fourteen ",
+  "fifteen ",
+  "sixteen ",
+  "seventeen ",
+  "eighteen ",
+  "nineteen "
+];
+var b = [
+  "",
+  "",
+  "twenty",
+  "thirty",
+  "forty",
+  "fifty",
+  "sixty",
+  "seventy",
+  "eighty",
+  "ninety"
+];
