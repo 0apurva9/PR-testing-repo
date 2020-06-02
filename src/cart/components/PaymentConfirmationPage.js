@@ -70,14 +70,16 @@ export default class PaymentConfirmationPage extends React.Component {
           exchangePaymentDetails: commonExchangePaymentDetails[0]
         });
         data.orderId = orderId;
-        data.exchangePaymentMode =
-          commonExchangePaymentDetails[0].exchangePaymentMode;
-        if (commonExchangePaymentDetails[0].accountNumber) {
-          data.accountNumber = commonExchangePaymentDetails[0].accountNumber;
+        if (commonExchangePaymentDetails && commonExchangePaymentDetails[0]) {
+          data.exchangePaymentMode =
+            commonExchangePaymentDetails[0].exchangePaymentMode;
+          if (commonExchangePaymentDetails[0].accountNumber) {
+            data.accountNumber = commonExchangePaymentDetails[0].accountNumber;
+          }
+          setTimeout(() => {
+            this.props.showChangeExchangeCashabackModal(data);
+          }, 2000);
         }
-        setTimeout(() => {
-          this.props.showChangeExchangeCashabackModal(data);
-        }, 2000);
       }
     }
   }
