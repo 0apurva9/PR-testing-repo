@@ -533,7 +533,12 @@ export function addProductToCart(productDetails) {
     let IMEIApiResponse = productDetails.verifyIMEINumberAPIResponse;
     let disableNext = false;
     await dispatch(getCartCountForLoggedInUser()).then(data => {
-      if (data && data.status === "success" && data.cartDetails.products) {
+      if (
+        data &&
+        data.status &&
+        data.status.toLowerCase() === "success" &&
+        data.cartDetails.products
+      ) {
         let isProductInCart = data.cartDetails.products.find(val => {
           return val.USSID === productDetails.ussId;
         });
@@ -621,7 +626,8 @@ export function addProductToCart(productDetails) {
         if (
           resultJson.errorCode === "EX05" ||
           resultJson.errorCode === "NU011" ||
-          resultJson.errorCode === "EX06"
+          resultJson.errorCode === "EX06" ||
+          resultJson.errorCode === "B9069"
         ) {
           dispatch(displayToast(resultJson.error));
         }
