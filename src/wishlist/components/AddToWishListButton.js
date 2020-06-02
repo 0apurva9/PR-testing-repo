@@ -144,7 +144,12 @@ export default class AddToWishListButton extends React.Component {
   //   }
   // }
   checkInWishlist(props) {
-    if (props.wishlistItems && props.wishlistItems.length) {
+    let loggedInUserDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    if (
+      loggedInUserDetails &&
+      props.wishlistItems &&
+      Array.isArray(props.wishlistItems)
+    ) {
       let self = this;
       let foundWishListItem = props.wishlistItems.find(item => {
         if (item.winningUssID)
