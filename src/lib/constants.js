@@ -175,6 +175,7 @@ export const EMI_TYPE = "emiType";
 export const CART_DETAILS_FOR_ANONYMOUS = "cartDetailsForAnonymous";
 export const CART_DETAILS_FOR_LOGGED_IN_USER = "cartDetails";
 export const LOGGED_IN_USER_DETAILS = "userDetails";
+export const NON_LOGGED_IN_USER_DETAILS = "LogInFailed";
 export const CATEGORIES_LANDING_PAGE = "/categories";
 export const ANONYMOUS_USER = "anonymous";
 export const COUPON_COOKIE = "couponCode";
@@ -465,6 +466,8 @@ export const EXPIRED_REJECTED_FORMAT = "0001-01-01T00:00:00";
 export const PREVENT_NUMBERS_VALIDATION = /^([^0-9]*)$/;
 export const BANK_ACCOUNT = "BANK_ACCOUNT";
 export const MY_ACCOUNT_SUFFIX = "/my-account/(.*)";
+export const DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION =
+  "digitalDataForPaymentConfirmation";
 
 // errors
 export const ERROR_CODE_JAVA_NET = "java.net";
