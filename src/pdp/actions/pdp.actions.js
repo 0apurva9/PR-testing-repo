@@ -1179,31 +1179,54 @@ export function getRecentlyViewedProduct(productCode) {
         resultJson.data[0].length > 0
       ) {
         const removedDuplicate = [...new Set(resultJson.data[0])];
-        removedDuplicate &&
-          removedDuplicate.forEach(async id => {
-            try {
-              const getProductdetails = await api.getMiddlewareUrl(
-                `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
-              );
-              let finalProductDetails = await getProductdetails.json();
-              const resultJsonStatus = ErrorHandling.getFailureResponse(
-                finalProductDetails
-              );
+        let requests =
+          removedDuplicate &&
+          removedDuplicate.map(id =>
+            api.getMiddlewareUrl(
+              `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+            )
+          );
+        Promise.all(requests)
+          .then(responses => Promise.all(responses.map(r => r.json())))
+          .then(results =>
+            results.forEach(res => {
+              const resultJsonStatus = ErrorHandling.getFailureResponse(res);
               if (resultJsonStatus.status) {
                 throw new Error(resultJsonStatus.message);
               }
-              await dispatch(
-                productMsdRecentlyViewedSuccess(
-                  finalProductDetails.results,
-                  "RecentlyViewed"
-                )
-              );
-            } catch (e) {
               dispatch(
-                productMsdRecentlyViewedFailure(`${id}-MSD ${e.message}`)
+                productMsdRecentlyViewedSuccess(res.results, "RecentlyViewed")
               );
-            }
-          });
+            })
+          )
+          .catch(e =>
+            dispatch(productMsdRecentlyViewedFailure(`MSD ${e.message}`))
+          );
+        // removedDuplicate &&
+        //   removedDuplicate.forEach(async id => {
+        //     try {
+        //       const getProductdetails = await api.getMiddlewareUrl(
+        //         `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+        //       );
+        //       let finalProductDetails = await getProductdetails.json();
+        //       const resultJsonStatus = ErrorHandling.getFailureResponse(
+        //         finalProductDetails
+        //       );
+        //       if (resultJsonStatus.status) {
+        //         throw new Error(resultJsonStatus.message);
+        //       }
+        //       await dispatch(
+        //         productMsdRecentlyViewedSuccess(
+        //           finalProductDetails.results,
+        //           "RecentlyViewed"
+        //         )
+        //       );
+        //     } catch (e) {
+        //       dispatch(
+        //         productMsdRecentlyViewedFailure(`${id}-MSD ${e.message}`)
+        //       );
+        //     }
+        //   });
       }
     } catch (e) {
       dispatch(productMsdRecentlyViewedFailure(e.message));
