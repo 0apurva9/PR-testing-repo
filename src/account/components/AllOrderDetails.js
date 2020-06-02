@@ -393,7 +393,6 @@ export default class AllOrderDetails extends React.Component {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const orderDetails = this.props.profile.orderDetails;
-    console.log("allOrderdetials, ", this.props);
     if (this.props.profile.reSendEmailLoader) {
       return Loader();
     }

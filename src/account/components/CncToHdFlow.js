@@ -152,7 +152,6 @@ export default class CncToHdFlow extends React.Component {
   render() {
     let isCncToHdOrderDetails = "";
     isCncToHdOrderDetails = this.props.orderDetails;
-    console.log(isCncToHdOrderDetails);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails || !customerCookie) {

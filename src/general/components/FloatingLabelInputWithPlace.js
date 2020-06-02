@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./FloatingLabelInput.css";
 import PropTypes from "prop-types";
-export default class FloatingLabelInput extends React.Component {
+export default class FloatingLabelInputWithPlace extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -91,11 +91,7 @@ export default class FloatingLabelInput extends React.Component {
         styles={{ height: this.props.height }}
       >
         <span
-          className={
-            this.state.labelUpper
-              ? styles.activeFloatingLabel
-              : styles.floatingLabel
-          }
+          className={styles.activeFloatingLabel}
           style={{
             fontSize: this.props.fontSize
           }}
@@ -111,12 +107,13 @@ export default class FloatingLabelInput extends React.Component {
           onBlur={event => this.handleBlur(event)}
           onChange={event => this.handleChange(event)}
           value={this.props.value ? this.props.value : this.state.value}
+          placeholder={this.props.placeholder ? this.props.placeholder : ""}
         />
       </div>
     );
   }
 }
-FloatingLabelInput.propTypes = {
+FloatingLabelInputWithPlace.propTypes = {
   maxLength: PropTypes.string,
   type: PropTypes.string,
   onlyAlphabet: PropTypes.bool,
@@ -130,7 +127,7 @@ FloatingLabelInput.propTypes = {
   value: PropTypes.string,
   height: PropTypes.string
 };
-FloatingLabelInput.defaultProps = {
+FloatingLabelInputWithPlace.defaultProps = {
   type: "text",
   onlyAlphabet: false,
   onlyNumber: false

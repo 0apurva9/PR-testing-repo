@@ -267,10 +267,10 @@ export function getProductDescription(
           (!window.digitalData ||
             !window.digitalData.cpj ||
             !window.digitalData.cpj.product) &&
-          (window.digitalData &&
-            window.digitalData.cpj &&
-            window.digitalData.cpj.product &&
-            window.digitalData.cpj.product.id !== resultJson.productListingId)
+          window.digitalData &&
+          window.digitalData.cpj &&
+          window.digitalData.cpj.product &&
+          window.digitalData.cpj.product.id !== resultJson.productListingId
         ) {
           if (componentName === "Theme offers component") {
             const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
