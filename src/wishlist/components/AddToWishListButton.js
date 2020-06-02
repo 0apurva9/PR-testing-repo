@@ -148,7 +148,7 @@ export default class AddToWishListButton extends React.Component {
     if (
       loggedInUserDetails &&
       props.wishlistItems &&
-      props.wishlistItems.length
+      Array.isArray(props.wishlistItems)
     ) {
       let self = this;
       let foundWishListItem = props.wishlistItems.find(item => {
