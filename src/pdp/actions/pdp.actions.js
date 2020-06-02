@@ -1314,23 +1314,42 @@ export function getPdpItems(itemIds, widgetKey) {
         });
         productCodes = productCodes;
       }
-      productCodes &&
-        productCodes.forEach(async id => {
-          try {
-            const url = `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`;
-            const result = await api.getMiddlewareUrl(url);
-            const resultJson = await result.json();
-            const resultJsonStatus = ErrorHandling.getFailureResponse(
-              resultJson
-            );
+      let requests =
+        productCodes &&
+        productCodes.map(id =>
+          api.getMiddlewareUrl(
+            `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+          )
+        );
+      Promise.all(requests)
+        .then(responses => Promise.all(responses.map(r => r.json())))
+        .then(results =>
+          results.forEach(res => {
+            const resultJsonStatus = ErrorHandling.getFailureResponse(res);
             if (resultJsonStatus.status) {
               throw new Error(resultJsonStatus.message);
             }
-            dispatch(getPdpItemsPdpSuccess(resultJson.results, widgetKey));
-          } catch (e) {
-            dispatch(getPdpItemsFailure(`${id}-MSD ${e.message}`));
-          }
-        });
+            dispatch(getPdpItemsPdpSuccess(res.results, widgetKey));
+          })
+        )
+        .catch(e => dispatch(getPdpItemsFailure(`MSD ${e.message}`)));
+      // productCodes &&
+      //   productCodes.forEach(async id => {
+      //     try {
+      //       const url = `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`;
+      //       const result = await api.getMiddlewareUrl(url);
+      //       const resultJson = await result.json();
+      //       const resultJsonStatus = ErrorHandling.getFailureResponse(
+      //         resultJson
+      //       );
+      //       if (resultJsonStatus.status) {
+      //         throw new Error(resultJsonStatus.message);
+      //       }
+      //       dispatch(getPdpItemsPdpSuccess(resultJson.results, widgetKey));
+      //     } catch (e) {
+      //       dispatch(getPdpItemsFailure(`${id}-MSD ${e.message}`));
+      //     }
+      //   });
     } catch (e) {
       dispatch(getPdpItemsFailure(`MSD ${e.message}`));
     }
