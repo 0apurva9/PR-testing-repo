@@ -23,12 +23,7 @@ export default class VideoProductCarousel extends React.Component {
   componentDidUpdate() {
     const data = this.props.feedComponentData;
 
-    if (
-      data &&
-      data.itemIds &&
-      data.items.length === 0 &&
-      data.itemIds.length > 0
-    ) {
+    if (data && data.itemIds && data.itemIds.length > 0) {
       this.props.getItems(this.props.positionInFeed, data.itemIds);
     }
   }

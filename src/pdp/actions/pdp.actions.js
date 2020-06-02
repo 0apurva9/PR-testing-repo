@@ -1055,12 +1055,12 @@ export function getMsdRequest(
       msdRequestObject.append("user_id", userDetails.customerId);
     }
     msdRequestObject.append("api_key", API_KEY);
-    if (process.env.REACT_APP_STAGE === "qa2") {
-      msdRequestObject.append("mad_uuid", QA2_MCV_ID);
-    } else {
-      const mcvId = await getMcvId();
-      msdRequestObject.append("mad_uuid", mcvId);
-    }
+    // if (process.env.REACT_APP_STAGE === "qa2") {
+    //   msdRequestObject.append("mad_uuid", QA2_MCV_ID);
+    // } else {
+    const mcvId = await getMcvId();
+    msdRequestObject.append("mad_uuid", mcvId);
+    // }
     if (similarProducts) {
       msdRequestObject.append("widget_list", JSON.stringify([0]));
     } else {
@@ -1172,7 +1172,6 @@ export function getRecentlyViewedProduct(productCode) {
         throw new Error(resultJsonStatus.message);
       }
 
-      let finalProductDetails = null;
       if (
         resultJson &&
         resultJson.data &&
@@ -1186,7 +1185,7 @@ export function getRecentlyViewedProduct(productCode) {
               const getProductdetails = await api.getMiddlewareUrl(
                 `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
               );
-              finalProductDetails = await getProductdetails.json();
+              let finalProductDetails = await getProductdetails.json();
               const resultJsonStatus = ErrorHandling.getFailureResponse(
                 finalProductDetails
               );

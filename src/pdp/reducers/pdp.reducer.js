@@ -991,10 +991,6 @@ const productDescription = (
             action.recentlyViewedProduct;
         }
       }
-      console.log(
-        "final recently viewed array==============>",
-        newMsdRecentlyViewedItems
-      );
       return Object.assign({}, state, {
         status: action.status,
         recentlyViewedProduct: newMsdRecentlyViewedItems,

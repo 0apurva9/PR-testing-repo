@@ -78,11 +78,12 @@ const user = (
             ? action.user.customerInfo.lastName
             : "";
       }
-      const EMAIL_REG_EX = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-      if (EMAIL_REG_EX.test(action.userName)) {
-        userDetails.loginType = LOGIN_WITH_EMAIL;
-      } else {
+      const MOBILE_REG_EX = /^[0][1-9]\d{9}$|^[1-9]\d{9}$/g;
+      //const EMAIL_REG_EX = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      if (MOBILE_REG_EX.test(action.userName)) {
         userDetails.loginType = LOGIN_WITH_MOBILE;
+      } else {
+        userDetails.loginType = LOGIN_WITH_EMAIL;
       }
 
       Cookies.createCookie(LOGGED_IN_USER_DETAILS, JSON.stringify(userDetails));

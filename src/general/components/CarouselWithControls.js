@@ -13,27 +13,30 @@ export default class CarouselWithControls extends React.Component {
     this.state = { position: 0 };
   }
   forward = () => {
-    let mainProduct =
+    let mainProductList =
       this.props.parentData &&
       this.props.parentData.productData &&
       this.props.parentData.productData.productDetails;
-    let categoryHierarchy =
-      this.props.parentData &&
-      this.props.parentData.productData &&
-      this.props.parentData.productData.productDetails &&
-      this.props.parentData.productData.productDetails.categoryHierarchy &&
-      this.props.parentData.productData.productDetails.categoryHierarchy;
-    let jsonDetailsForWidgets = {
-      sourceProdID: mainProduct && mainProduct.productListingId,
-      sourceCatgID:
-        categoryHierarchy &&
-        categoryHierarchy[categoryHierarchy.length - 1].category_id,
-      currency:
-        mainProduct && mainProduct.winningSellerPrice.doubleValue
-          ? mainProduct.winningSellerPrice.doubleValue
-          : mainProduct.mrpPrice.value
-    };
-    setDataLayerForMsdItemWidgets(jsonDetailsForWidgets, ADOBE_CAROUSEL_SWIPE);
+    if (mainProductList) {
+      let jsonDetailsForWidgets = {
+        sourceProdID: mainProductList && mainProductList.productListingId,
+        sourceCatgID:
+          mainProductList &&
+          mainProductList.categoryHierarchy &&
+          mainProductList.categoryHierarchy.length > 0 &&
+          mainProductList.categoryHierarchy[
+            mainProductList.categoryHierarchy.length - 1
+          ].category_id,
+        currency:
+          mainProductList && mainProductList.winningSellerPrice.doubleValue
+            ? mainProductList.winningSellerPrice.doubleValue
+            : mainProductList.mrpPrice.value
+      };
+      setDataLayerForMsdItemWidgets(
+        jsonDetailsForWidgets,
+        ADOBE_CAROUSEL_SWIPE
+      );
+    }
     if (
       this.props.children.length -
         Math.floor(100 / this.props.elementWidthDesktop) >
@@ -47,23 +50,26 @@ export default class CarouselWithControls extends React.Component {
       this.props.parentData &&
       this.props.parentData.productData &&
       this.props.parentData.productData.productDetails;
-    let categoryHierarchy =
-      this.props.parentData &&
-      this.props.parentData.productData &&
-      this.props.parentData.productData.productDetails &&
-      this.props.parentData.productData.productDetails.categoryHierarchy &&
-      this.props.parentData.productData.productDetails.categoryHierarchy;
-    let jsonDetailsForWidgets = {
-      sourceProdID: mainProduct && mainProduct.productListingId,
-      sourceCatgID:
-        categoryHierarchy &&
-        categoryHierarchy[categoryHierarchy.length - 1].category_id,
-      currency:
-        mainProduct && mainProduct.winningSellerPrice.doubleValue
-          ? mainProduct.winningSellerPrice.doubleValue
-          : mainProduct.mrpPrice.value
-    };
-    setDataLayerForMsdItemWidgets(jsonDetailsForWidgets, ADOBE_CAROUSEL_SWIPE);
+    if (mainProduct) {
+      let jsonDetailsForWidgets = {
+        sourceProdID: mainProduct && mainProduct.productListingId,
+        sourceCatgID:
+          mainProduct &&
+          mainProduct.categoryHierarchy &&
+          mainProduct.categoryHierarchy.length > 0 &&
+          mainProduct.categoryHierarchy[
+            mainProduct.categoryHierarchy.length - 1
+          ].category_id,
+        currency:
+          mainProduct && mainProduct.winningSellerPrice.doubleValue
+            ? mainProduct.winningSellerPrice.doubleValue
+            : mainProduct.mrpPrice.value
+      };
+      setDataLayerForMsdItemWidgets(
+        jsonDetailsForWidgets,
+        ADOBE_CAROUSEL_SWIPE
+      );
+    }
     if (this.state.position > 0) {
       this.setState({ position: this.state.position - 1 });
     }
