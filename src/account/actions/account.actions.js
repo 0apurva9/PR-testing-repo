@@ -142,6 +142,13 @@ export const GET_CLIQ_CASH_CONFIG_REQUEST = "GET_CLIQ_CASH_CONFIG_REQUEST";
 export const GET_CLIQ_CASH_CONFIG_SUCCESS = "GET_CLIQ_CASH_CONFIG_SUCCESS";
 export const GET_CLIQ_CASH_CONFIG_FAILURE = "GET_CLIQ_CASH_CONFIG_FAILURE";
 
+export const GET_USER_CLIQ_CASH_EXPIRING_DETAILS_REQUEST =
+  "GET_USER_CLIQ_CASH_EXPIRING_DETAILS_REQUEST";
+export const GET_USER_CLIQ_CASH_EXPIRING_DETAILS_SUCCESS =
+  "GET_USER_CLIQ_CASH_EXPIRING_DETAILS_SUCCESS";
+export const GET_USER_CLIQ_CASH_EXPIRING_DETAILS_FAILURE =
+  "GET_USER_CLIQ_CASH_EXPIRING_DETAILS_FAILURE";
+
 export const FETCH_ORDER_DETAILS_REQUEST = "FETCH_ORDER_DETAILS_REQUEST";
 export const FETCH_ORDER_DETAILS_SUCCESS = "FETCH_ORDER_DETAILS_SUCCESS";
 export const FETCH_ORDER_DETAILS_FAILURE = "FETCH_ORDER_DETAILS_FAILURE";
@@ -4551,7 +4558,7 @@ export function getCliqCashPageConfiguration(startDate, endDate) {
           JSON.parse(customerCookie).access_token
         }`
       );
-      const resultJson = await result.json();
+      let resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
@@ -4565,6 +4572,52 @@ export function getCliqCashPageConfiguration(startDate, endDate) {
 /**
  * EOC
  */
+
+export function getCliqCashExpiringRequest() {
+  return {
+    type: GET_USER_CLIQ_CASH_EXPIRING_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getCliqCashExpiringSuccess(cliqCashExpiringDetails) {
+  return {
+    type: GET_USER_CLIQ_CASH_EXPIRING_DETAILS_SUCCESS,
+    status: SUCCESS,
+    cliqCashExpiringDetails
+  };
+}
+
+export function getCliqCashExpiringFailure(error) {
+  return {
+    type: GET_USER_CLIQ_CASH_EXPIRING_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getCliqCashExpiring() {
+  return async (dispatch, getState, { api }) => {
+    const customerAccessToken = await getCustomerAccessToken();
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    dispatch(getCliqCashExpiringRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getCliqCashExpiring?access_token=${customerAccessToken}`
+      );
+      let resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getCliqCashExpiringSuccess(resultJson));
+    } catch (e) {
+      dispatch(getCliqCashExpiringFailure(e.message));
+    }
+  };
+}
 
 export function productRatingByUserRequest() {
   return {

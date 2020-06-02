@@ -45,61 +45,83 @@
     border-radius: 4px;
     user-select: none;
   }
-  .cliqCashBalanceHolder {
+   .cliqCashBalanceHolder {
     width: 100%;
     height: auto;
-    background: linear-gradient(#ce5096, #da6060);
-    padding: 10px;
-    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.05);
-    margin-bottom: 20px;
-  }
-  .cliqCashBalanceContainer {
+    margin-bottom: 18px;
+    }
+ .cliqCashBalanceContainer {
     width: 100%;
     height: auto;
-    background: #ffffff;
-    min-height: 60px;
-    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 10px;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: cover;
+    border-radius: 6px;
   }
   .cliqCashBalanceHeader {
     width: 100%;
     height: auto;
-    font-family: semibold;
+    font-family: regular;
     font-size: 16px;
     color: #212121;
+    margin: 0 0 18px;
   }
   .totalBalanceHolder {
-    width: 100%;
-    height: auto;
-    padding-top: 18px;
-    display: inline-block;
+    margin: 0 0 18px;
   }
-  .totalBalance {
+   .totalBalance {
     width: 50%;
     height: auto;
-    border-right: 1px solid #ececec;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
     display: inline-block;
     vertical-align: top;
   }
-  .balanceHeader {
+   .balanceHeader {
     width: 100%;
     height: auto;
-    font-size: 14px;
-    font-family: regular;
+    font-size: 12px;
+    font-family: light;
     color: #212121;
-    padding-bottom: 12px;
+    margin: 0 0 5px;
   }
   .balance {
     width: 100%;
     height: auto;
-    font-size: 30px;
-    font-family: regular;
+    font-size: 24px;
+    font-family: semibold;
+    word-break: break-word;
+  }
+  .floatingNumber {
+    font-size: 16px;
+    color: #212121;
+    font-family: light;
   }
   .infoBase {
     width: 50%;
     height: auto;
     display: inline-block;
+    text-align: center;
   }
   .info {
+    width: 100%;
+    height: auto;
+    font-size: 10px;
+    line-height: 14px;
+    color: #212121;
+    font-family: regular;
+    vertical-align: top;
+    display: inline-block;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .infoBaseKnowMore {
+    width: 50%;
+    height: auto;
+    display: inline-block;
+  }
+  .infoKnowMore {
     width: 90%;
     height: auto;
     font-size: 14px;
@@ -109,6 +131,12 @@
     vertical-align: middle;
     display: inline-block;
   }
+  .btnCenter{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .spacing {
     width: 10%;
     height: auto;
@@ -117,7 +145,6 @@
   .rupee {
     font-family: semibold;
     font-size: 12px;
-    letter-spacing: 2px;
   }
   .knowMore {
     font-family: semibold;

@@ -1,6 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./CliqCashDesktop.css";
+import walletBg from "./img/cliqCashWalletBg.svg";
+import Button from "../../general/components/Button";
+import CliqCashExpiring from "./CliqCashExpiring";
 import {
   MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_PAGE,
@@ -70,6 +73,18 @@ export default class CliqCashDesktop extends React.Component {
     }
     if (this.props.getCliqCashPageConfiguration) {
       this.props.getCliqCashPageConfiguration();
+    }
+    if (this.props.getCliqCashExpiring) {
+      this.props.getCliqCashExpiring();
+    }
+  }
+
+  redeemCliqVoucher() {
+    if (this.state.cardNumber && this.state.pinNumber) {
+      this.setState({ cliqCashUpdate: true });
+      if (this.props.redeemCliqVoucher) {
+        this.props.redeemCliqVoucher(this.state);
+      }
     }
   }
 
@@ -162,20 +177,6 @@ export default class CliqCashDesktop extends React.Component {
   }
 
   render() {
-    let totalBalance =
-      this.props &&
-      this.props.cliqCashUserDetails &&
-      this.props.cliqCashUserDetails.totalCliqCashBalance &&
-      this.props.cliqCashUserDetails.totalCliqCashBalance.value &&
-      this.props.cliqCashUserDetails.totalCliqCashBalance.value > 0
-        ? parseFloat(
-            Math.round(
-              this.props.cliqCashUserDetails.totalCliqCashBalance.value * 100
-            ) / 100
-          )
-            .toFixed(2)
-            .toLocaleString("hi-IN")
-        : "0.00";
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let transactions = [];
@@ -209,25 +210,43 @@ export default class CliqCashDesktop extends React.Component {
               </div>
               <div className={styles.cliqCashDetail}>
                 <div>
-                  <div className={styles.cliqCashDetailWithHolder}>
-                    <div className={styles.cliqCashBalanceContainer}>
+                  <div className={styles.cliqCashBalanceHolder}>
+                    <div
+                      style={{ backgroundImage: `url(${walletBg})` }}
+                      className={styles.cliqCashBalanceContainer}
+                    >
                       <div className={styles.cliqCashBalanceHeader}>
                         CLiQ Cash Wallet
                       </div>
                       <div className={styles.totalBalanceHolder}>
                         <div className={styles.totalBalance}>
                           <div className={styles.balanceHeader}>
-                            Total Available Balance
+                            Your Balance
                           </div>
                           <div className={styles.balance}>
                             <span className={styles.rupee}>₹</span>
-                            {totalBalance}
+                            {this.props &&
+                            this.props.cliqCashUserDetails &&
+                            this.props.cliqCashUserDetails
+                              .totalCliqCashBalance &&
+                            this.props.cliqCashUserDetails.totalCliqCashBalance
+                              .value &&
+                            this.props.cliqCashUserDetails.totalCliqCashBalance
+                              .value > 0
+                              ? parseFloat(
+                                  Math.round(
+                                    this.props.cliqCashUserDetails
+                                      .totalCliqCashBalance.value * 100
+                                  ) / 100
+                                ).toLocaleString("hi-IN")
+                              : "0"}
+                            <span className={styles.floatingNumber}>.00</span>
                           </div>
                         </div>
 
-                        <div className={styles.infoBase}>
+                        <div className={styles.infoBaseKnowMore}>
                           <div className={styles.spacing} />
-                          <div className={styles.info}>
+                          <div className={styles.infoKnowMore}>
                             A quick and convenient way for faster checkout and
                             refund.
                             <div
@@ -238,7 +257,45 @@ export default class CliqCashDesktop extends React.Component {
                             </div>
                           </div>
                         </div>
+
+                        {this.props.cliqCashConfig &&
+                        this.props.cliqCashConfig.topUp ? (
+                          <div className={styles.infoBase}>
+                            <React.Fragment>
+                              <div className={styles.info}>
+                                For faster checkout
+                              </div>
+                              <div className={styles.btnCenter}>
+                                <Button
+                                  type="lipstick"
+                                  margin="auto"
+                                  height={32}
+                                  width={112}
+                                  label="Add top up"
+                                  color="#da1c5c"
+                                  backgroundColor="#da1c5c"
+                                  textStyle={{ color: "#fff", fontSize: 12 }}
+                                  onClick={() =>
+                                    this.props.cliqCashUserDetails &&
+                                    !this.props.cliqCashUserDetails
+                                      .isWalletOtpVerified
+                                      ? this.showKycVerification()
+                                      : this.navigateTopUp()
+                                  }
+                                />
+                              </div>
+                            </React.Fragment>
+                          </div>
+                        ) : null}
                       </div>
+                      {this.props.cliqCashExpiringDetails &&
+                      this.props.cliqCashExpiringDetails.isExpiring ? (
+                        <CliqCashExpiring
+                          cliqCashExpiringDetails={
+                            this.props.cliqCashExpiringDetails
+                          }
+                        />
+                      ) : null}
                     </div>
                   </div>
                   <div className={styles.giftCardBase}>
@@ -593,5 +650,7 @@ CliqCashDesktop.propTypes = {
   cliqCashUserDetails: PropTypes.object,
   hideSecondaryLoader: PropTypes.func,
   showSecondaryLoader: PropTypes.func,
-  cliqCashConfig: PropTypes.object
+  cliqCashConfig: PropTypes.object,
+  cliqCashExpiringDetails: PropTypes.object,
+  getCliqCashExpiring: PropTypes.func
 };

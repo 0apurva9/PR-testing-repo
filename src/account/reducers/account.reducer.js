@@ -44,6 +44,10 @@ const account = (
     cliqCashConfigStatus: null,
     cliqCashConfigError: null,
 
+    cliqCashExpiringStatus: null,
+    cliqCashExpiringDetails: null,
+    cliqCashExpiringError: null,
+
     wishlist: null,
     wishlistStatus: null,
     wishlistError: null,
@@ -833,6 +837,40 @@ const account = (
       return Object.assign({}, state, {
         cliqCashConfigStatus: action.status,
         cliqCashConfigError: action.error,
+        loading: false
+      });
+
+    case accountActions.GET_USER_CLIQ_CASH_EXPIRING_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        cliqCashExpiringStatus: action.status,
+        loading: true
+      });
+    case accountActions.GET_USER_CLIQ_CASH_EXPIRING_DETAILS_SUCCESS:
+      const expDetails = action.cliqCashExpiringDetails;
+      const giftCardDetails = {};
+      if (
+        expDetails.expiryDate &&
+        expDetails.expiryTime &&
+        expDetails.amount.value
+      ) {
+        (giftCardDetails.isExpiring = true),
+          (giftCardDetails.expiryDate = expDetails.expiryDate),
+          (giftCardDetails.expiryTime = expDetails.expiryTime),
+          (giftCardDetails.value = expDetails.amount.value),
+          (giftCardDetails.expiryDateTime = expDetails.expiryDateTime);
+      } else {
+        giftCardDetails.isExpiring = false;
+      }
+      return Object.assign({}, state, {
+        cliqCashExpiringStatus: action.status,
+        cliqCashExpiringDetails: giftCardDetails,
+        loading: false
+      });
+
+    case accountActions.GET_USER_CLIQ_CASH_EXPIRING_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        cliqCashExpiringStatus: action.status,
+        cliqCashExpiringError: action.error,
         loading: false
       });
 
