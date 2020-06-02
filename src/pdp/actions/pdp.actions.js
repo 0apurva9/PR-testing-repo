@@ -594,7 +594,7 @@ export function addProductToCart(productDetails) {
         result = await api.post(
           `${PRODUCT_DETAILS_PATH}/${userId}/carts/${
             cartId ? cartId + "/" : ""
-          }productAdditionToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
+          }productAdditionToCart_V1?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
             productDetails.code
           }&USSID=${productDetails.ussId}&quantity=${
             productDetails.quantity
@@ -606,7 +606,7 @@ export function addProductToCart(productDetails) {
         result = await api.post(
           `${PRODUCT_DETAILS_PATH}/${userId}/carts/${
             cartId ? cartId + "/" : ""
-          }productAdditionToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
+          }productAdditionToCart_V1?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
             productDetails.code
           }&USSID=${productDetails.ussId}&quantity=${
             productDetails.quantity
