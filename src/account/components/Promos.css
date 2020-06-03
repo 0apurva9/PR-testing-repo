@@ -1,7 +1,7 @@
 .promoContainer{
   border-radius: 2px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  flex-basis: 48%;
+  flex-basis: 42%;
  margin: 20px 0;
 }
 .rewardsTypeImg {
@@ -55,19 +55,20 @@
   display: block;
   top: 50%;
   left: 50%;
-  margin: -15% 0 0 -25%;
+  margin: -10% 0 0 -25%;
 }
 .availFromtxt {
-  font-size: 10px;
+  font-size: 17px;
   font-weight: 300;
   text-align: center;
   color: #ffffff;
   width: 50%;
   line-height: 1.4;
   margin: 10px auto 0;
+  letter-spacing: 0.03px;
 }
 .availFromDate {
-  font-size: 11px;
+  font-size: 18px;
   font-weight: 300;
   text-align: center;
   color: #ffffff;

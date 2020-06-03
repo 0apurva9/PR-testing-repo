@@ -4,6 +4,7 @@ import {
   redeemCliqVoucher,
   getTransactionDetails,
   clearTransaction,
+  getCliqCashExpiring,
   getCliqCashPageConfiguration
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
@@ -74,6 +75,9 @@ const mapDispatchToProps = dispatch => {
     cliqCashKnowMore: data => {
       dispatch(showModal(CLIQ_CASH_KNOW_MORE, data));
     },
+    getCliqCashExpiring: () => {
+      dispatch(getCliqCashExpiring());
+    },
     getCliqCashPageConfiguration: () => {
       dispatch(getCliqCashPageConfiguration());
     }
@@ -95,7 +99,9 @@ const mapStateToProps = state => {
     userAddress: state.profile.userAddress,
     cliqCashConfig: state.profile.cliqCashConfig,
     promotionalCashStatementDetails:
-      state.profile.promotionalCashStatementDetails
+      state.profile.promotionalCashStatementDetails,
+    cliqCashExpiringDetails: state.profile.cliqCashExpiringDetails,
+    cliqCashExpiringError: state.profile.cliqCashExpiringError
   };
 };
 

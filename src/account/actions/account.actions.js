@@ -44,7 +44,8 @@ import {
   GIFT_CARD_MODAL,
   UPDATE_REFUND_DETAILS_POPUP,
   SHOW_RETURN_CONFIRM_POP_UP,
-  RATING_AND_REVIEW_MODAL
+  RATING_AND_REVIEW_MODAL,
+  CLIQ_CASH_MODULE
 } from "../../general/modal.actions.js";
 import format from "date-fns/format";
 import { getPaymentModes } from "../../cart/actions/cart.actions.js";
@@ -81,6 +82,7 @@ import {
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { setBagCount } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions";
+import { getCustomerAccessToken } from "../../common/services/common.services";
 export const GET_USER_DETAILS_REQUEST = "GET_USER_DETAILS_REQUEST";
 export const GET_USER_DETAILS_SUCCESS = "GET_USER_DETAILS_SUCCESS";
 export const GET_USER_DETAILS_FAILURE = "GET_USER_DETAILS_FAILURE";
@@ -139,6 +141,13 @@ export const GET_RETURN_REQUEST_FAILURE = "GET_RETURN_REQUEST_FAILURE";
 export const GET_CLIQ_CASH_CONFIG_REQUEST = "GET_CLIQ_CASH_CONFIG_REQUEST";
 export const GET_CLIQ_CASH_CONFIG_SUCCESS = "GET_CLIQ_CASH_CONFIG_SUCCESS";
 export const GET_CLIQ_CASH_CONFIG_FAILURE = "GET_CLIQ_CASH_CONFIG_FAILURE";
+
+export const GET_USER_CLIQ_CASH_EXPIRING_DETAILS_REQUEST =
+  "GET_USER_CLIQ_CASH_EXPIRING_DETAILS_REQUEST";
+export const GET_USER_CLIQ_CASH_EXPIRING_DETAILS_SUCCESS =
+  "GET_USER_CLIQ_CASH_EXPIRING_DETAILS_SUCCESS";
+export const GET_USER_CLIQ_CASH_EXPIRING_DETAILS_FAILURE =
+  "GET_USER_CLIQ_CASH_EXPIRING_DETAILS_FAILURE";
 
 export const FETCH_ORDER_DETAILS_REQUEST = "FETCH_ORDER_DETAILS_REQUEST";
 export const FETCH_ORDER_DETAILS_SUCCESS = "FETCH_ORDER_DETAILS_SUCCESS";
@@ -459,6 +468,10 @@ export const SET_USER_SMS_NOTIFICATION_FAILURE =
 
 export const RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS =
   "RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS";
+
+export const CHECK_BALANCE_REQUEST = "CHECK_BALANCE_REQUEST";
+export const CHECK_BALANCE_SUCCESS = "CHECK_BALANCE_SUCCESS";
+export const CHECK_BALANCE_FAILURE = "CHECK_BALANCE_FAILURE";
 
 export function getDetailsOfCancelledProductRequest() {
   return {
@@ -4552,7 +4565,7 @@ export function getCliqCashPageConfiguration(startDate, endDate) {
           JSON.parse(customerCookie).access_token
         }`
       );
-      const resultJson = await result.json();
+      let resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
@@ -4566,6 +4579,52 @@ export function getCliqCashPageConfiguration(startDate, endDate) {
 /**
  * EOC
  */
+
+export function getCliqCashExpiringRequest() {
+  return {
+    type: GET_USER_CLIQ_CASH_EXPIRING_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getCliqCashExpiringSuccess(cliqCashExpiringDetails) {
+  return {
+    type: GET_USER_CLIQ_CASH_EXPIRING_DETAILS_SUCCESS,
+    status: SUCCESS,
+    cliqCashExpiringDetails
+  };
+}
+
+export function getCliqCashExpiringFailure(error) {
+  return {
+    type: GET_USER_CLIQ_CASH_EXPIRING_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getCliqCashExpiring() {
+  return async (dispatch, getState, { api }) => {
+    const customerAccessToken = await getCustomerAccessToken();
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    dispatch(getCliqCashExpiringRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getCliqCashExpiring?access_token=${customerAccessToken}`
+      );
+      let resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getCliqCashExpiringSuccess(resultJson));
+    } catch (e) {
+      dispatch(getCliqCashExpiringFailure(e.message));
+    }
+  };
+}
 
 export function productRatingByUserRequest() {
   return {
@@ -4781,7 +4840,28 @@ export function getPromotionalCashStatementSuccess(
 export function getPromotionalCashStatementFailure(error) {
   return {
     type: GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_FAILURE,
-    status: ERROR,
+    status: ERROR
+  };
+}
+
+export function checkBalanceRequest() {
+  return {
+    type: CHECK_BALANCE_REQUEST,
+    status: REQUESTING
+  };
+}
+export function checkBalanceSuccess(checkBalanceDetails) {
+  return {
+    type: CHECK_BALANCE_SUCCESS,
+    status: SUCCESS,
+    checkBalanceDetails
+  };
+}
+
+export function checkBalanceFailure(error) {
+  return {
+    type: CHECK_BALANCE_FAILURE,
+    status: FAILURE,
     error
   };
 }
@@ -4792,553 +4872,14 @@ export function getPromotionalCashStatement() {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(getPromotionalCashStatementRequest());
     try {
-      // const result = await api.post(
-      //   `${USER_PATH}/${
-      //     JSON.parse(userDetails).userName
-      //   }/getPromotionalCashStatement?access_token=${
-      //     JSON.parse(customerCookie).access_token
-      //   }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
-      // );
-      const resultJson = {
-        type: "cliqCashTransactionsDto",
-        status: "Success",
-        transactions: [
-          {
-            date: "05-2020",
-            items: [
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 105.0,
-                  formattedValue: "₹105.00",
-                  formattedValueNoDecimal: "₹105",
-                  priceType: "BUY",
-                  value: 105.0
-                },
-                cardNumber: "3000162099568144",
-                cardProgramGroup: "TUL CLP CS Other Refund eGift Cards",
-                expiryDate: "2020-05-22T16:21:00",
-                orderNo: "",
-                transactionDate: "2020-05-22",
-                transactionId: "",
-                transactionName: "Expired Credit",
-                transactionStatus: "",
-                transactionTime: "16:21:00",
-                transactionType: "Expired"
-              },
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 105.0,
-                  formattedValue: "₹105.00",
-                  formattedValueNoDecimal: "₹105",
-                  priceType: "BUY",
-                  value: 105.0
-                },
-                cardNumber: "3000162099568144",
-                cardProgramGroup: "TUL CLP CS Other Refund eGift Cards",
-                closingBalance: {
-                  currencyIso: "INR",
-                  doubleValue: 3218.0,
-                  formattedValue: "₹3218.00",
-                  formattedValueNoDecimal: "₹3218",
-                  priceType: "BUY",
-                  value: 3218.0
-                },
-                expiryDate: "2020-05-22T16:21:00",
-                orderNo: "",
-                redeemStartDate: "0001-01-01T00:00:00",
-                transactionDate: "2020-05-22",
-                transactionId: "888934296",
-                transactionName: "Received Credit",
-                transactionStatus: "SUCCESS",
-                transactionTime: "16:21:31",
-                transactionType: "Received"
-              },
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 100.0,
-                  formattedValue: "₹100.00",
-                  formattedValueNoDecimal: "₹100",
-                  priceType: "BUY",
-                  value: 100.0
-                },
-                cardNumber: "3000162515138382",
-                cardProgramGroup: "TUL CLP CAT Electronics eGift Cards",
-                closingBalance: {
-                  currencyIso: "INR",
-                  doubleValue: 3113.0,
-                  formattedValue: "₹3113.00",
-                  formattedValueNoDecimal: "₹3113",
-                  priceType: "BUY",
-                  value: 3113.0
-                },
-                expiryDate: "2020-06-30T22:00:00",
-                orderNo: "",
-                redeemStartDate: "2020-05-30T22:00:00",
-                transactionDate: "2020-05-20",
-                transactionId: "888931784",
-                transactionName: "Received Electronics Promotional Credit",
-                transactionStatus: "SUCCESS",
-                transactionTime: "13:52:37",
-                transactionType: "Received"
-              },
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 1299.0,
-                  formattedValue: "₹1299.00",
-                  formattedValueNoDecimal: "₹1299",
-                  priceType: "BUY",
-                  value: 1299.0
-                },
-                cardNumber: "3000162076310399",
-                cardProgramGroup: "TUL CLP CS Consumer Research eGift Cards",
-                closingBalance: {
-                  currencyIso: "INR",
-                  doubleValue: 3113.0,
-                  formattedValue: "₹3113.00",
-                  formattedValueNoDecimal: "₹3113",
-                  priceType: "BUY",
-                  value: 3113.0
-                },
-                expiryDate: "2021-05-13T20:22:03",
-                orderNo: "300015493",
-                redeemStartDate: "0001-01-01T00:00:00",
-                transactionDate: "2020-05-13",
-                transactionId: "888929380",
-                transactionName: "Paid",
-                transactionStatus: "SUCCESS",
-                transactionTime: "20:24:56",
-                transactionType: "Paid"
-              },
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 200.0,
-                  formattedValue: "₹200.00",
-                  formattedValueNoDecimal: "₹200",
-                  priceType: "BUY",
-                  value: 200.0
-                },
-                cardNumber: "3000162059562859",
-                cardProgramGroup: "TUL Wallet-PROMOTION",
-                closingBalance: {
-                  currencyIso: "INR",
-                  doubleValue: 4412.0,
-                  formattedValue: "₹4412.00",
-                  formattedValueNoDecimal: "₹4412",
-                  priceType: "BUY",
-                  value: 4412.0
-                },
-                expiryDate: "2020-05-30T00:00:00",
-                orderNo: "300015492",
-                redeemStartDate: "0001-01-01T00:00:00",
-                transactionDate: "2020-05-13",
-                transactionId: "888929376",
-                transactionName: "Paid",
-                transactionStatus: "SUCCESS",
-                transactionTime: "20:23:04",
-                transactionType: "Paid"
-              },
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 100.0,
-                  formattedValue: "₹100.00",
-                  formattedValueNoDecimal: "₹100",
-                  priceType: "BUY",
-                  value: 100.0
-                },
-                cardNumber: "3000162055898239",
-                cardProgramGroup: "TUL Wallet-PROMOTION",
-                closingBalance: {
-                  currencyIso: "INR",
-                  doubleValue: 4412.0,
-                  formattedValue: "₹4412.00",
-                  formattedValueNoDecimal: "₹4412",
-                  priceType: "BUY",
-                  value: 4412.0
-                },
-                expiryDate: "2020-10-24T15:39:42",
-                orderNo: "300015492",
-                redeemStartDate: "0001-01-01T00:00:00",
-                transactionDate: "2020-05-13",
-                transactionId: "888929376",
-                transactionName: "Paid",
-                transactionStatus: "SUCCESS",
-                transactionTime: "20:23:04",
-                transactionType: "Paid"
-              },
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 588.0,
-                  formattedValue: "₹588.00",
-                  formattedValueNoDecimal: "₹588",
-                  priceType: "BUY",
-                  value: 588.0
-                },
-                cardNumber: "3000162076310399",
-                cardProgramGroup: "TUL CLP CS Consumer Research eGift Cards",
-                closingBalance: {
-                  currencyIso: "INR",
-                  doubleValue: 4412.0,
-                  formattedValue: "₹4412.00",
-                  formattedValueNoDecimal: "₹4412",
-                  priceType: "BUY",
-                  value: 4412.0
-                },
-                expiryDate: "2021-05-13T20:22:03",
-                orderNo: "300015492",
-                redeemStartDate: "0001-01-01T00:00:00",
-                transactionDate: "2020-05-13",
-                transactionId: "888929376",
-                transactionName: "Paid",
-                transactionStatus: "SUCCESS",
-                transactionTime: "20:23:04",
-                transactionType: "Paid"
-              },
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 5000.0,
-                  formattedValue: "₹5000.00",
-                  formattedValueNoDecimal: "₹5000",
-                  priceType: "BUY",
-                  value: 5000.0
-                },
-                cardNumber: "3000162076310399",
-                cardProgramGroup: "TUL CLP CS Consumer Research eGift Cards",
-                closingBalance: {
-                  currencyIso: "INR",
-                  doubleValue: 5711.0,
-                  formattedValue: "₹5711.00",
-                  formattedValueNoDecimal: "₹5711",
-                  priceType: "BUY",
-                  value: 5711.0
-                },
-                expiryDate: "2021-05-13T20:22:03",
-                orderNo: "",
-                redeemStartDate: "0001-01-01T00:00:00",
-                transactionDate: "2020-05-13",
-                transactionId: "888929369",
-                transactionName: "Received Credit",
-                transactionStatus: "SUCCESS",
-                transactionTime: "20:22:03",
-                transactionType: "Received"
-              }
-            ]
-          },
-          {
-            date: "04-2020",
-            items: [
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 200.0,
-                  formattedValue: "₹200.00",
-                  formattedValueNoDecimal: "₹200",
-                  priceType: "BUY",
-                  value: 200.0
-                },
-                cardNumber: "3000162059562859",
-                cardProgramGroup: "TUL Wallet-PROMOTION",
-                closingBalance: {
-                  currencyIso: "INR",
-                  doubleValue: 300.0,
-                  formattedValue: "₹300.00",
-                  formattedValueNoDecimal: "₹300",
-                  priceType: "BUY",
-                  value: 300.0
-                },
-                expiryDate: "2020-05-30T00:00:00",
-                orderNo: "",
-                redeemStartDate: "0001-01-01T00:00:00",
-                transactionDate: "2020-04-30",
-                transactionId: "888927040",
-                transactionName: "Received Promotional Credit",
-                transactionStatus: "SUCCESS",
-                transactionTime: "18:05:02",
-                transactionType: "Received"
-              },
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 100.0,
-                  formattedValue: "₹100.00",
-                  formattedValueNoDecimal: "₹100",
-                  priceType: "BUY",
-                  value: 100.0
-                },
-                cardNumber: "3000162055898239",
-                cardProgramGroup: "TUL Wallet-PROMOTION",
-                closingBalance: {
-                  currencyIso: "INR",
-                  doubleValue: 100.0,
-                  formattedValue: "₹100.00",
-                  formattedValueNoDecimal: "₹100",
-                  priceType: "BUY",
-                  value: 100.0
-                },
-                expiryDate: "2020-10-24T15:39:42",
-                orderNo: "",
-                redeemStartDate: "0001-01-01T00:00:00",
-                transactionDate: "2020-04-27",
-                transactionId: "888926032",
-                transactionName: "Received Promotional Credit",
-                transactionStatus: "SUCCESS",
-                transactionTime: "15:39:42",
-                transactionType: "Received"
-              }
-            ]
-          },
-          {
-            date: "12-2019",
-            items: [
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 15.0,
-                  formattedValue: "₹15.00",
-                  formattedValueNoDecimal: "₹15",
-                  priceType: "BUY",
-                  value: 15.0
-                },
-                cardNumber: "3000162051543982",
-                cardProgramGroup: "TUL Wallet-PROMOTION",
-                closingBalance: {
-                  currencyIso: "INR",
-                  doubleValue: 19656.1,
-                  formattedValue: "₹19656.10",
-                  formattedValueNoDecimal: "₹19656",
-                  priceType: "BUY",
-                  value: 19656.09
-                },
-                expiryDate: "2019-12-25T17:09:00",
-                orderNo: "300004731",
-                redeemStartDate: "2019-12-06T17:07:00",
-                transactionDate: "2019-12-09",
-                transactionId: "888887645",
-                transactionName: "Paid",
-                transactionStatus: "SUCCESS",
-                transactionTime: "13:20:18",
-                transactionType: "Paid"
-              },
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 15.0,
-                  formattedValue: "₹15.00",
-                  formattedValueNoDecimal: "₹15",
-                  priceType: "BUY",
-                  value: 15.0
-                },
-                cardNumber: "3000162051543982",
-                cardProgramGroup: "TUL Wallet-PROMOTION",
-                closingBalance: {
-                  currencyIso: "INR",
-                  doubleValue: 19656.1,
-                  formattedValue: "₹19656.10",
-                  formattedValueNoDecimal: "₹19656",
-                  priceType: "BUY",
-                  value: 19656.09
-                },
-                expiryDate: "2019-12-25T17:09:00",
-                orderNo: "",
-                redeemStartDate: "2019-12-06T17:07:00",
-                transactionDate: "2019-12-06",
-                transactionId: "888886920",
-                transactionName: "Received Promotional Credit",
-                transactionStatus: "SUCCESS",
-                transactionTime: "11:55:11",
-                transactionType: "Received"
-              }
-            ]
-          },
-          {
-            date: "10-2019",
-            items: [
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 3059.98,
-                  formattedValue: "₹3059.98",
-                  formattedValueNoDecimal: "₹3059",
-                  priceType: "BUY",
-                  value: 3059.98
-                },
-                cardNumber: "3000162093768535",
-                cardProgramGroup: "TUL CLP CS Other Refund eGift Cards",
-                closingBalance: {
-                  currencyIso: "INR",
-                  doubleValue: 0.0,
-                  formattedValue: "₹0.00",
-                  formattedValueNoDecimal: "₹0",
-                  priceType: "BUY",
-                  value: 0.0
-                },
-                expiryDate: "2019-12-25T00:00:00",
-                orderNo: "300002525",
-                redeemStartDate: "0001-01-01T00:00:00",
-                transactionDate: "2019-10-24",
-                transactionId: "800009631",
-                transactionName: "Paid",
-                transactionStatus: "SUCCESS",
-                transactionTime: "17:38:21",
-                transactionType: "Paid"
-              },
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 4175.0,
-                  formattedValue: "₹4175.00",
-                  formattedValueNoDecimal: "₹4175",
-                  priceType: "BUY",
-                  value: 4175.0
-                },
-                cardNumber: "3000162093768535",
-                cardProgramGroup: "TUL CLP CS Other Refund eGift Cards",
-                closingBalance: {
-                  currencyIso: "INR",
-                  doubleValue: 3059.98,
-                  formattedValue: "₹3059.98",
-                  formattedValueNoDecimal: "₹3059",
-                  priceType: "BUY",
-                  value: 3059.98
-                },
-                expiryDate: "2019-12-25T00:00:00",
-                orderNo: "300002523",
-                redeemStartDate: "0001-01-01T00:00:00",
-                transactionDate: "2019-10-24",
-                transactionId: "800009626",
-                transactionName: "Paid",
-                transactionStatus: "SUCCESS",
-                transactionTime: "17:37:20",
-                transactionType: "Paid"
-              },
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 1000.02,
-                  formattedValue: "₹1000.02",
-                  formattedValueNoDecimal: "₹1000",
-                  priceType: "BUY",
-                  value: 1000.01
-                },
-                cardNumber: "3000162093768535",
-                cardProgramGroup: "TUL CLP CS Other Refund eGift Cards",
-                closingBalance: {
-                  currencyIso: "INR",
-                  doubleValue: 7234.98,
-                  formattedValue: "₹7234.98",
-                  formattedValueNoDecimal: "₹7234",
-                  priceType: "BUY",
-                  value: 7234.97
-                },
-                expiryDate: "2019-12-25T00:00:00",
-                orderNo: "300002522",
-                redeemStartDate: "0001-01-01T00:00:00",
-                transactionDate: "2019-10-24",
-                transactionId: "800009622",
-                transactionName: "Paid",
-                transactionStatus: "SUCCESS",
-                transactionTime: "17:36:45",
-                transactionType: "Paid"
-              },
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 1765.0,
-                  formattedValue: "₹1765.00",
-                  formattedValueNoDecimal: "₹1765",
-                  priceType: "BUY",
-                  value: 1765.0
-                },
-                cardNumber: "3000162093768535",
-                cardProgramGroup: "TUL CLP CS Other Refund eGift Cards",
-                closingBalance: {
-                  currencyIso: "INR",
-                  doubleValue: 8235.0,
-                  formattedValue: "₹8235.00",
-                  formattedValueNoDecimal: "₹8235",
-                  priceType: "BUY",
-                  value: 8235.0
-                },
-                expiryDate: "2019-12-25T00:00:00",
-                orderNo: "300002520",
-                redeemStartDate: "0001-01-01T00:00:00",
-                transactionDate: "2019-10-24",
-                transactionId: "800009607",
-                transactionName: "Paid",
-                transactionStatus: "SUCCESS",
-                transactionTime: "17:32:20",
-                transactionType: "Paid"
-              },
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 500.0,
-                  formattedValue: "₹500.00",
-                  formattedValueNoDecimal: "₹500",
-                  priceType: "BUY",
-                  value: 500.0
-                },
-                cardNumber: "3000162093768535",
-                cardProgramGroup: "TUL CLP CS Other Refund eGift Cards",
-                closingBalance: {
-                  currencyIso: "INR",
-                  doubleValue: 10000.0,
-                  formattedValue: "₹10000.00",
-                  formattedValueNoDecimal: "₹10000",
-                  priceType: "BUY",
-                  value: 10000.0
-                },
-                expiryDate: "2019-12-25T00:00:00",
-                orderNo: "300002516",
-                redeemStartDate: "0001-01-01T00:00:00",
-                transactionDate: "2019-10-24",
-                transactionId: "800009598",
-                transactionName: "Paid",
-                transactionStatus: "SUCCESS",
-                transactionTime: "16:56:20",
-                transactionType: "Paid"
-              },
-              {
-                amount: {
-                  currencyIso: "INR",
-                  doubleValue: 10000.0,
-                  formattedValue: "₹10000.00",
-                  formattedValueNoDecimal: "₹10000",
-                  priceType: "BUY",
-                  value: 10000.0
-                },
-                cardNumber: "3000162093768535",
-                cardProgramGroup: "TUL CLP CS Other Refund eGift Cards",
-                closingBalance: {
-                  currencyIso: "INR",
-                  doubleValue: 10500.0,
-                  formattedValue: "₹10500.00",
-                  formattedValueNoDecimal: "₹10500",
-                  priceType: "BUY",
-                  value: 10500.0
-                },
-                expiryDate: "2019-12-25T00:00:00",
-                orderNo: "",
-                redeemStartDate: "0001-01-01T00:00:00",
-                transactionDate: "2019-10-24",
-                transactionId: "800009591",
-                transactionName: "Received Credit",
-                transactionStatus: "SUCCESS",
-                transactionTime: "16:55:43",
-                transactionType: "Received"
-              }
-            ]
-          }
-        ]
-      };
-      // await result.json();
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getPromotionalCashStatement?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
+      );
+      const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
@@ -5346,6 +4887,34 @@ export function getPromotionalCashStatement() {
       dispatch(getPromotionalCashStatementSuccess(resultJson));
     } catch (e) {
       dispatch(getPromotionalCashStatementFailure(e.message));
+    }
+  };
+}
+
+export function checkBalance(checkBalanceDetails) {
+  return async (dispatch, getState, { api }) => {
+    const customerAccessToken = await getCustomerAccessToken();
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    dispatch(checkBalanceRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/giftCardCheckBalance?access_token=${customerAccessToken}&channel=web`,
+        checkBalanceDetails
+      );
+      let resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      if (resultJson.status && resultJson.status.toLowerCase() === "success") {
+        dispatch(checkBalanceSuccess(resultJson));
+        dispatch(hideModal(CLIQ_CASH_MODULE));
+      }
+    } catch (e) {
+      dispatch(checkBalanceFailure(e.message));
     }
   };
 }
