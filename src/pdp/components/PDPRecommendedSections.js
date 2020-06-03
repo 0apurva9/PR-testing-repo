@@ -306,9 +306,9 @@ class PDPRecommendedSections extends React.Component {
           this.props.getMsdRequest(this.props.match.params[1]);
           this.props.pdpAboutBrand(this.props.match.params[1]);
         }
-      }
-      if (this.props.getRecentlyViewedProduct) {
-        this.props.getRecentlyViewedProduct();
+        if (this.props.getRecentlyViewedProduct) {
+          this.props.getRecentlyViewedProduct();
+        }
       }
     }
   };
