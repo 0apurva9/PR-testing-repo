@@ -225,14 +225,17 @@ class PDPRecommendedSections extends React.Component {
             const productImage = transformedDatum.image;
             const discountedPrice = transformedDatum.discountPrice;
             const mrpInteger =
+              transformedDatum &&
               transformedDatum.price &&
               parseInt(transformedDatum.price.replace(RUPEE_SYMBOL, ""), 10);
-            const discount = Math.floor(
-              (mrpInteger -
-                parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
-                mrpInteger *
-                100
-            );
+            const discount =
+              discountedPrice &&
+              Math.floor(
+                (mrpInteger -
+                  parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
+                  mrpInteger *
+                  100
+              );
             return (
               <ProductModule
                 key={i}
@@ -317,7 +320,6 @@ class PDPRecommendedSections extends React.Component {
     const options = {
       onChange: this.handleIntersection
     };
-    // console.log("props============> check", this.props)
     return (
       <React.Fragment>
         {/* <div

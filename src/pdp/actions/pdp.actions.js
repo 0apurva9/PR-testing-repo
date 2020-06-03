@@ -445,6 +445,7 @@ export function getProductPinCode(
         resultJson.listOfDataList[0] &&
         resultJson.listOfDataList[0].value &&
         resultJson.listOfDataList[0].value.pincodeListResponse &&
+        resultJson.listOfDataList[0].value.pincodeListResponse[0] &&
         resultJson.listOfDataList[0].value.pincodeListResponse[0]
           .isServicable != "N"
       ) {
@@ -461,7 +462,11 @@ export function getProductPinCode(
       return dispatch(
         getProductPinCodeSuccess({
           pinCode,
-          deliveryOptions: resultJson.listOfDataList[0].value,
+          deliveryOptions:
+            resultJson &&
+            resultJson.listOfDataList &&
+            resultJson.listOfDataList[0] &&
+            resultJson.listOfDataList[0].value,
           city: resultJson.city,
           productOutOfStockMessage: resultJson.productOutOfStockMessage,
           productNotServiceableMessage:
@@ -1094,7 +1099,12 @@ export function getMsdRequest(
       //   resultJson.data[0] = SIMILAR_PRODUCTS_QA2;
       // }
 
-      if (resultJson.data[0] && resultJson.data[0].length > 0) {
+      if (
+        resultJson &&
+        resultJson.data &&
+        resultJson.data[0] &&
+        resultJson.data[0].length > 0
+      ) {
         dispatch(
           getPdpItems(resultJson.data[0], RECOMMENDED_PRODUCTS_WIDGET_KEY)
         );
@@ -1104,7 +1114,12 @@ export function getMsdRequest(
       } else {
         dispatch(getPdpItems([], RECOMMENDED_PRODUCTS_WIDGET_KEY));
       }
-      if (resultJson.data[1] && resultJson.data[1].length > 0) {
+      if (
+        resultJson &&
+        resultJson.data &&
+        resultJson.data[1] &&
+        resultJson.data[1].length > 0
+      ) {
         dispatch(getPdpItems(resultJson.data[1], SIMILAR_PRODUCTS_WIDGET_KEY));
         dispatch(
           productMsdSuccess(resultJson.data[1], SIMILAR_PRODUCTS_WIDGET_KEY)
@@ -1186,7 +1201,8 @@ export function getRecentlyViewedProduct(productCode) {
               `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
             )
           );
-        Promise.all(requests)
+        let productList = [];
+        await Promise.all(requests)
           .then(responses => Promise.all(responses.map(r => r.json())))
           .then(results =>
             results.forEach(res => {
@@ -1194,14 +1210,17 @@ export function getRecentlyViewedProduct(productCode) {
               if (resultJsonStatus.status) {
                 throw new Error(resultJsonStatus.message);
               }
-              dispatch(
-                productMsdRecentlyViewedSuccess(res.results, "RecentlyViewed")
-              );
+              if (res && res.results && res.results[0]) {
+                productList.push(res.results[0]);
+              }
             })
           )
           .catch(e =>
             dispatch(productMsdRecentlyViewedFailure(`MSD ${e.message}`))
           );
+        dispatch(
+          productMsdRecentlyViewedSuccess(productList, "RecentlyViewed")
+        );
         // removedDuplicate &&
         //   removedDuplicate.forEach(async id => {
         //     try {
@@ -1289,14 +1308,18 @@ export function pdpAboutBrand(productCode) {
         throw new Error(resultJsonStatus.message);
       }
 
-      if (resultJson.data[0].itemIds.length > 0) {
+      if (
+        resultJson &&
+        resultJson.data[0] &&
+        resultJson.data[0].itemIds &&
+        resultJson.data[0].itemIds.length > 0
+      ) {
         dispatch(
           getPdpItems(resultJson.data[0].itemIds, ABOUT_THE_BRAND_WIDGET_KEY)
         );
+        // updating reducer for follow brand  key
+        dispatch(pdpAboutBrandSuccess(resultJson.data[0]));
       }
-
-      // updating reducer for follow brand  key
-      dispatch(pdpAboutBrandSuccess(resultJson.data[0]));
     } catch (e) {
       dispatch(pdpAboutBrandFailure(e.message));
     }
@@ -1344,7 +1367,8 @@ export function getPdpItems(itemIds, widgetKey) {
             `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
           )
         );
-      Promise.all(requests)
+      let productList = [];
+      await Promise.all(requests)
         .then(responses => Promise.all(responses.map(r => r.json())))
         .then(results =>
           results.forEach(res => {
@@ -1352,10 +1376,14 @@ export function getPdpItems(itemIds, widgetKey) {
             if (resultJsonStatus.status) {
               throw new Error(resultJsonStatus.message);
             }
-            dispatch(getPdpItemsPdpSuccess(res.results, widgetKey));
+            if (res && res.results && res.results[0]) {
+              productList.push(res.results[0]);
+            }
+            //dispatch(getPdpItemsPdpSuccess(res.results, widgetKey));
           })
         )
         .catch(e => dispatch(getPdpItemsFailure(`MSD ${e.message}`)));
+      dispatch(getPdpItemsPdpSuccess(productList, widgetKey));
       // productCodes &&
       //   productCodes.forEach(async id => {
       //     try {
@@ -1628,7 +1656,11 @@ export function getBundleProductPinCode(pinCode = null, productCode, ussId) {
         throw new Error(resultJsonStatus.message);
       }
       // Checking listing Id
-      let bundleProductResponse = resultJson.listOfDataList[0].value;
+      let bundleProductResponse =
+        resultJson &&
+        resultJson.listOfDataList &&
+        resultJson.listOfDataList[0] &&
+        resultJson.listOfDataList[0].value;
       let listOfAllBundleServiceableUssid;
       if (bundleProductResponse && bundleProductResponse.pincodeListResponse) {
         listOfAllBundleServiceableUssid = bundleProductResponse.pincodeListResponse.filter(
@@ -1646,7 +1678,11 @@ export function getBundleProductPinCode(pinCode = null, productCode, ussId) {
         return dispatch(
           getBundleProductPinCodeSuccess({
             pinCode,
-            deliveryOptions: resultJson.listOfDataList[0].value,
+            deliveryOptions:
+              resultJson &&
+              resultJson.listOfDataList &&
+              resultJson.listOfDataList[0] &&
+              resultJson.listOfDataList[0].value,
             ussId
           })
         );
@@ -1919,7 +1955,11 @@ export function relevantProductServibilty(pinCode = null, productCode, ussId) {
         return dispatch(
           getRelevantProductPinCodeSuccess({
             pinCode,
-            deliveryOptions: resultJson.listOfDataList[0].value,
+            deliveryOptions:
+              resultJson &&
+              resultJson.listOfDataList &&
+              resultJson.listOfDataList[0] &&
+              resultJson.listOfDataList[0].value,
             ussId
           })
         );
