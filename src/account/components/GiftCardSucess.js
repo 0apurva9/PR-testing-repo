@@ -14,6 +14,9 @@ export default class GiftCardSucess extends Component {
     this.props.history.push(`${HOME_ROUTER}`);
   };
   renderToCliqCash = () => {
+    const obj = {};
+    obj.addCard = true;
+    obj.btnLabel = "Add card";
     this.props.showCliqCashModule();
   };
 

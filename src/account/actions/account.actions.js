@@ -4855,6 +4855,14 @@ export function checkBalance(checkBalanceDetails) {
         throw new Error(resultJsonStatus.message);
       }
       if (resultJson.status && resultJson.status.toLowerCase() === "success") {
+        /**
+         * Appending `cardPin` in the resultJson as we need it latter for adding the GC
+         * to the Wallet.
+         */
+        resultJson &&
+          Object.assign(resultJson, {
+            cardPin: checkBalanceDetails.cardPin
+          });
         dispatch(checkBalanceSuccess(resultJson));
         dispatch(hideModal(CLIQ_CASH_MODULE));
       }

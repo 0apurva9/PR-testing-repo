@@ -28,6 +28,42 @@
     padding: 24px;
     margin-bottom: 18px;
   }
+  .cliqCashDetailWithHolderCheckBal {
+    width: 100%;
+    height: auto;
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 18px;
+    background: url(../../account/components/img/cliqCashBg.png) no-repeat;
+    background-size: cover;
+  }
+
+  .heading {
+    padding: 0px 0px 0px 20px;
+    font-family: semibold;
+  }
+  .checkBalLeftText {
+    font-size: 18px;
+    color: #212121;
+  }
+  .checkBalRightText{
+    font-size: 14px;
+    float: right;
+  }
+  .checkBalRightTextLink {
+    color:#da1c5c;
+  }
+  .cardImage {
+    margin: 0 auto;
+  }
+  .cardImageImg {
+    height: 170px;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
   .faqAndTcHolder {
     width: 100%;
     height: auto;
