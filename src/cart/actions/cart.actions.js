@@ -994,7 +994,7 @@ export function getUserAddress(setDataLayerForMyAccount: false) {
           JSON.parse(userDetails).userName
         }/addresses?channel=${CHANNEL}&emailId=${
           JSON.parse(userDetails).userName
-        }&access_token=${JSON.parse(customerCookie).access_token}`
+        }&access_token=${JSON.parse(customerCookie).access_token}&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1198,7 +1198,7 @@ export function addAddressToCart(addressId, pinCode, isComingFromCliqAndPiq) {
       let access_token = JSON.parse(customerCookie).access_token;
       let cartId = JSON.parse(cartDetails).code;
       const result = await api.post(
-        `${USER_CART_PATH}/${userId}/addAddressToOrder?channel=${CHANNEL}&access_token=${access_token}&addressId=${addressId}&cartId=${cartId}&removeExchangeFromCart=0`
+        `${USER_CART_PATH}/${userId}/addAddressToOrder?channel=${CHANNEL}&access_token=${access_token}&addressId=${addressId}&cartId=${cartId}&removeExchangeFromCart=0&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1687,7 +1687,7 @@ export function getAllStoresCNC(pinCode) {
     dispatch(getAllStoresCNCRequest());
     try {
       const result = await api.get(
-        `${ALL_STORES_PATH}/${pinCode}?access_token=${accessToken}`
+        `${ALL_STORES_PATH}/${pinCode}?access_token=${accessToken}&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1740,7 +1740,7 @@ export function addStoreCNC(ussId, slaveId) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/addStore?USSID=${ussId}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&slaveId=${slaveId}`
+        }&slaveId=${slaveId}&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1793,7 +1793,7 @@ export function addPickupPersonCNC(personMobile, personName) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/addPickupPerson?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&personMobile=${personMobile}&personName=${personName}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&personMobile=${personMobile}&personName=${personName}&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

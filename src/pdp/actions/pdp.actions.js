@@ -1472,7 +1472,7 @@ export function getAllStoresForCliqAndPiq(
     dispatch(getAllStoresForCliqAndPiqRequest());
     try {
       const result = await api.get(
-        `${ALL_STORES_FOR_CLIQ_AND_PIQ_PATH}/${pinCode}?access_token=${accessToken}`
+        `${ALL_STORES_FOR_CLIQ_AND_PIQ_PATH}/${pinCode}?access_token=${accessToken}&isMDE=true`
       );
 
       const resultJson = await result.json();
