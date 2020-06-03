@@ -3,15 +3,27 @@ import styles from "./CliqCashPromos.css";
 import {
   CLIQ_CASH,
   RUPEE_SYMBOL,
-  LOGGED_IN_USER_DETAILS
+  LOGGED_IN_USER_DETAILS,
+  CUSTOMER_ACCESS_TOKEN,
+  LOGIN_PATH
 } from "../../lib/constants.js";
+import { Redirect } from "react-router-dom";
+import {} from "../../lib/constants";
 import Promos from "./Promos.js";
 import * as Cookie from "../../lib/Cookie";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
+import SecondaryLoader from "../../general/components/SecondaryLoader";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
 
+const Loader = () => {
+  return (
+    <div>
+      <SecondaryLoader />
+    </div>
+  );
+};
 export default class CliqCashPromos extends Component {
   componentDidMount() {
     this.props.setHeaderText(CLIQ_CASH);
@@ -30,10 +42,20 @@ export default class CliqCashPromos extends Component {
       return promo;
     }
   }
+
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    return <Redirect to={LOGIN_PATH} />;
+  }
+
   render() {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (!userDetails || !customerCookie) {
+      return this.navigateToLogin();
+    }
     if (userDetails) {
       userData = JSON.parse(userDetails);
     }
@@ -59,6 +81,9 @@ export default class CliqCashPromos extends Component {
       this.props.promotionalCashStatementDetails.promotionalAmount
         ? this.props.promotionalCashStatementDetails.promotionalAmount
         : 0;
+    if (!this.props.promotionalCashStatementDetails) {
+      return Loader();
+    }
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
