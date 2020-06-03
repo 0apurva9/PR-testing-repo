@@ -103,7 +103,7 @@ export default class ExchangeDetailsPDPDesktop extends React.Component {
                   })
                 }
               >
-                How exchange works?
+                How Exchange works?
               </div>
             </React.Fragment>
           </div>

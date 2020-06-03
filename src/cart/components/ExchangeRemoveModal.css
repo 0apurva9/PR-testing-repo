@@ -10,6 +10,7 @@
   top: 35%;
   margin: auto;
   padding: 30px 55px;
+  border-radius: 4px;
 }
 @keyframes slideIn {
   0% {
@@ -20,7 +21,6 @@
   }
 }
 .heading{
-  font-family: semibold;
   font-size: 18px;
   margin-bottom: 30px;
 }

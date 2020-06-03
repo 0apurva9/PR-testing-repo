@@ -19,7 +19,7 @@ export default class HowExchangeModalWorks extends React.Component {
             onClick={() => this.closeHowExchangeWorksModal()}
           />
           <div className={styles.howExchangeWorksHeading}>
-            How exchange works?
+            How Exchange works?
           </div>
         </div>
         <div className={styles.bottomContainer}>

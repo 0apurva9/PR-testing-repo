@@ -22,14 +22,14 @@ export default class ExchangeRemoveModal extends React.Component {
         <div className={styles.heading}>
           Are you sure you want to remove Exchange for this product?
         </div>
-        <div className={styles.cancelButton} onClick={() => this.closeModal()}>
-          NO
-        </div>
         <div
-          className={styles.goToBagButton}
+          className={styles.cancelButton}
           onClick={() => this.removeExchangeProduct()}
         >
           YES
+        </div>
+        <div className={styles.goToBagButton} onClick={() => this.closeModal()}>
+          NO
         </div>
       </div>
     );
