@@ -403,7 +403,12 @@ class Feed extends Component {
       this.props.clearProductModuleRef();
     }
   }
-  componentDidUpdate() {
+  async componentDidUpdate() {
+    if (window._osFetchBrandAds) {
+      let homeBanner = await window._osFetchBrandAds({
+        pt: "HOME"
+      });
+    }
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     if (!userDetails) {
       setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
