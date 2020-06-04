@@ -69,15 +69,17 @@ class OrderList extends Component {
                             {orderData.orderid}
                           </span>
                         </div>
-                        <div className={styles.orderStatus}>
-                          Delivered On:{" "}
-                          <span className={styles.fontBold}>
-                            {getDayNumberSuffix(
-                              orderData.products[0].EDD,
-                              false
-                            )}
-                          </span>
-                        </div>
+                        {orderData.products[0].EDD && (
+                          <div className={styles.orderStatus}>
+                            Delivered On:{" "}
+                            <span className={styles.fontBold}>
+                              {getDayNumberSuffix(
+                                orderData.products[0].EDD,
+                                false
+                              )}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

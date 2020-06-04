@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./IssueContactOptions.css";
+import styles from "./MoreHelps.css";
 import userOption from "../components/img/userOption.svg";
 import Button from "../../general/components/Button.js";
 import Icon from "../../xelpmoc-core/Icon";

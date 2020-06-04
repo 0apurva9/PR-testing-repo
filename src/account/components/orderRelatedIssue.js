@@ -11,6 +11,7 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   LOGIN_PATH,
   COSTUMER_ORDER_RELATED_QUERY_ROUTE,
+  COSTUMER_CLIQ_CARE_ROUTE,
   MY_ACCOUNT_PAGE
 } from "../../lib/constants";
 import SSRquest from "../../general/components/SSRequest";
@@ -263,7 +264,7 @@ export default class OrderRelatedIssue extends React.Component {
 
   navigateLogin() {
     const url = this.props.location.pathname;
-    if (url === `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`) {
+    if (url === `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`) {
       if (this.props.setUrlToRedirectToAfterAuth) {
         this.props.setUrlToRedirectToAfterAuth(url);
       }

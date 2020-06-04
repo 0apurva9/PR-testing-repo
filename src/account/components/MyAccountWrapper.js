@@ -19,6 +19,7 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
   COSTUMER_ORDER_RELATED_QUERY_ROUTE,
+  COSTUMER_CLIQ_CARE_ROUTE,
   REDMI_WALLET_FROM_EMAIL,
   TRANSACTION_DETAIL_PAGE,
   TRANSACTION_HISTORY,
@@ -78,9 +79,7 @@ export default class MyAccountWrapper extends React.Component {
     console.log("My account", this.props);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (
-      !this.props.location.pathname.includes(COSTUMER_ORDER_RELATED_QUERY_ROUTE)
-    ) {
+    if (!this.props.location.pathname.includes(COSTUMER_CLIQ_CARE_ROUTE)) {
       if (!userDetails || !customerCookie) {
         return this.navigateToLogin();
       }
@@ -196,7 +195,7 @@ export default class MyAccountWrapper extends React.Component {
 
         <Route path={`${ORDER_PREFIX}`} component={OrderDetailsContainer} />
         <Route
-          path={`${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`}
+          path={`${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`}
           component={OrderRelatedIssueContainer}
         />
         <Route path={`${CNC_TO_HD_ORDER}`} component={CncToHdFlowContainer} />

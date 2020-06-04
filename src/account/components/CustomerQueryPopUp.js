@@ -71,7 +71,9 @@ export default class CustomerQueryPopUp extends React.Component {
     this.clickedOnSubmitButton = true;
     this.props.history.push(MY_ACCOUNT_PAGE);
   }
-  duplicateTicket() {}
+  // duplicateTicket() {
+
+  // }
   componentWillUnmount() {
     if (!this.clickedOnSubmitButton) {
       this.props.history.push(MY_ACCOUNT_PAGE);
@@ -101,7 +103,7 @@ export default class CustomerQueryPopUp extends React.Component {
           <Icon image={cancleSvg} size={12}></Icon>
         </div>
         <div className={styles.headerText}>
-          {isTicketDuplicate ? "Duplicate Ticket" : "Your Ticket Detials"}
+          {isTicketDuplicate ? "Duplicate Ticket" : "Your Ticket Details"}
         </div>
         <div className={styles.image}>
           {isTicketDuplicate ? (
@@ -154,13 +156,11 @@ export default class CustomerQueryPopUp extends React.Component {
             backgroundColor="#da1c5c"
             height={40}
             borderRadius={6}
-            label={isTicketDuplicate ? "Go to Lorem Ipsum" : "Ok"}
+            label={isTicketDuplicate ? "Go to Lorem Ipsum" : "OK"}
             width={isTicketDuplicate ? 204 : 165}
             textStyle={{ color: "#FFF", fontSize: 14 }}
             // disabled={true}
-            onClick={() =>
-              isTicketDuplicate ? this.duplicateTicket() : this.submit()
-            }
+            onClick={() => this.submit()}
           />
         </div>
       </div>

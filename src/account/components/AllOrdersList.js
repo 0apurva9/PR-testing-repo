@@ -46,12 +46,14 @@ export default class AllOrdersList extends Component {
                         {orderData.products[0].statusDisplay}
                       </span>
                     </div>
-                    <div className={styles.orderStatus}>
-                      Delivery On:{" "}
-                      <span className={styles.fontBold}>
-                        {getDayNumberSuffix(orderData.products[0].EDD, false)}
-                      </span>
-                    </div>
+                    {orderData.products[0].EDD && (
+                      <div className={styles.orderStatus}>
+                        Delivery On:{" "}
+                        <span className={styles.fontBold}>
+                          {getDayNumberSuffix(orderData.products[0].EDD, false)}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

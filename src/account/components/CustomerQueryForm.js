@@ -764,12 +764,12 @@ export default class CustomerQueryForm extends Component {
                     this.onUploadFile(val, this.state.attachementData)
                   }
                   multiple
+                  accept="text/plain, application/pdf, image/*" // accepting only txt/pdf/images(all types)
                 />
                 <div className={styles.fileSize}>
-                  {`Upload JPEG, PNG (Maximum size per image ${this.state
+                  {`Upload JPEG, PNG (Maximum size ${this.state
                     .attachementData &&
-                    this.state.attachementData.maxFileSize /
-                      this.state.attachementData.maxFileLimit} MB)`}
+                    this.state.attachementData.maxFileSize} MB)`}
                 </div>
               </div>
             </div>

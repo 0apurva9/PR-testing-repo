@@ -4574,9 +4574,12 @@ export function getOrdersTransactionData(paginated) {
     dispatch(getOrdersTransactionDataRequest(paginated));
     dispatch(showSecondaryLoader());
     let currentPage = 0;
-    if (getState().profile.ordersTransactionData) {
-      currentPage = getState().profile.ordersTransactionData.currentPage + 1;
+    if (paginated) {
+      if (getState().profile.ordersTransactionData) {
+        currentPage = getState().profile.ordersTransactionData.currentPage + 1;
+      }
     }
+
     try {
       const result = await api.get(
         `${USER_PATH}/${
@@ -4585,6 +4588,7 @@ export function getOrdersTransactionData(paginated) {
           JSON.parse(customerCookie).access_token
         }&channel=web`
       );
+      console.log("result");
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
