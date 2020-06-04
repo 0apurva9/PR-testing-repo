@@ -281,7 +281,7 @@ class PDPRecommendedSections extends React.Component {
       this.props.recentlyViewedProduct.RecentlyViewed.length > 0
     ) {
       return this.props.recentlyViewedProduct.RecentlyViewed ? (
-        <div className={styles.brandSection} id="JRVP">
+        <div className={styles.brandSectionForRecentlyViewed} id="JRVP">
           <h3 className={styles.brandHeader}>{title}</h3>
           {this.props.recentlyViewedProduct.RecentlyViewed &&
             this.renderCarousel(

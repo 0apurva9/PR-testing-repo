@@ -198,7 +198,7 @@ const MSD_REQUEST_PATH = "widgets";
 const API_KEY = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
 const WIDGET_LIST = [0, 4];
 const WIDGET_LIST_FOR_ABOUT_BRAND = [114];
-const NUMBER_RESULTS = [5, 5];
+const NUMBER_RESULTS = [10, 10];
 //TPR-9957 for Desktop
 export const PDP_MANUFACTURER_REQUEST = "PDP_MANUFACTURER_REQUEST";
 export const PDP_MANUFACTURER_SUCCESS = "PDP_MANUFACTURER_SUCCESS";
@@ -1066,11 +1066,7 @@ export function getMsdRequest(
     const mcvId = await getMcvId();
     msdRequestObject.append("mad_uuid", mcvId);
     // }
-    if (similarProducts) {
-      msdRequestObject.append("widget_list", JSON.stringify([0]));
-    } else {
-      msdRequestObject.append("widget_list", JSON.stringify(WIDGET_LIST));
-    }
+    msdRequestObject.append("widget_list", JSON.stringify(WIDGET_LIST));
     if (resultsRequired !== undefined && resultsRequired.length) {
       msdRequestObject.append("num_results", JSON.stringify(resultsRequired));
     } else {
