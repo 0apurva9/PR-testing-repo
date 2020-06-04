@@ -1214,9 +1214,6 @@ export function getRecentlyViewedProduct(productCode) {
                 productList.push(res.results[0]);
               }
             })
-          )
-          .catch(e =>
-            dispatch(productMsdRecentlyViewedFailure(`MSD ${e.message}`))
           );
         dispatch(
           productMsdRecentlyViewedSuccess(productList, "RecentlyViewed")
@@ -1381,8 +1378,7 @@ export function getPdpItems(itemIds, widgetKey) {
             }
             //dispatch(getPdpItemsPdpSuccess(res.results, widgetKey));
           })
-        )
-        .catch(e => dispatch(getPdpItemsFailure(`MSD ${e.message}`)));
+        );
       dispatch(getPdpItemsPdpSuccess(productList, widgetKey));
       // productCodes &&
       //   productCodes.forEach(async id => {
