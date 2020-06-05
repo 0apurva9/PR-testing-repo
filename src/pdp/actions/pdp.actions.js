@@ -1197,16 +1197,18 @@ export function getRecentlyViewedProduct(productCode) {
               `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
             )
           );
+        //seprating each requests call
         let productList = [];
         await Promise.all(requests)
           .then(responses => Promise.all(responses.map(r => r.json())))
           .then(results =>
             results.forEach(res => {
-              const resultJsonStatus = ErrorHandling.getFailureResponse(res);
-              if (resultJsonStatus.status) {
-                throw new Error(resultJsonStatus.message);
-              }
-              if (res && res.results && res.results[0]) {
+              // const resultJsonStatus = ErrorHandling.getFailureResponse(res);
+              // if (resultJsonStatus.status) {
+              //   throw new Error(resultJsonStatus.message);
+              // }
+              // removed for handling error if product is not available
+              if (res && res.results && res.results.length && res.results[0]) {
                 productList.push(res.results[0]);
               }
             })
@@ -1214,31 +1216,6 @@ export function getRecentlyViewedProduct(productCode) {
         dispatch(
           productMsdRecentlyViewedSuccess(productList, "RecentlyViewed")
         );
-        // removedDuplicate &&
-        //   removedDuplicate.forEach(async id => {
-        //     try {
-        //       const getProductdetails = await api.getMiddlewareUrl(
-        //         `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
-        //       );
-        //       let finalProductDetails = await getProductdetails.json();
-        //       const resultJsonStatus = ErrorHandling.getFailureResponse(
-        //         finalProductDetails
-        //       );
-        //       if (resultJsonStatus.status) {
-        //         throw new Error(resultJsonStatus.message);
-        //       }
-        //       await dispatch(
-        //         productMsdRecentlyViewedSuccess(
-        //           finalProductDetails.results,
-        //           "RecentlyViewed"
-        //         )
-        //       );
-        //     } catch (e) {
-        //       dispatch(
-        //         productMsdRecentlyViewedFailure(`${id}-MSD ${e.message}`)
-        //       );
-        //     }
-        //   });
       }
     } catch (e) {
       dispatch(productMsdRecentlyViewedFailure(e.message));
@@ -1360,39 +1337,23 @@ export function getPdpItems(itemIds, widgetKey) {
             `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
           )
         );
+      // seperating individual calls
       let productList = [];
       await Promise.all(requests)
         .then(responses => Promise.all(responses.map(r => r.json())))
         .then(results =>
           results.forEach(res => {
-            const resultJsonStatus = ErrorHandling.getFailureResponse(res);
-            if (resultJsonStatus.status) {
-              throw new Error(resultJsonStatus.message);
+            // const resultJsonStatus = ErrorHandling.getFailureResponse(res);
+            // if (resultJsonStatus.status) {
+            //   throw new Error(resultJsonStatus.message);
+            // }
+            //changes done for handling error if product is not available
+            if (res && res.results && res.results.length) {
+              productList.push(...res.results);
             }
-            if (res && res.results && res.results[0]) {
-              productList.push(res.results[0]);
-            }
-            //dispatch(getPdpItemsPdpSuccess(res.results, widgetKey));
           })
         );
       dispatch(getPdpItemsPdpSuccess(productList, widgetKey));
-      // productCodes &&
-      //   productCodes.forEach(async id => {
-      //     try {
-      //       const url = `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`;
-      //       const result = await api.getMiddlewareUrl(url);
-      //       const resultJson = await result.json();
-      //       const resultJsonStatus = ErrorHandling.getFailureResponse(
-      //         resultJson
-      //       );
-      //       if (resultJsonStatus.status) {
-      //         throw new Error(resultJsonStatus.message);
-      //       }
-      //       dispatch(getPdpItemsPdpSuccess(resultJson.results, widgetKey));
-      //     } catch (e) {
-      //       dispatch(getPdpItemsFailure(`${id}-MSD ${e.message}`));
-      //     }
-      //   });
     } catch (e) {
       dispatch(getPdpItemsFailure(`MSD ${e.message}`));
     }
