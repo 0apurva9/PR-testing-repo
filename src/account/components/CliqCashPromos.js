@@ -16,6 +16,8 @@ import ProfileMenu from "./ProfileMenu";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
+import { getCustomerAccessToken } from "../../common/services/common.services";
+import PropTypes from "prop-types";
 
 const Loader = () => {
   return (
@@ -53,7 +55,9 @@ export default class CliqCashPromos extends Component {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (!userDetails || !customerCookie) {
+
+    const customerAccessToken = getCustomerAccessToken();
+    if (!userDetails || !customerAccessToken) {
       return this.navigateToLogin();
     }
     if (userDetails) {
@@ -80,6 +84,7 @@ export default class CliqCashPromos extends Component {
       this.props.promotionalCashStatementDetails &&
       this.props.promotionalCashStatementDetails.promotionalAmount
         ? this.props.promotionalCashStatementDetails.promotionalAmount
+            .doubleValue
         : 0;
     if (!this.props.promotionalCashStatementDetails) {
       return Loader();
@@ -98,7 +103,7 @@ export default class CliqCashPromos extends Component {
                   <span
                     className={styles.amountSubset}
                   >{`${RUPEE_SYMBOL}`}</span>
-                  {`${promotionalAmount}`}.
+                  {`${String(promotionalAmount)}`}.
                   <span className={styles.amountSubset}>00</span>
                 </div>
               </div>
@@ -135,3 +140,9 @@ export default class CliqCashPromos extends Component {
     );
   }
 }
+
+CliqCashPromos.propsTypes = {
+  transactions: PropTypes.object,
+  promotionalCashStatementDetails: PropTypes.object,
+  promotionalAmount: PropTypes.object
+};

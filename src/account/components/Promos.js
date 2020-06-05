@@ -59,5 +59,6 @@ export default class Promos extends Component {
 Promos.propTypes = {
   transactionType: PropTypes.string,
   transactionDate: PropTypes.string,
-  formattedValue: PropTypes.string
+  formattedValue: PropTypes.string,
+  item: PropTypes.object
 };

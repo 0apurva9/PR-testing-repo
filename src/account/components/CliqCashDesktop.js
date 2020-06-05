@@ -394,7 +394,7 @@ export default class CliqCashDesktop extends React.Component {
                       className={styles.giftCardPromoContainer}
                       onClick={() => this.redirectToPromoCliqCash()}
                     >
-                      <div className={styles.promoCliqCashTest}>
+                      <div className={styles.promoCliqCashText}>
                         <div> PROMO CLIQ CASH</div>
 
                         <div className={styles.viewRewards}>View Rewards</div>

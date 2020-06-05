@@ -4869,15 +4869,13 @@ export function checkBalanceFailure(error) {
 export function getPromotionalCashStatement() {
   return async (dispatch, getState, { api }) => {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const customerAccessToken = await getCustomerAccessToken();
     dispatch(getPromotionalCashStatementRequest());
     try {
       const result = await api.post(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/getPromotionalCashStatement?access_token=${
-          JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
+        }/getPromotionalCashStatement?access_token=${customerAccessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
