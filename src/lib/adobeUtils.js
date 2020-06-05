@@ -2294,7 +2294,10 @@ export function getDigitalDataForSearchPageSuccess(response, type) {
         category: response.currentQuery
           ? response.currentQuery.searchQuery
           : "all",
-        results: response.pagination ? response.pagination.totalResults : 0,
+        results:
+          response && response.pagination && response.pagination.totalResults
+            ? response.pagination.totalResults
+            : 0,
         term: response.currentQuery ? response.currentQuery.searchQuery : null,
         offersCount,
         newCount
@@ -2322,7 +2325,8 @@ export function getDigitalDataForSearchPageSuccess(response, type) {
         response.seo.breadcrumbs[0].name
           ? response.seo.breadcrumbs[0].name
           : "all",
-      results: response.pagination.totalResults,
+      results:
+        response && response.pagination && response.pagination.totalResults,
       term: response.currentQuery.query.value.split(":")[0],
       offersCount: offersCount,
       newCount: newCount
@@ -2334,7 +2338,8 @@ export function getDigitalDataForSearchPageSuccess(response, type) {
   } else {
     Object.assign(data.internal.search, {
       category: "all",
-      results: response.pagination.totalResults,
+      results:
+        response && response.pagination && response.pagination.totalResults,
       term: response.currentQuery.query.value.split(":")[0],
       offersCount: offersCount,
       newCount: newCount
@@ -2356,7 +2361,8 @@ export function getDigitalDataForSearchPageSuccess(response, type) {
     });
     let searchResultObj = {
       category: response.currentQuery.query.value.split(":")[0],
-      results: response.pagination.totalResults,
+      results:
+        response && response.pagination && response.pagination.totalResults,
       term: response.currentQuery.query.value.split(":")[0],
       offersCount: offersCount,
       newCount: newCount
