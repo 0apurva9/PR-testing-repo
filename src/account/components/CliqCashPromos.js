@@ -8,7 +8,6 @@ import {
   LOGIN_PATH
 } from "../../lib/constants.js";
 import { Redirect } from "react-router-dom";
-import {} from "../../lib/constants";
 import Promos from "./Promos.js";
 import * as Cookie from "../../lib/Cookie";
 import DesktopOnly from "../../general/components/DesktopOnly";
