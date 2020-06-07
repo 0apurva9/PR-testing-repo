@@ -69,7 +69,9 @@ class PDPRecommendedSections extends React.Component {
         categoryHierarchy &&
         categoryHierarchy[categoryHierarchy.length - 1].category_id,
       prodPrice:
-        mainProduct && mainProduct.winningSellerPrice.doubleValue
+        mainProduct &&
+        mainProduct.winningSellerPrice &&
+        mainProduct.winningSellerPrice.doubleValue
           ? mainProduct.winningSellerPrice.doubleValue
           : mainProduct.mrpPrice.value,
       destProdID: items && items.productListingId,
