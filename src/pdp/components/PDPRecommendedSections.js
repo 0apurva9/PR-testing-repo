@@ -73,7 +73,7 @@ class PDPRecommendedSections extends React.Component {
         mainProduct.winningSellerPrice &&
         mainProduct.winningSellerPrice.doubleValue
           ? mainProduct.winningSellerPrice.doubleValue
-          : mainProduct.mrpPrice.value,
+          : mainProduct && mainProduct.mrpPrice && mainProduct.mrpPrice.value,
       destProdID: items && items.productListingId,
       prodPrice: items && items.mrp,
       posOfReco: index
