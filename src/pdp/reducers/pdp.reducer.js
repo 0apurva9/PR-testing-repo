@@ -291,7 +291,11 @@ const productDescription = (
             mrpSeller: currentPdpDetail.winningSellerPrice,
             sellerId: currentPdpDetail.winningSellerID,
             sellerName: currentPdpDetail.winningSellerName,
-            specialPriceSeller: currentPdpDetail.winningSellerPrice
+            specialPriceSeller: currentPdpDetail.winningSellerPrice,
+            showExchangeTag: currentPdpDetail.showExchangeTag,
+            exchangeAvailable: currentPdpDetail.exchangeAvailable,
+            exchangeOfferAvailable: currentPdpDetail.exchangeOfferAvailable,
+            maxExchangeAmount: currentPdpDetail.maxExchangeAmount
           });
         }
         Object.assign(currentPdpDetail, {
