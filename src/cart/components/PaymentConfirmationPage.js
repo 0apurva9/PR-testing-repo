@@ -10,7 +10,8 @@ import {
   MY_ACCOUNT_ORDERS_PAGE,
   MY_ACCOUNT_SAVED_CARDS_PAGE,
   MY_ACCOUNT_ADDRESS_PAGE,
-  SAVE_LIST_PAGE
+  SAVE_LIST_PAGE,
+  DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION
 } from "../../lib/constants";
 import styles from "./PaymentConfirmationPage.css";
 import wishlistIcon from "../../general/components/img/download.svg";
@@ -39,6 +40,8 @@ export default class PaymentConfirmationPage extends React.Component {
   }
   async componentDidMount() {
     let orderId = this.props.orderId;
+    let orderData = localStorage.getItem(DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION);
+    Object.assign(window.digitalData, orderData);
     if (!orderId) {
       let stripeDetails = localStorage.getItem("stripeDetails");
       let stripeDetailsJson = JSON.parse(stripeDetails);

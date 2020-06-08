@@ -132,7 +132,7 @@ export default class ProductDetailsMainCard extends React.Component {
       averageRatingNew = Math.round(averageRating * 10) / 10;
     }
     return (
-      <div className={styles.base}>
+      <div className={styles.base} id="BPDT">
         {this.renderSchemaTags()}
         <div className={styles.productInfo}>
           <div className={styles.productDescriptionSection}>
@@ -222,6 +222,7 @@ export default class ProductDetailsMainCard extends React.Component {
           <div
             className={styles.ratingHolder}
             onClick={() => this.seeRatingReview()}
+            id="FRVW"
           >
             <div
               className={styles.ratingText}

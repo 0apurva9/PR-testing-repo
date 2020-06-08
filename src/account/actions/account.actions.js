@@ -463,6 +463,8 @@ export const SET_USER_SMS_NOTIFICATION_FAILURE =
 
 export const RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS =
   "RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS";
+const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
 
 export const GET_EXCHANGE_CASHBACK_DETAILS_REQUEST =
   "GET_EXCHANGE_CASHBACK_DETAILS_REQUEST";
@@ -501,6 +503,8 @@ export function getDetailsOfCancelledProductFailure(error) {
   };
 }
 export function getDetailsOfCancelledProduct(cancelProductDetails) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cancelProductObject = new FormData();
   cancelProductObject.append(
     "transactionId",
@@ -512,8 +516,6 @@ export function getDetailsOfCancelledProduct(cancelProductDetails) {
     "returnCancelFlag",
     cancelProductDetails.returnCancelFlag
   );
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
     dispatch(getDetailsOfCancelledProductRequest());
     try {
@@ -562,11 +564,11 @@ export function updateReturnForHOTCFailure(error) {
 }
 
 export function updateReturnForHOTC(data) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(updateReturnForHOTCRequest());
     try {
+      const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
       const result = await api.post(
         `${USER_PATH}/${JSON.parse(userDetails).userName}/updateReturnForHOTC/${
           data.orderId
@@ -616,6 +618,8 @@ export function cancelProductFailure(error) {
   };
 }
 export function cancelProduct(cancelProductDetails, productDetails) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cancelProductObject = new FormData();
   cancelProductObject.append(
     "transactionId",
@@ -629,8 +633,6 @@ export function cancelProduct(cancelProductDetails, productDetails) {
   );
   cancelProductObject.append("reasonCode", cancelProductDetails.reasonCode);
   cancelProductObject.append("refundType", cancelProductDetails.refundType);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
     dispatch(cancelProductRequest());
     try {
@@ -686,10 +688,10 @@ export function returnProductDetailsFailure(error) {
 }
 
 export function returnProductDetails(productDetails) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     let returnProductFormData = new FormData();
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     returnProductFormData.append("transactionId", productDetails.transactionId);
     returnProductFormData.append(
       "returnCancelFlag",
@@ -747,10 +749,10 @@ export function getReturnModes(
   pickUpAddressId,
   transactionId
 ) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(getReturnModesRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       let data = new FormData();
       data.append("returnId", returnId);
@@ -816,10 +818,10 @@ export function updateReturnConfirmation(
   returnAddress,
   modeOfReturn
 ) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(updateReturnConfirmationRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       let data = {};
       if (modeOfReturn === "Return To Store") {
@@ -902,10 +904,10 @@ export function getRefundTransactionSummaryFailure(error) {
 }
 
 export function getRefundTransactionSummary(orderId, transactionId, returnId) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(getRefundTransactionSummaryRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
         `${USER_PATH}/${
@@ -950,10 +952,10 @@ export function getReturnReasonsFailure(error) {
 }
 
 export function getReturnReasons(orderId, transactionId) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(getReturnReasonsRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
         `${USER_PATH}/${
@@ -1000,10 +1002,10 @@ export function updateReturnCancellationFailure(error) {
 }
 
 export function updateReturnCancellation(data) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(updateReturnCancellationRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       let apiData = {};
       apiData.returnCancelReasonCode = data.returnCancelReasonCode;
@@ -1062,8 +1064,8 @@ export function getReturnRequestFailure(error) {
 
 export function getReturnRequest(orderCode, transactionId) {
   return async (dispatch, getState, { api }) => {
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(getReturnRequestRequest());
     try {
       const result = await api.get(
@@ -1113,9 +1115,9 @@ export function newReturnInitiateFailure(error) {
 
 export function newReturnInitial(returnDetails, product = null) {
   return async (dispatch, getState, { api }) => {
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(newReturnInitiateRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (returnDetails) {
       Object.assign(returnDetails, {
         refundMode: NEFT,
@@ -1176,10 +1178,10 @@ export function returnPinCodeFailure(error, pinCodeDetails) {
 
 export function returnPinCode(productDetails) {
   return async (dispatch, getState, { api }) => {
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(returnPInCodeRequest());
     let resultJson;
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
         `${USER_PATH}/${
@@ -1232,10 +1234,9 @@ export function quickDropStoreFailure(error) {
 
 export function quickDropStore(pincode, ussId) {
   return async (dispatch, getState, { api }) => {
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(quickDropStoreRequest());
-
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
         `${USER_PATH}/${
@@ -1287,10 +1288,10 @@ export function giftCardFailure(error) {
   };
 }
 export function getGiftCardDetails() {
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
     dispatch(giftCardRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
         `${USER_PATH}/${
@@ -1356,10 +1357,10 @@ export function createGiftCardFailure(error) {
 }
 
 export function createGiftCardDetails(giftCardDetails) {
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
     dispatch(createGiftCardRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
         `${USER_PATH}/${
@@ -1407,10 +1408,10 @@ export function getOtpToActivateWalletFailure(error) {
 }
 
 export function getOtpToActivateWallet(customerDetails, isFromCliqCash) {
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
     dispatch(getOtpToActivateWalletRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
         `${USER_PATH}/${
@@ -1463,11 +1464,10 @@ export function verifyWalletFailure(error) {
 }
 
 export function verifyWallet(customerDetailsWithOtp, isFromCliqCash) {
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-
   return async (dispatch, getState, { api }) => {
     dispatch(verifyWalletRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
         `${USER_PATH}/${
@@ -1513,10 +1513,10 @@ export function verifyWallet(customerDetailsWithOtp, isFromCliqCash) {
 //  update refund details
 //update replace and return details
 export function getReturnReasonsWithProductDetails(productDetails) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(returnProductDetailsRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
         `${USER_PATH}/${JSON.parse(userDetails).userName}/getReturnReasons/${
@@ -1560,10 +1560,10 @@ export function uploadProductImagesFailure(error) {
 }
 
 export function uploadProductImages(orderId, transactionId, file) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(uploadProductImagesRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       let uploadFile = new FormData();
       uploadFile.append("orderId", orderId);
@@ -1632,10 +1632,10 @@ export function getRefundOptionsData(
   uploadedImageURLs,
   reverseSealAvailability
 ) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(getRefundOptionsDataRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       let data = {};
       Object.assign(data, {
@@ -1691,10 +1691,10 @@ export function getRefundModesFailure(error) {
 }
 
 export function getRefundModes(orderId, transactionId, returnId, typeOfReturn) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(getRefundModesRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       let data = {};
       Object.assign(data, {
@@ -1746,10 +1746,10 @@ export function updateRefundModeFailure(error) {
 }
 
 export function updateRefundMode(orderId, transactionId, returnId, refundMode) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(updateRefundModeRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       let data = {};
       Object.assign(data, {
@@ -1802,10 +1802,10 @@ export function getCustomerBankDetailsFailure(error) {
 }
 
 export function getCustomerBankDetails() {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(getCustomerBankDetailsRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
         `${USER_PATH}/${
@@ -1847,10 +1847,10 @@ export function updateCustomerBankDetailsFailure(error) {
 }
 
 export function updateCustomerBankDetails(bankDetails) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(updateCustomerBankDetailsRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
         `${USER_PATH}/${
@@ -1873,9 +1873,9 @@ export function updateCustomerBankDetails(bankDetails) {
 }
 export function getCliqCashDetailsRefund() {
   return async (dispatch, getState, { api }) => {
+    dispatch(getCliqCashRequest());
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    dispatch(getCliqCashRequest());
     try {
       const result = await api.post(
         `${USER_PATH}/${
@@ -1931,10 +1931,10 @@ export function submitSelfCourierReturnInfo(returnDetails) {
   returnDetailsObject.append("orderId", returnDetails.orderId);
   returnDetailsObject.append("transactionId", returnDetails.transactionId);
   returnDetailsObject.append("file", returnDetails.file);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
     dispatch(submitSelfCourierReturnInfoRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.postFormData(
         `${USER_PATH}/${
@@ -2034,10 +2034,9 @@ export function getTransactionDetailsFailure(error) {
 
 export function getTransactionDetails() {
   return async (dispatch, getState, { api }) => {
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     dispatch(getTransactionDetailsRequest());
-
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
         `${USER_PATH}/${
@@ -2131,7 +2130,6 @@ export function getPinCodeChangeAddressOrderedProductFailure(error) {
 
 export function getPinCodeChangeAddressOrderedProduct(address, orderCode) {
   return async (dispatch, getState, { api }) => {
-    const customerAccessToken = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const userAccessToken = Cookie.getCookie("userDetails");
     dispatch(getPinCodeChangeAddressOrderedProductRequest());
     try {
@@ -2139,7 +2137,7 @@ export function getPinCodeChangeAddressOrderedProduct(address, orderCode) {
         `${PIN_PATH}/users/${
           JSON.parse(userAccessToken).userName
         }/changeDeliveryAddress/${orderCode}?access_token=${
-          JSON.parse(customerAccessToken).access_token
+          JSON.parse(customerCookie).access_token
         }`,
         address
       );
@@ -2178,10 +2176,10 @@ export function removeSavedCardFailure(error) {
 }
 
 export function removeSavedCardDetails(cardToken) {
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
     dispatch(removeSavedCardRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
         `${USER_PATH}/${
@@ -2235,10 +2233,10 @@ export function removeSavedUpiFailure(error) {
 }
 
 export function removeSavedUpiDetails(upiId) {
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
     dispatch(removeSavedUpiRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
         `${USER_PATH}/${
@@ -2302,12 +2300,11 @@ export function addUPIDetailsNullState() {
 }
 
 export function addUPIDetails(upi, pageType, btnType) {
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
     dispatch(addUserUPIRequest(upi));
     localStorage.setItem(PAYMENT_MODE_TYPE, "UPI");
-
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let APPROVED_UPI = [];
     if (localStorage.getItem("APPROVED_UPI_VPA")) {
       APPROVED_UPI = JSON.parse(localStorage.getItem("APPROVED_UPI_VPA"));
@@ -2408,9 +2405,9 @@ export function getAllOrdersDetails(
   isSetDataLayer: true,
   showDataAccordingToUser
 ) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(getAllOrdersRequest(paginated));
     dispatch(showSecondaryLoader());
     let currentPage = 0;
@@ -2503,8 +2500,6 @@ export function getAllSellersFailure(error) {
 }
 
 export function getAllSellersDetails(isSetDataLayer: true) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let url = window.location.href;
   let transId = url
     .split("transactionId=")
@@ -2513,6 +2508,8 @@ export function getAllSellersDetails(isSetDataLayer: true) {
   return async (dispatch, getState, { api }) => {
     dispatch(getAllSellersRequest());
     dispatch(showSecondaryLoader());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       let getSellerDetails = "";
 
@@ -2563,9 +2560,9 @@ export function getAllSellersReviewFailure(error) {
 }
 
 export function getAllSellersReviewDetails(isSetDataLayer: true) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(getAllSellersReviewRequest());
     dispatch(showSecondaryLoader());
     try {
@@ -2606,10 +2603,10 @@ export function sellerReviewSubmitFailure(error) {
 }
 
 export function submitSellerReviewByUser(params) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS),
-    customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     try {
+      const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
       let reqURL = `${USER_PATH}/${
         JSON.parse(userDetails).userName
       }/submitCustomerReview?access_token=${
@@ -2641,10 +2638,10 @@ export function sellerReviewRemoveFailure(error) {
 }
 
 export function removeSellerReviewByUser(params) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS),
-    customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     try {
+      const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
       let reqURL = `${USER_PATH}/${
         JSON.parse(userDetails).userName
       }/submitCustomerReview?access_token=${
@@ -2684,11 +2681,11 @@ export function getUserDetailsFailure(error) {
 }
 
 export function getUserDetails(isSetDataLayer) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(getUserDetailsRequest());
     try {
+      const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
       const result = await api.get(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
@@ -2735,12 +2732,12 @@ export function getUserCouponsFailure(error) {
 }
 
 export function getUserCoupons() {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(showSecondaryLoader());
     dispatch(getUserCouponsRequest());
     try {
+      const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
       const result = await api.get(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
@@ -2787,13 +2784,11 @@ export function getUserAlertsFailure(error) {
 }
 
 export function getUserAlerts() {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-
   return async (dispatch, getState, { api }) => {
     dispatch(getUserAlertsRequest());
     dispatch(showSecondaryLoader());
-
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
         `${USER_PATH}/${
@@ -2841,9 +2836,9 @@ export function removeAddressFailure(error) {
 
 export function removeAddress(addressId) {
   return async (dispatch, getState, { api }) => {
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let addressObject = new FormData();
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
 
     addressObject.append("addressId", addressId);
     addressObject.append("emailId", "");
@@ -2894,10 +2889,10 @@ export function editAddressFailure(error) {
 }
 export function editAddress(addressDetails) {
   return async (dispatch, getState, { api }) => {
-    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(editAddressRequest());
     let addressObject = new FormData();
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     addressObject.append("countryIso", addressDetails.countryIso);
     addressObject.append("addressType", addressDetails.addressType);
     if (addressDetails.phone) {
@@ -2979,10 +2974,10 @@ export function fetchOrderDetailsFailure(error) {
 }
 
 export function fetchOrderDetails(orderId, pageName) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(fetchOrderDetailsRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
         `${USER_PATH}/${
@@ -3019,10 +3014,10 @@ export function fetchOrderDetails(orderId, pageName) {
   };
 }
 export function fetchOrderItemDetails(orderId, transactionId) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(fetchOrderDetailsRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
         `${USER_PATH}/${
@@ -3068,10 +3063,10 @@ export function sendInvoiceFailure(error) {
 }
 
 export function sendInvoice(lineID, orderNumber) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(sendInvoiceRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
         `${USER_PATH}/${
@@ -3130,10 +3125,10 @@ export function updateProfile(accountDetails, otp) {
     accountDetails.dateOfBirth,
     DATE_FORMAT_TO_UPDATE_PROFILE
   );
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(updateProfileRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let updateProfileUrl;
     let requestUrl = `isPwa=true&access_token=${
       JSON.parse(customerCookie).access_token
@@ -3230,14 +3225,22 @@ export function getFollowedBrandsFailure(error) {
 export function getFollowedBrands(isSetDataLayer) {
   return async (dispatch, getState, { api }) => {
     const mcvId = await getMcvId();
-
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(getFollowedBrandsRequest());
     let msdFormData = new FormData();
+    let userData;
+    if (userDetails) {
+      userData = JSON.parse(userDetails);
+    }
     msdFormData.append("api_key", API_KEY_FOR_MSD);
     msdFormData.append("num_results", NUMBER_OF_RESULTS_FOR_BRANDS);
     msdFormData.append("mad_uuid", mcvId);
     msdFormData.append("details", true);
     msdFormData.append("widget_list", WIDGETS_LIST_FOR_BRANDS);
+    if (userData && userData.customerId) {
+      msdFormData.append("user_id", userData.customerId);
+    }
     try {
       const result = await api.postMsd(`${MSD_ROOT_PATH}/widgets`, msdFormData);
       const resultJson = await result.json();
@@ -3314,7 +3317,6 @@ export function followAndUnFollowBrand(
   pageType: null,
   positionInFeed: null
 ) {
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const followedText =
     followStatus === "true" || followStatus === true ? UNFOLLOW : FOLLOW;
   //here sometimes  we are getting isFollowingStatus type of string "true" or "false"
@@ -3462,10 +3464,10 @@ export function getCliqCashFailure(error) {
 }
 
 export function changePassword(passwordDetails) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(changePasswordRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
         `${PATH}/forgottenpasswordtokens/${
@@ -3492,9 +3494,9 @@ export function changePassword(passwordDetails) {
 
 export function getCliqCashDetails() {
   return async (dispatch, getState, { api }) => {
+    dispatch(getCliqCashRequest());
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    dispatch(getCliqCashRequest());
     try {
       const result = await api.post(
         `${USER_PATH}/${
@@ -3545,9 +3547,9 @@ export function redeemCliqVoucherFailure(error) {
 
 export function redeemCliqVoucher(cliqCashDetails, fromCheckout) {
   return async (dispatch, getState, { api }) => {
+    let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     dispatch(redeemCliqVoucherRequest());
     try {
       const result = await api.postFormData(
@@ -3642,7 +3644,6 @@ export function logoutUserFailure(error) {
 
 export function logoutUser() {
   return async (dispatch, getState, { api }) => {
-    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     dispatch(logoutUserRequest());
     try {
@@ -3688,6 +3689,8 @@ export function updateProfileMsdFailure(error) {
 
 export function updateProfileMsd(gender) {
   return async (dispatch, getState, { api }) => {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(updateProfileMsdRequest());
     try {
       if (gender === FEMALE) {
@@ -3702,9 +3705,16 @@ export function updateProfileMsd(gender) {
       msdData.action = "follow";
 
       let msdRequestObject = new FormData();
+      let userData;
+      if (userDetails) {
+        userData = JSON.parse(userDetails);
+      }
       msdRequestObject.append("api_key", MSD_API_KEY);
       msdRequestObject.append("data", JSON.stringify([msdData]));
       msdRequestObject.append("mad_uuid", MAD_UUID);
+      if (userData && userData.customerId) {
+        msdRequestObject.append("user_id", userData.customerId);
+      }
 
       const result = await api.postMsd(
         `${API_MSD_URL_ROOT}/${MSD_FEEDBACK}`,
@@ -3840,10 +3850,10 @@ export function getCustomerQueriesDataFailurev2() {
  * This function is to be replaced by "getCustomerQueriesData"
  */
 export function getCustomerQueriesData(transactionId) {
-  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(getCustomerQueriesDataRequestv2());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
         `${USER_CART_PATH}/${
@@ -4437,10 +4447,10 @@ export function getOrdersTransactionDataFailure(error, isPaginated) {
 }
 
 export function getOrdersTransactionData(paginated) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(getOrdersTransactionDataRequest(paginated));
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(showSecondaryLoader());
     let currentPage = 0;
     if (getState().profile.ordersTransactionData) {
@@ -4543,12 +4553,11 @@ export function submitOrderDetailsFailure() {
     status: FAILURE
   };
 }
-
 export function submitOrderDetails(raiseTicketObj) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(submitOrderDetailsRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
         `${USER_PATH}/${
@@ -4589,9 +4598,9 @@ export function getUserReviewFailure() {
   };
 }
 export function getUserReview(pageIndex) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(getUserReviewRequest());
     try {
       const result = await api.get(
@@ -4632,10 +4641,10 @@ export function retryPaymentFailure() {
   };
 }
 export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(retryPaymentRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
         `${USER_PATH}/${
@@ -4691,10 +4700,10 @@ export function submitCncToHdDetailsFailure() {
   };
 }
 export function submitCncToHdDetails(userAddress, transactionId, orderId) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(submitCncToHdDetailsRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let addressDetails = Object.assign(
       {},
       {
@@ -4820,7 +4829,6 @@ export function submitProductRatingByUser(ratingValue, propsData) {
   ) {
     reviewData.append("id", propsData.productDetails.ratingId);
   }
-  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(productRatingByUserRequest());
     try {
@@ -4893,10 +4901,10 @@ export function getUserNotificationFailure(error) {
 }
 
 export function getUserNotifications() {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(getUserNotificationRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
         `${USER_PATH}/${
@@ -4939,10 +4947,10 @@ export function setSMSNotificationFailure(error) {
 }
 
 export function setSMSNotification(val) {
-  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
     dispatch(setSMSNotificationRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
         `${USER_PATH}/${

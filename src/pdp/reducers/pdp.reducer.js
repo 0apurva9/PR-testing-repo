@@ -20,6 +20,7 @@ const productDescription = (
     error: null,
     loading: false,
     aboutTheBrand: null,
+    recentlyViewedProduct: {},
     productDetails: null,
     isServiceableToPincode: null,
     sizeGuide: {
@@ -44,6 +45,7 @@ const productDescription = (
     getProductDetailsLoading: false,
     serviceableSellerMessage: null,
     serviceablePincodeListResponse: null,
+    recommendedItems: {},
 
     manufacturerStatus: null,
     manufacturerError: null,
@@ -606,9 +608,11 @@ const productDescription = (
       });
 
     case pdpActions.PRODUCT_MSD_SUCCESS:
+      const newMsdRecommendedItems = cloneDeep(state.recommendedItems);
+      newMsdRecommendedItems[action.widgetKey] = action.recommendedItems;
       return Object.assign({}, state, {
         status: action.status,
-        msdItems: action.msdItems,
+        recommendedItems: newMsdRecommendedItems,
         loading: false
       });
 
@@ -628,7 +632,16 @@ const productDescription = (
 
     case pdpActions.GET_PDP_ITEMS_SUCCESS:
       const newMsdItems = cloneDeep(state.msdItems);
-      newMsdItems[action.widgetKey] = action.items;
+      if (typeof newMsdItems === "object") {
+        if (newMsdItems.hasOwnProperty(action.widgetKey)) {
+          newMsdItems[action.widgetKey] = [
+            ...newMsdItems[action.widgetKey],
+            ...action.items
+          ];
+        } else {
+          newMsdItems[action.widgetKey] = action.items;
+        }
+      }
       return Object.assign({}, state, {
         status: action.status,
         msdItems: newMsdItems,
@@ -1040,6 +1053,34 @@ const productDescription = (
         checkIMEINumberError: action.error
       });
 
+    case pdpActions.PDP_RECENTLY_VIEWED_REQUEST:
+      return Object.assign({}, state, {
+        status: action.status
+      });
+    case pdpActions.PDP_RECENTLY_VIEWED_FAILURE:
+      return Object.assign({}, state, {
+        status: action.status,
+        recentlyViewedProduct: {},
+        loading: false
+      });
+    case pdpActions.PDP_RECENTLY_VIEWED_SUCCESS:
+      const newMsdRecentlyViewedItems = cloneDeep(state.recentlyViewedProduct);
+      if (typeof newMsdRecentlyViewedItems === "object") {
+        if (newMsdRecentlyViewedItems.hasOwnProperty(action.widgetKey)) {
+          newMsdRecentlyViewedItems[action.widgetKey] = [
+            ...newMsdRecentlyViewedItems[action.widgetKey],
+            ...action.recentlyViewedProduct
+          ];
+        } else {
+          newMsdRecentlyViewedItems[action.widgetKey] =
+            action.recentlyViewedProduct;
+        }
+      }
+      return Object.assign({}, state, {
+        status: action.status,
+        recentlyViewedProduct: newMsdRecentlyViewedItems,
+        loading: false
+      });
     default:
       return state;
   }

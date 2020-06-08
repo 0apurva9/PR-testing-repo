@@ -414,9 +414,15 @@ export function nullSearchMsd() {
   return async (dispatch, getState, { api }) => {
     try {
       dispatch(showSecondaryLoader());
-      const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      if (userDetails) {
+        userDetails = JSON.parse(userDetails);
+      }
       dispatch(nullSearchMsdRequest());
       let discoverMoreData = new FormData();
+      if (userDetails && userDetails.customerId) {
+        discoverMoreData.append("user_id", userDetails.customerId);
+      }
       discoverMoreData.append("api_key", api_key);
       discoverMoreData.append("widget_list", [109]);
       discoverMoreData.append("num_results", [10]);
@@ -428,6 +434,9 @@ export function nullSearchMsd() {
       );
       const discoverMoreresultJson = await discoverMoreresult.json();
       let trendingProducts = new FormData();
+      if (userDetails && userDetails.customerId) {
+        trendingProducts.append("user_id", userDetails.customerId);
+      }
       trendingProducts.append("api_key", api_key);
       trendingProducts.append("mad_uuid", await getMcvId());
       trendingProducts.append("details", true);

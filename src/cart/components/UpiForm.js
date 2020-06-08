@@ -115,7 +115,6 @@ export default class UpiForm extends React.Component {
   };
 
   updateUpi = val => {
-    console.log("yaahahahahahah");
     this.setState({
       upiId: val.trim(),
       upiPatternVerified: UPI_REGEX.test(val.trim()),
@@ -210,7 +209,6 @@ export default class UpiForm extends React.Component {
       ? this.props.combinedLogoUrl
       : upi_opt;
 
-    console.log("this.state", this.state);
     return (
       <div className={styles.base}>
         <DesktopOnly>

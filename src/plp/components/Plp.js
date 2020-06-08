@@ -198,18 +198,20 @@ export default class Plp extends React.Component {
                 icid = search.cid;
                 icidType = CID;
               }
-              // setDataLayer(
-              //   ADOBE_PLP_TYPE,
-              //   this.props.productListings,
-              //   icid,
-              //   icidType
-              // );
+              setDataLayer(
+                ADOBE_PLP_TYPE,
+                this.props.productListings,
+                icid,
+                icidType
+              );
             } else {
-              // setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
+              setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
             }
           }
         }
       });
+    } else {
+      setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
     }
 
     //show refine if filtersOpenAmp is true
@@ -402,7 +404,6 @@ export default class Plp extends React.Component {
   };
 
   renderPageTags = () => {
-    console.log("RENDER PAGE TAGS");
     let url = `${URL_ROOT}${this.props.productListings.currentQuery.url}`;
     if (this.props.productListings.pagination) {
       const lastPage = Number.parseInt(
@@ -514,7 +515,6 @@ export default class Plp extends React.Component {
   };
 
   render() {
-    console.log("ARE WE RENDERING HTE PLP?");
     let selectedFilterCount = 0;
     let selectedFilter = [];
     let filterSelected = false;

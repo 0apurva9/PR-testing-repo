@@ -13,6 +13,7 @@ import delay from "lodash.delay";
 import { MSD_WIDGET_PLATFORM } from "../../lib/config.js";
 import {
   setDataLayer,
+  setPageNameAndPageType,
   ADOBE_HOME_TYPE,
   ADOBE_BLP_PAGE_LOAD,
   ADOBE_CLP_PAGE_LOAD,
@@ -343,6 +344,13 @@ export function homeFeedBackUp() {
         `v2/mpl/cms/defaultpage?pageId=defaulthomepage&channel=${WCMS_PLATFORM}`
       );
       const resultJson = await result.json();
+      if (resultJson && resultJson.pageName) {
+        let pageData = {
+          pageName: resultJson.pageName,
+          pageType: resultJson && resultJson.pageType
+        };
+        setPageNameAndPageType(pageData);
+      }
       const failureResponse = ErrorHandling.getFailureResponse(resultJson);
       if (failureResponse.status) {
         dispatch(new Error(failureResponse.message));
@@ -373,7 +381,6 @@ export function getFeed(pageId: null) {
       if (pageId) {
         feedTypeRequest = SECONDARY_FEED_TYPE;
         try {
-          console.log("IN GET FEED");
           result = await api.getMiddlewareUrl(
             `v2/mpl/cms/defaultpage?pageId=${pageId}&channel=${WCMS_PLATFORM}`
           );
@@ -382,6 +389,13 @@ export function getFeed(pageId: null) {
         }
 
         resultJson = await result.json();
+        if (resultJson && resultJson.pageName) {
+          let pageData = {
+            pageName: resultJson.pageName,
+            pageType: resultJson && resultJson.pageType
+          };
+          setPageNameAndPageType(pageData);
+        }
         if (resultJson.errors) {
           dispatch(secondaryFeedSuccess([], feedTypeRequest));
         } else {
@@ -747,12 +761,13 @@ export function msdAbcComponents(fetchURL) {
       let result;
       let resultJson;
       const widgetSpecificPostData = [113];
-
+      const msdABPCBrandCount = [10];
       let msdNumberOfResults = 5;
       postData = await getMsdFormData(AUTOMATED_BRAND_CAROUSEL_WIDGET_LIST, [
         msdNumberOfResults
       ]);
-      // postData.append("num_brands", JSON.stringify(msdABPCBrandCount));
+      postData.append("widget_list", JSON.stringify(widgetSpecificPostData));
+      postData.append("num_brands", JSON.stringify(msdABPCBrandCount));
       postData.append("num_products", JSON.stringify(MSD_NUM_PRODUCTS));
       postData.append("channel", "pwa");
 
@@ -787,8 +802,8 @@ export function msdDiscoverMoreHomeComponents(type) {
       discoverMoreData.append("num_results", [10]);
       discoverMoreData.append("mad_uuid", await getMcvId());
       discoverMoreData.append("details", false);
-      if (userDetails && userDetails.userName) {
-        discoverMoreData.append("user_id", userDetails.userName);
+      if (userDetails && userDetails.customerId) {
+        discoverMoreData.append("user_id", userDetails.customerId);
       }
       const discoverMoreresult = await api.postMsd(
         `${MSD_ROOT_PATH}/widgets`,

@@ -255,6 +255,8 @@ export default class PdpApparel extends React.Component {
           });
       }
     }
+    // let dataRecommended = document.getElementById("recommendedSection");
+    // console.log("props", dataRecommended)
   };
   relevantProductServibilty = async params => {
     let pinCode = "208007";
@@ -407,7 +409,22 @@ export default class PdpApparel extends React.Component {
       productDetails.quantity = PRODUCT_QUANTITY;
     }
     productDetails.ussId = this.props.productDetails.winningUssID;
-    setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_ADOBE_ADD_TO_CART_BUTTON);
+    let selectedSize =
+      this.props.productDetails &&
+      this.props.productDetails.variantOptions &&
+      this.props.productDetails.variantOptions.filter(val => {
+        return val.colorlink.selected;
+      })[0].sizelink.size;
+    let checkSizeSelected =
+      this.props.location.state &&
+      this.props.location.state.isSizeSelected &&
+      selectedSize
+        ? selectedSize
+        : "";
+    setDataLayerForPdpDirectCalls(
+      SET_DATA_LAYER_FOR_ADOBE_ADD_TO_CART_BUTTON,
+      checkSizeSelected
+    );
     //let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     //let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     //let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -444,7 +461,10 @@ export default class PdpApparel extends React.Component {
             //localStorage.removeItem(SELECTED_STORE);
             this.setState({ isLoader: true });
             if (buyNowFlag) {
-              setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
+              setDataLayerForPdpDirectCalls(
+                SET_DATA_LAYER_FOR_BUY_NOW_EVENT,
+                productDetails
+              );
               if (!checkUserLoggedIn()) {
                 localStorage.setItem(
                   BUY_NOW_PRODUCT_DETAIL,
@@ -1040,7 +1060,7 @@ export default class PdpApparel extends React.Component {
       }
       if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
         mrpDoubleValue = productData.mrpPrice.doubleValue;
-        discountPdp = Math.round(
+        discountPdp = Math.floor(
           (mrpDoubleValue - seoDoublePrice) / mrpDoubleValue * 100
         );
       }
@@ -1543,7 +1563,7 @@ export default class PdpApparel extends React.Component {
                     </div>
                   )}
 
-                <div className={styles.horizontalOffset}>
+                <div className={styles.horizontalOffset} id="DWSN">
                   <div className={styles.separator}>
                     <OtherSellersLink
                       serviceableOtherSellersUssid={
@@ -1556,7 +1576,7 @@ export default class PdpApparel extends React.Component {
                     />
                   </div>
                 </div>
-                <div className={styles.pinAndDeliveryHolder}>
+                <div className={styles.pinAndDeliveryHolder} id="CPIN">
                   <div className={styles.updatePincodeHolder}>
                     {this.props.productDetails.isServiceableToPincode &&
                     this.props.productDetails.isServiceableToPincode.pinCode ? (
@@ -1829,6 +1849,7 @@ export default class PdpApparel extends React.Component {
                         <div
                           className={styles.accordionContent}
                           itemProp="description"
+                          id="EPMD"
                         >
                           {productData.productDescription}
 
@@ -2007,7 +2028,7 @@ export default class PdpApparel extends React.Component {
                         />
                       )}
                     {productData.returnAndRefund && (
-                      <Accordion text="Return & Refunds" headerFontSize={18}>
+                      <Accordion text="Return & Refund" headerFontSize={18}>
                         {productData.returnAndRefund.map(val => {
                           return (
                             <div
@@ -2021,7 +2042,7 @@ export default class PdpApparel extends React.Component {
                       </Accordion>
                     )}
                     {productData.knowMoreV2 && (
-                      <Accordion text="Return & Refunds" headerFontSize={18}>
+                      <Accordion text="Return & Refund" headerFontSize={18}>
                         <div className={styles.containerWithBottomBorder}>
                           <div className={styles.accordionContentBold}>
                             {productData.knowMoreV2[0].knowMoreItemV2}
@@ -2234,8 +2255,11 @@ export default class PdpApparel extends React.Component {
                         </div>
                       ) : null}
                     </React.Fragment>
+                    <div id="recommendedSection" />
                     <React.Fragment>
-                      <PDPRecommendedSectionsContainer />
+                      <PDPRecommendedSectionsContainer
+                        productData={this.props}
+                      />
                     </React.Fragment>
                   </React.Fragment>
                 </div>
