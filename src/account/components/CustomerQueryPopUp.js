@@ -7,7 +7,7 @@ import Icon from "../../xelpmoc-core/Icon";
 import raisedTicket from "../components/img/raisedTicket.svg";
 import cancleSvg from "../components/img/cancleSvg.svg";
 import raiseTicketDuplicate from "../components/img/raiseTicketDuplicate.svg";
-import { MY_ACCOUNT_PAGE } from "../../lib/constants";
+import { MY_ACCOUNT_PAGE, HOME_ROUTER } from "../../lib/constants";
 export default class CustomerQueryPopUp extends React.Component {
   constructor() {
     super();
@@ -69,7 +69,7 @@ export default class CustomerQueryPopUp extends React.Component {
 
   submit() {
     this.clickedOnSubmitButton = true;
-    this.props.history.push(MY_ACCOUNT_PAGE);
+    this.props.history.push(HOME_ROUTER);
   }
   // duplicateTicket() {
 
@@ -156,7 +156,7 @@ export default class CustomerQueryPopUp extends React.Component {
             backgroundColor="#da1c5c"
             height={40}
             borderRadius={6}
-            label={isTicketDuplicate ? "Go to Lorem Ipsum" : "OK"}
+            label={isTicketDuplicate ? "CONTINUE SHOPPING" : "OK"}
             width={isTicketDuplicate ? 204 : 165}
             textStyle={{ color: "#FFF", fontSize: 14 }}
             // disabled={true}

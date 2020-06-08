@@ -4377,6 +4377,7 @@ const getTextBoxApiData = (apiData = []) => {
     //       : ""
     //     : "",
     regex: getFormattedString(regexExp),
+    regex: regexExp,
     regexError: regexErr,
     webURL: items && items.webURL ? items.webURL : "",
     title: apiData.singleBannerComponent.title

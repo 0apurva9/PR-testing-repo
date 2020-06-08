@@ -68,7 +68,7 @@ export default class CustomerQueryForm extends Component {
       nextProps &&
       nextProps.customerQueriesField !== this.props.customerQueriesField
     ) {
-      this.initialState(true);
+      this.initialState(nextProps.customerQueriesField, true);
     }
     if (nextProps && nextProps.userDetails !== this.props.userDetails) {
       this.setState({
@@ -94,7 +94,7 @@ export default class CustomerQueryForm extends Component {
   // }
 
   componentDidMount() {
-    this.initialState(false);
+    this.initialState(this.props.customerQueriesField, false);
     if (this.props.userDetails) {
       this.setState({
         email: this.props.userDetails.emailID
@@ -111,9 +111,9 @@ export default class CustomerQueryForm extends Component {
     }
   }
 
-  initialState(isAppend) {
-    this.props.customerQueriesField &&
-      this.props.customerQueriesField.map(field => {
+  initialState(customerQueriesField, isAppend) {
+    customerQueriesField &&
+      customerQueriesField.map(field => {
         if (field.componentName === "attachmentComponent") {
           this.setState({
             attachementData: field,
@@ -123,13 +123,17 @@ export default class CustomerQueryForm extends Component {
         } else {
           if (isAppend) {
             if (field.isMandatory) {
-              if (this.state[field.componentId] == "") {
+              if (!this.state[field.componentId]) {
                 this.setState({ btnDisable: true });
+              } else {
+                this.setState({ btnDisable: false });
               }
             }
           } else {
             if (field.isMandatory) {
               this.setState({ btnDisable: true });
+            } else {
+              this.setState({ btnDisable: false });
             }
           }
 
@@ -340,12 +344,20 @@ export default class CustomerQueryForm extends Component {
   }
 
   onChangeCheck(evt, selectObj, option) {
-    this.setState({ [selectObj.componentId]: evt.target.value }, () => {
-      this.onBlur();
-      if (option.webFormTemplate) {
-        this.props.getCustomerQueriesFields(option.webFormTemplate, true);
+    this.setState(
+      {
+        [selectObj.componentId]: evt.target.value,
+        isAttachment: false,
+        attachementData: null,
+        uploadFileTitle: ""
+      },
+      () => {
+        this.onBlur();
+        if (option.webFormTemplate) {
+          this.props.getCustomerQueriesFields(option.webFormTemplate, true);
+        }
       }
-    });
+    );
   }
 
   nextField(currentStep) {
@@ -568,14 +580,20 @@ export default class CustomerQueryForm extends Component {
       return false;
     } else if (fieldObj.regex && fieldObj.regex !== "-1") {
       let expression = fieldObj.regex;
+      console.log("expression", expression);
       if (expression.startsWith("/")) {
         expression = expression.slice(1);
       }
       if (expression.endsWith("/")) {
         expression = expression.slice(0, expression.length - 1);
       }
+      console.log("expression", expression);
       let regexExp = new RegExp(expression);
-
+      console.log("regexExp", regexExp);
+      console.log(
+        "this.state[fieldObj.componentId]",
+        this.state[fieldObj.componentId]
+      );
       if (!regexExp.test(this.state[fieldObj.componentId])) {
         this.props.displayToast(fieldObj.regexError);
         return false;

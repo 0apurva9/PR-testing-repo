@@ -46,14 +46,43 @@ export default class AllOrdersList extends Component {
                         {orderData.products[0].statusDisplay}
                       </span>
                     </div>
-                    {orderData.products[0].EDD && (
+                    {(orderData.products[0].EDD &&
+                      orderData.products[0].statusDisplay ==
+                        "Order Confirmed") ||
+                    orderData.products[0].statusDisplay == "Order in Process" ||
+                    orderData.products[0].statusDisplay == "Item Packed" ||
+                    orderData.products[0].statusDisplay == "Shipped" ||
+                    orderData.products[0].statusDisplay == "Delivered" ? (
+                      <div className={styles.orderStatus}>
+                        {orderData.products[0].statusDisplay == "Delivered"
+                          ? "Delivered On: "
+                          : "Est. delivery date: "}
+                        :{" "}
+                        <span className={styles.fontBold}>
+                          {getDayNumberSuffix(orderData.products[0].EDD)}
+                        </span>
+                      </div>
+                    ) : null}
+                    {/* {orderData.products[0].EDD && (
+                          <div className={styles.orderStatus}>
+                            {orderData.products[0].statusDisplay=="Delivered"?"Delivered On: ":"Est. delivery date: "}
+                            :{" "}
+                            <span className={styles.fontBold}>
+                              {getDayNumberSuffix(
+                                orderData.products[0].EDD
+                                
+                              )}
+                            </span>
+                          </div>
+                        )} */}
+                    {/* {orderData.products[0].EDD && (
                       <div className={styles.orderStatus}>
                         Delivery On:{" "}
                         <span className={styles.fontBold}>
                           {getDayNumberSuffix(orderData.products[0].EDD, false)}
                         </span>
                       </div>
-                    )}
+                    )} */}
                   </div>
                 </div>
               </div>

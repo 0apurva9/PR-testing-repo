@@ -173,12 +173,13 @@ class OrderListDetails extends Component {
                         .estimateddeliverydate && (
                         <div className={styles.orderDesc}>
                           <span className={styles.fontBold}>
-                            Delivered on:{" "}
+                            {this.props.statusDisplay == "Delivered"
+                              ? "Delivered On: "
+                              : "Est. delivery date: "}{" "}
                           </span>
                           {getDayNumberSuffix(
                             this.props.selectedOrder.products[0]
-                              .estimateddeliverydate,
-                            true
+                              .estimateddeliverydate
                           )}
                         </div>
                       )}
