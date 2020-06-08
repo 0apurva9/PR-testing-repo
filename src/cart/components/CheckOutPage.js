@@ -148,7 +148,11 @@ import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import WhatsappUpdates from "./WhatsappUpdates";
 import PaymentConfirmationPage from "./PaymentConfirmationPage";
 import isEqual from "lodash.isequal";
-import { setTracker, VIEW_CHECKOUT } from "../../lib/onlinesalesUtils";
+import {
+  setTracker,
+  VIEW_CHECKOUT,
+  SALE_COMPLETED
+} from "../../lib/onlinesalesUtils";
 const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
 const PAYMENT_MODE = "EMI";
 const NET_BANKING = "NB";
@@ -452,6 +456,16 @@ class CheckOutPage extends React.Component {
       this.props.cart.cliqCashJusPayDetails
     ) {
       this.props.setHeaderText(THANK_YOU);
+      const isOrderDetailsEqual = isEqual(
+        prevProps.cart.orderConfirmationDetails,
+        this.props.cart.orderConfirmationDetails
+      );
+      if (this.props.completedOrderDetails || !isOrderDetailsEqual) {
+        let confirmedOrderDetails = this.props.completedOrderDetails
+          ? this.props.completedOrderDetails
+          : this.props.cart.orderConfirmationDetails;
+        setTracker(SALE_COMPLETED, confirmedOrderDetails);
+      }
     } else {
       this.props.setHeaderText(CHECKOUT);
     }

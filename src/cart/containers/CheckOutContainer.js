@@ -859,7 +859,8 @@ const mapStateToProps = state => {
     retryPaymentDetailsStatus: state.profile.retryPaymentDetailsStatus,
     binValidationStatus: state.cart.binValidationStatus,
     addUserUPIStatus: state.profile.addUserUPIStatus,
-    addUserUPIDetails: state.profile.addUserUPIDetails
+    addUserUPIDetails: state.profile.addUserUPIDetails,
+    completedOrderDetails: state.profile.fetchOrderDetails
   };
 };
 

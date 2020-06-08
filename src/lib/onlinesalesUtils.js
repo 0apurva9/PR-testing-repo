@@ -17,15 +17,24 @@ function mergeCategory(objCategory, isReverse) {
 }
 
 function returnProductDetails(product) {
-  let categoryList = mergeCategory(product.categoryHierarchy, false);
+  let categoryList = product.categoryHierarchy
+    ? mergeCategory(product.categoryHierarchy, false)
+    : null;
+  let productQuantity = product.qtySelectedByUser
+    ? product.qtySelectedByUser
+    : product.quantity
+      ? product.quantity
+      : 1;
+  let productPrice = product.price ? `${product.price}` : product.pricevalue;
+  let discountedPrice = product.offerPrice ? product.offerPrice : productPrice;
   return {
     skuId: product.productcode,
     sellerId: product.USSID,
     category: categoryList,
-    productPrice: `${product.price}`,
+    productPrice: productPrice,
     currency: "INR",
-    discount: product.offerPrice,
-    quantity: product.qtySelectedByUser
+    discount: discountedPrice,
+    quantity: productQuantity
   };
 }
 
