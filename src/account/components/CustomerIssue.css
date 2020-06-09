@@ -246,7 +246,7 @@
   line-height: 23px;
 }
 .solution a {
-  border-bottom: 2px solid #ff1744;
+  /* border-bottom: 2px solid #ff1744; */
   font-family: semibold;
   color: #ff1744;
 }

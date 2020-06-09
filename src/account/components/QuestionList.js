@@ -12,7 +12,7 @@ export default class QuestionList extends Component {
         )}
         {this.props.parentIssueType && (
           <div className={styles.parentIssueT}>
-            {this.props.parentIssueType}
+            {this.props.parentIssueType.replace("&amp;", "&")}
           </div>
         )}
 

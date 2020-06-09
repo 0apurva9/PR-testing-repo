@@ -125,16 +125,18 @@ export default class CustomerQueryForm extends Component {
             if (field.isMandatory) {
               if (!this.state[field.componentId]) {
                 this.setState({ btnDisable: true });
-              } else {
-                this.setState({ btnDisable: false });
               }
+              //  else {
+              //   this.setState({ btnDisable: false });
+              // }
             }
           } else {
             if (field.isMandatory) {
               this.setState({ btnDisable: true });
-            } else {
-              this.setState({ btnDisable: false });
             }
+            // else {
+            //   this.setState({ btnDisable: false });
+            // }
           }
 
           if (
@@ -346,10 +348,7 @@ export default class CustomerQueryForm extends Component {
   onChangeCheck(evt, selectObj, option) {
     this.setState(
       {
-        [selectObj.componentId]: evt.target.value,
-        isAttachment: false,
-        attachementData: null,
-        uploadFileTitle: ""
+        [selectObj.componentId]: evt.target.value
       },
       () => {
         this.onBlur();
@@ -580,20 +579,14 @@ export default class CustomerQueryForm extends Component {
       return false;
     } else if (fieldObj.regex && fieldObj.regex !== "-1") {
       let expression = fieldObj.regex;
-      console.log("expression", expression);
       if (expression.startsWith("/")) {
         expression = expression.slice(1);
       }
       if (expression.endsWith("/")) {
         expression = expression.slice(0, expression.length - 1);
       }
-      console.log("expression", expression);
       let regexExp = new RegExp(expression);
-      console.log("regexExp", regexExp);
-      console.log(
-        "this.state[fieldObj.componentId]",
-        this.state[fieldObj.componentId]
-      );
+
       if (!regexExp.test(this.state[fieldObj.componentId])) {
         this.props.displayToast(fieldObj.regexError);
         return false;
