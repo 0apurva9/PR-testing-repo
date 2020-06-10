@@ -272,18 +272,19 @@ export default class SizeSelector extends React.Component {
             {this.props.isSizeOrLength
               ? this.props.isSizeOrLength
               : this.props.headerText
-              ? this.props.headerText
-              : "SIZE"}
-            {isEyeWearCategory && this.props.isSizeOrLength === "Power" && (
-              <div
-                className={styles.buttonShowViewMore}
-                onClick={() => {
-                  this.showAllLensPower();
-                }}
-              >
-                {isPowerLensSizeSelected ? "Change" : label}
-              </div>
-            )}
+                ? this.props.headerText
+                : "SIZE"}
+            {isEyeWearCategory &&
+              this.props.isSizeOrLength === "Power" && (
+                <div
+                  className={styles.buttonShowViewMore}
+                  onClick={() => {
+                    this.showAllLensPower();
+                  }}
+                >
+                  {isPowerLensSizeSelected ? "Change" : label}
+                </div>
+              )}
             <div className={styles.button}>
               <MobileOnly>
                 <UnderLinedButton
@@ -389,19 +390,20 @@ export default class SizeSelector extends React.Component {
                     />
                   </DesktopOnly>
                 )}
-              {!isEyeWearCategory && this.props.hasSizeGuide && (
-                <DesktopOnly>
-                  <UnderLinedButton
-                    // disabled={!this.props.hasSizeGuide}
-                    label={SIZE_GUIDE}
-                    color={this.props.hasSizeGuide ? "#ff1744" : "#212121"}
-                    fontFamily={"light"}
-                    onClick={() => {
-                      this.handleShowSize();
-                    }}
-                  />
-                </DesktopOnly>
-              )}
+              {!isEyeWearCategory &&
+                this.props.hasSizeGuide && (
+                  <DesktopOnly>
+                    <UnderLinedButton
+                      // disabled={!this.props.hasSizeGuide}
+                      label={SIZE_GUIDE}
+                      color={this.props.hasSizeGuide ? "#ff1744" : "#212121"}
+                      fontFamily={"light"}
+                      onClick={() => {
+                        this.handleShowSize();
+                      }}
+                    />
+                  </DesktopOnly>
+                )}
               {OOSProducts.length > 0 && (
                 <div className={styles.buttonView}>
                   <span className={styles.oosButton}>Size out of stock?</span>{" "}

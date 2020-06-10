@@ -2,6 +2,10 @@ import React from "react";
 import DumbCarousel from "./DumbCarousel";
 import DesktopOnly from "./DesktopOnly";
 import styles from "./CarouselWithControls.css";
+import {
+  setDataLayerForMsdItemWidgets,
+  ADOBE_CAROUSEL_SWIPE
+} from "../../lib/adobeUtils.js";
 
 export default class CarouselWithControls extends React.Component {
   constructor(props) {
@@ -9,6 +13,30 @@ export default class CarouselWithControls extends React.Component {
     this.state = { position: 0 };
   }
   forward = () => {
+    let mainProductList =
+      this.props.parentData &&
+      this.props.parentData.productData &&
+      this.props.parentData.productData.productDetails;
+    if (mainProductList) {
+      let jsonDetailsForWidgets = {
+        sourceProdID: mainProductList && mainProductList.productListingId,
+        sourceCatgID:
+          mainProductList &&
+          mainProductList.categoryHierarchy &&
+          mainProductList.categoryHierarchy.length > 0 &&
+          mainProductList.categoryHierarchy[
+            mainProductList.categoryHierarchy.length - 1
+          ].category_id,
+        currency:
+          mainProductList && mainProductList.winningSellerPrice.doubleValue
+            ? mainProductList.winningSellerPrice.doubleValue
+            : mainProductList.mrpPrice.value
+      };
+      setDataLayerForMsdItemWidgets(
+        jsonDetailsForWidgets,
+        ADOBE_CAROUSEL_SWIPE
+      );
+    }
     if (
       this.props.children.length -
         Math.floor(100 / this.props.elementWidthDesktop) >
@@ -18,6 +46,30 @@ export default class CarouselWithControls extends React.Component {
     }
   };
   back = () => {
+    let mainProduct =
+      this.props.parentData &&
+      this.props.parentData.productData &&
+      this.props.parentData.productData.productDetails;
+    if (mainProduct) {
+      let jsonDetailsForWidgets = {
+        sourceProdID: mainProduct && mainProduct.productListingId,
+        sourceCatgID:
+          mainProduct &&
+          mainProduct.categoryHierarchy &&
+          mainProduct.categoryHierarchy.length > 0 &&
+          mainProduct.categoryHierarchy[
+            mainProduct.categoryHierarchy.length - 1
+          ].category_id,
+        currency:
+          mainProduct && mainProduct.winningSellerPrice.doubleValue
+            ? mainProduct.winningSellerPrice.doubleValue
+            : mainProduct.mrpPrice.value
+      };
+      setDataLayerForMsdItemWidgets(
+        jsonDetailsForWidgets,
+        ADOBE_CAROUSEL_SWIPE
+      );
+    }
     if (this.state.position > 0) {
       this.setState({ position: this.state.position - 1 });
     }

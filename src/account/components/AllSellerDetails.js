@@ -300,8 +300,6 @@ export default class AllSellerDetails extends React.Component {
       cursor: "pointer"
     };
 
-    console.log(this.props);
-
     return (
       <div className={baseClassName}>
         <div className={myAccountStyles.holder}>

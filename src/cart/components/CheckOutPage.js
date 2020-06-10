@@ -2982,10 +2982,10 @@ if you have order id in local storage then you have to show order confirmation p
         this.props.displayToast(SELECT_ADDRESS_TYPE);
         return false;
       }
-      if (!address.userEmailId && !address.emailId && address.emailId === "") {
-        this.props.displayToast("Please enter the EmailId");
-        return false;
-      }
+      // if (!address.userEmailId && !address.emailId && address.emailId === "") {
+      //   this.props.displayToast("Please enter the EmailId");
+      //   return false;
+      // }
       if (
         address.emailId &&
         address.emailId !== "" &&

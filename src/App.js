@@ -452,7 +452,6 @@ class App extends Component {
   }
 
   render() {
-    console.log("UPI");
     if (!this.props.location.pathname.includes("/my-account")) {
       if (window.od && window.od.messenger && window.od.messenger("update")) {
         window.od.messenger("update");

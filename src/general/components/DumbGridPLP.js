@@ -112,8 +112,8 @@ export default class Grid extends React.Component {
                         width: this.props.electronicView
                           ? { width: "100%" }
                           : child.props && child.props.gridWidthDesktop
-                          ? `${child.props.gridWidthDesktop}%`
-                          : `${this.props.elementWidthDesktop}%`,
+                            ? `${child.props.gridWidthDesktop}%`
+                            : `${this.props.elementWidthDesktop}%`,
 
                         padding: `${this.props.offset / 2}px`
                       }}
@@ -132,8 +132,8 @@ export default class Grid extends React.Component {
                         width: this.props.electronicView
                           ? { width: "100%" }
                           : child1.props && child1.props.gridWidthDesktop
-                          ? `${child1.props.gridWidthDesktop}%`
-                          : `${this.props.elementWidthDesktop}%`,
+                            ? `${child1.props.gridWidthDesktop}%`
+                            : `${this.props.elementWidthDesktop}%`,
 
                         padding: `${this.props.offset / 2}px`
                       }}
@@ -152,8 +152,8 @@ export default class Grid extends React.Component {
                         width: this.props.electronicView
                           ? { width: "100%" }
                           : child2.props && child2.props.gridWidthDesktop
-                          ? `${child1.props.gridWidthDesktop}%`
-                          : `${this.props.elementWidthDesktop}%`,
+                            ? `${child1.props.gridWidthDesktop}%`
+                            : `${this.props.elementWidthDesktop}%`,
 
                         padding: `${this.props.offset / 2}px`
                       }}
@@ -172,8 +172,8 @@ export default class Grid extends React.Component {
                         width: this.props.electronicView
                           ? { width: "100%" }
                           : child3.props && child3.props.gridWidthDesktop
-                          ? `${child1.props.gridWidthDesktop}%`
-                          : `${this.props.elementWidthDesktop}%`,
+                            ? `${child1.props.gridWidthDesktop}%`
+                            : `${this.props.elementWidthDesktop}%`,
 
                         padding: `${this.props.offset / 2}px`
                       }}

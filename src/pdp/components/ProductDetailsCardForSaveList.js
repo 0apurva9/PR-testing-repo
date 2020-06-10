@@ -82,14 +82,17 @@ export default class ProductDetailsCardForSaveList extends React.Component {
                 </del>
               )}
           </div>
-          {this.props.size && this.props.size !== "NO SIZE" && (
-            <div className={styles.sizeHolder}>
-              <span className={styles.size}>
-                {this.props.isSizeOrLength ? this.props.isSizeOrLength : `Size`}
-              </span>{" "}
-              {sizeText}
-            </div>
-          )}
+          {this.props.size &&
+            this.props.size !== "NO SIZE" && (
+              <div className={styles.sizeHolder}>
+                <span className={styles.size}>
+                  {this.props.isSizeOrLength
+                    ? this.props.isSizeOrLength
+                    : `Size`}
+                </span>{" "}
+                {sizeText}
+              </div>
+            )}
           <div
             className={styles.displayRating}
             itemProp="aggregateRating"

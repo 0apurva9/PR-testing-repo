@@ -187,7 +187,6 @@ export default class ProductDescriptionPageWrapper extends React.Component {
 
   renderRootCategory = datumType => {
     let pdpToRender = typeComponentMapping[datumType];
-    console.log("pdptorender is ", pdpToRender);
     if (!pdpToRender) {
       pdpToRender = typeComponentMapping["Clothing"];
     }
@@ -367,7 +366,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
     } else {
       this.hideLoader();
     }
-    console.log("PRODUCT DESCRIPTION PAGE WRAPPER RENDER HIT");
+
     if (
       !checkUserAgentIsMobile() &&
       this.props.showPiqPage &&
