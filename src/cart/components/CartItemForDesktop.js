@@ -320,8 +320,8 @@ export default class CartItemForDesktop extends React.Component {
                         </div>
                       </React.Fragment>
                     )
-                  : this.props.isOutOfStock ||
-                    (this.props.productOutOfStocks && (
+                  : (this.props.isOutOfStock ||
+                      this.props.productOutOfStocks) && (
                       <React.Fragment>
                         <div className={styles.space}>|</div>
                         <div className={styles.serviceAvailabilityText}>
@@ -329,7 +329,7 @@ export default class CartItemForDesktop extends React.Component {
                           {this.props.productOutOfStocks}
                         </div>
                       </React.Fragment>
-                    )))}
+                    ))}
             </div>
             {this.props.isGiveAway === YES && (
               <div className={styles.isGiveAwayQuantity}>
