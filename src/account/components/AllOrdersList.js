@@ -12,7 +12,7 @@ export default class AllOrdersList extends Component {
           <div className={styles.headerButton}>
             <Button
               type="hollow"
-              label="Go Back"
+              label="Back to CLiQ Care Homepage"
               borderColor={""}
               color={"#da1c5c"}
               onClick={() => this.props.hideAllOrder()}

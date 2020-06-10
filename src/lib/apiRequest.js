@@ -83,7 +83,7 @@ if (
 } else if (process.env.REACT_APP_STAGE === "qa9") {
   API_URL_ROOT = "https://qa9.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
-    "https://cors-anywhere.herokuapp.com/https://qa9.tataunistore.com/marketplacewebservices";
+    "https://qa9.tataunistore.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "qa10") {
   API_URL_ROOT = "https://qa10.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =

@@ -733,11 +733,11 @@ export default class CustomerQueryForm extends Component {
                 </div>
               </div>
             )}
-            <div className={styles.header}>{"Create your ticket"}</div>
+            {/* <div className={styles.header}>{"Create your ticket"}</div> */}
             {this.formField()}
           </div>
         )}
-        {attachment && this.state.isAttachment && (
+        {attachment && (
           <div className={styles.attachment}>
             <div className={styles.header}>
               Add attachements{" "}
@@ -818,6 +818,8 @@ export default class CustomerQueryForm extends Component {
                   onChange={email => this.setState({ email: email })}
                   fontSize={"11px"}
                   onBlur={() => this.onBlur(true)}
+                  type={"email"}
+                  // disableds={this.state.email ? true : false}
                 />
               </div>
             </div>
@@ -846,14 +848,14 @@ export default class CustomerQueryForm extends Component {
                 basicForm ? styles.currentStep : null
               ].join(" ")}
             ></span>
-            {this.state.isAttachment && (
-              <span
-                className={[
-                  styles.steps,
-                  attachment ? styles.currentStep : null
-                ].join(" ")}
-              ></span>
-            )}
+            {/* {this.state.isAttachment && ( */}
+            <span
+              className={[
+                styles.steps,
+                attachment ? styles.currentStep : null
+              ].join(" ")}
+            ></span>
+            {/* )} */}
 
             <span
               className={[

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styles from "./CustomerIssue.css";
+import { withRouter } from "react-router-dom";
 import Accordion from "../../general/components/Accordion";
 import QuestionFeedback from "./QuestionFeedback";
 import format from "date-fns/format";
@@ -10,8 +11,9 @@ import {
   ADOBE_REQUEST_INVOICE_LINK_CLICKED
 } from "../../lib/adobeUtils";
 import CustomerQueryForm from "./CustomerQueryForm";
+import Button from "../../general/components/Button.js";
 import QuestionList from "./QuestionList";
-import { RUPEE_SYMBOL } from "../../lib/constants";
+import { MY_ACCOUNT_PAGE, COSTUMER_CLIQ_CARE_ROUTE } from "../../lib/constants";
 const dateFormat = "DD MM YYYY";
 
 class OrderListDetails extends Component {
@@ -92,8 +94,14 @@ class OrderListDetails extends Component {
   //     this.props.sendInvoice(lineID, orderNumber);
   //   }
   // }
+  navigateCliqCarePage() {
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`
+    });
+  }
 
   render() {
+    console.log("ss", this.props);
     // const {
     //   isAnswerHelpFull,
     //   nextQuestions
@@ -114,15 +122,25 @@ class OrderListDetails extends Component {
                 {this.props.FAQquestion && <div>Faq Issue</div>}
               </div>
               <div className={styles.orderDetalsButton}>
-                {/* <Button
-                type="hollow"
-                label="Go to recent orders"
-                borderColor={""}
-                color={"#da1c5c"}
-                height={16}
-
-                onClick={() => generateOtp()}
-              /> */}
+                {/* {this.props.isQuesryForm ? (
+                  <Button
+                    type="hollow"
+                    label="Back to CLiQ Care Homepage"
+                    borderColor={""}
+                    color={"#da1c5c"}
+                    height={16}
+                    onClick={() => this.navigateCliqCarePage()}
+                  />
+                ) : (
+                  <Button
+                    type="hollow"
+                    label="Go Back to Previous Page"
+                    borderColor={""}
+                    color={"#da1c5c"}
+                    height={16}
+                    onClick={() => this.navigateCliqCarePage()}
+                  />
+                )} */}
               </div>
             </div>
 
@@ -144,12 +162,20 @@ class OrderListDetails extends Component {
                       {this.props.selectedOrder.products &&
                         this.props.selectedOrder.products[0].productName}
                     </div>
-                    <div className={styles.orderDesc}>
+                    {this.props.selectedOrder &&
+                      this.props.selectedOrder.products && (
+                        <div className={styles.orderDesc}>
+                          <span className={styles.fontBold}>Status:</span>{" "}
+                          {this.props.selectedOrder.products[0].statusDisplay}
+                        </div>
+                      )}
+
+                    {/* <div className={styles.orderDesc}>
                       {RUPEE_SYMBOL}
                       {this.props.selectedOrder.products &&
                         this.props.selectedOrder.products[0].price}
-                    </div>
-                    {this.props.selectedOrder.products &&
+                    </div> */}
+                    {/* {this.props.selectedOrder.products &&
                       this.props.selectedOrder.products[0].productSize && (
                         <div className={styles.orderDesc}>
                           <span>
@@ -165,15 +191,25 @@ class OrderListDetails extends Component {
                                 .productColourName}
                           </span>
                         </div>
-                      )}
+                      )} */}
 
-                    {/* <div className={styles.orderDesc}>Qty {"1"}</div> */}
                     {this.props.selectedOrder.products &&
                       this.props.selectedOrder.products[0]
-                        .estimateddeliverydate && (
+                        .estimateddeliverydate &&
+                      (this.props.selectedOrder.products[0].statusDisplay ==
+                        "Order Confirmed" ||
+                      this.props.selectedOrder.products[0].statusDisplay ==
+                        "Order in Process" ||
+                      this.props.selectedOrder.products[0].statusDisplay ==
+                        "Item Packed" ||
+                      this.props.selectedOrder.products[0].statusDisplay ==
+                        "Shipped" ||
+                      this.props.selectedOrder.products[0].statusDisplay ==
+                        "Delivered" ? (
                         <div className={styles.orderDesc}>
                           <span className={styles.fontBold}>
-                            {this.props.statusDisplay == "Delivered"
+                            {this.props.selectedOrder.products[0]
+                              .statusDisplay == "Delivered"
                               ? "Delivered On: "
                               : "Est. delivery date: "}{" "}
                           </span>
@@ -182,7 +218,30 @@ class OrderListDetails extends Component {
                               .estimateddeliverydate
                           )}
                         </div>
-                      )}
+                      ) : null)}
+                    {/* <div className={styles.orderDesc}>Qty {"1"}</div> */}
+                    {/* {this.props.selectedOrder.products &&
+                      this.props.selectedOrder.products[0]
+                        .estimateddeliverydate&&
+                        this.props.selectedOrder.products[0].statusDisplay ==
+                        "Order Confirmed" ||
+                    this.props.selectedOrder.products[0].statusDisplay == "Order in Process" ||
+                    this.props.selectedOrder.products[0].statusDisplay == "Item Packed" ||
+                    this.props.selectedOrder.products[0].statusDisplay == "Shipped" ||
+                    this.props.selectedOrder.products[0].statusDisplay == "Delivered"?
+                    <div className={styles.orderDesc}>
+                          <span className={styles.fontBold}>
+                            {this.props.selectedOrder.products[0].statusDisplay== "Delivered"
+                              ? "Delivered On: "
+                              : "Est. delivery date: "}{" "}
+                          </span>
+                          {getDayNumberSuffix(
+                            this.props.selectedOrder.products[0]
+                              .estimateddeliverydate
+                          )}
+                        </div>
+                    :null
+                          } */}
                   </div>
                 </div>
                 <div className={styles.moreAction}>
@@ -275,4 +334,4 @@ class OrderListDetails extends Component {
   }
 }
 
-export default OrderListDetails;
+export default withRouter(OrderListDetails);

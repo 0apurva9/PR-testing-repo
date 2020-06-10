@@ -46,7 +46,8 @@ export default class OrderRelatedIssue extends React.Component {
       showQuestionList: false,
       showFeedBack: false,
       question: null,
-      selectedOrderObj: selectedOrderObj
+      selectedOrderObj: selectedOrderObj,
+      showLoader: false
     };
     // this.resetState = this.state
   }
@@ -140,6 +141,7 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   async submitCustomerForms(formData) {
+    this.setState({ showLoader: true });
     if (this.props.submitOrderDetails) {
       let getCustomerQueryDetailsObject = Object.assign(
         {},
@@ -159,12 +161,19 @@ export default class OrderRelatedIssue extends React.Component {
       const submitOrderDetailsResponse = await this.props.submitOrderDetails(
         formData
       );
-      if (submitOrderDetailsResponse.status === SUCCESS) {
-        this.props.setSelfServeState(null);
-        getCustomerQueryDetailsObject.ticketID =
-          submitOrderDetailsResponse.submitOrder.referenceNum;
-        this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
-      }
+      // if (submitOrderDetailsResponse.status === SUCCESS) {
+      setTimeout(() => {
+        console.log("22222");
+        if (submitOrderDetailsResponse.status === SUCCESS) {
+          this.props.setSelfServeState(null);
+          this.setState({ showLoader: false });
+          getCustomerQueryDetailsObject.ticketID =
+            submitOrderDetailsResponse.submitOrder.referenceNum;
+          this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+        }
+      }, 4000);
+
+      // }
     }
   }
 
@@ -287,6 +296,9 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.sendInvoice(ussid, sellerOrderNo);
     }
   }
+  hideLoader() {
+    console.log("dsdssd60000000000");
+  }
 
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -331,7 +343,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.hideSecondaryLoader();
     }
 
-    if (this.props.submitOrderDetailsLoading) {
+    if (this.state.showLoader) {
       return <SSRquest></SSRquest>;
     } else {
       return (

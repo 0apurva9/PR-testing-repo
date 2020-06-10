@@ -108,6 +108,7 @@ export default class FloatingLabelInputWithPlace extends React.Component {
           onChange={event => this.handleChange(event)}
           value={this.props.value ? this.props.value : this.state.value}
           placeholder={this.props.placeholder ? this.props.placeholder : ""}
+          disabled={this.props.disabled}
         />
       </div>
     );

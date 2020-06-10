@@ -76,7 +76,7 @@ export default class CustomerQueryPopUp extends React.Component {
   // }
   componentWillUnmount() {
     if (!this.clickedOnSubmitButton) {
-      this.props.history.push(MY_ACCOUNT_PAGE);
+      this.props.history.push(HOME_ROUTER);
     }
   }
   closeModal() {
@@ -144,10 +144,10 @@ export default class CustomerQueryPopUp extends React.Component {
               </div>
               <div className={styles.expDateTime}>{`${displayDate}`}</div>
             </div>
-            <div className={styles.ticketIdBox}>
+            {/* <div className={styles.ticketIdBox}>
               <div className={styles.txt}>Your ticket reference number is</div>
               <div className={styles.ticketId}>{ticketID}</div>
-            </div>
+            </div> */}
           </div>
         )}
         <div className={styles.buttonHolder}>
@@ -156,8 +156,8 @@ export default class CustomerQueryPopUp extends React.Component {
             backgroundColor="#da1c5c"
             height={40}
             borderRadius={6}
-            label={isTicketDuplicate ? "CONTINUE SHOPPING" : "OK"}
-            width={isTicketDuplicate ? 204 : 165}
+            label={"CONTINUE SHOPPING"}
+            width={204}
             textStyle={{ color: "#FFF", fontSize: 14 }}
             // disabled={true}
             onClick={() => this.submit()}

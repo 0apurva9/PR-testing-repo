@@ -379,3 +379,19 @@ border-bottom:1px solid #e5e5e5;
   color: #8d8d8d;
   font-family: light;
 }
+
+.headingBox{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.imgHeding{
+  font-size: 14px;
+  font-family: semibold;
+  color: #212121;
+}
+.imgSubHeding{
+  font-size: 12px;
+  font-family: regular;
+  color: #212121;
+}

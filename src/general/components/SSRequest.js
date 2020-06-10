@@ -11,6 +11,8 @@ export default class SSRquest extends Component {
   componentDidMount() {
     setTimeout(() => {
       this.setState({ request: false, success: true });
+      // this.props.hideLoader()
+      this.setState({ request: false, success: true });
     }, 2000);
   }
   render() {
