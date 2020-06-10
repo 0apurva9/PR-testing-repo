@@ -120,11 +120,15 @@ export default class AddToWishListButton extends React.Component {
 
       return null;
     } else {
-      const indexOfProduct = wishlistItems.findIndex(item => {
+      let indexOfProduct = wishlistItems.findIndex(item => {
         return (
           item.productcode === productListingId && item.USSID === winningUssID
         );
       });
+      // as per MDEQ-226 MDEQ-263 - done following change
+      if (this.props.exchangeDetails) {
+        indexOfProduct = -1;
+      }
       if (this.props.isSizeSelectedForAddToWishlist) {
         this.props.showSizeSelector();
       } else {
