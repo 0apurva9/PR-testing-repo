@@ -26,7 +26,7 @@
   font-weight: 300;
 }
 .availFromBlock {
-  background-image: url(/static/media/available_soon.96d8d89d.svg);
+  background-image: url(./img/available_soon.svg);
   background-size: 100% auto;
   background-repeat: no-repeat;
   display: inline-block;

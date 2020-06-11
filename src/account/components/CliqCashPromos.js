@@ -67,7 +67,7 @@ export default class CliqCashPromos extends Component {
     } else {
       this.props.hideSecondaryLoader();
     }
-    var items = [];
+    let items = [];
 
     let transactions =
       this.props.promotionalCashStatementDetails &&
@@ -142,6 +142,6 @@ export default class CliqCashPromos extends Component {
 
 CliqCashPromos.propsTypes = {
   transactions: PropTypes.object,
-  promotionalCashStatementDetails: PropTypes.object,
+  promotionalCashStatementDetails: PropTypes.object.isRequired,
   promotionalAmount: PropTypes.object
 };
