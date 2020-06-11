@@ -27,8 +27,8 @@
     display: flex;
     height: 99px;
     align-items: center;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-    background-image: url(../components/img/otherIssueCard.svg);
+    /* box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    background-image: url(../components/img/otherIssueCard.svg); */
     cursor: pointer;
     justify-content: center;
 }
@@ -78,6 +78,7 @@
   font-size: 14px;
   font-family: regular;
   color: #da1c5c;
+  padding-left: 42px;
   /* padding-bottom: 5px; */
 }
 .childIssue {

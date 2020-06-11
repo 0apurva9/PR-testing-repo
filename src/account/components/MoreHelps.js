@@ -7,6 +7,7 @@ import editIcon from "../components/img/edit.svg";
 import chatIcon from "../components/img/chatIcon.svg";
 import callMeBack from "../components/img/callMeBack.svg";
 import call from "../components/img/call.svg";
+import downArrow from "../../general/components/img/down-arrow-pink.png";
 
 const YES = "Yes";
 const MoreHelps = props => {
@@ -25,7 +26,7 @@ const MoreHelps = props => {
           soon as possible.
         </div>
 
-        {props.selectedOrder.webform == YES && (
+        {props.selectedOrder && props.selectedOrder.webform == YES && (
           <div className={styles.actionButton}>
             <div className={styles.actionWCMS}>
               <Button
@@ -50,7 +51,7 @@ const MoreHelps = props => {
         )}
 
         <div className={styles.callChatBox}>
-          {props.selectedOrder.chat == YES && (
+          {props.selectedOrder && props.selectedOrder.chat == YES && (
             <Button
               type="hollow"
               label="Chat with us"
@@ -68,12 +69,14 @@ const MoreHelps = props => {
               // onClick={() => this.props.showAllQuestion()}
             />
           )}
-          {props.selectedOrder.click2Call == YES &&
+          {props.selectedOrder &&
+            props.selectedOrder.click2Call == YES &&
+            props.selectedOrder &&
             props.selectedOrder.chat == YES && (
               <div className={styles.lineSeperator}></div>
             )}
 
-          {props.selectedOrder.click2Call == YES && (
+          {props.selectedOrder && props.selectedOrder.click2Call == YES && (
             <Button
               type="hollow"
               label="Call me back"
@@ -92,7 +95,7 @@ const MoreHelps = props => {
             />
           )}
         </div>
-        {props.selectedOrder.call == YES && (
+        {props.selectedOrder && props.selectedOrder.call == YES && (
           <div className={styles.callBox}>
             <div className={styles.contatUs}>
               Or, alternatively contact us at
@@ -103,6 +106,23 @@ const MoreHelps = props => {
             </div>
           </div>
         )}
+        <div className={styles.bottomButtonBox}>
+          <div className={[styles.arrow, styles.leftArrow].join(" ")}> </div>
+          <div
+            className={styles.customButton}
+            onClick={() => props.navigatePreviousPage()}
+          >
+            Go to Previous Page{" "}
+          </div>
+          <div className={styles.buttonSeperator}></div>
+          <div
+            className={styles.customButton}
+            onClick={() => props.navigateHomePage()}
+          >
+            Continue Shopping
+          </div>
+          <div className={[styles.arrow, styles.rightArrow].join(" ")}></div>
+        </div>
       </div>
     </div>
   );

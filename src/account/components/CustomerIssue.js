@@ -113,6 +113,7 @@ export default class CustomerIssue extends React.Component {
                 sendInvoice={(ussid, sellerOrderNo) => {
                   this.props.sendInvoice(ussid, sellerOrderNo);
                 }}
+                navigatePreviousPage={() => this.props.navigatePreviousPage()}
               />
             )}
           </div>

@@ -5,6 +5,7 @@ import Accordion from "../../general/components/Accordion";
 import QuestionFeedback from "./QuestionFeedback";
 import format from "date-fns/format";
 import OrderActionButton from "./OrderActionButton";
+import Accordian from "../../general/components/Accordion";
 import { getDayNumberSuffix } from "../../lib/dateTimeFunction";
 import {
   setDataLayer,
@@ -95,9 +96,33 @@ class OrderListDetails extends Component {
   //   }
   // }
   navigateCliqCarePage() {
-    this.props.history.push({
-      pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`
-    });
+    console.log("this.pro", this.props);
+    console.log("calll");
+    window.location.reload();
+    // this.props.history.push({
+    //   pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`
+    // });
+  }
+
+  feedbak(question) {
+    return (
+      <QuestionFeedback
+        question={question}
+        // isAnswerHelpFull={isAnswerHelpFull}
+        feedBackHelpFull={() => this.props.feedBackHelpFull()}
+        isAnswerHelpFull={this.props.isAnswerHelpFull}
+        moreHelps={() => this.props.moreHelps()}
+        // issueOptions={()=>this.isQuesryFormAction()}
+        showAllQuestion={() => this.showAllQuestion()}
+        nextQuestion={() => this.nextQuestion()}
+        // nextQuestions={nextQuestions}
+        orderRelatedQuestion={this.props.orderRelatedQuestion}
+        otherQuestion={this.props.otherQuestion}
+        FAQquestion={this.props.FAQquestion}
+        parentIssueType={this.props.parentIssueType}
+        selectedOrder={this.props.selectedOrder}
+      />
+    );
   }
 
   render() {
@@ -119,10 +144,10 @@ class OrderListDetails extends Component {
                 {this.props.otherQuestion && !this.props.FAQquestion && (
                   <div>Other Issues</div>
                 )}
-                {this.props.FAQquestion && <div>Faq Issue</div>}
+                {this.props.FAQquestion && <div>All Help Topics</div>}
               </div>
               <div className={styles.orderDetalsButton}>
-                {/* {this.props.isQuesryForm ? (
+                {this.props.isQuesryForm ? (
                   <Button
                     type="hollow"
                     label="Back to CLiQ Care Homepage"
@@ -138,9 +163,9 @@ class OrderListDetails extends Component {
                     borderColor={""}
                     color={"#da1c5c"}
                     height={16}
-                    onClick={() => this.navigateCliqCarePage()}
+                    onClick={() => this.props.navigatePreviousPage()}
                   />
-                )} */}
+                )}
               </div>
             </div>
 
@@ -256,9 +281,20 @@ class OrderListDetails extends Component {
               </div>
             )}
 
-            {this.props.showFeedBack && (
-              <QuestionFeedback
-                question={this.props.question}
+            {this.props.showFeedBack && this.feedbak(this.props.question)}
+
+            {this.props.FAQquestion &&
+              this.props.questionsList &&
+              this.props.questionsList.map(listOfIssue => {
+                return (
+                  <Accordian
+                    text={listOfIssue.question_component}
+                    arrowHide={true}
+                    headerFontSize={14}
+                  >
+                    {this.feedbak(listOfIssue)}
+                    {/* <QuestionFeedback
+                question={listOfIssue}
                 // isAnswerHelpFull={isAnswerHelpFull}
                 feedBackHelpFull={() => this.props.feedBackHelpFull()}
                 isAnswerHelpFull={this.props.isAnswerHelpFull}
@@ -270,12 +306,14 @@ class OrderListDetails extends Component {
                 orderRelatedQuestion={this.props.orderRelatedQuestion}
                 otherQuestion={this.props.otherQuestion}
                 FAQquestion={this.props.FAQquestion}
-                parentIssueType={this.props.parentIssueType}
+                parentIssueType={listOfIssue.question_component}
                 selectedOrder={this.props.selectedOrder}
-              />
-            )}
+              /> */}
+                  </Accordian>
+                );
+              })}
 
-            {this.props.showQuestionList && (
+            {!this.props.FAQquestion && this.props.showQuestionList && (
               <div className={styles.orderRelatedIssueList}>
                 {this.props.questionsList ? (
                   <QuestionList
@@ -327,6 +365,7 @@ class OrderListDetails extends Component {
             questionType={this.props.questionType}
             parentIssueType={this.props.parentIssueType}
             otherQuestion={this.props.otherQuestion}
+            navigatePreviousPage={() => this.props.navigatePreviousPage()}
           />
         )}
       </div>

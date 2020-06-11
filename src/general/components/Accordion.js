@@ -106,7 +106,7 @@ export default class Accordion extends React.Component {
                 dangerouslySetInnerHTML={{ __html: this.props.faqQuestion }}
               />
             )}
-            <div className={iconActive} />
+            {!this.props.arrowHide && <div className={iconActive} />}
           </div>
         </div>
         <Collapse isOpened={this.state.isOpen}>{this.props.children}</Collapse>

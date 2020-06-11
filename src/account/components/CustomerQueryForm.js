@@ -383,12 +383,12 @@ export default class CustomerQueryForm extends Component {
       if (validateStatus) {
         this.setState({
           basicForm: false,
-          communication: !isAttachment,
-          attachment: isAttachment,
+          // communication: !isAttachment,
+          attachment: true,
           btnDisable:
             attachementData && attachementData.isMandatory ? true : false,
-          currentStep: isAttachment ? ATTACHEMENT : COMMUNICATION,
-          btnLabel: isAttachment ? btnLabel : "SUBMIT"
+          currentStep: ATTACHEMENT,
+          btnLabel: "NEXT"
         });
       }
     }
@@ -688,7 +688,32 @@ export default class CustomerQueryForm extends Component {
   componentWillUnmount() {
     console.log("unMount check");
   }
-
+  previewPage() {
+    if (this.state.currentStep == BASIC_FORM) {
+      this.props.navigatePreviousPage();
+      this.setState({ btnDisable: false });
+    } else if (this.state.currentStep == ATTACHEMENT) {
+      this.setState({
+        basicForm: true,
+        attachment: false,
+        btnLabel: "NEXT",
+        btnDisable: false,
+        currentStep: BASIC_FORM
+      });
+    } else if (this.state.currentStep == COMMUNICATION) {
+      this.setState({
+        basicForm: false,
+        attachment: true,
+        communication: false,
+        btnLabel: "NEXT",
+        btnDisable: false,
+        currentStep: ATTACHEMENT
+      });
+      // attachment: false,
+      // communication: true,
+    }
+  }
+  updateNumber() {}
   render() {
     const {
       basicForm,
@@ -706,6 +731,31 @@ export default class CustomerQueryForm extends Component {
           !this.props.otherQuestion ? styles.marginTop : null
         ].join(" ")}
       >
+        <div className={styles.headerBox}>
+          {basicForm && <div className={styles.header}></div>}
+          {attachment && (
+            <div className={styles.header}>
+              Add attachements{" "}
+              {this.state.attachementData.isMandatory ? " *" : " (optional)"}{" "}
+            </div>
+          )}
+          {communication && (
+            <div className={styles.header}>{"Communication details"}</div>
+          )}
+
+          <div className={styles.buttonBox}>
+            <Button
+              type="hollow"
+              label="Go to Previous Page"
+              borderColor={""}
+              width={172}
+              height={5}
+              color={"#da1c5c"}
+              padding="0px 5px"
+              onClick={() => this.previewPage()}
+            />
+          </div>
+        </div>
         {basicForm && (
           <div className={styles.basicForm}>
             {this.props.otherQuestion && (
@@ -715,18 +765,6 @@ export default class CustomerQueryForm extends Component {
                     {" "}
                     {this.props.parentIssueType}
                   </div>
-                  {/* <div className={styles.goTOOrder}>
-                    <Button
-                      type="hollow"
-                      label="Go to orders"
-                      borderColor={""}
-                      width={118}
-                      height={20}
-                      color={"#da1c5c"}
-                      padding="0px 5px"
-                      // onClick={() => this.props.showAllQuestion()}
-                    />
-                  </div> */}
                 </div>
                 <div className={styles.subIssueType}>
                   {this.props.question.subIssueType}
@@ -739,13 +777,24 @@ export default class CustomerQueryForm extends Component {
         )}
         {attachment && (
           <div className={styles.attachment}>
-            <div className={styles.header}>
+            {/* <div className={styles.header}>
               Add attachements{" "}
               {this.state.attachementData.isMandatory ? " *" : " (optional)"}{" "}
-            </div>
-            <div className={styles.fileBox}>
+            </div> */}
+            <div
+              className={[
+                styles.fileBox,
+                this.state.file.length ? styles.borderFile : null
+              ].join(" ")}
+            >
               <div className={styles.fileInstruction}>
-                <ol className={styles.fileGroup}>
+                <div className={styles.uploadHeding}>
+                  {this.state.attachementData.heading}
+                </div>
+                <div className={styles.uploadSubHeding}>
+                  {this.state.attachementData.itemsTitle}
+                </div>
+                {/* <ol className={styles.fileGroup}>
                   <li className={styles.fileList}>
                     Images of outer box from all angles
                   </li>
@@ -755,7 +804,7 @@ export default class CustomerQueryForm extends Component {
                   <li className={styles.fileList}>
                     Images of the damaged part
                   </li>
-                </ol>
+                </ol> */}
               </div>
               <div className={styles.fileUpload}>
                 <button className={styles.fileBtn}>
@@ -765,7 +814,7 @@ export default class CustomerQueryForm extends Component {
                   </div>
                   <div className={styles.btnTxt}>
                     {" "}
-                    <span>Upload Image</span>
+                    <span>Attach File</span>
                   </div>
                 </button>
                 <input
@@ -778,7 +827,7 @@ export default class CustomerQueryForm extends Component {
                   accept="text/plain, application/pdf, image/*" // accepting only txt/pdf/images(all types)
                 />
                 <div className={styles.fileSize}>
-                  {`Upload JPEG, PNG (Maximum size ${this.state
+                  {`Upload JPEG, PNG or PDF (Maximum size ${this.state
                     .attachementData &&
                     this.state.attachementData.maxFileSize} MB)`}
                 </div>
@@ -807,34 +856,44 @@ export default class CustomerQueryForm extends Component {
 
         {communication && (
           <div className={styles.communication}>
-            <div className={styles.header}>Communication details</div>
+            {/* <div className={styles.header}>Communication details</div> */}
             <div className={styles.txtFieldBox}>
               <div className={styles.txtFieldHeading}>Email Id</div>
               <div className={styles.txtField}>
-                <FloatingLabelInputWithPlace
-                  placeholder={"Enter email ID"}
-                  disabled={this.state.email ? true : false}
-                  value={this.state.email}
-                  onChange={email => this.setState({ email: email })}
-                  fontSize={"11px"}
-                  onBlur={() => this.onBlur(true)}
-                  type={"email"}
-                  // disableds={this.state.email ? true : false}
-                />
+                {this.state.email ? (
+                  <div className={styles.emailId}>{this.state.email}</div>
+                ) : (
+                  <FloatingLabelInputWithPlace
+                    placeholder={"Enter email ID"}
+                    // disabled={this.state.email ? true : false}
+                    value={this.state.email}
+                    onChange={email => this.setState({ email: email })}
+                    fontSize={"11px"}
+                    onBlur={() => this.onBlur(true)}
+                    type={"email"}
+                  />
+                )}
               </div>
             </div>
             <div className={styles.txtFieldBox}>
-              <div className={styles.txtFieldHeading}>Mobile No.</div>
-              <div className={styles.txtField}>
+              <div className={styles.txtFieldHeading}>Mobile No*</div>
+              <div className={styles.mobileField}>
                 <FloatingLabelInputWithPlace
                   placeholder={"Enter Mobile No"}
                   maxLength={"10"}
+                  disabled={this.state.mobile ? true : false}
                   value={this.state.mobile}
                   onChange={mobile => this.setState({ mobile: mobile })}
                   fontSize={"11px"}
                   onlyNumber={true}
                   onBlur={() => this.onBlur(true)}
                 />
+                <div
+                  className={styles.updateNumber}
+                  onClick={() => this.updateNumber()}
+                >
+                  Change
+                </div>
               </div>
             </div>
           </div>

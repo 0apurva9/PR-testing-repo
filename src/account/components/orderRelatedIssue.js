@@ -12,7 +12,8 @@ import {
   LOGIN_PATH,
   COSTUMER_ORDER_RELATED_QUERY_ROUTE,
   COSTUMER_CLIQ_CARE_ROUTE,
-  MY_ACCOUNT_PAGE
+  MY_ACCOUNT_PAGE,
+  HOME_ROUTER
 } from "../../lib/constants";
 import SSRquest from "../../general/components/SSRequest";
 import Icon from "../../xelpmoc-core/Icon";
@@ -49,7 +50,7 @@ export default class OrderRelatedIssue extends React.Component {
       selectedOrderObj: selectedOrderObj,
       showLoader: false
     };
-    // this.resetState = this.state
+    this.resetState = this.state;
   }
 
   componentDidMount() {
@@ -95,7 +96,7 @@ export default class OrderRelatedIssue extends React.Component {
     ) {
       this.setState({ isAnswerHelpFull: true });
     } else {
-      this.setState({ isIssueOptions: true });
+      this.setState({ isIssueOptions: true, showFeedBack: false });
     }
   }
 
@@ -299,6 +300,41 @@ export default class OrderRelatedIssue extends React.Component {
   hideLoader() {
     console.log("dsdssd60000000000");
   }
+  navigatePreviousPage() {
+    if (this.state.showQuestionList) {
+      this.setState(this.resetState);
+    } else if (this.state.showFeedBack) {
+      this.setState({
+        question: null,
+        showQuestionList: true,
+        showFeedBack: false,
+        isAnswerHelpFull: false
+      });
+    } else if (this.state.isQuesryForm) {
+      this.setState({
+        // question: question,
+        showQuestionList: false,
+        showFeedBack: true,
+        isQuesryForm: false
+        // isAnswerHelpFull:false
+      });
+    } else if (this.state.isIssueOptions) {
+      this.setState({
+        isAnswerHelpFull: false,
+        isIssueOptions: false,
+        showFeedBack: true
+      });
+    }
+    // this.setState({
+    //   question: question,
+    //   showQuestionList: false,
+    //   showFeedBack: true
+    // });
+  }
+  navigateHomePage() {
+    this.props.history.push(HOME_ROUTER);
+  }
+  HOME_ROUTER;
 
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -356,6 +392,8 @@ export default class OrderRelatedIssue extends React.Component {
               <MoreHelps
                 getCustomerQueriesFields={() => this.getCustomerQueriesFields()}
                 selectedOrder={this.state.question}
+                navigatePreviousPage={() => this.navigatePreviousPage()}
+                navigateHomePage={() => this.navigateHomePage()}
               />
             ) : (
               <div className={styles.baseWrapper}>
@@ -396,15 +434,31 @@ export default class OrderRelatedIssue extends React.Component {
                               >
                                 <div className={styles.faqIcon}>
                                   <Icon
-                                    image={`${require("../components/img/" +
-                                      faq.image.split(".")[0] +
-                                      ".svg")}`}
+                                    image={
+                                      this.state.parentIssueType ==
+                                      faq.FAQHeader
+                                        ? `${require("../components/img/" +
+                                            faq.image.split(".")[0] +
+                                            "active" +
+                                            ".svg")}`
+                                        : `${require("../components/img/" +
+                                            faq.image.split(".")[0] +
+                                            ".svg")}`
+                                    }
                                     width={33}
                                     height={33}
                                   ></Icon>
                                 </div>
                                 <div className={styles.faqHederBox}>
-                                  <div className={styles.faqHeader}>
+                                  <div
+                                    className={[
+                                      styles.faqHeader,
+                                      this.state.parentIssueType ==
+                                      faq.FAQHeader
+                                        ? styles.colorRed
+                                        : null
+                                    ].join(" ")}
+                                  >
                                     {faq.FAQHeader.replace("&amp;", "&")}
                                   </div>
                                   <div className={styles.faqSubheading}>
@@ -480,6 +534,8 @@ export default class OrderRelatedIssue extends React.Component {
                       sendInvoice={(ussid, sellerOrderNo) => {
                         this.sendInvoice(ussid, sellerOrderNo);
                       }}
+                      navigatePreviousPage={() => this.navigatePreviousPage()}
+                      navigateHomePage={() => this.navigateHomePage()}
                     />
                   </div>
                 </div>
