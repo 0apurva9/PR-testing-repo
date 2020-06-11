@@ -5,7 +5,6 @@ import OrderDetailsCard from "./OrderDetailsCard.js";
 import OrderSucessCard from "./OrderSucessCard.js";
 import Icon from "../../xelpmoc-core/Icon";
 import OrderConfirmationFooter from "./OrderConfirmationFooter.js";
-import MediaQuery from "react-responsive";
 import {
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_ORDERS_PAGE,
@@ -22,11 +21,16 @@ import savedPayments from "../../general/components/img/card.svg";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import loader from "../../general/components/img/loader.gif";
+import {
+  setDataLayer,
+  ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE
+} from "../../lib/adobeUtils";
 export default class PaymentConfirmationPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showloader: false
+      showloader: false,
+      exchangePaymentDetails: ""
     };
   }
   async wait(ms) {
@@ -48,6 +52,36 @@ export default class PaymentConfirmationPage extends React.Component {
       await this.wait(7000);
       this.setState({ showloader: true });
       await this.props.fetchOrderDetails(orderId, pageName);
+      let response = this.props.orderDetailsPaymentPage;
+      let data = {};
+      let commonExchangePaymentDetails = {};
+      if (
+        response &&
+        response.status &&
+        response.status.toLowerCase() === "success"
+      ) {
+        response.products.map(product => {
+          if (
+            product.exchangeDetails &&
+            product.exchangeDetails.exchangePaymentDetails
+          ) {
+            commonExchangePaymentDetails =
+              product.exchangeDetails.exchangePaymentDetails;
+          }
+        });
+        this.setState({
+          exchangePaymentDetails: commonExchangePaymentDetails[0]
+        });
+        data.orderId = orderId;
+        if (commonExchangePaymentDetails && commonExchangePaymentDetails[0]) {
+          data.exchangePaymentMode =
+            commonExchangePaymentDetails[0].exchangePaymentMode;
+          if (commonExchangePaymentDetails[0].accountNumber) {
+            data.accountNumber = commonExchangePaymentDetails[0].accountNumber;
+          }
+          this.props.showChangeExchangeCashabackModal(data);
+        }
+      }
     }
   }
 
@@ -66,6 +100,14 @@ export default class PaymentConfirmationPage extends React.Component {
     if (value) {
       this.props.history.push(`${MY_ACCOUNT_PAGE}${value}`);
     }
+  }
+  goToEchangeCashbackSelection(orderId, currentCashbackMode) {
+    setDataLayer(ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE);
+    let exchangeCashbackSelectionURL = `/my-account/getAccountInfoForExchange?parentOrderId=${orderId}`;
+    this.props.history.push({
+      pathname: exchangeCashbackSelectionURL,
+      state: { currentCashbackMode: currentCashbackMode, orderId: orderId }
+    });
   }
   render() {
     return (

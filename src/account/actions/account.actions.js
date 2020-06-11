@@ -12,7 +12,8 @@ import {
   EMAIL_SENT_SUCCESS_MESSAGE,
   ISO_CODE,
   FAILED_ORDER,
-  PAYMENT_MODE_TYPE
+  PAYMENT_MODE_TYPE,
+  BANK_COUPON_COOKIE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 //import findIndex from "lodash.findindex";
@@ -29,10 +30,7 @@ import {
   FEMALE,
   MALE,
   SUCCESSFUL_PRODUCT_RATING_BY_USER,
-  PRODUCT_RATING_FAILURE_TEXT,
-  NO_COST_EMI_COUPON,
-  BANK_COUPON_COOKIE,
-  COUPON_COOKIE
+  PRODUCT_RATING_FAILURE_TEXT
 } from "../../lib/constants";
 import {
   showModal,
@@ -84,6 +82,9 @@ import {
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { setBagCount } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions";
+
+// import orderDetails from "../../mock/orderDetails.json";
+
 export const GET_USER_DETAILS_REQUEST = "GET_USER_DETAILS_REQUEST";
 export const GET_USER_DETAILS_SUCCESS = "GET_USER_DETAILS_SUCCESS";
 export const GET_USER_DETAILS_FAILURE = "GET_USER_DETAILS_FAILURE";
@@ -465,6 +466,20 @@ export const RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS =
 const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
 
+export const GET_EXCHANGE_CASHBACK_DETAILS_REQUEST =
+  "GET_EXCHANGE_CASHBACK_DETAILS_REQUEST";
+export const GET_EXCHANGE_CASHBACK_DETAILS_SUCCESS =
+  "GET_EXCHANGE_CASHBACK_DETAILS_SUCCESS";
+export const GET_EXCHANGE_CASHBACK_DETAILS_FAILURE =
+  "GET_EXCHANGE_CASHBACK_DETAILS_FAILURE";
+
+export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_REQUEST =
+  "SUBMIT_EXCHANGE_CASHBACK_DETAILS_REQUEST";
+export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_SUCCESS =
+  "SUBMIT_EXCHANGE_CASHBACK_DETAILS_SUCCESS";
+export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_FAILURE =
+  "SUBMIT_EXCHANGE_CASHBACK_DETAILS_FAILURE";
+
 export function getDetailsOfCancelledProductRequest() {
   return {
     type: GET_CANCEL_PRODUCT_DETAILS_REQUEST,
@@ -509,7 +524,7 @@ export function getDetailsOfCancelledProduct(cancelProductDetails) {
           JSON.parse(userDetails).userName
         }/returnProductDetails?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`,
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&isMDE=true`,
         cancelProductObject
       );
       const resultJson = await result.json();
@@ -626,7 +641,7 @@ export function cancelProduct(cancelProductDetails, productDetails) {
           JSON.parse(userDetails).userName
         }/initiateRefund?access_token=${
           JSON.parse(customerCookie).access_token
-        }&login=${JSON.parse(userDetails).userName}&isPwa=true`,
+        }&login=${JSON.parse(userDetails).userName}&isPwa=true&isMDE=true`,
         cancelProductObject
       );
       const resultJson = await result.json();
@@ -750,7 +765,7 @@ export function getReturnModes(
           JSON.parse(userDetails).userName
         }/getPickupAddrReturnPincodeServcblty?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`,
+        }&isPwa=true&isMDE=true`,
         data
       );
 
@@ -846,7 +861,7 @@ export function updateReturnConfirmation(
           JSON.parse(userDetails).userName
         }/updateReturnConfirmation/${orderId}/${transactionId}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`,
+        }&isPwa=true&isMDE=true`,
         data
       );
       const resultJson = await result.json();
@@ -899,7 +914,7 @@ export function getRefundTransactionSummary(orderId, transactionId, returnId) {
           JSON.parse(userDetails).userName
         }/getReturnTransactionSummary/${orderId}/${transactionId}/${returnId}/?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`
+        }&isPwa=true&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1002,7 +1017,9 @@ export function updateReturnCancellation(data) {
           JSON.parse(userDetails).userName
         }/updateReturnCancellation/${data.orderId}/${
           data.transactionId
-        }?access_token=${JSON.parse(customerCookie).access_token}&isPwa=true`,
+        }?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&isMDE=true`,
         apiData
       );
       const resultJson = await result.json();
@@ -1506,7 +1523,7 @@ export function getReturnReasonsWithProductDetails(productDetails) {
           productDetails.orderCode
         }/${productDetails.transactionId}/?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`
+        }&isPwa=true&isMDE=true`
       );
 
       const resultJson = await result.json();
@@ -1634,7 +1651,7 @@ export function getRefundOptionsData(
           JSON.parse(userDetails).userName
         }/updateReturnReasonGetReturnType/${orderId}/${transactionId}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`,
+        }&isPwa=true&isMDE=true`,
         data
       );
       const resultJson = await result.json();
@@ -1689,7 +1706,7 @@ export function getRefundModes(orderId, transactionId, returnId, typeOfReturn) {
           JSON.parse(userDetails).userName
         }/updateReturnTypeGetRefundMode/${orderId}/${transactionId}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`,
+        }&isPwa=true&isMDE=true`,
         data
       );
       const resultJson = await result.json();
@@ -1744,7 +1761,7 @@ export function updateRefundMode(orderId, transactionId, returnId, refundMode) {
           JSON.parse(userDetails).userName
         }/updateRefundMode/${orderId}/${transactionId}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`,
+        }&isPwa=true&isMDE=true`,
         data
       );
       const resultJson = await result.json();
@@ -2404,168 +2421,17 @@ export function getAllOrdersDetails(
           JSON.parse(userDetails).userName
         }/orderhistorylist_V1?access_token=${
           JSON.parse(customerCookie).access_token
-        }&channel=mobile&currentPage=${currentPage}&pageSize=${PAGE_SIZE}&orderYear=${showDataAccordingToUser}`;
+        }&channel=web&currentPage=${currentPage}&pageSize=${PAGE_SIZE}&orderYear=${showDataAccordingToUser}&isMDE=true`;
       } else {
         getOrderDetails = `${USER_PATH}/${
           JSON.parse(userDetails).userName
         }/orderhistorylist_V1?access_token=${
           JSON.parse(customerCookie).access_token
-        }&channel=mobile&currentPage=${currentPage}&pageSize=${PAGE_SIZE}`;
+        }&channel=web&currentPage=${currentPage}&pageSize=${PAGE_SIZE}&isMDE=true`;
       }
       const result = await api.get(getOrderDetails);
       let resultJson = await result.json();
 
-      /*  resultJson = {
-        type: "getOrderHistoryListWsDTO",
-        status: "Success",
-        oldOrderHistoryPresent: false,
-        orderData: [
-          {
-            deliveryAddress: {
-              addressLine1:
-                "Cfycfyygccyccygugugcguxtxutuxxtx8ttxiutx7txt7xt8xtx7t8xxy8c8yy8cyc88yc8ycy8cy8c8cyy8c8cyt8cyc8",
-              addressType: "Home",
-              country: "India",
-              defaultAddress: false,
-              firstName: "Nidhi",
-              id: "9176675450903",
-              lastName: "Upretu",
-              phone: "918475950662",
-              postalcode: "110001",
-              shippingFlag: true,
-              state: "Delhi",
-              town: "New Delhi"
-            },
-            giftCardStatus: "FAILED",
-            isEgvOrder: true,
-            orderDate: "2019-12-13T16:04:11+0530",
-            orderId: "300005176",
-            EDDBreachMessage:
-              "This field will contain the exact message to be shown in case of EDD breach",
-            products: [
-              {
-                USSID: "8801402979558",
-                changeDeliveryMode: false,
-                displayStatusName: "Payment Confirmation Failed",
-                imageURL:
-                  "//assetsuat6-tcs.tataunistore.com/medias/sys_master/images/12212683669534.jpg",
-                isGiveAway: "N",
-                isTrackable: false,
-                orderStatusCode: "RMS_VERIFICATION_FAILED",
-                orderStatusName: "RMS verification Failed",
-                price: "500.0",
-                productName: "Gift Card",
-                productcode: "880140297",
-                sellerID: "855995",
-                sellerName: "Qwikcilver"
-              }
-            ],
-            resendAttemptedCount: 0,
-            resendAvailable: false,
-            totalFinalPayableOrderAmount: "₹500.00"
-          },
-          {
-            deliveryAddress: {
-              addressLine1:
-                "Cfycfyygccyccygugugcguxtxutuxxtx8ttxiutx7txt7xt8xtx7t8xxy8c8yy8cyc88yc8ycy8cy8c8cyy8c8cyt8cyc8",
-              addressType: "Home",
-              country: "India",
-              defaultAddress: false,
-              firstName: "Nidhi",
-              id: "9176304091159",
-              lastName: "Upretu",
-              phone: "918475950662",
-              postalcode: "110001",
-              shippingFlag: true,
-              state: "Delhi",
-              town: "New Delhi"
-            },
-            isEgvOrder: false,
-            orderDate: "2019-12-02T13:42:56+0530",
-            orderId: "300004181",
-            EDDBreachMessage:
-              "This field will contain the exact message to be shown in case of EDD breach",
-            products: [
-              {
-                USSID: "124204OTHAC",
-                calloutMessage: "Estimated Delivery Date 04 Dec 2019",
-                changeDeliveryMode: false,
-                deliveryMode: "",
-                displayStatusName: "Order in Process",
-                imageURL:
-                  "//pcmtmppprd.tataunistore.com/images/i2/97Wx144H/MP000000004209013_97Wx144H_20180210151222.jpeg",
-                isGiveAway: "N",
-                isRTSOnceRetInit: false,
-                isTrackable: true,
-                orderStatusCode: "PICK_CONFIRMED",
-                orderStatusName: "Pick Confirmed",
-                price: "1949.0",
-                productName: "OTHER AC",
-                productcode: "MP000000004209013",
-                sellerID: "124204",
-                sellerName: "Hmesell",
-                transactionId: "124204001904629"
-              }
-            ],
-            resendAttemptedCount: 0,
-            resendAvailable: false,
-            totalFinalPayableOrderAmount: "₹1949.00"
-          },
-          {
-            deliveryAddress: {
-              addressLine1:
-                "Cfycfyygccyccygugugcguxtxutuxxtx8ttxiutx7txt7xt8xtx7t8xxy8c8yy8cyc88yc8ycy8cy8c8cyy8c8cyt8cyc8",
-              addressType: "Home",
-              country: "India",
-              defaultAddress: false,
-              firstName: "Nidhi",
-              id: "9176303861783",
-              lastName: "Upretu",
-              phone: "918475950662",
-              postalcode: "110001",
-              shippingFlag: true,
-              state: "Delhi",
-              town: "New Delhi"
-            },
-            isEgvOrder: false,
-            orderDate: "2019-12-02T13:28:06+0530",
-            orderId: "300004179",
-            EDDBreachMessage:
-              "This field will contain the exact message to be shown in case of EDD breach",
-            products: [
-              {
-                USSID: "124204TMHBBLBSSB01",
-                calloutMessage: "Estimated Delivery Date 04 Dec 2019",
-                changeDeliveryMode: false,
-                deliveryMode: "",
-                displayStatusName: "Order in Process",
-                imageURL:
-                  "//assetsuat6-tcs.tataunistore.com/medias/sys_master/images/12209817354270.jpg",
-                isGiveAway: "N",
-                isRTSOnceRetInit: false,
-                isTrackable: true,
-                orderStatusCode: "PICK_CONFIRMED",
-                orderStatusName: "Pick Confirmed",
-                price: "15.0",
-                productColour: "#808080",
-                productColourName: "Grey",
-                productName: "Ethnicity Fabric Bedding Set - Pink",
-                productSize: "California King",
-                productcode: "MP000000002213566",
-                sellerID: "124204",
-                sellerName: "Hmesell",
-                transactionId: "124204001904627"
-              }
-            ],
-            resendAttemptedCount: 0,
-            resendAvailable: false,
-            totalFinalPayableOrderAmount: "₹15.00"
-          }
-        ],
-        pageSize: 3,
-        totalNoOfOrders: 15
-      };
- */
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -3118,166 +2984,10 @@ export function fetchOrderDetails(orderId, pageName) {
           JSON.parse(userDetails).userName
         }/getSelectedOrder_V1/${orderId}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`
+        }&isPwa=true&isMDE=true`
       );
       let resultJson = await result.json();
-      /* resultJson = {
-        type: "orderTrackingWsDTO",
-        status: "Success",
-        cliqCashAmountDeducted: 0,
-        convenienceCharge: "0.0",
-        deliveryAddress: {
-          addressLine1:
-            "Cfycfyygccyccygugugcguxtxutuxxtx8ttxiutx7txt7xt8xtx7t8xxy8c8yy8cyc88yc8ycy8cy8c8cyy8c8cyt8cyc8",
-          addressType: "Home",
-          country: "India",
-          defaultAddress: false,
-          firstName: "Nidhi",
-          id: "9176303861783",
-          lastName: "Upretu",
-          phone: "918475950662",
-          postalcode: "110001",
-          shippingFlag: true,
-          state: "Delhi",
-          town: "New Delhi"
-        },
-        deliveryCharge: "0.0",
-        giftWrapCharge: "0",
-        isCDA: true,
-        isEgvOrder: false,
-        isPickupUpdatable: false,
-        isWalletPay: false,
-        juspayAmountDeducted: 15,
-        orderAmount: {
-          bagTotal: {
-            currencyIso: "INR",
-            doubleValue: 15,
-            formattedValue: "₹15.00",
-            formattedValueNoDecimal: "₹15",
-            priceType: "BUY",
-            value: 15
-          },
-          paybleAmount: {
-            currencyIso: "INR",
-            doubleValue: 15,
-            formattedValue: "₹15.00",
-            formattedValueNoDecimal: "₹15",
-            priceType: "BUY",
-            value: 15
-          },
-          totalDiscountAmount: {
-            currencyIso: "INR",
-            doubleValue: 0,
-            formattedValue: "₹0.00",
-            formattedValueNoDecimal: "₹0",
-            priceType: "BUY",
-            value: 0
-          }
-        },
-        orderDate: "2019-12-02T13:28:06+0530",
-        orderId: "300004179",
-        paymentMethod: "COD",
-        products: [
-          {
-            USSID: "124204TMHBBLBSSB01",
-            awbPopupLink: "N",
-            cancel: true,
-            categoryHierarchy: [
-              { category_id: "MSH22", category_name: "Home" },
-              { category_id: "MSH2213", category_name: "Bed Linen" },
-              { category_id: "MSH2213101", category_name: "Bed Sheets" }
-            ],
-            consignmentStatus: "PICK_CONFIRMED",
-            eddBreechMessage:
-              "This field will contain the exact message to be shown in case of EDD breach for getselected order details call",
-            estimateddeliverydate: "Dec 04 2019",
-            exchangePolicy: "0",
-            fulfillment: "tship",
-            imageURL:
-              "//assetsuat6-tcs.tataunistore.com/medias/sys_master/images/12209817354270.jpg",
-            isGiveAway: "N",
-            isInvoiceAvailable: false,
-            isReturnCancelable: false,
-            isReturned: false,
-            price: "15.0",
-            productBrand: "TYD",
-            productColour: "#808080",
-            productColourName: "Grey",
-            productName: "Ethnicity Fabric Bedding Set - Pink",
-            productSize: "California King",
-            productcode: "MP000000002213566",
-            returnPolicy: "7",
-            reverseLogisticName: "null",
-            selectedDeliveryMode: {
-              code: "home-delivery",
-              deliveryCost: "0.0",
-              desc: "Delivered in 3-6 days",
-              name: "Home Delivery"
-            },
-            selfCourierDocumentLink:
-              "http://uat6-tcs.tataunistore.com:80/my-account/returns/returnFileDownload?orderCode=191202-002-342242&transactionId=124204001904627",
-            sellerID: "124204",
-            sellerName: "Hmesell",
-            sellerorderno: "191202-002-342242",
-            serialno: "",
-            shipmentdetails: {
-              status: "NA",
-              statusDate: "2020-01-13T14:25:42+0530"
-            },
-            statusDisplay: "Order in Process",
-            statusDisplayMsg: [
-              {
-                key: "ORDER_CONFIRMED",
-                value: {
-                  customerFacingName: "Order Confirmed",
-                  statusList: [
-                    {
-                      currentFlag: true,
-                      responseCode: "PAYMENT_SUCCESSFUL",
-                      shipmentStatus: "Estimated Delivery Date",
-                      statusMessageList: [
-                        { date: "02 Dec 2019", time: "01:28 PM" }
-                      ]
-                    },
-                    {
-                      currentFlag: true,
-                      responseCode: "ORDER_ALLOCATED",
-                      shipmentStatus: "Estimated Delivery Date",
-                      statusMessageList: [
-                        { date: "02 Dec 2019", time: "01:28 PM" }
-                      ]
-                    }
-                  ]
-                }
-              },
-              {
-                key: "ORDER_IN_PROCESS",
-                value: {
-                  customerFacingName: "Order in Process",
-                  statusList: [
-                    {
-                      currentFlag: true,
-                      responseCode: "PICK_CONFIRMED",
-                      shipmentStatus: "Estimated Delivery Date",
-                      statusMessageList: [
-                        { date: "02 Dec 2019", time: "06:44 PM" }
-                      ]
-                    }
-                  ]
-                }
-              }
-            ],
-            transactionId: "124204001904627"
-          }
-        ],
-        recipientname: "Nidhi Upretu",
-        resendAttemptedCount: 0,
-        resendAvailable: false,
-        statusDisplay: "processing",
-        subTotal: "15.0",
-        totalDiscount: "0.0",
-        totalOrderAmount: "15.0"
-      }; */
+      // let resultJson = orderDetails;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -3314,7 +3024,7 @@ export function fetchOrderItemDetails(orderId, transactionId) {
           JSON.parse(userDetails).userName
         }/getSelectedTransaction/${orderId}/${transactionId}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`
+        }&isPwa=true&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -5277,5 +4987,106 @@ export function resetUserAddressAfterLogout() {
   return {
     type: RESET_USER_ADDRESS,
     status: SUCCESS
+  };
+}
+
+export function getExchangeCashbackDetailsRequest() {
+  return {
+    type: GET_EXCHANGE_CASHBACK_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getExchangeCashbackDetailsSuccess(exchangeCashbackDetails) {
+  return {
+    type: GET_EXCHANGE_CASHBACK_DETAILS_SUCCESS,
+    status: SUCCESS,
+    exchangeCashbackDetails
+  };
+}
+
+export function getExchangeCashbackDetailsFailure(error) {
+  return {
+    type: GET_EXCHANGE_CASHBACK_DETAILS_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+
+export function getExchangeCashbackDetails(parentOrderId) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getExchangeCashbackDetailsRequest());
+    try {
+      const result = await api.get(
+        `${PATH}/${
+          JSON.parse(userDetails).userName
+        }/getAccountInfoForExchange?parentOrderId=${parentOrderId}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getExchangeCashbackDetailsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getExchangeCashbackDetailsFailure(e.message));
+    }
+  };
+}
+
+export function submitExchangeCashbackDetailsRequest() {
+  return {
+    type: SUBMIT_EXCHANGE_CASHBACK_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function submitExchangeCashbackDetailsSuccess(cashbackDetails) {
+  return {
+    type: SUBMIT_EXCHANGE_CASHBACK_DETAILS_SUCCESS,
+    status: SUCCESS,
+    cashbackDetails
+  };
+}
+
+export function submitExchangeCashbackDetailsFailure(error) {
+  return {
+    type: SUBMIT_EXCHANGE_CASHBACK_DETAILS_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+
+export function submitExchangeCashbackDetails(orderId, cashbackDetails) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let cashbackDetailsData = new FormData();
+  Object.keys(cashbackDetails).forEach(key =>
+    cashbackDetailsData.append(key, cashbackDetails[key])
+  );
+  return async (dispatch, getState, { api }) => {
+    dispatch(submitExchangeCashbackDetailsRequest());
+    try {
+      const result = await api.postFormData(
+        `${PATH}/${
+          JSON.parse(userDetails).userName
+        }/submitExchangePaymentInfo?orderId=${orderId}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }`,
+        cashbackDetailsData
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(submitExchangeCashbackDetailsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(submitExchangeCashbackDetailsFailure(e.message));
+    }
   };
 }

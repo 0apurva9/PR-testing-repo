@@ -273,7 +273,7 @@ export function getProductListings(
       let keyWordRedirect = currentKeywordRedirect
         ? currentKeywordRedirect
         : false;
-      let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true&channel=WEB`;
+      let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true&channel=WEB&isMDE=true`;
       if (suffix) {
         queryString = `${queryString}${suffix}`;
       }

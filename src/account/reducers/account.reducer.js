@@ -268,7 +268,17 @@ const account = (
     UserNotificationDetailsStatus: null,
     UserNotificationDetailsError: null,
     UserNotificationDetails: null,
-    UserNotificationConfig: null
+    UserNotificationConfig: null,
+
+    exchangeCashbackDetailsStatus: null,
+    exchangeCashbackDetailsLoading: false,
+    exchangeCashbackDetails: null,
+    exchangeCashbackDetailsError: null,
+
+    submitExchangeCashbackDetailsStatus: null,
+    submitExchangeCashbackDetailsLoading: false,
+    submitExchangeCashbackDetails: null,
+    submitExchangeCashbackDetailsError: null
   },
   action
 ) => {
@@ -1789,6 +1799,47 @@ const account = (
         userAddress: null,
         loading: false
       });
+
+    case accountActions.GET_EXCHANGE_CASHBACK_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        exchangeCashbackDetailsStatus: action.status,
+        exchangeCashbackDetailsLoading: true
+      });
+
+    case accountActions.GET_EXCHANGE_CASHBACK_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        exchangeCashbackDetailsStatus: action.status,
+        exchangeCashbackDetailsLoading: false,
+        exchangeCashbackDetails: action.exchangeCashbackDetails
+      });
+
+    case accountActions.GET_EXCHANGE_CASHBACK_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        exchangeCashbackDetailsStatus: action.status,
+        exchangeCashbackDetailsLoading: false,
+        exchangeCashbackDetailsError: action.error
+      });
+
+    case accountActions.SUBMIT_EXCHANGE_CASHBACK_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        submitExchangeCashbackDetailsStatus: action.status,
+        submitExchangeCashbackDetailsLoading: true
+      });
+
+    case accountActions.SUBMIT_EXCHANGE_CASHBACK_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        submitExchangeCashbackDetailsStatus: action.status,
+        submitExchangeCashbackDetailsLoading: false,
+        submitExchangeCashbackDetails: action.cashbackDetails
+      });
+
+    case accountActions.SUBMIT_EXCHANGE_CASHBACK_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        submitExchangeCashbackDetailsStatus: action.status,
+        submitExchangeCashbackDetailsLoading: false,
+        submitExchangeCashbackDetailsError: action.error
+      });
+
     default:
       return state;
   }

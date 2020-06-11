@@ -16,8 +16,7 @@ import {
   ANONYMOUS_USER,
   TIME_OUT_FOR_APIS,
   LOW_INTERNET_CONNECTION_MESSAGE,
-  CHANNEL,
-  SELECTED_STORE
+  CHANNEL
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -30,18 +29,23 @@ import {
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
   ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS
 } from "../../lib/adobeUtils.js";
-import each from "lodash.foreach";
+// import each from "lodash.foreach";
 import {
   showModal,
-  GO_TO_CART_PAGE_POPUP
+  PRODUCT_IN_BAG_MODAL
 } from "../../general/modal.actions.js";
 import { setBagCount } from "../../general/header.actions";
 import { setDataLayer, ADOBE_PDP_TYPE } from "../../lib/adobeUtils.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { isBrowser } from "browser-or-node";
+import { getCartCountForLoggedInUser } from "../../cart/actions/cart.actions.js";
+// import test from "../../mock/test.json";
+// import ed from "../../mock/exchangeDetails.json";
+// import pincodeResponse from "../../mock/pincodeResponse.json";
+// import imeijson from "../../mock/imei.json";
 
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
-import { displayToast, showToast } from "../../general/toast.actions.js";
+import { displayToast } from "../../general/toast.actions.js";
 export const SUBMIT_REVIEW_TEXT =
   "Thanks for submitting the review. Your review will start appearing shortly";
 export const PRODUCT_DESCRIPTION_REQUEST = "PRODUCT_DESCRIPTION_REQUEST";
@@ -182,6 +186,17 @@ export const GET_ALL_STORES_FOR_CLIQ_AND_PIQ_SUCCESS =
   "GET_ALL_STORES_FOR_CLIQ_AND_PIQ_SUCCESS";
 export const GET_ALL_STORES_FOR_CLIQ_AND_PIQ_FAILURE =
   "GET_ALL_STORES_FOR_CLIQ_AND_PIQ_FAILURE";
+
+export const EXCHANGE_DETAILS_REQUEST = "EXCHANGE_DETAILS_REQUEST";
+export const EXCHANGE_DETAILS_SUCCESS = "EXCHANGE_DETAILS_SUCCESS";
+export const EXCHANGE_DETAILS_FAILURE = "EXCHANGE_DETAILS_FAILURE";
+
+export const UPDATE_DETAILS_SUCCESS = "UPDATE_DETAILS_SUCCESS";
+
+export const CHECK_IMEI_NUMBER_REQUEST = "CHECK_IMEI_NUMBER_REQUEST";
+export const CHECK_IMEI_NUMBER_SUCCESS = "CHECK_IMEI_NUMBER_SUCCESS";
+export const CHECK_IMEI_NUMBER_FAILURE = "CHECK_IMEI_NUMBER_FAILURE";
+
 export const SHOW_PDP_PIQ_PAGE = "showPdpPiqPage";
 export const HIDE_PDP_PIQ_PAGE = "hidePdpPiqPage";
 const ALL_STORES_FOR_CLIQ_AND_PIQ_PATH = "v2/mpl/allStores";
@@ -244,11 +259,10 @@ export function getProductDescription(
         }
       }, TIME_OUT_FOR_APIS);
       const result = await api.getMiddlewareUrl(
-        `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
+        `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true&isMDE=true`
       );
-
-      let resultJson = await result.json();
-
+      const resultJson = await result.json();
+      // const resultJson = test;
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
@@ -352,7 +366,8 @@ export function getProductPinCode(
   productCode,
   winningUssID,
   isComingFromPiqPage,
-  isFirstTimeRender = false
+  isExchangeAvailable,
+  isComingFromClickEvent = false
 ) {
   let validProductCode = productCode.toUpperCase();
   if (pinCode) {
@@ -368,14 +383,24 @@ export function getProductPinCode(
       if (userDetails) {
         let userName = JSON.parse(userDetails).userName;
         let accessToken = JSON.parse(customerCookie).access_token;
-        url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}`;
+        if (isExchangeAvailable) {
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=true&isMDE=true`;
+        } else {
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false&isMDE=true`;
+        }
       } else {
         let userName = ANONYMOUS_USER;
         let accessToken = JSON.parse(globalCookie).access_token;
-        url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}`;
+        if (isExchangeAvailable) {
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=true&isMDE=true`;
+        } else {
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false&isMDE=true`;
+        }
       }
-      let result = await api.post(url);
-      let resultJson = await result.json();
+      const result = await api.post(url);
+      const resultJson = await result.json();
+      // const resultJson = pincodeResponse;
+      // const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       let cncDeliveryModes = "";
       let getDeliveryModesByWinningUssid = "";
@@ -437,6 +462,14 @@ export function getProductPinCode(
           behavior: "smooth"
         });
       }
+      if (
+        !resultJson.productNotServiceabilityMessage ||
+        !resultJson.productOutOfStockMessage
+      ) {
+        if (isComingFromClickEvent && resultJson.isPickupAvailableForExchange) {
+          dispatch(displayToast("Exchange is serviceable at your pincode"));
+        }
+      }
       // if (pinCode) {
       //   localStorage.removeItem(SELECTED_STORE);
       // }
@@ -467,6 +500,9 @@ export function getProductPinCode(
             resultJson.listOfDataList &&
             resultJson.listOfDataList[0] &&
             resultJson.listOfDataList[0].value,
+          isPickupAvailableForExchange: resultJson.isPickupAvailableForExchange,
+          cashifyPickupCharge:
+            resultJson.pickupCharge && resultJson.pickupCharge.value,
           city: resultJson.city,
           productOutOfStockMessage: resultJson.productOutOfStockMessage,
           productNotServiceableMessage:
@@ -474,9 +510,9 @@ export function getProductPinCode(
           pincodeError
         })
       );
-      if (isComingFromPiqPage) {
-        dispatch(getAllStoresForCliqAndPiq());
-      }
+      // if (isComingFromPiqPage) {
+      //   dispatch(getAllStoresForCliqAndPiq());
+      // }
     } catch (e) {
       pinCode = "00000";
       setDataLayerForCartDirectCalls(
@@ -527,22 +563,110 @@ export function addProductToCart(productDetails) {
   let cartId = cartDetails ? JSON.parse(cartDetails).code : null;
 
   return async (dispatch, getState, { api }) => {
+    //get verify imei api response,check exchange avail or not,get product already in cart
+    let IMEIApiResponse = productDetails.verifyIMEINumberAPIResponse;
+    let disableNext = false;
+    await dispatch(getCartCountForLoggedInUser()).then(data => {
+      if (
+        data &&
+        data.status &&
+        data.status.toLowerCase() === "success" &&
+        data.cartDetails.products
+      ) {
+        let isProductInCart = data.cartDetails.products.find(val => {
+          return val.USSID === productDetails.ussId;
+        });
+        if (
+          isProductInCart &&
+          isProductInCart.exchangeDetails &&
+          productDetails.isFromMobileExchange
+        ) {
+          dispatch(
+            showModal(PRODUCT_IN_BAG_MODAL, {
+              isWithExchange: true
+            })
+          );
+          disableNext = true;
+        }
+        if (
+          isProductInCart &&
+          !isProductInCart.exchangeDetails &&
+          !productDetails.isFromMobileExchange
+        ) {
+          dispatch(showModal(PRODUCT_IN_BAG_MODAL));
+          disableNext = true;
+        }
+      }
+    });
+    if (disableNext) {
+      return false;
+    }
     dispatch(addProductToCartRequest());
     try {
-      const result = await api.post(
-        `${PRODUCT_DETAILS_PATH}/${userId}/carts/${
-          cartId ? cartId + "/" : ""
-        }productAdditionToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
-          productDetails.code
-        }&USSID=${productDetails.ussId}&quantity=${
-          productDetails.quantity
-        }&addedToCartWl=false&channel=${CHANNEL}`
-      );
+      let result;
+      // Checked with string as local storage returns as string format
+      // If exchange available and IMEI verified then only send exchange details
+      if (IMEIApiResponse && productDetails.isFromMobileExchange) {
+        let requestParams = {
+          quoteId: IMEIApiResponse.quoteId,
+          requestId: IMEIApiResponse.requestId,
+          quoteExpiryDate: IMEIApiResponse.quoteExpiryDate,
+          exchangeBrandId: IMEIApiResponse.exchangeBrandId,
+          exchangeBrandName: IMEIApiResponse.exchangeBrandName,
+          exchangeProductId: IMEIApiResponse.exchangeProductId,
+          exchangeModelName: IMEIApiResponse.exchangeModelName,
+          effectiveModelName: IMEIApiResponse.effectiveModelName,
+          exchangeAmountCashify: IMEIApiResponse.exchangeAmountCashify.value,
+          pickupCharge: IMEIApiResponse.pickupCharge.value,
+          totalExchangeCashback: IMEIApiResponse.totalExchangeCashback.value,
+          IMEINumber: IMEIApiResponse.IMEINumber
+        };
+        if (
+          IMEIApiResponse.effectiveAmount &&
+          IMEIApiResponse.effectiveAmount.value
+        ) {
+          requestParams.effectiveAmount = IMEIApiResponse.effectiveAmount.value;
+        }
+        if (IMEIApiResponse.TULBump && IMEIApiResponse.TULBump.value) {
+          requestParams.TULBump = IMEIApiResponse.TULBump.value;
+        }
+        result = await api.post(
+          `${PRODUCT_DETAILS_PATH}/${userId}/carts/${
+            cartId ? cartId + "/" : ""
+          }productAdditionToCart_V1?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
+            productDetails.code
+          }&USSID=${productDetails.ussId}&quantity=${
+            productDetails.quantity
+          }&addedToCartWl=false&channel=${CHANNEL}&isMDE=true`,
+          requestParams
+        );
+      } else {
+        //normal add to cart
+        result = await api.post(
+          `${PRODUCT_DETAILS_PATH}/${userId}/carts/${
+            cartId ? cartId + "/" : ""
+          }productAdditionToCart_V1?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&productCode=${
+            productDetails.code
+          }&USSID=${productDetails.ussId}&quantity=${
+            productDetails.quantity
+          }&addedToCartWl=false&channel=${CHANNEL}&isMDE=true`
+        );
+      }
       const resultJson = await result.json();
+      // const resultJson = addToCartError;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
+        if (
+          resultJson.errorCode === "EX05" ||
+          resultJson.errorCode === "NU011" ||
+          resultJson.errorCode === "EX06" ||
+          resultJson.errorCode === "B9069"
+        ) {
+          dispatch(displayToast(resultJson.error));
+        }
+        // throw new Error(resultJsonStatus.message);
+        return dispatch(addProductToCartFailure(resultJson.error));
       }
 
       //set local storage
@@ -559,7 +683,6 @@ export function addProductToCart(productDetails) {
       // here we dispatch a modal to show something was added to the bag
       dispatch(setBagCount(bagItemsInJsonFormat.length));
       setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT);
-
       return dispatch(addProductToCartSuccess(resultJson));
       // ADOBE_ADD_TO_CART
     } catch (e) {
@@ -1528,7 +1651,7 @@ export function getAllStoresForCliqAndPiq(
     dispatch(getAllStoresForCliqAndPiqRequest());
     try {
       const result = await api.get(
-        `${ALL_STORES_FOR_CLIQ_AND_PIQ_PATH}/${pinCode}?access_token=${accessToken}`
+        `${ALL_STORES_FOR_CLIQ_AND_PIQ_PATH}/${pinCode}?access_token=${accessToken}&isMDE=true`
       );
 
       const resultJson = await result.json();
@@ -1965,6 +2088,128 @@ export function relevantBundleProductCode() {
       return dispatch(relevantBundleProductCodeSuccess(resultJson));
     } catch (e) {
       dispatch(relevantBundleProductCodeFailure(e.message));
+    }
+  };
+}
+
+export function getExchangeDetailsRequest() {
+  return {
+    type: EXCHANGE_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getExchangeDetailsSuccess(data) {
+  return {
+    type: EXCHANGE_DETAILS_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function getExchangeDetailsFailure(error) {
+  return {
+    type: EXCHANGE_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getExchangeDetails(
+  listingId,
+  ussid,
+  maxExchangeAmount,
+  pickupCharge
+) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getExchangeDetailsRequest());
+    try {
+      const result = await api.getMiddlewareUrl(
+        `v2/mpl/products/exchangeDetails?listingId=${listingId}&ussid=${ussid}&maxExchangeAmount=${maxExchangeAmount}&pickUpCharge=${pickupCharge}`
+      );
+      const resultJson = await result.json();
+      // const resultJson = ed;
+      if (resultJson.status && resultJson.status.toLowerCase() === "success") {
+        return dispatch(getExchangeDetailsSuccess(resultJson));
+      } else {
+        throw new Error(`${resultJson.error}`);
+      }
+    } catch (e) {
+      return dispatch(getExchangeDetailsFailure(e.message));
+    }
+  };
+}
+
+export function updateProductState(data) {
+  return {
+    type: UPDATE_DETAILS_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function verifyIMEINumberRequest() {
+  return {
+    type: CHECK_IMEI_NUMBER_REQUEST,
+    status: REQUESTING
+  };
+}
+export function verifyIMEINumberSuccess(data) {
+  return {
+    type: CHECK_IMEI_NUMBER_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function verifyIMEINumberFailure(error) {
+  return {
+    type: CHECK_IMEI_NUMBER_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function verifyIMEINumber(
+  IMEINumber,
+  exchangeProductId,
+  exchangeAmountCashify,
+  tulBump: null,
+  pickUpCharge,
+  listingId,
+  ussId,
+  guid: null,
+  entry: null,
+  wishlistName: null
+) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(verifyIMEINumberRequest());
+    try {
+      let bodyParams = {
+        IMEINumber: IMEINumber,
+        exchangeProductId: exchangeProductId,
+        exchangeAmountCashify: exchangeAmountCashify,
+        pickUpCharge: pickUpCharge,
+        listingId: listingId,
+        ussid: ussId
+      };
+      if (tulBump) {
+        bodyParams.tulBump = tulBump;
+      }
+      if (guid && entry) {
+        bodyParams.guid = guid;
+        bodyParams.entry = entry;
+      }
+      if (wishlistName) {
+        bodyParams.wishlistName = wishlistName;
+      }
+      const result = await api.post(`v2/mpl/verifyIMEINumber`, bodyParams);
+      const resultJson = await result.json();
+      // const resultJson = imeijson;
+      // if (resultJson.status === SUCCESS) {
+      //   return dispatch(verifyIMEINumberSuccess(resultJson));
+      // }
+      return resultJson;
+    } catch (e) {
+      return dispatch(verifyIMEINumberFailure(e.message));
     }
   };
 }

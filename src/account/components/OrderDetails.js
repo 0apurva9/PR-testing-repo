@@ -21,6 +21,7 @@ import { Redirect } from "react-router-dom";
 import Icon from "../../xelpmoc-core/Icon";
 import Button from "../../general/components/Button";
 import RetryPaymentIcon from "./img/payment_retry.svg";
+import ExchangeDetailsOrderDetails from "./ExchangeDetailsOrderDetails";
 import {
   CASH_ON_DELIVERY,
   ORDER_PREFIX,
@@ -56,7 +57,9 @@ import {
   ADOBE_REQUEST_INVOICE_LINK_CLICKED,
   ADOBE_HELP_SUPPORT_LINK_CLICKED,
   ADOBE_RETURN_JOURNEY_INITIATED,
-  ADOBE_MY_ACCOUNT_RETURN_CANCEL
+  ADOBE_MY_ACCOUNT_RETURN_CANCEL,
+  ADOBE_MDE_CLICK_ON_CANCEL_WITH_EXCHANGE,
+  ADOBE_MDE_CLICK_ON_RETURN_WITH_EXCHANGE
 } from "../../lib/adobeUtils";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import * as UserAgent from "../../lib/UserAgent.js";
@@ -100,7 +103,7 @@ export default class OrderDetails extends React.Component {
   backToOrderHistory() {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`);
   }
-  replaceItem(sellerorderno, paymentMethod, transactionId) {
+  replaceItem(sellerorderno, paymentMethod, transactionId, exchangeDetails) {
     sessionStorage.setItem("returnTransactionId", transactionId);
     if (sellerorderno) {
       let isCOD = false;
@@ -113,6 +116,9 @@ export default class OrderDetails extends React.Component {
       }
       setDataLayer(ADOBE_RETURN_LINK_CLICKED);
       setDataLayer(ADOBE_RETURN_JOURNEY_INITIATED);
+      if (exchangeDetails) {
+        setDataLayer(ADOBE_MDE_CLICK_ON_RETURN_WITH_EXCHANGE);
+      }
       this.props.history.push({
         pathname: `${RETURNS_PREFIX}/${sellerorderno}${RETURN_LANDING}${RETURNS_REASON}`,
         state: {
@@ -130,8 +136,18 @@ export default class OrderDetails extends React.Component {
     data.transactionId = transactionId;
     this.props.showReturnModal(data);
   }
-  cancelItem(transactionId, ussid, orderCode, orderId, orderDate) {
+  cancelItem(
+    transactionId,
+    ussid,
+    orderCode,
+    orderId,
+    orderDate,
+    exchangeDetails
+  ) {
     setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL);
+    if (exchangeDetails) {
+      setDataLayer(ADOBE_MDE_CLICK_ON_CANCEL_WITH_EXCHANGE);
+    }
     this.props.history.push({
       pathname: `${CANCEL}/${orderCode}`,
       state: {
@@ -466,6 +482,7 @@ export default class OrderDetails extends React.Component {
       }
     }
   };
+
   render() {
     if (this.props.loadingForFetchOrderDetails) {
       this.props.showSecondaryLoader();
@@ -674,6 +691,7 @@ export default class OrderDetails extends React.Component {
                 ) {
                   hideEIETrackDiagram = true;
                 }
+
                 return (
                   <React.Fragment key={i}>
                     <div className={styles.order} key={i}>
@@ -735,7 +753,6 @@ export default class OrderDetails extends React.Component {
                         storeDetails={products && products.storeDetails}
                         isOrderDetails={true}
                         paymentMethod={orderDetails.paymentMethod}
-                        statusDisplayMsg={products.statusDisplayMsg}
                         phoneNumber={orderDetails.pickupPersonMobile}
                         soldBy={products.sellerName}
                         //isCncToHd={true}
@@ -796,6 +813,15 @@ export default class OrderDetails extends React.Component {
                           </div>
                         </div>
                       )}
+
+                      {products.exchangeDetails && (
+                        <ExchangeDetailsOrderDetails
+                          products={products}
+                          orderDetails={orderDetails}
+                          history={this.props.history}
+                        />
+                      )}
+
                       {products.consignmentStatus &&
                         products.consignmentStatus != "ORDER_ALLOCATED" &&
                         products.consignmentStatus != "PACKED" &&
@@ -1079,7 +1105,11 @@ export default class OrderDetails extends React.Component {
                                       products.USSID,
                                       products.sellerorderno,
                                       orderDetails.orderId,
-                                      format(orderDetails.orderDate, dateFormat)
+                                      format(
+                                        orderDetails.orderDate,
+                                        dateFormat
+                                      ),
+                                      products.exchangeDetails
                                     )
                                   }
                                 >
@@ -1094,7 +1124,8 @@ export default class OrderDetails extends React.Component {
                                       this.replaceItem(
                                         products.sellerorderno,
                                         orderDetails.paymentMethod,
-                                        products.transactionId
+                                        products.transactionId,
+                                        products.exchangeDetails
                                       )
                                     }
                                   >
@@ -1201,7 +1232,11 @@ export default class OrderDetails extends React.Component {
                                       products.USSID,
                                       products.sellerorderno,
                                       orderDetails.orderId,
-                                      format(orderDetails.orderDate, dateFormat)
+                                      format(
+                                        orderDetails.orderDate,
+                                        dateFormat
+                                      ),
+                                      products.exchangeDetails
                                     )
                                   }
                                 >

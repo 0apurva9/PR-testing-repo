@@ -36,6 +36,10 @@ import {
   renderMetaTagsWithoutSeoObject
 } from "../../lib/seoUtils";
 import { checkUserLoggedIn } from "../../lib/userUtils";
+import {
+  setDataLayer,
+  ADOBE_MDE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER
+} from "../../lib/adobeUtils";
 const PRODUCT_QUANTITY = "1";
 const PRICE_LOW_TO_HIGH = "Price Low - High";
 const PRICE_HIGH_TO_LOW = "Price High - Low";
@@ -160,19 +164,23 @@ class ProductSellerPage extends Component {
       const productDetailsResponse = await this.props.getProductDescription(
         productCode
       );
-
-      if (
-        !this.props.serviceablePincodeList &&
-        productDetailsResponse &&
-        productDetailsResponse.status === SUCCESS
-      ) {
+      // on page reload required exchange related details so updated below condition
+      if (productDetailsResponse && productDetailsResponse.status === SUCCESS) {
         const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+        const exchangeAvailable =
+          productDetailsResponse.productDescription &&
+          productDetailsResponse.productDescription.exchangeAvailable;
         if (pinCode) {
-          this.props.getProductPinCode(pinCode, productCode);
+          this.props.getProductPinCode(
+            pinCode,
+            productCode,
+            null,
+            false,
+            exchangeAvailable,
+            false
+          );
         }
       }
-    } else {
-      //need to show error page
     }
   }
   onSortByPrice(val) {
@@ -186,7 +194,7 @@ class ProductSellerPage extends Component {
 
   renderMetaTags = () => {
     const productDetails = this.props.productDetails;
-    return productDetails.seo
+    return productDetails && productDetails.seo
       ? renderMetaTags(productDetails)
       : renderMetaTagsWithoutSeoObject(productDetails);
   };
@@ -210,6 +218,49 @@ class ProductSellerPage extends Component {
     if (this.props.showPdpPiqPage) {
       this.setState({ winningUssID: ussId });
       this.props.showPdpPiqPage();
+    }
+  }
+  async openExchangeModal(data) {
+    let listingId = this.props.productDetails.productListingId;
+    let ussId = data && data.USSID;
+    let maxExchangeAmount =
+      data && data.maxExchangeAmount && data.maxExchangeAmount.value;
+    let pickupCharge = this.props.productDetails.cashifyPickupCharge;
+    let productName = this.props.productDetails.productName;
+    //call exchange details API
+    let response = await this.props.getExchangeDetails(
+      listingId,
+      ussId,
+      maxExchangeAmount,
+      pickupCharge
+    );
+    // if brand n model details are present then only show exchange modal
+    if (
+      response &&
+      response.status &&
+      response.status.toLowerCase() === "success" &&
+      response.data &&
+      response.data.makeModelDetails
+    ) {
+      this.props.showExchangeModal({
+        exchangeDetails: this.props.exchangeDetails,
+        productName: productName,
+        listingId: listingId,
+        ussId: ussId
+      });
+      setDataLayer(ADOBE_MDE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER);
+    }
+    // if brand n model details are not avail show toast
+    if (
+      response &&
+      response.status &&
+      response.status.toLowerCase() === "success" &&
+      response.data &&
+      !response.data.makeModelDetails
+    ) {
+      this.props.displayToast(
+        "Exchange cannot be processed right now. Please try again after sometime"
+      );
     }
   }
   render() {
@@ -299,6 +350,7 @@ class ProductSellerPage extends Component {
 
     const mobileGalleryImages =
       this.props.productDetails &&
+      this.props.productDetails.galleryImagesList &&
       this.props.productDetails.galleryImagesList
         .map(galleryImageList => {
           return galleryImageList.galleryImages.filter(galleryImages => {
@@ -310,112 +362,116 @@ class ProductSellerPage extends Component {
             return image[0].value;
           }
         });
-    return (
-      mobileGalleryImages && (
-        <PdpFrame
-          goToCart={() => this.goToCart()}
-          displayToast={message => this.props.displayToast(message)}
-          addProductToBag={buyNowFlag => this.addToCart(buyNowFlag)}
-          gotoPreviousPage={() => this.gotoPreviousPage()}
-        >
-          {this.renderMetaTags()}
 
-          <div className={styles.base}>
-            <ProductDetailsCard
-              productImage={mobileGalleryImages[0]}
-              productName={this.props.productDetails.productName}
-              brandName={this.props.productDetails.brandName}
-              price={
-                this.props.productDetails.winningSellerPrice
-                  .formattedValueNoDecimal
-              }
-              //priceDouble={this.props.productDetails.winningSellerPrice.doubleValue}
-              discountPrice={
-                this.props.productDetails.mrpPrice.formattedValueNoDecimal
-              }
-              //discountPriceDouble={this.props.productDetails.mrpPrice.doubleValue}
-              averageRating={this.props.productDetails.averageRating}
-              totalNoOfReviews={this.props.productDetails.productReviewsCount}
-              //totalNoOfReviews={this.props.productDetails.numberOfReviews}
-              onClickImage={() =>
-                this.onClickImage(
-                  this.props.productDetails &&
-                    this.props.productDetails.productListingId
-                )
-              }
-            />
-            <MobileOnly>
-              <div className={styles.OtherSeller}>Other sellers</div>
-              <div className={styles.priceWithSeller}>
-                <div className={styles.seller}>
-                  {actualSortedAvailableSeller.length} Other Sellers available
-                  starting at ₹{price}
-                </div>
-                <div className={styles.price}>
-                  <SelectBoxMobile2
-                    label={this.state.sortOption}
-                    height={30}
-                    onChange={val => this.onSortByPrice(val)}
-                    theme={"hollowBox"}
-                    arrowColour={"black"}
-                    value={this.state.sortOption}
-                    options={[
-                      {
-                        label: PRICE_LOW_TO_HIGH,
-                        value: PRICE_LOW_TO_HIGH
-                      },
-                      {
-                        label: PRICE_HIGH_TO_LOW,
-                        value: PRICE_HIGH_TO_LOW
-                      }
-                    ]}
-                  />
-                </div>
+    if (!this.props.productDetails) {
+      return null;
+    }
+
+    return (
+      <PdpFrame
+        goToCart={() => this.goToCart()}
+        displayToast={message => this.props.displayToast(message)}
+        addProductToBag={buyNowFlag => this.addToCart(buyNowFlag)}
+        gotoPreviousPage={() => this.gotoPreviousPage()}
+      >
+        {this.renderMetaTags()}
+
+        <div className={styles.base}>
+          <ProductDetailsCard
+            productImage={mobileGalleryImages && mobileGalleryImages[0]}
+            productName={this.props.productDetails.productName}
+            brandName={this.props.productDetails.brandName}
+            price={
+              this.props.productDetails.winningSellerPrice
+                .formattedValueNoDecimal
+            }
+            //priceDouble={this.props.productDetails.winningSellerPrice.doubleValue}
+            discountPrice={
+              this.props.productDetails.mrpPrice.formattedValueNoDecimal
+            }
+            //discountPriceDouble={this.props.productDetails.mrpPrice.doubleValue}
+            averageRating={this.props.productDetails.averageRating}
+            totalNoOfReviews={this.props.productDetails.productReviewsCount}
+            //totalNoOfReviews={this.props.productDetails.numberOfReviews}
+            onClickImage={() =>
+              this.onClickImage(
+                this.props.productDetails &&
+                  this.props.productDetails.productListingId
+              )
+            }
+          />
+          <MobileOnly>
+            <div className={styles.OtherSeller}>Other sellers</div>
+            <div className={styles.priceWithSeller}>
+              <div className={styles.seller}>
+                {actualSortedAvailableSeller.length} Other Sellers available
+                starting at ₹{price}
               </div>
-              <div>
-                {actualSortedAvailableSeller && (
-                  <SellerWithMultiSelect
-                    limit={1}
-                    onSelect={val => {
-                      this.selectSeller(val);
-                    }}
-                  >
-                    {actualSortedAvailableSeller.map((value, index) => {
-                      return (
-                        <SellerCard
-                          heading={value.sellerName}
-                          priceTitle={PRICE_TEXT}
-                          discountPrice={
-                            value.specialPriceSeller.formattedValueNoDecimal
-                          }
-                          price={value.mrpSeller.formattedValueNoDecimal}
-                          offerText={OFFER_AVAILABLE}
-                          deliveryText={DELIVERY_INFORMATION_TEXT}
-                          hasCod={value.isCOD === "Y"}
-                          hasEmi={value.isEMIEligible === "Y"}
-                          eligibleDeliveryModes={value.eligibleDeliveryModes}
-                          deliveryModesATP={value.eligibleDeliveryModes}
-                          cashText={CASH_TEXT}
-                          policyText={DELIVERY_RATES}
-                          key={index}
-                          value={value}
-                          serviceablePincodeList={
-                            this.props.serviceablePincodeList
-                          }
-                          updateOtherSellerUssID={ussid =>
-                            this.updateOtherSellerUssID(ussid)
-                          }
-                          showPdpPiqPage={this.props.showPdpPiqPage}
-                          getAllStoresForCliqAndPiq={
-                            this.props.getAllStoresForCliqAndPiq
-                          }
-                        />
-                      );
-                    })}
-                  </SellerWithMultiSelect>
-                )}
+              <div className={styles.price}>
+                <SelectBoxMobile2
+                  label={this.state.sortOption}
+                  height={30}
+                  onChange={val => this.onSortByPrice(val)}
+                  theme={"hollowBox"}
+                  arrowColour={"black"}
+                  value={this.state.sortOption}
+                  options={[
+                    {
+                      label: PRICE_LOW_TO_HIGH,
+                      value: PRICE_LOW_TO_HIGH
+                    },
+                    {
+                      label: PRICE_HIGH_TO_LOW,
+                      value: PRICE_HIGH_TO_LOW
+                    }
+                  ]}
+                />
               </div>
-              {/*As of now unavailable sellers won't be shown in other seller page to reflect the same
+            </div>
+            <div>
+              {actualSortedAvailableSeller && (
+                <SellerWithMultiSelect
+                  limit={1}
+                  onSelect={val => {
+                    this.selectSeller(val);
+                  }}
+                >
+                  {actualSortedAvailableSeller.map((value, index) => {
+                    return (
+                      <SellerCard
+                        heading={value.sellerName}
+                        priceTitle={PRICE_TEXT}
+                        discountPrice={
+                          value.specialPriceSeller.formattedValueNoDecimal
+                        }
+                        price={value.mrpSeller.formattedValueNoDecimal}
+                        offerText={OFFER_AVAILABLE}
+                        deliveryText={DELIVERY_INFORMATION_TEXT}
+                        hasCod={value.isCOD === "Y"}
+                        hasEmi={value.isEMIEligible === "Y"}
+                        eligibleDeliveryModes={value.eligibleDeliveryModes}
+                        deliveryModesATP={value.eligibleDeliveryModes}
+                        cashText={CASH_TEXT}
+                        policyText={DELIVERY_RATES}
+                        key={index}
+                        value={value}
+                        serviceablePincodeList={
+                          this.props.serviceablePincodeList
+                        }
+                        updateOtherSellerUssID={ussid =>
+                          this.updateOtherSellerUssID(ussid)
+                        }
+                        showPdpPiqPage={this.props.showPdpPiqPage}
+                        getAllStoresForCliqAndPiq={
+                          this.props.getAllStoresForCliqAndPiq
+                        }
+                      />
+                    );
+                  })}
+                </SellerWithMultiSelect>
+              )}
+            </div>
+            {/*As of now unavailable sellers won't be shown in other seller page to reflect the same
               behaviour as in ios and android apps.
               {sortedUnAvailableSellers && (
                 <div>
@@ -454,100 +510,102 @@ class ProductSellerPage extends Component {
                   })}
                 </div>
               )} */}
-            </MobileOnly>
-            <DesktopOnly>
-              <div className={styles.OtherSellerHolder}>
-                <div className={styles.OtherSellerHolderWithText}>
-                  <div className={styles.headerWrapper}>
-                    <div className={styles.headerWithSellerAvailable}>
-                      <div className={styles.header}>Other sellers</div>
-                      <div className={styles.availableSeller}>
-                        {actualSortedAvailableSeller.length} Other Sellers
-                        available starting at ₹ {price}
-                      </div>
-                    </div>
-                    <div className={styles.dropdownWithButton}>
-                      <div className={styles.dropdown}>
-                        <div className={styles.dropDownBox}>
-                          <SelectBoxMobile2
-                            label={this.state.sortOption}
-                            height={35}
-                            onChange={val => this.onSortByPrice(val)}
-                            value={this.state.sortOption}
-                            arrowColour={"black"}
-                            options={[
-                              {
-                                label: PRICE_LOW_TO_HIGH,
-                                value: PRICE_LOW_TO_HIGH
-                              },
-                              {
-                                label: PRICE_HIGH_TO_LOW,
-                                value: PRICE_HIGH_TO_LOW
-                              }
-                            ]}
-                          />
-                        </div>
-                      </div>
+          </MobileOnly>
+          <DesktopOnly>
+            <div className={styles.OtherSellerHolder}>
+              <div className={styles.OtherSellerHolderWithText}>
+                <div className={styles.headerWrapper}>
+                  <div className={styles.headerWithSellerAvailable}>
+                    <div className={styles.header}>Other sellers</div>
+                    <div className={styles.availableSeller}>
+                      {actualSortedAvailableSeller.length} Other Sellers
+                      available starting at ₹ {price}
                     </div>
                   </div>
-                  <div className={styles.sellerCardHeader}>
-                    <div className={styles.sellerCardHeaderText}>
-                      Seller’s Name
-                    </div>
-                    <div className={styles.sellerCardHeaderText}>Price</div>
-                    <div className={styles.sellerCardHeaderText}>
-                      Delivery Information
-                    </div>
-                    <div className={styles.sellerCardHeaderText}>
-                      Buying option
-                    </div>
-                  </div>
-                  {actualSortedAvailableSeller &&
-                    actualSortedAvailableSeller.map((value, index) => {
-                      return (
-                        <SellerCard
-                          heading={value.sellerName}
-                          priceTitle={PRICE_TEXT}
-                          discountPrice={
-                            value.specialPriceSeller.formattedValueNoDecimal
-                          }
-                          price={value.mrpSeller.formattedValueNoDecimal}
-                          offerText={OFFER_AVAILABLE}
-                          deliveryText={DELIVERY_INFORMATION_TEXT}
-                          hasCod={value.isCOD === "Y"}
-                          hasEmi={value.isEMIEligible === "Y"}
-                          eligibleDeliveryModes={value.eligibleDeliveryModes}
-                          deliveryModesATP={value.eligibleDeliveryModes}
-                          cashText={CASH_TEXT}
-                          policyText={DELIVERY_RATES}
-                          key={index}
-                          value={value}
-                          serviceablePincodeList={
-                            this.props.serviceablePincodeList
-                          }
-                          addToBag={() =>
-                            this.addToCartAccordingToTheUssid(value.USSID)
-                          }
-                          goToBag={() => this.goToCart()}
-                          productListingId={
-                            this.props.productDetails &&
-                            this.props.productDetails.productListingId
-                          }
-                          winningUssID={value.USSID}
-                          displayToast={message =>
-                            this.props.displayToast(message)
-                          }
-                          updateOtherSellerUssID={ussid =>
-                            this.updateOtherSellerUssID(ussid)
-                          }
-                          showPdpPiqPage={() => this.showQuiqPage(value.USSID)}
-                          getAllStoresForCliqAndPiq={
-                            this.props.getAllStoresForCliqAndPiq
-                          }
+                  <div className={styles.dropdownWithButton}>
+                    <div className={styles.dropdown}>
+                      <div className={styles.dropDownBox}>
+                        <SelectBoxMobile2
+                          label={this.state.sortOption}
+                          height={35}
+                          onChange={val => this.onSortByPrice(val)}
+                          value={this.state.sortOption}
+                          arrowColour={"black"}
+                          options={[
+                            {
+                              label: PRICE_LOW_TO_HIGH,
+                              value: PRICE_LOW_TO_HIGH
+                            },
+                            {
+                              label: PRICE_HIGH_TO_LOW,
+                              value: PRICE_HIGH_TO_LOW
+                            }
+                          ]}
                         />
-                      );
-                    })}
-                  {/*As of now unavailable sellers won't be shown in other seller page to reflect the same
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.sellerCardHeader}>
+                  <div className={styles.sellerCardHeaderText}>
+                    Seller’s Name
+                  </div>
+                  <div className={styles.sellerCardHeaderText}>Price</div>
+                  <div className={styles.sellerCardHeaderText}>
+                    Delivery Information
+                  </div>
+                  <div className={styles.sellerCardHeaderText}>
+                    Buying option
+                  </div>
+                </div>
+                {actualSortedAvailableSeller &&
+                  actualSortedAvailableSeller.map((value, index) => {
+                    return (
+                      <SellerCard
+                        heading={value.sellerName}
+                        priceTitle={PRICE_TEXT}
+                        discountPrice={
+                          value.specialPriceSeller.formattedValueNoDecimal
+                        }
+                        price={value.mrpSeller.formattedValueNoDecimal}
+                        offerText={OFFER_AVAILABLE}
+                        deliveryText={DELIVERY_INFORMATION_TEXT}
+                        hasCod={value.isCOD === "Y"}
+                        hasEmi={value.isEMIEligible === "Y"}
+                        eligibleDeliveryModes={value.eligibleDeliveryModes}
+                        deliveryModesATP={value.eligibleDeliveryModes}
+                        cashText={CASH_TEXT}
+                        policyText={DELIVERY_RATES}
+                        key={index}
+                        value={value}
+                        serviceablePincodeList={
+                          this.props.serviceablePincodeList
+                        }
+                        addToBag={() =>
+                          this.addToCartAccordingToTheUssid(value.USSID)
+                        }
+                        goToBag={() => this.goToCart()}
+                        productListingId={
+                          this.props.productDetails &&
+                          this.props.productDetails.productListingId
+                        }
+                        winningUssID={value.USSID}
+                        displayToast={message =>
+                          this.props.displayToast(message)
+                        }
+                        updateOtherSellerUssID={ussid =>
+                          this.updateOtherSellerUssID(ussid)
+                        }
+                        showPdpPiqPage={() => this.showQuiqPage(value.USSID)}
+                        getAllStoresForCliqAndPiq={
+                          this.props.getAllStoresForCliqAndPiq
+                        }
+                        exchangeAvailable={value.exchangeAvailable}
+                        openExchangeModal={() => this.openExchangeModal(value)}
+                      />
+                    );
+                  })}
+                {/*As of now unavailable sellers won't be shown in other seller page to reflect the same
                   behaviour as in ios and android apps.
                   {sortedUnAvailableSellers &&
                     sortedUnAvailableSellers.map((value, index) => {
@@ -583,12 +641,11 @@ class ProductSellerPage extends Component {
                         />
                       );
                     })} */}
-                </div>
               </div>
-            </DesktopOnly>
-          </div>
-        </PdpFrame>
-      )
+            </div>
+          </DesktopOnly>
+        </div>
+      </PdpFrame>
     );
   }
 }

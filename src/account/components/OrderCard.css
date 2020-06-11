@@ -70,6 +70,9 @@
 	display: inline-block;
 	word-wrap: break-word;
 }
+.productName{
+	line-height: normal;
+}
 .withCheckBox {
 	composes: productName;
 	position: relative;
@@ -287,6 +290,20 @@ display: none;
 	font-size: 16px;
 	padding-bottom: 21px;
 }
+.exchangeDetailsContainer{
+	margin-bottom: 15px;
+}
+.exchangeIconLight{
+	display: inline-block;
+	vertical-align: text-top;
+	width: 20px;
+	margin-right: 4px;
+}
+.exchangeProductText{
+	display: inline-block;
+	font-size: 14px;
+	font-family: light;
+}
 
 .breachMessage{
     font-size: 12px;
@@ -296,6 +313,22 @@ display: none;
 		/* padding-right: 150px; */
 		line-height: 1.2;
 		max-width: 85%;
+}
+
+.cancelExchangeMessage{
+	display: inline-block;
+	font-size: 12px;
+	color: #c47403;
+	font-family: light;
+	border-radius: 4px;
+	background-color: #fff2e0;
+	padding: 5px;
+	margin-top: 15px;
+}
+
+.divider{
+	border-top: 1px solid #d5d5d5;
+  margin-top: 10px;
 }
 
 @media screen and (min-width: 1025px) {
