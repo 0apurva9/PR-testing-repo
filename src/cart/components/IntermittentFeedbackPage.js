@@ -28,11 +28,9 @@ class IntermittentFeedbackPage extends Component {
     } = this.getUserDetails;
     let URL = "";
     if (deliveryMode) {
-      URL = `${FORWARD_FLOW_URL}originalUid=${originalUid}&transactionId=
-            ${transactionId}&deliveryMode=${deliveryMode}&rating=${ratingValue}`;
+      URL = `${FORWARD_FLOW_URL}originalUid=${originalUid}&transactionId=${transactionId}&deliveryMode=${deliveryMode}&rating=${ratingValue}`;
     } else {
-      URL = `${RETURN_FLOW_URL}originalUid=${originalUid}&transactionId=
-            ${transactionId}&returnType=${returnType}&rating=${ratingValue}`;
+      URL = `${RETURN_FLOW_URL}originalUid=${originalUid}&transactionId=${transactionId}&returnType=${returnType}&rating=${ratingValue}`;
     }
     this.props.history.push(URL);
   }
