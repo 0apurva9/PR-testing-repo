@@ -13,7 +13,6 @@ import {
   hideModal,
   CLIQ_CASH_SUCESS_MODULE
 } from "../../general/modal.actions";
-import { SUCCESS_CAMEL_CASE, SUCCESS_UPPERCASE } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
 
 const mapDispatchToProps = dispatch => {
@@ -31,25 +30,21 @@ const mapDispatchToProps = dispatch => {
       dispatch(showModal(POP_UP, data));
     },
     redeemCliqVoucher: cliqCashDetails => {
-      dispatch(redeemCliqVoucher(cliqCashDetails)).then(result => {
-        if (
-          result.status === "success" ||
-          result.status === SUCCESS_CAMEL_CASE ||
-          result.status === SUCCESS_UPPERCASE
-        ) {
-          dispatch(
-            showModal(CLIQ_CASH_SUCESS_MODULE, {
-              ...result,
-              showCliqCashModule: data => {
-                dispatch(showModal(CLIQ_CASH_MODULE, data));
-              }
-            })
-          );
-          dispatch(getCliqCashDetails());
-        } else {
-          dispatch(displayToast(result.error));
-        }
-      });
+      dispatch(redeemCliqVoucher(cliqCashDetails));
+      dispatch(getCliqCashDetails());
+    },
+    cliqCashSuccessModule: result => {
+      dispatch(
+        showModal(CLIQ_CASH_SUCESS_MODULE, {
+          ...result,
+          showCliqCashModule: data => {
+            dispatch(showModal(CLIQ_CASH_MODULE, data));
+          }
+        })
+      );
+    },
+    displayToast: error => {
+      dispatch(displayToast(error));
     }
   };
 };
@@ -61,7 +56,10 @@ const mapStateToProps = state => {
     checkBalanceStatus: state.profile.checkBalanceStatus,
     isModal: state.profile.isModal,
     loading: state.profile.loading,
-    userAddress: state.profile.userAddress
+    userAddress: state.profile.userAddress,
+    cliqCashVoucherDetailsStatus: state.profile.cliqCashVoucherDetailsStatus,
+    cliqCashVoucherDetails: state.profile.cliqCashVoucherDetails,
+    cliqCashVoucherDetailsError: state.profile.cliqCashVoucherDetailsError
   };
 };
 

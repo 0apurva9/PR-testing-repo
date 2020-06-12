@@ -10,9 +10,9 @@ import * as Cookie from "../../lib/Cookie";
 
 import FaqAndTcBase from "./FaqAndTcBase";
 import UserProfile from "./UserProfile";
-import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
+import { LOGGED_IN_USER_DETAILS, SUCCESS } from "../../lib/constants";
 import ExpiringCard from "./ExpiringCard";
-import PropTypes from "prop-types";
+import PropTypes, { string, number } from "prop-types";
 import { Link } from "react-router-dom";
 import giftCardImg from "./img/gift_card.jpg";
 
@@ -67,6 +67,23 @@ export default class CheckBalance extends Component {
       }
     }
   };
+
+  UNSAFE_componentWillReceiveProps(nextProps, nextState) {
+    if (
+      // this.state.redeemCliqVoucherCalled !== nextState.redeemCliqVoucherCalled &&
+      nextProps.cliqCashVoucherDetailsStatus &&
+      this.props.cliqCashVoucherDetailsStatus !==
+        nextProps.cliqCashVoucherDetailsStatus &&
+      nextProps.cliqCashVoucherDetailsStatus.toLowerCase() === SUCCESS
+    ) {
+      this.props.cliqCashSuccessModule({
+        cliqCashVoucherDetails: nextProps.cliqCashVoucherDetails
+      });
+      this.setState({ redeemCliqVoucherCalled: true });
+    } else if (nextProps.cliqCashVoucherDetailsStatus === "failure") {
+      this.props.displayToast(nextProps.cliqCashVoucherDetailsError);
+    }
+  }
 
   render() {
     let cardNumber = "";
@@ -156,14 +173,15 @@ CheckBalance.defaultProps = {
   isModal: true
 };
 CheckBalance.propTypes = {
-  loading: PropTypes.bool,
-  cardNumber: PropTypes.string,
-  originalValue: PropTypes.number,
-  expiryDate: PropTypes.string,
-  cliqCashUserDetails: PropTypes.object,
-  checkBalanceDetails: PropTypes.object,
-  transactionDetails: PropTypes.array,
-  showCliqCashModule: PropTypes.func,
+  checkBalanceDetails: PropTypes.shape({
+    cardNumber: string,
+    cardPin: string,
+    expiryDate: string,
+    amount: PropTypes.shape({
+      value: number
+    })
+  }),
+  showCliqCashModule: PropTypes.func.isRequired,
   userAddress: PropTypes.object,
-  redeemCliqVoucher: PropTypes.func
+  redeemCliqVoucher: PropTypes.func.isRequired
 };

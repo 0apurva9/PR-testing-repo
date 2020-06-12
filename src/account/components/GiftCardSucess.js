@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styles from "./GiftCardSucess.css";
 import Button from "../../general/components/Button";
-import PropTypes from "prop-types";
+import PropTypes, { string } from "prop-types";
 import { HOME_ROUTER } from "../../lib/constants";
 import {
   setDataLayerForCartDirectCalls,
@@ -17,7 +17,7 @@ export default class GiftCardSucess extends Component {
     const obj = {};
     obj.addCard = true;
     obj.btnLabel = "Add card";
-    this.props.showCliqCashModule();
+    this.props.showCliqCashModule(obj);
   };
 
   handleClick() {
@@ -78,5 +78,12 @@ export default class GiftCardSucess extends Component {
   }
 }
 GiftCardSucess.propTypes = {
-  closeModal: PropTypes.func
+  closeModal: PropTypes.func,
+  showCliqCashModule: PropTypes.func,
+  cliqCashVoucherDetails: PropTypes.shape({
+    totalCliqCashBalance: PropTypes.shape({
+      value: string
+    })
+  }),
+  history: PropTypes.object
 };
