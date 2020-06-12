@@ -885,7 +885,7 @@ export default class CustomerQueryForm extends Component {
                 <FloatingLabelInputWithPlace
                   placeholder={"Enter Mobile No"}
                   maxLength={"10"}
-                  disabled={this.state.mobile ? true : false}
+                  // disabled={this.state.mobile ? true : false}
                   value={this.state.mobile}
                   onChange={mobile => this.setState({ mobile: mobile })}
                   fontSize={"11px"}
