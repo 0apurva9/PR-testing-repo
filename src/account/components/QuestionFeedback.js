@@ -42,7 +42,13 @@ export default class QuestionFeedback extends Component {
     }
 
     return (
-      <div className={styles.questionAnswer}>
+      <div
+        className={
+          this.props.FAQquestion
+            ? styles.faqQuestionAnswer
+            : styles.otherQuestionAnswer
+        }
+      >
         {!this.props.FAQquestion && this.props.parentIssueType && (
           <div className={styles.prentIssueType}>
             {this.props.parentIssueType.replace("&amp;", "&")}
