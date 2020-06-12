@@ -165,7 +165,6 @@ export default class OrderRelatedIssue extends React.Component {
       );
       // if (submitOrderDetailsResponse.status === SUCCESS) {
       setTimeout(() => {
-        console.log("22222");
         if (submitOrderDetailsResponse.status === SUCCESS) {
           this.props.setSelfServeState(null);
           this.setState({ showLoader: false });

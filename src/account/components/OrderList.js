@@ -83,7 +83,7 @@ class OrderList extends Component {
                           <div className={styles.orderStatus}>
                             {orderData.products[0].statusDisplay == "Delivered"
                               ? "Delivered On: "
-                              : "Est. delivery date: "}
+                              : "Estimated Delivery Date: "}
                             :{" "}
                             <span className={styles.fontBold}>
                               {getDayNumberSuffix(orderData.products[0].EDD)}

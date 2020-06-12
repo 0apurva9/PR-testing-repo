@@ -248,7 +248,7 @@ class OrderListDetails extends Component {
                             {this.props.selectedOrder.products[0]
                               .statusDisplay == "Delivered"
                               ? "Delivered On: "
-                              : "Est. delivery date: "}{" "}
+                              : "Estimated Delivery Date: "}{" "}
                           </span>
                           {getDayNumberSuffix(
                             this.props.selectedOrder.products[0]

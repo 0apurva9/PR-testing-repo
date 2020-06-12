@@ -56,10 +56,10 @@ export default class AllOrdersList extends Component {
                     orderData.products[0].statusDisplay == "Item Packed" ||
                     orderData.products[0].statusDisplay == "Shipped" ||
                     orderData.products[0].statusDisplay == "Delivered" ? (
-                      <div className={styles.orderStatus}>
+                      <div className={styles.allOrderDate}>
                         {orderData.products[0].statusDisplay == "Delivered"
                           ? "Delivered On: "
-                          : "Est. delivery date: "}
+                          : "Estimated Delivery Date: "}
                         :{" "}
                         <span className={styles.fontBold}>
                           {getDayNumberSuffix(orderData.products[0].EDD)}

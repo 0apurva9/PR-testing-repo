@@ -378,6 +378,7 @@ export default class CustomerQueryForm extends Component {
 
     let validateStatus = false;
     if (currentStep == BASIC_FORM) {
+      window.scroll(0, 0);
       for (let obj of customerQueriesField) {
         validateStatus = this.formValidate(obj);
         if (!validateStatus) {
@@ -398,6 +399,7 @@ export default class CustomerQueryForm extends Component {
     }
 
     if (currentStep == ATTACHEMENT) {
+      window.scroll(0, 0);
       this.setState({
         attachment: false,
         communication: true,
@@ -425,6 +427,7 @@ export default class CustomerQueryForm extends Component {
       // }
     }
     if (currentStep == COMMUNICATION) {
+      window.scroll(0, 0);
       if (this.state.email && !EMAIL_REGULAR_EXPRESSION.test(email)) {
         this.props.displayToast(EMAIL_VALID_TEXT);
         return false;
@@ -736,7 +739,7 @@ export default class CustomerQueryForm extends Component {
         ].join(" ")}
       >
         <div className={styles.headerBox}>
-          {basicForm && <div className={styles.header}></div>}
+          {basicForm && <div className={styles.header}>Create your ticket</div>}
           {attachment && (
             <div className={styles.header}>
               Add attachements{" "}
