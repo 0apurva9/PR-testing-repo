@@ -137,7 +137,8 @@ export default class OrderRelatedIssue extends React.Component {
     }
   }
 
-  feedBackHelpFull() {
+  feedBackHelpFull(e) {
+    // e.preventDefault()
     this.setState({ isAnswerHelpFull: true });
   }
 
@@ -334,7 +335,13 @@ export default class OrderRelatedIssue extends React.Component {
   navigateHomePage() {
     this.props.history.push(HOME_ROUTER);
   }
-  HOME_ROUTER;
+  updateThanks() {
+    console.log("update");
+    this.setState({ isAnswerHelpFull: false });
+  }
+  navigateCliqCarePage() {
+    this.setState(this.resetState);
+  }
 
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -536,6 +543,8 @@ export default class OrderRelatedIssue extends React.Component {
                       }}
                       navigatePreviousPage={() => this.navigatePreviousPage()}
                       navigateHomePage={() => this.navigateHomePage()}
+                      updateThanks={() => this.updateThanks()}
+                      navigateCliqCarePage={() => this.navigateCliqCarePage()}
                     />
                   </div>
                 </div>

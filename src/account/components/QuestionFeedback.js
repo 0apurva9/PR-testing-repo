@@ -6,6 +6,9 @@ import styles from "./CustomerIssue.css";
 import { ORDER_CODE } from "../../lib/constants";
 
 export default class QuestionFeedback extends Component {
+  componentDidMount() {
+    // window.scroll(0, 0);
+  }
   constructor(props) {
     super(props);
   }
@@ -45,19 +48,21 @@ export default class QuestionFeedback extends Component {
             {this.props.parentIssueType.replace("&amp;", "&")}
           </div>
         )}
-
-        <div className={styles.question}>
-          {this.props.orderRelatedQuestion
-            ? this.props.question.issueType
-            : null}
-          {this.props.otherQuestion ? this.props.question.subIssueType : null}
-          {this.props.FAQquestion
+        {!this.props.FAQquestion && (
+          <div className={styles.question}>
+            {this.props.orderRelatedQuestion
+              ? this.props.question.issueType
+              : null}
+            {this.props.otherQuestion ? this.props.question.subIssueType : null}
+            {/* {this.props.FAQquestion
             ? this.props.question.question_component
-            : null}
-          {/* {this.props.isOrderRelatedQuestion
+            : null} */}
+            {/* {this.props.isOrderRelatedQuestion
             ? this.props.question.issueType
             : this.props.question.subIssueType} */}
-        </div>
+          </div>
+        )}
+
         {/* <div className={styles.propleLike}>
           <div className={styles.likeIcon}>
             <img src={likeIcon} alt="like" />

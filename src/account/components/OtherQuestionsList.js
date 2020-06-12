@@ -10,6 +10,9 @@ export default class OtherQuestionsList extends Component {
   constructor(props) {
     super(props);
   }
+  componentDidMount() {
+    window.scroll(0, 0);
+  }
 
   // image={
   //   this.state.parentIssueType== faq.FAQHeader?
@@ -28,19 +31,17 @@ export default class OtherQuestionsList extends Component {
               this.props.customerQueriesOtherIssueData.parentIssueList.map(
                 (parrentIssue, index) => {
                   let bgImage = "";
-                  if (parrentIssue.parentIssueType == "Website related") {
+                  if (parrentIssue.parentIssueType.includes("Website")) {
                     bgImage = website;
-                  }
-                  if (parrentIssue.parentIssueType == "Buying") {
+                  } else if (parrentIssue.parentIssueType.includes("Buying")) {
                     bgImage = buying;
-                  }
-                  if (parrentIssue.parentIssueType == "Selling") {
+                  } else if (parrentIssue.parentIssueType.includes("Selling")) {
                     bgImage = selling;
-                  }
-                  if (parrentIssue.parentIssueType == "Product related") {
+                  } else if (parrentIssue.parentIssueType.includes("Product")) {
                     bgImage = product;
-                  }
-                  if (parrentIssue.parentIssueType == "Promotions & Offers") {
+                  } else if (
+                    parrentIssue.parentIssueType.includes("Promotions")
+                  ) {
                     bgImage = promo;
                   } else {
                     bgImage = EGV;

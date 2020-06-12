@@ -4,6 +4,9 @@ import { getDayNumberSuffix } from "../../lib/dateTimeFunction";
 import Button from "../../general/components/Button.js";
 
 export default class AllOrdersList extends Component {
+  componentDidMount() {
+    window.scroll(0, 0);
+  }
   render() {
     return (
       <div className={styles.whiteCard}>

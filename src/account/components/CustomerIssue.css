@@ -360,3 +360,26 @@ margin-top: 20px;
   margin-bottom: 12px;
   cursor: pointer;
 }
+.accordianBox{
+  margin-top: 24px;
+}
+.faqHeading{font-size: 14px;
+color: #212121;
+font-family: light;
+padding-bottom: 16px;
+}
+.fontBold{
+  font-weight: semibold;
+}
+.parentIssueBox{
+  margin-bottom: 16px;
+}
+.parentIssue{
+  font-size: 16px;
+  color: #212121;
+  font-family: semibold;
+}
+.staticContent{
+  font-size: 14px;
+  font-family: light;
+}

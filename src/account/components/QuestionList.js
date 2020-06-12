@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import styles from "./CustomerIssue.css";
 
 export default class QuestionList extends Component {
+  componentDidMount() {
+    window.scroll(0, 0);
+  }
+
   render() {
     return (
       <div>

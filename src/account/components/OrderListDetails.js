@@ -28,9 +28,10 @@ class OrderListDetails extends Component {
     showFeedBack: false,
     // isAnswerHelpFull: false,
     currentQuestionIndex: 0,
-    nextQuestions: null
+    nextQuestions: null,
     // isQuesryForm:false,
-    // isQuesryForm:true
+    // isQuesryForm:true,
+    showFaqSolution: null
   };
 
   //   componentWillReceiveProps(){
@@ -41,6 +42,10 @@ class OrderListDetails extends Component {
   //     this.setState({nextQuestions:this.props.orderRelatedQuestionsData[1],currentQuestionIndex:1})
   //   }
   // }
+
+  componentDidMount() {
+    window.scroll(0, 0);
+  }
 
   selectQuestion(question, index) {
     this.setState({
@@ -95,14 +100,6 @@ class OrderListDetails extends Component {
   //     this.props.sendInvoice(lineID, orderNumber);
   //   }
   // }
-  navigateCliqCarePage() {
-    console.log("this.pro", this.props);
-    console.log("calll");
-    window.location.reload();
-    // this.props.history.push({
-    //   pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`
-    // });
-  }
 
   feedbak(question) {
     return (
@@ -123,6 +120,21 @@ class OrderListDetails extends Component {
         selectedOrder={this.props.selectedOrder}
       />
     );
+  }
+  showFaqSolutions(listOfIssue) {
+    // console.log("listOfIssue",listOfIssue);
+    //  if (this.state.showFaqSolution){
+    //     this.setState({showFaqSolution:null})
+    //   }
+    //   else{
+    //     this.setState({showFaqSolution:listOfIssue.question_component})
+    //   }
+    if (this.state.showFaqSolution != listOfIssue.question_component) {
+      console.log("fssssssssss");
+      this.props.updateThanks();
+    }
+
+    this.setState({ showFaqSolution: listOfIssue.question_component });
   }
 
   render() {
@@ -154,7 +166,7 @@ class OrderListDetails extends Component {
                     borderColor={""}
                     color={"#da1c5c"}
                     height={16}
-                    onClick={() => this.navigateCliqCarePage()}
+                    onClick={() => this.props.navigateCliqCarePage()}
                   />
                 ) : (
                   <Button
@@ -283,35 +295,43 @@ class OrderListDetails extends Component {
 
             {this.props.showFeedBack && this.feedbak(this.props.question)}
 
-            {this.props.FAQquestion &&
-              this.props.questionsList &&
-              this.props.questionsList.map(listOfIssue => {
-                return (
-                  <Accordian
-                    text={listOfIssue.question_component}
-                    arrowHide={true}
-                    headerFontSize={14}
-                  >
-                    {this.feedbak(listOfIssue)}
-                    {/* <QuestionFeedback
-                question={listOfIssue}
-                // isAnswerHelpFull={isAnswerHelpFull}
-                feedBackHelpFull={() => this.props.feedBackHelpFull()}
-                isAnswerHelpFull={this.props.isAnswerHelpFull}
-                moreHelps={() => this.props.moreHelps()}
-                // issueOptions={()=>this.isQuesryFormAction()}
-                showAllQuestion={() => this.showAllQuestion()}
-                nextQuestion={() => this.nextQuestion()}
-                // nextQuestions={nextQuestions}
-                orderRelatedQuestion={this.props.orderRelatedQuestion}
-                otherQuestion={this.props.otherQuestion}
-                FAQquestion={this.props.FAQquestion}
-                parentIssueType={listOfIssue.question_component}
-                selectedOrder={this.props.selectedOrder}
-              /> */}
-                  </Accordian>
-                );
-              })}
+            {this.props.FAQquestion && this.props.questionsList && (
+              <div className={styles.accordianBox}>
+                {/* {this.state.showParentIssue} */}
+                <div className={styles.parentIssueBox}>
+                  <span className={styles.parentIssue}>
+                    {this.props.parentIssueType.replace("&amp;", "&")}
+                  </span>{" "}
+                  <span
+                    className={styles.staticContent}
+                  >{`(Browse all help topics related to ${this.props.parentIssueType.replace(
+                    "&amp;",
+                    "&"
+                  )})`}</span>
+                </div>
+                {this.props.questionsList.map(listOfIssue => {
+                  return (
+                    <div>
+                      <div
+                        className={[
+                          styles.faqHeading,
+                          this.state.showFaqSolution ==
+                          listOfIssue.question_component
+                            ? styles.fontBold
+                            : null
+                        ].join(" ")}
+                        onClick={() => this.showFaqSolutions(listOfIssue)}
+                      >
+                        {listOfIssue.question_component}
+                      </div>
+                      {this.state.showFaqSolution ==
+                        listOfIssue.question_component &&
+                        this.feedbak(listOfIssue)}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
 
             {!this.props.FAQquestion && this.props.showQuestionList && (
               <div className={styles.orderRelatedIssueList}>

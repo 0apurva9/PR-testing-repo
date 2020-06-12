@@ -11,6 +11,9 @@ class OrderList extends Component {
   constructor(props) {
     super(props);
   }
+  componentDidMount() {
+    window.scroll(0, 0);
+  }
   renderToContinueShopping() {
     this.props.history.push(HOME_ROUTER);
   }

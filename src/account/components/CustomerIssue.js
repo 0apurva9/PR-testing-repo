@@ -7,6 +7,9 @@ import OrderList from "./OrderList";
 import OrderListDetails from "./OrderListDetails";
 import AllOrdersList from "./AllOrdersList";
 export default class CustomerIssue extends React.Component {
+  componentDidMount() {
+    window.scroll(0, 0);
+  }
   render() {
     return (
       <div>
@@ -114,6 +117,8 @@ export default class CustomerIssue extends React.Component {
                   this.props.sendInvoice(ussid, sellerOrderNo);
                 }}
                 navigatePreviousPage={() => this.props.navigatePreviousPage()}
+                updateThanks={() => this.props.updateThanks()}
+                navigateCliqCarePage={() => this.props.navigateCliqCarePage()}
               />
             )}
           </div>

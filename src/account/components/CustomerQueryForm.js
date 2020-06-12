@@ -63,6 +63,10 @@ export default class CustomerQueryForm extends Component {
     };
   }
 
+  componentDidMount() {
+    window.scroll(0, 0);
+  }
+
   componentWillReceiveProps(nextProps) {
     if (
       nextProps &&
@@ -888,12 +892,12 @@ export default class CustomerQueryForm extends Component {
                   onlyNumber={true}
                   onBlur={() => this.onBlur(true)}
                 />
-                <div
+                {/* <div
                   className={styles.updateNumber}
                   onClick={() => this.updateNumber()}
                 >
                   Change
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
