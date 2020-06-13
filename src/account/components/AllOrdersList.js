@@ -64,31 +64,33 @@ export default class AllOrdersList extends Component {
                         {orderData.products[0].statusDisplay}
                       </span>
                     </div>
-                    {orderData.products[0].pickUpDateCNC &&
-                    (orderData.products[0].statusDisplay === ORDER_IN_PROCESS ||
+                    {orderData.products[0].pickUpDateCNC ? (
                       orderData.products[0].statusDisplay ===
-                        READY_FOR_COLLECTION) ? (
-                      <div className={styles.orderStatus}>
-                        {PICKUP_DATE}&nbsp;
-                        <span className={styles.fontBold}>
-                          {getDayNumberSuffix(
-                            orderData.products[0].pickUpDateCNC,
-                            true
-                          )}
-                        </span>
-                      </div>
+                        ORDER_IN_PROCESS ||
+                      orderData.products[0].statusDisplay ===
+                        READY_FOR_COLLECTION ? (
+                        <div className={styles.orderStatus}>
+                          {PICKUP_DATE}&nbsp;
+                          <span className={styles.fontBold}>
+                            {getDayNumberSuffix(
+                              orderData.products[0].pickUpDateCNC,
+                              true
+                            )}
+                          </span>
+                        </div>
+                      ) : null
                     ) : (orderData.products[0].statusDisplay ===
-                        ORDER_CONFIRMED ||
-                        orderData.products[0].statusDisplay ===
-                          ORDER_IN_PROCESS ||
-                        orderData.products[0].statusDisplay === SHIPPED ||
-                        orderData.products[0].statusDisplay === ITEM_PACKED ||
-                        orderData.products[0].statusDisplay ===
-                          OUT_FOR_DELIVERY ||
-                        orderData.products[0].statusDisplay ===
-                          READY_FOR_COLLECTION) &&
-                      (orderData.products[0].EDD ||
-                        orderData.products[0].estimateddeliverydate) ? (
+                      ORDER_CONFIRMED ||
+                      orderData.products[0].statusDisplay ===
+                        ORDER_IN_PROCESS ||
+                      orderData.products[0].statusDisplay === SHIPPED ||
+                      orderData.products[0].statusDisplay === ITEM_PACKED ||
+                      orderData.products[0].statusDisplay ===
+                        OUT_FOR_DELIVERY ||
+                      orderData.products[0].statusDisplay ===
+                        READY_FOR_COLLECTION) &&
+                    (orderData.products[0].EDD ||
+                      orderData.products[0].estimateddeliverydate) ? (
                       <div className={styles.orderStatus}>
                         {ESTIMATED_DATE}&nbsp;
                         <span className={styles.fontBold}>
