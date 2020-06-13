@@ -523,6 +523,8 @@ export const SIMILAR_PRODUCTS_PDP_WIDGET = "SIMILAR_PRODUCTS_PDP_WIDGET";
 export const ADOBE_CAROUSEL_SWIPE = "ADOBE_CAROUSEL_SWIPE";
 export const ADOBE_CAROUSEL_CLICK = "ADOBE_CAROUSEL_CLICK";
 export const ADOBE_CAROUSEL_SHOW = "ADOBE_CAROUSEL_SHOW";
+export const TARGET_EVENT_FOR_PAYLOAD = "target_pageload_First";
+export const TARGET_EVENT_FOR_PAGEVIEW = "target_pageview_First";
 
 //Rating and Review
 const RATING_STAR_CLICK = "rating_Star_Click";
@@ -3545,6 +3547,7 @@ export function widgetsTrackingForRecommendation(widgetObject: {}) {
   if (currentDigitalData.cpj) {
     Object.assign(data, {
       page: {
+        ...currentDigitalData.page,
         widget: {
           name: `${widgetObject.productId ? widgetObject.productId : "x"}:${
             widgetObject.widgetName
@@ -3554,7 +3557,7 @@ export function widgetsTrackingForRecommendation(widgetObject: {}) {
             widgetObject.PositionOfProduct
               ? widgetObject.PositionOfProduct
               : "x"
-          }`
+          }:${widgetObject.widgetID ? widgetObject.widgetID : "x"}`
         }
       }
     });
@@ -3562,6 +3565,7 @@ export function widgetsTrackingForRecommendation(widgetObject: {}) {
     Object.assign(data, {
       cpj: {
         pdp: {
+          ...currentDigitalData.cpj.pdp,
           findingMethod: data.page.pageInfo.pageName,
           widgetname: `${
             widgetObject.productId ? widgetObject.productId : "x"
@@ -3573,7 +3577,7 @@ export function widgetsTrackingForRecommendation(widgetObject: {}) {
             widgetObject.PositionOfProduct
               ? widgetObject.PositionOfProduct
               : "x"
-          }`
+          }:${widgetObject.widgetID ? widgetObject.widgetID : "x"}`
         }
       }
     });
@@ -3927,5 +3931,16 @@ export function setPageNameAndPageType(response) {
       }
     });
     Object.assign(window.digitalData, digitalDataForPageName);
+  }
+}
+export function targetPageViewEvent(type) {
+  if (type === TARGET_EVENT_FOR_PAYLOAD) {
+    if (window._satellite) {
+      window._satellite.track(TARGET_EVENT_FOR_PAYLOAD);
+    }
+  } else if (type === TARGET_EVENT_FOR_PAGEVIEW) {
+    if (window._satellite) {
+      window._satellite.track(TARGET_EVENT_FOR_PAGEVIEW);
+    }
   }
 }

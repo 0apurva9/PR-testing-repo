@@ -98,7 +98,15 @@ class PDPRecommendedSections extends React.Component {
               ? this.props.recommendedItems.similarProducts[index + 1].ontology
               : "",
       PositionOfProduct: index + 1,
-      productId: items && items.productListingId
+      productId: items && items.productListingId,
+      widgetID:
+        widgetName === "About the Brand"
+          ? 114
+          : widgetName == "Similar Products"
+            ? 0
+            : widgetName == "Frequently Bought Together"
+              ? 4
+              : 7
     });
   };
   visitBrand() {
