@@ -83,8 +83,6 @@ import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { setBagCount } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions";
 
-// import orderDetails from "../../mock/orderDetails.json";
-
 export const GET_USER_DETAILS_REQUEST = "GET_USER_DETAILS_REQUEST";
 export const GET_USER_DETAILS_SUCCESS = "GET_USER_DETAILS_SUCCESS";
 export const GET_USER_DETAILS_FAILURE = "GET_USER_DETAILS_FAILURE";
@@ -2987,7 +2985,6 @@ export function fetchOrderDetails(orderId, pageName) {
         }&isPwa=true&isMDE=true`
       );
       let resultJson = await result.json();
-      // let resultJson = orderDetails;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {

@@ -217,9 +217,9 @@ export default class CartItemForDesktop extends React.Component {
         });
       }
     }
-    let isPickupAvailableForExchange = false;
+    let hideQuantityArrow = false;
     if (this.props.product && this.props.product.exchangeDetails) {
-      isPickupAvailableForExchange = true;
+      hideQuantityArrow = true;
     }
     let productMessage = this.props.productNotServiceable
       ? this.props.productNotServiceable
@@ -361,7 +361,7 @@ export default class CartItemForDesktop extends React.Component {
                     paddingLeftFontFamily={"light"}
                     paddingLeft={"0px"}
                     rightArrow={0}
-                    hideArrow={isPickupAvailableForExchange}
+                    hideArrow={hideQuantityArrow}
                   />
                 </div>
               )}
@@ -480,9 +480,8 @@ export default class CartItemForDesktop extends React.Component {
           <React.Fragment>
             <div
               className={
-                !isPickupAvailableForExchange &&
                 this.props.product.pinCodeResponse &&
-                this.props.product.pinCodeResponse.errorMessage
+                this.props.product.pinCodeResponse.errorMessagePincode
                   ? styles.exchangeDetailsPickupNotAvail
                   : styles.exchangeDetails
               }
@@ -614,11 +613,10 @@ export default class CartItemForDesktop extends React.Component {
                 </React.Fragment>
               )}
             </div>
-            {!isPickupAvailableForExchange &&
-              this.props.product.pinCodeResponse &&
-              this.props.product.pinCodeResponse.errorMessage && (
+            {this.props.product.pinCodeResponse &&
+              this.props.product.pinCodeResponse.errorMessagePincode && (
                 <div className={styles.exchangeProductNotServiceable}>
-                  {this.props.product.pinCodeResponse.errorMessage}
+                  {this.props.product.pinCodeResponse.errorMessagePincode}
                 </div>
               )}
             {!this.props.productIsServiceable && (
