@@ -314,8 +314,9 @@ export default class OrderRelatedIssue extends React.Component {
       this.setState({
         // question: question,
         showQuestionList: false,
-        showFeedBack: true,
-        isQuesryForm: false
+        // showFeedBack: true,
+        isQuesryForm: false,
+        isIssueOptions: true
         // isAnswerHelpFull:false
       });
     } else if (this.state.isIssueOptions) {
@@ -349,6 +350,9 @@ export default class OrderRelatedIssue extends React.Component {
     if (userDetails || customerCookie) {
       isUserLogin = true;
     }
+    // var checktxt="Lorem Ipsum is simply dummy text of the printing and typesetti printing and typesetti";
+    // var t1=checktxt.slice(0,5);
+    // console.log("ta",t1.length)
     const {
       customerQueriesOtherIssueData,
       customerQueriesOtherIssueLoading,
@@ -468,7 +472,9 @@ export default class OrderRelatedIssue extends React.Component {
                                     {faq.FAQHeader.replace("&amp;", "&")}
                                   </div>
                                   <div className={styles.faqSubheading}>
-                                    {faq.FAQSubHeader}
+                                    {faq.FAQSubHeader.lentgh > 50
+                                      ? faq.FAQSubHeader.slice(0, 5)
+                                      : faq.FAQSubHeader}
                                   </div>
                                 </div>
                               </div>

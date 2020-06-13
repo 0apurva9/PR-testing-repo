@@ -50,7 +50,7 @@
   padding: 10px; */
 }
 .orderDatils {
-  width: 195px;
+  width: 100%;
   overflow: hidden;
   padding-left: 9px;
 }
@@ -88,7 +88,7 @@
   color: #4a4a4a;
   font-family: light;
   padding-bottom: 6px;
-  width: 189px;
+  /* width: 100; */
     white-space: initial;
 }
 .fontBold {
@@ -147,8 +147,8 @@
     margin-bottom: 24px;
 }
 .orderDetailsImgBox {
-  width: 100px;
-  height: 120px;
+  width: 80px;
+  /* height: 120px; */
 }
 .orderImg {
   width: 100%;
@@ -303,9 +303,8 @@
 margin-bottom: 20px;
 } */
 .allOrderImageBox{
-
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  /* height: 100px; */
 }
 
 .allOrderDatils{
@@ -329,11 +328,12 @@ margin-bottom: 20px;
   margin-right: 50px;
 }
 .prentIssueType{
-    font-size: 14px;
+    font-size: 16px;
     color: #212121;
     font-family: semibold;
     padding: 0px;
-    margin-top: 20px;
+    margin-top: 24px;
+    margin-bottom: 9px;
     
 }
 .parentIssueT{

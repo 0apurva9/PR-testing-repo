@@ -93,7 +93,11 @@
   /* padding-right: 51px; */
   /* margin: 0px 2%; */
   margin: 12px 2%;
+  /* padding-right:20px; */
 }
+/* .txtFieldBox:nth-child(1){padding-right:20px;}
+.txtFieldBox:nth-child(3){padding-right:20px;}
+.txtFieldBox:nth-child(5){padding-right:20px;} */
 .txtFieldHeading {
   font-size: 14px;
   color: #212121;
@@ -215,10 +219,11 @@
 
 .fileUpload input[type="file"] {
   position: absolute;
-  left: 0;
+  left: 112px;
   top: 0;
   opacity: 0;
-  width: 199px;
+  width: 174px;
+  height: 38px;
 }
 .fileSize {
   font-size: 12px;

@@ -4,8 +4,20 @@ import Carousel from "../../general/components/Carousel";
 import { getDayNumberSuffix } from "../../lib/dateTimeFunction";
 import styles from "./CustomerIssue.css";
 import { withRouter } from "react-router-dom";
+import ProductImage from "../../general/components/ProductImage.js";
 import { HOME_ROUTER } from "../../lib/constants.js";
 import format from "date-fns/format";
+const ORDER_IN_PROCESS = "Order in Process";
+const READY_FOR_COLLECTION = "Ready for Collection";
+const PICKUP_DATE = "Pickup Date:";
+const SHIPPED = "Shipped";
+const ORDER_CONFIRMED = "Order Confirmed";
+const ITEM_PACKED = "Item Packed";
+const OUT_FOR_DELIVERY = "Out For Delivery";
+// const READY_FOR_COLLECTION = "Ready for Collection";
+const ESTIMATED_DATE = "Estimated Delivery Date:";
+const DELIVERY_TEXT = "Delivered on:";
+
 const dateFormat = "DD MM YYYY";
 class OrderList extends Component {
   constructor(props) {
@@ -41,7 +53,7 @@ class OrderList extends Component {
             {/* ) : null} */}
           </div>
 
-          <Carousel elementWidthDesktop={41}>
+          <Carousel elementWidthDesktop={50}>
             {this.props.ordersTransactionData &&
               this.props.ordersTransactionData.orderData &&
               this.props.ordersTransactionData.orderData.map(orderData => {
@@ -54,10 +66,14 @@ class OrderList extends Component {
                   >
                     <div className={styles.orderDataBox}>
                       <div className={styles.orderImageBox}>
-                        <img
+                        {/* <img
                           className={styles.orderImage}
                           src={orderData.products[0].imageURL}
                           alt="Order image"
+                        /> */}
+                        <ProductImage
+                          image={orderData.products[0].imageURL}
+                          // flatImage={this.props.productName === "Gift Card"}
                         />
                       </div>
                       <div className={styles.orderDatils}>
@@ -72,7 +88,56 @@ class OrderList extends Component {
                             {orderData.orderid}
                           </span>
                         </div>
-                        {(orderData.products[0].EDD &&
+
+                        {orderData.products[0].pickUpDateCNC &&
+                        (orderData.products[0].statusDisplay ===
+                          ORDER_IN_PROCESS ||
+                          orderData.products[0].statusDisplay ===
+                            READY_FOR_COLLECTION) ? (
+                          <div className={styles.orderStatus}>
+                            {PICKUP_DATE}&nbsp;
+                            <span className={styles.fontBold}>
+                              {getDayNumberSuffix(
+                                orderData.products[0].pickUpDateCNC,
+                                true
+                              )}
+                            </span>
+                          </div>
+                        ) : (orderData.products[0].statusDisplay ===
+                            ORDER_CONFIRMED ||
+                            orderData.products[0].statusDisplay ===
+                              ORDER_IN_PROCESS ||
+                            orderData.products[0].statusDisplay === SHIPPED ||
+                            orderData.products[0].statusDisplay ===
+                              ITEM_PACKED ||
+                            orderData.products[0].statusDisplay ===
+                              OUT_FOR_DELIVERY ||
+                            orderData.products[0].statusDisplay ===
+                              READY_FOR_COLLECTION) &&
+                          (orderData.products[0].EDD ||
+                            orderData.products[0].estimateddeliverydate) ? (
+                          <div className={styles.orderStatus}>
+                            {ESTIMATED_DATE}&nbsp;
+                            <span className={styles.fontBold}>
+                              {getDayNumberSuffix(
+                                orderData.products[0].EDD ||
+                                  orderData.products[0].estimateddeliverydate
+                              )}
+                            </span>
+                          </div>
+                        ) : orderData.products[0].deliveryDate ? (
+                          <div className={styles.orderStatus}>
+                            {DELIVERY_TEXT}&nbsp;
+                            <span className={styles.fontBold}>
+                              {getDayNumberSuffix(
+                                orderData.products[0].deliveryDate,
+                                true
+                              )}
+                            </span>
+                          </div>
+                        ) : null}
+
+                        {/* {(orderData.products[0].EDD &&
                           orderData.products[0].statusDisplay ==
                             "Order Confirmed") ||
                         orderData.products[0].statusDisplay ==
@@ -89,7 +154,7 @@ class OrderList extends Component {
                               {getDayNumberSuffix(orderData.products[0].EDD)}
                             </span>
                           </div>
-                        ) : null}
+                        ) : null} */}
                         {/* {orderData.products[0].EDD && 
                           orderData.products[0].statusDisplay=="Order Confirmed"||
                           orderData.products[0].statusDisplay=="Order in Process"||

@@ -6,6 +6,7 @@ import QuestionFeedback from "./QuestionFeedback";
 import format from "date-fns/format";
 import OrderActionButton from "./OrderActionButton";
 import Accordian from "../../general/components/Accordion";
+import ProductImage from "../../general/components/ProductImage.js";
 import { getDayNumberSuffix } from "../../lib/dateTimeFunction";
 import {
   setDataLayer,
@@ -16,6 +17,16 @@ import Button from "../../general/components/Button.js";
 import QuestionList from "./QuestionList";
 import { MY_ACCOUNT_PAGE, COSTUMER_CLIQ_CARE_ROUTE } from "../../lib/constants";
 const dateFormat = "DD MM YYYY";
+const ORDER_IN_PROCESS = "Order in Process";
+const READY_FOR_COLLECTION = "Ready for Collection";
+const PICKUP_DATE = "Pickup Date:";
+const SHIPPED = "Shipped";
+const ORDER_CONFIRMED = "Order Confirmed";
+const ITEM_PACKED = "Item Packed";
+const OUT_FOR_DELIVERY = "Out For Delivery";
+// const READY_FOR_COLLECTION = "Ready for Collection";
+const ESTIMATED_DATE = "Estimated Delivery Date:";
+const DELIVERY_TEXT = "Delivered on:";
 
 class OrderListDetails extends Component {
   state = {
@@ -143,7 +154,9 @@ class OrderListDetails extends Component {
     //   isAnswerHelpFull,
     //   nextQuestions
     // } = this.state;
+    const { selectedOrder } = this.props;
 
+    console.log("selected", this.props);
     return (
       <div>
         {this.props.isQuesryForm && this.props.otherQuestion ? null : (
@@ -185,14 +198,21 @@ class OrderListDetails extends Component {
               <div className={styles.orderDetailsBox}>
                 <div className={styles.orderDetailsCard}>
                   <div className={styles.orderDetailsImgBox}>
-                    <img
+                    <ProductImage
+                      image={
+                        this.props.selectedOrder.products &&
+                        this.props.selectedOrder.products[0].imageURL
+                      }
+                      // flatImage={this.props.productName === "Gift Card"}
+                    />
+                    {/* <img
                       className={styles.orderImg}
                       src={
                         this.props.selectedOrder.products &&
                         this.props.selectedOrder.products[0].imageURL
                       }
                       alt="Product image"
-                    />
+                    /> */}
                   </div>
                   <div className={styles.orderDetailsContent}>
                     <div className={styles.orderDesc}>
@@ -230,7 +250,7 @@ class OrderListDetails extends Component {
                         </div>
                       )} */}
 
-                    {this.props.selectedOrder.products &&
+                    {/* {this.props.selectedOrder&&this.props.selectedOrder.products &&
                       this.props.selectedOrder.products[0]
                         .estimateddeliverydate &&
                       (this.props.selectedOrder.products[0].statusDisplay ==
@@ -255,7 +275,59 @@ class OrderListDetails extends Component {
                               .estimateddeliverydate
                           )}
                         </div>
-                      ) : null)}
+                      ) : null)} */}
+
+                    {/* {selectedOrder&&
+                    selectedOrder.products[0] &&
+                    selectedOrder.products[0].pickUpDateCNC &&
+                    (selectedOrder.products[0].statusDisplay ===
+                      ORDER_IN_PROCESS ||
+                      selectedOrder.products[0].statusDisplay ===
+                        READY_FOR_COLLECTION) ? (
+                      <div className={styles.orderStatus}>
+                        {PICKUP_DATE}&nbsp;
+                        <span className={styles.fontBold}>
+                          {getDayNumberSuffix(
+                            selectedOrder.products[0].pickUpDateCNC
+                          )}
+                        </span>
+                      </div>
+                    ) : (selectedOrder.products[0].statusDisplay ===
+                        ORDER_CONFIRMED ||
+                        selectedOrder.products[0].statusDisplay ===
+                          ORDER_IN_PROCESS ||
+                        selectedOrder.products[0].statusDisplay ===
+                          SHIPPED ||
+                        selectedOrder.products[0].statusDisplay ===
+                          ITEM_PACKED ||
+                        selectedOrder.products[0].statusDisplay ===
+                          OUT_FOR_DELIVERY ||
+                        selectedOrder.products[0].statusDisplay ===
+                          READY_FOR_COLLECTION) &&
+                      (selectedOrder.products[0].EDD ||
+                        selectedOrder.products[0]
+                          .estimateddeliverydate) ? (
+                      <div className={styles.orderStatus}>
+                        {ESTIMATED_DATE}&nbsp;
+                        <span className={styles.fontBold}>
+                          {getDayNumberSuffix(
+                            selectedOrder.products[0].EDD ||
+                              selectedOrder.products[0]
+                                .estimateddeliverydate
+                          )}
+                        </span>
+                      </div>
+                    ) : selectedOrder.products[0].deliveryDate ? (
+                      <div className={styles.orderStatus}>
+                        {DELIVERY_TEXT}&nbsp;
+                        <span className={styles.fontBold}>
+                          {getDayNumberSuffix(
+                            selectedOrder.products[0].deliveryDate
+                          )}
+                        </span>
+                      </div>
+                    ) : null}  */}
+
                     {/* <div className={styles.orderDesc}>Qty {"1"}</div> */}
                     {/* {this.props.selectedOrder.products &&
                       this.props.selectedOrder.products[0]

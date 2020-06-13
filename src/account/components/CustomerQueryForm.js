@@ -647,6 +647,7 @@ export default class CustomerQueryForm extends Component {
   // }
 
   async onUploadFile(event, { maxFileLimit, maxFileSize, title }) {
+    console.log("event=========", event);
     const newFile = event.target.files;
     if (newFile) {
       let combinedSize = 0,
@@ -742,7 +743,7 @@ export default class CustomerQueryForm extends Component {
           {basicForm && <div className={styles.header}>Create your ticket</div>}
           {attachment && (
             <div className={styles.header}>
-              Add attachements{" "}
+              Add attachments{" "}
               {this.state.attachementData.isMandatory ? " *" : " (optional)"}{" "}
             </div>
           )}
@@ -830,6 +831,7 @@ export default class CustomerQueryForm extends Component {
                   onChange={val =>
                     this.onUploadFile(val, this.state.attachementData)
                   }
+                  title=""
                   multiple
                   accept="text/plain, application/pdf, image/*" // accepting only txt/pdf/images(all types)
                 />
