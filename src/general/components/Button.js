@@ -83,7 +83,9 @@ export default class Button extends React.Component {
               fontSize: 14,
               fontFamily: "semibold"
             }}
-            background={`linear-gradient(${this.props.linearColor.fromColor},${this.props.linearColor.toColor})`}
+            background={`linear-gradient(${this.props.linearColor.fromColor},${
+              this.props.linearColor.toColor
+            })`}
           />
         );
       default:

@@ -84,7 +84,7 @@ export function getWishListItems(isSetDataLayer) {
           JSON.parse(userDetails).userName
         }/getAllWishlist?platformNumber=${PLAT_FORM_NUMBER}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`
+        }&isPwa=true&isMDE=true`
       );
 
       const resultJson = await result.json();
@@ -141,13 +141,20 @@ export function addProductToWishList(productDetails, setDataLayerType: null) {
     productToBeAdd.append("ussid", productDetails.winningUssID);
     productToBeAdd.append("productCode", productDetails.productListingId);
     productToBeAdd.append("wishlistName", MY_WISH_LIST);
+    // send exchange related details
+    if (productDetails.addToWlWithExchangeTrue) {
+      productToBeAdd.append("addToWlWithExchange", true);
+      productToBeAdd.append("quoteId", productDetails.quoteId);
+      productToBeAdd.append("IMEINumber", productDetails.IMEINumber);
+      productToBeAdd.append("exchangeId", productDetails.exchangeId);
+    }
     try {
       const result = await api.postFormData(
         `${PRODUCT_DETAILS_PATH}/${
           JSON.parse(userDetails).userName
         }/addProductInWishlist?platformNumber=${PLAT_FORM_NUMBER}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true`,
+        }&isPwa=true&isMDE=true`,
         productToBeAdd
       );
       const resultJson = await result.json();
@@ -200,15 +207,25 @@ export function removeProductFromWishList(productDetails) {
     const productToBeRemove = new FormData();
     productToBeRemove.append("USSID", productDetails.ussId);
     productToBeRemove.append("wishlistName", MY_WISH_LIST);
+    // if exchange details present
+    if (productDetails.removeFromWlWithExchange) {
+      productToBeRemove.append(
+        "removeFromWlWithExchange",
+        productDetails.removeFromWlWithExchange
+      );
+      productToBeRemove.append("quoteId", productDetails.quoteId);
+      productToBeRemove.append("IMEINumber", productDetails.IMEINumber);
+      productToBeRemove.append("exchangeId", productDetails.exchangeId);
+    }
     dispatch(removeProductFromWishListRequest());
     dispatch(showSecondaryLoader());
     try {
       const result = await api.postFormData(
         `${PRODUCT_DETAILS_PATH}/${
           JSON.parse(userDetails).userName
-        }/removeProductFromWishlist?&access_token=${
+        }/removeProductFromWishlist?access_token=${
           JSON.parse(customerCookie).access_token
-        }`,
+        }&isMDE=true`,
         productToBeRemove
       );
       const resultJson = await result.json();

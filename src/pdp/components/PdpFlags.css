@@ -98,6 +98,21 @@
     left: 45px;
     pointer-events: none;
   }
+
+  .exchangeOffer {
+    width: 238px;
+    height: 43px;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px;
+    background: url(../components/img/exchangeOffer.svg) no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 90px;
+    left: 0px;
+    pointer-events: none;
+    text-align: center;
+  }
 }
 
 .offer {
@@ -112,20 +127,5 @@
   position: absolute;
   top: 90px;
   left: 45px;
-  pointer-events: none;
-}
-
-.exhange {
-  width: 174px;
-  height: 45px;
-  color: #fff;
-  font-size: 18px;
-  padding: 10px 20px;
-  background: url(../components/img/Rectangle43.svg) no-repeat;
-  font-family: semibold;
-  background-size: contain;
-  position: absolute;
-  top: 90px;
-  left: 40px;
   pointer-events: none;
 }

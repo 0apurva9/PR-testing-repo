@@ -31,6 +31,39 @@
   bottom: 0;
   margin: 0 auto;
 }
+.exchangeCashbackDetailsContainer{
+  padding: 10px;
+  background-color: #ffffff;
+}
+.exchangeCashbackDetails{
+	padding: 10px 15px;
+	border: 0.5px solid #979797;
+	border-radius: 4px;
+	width: 64%;
+	margin: 10px auto;
+}
+.exchangeCashbackTextContainer{
+	width: 75%;
+  display: inline-block;
+}
+.exchangeCashbackChangeMode{
+	width: 25%;
+	display: inline-block;
+	vertical-align: top;
+	line-height: 2.5;
+	text-align: right;
+	font-size: 14px;
+	color: #ff1744;
+  font-family: semibold;
+  cursor: pointer;
+}
+.exchangeCashbackText{
+	font-size: 12px;
+}
+.exchangeCashbackAccountText{
+	font-size: 12px;
+	font-family: semibold;
+}
 
 @media only screen and (min-width: 1025px) {
   .base {

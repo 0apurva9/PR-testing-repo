@@ -120,6 +120,25 @@
   height: auto;
   font-family: semibold;
 }
+.exchangeDetailsContainer{
+	margin: 15px 0;
+}
+.exchangeIconLight{
+	display: inline-block;
+	vertical-align: middle;
+	width: 24px;
+	margin-right: 10px;
+}
+.exchangeProductText{
+	display: inline-block;
+	font-size: 12px;
+  font-family: light;
+  width: calc(100% - 35px);
+  vertical-align: middle;
+}
+.fontFamilyRegular{
+  font-family: regular;
+}
 @media screen and (min-width: 1025px) {
   .base {
     padding: 10px;

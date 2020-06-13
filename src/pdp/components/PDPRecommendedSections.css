@@ -5,6 +5,14 @@
   color: #212121;
   margin-top: 40px;
 }
+.brandSectionForRecentlyViewed {
+  width: 100%;
+  height: auto;
+  /* background: #fff; */
+  color: #212121;
+  margin-top: 40px;
+  display: none;
+}
 .brandHeader {
   width: 100%;
   margin-bottom: 10px;

@@ -44,7 +44,6 @@ import {
   SAME_DAY_DELIVERY,
   SHORT_SAME_DAY_DELIVERY,
   RETRY_PAYMENT_CART_ID,
-  UPI,
   SELECTED_STORE
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
@@ -75,10 +74,7 @@ import {
 } from "../../lib/constants";
 import queryString from "query-string";
 import { setBagCount } from "../../general/header.actions";
-import {
-  releaseBankOfferRetryPaymentSuccess,
-  getUserDetails
-} from "../../account/actions/account.actions";
+import { releaseBankOfferRetryPaymentSuccess } from "../../account/actions/account.actions";
 import * as browserAndDeviceDetails from "../../mock/browserDetails.js";
 import {
   setDataLayer,
@@ -105,6 +101,10 @@ import {
   ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED,
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
 } from "../../lib/adobeUtils";
+
+// import cartDetailsResponse from "../../mock/cartDetailsResponse.json";
+// import miniCartResponse from "../../mock/miniCartResponse.json";
+// import cartCNC from "../../mock/cartCNC.json";
 
 const EGV_GIFT_CART_ID = "giftCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
@@ -561,6 +561,10 @@ export const GET_INTERMITTENT_FEEDBACK_DATA_SUCCESS =
 export const GET_INTERMITTENT_FEEDBACK_DATA_FAILURE =
   "GET_INTERMITTENT_FEEDBACK_DATA_FAILURE";
 
+export const REMOVE_EXCHANGE_REQUEST = "REMOVE_EXCHANGE_REQUEST";
+export const REMOVE_EXCHANGE_SUCCESS = "REMOVE_EXCHANGE_SUCCESS";
+export const REMOVE_EXCHANGE_FAILURE = "REMOVE_EXCHANGE_FAILURE";
+
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
   return {
@@ -658,15 +662,12 @@ export function getCartDetails(
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(cartDetailsRequest());
-
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetails?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}`
+        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetails?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}&isMDE=true`
       );
-      let resultJson = await result.json();
-
-      //resultJson = {"type":"cartDataDetailsWsDTO","status":"Success","cartAmount":{"bagTotal":{"currencyIso":"INR","doubleValue":1825,"formattedValue":"₹1825.00","formattedValueNoDecimal":"₹1825","priceType":"BUY","value":1825},"paybleAmount":{"currencyIso":"INR","doubleValue":1825,"formattedValue":"₹1825.00","formattedValueNoDecimal":"₹1825","priceType":"BUY","value":1825},"totalDiscountAmount":{"currencyIso":"INR","doubleValue":0,"formattedValue":"₹0.00","formattedValueNoDecimal":"₹0","priceType":"BUY","value":0}},"cartGuid":"15481123719086096-181507916","count":1,"isBankPromotionApplied":false,"isBuyNowCart":false,"maxAllowed":0,"products":[{"USSID":"1237628141WM01","availableStockCount":27,"categoryHierarchy":[{"category_id":"MSH15","category_name":"Watches"},{"category_id":"MSH1501","category_name":"Women"},{"category_id":"MSH1501000","category_name":"Analog"}],"elligibleDeliveryMode":[{"charge":{"currencyIso":"INR","doubleValue":0,"formattedValue":"₹0.00","formattedValueNoDecimal":"₹0","priceType":"BUY","value":0},"code":"express-delivery","desc":"Delivered in 1-2 days","name":"Express Delivery","priority":0},{"charge":{"currencyIso":"INR","doubleValue":0,"formattedValue":"₹0.00","formattedValueNoDecimal":"₹0","priceType":"BUY","value":0},"code":"home-delivery","desc":"Delivered in 3-6 days","name":"Home Delivery","priority":1},{"charge":{"currencyIso":"INR","doubleValue":0,"formattedValue":"₹0.00","formattedValueNoDecimal":"₹0","priceType":"BUY","value":0},"code":"click-and-collect","name":"Click and Collect","priority":2}],"entryNumber":"0","fullfillmentType":"tship","imageURL":"//img.tatacliq.com/images/i4/252Wx374H/MP000000005291532_252Wx374H_20190823173405.jpeg","isGiveAway":"N","isLuxury":"Marketplace","isOutOfStock":false,"maxQuantityAllowed":"5","pinCodeResponse":{"cod":"Y","exchangeServiceable":false,"isCODLimitFailed":"N","isPrepaidEligible":"Y","isServicable":"Y","ussid":"1237628141WM01","quickDeliveryMode":"Y","validDeliveryModes":[{"deliveryDate":"01-14-2020 19:00:00","cutoffTime":4800,"fulfilmentType":"TSHIP","inventory":"2","isCOD":true,"serviceableSlaves":[{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P001","slaveId":"123762-TSES"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P003","slaveId":"123762-TLND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P004","slaveId":"123762-TMAN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P005","slaveId":"123762-TKBN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P008","slaveId":"123762-FKND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P009","slaveId":"123762-TCPS"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P010","slaveId":"123762-TKND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P012","slaveId":"123762-TLDN"}],"type":"SDD"},{"deliveryDate":"01-23-2020 19:00:00","fulfilmentType":"TSHIP","inventory":"27","isCOD":true,"serviceableSlaves":[{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P001","slaveId":"123762-HLND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P002","slaveId":"123762-TMAN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P003","slaveId":"123762-TKND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P004","slaveId":"123762-FKND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P005","slaveId":"123762-TTDI"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P006","slaveId":"123762-HRGD"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P007","slaveId":"123762-TKBN"},{"codEligible":"Y","logisticsID":"EKART","priority":"P008","slaveId":"123762-HSTE"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P009","slaveId":"123762-TLND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P010","slaveId":"123762-HAMN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P011","slaveId":"123762-TCPS"},{"codEligible":"Y","logisticsID":"EKART","priority":"P012","slaveId":"123762-TLDN"},{"codEligible":"Y","logisticsID":"EKART","priority":"P013","slaveId":"123762-TSES"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P014","slaveId":"123762-HCPD"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P015","slaveId":"123762-HKBD"},{"codEligible":"Y","logisticsID":"EKART","priority":"P017","slaveId":"123762-CFANDLH"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P019","slaveId":"123762-HARD"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P020","slaveId":"123762-HGHW"},{"codEligible":"Y","logisticsID":"EKART","priority":"P021","slaveId":"123762-HJJN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P022","slaveId":"123762-TPSS"},{"codEligible":"Y","logisticsID":"EKART","priority":"P023","slaveId":"123762-HSRB"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P024","slaveId":"123762-TUGN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P025","slaveId":"123762-HANA"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P026","slaveId":"123762-TMVG"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P027","slaveId":"123762-TLRM"},{"codEligible":"Y","logisticsID":"EKART","priority":"P028","slaveId":"123762-FFBK"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P029","slaveId":"123762-TACS"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P030","slaveId":"123762-HJAY"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P031","slaveId":"123762-TCSS"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P032","slaveId":"123762-HNMW"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P033","slaveId":"123762-HCEN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P034","slaveId":"123762-HLPM"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P035","slaveId":"123762-SHSR"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P036","slaveId":"123762-TWEA"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P037","slaveId":"123762-FCMH"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P038","slaveId":"123762-TEKS"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P039","slaveId":"123762-THHS"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P040","slaveId":"123762-HGMN"},{"codEligible":"Y","logisticsID":"FEDEX","priority":"P041","slaveId":"123762-FMMG"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P042","slaveId":"123762-TLSS"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P043","slaveId":"123762-HDUW"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P044","slaveId":"123762-FCBM"},{"codEligible":"Y","logisticsID":"EKART","priority":"P045","slaveId":"123762-TLKN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P046","slaveId":"123762-TSPS"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P047","slaveId":"123762-TMPN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P048","slaveId":"123762-TGJB"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P049","slaveId":"123762-TLPM"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P050","slaveId":"123762-TGHS"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P051","slaveId":"123762-HBUB"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P052","slaveId":"123762-HEMC"},{"codEligible":"Y","logisticsID":"EKART","priority":"P053","slaveId":"123762-HSMG"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P054","slaveId":"123762-FFCR"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P055","slaveId":"123762-THYJ"},{"codEligible":"Y","logisticsID":"EKART","priority":"P056","slaveId":"123762-HJMI"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P057","slaveId":"123762-HPHM"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P058","slaveId":"123762-TMRB"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P059","slaveId":"123762-HSMW"},{"codEligible":"Y","logisticsID":"EKART","priority":"P060","slaveId":"123762-TJRN"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P061","slaveId":"123762-HAVA"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P062","slaveId":"123762-HKMS"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P063","slaveId":"123762-WBHI"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P064","slaveId":"123762-HKMM"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P065","slaveId":"123762-TAGH"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P066","slaveId":"123762-FPMW"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P068","slaveId":"123762-TGRT"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P069","slaveId":"123762-THZL"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P070","slaveId":"123762-HOMM"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P071","slaveId":"123762-HRBP"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P072","slaveId":"123762-HLTW"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P073","slaveId":"123762-HHVN"},{"codEligible":"Y","logisticsID":"EKART","priority":"P074","slaveId":"123762-THRB"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P075","slaveId":"123762-TKPM"},{"codEligible":"Y","logisticsID":"EKART","priority":"P076","slaveId":"123762-FKKS"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P077","slaveId":"123762-TINB"},{"codEligible":"Y","logisticsID":"EKART","priority":"P078","slaveId":"123762-HMTB"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P079","slaveId":"123762-TDHN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P080","slaveId":"123762-HWHT"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P081","slaveId":"123762-TAPW"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P082","slaveId":"123762-HGNL"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P083","slaveId":"123762-HLPN"},{"codEligible":"Y","logisticsID":"EKART","priority":"P084","slaveId":"123762-HKHB"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P085","slaveId":"123762-TRMW"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P087","slaveId":"123762-TVMW"},{"codEligible":"Y","logisticsID":"EKART","priority":"P088","slaveId":"123762-HJUP"},{"codEligible":"Y","logisticsID":"EKART","priority":"P089","slaveId":"123762-HVIS"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P090","slaveId":"123762-HGHN"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P091","slaveId":"123762-HMAW"},{"codEligible":"Y","logisticsID":"EKART","priority":"P092","slaveId":"123762-HASW"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P093","slaveId":"123762-TTMW"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P094","slaveId":"123762-HMBW"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P095","slaveId":"123762-HTBR"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P096","slaveId":"123762-HMPB"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P097","slaveId":"123762-HVTM"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P098","slaveId":"123762-HTMW"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P099","slaveId":"123762-HBAW"},{"codEligible":"Y","logisticsID":"FEDEX","priority":"P100","slaveId":"123762-TDBB"}],"type":"HD"},{"deliveryDate":"01-14-2020 19:00:00","CNCServiceableSlavesData":[{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TCPS"}],"storeId":"123762-TCPS"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HCPD"}],"storeId":"123762-HCPD"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HKBD"}],"storeId":"123762-HKBD"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TKBN"}],"storeId":"123762-TKBN"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-FKND"}],"storeId":"123762-FKND"},{"fulfillmentType":"TSHIP","qty":2,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TKND"}],"storeId":"123762-TKND"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HSTE"}],"storeId":"123762-HSTE"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HLND"}],"storeId":"123762-HLND"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TLND"}],"storeId":"123762-TLND"},{"fulfillmentType":"TSHIP","qty":1,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TTDI"}],"storeId":"123762-TTDI"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HRGD"}],"storeId":"123762-HRGD"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TMVG"}],"storeId":"123762-TMVG"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HAMN"}],"storeId":"123762-HAMN"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HGMN"}],"storeId":"123762-HGMN"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TUGN"}],"storeId":"123762-TUGN"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HSMG"}],"storeId":"123762-HSMG"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TMAN"}],"storeId":"123762-TMAN"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TAGH"}],"storeId":"123762-TAGH"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HGHN"}],"storeId":"123762-HGHN"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-FMMG"}],"storeId":"123762-FMMG"}],"inventory":"2","isCOD":false,"type":"CNC"}]},"price":1825,"productBrand":"Sonata","productCategoryId":"MSH1501000","productName":"Sonata 8141WM01 Play Analog Watch for Women","productcode":"MP000000005291532","qtySelectedByUser":"1","rootCategory":"Watches","sellerId":"123762","sellerName":"Titan Company Ltd"}]}
-
+      const resultJson = await result.json();
+      // const resultJson = cartDetailsResponse;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
@@ -734,11 +735,10 @@ export function getCartDetailsCNC(
     dispatch(cartDetailsCNCRequest());
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}`
+        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}&isMDE=true`
       );
       let resultJson = await result.json();
-
-      //resultJson = {"type":"cartDataDetailsWsDTO","addressDetailsList":{"addresses":[{"addressType":"Office","city":"New Delhi","country":{"isocode":"IN"},"defaultAddress":true,"firstName":"Nikhil","id":"10346389078039","lastName":"Raturi","line1":"Rispana Pul, Dehradun, Uttarakhand","phone":"9910252434","postalCode":"110011","state":"Delhi","town":"New Delhi"},{"addressType":"Home","city":"Dehradun","country":{"isocode":"IN"},"defaultAddress":false,"firstName":"Limbraj","id":"10363829714967","lastName":"Malekar","line1":"Lane No.1 Vishnupuram Dehradun","phone":"9910232131","postalCode":"248001","state":"Uttaranchal","town":"Dehradun"},{"addressType":"Office","city":"Dehradun","country":{"isocode":"IN"},"defaultAddress":false,"firstName":"Rajeev","id":"10364053782551","lastName":"Kumar","line1":"Lane No.1 Vishnupuram Dehradun","phone":"9910232131","postalCode":"248001","state":"Uttaranchal","town":"Dehradun"},{"addressType":"Home","city":"Dehradun","country":{"isocode":"IN"},"defaultAddress":false,"firstName":"Vinay","id":"10364221456407","lastName":"Kumar","line1":"Lane No.1 Vishnupuram Dehradun","phone":"9910232131","postalCode":"248001","state":"Uttaranchal","town":"Dehradun"},{"addressType":"Home","city":"Dehradun","country":{"isocode":"IN"},"defaultAddress":false,"firstName":"Utkarsh","id":"10346555310103","lastName":"Kukreti","line1":"Lane No.1 Vishnupuram Dehradun","phone":"9910232131","postalCode":"248001","state":"Uttaranchal","town":"Dehradun"}]},"cartAmount":{"bagTotal":{"currencyIso":"INR","doubleValue":1825,"formattedValue":"₹1825.00","formattedValueNoDecimal":"₹1825","priceType":"BUY","value":1825},"paybleAmount":{"currencyIso":"INR","doubleValue":1825,"formattedValue":"₹1825.00","formattedValueNoDecimal":"₹1825","priceType":"BUY","value":1825},"totalDiscountAmount":{"currencyIso":"INR","doubleValue":0,"formattedValue":"₹0.00","formattedValueNoDecimal":"₹0","priceType":"BUY","value":0}},"count":1,"discountPrice":"0.00","isBankPromotionApplied":false,"isBuyNowCart":false,"maxAllowed":0,"products":[{"USSID":"1237628141WM01","categoryHierarchy":[{"category_id":"MSH15","category_name":"Watches"},{"category_id":"MSH1501","category_name":"Women"},{"category_id":"MSH1501000","category_name":"Analog"}],"elligibleDeliveryMode":[{"code":"same-day-delivery","deliveryCost":"0.00","desc":"Delivered in 1-2 days","name":"Same Day Delivery","priority":0},{"code":"home-delivery","deliveryCost":"0.00","desc":"Delivered in 3-6 days","name":"Home Delivery","priority":1},{"code":"click-and-collect","deliveryCost":"0.00","name":"Click and Collect","priority":2}],"entryNumber":"0","fullfillmentType":"tship","imageURL":"//img.tatacliq.com/images/i4/97Wx144H/MP000000005291532_97Wx144H_20190823173405.jpeg","isGiveAway":"N","isLuxury":"Marketplace","maxQuantityAllowed":"5","pinCodeResponse":{"cod":"Y","exchangeServiceable":false,"isCODLimitFailed":"N","isPrepaidEligible":"Y","isServicable":"Y","ussid":"1237628141WM01","quickDeliveryMode":"Y","validDeliveryModes":[{"deliveryDate":"01-14-2020 19:00:00","cutoffTime":4800,"fulfilmentType":"TSHIP","inventory":"3","isCOD":true,"serviceableSlaves":[{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P001","slaveId":"123762-TSES"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P003","slaveId":"123762-TLND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P004","slaveId":"123762-TMAN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P005","slaveId":"123762-TKBN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P008","slaveId":"123762-FKND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P009","slaveId":"123762-TCPS"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P010","slaveId":"123762-TKND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P012","slaveId":"123762-TLDN"}],"type":"SDD"},{"deliveryDate":"01-23-2020 19:00:00","fulfilmentType":"TSHIP","inventory":"23","isCOD":true,"serviceableSlaves":[{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P001","slaveId":"123762-HLND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P002","slaveId":"123762-TMAN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P003","slaveId":"123762-TKND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P004","slaveId":"123762-FKND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P005","slaveId":"123762-TTDI"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P006","slaveId":"123762-HRGD"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P007","slaveId":"123762-TKBN"},{"codEligible":"Y","logisticsID":"EKART","priority":"P008","slaveId":"123762-HSTE"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P009","slaveId":"123762-TLND"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P010","slaveId":"123762-HAMN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P011","slaveId":"123762-TCPS"},{"codEligible":"Y","logisticsID":"EKART","priority":"P012","slaveId":"123762-TLDN"},{"codEligible":"Y","logisticsID":"EKART","priority":"P013","slaveId":"123762-TSES"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P014","slaveId":"123762-HCPD"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P015","slaveId":"123762-HKBD"},{"codEligible":"Y","logisticsID":"EKART","priority":"P017","slaveId":"123762-CFANDLH"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P019","slaveId":"123762-HARD"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P020","slaveId":"123762-HGHW"},{"codEligible":"Y","logisticsID":"EKART","priority":"P021","slaveId":"123762-HJJN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P022","slaveId":"123762-TPSS"},{"codEligible":"Y","logisticsID":"EKART","priority":"P023","slaveId":"123762-HSRB"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P024","slaveId":"123762-TUGN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P025","slaveId":"123762-HANA"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P026","slaveId":"123762-TMVG"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P027","slaveId":"123762-TLRM"},{"codEligible":"Y","logisticsID":"EKART","priority":"P028","slaveId":"123762-FFBK"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P029","slaveId":"123762-TACS"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P030","slaveId":"123762-HJAY"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P031","slaveId":"123762-TCSS"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P032","slaveId":"123762-HNMW"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P033","slaveId":"123762-HCEN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P034","slaveId":"123762-HLPM"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P035","slaveId":"123762-SHSR"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P036","slaveId":"123762-TWEA"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P037","slaveId":"123762-FCMH"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P038","slaveId":"123762-TEKS"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P039","slaveId":"123762-THHS"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P040","slaveId":"123762-HGMN"},{"codEligible":"Y","logisticsID":"FEDEX","priority":"P041","slaveId":"123762-FMMG"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P042","slaveId":"123762-TLSS"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P043","slaveId":"123762-HDUW"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P044","slaveId":"123762-FCBM"},{"codEligible":"Y","logisticsID":"EKART","priority":"P045","slaveId":"123762-TLKN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P046","slaveId":"123762-TSPS"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P047","slaveId":"123762-TMPN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P048","slaveId":"123762-TGJB"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P049","slaveId":"123762-TLPM"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P050","slaveId":"123762-TGHS"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P051","slaveId":"123762-HBUB"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P052","slaveId":"123762-HEMC"},{"codEligible":"Y","logisticsID":"EKART","priority":"P053","slaveId":"123762-HSMG"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P054","slaveId":"123762-FFCR"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P055","slaveId":"123762-THYJ"},{"codEligible":"Y","logisticsID":"EKART","priority":"P056","slaveId":"123762-HJMI"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P057","slaveId":"123762-HPHM"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P058","slaveId":"123762-TMRB"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P059","slaveId":"123762-HSMW"},{"codEligible":"Y","logisticsID":"EKART","priority":"P060","slaveId":"123762-TJRN"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P061","slaveId":"123762-HAVA"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P062","slaveId":"123762-HKMS"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P063","slaveId":"123762-WBHI"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P064","slaveId":"123762-HKMM"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P065","slaveId":"123762-TAGH"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P066","slaveId":"123762-FPMW"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P068","slaveId":"123762-TGRT"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P069","slaveId":"123762-THZL"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P070","slaveId":"123762-HOMM"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P071","slaveId":"123762-HRBP"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P072","slaveId":"123762-HLTW"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P073","slaveId":"123762-HHVN"},{"codEligible":"Y","logisticsID":"EKART","priority":"P074","slaveId":"123762-THRB"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P075","slaveId":"123762-TKPM"},{"codEligible":"Y","logisticsID":"EKART","priority":"P076","slaveId":"123762-FKKS"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P077","slaveId":"123762-TINB"},{"codEligible":"Y","logisticsID":"EKART","priority":"P078","slaveId":"123762-HMTB"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P079","slaveId":"123762-TDHN"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P080","slaveId":"123762-HWHT"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P081","slaveId":"123762-TAPW"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P082","slaveId":"123762-HGNL"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P083","slaveId":"123762-HLPN"},{"codEligible":"Y","logisticsID":"EKART","priority":"P084","slaveId":"123762-HKHB"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P085","slaveId":"123762-TRMW"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P087","slaveId":"123762-TVMW"},{"codEligible":"Y","logisticsID":"EKART","priority":"P088","slaveId":"123762-HJUP"},{"codEligible":"Y","logisticsID":"EKART","priority":"P089","slaveId":"123762-HVIS"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P090","slaveId":"123762-HGHN"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P091","slaveId":"123762-HMAW"},{"codEligible":"Y","logisticsID":"EKART","priority":"P092","slaveId":"123762-HASW"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P093","slaveId":"123762-TTMW"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P094","slaveId":"123762-HMBW"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P095","slaveId":"123762-HTBR"},{"codEligible":"Y","logisticsID":"DELHIVERY","priority":"P096","slaveId":"123762-HMPB"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P096","slaveId":"123762-TKPMW"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P097","slaveId":"123762-HVTM"},{"codEligible":"Y","logisticsID":"BLUEDART","priority":"P098","slaveId":"123762-HTMW"},{"codEligible":"Y","logisticsID":"XPRESSC","priority":"P099","slaveId":"123762-HBAW"},{"codEligible":"Y","logisticsID":"FEDEX","priority":"P100","slaveId":"123762-TDBB"}],"type":"HD"},{"deliveryDate":"01-14-2020 19:00:00","CNCServiceableSlavesData":[{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HCPD"}],"storeId":"123762-HCPD"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TCPS"}],"storeId":"123762-TCPS"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HSTE"}],"storeId":"123762-HSTE"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HLND"}],"storeId":"123762-HLND"},{"fulfillmentType":"TSHIP","qty":1,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TLND"}],"storeId":"123762-TLND"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HKBD"}],"storeId":"123762-HKBD"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TKBN"}],"storeId":"123762-TKBN"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-FKND"}],"storeId":"123762-FKND"},{"fulfillmentType":"TSHIP","qty":2,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TKND"}],"storeId":"123762-TKND"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HAMN"}],"storeId":"123762-HAMN"},{"fulfillmentType":"TSHIP","qty":1,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TTDI"}],"storeId":"123762-TTDI"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HRGD"}],"storeId":"123762-HRGD"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HGMN"}],"storeId":"123762-HGMN"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TUGN"}],"storeId":"123762-TUGN"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TMVG"}],"storeId":"123762-TMVG"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TMAN"}],"storeId":"123762-TMAN"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-TAGH"}],"storeId":"123762-TAGH"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HGHN"}],"storeId":"123762-HGHN"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-HSMG"}],"storeId":"123762-HSMG"},{"fulfillmentType":"TSHIP","qty":0,"serviceableSlaves":[{"priority":"1","slaveId":"123762-FMMG"}],"storeId":"123762-FMMG"}],"inventory":"2","isCOD":false,"type":"CNC"}]},"price":1825,"productBrand":"Sonata","productCategoryId":"MSH1501000","productLevelDiscount":0,"productName":"Sonata 8141WM01 Play Analog Watch for Women","productcode":"MP000000005291532","qtySelectedByUser":"1","rootCategory":"Watches","sellerId":"123762","sellerName":"Titan Company Ltd"}],"subtotalPrice":"1825.00","totalPrice":"1825.00"}
+      // let resultJson = cartCNC;
 
       if (resultJson.status === FAILURE) {
         throw new Error(`${resultJson.message}`);
@@ -749,6 +749,7 @@ export function getCartDetailsCNC(
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+
       // setting data layer only for first time
       if (isSetDataLayer) {
         setDataLayer(
@@ -1000,7 +1001,7 @@ export function getUserAddress(setDataLayerForMyAccount: false) {
           JSON.parse(userDetails).userName
         }/addresses?channel=${CHANNEL}&emailId=${
           JSON.parse(userDetails).userName
-        }&access_token=${JSON.parse(customerCookie).access_token}`
+        }&access_token=${JSON.parse(customerCookie).access_token}&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1204,7 +1205,7 @@ export function addAddressToCart(addressId, pinCode, isComingFromCliqAndPiq) {
       let access_token = JSON.parse(customerCookie).access_token;
       let cartId = JSON.parse(cartDetails).code;
       const result = await api.post(
-        `${USER_CART_PATH}/${userId}/addAddressToOrder?channel=${CHANNEL}&access_token=${access_token}&addressId=${addressId}&cartId=${cartId}&removeExchangeFromCart=0`
+        `${USER_CART_PATH}/${userId}/addAddressToOrder?channel=${CHANNEL}&access_token=${access_token}&addressId=${addressId}&cartId=${cartId}&removeExchangeFromCart=0&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1576,7 +1577,7 @@ export function mergeCartId(cartGuId) {
           JSON.parse(userDetails).userName
         }&oldCartId=${JSON.parse(cartDetailsAnonymous).guid}${
           cartGuId ? "&toMergeCartGuid=" + cartGuId : ""
-        }&channel=${CHANNEL}`
+        }&channel=${CHANNEL}&isMDE=true`
       );
       const resultJson = await result.json();
       const currentBagObject = localStorage.getItem(CART_BAG_DETAILS);
@@ -1598,7 +1599,10 @@ export function mergeCartId(cartGuId) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-
+      //show toast related to merge of exchange products as per conditions in MDE-279
+      if (resultJson.exchangeMessage) {
+        dispatch(displayToast(resultJson.exchangeMessage));
+      }
       return dispatch(mergeCartIdSuccess(resultJson));
     } catch (e) {
       return dispatch(mergeCartIdFailure(e.message));
@@ -1690,7 +1694,7 @@ export function getAllStoresCNC(pinCode) {
     dispatch(getAllStoresCNCRequest());
     try {
       const result = await api.get(
-        `${ALL_STORES_PATH}/${pinCode}?access_token=${accessToken}`
+        `${ALL_STORES_PATH}/${pinCode}?access_token=${accessToken}&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1743,7 +1747,7 @@ export function addStoreCNC(ussId, slaveId) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/addStore?USSID=${ussId}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&slaveId=${slaveId}`
+        }&slaveId=${slaveId}&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1796,7 +1800,7 @@ export function addPickupPersonCNC(personMobile, personName) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/addPickupPerson?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&personMobile=${personMobile}&personName=${personName}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&personMobile=${personMobile}&personName=${personName}&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2856,7 +2860,6 @@ export function applyBankOffer(couponCode) {
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       localStorage.setItem(BANK_COUPON_COOKIE, couponCode);
-      console.log("resultJson---->", resultJsonStatus);
       if (resultJsonStatus.status) {
         setDataLayerForCheckoutDirectCalls(
           ADOBE_CALL_FOR_APPLY_COUPON_FAILURE,
@@ -4664,7 +4667,7 @@ export function orderConfirmation(orderId) {
           JSON.parse(userDetails).userName
         }/orderConfirmation/${orderId}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true`
+        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -5187,7 +5190,7 @@ export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
           JSON.parse(userDetails).userName
         }/carts/${cartId}/deleteEntries/${cartListItemPosition}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -5261,7 +5264,7 @@ export function removeItemFromCartLoggedOut(cartListItemPosition, pinCode) {
           JSON.parse(cartDetailsAnonymous).guid
         }/deleteEntries/${cartListItemPosition}?access_token=${
           JSON.parse(globalCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -6073,7 +6076,7 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
             productDetails.ussId
           }&slaveId=${productDetails.slaveId}&access_token=${
             JSON.parse(customerCookie).access_token
-          }&isCNC=yes`
+          }&isCNC=yes&isMDE=true`
         );
       } else {
         result = await api.get(
@@ -6083,7 +6086,7 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
             JSON.parse(customerCookie).access_token
           }&isPwa=true&channel=${CHANNEL}&productCode=${
             productDetails.code
-          }&USSID=${productDetails.ussId}`
+          }&USSID=${productDetails.ussId}&isMDE=true`
         );
       }
       const resultJson = await result.json();
@@ -6142,7 +6145,7 @@ export function mergeTempCartWithOldCart() {
           JSON.parse(userDetails).userName
         }/buyNow/mergeBuyNowCart?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&channel=${CHANNEL}&cartGuid=${cartGuId}`
+        }&isPwa=true&channel=${CHANNEL}&cartGuid=${cartGuId}&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -6540,7 +6543,7 @@ export function getCartCountForLoggedInUser(cartVal) {
 
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/bagCount?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}&cartGuid=${cartGuid}&isProductInfoRequired=true`
+        `${USER_CART_PATH}/${userId}/bagCount?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}&cartGuid=${cartGuid}&isProductInfoRequired=true&isMDE=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -6696,6 +6699,7 @@ export function getMinicartProducts() {
         `${USER_CART_PATH}/${userId}/carts/${cartCode}/miniCartDetails?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
+      // const resultJson = miniCartResponse;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       // Check failure response status if found then throw an error
@@ -7952,6 +7956,87 @@ export function collectPaymentOrderForCliqCash(
         displayToast(ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL + " Please Retry.")
       );
       dispatch(collectPaymentOrderForCliqCashFailure(e));
+    }
+  };
+}
+
+export function removeExchangeRequest() {
+  return {
+    type: REMOVE_EXCHANGE_REQUEST,
+    status: REQUESTING
+  };
+}
+export function removeExchangeSuccess(data) {
+  return {
+    type: REMOVE_EXCHANGE_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function removeExchangeFailure(error) {
+  return {
+    type: REMOVE_EXCHANGE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function removeExchange(data) {
+  return async (dispatch, getState, { api }) => {
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const cartDetailsCookie = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    const cartDetailsForAnonymous = Cookie.getCookie(
+      CART_DETAILS_FOR_ANONYMOUS
+    );
+    const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+    let user = "anonymous";
+    let cartId =
+      cartDetailsForAnonymous && JSON.parse(cartDetailsForAnonymous).guid;
+    let guId = cartId;
+    let accessToken = globalCookie && JSON.parse(globalCookie).access_token;
+    if (customerCookie) {
+      user = JSON.parse(userDetails).userName;
+      cartId = cartDetailsCookie && JSON.parse(cartDetailsCookie).code;
+      guId = cartDetailsCookie && JSON.parse(cartDetailsCookie).guid;
+      accessToken = JSON.parse(customerCookie).access_token;
+    }
+    dispatch(removeExchangeRequest());
+    try {
+      const result = await api.getMiddlewareUrl(
+        `v2/mpl/products/cancelExchange?access_token=${accessToken}&guid=${guId}&entryNumber=${
+          data.entryNumber
+        }&quoteId=${data.quoteId}&imeiNumber=${data.IMEINumber}`
+      );
+      const resultJson = await result.json();
+      if (
+        resultJson &&
+        resultJson.status &&
+        resultJson.status.toLowerCase() === "success"
+      ) {
+        //display toast and call cartdetails
+        dispatch(displayToast("Exchange for product removed"));
+        dispatch(removeExchangeSuccess(resultJson));
+        dispatch(getCartDetails(user, accessToken, cartId, defaultPinCode));
+      }
+      if (
+        resultJson &&
+        resultJson.status &&
+        resultJson.status.toLowerCase() === "failure"
+      ) {
+        if (
+          resultJson.error &&
+          resultJson.errorCode &&
+          resultJson.errorCode === "EX05"
+        ) {
+          dispatch(displayToast(resultJson.error));
+        }
+        return dispatch(removeExchangeFailure(resultJson.message));
+      }
+      return resultJson;
+    } catch (e) {
+      return dispatch(removeExchangeFailure(e.message));
     }
   };
 }

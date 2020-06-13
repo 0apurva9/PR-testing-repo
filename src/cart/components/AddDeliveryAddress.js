@@ -348,14 +348,14 @@ export default class AddDeliveryAddress extends React.Component {
       this.props.displayToast(SELECT_ADDRESS_TYPE);
       return false;
     }
-    if (
-      !this.state.userEmailId &&
-      !this.state.emailId &&
-      this.state.emailId === ""
-    ) {
-      this.props.displayToast("Please enter the EmailId");
-      return false;
-    }
+    // if (
+    //   !this.state.userEmailId &&
+    //   !this.state.emailId &&
+    //   this.state.emailId === ""
+    // ) {
+    //   this.props.displayToast("Please enter the EmailId");
+    //   return false;
+    // }
     if (
       this.state.emailId &&
       this.state.emailId !== "" &&

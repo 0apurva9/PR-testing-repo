@@ -13,10 +13,7 @@ export default class BankDetailsV2 extends React.Component {
     super(props);
     this.state = {
       selectedOption: "",
-      currentOrderId: "",
-      ACCOUNTNO_REGEX_VALUE: "",
-      RE_ENTER_ACCOUNTNO_REGEX_VALUE: "",
-      IFSC_CODE_REGEX: ""
+      currentOrderId: ""
     };
     this.radioChange = this.radioChange.bind(this);
   }
@@ -30,24 +27,6 @@ export default class BankDetailsV2 extends React.Component {
       let userBankDetails = this.props.history.location.state.bankData;
       userBankDetails.reEnterAccountNumber = userBankDetails.accountNumber;
       this.props.updateStateForBankDetails(userBankDetails);
-
-      let accountNumber = this.props.history.location.state.bankData.accountNumber.replace(
-        /\d(?=\d{4})/g,
-        "*"
-      );
-      let reEnterAccountNumber = this.props.history.location.state.bankData.reEnterAccountNumber.replace(
-        /\d(?=\d{4})/g,
-        "*"
-      );
-      let ifscCode = this.props.history.location.state.bankData.IFSCCode.replace(
-        /\d(?=\d{4})/g,
-        "*"
-      );
-      this.setState({
-        RE_ENTER_ACCOUNTNO_REGEX_VALUE: reEnterAccountNumber,
-        ACCOUNTNO_REGEX_VALUE: accountNumber,
-        IFSC_CODE_REGEX: ifscCode
-      });
     }
     //order id required for url formation
     if (
@@ -60,7 +39,6 @@ export default class BankDetailsV2 extends React.Component {
       });
     }
   }
-  componentWillReceiveProps(nextProps) {}
   radioChange(e) {
     this.setState({ selectedOption: e.currentTarget.value });
     this.props.onChange({ title: e.currentTarget.value });
@@ -81,10 +59,7 @@ export default class BankDetailsV2 extends React.Component {
     document.getElementsByTagName("input")[6].value = "";
     document.getElementsByTagName("input")[7].value = "";
     this.setState({
-      selectedOption: "",
-      ACCOUNTNO_REGEX_VALUE: "",
-      RE_ENTER_ACCOUNTNO_REGEX_VALUE: "",
-      IFSC_CODE_REGEX: ""
+      selectedOption: ""
     });
     this.props.history.replace({
       pathname: `${RETURNS_PREFIX}/${orderId}${RETURN_LANDING}${RETURNS_STORE_BANK_FORM}`,
@@ -113,7 +88,6 @@ export default class BankDetailsV2 extends React.Component {
         value: "Ms"
       }
     ];
-    //let ACCOUNTNO_REGEX_VALUE, RE_ENTER_ACCOUNTNO_REGEX_VALUE, IFSC_CODE_REGEX;
 
     return (
       <div className={styles.base}>
@@ -133,7 +107,7 @@ export default class BankDetailsV2 extends React.Component {
               boxy={true}
               height={33}
               onChange={ifscCode => this.onChange({ ifscCode })}
-              value={this.state.IFSC_CODE_REGEX || bankDetails.ifscCode || ""}
+              value={bankDetails.ifscCode || ""}
             />
           </div>
           <div className={styles.container}>
@@ -144,11 +118,7 @@ export default class BankDetailsV2 extends React.Component {
               maxLength={"19"}
               onChange={accountNumber => this.onChange({ accountNumber })}
               onlyNumber={true}
-              value={
-                this.state.ACCOUNTNO_REGEX_VALUE ||
-                bankDetails.accountNumber ||
-                ""
-              }
+              value={bankDetails.accountNumber || ""}
             />
           </div>
           <div className={styles.container}>
@@ -161,11 +131,7 @@ export default class BankDetailsV2 extends React.Component {
                 this.onChange({ reEnterAccountNumber })
               }
               onlyNumber={true}
-              value={
-                this.state.RE_ENTER_ACCOUNTNO_REGEX_VALUE ||
-                bankDetails.reEnterAccountNumber ||
-                ""
-              }
+              value={bankDetails.reEnterAccountNumber || ""}
             />
           </div>
           <div className={styles.container}>
