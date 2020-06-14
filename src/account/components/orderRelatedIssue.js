@@ -490,7 +490,7 @@ export default class OrderRelatedIssue extends React.Component {
                         customerQueriesOtherIssueData
                       }
                       // selectedOrder={this.state.selectedOrder}
-                      selectedOrder={this.props.selectedOrderDetails || []}
+                      selectedOrder={this.props.selectedOrderDetails || null}
                       orderList={this.state.orderList}
                       isOrderDatails={this.state.isOrderDatails}
                       moreHelps={() => this.moreHelps()}

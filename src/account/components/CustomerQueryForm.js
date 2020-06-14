@@ -690,7 +690,16 @@ export default class CustomerQueryForm extends Component {
     var files = [...this.state.file];
     copyuploadedAttachment[0].urlList.splice(index, 1);
     files.splice(index, 1);
-    this.setState({ uploadedAttachment: copyuploadedAttachment, file: files });
+    this.setState(
+      { uploadedAttachment: copyuploadedAttachment, file: files },
+      () => {
+        if (this.state.attachementData.isMandatory) {
+          if (this.state.file.length <= 0) {
+            this.setState({ btnDisable: true });
+          }
+        }
+      }
+    );
   }
 
   componentWillUnmount() {
@@ -827,12 +836,12 @@ export default class CustomerQueryForm extends Component {
                 </button>
                 <input
                   type="file"
-                  name="myfile"
+                  id="fileinput"
                   onChange={val =>
                     this.onUploadFile(val, this.state.attachementData)
                   }
                   title=""
-                  multiple
+                  multiple={true}
                   accept="text/plain, application/pdf, image/*" // accepting only txt/pdf/images(all types)
                 />
                 <div className={styles.fileSize}>
