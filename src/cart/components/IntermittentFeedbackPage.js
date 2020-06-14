@@ -36,14 +36,18 @@ class IntermittentFeedbackPage extends Component {
   }
 
   renderRatingData = (rating = []) => {
-    let ratinglist = [];
+    let ratinglist = [],
+      colorCode = null;
+    const colorArr = ["#e96a65", "#f7a535", "#55be9f"];
 
     rating.forEach((r, index) => {
       r.ratingList.forEach((item, key) => {
+        colorCode =
+          index <= 0 ? colorArr[0] : index <= 1 ? colorArr[1] : colorArr[2];
         ratinglist.push(
           <div
             className={styles.ratingCicrle}
-            style={{ backgroundColor: r.hexCode }}
+            style={{ backgroundColor: colorCode }}
             onClick={() => this.onFeedbackRatingClick(item)}
           >
             {item}
@@ -59,15 +63,12 @@ class IntermittentFeedbackPage extends Component {
     if (this.props.loadingForfeedBackPage) {
       return <SecondaryLoader />;
     }
-
-    if (this.props && this.props.feedBackPageData) {
-      var {
-        product: { imageURL, productName, deliveryDate },
-        ratings,
-        subTitle,
-        title
-      } =
+    let feedBackData = {},
+      product = {};
+    if (this.props.feedBackPageData && this.props.feedBackPageData.data) {
+      feedBackData =
         this.props.feedBackPageData && this.props.feedBackPageData.data;
+      product = feedBackData.product;
     }
 
     return (
@@ -76,17 +77,22 @@ class IntermittentFeedbackPage extends Component {
           <div className={styles.feedBackPageHeader}>
             <div className={styles.headerTextWrapper}>
               <div className={styles.checkActive} />
-              <span className={styles.headerText}>Delivered</span>
+              <span className={styles.headerText}>
+                {product && product.deliveryDate
+                  ? "Delivered"
+                  : "Return Completed"}
+              </span>
             </div>
             <div className={styles.headerSeperator} />
           </div>
           <div className={styles.mainTextWrapper}>
-            <div className={styles.mainText}>{title}</div>
-            <span className={styles.subMainText}>{subTitle}</span>
+            <div className={styles.mainText}>{feedBackData.title}</div>
+            <span className={styles.subMainText}>{feedBackData.subTitle}</span>
           </div>
           <div className={styles.productContainer}>
             <div className={styles.productRatingWrapper}>
-              {this.renderRatingData(ratings)}
+              <div className={styles.rateUsNow}>Rate us now</div>
+              {this.renderRatingData(feedBackData.ratings)}
               <div className={styles.ratingLabelWrapper}>
                 <span className={styles.ratingLabel}>Not Likely</span>
                 <span
@@ -107,15 +113,19 @@ class IntermittentFeedbackPage extends Component {
               <div className={styles.productDetailsWrapper}>
                 <div className={styles.productImageHolder}>
                   <ProductImage
-                    image={imageURL}
-                    flatImage={productName === "Gift Card"}
+                    image={product && product.imageURL}
+                    flatImage={product && product.productName === "Gift Card"}
                   />
                 </div>
                 <div className={styles.productDetails}>
-                  <div className={styles.productName}>{productName}</div>
-                  <div
-                    className={styles.deliveryDate}
-                  >{`Delivered on ${deliveryDate}`}</div>
+                  <div className={styles.productName}>
+                    {product && product.productName}
+                  </div>
+                  <div className={styles.deliveryDate}>
+                    {product && product.deliveryDate
+                      ? `Delivered on ${product.deliveryDate}`
+                      : "Return Completed"}
+                  </div>
                 </div>
               </div>
             </div>

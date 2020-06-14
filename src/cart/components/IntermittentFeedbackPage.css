@@ -58,7 +58,7 @@
 .mainTextWrapper {
   display: block;
   text-align: center;
-  margin-top: 21px;
+  margin-top: 26px;
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;
@@ -166,4 +166,19 @@
   line-height: 0.89;
   letter-spacing: normal;
   color: #212121;
+}
+
+.rateUsNow {
+  font-family: semibold;
+  font-size: 24px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #212121;
+  text-align: center;
+  border-top: 1px solid #ececec;
+  margin: 0 24px 24px 24px;
+  padding-top: 24px;
 }
