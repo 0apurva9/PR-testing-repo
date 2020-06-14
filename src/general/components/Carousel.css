@@ -86,6 +86,17 @@
   padding: 0 10px;
 }
 
+.headerBottomBase{
+  width: 100%;
+    height: auto;
+    padding-bottom: 63px;
+    position: relative;
+}
+.headerBottom{
+  position: absolute;
+    bottom: -10px;
+}
+
 @media screen and (min-width: 1025px) {
   .header {
     display: flex;

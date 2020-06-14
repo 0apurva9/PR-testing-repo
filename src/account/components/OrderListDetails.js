@@ -149,24 +149,50 @@ class OrderListDetails extends Component {
   }
 
   render() {
-    const { selectedOrder } = this.props;
-    const product = selectedOrder && selectedOrder.products[0];
+    const { selectedOrder, slectOrderData } = this.props;
+    const product = slectOrderData && slectOrderData.products[0];
     return (
       <div>
-        {this.props.isQuesryForm && this.props.otherQuestion ? null : (
-          <div className={styles.whiteCard}>
-            <div className={styles.orderHeader}>
-              <div className={styles.header}>
-                {this.props.orderRelatedQuestion && (
-                  <div>Your order details</div>
-                )}
-                {this.props.otherQuestion && !this.props.FAQquestion && (
+        <div className={styles.whiteCard}>
+          <div className={styles.orderHeader}>
+            <div className={styles.header}>
+              {this.props.orderRelatedQuestion && <div>Your order details</div>}
+              {this.props.otherQuestion && !this.props.FAQquestion && (
+                <div>
+                  {this.props.parentIssueType && this.props.isQuesryForm
+                    ? this.props.parentIssueType
+                    : "Other Issues"}
+                </div>
+              )}
+              {/* {this.props.otherQuestion && this.props.question && (
                   <div>Other Issues</div>
-                )}
-                {this.props.FAQquestion && <div>All Help Topics</div>}
-              </div>
-              <div className={styles.orderDetalsButton}>
-                {this.props.isQuesryForm ? (
+                )} */}
+              {!this.props.isQuesryForm && this.props.FAQquestion && (
+                <div>All Help Topics</div>
+              )}
+              {this.props.isQuesryForm && this.props.FAQquestion && (
+                <div>{this.props.parentIssueType}</div>
+              )}
+              {/* {this.props.isQuesryForm && <div>{this.props.parentIssueType}</div>} */}
+            </div>
+            <div className={styles.orderDetalsButton}>
+              {this.props.isQuesryForm ? (
+                <div
+                  className={styles.customBtn}
+                  onClick={() => this.props.navigateCliqCarePage()}
+                >
+                  Back to CLiQ Care Homepage
+                </div>
+              ) : (
+                <div
+                  className={styles.customBtn}
+                  onClick={() => this.props.navigatePreviousPage()}
+                >
+                  Go Back to Previous Page
+                </div>
+              )}
+
+              {/* {this.props.isQuesryForm ? (
                   <Button
                     type="hollow"
                     label="Back to CLiQ Care Homepage"
@@ -184,270 +210,154 @@ class OrderListDetails extends Component {
                     height={16}
                     onClick={() => this.props.navigatePreviousPage()}
                   />
-                )}
-              </div>
+                )} */}
             </div>
+          </div>
+          {this.props.question &&
+            this.props.question.subIssueType &&
+            this.props.isQuesryForm && (
+              <div className={styles.subIssueType}>
+                {this.props.question.subIssueType}
+              </div>
+            )}
 
-            {this.props.selectedOrder &&
-              this.props.selectedOrder.products &&
-              this.props.selectedOrder.products.length &&
-              this.props.orderRelatedQuestion && (
-                <div className={styles.orderDetailsBox}>
-                  <div className={styles.orderDetailsCard}>
-                    <div className={styles.orderDetailsImgBox}>
-                      <ProductImage
-                        image={product.imageURL}
-                        // flatImage={this.props.productName === "Gift Card"}
-                      />
+          {this.props.selectedOrder &&
+            this.props.selectedOrder.products &&
+            this.props.selectedOrder.products.length &&
+            this.props.orderRelatedQuestion && (
+              <div className={styles.orderDetailsBox}>
+                <div className={styles.orderDetailsCard}>
+                  <div className={styles.orderDetailsImgBox}>
+                    <ProductImage
+                      image={product.imageURL}
+                      // flatImage={this.props.productName === "Gift Card"}
+                    />
+                  </div>
+                  <div className={styles.orderDetailsContent}>
+                    <div className={styles.orderDesc}>
+                      {product.productName}
                     </div>
-                    <div className={styles.orderDetailsContent}>
-                      <div className={styles.orderDesc}>
-                        {product.productName}
-                      </div>
-                      {this.props.selectedOrder &&
-                        this.props.selectedOrder.products && (
-                          <div className={styles.orderDesc}>
-                            <span className={styles.fontBold}>Status:</span>{" "}
-                            {product.statusDisplay}
-                          </div>
-                        )}
-
-                      {/* <div className={styles.orderDesc}>
-                      {RUPEE_SYMBOL}
-                      {this.props.selectedOrder.products &&
-                        this.props.selectedOrder.products[0].price}
-                    </div> */}
-                      {/* {this.props.selectedOrder.products &&
-                      this.props.selectedOrder.products[0].productSize && (
+                    {this.props.selectedOrder &&
+                      this.props.selectedOrder.products && (
                         <div className={styles.orderDesc}>
-                          <span>
-                            {" "}
-                            {this.props.selectedOrder.products &&
-                              this.props.selectedOrder.products[0]
-                                .productSize}{" "}
-                          </span>{" "}
-                          |{" "}
-                          <span>
-                            {this.props.selectedOrder.products &&
-                              this.props.selectedOrder.products[0]
-                                .productColourName}
-                          </span>
+                          <span className={styles.fontBold}>Order Status:</span>{" "}
+                          {product.statusDisplay}
                         </div>
-                      )} */}
+                      )}
 
-                      {/* {this.props.selectedOrder&&this.props.selectedOrder.products &&
-                      this.props.selectedOrder.products[0]
-                        .estimateddeliverydate &&
-                      (this.props.selectedOrder.products[0].statusDisplay ==
-                        "Order Confirmed" ||
-                      this.props.selectedOrder.products[0].statusDisplay ==
-                        "Order in Process" ||
-                      this.props.selectedOrder.products[0].statusDisplay ==
-                        "Item Packed" ||
-                      this.props.selectedOrder.products[0].statusDisplay ==
-                        "Shipped" ||
-                      this.props.selectedOrder.products[0].statusDisplay ==
-                        "Delivered" ? (
-                        <div className={styles.orderDesc}>
+                    {product.pickUpDateCNC ? (
+                      product.statusDisplay === ORDER_IN_PROCESS ||
+                      product.statusDisplay === READY_FOR_COLLECTION ? (
+                        <div className={styles.orderStatus}>
+                          {PICKUP_DATE}&nbsp;
                           <span className={styles.fontBold}>
-                            {this.props.selectedOrder.products[0]
-                              .statusDisplay == "Delivered"
-                              ? "Delivered On: "
-                              : "Estimated Delivery Date: "}{" "}
+                            {getDayNumberSuffix(product.pickUpDateCNC, true)}
                           </span>
-                          {getDayNumberSuffix(
-                            this.props.selectedOrder.products[0]
-                              .estimateddeliverydate
-                          )}
                         </div>
-                      ) : null)} */}
-
-                      {product.pickUpDateCNC ? (
+                      ) : null
+                    ) : (product.statusDisplay === ORDER_CONFIRMED ||
                         product.statusDisplay === ORDER_IN_PROCESS ||
-                        product.statusDisplay === READY_FOR_COLLECTION ? (
-                          <div className={styles.orderStatus}>
-                            {PICKUP_DATE}&nbsp;
-                            <span className={styles.fontBold}>
-                              {getDayNumberSuffix(product.pickUpDateCNC, true)}
-                            </span>
-                          </div>
-                        ) : null
-                      ) : (product.statusDisplay === ORDER_CONFIRMED ||
-                          product.statusDisplay === ORDER_IN_PROCESS ||
-                          product.statusDisplay === SHIPPED ||
-                          product.statusDisplay === ITEM_PACKED ||
-                          product.statusDisplay === OUT_FOR_DELIVERY ||
-                          product.statusDisplay === READY_FOR_COLLECTION) &&
-                        (product.EDD || product.estimateddeliverydate) ? (
-                        <div className={styles.orderStatus}>
-                          {ESTIMATED_DATE}&nbsp;
-                          <span className={styles.fontBold}>
-                            {getDayNumberSuffix(
-                              product.EDD || product.estimateddeliverydate
-                            )}
-                          </span>
-                        </div>
-                      ) : product.deliveryDate ? (
-                        <div className={styles.orderStatus}>
-                          {DELIVERY_TEXT}&nbsp;
-                          <span className={styles.fontBold}>
-                            {getDayNumberSuffix(product.deliveryDate, true)}
-                          </span>
-                        </div>
-                      ) : null}
-
-                      {/* {product.pickUpDateCNC &&
-                    (product.statusDisplay ===
-                      ORDER_IN_PROCESS ||
-                      product.statusDisplay ===
-                        READY_FOR_COLLECTION) ? (
-                      <div className={styles.orderStatus}>
-                        {PICKUP_DATE}&nbsp;
-                        <span className={styles.fontBold}>
-                          {getDayNumberSuffix(
-                            product.pickUpDateCNC,
-                            true
-                          )}
-                        </span>
-                      </div>
-                    ) : (product.statusDisplay ===
-                        ORDER_CONFIRMED ||
-                        product.statusDisplay ===
-                          ORDER_IN_PROCESS ||
-                        product.statusDisplay ===
-                          SHIPPED ||
-                        product.statusDisplay ===
-                          ITEM_PACKED ||
-                        product.statusDisplay ===
-                          OUT_FOR_DELIVERY ||
-                        product.statusDisplay ===
-                          READY_FOR_COLLECTION) &&
-                      (product.EDD ||
-                        product
-                          .estimateddeliverydate) ? (
+                        product.statusDisplay === SHIPPED ||
+                        product.statusDisplay === ITEM_PACKED ||
+                        product.statusDisplay === OUT_FOR_DELIVERY ||
+                        product.statusDisplay === READY_FOR_COLLECTION) &&
+                      (product.EDD || product.estimateddeliverydate) ? (
                       <div className={styles.orderStatus}>
                         {ESTIMATED_DATE}&nbsp;
                         <span className={styles.fontBold}>
                           {getDayNumberSuffix(
-                            product.EDD ||
-                              product
-                                .estimateddeliverydate
+                            product.EDD || product.estimateddeliverydate
                           )}
                         </span>
                       </div>
-                    ) : product.deliveryDate ? (
+                    ) : selectedOrder.products[0].deliveryDate ? (
                       <div className={styles.orderStatus}>
                         {DELIVERY_TEXT}&nbsp;
                         <span className={styles.fontBold}>
                           {getDayNumberSuffix(
-                            product.deliveryDate,
+                            selectedOrder.products[0].deliveryDate,
                             true
                           )}
                         </span>
                       </div>
-                    ) : null}  */}
+                    ) : null}
+                  </div>
+                </div>
+                <div className={styles.moreAction}>
+                  <div className={styles.moreHeader}>More actions</div>
+                  <OrderActionButton
+                    selectedOrder={this.props.selectedOrder}
+                    sendInvoice={(ussid, sellerOrderNo) => {
+                      this.props.sendInvoice(ussid, sellerOrderNo);
+                    }}
+                  />
+                </div>
+              </div>
+            )}
 
-                      {/* <div className={styles.orderDesc}>Qty {"1"}</div> */}
-                      {/* {this.props.selectedOrder.products &&
-                      this.props.selectedOrder.products[0]
-                        .estimateddeliverydate&&
-                        this.props.selectedOrder.products[0].statusDisplay ==
-                        "Order Confirmed" ||
-                    this.props.selectedOrder.products[0].statusDisplay == "Order in Process" ||
-                    this.props.selectedOrder.products[0].statusDisplay == "Item Packed" ||
-                    this.props.selectedOrder.products[0].statusDisplay == "Shipped" ||
-                    this.props.selectedOrder.products[0].statusDisplay == "Delivered"?
-                    <div className={styles.orderDesc}>
-                          <span className={styles.fontBold}>
-                            {this.props.selectedOrder.products[0].statusDisplay== "Delivered"
-                              ? "Delivered On: "
-                              : "Est. delivery date: "}{" "}
-                          </span>
-                          {getDayNumberSuffix(
-                            this.props.selectedOrder.products[0]
-                              .estimateddeliverydate
-                          )}
-                        </div>
-                    :null
-                          } */}
+          {this.props.showFeedBack && this.feedbak(this.props.question)}
+
+          {this.props.FAQquestion && this.props.questionsList && (
+            <div className={styles.accordianBox}>
+              {/* {this.state.showParentIssue} */}
+              <div className={styles.parentIssueBox}>
+                <span className={styles.parentIssue}>
+                  {this.props.parentIssueType.replace("&amp;", "&")}
+                </span>{" "}
+                <span
+                  className={styles.staticContent}
+                >{`(Browse all help topics related to ${this.props.parentIssueType.replace(
+                  "&amp;",
+                  "&"
+                )})`}</span>
+              </div>
+              {this.props.questionsList.map(listOfIssue => {
+                return (
+                  <div>
+                    <div
+                      className={[
+                        styles.faqHeading,
+                        this.state.showFaqSolution ==
+                        listOfIssue.question_component
+                          ? styles.fontBold
+                          : null
+                      ].join(" ")}
+                      onClick={() => this.showFaqSolutions(listOfIssue)}
+                    >
+                      {listOfIssue.question_component}
                     </div>
+                    {this.state.showFaqSolution ==
+                      listOfIssue.question_component &&
+                      this.feedbak(listOfIssue)}
                   </div>
-                  <div className={styles.moreAction}>
-                    <div className={styles.moreHeader}>More actions</div>
-                    <OrderActionButton
-                      selectedOrder={this.props.selectedOrder}
-                      sendInvoice={(ussid, sellerOrderNo) => {
-                        this.props.sendInvoice(ussid, sellerOrderNo);
-                      }}
-                    />
-                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {!this.props.FAQquestion && this.props.showQuestionList && (
+            <div className={styles.orderRelatedIssueList}>
+              {this.props.questionsList ? (
+                <QuestionList
+                  // showQuestionList={this.state.showQuestionList}
+                  parentIssueType={this.props.parentIssueType}
+                  questionsList={this.props.questionsList}
+                  orderRelatedQuestion={this.props.orderRelatedQuestion}
+                  otherQuestion={this.props.otherQuestion}
+                  FAQquestion={this.props.FAQquestion}
+                  selectQuestion={(listOfIssue, index) =>
+                    this.props.selectQuestion(listOfIssue, index)
+                  }
+                />
+              ) : (
+                <div className={styles.noQuestions}>
+                  Sorry, we dont have any relevant issues related to this item
+                  at this moment
                 </div>
               )}
-
-            {this.props.showFeedBack && this.feedbak(this.props.question)}
-
-            {this.props.FAQquestion && this.props.questionsList && (
-              <div className={styles.accordianBox}>
-                {/* {this.state.showParentIssue} */}
-                <div className={styles.parentIssueBox}>
-                  <span className={styles.parentIssue}>
-                    {this.props.parentIssueType.replace("&amp;", "&")}
-                  </span>{" "}
-                  <span
-                    className={styles.staticContent}
-                  >{`(Browse all help topics related to ${this.props.parentIssueType.replace(
-                    "&amp;",
-                    "&"
-                  )})`}</span>
-                </div>
-                {this.props.questionsList.map(listOfIssue => {
-                  return (
-                    <div>
-                      <div
-                        className={[
-                          styles.faqHeading,
-                          this.state.showFaqSolution ==
-                          listOfIssue.question_component
-                            ? styles.fontBold
-                            : null
-                        ].join(" ")}
-                        onClick={() => this.showFaqSolutions(listOfIssue)}
-                      >
-                        {listOfIssue.question_component}
-                      </div>
-                      {this.state.showFaqSolution ==
-                        listOfIssue.question_component &&
-                        this.feedbak(listOfIssue)}
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-
-            {!this.props.FAQquestion && this.props.showQuestionList && (
-              <div className={styles.orderRelatedIssueList}>
-                {this.props.questionsList ? (
-                  <QuestionList
-                    // showQuestionList={this.state.showQuestionList}
-                    parentIssueType={this.props.parentIssueType}
-                    questionsList={this.props.questionsList}
-                    orderRelatedQuestion={this.props.orderRelatedQuestion}
-                    otherQuestion={this.props.otherQuestion}
-                    FAQquestion={this.props.FAQquestion}
-                    selectQuestion={(listOfIssue, index) =>
-                      this.props.selectQuestion(listOfIssue, index)
-                    }
-                  />
-                ) : (
-                  <div className={styles.noQuestions}>
-                    Sorry, we dont have any relevant issues related to this item
-                    at this moment
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        )}
+            </div>
+          )}
+        </div>
 
         {this.props.isQuesryForm && (
           <CustomerQueryForm

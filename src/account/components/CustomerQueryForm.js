@@ -59,7 +59,8 @@ export default class CustomerQueryForm extends Component {
       file: [],
       // subIssue: "",
       uploadedAttachment: "",
-      filesData: []
+      filesData: [],
+      isRadioComponent: false
     };
   }
 
@@ -147,6 +148,7 @@ export default class CustomerQueryForm extends Component {
             field.componentName === "radioComponent" ||
             field.componentName === "checkboxComponent"
           ) {
+            this.setState({ isRadioComponent: true });
             if (field.optionArray) {
               field.optionArray.map(option => {
                 if (this.state[field.componentId]) {
@@ -196,7 +198,13 @@ export default class CustomerQueryForm extends Component {
         }
         if (listOfField.componentName == "textboxComponent") {
           return (
-            <div className={styles.txtFieldBox}>
+            <div
+              className={
+                this.state.isRadioComponent
+                  ? styles.txtFieldBox
+                  : styles.txtFieldBoxMargin
+              }
+            >
               <div className={styles.txtFieldHeading}>
                 {listOfField.isMandatory == 1
                   ? listOfField.heading + "*"
@@ -391,7 +399,11 @@ export default class CustomerQueryForm extends Component {
           // communication: !isAttachment,
           attachment: true,
           btnDisable:
-            attachementData && attachementData.isMandatory ? true : false,
+            attachementData &&
+            attachementData.isMandatory &&
+            this.state.file.length == 0
+              ? true
+              : false,
           currentStep: ATTACHEMENT,
           btnLabel: "NEXT"
         });
@@ -647,9 +659,9 @@ export default class CustomerQueryForm extends Component {
   // }
 
   async onUploadFile(event, { maxFileLimit, maxFileSize, title }) {
-    console.log("event=========", event);
+    console.log("event=========", event.target.files);
     const newFile = event.target.files;
-    if (newFile) {
+    if (newFile.length > 0) {
       let combinedSize = 0,
         totalFile = [...newFile, ...this.state.file];
       for (let f of totalFile) combinedSize += f.size / 1048576; //converting file size into MB
@@ -702,6 +714,20 @@ export default class CustomerQueryForm extends Component {
     );
   }
 
+  // handleRemoveFile(fileName) {
+  //   let firstName = fileName.split(".")[0];
+
+  //   this.setState(prevState => ({
+  //     file: prevState.file.filter(f => f.name !== fileName),
+  //     uploadedAttachment: prevState.uploadedAttachment.map(item => {
+  //       return {
+  //         ...item,
+  //         urlList: item.urlList.filter(f => f.fileURL.indexOf(firstName) === -1)
+  //       };
+  //     })
+  //   }));
+  // }
+
   componentWillUnmount() {
     console.log("unMount check");
   }
@@ -742,12 +768,7 @@ export default class CustomerQueryForm extends Component {
       files
     } = this.state;
     return (
-      <div
-        className={[
-          styles.base,
-          !this.props.otherQuestion ? styles.marginTop : null
-        ].join(" ")}
-      >
+      <div className={styles.base}>
         <div className={styles.headerBox}>
           {basicForm && <div className={styles.header}>Create your ticket</div>}
           {attachment && (
@@ -761,7 +782,13 @@ export default class CustomerQueryForm extends Component {
           )}
 
           <div className={styles.buttonBox}>
-            <Button
+            <div
+              className={styles.customBtn}
+              onClick={() => this.previewPage()}
+            >
+              Go to Previous Page
+            </div>
+            {/* <Button
               type="hollow"
               label="Go to Previous Page"
               borderColor={""}
@@ -770,12 +797,12 @@ export default class CustomerQueryForm extends Component {
               color={"#da1c5c"}
               padding="0px 5px"
               onClick={() => this.previewPage()}
-            />
+            /> */}
           </div>
         </div>
         {basicForm && (
           <div className={styles.basicForm}>
-            {this.props.otherQuestion && (
+            {/* {this.props.otherQuestion && (
               <div className={styles.otherQuestionBox}>
                 <div className={styles.parentIssueHeader}>
                   <div className={styles.parentIssue}>
@@ -787,7 +814,7 @@ export default class CustomerQueryForm extends Component {
                   {this.props.question.subIssueType}
                 </div>
               </div>
-            )}
+            )} */}
             {/* <div className={styles.header}>{"Create your ticket"}</div> */}
             {this.formField()}
           </div>
@@ -824,7 +851,7 @@ export default class CustomerQueryForm extends Component {
                 </ol> */}
               </div>
               <div className={styles.fileUpload}>
-                <button className={styles.fileBtn}>
+                <div className={styles.fileBtn}>
                   {" "}
                   <div className={styles.uploadIcon}>
                     <Icon image={download} width={14} height={16}></Icon>
@@ -833,7 +860,7 @@ export default class CustomerQueryForm extends Component {
                     {" "}
                     <span>Attach File</span>
                   </div>
-                </button>
+                </div>
                 <input
                   type="file"
                   id="fileinput"
@@ -862,8 +889,8 @@ export default class CustomerQueryForm extends Component {
                       >
                         <Icon image={deleteUpload} size={20} />
                       </div>
-                      <div className={styles.fileName}>
-                        <div className={styles.fileNames}>{files.name}</div>
+                      <div className={styles.fileNames}>
+                        <div className={styles.fileName}>{files.name}</div>
                       </div>
                     </div>
                   );

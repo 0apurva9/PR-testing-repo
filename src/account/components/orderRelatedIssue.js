@@ -48,7 +48,8 @@ export default class OrderRelatedIssue extends React.Component {
       showFeedBack: false,
       question: null,
       selectedOrderObj: selectedOrderObj,
-      showLoader: false
+      showLoader: false,
+      slectOrderData: null
     };
     this.resetState = this.state;
   }
@@ -225,6 +226,7 @@ export default class OrderRelatedIssue extends React.Component {
       transactionId: orderData.products[0].transactionId,
       orderCode: orderData.orderId
     };
+    this.setState({ slectOrderData: orderData });
     this.orderRelatedInfo(selectedOrder);
   }
 
@@ -550,6 +552,7 @@ export default class OrderRelatedIssue extends React.Component {
                       navigateHomePage={() => this.navigateHomePage()}
                       updateThanks={() => this.updateThanks()}
                       navigateCliqCarePage={() => this.navigateCliqCarePage()}
+                      slectOrderData={this.state.slectOrderData}
                     />
                   </div>
                 </div>

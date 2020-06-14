@@ -53,91 +53,98 @@ class OrderList extends Component {
             {/* ) : null} */}
           </div>
 
-          <Carousel elementWidthDesktop={50}>
+          <Carousel
+            elementWidthDesktop={50}
+            headerBottom={true}
+            buttonColor={true}
+          >
             {this.props.ordersTransactionData &&
               this.props.ordersTransactionData.orderData &&
-              this.props.ordersTransactionData.orderData.map(orderData => {
-                return (
-                  <div
-                    className={styles.orderDataCard}
-                    onClick={() =>
-                      this.props.getOrderRelatedQuestions(orderData)
-                    }
-                  >
-                    <div className={styles.orderDataBox}>
-                      <div className={styles.orderImageBox}>
-                        {/* <img
+              this.props.ordersTransactionData.orderData
+                .slice(0, 5)
+                .map(orderData => {
+                  return (
+                    <div
+                      className={styles.orderDataCard}
+                      onClick={() =>
+                        this.props.getOrderRelatedQuestions(orderData)
+                      }
+                    >
+                      <div className={styles.orderDataBox}>
+                        <div className={styles.orderImageBox}>
+                          {/* <img
                           className={styles.orderImage}
                           src={orderData.products[0].imageURL}
                           alt="Order image"
                         /> */}
-                        <ProductImage
-                          image={orderData.products[0].imageURL}
-                          // flatImage={this.props.productName === "Gift Card"}
-                        />
-                      </div>
-                      <div className={styles.orderDatils}>
-                        <div className={styles.productName}>
-                          {orderData.products[0].productName}
+                          <ProductImage
+                            image={orderData.products[0].imageURL}
+                            // flatImage={this.props.productName === "Gift Card"}
+                          />
                         </div>
-                        <div className={styles.orderStatus}>
-                          Order Status:
-                          <span className={styles.fontBold}>
-                            {" "}
-                            {orderData.products[0].statusDisplay}{" "}
-                            {orderData.orderid}
-                          </span>
-                        </div>
+                        <div className={styles.orderDatils}>
+                          <div className={styles.productName}>
+                            {orderData.products[0].productName}
+                          </div>
+                          <div className={styles.orderStatus}>
+                            Order Status:
+                            <span className={styles.fontBold}>
+                              {" "}
+                              {orderData.products[0].statusDisplay}{" "}
+                              {/* {orderData.orderid} */}
+                            </span>
+                          </div>
 
-                        {orderData.products[0].pickUpDateCNC ? (
-                          orderData.products[0].statusDisplay ===
-                            ORDER_IN_PROCESS ||
-                          orderData.products[0].statusDisplay ===
-                            READY_FOR_COLLECTION ? (
+                          {orderData.products[0].pickUpDateCNC ? (
+                            orderData.products[0].statusDisplay ===
+                              ORDER_IN_PROCESS ||
+                            orderData.products[0].statusDisplay ===
+                              READY_FOR_COLLECTION ? (
+                              <div className={styles.orderStatus}>
+                                {PICKUP_DATE}&nbsp;
+                                <span className={styles.fontBold}>
+                                  {getDayNumberSuffix(
+                                    orderData.products[0].pickUpDateCNC,
+                                    true
+                                  )}
+                                </span>
+                              </div>
+                            ) : null
+                          ) : (orderData.products[0].statusDisplay ===
+                              ORDER_CONFIRMED ||
+                              orderData.products[0].statusDisplay ===
+                                ORDER_IN_PROCESS ||
+                              orderData.products[0].statusDisplay === SHIPPED ||
+                              orderData.products[0].statusDisplay ===
+                                ITEM_PACKED ||
+                              orderData.products[0].statusDisplay ===
+                                OUT_FOR_DELIVERY ||
+                              orderData.products[0].statusDisplay ===
+                                READY_FOR_COLLECTION) &&
+                            (orderData.products[0].EDD ||
+                              orderData.products[0].estimateddeliverydate) ? (
                             <div className={styles.orderStatus}>
-                              {PICKUP_DATE}&nbsp;
+                              {ESTIMATED_DATE}&nbsp;
                               <span className={styles.fontBold}>
                                 {getDayNumberSuffix(
-                                  orderData.products[0].pickUpDateCNC,
+                                  orderData.products[0].EDD ||
+                                    orderData.products[0].estimateddeliverydate
+                                )}
+                              </span>
+                            </div>
+                          ) : orderData.products[0].deliveryDate ? (
+                            <div className={styles.orderStatus}>
+                              {DELIVERY_TEXT}&nbsp;
+                              <span className={styles.fontBold}>
+                                {getDayNumberSuffix(
+                                  orderData.products[0].deliveryDate,
                                   true
                                 )}
                               </span>
                             </div>
-                          ) : null
-                        ) : (orderData.products[0].statusDisplay ===
-                          ORDER_CONFIRMED ||
-                          orderData.products[0].statusDisplay ===
-                            ORDER_IN_PROCESS ||
-                          orderData.products[0].statusDisplay === SHIPPED ||
-                          orderData.products[0].statusDisplay === ITEM_PACKED ||
-                          orderData.products[0].statusDisplay ===
-                            OUT_FOR_DELIVERY ||
-                          orderData.products[0].statusDisplay ===
-                            READY_FOR_COLLECTION) &&
-                        (orderData.products[0].EDD ||
-                          orderData.products[0].estimateddeliverydate) ? (
-                          <div className={styles.orderStatus}>
-                            {ESTIMATED_DATE}&nbsp;
-                            <span className={styles.fontBold}>
-                              {getDayNumberSuffix(
-                                orderData.products[0].EDD ||
-                                  orderData.products[0].estimateddeliverydate
-                              )}
-                            </span>
-                          </div>
-                        ) : orderData.products[0].deliveryDate ? (
-                          <div className={styles.orderStatus}>
-                            {DELIVERY_TEXT}&nbsp;
-                            <span className={styles.fontBold}>
-                              {getDayNumberSuffix(
-                                orderData.products[0].deliveryDate,
-                                true
-                              )}
-                            </span>
-                          </div>
-                        ) : null}
+                          ) : null}
 
-                        {/* {(orderData.products[0].EDD &&
+                          {/* {(orderData.products[0].EDD &&
                           orderData.products[0].statusDisplay ==
                             "Order Confirmed") ||
                         orderData.products[0].statusDisplay ==
@@ -155,7 +162,7 @@ class OrderList extends Component {
                             </span>
                           </div>
                         ) : null} */}
-                        {/* {orderData.products[0].EDD &&
+                          {/* {orderData.products[0].EDD &&
                           orderData.products[0].statusDisplay=="Order Confirmed"||
                           orderData.products[0].statusDisplay=="Order in Process"||
                           orderData.products[0].statusDisplay=="Item Packed"||
@@ -173,11 +180,11 @@ class OrderList extends Component {
                             </span>
                           </div>
                         )} */}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
           </Carousel>
         </div>
       );
