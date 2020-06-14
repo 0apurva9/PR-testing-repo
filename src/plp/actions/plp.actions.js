@@ -16,7 +16,9 @@ import {
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_SP,
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_TRENDING,
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL,
-  getMcvId
+  getMcvId,
+  TARGET_EVENT_FOR_PAGEVIEW,
+  targetPageViewEvent
 } from "../../lib/adobeUtils";
 import * as Cookie from "../../lib/Cookie";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent";
@@ -287,7 +289,7 @@ export function getProductListings(
           dispatch(setSearchUrlWithKeywordRedirect(resultJson, encodedString));
         }
       }
-
+      targetPageViewEvent(TARGET_EVENT_FOR_PAGEVIEW, resultJson, "PLP");
       if (resultJson.error) {
         if (
           isBrowser &&
@@ -348,26 +350,18 @@ export function getProductListings(
         );
       } else {
         if (
-          isBrowser &&
-          window.digitalData &&
-          window.digitalData.page &&
-          window.digitalData.page.pageInfo &&
-          window.digitalData.page.pageInfo.pageName !== "product grid"
+          componentName === "Flash Sale Component" ||
+          componentName === "Theme offers component" ||
+          componentName === "Curated products component"
         ) {
-          if (
-            componentName === "Flash Sale Component" ||
-            componentName === "Theme offers component" ||
-            componentName === "Curated products component"
-          ) {
-            setDataLayer(ADOBE_PLP_TYPE, resultJson);
-          } else {
-            setDataLayer(
-              ADOBE_PLP_TYPE,
-              resultJson,
-              getState().icid.value,
-              getState().icid.icidType
-            );
-          }
+          setDataLayer(ADOBE_PLP_TYPE, resultJson);
+        } else {
+          setDataLayer(
+            ADOBE_PLP_TYPE,
+            resultJson,
+            getState().icid.value,
+            getState().icid.icidType
+          );
         }
       }
       if (paginated) {

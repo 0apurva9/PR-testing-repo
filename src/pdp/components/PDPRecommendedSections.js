@@ -55,7 +55,7 @@ class PDPRecommendedSections extends React.Component {
       widgetName: widgetName,
       items: items
     };
-    getDigitalDataForPdp(SIMILAR_PRODUCTS_PDP_WIDGET, similarWidgetData);
+    // getDigitalDataForPdp(SIMILAR_PRODUCTS_PDP_WIDGET, similarWidgetData);
     let mainProduct =
       this.props.productData && this.props.productData.productDetails;
     let categoryHierarchy =
@@ -79,7 +79,6 @@ class PDPRecommendedSections extends React.Component {
       posOfReco: index
     };
     setDataLayerForMsdItemWidgets(jsonDetailsForWidgets, ADOBE_CAROUSEL_CLICK);
-    this.props.history.push(url);
     widgetsTrackingForRecommendation({
       widgetName: widgetName ? widgetName : "",
       pageName: "pdp",
@@ -108,6 +107,7 @@ class PDPRecommendedSections extends React.Component {
               ? 4
               : 7
     });
+    this.props.history.push(url);
   };
   visitBrand() {
     if (this.props.aboutTheBrand.webURL) {

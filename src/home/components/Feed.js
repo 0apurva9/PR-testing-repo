@@ -26,7 +26,10 @@ import {
   ADOBE_VIRTUAL_PAGELOAD,
   ADOBE_HOME_TYPE,
   setDataLayerForLogin,
-  ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER
+  ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER,
+  targetPageViewEvent,
+  TARGET_EVENT_FOR_PAYLOAD,
+  TARGET_EVENT_FOR_PAGEVIEW
 } from "../../lib/adobeUtils";
 
 export const PRODUCT_RECOMMENDATION_TYPE = "productRecommendationWidget";
@@ -485,6 +488,8 @@ class Feed extends Component {
   componentWillMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    targetPageViewEvent(TARGET_EVENT_FOR_PAYLOAD, "", "HOME");
+    targetPageViewEvent(TARGET_EVENT_FOR_PAGEVIEW, "", "HOME");
     if (!userDetails) {
       setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
     }

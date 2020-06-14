@@ -575,31 +575,31 @@ export async function setDataLayer(
   } else if (userLoginFailed) {
     userLoginFailed = JSON.parse(userLoginFailed);
   }
-  const previousDigitalData = cloneDeep(window.digitalData);
-  if (userDetails && previousDigitalData && previousDigitalData.account) {
+
+  if (userDetails && window.digitalData && window.digitalData.account) {
     if (userDetails.loginType === LOGIN_WITH_EMAIL) {
-      Object.assign(previousDigitalData.account, {
+      Object.assign(window.digitalData.account, {
         login: {
           customerID: userDetails.customerId,
           type: EMAIL
         }
       });
     } else if (userDetails.loginType === LOGIN_WITH_MOBILE) {
-      Object.assign(previousDigitalData.account, {
+      Object.assign(window.digitalData.account, {
         login: {
           customerID: userDetails.customerId,
           type: MOBILE
         }
       });
     } else if (userDetails.loginType === FACEBOOK_PLATFORM) {
-      Object.assign(previousDigitalData.account, {
+      Object.assign(window.digitalData.account, {
         login: {
           customerID: userDetails.customerId,
           type: FACEBOOK
         }
       });
     } else if (userDetails.loginType === GOOGLE_PLUS_PLATFORM) {
-      Object.assign(previousDigitalData.account, {
+      Object.assign(window.digitalData.account, {
         login: {
           customerID: userDetails.customerId,
           type: GOOGLE
@@ -608,7 +608,7 @@ export async function setDataLayer(
     }
   } else if (userLoginFailed) {
     if (userLoginFailed.loginType === LOGIN_WITH_EMAIL) {
-      Object.assign(previousDigitalData, {
+      Object.assign(window.digitalData, {
         account: {
           login: {
             customerID: userLoginFailed.customerId,
@@ -617,7 +617,7 @@ export async function setDataLayer(
         }
       });
     } else if (userLoginFailed.loginType === LOGIN_WITH_MOBILE) {
-      Object.assign(previousDigitalData, {
+      Object.assign(window.digitalData, {
         account: {
           login: {
             customerID: userLoginFailed.customerId,
@@ -626,7 +626,7 @@ export async function setDataLayer(
         }
       });
     } else if (userLoginFailed.loginType === FACEBOOK_PLATFORM) {
-      Object.assign(previousDigitalData, {
+      Object.assign(window.digitalData, {
         account: {
           login: {
             customerID: userLoginFailed.customerId,
@@ -635,7 +635,7 @@ export async function setDataLayer(
         }
       });
     } else if (userLoginFailed.loginType === GOOGLE_PLUS_PLATFORM) {
-      Object.assign(previousDigitalData, {
+      Object.assign(window.digitalData, {
         account: {
           login: {
             customerID: userLoginFailed.customerId,
@@ -645,8 +645,8 @@ export async function setDataLayer(
       });
     }
     const mcvId = await getMcvId();
-    if (previousDigitalData && previousDigitalData.account) {
-      Object.assign(previousDigitalData.account, {
+    if (window.digitalData && window.digitalData.account) {
+      Object.assign(window.digitalData.account, {
         mcvId: mcvId
       });
     }
@@ -658,7 +658,7 @@ export async function setDataLayer(
   //   }
   // }
   if (type === ADOBE_MY_ACCOUNT_TAB_CLICKED) {
-    let currentDigitalData = previousDigitalData;
+    let currentDigitalData = window.digitalData;
     if (apiResponse) {
       Object.assign(currentDigitalData, {
         cpj: {
@@ -680,7 +680,7 @@ export async function setDataLayer(
         }
       };
     }
-    window.digitalData = Object.assign(previousDigitalData, dataSort);
+    window.digitalData = Object.assign(window.digitalData, dataSort);
     // window.digitalData = getDigitalDataForSort(response);
     if (window._satellite) {
       window._satellite.track(ADOBE_SORT_BY_CLICK);
@@ -688,14 +688,14 @@ export async function setDataLayer(
   }
   if (type === ADOBE_PLP_TYPE) {
     let newVariable = getDigitalDataForPlp(type, response);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_PLP_CPJ);
     }
   }
   if (type === ADOBE_SIMILAR_PRODUCTS_PLP) {
     let newVariable = getDigitalDataForPlp(type, response);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(SIMILAR_PRODUCTS_PLP);
     }
@@ -728,28 +728,28 @@ export async function setDataLayer(
     behaviorOfPage !== "isFilterTrue"
   ) {
     let newVariable = getDigitalDataForSearchPageSuccess(response, type);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_INTERNAL_SEARCH_SUCCESS);
     }
   }
   if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_SP) {
     let newVariable = getDigitalDataForSearchPageSuccess(response, type);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_INTERNAL_SEARCH_SUCCESS_SP);
     }
   }
   if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_TRENDING) {
     let newVariable = getDigitalDataForSearchPageSuccess(response, type);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_INTERNAL_SEARCH_SUCCESS_TRENDING);
     }
   }
   if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL) {
     let newVariable = getDigitalDataForSearchPageForNullResult(response);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_INTERNAL_SEARCH_NULL);
     }
@@ -773,7 +773,7 @@ export async function setDataLayer(
       const badge = window.digitalData.cpj.product.badge;
       Object.assign(digitalDataForPDP.cpj.product, { badge });
     }
-    window.digitalData = Object.assign(previousDigitalData, digitalDataForPDP);
+    window.digitalData = Object.assign(window.digitalData, digitalDataForPDP);
     if (response && response.allOOStock) {
       if (window._satellite) {
         window._satellite.track(ADOBE_OUT_OF_STOCK_PDP);
@@ -785,9 +785,9 @@ export async function setDataLayer(
   }
   if (type === ADOBE_ERROR_TOAST_MESSAGE) {
     let previousData = cloneDeep(window.digitalData);
-    let data = window.digitalData;
+    let data;
     if (window.digitalData) {
-      if (data.page) {
+      if (previousData.page) {
         Object.assign(data.page, {
           error: {
             name: response.msg,
@@ -840,7 +840,7 @@ export async function setDataLayer(
       const badge = window.digitalData.cpj.product.badge;
       Object.assign(digitalDataForPDP.cpj.product, { badge });
     }
-    window.digitalData = Object.assign(previousDigitalData, digitalDataForPDP);
+    window.digitalData = Object.assign(window.digitalData, digitalDataForPDP);
     if (response && response.allOOStock) {
       if (window._satellite) {
         window._satellite.track(ADOBE_OUT_OF_STOCK_PDP);
@@ -887,7 +887,7 @@ export async function setDataLayer(
   }
   if (type === ADOBE_CART_TYPE) {
     let newVariable = getDigitalDataForCart(type, response);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_DIRECT_CALL_FOR_LANDING_USER);
     }
@@ -897,69 +897,69 @@ export async function setDataLayer(
   }
   if (type === ADOBE_MY_ACCOUNT_LANDING_PAGE) {
     let newVariable = getDigitalDataForMyAccount(MY_ACCOUNT_OVERVIEW);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
   }
   if (type === ADOBE_MY_ACCOUNT_SAVED_LIST) {
     let myAccountDetails = getDigitalDataForMyAccount(
       MY_ACCOUNT_SAVED_LIST,
       response
     );
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_ADDRESS_BOOK) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_ADDRESS_BOOK);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_BRANDS) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_BRANDS);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_ORDER_HISTORY) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_ORDER_HISTORY);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_SAVED_PAYMENTS) {
     let myAccountDetails = getDigitalDataForMyAccount(
       MY_ACCOUNT_SAVED_PAYMENTS
     );
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_ALERTS) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_ALERTS);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_USEFUL_LINKS) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_USEFUL_LINKS);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_COUPONS) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_COUPONS);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_GIFT_CARD) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_GIFT_CARD);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_CLIQ_CASH) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_CLIQ_CASH);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === AODBE_MY_ACCOUNT_SETTINGS) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_SETTING);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === AODBE_MY_ACCOUNT_REVIEW) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_REVIEW);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_ORDER_DETAILS) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_ORDER_DETAIL);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_BLP_PAGE_LOAD) {
     let digitalDataForBrandPage = getDigitalDataForBLP(BRAND_PAGE, response);
     window.digitalData = Object.assign(
-      previousDigitalData,
+      window.digitalData,
       digitalDataForBrandPage
     );
     if (window._satellite) {
@@ -969,7 +969,7 @@ export async function setDataLayer(
   if (type === ADOBE_CLP_PAGE_LOAD) {
     let digitalDataForCategoryPage = getDigitalDataForCLP(response);
     window.digitalData = Object.assign(
-      previousDigitalData,
+      window.digitalData,
       digitalDataForCategoryPage
     );
     if (window._satellite) {
@@ -987,21 +987,18 @@ export async function setDataLayer(
   ) {
     let digitalDataForBlpOrClp = getDigitalDataForDefaultBlpOrClp(response);
     window.digitalData = Object.assign(
-      previousDigitalData,
+      window.digitalData,
       digitalDataForBlpOrClp
     );
   }
   if (type === ADOBE_LOGIN_AND_SIGN_UP_PAGE) {
     let digitalDataForLogin = getDigitalDataForLoginAndSignup(response);
-    window.digitalData = Object.assign(
-      previousDigitalData,
-      digitalDataForLogin
-    );
+    window.digitalData = Object.assign(window.digitalData, digitalDataForLogin);
   }
   if (type === ADOBE_STATIC_PAGE) {
     let digitalDataForStaticData = getDigitalDataForStatic(response);
     window.digitalData = Object.assign(
-      previousDigitalData,
+      window.digitalData,
       digitalDataForStaticData
     );
   }
@@ -1061,21 +1058,21 @@ export async function setDataLayer(
   }
 
   if (
-    previousDigitalData &&
-    previousDigitalData.page &&
-    previousDigitalData.page.pageInfo &&
-    previousDigitalData.page.pageInfo.pageName
+    window.digitalData &&
+    window.digitalData.page &&
+    window.digitalData.page.pageInfo &&
+    window.digitalData.page.pageInfo.pageName
   ) {
     const currentDigitalData = window.digitalData;
     if (currentDigitalData.cpj) {
       if (currentDigitalData.cpj.pdp) {
         Object.assign(currentDigitalData.cpj.pdp, {
-          findingMethod: previousDigitalData.page.pageInfo.pageName
+          findingMethod: window.digitalData.page.pageInfo.pageName
         });
       } else {
         Object.assign(currentDigitalData.cpj, {
           pdp: {
-            findingMethod: previousDigitalData.page.pageInfo.pageName
+            findingMethod: window.digitalData.page.pageInfo.pageName
           }
         });
       }
@@ -1083,14 +1080,13 @@ export async function setDataLayer(
       Object.assign(currentDigitalData, {
         cpj: {
           pdp: {
-            findingMethod: previousDigitalData.page.pageInfo.pageName
+            findingMethod: window.digitalData.page.pageInfo.pageName
           }
         }
       });
     }
-    window.digitalData = Object.assign(previousDigitalData, currentDigitalData);
+    window.digitalData = Object.assign(window.digitalData, currentDigitalData);
   }
-  Object.assign(window.digitalData, previousDigitalData);
 
   if (type === ADOBE_VIRTUAL_PAGELOAD) {
     if (window._satellite) {
@@ -1243,7 +1239,7 @@ export async function setDataLayer(
 
   if (type === ADOBE_HOME_TYPE) {
     let newVariable = getDigitalDataForHome(response);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
   }
   if (type === ADOBE_PDP_KNOW_MORE_CLICK) {
     if (window._satellite) {
@@ -1422,33 +1418,15 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
   return data;
 }
 
-function getDigitalDataForHome(response) {
+async function getDigitalDataForHome() {
   let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
+  const mcvId = await getMcvId();
   if (userDetails) {
     userDetails = JSON.parse(userDetails);
   }
   const previousDigitalData = cloneDeep(window.digitalData);
   let data;
-  if (response) {
-    if (!userDetails) {
-      data = {
-        page: {
-          category: {
-            primaryCategory: "home"
-          },
-          pageInfo: {
-            pageName: "homepage"
-          }
-        },
-        account: {
-          mvcId: response,
-          login: {
-            customerID: "anonymous"
-          }
-        }
-      };
-    }
-  } else {
+  if (!userDetails) {
     data = {
       page: {
         category: {
@@ -1456,6 +1434,12 @@ function getDigitalDataForHome(response) {
         },
         pageInfo: {
           pageName: "homepage"
+        }
+      },
+      account: {
+        mvcId: mcvId,
+        login: {
+          customerID: "anonymous"
         }
       }
     };
@@ -3543,46 +3527,20 @@ export function widgetsTrackingForRecommendation(widgetObject: {}) {
     return;
   }
   const data = cloneDeep(window.digitalData);
-  const currentDigitalData = window.digitalData;
-  if (currentDigitalData.cpj) {
-    Object.assign(data, {
-      page: {
-        ...currentDigitalData.page,
-        widget: {
-          name: `${widgetObject.productId ? widgetObject.productId : "x"}:${
-            widgetObject.widgetName
-          }:${widgetObject.pageName ? widgetObject.pageName : ""}:${
-            widgetObject.brandName ? widgetObject.brandName : "x"
-          }:${widgetObject.category ? widgetObject.category : "x"}:${
-            widgetObject.PositionOfProduct
-              ? widgetObject.PositionOfProduct
-              : "x"
-          }:${widgetObject.widgetID ? widgetObject.widgetID : "x"}`
-        }
+  Object.assign(window.digitalData, {
+    page: {
+      ...data.page,
+      widget: {
+        name: `${widgetObject.productId ? widgetObject.productId : "x"}:${
+          widgetObject.widgetName
+        }:${widgetObject.pageName ? widgetObject.pageName : ""}:${
+          widgetObject.brandName ? widgetObject.brandName : "x"
+        }:${widgetObject.category ? widgetObject.category : "x"}:${
+          widgetObject.PositionOfProduct ? widgetObject.PositionOfProduct : "x"
+        }:${widgetObject.widgetID ? widgetObject.widgetID : "x"}`
       }
-    });
-  } else {
-    Object.assign(data, {
-      cpj: {
-        pdp: {
-          ...currentDigitalData.cpj.pdp,
-          findingMethod: data.page.pageInfo.pageName,
-          widgetname: `${
-            widgetObject.productId ? widgetObject.productId : "x"
-          }:${widgetObject.widgetName}:${
-            widgetObject.pageName ? widgetObject.pageName : ""
-          }:${widgetObject.brandName ? widgetObject.brandName : "x"}:${
-            widgetObject.category ? widgetObject.category : "x"
-          }:${
-            widgetObject.PositionOfProduct
-              ? widgetObject.PositionOfProduct
-              : "x"
-          }:${widgetObject.widgetID ? widgetObject.widgetID : "x"}`
-        }
-      }
-    });
-  }
-  Object.assign(window.digitalData, data);
+    }
+  });
   if (window._satellite) {
     window._satellite.track(ADOBE_WIDGET_TRACKING);
   }
@@ -3933,7 +3891,16 @@ export function setPageNameAndPageType(response) {
     Object.assign(window.digitalData, digitalDataForPageName);
   }
 }
-export function targetPageViewEvent(type) {
+export function targetPageViewEvent(type, response, pageType) {
+  if (response && pageType === "PDP") {
+    Object.assign(window.digitalData, getDigitalDataForPdp(type, response));
+  } else if (response && pageType === "PLP") {
+    Object.assign(window.digitalData, getDigitalDataForPlp(type, response));
+  } else if (response && pageType === "CART") {
+    Object.assign(window.digitalData, getDigitalDataForCart(type, response));
+  } else if (response && pageType === "HOME") {
+    Object.assign(window.digitalData, getDigitalDataForHome());
+  }
   if (type === TARGET_EVENT_FOR_PAYLOAD) {
     if (window._satellite) {
       window._satellite.track(TARGET_EVENT_FOR_PAYLOAD);

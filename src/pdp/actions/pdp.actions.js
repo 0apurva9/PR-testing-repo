@@ -28,7 +28,12 @@ import {
   SET_DATA_LAYER_FOR_SUBMIT_REVIEW,
   setDataLayerForCartDirectCalls,
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
-  ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS
+  ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
+  TARGET_EVENT_FOR_PAYLOAD,
+  targetPageViewEvent,
+  setDataLayer,
+  ADOBE_PDP_TYPE,
+  TARGET_EVENT_FOR_PAGEVIEW
 } from "../../lib/adobeUtils.js";
 import each from "lodash.foreach";
 import {
@@ -36,7 +41,6 @@ import {
   GO_TO_CART_PAGE_POPUP
 } from "../../general/modal.actions.js";
 import { setBagCount } from "../../general/header.actions";
-import { setDataLayer, ADOBE_PDP_TYPE } from "../../lib/adobeUtils.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { isBrowser } from "browser-or-node";
 
@@ -262,50 +266,15 @@ export function getProductDescription(
         ) {
           window.location.pathname = resultJson.seo.alternateURL;
         }
-        if (
-          isBrowser &&
-          (!window.digitalData ||
-            !window.digitalData.cpj ||
-            !window.digitalData.cpj.product) &&
-          window.digitalData &&
-          window.digitalData.cpj &&
-          window.digitalData.cpj.product &&
-          window.digitalData.cpj.product.id !== resultJson.productListingId
-        ) {
-          if (componentName === "Theme offers component") {
-            const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
-            let path = this.props.location.pathname;
-            if (PRODUCT_CODE_REGEX.test(path)) {
-              setDataLayer(
-                ADOBE_PDP_TYPE,
-                resultJson,
-                null,
-                null,
-                behaviorOfPageTheCurrent
-              );
-            }
-          } else {
-            const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
-            let path = this.props.location.pathname;
-            if (PRODUCT_CODE_REGEX.test(path)) {
-              setDataLayer(
-                ADOBE_PDP_TYPE,
-                resultJson,
-                getState().icid.value,
-                getState().icid.icidType,
-                behaviorOfPageTheCurrent
-              );
-            }
-          }
-        } else {
-          setDataLayer(
-            ADOBE_PDP_TYPE,
-            resultJson,
-            null,
-            null,
-            behaviorOfPageTheCurrent
-          );
-        }
+        targetPageViewEvent(TARGET_EVENT_FOR_PAYLOAD, resultJson, "PDP");
+        targetPageViewEvent(TARGET_EVENT_FOR_PAGEVIEW, "", "PDP");
+        setDataLayer(
+          ADOBE_PDP_TYPE,
+          resultJson,
+          null,
+          null,
+          behaviorOfPageTheCurrent
+        );
         return dispatch(getProductDescriptionSuccess(resultJson));
       } else {
         if (resultJson.status === 404 && isApiCall === 0) {
