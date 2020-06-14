@@ -4667,6 +4667,11 @@ export function orderConfirmation(orderId) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      targetPageViewEvent(
+        TARGET_EVENT_FOR_PAGEVIEW,
+        resultJson,
+        "ORDER_CONFIRMATION"
+      );
       setDataLayer(
         ADOBE_ORDER_CONFIRMATION,
         resultJson,

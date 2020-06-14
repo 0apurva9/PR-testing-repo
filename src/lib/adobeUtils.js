@@ -3900,6 +3900,11 @@ export function targetPageViewEvent(type, response, pageType) {
     Object.assign(window.digitalData, getDigitalDataForCart(type, response));
   } else if (response && pageType === "HOME") {
     Object.assign(window.digitalData, getDigitalDataForHome());
+  } else if (response && pageType === "ORDER_CONFIRMATION") {
+    Object.assign(
+      window.digitalData,
+      getDigitalDataForOrderConfirmation(type, response)
+    );
   }
   if (type === TARGET_EVENT_FOR_PAYLOAD) {
     if (window._satellite) {
