@@ -92,8 +92,8 @@ export default class QuestionFeedback extends Component {
             <div className={styles.feedBackContent}>
               {`${
                 this.props.isAnswerHelpFull
-                  ? "Your feedback is valuable for us to make us get better in addressing you issue."
-                  : "Hi we hope that the above information answered your issue help us get better by letting us know"
+                  ? "for your valuable feedback. This will help us to get better."
+                  : "Let us know. We're here to help!"
               }`}
             </div>
           </div>

@@ -225,7 +225,12 @@ class OrderListDetails extends Component {
             this.props.selectedOrder.products &&
             this.props.selectedOrder.products.length &&
             this.props.orderRelatedQuestion && (
-              <div className={styles.orderDetailsBox}>
+              <div
+                className={[
+                  styles.orderDetailsBox,
+                  this.props.isQuesryForm ? null : styles.orderDetailsSeperator
+                ].join(" ")}
+              >
                 <div className={styles.orderDetailsCard}>
                   <div className={styles.orderDetailsImgBox}>
                     <ProductImage

@@ -411,3 +411,5 @@ padding-bottom: 16px;
     font-family: semibold;
     cursor: pointer;
 }
+.orderDetailsSeperator{border-bottom: 1px solid #eee;
+margin-bottom: 16px;}

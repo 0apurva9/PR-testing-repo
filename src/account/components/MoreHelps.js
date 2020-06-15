@@ -32,7 +32,7 @@ const MoreHelps = props => {
               <Button
                 backgroundColor="#da1c5c"
                 height={48}
-                label="Write to us / Raise a Complain"
+                label="Write to us/ Raise a complaint"
                 width={276}
                 // color="#da1c5c"
                 boxShadow="0 0 6px 2px rgba(0, 0, 0, 0.11)"
