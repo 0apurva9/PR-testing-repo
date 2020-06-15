@@ -86,7 +86,7 @@
   padding: 0 10px;
 }
 
-.headerBottomBase{
+/* .headerBottomBase{
   width: 100%;
     height: auto;
     padding-bottom: 63px;
@@ -95,7 +95,7 @@
 .headerBottom{
   position: absolute;
     bottom: -10px;
-}
+} */
 
 @media screen and (min-width: 1025px) {
   .header {

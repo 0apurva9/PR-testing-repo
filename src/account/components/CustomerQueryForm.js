@@ -22,6 +22,8 @@ const TICKET_TATACLIQ = "tataCliq";
 const TICKET_OTHER_ECOMMERCE = "Other e-Commerce";
 const MOBILE_VALID_TEXT = "Please enter valid mobile number";
 const EMAIL_VALID_TEXT = "Please enter  valid emailId";
+const MOBILE_TEXT = "Please enter mobile number";
+const EMAIL_TEXT = "Please enter emailId";
 
 export default class CustomerQueryForm extends Component {
   constructor(props) {
@@ -440,8 +442,18 @@ export default class CustomerQueryForm extends Component {
     }
     if (currentStep == COMMUNICATION) {
       window.scroll(0, 0);
+      if (!email) {
+        this.props.displayToast(EMAIL_TEXT);
+        // this.setState({ email: "" });
+        return false;
+      }
       if (this.state.email && !EMAIL_REGULAR_EXPRESSION.test(email)) {
         this.props.displayToast(EMAIL_VALID_TEXT);
+        return false;
+      }
+      if (!mobile) {
+        this.props.displayToast(MOBILE_TEXT);
+        // this.setState({ mobile: "" });
         return false;
       }
       if (this.state.mobile && !MOBILE_PATTERN.test(mobile)) {

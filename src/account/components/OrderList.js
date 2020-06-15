@@ -55,7 +55,7 @@ class OrderList extends Component {
 
           <Carousel
             elementWidthDesktop={50}
-            headerBottom={true}
+            // headerBottom={true}
             buttonColor={true}
           >
             {this.props.ordersTransactionData &&

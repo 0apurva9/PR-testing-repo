@@ -7,7 +7,7 @@ import { ORDER_CODE } from "../../lib/constants";
 
 export default class QuestionFeedback extends Component {
   componentDidMount() {
-    // window.scroll(0, 0);
+    window.scroll(0, 0);
   }
   constructor(props) {
     super(props);

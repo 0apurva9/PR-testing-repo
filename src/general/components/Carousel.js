@@ -104,23 +104,10 @@ export default class Carousel extends React.Component {
     if (this.props.seeAll && !this.props.withFooter) {
       buttonSpace = 110;
     }
-    if (this.props.headerBottom) {
-    }
-
     return (
-      <div
-        className={
-          this.props.headerBottom ? styles.headerBottomBase : styles.base
-        }
-        styles={{ color: this.props.color }}
-      >
+      <div className={styles.base} styles={{ color: this.props.color }}>
         <MediaQuery query="(min-device-width: 1025px)">
-          <div
-            className={[
-              headerClass,
-              this.props.headerBottom ? styles.headerBottom : null
-            ].join(" ")}
-          >
+          <div className={headerClass}>
             {this.props.header && (
               <div>
                 <h2>{this.props.header}</h2>
