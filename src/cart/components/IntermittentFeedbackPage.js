@@ -117,7 +117,7 @@ class IntermittentFeedbackPage extends Component {
                 <span className={styles.ratingLabel}>Not Likely</span>
                 <span
                   className={styles.ratingLabel}
-                  style={{ left: "61%", position: "absolute" }}
+                  style={{ left: "62%", position: "absolute" }}
                 >
                   Maybe
                 </span>

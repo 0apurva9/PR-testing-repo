@@ -118,7 +118,7 @@
 .ratingLabelWrapper {
   display: flex;
   justify-content: space-between;
-  padding-right: 10px;
+  padding-right: 5px;
   position: relative;
 }
 .ratingLabel {
