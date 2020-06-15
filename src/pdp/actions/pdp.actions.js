@@ -266,15 +266,6 @@ export function getProductDescription(
         ) {
           window.location.pathname = resultJson.seo.alternateURL;
         }
-        targetPageViewEvent(TARGET_EVENT_FOR_PAYLOAD, resultJson, "PDP");
-        targetPageViewEvent(TARGET_EVENT_FOR_PAGEVIEW, "", "PDP");
-        setDataLayer(
-          ADOBE_PDP_TYPE,
-          resultJson,
-          null,
-          null,
-          behaviorOfPageTheCurrent
-        );
         return dispatch(getProductDescriptionSuccess(resultJson));
       } else {
         if (resultJson.status === 404 && isApiCall === 0) {

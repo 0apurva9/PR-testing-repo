@@ -289,7 +289,14 @@ export function getProductListings(
           dispatch(setSearchUrlWithKeywordRedirect(resultJson, encodedString));
         }
       }
+
       targetPageViewEvent(TARGET_EVENT_FOR_PAGEVIEW, resultJson, "PLP");
+      localStorage.setItem(
+        "locationSetForTarget",
+        JSON.stringify({
+          pageName: "plp"
+        })
+      );
       if (resultJson.error) {
         if (
           isBrowser &&
