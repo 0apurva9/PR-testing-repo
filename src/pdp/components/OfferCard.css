@@ -17,6 +17,7 @@
   color: #fff;
   text-align: left;
   position: relative;
+  display: none;
 }
 .headingText a {
   pointer-events: none;
