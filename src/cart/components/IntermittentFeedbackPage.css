@@ -63,6 +63,7 @@
   font-style: normal;
   letter-spacing: normal;
   line-height: normal;
+  padding: 0 25%;
 }
 .mainText {
   font-family: semibold;
@@ -90,8 +91,8 @@
 }
 .rating {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 21px;
+  /* justify-content: space-between; */
+  margin-bottom: 20px;
 }
 .ratingCicrle {
   height: 58px;
@@ -109,11 +110,15 @@
   align-items: center;
   display: flex;
   cursor: pointer;
+  margin-right: 10px;
+}
+.ratingCicrle:last-child {
+  margin-right: 0px;
 }
 .ratingLabelWrapper {
   display: flex;
   justify-content: space-between;
-  padding-right: 5px;
+  padding-right: 10px;
   position: relative;
 }
 .ratingLabel {
@@ -179,6 +184,22 @@
   color: #212121;
   text-align: center;
   border-top: 1px solid #ececec;
-  margin: 0 24px 24px 24px;
+  margin-bottom: 24px;
   padding-top: 24px;
+}
+
+@media only screen and (min-width : 1824px) {
+  .productContainer {
+    width: 100%;
+    height: 100%;
+    padding: 53px 226px 100px 226px;
+  }
+}
+
+@media only screen and (max-width: 1224px) {
+  .productContainer {
+    width: 100%;
+    height: 100%;
+    padding: 53px 105px 100px 105px;
+  }
 }

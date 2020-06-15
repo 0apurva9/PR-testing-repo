@@ -3,9 +3,20 @@ import queryString from "query-string";
 import styles from "./IntermittentFeedbackPage.css";
 import ProductImage from "../../general/components/ProductImage.js";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
+import format from "date-fns/format";
 
 const FORWARD_FLOW_URL = "/feedback/NPSFeedbackForm?";
 const RETURN_FLOW_URL = "/feedback/ReturnNPSFeedbackForm?";
+const WEEK_DAY = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+];
+const DATE_FORMAT = "Do MMM";
 class IntermittentFeedbackPage extends Component {
   constructor(props) {
     super(props);
@@ -64,13 +75,22 @@ class IntermittentFeedbackPage extends Component {
       return <SecondaryLoader />;
     }
     let feedBackData = {},
-      product = {};
+      product = {},
+      formattedDate = "";
     if (this.props.feedBackPageData && this.props.feedBackPageData.data) {
       feedBackData =
         this.props.feedBackPageData && this.props.feedBackPageData.data;
       product = feedBackData.product;
     }
 
+    if (product.deliveryDate) {
+      let day = new Date(product.deliveryDate).getDay();
+      let dayofweek = isNaN(day) ? "" : WEEK_DAY[day];
+      formattedDate = `${dayofweek}, ${format(
+        product.deliveryDate,
+        DATE_FORMAT
+      )}`;
+    }
     return (
       <div className={styles.base}>
         <div className={styles.feedBackPageContainer}>
@@ -97,7 +117,7 @@ class IntermittentFeedbackPage extends Component {
                 <span className={styles.ratingLabel}>Not Likely</span>
                 <span
                   className={styles.ratingLabel}
-                  style={{ left: "62%", position: "absolute" }}
+                  style={{ left: "61%", position: "absolute" }}
                 >
                   Maybe
                 </span>
@@ -123,7 +143,7 @@ class IntermittentFeedbackPage extends Component {
                   </div>
                   <div className={styles.deliveryDate}>
                     {product && product.deliveryDate
-                      ? `Delivered on ${product.deliveryDate}`
+                      ? `Delivered on ${formattedDate}`
                       : "Return Completed"}
                   </div>
                 </div>
