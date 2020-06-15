@@ -1895,7 +1895,7 @@ export function getRelevantBundleProduct(productCode, isApiCall = 0, sequence) {
       : secondGetRelevantBundleProductRequest();
     try {
       setTimeout(() => {
-        if (getState().productDescription.relevantBundleProductData) {
+        if (getState().productDescription.relevantBundleProductLoading) {
           dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
         }
       }, TIME_OUT_FOR_APIS);
