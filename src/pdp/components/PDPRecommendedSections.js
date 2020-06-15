@@ -338,6 +338,7 @@ class PDPRecommendedSections extends React.Component {
     const options = {
       onChange: this.handleIntersection
     };
+    console.log("!!!!!!!!!!!!!!", this.props);
     return (
       <React.Fragment>
         {/* <div
