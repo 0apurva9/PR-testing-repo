@@ -785,10 +785,9 @@ export async function setDataLayer(
   }
   if (type === ADOBE_ERROR_TOAST_MESSAGE) {
     let previousData = cloneDeep(window.digitalData);
-    let data;
     if (window.digitalData) {
-      if (previousData.page) {
-        Object.assign(data.page, {
+      if (previousData && previousData.page) {
+        Object.assign(previousData.page, {
           error: {
             name: response.msg,
             type: response.type
@@ -803,7 +802,7 @@ export async function setDataLayer(
           }
         });
       } else {
-        Object.assign(data, {
+        Object.assign(previousData, {
           page: {
             error: {
               name: response.msg,
@@ -821,7 +820,7 @@ export async function setDataLayer(
         });
       }
     }
-    window.digitalData = Object.assign(previousData, data);
+    Object.assign(window.digitalData, previousData);
     if (window._satellite) {
       window._satellite.track(ERROR_TOAST_MESSAGE);
     }
@@ -1303,6 +1302,7 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
     },
 
     page: {
+      ...window.digitalData.page,
       category: {
         primaryCategory: "product"
       }
