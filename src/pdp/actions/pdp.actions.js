@@ -1163,7 +1163,7 @@ export function getRecentlyViewedProduct(productCode) {
           removedDuplicate &&
           removedDuplicate.map(id =>
             api.getMiddlewareUrl(
-              `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+              `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
             )
           );
         //seprating each requests call
@@ -1302,9 +1302,7 @@ export function getPdpItems(itemIds, widgetKey) {
       let requests =
         productCodes &&
         productCodes.map(id =>
-          api.getMiddlewareUrl(
-            `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
-          )
+          api.getMiddlewareUrl(`${PRODUCT_DESCRIPTION_PATH}/${id}?isPwa=true`)
         );
       // seperating individual calls
       let productList = [];
@@ -1317,8 +1315,8 @@ export function getPdpItems(itemIds, widgetKey) {
             //   throw new Error(resultJsonStatus.message);
             // }
             //changes done for handling error if product is not available
-            if (res && res.results && res.results.length) {
-              productList.push(...res.results);
+            if (res) {
+              productList.push(res);
             }
           })
         );
