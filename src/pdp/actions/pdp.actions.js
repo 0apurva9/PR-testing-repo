@@ -1315,7 +1315,7 @@ export function getPdpItems(itemIds, widgetKey) {
             //   throw new Error(resultJsonStatus.message);
             // }
             //changes done for handling error if product is not available
-            if (res) {
+            if (res && res.status === "SUCCESS") {
               productList.push(res);
             }
           })
