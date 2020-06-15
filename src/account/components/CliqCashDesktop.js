@@ -15,7 +15,8 @@ import {
   TRANSACTION_DETAIL_PAGE,
   TRANSACTION_HISTORY,
   MY_ACCOUNT_CLIQ_CASH_PAGE,
-  EXPIRED_REJECTED_FORMAT
+  EXPIRED_REJECTED_FORMAT,
+  MY_ACCOUNT_PROMOS_PAGE
 } from "../../lib/constants.js";
 
 import {
@@ -78,7 +79,11 @@ export default class CliqCashDesktop extends React.Component {
       this.props.getCliqCashExpiring();
     }
   }
-
+  redirectToPromoCliqCash = () => {
+    this.props.history.push(
+      `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${MY_ACCOUNT_PROMOS_PAGE}`
+    );
+  };
   redeemCliqVoucher() {
     if (this.state.cardNumber && this.state.pinNumber) {
       this.setState({ cliqCashUpdate: true });
@@ -384,6 +389,20 @@ export default class CliqCashDesktop extends React.Component {
                       </div>
                     </div>
                   </div>
+                  <div className={styles.promoBase}>
+                    <div
+                      className={styles.giftCardPromoContainer}
+                      onClick={() => this.redirectToPromoCliqCash()}
+                    >
+                      <div className={styles.promoCliqCashText}>
+                        <div> PROMO CLIQ CASH</div>
+
+                        <div className={styles.viewRewards}>View Rewards</div>
+                        <span className={styles.fwd_logo} />
+                      </div>
+                    </div>
+                  </div>
+
                   {transactions && transactions.length > 0 && (
                     <div className={styles.cliqCashTransactionBase}>
                       <div className={styles.cliqCashTransactionContainer}>
