@@ -164,9 +164,7 @@ export default class Plp extends React.Component {
       this.props.pageNumber <
         this.props.productListings.pagination.totalPages - 1
     ) {
-      if (this.props.status !== REQUESTING) {
-        this.props.paginate(this.props.pageNumber + 1, SUFFIX);
-      }
+      this.props.paginate(this.props.pageNumber + 1, SUFFIX);
     }
   }
   componentDidMount() {

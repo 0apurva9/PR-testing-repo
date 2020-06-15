@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./ProductInfo.css";
 import PropTypes from "prop-types";
 import StarRating from "./StarRating.js";
+import exchangeIconLight from "../../cart/components/img/exchangeIconLight.svg";
 export default class ProductInfo extends React.Component {
   render() {
     return (
@@ -33,6 +34,21 @@ export default class ProductInfo extends React.Component {
                   </StarRating>
                 )
               : ""}
+            {this.props.maxExchangePrice &&
+              this.props.maxExchangePrice.formattedValueNoDecimal &&
+              this.props.maxExchangePrice.formattedValueNoDecimal !== "₹0" && (
+                <div className={styles.exchangeCashbackContainer}>
+                  <img
+                    src={exchangeIconLight}
+                    className={styles.exchangeIconLight}
+                    alt="exchange icon"
+                  />
+                  <div className={styles.exchangeCashback}>
+                    Upto {this.props.maxExchangePrice.formattedValueNoDecimal}{" "}
+                    Exchange Cashback
+                  </div>
+                </div>
+              )}
           </div>
         )}
       </React.Fragment>

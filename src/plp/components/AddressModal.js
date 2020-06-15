@@ -20,7 +20,14 @@ export default class AddressModal extends React.Component {
       this.props.closeModal();
       return;
     }
-    this.props.getProductPinCode(pincode, this.props.productCode);
+    this.props.getProductPinCode(
+      pincode,
+      this.props.productCode,
+      null,
+      false,
+      this.props.exchangeAvailable,
+      true
+    );
     this.props.closeModal();
   }
   componentDidMount() {

@@ -25,7 +25,8 @@ import {
   ADOBE_WISHLIST_PLP_REMOVE,
   ADOBE_WISHLIST_PDP_REMOVE,
   ADOBE_ADD_TO_WISHLIST_PLP,
-  ADOBE_ADD_TO_WISHLIST_PDP
+  ADOBE_ADD_TO_WISHLIST_PDP,
+  ADOBE_MDE_CLICK_ON_SAVE_TO_WISHLIST
 } from "../../lib/adobeUtils";
 export const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 export const WISHLIST_FOOTER_ICON_TYPE = "wishlistIcon";
@@ -53,6 +54,9 @@ export default class AddToWishListButton extends React.Component {
     if (e) {
       e.stopPropagation();
     }
+    if (this.props.exchangeDetails) {
+      setDataLayer(ADOBE_MDE_CLICK_ON_SAVE_TO_WISHLIST);
+    }
     const { productListingId, winningUssID, wishlistItems, index } = this.props;
     let addToWishListObj = Object.assign(
       {},
@@ -74,7 +78,17 @@ export default class AddToWishListButton extends React.Component {
       //   winningUssID: winningUssID
       // });
       // this.props.history.push(LOGIN_PATH);
+      if (this.props.exchangeDetails) {
+        let addToWlWithExchangeTrue = "addToWlWithExchangeTrue";
+        let quoteId = this.props.exchangeDetails.quoteId;
+        let IMEINumber = this.props.exchangeDetails.IMEINumber;
+        let exchangeId = this.props.exchangeDetails.exchangeProductId;
 
+        addToWishListObj.addToWlWithExchangeTrue = addToWlWithExchangeTrue;
+        addToWishListObj.quoteId = quoteId;
+        addToWishListObj.IMEINumber = IMEINumber;
+        addToWishListObj.exchangeId = exchangeId;
+      }
       localStorage.setItem(
         PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST,
         JSON.stringify(addToWishListObj)
@@ -106,19 +120,39 @@ export default class AddToWishListButton extends React.Component {
 
       return null;
     } else {
-      const indexOfProduct = wishlistItems.findIndex(item => {
+      let indexOfProduct = wishlistItems.findIndex(item => {
         return (
           item.productcode === productListingId && item.USSID === winningUssID
         );
       });
+      // as per MDEQ-226 MDEQ-263 - done following change
+      if (this.props.exchangeDetails) {
+        indexOfProduct = -1;
+      }
       if (this.props.isSizeSelectedForAddToWishlist) {
         this.props.showSizeSelector();
       } else {
         if (indexOfProduct < 0) {
-          this.props.addProductToWishList({
-            productListingId,
-            winningUssID
-          });
+          // if product is having exchange details
+          if (this.props.exchangeDetails) {
+            let addToWlWithExchangeTrue = "addToWlWithExchangeTrue";
+            let quoteId = this.props.exchangeDetails.quoteId;
+            let IMEINumber = this.props.exchangeDetails.IMEINumber;
+            let exchangeId = this.props.exchangeDetails.exchangeProductId;
+            this.props.addProductToWishList({
+              productListingId,
+              winningUssID,
+              addToWlWithExchangeTrue,
+              quoteId,
+              IMEINumber,
+              exchangeId
+            });
+          } else {
+            this.props.addProductToWishList({
+              productListingId,
+              winningUssID
+            });
+          }
         } else {
           this.props.displayToast();
         }

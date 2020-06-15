@@ -11,11 +11,8 @@ import ProductReviewListContainer from "../containers/ProductReviewListContainer
 import SizeQuantitySelect from "./SizeQuantitySelect";
 import APlusTemplate from "./APlusTemplate";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
-//import TrustBadgeImage from "../components/img/trustBadge.jpg";
 import Button from "../../general/components/Button";
-import SearchAndUpdate from "./SearchAndUpdate";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-import Image from "../../xelpmoc-core/Image";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import {
   ADOBE_SUMSUNG_CHAT_LINK_CLICK,
@@ -32,17 +29,14 @@ import {
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
   ADOBE_DIRECT_CALL_FOR_GO_TO_BAG,
   SET_DATA_LAYER_FOR_ADOBE_ADD_TO_CART_BUTTON,
-  ADOBE_DIRECT_CALL_FOR_PICK_UP_OPTION
+  ADOBE_DIRECT_CALL_FOR_PICK_UP_OPTION,
+  ADOBE_MDE_CLICK_ON_EXCHANGE_LINK
 } from "../../lib/adobeUtils";
 import { reverse } from "../reducers/utils";
 import * as Cookie from "../../lib/Cookie";
 import {
-  // CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
   GLOBAL_ACCESS_TOKEN,
-  //CART_DETAILS_FOR_LOGGED_IN_USER,
-  //CART_DETAILS_FOR_ANONYMOUS,
-  //ANONYMOUS_USER,
   PRODUCT_SELLER_ROUTER_SUFFIX,
   PRODUCT_CART_ROUTER,
   PRODUCT_REVIEWS_PATH_SUFFIX,
@@ -56,10 +50,7 @@ import {
   HOME_ROUTER,
   BUY_NOW_PRODUCT_DETAIL,
   BUY_NOW_ERROR_MESSAGE,
-  LOGIN_PATH,
-  ERROR,
-  RUPEE_SYMBOL,
-  SELECTED_STORE
+  LOGIN_PATH
 } from "../../lib/constants";
 import { isBrowser } from "browser-or-node";
 import styles from "./ProductDescriptionPage.css";
@@ -71,40 +62,17 @@ import OfferCard from "./OfferCard";
 import OtherSellersLink from "./OtherSellersLink";
 import SizeSelector from "./SizeSelector";
 import ProductDetailsMainCard from "./ProductDetailsMainCard";
-import ProductDetails from "./ProductDetails";
-// import Overlay from "./Overlay";
 import PdpDeliveryModes from "./PdpDeliveryModes";
 import PDPRecommendedSectionsContainer from "../containers/PDPRecommendedSectionsContainer";
 import ColourSelector from "./ColourSelector";
 import FlixMediaContainer from "./FlixMediaContainer";
-// import CheckBox from '../../general/components/CheckBox.js';
-import MultiCheckbox from "./MultiCheckbox";
 import Icon from "../../xelpmoc-core/Icon";
 import FilledStarBlack from "../../general/components/img/star-fill-black.svg";
-
-let testcheck = false;
-
+import ExchangeDetailsPDPDesktop from "./ExchangeDetailsPDPDesktop";
 const WASH = "Wash";
 const NECK_COLLAR = "Neck/Collar";
 const SLEEVE = "Sleeve";
-
-// const ProductDetailsMainCard = LoadableVisibility({
-//   loader: () => import("./ProductDetailsMainCard"),
-//   loading: () => <div />,
-//   delay: 400
-// });
-//const WISHLIST_FOOTER_BUTTON_TYPE = "wishlistFooter";
 export const ONLY_ICON = "wishlistIconForPdp";
-// const ProductDetails = LoadableVisibility({
-//   loader: () => import("./ProductDetails"),
-//   loading: () => <div />,
-//   delay: 400
-// });
-/* const ProductDetails = LoadableVisibility({
-  loader: () => import("./ProductDetails"),
-  loading: () => <div />,
-  delay: 400
-}); */
 
 const Overlay = LoadableVisibility({
   loader: () => import("./Overlay"),
@@ -116,74 +84,6 @@ const PdpPincode = LoadableVisibility({
   loading: () => <div />,
   delay: 1000
 });
-
-/*const ProductFeature = LoadableVisibility({
-  loader: () => import("./ProductFeature"),
-  loading: () => <div />,
-  delay: 400
-});
-
-const AllDescription = LoadableVisibility({
-  loader: () => import("./AllDescription"),
-  loading: () => <div />,
-  delay: 400
-});
-
-const RatingAndTextLink = LoadableVisibility({
-  loader: () => import("./RatingAndTextLink"),
-  loading: () => <div />,
-  delay: 400
-});
-*/
-// const PdpPaymentInfo = LoadableVisibility({
-//   loader: () => import("./PdpPaymentInfo"),
-//   loading: () => <div />,
-//   delay: 400
-// });
-
-// const OtherSellersLink = LoadableVisibility({
-//   loader: () => import("./OtherSellersLink"),
-//   loading: () => <div />,
-//   delay: 400
-// });
-
-// const OfferCard = LoadableVisibility({
-//   loader: () => import("./OfferCard"),
-//   loading: () => <div />,
-//   delay: 400
-// });
-
-// const SizeSelector = LoadableVisibility({
-//   loader: () => import("./SizeSelector"),
-//   loading: () => <div />,
-//   delay: 400
-// });
-
-// const SizeSelectorForEyeWear = LoadableVisibility({
-//   loader: () => import("./SizeSelectorForEyeWear"),
-//   loading: () => <div />,
-//   delay: 400
-// });
-
-// const ColourSelector = LoadableVisibility({
-//   loader: () => import("./ColourSelector"),
-//   loading: () => <div />,
-//   delay: 400
-// });
-
-// const PdpDeliveryModes = LoadableVisibility({
-//   loader: () => import("./PdpDeliveryModes"),
-//   loading: () => <div />,
-//   delay: 1000
-// });
-
-// const PDPRecommendedSectionsContainer = LoadableVisibility({
-//   loader: () => import("../containers/PDPRecommendedSectionsContainer"),
-//   loading: () => {
-//     return <div />;
-//   },
-//   delay: 400
-// });
 
 const NO_SIZE = "NO SIZE";
 const FREE_SIZE = "Free Size";
@@ -467,9 +367,9 @@ export default class PdpApparel extends React.Component {
       productCode,
       winningUssID
     );
-    if (productPincodeObj.status === ERROR) {
-      this.props.displayToast("Please enter a valid pincode");
-    }
+    // if (productPincodeObj.status === ERROR) {
+    //   this.props.displayToast("Please enter a valid pincode");
+    // }
     if (
       productPincodeObj.status === SUCCESS &&
       this.props.productDetails &&
@@ -956,6 +856,61 @@ export default class PdpApparel extends React.Component {
     !this.state.selectedBundledProduct.includes(e.target.value) &&
       this.state.selectedBundledProduct.push(e.target.value);
   }
+  openHowExchangeWorksModal(data) {
+    this.props.showExchangeModal(data);
+  }
+  async openExchangeModal() {
+    if (this.props.productDetails) {
+      let listingId = this.props.productDetails.productListingId;
+      let ussId = this.props.productDetails.winningUssID;
+      let maxExchangeAmount =
+        this.props.productDetails.maxExchangeAmount &&
+        this.props.productDetails.maxExchangeAmount.value;
+      let pickupCharge =
+        this.props.productDetails.pincodeResponseList &&
+        this.props.productDetails.pincodeResponseList.cashifyPickupCharge;
+      let productName = this.props.productDetails.productName;
+      //call exchange details API
+      let response = await this.props.getExchangeDetails(
+        listingId,
+        ussId,
+        maxExchangeAmount,
+        pickupCharge
+      );
+      // if brand n model details are present then only show exchange modal
+      if (
+        response &&
+        response.status &&
+        response.status.toLowerCase() === "success" &&
+        response.data &&
+        response.data.makeModelDetails
+      ) {
+        //open exchange modal
+        this.props.showExchangeModal({
+          exchangeDetails: this.props.exchangeDetails,
+          productName: productName,
+          listingId: listingId,
+          ussId: ussId
+        });
+        setDataLayer(
+          ADOBE_MDE_CLICK_ON_EXCHANGE_LINK,
+          this.props.productDetails.productListingId
+        );
+      }
+      // if brand n model details are not avail show toast
+      if (
+        response &&
+        response.status &&
+        response.status.toLowerCase() === "success" &&
+        response.data &&
+        !response.data.makeModelDetails
+      ) {
+        this.props.displayToast(
+          "Exchange cannot be processed right now. Please try again after sometime"
+        );
+      }
+    }
+  }
   clickedSamsungChatIcon() {
     setDataLayerForPdpDirectCalls(ADOBE_SUMSUNG_CHAT_ICON);
   }
@@ -1182,6 +1137,17 @@ export default class PdpApparel extends React.Component {
         (productData.winningSellerAvailableStock === "0" &&
           this.checkIfSizeSelected());
 
+      let exchangeDisabled = false;
+      if (disabledStatus) {
+        if (!productData.isPickupAvailableForExchange) {
+          exchangeDisabled = true;
+        }
+      } else {
+        if (!productData.isPickupAvailableForExchange) {
+          exchangeDisabled = true;
+        }
+      }
+
       return (
         <PdpFrame
           goToCart={() => this.goToCart()}
@@ -1213,8 +1179,8 @@ export default class PdpApparel extends React.Component {
                     outOfStock={productData.allOOStock}
                     seasonSale={seasonData}
                     newProduct={productData.isProductNew}
-                    isExchangeAvailable={productData.exchangeOfferAvailable}
                     showExchangeTag={productData.showExchangeTag}
+                    exchangeOfferAvailable={productData.exchangeOfferAvailable}
                   />
                 )}
                 {!productData.winningSellerPrice && (
@@ -1338,6 +1304,17 @@ export default class PdpApparel extends React.Component {
                     }
                     getBundleProductPinCode={this.props.getBundleProductPinCode}
                   />
+
+                  {productData.exchangeAvailable && (
+                    <ExchangeDetailsPDPDesktop
+                      productData={productData}
+                      exchangeDisabled={exchangeDisabled}
+                      openExchangeModal={() => this.openExchangeModal()}
+                      openHowExchangeWorksModal={data =>
+                        this.openHowExchangeWorksModal(data)
+                      }
+                    />
+                  )}
                 </div>
                 {productData.variantOptions && (
                   <div>
@@ -1614,7 +1591,10 @@ export default class PdpApparel extends React.Component {
                           this.props.getProductPinCode(
                             pincode,
                             productData.productListingId,
-                            productData.winningUssID
+                            productData.winningUssID,
+                            false,
+                            productData.exchangeAvailable,
+                            true
                           )
                         }
                         pincode={
@@ -1643,7 +1623,10 @@ export default class PdpApparel extends React.Component {
                           this.props.getProductPinCode(
                             pincode,
                             productData.productListingId,
-                            productData.winningUssID
+                            productData.winningUssID,
+                            false,
+                            productData.exchangeAvailable,
+                            true
                           )
                         }
                         pincode={localStorage.getItem(

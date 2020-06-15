@@ -293,7 +293,6 @@ export default class ReturnReasonAndModes extends React.Component {
           this.props.orderDetails.products[0] &&
           this.props.orderDetails.products[0].productBrand
         }
-        history={this.props.history}
         onChange={comment => this.onChange({ comment })}
         onChangePrimary={reason => this.onChange({ reason })}
         onContinue={data => this.renderToModes(data)}
@@ -376,7 +375,6 @@ export default class ReturnReasonAndModes extends React.Component {
         updateStateForBankDetails={data =>
           this.props.updateStateForBankDetails(data)
         }
-        history={this.props.history}
         bankDetail={this.props.bankDetail}
         returnFlow={this.props.returnFlow}
       />

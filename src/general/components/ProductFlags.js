@@ -3,8 +3,8 @@ import styles from "./ProductFlags.css";
 import newFlag from "./img/new.svg";
 import offerFlag from "./img/offer.svg";
 import offerplpFlag from "./img/offerplp.svg";
+import exchangeOfferFlag from "./img/exchangeOffer.svg";
 import exclusiveFlag from "./img/exclusive.svg";
-import exchangeFlag from "./img/Rectangle43.svg";
 export default class ProductFlags extends React.Component {
   renderFlag = () => {
     if (this.props.outOfStock) {
@@ -28,6 +28,18 @@ export default class ProductFlags extends React.Component {
         </div>
       );
     } else if (
+      this.props.showExchangeTag &&
+      this.props.exchangeOfferAvailable
+    ) {
+      return (
+        <div
+          className={styles.base}
+          style={{ backgroundImage: `url(${exchangeOfferFlag})` }}
+        >
+          Offers on Exchange
+        </div>
+      );
+    } else if (
       (this.props.seasonSale && this.props.seasonSale.key === "Season") ||
       this.props.seasonTag
     ) {
@@ -48,18 +60,6 @@ export default class ProductFlags extends React.Component {
           style={{ backgroundImage: `url(${exclusiveFlag})` }}
         >
           New
-        </div>
-      );
-    } else if (
-      this.props.isExchangeAvailable === true &&
-      this.props.showExchangeTag === true
-    ) {
-      return (
-        <div
-          className={styles.base}
-          style={{ backgroundImage: `url(${exchangeFlag})` }}
-        >
-          Exchange Offer
         </div>
       );
     } else if (

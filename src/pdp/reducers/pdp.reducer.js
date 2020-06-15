@@ -64,6 +64,17 @@ const productDescription = (
     relevantProductPinCodeStatus: null,
     relevantBundleProductCodeStatus: false,
     relevantBundleProductCodeData: null,
+
+    exchangeDetailsStatus: null,
+    exchangeDetailsLoading: false,
+    exchangeDetails: null,
+    exchangeDetailsError: null,
+
+    checkIMEINumberStatus: null,
+    checkIMEINumberLoading: false,
+    checkIMEINumberDetails: null,
+    checkIMEINumberError: null,
+
     pincodeError: null,
     productOutOfStockMessage: null,
     productNotServiceableMessage: null,
@@ -227,7 +238,10 @@ const productDescription = (
             city: action.productPinCode.city,
             status: YES,
             pinCode: action.productPinCode.pinCode
-          }
+          },
+          isPickupAvailableForExchange:
+            action.productPinCode.isPickupAvailableForExchange,
+          cashifyPickupCharge: action.productPinCode.cashifyPickupCharge
         });
       } else if (
         listOfAllServiceableUssid.length &&
@@ -277,7 +291,11 @@ const productDescription = (
             mrpSeller: currentPdpDetail.winningSellerPrice,
             sellerId: currentPdpDetail.winningSellerID,
             sellerName: currentPdpDetail.winningSellerName,
-            specialPriceSeller: currentPdpDetail.winningSellerPrice
+            specialPriceSeller: currentPdpDetail.winningSellerPrice,
+            showExchangeTag: currentPdpDetail.showExchangeTag,
+            exchangeAvailable: currentPdpDetail.exchangeAvailable,
+            exchangeOfferAvailable: currentPdpDetail.exchangeOfferAvailable,
+            maxExchangeAmount: currentPdpDetail.maxExchangeAmount
           });
         }
         Object.assign(currentPdpDetail, {
@@ -297,7 +315,14 @@ const productDescription = (
             city: action.productPinCode.city,
             status: YES,
             pinCode: action.productPinCode.pinCode
-          }
+          },
+          showExchangeTag: leastMrpSellerUssid.showExchangeTag,
+          exchangeAvailable: leastMrpSellerUssid.exchangeAvailable,
+          exchangeOfferAvailable: leastMrpSellerUssid.exchangeOfferAvailable,
+          maxExchangeAmount: leastMrpSellerUssid.maxExchangeAmount,
+          isPickupAvailableForExchange:
+            action.productPinCode.isPickupAvailableForExchange,
+          cashifyPickupCharge: action.productPinCode.cashifyPickupCharge
         });
       } else {
         Object.assign(currentPdpDetail, {
@@ -310,7 +335,9 @@ const productDescription = (
               action.productPinCode.productNotServiceableMessage,
             status: NO,
             pinCode: action.productPinCode.pinCode
-          }
+          },
+          isPickupAvailableForExchange:
+            action.productPinCode.isPickupAvailableForExchange
         });
       }
       return Object.assign({}, state, {
@@ -341,15 +368,24 @@ const productDescription = (
       const userDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
 
+      // below code added for safari browser fix - cart related details saved in cookie
+      // as exchange introduced , cookie size gots increased after saving details , so removing exchange details
+      let cartInfoJson = action.newProduct;
+      let products = cartInfoJson.products.filter(function(item) {
+        delete item.exchangeDetails;
+        return item;
+      });
+      cartInfoJson.products = products;
+
       if (userDetails && customerCookie) {
         Cookies.createCookie(
           CART_DETAILS_FOR_LOGGED_IN_USER,
-          JSON.stringify(action.newProduct)
+          JSON.stringify(cartInfoJson)
         );
       } else {
         Cookies.createCookie(
           CART_DETAILS_FOR_ANONYMOUS,
-          JSON.stringify(action.newProduct)
+          JSON.stringify(cartInfoJson)
         );
       }
 
@@ -968,6 +1004,59 @@ const productDescription = (
         relevantBundleProductCodeStatus: action.status,
         relevantBundleProductCodeData: action.error
       });
+
+    case pdpActions.EXCHANGE_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        exchangeDetailsStatus: action.status,
+        exchangeDetailsLoading: true
+      });
+
+    case pdpActions.EXCHANGE_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        exchangeDetailsStatus: action.status,
+        exchangeDetailsLoading: false,
+        exchangeDetails: action.data
+      });
+
+    case pdpActions.EXCHANGE_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        exchangeDetailsStatus: action.status,
+        exchangeDetailsLoading: false,
+        exchangeDetailsError: action.error
+      });
+
+    case pdpActions.UPDATE_DETAILS_SUCCESS:
+      const exchangePdpDetail = cloneDeep(state.productDetails);
+      Object.assign(exchangePdpDetail, {
+        selectedProductCashback: action.data.selectedProductCashback,
+        selectedProductName: action.data.selectedProductName
+      });
+      return Object.assign({}, state, {
+        status: action.status,
+        productDetails: exchangePdpDetail,
+        loading: false
+      });
+
+    case pdpActions.CHECK_IMEI_NUMBER_REQUEST:
+      return Object.assign({}, state, {
+        checkIMEINumberStatus: action.status,
+        checkIMEINumberLoading: true
+      });
+
+    case pdpActions.CHECK_IMEI_NUMBER_SUCCESS:
+      return Object.assign({}, state, {
+        checkIMEINumberStatus: action.status,
+        checkIMEINumberLoading: false,
+        checkIMEINumberDetails: action.data
+      });
+
+    case pdpActions.CHECK_IMEI_NUMBER_FAILURE:
+      return Object.assign({}, state, {
+        checkIMEINumberStatus: action.status,
+        checkIMEINumberLoading: false,
+        checkIMEINumberError: action.error
+      });
+
     case pdpActions.PDP_RECENTLY_VIEWED_REQUEST:
       return Object.assign({}, state, {
         status: action.status

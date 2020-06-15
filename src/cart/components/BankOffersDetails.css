@@ -45,6 +45,12 @@
   top: 0;
   z-index: 5;
 }
+.couponHolder{
+  width: auto;
+  height: auto;
+  overflow-y: scroll;
+  padding-bottom: 50px;
+}
 @media only screen and (min-width: 1025px) {
   .couponHeader {
     height: 60px;

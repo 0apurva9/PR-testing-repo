@@ -66,7 +66,6 @@ export default class ProductGrid extends React.Component {
         key={index}
         isRange={data.price.isRange}
         productCategoryType={data.productCategoryType}
-        isRange={data.price.isRange}
         maxPrice={
           data.price &&
           data.price.maxPrice &&
@@ -115,8 +114,9 @@ export default class ProductGrid extends React.Component {
         shouldShowSimilarIcon={true}
         productListings={this.props.productListings}
         ussid={data.ussid}
-        isExchangeAvailable={data.exchangeOfferAvailable}
         showExchangeTag={data.showExchangeTag}
+        exchangeOfferAvailable={data.exchangeOfferAvailable}
+        maxExchangePrice={data.maxExchangePrice}
       />
     );
   };

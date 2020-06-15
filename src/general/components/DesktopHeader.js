@@ -24,11 +24,9 @@ import {
   SET_DATA_LAYER_CC
 } from "../../lib/adobeUtils";
 import { isBrowser } from "browser-or-node";
-import ProductImage from "./ProductImage.js";
 import Minibag from "./minibag.js";
 const CATEGORY = "Categories";
 const BRANDS = "Brands";
-const NO_SIZE = "NO SIZE";
 
 export default class DesktopHeader extends React.Component {
   constructor(props) {
