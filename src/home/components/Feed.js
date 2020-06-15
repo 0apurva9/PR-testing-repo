@@ -374,27 +374,6 @@ class Feed extends Component {
     this.pageSize = this.props.pageSize;
   }
   componentDidMount() {
-    let lastLocation = JSON.parse(localStorage.getItem("locationSetForTarget"));
-    if (
-      lastLocation === undefined ||
-      (lastLocation &&
-        lastLocation.pageName &&
-        lastLocation.pageName === "home")
-    ) {
-      targetPageViewEvent(TARGET_EVENT_FOR_PAYLOAD, "", "HOME");
-    } else if (
-      lastLocation &&
-      lastLocation.pageName &&
-      lastLocation.pageName !== this.props.location.pathName
-    ) {
-      targetPageViewEvent(TARGET_EVENT_FOR_PAGEVIEW, "", "HOME");
-    }
-    localStorage.setItem(
-      "locationSetForTarget",
-      JSON.stringify({
-        pageName: "home"
-      })
-    );
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     if (!userDetails) {
       setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
@@ -507,6 +486,29 @@ class Feed extends Component {
   }
 
   componentWillMount() {
+    let lastLocation = JSON.parse(localStorage.getItem("locationSetForTarget"));
+    if (
+      lastLocation === undefined ||
+      (lastLocation &&
+        lastLocation.pageName &&
+        lastLocation.pageName === "home")
+    ) {
+      targetPageViewEvent(TARGET_EVENT_FOR_PAYLOAD, "", "HOME");
+    } else if (
+      lastLocation &&
+      lastLocation.pageName &&
+      lastLocation.pageName != "home" &&
+      lastLocation != undefined &&
+      lastLocation.pageName !== this.props.location.pathName
+    ) {
+      targetPageViewEvent(TARGET_EVENT_FOR_PAGEVIEW, "", "HOME");
+    }
+    localStorage.setItem(
+      "locationSetForTarget",
+      JSON.stringify({
+        pageName: "home"
+      })
+    );
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails) {

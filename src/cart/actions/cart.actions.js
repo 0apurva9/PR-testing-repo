@@ -667,6 +667,12 @@ export function getCartDetails(
         throw new Error(resultJsonStatus.message);
       }
       targetPageViewEvent(TARGET_EVENT_FOR_PAGEVIEW, resultJson, "CART");
+      localStorage.setItem(
+        "locationSetForTarget",
+        JSON.stringify({
+          pageName: "CART"
+        })
+      );
       if (isSetDataLayer) {
         setDataLayer(
           ADOBE_CART_TYPE,
