@@ -256,6 +256,13 @@ export default class ReturnReasonForm extends React.Component {
                               orderDetails.orderProductWsDTO[0].productcode
                           )
                         }
+                        exchangeDetails={
+                          returnProductDetails &&
+                          returnProductDetails.orderProductWsDTO &&
+                          returnProductDetails.orderProductWsDTO[0] &&
+                          returnProductDetails.orderProductWsDTO[0]
+                            .exchangeDetails
+                        }
                       >
                         {returnProductDetails &&
                           returnProductDetails.orderProductWsDTO &&

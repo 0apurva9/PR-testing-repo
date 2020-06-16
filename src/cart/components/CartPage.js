@@ -48,7 +48,9 @@ import {
   setDataLayerForCartDirectCalls,
   ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT,
   ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING,
-  ADOBE_DIRECT_CALL_FOR_CART_SAVED_LIST
+  ADOBE_DIRECT_CALL_FOR_CART_SAVED_LIST,
+  setDataLayer,
+  ADOBE_MDE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE
 } from "../../lib/adobeUtils";
 import * as UserAgent from "../../lib/UserAgent.js";
 import SaveAndSecure from "../../general/components/SaveAndSecure";
@@ -377,7 +379,14 @@ class CartPage extends React.Component {
       this.props.history.push(`/p-${productCode.toLowerCase()}`);
     }
   }
-  renderToCheckOutPage() {
+  renderToCheckOutPage(productExchangeServiceable) {
+    // if product has exchange available
+    if (
+      productExchangeServiceable &&
+      productExchangeServiceable.includes(true)
+    ) {
+      setDataLayer(ADOBE_MDE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE);
+    }
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 
@@ -448,6 +457,7 @@ class CartPage extends React.Component {
           ? this.props.location.state.isCliqAndPiqCartCode
           : JSON.parse(localStorage.getItem(CLIQ_AND_PIQ_CART_CODE));
     }
+
     if (userDetails) {
       this.props.getCartDetails(
         JSON.parse(userDetails).userName,
@@ -702,7 +712,6 @@ class CartPage extends React.Component {
     if (!globalAccessToken && !cartDetailsForAnonymous) {
       return <Redirect exact to={HOME_ROUTER} />;
     }
-
     if (this.props.cart.cartDetails && this.props.cart.cartDetails.products) {
       const cartDetails = this.props.cart.cartDetails;
       let defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
@@ -732,6 +741,9 @@ class CartPage extends React.Component {
             : "0.00";
         }
       }
+      let productExchangeServiceable = [];
+      let isQuoteExpired = [];
+
       return (
         <div className={styles.base}>
           <MobileOnly>
@@ -816,6 +828,13 @@ class CartPage extends React.Component {
               <div className={styles.desktopBuffer}>
                 {cartDetails.products &&
                   cartDetails.products.map((product, i) => {
+                    // check if exchange avail then create array and send values to disable checkout button with isPickupAvailableForExchange is true/false
+                    if (product.exchangeDetails && product.pinCodeResponse) {
+                      productExchangeServiceable.push(
+                        product.pinCodeResponse.isPickupAvailableForExchange
+                      );
+                      isQuoteExpired.push(product.exchangeDetails.quoteExpired);
+                    }
                     let serviceable = false;
                     if (product.pinCodeResponse) {
                       if (product.pinCodeResponse.isServicable === YES) {
@@ -939,9 +958,41 @@ class CartPage extends React.Component {
                             onClickImage={() =>
                               this.onClickImage(product.productcode)
                             }
+                            showExchangeTnCModal={
+                              this.props.showExchangeTnCModal
+                            }
+                            showRemoveExchangeModal={data =>
+                              this.props.showRemoveExchangeModal(data)
+                            }
+                            cartGuid={cartDetails.cartGuid}
                             isTop={false}
                             inCartPage={true}
                             storeDetails={product.storeDetails}
+                            verifyIMEINumber={(
+                              IMEINumber,
+                              exchangeProductId,
+                              exchangeAmountCashify,
+                              tulBump,
+                              pickUpCharge,
+                              listingId,
+                              ussId,
+                              guid,
+                              entry
+                            ) =>
+                              this.props.verifyIMEINumber(
+                                IMEINumber,
+                                exchangeProductId,
+                                exchangeAmountCashify,
+                                tulBump,
+                                pickUpCharge,
+                                listingId,
+                                ussId,
+                                guid,
+                                entry
+                              )
+                            }
+                            displayToast={this.props.displayToast}
+                            getCartDetails={this.props.getCartDetails}
                           />
                         </DesktopOnly>
                       </div>
@@ -1106,12 +1157,21 @@ class CartPage extends React.Component {
                                 ) / 100
                               : "0.00"
                           }
-                          onCheckout={() => this.renderToCheckOutPage()}
+                          onCheckout={() =>
+                            this.renderToCheckOutPage(
+                              productExchangeServiceable
+                            )
+                          }
                           label={CHECKOUT__TEXT}
                           isOnCartPage={true}
                           changePinCode={this.changePinCode}
                           isFromMyBag={true}
                           showDetails={this.state.showCartDetails}
+                          productExchangeServiceable={
+                            productExchangeServiceable
+                          }
+                          totalExchangeAmount={cartDetails.totalExchangeAmount}
+                          isQuoteExpired={isQuoteExpired}
                         />
                       </div>
                     )}

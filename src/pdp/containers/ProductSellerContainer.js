@@ -5,19 +5,22 @@ import {
   addProductToCart,
   getProductDescription,
   getProductPinCode,
+  getExchangeDetails,
   showPdpPiqPage,
-  getAllStoresForCliqAndPiq,
-  hidePdpPiqPage
+  getAllStoresForCliqAndPiq
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
-import { showModal, CLIQ_PIQ_MODAL } from "../../general/modal.actions.js";
+import {
+  showModal,
+  CLIQ_PIQ_MODAL,
+  EXCHANGE_MODAL
+} from "../../general/modal.actions.js";
 import {
   showSecondaryLoader,
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
-import { SUCCESS, DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     addProductToCart: async productDetails => {
@@ -35,8 +38,37 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     buyNow: async productDetails => {
       return dispatch(tempCartIdForLoggedInUser(productDetails));
     },
-    getProductPinCode: (pinCode, productCode) => {
-      dispatch(getProductPinCode(pinCode, productCode));
+    getProductPinCode: (
+      pinCode,
+      productCode,
+      winningUssID,
+      isComingFromPiqPage,
+      isExchangeAvailable,
+      isComingFromClickEvent
+    ) => {
+      dispatch(
+        getProductPinCode(
+          pinCode,
+          productCode,
+          winningUssID,
+          isComingFromPiqPage,
+          isExchangeAvailable,
+          isComingFromClickEvent
+        )
+      );
+    },
+    getExchangeDetails: async (
+      listingId,
+      ussid,
+      maxExchangeAmount,
+      pickupCharge
+    ) => {
+      return await dispatch(
+        getExchangeDetails(listingId, ussid, maxExchangeAmount, pickupCharge)
+      );
+    },
+    showExchangeModal: data => {
+      dispatch(showModal(EXCHANGE_MODAL, data));
     },
     getAllStoresForCliqAndPiq: pinCode => {
       dispatch(getAllStoresForCliqAndPiq(pinCode));
@@ -60,6 +92,7 @@ const mapStateToProps = state => {
     productDetails: state.productDescription.productDetails,
     serviceablePincodeList:
       state.productDescription.serviceablePincodeListResponse,
+    exchangeDetails: state.productDescription.exchangeDetails,
     loading: state.productDescription.loading,
     stores: state.productDescription.storeDetails,
     showPiqPage: state.productDescription.showPiqPage

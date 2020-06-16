@@ -88,6 +88,43 @@ export default class BagPageItem extends React.Component {
               {`Quantity: ${this.props.quantity}`}
             </div>
           )}
+          {this.props.exchangeDetails && (
+            <div className={styles.exchangeDetailsContainer}>
+              <div className={styles.exchangeProductName}>
+                <span>Exchange Phone: </span>
+                <span>{this.props.exchangeDetails.exchangeModelName}</span>
+              </div>
+              <div className={styles.exchangeCashback}>
+                <span>Total Exchange Cashback: </span>
+                <span>
+                  {this.props.exchangeDetails.exchangePriceDetail &&
+                    this.props.exchangeDetails.exchangePriceDetail
+                      .totalExchangeCashback &&
+                    this.props.exchangeDetails.exchangePriceDetail
+                      .totalExchangeCashback.formattedValueNoDecimal}
+                </span>
+              </div>
+              {this.props.pinCodeResponse &&
+                this.props.pinCodeResponse.isPickupAvailableForExchange && (
+                  <div className={styles.exchangePickup}>
+                    <span>Pick Up: Within 3 days of Product Delivery</span>
+                    <span className={styles.spacer}>|</span>
+                    {this.props.pinCodeResponse.pickupCharge &&
+                    this.props.pinCodeResponse.pickupCharge.doubleValue ===
+                      0 ? (
+                      <span className={styles.freePickup}>FREE</span>
+                    ) : (
+                      <span>
+                        {
+                          this.props.pinCodeResponse.pickupCharge
+                            .formattedValueNoDecimal
+                        }
+                      </span>
+                    )}
+                  </div>
+                )}
+            </div>
+          )}
         </div>
         <div
           className={styles.productImage}

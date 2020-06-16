@@ -4,6 +4,7 @@ import ProductImage from "../../general/components/ProductImage.js";
 import StarRating from "../../general/components/StarRating.js";
 import PropTypes from "prop-types";
 import { RUPEE_SYMBOL } from "../../lib/constants";
+import exchangeIconLight from "../../cart/components/img/exchangeIconLight.svg";
 export default class ProductDetailsCardForSaveList extends React.Component {
   onClickImage() {
     if (this.props.onClickImage) {
@@ -93,6 +94,34 @@ export default class ProductDetailsCardForSaveList extends React.Component {
                 {sizeText}
               </div>
             )}
+          {this.props.exchangeDetails && (
+            <div className={styles.exchangeDetailsContainer}>
+              <img
+                src={exchangeIconLight}
+                alt="exchange icon"
+                className={styles.exchangeIconLight}
+              />
+              {this.props.exchangeDetails.exchangeModelName &&
+                this.props.exchangeDetails.exchangePriceDetail &&
+                this.props.exchangeDetails.exchangePriceDetail
+                  .totalExchangeCashback && (
+                  <div className={styles.exchangeProductText}>
+                    Your{" "}
+                    <span className={styles.fontFamilyRegular}>
+                      {this.props.exchangeDetails.exchangeModelName}
+                    </span>{" "}
+                    is applicable for{" "}
+                    <span className={styles.fontFamilyRegular}>
+                      {
+                        this.props.exchangeDetails.exchangePriceDetail
+                          .totalExchangeCashback.formattedValueNoDecimal
+                      }
+                    </span>{" "}
+                    Exchange cashback.
+                  </div>
+                )}
+            </div>
+          )}
           <div
             className={styles.displayRating}
             itemProp="aggregateRating"

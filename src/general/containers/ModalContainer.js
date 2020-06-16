@@ -23,7 +23,8 @@ import {
   getCartCountForLoggedInUser,
   getOrderUpdateOnWhatsapp,
   getMinicartProducts,
-  resetAllPaymentModes
+  resetAllPaymentModes,
+  removeExchange
 } from "../../cart/actions/cart.actions";
 import {
   SUCCESS,
@@ -38,6 +39,8 @@ import {
 import {
   getAllStoresForCliqAndPiq,
   hidePdpPiqPage,
+  updateProductState,
+  verifyIMEINumber,
   getProductPinCode
 } from "../../pdp/actions/pdp.actions";
 import { updateProfile } from "../../account/actions/account.actions.js";
@@ -390,7 +393,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(tempCartIdForLoggedInUser(productDetails));
     },
     addProductToCart: productDetails => {
-      dispatch(addProductToCart(productDetails));
+      return dispatch(addProductToCart(productDetails));
     },
     subscribeWhatsapp: () => {
       dispatch(getOrderUpdateOnWhatsapp());
@@ -413,6 +416,33 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     resetAllPaymentModes: () => {
       return dispatch(resetAllPaymentModes());
+    },
+    updateProductState: data => {
+      dispatch(updateProductState(data));
+    },
+    verifyIMEINumber: async (
+      IMEINumber,
+      exchangeProductId,
+      exchangeAmountCashify,
+      tulBump,
+      pickUpCharge,
+      listingId,
+      ussId
+    ) => {
+      return await dispatch(
+        verifyIMEINumber(
+          IMEINumber,
+          exchangeProductId,
+          exchangeAmountCashify,
+          tulBump,
+          pickUpCharge,
+          listingId,
+          ussId
+        )
+      );
+    },
+    removeExchange: async data => {
+      return await dispatch(removeExchange(data));
     }
   };
 };

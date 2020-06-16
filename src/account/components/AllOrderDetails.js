@@ -833,6 +833,7 @@ export default class AllOrderDetails extends React.Component {
                                       displayToast={this.props.displayToast}
                                       logisticName={product.logisticName}
                                       trackingAWB={product.trackingAWB}
+                                      exchangeDetails={product.exchangeDetails}
                                     />
                                     <DesktopOnly>
                                       <div className={styles.returnReview}>

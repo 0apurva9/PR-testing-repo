@@ -153,3 +153,67 @@
     pointer-events: none;
   }
 }
+.exchangeProduct{
+  font-family: light;
+  font-size: 13px;
+  color: #212121;
+  float: left;
+  line-height: 2;
+  margin-right: 10px;
+}
+.exchangeLogoContainer{
+	position: relative;
+	float: left;
+	margin-right: 10px;
+}
+.exchangeLogo{
+	width: 21px;
+  height: 17px;
+	background: url(../components/img/exchangeLogoSmall.svg) no-repeat;
+	background-size: contain;
+  margin: 6px 5px 6px 6px;
+}
+.exchangeLogoLoader {
+	position: absolute;
+	animation: rotation 2s infinite ease-out;
+	width: 32px;
+	height: 28px;
+}
+@keyframes rotation {
+	from {
+			-webkit-transform: rotate(0deg);
+	}
+	to {
+			-webkit-transform: rotate(359deg);
+	}
+}
+.buttonWithArrow{
+  position: relative;
+  float: left;
+  width: 27.4px;
+  height: 23.7px;
+  border-radius: 3.8px;
+  background-color: #ff1744;
+  cursor: pointer;
+}
+.arrowLine{
+  border: 1px solid #ffffff;
+  width: 13px;
+  height: 2px;
+  display: block;
+  position: absolute;
+  top: 11px;
+  left: 8px;
+}
+.arrow{
+  border: solid #ffffff;
+  border-width: 0 2px 2px 0;
+  padding: 3px;
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  float: right;
+  position: absolute;
+  top: 8px;
+  right: 7px;
+}

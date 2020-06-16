@@ -9,7 +9,6 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 
 import PropTypes from "prop-types";
 import * as UserAgent from "../../lib/UserAgent.js";
-import react_title from "react-meta-tags/lib/react_title";
 
 export default class ConfirmAddress extends React.Component {
   componentWillMount() {

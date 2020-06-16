@@ -559,6 +559,124 @@ export const TRACK_UID_ADD = "upi_AddNewUPIID_Click";
 export const SET_DATA_LAYER_UID_SAVE = "SET_DATA_LAYER_UID_SAVE";
 export const TRACK_UID_SAVE = "upi_Save";
 
+// mobile device exchange - MDE
+const ADOBE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER =
+  "plp_Exchange_Available_Filter";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER";
+
+const ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP_MOBILE_EXCHANGE =
+  "plp_With_Exchange_Offer";
+const ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP_WITHOUT_MOBILE_EXCHANGE =
+  "plp_Without_Exchange_Offer";
+export const ADOBE_CLICK_ON_PRODUCTS_PLP_WITH_EXCHANGE =
+  "ADOBE_CLICK_ON_PRODUCTS_PLP_WITH_EXCHANGE";
+export const ADOBE_CLICK_ON_PRODUCTS_PLP_WITHOUT_EXCHANGE =
+  "ADOBE_CLICK_ON_PRODUCTS_PLP_WITHOUT_EXCHANGE";
+
+const ADOBE_CLICK_ON_EXCHANGE_LINK = "pdp_Exchange_Widget";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_LINK =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_LINK";
+
+const ADOBE_CLICK_ON_CHANGE_DEVICE = "exchange_Model_Change";
+export const ADOBE_MDE_CLICK_ON_CHANGE_DEVICE =
+  "ADOBE_MDE_CLICK_ON_CHANGE_DEVICE";
+
+const ADOBE_CLICK_ON_HOW_EXCHANGE_WORKS = "pdp_How_Exchange_Works";
+export const ADOBE_MDE_CLICK_ON_HOW_EXCHANGE_WORKS =
+  "ADOBE_MDE_CLICK_ON_HOW_EXCHANGE_WORKS";
+
+const ADOBE_PRODUCT_ALREADY_IN_CART = "pdp_Already_Added_Cart";
+const ADOBE_PRODUCT_ALREADY_IN_CART_GO_TO_BAG = "pdp_Already_Cart_GotoBag";
+const ADOBE_PRODUCT_ALREADY_IN_CART_CANCEL = "pdp_Already_Cart_Cancel";
+export const ADOBE_MDE_PRODUCT_ALREADY_IN_CART =
+  "ADOBE_MDE_PRODUCT_ALREADY_IN_CART";
+export const ADOBE_MDE_PRODUCT_ALREADY_IN_CART_GO_TO_BAG =
+  "ADOBE_MDE_PRODUCT_ALREADY_IN_CART_GO_TO_BAG";
+export const ADOBE_MDE_PRODUCT_ALREADY_IN_CART_CANCEL =
+  "ADOBE_MDE_PRODUCT_ALREADY_IN_CART_CANCEL";
+
+const ADOBE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER =
+  "pdp_Exchange_Through_Seller";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER";
+
+const ADOBE_CLICK_ON_EXCHANGE_MODAL_KNOW_MORE = "exchange_Model_Know_More";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_KNOW_MORE =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_KNOW_MORE";
+
+const ADOBE_CLICK_ON_EXCHANGE_MODAL_TNC = "exchange_Model_T&c";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_TNC =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_TNC";
+
+const ADOBE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE =
+  "exchange_Model_Add_Another_Mobile";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE";
+
+const ADOBE_CLICK_ON_PROCEED_WITH_EXCHANGE =
+  "exchange_Model_Proceed_with_Exchange";
+export const ADOBE_MDE_CLICK_ON_PROCEED_WITH_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_PROCEED_WITH_EXCHANGE";
+
+const ADOBE_CLICK_ON_CASHBACK_DETAILS = "exchange_Model_Cashback_Details";
+export const ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS =
+  "ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS";
+
+const ADOBE_CLICK_ON_VERIFY_IMEI = "exchange_Model_Verify";
+export const ADOBE_MDE_CLICK_ON_VERIFY_IMEI = "ADOBE_MDE_CLICK_ON_VERIFY_IMEI";
+
+const ADOBE_CLICK_ON_REMOVE_EXCHANGE = "cart_Exchange_Remove";
+export const ADOBE_MDE_CLICK_ON_REMOVE_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_REMOVE_EXCHANGE";
+
+const ADOBE_CLICK_ON_GET_NEW_PRICE = "cart_Exchange_Get_New_Price";
+export const ADOBE_MDE_CLICK_ON_GET_NEW_PRICE =
+  "ADOBE_MDE_CLICK_ON_GET_NEW_PRICE";
+
+const ADOBE_CLICK_ON_CART_VIEW_MORE = "cart_Exchange_View_More";
+export const ADOBE_MDE_CLICK_ON_CART_VIEW_MORE =
+  "ADOBE_MDE_CLICK_ON_CART_VIEW_MORE";
+
+const ADOBE_CLICK_ON_CART_VIEW_LESS = "cart_Exchange_View_Less";
+export const ADOBE_MDE_CLICK_ON_CART_VIEW_LESS =
+  "ADOBE_MDE_CLICK_ON_CART_VIEW_LESS";
+
+const ADOBE_CLICK_ON_CART_TNC = "cart_Exchange_t&c";
+export const ADOBE_MDE_CLICK_ON_CART_TNC = "ADOBE_MDE_CLICK_ON_CART_TNC";
+
+const ADOBE_CLICK_ON_SAVE_TO_WISHLIST = "cart_Exchange_Save";
+export const ADOBE_MDE_CLICK_ON_SAVE_TO_WISHLIST =
+  "ADOBE_MDE_CLICK_ON_SAVE_TO_WISHLIST";
+
+const ADOBE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE = "cart_Exchange_Checkout";
+export const ADOBE_MDE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE";
+
+const ADOBE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE = "cart_Exchange_CliqCash";
+export const ADOBE_MDE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE";
+
+const ADOBE_CLICK_ON_CANCEL_WITH_EXCHANGE = "OD_Exchange_Cancel";
+export const ADOBE_MDE_CLICK_ON_CANCEL_WITH_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_CANCEL_WITH_EXCHANGE";
+
+const ADOBE_CLICK_ON_RETURN_WITH_EXCHANGE = "OD_Exchange_Returns";
+export const ADOBE_MDE_CLICK_ON_RETURN_WITH_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_RETURN_WITH_EXCHANGE";
+
+const ADOBE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE = "OC_Change_Account";
+export const ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE";
+
+const ADOBE_CASHBACK_MODE_CLIQCASH_EXCHANGE = "OC_Cliq_Cash";
+export const ADOBE_MDE_CASHBACK_MODE_CLIQCASH_EXCHANGE =
+  "ADOBE_MDE_CASHBACK_MODE_CLIQCASH_EXCHANGE";
+
+const ADOBE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE = "OC_Account_Details_CM";
+export const ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE =
+  "ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE";
+
 export async function setDataLayer(
   type,
   apiResponse,
@@ -1243,6 +1361,162 @@ export async function setDataLayer(
   if (type === ADOBE_PDP_KNOW_MORE_CLICK) {
     if (window._satellite) {
       window._satellite.track(PDP_KNOW_MORE_CLICK);
+    }
+  }
+
+  // mobile device exchnage
+
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER);
+    }
+  }
+  if (type === ADOBE_CLICK_ON_PRODUCTS_PLP_WITH_EXCHANGE) {
+    window.digitalData.cpj.product = { id: apiResponse };
+    if (window._satellite) {
+      window._satellite.track(
+        ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP_MOBILE_EXCHANGE
+      );
+    }
+  }
+  if (type === ADOBE_CLICK_ON_PRODUCTS_PLP_WITHOUT_EXCHANGE) {
+    window.digitalData.cpj.product = { id: apiResponse };
+    if (window._satellite) {
+      window._satellite.track(
+        ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP_WITHOUT_MOBILE_EXCHANGE
+      );
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_LINK) {
+    window.digitalData.cpj.product = { id: apiResponse };
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_LINK);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CHANGE_DEVICE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CHANGE_DEVICE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_HOW_EXCHANGE_WORKS) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_HOW_EXCHANGE_WORKS);
+    }
+  }
+  if (type === ADOBE_MDE_PRODUCT_ALREADY_IN_CART) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_PRODUCT_ALREADY_IN_CART);
+    }
+  }
+  if (type === ADOBE_MDE_PRODUCT_ALREADY_IN_CART_GO_TO_BAG) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_PRODUCT_ALREADY_IN_CART_GO_TO_BAG);
+    }
+  }
+  if (type === ADOBE_MDE_PRODUCT_ALREADY_IN_CART_CANCEL) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_PRODUCT_ALREADY_IN_CART_CANCEL);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_KNOW_MORE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_MODAL_KNOW_MORE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_TNC) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_MODAL_TNC);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_PROCEED_WITH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_PROCEED_WITH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CASHBACK_DETAILS);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_VERIFY_IMEI) {
+    window.digitalData.exchange = { imei: { status: apiResponse } };
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_VERIFY_IMEI);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_REMOVE_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_REMOVE_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_GET_NEW_PRICE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_GET_NEW_PRICE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CART_VIEW_MORE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CART_VIEW_MORE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CART_VIEW_LESS) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CART_VIEW_LESS);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CART_TNC) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CART_TNC);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_SAVE_TO_WISHLIST) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_SAVE_TO_WISHLIST);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CANCEL_WITH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CANCEL_WITH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_RETURN_WITH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_RETURN_WITH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CASHBACK_MODE_CLIQCASH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CASHBACK_MODE_CLIQCASH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE);
     }
   }
 }
