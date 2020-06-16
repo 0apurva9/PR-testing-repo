@@ -269,10 +269,13 @@ export default class DesktopCheckout extends React.Component {
                         {cartAmount.totalDiscountAmount.value === 0 ? (
                           <React.Fragment>Get </React.Fragment>
                         ) : (
-                          <React.Fragment>and get</React.Fragment>
+                          <React.Fragment>and get </React.Fragment>
                         )}
                         {this.props.totalExchangeAmount.formattedValue} Exchange
                         Cashback{" "}
+                        {cartAmount.totalDiscountAmount.value === 0 && (
+                          <React.Fragment>on this order</React.Fragment>
+                        )}
                       </span>
                     )}
                   {/* checkout page */}
@@ -287,13 +290,18 @@ export default class DesktopCheckout extends React.Component {
                         {cartAmount.totalDiscountAmount.value === 0 ? (
                           <React.Fragment>Get </React.Fragment>
                         ) : (
-                          <React.Fragment>and get</React.Fragment>
+                          <React.Fragment>and get </React.Fragment>
                         )}
                         {this.props.totalExchangeAmount.formattedValue} Exchange
                         Cashback{" "}
+                        {cartAmount.totalDiscountAmount.value === 0 && (
+                          <React.Fragment>on this order</React.Fragment>
+                        )}
                       </span>
                     )}
-                  on this order
+                  {cartAmount.totalDiscountAmount.value !== 0 && (
+                    <React.Fragment>on this order</React.Fragment>
+                  )}
                 </div>
               </div>
             )}
