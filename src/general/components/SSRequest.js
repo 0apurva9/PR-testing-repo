@@ -24,11 +24,12 @@ export default class SSRquest extends Component {
               <img src={ssloader} alt="Loader..."></img>
             </div>
             <div className={styles.requestHeading}>
-              We will get our BEST MINDS to resolve your issue
+              We will get our best minds on this issue to resolve it
             </div>
             <div className={styles.requestContetn}>
-              Lets try to fix the issue for you, we work round the clock to
-              solve issue. Our support will reply as soon as possible.
+              Give us a chance to make it work and you won’t be disappointed.
+              We’ll be on this problem around the clock and get back to you with
+              a solution at the earliest.
             </div>
           </div>
         )}
@@ -38,10 +39,10 @@ export default class SSRquest extends Component {
               <img src={ssloaders} alt="Loader..."></img>
             </div>
             <div className={styles.requestHeading}>
-              We have successfully registered your issue.
+              We have successfully registered your issue
             </div>
             <div className={styles.requestContetn}>
-              Thanks for your patience we are almost done
+              Thanks for your patience. We are almost done.
             </div>
           </div>
         )}

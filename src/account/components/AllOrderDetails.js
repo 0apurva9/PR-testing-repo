@@ -364,12 +364,23 @@ export default class AllOrderDetails extends React.Component {
       return styles.orderCardIndividualWithBorder;
     }
   }
-  redirectToHelpPage() {
+  redirectToHelpPage(orderDetails) {
+    console.log("orderDetails", orderDetails);
     setDataLayer(ADOBE_MY_ACCOUNT_HELP_AND_SUPPORT);
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
-    this.props.history.push(
-      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
-    );
+    const orderCode = orderDetails.orderId;
+    const transactionId = orderDetails.products[0].transactionId;
+    const selectedOrderObj = {
+      orderCode,
+      transactionId,
+      orderDetails: orderDetails
+    };
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
+      state: {
+        selectedOrderObj
+      }
+    });
   }
   onClickCncToHd(orderId, transactionId) {
     let isCncToHdOrderDetails = "";
@@ -851,7 +862,9 @@ export default class AllOrderDetails extends React.Component {
                                               "ORDER_UNCOLLECTED") && (
                                             <div
                                               onClick={() =>
-                                                this.redirectToHelpPage()
+                                                this.redirectToHelpPage(
+                                                  orderDetails
+                                                )
                                               }
                                               className={styles.helpSupport}
                                             >

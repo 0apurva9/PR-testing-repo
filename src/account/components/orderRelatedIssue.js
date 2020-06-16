@@ -194,6 +194,7 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   async orderRelatedInfo(orderData) {
+    console.log("orderData", orderData);
     if (this.props.fetchOrderItemDetails) {
       this.props.fetchOrderItemDetails(
         orderData.orderCode,
@@ -215,7 +216,8 @@ export default class OrderRelatedIssue extends React.Component {
           showQuestionList: true,
           questionList: response.orderRelatedQuestions.listOfIssues,
           parentIssueType: null,
-          questionType: ORDER_REALTED_QUESTION
+          questionType: ORDER_REALTED_QUESTION,
+          slectOrderData: orderData.orderDetails
         });
       }
     }
@@ -224,9 +226,10 @@ export default class OrderRelatedIssue extends React.Component {
   getOrderRelatedQuestions(orderData) {
     const selectedOrder = {
       transactionId: orderData.products[0].transactionId,
-      orderCode: orderData.orderId
+      orderCode: orderData.orderId,
+      orderDetails: orderData
     };
-    this.setState({ slectOrderData: orderData });
+    // this.setState({ slectOrderData: orderData });
     this.orderRelatedInfo(selectedOrder);
   }
 

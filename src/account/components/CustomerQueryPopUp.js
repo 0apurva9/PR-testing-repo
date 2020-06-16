@@ -121,9 +121,9 @@ export default class CustomerQueryPopUp extends React.Component {
         {isTicketDuplicate ? (
           <div className={styles.duplicate}>
             <div className={styles.duplicateTxt}>
-              This looks like a duplicate of an existing ticket
+              A ticket has already been raised for the
               <br />
-              for the same issue.
+              same issue previously.
               {/* <span className={styles.ticketId}>Ticket ID:</span>{" "}
               <span className={styles.colorRed}>1285673980</span> */}
             </div>
@@ -139,8 +139,8 @@ export default class CustomerQueryPopUp extends React.Component {
             <div className={styles.expTime}>
               <div className={styles.txt}>
                 {" "}
-                Our team is working on priority to resolve it. We will get back
-                to you within
+                Our team is working on priority to resolve the problem. We will
+                get back to you by.
               </div>
               <div className={styles.expDateTime}>{`${displayDate}`}</div>
             </div>

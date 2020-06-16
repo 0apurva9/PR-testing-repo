@@ -250,7 +250,8 @@ export default class OrderDetails extends React.Component {
       .transactionId;
     const selectedOrderObj = {
       orderCode,
-      transactionId
+      transactionId,
+      orderDetails: this.props.orderDetails
     };
 
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);

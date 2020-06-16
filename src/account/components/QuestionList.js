@@ -16,7 +16,15 @@ export default class QuestionList extends Component {
         )}
         {this.props.parentIssueType && (
           <div className={styles.parentIssueT}>
-            {this.props.parentIssueType.replace("&amp;", "&")}
+            {this.props.parentIssueType.replace("&amp;", "&")}{" "}
+            <span
+              className={styles.staticContent}
+              Browse
+              all
+              your
+              website
+              related
+            >{`(Browse all your ${this.props.parentIssueType} issues and choose your help topic.)`}</span>
           </div>
         )}
 

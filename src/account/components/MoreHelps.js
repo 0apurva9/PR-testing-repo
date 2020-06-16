@@ -18,12 +18,13 @@ const MoreHelps = props => {
           <img src={userOption} alt="User image" />
         </div>
         <div className={styles.header}>
-          Sorry to know it did not work for you.
+          We’re sorry to know that it wasn’t helpful.
         </div>
         <div className={styles.content}>
-          Lets try to fix the issue for you, if you need instant support then
-          use live chat option to reach us quickly. Our support will reply as
-          soon as possible.
+          Let us help you out on this issue. Please select a convenient mode to
+          reach us.
+          <br />
+          Pro tip: Raise a complaint for faster resolution.
         </div>
 
         {props.selectedOrder && props.selectedOrder.webform == YES && (

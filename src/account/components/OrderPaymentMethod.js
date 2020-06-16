@@ -41,7 +41,8 @@ export default class OrderPaymentMethod extends React.Component {
     // });
     const selectedOrderObj = {
       orderCode,
-      transactionId
+      transactionId,
+      orderDetails: this.props.orderDetails
     };
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
     // this.props.history.push(`${HELP_URL}`);
