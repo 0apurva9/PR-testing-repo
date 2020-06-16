@@ -73,7 +73,7 @@ export default class ExpiringCard extends React.Component {
                     color="#fff"
                     backgroundColor="#da1c5c"
                     textStyle={{ color: "#fff", fontSize: 12 }}
-                    // onClick={() => openPopUp()}
+                    onClick={() => this.props.openPopUp()}
                   />
                 </div>
               </div>
@@ -89,5 +89,6 @@ ExpiringCard.propTypes = {
   loading: PropTypes.bool,
   cardNumber: PropTypes.string,
   originalValue: PropTypes.number,
-  expiryDate: PropTypes.string
+  expiryDate: PropTypes.string,
+  openPopUp: PropTypes.func
 };

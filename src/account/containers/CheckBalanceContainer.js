@@ -2,13 +2,18 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { setHeaderText } from "../../general/header.actions";
 import CheckBalance from "../components/CheckBalance";
-import {} from "../actions/account.actions";
+import {
+  redeemCliqVoucher,
+  getCliqCashDetails
+} from "../actions/account.actions";
 import {
   CLIQ_CASH_MODULE,
   showModal,
   POP_UP,
-  hideModal
+  hideModal,
+  CLIQ_CASH_SUCESS_MODULE
 } from "../../general/modal.actions";
+import { displayToast } from "../../general/toast.actions";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -23,6 +28,23 @@ const mapDispatchToProps = dispatch => {
     },
     openPopUp: data => {
       dispatch(showModal(POP_UP, data));
+    },
+    redeemCliqVoucher: cliqCashDetails => {
+      dispatch(redeemCliqVoucher(cliqCashDetails));
+      dispatch(getCliqCashDetails());
+    },
+    cliqCashSuccessModule: result => {
+      dispatch(
+        showModal(CLIQ_CASH_SUCESS_MODULE, {
+          ...result,
+          showCliqCashModule: data => {
+            dispatch(showModal(CLIQ_CASH_MODULE, data));
+          }
+        })
+      );
+    },
+    displayToast: error => {
+      dispatch(displayToast(error));
     }
   };
 };
@@ -34,7 +56,10 @@ const mapStateToProps = state => {
     checkBalanceStatus: state.profile.checkBalanceStatus,
     isModal: state.profile.isModal,
     loading: state.profile.loading,
-    userAddress: state.profile.userAddress
+    userAddress: state.profile.userAddress,
+    cliqCashVoucherDetailsStatus: state.profile.cliqCashVoucherDetailsStatus,
+    cliqCashVoucherDetails: state.profile.cliqCashVoucherDetails,
+    cliqCashVoucherDetailsError: state.profile.cliqCashVoucherDetailsError
   };
 };
 

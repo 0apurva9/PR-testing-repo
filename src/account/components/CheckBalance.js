@@ -10,9 +10,11 @@ import * as Cookie from "../../lib/Cookie";
 
 import FaqAndTcBase from "./FaqAndTcBase";
 import UserProfile from "./UserProfile";
-import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
+import { LOGGED_IN_USER_DETAILS, SUCCESS } from "../../lib/constants";
 import ExpiringCard from "./ExpiringCard";
-import PropTypes from "prop-types";
+import PropTypes, { string, number } from "prop-types";
+import { Link } from "react-router-dom";
+import giftCardImg from "./img/gift_card.jpg";
 
 export default class CheckBalance extends Component {
   componentDidMount() {
@@ -45,6 +47,44 @@ export default class CheckBalance extends Component {
     }
   }
 
+  openPopUp = () => {
+    if (
+      this.props.redeemCliqVoucher &&
+      this.props.checkBalanceDetails &&
+      this.props.checkBalanceDetails.cardNumber &&
+      this.props.checkBalanceDetails.cardPin
+    ) {
+      this.props.redeemCliqVoucher({
+        cardNumber: this.props.checkBalanceDetails.cardNumber,
+        pinNumber: this.props.checkBalanceDetails.cardPin
+      });
+    } else {
+      const obj = {};
+      obj.addCard = true;
+      obj.btnLabel = "Add card";
+      if (this.props && this.props.showCliqCashModule) {
+        this.props.showCliqCashModule(obj);
+      }
+    }
+  };
+
+  UNSAFE_componentWillReceiveProps(nextProps, nextState) {
+    if (
+      // this.state.redeemCliqVoucherCalled !== nextState.redeemCliqVoucherCalled &&
+      nextProps.cliqCashVoucherDetailsStatus &&
+      this.props.cliqCashVoucherDetailsStatus !==
+        nextProps.cliqCashVoucherDetailsStatus &&
+      nextProps.cliqCashVoucherDetailsStatus.toLowerCase() === SUCCESS
+    ) {
+      this.props.cliqCashSuccessModule({
+        cliqCashVoucherDetails: nextProps.cliqCashVoucherDetails
+      });
+      this.setState({ redeemCliqVoucherCalled: true });
+    } else if (nextProps.cliqCashVoucherDetailsStatus === "failure") {
+      this.props.displayToast(nextProps.cliqCashVoucherDetailsError);
+    }
+  }
+
   render() {
     let cardNumber = "";
     let originalValue = 0;
@@ -53,36 +93,14 @@ export default class CheckBalance extends Component {
     if (this.props.checkBalanceDetails === null) {
       loading = true;
     } else {
-      cardNumber = this.props.checkBalanceDetails.amount.cardNumber;
+      cardNumber = this.props.checkBalanceDetails.cardNumber;
       originalValue = this.props.checkBalanceDetails.amount.value;
       expiryDate = this.getExpiredDate(
         this.props.checkBalanceDetails.expiryDate
       );
     }
-
-    let totalBalance =
-      this.props.cliqCashUserDetails &&
-      this.props.cliqCashUserDetails.totalCliqCashBalance &&
-      this.props.cliqCashUserDetails.totalCliqCashBalance.value &&
-      this.props.cliqCashUserDetails.totalCliqCashBalance.value > 0
-        ? parseFloat(
-            Math.round(
-              this.props.cliqCashUserDetails.totalCliqCashBalance.value * 100
-            ) / 100
-          )
-            .toFixed(2)
-            .toLocaleString("hi-IN")
-        : "0.00";
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let transactions = [];
-    this.props.transactionDetails &&
-      this.props.transactionDetails.isArray &&
-      this.props.transactionDetails.forEach(data => {
-        if (data.items) {
-          return transactions.push(...data.items);
-        }
-      });
 
     if (userDetails) {
       userData = JSON.parse(userDetails);
@@ -96,42 +114,30 @@ export default class CheckBalance extends Component {
           </div>
           <div className={styles.cliqCashDetail}>
             <div>
-              <div className={styles.cliqCashDetailWithHolder}>
-                <div className={styles.cliqCashBalanceContainer}>
-                  <div className={styles.cliqCashBalanceHeader}>
-                    CLiQ Cash Wallet
-                  </div>
-                  <div className={styles.totalBalanceHolder}>
-                    <div className={styles.totalBalance}>
-                      <div className={styles.balanceHeader}>
-                        Total Available Balance
-                      </div>
-                      <div className={styles.balance}>
-                        <span className={styles.rupee}>₹</span>
-                        {totalBalance}
-                      </div>
-                    </div>
-
-                    <div className={styles.infoBase}>
-                      <div className={styles.spacing} />
-                      <div className={styles.info}>
-                        A quick and convenient way for faster checkout and
-                        refund.
-                        <div
-                          className={styles.knowMore}
-                          onClick={this.cliqCashKnowMore}
-                        >
-                          Know More.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              <div className={styles.cliqCashDetailWithHolderCheckBal}>
+                <div className={styles.heading}>
+                  <span className={styles.checkBalLeftText}>And it's here</span>
+                  <span className={styles.checkBalRightText}>
+                    <Link
+                      to={`/my-account/cliq-cash`}
+                      className={styles.checkBalRightTextLink}
+                    >
+                      Back to CLiQ Cash
+                    </Link>
+                  </span>
+                </div>
+                <div className={styles.cardImage}>
+                  <img
+                    src={giftCardImg}
+                    alt=""
+                    className={styles.cardImageImg}
+                  />
                 </div>
               </div>
               <ExpiringCard
                 loading={loading}
                 expiryDate={expiryDate}
-                openPopUp={this.props.openPopUp}
+                openPopUp={this.openPopUp}
                 cardNumber={cardNumber}
                 originalValue={originalValue}
               />
@@ -167,14 +173,15 @@ CheckBalance.defaultProps = {
   isModal: true
 };
 CheckBalance.propTypes = {
-  loading: PropTypes.bool,
-  cardNumber: PropTypes.string,
-  originalValue: PropTypes.number,
-  expiryDate: PropTypes.string,
-  cliqCashUserDetails: PropTypes.object,
-  checkBalanceDetails: PropTypes.object,
-  transactionDetails: PropTypes.array,
-  showCliqCashModule: PropTypes.func,
-  openPopUp: PropTypes.func,
-  userAddress: PropTypes.object
+  checkBalanceDetails: PropTypes.shape({
+    cardNumber: string,
+    cardPin: string,
+    expiryDate: string,
+    amount: PropTypes.shape({
+      value: number
+    })
+  }),
+  showCliqCashModule: PropTypes.func.isRequired,
+  userAddress: PropTypes.object,
+  redeemCliqVoucher: PropTypes.func.isRequired
 };
