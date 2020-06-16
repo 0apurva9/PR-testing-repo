@@ -18,6 +18,7 @@ import {
   ADOBE_ITEM_DETAILS_LINK_CLICKED
 } from "../../lib/adobeUtils";
 import * as NumberFormatter from "../../lib/NumberFormatter.js";
+import exchangeIconLight from "../../cart/components/img/exchangeIconLight.svg";
 const dateFormat = "DD MMM YYYY";
 const dateTimeFormat = "DD MMM YYYY | HH:mm:ss";
 export default class OrderCard extends React.Component {
@@ -349,6 +350,21 @@ export default class OrderCard extends React.Component {
             )}
           </div>
 
+          {this.props.exchangeDetails &&
+            this.props.idFromAllOrderDetails === "Y" && (
+              <div className={styles.exchangeDetailsContainer}>
+                <img
+                  src={exchangeIconLight}
+                  alt="exchange icon"
+                  className={styles.exchangeIconLight}
+                />
+                <div className={styles.exchangeProductText}>
+                  Exchange Product:{" "}
+                  {this.props.exchangeDetails.exchangeModelName}
+                </div>
+              </div>
+            )}
+
           {this.props.retryPaymentUrl && (
             <React.Fragment>
               <div className={styles.deliveryDate}>
@@ -626,7 +642,21 @@ export default class OrderCard extends React.Component {
           </div>
         )}
 
-        <div>{this.props.additionalContent}</div>
+        {this.props.additionalContent && (
+          <React.Fragment>{this.props.additionalContent}</React.Fragment>
+        )}
+
+        {(this.props.title === PRODUCT_CANCEL || this.props.returnFlow) &&
+          this.props.exchangeDetails &&
+          this.props.exchangeDetails.exchangeCancelMessage && (
+            <React.Fragment>
+              <div className={styles.divider} />
+              <div className={styles.cancelExchangeMessage}>
+                {this.props.exchangeDetails.exchangeCancelMessage}
+              </div>
+            </React.Fragment>
+          )}
+
         {this.props.selectedDeliveryMode &&
           this.props.selectedDeliveryMode.name &&
           this.props.selectedDeliveryMode.name.toLowerCase() ===

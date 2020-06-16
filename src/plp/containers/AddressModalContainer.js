@@ -7,15 +7,34 @@ const mapDispatchToProps = dispatch => {
     getUserAddress: () => {
       dispatch(getUserAddress());
     },
-    getProductPinCode: (pincode, productCode) => {
-      dispatch(getProductPinCode(pincode, productCode));
+    getProductPinCode: (
+      pincode,
+      productCode,
+      winningUssID,
+      isComingFromPiqPage,
+      isExchangeAvailable,
+      isComingFromClickEvent
+    ) => {
+      dispatch(
+        getProductPinCode(
+          pincode,
+          productCode,
+          winningUssID,
+          isComingFromPiqPage,
+          isExchangeAvailable,
+          isComingFromClickEvent
+        )
+      );
     }
   };
 };
 const mapStateToProps = (state, ownProps) => {
   return {
     userAddress: state.cart.userAddress,
-    ...ownProps
+    ...ownProps,
+    exchangeAvailable:
+      state.productDescription.productDetails &&
+      state.productDescription.productDetails.exchangeAvailable
   };
 };
 const AddressModalContainer = connect(mapStateToProps, mapDispatchToProps)(

@@ -853,7 +853,7 @@ export async function pdpOffersApi(code, sellerId, categoryCode, brandCode) {
       categoryCode +
       "&brandCode=" +
       brandCode +
-      "&channel=Web&updatedFlag=true"
+      "&channel=web&updatedFlag=true"
   );
 }
 export async function pdpManufacturersApi(categoryCode, brandCode) {

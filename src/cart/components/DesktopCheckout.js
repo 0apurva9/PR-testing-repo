@@ -30,6 +30,18 @@ export default class DesktopCheckout extends React.Component {
     });
   };
   renderCheckout = () => {
+    let disableButton = false;
+    if (
+      (this.props.productExchangeServiceable &&
+        this.props.productExchangeServiceable.length > 0 &&
+        this.props.productExchangeServiceable.includes(false)) ||
+      (this.props.isQuoteExpired &&
+        this.props.isQuoteExpired.length > 0 &&
+        this.props.isQuoteExpired.includes(true)) ||
+      this.props.disabled
+    ) {
+      disableButton = true;
+    }
     const { cartAmount } = this.props;
     let bagSubTotal;
     if (cartAmount && cartAmount.bagTotal) {
@@ -241,6 +253,36 @@ export default class DesktopCheckout extends React.Component {
                         100
                     ) / 100
                   )}{" "}
+                  {/* cart page */}
+                  {this.props.isOnCartPage &&
+                    this.props.totalExchangeAmount &&
+                    (this.props.productExchangeServiceable.length > 0 &&
+                      !this.props.productExchangeServiceable.includes(false) &&
+                      (this.props.isQuoteExpired.length > 0 &&
+                        !this.props.isQuoteExpired.includes(true))) && (
+                      <span>
+                        {" "}
+                        and get {
+                          this.props.totalExchangeAmount.formattedValue
+                        }{" "}
+                        Exchange Cashback{" "}
+                      </span>
+                    )}
+                  {/* checkout page */}
+                  {!this.props.isOnCartPage &&
+                    this.props.totalExchangeAmount &&
+                    (this.props.isExchangeServiceableArray.length > 0 &&
+                      !this.props.isExchangeServiceableArray.includes(false) &&
+                      (this.props.isQuoteExpiredCheckout.length > 0 &&
+                        !this.props.isQuoteExpiredCheckout.includes(true))) && (
+                      <span>
+                        {" "}
+                        and get {
+                          this.props.totalExchangeAmount.formattedValue
+                        }{" "}
+                        Exchange Cashback{" "}
+                      </span>
+                    )}
                   on this order
                 </div>
               </div>
@@ -321,11 +363,11 @@ export default class DesktopCheckout extends React.Component {
                     <div
                       className={[
                         styles.button,
-                        this.props.disabled ? "" : styles.shadowBtn
+                        disableButton ? "" : styles.shadowBtn
                       ].join(" ")}
                     >
                       <Button
-                        disabled={this.props.disabled}
+                        disabled={disableButton}
                         disabledBgGrey={true}
                         type="primary"
                         backgroundColor="#ff1744"
@@ -345,11 +387,11 @@ export default class DesktopCheckout extends React.Component {
                     <div
                       className={[
                         styles.button,
-                        this.props.disabled ? "" : styles.shadowBtn
+                        disableButton ? "" : styles.shadowBtn
                       ].join(" ")}
                     >
                       <Button
-                        disabled={this.props.disabled}
+                        disabled={disableButton}
                         disabledBgGrey={true}
                         type="primary"
                         backgroundColor="#ff1744"

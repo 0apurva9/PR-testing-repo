@@ -8,7 +8,8 @@ import {
   REFRESH_TOKEN,
   LOGGED_IN_USER_DETAILS,
   CART_DETAILS_FOR_LOGGED_IN_USER,
-  CART_DETAILS_FOR_ANONYMOUS
+  CART_DETAILS_FOR_ANONYMOUS,
+  NON_LOGGED_IN_USER_DETAILS
 } from "../../lib/constants";
 import { LOGIN_WITH_MOBILE, LOGIN_WITH_EMAIL } from "../actions/user.actions";
 import { isBrowser } from "browser-or-node";
@@ -40,6 +41,7 @@ const user = (
       Cookies.deleteCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
       Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
       Cookies.deleteCookie(LOGGED_IN_USER_DETAILS);
+      Cookies.deleteCookie(NON_LOGGED_IN_USER_DETAILS);
       localStorage.clear();
       return Object.assign({}, state, {
         isLoggedIn: false,
@@ -76,11 +78,12 @@ const user = (
             ? action.user.customerInfo.lastName
             : "";
       }
-      const EMAIL_REG_EX = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-      if (EMAIL_REG_EX.test(action.userName)) {
-        userDetails.loginType = LOGIN_WITH_EMAIL;
-      } else {
+      const MOBILE_REG_EX = /^[0][1-9]\d{9}$|^[1-9]\d{9}$/g;
+      //const EMAIL_REG_EX = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      if (MOBILE_REG_EX.test(action.userName)) {
         userDetails.loginType = LOGIN_WITH_MOBILE;
+      } else {
+        userDetails.loginType = LOGIN_WITH_EMAIL;
       }
 
       Cookies.createCookie(LOGGED_IN_USER_DETAILS, JSON.stringify(userDetails));
@@ -97,6 +100,17 @@ const user = (
         isLoggedIn: true
       });
     case userActions.LOGIN_USER_FAILURE:
+      userDetails.customerId = action.userName;
+      const EMAIL_REG_EX_FOR_LOGIN_FAILURE = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      if (EMAIL_REG_EX_FOR_LOGIN_FAILURE.test(action.userName)) {
+        userDetails.loginType = LOGIN_WITH_EMAIL;
+      } else {
+        userDetails.loginType = LOGIN_WITH_MOBILE;
+      }
+      Cookies.createCookie(
+        NON_LOGGED_IN_USER_DETAILS,
+        JSON.stringify(userDetails)
+      );
       return Object.assign({}, state, {
         status: action.status,
         error: action.error,
@@ -368,6 +382,12 @@ const user = (
       });
 
     case userActions.SOCIAL_MEDIA_LOGIN_FAILURE:
+      userDetails.customerId = action.user;
+      userDetails.loginType = action.loginType;
+      Cookies.createCookie(
+        NON_LOGGED_IN_USER_DETAILS,
+        JSON.stringify(userDetails)
+      );
       return Object.assign({}, state, {
         status: action.status,
         loading: false,

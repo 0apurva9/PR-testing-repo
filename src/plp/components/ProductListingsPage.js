@@ -40,8 +40,6 @@ class ProductListingsPage extends Component {
     const parsedQueryString = currentUrl
       ? queryString.parseUrl(currentUrl).query
       : queryString.parse(this.props.location.search);
-    console.log("LOCAION");
-    console.log(this.props.location);
     const searchCategory = parsedQueryString.searchCategory;
     let searchText = parsedQueryString.q;
     if (
@@ -491,7 +489,6 @@ class ProductListingsPage extends Component {
   }
 
   render() {
-    console.log("IN PRODUCT LISTINGS PAGE");
     let isFilter = false;
     if (this.props.location.state && this.props.location.state.isFilter) {
       isFilter = true;

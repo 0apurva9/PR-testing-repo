@@ -425,7 +425,6 @@ class App extends Component {
       // Call minicart after landing on the site or reloading page
       this.props.getMinicartProducts();
     }
-    window.prerenderReady = true;
 
     if (!this.props.location.pathname.includes("/my-account")) {
       if (window.od && window.od.messenger && window.od.messenger("update")) {
@@ -452,7 +451,6 @@ class App extends Component {
   }
 
   render() {
-    console.log("UPI");
     if (!this.props.location.pathname.includes("/my-account")) {
       if (window.od && window.od.messenger && window.od.messenger("update")) {
         window.od.messenger("update");

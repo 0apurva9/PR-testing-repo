@@ -121,6 +121,8 @@ export const COSTUMER_ORDER_RELATED_QUERY_ROUTE = "/order-related";
 export const COSTUMER_CLIQ_CARE_ROUTE = "/cliq-care";
 export const CUSTOMER_CARE = "Customer Care";
 export const MY_ACCOUNT_USER_NOTIFICATION_PAGE = "/notifications";
+export const MY_ACCOUNT_EXCHANGE_MODE_SELECTION_PAGE =
+  "/getAccountInfoForExchange*";
 //returns
 export const RETURNS_PREFIX = "/returns";
 export const RETURNS = "/returns/(.*)";
@@ -176,6 +178,7 @@ export const EMI_TYPE = "emiType";
 export const CART_DETAILS_FOR_ANONYMOUS = "cartDetailsForAnonymous";
 export const CART_DETAILS_FOR_LOGGED_IN_USER = "cartDetails";
 export const LOGGED_IN_USER_DETAILS = "userDetails";
+export const NON_LOGGED_IN_USER_DETAILS = "LogInFailed";
 export const CATEGORIES_LANDING_PAGE = "/categories";
 export const ANONYMOUS_USER = "anonymous";
 export const COUPON_COOKIE = "couponCode";
@@ -466,6 +469,8 @@ export const EXPIRED_REJECTED_FORMAT = "0001-01-01T00:00:00";
 export const PREVENT_NUMBERS_VALIDATION = /^([^0-9]*)$/;
 export const BANK_ACCOUNT = "BANK_ACCOUNT";
 export const MY_ACCOUNT_SUFFIX = "/my-account/(.*)";
+export const DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION =
+  "digitalDataForPaymentConfirmation";
 
 // errors
 export const ERROR_CODE_JAVA_NET = "java.net";

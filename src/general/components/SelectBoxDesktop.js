@@ -20,17 +20,17 @@ export default class SelectBoxDesktop extends React.Component {
       value: this.props.value
         ? this.props.value
         : this.props.placeholder
-        ? this.props.placeholder
-        : this.props.options
-        ? this.props.options[0].value
-        : "",
+          ? this.props.placeholder
+          : this.props.options
+            ? this.props.options[0].value
+            : "",
       label: this.props.label
         ? this.props.label
         : this.props.placeholder
-        ? this.props.placeholder
-        : this.props.options
-        ? this.props.options[0].label
-        : "",
+          ? this.props.placeholder
+          : this.props.options
+            ? this.props.options[0].label
+            : "",
       touched: false
     };
   }
@@ -126,21 +126,26 @@ export default class SelectBoxDesktop extends React.Component {
       >
         <select
           name={this.props.name}
-          className={styles.hideSelect}
+          className={
+            !this.props.hideArrow
+              ? styles.hideSelect
+              : styles.hideSelectDisabled
+          }
           onChange={event => this.handleChange(event)}
           value={this.state.value}
           label={this.state.label}
         >
           <React.Fragment>
-            {this.props.placeholder && !this.state.touched && (
-              <option
-                value={this.props.placeholder}
-                label={this.props.placeholder}
-                disabled
-              >
-                {this.props.placeholder}
-              </option>
-            )}
+            {this.props.placeholder &&
+              !this.state.touched && (
+                <option
+                  value={this.props.placeholder}
+                  label={this.props.placeholder}
+                  disabled
+                >
+                  {this.props.placeholder}
+                </option>
+              )}
             {this.props.options &&
               this.props.options.map((item, i) => {
                 return (
@@ -170,19 +175,21 @@ export default class SelectBoxDesktop extends React.Component {
             {this.state.label}
           </div>
         )}
-        <div
-          className={styles.arrow}
-          style={{
-            height: `${this.props.size}px`,
-            width: `${this.props.size}px`,
-            right: `${this.props.rightArrow}px`
-          }}
-        >
-          <Icon
-            image={this.props.image ? this.props.image : arrow}
-            size={this.props.size}
-          />
-        </div>
+        {!this.props.hideArrow && (
+          <div
+            className={styles.arrow}
+            style={{
+              height: `${this.props.size}px`,
+              width: `${this.props.size}px`,
+              right: `${this.props.rightArrow}px`
+            }}
+          >
+            <Icon
+              image={this.props.image ? this.props.image : arrow}
+              size={this.props.size}
+            />
+          </div>
+        )}
         {this.props.leftChild && (
           <div
             className={styles.boxIconLeft}
