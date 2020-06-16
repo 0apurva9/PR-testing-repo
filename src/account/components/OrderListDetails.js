@@ -157,22 +157,23 @@ class OrderListDetails extends Component {
           <div className={styles.orderHeader}>
             <div className={styles.header}>
               {this.props.orderRelatedQuestion && <div>Your order details</div>}
-              {this.props.otherQuestion && !this.props.FAQquestion && (
-                <div>
-                  {this.props.parentIssueType && this.props.isQuesryForm
-                    ? this.props.parentIssueType
-                    : "Other Issues"}
-                </div>
-              )}
+              {this.props.otherQuestion &&
+                !this.props.FAQquestion && (
+                  <div>
+                    {this.props.parentIssueType && this.props.isQuesryForm
+                      ? this.props.parentIssueType
+                      : "Other Issues"}
+                  </div>
+                )}
               {/* {this.props.otherQuestion && this.props.question && (
                   <div>Other Issues</div>
                 )} */}
-              {!this.props.isQuesryForm && this.props.FAQquestion && (
-                <div>All Help Topics</div>
-              )}
-              {this.props.isQuesryForm && this.props.FAQquestion && (
-                <div>{this.props.parentIssueType}</div>
-              )}
+              {!this.props.isQuesryForm &&
+                this.props.FAQquestion && <div>All Help Topics</div>}
+              {this.props.isQuesryForm &&
+                this.props.FAQquestion && (
+                  <div>{this.props.parentIssueType}</div>
+                )}
               {/* {this.props.isQuesryForm && <div>{this.props.parentIssueType}</div>} */}
             </div>
             <div className={styles.orderDetalsButton}>
@@ -245,8 +246,12 @@ class OrderListDetails extends Component {
                     {this.props.selectedOrder &&
                       this.props.selectedOrder.products && (
                         <div className={styles.orderDesc}>
-                          <span className={styles.fontBold}>Order Status:</span>{" "}
-                          {product.statusDisplay}
+                          <div className={styles.orderStatus}>
+                            Order status:{" "}
+                            <span className={styles.fontBold}>
+                              {product.statusDisplay}
+                            </span>
+                          </div>
                         </div>
                       )}
 
@@ -261,12 +266,12 @@ class OrderListDetails extends Component {
                         </div>
                       ) : null
                     ) : (product.statusDisplay === ORDER_CONFIRMED ||
-                        product.statusDisplay === ORDER_IN_PROCESS ||
-                        product.statusDisplay === SHIPPED ||
-                        product.statusDisplay === ITEM_PACKED ||
-                        product.statusDisplay === OUT_FOR_DELIVERY ||
-                        product.statusDisplay === READY_FOR_COLLECTION) &&
-                      (product.EDD || product.estimateddeliverydate) ? (
+                      product.statusDisplay === ORDER_IN_PROCESS ||
+                      product.statusDisplay === SHIPPED ||
+                      product.statusDisplay === ITEM_PACKED ||
+                      product.statusDisplay === OUT_FOR_DELIVERY ||
+                      product.statusDisplay === READY_FOR_COLLECTION) &&
+                    (product.EDD || product.estimateddeliverydate) ? (
                       <div className={styles.orderStatus}>
                         {ESTIMATED_DATE}&nbsp;
                         <span className={styles.fontBold}>
@@ -302,66 +307,68 @@ class OrderListDetails extends Component {
 
           {this.props.showFeedBack && this.feedbak(this.props.question)}
 
-          {this.props.FAQquestion && this.props.questionsList && (
-            <div className={styles.accordianBox}>
-              {/* {this.state.showParentIssue} */}
-              <div className={styles.parentIssueBox}>
-                <span className={styles.parentIssue}>
-                  {this.props.parentIssueType.replace("&amp;", "&")}
-                </span>{" "}
-                <span
-                  className={styles.staticContent}
-                >{`(Browse all help topics related to ${this.props.parentIssueType.replace(
-                  "&amp;",
-                  "&"
-                )})`}</span>
-              </div>
-              {this.props.questionsList.map(listOfIssue => {
-                return (
-                  <div>
-                    <div
-                      className={[
-                        styles.faqHeading,
-                        this.state.showFaqSolution ==
-                        listOfIssue.question_component
-                          ? styles.fontBold
-                          : null
-                      ].join(" ")}
-                      onClick={() => this.showFaqSolutions(listOfIssue)}
-                    >
-                      {listOfIssue.question_component}
-                    </div>
-                    {this.state.showFaqSolution ==
-                      listOfIssue.question_component &&
-                      this.feedbak(listOfIssue)}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {!this.props.FAQquestion && this.props.showQuestionList && (
-            <div className={styles.orderRelatedIssueList}>
-              {this.props.questionsList ? (
-                <QuestionList
-                  // showQuestionList={this.state.showQuestionList}
-                  parentIssueType={this.props.parentIssueType}
-                  questionsList={this.props.questionsList}
-                  orderRelatedQuestion={this.props.orderRelatedQuestion}
-                  otherQuestion={this.props.otherQuestion}
-                  FAQquestion={this.props.FAQquestion}
-                  selectQuestion={(listOfIssue, index) =>
-                    this.props.selectQuestion(listOfIssue, index)
-                  }
-                />
-              ) : (
-                <div className={styles.noQuestions}>
-                  Sorry, we dont have any relevant issues related to this item
-                  at this moment
+          {this.props.FAQquestion &&
+            this.props.questionsList && (
+              <div className={styles.accordianBox}>
+                {/* {this.state.showParentIssue} */}
+                <div className={styles.parentIssueBox}>
+                  <span className={styles.parentIssue}>
+                    {this.props.parentIssueType.replace("&amp;", "&")}
+                  </span>{" "}
+                  <span
+                    className={styles.staticContent}
+                  >{`(Browse all help topics related to ${this.props.parentIssueType.replace(
+                    "&amp;",
+                    "&"
+                  )})`}</span>
                 </div>
-              )}
-            </div>
-          )}
+                {this.props.questionsList.map(listOfIssue => {
+                  return (
+                    <div>
+                      <div
+                        className={[
+                          styles.faqHeading,
+                          this.state.showFaqSolution ==
+                          listOfIssue.question_component
+                            ? styles.fontBold
+                            : null
+                        ].join(" ")}
+                        onClick={() => this.showFaqSolutions(listOfIssue)}
+                      >
+                        {listOfIssue.question_component}
+                      </div>
+                      {this.state.showFaqSolution ==
+                        listOfIssue.question_component &&
+                        this.feedbak(listOfIssue)}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+          {!this.props.FAQquestion &&
+            this.props.showQuestionList && (
+              <div className={styles.orderRelatedIssueList}>
+                {this.props.questionsList ? (
+                  <QuestionList
+                    // showQuestionList={this.state.showQuestionList}
+                    parentIssueType={this.props.parentIssueType}
+                    questionsList={this.props.questionsList}
+                    orderRelatedQuestion={this.props.orderRelatedQuestion}
+                    otherQuestion={this.props.otherQuestion}
+                    FAQquestion={this.props.FAQquestion}
+                    selectQuestion={(listOfIssue, index) =>
+                      this.props.selectQuestion(listOfIssue, index)
+                    }
+                  />
+                ) : (
+                  <div className={styles.noQuestions}>
+                    Sorry, we dont have any relevant issues related to this item
+                    at this moment
+                  </div>
+                )}
+              </div>
+            )}
         </div>
 
         {this.props.isQuesryForm && (

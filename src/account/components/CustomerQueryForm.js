@@ -84,7 +84,9 @@ export default class CustomerQueryForm extends Component {
           : "",
         name:
           nextProps.userDetails.firstName || nextProps.userDetails.lastName
-            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
+            ? `${nextProps.userDetails.firstName} ${
+                nextProps.userDetails.lastName
+              }`
             : "",
         mobile: nextProps.userDetails.mobileNumber
           ? nextProps.userDetails.mobileNumber
@@ -109,7 +111,9 @@ export default class CustomerQueryForm extends Component {
           : "",
         name:
           this.props.userDetails.firstName || this.props.userDetails.lastName
-            ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
+            ? `${this.props.userDetails.firstName} ${
+                this.props.userDetails.lastName
+              }`
             : "",
         mobile: this.props.userDetails.mobileNumber
           ? this.props.userDetails.mobileNumber
@@ -418,7 +422,7 @@ export default class CustomerQueryForm extends Component {
         attachment: false,
         communication: true,
         currentStep: COMMUNICATION,
-        btnDisable: !mobile || !email ? true : false,
+        btnDisable: mobile && email ? false : true,
         btnLabel: "SUBMIT"
       });
 
@@ -670,9 +674,8 @@ export default class CustomerQueryForm extends Component {
   //   }
   // }
 
-  async onUploadFile(event, { maxFileLimit, maxFileSize, title }) {
-    console.log("event=========", event.target.files);
-    const newFile = event.target.files;
+  async onUploadFile(file, { maxFileLimit, maxFileSize, title }) {
+    const newFile = Array.from(file);
     if (newFile.length > 0) {
       let combinedSize = 0,
         totalFile = [...newFile, ...this.state.file];
@@ -707,6 +710,11 @@ export default class CustomerQueryForm extends Component {
           );
       }
     }
+  }
+
+  handleClick(event) {
+    const { target = {} } = event || {};
+    target.value = "";
   }
 
   deleteFile(index) {
@@ -779,14 +787,17 @@ export default class CustomerQueryForm extends Component {
       ticketType,
       files
     } = this.state;
+    let strArr = null;
     return (
       <div className={styles.base}>
         <div className={styles.headerBox}>
           {basicForm && <div className={styles.header}>Create your ticket</div>}
           {attachment && (
             <div className={styles.header}>
-              Add attachments{" "}
-              {this.state.attachementData.isMandatory ? " *" : " (optional)"}{" "}
+              Add attachments
+              {this.state.attachementData.isMandatory
+                ? "*"
+                : " (optional)"}{" "}
             </div>
           )}
           {communication && (
@@ -866,7 +877,7 @@ export default class CustomerQueryForm extends Component {
                 <div className={styles.fileBtn}>
                   {" "}
                   <div className={styles.uploadIcon}>
-                    <Icon image={download} width={14} height={16}></Icon>
+                    <Icon image={download} width={14} height={16} />
                   </div>
                   <div className={styles.btnTxt}>
                     {" "}
@@ -876,12 +887,16 @@ export default class CustomerQueryForm extends Component {
                 <input
                   type="file"
                   id="fileinput"
-                  onChange={val =>
-                    this.onUploadFile(val, this.state.attachementData)
+                  onClick={e => this.handleClick(e)}
+                  onChange={e =>
+                    this.onUploadFile(
+                      e.target.files,
+                      this.state.attachementData
+                    )
                   }
                   title=""
                   multiple={true}
-                  accept="text/plain, application/pdf, image/*" // accepting only txt/pdf/images(all types)
+                  accept="application/pdf, image/*" // accepting only pdf/images(all types)
                 />
                 <div className={styles.fileSize}>
                   {`Upload JPEG, PNG or PDF (Maximum size ${this.state
@@ -892,9 +907,13 @@ export default class CustomerQueryForm extends Component {
             </div>
             <div className={styles.filesBox}>
               {this.state.file &&
-                this.state.file.map((files, index) => {
+                this.state.file.map((file, index) => {
+                  strArr = file.name ? file.name.split(".") : [];
                   return (
-                    <div className={styles.uploadFilesBox}>
+                    <div
+                      key={`${file.name}_${index}`}
+                      className={styles.uploadFilesBox}
+                    >
                       <div
                         className={styles.deleteBOx}
                         onClick={() => this.deleteFile(index)}
@@ -902,7 +921,9 @@ export default class CustomerQueryForm extends Component {
                         <Icon image={deleteUpload} size={20} />
                       </div>
                       <div className={styles.fileNames}>
-                        <div className={styles.fileName}>{files.name}</div>
+                        <div className={styles.fileName}>
+                          {`${strArr[0].slice(0, 20)}.${strArr[1]}`}
+                        </div>
                       </div>
                     </div>
                   );
@@ -922,7 +943,7 @@ export default class CustomerQueryForm extends Component {
                 ) : (
                   <FloatingLabelInputWithPlace
                     placeholder={"Enter email ID"}
-                    // disabled={this.state.email ? true : false}
+                    disabled={this.state.email ? true : false}
                     value={this.state.email}
                     onChange={email => this.setState({ email: email })}
                     fontSize={"11px"}
@@ -938,9 +959,13 @@ export default class CustomerQueryForm extends Component {
                 <FloatingLabelInputWithPlace
                   placeholder={"Enter Mobile No"}
                   maxLength={"10"}
-                  // disabled={this.state.mobile ? true : false}
                   value={this.state.mobile}
-                  onChange={mobile => this.setState({ mobile: mobile })}
+                  onChange={mobile =>
+                    this.setState(prevState => ({
+                      mobile: mobile,
+                      btnDisable: prevState.email && mobile ? false : true
+                    }))
+                  }
                   fontSize={"11px"}
                   onlyNumber={true}
                   onBlur={() => this.onBlur(true)}
@@ -963,14 +988,14 @@ export default class CustomerQueryForm extends Component {
                 styles.steps,
                 basicForm ? styles.currentStep : null
               ].join(" ")}
-            ></span>
+            />
             {/* {this.state.isAttachment && ( */}
             <span
               className={[
                 styles.steps,
                 attachment ? styles.currentStep : null
               ].join(" ")}
-            ></span>
+            />
             {/* )} */}
 
             <span
@@ -978,7 +1003,7 @@ export default class CustomerQueryForm extends Component {
                 styles.steps,
                 communication ? styles.currentStep : null
               ].join(" ")}
-            ></span>
+            />
           </div>
           <div className={styles.nextButton}>
             <Button

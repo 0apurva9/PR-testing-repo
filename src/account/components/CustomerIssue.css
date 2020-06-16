@@ -33,7 +33,7 @@
 }
 .orderDataBox {
   display: flex;
-  padding: 16px;
+  padding: 12px 14px 16px 14px;
 }
 .orderImage {
   width: 94%;
@@ -99,7 +99,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 16px;
+  padding-bottom: 8px;
   position: relative;
 }
 .orderHeader {
@@ -335,16 +335,16 @@ margin-bottom: 20px;
     padding: 0px;
     margin-top: 24px;
     margin-bottom: 9px;
-    
+
 }
 .parentIssueT{
   font-size: 16px;
     color: #212121;
     font-family: semibold;
     margin-bottom: 15px;
-    
+
 margin-top: 20px;
-    
+
 }
 
 .maginBottom{
@@ -403,7 +403,7 @@ padding-bottom: 16px;
   font-size: 14px;
   font-family: regular;
   padding-top:24px;
-  padding-bottom: 5px; 
+  padding-bottom: 5px;
 }
 .customBtn{
   color: rgb(218, 28, 92);

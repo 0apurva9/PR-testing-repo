@@ -2,6 +2,11 @@
   width: 100%;
   height: auto;
 }
+.bottomNavBase {
+  composes: base;
+  position: relative;
+  margin-bottom: 35px;
+}
 .header {
   width: 100%;
   float: left;
@@ -40,7 +45,7 @@
 }
 .forward {
   composes: navButton;
-  
+
 }
 .back {
   composes: navButton;
@@ -51,7 +56,7 @@
 }
 
 .leftButton{
- 
+
   composes: navButton;
   margin-right: 2px;
   margin-left: 40px;
@@ -86,17 +91,6 @@
   padding: 0 10px;
 }
 
-/* .headerBottomBase{
-  width: 100%;
-    height: auto;
-    padding-bottom: 63px;
-    position: relative;
-}
-.headerBottom{
-  position: absolute;
-    bottom: -10px;
-} */
-
 @media screen and (min-width: 1025px) {
   .header {
     display: flex;
@@ -105,6 +99,11 @@
     -webkit-align-items: center;
     margin-bottom: 20px;
     font-size: 30px;
+  }
+  .bottomNavHeader {
+    composes: header;
+    position: absolute;
+    top: 145px;
   }
   .headerpaddingTop21{
     display: flex;
@@ -196,4 +195,3 @@
     width: 100px;
   }
 }
-

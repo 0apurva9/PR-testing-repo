@@ -58,7 +58,7 @@ export default class AllOrdersList extends Component {
                       {orderData.products[0].productName}
                     </div>
                     <div className={styles.orderStatus}>
-                      Order Status:
+                      Order status:
                       <span className={styles.fontBold}>
                         {" "}
                         {orderData.products[0].statusDisplay}

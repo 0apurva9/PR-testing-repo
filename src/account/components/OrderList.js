@@ -36,26 +36,22 @@ class OrderList extends Component {
       this.props.ordersTransactionData.orderData
     ) {
       return (
-        <div className={styles.orderList}>
+        <React.Fragment>
           <div className={styles.headerBox}>
             <div className={styles.header}>Recent orders</div>
-            {/* {this.props.ordersTransactionData &&
-            this.props.ordersTransactionData.totalNoOfOrders > 5 ? ( */}
-            <div className={styles.headerButton}>
-              <Button
-                type="hollow"
-                label="View All"
-                borderColor={""}
-                color={"#da1c5c"}
-                onClick={() => this.props.showAllOrdersList()}
-              />
-            </div>
-            {/* ) : null} */}
+            <Button
+              type="hollow"
+              label="View All"
+              borderColor={""}
+              height={24}
+              color={"#da1c5c"}
+              onClick={() => this.props.showAllOrdersList()}
+            />
           </div>
 
           <Carousel
             elementWidthDesktop={50}
-            // headerBottom={true}
+            showBottomNav={true}
             buttonColor={true}
           >
             {this.props.ordersTransactionData &&
@@ -87,7 +83,7 @@ class OrderList extends Component {
                             {orderData.products[0].productName}
                           </div>
                           <div className={styles.orderStatus}>
-                            Order Status:
+                            Order status:
                             <span className={styles.fontBold}>
                               {" "}
                               {orderData.products[0].statusDisplay}{" "}
@@ -111,18 +107,18 @@ class OrderList extends Component {
                               </div>
                             ) : null
                           ) : (orderData.products[0].statusDisplay ===
-                              ORDER_CONFIRMED ||
-                              orderData.products[0].statusDisplay ===
-                                ORDER_IN_PROCESS ||
-                              orderData.products[0].statusDisplay === SHIPPED ||
-                              orderData.products[0].statusDisplay ===
-                                ITEM_PACKED ||
-                              orderData.products[0].statusDisplay ===
-                                OUT_FOR_DELIVERY ||
-                              orderData.products[0].statusDisplay ===
-                                READY_FOR_COLLECTION) &&
-                            (orderData.products[0].EDD ||
-                              orderData.products[0].estimateddeliverydate) ? (
+                            ORDER_CONFIRMED ||
+                            orderData.products[0].statusDisplay ===
+                              ORDER_IN_PROCESS ||
+                            orderData.products[0].statusDisplay === SHIPPED ||
+                            orderData.products[0].statusDisplay ===
+                              ITEM_PACKED ||
+                            orderData.products[0].statusDisplay ===
+                              OUT_FOR_DELIVERY ||
+                            orderData.products[0].statusDisplay ===
+                              READY_FOR_COLLECTION) &&
+                          (orderData.products[0].EDD ||
+                            orderData.products[0].estimateddeliverydate) ? (
                             <div className={styles.orderStatus}>
                               {ESTIMATED_DATE}&nbsp;
                               <span className={styles.fontBold}>
@@ -186,7 +182,7 @@ class OrderList extends Component {
                   );
                 })}
           </Carousel>
-        </div>
+        </React.Fragment>
       );
     } else {
       return (
