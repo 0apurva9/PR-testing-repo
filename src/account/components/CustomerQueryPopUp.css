@@ -5,7 +5,7 @@
   min-height: 464px;
   border-radius: 15px;
   position: absolute;
-  padding: 20px;
+  padding: 24px;
   right: 0;
   top: 0;
   bottom: 0;
@@ -125,6 +125,7 @@
 @media screen and (min-width: 1025px) {
   .base {
     width: 49%;
+    max-width:667px;
   }
 }
 .colorRed {
@@ -137,6 +138,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 24px;
 }
 .duplicateIcon{
   margin-top: 66px;
@@ -152,7 +154,7 @@
     color: #2d2d2d;
     font-family: light;
     /* padding-bottom: 7px; */
-    padding: 10px 0px 60px 0px;
+    padding: 10px 0px 0px 0px;
 }
 .ticketId, .expDateTime{
   font-size: 14px;
@@ -167,7 +169,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top:50px;
+  margin-top: 53px;
 }
 
 .closeModal{
@@ -176,7 +178,7 @@
     text-align: lecft;
     position: absolute;
     /* left: 10px; */
-    right: 9px;
+    right: 17px;
 }
 .duplicate{
   

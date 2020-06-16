@@ -4,12 +4,10 @@ import TextArea from "../../general/components/TextArea";
 import Icon from "../../xelpmoc-core/Icon";
 import CheckboxAndText from "../../cart/components/CheckboxAndText";
 import * as Cookie from "../../lib/Cookie";
-
 import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
 } from "../../auth/components/Login";
-
 import styles from "./CustomerQueryForm.css";
 import Button from "../../general/components/Button.js";
 import download from "../components/img/download.svg";
@@ -19,12 +17,10 @@ const BASIC_FORM = "bacisform";
 const ATTACHEMENT = "attachment";
 const COMMUNICATION = "communication";
 const TICKET_TATACLIQ = "tataCliq";
-const TICKET_OTHER_ECOMMERCE = "Other e-Commerce";
 const MOBILE_VALID_TEXT = "Please enter valid mobile number";
 const EMAIL_VALID_TEXT = "Please enter  valid emailId";
 const MOBILE_TEXT = "Please enter mobile number";
 const EMAIL_TEXT = "Please enter emailId";
-
 export default class CustomerQueryForm extends Component {
   constructor(props) {
     super(props);
@@ -56,10 +52,7 @@ export default class CustomerQueryForm extends Component {
       btnLabel: "NEXT",
       ticketType: TICKET_TATACLIQ,
       btnDisable: false,
-      // files: [],
-      // uploadedAttachment: "",
       file: [],
-      // subIssue: "",
       uploadedAttachment: "",
       filesData: [],
       isRadioComponent: false
@@ -84,9 +77,7 @@ export default class CustomerQueryForm extends Component {
           : "",
         name:
           nextProps.userDetails.firstName || nextProps.userDetails.lastName
-            ? `${nextProps.userDetails.firstName} ${
-                nextProps.userDetails.lastName
-              }`
+            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
             : "",
         mobile: nextProps.userDetails.mobileNumber
           ? nextProps.userDetails.mobileNumber
@@ -111,9 +102,7 @@ export default class CustomerQueryForm extends Component {
           : "",
         name:
           this.props.userDetails.firstName || this.props.userDetails.lastName
-            ? `${this.props.userDetails.firstName} ${
-                this.props.userDetails.lastName
-              }`
+            ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
             : "",
         mobile: this.props.userDetails.mobileNumber
           ? this.props.userDetails.mobileNumber
@@ -137,17 +126,11 @@ export default class CustomerQueryForm extends Component {
               if (!this.state[field.componentId]) {
                 this.setState({ btnDisable: true });
               }
-              //  else {
-              //   this.setState({ btnDisable: false });
-              // }
             }
           } else {
             if (field.isMandatory) {
               this.setState({ btnDisable: true });
             }
-            // else {
-            //   this.setState({ btnDisable: false });
-            // }
           }
 
           if (
@@ -271,25 +254,6 @@ export default class CustomerQueryForm extends Component {
                           <span />
                         </label>
                       </div>
-
-                      // <div key={ele.value} className={styles.radioBtnMyAcc}>
-                      //   <label>
-                      //     {ele.optionName}
-                      //     <input
-                      //       type="radio"
-                      //       value={ele.value}
-                      //       checked={
-                      //         ele.value == this.state[listOfField.componentId]
-                      //           ? true
-                      //           : false
-                      //       }
-                      //       onChange={e =>
-                      //         this.onChangeCheck(e, listOfField, ele)
-                      //       }
-                      //     />
-                      //     <span />
-                      //   </label>
-                      // </div>
                     );
                   })}
               </div>
@@ -402,7 +366,6 @@ export default class CustomerQueryForm extends Component {
       if (validateStatus) {
         this.setState({
           basicForm: false,
-          // communication: !isAttachment,
           attachment: true,
           btnDisable:
             attachementData &&
@@ -425,30 +388,11 @@ export default class CustomerQueryForm extends Component {
         btnDisable: mobile && email ? false : true,
         btnLabel: "SUBMIT"
       });
-
-      // if (
-      //   this.state.attachementData &&
-      //   this.state.attachementData.isMandatory &&
-      //   !this.state.files.length
-      // ) {
-      //   this.props.displayToast(
-      //     this.state.attachementData.heading + " is mandatory"
-      //   );
-      //   return false;
-      // } else {
-      //   this.setState({
-      //     attachment: false,
-      //     communication: true,
-      //     currentStep: COMMUNICATION,
-      //     btnLabel: "SUBMIT"
-      //   });
-      // }
     }
     if (currentStep == COMMUNICATION) {
       window.scroll(0, 0);
       if (!email) {
         this.props.displayToast(EMAIL_TEXT);
-        // this.setState({ email: "" });
         return false;
       }
       if (this.state.email && !EMAIL_REGULAR_EXPRESSION.test(email)) {
@@ -457,7 +401,6 @@ export default class CustomerQueryForm extends Component {
       }
       if (!mobile) {
         this.props.displayToast(MOBILE_TEXT);
-        // this.setState({ mobile: "" });
         return false;
       }
       if (this.state.mobile && !MOBILE_PATTERN.test(mobile)) {
@@ -514,10 +457,7 @@ export default class CustomerQueryForm extends Component {
         for (let obj of customerQueriesField) {
           for (let [key, value] of Object.entries(additionalInfo)) {
             if (key == uploadFileTitle) {
-              if (
-                uploadedAttachment &&
-                uploadedAttachment[0].urlList.length > 0
-              ) {
+              if (uploadedAttachment && uploadedAttachment.length > 0) {
                 let urlList = [];
                 uploadedAttachment.forEach(item => {
                   let list = item.urlList.map(url => url.fileURL);
@@ -574,12 +514,9 @@ export default class CustomerQueryForm extends Component {
           ticketInfo,
           customerInfo
         };
-        // console.log("raiseTicketObj", raiseTicketObj);
 
         this.props.submitCustomerForms(raiseTicketObj);
       }
-      // this.setState({})
-      // this.props.submitCustomerForms("test data");
     }
   }
 
@@ -632,48 +569,6 @@ export default class CustomerQueryForm extends Component {
       return true;
     }
   }
-
-  // async onUploadFile(event, { maxFileLimit, maxFileSize, title }) {
-  //   const newFile = event.target.files;
-  //   if (newFile) {
-  //     let uploadFiles = [];
-  //     let combinedSize = 0,
-  //       totalFile = [...newFile, ...this.state.filesData];
-  //     for (let f of totalFile) {
-  //       combinedSize += f.size / 1048576; //converting file size into MB
-  //       uploadFiles.push(URL.createObjectURL(f));
-  //     }
-  //     if (combinedSize <= maxFileSize && totalFile.length <= maxFileLimit) {
-  //       const uploadFileResponse = await this.props.uploadUserFile(
-  //         this.props.questionType,
-  //         title,
-  //         Array.from(newFile)
-  //       );
-  //       let { uploadUserFile, status } = uploadFileResponse;
-  //       if (uploadFileResponse && status === SUCCESS) {
-  //         this.setState(prevState => ({
-  //           files: uploadFiles,
-  //           filesData: [...prevState.filesData, ...newFile],
-  //           btnDisable: false,
-  //           uploadedAttachment: [
-  //             ...prevState.uploadedAttachment,
-  //             ...uploadUserFile.imageURLlist
-  //           ]
-  //         }));
-  //       }
-  //     } else {
-  //       if (totalFile.length > maxFileLimit)
-  //         this.props.displayToast(
-  //           `Maximum ${maxFileLimit} No. of files allowed`
-  //         );
-  //       else
-  //         this.props.displayToast(
-  //           `File size should be less then ${maxFileSize} MB`
-  //         );
-  //     }
-  //   }
-  // }
-
   async onUploadFile(file, { maxFileLimit, maxFileSize, title }) {
     const newFile = Array.from(file);
     if (newFile.length > 0) {
@@ -720,7 +615,7 @@ export default class CustomerQueryForm extends Component {
   deleteFile(index) {
     const copyuploadedAttachment = [...this.state.uploadedAttachment];
     var files = [...this.state.file];
-    copyuploadedAttachment[0].urlList.splice(index, 1);
+    copyuploadedAttachment.splice(index, 1);
     files.splice(index, 1);
     this.setState(
       { uploadedAttachment: copyuploadedAttachment, file: files },
@@ -733,20 +628,6 @@ export default class CustomerQueryForm extends Component {
       }
     );
   }
-
-  // handleRemoveFile(fileName) {
-  //   let firstName = fileName.split(".")[0];
-
-  //   this.setState(prevState => ({
-  //     file: prevState.file.filter(f => f.name !== fileName),
-  //     uploadedAttachment: prevState.uploadedAttachment.map(item => {
-  //       return {
-  //         ...item,
-  //         urlList: item.urlList.filter(f => f.fileURL.indexOf(firstName) === -1)
-  //       };
-  //     })
-  //   }));
-  // }
 
   componentWillUnmount() {
     console.log("unMount check");
@@ -811,43 +692,13 @@ export default class CustomerQueryForm extends Component {
             >
               Go to Previous Page
             </div>
-            {/* <Button
-              type="hollow"
-              label="Go to Previous Page"
-              borderColor={""}
-              width={172}
-              height={5}
-              color={"#da1c5c"}
-              padding="0px 5px"
-              onClick={() => this.previewPage()}
-            /> */}
           </div>
         </div>
         {basicForm && (
-          <div className={styles.basicForm}>
-            {/* {this.props.otherQuestion && (
-              <div className={styles.otherQuestionBox}>
-                <div className={styles.parentIssueHeader}>
-                  <div className={styles.parentIssue}>
-                    {" "}
-                    {this.props.parentIssueType}
-                  </div>
-                </div>
-                <div className={styles.subIssueType}>
-                  {this.props.question.subIssueType}
-                </div>
-              </div>
-            )} */}
-            {/* <div className={styles.header}>{"Create your ticket"}</div> */}
-            {this.formField()}
-          </div>
+          <div className={styles.basicForm}>{this.formField()}</div>
         )}
         {attachment && (
           <div className={styles.attachment}>
-            {/* <div className={styles.header}>
-              Add attachements{" "}
-              {this.state.attachementData.isMandatory ? " *" : " (optional)"}{" "}
-            </div> */}
             <div
               className={[
                 styles.fileBox,
@@ -861,17 +712,6 @@ export default class CustomerQueryForm extends Component {
                 <div className={styles.uploadSubHeding}>
                   {this.state.attachementData.itemsTitle}
                 </div>
-                {/* <ol className={styles.fileGroup}>
-                  <li className={styles.fileList}>
-                    Images of outer box from all angles
-                  </li>
-                  <li className={styles.fileList}>
-                    Images of outer box with invoice and AWB
-                  </li>
-                  <li className={styles.fileList}>
-                    Images of the damaged part
-                  </li>
-                </ol> */}
               </div>
               <div className={styles.fileUpload}>
                 <div className={styles.fileBtn}>
@@ -934,7 +774,6 @@ export default class CustomerQueryForm extends Component {
 
         {communication && (
           <div className={styles.communication}>
-            {/* <div className={styles.header}>Communication details</div> */}
             <div className={styles.txtFieldBox}>
               <div className={styles.txtFieldHeading}>Email Id</div>
               <div className={styles.txtField}>
@@ -970,12 +809,6 @@ export default class CustomerQueryForm extends Component {
                   onlyNumber={true}
                   onBlur={() => this.onBlur(true)}
                 />
-                {/* <div
-                  className={styles.updateNumber}
-                  onClick={() => this.updateNumber()}
-                >
-                  Change
-                </div> */}
               </div>
             </div>
           </div>
@@ -989,14 +822,12 @@ export default class CustomerQueryForm extends Component {
                 basicForm ? styles.currentStep : null
               ].join(" ")}
             />
-            {/* {this.state.isAttachment && ( */}
             <span
               className={[
                 styles.steps,
                 attachment ? styles.currentStep : null
               ].join(" ")}
             />
-            {/* )} */}
 
             <span
               className={[

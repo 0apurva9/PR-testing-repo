@@ -100,7 +100,7 @@ export default class CustomerQueryPopUp extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.closeModal} onClick={() => this.closeModal()}>
-          <Icon image={cancleSvg} size={12}></Icon>
+          <Icon image={cancleSvg} size={17}></Icon>
         </div>
         <div className={styles.headerText}>
           {isTicketDuplicate ? "Duplicate Ticket" : "Your Ticket Details"}

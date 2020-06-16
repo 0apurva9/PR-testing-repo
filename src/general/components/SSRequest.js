@@ -4,21 +4,21 @@ import Icon from "../../xelpmoc-core/Icon";
 import ssloader from "../components/img/ssloader.svg";
 import ssloaders from "../components/img/ssloaders.svg";
 export default class SSRquest extends Component {
-  state = {
-    request: true,
-    success: false
-  };
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({ request: false, success: true });
-      // this.props.hideLoader()
-      this.setState({ request: false, success: true });
-    }, 2000);
-  }
+  // state = {
+  //   request: true,
+  //   success: false
+  // };
+  // componentDidMount() {
+  //   setTimeout(() => {
+  //     this.setState({ request: false, success: true });
+  //     // this.props.hideLoader()
+  //     this.setState({ request: false, success: true });
+  //   }, 2000);
+  // }
   render() {
     return (
       <div className={styles.base}>
-        {this.state.request && (
+        {this.props.raiseTiketRequest && (
           <div className={styles.requestBox}>
             <div className={styles.requestImg}>
               <img src={ssloader} alt="Loader..."></img>
@@ -33,7 +33,7 @@ export default class SSRquest extends Component {
             </div>
           </div>
         )}
-        {this.state.success && (
+        {this.props.raiseTiketSucess && (
           <div className={styles.requestBox}>
             <div className={styles.requestImg}>
               <img src={ssloaders} alt="Loader..."></img>

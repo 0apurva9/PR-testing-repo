@@ -49,14 +49,14 @@ export default class OrderRelatedIssue extends React.Component {
       question: null,
       selectedOrderObj: selectedOrderObj,
       showLoader: false,
+      raiseTiketRequest: false,
+      raiseTiketSucess: false,
       slectOrderData: null
     };
     this.resetState = this.state;
   }
 
   componentDidMount() {
-    // const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    // const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (this.props.getOrdersTransactionData) {
       this.props.getOrdersTransactionData(false);
     }
@@ -81,9 +81,9 @@ export default class OrderRelatedIssue extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.logoutUserStatus !== this.props.logoutUserStatus) {
-      // if(nextProps.logoutUserStatus=="success"){
-      //   this.setState(this.resetState)
-      // }
+      if (nextProps.logoutUserStatus == "success") {
+        this.setState(this.resetState);
+      }
     }
   }
   moreHelps() {
@@ -139,12 +139,11 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   feedBackHelpFull(e) {
-    // e.preventDefault()
     this.setState({ isAnswerHelpFull: true });
   }
 
   async submitCustomerForms(formData) {
-    this.setState({ showLoader: true });
+    this.setState({ raiseTiketRequest: true, showLoader: true });
     if (this.props.submitOrderDetails) {
       let getCustomerQueryDetailsObject = Object.assign(
         {},
@@ -164,16 +163,34 @@ export default class OrderRelatedIssue extends React.Component {
       const submitOrderDetailsResponse = await this.props.submitOrderDetails(
         formData
       );
+
       // if (submitOrderDetailsResponse.status === SUCCESS) {
       setTimeout(() => {
         if (submitOrderDetailsResponse.status === SUCCESS) {
-          this.props.setSelfServeState(null);
-          this.setState({ showLoader: false });
           getCustomerQueryDetailsObject.ticketID =
             submitOrderDetailsResponse.submitOrder.referenceNum;
-          this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+          if (
+            submitOrderDetailsResponse.submitOrder.referenceNum == "duplicate"
+          ) {
+            this.setState({ showLoader: false, raiseTiketRequest: false });
+            this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+            this.props.setSelfServeState(null);
+          } else {
+            this.setState({ raiseTiketSucess: true, raiseTiketRequest: false });
+            setTimeout(() => {
+              this.setState({ showLoader: false, raiseTiketSucess: false });
+              this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+              this.props.setSelfServeState(null);
+            }, 2000);
+          }
+
+          console.log("submitOrderDetailsResponse", submitOrderDetailsResponse);
+          // this.setState({ showLoader: false });
+          // getCustomerQueryDetailsObject.ticketID =
+          //   submitOrderDetailsResponse.submitOrder.referenceNum;
+          // this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
         }
-      }, 4000);
+      }, 2000);
 
       // }
     }
@@ -194,7 +211,6 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   async orderRelatedInfo(orderData) {
-    console.log("orderData", orderData);
     if (this.props.fetchOrderItemDetails) {
       this.props.fetchOrderItemDetails(
         orderData.orderCode,
@@ -229,7 +245,6 @@ export default class OrderRelatedIssue extends React.Component {
       orderCode: orderData.orderId,
       orderDetails: orderData
     };
-    // this.setState({ slectOrderData: orderData });
     this.orderRelatedInfo(selectedOrder);
   }
 
@@ -317,12 +332,9 @@ export default class OrderRelatedIssue extends React.Component {
       });
     } else if (this.state.isQuesryForm) {
       this.setState({
-        // question: question,
         showQuestionList: false,
-        // showFeedBack: true,
         isQuesryForm: false,
         isIssueOptions: true
-        // isAnswerHelpFull:false
       });
     } else if (this.state.isIssueOptions) {
       this.setState({
@@ -331,11 +343,6 @@ export default class OrderRelatedIssue extends React.Component {
         showFeedBack: true
       });
     }
-    // this.setState({
-    //   question: question,
-    //   showQuestionList: false,
-    //   showFeedBack: true
-    // });
   }
   navigateHomePage() {
     this.props.history.push(HOME_ROUTER);
@@ -355,9 +362,6 @@ export default class OrderRelatedIssue extends React.Component {
     if (userDetails || customerCookie) {
       isUserLogin = true;
     }
-    // var checktxt="Lorem Ipsum is simply dummy text of the printing and typesetti printing and typesetti";
-    // var t1=checktxt.slice(0,5);
-    // console.log("ta",t1.length)
     const {
       customerQueriesOtherIssueData,
       customerQueriesOtherIssueLoading,
@@ -395,7 +399,12 @@ export default class OrderRelatedIssue extends React.Component {
     }
 
     if (this.state.showLoader) {
-      return <SSRquest></SSRquest>;
+      return (
+        <SSRquest
+          raiseTiketRequest={this.state.raiseTiketRequest}
+          raiseTiketSucess={this.state.raiseTiketSucess}
+        ></SSRquest>
+      );
     } else {
       return (
         <div className={styles.base}>
@@ -414,26 +423,6 @@ export default class OrderRelatedIssue extends React.Component {
               <div className={styles.baseWrapper}>
                 <div className={styles.formAbdTabHolder}>
                   <div className={styles.tabHolder}>
-                    {/* <div
-                    className={[styles.tabHolderBox, styles.recentTicket].join(
-                      " "
-                    )}
-                  >
-                    <div className={styles.tabHeader}>Your Recent Tickets</div>
-
-                    <div className={styles.recentList}>
-                      <div className={styles.helpHeading}>Open Tickets</div>
-                      <div className={styles.helpTxt}>
-                        Lorem ipsum dorem lorem
-                      </div>
-                    </div>
-                    <div className={styles.recentList}>
-                      <div className={styles.helpHeading}>Closed Tickets</div>
-                      <div className={styles.helpTxt}>
-                        Lorem ipsum dorem lorem
-                      </div>
-                    </div>
-                  </div> */}
                     <div className={styles.tabHolderBox}>
                       <div className={styles.tabHeader}>All Help Topics</div>
 
@@ -478,8 +467,11 @@ export default class OrderRelatedIssue extends React.Component {
                                   </div>
                                   <div className={styles.faqSubheading}>
                                     {faq.FAQSubHeader.lentgh > 50
-                                      ? faq.FAQSubHeader.slice(0, 5)
-                                      : faq.FAQSubHeader}
+                                      ? faq.FAQSubHeader.slice(0, 50).replace(
+                                          "&amp;",
+                                          "&"
+                                        )
+                                      : faq.FAQSubHeader.replace("&amp;", "&")}
                                   </div>
                                 </div>
                               </div>
