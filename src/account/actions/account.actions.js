@@ -338,6 +338,13 @@ export const CNC_TO_HD_DETAILS_REQUEST = "CNC_TO_HD_DETAILS_REQUEST";
 export const CNC_TO_HD_DETAILS_SUCCESS = "CNC_TO_HD_DETAILS_SUCCESS";
 export const CNC_TO_HD_DETAILS_FAILURE = "CNC_TO_HD_DETAILS_FAILURE";
 
+export const GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_REQUEST =
+  "GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_REQUEST";
+export const GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_SUCCESS =
+  "GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_SUCCESS";
+export const GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_FAILURE =
+  "GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_FAILURE";
+
 export const RESET_USER_ADDRESS = "RESET_USER_ADDRESS";
 
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
@@ -4814,6 +4821,29 @@ export function resetUserAddressAfterLogout() {
   };
 }
 
+export function getPromotionalCashStatementRequest() {
+  return {
+    type: GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getPromotionalCashStatementSuccess(
+  promotionalCashStatementDetails
+) {
+  return {
+    type: GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_SUCCESS,
+    status: SUCCESS,
+    promotionalCashStatementDetails
+  };
+}
+
+export function getPromotionalCashStatementFailure(error) {
+  return {
+    type: GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_FAILURE,
+    status: ERROR
+  };
+}
+
 export function checkBalanceRequest() {
   return {
     type: CHECK_BALANCE_REQUEST,
@@ -4833,6 +4863,29 @@ export function checkBalanceFailure(error) {
     type: CHECK_BALANCE_FAILURE,
     status: FAILURE,
     error
+  };
+}
+
+export function getPromotionalCashStatement() {
+  return async (dispatch, getState, { api }) => {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerAccessToken = await getCustomerAccessToken();
+    dispatch(getPromotionalCashStatementRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getPromotionalCashStatement?access_token=${customerAccessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getPromotionalCashStatementSuccess(resultJson));
+    } catch (e) {
+      dispatch(getPromotionalCashStatementFailure(e.message));
+    }
   };
 }
 

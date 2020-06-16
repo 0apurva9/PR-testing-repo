@@ -98,6 +98,8 @@ const mapStateToProps = state => {
     loading: state.profile.loading,
     userAddress: state.profile.userAddress,
     cliqCashConfig: state.profile.cliqCashConfig,
+    promotionalCashStatementDetails:
+      state.profile.promotionalCashStatementDetails,
     cliqCashExpiringDetails: state.profile.cliqCashExpiringDetails,
     cliqCashExpiringError: state.profile.cliqCashExpiringError
   };

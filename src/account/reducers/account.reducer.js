@@ -1803,6 +1803,25 @@ const account = (
         userAddress: null,
         loading: false
       });
+    case accountActions.GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        promotionalCashStatementStatus: action.status,
+        loading: true
+      });
+
+    case accountActions.GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        promotionalCashStatementStatus: action.status,
+        promotionalCashStatementDetails: action.promotionalCashStatementDetails,
+        loading: false
+      });
+
+    case accountActions.GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        promotionalCashStatementStatus: action.status,
+        promotionalCashStatementError: action.error,
+        loading: false
+      });
 
     case accountActions.CHECK_BALANCE_REQUEST:
       return Object.assign({}, state, {
