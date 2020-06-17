@@ -95,7 +95,7 @@ export default class CliqCashModule extends Component {
       this.props.hideSecondaryLoader();
     }
     return (
-      <BottomSlideModal crossIconHide="true">
+      <BottomSlideModal>
         <div className={styles.base}>
           <div className={styles.cliqCashHolder}>
             <div
@@ -103,6 +103,7 @@ export default class CliqCashModule extends Component {
               onClick={() => this.props.closeModal()}
             >
               {this.props.heading ? this.props.heading : "Gift Card Details"}
+              <div className={styles.hideModal}></div>
             </div>
             {this.props.checkBalance && this.props.isCheckBalance ? (
               <React.Fragment>
@@ -126,7 +127,6 @@ export default class CliqCashModule extends Component {
               <div className={styles.cardNumber}>
                 <Input2
                   hollow={true}
-                  border={"none"}
                   noPadding={true}
                   placeholderMoving={true}
                   placeholder={"Gift Card Number"}
@@ -155,8 +155,7 @@ export default class CliqCashModule extends Component {
               <div className={styles.cardNumber}>
                 <Input2
                   hollow={true}
-                  border={"none"}
-                  borderBottom="1px solid #4a4a4a"
+                  borderBottom="1px solid #000000"
                   noPadding={true}
                   onlyNumber={true}
                   placeholderMoving={true}
