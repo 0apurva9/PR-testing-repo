@@ -46,7 +46,7 @@ class OrderList extends Component {
           </div>
 
           <Carousel
-            elementWidthDesktop={39}
+            elementWidthDesktop={50}
             showBottomNav={true}
             buttonColor={true}
           >
@@ -110,12 +110,12 @@ class OrderList extends Component {
                               orderData.products[0].estimateddeliverydate) ? (
                             <div className={styles.orderStatus}>
                               {ESTIMATED_DATE}&nbsp;
-                              <div className={styles.dateStyle}>
+                              <span className={styles.fontBold}>
                                 {getDayNumberSuffix(
                                   orderData.products[0].EDD ||
                                     orderData.products[0].estimateddeliverydate
                                 )}
-                              </div>
+                              </span>
                             </div>
                           ) : orderData.products[0].deliveryDate ? (
                             <div className={styles.orderStatus}>
