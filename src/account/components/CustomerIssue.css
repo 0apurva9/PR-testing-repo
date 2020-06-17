@@ -422,3 +422,9 @@ margin-bottom: 16px;}
   display: inline-block;
   cursor: pointer;
 }
+
+.dateStyle{
+  font-size: 12px;
+  font-family: semibold;
+  
+}

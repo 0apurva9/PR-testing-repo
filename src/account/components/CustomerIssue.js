@@ -96,20 +96,15 @@ export default class CustomerIssue extends React.Component {
                 }
                 displayToast={message => this.props.displayToast(message)}
                 customerQueriesField={this.props.customerQueriesField}
-                // name={this.props.name}
-                // email={this.props.email}
-                // mobile={this.props.mobile}
                 getCustomerQueriesFields={(webFormTemplate, isIssueOptions) =>
                   this.props.getCustomerQueriesFields(
                     webFormTemplate,
                     isIssueOptions
                   )
                 }
-                // selectedQuestion={this.props.selectedQuestion}
                 orderRelatedQuestion={this.props.orderRelatedQuestion}
                 otherQuestion={this.props.otherQuestion}
                 FAQquestion={this.props.FAQquestion}
-                // isOrderRelatedQuestion={this.props.isOrderRelatedQuestion}
                 parentIssueType={this.props.parentIssueType}
                 questionType={this.props.questionType}
                 showQuestionList={this.props.showQuestionList}

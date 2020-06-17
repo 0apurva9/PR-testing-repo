@@ -185,7 +185,6 @@ class OrderActionButton extends Component {
                 )
               }
             >
-              {/* Download Invoice */}
               Request Invoice
             </div>
           )}

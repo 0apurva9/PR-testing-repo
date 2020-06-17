@@ -163,8 +163,6 @@ export default class OrderRelatedIssue extends React.Component {
       const submitOrderDetailsResponse = await this.props.submitOrderDetails(
         formData
       );
-
-      // if (submitOrderDetailsResponse.status === SUCCESS) {
       setTimeout(() => {
         if (submitOrderDetailsResponse.status === SUCCESS) {
           getCustomerQueryDetailsObject.ticketID =
@@ -183,12 +181,6 @@ export default class OrderRelatedIssue extends React.Component {
               this.props.setSelfServeState(null);
             }, 2000);
           }
-
-          console.log("submitOrderDetailsResponse", submitOrderDetailsResponse);
-          // this.setState({ showLoader: false });
-          // getCustomerQueryDetailsObject.ticketID =
-          //   submitOrderDetailsResponse.submitOrder.referenceNum;
-          // this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
         }
       }, 2000);
 
@@ -253,25 +245,25 @@ export default class OrderRelatedIssue extends React.Component {
       if (this.props.getFaqRelatedQuestions) {
         const response = await this.props.getFaqRelatedQuestions(faq.FAQPageId);
         if (response.status === SUCCESS) {
-          if (response.data && response.data.items) {
-            const questioList =
-              response.data.items.length == 1
-                ? JSON.parse(response.data.items[0].cmsTextComponent.content)
-                : JSON.parse(response.data.items[1].cmsTextComponent.content);
-            this.setState({
-              isOrderDatails: true,
-              orderList: false,
-              orderRelatedQuestion: false,
-              otherQuestion: false,
-              FAQquestion: true,
-              showQuestionList: true,
-              questionList: questioList,
-              parentIssueType: faq.FAQHeader,
-              questionType: NON_ORDER_REALTED_QUESTION,
-              showFeedBack: false,
-              isQuesryForm: false
-            });
-          }
+          // if (response.data && response.data.items) {
+          const questioList =
+            response.data.items.length == 1
+              ? JSON.parse(response.data.items[0].cmsTextComponent.content)
+              : JSON.parse(response.data.items[1].cmsTextComponent.content);
+          this.setState({
+            isOrderDatails: true,
+            orderList: false,
+            orderRelatedQuestion: false,
+            otherQuestion: false,
+            FAQquestion: true,
+            showQuestionList: true,
+            questionList: questioList,
+            parentIssueType: faq.FAQHeader,
+            questionType: NON_ORDER_REALTED_QUESTION,
+            showFeedBack: false,
+            isQuesryForm: false
+          });
+          // }
         }
       }
     }
@@ -317,9 +309,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.sendInvoice(ussid, sellerOrderNo);
     }
   }
-  hideLoader() {
-    console.log("dsdssd60000000000");
-  }
+  hideLoader() {}
   navigatePreviousPage() {
     if (this.state.showQuestionList) {
       this.setState(this.resetState);
@@ -348,7 +338,6 @@ export default class OrderRelatedIssue extends React.Component {
     this.props.history.push(HOME_ROUTER);
   }
   updateThanks() {
-    console.log("update");
     this.setState({ isAnswerHelpFull: false });
   }
   navigateCliqCarePage() {
@@ -483,7 +472,6 @@ export default class OrderRelatedIssue extends React.Component {
                       customerQueriesOtherIssueData={
                         customerQueriesOtherIssueData
                       }
-                      // selectedOrder={this.state.selectedOrder}
                       selectedOrder={this.props.selectedOrderDetails || null}
                       orderList={this.state.orderList}
                       isOrderDatails={this.state.isOrderDatails}
@@ -521,7 +509,6 @@ export default class OrderRelatedIssue extends React.Component {
                           isIssueOptions
                         )
                       }
-                      // selectedQuestion={this.state.selectedQuestion}
                       orderRelatedQuestion={this.state.orderRelatedQuestion}
                       otherQuestion={this.state.otherQuestion}
                       FAQquestion={this.state.FAQquestion}

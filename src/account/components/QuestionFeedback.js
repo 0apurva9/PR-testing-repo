@@ -12,7 +12,6 @@ export default class QuestionFeedback extends Component {
   constructor(props) {
     super(props);
   }
-
   render() {
     let newSolution = this.props.FAQquestion
       ? this.props.question.answer
@@ -60,30 +59,14 @@ export default class QuestionFeedback extends Component {
               ? this.props.question.issueType
               : null}
             {this.props.otherQuestion ? this.props.question.subIssueType : null}
-            {/* {this.props.FAQquestion
-            ? this.props.question.question_component
-            : null} */}
-            {/* {this.props.isOrderRelatedQuestion
-            ? this.props.question.issueType
-            : this.props.question.subIssueType} */}
           </div>
         )}
-
-        {/* <div className={styles.propleLike}>
-          <div className={styles.likeIcon}>
-            <img src={likeIcon} alt="like" />
-          </div>
-          <span className={styles.poopleLIke}>{"342"}</span>
-          <span>People found it useful</span>
-        </div> */}
         <div
           className={styles.solution}
           dangerouslySetInnerHTML={{
             __html: newSolution
           }}
-        >
-          {/* {this.props.question.solution} */}
-        </div>
+        ></div>
         <div className={styles.feedBack}>
           <div className={styles.feedBackBox}>
             <div className={styles.feedBackHeader}>{`${
@@ -118,7 +101,6 @@ export default class QuestionFeedback extends Component {
                 height={28}
                 label="No"
                 width={90}
-                // color="#da1c5c"
                 borderRadius="20px"
                 textStyle={{ color: "#da1c5c", fontSize: 14 }}
                 onClick={() => this.props.moreHelps()}
@@ -126,53 +108,13 @@ export default class QuestionFeedback extends Component {
             </div>
           )}
         </div>
-        {/* {this.props.isOrderRelatedQuestion && ( */}
         <div
           className={[
             styles.questionsAction,
             this.props.otherQuestion ? styles.maginBottom : null
           ].join(" ")}
-        >
-          {/* <Button
-              type="hollow"
-              label="Back"
-              borderColor={""}
-              width={40}
-              height={0}
-              color={"#da1c5c"}
-              padding="0px 5px"
-              onClick={() => this.props.showAllQuestion()}
-            /> */}
-          {/* <Button
-              type="hollow"
-              label="Next Issue"
-              width={110}
-              height={0}
-              borderColor={""}
-              color={"#da1c5c"}
-              padding="0"
-              disabled={this.props.nextQuestions ? false : true}
-              onClick={() => this.props.nextQuestion()}
-            /> */}
-          {/* <div className={styles.nextIssue}>
-              {this.props.nextQuestions && this.props.nextQuestions
-                ? `(${
-                    this.props.isOrderRelatedQuestion
-                      ? this.props.nextQuestions.issueType
-                      : this.props.nextQuestions.subIssueType
-                  })`
-                : null}
-              {}
-            </div> */}
-        </div>
-        {/* )} */}
+        ></div>
       </div>
     );
   }
 }
-
-// const QuestionSetails = this.props => {
-
-// };
-
-// export default QuestionSetails;

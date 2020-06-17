@@ -13,13 +13,6 @@ export default class OtherQuestionsList extends Component {
   componentDidMount() {
     window.scroll(0, 0);
   }
-
-  // image={
-  //   this.state.parentIssueType== faq.FAQHeader?
-  //   `${require("../components/img/" +
-  //   faq.image.split(".")[0] +"active"+
-  //   ".svg")}`
-
   render() {
     return (
       <div className={styles.base}>
@@ -55,14 +48,10 @@ export default class OtherQuestionsList extends Component {
                       }
                       style={{ backgroundImage: "url(" + bgImage + ")" }}
                     >
-                      {/* <div className={styles.circle}></div> */}
                       <div className={styles.listItem}>
                         <div className={styles.parrentIssue}>
                           {parrentIssue.parentIssueType}
                         </div>
-                        {/* <div className={styles.childIssue}>
-                          Lorem ipsum dorem lorem lorem ipsum dore,
-                        </div> */}
                       </div>
                     </div>
                   );
@@ -74,8 +63,3 @@ export default class OtherQuestionsList extends Component {
     );
   }
 }
-// const OtherQuestions = props => {
-
-// };
-
-// export default OtherQuestions;
