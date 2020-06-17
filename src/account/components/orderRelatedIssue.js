@@ -403,7 +403,7 @@ export default class OrderRelatedIssue extends React.Component {
         <SSRquest
           raiseTiketRequest={this.state.raiseTiketRequest}
           raiseTiketSucess={this.state.raiseTiketSucess}
-        ></SSRquest>
+        />
       );
     } else {
       return (
@@ -451,7 +451,7 @@ export default class OrderRelatedIssue extends React.Component {
                                     }
                                     width={33}
                                     height={33}
-                                  ></Icon>
+                                  />
                                 </div>
                                 <div className={styles.faqHederBox}>
                                   <div
@@ -466,12 +466,9 @@ export default class OrderRelatedIssue extends React.Component {
                                     {faq.FAQHeader.replace("&amp;", "&")}
                                   </div>
                                   <div className={styles.faqSubheading}>
-                                    {faq.FAQSubHeader.lentgh > 50
-                                      ? faq.FAQSubHeader.slice(0, 50).replace(
-                                          "&amp;",
-                                          "&"
-                                        )
-                                      : faq.FAQSubHeader.replace("&amp;", "&")}
+                                    {faq.FAQSubHeader.includes("&amp;")
+                                      ? faq.FAQSubHeader.replace(/&amp;/g, "&")
+                                      : faq.FAQSubHeader}
                                   </div>
                                 </div>
                               </div>
