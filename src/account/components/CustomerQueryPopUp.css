@@ -1,8 +1,6 @@
 .base {
-  /* width: 90%; */
-  height: 345px;
+  height: 464px;
   background-color: #fff;
-  min-height: 464px;
   border-radius: 15px;
   position: absolute;
   padding: 24px;
@@ -16,11 +14,9 @@
 }
 .heightOrder{
   height: 302px;
-
 }
 .heightOther{
   height: 339px;
-  
 }
 @keyframes slideInUp {
   0% {
@@ -30,106 +26,18 @@
     transform: translateY(0%);
   }
 }
-/* .headerTextWithIcon { */
-  /* width: 100%;
-  height: auto;
-  display: inline-block;
-  position: relative;
-  min-height: 60px;
-  margin-bottom: 10px; */
-  /* display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-} */
 .headerText {
   font-family: semibold;
   font-size: 20px;
-  color: #2d2d2d;
-  
+  color: #2D2D2D;
 }
-/* .icon {
-  width: 60px;
-  height: 60px;
-  position: absolute;
-  border-radius: 50%;
-  display: flex;
-  border: solid 3px #000;
-  left: 0;
-  top: 0;
-  margin: auto;
-  justify-content: center;
-  align-items: center;
-}
-.subText {
-  font-family: regular;
-  font-size: 12px;
-  color: #555;
-}
-.blackBorderBottom {
-  border-bottom: 2px solid #000;
-  font-size: 12px;
-  font-family: regular;
-  padding-bottom: 10px;
-}
-.userDetails {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  padding: 10px 0px;
-  border-bottom: 2px solid #000;
-}
-.userDetailsHeaderWithText {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  padding-bottom: 7px;
-}
-.userDetailsHeader {
-  width: 100%;
-  font-family: regular;
-  font-size: 12px;
-  font-family: semibold;
-}
-.userDetailsText {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  font-family: regular;
-  font-size: 12px;
-  color: #555;
-}
-.userDetailsHeaderWithCommentText {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-}
-.submittedText {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  padding-top: 10px;
-}
-.buttonHolder {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  text-align: right;
-  margin-top: 20px;
-}
-.button {
-  width: auto;
-  height: auto;
-  display: inline-block;
-  vertical-align: top;
-} */
 @media screen and (min-width: 1025px) {
   .base {
-    width: 49%;
-    max-width:667px;
+    width:667px;
   }
 }
 .colorRed {
-  color: #da1c5c;
+  color: #DA1C5C;
   font-size: 14px;
   font-family: semibold;
 }
@@ -145,20 +53,20 @@
 }
 .txt{
   font-size: 12px;
-  color: #2d2d2d;
+  color: #2D2D2D;
   font-family: light;
   padding-bottom: 7px;
 }
 .duplicateTxt{
   font-size: 12px;
-    color: #2d2d2d;
+    color: #2D2D2D;
     font-family: light;
     /* padding-bottom: 7px; */
     padding: 10px 0px 0px 0px;
 }
 .ticketId, .expDateTime{
   font-size: 14px;
-  color: #2d2d2d;
+  color: #2D2D2D;
   font-family: semibold;
 }
 .ticketIdBox{
@@ -171,7 +79,6 @@
   justify-content: center;
   margin-top: 53px;
 }
-
 .closeModal{
   top: 14px;
     /* left: 11px; */
@@ -179,7 +86,4 @@
     position: absolute;
     /* left: 10px; */
     right: 17px;
-}
-.duplicate{
-  
 }
