@@ -45,6 +45,11 @@
   composes: base;
   pointer-events: none;
 }
+.disabledLightGray{
+  composes: base;
+  pointer-events: none;
+  /* background: #d8d8d8;   */
+}
 .loading.base:after {
   display: block;
 }

@@ -8,13 +8,13 @@ export default class PdpFlags extends React.Component {
           <div className={styles.base}>Out of Stock</div>
         </div>
       );
-    } else if (this.props.newProduct === "Y") {
-      return <div className={styles.new}>New</div>;
     } else if (
       this.props.showExchangeTag &&
       this.props.exchangeOfferAvailable
     ) {
       return <div className={styles.exchangeOffer}>Offers on Exchange</div>;
+    } else if (this.props.newProduct === "Y") {
+      return <div className={styles.new}>New</div>;
     } else if (
       (this.props.seasonSale && this.props.seasonSale.key === "Season") ||
       this.props.seasonTag

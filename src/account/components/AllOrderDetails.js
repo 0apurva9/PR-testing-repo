@@ -48,7 +48,8 @@ import {
   RETRY_PAYMENT_DETAILS,
   COSTUMER_ORDER_RELATED_QUERY_ROUTE,
   CNCTOHD,
-  RATE_THIS_ITEM
+  RATE_THIS_ITEM,
+  COSTUMER_CLIQ_CARE_ROUTE
 } from "../../lib/constants";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
 import ProfileMenu from "./ProfileMenu";
@@ -210,8 +211,10 @@ export default class AllOrderDetails extends React.Component {
     }
   };
   redirectToHelp = url => {
-    const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
-    this.props.history.push(urlSuffix);
+    // const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
+    // this.props.history.push(urlSuffix);
+
+    this.props.history.push(`${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`);
   };
   renderToContinueShopping() {
     setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
@@ -361,12 +364,23 @@ export default class AllOrderDetails extends React.Component {
       return styles.orderCardIndividualWithBorder;
     }
   }
-  redirectToHelpPage() {
+  redirectToHelpPage(orderDetails) {
+    console.log("orderDetails", orderDetails);
     setDataLayer(ADOBE_MY_ACCOUNT_HELP_AND_SUPPORT);
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
-    this.props.history.push(
-      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
-    );
+    const orderCode = orderDetails.orderId;
+    const transactionId = orderDetails.products[0].transactionId;
+    const selectedOrderObj = {
+      orderCode,
+      transactionId,
+      orderDetails: orderDetails
+    };
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
+      state: {
+        selectedOrderObj
+      }
+    });
   }
   onClickCncToHd(orderId, transactionId) {
     let isCncToHdOrderDetails = "";
@@ -858,7 +872,9 @@ export default class AllOrderDetails extends React.Component {
                                               "ORDER_UNCOLLECTED") && (
                                             <div
                                               onClick={() =>
-                                                this.redirectToHelpPage()
+                                                this.redirectToHelpPage(
+                                                  orderDetails
+                                                )
                                               }
                                               className={styles.helpSupport}
                                             >

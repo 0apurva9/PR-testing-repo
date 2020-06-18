@@ -3755,7 +3755,6 @@ if you have order id in local storage then you have to show order confirmation p
     }
     //if exchange not serviceable disable checkout button and show error toast
     let isExchangeServiceableArray = [];
-    let exchangeServiceableErrorMessageArray = [];
     let isQuoteExpired = [];
     if (
       this.props.cart &&
@@ -3766,9 +3765,6 @@ if you have order id in local storage then you have to show order confirmation p
         if (product.exchangeDetails && product.pinCodeResponse) {
           isExchangeServiceableArray.push(
             product.pinCodeResponse.isPickupAvailableForExchange
-          );
-          exchangeServiceableErrorMessageArray.push(
-            product.pinCodeResponse.errorMessage
           );
           isQuoteExpired.push(product.exchangeDetails.quoteExpired);
         }
@@ -3782,10 +3778,6 @@ if you have order id in local storage then you have to show order confirmation p
           isQuoteExpired.includes(true))
       ) {
         checkoutButtonStatus = true;
-        let errMsg = exchangeServiceableErrorMessageArray.filter(Boolean);
-        if (errMsg.length !== 0) {
-          this.props.displayToast(errMsg[0]);
-        }
       }
     }
 

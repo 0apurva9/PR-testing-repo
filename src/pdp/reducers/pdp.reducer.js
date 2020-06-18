@@ -57,6 +57,7 @@ const productDescription = (
     openInAppLoading: false,
     openInAppError: null,
     bundleProducStatus: null,
+    relevantBundleProductLoading: false,
     relevantBundleProductData: null,
     relevantBundleProductStatus: false,
     secondaryBundleProductStatus: false,
@@ -951,15 +952,18 @@ const productDescription = (
 
     case pdpActions.RELEVANT_BUNDLE_PRODUCT_REQUEST:
       return Object.assign({}, state, {
+        relevantBundleProductLoading: true,
         relevantBundleProductStatus: action.status
       });
     case pdpActions.RELEVANT_BUNDLE_PRODUCT_SUCCESS:
       return Object.assign({}, state, {
+        relevantBundleProductLoading: false,
         relevantBundleProductStatus: action.status,
         relevantBundleProductData: action.data
       });
     case pdpActions.RELEVANT_BUNDLE_PRODUCT_FAILURE:
       return Object.assign({}, state, {
+        relevantBundleProductLoading: false,
         relevantBundleProductStatus: action.status
       });
 
