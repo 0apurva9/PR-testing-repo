@@ -26,9 +26,18 @@ import {
   ORDER
 } from "../../lib/constants";
 import styles from "./CustomerIssue.css";
+
 const dateFormat = "DD MMM YYYY";
 const PAY_PAL = "PayPal";
 export const NO = "N";
+const SHIPPED = "Shipped";
+const ITEM_PACKED = "Item Packed";
+const OUT_FOR_DELIVERY = "Out For Delivery";
+const ATTEMPTED_NOT_DELIVERED = "Attempted not delivered";
+const COULD_NOT_BE_DELIVERED = "Could not be delivered";
+const RETURN_INITIATED = "Return Initiated";
+const PICKUP_SCHEDULED = "Pick up Scheduled";
+const RETURN_REQUESTED = "Return Requested";
 class OrderActionButton extends Component {
   writeReview(productCode) {
     setDataLayer(ADOBE_MY_ACCOUNT_WRITE_REVIEW);
@@ -93,16 +102,20 @@ class OrderActionButton extends Component {
     );
   }
 
-  getTrackOrderText(orderStatusCode, isEgvOrder) {
+  getTrackOrderText(statusDisplay, isGiveAway, isEgvOrder) {
     let trackOrderText = "View Order";
-    if (!isEgvOrder) {
-      if (orderStatusCode && orderStatusCode !== "DELIVERED") {
-        if (
-          !orderStatusCode.includes("CANCEL") &&
-          !orderStatusCode.includes("PAYMENT")
-        ) {
-          trackOrderText = "Track Order";
-        }
+    if (!isEgvOrder && isGiveAway === NO) {
+      if (
+        statusDisplay === ITEM_PACKED ||
+        statusDisplay === SHIPPED ||
+        statusDisplay === OUT_FOR_DELIVERY ||
+        statusDisplay === ATTEMPTED_NOT_DELIVERED ||
+        statusDisplay === COULD_NOT_BE_DELIVERED ||
+        statusDisplay === RETURN_INITIATED ||
+        statusDisplay === PICKUP_SCHEDULED ||
+        statusDisplay === RETURN_REQUESTED
+      ) {
+        trackOrderText = "Track Order";
       }
     }
     return trackOrderText;
@@ -128,7 +141,8 @@ class OrderActionButton extends Component {
               }
             >
               {this.getTrackOrderText(
-                selectedOrder.products[0].consignmentStatus,
+                selectedOrder.products[0].statusDisplay,
+                selectedOrder.products[0].isGiveAway,
                 selectedOrder.isEgvOrder
               )}
             </div>
