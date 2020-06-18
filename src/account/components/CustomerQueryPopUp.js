@@ -3,8 +3,11 @@ import styles from "./CustomerQueryPopUp.css";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import Icon from "../../xelpmoc-core/Icon";
-import orderSuccess from "../components/img/orderSuccess.svg";
-import { MY_ACCOUNT_PAGE } from "../../lib/constants";
+// import orderSuccess from "../components/img/orderSuccess.svg";
+import raisedTicket from "../components/img/raisedTicket.svg";
+import cancleSvg from "../components/img/cancleSvg.svg";
+import raiseTicketDuplicate from "../components/img/raiseTicketDuplicate.svg";
+import { MY_ACCOUNT_PAGE, HOME_ROUTER } from "../../lib/constants";
 export default class CustomerQueryPopUp extends React.Component {
   constructor() {
     super();
@@ -66,15 +69,22 @@ export default class CustomerQueryPopUp extends React.Component {
 
   submit() {
     this.clickedOnSubmitButton = true;
-    this.props.history.push(MY_ACCOUNT_PAGE);
+    this.props.history.push(HOME_ROUTER);
   }
+  // duplicateTicket() {
+
+  // }
   componentWillUnmount() {
     if (!this.clickedOnSubmitButton) {
-      this.props.history.push(MY_ACCOUNT_PAGE);
+      this.props.history.push(HOME_ROUTER);
     }
+  }
+  closeModal() {
+    this.props.closeModal();
   }
   render() {
     let { tat, issueCategory, ticketID, issue, emailId } = this.props;
+    const isTicketDuplicate = ticketID == "duplicate";
     let today = new Date();
     let extraDays = !isNaN(parseInt(tat)) ? Math.round(parseInt(tat) / 24) : 0;
     let queryDate = new Date();
@@ -88,59 +98,70 @@ export default class CustomerQueryPopUp extends React.Component {
     // );
 
     return (
-      <div
-        className={[
-          styles.base,
-          issueCategory ? styles.heightOther : styles.heightOrder
-        ].join(" ")}
-      >
-        <div className={styles.headerTextWithIcon}>
-          <Icon image={orderSuccess} size={38} />
-          <div className={styles.headerText}>
-            Your Query is Submitted Successfully
-          </div>
+      <div className={styles.base}>
+        <div className={styles.closeModal} onClick={() => this.closeModal()}>
+          <Icon image={cancleSvg} size={17}></Icon>
         </div>
-        <div className={(styles.subText, styles.blackBorderBottom)}>
-          We have noted your concern and will update you by{" "}
-          <div className={styles.colorRed}> {`${displayDate}`}</div>
+        <div className={styles.headerText}>
+          {isTicketDuplicate ? "Duplicate Ticket" : "Your Ticket Details"}
         </div>
-        <div className={styles.userDetails}>
-          {/* <div className={styles.userDetailsHeaderWithText}>
-            <div className={styles.userDetailsHeader}>Ticket ID</div>
-            <div className={styles.userDetailsText}>{this.props.ticketID}</div>
-          </div> */}
-          {issueCategory && (
-            <div className={styles.userDetailsHeaderWithText}>
-              <div className={styles.userDetailsHeader}>Issue Category</div>
-              <div className={styles.userDetailsText}>{issueCategory}</div>
+        <div className={styles.image}>
+          {isTicketDuplicate ? (
+            <div className={styles.duplicateIcon}>
+              <Icon
+                image={raiseTicketDuplicate}
+                width={232}
+                height={160}
+              ></Icon>
             </div>
-          )}
-          {issue && (
-            <div className={styles.userDetailsHeaderWithText}>
-              <div className={styles.userDetailsHeader}>Issue</div>
-              <div className={styles.userDetailsText}>{issue}</div>
-            </div>
+          ) : (
+            <Icon image={raisedTicket} size={214}></Icon>
           )}
         </div>
-        <div className={styles.submittedText}>
-          <div className={styles.subText}>
-            A summary of your query has been sent to your email ID
-            <span className={styles.colorRed}> {emailId}</span>
+        {isTicketDuplicate ? (
+          <div className={styles.duplicate}>
+            <div className={styles.duplicateTxt}>
+              A ticket has already been raised for the
+              <br />
+              same issue previously.
+              {/* <span className={styles.ticketId}>Ticket ID:</span>{" "}
+              <span className={styles.colorRed}>1285673980</span> */}
+            </div>
+            {/* <div className={styles.ticketIdBox}>
+              <div className={styles.txt}>We will get back to you by </div>
+              <div className={styles.expDateTime}>
+                {`${displayTime}, ${displayDate}`}
+              </div>
+            </div> */}
           </div>
-        </div>
-
+        ) : (
+          <div>
+            <div className={styles.expTime}>
+              <div className={styles.txt}>
+                {" "}
+                Our team is working on priority to resolve the problem. We will
+                get back to you by.
+              </div>
+              <div className={styles.expDateTime}>{`${displayDate}`}</div>
+            </div>
+            {/* <div className={styles.ticketIdBox}>
+              <div className={styles.txt}>Your ticket reference number is</div>
+              <div className={styles.ticketId}>{ticketID}</div>
+            </div> */}
+          </div>
+        )}
         <div className={styles.buttonHolder}>
-          <div className={styles.button}>
-            <Button
-              backgroundColor="#000"
-              height={36}
-              label={"DONE"}
-              borderRadius={"4"}
-              width={96}
-              textStyle={{ color: "#fff", fontSize: 14, borderRadius: 4 }}
-              onClick={() => this.submit()}
-            />
-          </div>
+          <Button
+            type="primary"
+            backgroundColor="#da1c5c"
+            height={40}
+            borderRadius={6}
+            label={"CONTINUE SHOPPING"}
+            width={204}
+            textStyle={{ color: "#FFF", fontSize: 14 }}
+            // disabled={true}
+            onClick={() => this.submit()}
+          />
         </div>
       </div>
     );

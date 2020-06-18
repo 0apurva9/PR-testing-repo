@@ -297,6 +297,31 @@ export const GET_CUSTOMER_QUERIES_DATA_SUCCESS =
 export const GET_CUSTOMER_QUERIES_DATA_FAILURE =
   "GET_CUSTOMER_QUERIES_DATA_FAILURE";
 
+export const GET_CUSTOMER_OTHER_ISSUE_DATA_REQUEST =
+  "GET_CUSTOMER_OTHER_ISSUE_DATA_REQUEST";
+export const GET_CUSTOMER_OTHER_ISSUE_DATA_SUCCESS =
+  "GET_CUSTOMER_OTHER_ISSUE_DATA_SUCCESS";
+export const GET_CUSTOMER_OTHER_ISSUE_DATA_FAILURE =
+  "GET_CUSTOMER_OTHER_ISSUE_DATA_FAILURE";
+
+export const GET_ALL_OTHERS_HELP_REQUEST = "GET_ALL_OTHERS_HELP_REQUEST";
+export const GET_ALL_OTHERS_HELP_SUCCESS = "GET_ALL_OTHERS_HELP_SUCCESS";
+export const GET_ALL_OTHERS_HELP_FAILURE = "GET_ALL_OTHERS_HELP_FAILURE";
+
+export const GET_FAQ_RELATED_QUESTIONS_REQUEST =
+  "GET_FAQ_RELATED_QUESTIONS_REQUEST";
+export const GET_FAQ_RELATED_QUESTIONS_SUCCESS =
+  "GET_FAQ_RELATED_QUESTIONS_SUCCESS";
+export const GET_FAQ_RELATED_QUESTIONS_FAILURE =
+  "GET_FAQ_RELATED_QUESTIONS_FAILURE";
+
+export const GET_ORDER_RELATED_QUESTIONS_REQUEST =
+  "GET_ORDER_RELATED_QUESTIONS_REQUEST";
+export const GET_ORDER_RELATED_QUESTIONS_SUCCESS =
+  "GET_ORDER_RELATED_QUESTIONS_SUCCESS";
+export const GET_ORDER_RELATED_QUESTIONS_FAILURE =
+  "GET_ORDER_RELATED_QUESTIONS_FAILURE";
+
 export const GET_CUSTOMER_QUERIES_FIELDS_REQUEST =
   "GET_CUSTOMER_QUERIES_FIELDS_REQUEST";
 export const GET_CUSTOMER_QUERIES_FIELDS_SUCCESS =
@@ -461,8 +486,7 @@ export const SET_USER_SMS_NOTIFICATION_FAILURE =
 
 export const RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS =
   "RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS";
-const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+export const SET_SELF_SERVE_STATE = "SET_SELF_SERVE_STATE";
 
 export const GET_EXCHANGE_CASHBACK_DETAILS_REQUEST =
   "GET_EXCHANGE_CASHBACK_DETAILS_REQUEST";
@@ -477,6 +501,9 @@ export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_SUCCESS =
   "SUBMIT_EXCHANGE_CASHBACK_DETAILS_SUCCESS";
 export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_FAILURE =
   "SUBMIT_EXCHANGE_CASHBACK_DETAILS_FAILURE";
+
+const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
 
 export function getDetailsOfCancelledProductRequest() {
   return {
@@ -2429,7 +2456,6 @@ export function getAllOrdersDetails(
       }
       const result = await api.get(getOrderDetails);
       let resultJson = await result.json();
-
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -3801,56 +3827,33 @@ export function getCustomerQueriesDataFailure() {
     status: FAILURE
   };
 }
-/**
- * demo
- * Function related to it will also be commented.
- */
-// export function getCustomerQueriesData() {
-//   return async (dispatch, getState, { api }) => {
-//     dispatch(getCustomerQueriesDataRequest());
-//     try {
-//       const result = await api.get("v2/mpl/getWebCRMNodes");
-//       const resultJson = await result.json();
-//       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-//       if (resultJsonStatus.status) {
-//         throw new Error(resultJsonStatus.message);
-//       }
-//       dispatch(getCustomerQueriesDataSuccess(resultJson));
-//     } catch (e) {
-//       dispatch(getCustomerQueriesDataFailure(e.message));
-//     }
-//   };
-// }
 
-export function getCustomerQueriesDataRequestv2() {
+export function getOrderRelatedQuestionsRequest() {
   return {
-    type: GET_CUSTOMER_QUERIES_DATA_REQUEST,
+    type: GET_ORDER_RELATED_QUESTIONS_REQUEST,
     status: REQUESTING
   };
 }
-export function getCustomerQueriesDataSuccessv2(customerQueriesData) {
-  console.log("call");
+export function getOrderRelatedQuestionsSuccess(orderRelatedQuestions) {
   return {
-    type: GET_CUSTOMER_QUERIES_DATA_SUCCESS,
+    type: GET_ORDER_RELATED_QUESTIONS_SUCCESS,
     status: SUCCESS,
-    customerQueriesData
+    orderRelatedQuestions
   };
 }
-export function getCustomerQueriesDataFailurev2() {
+export function getOrderRelatedQuestionsFailure(error) {
   return {
-    type: GET_CUSTOMER_QUERIES_DATA_FAILURE,
-    status: FAILURE
+    type: GET_ORDER_RELATED_QUESTIONS_FAILURE,
+    status: FAILURE,
+    error
   };
 }
-/**
- * Demo
- * This function is to be replaced by "getCustomerQueriesData"
- */
-export function getCustomerQueriesData(transactionId) {
+
+export function getOrderRelatedQuestions(transactionId) {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   return async (dispatch, getState, { api }) => {
-    dispatch(getCustomerQueriesDataRequestv2());
-    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    dispatch(getOrderRelatedQuestionsRequest());
     try {
       const result = await api.post(
         `${USER_CART_PATH}/${
@@ -3861,41 +3864,185 @@ export function getCustomerQueriesData(transactionId) {
       );
 
       const resultJson = await result.json();
-      if (resultJson.error) {
-        dispatch(getCustomerQueriesDataSuccessv2(resultJson));
-        dispatch(displayToast(resultJson.error));
-      }
+      // if (resultJson.error) {
+      //   dispatch(getOrderRelatedQuestionsSuccess(resultJson));
+      //   dispatch(displayToast(resultJson.error));
+      // }
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
 
-      dispatch(getCustomerQueriesDataSuccessv2(resultJson));
+      return dispatch(getOrderRelatedQuestionsSuccess(resultJson));
     } catch (e) {
-      dispatch(getCustomerQueriesDataFailurev2(e.message));
+      return dispatch(getOrderRelatedQuestionsFailure(e.message));
     }
   };
 }
 
+export function getAllOthersHelpRequest() {
+  return {
+    type: GET_ALL_OTHERS_HELP_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getAllOthersHelpSuccess(data) {
+  return {
+    type: GET_ALL_OTHERS_HELP_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function getAllOthersHelpFailure(error) {
+  return {
+    type: GET_ALL_OTHERS_HELP_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getAllOthersHelp(pageId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getAllOthersHelpRequest());
+    try {
+      const result = await api.get(`${PATH}/cms/defaultpage?pageId=${pageId}`);
+      let resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      const formatList = [];
+      for (let list of resultJson.items) {
+        const format = formatFaqList(list);
+        formatList.push(format);
+      }
+      dispatch(getAllOthersHelpSuccess(formatList));
+    } catch (e) {
+      dispatch(getAllOthersHelpFailure(e.message));
+    }
+  };
+}
+
+const formatFaqList = (list = []) => {
+  const items = list.cmsParagraphComponent.content.split("|");
+  const returnFormat = {
+    image: items && items[0] ? items[0] : "",
+    FAQHeader: items && items[1] ? items[1] : "",
+    FAQSubHeader: items && items[2] ? items[2] : "",
+    FAQPageId: items && items[3] ? items[3] : "",
+    componentName: list.componentName,
+    type: list.cmsParagraphComponent.type ? list.cmsParagraphComponent.type : ""
+  };
+  return returnFormat;
+};
+
+// export function getFaqRelatedQuestionsRequest() {
+//   return {
+//     type: GET_QUESTIONS_LIST_REQUEST,
+//     status: REQUESTING
+//   };
+// }
+// export function getFaqRelatedQuestionsSuccess(faqList) {
+//   return {
+//     type: GET_QUESTIONS_LIST_SUCCESS,
+//     status: SUCCESS,
+//     faqList
+//   };
+// }
+// export function getFaqRelatedQuestionsFailure() {
+//   return {
+//     type: GET_QUESTIONS_LIST_FAILURE,
+//     status: FAILURE
+//   };
+// }
+
+export function getFaqRelatedQuestionsRequest() {
+  return {
+    type: GET_FAQ_RELATED_QUESTIONS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getFaqRelatedQuestionsSuccess(data) {
+  return {
+    type: GET_FAQ_RELATED_QUESTIONS_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function getFaqRelatedQuestionsFailure(error) {
+  return {
+    type: GET_FAQ_RELATED_QUESTIONS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getFaqRelatedQuestions(FAQPageId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getFaqRelatedQuestionsRequest());
+    try {
+      // const result = await api.get(`${PATH}/cms/defaultpage?pageId=SS_FAQ`);
+
+      const result = await fetch(
+        `https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=${FAQPageId}`
+      );
+      let resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getFaqRelatedQuestionsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getFaqRelatedQuestionsFailure(e.message));
+    }
+  };
+}
+
+// export function getNonOrderRelatedQuestionsRequest() {
+//   return {
+//     type: GET_CUSTOMER_QUERIES_DATA_REQUEST,
+//     status: REQUESTING
+//   };
+// }
+// export function getNonOrderRelatedQuestionsSuccess(customerQueriesData) {
+//   return {
+//     type: GET_CUSTOMER_QUERIES_DATA_SUCCESS,
+//     status: SUCCESS,
+//     customerQueriesData
+//   };
+// }
+// export function getNonOrderRelatedQuestionsFailure() {
+//   return {
+//     type: GET_CUSTOMER_QUERIES_DATA_FAILURE,
+//     status: FAILURE
+//   };
+// }
+
 export function getNonOrderRelatedQuestionsRequest() {
   return {
-    type: GET_CUSTOMER_QUERIES_DATA_REQUEST,
+    type: GET_CUSTOMER_OTHER_ISSUE_DATA_REQUEST,
     status: REQUESTING
   };
 }
 export function getNonOrderRelatedQuestionsSuccess(customerQueriesData) {
   return {
-    type: GET_CUSTOMER_QUERIES_DATA_SUCCESS,
+    type: GET_CUSTOMER_OTHER_ISSUE_DATA_SUCCESS,
     status: SUCCESS,
     customerQueriesData
   };
 }
 export function getNonOrderRelatedQuestionsFailure() {
   return {
-    type: GET_CUSTOMER_QUERIES_DATA_FAILURE,
+    type: GET_CUSTOMER_OTHER_ISSUE_DATA_FAILURE,
     status: FAILURE
   };
 }
+
 export function getNonOrderRelatedQuestions() {
   return async (dispatch, getState, { api }) => {
     dispatch(getNonOrderRelatedQuestionsRequest());
@@ -3967,20 +4114,34 @@ export function getCustomerQueriesFieldsSuccessv2(customerQueriesField) {
     customerQueriesField
   };
 }
-export function getCustomerQueriesFieldsFailurev2() {
+export function getCustomerQueriesFieldsFailurev2(error) {
   return {
     type: GET_CUSTOMER_QUERIES_FIELDS_FAILURE,
-    status: FAILURE
+    status: FAILURE,
+    error: error
   };
 }
 let firstData = [];
 export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
   return async (dispatch, getState, { api }) => {
     dispatch(getCustomerQueriesFieldsRequestv2());
+    let v1 = "";
+    // if(isSelectRadio){
+    //   v1=UItemplateCode
+    // }else{
+    //   v1="SSW_01"
+    // }
     try {
-      const result = await api.get(
-        `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
+      // const result = await api.get(
+      //   `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
+      // );
+
+      //For testing adding
+
+      const result = await fetch(
+        `https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
       );
+      // ${UItemplateCode}
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
@@ -4024,6 +4185,7 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
       } else {
         firstData = [...fetchData];
       }
+
       return dispatch(
         getCustomerQueriesFieldsSuccessv2(isSelectRadio ? redioData : firstData)
       );
@@ -4039,10 +4201,13 @@ const getFormattedString = (strValue = "") => {
     endIndex = null;
   if (strValue.includes("(") && strValue.includes(")")) {
     startIndex = strValue.indexOf("(");
+    console.log("startIndex", startIndex);
     endIndex = strValue.indexOf(")");
+
     strValue = strValue.slice(0, startIndex - 1) + strValue.slice(startIndex);
+
     formattedValue =
-      strValue.slice(0, endIndex - 2) + strValue.slice(endIndex - 1);
+      strValue.slice(0, endIndex - 1) + strValue.slice(endIndex - 1);
   } else {
     formattedValue = strValue;
   }
@@ -4253,6 +4418,7 @@ const getTextBoxApiData = (apiData = []) => {
     //       : ""
     //     : "",
     regex: getFormattedString(regexExp),
+    regex: regexExp,
     regexError: regexErr,
     webURL: items && items.webURL ? items.webURL : "",
     title: apiData.singleBannerComponent.title
@@ -4450,9 +4616,12 @@ export function getOrdersTransactionData(paginated) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     dispatch(showSecondaryLoader());
     let currentPage = 0;
-    if (getState().profile.ordersTransactionData) {
-      currentPage = getState().profile.ordersTransactionData.currentPage + 1;
+    if (paginated) {
+      if (getState().profile.ordersTransactionData) {
+        currentPage = getState().profile.ordersTransactionData.currentPage + 1;
+      }
     }
+
     try {
       const result = await api.get(
         `${USER_PATH}/${
@@ -4461,6 +4630,7 @@ export function getOrdersTransactionData(paginated) {
           JSON.parse(customerCookie).access_token
         }&channel=web`
       );
+      console.log("result");
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
@@ -4544,10 +4714,11 @@ export function submitOrderDetailsSuccess(submitOrder) {
     submitOrder
   };
 }
-export function submitOrderDetailsFailure() {
+export function submitOrderDetailsFailure(error) {
   return {
     type: SUBMIT_ORDER_DETAILS_FAILURE,
-    status: FAILURE
+    status: FAILURE,
+    error
   };
 }
 export function submitOrderDetails(raiseTicketObj) {
@@ -4984,6 +5155,36 @@ export function resetUserAddressAfterLogout() {
   return {
     type: RESET_USER_ADDRESS,
     status: SUCCESS
+  };
+}
+
+export function dispatchSelfServeState(currentState) {
+  return {
+    type: SET_SELF_SERVE_STATE,
+    currentState: currentState
+  };
+}
+
+export function setSelfServeState(currentState) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(dispatchSelfServeState(currentState));
+    // try {
+    //   const result = await api.post(
+    //     `${USER_PATH}/${
+    //       JSON.parse(userDetails).userName
+    //     }/updateUserPreference?channel=web&sms=${val}&access_token=${
+    //       JSON.parse(customerCookie).access_token
+    //     }`
+    //   );
+    //   const resultJson = await result.json();
+    //   const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+    //   if (resultJsonStatus.status) {
+    //     throw new Error(resultJsonStatus.message);
+    //   }
+    //   return dispatch(setSMSNotificationSuccess(resultJson));
+    // } catch (e) {
+    //   return dispatch(setSMSNotificationFailure(e.message));
+    // }
   };
 }
 

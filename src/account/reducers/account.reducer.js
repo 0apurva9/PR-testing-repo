@@ -165,6 +165,26 @@ const account = (
     customerQueriesDataLoading: false,
     customerQueriesData: null,
 
+    customerQueriesOtherIssueDataStatus: null,
+    customerQueriesOtherIssueDataError: null,
+    customerQueriesOtherIssueLoading: false,
+    customerQueriesOtherIssueData: null,
+
+    getFAQDataStatus: null,
+    FAQDataLoading: false,
+    FAQData: null,
+    getFAQDataError: null,
+
+    getFAQRelatedDataStatus: null,
+    FAQRelatedDataLoading: false,
+    FAQRelatedData: null,
+    getFAQRelatedDataError: null,
+
+    orderRelatedQuestionsStatus: null,
+    orderRelatedQuestionsError: null,
+    orderRelatedQuestionsData: null,
+    orderRelatedIssueLoading: false,
+
     cliqCareWmsStatus: null,
     cliqCareWmsError: null,
     cliqCareWmsLoading: false,
@@ -172,7 +192,7 @@ const account = (
 
     ordersTransactionDataStatus: null,
     ordersTransactionDataError: null,
-    ordersRelatedLoading: false,
+    ordersTransactionLoading: false,
     ordersTransactionData: null,
 
     uploadUserFileStatus: null,
@@ -270,6 +290,12 @@ const account = (
     UserNotificationDetails: null,
     UserNotificationConfig: null,
 
+    customerQueriesFieldStatus: null,
+    customerQueriesFieldError: null,
+    customerQueriesField: null,
+    customerQueriesLoading: false,
+
+    currentState: null,
     exchangeCashbackDetailsStatus: null,
     exchangeCashbackDetailsLoading: false,
     exchangeCashbackDetails: null,
@@ -1273,38 +1299,126 @@ const account = (
         reSendEmailLoader: false
       });
 
+    // //Queries
+    // case accountActions.GET_CUSTOMER_QUERIES_DATA_REQUEST:
+    //   return Object.assign({}, state, {
+    //     customerQueriesDataStatus: action.status,
+    //     ordersRelatedLoading: true
+    //   });
+
+    // case accountActions.GET_CUSTOMER_QUERIES_DATA_SUCCESS:
+    //   return Object.assign({}, state, {
+    //     customerQueriesDataStatus: action.status,
+    //     ordersRelatedLoading: false,
+    //     customerQueriesData: action.customerQueriesData
+    //   });
+
+    // case accountActions.GET_CUSTOMER_QUERIES_DATA_FAILURE:
+    //   return Object.assign({}, state, {
+    //     customerQueriesDataStatus: action.status,
+    //     customerQueriesDataError: action.error,
+    //     ordersRelatedLoading: false
+    //   });
+
     //Queries
-    case accountActions.GET_CUSTOMER_QUERIES_DATA_REQUEST:
+
+    case accountActions.GET_CUSTOMER_OTHER_ISSUE_DATA_REQUEST:
       return Object.assign({}, state, {
-        customerQueriesDataStatus: action.status,
-        ordersRelatedLoading: true
+        customerQueriesOtherIssueDataStatus: action.status,
+        customerQueriesOtherIssueLoading: true
       });
 
-    case accountActions.GET_CUSTOMER_QUERIES_DATA_SUCCESS:
+    case accountActions.GET_CUSTOMER_OTHER_ISSUE_DATA_SUCCESS:
       return Object.assign({}, state, {
-        customerQueriesDataStatus: action.status,
-        ordersRelatedLoading: false,
-        customerQueriesData: action.customerQueriesData
+        customerQueriesOtherIssueDataStatus: action.status,
+        customerQueriesOtherIssueLoading: false,
+        customerQueriesOtherIssueData: action.customerQueriesData
       });
 
-    case accountActions.GET_CUSTOMER_QUERIES_DATA_FAILURE:
+    case accountActions.GET_CUSTOMER_OTHER_ISSUE_DATA_FAILURE:
       return Object.assign({}, state, {
-        customerQueriesDataStatus: action.status,
-        customerQueriesDataError: action.error,
-        ordersRelatedLoading: false
+        customerQueriesOtherIssueDataStatus: action.status,
+        customerQueriesOtherIssueDataError: action.error,
+        customerQueriesOtherIssueLoading: false
+      });
+
+    case accountActions.GET_ALL_OTHERS_HELP_REQUEST:
+      return {
+        ...state,
+        getFAQDataStatus: action.status,
+        FAQDataLoading: true,
+        getFAQDataError: null
+      };
+    case accountActions.GET_ALL_OTHERS_HELP_SUCCESS:
+      return {
+        ...state,
+        getFAQDataStatus: action.status,
+        FAQDataLoading: false,
+        FAQData: action.data,
+        getFAQDataError: null
+      };
+    case accountActions.GET_ALL_OTHERS_HELP_FAILURE:
+      return {
+        ...state,
+        getFAQDataStatus: action.status,
+        FAQDataLoading: false,
+        getFAQDataError: action.error
+      };
+
+    case accountActions.GET_FAQ_RELATED_QUESTIONS_REQUEST:
+      return {
+        ...state,
+        getFAQRelatedDataStatus: action.status,
+        FAQRelatedDataLoading: true,
+        getFAQRelatedDataError: null
+      };
+    case accountActions.GET_FAQ_RELATED_QUESTIONS_SUCCESS:
+      return {
+        ...state,
+        getFAQRelatedDataStatus: action.status,
+        FAQRelatedDataLoading: false,
+        FAQRelatedData: action.data,
+        getFAQRelatedDataError: null
+      };
+    case accountActions.GET_FAQ_RELATED_QUESTIONS_FAILURE:
+      return {
+        ...state,
+        getFAQRelatedDataStatus: action.status,
+        FAQRelatedDataLoading: false,
+        getFAQRelatedDataError: action.error
+      };
+
+    case accountActions.GET_ORDER_RELATED_QUESTIONS_REQUEST:
+      return Object.assign({}, state, {
+        orderRelatedQuestionsStatus: action.status,
+        orderRelatedIssueLoading: true
+      });
+
+    case accountActions.GET_ORDER_RELATED_QUESTIONS_SUCCESS:
+      return Object.assign({}, state, {
+        orderRelatedQuestionsStatus: action.status,
+        orderRelatedIssueLoading: false,
+        orderRelatedQuestionsData: action.orderRelatedQuestions
+      });
+
+    case accountActions.GET_ORDER_RELATED_QUESTIONS_FAILURE:
+      return Object.assign({}, state, {
+        orderRelatedQuestionsStatus: action.status,
+        orderRelatedQuestionsError: action.error,
+        orderRelatedIssueLoading: false
       });
 
     //Fields
     case accountActions.GET_CUSTOMER_QUERIES_FIELDS_REQUEST:
       return Object.assign({}, state, {
         customerQueriesFieldStatus: action.status,
-        ordersRelatedLoading: true
+        customerQueriesLoading: true
       });
 
     case accountActions.GET_CUSTOMER_QUERIES_FIELDS_SUCCESS:
       return Object.assign({}, state, {
         customerQueriesFieldStatus: action.status,
-        ordersRelatedLoading: false,
+        customerQueriesLoading: false,
         customerQueriesField: action.customerQueriesField
       });
 
@@ -1312,7 +1426,7 @@ const account = (
       return Object.assign({}, state, {
         customerQueriesFieldStatus: action.status,
         customerQueriesFieldError: action.error,
-        ordersRelatedLoading: false
+        customerQueriesLoading: false
       });
 
     case accountActions.GET_CLIQ_CARE_WMS_REQUEST:
@@ -1338,7 +1452,7 @@ const account = (
     case accountActions.GET_ORDERS_TRANSACTION_DATA_REQUEST:
       return Object.assign({}, state, {
         ordersTransactionDataStatus: action.status,
-        ordersRelatedLoading: true
+        ordersTransactionLoading: true
       });
     case accountActions.GET_ORDERS_TRANSACTION_DATA_SUCCESS:
       let currentOrderTransactionDetailObj = state.ordersTransactionData
@@ -1363,13 +1477,13 @@ const account = (
       return Object.assign({}, state, {
         ordersTransactionDataStatus: action.status,
         ordersTransactionData: currentOrderTransactionDetailObj,
-        ordersRelatedLoading: false
+        ordersTransactionLoading: false
       });
     case accountActions.GET_ORDERS_TRANSACTION_DATA_FAILURE:
       return Object.assign({}, state, {
         ordersTransactionDataStatus: action.status,
         ordersTransactionDataError: action.error,
-        ordersRelatedLoading: false
+        ordersTransactionLoading: false
       });
     case accountActions.Clear_ORDER_TRANSACTION_DATA: {
       return Object.assign({}, state, {
@@ -1382,45 +1496,41 @@ const account = (
     case accountActions.UPLOAD_USER_FILE_REQUEST:
       return Object.assign({}, state, {
         uploadUserFileStatus: action.status,
-        uploadUserFileLoading: true,
-        ordersRelatedLoading: true
+        uploadUserFileLoading: true
       });
 
     case accountActions.UPLOAD_USER_FILE_SUCCESS:
       return Object.assign({}, state, {
         uploadUserFileStatus: action.status,
         uploadUserFileLoading: false,
-        ordersRelatedLoading: false,
+
         uploadUserFile: action.uploadUserFile
       });
     case accountActions.UPLOAD_USER_FILE_FAILURE:
       return Object.assign({}, state, {
         uploadUserFileStatus: action.status,
         uploadUserFileError: action.error,
-        uploadUserFileLoading: false,
-        ordersRelatedLoading: false
+        uploadUserFileLoading: false
       });
 
     case accountActions.SUBMIT_ORDER_DETAILS_REQUEST:
       return Object.assign({}, state, {
         submitOrderDetailsStatus: action.status,
-        submitOrderDetailsLoading: true,
-        ordersRelatedLoading: true
+        submitOrderDetailsLoading: true
       });
 
     case accountActions.SUBMIT_ORDER_DETAILS_SUCCESS:
       return Object.assign({}, state, {
         submitOrderDetailsStatus: action.status,
         submitOrderDetailsLoading: false,
-        ordersRelatedLoading: false,
+
         submitOrderDetails: action.submitOrderDetails
       });
     case accountActions.SUBMIT_ORDER_DETAILS_FAILURE:
       return Object.assign({}, state, {
         submitOrderDetailsStatus: action.status,
         submitOrderDetailsError: action.error,
-        submitOrderDetailsLoading: false,
-        ordersRelatedLoading: false
+        submitOrderDetailsLoading: false
       });
 
     case accountActions.GET_USER_REVIEW_REQUEST:
@@ -1799,6 +1909,16 @@ const account = (
         userAddress: null,
         loading: false
       });
+    case accountActions.SET_SELF_SERVE_STATE:
+      return Object.assign({}, state, {
+        currentState: action.currentState
+      });
+    // export function resetUserAddressAfterLogout(data) {
+    //   return {
+    //     type: SET_USES,
+    //     data: data
+    //   };
+    // }
 
     case accountActions.GET_EXCHANGE_CASHBACK_DETAILS_REQUEST:
       return Object.assign({}, state, {
@@ -1839,7 +1959,6 @@ const account = (
         submitExchangeCashbackDetailsLoading: false,
         submitExchangeCashbackDetailsError: action.error
       });
-
     default:
       return state;
   }
