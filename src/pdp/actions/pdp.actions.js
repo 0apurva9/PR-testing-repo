@@ -39,11 +39,6 @@ import { setDataLayer, ADOBE_PDP_TYPE } from "../../lib/adobeUtils.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { isBrowser } from "browser-or-node";
 import { getCartCountForLoggedInUser } from "../../cart/actions/cart.actions.js";
-// import test from "../../mock/test.json";
-// import ed from "../../mock/exchangeDetails.json";
-// import pincodeResponse from "../../mock/pincodeResponse.json";
-// import imeijson from "../../mock/imei.json";
-
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
 import { displayToast } from "../../general/toast.actions.js";
 export const SUBMIT_REVIEW_TEXT =
@@ -262,7 +257,6 @@ export function getProductDescription(
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true&isMDE=true`
       );
       const resultJson = await result.json();
-      // const resultJson = test;
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
@@ -399,7 +393,6 @@ export function getProductPinCode(
       }
       const result = await api.post(url);
       const resultJson = await result.json();
-      // const resultJson = pincodeResponse;
       // const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       let cncDeliveryModes = "";
@@ -1902,7 +1895,7 @@ export function getRelevantBundleProduct(productCode, isApiCall = 0, sequence) {
       : secondGetRelevantBundleProductRequest();
     try {
       setTimeout(() => {
-        if (getState().productDescription.relevantBundleProductData) {
+        if (getState().productDescription.relevantBundleProductLoading) {
           dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
         }
       }, TIME_OUT_FOR_APIS);
@@ -2127,7 +2120,6 @@ export function getExchangeDetails(
         `v2/mpl/products/exchangeDetails?listingId=${listingId}&ussid=${ussid}&maxExchangeAmount=${maxExchangeAmount}&pickUpCharge=${pickupCharge}`
       );
       const resultJson = await result.json();
-      // const resultJson = ed;
       if (resultJson.status && resultJson.status.toLowerCase() === "success") {
         return dispatch(getExchangeDetailsSuccess(resultJson));
       } else {
@@ -2203,10 +2195,6 @@ export function verifyIMEINumber(
       }
       const result = await api.post(`v2/mpl/verifyIMEINumber`, bodyParams);
       const resultJson = await result.json();
-      // const resultJson = imeijson;
-      // if (resultJson.status === SUCCESS) {
-      //   return dispatch(verifyIMEINumberSuccess(resultJson));
-      // }
       return resultJson;
     } catch (e) {
       return dispatch(verifyIMEINumberFailure(e.message));
