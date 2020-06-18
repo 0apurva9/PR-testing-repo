@@ -19,7 +19,7 @@ import SSRquest from "../../general/components/SSRequest";
 import Icon from "../../xelpmoc-core/Icon";
 const ORDER_REALTED_QUESTION = "orderRelated";
 const NON_ORDER_REALTED_QUESTION = "NonOrderRelated";
-const FAQ_PAGE = "SS_FAQ";
+const FAQ_PAGE = "ss-faq";
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
     super(props);
