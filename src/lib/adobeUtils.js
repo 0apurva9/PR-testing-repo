@@ -767,7 +767,12 @@ export async function setDataLayer(
       });
     }
   }
-
+  if (window.digitalData && window.digitalData.account) {
+    localStorage.setItem(
+      "loginType",
+      JSON.stringify(window.digitalData.account)
+    );
+  }
   // if (type === ADOBE_PDP_SIMILAR_PRODUCT) {
   //   if (window._satellite) {
   //     window._satellite.track(PDP_PRODUCT_SIMILAR);
@@ -1525,7 +1530,9 @@ export async function setDataLayer(
 }
 
 export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
-  let loginType = JSON.parse(localStorage.getItem("loginType"));
+  let loginType =
+    localStorage.getItem("loginType") !== "undefined" &&
+    JSON.parse(localStorage.getItem("loginType"));
   const selectedColour =
     pdpResponse &&
     pdpResponse.variantOptions &&
@@ -1764,7 +1771,9 @@ function getDigitalDataForHome(response) {
   return window.digitalData;
 }
 function getDigitalDataForCart(type, cartResponse) {
-  let loginType = JSON.parse(localStorage.getItem("loginType"));
+  let loginType =
+    localStorage.getItem("loginType") !== "undefined" &&
+    JSON.parse(localStorage.getItem("loginType"));
   let data = {
     page: {
       category: {
@@ -2345,7 +2354,9 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null, response) {
 }
 export function setDataLayerForCartDirectCalls(type, response, linkName) {
   let data = cloneDeep(window.digitalData);
-  let loginType = JSON.parse(localStorage.getItem("loginType"));
+  let loginType =
+    localStorage.getItem("loginType") !== "undefined" &&
+    JSON.parse(localStorage.getItem("loginType"));
   if (window.digitalData && window.digitalData.account) {
     Object.assign(data, {
       account: window.digitalData.account
@@ -2463,11 +2474,9 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
   window.digitalData = data;
 }
 export function getDigitalDataForPlp(type, response) {
-  // let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
-  // if (userDetails) {
-  // 	userDetails = JSON.parse(userDetails);
-  // }
-  let loginType = JSON.parse(localStorage.getItem("loginType"));
+  let loginType =
+    localStorage.getItem("loginType") !== "undefined" &&
+    JSON.parse(localStorage.getItem("loginType"));
   let data = {
     page: {
       category: {
