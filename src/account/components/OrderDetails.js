@@ -43,7 +43,8 @@ import {
   CANCEL_RETURN_REQUEST,
   SUCCESS,
   HELP_URL,
-  COSTUMER_ORDER_RELATED_QUERY_ROUTE,
+  // COSTUMER_ORDER_RELATED_QUERY_ROUTE,
+  COSTUMER_CLIQ_CARE_ROUTE,
   MY_ACCOUNT,
   CNCTOHD,
   ORDER_CODE
@@ -260,10 +261,22 @@ export default class OrderDetails extends React.Component {
     this.props.history.push(`${HELP_URL}`);
   }
   redirectToCustomHelpPage() {
+    let orderCode = queryString.parse(this.props.location.search).orderCode;
+    const transactionId = queryString.parse(this.props.location.search)
+      .transactionId;
+    const selectedOrderObj = {
+      orderCode,
+      transactionId,
+      orderDetails: this.props.orderDetails
+    };
+
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
-    this.props.history.push(
-      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
-    );
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
+      state: {
+        selectedOrderObj
+      }
+    });
   }
   componentWillMount() {
     const transactionId = queryString.parse(this.props.location.search)
@@ -1269,6 +1282,7 @@ export default class OrderDetails extends React.Component {
                   </React.Fragment>
                 );
               })}
+
             {!this.state.itemDetails &&
               orderDetails && (
                 <div className={styles.order}>

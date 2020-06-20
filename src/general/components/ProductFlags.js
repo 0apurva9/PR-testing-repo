@@ -18,15 +18,6 @@ export default class ProductFlags extends React.Component {
           </div>
         </div>
       );
-    } else if (this.props.newProduct) {
-      return (
-        <div
-          className={styles.base}
-          style={{ backgroundImage: `url(${newFlag})` }}
-        >
-          New
-        </div>
-      );
     } else if (
       this.props.showExchangeTag &&
       this.props.exchangeOfferAvailable
@@ -37,6 +28,15 @@ export default class ProductFlags extends React.Component {
           style={{ backgroundImage: `url(${exchangeOfferFlag})` }}
         >
           Offers on Exchange
+        </div>
+      );
+    } else if (this.props.newProduct) {
+      return (
+        <div
+          className={styles.base}
+          style={{ backgroundImage: `url(${newFlag})` }}
+        >
+          New
         </div>
       );
     } else if (

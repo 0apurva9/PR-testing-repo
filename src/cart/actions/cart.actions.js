@@ -102,10 +102,6 @@ import {
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
 } from "../../lib/adobeUtils";
 
-// import cartDetailsResponse from "../../mock/cartDetailsResponse.json";
-// import miniCartResponse from "../../mock/miniCartResponse.json";
-// import cartCNC from "../../mock/cartCNC.json";
-
 const EGV_GIFT_CART_ID = "giftCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
 export const CLEAR_CART_DETAILS = "CLEAR_CART_DETAILS";
@@ -660,7 +656,6 @@ export function getCartDetails(
         `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetails?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}&isMDE=true`
       );
       const resultJson = await result.json();
-      // const resultJson = cartDetailsResponse;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
@@ -731,7 +726,27 @@ export function getCartDetailsCNC(
         `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}&isMDE=true`
       );
       let resultJson = await result.json();
-      // let resultJson = cartCNC;
+      // show toast message in case product serviceable but exchange not serviceable
+      if (resultJson && resultJson.products) {
+        let productExchangeNonServiceable = resultJson.products.find(value => {
+          if (
+            value.exchangeDetails &&
+            !value.pinCodeResponse.isPickupAvailableForExchange
+          ) {
+            return value.pinCodeResponse.errorMessagePincode;
+          }
+        });
+        if (
+          productExchangeNonServiceable &&
+          productExchangeNonServiceable.pinCodeResponse
+        ) {
+          dispatch(
+            displayToast(
+              productExchangeNonServiceable.pinCodeResponse.errorMessagePincode
+            )
+          );
+        }
+      }
 
       if (resultJson.status === FAILURE) {
         throw new Error(`${resultJson.message}`);
@@ -6615,7 +6630,6 @@ export function getMinicartProducts() {
         `${USER_CART_PATH}/${userId}/carts/${cartCode}/miniCartDetails?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
       );
       const resultJson = await result.json();
-      // const resultJson = miniCartResponse;
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       // Check failure response status if found then throw an error
