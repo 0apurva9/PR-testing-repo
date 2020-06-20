@@ -200,7 +200,9 @@ class OrderListDetails extends Component {
                           )}
                         </span>
                       </div>
-                    ) : selectedOrder.products[0].deliveryDate ? (
+                    ) : selectedOrder &&
+                      selectedOrder.products &&
+                      selectedOrder.products[0].deliveryDate ? (
                       <div className={styles.orderStatus}>
                         {DELIVERY_TEXT}&nbsp;
                         <span className={styles.fontBold}>
