@@ -20,7 +20,33 @@ export default class SelectDevice extends React.Component {
   saveDeviceDetails(deviceNo) {
     this.props.saveDeviceDetails(deviceNo);
   }
+  getComparedResult = (nameA, nameB) => {
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  };
+  compareBrandNames = (a, b) => {
+    let nameA = a.exchangeBrandName.toUpperCase();
+    let nameB = b.exchangeBrandName.toUpperCase();
+    return this.getComparedResult(nameA, nameB);
+  };
+  compareModelNames = (a, b) => {
+    let nameA = a.exchangeModelName.toUpperCase();
+    let nameB = b.exchangeModelName.toUpperCase();
+    return this.getComparedResult(nameA, nameB);
+  };
+
   render() {
+    let brandNames = this.props.makeModelDetails;
+    let sortedBrandNames =
+      brandNames && brandNames.sort(this.compareBrandNames);
+    let modelNames = this.props.currentModelList;
+    let sortedModelNames =
+      modelNames && modelNames.sort(this.compareModelNames);
     return (
       <React.Fragment>
         <div className={styles.smallHeading}>{this.props.heading}</div>
@@ -28,8 +54,8 @@ export default class SelectDevice extends React.Component {
           placeholder={"Select Brand"}
           customSelect="customSelect1"
           options={
-            this.props.makeModelDetails &&
-            this.props.makeModelDetails.map((val, i) => {
+            sortedBrandNames &&
+            sortedBrandNames.map((val, i) => {
               return {
                 value: val.exchangeBrandId,
                 label: val.exchangeBrandName,
@@ -45,8 +71,8 @@ export default class SelectDevice extends React.Component {
           placeholder={"Select Model"}
           customSelect="customSelect2"
           options={
-            this.props.currentModelList &&
-            this.props.currentModelList.map((val, i) => {
+            sortedModelNames &&
+            sortedModelNames.map((val, i) => {
               return {
                 value: val.exchangeModelName,
                 label: val.exchangeModelName,
