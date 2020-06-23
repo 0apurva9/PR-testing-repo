@@ -1,123 +1,299 @@
-import TabHolder from "./TabHolder";
-import TabData from "./TabData";
 import React from "react";
 import styles from "./OrderRelatedIssue.css";
-import ProductImage from "../../general/components/ProductImage.js";
-import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
-import TextArea from "../../general/components/TextArea.js";
-import FloatingLabelInput from "../../general/components/FloatingLabelInput.js";
-import Button from "../../general/components/Button.js";
-import ImageUpload from "../../account/components/ImageUpload.js";
-import CheckOutHeader from "../../cart/components/CheckOutHeader";
-import {
-  EMAIL_REGULAR_EXPRESSION,
-  MOBILE_PATTERN
-} from "../../auth/components/Login";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
-import OrderRelatedPopup from "./OrderRelatedPopup";
-import { SUCCESS, CUSTOMER_CARE } from "../../lib/constants";
-import format from "date-fns/format";
 import * as Cookie from "../../lib/Cookie";
+import CustomerIssue from "./CustomerIssue.js";
+import MoreHelps from "./MoreHelps";
 import {
+  SUCCESS,
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
-  LOGIN_PATH
+  LOGIN_PATH,
+  COSTUMER_ORDER_RELATED_QUERY_ROUTE,
+  COSTUMER_CLIQ_CARE_ROUTE,
+  MY_ACCOUNT_PAGE,
+  HOME_ROUTER
 } from "../../lib/constants";
-import { Redirect } from "react-router-dom";
-import CheckboxAndText from "../../cart/components/CheckboxAndText";
-import FloatingLabelInputWithPlace from "../../general/components/FloatingLabelInputWithPlace";
-import CustomerCareOtherIssues from "./CustomerCareOtherIssues";
-import CustomerCareOrderRelated from "./CustomerCareOrderRelated";
-// import CustomerCareOrderRelated from "./CustomerCareOrderRelated";
-const SELECT_ORDER_TEXT = "Please select order ";
-const SELECT_ISSUE_FOR_ORDER_TEXT = "Please select issue ";
-const SELECT_SUB_ISSUE_FOR_ORDER_TEXT = "Please select sub issue ";
-const NAME_TEXT = "Please enter name";
-const MOBILE_TEXT = "Please enter mobile number";
-const MOBILE_VALID_TEXT = "Please enter valid mobile number";
-const EMAIL_TEXT = "Please enter emailId";
-const EMAIL_VALID_TEXT = "Please enter  valid emailId";
-const DUPLICATE_QUERY =
-  "Your query is already submitted. Please wait for TATACLiQ representative to contact you.";
+import SSRquest from "../../general/components/SSRequest";
+import Icon from "../../xelpmoc-core/Icon";
+const ORDER_REALTED_QUESTION = "orderRelated";
+const NON_ORDER_REALTED_QUESTION = "NonOrderRelated";
+const FAQ_PAGE = "ss-faq";
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
     super(props);
-    const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const getUserDetails = JSON.parse(userDetailsCookie);
+    const selectedOrderObj =
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.selectedOrderObj;
     this.state = {
-      webFormStatus: false,
-      showOrder: false,
-      isSelected: 0,
-      isSelectedOrder: false,
-      labelDataShow: false,
-      name:
-        getUserDetails && getUserDetails.firstName
-          ? getUserDetails.firstName.trim()
-          : "",
-      mobile:
-        getUserDetails &&
-        getUserDetails.loginType === "mobile" &&
-        getUserDetails.userName
-          ? getUserDetails.userName
-          : "",
-      email:
-        getUserDetails &&
-        getUserDetails.loginType === "email" &&
-        getUserDetails.userName
-          ? getUserDetails.userName
-          : "",
-      comment: "",
-      file: [],
-      l2SelectedOption: null,
-      // l3SelectedOption: null,
-      isEnableForOrderRelated: false,
-      isEnableForSubOrderRelated: false,
-      isEnableForAnotherOrderRelated: false,
-      orderCode: "",
-      transactionId: "",
-      sellerOrderNumber: "",
-      productImageURL: "",
-      orderDate: "",
-      productName: "",
-      productPrice: "",
-      productStatus: "",
-      l2SelectedReason: null,
-      // l3SelectedReason: null,
-      customerQryFldLabel: false,
-      customerQryFldTextBox: false,
-      customerQryFldTextArea: false,
-      customerQryFldRadio: false,
-      customerQryFldCheckBox: false,
-      customerQryFldAttachment: false,
-      textboxFldData: "",
-      radioSelectedOption: "",
-      checkBoxDefaultFlag: "",
-      showSubIssueField: false,
-      issueCategory: "",
-      issue: "",
-      selectedObj: "",
-      subIssueList: null,
-      uploadedAttachments: [],
-      parentIssueLabel: "",
-      issueSelected: "",
-      mainIssue: "",
-      customerQueriesField: []
+      isIssueOptions: false,
+      isQuesryForm: false,
+      questionList: [],
+      orderList: true,
+      isOrderDatails: false,
+      isAnswerHelpFull: false,
+      orderRelatedQuestion: false,
+      otherQuestion: false,
+      FAQquestion: false,
+      selectedOrder: null,
+      uploadedAttachments: null,
+      orderAllList: false,
+      parentIssueType: null,
+      questionType: "",
+      loaderResponse: true,
+      isUserLogin: false,
+      showQuestionList: false,
+      showFeedBack: false,
+      question: null,
+      selectedOrderObj: selectedOrderObj,
+      showLoader: false,
+      raiseTiketRequest: false,
+      raiseTiketSucess: false,
+      slectOrderData: null
     };
+    this.resetState = this.state;
   }
 
   componentDidMount() {
-    // this.props.getCustomerQueriesData();
-    this.props.getUserDetails();
-    this.props.getOrdersTransactionData(false);
-    this.props.setHeaderText(CUSTOMER_CARE);
+    if (this.props.getOrdersTransactionData) {
+      this.props.getOrdersTransactionData(false);
+    }
+
+    if (this.props.getNonOrderRelatedQuestions) {
+      this.props.getNonOrderRelatedQuestions();
+    }
+
+    if (this.props.getUserDetails) {
+      this.props.getUserDetails();
+    }
+    if (this.props.getAllOthersHelp) {
+      this.props.getAllOthersHelp(FAQ_PAGE);
+    }
+    if (this.props.currentState) {
+      this.setState({ ...this.props.currentState });
+    }
+
+    if (this.state.selectedOrderObj) {
+      this.orderRelatedInfo(this.state.selectedOrderObj);
+    }
   }
-  componentDidUpdate() {
-    this.props.setHeaderText(CUSTOMER_CARE);
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.logoutUserStatus !== this.props.logoutUserStatus) {
+      if (nextProps.logoutUserStatus == "success") {
+        this.setState(this.resetState);
+      }
+    }
   }
-  componentWillUnmount() {
-    this.props.clearOrderTransactionDetails();
+  moreHelps() {
+    const { FAQquestion, question } = this.state;
+    if (
+      FAQquestion ||
+      (question.webform === "No" &&
+        question.call === "No" &&
+        question.chat === "No" &&
+        question.click2Call === "No")
+    ) {
+      this.setState({ isAnswerHelpFull: true });
+    } else {
+      this.setState({ isIssueOptions: true, showFeedBack: false });
+    }
   }
+
+  async getCustomerQueriesFields(issue, isSelecteRadio = false) {
+    if (isSelecteRadio) {
+      const response = await this.props.getCustomerQueriesFieldsv2(
+        issue,
+        isSelecteRadio
+      );
+      if (response.status == SUCCESS) {
+        this.setState({
+          isIssueOptions: false,
+          isQuesryForm: true,
+          showFeedBack: false
+        });
+      }
+    } else {
+      const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+      if (userDetails || customerCookie) {
+        if (this.props.getCustomerQueriesFieldsv2) {
+          const response = await this.props.getCustomerQueriesFieldsv2(
+            this.state.question.UItemplateCode,
+            isSelecteRadio
+          );
+          if (response.status == SUCCESS) {
+            this.setState({
+              isIssueOptions: false,
+              isQuesryForm: true,
+              showFeedBack: false
+            });
+          }
+        }
+      } else {
+        this.props.setSelfServeState(this.state);
+        this.navigateLogin();
+      }
+    }
+  }
+
+  feedBackHelpFull(e) {
+    this.setState({ isAnswerHelpFull: true });
+  }
+
+  async submitCustomerForms(formData) {
+    this.setState({ raiseTiketRequest: true, showLoader: true });
+    if (this.props.submitOrderDetails) {
+      let getCustomerQueryDetailsObject = Object.assign(
+        {},
+        {
+          ticketID: null,
+          issue:
+            this.state.questionType == ORDER_REALTED_QUESTION
+              ? this.state.question.issueType
+              : this.state.question.subIssueType,
+          tat: this.state.question.tat,
+          emailId: formData.customerInfo.contactEmail
+        }
+      );
+      if ((this.state.questionType = NON_ORDER_REALTED_QUESTION)) {
+        getCustomerQueryDetailsObject.issueCategory = this.state.parentIssueType;
+      }
+      const submitOrderDetailsResponse = await this.props.submitOrderDetails(
+        formData
+      );
+      setTimeout(() => {
+        if (submitOrderDetailsResponse.status === SUCCESS) {
+          getCustomerQueryDetailsObject.ticketID =
+            submitOrderDetailsResponse.submitOrder.referenceNum;
+          if (
+            submitOrderDetailsResponse.submitOrder.referenceNum == "duplicate"
+          ) {
+            this.setState({ showLoader: false, raiseTiketRequest: false });
+            this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+            this.props.setSelfServeState(null);
+          } else {
+            this.setState({ raiseTiketSucess: true, raiseTiketRequest: false });
+            setTimeout(() => {
+              this.setState({ showLoader: false, raiseTiketSucess: false });
+              this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+              this.props.setSelfServeState(null);
+            }, 2000);
+          }
+        }
+      }, 2000);
+
+      // }
+    }
+  }
+
+  selectOtehrQuestion(selectOtehrQuestion) {
+    this.setState({
+      isOrderDatails: true,
+      orderList: false,
+      orderRelatedQuestion: false,
+      otherQuestion: true,
+      FAQquestion: false,
+      showQuestionList: true,
+      questionList: selectOtehrQuestion.listofSubIssues,
+      parentIssueType: selectOtehrQuestion.parentIssueType,
+      questionType: NON_ORDER_REALTED_QUESTION
+    });
+  }
+
+  async orderRelatedInfo(orderData) {
+    if (this.props.fetchOrderItemDetails) {
+      this.props.fetchOrderItemDetails(
+        orderData.orderCode,
+        orderData.transactionId
+      );
+    }
+    if (this.props.getOrderRelatedQuestions) {
+      const response = await this.props.getOrderRelatedQuestions(
+        orderData.transactionId
+      );
+      if (response.status == SUCCESS && response.orderRelatedQuestions) {
+        this.setState({
+          orderAllList: false,
+          isOrderDatails: true,
+          orderList: false,
+          orderRelatedQuestion: true,
+          otherQuestion: false,
+          FAQquestion: false,
+          showQuestionList: true,
+          questionList: response.orderRelatedQuestions.listOfIssues,
+          parentIssueType: null,
+          questionType: ORDER_REALTED_QUESTION,
+          slectOrderData: orderData.orderDetails
+        });
+      }
+    }
+  }
+
+  getOrderRelatedQuestions(orderData) {
+    const selectedOrder = {
+      transactionId: orderData.products[0].transactionId,
+      orderCode: orderData.orderId,
+      orderDetails: orderData
+    };
+    this.orderRelatedInfo(selectedOrder);
+  }
+
+  async handleFAQClick(faq) {
+    if (this.state.parentIssueType !== faq.FAQHeader) {
+      if (this.props.getFaqRelatedQuestions) {
+        const response = await this.props.getFaqRelatedQuestions(faq.FAQPageId);
+        if (response.status === SUCCESS) {
+          // if (response.data && response.data.items) {
+          const questioList =
+            response.data.items.length == 1
+              ? JSON.parse(response.data.items[0].cmsTextComponent.content)
+              : JSON.parse(response.data.items[1].cmsTextComponent.content);
+          this.setState({
+            isOrderDatails: true,
+            orderList: false,
+            orderRelatedQuestion: false,
+            otherQuestion: false,
+            FAQquestion: true,
+            showQuestionList: true,
+            questionList: questioList,
+            parentIssueType: faq.FAQHeader,
+            questionType: NON_ORDER_REALTED_QUESTION,
+            showFeedBack: false,
+            isQuesryForm: false
+          });
+          // }
+        }
+      }
+    }
+  }
+
+  selectQuestion(question, index) {
+    this.setState({
+      question: question,
+      showQuestionList: false,
+      showFeedBack: true
+    });
+  }
+
+  showAllOrdersList() {
+    this.setState({ orderAllList: true });
+  }
+  hideAllOrder() {
+    this.setState({ orderAllList: false });
+  }
+
+  navigateLogin() {
+    const url = this.props.location.pathname;
+    if (url === `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`) {
+      if (this.props.setUrlToRedirectToAfterAuth) {
+        this.props.setUrlToRedirectToAfterAuth(url);
+      }
+    }
+    this.props.history.push(LOGIN_PATH);
+  }
+
   getMoreOrder() {
     if (
       this.props.ordersTransactionData &&
@@ -128,1128 +304,242 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.getOrdersTransactionData(true);
     }
   }
-
-  tabSelect(val) {
-    const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const getUserDetails = JSON.parse(userDetailsCookie);
-    if (this.state.isSelected !== val) {
+  sendInvoice(ussid, sellerOrderNo) {
+    if (this.props.sendInvoice) {
+      this.props.sendInvoice(ussid, sellerOrderNo);
+    }
+  }
+  hideLoader() {}
+  navigatePreviousPage() {
+    if (this.state.showQuestionList) {
+      this.setState(this.resetState);
+    } else if (this.state.showFeedBack) {
       this.setState({
-        selectedObj: null,
-        webFormStatus: false,
-        isSelected: val,
-        listOfSubIssue: null,
-        name:
-          getUserDetails && getUserDetails.firstName
-            ? getUserDetails.firstName.trim()
-            : "",
-        mobile:
-          getUserDetails &&
-          getUserDetails.loginType === "mobile" &&
-          getUserDetails.userName
-            ? getUserDetails.userName
-            : "",
-        email:
-          getUserDetails &&
-          getUserDetails.loginType === "email" &&
-          getUserDetails.userName
-            ? getUserDetails.userName
-            : "",
-        comment: "",
-        file: "",
-        l2SelectedOption: null,
-        // l3SelectedOption: null,
-        isEnableForOrderRelated: false,
-        isEnableForSubOrderRelated: false,
-        isEnableForAnotherOrderRelated: false,
-        orderCode: "",
-        transactionId: "",
-        sellerOrderNumber: "",
-        productImageURL: "",
-        orderDate: "",
-        productName: "",
-        productPrice: "",
-        productStatus: "",
-        l2SelectedReason: null,
-        webform: "No",
-        // l3SelectedReason: null,
-        issueCategory: "",
-        issue: "",
-        customerQueriesField: []
+        question: null,
+        showQuestionList: true,
+        showFeedBack: false,
+        isAnswerHelpFull: false
       });
-    }
-    if (val === 1) {
-      this.props.getNonOrderRelatedQuestions();
-    }
-  }
-
-  setProductDetails(
-    orderCode,
-    transactionId,
-    sellerOrderNumber,
-    productImageURL,
-    orderDate,
-    productName,
-    productPrice,
-    productStatus
-  ) {
-    this.setState({
-      orderCode: orderCode,
-      transactionId: transactionId,
-      sellerOrderNumber: sellerOrderNumber,
-      showOrder: false,
-      productImageURL: productImageURL,
-      orderDate: orderDate,
-      productName: productName,
-      productPrice: productPrice,
-      productStatus: productStatus,
-      webFormStatus: false,
-      issueSelected: "Select issue",
-      customerQueriesField: [],
-      selectedObj: null
-    });
-
-    this.props.getCustomerQueriesData(transactionId);
-  }
-  /**
-   * @comment This function will be used onchange to set value in the state for non order.
-   */
-  onChangeReasonForNonOrderRelated = (val, l1OptionsArray) => {
-    const subTab =
-      l1OptionsArray &&
-      l1OptionsArray.find(ele => {
-        return val.value === ele.parentIssueType;
-      });
-    // if (subTab && subTab.listofSubIssues && subTab.listofSubIssues.length > 0) {
-    //   return subTab.listofSubIssues;
-    // } else {
-    //   return null;
-    // }
-
-    this.setState({
-      listOfSubIssue:
-        subTab && subTab.listofSubIssues ? subTab.listofSubIssues : [],
-      webFormStatus: false,
-      mainIssue: val.value,
-      issueSelected: "",
-      customerQueriesField: [],
-      parentIssueLabel: val.label,
-      selectedObj: null
-      // l2SelectedOption:
-      //   subTab && subTab.listofSubIssues ? subTab.listofSubIssues : [],
-      // showSubIssueField: true,
-      // uItemplateCode: val.value,
-      // issueCategory: val.label
-    });
-  };
-
-  async onChangeReasonForOrderRelated(obj, isSelecteRadio = false) {
-    if (isSelecteRadio) {
-      const response = await this.props.getCustomerQueriesFieldsv2(
-        obj.webFormTemplate,
-        isSelecteRadio
-      );
-      const { status, customerQueriesField } = response;
-      if (status == SUCCESS) {
-        this.setState({ customerQueriesField: customerQueriesField });
-      }
-    } else {
+    } else if (this.state.isQuesryForm) {
       this.setState({
-        selectedObj: obj,
-        issueSelected:
-          this.state.isSelected == 1 ? obj[0].subIssueType : obj[0].issueType
+        showQuestionList: false,
+        isQuesryForm: false,
+        isIssueOptions: true
       });
-      if (obj[0].webform === "Yes") {
-        const response = await this.props.getCustomerQueriesFieldsv2(
-          obj[0].UItemplateCode,
-          isSelecteRadio
-        );
-        const { status, customerQueriesField } = response;
-        if (status == SUCCESS) {
-          this.setState({ customerQueriesField: customerQueriesField });
-        }
-      }
-    }
-  }
-  onChangeSubReasonForOrderRelated(val) {
-    // const code = val.value;
-    // const label = val.label;
-    this.setState({
-      // l3SelectedOption: code,
-      // l3SelectedReason: label,
-
-      isEnableForSubOrderRelated: true,
-      isEnableForAnotherOrderRelated: false,
-      issue: val.label
-    });
-  }
-  onChange(val) {
-    this.setState(val);
-  }
-  updateState = (key, value) => {
-    this.setState({ key: value });
-  };
-  closeModal() {
-    this.setState({ showOrder: false });
-  }
-  async submitCustomerForms(formData) {
-    if (this.props.submitOrderDetails) {
-      let getCustomerQueryDetailsObject = Object.assign(
-        {},
-        {
-          ticketID: null,
-          emailId: formData.customerInfo.contactEmail,
-          issue:
-            this.state.isSelected == 1
-              ? this.state.selectedObj[0].subIssueType
-              : this.state.selectedObj[0].issueType,
-          tat: this.state.selectedObj[0].tat
-        }
-      );
-      if (this.state.isSelected == 1) {
-        getCustomerQueryDetailsObject.issueCategory = this.state.parentIssueLabel;
-      }
-      const submitOrderDetailsResponse = await this.props.submitOrderDetails(
-        formData
-      );
-      if (submitOrderDetailsResponse.status === SUCCESS) {
-        if (
-          submitOrderDetailsResponse.submitOrder &&
-          submitOrderDetailsResponse.submitOrder.referenceNum !== "duplicate"
-        ) {
-          getCustomerQueryDetailsObject.ticketID =
-            submitOrderDetailsResponse.submitOrder.referenceNum;
-          this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
-        } else {
-          this.props.displayToast(DUPLICATE_QUERY);
-        }
-      }
-    }
-  }
-  async submitCustomerForm(formData) {
-    let l1OptionsArray, l2OptionsArray, l3OptionsArray;
-    if (this.state.isSelected === 0) {
-      let { listOfIssues } = this.props.customerQueriesData;
-    } else {
-      l1OptionsArray =
-        this.props.customerQueriesData &&
-        this.props.customerQueriesData.nodes &&
-        this.props.customerQueriesData.nodes.find(otherIssue => {
-          return otherIssue.nodeDesc === "Any Other Query";
-        });
-    }
-    // l2OptionsArray = this.getOrderRelatedL2Issue(l1OptionsArray);
-    // l3OptionsArray = this.getOrderRelatedL3Issue(l2OptionsArray);
-    if (this.state.isSelected === 0 && !this.state.orderCode) {
-      this.props.displayToast(SELECT_ORDER_TEXT);
-      return false;
-    }
-    if (!this.state.l2SelectedOption) {
-      //   this.props.displayToast(SELECT_ISSUE_FOR_ORDER_TEXT);
-      //   return false;
-      // }
-      // if (l2OptionsArray && !this.state.l3SelectedOption) {
-      //   this.props.displayToast(SELECT_SUB_ISSUE_FOR_ORDER_TEXT);
-      //   return false;
-    }
-
-    let customerQueriesFieldArray = this.props.customerQueriesField;
-    if (this.state.customerQryFldTextArea) {
-      let textAreaData = [];
-      customerQueriesFieldArray &&
-        customerQueriesFieldArray.map(ele => {
-          if (ele.componentName === "textAreaComponent") {
-            textAreaData = ele;
-          }
-        });
-      if (textAreaData.isMandatory == 1) {
-        if (this.state.comment.length === 0 && textAreaData.isMandatory) {
-          this.props.displayToast(textAreaData.minLimitError);
-          return false;
-        }
-        if (this.state.comment.length < parseInt(textAreaData.minLimit)) {
-          this.props.displayToast(textAreaData.minLimitError);
-          return false;
-        }
-        if (this.state.comment.length > parseInt(textAreaData.maxLimit)) {
-          this.props.displayToast(textAreaData.maxLimitError);
-          return false;
-        }
-      }
-    }
-
-    if (this.state.customerQryFldRadio) {
-      let radioData = [];
-      customerQueriesFieldArray &&
-        customerQueriesFieldArray.map(ele => {
-          if (ele.componentName === "radioComponent") {
-            radioData = ele;
-          }
-        });
-      if (radioData.isMandatory && this.state.radioSelectedOption === "") {
-        this.props.displayToast("Radio field is mandatory.");
-        return false;
-      }
-    }
-
-    if (this.state.customerQryFldTextBox) {
-      let textBoxData = [];
-      customerQueriesFieldArray &&
-        customerQueriesFieldArray.map(ele => {
-          if (ele.componentName === "textboxComponent") {
-            textBoxData = ele;
-          }
-        });
-      if (
-        !textBoxData.isMandatory ||
-        this.state.textboxFldData.length < textBoxData.minLimit
-      ) {
-        this.props.displayToast(textBoxData.minLimitError);
-        return false;
-      }
-      if (this.state.textboxFldData.length > textBoxData.maxLimit) {
-        this.props.displayToast(textBoxData.maxLimitError);
-        return false;
-      }
-
-      var expression = "^" + textBoxData.regex + "+$";
-      var regexExp = new RegExp(expression);
-
-      if (!regexExp.test(this.state.textboxFldData)) {
-        this.props.displayToast(textBoxData.regexError);
-        return false;
-      }
-    }
-
-    if (this.state.customerQryFldCheckBox) {
-      let checkboxData = [];
-      customerQueriesFieldArray &&
-        customerQueriesFieldArray.map(ele => {
-          if (ele.componentName === "checkboxComponent") {
-            checkboxData = ele;
-          }
-        });
-      if (checkboxData.isMandatory && this.state.checkBoxDefaultFlag == "") {
-        this.props.displayToast("Please check the box.");
-        return false;
-      }
-    }
-
-    if (this.state.customerQryFldAttachment) {
-      let attachmentData = [];
-      customerQueriesFieldArray &&
-        customerQueriesFieldArray.map(ele => {
-          if (ele.componentName === "attachmentComponent") {
-            attachmentData = ele;
-          }
-        });
-      if (attachmentData.isMandatory && !this.state.file.length) {
-        this.props.displayToast("Please upload file.");
-        return false;
-      }
-    }
-
-    /**
-     * Eod
-     */
-
-    if (!this.state.email) {
-      this.props.displayToast(EMAIL_TEXT);
-      return false;
-    }
-    if (this.state.email && !EMAIL_REGULAR_EXPRESSION.test(this.state.email)) {
-      this.props.displayToast(EMAIL_VALID_TEXT);
-      return false;
-    }
-    if (!this.state.mobile) {
-      this.props.displayToast(MOBILE_TEXT);
-      return false;
-    }
-
-    if (this.state.mobile && !MOBILE_PATTERN.test(this.state.mobile)) {
-      this.props.displayToast(MOBILE_VALID_TEXT);
-      return false;
-    } else {
-      /*let orderRelatedIssue =
-        this.props.customerQueriesData &&
-        this.props.customerQueriesData.nodes &&
-        this.props.customerQueriesData.nodes.find(orderRelated => {
-          return orderRelated.nodeDesc === "Order Related Query";
-        });*/
-      let submitDetailsObject = Object.assign(
-        {},
-        {
-          L0: this.state.L0,
-          L1: this.state.L1,
-          L2: this.state.L2,
-          L3: this.state.L3,
-          contactEmail: this.state.email,
-          contactMobile: this.state.mobile,
-          contactName: this.state.name,
-          comment: this.state.comment ? this.state.comment : "",
-          nodeL4:
-            l3OptionsArray &&
-            l3OptionsArray.children &&
-            l3OptionsArray.children.length > 0
-              ? l3OptionsArray.children[0].nodeCode
-              : undefined,
-          transactionId: this.state.transactionId,
-          orderCode: this.state.orderCode,
-          subOrderCode: this.state.sellerOrderNumber,
-          currentState: this.state.isSelected
-        }
-      );
-      let getCustomerQueryDetailsObject = Object.assign(
-        {},
-        {
-          name: this.state.name,
-          emailId: this.state.email,
-          mobileNumber: this.state.mobile,
-          comment: this.state.comment,
-          anOtherIssue: this.state.l4SelectedReason,
-          issueCategory: this.state.issueCategory,
-          issue: this.state.issue
-          // subIssue: this.state.l3SelectedReason
-        }
-      );
-      if (this.state.file) {
-        const uploadFileResponse = await this.props.uploadUserFile(
-          this.state.file
-        );
-        if (uploadFileResponse && uploadFileResponse.status === SUCCESS) {
-          submitDetailsObject = Object.assign({}, submitDetailsObject, {
-            imageURL:
-              uploadFileResponse.uploadUserFile &&
-              uploadFileResponse.uploadUserFile.fileURL
-          });
-          if (this.props.submitOrderDetails) {
-            const submitOrderDetailsResponse = await this.props.submitOrderDetails(
-              submitDetailsObject
-            );
-            if (submitOrderDetailsResponse.status === SUCCESS) {
-              if (
-                submitOrderDetailsResponse.submitOrder &&
-                submitOrderDetailsResponse.submitOrder.referenceNum !==
-                  "duplicate"
-              ) {
-                this.props.showCustomerQueryModal(
-                  getCustomerQueryDetailsObject
-                );
-              } else {
-                this.props.displayToast(DUPLICATE_QUERY);
-              }
-            }
-          }
-        }
-      } else {
-        if (this.props.submitOrderDetails) {
-          const submitOrderDetailsResponse = await this.props.submitOrderDetails(
-            submitDetailsObject
-          );
-          if (submitOrderDetailsResponse.status === SUCCESS) {
-            if (
-              submitOrderDetailsResponse.submitOrder &&
-              submitOrderDetailsResponse.submitOrder.referenceNum !==
-                "duplicate"
-            ) {
-              this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
-            } else {
-              this.props.displayToast(DUPLICATE_QUERY);
-            }
-          }
-        }
-      }
-    }
-  }
-
-  navigateToLogin() {
-    return <Redirect to={LOGIN_PATH} />;
-  }
-
-  // async onUploadFiles(uploadUserFileObject) {
-  //   const uploadFileResponse = await this.props.uploadUserFile(
-  //     uploadUserFileObject
-  //   );
-  //   let { uploadUserFile, status } = uploadFileResponse;
-  //   if (uploadFileResponse && status === SUCCESS) {
-  //     this.setState({
-  //       uploadedAttachments: uploadUserFile.imageURLlist
-  //     });
-  //   }
-  // }
-
-  displayToast(toastData) {
-    if (this.props.displayToast) {
-      this.props.displayToast(toastData);
-    }
-  }
-
-  goToOrderPage() {
-    if (
-      this.props.ordersTransactionData &&
-      this.props.ordersTransactionData.orderData &&
-      this.props.ordersTransactionData.orderData.length > 0
-    ) {
-      this.setState({ showOrder: true });
-
-      // this.props.getCustomerQueriesFieldsv2();
-    } else {
-      this.props.displayToast("No Orders");
-    }
-  }
-  onChangeDefaultFlag(checkvalue) {
-    this.setState(prevState => ({
-      checkBoxDefaultFlag: checkvalue
-    }));
-  }
-  getOrderRelatedL2Issue(orderRelatedIssue) {
-    const subTab =
-      this.state.l2SelectedOption &&
-      orderRelatedIssue &&
-      orderRelatedIssue.find(l2Object => {
-        return l2Object.issueType === this.state.l2SelectedOption;
+    } else if (this.state.isIssueOptions) {
+      this.setState({
+        isAnswerHelpFull: false,
+        isIssueOptions: false,
+        showFeedBack: true
       });
-    if (subTab) {
-      return subTab;
-    } else {
-      return null;
     }
+  }
+  navigateHomePage() {
+    this.props.history.push(HOME_ROUTER);
+  }
+  updateThanks() {
+    this.setState({ isAnswerHelpFull: false });
+  }
+  navigateCliqCarePage() {
+    this.setState(this.resetState);
   }
 
   render() {
-    const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    const getUserDetails = JSON.parse(userDetailsCookie);
-    if (!userDetailsCookie || !customerCookie) {
-      return this.navigateToLogin();
+    let isUserLogin = false;
+    if (userDetails || customerCookie) {
+      isUserLogin = true;
     }
-
-    let l1OptionsArray,
-      l2OptionsArray,
-      l3OptionsArray,
-      customerQueriesFieldArray,
-      customerQueriesField = [],
-      textAreaData = {},
-      attachmentData = {},
-      textboxData = {},
-      labelData = {},
-      radioData = {},
-      checkboxData = {};
-    if (this.props.customerQueriesField) {
-      this.props.customerQueriesField.map(allObj => {
-        customerQueriesField.push(allObj);
-      });
-    }
-    if (this.props.ordersRelatedLoading) {
+    const {
+      customerQueriesOtherIssueData,
+      customerQueriesOtherIssueLoading,
+      ordersTransactionData,
+      orderRelatedIssueLoading,
+      orderRelatedQuestionsData,
+      orderRelatedQuestionsStatus,
+      ordersTransactionLoading,
+      customerQueriesField,
+      loadingForUserDetails,
+      customerQueriesLoading,
+      uploadUserFileLoading,
+      submitOrderDetailsLoading,
+      FAQData,
+      FAQRelatedDataLoading,
+      FAQDataLoading,
+      loadingForFetchOrderDetails,
+      loadingForSendInvoice
+    } = this.props;
+    if (
+      customerQueriesOtherIssueLoading ||
+      ordersTransactionLoading ||
+      loadingForUserDetails ||
+      orderRelatedIssueLoading ||
+      customerQueriesLoading ||
+      uploadUserFileLoading ||
+      FAQDataLoading ||
+      FAQRelatedDataLoading ||
+      loadingForFetchOrderDetails ||
+      loadingForSendInvoice
+    ) {
       this.props.showSecondaryLoader();
     } else {
       this.props.hideSecondaryLoader();
     }
-    if (this.state.isSelected === 0) {
-      l1OptionsArray =
-        this.props.customerQueriesData &&
-        this.props.customerQueriesData.listOfIssues;
-    }
-    if (this.state.isSelected === 1) {
-      l1OptionsArray =
-        this.props.customerQueriesData &&
-        this.props.customerQueriesData.parentIssueList;
-    }
-    if (this.state.webform === "Yes") {
-      l2OptionsArray = this.getOrderRelatedL2Issue(l1OptionsArray);
-    }
-    let webFormStatus = false;
-    if (this.state.customerQueriesField.length > 0) {
-      webFormStatus = true;
-    }
 
-    return (
-      <div className={styles.base}>
-        <MobileOnly>
-          {!this.state.showOrder && (
-            <div className={styles.header}>
-              <TabHolder>
-                <TabData
-                  width="50%"
-                  label="Order related "
-                  selected={this.state.isSelected === 0}
-                  selectItem={() => this.tabSelect(0)}
-                />
-                <TabData
-                  width="50%"
-                  label="Other issues "
-                  selected={this.state.isSelected === 1}
-                  selectItem={() => this.tabSelect(1)}
-                />
-              </TabHolder>
-            </div>
-          )}
+    if (this.state.showLoader) {
+      return (
+        <SSRquest
+          raiseTiketRequest={this.state.raiseTiketRequest}
+          raiseTiketSucess={this.state.raiseTiketSucess}
+        />
+      );
+    } else {
+      return (
+        <div className={styles.base}>
+          <MobileOnly>
+            <h1>Here is only mobile</h1>
+          </MobileOnly>
+          <DesktopOnly>
+            {this.state.isIssueOptions ? (
+              <MoreHelps
+                getCustomerQueriesFields={() => this.getCustomerQueriesFields()}
+                selectedOrder={this.state.question}
+                navigatePreviousPage={() => this.navigatePreviousPage()}
+                navigateHomePage={() => this.navigateHomePage()}
+              />
+            ) : (
+              <div className={styles.baseWrapper}>
+                <div className={styles.formAbdTabHolder}>
+                  <div className={styles.tabHolder}>
+                    <div className={styles.tabHolderBox}>
+                      <div className={styles.tabHeader}>All Help Topics</div>
 
-          {!this.state.showOrder && (
-            <div className={styles.orderHolder}>
-              {this.state.isSelected === 0 && (
-                <div className={styles.selectedOrder}>
-                  <div className={styles.headingHolder}>
-                    <CheckOutHeader
-                      indexNumber="1"
-                      confirmTitle="Select your order"
-                    />
-                  </div>
-                  {!this.state.productImageURL &&
-                  !this.state.orderDate &&
-                  !this.state.productName &&
-                  !this.state.productPrice &&
-                  !this.state.productStatus ? (
-                    <div
-                      className={styles.dummySelectBoxWithIcon}
-                      onClick={() => this.goToOrderPage()}
-                    >
-                      <div className={styles.dummySelectBox}>Select order</div>
-                      <div className={styles.iconHolder} />
-                    </div>
-                  ) : (
-                    <div
-                      className={styles.productsDisplayHolder}
-                      onClick={() =>
-                        this.setState({
-                          showOrder: true,
-                          productImageURL: "",
-                          orderDate: "",
-                          productName: "",
-                          productPrice: "",
-                          productStatus: ""
-                        })
-                      }
-                    >
-                      <div className={styles.imageHolder}>
-                        <ProductImage image={this.state.productImageURL} />
-                      </div>
-                      <div className={styles.dataHolder}>
-                        {this.state.orderDate && (
-                          <div className={styles.dataDescription}>
-                            {`Order on: ${format(
-                              this.state.orderDate,
-                              "DD MMM,YYYY"
-                            )}`}
-                          </div>
-                        )}
-                        {this.state.productName && (
-                          <div className={styles.dataDescription}>
-                            {this.state.productName}
-                          </div>
-                        )}
-                        {this.state.productPrice && (
-                          <div className={styles.dataDescription}>
-                            {this.state.productPrice}
-                          </div>
-                        )}
-                        {this.state.productStatus && (
-                          <div className={styles.dataDescription}>
-                            {this.state.productStatus}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-              {this.state.transactionId && (
-                <div className={styles.selectIssueHolder}>
-                  <div className={styles.secondOrder}>
-                    <CheckOutHeader
-                      indexNumber={this.state.isSelected === 0 ? "2" : "1"}
-                      confirmTitle="Select issue"
-                    />
-                  </div>
-                  <div className={styles.selectIssue}>
-                    <CheckOutHeader
-                      indexNumber={"0"}
-                      confirmTitle="What is the issue?"
-                      fontSize={"13px"}
-                    />
-                    <SelectBoxMobile2
-                      placeholder="Select issue"
-                      arrowColour="black"
-                      height={33}
-                      options={
-                        l1OptionsArray &&
-                        l1OptionsArray.map((val, i) => {
-                          return {
-                            value: val.uItemplateCode,
-                            label: val.issueType
-                          };
-                        })
-                      }
-                      // isEnable={this.state.isEnableForOrderRelated}
-                      onChange={val =>
-                        this.onChangeReasonForOrderRelated(
-                          val,
-                          customerQueriesFieldArray
-                        )
-                      }
-                    />
-                  </div>
-                  {this.state.solution && (
-                    <div className={styles.selectIssue}>
-                      {this.state.solution}
-                    </div>
-                  )
-                  /**
-                   * EOD
-                   */
-                  }
-                  {!this.state.solution &&
-                    l2OptionsArray &&
-                    l2OptionsArray.children &&
-                    l2OptionsArray.children.length > 0 && (
-                      <div className={styles.selectIssue}>
-                        <SelectBoxMobile2
-                          placeholder="Select sub-issue"
-                          arrowColour="black"
-                          height={33}
-                          options={
-                            l2OptionsArray &&
-                            l2OptionsArray.children &&
-                            l2OptionsArray.children.map((val, i) => {
-                              return {
-                                value: val.nodeCode,
-                                label: val.nodeDesc
-                              };
-                            })
-                          }
-                          isEnable={this.state.isEnableForSubOrderRelated}
-                          onChange={val =>
-                            this.onChangeSubReasonForOrderRelated(val)
-                          }
-                        />
-                      </div>
-                    )}
-                  <div className={styles.selectIssue}>
-                    {!this.state.solution &&
-                      this.state.L0 &&
-                      this.state.customerQryFldTextBox && (
-                        <React.Fragment>
-                          <div className={styles.secondOrder}>
-                            <CheckOutHeader
-                              indexNumber={"0"}
-                              confirmTitle={textboxData.heading}
-                              fontSize={"12px"}
-                            />
-                          </div>
-                          <div className={styles.textInformationHolder}>
-                            <FloatingLabelInputWithPlace
-                              label={
-                                textboxData.isMandatory
-                                  ? textboxData.placeholder + " *"
-                                  : textboxData.placeholder
-                              }
-                              placeholder={``}
-                              disabled={false}
-                              value={this.state.textboxFldData}
-                              onChange={textboxFldData =>
-                                this.onChange({ textboxFldData })
-                              }
-                            />
-                          </div>
-                        </React.Fragment>
-                      )}
-                  </div>
-                  <div className={styles.selectIssue}>
-                    {!this.state.solution &&
-                      this.state.L0 &&
-                      this.state.customerQryFldCheckBox && (
-                        <React.Fragment>
-                          <div className={styles.textInformationHolder}>
-                            {checkboxData &&
-                              checkboxData.optionArray.map(ele => {
-                                return (
-                                  <CheckboxAndText
-                                    key={ele.value}
-                                    label={ele.optionName}
-                                    value={ele.value}
-                                    selected={
-                                      this.state.checkBoxDefaultFlag ===
-                                      ele.value
-                                        ? true
-                                        : false
-                                    }
-                                    selectItem={() =>
-                                      this.onChangeDefaultFlag(ele.value)
-                                    }
-                                  />
-                                );
-                              })}
-                          </div>
-                        </React.Fragment>
-                      )}
-                  </div>
-                  <div className={styles.selectIssue}>
-                    {!this.state.solution &&
-                      this.state.L0 &&
-                      this.state.customerQryFldRadio && (
-                        <React.Fragment>
-                          <div className={styles.secondOrder}>
-                            <CheckOutHeader
-                              indexNumber={"0"}
-                              confirmTitle={
-                                radioData.isMandatory
-                                  ? radioData.heading + " *"
-                                  : radioData.heading
-                              }
-                              fontSize={"12px"}
-                            />
-                            {radioData &&
-                              radioData.optionArray.map(ele => {
-                                return (
-                                  <div
-                                    key={ele.value}
-                                    className={styles.radioBtnMyAcc}
-                                  >
-                                    <label>
-                                      {ele.optionName}
-                                      <input
-                                        type="radio"
-                                        value={ele.value}
-                                        checked={
-                                          ele.value ==
-                                          this.state.radioSelectedOption
-                                            ? true
-                                            : false
-                                        }
-                                        onChange={e =>
-                                          this.setState({
-                                            radioSelectedOption: e.target.value
-                                          })
-                                        }
-                                      />
-                                      <span />
-                                    </label>
-                                  </div>
-                                );
-                              })}
-                          </div>
-                        </React.Fragment>
-                      )}
-                  </div>
-                  <div className={styles.selectIssue}>
-                    {!this.state.solution &&
-                      this.state.L0 &&
-                      this.state.customerQryFldTextArea && (
-                        <React.Fragment>
-                          <div className={styles.secondOrder}>
-                            <CheckOutHeader
-                              indexNumber={"0"}
-                              confirmTitle={textAreaData.heading}
-                              fontSize={"12px"}
-                            />
-                          </div>
-                          <TextArea
-                            placeholder={textAreaData.placeholder}
-                            value={this.state.comment}
-                            onChange={comment => this.onChange({ comment })}
-                            maxLength={parseInt(textAreaData.maxLimit)}
-                          />
-                        </React.Fragment>
-                      )}
-                  </div>
-                </div>
-              )}
-              {!this.state.solution &&
-                this.state.L0 &&
-                (l1OptionsArray ||
-                  (l3OptionsArray && !l3OptionsArray.ticketAnswer)) &&
-                this.state.customerQryFldAttachment && (
-                  <div className={styles.selectImageHolder}>
-                    <div className={styles.secondOrder}>
-                      <CheckOutHeader
-                        indexNumber="3"
-                        confirmTitle={
-                          attachmentData.isMandatory
-                            ? attachmentData.heading + " *"
-                            : attachmentData.heading
-                        }
-                        fontSize={"14px"}
-                      />
-                    </div>
-                    <div className={styles.validImage}>
-                      Upload JPEG, PNG (Maximum size 5 MB)
-                    </div>
-                    <div className={styles.imageInput}>
-                      <div className={styles.secondOrder}>
-                        <CheckOutHeader
-                          indexNumber={"0"}
-                          confirmTitle={attachmentData.itemsTitle}
-                          fontSize={"13px"}
-                        />
-                      </div>
-                      <ImageUpload
-                        value={
-                          this.state.file.length
-                            ? this.state.file &&
-                              this.state.file.map(ele => ele.name).join(", ")
-                            : "Upload attachment"
-                        }
-                        onChange={file =>
-                          this.onUploadFile(
-                            file,
-                            parseInt(attachmentData.hexCode)
-                          )
-                        }
-                      />
-                    </div>
-                  </div>
-                )}
-              {!this.state.solution &&
-                this.state.L0 &&
-                (l1OptionsArray ||
-                  (l3OptionsArray && !l3OptionsArray.ticketAnswer)) && (
-                  <div className={styles.selectIssueHolder}>
-                    <div className={styles.secondOrder}>
-                      <CheckOutHeader
-                        indexNumber={this.state.isSelected === 0 ? "4" : "3"}
-                        confirmTitle="Communication Details"
-                        fontSize={"14px"}
-                      />
-                    </div>
-
-                    <div className={styles.textInformationHolder}>
-                      <FloatingLabelInput
-                        label="Email"
-                        disabled={this.state.email ? true : false}
-                        value={this.state.email}
-                        onChange={email => this.onChange({ email })}
-                      />
-                    </div>
-                    <div className={styles.textInformationHolder}>
-                      <FloatingLabelInput
-                        label="Phone*"
-                        maxLength={"10"}
-                        value={this.state.mobile}
-                        onChange={mobile => this.onChange({ mobile })}
-                        disabled={this.state.mobile ? true : false}
-                        onlyNumber={true}
-                      />
-                    </div>
-                  </div>
-                )}
-
-              {this.state.productImageURL &&
-                this.state.productImageURL &&
-                this.state.L0 &&
-                !this.state.solution &&
-                (!l3OptionsArray ||
-                  (l3OptionsArray && !l3OptionsArray.ticketAnswer)) && (
-                  <div className={styles.buttonHolder}>
-                    <div className={styles.button}>
-                      <Button
-                        type="primary"
-                        height={44}
-                        label={"SUBMIT"}
-                        width={323}
-                        borderRadius={2}
-                        textStyle={{ color: "#fff", fontSize: 14 }}
-                        onClick={() => this.submitCustomerForm()}
-                      />
-                    </div>
-                  </div>
-                )}
-            </div>
-          )}
-          {this.state.showOrder && (
-            <div className={styles.selectOrderHolder}>
-              {this.props.ordersTransactionData &&
-                this.props.ordersTransactionData.orderData &&
-                this.props.ordersTransactionData.orderData.map(
-                  (orderDetails, index) => {
-                    return (
-                      <div className={styles.orderCard} key={index}>
-                        {orderDetails.products &&
-                          orderDetails.products.map((productsDetails, id) => {
+                      <div className={styles.faqList}>
+                        {FAQData &&
+                          FAQData.map((faq, index) => {
                             return (
                               <div
-                                className={styles.productsDetailsHolder}
-                                onClick={() =>
-                                  this.setProductDetails(
-                                    orderDetails.orderId,
-                                    productsDetails.transactionId,
-                                    productsDetails.sellerorderno,
-                                    productsDetails.imageURL,
-                                    orderDetails.orderDate,
-                                    productsDetails.productName,
-                                    productsDetails.price,
-                                    productsDetails.statusDisplay
-                                  )
-                                }
-                                key={id}
+                                className={styles.faqListBox}
+                                onClick={() => {
+                                  this.handleFAQClick(faq);
+                                }}
                               >
-                                <div className={styles.imageHolder}>
-                                  <ProductImage
-                                    image={productsDetails.imageURL}
+                                <div className={styles.faqIcon}>
+                                  <Icon
+                                    image={
+                                      this.state.parentIssueType ==
+                                      faq.FAQHeader
+                                        ? `${require("../components/img/" +
+                                            faq.image.split(".")[0] +
+                                            "active" +
+                                            ".svg")}`
+                                        : `${require("../components/img/" +
+                                            faq.image.split(".")[0] +
+                                            ".svg")}`
+                                    }
+                                    width={33}
+                                    height={33}
                                   />
                                 </div>
-                                <div className={styles.dataHolder}>
-                                  {orderDetails.orderDate && (
-                                    <div className={styles.dataDescription}>
-                                      {`Order on: ${format(
-                                        orderDetails.orderDate,
-                                        "DD MMM,YYYY"
-                                      )}`}
-                                    </div>
-                                  )}
-                                  {productsDetails.productName && (
-                                    <div className={styles.dataDescription}>
-                                      {productsDetails.productName}
-                                    </div>
-                                  )}
-                                  {productsDetails.price && (
-                                    <div className={styles.dataDescription}>
-                                      {productsDetails.price}
-                                    </div>
-                                  )}
-                                  {productsDetails.statusDisplay && (
-                                    <div className={styles.dataDescription}>
-                                      {productsDetails.statusDisplay}
-                                    </div>
-                                  )}
+                                <div className={styles.faqHederBox}>
+                                  <div
+                                    className={[
+                                      styles.faqHeader,
+                                      this.state.parentIssueType ==
+                                      faq.FAQHeader
+                                        ? styles.colorRed
+                                        : null
+                                    ].join(" ")}
+                                  >
+                                    {faq.FAQHeader.replace("&amp;", "&")}
+                                  </div>
+                                  <div className={styles.faqSubheading}>
+                                    {faq.FAQSubHeader.includes("&amp;")
+                                      ? faq.FAQSubHeader.replace(/&amp;/g, "&")
+                                      : faq.FAQSubHeader}
+                                  </div>
                                 </div>
                               </div>
                             );
                           })}
                       </div>
-                    );
-                  }
-                )}
-              {this.props.ordersTruploadUserFileansactionData &&
-                (this.props.ordersTransactionData.currentPage + 1) *
-                  this.props.ordersTransactionData.pageSize <
-                  this.props.ordersTransactionData.totalNoOfOrders && (
-                  <div
-                    className={styles.loadData}
-                    onClick={() => this.getMoreOrder()}
-                  >
-                    Load More
+                    </div>
                   </div>
-                )}
-            </div>
-          )}
-        </MobileOnly>
-        {/* Desktop only code */}
-        <DesktopOnly>
-          <div className={styles.baseWrapper}>
-            <div className={styles.labelHeader}>Customer Care</div>
-            <div className={styles.formAbdTabHolder}>
-              <div className={styles.tabHolder}>
-                <div className={styles.switchTabHolder}>
-                  <div className={styles.tabHeader}>Issue Type</div>
-                  <div
-                    className={
-                      this.state.isSelected === 0
-                        ? styles.activeTab
-                        : styles.tabDataHolder
-                    }
-                    onClick={() => this.tabSelect(0)}
-                  >
-                    Order Related
-                    <div
-                      className={
-                        this.state.isSelected === 0
-                          ? styles.activeArrow
-                          : styles.arrow
+
+                  <div className={styles.formHolder}>
+                    <CustomerIssue
+                      customerQueriesOtherIssueData={
+                        customerQueriesOtherIssueData
                       }
-                    />
-                  </div>
-                  <div
-                    className={
-                      this.state.isSelected === 1
-                        ? styles.activeTab
-                        : styles.tabDataHolder
-                    }
-                    onClick={() => this.tabSelect(1)}
-                  >
-                    Other Issues
-                    <div
-                      className={
-                        this.state.isSelected === 1
-                          ? styles.activeArrow
-                          : styles.arrow
+                      selectedOrder={this.props.selectedOrderDetails || null}
+                      orderList={this.state.orderList}
+                      isOrderDatails={this.state.isOrderDatails}
+                      moreHelps={() => this.moreHelps()}
+                      ordersTransactionData={ordersTransactionData}
+                      questionsList={this.state.questionList}
+                      selectQuestion={(listOfIssue, index) =>
+                        this.selectQuestion(listOfIssue, index)
                       }
+                      showFeedBack={this.state.showFeedBack}
+                      question={this.state.question}
+                      getOrderRelatedQuestions={selcetOrder =>
+                        this.getOrderRelatedQuestions(selcetOrder)
+                      }
+                      orderRelatedQuestionsStatus={orderRelatedQuestionsStatus}
+                      isQuesryForm={this.state.isQuesryForm}
+                      uploadUserFile={(issueType, title, file) =>
+                        this.props.uploadUserFile(issueType, title, file)
+                      }
+                      feedBackHelpFull={() => this.feedBackHelpFull()}
+                      isAnswerHelpFull={this.state.isAnswerHelpFull}
+                      uploadedAttachments={this.state.uploadedAttachments}
+                      userDetails={this.props.userDetails}
+                      submitCustomerForms={formaData =>
+                        this.submitCustomerForms(formaData)
+                      }
+                      displayToast={message => this.props.displayToast(message)}
+                      customerQueriesField={customerQueriesField}
+                      getCustomerQueriesFields={(
+                        webFormTemplate,
+                        isIssueOptions
+                      ) =>
+                        this.getCustomerQueriesFields(
+                          webFormTemplate,
+                          isIssueOptions
+                        )
+                      }
+                      orderRelatedQuestion={this.state.orderRelatedQuestion}
+                      otherQuestion={this.state.otherQuestion}
+                      FAQquestion={this.state.FAQquestion}
+                      selectOtehrQuestion={selectedOtehrQuestion =>
+                        this.selectOtehrQuestion(selectedOtehrQuestion)
+                      }
+                      parentIssueType={this.state.parentIssueType}
+                      orderAllList={this.state.orderAllList}
+                      showAllOrdersList={() => this.showAllOrdersList()}
+                      hideAllOrder={() => this.hideAllOrder()}
+                      questionType={this.state.questionType}
+                      isUserLogin={isUserLogin}
+                      navigateLogin={() => this.navigateLogin()}
+                      getMoreOrder={() => this.getMoreOrder()}
+                      showQuestionList={this.state.showQuestionList}
+                      sendInvoice={(ussid, sellerOrderNo) => {
+                        this.sendInvoice(ussid, sellerOrderNo);
+                      }}
+                      navigatePreviousPage={() => this.navigatePreviousPage()}
+                      navigateHomePage={() => this.navigateHomePage()}
+                      updateThanks={() => this.updateThanks()}
+                      navigateCliqCarePage={() => this.navigateCliqCarePage()}
+                      slectOrderData={this.state.slectOrderData}
                     />
                   </div>
                 </div>
               </div>
-              <React.Fragment>
-                <CustomerCareOrderRelated
-                  l1OptionsArray={l1OptionsArray}
-                  customerQueriesFieldArray={this.state.customerQueriesField}
-                  isSelected={this.state.isSelected}
-                  productImageURL={this.state.productImageURL}
-                  orderDate={this.state.orderDate}
-                  productName={this.state.productName}
-                  productPrice={this.state.productPrice}
-                  productStatus={this.state.productStatus}
-                  transactionId={this.state.transactionId}
-                  orderCode={this.state.orderCode}
-                  subOrderCode={this.state.sellerOrderNumber}
-                  mainIssue={this.state.mainIssue}
-                  issueSelected={this.state.issueSelected}
-                  webform={this.state.webform}
-                  webFormStatus={webFormStatus}
-                  parentIssueLabel={this.state.parentIssueLabel}
-                  displayToast={toastData => this.displayToast(toastData)}
-                  userDetails={this.props.userDetails}
-                  selectedObj={this.state.selectedObj}
-                  uploadUserFile={(issueType, title, file) =>
-                    this.props.uploadUserFile(issueType, title, file)
-                  }
-                  uploadedAttachments={this.state.uploadedAttachments}
-                  uploadUserFileData={this.props.uploadUserFileData}
-                  subIssueList={this.state.listOfSubIssue}
-                  onChange={val => this.onChange(val)}
-                  // updateState={(key,value) => this.updateState(key,value)}
-                  onChangeReasonForOrderRelated={(obj, isSelecteRadio) =>
-                    this.onChangeReasonForOrderRelated(obj, isSelecteRadio)
-                  }
-                  submitCustomerForm={formData =>
-                    this.submitCustomerForms(formData)
-                  }
-                  goToOrderPage={() => this.goToOrderPage()}
-                  onChangeReasonForNonOrderRelated={(val, l1OptionsArray) =>
-                    this.onChangeReasonForNonOrderRelated(val, l1OptionsArray)
-                  }
-                />
-              </React.Fragment>
-            </div>
-          </div>
-          {this.state.showOrder && (
-            <OrderRelatedPopup
-              selectedOrderId={this.state.transactionId}
-              ordersTransactionData={this.props.ordersTransactionData}
-              setProductDetails={(
-                orderCode,
-                transactionId,
-                sellerOrderNumber,
-                productImageURL,
-                orderDate,
-                productName,
-                productPrice,
-                productStatus
-              ) =>
-                this.setProductDetails(
-                  orderCode,
-                  transactionId,
-                  sellerOrderNumber,
-                  productImageURL,
-                  orderDate,
-                  productName,
-                  productPrice,
-                  productStatus
-                )
-              }
-              getMoreOrder={() => this.getMoreOrder()}
-              closeModal={() => this.closeModal()}
-            />
-          )}
-        </DesktopOnly>
-      </div>
-    );
+            )}
+          </DesktopOnly>
+        </div>
+      );
+    }
   }
 }

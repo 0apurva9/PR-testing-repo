@@ -3,7 +3,7 @@ import styles from "./OrderPaymentMethod.css";
 import PropTypes from "prop-types";
 import {
   MY_ACCOUNT_PAGE,
-  COSTUMER_ORDER_RELATED_QUERY_ROUTE,
+  COSTUMER_CLIQ_CARE_ROUTE,
   RETURN_TO_ADDRESS,
   RETURNS_PREFIX,
   RETURN_LANDING,
@@ -30,11 +30,31 @@ export default class OrderPaymentMethod extends React.Component {
     this.state = { deliveryAddress: "" };
   }
   redirectToHelpPage() {
+    const orderCode = this.props.orderDetails.orderId;
+    const transactionId = this.props.orderDetails.products[0].transactionId;
     // this.props.history.push(`${HELP_URL}`);
+    // this.props.history.push({
+    //   pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
+    //   state: {
+    //     selectedOrderObj
+    //   }
+    // });
+    const selectedOrderObj = {
+      orderCode,
+      transactionId,
+      orderDetails: this.props.orderDetails
+    };
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
-    this.props.history.push(
-      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
-    );
+    // this.props.history.push(`${HELP_URL}`);
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
+      state: {
+        selectedOrderObj
+      }
+    });
+    // this.props.history.push(
+    //   `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
+    // );
   }
   onChangeAddress = () => {
     //this.props.history.push(`${MY_ACCOUNT_PAGE}/${this.props.orderId}${RETURN_TO_ADDRESS}`);

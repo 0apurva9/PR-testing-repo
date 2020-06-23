@@ -732,7 +732,7 @@ class App extends Component {
                   currentLocation.protocol +
                   "//" +
                   currentLocation.host +
-                  "/my-account/order-related";
+                  "/my-account/cliq-care";
                 window.location.replace(redirectURL);
                 return (
                   <div className={AppStyles.loadingIndicator}>

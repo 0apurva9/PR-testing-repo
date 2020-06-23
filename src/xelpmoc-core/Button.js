@@ -53,6 +53,9 @@ export default class Button extends React.Component {
     ) {
       className = this.styles.disableBtnGrey;
     }
+    if (this.props.disabled && this.props.disabledLightGray) {
+      className = this.styles.disableBtnGrey;
+    }
     if (this.props.loading) {
       className = this.styles.loading;
     }
@@ -80,6 +83,7 @@ export default class Button extends React.Component {
       <div
         className={className}
         style={{
+          boxShadow: this.props.boxShadow,
           height: this.props.height,
           width: this.props.width,
           borderRadius: this.props.borderRadius,
@@ -87,14 +91,18 @@ export default class Button extends React.Component {
           background: this.props.background ? this.props.background : "none",
           backgroundColor:
             this.props.disabled &&
-            this.props.disabledBgGrey &&
+            this.props.disabledLightGray &&
             this.props.type === "primary"
-              ? "#989898"
+              ? "#d8d8d8"
               : this.props.disabled &&
                 this.props.disabledBgGrey &&
-                this.props.type === "hollow"
-                ? "#FFF"
-                : this.state.backgroundColor,
+                this.props.type === "primary"
+                ? "#989898"
+                : this.props.disabled &&
+                  this.props.disabledBgGrey &&
+                  this.props.type === "hollow"
+                  ? "#FFF"
+                  : this.state.backgroundColor,
           border: `2px solid ${
             this.props.disabled &&
             this.props.disabledBgGrey &&

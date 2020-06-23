@@ -313,6 +313,7 @@ export function getProductListings(
         }
         throw new Error(`${resultJson.error}`);
       }
+      setDataLayer(ADOBE_PLP_TYPE, resultJson);
       if (
         isBrowser &&
         resultJson &&
@@ -355,22 +356,25 @@ export function getProductListings(
           getState().icid.value,
           getState().icid.icidType
         );
-      } else {
-        if (
-          componentName === "Flash Sale Component" ||
-          componentName === "Theme offers component" ||
-          componentName === "Curated products component"
-        ) {
-          setDataLayer(ADOBE_PLP_TYPE, resultJson);
-        } else {
-          setDataLayer(
-            ADOBE_PLP_TYPE,
-            resultJson,
-            getState().icid.value,
-            getState().icid.icidType
-          );
-        }
       }
+      // } else {
+      //   if (
+      //     isBrowser &&
+      //     window.digitalData &&
+      //     window.digitalData.page &&
+      //     window.digitalData.page.pageInfo &&
+      //     window.digitalData.page.pageInfo.pageName !== "product grid"
+      //   ) {
+      //     if (
+      //       componentName === "Flash Sale Component" ||
+      //       componentName === "Theme offers component" ||
+      //       componentName === "Curated products component"
+      //     ) {
+      //       setDataLayer(ADOBE_PLP_TYPE, resultJson);
+      //     } else {
+      //     }
+      //   }
+      // }
       if (paginated) {
         if (resultJson.searchresult) {
           dispatch(getProductListingsPaginatedSuccess(resultJson, true));

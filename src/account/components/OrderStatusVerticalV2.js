@@ -998,11 +998,11 @@ export default class OrderStatusVerticalV2 extends React.Component {
                 </React.Fragment>
               )}
               {!this.props.isCNC &&
-                (!responseCode.includes("RETURN_CLOSED") &&
-                  !responseCode.includes("RETURNINITIATED_BY_RTO") &&
-                  !responseCode.includes("RTO_INITIATED") &&
-                  !responseCode.includes("REFUND_IN_PROGRESS") &&
-                  !responseCode.includes("REFUND_INITIATED")) && (
+                !responseCode.includes("RETURN_CLOSED") &&
+                !responseCode.includes("RETURNINITIATED_BY_RTO") &&
+                !responseCode.includes("RTO_INITIATED") &&
+                !responseCode.includes("REFUND_IN_PROGRESS") &&
+                !responseCode.includes("REFUND_INITIATED") && (
                   <React.Fragment>
                     {/* {check if order is cancelled then show cancelled status} */}
                     {completedSteps.includes(ORDER_CANCELLED) &&

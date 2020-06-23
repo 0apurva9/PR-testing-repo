@@ -217,8 +217,7 @@ export default class DesktopCheckout extends React.Component {
               )}
 
             {!(
-              (!cartAmount.totalDiscountAmount ||
-                cartAmount.totalDiscountAmount.value === 0) &&
+              !cartAmount.totalDiscountAmount &&
               !cartAmount.bagDiscount &&
               !cartAmount.couponDiscountAmount &&
               !cartAmount.cartDiscount &&
@@ -227,31 +226,36 @@ export default class DesktopCheckout extends React.Component {
             ) && (
               <div className={styles.informationTotalSavingHolder}>
                 <div className={styles.informationTotalSavingTextHolder}>
-                  You will save {RUPEE_SYMBOL}
-                  {this.addDecimalNumberInPrice(
-                    Math.floor(
-                      ((cartAmount.totalDiscountAmount
-                        ? cartAmount.totalDiscountAmount.value
-                        : 0) +
-                        (cartAmount.bagDiscount
-                          ? cartAmount.bagDiscount.value
-                          : 0) +
-                        (cartAmount.couponDiscountAmount
-                          ? cartAmount.couponDiscountAmount.value
-                          : 0) +
-                        (cartAmount.cartDiscount
-                          ? cartAmount.cartDiscount.value
-                          : 0) +
-                        (cartAmount.noCostEMIDiscountValue
-                          ? cartAmount.noCostEMIDiscountValue.value
-                          : 0) +
-                        (cartAmount.additionalDiscount &&
-                        cartAmount.additionalDiscount.totalAdditionalDiscount
-                          ? cartAmount.additionalDiscount
-                              .totalAdditionalDiscount.value
-                          : 0)) *
-                        100
-                    ) / 100
+                  {cartAmount.totalDiscountAmount.value !== 0 && (
+                    <React.Fragment>
+                      You will save {RUPEE_SYMBOL}
+                      {this.addDecimalNumberInPrice(
+                        Math.floor(
+                          ((cartAmount.totalDiscountAmount
+                            ? cartAmount.totalDiscountAmount.value
+                            : 0) +
+                            (cartAmount.bagDiscount
+                              ? cartAmount.bagDiscount.value
+                              : 0) +
+                            (cartAmount.couponDiscountAmount
+                              ? cartAmount.couponDiscountAmount.value
+                              : 0) +
+                            (cartAmount.cartDiscount
+                              ? cartAmount.cartDiscount.value
+                              : 0) +
+                            (cartAmount.noCostEMIDiscountValue
+                              ? cartAmount.noCostEMIDiscountValue.value
+                              : 0) +
+                            (cartAmount.additionalDiscount &&
+                            cartAmount.additionalDiscount
+                              .totalAdditionalDiscount
+                              ? cartAmount.additionalDiscount
+                                  .totalAdditionalDiscount.value
+                              : 0)) *
+                            100
+                        ) / 100
+                      )}
+                    </React.Fragment>
                   )}{" "}
                   {/* cart page */}
                   {this.props.isOnCartPage &&
@@ -262,10 +266,16 @@ export default class DesktopCheckout extends React.Component {
                         !this.props.isQuoteExpired.includes(true))) && (
                       <span>
                         {" "}
-                        and get {
-                          this.props.totalExchangeAmount.formattedValue
-                        }{" "}
-                        Exchange Cashback{" "}
+                        {cartAmount.totalDiscountAmount.value === 0 ? (
+                          <React.Fragment>Get </React.Fragment>
+                        ) : (
+                          <React.Fragment>and get </React.Fragment>
+                        )}
+                        {this.props.totalExchangeAmount.formattedValue} Exchange
+                        Cashback{" "}
+                        {cartAmount.totalDiscountAmount.value === 0 && (
+                          <React.Fragment>on this order</React.Fragment>
+                        )}
                       </span>
                     )}
                   {/* checkout page */}
@@ -277,13 +287,21 @@ export default class DesktopCheckout extends React.Component {
                         !this.props.isQuoteExpiredCheckout.includes(true))) && (
                       <span>
                         {" "}
-                        and get {
-                          this.props.totalExchangeAmount.formattedValue
-                        }{" "}
-                        Exchange Cashback{" "}
+                        {cartAmount.totalDiscountAmount.value === 0 ? (
+                          <React.Fragment>Get </React.Fragment>
+                        ) : (
+                          <React.Fragment>and get </React.Fragment>
+                        )}
+                        {this.props.totalExchangeAmount.formattedValue} Exchange
+                        Cashback{" "}
+                        {cartAmount.totalDiscountAmount.value === 0 && (
+                          <React.Fragment>on this order</React.Fragment>
+                        )}
                       </span>
                     )}
-                  on this order
+                  {cartAmount.totalDiscountAmount.value !== 0 && (
+                    <React.Fragment>on this order</React.Fragment>
+                  )}
                 </div>
               </div>
             )}
