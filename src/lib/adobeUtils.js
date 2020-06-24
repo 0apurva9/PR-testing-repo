@@ -676,6 +676,8 @@ export const ADOBE_MDE_CASHBACK_MODE_CLIQCASH_EXCHANGE =
 const ADOBE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE = "OC_Account_Details_CM";
 export const ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE =
   "ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE";
+const MSD_AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE =
+  "msdAutomatedBannerProductCarouselComponent";
 
 export async function setDataLayer(
   type,
@@ -3721,59 +3723,7 @@ export function widgetsTracking(widgetObj: {}) {
     return;
   }
   const data = cloneDeep(window.digitalData);
-  const currentDigitalData = window.digitalData;
-  if (currentDigitalData.cpj) {
-    // Object.assign(data && data.cpj, {
-    //   widgetname: `${widgetObj.productId ? widgetObj.productId : "x"}:${
-    //     widgetObj.widgetName
-    //   }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
-    //     widgetObj.type ? widgetObj.type : "product"
-    //   }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
-    //     widgetObj.categoryName ? widgetObj.categoryName : "x"
-    //   }:${
-    //     data && data.page && data.page.pageInfo && data.page.pageInfo.pageName
-    //       ? data.page.pageInfo.pageName
-    //       : "x"
-    //   }:${widgetObj.PositionOfProduct ? widgetObj.PositionOfProduct : "x"}`
-    // });
-    Object.assign(data, {
-      page: {
-        widget: {
-          name: `${widgetObj.productId ? widgetObj.productId : "x"}:${
-            widgetObj.widgetName
-          }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
-            widgetObj.type ? widgetObj.type : "product"
-          }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
-            widgetObj.categoryName ? widgetObj.categoryName : "x"
-          }`
-        }
-      }
-    });
-  } else {
-    Object.assign(data, {
-      cpj: {
-        pdp: {
-          findingMethod: data.page.pageInfo.pageName,
-          widgetname: `${widgetObj.productId ? widgetObj.productId : "x"}:${
-            widgetObj.widgetName
-          }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
-            widgetObj.type ? widgetObj.type : "product"
-          }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
-            widgetObj.categoryName ? widgetObj.categoryName : "x"
-          }:${
-            data &&
-            data.page &&
-            data.page.pageInfo &&
-            data.page.pageInfo.pageName
-              ? data.page.pageInfo.pageName
-              : "x"
-          }:${widgetObj.PositionOfProduct ? widgetObj.PositionOfProduct : "x"}`
-        }
-      }
-    });
-  }
-  window.digitalData = data;
-  let widgetType;
+  let widgetType, widgetID;
   const DEFAULT_FALLBACK_ADOBE = widgetObj.widgetName
     .split(" ")
     .join("_")
@@ -3789,24 +3739,33 @@ export function widgetsTracking(widgetObj: {}) {
       break;
     case FRESH_FROM_BRANDS:
       widgetType = FRESH_FROM_BRAND_ADOBE;
+      widgetID = 111;
       break;
     case DISCOVER_MORE:
       widgetType = DISCOVER_MORE_ADOBE;
+      widgetID = 110;
       break;
     case ABOUT_THE_BRAND:
       widgetType = ABOUT_THE_BRAND_ADOBE;
+      widgetID = 114;
       break;
     case SIMILAR_PRODUCTS:
       widgetType = PDP_SIMILAR_PRODUCT;
+      widgetID = 0;
       break;
     case FREQUENTLY_BOUGHT_TOGETHER:
       widgetType = FREQUENTLY_BOUGHT_TOGETHER_ADOBE;
       break;
     case AUTOMATED_BRAND_PRODUCT_CAROUSAL:
       widgetType = AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE;
+      widgetID = 113;
       if (window._satellite) {
         window._satellite.track(AUTOMATED_BRAND_PRODUCT_CAROUSAL);
       }
+      break;
+    case MSD_AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE:
+      widgetType = MSD_AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE;
+      widgetID = 113;
       break;
     case BANNER_PRODUCT_CAROUSAL:
       widgetType = BANNER_PRODUCT_CAROUSAL_ADOBE;
@@ -3839,6 +3798,73 @@ export function widgetsTracking(widgetObj: {}) {
       widgetType = DEFAULT_FALLBACK_ADOBE;
       break;
   }
+  if (data && data.cpj) {
+    Object.assign(data.cpj, {
+      widgetName: `${widgetObj.productId ? widgetObj.productId : "x"}:${
+        widgetObj.widgetName
+      }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
+        widgetObj.type ? widgetObj.type : "product"
+      }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
+        widgetObj.categoryName ? widgetObj.categoryName : "x"
+      }:${widgetObj.widgetId ? widgetObj.widgetId : widgetID ? widgetID : "x"}`
+    });
+  } else {
+    Object.assign(data, {
+      cpj: {
+        widgetName: `${widgetObj.productId ? widgetObj.productId : "x"}:${
+          widgetObj.widgetName
+        }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
+          widgetObj.type ? widgetObj.type : "product"
+        }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
+          widgetObj.categoryName ? widgetObj.categoryName : "x"
+        }:${
+          widgetObj.widgetId ? widgetObj.widgetId : widgetID ? widgetID : "x"
+        }`
+      }
+    });
+  }
+  if (data && data.cpj) {
+    Object.assign(data.cpj, {
+      widgetName: `${widgetObj.productId ? widgetObj.productId : "x"}:${
+        widgetObj.widgetName
+      }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
+        widgetObj.type ? widgetObj.type : "product"
+      }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
+        widgetObj.categoryName ? widgetObj.categoryName : "x"
+      }:${widgetObj.widgetId ? widgetObj.widgetId : widgetID ? widgetID : "x"}`
+    });
+  } else if (data && data.page) {
+    Object.assign(data.page, {
+      widget: {
+        name: `${widgetObj.productId ? widgetObj.productId : "x"}:${
+          widgetObj.widgetName
+        }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
+          widgetObj.type ? widgetObj.type : "product"
+        }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
+          widgetObj.categoryName ? widgetObj.categoryName : "x"
+        }:${
+          widgetObj.widgetId ? widgetObj.widgetId : widgetID ? widgetID : "x"
+        }`
+      }
+    });
+  } else {
+    Object.assign(data, {
+      page: {
+        widget: {
+          name: `${widgetObj.productId ? widgetObj.productId : "x"}:${
+            widgetObj.widgetName
+          }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
+            widgetObj.type ? widgetObj.type : "product"
+          }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
+            widgetObj.categoryName ? widgetObj.categoryName : "x"
+          }:${
+            widgetObj.widgetId ? widgetObj.widgetId : widgetID ? widgetID : "x"
+          }`
+        }
+      }
+    });
+  }
+  window.digitalData = data;
   if (window._satellite) {
     window._satellite.track(widgetType);
     window._satellite.track(ADOBE_WIDGET_TRACKING);
