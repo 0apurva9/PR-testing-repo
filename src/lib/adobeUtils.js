@@ -2641,7 +2641,12 @@ export function getDigitalDataForSearchPageSuccess(response, type) {
           : "all",
       results:
         response && response.pagination && response.pagination.totalResults,
-      term: response.currentQuery.query.value.split(":")[0],
+      term:
+        response &&
+        response.currentQuery &&
+        response.currentQuery.query &&
+        response.currentQuery.query.value &&
+        response.currentQuery.query.value.split(":")[0],
       offersCount: offersCount,
       newCount: newCount
     });
@@ -2654,7 +2659,12 @@ export function getDigitalDataForSearchPageSuccess(response, type) {
       category: "all",
       results:
         response && response.pagination && response.pagination.totalResults,
-      term: response.currentQuery.query.value.split(":")[0],
+      term:
+        response &&
+        response.currentQuery &&
+        response.currentQuery.query &&
+        response.currentQuery.query.value &&
+        response.currentQuery.query.value.split(":")[0],
       offersCount: offersCount,
       newCount: newCount
     });
@@ -2677,19 +2687,34 @@ export function getDigitalDataForSearchPageSuccess(response, type) {
       category: response.currentQuery.query.value.split(":")[0],
       results:
         response && response.pagination && response.pagination.totalResults,
-      term: response.currentQuery.query.value.split(":")[0],
+      term:
+        response &&
+        response.currentQuery &&
+        response.currentQuery.query &&
+        response.currentQuery.query.value &&
+        response.currentQuery.query.value.split(":")[0],
       offersCount: offersCount,
       newCount: newCount
     };
     if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_SP) {
       searchResultObj["searchType"] = "Search History";
       searchResultObj["searchHistory"] = {
-        keyword: response.currentQuery.query.value.split(":")[0]
+        keyword:
+          response &&
+          response.currentQuery &&
+          response.currentQuery.query &&
+          response.currentQuery.query.value &&
+          response.currentQuery.query.value.split(":")[0]
       };
     } else if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_TRENDING) {
       searchResultObj["searchType"] = "Trending Now";
       searchResultObj["trendingNow"] = {
-        keyword: response.currentQuery.query.value.split(":")[0]
+        keyword:
+          response &&
+          response.currentQuery &&
+          response.currentQuery.query &&
+          response.currentQuery.query.value &&
+          response.currentQuery.query.value.split(":")[0]
       };
     }
     Object.assign(data.internal, {
