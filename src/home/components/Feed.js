@@ -499,8 +499,7 @@ class Feed extends Component {
       lastLocation &&
       lastLocation.pageName &&
       lastLocation.pageName != "home" &&
-      lastLocation != undefined &&
-      lastLocation.pageName !== this.props.location.pathName
+      lastLocation != undefined
     ) {
       targetPageViewEvent(TARGET_EVENT_FOR_PAGEVIEW, "", "HOME");
     }
