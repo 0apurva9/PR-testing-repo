@@ -28,7 +28,7 @@ import {
   setDataLayerForLogin,
   ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER,
   targetPageViewEvent,
-  TARGET_EVENT_FOR_PAYLOAD,
+  TARGET_EVENT_FOR_PAGELOAD,
   TARGET_EVENT_FOR_PAGEVIEW
 } from "../../lib/adobeUtils";
 
@@ -489,11 +489,12 @@ class Feed extends Component {
     let lastLocation = JSON.parse(localStorage.getItem("locationSetForTarget"));
     if (
       lastLocation === undefined ||
+      lastLocation === "undefined" ||
       (lastLocation &&
         lastLocation.pageName &&
         lastLocation.pageName === "home")
     ) {
-      targetPageViewEvent(TARGET_EVENT_FOR_PAYLOAD, "", "HOME");
+      targetPageViewEvent(TARGET_EVENT_FOR_PAGELOAD, "", "HOME");
     } else if (
       lastLocation &&
       lastLocation.pageName &&

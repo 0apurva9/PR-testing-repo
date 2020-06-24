@@ -13,10 +13,6 @@ import {
   SAVE_LIST_PAGE,
   DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION
 } from "../../lib/constants";
-import {
-  targetPageViewEvent,
-  TARGET_EVENT_FOR_PAGEVIEW
-} from "../../lib/adobeUtils";
 import styles from "./PaymentConfirmationPage.css";
 import wishlistIcon from "../../general/components/img/download.svg";
 import orderHistoryIcon from "../../pdp/components/img/order-history.svg";
@@ -51,20 +47,8 @@ export default class PaymentConfirmationPage extends React.Component {
       let stripeDetailsJson = JSON.parse(stripeDetails);
       orderId = stripeDetailsJson.orderId;
     }
-    Object.assign(window.digitalData, {
-      page: {
-        category: {
-          primaryCategory: "orderconfirmation"
-        },
-        pageInfo: {
-          pageName: "order confirmation",
-          pageType: "Order Successfull"
-        }
-      }
-    });
-    targetPageViewEvent(TARGET_EVENT_FOR_PAGEVIEW, "", "ORDER_CONFIRMATION");
     if (orderId) {
-      let pageName = "paymentConfirmation";
+      let pageName = "order confirmation";
       await this.wait(7000);
       this.setState({ showloader: true });
       await this.props.fetchOrderDetails(orderId, pageName);

@@ -28,11 +28,11 @@ import {
   setDataLayerForCartDirectCalls,
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
   ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
-  TARGET_EVENT_FOR_PAYLOAD,
   targetPageViewEvent,
   setDataLayer,
   ADOBE_PDP_TYPE,
-  TARGET_EVENT_FOR_PAGEVIEW
+  TARGET_EVENT_FOR_PAGEVIEW,
+  TARGET_EVENT_FOR_PAGELOAD
 } from "../../lib/adobeUtils.js";
 // import each from "lodash.foreach";
 import {
@@ -267,6 +267,39 @@ export function getProductDescription(
         resultJson.status === SUCCESS_CAMEL_CASE
       ) {
         let urlLength = window.location.pathname.split("/");
+        let lastLocation = localStorage.getItem("locationSetForTarget");
+        if (lastLocation !== undefined || lastLocation !== "undefined") {
+          let lastLocationCheck = JSON.parse(lastLocation);
+          if (
+            lastLocationCheck &&
+            lastLocationCheck.pageName &&
+            lastLocationCheck.pageName === "plp"
+          ) {
+            targetPageViewEvent(
+              TARGET_EVENT_FOR_PAGELOAD,
+              this.props.productDetails,
+              "PDP"
+            );
+          } else {
+            targetPageViewEvent(
+              TARGET_EVENT_FOR_PAGEVIEW,
+              this.props.productDetails,
+              "PDP"
+            );
+          }
+        } else {
+          targetPageViewEvent(
+            TARGET_EVENT_FOR_PAGELOAD,
+            this.props.productDetails,
+            "PDP"
+          );
+        }
+        localStorage.setItem(
+          "locationSetForTarget",
+          JSON.stringify({
+            pageName: "PDP"
+          })
+        );
         if (
           resultJson.seo &&
           resultJson.seo.alternateURL &&

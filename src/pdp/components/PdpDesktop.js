@@ -30,10 +30,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_GO_TO_BAG,
   SET_DATA_LAYER_FOR_ADOBE_ADD_TO_CART_BUTTON,
   ADOBE_DIRECT_CALL_FOR_PICK_UP_OPTION,
-  TARGET_EVENT_FOR_PAYLOAD,
   ADOBE_PDP_TYPE,
-  TARGET_EVENT_FOR_PAGEVIEW,
-  targetPageViewEvent,
   ADOBE_MDE_CLICK_ON_EXCHANGE_LINK
 } from "../../lib/adobeUtils";
 import { reverse } from "../reducers/utils";
@@ -156,35 +153,6 @@ export default class PdpApparel extends React.Component {
         this.setState({ showGotoCartButton: true });
       }
     }
-    if (this.props.productDetails) {
-      let lastLocation = JSON.parse(
-        localStorage.getItem("locationSetForTarget")
-      );
-      if (
-        lastLocation &&
-        lastLocation.pageName &&
-        lastLocation.pageName === "CART"
-      ) {
-        targetPageViewEvent(
-          TARGET_EVENT_FOR_PAGEVIEW,
-          this.props.productDetails,
-          "PDP"
-        );
-      } else {
-        targetPageViewEvent(
-          TARGET_EVENT_FOR_PAYLOAD,
-          this.props.productDetails,
-          "PDP"
-        );
-      }
-      setDataLayer(ADOBE_PDP_TYPE, this.props.productDetails, null, null, "");
-    }
-    localStorage.setItem(
-      "locationSetForTarget",
-      JSON.stringify({
-        pageName: "PDP"
-      })
-    );
     /***EyeWear Category Filter */
     if (
       this.props.productDetails &&

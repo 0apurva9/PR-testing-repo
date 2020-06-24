@@ -523,7 +523,7 @@ export const SIMILAR_PRODUCTS_PDP_WIDGET = "SIMILAR_PRODUCTS_PDP_WIDGET";
 export const ADOBE_CAROUSEL_SWIPE = "ADOBE_CAROUSEL_SWIPE";
 export const ADOBE_CAROUSEL_CLICK = "ADOBE_CAROUSEL_CLICK";
 export const ADOBE_CAROUSEL_SHOW = "ADOBE_CAROUSEL_SHOW";
-export const TARGET_EVENT_FOR_PAYLOAD = "target_pageload_First";
+export const TARGET_EVENT_FOR_PAGELOAD = "target_pageload_First";
 export const TARGET_EVENT_FOR_PAGEVIEW = "target_pageview_First";
 
 //Rating and Review
@@ -3035,6 +3035,7 @@ export function setDataLayerForOrderConfirmationDirectCalls(
     }
     window.digitalData = previousData;
     if (window._satellite) {
+      window._satellite.track(TARGET_EVENT_FOR_PAGEVIEW);
       window._satellite.track(ADOBE_ORDER_CONFIRMATION_SUCCESS);
       window._satellite.track(ADOBE_PAYMENT_CHECKOUT_SUCCESSFUL);
     }
@@ -4254,9 +4255,9 @@ export function targetPageViewEvent(type, response, pageType) {
       getDigitalDataForOrderConfirmation(type, response)
     );
   }
-  if (type === TARGET_EVENT_FOR_PAYLOAD) {
+  if (type === TARGET_EVENT_FOR_PAGELOAD) {
     if (window._satellite) {
-      window._satellite.track(TARGET_EVENT_FOR_PAYLOAD);
+      window._satellite.track(TARGET_EVENT_FOR_PAGELOAD);
     }
   } else if (type === TARGET_EVENT_FOR_PAGEVIEW) {
     if (window._satellite) {

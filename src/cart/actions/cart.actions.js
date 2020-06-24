@@ -4692,11 +4692,6 @@ export function orderConfirmation(orderId) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      targetPageViewEvent(
-        TARGET_EVENT_FOR_PAGEVIEW,
-        resultJson,
-        "ORDER_CONFIRMATION"
-      );
       setDataLayer(
         ADOBE_ORDER_CONFIRMATION,
         resultJson,
@@ -7044,6 +7039,11 @@ export function getPrepaidOrderPaymentConfirmation(orderDetails) {
       ) {
         throw new Error(resultJsonStatus.message);
       }
+      setDataLayer(ADOBE_ORDER_CONFIRMATION, resultJson);
+      setDataLayerForOrderConfirmationDirectCalls(
+        ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_SUCCESS,
+        orderDetails && orderDetails.orderId
+      );
       dispatch(getPrepaidOrderPaymentConfirmationSuccess(resultJson));
     } catch (e) {
       dispatch(getPrepaidOrderPaymentConfirmationFailure(e));
