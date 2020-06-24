@@ -1675,7 +1675,12 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
   }
   if (pdpResponse && pdpResponse.mrpPrice && pdpResponse.mrpPrice.doubleValue) {
     Object.assign(data.cpj.product, {
-      price: pdpResponse.mrpPrice.doubleValue
+      price:
+        pdpResponse &&
+        pdpResponse.winningSellerPrice &&
+        pdpResponse.winningSellerPrice.doubleValue
+          ? pdpResponse.winningSellerPrice.doubleValue
+          : pdpResponse.mrpPrice.doubleValue
     });
     if (
       pdpResponse.winningSellerPrice &&
