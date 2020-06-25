@@ -629,9 +629,6 @@ export default class CustomerQueryForm extends Component {
     );
   }
 
-  componentWillUnmount() {
-    console.log("unMount check");
-  }
   previewPage() {
     if (this.state.currentStep == BASIC_FORM) {
       this.props.navigatePreviousPage();

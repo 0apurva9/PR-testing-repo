@@ -4192,7 +4192,6 @@ const getFormattedString = (strValue = "") => {
     endIndex = null;
   if (strValue.includes("(") && strValue.includes(")")) {
     startIndex = strValue.indexOf("(");
-    console.log("startIndex", startIndex);
     endIndex = strValue.indexOf(")");
 
     strValue = strValue.slice(0, startIndex - 1) + strValue.slice(startIndex);
@@ -4621,7 +4620,6 @@ export function getOrdersTransactionData(paginated) {
           JSON.parse(customerCookie).access_token
         }&channel=web`
       );
-      console.log("result");
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
