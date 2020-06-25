@@ -41,7 +41,9 @@ export default class PaymentConfirmationPage extends React.Component {
   async componentDidMount() {
     let orderId = this.props.orderId;
     let orderData = localStorage.getItem(DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION);
-    Object.assign(window.digitalData, JSON.parse(orderData));
+    if (orderData && orderData !== "undefined") {
+      Object.assign(window.digitalData, JSON.parse(orderData));
+    }
     if (!orderId) {
       let stripeDetails = localStorage.getItem("stripeDetails");
       let stripeDetailsJson = JSON.parse(stripeDetails);

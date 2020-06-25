@@ -30,7 +30,6 @@ import {
   ADOBE_DIRECT_CALL_FOR_GO_TO_BAG,
   SET_DATA_LAYER_FOR_ADOBE_ADD_TO_CART_BUTTON,
   ADOBE_DIRECT_CALL_FOR_PICK_UP_OPTION,
-  ADOBE_PDP_TYPE,
   ADOBE_MDE_CLICK_ON_EXCHANGE_LINK
 } from "../../lib/adobeUtils";
 import { reverse } from "../reducers/utils";
