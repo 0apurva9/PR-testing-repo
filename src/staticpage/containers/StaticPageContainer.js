@@ -26,7 +26,8 @@ const mapStateToProps = state => {
     seo: state.feed.seo,
     loading: state.feed.loading,
     feedType: SECONDARY_FEED_TYPE,
-    status: state.feed.secondaryFeedStatus
+    status: state.feed.secondaryFeedStatus,
+    clpUrl: state.feed.message
   };
 };
 

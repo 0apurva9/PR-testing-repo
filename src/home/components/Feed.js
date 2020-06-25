@@ -28,7 +28,7 @@ import {
   setDataLayerForLogin,
   ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER
 } from "../../lib/adobeUtils";
-
+import Chatbot from "../../plp/components/Chatbot";
 export const PRODUCT_RECOMMENDATION_TYPE = "productRecommendationWidget";
 const DEFAULT_TITLE =
   "Online Shopping Site in India - Upto 60% Off On Mobiles, Electronics & Fashion at Tata CLiQ";
@@ -584,6 +584,7 @@ class Feed extends Component {
             {this.renderFeedComponent}
           </List>
         ) : null}
+        <Chatbot clpUrl={this.props.clpUrl} />
         <MobileOnly>
           <div
             style={{

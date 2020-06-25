@@ -375,6 +375,7 @@ export default class StaticPage extends Component {
           homeFeedData={this.props.data}
           seo={this.props.seo}
           setHeaderText={this.props.setHeaderText}
+          clpUrl={this.props.clpUrl}
         />
       );
     }

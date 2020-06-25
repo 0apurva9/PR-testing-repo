@@ -69,6 +69,7 @@ import FlixMediaContainer from "./FlixMediaContainer";
 import Icon from "../../xelpmoc-core/Icon";
 import FilledStarBlack from "../../general/components/img/star-fill-black.svg";
 import ExchangeDetailsPDPDesktop from "./ExchangeDetailsPDPDesktop";
+import Chatbot from "../../plp/components/Chatbot";
 const WASH = "Wash";
 const NECK_COLLAR = "Neck/Collar";
 const SLEEVE = "Sleeve";
@@ -1157,6 +1158,7 @@ export default class PdpApparel extends React.Component {
           showSimilarProducts={this.props.showSimilarProducts}
         >
           <div className={styles.base}>
+            <Chatbot productDetails={this.props.productDetails} />
             <div className={styles.pageCenter} ref="scrollToViewGallery">
               <div className={styles.gallery}>
                 <ProductGalleryDesktop
