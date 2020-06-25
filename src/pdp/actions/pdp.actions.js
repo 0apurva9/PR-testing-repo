@@ -27,7 +27,12 @@ import {
   SET_DATA_LAYER_FOR_SUBMIT_REVIEW,
   setDataLayerForCartDirectCalls,
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
-  ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS
+  ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
+  targetPageViewEvent,
+  setDataLayer,
+  ADOBE_PDP_TYPE,
+  TARGET_EVENT_FOR_PAGEVIEW,
+  TARGET_EVENT_FOR_PAGELOAD
 } from "../../lib/adobeUtils.js";
 // import each from "lodash.foreach";
 import {
@@ -35,7 +40,6 @@ import {
   PRODUCT_IN_BAG_MODAL
 } from "../../general/modal.actions.js";
 import { setBagCount } from "../../general/header.actions";
-import { setDataLayer, ADOBE_PDP_TYPE } from "../../lib/adobeUtils.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { isBrowser } from "browser-or-node";
 import { getCartCountForLoggedInUser } from "../../cart/actions/cart.actions.js";
@@ -263,6 +267,39 @@ export function getProductDescription(
         resultJson.status === SUCCESS_CAMEL_CASE
       ) {
         let urlLength = window.location.pathname.split("/");
+        let lastLocation = localStorage.getItem("locationSetForTarget");
+        if (lastLocation !== undefined || lastLocation !== "undefined") {
+          let lastLocationCheck = JSON.parse(lastLocation);
+          if (
+            lastLocationCheck &&
+            lastLocationCheck.pageName &&
+            lastLocationCheck.pageName === "plp"
+          ) {
+            targetPageViewEvent(
+              TARGET_EVENT_FOR_PAGELOAD,
+              this.props.productDetails,
+              "PDP"
+            );
+          } else {
+            targetPageViewEvent(
+              TARGET_EVENT_FOR_PAGEVIEW,
+              this.props.productDetails,
+              "PDP"
+            );
+          }
+        } else {
+          targetPageViewEvent(
+            TARGET_EVENT_FOR_PAGELOAD,
+            this.props.productDetails,
+            "PDP"
+          );
+        }
+        localStorage.setItem(
+          "locationSetForTarget",
+          JSON.stringify({
+            pageName: "PDP"
+          })
+        );
         if (
           resultJson.seo &&
           resultJson.seo.alternateURL &&
@@ -1273,7 +1310,7 @@ export function getRecentlyViewedProduct(productCode) {
           removedDuplicate &&
           removedDuplicate.map(id =>
             api.getMiddlewareUrl(
-              `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+              `${PRODUCT_DESCRIPTION_PATH}/${id}?isPwa=true&isMDE=true`
             )
           );
         //seprating each requests call
@@ -1287,8 +1324,11 @@ export function getRecentlyViewedProduct(productCode) {
               //   throw new Error(resultJsonStatus.message);
               // }
               // removed for handling error if product is not available
-              if (res && res.results && res.results.length && res.results[0]) {
-                productList.push(res.results[0]);
+              // if (res && res.results && res.results.length && res.results[0]) {
+              // 	productList.push(res.results[0]);
+              // }
+              if (res && res.status === "SUCCESS") {
+                productList.push(res);
               }
             })
           );
@@ -1413,7 +1453,7 @@ export function getPdpItems(itemIds, widgetKey) {
         productCodes &&
         productCodes.map(id =>
           api.getMiddlewareUrl(
-            `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+            `${PRODUCT_DESCRIPTION_PATH}/${id}?isPwa=true&isMDE=true`
           )
         );
       // seperating individual calls
@@ -1427,8 +1467,8 @@ export function getPdpItems(itemIds, widgetKey) {
             //   throw new Error(resultJsonStatus.message);
             // }
             //changes done for handling error if product is not available
-            if (res && res.results && res.results.length) {
-              productList.push(...res.results);
+            if (res && res.status === "SUCCESS") {
+              productList.push(res);
             }
           })
         );

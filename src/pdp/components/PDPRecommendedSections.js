@@ -55,7 +55,7 @@ class PDPRecommendedSections extends React.Component {
       widgetName: widgetName,
       items: items
     };
-    getDigitalDataForPdp(SIMILAR_PRODUCTS_PDP_WIDGET, similarWidgetData);
+    // getDigitalDataForPdp(SIMILAR_PRODUCTS_PDP_WIDGET, similarWidgetData);
     let mainProduct =
       this.props.productData && this.props.productData.productDetails;
     let categoryHierarchy =
@@ -79,7 +79,6 @@ class PDPRecommendedSections extends React.Component {
       posOfReco: index
     };
     setDataLayerForMsdItemWidgets(jsonDetailsForWidgets, ADOBE_CAROUSEL_CLICK);
-    this.props.history.push(url);
     widgetsTrackingForRecommendation({
       widgetName: widgetName ? widgetName : "",
       pageName: "pdp",
@@ -98,8 +97,17 @@ class PDPRecommendedSections extends React.Component {
               ? this.props.recommendedItems.similarProducts[index + 1].ontology
               : "",
       PositionOfProduct: index + 1,
-      productId: items && items.productListingId
+      productId: items && items.productListingId,
+      widgetID:
+        widgetName === "About the Brand"
+          ? 114
+          : widgetName == "Similar Products"
+            ? 0
+            : widgetName == "Frequently Bought Together"
+              ? 4
+              : 7
     });
+    this.props.history.push(url);
   };
   visitBrand() {
     if (this.props.aboutTheBrand.webURL) {
@@ -224,20 +232,28 @@ class PDPRecommendedSections extends React.Component {
         >
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
-            const productImage = transformedDatum.image;
-            const discountedPrice = transformedDatum.discountPrice;
+            const productImage =
+              transformedDatum &&
+              Array.isArray(transformedDatum.galleryImagesList) &&
+              transformedDatum.galleryImagesList[0] &&
+              Array.isArray(
+                transformedDatum.galleryImagesList[0].galleryImages
+              ) &&
+              transformedDatum.galleryImagesList[0].galleryImages[0] &&
+              transformedDatum.galleryImagesList[0].galleryImages[0].value;
             const mrpInteger =
               transformedDatum &&
-              transformedDatum.price &&
-              parseInt(transformedDatum.price.replace(RUPEE_SYMBOL, ""), 10);
-            const discount =
-              discountedPrice &&
-              Math.floor(
-                (mrpInteger -
-                  parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
-                  mrpInteger *
-                  100
-              );
+              transformedDatum.mrpPrice &&
+              transformedDatum.mrpPrice.doubleValue;
+            let seoDoublePrice =
+              transformedDatum.winningSellerPrice &&
+              transformedDatum.winningSellerPrice.doubleValue
+                ? transformedDatum.winningSellerPrice.doubleValue
+                : mrpInteger;
+            let discount =
+              mrpInteger && seoDoublePrice
+                ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)
+                : "";
             return (
               <ProductModule
                 key={i}
@@ -322,6 +338,7 @@ class PDPRecommendedSections extends React.Component {
     const options = {
       onChange: this.handleIntersection
     };
+    console.log("!!!!!!!!!!!!!!", this.props);
     return (
       <React.Fragment>
         {/* <div

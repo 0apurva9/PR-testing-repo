@@ -26,7 +26,8 @@ class DiscoverMore500 extends React.Component {
         this.props.feedComponentData.postParams.widgetPlatform,
       categoryName,
       type: "Category",
-      PositionOfProduct: i + 1
+      PositionOfProduct: i + 1,
+      widgetId: 110
     });
     const urlSuffix = webUrl.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
