@@ -246,10 +246,11 @@ export default class OrderRelatedIssue extends React.Component {
         const response = await this.props.getFaqRelatedQuestions(faq.FAQPageId);
         if (response.status === SUCCESS) {
           // if (response.data && response.data.items) {
-          const questioList =
-            response.data.items.length == 1
-              ? JSON.parse(response.data.items[0].cmsTextComponent.content)
-              : JSON.parse(response.data.items[1].cmsTextComponent.content);
+          const questioList = response.data.items[0].hasOwnProperty(
+            "cmsTextComponent"
+          )
+            ? JSON.parse(response.data.items[0].cmsTextComponent.content)
+            : JSON.parse(response.data.items[1].cmsTextComponent.content);
           this.setState({
             isOrderDatails: true,
             orderList: false,
