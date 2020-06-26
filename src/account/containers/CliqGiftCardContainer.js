@@ -3,6 +3,8 @@ import { withRouter } from "react-router-dom";
 import { displayToast } from "../../general/toast.actions";
 import CliqGiftCard from "../components/CliqGiftCard.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
+import { getGiftCardDetails } from "../actions/account.actions";
+import { setHeaderText } from "../../general/header.actions";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -11,12 +13,19 @@ const mapDispatchToProps = dispatch => {
     },
     setUrlToRedirectToAfterAuth: url => {
       dispatch(setUrlToRedirectToAfterAuth(url));
+    },
+    getGiftCardDetails: () => {
+      dispatch(getGiftCardDetails());
+    },
+    setHeaderText: text => {
+      dispatch(setHeaderText(text));
     }
   };
 };
 
 const mapStateToProps = state => {
   return {
+    giftCardsDetails: state.profile.giftCards,
     userAddress: state.profile.userAddress
   };
 };
