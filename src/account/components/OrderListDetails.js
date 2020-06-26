@@ -68,6 +68,11 @@ class OrderListDetails extends Component {
   //       });
   //   }
   // }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.questionsList !== this.props.questionsList) {
+      window.scroll(0, 0);
+    }
+  }
 
   feedbak(question) {
     return (
