@@ -69,6 +69,17 @@ export default class GiftCard extends React.Component {
     );
   }
   onSubmitDetails() {
+    let minValue =
+      (this.props.giftCardsDetails &&
+        this.props.giftCardsDetails.topUpOptions &&
+        this.props.giftCardsDetails.topUpOptions.minPrice.value) ||
+      MINIMUM_PRICE;
+    let maxValue =
+      (this.props.giftCardsDetails &&
+        this.props.giftCardsDetails.topUpOptions &&
+        this.props.giftCardsDetails.topUpOptions.maxPrice.value) ||
+      MAXIMUM_PRICE;
+    // let maxValue = this.props.giftCardDetails.topUpOptions.maxValue.value;
     if (this.props.createGiftCardDetails) {
       const EMAIL_REGULAR_EXPRESSION = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
       if (this.props.createGiftCardDetails) {
@@ -91,7 +102,7 @@ export default class GiftCard extends React.Component {
           )
         ) {
           this.props.displayToast(
-            "Amount should be greater than ₹ 15 and less than ₹ 10,000."
+            `Amount should be greater than ₹${minValue}  and less than ₹${maxValue}.`
           );
           return false;
         }
@@ -117,6 +128,7 @@ export default class GiftCard extends React.Component {
   }
 
   render() {
+    console.log("this.props", this.props);
     if (this.props.loadingForGiftCardDetails) {
       this.props.showSecondaryLoader();
     } else {
