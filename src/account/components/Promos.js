@@ -9,22 +9,31 @@ import PropTypes from "prop-types";
 const dateFormat = "DD MMM YYYY";
 
 export default class Promos extends Component {
-  promo = promoType => {
+  promo = (promoType, date, expiryDate) => {
     if (promoType === "Expired") {
       return <img src={Expired} className={styles.rewardsTypeImg} />;
     } else if (promoType === "Paid") {
       return <img src={Paid} className={styles.rewardsTypeImg} />;
     } else if (promoType === "Expiring") {
       return <img src={Expiring} className={styles.rewardsTypeImg} />;
+    } else if (
+      promoType === "Received" &&
+      Date.parse(date) > Date.parse(expiryDate)
+    ) {
+      return <img src={Expiring} className={styles.rewardsTypeImg} />;
     } else {
       return null;
     }
   };
-  promoText = (promoType, time) => {
+  promoText = (promoType, time, expiringDate) => {
+    let dateTime = new Date().toISOString();
     if (promoType === "Paid") {
       return <p className={styles.rewardExpDate}>Utilised: {time}</p>;
-    } else if (promoType === "Expired") {
-      return <p className={styles.rewardExpDate}>Expired: {time}</p>;
+    } else if (
+      promoType === "Expired" ||
+      Date.parse(dateTime) > Date.parse(expiringDate)
+    ) {
+      return <p className={styles.rewardExpDate}>Expired on: {time}</p>;
     } else if (promoType === "Expiring") {
       return <p className={styles.rewardExpDate}>Expiring: {time}</p>;
     } else return null;
@@ -34,6 +43,8 @@ export default class Promos extends Component {
     let promotype = this.props.item.transactionType;
     let time = format(this.props.item.transactionDate, dateFormat);
     let amount = this.props.item.amount.formattedValue;
+    let expiringDate = this.props.item.expiryDate;
+    let dateTime = new Date().toISOString();
     return (
       <React.Fragment>
         {" "}
@@ -44,14 +55,23 @@ export default class Promos extends Component {
             {this.promoText(promotype, time)}
           </div>
         )}
-        {promotype == "Received" && (
-          <div className={styles.availFromBlock}>
-            <div className={styles.availTxtBlock}>
-              <p className={styles.availFromtxt}>Available from</p>
-              <p className={styles.availFromDate}>{time}</p>
+        {promotype == "Received" &&
+          Date.parse(dateTime) > Date.parse(expiringDate) && (
+            <div className={styles.promoContainer}>
+              {this.promo(promotype, dateTime, expiringDate)}
+              <p className={styles.rewardAmt}>{amount}</p>
+              {this.promoText(promotype, time, expiringDate)}
             </div>
-          </div>
-        )}
+          )}
+        {promotype == "Received" &&
+          Date.parse(dateTime) < Date.parse(expiringDate) && (
+            <div className={styles.availFromBlock}>
+              <div className={styles.availTxtBlock}>
+                <p className={styles.availFromtxt}>Available from</p>
+                <p className={styles.availFromDate}>{time}</p>
+              </div>
+            </div>
+          )}
       </React.Fragment>
     );
   }
