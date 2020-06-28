@@ -267,6 +267,13 @@ export function getProductDescription(
         resultJson.status === SUCCESS_CAMEL_CASE
       ) {
         let urlLength = window.location.pathname.split("/");
+        if (
+          resultJson.seo &&
+          resultJson.seo.alternateURL &&
+          urlLength.length === 2
+        ) {
+          window.location.pathname = resultJson.seo.alternateURL;
+        }
         let lastLocation = localStorage.getItem("locationSetForTarget");
         if (lastLocation !== undefined || lastLocation !== "undefined") {
           let lastLocationCheck = JSON.parse(lastLocation);
@@ -275,24 +282,12 @@ export function getProductDescription(
             lastLocationCheck.pageName &&
             lastLocationCheck.pageName === "plp"
           ) {
-            targetPageViewEvent(
-              TARGET_EVENT_FOR_PAGELOAD,
-              this.props.productDetails,
-              "PDP"
-            );
+            targetPageViewEvent(TARGET_EVENT_FOR_PAGELOAD, resultJson, "PDP");
           } else {
-            targetPageViewEvent(
-              TARGET_EVENT_FOR_PAGEVIEW,
-              this.props.productDetails,
-              "PDP"
-            );
+            targetPageViewEvent(TARGET_EVENT_FOR_PAGEVIEW, resultJson, "PDP");
           }
         } else {
-          targetPageViewEvent(
-            TARGET_EVENT_FOR_PAGELOAD,
-            this.props.productDetails,
-            "PDP"
-          );
+          targetPageViewEvent(TARGET_EVENT_FOR_PAGELOAD, resultJson, "PDP");
         }
         localStorage.setItem(
           "locationSetForTarget",
@@ -300,13 +295,6 @@ export function getProductDescription(
             pageName: "PDP"
           })
         );
-        if (
-          resultJson.seo &&
-          resultJson.seo.alternateURL &&
-          urlLength.length === 2
-        ) {
-          window.location.pathname = resultJson.seo.alternateURL;
-        }
         setDataLayer(
           ADOBE_PDP_TYPE,
           resultJson,
