@@ -1319,13 +1319,8 @@ export function getRecentlyViewedProduct(productCode) {
           .then(responses => Promise.all(responses.map(r => r.json())))
           .then(results =>
             results.forEach(res => {
-              // const resultJsonStatus = ErrorHandling.getFailureResponse(res);
-              // if (resultJsonStatus.status) {
-              //   throw new Error(resultJsonStatus.message);
-              // }
-              // removed for handling error if product is not available
               // if (res && res.results && res.results.length && res.results[0]) {
-              // 	productList.push(res.results[0]);
+              //   productList.push(res.results[0]);
               // }
               if (res && res.status === "SUCCESS") {
                 productList.push(res);
