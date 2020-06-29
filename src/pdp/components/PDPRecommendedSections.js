@@ -224,20 +224,28 @@ class PDPRecommendedSections extends React.Component {
         >
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
-            const productImage = transformedDatum.image;
-            const discountedPrice = transformedDatum.discountPrice;
+            const productImage =
+              transformedDatum &&
+              Array.isArray(transformedDatum.galleryImagesList) &&
+              transformedDatum.galleryImagesList[0] &&
+              Array.isArray(
+                transformedDatum.galleryImagesList[0].galleryImages
+              ) &&
+              transformedDatum.galleryImagesList[0].galleryImages[0] &&
+              transformedDatum.galleryImagesList[0].galleryImages[0].value;
             const mrpInteger =
               transformedDatum &&
-              transformedDatum.price &&
-              parseInt(transformedDatum.price.replace(RUPEE_SYMBOL, ""), 10);
-            const discount =
-              discountedPrice &&
-              Math.floor(
-                (mrpInteger -
-                  parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
-                  mrpInteger *
-                  100
-              );
+              transformedDatum.mrpPrice &&
+              transformedDatum.mrpPrice.doubleValue;
+            let seoDoublePrice =
+              transformedDatum.winningSellerPrice &&
+              transformedDatum.winningSellerPrice.doubleValue
+                ? transformedDatum.winningSellerPrice.doubleValue
+                : mrpInteger;
+            let discount =
+              mrpInteger && seoDoublePrice
+                ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)
+                : "";
             return (
               <ProductModule
                 key={i}
