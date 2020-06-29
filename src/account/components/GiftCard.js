@@ -97,8 +97,8 @@ export default class GiftCard extends React.Component {
         }
         if (
           !(
-            this.state.amountText <= MAXIMUM_PRICE &&
-            this.state.amountText >= MINIMUM_PRICE
+            this.state.amountText <= maxValue &&
+            this.state.amountText >= minValue
           )
         ) {
           this.props.displayToast(
