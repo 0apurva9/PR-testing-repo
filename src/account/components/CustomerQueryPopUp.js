@@ -100,7 +100,7 @@ export default class CustomerQueryPopUp extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.closeModal} onClick={() => this.closeModal()}>
-          <Icon image={cancleSvg} size={17}></Icon>
+          <Icon image={cancleSvg} size={17} />
         </div>
         <div className={styles.headerText}>
           {isTicketDuplicate ? "Duplicate Ticket" : "Your Ticket Details"}
@@ -108,14 +108,10 @@ export default class CustomerQueryPopUp extends React.Component {
         <div className={styles.image}>
           {isTicketDuplicate ? (
             <div className={styles.duplicateIcon}>
-              <Icon
-                image={raiseTicketDuplicate}
-                width={232}
-                height={160}
-              ></Icon>
+              <Icon image={raiseTicketDuplicate} width={232} height={160} />
             </div>
           ) : (
-            <Icon image={raisedTicket} size={214}></Icon>
+            <Icon image={raisedTicket} size={214} />
           )}
         </div>
         {isTicketDuplicate ? (

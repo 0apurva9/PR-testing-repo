@@ -255,8 +255,6 @@ export default class PdpApparel extends React.Component {
           });
       }
     }
-    // let dataRecommended = document.getElementById("recommendedSection");
-    // console.log("props", dataRecommended)
   };
   relevantProductServibilty = async params => {
     let pinCode = "208007";

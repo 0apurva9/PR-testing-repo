@@ -16,7 +16,9 @@ import {
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_SP,
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_TRENDING,
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL,
-  getMcvId
+  getMcvId,
+  TARGET_EVENT_FOR_PAGEVIEW,
+  targetPageViewEvent
 } from "../../lib/adobeUtils";
 import * as Cookie from "../../lib/Cookie";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent";
@@ -288,6 +290,13 @@ export function getProductListings(
         }
       }
 
+      targetPageViewEvent(TARGET_EVENT_FOR_PAGEVIEW, resultJson, "PLP");
+      localStorage.setItem(
+        "locationSetForTarget",
+        JSON.stringify({
+          pageName: "plp"
+        })
+      );
       if (resultJson.error) {
         if (
           isBrowser &&
