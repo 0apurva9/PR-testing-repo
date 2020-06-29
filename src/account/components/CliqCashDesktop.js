@@ -18,6 +18,7 @@ import {
   EXPIRED_REJECTED_FORMAT,
   MY_ACCOUNT_PROMOS_PAGE
 } from "../../lib/constants.js";
+import Arrow from "./img/arrow-copy.svg";
 
 import {
   setDataLayerForGiftCard,
@@ -389,6 +390,9 @@ export default class CliqCashDesktop extends React.Component {
                       className={styles.giftCardPromoContainer}
                       onClick={() => this.redirectToPromoCliqCash()}
                     >
+                      <div className={styles.arrowDiv}>
+                        <img src={Arrow} className={styles.arrow} />
+                      </div>
                       <div className={styles.promoCliqCashText}>
                         <div> PROMO CLIQ CASH</div>
 
@@ -398,158 +402,165 @@ export default class CliqCashDesktop extends React.Component {
                     </div>
                   </div>
 
-                  {Array.isArray(transactions) && transactions.length > 0 && (
-                    <div className={styles.cliqCashTransactionBase}>
-                      <div className={styles.cliqCashTransactionContainer}>
-                        <div className={styles.cliqCashTransactionHeading}>
-                          Your Recent Transactions
-                        </div>
-                        {transactions.splice(0, 5).map((value, i) => {
-                          return (
-                            <div
-                              className={styles.cliqCashTransactionDetailsBase}
-                              onClick={() => this.transactiondetailPage(value)}
-                              key={i}
-                            >
+                  {Array.isArray(transactions) &&
+                    transactions.length > 0 && (
+                      <div className={styles.cliqCashTransactionBase}>
+                        <div className={styles.cliqCashTransactionContainer}>
+                          <div className={styles.cliqCashTransactionHeading}>
+                            Your Recent Transactions
+                          </div>
+                          {transactions.splice(0, 5).map((value, i) => {
+                            return (
                               <div
                                 className={
-                                  styles.cliqCashTransactionDetailsContainer
+                                  styles.cliqCashTransactionDetailsBase
                                 }
+                                onClick={() =>
+                                  this.transactiondetailPage(value)
+                                }
+                                key={i}
                               >
                                 <div
-                                  className={styles.cliqCashTransactionDetails}
+                                  className={
+                                    styles.cliqCashTransactionDetailsContainer
+                                  }
                                 >
                                   <div
-                                    className={styles.cliqCashTransactionInfo}
-                                  >
-                                    {value.transactionName}
-                                    {value &&
-                                      value.orderInfo &&
-                                      value.orderInfo[0] && (
-                                        <span
-                                          className={
-                                            styles.cliqCashTransactionInfo
-                                          }
-                                        >
-                                          {" "}
-                                          for {value.orderInfo[0].productName}
-                                        </span>
-                                      )}
-                                  </div>
-                                  {value.transactionId &&
-                                    !value.transactionType
-                                      .toUpperCase()
-                                      .match(/\bPAID|RECEIVED REFUND/g) && (
-                                      <div className={styles.cliqCashOrderNo}>
-                                        Transaction ID: {value.transactionId}
-                                      </div>
-                                    )}
-
-                                  {value.orderNo &&
-                                    value.transactionType
-                                      .toUpperCase()
-                                      .match(/\bPAID|RECEIVED REFUND/g) && (
-                                      <div className={styles.cliqCashOrderNo}>
-                                        Order No:{value.orderNo}
-                                      </div>
-                                    )}
-                                  {value.expiryDate &&
-                                    value.expiryDate !=
-                                      EXPIRED_REJECTED_FORMAT &&
-                                    value.transactionType &&
-                                    value.transactionType
-                                      .toUpperCase()
-                                      .match(/\bEXPIRED/g) && (
-                                      <div className={styles.expireDate}>
-                                        {getUTCDateMonthFormat(
-                                          value.expiryDate,
-                                          true,
-                                          true
-                                        ).match(/\bToday|Yesterday/g)
-                                          ? "Expired"
-                                          : "Expired on"}{" "}
-                                        {getUTCDateMonthFormat(
-                                          value.expiryDate,
-                                          true,
-                                          true
-                                        )}
-                                      </div>
-                                    )}
-                                  {value.expiryDate &&
-                                    value.expiryDate !=
-                                      EXPIRED_REJECTED_FORMAT &&
-                                    value.transactionType &&
-                                    !value.transactionType
-                                      .toUpperCase()
-                                      .match(
-                                        /\bEXPIRED|PAID|RECEIVED REFUND/g
-                                      ) &&
-                                    !this.checkDateExpired(
-                                      value.expiryDate
-                                    ) && (
-                                      <div className={styles.expireDate}>
-                                        {getUTCDateMonthFormat(
-                                          value.expiryDate,
-                                          true,
-                                          true,
-                                          true,
-                                          true
-                                        ).match(/\bToday|Tomorrow/g)
-                                          ? "Expiring"
-                                          : "Expiring on"}{" "}
-                                        {getUTCDateMonthFormat(
-                                          value.expiryDate,
-                                          true,
-                                          true,
-                                          true,
-                                          true
-                                        )}
-                                      </div>
-                                    )}
-                                </div>
-                                <div className={styles.priceAndTime}>
-                                  <div
                                     className={
+                                      styles.cliqCashTransactionDetails
+                                    }
+                                  >
+                                    <div
+                                      className={styles.cliqCashTransactionInfo}
+                                    >
+                                      {value.transactionName}
+                                      {value &&
+                                        value.orderInfo &&
+                                        value.orderInfo[0] && (
+                                          <span
+                                            className={
+                                              styles.cliqCashTransactionInfo
+                                            }
+                                          >
+                                            {" "}
+                                            for {value.orderInfo[0].productName}
+                                          </span>
+                                        )}
+                                    </div>
+                                    {value.transactionId &&
+                                      !value.transactionType
+                                        .toUpperCase()
+                                        .match(/\bPAID|RECEIVED REFUND/g) && (
+                                        <div className={styles.cliqCashOrderNo}>
+                                          Transaction ID: {value.transactionId}
+                                        </div>
+                                      )}
+
+                                    {value.orderNo &&
+                                      value.transactionType
+                                        .toUpperCase()
+                                        .match(/\bPAID|RECEIVED REFUND/g) && (
+                                        <div className={styles.cliqCashOrderNo}>
+                                          Order No:{value.orderNo}
+                                        </div>
+                                      )}
+                                    {value.expiryDate &&
+                                      value.expiryDate !=
+                                        EXPIRED_REJECTED_FORMAT &&
+                                      value.transactionType &&
+                                      value.transactionType
+                                        .toUpperCase()
+                                        .match(/\bEXPIRED/g) && (
+                                        <div className={styles.expireDate}>
+                                          {getUTCDateMonthFormat(
+                                            value.expiryDate,
+                                            true,
+                                            true
+                                          ).match(/\bToday|Yesterday/g)
+                                            ? "Expired"
+                                            : "Expired on"}{" "}
+                                          {getUTCDateMonthFormat(
+                                            value.expiryDate,
+                                            true,
+                                            true
+                                          )}
+                                        </div>
+                                      )}
+                                    {value.expiryDate &&
+                                      value.expiryDate !=
+                                        EXPIRED_REJECTED_FORMAT &&
                                       value.transactionType &&
                                       !value.transactionType
                                         .toUpperCase()
-                                        .match(/EXPIRED|PAID/g)
-                                        ? styles.amountAdded
-                                        : styles.price
-                                    }
-                                  >
-                                    {value.transactionType &&
-                                    !value.transactionType
-                                      .toUpperCase()
-                                      .match(/EXPIRED|PAID/g)
-                                      ? "+ "
-                                      : "- "}
-                                    {value &&
-                                      value.amount &&
-                                      value.amount.formattedValue}
+                                        .match(
+                                          /\bEXPIRED|PAID|RECEIVED REFUND/g
+                                        ) &&
+                                      !this.checkDateExpired(
+                                        value.expiryDate
+                                      ) && (
+                                        <div className={styles.expireDate}>
+                                          {getUTCDateMonthFormat(
+                                            value.expiryDate,
+                                            true,
+                                            true,
+                                            true,
+                                            true
+                                          ).match(/\bToday|Tomorrow/g)
+                                            ? "Expiring"
+                                            : "Expiring on"}{" "}
+                                          {getUTCDateMonthFormat(
+                                            value.expiryDate,
+                                            true,
+                                            true,
+                                            true,
+                                            true
+                                          )}
+                                        </div>
+                                      )}
                                   </div>
-                                  <div className={styles.dateAndTime}>
-                                    {getWholeDayTimeFormat(
-                                      value.transactionDate,
-                                      value.transactionTime
-                                    )}
+                                  <div className={styles.priceAndTime}>
+                                    <div
+                                      className={
+                                        value.transactionType &&
+                                        !value.transactionType
+                                          .toUpperCase()
+                                          .match(/EXPIRED|PAID/g)
+                                          ? styles.amountAdded
+                                          : styles.price
+                                      }
+                                    >
+                                      {value.transactionType &&
+                                      !value.transactionType
+                                        .toUpperCase()
+                                        .match(/EXPIRED|PAID/g)
+                                        ? "+ "
+                                        : "- "}
+                                      {value &&
+                                        value.amount &&
+                                        value.amount.formattedValue}
+                                    </div>
+                                    <div className={styles.dateAndTime}>
+                                      {getWholeDayTimeFormat(
+                                        value.transactionDate,
+                                        value.transactionTime
+                                      )}
+                                    </div>
                                   </div>
                                 </div>
                               </div>
+                            );
+                          })}
+                          {transactions.length >= 5 && (
+                            <div
+                              className={styles.viewMore}
+                              onClick={() => this.showTransactioDetails()}
+                            >
+                              View More
                             </div>
-                          );
-                        })}
-                        {transactions.length >= 5 && (
-                          <div
-                            className={styles.viewMore}
-                            onClick={() => this.showTransactioDetails()}
-                          >
-                            View More
-                          </div>
-                        )}
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                   <div className={styles.aboutCliqCashBase}>
                     <div className={styles.aboutCliqCashContainer}>
                       <div className={styles.aboutCliqCashHeaderText}>
