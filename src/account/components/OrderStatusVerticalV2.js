@@ -24,6 +24,9 @@ import {
   RETURN_DECLINED,
   REFUND_SUCCESSFUL
 } from "../../lib/constants";
+const ORDER_REJECTED = "ORDER_REJECTED";
+const HOTC = "HOTC";
+const REFUND_IN_PROGRESS = "REFUND_IN_PROGRESS";
 
 export default class OrderStatusVerticalV2 extends React.Component {
   constructor(props) {
@@ -34,7 +37,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
   }
   handleMoreDetails(val) {
     if (
-      this.props.consignmentStatus == "HOTC" &&
+      this.props.consignmentStatus == HOTC &&
       this.props.statusDisplay !== "Shipped"
     ) {
       const showAlertMessage = {
@@ -735,7 +738,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
     }
     let showOrderDetails = false;
     if (
-      this.props.consignmentStatus == "HOTC" ||
+      this.props.consignmentStatus == HOTC ||
       this.props.consignmentStatus === OUT_FOR_DELIVERY ||
       this.props.consignmentStatus === UNDELIVERED
     ) {
@@ -1401,9 +1404,9 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                   </div>
                                 ) : completedSteps.includes(ITEM_PACKED) &&
                                   this.props.consignmentStatus !==
-                                    "ORDER_REJECTED" &&
+                                    ORDER_REJECTED &&
                                   this.props.consignmentStatus !==
-                                    "REFUND_IN_PROGRESS" ? (
+                                    REFUND_IN_PROGRESS ? (
                                   <React.Fragment>
                                     {/* <div className={styles.orderProcessHolder}>{itemPackedCustomerFacingName}</div> */}
                                     <div
@@ -2032,8 +2035,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                               )} */}
                             </div>
                           ) : completedSteps.includes(ITEM_PACKED) &&
-                            this.props.consignmentStatus !==
-                              "ORDER_REJECTED" ? (
+                            this.props.consignmentStatus !== ORDER_REJECTED ? (
                             <div
                               className={
                                 completedSteps.includes(ITEM_PACKED)
@@ -2266,6 +2268,8 @@ OrderStatusVerticalV2.propTypes = {
   moreDetails: PropTypes.func,
   statusDisplay: PropTypes.string,
   orderCode: PropTypes.string,
+  logisticName: PropTypes.string,
+  trackingAWB: PropTypes.string,
   statusMessageList: PropTypes.arrayOf(
     PropTypes.shape({
       date: PropTypes.string,
