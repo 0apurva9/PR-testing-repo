@@ -22,11 +22,16 @@ import {
   OUT_FOR_DELIVERY,
   RETURN_REQUESTED,
   RETURN_DECLINED,
-  REFUND_SUCCESSFUL
+  REFUND_SUCCESSFUL,
+  HOTC,
+  RETURNINITIATED_BY_RTO,
+  RTO_INITIATED,
+  REFUND_IN_PROGRESS,
+  RETURN_CLOSED,
+  RETURN_COMPLETED,
+  CASH_ON_DELIVERY,
+  ORDER_REJECTED
 } from "../../lib/constants";
-const ORDER_REJECTED = "ORDER_REJECTED";
-const HOTC = "HOTC";
-const REFUND_IN_PROGRESS = "REFUND_IN_PROGRESS";
 
 export default class OrderStatusVerticalV2 extends React.Component {
   constructor(props) {
@@ -1024,15 +1029,15 @@ export default class OrderStatusVerticalV2 extends React.Component {
                 </React.Fragment>
               )}
               {!this.props.isCNC &&
-                !responseCode.includes("RETURN_CLOSED") &&
-                !responseCode.includes("RETURNINITIATED_BY_RTO") &&
-                !responseCode.includes("RTO_INITIATED") &&
-                !responseCode.includes("REFUND_IN_PROGRESS") &&
-                !responseCode.includes("REFUND_INITIATED") && (
+                !responseCode.includes(RETURN_CLOSED) &&
+                !responseCode.includes(RETURNINITIATED_BY_RTO) &&
+                !responseCode.includes(RTO_INITIATED) &&
+                !responseCode.includes(REFUND_IN_PROGRESS) &&
+                !responseCode.includes(REFUND_INITIATED) && (
                   <React.Fragment>
                     {/* {check if order is cancelled then show cancelled status} */}
                     {completedSteps.includes(ORDER_CANCELLED) &&
-                    this.props.consignmentStatus !== "REFUND_IN_PROGRESS" ? (
+                    this.props.consignmentStatus !== REFUND_IN_PROGRESS ? (
                       <React.Fragment>
                         {/* {completedSteps.includes(ORDER_IN_PROCESS) && (
                           <div className={styles.step}>
@@ -1404,9 +1409,9 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                   </div>
                                 ) : completedSteps.includes(ITEM_PACKED) &&
                                   this.props.consignmentStatus !==
-                                    ORDER_REJECTED &&
+                                    "ORDER_REJECTED" &&
                                   this.props.consignmentStatus !==
-                                    REFUND_IN_PROGRESS ? (
+                                    "REFUND_IN_PROGRESS" ? (
                                   <React.Fragment>
                                     {/* <div className={styles.orderProcessHolder}>{itemPackedCustomerFacingName}</div> */}
                                     <div
@@ -1519,7 +1524,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                   </React.Fragment>
                                 ) : (
                                   this.props.consignmentStatus !=
-                                    "REFUND_IN_PROGRESS" && (
+                                    REFUND_IN_PROGRESS && (
                                     <div
                                       className={
                                         completedSteps.includes(
@@ -1563,7 +1568,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                             )}
 
                             {this.props.consignmentStatus !=
-                              "REFUND_IN_PROGRESS" && (
+                              REFUND_IN_PROGRESS && (
                               <div
                                 className={
                                   completedSteps.includes(DELIVERED)
@@ -1607,13 +1612,13 @@ export default class OrderStatusVerticalV2 extends React.Component {
 
               {/* for return closed */}
               {!this.props.isCNC &&
-                (responseCode.includes("RETURN_CLOSED") ||
-                  responseCode.includes("RETURNINITIATED_BY_RTO") ||
-                  responseCode.includes("RTO_INITIATED") ||
-                  this.props.consignmentStatus === "RETURN_COMPLETED" ||
-                  this.props.consignmentStatus === "ORDER_CANCELLED" ||
-                  this.props.consignmentStatus === "REFUND_IN_PROGRESS" ||
-                  this.props.consignmentStatus === "REFUND_INITIATED") && (
+                (responseCode.includes(RETURN_CLOSED) ||
+                  responseCode.includes(RETURNINITIATED_BY_RTO) ||
+                  responseCode.includes(RTO_INITIATED) ||
+                  this.props.consignmentStatus === RETURN_COMPLETED ||
+                  this.props.consignmentStatus === ORDER_CANCELLED ||
+                  this.props.consignmentStatus === REFUND_IN_PROGRESS ||
+                  this.props.consignmentStatus === REFUND_INITIATED) && (
                   <React.Fragment>
                     {completedSteps.includes(REFUND_INITIATED) && (
                       <div className={styles.step}>
@@ -1708,7 +1713,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                       </div>
                     )}
 
-                    {this.props.paymentMethod === "COD" &&
+                    {this.props.paymentMethod === CASH_ON_DELIVERY &&
                       completedSteps.includes(NOT_DELIVERED) &&
                       responseCodeForNotDelivered ===
                         "CLOSED_ON_RETURN_TO_ORIGIN" && (
@@ -1728,7 +1733,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                         </div>
                       )}
                     {/* if prepaid show refund flow - RNR-2539 */}
-                    {this.props.paymentMethod !== "COD" && (
+                    {this.props.paymentMethod !== CASH_ON_DELIVERY && (
                       <React.Fragment>
                         {completedSteps.includes(RETURN_CANCELLED) ? (
                           <React.Fragment>
