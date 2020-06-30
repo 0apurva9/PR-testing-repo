@@ -2561,13 +2561,15 @@ export function setDataLayerForMsdItemWidgets(response, type) {
     }
   }
   if (type === ADOBE_CAROUSEL_CLICK) {
-    let dataSwipe = Object.assign(digitalDataForCarousel, response);
-    window.digitalData = dataSwipe;
+    let dataClick = Object.assign(digitalDataForCarousel, response);
+    window.digitalData = dataClick;
     if (window._satellite) {
       window._satellite.track("carouselClick");
     }
   }
   if (type === ADOBE_CAROUSEL_SHOW) {
+    let dataShow = Object.assign(digitalDataForCarousel, response);
+    window.digitalData = dataShow;
     if (window._satellite) {
       window._satellite.track("CarouselShow");
     }

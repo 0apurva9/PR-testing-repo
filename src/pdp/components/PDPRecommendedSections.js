@@ -41,20 +41,19 @@ class PDPRecommendedSections extends React.Component {
     super(props);
     this.selector = React.createRef();
   }
-  componentDidMount = () => {
-    const widgetsVisible =
-      this.selector &&
-      this.selector.current &&
-      this.selector.current.getBoundingClientRect();
-    if (widgetsVisible) {
-      setDataLayerForMsdItemWidgets(" ", ADOBE_CAROUSEL_SHOW);
-    }
-  };
   goToProductDescription = (url, items, widgetName, index) => {
     let similarWidgetData = {
       widgetName: widgetName,
       items: items
     };
+    let selectedWidgetID =
+      widgetName === "About the Brand"
+        ? 114
+        : widgetName === "Similar Products"
+          ? 0
+          : widgetName === "Frequently Bought Together"
+            ? 4
+            : 7;
     // getDigitalDataForPdp(SIMILAR_PRODUCTS_PDP_WIDGET, similarWidgetData);
     let mainProduct =
       this.props.productData && this.props.productData.productDetails;
@@ -76,7 +75,8 @@ class PDPRecommendedSections extends React.Component {
           : mainProduct && mainProduct.mrpPrice && mainProduct.mrpPrice.value,
       destProdID: items && items.productListingId,
       prodPrice: items && items.mrp,
-      posOfReco: index
+      posOfReco: index,
+      widgetID: selectedWidgetID
     };
     setDataLayerForMsdItemWidgets(jsonDetailsForWidgets, ADOBE_CAROUSEL_CLICK);
     widgetsTrackingForRecommendation({
@@ -98,14 +98,7 @@ class PDPRecommendedSections extends React.Component {
               : "",
       PositionOfProduct: index + 1,
       productId: items && items.productListingId,
-      widgetID:
-        widgetName === "About the Brand"
-          ? 114
-          : widgetName == "Similar Products"
-            ? 0
-            : widgetName == "Frequently Bought Together"
-              ? 4
-              : 7
+      widgetID: selectedWidgetID
     });
     this.props.history.push(url);
   };
@@ -229,6 +222,7 @@ class PDPRecommendedSections extends React.Component {
           elementWidth={45}
           elementWidthDesktop={25}
           parentData={this.props}
+          widgetName={widgetName}
         >
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
@@ -331,6 +325,31 @@ class PDPRecommendedSections extends React.Component {
           this.props.getRecentlyViewedProduct();
         }
       }
+      let mainProduct =
+        this.props.productData && this.props.productData.productDetails;
+      let categoryHierarchy =
+        this.props.productData &&
+        this.props.productData.productDetails &&
+        this.props.productData.productDetails.categoryHierarchy;
+      let widgetSelectedID = this.props.aboutTheBrand
+        ? "About the Brand"
+        : this.props.msdItems
+          ? "Similar Products"
+          : "";
+      let widgetShowObj = {
+        sourceProdID: mainProduct && mainProduct.productListingId,
+        sourceCatgID:
+          categoryHierarchy &&
+          categoryHierarchy[categoryHierarchy.length - 1].category_id,
+        prodPrice:
+          mainProduct &&
+          mainProduct.winningSellerPrice &&
+          mainProduct.winningSellerPrice.doubleValue
+            ? mainProduct.winningSellerPrice.doubleValue
+            : mainProduct && mainProduct.mrpPrice && mainProduct.mrpPrice.value,
+        widgetID: widgetSelectedID
+      };
+      setDataLayerForMsdItemWidgets(widgetShowObj, ADOBE_CAROUSEL_SHOW);
     }
   };
 
@@ -338,7 +357,6 @@ class PDPRecommendedSections extends React.Component {
     const options = {
       onChange: this.handleIntersection
     };
-    console.log("!!!!!!!!!!!!!!", this.props);
     return (
       <React.Fragment>
         {/* <div
