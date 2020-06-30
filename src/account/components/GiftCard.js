@@ -128,7 +128,6 @@ export default class GiftCard extends React.Component {
   }
 
   render() {
-    console.log("this.props", this.props);
     if (this.props.loadingForGiftCardDetails) {
       this.props.showSecondaryLoader();
     } else {
@@ -408,5 +407,6 @@ GiftCard.propTypes = {
     })
   ),
   getGiftCardDetails: PropTypes.func,
-  createGiftCardDetails: PropTypes.func
+  createGiftCardDetails: PropTypes.func,
+  value: PropTypes.number
 };
