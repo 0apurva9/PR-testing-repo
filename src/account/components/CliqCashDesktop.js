@@ -5,7 +5,6 @@ import walletBg from "./img/cliqCashWalletBg.svg";
 import Button from "../../general/components/Button";
 import CliqCashExpiring from "./CliqCashExpiring";
 import {
-  MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_PAGE,
   CLIQ_CASH,
   SUCCESS,
@@ -16,7 +15,8 @@ import {
   TRANSACTION_HISTORY,
   MY_ACCOUNT_CLIQ_CASH_PAGE,
   EXPIRED_REJECTED_FORMAT,
-  MY_ACCOUNT_PROMOS_PAGE
+  MY_ACCOUNT_PROMOS_PAGE,
+  MY_ACCOUNT_CLIQ_GIFT_CARD_PAGE
 } from "../../lib/constants.js";
 
 import {
@@ -121,7 +121,9 @@ export default class CliqCashDesktop extends React.Component {
 
   buyNewGiftCard = () => {
     setDataLayerForGiftCard(SET_DATA_LAYER_BUY_GIFT_CARD);
-    this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`);
+    this.props.history.push(
+      `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_GIFT_CARD_PAGE}`
+    );
   };
 
   showCliqCashModulePopUp = () => {
@@ -279,7 +281,7 @@ export default class CliqCashDesktop extends React.Component {
                                     this.props.cliqCashUserDetails &&
                                     !this.props.cliqCashUserDetails
                                       .isWalletOtpVerified
-                                      ? this.showKycVerification()
+                                      ? this.kycVerification()
                                       : this.navigateTopUp()
                                   }
                                 />
@@ -341,7 +343,7 @@ export default class CliqCashDesktop extends React.Component {
                               this.props.cliqCashUserDetails &&
                               !this.props.cliqCashUserDetails
                                 .isWalletOtpVerified
-                                ? this.showKycVerification()
+                                ? this.kycVerification()
                                 : this.showCliqCashModulePopUp()
                             }
                           >

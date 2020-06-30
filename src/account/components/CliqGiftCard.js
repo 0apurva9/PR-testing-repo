@@ -19,6 +19,12 @@ import headerBg from "./img/headerBg.png";
 import { getCustomerAccessToken } from "../../common/services/common.services";
 import { numberWithCommas } from "../../lib/dateTimeFunction";
 import Button from "../../general/components/Button";
+import giftcardAddAccount from "./img/giftcardAddAccount.png";
+import giftcardCheckBalance from "./img/giftcardCheckBalance.png";
+import {
+  setDataLayerForGiftCard,
+  SET_DATA_LAYER_ADD_GIFT_CARD
+} from "../../lib/adobeUtils";
 
 export default class CliqGiftCard extends Component {
   componentDidMount() {
@@ -40,6 +46,34 @@ export default class CliqGiftCard extends Component {
     this.props.setUrlToRedirectToAfterAuth(url);
     return <Redirect to={LOGIN_PATH} />;
   }
+  showCliqCashModulePopUp = () => {
+    setDataLayerForGiftCard(SET_DATA_LAYER_ADD_GIFT_CARD);
+    if (this.props.showCliqCashModule) {
+      const obj = {};
+      obj.addCard = true;
+      obj.btnLabel = "Add Gift Card";
+      obj.heading = "Gift Card Details";
+      this.props.showCliqCashModule(obj);
+    }
+  };
+  kycVerification = () => {
+    if (this.props.showKycVerification) {
+      this.props.showKycVerification(this.props);
+    }
+  };
+  navigateCheckBalance() {
+    if (this.props.showCliqCashModule) {
+      const obj = {};
+      obj.isCheckBalance = true;
+      obj.addCard = false;
+      obj.btnLabel = "Check Card Value";
+      obj.heading = "Enter your gift card details";
+      obj.subheading =
+        "The value of your Gift Card will be added to your CLiQ Cash balance. Use it for a seamless experience.";
+      this.props.showCliqCashModule(obj);
+    }
+  }
+
   render() {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -120,7 +154,70 @@ export default class CliqGiftCard extends Component {
                 />
               </div>
             </div>
-
+            <div className={styles.receivedGiftCardBox}>
+              <div className={styles.receivedGiftCardHeading}>
+                Received a Gift Card ?
+              </div>
+              <div className={styles.receivedGiftLink}>
+                <div className={styles.receivedGiftCardbtn}>
+                  <div className={styles.receivedGiftCardDiv1}>
+                    <img src={giftcardAddAccount} alt="Add account" />
+                  </div>
+                  <div className={styles.receivedGiftCardDiv2}>
+                    <p className={styles.receivedGiftCardbtnHead}>
+                      Add It To Your Account
+                    </p>
+                    <p className={styles.receivedGiftCardbtnTit}>
+                      Amount will be added to the CLiQ Cash wallet.
+                    </p>
+                  </div>
+                  <div
+                    className={styles.addGiftCardButtonHolder}
+                    onClick={() =>
+                      this.props &&
+                      this.props.cliqCashUserDetails &&
+                      !this.props.cliqCashUserDetails.isWalletOtpVerified
+                        ? this.kycVerification()
+                        : this.showCliqCashModulePopUp()
+                    }
+                  >
+                    <div className={styles.receivedGiftCardBtnFloatRight}>
+                      <div className={styles.addGiftCardButtonText}>
+                        Add It Here
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.receivedGiftCardbtn}>
+                  <div className={styles.receivedGiftCardDiv1}>
+                    <img src={giftcardCheckBalance} alt="Add account" />
+                  </div>
+                  <div className={styles.receivedGiftCardDiv2}>
+                    <p className={styles.receivedGiftCardbtnHead}>
+                      Track Your Gift Balance
+                    </p>
+                    <p className={styles.receivedGiftCardbtnTit}>
+                      Stay updated about your gift card usage.
+                    </p>
+                  </div>
+                  <div
+                    className={styles.addGiftCardButtonHolder}
+                    onClick={() =>
+                      this.props.cliqCashUserDetails &&
+                      !this.props.cliqCashUserDetails.isWalletOtpVerified
+                        ? this.kycVerification()
+                        : this.navigateCheckBalance()
+                    }
+                  >
+                    <div className={styles.receivedGiftCardBtnFloatRight}>
+                      <div className={styles.addGiftCardButtonText}>
+                        Track Balance
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className={styles.faqAndTcHolder}>
               <FaqAndTcBase history={this.props.history} />
             </div>
@@ -157,5 +254,7 @@ CliqGiftCard.propTypes = {
   location: PropTypes.object,
   setHeaderText: PropTypes.func.isRequired,
   getGiftCardDetails: PropTypes.func.isRequired,
-  giftCardsDetails: PropTypes.object
+  giftCardsDetails: PropTypes.object,
+  cliqCashUserDetails: PropTypes.object,
+  showCliqCashModule: PropTypes.func
 };
