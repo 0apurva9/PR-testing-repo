@@ -408,5 +408,6 @@ GiftCard.propTypes = {
   ),
   getGiftCardDetails: PropTypes.func,
   createGiftCardDetails: PropTypes.func,
-  value: PropTypes.number
+  value: PropTypes.number,
+  giftCardsDetails: PropTypes.object
 };
