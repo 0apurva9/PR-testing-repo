@@ -37,6 +37,15 @@
     background: url(../../account/components/img/cliqCashBg.svg) no-repeat;
     background-size: cover;
   }
+  .cliqGiftCardWithHolderCheckBal {
+    width: 100%;
+    height: autopx;
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 18px;
+    background: url(../../account/components/img/cliqGiftCardBg.svg) no-repeat;
+    background-size: cover;
+  }
 
   .heading {
     padding: 0px 0px 0px 20px;
@@ -45,6 +54,15 @@
   .checkBalLeftText {
     font-size: 18px;
     color: #212121;
+  }
+  .cliqGiftCardHeaderText {
+    font-size: 24px;
+    color: #da1c5c;
+  }
+  .cliqGiftCardSubHeader {
+    font-family: none;
+    font-size: 16px;
+    margin-top: 1.5%;
   }
   .checkBalRightText{
     font-size: 14px;
