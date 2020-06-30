@@ -66,6 +66,7 @@ class PDPRecommendedSections extends React.Component {
       sourceProdID: mainProduct && mainProduct.productListingId,
       sourceCatgID:
         categoryHierarchy &&
+        Array.isArray(categoryHierarchy) &&
         categoryHierarchy[categoryHierarchy.length - 1].category_id,
       prodPrice:
         mainProduct &&
@@ -90,6 +91,7 @@ class PDPRecommendedSections extends React.Component {
       category:
         widgetName == "About the Brand"
           ? categoryHierarchy &&
+            Array.isArray(categoryHierarchy) &&
             categoryHierarchy[categoryHierarchy.length - 1].category_name
           : widgetName == "Similar Products"
             ? this.props.recommendedItems.recommendedProducts[index + 1]
@@ -340,6 +342,7 @@ class PDPRecommendedSections extends React.Component {
         sourceProdID: mainProduct && mainProduct.productListingId,
         sourceCatgID:
           categoryHierarchy &&
+          Array.isArray(categoryHierarchy) &&
           categoryHierarchy[categoryHierarchy.length - 1].category_id,
         prodPrice:
           mainProduct &&
