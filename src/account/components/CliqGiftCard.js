@@ -8,12 +8,17 @@ import UserProfile from "./UserProfile";
 import {
   LOGGED_IN_USER_DETAILS,
   LOGIN_PATH,
-  GIFT_CARD
+  GIFT_CARD,
+  RUPEE_SYMBOL,
+  MY_ACCOUNT_PAGE,
+  MY_ACCOUNT_GIFT_CARD_PAGE
 } from "../../lib/constants";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 import headerBg from "./img/headerBg.png";
 import { getCustomerAccessToken } from "../../common/services/common.services";
+import { numberWithCommas } from "../../lib/dateTimeFunction";
+import Button from "../../general/components/Button";
 
 export default class CliqGiftCard extends Component {
   componentDidMount() {
@@ -21,6 +26,14 @@ export default class CliqGiftCard extends Component {
     if (this.props.getGiftCardDetails) {
       this.props.getGiftCardDetails();
     }
+  }
+  selectAmount(amount) {
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`,
+      state: {
+        selectAmount: amount
+      }
+    });
   }
   navigateToLogin() {
     const url = this.props.location.pathname;
@@ -64,6 +77,50 @@ export default class CliqGiftCard extends Component {
               </div>
             </div>
 
+            <div className={styles.popularCardBox}>
+              <div className={styles.popularHeading}>
+                Pick A Popular Card Value
+              </div>
+              <div className={styles.popularContent}>
+                Choose from any of the value below to buy a quick Gift Card or
+                choose another value.
+              </div>
+              <div className={styles.popularCardPriceBox}>
+                {this.props.giftCardsDetails &&
+                  this.props.giftCardsDetails.landingPageOptions &&
+                  this.props.giftCardsDetails.landingPageOptions.options &&
+                  this.props.giftCardsDetails.landingPageOptions.options
+                    .slice(0, 4)
+                    .map((option, index) => {
+                      return (
+                        <div
+                          className={styles.popularCardPrice}
+                          onClick={() => this.selectAmount(option.value)}
+                          key={index}
+                        >
+                          <span className={styles.popularCardPriceSymbol}>
+                            {RUPEE_SYMBOL}
+                          </span>{" "}
+                          {numberWithCommas(option.value)}
+                        </div>
+                      );
+                    })}
+              </div>
+              <div className={styles.popularCardButton}>
+                <Button
+                  type="hollow"
+                  margin="auto"
+                  height={36}
+                  width={312}
+                  label="Choose Your Own Value"
+                  color="#da1c5c"
+                  bordercolor={"#da1c5c"}
+                  textStyle={{ color: "#da1c5c", fontSize: 14 }}
+                  onClick={() => this.navigateSendGiftCard()}
+                />
+              </div>
+            </div>
+
             <div className={styles.faqAndTcHolder}>
               <FaqAndTcBase history={this.props.history} />
             </div>
@@ -99,5 +156,6 @@ CliqGiftCard.propTypes = {
   setUrlToRedirectToAfterAuth: PropTypes.func.isRequired,
   location: PropTypes.object,
   setHeaderText: PropTypes.func.isRequired,
-  getGiftCardDetails: PropTypes.func.isRequired
+  getGiftCardDetails: PropTypes.func.isRequired,
+  giftCardsDetails: PropTypes.object
 };
