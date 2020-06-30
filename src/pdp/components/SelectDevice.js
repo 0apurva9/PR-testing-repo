@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./ExchangeModal.css";
 import SelectBoxMobileExchange from "../../general/components/SelectBoxMobileExchange";
+import PropTypes from "prop-types";
 export default class SelectDevice extends React.Component {
   constructor(props) {
     super(props);
@@ -20,33 +21,20 @@ export default class SelectDevice extends React.Component {
   saveDeviceDetails(deviceNo) {
     this.props.saveDeviceDetails(deviceNo);
   }
-  getComparedResult = (nameA, nameB) => {
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-    return 0;
-  };
-  compareBrandNames = (a, b) => {
-    let nameA = a.exchangeBrandName.toUpperCase();
-    let nameB = b.exchangeBrandName.toUpperCase();
-    return this.getComparedResult(nameA, nameB);
-  };
-  compareModelNames = (a, b) => {
-    let nameA = a.exchangeModelName.toUpperCase();
-    let nameB = b.exchangeModelName.toUpperCase();
-    return this.getComparedResult(nameA, nameB);
-  };
 
   render() {
     let brandNames = this.props.makeModelDetails;
     let sortedBrandNames =
-      brandNames && brandNames.sort(this.compareBrandNames);
+      brandNames &&
+      brandNames.sort((a, b) =>
+        a.exchangeBrandName.localeCompare(b.exchangeBrandName)
+      );
     let modelNames = this.props.currentModelList;
     let sortedModelNames =
-      modelNames && modelNames.sort(this.compareModelNames);
+      modelNames &&
+      modelNames.sort((a, b) =>
+        a.exchangeModelName.localeCompare(b.exchangeModelName)
+      );
     return (
       <React.Fragment>
         <div className={styles.smallHeading}>{this.props.heading}</div>
@@ -97,3 +85,15 @@ export default class SelectDevice extends React.Component {
     );
   }
 }
+
+SelectDevice.propTypes = {
+  makeModelDetails: PropTypes.object,
+  currentModelList: PropTypes.object,
+  heading: PropTypes.string,
+  isEnableForBrand: PropTypes.bool,
+  isEnableForModel: PropTypes.bool,
+  deviceNo: PropTypes.number,
+  onChange: PropTypes.func,
+  onChangeSecondary: PropTypes.func,
+  saveDeviceDetails: PropTypes.func
+};
