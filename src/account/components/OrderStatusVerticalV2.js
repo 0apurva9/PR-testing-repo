@@ -22,7 +22,15 @@ import {
   OUT_FOR_DELIVERY,
   RETURN_REQUESTED,
   RETURN_DECLINED,
-  REFUND_SUCCESSFUL
+  REFUND_SUCCESSFUL,
+  HOTC,
+  RETURNINITIATED_BY_RTO,
+  RTO_INITIATED,
+  REFUND_IN_PROGRESS,
+  RETURN_CLOSED,
+  RETURN_COMPLETED,
+  CASH_ON_DELIVERY,
+  ORDER_REJECTED
 } from "../../lib/constants";
 
 export default class OrderStatusVerticalV2 extends React.Component {
@@ -33,10 +41,23 @@ export default class OrderStatusVerticalV2 extends React.Component {
     };
   }
   handleMoreDetails(val) {
-    if (this.props.showShippingDetails && val) {
-      this.props.showShippingDetails(val);
+    if (
+      this.props.consignmentStatus == HOTC &&
+      this.props.statusDisplay !== "Shipped"
+    ) {
+      const showAlertMessage = {
+        orderNotShiped: true,
+        alertMessage: "Item will be trackable when the order is Shipped",
+        orderCode: this.props.orderCode
+      };
+      this.props.showShippingDetails(showAlertMessage);
+    } else {
+      if (this.props.showShippingDetails && val) {
+        this.props.showShippingDetails(val);
+      }
     }
   }
+
   copySshipAwbTrackingUrl = (event, sshipAwbTrackingUrl, trackingAWB) => {
     event.preventDefault();
     event.stopPropagation();
@@ -720,7 +741,17 @@ export default class OrderStatusVerticalV2 extends React.Component {
       refundSuccessfulTime =
         refundSuccessfulData.value.statusList[0].statusMessageList[0].time;
     }
+    let showOrderDetails = false;
+    if (
+      this.props.consignmentStatus == HOTC ||
+      this.props.consignmentStatus === OUT_FOR_DELIVERY ||
+      this.props.consignmentStatus === UNDELIVERED
+    ) {
+      showOrderDetails = true;
+    }
+
     const orderCode = this.props.orderCode;
+
     return (
       <React.Fragment>
         <div className={styles.base}>
@@ -998,15 +1029,15 @@ export default class OrderStatusVerticalV2 extends React.Component {
                 </React.Fragment>
               )}
               {!this.props.isCNC &&
-                !responseCode.includes("RETURN_CLOSED") &&
-                  !responseCode.includes("RETURNINITIATED_BY_RTO") &&
-                  !responseCode.includes("RTO_INITIATED") &&
-                  !responseCode.includes("REFUND_IN_PROGRESS") &&
-                  !responseCode.includes("REFUND_INITIATED") && (
+                !responseCode.includes(RETURN_CLOSED) &&
+                !responseCode.includes(RETURNINITIATED_BY_RTO) &&
+                !responseCode.includes(RTO_INITIATED) &&
+                !responseCode.includes(REFUND_IN_PROGRESS) &&
+                !responseCode.includes(REFUND_INITIATED) && (
                   <React.Fragment>
                     {/* {check if order is cancelled then show cancelled status} */}
                     {completedSteps.includes(ORDER_CANCELLED) &&
-                    this.props.consignmentStatus !== "REFUND_IN_PROGRESS" ? (
+                    this.props.consignmentStatus !== REFUND_IN_PROGRESS ? (
                       <React.Fragment>
                         {/* {completedSteps.includes(ORDER_IN_PROCESS) && (
                           <div className={styles.step}>
@@ -1080,7 +1111,45 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                 {notDeliveredCustomerFacingName}
                               </div>
                               <div className={styles.dateAndTimeHolder}>
-                                <div className={styles.timeHolder}>
+                                {showOrderDetails ? (
+                                  <React.Fragment>
+                                    {this.props.logisticName && (
+                                      <span
+                                        className={styles.itemPackedDetails}
+                                      >
+                                        Courier: {this.props.logisticName}
+                                      </span>
+                                    )}
+                                    {this.props.trackingAWB && (
+                                      <span
+                                        className={styles.itemPackedDetails}
+                                      >
+                                        AWB No: {this.props.trackingAWB}
+                                      </span>
+                                    )}
+                                    <div
+                                      className={styles.courierInfoHolder}
+                                      onClick={() =>
+                                        this.handleMoreDetails({
+                                          shippingList,
+                                          orderCode
+                                        })
+                                      }
+                                    >
+                                      More details
+                                    </div>
+                                  </React.Fragment>
+                                ) : (
+                                  <React.Fragment>
+                                    <div className={styles.timeHolder}>
+                                      {notDeliveredTime}
+                                    </div>
+                                    <div className={styles.dateHolder}>
+                                      {notDeliveredDate}
+                                    </div>
+                                  </React.Fragment>
+                                )}
+                                {/* <div className={styles.timeHolder}>
                                   {notDeliveredTime}
                                 </div>
                                 <div className={styles.dateHolder}>
@@ -1095,8 +1164,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                   <span className={styles.itemPackedDetails}>
                                     AWB No: {this.props.trackingAWB}
                                   </span>
-                                )}
-                                {this.props.sshipAwbTrackingUrl && (
+                                )} */}
+                                {/* {this.props.sshipAwbTrackingUrl && (
                                   <div
                                     className={styles.courierInfoHolder}
                                     ref="copyThisLink"
@@ -1110,7 +1179,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                   >
                                     More details
                                   </div>
-                                )}
+                                )} */}
                               </div>
                             </div>
                           </React.Fragment>
@@ -1160,12 +1229,54 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                       {outForDeliveryCustomerFacingName}
                                     </div>
                                     <div className={styles.dateAndTimeHolder}>
-                                      <div className={styles.timeHolder}>
+                                      {showOrderDetails ? (
+                                        <React.Fragment>
+                                          {this.props.logisticName && (
+                                            <span
+                                              className={
+                                                styles.itemPackedDetails
+                                              }
+                                            >
+                                              Courier: {this.props.logisticName}
+                                            </span>
+                                          )}
+                                          {this.props.trackingAWB && (
+                                            <span
+                                              className={
+                                                styles.itemPackedDetails
+                                              }
+                                            >
+                                              AWB No: {this.props.trackingAWB}
+                                            </span>
+                                          )}
+                                          <div
+                                            className={styles.courierInfoHolder}
+                                            onClick={() =>
+                                              this.handleMoreDetails({
+                                                shippingList,
+                                                orderCode
+                                              })
+                                            }
+                                          >
+                                            More details
+                                          </div>
+                                        </React.Fragment>
+                                      ) : (
+                                        <React.Fragment>
+                                          <div className={styles.timeHolder}>
+                                            {outForDeliveryTime}
+                                          </div>
+                                          <div className={styles.dateHolder}>
+                                            {outForDeliveryDate}
+                                          </div>
+                                        </React.Fragment>
+                                      )}
+                                      {/* <div className={styles.timeHolder}>
                                         {outForDeliveryTime}
                                       </div>
                                       <div className={styles.dateHolder}>
                                         {outForDeliveryDate}
-                                      </div>
+                                      </div> */}
                                     </div>
                                   </div>
                                 ) : completedSteps.includes(SHIPPED) ? (
@@ -1192,7 +1303,46 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                     >
                                       {shippedDataCustomerFacingName}
                                     </div>
-                                    {activeOrderStatus === SHIPPED ? (
+                                    {showOrderDetails ? (
+                                      <React.Fragment>
+                                        {this.props.logisticName && (
+                                          <span
+                                            className={styles.itemPackedDetails}
+                                          >
+                                            Courier: {this.props.logisticName}
+                                          </span>
+                                        )}
+                                        {this.props.trackingAWB && (
+                                          <span
+                                            className={styles.itemPackedDetails}
+                                          >
+                                            AWB No: {this.props.trackingAWB}
+                                          </span>
+                                        )}
+                                        <div
+                                          className={styles.courierInfoHolder}
+                                          onClick={() =>
+                                            this.handleMoreDetails({
+                                              shippingList,
+                                              orderCode
+                                            })
+                                          }
+                                        >
+                                          More details
+                                        </div>
+                                      </React.Fragment>
+                                    ) : (
+                                      <React.Fragment>
+                                        <div className={styles.timeHolder}>
+                                          {shippedTime}
+                                        </div>
+                                        <div className={styles.dateHolder}>
+                                          {shippedDate}
+                                        </div>
+                                      </React.Fragment>
+                                    )}
+
+                                    {/* {activeOrderStatus === SHIPPED ? (
                                       <React.Fragment>
                                         {this.props.logisticName && (
                                           <div
@@ -1218,8 +1368,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                           {shippedDate}
                                         </div>
                                       </div>
-                                    )}
-                                    {this.props.sshipAwbTrackingUrl ? (
+                                    )} */}
+                                    {/* {this.props.sshipAwbTrackingUrl ? (
                                       <div
                                         className={styles.courierInfoHolder}
                                         ref="copyThisLink"
@@ -1255,7 +1405,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                             </div>
                                           )}
                                       </React.Fragment>
-                                    )}
+                                    )} */}
                                   </div>
                                 ) : completedSteps.includes(ITEM_PACKED) &&
                                   this.props.consignmentStatus !==
@@ -1288,13 +1438,59 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                         {itemPackedCustomerFacingName}
                                       </div>
                                       <div className={styles.dateAndTimeHolder}>
+                                        {showOrderDetails ? (
+                                          <React.Fragment>
+                                            {this.props.logisticName && (
+                                              <span
+                                                className={
+                                                  styles.itemPackedDetails
+                                                }
+                                              >
+                                                Courier:{" "}
+                                                {this.props.logisticName}
+                                              </span>
+                                            )}
+                                            {this.props.trackingAWB && (
+                                              <span
+                                                className={
+                                                  styles.itemPackedDetails
+                                                }
+                                              >
+                                                AWB No: {this.props.trackingAWB}
+                                              </span>
+                                            )}
+                                            <div
+                                              className={
+                                                styles.courierInfoHolder
+                                              }
+                                              onClick={() =>
+                                                this.handleMoreDetails({
+                                                  shippingList,
+                                                  orderCode
+                                                })
+                                              }
+                                            >
+                                              More details
+                                            </div>
+                                          </React.Fragment>
+                                        ) : (
+                                          <React.Fragment>
+                                            <div className={styles.timeHolder}>
+                                              {itemPackedTime}
+                                            </div>
+                                            <div className={styles.dateHolder}>
+                                              {itemPackedDate}
+                                            </div>
+                                          </React.Fragment>
+                                        )}
+
                                         {/* <div className={styles.timeHolder}>
                           {itemPackedTime}
                         </div>
                         <div className={styles.dateHolder}>
                           {itemPackedDate}
                         </div> */}
-                                        {this.props.logisticName && (
+                                        {/* {this.props.logisticName && (
                                           <div
                                             className={styles.itemPackedDetails}
                                           >
@@ -1307,8 +1503,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                           >
                                             AWB No: {this.props.trackingAWB}
                                           </div>
-                                        )}
-                                        {this.props.sshipAwbTrackingUrl && (
+                                        )} */}
+                                        {/* {this.props.sshipAwbTrackingUrl && (
                                           <div
                                             className={styles.courierInfoHolder}
                                             ref="copyThisLink"
@@ -1322,13 +1518,13 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                           >
                                             More details
                                           </div>
-                                        )}
+                                        )} */}
                                       </div>
                                     </div>
                                   </React.Fragment>
                                 ) : (
                                   this.props.consignmentStatus !=
-                                    "REFUND_IN_PROGRESS" && (
+                                    REFUND_IN_PROGRESS && (
                                     <div
                                       className={
                                         completedSteps.includes(
@@ -1372,7 +1568,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                             )}
 
                             {this.props.consignmentStatus !=
-                              "REFUND_IN_PROGRESS" && (
+                              REFUND_IN_PROGRESS && (
                               <div
                                 className={
                                   completedSteps.includes(DELIVERED)
@@ -1416,13 +1612,13 @@ export default class OrderStatusVerticalV2 extends React.Component {
 
               {/* for return closed */}
               {!this.props.isCNC &&
-                (responseCode.includes("RETURN_CLOSED") ||
-                  responseCode.includes("RETURNINITIATED_BY_RTO") ||
-                  responseCode.includes("RTO_INITIATED") ||
-                  this.props.consignmentStatus === "RETURN_COMPLETED" ||
-                  this.props.consignmentStatus === "ORDER_CANCELLED" ||
-                  this.props.consignmentStatus === "REFUND_IN_PROGRESS" ||
-                  this.props.consignmentStatus === "REFUND_INITIATED") && (
+                (responseCode.includes(RETURN_CLOSED) ||
+                  responseCode.includes(RETURNINITIATED_BY_RTO) ||
+                  responseCode.includes(RTO_INITIATED) ||
+                  this.props.consignmentStatus === RETURN_COMPLETED ||
+                  this.props.consignmentStatus === ORDER_CANCELLED ||
+                  this.props.consignmentStatus === REFUND_IN_PROGRESS ||
+                  this.props.consignmentStatus === REFUND_INITIATED) && (
                   <React.Fragment>
                     {completedSteps.includes(REFUND_INITIATED) && (
                       <div className={styles.step}>
@@ -1447,7 +1643,42 @@ export default class OrderStatusVerticalV2 extends React.Component {
                           {refundInitiatedCustomerFacingName}
                         </div>
                         <div className={styles.dateAndTimeHolder}>
-                          <div className={styles.dateHolder}>
+                          {showOrderDetails ? (
+                            <React.Fragment>
+                              {this.props.logisticName && (
+                                <span className={styles.itemPackedDetails}>
+                                  Courier: {this.props.logisticName}
+                                </span>
+                              )}
+                              {this.props.trackingAWB && (
+                                <span className={styles.itemPackedDetails}>
+                                  AWB No: {this.props.trackingAWB}
+                                </span>
+                              )}
+                              <div
+                                className={styles.courierInfoHolder}
+                                onClick={() =>
+                                  this.handleMoreDetails({
+                                    shippingList,
+                                    orderCode
+                                  })
+                                }
+                              >
+                                More details
+                              </div>
+                            </React.Fragment>
+                          ) : (
+                            <React.Fragment>
+                              <div className={styles.timeHolder}>
+                                {refundInitiatedTime}
+                              </div>
+                              <div className={styles.dateHolder}>
+                                {refundInitiatedDate}
+                              </div>
+                            </React.Fragment>
+                          )}
+
+                          {/* <div className={styles.dateHolder}>
                             {refundInitiatedTime}
                           </div>
                           <div className={styles.timeHolder}>
@@ -1462,8 +1693,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                             <span className={styles.itemPackedDetails}>
                               AWB No: {this.props.trackingAWB}
                             </span>
-                          )}
-                          {this.props.sshipAwbTrackingUrl && (
+                          )} */}
+                          {/* {this.props.sshipAwbTrackingUrl && (
                             <div
                               className={styles.courierInfoHolder}
                               ref="copyThisLink"
@@ -1477,12 +1708,12 @@ export default class OrderStatusVerticalV2 extends React.Component {
                             >
                               More details
                             </div>
-                          )}
+                          )} */}
                         </div>
                       </div>
                     )}
 
-                    {this.props.paymentMethod === "COD" &&
+                    {this.props.paymentMethod === CASH_ON_DELIVERY &&
                       completedSteps.includes(NOT_DELIVERED) &&
                       responseCodeForNotDelivered ===
                         "CLOSED_ON_RETURN_TO_ORIGIN" && (
@@ -1502,7 +1733,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                         </div>
                       )}
                     {/* if prepaid show refund flow - RNR-2539 */}
-                    {this.props.paymentMethod !== "COD" && (
+                    {this.props.paymentMethod !== CASH_ON_DELIVERY && (
                       <React.Fragment>
                         {completedSteps.includes(RETURN_CANCELLED) ? (
                           <React.Fragment>
@@ -1709,7 +1940,47 @@ export default class OrderStatusVerticalV2 extends React.Component {
                               >
                                 {shippedDataCustomerFacingName}
                               </div>
-                              {activeOrderStatus === SHIPPED ? (
+                              <div className={styles.dateAndTimeHolder}>
+                                {showOrderDetails ? (
+                                  <React.Fragment>
+                                    {this.props.logisticName && (
+                                      <span
+                                        className={styles.itemPackedDetails}
+                                      >
+                                        Courier: {this.props.logisticName}
+                                      </span>
+                                    )}
+                                    {this.props.trackingAWB && (
+                                      <span
+                                        className={styles.itemPackedDetails}
+                                      >
+                                        AWB No: {this.props.trackingAWB}
+                                      </span>
+                                    )}
+                                    <div
+                                      className={styles.courierInfoHolder}
+                                      onClick={() =>
+                                        this.handleMoreDetails({
+                                          shippingList,
+                                          orderCode
+                                        })
+                                      }
+                                    >
+                                      More details
+                                    </div>
+                                  </React.Fragment>
+                                ) : (
+                                  <React.Fragment>
+                                    <div className={styles.timeHolder}>
+                                      {shippedTime}
+                                    </div>
+                                    <div className={styles.dateHolder}>
+                                      {shippedDate}
+                                    </div>
+                                  </React.Fragment>
+                                )}
+                              </div>
+                              {/* {activeOrderStatus === SHIPPED ? (
                                 <React.Fragment>
                                   {this.props.logisticName && (
                                     <div className={styles.itemPackedDetails}>
@@ -1731,8 +2002,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                     {shippedDate}
                                   </div>
                                 </div>
-                              )}
-                              {this.props.sshipAwbTrackingUrl ? (
+                              )} */}
+                              {/* {this.props.sshipAwbTrackingUrl ? (
                                 <div
                                   className={styles.courierInfoHolder}
                                   ref="copyThisLink"
@@ -1766,11 +2037,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                       </div>
                                     )}
                                 </React.Fragment>
-                              )}
+                              )} */}
                             </div>
                           ) : completedSteps.includes(ITEM_PACKED) &&
-                            this.props.consignmentStatus !==
-                              "ORDER_REJECTED" ? (
+                            this.props.consignmentStatus !== ORDER_REJECTED ? (
                             <div
                               className={
                                 completedSteps.includes(ITEM_PACKED)
@@ -1795,13 +2065,52 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                 {itemPackedCustomerFacingName}
                               </div>
                               <div className={styles.dateAndTimeHolder}>
+                                {showOrderDetails ? (
+                                  <React.Fragment>
+                                    {this.props.logisticName && (
+                                      <span
+                                        className={styles.itemPackedDetails}
+                                      >
+                                        Courier: {this.props.logisticName}
+                                      </span>
+                                    )}
+                                    {this.props.trackingAWB && (
+                                      <span
+                                        className={styles.itemPackedDetails}
+                                      >
+                                        AWB No: {this.props.trackingAWB}
+                                      </span>
+                                    )}
+                                    <div
+                                      className={styles.courierInfoHolder}
+                                      onClick={() =>
+                                        this.handleMoreDetails({
+                                          shippingList,
+                                          orderCode
+                                        })
+                                      }
+                                    >
+                                      More details
+                                    </div>
+                                  </React.Fragment>
+                                ) : (
+                                  <React.Fragment>
+                                    <div className={styles.timeHolder}>
+                                      {itemPackedTime}
+                                    </div>
+                                    <div className={styles.dateHolder}>
+                                      {itemPackedDate}
+                                    </div>
+                                  </React.Fragment>
+                                )}
+
                                 {/* <div className={styles.timeHolder}>
                                     {itemPackedTime}
                                   </div>
                                   <div className={styles.dateHolder}>
                                     {itemPackedDate}
                                   </div> */}
-                                {this.props.logisticName && (
+                                {/* {this.props.logisticName && (
                                   <span className={styles.itemPackedDetails}>
                                     Courier: {this.props.logisticName}
                                   </span>
@@ -1810,8 +2119,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                   <span className={styles.itemPackedDetails}>
                                     AWB No: {this.props.trackingAWB}
                                   </span>
-                                )}
-                                {this.props.sshipAwbTrackingUrl && (
+                                )} */}
+                                {/* {this.props.sshipAwbTrackingUrl && (
                                   <div
                                     className={styles.courierInfoHolder}
                                     ref="copyThisLink"
@@ -1825,7 +2134,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                   >
                                     More details
                                   </div>
-                                )}
+                                )} */}
                               </div>
                             </div>
                           ) : (
@@ -1962,6 +2271,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
 }
 OrderStatusVerticalV2.propTypes = {
   moreDetails: PropTypes.func,
+  statusDisplay: PropTypes.string,
+  orderCode: PropTypes.string,
+  logisticName: PropTypes.string,
+  trackingAWB: PropTypes.string,
   statusMessageList: PropTypes.arrayOf(
     PropTypes.shape({
       date: PropTypes.string,
