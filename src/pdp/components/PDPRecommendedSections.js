@@ -76,7 +76,8 @@ class PDPRecommendedSections extends React.Component {
       destProdID: items && items.productListingId,
       prodPrice: items && items.mrp,
       posOfReco: index,
-      widgetID: selectedWidgetID
+      widgetID: selectedWidgetID,
+      pageType: "pdp"
     };
     setDataLayerForMsdItemWidgets(jsonDetailsForWidgets, ADOBE_CAROUSEL_CLICK);
     widgetsTrackingForRecommendation({
@@ -331,11 +332,10 @@ class PDPRecommendedSections extends React.Component {
         this.props.productData &&
         this.props.productData.productDetails &&
         this.props.productData.productDetails.categoryHierarchy;
-      let widgetSelectedID = this.props.aboutTheBrand
-        ? "About the Brand"
-        : this.props.msdItems
-          ? "Similar Products"
-          : "";
+      let widgetSelectedID =
+        this.props.msdItems && this.props.msdItems[ABOUT_THE_BRAND_WIDGET_KEY]
+          ? "About the Brand"
+          : "Similar Products";
       let widgetShowObj = {
         sourceProdID: mainProduct && mainProduct.productListingId,
         sourceCatgID:
@@ -347,7 +347,8 @@ class PDPRecommendedSections extends React.Component {
           mainProduct.winningSellerPrice.doubleValue
             ? mainProduct.winningSellerPrice.doubleValue
             : mainProduct && mainProduct.mrpPrice && mainProduct.mrpPrice.value,
-        widgetID: widgetSelectedID
+        widgetID: widgetSelectedID,
+        pageType: "pdp"
       };
       setDataLayerForMsdItemWidgets(widgetShowObj, ADOBE_CAROUSEL_SHOW);
     }

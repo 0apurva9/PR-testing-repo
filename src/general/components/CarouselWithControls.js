@@ -41,7 +41,8 @@ export default class CarouselWithControls extends React.Component {
             ? mainProductList.winningSellerPrice.doubleValue
             : mainProductList.mrpPrice.value,
         widgetName: widgetName ? widgetName : "",
-        widgetID: selectedWidgetID
+        widgetID: selectedWidgetID,
+        pageType: "pdp"
       };
       setDataLayerForMsdItemWidgets(
         jsonDetailsForWidgets,
@@ -61,6 +62,15 @@ export default class CarouselWithControls extends React.Component {
       this.props.parentData &&
       this.props.parentData.productData &&
       this.props.parentData.productData.productDetails;
+    let widgetName = this.props.widgetName;
+    let selectedWidgetID =
+      widgetName && widgetName === "About the Brand"
+        ? 114
+        : widgetName && widgetName === "Similar Products"
+          ? 0
+          : widgetName && widgetName === "Frequently Bought Together"
+            ? 4
+            : 7;
     if (mainProduct) {
       let jsonDetailsForWidgets = {
         sourceProdID: mainProduct && mainProduct.productListingId,
@@ -74,7 +84,10 @@ export default class CarouselWithControls extends React.Component {
         currency:
           mainProduct && mainProduct.winningSellerPrice.doubleValue
             ? mainProduct.winningSellerPrice.doubleValue
-            : mainProduct.mrpPrice.value
+            : mainProduct.mrpPrice.value,
+        widgetName: widgetName ? widgetName : "",
+        widgetID: selectedWidgetID,
+        pageType: "pdp"
       };
       setDataLayerForMsdItemWidgets(
         jsonDetailsForWidgets,
