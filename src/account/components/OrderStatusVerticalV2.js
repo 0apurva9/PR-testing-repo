@@ -2029,6 +2029,8 @@ OrderStatusVerticalV2.propTypes = {
   orderCode: PropTypes.string,
   logisticName: PropTypes.string,
   trackingAWB: PropTypes.string,
+  consignmentStatus: PropTypes.string,
+  sshipAwbTrackingUrl: PropTypes.string,
   statusMessageList: PropTypes.arrayOf(
     PropTypes.shape({
       date: PropTypes.string,
