@@ -35,77 +35,73 @@ export default class AllOrdersList extends Component {
         {this.props.ordersTransactionData &&
           this.props.ordersTransactionData.orderData &&
           this.props.ordersTransactionData.orderData.map(orderData => {
-            return (
-              <div
-                className={styles.orderDataCard}
-                onClick={() => this.props.getOrderRelatedQuestions(orderData)}
-              >
-                <div className={styles.allOrderDataBox}>
-                  <div className={styles.allOrderImageBox}>
-                    <ProductImage image={orderData.products[0].imageURL} />
-                  </div>
-                  <div className={styles.allOrderDatils}>
-                    <div className={styles.productName}>
-                      {orderData.products[0].productName}
-                    </div>
-                    <div className={styles.orderStatus}>
-                      Order status:
-                      <span className={styles.fontBold}>
-                        {" "}
-                        {orderData.products[0].statusDisplay}
-                      </span>
-                    </div>
-                    {orderData.products[0].pickUpDateCNC ? (
-                      orderData.products[0].statusDisplay ===
-                        ORDER_IN_PROCESS ||
-                      orderData.products[0].statusDisplay ===
-                        READY_FOR_COLLECTION ? (
+            if (orderData.products) {
+              return orderData.products.map(product => {
+                return (
+                  <div
+                    className={styles.orderDataCard}
+                    onClick={() =>
+                      this.props.getOrderRelatedQuestions(orderData)
+                    }
+                  >
+                    <div className={styles.allOrderDataBox}>
+                      <div className={styles.allOrderImageBox}>
+                        <ProductImage image={product.imageURL} />
+                      </div>
+                      <div className={styles.allOrderDatils}>
+                        <div className={styles.productName}>
+                          {product.productName}
+                          {orderData.orderId}
+                        </div>
                         <div className={styles.orderStatus}>
-                          {PICKUP_DATE}&nbsp;
+                          Order status:
                           <span className={styles.fontBold}>
-                            {getDayNumberSuffix(
-                              orderData.products[0].pickUpDateCNC,
-                              true
-                            )}
+                            {" "}
+                            {product.statusDisplay}
                           </span>
                         </div>
-                      ) : null
-                    ) : (orderData.products[0].statusDisplay ===
-                        ORDER_CONFIRMED ||
-                        orderData.products[0].statusDisplay ===
-                          ORDER_IN_PROCESS ||
-                        orderData.products[0].statusDisplay === SHIPPED ||
-                        orderData.products[0].statusDisplay === ITEM_PACKED ||
-                        orderData.products[0].statusDisplay ===
-                          OUT_FOR_DELIVERY ||
-                        orderData.products[0].statusDisplay ===
-                          READY_FOR_COLLECTION) &&
-                      (orderData.products[0].EDD ||
-                        orderData.products[0].estimateddeliverydate) ? (
-                      <div className={styles.orderStatus}>
-                        {ESTIMATED_DATE}&nbsp;
-                        <span className={styles.fontBold}>
-                          {getDayNumberSuffix(
-                            orderData.products[0].EDD ||
-                              orderData.products[0].estimateddeliverydate
-                          )}
-                        </span>
+                        {product.pickUpDateCNC ? (
+                          product.statusDisplay === ORDER_IN_PROCESS ||
+                          product.statusDisplay === READY_FOR_COLLECTION ? (
+                            <div className={styles.orderStatus}>
+                              {PICKUP_DATE}&nbsp;
+                              <span className={styles.fontBold}>
+                                {getDayNumberSuffix(
+                                  product.pickUpDateCNC,
+                                  true
+                                )}
+                              </span>
+                            </div>
+                          ) : null
+                        ) : (product.statusDisplay === ORDER_CONFIRMED ||
+                            product.statusDisplay === ORDER_IN_PROCESS ||
+                            product.statusDisplay === SHIPPED ||
+                            product.statusDisplay === ITEM_PACKED ||
+                            product.statusDisplay === OUT_FOR_DELIVERY ||
+                            product.statusDisplay === READY_FOR_COLLECTION) &&
+                          (product.EDD || product.estimateddeliverydate) ? (
+                          <div className={styles.orderStatus}>
+                            {ESTIMATED_DATE}&nbsp;
+                            <span className={styles.fontBold}>
+                              {getDayNumberSuffix(
+                                product.EDD || product.estimateddeliverydate
+                              )}
+                            </span>
+                          </div>
+                        ) : product.deliveryDate ? (
+                          <div className={styles.orderStatus}>
+                            {DELIVERY_TEXT}&nbsp;
+                            <span className={styles.fontBold}>
+                              {getDayNumberSuffix(product.deliveryDate, true)}
+                            </span>
+                          </div>
+                        ) : null}
                       </div>
-                    ) : orderData.products[0].deliveryDate ? (
-                      <div className={styles.orderStatus}>
-                        {DELIVERY_TEXT}&nbsp;
-                        <span className={styles.fontBold}>
-                          {getDayNumberSuffix(
-                            orderData.products[0].deliveryDate,
-                            true
-                          )}
-                        </span>
-                      </div>
-                    ) : null}
+                    </div>
                   </div>
-                </div>
-              </div>
-            );
+                );
+              });
+            }
           })}
         {this.props.ordersTransactionData &&
           (this.props.ordersTransactionData.currentPage + 1) *
