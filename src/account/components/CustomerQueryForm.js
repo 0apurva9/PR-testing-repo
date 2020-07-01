@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import FloatingLabelInputWithPlace from "../../general/components/FloatingLabelInputWithPlace";
 import TextArea from "../../general/components/TextArea";
 import Icon from "../../xelpmoc-core/Icon";
@@ -870,3 +871,16 @@ export default class CustomerQueryForm extends Component {
     );
   }
 }
+
+CustomerQueryForm.propTypes = {
+  questionType: PropTypes.string,
+  parentIssueType: PropTypes.string,
+  otherQuestion: PropTypes.bool,
+  navigatePreviousPage: PropTypes.func,
+  getCustomerQueriesFields: PropTypes.func,
+  displayToast: PropTypes.func,
+  uploadUserFile: PropTypes.func,
+  submitCustomerForms: PropTypes.func,
+  userDetails: PropTypes.object,
+  selectedOrder: PropTypes.object
+};
