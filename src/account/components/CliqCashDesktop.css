@@ -137,10 +137,10 @@
    .balanceHeader {
     width: 100%;
     height: auto;
-    font-size: 12px;
+    font-size: 14px;
     font-family: light;
     color: #212121;
-    margin: 0 0 5px;
+    margin: 0 0 9px;
   }
   .balance {
     width: 100%;
@@ -223,8 +223,8 @@
   .aboutCliqCashHeaderText {
     width: 100%;
     height: auto;
-    font-size: 16px;
-    font-family: semibold;
+    font-size: 18px;
+    font-family: regular;
   }
   .aboutCliqCash {
     width: 100%;
@@ -242,7 +242,7 @@
   .aboutCliqCashIconAndText::after {
     content: "";
     position: absolute;
-    border-left: 1px dashed #8d8d8d;
+    border-left: 2px dotted #f2f2f2;
     height: 48px;
     top: 6px;
     right: 0px;
@@ -483,9 +483,9 @@
   .cliqCashTransactionHeading {
     width: 100%;
     height: auto;
-    font-size: 16px;
-    font-family: semibold;
-    color: #000000;
+    font-size: 18px;
+    font-family: regular;
+    color: #212121;
   }
   .cliqCashTransactionDetailsBase {
     width: 100%;
@@ -585,13 +585,17 @@
 }
 
 .promoCliqCashText{
-  padding-top: 9%;
+  padding-top: 8%;
   text-align: center;
   font-family: semibold;
 }
+.promoCliqCashText :first-child{
+  font-size: 27px;
+  margin-bottom: 1%;
+}
 .viewRewards{
   color: #da1c5c;
-  font-size:13px ;
+  font-size: 18px ;
 }
 
 .flexJustify {
