@@ -5,17 +5,39 @@ import ProfileMenu from "./ProfileMenu";
 import * as Cookie from "../../lib/Cookie";
 import FaqAndTcBase from "./FaqAndTcBase";
 import UserProfile from "./UserProfile";
-import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
+import {
+  LOGGED_IN_USER_DETAILS,
+  LOGIN_PATH,
+  GIFT_CARD
+} from "../../lib/constants";
 import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
 import headerBg from "./img/headerBg.png";
+import { getCustomerAccessToken } from "../../common/services/common.services";
 
 export default class CliqGiftCard extends Component {
+  componentDidMount() {
+    this.props.setHeaderText(GIFT_CARD);
+    if (this.props.getGiftCardDetails) {
+      this.props.getGiftCardDetails();
+    }
+  }
+  navigateToLogin() {
+    const url = this.props.location.pathname;
+    this.props.setUrlToRedirectToAfterAuth(url);
+    return <Redirect to={LOGIN_PATH} />;
+  }
   render() {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerAccessToken = getCustomerAccessToken();
 
     if (userDetails) {
       userData = JSON.parse(userDetails);
+    }
+
+    if (!userDetails || !customerAccessToken) {
+      return this.navigateToLogin();
     }
 
     return (
@@ -73,5 +95,9 @@ CliqGiftCard.defaultProps = {
 };
 CliqGiftCard.propTypes = {
   userAddress: PropTypes.object,
-  history: PropTypes.object
+  history: PropTypes.object,
+  setUrlToRedirectToAfterAuth: PropTypes.func.isRequired,
+  location: PropTypes.object,
+  setHeaderText: PropTypes.func.isRequired,
+  getGiftCardDetails: PropTypes.func.isRequired
 };
