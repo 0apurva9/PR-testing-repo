@@ -12,7 +12,7 @@ import {
   MY_ACCOUNT_ALERTS_PAGE,
   MY_ACCOUNT_CLIQ_CASH_PAGE,
   SAVE_LIST_PAGE,
-  COSTUMER_ORDER_RELATED_QUERY_ROUTE
+  COSTUMER_CLIQ_CARE_ROUTE
 } from "../../lib/constants";
 import styles from "./ProfileMenuGrid.css";
 import savedList from "../../general/components/img/downloadWhite.svg";
@@ -31,9 +31,7 @@ export default class ProfileMenuGrid extends React.Component {
     }
   }
   redirectToOrderRelatedPage() {
-    this.props.history.push(
-      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
-    );
+    this.props.history.push(`${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`);
   }
   render() {
     const data = [
@@ -85,12 +83,10 @@ export default class ProfileMenuGrid extends React.Component {
         <div className={styles.cclink}>
           <span
             onClick={() =>
-              this.redirectToOrderRelatedPage(
-                COSTUMER_ORDER_RELATED_QUERY_ROUTE
-              )
+              this.redirectToOrderRelatedPage(COSTUMER_CLIQ_CARE_ROUTE)
             }
           >
-            Customer Service <span className={styles.arrowRight} />
+            CLiQ Care <span className={styles.arrowRight} />
           </span>
         </div>
       </div>
