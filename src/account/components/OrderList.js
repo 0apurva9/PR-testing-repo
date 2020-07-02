@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import Carousel from "../../general/components/Carousel";
 import { getDayNumberSuffix } from "../../lib/dateTimeFunction";
@@ -25,7 +26,7 @@ class OrderList extends Component {
   renderToContinueShopping() {
     this.props.history.push(HOME_ROUTER);
   }
-  orderList = () => {
+  orderListRender = () => {
     let { ordersTransactionData } = this.props;
     let orderList = [];
     if (ordersTransactionData && ordersTransactionData.orderData.length) {
@@ -126,7 +127,7 @@ class OrderList extends Component {
             showBottomNav={true}
             buttonColor={true}
           >
-            {this.orderList()}
+            {this.orderListRender()}
           </Carousel>
         </React.Fragment>
       );
@@ -155,3 +156,7 @@ class OrderList extends Component {
   }
 }
 export default withRouter(OrderList);
+OrderList.propTypes = {
+  showAllOrdersList: PropTypes.func,
+  getOrderRelatedQuestions: PropTypes.func
+};

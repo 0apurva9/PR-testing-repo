@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import styles from "./CustomerIssue.css";
 import { getDayNumberSuffix } from "../../lib/dateTimeFunction";
 import Button from "../../general/components/Button.js";
@@ -120,3 +121,8 @@ export default class AllOrdersList extends Component {
     );
   }
 }
+AllOrdersList.propTypes = {
+  hideAllOrder: PropTypes.func,
+  getMoreOrder: PropTypes.func,
+  getOrderRelatedQuestions: PropTypes.func
+};
