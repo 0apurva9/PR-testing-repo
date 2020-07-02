@@ -1,5 +1,5 @@
 import React from "react";
-import instacred from "./img/InstaCred.svg";
+import instacred from "./img/Instacred_Logo.svg";
 // import { SUCCESS, ERROR } from "../../lib/constants";
 import Input4 from "../../general/components/Input4";
 import DesktopOnly from "../../general/components/DesktopOnly";
