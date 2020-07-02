@@ -36,7 +36,7 @@ import SortDesktopContainer from "../containers/SortDesktopContainer";
 import FilterContainer from "../containers/FilterContainer";
 import ProductGrid from "./ProductGrid";
 import PlpMobileFooter from "./PlpMobileFooter";
-
+import Chatbot from "./Chatbot";
 export const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
@@ -558,6 +558,7 @@ export default class Plp extends React.Component {
       <React.Fragment>
         {this.props.productListings && (
           <div className={styles.base}>
+            <Chatbot productListings={this.props.productListings} />
             {this.renderPageTags()}
             {isBrowser && this.renderAmpTags()}
             {this.props.productListings.seo
