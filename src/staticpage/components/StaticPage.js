@@ -21,6 +21,7 @@ import {
 } from "../../lib/constants";
 import { Redirect } from "react-router-dom";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import PropTypes from "prop-types";
 export default class StaticPage extends Component {
   constructor(props) {
     super();
@@ -381,3 +382,15 @@ export default class StaticPage extends Component {
     }
   }
 }
+
+StaticPage.propTypes = {
+  match: PropTypes.object,
+  getStaticPage: PropTypes.func,
+  history: PropTypes.object,
+  data: PropTypes.object,
+  loading: PropTypes.bool,
+  feedType: PropTypes.string,
+  setHeaderText: PropTypes.func,
+  location: PropTypes.object,
+  seo: PropTypes.object
+};

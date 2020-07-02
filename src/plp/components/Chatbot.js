@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 const env = process.env;
 export default class Chatbot extends React.PureComponent {
   componentDidMount() {
@@ -162,3 +163,9 @@ export default class Chatbot extends React.PureComponent {
     return null;
   }
 }
+
+Chatbot.propTypes = {
+  productListings: PropTypes.object,
+  clpUrl: PropTypes.string,
+  productDetails: PropTypes.object
+};

@@ -607,7 +607,8 @@ Feed.propTypes = {
   passwordValue: PropTypes.string,
   loading: PropTypes.bool,
   marginTop: PropTypes.string,
-  feedType: PropTypes.oneOf([HOME_FEED_TYPE, SECONDARY_FEED_TYPE])
+  feedType: PropTypes.oneOf([HOME_FEED_TYPE, SECONDARY_FEED_TYPE]),
+  clpUrl: PropTypes.string
 };
 
 Feed.defaultProps = {
