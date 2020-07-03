@@ -4192,9 +4192,7 @@ const getFormattedString = (strValue = "") => {
     endIndex = null;
   if (strValue.includes("(") && strValue.includes(")")) {
     startIndex = strValue.indexOf("(");
-
     endIndex = strValue.indexOf(")");
-
     strValue = strValue.slice(0, startIndex - 1) + strValue.slice(startIndex);
 
     formattedValue =
