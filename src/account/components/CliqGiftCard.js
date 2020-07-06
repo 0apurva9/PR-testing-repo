@@ -167,7 +167,7 @@ export default class CliqGiftCard extends Component {
                   color="#da1c5c"
                   bordercolor={"#da1c5c"}
                   textStyle={{ color: "#da1c5c", fontSize: 14 }}
-                  onClick={() => this.navigateSendGiftCard()}
+                  // onClick={() => this.navigateSendGiftCard()}
                 />
               </div>
             </div>
