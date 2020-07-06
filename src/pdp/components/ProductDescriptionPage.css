@@ -748,6 +748,7 @@
 		right: 10px;
 		top: 10px;
 		border-radius: 50%;
+		cursor: pointer;
 	}
 	.deliveyModesHolder {
 		width: 100%;
@@ -787,6 +788,7 @@
 		width: 100%;
 		height: auto;
 		margin-top: 25px;
+		display: inline-block;
 	}
 	.samsungChatImgHolder {
 		position: relative;
@@ -1231,7 +1233,6 @@
 	padding-left: 18px;
 	float: left;
 }
-
 .reviewListHolder {
 	width: 100%;
 	height: auto;
@@ -1272,5 +1273,3 @@
   color: #4d4d4d;
   font-family: light;
 }
-
-

@@ -1,0 +1,324 @@
+import React, { Component } from "react";
+import styles from "./CustomerIssue.css";
+import { withRouter } from "react-router-dom";
+import QuestionFeedback from "./QuestionFeedback";
+import OrderActionButton from "./OrderActionButton";
+import ProductImage from "../../general/components/ProductImage.js";
+import { getDayNumberSuffix } from "../../lib/dateTimeFunction";
+import CustomerQueryForm from "./CustomerQueryForm";
+import QuestionList from "./QuestionList";
+const ORDER_IN_PROCESS = "Order in Process";
+const READY_FOR_COLLECTION = "Ready for Collection";
+const PICKUP_DATE = "Pickup Date:";
+const SHIPPED = "Shipped";
+const ORDER_CONFIRMED = "Order Confirmed";
+const ITEM_PACKED = "Item Packed";
+const OUT_FOR_DELIVERY = "Out For Delivery";
+const ESTIMATED_DATE = "Estimated Delivery Date:";
+const DELIVERY_TEXT = "Delivered on:";
+
+class OrderListDetails extends Component {
+  state = {
+    question: null,
+    showQuestionList: true,
+    showFeedBack: false,
+    currentQuestionIndex: 0,
+    nextQuestions: null,
+    showFaqSolution: null
+  };
+
+  componentDidMount() {
+    window.scroll(0, 0);
+  }
+
+  // selectQuestion(question, index) {
+  //   this.setState({
+  //     question: question,
+  //     showQuestionList: true,
+  //     showFeedBack: true
+  //   });
+  //   for (let i = 0; i < this.props.orderRelatedQuestionsData.length; i++) {
+  //     if (i == index)
+  //       this.setState({
+  //         nextQuestions: this.props.orderRelatedQuestionsData[i + 1],
+  //         currentQuestionIndex: i + 1
+  //       });
+  //   }
+  // }
+
+  // showAllQuestion() {
+  //   this.setState({
+  //     question: null,
+  //     showQuestionList: true,
+  //     showFeedBack: false,
+  //     isAnswerHelpFull: false
+  //   });
+  // }
+  // nextQuestion() {
+  //   for (let i = 0; i < this.props.orderRelatedQuestionsData.length; i++) {
+  //     if (i == this.state.currentQuestionIndex)
+  //       this.setState({
+  //         question: this.props.orderRelatedQuestionsData[
+  //           this.state.currentQuestionIndex
+  //         ],
+  //         nextQuestions: this.props.orderRelatedQuestionsData[
+  //           this.state.currentQuestionIndex + 1
+  //         ],
+  //         currentQuestionIndex: this.state.currentQuestionIndex + 1
+  //       });
+  //   }
+  // }
+
+  feedbak(question) {
+    return (
+      <QuestionFeedback
+        question={question}
+        feedBackHelpFull={() => this.props.feedBackHelpFull()}
+        isAnswerHelpFull={this.props.isAnswerHelpFull}
+        moreHelps={() => this.props.moreHelps()}
+        showAllQuestion={() => this.showAllQuestion()}
+        nextQuestion={() => this.nextQuestion()}
+        orderRelatedQuestion={this.props.orderRelatedQuestion}
+        otherQuestion={this.props.otherQuestion}
+        FAQquestion={this.props.FAQquestion}
+        parentIssueType={this.props.parentIssueType}
+        selectedOrder={this.props.selectedOrder}
+      />
+    );
+  }
+
+  showFaqSolutions(listOfIssue) {
+    if (this.state.showFaqSolution != listOfIssue.question_component) {
+      this.props.updateThanks();
+    }
+
+    this.setState({ showFaqSolution: listOfIssue.question_component });
+  }
+
+  render() {
+    const { selectedOrder, slectOrderData } = this.props;
+    const product = slectOrderData && slectOrderData.products[0];
+    return (
+      <div>
+        <div className={styles.whiteCard}>
+          <div className={styles.orderHeader}>
+            <div className={styles.header}>
+              {this.props.orderRelatedQuestion && <div>Your order details</div>}
+              {this.props.otherQuestion &&
+                !this.props.FAQquestion && (
+                  <div>
+                    {this.props.parentIssueType && this.props.isQuesryForm
+                      ? this.props.parentIssueType
+                      : "Other Issues"}
+                  </div>
+                )}
+              {!this.props.isQuesryForm &&
+                this.props.FAQquestion && <div>All Help Topics</div>}
+              {this.props.isQuesryForm &&
+                this.props.FAQquestion && (
+                  <div>{this.props.parentIssueType}</div>
+                )}
+            </div>
+            <div className={styles.orderDetalsButton}>
+              {this.props.isQuesryForm ? (
+                <div
+                  className={styles.customBtn}
+                  onClick={() => this.props.navigateCliqCarePage()}
+                >
+                  Back to CLiQ Care Homepage
+                </div>
+              ) : (
+                <div
+                  className={styles.customBtn}
+                  onClick={() => this.props.navigatePreviousPage()}
+                >
+                  Go Back to Previous Page
+                </div>
+              )}
+            </div>
+          </div>
+          {this.props.question &&
+            this.props.question.subIssueType &&
+            this.props.isQuesryForm && (
+              <div className={styles.subIssueType}>
+                {this.props.question.subIssueType}
+              </div>
+            )}
+
+          {this.props.slectOrderData &&
+            this.props.slectOrderData.products &&
+            this.props.slectOrderData.products.length &&
+            this.props.orderRelatedQuestion && (
+              <div
+                className={[
+                  styles.orderDetailsBox,
+                  this.props.isQuesryForm ? null : styles.orderDetailsSeperator
+                ].join(" ")}
+              >
+                <div className={styles.orderDetailsCard}>
+                  <div className={styles.orderDetailsImgBox}>
+                    <ProductImage image={product.imageURL} />
+                  </div>
+                  <div className={styles.orderDetailsContent}>
+                    <div className={styles.orderDesc}>
+                      {product.productName}
+                    </div>
+                    {this.props.selectedOrder &&
+                      this.props.selectedOrder.products && (
+                        <div className={styles.orderDesc}>
+                          <div className={styles.orderStatus}>
+                            Order status:{" "}
+                            <span className={styles.fontBold}>
+                              {product.statusDisplay ||
+                                product.displayStatusName}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+
+                    {product.pickUpDateCNC ? (
+                      product.statusDisplay === ORDER_IN_PROCESS ||
+                      product.statusDisplay === READY_FOR_COLLECTION ? (
+                        <div className={styles.orderStatus}>
+                          {PICKUP_DATE}&nbsp;
+                          <span className={styles.fontBold}>
+                            {getDayNumberSuffix(product.pickUpDateCNC, true)}
+                          </span>
+                        </div>
+                      ) : null
+                    ) : (product.statusDisplay === ORDER_CONFIRMED ||
+                      product.statusDisplay === ORDER_IN_PROCESS ||
+                      product.statusDisplay === SHIPPED ||
+                      product.statusDisplay === ITEM_PACKED ||
+                      product.statusDisplay === OUT_FOR_DELIVERY ||
+                      product.statusDisplay === READY_FOR_COLLECTION) &&
+                    (product.EDD || product.estimateddeliverydate) ? (
+                      <div className={styles.orderStatus}>
+                        {ESTIMATED_DATE}&nbsp;
+                        <span className={styles.fontBold}>
+                          {getDayNumberSuffix(
+                            product.EDD || product.estimateddeliverydate
+                          )}
+                        </span>
+                      </div>
+                    ) : selectedOrder.products[0].deliveryDate ? (
+                      <div className={styles.orderStatus}>
+                        {DELIVERY_TEXT}&nbsp;
+                        <span className={styles.fontBold}>
+                          {getDayNumberSuffix(
+                            selectedOrder.products[0].deliveryDate,
+                            true
+                          )}
+                        </span>
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                <div className={styles.moreAction}>
+                  <div className={styles.moreHeader}>More actions</div>
+                  <OrderActionButton
+                    selectedOrder={this.props.selectedOrder}
+                    sendInvoice={(ussid, sellerOrderNo) => {
+                      this.props.sendInvoice(ussid, sellerOrderNo);
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+
+          {this.props.showFeedBack && this.feedbak(this.props.question)}
+
+          {this.props.FAQquestion &&
+            this.props.questionsList && (
+              <div className={styles.accordianBox}>
+                <div className={styles.parentIssueBox}>
+                  <span className={styles.parentIssue}>
+                    {this.props.parentIssueType.replace("&amp;", "&")}
+                  </span>{" "}
+                  <span
+                    className={styles.staticContent}
+                  >{`(Browse all help topics related to ${this.props.parentIssueType.replace(
+                    "&amp;",
+                    "&"
+                  )})`}</span>
+                </div>
+                {this.props.questionsList.map(listOfIssue => {
+                  return (
+                    <div>
+                      <div
+                        className={[
+                          styles.faqHeading,
+                          this.state.showFaqSolution ==
+                          listOfIssue.question_component
+                            ? styles.fontBold
+                            : null
+                        ].join(" ")}
+                        onClick={() => this.showFaqSolutions(listOfIssue)}
+                      >
+                        {listOfIssue.question_component}
+                      </div>
+                      {this.state.showFaqSolution ==
+                        listOfIssue.question_component &&
+                        this.feedbak(listOfIssue)}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+          {!this.props.FAQquestion &&
+            this.props.showQuestionList && (
+              <div className={styles.orderRelatedIssueList}>
+                {this.props.questionsList ? (
+                  <QuestionList
+                    parentIssueType={this.props.parentIssueType}
+                    questionsList={this.props.questionsList}
+                    orderRelatedQuestion={this.props.orderRelatedQuestion}
+                    otherQuestion={this.props.otherQuestion}
+                    FAQquestion={this.props.FAQquestion}
+                    selectQuestion={(listOfIssue, index) =>
+                      this.props.selectQuestion(listOfIssue, index)
+                    }
+                  />
+                ) : (
+                  <div className={styles.noQuestions}>
+                    Sorry, we don't have any relevant issues related to this
+                    order right now.
+                  </div>
+                )}
+              </div>
+            )}
+        </div>
+
+        {this.props.isQuesryForm && (
+          <CustomerQueryForm
+            selectedOrder={this.props.selectedOrder}
+            uploadUserFile={(issueType, title, file) =>
+              this.props.uploadUserFile(issueType, title, file)
+            }
+            uploadedAttachments={this.props.uploadedAttachments}
+            userDetails={this.props.userDetails}
+            submitCustomerForms={formaData =>
+              this.props.submitCustomerForms(formaData)
+            }
+            displayToast={message => this.props.displayToast(message)}
+            customerQueriesField={this.props.customerQueriesField}
+            getCustomerQueriesFields={(webFormTemplate, isIssueOptions) =>
+              this.props.getCustomerQueriesFields(
+                webFormTemplate,
+                isIssueOptions
+              )
+            }
+            question={this.props.question}
+            questionType={this.props.questionType}
+            parentIssueType={this.props.parentIssueType}
+            otherQuestion={this.props.otherQuestion}
+            navigatePreviousPage={() => this.props.navigatePreviousPage()}
+          />
+        )}
+      </div>
+    );
+  }
+}
+
+export default withRouter(OrderListDetails);

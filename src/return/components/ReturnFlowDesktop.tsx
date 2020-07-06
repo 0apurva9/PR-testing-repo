@@ -39,7 +39,7 @@ import {
 import {
 	setDataLayer,
 	ADOBE_SAVE_BANKDETAILS_BUTTON_CLICKED
-  } from "../../lib/adobeUtils";
+} from "../../lib/adobeUtils";
 import RefundTransactionSummary from '../../account/components/RefundTransactionSummary.js';
 //import ReturnBankFormForDesktop from './ReturnBankFormForDesktop';
 //import ReturnAndOrderCancelWrapper from './ReturnAndOrderCancelWrapper';
@@ -102,8 +102,23 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 		this.setState({ bankDetail: data });
 	};
 	clearForm() {
-		this.setState({ bankDetail: {} });
+		this.setState({
+			bankDetail: {
+				IFSCCode: "",
+				accountHolderName: "",
+				accountNumber: "",
+				bankName: "",
+				customerName: "",
+				exchangePaymentMode: this.state.bankDetail.exchangePaymentMode ? this.state.bankDetail.exchangePaymentMode : "",
+				fromPage: this.state.bankDetail.fromPage ? this.state.bankDetail.fromPage : "",
+				fromPageURL: this.state.bankDetail.fromPageURL ? this.state.bankDetail.fromPageURL : "",
+				ifscCode: "",
+				reEnterAccountNumber: "",
+				title: ""
+			}
+		});
 	}
+
 	handleContinueForReason = (returnSelectedReason: IReturnSelectedReason) => {
 		if (!returnSelectedReason.reason) {
 			this.props.displayToast('Please select reason ');
@@ -174,14 +189,33 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
 			delete bankData.status;
 			delete bankData.customerName;
 			delete bankData.reEnterAccountNumber;
-			this.props.updateCustomerBankDetails(bankData);
+
 			setDataLayer(ADOBE_SAVE_BANKDETAILS_BUTTON_CLICKED);
-			this.props.history.push({
-				pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_LANDING}${REPLACE_REFUND_SELECTION}`,
-				state: {
-					authorizedRequest: true,
-				},
-			});
+			if (this.state.bankDetail.fromPage === "ExchangeModeSelection") {
+				this.props.history.push({
+					pathname: this.state.bankDetail.fromPageURL,
+					state: {
+						authorizedRequest: true,
+						ExchangeModeSelected: "BANK_ACCOUNT",
+						orderId: this.orderCode
+					},
+				});
+				//remove unnecessary field
+				delete bankData.exchangePaymentMode;
+				delete bankData.message;
+				delete bankData.IFSCCode;
+				delete bankData.fromPage;
+				delete bankData.fromPageURL;
+				this.props.updateCustomerBankDetails(bankData);
+			} else {
+				this.props.updateCustomerBankDetails(bankData);
+				this.props.history.push({
+					pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_LANDING}${REPLACE_REFUND_SELECTION}`,
+					state: {
+						authorizedRequest: true,
+					},
+				});
+			}
 		}
 	};
 	onSelectMode(mode: any) {

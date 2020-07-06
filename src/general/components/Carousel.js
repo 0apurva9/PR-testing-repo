@@ -82,6 +82,7 @@ export default class Carousel extends React.Component {
     const jukeStyle = {
       transform: jukeTransform
     };
+    let baseClass = styles.base;
     let headerClass = styles.header;
     let leftButtonClass = styles.back;
     let rightButtonClass = styles.forward;
@@ -104,9 +105,12 @@ export default class Carousel extends React.Component {
     if (this.props.seeAll && !this.props.withFooter) {
       buttonSpace = 110;
     }
-
+    if (this.props.showBottomNav) {
+      baseClass = styles.bottomNavBase;
+      headerClass = styles.bottomNavHeader;
+    }
     return (
-      <div className={styles.base} styles={{ color: this.props.color }}>
+      <div className={baseClass} styles={{ color: this.props.color }}>
         <MediaQuery query="(min-device-width: 1025px)">
           <div className={headerClass}>
             {this.props.header && (
@@ -292,7 +296,8 @@ Carousel.propTypes = {
   seeAll: PropTypes.func,
   withFooter: PropTypes.bool,
   headerComponent: PropTypes.element,
-  padding: PropTypes.string
+  padding: PropTypes.string,
+  showBottomNav: PropTypes.bool
 };
 
 Carousel.defaultProps = {
@@ -301,5 +306,6 @@ Carousel.defaultProps = {
   buttonText: null,
   color: "#181818",
   withFooter: true,
-  padding: "0px 10px"
+  padding: "0px 10px",
+  showBottomNav: false
 };

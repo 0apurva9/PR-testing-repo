@@ -1,14 +1,11 @@
 import React from "react";
 import styles from "./DesktopHeader.css";
-
+import exchangeIconWhite from "../../general/components/img/exchangeIconWhite.svg";
 import { RUPEE_SYMBOL } from "../../../src/lib/constants";
 import Button from "./Button.js";
 const NO_SIZE = "NO SIZE";
 
 export default class Minibag extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   navigateToCart() {
     if (this.props.gotoCart) {
       this.props.gotoCart();
@@ -43,7 +40,7 @@ export default class Minibag extends React.Component {
                   <img alt={product.title} src={product.imageURL} />
                 </div>
                 <div className={styles.mybagProductInformation}>
-                  <h4>{product.title}</h4>
+                  <div className={styles.productTitle}>{product.title}</div>
                   {(product.price || product.MRP || product.discount) && (
                     <div className={styles.informationTextWithBolder}>
                       {product.price && (
@@ -92,6 +89,21 @@ export default class Minibag extends React.Component {
                     </div>
                   )}
                 </div>
+                {product.exchangeDetails && (
+                  <div className={styles.exchangeProductDetailsContainer}>
+                    <img
+                      src={exchangeIconWhite}
+                      alt="exchange icon"
+                      className={styles.exchangeIcon}
+                    />
+                    <span className={styles.exchangeProductDetails}>
+                      Exchange Phone:{" "}
+                      <span className={styles.fontLight}>
+                        {product.exchangeDetails.exchangeModelName}
+                      </span>
+                    </span>
+                  </div>
+                )}
               </div>
             );
           })}
@@ -103,12 +115,13 @@ export default class Minibag extends React.Component {
         <div className={styles.viewBagButtonHolder}>
           <div className={styles.buttonViewBag}>
             <Button
-              type="hollow"
+              type="primary"
+              backgroundColor="#ff1744"
               height={36}
               label="View Bag"
               width={147}
-              color="#fff"
-              textStyle={{ color: "#fff", fontSize: 14 }}
+              color="#ffffff"
+              textStyle={{ color: "#ffffff", fontSize: 14 }}
               onClick={() => this.navigateToCart()}
             />
           </div>

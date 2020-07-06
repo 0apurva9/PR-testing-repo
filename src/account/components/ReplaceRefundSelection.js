@@ -101,7 +101,8 @@ export default class ReplaceRefundSelection extends React.Component {
       let cliqCashCheck = await this.props.getCliqCashDetailsRefund();
       if (
         cliqCashCheck.status === "Success" &&
-        (cliqCashCheck.isWalletCreated && cliqCashCheck.isWalletOtpVerified)
+        cliqCashCheck.isWalletCreated &&
+        cliqCashCheck.isWalletOtpVerified
       ) {
         localStorage.setItem("cliqCashCheckSuccess", true);
         this.setState({
@@ -527,9 +528,11 @@ export default class ReplaceRefundSelection extends React.Component {
                       }
                       orderId={this.props.orderId}
                       productSize={
+                        this.props.orderDetails &&
                         this.props.orderDetails.products[0].productSize
                       }
                       productColourName={
+                        this.props.orderDetails &&
                         this.props.orderDetails.products[0].productColourName
                       }
                       productBrand={
@@ -551,6 +554,12 @@ export default class ReplaceRefundSelection extends React.Component {
                             orderDetails.orderProductWsDTO[0] &&
                             orderDetails.orderProductWsDTO[0].productcode
                         )
+                      }
+                      exchangeDetails={
+                        data &&
+                        data.products &&
+                        data.products[0] &&
+                        data.products[0].exchangeDetails
                       }
                     >
                       {returnProductDetails &&

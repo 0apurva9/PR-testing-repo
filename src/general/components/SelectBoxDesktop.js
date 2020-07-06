@@ -126,7 +126,11 @@ export default class SelectBoxDesktop extends React.Component {
       >
         <select
           name={this.props.name}
-          className={styles.hideSelect}
+          className={
+            !this.props.hideArrow
+              ? styles.hideSelect
+              : styles.hideSelectDisabled
+          }
           onChange={event => this.handleChange(event)}
           value={this.state.value}
           label={this.state.label}
@@ -171,19 +175,21 @@ export default class SelectBoxDesktop extends React.Component {
             {this.state.label}
           </div>
         )}
-        <div
-          className={styles.arrow}
-          style={{
-            height: `${this.props.size}px`,
-            width: `${this.props.size}px`,
-            right: `${this.props.rightArrow}px`
-          }}
-        >
-          <Icon
-            image={this.props.image ? this.props.image : arrow}
-            size={this.props.size}
-          />
-        </div>
+        {!this.props.hideArrow && (
+          <div
+            className={styles.arrow}
+            style={{
+              height: `${this.props.size}px`,
+              width: `${this.props.size}px`,
+              right: `${this.props.rightArrow}px`
+            }}
+          >
+            <Icon
+              image={this.props.image ? this.props.image : arrow}
+              size={this.props.size}
+            />
+          </div>
+        )}
         {this.props.leftChild && (
           <div
             className={styles.boxIconLeft}

@@ -1,0 +1,182 @@
+.base {
+	width: 100%;
+	height: auto;
+	display: inline-block;
+  background-color: #ececec;
+  padding: 80px 0px 0px 0px;
+  position: relative;
+  padding-bottom: 100px;
+  -webkit-transition: 300ms;
+  -o-transition: 300ms;
+  transition: 300ms;
+}
+.profileMenuHolder {
+  width: 20%;
+  position: sticky;
+  top: 100px;
+  display: inline-block;
+  vertical-align: top;
+  max-width: 240px;
+  border-radius: 4px;
+}
+.stickyprofileMenuHolder {
+  composes: profileMenuHolder;
+  top: 140px;
+}
+.userProfile {
+  width: 20%;
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
+  border-radius: 4px;
+  max-width: 240px;
+  position: sticky;
+  top: 100px;
+}
+.stickyuserProfile {
+  composes: userProfile;
+  top: 140px;
+}
+.container{
+  width: 60%;
+  margin: auto;
+  display: inline-block;
+  padding: 0px 22px 0px 22px;
+  max-width: 720px;
+}
+.dataHolder{
+  background-color: #ffffff;
+  padding: 40px;
+}
+.exchaneCashbackTitle{
+  display: inline-block;
+  width: 50%;
+  font-size:16px;
+  font-family:semibold;
+}
+.goBack{
+  display: inline-block;
+  width: 50%;
+  font-size: 14px;
+  font-family:semibold;
+  color:#ff1744;
+  text-align: right;
+  cursor: pointer;
+}
+.continueButtonHolder{
+	display: flex;
+	justify-content: center;
+	margin-top: 35px;
+}
+.refundModeContainer {
+  width: 100%;
+	border: 1px solid #cfcfcf;
+	border-radius: 4px;
+	margin-top: 15px;
+}
+.chooseMode {
+	width: 100%;
+	padding: 15px 20px;
+	font-size: 16px;
+	font-family: semibold;
+	border-bottom: 1px solid #cfcfcf;
+}
+.modeContent {
+	padding: 20px 20px;
+}
+label {
+	display: block;
+	font-size: 14px;
+	font-family: semibold;
+	margin-bottom: 15px;
+}
+.radioBtn {
+	width: 15px;
+	height: 15px;
+	display: inline-block;
+	vertical-align: text-top;
+	margin: 0 10px 0 0;
+}
+.radioBtnSubText {
+  font-size: 12px;
+  font-family: light;
+  letter-spacing: 0;
+  color: #4a4a4a;
+  margin-top: 10px;
+  margin-left: 25px;
+}
+.radioBtnSubText > span{
+  background-color: #f5f5f5;
+  padding: 5px;
+}
+.cliqCashInstant {
+	font-family: regular;
+	font-size: 10px;
+	vertical-align: text—top;
+	color: #ff1744;
+	display: inline-block;
+	cursor: pointer;
+}
+.InstantImage {
+	width: 15px;
+	height: 20px;
+	display: inline-block;
+	vertical-align: text-top;
+	margin: 0 10px 0 10px;
+	cursor: pointer;
+}
+.addBankDetailsButton {
+	font-size: 14px;
+	padding: 10px;
+	border: 1px solid #212121;
+	border-radius: 20px;
+	width: 190px;
+	margin: 0 auto;
+	text-align: center;
+	font-family: semibold;
+	margin-top: 15px;
+	cursor: pointer;
+}
+.bankDetailsHeading {
+	font-size: 14px;
+	font-family: semibold;
+	display: inline-block;
+	width: 60%;
+	margin-bottom: 15px;
+	margin-left: 23px;
+	color: black;
+}
+.changeBankDetails {
+	font-size: 14px;
+	color: #ff1744;
+	font-family: semibold;
+	display: inline-block;
+	width: 35%;
+	text-align: right;
+	margin-bottom: 15px;
+	cursor: pointer;
+}
+.bankDetailsText {
+	font-size: 14px;
+	font-family: light;
+	width: 43%;
+	color: #747474;
+	display: inline-block;
+	margin-left: 31px;
+	height: 17px;
+	margin-bottom: 10px;
+}
+.detailsContainer{
+	border-radius: 4.5px;
+	background-color: #f8f8f8;
+	padding:10px;
+	margin-top: 20px;
+	font-size: 11px;
+  font-family: light;
+}
+.detailsContainer ul{
+	padding-left: 30px;
+}
+.detailsContainer ul li{
+	margin-bottom: 5px;
+}

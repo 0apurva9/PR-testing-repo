@@ -109,6 +109,12 @@ export default class SelectBoxMobile extends React.Component {
         themeClass = styles.base;
       }
     }
+    let visibleBoxClass = "";
+    if (this.props.extraVisibleBoxCss) {
+      visibleBoxClass = styles.visibleBox + " " + styles.extraVisibleBoxCss;
+    } else {
+      visibleBoxClass = styles.visibleBox;
+    }
     return (
       <div
         className={themeClass}
@@ -152,7 +158,7 @@ export default class SelectBoxMobile extends React.Component {
               })}
           </React.Fragment>
         </select>
-        <div className={styles.visibleBox}>{this.state.label}</div>
+        <div className={visibleBoxClass}>{this.state.label}</div>
         <div className={styles.arrow}>
           <Icon image={arrow} size={12} />
         </div>
@@ -173,5 +179,6 @@ SelectBoxMobile.propTypes = {
 SelectBoxMobile.defaultProps = {
   height: 35,
   arrowColour: GREY,
-  disabled: false
+  disabled: false,
+  extraVisibleBoxCss: false
 };

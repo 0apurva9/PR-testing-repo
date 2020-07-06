@@ -1,0 +1,15 @@
+.base {
+  width: 100%;
+  height: auto;
+  margin: 15% 0;
+}
+
+.loader {
+  width: 120px;
+  height: 8px;
+  background: url("./img/loader.gif") no-repeat;
+  background-size: 180%;
+  background-position: center;
+  display: flex;
+  margin: 0 auto;
+}

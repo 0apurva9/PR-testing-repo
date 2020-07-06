@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="256" height="99" viewBox="0 0 256 99">
+    <defs>
+        <filter id="prefix__b" width="110.5%" height="127.4%" x="-5.3%" y="-13.7%" filterUnits="objectBoundingBox">
+            <feMorphology in="SourceAlpha" operator="dilate" radius="1.5" result="shadowSpreadOuter1"/>
+            <feOffset in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="3"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0.305961277 0 0 0 0 0.305961277 0 0 0 0 0.305961277 0 0 0 0.1 0"/>
+        </filter>
+        <filter id="prefix__d" width="108.1%" height="108.1%" x="-4%" y="-4%" filterUnits="objectBoundingBox">
+            <feGaussianBlur in="SourceAlpha" result="shadowBlurInner1" stdDeviation="1.5"/>
+            <feOffset dy="2" in="shadowBlurInner1" result="shadowOffsetInner1"/>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" k2="-1" k3="1" operator="arithmetic" result="shadowInnerInner1"/>
+            <feColorMatrix in="shadowInnerInner1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+        </filter>
+        <rect id="prefix__a" width="256" height="98.6" x="0" y="0" rx="6"/>
+        <path id="prefix__c" d="M62 31c0 17.123-13.88 31-31 31C13.88 62 0 48.123 0 31 0 13.877 13.88 0 31 0c17.12 0 31 13.877 31 31z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g opacity=".1">
+            <use fill="#000" filter="url(#prefix__b)" xlink:href="#prefix__a"/>
+            <use fill="#DA1C5C" xlink:href="#prefix__a"/>
+        </g>
+        <g opacity=".3" transform="translate(16 16)">
+            <use fill="#FFF" xlink:href="#prefix__c"/>
+            <use fill="#000" filter="url(#prefix__d)" xlink:href="#prefix__c"/>
+        </g>
+        <g>
+            <path stroke="#EE9AB5" stroke-linecap="round" stroke-linejoin="round" d="M0 1.77h6.742l2.644 23.56c.102.842.826 1.483 1.67 1.483h19.249c.708 0 1.349-.439 1.584-1.113L35.72 6.94" transform="translate(27 31)"/>
+            <path fill="#EE9AB5" d="M7.462 8.612L35.484 8.691 31.397 26.523 9.859 26.323zM33.17 33.856c0 1.861-1.51 3.371-3.37 3.371-1.862 0-3.372-1.51-3.372-3.37 0-1.862 1.51-3.372 3.371-3.372s3.372 1.51 3.372 3.371zM14.629 33.856c0 1.861-1.51 3.371-3.371 3.371s-3.372-1.51-3.372-3.37c0-1.862 1.51-3.372 3.372-3.372 1.86 0 3.37 1.51 3.37 3.371z" transform="translate(27 31)"/>
+            <path fill="#EE9AB5" stroke="#FAEDF1" stroke-linejoin="round" d="M20.65 17.585l6.13-8.629L22 9l-.153-7.087c-.117-.616-.637-.924-1.56-.924s-1.384.462-1.384 1.385l.018 6.564L14 9l6.65 8.585z" transform="translate(27 31)"/>
+        </g>
+    </g>
+</svg>
