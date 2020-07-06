@@ -75,6 +75,11 @@
     margin: 0 auto;
     margin-top: 7%;
   }
+  .cliqGiftCardImage {
+    margin: 0 auto;
+    margin-top: 7%;
+    margin-bottom: 25px;
+  }
   .cardImageImg {
     height: 170px;
     text-align: center;
@@ -83,6 +88,12 @@
     margin-right: auto;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     border-radius: 6px;
+  }
+  .cliqGiftCardImageImg {
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   }
   .faqAndTcHolder {
     width: 100%;
