@@ -15,7 +15,7 @@ import {
 } from "../../lib/constants";
 import PropTypes, { array, arrayOf, string, object, bool } from "prop-types";
 import { Redirect } from "react-router-dom";
-import headerBg from "./img/headerBg.png";
+import headerBg from "./img/headerBg.svg";
 import { getCustomerAccessToken } from "../../common/services/common.services";
 import { numberWithCommas } from "../../lib/dateTimeFunction";
 import Button from "../../general/components/Button";
@@ -105,8 +105,25 @@ export default class CliqGiftCard extends Component {
                     the <b>inbox</b>
                   </div>
                 </div>
-                <div className={styles.cardImage}>
-                  <img src={headerBg} alt="" className={styles.cardImageImg} />
+                <div className={styles.cliqGiftCardImage}>
+                  <img
+                    src={headerBg}
+                    alt=""
+                    className={styles.cliqGiftCardImageImg}
+                  />
+                </div>
+                <div className={styles.popularCardButton}>
+                  <Button
+                    type="primary"
+                    margin="auto"
+                    height={36}
+                    width={312}
+                    label="Send a Gift Card "
+                    color="#da1c5c"
+                    backgroundColor={"#da1c5c"}
+                    textStyle={{ color: "#da1c5c", fontSize: 14 }}
+                    // onClick={() => this.navigateSendGiftCard()}
+                  />
                 </div>
               </div>
             </div>
