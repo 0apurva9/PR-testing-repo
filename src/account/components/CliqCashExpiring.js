@@ -7,9 +7,6 @@ import styles from "./CliqCashExpiring.css";
 import { RUPEE_SYMBOL } from "../../lib/constants.js";
 
 class CliqCashExpiring extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     let dateTimeFormat = getWholeDayTimeFormat(
       "",

@@ -39,7 +39,7 @@
   }
   .cliqGiftCardWithHolderCheckBal {
     width: 100%;
-    height: autopx;
+    height: auto;
     border-radius: 4px;
     padding: 24px;
     margin-bottom: 18px;
@@ -400,7 +400,7 @@
   }
   .addGiftCardButtonText {
     font-size: 14px;
-    color: #4a4a4a;
+    color: #da1c5c;
   }
   .buyGiftCardContainer {
     width: 100%;
@@ -612,6 +612,154 @@
   background: transparent;
   border: transparent;
   padding: 0px;
+}
+/**
+* Popular
+*/
+
+.popularCardBox {
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 24px;
+  margin-bottom: 18px;
+}
+
+.popularHeading {
+  font-size: 18px;
+  color: #212121;
+  font-family: semibold;
+}
+.popularContent {
+  font-size: 14px;
+  color: #212121;
+  font-family: light;
+  padding-top: 10px;
+  line-height: 17px;
+}
+
+.popularCardPriceBox {
+  padding: 30px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.popularCardPrice {
+  width: 125px;
+  color: #be1a51;
+  font-size: 16px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-family: semibold;
+  position: relative;
+  border: 1px solid #d8d8d8;
+}
+
+.popularCardPrice:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  margin: -1px;
+  border-radius: inherit;
+  background: linear-gradient(to top right, #ffffff, #ffeff3);
+}
+
+.popularCardPriceSymbol {
+  font-size: 16px;
+  padding-top: 4px;
+}
+
+.popularCardButton {
+  padding-left: 25%;
+}
+
+/**
+* Received GV section
+*/
+.receivedGiftCardBox {
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 24px;
+  margin-bottom: 18px;
+}
+
+.receivedGiftCardHeading {
+  font-size: 16px;
+  color: #212121;
+  font-family: semibold;
+  padding-bottom: 20px;
+}
+.receivedGiftLink{
+  border-top: 1px solid #d8d8d8;
+}
+.receivedGiftCardbtn {
+  outline: none;
+  display: flex;
+  font-size: 14px;
+  background: #ffffff;
+  padding: 13px 0px 15px 0px;
+  font-weight: 500;
+  color: #1c1a17;
+  margin: 0px 10px 0px 10px;
+  text-decoration: none;
+  align-items: center;
+  justify-content:space-between;
+}
+.receivedGiftCardbtn:first-child{
+  border-bottom: 2px dotted #f2f2f2;
+}
+.receivedGiftCardbtnHead {
+  font-size: 14px;
+  margin: 0 0 5px;
+  display: block;
+  font-family: regular;
+  color: #212121;
+}
+
+.receivedGiftCardbtnTit {
+  font-size: 12px;
+  margin: 0;
+  display: block;
+  font-family: light;
+  color: #4a4a4a;
+}
+
+.receivedGiftCardred {
+  border: 0 solid #da1c5c;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 6px;
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+.receivedGiftCardDiv1 {
+  width: 14%;
+}
+.receivedGiftCardDiv2 {
+  width: 58%;
+}
+.receivedGiftCardBtnFloatRight {
+  float: right;
+  height: 36px;
+  width: 134px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 18px;
+  background-color: transparent;
+  border: 1px solid #da1c5c;
 }
 
 .arrowDiv{

@@ -1,37 +1,38 @@
 import React, { Component } from "react";
 import styles from "./Promos.css";
 // import Received from "./img/utilized.svg";
-import Expired from "./img/expired.svg";
-import Expiring from "./img/expiring.svg";
+import ExpiredImg from "./img/expired.svg";
+import ExpiringImg from "./img/expiring.svg";
 import Paid from "./img/utilized.svg";
 import format from "date-fns/format";
 import PropTypes from "prop-types";
+import { RECEIVED, PAID, EXPIRED, Expiring } from "../../lib/constants";
 const dateFormat = "DD MMM YYYY";
 
 export default class Promos extends Component {
   promo = (promoType, date, expiryDate) => {
-    if (promoType === "Expired") {
-      return <img src={Expired} className={styles.rewardsTypeImg} />;
-    } else if (promoType === "Paid") {
+    if (promoType === EXPIRED) {
+      return <img src={ExpiredImg} className={styles.rewardsTypeImg} />;
+    } else if (promoType === PAID) {
       return <img src={Paid} className={styles.rewardsTypeImg} />;
-    } else if (promoType === "Expiring") {
-      return <img src={Expiring} className={styles.rewardsTypeImg} />;
-    } else if (promoType === "Received" && expiryDate < date) {
-      return <img src={Expiring} className={styles.rewardsTypeImg} />;
+    } else if (promoType === Expiring) {
+      return <img src={ExpiringImg} className={styles.rewardsTypeImg} />;
+    } else if (promoType === RECEIVED && expiryDate < date) {
+      return <img src={ExpiringImg} className={styles.rewardsTypeImg} />;
     } else {
       return null;
     }
   };
   promoText = (promoType, time, expiringDate, date) => {
     let dateTime = new Date().toISOString();
-    if (promoType === "Paid") {
+    if (promoType === PAID) {
       return <p className={styles.rewardExpDate}>Utilised: {time}</p>;
     } else if (
-      promoType === "Expired" ||
+      promoType === EXPIRED ||
       Date.parse(dateTime) > Date.parse(expiringDate)
     ) {
       return <p className={styles.rewardExpDate}>Expired on: {time}</p>;
-    } else if (promoType === "Expiring" || expiringDate < date) {
+    } else if (promoType === Expiring || expiringDate < date) {
       return <p className={styles.rewardExpDate}>Expiring on: {time}</p>;
     } else return null;
   };
@@ -49,35 +50,33 @@ export default class Promos extends Component {
     return (
       <React.Fragment>
         {" "}
-        {promotype !== "Received" && (
+        {promotype !== RECEIVED && (
           <div className={styles.promoContainer}>
             {this.promo(promotype)}
             <p className={styles.rewardAmt}>{amount}</p>
             {this.promoText(promotype, time)}
           </div>
         )}
-        {promotype == "Received" &&
-          redeemStartDate > date && (
-            <div className={styles.availFromBlock}>
-              <div className={styles.availTxtBlock}>
-                <p className={styles.availFromtxt}>Available from</p>
-                <p className={styles.availFromDate}>{time}</p>
-              </div>
+        {promotype == RECEIVED && redeemStartDate > date && (
+          <div className={styles.availFromBlock}>
+            <div className={styles.availTxtBlock}>
+              <p className={styles.availFromtxt}>Available from</p>
+              <p className={styles.availFromDate}>{time}</p>
             </div>
-          )}
-        {promotype == "Received" &&
-          redeemStartDate < date && (
-            <div className={styles.promoContainer}>
-              {this.promo(promotype, date, redeemStartDate)}
-              <p className={styles.rewardAmt}>{amount}</p>
-              {this.promoText(
-                promotype,
-                expirignDateFormatted,
-                redeemStartDate,
-                date
-              )}
-            </div>
-          )}
+          </div>
+        )}
+        {promotype == RECEIVED && redeemStartDate < date && (
+          <div className={styles.promoContainer}>
+            {this.promo(promotype, date, redeemStartDate)}
+            <p className={styles.rewardAmt}>{amount}</p>
+            {this.promoText(
+              promotype,
+              expirignDateFormatted,
+              redeemStartDate,
+              date
+            )}
+          </div>
+        )}
       </React.Fragment>
     );
   }

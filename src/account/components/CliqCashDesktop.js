@@ -285,7 +285,7 @@ export default class CliqCashDesktop extends React.Component {
                                     this.props.cliqCashUserDetails &&
                                     !this.props.cliqCashUserDetails
                                       .isWalletOtpVerified
-                                      ? this.showKycVerification()
+                                      ? this.kycVerification()
                                       : this.navigateTopUp()
                                   }
                                 />
@@ -347,7 +347,7 @@ export default class CliqCashDesktop extends React.Component {
                               this.props.cliqCashUserDetails &&
                               !this.props.cliqCashUserDetails
                                 .isWalletOtpVerified
-                                ? this.showKycVerification()
+                                ? this.kycVerification()
                                 : this.showCliqCashModulePopUp()
                             }
                           >
