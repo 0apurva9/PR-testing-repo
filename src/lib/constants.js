@@ -466,6 +466,7 @@ export const COMMENTS_PLACEHOLDER = "Add comments (optional)";
 export const RECEIVED = "Received";
 export const PAID = "Paid";
 export const EXPIRED = "Expired";
+export const Expiring = "Expiring";
 export const EXPIRED_REJECTED_FORMAT = "0001-01-01T00:00:00";
 export const PREVENT_NUMBERS_VALIDATION = /^([^0-9]*)$/;
 export const BANK_ACCOUNT = "BANK_ACCOUNT";
