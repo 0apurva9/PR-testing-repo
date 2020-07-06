@@ -256,6 +256,13 @@ export default class ReturnReasonForm extends React.Component {
                               orderDetails.orderProductWsDTO[0].productcode
                           )
                         }
+                        exchangeDetails={
+                          returnProductDetails &&
+                          returnProductDetails.orderProductWsDTO &&
+                          returnProductDetails.orderProductWsDTO[0] &&
+                          returnProductDetails.orderProductWsDTO[0]
+                            .exchangeDetails
+                        }
                       >
                         {returnProductDetails &&
                           returnProductDetails.orderProductWsDTO &&
@@ -340,14 +347,13 @@ export default class ReturnReasonForm extends React.Component {
                       </DeskTopOnly>
                     </div>
                   </div>
-                  {data &&
-                    data.showReverseSealFrJwlry === "yes" && (
-                      <div className={styles.reverseSealHolder}>
-                        <ReverseSealYesNo
-                          selectReverseSeal={val => this.selectReverseSeal(val)}
-                        />
-                      </div>
-                    )}
+                  {data && data.showReverseSealFrJwlry === "yes" && (
+                    <div className={styles.reverseSealHolder}>
+                      <ReverseSealYesNo
+                        selectReverseSeal={val => this.selectReverseSeal(val)}
+                      />
+                    </div>
+                  )}
 
                   {this.props.returnFlow ? (
                     ""

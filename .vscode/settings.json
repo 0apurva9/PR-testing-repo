@@ -4,14 +4,17 @@
   "javascript.format.enable": false,
   "javascript.validate.enable": false,
   "eslint.autoFixOnSave": true,
-  "workbench.colorTheme": "Abyss",
+  "workbench.colorTheme": "Default Dark+",
   "workbench.iconTheme": "material-icon-theme",
   "editor.formatOnSave": true,
   "editor.lineHeight": 20,
   "editor.tabSize": 2,
-  "editor.rulers": [80, 100],
+  "editor.rulers": [
+    80,
+    100
+  ],
   "files.trimTrailingWhitespace": true,
-  "window.zoomLevel": -1,
+  "window.zoomLevel": 0,
   "files.eol": "\n",
   "prettier.eslintIntegration": true
 }

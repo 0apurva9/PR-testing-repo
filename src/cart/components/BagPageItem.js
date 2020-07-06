@@ -48,36 +48,34 @@ export default class BagPageItem extends React.Component {
               {this.props.productDetails}
             </div>
           )}
-          {this.props.isGiveAway === NO &&
-            this.props.price && (
-              <div className={styles.informationText}>
-                {!this.props.offerPrice && (
-                  <React.Fragment>
-                    {` ${RUPEE_SYMBOL}${this.props.price}`}
-                  </React.Fragment>
-                )}
-                {this.props.offerPrice && (
-                  <React.Fragment>
-                    {` ${RUPEE_SYMBOL}${this.props.offerPrice}`}{" "}
-                    {this.props.offerPrice !== this.props.price && (
-                      <span className={styles.offerPrice}>
-                        {" "}
-                        {` ${RUPEE_SYMBOL}${this.props.price}`}
-                      </span>
-                    )}
-                  </React.Fragment>
-                )}
-              </div>
-            )}
+          {this.props.isGiveAway === NO && this.props.price && (
+            <div className={styles.informationText}>
+              {!this.props.offerPrice && (
+                <React.Fragment>
+                  {` ${RUPEE_SYMBOL}${this.props.price}`}
+                </React.Fragment>
+              )}
+              {this.props.offerPrice && (
+                <React.Fragment>
+                  {` ${RUPEE_SYMBOL}${this.props.offerPrice}`}{" "}
+                  {this.props.offerPrice !== this.props.price && (
+                    <span className={styles.offerPrice}>
+                      {" "}
+                      {` ${RUPEE_SYMBOL}${this.props.price}`}
+                    </span>
+                  )}
+                </React.Fragment>
+              )}
+            </div>
+          )}
           {this.props.isGiveAway === YES && (
             <div className={styles.informationText}>Free</div>
           )}
-          {this.props.size &&
-            this.props.size.toUpperCase() !== NO_SIZE && (
-              <div className={styles.informationText}>
-                {`${SizeType}: ${this.props.size}`}
-              </div>
-            )}
+          {this.props.size && this.props.size.toUpperCase() !== NO_SIZE && (
+            <div className={styles.informationText}>
+              {`${SizeType}: ${this.props.size}`}
+            </div>
+          )}
           {this.props.color && (
             <div className={styles.informationText}>
               {`Color: ${this.props.color}`}
@@ -86,6 +84,43 @@ export default class BagPageItem extends React.Component {
           {this.props.quantity && (
             <div className={styles.informationText}>
               {`Quantity: ${this.props.quantity}`}
+            </div>
+          )}
+          {this.props.exchangeDetails && (
+            <div className={styles.exchangeDetailsContainer}>
+              <div className={styles.exchangeProductName}>
+                <span>Exchange Phone: </span>
+                <span>{this.props.exchangeDetails.exchangeModelName}</span>
+              </div>
+              <div className={styles.exchangeCashback}>
+                <span>Total Exchange Cashback: </span>
+                <span>
+                  {this.props.exchangeDetails.exchangePriceDetail &&
+                    this.props.exchangeDetails.exchangePriceDetail
+                      .totalExchangeCashback &&
+                    this.props.exchangeDetails.exchangePriceDetail
+                      .totalExchangeCashback.formattedValueNoDecimal}
+                </span>
+              </div>
+              {this.props.pinCodeResponse &&
+                this.props.pinCodeResponse.isPickupAvailableForExchange && (
+                  <div className={styles.exchangePickup}>
+                    <span>Pick Up: Within 3 days of Product Delivery</span>
+                    <span className={styles.spacer}>|</span>
+                    {this.props.pinCodeResponse.pickupCharge &&
+                    this.props.pinCodeResponse.pickupCharge.doubleValue ===
+                      0 ? (
+                      <span className={styles.freePickup}>FREE</span>
+                    ) : (
+                      <span>
+                        {
+                          this.props.pinCodeResponse.pickupCharge
+                            .formattedValueNoDecimal
+                        }
+                      </span>
+                    )}
+                  </div>
+                )}
             </div>
           )}
         </div>

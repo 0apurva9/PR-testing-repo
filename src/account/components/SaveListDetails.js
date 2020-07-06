@@ -54,10 +54,68 @@ export default class SaveListDetails extends React.Component {
     productDetails.quantity = PRODUCT_QUANTITY;
     this.props.addProductToCart(productDetails);
   }
+  async addToBagItemWithExchange(ussid, productcode, exchangeDetails) {
+    // check if quote is expired , call verifyIMEI API then add to bag
+    if (exchangeDetails.quoteExpired) {
+      let response = await this.props.verifyIMEINumber(
+        exchangeDetails.IMEINumber,
+        exchangeDetails.exchangeProductId,
+        exchangeDetails.exchangePriceDetail.exchangeAmountCashify.value,
+        exchangeDetails.exchangePriceDetail.TULBump.value,
+        exchangeDetails.exchangePriceDetail.pickupCharge.value,
+        productcode,
+        ussid,
+        this.props.wishlistName
+      );
+      if (
+        response.status &&
+        response.status.toLowerCase() === "success" &&
+        response.isIMEIVerified
+      ) {
+        this.addProductToBag(ussid, productcode, exchangeDetails);
+      }
+      if (
+        response.status &&
+        response.status.toLowerCase() === "failure" &&
+        !response.isIMEIVerified &&
+        response.error
+      ) {
+        this.props.displayToast(response.error);
+      }
+    } else {
+      this.addProductToBag(ussid, productcode, exchangeDetails);
+    }
+  }
+
+  addProductToBag(ussid, productcode, exchangeDetails) {
+    const productDetails = {};
+    productDetails.ussId = ussid;
+    productDetails.code = productcode;
+    productDetails.quantity = PRODUCT_QUANTITY;
+    productDetails.isFromMobileExchange = true;
+    productDetails.verifyIMEINumberAPIResponse = exchangeDetails;
+    Object.assign(
+      productDetails.verifyIMEINumberAPIResponse,
+      exchangeDetails.exchangePriceDetail
+    );
+    this.props.addProductToCart(productDetails);
+  }
+
   removeItem(ussid) {
     setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_WISHLIST_REMOVE);
     const productDetails = {};
     productDetails.ussId = ussid;
+    if (this.props.removeProductFromWishList) {
+      this.props.removeProductFromWishList(productDetails);
+    }
+  }
+  removeItemWithExchange(ussid, exchangeDetails) {
+    const productDetails = {};
+    productDetails.ussId = ussid;
+    productDetails.removeFromWlWithExchange = true;
+    productDetails.quoteId = exchangeDetails.quoteId;
+    productDetails.IMEINumber = exchangeDetails.IMEINumber;
+    productDetails.exchangeId = exchangeDetails.exchangeProductId;
     if (this.props.removeProductFromWishList) {
       this.props.removeProductFromWishList(productDetails);
     }
@@ -118,21 +176,36 @@ export default class SaveListDetails extends React.Component {
                           offerPrice={product.mop && product.mop.value}
                           image={product.imageURL}
                           productCode={product.productcode}
-                          addToBagItem={() =>
-                            this.addToBagItem(
-                              product.USSID,
-                              product.productcode
-                            )
+                          addToBagItem={
+                            product.exchangeDetails
+                              ? () =>
+                                  this.addToBagItemWithExchange(
+                                    product.USSID,
+                                    product.productcode,
+                                    product.exchangeDetails
+                                  )
+                              : () =>
+                                  this.addToBagItem(
+                                    product.USSID,
+                                    product.productcode
+                                  )
                           }
                           brandName={product.brandName}
                           onClickImage={() =>
                             this.onClickImage(product.productcode)
                           }
-                          removeItem={productUssid =>
-                            this.removeItem(product.USSID)
+                          removeItem={
+                            product.exchangeDetails
+                              ? () =>
+                                  this.removeItemWithExchange(
+                                    product.USSID,
+                                    product.exchangeDetails
+                                  )
+                              : productUssid => this.removeItem(product.USSID)
                           }
                           size={product.size}
                           isSizeOrLength={product.isSizeOrLength}
+                          exchangeDetails={product.exchangeDetails}
                         />
                       </div>
                     );

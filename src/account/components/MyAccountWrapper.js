@@ -19,6 +19,7 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
   COSTUMER_ORDER_RELATED_QUERY_ROUTE,
+  COSTUMER_CLIQ_CARE_ROUTE,
   REDMI_WALLET_FROM_EMAIL,
   TRANSACTION_DETAIL_PAGE,
   TRANSACTION_HISTORY,
@@ -30,11 +31,10 @@ import {
   MY_ACCOUNT_USER_NOTIFICATION_PAGE,
   MY_ACCOUNT_PROMOS_PAGE,
   MY_ACCOUNT_CHECK_BALANCE_PAGE,
-  MY_ACCOUNT_CLIQ_GIFT_CARD_PAGE
+  MY_ACCOUNT_CLIQ_GIFT_CARD_PAGE,
+  MY_ACCOUNT_EXCHANGE_MODE_SELECTION_PAGE
 } from "../../lib/constants.js";
 import AllOrderContainer from "../containers/AllOrderContainer";
-import AllSellerReviewContainer from "../containers/AllSellerReviewContainer";
-
 import MyAccountContainer from "../containers/MyAccountContainer";
 import UserAlertsAndCouponsContainer from "../containers/UserAlertsAndCouponsContainer";
 import MyAccountBrandsContainer from "../containers/MyAccountBrandsContainer";
@@ -60,6 +60,7 @@ import NotificationContainer from "../containers/NotificationContainer.js";
 import CliqCashPromosContainer from "../containers/CliqCashPromosContainer.js";
 import CliqGiftCardContainer from "../containers/CliqGiftCardContainer.js";
 
+import ExchangeModeSelectionContainer from "../containers/ExchangeModeSelectionContainer";
 export default class MyAccountWrapper extends React.Component {
   componentDidMount() {
     this.props.getUserAddress();
@@ -81,10 +82,13 @@ export default class MyAccountWrapper extends React.Component {
     return null;
   }
   render() {
+    console.log("My account", this.props);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (!userDetails || !customerCookie) {
-      return this.navigateToLogin();
+    if (!this.props.location.pathname.includes(COSTUMER_CLIQ_CARE_ROUTE)) {
+      if (!userDetails || !customerCookie) {
+        return this.navigateToLogin();
+      }
     }
 
     return (
@@ -213,7 +217,7 @@ export default class MyAccountWrapper extends React.Component {
 
         <Route path={`${ORDER_PREFIX}`} component={OrderDetailsContainer} />
         <Route
-          path={`${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`}
+          path={`${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`}
           component={OrderRelatedIssueContainer}
         />
         <Route path={`${CNC_TO_HD_ORDER}`} component={CncToHdFlowContainer} />
@@ -221,6 +225,10 @@ export default class MyAccountWrapper extends React.Component {
           exact
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_USER_NOTIFICATION_PAGE}`}
           component={NotificationContainer}
+        />
+        <Route
+          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_EXCHANGE_MODE_SELECTION_PAGE}`}
+          component={ExchangeModeSelectionContainer}
         />
       </Switch>
     );

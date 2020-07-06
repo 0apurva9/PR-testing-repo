@@ -1,0 +1,128 @@
+.base {
+	width: 100%;
+	height: auto;
+  margin-top: 45px;
+  border-bottom: 1px solid #ececec;
+  padding-bottom: 40px;
+  padding-left: 50px;
+}
+.step {
+	width: 25%;
+	height: auto;
+	display: inline-block;
+	vertical-align: top;
+	padding-top: 30px;
+	position: relative;
+	font-size: 14px;
+	font-family: light;
+	text-align: center;
+	margin-top: 10px;
+}
+.processNameHolderBold {
+	width: 100%;
+	height: auto;
+	font-family: semibold;
+	position: absolute;
+	top: -40px;
+	left: -15px;
+}
+.processNameHolder {
+	width: 100%;
+	height: auto;
+	font-family: light;
+	position: absolute;
+	top: -40px;
+	left: -15px;
+}
+.dateAndTimeHolder {
+	width: 186px;
+	height: 51px;
+	display: inline-block;
+	vertical-align: top;
+}
+.timeHolder {
+	width: 50%;
+	height: auto;
+	color: #8d8d8d;
+	font-size: 12px;
+	font-family: light;
+	line-height: 16px;
+	letter-spacing: 0px;
+	margin-left: 25px;
+}
+.dateHolder {
+	width: 50%;
+	height: auto;
+	color: #8d8d8d;
+	font-size: 12px;
+	font-family: light;
+	line-height: 16px;
+	letter-spacing: 0px;
+	margin-left: 25px;
+}
+div .step:after {
+	content: '';
+	height: 1px;
+	width: 88%;
+	position: absolute;
+	top: 8.5px;
+  left: 44%;
+  border-top: 1px dashed #000;
+}
+div .step:before {
+	content: '';
+	height: 1px;
+	width: 88%;
+	position: absolute;
+	top: 8.5px;
+	left: -54%;
+  border-top: 1px solid #000;
+}
+.stepInactive {
+	composes: step;
+}
+div .stepInactive:after {
+	content: '';
+	height: 1px;
+	width: 100%;
+	position: absolute;
+	top: 8.5px;
+	left: 33%;
+	border-top: 1px dashed #000;
+}
+.step:last-child:after,
+div .stepInactive:before,
+div .step:first-child:before,
+div .stepInactive:last-child:after,
+div .stepInactive:last-child:before {
+	display: none;
+}
+.check {
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	left: 33%;
+	top: 0;
+	border-radius: 50%;
+	border: 2px solid #67b70b;
+	z-index: 10;
+	background: #fff;
+}
+.checkActive {
+	composes: check;
+	background: url(../../general/components/img/checkOrder.svg) no-repeat;
+	background-size: auto 40px;
+	background-position: center;
+	border: none;
+}
+.eieDateAndTimeHolder {
+	width: 121px;
+	height: auto;
+}
+.eieDateNTimeContainer {
+	width: auto;
+	height: auto;
+	color: #8d8d8d;
+	font-size: 12px;
+	font-family: light;
+}

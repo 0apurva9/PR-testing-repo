@@ -96,6 +96,9 @@ export default class FloatingLabelInput extends React.Component {
               ? styles.activeFloatingLabel
               : styles.floatingLabel
           }
+          style={{
+            fontSize: this.props.fontSize
+          }}
         >
           {this.props.label}
         </span>

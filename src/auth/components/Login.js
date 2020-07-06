@@ -221,10 +221,9 @@ class Login extends Component {
           return false;
         }
       } else {
-        if (!MOBILE_PATTERN.test(userDetails.username)) {
-          this.props.displayToast("Please enter a valid phone number");
-          return false;
-        }
+        this.props.displayToast("Please enter a valid email address");
+        return false;
+        // Removed Mobile Number condition As Only Email Ids are used for Sign UP/Sign In
       }
       if (!userDetails.password) {
         this.props.displayToast("Please enter your password");

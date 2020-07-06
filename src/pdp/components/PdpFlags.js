@@ -8,6 +8,11 @@ export default class PdpFlags extends React.Component {
           <div className={styles.base}>Out of Stock</div>
         </div>
       );
+    } else if (
+      this.props.showExchangeTag &&
+      this.props.exchangeOfferAvailable
+    ) {
+      return <div className={styles.exchangeOffer}>Offers on Exchange</div>;
     } else if (this.props.newProduct === "Y") {
       return <div className={styles.new}>New</div>;
     } else if (
@@ -23,11 +28,6 @@ export default class PdpFlags extends React.Component {
       );
     } else if (this.props.onlineExclusive === "Y") {
       return <div className={styles.new}>New</div>;
-    } else if (
-      this.props.isExchangeAvailable === true &&
-      this.props.showExchangeTag === true
-    ) {
-      return <div className={styles.exhange}>Exchange Offer</div>;
     }
     //bundled offer tag
     else if (this.props.discountPercent && this.props.discountPercent !== "0") {

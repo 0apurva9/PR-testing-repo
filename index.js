@@ -17,6 +17,10 @@ app.use(function(req, res, next) {
   );
   res.setHeader("Pragma", "no-cache");
   res.setHeader("Cache-Control", "max-age=0, no-cache, no-store");
+  res.setHeader(
+    "Strict-Transport-Security",
+    "max-age=16070400; includeSubDomains"
+  );
   next();
 });
 app.get("*.js", function(req, res, next) {
@@ -51,15 +55,6 @@ app.get("*.css", function(req, res, next) {
 
   next();
 });
-
-var prerender = require("prerender-node").set(
-  "prerenderToken",
-  "NYax1xFNwJGOvG1c0fyj"
-);
-prerender.crawlerUserAgents.push("googlebot");
-prerender.crawlerUserAgents.push("bingbot");
-prerender.crawlerUserAgents.push("yandex");
-app.use(prerender);
 
 app.use(express.static("build"));
 

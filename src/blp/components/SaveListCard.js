@@ -38,13 +38,14 @@ export default class SaveListCard extends React.Component {
             onClickImage={() => this.onClickImage()}
             size={this.props.size}
             isSizeOrLength={this.props.isSizeOrLength}
+            exchangeDetails={this.props.exchangeDetails}
           />
           <div className={styles.rating}>
             {this.props.totalNoOfReviews && (
               <StarRating averageRating={this.props.averageRating}>
-                <div className={styles.noOfReviews}>{`(${
-                  this.props.totalNoOfReviews
-                })`}</div>
+                <div
+                  className={styles.noOfReviews}
+                >{`(${this.props.totalNoOfReviews})`}</div>
               </StarRating>
             )}
           </div>

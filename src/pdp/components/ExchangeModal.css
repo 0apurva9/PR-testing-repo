@@ -1,0 +1,568 @@
+.base {
+  position: absolute;
+  width: 496px;
+  height: auto;
+  max-height: 100%;
+  background: #fff;
+  padding: 0;
+  transform: translateX(100%);
+  animation: slideIn 200ms forwards;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  min-height: initial;
+}
+.content {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  overflow: auto;
+  padding: 22px 25px;
+}
+.heading{
+  font-family: semibold;
+  font-size: 20px;
+  color: #212121;
+  float: left;
+}
+.exchangeInfoLinks{
+  font-family: semibold;
+  font-size: 14px;
+  line-height: 2;
+  color: #6c6c6c;
+  float: right;
+  cursor: pointer;
+}
+@keyframes slideIn {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+.exchangeButtonContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width:100%;
+  height: auto;
+  padding: 20px 0 35px 0;
+}
+.exchangeButton{
+  width: 242px;
+  height: 38px;
+  border-radius: 19.5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+  background-color: #8d8d8d;
+  font-family: semibold;
+  font-size: 14px;
+  text-align: center;
+  color: #ffffff;
+  padding: 10px;
+}
+.exchangeButtonEnabled{
+  width: 242px;
+  height: 38px;
+  border-radius: 19.5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+  background-color: #ff1744;
+  font-family: semibold;
+  font-size: 14px;
+  text-align: center;
+  color: #ffffff;
+  padding: 10px;
+  cursor: pointer;
+  opacity: 1;
+}
+.sliderContainer{
+  padding-left: 25px;
+  width: 800px;
+  height: 250px;
+  overflow: scroll;
+  position: relative;
+}
+.tabSlider{
+  float: left;
+  margin-right: 15px;
+  width: 360px;
+  height: 238px;
+  border-radius: 4px;
+  border: solid 0.5px #c6c6c6;
+  padding: 15px;
+  font-size:14px;
+  position: relative;
+}
+.tabSlider:nth-child(2){
+  border: dashed 0.5px #c6c6c6;
+  background-color: #f8f8f8;
+}
+.tabSliderTwo{
+  float: right;
+  margin-right: 15px;
+  width: 360px;
+  height: 238px;
+  border-radius: 4px;
+  border: solid 0.5px #c6c6c6;
+  padding: 15px;
+  font-size:14px;
+  position: relative;
+}
+.tabSliderTwo:first-child{
+  background-color: #f8f8f8;
+  margin-right: 35px;
+  border: dashed 0.5px #c6c6c6;
+}
+.exchangeOfferTable{
+  width: 330px;
+  margin-top: 25px;
+}
+.exchangeOfferTable tr td:nth-child(even){
+  text-align: right;
+}
+.exchangeOfferTable tr td:nth-child(odd){
+  padding-left: 0;
+}
+.cashbackHeading{
+  font-family: semibold;
+  color: #212121;
+  padding-left: 0 !important;
+  padding-bottom: 3px;
+}
+.cashbackSubtitle{
+  font-family: light;
+  font-size: 12px;
+  color: #4a4a4a;
+  padding: 0 10px 0 0 !important;
+}
+.fontSize12{
+  font-family: light;
+  color: #212121;
+}
+.tabOneRadio{
+  float: left;
+  margin: 0px 5px 0 0;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.tabOneTitle{
+  float: left;
+}
+.freePickUp{
+  font-family: semibold;
+  color: #67b70b;
+}
+.cashbackInfoIcon{
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.cashbackInfoSubtitle{
+  float: left;
+  margin: 1px 4px 0 0;
+}
+.icons{
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+.addDevice{
+  font-size: 12px;
+  color: #8d8d8d;
+  width: 170px;
+  cursor: pointer;
+  text-align: left;
+  transform: rotate(90deg);
+  position: absolute;
+  left: -40px;
+  top: 47%;
+  letter-spacing: 0.2px;
+  text-align: center;
+}
+.arrowRight::after{
+  content: "";
+  border: 1px solid #ff1744;
+  border-width: 0 1px 1px 0;
+  padding: 3px;
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  cursor: pointer;
+  position: absolute;
+  top: 4px;
+}
+.imeiCheckForm{
+  position: relative;
+  width: 100%;
+  padding: 25px;
+  display: inline-block;
+}
+.imeiInput{
+  float: left;
+  width: 80%;
+  border:none;
+  border-bottom: 1px solid #ccc;
+  font-size: 16px;
+  line-height: 1;
+  font-family: regular;
+  color: #212121;
+}
+.imeiInput:focus{
+  outline:none;
+}
+.imeiInput::placeholder{
+  font-family: light;
+  font-size: 14px;
+  color: #8d8d8d;
+}
+.enableVerifyButton{
+  float: left;
+  width: 20%;
+  text-align: right;
+  border-bottom: 1px solid #ccc;
+  font-family: semibold;
+  font-size: 14px;
+  color: #ff1744;
+  line-height: 1;
+  cursor: pointer;
+  height: 22px;
+}
+.disableVerifyButton{
+  float: left;
+  width: 20%;
+  text-align: right;
+  border-bottom: 1px solid #ccc;
+  font-family: semibold;
+  font-size: 14px;
+  color: #8d8d8d;
+  line-height: 1;
+  pointer-events: none;
+  height: 22px;
+}
+.imeiInputInfo{
+  font-family: light;
+  font-size: 12px;
+  color: #212121;
+  float: left;
+  margin-top: 5px;
+}
+.howToImeiCheck{
+  color:#ff1744;
+  font-family: semibold;
+}
+.effectivePrice{
+  margin: 0 25px;
+  display: inline-block;
+  width: calc(100% - 50px);
+  border-radius: 4px;
+  border: dashed 0.5px #c6c6c6;
+  padding: 15px;
+  font-size: 14px;
+}
+.effectivePriceTrOne{
+  font-family: semibold;
+}
+.effectivePriceTrTwo{
+  text-align: right;
+  font-family: semibold;
+}
+.tncContainer{
+  display: inline-block;
+  width: 100%;
+  padding: 20px 25px;
+}
+.tnc{
+  font-family: light;
+  font-size: 12px;
+  color: #212121;
+  float: left;
+}
+.tncText,.knowMore,.changeDevice{
+  color: #ff1744;
+  font-family: semibold;
+  cursor: pointer;
+}
+.knowMore,.changeDevice{
+  font-size: 12px;
+  float: right;
+}
+.changeDevice{
+  margin-right: 10px;
+}
+.tncCheckbox{
+  float: left;
+  margin: 0 10px 0 0;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.howExchangeWorksContainer,.termsConditionsContainer {
+  position: absolute;
+  width: 496px;
+  height: auto;
+  max-height: 100%;
+  background: #fff;
+  transform: translateX(100%);
+  animation: slideIn 200ms forwards;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  min-height: initial;
+  z-index: 1;
+  overflow: scroll;
+}
+.termsConditionsContainer{
+  z-index: 2;
+}
+.topContainer{
+  position: sticky;
+  padding: 25px 40px 25px 40px;
+  width: 100%;
+  background-color: #fff;
+  top: 0;
+  z-index: 1;
+}
+.bottomContainer{
+  position: relative;
+  padding: 0px 40px 25px 40px;
+}
+.modalBackArrow{
+  border: solid #000;
+  border-width: 0 1px 1px 0;
+  padding: 4px;
+  -ms-transform: rotate(135deg);
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+  position: absolute;
+  top: 32px;
+  left: 19px;
+  cursor: pointer;
+}
+.howExchangeWorksHeading{
+  font-family: semibold;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #212121;
+}
+.contentHeading{
+  font-size: 13px;
+  line-height: 1.09;
+  color: #2d2d2d;
+  display: inline-block;
+  width: 100%;
+}
+.contentHeadingHEW{
+  font-size: 13px;
+  line-height: 1.09;
+  color: #2d2d2d;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 5px;
+}
+ul.contentHeading{
+  padding-left: 20px;
+}
+.contentDescription{
+  font-family: light;
+  font-size: 12px;
+  color: #212121;
+  margin: 5px 0 15px 0;
+}
+.contentDescriptionHEW{
+  font-family: light;
+  font-size: 12px;
+  color: #212121;
+  margin: 5px 0 15px 0;
+  line-height: 1.39;
+}
+.contentHeading > li{
+  padding: 10px 0;
+  font-size: 13px;
+  font-family: light;
+}
+.listDetails{
+  padding-left: 20px;
+  font-size: 13px;
+  line-height: 1.09;
+  color: #2d2d2d;
+  display: inline-block;
+  width: 100%;
+  margin: 0;
+}
+.listDetails > li{
+  padding: 0 0 20px 0;
+  font-size: 13px;
+  font-family: light;
+  line-height: 1.39;
+}
+.contentHeadingTnC{
+  font-size: 13px;
+  line-height: 1.09;
+  color: #2d2d2d;
+  display: inline-block;
+  width: 100%;
+  font-family: semibold;
+  margin-bottom: 12px;
+}
+.listDetailsTnC{
+  padding-left: 30px;
+  font-size: 13px;
+  line-height: 1.09;
+  color: #2d2d2d;
+  display: inline-block;
+  width: 100%;
+  margin: 0;
+}
+.listDetailsTnC > li{
+  padding: 0 0 20px 5px;
+  font-size: 13px;
+  font-family: light;
+  line-height: 1.39;
+}
+.iconSize{
+  float: left;
+  width: 24px;
+  height: 24px;
+  margin-right: 20px;
+}
+.contentContainer{
+  float: left;
+  width: calc(100% - 50px);
+}
+.contentContainerHEW{
+  float: left;
+  width: 100%;
+}
+.firstScreen{
+  padding: 0 30px;
+  display: inline-block;
+  width: 100%;
+}
+.smallHeading{
+  font-family: semibold;
+  font-size: 14px;
+  color: #212121;
+  margin-bottom: 10px;
+  width: 100%;
+  display: inline-block;
+}
+.evaluateContainer{
+  float: left;
+  width: 100%;
+  border-radius: 4px;
+  border: solid 0.5px #c6c6c6;
+  background-color: #ffffff;
+  padding: 25px;
+  margin-bottom: 30px;
+}
+.evaluateContainerTwo{
+  float: left;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 10px;
+}
+.evaluateButton{
+  float: right;
+  width: 143px;
+  height: 38px;
+  border-radius: 19.5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+  background-color: #ff1744;
+  font-family: semibold;
+  font-size: 14px;
+  text-align: center;
+  color: #ffffff;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+.evaluateButtonDisabled{
+  float: right;
+  width: 143px;
+  height: 38px;
+  border-radius: 19.5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+  background-color: #8d8d8d;
+  font-family: semibold;
+  font-size: 14px;
+  text-align: center;
+  color: #ffffff;
+  padding: 10px;
+  margin-top: 15px;
+}
+.customSelect{
+  width: 200px;
+}
+.closeIcon{
+  position: absolute;
+  top: 25px;
+  left: -40px;
+  cursor: pointer;
+}
+.textCaps{
+  text-transform: capitalize;
+}
+.verifySuccessButton{
+  color: #67b70b;
+}
+.checkIcon{
+  display: inline-block;
+  vertical-align: text-top;
+  margin-right: 5px;
+}
+.fontRegular{
+	font-family: regular;
+}
+.firstDeviceNameContainer,.secondDeviceNameContainer{
+  width: 170px;
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 13px;
+  color: #212121;
+}
+.firstDeviceName,.secondDeviceName{
+  display: inline-block;
+}
+.effectiveModelText{
+  float: left;
+  width: 260px;
+  text-transform: capitalize;
+  overflow-x: hidden;
+	white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.clickLink{
+  cursor: pointer;
+  text-decoration: underline;
+}
+.productNameTruncated{
+  width: 250px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  display: inline-block;
+}
+.imeiPlaceholder {
+  position: absolute;
+  top: 18px;
+  left: 12px;
+  padding: 7px 0 0 13px;
+  transition: all 200ms;
+  opacity: 0.7;
+  width: 200px;
+  color: #8d8d8d;
+  font-size: 14px;
+  pointer-events: none;
+}
+.imeiInput:focus ~ .imeiPlaceholder,
+.imeiInput:not(:focus):valid ~ .imeiPlaceholder{
+  font-size: 11px;
+  transform: translate3d(0, -80%, 0);
+  opacity: 1;
+}
+.asterik{
+  color: #ff1744;
+}

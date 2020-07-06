@@ -2,7 +2,8 @@ import { connect } from "react-redux";
 import {
   loginUser,
   customerAccessToken,
-  refreshToken
+  refreshToken,
+  LOGIN_WITH_EMAIL
 } from "../actions/user.actions";
 import {
   mergeCartId,
@@ -26,7 +27,8 @@ import {
   LOGGED_IN_USER_DETAILS,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   PRODUCT_ADDED_TO_WISHLIST,
-  CART_BAG_DETAILS
+  CART_BAG_DETAILS,
+  NON_LOGGED_IN_USER_DETAILS
 } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
 import { clearUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -76,6 +78,15 @@ const mapDispatchToProps = dispatch => {
       );
       // checking condition for the failure customer access token api
       if (userDetailsResponse.status === ERROR) {
+        let userDetailsType = {};
+        Object.assign(userDetailsType, {
+          loginType: LOGIN_WITH_EMAIL,
+          customerId: userDetails.username
+        });
+        Cookies.createCookie(
+          NON_LOGGED_IN_USER_DETAILS,
+          JSON.stringify(userDetailsType)
+        );
         setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE);
         dispatch(singleAuthCallHasFailed(userDetailsResponse.error));
       } else if (userDetailsResponse.status === SUCCESS) {
@@ -108,10 +119,10 @@ const mapDispatchToProps = dispatch => {
                   JSON.parse(cartDetailsLoggedInUser).code,
                   localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
                   lastUrl === "/cart" &&
-                  parseInt(
-                    mergeCartIdWithOldOneResponse.cartDetails.count,
-                    10
-                  ) !== currentBagCount
+                    parseInt(
+                      mergeCartIdWithOldOneResponse.cartDetails.count,
+                      10
+                    ) !== currentBagCount
                     ? true
                     : false
                 )

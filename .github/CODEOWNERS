@@ -1,0 +1,9 @@
+*.js                     @santosh-dew @chandansingh719
+*.jsx                    @santosh-dew @chandansingh719
+*.ts                     @sandip-j @santosh-dew
+*.tsx                    @sandip-j @santosh-dew
+*.config.js              @sandip-j @santosh-dew
+.env.*                   @santosh-dew @sandip-j @chandansingh719
+package.json             @sandip-j @santosh-dew
+CODEOWNERS               @sandip-j
+*.md                     @sandip-j

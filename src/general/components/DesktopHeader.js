@@ -6,8 +6,11 @@ import {
   MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_CLIQ_CASH_PAGE,
-  HELP_URL
   // RUPEE_SYMBOL
+  HELP_URL,
+  RUPEE_SYMBOL,
+  // COSTUMER_ORDER_RELATED_QUERY_ROUTE
+  COSTUMER_CLIQ_CARE_ROUTE
 } from "../../../src/lib/constants";
 import DropdownMenu from "./DropdownMenu.js";
 import * as Cookie from "../../lib/Cookie";
@@ -18,7 +21,9 @@ import {
   ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
   ADOBE_DIRECT_CALL_FOR_CATEGORY_CLICK,
   ADOBE_DIRECT_CALL_FOR_BRAND_CLICK,
-  setDataLayerForMinibag
+  setDataLayerForMinibag,
+  setDataLayerForFaqAndTc,
+  SET_DATA_LAYER_CC
 } from "../../lib/adobeUtils";
 import { isBrowser } from "browser-or-node";
 // import ProductImage from "./ProductImage.js";
@@ -176,17 +181,31 @@ export default class DesktopHeader extends React.Component {
       bagHover: false
     });
   }
+
   renderToAnotherUrlForHelp(webURL, value, event) {
     event.preventDefault();
-    if (webURL) {
-      const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
-      this.props.history.push(urlSuffix);
-      setDataLayerForHeaderAndFooterDirectCalls(
-        ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
-        value
-      );
-    }
+    setDataLayerForFaqAndTc(SET_DATA_LAYER_CC);
+
+    this.props.history.push({
+      pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
+      state: {
+        isCliqCare: true
+      }
+    });
+
+    // this.props.history.push(
+    //   ``
+
+    // );
+    // if (webURL) {
+    //   const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
+    //   this.props.history.push(urlSuffix);
+    //   setDataLayerForHeaderAndFooterDirectCalls(
+    //     ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
+    //     value
+    //   );
   }
+
   renderToAnotherURL(webURL, triggerDirectCall, value) {
     if (webURL) {
       let urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
@@ -370,7 +389,7 @@ export default class DesktopHeader extends React.Component {
                         this.renderToAnotherUrlForHelp(HELP_URL, "Help", event)
                       }
                     >
-                      Help
+                      CLiQ Care
                     </div>
                   </a>
                   <a href={""} target="_blank">

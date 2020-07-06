@@ -18,17 +18,17 @@ export default class SelectBoxMobile extends React.Component {
       value: this.props.value
         ? this.props.value
         : this.props.placeholder
-          ? this.props.placeholder
-          : this.props.options
-            ? this.props.options[0].value
-            : "",
+        ? this.props.placeholder
+        : this.props.options
+        ? this.props.options[0].value
+        : "",
       label: this.props.label
         ? this.props.label
         : this.props.placeholder
-          ? this.props.placeholder
-          : this.props.options
-            ? this.props.options[0].label
-            : "",
+        ? this.props.placeholder
+        : this.props.options
+        ? this.props.options[0].label
+        : "",
       touched: false
     };
   }
@@ -109,6 +109,12 @@ export default class SelectBoxMobile extends React.Component {
         themeClass = styles.base;
       }
     }
+    let visibleBoxClass = "";
+    if (this.props.extraVisibleBoxCss) {
+      visibleBoxClass = styles.visibleBox + " " + styles.extraVisibleBoxCss;
+    } else {
+      visibleBoxClass = styles.visibleBox;
+    }
     return (
       <div
         className={themeClass}
@@ -126,16 +132,15 @@ export default class SelectBoxMobile extends React.Component {
           label={this.state.label}
         >
           <React.Fragment>
-            {this.props.placeholder &&
-              !this.state.touched && (
-                <option
-                  value={this.props.placeholder}
-                  label={this.props.placeholder}
-                  disabled
-                >
-                  {this.props.placeholder}
-                </option>
-              )}
+            {this.props.placeholder && !this.state.touched && (
+              <option
+                value={this.props.placeholder}
+                label={this.props.placeholder}
+                disabled
+              >
+                {this.props.placeholder}
+              </option>
+            )}
             {this.props.options &&
               this.props.options.map((item, i) => {
                 return (
@@ -152,7 +157,7 @@ export default class SelectBoxMobile extends React.Component {
               })}
           </React.Fragment>
         </select>
-        <div className={styles.visibleBox}>{this.state.label}</div>
+        <div className={visibleBoxClass}>{this.state.label}</div>
         <div className={styles.arrow}>
           <Icon image={arrow} size={12} />
         </div>
@@ -173,5 +178,6 @@ SelectBoxMobile.propTypes = {
 SelectBoxMobile.defaultProps = {
   height: 35,
   arrowColour: GREY,
-  disabled: false
+  disabled: false,
+  extraVisibleBoxCss: false
 };

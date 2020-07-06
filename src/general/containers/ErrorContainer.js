@@ -5,6 +5,7 @@ import React from "react";
 import delay from "lodash.delay";
 import keys from "lodash.keys";
 import each from "lodash.foreach";
+import { stat } from "fs";
 const FAILED_TO_FETCH = "Failed to fetch";
 const TYPE_ERROR = "Type error";
 const JSON_ERROR = "JSON";
@@ -57,6 +58,10 @@ const mapStateToProps = state => {
     updateReturnDetailsError: state.profile.updateReturnDetailsError,
     cancelProductDetailsError: state.profile.cancelProductDetailsError,
     cancelProductError: state.profile.cancelProductError,
+    customerQueriesFieldError: state.profile.customerQueriesFieldError,
+    orderRelatedQuestionsError: state.profile.orderRelatedQuestionsError,
+    submitOrderDetailsError: state.profile.submitOrderDetailsError,
+    uploadUserFileError: state.profile.uploadUserFileError,
     updateQuantityLoggedInError: state.cart.updateQuantityLoggedInError,
     updateQuantityLoggedOutError: state.cart.updateQuantityLoggedOutError,
     justPayPaymentDetailsError: state.cart.justPayPaymentDetailsError,
@@ -160,8 +165,9 @@ class ErrorDisplay extends React.Component {
   }
 }
 
-const ErrorContainer = connect(mapStateToProps, mapDispatchToProps)(
-  ErrorDisplay
-);
+const ErrorContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ErrorDisplay);
 
 export default ErrorContainer;
