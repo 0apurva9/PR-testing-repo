@@ -355,7 +355,7 @@
   .addGiftCardIcon {
     width: 70px;
     height: 34px;
-    background: url(../../general/components/img/add_giftcard.svg) no-repeat;
+    background: url(../../account/components/img/giftcardAddAccount.svg) no-repeat;
     background-size: cover;
     background-position: center;
   }
