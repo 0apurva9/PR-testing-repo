@@ -18,6 +18,7 @@ import {
   MY_ACCOUNT_PROMOS_PAGE,
   MY_ACCOUNT_CLIQ_GIFT_CARD_PAGE
 } from "../../lib/constants.js";
+import Arrow from "./img/arrow-copy.svg";
 
 import {
   setDataLayerForGiftCard,
@@ -214,7 +215,10 @@ export default class CliqCashDesktop extends React.Component {
                 <div>
                   <div className={styles.cliqCashBalanceHolder}>
                     <div
-                      style={{ backgroundImage: `url(${walletBg})` }}
+                      style={{
+                        backgroundImage: `url(${walletBg})`,
+                        backgroundSize: "contain"
+                      }}
                       className={styles.cliqCashBalanceContainer}
                     >
                       <div className={styles.cliqCashBalanceHeader}>
@@ -223,7 +227,7 @@ export default class CliqCashDesktop extends React.Component {
                       <div className={styles.totalBalanceHolder}>
                         <div className={styles.totalBalance}>
                           <div className={styles.balanceHeader}>
-                            Your Balance
+                            Total Available Balance
                           </div>
                           <div className={styles.balance}>
                             <span className={styles.rupee}>₹</span>
@@ -349,7 +353,7 @@ export default class CliqCashDesktop extends React.Component {
                           >
                             <div className={styles.addGiftCardButton}>
                               <div className={styles.addGiftCardButtonText}>
-                                Add gift card
+                                Add It Here
                               </div>
                             </div>
                           </div>
@@ -391,8 +395,11 @@ export default class CliqCashDesktop extends React.Component {
                       className={styles.giftCardPromoContainer}
                       onClick={() => this.redirectToPromoCliqCash()}
                     >
+                      <div className={styles.arrowDiv}>
+                        <img src={Arrow} className={styles.arrow} />
+                      </div>
                       <div className={styles.promoCliqCashText}>
-                        <div> PROMO CLIQ CASH</div>
+                        <div>PROMO CLiQ Cash</div>
 
                         <div className={styles.viewRewards}>View Rewards</div>
                         <span className={styles.fwd_logo} />
@@ -555,7 +562,7 @@ export default class CliqCashDesktop extends React.Component {
                   <div className={styles.aboutCliqCashBase}>
                     <div className={styles.aboutCliqCashContainer}>
                       <div className={styles.aboutCliqCashHeaderText}>
-                        Why use CLiQ Cash?
+                        The CLiQ Cash Advantage
                       </div>
                       <div className={styles.aboutCliqCash}>
                         <div className={styles.aboutCliqCashIconAndText}>
@@ -566,18 +573,7 @@ export default class CliqCashDesktop extends React.Component {
                             FASTER CHECKOUT
                           </div>
                           <div className={styles.aboutCliqCashInfoSubHeading}>
-                            Quick & Instant Checkout
-                          </div>
-                        </div>
-                        <div className={styles.aboutCliqCashIconAndText}>
-                          <div className={styles.aboutCliqCashIconHolder}>
-                            <div className={styles.walletIcon} />
-                          </div>
-                          <div className={styles.aboutCliqCashInfoHeading}>
-                            CONSOLIDATED WALLET
-                          </div>
-                          <div className={styles.aboutCliqCashInfoSubHeading}>
-                            Get Cashbacks, Refunds, Promos at one place
+                            Instant Checkout
                           </div>
                         </div>
                         <div className={styles.aboutCliqCashIconAndText}>
@@ -588,7 +584,18 @@ export default class CliqCashDesktop extends React.Component {
                             FASTER REFUNDS
                           </div>
                           <div className={styles.aboutCliqCashInfoSubHeading}>
-                            Get Refunds instantly
+                            Get Refunds instantly post successful pick up
+                          </div>
+                        </div>
+                        <div className={styles.aboutCliqCashIconAndText}>
+                          <div className={styles.aboutCliqCashIconHolder}>
+                            <div className={styles.walletIcon} />
+                          </div>
+                          <div className={styles.aboutCliqCashInfoHeading}>
+                            CONSOLIDATED WALLET
+                          </div>
+                          <div className={styles.aboutCliqCashInfoSubHeading}>
+                            All balances at one place
                           </div>
                         </div>
                         <div

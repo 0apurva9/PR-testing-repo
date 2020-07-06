@@ -19,8 +19,8 @@ import headerBg from "./img/headerBg.png";
 import { getCustomerAccessToken } from "../../common/services/common.services";
 import { numberWithCommas } from "../../lib/dateTimeFunction";
 import Button from "../../general/components/Button";
-import giftcardAddAccount from "./img/giftcardAddAccount.png";
-import giftcardCheckBalance from "./img/giftcardCheckBalance.png";
+import giftcardAddAccount from "./img/giftcardAddAccount.svg";
+import giftcardCheckBalance from "./img/giftcardCheckBalance.svg";
 import {
   setDataLayerForGiftCard,
   SET_DATA_LAYER_ADD_GIFT_CARD
@@ -190,7 +190,10 @@ export default class CliqGiftCard extends Component {
                 </div>
                 <div className={styles.receivedGiftCardbtn}>
                   <div className={styles.receivedGiftCardDiv1}>
-                    <img src={giftcardCheckBalance} alt="Add account" />
+                    <img
+                      src={giftcardCheckBalance}
+                      alt="Track Your Gift Balance"
+                    />
                   </div>
                   <div className={styles.receivedGiftCardDiv2}>
                     <p className={styles.receivedGiftCardbtnHead}>
