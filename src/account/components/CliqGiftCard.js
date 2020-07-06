@@ -13,7 +13,7 @@ import {
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_GIFT_CARD_PAGE
 } from "../../lib/constants";
-import PropTypes from "prop-types";
+import PropTypes, { array, arrayOf, string, object, bool } from "prop-types";
 import { Redirect } from "react-router-dom";
 import headerBg from "./img/headerBg.png";
 import { getCustomerAccessToken } from "../../common/services/common.services";
@@ -251,13 +251,35 @@ CliqGiftCard.defaultProps = {
   isModal: true
 };
 CliqGiftCard.propTypes = {
-  userAddress: PropTypes.object,
+  userAddress: PropTypes.shape({
+    addresses: arrayOf(
+      PropTypes.shape({
+        addressType: string,
+        city: string,
+        country: object,
+        defaultAddress: bool,
+        firstName: string,
+        id: string,
+        lastName: string,
+        line1: string,
+        phone: string,
+        postalCode: string,
+        state: string,
+        town: string
+      })
+    ),
+    status: string
+  }),
   history: PropTypes.object,
   setUrlToRedirectToAfterAuth: PropTypes.func.isRequired,
   location: PropTypes.object,
   setHeaderText: PropTypes.func.isRequired,
   getGiftCardDetails: PropTypes.func.isRequired,
-  giftCardsDetails: PropTypes.object,
+  giftCardsDetails: PropTypes.shape({
+    landingPageOptions: PropTypes.shape({
+      option: array
+    })
+  }),
   cliqCashUserDetails: PropTypes.object,
   showCliqCashModule: PropTypes.func
 };
