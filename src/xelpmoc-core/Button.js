@@ -53,6 +53,9 @@ export default class Button extends React.Component {
     ) {
       className = this.styles.disableBtnGrey;
     }
+    if (this.props.disabled && this.props.disabledLightGray) {
+      className = this.styles.disableBtnGrey;
+    }
     if (this.props.loading) {
       className = this.styles.loading;
     }
@@ -80,6 +83,7 @@ export default class Button extends React.Component {
       <div
         className={className}
         style={{
+          boxShadow: this.props.boxShadow,
           height: this.props.height,
           width: this.props.width,
           borderRadius: this.props.borderRadius,
@@ -87,14 +91,18 @@ export default class Button extends React.Component {
           background: this.props.background ? this.props.background : "none",
           backgroundColor:
             this.props.disabled &&
-            this.props.disabledBgGrey &&
+            this.props.disabledLightGray &&
             this.props.type === "primary"
+              ? "#d8d8d8"
+              : this.props.disabled &&
+                this.props.disabledBgGrey &&
+                this.props.type === "primary"
               ? "#989898"
               : this.props.disabled &&
                 this.props.disabledBgGrey &&
                 this.props.type === "hollow"
-                ? "#FFF"
-                : this.state.backgroundColor,
+              ? "#FFF"
+              : this.state.backgroundColor,
           border: `2px solid ${
             this.props.disabled &&
             this.props.disabledBgGrey &&
@@ -107,24 +115,23 @@ export default class Button extends React.Component {
         onMouseLeave={() => this.hoverOut()}
         onClick={e => this.handleClick(e)}
       >
-        {this.props.icon &&
-          this.props.icon.element && (
-            <div
-              className={this.styles.iconWrapper}
-              style={{
-                height: this.props.icon.size,
-                width: this.props.icon.size,
-                marginRight: this.props.icon.offset
-              }}
-            >
-              <div className={iconClass}>{this.props.icon.element}</div>
-              {this.props.icon.hoveredElement && (
-                <div className={secondaryIconClass}>
-                  {this.props.icon.hoveredElement}
-                </div>
-              )}
-            </div>
-          )}
+        {this.props.icon && this.props.icon.element && (
+          <div
+            className={this.styles.iconWrapper}
+            style={{
+              height: this.props.icon.size,
+              width: this.props.icon.size,
+              marginRight: this.props.icon.offset
+            }}
+          >
+            <div className={iconClass}>{this.props.icon.element}</div>
+            {this.props.icon.hoveredElement && (
+              <div className={secondaryIconClass}>
+                {this.props.icon.hoveredElement}
+              </div>
+            )}
+          </div>
+        )}
 
         {textStyle ? (
           <span style={{ ...textStyle }}>{this.props.label}</span>

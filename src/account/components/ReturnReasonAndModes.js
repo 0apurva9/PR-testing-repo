@@ -100,9 +100,7 @@ export default class ReturnReasonAndModes extends React.Component {
       this.setState({ isReasonSelected: true, selectedReason: data.reason });
       this.props.onChange({ data });
       this.props.history.push({
-        pathname: `${RETURNS_PREFIX}/${
-          this.orderCode
-        }${RETURN_LANDING}${REPLACE_REFUND_SELECTION}`,
+        pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_LANDING}${REPLACE_REFUND_SELECTION}`,
         state: {
           authorizedRequest: true
         }
@@ -112,18 +110,14 @@ export default class ReturnReasonAndModes extends React.Component {
   onSelectMode(mode) {
     if (mode === QUICK_DROP) {
       this.props.history.push({
-        pathname: `${RETURNS_PREFIX}/${
-          this.orderCode
-        }${RETURN_TO_STORE}${RETURNS_STORE_MAP}`,
+        pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_TO_STORE}${RETURNS_STORE_MAP}`,
         state: {
           authorizedRequest: true
         }
       });
     } else if (mode === SCHEDULED_PICKUP) {
       this.props.history.push({
-        pathname: `${RETURNS_PREFIX}/${
-          this.orderCode
-        }${RETURN_CLIQ_PIQ}${RETURN_CLIQ_PIQ_ADDRESS}`,
+        pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_CLIQ_PIQ}${RETURN_CLIQ_PIQ_ADDRESS}`,
         state: {
           authorizedRequest: true
         }
@@ -293,7 +287,6 @@ export default class ReturnReasonAndModes extends React.Component {
           this.props.orderDetails.products[0] &&
           this.props.orderDetails.products[0].productBrand
         }
-        history={this.props.history}
         onChange={comment => this.onChange({ comment })}
         onChangePrimary={reason => this.onChange({ reason })}
         onContinue={data => this.renderToModes(data)}
@@ -376,7 +369,6 @@ export default class ReturnReasonAndModes extends React.Component {
         updateStateForBankDetails={data =>
           this.props.updateStateForBankDetails(data)
         }
-        history={this.props.history}
         bankDetail={this.props.bankDetail}
         returnFlow={this.props.returnFlow}
       />

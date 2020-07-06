@@ -28,7 +28,8 @@
 @media screen and (min-width: 1025px) {
   .searchHolder {
     background: #fff;
-    height: 360px;
+    /* commenting height property. Height will be applied as per search results in api response  */
+    /* height: 360px; */
     position: absolute;
     top: 60px;
     width: 100%;

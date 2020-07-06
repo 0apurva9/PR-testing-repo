@@ -1,0 +1,430 @@
+.whiteCard {
+  background: #fff;
+  padding: 20px;
+  width: 100%;
+  /* height: 200px; */
+  border-radius: 6px;
+}
+
+.loginBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.loginHeading {
+  font-size: 16px;
+  font-family: semibold;
+  color: #212121;
+}
+.loginButton {
+  padding: 21px 0px 3px 0px;
+}
+.orderDataCard {
+  background: #fff;
+  /* box-shadow: 0px 0px 7px 0 rgba(0, 0, 0, 0.1); */
+  /* text-shadow: 0 0 black; */
+  width: 100%;
+  /* border-radius: 6px; */
+  cursor: pointer;
+  border-radius: 8px;
+    box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.07);
+    background-color: #ffffff;
+}
+.orderDataBox {
+  display: flex;
+  padding: 12px 14px 16px 14px;
+}
+.orderImage {
+  width: 94%;
+  height: 100%;
+  border-radius: 4px;
+}
+.orderImageBox {
+  width: 100px;
+  height: 100px;
+  /* background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px; */
+}
+.orderDatils {
+  width: 100%;
+  overflow: hidden;
+  padding-left: 9px;
+}
+.noOrderBox{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 35px 0px 30px 0px;
+}
+.noOrderHeader{
+  font-size: 16px;
+  font-family: semibold;
+  color: #4a4a4a;
+}
+.noOrderTxt{
+  font-size: 16px;
+  font-family: light;
+  color: #4a4a4a;
+  padding: 8px 0px 24px 0px;
+}
+.continueShoping{}
+
+.productName {
+  font-size: 14px;
+  font-family: light;
+  color: #4a4a4a;
+  padding-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.orderStatus {
+  font-size: 12px;
+  color: #4a4a4a;
+  font-family: light;
+  padding-bottom: 6px;
+  /* width: 100; */
+    white-space: initial;
+}
+.fontBold {
+  font-family: semibold!important;
+}
+
+.headerBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  position: relative;
+}
+.orderHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee;
+}
+.header {
+  font-size: 16px;
+  color: #212121;
+  font-family: semibold;
+}
+.btn {
+  background: transparent;
+  border: transparent;
+  display: block;
+  color: #da1c5c;
+  font-size: 14px;
+  font-family: light;
+  /* line-height: 22px; */
+  padding: 0px;
+  padding-bottom: 11px;
+}
+.btn:not(:first-child) {
+}
+
+/* Order Details */
+.orderDetailsBox {
+  display: flex;
+  padding: 20px 0px;
+  /* border-bottom: 1px solid #eee;
+    margin-bottom: 20px; */
+  /* border-top: 1px solid #eee; */
+  /* border-bottom: 1px solid #eee; */
+}
+.orderDetailsCard {
+  width: 50%;
+  display: flex;
+}
+.questionListHeading{
+  font-size: 16px;
+    color: #212121;
+    font-family: semibold;
+    margin-bottom: 24px;
+}
+.orderDetailsImgBox {
+  width: 80px;
+  /* height: 120px; */
+}
+.orderImg {
+  width: 100%;
+  height: 100%;
+}
+.orderDetailsContent {
+  /* width: 76%; */
+  padding-left: 24px;
+}
+.orderDesc {
+  font-size: 14px;
+  font-family: light;
+  color: #4a4a4a;
+  line-height: 22px;
+  white-space: nowrap;
+  width: 290px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.moreAction {
+  width: 50%;
+  border-left: 1px solid #eee;
+  padding-left: 20px;
+}
+.moreHeader {
+  font-size: 14px;
+  color: #212121;
+  font-family: semibold;
+  padding-bottom: 20px;
+}
+.moreDetails {
+  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
+}
+.paddingTB {
+  padding: 5px 0px;
+}
+.listGroup {
+  margin: 0px;
+  padding: 0px;
+  list-style-type: none;
+}
+.listGroupItem {
+  font-size: 14px;
+  font-family: light;
+  color: #212121;
+  padding-bottom: 16px;
+  cursor: pointer;
+}
+
+/* Question Answer */
+.feedBack {
+  background: rgba(218, 28, 92, 0.22);
+  padding: 13px 20px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  margin-top: 24px;
+}
+.feedBackBox {
+  width: 69.3%;
+  line-height: 20px;
+  padding-right: 0px;
+}
+.feedBackButton {
+  width: 31%;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 28px;
+}
+.feedBackHeader {
+  font-size: 16px;
+  color: #000;
+  font-family: semibold;
+  padding-bottom: 5px;
+}
+
+.feedBackContent {
+  font-size: 14px;
+  color: #000;
+  font-family: light;
+}
+.question {
+  font-size: 14px;
+  color: #212121;
+  font-family: semibold;
+  padding: 15px 0px;
+}
+.solution {
+  font-size: 14px;
+  color: #4a4a4a;
+  font-family: light;
+  line-height: 23px;
+}
+.solution a {
+  /* border-bottom: 2px solid #ff1744; */
+  font-family: semibold;
+  color: #ff1744;
+}
+
+.nextIssue {
+  color: #8d8d8d;
+  font-family: light;
+  font-size: 14px;
+}
+.questionsAction {
+  display: flex;
+  margin-top: 24px;
+  align-items: center;
+}
+.thankImg {
+  display: flex;
+  width: 25%;
+  justify-content: flex-end;
+}
+.propleLike {
+  background: #409953;
+  display: flex;
+
+  align-items: center;
+  width: 173px;
+  font-size: 10px;
+  font-family: light;
+  color: #fff;
+  border-radius: 5px;
+  padding: 3px 10px;
+  margin-bottom: 16px;
+}
+.likeIcon {
+  padding-right: 10px;
+}
+.poopleLIke {
+  padding-right: 5px;
+  font-family: semibold;
+}
+.likeIcon img {
+  width: 13px;
+  height: 13px;
+}
+.marginBottom{
+  margin-bottom: 20px;
+}
+
+.allOrderDataBox{
+  display: flex;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+/* .allOrderDataBox:not(:last-child){
+margin-bottom: 20px;
+} */
+.allOrderImageBox{
+  width: 80px;
+  /* height: 100px; */
+}
+
+.allOrderDatils{
+  /* width: 87%; */
+  /* overflow: hidden; */
+  padding-left: 14px;
+}
+.allOrderImage{
+  width: 93%;
+    height: 100%;
+    border-radius: 4px;
+}
+.otherQuestionAnswer{
+  padding-right: 93px;
+}
+.faqQuestionAnswer{
+  border: 2px solid #eee;
+  border-radius: 8px;
+  padding: 20px 20px 5px 20px;
+  margin-bottom: 17px;
+  margin-right: 50px;
+}
+.prentIssueType{
+    font-size: 16px;
+    color: #212121;
+    font-family: semibold;
+    padding: 0px;
+    margin-top: 24px;
+    margin-bottom: 9px;
+
+}
+.parentIssueT{
+  font-size: 16px;
+    color: #212121;
+    font-family: semibold;
+    margin-bottom: 15px;
+
+margin-top: 20px;
+
+}
+
+.maginBottom{
+  margin-bottom: 15px;
+}
+
+.noQuestions{
+  font-size: 16px;
+    font-family: regular;
+    color: #212121;
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 90px;
+    text-align: center;
+}
+
+.orderActionButton{
+  font-size: 14px;
+  color: #da1c5c;
+  font-family: light;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+.accordianBox{
+  margin-top: 24px;
+}
+.faqHeading{font-size: 14px;
+color: #212121;
+font-family: light;
+padding-bottom: 16px;
+}
+.fontBold{
+  font-weight: semibold;
+}
+.parentIssueBox{
+  margin-bottom: 16px;
+}
+.parentIssue{
+  font-size: 16px;
+  color: #212121;
+  font-family: semibold;
+}
+.staticContent{
+  font-size: 14px;
+  font-family: light;
+}
+.allOrderDate{
+  font-size: 12px;
+    color: #4a4a4a;
+    font-family: light;
+    padding-bottom: 6px;
+    /* width: 189px; */
+    /* white-space: initial; */
+}
+.subIssueType{
+  font-size: 14px;
+  font-family: regular;
+  padding-top:24px;
+  padding-bottom: 5px;
+}
+.customBtn{
+  color: rgb(218, 28, 92);
+    font-size: 14px;
+    font-family: semibold;
+    cursor: pointer;
+}
+.orderDetailsSeperator{border-bottom: 1px solid #eee;
+margin-bottom: 16px;}
+
+.loadMore{
+  text-align: center;
+  padding: 10px 0px;
+}
+.loadMoreText{
+  display: inline-block;
+  cursor: pointer;
+}
+
+.dateStyle{
+  font-size: 12px;
+  font-family: semibold;
+  
+}

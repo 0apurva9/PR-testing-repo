@@ -101,7 +101,8 @@ export default class ReplaceRefundSelection extends React.Component {
       let cliqCashCheck = await this.props.getCliqCashDetailsRefund();
       if (
         cliqCashCheck.status === "Success" &&
-        (cliqCashCheck.isWalletCreated && cliqCashCheck.isWalletOtpVerified)
+        cliqCashCheck.isWalletCreated &&
+        cliqCashCheck.isWalletOtpVerified
       ) {
         localStorage.setItem("cliqCashCheckSuccess", true);
         this.setState({
@@ -139,9 +140,7 @@ export default class ReplaceRefundSelection extends React.Component {
     setDataLayer(ADOBE_ADD_BANKDETAILS_BUTTON_CLICKED);
     this.setState({ showAttachment: false });
     this.props.history.push({
-      pathname: `${RETURNS_PREFIX}/${
-        this.props.data.sellerorderno
-      }${RETURN_LANDING}${RETURNS_STORE_BANK_FORM}`,
+      pathname: `${RETURNS_PREFIX}/${this.props.data.sellerorderno}${RETURN_LANDING}${RETURNS_STORE_BANK_FORM}`,
       state: {
         authorizedRequest: true,
         bankData: data,
@@ -153,9 +152,7 @@ export default class ReplaceRefundSelection extends React.Component {
   navigateToReturnLanding() {
     return (
       <Redirect
-        to={`${RETURNS_PREFIX}/${
-          this.orderCode
-        }${RETURN_LANDING}${RETURNS_REASON}`}
+        to={`${RETURNS_PREFIX}/${this.orderCode}${RETURN_LANDING}${RETURNS_REASON}`}
       />
     );
   }
@@ -265,9 +262,7 @@ export default class ReplaceRefundSelection extends React.Component {
           );
           if (updateReturnConfirmation.status === "success") {
             this.props.history.push({
-              pathname: `${RETURNS_PREFIX}/${
-                this.orderCode
-              }${RETURN_LANDING}${REFUND_SUMMARY}`,
+              pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_LANDING}${REFUND_SUMMARY}`,
               state: {
                 authorizedRequest: true
               }
@@ -280,9 +275,7 @@ export default class ReplaceRefundSelection extends React.Component {
           }
         } else {
           this.props.history.push({
-            pathname: `${RETURNS_PREFIX}/${
-              this.orderCode
-            }${RETURN_LANDING}${RETURNS_MODES}`,
+            pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_LANDING}${RETURNS_MODES}`,
             state: {
               authorizedRequest: true
             }
@@ -527,9 +520,11 @@ export default class ReplaceRefundSelection extends React.Component {
                       }
                       orderId={this.props.orderId}
                       productSize={
+                        this.props.orderDetails &&
                         this.props.orderDetails.products[0].productSize
                       }
                       productColourName={
+                        this.props.orderDetails &&
                         this.props.orderDetails.products[0].productColourName
                       }
                       productBrand={
@@ -551,6 +546,12 @@ export default class ReplaceRefundSelection extends React.Component {
                             orderDetails.orderProductWsDTO[0] &&
                             orderDetails.orderProductWsDTO[0].productcode
                         )
+                      }
+                      exchangeDetails={
+                        data &&
+                        data.products &&
+                        data.products[0] &&
+                        data.products[0].exchangeDetails
                       }
                     >
                       {returnProductDetails &&
@@ -585,30 +586,29 @@ export default class ReplaceRefundSelection extends React.Component {
                 </div>
                 <ReturnsFrame>
                   <div className={styles.content}>
-                    {!this.state.showRefundOptions &&
-                      !disableModes && (
-                        <React.Fragment>
-                          <div className={styles.returnMode}>
-                            Select mode of return
-                          </div>
-                          <div
-                            className={styles.card}
-                            onClick={() => this.showRefund()}
-                          >
-                            <div className={styles.replaceRefundHeading}>
-                              {data && data.typeOfReturn[0].typeOfReturn}
-                              {!this.state.showRefundOptions && (
-                                <span className={styles.rightArrow} />
-                              )}
-                            </div>
+                    {!this.state.showRefundOptions && !disableModes && (
+                      <React.Fragment>
+                        <div className={styles.returnMode}>
+                          Select mode of return
+                        </div>
+                        <div
+                          className={styles.card}
+                          onClick={() => this.showRefund()}
+                        >
+                          <div className={styles.replaceRefundHeading}>
+                            {data && data.typeOfReturn[0].typeOfReturn}
                             {!this.state.showRefundOptions && (
-                              <div className={styles.replaceRefundText}>
-                                {data && data.typeOfReturn[0].callout}
-                              </div>
+                              <span className={styles.rightArrow} />
                             )}
                           </div>
-                        </React.Fragment>
-                      )}
+                          {!this.state.showRefundOptions && (
+                            <div className={styles.replaceRefundText}>
+                              {data && data.typeOfReturn[0].callout}
+                            </div>
+                          )}
+                        </div>
+                      </React.Fragment>
+                    )}
                     {this.state.showRefundOptions && (
                       <React.Fragment>
                         <div className={styles.bankDetailsSection}>
@@ -868,21 +868,20 @@ export default class ReplaceRefundSelection extends React.Component {
                       this.state.agreeToReturn,
                       userBankDetails
                     )}
-                  {uploadImage.length > 0 &&
-                    !ImgSize && (
-                      <div className={styles.buttonHolder}>
-                        <div className={styles.button}>
-                          <Button
-                            width={175}
-                            type="primary"
-                            label="CONTINUE"
-                            onClick={() =>
-                              this.onContinueImageUpload(uploadImage)
-                            }
-                          />
-                        </div>
+                  {uploadImage.length > 0 && !ImgSize && (
+                    <div className={styles.buttonHolder}>
+                      <div className={styles.button}>
+                        <Button
+                          width={175}
+                          type="primary"
+                          label="CONTINUE"
+                          onClick={() =>
+                            this.onContinueImageUpload(uploadImage)
+                          }
+                        />
                       </div>
-                    )}
+                    </div>
+                  )}
                 </ReturnsFrame>
               </div>
             </div>

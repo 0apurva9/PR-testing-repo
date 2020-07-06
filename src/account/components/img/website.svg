@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="256" height="99" viewBox="0 0 256 99">
+    <defs>
+        <filter id="prefix__b" width="110.5%" height="127.4%" x="-5.3%" y="-13.7%" filterUnits="objectBoundingBox">
+            <feMorphology in="SourceAlpha" operator="dilate" radius="1.5" result="shadowSpreadOuter1"/>
+            <feOffset in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="3"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0.305961277 0 0 0 0 0.305961277 0 0 0 0 0.305961277 0 0 0 0.1 0"/>
+        </filter>
+        <filter id="prefix__e" width="108.1%" height="108.1%" x="-4%" y="-4%" filterUnits="objectBoundingBox">
+            <feGaussianBlur in="SourceAlpha" result="shadowBlurInner1" stdDeviation="1.5"/>
+            <feOffset dy="2" in="shadowBlurInner1" result="shadowOffsetInner1"/>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" k2="-1" k3="1" operator="arithmetic" result="shadowInnerInner1"/>
+            <feColorMatrix in="shadowInnerInner1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+        </filter>
+        <rect id="prefix__a" width="256" height="98.6" x="0" y="0" rx="6"/>
+        <path id="prefix__d" d="M62 31c0 17.123-13.88 31-31 31C13.88 62 0 48.123 0 31 0 13.877 13.88 0 31 0c17.12 0 31 13.877 31 31z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <mask id="prefix__c" fill="#fff">
+            <use xlink:href="#prefix__a"/>
+        </mask>
+        <g opacity=".1">
+            <use fill="#000" filter="url(#prefix__b)" xlink:href="#prefix__a"/>
+            <use fill="#DA1C5C" xlink:href="#prefix__a"/>
+        </g>
+        <g mask="url(#prefix__c)">
+            <g>
+                <g opacity=".3" transform="translate(16 16)">
+                    <use fill="#FFF" xlink:href="#prefix__d"/>
+                    <use fill="#000" filter="url(#prefix__e)" xlink:href="#prefix__d"/>
+                </g>
+                <g stroke="#FAEDF1" transform="translate(16 16) translate(10.585 12.098)">
+                    <circle cx="20.282" cy="20.29" r="20.282" fill="#EE9AB5"/>
+                    <ellipse cx="20.017" cy="20.29" fill="#EE9AB5" rx="10.738" ry="19.752"/>
+                    <path stroke-linecap="square" d="M20.282 0.936L20.282 39.909"/>
+                    <path stroke-linecap="square" d="M20.282 0.936L20.282 39.909" transform="rotate(-90 20.282 20.423)"/>
+                    <path stroke-linecap="round" d="M2.773 10.396c5.994 1.753 11.759 2.598 17.688 2.598 5.854 0 11.643-.854 17.367-2.563M2.887 30.223c5.867-2.133 11.689-3.2 17.465-3.2 5.805 0 11.619 1.077 17.44 3.232"/>
+                    <path fill="#EE9AB5" stroke-linejoin="round" d="M28.634 26.521L28.957 38.076 33.098 34.896 37.89 40.977 40.636 39.085 35.824 32.926 39.674 29.867z"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

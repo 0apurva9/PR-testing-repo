@@ -1,10 +1,8 @@
 import React from "react";
 import cloneDeep from "lodash.clonedeep";
-import FilterTab from "./FilterTab";
 import FilterSelect from "./FilterSelect";
 import FilterCategory from "./FilterCategory";
 import FilterCategoryL1 from "./FilterCategoryL1";
-import SearchInput from "../../general/components/SearchInput";
 import styles from "./FilterDesktop.css";
 import queryString from "query-string";
 import { createUrlFromQueryAndCategory } from "./FilterUtils.js";
@@ -14,14 +12,15 @@ import {
   CATEGORY_CAPTURE_REGEX,
   CATEGORY_REGEX
 } from "../../plp/components/PlpBrandCategoryWrapper";
-import { URL_ROOT } from "../../lib/apiRequest";
 import BrandFilterTabDesktop from "./BrandFilterTabDesktop";
 import PriceFilterTabDesktop from "./PriceFilterTabDesktop";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ShowBrandModal from "./ShowBrandModal";
 import {
+  setDataLayer,
   setDataLayerForSelectedFilterDirectCalls,
-  ADOBE_DIRECT_CALL_FOR_FILTER_OPTION
+  ADOBE_DIRECT_CALL_FOR_FILTER_OPTION,
+  ADOBE_MDE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER
 } from "../../lib/adobeUtils";
 const BRAND = "Brand";
 const COLOUR = "Colour";
@@ -82,9 +81,7 @@ export default class FilterDesktop extends React.Component {
 
           let url = `${this.props.location.pathname}?q=${clearedQuery}`;
           if (searchQuery.match(/inStockFlag%3Atrue/i)) {
-            url = `${
-              this.props.location.pathname
-            }?q=${clearedQuery}${EOOF_Flag}`;
+            url = `${this.props.location.pathname}?q=${clearedQuery}${EOOF_Flag}`;
           }
           this.props.history.push(url, {
             isFilter: false
@@ -239,6 +236,9 @@ export default class FilterDesktop extends React.Component {
     if (filterType === "Availability") {
       this.props.userSelectedOutOfStock(filterSelected);
     }
+    if (filterType === "Exchange Available") {
+      setDataLayer(ADOBE_MDE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER);
+    }
 
     this.props.history.push(url, {
       isFilter: false,
@@ -273,8 +273,9 @@ export default class FilterDesktop extends React.Component {
     let autoShowFilters = [],
       filterWithCollapse = [];
     if (facetData) {
+      let facetCount = facetData.length;
       autoShowFilters = cloneDeep(facetData).splice(0, 4);
-      filterWithCollapse = cloneDeep(facetData).splice(4, 20);
+      filterWithCollapse = cloneDeep(facetData).splice(4, facetCount);
     } else {
       return <div />;
     }
@@ -474,26 +475,23 @@ export default class FilterDesktop extends React.Component {
                                 )}
                             </DesktopOnly>
                           </div>
-                          {facetDataValues &&
-                            facetDataValues.name === PRICE && (
-                              <div className={styles.filterPriceHolder}>
-                                {facetDataValues.values && (
-                                  <div>
-                                    <PriceFilterTabDesktop
-                                      rangeApplied={
-                                        facetDataValues.rangeApplied
-                                      }
-                                      typeOfFilter={facetDataValues.name}
-                                      priceList={facetDataValues.values}
-                                      customRange={facetDataValues.customeRange}
-                                      history={this.props.history}
-                                      onFilterClick={this.onFilterClick}
-                                      query={this.props.query}
-                                    />
-                                  </div>
-                                )}
-                              </div>
-                            )}
+                          {facetDataValues && facetDataValues.name === PRICE && (
+                            <div className={styles.filterPriceHolder}>
+                              {facetDataValues.values && (
+                                <div>
+                                  <PriceFilterTabDesktop
+                                    rangeApplied={facetDataValues.rangeApplied}
+                                    typeOfFilter={facetDataValues.name}
+                                    priceList={facetDataValues.values}
+                                    customRange={facetDataValues.customeRange}
+                                    history={this.props.history}
+                                    onFilterClick={this.onFilterClick}
+                                    query={this.props.query}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          )}
                           {facetDataValues &&
                             facetDataValues.name !== COLOUR &&
                             facetDataValues.name !== BRAND &&

@@ -8,6 +8,7 @@ import Button from "../../general/components/Button.js";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import { SUCCESS, ADD_TO_BAG_TEXT, SHIPPING_TYPES } from "../../lib/constants";
 import PdpDeliveryModes from "./PdpDeliveryModes";
+import exchangeLogoLoader from "./img/exchangeLogoLoader.svg";
 export default class SellerCard extends React.Component {
   constructor(props) {
     super(props);
@@ -35,6 +36,9 @@ export default class SellerCard extends React.Component {
     if (this.props.goToBag) {
       this.props.goToBag();
     }
+  }
+  openExchangeModal() {
+    this.props.openExchangeModal();
   }
   handleShowPiqPage = ussid => {
     if (this.props.getAllStoresForCliqAndPiq) {
@@ -180,6 +184,28 @@ export default class SellerCard extends React.Component {
                   winningUssID={this.props.winningUssID}
                 />
               </div>
+            )}
+            {this.props.exchangeAvailable && (
+              <React.Fragment>
+                <div className={styles.exchangeLogoContainer}>
+                  <img
+                    src={exchangeLogoLoader}
+                    className={styles.exchangeLogoLoader}
+                    alt="exchangeLogoLoader"
+                  />
+                  <div className={styles.exchangeLogo} />
+                </div>
+                <div className={styles.exchangeProduct}>
+                  Exchange Your Old Phone
+                </div>
+                <div
+                  className={styles.buttonWithArrow}
+                  onClick={() => this.openExchangeModal()}
+                >
+                  <span className={styles.arrowLine} />
+                  <span className={styles.arrow} />
+                </div>
+              </React.Fragment>
             )}
           </div>
           <div

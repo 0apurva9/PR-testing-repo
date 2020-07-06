@@ -73,9 +73,7 @@ export default class RefundTransactionSummary extends React.Component {
   navigateToReturnLanding() {
     return (
       <Redirect
-        to={`${RETURNS_PREFIX}/${
-          this.orderCode
-        }${RETURN_LANDING}${RETURNS_REASON}`}
+        to={`${RETURNS_PREFIX}/${this.orderCode}${RETURN_LANDING}${RETURNS_REASON}`}
       />
     );
   }
@@ -133,43 +131,45 @@ export default class RefundTransactionSummary extends React.Component {
               )}
 
             <div className={styles.summarySmallHeading}>You are Returning:</div>
-            {summaryDetails &&
-              summaryDetails.getRefundTransactionDetails && (
-                <OrderCard
-                  imageUrl={
-                    summaryDetails.getRefundTransactionDetails.products[0]
-                      .imageURL
-                  }
-                  imageHolderWidth="98px"
-                  imageHolderHeight="130px"
-                  productName={
-                    summaryDetails.getRefundTransactionDetails.products[0]
-                      .productName
-                  }
-                  pickupAddress={
-                    summaryDetails.getRefundTransactionDetails.deliveryAddress
-                  }
-                  returnStoreAddress={
-                    summaryDetails.getRefundTransactionDetails
-                      .returnStoreAddress
-                  }
-                  productSize={
-                    summaryDetails.getRefundTransactionDetails.products[0]
-                      .productSize
-                  }
-                  productColourName={
-                    summaryDetails.getRefundTransactionDetails.products[0]
-                      .productColour
-                  }
-                  returnModeSelected={
-                    this.props &&
-                    this.props.history &&
-                    this.props.history.location &&
-                    this.props.history.location.state &&
-                    this.props.history.location.state.returnMode
-                  }
-                >
-                  {/* {summaryDetails.getRefundTransactionDetails.products[0]
+            {summaryDetails && summaryDetails.getRefundTransactionDetails && (
+              <OrderCard
+                imageUrl={
+                  summaryDetails.getRefundTransactionDetails.products &&
+                  summaryDetails.getRefundTransactionDetails.products[0]
+                    .imageURL
+                }
+                imageHolderWidth="98px"
+                imageHolderHeight="130px"
+                productName={
+                  summaryDetails.getRefundTransactionDetails.products &&
+                  summaryDetails.getRefundTransactionDetails.products[0]
+                    .productName
+                }
+                pickupAddress={
+                  summaryDetails.getRefundTransactionDetails.deliveryAddress
+                }
+                returnStoreAddress={
+                  summaryDetails.getRefundTransactionDetails.returnStoreAddress
+                }
+                productSize={
+                  summaryDetails.getRefundTransactionDetails.products &&
+                  summaryDetails.getRefundTransactionDetails.products[0]
+                    .productSize
+                }
+                productColourName={
+                  summaryDetails.getRefundTransactionDetails.products &&
+                  summaryDetails.getRefundTransactionDetails.products[0]
+                    .productColour
+                }
+                returnModeSelected={
+                  this.props &&
+                  this.props.history &&
+                  this.props.history.location &&
+                  this.props.history.location.state &&
+                  this.props.history.location.state.returnMode
+                }
+              >
+                {/* {summaryDetails.getRefundTransactionDetails.products[0]
                     .productSize && (
                     <span className={styles.productSizeColor}>
                       {
@@ -188,14 +188,29 @@ export default class RefundTransactionSummary extends React.Component {
                       }
                     </span>
                   )} */}
-                </OrderCard>
-              )}
+              </OrderCard>
+            )}
             <div
               className={styles.trackOrderButton}
               onClick={() => this.gotoOrderDetailsPage()}
             >
               Track Order
             </div>
+            {summaryDetails &&
+              summaryDetails.getRefundTransactionDetails &&
+              summaryDetails.getRefundTransactionDetails.products &&
+              summaryDetails.getRefundTransactionDetails.products[0] &&
+              summaryDetails.getRefundTransactionDetails.products[0]
+                .exchangeDetails && (
+                <div className={styles.exchangeDetailsWithReturn}>
+                  <div className={styles.cancelExchangeMessage}>
+                    {
+                      summaryDetails.getRefundTransactionDetails.products[0]
+                        .exchangeDetails.exchangeCancelMessage
+                    }
+                  </div>
+                </div>
+              )}
           </div>
         </div>
       </div>

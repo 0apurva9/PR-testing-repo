@@ -2,8 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import ProductImage from "../../general/components/ProductImage.js";
 import styles from "./OrderSucessCard.css";
-import format from "date-fns/format";
-const dateFormat = "DD MMM YYYY";
 const EDD_TEXT = "Estimated Delivery Date";
 export default class OrderSucessCard extends React.Component {
   getDateMonthFormate(dateWithMonth) {
@@ -121,13 +119,13 @@ export default class OrderSucessCard extends React.Component {
           <div className={styles.dataShow}>
             <div className={styles.productNameWithPrice}>
               <div className={styles.productName}>{this.props.productName}</div>
-              <div className={styles.productPrice}>{`₹ ${
-                this.props.price
-              }`}</div>
+              <div
+                className={styles.productPrice}
+              >{`₹ ${this.props.price}`}</div>
             </div>
-            <div className={styles.quantity}>{`Quantity: ${
-              this.props.quantity
-            }`}</div>
+            <div
+              className={styles.quantity}
+            >{`Quantity: ${this.props.quantity}`}</div>
           </div>
           <div className={styles.deliveryTimingShow}>
             <div className={styles.timingAndMode}>
@@ -149,6 +147,44 @@ export default class OrderSucessCard extends React.Component {
               </div>
             </div>
           </div>
+          {this.props.exchangeDetails && (
+            <div>
+              <div className={styles.exchangeProductName}>
+                <span>Exchange Product: </span>
+                <span>{this.props.exchangeDetails.exchangeModelName}</span>
+              </div>
+              {this.props.exchangeDetails.exchangePriceDetail && (
+                <React.Fragment>
+                  <div className={styles.exchangeCashback}>
+                    <span>Total Exchange Cashback: </span>
+                    <span>
+                      {this.props.exchangeDetails.exchangePriceDetail
+                        .totalExchangeCashback &&
+                        this.props.exchangeDetails.exchangePriceDetail
+                          .totalExchangeCashback.formattedValueNoDecimal}
+                    </span>
+                  </div>
+                  <div className={styles.exchangePickup}>
+                    <span>Pick up: Within 3 days of product delivery</span>
+                    <span className={styles.spacer}>|</span>
+                    {this.props.exchangeDetails.exchangePriceDetail
+                      .pickupCharge &&
+                    this.props.exchangeDetails.exchangePriceDetail.pickupCharge
+                      .doubleValue === 0 ? (
+                      <span className={styles.freePickup}>FREE</span>
+                    ) : (
+                      <span>
+                        {
+                          this.props.exchangeDetails.exchangePriceDetail
+                            .pickupCharge.formattedValueNoDecimal
+                        }
+                      </span>
+                    )}
+                  </div>
+                </React.Fragment>
+              )}
+            </div>
+          )}
         </div>
       </div>
     );

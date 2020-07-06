@@ -68,7 +68,6 @@ if (process.env.NODE_ENV !== "development") {
 if (
   process.env.REACT_APP_STAGE === "devxelp" ||
   process.env.REACT_APP_STAGE === "uat2" ||
-  process.env.REACT_APP_STAGE === "tmpprod" ||
   process.env.REACT_APP_STAGE === "uat6tcs" ||
   process.env.REACT_APP_STAGE === "qa2" ||
   process.env.REACT_APP_STAGE === "pt" ||
@@ -77,7 +76,6 @@ if (
   process.env.REACT_APP_STAGE === "e2e" ||
   process.env.REACT_APP_STAGE === "e2e1" ||
   process.env.REACT_APP_STAGE === "preprod2" ||
-  process.env.REACT_APP_STAGE === "preprod3" ||
   process.env.REACT_APP_STAGE === "qa8" ||
   process.env.REACT_APP_STAGE === "qa9" ||
   process.env.REACT_APP_STAGE === "qa10" ||
@@ -105,6 +103,8 @@ if (
   process.env.REACT_APP_MERCHANTID = "694339";
 } else if (
   process.env.REACT_APP_STAGE === "p2" ||
+  process.env.REACT_APP_STAGE === "preprod3" ||
+  process.env.REACT_APP_STAGE === "tmpprod" ||
   process.env.REACT_APP_STAGE === "production"
 ) {
   process.env.REACT_APP_FACEBOOK_CLIENT_ID = "484004418446735";
@@ -135,7 +135,7 @@ if (process.env.REACT_APP_STAGE === "devxelp") {
     "742445068598-2t1f67127eqan2jjt4t7kagofp8rbchl.apps.googleusercontent.com";
 } else if (process.env.REACT_APP_STAGE === "tmpprod") {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
-    "970557259016-ek8mgjvai8eik30oes66g9c44gpmajrp.apps.googleusercontent.com";
+    "742445068598-2t1f67127eqan2jjt4t7kagofp8rbchl.apps.googleusercontent.com";
 } else if (process.env.REACT_APP_STAGE === "stage") {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
     "742445068598-7mra85a3m4lervedu7k7ddt7r8knheoi.apps.googleusercontent.com";
@@ -160,8 +160,10 @@ if (process.env.REACT_APP_STAGE === "devxelp") {
 } else if (process.env.REACT_APP_STAGE === "uat6") {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
     "970557259016-dn8cfjib6e40a1ejlisqitoakqpac2uj.apps.googleusercontent.com";
+} else if (process.env.REACT_APP_STAGE === "preprod3") {
+  process.env.REACT_APP_GOOGLE_CLIENT_ID =
+    "742445068598-2t1f67127eqan2jjt4t7kagofp8rbchl.apps.googleusercontent.com";
 } else if (
-  process.env.REACT_APP_STAGE === "preprod3" ||
   process.env.REACT_APP_STAGE === "preprod2" ||
   process.env.REACT_APP_STAGE === "preprod1" ||
   process.env.REACT_APP_STAGE === "prod1" ||

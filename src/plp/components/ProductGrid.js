@@ -58,15 +58,12 @@ export default class ProductGrid extends React.Component {
   };
 
   renderComponent = (data, index) => {
-    const altTag = `${data.productname}-${data.brandname}-${
-      data.productCategoryType
-    }-TATA CLIQ`;
+    const altTag = `${data.productname}-${data.brandname}-${data.productCategoryType}-TATA CLIQ`;
     return (
       <ProductModuleContainer
         key={index}
         isRange={data.price.isRange}
         productCategoryType={data.productCategoryType}
-        isRange={data.price.isRange}
         maxPrice={
           data.price &&
           data.price.maxPrice &&
@@ -115,8 +112,9 @@ export default class ProductGrid extends React.Component {
         shouldShowSimilarIcon={true}
         productListings={this.props.productListings}
         ussid={data.ussid}
-        isExchangeAvailable={data.exchangeOfferAvailable}
         showExchangeTag={data.showExchangeTag}
+        exchangeOfferAvailable={data.exchangeOfferAvailable}
+        maxExchangePrice={data.maxExchangePrice}
       />
     );
   };

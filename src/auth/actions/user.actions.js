@@ -125,11 +125,12 @@ export function loginUserSuccess(user, userName) {
   };
 }
 
-export function loginUserFailure(error) {
+export function loginUserFailure(error, userName) {
   return {
     type: LOGIN_USER_FAILURE,
     status: ERROR,
-    error
+    error,
+    userName
   };
 }
 
@@ -173,10 +174,42 @@ export function loginUser(userLoginDetails) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+      if (resultJson.status && resultJson.status === "Success") {
+        window.clevertap.profile.push({
+          Site: {
+            Email:
+              resultJson &&
+              resultJson.customerInfo &&
+              resultJson.customerInfo.emailId,
+            Identity: resultJson && resultJson.customerId,
+            Name: resultJson && resultJson.firstName,
+            "MSG-email": true, // Enable email notifications
+            "MSG-push": true, // Enable push notifications
+            "MSG-sms": true, // Enable sms notifications
+            "MSG-whatsapp": true // Enable whatsapp notifications
+          }
+        });
+        window.clevertap.onUserLogin.push({
+          Site: {
+            Email:
+              resultJson &&
+              resultJson.customerInfo &&
+              resultJson.customerInfo.emailId,
+            Identity: resultJson && resultJson.customerId,
+            Name: resultJson && resultJson.firstName,
+            "MSG-email": true, // Enable email notifications
+            "MSG-push": true, // Enable push notifications
+            "MSG-sms": true, // Enable sms notifications
+            "MSG-whatsapp": true, // Enable whatsapp notifications
+            "test-Notification": `test check ${resultJson &&
+              resultJson.firstName}`
+          }
+        });
+      }
 
       return dispatch(loginUserSuccess(resultJson, userLoginDetails.username));
     } catch (e) {
-      return dispatch(loginUserFailure(e.message));
+      return dispatch(loginUserFailure(e.message, userLoginDetails.username));
     }
   };
 }
@@ -221,6 +254,19 @@ export function signUpUser(userObj) {
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
+      }
+      if (resultJson.status && resultJson.status != "Failure") {
+        window.clevertap.profile.push({
+          Site: {
+            CustomerId: resultJson && resultJson.customerId,
+            Email: userObj && userObj.emailId,
+
+            "MSG-email": true, // Enable email notifications
+            "MSG-push": true, // Enable push notifications
+            "MSG-sms": true, // Enable sms notifications
+            "MSG-whatsapp": true // Enable whatsapp notifications
+          }
+        });
       }
       return dispatch(
         signUpUserSuccess(resultJson.customerId, userObj.emailId)
@@ -811,11 +857,14 @@ export function socialMediaLoginSuccess(user, loginType, userDetailObj) {
   };
 }
 
-export function socialMediaLoginFailure(error) {
+export function socialMediaLoginFailure(error, user, loginType, userDetailObj) {
   return {
     type: SOCIAL_MEDIA_LOGIN_FAILURE,
     status: ERROR,
-    error
+    error,
+    user,
+    loginType,
+    userDetailObj
   };
 }
 
@@ -842,7 +891,9 @@ export function socialMediaLogin(
         socialMediaLoginSuccess(resultJson, platform, userDetailObj)
       );
     } catch (e) {
-      return dispatch(socialMediaLoginFailure(e.message));
+      return dispatch(
+        socialMediaLoginFailure(e.message, userName, platform, userDetailObj)
+      );
     }
   };
 }

@@ -1,0 +1,50 @@
+.base {
+  position: absolute;
+  width: 496px;
+  height: 160px;
+  text-align: center;
+  max-height: 100%;
+  background: #fff;
+  transform: translateY(100%);
+  animation: slideIn 200ms forwards;
+  top: 35%;
+  margin: auto;
+  padding: 30px 55px;
+  border-radius: 4px;
+}
+@keyframes slideIn {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+.heading{
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+.cancelButton{
+  border-radius: 18px;
+  border: solid 2px #212121;
+  width: 156px;
+  font-size: 14px;
+  font-family: semibold;
+  padding: 7px;
+  display: inline-block;
+  margin-right: 15px;
+  cursor: pointer;
+}
+.goToBagButton{
+  border-radius: 18px;
+  border: solid 2px #ff1744;
+  background-color: #ff1744;
+  font-size: 14px;
+  width: 156px;
+  padding: 7px;
+  color: #ffffff;
+  font-family: semibold;
+  display: inline-block;
+  margin-left: 15px;
+  cursor: pointer;
+}
