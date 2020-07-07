@@ -290,9 +290,9 @@ if (process.env.REACT_APP_STAGE === "production") {
 
 // for haptik chatbot on PDP,PLP,CLP and Search
 if (process.env.REACT_APP_STAGE === "production") {
-  process.env.REACT_APP_HAPTIK_CHATBOT_URL = "https://www.buzzo.ai";
+  process.env.REACT_APP_HAPTIK_CHATBOT_URL = "https://www.haptikapi.net";
 } else {
-  process.env.REACT_APP_HAPTIK_CHATBOT_URL = "https://staging.buzzo.ai";
+  process.env.REACT_APP_HAPTIK_CHATBOT_URL = "https://staging.haptikapi.net";
 }
 
 function getClientEnvironment(publicUrl) {

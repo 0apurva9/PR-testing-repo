@@ -514,6 +514,10 @@ export default class Plp extends React.Component {
     }
   };
 
+  getChatbotDetails() {
+    this.props.getChatbotDetails();
+  }
+
   render() {
     let selectedFilterCount = 0;
     let selectedFilter = [];
@@ -558,7 +562,11 @@ export default class Plp extends React.Component {
       <React.Fragment>
         {this.props.productListings && (
           <div className={styles.base}>
-            <Chatbot productListings={this.props.productListings} />
+            <Chatbot
+              productListings={this.props.productListings}
+              getChatbotDetails={this.props.getChatbotDetails}
+              chatbotDetailsData={this.props.chatbotDetailsData}
+            />
             {this.renderPageTags()}
             {isBrowser && this.renderAmpTags()}
             {this.props.productListings.seo

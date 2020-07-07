@@ -4,6 +4,7 @@ import { setHeaderText } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions";
 import { getFeed } from "../../home/actions/home.actions";
 import { SECONDARY_FEED_TYPE } from "../../lib/constants";
+import { getChatbotDetails } from "../../plp/actions/plp.actions";
 
 import StaticPage from "../components/StaticPage";
 const mapDispatchToProps = dispatch => {
@@ -16,6 +17,9 @@ const mapDispatchToProps = dispatch => {
     },
     displayToast: text => {
       dispatch(displayToast(text));
+    },
+    getChatbotDetails: async () => {
+      await dispatch(getChatbotDetails());
     }
   };
 };
@@ -27,7 +31,8 @@ const mapStateToProps = state => {
     loading: state.feed.loading,
     feedType: SECONDARY_FEED_TYPE,
     status: state.feed.secondaryFeedStatus,
-    clpUrl: state.feed.message
+    clpUrl: state.feed.message,
+    chatbotDetailsData: state.productListings.getChatbotDetailsData
   };
 };
 

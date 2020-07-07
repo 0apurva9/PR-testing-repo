@@ -584,7 +584,11 @@ class Feed extends Component {
             {this.renderFeedComponent}
           </List>
         ) : null}
-        <Chatbot clpUrl={this.props.clpUrl} />
+        <Chatbot
+          clpUrl={this.props.clpUrl}
+          getChatbotDetails={this.props.getChatbotDetails}
+          chatbotDetailsData={this.props.chatbotDetailsData}
+        />
         <MobileOnly>
           <div
             style={{
@@ -608,7 +612,9 @@ Feed.propTypes = {
   loading: PropTypes.bool,
   marginTop: PropTypes.string,
   feedType: PropTypes.oneOf([HOME_FEED_TYPE, SECONDARY_FEED_TYPE]),
-  clpUrl: PropTypes.string
+  clpUrl: PropTypes.string,
+  getChatbotDetails: PropTypes.func,
+  chatbotDetailsData: PropTypes.object
 };
 
 Feed.defaultProps = {
