@@ -3605,7 +3605,7 @@ export function redeemCliqVoucher(cliqCashDetails, fromCheckout) {
         }/cliqcash/redeemCliqVoucher?access_token=${
           JSON.parse(customerCookie).access_token
         }&cartGuid=&couponCode=${cliqCashDetails.cardNumber}&passKey=${
-          cliqCashDetails.pinNumber
+          cliqCashDetails.cardPin
         }`
       );
       const resultJson = await result.json();
