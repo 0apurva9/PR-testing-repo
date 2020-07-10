@@ -75,10 +75,13 @@ export default class Chatbot extends React.PureComponent {
 
   render() {
     let currentCategoryName = "";
-    let data = this.props.chatbotDetailsData;
-    if (data && data.chatEnabled && data.list) {
+    if (
+      this.props.chatbotDetailsData &&
+      this.props.chatbotDetailsData.chatEnabled &&
+      this.props.chatbotDetailsData.list
+    ) {
       // for PLP
-      let plpData = data.list.find(value => {
+      let plpData = this.props.chatbotDetailsData.list.find(value => {
         return value.pageType === "PLP";
       });
       if (plpData && plpData.showWidget && this.props.productListings) {
@@ -146,7 +149,7 @@ export default class Chatbot extends React.PureComponent {
       }
 
       // for CLP
-      let clpData = data.list.find(value => {
+      let clpData = this.props.chatbotDetailsData.list.find(value => {
         return value.pageType === "CLP";
       });
       if (clpData && clpData.showWidget && this.props.clpUrl) {
@@ -166,7 +169,7 @@ export default class Chatbot extends React.PureComponent {
       }
 
       // for PDP
-      let pdpData = data.list.find(value => {
+      let pdpData = this.props.chatbotDetailsData.list.find(value => {
         return value.pageType === "PDP";
       });
       if (pdpData && pdpData.showWidget && this.props.productDetails) {
@@ -204,5 +207,19 @@ Chatbot.propTypes = {
   clpUrl: PropTypes.string,
   productDetails: PropTypes.object,
   getChatbotDetails: PropTypes.func,
-  chatbotDetailsData: PropTypes.object
+  chatbotDetailsData: PropTypes.objectOf(
+    PropTypes.shape({
+      chatEnabled: PropTypes.bool,
+      list: PropTypes.arrayOf(
+        PropTypes.shape({
+          pageType: PropTypes.string,
+          showWidget: PropTypes.bool,
+          categoryCode: PropTypes.string,
+          categoryName: PropTypes.string,
+          enableAfterSeconds: PropTypes.number,
+          categoryLandingPage: PropTypes.string
+        })
+      )
+    })
+  )
 };

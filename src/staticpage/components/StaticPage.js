@@ -396,5 +396,19 @@ StaticPage.propTypes = {
   location: PropTypes.object,
   seo: PropTypes.object,
   getChatbotDetails: PropTypes.func,
-  chatbotDetailsData: PropTypes.object
+  chatbotDetailsData: PropTypes.objectOf(
+    PropTypes.shape({
+      chatEnabled: PropTypes.bool,
+      list: PropTypes.arrayOf(
+        PropTypes.shape({
+          pageType: PropTypes.string,
+          showWidget: PropTypes.bool,
+          categoryCode: PropTypes.string,
+          categoryName: PropTypes.string,
+          enableAfterSeconds: PropTypes.number,
+          categoryLandingPage: PropTypes.string
+        })
+      )
+    })
+  )
 };
