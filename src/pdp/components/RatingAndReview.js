@@ -16,7 +16,6 @@ import TextArea from "../../general/components/ControlTextArea";
 import commentArray from "../../mock/lang_profanity.json";
 import FillupRatingOrder from "./FillupRatingOrder";
 import PropTypes from "prop-types";
-import ratingSuccessStar from "../../account/components/img//ratingSuccessStar.svg";
 
 const ReviewTips = () => {
   return (
@@ -68,8 +67,7 @@ export default class RatingAndReview extends React.Component {
       showTitleError: false,
       showDescriptionError: false,
       showMinimumCharacterError: false,
-      commentLength: 0,
-      showCustomToast: false
+      commentLength: 0
     };
   }
 
@@ -102,24 +100,14 @@ export default class RatingAndReview extends React.Component {
     }
   }
 
-  onRatingChange = async value => {
+  onRatingChange = value => {
     if (this.props.productDetails.userRating !== value) {
       setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_MODAL_STAR_CLICK, {
         rating: value,
         statusText: ""
       });
       this.setState({ rating: value });
-      let response = await this.props.submitProductRatingByUser(
-        value,
-        this.props
-      );
-      if (response.rating) {
-        //show custom toast
-        this.setState({ showCustomToast: true });
-        setTimeout(() => {
-          this.setState({ showCustomToast: false });
-        }, 3000);
-      }
+      this.props.submitProductRatingByUser(value, this.props);
     }
   };
 
@@ -183,17 +171,6 @@ export default class RatingAndReview extends React.Component {
     return (
       <div className={styles.base}>
         <div className={styles.reviewContainer}>
-          {this.state.showCustomToast ? (
-            <div className={styles.toastContainer}>
-              <img
-                src={ratingSuccessStar}
-                alt="rating star"
-                className={styles.ratingSuccessStar}
-              />
-              <div>SUBMITTED</div>
-              <div>Thank you for rating</div>
-            </div>
-          ) : null}
           <div className={styles.productDetailsHolder}>
             <div className={styles.productWrapper}>
               <div className={styles.productImage}>

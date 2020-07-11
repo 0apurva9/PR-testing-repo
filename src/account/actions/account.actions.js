@@ -5004,7 +5004,7 @@ export function submitProductRatingByUser(ratingValue, propsData) {
         throw new Error(resultJsonStatus.message);
       }
       if (resultJson.rating) {
-        // dispatch(displayToast(SUCCESSFUL_PRODUCT_RATING_BY_USER));
+        dispatch(displayToast("RATING_SUBMIT_SUCCESS_TOAST"));
         setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_MESSAGE, {
           rating: null,
           statusText: SUCCESSFUL_PRODUCT_RATING_BY_USER
@@ -5025,17 +5025,18 @@ export function submitProductRatingByUser(ratingValue, propsData) {
         (!propsData.productDetails.hasOwnProperty("userRating") ||
           propsData.productDetails.userRating === 0)
       ) {
-        dispatch(
-          showModal(RATING_AND_REVIEW_MODAL, {
-            ...propsData,
-            productDetails: {
-              ...propsData.productDetails,
-              userRating: resultJson.rating
-            }
-          })
-        );
+        setTimeout(() => {
+          dispatch(
+            showModal(RATING_AND_REVIEW_MODAL, {
+              ...propsData,
+              productDetails: {
+                ...propsData.productDetails,
+                userRating: resultJson.rating
+              }
+            })
+          );
+        }, 3000);
       }
-      return resultJson;
     } catch (e) {
       dispatch(productRatingByUserFailure(e.message));
     }

@@ -76,7 +76,6 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import AccountUsefulLink from "./AccountUsefulLink.js";
 import TabHolder from "./TabHolder";
 import TabData from "./TabData";
-import ratingSuccessStar from "./img/ratingSuccessStar.svg";
 const RETURN = "RETURN";
 const PRODUCT_RETURN = "Return";
 const dateFormat = "DD MMM YYYY";
@@ -100,8 +99,7 @@ export default class AllOrderDetails extends React.Component {
       stickyPortion: false,
       showStickyPortion: 0,
       sortValue: "",
-      sortLabel: "",
-      showCustomToast: false
+      sortLabel: ""
     };
     const currentYear = new Date().getFullYear();
     this.filterOptions = [
@@ -200,23 +198,16 @@ export default class AllOrderDetails extends React.Component {
       this.props.setHeaderText(ORDER_HISTORY);
     }
   }
-  onRatingChange = async (val, productDetails) => {
+  onRatingChange = (val, productDetails) => {
     setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_STAR_CLICK, {
       rating: val,
       statusText: ""
     });
     if (productDetails.userRating !== val) {
-      let response = await this.props.submitProductRatingByUser(val, {
+      this.props.submitProductRatingByUser(val, {
         ...this.props,
         productDetails: productDetails
       });
-      if (response.rating) {
-        //show custom toast
-        this.setState({ showCustomToast: true });
-        setTimeout(() => {
-          this.setState({ showCustomToast: false });
-        }, 3000);
-      }
     }
   };
 
@@ -375,7 +366,6 @@ export default class AllOrderDetails extends React.Component {
     }
   }
   redirectToHelpPage(orderDetails) {
-    console.log("orderDetails", orderDetails);
     setDataLayer(ADOBE_MY_ACCOUNT_HELP_AND_SUPPORT);
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
     const orderCode = orderDetails.orderId;
@@ -435,17 +425,6 @@ export default class AllOrderDetails extends React.Component {
     return (
       <div className={baseClassName}>
         <div className={MyAccountStyles.holder}>
-          {this.state.showCustomToast ? (
-            <div className={styles.toastContainer}>
-              <img
-                src={ratingSuccessStar}
-                alt="rating star"
-                className={styles.ratingSuccessStar}
-              />
-              <div>SUBMITTED</div>
-              <div>Thank you for rating</div>
-            </div>
-          ) : null}
           <DesktopOnly>
             <div
               className={

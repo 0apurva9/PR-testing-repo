@@ -50,8 +50,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     displayToast: message => {
       dispatch(displayToast(message));
     },
-    submitProductRatingByUser: async (rating, productDetails) => {
-      return await dispatch(submitProductRatingByUser(rating, productDetails));
+    submitProductRatingByUser: (rating, productDetails) => {
+      dispatch(submitProductRatingByUser(rating, productDetails));
     },
     showRatingAndReviewModal: data => {
       dispatch(showModal(RATING_AND_REVIEW_MODAL, data));
