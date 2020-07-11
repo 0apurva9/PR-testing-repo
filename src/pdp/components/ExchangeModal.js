@@ -319,7 +319,7 @@ export default class ExchangeModal extends React.Component {
       data.status.toLowerCase() === "success" &&
       data.isIMEIVerified
     ) {
-      let commonIMEIData = {
+      let deviceDetails = {
         exchangeBrandId: data.exchangeBrandId,
         exchangeBrandName: data.exchangeBrandName
       };
@@ -335,25 +335,25 @@ export default class ExchangeModal extends React.Component {
         quoteExpired: data.quoteExpired,
         totalExchangeCashback: data.totalExchangeCashback
       };
-      commonIMEIData.model = modelDetails;
+      deviceDetails.model = modelDetails;
       if (data.pickupCharge) {
-        commonIMEIData.pickupCharge = data.pickupCharge;
+        deviceDetails.pickupCharge = data.pickupCharge;
       }
       if (data.TULBump) {
-        commonIMEIData.tulBump = data.TULBump;
+        deviceDetails.tulBump = data.TULBump;
       }
 
       if (deviceNo === 1) {
         this.setState({
           checkIMEIMessageFirstDevice: this.state.IMEISuccessMessage,
           IMEIVerifiedFirstDevice: true,
-          firstDeviceInfo: commonIMEIData
+          firstDeviceInfo: deviceDetails
         });
       } else {
         this.setState({
           checkIMEIMessageSecondDevice: this.state.IMEISuccessMessage,
           IMEIVerifiedSecondDevice: true,
-          secondDeviceInfo: commonIMEIData
+          secondDeviceInfo: deviceDetails
         });
       }
       // this state is used in add to cart api call
@@ -768,7 +768,13 @@ export default class ExchangeModal extends React.Component {
 
 ExchangeModal.propTypes = {
   openHowExchangeWorksModal: PropTypes.func,
-  exchangeDetails: PropTypes.object,
+  exchangeDetails: PropTypes.objectOf(
+    PropTypes.shape({
+      makeModelDetails: PropTypes.object,
+      pickupCharge: PropTypes.object,
+      TULBump: PropTypes.object
+    })
+  ),
   updateProductState: PropTypes.func,
   closeModal: PropTypes.func,
   listingId: PropTypes.string,
