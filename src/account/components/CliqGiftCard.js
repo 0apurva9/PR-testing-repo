@@ -11,7 +11,7 @@ import {
   GIFT_CARD,
   RUPEE_SYMBOL,
   MY_ACCOUNT_PAGE,
-  MY_ACCOUNT_GIFT_CARD_PAGE
+  MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE
 } from "../../lib/constants";
 import PropTypes, { array, arrayOf, string, object, bool } from "prop-types";
 import { Redirect } from "react-router-dom";
@@ -35,9 +35,9 @@ export default class CliqGiftCard extends Component {
   }
   selectAmount(amount) {
     this.props.history.push({
-      pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`,
+      pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE}`,
       state: {
-        selectAmount: amount
+        selectedAmount: amount
       }
     });
   }
@@ -72,6 +72,11 @@ export default class CliqGiftCard extends Component {
         "The value of your Gift Card will be added to your CLiQ Cash balance. Use it for a seamless experience.";
       this.props.showCliqCashModule(obj);
     }
+  }
+  navigateSendGiftCard() {
+    this.props.history.push(
+      `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE}`
+    );
   }
 
   render() {
@@ -122,7 +127,7 @@ export default class CliqGiftCard extends Component {
                     color="#da1c5c"
                     backgroundColor={"#da1c5c"}
                     textStyle={{ color: "#da1c5c", fontSize: 14 }}
-                    // onClick={() => this.navigateSendGiftCard()}
+                    onClick={() => this.navigateSendGiftCard()}
                   />
                 </div>
               </div>
@@ -167,7 +172,7 @@ export default class CliqGiftCard extends Component {
                   color="#da1c5c"
                   bordercolor={"#da1c5c"}
                   textStyle={{ color: "#da1c5c", fontSize: 14 }}
-                  // onClick={() => this.navigateSendGiftCard()}
+                  onClick={() => this.navigateSendGiftCard()}
                 />
               </div>
             </div>
@@ -297,6 +302,9 @@ CliqGiftCard.propTypes = {
       option: array
     })
   }),
-  cliqCashUserDetails: PropTypes.object,
-  showCliqCashModule: PropTypes.func
+  cliqCashUserDetails: PropTypes.shape({
+    isWalletOtpVerified: bool
+  }),
+  showCliqCashModule: PropTypes.func,
+  showKycVerification: PropTypes.func
 };
