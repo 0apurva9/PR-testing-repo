@@ -71,6 +71,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE
 } from "../../lib/adobeUtils";
 import { getUserDetails } from "../../account/actions/account.actions.js";
+import { getChatbotDetails } from "../../plp/actions/plp.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getProductDescription: async productCode => {
@@ -312,6 +313,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     mergeTempCartWithOldCart: () => {
       dispatch(mergeTempCartWithOldCart());
+    },
+    getChatbotDetails: async () => {
+      await dispatch(getChatbotDetails());
     }
   };
 };
@@ -344,7 +348,8 @@ const mapStateToProps = state => {
     loadingForCartDetail: state.cart.loadingForCartDetail,
     pincodeError: state.productDescription.pincodeError,
     serviceableOtherSellersUssid:
-      state.productDescription.serviceableOtherSellersUssid
+      state.productDescription.serviceableOtherSellersUssid,
+    chatbotDetailsData: state.productListings.getChatbotDetailsData
   };
 };
 

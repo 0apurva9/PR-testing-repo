@@ -377,6 +377,8 @@ export default class StaticPage extends Component {
           seo={this.props.seo}
           setHeaderText={this.props.setHeaderText}
           clpUrl={this.props.clpUrl}
+          getChatbotDetails={this.props.getChatbotDetails}
+          chatbotDetailsData={this.props.chatbotDetailsData}
         />
       );
     }
@@ -392,5 +394,21 @@ StaticPage.propTypes = {
   feedType: PropTypes.string,
   setHeaderText: PropTypes.func,
   location: PropTypes.object,
-  seo: PropTypes.object
+  seo: PropTypes.object,
+  getChatbotDetails: PropTypes.func,
+  chatbotDetailsData: PropTypes.objectOf(
+    PropTypes.shape({
+      chatEnabled: PropTypes.bool,
+      list: PropTypes.arrayOf(
+        PropTypes.shape({
+          pageType: PropTypes.string,
+          showWidget: PropTypes.bool,
+          categoryCode: PropTypes.string,
+          categoryName: PropTypes.string,
+          enableAfterSeconds: PropTypes.number,
+          categoryLandingPage: PropTypes.string
+        })
+      )
+    })
+  )
 };
