@@ -208,6 +208,17 @@ export default class AllOrderDetails extends React.Component {
         ...this.props,
         productDetails: productDetails
       });
+      if (
+        !productDetails.hasOwnProperty("userRating") ||
+        productDetails.userRating === 0
+      ) {
+        setTimeout(() => {
+          this.props.showRatingAndReviewModal({
+            ...this.props,
+            productDetails: productDetails
+          });
+        }, 3000);
+      }
     }
   };
 

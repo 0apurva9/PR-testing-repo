@@ -5020,16 +5020,6 @@ export function submitProductRatingByUser(ratingValue, propsData) {
       dispatch(clearOrderDetails());
       dispatch(getAllOrdersDetails());
       dispatch(productRatingByUserSuccess(resultJson.rating));
-      if (
-        propsData &&
-        propsData.productDetails &&
-        (!propsData.productDetails.hasOwnProperty("userRating") ||
-          propsData.productDetails.userRating === 0)
-      ) {
-        setTimeout(() => {
-          dispatch(showModal(RATING_AND_REVIEW_MODAL, propsData));
-        }, 3000);
-      }
     } catch (e) {
       dispatch(productRatingByUserFailure(e.message));
     }
