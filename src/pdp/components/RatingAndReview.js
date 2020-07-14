@@ -59,11 +59,10 @@ export default class RatingAndReview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rating: this.props.productDetails.userRating,
+      rating: this.props.userRating,
       title: "",
       comment: "",
       showReviewGuidelines: false,
-      userSelectedRating: this.props.productDetails.userSelectedRating,
       showTitleError: false,
       showDescriptionError: false,
       showMinimumCharacterError: false,

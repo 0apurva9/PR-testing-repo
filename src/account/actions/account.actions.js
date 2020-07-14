@@ -4960,10 +4960,11 @@ export function productRatingByUserRequest() {
   };
 }
 
-export function productRatingByUserSuccess() {
+export function productRatingByUserSuccess(rating) {
   return {
     type: GET_USER_RATING_SUCCESS,
-    status: SUCCESS
+    status: SUCCESS,
+    rating
   };
 }
 
@@ -5018,7 +5019,7 @@ export function submitProductRatingByUser(ratingValue, propsData) {
       }
       dispatch(clearOrderDetails());
       dispatch(getAllOrdersDetails());
-      dispatch(productRatingByUserSuccess());
+      dispatch(productRatingByUserSuccess(resultJson.rating));
       if (
         propsData &&
         propsData.productDetails &&
@@ -5026,15 +5027,7 @@ export function submitProductRatingByUser(ratingValue, propsData) {
           propsData.productDetails.userRating === 0)
       ) {
         setTimeout(() => {
-          dispatch(
-            showModal(RATING_AND_REVIEW_MODAL, {
-              ...propsData,
-              productDetails: {
-                ...propsData.productDetails,
-                userRating: resultJson.rating
-              }
-            })
-          );
+          dispatch(showModal(RATING_AND_REVIEW_MODAL, propsData));
         }, 3000);
       }
     } catch (e) {
