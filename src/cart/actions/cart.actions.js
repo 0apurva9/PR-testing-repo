@@ -99,9 +99,7 @@ import {
   ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_OFF,
   ADOBE_MY_ACCOUNT_ADDRESS_BOOK,
   ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED,
-  ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE,
-  targetPageViewEvent,
-  TARGET_EVENT_FOR_PAGEVIEW
+  ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
 } from "../../lib/adobeUtils";
 
 const EGV_GIFT_CART_ID = "giftCartId";
@@ -662,13 +660,6 @@ export function getCartDetails(
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      targetPageViewEvent(TARGET_EVENT_FOR_PAGEVIEW, resultJson, "CART");
-      localStorage.setItem(
-        "locationSetForTarget",
-        JSON.stringify({
-          pageName: "CART"
-        })
-      );
       if (isSetDataLayer) {
         setDataLayer(
           ADOBE_CART_TYPE,

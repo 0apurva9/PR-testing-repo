@@ -369,7 +369,14 @@ class App extends Component {
     let cartCode;
 
     let cartDetailsForAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
-
+    let loginType =
+      localStorage.getItem("loginType") !== "undefined" &&
+      JSON.parse(localStorage.getItem("loginType"));
+    if (loginType && window && window.digitalData) {
+      Object.assign(window.digitalData, {
+        account: loginType
+      });
+    }
     // Case 1. THe user is not logged in.
     // if (!globalAccessToken && !this.props.cartLoading) {
     //   await this.props.getGlobalAccessToken();
