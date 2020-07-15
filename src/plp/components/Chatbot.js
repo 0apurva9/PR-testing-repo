@@ -37,7 +37,7 @@ export default class Chatbot extends React.PureComponent {
     let haptikData = {
       page_type: pageType,
       mode: "widget",
-      category: currentCategoryName
+      category: currentCategoryName.toLowerCase()
     };
     if (searchCriteriaValue) {
       haptikData.searchCriteria = searchCriteriaValue;
@@ -81,10 +81,10 @@ export default class Chatbot extends React.PureComponent {
       this.props.chatbotDetailsData.list
     ) {
       // for PLP
-      let plpData = this.props.chatbotDetailsData.list.find(value => {
+      let plpData = this.props.chatbotDetailsData.list.filter(value => {
         return value.pageType === "PLP";
       });
-      if (plpData && plpData.showWidget && this.props.productListings) {
+      if (plpData && this.props.productListings) {
         let plpProductDetails = this.props.productListings;
         let l2CategoryCode =
           plpProductDetails.facetdatacategory &&
@@ -108,6 +108,13 @@ export default class Chatbot extends React.PureComponent {
           plpProductDetails.facetdatacategory.filters[0].childFilters[0]
             .childFilters[0].categoryCode;
 
+        let eligiblePLPData = plpData.find(value => {
+          return (
+            value.categoryCode === l2CategoryCode ||
+            value.categoryCode === l3CategoryCode
+          );
+        });
+
         if (plpProductDetails.seo && plpProductDetails.seo.tag) {
           currentCategoryName = plpProductDetails.seo.tag;
         } else if (
@@ -119,60 +126,134 @@ export default class Chatbot extends React.PureComponent {
         }
 
         // filters data
-        let filtersData = [];
+        let searchCriteria = "";
         if (plpProductDetails) {
-          if (plpProductDetails.currentQuery.searchQuery) {
-            // in case of search
-            filtersData.push(plpProductDetails.currentQuery.searchQuery);
-          } else {
-            // in case of plp
-            filtersData.push(currentCategoryName);
+          let airConditionerFilter = [
+            "Brand",
+            "Price",
+            "Capacity",
+            "Ratings Star",
+            "Unique Thing"
+          ];
+          let washingMachineFilter = [
+            "Brand",
+            "Price",
+            "Capacity",
+            "Shop by family size",
+            "Function"
+          ];
+          let refrigeratorFilter = [
+            "Brand",
+            "Price",
+            "Capacity (Litre)",
+            "Ratings Star",
+            "Cooling Technology"
+          ];
+          let televisionFilter = [
+            "Brand",
+            "Price",
+            "Screen Size",
+            "Screen Resolution",
+            "Unique Thing"
+          ];
+          let microwaveOvenFilter = [
+            "Brand",
+            "Price",
+            "Capacity",
+            "Unique Thing"
+          ];
+
+          let categoryFilter = "";
+          if (eligiblePLPData.categoryName === "Air Conditioner") {
+            categoryFilter = airConditionerFilter;
+          } else if (eligiblePLPData.categoryName === "Washing Machine") {
+            categoryFilter = washingMachineFilter;
+          } else if (eligiblePLPData.categoryName === "Refrigerators") {
+            categoryFilter = refrigeratorFilter;
+          } else if (eligiblePLPData.categoryName === "TV") {
+            categoryFilter = televisionFilter;
+          } else if (eligiblePLPData.categoryName === "Microwave Oven") {
+            categoryFilter = microwaveOvenFilter;
           }
+
+          let filterValues = [];
+          let filterValuesText = "";
+          let brandAndFilterValuesText = "";
+
+          categoryFilter &&
+            plpProductDetails.facetdata.map(data => {
+              let facetIndex = categoryFilter.indexOf(data.name);
+              if (facetIndex !== -1 && data.selectedFilterCount > 0) {
+                data.values.map(value => {
+                  if (value.selected) {
+                    filterValues.push(value.name);
+                  }
+                });
+                filterValuesText =
+                  categoryFilter[facetIndex] + " " + filterValues.join(" / ");
+                brandAndFilterValuesText =
+                  brandAndFilterValuesText + filterValuesText + ", ";
+                filterValues = [];
+              }
+            });
+          searchCriteria =
+            brandAndFilterValuesText +
+            "Current Category " +
+            currentCategoryName;
         }
-        let searchCriteriaValue = filtersData && filtersData.join();
 
         if (
           currentCategoryName &&
           !currentCategoryName.toLowerCase().includes("samsung") &&
-          ((l2CategoryCode && l2CategoryCode === plpData.categoryCode) ||
-            (l3CategoryCode && l3CategoryCode === plpData.categoryCode))
+          eligiblePLPData.showWidget &&
+          ((l2CategoryCode &&
+            l2CategoryCode === eligiblePLPData.categoryCode) ||
+            (l3CategoryCode && l3CategoryCode === eligiblePLPData.categoryCode))
         ) {
           this.initiateHaptikChatbot(
             "PLP",
-            plpData.categoryName,
-            searchCriteriaValue,
+            eligiblePLPData.categoryName,
+            searchCriteria,
             "",
             "",
-            plpData.enableAfterSeconds ? plpData.enableAfterSeconds : null
+            eligiblePLPData.enableAfterSeconds
+              ? eligiblePLPData.enableAfterSeconds
+              : null
           );
         }
       }
 
       // for CLP
-      let clpData = this.props.chatbotDetailsData.list.find(value => {
+      let clpData = this.props.chatbotDetailsData.list.filter(value => {
         return value.pageType === "CLP";
       });
-      if (clpData && clpData.showWidget && this.props.clpUrl) {
+      if (clpData && this.props.clpUrl) {
+        let eligibleCLPData = clpData.find(value => {
+          return value.categoryLandingPage === this.props.clpUrl;
+        });
         if (
           !this.props.clpUrl.includes("samsung") &&
-          this.props.clpUrl === clpData.categoryLandingPage
+          eligibleCLPData.showWidget &&
+          this.props.clpUrl === eligibleCLPData.categoryLandingPage
         ) {
           this.initiateHaptikChatbot(
             "CLP",
-            clpData.categoryName,
+            eligibleCLPData.categoryName,
             "",
             "",
             "",
-            clpData.enableAfterSeconds ? clpData.enableAfterSeconds : null
+            eligibleCLPData.enableAfterSeconds
+              ? eligibleCLPData.enableAfterSeconds
+              : null
           );
         }
       }
 
       // for PDP
-      let pdpData = this.props.chatbotDetailsData.list.find(value => {
+      let pdpData = this.props.chatbotDetailsData.list.filter(value => {
         return value.pageType === "PDP";
       });
-      if (pdpData && pdpData.showWidget && this.props.productDetails) {
+      if (pdpData && this.props.productDetails) {
         let categoryHierarchyCheck = this.props.productDetails
           .categoryHierarchy;
         let categoryIds =
@@ -180,19 +261,28 @@ export default class Chatbot extends React.PureComponent {
           categoryHierarchyCheck.map((category, index) => {
             return category["category_id"];
           });
-        let categoryAvailable = categoryIds.includes(pdpData.categoryCode);
+
+        let eligiblePDPData = pdpData.find(value => {
+          return categoryIds.includes(value.categoryCode);
+        });
+        let categoryAvailable = categoryIds.includes(
+          eligiblePDPData.categoryCode
+        );
         if (
           this.props.productDetails.brandName &&
           this.props.productDetails.brandName.toLowerCase() !== "samsung" &&
+          eligiblePDPData.showWidget &&
           categoryAvailable
         ) {
           this.initiateHaptikChatbot(
             "PDP",
-            pdpData.categoryName,
+            eligiblePDPData.categoryName,
             "",
             this.props.productDetails.productListingId,
             this.props.productDetails.productName,
-            pdpData.enableAfterSeconds ? pdpData.enableAfterSeconds : null
+            eligiblePDPData.enableAfterSeconds
+              ? eligiblePDPData.enableAfterSeconds
+              : null
           );
         }
       }
