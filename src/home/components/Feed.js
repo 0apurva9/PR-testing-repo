@@ -26,10 +26,7 @@ import {
   ADOBE_VIRTUAL_PAGELOAD,
   ADOBE_HOME_TYPE,
   setDataLayerForLogin,
-  ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER,
-  targetPageViewEvent,
-  TARGET_EVENT_FOR_PAGELOAD,
-  TARGET_EVENT_FOR_PAGEVIEW
+  ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER
 } from "../../lib/adobeUtils";
 
 export const PRODUCT_RECOMMENDATION_TYPE = "productRecommendationWidget";
@@ -486,29 +483,6 @@ class Feed extends Component {
   }
 
   componentWillMount() {
-    let lastLocation = JSON.parse(localStorage.getItem("locationSetForTarget"));
-    if (
-      lastLocation === undefined ||
-      lastLocation === "undefined" ||
-      (lastLocation &&
-        lastLocation.pageName &&
-        lastLocation.pageName === "home")
-    ) {
-      targetPageViewEvent(TARGET_EVENT_FOR_PAGELOAD, "", "HOME");
-    } else if (
-      lastLocation &&
-      lastLocation.pageName &&
-      lastLocation.pageName != "home" &&
-      lastLocation != undefined
-    ) {
-      targetPageViewEvent(TARGET_EVENT_FOR_PAGEVIEW, "", "HOME");
-    }
-    localStorage.setItem(
-      "locationSetForTarget",
-      JSON.stringify({
-        pageName: "home"
-      })
-    );
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails) {

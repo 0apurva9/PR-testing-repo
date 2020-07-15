@@ -4272,28 +4272,28 @@ export function setPageNameAndPageType(response) {
     Object.assign(window.digitalData, digitalDataForPageName);
   }
 }
-export function targetPageViewEvent(type, response, pageType) {
-  if (response && pageType === "PDP") {
-    Object.assign(window.digitalData, getDigitalDataForPdp(type, response));
-  } else if (response && pageType === "PLP") {
-    Object.assign(window.digitalData, getDigitalDataForPlp(type, response));
-  } else if (response && pageType === "CART") {
-    Object.assign(window.digitalData, getDigitalDataForCart(type, response));
-  } else if (response && pageType === "HOME") {
-    Object.assign(window.digitalData, getDigitalDataForHome());
-  } else if (response && pageType === "ORDER_CONFIRMATION") {
-    Object.assign(
-      window.digitalData,
-      getDigitalDataForOrderConfirmation(type, response)
-    );
-  }
-  if (type === TARGET_EVENT_FOR_PAGELOAD) {
-    if (window._satellite) {
-      window._satellite.track(TARGET_EVENT_FOR_PAGELOAD);
-    }
-  } else if (type === TARGET_EVENT_FOR_PAGEVIEW) {
-    if (window._satellite) {
-      window._satellite.track(TARGET_EVENT_FOR_PAGEVIEW);
-    }
-  }
-}
+// export function targetPageViewEvent(type, response, pageType) {
+//   if (response && pageType === "PDP") {
+//     Object.assign(window.digitalData, getDigitalDataForPdp(type, response));
+//   } else if (response && pageType === "PLP") {
+//     Object.assign(window.digitalData, getDigitalDataForPlp(type, response));
+//   } else if (response && pageType === "CART") {
+//     Object.assign(window.digitalData, getDigitalDataForCart(type, response));
+//   } else if (response && pageType === "HOME") {
+//     Object.assign(window.digitalData, getDigitalDataForHome());
+//   } else if (response && pageType === "ORDER_CONFIRMATION") {
+//     Object.assign(
+//       window.digitalData,
+//       getDigitalDataForOrderConfirmation(type, response)
+//     );
+//   }
+//   if (type === TARGET_EVENT_FOR_PAGELOAD) {
+//     if (window._satellite) {
+//       window._satellite.track(TARGET_EVENT_FOR_PAGELOAD);
+//     }
+//   } else if (type === TARGET_EVENT_FOR_PAGEVIEW) {
+//     if (window._satellite) {
+//       window._satellite.track(TARGET_EVENT_FOR_PAGEVIEW);
+//     }
+//   }
+// }
