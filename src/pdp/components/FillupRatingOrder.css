@@ -19,8 +19,8 @@
 	vertical-align:middle;
 }
 .ratingStar{
-	width:22px;
-	height:22px;
+	width:34px;
+	height:34px;
 	background:url(../../general/components/img/empty-star.svg)no-repeat;
 	background-size: auto 100%;
 	background-position:center;
@@ -28,8 +28,8 @@
 	transition:300ms;
 }
 .ratingFillStar{
-	width:22px;
-	height:22px;
+	width:34px;
+	height:34px;
 	background:url(../../general/components/img/star-fill.svg)no-repeat;
 	background-size: auto 100%;
 	background-position:center;
@@ -37,8 +37,8 @@
 	transition:300ms;
 }
 .ratingFillGreenStar{
-	width:22px;
-	height:22px;
+	width:34px;
+	height:34px;
 	background:url(../../general/components/img/green-filled-star.svg)no-repeat;
 	background-size: auto 100%;
 	background-position:center;

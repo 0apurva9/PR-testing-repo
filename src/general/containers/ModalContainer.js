@@ -98,7 +98,8 @@ const mapStateToProps = (state, ownProps) => {
     stores: state.productDescription.storeDetails,
     redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl,
     loadingForUpdateReturnCancellation:
-      state.profile.loadingForUpdateReturnCancellation
+      state.profile.loadingForUpdateReturnCancellation,
+    userRating: state.profile.userRating
   };
 };
 

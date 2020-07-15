@@ -1,15 +1,9 @@
 import React from "react";
 import styles from "./RatingAndReview.css";
 import Button from "../../general/components/Button";
-import Icon from "../../xelpmoc-core/Icon";
-import crossIcon from "../../general/components/img/cancelBlack.svg";
 import ProductImage from "../../general/components/ProductImage.js";
-import {
-  MY_ACCOUNT_PAGE,
-  MY_ACCOUNT_GIFT_CARD_PAGE,
-  REVIEW_GUIDELINES,
-  SUCCESS
-} from "../../lib/constants";
+import checkIcon from "../../general/components/img/checkGreen.svg";
+import { REVIEW_GUIDELINES } from "../../lib/constants";
 import {
   setDataLayerForRatingAndReview,
   SET_DATA_LAYER_RATING_MODAL_STAR_CLICK,
@@ -65,10 +59,14 @@ export default class RatingAndReview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rating: this.props.productDetails.userRating,
+      rating: this.props.userRating,
       title: "",
       comment: "",
-      showReviewGuidelines: false
+      showReviewGuidelines: false,
+      showTitleError: false,
+      showDescriptionError: false,
+      showMinimumCharacterError: false,
+      commentLength: 0
     };
   }
 
@@ -81,10 +79,24 @@ export default class RatingAndReview extends React.Component {
 
   onChangeTitle(val) {
     this.setState({ title: val });
+    if (val) {
+      this.setState({ showTitleError: false });
+    } else {
+      this.setState({ showTitleError: true });
+    }
   }
 
   onChangeComment(val) {
-    this.setState({ comment: val });
+    let commentLength = val.length;
+    this.setState({ comment: val, commentLength: commentLength });
+    if (val.length > 50 || val.length !== 0) {
+      this.setState({ showMinimumCharacterError: false });
+    }
+    if (val) {
+      this.setState({ showDescriptionError: false });
+    } else {
+      this.setState({ showDescriptionError: true });
+    }
   }
 
   onRatingChange = value => {
@@ -113,18 +125,27 @@ export default class RatingAndReview extends React.Component {
       headline: title
     };
     if (!productReview.headline) {
-      this.props.displayToast("Please enter title");
+      this.setState({ showTitleError: true });
       return false;
     }
     if (!productReview.comment) {
-      this.props.displayToast("Please enter comment");
+      this.setState({ showDescriptionError: true });
       return false;
     }
-    if (productReview.comment.length < 50) {
-      this.props.displayToast("Please enter minimum 50 acharacters");
+    if (
+      productReview.comment.length !== 0 &&
+      productReview.comment.length < 50
+    ) {
+      this.setState({ showMinimumCharacterError: true });
       return false;
+    }
+    if (productReview.comment.length > 50) {
+      this.setState({ showMinimumCharacterError: false });
     }
     if (productReview.comment) {
+      this.setState({ showTitleError: false });
+      this.setState({ showDescriptionError: false });
+
       var c = productReview.comment.toLowerCase().split(" ");
       let notCommentPossible = commentArray.words.find(words => {
         if (c.includes(words.toLowerCase())) {
@@ -145,17 +166,9 @@ export default class RatingAndReview extends React.Component {
   };
 
   render() {
-    let { title, comment } = this.state;
-    let isSubmitBtnDisabled = title && comment ? false : true;
-    let { imageURL, productName, deliveryDate } = this.props.productDetails;
+    let { imageURL, productName } = this.props.productDetails;
     return (
       <div className={styles.base}>
-        <div className={styles.header}>
-          <div className={styles.headerText}>Ratings and Review</div>
-          <div className={styles.close} onClick={this.onCancel}>
-            <Icon image={crossIcon} size={12} />
-          </div>
-        </div>
         <div className={styles.reviewContainer}>
           <div className={styles.productDetailsHolder}>
             <div className={styles.productWrapper}>
@@ -164,48 +177,68 @@ export default class RatingAndReview extends React.Component {
               </div>
               <div className={styles.productData}>
                 <div className={styles.productName}>{productName}</div>
-                {deliveryDate && (
-                  <div className={styles.deliveryDate}>
-                    Delivered on {deliveryDate}
-                  </div>
-                )}
                 <div className={styles.ratingBar}>
                   <FillupRatingOrder
                     rating={this.state.rating}
                     onChange={val => this.onRatingChange(val)}
                     // resetRating={this.state.resetRating}
                   />
+                  {this.state.rating && (
+                    <span className={styles.submittedText}>
+                      <span>Submitted</span>
+                      <img
+                        className={styles.checkMarkGreen}
+                        src={checkIcon}
+                        alt="check icon"
+                      />
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
-            <div
-              className={styles.reviewGuidelines}
-              onMouseOut={() => this.mouseOut()}
-              onMouseOver={() => this.mouseOver()}
-            >
-              {REVIEW_GUIDELINES}
-            </div>
-            {this.state.showReviewGuidelines && (
-              <div className={styles.reviewTipsContainer}>
-                <ReviewTips />
-              </div>
-            )}
           </div>
+
           <div className={styles.inputComponent}>
+            <div className={styles.writeReviewHeadingContainer}>
+              <div className={styles.writeReviewHeading}>Write a Review</div>
+              <div className={styles.reviewGuidelines}>
+                <span
+                  onMouseOut={() => this.mouseOut()}
+                  onMouseOver={() => this.mouseOver()}
+                >
+                  {REVIEW_GUIDELINES}
+                </span>
+              </div>
+              {this.state.showReviewGuidelines && (
+                <div className={styles.reviewTipsContainer}>
+                  <ReviewTips />
+                </div>
+              )}
+            </div>
             <div className={styles.feedbackHeader}>
-              Please share your valuable feedback regarding this product
+              Please share your detailed product experience
             </div>
             <div className={styles.reviewWrapper}>
               <span>Review Title</span>
               <div className={styles.input}>
                 <Input
-                  placeholder={"Enter your remarks..."}
+                  placeholder={"Headline for your review.."}
                   value={this.state.title}
                   title={this.props.title ? this.props.title : this.state.title}
                   onChange={val => this.onChangeTitle(val)}
                 />
+                {this.state.showTitleError && (
+                  <span className={styles.errorMessage}>
+                    *Review Title is Required
+                  </span>
+                )}
               </div>
-              <span>Review</span>
+              <span>Review Description</span>
+              {this.state.commentLength <= 50 ? (
+                <span className={styles.infoMessage}>
+                  {this.state.commentLength}/50 Characters
+                </span>
+              ) : null}
               <div className={styles.inputComment}>
                 <TextArea
                   comments={
@@ -213,24 +246,22 @@ export default class RatingAndReview extends React.Component {
                   }
                   value={this.state.comment}
                   onChange={val => this.onChangeComment(val)}
-                  placeholder="More detailed reviews get more visibility..."
+                  placeholder="Minimum 50 characters required.."
                 />
+                {this.state.showDescriptionError && (
+                  <span className={styles.errorMessage}>
+                    *Review Description is Required
+                  </span>
+                )}
+                {this.state.showMinimumCharacterError && (
+                  <span className={styles.errorMessage}>
+                    *Minimum 50 Characters Required
+                  </span>
+                )}
               </div>
             </div>
             <DesktopOnly>
               <div className={styles.buttonHolder}>
-                <div className={styles.buttonleft}>
-                  <div className={styles.button}>
-                    <Button
-                      type="hollow"
-                      height={36}
-                      label="CANCEL"
-                      width={180}
-                      textStyle={{ color: "#212121", fontSize: 14 }}
-                      onClick={this.onCancel}
-                    />
-                  </div>
-                </div>
                 <div className={styles.buttonRight}>
                   <div className={styles.button}>
                     <Button
@@ -240,10 +271,7 @@ export default class RatingAndReview extends React.Component {
                       label="SUBMIT NOW"
                       width={180}
                       textStyle={{ color: "#FFF", fontSize: 14 }}
-                      onClick={
-                        !isSubmitBtnDisabled ? () => this.onSubmit() : null
-                      }
-                      disabled={isSubmitBtnDisabled}
+                      onClick={() => this.onSubmit()}
                     />
                   </div>
                 </div>

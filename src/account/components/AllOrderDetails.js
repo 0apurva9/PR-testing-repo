@@ -208,8 +208,20 @@ export default class AllOrderDetails extends React.Component {
         ...this.props,
         productDetails: productDetails
       });
+      if (
+        !productDetails.hasOwnProperty("userRating") ||
+        productDetails.userRating === 0
+      ) {
+        setTimeout(() => {
+          this.props.showRatingAndReviewModal({
+            ...this.props,
+            productDetails: productDetails
+          });
+        }, 3000);
+      }
     }
   };
+
   redirectToHelp = url => {
     // const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     // this.props.history.push(urlSuffix);
@@ -365,7 +377,6 @@ export default class AllOrderDetails extends React.Component {
     }
   }
   redirectToHelpPage(orderDetails) {
-    console.log("orderDetails", orderDetails);
     setDataLayer(ADOBE_MY_ACCOUNT_HELP_AND_SUPPORT);
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
     const orderCode = orderDetails.orderId;
@@ -420,7 +431,7 @@ export default class AllOrderDetails extends React.Component {
     if (UserAgent.checkUserAgentIsMobile()) {
       baseClassName = styles.base;
     }
-    let productsDetails = orderDetails && orderDetails.products;
+    // let productsDetails = orderDetails && orderDetails.products;
 
     return (
       <div className={baseClassName}>
@@ -895,7 +906,7 @@ export default class AllOrderDetails extends React.Component {
                                               <div
                                                 className={styles.reviewHeading}
                                               >
-                                                {RATE_THIS_ITEM}
+                                                Rate this product
                                               </div>
                                               <div className={styles.ratingBar}>
                                                 <FillupRatingOrder
