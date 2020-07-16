@@ -22,7 +22,8 @@ export default class CliqGiftCardBuySend extends Component {
       sendGiftCard: false,
       emailValidate: false,
       starEmail: "",
-      showStar: ""
+      showStar: "",
+      showUpdateSenderField: false
     };
   }
 
@@ -172,7 +173,8 @@ export default class CliqGiftCardBuySend extends Component {
                 this.setState({
                   buyForYourself: true,
                   sendGiftCard: false,
-                  email: this.props.email && this.props.email
+                  email: this.props.email && this.props.email,
+                  showUpdateSenderField: false
                 })
               }
               className={this.state.buyForYourself ? styles.activeTab : ""}
@@ -185,7 +187,8 @@ export default class CliqGiftCardBuySend extends Component {
                 this.setState({
                   buyForYourself: false,
                   sendGiftCard: true,
-                  email: ""
+                  email: "",
+                  showUpdateSenderField: false
                 })
               }
               className={this.state.sendGiftCard ? styles.activeTab : ""}
@@ -230,13 +233,49 @@ export default class CliqGiftCardBuySend extends Component {
                   ""
                 )}
               </div>
-              {this.state.senderName !== "" ? (
+              {this.state.showUpdateSenderField ? (
+                <div className={styles.buyGiftCardEmailField}>
+                  <Input2
+                    hollow={true}
+                    textStyle={{ fontSize: 14, letterSpacing: "0.03px" }}
+                    height={33}
+                    noPadding={true}
+                    placeholderMoving={true}
+                    placeholderText={"Enter name of the sender*"}
+                    value={this.state.senderName}
+                    onChange={senderName => this.setState({ senderName })}
+                    type="text"
+                    required={true}
+                  />
+                  {this.state.senderName ? (
+                    <div
+                      className={styles.crossSign}
+                      onClick={() => this.setState({ senderName: "" })}
+                    >
+                      <img src={xCross} alt="cross sign" />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              ) : (
+                ""
+              )}
+              {!this.state.showUpdateSenderField &&
+              this.state.senderName !== "" ? (
                 <div className={styles.changeNameDiv}>
                   <span className={styles.changeNameSpan}>
                     {this.state.senderName}
                   </span>
                   <span className={styles.changeNameFrom}> (from) </span>
-                  <span className={styles.changeLink}>Change</span>
+                  <span
+                    onClick={() =>
+                      this.setState({ showUpdateSenderField: true })
+                    }
+                    className={styles.changeLink}
+                  >
+                    Change
+                  </span>
                 </div>
               ) : (
                 ""
@@ -331,13 +370,49 @@ export default class CliqGiftCardBuySend extends Component {
                   required={true}
                 />
               </div>
-              {this.state.senderName !== "" ? (
+              {this.state.showUpdateSenderField ? (
+                <div className={styles.buyGiftCardEmailField}>
+                  <Input2
+                    hollow={true}
+                    textStyle={{ fontSize: 14, letterSpacing: "0.03px" }}
+                    height={33}
+                    noPadding={true}
+                    placeholderMoving={true}
+                    placeholderText={"Enter name of the sender*"}
+                    value={this.state.senderName}
+                    onChange={senderName => this.setState({ senderName })}
+                    type="text"
+                    required={true}
+                  />
+                  {this.state.senderName ? (
+                    <div
+                      className={styles.crossSign}
+                      onClick={() => this.setState({ senderName: "" })}
+                    >
+                      <img src={xCross} alt="cross sign" />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              ) : (
+                ""
+              )}
+              {!this.state.showUpdateSenderField &&
+              this.state.senderName !== "" ? (
                 <div className={styles.changeNameDiv}>
                   <span className={styles.changeNameSpan}>
                     {this.state.senderName}
                   </span>
                   <span className={styles.changeNameFrom}> (from) </span>
-                  <span className={styles.changeLink}>Change</span>
+                  <span
+                    onClick={() =>
+                      this.setState({ showUpdateSenderField: true })
+                    }
+                    className={styles.changeLink}
+                  >
+                    Change
+                  </span>
                 </div>
               ) : (
                 ""
