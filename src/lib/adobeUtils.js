@@ -523,8 +523,8 @@ export const SIMILAR_PRODUCTS_PDP_WIDGET = "SIMILAR_PRODUCTS_PDP_WIDGET";
 export const ADOBE_CAROUSEL_SWIPE = "ADOBE_CAROUSEL_SWIPE";
 export const ADOBE_CAROUSEL_CLICK = "ADOBE_CAROUSEL_CLICK";
 export const ADOBE_CAROUSEL_SHOW = "ADOBE_CAROUSEL_SHOW";
-export const TARGET_EVENT_FOR_PAGELOAD = "target_pageload_First";
-export const TARGET_EVENT_FOR_PAGEVIEW = "target_pageview_First";
+// export const TARGET_EVENT_FOR_PAGELOAD = "target_pageload_First";
+// export const TARGET_EVENT_FOR_PAGEVIEW = "target_pageview_First";
 
 //Rating and Review
 const RATING_STAR_CLICK = "rating_Star_Click";
@@ -1570,11 +1570,11 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
     pdpResponse &&
     pdpResponse.APlusContent &&
     pdpResponse.APlusContent.temlateName;
-  const data = {
+  let data = {
     cpj: {
       product: {
         id: pdpResponse ? pdpResponse.productListingId : "",
-        category: pdpResponse ? pdpResponse.productCategory : "",
+        category: pdpResponse ? pdpResponse.rootCategory : "",
         category_id:
           productCategoryId && productCategoryId[productCategoryId.length - 1],
         colour: selectedColour ? selectedColour : "",
@@ -1641,7 +1641,8 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
           pageInfo: {
             pageName: "product details:".concat(
               productBreadcrumbs ? productBreadcrumbs : ""
-            )
+            ),
+            pageType: "PDP"
           }
         });
       } else {
@@ -1650,7 +1651,8 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
             pageInfo: {
               pageName: "product details:".concat(
                 productBreadcrumbs ? productBreadcrumbs : ""
-              )
+              ),
+              pageType: "PDP"
             }
           }
         });
@@ -1723,7 +1725,7 @@ async function getDigitalDataForHome() {
     userDetails = JSON.parse(userDetails);
   }
   const previousDigitalData = cloneDeep(window.digitalData);
-  let data;
+  let data = {};
   if (!userDetails) {
     data = {
       page: {
@@ -1731,7 +1733,8 @@ async function getDigitalDataForHome() {
           primaryCategory: "home"
         },
         pageInfo: {
-          pageName: "homepage"
+          pageName: "homepage",
+          pageType: "Homepage"
         }
       },
       account: {
@@ -1793,14 +1796,16 @@ function getDigitalDataForCart(type, cartResponse) {
       productIdsArray,
       productQuantityArray,
       productPriceArray,
-      productBrandArray
+      productBrandArray,
+      categoryArray
     } = getProductData;
     Object.assign(data, {
       cpj: {
         product: {
           id: productIdsArray,
           quantity: productQuantityArray,
-          price: productPriceArray
+          price: productPriceArray,
+          category: categoryArray
         },
         brand: {
           name: productBrandArray
@@ -1839,10 +1844,17 @@ function getDigitalDataForCheckout(type, CheckoutResponse) {
         primaryCategory: "multistepcheckoutsummary"
       },
       pageInfo: {
-        pageName: "multi checkout summary page"
+        pageName: "multi checkout summary page",
+        pageType: "Checkout"
       }
     }
   };
+  const accountData = setAccountData();
+  if (accountData) {
+    Object.assign(data, {
+      account: accountData
+    });
+  }
   const getProductData = getProductsDigitalData(CheckoutResponse); //here we set third parameter as true because we need to set second level
   if (getProductData) {
     let {
@@ -1881,17 +1893,36 @@ function getDigitalDataForCheckout(type, CheckoutResponse) {
 }
 
 function getDigitalDataForOrderConfirmation(type, response) {
-  let data = {
-    page: {
-      category: {
-        primaryCategory: "orderconfirmation"
-      },
-      pageInfo: {
-        pageName: "order confirmation",
-        pageType: "Order Successfull"
-      }
-    }
-  };
+  let orderData = localStorage.getItem(
+    constants.DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION
+  );
+  if (orderData && orderData !== "undefined") {
+    Object.assign(window.digitalData, JSON.parse(orderData));
+  }
+  let data = window.digitalData;
+  if (data && data.page && data.page.pageInfo) {
+    Object.assign(data.page.pageInfo, {
+      pageName: "order confirmation",
+      pageType: "Order Successfull"
+    });
+  }
+  if (data && data.page && data.page.category) {
+    Object.assign(data.page.category, {
+      primaryCategory: "orderconfirmation",
+      subCategory1:
+        window.digitalData.page &&
+        window.digitalData.page.category &&
+        window.digitalData.page.category.subCategory1,
+      subCategory2:
+        window.digitalData.page &&
+        window.digitalData.page.category &&
+        window.digitalData.page.category.subCategory2,
+      subCategory3:
+        window.digitalData.page &&
+        window.digitalData.page.category &&
+        window.digitalData.page.category.subCategory3
+    });
+  }
 
   const getProductData = getProductsDigitalData(response);
   if (getProductData) {
@@ -1913,10 +1944,30 @@ function getDigitalDataForOrderConfirmation(type, response) {
     Object.assign(data, {
       cpj: {
         product: {
-          id: productIdsArray,
-          quantity: productQuantityArray,
-          price: productPriceArray,
+          id: productIdsArray
+            ? productIdsArray
+            : window.digitalData &&
+              window.digitalData.cpj &&
+              window.digitalData.cpj.product &&
+              window.digitalData.cpj.product.id,
+          quantity: productQuantityArray
+            ? productQuantityArray
+            : window.digitalData &&
+              window.digitalData.cpj &&
+              window.digitalData.cpj.product &&
+              window.digitalData.cpj.product.quantity,
+          price: productPriceArray
+            ? productPriceArray
+            : window.digitalData &&
+              window.digitalData.cpj &&
+              window.digitalData.cpj.product &&
+              window.digitalData.cpj.product.price,
           category: categoryArray
+            ? categoryArray
+            : window.digitalData &&
+              window.digitalData.cpj &&
+              window.digitalData.cpj.product &&
+              window.digitalData.cpj.product.category
         },
         brand: {
           name: productBrandArray
@@ -1985,27 +2036,35 @@ function getProductsDigitalData(response, type) {
         let reverseArrayLength =
           product.categoryHierarchy && product.categoryHierarchy.length;
         let currentReverseArray = reverseArrayLength - 1;
-        categoryArray.push(
-          product.productName === "Gift Card"
-            ? "Gift card"
-            : product.categoryHierarchy &&
-              product.categoryHierarchy[currentReverseArray] &&
-              product.categoryHierarchy[currentReverseArray].category_name &&
-              product.categoryHierarchy[currentReverseArray].category_name
-                .replace(/ /g, "_")
-                .toLowerCase()
-        );
+        if (reverseArrayLength) {
+          categoryArray.push(
+            product.productName === "Gift Card"
+              ? "Gift card"
+              : product.categoryHierarchy &&
+                product.categoryHierarchy[currentReverseArray] &&
+                product.categoryHierarchy[currentReverseArray].category_name &&
+                product.categoryHierarchy[currentReverseArray].category_name
+                  .replace(/ /g, "_")
+                  .toLowerCase()
+          );
+        } else if (product.rootCategory) {
+          categoryArray.push(product.rootCategory);
+        }
       } else if (!type || !type.isReverse) {
-        categoryArray.push(
-          product.productName === "Gift Card"
-            ? "Gift card"
-            : product.categoryHierarchy &&
-              product.categoryHierarchy[0] &&
-              product.categoryHierarchy[0].category_name &&
-              product.categoryHierarchy[0].category_name
-                .replace(/ /g, "_")
-                .toLowerCase()
-        );
+        if (product.categoryHierarchy) {
+          categoryArray.push(
+            product.productName === "Gift Card"
+              ? "Gift card"
+              : product.categoryHierarchy &&
+                product.categoryHierarchy[0] &&
+                product.categoryHierarchy[0].category_name &&
+                product.categoryHierarchy[0].category_name
+                  .replace(/ /g, "_")
+                  .toLowerCase()
+          );
+        } else if (product.rootCategory) {
+          categoryArray.push(product.rootCategory);
+        }
       }
     });
     return {
@@ -2366,14 +2425,16 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
         productIdsArray,
         productQuantityArray,
         productPriceArray,
-        productBrandArray
+        productBrandArray,
+        categoryArray
       } = getProductData;
       Object.assign(data, {
         cpj: {
           product: {
             id: productIdsArray,
             quantity: productQuantityArray,
-            price: productPriceArray
+            price: productPriceArray,
+            category: categoryArray
           },
           brand: {
             name: productBrandArray
@@ -2537,7 +2598,8 @@ export function getDigitalDataForPlp(type, response) {
           subCategories.subCategory1 ? subCategories.subCategory1 : ""
         }:${subCategories.subCategory2 ? subCategories.subCategory2 : ""}:${
           subCategories.subCategory3 ? subCategories.subCategory3 : ""
-        }`
+        }`,
+        pageType: "PLP"
       },
       category: { ...subCategories }
     });
@@ -3067,7 +3129,7 @@ export function setDataLayerForOrderConfirmationDirectCalls(
     }
     window.digitalData = previousData;
     if (window._satellite) {
-      window._satellite.track(TARGET_EVENT_FOR_PAGEVIEW);
+      // window._satellite.track(TARGET_EVENT_FOR_PAGEVIEW);
       window._satellite.track(ADOBE_ORDER_CONFIRMATION_SUCCESS);
       window._satellite.track(ADOBE_PAYMENT_CHECKOUT_SUCCESSFUL);
     }
@@ -3107,6 +3169,15 @@ export function setDataLayerForOrderConfirmationDirectCalls(
     if (window._satellite) {
       window._satellite.track(ADOBE_ORDER_CONFIRMATION_FAILURE);
     }
+  }
+}
+function setAccountData() {
+  let loginType =
+    localStorage.getItem("loginType") !== "undefined" &&
+    JSON.parse(localStorage.getItem("loginType"));
+  let accountData;
+  if (loginType) {
+    return loginType;
   }
 }
 export function setDataLayerForCheckoutDirectCalls(type, response) {
@@ -3389,7 +3460,7 @@ export function setDataLayerForMyAccountDirectCalls(
 export function getDigitalDataForMyAccount(pageTitle, response) {
   const data = {
     page: {
-      pageInfo: { pageName: pageTitle },
+      pageInfo: { pageName: pageTitle, pageType: "My Account" },
       category: { primaryCategory: pageTitle },
       display: { hierarchy: `home|my_tata_cliq|${pageTitle}` }
     }
@@ -3401,14 +3472,16 @@ export function getDigitalDataForMyAccount(pageTitle, response) {
         productIdsArray,
         productQuantityArray,
         productPriceArray,
-        productBrandArray
+        productBrandArray,
+        categoryArray
       } = getProductData;
       Object.assign(data, {
         cpj: {
           product: {
             id: productIdsArray,
             quantity: productQuantityArray,
-            price: productPriceArray
+            price: productPriceArray,
+            category: categoryArray
           },
           brand: {
             name: productBrandArray
@@ -3479,14 +3552,16 @@ export function getDigitalDataForCLP(response) {
           subCategories.subCategory1 ? subCategories.subCategory1 : null
         } : ${
           subCategories.subCategory2 ? subCategories.subCategory2 : null
-        } : ${subCategories.subCategory3 ? subCategories.subCategory3 : null}`
+        } : ${subCategories.subCategory3 ? subCategories.subCategory3 : null}`,
+        pageType: "PLP"
       },
       category: { ...subCategories }
     });
   } else {
     Object.assign(data.page, {
       pageInfo: {
-        pageName: `product grid: ${null}: ${null}: ${null}`
+        pageName: `product grid: ${null}: ${null}: ${null}`,
+        pageType: "PLP"
       }
     });
   }
@@ -3942,7 +4017,13 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
   ) {
     Object.assign(currentDigitalData, {
       page: {
-        pageInfo: { pageName: previousDigitalData.page.pageInfo.pageName }
+        pageInfo: {
+          pageName:
+            value === "Tata CLiQ Logo"
+              ? "Homepage"
+              : previousDigitalData.page.pageInfo.pageName
+        },
+        pageType: value === "Tata CLiQ Logo" ? "Homepage" : ""
       }
     });
     window.digitalData = Object.assign(previousDigitalData, currentDigitalData);
@@ -3983,6 +4064,15 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
         categoryName: value
       }
     });
+    if (
+      currentDigitalData &&
+      currentDigitalData.page &&
+      currentDigitalData.page.pageInfo
+    ) {
+      Object.assign(currentDigitalData.page.pageInfo, {
+        pageType: "CLP"
+      });
+    }
     window.digitalData = Object.assign(previousDigitalData, currentDigitalData);
     if (window._satellite) {
       window._satellite.track(ADOBE_CLP_DIRECT_CALL);
@@ -3997,6 +4087,15 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
         headerName: "Brands"
       }
     });
+    if (
+      currentDigitalData &&
+      currentDigitalData.page &&
+      currentDigitalData.page.pageInfo
+    ) {
+      Object.assign(currentDigitalData.page.pageInfo, {
+        pageType: "BLP"
+      });
+    }
     window.digitalData.page.pageInfo.pageName = "brand page";
     window.digitalData = Object.assign(previousDigitalData, currentDigitalData);
     if (window._satellite) {
@@ -4263,12 +4362,12 @@ export function setDataLayerForRatingAndReview(type, reviewData) {
 export function setPageNameAndPageType(response) {
   if (response) {
     let digitalDataForPageName = window.digitalData;
-    Object.assign(digitalDataForPageName.page, {
-      pageInfo: {
+    if (digitalDataForPageName.page && digitalDataForPageName.page.pageInfo) {
+      Object.assign(digitalDataForPageName.page.pageInfo, {
         pageName: response.pageName,
-        pageType: response.pageType
-      }
-    });
+        pageType: "Homepage"
+      });
+    }
     Object.assign(window.digitalData, digitalDataForPageName);
   }
 }
