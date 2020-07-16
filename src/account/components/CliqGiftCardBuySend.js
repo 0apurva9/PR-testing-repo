@@ -244,6 +244,7 @@ export default class CliqGiftCardBuySend extends Component {
               <div className={styles.sendGiftCardBtn}>
                 <Button
                   type="primary"
+                  disabled={this.state.email === "" ? true : false}
                   margin="auto"
                   height={36}
                   width={312}
@@ -344,6 +345,13 @@ export default class CliqGiftCardBuySend extends Component {
               <div className={styles.sendGiftCardBtn}>
                 <Button
                   type="primary"
+                  disabled={
+                    this.state.email &&
+                    this.state.receiverName &&
+                    this.state.senderName
+                      ? false
+                      : true
+                  }
                   margin="auto"
                   height={36}
                   width={312}
