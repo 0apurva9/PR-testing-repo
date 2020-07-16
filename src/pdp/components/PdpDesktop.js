@@ -1163,6 +1163,13 @@ export default class PdpApparel extends React.Component {
               productDetails={this.props.productDetails}
               getChatbotDetails={this.props.getChatbotDetails}
               chatbotDetailsData={this.props.chatbotDetailsData}
+              addToCartFromChatbot={true}
+              getProductPinCode={this.props.getProductPinCode}
+              isServiceableToPincode={productData.isServiceableToPincode}
+              pincodeError={this.props.pincodeError}
+              displayToast={this.props.displayToast}
+              addProductToCart={this.props.addProductToCart}
+              addToCartResponseDetails={this.props.addToCartResponseDetails}
             />
             <div className={styles.pageCenter} ref="scrollToViewGallery">
               <div className={styles.gallery}>

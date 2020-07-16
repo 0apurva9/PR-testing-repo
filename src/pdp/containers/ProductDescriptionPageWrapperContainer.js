@@ -349,7 +349,8 @@ const mapStateToProps = state => {
     pincodeError: state.productDescription.pincodeError,
     serviceableOtherSellersUssid:
       state.productDescription.serviceableOtherSellersUssid,
-    chatbotDetailsData: state.productListings.getChatbotDetailsData
+    chatbotDetailsData: state.productListings.getChatbotDetailsData,
+    addToCartResponseDetails: state.productDescription.addToCartResponseDetails
   };
 };
 

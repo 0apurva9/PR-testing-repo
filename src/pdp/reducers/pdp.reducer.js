@@ -79,7 +79,8 @@ const productDescription = (
     pincodeError: null,
     productOutOfStockMessage: null,
     productNotServiceableMessage: null,
-    serviceableOtherSellersUssid: null
+    serviceableOtherSellersUssid: null,
+    addToCartResponseDetails: null
   },
   action
 ) => {
@@ -392,6 +393,7 @@ const productDescription = (
 
       return Object.assign({}, state, {
         status: action.status,
+        addToCartResponseDetails: cartInfoJson,
         loading: false
       });
 

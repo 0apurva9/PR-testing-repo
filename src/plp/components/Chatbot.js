@@ -1,7 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {
+  ADD_TO_BAG_TEXT,
+  DEFAULT_PIN_CODE_LOCAL_STORAGE
+} from "../../lib/constants.js";
 const env = process.env;
 export default class Chatbot extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      productId: "",
+      ussId: ""
+    };
+    this.handleAddToCartEvent = this.handleAddToCartEvent.bind(this);
+  }
   componentDidMount() {
     var f = document.getElementsByTagName("SCRIPT")[0];
     var p = document.createElement("SCRIPT");
@@ -23,6 +35,85 @@ export default class Chatbot extends React.PureComponent {
     //get chatbot json details
     if (this.props.getChatbotDetails) {
       this.props.getChatbotDetails();
+    }
+    if (this.props.addToCartFromChatbot) {
+      window.addEventListener("haptik_event", this.handleAddToCartEvent);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // check pincode success
+    if (
+      nextProps.isServiceableToPincode &&
+      this.props.isServiceableToPincode !== nextProps.isServiceableToPincode
+    ) {
+      if (
+        !nextProps.pincodeError &&
+        !nextProps.isServiceableToPincode.productOutOfStockMessage &&
+        !nextProps.isServiceableToPincode.productNotServiceableMessage
+      ) {
+        // add to cart
+        if (this.state.productId && this.state.ussId) {
+          let data = {
+            code: this.state.productId,
+            ussId: this.state.ussId,
+            quantity: 1
+          };
+          this.props.addProductToCart(data);
+        }
+      } else {
+        if (nextProps.pincodeError) {
+          this.props.displayToast(nextProps.pincodeError);
+        } else if (nextProps.isServiceableToPincode.productOutOfStockMessage) {
+          this.props.displayToast(
+            nextProps.isServiceableToPincode.productOutOfStockMessage
+          );
+        } else if (
+          nextProps.isServiceableToPincode.productNotServiceableMessage
+        ) {
+          this.props.displayToast(
+            nextProps.isServiceableToPincode.productNotServiceableMessage
+          );
+        }
+      }
+    }
+  }
+
+  componentWillUpdate(nextProps) {
+    // show toast on add to cart success
+    if (
+      nextProps.addToCartResponseDetails &&
+      nextProps.addToCartResponseDetails.status &&
+      nextProps.addToCartResponseDetails.status.toLowerCase() === "success"
+    ) {
+      this.props.displayToast(ADD_TO_BAG_TEXT);
+    }
+  }
+
+  handleAddToCartEvent(event) {
+    if (event && event.detail) {
+      let haptikEventDetails = event.detail;
+      // check all required values present
+      if (
+        haptikEventDetails &&
+        haptikEventDetails.event_name === "add_to_cart" &&
+        haptikEventDetails.product_id &&
+        haptikEventDetails.extras.ussid
+      ) {
+        // check pincode serviceablity
+        let productId = haptikEventDetails.product_id.toUpperCase();
+        this.setState({ productId: productId });
+        this.setState({ ussId: haptikEventDetails.extras.ussid });
+        let pincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+        this.props.getProductPinCode(
+          pincode,
+          productId,
+          haptikEventDetails.extras.ussid,
+          false,
+          false,
+          true
+        );
+      }
     }
   }
 
