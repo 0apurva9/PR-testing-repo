@@ -11,7 +11,14 @@ import {
   GIFT_CARD,
   RUPEE_SYMBOL
 } from "../../lib/constants";
-import PropTypes, { array, arrayOf, string, object, bool } from "prop-types";
+import PropTypes, {
+  array,
+  arrayOf,
+  string,
+  object,
+  bool,
+  number
+} from "prop-types";
 import { Redirect } from "react-router-dom";
 import { getCustomerAccessToken } from "../../common/services/common.services";
 import { numberWithCommas } from "../../lib/dateTimeFunction";
@@ -247,10 +254,10 @@ CliqGiftCardPurchase.propTypes = {
     landingPageOptions: PropTypes.shape({
       option: array,
       maxPrice: PropTypes.shape({
-        value: string
+        value: number
       }),
       mixPrice: PropTypes.shape({
-        value: string
+        value: number
       })
     })
   }),

@@ -174,7 +174,8 @@ export default class CliqGiftCardBuySend extends Component {
                   buyForYourself: true,
                   sendGiftCard: false,
                   email: this.props.email && this.props.email,
-                  showUpdateSenderField: false
+                  showUpdateSenderField: false,
+                  senderName: this.props.senderName && this.props.senderName
                 })
               }
               className={this.state.buyForYourself ? styles.activeTab : ""}
@@ -188,7 +189,8 @@ export default class CliqGiftCardBuySend extends Component {
                   buyForYourself: false,
                   sendGiftCard: true,
                   email: "",
-                  showUpdateSenderField: false
+                  showUpdateSenderField: false,
+                  senderName: this.props.senderName && this.props.senderName
                 })
               }
               className={this.state.sendGiftCard ? styles.activeTab : ""}
@@ -283,7 +285,11 @@ export default class CliqGiftCardBuySend extends Component {
               <div className={styles.sendGiftCardBtn}>
                 <Button
                   type="primary"
-                  disabled={this.state.email === "" ? true : false}
+                  disabled={
+                    this.state.email === "" || this.state.senderName === ""
+                      ? true
+                      : false
+                  }
                   margin="auto"
                   height={36}
                   width={312}
@@ -451,8 +457,8 @@ CliqGiftCardBuySend.propTypes = {
   history: PropTypes.object,
   senderName: PropTypes.string,
   email: PropTypes.string,
-  maxPrice: PropTypes.string,
-  minPrice: PropTypes.string,
+  maxPrice: PropTypes.number,
+  minPrice: PropTypes.number,
   displayToast: PropTypes.func,
   createGiftCardDetails: PropTypes.func
 };
