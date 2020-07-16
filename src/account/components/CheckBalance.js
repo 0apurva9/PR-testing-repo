@@ -13,8 +13,7 @@ import UserProfile from "./UserProfile";
 import { LOGGED_IN_USER_DETAILS, SUCCESS } from "../../lib/constants";
 import ExpiringCard from "./ExpiringCard";
 import PropTypes, { string, number } from "prop-types";
-import { Link } from "react-router-dom";
-import giftCardImg from "./img/gift_card.jpg";
+import BackToCliqCashSection from "./BackToCliqCashSection";
 
 export default class CheckBalance extends Component {
   componentDidMount() {
@@ -114,26 +113,7 @@ export default class CheckBalance extends Component {
           </div>
           <div className={styles.cliqCashDetail}>
             <div>
-              <div className={styles.cliqCashDetailWithHolderCheckBal}>
-                <div className={styles.heading}>
-                  <span className={styles.checkBalLeftText}>And it's here</span>
-                  <span className={styles.checkBalRightText}>
-                    <Link
-                      to={`/my-account/cliq-cash`}
-                      className={styles.checkBalRightTextLink}
-                    >
-                      Back to CLiQ Cash
-                    </Link>
-                  </span>
-                </div>
-                <div className={styles.cardImage}>
-                  <img
-                    src={giftCardImg}
-                    alt=""
-                    className={styles.cardImageImg}
-                  />
-                </div>
-              </div>
+              <BackToCliqCashSection />
               <ExpiringCard
                 loading={loading}
                 expiryDate={expiryDate}

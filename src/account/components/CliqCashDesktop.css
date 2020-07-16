@@ -782,3 +782,116 @@
     width:36px;
   }
 
+/**
+* Giftcard purchase
+*/
+.popularCardPricePurchase {
+  width: 124px;
+  color: #be1a51;
+  font-size: 16px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  font-family: semibold;
+  position: relative;
+  border: 1px solid #d8d8d8;
+}
+.selectedCardPricePurchase {
+  width: 124px;
+  color: #ffffff;
+  background-color: #da1c5c;
+  font-size: 16px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  font-family: semibold;
+  position: relative;
+  border: 1px solid #d8d8d8;
+}
+.cliqCardPurchaseButton {
+  width: 309px;
+}
+/* .cliqGiftCardPdp {
+  border-bottom: 1px solid #d8d8d8;
+  font-size: 12px;
+  padding-bottom: 5px;
+}
+.cliqGiftCardPdp :first-child {
+  margin-right: 10px;
+}
+.cliqGiftCardPdp :last-child {
+  margin-left: 10px;
+} */
+/* .activeTab {
+  color: #212121;
+  font-family: semibold;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #f2f2f2;
+} */
+/* .buyForYourself {
+  font-size: 16px;
+  margin-top: 23px;
+} */
+/* .buyForYourselfsubHeading {
+  font-size: 16px;
+  font-family: semibold;
+} */
+/* .buyGiftCardEmailField{
+  padding-bottom: 10px;
+  padding-top: 20px;
+  width:300px;
+} */
+ .crossSign {
+  position: relative;
+  float: right;
+  right: 9px;
+  width: auto;
+  top: -21px;
+}
+.inputError {
+  font-size: 10px;
+  color: #d88600;
+  padding-top: 10px;
+  font-family: light;
+}
+/*
+.changeNameDiv {
+  margin-top: 10px;
+} */
+/* .changeNameSpan {
+  font-size: 12px;
+  color: #212121;
+  font-family: regular;
+}
+.changeNameFrom {
+  font-size: 11px;
+  color: #8d8d8d;
+  font-family: regular;
+}
+.changeLink {
+  font-size: 11px;
+  color: #da1c5c;
+  font-family: semibold;
+}
+.sendGiftCardBtn {
+  padding-left: 25%;
+  margin-top: 3%;
+}
+.tabSeparator {
+  color: #8d8d8d;
+} */
+.buySendPriceSymbol {
+  position: relative;
+  top: 31px;
+  color: #8d8d8d;
+}
+.topupInputError{
+  font-size: 10px;
+  color: #d88600;
+  padding-top: 10px;
+  text-align: left;
+}
