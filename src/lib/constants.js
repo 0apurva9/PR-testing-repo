@@ -515,3 +515,5 @@ export const EDD_TEXT = "Estimated Delivery Date";
 //CleverTap email unsubsctibe
 export const UNSUBSCRIBE_CLEVER_TAP_EMAILS = "/emails-unsubscribe";
 export const NOT_SERVICEABLE = "Not available at your PIN code";
+// for haptik chatbot add to cart event
+export const ADD_TO_CART_EVENT_HAPTIK_CHATBOT = "add_to_cart";

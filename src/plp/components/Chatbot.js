@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import {
   ADD_TO_BAG_TEXT,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  SUCCESS,
+  ADD_TO_CART_EVENT_HAPTIK_CHATBOT
 } from "../../lib/constants.js";
 const env = process.env;
 export default class Chatbot extends React.PureComponent {
@@ -12,7 +14,9 @@ export default class Chatbot extends React.PureComponent {
       productId: "",
       ussId: ""
     };
-    this.handleAddToCartEvent = this.handleAddToCartEvent.bind(this);
+    this.addToCartFromHaptikChatbot = this.addToCartFromHaptikChatbot.bind(
+      this
+    );
   }
   componentDidMount() {
     var f = document.getElementsByTagName("SCRIPT")[0];
@@ -37,7 +41,7 @@ export default class Chatbot extends React.PureComponent {
       this.props.getChatbotDetails();
     }
     if (this.props.addToCartFromChatbot) {
-      window.addEventListener("haptik_event", this.handleAddToCartEvent);
+      window.addEventListener("haptik_event", this.addToCartFromHaptikChatbot);
     }
   }
 
@@ -84,19 +88,19 @@ export default class Chatbot extends React.PureComponent {
     if (
       nextProps.addToCartResponseDetails &&
       nextProps.addToCartResponseDetails.status &&
-      nextProps.addToCartResponseDetails.status.toLowerCase() === "success"
+      nextProps.addToCartResponseDetails.status.toLowerCase() === SUCCESS
     ) {
       this.props.displayToast(ADD_TO_BAG_TEXT);
     }
   }
 
-  handleAddToCartEvent(event) {
+  addToCartFromHaptikChatbot(event) {
     if (event && event.detail) {
       let haptikEventDetails = event.detail;
       // check all required values present
       if (
         haptikEventDetails &&
-        haptikEventDetails.event_name === "add_to_cart" &&
+        haptikEventDetails.event_name === ADD_TO_CART_EVENT_HAPTIK_CHATBOT &&
         haptikEventDetails.product_id &&
         haptikEventDetails.extras.ussid
       ) {
@@ -128,7 +132,7 @@ export default class Chatbot extends React.PureComponent {
     let haptikData = {
       page_type: pageType,
       mode: "widget",
-      category: currentCategoryName.toLowerCase()
+      category: currentCategoryName ? currentCategoryName.toLowerCase() : ""
     };
     if (searchCriteriaValue) {
       haptikData.searchCriteria = searchCriteriaValue;
