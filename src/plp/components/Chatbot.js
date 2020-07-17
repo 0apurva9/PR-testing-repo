@@ -37,7 +37,7 @@ export default class Chatbot extends React.PureComponent {
     let haptikData = {
       page_type: pageType,
       mode: "widget",
-      category: currentCategoryName.toLowerCase()
+      category: currentCategoryName ? currentCategoryName.toLowerCase() : ""
     };
     if (searchCriteriaValue) {
       haptikData.searchCriteria = searchCriteriaValue;
