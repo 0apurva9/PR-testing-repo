@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import queryString from "query-string";
+import PropTypes from "prop-types";
 import styles from "./IntermittentFeedbackPage.css";
 import ProductImage from "../../general/components/ProductImage.js";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
@@ -17,7 +18,7 @@ const WEEK_DAY = [
   "Saturday"
 ];
 const DATE_FORMAT = "Do MMM";
-class IntermittentFeedbackPage extends Component {
+export default class IntermittentFeedbackPage extends Component {
   constructor(props) {
     super(props);
 
@@ -156,4 +157,23 @@ class IntermittentFeedbackPage extends Component {
   }
 }
 
-export default IntermittentFeedbackPage;
+IntermittentFeedbackPage.propTypes = {
+  getIntermittentPageData: PropTypes.func,
+  loadingForfeedBackPage: PropTypes.bool,
+  data: PropTypes.shape({
+    product: PropTypes.shape({
+      imageURL: PropTypes.string,
+      productName: PropTypes.string,
+      deliveryDate: PropTypes.string
+    }),
+    ratings: PropTypes.arrayOf(
+      PropTypes.shape({
+        displayName: PropTypes.string,
+        hexCode: PropTypes.string,
+        ratingList: PropTypes.array
+      })
+    ),
+    subTitle: PropTypes.string,
+    title: PropTypes.string
+  })
+};
