@@ -1233,10 +1233,11 @@ here we need to hit call for merging cart id if user
         if (localStorage.getItem(CNC_CART)) {
           localStorage.removeItem(CNC_CART);
         }
-      } else {
-        // Before leaving cart page call minicart
-        this.props.getMinicartProducts();
       }
+      //  else {
+      //   // Before leaving cart page call minicart
+      //   // this.props.getMinicartProducts();
+      // }
     } else {
       //localStorage.removeItem(SELECTED_STORE);
     }
