@@ -2537,7 +2537,8 @@ export function getDigitalDataForPlp(type, response) {
         primaryCategory: "category"
       },
       pageInfo: {
-        pageName: "product grid"
+        pageName: "product grid",
+        pageType: "PLP"
       }
     }
   };
@@ -2659,7 +2660,7 @@ export function getDigitalDataForSearchPageSuccess(response, type) {
       }
     },
     page: {
-      pageInfo: { pageName: "search results page" },
+      pageInfo: { pageName: "search results page", pageType: "PLP" },
       category: { primaryCategory: "productsearch" },
       display: {
         hierarchy: `home |${
@@ -4183,7 +4184,8 @@ export function updatePdpDetailsBackFromReviewPage() {
     Object.assign(currentDigitalData, {
       page: {
         pageInfo: {
-          pageName: reviewPage
+          pageName: reviewPage,
+          pageType: reviewPage
         }
       }
     });
@@ -4203,7 +4205,8 @@ export function setDataLayerForFaqAndTc(type) {
     Object.assign(data, {
       page: {
         pageInfo: {
-          pageName: FAQ
+          pageName: FAQ,
+          pageType: FAQ
         }
       }
     });
@@ -4222,7 +4225,8 @@ export function setDataLayerForFaqAndTc(type) {
     Object.assign(data, {
       page: {
         pageInfo: {
-          pageName: ABOUT_US
+          pageName: ABOUT_US,
+          pageType: ABOUT_US
         }
       }
     });
@@ -4233,7 +4237,8 @@ export function setDataLayerForFaqAndTc(type) {
     Object.assign(data, {
       page: {
         pageInfo: {
-          pageName: HELP
+          pageName: HELP,
+          pageType: HELP
         }
       }
     });
@@ -4244,7 +4249,8 @@ export function setDataLayerForFaqAndTc(type) {
     Object.assign(data, {
       page: {
         pageInfo: {
-          pageName: CUSTOMER_CARE
+          pageName: CUSTOMER_CARE,
+          pageType: CUSTOMER_CARE
         }
       }
     });
@@ -4255,7 +4261,8 @@ export function setDataLayerForFaqAndTc(type) {
     Object.assign(data, {
       page: {
         pageInfo: {
-          pageName: CONTACT_US
+          pageName: CONTACT_US,
+          pageType: CONTACT_US
         }
       }
     });
