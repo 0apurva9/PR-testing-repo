@@ -286,7 +286,12 @@ const cart = (
     upiMiddleLayerCombinedLogoStatus: null,
     upiMiddleLayerCombinedLogo: null,
     upiMiddleLayerCombinedLogoLoading: false,
-    upiMiddleLayerCombinedLogoError: null
+    upiMiddleLayerCombinedLogoError: null,
+
+    feedBackPageStatus: null,
+    feedBackPageData: null,
+    loadingForfeedBackPage: false,
+    feedBackPageError: null
   },
   action
 ) => {
@@ -2317,6 +2322,24 @@ const cart = (
       return Object.assign({}, state, {
         minicartStatus: action.status,
         minicart: action.minicartDetails
+      });
+
+    case cartActions.GET_INTERMITTENT_FEEDBACK_DATA_REQUEST:
+      return Object.assign({}, state, {
+        feedBackPageStatus: action.status,
+        loadingForfeedBackPage: true
+      });
+    case cartActions.GET_INTERMITTENT_FEEDBACK_DATA_SUCCESS:
+      return Object.assign({}, state, {
+        feedBackPageStatus: action.status,
+        feedBackPageData: action.feedBackDetails,
+        loadingForfeedBackPage: false
+      });
+    case cartActions.GET_INTERMITTENT_FEEDBACK_DATA_FAILURE:
+      return Object.assign({}, state, {
+        feedBackPageStatus: action.status,
+        feedBackPageError: action.error,
+        loadingForfeedBackPage: false
       });
 
     case cartActions.REMOVE_EXCHANGE_REQUEST:
