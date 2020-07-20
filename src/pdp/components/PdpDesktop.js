@@ -1161,7 +1161,6 @@ export default class PdpApparel extends React.Component {
           <div className={styles.base}>
             <Chatbot
               productDetails={this.props.productDetails}
-              getChatbotDetails={this.props.getChatbotDetails}
               chatbotDetailsData={this.props.chatbotDetailsData}
               addToCartFromChatbot={true}
               getProductPinCode={this.props.getProductPinCode}

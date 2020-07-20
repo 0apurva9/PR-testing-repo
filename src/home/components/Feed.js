@@ -402,6 +402,13 @@ class Feed extends Component {
     if (this.props.clearProductModuleRef) {
       this.props.clearProductModuleRef();
     }
+    // get chatbot json details on clp pages
+    if (
+      this.props.feedType === SECONDARY_FEED_TYPE &&
+      this.props.getChatbotDetails
+    ) {
+      this.props.getChatbotDetails();
+    }
   }
   componentDidUpdate() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -586,7 +593,6 @@ class Feed extends Component {
         ) : null}
         <Chatbot
           clpUrl={this.props.clpUrl}
-          getChatbotDetails={this.props.getChatbotDetails}
           chatbotDetailsData={this.props.chatbotDetailsData}
         />
         <MobileOnly>
