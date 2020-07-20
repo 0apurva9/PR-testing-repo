@@ -390,7 +390,14 @@ export default class Chatbot extends React.PureComponent {
 Chatbot.propTypes = {
   productListings: PropTypes.object,
   clpUrl: PropTypes.string,
-  productDetails: PropTypes.object,
+  productDetails: PropTypes.objectOf(
+    PropTypes.shape({
+      categoryHierarchy: PropTypes.array,
+      brandName: PropTypes.string,
+      productListingId: PropTypes.string,
+      productName: PropTypes.string
+    })
+  ),
   getChatbotDetails: PropTypes.func,
   chatbotDetailsData: PropTypes.objectOf(
     PropTypes.shape({
