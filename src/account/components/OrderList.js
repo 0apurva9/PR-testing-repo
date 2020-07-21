@@ -50,8 +50,7 @@ class OrderList extends Component {
                   </div>
                   <div className={styles.orderDatils}>
                     <div className={styles.productName}>
-                      {/* {product.productName} */}
-                      {orderItem.orderId}
+                      {product.productName}
                     </div>
                     <div className={styles.orderStatus}>
                       Order status:

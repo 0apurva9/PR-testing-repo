@@ -140,7 +140,3 @@ AllOrdersList.propTypes = {
     )
   })
 };
-
-// orderData:PropTypes.arrayOf(
-
-// )
