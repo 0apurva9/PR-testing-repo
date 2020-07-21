@@ -8,6 +8,11 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import MenuDetails from "../../general/components/MenuDetails.js";
 import { buttonHolder, contentHolder } from "./NetBanking.css";
 import { CASH_ON_DELIVERY_PAYMENT_MODE } from "../../lib/constants";
+import {
+  WHATSAPP_NOTIFICATION_CHECKED,
+  WHATSAPP_NOTIFICATION_UNCHECKED,
+  getWhatsAppNotification
+} from "../../lib/adobeUtils";
 
 export default class CheckoutCOD extends React.Component {
   binValidationForCOD = paymentMode => {
@@ -18,6 +23,14 @@ export default class CheckoutCOD extends React.Component {
     this.props.softReservationForCODPayment();
   };
   handleCheckout = () => {
+    if (this.props.whatsappSelected && this.props.whatsappSelected === true) {
+      getWhatsAppNotification(WHATSAPP_NOTIFICATION_CHECKED);
+    } else if (
+      this.props.whatsappSelected &&
+      this.props.whatsappSelected === false
+    ) {
+      getWhatsAppNotification(WHATSAPP_NOTIFICATION_UNCHECKED);
+    }
     if (this.props.onCheckout) {
       this.props.onCheckout();
     }

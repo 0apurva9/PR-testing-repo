@@ -4278,6 +4278,7 @@ if you have order id in local storage then you have to show order confirmation p
                       isExchangeServiceableArray={isExchangeServiceableArray}
                       showSecondaryLoader={this.props.showSecondaryLoader}
                       hideSecondaryLoader={this.props.hideSecondaryLoader}
+                      whatsappSelected={this.state.whatsappSelected}
                     />
                   </div>
                 )}

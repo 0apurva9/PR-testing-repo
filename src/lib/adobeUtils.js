@@ -237,6 +237,12 @@ export const ADOBE_CALL_FOR_APPLY_COUPON_FAILURE =
 export const ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED =
   "ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED";
 
+export const WHATSAPP_NOTIFICATION_CHECKED = "WHATSAPP_NOTIFICATION_CHECKED";
+const whatsAppNotificationUnChecked = "Whatsapp_unchecked";
+const whatsAppNotificationChecked = "Whatsapp_checked";
+export const WHATSAPP_NOTIFICATION_UNCHECKED =
+  "WHATSAPP_NOTIFICATION_UNCHECKED";
+
 // end of constants for checkout pages
 
 // const for setting data layer for the login track
@@ -380,6 +386,8 @@ const SOCIALMEDIA_CLICK = "socialmedia_click";
 const FOOTER_SUBSCRIBE = "footer_subscribe";
 const CHOOSE_DELIVERY_ADDRESS_HOME = "cpj_choose_delivery_address_home";
 const CHOOSE_DELIVERY_ADDRESS_OFFICE = "cpj_choose_delivery_address_office";
+const CHECKOUT_DEFAULT_ADDRESS_HOME = "selected_Type_Home";
+const CHECKOUT_DEFAULT_ADDRESS_OFFICE = "selected_Type_Office";
 const FILTER_OPTION = "cpj_filter_option";
 const GO_TO_BAG = "cpj_go_to_bag";
 const EMI_VIEW_PLAN = "cpj_emi_view_plan";
@@ -1846,7 +1854,8 @@ function getDigitalDataForCheckout(type, CheckoutResponse) {
         primaryCategory: "multistepcheckoutsummary"
       },
       pageInfo: {
-        pageName: "multi checkout summary page"
+        pageName: "multi checkout summary page",
+        pageType: "Checkout"
       }
     }
   };
@@ -4017,11 +4026,13 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
 export function setDataLayerForSelectedAddressTypeDirectCalls(type) {
   if (type === ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_HOME) {
     if (window._satellite) {
+      window._satellite.track(CHECKOUT_DEFAULT_ADDRESS_HOME);
       window._satellite.track(CHOOSE_DELIVERY_ADDRESS_HOME);
     }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_CHOOSE_DELIVERY_ADDRESS_OFFICE) {
     if (window._satellite) {
+      window._satellite.track(CHECKOUT_DEFAULT_ADDRESS_OFFICE);
       window._satellite.track(CHOOSE_DELIVERY_ADDRESS_OFFICE);
     }
   }
@@ -4249,5 +4260,17 @@ export function setPageNameAndPageType(response) {
       }
     });
     Object.assign(window.digitalData, digitalDataForPageName);
+  }
+}
+export function getWhatsAppNotification(type) {
+  if (type === WHATSAPP_NOTIFICATION_CHECKED) {
+    if (window._satellite) {
+      window._satellite.track(whatsAppNotificationChecked);
+    }
+  }
+  if (type === WHATSAPP_NOTIFICATION_UNCHECKED) {
+    if (window._satellite) {
+      window._satellite.track(whatsAppNotificationUnChecked);
+    }
   }
 }
