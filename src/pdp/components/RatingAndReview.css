@@ -30,14 +30,16 @@
 }
 .productImage {
 	width: 99px;
-	height: 130px;
+	height: auto;
+	padding: 10px;
+	margin-left: 10px;
 }
 .imageContainer{
 	width:25%;
 }
 .productData{
-	width: calc(100% - 95px);
-	padding-left: 35px;
+	width: calc(100% - 115px);
+	padding-left: 20px;
 }
 .productDetailsHolder {
 	width: 100%;
@@ -142,7 +144,7 @@
   }
 .buttonHolder {
 	text-align: center;
-	margin-top: 25px;
+	padding-top: 30px;
 }
 .buttonRight {
 	height: auto;
@@ -240,10 +242,10 @@
 	margin-bottom: 15px;
 }
 .input {
-  margin: 10px 0 24px 0;
+  margin: 2px 0 24px 0;
 }
 .inputComment {
-  margin-top: 10px;
+  margin-top: 2px;
 }
 .reviewTipsContainer {
 	width: 570px;
@@ -320,7 +322,7 @@
 	font-size: 24px;
   font-family: semibold;
 }
-.submittedText{
+.submittedTextHolder{
 	font-size: 18px;
 	color: #67b70b;
 	font-family: semibold;
@@ -328,8 +330,12 @@
 	display: inline-block;
 	text-align: right;
 }
+.submittedText{
+	vertical-align: middle;
+}
 .checkMarkGreen{
-	vertical-align: text-bottom;
+	vertical-align: middle;
+	padding-left: 5px;
 }
 .errorMessage{
 	font-size: 12px;
@@ -358,6 +364,11 @@
 .ratingSuccessStar{
 	margin: 40px 0;
 }
+.inputLabel{
+	font-family: regular;
+  font-size: 12px;
+  color: #212121;
+}
 @media screen and (min-width: 1025px) {
 	.centerSubmitButton {
 	  text-align: right;
@@ -373,7 +384,7 @@
 	}
 
 	.reviewGuidelines {
-	  font-family: semibold;
+	  font-family: regular;
 	  font-size: 18px;
 	  font-weight: 500;
 	  text-align: right;
