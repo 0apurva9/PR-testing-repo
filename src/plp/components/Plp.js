@@ -228,6 +228,10 @@ export default class Plp extends React.Component {
       window.gemPageId = "0002321000100200";
     }
     /* End - Gemini Script */
+    // get chatbot json details
+    if (this.props.getChatbotDetails) {
+      this.props.getChatbotDetails();
+    }
   }
 
   setHeaderText = () => {
@@ -514,10 +518,6 @@ export default class Plp extends React.Component {
     }
   };
 
-  getChatbotDetails() {
-    this.props.getChatbotDetails();
-  }
-
   render() {
     let selectedFilterCount = 0;
     let selectedFilter = [];
@@ -564,7 +564,6 @@ export default class Plp extends React.Component {
           <div className={styles.base}>
             <Chatbot
               productListings={this.props.productListings}
-              getChatbotDetails={this.props.getChatbotDetails}
               chatbotDetailsData={this.props.chatbotDetailsData}
             />
             {this.renderPageTags()}
