@@ -113,7 +113,11 @@ export default class CliqGiftCardPurchase extends Component {
     const customerAccessToken = getCustomerAccessToken();
     if (userDetails) {
       userData = JSON.parse(userDetails);
-      fullName = userData.firstName + " " + userData.lastName;
+      if (userData.firstName === undefined || userData.lastName === undefined) {
+        fullName = "";
+      } else {
+        fullName = userData.firstName + " " + userData.lastName;
+      }
       email = userData.userName;
     }
 

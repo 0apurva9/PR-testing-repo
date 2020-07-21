@@ -23,7 +23,7 @@ export default class CliqGiftCardBuySend extends Component {
       emailValidate: false,
       starEmail: "",
       showStar: "",
-      showUpdateSenderField: false
+      showUpdateSenderField: this.props.senderName !== "" ? false : true
     };
   }
 
@@ -40,12 +40,6 @@ export default class CliqGiftCardBuySend extends Component {
           amount: this.state.selectedAmount
         }
       });
-    }
-  }
-
-  onChangeReceiverName(name) {
-    if (name === "" || /^[a-zA-Z]+$/.test(name)) {
-      this.setState({ receiverName: name });
     }
   }
 
@@ -247,6 +241,7 @@ export default class CliqGiftCardBuySend extends Component {
                     value={this.state.senderName}
                     onChange={senderName => this.setState({ senderName })}
                     type="text"
+                    onlyAlphabet={true}
                     required={true}
                   />
                   {this.state.senderName ? (
@@ -316,10 +311,9 @@ export default class CliqGiftCardBuySend extends Component {
                   placeholderMoving={true}
                   placeholderText={"Name of the Receiver*"}
                   value={this.state.receiverName}
-                  onChange={receiverName =>
-                    this.onChangeReceiverName(receiverName)
-                  }
+                  onChange={receiverName => this.setState({ receiverName })}
                   type="text"
+                  onlyAlphabet={true}
                   required={true}
                 />
               </div>
@@ -388,6 +382,7 @@ export default class CliqGiftCardBuySend extends Component {
                     value={this.state.senderName}
                     onChange={senderName => this.setState({ senderName })}
                     type="text"
+                    onlyAlphabet={true}
                     required={true}
                   />
                   {this.state.senderName ? (
