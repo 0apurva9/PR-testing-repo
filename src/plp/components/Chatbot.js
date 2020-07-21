@@ -139,7 +139,6 @@ export default class Chatbot extends React.Component {
     if (productName) {
       haptikData.productName = productName;
     }
-    console.log(haptikData);
     if (document.readyState === "complete" && window.initiateHaptikIVA) {
       window.initiateHaptikIVA(haptikData);
     } else {
