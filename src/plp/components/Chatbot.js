@@ -204,7 +204,11 @@ export default class Chatbot extends React.Component {
 
         // filters data
         let searchCriteria = "";
-        if (plpProductDetails && eligiblePLPData) {
+        if (
+          plpProductDetails &&
+          eligiblePLPData &&
+          typeof eligiblePLPData !== undefined
+        ) {
           let airConditionerFilter = [
             "Brand",
             "Price",
@@ -326,6 +330,7 @@ export default class Chatbot extends React.Component {
         });
         if (
           eligibleCLPData &&
+          typeof eligibleCLPData !== undefined &&
           eligibleCLPData.showWidget &&
           !data.clpUrl.includes("samsung") &&
           data.clpUrl === eligibleCLPData.categoryLandingPage
@@ -340,6 +345,7 @@ export default class Chatbot extends React.Component {
         }
         if (
           eligibleCLPData &&
+          typeof eligibleCLPData !== undefined &&
           eligibleCLPData.showWidget &&
           data.clpUrl.includes("samsung") &&
           eligibleCLPData.showOnSamsungPlpClpPdp &&
@@ -370,7 +376,7 @@ export default class Chatbot extends React.Component {
         let eligiblePDPData = pdpData.find(value => {
           return categoryIds.includes(value.categoryCode);
         });
-        if (eligiblePDPData) {
+        if (eligiblePDPData && typeof eligiblePDPData !== undefined) {
           let categoryAvailable = categoryIds.includes(
             eligiblePDPData.categoryCode
           );
