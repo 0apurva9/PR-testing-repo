@@ -34,7 +34,6 @@ export default class AllOrdersList extends Component {
           </div>
         </div>
         {this.props.ordersTransactionData &&
-          this.props.ordersTransactionData.orderData &&
           this.props.ordersTransactionData.orderData.map(orderData => {
             if (orderData.products) {
               return orderData.products.map(product => {
@@ -52,7 +51,6 @@ export default class AllOrdersList extends Component {
                       <div className={styles.allOrderDatils}>
                         <div className={styles.productName}>
                           {product.productName}
-                          {orderData.orderId}
                         </div>
                         <div className={styles.orderStatus}>
                           Order status:
@@ -124,5 +122,25 @@ export default class AllOrdersList extends Component {
 AllOrdersList.propTypes = {
   hideAllOrder: PropTypes.func,
   getMoreOrder: PropTypes.func,
-  getOrderRelatedQuestions: PropTypes.func
+  getOrderRelatedQuestions: PropTypes.func,
+  ordersTransactionData: PropTypes.shape({
+    orderData: PropTypes.arrayOf(
+      PropTypes.shape({
+        products: PropTypes.arrayOf(
+          PropTypes.shape({
+            imageURL: PropTypes.string,
+            productName: PropTypes.string,
+            statusDisplay: PropTypes.string,
+            pickUpDateCNC: PropTypes.string,
+            EDD: PropTypes.string,
+            estimateddeliverydate: PropTypes.string
+          })
+        )
+      })
+    )
+  })
 };
+
+// orderData:PropTypes.arrayOf(
+
+// )

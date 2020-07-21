@@ -160,5 +160,21 @@ class OrderList extends Component {
 export default withRouter(OrderList);
 OrderList.propTypes = {
   showAllOrdersList: PropTypes.func,
-  getOrderRelatedQuestions: PropTypes.func
+  getOrderRelatedQuestions: PropTypes.func,
+  ordersTransactionData: PropTypes.shape({
+    orderData: PropTypes.arrayOf(
+      PropTypes.shape({
+        products: PropTypes.arrayOf(
+          PropTypes.shape({
+            imageURL: PropTypes.string,
+            productName: PropTypes.string,
+            statusDisplay: PropTypes.string,
+            pickUpDateCNC: PropTypes.string,
+            EDD: PropTypes.string,
+            estimateddeliverydate: PropTypes.string
+          })
+        )
+      })
+    )
+  })
 };
