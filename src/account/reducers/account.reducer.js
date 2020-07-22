@@ -301,7 +301,6 @@ const account = (
     checkBalanceStatus: null,
     checkBalanceDetailsError: null,
     checkBalanceDetails: null,
-
     customerQueriesFieldStatus: null,
     customerQueriesFieldError: null,
     customerQueriesField: null,
