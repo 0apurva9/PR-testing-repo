@@ -291,7 +291,10 @@ const cart = (
     feedBackPageStatus: null,
     feedBackPageData: null,
     loadingForfeedBackPage: false,
-    feedBackPageError: null
+    feedBackPageError: null,
+    getCustomComponent: null,
+    getCustomComponentError: null,
+    getCustomComponentLoading: false
   },
   action
 ) => {
@@ -2360,6 +2363,23 @@ const cart = (
         removeExchangeStatus: action.status,
         removeExchangeLoading: false,
         removeExchangeError: action.error
+      });
+    case cartActions.GET_CUSTOM_COMPONENT_REQUEST:
+      return Object.assign({}, state, {
+        getCustomComponentStatus: action.status,
+        getCustomComponentLoading: true
+      });
+    case cartActions.GET_CUSTOM_COMPONENT_SUCCESS:
+      return Object.assign({}, state, {
+        getCustomComponentStatus: action.status,
+        getCustomComponentLoading: false,
+        customComponent: action.customComponent
+      });
+    case cartActions.GET_CUSTOM_COMPONENT_FAILURE:
+      return Object.assign({}, state, {
+        getCustomComponentStatus: action.status,
+        getCustomComponentLoading: false,
+        getCustomComponentError: action.error
       });
 
     default:
