@@ -4124,12 +4124,6 @@ let firstData = [];
 export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
   return async (dispatch, getState, { api }) => {
     dispatch(getCustomerQueriesFieldsRequestv2());
-    let v1 = "";
-    // if(isSelectRadio){
-    //   v1=UItemplateCode
-    // }else{
-    //   v1="SSW_01"
-    // }
     try {
       const result = await api.get(
         `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
@@ -4193,7 +4187,6 @@ const getFormattedString = (strValue = "") => {
     endIndex = null;
   if (strValue.includes("(") && strValue.includes(")")) {
     startIndex = strValue.indexOf("(");
-    console.log("startIndex", startIndex);
     endIndex = strValue.indexOf(")");
 
     strValue = strValue.slice(0, startIndex - 1) + strValue.slice(startIndex);
@@ -4622,7 +4615,6 @@ export function getOrdersTransactionData(paginated) {
           JSON.parse(customerCookie).access_token
         }&channel=web`
       );
-      console.log("result");
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
