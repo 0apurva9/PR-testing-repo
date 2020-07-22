@@ -44,8 +44,12 @@ export default class Chatbot extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (
-      this.props.productListings.currentQuery.url !==
-      nextProps.productListings.currentQuery.url
+      (this.props.productListings &&
+        this.props.productListings.currentQuery &&
+        this.props.productListings.currentQuery.url) !==
+      (nextProps.productListings &&
+        nextProps.productListings.currentQuery &&
+        nextProps.productListings.currentQuery.url)
     ) {
       let buzzoAssistant = document.getElementById("buzzoassistant");
       let chatDemo = document.getElementById("chatdemo");
