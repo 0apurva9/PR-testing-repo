@@ -43,6 +43,20 @@ export default class Chatbot extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (
+      this.props.productListings.currentQuery.url !==
+      nextProps.productListings.currentQuery.url
+    ) {
+      let buzzoAssistant = document.getElementById("buzzoassistant");
+      let chatDemo = document.getElementById("chatdemo");
+      if (buzzoAssistant) {
+        buzzoAssistant.remove();
+      }
+      if (chatDemo) {
+        chatDemo.remove();
+      }
+      this.renderHaptikChatbot(nextProps);
+    }
     // check pincode success
     if (
       nextProps.isServiceableToPincode &&
@@ -191,15 +205,14 @@ export default class Chatbot extends React.Component {
             value.categoryCode === l3CategoryCode
           );
         });
-
-        if (plpProductDetails.seo && plpProductDetails.seo.tag) {
-          currentCategoryName = plpProductDetails.seo.tag;
-        } else if (
+        if (
           plpProductDetails.seo &&
           plpProductDetails.seo.breadcrumbs &&
           plpProductDetails.seo.breadcrumbs[0]
         ) {
           currentCategoryName = plpProductDetails.seo.breadcrumbs[0].name;
+        } else if (plpProductDetails.seo && plpProductDetails.seo.tag) {
+          currentCategoryName = plpProductDetails.seo.tag;
         }
 
         // filters data
@@ -277,14 +290,27 @@ export default class Chatbot extends React.Component {
                 filterValues = [];
               }
             });
-          searchCriteria =
-            brandAndFilterValuesText +
-            "Current Category " +
-            currentCategoryName;
+
+          if (brandAndFilterValuesText) {
+            let currentCategoryNameInLowerCase =
+              currentCategoryName && currentCategoryName.toLowerCase();
+            let categoryNameInLowerCase =
+              eligiblePLPData.categoryName &&
+              eligiblePLPData.categoryName.toLowerCase();
+            if (currentCategoryNameInLowerCase !== categoryNameInLowerCase) {
+              searchCriteria =
+                brandAndFilterValuesText + currentCategoryNameInLowerCase;
+            } else {
+              searchCriteria = brandAndFilterValuesText;
+            }
+          }
+
+          let isSearchPage = plpProductDetails.currentQuery.searchQuery;
 
           if (
             eligiblePLPData.showWidget &&
             currentCategoryName &&
+            !isSearchPage &&
             !currentCategoryName.toLowerCase().includes("samsung") &&
             ((l2CategoryCode &&
               l2CategoryCode === eligiblePLPData.categoryCode) ||
@@ -302,6 +328,7 @@ export default class Chatbot extends React.Component {
           if (
             eligiblePLPData.showWidget &&
             currentCategoryName &&
+            !isSearchPage &&
             currentCategoryName.toLowerCase().includes("samsung") &&
             eligiblePLPData.showOnSamsungPlpClpPdp &&
             ((l2CategoryCode &&

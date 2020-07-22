@@ -1,4 +1,5 @@
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { getFeed } from "../../home/actions/home.actions";
 import PlpBrandCategoryWrapper from "../components/PlpBrandCategoryWrapper";
 
@@ -16,9 +17,8 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const PlpBrandCategoryWrapperContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PlpBrandCategoryWrapper);
+const PlpBrandCategoryWrapperContainer = withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(PlpBrandCategoryWrapper)
+);
 
 export default PlpBrandCategoryWrapperContainer;
