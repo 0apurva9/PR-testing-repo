@@ -325,7 +325,10 @@ export default class NoCostEmiBankDetails extends React.Component {
       }
     }
   }
-  async onSelectMonth(index, val, event) {
+  async onSelectMonth(index, val, event, noCostEMICouponList) {
+    if (noCostEMICouponList.length <= 1) {
+      return;
+    }
     if (this.state.selectedBankName !== "Other Bank") {
       if (this.props.removeNoCostEmi && this.state.selectedCouponCode) {
         const removeNoCostEmiResponce = await this.props.removeNoCostEmi(
@@ -637,7 +640,14 @@ export default class NoCostEmiBankDetails extends React.Component {
                           className={styles.monthWithCheckbox}
                           key={i}
                           value={val.emicouponCode}
-                          onClick={event => this.onSelectMonth(i, val, event)}
+                          onClick={event =>
+                            this.onSelectMonth(
+                              i,
+                              val,
+                              event,
+                              modifiedBankList.noCostEMICouponList
+                            )
+                          }
                         >
                           <div className={styles.checkbox}>
                             <CheckBox
