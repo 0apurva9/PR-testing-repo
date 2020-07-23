@@ -91,70 +91,86 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
                   cellSpacing={0}
                 >
                   <tbody>
-                    <tr>
-                      <td>Base Value</td>
-                      <td>
-                        {
-                          this.props.products.exchangeDetails
-                            .exchangePriceDetail.exchangeAmountCashify
-                            .formattedValueNoDecimal
-                        }
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>CLiQ Exclusive Cashback</td>
-                      <td>
-                        {
-                          this.props.products.exchangeDetails
-                            .exchangePriceDetail.TULBump.formattedValueNoDecimal
-                        }
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Pick Up Charge </td>
-                      {this.props.products.exchangeDetails.exchangePriceDetail
-                        .pickupCharge.doubleValue === 0 && (
-                        <td className={styles.pickupCharge}>FREE</td>
-                      )}
-                      {this.props.products.exchangeDetails.exchangePriceDetail
-                        .pickupCharge.doubleValue !== 0 && (
+                    {this.props.products.exchangeDetails.exchangePriceDetail
+                      .exchangeAmountCashify && (
+                      <tr>
+                        <td>Base Value</td>
                         <td>
                           {
                             this.props.products.exchangeDetails
-                              .exchangePriceDetail.pickupCharge
+                              .exchangePriceDetail.exchangeAmountCashify
                               .formattedValueNoDecimal
                           }
                         </td>
-                      )}
-                    </tr>
-                    <tr>
-                      <td className={styles.borderWithPaddingTop}>
-                        Total Exchange Cashback{" "}
-                      </td>
-                      <td className={styles.borderWithPaddingTop}>
-                        {
-                          this.props.products.exchangeDetails
-                            .exchangePriceDetail.totalExchangeCashback
-                            .formattedValueNoDecimal
-                        }
-                      </td>
-                    </tr>
+                      </tr>
+                    )}
+                    {this.props.products.exchangeDetails.exchangePriceDetail
+                      .TULBump && (
+                      <tr>
+                        <td>CLiQ Exclusive Cashback</td>
+                        <td>
+                          {
+                            this.props.products.exchangeDetails
+                              .exchangePriceDetail.TULBump
+                              .formattedValueNoDecimal
+                          }
+                        </td>
+                      </tr>
+                    )}
+                    {this.props.products.exchangeDetails.exchangePriceDetail
+                      .pickupCharge && (
+                      <tr>
+                        <td>Pick Up Charge </td>
+                        {this.props.products.exchangeDetails.exchangePriceDetail
+                          .pickupCharge.doubleValue === 0 && (
+                          <td className={styles.pickupCharge}>FREE</td>
+                        )}
+                        {this.props.products.exchangeDetails.exchangePriceDetail
+                          .pickupCharge.doubleValue !== 0 && (
+                          <td>
+                            {
+                              this.props.products.exchangeDetails
+                                .exchangePriceDetail.pickupCharge
+                                .formattedValueNoDecimal
+                            }
+                          </td>
+                        )}
+                      </tr>
+                    )}
+                    {this.props.products.exchangeDetails.exchangePriceDetail
+                      .totalExchangeCashback && (
+                      <tr>
+                        <td className={styles.borderWithPaddingTop}>
+                          Total Exchange Cashback{" "}
+                        </td>
+                        <td className={styles.borderWithPaddingTop}>
+                          {
+                            this.props.products.exchangeDetails
+                              .exchangePriceDetail.totalExchangeCashback
+                              .formattedValueNoDecimal
+                          }
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
-                <div className={styles.effectivePriceContainer}>
-                  <div className={styles.effectivePriceText}>
-                    <span className={styles.fontLight}>
-                      Effective Price for
-                    </span>{" "}
-                    <span>{this.props.products.productName}</span>
+                {this.props.products.exchangeDetails.exchangePriceDetail
+                  .effectiveAmount && (
+                  <div className={styles.effectivePriceContainer}>
+                    <div className={styles.effectivePriceText}>
+                      <span className={styles.fontLight}>
+                        Effective Price for
+                      </span>{" "}
+                      <span>{this.props.products.productName}</span>
+                    </div>
+                    <div className={styles.effectivePrice}>
+                      {
+                        this.props.products.exchangeDetails.exchangePriceDetail
+                          .effectiveAmount.formattedValueNoDecimal
+                      }
+                    </div>
                   </div>
-                  <div className={styles.effectivePrice}>
-                    {
-                      this.props.products.exchangeDetails.exchangePriceDetail
-                        .effectiveAmount.formattedValueNoDecimal
-                    }
-                  </div>
-                </div>
+                )}
               </React.Fragment>
             )}
           </React.Fragment>

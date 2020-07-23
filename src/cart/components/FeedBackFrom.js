@@ -1,10 +1,9 @@
 import React from "react";
-import PropTypes from "prop-types";
 import queryString from "query-string";
 import styles from "./FeedBackFrom.css";
 import ControlTextArea from "../../general/components/ControlTextArea.js";
 import FeedBackRateGrid from "./FeedBackRateGrid";
-import { FEEDBACK, HOME_ROUTER } from "../../lib/constants";
+import { HOME_ROUTER } from "../../lib/constants";
 import Button from "../../general/components/Button.js";
 import {
   setDataLayerForCartDirectCalls,
@@ -23,10 +22,15 @@ export default class FeedBackForm extends React.Component {
   componentDidMount() {
     let getUserDetails = queryString.parse(this.props.location.search);
     if (this.props.getFeedBackForm) {
-      this.props.getFeedBackForm(getUserDetails);
+      this.props.getFeedBackForm(getUserDetails, this.isReturnJourney());
     }
     window.scrollTo(0, 0);
   }
+
+  isReturnJourney = () => {
+    return this.props.location.pathname.includes("ReturnNPSFeedbackForm");
+  };
+
   onclickQuestion = (rating, questionNumber, questionName) => {
     if (this.questionRatingArray.length !== 0) {
       const indexOfQuestionRatingArray = this.questionRatingArray.findIndex(
@@ -67,7 +71,8 @@ export default class FeedBackForm extends React.Component {
       this.state.textDetails,
       this.questionRatingArray,
       getUserDetails.transactionId,
-      getUserDetails.originalUid
+      getUserDetails.originalUid,
+      this.isReturnJourney()
     );
     window.scrollTo(0, 0);
   }

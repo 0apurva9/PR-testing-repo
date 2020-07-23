@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "./CustomerIssue.css";
 import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 import QuestionFeedback from "./QuestionFeedback";
 import OrderActionButton from "./OrderActionButton";
 import ProductImage from "../../general/components/ProductImage.js";
@@ -86,12 +87,10 @@ class OrderListDetails extends Component {
       />
     );
   }
-
   showFaqSolutions(listOfIssue) {
     if (this.state.showFaqSolution != listOfIssue.question_component) {
       this.props.updateThanks();
     }
-
     this.setState({ showFaqSolution: listOfIssue.question_component });
   }
 
@@ -201,7 +200,9 @@ class OrderListDetails extends Component {
                           )}
                         </span>
                       </div>
-                    ) : selectedOrder.products[0].deliveryDate ? (
+                    ) : selectedOrder &&
+                      selectedOrder.products &&
+                      selectedOrder.products[0].deliveryDate ? (
                       <div className={styles.orderStatus}>
                         {DELIVERY_TEXT}&nbsp;
                         <span className={styles.fontBold}>
@@ -320,5 +321,22 @@ class OrderListDetails extends Component {
     );
   }
 }
-
 export default withRouter(OrderListDetails);
+OrderListDetails.propTypes = {
+  isAnswerHelpFull: PropTypes.bool,
+  FAQquestion: PropTypes.bool,
+  isQuesryForm: PropTypes.bool,
+  isUserLogin: PropTypes.bool,
+  orderRelatedQuestion: PropTypes.bool,
+  otherQuestion: PropTypes.bool,
+  showFeedBack: PropTypes.bool,
+  showQuestionList: PropTypes.bool,
+  feedBackHelpFull: PropTypes.func,
+  getCustomerQueriesFields: PropTypes.func,
+  navigateCliqCarePage: PropTypes.func,
+  navigatePreviousPage: PropTypes.func,
+  updateThanks: PropTypes.func,
+  uploadUserFile: PropTypes.func,
+  selectedOrder: PropTypes.object,
+  slectOrderData: PropTypes.object
+};

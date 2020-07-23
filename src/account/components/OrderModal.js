@@ -1,6 +1,7 @@
 import React from "react";
 import SlideModal from "../../general/components/SlideModal";
 import styles from "./OrderModal.css";
+import PropTypes from "prop-types";
 export default class OrderModal extends React.Component {
   render() {
     return (
@@ -9,6 +10,13 @@ export default class OrderModal extends React.Component {
           <div className={styles.header}>
             Order #{this.props.data.orderCode}
           </div>
+          {this.props.data.orderNotShiped && (
+            <div className={styles.step}>
+              <div className={styles.location}>
+                {this.props.data.alertMessage}
+              </div>
+            </div>
+          )}
           {this.props.data &&
             this.props.data.shippingList &&
             this.props.data.shippingList.map(val => {
@@ -30,3 +38,6 @@ export default class OrderModal extends React.Component {
     );
   }
 }
+OrderModal.propTypes = {
+  data: PropTypes.object
+};
