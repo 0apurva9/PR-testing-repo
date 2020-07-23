@@ -525,3 +525,5 @@ export const EDD_TEXT = "Estimated Delivery Date";
 //CleverTap email unsubsctibe
 export const UNSUBSCRIBE_CLEVER_TAP_EMAILS = "/emails-unsubscribe";
 export const NOT_SERVICEABLE = "Not available at your PIN code";
+
+export const WEB_URL_REG_EX = /^https?:[\/]{2}(www\.)?tatacliq.com/g;

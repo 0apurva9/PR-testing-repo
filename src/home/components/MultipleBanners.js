@@ -2,17 +2,21 @@ import React from "react";
 import Grid from "../../general/components/Grid";
 import SmallBanner from "./SmallBanner";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import { WEB_URL_REG_EX } from "../../lib/constants";
 import styles from "./MultipleBanners.css";
 
 export default class MultipleBanner extends React.Component {
   handleClick(webUrl) {
     if (webUrl) {
-      const urlSuffix = webUrl.replace(TATA_CLIQ_ROOT, "$1").trim();
+      // Check if URL starts https://www.tatacliq.com or https://tatacliq.com
+      const isMatch = WEB_URL_REG_EX.test(webUrl);
       const urlPath = new URL(webUrl).pathname;
-      if (urlPath.indexOf("/que") > -1) {
-        window.open(urlSuffix, "_blank");
+
+      if (urlPath.indexOf("/que") > -1 || !isMatch) {
+        window.open(webUrl, "_blank");
         window.focus();
       } else {
+        const urlSuffix = webUrl.replace(TATA_CLIQ_ROOT, "$1").trim();
         this.props.history.push(urlSuffix);
       }
     }
