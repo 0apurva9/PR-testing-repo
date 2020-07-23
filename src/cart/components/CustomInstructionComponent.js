@@ -13,8 +13,18 @@ export default class CustomInstructionComponent extends React.Component {
       Array.isArray(this.props.customComponent.applicationProperties) &&
       this.props.customComponent.applicationProperties.length &&
       JSON.parse(this.props.customComponent.applicationProperties[0].value);
+    let baseClassName = styles.emptyClass;
+    if (
+      (typeof customComponent == "object" &&
+        Object.keys(customComponent).length === 0) ||
+      customComponent == undefined
+    ) {
+      baseClassName = styles.emptyClass;
+    } else {
+      baseClassName = styles.holder;
+    }
     return (
-      <div className={styles.holder}>
+      <div className={styles.baseClassName}>
         <div className={styles.descriptionHolder}>
           <div className={styles.header}>
             {customComponent && customComponent.header}
