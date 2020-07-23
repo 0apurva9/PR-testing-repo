@@ -2800,7 +2800,8 @@ export function getDigitalDataForSearchPageForNullResult(response) {
   let data = {
     page: {
       pageInfo: {
-        pathname: "search results page"
+        pathname: "search results page",
+        pageType: "PLP"
       },
       category: {
         primaryCategory: "productsearch"
@@ -3090,12 +3091,24 @@ export async function setDataLayerForLogin(type, lastLocation) {
           mcvId: mcvId
         },
         page: {
+          category: {
+            primaryCategory:
+              data &&
+              data.page &&
+              data.page.category &&
+              data.page.category.primaryCategory
+          },
           pageInfo: {
             pageName:
               data &&
               data.page &&
               data.page.pageInfo &&
-              data.page.pageInfo.pageName
+              data.page.pageInfo.pageName,
+            pageType:
+              data &&
+              data.page &&
+              data.page.pageInfo &&
+              data.page.pageInfo.pageType
           }
         }
       });
@@ -4372,7 +4385,7 @@ export function setPageNameAndPageType(response) {
     if (digitalDataForPageName.page && digitalDataForPageName.page.pageInfo) {
       Object.assign(digitalDataForPageName.page.pageInfo, {
         pageName: response.pageName,
-        pageType: "Homepage"
+        pageType: "homePage"
       });
     }
     Object.assign(window.digitalData, digitalDataForPageName);
