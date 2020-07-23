@@ -43,6 +43,24 @@ export default class Chatbot extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (
+      (this.props.productListings &&
+        this.props.productListings.currentQuery &&
+        this.props.productListings.currentQuery.url) !==
+      (nextProps.productListings &&
+        nextProps.productListings.currentQuery &&
+        nextProps.productListings.currentQuery.url)
+    ) {
+      let buzzoAssistant = document.getElementById("buzzoassistant");
+      let chatDemo = document.getElementById("chatdemo");
+      if (buzzoAssistant) {
+        buzzoAssistant.remove();
+      }
+      if (chatDemo) {
+        chatDemo.remove();
+      }
+      this.renderHaptikChatbot(nextProps);
+    }
     // check pincode success
     if (
       nextProps.isServiceableToPincode &&
@@ -78,12 +96,11 @@ export default class Chatbot extends React.Component {
         }
       }
     }
-  }
-
-  componentWillUpdate(nextProps, nextState) {
     // show toast on add to cart success
     if (
       nextProps.addToCartResponseDetails &&
+      this.props.addToCartResponseDetails !==
+        nextProps.addToCartResponseDetails &&
       nextProps.addToCartResponseDetails.status &&
       nextProps.addToCartResponseDetails.status.toLowerCase() === SUCCESS
     ) {
@@ -191,15 +208,14 @@ export default class Chatbot extends React.Component {
             value.categoryCode === l3CategoryCode
           );
         });
-
-        if (plpProductDetails.seo && plpProductDetails.seo.tag) {
-          currentCategoryName = plpProductDetails.seo.tag;
-        } else if (
+        if (
           plpProductDetails.seo &&
           plpProductDetails.seo.breadcrumbs &&
           plpProductDetails.seo.breadcrumbs[0]
         ) {
           currentCategoryName = plpProductDetails.seo.breadcrumbs[0].name;
+        } else if (plpProductDetails.seo && plpProductDetails.seo.tag) {
+          currentCategoryName = plpProductDetails.seo.tag;
         }
 
         // filters data
@@ -277,14 +293,26 @@ export default class Chatbot extends React.Component {
                 filterValues = [];
               }
             });
-          searchCriteria =
-            brandAndFilterValuesText +
-            "Current Category " +
-            currentCategoryName;
+
+          if (brandAndFilterValuesText) {
+            const currentCategoryNameInLowerCase =
+              currentCategoryName && currentCategoryName.toLowerCase();
+            const categoryNameInLowerCase =
+              eligiblePLPData.categoryName &&
+              eligiblePLPData.categoryName.toLowerCase();
+            if (currentCategoryNameInLowerCase !== categoryNameInLowerCase) {
+              searchCriteria = `${brandAndFilterValuesText}${currentCategoryNameInLowerCase}`;
+            } else {
+              searchCriteria = brandAndFilterValuesText;
+            }
+          }
+
+          let isSearchPage = plpProductDetails.currentQuery.searchQuery;
 
           if (
             eligiblePLPData.showWidget &&
             currentCategoryName &&
+            !isSearchPage &&
             !currentCategoryName.toLowerCase().includes("samsung") &&
             ((l2CategoryCode &&
               l2CategoryCode === eligiblePLPData.categoryCode) ||
@@ -302,6 +330,7 @@ export default class Chatbot extends React.Component {
           if (
             eligiblePLPData.showWidget &&
             currentCategoryName &&
+            !isSearchPage &&
             currentCategoryName.toLowerCase().includes("samsung") &&
             eligiblePLPData.showOnSamsungPlpClpPdp &&
             ((l2CategoryCode &&
@@ -421,7 +450,55 @@ export default class Chatbot extends React.Component {
 }
 
 Chatbot.propTypes = {
-  productListings: PropTypes.object,
+  productListings: PropTypes.objectOf(
+    PropTypes.shape({
+      currentQuery: PropTypes.objectOf(
+        PropTypes.shape({
+          url: PropTypes.string,
+          searchQuery: PropTypes.string
+        })
+      ),
+      facetdatacategory: PropTypes.objectOf(
+        PropTypes.shape({
+          filters: PropTypes.arrayOf(
+            PropTypes.shape({
+              childFilters: PropTypes.arrayOf(
+                PropTypes.shape({
+                  categoryCode: PropTypes.string,
+                  childFilters: PropTypes.arrayOf(
+                    PropTypes.shape({
+                      categoryCode: PropTypes.string
+                    })
+                  )
+                })
+              )
+            })
+          )
+        })
+      ),
+      seo: PropTypes.objectOf(
+        PropTypes.shape({
+          tag: PropTypes.string,
+          breadcrumbs: PropTypes.arrayOf(
+            PropTypes.shape({
+              name: PropTypes.string
+            })
+          )
+        })
+      ),
+      facetdata: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          selectedFilterCount: PropTypes.number,
+          values: PropTypes.arrayOf(
+            PropTypes.shape({
+              name: PropTypes.string
+            })
+          )
+        })
+      )
+    })
+  ),
   clpUrl: PropTypes.string,
   productDetails: PropTypes.objectOf(
     PropTypes.shape({
