@@ -215,7 +215,8 @@ export default class AllOrderDetails extends React.Component {
         setTimeout(() => {
           this.props.showRatingAndReviewModal({
             ...this.props,
-            productDetails: productDetails
+            productDetails: productDetails,
+            rating: val
           });
         }, 3000);
       }

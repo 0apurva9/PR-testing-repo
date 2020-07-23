@@ -59,7 +59,7 @@ export default class RatingAndReview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rating: this.props.userRating,
+      rating: this.props.userRating ? this.props.userRating : this.props.rating,
       title: "",
       comment: "",
       showReviewGuidelines: false,
@@ -184,8 +184,8 @@ export default class RatingAndReview extends React.Component {
                     // resetRating={this.state.resetRating}
                   />
                   {this.state.rating && (
-                    <span className={styles.submittedText}>
-                      <span>Submitted</span>
+                    <span className={styles.submittedTextHolder}>
+                      <span className={styles.submittedText}>Submitted</span>
                       <img
                         className={styles.checkMarkGreen}
                         src={checkIcon}
@@ -219,13 +219,14 @@ export default class RatingAndReview extends React.Component {
               Please share your detailed product experience
             </div>
             <div className={styles.reviewWrapper}>
-              <span>Review Title</span>
+              <span className={styles.inputLabel}>Review Title</span>
               <div className={styles.input}>
                 <Input
                   placeholder={"Headline for your review.."}
                   value={this.state.title}
                   title={this.props.title ? this.props.title : this.state.title}
                   onChange={val => this.onChangeTitle(val)}
+                  textStyle={{ fontFamily: "regular", color: "#212121" }}
                 />
                 {this.state.showTitleError && (
                   <span className={styles.errorMessage}>
@@ -233,7 +234,7 @@ export default class RatingAndReview extends React.Component {
                   </span>
                 )}
               </div>
-              <span>Review Description</span>
+              <span className={styles.inputLabel}>Review Description</span>
               {this.state.commentLength <= 50 ? (
                 <span className={styles.infoMessage}>
                   {this.state.commentLength}/50 Characters

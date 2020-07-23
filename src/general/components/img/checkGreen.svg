@@ -1,6 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 64 64" version="1.1">
-<g id="surface57098">
-<path style=" stroke:none;fill-rule:nonzero;fill:rgb(40.392157%,71.764706%,4.313725%);fill-opacity:1;" d="M 32 12.5 C 21.230469 12.5 12.5 21.230469 12.5 32 C 12.5 42.769531 21.230469 51.5 32 51.5 C 42.769531 51.5 51.5 42.769531 51.5 32 C 51.5 21.230469 42.769531 12.5 32 12.5 Z M 32 12.5 "/>
-<path style="fill:none;stroke-width:8.0625;stroke-linecap:round;stroke-linejoin:miter;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:10;" d="M 56.4375 92.71875 L 74.641113 108.84375 L 115.5625 61.8125 " transform="matrix(0.372093,0,0,0.372093,0,0)"/>
-</g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group</title>
+    <g id="Desktop-V2.0" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Review-Entered" transform="translate(-1055.000000, -321.000000)">
+            <g id="Group-13" transform="translate(335.000000, 232.000000)">
+                <g id="Group-7" transform="translate(624.000000, 87.000000)">
+                    <g id="Group" transform="translate(96.000000, 2.000000)">
+                        <circle id="Oval" fill="#67B70B" cx="9" cy="9" r="9"></circle>
+                        <polyline id="Path" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" points="5.4 10.2375 7.7625 12.6 12.4875 6.3"></polyline>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
 </svg>

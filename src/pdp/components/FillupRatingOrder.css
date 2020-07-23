@@ -4,7 +4,7 @@
 	display:inline-block;
 }
 .ratingHolder{
-	width:15%;
+	width:11%;
 	height:auto;
 	display:inline-block;
 	vertical-align:middle;
@@ -19,27 +19,27 @@
 	vertical-align:middle;
 }
 .ratingStar{
-	width:34px;
-	height:34px;
-	background:url(../../general/components/img/empty-star.svg)no-repeat;
+	width:25px;
+	height:25px;
+	background:url(../../general/components/img/star-empty.svg)no-repeat;
 	background-size: auto 100%;
 	background-position:center;
 	display:inline-block;
 	transition:300ms;
 }
 .ratingFillStar{
-	width:34px;
-	height:34px;
-	background:url(../../general/components/img/star-fill.svg)no-repeat;
+	width:25px;
+	height:25px;
+	background:url(../../general/components/img/star-filled-orange.svg)no-repeat;
 	background-size: auto 100%;
 	background-position:center;
 	display:inline-block;
 	transition:300ms;
 }
 .ratingFillGreenStar{
-	width:34px;
-	height:34px;
-	background:url(../../general/components/img/green-filled-star.svg)no-repeat;
+	width:25px;
+	height:25px;
+	background:url(../../general/components/img/star-filled-green.svg)no-repeat;
 	background-size: auto 100%;
 	background-position:center;
 	display:inline-block;
