@@ -96,12 +96,11 @@ export default class Chatbot extends React.Component {
         }
       }
     }
-  }
-
-  componentWillUpdate(nextProps, nextState) {
     // show toast on add to cart success
     if (
       nextProps.addToCartResponseDetails &&
+      this.props.addToCartResponseDetails !==
+        nextProps.addToCartResponseDetails &&
       nextProps.addToCartResponseDetails.status &&
       nextProps.addToCartResponseDetails.status.toLowerCase() === SUCCESS
     ) {
@@ -296,14 +295,13 @@ export default class Chatbot extends React.Component {
             });
 
           if (brandAndFilterValuesText) {
-            let currentCategoryNameInLowerCase =
+            const currentCategoryNameInLowerCase =
               currentCategoryName && currentCategoryName.toLowerCase();
-            let categoryNameInLowerCase =
+            const categoryNameInLowerCase =
               eligiblePLPData.categoryName &&
               eligiblePLPData.categoryName.toLowerCase();
             if (currentCategoryNameInLowerCase !== categoryNameInLowerCase) {
-              searchCriteria =
-                brandAndFilterValuesText + currentCategoryNameInLowerCase;
+              searchCriteria = `${brandAndFilterValuesText}${currentCategoryNameInLowerCase}`;
             } else {
               searchCriteria = brandAndFilterValuesText;
             }
@@ -452,7 +450,55 @@ export default class Chatbot extends React.Component {
 }
 
 Chatbot.propTypes = {
-  productListings: PropTypes.object,
+  productListings: PropTypes.objectOf(
+    PropTypes.shape({
+      currentQuery: PropTypes.objectOf(
+        PropTypes.shape({
+          url: PropTypes.string,
+          searchQuery: PropTypes.string
+        })
+      ),
+      facetdatacategory: PropTypes.objectOf(
+        PropTypes.shape({
+          filters: PropTypes.arrayOf(
+            PropTypes.shape({
+              childFilters: PropTypes.arrayOf(
+                PropTypes.shape({
+                  categoryCode: PropTypes.string,
+                  childFilters: PropTypes.arrayOf(
+                    PropTypes.shape({
+                      categoryCode: PropTypes.string
+                    })
+                  )
+                })
+              )
+            })
+          )
+        })
+      ),
+      seo: PropTypes.objectOf(
+        PropTypes.shape({
+          tag: PropTypes.string,
+          breadcrumbs: PropTypes.arrayOf(
+            PropTypes.shape({
+              name: PropTypes.string
+            })
+          )
+        })
+      ),
+      facetdata: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          selectedFilterCount: PropTypes.number,
+          values: PropTypes.arrayOf(
+            PropTypes.shape({
+              name: PropTypes.string
+            })
+          )
+        })
+      )
+    })
+  ),
   clpUrl: PropTypes.string,
   productDetails: PropTypes.objectOf(
     PropTypes.shape({
