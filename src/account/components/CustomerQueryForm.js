@@ -286,6 +286,7 @@ export default class CustomerQueryForm extends Component {
                     this.setState({ [listOfField.componentId]: value })
                   }
                   maxLength={parseInt(listOfField.maxLimit)}
+                  onBlur={() => this.onBlur(false)}
                 />
               </div>
             </React.Fragment>
@@ -453,7 +454,9 @@ export default class CustomerQueryForm extends Component {
           lastTransactionScreenshot: "",
           missingAccessories: "",
           webformChannel: "",
-          appVersion: ""
+          appVersion: "",
+          refundIssue: "",
+          deficitAmount: ""
         };
 
         for (let obj of customerQueriesField) {
