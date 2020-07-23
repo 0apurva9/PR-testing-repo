@@ -21,6 +21,12 @@ export default class TextArea extends React.Component {
     }
     this.setState({ focused: true });
   }
+  handleBlur(event) {
+    if (this.props.onBlur) {
+      this.props.onBlur();
+    }
+  }
+
   handleChange(event) {
     if (this.props.onChange) {
       this.props.onChange(event.target.value);
@@ -39,6 +45,7 @@ export default class TextArea extends React.Component {
           }}
           style={{ height: `${this.props.height}px` }}
           onFocus={event => this.handleFocus(event)}
+          onBlur={event => this.handleBlur(event)}
           maxLength={this.props.maxLength}
         />
       </div>
