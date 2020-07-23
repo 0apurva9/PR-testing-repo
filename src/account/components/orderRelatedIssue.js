@@ -225,17 +225,17 @@ export default class OrderRelatedIssue extends React.Component {
           questionList: response.orderRelatedQuestions.listOfIssues,
           parentIssueType: null,
           questionType: ORDER_REALTED_QUESTION,
-          slectOrderData: orderData.orderDetails
+          slectOrderData: orderData.product
         });
       }
     }
   }
 
-  getOrderRelatedQuestions(orderData) {
+  getOrderRelatedQuestions(orderData, product) {
     const selectedOrder = {
-      transactionId: orderData.products[0].transactionId,
+      transactionId: product.transactionId,
       orderCode: orderData.orderId,
-      orderDetails: orderData
+      product: product
     };
     this.orderRelatedInfo(selectedOrder);
   }
@@ -484,8 +484,8 @@ export default class OrderRelatedIssue extends React.Component {
                       }
                       showFeedBack={this.state.showFeedBack}
                       question={this.state.question}
-                      getOrderRelatedQuestions={selcetOrder =>
-                        this.getOrderRelatedQuestions(selcetOrder)
+                      getOrderRelatedQuestions={(orderData, product) =>
+                        this.getOrderRelatedQuestions(orderData, product)
                       }
                       orderRelatedQuestionsStatus={orderRelatedQuestionsStatus}
                       isQuesryForm={this.state.isQuesryForm}

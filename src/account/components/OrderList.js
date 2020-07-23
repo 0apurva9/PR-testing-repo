@@ -40,7 +40,9 @@ class OrderList extends Component {
             productList.push(
               <div
                 className={styles.orderDataCard}
-                onClick={() => this.props.getOrderRelatedQuestions(orderItem)}
+                onClick={() =>
+                  this.props.getOrderRelatedQuestions(orderItem, product)
+                }
               >
                 <div className={styles.orderDataBox}>
                   <div className={styles.orderImageBox}>
@@ -49,7 +51,6 @@ class OrderList extends Component {
                   <div className={styles.orderDatils}>
                     <div className={styles.productName}>
                       {product.productName}
-                      {/* {orderItem.orderId} */}
                     </div>
                     <div className={styles.orderStatus}>
                       Order status:

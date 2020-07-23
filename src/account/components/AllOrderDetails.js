@@ -369,17 +369,36 @@ export default class AllOrderDetails extends React.Component {
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
     const orderCode = orderDetails.orderId;
     const transactionId = orderDetails.products[0].transactionId;
-    const selectedOrderObj = {
-      orderCode,
-      transactionId,
-      orderDetails: orderDetails
-    };
-    this.props.history.push({
-      pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
-      state: {
-        selectedOrderObj
+    if (orderDetails) {
+      if (orderDetails.products && orderDetails.products.length == 1) {
+        const selectedOrderObj = {
+          orderCode,
+          transactionId,
+          product: orderDetails.products[0]
+        };
+        this.props.history.push({
+          pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
+          state: {
+            selectedOrderObj
+          }
+        });
+      } else {
+        this.props.history.push(
+          `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`
+        );
       }
-    });
+    }
+    // const selectedOrderObj = {
+    //   orderCode,
+    //   transactionId,
+    //   orderDetails: orderDetails
+    // };
+    // this.props.history.push({
+    //   pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
+    //   state: {
+    //     selectedOrderObj
+    //   }
+    // });
   }
   onClickCncToHd(orderId, transactionId) {
     let isCncToHdOrderDetails = "";

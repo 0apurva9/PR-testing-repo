@@ -41,7 +41,7 @@ export default class AllOrdersList extends Component {
                   <div
                     className={styles.orderDataCard}
                     onClick={() =>
-                      this.props.getOrderRelatedQuestions(orderData)
+                      this.props.getOrderRelatedQuestions(orderData, product)
                     }
                   >
                     <div className={styles.allOrderDataBox}>
@@ -140,7 +140,3 @@ AllOrdersList.propTypes = {
     )
   })
 };
-
-// orderData:PropTypes.arrayOf(
-
-// )
