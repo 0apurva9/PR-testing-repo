@@ -7114,6 +7114,11 @@ export function getPrepaidOrderPaymentConfirmation(orderDetails) {
       ) {
         throw new Error(resultJsonStatus.message);
       }
+      setDataLayer(ADOBE_ORDER_CONFIRMATION, resultJson);
+      setDataLayerForOrderConfirmationDirectCalls(
+        ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_SUCCESS,
+        orderDetails && orderDetails.orderId
+      );
       dispatch(getPrepaidOrderPaymentConfirmationSuccess(resultJson));
     } catch (e) {
       dispatch(getPrepaidOrderPaymentConfirmationFailure(e));
