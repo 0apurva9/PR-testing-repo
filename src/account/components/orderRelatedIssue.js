@@ -245,25 +245,26 @@ export default class OrderRelatedIssue extends React.Component {
       if (this.props.getFaqRelatedQuestions) {
         const response = await this.props.getFaqRelatedQuestions(faq.FAQPageId);
         if (response.status === SUCCESS) {
-          // if (response.data && response.data.items) {
-          const questioList =
-            response.data.items.length == 1
+          if (response.data && response.data.items) {
+            const questionList = response.data.items[0].hasOwnProperty(
+              "cmsTextComponent"
+            )
               ? JSON.parse(response.data.items[0].cmsTextComponent.content)
               : JSON.parse(response.data.items[1].cmsTextComponent.content);
-          this.setState({
-            isOrderDatails: true,
-            orderList: false,
-            orderRelatedQuestion: false,
-            otherQuestion: false,
-            FAQquestion: true,
-            showQuestionList: true,
-            questionList: questioList,
-            parentIssueType: faq.FAQHeader,
-            questionType: NON_ORDER_REALTED_QUESTION,
-            showFeedBack: false,
-            isQuesryForm: false
-          });
-          // }
+            this.setState({
+              isOrderDatails: true,
+              orderList: false,
+              orderRelatedQuestion: false,
+              otherQuestion: false,
+              FAQquestion: true,
+              showQuestionList: true,
+              questionList: questionList,
+              parentIssueType: faq.FAQHeader,
+              questionType: NON_ORDER_REALTED_QUESTION,
+              showFeedBack: false,
+              isQuesryForm: false
+            });
+          }
         }
       }
     }

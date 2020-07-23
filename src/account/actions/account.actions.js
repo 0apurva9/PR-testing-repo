@@ -3986,8 +3986,11 @@ export function getFaqRelatedQuestions(FAQPageId) {
   return async (dispatch, getState, { api }) => {
     dispatch(getFaqRelatedQuestionsRequest());
     try {
-      const result = await api.get(
-        `v2/mpl/cms/defaultpage?pageId=${FAQPageId}`
+      // const result = await api.get(
+      //   `v2/mpl/cms/defaultpage?pageId=${FAQPageId}`
+      // );
+      const result = await fetch(
+        `https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=${FAQPageId}`
       );
       let resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4193,7 +4196,6 @@ const getFormattedString = (strValue = "") => {
   if (strValue.includes("(") && strValue.includes(")")) {
     startIndex = strValue.indexOf("(");
     endIndex = strValue.indexOf(")");
-
     strValue = strValue.slice(0, startIndex - 1) + strValue.slice(startIndex);
 
     formattedValue =
