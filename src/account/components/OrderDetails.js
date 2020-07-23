@@ -22,6 +22,7 @@ import Icon from "../../xelpmoc-core/Icon";
 import Button from "../../general/components/Button";
 import RetryPaymentIcon from "./img/payment_retry.svg";
 import ExchangeDetailsOrderDetails from "./ExchangeDetailsOrderDetails";
+import CustomInstructionContainer from "../../cart/containers/CustomInstructionContainer";
 import {
   CASH_ON_DELIVERY,
   ORDER_PREFIX,
@@ -532,35 +533,37 @@ export default class OrderDetails extends React.Component {
             </div>
           </DesktopOnly>
           <div className={MyAccountStyles.orderDetail}>
-            {!this.state.itemDetails && orderDetails && (
-              <div
-                className={
-                  !this.state.itemDetails
-                    ? styles.orderIdHolderItemDetails
-                    : styles.orderIdHolder
-                }
-              >
-                <OrderPlacedAndId
-                  placedTime={orderPlacedDate}
-                  orderId={orderDetails.orderId}
-                  backHistory="true"
-                  backToOrderHistory={this.props.history}
-                />
-              </div>
-            )}
-            {orderDetails && orderDetails.paymentRetryLink && (
-              <div className={styles.retryPayment}>
-                <div className={styles.retryPaymentTitle}>
-                  <Icon
-                    image={RetryPaymentIcon}
-                    size={42}
-                    display={"inline-block"}
+            {!this.state.itemDetails &&
+              orderDetails && (
+                <div
+                  className={
+                    !this.state.itemDetails
+                      ? styles.orderIdHolderItemDetails
+                      : styles.orderIdHolder
+                  }
+                >
+                  <OrderPlacedAndId
+                    placedTime={orderPlacedDate}
+                    orderId={orderDetails.orderId}
+                    backHistory="true"
+                    backToOrderHistory={this.props.history}
                   />
-                  <div className={styles.retryCallOutMessage}>
-                    {orderDetails.calloutMessage}
-                  </div>
                 </div>
-                {/* <div className={styles.buttonHolderForRetryPayment}>
+              )}
+            {orderDetails &&
+              orderDetails.paymentRetryLink && (
+                <div className={styles.retryPayment}>
+                  <div className={styles.retryPaymentTitle}>
+                    <Icon
+                      image={RetryPaymentIcon}
+                      size={42}
+                      display={"inline-block"}
+                    />
+                    <div className={styles.retryCallOutMessage}>
+                      {orderDetails.calloutMessage}
+                    </div>
+                  </div>
+                  {/* <div className={styles.buttonHolderForRetryPayment}>
                     <Button
                       type="hollow"
                       height={36}
@@ -572,23 +575,23 @@ export default class OrderDetails extends React.Component {
                       }
                     />
                   </div> */}
-                <div className={styles.buttonHolderForRetryPayment}>
-                  <Button
-                    type="hollow"
-                    height={36}
-                    label="RETRY PAYMENT"
-                    color="#ff1744"
-                    textStyle={{
-                      color: "#212121",
-                      fontSize: 14
-                    }}
-                    onClick={() =>
-                      this.onClickRetryPayment(orderDetails.paymentRetryLink)
-                    }
-                  />
+                  <div className={styles.buttonHolderForRetryPayment}>
+                    <Button
+                      type="hollow"
+                      height={36}
+                      label="RETRY PAYMENT"
+                      color="#ff1744"
+                      textStyle={{
+                        color: "#212121",
+                        fontSize: 14
+                      }}
+                      onClick={() =>
+                        this.onClickRetryPayment(orderDetails.paymentRetryLink)
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
             {orderDetails &&
               orderDetails.products.map((products, i) => {
                 let isOrderReturnable = false;
@@ -732,14 +735,15 @@ export default class OrderDetails extends React.Component {
                           )}
                         </div>
                       )}
-                      {this.props.history && this.state.itemDetails && (
-                        <div
-                          className={styles.buttonGoToBack}
-                          onClick={() => this.backToOrderHistory()}
-                        >
-                          Back to Order History
-                        </div>
-                      )}
+                      {this.props.history &&
+                        this.state.itemDetails && (
+                          <div
+                            className={styles.buttonGoToBack}
+                            onClick={() => this.backToOrderHistory()}
+                          >
+                            Back to Order History
+                          </div>
+                        )}
 
                       <OrderCard
                         statusDisplayMsg={products.statusDisplayMsg}
@@ -1077,16 +1081,17 @@ export default class OrderDetails extends React.Component {
                               )}
                           </React.Fragment>
                         )}
-                      {products.installationDisplayMsg && !hideEIETrackDiagram && (
-                        <React.Fragment>
-                          <div className={styles.borderTop} />
-                          <InstallationExperience
-                            installationDisplayMsg={
-                              products.installationDisplayMsg
-                            }
-                          />
-                        </React.Fragment>
-                      )}
+                      {products.installationDisplayMsg &&
+                        !hideEIETrackDiagram && (
+                          <React.Fragment>
+                            <div className={styles.borderTop} />
+                            <InstallationExperience
+                              installationDisplayMsg={
+                                products.installationDisplayMsg
+                              }
+                            />
+                          </React.Fragment>
+                        )}
                       {products.awbPopupLink === AWB_POPUP_FALSE && (
                         <div
                           className={
@@ -1126,21 +1131,22 @@ export default class OrderDetails extends React.Component {
                                   {PRODUCT_CANCEL}
                                 </div>
                               )}
-                              {products.isReturned && isOrderReturnable && (
-                                <div
-                                  className={styles.cancelProduct}
-                                  onClick={() =>
-                                    this.replaceItem(
-                                      products.sellerorderno,
-                                      orderDetails.paymentMethod,
-                                      products.transactionId,
-                                      products.exchangeDetails
-                                    )
-                                  }
-                                >
-                                  {PRODUCT_RETURN}
-                                </div>
-                              )}
+                              {products.isReturned &&
+                                isOrderReturnable && (
+                                  <div
+                                    className={styles.cancelProduct}
+                                    onClick={() =>
+                                      this.replaceItem(
+                                        products.sellerorderno,
+                                        orderDetails.paymentMethod,
+                                        products.transactionId,
+                                        products.exchangeDetails
+                                      )
+                                    }
+                                  >
+                                    {PRODUCT_RETURN}
+                                  </div>
+                                )}
                               {products.isReturnCancelable && (
                                 <div
                                   className={styles.cancelProduct}
@@ -1279,93 +1285,96 @@ export default class OrderDetails extends React.Component {
                 );
               })}
 
-            {!this.state.itemDetails && orderDetails && (
-              <div className={styles.order}>
-                <OrderViewPaymentDetails
-                  SubTotal={
-                    orderDetails.orderAmount &&
-                    orderDetails.orderAmount.bagTotal &&
-                    orderDetails.orderAmount.bagTotal.value
-                      ? Math.round(
-                          orderDetails.orderAmount.bagTotal.value * 100
-                        ) / 100
-                      : "0.00"
-                  }
-                  DeliveryCharges={orderDetails.deliveryCharge}
-                  Discount={
-                    orderDetails.orderAmount &&
-                    orderDetails.orderAmount.totalDiscountAmount &&
-                    orderDetails.orderAmount.totalDiscountAmount.value
-                      ? Math.round(
-                          orderDetails.orderAmount.totalDiscountAmount.value *
-                            100
-                        ) / 100
-                      : "0.00"
-                  }
-                  coupon={
-                    orderDetails.orderAmount &&
-                    orderDetails.orderAmount.couponDiscountAmount &&
-                    orderDetails.orderAmount.couponDiscountAmount.value
-                      ? Math.round(
-                          orderDetails.orderAmount.couponDiscountAmount.value *
-                            100
-                        ) / 100
-                      : "0.00"
-                  }
-                  ConvenienceCharges={orderDetails.convenienceCharge}
-                  Total={
-                    orderDetails.orderAmount &&
-                    orderDetails.orderAmount.paybleAmount &&
-                    orderDetails.orderAmount.paybleAmount.value
-                      ? Math.round(
-                          orderDetails.orderAmount.paybleAmount.value * 100
-                        ) / 100
-                      : "0.00"
-                  }
-                  cliqCashAmountDeducted={
-                    orderDetails && orderDetails.cliqCashAmountDeducted
-                  }
-                />
-
-                <React.Fragment>
-                  {this.state.itemDetails && (
-                    <div
-                      onClick={() => this.redirectToCustomHelpPage()}
-                      className={styles.helpSupport}
-                    >
-                      Help & Support
-                    </div>
-                  )}
-
-                  <OrderPaymentMethod
-                    history={this.props.history}
-                    deliveryAddress={orderDetails.deliveryAddress}
-                    phoneNumber={
-                      orderDetails.deliveryAddress &&
-                      orderDetails.deliveryAddress.phone
+            {!this.state.itemDetails &&
+              orderDetails && (
+                <div className={styles.order}>
+                  <OrderViewPaymentDetails
+                    SubTotal={
+                      orderDetails.orderAmount &&
+                      orderDetails.orderAmount.bagTotal &&
+                      orderDetails.orderAmount.bagTotal.value
+                        ? Math.round(
+                            orderDetails.orderAmount.bagTotal.value * 100
+                          ) / 100
+                        : "0.00"
                     }
-                    paymentMethod={orderDetails.paymentMethod}
-                    isCDA={orderDetails.isCDA}
-                    orderId={orderDetails.orderId}
-                    clickcollect={
-                      orderDetails.products[0].selectedDeliveryMode.code ===
-                      CLICK_COLLECT
-                        ? true
-                        : false
+                    DeliveryCharges={orderDetails.deliveryCharge}
+                    Discount={
+                      orderDetails.orderAmount &&
+                      orderDetails.orderAmount.totalDiscountAmount &&
+                      orderDetails.orderAmount.totalDiscountAmount.value
+                        ? Math.round(
+                            orderDetails.orderAmount.totalDiscountAmount.value *
+                              100
+                          ) / 100
+                        : "0.00"
                     }
-                    orderDetails={orderDetails}
-                    //isInvoiceAvailable={products.isInvoiceAvailable}
-                    //statusDisplay={products.statusDisplayMsg}
-                    // request={() =>
-                    //   this.requestInvoice(
-                    //     products.transactionId,
-                    //     products.sellerorderno
-                    //   )
-                    // }
+                    coupon={
+                      orderDetails.orderAmount &&
+                      orderDetails.orderAmount.couponDiscountAmount &&
+                      orderDetails.orderAmount.couponDiscountAmount.value
+                        ? Math.round(
+                            orderDetails.orderAmount.couponDiscountAmount
+                              .value * 100
+                          ) / 100
+                        : "0.00"
+                    }
+                    ConvenienceCharges={orderDetails.convenienceCharge}
+                    Total={
+                      orderDetails.orderAmount &&
+                      orderDetails.orderAmount.paybleAmount &&
+                      orderDetails.orderAmount.paybleAmount.value
+                        ? Math.round(
+                            orderDetails.orderAmount.paybleAmount.value * 100
+                          ) / 100
+                        : "0.00"
+                    }
+                    cliqCashAmountDeducted={
+                      orderDetails && orderDetails.cliqCashAmountDeducted
+                    }
                   />
-                </React.Fragment>
-              </div>
-            )}
+
+                  <React.Fragment>
+                    {this.state.itemDetails && (
+                      <div
+                        onClick={() => this.redirectToCustomHelpPage()}
+                        className={styles.helpSupport}
+                      >
+                        Help & Support
+                      </div>
+                    )}
+
+                    <OrderPaymentMethod
+                      history={this.props.history}
+                      deliveryAddress={orderDetails.deliveryAddress}
+                      phoneNumber={
+                        orderDetails.deliveryAddress &&
+                        orderDetails.deliveryAddress.phone
+                      }
+                      paymentMethod={orderDetails.paymentMethod}
+                      isCDA={orderDetails.isCDA}
+                      orderId={orderDetails.orderId}
+                      clickcollect={
+                        orderDetails.products[0].selectedDeliveryMode.code ===
+                        CLICK_COLLECT
+                          ? true
+                          : false
+                      }
+                      orderDetails={orderDetails}
+                      //isInvoiceAvailable={products.isInvoiceAvailable}
+                      //statusDisplay={products.statusDisplayMsg}
+                      // request={() =>
+                      //   this.requestInvoice(
+                      //     products.transactionId,
+                      //     products.sellerorderno
+                      //   )
+                      // }
+                    />
+                  </React.Fragment>
+                </div>
+              )}
+
+            <CustomInstructionContainer />
           </div>
           {/* showing user details only for desktop */}
           <DesktopOnly>
