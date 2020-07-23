@@ -453,12 +453,17 @@ export default class CustomerQueryForm extends Component {
           balanceScreenshot: "",
           lastTransactionScreenshot: "",
           missingAccessories: "",
+          webformChannel: "",
+          appVersion: "",
           refundIssue: "",
           deficitAmount: ""
         };
 
         for (let obj of customerQueriesField) {
           for (let [key, value] of Object.entries(additionalInfo)) {
+            if (key == "webformChannel") {
+              additionalInfo.webformChannel = "desktop";
+            }
             if (key == uploadFileTitle) {
               if (uploadedAttachment && uploadedAttachment.length > 0) {
                 let urlList = [];

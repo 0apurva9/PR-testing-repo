@@ -144,39 +144,28 @@ export default class OrderRelatedIssue extends React.Component {
   async submitCustomerForms(formData) {
     this.setState({ raiseTiketRequest: true, showLoader: true });
     if (this.props.submitOrderDetails) {
-      let getCustomerQueryDetailsObject = Object.assign(
-        {},
-        {
-          ticketID: null,
-          issue:
-            this.state.questionType == ORDER_REALTED_QUESTION
-              ? this.state.question.issueType
-              : this.state.question.subIssueType,
-          tat: this.state.question.tat,
-          emailId: formData.customerInfo.contactEmail
-        }
-      );
-      if ((this.state.questionType = NON_ORDER_REALTED_QUESTION)) {
-        getCustomerQueryDetailsObject.issueCategory = this.state.parentIssueType;
-      }
       const submitOrderDetailsResponse = await this.props.submitOrderDetails(
         formData
       );
       setTimeout(() => {
         if (submitOrderDetailsResponse.status === SUCCESS) {
-          getCustomerQueryDetailsObject.ticketID =
-            submitOrderDetailsResponse.submitOrder.referenceNum;
           if (
             submitOrderDetailsResponse.submitOrder.referenceNum == "duplicate"
           ) {
             this.setState({ showLoader: false, raiseTiketRequest: false });
-            this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+            this.props.showCustomerQueryModal({
+              ticketId: submitOrderDetailsResponse.submitOrder.referenceNum,
+              sla: submitOrderDetailsResponse.submitOrder.sla
+            });
             this.props.setSelfServeState(null);
           } else {
             this.setState({ raiseTiketSucess: true, raiseTiketRequest: false });
             setTimeout(() => {
               this.setState({ showLoader: false, raiseTiketSucess: false });
-              this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+              this.props.showCustomerQueryModal({
+                ticketId: submitOrderDetailsResponse.submitOrder.referenceNum,
+                sla: submitOrderDetailsResponse.submitOrder.sla
+              });
               this.props.setSelfServeState(null);
             }, 2000);
           }
