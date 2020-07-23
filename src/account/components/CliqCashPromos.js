@@ -28,8 +28,12 @@ const Loader = () => {
 export default class CliqCashPromos extends Component {
   componentDidMount() {
     this.props.setHeaderText(CLIQ_CASH);
-    if (this.props.getPromotionalCashStatement) {
-      this.props.getPromotionalCashStatement();
+    if (this.props.showKycVerification) {
+      this.props.showKycVerification(this.props);
+    } else {
+      if (this.props.getPromotionalCashStatement) {
+        this.props.getPromotionalCashStatement();
+      }
     }
   }
   filteredOnlyPromos(promo) {
@@ -52,9 +56,12 @@ export default class CliqCashPromos extends Component {
 
   render() {
     let userData;
+    let kycUnavailable = true;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-
+    if (!this.props.showKycVerification) {
+      kycUnavailable = false;
+    }
     const customerAccessToken = getCustomerAccessToken();
     if (!userDetails || !customerAccessToken) {
       return this.navigateToLogin();
@@ -85,58 +92,108 @@ export default class CliqCashPromos extends Component {
         ? this.props.promotionalCashStatementDetails.promotionalAmount
             .doubleValue
         : 0;
-    if (!this.props.promotionalCashStatementDetails) {
+    if (!kycUnavailable && !this.props.promotionalCashStatementDetails) {
       return Loader();
     }
-    return (
-      <div className={styles.base}>
-        <div className={MyAccountStyles.holder}>
-          <DesktopOnly>
-            <div className={MyAccountStyles.profileMenu}>
-              <ProfileMenu {...this.props} />
-            </div>
-            <div className={styles.cliqCashDetail}>
-              <div className={styles.banner}>
-                <div className={styles.promoCliqCashText}>Promo Cliq Cash</div>
-                <div className={styles.amountText}>
-                  <span
-                    className={styles.amountSubset}
-                  >{`${RUPEE_SYMBOL}`}</span>
-                  {`${String(promotionalAmount)}`}.
-                  <span className={styles.amountSubset}>00</span>
+    if (kycUnavailable) {
+      return (
+        <div className={styles.base}>
+          <div className={MyAccountStyles.holder}>
+            <DesktopOnly>
+              <div className={MyAccountStyles.profileMenu}>
+                <ProfileMenu {...this.props} />
+              </div>
+              <div className={styles.cliqCashDetail}>
+                <div className={styles.banner}>
+                  <div className={styles.promoCliqCashText}>
+                    Promo Cliq Cash
+                  </div>
+                  <div className={styles.amountText}>
+                    <span
+                      className={styles.amountSubset}
+                    >{`${RUPEE_SYMBOL}`}</span>
+                    {`${String(promotionalAmount)}`}.
+                    <span className={styles.amountSubset}>00</span>
+                  </div>
                 </div>
               </div>
-              <div className={styles.boxContainer}>
-                {realItems &&
-                  realItems.map(item => {
-                    return <Promos item={item} />;
-                  })}
+              <div className={MyAccountStyles.userProfile}>
+                <UserProfile
+                  image={userData && userData.imageUrl}
+                  userLogin={userData && userData.userName}
+                  loginType={userData && userData.loginType}
+                  onClick={() => this.renderToAccountSetting()}
+                  firstName={
+                    userData &&
+                    userData.firstName &&
+                    userData.firstName.trim().charAt(0)
+                  }
+                  heading={
+                    userData && userData.firstName && `${userData.firstName} `
+                  }
+                  lastName={
+                    userData && userData.lastName && `${userData.lastName}`
+                  }
+                  userAddress={this.props.userAddress}
+                />
               </div>
-            </div>
-            <div className={MyAccountStyles.userProfile}>
-              <UserProfile
-                image={userData && userData.imageUrl}
-                userLogin={userData && userData.userName}
-                loginType={userData && userData.loginType}
-                onClick={() => this.renderToAccountSetting()}
-                firstName={
-                  userData &&
-                  userData.firstName &&
-                  userData.firstName.trim().charAt(0)
-                }
-                heading={
-                  userData && userData.firstName && `${userData.firstName} `
-                }
-                lastName={
-                  userData && userData.lastName && `${userData.lastName}`
-                }
-                userAddress={this.props.userAddress}
-              />
-            </div>
-          </DesktopOnly>
+            </DesktopOnly>
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div className={styles.base}>
+          <div className={MyAccountStyles.holder}>
+            <DesktopOnly>
+              <div className={MyAccountStyles.profileMenu}>
+                <ProfileMenu {...this.props} />
+              </div>
+              <div className={styles.cliqCashDetail}>
+                <div className={styles.banner}>
+                  <div className={styles.promoCliqCashText}>
+                    Promo Cliq Cash
+                  </div>
+                  <div className={styles.amountText}>
+                    <span
+                      className={styles.amountSubset}
+                    >{`${RUPEE_SYMBOL}`}</span>
+                    {`${String(promotionalAmount)}`}.
+                    <span className={styles.amountSubset}>00</span>
+                  </div>
+                </div>
+                <div className={styles.boxContainer}>
+                  {realItems &&
+                    realItems.map(item => {
+                      return <Promos item={item} />;
+                    })}
+                </div>
+              </div>
+              <div className={MyAccountStyles.userProfile}>
+                <UserProfile
+                  image={userData && userData.imageUrl}
+                  userLogin={userData && userData.userName}
+                  loginType={userData && userData.loginType}
+                  onClick={() => this.renderToAccountSetting()}
+                  firstName={
+                    userData &&
+                    userData.firstName &&
+                    userData.firstName.trim().charAt(0)
+                  }
+                  heading={
+                    userData && userData.firstName && `${userData.firstName} `
+                  }
+                  lastName={
+                    userData && userData.lastName && `${userData.lastName}`
+                  }
+                  userAddress={this.props.userAddress}
+                />
+              </div>
+            </DesktopOnly>
+          </div>
+        </div>
+      );
+    }
   }
 }
 
