@@ -1169,6 +1169,9 @@ export default class PdpApparel extends React.Component {
               displayToast={this.props.displayToast}
               addProductToCart={this.props.addProductToCart}
               addToCartResponseDetails={this.props.addToCartResponseDetails}
+              history={this.props.history}
+              addToCartResponseLoading={this.props.addToCartResponseLoading}
+              cartCountDetails={this.props.cartCountDetails}
             />
             <div className={styles.pageCenter} ref="scrollToViewGallery">
               <div className={styles.gallery}>
