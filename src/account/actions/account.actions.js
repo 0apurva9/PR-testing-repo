@@ -4133,8 +4133,12 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
     //   v1="SSW_01"
     // }
     try {
-      const result = await api.get(
-        `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
+      // const result = await api.get(
+      //   `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
+      // );
+      //Poiting to prod for testing
+      const result = await fetch(
+        `https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
