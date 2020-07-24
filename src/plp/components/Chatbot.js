@@ -7,8 +7,7 @@ import {
   ADD_TO_CART_EVENT_HAPTIK_CHATBOT,
   GO_TO_CART_EVENT_HAPTIK_CHATBOT,
   PRODUCT_CART_ROUTER,
-  FAILURE_LOWERCASE,
-  SUCCESS
+  FAILURE_LOWERCASE
 } from "../../lib/constants.js";
 const env = process.env;
 const PRODUCT_IN_CART = "Product is already in cart";
