@@ -79,6 +79,7 @@ export default class OrderPaymentMethod extends React.Component {
     // this.props.history.push(
     //   `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
     // );
+    });
   }
   onChangeAddress = () => {
     //this.props.history.push(`${MY_ACCOUNT_PAGE}/${this.props.orderId}${RETURN_TO_ADDRESS}`);

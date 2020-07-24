@@ -22,6 +22,7 @@ import Icon from "../../xelpmoc-core/Icon";
 import Button from "../../general/components/Button";
 import RetryPaymentIcon from "./img/payment_retry.svg";
 import ExchangeDetailsOrderDetails from "./ExchangeDetailsOrderDetails";
+import CustomInstructionContainer from "../../cart/containers/CustomInstructionContainer";
 import {
   CASH_ON_DELIVERY,
   ORDER_PREFIX,
@@ -43,7 +44,6 @@ import {
   CANCEL_RETURN_REQUEST,
   SUCCESS,
   HELP_URL,
-  // COSTUMER_ORDER_RELATED_QUERY_ROUTE,
   COSTUMER_CLIQ_CARE_ROUTE,
   MY_ACCOUNT,
   CNCTOHD,
@@ -936,6 +936,7 @@ export default class OrderDetails extends React.Component {
                               mediationRequired={products.mediationRequired}
                               paymentMethod={orderDetails.paymentMethod}
                               consignmentStatus={products.consignmentStatus}
+                              statusDisplay={products.statusDisplay}
                               sshipAwbTrackingUrl={products.sshipAwbTrackingUrl}
                               displayToast={this.props.displayToast}
                               fulfillment={products.fulfillment}
@@ -1091,6 +1092,7 @@ export default class OrderDetails extends React.Component {
                                   mediationRequired={products.mediationRequired}
                                   paymentMethod={orderDetails.paymentMethod}
                                   consignmentStatus={products.consignmentStatus}
+                                  statusDisplay={products.statusDisplay}
                                   sshipAwbTrackingUrl={
                                     products.sshipAwbTrackingUrl
                                   }
@@ -1349,46 +1351,46 @@ export default class OrderDetails extends React.Component {
                     orderDetails && orderDetails.cliqCashAmountDeducted
                   }
                 />
+                  <React.Fragment>
+                    {this.state.itemDetails && (
+                      <div
+                        onClick={() => this.redirectToCustomHelpPage()}
+                        className={styles.helpSupport}
+                      >
+                        Help & Support
+                      </div>
+                    )}
 
-                <React.Fragment>
-                  {this.state.itemDetails && (
-                    <div
-                      onClick={() => this.redirectToCustomHelpPage()}
-                      className={styles.helpSupport}
-                    >
-                      Help & Support
-                    </div>
-                  )}
-
-                  <OrderPaymentMethod
-                    history={this.props.history}
-                    deliveryAddress={orderDetails.deliveryAddress}
-                    phoneNumber={
-                      orderDetails.deliveryAddress &&
-                      orderDetails.deliveryAddress.phone
-                    }
-                    paymentMethod={orderDetails.paymentMethod}
-                    isCDA={orderDetails.isCDA}
-                    orderId={orderDetails.orderId}
-                    clickcollect={
-                      orderDetails.products[0].selectedDeliveryMode.code ===
-                      CLICK_COLLECT
-                        ? true
-                        : false
-                    }
-                    orderDetails={orderDetails}
-                    //isInvoiceAvailable={products.isInvoiceAvailable}
-                    //statusDisplay={products.statusDisplayMsg}
-                    // request={() =>
-                    //   this.requestInvoice(
-                    //     products.transactionId,
-                    //     products.sellerorderno
-                    //   )
-                    // }
-                  />
-                </React.Fragment>
-              </div>
-            )}
+                    <OrderPaymentMethod
+                      history={this.props.history}
+                      deliveryAddress={orderDetails.deliveryAddress}
+                      phoneNumber={
+                        orderDetails.deliveryAddress &&
+                        orderDetails.deliveryAddress.phone
+                      }
+                      paymentMethod={orderDetails.paymentMethod}
+                      isCDA={orderDetails.isCDA}
+                      orderId={orderDetails.orderId}
+                      clickcollect={
+                        orderDetails.products[0].selectedDeliveryMode.code ===
+                        CLICK_COLLECT
+                          ? true
+                          : false
+                      }
+                      orderDetails={orderDetails}
+                      //isInvoiceAvailable={products.isInvoiceAvailable}
+                      //statusDisplay={products.statusDisplayMsg}
+                      // request={() =>
+                      //   this.requestInvoice(
+                      //     products.transactionId,
+                      //     products.sellerorderno
+                      //   )
+                      // }
+                    />
+                  </React.Fragment>
+                </div>
+              )}
+            <CustomInstructionContainer />
           </div>
           {/* showing user details only for desktop */}
           <DesktopOnly>

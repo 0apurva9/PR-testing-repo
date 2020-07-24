@@ -550,9 +550,20 @@ export const ORDER_CONFIRMATION_BANNER_FAILURE =
   "ORDER_CONFIRMATION_BANNER_FAILURE";
 export const UPI_VPA = "upi_vpa";
 
+export const GET_INTERMITTENT_FEEDBACK_DATA_REQUEST =
+  "GET_INTERMITTENT_FEEDBACK_DATA_REQUEST";
+export const GET_INTERMITTENT_FEEDBACK_DATA_SUCCESS =
+  "GET_INTERMITTENT_FEEDBACK_DATA_SUCCESS";
+export const GET_INTERMITTENT_FEEDBACK_DATA_FAILURE =
+  "GET_INTERMITTENT_FEEDBACK_DATA_FAILURE";
+
 export const REMOVE_EXCHANGE_REQUEST = "REMOVE_EXCHANGE_REQUEST";
 export const REMOVE_EXCHANGE_SUCCESS = "REMOVE_EXCHANGE_SUCCESS";
 export const REMOVE_EXCHANGE_FAILURE = "REMOVE_EXCHANGE_FAILURE";
+
+export const GET_CUSTOM_COMPONENT_REQUEST = "GET_CUSTOM_COMPONENT_REQUEST";
+export const GET_CUSTOM_COMPONENT_SUCCESS = "GET_CUSTOM_COMPONENT_SUCCESS";
+export const GET_CUSTOM_COMPONENT_FAILURE = "GET_CUSTOM_COMPONENT_FAILURE";
 
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
@@ -5973,18 +5984,17 @@ export function getValidDeliveryModeDetails(
       updatedDeliveryModes[productMode] = SHORT_COLLECT;
     }
   });
+  let index = 0;
   each(cartProductDetails, product => {
     if (product.isGiveAway === NO || isFromRetryUrl) {
       let selectedDeliveryModeDetails = "";
       //get the selected delivery Mode
       if (isFromRetryUrl) {
-        selectedDeliveryModeDetails = pincodeDetails.pinCodeResponseList[0].validDeliveryModes.find(
-          validDeliveryMode => {
-            return (
-              validDeliveryMode.type === updatedDeliveryModes[product.USSID]
-            );
-          }
-        );
+        selectedDeliveryModeDetails = pincodeDetails.pinCodeResponseList[
+          index
+        ].validDeliveryModes.find(validDeliveryMode => {
+          return validDeliveryMode.type === updatedDeliveryModes[product.USSID];
+        });
       } else {
         selectedDeliveryModeDetails = product.pinCodeResponse.validDeliveryModes.find(
           validDeliveryMode => {
@@ -5994,6 +6004,7 @@ export function getValidDeliveryModeDetails(
           }
         );
       }
+      index++;
       let productDetails = {};
       productDetails.ussId = product.USSID;
       productDetails.quantity = product.qtySelectedByUser;
@@ -6228,19 +6239,37 @@ export function getFeedBackFormFailure(error) {
     error
   };
 }
-export function getFeedBackForm(getUserDetails) {
+export function getFeedBackForm(getUserDetails, isReturnFlow) {
   return async (dispatch, getState, { api }) => {
     dispatch(getFeedBackFormRequest());
     try {
-      const result = await api.get(
-        `v2/mpl/getQuestionsForNPS?originalUid=${
-          getUserDetails.originalUid
-        }&transactionId=${getUserDetails.transactionId}&rating=${
-          getUserDetails.rating
-        }&deliveryMode=${getUserDetails.deliveryMode}`
-      );
-      const resultJson = await result.json();
+      const {
+        originalUid,
+        transactionId,
+        deliveryMode,
+        returnType,
+        rating
+      } = getUserDetails;
+      let result = null;
 
+      if (isReturnFlow) {
+        let returnParamsObj = {};
+        returnParamsObj.originalUid = originalUid;
+        returnParamsObj.transactionId = transactionId;
+        returnParamsObj.returnType = returnType;
+        returnParamsObj.rating = rating;
+        returnParamsObj.isLux = false;
+        result = await api.post(
+          `v2/mpl/getQuestionsForReturnNPS`,
+          returnParamsObj
+        );
+      } else {
+        result = await api.get(
+          `v2/mpl/getQuestionsForNPS?originalUid=${originalUid}&transactionId=${transactionId}&deliveryMode=${deliveryMode}&rating=${rating}`
+        );
+      }
+
+      const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
@@ -6277,7 +6306,8 @@ export function postFeedBackForm(
   commemt,
   questionRatingArray,
   transactionId,
-  originalUid
+  originalUid,
+  isReturnFlow
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(postFeedBackFormRequest());
@@ -6288,10 +6318,11 @@ export function postFeedBackForm(
       productDetails.anyotherfeedback = commemt;
       productDetails.items = questionRatingArray;
 
-      const result = await api.post(
-        `v2/mpl/getFeedbackCapturedData`,
-        productDetails
-      );
+      let apiEndPoint = isReturnFlow
+        ? "submitReturnNPSFeedback"
+        : "getFeedbackCapturedData";
+
+      const result = await api.post(`v2/mpl/${apiEndPoint}`, productDetails);
       const resultJson = await result.json();
 
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -6302,6 +6333,63 @@ export function postFeedBackForm(
     } catch (e) {
       dispatch(displayToast(e.message));
       dispatch(postFeedBackFormFailure(e.message));
+    }
+  };
+}
+
+export function getIntermittentPageDataRequest() {
+  return {
+    type: GET_INTERMITTENT_FEEDBACK_DATA_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getIntermittentPageDataSuccess(feedBackDetails) {
+  return {
+    type: GET_INTERMITTENT_FEEDBACK_DATA_SUCCESS,
+    status: SUCCESS,
+    feedBackDetails
+  };
+}
+export function getIntermittentPageDataFailure(error) {
+  return {
+    type: GET_INTERMITTENT_FEEDBACK_DATA_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getIntermittentPageData(getUserDetails) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getIntermittentPageDataRequest());
+    try {
+      let {
+        originalUid,
+        transactionId,
+        deliveryMode,
+        returnType
+      } = getUserDetails;
+      let paramsObj = {},
+        apiEndPoint = "getFwdNPSData";
+      paramsObj.originalUid = originalUid;
+      paramsObj.transactionId = transactionId;
+      if (deliveryMode) {
+        paramsObj.deliveryMode = deliveryMode;
+      } else {
+        paramsObj.returnType = returnType;
+        apiEndPoint = "getReturnNPSData";
+      }
+
+      const result = await api.post(`v2/mpl/${apiEndPoint}`, paramsObj);
+      const resultJson = await result.json();
+
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getIntermittentPageDataSuccess(resultJson));
+    } catch (e) {
+      dispatch(getIntermittentPageDataFailure(e.message));
     }
   };
 }
@@ -7989,6 +8077,48 @@ export function getCartCodeAndGuidForLoggedInUser() {
       return resultJson;
     } catch (e) {
       console.log(e.message);
+    }
+  };
+}
+export function getCustomInstructionRequest() {
+  return {
+    type: GET_CUSTOM_COMPONENT_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getCustomInstructionSuccess(customComponent) {
+  return {
+    type: GET_CUSTOM_COMPONENT_SUCCESS,
+    status: SUCCESS,
+    customComponent
+  };
+}
+
+export function getCustomInstructionFailure(error) {
+  return {
+    type: GET_CUSTOM_COMPONENT_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function getCustomInstruction() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getCustomInstructionRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=MPL_GET_CUSTOM_COMPONENT`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(getCustomInstructionSuccess(resultJson));
+    } catch (e) {
+      dispatch(getCustomInstructionFailure(e.message));
     }
   };
 }

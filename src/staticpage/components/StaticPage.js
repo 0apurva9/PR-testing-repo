@@ -16,7 +16,7 @@ import {
   SUCCESS,
   ABOUT_US_URL,
   CONTACT_URL,
-  COSTUMER_ORDER_RELATED_QUERY_ROUTE,
+  COSTUMER_CLIQ_CARE_ROUTE,
   MY_ACCOUNT_PAGE
 } from "../../lib/constants";
 import { Redirect } from "react-router-dom";
@@ -46,9 +46,7 @@ export default class StaticPage extends Component {
     this.props.history.push(urlSuffix);
   };
   redirectToOrderRelatedPage() {
-    this.props.history.push(
-      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
-    );
+    this.props.history.push(`${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`);
   }
   navigateTo404() {
     return <Redirect to={NOT_FOUND} />;
@@ -134,12 +132,11 @@ export default class StaticPage extends Component {
                 {this.props.location.pathname !== "/contact" &&
                   this.props.location.pathname !== "/aboutus" && (
                     <React.Fragment>
-                      {listTitle &&
-                        listTitle.title && (
-                          <div className={styles.header}>
-                            {listTitle && listTitle.title}
-                          </div>
-                        )}
+                      {listTitle && listTitle.title && (
+                        <div className={styles.header}>
+                          {listTitle && listTitle.title}
+                        </div>
+                      )}
                     </React.Fragment>
                   )}
                 <div
@@ -302,30 +299,28 @@ export default class StaticPage extends Component {
             )}
             {this.props.location.pathname === "/aboutus" && (
               <div>
-                {aboutUsImage &&
-                  aboutUsImage.media && (
-                    <div className={styles.aboutUsImageHolder}>
-                      <div className={styles.aboutUsTextWrap}>
-                        <div className={styles.aboutUsTextHolder}>
-                          {listTitle && listTitle.title}
-                        </div>
-                      </div>
-                      <div className={styles.abouUsImageContainer}>
-                        <Image image={aboutUsImage.media} fit="cover" />
+                {aboutUsImage && aboutUsImage.media && (
+                  <div className={styles.aboutUsImageHolder}>
+                    <div className={styles.aboutUsTextWrap}>
+                      <div className={styles.aboutUsTextHolder}>
+                        {listTitle && listTitle.title}
                       </div>
                     </div>
-                  )}
-                {aboutUsText &&
-                  aboutUsText.content && (
-                    <div className={styles.aboutUsDataHolder}>
-                      <div
-                        className={styles.aboutUsTxtWrp}
-                        dangerouslySetInnerHTML={{
-                          __html: aboutUsText.content
-                        }}
-                      />
+                    <div className={styles.abouUsImageContainer}>
+                      <Image image={aboutUsImage.media} fit="cover" />
                     </div>
-                  )}
+                  </div>
+                )}
+                {aboutUsText && aboutUsText.content && (
+                  <div className={styles.aboutUsDataHolder}>
+                    <div
+                      className={styles.aboutUsTxtWrp}
+                      dangerouslySetInnerHTML={{
+                        __html: aboutUsText.content
+                      }}
+                    />
+                  </div>
+                )}
                 <div
                   className={styles.sectionHolder}
                   style={{

@@ -286,7 +286,15 @@ const cart = (
     upiMiddleLayerCombinedLogoStatus: null,
     upiMiddleLayerCombinedLogo: null,
     upiMiddleLayerCombinedLogoLoading: false,
-    upiMiddleLayerCombinedLogoError: null
+    upiMiddleLayerCombinedLogoError: null,
+
+    feedBackPageStatus: null,
+    feedBackPageData: null,
+    loadingForfeedBackPage: false,
+    feedBackPageError: null,
+    getCustomComponent: null,
+    getCustomComponentError: null,
+    getCustomComponentLoading: false
   },
   action
 ) => {
@@ -2319,6 +2327,24 @@ const cart = (
         minicart: action.minicartDetails
       });
 
+    case cartActions.GET_INTERMITTENT_FEEDBACK_DATA_REQUEST:
+      return Object.assign({}, state, {
+        feedBackPageStatus: action.status,
+        loadingForfeedBackPage: true
+      });
+    case cartActions.GET_INTERMITTENT_FEEDBACK_DATA_SUCCESS:
+      return Object.assign({}, state, {
+        feedBackPageStatus: action.status,
+        feedBackPageData: action.feedBackDetails,
+        loadingForfeedBackPage: false
+      });
+    case cartActions.GET_INTERMITTENT_FEEDBACK_DATA_FAILURE:
+      return Object.assign({}, state, {
+        feedBackPageStatus: action.status,
+        feedBackPageError: action.error,
+        loadingForfeedBackPage: false
+      });
+
     case cartActions.REMOVE_EXCHANGE_REQUEST:
       return Object.assign({}, state, {
         removeExchangeStatus: action.status,
@@ -2337,6 +2363,23 @@ const cart = (
         removeExchangeStatus: action.status,
         removeExchangeLoading: false,
         removeExchangeError: action.error
+      });
+    case cartActions.GET_CUSTOM_COMPONENT_REQUEST:
+      return Object.assign({}, state, {
+        getCustomComponentStatus: action.status,
+        getCustomComponentLoading: true
+      });
+    case cartActions.GET_CUSTOM_COMPONENT_SUCCESS:
+      return Object.assign({}, state, {
+        getCustomComponentStatus: action.status,
+        getCustomComponentLoading: false,
+        customComponent: action.customComponent
+      });
+    case cartActions.GET_CUSTOM_COMPONENT_FAILURE:
+      return Object.assign({}, state, {
+        getCustomComponentStatus: action.status,
+        getCustomComponentLoading: false,
+        getCustomComponentError: action.error
       });
 
     default:
