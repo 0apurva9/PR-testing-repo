@@ -1,6 +1,6 @@
 .base {
-  width: 836px;
-  height: 592px;
+  width: 770px;
+  height: 560px;
   border-radius: 4px;
   background-color: #ffffff;
   position: fixed;
@@ -27,4 +27,3 @@
     opacity: 1;
   }
 }
-  

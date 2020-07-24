@@ -3,6 +3,7 @@ import format from "date-fns/format";
 import styles from "./ExchangeDetailsOrderDetails.css";
 import exchangeIconLight from "../../cart/components/img/exchangeIconLight.svg";
 import ExchangeDetailsTrack from "./ExchangeDetailsTrack";
+import PropTypes from "prop-types";
 const dateFormat = "DD MMM YYYY";
 export default class ExchangeDetailsOrderDetails extends React.Component {
   constructor(props) {
@@ -320,3 +321,59 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
     );
   }
 }
+
+ExchangeDetailsOrderDetails.propTypes = {
+  orderId: PropTypes.string,
+  history: PropTypes.object,
+  products: PropTypes.objectOf(
+    PropTypes.shape({
+      exchangeDetails: PropTypes.objectOf(
+        PropTypes.shape({
+          exchangeTrackDiagram: PropTypes.object,
+          exchangeModelName: PropTypes.string,
+          exchangePriceDetail: PropTypes.objectOf(
+            PropTypes.shape({
+              exchangeAmountCashify: PropTypes.objectOf(
+                PropTypes.shape({
+                  formattedValueNoDecimal: PropTypes.string
+                })
+              ),
+              TULBump: PropTypes.objectOf(
+                PropTypes.shape({
+                  formattedValueNoDecimal: PropTypes.string
+                })
+              ),
+              pickupCharge: PropTypes.objectOf(
+                PropTypes.shape({
+                  formattedValueNoDecimal: PropTypes.string
+                })
+              ),
+              totalExchangeCashback: PropTypes.objectOf(
+                PropTypes.shape({
+                  formattedValueNoDecimal: PropTypes.string
+                })
+              ),
+              effectiveAmount: PropTypes.objectOf(
+                PropTypes.shape({
+                  formattedValueNoDecimal: PropTypes.string
+                })
+              )
+            })
+          ),
+          exchangePickupPromiseDate: PropTypes.string, // check
+          exchangePickedUpDate: PropTypes.string, // check
+          exchangePaymentDetails: PropTypes.objectOf(
+            // check
+            PropTypes.shape({
+              exchangePaymentMode: PropTypes.string,
+              accountNumber: PropTypes.string
+            })
+          ),
+          exchangeCancelMessage: PropTypes.string
+        })
+      ),
+      productName: PropTypes.string,
+      consignmentStatus: PropTypes.string // check
+    })
+  )
+};

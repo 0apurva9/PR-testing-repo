@@ -35,7 +35,7 @@ export default class EmiDisplay extends React.Component {
         </div>
         <div className={styles.emiText}>
           {this.props.term} EMI @ {emiRate}
-          <span className={styles.price}>₹ {this.props.price}</span>/Month
+          <span className={styles.price}> {this.props.price}</span>/Month
         </div>
         {!this.props.isRetryPaymentFromURL && (
           <DesktopOnly>
