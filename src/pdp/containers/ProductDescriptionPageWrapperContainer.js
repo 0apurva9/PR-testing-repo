@@ -350,7 +350,9 @@ const mapStateToProps = state => {
     serviceableOtherSellersUssid:
       state.productDescription.serviceableOtherSellersUssid,
     chatbotDetailsData: state.productListings.getChatbotDetailsData,
-    addToCartResponseDetails: state.productDescription.addToCartResponseDetails
+    addToCartResponseDetails: state.productDescription.addToCartResponseDetails,
+    addToCartResponseLoading: state.productDescription.addToCartResponseLoading,
+    cartCountDetails: state.cart.cartCountDetails
   };
 };
 
