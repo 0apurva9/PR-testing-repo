@@ -6,9 +6,15 @@ import {
   SUCCESS,
   ADD_TO_CART_EVENT_HAPTIK_CHATBOT,
   GO_TO_CART_EVENT_HAPTIK_CHATBOT,
-  PRODUCT_CART_ROUTER
+  PRODUCT_CART_ROUTER,
+  FAILURE_LOWERCASE,
+  SUCCESS
 } from "../../lib/constants.js";
 const env = process.env;
+const PRODUCT_IN_CART = "Product is already in cart";
+const ADD_TO_CART_UPDATE = "add_to_cart_update";
+const ADDED = "added";
+const FAILED = "failed";
 export default class Chatbot extends React.Component {
   constructor(props) {
     super(props);
@@ -106,7 +112,7 @@ export default class Chatbot extends React.Component {
         }
         this.submitHaptikEvent(
           errorMessage,
-          "failure",
+          FAILURE_LOWERCASE,
           this.state.productIdProvidedHaptik
         );
       }
@@ -125,11 +131,11 @@ export default class Chatbot extends React.Component {
         nextProps.addToCartResponseLoading &&
       this.props.addToCartResponseDetails !==
         nextProps.addToCartResponseDetails &&
-      nextProps.addToCartResponseDetails.status &&
-      nextProps.addToCartResponseDetails.status.toLowerCase() === SUCCESS
+      (nextProps.addToCartResponseDetails.status &&
+        nextProps.addToCartResponseDetails.status.toLowerCase() === SUCCESS)
     ) {
       this.props.displayToast(ADD_TO_BAG_TEXT);
-      this.submitHaptikEvent("", "success", this.state.productIdProvidedHaptik);
+      this.submitHaptikEvent("", SUCCESS, this.state.productIdProvidedHaptik);
     }
     if (
       isProductInCart &&
@@ -137,8 +143,8 @@ export default class Chatbot extends React.Component {
       !nextProps.addToCartResponseLoading
     ) {
       this.submitHaptikEvent(
-        "Product is already in cart",
-        "failure",
+        PRODUCT_IN_CART,
+        FAILURE_LOWERCASE,
         this.state.productIdProvidedHaptik
       );
       this.setState({ isProductInCart: true });
@@ -146,20 +152,20 @@ export default class Chatbot extends React.Component {
   }
 
   submitHaptikEvent(message, status, productId) {
-    if (status === "success") {
+    if (status === SUCCESS) {
       let haptikListenerJsonData = {
-        event_name: "add_to_cart_update",
+        event_name: ADD_TO_CART_UPDATE,
         product_id: productId,
-        status: "added"
+        status: ADDED
       };
       if (window.raiseHaptikEvent) {
         window.raiseHaptikEvent(haptikListenerJsonData);
       }
     } else {
       let haptikListenerJsonData = {
-        event_name: "add_to_cart_update",
+        event_name: ADD_TO_CART_UPDATE,
         product_id: productId,
-        status: "failed",
+        status: FAILED,
         failure_message: message
       };
       if (window.raiseHaptikEvent) {
