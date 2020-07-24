@@ -258,6 +258,7 @@ const cart = (
     cartCountStatus: null,
     cartCountError: null,
     cartCount: null,
+    cartCountDetails: null,
 
     minicartStatus: null,
     minicartError: null,
@@ -2283,7 +2284,8 @@ const cart = (
       }
       return Object.assign({}, state, {
         cartCount: action.cartDetails && action.cartDetails.count,
-        cartCountStatus: action.status
+        cartCountStatus: action.status,
+        cartCountDetails: action.cartDetails
       });
     case cartActions.GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST:
       return Object.assign({}, state, {

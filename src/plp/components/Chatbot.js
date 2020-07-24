@@ -4,15 +4,25 @@ import {
   ADD_TO_BAG_TEXT,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   SUCCESS,
-  ADD_TO_CART_EVENT_HAPTIK_CHATBOT
+  ADD_TO_CART_EVENT_HAPTIK_CHATBOT,
+  GO_TO_CART_EVENT_HAPTIK_CHATBOT,
+  PRODUCT_CART_ROUTER,
+  FAILURE_LOWERCASE,
+  SUCCESS
 } from "../../lib/constants.js";
 const env = process.env;
+const PRODUCT_IN_CART = "Product is already in cart";
+const ADD_TO_CART_UPDATE = "add_to_cart_update";
+const ADDED = "added";
+const FAILED = "failed";
 export default class Chatbot extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       productId: "",
-      ussId: ""
+      ussId: "",
+      productIdProvidedHaptik: "",
+      isProductInCart: false
     };
     this.addToCartFromHaptikChatbot = this.addToCartFromHaptikChatbot.bind(
       this
@@ -81,30 +91,86 @@ export default class Chatbot extends React.Component {
           this.props.addProductToCart(data);
         }
       } else {
+        let errorMessage = "";
         if (nextProps.pincodeError) {
           this.props.displayToast(nextProps.pincodeError);
+          errorMessage = nextProps.pincodeError;
         } else if (nextProps.isServiceableToPincode.productOutOfStockMessage) {
           this.props.displayToast(
             nextProps.isServiceableToPincode.productOutOfStockMessage
           );
+          errorMessage =
+            nextProps.isServiceableToPincode.productOutOfStockMessage;
         } else if (
           nextProps.isServiceableToPincode.productNotServiceableMessage
         ) {
           this.props.displayToast(
             nextProps.isServiceableToPincode.productNotServiceableMessage
           );
+          errorMessage =
+            nextProps.isServiceableToPincode.productNotServiceableMessage;
         }
+        this.submitHaptikEvent(
+          errorMessage,
+          FAILURE_LOWERCASE,
+          this.state.productIdProvidedHaptik
+        );
       }
     }
+    let isProductInCart =
+      nextProps.cartCountDetails &&
+      nextProps.cartCountDetails.products &&
+      nextProps.cartCountDetails.products.find(val => {
+        return val.USSID === this.state.ussId;
+      });
     // show toast on add to cart success
     if (
+      !isProductInCart &&
       nextProps.addToCartResponseDetails &&
+      this.props.addToCartResponseLoading !==
+        nextProps.addToCartResponseLoading &&
       this.props.addToCartResponseDetails !==
         nextProps.addToCartResponseDetails &&
-      nextProps.addToCartResponseDetails.status &&
-      nextProps.addToCartResponseDetails.status.toLowerCase() === SUCCESS
+      (nextProps.addToCartResponseDetails.status &&
+        nextProps.addToCartResponseDetails.status.toLowerCase() === SUCCESS)
     ) {
       this.props.displayToast(ADD_TO_BAG_TEXT);
+      this.submitHaptikEvent("", SUCCESS, this.state.productIdProvidedHaptik);
+    }
+    if (
+      isProductInCart &&
+      !this.state.isProductInCart &&
+      !nextProps.addToCartResponseLoading
+    ) {
+      this.submitHaptikEvent(
+        PRODUCT_IN_CART,
+        FAILURE_LOWERCASE,
+        this.state.productIdProvidedHaptik
+      );
+      this.setState({ isProductInCart: true });
+    }
+  }
+
+  submitHaptikEvent(message, status, productId) {
+    if (status === SUCCESS) {
+      let haptikListenerJsonData = {
+        event_name: ADD_TO_CART_UPDATE,
+        product_id: productId,
+        status: ADDED
+      };
+      if (window.raiseHaptikEvent) {
+        window.raiseHaptikEvent(haptikListenerJsonData);
+      }
+    } else {
+      let haptikListenerJsonData = {
+        event_name: ADD_TO_CART_UPDATE,
+        product_id: productId,
+        status: FAILED,
+        failure_message: message
+      };
+      if (window.raiseHaptikEvent) {
+        window.raiseHaptikEvent(haptikListenerJsonData);
+      }
     }
   }
 
@@ -118,6 +184,9 @@ export default class Chatbot extends React.Component {
         haptikEventDetails.product_id &&
         haptikEventDetails.extras.ussid
       ) {
+        this.setState({
+          productIdProvidedHaptik: haptikEventDetails.product_id
+        });
         // check pincode serviceablity
         let productId = haptikEventDetails.product_id.toUpperCase();
         this.setState({ productId: productId });
@@ -131,6 +200,12 @@ export default class Chatbot extends React.Component {
           false,
           true
         );
+      }
+      if (
+        haptikEventDetails &&
+        haptikEventDetails.event_name === GO_TO_CART_EVENT_HAPTIK_CHATBOT
+      ) {
+        this.props.history.push(PRODUCT_CART_ROUTER);
       }
     }
   }
@@ -151,7 +226,7 @@ export default class Chatbot extends React.Component {
       haptikData.searchCriteria = searchCriteriaValue;
     }
     if (productListingId) {
-      haptikData.productListingId = productListingId;
+      haptikData.productId = productListingId;
     }
     if (productName) {
       haptikData.productName = productName;
