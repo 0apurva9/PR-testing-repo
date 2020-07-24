@@ -8,9 +8,9 @@
 	padding: 10px;
 	resize: none;
 	font-size: 14px;
-	font-family: light;
+	font-family: regular;
 	border-radius: 2px;
-	color: #000000;
+	color: #212121;
 }
 .textAreaBox:focus {
 	outline: none;

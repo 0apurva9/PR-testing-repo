@@ -304,12 +304,13 @@ export function homeFeedBackUpFailure(error) {
   };
 }
 
-export function secondaryFeedSuccess(data, seodata) {
+export function secondaryFeedSuccess(data, seodata, message) {
   return {
     type: SECONDARY_FEED_SUCCESS,
     status: SUCCESS,
     data,
-    seodata
+    seodata,
+    message
   };
 }
 
@@ -406,6 +407,7 @@ export function getFeed(pageId: null) {
             secondaryFeedSuccess(
               resultJson.items,
               resultJson.seo,
+              resultJson.message,
               feedTypeRequest
             )
           );

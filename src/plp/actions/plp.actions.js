@@ -65,6 +65,9 @@ const api_key = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
 export const VIEW_SIMILAR_PRODUCTS = "VIEW_SIMILAR_PRODUCTS";
 export const GET_PLP_BANNERS_SUCCESS = "GET_PLP_BANNERS_SUCCESS";
 export const GET_PLP_BANNERS_FAILURE = "GET_PLP_BANNERS_FAILURE";
+export const GET_CHATBOT_DETAILS_REQUEST = "CHATBOT_DETAILS_REQUEST";
+export const GET_CHATBOT_DETAILS_SUCCESS = "GET_CHATBOT_DETAILS_SUCCESS";
+export const GET_CHATBOT_DETAILS_FAILURE = "GET_CHATBOT_DETAILS_FAILURE";
 
 export function setProductModuleRef(ref) {
   return {
@@ -533,5 +536,48 @@ export function getPlpBannersFailure() {
     type: GET_PLP_BANNERS_FAILURE,
     status: SUCCESS,
     banners: []
+  };
+}
+
+//get chatbot json data
+export function getChatbotDetailsRequest() {
+  return {
+    type: GET_CHATBOT_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getChatbotDetailsSuccess(data) {
+  return {
+    type: GET_CHATBOT_DETAILS_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function getChatbotDetailsFailure(error) {
+  return {
+    type: GET_CHATBOT_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getChatbotDetails() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getChatbotDetailsRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/adminstatic/js/mkt_desktop_chat.json`
+      );
+      if (result.status === 200) {
+        const resultJson = await result.json();
+        return dispatch(getChatbotDetailsSuccess(resultJson));
+      } else {
+        dispatch(getChatbotDetailsFailure(result.statusText));
+      }
+    } catch (e) {
+      dispatch(getChatbotDetailsFailure(e.message));
+    }
   };
 }
