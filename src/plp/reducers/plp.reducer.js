@@ -22,7 +22,11 @@ const productListings = (
     urlString: null,
     loadMsdSkeleton: null,
     searchMsdData: [],
-    banners: []
+    banners: [],
+    getChatbotDetailsStatus: null,
+    getChatbotDetailsLoading: false,
+    getChatbotDetailsData: null,
+    getChatbotDetailsError: null
   },
   action
 ) => {
@@ -212,6 +216,26 @@ const productListings = (
     case plpActions.GET_PLP_BANNERS_FAILURE:
       return Object.assign({}, state, {
         banners: []
+      });
+
+    case plpActions.GET_CHATBOT_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        getChatbotDetailsStatus: action.status,
+        getChatbotDetailsLoading: true
+      });
+
+    case plpActions.GET_CHATBOT_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        getChatbotDetailsStatus: action.status,
+        getChatbotDetailsLoading: false,
+        getChatbotDetailsData: action.data
+      });
+
+    case plpActions.GET_CHATBOT_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        getChatbotDetailsStatus: action.status,
+        getChatbotDetailsLoading: false,
+        getChatbotDetailsError: action.error
       });
     default:
       return state;

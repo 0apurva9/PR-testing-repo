@@ -69,6 +69,8 @@ import FlixMediaContainer from "./FlixMediaContainer";
 import Icon from "../../xelpmoc-core/Icon";
 import FilledStarBlack from "../../general/components/img/star-fill-black.svg";
 import ExchangeDetailsPDPDesktop from "./ExchangeDetailsPDPDesktop";
+import Chatbot from "../../plp/components/Chatbot";
+import PropTypes from "prop-types";
 const WASH = "Wash";
 const NECK_COLLAR = "Neck/Collar";
 const SLEEVE = "Sleeve";
@@ -1157,6 +1159,20 @@ export default class PdpApparel extends React.Component {
           showSimilarProducts={this.props.showSimilarProducts}
         >
           <div className={styles.base}>
+            <Chatbot
+              productDetails={this.props.productDetails}
+              chatbotDetailsData={this.props.chatbotDetailsData}
+              addToCartFromChatbot={true}
+              getProductPinCode={this.props.getProductPinCode}
+              isServiceableToPincode={productData.isServiceableToPincode}
+              pincodeError={this.props.pincodeError}
+              displayToast={this.props.displayToast}
+              addProductToCart={this.props.addProductToCart}
+              addToCartResponseDetails={this.props.addToCartResponseDetails}
+              history={this.props.history}
+              addToCartResponseLoading={this.props.addToCartResponseLoading}
+              cartCountDetails={this.props.cartCountDetails}
+            />
             <div className={styles.pageCenter} ref="scrollToViewGallery">
               <div className={styles.gallery}>
                 <ProductGalleryDesktop
@@ -2286,3 +2302,67 @@ export default class PdpApparel extends React.Component {
     }
   }
 }
+
+PdpApparel.propTypes = {
+  location: PropTypes.object,
+  productDetails: PropTypes.object,
+  getUserAddress: PropTypes.func,
+  getPdpOffers: PropTypes.func,
+  getManufacturerDetails: PropTypes.func,
+  openInApp: PropTypes.func,
+  relevantBundleProductCodeData: PropTypes.object,
+  getRelevantBundleProduct: PropTypes.func,
+  relevantProductServibilty: PropTypes.func,
+  displayToast: PropTypes.func,
+  visitBrandStore: PropTypes.func,
+  history: PropTypes.object,
+  getProductPinCode: PropTypes.func,
+  buyNow: PropTypes.func,
+  addProductToCart: PropTypes.func,
+  getMinicartProducts: PropTypes.func,
+  setUrlToRedirectToAfterAuth: PropTypes.func,
+  match: PropTypes.object,
+  showPincodeModal: PropTypes.func,
+  showManufactureDetailsModal: PropTypes.func,
+  getPdpEmi: PropTypes.func,
+  showEmiModal: PropTypes.func,
+  showSizeSelector: PropTypes.func,
+  showPriceBreakup: PropTypes.func,
+  getProductSizeGuide: PropTypes.func,
+  getAllStoresForCliqAndPiq: PropTypes.func,
+  showPdpPiqPage: PropTypes.func,
+  showExchangeModal: PropTypes.func,
+  getExchangeDetails: PropTypes.func,
+  userAddress: PropTypes.object,
+  pincodeError: PropTypes.object,
+  showSimilarProducts: PropTypes.func,
+  offers: PropTypes.object,
+  impulseOfferCalloutList: PropTypes.object,
+  showBundledProduct: PropTypes.func,
+  showTermsNConditions: PropTypes.func,
+  showOfferDetails: PropTypes.func,
+  getBundleproduct: PropTypes.func,
+  getBundleProductPinCode: PropTypes.func,
+  showSizeGuide: PropTypes.func,
+  showSizeSelectorForEyeWear: PropTypes.func,
+  showOOSSizeSelectorModal: PropTypes.func,
+  showSimilarSizeOOSModal: PropTypes.func,
+  getProductDescription: PropTypes.func,
+  serviceableOtherSellersUssid: PropTypes.object,
+  getChatbotDetails: PropTypes.func,
+  chatbotDetailsData: PropTypes.objectOf(
+    PropTypes.shape({
+      chatEnabled: PropTypes.bool,
+      list: PropTypes.arrayOf(
+        PropTypes.shape({
+          pageType: PropTypes.string,
+          showWidget: PropTypes.bool,
+          categoryCode: PropTypes.string,
+          categoryName: PropTypes.string,
+          enableAfterSeconds: PropTypes.number,
+          categoryLandingPage: PropTypes.string
+        })
+      )
+    })
+  )
+};
