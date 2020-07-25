@@ -73,9 +73,12 @@ export default class Chatbot extends React.Component {
     // check pincode success
     if (
       nextProps.isServiceableToPincode &&
-      this.props.isServiceableToPincode !== nextProps.isServiceableToPincode
+      this.props.isServiceableToPincode !== nextProps.isServiceableToPincode &&
+      nextProps.checkPincodeFromHaptikChatbot
     ) {
       if (
+        this.props.checkPincodeDetailsLoading !==
+          nextProps.checkPincodeDetailsLoading &&
         !nextProps.pincodeError &&
         !nextProps.isServiceableToPincode.productOutOfStockMessage &&
         !nextProps.isServiceableToPincode.productNotServiceableMessage
@@ -116,6 +119,7 @@ export default class Chatbot extends React.Component {
         );
       }
     }
+
     let isProductInCart =
       nextProps.cartCountDetails &&
       nextProps.cartCountDetails.products &&
@@ -136,8 +140,11 @@ export default class Chatbot extends React.Component {
       this.props.displayToast(ADD_TO_BAG_TEXT);
       this.submitHaptikEvent("", SUCCESS, this.state.productIdProvidedHaptik);
     }
+
     if (
       isProductInCart &&
+      this.props.cartCountDetailsLoading !==
+        nextProps.cartCountDetailsLoading &&
       !this.state.isProductInCart &&
       !nextProps.addToCartResponseLoading
     ) {
@@ -190,6 +197,7 @@ export default class Chatbot extends React.Component {
         let productId = haptikEventDetails.product_id.toUpperCase();
         this.setState({ productId: productId });
         this.setState({ ussId: haptikEventDetails.extras.ussid });
+        this.setState({ isProductInCart: false });
         let pincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
         this.props.getProductPinCode(
           pincode,
@@ -197,6 +205,7 @@ export default class Chatbot extends React.Component {
           haptikEventDetails.extras.ussid,
           false,
           false,
+          true,
           true
         );
       }

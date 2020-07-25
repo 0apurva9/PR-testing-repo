@@ -568,7 +568,7 @@ export function getChatbotDetails() {
     dispatch(getChatbotDetailsRequest());
     try {
       const result = await api.customGetMiddlewareUrl(
-        `/adminstatic/js/mkt_desktop_chat.json`
+        `/adminstatic/js/mkt_msite_chat.json`
       );
       if (result.status === 200) {
         const resultJson = await result.json();

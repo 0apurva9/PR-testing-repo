@@ -1170,6 +1170,11 @@ export default class PdpApparel extends React.Component {
               history={this.props.history}
               addToCartResponseLoading={this.props.addToCartResponseLoading}
               cartCountDetails={this.props.cartCountDetails}
+              checkPincodeDetailsLoading={this.props.checkPincodeDetailsLoading}
+              checkPincodeFromHaptikChatbot={
+                this.props.checkPincodeFromHaptikChatbot
+              }
+              cartCountDetailsLoading={this.props.cartCountDetailsLoading}
             />
             <div className={styles.pageCenter} ref="scrollToViewGallery">
               <div className={styles.gallery}>
