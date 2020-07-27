@@ -3012,7 +3012,6 @@ export function fetchOrderDetails(orderId, pageName) {
       );
       let resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
@@ -4182,9 +4181,7 @@ const getFormattedString = (strValue = "") => {
     endIndex = null;
   if (strValue.includes("(") && strValue.includes(")")) {
     startIndex = strValue.indexOf("(");
-    console.log("startIndex", startIndex);
     endIndex = strValue.indexOf(")");
-
     strValue = strValue.slice(0, startIndex - 1) + strValue.slice(startIndex);
 
     formattedValue =
@@ -4611,7 +4608,6 @@ export function getOrdersTransactionData(paginated) {
           JSON.parse(customerCookie).access_token
         }&channel=web`
       );
-      console.log("result");
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
@@ -4951,10 +4947,11 @@ export function productRatingByUserRequest() {
   };
 }
 
-export function productRatingByUserSuccess() {
+export function productRatingByUserSuccess(rating) {
   return {
     type: GET_USER_RATING_SUCCESS,
-    status: SUCCESS
+    status: SUCCESS,
+    rating
   };
 }
 
@@ -4990,8 +4987,12 @@ export function submitProductRatingByUser(ratingValue, propsData) {
       );
 
       const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
       if (resultJson.rating) {
-        dispatch(displayToast(SUCCESSFUL_PRODUCT_RATING_BY_USER));
+        dispatch(displayToast("RATING_SUBMIT_SUCCESS_TOAST"));
         setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_MESSAGE, {
           rating: null,
           statusText: SUCCESSFUL_PRODUCT_RATING_BY_USER
@@ -5005,22 +5006,7 @@ export function submitProductRatingByUser(ratingValue, propsData) {
       }
       dispatch(clearOrderDetails());
       dispatch(getAllOrdersDetails());
-      dispatch(productRatingByUserSuccess());
-      if (
-        propsData &&
-        propsData.productDetails &&
-        !propsData.productDetails.hasOwnProperty("userRating")
-      ) {
-        dispatch(
-          showModal(RATING_AND_REVIEW_MODAL, {
-            ...propsData,
-            productDetails: {
-              ...propsData.productDetails,
-              userRating: resultJson.rating
-            }
-          })
-        );
-      }
+      dispatch(productRatingByUserSuccess(resultJson.rating));
     } catch (e) {
       dispatch(productRatingByUserFailure(e.message));
     }

@@ -15,10 +15,6 @@ class OrderListDetails extends Component {
     // isQuesryForm:true
   };
 
-  //   componentWillReceiveProps(){
-  //   console.log("CustomerIssue");
-  // }
-
   selectQuestion(question, index) {
     this.setState({
       question: question,

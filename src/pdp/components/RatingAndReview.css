@@ -5,7 +5,6 @@
 .reviewContainer {
 	width: 100%;
 	height: calc(100% - 56px);
-	padding: 30px 32px 40px 62px;
 }
 .headerText {
 	font-family: semibold;
@@ -30,23 +29,28 @@
   align-items: center;
 }
 .productImage {
-	width: 95px;
-	height: 130px;
+	width: 99px;
+	height: auto;
+	padding: 10px;
+	margin-left: 10px;
 }
 .imageContainer{
 	width:25%;
 }
 .productData{
-	width: calc(100% - 95px);
-	padding-left: 35px;
+	width: calc(100% - 115px);
+	padding-left: 20px;
 }
 .productDetailsHolder {
 	width: 100%;
 	display: flex;
+	background-color: #f8f8f8;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
 }
 .productWrapper {
 	display: flex;
-	width: 83%;
+	width: 97%;
 }
 .cancelHolder {
 	position: absolute;
@@ -139,7 +143,8 @@
 	float: right;
   }
 .buttonHolder {
-	text-align: right;
+	text-align: center;
+	padding-top: 30px;
 }
 .buttonRight {
 	height: auto;
@@ -160,18 +165,18 @@
 	margin-bottom: 0px;
 }
 .inputComponent{
-	margin-top: 28px;
+	padding: 30px;
 }
 .feedbackHeader{
-	font-family: regular;
-  font-size: 18px;
+	font-family: light;
+	font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.22;
   letter-spacing: normal;
 	color: #212121;
-	margin-bottom: 24px;
+	margin: 10px 0 15px 0;;
 }
 .deliveryDate{
 	font-family: semibold;
@@ -189,12 +194,13 @@
 	height: auto;
 	color: #212121;
 	font-family: light;
-	line-height: 22px;
-	margin-bottom: 10px;
+	margin: 20px 0 15px 0;
+  padding-bottom: 15px;
 	font-size: 16px;
 	display: inline-block;
 	word-wrap: break-word;
 	font-weight: 300;
+	border-bottom: 2px solid #e7e7e7;;
 }
 .ratingContainer {
 	width: 100%;
@@ -226,7 +232,6 @@
 }
 
 .reviewWrapper {
-	font-family: semibold;
   font-size: 14px;
   font-weight: 500;
   font-stretch: normal;
@@ -237,23 +242,21 @@
 	margin-bottom: 15px;
 }
 .input {
-	width: 537px;
-  margin: 10px 0 24px 0;
+  margin: 2px 0 24px 0;
 }
 .inputComment {
-	width: 537px;
-  margin-top: 10px;
+  margin-top: 2px;
 }
 .reviewTipsContainer {
-	width: 749px;
+	width: 570px;
   height: 360px;
 	box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.1);
 	background-color: #ffffff;
 	position: fixed;
-	top: 20%;
-	right: 4%;
+	top: 37%;
+	right: 3%;
 	z-index: 101;
-	padding: 30px 200px 55px 42px;
+	padding: 30px;
 }
 
 .reviewTipsContainer::after {
@@ -310,7 +313,62 @@
   font-size: 12px;
   font-family: light;
 }
-
+.writeReviewHeadingContainer{
+  width: 100%;
+}
+.writeReviewHeading{
+	display: inline-block;
+	width: 50%;
+	font-size: 24px;
+  font-family: semibold;
+}
+.submittedTextHolder{
+	font-size: 18px;
+	color: #67b70b;
+	font-family: semibold;
+	width: 30%;
+	display: inline-block;
+	text-align: right;
+}
+.submittedText{
+	vertical-align: middle;
+}
+.checkMarkGreen{
+	vertical-align: middle;
+	padding-left: 5px;
+}
+.errorMessage{
+	font-size: 12px;
+	color: #d88600;
+}
+.infoMessage{
+	float: right;
+	font-size: 12px;
+	color: #d88600;
+}
+.toastContainer{
+	position: absolute;
+	top:10%;
+	right: 0;
+	left: 0;
+	width: 380px;
+  height: 256px;
+  border-radius: 8px;
+	background-color: rgba(33, 33, 33, 0.8);
+	margin: 0 auto;
+	z-index: 700;
+	text-align: center;
+	color: #fff;
+	font-size: 20px;
+}
+.ratingSuccessStar{
+	margin: 40px 0;
+}
+.inputLabel{
+	font-family: regular;
+  font-size: 12px;
+  color: #212121;
+}
 @media screen and (min-width: 1025px) {
 	.centerSubmitButton {
 	  text-align: right;
@@ -326,16 +384,13 @@
 	}
 
 	.reviewGuidelines {
-		height: 17px;
-	  font-family: semibold;
-	  font-size: 14px;
+	  font-family: regular;
+	  font-size: 18px;
 	  font-weight: 500;
-	  font-style: normal;
-	  font-stretch: normal;
-	  line-height: normal;
-	  letter-spacing: normal;
 	  text-align: right;
 		color: #ff1744;
-		cursor: default;
+		cursor: pointer;
+		width: 50%;
+		display: inline-block;
 	}
 }

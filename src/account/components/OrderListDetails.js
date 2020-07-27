@@ -69,6 +69,11 @@ class OrderListDetails extends Component {
   //       });
   //   }
   // }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.questionsList !== this.props.questionsList) {
+      window.scroll(0, 0);
+    }
+  }
 
   feedbak(question) {
     return (
@@ -96,7 +101,7 @@ class OrderListDetails extends Component {
 
   render() {
     const { selectedOrder, slectOrderData } = this.props;
-    const product = slectOrderData && slectOrderData.products[0];
+    // const product = slectOrderData;
     return (
       <div>
         <div className={styles.whiteCard}>
@@ -144,9 +149,7 @@ class OrderListDetails extends Component {
               </div>
             )}
 
-          {this.props.slectOrderData &&
-            this.props.slectOrderData.products &&
-            this.props.slectOrderData.products.length &&
+          {slectOrderData &&
             this.props.orderRelatedQuestion && (
               <div
                 className={[
@@ -156,53 +159,55 @@ class OrderListDetails extends Component {
               >
                 <div className={styles.orderDetailsCard}>
                   <div className={styles.orderDetailsImgBox}>
-                    <ProductImage image={product.imageURL} />
+                    <ProductImage image={slectOrderData.imageURL} />
                   </div>
                   <div className={styles.orderDetailsContent}>
                     <div className={styles.orderDesc}>
-                      {product.productName}
+                      {slectOrderData.productName}
                     </div>
-                    {this.props.selectedOrder &&
-                      this.props.selectedOrder.products && (
-                        <div className={styles.orderDesc}>
-                          <div className={styles.orderStatus}>
-                            Order status:{" "}
-                            <span className={styles.fontBold}>
-                              {product.statusDisplay ||
-                                product.displayStatusName}
-                            </span>
-                          </div>
+                    {slectOrderData && (
+                      <div className={styles.orderDesc}>
+                        <div className={styles.orderStatus}>
+                          Order status:{" "}
+                          <span className={styles.fontBold}>
+                            {slectOrderData.statusDisplay ||
+                              slectOrderData.displayStatusName}
+                          </span>
                         </div>
-                      )}
-
-                    {product.pickUpDateCNC ? (
-                      product.statusDisplay === ORDER_IN_PROCESS ||
-                      product.statusDisplay === READY_FOR_COLLECTION ? (
+                      </div>
+                    )}
+                    {slectOrderData.pickUpDateCNC ? (
+                      slectOrderData.statusDisplay === ORDER_IN_PROCESS ||
+                      slectOrderData.statusDisplay === READY_FOR_COLLECTION ? (
                         <div className={styles.orderStatus}>
                           {PICKUP_DATE}&nbsp;
                           <span className={styles.fontBold}>
-                            {getDayNumberSuffix(product.pickUpDateCNC, true)}
+                            {getDayNumberSuffix(
+                              slectOrderData.pickUpDateCNC,
+                              true
+                            )}
                           </span>
                         </div>
                       ) : null
-                    ) : (product.statusDisplay === ORDER_CONFIRMED ||
-                      product.statusDisplay === ORDER_IN_PROCESS ||
-                      product.statusDisplay === SHIPPED ||
-                      product.statusDisplay === ITEM_PACKED ||
-                      product.statusDisplay === OUT_FOR_DELIVERY ||
-                      product.statusDisplay === READY_FOR_COLLECTION) &&
-                    (product.EDD || product.estimateddeliverydate) ? (
+                    ) : (slectOrderData.statusDisplay === ORDER_CONFIRMED ||
+                      slectOrderData.statusDisplay === ORDER_IN_PROCESS ||
+                      slectOrderData.statusDisplay === SHIPPED ||
+                      slectOrderData.statusDisplay === ITEM_PACKED ||
+                      slectOrderData.statusDisplay === OUT_FOR_DELIVERY ||
+                      slectOrderData.statusDisplay === READY_FOR_COLLECTION) &&
+                    (slectOrderData.EDD ||
+                      slectOrderData.estimateddeliverydate) ? (
                       <div className={styles.orderStatus}>
                         {ESTIMATED_DATE}&nbsp;
                         <span className={styles.fontBold}>
                           {getDayNumberSuffix(
-                            product.EDD || product.estimateddeliverydate
+                            slectOrderData.EDD ||
+                              slectOrderData.estimateddeliverydate
                           )}
                         </span>
                       </div>
                     ) : selectedOrder &&
-                      selectedOrder.products &&
-                      selectedOrder.products[0].deliveryDate ? (
+                    selectedOrder.products[0].deliveryDate ? (
                       <div className={styles.orderStatus}>
                         {DELIVERY_TEXT}&nbsp;
                         <span className={styles.fontBold}>

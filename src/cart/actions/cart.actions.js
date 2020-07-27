@@ -561,6 +561,10 @@ export const REMOVE_EXCHANGE_REQUEST = "REMOVE_EXCHANGE_REQUEST";
 export const REMOVE_EXCHANGE_SUCCESS = "REMOVE_EXCHANGE_SUCCESS";
 export const REMOVE_EXCHANGE_FAILURE = "REMOVE_EXCHANGE_FAILURE";
 
+export const GET_CUSTOM_COMPONENT_REQUEST = "GET_CUSTOM_COMPONENT_REQUEST";
+export const GET_CUSTOM_COMPONENT_SUCCESS = "GET_CUSTOM_COMPONENT_SUCCESS";
+export const GET_CUSTOM_COMPONENT_FAILURE = "GET_CUSTOM_COMPONENT_FAILURE";
+
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
   return {
@@ -5980,18 +5984,17 @@ export function getValidDeliveryModeDetails(
       updatedDeliveryModes[productMode] = SHORT_COLLECT;
     }
   });
+  let index = 0;
   each(cartProductDetails, product => {
     if (product.isGiveAway === NO || isFromRetryUrl) {
       let selectedDeliveryModeDetails = "";
       //get the selected delivery Mode
       if (isFromRetryUrl) {
-        selectedDeliveryModeDetails = pincodeDetails.pinCodeResponseList[0].validDeliveryModes.find(
-          validDeliveryMode => {
-            return (
-              validDeliveryMode.type === updatedDeliveryModes[product.USSID]
-            );
-          }
-        );
+        selectedDeliveryModeDetails = pincodeDetails.pinCodeResponseList[
+          index
+        ].validDeliveryModes.find(validDeliveryMode => {
+          return validDeliveryMode.type === updatedDeliveryModes[product.USSID];
+        });
       } else {
         selectedDeliveryModeDetails = product.pinCodeResponse.validDeliveryModes.find(
           validDeliveryMode => {
@@ -6001,6 +6004,7 @@ export function getValidDeliveryModeDetails(
           }
         );
       }
+      index++;
       let productDetails = {};
       productDetails.ussId = product.USSID;
       productDetails.quantity = product.qtySelectedByUser;
@@ -8078,6 +8082,48 @@ export function getCartCodeAndGuidForLoggedInUser() {
       return resultJson;
     } catch (e) {
       console.log(e.message);
+    }
+  };
+}
+export function getCustomInstructionRequest() {
+  return {
+    type: GET_CUSTOM_COMPONENT_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getCustomInstructionSuccess(customComponent) {
+  return {
+    type: GET_CUSTOM_COMPONENT_SUCCESS,
+    status: SUCCESS,
+    customComponent
+  };
+}
+
+export function getCustomInstructionFailure(error) {
+  return {
+    type: GET_CUSTOM_COMPONENT_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function getCustomInstruction() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getCustomInstructionRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=MPL_GET_CUSTOM_COMPONENT`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(getCustomInstructionSuccess(resultJson));
+    } catch (e) {
+      dispatch(getCustomInstructionFailure(e.message));
     }
   };
 }

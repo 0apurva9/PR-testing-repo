@@ -5,6 +5,7 @@ import OrderDetailsCard from "./OrderDetailsCard.js";
 import OrderSucessCard from "./OrderSucessCard.js";
 import Icon from "../../xelpmoc-core/Icon";
 import OrderConfirmationFooter from "./OrderConfirmationFooter.js";
+import CustomInstructionContainer from "../../cart/containers/CustomInstructionContainer";
 import {
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_ORDERS_PAGE,
@@ -134,6 +135,9 @@ export default class PaymentConfirmationPage extends React.Component {
                       this.props.orderDetails.isEgvOrder
                     }
                   />
+                </div>
+                <div className={styles.orderBannerHolder}>
+                  <CustomInstructionContainer />
                 </div>
                 <MobileOnly>
                   <div className={styles.rateHolder}>

@@ -42,8 +42,7 @@ import { isBrowser } from "browser-or-node";
 import { getCartCountForLoggedInUser } from "../../cart/actions/cart.actions.js";
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
 import { displayToast } from "../../general/toast.actions.js";
-export const SUBMIT_REVIEW_TEXT =
-  "Thanks for submitting the review. Your review will start appearing shortly";
+export const SUBMIT_REVIEW_TEXT = "Thanks! Review submitted successfully";
 export const PRODUCT_DESCRIPTION_REQUEST = "PRODUCT_DESCRIPTION_REQUEST";
 export const PRODUCT_DESCRIPTION_SUCCESS = "PRODUCT_DESCRIPTION_SUCCESS";
 export const PRODUCT_DESCRIPTION_FAILURE = "PRODUCT_DESCRIPTION_FAILURE";
