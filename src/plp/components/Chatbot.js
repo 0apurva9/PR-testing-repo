@@ -112,14 +112,22 @@ export default class Chatbot extends React.Component {
           errorMessage =
             nextProps.isServiceableToPincode.productNotServiceableMessage;
         }
-        this.submitHaptikEvent(
-          errorMessage,
-          FAILURE_LOWERCASE,
-          this.state.productIdProvidedHaptik
-        );
+        if (errorMessage) {
+          this.submitHaptikEvent(
+            errorMessage,
+            FAILURE_LOWERCASE,
+            this.state.productIdProvidedHaptik
+          );
+        }
       }
     }
 
+    let isProductInCartPreviousData =
+      this.props.cartCountDetails &&
+      this.props.cartCountDetails.products &&
+      this.props.cartCountDetails.products.find(val => {
+        return val.USSID === this.state.ussId;
+      });
     let isProductInCart =
       nextProps.cartCountDetails &&
       nextProps.cartCountDetails.products &&
@@ -140,9 +148,9 @@ export default class Chatbot extends React.Component {
       this.props.displayToast(ADD_TO_BAG_TEXT);
       this.submitHaptikEvent("", SUCCESS, this.state.productIdProvidedHaptik);
     }
-
     if (
       isProductInCart &&
+      isProductInCart !== isProductInCartPreviousData &&
       this.props.cartCountDetailsLoading !==
         nextProps.cartCountDetailsLoading &&
       !this.state.isProductInCart &&
