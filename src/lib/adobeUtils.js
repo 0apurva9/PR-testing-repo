@@ -923,7 +923,12 @@ export async function setDataLayer(
                 ? previousData.page.pageInfo.pageName
                 : previousData.cpj &&
                   previousData.cpj.pdp &&
-                  previousData.cpj.pdp.findingMethod
+                  previousData.cpj.pdp.findingMethod,
+            pageType:
+              previousData &&
+              previousData.page &&
+              previousData.page.pageInfo &&
+              previousData.page.pageInfo.pageType
           }
         });
       } else {
@@ -939,7 +944,12 @@ export async function setDataLayer(
                   ? previousData.page.pageInfo.pageName
                   : previousData.cpj &&
                     previousData.cpj.pdp &&
-                    previousData.cpj.pdp.findingMethod
+                    previousData.cpj.pdp.findingMethod,
+              pageType:
+                previousData &&
+                previousData.page &&
+                previousData.page.pageInfo &&
+                previousData.page.pageInfo.pageType
             }
           }
         });
@@ -1898,6 +1908,18 @@ function getDigitalDataForOrderConfirmation(type, response) {
   );
   if (orderData && orderData !== "undefined") {
     Object.assign(window.digitalData, JSON.parse(orderData));
+  }
+  let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
+  if (userDetails) {
+    userDetails = JSON.parse(userDetails);
+    Object.assign(window.digitalData, {
+      account: {
+        login: {
+          customerID: userDetails.customerId,
+          type: userDetails.loginType
+        }
+      }
+    });
   }
   let data = window.digitalData;
   if (data && data.page && data.page.pageInfo) {
