@@ -347,8 +347,7 @@ export function homeFeedBackUp() {
       const resultJson = await result.json();
       if (resultJson && resultJson.pageName) {
         let pageData = {
-          pageName: resultJson.pageName,
-          pageType: resultJson && resultJson.pageType
+          pageName: resultJson.pageName
         };
         setPageNameAndPageType(pageData);
       }
@@ -392,8 +391,7 @@ export function getFeed(pageId: null) {
         resultJson = await result.json();
         if (resultJson && resultJson.pageName) {
           let pageData = {
-            pageName: resultJson.pageName,
-            pageType: resultJson && resultJson.pageType
+            pageName: resultJson.pageName
           };
           setPageNameAndPageType(pageData);
         }

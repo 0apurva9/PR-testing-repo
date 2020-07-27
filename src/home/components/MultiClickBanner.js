@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import styles from "./MultiClickBanner.css";
 import { widgetsTracking } from "../../lib/adobeUtils.js";
 import ImageFlexible from "../../general/components/ImageFlexible";
+import { WEB_URL_REG_EX } from "../../lib/constants";
+
 export default class MultiClickBanner extends React.Component {
   goToUrl(data) {
     widgetsTracking({
@@ -12,15 +14,14 @@ export default class MultiClickBanner extends React.Component {
       sourceOfWidget: this.props.postData && this.props.postData.widgetPlatform,
       brandName: data.brandName
     });
-    const urlSuffix = data.url.replace(TATA_CLIQ_ROOT, "$1");
-    if (data.url.includes("/que")) {
-      window.open(urlSuffix, "_blank");
-      window.focus();
-    }
-    if (data.url.includes("/luxury.tatacliq.com")) {
+    // Check if URL starts https://www.tatacliq.com or https://tatacliq.com
+    const isMatch = WEB_URL_REG_EX.test(data.url);
+
+    if (data.url.includes("/que") || !isMatch) {
       window.open(data.url, "_blank");
       window.focus();
     } else {
+      const urlSuffix = data.url.replace(TATA_CLIQ_ROOT, "$1");
       this.props.history.push(urlSuffix);
       if (this.props.setClickedElementId) {
         this.props.setClickedElementId();

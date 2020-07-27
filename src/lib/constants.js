@@ -525,6 +525,9 @@ export const EDD_TEXT = "Estimated Delivery Date";
 //CleverTap email unsubsctibe
 export const UNSUBSCRIBE_CLEVER_TAP_EMAILS = "/emails-unsubscribe";
 export const NOT_SERVICEABLE = "Not available at your PIN code";
+
+export const WEB_URL_REG_EX = /^https?:[\/]{2}(www\.)?tatacliq.com/g;
+
 // for haptik chatbot add to cart event
 export const ADD_TO_CART_EVENT_HAPTIK_CHATBOT = "add_to_cart";
 export const GO_TO_CART_EVENT_HAPTIK_CHATBOT = "go_to_cart";
