@@ -7,7 +7,7 @@
   top: 0;
   background: #212121;
   transition: 200ms;
-  transform: translateZ(-1px);
+  transform: translate3d(0, 0, 0);
 }
 .CheckoutHeader {
   composes: base;
@@ -253,7 +253,9 @@
   background-color: #ffffff;
   color: #212121;
 }
-.totalAmount > span { float: right; }
+.totalAmount > span {
+  float: right;
+}
 .viewBagButtonHolder {
   width: 100%;
   height: auto;
@@ -625,13 +627,14 @@
 }
 .stickyBase {
   composes: base;
-  transform: translateY(-40px) translateZ(-1px);
+  top: -40px;
+  transform: translate3d(0, 0, 0);
 }
 .stickyLogo {
   composes: logoHolder;
   height: 50px;
   margin: initial;
-  transform: translateY(45px);
+  top: 45px;
   background-size: auto 30px;
 }
 .cartCount {
@@ -648,24 +651,24 @@
   right: -2px;
   top: 0px;
 }
-.exchangeProductDetailsContainer{
+.exchangeProductDetailsContainer {
   line-height: normal;
   margin-top: 5px;
   background-color: #f8f8f8;
   padding: 5px;
 }
-.exchangeIcon{
+.exchangeIcon {
   width: 16px;
   height: 16px;
   display: inline-block;
   vertical-align: middle;
 }
-.exchangeProductDetails{
+.exchangeProductDetails {
   padding-left: 5px;
   font-size: 12px;
   font-family: regular;
   color: #212121;
 }
-.fontLight{
+.fontLight {
   font-family: light;
 }
