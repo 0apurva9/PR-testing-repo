@@ -5,16 +5,22 @@ import ImageFlexible from "../../general/components/ImageFlexible";
 import MediaQuery from "react-responsive";
 import PropTypes from "prop-types";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import { WEB_URL_REG_EX } from "../../lib/constants";
+
 export default class Banner extends React.Component {
   onClick(event) {
     event.preventDefault();
-    if (this.props.url) {
-      const urlSuffix = this.props.url.replace(TATA_CLIQ_ROOT, "$1");
-      const urlPath = new URL(this.props.url).pathname;
-      if (urlPath.indexOf("/que") > -1) {
-        window.open(urlSuffix, "_blank");
+    let url = this.props.url;
+    if (url) {
+      // Check if URL starts https://www.tatacliq.com or https://tatacliq.com
+      const isMatch = WEB_URL_REG_EX.test(url);
+      const urlPath = new URL(url).pathname;
+
+      if (urlPath.indexOf("/que") > -1 || !isMatch) {
+        window.open(url, "_blank");
         window.focus();
       } else {
+        const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
         this.props.history.push(urlSuffix);
       }
     }

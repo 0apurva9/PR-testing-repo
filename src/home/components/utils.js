@@ -38,6 +38,10 @@ export function transformData(datum) {
   if (datum.discountedPrice) {
     discountPrice = datum.discountedPrice.doubleValue;
   }
+  if (datum && datum.winningSellerPrice) {
+    discountPrice =
+      datum.winningSellerPrice && datum.winningSellerPrice.doubleValue;
+  }
   return {
     image: image,
     video: datum.video,

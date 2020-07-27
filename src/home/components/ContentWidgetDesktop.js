@@ -3,6 +3,7 @@ import Image from "../../xelpmoc-core/Image";
 import Logo from "../../general/components/Logo";
 import Button from "../../general/components/Button";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import { WEB_URL_REG_EX } from "../../lib/constants";
 import styles from "./ContentWidgetDesktop.css";
 const queLogo =
   "https://assets.tatacliq.com/medias/sys_master/pwaImg/tatacliq_que_logo.png";
@@ -16,12 +17,15 @@ export default class ContentWidgetDesktop extends React.Component {
   }
   handleReadMore(webURL) {
     if (webURL) {
-      const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1").trim();
+      // Check if URL starts https://www.tatacliq.com or https://tatacliq.com
+      const isMatch = WEB_URL_REG_EX.test(webURL);
       const urlPath = new URL(webURL).pathname;
-      if (urlPath.indexOf("/que") > -1) {
-        window.open(urlSuffix, "_blank");
+
+      if (urlPath.indexOf("/que") > -1 || !isMatch) {
+        window.open(webURL, "_blank");
         window.focus();
       } else {
+        const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1").trim();
         this.props.history.push(urlSuffix);
       }
     }

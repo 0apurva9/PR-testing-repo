@@ -3015,18 +3015,7 @@ export function fetchOrderDetails(orderId, pageName) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      if (pageName === "paymentConfirmation") {
-        setDataLayer(
-          ADOBE_ORDER_CONFIRMATION,
-          resultJson,
-          getState().icid.value,
-          getState().icid.icidType
-        );
-        setDataLayerForOrderConfirmationDirectCalls(
-          ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_SUCCESS,
-          resultJson.orderId
-        );
-      } else {
+      if (pageName !== "order confirmation") {
         setDataLayer(ADOBE_MY_ACCOUNT_ORDER_DETAILS);
       }
       dispatch(fetchOrderDetailsSuccess(resultJson));
