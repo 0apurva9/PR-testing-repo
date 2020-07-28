@@ -131,7 +131,7 @@ export default class DeliveryInfoSelect extends React.Component {
                     return val.code === SAME_DAY_DELIVERY;
                   })
                   .map(val => {
-                    return val.deliveryCost;
+                    return val.charge && val.charge.value;
                   })[0]
               }
               cutOffTime={
@@ -220,7 +220,7 @@ export default class DeliveryInfoSelect extends React.Component {
                     return val.code === EXPRESS;
                   })
                   .map(val => {
-                    return val.deliveryCost;
+                    return val.charge && val.charge.value;
                   })[0]
               }
               available={
@@ -316,7 +316,7 @@ export default class DeliveryInfoSelect extends React.Component {
                     return val.code === COLLECT;
                   })
                   .map(val => {
-                    return val.deliveryCost;
+                    return val.charge && val.charge.value;
                   })[0]
               }
               available={
@@ -341,10 +341,10 @@ export default class DeliveryInfoSelect extends React.Component {
                   availableStores > 1 && storeDetails
                     ? availableStores + " more stores"
                     : availableStores > 1
-                      ? availableStores + " stores"
-                      : availableStores === 1
-                        ? availableStores + " more store"
-                        : "more store"
+                    ? availableStores + " stores"
+                    : availableStores === 1
+                    ? availableStores + " more store"
+                    : "more store"
                 } nearby`
               }
               splitIntoTwoLine={false}
@@ -435,7 +435,7 @@ export default class DeliveryInfoSelect extends React.Component {
                         return val.code === HOME_DELIVERY;
                       })
                       .map(val => {
-                        return val.deliveryCost;
+                        return val.charge && val.charge.value;
                       })[0]
                   }
                   available={
@@ -482,20 +482,19 @@ export default class DeliveryInfoSelect extends React.Component {
                 />
               </div>
             )}
-          {isCod === "Y" &&
-            !this.props.inCartPage && (
-              <div className={styles.infoHolder}>
-                <DeliveryInformation
-                  paddingTop={"0px"}
-                  paddingBottom={"0px"}
-                  paddingRight={"0px"}
-                  pdpApparel={this.props.pdpApparel}
-                  isCod={isCod}
-                  placedTimeForCod={"Available"}
-                  available={isCod === "Y"}
-                />
-              </div>
-            )}
+          {isCod === "Y" && !this.props.inCartPage && (
+            <div className={styles.infoHolder}>
+              <DeliveryInformation
+                paddingTop={"0px"}
+                paddingBottom={"0px"}
+                paddingRight={"0px"}
+                pdpApparel={this.props.pdpApparel}
+                isCod={isCod}
+                placedTimeForCod={"Available"}
+                available={isCod === "Y"}
+              />
+            </div>
+          )}
         </div>
       </div>
     );

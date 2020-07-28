@@ -178,7 +178,9 @@ export default class CartItemForDesktop extends React.Component {
         this.props.product.exchangeDetails.exchangeProductId,
         this.props.product.exchangeDetails.exchangePriceDetail
           .exchangeAmountCashify.value,
-        this.props.product.exchangeDetails.exchangePriceDetail.TULBump.value,
+        this.props.product.exchangeDetails.exchangePriceDetail.TULBump
+          ? this.props.product.exchangeDetails.exchangePriceDetail.TULBump.value
+          : null,
         this.props.product.exchangeDetails.exchangePriceDetail.pickupCharge
           .value,
         this.props.product.productcode,

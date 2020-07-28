@@ -22,6 +22,7 @@ import Icon from "../../xelpmoc-core/Icon";
 import Button from "../../general/components/Button";
 import RetryPaymentIcon from "./img/payment_retry.svg";
 import ExchangeDetailsOrderDetails from "./ExchangeDetailsOrderDetails";
+import CustomInstructionContainer from "../../cart/containers/CustomInstructionContainer";
 import {
   CASH_ON_DELIVERY,
   ORDER_PREFIX,
@@ -43,7 +44,6 @@ import {
   CANCEL_RETURN_REQUEST,
   SUCCESS,
   HELP_URL,
-  // COSTUMER_ORDER_RELATED_QUERY_ROUTE,
   COSTUMER_CLIQ_CARE_ROUTE,
   MY_ACCOUNT,
   CNCTOHD,
@@ -264,19 +264,43 @@ export default class OrderDetails extends React.Component {
     let orderCode = queryString.parse(this.props.location.search).orderCode;
     const transactionId = queryString.parse(this.props.location.search)
       .transactionId;
-    const selectedOrderObj = {
-      orderCode,
-      transactionId,
-      orderDetails: this.props.orderDetails
-    };
+    // const selectedOrderObj = {
+    //   orderCode,
+    //   transactionId,
+    //   orderDetails: this.props.orderDetails
+    // };
 
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
-    this.props.history.push({
-      pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
-      state: {
-        selectedOrderObj
+
+    if (this.props.orderDetails) {
+      if (
+        this.props.orderDetails.products &&
+        this.props.orderDetails.products.length == 1
+      ) {
+        const selectedOrderObj = {
+          orderCode,
+          transactionId,
+          product: this.props.orderDetails.products[0]
+        };
+        this.props.history.push({
+          pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
+          state: {
+            selectedOrderObj
+          }
+        });
+      } else {
+        this.props.history.push(
+          `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`
+        );
       }
-    });
+    }
+
+    // this.props.history.push({
+    //   pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
+    //   state: {
+    //     selectedOrderObj
+    //   }
+    // });
   }
   componentWillMount() {
     const transactionId = queryString.parse(this.props.location.search)
@@ -912,6 +936,7 @@ export default class OrderDetails extends React.Component {
                               mediationRequired={products.mediationRequired}
                               paymentMethod={orderDetails.paymentMethod}
                               consignmentStatus={products.consignmentStatus}
+                              statusDisplay={products.statusDisplay}
                               sshipAwbTrackingUrl={products.sshipAwbTrackingUrl}
                               displayToast={this.props.displayToast}
                               fulfillment={products.fulfillment}
@@ -1067,6 +1092,7 @@ export default class OrderDetails extends React.Component {
                                   mediationRequired={products.mediationRequired}
                                   paymentMethod={orderDetails.paymentMethod}
                                   consignmentStatus={products.consignmentStatus}
+                                  statusDisplay={products.statusDisplay}
                                   sshipAwbTrackingUrl={
                                     products.sshipAwbTrackingUrl
                                   }
@@ -1325,7 +1351,6 @@ export default class OrderDetails extends React.Component {
                     orderDetails && orderDetails.cliqCashAmountDeducted
                   }
                 />
-
                 <React.Fragment>
                   {this.state.itemDetails && (
                     <div
@@ -1365,6 +1390,7 @@ export default class OrderDetails extends React.Component {
                 </React.Fragment>
               </div>
             )}
+            <CustomInstructionContainer />
           </div>
           {/* showing user details only for desktop */}
           <DesktopOnly>

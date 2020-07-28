@@ -292,6 +292,15 @@ if (process.env.REACT_APP_STAGE === "production") {
   process.env.REACT_APP_SAMSUNG_CHAT_URL_REFERRER = "&referrer=tatacliq";
 }
 
+// for haptik chatbot on PDP,PLP,CLP and Search
+if (process.env.REACT_APP_STAGE === "production") {
+  process.env.REACT_APP_HAPTIK_CHATBOT_URL =
+    "https://buzzodjangostorage.blob.core.windows.net/production";
+} else {
+  process.env.REACT_APP_HAPTIK_CHATBOT_URL =
+    "https://buzzodjangostorage.blob.core.windows.net";
+}
+
 function getClientEnvironment(publicUrl) {
   const raw = Object.keys(process.env)
     .filter(key => REACT_APP.test(key))

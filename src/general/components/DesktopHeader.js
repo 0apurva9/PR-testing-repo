@@ -8,7 +8,6 @@ import {
   MY_ACCOUNT_CLIQ_CASH_PAGE,
   HELP_URL,
   RUPEE_SYMBOL,
-  // COSTUMER_ORDER_RELATED_QUERY_ROUTE
   COSTUMER_CLIQ_CARE_ROUTE
 } from "../../../src/lib/constants";
 import DropdownMenu from "./DropdownMenu.js";

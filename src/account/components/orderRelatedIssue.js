@@ -10,7 +10,6 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
   LOGIN_PATH,
-  COSTUMER_ORDER_RELATED_QUERY_ROUTE,
   COSTUMER_CLIQ_CARE_ROUTE,
   MY_ACCOUNT_PAGE,
   HOME_ROUTER
@@ -225,17 +224,17 @@ export default class OrderRelatedIssue extends React.Component {
           questionList: response.orderRelatedQuestions.listOfIssues,
           parentIssueType: null,
           questionType: ORDER_REALTED_QUESTION,
-          slectOrderData: orderData.orderDetails
+          slectOrderData: orderData.product
         });
       }
     }
   }
 
-  getOrderRelatedQuestions(orderData) {
+  getOrderRelatedQuestions(orderData, product) {
     const selectedOrder = {
-      transactionId: orderData.products[0].transactionId,
+      transactionId: product.transactionId,
       orderCode: orderData.orderId,
-      orderDetails: orderData
+      product: product
     };
     this.orderRelatedInfo(selectedOrder);
   }
@@ -245,25 +244,26 @@ export default class OrderRelatedIssue extends React.Component {
       if (this.props.getFaqRelatedQuestions) {
         const response = await this.props.getFaqRelatedQuestions(faq.FAQPageId);
         if (response.status === SUCCESS) {
-          // if (response.data && response.data.items) {
-          const questioList =
-            response.data.items.length == 1
+          if (response.data && response.data.items) {
+            const questionList = response.data.items[0].hasOwnProperty(
+              "cmsTextComponent"
+            )
               ? JSON.parse(response.data.items[0].cmsTextComponent.content)
               : JSON.parse(response.data.items[1].cmsTextComponent.content);
-          this.setState({
-            isOrderDatails: true,
-            orderList: false,
-            orderRelatedQuestion: false,
-            otherQuestion: false,
-            FAQquestion: true,
-            showQuestionList: true,
-            questionList: questioList,
-            parentIssueType: faq.FAQHeader,
-            questionType: NON_ORDER_REALTED_QUESTION,
-            showFeedBack: false,
-            isQuesryForm: false
-          });
-          // }
+            this.setState({
+              isOrderDatails: true,
+              orderList: false,
+              orderRelatedQuestion: false,
+              otherQuestion: false,
+              FAQquestion: true,
+              showQuestionList: true,
+              questionList: questionList,
+              parentIssueType: faq.FAQHeader,
+              questionType: NON_ORDER_REALTED_QUESTION,
+              showFeedBack: false,
+              isQuesryForm: false
+            });
+          }
         }
       }
     }
@@ -397,9 +397,6 @@ export default class OrderRelatedIssue extends React.Component {
     } else {
       return (
         <div className={styles.base}>
-          <MobileOnly>
-            <h1>Here is only mobile</h1>
-          </MobileOnly>
           <DesktopOnly>
             {this.state.isIssueOptions ? (
               <MoreHelps
@@ -483,8 +480,8 @@ export default class OrderRelatedIssue extends React.Component {
                       }
                       showFeedBack={this.state.showFeedBack}
                       question={this.state.question}
-                      getOrderRelatedQuestions={selcetOrder =>
-                        this.getOrderRelatedQuestions(selcetOrder)
+                      getOrderRelatedQuestions={(orderData, product) =>
+                        this.getOrderRelatedQuestions(orderData, product)
                       }
                       orderRelatedQuestionsStatus={orderRelatedQuestionsStatus}
                       isQuesryForm={this.state.isQuesryForm}

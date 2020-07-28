@@ -7,20 +7,18 @@ import ConnectKnowMore from "./ConnectKnowMore";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import ConnectBaseWidget from "./ConnectBaseWidget";
 import CommonCenter from "../../general/components/CommonCenter.js";
+import { WEB_URL_REG_EX } from "../../lib/constants";
+
 export default class ConnectWidget extends React.Component {
   handleClick(webURL) {
     if (webURL) {
-      const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1").trim();
-      if (webURL.includes("/luxury.tatacliq.com")) {
-        window.open(urlSuffix, "_blank");
-        window.focus();
-      } else if (webURL.includes("tatacliq.onelink.me")) {
-        window.open(urlSuffix, "_blank");
-        window.focus();
-      } else if (webURL.includes("/que")) {
-        window.open(urlSuffix, "_blank");
+      // Check if URL starts https://www.tatacliq.com or https://tatacliq.com
+      const isMatch = WEB_URL_REG_EX.test(webURL);
+      if (webURL.includes("/que") || !isMatch) {
+        window.open(webURL, "_blank");
         window.focus();
       } else {
+        const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1").trim();
         this.props.history.push(urlSuffix);
         if (this.props.setClickedElementId) {
           this.props.setClickedElementId();
@@ -46,9 +44,7 @@ export default class ConnectWidget extends React.Component {
           this.handleClick(this.props.feedComponentData.webURL);
         }}
         style={{
-          backgroundImage: `linear-gradient(165deg, ${
-            this.props.feedComponentData.startHexCode
-          } ,${this.props.feedComponentData.endHexCode})`
+          backgroundImage: `linear-gradient(165deg, ${this.props.feedComponentData.startHexCode} ,${this.props.feedComponentData.endHexCode})`
         }}
       >
         <MediaQuery query="(min-device-width: 1025px)">
@@ -64,9 +60,7 @@ export default class ConnectWidget extends React.Component {
             <div
               className={styles.buffer}
               style={{
-                backgroundImage: `url(${
-                  this.props.feedComponentData.backgroundImageURL
-                }`,
+                backgroundImage: `url(${this.props.feedComponentData.backgroundImageURL}`,
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "100% 100%",
                 backgroundPosition: "center"

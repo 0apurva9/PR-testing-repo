@@ -46,7 +46,6 @@ import {
   CHECKOUT_ROUTER,
   RETRY_PAYMENT_CART_ID,
   RETRY_PAYMENT_DETAILS,
-  COSTUMER_ORDER_RELATED_QUERY_ROUTE,
   CNCTOHD,
   RATE_THIS_ITEM,
   CATEGORY_FINE_JEWELLERY,
@@ -210,8 +209,21 @@ export default class AllOrderDetails extends React.Component {
         ...this.props,
         productDetails: productDetails
       });
+      if (
+        !productDetails.hasOwnProperty("userRating") ||
+        productDetails.userRating === 0
+      ) {
+        setTimeout(() => {
+          this.props.showRatingAndReviewModal({
+            ...this.props,
+            productDetails: productDetails,
+            rating: val
+          });
+        }, 3000);
+      }
     }
   };
+
   redirectToHelp = url => {
     // const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     // this.props.history.push(urlSuffix);
@@ -387,22 +399,40 @@ export default class AllOrderDetails extends React.Component {
     }
   }
   redirectToHelpPage(orderDetails) {
-    console.log("orderDetails", orderDetails);
     setDataLayer(ADOBE_MY_ACCOUNT_HELP_AND_SUPPORT);
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
     const orderCode = orderDetails.orderId;
     const transactionId = orderDetails.products[0].transactionId;
-    const selectedOrderObj = {
-      orderCode,
-      transactionId,
-      orderDetails: orderDetails
-    };
-    this.props.history.push({
-      pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
-      state: {
-        selectedOrderObj
+    if (orderDetails) {
+      if (orderDetails.products && orderDetails.products.length == 1) {
+        const selectedOrderObj = {
+          orderCode,
+          transactionId,
+          product: orderDetails.products[0]
+        };
+        this.props.history.push({
+          pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
+          state: {
+            selectedOrderObj
+          }
+        });
+      } else {
+        this.props.history.push(
+          `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`
+        );
       }
-    });
+    }
+    // const selectedOrderObj = {
+    //   orderCode,
+    //   transactionId,
+    //   orderDetails: orderDetails
+    // };
+    // this.props.history.push({
+    //   pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
+    //   state: {
+    //     selectedOrderObj
+    //   }
+    // });
   }
   onClickCncToHd(orderId, transactionId) {
     let isCncToHdOrderDetails = "";
@@ -442,7 +472,7 @@ export default class AllOrderDetails extends React.Component {
     if (UserAgent.checkUserAgentIsMobile()) {
       baseClassName = styles.base;
     }
-    let productsDetails = orderDetails && orderDetails.products;
+    // let productsDetails = orderDetails && orderDetails.products;
 
     return (
       <div className={baseClassName}>
@@ -908,7 +938,7 @@ export default class AllOrderDetails extends React.Component {
                                               <div
                                                 className={styles.reviewHeading}
                                               >
-                                                {RATE_THIS_ITEM}
+                                                Rate this product
                                               </div>
                                               <div className={styles.ratingBar}>
                                                 <FillupRatingOrder

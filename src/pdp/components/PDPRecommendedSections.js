@@ -41,21 +41,20 @@ class PDPRecommendedSections extends React.Component {
     super(props);
     this.selector = React.createRef();
   }
-  componentDidMount = () => {
-    const widgetsVisible =
-      this.selector &&
-      this.selector.current &&
-      this.selector.current.getBoundingClientRect();
-    if (widgetsVisible) {
-      setDataLayerForMsdItemWidgets(" ", ADOBE_CAROUSEL_SHOW);
-    }
-  };
   goToProductDescription = (url, items, widgetName, index) => {
     let similarWidgetData = {
       widgetName: widgetName,
       items: items
     };
-    getDigitalDataForPdp(SIMILAR_PRODUCTS_PDP_WIDGET, similarWidgetData);
+    let selectedWidgetID =
+      widgetName === "About the Brand"
+        ? 114
+        : widgetName === "Similar Products"
+        ? 0
+        : widgetName === "Frequently Bought Together"
+        ? 4
+        : 7;
+    // getDigitalDataForPdp(SIMILAR_PRODUCTS_PDP_WIDGET, similarWidgetData);
     let mainProduct =
       this.props.productData && this.props.productData.productDetails;
     let categoryHierarchy =
@@ -67,6 +66,7 @@ class PDPRecommendedSections extends React.Component {
       sourceProdID: mainProduct && mainProduct.productListingId,
       sourceCatgID:
         categoryHierarchy &&
+        Array.isArray(categoryHierarchy) &&
         categoryHierarchy[categoryHierarchy.length - 1].category_id,
       prodPrice:
         mainProduct &&
@@ -76,10 +76,11 @@ class PDPRecommendedSections extends React.Component {
           : mainProduct && mainProduct.mrpPrice && mainProduct.mrpPrice.value,
       destProdID: items && items.productListingId,
       prodPrice: items && items.mrp,
-      posOfReco: index
+      posOfReco: index,
+      widgetID: selectedWidgetID,
+      pageType: "pdp"
     };
     setDataLayerForMsdItemWidgets(jsonDetailsForWidgets, ADOBE_CAROUSEL_CLICK);
-    this.props.history.push(url);
     widgetsTrackingForRecommendation({
       widgetName: widgetName ? widgetName : "",
       pageName: "pdp",
@@ -90,6 +91,7 @@ class PDPRecommendedSections extends React.Component {
       category:
         widgetName == "About the Brand"
           ? categoryHierarchy &&
+            Array.isArray(categoryHierarchy) &&
             categoryHierarchy[categoryHierarchy.length - 1].category_name
           : widgetName == "Similar Products"
           ? this.props.recommendedItems.recommendedProducts[index + 1].ontology
@@ -97,8 +99,10 @@ class PDPRecommendedSections extends React.Component {
           ? this.props.recommendedItems.similarProducts[index + 1].ontology
           : "",
       PositionOfProduct: index + 1,
-      productId: items && items.productListingId
+      productId: items && items.productListingId,
+      widgetID: selectedWidgetID
     });
+    this.props.history.push(url);
   };
   visitBrand() {
     if (this.props.aboutTheBrand.webURL) {
@@ -218,23 +222,32 @@ class PDPRecommendedSections extends React.Component {
           elementWidth={45}
           elementWidthDesktop={25}
           parentData={this.props}
+          widgetName={widgetName}
         >
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
-            const productImage = transformedDatum.image;
-            const discountedPrice = transformedDatum.discountPrice;
+            const productImage =
+              transformedDatum &&
+              Array.isArray(transformedDatum.galleryImagesList) &&
+              transformedDatum.galleryImagesList[0] &&
+              Array.isArray(
+                transformedDatum.galleryImagesList[0].galleryImages
+              ) &&
+              transformedDatum.galleryImagesList[0].galleryImages[0] &&
+              transformedDatum.galleryImagesList[0].galleryImages[0].value;
             const mrpInteger =
               transformedDatum &&
-              transformedDatum.price &&
-              parseInt(transformedDatum.price.replace(RUPEE_SYMBOL, ""), 10);
-            const discount =
-              discountedPrice &&
-              Math.floor(
-                ((mrpInteger -
-                  parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
-                  mrpInteger) *
-                  100
-              );
+              transformedDatum.mrpPrice &&
+              transformedDatum.mrpPrice.doubleValue;
+            let seoDoublePrice =
+              transformedDatum.winningSellerPrice &&
+              transformedDatum.winningSellerPrice.doubleValue
+                ? transformedDatum.winningSellerPrice.doubleValue
+                : mrpInteger;
+            let discount =
+              mrpInteger && seoDoublePrice
+                ? Math.floor(((mrpInteger - seoDoublePrice) / mrpInteger) * 100)
+                : "";
             return (
               <ProductModule
                 key={i}
@@ -312,6 +325,32 @@ class PDPRecommendedSections extends React.Component {
           this.props.getRecentlyViewedProduct();
         }
       }
+      let mainProduct =
+        this.props.productData && this.props.productData.productDetails;
+      let categoryHierarchy =
+        this.props.productData &&
+        this.props.productData.productDetails &&
+        this.props.productData.productDetails.categoryHierarchy;
+      let widgetSelectedID =
+        this.props.msdItems && this.props.msdItems[ABOUT_THE_BRAND_WIDGET_KEY]
+          ? "About the Brand"
+          : "Similar Products";
+      let widgetShowObj = {
+        sourceProdID: mainProduct && mainProduct.productListingId,
+        sourceCatgID:
+          categoryHierarchy &&
+          Array.isArray(categoryHierarchy) &&
+          categoryHierarchy[categoryHierarchy.length - 1].category_id,
+        prodPrice:
+          mainProduct &&
+          mainProduct.winningSellerPrice &&
+          mainProduct.winningSellerPrice.doubleValue
+            ? mainProduct.winningSellerPrice.doubleValue
+            : mainProduct && mainProduct.mrpPrice && mainProduct.mrpPrice.value,
+        widgetID: widgetSelectedID,
+        pageType: "pdp"
+      };
+      setDataLayerForMsdItemWidgets(widgetShowObj, ADOBE_CAROUSEL_SHOW);
     }
   };
 

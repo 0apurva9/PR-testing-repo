@@ -3,6 +3,7 @@ import format from "date-fns/format";
 import styles from "./ExchangeDetailsOrderDetails.css";
 import exchangeIconLight from "../../cart/components/img/exchangeIconLight.svg";
 import ExchangeDetailsTrack from "./ExchangeDetailsTrack";
+import PropTypes from "prop-types";
 const dateFormat = "DD MMM YYYY";
 export default class ExchangeDetailsOrderDetails extends React.Component {
   constructor(props) {
@@ -91,70 +92,86 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
                   cellSpacing={0}
                 >
                   <tbody>
-                    <tr>
-                      <td>Base Value</td>
-                      <td>
-                        {
-                          this.props.products.exchangeDetails
-                            .exchangePriceDetail.exchangeAmountCashify
-                            .formattedValueNoDecimal
-                        }
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>CLiQ Exclusive Cashback</td>
-                      <td>
-                        {
-                          this.props.products.exchangeDetails
-                            .exchangePriceDetail.TULBump.formattedValueNoDecimal
-                        }
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Pick Up Charge </td>
-                      {this.props.products.exchangeDetails.exchangePriceDetail
-                        .pickupCharge.doubleValue === 0 && (
-                        <td className={styles.pickupCharge}>FREE</td>
-                      )}
-                      {this.props.products.exchangeDetails.exchangePriceDetail
-                        .pickupCharge.doubleValue !== 0 && (
+                    {this.props.products.exchangeDetails.exchangePriceDetail
+                      .exchangeAmountCashify && (
+                      <tr>
+                        <td>Base Value</td>
                         <td>
                           {
                             this.props.products.exchangeDetails
-                              .exchangePriceDetail.pickupCharge
+                              .exchangePriceDetail.exchangeAmountCashify
                               .formattedValueNoDecimal
                           }
                         </td>
-                      )}
-                    </tr>
-                    <tr>
-                      <td className={styles.borderWithPaddingTop}>
-                        Total Exchange Cashback{" "}
-                      </td>
-                      <td className={styles.borderWithPaddingTop}>
-                        {
-                          this.props.products.exchangeDetails
-                            .exchangePriceDetail.totalExchangeCashback
-                            .formattedValueNoDecimal
-                        }
-                      </td>
-                    </tr>
+                      </tr>
+                    )}
+                    {this.props.products.exchangeDetails.exchangePriceDetail
+                      .TULBump && (
+                      <tr>
+                        <td>CLiQ Exclusive Cashback</td>
+                        <td>
+                          {
+                            this.props.products.exchangeDetails
+                              .exchangePriceDetail.TULBump
+                              .formattedValueNoDecimal
+                          }
+                        </td>
+                      </tr>
+                    )}
+                    {this.props.products.exchangeDetails.exchangePriceDetail
+                      .pickupCharge && (
+                      <tr>
+                        <td>Pick Up Charge </td>
+                        {this.props.products.exchangeDetails.exchangePriceDetail
+                          .pickupCharge.doubleValue === 0 && (
+                          <td className={styles.pickupCharge}>FREE</td>
+                        )}
+                        {this.props.products.exchangeDetails.exchangePriceDetail
+                          .pickupCharge.doubleValue !== 0 && (
+                          <td>
+                            {
+                              this.props.products.exchangeDetails
+                                .exchangePriceDetail.pickupCharge
+                                .formattedValueNoDecimal
+                            }
+                          </td>
+                        )}
+                      </tr>
+                    )}
+                    {this.props.products.exchangeDetails.exchangePriceDetail
+                      .totalExchangeCashback && (
+                      <tr>
+                        <td className={styles.borderWithPaddingTop}>
+                          Total Exchange Cashback{" "}
+                        </td>
+                        <td className={styles.borderWithPaddingTop}>
+                          {
+                            this.props.products.exchangeDetails
+                              .exchangePriceDetail.totalExchangeCashback
+                              .formattedValueNoDecimal
+                          }
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
-                <div className={styles.effectivePriceContainer}>
-                  <div className={styles.effectivePriceText}>
-                    <span className={styles.fontLight}>
-                      Effective Price for
-                    </span>{" "}
-                    <span>{this.props.products.productName}</span>
+                {this.props.products.exchangeDetails.exchangePriceDetail
+                  .effectiveAmount && (
+                  <div className={styles.effectivePriceContainer}>
+                    <div className={styles.effectivePriceText}>
+                      <span className={styles.fontLight}>
+                        Effective Price for
+                      </span>{" "}
+                      <span>{this.props.products.productName}</span>
+                    </div>
+                    <div className={styles.effectivePrice}>
+                      {
+                        this.props.products.exchangeDetails.exchangePriceDetail
+                          .effectiveAmount.formattedValueNoDecimal
+                      }
+                    </div>
                   </div>
-                  <div className={styles.effectivePrice}>
-                    {
-                      this.props.products.exchangeDetails.exchangePriceDetail
-                        .effectiveAmount.formattedValueNoDecimal
-                    }
-                  </div>
-                </div>
+                )}
               </React.Fragment>
             )}
           </React.Fragment>
@@ -304,3 +321,59 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
     );
   }
 }
+
+ExchangeDetailsOrderDetails.propTypes = {
+  orderId: PropTypes.string,
+  history: PropTypes.object,
+  products: PropTypes.objectOf(
+    PropTypes.shape({
+      exchangeDetails: PropTypes.objectOf(
+        PropTypes.shape({
+          exchangeTrackDiagram: PropTypes.object,
+          exchangeModelName: PropTypes.string,
+          exchangePriceDetail: PropTypes.objectOf(
+            PropTypes.shape({
+              exchangeAmountCashify: PropTypes.objectOf(
+                PropTypes.shape({
+                  formattedValueNoDecimal: PropTypes.string
+                })
+              ),
+              TULBump: PropTypes.objectOf(
+                PropTypes.shape({
+                  formattedValueNoDecimal: PropTypes.string
+                })
+              ),
+              pickupCharge: PropTypes.objectOf(
+                PropTypes.shape({
+                  formattedValueNoDecimal: PropTypes.string
+                })
+              ),
+              totalExchangeCashback: PropTypes.objectOf(
+                PropTypes.shape({
+                  formattedValueNoDecimal: PropTypes.string
+                })
+              ),
+              effectiveAmount: PropTypes.objectOf(
+                PropTypes.shape({
+                  formattedValueNoDecimal: PropTypes.string
+                })
+              )
+            })
+          ),
+          exchangePickupPromiseDate: PropTypes.string, // check
+          exchangePickedUpDate: PropTypes.string, // check
+          exchangePaymentDetails: PropTypes.objectOf(
+            // check
+            PropTypes.shape({
+              exchangePaymentMode: PropTypes.string,
+              accountNumber: PropTypes.string
+            })
+          ),
+          exchangeCancelMessage: PropTypes.string
+        })
+      ),
+      productName: PropTypes.string,
+      consignmentStatus: PropTypes.string // check
+    })
+  )
+};

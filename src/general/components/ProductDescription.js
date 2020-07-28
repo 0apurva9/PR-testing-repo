@@ -143,7 +143,8 @@ export default class ProductDescription extends Component {
                 <div className={priceClass}>
                   <span>
                     {" "}
-                    {this.props.price.toString().includes(RUPEE_SYMBOL)
+                    {this.props.price &&
+                    this.props.price.toString().includes(RUPEE_SYMBOL)
                       ? this.props.price
                       : `${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}
                   </span>
@@ -152,7 +153,8 @@ export default class ProductDescription extends Component {
                 <div className={priceClass}>
                   <h3>
                     {" "}
-                    {this.props.price.toString().includes(RUPEE_SYMBOL)
+                    {this.props.price &&
+                    this.props.price.toString().includes(RUPEE_SYMBOL)
                       ? this.props.price
                       : `${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}
                   </h3>
