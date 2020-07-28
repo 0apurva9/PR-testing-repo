@@ -119,7 +119,6 @@ export default class SimilarProductsModal extends React.Component {
     this.props
       .getMsdRequest(this.props.viewSimilarProductOfId, true)
       .then(done => {
-        console.log("done!!!!!!!!!!!", done);
         this.setState({ showLoader: false });
       });
   }
