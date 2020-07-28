@@ -6062,18 +6062,17 @@ export function getValidDeliveryModeDetails(
       updatedDeliveryModes[productMode] = SHORT_COLLECT;
     }
   });
+  let index = 0;
   each(cartProductDetails, product => {
     if (product.isGiveAway === NO || isFromRetryUrl) {
       let selectedDeliveryModeDetails = "";
       //get the selected delivery Mode
       if (isFromRetryUrl) {
-        selectedDeliveryModeDetails = pincodeDetails.pinCodeResponseList[0].validDeliveryModes.find(
-          validDeliveryMode => {
-            return (
-              validDeliveryMode.type === updatedDeliveryModes[product.USSID]
-            );
-          }
-        );
+        selectedDeliveryModeDetails = pincodeDetails.pinCodeResponseList[
+          index
+        ].validDeliveryModes.find(validDeliveryMode => {
+          return validDeliveryMode.type === updatedDeliveryModes[product.USSID];
+        });
       } else {
         selectedDeliveryModeDetails = product.pinCodeResponse.validDeliveryModes.find(
           validDeliveryMode => {
@@ -6083,6 +6082,7 @@ export function getValidDeliveryModeDetails(
           }
         );
       }
+      index++;
       let productDetails = {};
       productDetails.ussId = product.USSID;
       productDetails.quantity = product.qtySelectedByUser;

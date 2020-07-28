@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./UserProfile.css";
-import Icon from "../../xelpmoc-core/Icon";
 import PropTypes from "prop-types";
 import { CDN_URL_ROOT } from "../../../src/lib/constants";
 import ProfileImage from "../../xelpmoc-core/ProfileImage";
@@ -20,12 +19,11 @@ export default class UserProfile extends React.Component {
             {(this.props.image || name) && (
               <div className={styles.userWithOutIcon}>
                 {this.props.image && <ProfileImage image={this.props.image} />}
-                {name &&
-                  name !== "undefined" && (
-                    <div className={styles.accountImageText}>
-                      {this.props.firstName}
-                    </div>
-                  )}
+                {name && name !== "undefined" && (
+                  <div className={styles.accountImageText}>
+                    {this.props.firstName}
+                  </div>
+                )}
               </div>
             )}
             {!this.props.image &&
@@ -38,7 +36,7 @@ export default class UserProfile extends React.Component {
           </div>
           <div className={styles.headindTextWithLink}>
             <div className={styles.headingText}>
-              {name && name !== "undefined" && this.props.heading}
+              {name && name !== "undefined" && heading}
               {this.props.lastName &&
                 this.props.lastName !== "undefined" &&
                 this.props.lastName}
@@ -50,54 +48,48 @@ export default class UserProfile extends React.Component {
             </div>
           </div>
         </div>
-        {this.props.userAddress &&
-          this.props.userAddress.addresses && (
-            <div className={styles.defaultAddressHolder}>
-              <div className={styles.deafultAddressLabel}>Default Address</div>
-              {this.props.userAddress &&
-                this.props.userAddress.addresses
-                  .filter(val => {
-                    return val.defaultAddress === true;
-                  })
-                  .map((datum, i) => {
-                    return (
-                      <div className={styles.addressWrap} key={i}>
-                        {datum.addressType && (
-                          <div className={styles.defaultAddressHeader}>
-                            {datum.addressType}
-                          </div>
-                        )}
-                        <div className={styles.addressLine1}>{datum.line1}</div>
-                        <div className={styles.addressLine1}>
-                          {datum.landmark}
+        {this.props.userAddress && this.props.userAddress.addresses && (
+          <div className={styles.defaultAddressHolder}>
+            <div className={styles.deafultAddressLabel}>Default Address</div>
+            {this.props.userAddress &&
+              this.props.userAddress.addresses
+                .filter(val => {
+                  return val.defaultAddress === true;
+                })
+                .map((datum, i) => {
+                  return (
+                    <div className={styles.addressWrap} key={i}>
+                      {datum.addressType && (
+                        <div className={styles.defaultAddressHeader}>
+                          {datum.addressType}
                         </div>
-                        <div className={styles.addressLine1}>
-                          {`${datum.state},${datum.postalCode} ,${datum.town}`}
-                        </div>
-
-                        <div className={styles.addressLine1}>
-                          {`ph :${datum.phone}`}
-                        </div>
+                      )}
+                      <div className={styles.addressLine1}>{datum.line1}</div>
+                      <div className={styles.addressLine1}>
+                        {datum.landmark}
                       </div>
-                    );
-                  })}
-            </div>
-          )}
+                      <div className={styles.addressLine1}>
+                        {`${datum.state},${datum.postalCode} ,${datum.town}`}
+                      </div>
+
+                      <div className={styles.addressLine1}>
+                        {`ph :${datum.phone}`}
+                      </div>
+                    </div>
+                  );
+                })}
+          </div>
+        )}
       </div>
     );
   }
 }
 UserProfile.propTypes = {
-  onClick: PropTypes.func,
-  title: PropTypes.string,
-  btnText: PropTypes.string,
-  backgroundColor: PropTypes.string,
-  logo: PropTypes.string,
   image: PropTypes.string,
-  header: PropTypes.string,
-  color: PropTypes.string
-};
-UserProfile.defaultProps = {
-  color: "#fff",
-  backgroundColor: "#ff1744"
+  firstName: PropTypes.string,
+  heading: PropTypes.string,
+  lastName: PropTypes.string,
+  userAddress: PropTypes.object,
+  loginType: PropTypes.string,
+  userLogin: PropTypes.string
 };

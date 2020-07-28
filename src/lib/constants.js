@@ -116,6 +116,8 @@ export const MY_ACCOUNT_ALERTS_PAGE = "/alerts";
 export const MY_ACCOUNT_COUPON_PAGE = "/coupons";
 export const MY_ACCOUNT_CART_PAGE = "/cart";
 export const MY_ACCOUNT_CLIQ_CASH_PAGE = "/cliq-cash";
+export const MY_ACCOUNT_CHECK_BALANCE_PAGE = "/checkbalance";
+
 export const EDIT_ADDRESS_BOOK = "/my-account/address-book/edit";
 export const COSTUMER_ORDER_RELATED_QUERY_ROUTE = "/order-related";
 export const COSTUMER_CLIQ_CARE_ROUTE = "/cliq-care";
@@ -265,6 +267,7 @@ export const ADDRESS_BOOK = "Address Book";
 export const ORDER_HISTORY = "Order History";
 export const CLIQ_CASH = "CLiQ Cash";
 export const GIFT_CARD = "Gift Card";
+export const GIFT_CARD_HEADER_TEXT = "Gift Card";
 export const YOUR_BAG = "Your Bag";
 export const CATEGORIES = "Categories";
 export const CHECKOUT = "Checkout";
@@ -297,6 +300,7 @@ export const CLIQ_CASH_TC = "/cliq-cash-tnc";
 export const HELP_URL = "/help";
 export const CONTACT_URL = "/contactus";
 export const BUYER_POLICY_URL = "/buyer-policies";
+export const MY_ACCOUNT_PROMOS_PAGE = "/promos";
 
 // constants for payments method
 export const EASY_MONTHLY_INSTALLMENTS = "Easy monthly installments";

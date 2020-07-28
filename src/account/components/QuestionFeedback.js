@@ -31,7 +31,9 @@ export default class QuestionFeedback extends Component {
           0,
           div.firstChild.href.indexOf(`{`)
         );
-        newURL = `${newURL}${this.props.selectedOrder.orderId}&transactionId=${this.props.selectedOrder.products[0].transactionId}`;
+        newURL = `${newURL}${this.props.selectedOrder.orderId}&transactionId=${
+          this.props.selectedOrder.products[0].transactionId
+        }`;
         div.firstChild.setAttribute("href", newURL);
         div.firstChild.setAttribute("target", "_blank");
         newSolution = `${newSolution.slice(0, startIndex)}${
@@ -48,11 +50,12 @@ export default class QuestionFeedback extends Component {
             : styles.otherQuestionAnswer
         }
       >
-        {!this.props.FAQquestion && this.props.parentIssueType && (
-          <div className={styles.prentIssueType}>
-            {this.props.parentIssueType.replace("&amp;", "&")}
-          </div>
-        )}
+        {!this.props.FAQquestion &&
+          this.props.parentIssueType && (
+            <div className={styles.prentIssueType}>
+              {this.props.parentIssueType.replace("&amp;", "&")}
+            </div>
+          )}
         {!this.props.FAQquestion && (
           <div className={styles.question}>
             {this.props.orderRelatedQuestion
@@ -66,7 +69,7 @@ export default class QuestionFeedback extends Component {
           dangerouslySetInnerHTML={{
             __html: newSolution
           }}
-        ></div>
+        />
         <div className={styles.feedBack}>
           <div className={styles.feedBackBox}>
             <div className={styles.feedBackHeader}>{`${
@@ -113,7 +116,7 @@ export default class QuestionFeedback extends Component {
             styles.questionsAction,
             this.props.otherQuestion ? styles.maginBottom : null
           ].join(" ")}
-        ></div>
+        />
       </div>
     );
   }

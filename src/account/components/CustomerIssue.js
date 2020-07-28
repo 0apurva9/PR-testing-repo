@@ -31,7 +31,7 @@ export default class CustomerIssue extends React.Component {
                 {!this.props.isUserLogin ? (
                   <div className={styles.loginBox}>
                     <div className={styles.loginImg}>
-                      <img src={loginIcon} alt="Login icon"></img>
+                      <img src={loginIcon} alt="Login icon" />
                     </div>
                     <div className={styles.loginHeading}>
                       Need help with recent orders
