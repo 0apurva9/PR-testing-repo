@@ -278,7 +278,6 @@ export default class CartItemForDesktop extends React.Component {
     if (this.props.sizeType === "Power" && this.props.size > 0) {
       sizeValue = `+${this.props.size}`;
     }
-    console.log("this.props", this.props);
     return (
       <div className={styles.base}>
         <div className={styles.productImage}>
