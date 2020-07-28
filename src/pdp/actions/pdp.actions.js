@@ -216,6 +216,7 @@ export const PDP_MANUFACTURER_FAILURE = "PDP_MANUFACTURER_FAILURE";
 export const PDP_RECENTLY_VIEWED_REQUEST = "PDP_RECENTLY_VIEWED_REQUEST";
 export const PDP_RECENTLY_VIEWED_SUCCESS = "PDP_RECENTLY_VIEWED_SUCCESS";
 export const PDP_RECENTLY_VIEWED_FAILURE = "PDP_RECENTLY_VIEWED_FAILURE";
+export const CLEAR_ALL_MSD_ITEMS = "CLEAR_ALL_MSD_ITEMS";
 
 export function getProductDescriptionRequest() {
   return {
@@ -1203,6 +1204,11 @@ export function getMsdRequest(
     } catch (e) {
       dispatch(productMsdFailure(e.message));
     }
+  };
+}
+export function clearAllMsdItems() {
+  return {
+    type: CLEAR_ALL_MSD_ITEMS
   };
 }
 export function productMsdRecentlyViewedRequest() {

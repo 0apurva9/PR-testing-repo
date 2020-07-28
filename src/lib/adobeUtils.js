@@ -3171,35 +3171,90 @@ export function setDataLayerForOrderConfirmationDirectCalls(
     }
   }
   if (type === ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE) {
-    const data = {
-      page: {
+    let orderData = localStorage.getItem(
+      constants.DIGITAL_DATA_FOR_BEFORE_PAYMENT_CONFIRMATION
+    );
+    if (orderData && orderData !== "undefined") {
+      Object.assign(window.digitalData, JSON.parse(orderData));
+    }
+    let data = window.digitalData;
+    if (data && data.page) {
+      Object.assign(data.page, {
         pageInfo: {
           pageName: "order failed",
           pageType: "Order Fail"
         },
         category: {
-          primaryCategory: "orderfailed"
+          primaryCategory: "orderfailed",
+          subCategory1:
+            window.digitalData.page &&
+            window.digitalData.page.category &&
+            window.digitalData.page.category.subCategory1,
+          subCategory2:
+            window.digitalData.page &&
+            window.digitalData.page.category &&
+            window.digitalData.page.category.subCategory2,
+          subCategory3:
+            window.digitalData.page &&
+            window.digitalData.page.category &&
+            window.digitalData.page.category.subCategory3
         }
-      },
-      cpj: {
+      });
+    } else {
+      Object.assign(data, {
+        page: {
+          pageInfo: {
+            pageName: "order failed",
+            pageType: "Order Fail"
+          },
+          category: {
+            primaryCategory: "orderfailed",
+            subCategory1:
+              window.digitalData.page &&
+              window.digitalData.page.category &&
+              window.digitalData.page.category.subCategory1,
+            subCategory2:
+              window.digitalData.page &&
+              window.digitalData.page.category &&
+              window.digitalData.page.category.subCategory2,
+            subCategory3:
+              window.digitalData.page &&
+              window.digitalData.page.category &&
+              window.digitalData.page.category.subCategory3
+          }
+        }
+      });
+    }
+    if (data && data.cpj) {
+      Object.assign(data.cpj, {
         order: {
           failureReason:
             orderConfirmationResponse && orderConfirmationResponse.failureReason
               ? orderConfirmationResponse.failureReason
-              : ""
-        },
-        product: {
-          price:
-            orderConfirmationResponse && orderConfirmationResponse.price
-              ? orderConfirmationResponse.price
               : "",
           id:
             orderConfirmationResponse && orderConfirmationResponse.orderId
               ? orderConfirmationResponse.orderId
               : ""
         }
-      }
-    };
+      });
+    } else {
+      Object.assign(data, {
+        cpj: {
+          order: {
+            failureReason:
+              orderConfirmationResponse &&
+              orderConfirmationResponse.failureReason
+                ? orderConfirmationResponse.failureReason
+                : "",
+            id:
+              orderConfirmationResponse && orderConfirmationResponse.orderId
+                ? orderConfirmationResponse.orderId
+                : ""
+          }
+        }
+      });
+    }
 
     window.digitalData = data;
     if (window._satellite) {
@@ -3428,6 +3483,11 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
         );
       }
     }
+    data = Object.assign(window.digitalData, data);
+    localStorage.setItem(
+      "digitalDataForPaymentConfirmationBeforePayment",
+      JSON.stringify(data)
+    );
     if (window._satellite) {
       window._satellite.track(ADOBE_SELECT_PAYMENT_MODES);
     }
