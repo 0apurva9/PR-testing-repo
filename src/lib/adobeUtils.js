@@ -1561,9 +1561,10 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
         ? "New"
         : seasonData && seasonData.key === "Season"
           ? seasonData.value
-          : pdpResponse.isOnlineExclusive === "Y"
+          : pdpResponse && pdpResponse.isOnlineExclusive === "Y"
             ? "New"
-            : pdpResponse.isExchangeAvailable === true &&
+            : pdpResponse &&
+              pdpResponse.isExchangeAvailable === true &&
               pdpResponse.showExchangeTag === true
               ? "Exchange Offer"
               : pdpResponse &&
