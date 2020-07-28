@@ -27,49 +27,51 @@ const MoreHelps = props => {
           Pro tip: Raise a complaint for faster resolution.
         </div>
 
-        {props.selectedOrder && props.selectedOrder.webform == YES && (
-          <div className={styles.actionButton}>
-            <div className={styles.actionWCMS}>
+        {props.selectedOrder &&
+          props.selectedOrder.webform == YES && (
+            <div className={styles.actionButton}>
+              <div className={styles.actionWCMS}>
+                <Button
+                  backgroundColor="#da1c5c"
+                  height={48}
+                  label="Write to us/ Raise a complaint"
+                  width={276}
+                  // color="#da1c5c"
+                  boxShadow="0 0 6px 2px rgba(0, 0, 0, 0.11)"
+                  borderRadius="6px"
+                  textStyle={{ color: "#fff", fontSize: 14 }}
+                  onClick={() => props.getCustomerQueriesFields()}
+                  icon={{
+                    element: <Icon image={editIcon} size={20} />,
+                    size: 20,
+                    width: 20,
+                    offset: 10
+                  }}
+                />
+              </div>
+            </div>
+          )}
+
+        <div className={styles.callChatBox}>
+          {props.selectedOrder &&
+            props.selectedOrder.chat == YES && (
               <Button
-                backgroundColor="#da1c5c"
-                height={48}
-                label="Write to us/ Raise a complaint"
-                width={276}
-                // color="#da1c5c"
-                boxShadow="0 0 6px 2px rgba(0, 0, 0, 0.11)"
-                borderRadius="6px"
-                textStyle={{ color: "#fff", fontSize: 14 }}
-                onClick={() => props.getCustomerQueriesFields()}
+                type="hollow"
+                label="Chat with us"
+                borderColor={""}
+                width={154}
+                height={30}
+                color={"#da1c5c"}
+                padding="0px 5px"
                 icon={{
-                  element: <Icon image={editIcon} size={20} />,
+                  element: <Icon image={chatIcon} size={20} />,
                   size: 20,
                   width: 20,
                   offset: 10
                 }}
+                // onClick={() => this.props.showAllQuestion()}
               />
-            </div>
-          </div>
-        )}
-
-        <div className={styles.callChatBox}>
-          {props.selectedOrder && props.selectedOrder.chat == YES && (
-            <Button
-              type="hollow"
-              label="Chat with us"
-              borderColor={""}
-              width={154}
-              height={30}
-              color={"#da1c5c"}
-              padding="0px 5px"
-              icon={{
-                element: <Icon image={chatIcon} size={20} />,
-                size: 20,
-                width: 20,
-                offset: 10
-              }}
-              // onClick={() => this.props.showAllQuestion()}
-            />
-          )}
+            )}
           {props.selectedOrder &&
             props.selectedOrder.click2Call == YES &&
             props.selectedOrder &&
@@ -77,36 +79,38 @@ const MoreHelps = props => {
               <div className={styles.lineSeperator} />
             )}
 
-          {props.selectedOrder && props.selectedOrder.click2Call == YES && (
-            <Button
-              type="hollow"
-              label="Call me back"
-              borderColor={""}
-              width={154}
-              height={30}
-              color={"#da1c5c"}
-              padding="0px 5px"
-              icon={{
-                element: <Icon image={callMeBack} size={20} />,
-                size: 20,
-                width: 20,
-                offset: 10
-              }}
-              // onClick={() => this.props.showAllQuestion()}
-            />
-          )}
+          {props.selectedOrder &&
+            props.selectedOrder.click2Call == YES && (
+              <Button
+                type="hollow"
+                label="Call me back"
+                borderColor={""}
+                width={154}
+                height={30}
+                color={"#da1c5c"}
+                padding="0px 5px"
+                icon={{
+                  element: <Icon image={callMeBack} size={20} />,
+                  size: 20,
+                  width: 20,
+                  offset: 10
+                }}
+                // onClick={() => this.props.showAllQuestion()}
+              />
+            )}
         </div>
-        {props.selectedOrder && props.selectedOrder.call == YES && (
-          <div className={styles.callBox}>
-            <div className={styles.contatUs}>
-              Or, alternatively contact us at
+        {props.selectedOrder &&
+          props.selectedOrder.call == YES && (
+            <div className={styles.callBox}>
+              <div className={styles.contatUs}>
+                Or, alternatively contact us at
+              </div>
+              <div className={styles.callIconNumber}>
+                <Icon image={call} size={20} />
+                <div className={styles.number}>90291 08282</div>
+              </div>
             </div>
-            <div className={styles.callIconNumber}>
-              <Icon image={call} size={20} />
-              <div className={styles.number}>90291 08282</div>
-            </div>
-          </div>
-        )}
+          )}
         <div className={styles.bottomButtonBox}>
           <div className={[styles.arrow, styles.leftArrow].join(" ")}> </div>
           <div

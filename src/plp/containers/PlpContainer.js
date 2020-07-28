@@ -8,7 +8,8 @@ import {
   hideFilter,
   setIfFilterHasBeenClicked,
   setProductModuleRef,
-  userSelectedOutOfStock
+  userSelectedOutOfStock,
+  getChatbotDetails
 } from "../../plp/actions/plp.actions.js";
 import { displayToast } from "../../general/toast.actions";
 
@@ -40,6 +41,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     userSelectedOutOfStock: flag => {
       dispatch(userSelectedOutOfStock(flag));
+    },
+    getChatbotDetails: async () => {
+      await dispatch(getChatbotDetails());
     }
   };
 };
@@ -62,7 +66,8 @@ const mapStateToProps = (state, ownProps) => {
     status: state.productListings.status,
     headerText: state.header.text,
     searchMsdData: state.productListings.searchMsdData,
-    banners: state.productListings.banners
+    banners: state.productListings.banners,
+    chatbotDetailsData: state.productListings.getChatbotDetailsData
   };
 };
 

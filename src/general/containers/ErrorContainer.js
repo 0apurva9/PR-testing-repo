@@ -165,9 +165,8 @@ class ErrorDisplay extends React.Component {
   }
 }
 
-const ErrorContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ErrorDisplay);
+const ErrorContainer = connect(mapStateToProps, mapDispatchToProps)(
+  ErrorDisplay
+);
 
 export default ErrorContainer;

@@ -1,0 +1,26 @@
+.toastContainer {
+  width: 213px;
+  height: auto;
+  min-height: 143px;
+  border-radius: 4.5px;
+  background-color: rgba(33, 33, 33, 0.7);
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 300px;
+  margin: auto;
+  z-index: 1000;
+  display: flex;
+	align-items: center;
+	flex-direction: column;
+  color: #fff;
+  -webkit-backdrop-filter: blur(2.2px);
+  backdrop-filter: blur(2.2px);
+}
+.ratingSuccessStar{
+	margin: 20px 0;
+}
+.successMessage{
+  font-size: 14px;
+  font-family: regular;
+}
