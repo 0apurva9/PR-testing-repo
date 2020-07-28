@@ -278,6 +278,7 @@ export default class CartItemForDesktop extends React.Component {
     if (this.props.sizeType === "Power" && this.props.size > 0) {
       sizeValue = `+${this.props.size}`;
     }
+    console.log("this.props", this.props);
     return (
       <div className={styles.base}>
         <div className={styles.productImage}>
@@ -317,7 +318,9 @@ export default class CartItemForDesktop extends React.Component {
                   <div className={styles.priceCancelled}>
                     <span
                       className={styles.cancelPrice}
-                    >{`${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}</span>
+                    >{`${RUPEE_SYMBOL}${Math.floor(
+                      this.props.product.price
+                    )}`}</span>
                     <span className={styles.discount}>
                       {this.props.discount && this.props.discount > 0
                         ? `(${this.props.discount}%)`
