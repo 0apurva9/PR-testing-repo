@@ -28,12 +28,8 @@ const Loader = () => {
 export default class CliqCashPromos extends Component {
   componentDidMount() {
     this.props.setHeaderText(CLIQ_CASH);
-    if (this.props.showKycVerification) {
-      this.props.showKycVerification(this.props);
-    } else {
-      if (this.props.getPromotionalCashStatement) {
-        this.props.getPromotionalCashStatement();
-      }
+    if (this.props.getPromotionalCashStatement) {
+      this.props.getPromotionalCashStatement();
     }
   }
   filteredOnlyPromos(promo) {

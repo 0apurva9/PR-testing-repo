@@ -81,8 +81,11 @@ export default class CliqCashDesktop extends React.Component {
     }
   }
   redirectToPromoCliqCash = () => {
-    if (this.props.showKycVerification) {
-      this.props.showKycVerification(this.props);
+    if (
+      this.props.cliqCashUserDetails &&
+      !this.props.cliqCashUserDetails.isWalletOtpVerified
+    ) {
+      this.kycVerification();
     } else {
       this.props.history.push(
         `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${MY_ACCOUNT_PROMOS_PAGE}`
