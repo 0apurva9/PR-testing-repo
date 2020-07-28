@@ -10,7 +10,6 @@ import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
   LOGIN_PATH,
-  COSTUMER_ORDER_RELATED_QUERY_ROUTE,
   COSTUMER_CLIQ_CARE_ROUTE,
   MY_ACCOUNT_PAGE,
   HOME_ROUTER
@@ -397,9 +396,6 @@ export default class OrderRelatedIssue extends React.Component {
     } else {
       return (
         <div className={styles.base}>
-          <MobileOnly>
-            <h1>Here is only mobile</h1>
-          </MobileOnly>
           <DesktopOnly>
             {this.state.isIssueOptions ? (
               <MoreHelps

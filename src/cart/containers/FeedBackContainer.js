@@ -6,21 +6,23 @@ import { setHeaderText } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions";
 const mapDispatchToProps = dispatch => {
   return {
-    getFeedBackForm: getUserDetails => {
-      dispatch(getFeedBackForm(getUserDetails));
+    getFeedBackForm: (getUserDetails, isReturnFlow) => {
+      dispatch(getFeedBackForm(getUserDetails, isReturnFlow));
     },
     postFeedBackForm: (
       commemt,
       questionRatingArray,
       transactionId,
-      originalUid
+      originalUid,
+      isReturnFlow
     ) => {
       dispatch(
         postFeedBackForm(
           commemt,
           questionRatingArray,
           transactionId,
-          originalUid
+          originalUid,
+          isReturnFlow
         )
       );
     },

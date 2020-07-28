@@ -56,28 +56,26 @@ export default class Promos extends Component {
             {this.promoText(promotype, time)}
           </div>
         )}
-        {promotype == "Received" &&
-          redeemStartDate > date && (
-            <div className={styles.availFromBlock}>
-              <div className={styles.availTxtBlock}>
-                <p className={styles.availFromtxt}>Available from</p>
-                <p className={styles.availFromDate}>{time}</p>
-              </div>
+        {promotype == "Received" && redeemStartDate > date && (
+          <div className={styles.availFromBlock}>
+            <div className={styles.availTxtBlock}>
+              <p className={styles.availFromtxt}>Available from</p>
+              <p className={styles.availFromDate}>{time}</p>
             </div>
-          )}
-        {promotype == "Received" &&
-          redeemStartDate < date && (
-            <div className={styles.promoContainer}>
-              {this.promo(promotype, date, redeemStartDate)}
-              <p className={styles.rewardAmt}>{amount}</p>
-              {this.promoText(
-                promotype,
-                expirignDateFormatted,
-                redeemStartDate,
-                date
-              )}
-            </div>
-          )}
+          </div>
+        )}
+        {promotype == "Received" && redeemStartDate < date && (
+          <div className={styles.promoContainer}>
+            {this.promo(promotype, date, redeemStartDate)}
+            <p className={styles.rewardAmt}>{amount}</p>
+            {this.promoText(
+              promotype,
+              expirignDateFormatted,
+              redeemStartDate,
+              date
+            )}
+          </div>
+        )}
       </React.Fragment>
     );
   }

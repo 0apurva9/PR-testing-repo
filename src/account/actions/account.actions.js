@@ -3692,6 +3692,7 @@ export function logoutUserFailure(error) {
 export function logoutUser() {
   return async (dispatch, getState, { api }) => {
     const globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     dispatch(logoutUserRequest());
     try {
       const result = await api.postFormData(

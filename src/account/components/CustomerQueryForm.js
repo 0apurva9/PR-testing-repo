@@ -77,9 +77,7 @@ export default class CustomerQueryForm extends Component {
           : "",
         name:
           nextProps.userDetails.firstName || nextProps.userDetails.lastName
-            ? `${nextProps.userDetails.firstName} ${
-                nextProps.userDetails.lastName
-              }`
+            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
             : "",
         mobile: nextProps.userDetails.mobileNumber
           ? nextProps.userDetails.mobileNumber
@@ -104,9 +102,7 @@ export default class CustomerQueryForm extends Component {
           : "",
         name:
           this.props.userDetails.firstName || this.props.userDetails.lastName
-            ? `${this.props.userDetails.firstName} ${
-                this.props.userDetails.lastName
-              }`
+            ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
             : "",
         mobile: this.props.userDetails.mobileNumber
           ? this.props.userDetails.mobileNumber

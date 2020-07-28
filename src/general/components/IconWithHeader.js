@@ -183,7 +183,16 @@ export default class IconWithHeader extends React.Component {
                   {this.props.dateFormatted}
                 </span>
                 {this.props.header && (
-                  <span className={styles.deliveyCharge}>
+                  <span
+                    className={
+                      this.props.header.toLowerCase() !== "free"
+                        ? styles.deliveyCharge
+                        : [
+                            styles.deliveyCharge,
+                            styles.deliveryChargeFree
+                          ].join(" ")
+                    }
+                  >
                     {this.props.header}
                   </span>
                 )}
@@ -326,12 +335,12 @@ export default class IconWithHeader extends React.Component {
                           )}`
                         : nextDayFormat === productDayFormatOfClqAndPiq &&
                           !this.props.notShowDay
-                          ? `, Tomorrow , ${this.getDayNumberSuffix(
-                              getClickAndPiqSelectedDate.pickupDate
-                            )}`
-                          : `, ${this.getDayNumberSuffix(
-                              getClickAndPiqSelectedDate.pickupDate
-                            )}`
+                        ? `, Tomorrow , ${this.getDayNumberSuffix(
+                            getClickAndPiqSelectedDate.pickupDate
+                          )}`
+                        : `, ${this.getDayNumberSuffix(
+                            getClickAndPiqSelectedDate.pickupDate
+                          )}`
                       : ""}
                   </div>
                   <div className={styles.changeButtonHolder}>

@@ -37,7 +37,7 @@
 .iconHolder {
   width: 35px;
   height: 35px;
-  
+
   /* position: absolute;
   left: 0px;
   top: 0px;
@@ -52,10 +52,10 @@
 }
 
 .paddingZero{
-  padding-right:0px; 
+  padding-right:0px;
 }
 .paddingDefault{
-  padding-right:24px; 
+  padding-right:24px;
 }
 
 .dateFormatted{
@@ -76,6 +76,11 @@ font-family: regular;
   display: inline-block;
   vertical-align: middle;
   border-left: 1px solid #8d8d8d;
+}
+.deliveryChargeFree {
+  color: #00964d;
+  font-family: regular;
+  text-transform: uppercase;
 }
 .fontRegular{
   font-family: regular;
