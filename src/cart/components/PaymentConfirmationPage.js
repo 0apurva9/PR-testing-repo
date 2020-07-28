@@ -5,6 +5,7 @@ import OrderDetailsCard from "./OrderDetailsCard.js";
 import OrderSucessCard from "./OrderSucessCard.js";
 import Icon from "../../xelpmoc-core/Icon";
 import OrderConfirmationFooter from "./OrderConfirmationFooter.js";
+import CustomInstructionContainer from "../../cart/containers/CustomInstructionContainer";
 import {
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_ORDERS_PAGE,
@@ -40,15 +41,13 @@ export default class PaymentConfirmationPage extends React.Component {
   }
   async componentDidMount() {
     let orderId = this.props.orderId;
-    let orderData = localStorage.getItem(DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION);
-    Object.assign(window.digitalData, orderData);
     if (!orderId) {
       let stripeDetails = localStorage.getItem("stripeDetails");
       let stripeDetailsJson = JSON.parse(stripeDetails);
       orderId = stripeDetailsJson.orderId;
     }
     if (orderId) {
-      let pageName = "paymentConfirmation";
+      let pageName = "order confirmation";
       await this.wait(7000);
       this.setState({ showloader: true });
       await this.props.fetchOrderDetails(orderId, pageName);
@@ -136,6 +135,9 @@ export default class PaymentConfirmationPage extends React.Component {
                       this.props.orderDetails.isEgvOrder
                     }
                   />
+                </div>
+                <div className={styles.orderBannerHolder}>
+                  <CustomInstructionContainer />
                 </div>
                 <MobileOnly>
                   <div className={styles.rateHolder}>
