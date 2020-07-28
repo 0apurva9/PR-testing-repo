@@ -77,7 +77,8 @@ import {
   upiPaymentISEnableMidddleLayer,
   softReservationPaymentForUPI,
   upiPaymentHowItWorksMidddleLayer,
-  upiPaymentCombinedLogoMidddleLayer
+  upiPaymentCombinedLogoMidddleLayer,
+  instaCredISEnableMidddleLayer
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -828,6 +829,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     upiPaymentCombinedLogoMidddleLayer: () => {
       dispatch(upiPaymentCombinedLogoMidddleLayer());
+    },
+    instaCredISEnableMidddleLayer: () => {
+      dispatch(instaCredISEnableMidddleLayer());
     },
     softReservationPaymentForUPI: (
       paymentMethodType,

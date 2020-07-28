@@ -17,6 +17,7 @@ import {
 } from "../../general/modal.actions";
 import { addProductReview } from "../../pdp/actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions";
+import { getProductDescription } from "../../pdp/actions/pdp.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getAllOrdersDetails: showDataAccordingToUser => {
@@ -61,6 +62,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     hideModal: () => {
       dispatch(hideModal());
+    },
+    getProductDescription: productCode => {
+      return dispatch(getProductDescription(productCode));
     }
   };
 };

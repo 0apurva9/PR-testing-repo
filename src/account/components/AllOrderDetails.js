@@ -48,6 +48,8 @@ import {
   RETRY_PAYMENT_DETAILS,
   CNCTOHD,
   RATE_THIS_ITEM,
+  CATEGORY_FINE_JEWELLERY,
+  CATEGORY_FASHION_JEWELLERY,
   COSTUMER_CLIQ_CARE_ROUTE
 } from "../../lib/constants";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
@@ -344,7 +346,7 @@ export default class AllOrderDetails extends React.Component {
       this.props.reSendEmailForGiftCard(orderId);
     }
   };
-  onClickRetryPayment = async retryUrl => {
+  onClickRetryPayment = async (retryUrl, products) => {
     let retryPaymentSplitUrl = retryUrl.split("?")[1].split("&");
     let guId = retryPaymentSplitUrl[0].split("value=")[1];
     let userId = retryPaymentSplitUrl[1].split("userId=")[1];
@@ -359,11 +361,31 @@ export default class AllOrderDetails extends React.Component {
           RETRY_PAYMENT_DETAILS,
           JSON.stringify(retryPaymentDetailsObject)
         );
-        this.props.history.push({
-          pathname: CHECKOUT_ROUTER,
-          state: {
-            isFromRetryUrl: true,
-            retryPaymentGuid: guId
+        let isJewelleryProduct = false,
+          productDetailsResponse = null;
+
+        products.map(async (data, index) => {
+          productDetailsResponse = await this.props.getProductDescription(
+            data.productcode
+          );
+          let { status, productDescription } = productDetailsResponse;
+          if (productDetailsResponse && status === SUCCESS) {
+            if (
+              productDescription.rootCategory === CATEGORY_FINE_JEWELLERY ||
+              productDescription.rootCategory === CATEGORY_FASHION_JEWELLERY
+            ) {
+              isJewelleryProduct = true;
+            }
+          }
+          if (status === SUCCESS && index === products.length - 1) {
+            this.props.history.push({
+              pathname: CHECKOUT_ROUTER,
+              state: {
+                isFromRetryUrl: true,
+                retryPaymentGuid: guId,
+                isJewelleryAvailable: isJewelleryProduct
+              }
+            });
           }
         });
       }
@@ -720,7 +742,8 @@ export default class AllOrderDetails extends React.Component {
                                       }}
                                       onClick={() =>
                                         this.onClickRetryPayment(
-                                          orderDetails.retryPaymentUrl
+                                          orderDetails.retryPaymentUrl,
+                                          orderDetails.products
                                         )
                                       }
                                     />
@@ -1004,7 +1027,8 @@ export default class AllOrderDetails extends React.Component {
                                             }}
                                             onClick={() =>
                                               this.onClickRetryPayment(
-                                                orderDetails.retryPaymentUrl
+                                                orderDetails.retryPaymentUrl,
+                                                orderDetails.products
                                               )
                                             }
                                           />

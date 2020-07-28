@@ -94,7 +94,7 @@ export default class AllOrdersList extends Component {
                               {getDayNumberSuffix(product.deliveryDate, true)}
                             </span>
                           </div>
-                        ) : null}    
+                        ) : null}
                       </div>
                     </div>
                   </div>

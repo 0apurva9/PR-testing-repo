@@ -288,6 +288,13 @@ export const UPI_MIDDLE_LAYER_IS_ENABLE_SUCCESS =
 export const UPI_MIDDLE_LAYER_IS_ENABLE_FAILURE =
   "UPI_MIDDLE_LAYER_IS_ENABLE_FAILURE";
 
+export const INSTACRED_MIDDLE_LAYER_IS_ENABLE_REQUEST =
+  "INSTACRED_MIDDLE_LAYER_IS_ENABLE_REQUEST";
+export const INSTACRED_MIDDLE_LAYER_IS_ENABLE_SUCCESS =
+  "INSTACRED_MIDDLE_LAYER_IS_ENABLE_SUCCESS";
+export const INSTACRED_MIDDLE_LAYER_IS_ENABLE_FAILURE =
+  "INSTACRED_MIDDLE_LAYER_IS_ENABLE_FAILURE";
+
 export const COLLECT_PAYMENT_ORDER_FOR_UPI_REQUEST =
   "COLLECT_PAYMENT_ORDER_FOR_UPI_REQUEST";
 export const COLLECT_PAYMENT_ORDER_FOR_UPI_SUCCESS =
@@ -2157,6 +2164,59 @@ export function upiPaymentISEnableMidddleLayer(orderId) {
   };
 }
 
+/**
+ * EOC
+ */
+
+/**
+ * Code for Instacred Middle Layer
+ */
+
+export function instaCredISEnableMidddleLayerRequest() {
+  return {
+    type: INSTACRED_MIDDLE_LAYER_IS_ENABLE_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function instaCredISEnableMidddleLayerSuccess(
+  instaCredISEnableMidddleLayerDetails
+) {
+  return {
+    type: INSTACRED_MIDDLE_LAYER_IS_ENABLE_SUCCESS,
+    status: SUCCESS,
+    instaCredISEnableMidddleLayerDetails
+  };
+}
+
+export function instaCredISEnableMidddleLayerFailure(error) {
+  return {
+    type: INSTACRED_MIDDLE_LAYER_IS_ENABLE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function instaCredISEnableMidddleLayer() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(instaCredISEnableMidddleLayerRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=MP_DESKTOP_INSTACRED_ENABLED`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(instaCredISEnableMidddleLayerSuccess(resultJson));
+    } catch (e) {
+      dispatch(instaCredISEnableMidddleLayerFailure(e.message));
+    }
+  };
+}
 /**
  * EOC
  */
@@ -4541,6 +4601,55 @@ export function jusPayPaymentMethodTypeForPaypal(
         dispatch(setBagCount(0));
         localStorage.setItem(CART_BAG_DETAILS, []);
         // dispatch(generateCartIdForLoggedInUser());
+      } else {
+        throw new Error(resultJson.error_message);
+      }
+    } catch (e) {
+      dispatch(jusPayPaymentMethodTypeFailure(e.message));
+    }
+  };
+}
+
+export function jusPayPaymentMethodTypeForInstaCred(
+  paymentMethodType,
+  juspayOrderId,
+  bankName
+) {
+  // Mobile number will be activated with "Consumer Finance flow".
+  //let phone = localStorage.getItem('phone');
+  return async (dispatch, getState, { api }) => {
+    const params = {
+      payment_method_type: "NB",
+      redirect_after_payment: "true",
+      format: "json",
+      merchant_id: getState().cart.paymentModes.merchantID,
+      order_id: juspayOrderId,
+      payment_method: "NB_INSTACRED"
+      // Mobile number will be activated with "Consumer Finance flow".
+      // mobile_number:phone
+    };
+    localStorage.removeItem("phone");
+    let cardObject = Object.keys(params)
+      .map(key => {
+        return encodeURIComponent(key) + "=" + encodeURIComponent(params[key]);
+      })
+      .join("&");
+    dispatch(jusPayPaymentMethodTypeRequest());
+    dispatch(jusPayPaymentMethodTypeRequest());
+    try {
+      const result = await api.postJusPayUrlEncode(`txns?`, cardObject);
+      const resultJson = await result.json();
+      if (
+        resultJson.status === JUS_PAY_PENDING ||
+        resultJson.status === SUCCESS ||
+        resultJson.status === SUCCESS_CAMEL_CASE ||
+        resultJson.status === SUCCESS_UPPERCASE ||
+        resultJson.status === JUS_PAY_CHARGED
+      ) {
+        dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
+        dispatch(setBagCount(0));
+        localStorage.setItem(CART_BAG_DETAILS, []);
+        dispatch(generateCartIdForLoggedInUser());
       } else {
         throw new Error(resultJson.error_message);
       }
@@ -7677,6 +7786,14 @@ export function collectPaymentOrderForNetBanking(
       if (localStorage.getItem(PAYMENT_MODE_TYPE) === PAYPAL) {
         dispatch(
           jusPayPaymentMethodTypeForPaypal(
+            paymentMethodType,
+            resultJson.pspAuditId,
+            bankCode
+          )
+        );
+      } else if (localStorage.getItem(PAYMENT_MODE_TYPE) === "Instacred") {
+        dispatch(
+          jusPayPaymentMethodTypeForInstaCred(
             paymentMethodType,
             resultJson.pspAuditId,
             bankCode

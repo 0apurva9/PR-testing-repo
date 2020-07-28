@@ -2,7 +2,12 @@ import React from "react";
 import styles from "./NoCostEmi.css";
 import PropTypes from "prop-types";
 import { Collapse } from "react-collapse";
-import { NO_COST_EMI, STANDARD_EMI } from "../../lib/constants";
+import {
+  NO_COST_EMI,
+  STANDARD_EMI,
+  INSTACRED,
+  CARDLESS_EMI
+} from "../../lib/constants";
 export default class NoCostEmi extends React.Component {
   constructor(props) {
     super(props);
@@ -23,6 +28,10 @@ export default class NoCostEmi extends React.Component {
         this.props.onChangeEMIType(null);
       }
     }
+    if (this.props.EMIText === "Cardless EMI") {
+      this.props.selectInstacred(true);
+      this.props.onChange({ currentPaymentMode: INSTACRED });
+    }
     if (
       isOpen &&
       this.props.EMIText === STANDARD_EMI &&
@@ -37,6 +46,12 @@ export default class NoCostEmi extends React.Component {
       this.props.getBankAndTenureDetails
     ) {
       this.props.getBankAndTenureDetails();
+    }
+    if (isOpen && this.props.EMIText === CARDLESS_EMI) {
+      const isOpen = true;
+      this.setState({
+        isOpen
+      });
     }
   }
   componentWillReceiveProps(nextProps) {
