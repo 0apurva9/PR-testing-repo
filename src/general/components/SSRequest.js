@@ -21,7 +21,7 @@ export default class SSRquest extends Component {
         {this.props.raiseTiketRequest && (
           <div className={styles.requestBox}>
             <div className={styles.requestImg}>
-              <img src={ssloader} alt="Loader..."></img>
+              <img src={ssloader} alt="Loader..." />
             </div>
             <div className={styles.requestHeading}>
               We will get our best minds on this issue to resolve it
@@ -36,7 +36,7 @@ export default class SSRquest extends Component {
         {this.props.raiseTiketSucess && (
           <div className={styles.requestBox}>
             <div className={styles.requestImg}>
-              <img src={ssloaders} alt="Loader..."></img>
+              <img src={ssloaders} alt="Loader..." />
             </div>
             <div className={styles.requestHeading}>
               We have successfully registered your issue

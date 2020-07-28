@@ -28,6 +28,8 @@ import {
   EDIT,
   CNC_TO_HD_ORDER,
   MY_ACCOUNT_USER_NOTIFICATION_PAGE,
+  MY_ACCOUNT_PROMOS_PAGE,
+  MY_ACCOUNT_CHECK_BALANCE_PAGE,
   MY_ACCOUNT_EXCHANGE_MODE_SELECTION_PAGE
 } from "../../lib/constants.js";
 import AllOrderContainer from "../containers/AllOrderContainer";
@@ -36,6 +38,7 @@ import UserAlertsAndCouponsContainer from "../containers/UserAlertsAndCouponsCon
 import MyAccountBrandsContainer from "../containers/MyAccountBrandsContainer";
 import UpdateProfileContainer from "../containers/UpdateProfileContainer.js";
 import EditAddressBookContainer from "../containers/EditAddressBookContainer.js";
+import CheckBalanceContainer from "../containers/CheckBalanceContainer";
 import AddAddressContainer from "../containers/AddAddressContainer.js";
 import SaveListContainer from "../containers/SaveListContainer";
 import CliqCashContainer from "../containers/CliqCashContainer.js";
@@ -52,6 +55,8 @@ import ReturnEditAddressContainer from "../../return/containers/ReturnEditAddres
 import ReturnAddAddressContainer from "../../return/containers/ReturnAddAddressContainer.js";
 import CncToHdFlowContainer from "../containers/CncToHdFlowContainer.js";
 import NotificationContainer from "../containers/NotificationContainer.js";
+import CliqCashPromosContainer from "../containers/CliqCashPromosContainer.js";
+
 import ExchangeModeSelectionContainer from "../containers/ExchangeModeSelectionContainer";
 export default class MyAccountWrapper extends React.Component {
   componentDidMount() {
@@ -143,9 +148,20 @@ export default class MyAccountWrapper extends React.Component {
         />
         <Route
           exact
+          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${MY_ACCOUNT_PROMOS_PAGE}`}
+          component={CliqCashPromosContainer}
+        />
+        <Route
+          exact
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`}
           component={CliqCashContainer}
         />
+        <Route
+          exact
+          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CHECK_BALANCE_PAGE}`}
+          component={CheckBalanceContainer}
+        />
+
         <Route
           exact
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_DETAIL_PAGE}`}
