@@ -1163,7 +1163,6 @@ export default class PdpApparel extends React.Component {
               addToCartFromChatbot={true}
               getProductPinCode={this.props.getProductPinCode}
               isServiceableToPincode={productData.isServiceableToPincode}
-              pincodeError={this.props.pincodeError}
               displayToast={this.props.displayToast}
               addProductToCart={this.props.addProductToCart}
               addToCartResponseDetails={this.props.addToCartResponseDetails}

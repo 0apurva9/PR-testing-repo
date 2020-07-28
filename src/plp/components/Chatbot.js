@@ -79,7 +79,6 @@ export default class Chatbot extends React.Component {
       if (
         this.props.checkPincodeDetailsLoading !==
           nextProps.checkPincodeDetailsLoading &&
-        !nextProps.pincodeError &&
         !nextProps.isServiceableToPincode.productOutOfStockMessage &&
         !nextProps.isServiceableToPincode.productNotServiceableMessage
       ) {
@@ -94,10 +93,7 @@ export default class Chatbot extends React.Component {
         }
       } else {
         let errorMessage = "";
-        if (nextProps.pincodeError) {
-          this.props.displayToast(nextProps.pincodeError);
-          errorMessage = nextProps.pincodeError;
-        } else if (nextProps.isServiceableToPincode.productOutOfStockMessage) {
+        if (nextProps.isServiceableToPincode.productOutOfStockMessage) {
           this.props.displayToast(
             nextProps.isServiceableToPincode.productOutOfStockMessage
           );

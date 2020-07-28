@@ -3,7 +3,11 @@ import {
   REQUESTING,
   ERROR,
   FAILURE,
-  LOGGED_IN_USER_DETAILS
+  LOGGED_IN_USER_DETAILS,
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  CUSTOMER_ACCESS_TOKEN,
+  GLOBAL_ACCESS_TOKEN,
+  ANONYMOUS_USER
 } from "../../lib/constants";
 import {
   showSecondaryLoader,
@@ -22,6 +26,9 @@ import * as Cookie from "../../lib/Cookie";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent";
 import { COMPONENT_BACK_UP_FAILURE } from "../../home/actions/home.actions";
 import { isBrowser } from "browser-or-node";
+import { displayToast } from "../../general/toast.actions.js";
+import * as ErrorHandling from "../../general/ErrorHandling.js";
+export const PRODUCT_DETAILS_PATH = "v2/mpl/users";
 export const PRODUCT_LISTINGS_REQUEST = "PRODUCT_LISTINGS_REQUEST";
 export const PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR =
   "PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR";
@@ -68,6 +75,12 @@ export const GET_PLP_BANNERS_FAILURE = "GET_PLP_BANNERS_FAILURE";
 export const GET_CHATBOT_DETAILS_REQUEST = "CHATBOT_DETAILS_REQUEST";
 export const GET_CHATBOT_DETAILS_SUCCESS = "GET_CHATBOT_DETAILS_SUCCESS";
 export const GET_CHATBOT_DETAILS_FAILURE = "GET_CHATBOT_DETAILS_FAILURE";
+export const CHECK_PIN_CODE_FROM_PLP_REQUEST =
+  "CHECK_PIN_CODE_FROM_PLP_REQUEST";
+export const CHECK_PIN_CODE_FROM_PLP_SUCCESS =
+  "CHECK_PIN_CODE_FROM_PLP_SUCCESS";
+export const CHECK_PIN_CODE_FROM_PLP_FAILURE =
+  "CHECK_PIN_CODE_FROM_PLP_FAILURE";
 
 export function setProductModuleRef(ref) {
   return {
@@ -578,6 +591,88 @@ export function getChatbotDetails() {
       }
     } catch (e) {
       dispatch(getChatbotDetailsFailure(e.message));
+    }
+  };
+}
+
+export function checkPincodeFromPLPRequest() {
+  return {
+    type: CHECK_PIN_CODE_FROM_PLP_REQUEST,
+    status: REQUESTING
+  };
+}
+export function checkPincodeFromPLPSuccess(data) {
+  return {
+    type: CHECK_PIN_CODE_FROM_PLP_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function checkPincodeFromPLPFailure(error) {
+  return {
+    type: CHECK_PIN_CODE_FROM_PLP_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function checkPincodeFromPLP(
+  pinCode,
+  productCode,
+  ussId,
+  isComingFromHaptikChatbot
+) {
+  let validProductCode = productCode.toUpperCase();
+  if (pinCode) {
+    localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, pinCode);
+  }
+  let checkPincodeFromHaptikChatbot = false;
+  if (isComingFromHaptikChatbot) {
+    checkPincodeFromHaptikChatbot = true;
+  }
+  return async (dispatch, getState, { api }) => {
+    dispatch(checkPincodeFromPLPRequest());
+    try {
+      let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+      let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+      let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      let url;
+      if (userDetails) {
+        let userName = JSON.parse(userDetails).userName;
+        let accessToken = JSON.parse(customerCookie).access_token;
+        url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false&isMDE=true`;
+      } else {
+        let userName = ANONYMOUS_USER;
+        let accessToken = JSON.parse(globalCookie).access_token;
+        url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false&isMDE=true`;
+      }
+      const result = await api.post(url);
+      const resultJson = await result.json();
+
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        return dispatch(checkPincodeFromPLPFailure(resultJsonStatus.message));
+      }
+
+      return dispatch(
+        checkPincodeFromPLPSuccess({
+          pinCode,
+          deliveryOptions:
+            resultJson &&
+            resultJson.listOfDataList &&
+            resultJson.listOfDataList[0] &&
+            resultJson.listOfDataList[0].value,
+          city: resultJson.city,
+          productOutOfStockMessage: resultJson.productOutOfStockMessage,
+          productNotServiceableMessage:
+            resultJson.productNotServiceabilityMessage,
+          checkPincodeFromHaptikChatbot: checkPincodeFromHaptikChatbot,
+          ussId: ussId
+        })
+      );
+    } catch (e) {
+      return dispatch(checkPincodeFromPLPFailure(e.message));
     }
   };
 }
