@@ -567,13 +567,17 @@
 }
 
 .promoCliqCashText{
-  padding-top: 9%;
+  padding-top: 8%;
   text-align: center;
   font-family: semibold;
 }
+.promoCliqCashText :first-child{
+  font-size: 27px;
+  margin-bottom: 1%;
+}
 .viewRewards{
   color: #da1c5c;
-  font-size:13px ;
+  font-size:18px ;
 }
 
 .flexJustify {
