@@ -24,8 +24,7 @@ export default class SimilarProductsModal extends React.Component {
       this.state.showLoader === false &&
       !this.props.msdItems[key] &&
       (this.props.status &&
-        (this.props.status.toLowerCase() === "success" ||
-          this.props.status.toLowerCase() === "failure" ||
+        (this.props.status.toLowerCase() === "failure" ||
           this.props.status.toLowerCase() === "error"))
     ) {
       return (
@@ -120,6 +119,7 @@ export default class SimilarProductsModal extends React.Component {
     this.props
       .getMsdRequest(this.props.viewSimilarProductOfId, true)
       .then(done => {
+        console.log("done!!!!!!!!!!!", done);
         this.setState({ showLoader: false });
       });
   }
