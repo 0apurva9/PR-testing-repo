@@ -112,6 +112,12 @@ export default class CliqCashPromos extends Component {
                     <span className={styles.amountSubset}>00</span>
                   </div>
                 </div>
+                <div className={styles.boxContainer}>
+                  {realItems &&
+                    realItems.map(item => {
+                      return <Promos item={item} />;
+                    })}
+                </div>
               </div>
               <div className={MyAccountStyles.userProfile}>
                 <UserProfile
