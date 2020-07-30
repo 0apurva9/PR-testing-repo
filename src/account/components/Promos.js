@@ -10,10 +10,10 @@ import { RECEIVED, PAID, EXPIRED, Expiring } from "../../lib/constants";
 const dateFormat = "DD MMM YYYY";
 
 export default class Promos extends Component {
-  promo = (promoType, date, expiryDate) => {
-    if (promoType === EXPIRED) {
+  promo = (promoType, date, expiryDate, transactionStatus) => {
+    if (promoType === "Expired" || transactionStatus == "CANCELLED") {
       return <img src={ExpiredImg} className={styles.rewardsTypeImg} />;
-    } else if (promoType === PAID) {
+    } else if (promoType === "Paid") {
       return <img src={Paid} className={styles.rewardsTypeImg} />;
     } else if (promoType === Expiring) {
       return <img src={ExpiringImg} className={styles.rewardsTypeImg} />;
@@ -23,7 +23,7 @@ export default class Promos extends Component {
       return null;
     }
   };
-  promoText = (promoType, time, expiringDate, date) => {
+  promoText = (promoType, time, expiringDate, date, transactionStatus) => {
     let dateTime = new Date().toISOString();
     if (promoType === PAID) {
       return <p className={styles.rewardExpDate}>Utilised: {time}</p>;
@@ -34,13 +34,17 @@ export default class Promos extends Component {
       return <p className={styles.rewardExpDate}>Expired on: {time}</p>;
     } else if (promoType === Expiring || expiringDate < date) {
       return <p className={styles.rewardExpDate}>Expiring on: {time}</p>;
+    } else if (transactionStatus == "CANCELLED" && expiringDate < 0) {
+      return <p className={styles.rewardExpDate}> Cancelled: {time}</p>;
     } else return null;
   };
 
   render() {
     let promotype = this.props.item.transactionType;
     let time = format(this.props.item.transactionDate, dateFormat);
+
     let amount = this.props.item.amount.formattedValue;
+    let transactionStatus = this.props.item.transactionStatus;
     let expiringDate = this.props.item.expiryDate;
     let redeemStartDate = Date.parse(this.props.item.redeemStartDate);
     let expirignDateFormatted = format(expiringDate, dateFormat);
@@ -52,9 +56,15 @@ export default class Promos extends Component {
         {" "}
         {promotype !== RECEIVED && (
           <div className={styles.promoContainer}>
-            {this.promo(promotype)}
+            {this.promo(promotype, date, redeemStartDate, transactionStatus)}
             <p className={styles.rewardAmt}>{amount}</p>
-            {this.promoText(promotype, time)}
+            {this.promoText(
+              promotype,
+              time,
+              redeemStartDate,
+              date,
+              transactionStatus
+            )}
           </div>
         )}
         {promotype == RECEIVED && redeemStartDate > date && (
@@ -65,15 +75,16 @@ export default class Promos extends Component {
             </div>
           </div>
         )}
-        {promotype == RECEIVED && redeemStartDate < date && (
+        {promotype == "Received" && redeemStartDate < date && (
           <div className={styles.promoContainer}>
-            {this.promo(promotype, date, redeemStartDate)}
+            {this.promo(promotype, date, redeemStartDate, transactionStatus)}
             <p className={styles.rewardAmt}>{amount}</p>
             {this.promoText(
               promotype,
-              expirignDateFormatted,
+              time,
               redeemStartDate,
-              date
+              date,
+              transactionStatus
             )}
           </div>
         )}

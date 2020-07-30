@@ -39,19 +39,43 @@ export default class OrderPaymentMethod extends React.Component {
     //     selectedOrderObj
     //   }
     // });
-    const selectedOrderObj = {
-      orderCode,
-      transactionId,
-      orderDetails: this.props.orderDetails
-    };
+
+    // const selectedOrderObj = {
+    //   orderCode,
+    //   transactionId,
+    //   orderDetails: this.props.orderDetails
+    // };
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
     // this.props.history.push(`${HELP_URL}`);
-    this.props.history.push({
-      pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
-      state: {
-        selectedOrderObj
+
+    if (this.props.orderDetails) {
+      if (
+        this.props.orderDetails.products &&
+        this.props.orderDetails.products.length == 1
+      ) {
+        const selectedOrderObj = {
+          orderCode,
+          transactionId,
+          product: this.props.orderDetails.products[0]
+        };
+        this.props.history.push({
+          pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
+          state: {
+            selectedOrderObj
+          }
+        });
+      } else {
+        this.props.history.push(
+          `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`
+        );
       }
-    });
+    }
+    // this.props.history.push({
+    //   pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
+    //   state: {
+    //     selectedOrderObj
+    //   }
+    // });
     // this.props.history.push(
     //   `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
     // );

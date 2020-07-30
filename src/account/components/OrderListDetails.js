@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "./CustomerIssue.css";
 import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 import QuestionFeedback from "./QuestionFeedback";
 import OrderActionButton from "./OrderActionButton";
 import ProductImage from "../../general/components/ProductImage.js";
@@ -68,6 +69,11 @@ class OrderListDetails extends Component {
   //       });
   //   }
   // }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.questionsList !== this.props.questionsList) {
+      window.scroll(0, 0);
+    }
+  }
 
   feedbak(question) {
     return (
@@ -86,18 +92,16 @@ class OrderListDetails extends Component {
       />
     );
   }
-
   showFaqSolutions(listOfIssue) {
     if (this.state.showFaqSolution != listOfIssue.question_component) {
       this.props.updateThanks();
     }
-
     this.setState({ showFaqSolution: listOfIssue.question_component });
   }
 
   render() {
     const { selectedOrder, slectOrderData } = this.props;
-    const product = slectOrderData && slectOrderData.products[0];
+    // const product = slectOrderData;
     return (
       <div>
         <div className={styles.whiteCard}>
@@ -144,86 +148,87 @@ class OrderListDetails extends Component {
               </div>
             )}
 
-          {this.props.slectOrderData &&
-            this.props.slectOrderData.products &&
-            this.props.slectOrderData.products.length &&
-            this.props.orderRelatedQuestion && (
-              <div
-                className={[
-                  styles.orderDetailsBox,
-                  this.props.isQuesryForm ? null : styles.orderDetailsSeperator
-                ].join(" ")}
-              >
-                <div className={styles.orderDetailsCard}>
-                  <div className={styles.orderDetailsImgBox}>
-                    <ProductImage image={product.imageURL} />
+          {slectOrderData && this.props.orderRelatedQuestion && (
+            <div
+              className={[
+                styles.orderDetailsBox,
+                this.props.isQuesryForm ? null : styles.orderDetailsSeperator
+              ].join(" ")}
+            >
+              <div className={styles.orderDetailsCard}>
+                <div className={styles.orderDetailsImgBox}>
+                  <ProductImage image={slectOrderData.imageURL} />
+                </div>
+                <div className={styles.orderDetailsContent}>
+                  <div className={styles.orderDesc}>
+                    {slectOrderData.productName}
                   </div>
-                  <div className={styles.orderDetailsContent}>
+                  {slectOrderData && (
                     <div className={styles.orderDesc}>
-                      {product.productName}
-                    </div>
-                    {this.props.selectedOrder &&
-                      this.props.selectedOrder.products && (
-                        <div className={styles.orderDesc}>
-                          <div className={styles.orderStatus}>
-                            Order status:{" "}
-                            <span className={styles.fontBold}>
-                              {product.statusDisplay ||
-                                product.displayStatusName}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-
-                    {product.pickUpDateCNC ? (
-                      product.statusDisplay === ORDER_IN_PROCESS ||
-                      product.statusDisplay === READY_FOR_COLLECTION ? (
-                        <div className={styles.orderStatus}>
-                          {PICKUP_DATE}&nbsp;
-                          <span className={styles.fontBold}>
-                            {getDayNumberSuffix(product.pickUpDateCNC, true)}
-                          </span>
-                        </div>
-                      ) : null
-                    ) : (product.statusDisplay === ORDER_CONFIRMED ||
-                        product.statusDisplay === ORDER_IN_PROCESS ||
-                        product.statusDisplay === SHIPPED ||
-                        product.statusDisplay === ITEM_PACKED ||
-                        product.statusDisplay === OUT_FOR_DELIVERY ||
-                        product.statusDisplay === READY_FOR_COLLECTION) &&
-                      (product.EDD || product.estimateddeliverydate) ? (
                       <div className={styles.orderStatus}>
-                        {ESTIMATED_DATE}&nbsp;
+                        Order status:{" "}
                         <span className={styles.fontBold}>
-                          {getDayNumberSuffix(
-                            product.EDD || product.estimateddeliverydate
-                          )}
+                          {slectOrderData.statusDisplay ||
+                            slectOrderData.displayStatusName}
                         </span>
                       </div>
-                    ) : selectedOrder.products[0].deliveryDate ? (
+                    </div>
+                  )}
+                  {slectOrderData.pickUpDateCNC ? (
+                    slectOrderData.statusDisplay === ORDER_IN_PROCESS ||
+                    slectOrderData.statusDisplay === READY_FOR_COLLECTION ? (
                       <div className={styles.orderStatus}>
-                        {DELIVERY_TEXT}&nbsp;
+                        {PICKUP_DATE}&nbsp;
                         <span className={styles.fontBold}>
                           {getDayNumberSuffix(
-                            selectedOrder.products[0].deliveryDate,
+                            slectOrderData.pickUpDateCNC,
                             true
                           )}
                         </span>
                       </div>
-                    ) : null}
-                  </div>
-                </div>
-                <div className={styles.moreAction}>
-                  <div className={styles.moreHeader}>More actions</div>
-                  <OrderActionButton
-                    selectedOrder={this.props.selectedOrder}
-                    sendInvoice={(ussid, sellerOrderNo) => {
-                      this.props.sendInvoice(ussid, sellerOrderNo);
-                    }}
-                  />
+                    ) : null
+                  ) : (slectOrderData.statusDisplay === ORDER_CONFIRMED ||
+                      slectOrderData.statusDisplay === ORDER_IN_PROCESS ||
+                      slectOrderData.statusDisplay === SHIPPED ||
+                      slectOrderData.statusDisplay === ITEM_PACKED ||
+                      slectOrderData.statusDisplay === OUT_FOR_DELIVERY ||
+                      slectOrderData.statusDisplay === READY_FOR_COLLECTION) &&
+                    (slectOrderData.EDD ||
+                      slectOrderData.estimateddeliverydate) ? (
+                    <div className={styles.orderStatus}>
+                      {ESTIMATED_DATE}&nbsp;
+                      <span className={styles.fontBold}>
+                        {getDayNumberSuffix(
+                          slectOrderData.EDD ||
+                            slectOrderData.estimateddeliverydate
+                        )}
+                      </span>
+                    </div>
+                  ) : selectedOrder &&
+                    selectedOrder.products[0].deliveryDate ? (
+                    <div className={styles.orderStatus}>
+                      {DELIVERY_TEXT}&nbsp;
+                      <span className={styles.fontBold}>
+                        {getDayNumberSuffix(
+                          selectedOrder.products[0].deliveryDate,
+                          true
+                        )}
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
               </div>
-            )}
+              <div className={styles.moreAction}>
+                <div className={styles.moreHeader}>More actions</div>
+                <OrderActionButton
+                  selectedOrder={this.props.selectedOrder}
+                  sendInvoice={(ussid, sellerOrderNo) => {
+                    this.props.sendInvoice(ussid, sellerOrderNo);
+                  }}
+                />
+              </div>
+            </div>
+          )}
 
           {this.props.showFeedBack && this.feedbak(this.props.question)}
 
@@ -317,5 +322,22 @@ class OrderListDetails extends Component {
     );
   }
 }
-
 export default withRouter(OrderListDetails);
+OrderListDetails.propTypes = {
+  isAnswerHelpFull: PropTypes.bool,
+  FAQquestion: PropTypes.bool,
+  isQuesryForm: PropTypes.bool,
+  isUserLogin: PropTypes.bool,
+  orderRelatedQuestion: PropTypes.bool,
+  otherQuestion: PropTypes.bool,
+  showFeedBack: PropTypes.bool,
+  showQuestionList: PropTypes.bool,
+  feedBackHelpFull: PropTypes.func,
+  getCustomerQueriesFields: PropTypes.func,
+  navigateCliqCarePage: PropTypes.func,
+  navigatePreviousPage: PropTypes.func,
+  updateThanks: PropTypes.func,
+  uploadUserFile: PropTypes.func,
+  selectedOrder: PropTypes.object,
+  slectOrderData: PropTypes.object
+};

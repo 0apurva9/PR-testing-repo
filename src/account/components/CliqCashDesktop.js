@@ -81,9 +81,16 @@ export default class CliqCashDesktop extends React.Component {
     }
   }
   redirectToPromoCliqCash = () => {
-    this.props.history.push(
-      `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${MY_ACCOUNT_PROMOS_PAGE}`
-    );
+    if (
+      this.props.cliqCashUserDetails &&
+      !this.props.cliqCashUserDetails.isWalletOtpVerified
+    ) {
+      this.kycVerification();
+    } else {
+      this.props.history.push(
+        `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${MY_ACCOUNT_PROMOS_PAGE}`
+      );
+    }
   };
   redeemCliqVoucher() {
     if (this.state.cardNumber && this.state.pinNumber) {

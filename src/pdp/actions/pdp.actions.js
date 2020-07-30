@@ -27,7 +27,9 @@ import {
   SET_DATA_LAYER_FOR_SUBMIT_REVIEW,
   setDataLayerForCartDirectCalls,
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
-  ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS
+  ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
+  setDataLayer,
+  ADOBE_PDP_TYPE
 } from "../../lib/adobeUtils.js";
 // import each from "lodash.foreach";
 import {
@@ -35,14 +37,12 @@ import {
   PRODUCT_IN_BAG_MODAL
 } from "../../general/modal.actions.js";
 import { setBagCount } from "../../general/header.actions";
-import { setDataLayer, ADOBE_PDP_TYPE } from "../../lib/adobeUtils.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { isBrowser } from "browser-or-node";
 import { getCartCountForLoggedInUser } from "../../cart/actions/cart.actions.js";
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
 import { displayToast } from "../../general/toast.actions.js";
-export const SUBMIT_REVIEW_TEXT =
-  "Thanks for submitting the review. Your review will start appearing shortly";
+export const SUBMIT_REVIEW_TEXT = "Thanks! Review submitted successfully";
 export const PRODUCT_DESCRIPTION_REQUEST = "PRODUCT_DESCRIPTION_REQUEST";
 export const PRODUCT_DESCRIPTION_SUCCESS = "PRODUCT_DESCRIPTION_SUCCESS";
 export const PRODUCT_DESCRIPTION_FAILURE = "PRODUCT_DESCRIPTION_FAILURE";
@@ -1273,7 +1273,7 @@ export function getRecentlyViewedProduct(productCode) {
           removedDuplicate &&
           removedDuplicate.map(id =>
             api.getMiddlewareUrl(
-              `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+              `${PRODUCT_DESCRIPTION_PATH}/${id}?isPwa=true&isMDE=true`
             )
           );
         //seprating each requests call
@@ -1282,13 +1282,11 @@ export function getRecentlyViewedProduct(productCode) {
           .then(responses => Promise.all(responses.map(r => r.json())))
           .then(results =>
             results.forEach(res => {
-              // const resultJsonStatus = ErrorHandling.getFailureResponse(res);
-              // if (resultJsonStatus.status) {
-              //   throw new Error(resultJsonStatus.message);
+              // if (res && res.results && res.results.length && res.results[0]) {
+              //   productList.push(res.results[0]);
               // }
-              // removed for handling error if product is not available
-              if (res && res.results && res.results.length && res.results[0]) {
-                productList.push(res.results[0]);
+              if (res && res.status === "SUCCESS") {
+                productList.push(res);
               }
             })
           );
@@ -1413,7 +1411,7 @@ export function getPdpItems(itemIds, widgetKey) {
         productCodes &&
         productCodes.map(id =>
           api.getMiddlewareUrl(
-            `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+            `${PRODUCT_DESCRIPTION_PATH}/${id}?isPwa=true&isMDE=true`
           )
         );
       // seperating individual calls
@@ -1427,8 +1425,8 @@ export function getPdpItems(itemIds, widgetKey) {
             //   throw new Error(resultJsonStatus.message);
             // }
             //changes done for handling error if product is not available
-            if (res && res.results && res.results.length) {
-              productList.push(...res.results);
+            if (res && res.status === "SUCCESS") {
+              productList.push(res);
             }
           })
         );

@@ -7,6 +7,10 @@ import {
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
 import CliqCashPromos from "../components/CliqCashPromos";
+import {
+  showModal,
+  GENERATE_OTP_FOR_CLIQ_CASH
+} from "../../general/modal.actions";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -21,6 +25,9 @@ const mapDispatchToProps = dispatch => {
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());
+    },
+    showKycVerification: data => {
+      dispatch(showModal(GENERATE_OTP_FOR_CLIQ_CASH, data));
     }
   };
 };

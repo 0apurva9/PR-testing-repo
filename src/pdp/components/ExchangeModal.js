@@ -8,7 +8,6 @@ import SelectDevice from "./SelectDevice";
 import ExchangeModalOtherDetails from "./ExchangeModalOtherDetails";
 import HowExchangeModalWorksLessDetails from "./HowExchangeModalWorksLessDetails";
 import ExchangeProductDetailsTab from "./ExchangeProductDetailsTab";
-// import * as customSelectDropDown from "../../mock/customSelectDropdown.js";
 import { ADD_TO_BAG_TEXT, PRODUCT_CART_ROUTER } from "../../lib/constants";
 import {
   setDataLayer,
@@ -21,6 +20,7 @@ import {
   ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS,
   ADOBE_MDE_CLICK_ON_VERIFY_IMEI
 } from "../../lib/adobeUtils";
+import PropTypes from "prop-types";
 export default class ExchangeModal extends React.Component {
   constructor(props) {
     super(props);
@@ -146,7 +146,6 @@ export default class ExchangeModal extends React.Component {
       exchangeBrandId: val.value,
       exchangeBrandName: val.label
     });
-    // customSelectDropDown.setCssModel();
   }
 
   onChangeSecondary(val) {
@@ -320,15 +319,41 @@ export default class ExchangeModal extends React.Component {
       data.status.toLowerCase() === "success" &&
       data.isIMEIVerified
     ) {
+      let deviceDetails = {
+        exchangeBrandId: data.exchangeBrandId,
+        exchangeBrandName: data.exchangeBrandName
+      };
+      let modelDetails = {
+        detailCheckNotAllowed: data.detailCheckNotAllowed,
+        effectiveAmount: data.effectiveAmount,
+        effectiveModelName: data.effectiveModelName,
+        exchangeAmountCashify: data.exchangeAmountCashify,
+        exchangeModelName: data.exchangeModelName,
+        exchangeProductId: data.exchangeProductId,
+        isIMEIVerified: data.isIMEIVerified,
+        isPickupAvailableForExchange: data.isPickupAvailableForExchange,
+        quoteExpired: data.quoteExpired,
+        totalExchangeCashback: data.totalExchangeCashback
+      };
+      deviceDetails.model = modelDetails;
+      if (data.pickupCharge) {
+        deviceDetails.pickupCharge = data.pickupCharge;
+      }
+      if (data.TULBump) {
+        deviceDetails.tulBump = data.TULBump;
+      }
+
       if (deviceNo === 1) {
         this.setState({
           checkIMEIMessageFirstDevice: this.state.IMEISuccessMessage,
-          IMEIVerifiedFirstDevice: true
+          IMEIVerifiedFirstDevice: true,
+          firstDeviceInfo: deviceDetails
         });
       } else {
         this.setState({
           checkIMEIMessageSecondDevice: this.state.IMEISuccessMessage,
-          IMEIVerifiedSecondDevice: true
+          IMEIVerifiedSecondDevice: true,
+          secondDeviceInfo: deviceDetails
         });
       }
       // this state is used in add to cart api call
@@ -740,3 +765,23 @@ export default class ExchangeModal extends React.Component {
     );
   }
 }
+
+ExchangeModal.propTypes = {
+  openHowExchangeWorksModal: PropTypes.func,
+  exchangeDetails: PropTypes.objectOf(
+    PropTypes.shape({
+      makeModelDetails: PropTypes.object,
+      pickupCharge: PropTypes.object,
+      TULBump: PropTypes.object
+    })
+  ),
+  updateProductState: PropTypes.func,
+  closeModal: PropTypes.func,
+  listingId: PropTypes.string,
+  ussId: PropTypes.string,
+  verifyIMEINumber: PropTypes.func,
+  addProductToCart: PropTypes.func,
+  displayToast: PropTypes.func,
+  history: PropTypes.object,
+  productName: PropTypes.string
+};

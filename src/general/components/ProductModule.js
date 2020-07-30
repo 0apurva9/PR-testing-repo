@@ -207,16 +207,19 @@ export default class ProductModule extends React.Component {
                 {...this.props}
                 electronicView={electronicView}
               />
-
-              <ProductInfo
-                isPlp={this.props.isPlp}
-                electronicView={electronicView}
-                averageRating={this.props.averageRating}
-                ratingCount={this.props.ratingCount}
-                offerText={this.props.offerText}
-                bestDeliveryInfo={this.props.bestDeliveryInfo}
-                maxExchangePrice={this.props.maxExchangePrice}
-              />
+              {this.props &&
+                !this.props.widgetName &&
+                this.props.widgetName === undefined && (
+                  <ProductInfo
+                    isPlp={this.props.isPlp}
+                    electronicView={electronicView}
+                    averageRating={this.props.averageRating}
+                    ratingCount={this.props.ratingCount}
+                    offerText={this.props.offerText}
+                    bestDeliveryInfo={this.props.bestDeliveryInfo}
+                    maxExchangePrice={this.props.maxExchangePrice}
+                  />
+                )}
             </div>
           </div>
           <React.Fragment>

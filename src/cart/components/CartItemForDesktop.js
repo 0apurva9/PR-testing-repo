@@ -178,7 +178,9 @@ export default class CartItemForDesktop extends React.Component {
         this.props.product.exchangeDetails.exchangeProductId,
         this.props.product.exchangeDetails.exchangePriceDetail
           .exchangeAmountCashify.value,
-        this.props.product.exchangeDetails.exchangePriceDetail.TULBump.value,
+        this.props.product.exchangeDetails.exchangePriceDetail.TULBump
+          ? this.props.product.exchangeDetails.exchangePriceDetail.TULBump.value
+          : null,
         this.props.product.exchangeDetails.exchangePriceDetail.pickupCharge
           .value,
         this.props.product.productcode,
@@ -309,6 +311,22 @@ export default class CartItemForDesktop extends React.Component {
                   )}
                 </div>
               )}
+              {this.props.product &&
+                this.props.product.price &&
+                this.props.product.price !== this.props.offerPrice && (
+                  <div className={styles.priceCancelled}>
+                    <span
+                      className={styles.cancelPrice}
+                    >{`${RUPEE_SYMBOL}${Math.floor(
+                      this.props.product.price
+                    )}`}</span>
+                    <span className={styles.discount}>
+                      {this.props.discount && this.props.discount > 0
+                        ? `(${this.props.discount}%)`
+                        : null}
+                    </span>
+                  </div>
+                )}
               {this.props.isGiveAway === NO &&
                 (!this.props.productIsServiceable && productMessage
                   ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE) && (

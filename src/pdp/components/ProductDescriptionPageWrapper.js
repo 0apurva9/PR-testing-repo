@@ -149,6 +149,10 @@ export default class ProductDescriptionPageWrapper extends React.Component {
         this.props.showPincodeModal(this.props.match.params[1]);
       }
     }
+    // get chatbot json details
+    if (this.props.getChatbotDetails) {
+      this.props.getChatbotDetails();
+    }
   };
 
   componentDidUpdate(prevProps, prevState) {
