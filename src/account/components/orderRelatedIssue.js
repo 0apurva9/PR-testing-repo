@@ -345,7 +345,6 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   render() {
-    console.log("check");
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let isUserLogin = false;
