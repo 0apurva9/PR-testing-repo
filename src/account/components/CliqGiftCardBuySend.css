@@ -16,7 +16,7 @@
   width: 309px;
 }
 .cliqGiftCardPdp {
-  border-bottom: 1px solid #d8d8d8;
+  border-bottom: 2px solid #d8d8d8;
   font-size: 12px;
   padding-bottom: 5px;
 }
@@ -30,7 +30,10 @@
   color: #212121;
   font-family: semibold;
   padding-bottom: 5px;
-  border-bottom: 2px solid #f2f2f2;
+  border-bottom: 2px solid #da1c5c;
+}
+.nonActive{
+  cursor: pointer;
 }
 .buyForYourself {
   font-size: 16px;
@@ -43,14 +46,15 @@
 .buyGiftCardEmailField{
   padding-bottom: 10px;
   padding-top: 14px;
-  width:300px;
+  width:60%;
 }
 .crossSign {
   position: relative;
   float: right;
   right: 9px;
   width: auto;
-  top: -21px;
+  bottom: 25px;
+  cursor: pointer;
 }
 .inputError {
   font-size: 10px;
@@ -75,6 +79,7 @@
   font-size: 11px;
   color: #da1c5c;
   font-family: semibold;
+  cursor: pointer;
 }
 .sendGiftCardBtn {
   padding-left: 25%;

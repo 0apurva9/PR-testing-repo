@@ -172,7 +172,9 @@ export default class CliqGiftCardBuySend extends Component {
                   senderName: this.props.senderName && this.props.senderName
                 })
               }
-              className={this.state.buyForYourself ? styles.activeTab : ""}
+              className={
+                this.state.buyForYourself ? styles.activeTab : styles.nonActive
+              }
             >
               Buy for yourself
             </span>
@@ -187,7 +189,9 @@ export default class CliqGiftCardBuySend extends Component {
                   senderName: this.props.senderName && this.props.senderName
                 })
               }
-              className={this.state.sendGiftCard ? styles.activeTab : ""}
+              className={
+                this.state.sendGiftCard ? styles.activeTab : styles.nonActive
+              }
             >
               Send as Gift card
             </span>

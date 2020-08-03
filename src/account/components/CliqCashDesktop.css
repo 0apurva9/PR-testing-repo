@@ -48,7 +48,7 @@
   }
 
   .heading {
-    padding: 0px 0px 0px 20px;
+    padding: 0px;
     font-family: semibold;
   }
   .checkBalLeftText {
@@ -60,7 +60,7 @@
     color: #da1c5c;
   }
   .cliqGiftCardSubHeader {
-    font-family: none;
+    font-family: regular;
     font-size: 16px;
     margin-top: 1.5%;
   }
@@ -584,6 +584,7 @@
   width: 100%;
   height: 180px;
   position: relative;
+  cursor: pointer;
 }
 
 .giftCardPromoContainer{
@@ -593,6 +594,7 @@
     height: 88%;
     max-width: 900px;
     background-size: cover;
+    cursor: pointer;
 }
 
 .promoCliqCashText{
@@ -651,16 +653,17 @@
 }
 
 .popularCardPriceBox {
-  padding: 30px 30px;
+  padding: 30px 0px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
 }
 
 .popularCardPrice {
-  width: 125px;
+  width: 140px;
   color: #be1a51;
-  font-size: 16px;
+  font-size: 20px;
   height: 52px;
   display: flex;
   align-items: center;
@@ -690,7 +693,9 @@
 }
 
 .popularCardButton {
-  padding-left: 25%;
+  width: 50%;
+  margin: auto;
+  cursor: pointer;
 }
 
 /**
