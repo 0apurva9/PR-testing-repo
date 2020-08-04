@@ -146,14 +146,6 @@ export default class CliqGiftCardBuySend extends Component {
     }
   }
 
-  starEmailId = email => {
-    let showStar = email
-      .split("")
-      .map(() => "*")
-      .join("");
-    this.setState({ showStar, starEmail: email });
-  };
-
   render() {
     return (
       <React.Fragment>
@@ -332,9 +324,9 @@ export default class CliqGiftCardBuySend extends Component {
                   noPadding={true}
                   placeholderMoving={true}
                   placeholderText={"Receiver's Email ID*"}
-                  value={this.state.showStar}
-                  onChange={email => this.starEmailId(email)}
-                  type="text"
+                  value={this.state.starEmail}
+                  onChange={email => this.setState({ starEmail: email })}
+                  type="password"
                   required={true}
                 />
               </div>
