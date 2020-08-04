@@ -78,7 +78,7 @@ export default class DesktopCheckout extends React.Component {
             ) : (
               <div className={styles.row}>
                 <div className={styles.label}>Shipping Charge</div>
-                <div className={styles.freeInfo}>FREE</div>
+                <div className={styles.info}>{RUPEE_SYMBOL}0.00</div>
               </div>
             )}
             {bagSubTotal && (

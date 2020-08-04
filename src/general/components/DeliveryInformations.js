@@ -239,9 +239,6 @@ export default class DeliveryInformations extends React.Component {
     }
 
     let deliveryCharge = "";
-    if (this.props.deliveryCharge === 0 && this.props.showDeliveryCharge) {
-      deliveryCharge = "Free";
-    }
     if (this.props.deliveryCharge && this.props.type !== SHORT_COLLECT) {
       if (this.props.showDeliveryCharge) {
         deliveryCharge = "Free";
