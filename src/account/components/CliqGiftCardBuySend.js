@@ -9,6 +9,8 @@ const PRODUCT_ID = "MP000000000127263";
 const QUANTITY = "1";
 const MOBILE_NUMBER = "999999999";
 
+export const EGV_GIFT_CART_ID = "giftCartId";
+
 export default class CliqGiftCardBuySend extends Component {
   constructor(props) {
     super(props);
@@ -32,6 +34,13 @@ export default class CliqGiftCardBuySend extends Component {
       this.setState({ selectedAmount: nextProps.selectedAmount });
     }
     if (nextProps.giftCardDetailsStatus === SUCCESS) {
+      let giftCardDetails = {};
+      giftCardDetails.isFromGiftCard = true;
+      giftCardDetails.egvCartGuid = nextProps.giftCardDetails.egvCartGuid;
+      giftCardDetails.amount = this.state.selectedAmount;
+      localStorage.setItem(EGV_GIFT_CART_ID, JSON.stringify(giftCardDetails));
+      localStorage.setItem("GiftCardAmount", this.state.selectedAmount);
+
       this.props.history.push({
         pathname: CHECKOUT_ROUTER,
         state: {
