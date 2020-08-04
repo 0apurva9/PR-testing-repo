@@ -7,7 +7,8 @@
 }
 
 .rewardsTypeImg {
-  max-width: 69%;
+  width: 138px;
+  height: 108px;
   display: block;
   margin: 0 auto 10px;
 }
@@ -15,14 +16,14 @@
 .rewardAmt {
   text-align: center;
   color: #212121;
-  font-size: 14px;
+  font-size: 24px;
   font-weight: 600;
-  line-height: 20px
+  margin-bottom: 6px
 }
 .rewardExpDate {
   text-align: center;
   color: #212121;
-  font-size: 15px;
+  font-size: 19px;
   font-weight: 300;
 }
 .availFromBlock {
