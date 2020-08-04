@@ -42,6 +42,11 @@ export default class CliqGiftCardBuySend extends Component {
       });
     }
   }
+  componentWillMount() {
+    if (this.props.clearGiftCardStatus) {
+      this.props.clearGiftCardStatus();
+    }
+  }
 
   onSubmitDetails() {
     let minValue = this.props.minPrice;

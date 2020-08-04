@@ -4,7 +4,8 @@ import { displayToast } from "../../general/toast.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 import {
   getGiftCardDetails,
-  createGiftCardDetails
+  createGiftCardDetails,
+  clearGiftCardStatus
 } from "../actions/account.actions";
 import { setHeaderText } from "../../general/header.actions";
 import {
@@ -36,6 +37,9 @@ const mapDispatchToProps = dispatch => {
     },
     createGiftCardDetails: giftCardDetails => {
       dispatch(createGiftCardDetails(giftCardDetails));
+    },
+    clearGiftCardStatus: () => {
+      dispatch(clearGiftCardStatus());
     }
   };
 };

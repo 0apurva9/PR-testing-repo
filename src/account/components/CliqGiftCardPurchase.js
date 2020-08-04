@@ -202,6 +202,7 @@ export default class CliqGiftCardPurchase extends Component {
               giftCardDetailsStatus={this.props.giftCardDetailsStatus}
               giftCardDetails={this.props.giftCardDetails}
               history={this.props.history}
+              clearGiftCardStatus={() => this.props.clearGiftCardStatus()}
             />
             <div className={styles.faqAndTcHolder}>
               <FaqAndTcBase history={this.props.history} />
