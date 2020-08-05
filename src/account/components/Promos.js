@@ -23,17 +23,26 @@ export default class Promos extends Component {
       return null;
     }
   };
-  promoText = (promoType, time, expiringDate, date, transactionStatus) => {
-    let dateTime = new Date().toISOString();
-    if (promoType === PAID) {
+  promoText = item => {
+    let today = new Date().getTime();
+
+    let expiringDate = new Date(item.expiryDate).getTime();
+
+    let transactionType = item.transactionType;
+    let transactionStatus = item.transactionStatus;
+
+    let time = format(item.transactionDate, dateFormat);
+    let formattedExpriry = format(expiringDate, dateFormat);
+    if (item.transactionType === "Paid") {
       return <p className={styles.rewardExpDate}>Utilised: {time}</p>;
-    } else if (
-      promoType === EXPIRED ||
-      Date.parse(dateTime) > Date.parse(expiringDate)
-    ) {
+    } else if (item.transactionType === "Expired" || expiringDate < today) {
       return <p className={styles.rewardExpDate}>Expired on: {time}</p>;
-    } else if (promoType === Expiring || expiringDate < date) {
+    } else if (item.transactionType === "Expiring") {
       return <p className={styles.rewardExpDate}>Expiring on: {time}</p>;
+    } else if (transactionType == "Received" && expiringDate > today) {
+      return (
+        <p className={styles.rewardExpDate}>Expiring on: {formattedExpriry}</p>
+      );
     } else if (transactionStatus == "CANCELLED" && expiringDate < 0) {
       return <p className={styles.rewardExpDate}> Cancelled: {time}</p>;
     } else return null;
@@ -41,15 +50,13 @@ export default class Promos extends Component {
 
   render() {
     let promotype = this.props.item.transactionType;
-    let time = format(this.props.item.transactionDate, dateFormat);
 
     let amount = this.props.item.amount.formattedValue;
     let transactionStatus = this.props.item.transactionStatus;
-    let expiringDate = this.props.item.expiryDate;
+
     let redeemStartDate = Date.parse(this.props.item.redeemStartDate);
-    let expirignDateFormatted = format(expiringDate, dateFormat);
+
     let date = new Date().getTime();
-    let dateTime = new Date().toISOString();
 
     return (
       <React.Fragment>
@@ -58,34 +65,23 @@ export default class Promos extends Component {
           <div className={styles.promoContainer}>
             {this.promo(promotype, date, redeemStartDate, transactionStatus)}
             <p className={styles.rewardAmt}>{amount}</p>
-            {this.promoText(
-              promotype,
-              time,
-              redeemStartDate,
-              date,
-              transactionStatus
-            )}
+            {this.promoText(this.props.item)}
           </div>
         )}
-        {promotype == RECEIVED && redeemStartDate > date && (
-          <div className={styles.availFromBlock}>
-            <div className={styles.availTxtBlock}>
-              <p className={styles.availFromtxt}>Available from</p>
-              <p className={styles.availFromDate}>{time}</p>
+        {promotype == RECEIVED &&
+          redeemStartDate > date && (
+            <div className={styles.availFromBlock}>
+              <div className={styles.availTxtBlock}>
+                <p className={styles.availFromtxt}>Available from</p>
+                <p className={styles.availFromDate}>{redeemStartDate}</p>
+              </div>
             </div>
-          </div>
-        )}
-        {promotype == "Received" && redeemStartDate < date && (
+          )}
+        {promotype == "Received" && (
           <div className={styles.promoContainer}>
             {this.promo(promotype, date, redeemStartDate, transactionStatus)}
             <p className={styles.rewardAmt}>{amount}</p>
-            {this.promoText(
-              promotype,
-              time,
-              redeemStartDate,
-              date,
-              transactionStatus
-            )}
+            {this.promoText(this.props.item)}
           </div>
         )}
       </React.Fragment>
