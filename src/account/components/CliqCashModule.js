@@ -103,7 +103,7 @@ export default class CliqCashModule extends Component {
               onClick={() => this.props.closeModal()}
             >
               {this.props.heading ? this.props.heading : "Gift Card Details"}
-              <div className={styles.hideModal}></div>
+              <div className={styles.hideModal} />
             </div>
             {this.props.checkBalance && this.props.isCheckBalance ? (
               <React.Fragment>
@@ -142,15 +142,6 @@ export default class CliqCashModule extends Component {
                   onlyNumber={true}
                   required={true}
                 />
-                {this.state.cardError ? (
-                  <span className={styles.cardNumberError}>
-                    {this.props.checkBalanceDetailsError !== ""
-                      ? this.props.checkBalanceDetailsError
-                      : "Enter a valid gift card number"}
-                  </span>
-                ) : (
-                  ""
-                )}
               </div>
               <div className={styles.cardNumber}>
                 <Input2
@@ -170,6 +161,15 @@ export default class CliqCashModule extends Component {
                   height={33}
                   required={true}
                 />
+                {this.state.cardError ? (
+                  <span className={styles.cardNumberError}>
+                    {this.props.checkBalanceDetailsError !== ""
+                      ? this.props.checkBalanceDetailsError
+                      : "Enter a valid gift card number"}
+                  </span>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
 
