@@ -1,14 +1,16 @@
 .promoContainer{
-  border-radius: 2px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  flex-basis: 42%;
-  margin: 20px 25px;
-  padding: 40px 10px 15px;
+  width: 50%;
+  padding: 10px;
+}
+.promo{
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.1);
+  padding: 40px 10px 25px;
 }
 
 .rewardsTypeImg {
-  width: 138px;
-  height: 108px;
+  width: 160px;
+  height: 160px;
   display: block;
   margin: 0 auto 10px;
 }
@@ -27,19 +29,25 @@
   font-weight: 300;
 }
 .availFromBlock {
-  background-image: url(./img/available_soon.svg);
+
+padding: 10px;
+width: 50%;
+}
+.recievedPromo{
+  background-image: url(/static/media/available_soon.96d8d89d.svg);
   background-size: 100% auto;
   background-repeat: no-repeat;
-  display: inline-block;
+  display: block;
+  width: 100%;
+  height: 100%;
   position: relative;
-  padding-bottom: 42%;
+
   border-radius: 8px;
   -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.1);
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  -ms-flex-preferred-size: 44%;
-  flex-basis: 43%;
+
+
   background-color: #ffd9e0;
-  margin: 20px;
 
 }
 /*

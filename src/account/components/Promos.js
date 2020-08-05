@@ -75,28 +75,34 @@ export default class Promos extends Component {
         {" "}
         {promotype !== RECEIVED && (
           <div className={styles.promoContainer}>
-            {this.promo(this.props.item)}
-            <p className={styles.rewardAmt}>{amount}</p>
-            {this.promoText(this.props.item)}
+            <div className={styles.promo}>
+              {this.promo(this.props.item)}
+              <p className={styles.rewardAmt}>{amount}</p>
+              {this.promoText(this.props.item)}
+            </div>
           </div>
         )}
         {promotype == RECEIVED &&
           redeemStartDate > date && (
             <div className={styles.availFromBlock}>
-              <div className={styles.availTxtBlock}>
-                <p className={styles.availFromtxt}>Available from</p>
-                <p className={styles.availFromDate}>
-                  {formattedRedeemStartDate}
-                </p>
+              <div className={styles.recievedPromo}>
+                <div className={styles.availTxtBlock}>
+                  <p className={styles.availFromtxt}>Available from</p>
+                  <p className={styles.availFromDate}>
+                    {formattedRedeemStartDate}
+                  </p>
+                </div>
               </div>
             </div>
           )}
         {promotype == RECEIVED &&
           redeemStartDate < date && (
             <div className={styles.promoContainer}>
-              {this.promo(this.props.item)}
-              <p className={styles.rewardAmt}>{amount}</p>
-              {this.promoText(this.props.item)}
+              <div className={styles.promo}>
+                {this.promo(this.props.item)}
+                <p className={styles.rewardAmt}>{amount}</p>
+                {this.promoText(this.props.item)}
+              </div>
             </div>
           )}
       </React.Fragment>
