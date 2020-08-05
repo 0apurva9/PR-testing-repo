@@ -356,8 +356,8 @@ export default class CliqCashDesktop extends React.Component {
                                 : this.showCliqCashModulePopUp()
                             }
                           >
-                            <div className={styles.addGiftCardButton}>
-                              <div className={styles.addGiftCardButtonText}>
+                            <div className={styles.addGiftCardButtonCliq}>
+                              <div className={styles.addGiftCardButtonTextCliq}>
                                 Add It Here
                               </div>
                             </div>

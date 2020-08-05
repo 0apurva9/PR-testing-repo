@@ -409,9 +409,23 @@
     background-color: transparent;
     border: 1px solid #ff1744;
   }
+  .addGiftCardButtonCliq {
+    height: 32px;
+    width: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    background-color: transparent;
+    border: 1px solid #4a4a4a;
+  }
   .addGiftCardButtonText {
     font-size: 14px;
     color: #da1c5c;
+  }
+  .addGiftCardButtonTextCliq {
+    font-size: 14px;
+    color: #4a4a4a;
   }
   .buyGiftCardContainer {
     width: 100%;
@@ -473,7 +487,7 @@
     align-items: center;
     border-radius: 16px;
     background-color: transparent;
-    border: 1px solid #ff1744;
+    border: 1px solid #4a4a4a;
   }
   .buyGiftCardButtonText {
     font-size: 14px;

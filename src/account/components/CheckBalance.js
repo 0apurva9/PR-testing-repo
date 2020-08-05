@@ -36,7 +36,7 @@ export default class CheckBalance extends Component {
       const oridinalDate = oridinalNumberDateFormat(dateFormated);
       const splitDate = oridinalDate.split(" ");
       return (
-        "Expiring on: " +
+        "Expiring on " +
         splitDate[0] +
         " of " +
         splitDate[1] +
@@ -55,7 +55,7 @@ export default class CheckBalance extends Component {
     ) {
       this.props.redeemCliqVoucher({
         cardNumber: this.props.checkBalanceDetails.cardNumber,
-        pinNumber: this.props.checkBalanceDetails.cardPin
+        cardPin: this.props.checkBalanceDetails.cardPin
       });
     } else {
       const obj = {};

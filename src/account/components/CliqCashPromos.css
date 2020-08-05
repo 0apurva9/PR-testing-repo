@@ -26,6 +26,9 @@
 .amountSubset{
     font-size: 22px;
 }
+.actualAmount {
+  font-weight: 600;
+}
 
 @media screen and (min-width: 1025px) {
   .base {

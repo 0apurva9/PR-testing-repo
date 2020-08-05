@@ -108,7 +108,9 @@ export default class CliqCashPromos extends Component {
                     <span
                       className={styles.amountSubset}
                     >{`${RUPEE_SYMBOL}`}</span>
-                    {`${String(promotionalAmount)}`}.
+                    <span className={styles.actualAmount}>
+                      {`${String(promotionalAmount)}`}.
+                    </span>
                     <span className={styles.amountSubset}>00</span>
                   </div>
                 </div>
