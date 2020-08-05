@@ -179,7 +179,7 @@ export default class CliqGiftCardPurchase extends Component {
                   type="number"
                   onlyNumber={true}
                   leftChildSize={this.state.selectedAmount !== "" ? 12 : 0}
-                  autofocus={true}
+                  autoFocus={true}
                 />
                 {!this.state.isValidAmount ? (
                   <div className={styles.topupInputError}>

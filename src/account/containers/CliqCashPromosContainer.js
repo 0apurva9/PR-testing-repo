@@ -35,7 +35,8 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     promotionalCashStatementDetails:
-      state.profile.promotionalCashStatementDetails
+      state.profile.promotionalCashStatementDetails,
+    userAddress: state.profile.userAddress
   };
 };
 
