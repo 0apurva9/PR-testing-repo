@@ -183,7 +183,16 @@ export default class IconWithHeader extends React.Component {
                   {this.props.dateFormatted}
                 </span>
                 {this.props.header && (
-                  <span className={styles.deliveyCharge}>
+                  <span
+                    className={
+                      this.props.header.toLowerCase() !== "free"
+                        ? styles.deliveyCharge
+                        : [
+                            styles.deliveyCharge,
+                            styles.deliveryChargeFree
+                          ].join(" ")
+                    }
+                  >
                     {this.props.header}
                   </span>
                 )}
