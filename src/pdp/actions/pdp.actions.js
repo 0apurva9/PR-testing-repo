@@ -42,7 +42,6 @@ import { isBrowser } from "browser-or-node";
 import { getCartCountForLoggedInUser } from "../../cart/actions/cart.actions.js";
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
 import { displayToast } from "../../general/toast.actions.js";
-import pdpJson from "../../mock/pdpProductBundling.json";
 export const SUBMIT_REVIEW_TEXT = "Thanks! Review submitted successfully";
 export const PRODUCT_DESCRIPTION_REQUEST = "PRODUCT_DESCRIPTION_REQUEST";
 export const PRODUCT_DESCRIPTION_SUCCESS = "PRODUCT_DESCRIPTION_SUCCESS";
@@ -268,11 +267,10 @@ export function getProductDescription(
           dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
         }
       }, TIME_OUT_FOR_APIS);
-      // const result = await api.getMiddlewareUrl(
-      //   `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true&isMDE=true`
-      // );
-      // const resultJson = await result.json();
-      const resultJson = pdpJson;
+      const result = await api.getMiddlewareUrl(
+        `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true&isMDE=true`
+      );
+      const resultJson = await result.json();
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
