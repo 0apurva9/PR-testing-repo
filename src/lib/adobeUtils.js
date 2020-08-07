@@ -1022,6 +1022,12 @@ export async function setDataLayer(
   if (type === ADOBE_CART_TYPE) {
     let newVariable = getDigitalDataForCart(type, response);
     window.digitalData = Object.assign(window.digitalData, newVariable);
+    if (window.digitalData) {
+      localStorage.setItem(
+        constants.DIGITAL_DATA_FOR_CART,
+        JSON.stringify(window.digitalData)
+      );
+    }
     if (window._satellite) {
       window._satellite.track(ADOBE_DIRECT_CALL_FOR_LANDING_USER);
     }
@@ -3172,12 +3178,6 @@ export function setDataLayerForOrderConfirmationDirectCalls(
     }
   }
   if (type === ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE) {
-    let orderData = localStorage.getItem(
-      constants.DIGITAL_DATA_FOR_BEFORE_PAYMENT_CONFIRMATION
-    );
-    if (orderData && orderData !== "undefined") {
-      Object.assign(window.digitalData, JSON.parse(orderData));
-    }
     let data = window.digitalData;
     if (data && data.page) {
       Object.assign(data.page, {
@@ -3274,6 +3274,37 @@ function setAccountData() {
 }
 export function setDataLayerForCheckoutDirectCalls(type, response) {
   let data = cloneDeep(window.digitalData);
+  let cartData = localStorage.getItem(constants.DIGITAL_DATA_FOR_CART);
+  if (cartData) {
+    cartData = JSON.parse(cartData);
+    Object.assign(data, cartData);
+    Object.assign(data, {
+      page: {
+        category: {
+          primaryCategory: "multistepcheckoutsummary",
+          subCategory1:
+            cartData &&
+            cartData.page &&
+            cartData.page.category &&
+            cartData.page.category.subCategory1,
+          subCategory2:
+            cartData &&
+            cartData.page &&
+            cartData.page.category &&
+            cartData.page.category.subCategory2,
+          subCategory3:
+            cartData &&
+            cartData.page &&
+            cartData.page.category &&
+            cartData.page.category.subCategory3
+        },
+        pageInfo: {
+          pageName: "multi checkout summary page",
+          pageType: "Checkout"
+        }
+      }
+    });
+  }
   if (type === ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE) {
     if (window._satellite) {
       window._satellite.track(ADOBE_LANDING_ON_ADDRESS_PAGE);
@@ -3485,10 +3516,6 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
       }
     }
     data = Object.assign(window.digitalData, data);
-    localStorage.setItem(
-      "digitalDataForPaymentConfirmationBeforePayment",
-      JSON.stringify(data)
-    );
     if (window._satellite) {
       window._satellite.track(ADOBE_SELECT_PAYMENT_MODES);
     }
