@@ -85,7 +85,8 @@ const feed = (
         loading: false,
         secondaryFeedStatus: action.status,
         secondaryFeed: secondaryFeedData,
-        seo: action.seodata
+        seo: action.seodata,
+        message: action.message
       });
     case homeActions.SECONDARY_FEED_FAILURE:
       return Object.assign({}, state, {

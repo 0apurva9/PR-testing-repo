@@ -5,6 +5,7 @@ import OrderDetailsCard from "./OrderDetailsCard.js";
 import OrderSucessCard from "./OrderSucessCard.js";
 import Icon from "../../xelpmoc-core/Icon";
 import OrderConfirmationFooter from "./OrderConfirmationFooter.js";
+import CustomInstructionContainer from "../../cart/containers/CustomInstructionContainer";
 import {
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_ORDERS_PAGE,
@@ -43,8 +44,6 @@ export default class OrderConfirmation extends React.Component {
     this.onCancel = this.onCancel.bind(this);
   }
   async componentDidMount() {
-    let orderData = localStorage.getItem(DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION);
-    Object.assign(window.digitalData, orderData);
     if (this.props.orderDetails.isEgvOrder) {
       setDataLayerForGiftCard(SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT);
     }
@@ -255,6 +254,9 @@ export default class OrderConfirmation extends React.Component {
                     </React.Fragment>
                   );
                 })}
+              <div className={styles.baseCustom}>
+                <CustomInstructionContainer />
+              </div>
               {this.props.isComingFromCncToHd && (
                 <OrderSucessCard
                   imageURL={this.props.orderDetails.imageURL}

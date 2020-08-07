@@ -79,7 +79,9 @@ const productDescription = (
     pincodeError: null,
     productOutOfStockMessage: null,
     productNotServiceableMessage: null,
-    serviceableOtherSellersUssid: null
+    serviceableOtherSellersUssid: null,
+    addToCartResponseLoading: false,
+    addToCartResponseDetails: null
   },
   action
 ) => {
@@ -362,7 +364,7 @@ const productDescription = (
     case pdpActions.ADD_PRODUCT_TO_CART_REQUEST:
       return Object.assign({}, state, {
         status: action.status,
-        loading: true
+        addToCartResponseLoading: true
       });
 
     case pdpActions.ADD_PRODUCT_TO_CART_SUCCESS:
@@ -392,14 +394,15 @@ const productDescription = (
 
       return Object.assign({}, state, {
         status: action.status,
-        loading: false
+        addToCartResponseDetails: cartInfoJson,
+        addToCartResponseLoading: false
       });
 
     case pdpActions.ADD_PRODUCT_TO_CART_FAILURE:
       return Object.assign({}, state, {
         status: action.status,
         error: action.error,
-        loading: false
+        addToCartResponseLoading: false
       });
 
     case pdpActions.PRODUCT_SIZE_GUIDE_REQUEST:

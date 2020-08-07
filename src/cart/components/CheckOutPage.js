@@ -1875,7 +1875,10 @@ if you have order id in local storage then you have to show order confirmation p
       );
     }
     let failedorderRetryPayment = localStorage.getItem(FAILED_ORDER);
-    if (this.props.location.pathname === `${RETRY_FAILED_ORDER}`) {
+    if (
+      this.props.location.pathname === `${RETRY_FAILED_ORDER}` ||
+      failedorderRetryPayment
+    ) {
       let querySearch = this.props.location.search
         ? this.props.location.search
         : window.location.search;
