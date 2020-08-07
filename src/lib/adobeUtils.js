@@ -3242,9 +3242,35 @@ export function setDataLayerForOrderConfirmationDirectCalls(
 export function setDataLayerForCheckoutDirectCalls(type, response) {
   let data = cloneDeep(window.digitalData);
   let cartData = localStorage.getItem(constants.DIGITAL_DATA_FOR_CART);
-  if (cartData) {
+  if (cartData && type !== ADOBE_ADD_NEW_ADDRESS_ON_MY_ACCOUNT_PAGE) {
     cartData = JSON.parse(cartData);
     Object.assign(data, cartData);
+    Object.assign(data, {
+      page: {
+        category: {
+          primaryCategory: "multistepcheckoutsummary",
+          subCategory1:
+            cartData &&
+            cartData.page &&
+            cartData.page.category &&
+            cartData.page.category.subCategory1,
+          subCategory2:
+            cartData &&
+            cartData.page &&
+            cartData.page.category &&
+            cartData.page.category.subCategory2,
+          subCategory3:
+            cartData &&
+            cartData.page &&
+            cartData.page.category &&
+            cartData.page.category.subCategory3
+        },
+        pageInfo: {
+          pageName: "multi checkout summary page",
+          pageType: "Checkout"
+        }
+      }
+    });
   }
   if (type === ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE) {
     if (window._satellite) {
