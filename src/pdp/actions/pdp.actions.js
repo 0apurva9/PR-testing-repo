@@ -42,6 +42,7 @@ import { isBrowser } from "browser-or-node";
 import { getCartCountForLoggedInUser } from "../../cart/actions/cart.actions.js";
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
 import { displayToast } from "../../general/toast.actions.js";
+import pdpJson from "../../mock/pdpProductBundling.json";
 export const SUBMIT_REVIEW_TEXT = "Thanks! Review submitted successfully";
 export const PRODUCT_DESCRIPTION_REQUEST = "PRODUCT_DESCRIPTION_REQUEST";
 export const PRODUCT_DESCRIPTION_SUCCESS = "PRODUCT_DESCRIPTION_SUCCESS";
@@ -217,6 +218,20 @@ export const PDP_RECENTLY_VIEWED_REQUEST = "PDP_RECENTLY_VIEWED_REQUEST";
 export const PDP_RECENTLY_VIEWED_SUCCESS = "PDP_RECENTLY_VIEWED_SUCCESS";
 export const PDP_RECENTLY_VIEWED_FAILURE = "PDP_RECENTLY_VIEWED_FAILURE";
 
+export const GET_BUNDLED_PRODUCT_SUGGESTION_REQUEST =
+  "GET_BUNDLED_PRODUCT_SUGGESTION_REQUEST";
+export const GET_BUNDLED_PRODUCT_SUGGESTION_SUCCESS =
+  "GET_BUNDLED_PRODUCT_SUGGESTION_SUCCESS";
+export const GET_BUNDLED_PRODUCT_SUGGESTION_FAILURE =
+  "GET_BUNDLED_PRODUCT_SUGGESTION_FAILURE";
+
+export const GET_TOTAL_BUNDLED_PRICE_REQUEST =
+  "GET_TOTAL_BUNDLED_PRICE_REQUEST";
+export const GET_TOTAL_BUNDLED_PRICE_SUCCESS =
+  "GET_TOTAL_BUNDLED_PRICE_SUCCESS";
+export const GET_TOTAL_BUNDLED_PRICE_FAILURE =
+  "GET_TOTAL_BUNDLED_PRICE_FAILURE";
+
 export function getProductDescriptionRequest() {
   return {
     type: PRODUCT_DESCRIPTION_REQUEST,
@@ -253,10 +268,11 @@ export function getProductDescription(
           dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
         }
       }, TIME_OUT_FOR_APIS);
-      const result = await api.getMiddlewareUrl(
-        `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true&isMDE=true`
-      );
-      const resultJson = await result.json();
+      // const result = await api.getMiddlewareUrl(
+      //   `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true&isMDE=true`
+      // );
+      // const resultJson = await result.json();
+      const resultJson = pdpJson;
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
@@ -2159,6 +2175,94 @@ export function verifyIMEINumber(
       return resultJson;
     } catch (e) {
       return dispatch(verifyIMEINumberFailure(e.message));
+    }
+  };
+}
+
+export function getBundledProductSuggestionRequest() {
+  return {
+    type: GET_BUNDLED_PRODUCT_SUGGESTION_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getBundledProductSuggestionSuccess(data) {
+  return {
+    type: GET_BUNDLED_PRODUCT_SUGGESTION_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function getBundledProductSuggestionFailure(error) {
+  return {
+    type: GET_BUNDLED_PRODUCT_SUGGESTION_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function getBundledProductSuggestion(
+  productId,
+  ussId,
+  categoryCode,
+  brandCode,
+  source,
+  pincode
+) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getBundledProductSuggestionRequest());
+    try {
+      let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+      let accessToken = globalCookie && JSON.parse(globalCookie).access_token;
+      const result = await api.get(
+        `v2/mpl/products/${productId}/suggestion?access_token=${accessToken}&ussId=${ussId}&categoryCode=${categoryCode}&brandCode=${brandCode}&channel=${CHANNEL}&updatedFlag=true&source=${source}&pincode=${pincode}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getBundledProductSuggestionSuccess(resultJson));
+    } catch (e) {
+      dispatch(getBundledProductSuggestionFailure(e.message));
+    }
+  };
+}
+
+export function getTotalBundledPriceRequest() {
+  return {
+    type: GET_TOTAL_BUNDLED_PRICE_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getTotalBundledPriceSuccess(data) {
+  return {
+    type: GET_TOTAL_BUNDLED_PRICE_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function getTotalBundledPriceFailure(error) {
+  return {
+    type: GET_TOTAL_BUNDLED_PRICE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getTotalBundledPrice(data) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getTotalBundledPriceRequest());
+    try {
+      const result = await api.post(`v2/mpl/products/bundledPrices`, data);
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status && result.status !== 200) {
+        dispatch(getTotalBundledPriceFailure(resultJsonStatus.message));
+      }
+      dispatch(getTotalBundledPriceSuccess(resultJson));
+    } catch (e) {
+      dispatch(getTotalBundledPriceFailure(e.message));
     }
   };
 }

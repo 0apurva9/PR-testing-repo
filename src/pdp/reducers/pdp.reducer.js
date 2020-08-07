@@ -81,7 +81,17 @@ const productDescription = (
     productNotServiceableMessage: null,
     serviceableOtherSellersUssid: null,
     addToCartResponseLoading: false,
-    addToCartResponseDetails: null
+    addToCartResponseDetails: null,
+
+    getBundledProductSuggestionStatus: null,
+    getBundledProductSuggestionLoading: false,
+    getBundledProductSuggestionDetails: null,
+    getBundledProductSuggestionError: null,
+
+    getTotalBundledPriceStatus: null,
+    getTotalBundledPriceLoading: false,
+    getTotalBundledPriceDetails: null,
+    getTotalBundledPriceError: null
   },
   action
 ) => {
@@ -1092,6 +1102,47 @@ const productDescription = (
         recentlyViewedProduct: newMsdRecentlyViewedItems,
         loading: false
       });
+
+    case pdpActions.GET_BUNDLED_PRODUCT_SUGGESTION_REQUEST:
+      return Object.assign({}, state, {
+        getBundledProductSuggestionStatus: action.status,
+        getBundledProductSuggestionLoading: true
+      });
+
+    case pdpActions.GET_BUNDLED_PRODUCT_SUGGESTION_SUCCESS:
+      return Object.assign({}, state, {
+        getBundledProductSuggestionStatus: action.status,
+        getBundledProductSuggestionLoading: false,
+        getBundledProductSuggestionDetails: action.data
+      });
+
+    case pdpActions.GET_BUNDLED_PRODUCT_SUGGESTION_FAILURE:
+      return Object.assign({}, state, {
+        getBundledProductSuggestionStatus: action.status,
+        getBundledProductSuggestionLoading: false,
+        getBundledProductSuggestionError: action.error
+      });
+
+    case pdpActions.GET_TOTAL_BUNDLED_PRICE_REQUEST:
+      return Object.assign({}, state, {
+        getTotalBundledPriceStatus: action.status,
+        getTotalBundledPriceLoading: true
+      });
+
+    case pdpActions.GET_TOTAL_BUNDLED_PRICE_SUCCESS:
+      return Object.assign({}, state, {
+        getTotalBundledPriceStatus: action.status,
+        getTotalBundledPriceLoading: false,
+        getTotalBundledPriceDetails: action.data
+      });
+
+    case pdpActions.GET_TOTAL_BUNDLED_PRICE_FAILURE:
+      return Object.assign({}, state, {
+        getTotalBundledPriceStatus: action.status,
+        getTotalBundledPriceLoading: false,
+        getTotalBundledPriceError: action.error
+      });
+
     default:
       return state;
   }
