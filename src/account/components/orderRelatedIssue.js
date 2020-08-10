@@ -12,13 +12,30 @@ import {
   LOGIN_PATH,
   COSTUMER_CLIQ_CARE_ROUTE,
   MY_ACCOUNT_PAGE,
-  HOME_ROUTER
+  HOME_ROUTER,
+  CLIQ_CARE
 } from "../../lib/constants";
+import {
+  setDataLayerForCLiQCarePage,
+  ADOBE_SELF_SERVE_OTHER_ISSUES_CLICK,
+  ADOBE_SELF_SERVE_ALL_HELP_TOPIC_CLICK,
+  ADOBE_SELF_SERVE_PAGE_LOAD,
+  ADOBE_SELF_SERVE_ISSUE_SELECTION,
+  ADOBE_SELF_SERVE_FEEDBACK_SELECTION,
+  ADOBE_SELF_SERVE_CONTINUE_BUTTON_CLICK,
+  ADOBE_SELF_SERVE_FAQ_PAGE_LOAD,
+  ADOBE_SELF_SERVE_NON_ORDER_CATEGORY_CLICK,
+  ADOBE_SELF_SERVE_SUBMIT_CLICK,
+  ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
+  ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK
+} from "../../lib/adobeUtils";
 import SSRquest from "../../general/components/SSRequest";
 import Icon from "../../xelpmoc-core/Icon";
 const ORDER_REALTED_QUESTION = "orderRelated";
 const NON_ORDER_REALTED_QUESTION = "NonOrderRelated";
 const FAQ_PAGE = "ss-faq";
+const YES = "Yes";
+const NO = "No";
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
     super(props);
@@ -50,17 +67,22 @@ export default class OrderRelatedIssue extends React.Component {
       showLoader: false,
       raiseTiketRequest: false,
       raiseTiketSucess: false,
-      slectOrderData: null
+      slectOrderData: null,
+      formSubmit: false
     };
     this.resetState = this.state;
   }
 
   componentDidMount() {
+    setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_PAGE_LOAD, null, [
+      CLIQ_CARE,
+      "Care_Homepage"
+    ]);
     if (this.props.getOrdersTransactionData) {
       this.props.getOrdersTransactionData(false);
     }
-
     if (this.props.getNonOrderRelatedQuestions) {
+      setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_OTHER_ISSUES_CLICK);
       this.props.getNonOrderRelatedQuestions();
     }
 
@@ -85,7 +107,26 @@ export default class OrderRelatedIssue extends React.Component {
       }
     }
   }
+
   moreHelps() {
+    setDataLayerForCLiQCarePage(
+      ADOBE_SELF_SERVE_FEEDBACK_SELECTION,
+      NO.toLowerCase()
+    );
+    if (this.state.orderRelatedQuestion) {
+      setDataLayerForCLiQCarePage(
+        ADOBE_SELF_SERVE_PAGE_LOAD,
+        this.getOrderData(),
+        "Care_Order_MoreHelp"
+      );
+    }
+    if (this.state.otherQuestion) {
+      setDataLayerForCLiQCarePage(
+        ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
+        this.getNonOrderData(),
+        "Care_Other_MoreHelp"
+      );
+    }
     const { FAQquestion, question } = this.state;
     if (
       FAQquestion ||
@@ -138,6 +179,10 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   feedBackHelpFull(e) {
+    setDataLayerForCLiQCarePage(
+      ADOBE_SELF_SERVE_FEEDBACK_SELECTION,
+      YES.toLowerCase()
+    );
     this.setState({ isAnswerHelpFull: true });
   }
 
@@ -159,6 +204,7 @@ export default class OrderRelatedIssue extends React.Component {
       if ((this.state.questionType = NON_ORDER_REALTED_QUESTION)) {
         getCustomerQueryDetailsObject.issueCategory = this.state.parentIssueType;
       }
+      setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_SUBMIT_CLICK);
       const submitOrderDetailsResponse = await this.props.submitOrderDetails(
         formData
       );
@@ -169,11 +215,35 @@ export default class OrderRelatedIssue extends React.Component {
           if (
             submitOrderDetailsResponse.submitOrder.referenceNum == "duplicate"
           ) {
-            this.setState({ showLoader: false, raiseTiketRequest: false });
+            let pageName = this.state.otherQuestion
+              ? "Care_Other_Webform_Duplicate"
+              : "Care_Order_Webform_Duplicate";
+            setDataLayerForCLiQCarePage(
+              ADOBE_SELF_SERVE_PAGE_LOAD,
+              submitOrderDetailsResponse.submitOrder.referenceNum,
+              [pageName, "TicketCreation"]
+            );
+            this.setState({
+              showLoader: false,
+              raiseTiketRequest: false,
+              formSubmit: true
+            });
             this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
             this.props.setSelfServeState(null);
           } else {
-            this.setState({ raiseTiketSucess: true, raiseTiketRequest: false });
+            let pageName = this.state.otherQuestion
+              ? "Care_Other_Webform_Success"
+              : "Care_Order_Webform_Success";
+            setDataLayerForCLiQCarePage(
+              ADOBE_SELF_SERVE_PAGE_LOAD,
+              submitOrderDetailsResponse.submitOrder.referenceNum,
+              [pageName, "TicketCreation"]
+            );
+            this.setState({
+              raiseTiketSucess: true,
+              raiseTiketRequest: false,
+              formSubmit: true
+            });
             setTimeout(() => {
               this.setState({ showLoader: false, raiseTiketSucess: false });
               this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
@@ -186,8 +256,25 @@ export default class OrderRelatedIssue extends React.Component {
       // }
     }
   }
+  getNonOrderData = () => {
+    return {
+      name: this.state.parentIssueType,
+      question: this.state.question.subIssueType
+    };
+  };
 
   selectOtehrQuestion(selectOtehrQuestion) {
+    setDataLayerForCLiQCarePage(
+      ADOBE_SELF_SERVE_NON_ORDER_CATEGORY_CLICK,
+      selectOtehrQuestion.parentIssueType
+    );
+    setDataLayerForCLiQCarePage(
+      ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
+      {
+        name: selectOtehrQuestion.parentIssueType
+      },
+      "Care_Other_Questions"
+    );
     this.setState({
       isOrderDatails: true,
       orderList: false,
@@ -202,6 +289,18 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   async orderRelatedInfo(orderData) {
+    setDataLayerForCLiQCarePage(
+      ADOBE_SELF_SERVE_PAGE_LOAD,
+      {
+        status:
+          orderData && orderData.product && orderData.product.statusDisplay,
+        id: orderData && orderData.product && orderData.product.transactionId,
+        productId:
+          orderData && orderData.product && orderData.product.productcode
+      },
+      "Care_Order_Questions"
+    );
+
     if (this.props.fetchOrderItemDetails) {
       this.props.fetchOrderItemDetails(
         orderData.orderCode,
@@ -240,6 +339,10 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   async handleFAQClick(faq) {
+    setDataLayerForCLiQCarePage(
+      ADOBE_SELF_SERVE_ALL_HELP_TOPIC_CLICK,
+      faq.FAQHeader
+    );
     if (this.state.parentIssueType !== faq.FAQHeader) {
       if (this.props.getFaqRelatedQuestions) {
         const response = await this.props.getFaqRelatedQuestions(faq.FAQPageId);
@@ -268,8 +371,47 @@ export default class OrderRelatedIssue extends React.Component {
       }
     }
   }
+  getOrderData = () => {
+    return {
+      status: this.state.slectOrderData.statusDisplay,
+      id: this.state.slectOrderData.transactionId,
+      productId: this.state.slectOrderData.productcode
+    };
+  };
 
   selectQuestion(question, index) {
+    if (this.state.orderRelatedQuestion) {
+      setDataLayerForCLiQCarePage(
+        ADOBE_SELF_SERVE_ISSUE_SELECTION,
+        question.issueType
+      );
+
+      setDataLayerForCLiQCarePage(
+        ADOBE_SELF_SERVE_PAGE_LOAD,
+        {
+          order: this.getOrderData(),
+          issue: {
+            title: question.issueType
+          }
+        },
+        "Care_Order_Solution"
+      );
+    }
+    if (this.state.otherQuestion) {
+      setDataLayerForCLiQCarePage(
+        ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK,
+        question.subIssueType
+      );
+      setDataLayerForCLiQCarePage(
+        ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
+        {
+          name: this.state.parentIssueType,
+          question: question.subIssueType
+        },
+        "Care_Other_Solution"
+      );
+    }
+
     this.setState({
       question: question,
       showQuestionList: false,
@@ -281,6 +423,10 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState({ orderAllList: true });
   }
   hideAllOrder() {
+    setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_PAGE_LOAD, null, [
+      CLIQ_CARE,
+      "Care_Homepage"
+    ]);
     this.setState({ orderAllList: false });
   }
 
@@ -312,8 +458,32 @@ export default class OrderRelatedIssue extends React.Component {
   hideLoader() {}
   navigatePreviousPage() {
     if (this.state.showQuestionList) {
+      setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_PAGE_LOAD, null, [
+        CLIQ_CARE,
+        "Care_Homepage"
+      ]);
       this.setState(this.resetState);
     } else if (this.state.showFeedBack) {
+      if (this.state.orderRelatedQuestion) {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_PAGE_LOAD,
+          {
+            order: this.getOrderData()
+          },
+          "Care_Order_Questions"
+        );
+      }
+
+      if (this.state.otherQuestion) {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
+          {
+            name: this.state.parentIssueType
+          },
+          "Care_Other_Questions"
+        );
+      }
+
       this.setState({
         question: null,
         showQuestionList: true,
@@ -321,12 +491,45 @@ export default class OrderRelatedIssue extends React.Component {
         isAnswerHelpFull: false
       });
     } else if (this.state.isQuesryForm) {
+      if (this.state.orderRelatedQuestion) {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_PAGE_LOAD,
+          this.getOrderData(),
+          "Care_Order_MoreHelp"
+        );
+      }
+      if (this.state.otherQuestion) {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
+          this.getNonOrderData(),
+          "Care_Other_MoreHelp"
+        );
+      }
       this.setState({
         showQuestionList: false,
         isQuesryForm: false,
         isIssueOptions: true
       });
     } else if (this.state.isIssueOptions) {
+      if (this.state.orderRelatedQuestion) {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_PAGE_LOAD,
+          {
+            order: this.getOrderData(),
+            issue: {
+              title: this.state.question.issueType
+            }
+          },
+          "Care_Order_Solution"
+        );
+      }
+      if (this.state.otherQuestion) {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
+          this.getNonOrderData(),
+          "Care_Other_Solution"
+        );
+      }
       this.setState({
         isAnswerHelpFull: false,
         isIssueOptions: false,
@@ -335,17 +538,21 @@ export default class OrderRelatedIssue extends React.Component {
     }
   }
   navigateHomePage() {
+    setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_CONTINUE_BUTTON_CLICK);
     this.props.history.push(HOME_ROUTER);
   }
   updateThanks() {
     this.setState({ isAnswerHelpFull: false });
   }
   navigateCliqCarePage() {
+    setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_PAGE_LOAD, null, [
+      CLIQ_CARE,
+      "Care_Homepage"
+    ]);
     this.setState(this.resetState);
   }
 
   render() {
-    console.log("text");
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let isUserLogin = false;
@@ -530,6 +737,7 @@ export default class OrderRelatedIssue extends React.Component {
                       updateThanks={() => this.updateThanks()}
                       navigateCliqCarePage={() => this.navigateCliqCarePage()}
                       slectOrderData={this.state.slectOrderData}
+                      formSubmit={this.state.formSubmit}
                     />
                   </div>
                 </div>

@@ -6,6 +6,12 @@ import Icon from "../../xelpmoc-core/Icon";
 import CheckboxAndText from "../../cart/components/CheckboxAndText";
 import * as Cookie from "../../lib/Cookie";
 import {
+  setDataLayerForCLiQCarePage,
+  ADOBE_SELF_SERVE_PAGE_LOAD,
+  ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD
+} from "../../lib/adobeUtils";
+
+import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
 } from "../../auth/components/Login";
@@ -60,10 +66,6 @@ export default class CustomerQueryForm extends Component {
     };
   }
 
-  componentDidMount() {
-    window.scroll(0, 0);
-  }
-
   componentWillReceiveProps(nextProps) {
     if (
       nextProps &&
@@ -78,9 +80,7 @@ export default class CustomerQueryForm extends Component {
           : "",
         name:
           nextProps.userDetails.firstName || nextProps.userDetails.lastName
-            ? `${nextProps.userDetails.firstName} ${
-                nextProps.userDetails.lastName
-              }`
+            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
             : "",
         mobile: nextProps.userDetails.mobileNumber
           ? nextProps.userDetails.mobileNumber
@@ -95,8 +95,32 @@ export default class CustomerQueryForm extends Component {
   // setUserDetail(){
 
   // }
+  getOtherData = () => {
+    const { parentIssueType, question } = this.props;
+    return {
+      name: parentIssueType,
+      question: question.subIssueType
+    };
+  };
 
   componentDidMount() {
+    window.scroll(0, 0);
+    if (!this.props.formSubmit) {
+      if (this.props.questionType == "orderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_PAGE_LOAD,
+          this.getOrderData(),
+          "Care_Order_Webform_1"
+        );
+      }
+      if (this.props.questionType == "NonOrderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
+          this.getOtherData(),
+          "Care_Other_Webform_1"
+        );
+      }
+    }
     this.initialState(this.props.customerQueriesField, false);
     if (this.props.userDetails) {
       this.setState({
@@ -105,9 +129,7 @@ export default class CustomerQueryForm extends Component {
           : "",
         name:
           this.props.userDetails.firstName || this.props.userDetails.lastName
-            ? `${this.props.userDetails.firstName} ${
-                this.props.userDetails.lastName
-              }`
+            ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
             : "",
         mobile: this.props.userDetails.mobileNumber
           ? this.props.userDetails.mobileNumber
@@ -115,6 +137,24 @@ export default class CustomerQueryForm extends Component {
       });
     }
   }
+
+  getOrderData = () => {
+    const { selectedOrder } = this.props;
+    return {
+      status:
+        selectedOrder &&
+        selectedOrder.products &&
+        selectedOrder.products[0].statusDisplay,
+      id:
+        selectedOrder &&
+        selectedOrder.products &&
+        selectedOrder.products[0].transactionId,
+      productId:
+        selectedOrder &&
+        selectedOrder.products &&
+        selectedOrder.products[0].productcode
+    };
+  };
 
   initialState(customerQueriesField, isAppend) {
     customerQueriesField &&
@@ -361,6 +401,20 @@ export default class CustomerQueryForm extends Component {
 
     let validateStatus = false;
     if (currentStep == BASIC_FORM) {
+      if (this.props.questionType == "orderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_PAGE_LOAD,
+          this.getOrderData(),
+          "Care_Order_Webform_2"
+        );
+      }
+      if (this.props.questionType == "NonOrderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
+          this.getOtherData(),
+          "Care_Other_Webform_2"
+        );
+      }
       window.scroll(0, 0);
       for (let obj of customerQueriesField) {
         validateStatus = this.formValidate(obj);
@@ -385,6 +439,20 @@ export default class CustomerQueryForm extends Component {
     }
 
     if (currentStep == ATTACHEMENT) {
+      if (this.props.questionType == "orderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_PAGE_LOAD,
+          this.getOrderData(),
+          "Care_Order_Webform_3"
+        );
+      }
+      if (this.props.questionType == "NonOrderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
+          this.getOtherData(),
+          "Care_Other_Webform_3"
+        );
+      }
       window.scroll(0, 0);
       this.setState({
         attachment: false,
@@ -659,6 +727,20 @@ export default class CustomerQueryForm extends Component {
       this.props.navigatePreviousPage();
       this.setState({ btnDisable: false });
     } else if (this.state.currentStep == ATTACHEMENT) {
+      if (this.props.questionType == "orderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_PAGE_LOAD,
+          this.getOrderData(),
+          "Care_Order_Webform_1"
+        );
+      }
+      if (this.props.questionType == "NonOrderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
+          this.getOtherData(),
+          "Care_Other_Webform_1"
+        );
+      }
       this.setState({
         basicForm: true,
         attachment: false,
@@ -667,6 +749,20 @@ export default class CustomerQueryForm extends Component {
         currentStep: BASIC_FORM
       });
     } else if (this.state.currentStep == COMMUNICATION) {
+      if (this.props.questionType == "orderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_PAGE_LOAD,
+          this.getOrderData(),
+          "Care_Order_Webform_2"
+        );
+      }
+      if (this.props.questionType == "NonOrderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
+          this.getOtherData(),
+          "Care_Other_Webform_2"
+        );
+      }
       this.setState({
         basicForm: false,
         attachment: true,
@@ -675,8 +771,6 @@ export default class CustomerQueryForm extends Component {
         btnDisable: false,
         currentStep: ATTACHEMENT
       });
-      // attachment: false,
-      // communication: true,
     }
   }
   updateNumber() {}
