@@ -91,7 +91,12 @@ const productDescription = (
     getTotalBundledPriceStatus: null,
     getTotalBundledPriceLoading: false,
     getTotalBundledPriceDetails: null,
-    getTotalBundledPriceError: null
+    getTotalBundledPriceError: null,
+
+    addBundledProductsToCartStatus: null,
+    addBundledProductsToCartLoading: false,
+    addBundledProductsToCartDetails: null,
+    addBundledProductsToCartError: null
   },
   action
 ) => {
@@ -1141,6 +1146,42 @@ const productDescription = (
         getTotalBundledPriceStatus: action.status,
         getTotalBundledPriceLoading: false,
         getTotalBundledPriceError: action.error
+      });
+
+    case pdpActions.ADD_BUNDLED_PRODUCTS_TO_CART_REQUEST:
+      return Object.assign({}, state, {
+        addBundledProductsToCartStatus: action.status,
+        addBundledProductsToCartLoading: true
+      });
+
+    case pdpActions.ADD_BUNDLED_PRODUCTS_TO_CART_SUCCESS:
+      const loggedInUserDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
+      const customerAccessTokenCookie = Cookies.getCookie(
+        CUSTOMER_ACCESS_TOKEN
+      );
+      if (loggedInUserDetails && customerAccessTokenCookie) {
+        Cookies.createCookie(
+          CART_DETAILS_FOR_LOGGED_IN_USER,
+          JSON.stringify(action.data)
+        );
+      } else {
+        Cookies.createCookie(
+          CART_DETAILS_FOR_ANONYMOUS,
+          JSON.stringify(action.data)
+        );
+      }
+
+      return Object.assign({}, state, {
+        addBundledProductsToCartStatus: action.status,
+        addBundledProductsToCartLoading: false,
+        addBundledProductsToCartDetails: action.data
+      });
+
+    case pdpActions.ADD_BUNDLED_PRODUCTS_TO_CART_FAILURE:
+      return Object.assign({}, state, {
+        addBundledProductsToCartStatus: action.status,
+        addBundledProductsToCartLoading: false,
+        addBundledProductsToCartError: action.error
       });
 
     default:

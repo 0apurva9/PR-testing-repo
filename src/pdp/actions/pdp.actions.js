@@ -231,6 +231,13 @@ export const GET_TOTAL_BUNDLED_PRICE_SUCCESS =
 export const GET_TOTAL_BUNDLED_PRICE_FAILURE =
   "GET_TOTAL_BUNDLED_PRICE_FAILURE";
 
+export const ADD_BUNDLED_PRODUCTS_TO_CART_REQUEST =
+  "ADD_BUNDLED_PRODUCTS_TO_CART_REQUEST";
+export const ADD_BUNDLED_PRODUCTS_TO_CART_SUCCESS =
+  "ADD_BUNDLED_PRODUCTS_TO_CART_SUCCESS";
+export const ADD_BUNDLED_PRODUCTS_TO_CART_FAILURE =
+  "ADD_BUNDLED_PRODUCTS_TO_CART_FAILURE";
+
 export function getProductDescriptionRequest() {
   return {
     type: PRODUCT_DESCRIPTION_REQUEST,
@@ -2261,6 +2268,116 @@ export function getTotalBundledPrice(data) {
       dispatch(getTotalBundledPriceSuccess(resultJson));
     } catch (e) {
       dispatch(getTotalBundledPriceFailure(e.message));
+    }
+  };
+}
+
+export function addBundledProductsToCartRequest() {
+  return {
+    type: ADD_BUNDLED_PRODUCTS_TO_CART_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function addBundledProductsToCartSuccess(data) {
+  return {
+    type: ADD_BUNDLED_PRODUCTS_TO_CART_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function addBundledProductsToCartFailure(error) {
+  return {
+    type: ADD_BUNDLED_PRODUCTS_TO_CART_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function addBundledProductsToCart(data) {
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+  let accessToken = globalCookie ? JSON.parse(globalCookie).access_token : null;
+  let userId = ANONYMOUS_USER;
+  let cartDetails;
+  if (userDetails && customerCookie) {
+    userId = JSON.parse(userDetails).userName;
+    accessToken = JSON.parse(customerCookie).access_token;
+    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  } else {
+    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+  }
+  let cartId = cartDetails ? JSON.parse(cartDetails).code : null;
+  let disableNext = false;
+
+  return async (dispatch, getState, { api }) => {
+    let bundledProductUssIds = [];
+    bundledProductUssIds.push(data.baseItem.ussID);
+    data.associatedItems.map(product => {
+      bundledProductUssIds.push(product.ussID);
+    });
+    // check if bundled product in cart
+    // if all bundled products are in cart then show modal else add bundled product in cart which are not in cart
+    await dispatch(getCartCountForLoggedInUser()).then(cartCountDetails => {
+      if (
+        cartCountDetails &&
+        cartCountDetails.status &&
+        cartCountDetails.status.toLowerCase() === SUCCESS &&
+        cartCountDetails.cartDetails.products
+      ) {
+        let isProductInCart = [];
+        let cartProductUssIds = [];
+        cartCountDetails.cartDetails.products.map(product => {
+          cartProductUssIds.push(product.USSID);
+        });
+        bundledProductUssIds.map(ussid => {
+          let index = cartProductUssIds.indexOf(ussid);
+          if (index !== -1) {
+            // product in cart
+            isProductInCart.push("Y");
+          } else {
+            // product not in cart
+            isProductInCart.push("N");
+          }
+        });
+        if (!isProductInCart.includes("N")) {
+          dispatch(
+            showModal(PRODUCT_IN_BAG_MODAL, {
+              isWithProductBundling: true
+            })
+          );
+          disableNext = true;
+        } else {
+          // add only bundled products which are not in cart
+          isProductInCart.map((value, index) => {
+            if (index > 0 && value === "Y") {
+              data.associatedItems.splice(index - 1, 1);
+            }
+          });
+        }
+      }
+    });
+    if (disableNext) {
+      return false;
+    }
+    dispatch(addBundledProductsToCartRequest());
+    try {
+      const result = await api.post(
+        `${PRODUCT_DETAILS_PATH}/${userId}/carts/${
+          cartId ? cartId + "/" : ""
+        }productBundlingAdditionToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&quantity=1&addedToCartWl=false&channel=${CHANNEL}`,
+        data
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status && result.status !== 200) {
+        dispatch(addBundledProductsToCartFailure(resultJsonStatus.message));
+      }
+      dispatch(addBundledProductsToCartSuccess(resultJson));
+    } catch (e) {
+      dispatch(addBundledProductsToCartFailure(e.message));
     }
   };
 }

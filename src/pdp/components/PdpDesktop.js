@@ -1915,6 +1915,16 @@ export default class PdpApparel extends React.Component {
                       this.props.getTotalBundledPriceLoading
                     }
                     displayToast={this.props.displayToast}
+                    addBundledProductsToCart={
+                      this.props.addBundledProductsToCart
+                    }
+                    addBundledProductsToCartLoading={
+                      this.props.addBundledProductsToCartLoading
+                    }
+                    addBundledProductsToCartDetails={
+                      this.props.addBundledProductsToCartDetails
+                    }
+                    history={this.props.history}
                   />
                 )}
 

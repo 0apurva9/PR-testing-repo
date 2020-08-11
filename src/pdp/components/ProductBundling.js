@@ -3,9 +3,15 @@ import SingleBundledProduct from "./SingleBundledProduct";
 import Button from "../../general/components/Button";
 import SectionLoaderDesktop from "../../general/components/SectionLoaderDesktop";
 import styles from "./ProductBundling.css";
-import { SUCCESS } from "../../lib/constants";
+import {
+  SUCCESS,
+  PRODUCT_CART_ROUTER,
+  FAILURE_LOWERCASE,
+  ADD_TO_BAG_TEXT
+} from "../../lib/constants";
 import PropTypes from "prop-types";
 const allBundledProductData = [];
+const allBundledProductDataForAddToCart = [];
 
 export default class ProductBundling extends React.Component {
   constructor(props) {
@@ -13,7 +19,8 @@ export default class ProductBundling extends React.Component {
     this.state = {
       isFirstProductSelected: false,
       isSecondProductSelected: false,
-      totalBundledPriceDetails: null
+      totalBundledPriceDetails: null,
+      bundledProductDataForAddToCart: null
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -25,15 +32,53 @@ export default class ProductBundling extends React.Component {
       this.setState({
         totalBundledPriceDetails: nextProps.totalBundledPriceDetails
       });
-      if (nextProps.totalBundledPriceDetails.status !== SUCCESS) {
+      if (
+        nextProps.totalBundledPriceDetails.status.toLowerCase() ===
+        FAILURE_LOWERCASE
+      ) {
         this.props.displayToast("Please try again");
       }
     }
   }
 
-  handleClick(productIndex, checkboxChecked, productId, ussId) {
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.props.addBundledProductsToCartDetails !==
+      prevProps.addBundledProductsToCartDetails
+    ) {
+      if (
+        this.props.addBundledProductsToCartDetails.status.toLowerCase() ===
+        SUCCESS
+      ) {
+        this.props.displayToast(ADD_TO_BAG_TEXT);
+        this.props.history.push(PRODUCT_CART_ROUTER);
+      }
+      if (
+        this.props.addBundledProductsToCartDetails.status.toLowerCase() ===
+        FAILURE_LOWERCASE
+      ) {
+        this.props.displayToast(
+          this.props.addBundledProductsToCartDetails.error
+        );
+      }
+    }
+  }
+
+  handleClick(
+    productIndex,
+    checkboxChecked,
+    productId,
+    ussId,
+    recommendationType
+  ) {
     let bundledProductData = {};
+    let bundledProductDataForAddToCart = {};
     bundledProductData.baseItem = {
+      ussID: this.props.productData.winningUssID,
+      productCode: this.props.productData.productListingId,
+      quantity: 1
+    };
+    bundledProductDataForAddToCart.baseItem = {
       ussID: this.props.productData.winningUssID,
       productCode: this.props.productData.productListingId,
       quantity: 1
@@ -43,17 +88,29 @@ export default class ProductBundling extends React.Component {
       productCode: productId,
       quantity: 1
     };
+    let singleBundledProductDataForAddToCart = {
+      ussID: ussId,
+      productCode: productId,
+      quantity: 1,
+      recommendationType: recommendationType
+    };
     let bundledProductIndex = allBundledProductData.findIndex(value => {
       return value.productCode === productId;
     });
     if (bundledProductIndex === -1) {
       allBundledProductData.push(singleBundledProductData);
+      allBundledProductDataForAddToCart.push(
+        singleBundledProductDataForAddToCart
+      );
     }
     if (bundledProductIndex !== -1) {
       allBundledProductData.splice(bundledProductIndex, 1);
+      allBundledProductDataForAddToCart.splice(bundledProductIndex, 1);
     }
     bundledProductData.associatedItems = allBundledProductData;
+    bundledProductDataForAddToCart.associatedItems = allBundledProductDataForAddToCart;
     if (allBundledProductData.length !== 0) {
+      this.setState({ bundledProductDataForAddToCart });
       this.props.getTotalBundledPrice(bundledProductData);
     }
 
@@ -71,6 +128,12 @@ export default class ProductBundling extends React.Component {
     }
   }
 
+  addBundledProductToCart() {
+    this.props.addBundledProductsToCart(
+      this.state.bundledProductDataForAddToCart
+    );
+  }
+
   render() {
     let bundledPriceAPIStatus =
       this.state.totalBundledPriceDetails &&
@@ -83,7 +146,8 @@ export default class ProductBundling extends React.Component {
               Customer buy these together
             </div>
             <div className={styles.details}>
-              {this.props.getTotalBundledPriceLoading && (
+              {(this.props.getTotalBundledPriceLoading ||
+                this.props.addBundledProductsToCartLoading) && (
                 <SectionLoaderDesktop />
               )}
               <SingleBundledProduct
@@ -101,13 +165,15 @@ export default class ProductBundling extends React.Component {
                           productIndex,
                           checkboxChecked,
                           productId,
-                          ussId
+                          ussId,
+                          recommendationType
                         ) =>
                           this.handleClick(
                             productIndex,
                             checkboxChecked,
                             productId,
-                            ussId
+                            ussId,
+                            recommendationType
                           )
                         }
                         productIndex={index}
@@ -142,6 +208,7 @@ export default class ProductBundling extends React.Component {
                           this.state.totalBundledPriceDetails
                             .bundlingItemcount} ITEMS TO CART`}
                         textStyle={{ fontFamily: "regular" }}
+                        onClick={() => this.addBundledProductToCart()}
                       />
                     </div>
                   </React.Fragment>

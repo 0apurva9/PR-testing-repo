@@ -17,9 +17,21 @@ export default class SingleBundledProduct extends React.Component {
     this.selectBundledProduct = this.selectBundledProduct.bind(this);
   }
 
-  selectBundledProduct(productIndex, checkboxChecked, productId, ussId) {
+  selectBundledProduct(
+    productIndex,
+    checkboxChecked,
+    productId,
+    ussId,
+    recommendationType
+  ) {
     this.setState({ isCheckboxClicked: !this.state.isCheckboxClicked });
-    this.props.handleClick(productIndex, checkboxChecked, productId, ussId);
+    this.props.handleClick(
+      productIndex,
+      checkboxChecked,
+      productId,
+      ussId,
+      recommendationType
+    );
   }
 
   render() {
@@ -46,7 +58,8 @@ export default class SingleBundledProduct extends React.Component {
                     this.props.productIndex,
                     this.state.isCheckboxClicked,
                     this.props.productData.productListingId,
-                    this.props.productData.winningUssID
+                    this.props.productData.winningUssID,
+                    this.props.productData.recommendationType
                   )
                 }
               />
@@ -93,14 +106,17 @@ export default class SingleBundledProduct extends React.Component {
                 )
               : null}
 
-            <div className={styles.productDescriptionContainer}>
-              <div className={styles.iconHolder}>
-                <Icon image={tipIcon} size={12} />
-              </div>
-              <div className={styles.productDescription}>
-                {this.props.productData.productDescription}
-              </div>
-            </div>
+            {this.props.productData.isdigitalProduct &&
+              this.props.productData.buyingTips && (
+                <div className={styles.buyingTipsContainer}>
+                  <div className={styles.iconHolder}>
+                    <Icon image={tipIcon} size={12} />
+                  </div>
+                  <div className={styles.buyingTips}>
+                    {this.props.productData.buyingTips}
+                  </div>
+                </div>
+              )}
           </div>
 
           <div className={styles.productPriceContainer}>
