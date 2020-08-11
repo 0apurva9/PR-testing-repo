@@ -4667,4 +4667,9 @@ export function setDataLayerForCLiQCarePage(type, data, pageName) {
       window._satellite.track(SELF_SERVE_FAQ_PAGE_LOAD);
     }
   }
+  if (type === ADOBE_LOGIN_START) {
+    if (window._satellite) {
+      window._satellite.track(LOGIN_START);
+    }
+  }
 }

@@ -23,11 +23,11 @@ import {
   ADOBE_SELF_SERVE_ISSUE_SELECTION,
   ADOBE_SELF_SERVE_FEEDBACK_SELECTION,
   ADOBE_SELF_SERVE_CONTINUE_BUTTON_CLICK,
-  ADOBE_SELF_SERVE_FAQ_PAGE_LOAD,
   ADOBE_SELF_SERVE_NON_ORDER_CATEGORY_CLICK,
   ADOBE_SELF_SERVE_SUBMIT_CLICK,
   ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
-  ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK
+  ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK,
+  ADOBE_LOGIN_START
 } from "../../lib/adobeUtils";
 import SSRquest from "../../general/components/SSRequest";
 import Icon from "../../xelpmoc-core/Icon";
@@ -437,6 +437,7 @@ export default class OrderRelatedIssue extends React.Component {
         this.props.setUrlToRedirectToAfterAuth(url);
       }
     }
+    setDataLayerForCLiQCarePage(ADOBE_LOGIN_START);
     this.props.history.push(LOGIN_PATH);
   }
 
