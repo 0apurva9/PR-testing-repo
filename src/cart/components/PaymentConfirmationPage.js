@@ -12,7 +12,8 @@ import {
   MY_ACCOUNT_SAVED_CARDS_PAGE,
   MY_ACCOUNT_ADDRESS_PAGE,
   SAVE_LIST_PAGE,
-  DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION
+  DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION,
+  DIGITAL_DATA_FOR_CART
 } from "../../lib/constants";
 import styles from "./PaymentConfirmationPage.css";
 import wishlistIcon from "../../general/components/img/download.svg";
@@ -94,7 +95,10 @@ export default class PaymentConfirmationPage extends React.Component {
   trackOrder() {
     this.props.trackOrder();
   }
-
+  componentWillUnmount() {
+    localStorage.removeItem(DIGITAL_DATA_FOR_CART);
+    localStorage.removeItem(DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION);
+  }
   goToUrl(value) {
     if (value) {
       this.props.history.push(`${MY_ACCOUNT_PAGE}${value}`);

@@ -242,7 +242,7 @@ export function getProductDescription(
   productCode,
   behaviorOfPage,
   isApiCall: 0,
-  componentName
+  componentName: true
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(getProductDescriptionRequest());
@@ -270,13 +270,15 @@ export function getProductDescription(
         ) {
           window.location.pathname = resultJson.seo.alternateURL;
         }
-        setDataLayer(
-          ADOBE_PDP_TYPE,
-          resultJson,
-          null,
-          null,
-          behaviorOfPageTheCurrent
-        );
+        if (componentName) {
+          setDataLayer(
+            ADOBE_PDP_TYPE,
+            resultJson,
+            null,
+            null,
+            behaviorOfPageTheCurrent
+          );
+        }
         return dispatch(getProductDescriptionSuccess(resultJson));
       } else {
         if (resultJson.status === 404 && isApiCall === 0) {

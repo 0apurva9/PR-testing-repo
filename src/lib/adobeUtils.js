@@ -1787,6 +1787,132 @@ async function getDigitalDataForHome() {
   window.digitalData = Object.assign(previousDigitalData, data);
   return window.digitalData;
 }
+
+export function setDataLayerForRetryPaymentAccountSection(
+  cartResponse,
+  retryData
+) {
+  let data = { ...window.digitalData };
+  let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
+  if (userDetails) {
+    userDetails = JSON.parse(userDetails);
+    Object.assign(data, {
+      account: {
+        login: {
+          customerID: userDetails.customerId,
+          type: userDetails.loginType
+        }
+      },
+      page: {
+        category: {
+          primaryCategory: "multistepcheckoutsummary"
+        },
+        pageInfo: {
+          pageName: "multi checkout summary page",
+          pageType: "Checkout"
+        }
+      }
+    });
+  }
+  if (cartResponse && cartResponse.length > 0) {
+    let productIdsArray = [],
+      productQuantityArray = [],
+      productPriceArray = [],
+      productBrandArray = [],
+      categoryArray = [],
+      subCategory1 = [],
+      subCategory2 = [],
+      subCategory3 = [];
+    cartResponse.forEach(function(product, index) {
+      if (
+        retryData &&
+        product.productListingId === retryData[index].productcode
+      ) {
+        let totalPrice = parseInt(retryData[index].price);
+        let originalPrice =
+          product.winningSellerPrice && product.winningSellerPrice.doubleValue
+            ? product.winningSellerPrice.doubleValue
+            : product.mrpPrice && product.mrpPrice.doubleValue
+              ? product.mrpPrice.doubleValue
+              : null;
+        let quantity =
+          totalPrice > originalPrice ? totalPrice / originalPrice : 1;
+        productQuantityArray.push(quantity);
+        productPriceArray.push(
+          totalPrice
+            ? totalPrice
+            : product.mrpPrice && product.mrpPrice.doubleValue
+              ? product.mrpPrice.doubleValue
+              : null
+        );
+      } else {
+        productPriceArray.push(
+          product.winningSellerPrice && product.winningSellerPrice.doubleValue
+            ? product.winningSellerPrice.doubleValue
+            : product.mrpPrice && product.mrpPrice.doubleValue
+              ? product.mrpPrice.doubleValue
+              : null
+        );
+        productQuantityArray.push(1);
+      }
+      productIdsArray.push(
+        product.productListingId && product.productListingId.toLowerCase()
+      );
+      productBrandArray.push(
+        product.brandName && product.brandName.replace(/ /g, "_").toLowerCase()
+      );
+      product &&
+        product.rootCategory &&
+        categoryArray.push(product.rootCategory);
+      if (
+        product.categoryHierarchy &&
+        Array.isArray(product.categoryHierarchy)
+      ) {
+        subCategory1.push(
+          product.categoryHierarchy[0].category_name
+            ? product.categoryHierarchy[0].category_name
+                .replace(/\s+/g, "_")
+                .toLowerCase()
+            : null
+        );
+        subCategory2.push(
+          product.categoryHierarchy[1].category_name
+            ? product.categoryHierarchy[1].category_name
+                .replace(/\s+/g, "_")
+                .toLowerCase()
+            : null
+        );
+        subCategory3.push(
+          product.categoryHierarchy[2].category_name
+            ? product.categoryHierarchy[2].category_name
+                .replace(/\s+/g, "_")
+                .toLowerCase()
+            : null
+        );
+      }
+    });
+    Object.assign(data, {
+      cpj: {
+        product: {
+          id: productIdsArray,
+          quantity: productQuantityArray,
+          price: productPriceArray,
+          category: categoryArray
+        },
+        //totalAmount: totalAmount,
+        brand: {
+          name: productBrandArray
+        }
+      }
+    });
+    Object.assign(data && data.page && data.page.category, {
+      subCategory1: subCategory1,
+      subCategory2: subCategory2,
+      subCategory3: subCategory3
+    });
+  }
+  Object.assign(window.digitalData, data);
+}
 function getDigitalDataForCart(type, cartResponse) {
   let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
   if (userDetails) {
@@ -3434,6 +3560,11 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
           }
         });
       }
+      data = Object.assign(window.digitalData, data);
+      localStorage.setItem(
+        "digitalDataForPaymentConfirmation",
+        JSON.stringify(data)
+      );
     }
     if (window._satellite) {
       window._satellite.track(ADOBE_FINAL_PAYMENT);
@@ -3481,6 +3612,11 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
           }
         );
       }
+      data = Object.assign(window.digitalData, data);
+      localStorage.setItem(
+        "digitalDataForPaymentConfirmation",
+        JSON.stringify(data)
+      );
     }
     if (window._satellite) {
       window._satellite.track(ADOBE_SELECT_PAYMENT_MODES);
@@ -3488,10 +3624,10 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
   }
   data = Object.assign(window.digitalData, data);
   window.digitalData = data;
-  localStorage.setItem(
-    "digitalDataForPaymentConfirmation",
-    JSON.stringify(data)
-  );
+  // localStorage.setItem(
+  //   "digitalDataForPaymentConfirmation",
+  //   JSON.stringify(data)
+  // );
 }
 export function setDataLayerForMyAccountDirectCalls(
   type,

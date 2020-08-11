@@ -142,6 +142,9 @@ export const FETCH_ORDER_DETAILS_REQUEST = "FETCH_ORDER_DETAILS_REQUEST";
 export const FETCH_ORDER_DETAILS_SUCCESS = "FETCH_ORDER_DETAILS_SUCCESS";
 export const FETCH_ORDER_DETAILS_FAILURE = "FETCH_ORDER_DETAILS_FAILURE";
 
+export const RETRY_ORDER_DETAILS_SUCCESS = "RETRY_ORDER_DETAILS_SUCCESS";
+export const RETRY_ORDER_DETAILS_FAILURE = "RETRY_ORDER_DETAILS_FAILURE";
+
 export const FETCH_ORDER_ITEM_DETAILS_REQUEST =
   "FETCH_ORDER_ITEM_DETAILS_REQUEST";
 export const FETCH_ORDER_ITEM_DETAILS_SUCCESS =
@@ -3021,6 +3024,45 @@ export function fetchOrderDetails(orderId, pageName) {
       dispatch(fetchOrderDetailsSuccess(resultJson));
     } catch (e) {
       dispatch(fetchOrderDetailsFailure(e.message));
+    }
+  };
+}
+
+export function retryOrderDetailsSuccess(retryOrderDetails) {
+  return {
+    type: RETRY_ORDER_DETAILS_SUCCESS,
+    status: SUCCESS,
+    retryOrderDetails
+  };
+}
+
+export function retryOrderDetailsFailure(error) {
+  return {
+    type: RETRY_ORDER_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function getRetryOrderDetails(orderId) {
+  return async (dispatch, getState, { api }) => {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getSelectedOrder_V1/${orderId}?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&isMDE=true`
+      );
+      let resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(retryOrderDetailsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(retryOrderDetailsFailure(e.message));
     }
   };
 }
