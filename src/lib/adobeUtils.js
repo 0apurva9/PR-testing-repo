@@ -679,6 +679,42 @@ export const ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE =
 const MSD_AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE =
   "msdAutomatedBannerProductCarouselComponent";
 
+//Cliq care Page
+const SELF_SERVE_OTHER_ISSUES = "selfserve_OtherIssue";
+const SELF_SERVE_ALL_HELP_TOPIC_SELECTION = "selfserve_Topic_Selection";
+const SELF_SERVE_PAGE_LOAD = "selfserve_PageLoad";
+const SELF_SERVE_QUESTION_SELECTION = "selfserve_Issue_Selection";
+const SELF_SERVE_FEEDBACK_SELECTION = "selfserve_Feedback_Selection";
+const SELF_SERVE_CONTINUE_BUTTON_CLICK = "selfserve_Continue_button";
+const SELF_SERVE_MORE_HELP_PAGE_BUTTON_CLICK = "selfserve_Buttons_Click";
+const SELF_SERVE_NON_ORDER_CATEGORY_CLICK = "selfserve_Tab_Click";
+const SELF_SERVE_SUBMIT_BUTTON_CLICK = "selfserve_Submit";
+const SELF_SERVE_NON_ORDER_PAGE_LOAD = "selfserve_AR_Load";
+const SELF_SERVE_NON_ORDER_QUESTION_CLICK = "selfserve_AR_Topic_Selection";
+const SELF_SERVE_FAQ_PAGE_LOAD = "selfserve_IW_Load";
+
+export const ADOBE_SELF_SERVE_OTHER_ISSUES_CLICK =
+  "ADOBE_SELF_SERVE_OTHER_ISSUES_CLICK";
+export const ADOBE_SELF_SERVE_ALL_HELP_TOPIC_CLICK =
+  "ADOBE_SELF_SERVE_ALL_HELP_TOPIC_CLICK";
+export const ADOBE_SELF_SERVE_PAGE_LOAD = "ADOBE_SELF_SERVE_PAGE_LOAD";
+export const ADOBE_SELF_SERVE_ISSUE_SELECTION =
+  "ADOBE_SELF_SERVE_ISSUE_SELECTION";
+export const ADOBE_SELF_SERVE_FEEDBACK_SELECTION =
+  "ADOBE_SELF_SERVE_FEEDBACK_SELECTION";
+export const ADOBE_SELF_SERVE_CONTINUE_BUTTON_CLICK =
+  "ADOBE_SELF_SERVE_CONTINUE_BUTTON_CLICK";
+export const ADOBE_SELF_SERVE_MORE_HELP_PAGE_BUTTON_CLICK =
+  "ADOBE_SELF_SERVE_MORE_HELP_PAGE_BUTTON_CLICK";
+export const ADOBE_SELF_SERVE_NON_ORDER_CATEGORY_CLICK =
+  "ADOBE_SELF_SERVE_NON_ORDER_CATEGORY_CLICK";
+export const ADOBE_SELF_SERVE_SUBMIT_CLICK = "ADOBE_SELF_SERVE_SUBMIT_CLICK";
+export const ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK =
+  "ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK";
+export const ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD =
+  "ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD";
+export const ADOBE_SELF_SERVE_FAQ_PAGE_LOAD = "ADOBE_SELF_SERVE_FAQ_PAGE_LOAD";
+
 export async function setDataLayer(
   type,
   apiResponse,
@@ -1558,23 +1594,21 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
     pdpResponse && pdpResponse.allOOStock === true
       ? "Out of Stock"
       : pdpResponse && pdpResponse.isProductNew === "Y"
-        ? "New"
-        : seasonData && seasonData.key === "Season"
-          ? seasonData.value
-          : pdpResponse.isOnlineExclusive === "Y"
-            ? "New"
-            : pdpResponse.isExchangeAvailable === true &&
-              pdpResponse.showExchangeTag === true
-              ? "Exchange Offer"
-              : pdpResponse &&
-                pdpResponse.discount &&
-                pdpResponse.discount !== "0"
-                ? `${parseInt(pdpResponse.discount, 10)}% off`
-                : pdpResponse &&
-                  pdpResponse.isOfferExisting &&
-                  pdpResponse.isOfferExisting == "Y"
-                  ? "On Offer"
-                  : "";
+      ? "New"
+      : seasonData && seasonData.key === "Season"
+      ? seasonData.value
+      : pdpResponse.isOnlineExclusive === "Y"
+      ? "New"
+      : pdpResponse.isExchangeAvailable === true &&
+        pdpResponse.showExchangeTag === true
+      ? "Exchange Offer"
+      : pdpResponse && pdpResponse.discount && pdpResponse.discount !== "0"
+      ? `${parseInt(pdpResponse.discount, 10)}% off`
+      : pdpResponse &&
+        pdpResponse.isOfferExisting &&
+        pdpResponse.isOfferExisting == "Y"
+      ? "On Offer"
+      : "";
   let productCategoryId = pdpResponse && pdpResponse.categoryHierarchy;
   let APlusTamplete =
     pdpResponse &&
@@ -2031,8 +2065,8 @@ function getProductsDigitalData(response, type) {
           product.qtySelectedByUser
             ? product.qtySelectedByUser
             : product.quantity
-              ? product.quantity
-              : 1,
+            ? product.quantity
+            : 1,
           10
         )
       );
@@ -2041,12 +2075,12 @@ function getProductsDigitalData(response, type) {
           product.offerPrice
             ? product.offerPrice
             : product.pricevalue
-              ? product.pricevalue
-              : product.price
-                ? product.price
-                : product.mrp && product.mrp.value
-                  ? product.mrp.value
-                  : null,
+            ? product.pricevalue
+            : product.price
+            ? product.price
+            : product.mrp && product.mrp.value
+            ? product.mrp.value
+            : null,
           10
         )
       );
@@ -2063,11 +2097,12 @@ function getProductsDigitalData(response, type) {
             product.productName === "Gift Card"
               ? "Gift card"
               : product.categoryHierarchy &&
-                product.categoryHierarchy[currentReverseArray] &&
-                product.categoryHierarchy[currentReverseArray].category_name &&
-                product.categoryHierarchy[currentReverseArray].category_name
-                  .replace(/ /g, "_")
-                  .toLowerCase()
+                  product.categoryHierarchy[currentReverseArray] &&
+                  product.categoryHierarchy[currentReverseArray]
+                    .category_name &&
+                  product.categoryHierarchy[currentReverseArray].category_name
+                    .replace(/ /g, "_")
+                    .toLowerCase()
           );
         } else if (product.rootCategory) {
           categoryArray.push(product.rootCategory);
@@ -2078,11 +2113,11 @@ function getProductsDigitalData(response, type) {
             product.productName === "Gift Card"
               ? "Gift card"
               : product.categoryHierarchy &&
-                product.categoryHierarchy[0] &&
-                product.categoryHierarchy[0].category_name &&
-                product.categoryHierarchy[0].category_name
-                  .replace(/ /g, "_")
-                  .toLowerCase()
+                  product.categoryHierarchy[0] &&
+                  product.categoryHierarchy[0].category_name &&
+                  product.categoryHierarchy[0].category_name
+                    .replace(/ /g, "_")
+                    .toLowerCase()
           );
         } else if (product.rootCategory) {
           categoryArray.push(product.rootCategory);
@@ -4438,3 +4473,203 @@ export function setPageNameAndPageType(response) {
 //     }
 //   }
 // }
+
+export function setDataLayerForCLiQCarePage(type, data, pageName) {
+  let previousDigitalData = { ...window.digitalData };
+  if (type === ADOBE_SELF_SERVE_OTHER_ISSUES_CLICK) {
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_OTHER_ISSUES);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_ALL_HELP_TOPIC_CLICK) {
+    window.digitalData = Object.assign(previousDigitalData, {
+      selfserve: {
+        topics: {
+          name: data
+        }
+      }
+    });
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_ALL_HELP_TOPIC_SELECTION);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_PAGE_LOAD) {
+    if (!data) {
+      window.digitalData = {
+        page: {
+          pageInfo: {
+            pageType: pageName[0],
+            pageName: pageName[1]
+          }
+        }
+      };
+    } else if (pageName[1] === "TicketCreation") {
+      window.digitalData = {
+        ...previousDigitalData,
+        page: {
+          pageInfo: {
+            ...previousDigitalData.page.pageInfo,
+            pageName: pageName[0]
+          }
+        },
+        selfserve: {
+          response: data
+        }
+      };
+    } else {
+      window.digitalData = Object.assign(previousDigitalData, {
+        page: {
+          pageInfo: {
+            ...previousDigitalData.page.pageInfo,
+            pageName: pageName
+          }
+        },
+        selfserve: data
+      });
+    }
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_PAGE_LOAD);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_ISSUE_SELECTION) {
+    window.digitalData = Object.assign(previousDigitalData, {
+      selfserve: {
+        issue: {
+          title: data
+        }
+      }
+    });
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_QUESTION_SELECTION);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_FEEDBACK_SELECTION) {
+    if (previousDigitalData && previousDigitalData.selfserve) {
+      window.digitalData = Object.assign(previousDigitalData, {
+        selfserve: {
+          ...previousDigitalData.selfserve,
+          feedback: {
+            optionName: data
+          }
+        }
+      });
+    } else {
+      window.digitalData = Object.assign(previousDigitalData, {
+        selfserve: {
+          feedback: {
+            optionName: data
+          }
+        }
+      });
+    }
+
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_FEEDBACK_SELECTION);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_CONTINUE_BUTTON_CLICK) {
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_CONTINUE_BUTTON_CLICK);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_MORE_HELP_PAGE_BUTTON_CLICK) {
+    if (previousDigitalData && previousDigitalData.selfserve) {
+      window.digitalData = Object.assign(previousDigitalData, {
+        selfserve: {
+          ...previousDigitalData.selfserve,
+          button: {
+            name: data
+          }
+        }
+      });
+    } else {
+      window.digitalData = Object.assign(previousDigitalData, {
+        selfserve: {
+          button: {
+            name: data
+          }
+        }
+      });
+    }
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_MORE_HELP_PAGE_BUTTON_CLICK);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_NON_ORDER_CATEGORY_CLICK) {
+    window.digitalData = Object.assign(previousDigitalData, {
+      selfserve: {
+        issue: {
+          Tab: data
+        }
+      }
+    });
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_NON_ORDER_CATEGORY_CLICK);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_SUBMIT_CLICK) {
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_SUBMIT_BUTTON_CLICK);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD) {
+    window.digitalData = Object.assign(previousDigitalData, {
+      page: {
+        pageInfo: {
+          ...previousDigitalData.page.pageInfo,
+          pageName: pageName
+        }
+      },
+      selfserve: {
+        topics: data
+      }
+    });
+
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_NON_ORDER_PAGE_LOAD);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK) {
+    window.digitalData = Object.assign(previousDigitalData, {
+      selfserve: {
+        topics: {
+          ...previousDigitalData.selfserve.topics,
+          question: data
+        }
+      }
+    });
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_NON_ORDER_QUESTION_CLICK);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_FAQ_PAGE_LOAD) {
+    window.digitalData = {
+      ...previousDigitalData,
+      page: {
+        pageInfo: {
+          pageType: pageName[0],
+          pageName: pageName[1]
+        }
+      }
+    };
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_FAQ_PAGE_LOAD);
+    }
+  }
+  if (type === ADOBE_LOGIN_START) {
+    if (window._satellite) {
+      window._satellite.track(LOGIN_START);
+    }
+  }
+}
