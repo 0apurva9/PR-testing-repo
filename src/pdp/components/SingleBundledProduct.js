@@ -42,8 +42,18 @@ export default class SingleBundledProduct extends React.Component {
     ) {
       checked = true;
     }
+    let styleForExtraProducts = styles.hideProducts;
+    if (this.props.productIndex <= 1) {
+      styleForExtraProducts = styles.showProducts;
+    }
+    if (this.props.productIndex > 1 && this.props.hideExtraProducts) {
+      styleForExtraProducts = styles.hideProducts;
+    }
+    if (this.props.productIndex > 1 && !this.props.hideExtraProducts) {
+      styleForExtraProducts = styles.showProducts;
+    }
     return (
-      <React.Fragment>
+      <div className={!this.props.isMainProduct ? styleForExtraProducts : null}>
         {!this.props.isMainProduct ? <div className={styles.divider} /> : null}
         <div className={styles.singleProductContainer}>
           {!this.props.isMainProduct ? (
@@ -140,7 +150,7 @@ export default class SingleBundledProduct extends React.Component {
             )}
           </div>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

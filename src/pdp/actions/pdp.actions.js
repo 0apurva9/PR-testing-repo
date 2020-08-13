@@ -2259,7 +2259,10 @@ export function getTotalBundledPrice(data) {
   return async (dispatch, getState, { api }) => {
     dispatch(getTotalBundledPriceRequest());
     try {
-      const result = await api.post(`v2/mpl/products/bundledPrices`, data);
+      const result = await api.post(
+        `v2/mpl/products/bundledPrices?source=widget`,
+        data
+      );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status && result.status !== 200) {

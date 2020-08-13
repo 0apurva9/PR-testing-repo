@@ -50,3 +50,38 @@
 	color: #2c2627;
 	margin-right: 35px;
 }
+.showMoreProducts,.showLessProducts{
+	position: relative;
+	display: inline-block;
+	font-family: semibold;
+  font-size: 16px;
+	color: #6c6c6c;
+	margin: 15px 0 15px 10%;
+	cursor: pointer;
+}
+.showMoreProducts::after{
+	content: "";
+	border: 3px solid #da1c5c;
+	border-width: 0 3px 3px 0;
+	padding: 5px;
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	cursor: pointer;
+	position: absolute;
+	top: 1px;
+	right: -22px;
+}
+.showLessProducts::after{
+	content: "";
+	border: 3px solid #da1c5c;
+	border-width: 0 3px 3px 0;
+	padding: 5px;
+	-ms-transform: rotate(-135deg);
+	transform: rotate(-135deg);
+	-webkit-transform: rotate(-135deg);
+	cursor: pointer;
+	position: absolute;
+	top: 7px;
+	right: -22px;
+}
