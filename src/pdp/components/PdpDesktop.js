@@ -2382,7 +2382,68 @@ export default class PdpApparel extends React.Component {
 
 PdpApparel.propTypes = {
   location: PropTypes.object,
-  productDetails: PropTypes.object,
+  productDetails: PropTypes.objectOf(
+    PropTypes.shape({
+      seo: PropTypes.objectOf(
+        PropTypes.shape({
+          alternateURL: PropTypes.string,
+          breadcrumbs: PropTypes.arrayOf(
+            PropTypes.shape({
+              name: PropTypes.string,
+              url: PropTypes.string
+            })
+          ),
+          canonicalURL: PropTypes.string,
+          description: PropTypes.string,
+          imageURL: PropTypes.string,
+          keywords: PropTypes.string,
+          title: PropTypes.string
+        })
+      ),
+      categoryHierarchy: PropTypes.arrayOf(
+        PropTypes.shape({
+          category_id: PropTypes.string,
+          category_name: PropTypes.string
+        })
+      ).isRequired,
+      rootCategory: PropTypes.string,
+      allOOStock: PropTypes.bool,
+      productListingId: PropTypes.string,
+      winningUssID: PropTypes.string,
+      winningSellerPrice: PropTypes.objectOf(
+        PropTypes.shape({
+          currencyIso: PropTypes.string,
+          currencySymbol: PropTypes.string,
+          doubleValue: PropTypes.number,
+          formattedValue: PropTypes.string,
+          formattedValueNoDecimal: PropTypes.string,
+          priceType: PropTypes.string,
+          value: PropTypes.number
+        })
+      ),
+      winningSellerAvailableStock: PropTypes.string,
+      showSizeGuide: PropTypes.bool,
+      eligibleDeliveryModes: PropTypes.arrayOf(
+        PropTypes.shape({
+          code: PropTypes.string,
+          displayCost: PropTypes.string,
+          name: PropTypes.string
+        })
+      ),
+      maxExchangeAmount: PropTypes.objectOf(
+        PropTypes.shape({
+          currencyIso: PropTypes.string,
+          currencySymbol: PropTypes.string,
+          doubleValue: PropTypes.number,
+          formattedValue: PropTypes.string,
+          formattedValueNoDecimal: PropTypes.string,
+          priceType: PropTypes.string,
+          value: PropTypes.number
+        })
+      ),
+      productName: PropTypes.string
+    })
+  ),
   getUserAddress: PropTypes.func,
   getPdpOffers: PropTypes.func,
   getManufacturerDetails: PropTypes.func,
