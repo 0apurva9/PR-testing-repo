@@ -42,6 +42,7 @@ import { isBrowser } from "browser-or-node";
 import { getCartCountForLoggedInUser } from "../../cart/actions/cart.actions.js";
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
 import { displayToast } from "../../general/toast.actions.js";
+import { getGlobalAccessToken } from "../../lib/getCookieDetails.js";
 export const SUBMIT_REVIEW_TEXT = "Thanks! Review submitted successfully";
 export const PRODUCT_DESCRIPTION_REQUEST = "PRODUCT_DESCRIPTION_REQUEST";
 export const PRODUCT_DESCRIPTION_SUCCESS = "PRODUCT_DESCRIPTION_SUCCESS";
@@ -2209,10 +2210,9 @@ export function getBundledProductSuggestion(
   return async (dispatch, getState, { api }) => {
     dispatch(getBundledProductSuggestionRequest());
     try {
-      let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-      let accessToken = globalCookie && JSON.parse(globalCookie).access_token;
+      let globalAccessToken = getGlobalAccessToken();
       const result = await api.get(
-        `v2/mpl/products/${productId}/suggestion?access_token=${accessToken}&ussId=${ussId}&categoryCode=${categoryCode}&brandCode=${brandCode}&channel=${CHANNEL}&updatedFlag=true&source=${source}&pincode=${pincode}`
+        `v2/mpl/products/${productId}/suggestion?access_token=${globalAccessToken}&ussId=${ussId}&categoryCode=${categoryCode}&brandCode=${brandCode}&channel=${CHANNEL}&updatedFlag=true&source=${source}&pincode=${pincode}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
