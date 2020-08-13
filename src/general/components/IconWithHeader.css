@@ -81,6 +81,8 @@ font-family: regular;
   color: #00964d;
   font-family: regular;
   text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 600;
 }
 .fontRegular{
   font-family: regular;
