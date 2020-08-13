@@ -1022,6 +1022,12 @@ export async function setDataLayer(
   if (type === ADOBE_CART_TYPE) {
     let newVariable = getDigitalDataForCart(type, response);
     window.digitalData = Object.assign(window.digitalData, newVariable);
+    if (window.digitalData) {
+      localStorage.setItem(
+        constants.DIGITAL_DATA_FOR_CART,
+        JSON.stringify(window.digitalData)
+      );
+    }
     if (window._satellite) {
       window._satellite.track(ADOBE_DIRECT_CALL_FOR_LANDING_USER);
     }
@@ -1561,9 +1567,10 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
         ? "New"
         : seasonData && seasonData.key === "Season"
           ? seasonData.value
-          : pdpResponse.isOnlineExclusive === "Y"
+          : pdpResponse && pdpResponse.isOnlineExclusive === "Y"
             ? "New"
-            : pdpResponse.isExchangeAvailable === true &&
+            : pdpResponse &&
+              pdpResponse.isExchangeAvailable === true &&
               pdpResponse.showExchangeTag === true
               ? "Exchange Offer"
               : pdpResponse &&
@@ -3171,35 +3178,84 @@ export function setDataLayerForOrderConfirmationDirectCalls(
     }
   }
   if (type === ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_FAILURE) {
-    const data = {
-      page: {
+    let data = window.digitalData;
+    if (data && data.page) {
+      Object.assign(data.page, {
         pageInfo: {
           pageName: "order failed",
           pageType: "Order Fail"
         },
         category: {
-          primaryCategory: "orderfailed"
+          primaryCategory: "orderfailed",
+          subCategory1:
+            window.digitalData.page &&
+            window.digitalData.page.category &&
+            window.digitalData.page.category.subCategory1,
+          subCategory2:
+            window.digitalData.page &&
+            window.digitalData.page.category &&
+            window.digitalData.page.category.subCategory2,
+          subCategory3:
+            window.digitalData.page &&
+            window.digitalData.page.category &&
+            window.digitalData.page.category.subCategory3
         }
-      },
-      cpj: {
+      });
+    } else {
+      Object.assign(data, {
+        page: {
+          pageInfo: {
+            pageName: "order failed",
+            pageType: "Order Fail"
+          },
+          category: {
+            primaryCategory: "orderfailed",
+            subCategory1:
+              window.digitalData.page &&
+              window.digitalData.page.category &&
+              window.digitalData.page.category.subCategory1,
+            subCategory2:
+              window.digitalData.page &&
+              window.digitalData.page.category &&
+              window.digitalData.page.category.subCategory2,
+            subCategory3:
+              window.digitalData.page &&
+              window.digitalData.page.category &&
+              window.digitalData.page.category.subCategory3
+          }
+        }
+      });
+    }
+    if (data && data.cpj) {
+      Object.assign(data.cpj, {
         order: {
           failureReason:
             orderConfirmationResponse && orderConfirmationResponse.failureReason
               ? orderConfirmationResponse.failureReason
-              : ""
-        },
-        product: {
-          price:
-            orderConfirmationResponse && orderConfirmationResponse.price
-              ? orderConfirmationResponse.price
               : "",
           id:
             orderConfirmationResponse && orderConfirmationResponse.orderId
               ? orderConfirmationResponse.orderId
               : ""
         }
-      }
-    };
+      });
+    } else {
+      Object.assign(data, {
+        cpj: {
+          order: {
+            failureReason:
+              orderConfirmationResponse &&
+              orderConfirmationResponse.failureReason
+                ? orderConfirmationResponse.failureReason
+                : "",
+            id:
+              orderConfirmationResponse && orderConfirmationResponse.orderId
+                ? orderConfirmationResponse.orderId
+                : ""
+          }
+        }
+      });
+    }
 
     window.digitalData = data;
     if (window._satellite) {
@@ -3218,6 +3274,37 @@ function setAccountData() {
 }
 export function setDataLayerForCheckoutDirectCalls(type, response) {
   let data = cloneDeep(window.digitalData);
+  let cartData = localStorage.getItem(constants.DIGITAL_DATA_FOR_CART);
+  if (cartData) {
+    cartData = JSON.parse(cartData);
+    Object.assign(data, cartData);
+    Object.assign(data, {
+      page: {
+        category: {
+          primaryCategory: "multistepcheckoutsummary",
+          subCategory1:
+            cartData &&
+            cartData.page &&
+            cartData.page.category &&
+            cartData.page.category.subCategory1,
+          subCategory2:
+            cartData &&
+            cartData.page &&
+            cartData.page.category &&
+            cartData.page.category.subCategory2,
+          subCategory3:
+            cartData &&
+            cartData.page &&
+            cartData.page.category &&
+            cartData.page.category.subCategory3
+        },
+        pageInfo: {
+          pageName: "multi checkout summary page",
+          pageType: "Checkout"
+        }
+      }
+    });
+  }
   if (type === ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE) {
     if (window._satellite) {
       window._satellite.track(ADOBE_LANDING_ON_ADDRESS_PAGE);
@@ -3428,6 +3515,7 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
         );
       }
     }
+    data = Object.assign(window.digitalData, data);
     if (window._satellite) {
       window._satellite.track(ADOBE_SELECT_PAYMENT_MODES);
     }

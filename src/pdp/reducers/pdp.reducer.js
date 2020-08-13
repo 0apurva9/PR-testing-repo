@@ -159,7 +159,11 @@ const productDescription = (
       return Object.assign({}, state, {
         visitedNewProduct: false
       });
-
+    case pdpActions.CLEAR_ALL_MSD_ITEMS:
+      return {
+        ...state,
+        msdItems: {}
+      };
     case pdpActions.CHECK_PRODUCT_PIN_CODE_REQUEST:
       return Object.assign({}, state, {
         status: action.status,
