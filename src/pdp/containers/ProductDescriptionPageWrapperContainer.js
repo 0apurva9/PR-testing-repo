@@ -19,7 +19,9 @@ import {
   getRelevantBundleProduct,
   relevantProductServibilty,
   relevantBundleProductCode,
-  getExchangeDetails
+  getExchangeDetails,
+  getBundledProductSuggestion,
+  getTotalBundledPrice
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -316,6 +318,28 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getChatbotDetails: async () => {
       await dispatch(getChatbotDetails());
+    },
+    getBundledProductSuggestion: (
+      productId,
+      ussId,
+      categoryCode,
+      brandCode,
+      source,
+      pincode
+    ) => {
+      dispatch(
+        getBundledProductSuggestion(
+          productId,
+          ussId,
+          categoryCode,
+          brandCode,
+          source,
+          pincode
+        )
+      );
+    },
+    getTotalBundledPrice: data => {
+      dispatch(getTotalBundledPrice(data));
     }
   };
 };
@@ -352,7 +376,13 @@ const mapStateToProps = state => {
     chatbotDetailsData: state.productListings.getChatbotDetailsData,
     addToCartResponseDetails: state.productDescription.addToCartResponseDetails,
     addToCartResponseLoading: state.productDescription.addToCartResponseLoading,
-    cartCountDetails: state.cart.cartCountDetails
+    cartCountDetails: state.cart.cartCountDetails,
+    bundledProductSuggestionDetails:
+      state.productDescription.getBundledProductSuggestionDetails,
+    totalBundledPriceDetails:
+      state.productDescription.getTotalBundledPriceDetails,
+    getTotalBundledPriceLoading:
+      state.productDescription.getTotalBundledPriceLoading
   };
 };
 
