@@ -42,7 +42,13 @@ import { isBrowser } from "browser-or-node";
 import { getCartCountForLoggedInUser } from "../../cart/actions/cart.actions.js";
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
 import { displayToast } from "../../general/toast.actions.js";
-import { getGlobalAccessToken } from "../../lib/getCookieDetails.js";
+import {
+  getGlobalAccessToken,
+  getCustomerAccessToken,
+  getLoggedInUserDetails,
+  getCartDetailsForLoggedInUser,
+  getCartDetailsForAnonymousInUser
+} from "../../lib/getCookieDetails.js";
 export const SUBMIT_REVIEW_TEXT = "Thanks! Review submitted successfully";
 export const PRODUCT_DESCRIPTION_REQUEST = "PRODUCT_DESCRIPTION_REQUEST";
 export const PRODUCT_DESCRIPTION_SUCCESS = "PRODUCT_DESCRIPTION_SUCCESS";
@@ -2296,20 +2302,18 @@ export function addBundledProductsToCartFailure(error) {
 }
 
 export function addBundledProductsToCart(data) {
-  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-  let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-  let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-  let accessToken = globalCookie ? JSON.parse(globalCookie).access_token : null;
+  let userDetails = getLoggedInUserDetails();
+  let accessToken = getGlobalAccessToken();
   let userId = ANONYMOUS_USER;
   let cartDetails;
-  if (userDetails && customerCookie) {
-    userId = JSON.parse(userDetails).userName;
-    accessToken = JSON.parse(customerCookie).access_token;
-    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  if (userDetails) {
+    userId = userDetails.userName;
+    accessToken = getCustomerAccessToken();
+    cartDetails = getCartDetailsForLoggedInUser();
   } else {
-    cartDetails = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+    cartDetails = getCartDetailsForAnonymousInUser();
   }
-  let cartId = cartDetails ? JSON.parse(cartDetails).code : null;
+  let cartId = cartDetails ? cartDetails.code : null;
   let disableNext = false;
 
   return async (dispatch, getState, { api }) => {

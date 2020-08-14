@@ -11,9 +11,13 @@ import {
 import { transferPincodeToPdpPincode } from "./utils";
 import { CLEAR_ERROR } from "../../general/error.actions.js";
 import * as Cookies from "../../lib/Cookie";
-
 import concat from "lodash.concat";
 import cloneDeep from "lodash.clonedeep";
+import {
+  getCustomerAccessToken,
+  getLoggedInUserDetails
+} from "../../lib/getCookieDetails.js";
+
 const productDescription = (
   state = {
     status: null,
@@ -101,6 +105,8 @@ const productDescription = (
   action
 ) => {
   let sizeGuide, currentBrandDetails;
+  const loggedInUserDetails = getLoggedInUserDetails();
+  const customerAccessToken = getCustomerAccessToken();
   switch (action.type) {
     case CLEAR_ERROR:
       return Object.assign({}, state, {
@@ -1155,11 +1161,7 @@ const productDescription = (
       });
 
     case pdpActions.ADD_BUNDLED_PRODUCTS_TO_CART_SUCCESS:
-      const loggedInUserDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
-      const customerAccessTokenCookie = Cookies.getCookie(
-        CUSTOMER_ACCESS_TOKEN
-      );
-      if (loggedInUserDetails && customerAccessTokenCookie) {
+      if (loggedInUserDetails && customerAccessToken) {
         Cookies.createCookie(
           CART_DETAILS_FOR_LOGGED_IN_USER,
           JSON.stringify(action.data)
