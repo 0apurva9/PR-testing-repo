@@ -12,7 +12,8 @@ import {
   DESKTOP_THEME_OFFER_CN,
   THEME_OFFER_CN,
   MSD_DISCOVER_MORE,
-  MSD_AUTOMATED_BRAND_CAROUSEL
+  MSD_AUTOMATED_BRAND_CAROUSEL,
+  AUTOMATED_WIDGETS_FOR_HOME
 } from "../../lib/constants";
 
 import { transformFetchingItemsOrder } from "./utils";
@@ -68,7 +69,8 @@ const feed = (
           componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
           componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
           componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
-          componentName === MSD_DISCOVER_MORE
+          componentName === MSD_DISCOVER_MORE ||
+          componentName === AUTOMATED_WIDGETS_FOR_HOME
         ) {
           componentName = HARD_CODED_KEY_FOR_COMPONENT;
         }
@@ -118,7 +120,8 @@ const feed = (
             componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
             componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
             componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
-            componentName === MSD_DISCOVER_MORE
+            componentName === MSD_DISCOVER_MORE ||
+            componentName === AUTOMATED_WIDGETS_FOR_HOME
           ) {
             componentName = HARD_CODED_KEY_FOR_COMPONENT;
           }
@@ -134,7 +137,8 @@ const feed = (
         return Object.assign({}, state, {
           homeFeed: homeFeedData,
           status: action.status,
-          loading: false
+          loading: false,
+          arrayWithAutoWiget: action.arrayWithAutoWiget
         });
       }
       return state;
@@ -182,7 +186,8 @@ const feed = (
             componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
             componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
             componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
-            componentName === MSD_DISCOVER_MORE
+            componentName === MSD_DISCOVER_MORE ||
+            componentName === AUTOMATED_WIDGETS_FOR_HOME
           ) {
             componentName = HARD_CODED_KEY_FOR_COMPONENT;
           }
@@ -243,7 +248,8 @@ const feed = (
         componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
         componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
         componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
-        componentName === MSD_DISCOVER_MORE
+        componentName === MSD_DISCOVER_MORE ||
+        componentName === AUTOMATED_WIDGETS_FOR_HOME
       ) {
         componentName = HARD_CODED_KEY_FOR_COMPONENT;
       }
@@ -379,7 +385,8 @@ const feed = (
           componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
           componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
           componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
-          componentName === MSD_DISCOVER_MORE
+          componentName === MSD_DISCOVER_MORE ||
+          componentName === AUTOMATED_WIDGETS_FOR_HOME
         ) {
           componentName = HARD_CODED_KEY_FOR_COMPONENT;
         }
@@ -454,6 +461,32 @@ const feed = (
       return Object.assign({}, state, {
         loadMsdSkeleton: true,
         loading: false
+      });
+    case homeActions.AUTOMATED_WIDGET_HOME_REQUEST:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: true
+      });
+    case homeActions.AUTOMATED_WIDGET_ITEM_REQUEST:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: true
+      });
+    case homeActions.AUTOMATED_MSD_WIDGET_ITEM_DATA:
+      const msdWidgetRecommendedItems = { ...state.automatedWidgetData };
+      msdWidgetRecommendedItems[action.widgetName] = action.automatedData;
+      return Object.assign({}, state, {
+        loadMsdSkeleton: true,
+        automatedWidgetData: msdWidgetRecommendedItems
+      });
+    case homeActions.AUTOMATED_WIDGET_HOME_SUCCESS:
+      const newMsdRecommendedItems = { ...state.homeAutoWidget };
+      newMsdRecommendedItems[action.widgetName] = action.homeAutoWidgetData;
+      return Object.assign({}, state, {
+        loadMsdSkeleton: true,
+        homeAutoWidget: newMsdRecommendedItems,
+        widgetAboutdBrand:
+          action.widgetName === "aboutTheBrand" ? "About the Brand" : "",
+        widgetSimilarProduct:
+          action.widgetName === "similarProducts" ? "Similar Product" : ""
       });
 
     default:

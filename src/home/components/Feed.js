@@ -29,6 +29,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER
 } from "../../lib/adobeUtils";
 import Chatbot from "../../plp/components/Chatbot";
+import AutomatedWidgetsForHome from "./AutomatedWidgetsForHome";
 export const PRODUCT_RECOMMENDATION_TYPE = "productRecommendationWidget";
 const DEFAULT_TITLE =
   "Online Shopping Site in India - Upto 60% Off On Mobiles, Electronics & Fashion at Tata CLiQ";
@@ -331,6 +332,7 @@ export const typeComponentMapping = {
   "Multi Click Banner Component": props => (
     <MultiClickBannerComponent {...props} />
   ),
+  AutoWidget: props => <AutomatedWidgetsForHome {...props} />,
   msdAutomatedBannerProductCarouselComponent: props => (
     <MsdAutomatedBrandProductCarousel {...props} />
   ),

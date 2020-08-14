@@ -198,14 +198,17 @@ export default class ProductModule extends React.Component {
               className={
                 electronicView
                   ? styles.electronicViewContent
-                  : this.props.view === "grid"
-                    ? styles.content
-                    : styles.Listcontent
+                  : this.props.autoWidget
+                    ? styles.contentAutoWidget
+                    : this.props.view === "grid"
+                      ? styles.content
+                      : styles.Listcontent
               }
             >
               <ProductDescription
                 {...this.props}
                 electronicView={electronicView}
+                autoWidget={this.props.autoWidget}
               />
               {this.props &&
                 !this.props.widgetName &&

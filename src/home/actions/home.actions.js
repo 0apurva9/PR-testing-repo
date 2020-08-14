@@ -75,6 +75,16 @@ export const MSD_HOME_COMPONENT_SUCCESS = "MSD_HOME_COMPONENT_SUCCESS";
 export const MSD_HOME_ABC_COMPONENT_REQUEST = "MSD_HOME_ABC_COMPONENT_REQUEST";
 export const MSD_HOME_ABC_COMPONENT_SUCCESS = "MSD_HOME_ABC_COMPONENT_SUCCESS";
 
+export const AUTOMATED_WIDGET_HOME_REQUEST = "AUTOMATED_WIDGET_HOME_REQUEST";
+export const AUTOMATED_WIDGET_HOME_SUCCESS = "AUTOMATED_WIDGET_HOME_SUCCESS";
+export const AUTOMATED_WIDGET_ITEM_REQUEST = "AUTOMATED_WIDGET_ITEM_REQUEST";
+export const AUTOMATED_MSD_WIDGET_ITEM_DATA = "AUTOMATED_MSD_WIDGET_ITEM_DATA";
+export const ABOUT_THE_BRAND_WIDGET_KEY = "aboutTheBrand";
+export const FREQUENTLY_BOUGHT_TOGETHER_WIDGET_KEY = "FrequentlyBoughtTogether";
+export const SIMILAR_PRODUCTS_WIDGET_KEY = "similarProducts";
+export const TOP_PICKS_FOR_YOU = "TopPicksForYou";
+export const RECENTLY_VIEWED = "RecentlyViewed";
+export const TRENDING_PRODUCTS = "TrendingProducts";
 export const CLEAR_ITEMS_FOR_PARTICULAR_POSITION =
   "CLEAR_ITEMS_FOR_PARTICULAR_POSITION";
 const ADOBE_TARGET_DELAY = 2500;
@@ -107,6 +117,7 @@ const FOLLOW_WIDGET = "Auto Following Brands Component";
 const MULTI_CLICK_COMPONENT = "Multi Click Component";
 const AUTO_PRODUCT_RECOMMENDATION_COMPONENT =
   "Auto Product Recommendation Component";
+const PRODUCT_DESCRIPTION_PATH = "v2/mpl/products/productDetails";
 // TODO Followed Widget
 let ADOBE_TARGET_HOME_FEED_MBOX_NAME, // for local/devxelp/uat2tmpprod
   ADOBE_TARGET_PRODUCTION_HOME_FEED_MBOX_NAME,
@@ -288,11 +299,12 @@ export function homeFeedBackUpRequest() {
   };
 }
 
-export function homeFeedBackupSuccess(data) {
+export function homeFeedBackupSuccess(data, arrayWithAutoWiget) {
   return {
     type: HOME_FEED_BACK_UP_SUCCESS,
     status: SUCCESS,
-    data
+    data,
+    arrayWithAutoWiget
   };
 }
 
@@ -344,7 +356,1221 @@ export function homeFeedBackUp() {
       const result = await api.get(
         `v2/mpl/cms/defaultpage?pageId=defaulthomepage&channel=${WCMS_PLATFORM}`
       );
-      const resultJson = await result.json();
+      //const resultJson = await result.json();
+      // const resultJson = {
+      //   items: [
+      //     {
+      //       componentName: "landingPageTitleComponent",
+      //       landingPageTitleComponent: {
+      //         componentId: "comp_0000I1PG",
+      //         title: "Welcome",
+      //         type: "Landing Page Title Component"
+      //       }
+      //     },
+      //     {
+      //       componentName: "spaceItemComponent",
+      //       singleBannerComponent: {
+      //         componentId: "comp_0000I1Q0",
+      //         title: "",
+      //         type: "spaceItemComponent"
+      //       }
+      //     },
+      //     {
+      //       componentName: "quickLinksComponent",
+      //       singleBannerComponent: {
+      //         componentId: "comp_0000I1QC",
+      //         items: [
+      //           {
+      //             btnText: "",
+      //             description: "",
+      //             hexCode: "",
+      //             imageURL:
+      //               "//assets.tatacliq.com/medias/sys_master/images/27460000350238.jpg",
+      //             title: "",
+      //             webURL:
+      //               "https://www.tatacliq.com/westside/c-mbh11a00004?&icid2=quic:qul:main:hmp:m10:a00004:best:01:R1:blp:Bx:010"
+      //           },
+      //           {
+      //             btnText: "",
+      //             description: "",
+      //             hexCode: "",
+      //             imageURL:
+      //               "//assets.tatacliq.com/medias/sys_master/images/27453285793822.jpg",
+      //             title: "",
+      //             webURL:
+      //               "https://www.tatacliq.com/smartphone-store?&icid2=quic:qul:main:hmp:m1210:mulb:best:02:R1:clp:Bx:010"
+      //           },
+      //           {
+      //             btnText: "",
+      //             description: "",
+      //             hexCode: "",
+      //             imageURL:
+      //               "//assets.tatacliq.com/medias/sys_master/images/27453285859358.jpg",
+      //             title: "",
+      //             webURL:
+      //               "https://www.tatacliq.com/indiluxe?&icid2=quic:qul:main:hmp:m00:mulb:best:03:R1:clp:Bx:010"
+      //           },
+      //           {
+      //             btnText: "",
+      //             description: "",
+      //             hexCode: "",
+      //             imageURL:
+      //               "//assets.tatacliq.com/medias/sys_master/images/27467959861278.jpg",
+      //             title: "",
+      //             webURL:
+      //               "https://www.tatacliq.com/appliances-store?&icid2=quic:qul:main:hmp:m12:mulb:best:04:R1:clp:Bx:010"
+      //           },
+      //           {
+      //             btnText: "",
+      //             description: "",
+      //             hexCode: "",
+      //             imageURL:
+      //               "//assets.tatacliq.com/medias/sys_master/images/27458868412446.gif",
+      //             title: "",
+      //             webURL:
+      //               "https://www.tatacliq.com/watch-store?&icid2=quic:qul:main:hmp:m15:mulb:best:05:R1:clp:Bx:010"
+      //           },
+      //           {
+      //             btnText: "",
+      //             description: "",
+      //             hexCode: "",
+      //             imageURL:
+      //               "//assets.tatacliq.com/medias/sys_master/images/27467959926814.jpg",
+      //             title: "",
+      //             webURL:
+      //               "https://www.tatacliq.com/audio-store?&icid2=quic:qul:main:hmp:m1234:mulb:best:06:R1:clp:Bx:010"
+      //           },
+      //           {
+      //             btnText: "",
+      //             description: "",
+      //             hexCode: "",
+      //             imageURL:
+      //               "//assets.tatacliq.com/medias/sys_master/images/27460000153630.jpg",
+      //             title: "",
+      //             webURL:
+      //               "https://www.tatacliq.com/footwear-store?&icid2=quic:qul:main:hmp:m13:mulb:best:07:R1:clp:Bx:010"
+      //           },
+      //           {
+      //             btnText: "",
+      //             description: "",
+      //             hexCode: "",
+      //             imageURL:
+      //               "//assets.tatacliq.com/medias/sys_master/images/27460000284702.jpg",
+      //             title: "",
+      //             webURL:
+      //               "https://www.tatacliq.com/womens-lifestyle?&icid2=quic:qul:main:hmp:m10:mulb:best:08:R1:clp:Bx:010"
+      //           },
+      //           {
+      //             btnText: "",
+      //             description: "",
+      //             hexCode: "",
+      //             imageURL:
+      //               "//assets.tatacliq.com/medias/sys_master/images/27460000088094.jpg",
+      //             title: "",
+      //             webURL:
+      //               "https://www.tatacliq.com/it-accessories?&icid2=quic:qul:main:hmp:m12:mulb:best:09:R1:clp:Bx:010"
+      //           }
+      //         ],
+      //         title: "",
+      //         type: "quickLinksComponent"
+      //       }
+      //     },
+      //     {
+      //       componentName: "spaceItemComponent",
+      //       singleBannerComponent: {
+      //         componentId: "comp_0000JM8I",
+      //         title: "",
+      //         type: "spaceItemComponent"
+      //       }
+      //     },
+      //     {
+      //       componentName: "msdAutomatedBannerProductCarouselComponent",
+      //       singleBannerComponent: {
+      //         componentId: "comp_0000JS7S",
+      //         items: [
+      //           {
+      //             btnText: "View more",
+      //             description: "msdAutomatedBannerProductCarouselComponent",
+      //             hexCode: "10",
+      //             imageURL: "",
+      //             title: "msd",
+      //             webURL: "https://ap-southeast-1-api.madstreetden.com/widgets"
+      //           }
+      //         ],
+      //         title: "",
+      //         type: "msdAutomatedBannerProductCarouselComponent"
+      //       }
+      //     },
+      //     {
+      //       componentName: "spaceItemComponent",
+      //       singleBannerComponent: {
+      //         componentId: "comp_0000JM8I",
+      //         title: "",
+      //         type: "spaceItemComponent"
+      //       }
+      //     },
+      //     {
+      //       componentName: "AutoWidget",
+      //       singleBannerComponent: {
+      //         componentId: "comp_0000JS7S",
+      //         items: [
+      //           {
+      //             btnText: "10", //num results
+      //             description: "", //filters
+      //             hexCode: "MP000000005998997", //product_id
+      //             imageURL: "",
+      //             title: "", //fields
+      //             webURL: "114" //widgetId
+      //           }
+      //         ],
+      //         title: "",
+      //         type: "AutoWidget"
+      //       }
+      //     },
+      //     {
+      //       componentName: "spaceItemComponent",
+      //       singleBannerComponent: {
+      //         componentId: "comp_0000JM8I",
+      //         title: "",
+      //         type: "spaceItemComponent"
+      //       }
+      //     },
+      //     {
+      //       componentName: "AutoWidget",
+      //       singleBannerComponent: {
+      //         componentId: "comp_0000JS7S",
+      //         items: [
+      //           {
+      //             btnText: "10", //num results
+      //             description: "", //filters
+      //             hexCode: "MP000000006382486", //product_id
+      //             imageURL: "",
+      //             title: "", //fields
+      //             webURL: "0" //widgetId
+      //           }
+      //         ],
+      //         title: "",
+      //         type: "AutoWidget"
+      //       }
+      //     },
+      //     {
+      //       componentName: "spaceItemComponent",
+      //       singleBannerComponent: {
+      //         componentId: "comp_0000JM8I",
+      //         title: "",
+      //         type: "spaceItemComponent"
+      //       }
+      //     },
+      //     {
+      //       componentName: "AutoWidget",
+      //       singleBannerComponent: {
+      //         componentId: "comp_0000JS7S",
+      //         items: [
+      //           {
+      //             btnText: "10", //num results
+      //             description: "", //filters
+      //             hexCode: "MP000000006382486", //product_id
+      //             imageURL: "",
+      //             title: "", //fields
+      //             webURL: "4" //widgetId
+      //           }
+      //         ],
+      //         title: "",
+      //         type: "AutoWidget"
+      //       }
+      //     },
+      //   ],
+      //   message: "defaulthomepage",
+      //   pageName: "sm:pwa:main:all:homepagenew:151119",
+      //   pageType: "",
+      //   seo: {
+      //     alternateURL: "",
+      //     canonicalURL: "",
+      //     description:
+      //       "Online Shopping Site in India - 10% Instant Cash back on HDFC credit and Debit Cards for Min order 3000* - Up to 60% Off On Mobiles, Electronics & Fashion at Tata CLiQ",
+      //     imageURL: "",
+      //     keywords: "",
+      //     title:
+      //       "Online Shopping Site in India - Upto 60% Off On Mobiles, Electronics, Fashion & Jewellery at Tata CLiQ"
+      //   },
+      //   status: "SUCCESS"
+      // };
+      const resultJson = {
+        items: [
+          {
+            componentName: "landingPageTitleComponent",
+            landingPageTitleComponent: {
+              componentId: "comp_0000I1PG",
+              title: "Welcome to Mock World!",
+              type: "Landing Page Title Component"
+            }
+          },
+          {
+            componentName: "spaceItemComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000I1Q0",
+              title: "",
+              type: "spaceItemComponent"
+            }
+          },
+          {
+            componentName: "01QLC-P",
+            singleBannerComponent: {
+              componentId: "comp_0000I1QC",
+              items: [
+                {
+                  btnText: "",
+                  description: "HP-1",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615316705310.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/westside/c-mbh11a00004?&icid2=quic:qul:main:hmp:m10:a00004:best:01:R1:blp:Bx:010"
+                },
+                {
+                  btnText: "",
+                  description: "HP-1",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27623946879006.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/smartphones/c-msh1210100?&icid2=quic:qul:main:hmp:m1210100:mulb:best:02:R1:clp:Bx:010"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615316836382.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/cliq-luxury?&icid2=quic:qul:main:hmp:m00:mulb:best:03:R1:clp:Bx:010"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27623946944542.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/appliances-store?&icid2=quic:qul:main:hmp:m12:mulb:best:04:R1:clp:Bx:010"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615316901918.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/watches/c-msh15?q=%3Arelevance%3Acategory%3AMSH15%3Acategory%3AMSH15%3Acategory%3AMSH15%3Acategory%3AMSH15%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3AdiscountFlag%3A10%2525%2B-%2B30%2525%3AdiscountFlag%3A30%2525%2B-%2B50%2525%3AdiscountFlag%3A50%2525%2B-%2B70%2525&icid2=quic:qul:main:hmp:m15:mulb:best:05:R1:clp:Bx:010"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615317229598.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/electronics-laptop/c-msh1223?&icid2=quic:qul:main:hmp:m1223:mulb:best:06:R1:clp:Bx:010"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615317032990.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/womens-clothing/c-msh10?q=%3Arelevance%3Acategory%3AMSH10%3Acategory%3AMSH10%3Acategory%3AMSH10%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3AdiscountFlag%3A50%2525%2B-%2B70%2525%3AdiscountFlag%3A70%2525%2Band%2Bmore%3AdiscountFlag%3A30%2525%2B-%2B50%2525&icid2=quic:qul:main:hmp:m10:mulb:best:07:R1:clp:Bx:010"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27623947010078.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/accessories/c-msh1222/?q=:relevance:category:MSH1222&icid2=quic:qul:main:hmp:m1222:mulb:best:08:R1:clp:Bx:010"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615317164062.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/mens-clothing/c-msh11?&icid2=quic:qul:main:hmp:m11:mulb:best:09:R1:clp:Bx:010"
+                }
+              ],
+              title: "",
+              type: "quickLinksComponent"
+            }
+          },
+          {
+            componentName: "01HBC-P",
+            heroBannerComponent: {
+              componentId: "comp_0000JD94",
+              dimension: "HP-1",
+              interval: "5",
+              items: [
+                {
+                  brandLogo: "",
+                  buttonLabel: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27591912783902.jpg",
+                  subTitle: "",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/smartphones/c-msh1210100?&icid2=hero:hbr:main:hmp:m1210100:mulb:best:01:R4:clp:bx:010"
+                },
+                {
+                  brandLogo: "",
+                  buttonLabel: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615299371038.jpg",
+                  subTitle: "",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/womens-clothing/c-msh10?q=%3Arelevance%3Acategory%3AMSH10%3Acategory%3AMSH10%3Acategory%3AMSH10%3Acategory%3AMSH10%3Acategory%3AMSH10%3Acategory%3AMSH10%3Acategory%3AMSH10%3Acategory%3AMSH10%3Acategory%3AMSH10%3Acategory%3AMSH10%3Acategory%3AMSH10%3Acategory%3AMSH10%3Acategory%3AMSH10%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH11A00179%3Abrand%3AMBH11A00269%3Abrand%3AMBH11A00189%3Abrand%3AMBH11A00191%3Abrand%3AMBH11B10140%3Abrand%3AMBH11A00174%3Abrand%3AMBH11A00254%3Abrand%3AMBH11A00472%3Abrand%3AMBH11A00187%3Abrand%3AMBH11A00177%3Abrand%3AMBH11A00245%3Abrand%3AMBH11A00181%3Abrand%3AMBH11B11602&icid2=hero:hbr:main:hmp:m10:mulb:best:02:R4:clp:bx:010"
+                },
+                {
+                  brandLogo: "",
+                  buttonLabel: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27591912914974.jpg",
+                  subTitle: "",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/electronics-wearable-devices-fitness-tracker/c-msh1219105?&icid2=hero:hbr:main:hmp:m1219105:mulb:best:03:R4:clp:bx:010"
+                },
+                {
+                  brandLogo: "",
+                  buttonLabel: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27591912980510.jpg",
+                  subTitle: "",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/footwear-men/c-msh1311?q=%3Arelevance%3Acategory%3AMSH1311%3Acategory%3AMSH1311%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH13F00069%3Abrand%3AMBH13F00273&icid2=hero:hbr:main:hmp:m1311:f00273:best:04:R4:blp:bx:010"
+                },
+                {
+                  brandLogo: "",
+                  buttonLabel: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27591913046046.jpg",
+                  subTitle: "",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/electronics-personal-care/c-msh1236?&icid2=hero:hbr:main:hmp:m1236:mulb:best:05:R4:clp:bx:010"
+                }
+              ],
+              type: "Hero Banner Component"
+            }
+          },
+          {
+            componentName: "spaceItemComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000JM8I",
+              title: "",
+              type: "spaceItemComponent"
+            }
+          },
+          {
+            componentName: "01BOC-P",
+            singleBannerComponent: {
+              componentId: "comp_0000ICIQ",
+              items: [
+                {
+                  btnText: "",
+                  description: "HP-1",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727865708574.jpg",
+                  title: "",
+                  webURL: ""
+                }
+              ],
+              title: "The Westside Store",
+              type: "bankOfferComponent"
+            }
+          },
+          {
+            componentName: "spaceItemComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000JMCE",
+              title: "",
+              type: "spaceItemComponent"
+            }
+          },
+          {
+            componentName: "01LEC-P",
+            singleBannerComponent: {
+              componentId: "comp_0000I4UJ",
+              items: [
+                {
+                  btnText: "Shop now",
+                  description: "The biggest fashion sale is here!",
+                  hexCode: "HP-1",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727856861214.jpg",
+                  title: "IT'S SALE TIME",
+                  webURL:
+                    "https://www.tatacliq.com/westside/c-mbh11a00004?&icid2=west:edit:main:hmp:m10:a00004:best:01:R22:blp:Bx:010"
+                },
+                {
+                  btnText: "Shop now",
+                  description: "Pretty ethnics at prices you'll love",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727856926750.jpg",
+                  title: "FASHION FLAUNT",
+                  webURL:
+                    "https://www.tatacliq.com/womens-clothing/c-msh10?q=%3Arelevance%3Acategory%3AMSH10%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH11A00191&icid2=west:edit:main:hmp:m10:a00191:best:02:R22:blp:bx:001"
+                },
+                {
+                  btnText: "Shop now",
+                  description: "Save big on your everyday staples",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727856992286.jpg",
+                  title: "SECOND SKIN",
+                  webURL:
+                    "https://www.tatacliq.com/womens-clothing/c-msh10?q=:relevance:inStockFlag:true:isLuxuryProduct:false:category:MSH10:brand:MBH11A00245&icid2=west:edit:main:hmp:m10:a00245:best:03:R22:blp:bx:001"
+                },
+                {
+                  btnText: "Shop now",
+                  description: "Easy-on-the-pocket fusion trends",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727857057822.jpg",
+                  title: "SPIRITED STYLES",
+                  webURL:
+                    "https://www.tatacliq.com/bombay-paisley/c-mbh11a00174/page-1?q=:relevance:brand:MBH11A00174:brand:MBH11A00174:inStockFlag:true:isLuxuryProduct:false&icid2=west:edit:main:hmp:m10:a00174:best:04:R22:blp:bx:001"
+                },
+                {
+                  btnText: "Shop now",
+                  description: "Save on a makeover for the li'l ones",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727857123358.jpg",
+                  title: "KID'S CORNER",
+                  webURL:
+                    "https://www.tatacliq.com/kids/c-msh21?q=%3Arelevance%3Acategory%3AMSH21%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH11A00256&icid2=west:edit:main:hmp:m21:a00256:best:05:R22:blp:bx:001"
+                },
+                {
+                  btnText: "Shop now",
+                  description: "Styles for every mood, now on sale",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727857188894.jpg",
+                  title: "TREND FORWARD",
+                  webURL:
+                    "https://www.tatacliq.com/mens-clothing/c-msh11/page-1?q=%3Arelevance%3Acategory%3AMSH11%3Acategory%3AMSH11%3Acategory%3AMSH11%3Acategory%3AMSH11%3Acategory%3AMSH11%3Acategory%3AMSH11%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH11B10748%3Abrand%3AMBH11B10259%3Abrand%3AMBH11B10749%3Abrand%3AMBH11B10750&icid2=west:edit:main:hmp:m11:b10748:best:06:R22:blp:bx:001"
+                },
+                {
+                  btnText: "Shop now",
+                  description: "Footwear at flattering prices",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727857582110.jpg",
+                  title: "SOLE STORY",
+                  webURL:
+                    "https://www.tatacliq.com/footwear-women/c-msh1310?q=%3Arelevance%3Acategory%3AMSH1310%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH13F00266&icid2=west:edit:main:hmp:m1310:f00266:best:07:R22:blp:Bx:010"
+                },
+                {
+                  btnText: "Shop now",
+                  description: '"Get festive-ready with these offers',
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727857516574.jpg",
+                  title: "FESTIVE READY",
+                  webURL:
+                    "https://www.tatacliq.com/vark/c-mbh11a00269/page-1?q=:relevance:brand:MBH11A00269:inStockFlag:true:isLuxuryProduct:false&icid2=west:edit:main:hmp:m10:a00269:best:08:R22:blp:bx:001"
+                }
+              ],
+              title: "",
+              type: "luxeEditorialCarousel"
+            }
+          },
+          {
+            componentName: "spaceItemComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000IZ0G",
+              title: "",
+              type: "spaceItemComponent"
+            }
+          },
+          {
+            componentName: "titleComponentH1",
+            singleBannerComponent: {
+              componentId: "comp_0000ICIR",
+              title: "Best Of Tech",
+              type: "titleComponentH1"
+            }
+          },
+          {
+            componentName: "spaceItemComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000I39Y",
+              title: "",
+              type: "spaceItemComponent"
+            }
+          },
+          {
+            componentName: "01LEC-P",
+            singleBannerComponent: {
+              componentId: "comp_0000I4UI",
+              items: [
+                {
+                  btnText: "Explore",
+                  description: "Split and window ACs for comfort at home",
+                  hexCode: "HP-2",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727858466846.jpg",
+                  title: "THE COOL CORNER",
+                  webURL:
+                    "https://www.tatacliq.com/air-conditioner/c-msh1230?q=%3Arelevance%3Acategory%3AMSH1230%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH12B10047&icid2=estrp:edit:main:hmp:m1230:b10047:best:01:R28:blp:bx:010"
+                },
+                {
+                  btnText: "Explore",
+                  description: "Headphones for an unforgettable experience",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727858532382.jpg",
+                  title: "GREAT SOUND BECKONS",
+                  webURL:
+                    "https://www.tatacliq.com/head-phones/c-msh1234?q=%3Arelevance%3Acategory%3AMSH1234%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH12E00013&icid2=estrp:edit:main:hmp:m1234:e00013:best:02:R28:blp:bx:010"
+                },
+                {
+                  btnText: "Explore",
+                  description:
+                    "New-age smartphones known for speed & efficiency",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727858597918.jpg",
+                  title: "THE SMART SWITCH",
+                  webURL:
+                    "https://www.tatacliq.com/mobile-phones/c-msh1210/?q=:relevance:inStockFlag:true:isLuxuryProduct:false:category:MSH1210:brand:MBH12E00256&icid2=estrp:edit:main:hmp:m1210:e00256:best:03:R28:blp:bx:010"
+                },
+                {
+                  btnText: "Explore",
+                  description:
+                    "Refrigerators equipped with the latest features",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727858663454.jpg",
+                  title: "THE FRESH CHOICE",
+                  webURL:
+                    "https://www.tatacliq.com/electronics-large-appliances-refrigerators/c-msh1214100?q=%3Arelevance%3Acategory%3AMSH1214100%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH12E00047&icid2=estrp:edit:main:hmp:m1214100:e00047:best:04:R28:blp:bx:010"
+                },
+                {
+                  btnText: "EXPLORE",
+                  description: "Everyday storage devices you can trust",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727858728990.jpg",
+                  title: "SAFE AND SECURE",
+                  webURL:
+                    "https://www.tatacliq.com/storage-devices/c-msh1228?q=%3Arelevance%3Acategory%3AMSH1228%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH12E00080&icid2=estrp:edit:main:hmp:m1228:e00080:best:05:R28:blp:bx:010"
+                },
+                {
+                  btnText: "Explore",
+                  description: "Say goodbye to glitches with top smartphones",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727858794526.jpg",
+                  title: "DAILY POWER PACKS",
+                  webURL:
+                    "https://www.tatacliq.com/mobile-phones/c-msh1210/page-1?q=%3Arelevance%3Acategory%3AMSH1210%3Acategory%3AMSH1210%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Acategory%3AMSH1210%3Abrand%3AMBH12E00181&icid2=estrp:edit:main:hmp:m1210:e00181:best:06:R28:blp:bx:010"
+                },
+                {
+                  btnText: "Explore",
+                  description: "Futuristic fitness trackers and smartwatches",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727858860062.jpg",
+                  title: "TRACK EVERY MOVE",
+                  webURL:
+                    "https://www.tatacliq.com/electronics-wearable-devices/c-msh1219?q=%3Arelevance%3Acategory%3AMSH1219%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH12E00042&icid2=estrp:edit:main:hmp:m1219:e00042:best:07:R28:blp:bx:010"
+                },
+                {
+                  btnText: "EXPLORE",
+                  description: "Appliances that prioritize your convenience",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727858925598.jpg",
+                  title: "BRING HOME EASE",
+                  webURL:
+                    "https://www.tatacliq.com/electronics/c-msh12?q=%3Arelevance%3Acategory%3AMSH12%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH12E00048&icid2=estrp:edit:main:hmp:m12:e00048:best:01:R28:blp:bx:010"
+                }
+              ],
+              title: "",
+              type: "luxeEditorialCarousel"
+            }
+          },
+          {
+            componentName: "spaceItemComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000JMI9",
+              title: "",
+              type: "spaceItemComponent"
+            }
+          },
+          {
+            componentName: "titleComponentH1",
+            singleBannerComponent: {
+              componentId: "comp_0000I39H",
+              title: "Special Offers",
+              type: "titleComponentH1"
+            }
+          },
+          {
+            componentName: "spaceItemComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000I3A2",
+              title: "",
+              type: "spaceItemComponent"
+            }
+          },
+          {
+            componentName: "01MBC-P",
+            singleBannerComponent: {
+              componentId: "comp_0000I1PR",
+              items: [
+                {
+                  btnText: "",
+                  description: "HP-1",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727859515422.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/head-phones/c-msh1234?q=%3Arelevance%3Acategory%3AMSH1234%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH12B10686&icid2=bouq:3by2:main:hmp:m1234:b10686:best:01:R31:blp:bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727859580958.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/footwear/c-msh13?q=%3Arelevance%3Acategory%3AMSH13%3Acategory%3AMSH13%3Acategory%3AMSH13%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH13A00168%3AdiscountFlag%3A50%2525%2B-%2B70%2525%3AdiscountFlag%3A70%2525%2Band%2Bmore&icid2=bouq:3by2:main:hmp:m13:a00168:best:02:R31:blp:bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727859646494.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/smartphones/c-msh1210100?q=:relevance:inStockFlag:true:isLuxuryProduct:false:category:MSH1210100:brand:MBH12B10285&icid2=bouq:3by2:main:hmp:m1210100:b10285:best:03:R8:blp:bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727859712030.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/womens-clothing/c-msh10?q=%3Arelevance%3Acategory%3AMSH10%3Acategory%3AMSH10%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH11A00015%3AdiscountAll%3ADiscounted%2BItems&icid2=bouq:3by2:main:hmp:m10:a00015:ut75off:04:R8:blp:bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727859777566.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/storage-devices/c-msh1228?q=%3Arelevance%3Acategory%3AMSH1228%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH12E00029&icid2=bouq:3by2:main:hmp:m1228:e00029:best:05:R31:blp:bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727859843102.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/mens-clothing/c-msh11?q=:relevance:category:MSH11:category:MSH11:category:MSH11:inStockFlag:true:isLuxuryProduct:false:brand:MBH11W00040:brand:MBH11B10464:brand:MBH11B10243:brand:MBH11B10242:category:MSH11:brand:MBH11W00040:brand:MBH11B10464:brand:MBH11B10243:brand:MBH11B10242:category:MSH11:brand:MBH11W00040:brand:MBH11B10464:brand:MBH11B10243:brand:MBH11B10242:category:MSH11:brand:MBH11W00040:brand:MBH11B10464:brand:MBH11B10243:brand:MBH11B10242:brand:MBH11B10241&icid2=bouq:3by2:main:hmp:m11:b10241:best:06:R31:blp:bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727859908638.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/large-appliances/c-msh1214?q=%3Arelevance%3Acategory%3AMSH1214%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH12B10397&icid2=bouq:3by2:main:hmp:m1214:b10397:best:07:R31:blp:bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727859974174.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/eyewear-sunglasses/c-msh2416/page-1?q=%3Arelevance%3Acategory%3AMSH2416%3Acategory%3AMSH2416%3Acategory%3AMSH2416%3Acategory%3AMSH2416%3Acategory%3AMSH2416%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH16W00299&icid2=bouq:3by2:main:hmp:m2416:w00299:best:08:R31:blp:bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27727860039710.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/electronics-small-appliances-water-purifier/c-msh1231103?q=%3Arelevance%3Acategory%3AMSH1231103%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH12E00134&icid2=bouq:3by2:main:hmp:m1231103:e00134:best:09:R31:blp:bx:001"
+                }
+              ],
+              title: "",
+              type: "multipleBannerComponent"
+            }
+          },
+          {
+            componentName: "spaceItemComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000JJRC",
+              title: "",
+              type: "spaceItemComponent"
+            }
+          },
+          {
+            componentName: "01BOC-P",
+            singleBannerComponent: {
+              componentId: "comp_0000FIRO",
+              items: [
+                {
+                  btnText: "",
+                  description: "HP-2",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/26972332982302.gif",
+                  title: "",
+                  webURL: ""
+                }
+              ],
+              title: "",
+              type: "bankOfferComponent"
+            }
+          },
+          {
+            componentName: "01LSSC-P",
+            singleBannerComponent: {
+              componentId: "comp_0000I8X5",
+              items: [
+                {
+                  btnText: "",
+                  description: "HP-1",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27616426754078.jpg",
+                  title: "Shop now",
+                  webURL:
+                    "https://www.tatacliq.com/custom/oppo-reno4?&icid2=fres:spc:main:hmp:m1210:e00256:best:20:R13:blp:Bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615317491742.jpg",
+                  title: "Shop now",
+                  webURL:
+                    "https://www.tatacliq.com/womens-clothing/c-msh10?q=%3Arelevance%3Acategory%3AMSH10%3AinStockFlag%3Atrue%3AisLuxuryProduct%3Afalse%3Abrand%3AMBH11A00002&icid2=fres:spc:main:hmp:m10:a00002:best:16:R13:blp:Bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615317557278.jpg",
+                  title: "Shop now",
+                  webURL:
+                    "https://www.tatacliq.com/haier-brand-store?&icid2=fres:spc:main:hmp:m12:e00263:best:04:R13:blp:Bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615317688350.jpg",
+                  title: "Shop now",
+                  webURL:
+                    "https://www.tatacliq.com/hisense?&icid2=fres:spc:main:hmp:m1216:mulb:best:17:R13:blp:Bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615317622814.jpg",
+                  title: "Shop now",
+                  webURL:
+                    "https://www.tatacliq.com/fila-brand-store?&icid2=fres:spc:main:hmp:m01:f00039:best:03:R13:blp:Bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615317819422.jpg",
+                  title: "Shop now",
+                  webURL:
+                    "https://www.tatacliq.com/infinity-brand-store?&icid2=fres:ssc:main:hmp:m12:e00998:best:06:R13:blp:Bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615317753886.jpg",
+                  title: "Shop now",
+                  webURL:
+                    "https://www.tatacliq.com/gant-brand-store?&icid2=fres:ssc:main:hmp:m11:a00117:best:05:R13:blp:Bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615317950494.jpg",
+                  title: "Shop now",
+                  webURL:
+                    "https://www.tatacliq.com/apple-days?&icid2=fres:spc:main:hmp:m12:e00008:best:08:R13:blp:Bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615317884958.jpg",
+                  title: "Shop now",
+                  webURL:
+                    "https://www.tatacliq.com/asics-brand-store?&icid2=fres:spc:main:hmp:m13:f00012:best:07:R13:blp:Bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615318016030.jpg",
+                  title: "Shop now",
+                  webURL:
+                    "https://www.tatacliq.com/search/?searchCategory=all&text=vivo%20x50&icid2=fres:ssc:main:hmp:m1210100:e00181:best:10:R13:blp:Bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615318081566.jpg",
+                  title: "Shop now",
+                  webURL:
+                    "https://www.tatacliq.com/adidas-brand-store?&icid2=fres:spc:main:hmp:m01:f00009:best:11:R11:blp:Bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615318147102.jpg",
+                  title: "Shop now",
+                  webURL:
+                    "https://www.tatacliq.com/sennheiser/c-mbh12e00030?&icid2=fres:ssc:main:hmp:m12:e00030:best:12:R13:blp:Bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615318212638.jpg",
+                  title: "Shop now",
+                  webURL:
+                    "https://www.tatacliq.com/gap-brand-store?&icid2=fres:spc:main:hmp:m01:b11389:best:09:R13:blp:Bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615318278174.jpg",
+                  title: "Shop now",
+                  webURL:
+                    "https://www.tatacliq.com/aldo-brand-store?&icid2=fres:ssc:main:hmp:m01:f00012:best:13:R13:blp:Bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615318343710.jpg",
+                  title: "Shop now",
+                  webURL:
+                    "https://www.tatacliq.com/reebok-brand-store?&icid2=fres:ssc:main:hmp:m13:a00099:best:14:R13:blp:Bx:001"
+                },
+                {
+                  btnText: "",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/27615318409246.jpg",
+                  title: "Shop now",
+                  webURL:
+                    "https://www.tatacliq.com/birkenstock-brand-store?&icid2=fres:spc:main:hmp:m13:b11608:best:15:R13:blp:Bx:001"
+                }
+              ],
+              title: "",
+              type: "luxeShopbySubCategory"
+            }
+          },
+          {
+            componentName: "01TBT-P",
+            twoByTwoBannerComponent: {
+              componentId: "comp_0000I2HB",
+              items: [
+                {
+                  description: "HP-1",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/17583744188446.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/footwear-women-casual/c-msh1310113?q=%20%20%20%3Arelevance%3Aprice%3A%E2%82%B9599-%E2%82%B9999&icid2=valu:22b:main:hmp:m1310113:mulb:blw999:01:R49:clp:Bx:001"
+                },
+                {
+                  description: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/26395489107998.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/electronics-kitchen-appliances-cooktop/c-msh1229103?&icid2=valu:22b:main:hmp:m1229103:mulb:srt1399:02:R49:clp:Bx:001"
+                },
+                {
+                  description: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/17583744319518.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/watches/c-msh15/page-1?q=%20%20%20%3Arelevance%3Aprice%3A%E2%82%B9400-%E2%82%B91%2C999&icid2=valu:22b:main:hmp:m15:mulb:blw1999:03:R49:clp:Bx:001"
+                },
+                {
+                  description: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/26395491565598.jpg",
+                  title: "",
+                  webURL:
+                    "https://www.tatacliq.com/electronics-personal-care-trimmer-shaver/c-msh1236105/page-1?q=%3Arelevance%3Acategory%3AMSH1236105%3Acategory%3AMSH1236105%3AisLuxuryProduct%3Afalse%3AinStockFlag%3Atrue&icid2=valu:22b:main:hmp:m1236105:mulb:srt599:04:R49:clp:Bx:001"
+                }
+              ],
+              title: "",
+              type: "Two by Two Banner Component"
+            }
+          },
+          {
+            componentName: "spaceItemComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000I39Q",
+              title: "",
+              type: "spaceItemComponent"
+            }
+          },
+          {
+            componentName: "spaceItemComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000IIZJ",
+              title: "",
+              type: "spaceItemComponent"
+            }
+          },
+          {
+            componentName: "msdAutomatedBannerProductCarouselComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000JQ4A",
+              items: [
+                {
+                  btnText: "View more",
+                  description: "msdAutomatedBannerProductCarouselComponent",
+                  hexCode: "15",
+                  imageURL: "",
+                  title: "msd",
+                  webURL: "https://ap-southeast-1-api.madstreetden.com/widgets"
+                }
+              ],
+              title: "",
+              type: "msdAutomatedBannerProductCarouselComponent"
+            }
+          },
+          {
+            componentName: "msdAutoDiscoverMoreComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000JQ4B",
+              items: [
+                {
+                  btnText: "msd",
+                  description: "msdAutoDiscoverMoreComponent",
+                  hexCode: "msd",
+                  imageURL: "",
+                  title: "msd",
+                  webURL: "https://ap-southeast-1-api.madstreetden.com/widgets"
+                }
+              ],
+              title: "",
+              type: "msdAutoDiscoverMoreComponent"
+            }
+          },
+          {
+            componentName: "awv",
+            singleBannerComponent: {
+              componentId: "cmsitem_00232487",
+              items: [
+                {
+                  btnText: "Launch This!",
+                  description: "http://interact.tatacliq.com/getsummerready/",
+                  hexCode: "",
+                  imageURL: "",
+                  title: "",
+                  webURL: "https://www.tatacliq.com/awv"
+                }
+              ],
+              title: "",
+              type: "awv"
+            }
+          },
+          {
+            componentName: "AutoWidget",
+            singleBannerComponent: {
+              componentId: "cmsitem_00232462",
+              items: [
+                {
+                  btnText: "15",
+                  description: "",
+                  hexCode: "mp000000006735167",
+                  imageURL: "",
+                  title: "",
+                  webURL: "0"
+                }
+              ],
+              title: "",
+              type: "AutoWidget"
+            }
+          },
+          {
+            componentName: "AutoWidget",
+            singleBannerComponent: {
+              componentId: "cmsitem_00232462",
+              items: [
+                {
+                  btnText: "15",
+                  description: "",
+                  hexCode: "",
+                  imageURL: "",
+                  title: "",
+                  webURL: "7"
+                }
+              ],
+              title: "",
+              type: "AutoWidget"
+            }
+          },
+          {
+            componentName: "AutoWidget",
+            singleBannerComponent: {
+              componentId: "cmsitem_00232462",
+              items: [
+                {
+                  btnText: "15",
+                  description: "",
+                  hexCode: "",
+                  imageURL: "",
+                  title: "",
+                  webURL: "3"
+                }
+              ],
+              title: "",
+              type: "AutoWidget"
+            }
+          },
+          {
+            componentName: "AutoWidget",
+            singleBannerComponent: {
+              componentId: "cmsitem_00232462",
+              items: [
+                {
+                  btnText: "10",
+                  description: "",
+                  hexCode: "mp000000005753607",
+                  imageURL: "",
+                  title: "",
+                  webURL: "4"
+                }
+              ],
+              title: "",
+              type: "AutoWidget"
+            }
+          },
+          {
+            componentName: "AutoWidget",
+            singleBannerComponent: {
+              componentId: "cmsitem_00232462",
+              items: [
+                {
+                  btnText: "10",
+                  description: "",
+                  hexCode: "",
+                  imageURL: "",
+                  title: "",
+                  webURL: "11"
+                }
+              ],
+              title: "",
+              type: "AutoWidget"
+            }
+          },
+          {
+            componentName: "AutoWidget",
+            singleBannerComponent: {
+              componentId: "cmsitem_00232462",
+              items: [
+                {
+                  btnText: "15",
+                  description: "",
+                  hexCode: "mp000000005753607",
+                  imageURL: "",
+                  title: "",
+                  webURL: "114"
+                }
+              ],
+              title: "",
+              type: "AutoWidget"
+            }
+          }
+        ],
+        message: "msd-test-1",
+        pageName: "homepage-msd-1:160420",
+        pageType: "",
+        seo: {
+          alternateURL: "",
+          canonicalURL: "",
+          description: "",
+          imageURL: "",
+          keywords: "",
+          title:
+            "Online Shopping Site in India - Upto 60% Off On Mobiles, Electronics, Fashion & Jewellery at Tata CLiQ"
+        },
+        status: "SUCCESS"
+      };
       if (resultJson && resultJson.pageName) {
         let pageData = {
           pageName: resultJson.pageName
@@ -355,8 +1581,27 @@ export function homeFeedBackUp() {
       if (failureResponse.status) {
         dispatch(new Error(failureResponse.message));
       }
-
-      dispatch(homeFeedBackupSuccess(resultJson.items));
+      let arrayWithoutAutoWidget =
+        resultJson &&
+        resultJson.items &&
+        resultJson.items.filter(item => {
+          if (item.componentName !== "AutoWidget") {
+            return item;
+          }
+        });
+      let arrayWithAutoWiget =
+        resultJson &&
+        resultJson.items &&
+        resultJson.items.filter(item => {
+          if (item.componentName === "AutoWidget") {
+            return item;
+          }
+        });
+      let itemWidget = [...arrayWithAutoWiget];
+      if (arrayWithAutoWiget) {
+        itemWidget = [...arrayWithoutAutoWidget, arrayWithAutoWiget[0]];
+      }
+      dispatch(homeFeedBackupSuccess(itemWidget, arrayWithAutoWiget));
     } catch (e) {
       dispatch(homeFeedBackUpFailure(e.message));
     }
@@ -388,7 +1633,246 @@ export function getFeed(pageId: null) {
           dispatch(secondaryFeedSuccess([], feedTypeRequest));
         }
 
-        resultJson = await result.json();
+        //resultJson = await result.json();
+        resultJson = {
+          items: [
+            {
+              componentName: "landingPageTitleComponent",
+              landingPageTitleComponent: {
+                componentId: "comp_0000I1PG",
+                title: "Welcome",
+                type: "Landing Page Title Component"
+              }
+            },
+            {
+              componentName: "spaceItemComponent",
+              singleBannerComponent: {
+                componentId: "comp_0000I1Q0",
+                title: "",
+                type: "spaceItemComponent"
+              }
+            },
+            {
+              componentName: "quickLinksComponent",
+              singleBannerComponent: {
+                componentId: "comp_0000I1QC",
+                items: [
+                  {
+                    btnText: "",
+                    description: "",
+                    hexCode: "",
+                    imageURL:
+                      "//assets.tatacliq.com/medias/sys_master/images/27460000350238.jpg",
+                    title: "",
+                    webURL:
+                      "https://www.tatacliq.com/westside/c-mbh11a00004?&icid2=quic:qul:main:hmp:m10:a00004:best:01:R1:blp:Bx:010"
+                  },
+                  {
+                    btnText: "",
+                    description: "",
+                    hexCode: "",
+                    imageURL:
+                      "//assets.tatacliq.com/medias/sys_master/images/27453285793822.jpg",
+                    title: "",
+                    webURL:
+                      "https://www.tatacliq.com/smartphone-store?&icid2=quic:qul:main:hmp:m1210:mulb:best:02:R1:clp:Bx:010"
+                  },
+                  {
+                    btnText: "",
+                    description: "",
+                    hexCode: "",
+                    imageURL:
+                      "//assets.tatacliq.com/medias/sys_master/images/27453285859358.jpg",
+                    title: "",
+                    webURL:
+                      "https://www.tatacliq.com/indiluxe?&icid2=quic:qul:main:hmp:m00:mulb:best:03:R1:clp:Bx:010"
+                  },
+                  {
+                    btnText: "",
+                    description: "",
+                    hexCode: "",
+                    imageURL:
+                      "//assets.tatacliq.com/medias/sys_master/images/27467959861278.jpg",
+                    title: "",
+                    webURL:
+                      "https://www.tatacliq.com/appliances-store?&icid2=quic:qul:main:hmp:m12:mulb:best:04:R1:clp:Bx:010"
+                  },
+                  {
+                    btnText: "",
+                    description: "",
+                    hexCode: "",
+                    imageURL:
+                      "//assets.tatacliq.com/medias/sys_master/images/27458868412446.gif",
+                    title: "",
+                    webURL:
+                      "https://www.tatacliq.com/watch-store?&icid2=quic:qul:main:hmp:m15:mulb:best:05:R1:clp:Bx:010"
+                  },
+                  {
+                    btnText: "",
+                    description: "",
+                    hexCode: "",
+                    imageURL:
+                      "//assets.tatacliq.com/medias/sys_master/images/27467959926814.jpg",
+                    title: "",
+                    webURL:
+                      "https://www.tatacliq.com/audio-store?&icid2=quic:qul:main:hmp:m1234:mulb:best:06:R1:clp:Bx:010"
+                  },
+                  {
+                    btnText: "",
+                    description: "",
+                    hexCode: "",
+                    imageURL:
+                      "//assets.tatacliq.com/medias/sys_master/images/27460000153630.jpg",
+                    title: "",
+                    webURL:
+                      "https://www.tatacliq.com/footwear-store?&icid2=quic:qul:main:hmp:m13:mulb:best:07:R1:clp:Bx:010"
+                  },
+                  {
+                    btnText: "",
+                    description: "",
+                    hexCode: "",
+                    imageURL:
+                      "//assets.tatacliq.com/medias/sys_master/images/27460000284702.jpg",
+                    title: "",
+                    webURL:
+                      "https://www.tatacliq.com/womens-lifestyle?&icid2=quic:qul:main:hmp:m10:mulb:best:08:R1:clp:Bx:010"
+                  },
+                  {
+                    btnText: "",
+                    description: "",
+                    hexCode: "",
+                    imageURL:
+                      "//assets.tatacliq.com/medias/sys_master/images/27460000088094.jpg",
+                    title: "",
+                    webURL:
+                      "https://www.tatacliq.com/it-accessories?&icid2=quic:qul:main:hmp:m12:mulb:best:09:R1:clp:Bx:010"
+                  }
+                ],
+                title: "",
+                type: "quickLinksComponent"
+              }
+            },
+            {
+              componentName: "spaceItemComponent",
+              singleBannerComponent: {
+                componentId: "comp_0000JM8I",
+                title: "",
+                type: "spaceItemComponent"
+              }
+            },
+            {
+              componentName: "msdAutomatedBannerProductCarouselComponent",
+              singleBannerComponent: {
+                componentId: "comp_0000JS7S",
+                items: [
+                  {
+                    btnText: "View more",
+                    description: "msdAutomatedBannerProductCarouselComponent",
+                    hexCode: "10",
+                    imageURL: "",
+                    title: "msd",
+                    webURL:
+                      "https://ap-southeast-1-api.madstreetden.com/widgets"
+                  }
+                ],
+                title: "",
+                type: "msdAutomatedBannerProductCarouselComponent"
+              }
+            },
+            {
+              componentName: "spaceItemComponent",
+              singleBannerComponent: {
+                componentId: "comp_0000JM8I",
+                title: "",
+                type: "spaceItemComponent"
+              }
+            },
+            {
+              componentName: "AutoWidget",
+              singleBannerComponent: {
+                componentId: "comp_0000JS7S",
+                items: [
+                  {
+                    btnText: "10", //num results
+                    description: "", //filters
+                    hexCode: "MP000000005998997", //product_id
+                    imageURL: "",
+                    title: "", //fields
+                    webURL: "114" //widgetId
+                  }
+                ],
+                title: "",
+                type: "AutoWidget"
+              }
+            },
+            {
+              componentName: "spaceItemComponent",
+              singleBannerComponent: {
+                componentId: "comp_0000JM8I",
+                title: "",
+                type: "spaceItemComponent"
+              }
+            },
+            {
+              componentName: "AutoWidget",
+              singleBannerComponent: {
+                componentId: "comp_0000JS7S",
+                items: [
+                  {
+                    btnText: "10", //num results
+                    description: "", //filters
+                    hexCode: "MP000000006382486", //product_id
+                    imageURL: "",
+                    title: "", //fields
+                    webURL: "0" //widgetId
+                  }
+                ],
+                title: "",
+                type: "AutoWidget"
+              }
+            },
+            {
+              componentName: "spaceItemComponent",
+              singleBannerComponent: {
+                componentId: "comp_0000JM8I",
+                title: "",
+                type: "spaceItemComponent"
+              }
+            },
+            {
+              componentName: "AutoWidget",
+              singleBannerComponent: {
+                componentId: "comp_0000JS7S",
+                items: [
+                  {
+                    btnText: "10", //num results
+                    description: "", //filters
+                    hexCode: "MP000000006382486", //product_id
+                    imageURL: "",
+                    title: "", //fields
+                    webURL: "4" //widgetId
+                  }
+                ],
+                title: "",
+                type: "AutoWidget"
+              }
+            }
+          ],
+          message: "defaulthomepage",
+          pageName: "sm:pwa:main:all:homepagenew:151119",
+          pageType: "",
+          seo: {
+            alternateURL: "",
+            canonicalURL: "",
+            description:
+              "Online Shopping Site in India - 10% Instant Cash back on HDFC credit and Debit Cards for Min order 3000* - Up to 60% Off On Mobiles, Electronics & Fashion at Tata CLiQ",
+            imageURL: "",
+            keywords: "",
+            title:
+              "Online Shopping Site in India - Upto 60% Off On Mobiles, Electronics, Fashion & Jewellery at Tata CLiQ"
+          },
+          status: "SUCCESS"
+        };
         if (resultJson && resultJson.pageName) {
           let pageData = {
             pageName: resultJson.pageName
@@ -818,6 +2302,177 @@ export function msdDiscoverMoreHomeComponents(type) {
         data: discoverMoreresultJson && discoverMoreresultJson.data
       };
       dispatch(msdHomeComponentsSuccess(data.data));
+    } catch (e) {
+      throw new Error(`${e.message}`);
+    }
+  };
+}
+export function automatedWidgetsForHomeSuccess(homeAutoWidgetData, widgetName) {
+  return {
+    type: AUTOMATED_WIDGET_HOME_SUCCESS,
+    status: SUCCESS,
+    homeAutoWidgetData,
+    widgetName
+  };
+}
+export function automatedWidgetsForHomeRequest() {
+  return {
+    type: AUTOMATED_WIDGET_HOME_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getAutomatedWidgetsItemsRequest() {
+  return {
+    type: AUTOMATED_WIDGET_ITEM_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getWidgetsData(automatedData, widgetName) {
+  return {
+    type: AUTOMATED_MSD_WIDGET_ITEM_DATA,
+    status: SUCCESS,
+    automatedData,
+    widgetName
+  };
+}
+
+export function getAutomatedWidgetsItems(itemIds, widgetKey) {
+  return async (dispatch, getState, { api }) => {
+    try {
+      dispatch(getAutomatedWidgetsItemsRequest());
+      let productCodes, widgetName;
+      if (widgetKey === "114") {
+        productCodes = itemIds;
+        productCodes = [
+          "MP000000005802707",
+          "MP000000005802346",
+          "MP000000004943583",
+          "MP000000005240668",
+          "MP000000004915021"
+        ];
+      } else {
+        productCodes = itemIds;
+        // .map(obj => {
+        //   return obj.product_id;
+        // });
+        productCodes = productCodes;
+      }
+      productCodes = [
+        "MP000000006423483",
+        "MP000000006916011",
+        "MP000000004994879",
+        "MP000000005755067",
+        "MP000000006425665",
+        "MP000000006445734",
+        "MP000000005591491",
+        "MP000000006286334",
+        "MP000000003512674",
+        "MP000000004951733"
+      ];
+      widgetName =
+        widgetKey === "114"
+          ? ABOUT_THE_BRAND_WIDGET_KEY
+          : widgetKey === "0"
+            ? SIMILAR_PRODUCTS_WIDGET_KEY
+            : widgetKey === "4"
+              ? FREQUENTLY_BOUGHT_TOGETHER_WIDGET_KEY
+              : widgetKey === "11"
+                ? TOP_PICKS_FOR_YOU
+                : widgetKey === "7"
+                  ? RECENTLY_VIEWED
+                  : widgetKey === "3"
+                    ? TRENDING_PRODUCTS
+                    : "";
+      let requests =
+        productCodes &&
+        productCodes.map(id =>
+          api.getMiddlewareUrl(
+            `${PRODUCT_DESCRIPTION_PATH}/${id}?isPwa=true&isMDE=true`
+          )
+        );
+      //requests for individual calls
+      let productList = [];
+      await Promise.all(requests)
+        .then(responses => Promise.all(responses.map(r => r.json())))
+        .then(results =>
+          results.forEach(res => {
+            // const resultJsonStatus = ErrorHandling.getFailureResponse(res);
+            // if (resultJsonStatus.status) {
+            //   throw new Error(resultJsonStatus.message);
+            // }
+            //changes done for handing error if product is not available
+            if (res && res.status === "SUCCESS") {
+              productList.push(res);
+            }
+          })
+        );
+      if (Array.isArray(productList)) {
+        dispatch(automatedWidgetsForHomeSuccess(productList, widgetName));
+      }
+      // if (Array.isArray(productList)) {
+      //   dispatch(automatedWidgetsForHomeSuccess(productList, widgetName));
+      // }
+    } catch (e) {
+      throw new Error(`${e.message}`);
+    }
+  };
+}
+
+export function automatedWidgetsForHome(widgetData) {
+  return async (dispatch, getState, { api }) => {
+    try {
+      dispatch(automatedWidgetsForHomeRequest());
+      let data, widgetName;
+      let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      if (userDetails) {
+        userDetails = JSON.parse(userDetails);
+      }
+
+      let msdWidgetData = new FormData();
+      msdWidgetData.append("api_key", api_key);
+      msdWidgetData.append("widget_list", [JSON.parse(widgetData.webURL)]);
+      msdWidgetData.append("num_results", [widgetData.btnText]);
+      msdWidgetData.append("mad_uuid", await getMcvId());
+      msdWidgetData.append("details", false);
+      if (userDetails && userDetails.customerId) {
+        msdWidgetData.append("user_id", userDetails.customerId);
+      }
+      msdWidgetData.append("product_id", widgetData.hexCode);
+      // msdWidgetData.append("filters", widgetData.description);
+      // msdWidgetData.append("fields", widgetData.title);
+      // msdWidgetData.append("channel", "pwa");
+      const msdWidgetDataResult = await api.postMsd(
+        `${MSD_ROOT_PATH}/widgets`,
+        msdWidgetData
+      );
+      const msdWidgetDataJson = await msdWidgetDataResult.json();
+      if (msdWidgetDataJson.status === FAILURE) {
+        throw new Error(`${msdWidgetDataJson.message}`);
+      }
+      if (widgetData.webURL === "114") {
+        data =
+          msdWidgetDataJson &&
+          msdWidgetDataJson.data[0] &&
+          msdWidgetDataJson.data[0].itemIds;
+        widgetName = "aboutTheBrand";
+      } else if (widgetData.webURL === "0") {
+        data = msdWidgetDataJson && msdWidgetDataJson.data[0];
+        widgetName = "similarProducts";
+      } else if (widgetData.webURL === "4") {
+        data = msdWidgetDataJson && msdWidgetDataJson.data[0];
+        widgetName = "frequentlyBoughtTogether";
+      } else {
+        data = msdWidgetDataJson && msdWidgetDataJson.data[0];
+      }
+      if (
+        msdWidgetDataJson &&
+        msdWidgetDataJson.data &&
+        Array.isArray(msdWidgetDataJson.data) &&
+        msdWidgetDataJson.status !== "failure"
+      ) {
+        dispatch(getWidgetsData(msdWidgetDataJson.data[0], widgetName));
+        dispatch(getAutomatedWidgetsItems(data, widgetData.webURL));
+      }
     } catch (e) {
       throw new Error(`${e.message}`);
     }

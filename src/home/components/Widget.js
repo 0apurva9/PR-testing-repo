@@ -4,6 +4,10 @@ import { SUCCESS } from "../../lib/constants";
 
 export default class Widget extends React.Component {
   componentDidMount() {
+    console.log(
+      "==============>widget check",
+      this.props.feedComponentData.type
+    );
     if (
       this.props.feedComponentData.fetchURL &&
       this.props.feedComponentData.status !== SUCCESS
@@ -25,6 +29,20 @@ export default class Widget extends React.Component {
       "msdAutomatedBannerProductCarouselComponent"
     ) {
       this.props.msdAbcComponents();
+    } else if (this.props.feedComponentData.type === "AutoWidget") {
+      if (this.props.arrayWithAutoWiget) {
+        this.props.arrayWithAutoWiget.map(dataElement => {
+          if (
+            dataElement &&
+            dataElement.singleBannerComponent &&
+            dataElement.singleBannerComponent.items
+          ) {
+            this.props.automatedWidgetsForHome(
+              dataElement.singleBannerComponent.items[0]
+            );
+          }
+        });
+      }
     }
   }
 
