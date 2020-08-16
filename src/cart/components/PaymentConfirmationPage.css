@@ -189,3 +189,109 @@
     vertical-align: top;
   }
 }
+
+.gtThnkHed {
+  background: #fff;
+  /* margin: 0 0 20px; */
+  margin: 0 0px 20px ;
+  box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.2);
+  margin-bottom: 15px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 4px;
+}
+.topAdded{
+  font-size:20px ;
+  font-family: semibold;
+}
+.imgSuccessDiv{
+  display: inline;
+}
+.topUp{
+  width: 298px;
+    height: 45px;
+  margin: auto;
+  display: inline-block;
+  padding-bottom: 14px;
+  vertical-align: middle;
+}
+.gtThnkHedInner {
+  /* padding: 35px; */
+  padding:  20px;
+  text-align: center;
+}
+.gtThnkHedImg {
+  /* margin: 0 0 35px; */
+  margin: 0 0 10px;
+  margin-top: 10px;
+}
+.gtThnkIcon {
+
+}
+.gtThnkHdTxt {
+  margin: 0 0 5px;
+}
+.gtThnkHdTxt h3 {
+  font-size: 16px;
+  color: #000000;
+  margin: 0 0 15px;
+  font-family: regular;
+}
+.rupeeSymabol{
+  font-size: 16px;
+}
+.gtThnkAmtn {
+  font-size: 24px;
+  margin: 0 0 2px;
+  /* color: #da1c5c; */
+  color:#212121;
+  font-family: semibold;
+}
+.gtThnkAmtnWrd {
+  margin: 0;
+}
+.gtThnkAmtnWrd p {
+  font-size: 12px;
+    /* color: #da1c5c; */
+    color:#212121;
+    margin: 0;
+    font-family: regular;
+    text-transform: capitalize;
+}
+.gtThnkBtmSec {
+  width: 100%;
+}
+.gtThnkBtmContr {
+  padding: 20px 30px;
+}
+.gtThnkBtmTxt {
+  /* margin: 0 0 15px; */
+  text-align: center;
+}
+.gtThnktxt{
+    font-size: 12px;
+    color: #212121;
+    /* font-weight: 300; */
+    margin: 0;
+    font-family: light;
+    padding: 0px 41px;
+    text-align: justify;
+}
+.buttonHolder {
+  width: auto;
+  height: auto;
+  margin-top: 34px;
+  display: inline-block;
+}
+.button {
+  width: 175px;
+  height: 37px;
+  border-radius: 18.5px;
+  background: #da1c5c;
+  color: #fff;
+  cursor: pointer;
+  line-height: 37px;
+  font-size: 14px;
+  font-family: semibold;
+  text-align: center;
+}

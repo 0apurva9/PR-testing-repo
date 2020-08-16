@@ -79,7 +79,6 @@ export default class CliqCashTopUp extends Component {
     }
   }
   selectAmount(amount) {
-    console.log("amouhsbhsjbsd", amount);
     if (amount < this.state.minPrice || amount > this.state.maxPrice) {
       this.setState({ selectedAmount: amount, isValidAmount: false });
     } else {
@@ -107,11 +106,14 @@ export default class CliqCashTopUp extends Component {
     }
   };
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedAmount !== this.state.selectedAmount) {
-      this.setState({ selectedAmount: nextProps.selectedAmount });
-    }
-    console.log("nextProps.props", nextProps);
     if (nextProps.giftCardDetailsStatus === SUCCESS) {
+      let giftCardDetails = {};
+      giftCardDetails.isFromGiftCard = true;
+      giftCardDetails.egvCartGuid = nextProps.giftCardDetails.egvCartGuid;
+      giftCardDetails.amount = this.state.selectedAmount;
+      localStorage.setItem(EGV_GIFT_CART_ID, JSON.stringify(giftCardDetails));
+      localStorage.setItem("GiftCardAmount", this.state.selectedAmount);
+      localStorage.setItem("productType", "topUp");
       this.props.history.push({
         pathname: CHECKOUT_ROUTER,
         state: {
@@ -158,7 +160,7 @@ export default class CliqCashTopUp extends Component {
     if (!userDetails || !customerAccessToken) {
       return this.navigateToLogin();
     }
-    console.log("this.props.", this.props);
+
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>

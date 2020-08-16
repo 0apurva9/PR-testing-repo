@@ -31,7 +31,8 @@ import {
   MY_ACCOUNT_PROMOS_PAGE,
   MY_ACCOUNT_CHECK_BALANCE_PAGE,
   MY_ACCOUNT_EXCHANGE_MODE_SELECTION_PAGE,
-  MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE
+  MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE,
+  MY_ACCOUNT_CLIQ_CASH_PURCHASE_PAGE
 } from "../../lib/constants.js";
 import AllOrderContainer from "../containers/AllOrderContainer";
 import MyAccountContainer from "../containers/MyAccountContainer";
@@ -61,6 +62,7 @@ import CliqGiftCardContainer from "../containers/CliqGiftCardContainer.js";
 
 import ExchangeModeSelectionContainer from "../containers/ExchangeModeSelectionContainer";
 import CliqGiftCardPurchaseContainer from "../containers/CliqGiftCardPurchaseContainer.js";
+import CliqCashTopUpContainer from "../containers/CliqCashTopUpContainer.js";
 export default class MyAccountWrapper extends React.Component {
   componentDidMount() {
     this.props.getUserAddress();
@@ -160,6 +162,11 @@ export default class MyAccountWrapper extends React.Component {
           exact
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE}`}
           component={CliqGiftCardPurchaseContainer}
+        />
+        <Route
+          exact
+          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PURCHASE_PAGE}`}
+          component={CliqCashTopUpContainer}
         />
         <Route
           exact
