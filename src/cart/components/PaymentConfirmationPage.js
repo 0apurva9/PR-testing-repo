@@ -115,11 +115,7 @@ export default class PaymentConfirmationPage extends React.Component {
       state: { currentCashbackMode: currentCashbackMode, orderId: orderId }
     });
   }
-  handleClick() {
-    if (this.props.onClick) {
-      this.props.onClick();
-    }
-  }
+
   onContinueShopping() {
     this.props.history.push(HOME_ROUTER);
   }
@@ -201,7 +197,7 @@ export default class PaymentConfirmationPage extends React.Component {
                               label="View Orders"
                               height={37}
                               width={175}
-                              onClick={() => this.handleClick()}
+                              onClick={() => this.trackOrder()}
                             />
                           </div>
                         )}
