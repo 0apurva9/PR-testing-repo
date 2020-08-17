@@ -130,15 +130,15 @@ export default class CliqCashTopUp extends Component {
     const formatUserDetails = JSON.parse(userDetails);
     if (this.props.createGiftCardDetails) {
       const giftCardDetails = {};
-      giftCardDetails.from = formatUserDetails.firstName;
+      giftCardDetails.from = formatUserDetails.firstName || "CliqCash";
       giftCardDetails.quantity = QUANTITY;
-      giftCardDetails.messageOnCard = "Massage";
+      giftCardDetails.messageOnCard = "Message";
       giftCardDetails.productID = PRODUCT_ID;
       giftCardDetails.priceSelectedByUserPerQuantity = this.state.selectedAmount;
       giftCardDetails.receiverEmailID = formatUserDetails.userName;
       giftCardDetails.mobileNumber = MOBILE_NUMBER;
       giftCardDetails.productType = "topUp";
-      giftCardDetails.receiverName = formatUserDetails.firstName;
+      giftCardDetails.receiverName = formatUserDetails.firstName || "CliqCash";
       this.props.createGiftCardDetails(giftCardDetails);
     }
   }
