@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
     <g fill="none" fill-rule="evenodd">
-        <rect width="23" height="23" x=".5" y=".5" fill="#DA1C5C" stroke="#DA1C5C" rx="4.8"/>
+        <rect width="23" height="23" x=".5" y=".5" fill="#DA1C5C" stroke="#DA1C5C" rx="2"/>
         <path stroke="#FFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.786" d="M5 11.375L10.04 17 19 7"/>
     </g>
 </svg>

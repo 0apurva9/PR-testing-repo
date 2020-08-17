@@ -4,11 +4,11 @@
 .divider{
   border-bottom: 1px solid #e5e5e5;
   width: 66%;
-  margin-left: 22%;
+  margin-left: 211px;
 }
 .checkboxContainer{
   display: inline-block;
-  width: 10%;
+  width: 7%;
   vertical-align: middle;
 }
 .imageContainer{
@@ -22,7 +22,7 @@
 }
 .productDetailsContainerFluid{
   display: inline-block;
-  width: 60%;
+  width: 57%;
   vertical-align: middle;
   padding-left: 35px;
 }
