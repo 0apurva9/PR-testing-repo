@@ -260,25 +260,8 @@ export default class CliqCashDesktop extends React.Component {
                           </div>
                         </div>
 
-                        {false && (
-                          <div className={styles.infoBaseKnowMore}>
-                            <div className={styles.spacing} />
-                            <div className={styles.infoKnowMore}>
-                              A quick and convenient way for faster checkout and
-                              refund.
-                              <div
-                                className={styles.knowMore}
-                                onClick={this.getCliqCashKnowMore}
-                              >
-                                Know More.
-                              </div>
-                            </div>
-                          </div>
-                        )}
-
-                        {// this.props.cliqCashConfig &&
-                        // this.props.cliqCashConfig.topUp ?
-                        true ? (
+                        {this.props.cliqCashConfig &&
+                        this.props.cliqCashConfig.topUp ? (
                           <div className={styles.infoBase}>
                             <React.Fragment>
                               <div className={styles.info}>
@@ -306,7 +289,21 @@ export default class CliqCashDesktop extends React.Component {
                               </div>
                             </React.Fragment>
                           </div>
-                        ) : null}
+                        ) : (
+                          <div className={styles.infoBaseKnowMore}>
+                            <div className={styles.spacing} />
+                            <div className={styles.infoKnowMore}>
+                              A quick and convenient way for faster checkout and
+                              refund.
+                              <div
+                                className={styles.knowMore}
+                                onClick={this.getCliqCashKnowMore}
+                              >
+                                Know More.
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
                       {this.props.cliqCashExpiringDetails &&
                       this.props.cliqCashExpiringDetails.isExpiring ? (
