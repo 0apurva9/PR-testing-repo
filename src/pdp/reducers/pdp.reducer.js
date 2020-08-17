@@ -11,9 +11,13 @@ import {
 import { transferPincodeToPdpPincode } from "./utils";
 import { CLEAR_ERROR } from "../../general/error.actions.js";
 import * as Cookies from "../../lib/Cookie";
-
 import concat from "lodash.concat";
 import cloneDeep from "lodash.clonedeep";
+import {
+  getCustomerAccessToken,
+  getLoggedInUserDetails
+} from "../../lib/getCookieDetails.js";
+
 const productDescription = (
   state = {
     status: null,
@@ -91,11 +95,18 @@ const productDescription = (
     getTotalBundledPriceStatus: null,
     getTotalBundledPriceLoading: false,
     getTotalBundledPriceDetails: null,
-    getTotalBundledPriceError: null
+    getTotalBundledPriceError: null,
+
+    addBundledProductsToCartStatus: null,
+    addBundledProductsToCartLoading: false,
+    addBundledProductsToCartDetails: null,
+    addBundledProductsToCartError: null
   },
   action
 ) => {
   let sizeGuide, currentBrandDetails;
+  const loggedInUserDetails = getLoggedInUserDetails();
+  const customerAccessToken = getCustomerAccessToken();
   switch (action.type) {
     case CLEAR_ERROR:
       return Object.assign({}, state, {
@@ -1141,6 +1152,38 @@ const productDescription = (
         getTotalBundledPriceStatus: action.status,
         getTotalBundledPriceLoading: false,
         getTotalBundledPriceError: action.error
+      });
+
+    case pdpActions.ADD_BUNDLED_PRODUCTS_TO_CART_REQUEST:
+      return Object.assign({}, state, {
+        addBundledProductsToCartStatus: action.status,
+        addBundledProductsToCartLoading: true
+      });
+
+    case pdpActions.ADD_BUNDLED_PRODUCTS_TO_CART_SUCCESS:
+      if (loggedInUserDetails && customerAccessToken) {
+        Cookies.createCookie(
+          CART_DETAILS_FOR_LOGGED_IN_USER,
+          JSON.stringify(action.data)
+        );
+      } else {
+        Cookies.createCookie(
+          CART_DETAILS_FOR_ANONYMOUS,
+          JSON.stringify(action.data)
+        );
+      }
+
+      return Object.assign({}, state, {
+        addBundledProductsToCartStatus: action.status,
+        addBundledProductsToCartLoading: false,
+        addBundledProductsToCartDetails: action.data
+      });
+
+    case pdpActions.ADD_BUNDLED_PRODUCTS_TO_CART_FAILURE:
+      return Object.assign({}, state, {
+        addBundledProductsToCartStatus: action.status,
+        addBundledProductsToCartLoading: false,
+        addBundledProductsToCartError: action.error
       });
 
     default:

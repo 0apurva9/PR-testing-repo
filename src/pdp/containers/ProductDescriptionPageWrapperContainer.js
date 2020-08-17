@@ -21,7 +21,8 @@ import {
   relevantBundleProductCode,
   getExchangeDetails,
   getBundledProductSuggestion,
-  getTotalBundledPrice
+  getTotalBundledPrice,
+  addBundledProductsToCart
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -340,6 +341,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getTotalBundledPrice: data => {
       dispatch(getTotalBundledPrice(data));
+    },
+    addBundledProductsToCart: data => {
+      dispatch(addBundledProductsToCart(data));
     }
   };
 };
@@ -382,7 +386,11 @@ const mapStateToProps = state => {
     totalBundledPriceDetails:
       state.productDescription.getTotalBundledPriceDetails,
     getTotalBundledPriceLoading:
-      state.productDescription.getTotalBundledPriceLoading
+      state.productDescription.getTotalBundledPriceLoading,
+    addBundledProductsToCartLoading:
+      state.productDescription.addBundledProductsToCartLoading,
+    addBundledProductsToCartDetails:
+      state.productDescription.addBundledProductsToCartDetails
   };
 };
 
