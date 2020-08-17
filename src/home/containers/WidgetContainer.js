@@ -79,10 +79,7 @@ const mapStateToProps = (state, ownProps) => {
     homeMsdData: state.feed.homeMsdData,
     homeAbcMsdData: state.feed.homeAbcMsdData,
     homeAutoWidget: state.feed.homeAutoWidget,
-    widgetAboutdBrand: state.feed.widgetAboutdBrand,
-    widgetSimilarProduct: state.feed.widgetSimilarProduct,
-    automatedWidgetData: state.feed.automatedWidgetData,
-    arrayWithAutoWiget: state.feed.arrayWithAutoWiget
+    automatedWidgetData: state.feed.automatedWidgetData
   };
 };
 

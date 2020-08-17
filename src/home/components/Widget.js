@@ -3,11 +3,7 @@ import PropTypes from "prop-types";
 import { SUCCESS } from "../../lib/constants";
 
 export default class Widget extends React.Component {
-  componentDidMount() {
-    console.log(
-      "==============>widget check",
-      this.props.feedComponentData.type
-    );
+  async componentDidMount() {
     if (
       this.props.feedComponentData.fetchURL &&
       this.props.feedComponentData.status !== SUCCESS
@@ -30,19 +26,9 @@ export default class Widget extends React.Component {
     ) {
       this.props.msdAbcComponents();
     } else if (this.props.feedComponentData.type === "AutoWidget") {
-      if (this.props.arrayWithAutoWiget) {
-        this.props.arrayWithAutoWiget.map(dataElement => {
-          if (
-            dataElement &&
-            dataElement.singleBannerComponent &&
-            dataElement.singleBannerComponent.items
-          ) {
-            this.props.automatedWidgetsForHome(
-              dataElement.singleBannerComponent.items[0]
-            );
-          }
-        });
-      }
+      await this.props.automatedWidgetsForHome(
+        this.props.feedComponentData.items[0]
+      );
     }
   }
 

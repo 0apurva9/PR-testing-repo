@@ -137,8 +137,7 @@ const feed = (
         return Object.assign({}, state, {
           homeFeed: homeFeedData,
           status: action.status,
-          loading: false,
-          arrayWithAutoWiget: action.arrayWithAutoWiget
+          loading: false
         });
       }
       return state;
@@ -479,14 +478,38 @@ const feed = (
       });
     case homeActions.AUTOMATED_WIDGET_HOME_SUCCESS:
       const newMsdRecommendedItems = { ...state.homeAutoWidget };
-      newMsdRecommendedItems[action.widgetName] = action.homeAutoWidgetData;
+      let check = {};
+      if (
+        action.widgetKey === "4" ||
+        action.widgetKey === "114" ||
+        action.widgetKey === "0"
+      ) {
+        if (newMsdRecommendedItems) {
+          const filtered = Object.keys(newMsdRecommendedItems).filter(
+            key => key === action.widgetKey
+          );
+          if (filtered && Array.isArray(filtered) && filtered.length > 0) {
+            check[action.productCode] = action.homeAutoWidgetData;
+            newMsdRecommendedItems[action.widgetKey] = {
+              ...check,
+              ...state.homeAutoWidget[action.widgetKey]
+            };
+          } else {
+            check[action.productCode] = action.homeAutoWidgetData;
+            newMsdRecommendedItems[action.widgetKey] = check;
+          }
+        } else {
+          check[action.productCode] = action.homeAutoWidgetData;
+          newMsdRecommendedItems[action.widgetKey] = check;
+        }
+      } else {
+        check[action.productCode] = action.homeAutoWidgetData;
+        newMsdRecommendedItems[action.widgetKey] = check;
+      }
       return Object.assign({}, state, {
         loadMsdSkeleton: true,
         homeAutoWidget: newMsdRecommendedItems,
-        widgetAboutdBrand:
-          action.widgetName === "aboutTheBrand" ? "About the Brand" : "",
-        widgetSimilarProduct:
-          action.widgetName === "similarProducts" ? "Similar Product" : ""
+        widgetName: action.widgetName
       });
 
     default:

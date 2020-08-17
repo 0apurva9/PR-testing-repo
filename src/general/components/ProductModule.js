@@ -212,6 +212,7 @@ export default class ProductModule extends React.Component {
               />
               {this.props &&
                 !this.props.widgetName &&
+                !this.props.autoWidget &&
                 this.props.widgetName === undefined && (
                   <ProductInfo
                     isPlp={this.props.isPlp}

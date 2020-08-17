@@ -59,11 +59,6 @@ export default class ProductDescription extends Component {
     ) {
       priceClass = styles.nodiscountForAutoWidget;
     }
-    console.log(
-      "=============YYYYYYYYYY>>>>>>",
-      this.props.discountPrice,
-      this.props.price
-    );
     if (this.props.isWhite) {
       headerText = styles.headerWhite;
       contentClass = styles.contentWhite;

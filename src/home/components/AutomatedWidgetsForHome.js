@@ -46,112 +46,14 @@ class AutomatedWidgetsForHome extends React.Component {
   goToProductDescription = (url, items, widgetName, index) => {
     this.props.history.push(url);
   };
-  visitBrand() {
-    if (this.props.aboutTheBrand.webURL) {
-      setDataLayerForVisitBrand();
-      const url = this.props.aboutTheBrand.webURL.replace(TATA_CLIQ_ROOT, "$1");
-      this.props.history.push(url);
-    } else if (this.props.aboutTheBrand && this.props.aboutTheBrand.brandId) {
-      this.props.history.push(`c-${this.props.aboutTheBrand.brandId}`);
-    }
-  }
-  renderAboutTheBrand() {
-    let brandId;
 
-    if (
-      this.props.automatedWidgetData &&
-      this.props.automatedWidgetData.aboutTheBrand
-    ) {
-      brandId = this.props.automatedWidgetData.aboutTheBrand.id;
-    }
-
-    return (
-      this.props.automatedWidgetData &&
-      this.props.automatedWidgetData.aboutTheBrand && (
-        <div className={styles.brandSection} id="GMFB">
-          <h3 className={styles.brandHeader}>
-            <span>About the Brand</span>
-            <DesktopOnly>
-              {brandId && (
-                <div className={styles.headerButton}>
-                  <UnderLinedButton
-                    fontFamily="light"
-                    label="Visit Brand Store"
-                    onClick={() => this.visitBrand()}
-                  />
-                </div>
-              )}
-            </DesktopOnly>
-          </h3>
-          <div>
-            <DesktopOnly>
-              <div className={styles.banner}>
-                <ProductImageHeader
-                  image={this.props.automatedWidgetData.aboutTheBrand.imageURL}
-                  hasDescription={false}
-                  height={true}
-                  logo={
-                    <Logo
-                      height={40}
-                      image={
-                        this.props.automatedWidgetData.aboutTheBrand.brandLogo
-                      }
-                    />
-                  }
-                  description={
-                    this.props.automatedWidgetData.aboutTheBrand.description
-                  }
-                  bottomContent={
-                    <div className={styles.followButton}>
-                      <FollowUnFollowButtonContainer
-                        color="#fff"
-                        brandId={brandId}
-                        isFollowing={
-                          this.props.automatedWidgetData.aboutTheBrand
-                            .isFollowing
-                        }
-                        pageType={PDP_FOLLOW_AND_UN_FOLLOW}
-                      />
-                    </div>
-                  }
-                />
-              </div>
-            </DesktopOnly>
-            <div className={styles.sliderHolder}>
-              {this.props.homeAutoWidget &&
-                this.props.homeAutoWidget[ABOUT_THE_BRAND_WIDGET_KEY] &&
-                this.props.homeAutoWidget[ABOUT_THE_BRAND_WIDGET_KEY].length >
-                  0 &&
-                this.renderCarousel(
-                  this.props.homeAutoWidget[ABOUT_THE_BRAND_WIDGET_KEY],
-                  "About the Brand"
-                )}
-              <MobileOnly>
-                {brandId && (
-                  <div className={styles.visitBrandButton}>
-                    <Button
-                      type="secondary"
-                      label="Visit Brand Store"
-                      onClick={() => this.visitBrand()}
-                    />
-                  </div>
-                )}
-              </MobileOnly>
-            </div>
-          </div>
-        </div>
-      )
-    );
-  }
-
-  renderCarousel(items, widgetName) {
+  renderCarousel(items) {
     return (
       <div className={styles.brandProductCarousel}>
         <CarouselWithControls
           elementWidth={45}
           elementWidthDesktop={25}
           parentData={this.props}
-          widgetName={widgetName}
         >
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
@@ -186,10 +88,7 @@ class AutomatedWidgetsForHome extends React.Component {
                 productId={val.productListingId}
                 isShowAddToWishlistIcon={false}
                 discountPercent={discount}
-                onClick={url =>
-                  this.goToProductDescription(url, val, widgetName, i)
-                }
-                widgetName={widgetName}
+                onClick={url => this.goToProductDescription(url, val, "", i)}
                 autoWidget="true"
                 sourceOfWidget="msd"
               />
@@ -201,57 +100,51 @@ class AutomatedWidgetsForHome extends React.Component {
   }
 
   renderProductModuleSection(key) {
-    let brandId;
-    let titleHeader;
-    if (key == "aboutTheBrand") {
-      titleHeader = "About The Brand";
-    } else if (key === "FrequentlyBoughtTogether") {
-      titleHeader = "Frequently Bought Together";
-    } else if (key === "similarProducts") {
-      titleHeader = "Similar Products";
-    } else if (key === "TopPicksForYou") {
-      titleHeader = "Top Picks For You";
-    } else if (key === "RecentlyViewed") {
-      titleHeader = "Recently Viewed";
-    } else if (key === "TrendingProducts") {
-      titleHeader = "Trending Products";
-    }
-    if (
-      this.props.automatedWidgetData &&
-      this.props.automatedWidgetData.aboutTheBrand
-    ) {
-      brandId = this.props.automatedWidgetData.aboutTheBrand.id;
-    }
-    if (this.props.homeAutoWidget) {
-      return this.props.homeAutoWidget[key] &&
-        this.props.homeAutoWidget[key].length > 0 ? (
-        <div
-          className={styles.brandSection}
-          id={titleHeader === "Similar Products" ? "HSPW" : "IFBT"}
-        >
-          {this.props.homeAutoWidget[key] &&
-            this.renderCarousel(this.props.homeAutoWidget[key], titleHeader)}
+    if (key) {
+      return (
+        <div className={styles.brandSection}>
+          {key && this.renderCarousel(key)}
         </div>
-      ) : null;
+      );
     } else {
       return null;
     }
   }
 
   render() {
-    console.log("===========> this.props", this.props);
-    return (
-      <React.Fragment>
-        <CommonCenter>
-          {/* <div className={styles.autoWidgetBase}> */}
-          {this.props.homeAutoWidget &&
-            Object.keys(this.props.homeAutoWidget).map(items => {
-              return this.renderProductModuleSection(items);
-            })}
-          {/* </div> */}
-        </CommonCenter>
-      </React.Fragment>
+    let component =
+      this.props.feedComponentData &&
+      this.props.feedComponentData.items[0] &&
+      this.props.feedComponentData.items[0].webURL;
+    let productCode =
+      this.props.feedComponentData &&
+      this.props.feedComponentData.items[0] &&
+      this.props.feedComponentData.items[0].hexCode;
+    console.log(
+      "===============>>>111133222222222222222",
+      component,
+      productCode,
+      this.props.homeAutoWidget
     );
+    let data =
+      this.props.homeAutoWidget &&
+      component &&
+      this.props.homeAutoWidget[component];
+    if (
+      this.props.homeAutoWidget &&
+      this.props.homeAutoWidget[component] &&
+      data[productCode]
+    ) {
+      return (
+        <React.Fragment>
+          <CommonCenter>
+            {this.renderProductModuleSection(data[productCode])}
+          </CommonCenter>
+        </React.Fragment>
+      );
+    } else {
+      return null;
+    }
   }
 }
 
