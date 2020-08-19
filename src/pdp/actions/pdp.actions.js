@@ -2228,7 +2228,7 @@ export function getBundledProductSuggestion(
         "access-token": globalAccessToken
       };
       const result = await api.getDataWithMicroservicesWithHeaders(
-        `marketplacemicroscervices/getSuggestions?productCode=${productId}&ussId=${ussId}&categoryCode=${categoryCode}&brandCode=${brandCode}&channel=${CHANNEL}&updatedFlag=true&source=${source}&pincode=${pincode}`,
+        `marketplacemicroscervices/getSuggestions?productCode=${productId}&ussid=${ussId}&categoryCode=${categoryCode}&brandCode=${brandCode}&channel=${CHANNEL}&updatedFlag=true&source=${source}&pinCode=${pincode}`,
         headers
       );
       const resultJson = await result.json();
