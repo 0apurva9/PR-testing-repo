@@ -26,6 +26,7 @@ import GoToCartPopUp from "../../pdp/components/GoToCartPopUp";
 import { LOGIN_PATH } from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";
 import DesktopAuth from "../../auth/components/DesktopAuth.js";
+import Cliq2CallPopUp from "../../account/components/Cliq2CallPopUp";
 const modalRoot = document.getElementById("modal-root");
 const GenerateOtp = "GenerateOtpForEgv";
 const RestorePasswords = "RestorePassword";
@@ -821,6 +822,15 @@ export default class ModalRoot extends React.Component {
         <GoToCartPopUp
           {...this.props.ownProps}
           goToCartPage={productCode => this.goToCartPage(productCode)}
+          goToHomePage={() => this.goToHomePage()}
+        />
+      ),
+
+      Cliq2CallPopUp: (
+        <Cliq2CallPopUp
+          {...this.props.ownProps}
+          // goToCartPage={productCode => this.goToCartPage(productCode)}
+          closeModal={() => this.handleClose()}
           goToHomePage={() => this.goToHomePage()}
         />
       ),

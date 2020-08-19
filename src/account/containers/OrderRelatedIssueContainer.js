@@ -27,7 +27,11 @@ import {
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
 import { displayToast } from "../../general/toast.actions.js";
-import { showModal, CUSTOMER_QUERY_POPUP } from "../../general/modal.actions";
+import {
+  showModal,
+  CUSTOMER_QUERY_POPUP,
+  CLIQ_2_CALL_POP_UP
+} from "../../general/modal.actions";
 const mapDispatchToProps = dispatch => {
   return {
     getOrderRelatedQuestions: async transactionId => {
@@ -91,6 +95,9 @@ const mapDispatchToProps = dispatch => {
     },
     fetchOrderItemDetails: (orderId, transactionId) => {
       dispatch(fetchOrderItemDetails(orderId, transactionId));
+    },
+    showCliq2CallOption: getCustomerQueryDetailsObject => {
+      dispatch(showModal(CLIQ_2_CALL_POP_UP, getCustomerQueryDetailsObject));
     }
     // setHeaderText: text => {
     //   dispatch(setHeaderText(text));

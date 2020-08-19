@@ -1,5 +1,7 @@
 import React from "react";
 import styles from "./OrderRelatedIssue.css";
+import FloatingLabelInputWithPlace from "../../general/components/FloatingLabelInputWithPlace";
+import Button from "../../general/components/Button.js";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import * as Cookie from "../../lib/Cookie";
@@ -27,7 +29,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.location.state &&
       this.props.location.state.selectedOrderObj;
     this.state = {
-      isIssueOptions: false,
+      isIssueOptions: true, //only testing
       isQuesryForm: false,
       questionList: [],
       orderList: true,
@@ -50,7 +52,9 @@ export default class OrderRelatedIssue extends React.Component {
       showLoader: false,
       raiseTiketRequest: false,
       raiseTiketSucess: false,
-      slectOrderData: null
+      slectOrderData: null,
+      isCallMeBackForm: false,
+      isScheduleACall: false
     };
     this.resetState = this.state;
   }
@@ -344,6 +348,26 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState(this.resetState);
   }
 
+  CLiQ2CallClick() {
+    const obj = {
+      isCallMeBack: true,
+      isScgeduleACall: false,
+      callMeBackClick: this.callMeBackCallClick,
+      ScheduleACallClick: this.ScheduleACallClick
+    };
+    this.props.showCliq2CallOption(obj);
+  }
+
+  callMeBackCallClick = () => {
+    console.log("=========111");
+    this.setState({ isCallMeBackForm: true });
+  };
+
+  ScheduleACallClick = () => {
+    console.log("=========7777");
+    this.setState({ isScgeduleACall: true });
+  };
+
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -398,141 +422,270 @@ export default class OrderRelatedIssue extends React.Component {
       return (
         <div className={styles.base}>
           <DesktopOnly>
-            {this.state.isIssueOptions ? (
-              <MoreHelps
-                getCustomerQueriesFields={() => this.getCustomerQueriesFields()}
-                selectedOrder={this.state.question}
-                navigatePreviousPage={() => this.navigatePreviousPage()}
-                navigateHomePage={() => this.navigateHomePage()}
-              />
-            ) : (
-              <div className={styles.baseWrapper}>
-                <div className={styles.formAbdTabHolder}>
-                  <div className={styles.tabHolder}>
-                    <div className={styles.tabHolderBox}>
-                      <div className={styles.tabHeader}>All Help Topics</div>
-
-                      <div className={styles.faqList}>
-                        {FAQData &&
-                          FAQData.map((faq, index) => {
-                            return (
-                              <div
-                                className={styles.faqListBox}
-                                onClick={() => {
-                                  this.handleFAQClick(faq);
-                                }}
-                              >
-                                <div className={styles.faqIcon}>
-                                  <Icon
-                                    image={
-                                      this.state.parentIssueType ==
-                                      faq.FAQHeader
-                                        ? `${require("../components/img/" +
-                                            faq.image.split(".")[0] +
-                                            "active" +
-                                            ".svg")}`
-                                        : `${require("../components/img/" +
-                                            faq.image.split(".")[0] +
-                                            ".svg")}`
-                                    }
-                                    width={33}
-                                    height={33}
-                                  />
-                                </div>
-                                <div className={styles.faqHederBox}>
-                                  <div
-                                    className={[
-                                      styles.faqHeader,
-                                      this.state.parentIssueType ==
-                                      faq.FAQHeader
-                                        ? styles.colorRed
-                                        : null
-                                    ].join(" ")}
-                                  >
-                                    {faq.FAQHeader.replace("&amp;", "&")}
-                                  </div>
-                                  <div className={styles.faqSubheading}>
-                                    {faq.FAQSubHeader.includes("&amp;")
-                                      ? faq.FAQSubHeader.replace(/&amp;/g, "&")
-                                      : faq.FAQSubHeader}
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })}
+            {this.state.isCallMeBackForm ? (
+              <div className={styles.callMeBackFormBox}>
+                <div className={styles.formBox}>
+                  <div className={styles.mobileNumberBox}>
+                    <div className={styles.fieldLabel}>Mobile number</div>
+                    <div className={styles.inputField}>
+                      <FloatingLabelInputWithPlace
+                        placeholder={"Enter your mobile numer"}
+                        disabled={false}
+                        maxLength={10}
+                        // value={this.state[listOfField.componentId]}
+                        // onChange={value =>
+                        //   this.setState({ [listOfField.componentId]: value })
+                        // }
+                        fontSize={"11px"}
+                        onlyNumber={true}
+                        // onBlur={() => this.onBlur(false)}
+                      />
+                      <div
+                        className={styles.customBtn}
+                        // onClick={() => this.previewPage()}
+                      >
+                        Change
                       </div>
                     </div>
                   </div>
+                  <div className={styles.languageBox}>
+                    <div className={styles.fieldLabel}>
+                      Select your language
+                    </div>
 
-                  <div className={styles.formHolder}>
-                    <CustomerIssue
-                      customerQueriesOtherIssueData={
-                        customerQueriesOtherIssueData
-                      }
-                      selectedOrder={this.props.selectedOrderDetails || null}
-                      orderList={this.state.orderList}
-                      isOrderDatails={this.state.isOrderDatails}
-                      moreHelps={() => this.moreHelps()}
-                      ordersTransactionData={ordersTransactionData}
-                      questionsList={this.state.questionList}
-                      selectQuestion={(listOfIssue, index) =>
-                        this.selectQuestion(listOfIssue, index)
-                      }
-                      showFeedBack={this.state.showFeedBack}
-                      question={this.state.question}
-                      getOrderRelatedQuestions={(orderData, product) =>
-                        this.getOrderRelatedQuestions(orderData, product)
-                      }
-                      orderRelatedQuestionsStatus={orderRelatedQuestionsStatus}
-                      isQuesryForm={this.state.isQuesryForm}
-                      uploadUserFile={(issueType, title, file) =>
-                        this.props.uploadUserFile(issueType, title, file)
-                      }
-                      feedBackHelpFull={() => this.feedBackHelpFull()}
-                      isAnswerHelpFull={this.state.isAnswerHelpFull}
-                      uploadedAttachments={this.state.uploadedAttachments}
-                      userDetails={this.props.userDetails}
-                      submitCustomerForms={formaData =>
-                        this.submitCustomerForms(formaData)
-                      }
-                      displayToast={message => this.props.displayToast(message)}
-                      customerQueriesField={customerQueriesField}
-                      getCustomerQueriesFields={(
-                        webFormTemplate,
-                        isIssueOptions
-                      ) =>
-                        this.getCustomerQueriesFields(
-                          webFormTemplate,
-                          isIssueOptions
-                        )
-                      }
-                      orderRelatedQuestion={this.state.orderRelatedQuestion}
-                      otherQuestion={this.state.otherQuestion}
-                      FAQquestion={this.state.FAQquestion}
-                      selectOtehrQuestion={selectedOtehrQuestion =>
-                        this.selectOtehrQuestion(selectedOtehrQuestion)
-                      }
-                      parentIssueType={this.state.parentIssueType}
-                      orderAllList={this.state.orderAllList}
-                      showAllOrdersList={() => this.showAllOrdersList()}
-                      hideAllOrder={() => this.hideAllOrder()}
-                      questionType={this.state.questionType}
-                      isUserLogin={isUserLogin}
-                      navigateLogin={() => this.navigateLogin()}
-                      getMoreOrder={() => this.getMoreOrder()}
-                      showQuestionList={this.state.showQuestionList}
-                      sendInvoice={(ussid, sellerOrderNo) => {
-                        this.sendInvoice(ussid, sellerOrderNo);
-                      }}
-                      navigatePreviousPage={() => this.navigatePreviousPage()}
-                      navigateHomePage={() => this.navigateHomePage()}
-                      updateThanks={() => this.updateThanks()}
-                      navigateCliqCarePage={() => this.navigateCliqCarePage()}
-                      slectOrderData={this.state.slectOrderData}
+                    <div className={styles.language}>
+                      <div className={styles.radioTicketType}>
+                        <label>
+                          English
+                          <input
+                            type="radio"
+                            value="English"
+                            checked={true}
+                            // onChange={e => this.onChangeCheck(e, listOfField, ele)}
+                          />
+                          <span />
+                        </label>
+                      </div>
+                      <div className={styles.radioTicketType}>
+                        <label>
+                          हिंदी
+                          <input
+                            type="radio"
+                            value="हिंदी"
+                            checked={false}
+                            // onChange={e => this.onChangeCheck(e, listOfField, ele)}
+                          />
+                          <span />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.mobileNumberBox}>
+                    <div className={styles.fieldLabel}>Time slot</div>
+                    <div className={styles.inputField}>
+                      <FloatingLabelInputWithPlace
+                        placeholder={"Select your time slot"}
+                        disabled={false}
+                        maxLength={10}
+                        // value={this.state[listOfField.componentId]}
+                        // onChange={value =>
+                        //   this.setState({ [listOfField.componentId]: value })
+                        // }
+                        fontSize={"11px"}
+                        onlyNumber={true}
+                        // onBlur={() => this.onBlur(false)}
+                      />
+                      <div
+                        className={styles.customBtn}
+                        // onClick={() => this.previewPage()}
+                      >
+                        Change
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.requestButtonBox}>
+                    <Button
+                      type="primary"
+                      backgroundColor="#da1c5c"
+                      height={40}
+                      label={"PLACE A CALL REQUEST"}
+                      borderRadius={6}
+                      width={205}
+                      textStyle={{ color: "#FFF", fontSize: 14 }}
+                      disabled={this.state.btnDisable}
+                      disabledLightGray={this.state.btnDisable}
+                      // onClick={() => this.nextField(currentStep)}
                     />
+                  </div>
+                  <div className={styles.buttonBox}>
+                    <div
+                      className={styles.customBtn}
+                      // onClick={() => this.previewPage()}
+                    >
+                      Or go back to previous page
+                    </div>
                   </div>
                 </div>
               </div>
+            ) : (
+              <React.Fragment>
+                {this.state.isIssueOptions ? (
+                  <MoreHelps
+                    getCustomerQueriesFields={() =>
+                      this.getCustomerQueriesFields()
+                    }
+                    selectedOrder={this.state.question}
+                    navigatePreviousPage={() => this.navigatePreviousPage()}
+                    navigateHomePage={() => this.navigateHomePage()}
+                    CLiQ2CallClick={() => this.CLiQ2CallClick()}
+                  />
+                ) : (
+                  <div className={styles.baseWrapper}>
+                    <div className={styles.formAbdTabHolder}>
+                      <div className={styles.tabHolder}>
+                        <div className={styles.tabHolderBox}>
+                          <div className={styles.tabHeader}>
+                            All Help Topics
+                          </div>
+
+                          <div className={styles.faqList}>
+                            {FAQData &&
+                              FAQData.map((faq, index) => {
+                                return (
+                                  <div
+                                    className={styles.faqListBox}
+                                    onClick={() => {
+                                      this.handleFAQClick(faq);
+                                    }}
+                                  >
+                                    <div className={styles.faqIcon}>
+                                      <Icon
+                                        image={
+                                          this.state.parentIssueType ==
+                                          faq.FAQHeader
+                                            ? `${require("../components/img/" +
+                                                faq.image.split(".")[0] +
+                                                "active" +
+                                                ".svg")}`
+                                            : `${require("../components/img/" +
+                                                faq.image.split(".")[0] +
+                                                ".svg")}`
+                                        }
+                                        width={33}
+                                        height={33}
+                                      />
+                                    </div>
+                                    <div className={styles.faqHederBox}>
+                                      <div
+                                        className={[
+                                          styles.faqHeader,
+                                          this.state.parentIssueType ==
+                                          faq.FAQHeader
+                                            ? styles.colorRed
+                                            : null
+                                        ].join(" ")}
+                                      >
+                                        {faq.FAQHeader.replace("&amp;", "&")}
+                                      </div>
+                                      <div className={styles.faqSubheading}>
+                                        {faq.FAQSubHeader.includes("&amp;")
+                                          ? faq.FAQSubHeader.replace(
+                                              /&amp;/g,
+                                              "&"
+                                            )
+                                          : faq.FAQSubHeader}
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={styles.formHolder}>
+                        <CustomerIssue
+                          customerQueriesOtherIssueData={
+                            customerQueriesOtherIssueData
+                          }
+                          selectedOrder={
+                            this.props.selectedOrderDetails || null
+                          }
+                          orderList={this.state.orderList}
+                          isOrderDatails={this.state.isOrderDatails}
+                          moreHelps={() => this.moreHelps()}
+                          ordersTransactionData={ordersTransactionData}
+                          questionsList={this.state.questionList}
+                          selectQuestion={(listOfIssue, index) =>
+                            this.selectQuestion(listOfIssue, index)
+                          }
+                          showFeedBack={this.state.showFeedBack}
+                          question={this.state.question}
+                          getOrderRelatedQuestions={(orderData, product) =>
+                            this.getOrderRelatedQuestions(orderData, product)
+                          }
+                          orderRelatedQuestionsStatus={
+                            orderRelatedQuestionsStatus
+                          }
+                          isQuesryForm={this.state.isQuesryForm}
+                          uploadUserFile={(issueType, title, file) =>
+                            this.props.uploadUserFile(issueType, title, file)
+                          }
+                          feedBackHelpFull={() => this.feedBackHelpFull()}
+                          isAnswerHelpFull={this.state.isAnswerHelpFull}
+                          uploadedAttachments={this.state.uploadedAttachments}
+                          userDetails={this.props.userDetails}
+                          submitCustomerForms={formaData =>
+                            this.submitCustomerForms(formaData)
+                          }
+                          displayToast={message =>
+                            this.props.displayToast(message)
+                          }
+                          customerQueriesField={customerQueriesField}
+                          getCustomerQueriesFields={(
+                            webFormTemplate,
+                            isIssueOptions
+                          ) =>
+                            this.getCustomerQueriesFields(
+                              webFormTemplate,
+                              isIssueOptions
+                            )
+                          }
+                          orderRelatedQuestion={this.state.orderRelatedQuestion}
+                          otherQuestion={this.state.otherQuestion}
+                          FAQquestion={this.state.FAQquestion}
+                          selectOtehrQuestion={selectedOtehrQuestion =>
+                            this.selectOtehrQuestion(selectedOtehrQuestion)
+                          }
+                          parentIssueType={this.state.parentIssueType}
+                          orderAllList={this.state.orderAllList}
+                          showAllOrdersList={() => this.showAllOrdersList()}
+                          hideAllOrder={() => this.hideAllOrder()}
+                          questionType={this.state.questionType}
+                          isUserLogin={isUserLogin}
+                          navigateLogin={() => this.navigateLogin()}
+                          getMoreOrder={() => this.getMoreOrder()}
+                          showQuestionList={this.state.showQuestionList}
+                          sendInvoice={(ussid, sellerOrderNo) => {
+                            this.sendInvoice(ussid, sellerOrderNo);
+                          }}
+                          navigatePreviousPage={() =>
+                            this.navigatePreviousPage()
+                          }
+                          navigateHomePage={() => this.navigateHomePage()}
+                          updateThanks={() => this.updateThanks()}
+                          navigateCliqCarePage={() =>
+                            this.navigateCliqCarePage()
+                          }
+                          slectOrderData={this.state.slectOrderData}
+                          isCallMeBackForm={this.state.isCallMeBackForm}
+                          isScheduleACall={this.state.isScheduleACall}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </React.Fragment>
             )}
           </DesktopOnly>
         </div>
