@@ -1736,6 +1736,7 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
       }
     });
   }
+  Object.assign(window.digitalData, data);
   return data;
 }
 

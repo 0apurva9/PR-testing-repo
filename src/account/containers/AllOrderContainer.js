@@ -67,7 +67,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(hideModal());
     },
     getProductDescription: productCode => {
-      return dispatch(getProductDescription(productCode, "", "", false));
+      return dispatch(getProductDescription(productCode, null, null, false));
     },
     getRetryOrderDetails: orderId => {
       return dispatch(getRetryOrderDetails(orderId));

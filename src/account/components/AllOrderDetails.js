@@ -370,34 +370,33 @@ export default class AllOrderDetails extends React.Component {
           failedOrderDetails,
           retryproductData = [];
         failedOrderDetails = await this.props.getRetryOrderDetails(orderId);
-        products &&
-          products.map(async (data, index) => {
-            productDetailsResponse = await this.props.getProductDescription(
-              data.productcode
-            );
-            let { status, productDescription } = productDetailsResponse;
-            if (
-              productDetailsResponse &&
-              productDetailsResponse.productDescription &&
-              status === SUCCESS
-            ) {
-              retryproductData.push(productDetailsResponse.productDescription);
+        let productRequest =
+          products &&
+          products.map(data =>
+            this.props.getProductDescription(data.productcode)
+          );
+        await Promise.all(productRequest).then(responses =>
+          responses.forEach(res => {
+            let { status, productDescription } = res;
+            if (res && res.productDescription && status === SUCCESS) {
+              retryproductData.push(res.productDescription);
             }
-            if (status === SUCCESS && index === products.length - 1) {
-              this.props.history.push({
-                pathname: CHECKOUT_ROUTER,
-                state: {
-                  isFromRetryUrl: true,
-                  retryPaymentGuid: guId,
-                  productDetails: retryproductData,
-                  totalPriceData:
-                    failedOrderDetails &&
-                    failedOrderDetails.retryOrderDetails &&
-                    failedOrderDetails.retryOrderDetails.products
-                }
-              });
+          })
+        );
+        if (retryproductData && failedOrderDetails) {
+          this.props.history.push({
+            pathname: CHECKOUT_ROUTER,
+            state: {
+              isFromRetryUrl: true,
+              retryPaymentGuid: guId,
+              productDetails: retryproductData,
+              totalPriceData:
+                failedOrderDetails &&
+                failedOrderDetails.retryOrderDetails &&
+                failedOrderDetails.retryOrderDetails.products
             }
           });
+        }
       }
     }
   };
