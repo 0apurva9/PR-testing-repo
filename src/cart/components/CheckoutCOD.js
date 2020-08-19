@@ -23,12 +23,9 @@ export default class CheckoutCOD extends React.Component {
     this.props.softReservationForCODPayment();
   };
   handleCheckout = () => {
-    if (this.props.whatsappSelected && this.props.whatsappSelected === true) {
+    if (this.props.whatsappSelected) {
       getWhatsAppNotification(WHATSAPP_NOTIFICATION_CHECKED);
-    } else if (
-      this.props.whatsappSelected &&
-      this.props.whatsappSelected === false
-    ) {
+    } else if (!this.props.whatsappSelected) {
       getWhatsAppNotification(WHATSAPP_NOTIFICATION_UNCHECKED);
     }
     if (this.props.onCheckout) {

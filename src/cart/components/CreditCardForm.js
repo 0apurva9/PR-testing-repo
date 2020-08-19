@@ -189,12 +189,9 @@ export default class CreditCardForm extends React.Component {
   }
   handleCheckout = () => {
     if (this.props.onCheckout) {
-      if (this.props.whatsappSelected && this.props.whatsappSelected === true) {
+      if (this.props.whatsappSelected) {
         getWhatsAppNotification(WHATSAPP_NOTIFICATION_CHECKED);
-      } else if (
-        this.props.whatsappSelected &&
-        this.props.whatsappSelected === false
-      ) {
+      } else if (!this.props.whatsappSelected) {
         getWhatsAppNotification(WHATSAPP_NOTIFICATION_UNCHECKED);
       }
       this.props.onCheckout();
