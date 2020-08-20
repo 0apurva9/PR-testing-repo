@@ -497,7 +497,7 @@ export default class OrderRelatedIssue extends React.Component {
                       />
                       <div
                         className={styles.customBtn}
-                        // onClick={() => this.previewPage()}
+                        onClick={() => this.props.timeSlotPopUP()}
                       >
                         Change
                       </div>

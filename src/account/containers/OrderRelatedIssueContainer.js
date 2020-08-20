@@ -30,7 +30,8 @@ import { displayToast } from "../../general/toast.actions.js";
 import {
   showModal,
   CUSTOMER_QUERY_POPUP,
-  CLIQ_2_CALL_POP_UP
+  CLIQ_2_CALL_POP_UP,
+  TIME_SLOT_POP_UP
 } from "../../general/modal.actions";
 const mapDispatchToProps = dispatch => {
   return {
@@ -98,6 +99,9 @@ const mapDispatchToProps = dispatch => {
     },
     showCliq2CallOption: getCustomerQueryDetailsObject => {
       dispatch(showModal(CLIQ_2_CALL_POP_UP, getCustomerQueryDetailsObject));
+    },
+    timeSlotPopUP: getCustomerQueryDetailsObject => {
+      dispatch(showModal(TIME_SLOT_POP_UP, getCustomerQueryDetailsObject));
     }
     // setHeaderText: text => {
     //   dispatch(setHeaderText(text));
