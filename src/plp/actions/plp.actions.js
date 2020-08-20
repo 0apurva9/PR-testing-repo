@@ -69,6 +69,7 @@ export const USER_SELECTED_OUT_OF_STOCK = "USER_SELECTED_OUT_OF_STOCK";
 export const MSD_ROOT_PATH = "https://ap-southeast-1-api.madstreetden.com";
 const EXCLUDE_OUT_OF_STOCK_FLAG = "%3AinStockFlag%3Atrue";
 const api_key = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
+const env = process.env;
 export const VIEW_SIMILAR_PRODUCTS = "VIEW_SIMILAR_PRODUCTS";
 export const GET_PLP_BANNERS_SUCCESS = "GET_PLP_BANNERS_SUCCESS";
 export const GET_PLP_BANNERS_FAILURE = "GET_PLP_BANNERS_FAILURE";
@@ -581,7 +582,7 @@ export function getChatbotDetails() {
     dispatch(getChatbotDetailsRequest());
     try {
       const result = await api.customGetMiddlewareUrl(
-        `/adminstatic/js/mkt_msite_chat.json`
+        env.REACT_APP_HAPTIK_CHATBOT_API_URL
       );
       if (result.status === 200) {
         const resultJson = await result.json();
