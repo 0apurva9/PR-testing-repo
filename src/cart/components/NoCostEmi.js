@@ -23,9 +23,13 @@ export default class NoCostEmi extends React.Component {
     });
     if (this.props.onChangeEMIType) {
       if (isOpen) {
-        this.props.onChangeEMIType(this.props.EMIText);
+        this.props.onChangeEMIType(
+          this.props.EMIText,
+          false,
+          this.props.EMITabName
+        );
       } else {
-        this.props.onChangeEMIType(null);
+        this.props.onChangeEMIType(null, false, null);
       }
     }
     if (this.props.EMIText === "Cardless EMI") {
@@ -73,20 +77,7 @@ export default class NoCostEmi extends React.Component {
           }}
         >
           <div className={rotateIcon} />
-          <div className={styles.textHolder}>
-            {this.props.EMIText === STANDARD_EMI && (
-              <span>
-                {STANDARD_EMI}
-                <span className={styles.subText}> (Credit card only)</span>
-              </span>
-            )}
-            {this.props.EMIText !== STANDARD_EMI && (
-              <span>
-                {this.props.EMIText}
-                <span className={styles.subText}> (Credit card only)</span>
-              </span>
-            )}
-          </div>
+          <div className={styles.textHolder}>{this.props.EMITabName}</div>
         </div>
         <Collapse isOpened={this.state.isOpen}>{this.props.children}</Collapse>
       </div>

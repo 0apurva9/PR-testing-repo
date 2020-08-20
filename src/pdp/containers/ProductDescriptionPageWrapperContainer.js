@@ -57,9 +57,12 @@ import {
   NO,
   SELECTED_STORE
 } from "../../lib/constants.js";
-import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 import {
   tempCartIdForLoggedInUser,
+  getDCEmiEligibility
+} from "../../cart/actions/cart.actions";
+import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
+import {
   getCartDetails,
   addStoreCNC,
   addPickupPersonCNC,
@@ -314,8 +317,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     mergeTempCartWithOldCart: () => {
       dispatch(mergeTempCartWithOldCart());
     },
+
     getChatbotDetails: async () => {
       await dispatch(getChatbotDetails());
+    },
+    getDCEmiEligibility: async isFromPDP => {
+      return await dispatch(getDCEmiEligibility(isFromPDP));
     }
   };
 };
@@ -352,7 +359,8 @@ const mapStateToProps = state => {
     chatbotDetailsData: state.productListings.getChatbotDetailsData,
     addToCartResponseDetails: state.productDescription.addToCartResponseDetails,
     addToCartResponseLoading: state.productDescription.addToCartResponseLoading,
-    cartCountDetails: state.cart.cartCountDetails
+    cartCountDetails: state.cart.cartCountDetails,
+    dCEmiEligibiltyDetails: state.cart.dCEmiEligibiltyDetails
   };
 };
 

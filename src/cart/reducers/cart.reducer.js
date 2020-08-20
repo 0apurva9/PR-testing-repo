@@ -300,7 +300,16 @@ const cart = (
     feedBackPageError: null,
     getCustomComponent: null,
     getCustomComponentError: null,
-    getCustomComponentLoading: false
+    getCustomComponentLoading: false,
+    instacredMiddleLayerISEnableError: null,
+
+    dCEmiEligibiltyDetails: null,
+    dCEmiEligibiltyStatus: null,
+    dCEmiEligibiltyError: null,
+
+    dCEmiBankDetails: null,
+    dCEmiBankDetailsStatus: null,
+    dCEmiBankDetailsError: null
   },
   action
 ) => {
@@ -2411,6 +2420,47 @@ const cart = (
         getCustomComponentStatus: action.status,
         getCustomComponentLoading: false,
         getCustomComponentError: action.error
+      });
+    case cartActions.CHECK_DC_EMI_ELIGIBILITY_REQUEST:
+      return Object.assign({}, state, {
+        dCEmiEligibiltyStatus: action.status,
+        loading: true
+      });
+
+    case cartActions.CHECK_DC_EMI_ELIGIBILITY_SUCCESS:
+      return Object.assign({}, state, {
+        dCEmiEligibiltyStatus: action.status,
+        dCEmiEligibiltyDetails: action.dCEmiEligibility,
+        loading: false
+      });
+
+    case cartActions.CHECK_DC_EMI_ELIGIBILITY_FAILURE:
+      return Object.assign({}, state, {
+        dCEmiEligibiltyStatus: action.status,
+        dCEmiEligibiltyError: action.error,
+        dCEmiEligibiltyDetails: null,
+        loading: false
+      });
+
+    case cartActions.DC_EMI_BANK_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        dCEmiBankDetailsStatus: action.status,
+        loading: true
+      });
+
+    case cartActions.DC_EMI_BANK_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        dCEmiBankDetailsStatus: action.status,
+        dCEmiBankDetails: action.dCEmiBankDetails,
+        loading: false
+      });
+
+    case cartActions.DC_EMI_BANK_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        dCEmiBankDetailsStatus: action.status,
+        dCEmiBankDetailsError: action.error,
+        dCEmiBankDetails: null,
+        loading: false
       });
 
     default:

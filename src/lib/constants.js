@@ -542,3 +542,5 @@ export const WEB_URL_REG_EX = /^https?:[\/]{2}(www\.)?tatacliq.com/g;
 // for haptik chatbot add to cart event
 export const ADD_TO_CART_EVENT_HAPTIK_CHATBOT = "add_to_cart";
 export const GO_TO_CART_EVENT_HAPTIK_CHATBOT = "go_to_cart";
+export const CREDIT_CARD_EMI = "Credit Card EMI";
+export const DEBIT_CARD_EMI = "Debit Card EMI";
