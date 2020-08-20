@@ -161,6 +161,10 @@ export default class Chatbot extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    window.removeEventListener("haptik_event", this.addToCartFromHaptikChatbot);
+  }
+
   submitHaptikEvent(message, status, productId) {
     if (status === SUCCESS) {
       let haptikListenerJsonData = {
