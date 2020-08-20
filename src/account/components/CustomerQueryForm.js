@@ -331,6 +331,7 @@ export default class CustomerQueryForm extends Component {
                     this.setState({ [listOfField.componentId]: value })
                   }
                   maxLength={parseInt(listOfField.maxLimit)}
+                  onBlur={() => this.onBlur(false)}
                 />
               </div>
             </React.Fragment>
@@ -524,11 +525,18 @@ export default class CustomerQueryForm extends Component {
           boxImages: "",
           balanceScreenshot: "",
           lastTransactionScreenshot: "",
-          missingAccessories: ""
+          missingAccessories: "",
+          webformChannel: "",
+          appVersion: "",
+          refundIssue: "",
+          deficitAmount: ""
         };
 
         for (let obj of customerQueriesField) {
           for (let [key, value] of Object.entries(additionalInfo)) {
+            if (key == "webformChannel") {
+              additionalInfo.webformChannel = "desktop";
+            }
             if (key == uploadFileTitle) {
               if (uploadedAttachment && uploadedAttachment.length > 0) {
                 let urlList = [];

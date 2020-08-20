@@ -210,8 +210,6 @@ export default class OrderRelatedIssue extends React.Component {
       );
       setTimeout(() => {
         if (submitOrderDetailsResponse.status === SUCCESS) {
-          getCustomerQueryDetailsObject.ticketID =
-            submitOrderDetailsResponse.submitOrder.referenceNum;
           if (
             submitOrderDetailsResponse.submitOrder.referenceNum == "duplicate"
           ) {
@@ -246,7 +244,10 @@ export default class OrderRelatedIssue extends React.Component {
             });
             setTimeout(() => {
               this.setState({ showLoader: false, raiseTiketSucess: false });
-              this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+              this.props.showCustomerQueryModal({
+                ticketId: submitOrderDetailsResponse.submitOrder.referenceNum,
+                sla: submitOrderDetailsResponse.submitOrder.sla
+              });
               this.props.setSelfServeState(null);
             }, 2000);
           }
