@@ -385,9 +385,9 @@ export default class Chatbot extends React.Component {
               }
             });
 
+          const currentCategoryNameInLowerCase =
+            currentCategoryName && currentCategoryName.toLowerCase();
           if (brandAndFilterValuesText) {
-            const currentCategoryNameInLowerCase =
-              currentCategoryName && currentCategoryName.toLowerCase();
             const categoryNameInLowerCase =
               eligiblePLPData.categoryName &&
               eligiblePLPData.categoryName.toLowerCase();
@@ -396,6 +396,8 @@ export default class Chatbot extends React.Component {
             } else {
               searchCriteria = brandAndFilterValuesText;
             }
+          } else {
+            searchCriteria = currentCategoryNameInLowerCase;
           }
 
           let isSearchPage = plpProductDetails.currentQuery.searchQuery;
