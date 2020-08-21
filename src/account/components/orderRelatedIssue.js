@@ -54,7 +54,8 @@ export default class OrderRelatedIssue extends React.Component {
       raiseTiketSucess: false,
       slectOrderData: null,
       isCallMeBackForm: false,
-      isScheduleACall: false
+      isScheduleACall: false,
+      callMeBackJourney: false
     };
     this.resetState = this.state;
   }
@@ -313,7 +314,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.sendInvoice(ussid, sellerOrderNo);
     }
   }
-  hideLoader() {}
+
   navigatePreviousPage() {
     if (this.state.showQuestionList) {
       this.setState(this.resetState);
@@ -349,13 +350,31 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   CLiQ2CallClick() {
-    const obj = {
-      isCallMeBack: true,
-      isScgeduleACall: false,
-      callMeBackClick: this.callMeBackCallClick,
-      ScheduleACallClick: this.ScheduleACallClick
-    };
-    this.props.showCliq2CallOption(obj);
+    this.setState({ callMeBackJourney: true });
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (userDetails || customerCookie) {
+      this.props.setSelfServeState(this.state);
+      this.navigateLogin();
+    } else {
+      const obj = {
+        isCallMeBack: true,
+        isScgeduleACall: false,
+        callMeBackClick: this.callMeBackCallClick,
+        ScheduleACallClick: this.ScheduleACallClick
+      };
+      if (true) {
+        let getCustomerQueryDetailsObject = Object.assign(
+          {},
+          {
+            callMeBackJourney: this.status.callMeBackJourney
+          }
+        );
+        this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+      } else {
+        this.props.showCliq2CallOption(obj);
+      }
+    }
   }
 
   callMeBackCallClick = () => {
