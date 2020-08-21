@@ -324,11 +324,16 @@ export function getProductPinCode(
   winningUssID,
   isComingFromPiqPage,
   isExchangeAvailable,
-  isComingFromClickEvent = false
+  isComingFromClickEvent = false,
+  isComingFromHaptikChatbot
 ) {
   let validProductCode = productCode.toUpperCase();
   if (pinCode) {
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, pinCode);
+  }
+  let checkPincodeFromHaptikChatbot = false;
+  if (isComingFromHaptikChatbot) {
+    checkPincodeFromHaptikChatbot = true;
   }
   return async (dispatch, getState, { api }) => {
     dispatch(getProductPinCodeRequest());
@@ -463,7 +468,8 @@ export function getProductPinCode(
           productOutOfStockMessage: resultJson.productOutOfStockMessage,
           productNotServiceableMessage:
             resultJson.productNotServiceabilityMessage,
-          pincodeError
+          pincodeError,
+          checkPincodeFromHaptikChatbot: checkPincodeFromHaptikChatbot
         })
       );
       // if (isComingFromPiqPage) {
