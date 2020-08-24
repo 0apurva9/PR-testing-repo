@@ -6,7 +6,9 @@ import {
   NO_COST_EMI,
   STANDARD_EMI,
   INSTACRED,
-  CARDLESS_EMI
+  CARDLESS_EMI,
+  CREDIT_CARD_EMI,
+  DEBIT_CARD_EMI
 } from "../../lib/constants";
 export default class NoCostEmi extends React.Component {
   constructor(props) {
@@ -36,21 +38,21 @@ export default class NoCostEmi extends React.Component {
       this.props.selectInstacred(true);
       this.props.onChange({ currentPaymentMode: INSTACRED });
     }
-    if (
-      isOpen &&
-      this.props.EMIText === STANDARD_EMI &&
-      !this.props.emiList &&
-      this.props.getEmiBankDetails
-    ) {
-      this.props.getEmiBankDetails();
-    }
-    if (
-      isOpen &&
-      this.props.EMIText === NO_COST_EMI &&
-      this.props.getBankAndTenureDetails
-    ) {
-      this.props.getBankAndTenureDetails();
-    }
+    // if (
+    //   isOpen &&
+    //   this.props.EMIText === STANDARD_EMI &&
+    //   !this.props.emiList &&
+    //   this.props.getEmiBankDetails
+    // ) {
+    //   this.props.getEmiBankDetails();
+    // }
+    // if (
+    //   isOpen &&
+    //   this.props.EMIText === NO_COST_EMI &&
+    //   this.props.getBankAndTenureDetails
+    // ) {
+    //   this.props.getBankAndTenureDetails();
+    // }
     if (isOpen && this.props.EMIText === CARDLESS_EMI) {
       const isOpen = true;
       this.setState({
@@ -68,6 +70,12 @@ export default class NoCostEmi extends React.Component {
     if (this.state.isOpen) {
       rotateIcon = styles.rot;
     }
+    let tabExtension = "";
+    if (this.props.EMITabName === CREDIT_CARD_EMI) {
+      tabExtension = this.props.creditCardTabNameExtension;
+    } else if (this.props.EMITabName === DEBIT_CARD_EMI) {
+      tabExtension = this.props.debitCardTabNameExtension;
+    }
     return (
       <div className={styles.base}>
         <div
@@ -77,7 +85,10 @@ export default class NoCostEmi extends React.Component {
           }}
         >
           <div className={rotateIcon} />
-          <div className={styles.textHolder}>{this.props.EMITabName}</div>
+          <div className={styles.textHolder}>
+            {this.props.EMITabName}
+            {tabExtension && `(${tabExtension})`}
+          </div>
         </div>
         <Collapse isOpened={this.state.isOpen}>{this.props.children}</Collapse>
       </div>

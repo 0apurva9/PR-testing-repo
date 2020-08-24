@@ -544,3 +544,4 @@ export const ADD_TO_CART_EVENT_HAPTIK_CHATBOT = "add_to_cart";
 export const GO_TO_CART_EVENT_HAPTIK_CHATBOT = "go_to_cart";
 export const CREDIT_CARD_EMI = "Credit Card EMI";
 export const DEBIT_CARD_EMI = "Debit Card EMI";
+export const IS_DC_EMI_SELECTED = "isDcEMISelected";

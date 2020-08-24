@@ -44,7 +44,8 @@ import {
   SAME_DAY_DELIVERY,
   SHORT_SAME_DAY_DELIVERY,
   RETRY_PAYMENT_CART_ID,
-  SELECTED_STORE
+  SELECTED_STORE,
+  IS_DC_EMI_SELECTED
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -101,6 +102,7 @@ import {
   ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED,
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
 } from "../../lib/adobeUtils";
+import { getCustomerAccessToken } from "../../common/services/common.services";
 
 const EGV_GIFT_CART_ID = "giftCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
@@ -2391,9 +2393,7 @@ export function collectPaymentOrderForGiftCardUPI(
   bankName
 ) {
   return async (dispatch, getState, { api }) => {
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -2508,9 +2508,7 @@ export function collectPaymentOrderForUPI(
     }
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
 
     let orderDetails = "";
     let inventoryItems = cartItem;
@@ -2792,9 +2790,7 @@ export function createJusPayOrderForUPI(
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
   let upi_vpa = JSON.parse(localStorage.getItem(UPI_VPA));
   let cartItem = cartItemObj;
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/multi/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/multi/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
@@ -3714,9 +3710,7 @@ export function createJusPayOrder(
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
@@ -3846,9 +3840,7 @@ export function createJusPayOrderForGiftCard(
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -3904,9 +3896,7 @@ export function createJusPayOrderForNetBanking(
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
@@ -4016,9 +4006,7 @@ export function createJusPayOrderForGiftCardNetBanking(
   bankCode,
   bankName
 ) {
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -4069,9 +4057,7 @@ export function createJusPayOrderForSavedCards(
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
   let cartItem = cartItemObj;
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/multi/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/multi/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
@@ -4181,9 +4167,7 @@ export function createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId) {
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -4247,9 +4231,7 @@ export function createJusPayOrderForCliqCash(
     localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
   }
 
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
@@ -7151,7 +7133,7 @@ export function collectPaymentOrder(
     if (isPaymentFailed) {
       cartGuId = Cookie.getCookie(OLD_CART_GU_ID);
     }
-
+    let dcemi = localStorage.getItem(IS_DC_EMI_SELECTED);
     dispatch(collectPaymentOrderRequest());
     try {
       const result = await api.post(
@@ -7163,7 +7145,7 @@ export function collectPaymentOrder(
           cardDetails.emi_tenure
         }&cardBrandName=${cardBrandName}${
           whatsappNotification ? "&whatsapp=true" : ""
-        }`,
+        }&dcemi=${dcemi}`,
         cartdetails
       );
       const resultJson = await result.json();
@@ -7185,6 +7167,7 @@ export function collectPaymentOrder(
       }
       dispatch(collectPaymentOrderSuccess(resultJson));
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
+      localStorage.setItem(IS_DC_EMI_SELECTED, false);
       if (resultJson.pspName === "Juspay") {
         dispatch(
           jusPayPaymentMethodType(
@@ -7261,9 +7244,7 @@ export function stripe_juspay_Tokenize(
   retryCartGuid
 ) {
   return async (dispatch, getState, { api }) => {
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let orderDetails = "";
     let inventoryItems = cartItems;
     if (isFromRetryUrl && !isPaymentFailed) {
@@ -7366,9 +7347,7 @@ export function stripe_juspay_TokenizeGiftCard(
   isFromRetryUrl
 ) {
   return async (dispatch, getState, { api }) => {
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     if (cardDetails) {
       let juspayToken = await dispatch(
         jusPayTokenizeForGiftCard(cardDetails, paymentMode, egvCartGuid)
@@ -7452,9 +7431,7 @@ export function collectPaymentOrderForSavedCards(
         .toLowerCase()} Card`;
     }
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let orderDetails = "";
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
     let inventoryItems = cartItem;
@@ -7603,9 +7580,7 @@ export function collectPaymentOrderForGiftCardFromSavedCards(
         .toLowerCase()} Card`;
     }
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let orderDetails = "";
     orderDetails = {
       wrapperItems: [
@@ -7701,9 +7676,7 @@ export function collectPaymentOrderForNetBanking(
     let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
 
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let orderDetails,
       cartDetails = "";
     let inventoryItems = cartItem;
@@ -7864,9 +7837,7 @@ export function collectPaymentOrderForGiftCardNetBanking(
   bankName
 ) {
   return async (dispatch, getState, { api }) => {
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -7992,9 +7963,7 @@ export function collectPaymentOrderForCliqCash(
     const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let orderDetails = "";
     let inventoryItems = cartItem;
     if (isPaymentFailed) {
@@ -8157,9 +8126,7 @@ export function removeExchange(data) {
     dispatch(removeExchangeRequest());
     try {
       const result = await api.getMiddlewareUrl(
-        `v2/mpl/products/cancelExchange?access_token=${accessToken}&guid=${guId}&entryNumber=${
-          data.entryNumber
-        }&quoteId=${data.quoteId}&imeiNumber=${data.IMEINumber}`
+        `v2/mpl/products/cancelExchange?access_token=${accessToken}&guid=${guId}&entryNumber=${data.entryNumber}&quoteId=${data.quoteId}&imeiNumber=${data.IMEINumber}`
       );
       const resultJson = await result.json();
       if (
@@ -8279,7 +8246,6 @@ export function checkDCEmiEligibiltyFailure(error) {
 }
 
 export function getDCEmiEligibility(isFromPDP = false) {
-  let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
   const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
   let cartGuId;
   if (cartDetails === undefined) {
@@ -8289,27 +8255,15 @@ export function getDCEmiEligibility(isFromPDP = false) {
   }
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
+    const customerAccessToken = await getCustomerAccessToken();
     dispatch(checkDCEmiEligibiltyRequest());
     try {
-      // const result = await api.get(
-      //   `${CART_PATH}/getBankDetailsforEMI?platformNumber=${PLAT_FORM_NUMBER}&productValue=${price}&access_token=${
-      //     JSON.parse(globalCookie).access_token
-      //   }&guid=${cartId}&isFromNewVersion=true&isPwa=true&emiConvChargeFlag=true`
-      // );
       const result = await api.get(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/payments/getDCEmiEligibility?access_token=${
-          JSON.parse(globalCookie).access_token
-        }&cartGuid=${cartGuId}&isFromPDP=${isFromPDP}`
+        }/payments/getDCEmiEligibility?access_token=${customerAccessToken}&cartGuid=${cartGuId}&isFromPDP=${isFromPDP}`
       );
-      // const resultJson = await result.json();
-      const resultJson = await {
-        type: "dcemiEligibilityDTO",
-        status: "Success",
-        DCEMIEligibleMessage: "msgpart1 9065234501 msgpart2",
-        isDCEMIEligible: true
-      };
+      const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
@@ -8362,106 +8316,12 @@ export function getBankDetailsforDCEmi(price, cartGuid) {
   return async (dispatch, getState, { api }) => {
     dispatch(getBankDetailsforDCEmiRequest());
     try {
-      // const result = await api.get(
-      //   `${CART_PATH}/getBankDetailsforEMI?platformNumber=${PLAT_FORM_NUMBER}&productValue=${price}&access_token=${
-      //     JSON.parse(globalCookie).access_token
-      //   }&guid=${cartId}&isFromNewVersion=true&isPwa=true&emiConvChargeFlag=true`
-      // );
       const result = await api.get(
         `${CART_PATH}/getBankDetailsforDCEmi?platformNumber=${PLAT_FORM_NUMBER}&productValue=${price}&access_token=${
           JSON.parse(globalCookie).access_token
         }&guid=${cartId}&emiConvChargeFlag=true`
       );
-      // const resultJson = await result.json();
-      const resultJson = {
-        type: "emiBankListWsDTO",
-        status: "Success",
-        bankList: [
-          {
-            code: "AXISDC",
-            emiBank: "AXIS DC Hello BANK",
-            emitermsrate: [
-              {
-                emiConvCharge: "0.00",
-                interestPayable: "978.50",
-                interestRate: "13.0",
-                monthlyInstallment: "15326.17",
-                overallCost: "45979.00",
-                term: "3"
-              },
-              {
-                emiConvCharge: "0.00",
-                interestPayable: "1855.26",
-                interestRate: "14.0",
-                monthlyInstallment: "7809.21",
-                overallCost: "46856.00",
-                term: "6"
-              }
-            ],
-            logoUrl: "",
-            pk: "8796256913027"
-          },
-          {
-            code: "HDFC",
-            emiBank: "HDFC Bank",
-            emiInfo:
-              "Convenience Fee of Rs 99+GST applicable for EMI transactions on HDFC Bank Cards payable along with 1st EMI.",
-            emitermsrate: [
-              {
-                emiConvCharge: "99.00",
-                interestPayable: "1129.66",
-                interestRate: "15.0",
-                monthlyInstallment: "15376.55",
-                overallCost: "46229.00",
-                term: "3"
-              },
-              {
-                emiConvCharge: "99.00",
-                interestPayable: "1989.13",
-                interestRate: "15.0",
-                monthlyInstallment: "7831.52",
-                overallCost: "47089.00",
-                term: "6"
-              },
-              {
-                emiConvCharge: "99.00",
-                interestPayable: "2859.07",
-                interestRate: "15.0",
-                monthlyInstallment: "5317.67",
-                overallCost: "47959.00",
-                term: "9"
-              },
-              {
-                emiConvCharge: "99.00",
-                interestPayable: "3739.49",
-                interestRate: "15.0",
-                monthlyInstallment: "4061.62",
-                overallCost: "48839.00",
-                term: "12"
-              },
-              {
-                emiConvCharge: "99.00",
-                interestPayable: "5531.68",
-                interestRate: "15.0",
-                monthlyInstallment: "2807.32",
-                overallCost: "50631.00",
-                term: "18"
-              },
-              {
-                emiConvCharge: "99.00",
-                interestPayable: "7365.58",
-                interestRate: "15.0",
-                monthlyInstallment: "2181.90",
-                overallCost: "52465.00",
-                term: "24"
-              }
-            ],
-            logoUrl:
-              "https://assets.tatacliq.com/medias/sys_master/12726691332126.png",
-            pk: "8796191377027"
-          }
-        ]
-      };
+      const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);

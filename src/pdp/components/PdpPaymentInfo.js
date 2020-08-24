@@ -57,16 +57,6 @@ export default class PdpPaymentInfo extends React.Component {
             </div>
           )
         )}
-        {this.props.dCEmiEligibiltyDetails &&
-          this.props.dCEmiEligibiltyDetails.isDCEMIEligible && (
-            <li>
-              <div className={styles.opts}>
-                <span className={styles.optsSpan}>
-                  <div>Debit Card EMI Available</div>
-                </span>
-              </div>
-            </li>
-          )}
         {/* {this.props.hasCod === "Y" && (
           <div className={styles.content}>Cash on Delivery available</div>
         )} */}
