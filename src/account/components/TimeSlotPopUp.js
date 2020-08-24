@@ -4,15 +4,15 @@ import TabHolder from "../../account/components/TabHolder";
 import TabData from "../../account/components/TabData";
 import styles from "./TimeSlotPopUp.css";
 const timeSlotArray = [
-  { time: "7 AM - 8 AM" },
+  { mornginAfter: "Morning", time: "7 AM - 8 AM" },
   { time: "8 AM - 9 AM" },
   { time: "9 AM - 10 AM" },
   { time: "10 AM - 11 AM" },
   { time: "11 AM - 12 PM" },
-  { time: "12 PM - 1 PM" },
+  { mornginAfter: "Afternoon", time: "12 PM - 1 PM" },
+  { time: "1 PM - 2 PM" },
   { time: "3 PM - 4 PM" },
-  { time: "4 PM - 5 PM" },
-  { time: "5 PM - 6 PM" },
+  { mornginAfter: "Evening", time: "5 PM - 6 PM" },
   { time: "6 PM - 7 PM" },
   { time: "7 PM - 8 PM" },
   { time: "8 PM - 9 PM" },
@@ -31,10 +31,16 @@ export default class TimeSlotPopUp extends Component {
   }
 
   timeSlotArray = () => {
+    let mornginAftre = false;
     return timeSlotArray.map(time => {
+      // if(time.mornginAfter){
+      //   mornginAftre=true
+      // }
       return (
         <React.Fragment>
-          {/* <div className={styles.txt}>Morning</div> */}
+          {time.mornginAfter ? (
+            <div className={styles.txt}>{time.mornginAfter}</div>
+          ) : null}
           <div className={styles.timeCard}>{time.time}</div>
         </React.Fragment>
       );
@@ -93,7 +99,8 @@ export default class TimeSlotPopUp extends Component {
             )}
             {this.state.isSelected === 1 && (
               <div className={styles.dateSection}>
-                <div className={styles.timeSlotBox}>
+                {this.timeSlotArray()}
+                {/* <div className={styles.timeSlotBox}>
                   <div className={styles.txt}>Morning</div>
                   <div className={styles.timeCard}>7 AM - 8 AM</div>
                   <div className={styles.timeCard}>8 AM - 9 AM</div>
@@ -114,7 +121,7 @@ export default class TimeSlotPopUp extends Component {
                   <div className={styles.timeCard}>7 PM - 8 PM</div>
                   <div className={styles.timeCard}>8 PM - 9 PM</div>
                   <div className={styles.timeCard}>9 PM - 10 PM</div>
-                </div>
+                </div> */}
               </div>
             )}
           </div>

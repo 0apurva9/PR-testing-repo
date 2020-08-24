@@ -24,6 +24,12 @@ const FAQ_PAGE = "ss-faq";
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
     super(props);
+    this.userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    this.customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const getUserDetails = this.userDetailsCookie
+      ? JSON.parse(this.userDetailsCookie)
+      : {};
+
     const selectedOrderObj =
       this.props.location &&
       this.props.location.state &&
@@ -55,7 +61,15 @@ export default class OrderRelatedIssue extends React.Component {
       slectOrderData: null,
       isCallMeBackForm: false,
       isScheduleACall: false,
-      callMeBackJourney: false
+      callMeBackJourney: false,
+      mobile:
+        getUserDetails &&
+        getUserDetails.loginType === "mobile" &&
+        getUserDetails.userName
+          ? getUserDetails.userName
+          : "",
+      chooseLanguage: "",
+      timing: ""
     };
     this.resetState = this.state;
   }
@@ -88,6 +102,17 @@ export default class OrderRelatedIssue extends React.Component {
       if (nextProps.logoutUserStatus == "success") {
         this.setState(this.resetState);
       }
+    }
+    if (
+      nextProps &&
+      JSON.stringify(this.props.userDetails) !==
+        JSON.stringify(nextProps.userDetails)
+    ) {
+      this.setState({
+        mobile: nextProps.userDetails.mobileNumber
+          ? nextProps.userDetails.mobileNumber
+          : ""
+      });
     }
   }
   moreHelps() {
@@ -351,9 +376,9 @@ export default class OrderRelatedIssue extends React.Component {
 
   CLiQ2CallClick() {
     this.setState({ callMeBackJourney: true });
-    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (userDetails || customerCookie) {
+    // const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    // const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (!this.userDetailsCookie || !this.customerCookie) {
       this.props.setSelfServeState(this.state);
       this.navigateLogin();
     } else {
@@ -363,17 +388,18 @@ export default class OrderRelatedIssue extends React.Component {
         callMeBackClick: this.callMeBackCallClick,
         ScheduleACallClick: this.ScheduleACallClick
       };
-      if (true) {
-        let getCustomerQueryDetailsObject = Object.assign(
-          {},
-          {
-            callMeBackJourney: this.status.callMeBackJourney
-          }
-        );
-        this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
-      } else {
-        this.props.showCliq2CallOption(obj);
-      }
+      this.props.showCliq2CallOption(obj);
+      // if (true) {
+      //   let getCustomerQueryDetailsObject = Object.assign(
+      //     {},
+      //     {
+      //       callMeBackJourney: this.status.callMeBackJourney
+      //     }
+      //   );
+      //   this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+      // } else {
+      //   this.props.showCliq2CallOption(obj);
+      // }
     }
   }
 
@@ -385,6 +411,11 @@ export default class OrderRelatedIssue extends React.Component {
   ScheduleACallClick = () => {
     console.log("=========7777");
     this.setState({ isScgeduleACall: true });
+  };
+  timeSlotPopUP = () => {
+    if (this.props.timeSlotPopUP) {
+      this.props.timeSlotPopUP();
+    }
   };
 
   render() {
@@ -451,10 +482,8 @@ export default class OrderRelatedIssue extends React.Component {
                         placeholder={"Enter your mobile numer"}
                         disabled={false}
                         maxLength={10}
-                        // value={this.state[listOfField.componentId]}
-                        // onChange={value =>
-                        //   this.setState({ [listOfField.componentId]: value })
-                        // }
+                        value={this.state.mobile}
+                        onChange={value => this.setState({ mobile: value })}
                         fontSize={"11px"}
                         onlyNumber={true}
                         // onBlur={() => this.onBlur(false)}
@@ -479,8 +508,10 @@ export default class OrderRelatedIssue extends React.Component {
                           <input
                             type="radio"
                             value="English"
-                            checked={true}
-                            // onChange={e => this.onChangeCheck(e, listOfField, ele)}
+                            checked={this.state.chooseLanguage == "English"}
+                            onChange={e =>
+                              this.setState({ chooseLanguage: e.target.value })
+                            }
                           />
                           <span />
                         </label>
@@ -491,8 +522,10 @@ export default class OrderRelatedIssue extends React.Component {
                           <input
                             type="radio"
                             value="हिंदी"
-                            checked={false}
-                            // onChange={e => this.onChangeCheck(e, listOfField, ele)}
+                            checked={this.state.chooseLanguage == "हिंदी"}
+                            onChange={e =>
+                              this.setState({ chooseLanguage: e.target.value })
+                            }
                           />
                           <span />
                         </label>
@@ -505,18 +538,18 @@ export default class OrderRelatedIssue extends React.Component {
                       <FloatingLabelInputWithPlace
                         placeholder={"Select your time slot"}
                         disabled={false}
-                        maxLength={10}
-                        // value={this.state[listOfField.componentId]}
+                        // maxLength={10}
+                        value={this.state.timing}
                         // onChange={value =>
                         //   this.setState({ [listOfField.componentId]: value })
                         // }
                         fontSize={"11px"}
-                        onlyNumber={true}
+                        // onlyNumber={true}
                         // onBlur={() => this.onBlur(false)}
                       />
                       <div
                         className={styles.customBtn}
-                        onClick={() => this.props.timeSlotPopUP()}
+                        onClick={() => this.timeSlotPopUP()}
                       >
                         Change
                       </div>
