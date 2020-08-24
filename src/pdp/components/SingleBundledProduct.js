@@ -42,6 +42,13 @@ export default class SingleBundledProduct extends React.Component {
     ) {
       checked = true;
     }
+    let mainProductImageUrl =
+      this.props.productData &&
+      this.props.productData.galleryImagesList &&
+      this.props.productData.galleryImagesList[0] &&
+      this.props.productData.galleryImagesList[0].galleryImages &&
+      this.props.productData.galleryImagesList[0].galleryImages[1] &&
+      this.props.productData.galleryImagesList[0].galleryImages[1].value;
     return (
       <React.Fragment>
         {!this.props.isMainProduct ? <div className={styles.divider} /> : null}
@@ -83,8 +90,7 @@ export default class SingleBundledProduct extends React.Component {
               <Image
                 image={
                   this.props.isMainProduct
-                    ? this.props.productData.galleryImagesList[0]
-                        .galleryImages[1].value
+                    ? mainProductImageUrl
                     : this.props.productData.imageURL
                 }
                 alt={this.props.productData.productName}
