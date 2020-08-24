@@ -666,13 +666,14 @@ export default class CartItemForDesktop extends React.Component {
                   </div>
                 </div>
                 {digitalProduct.pinCodeResponse &&
-                digitalProduct.pinCodeResponse
-                  .productNotServiceabilityMessage ? (
+                (digitalProduct.pinCodeResponse.productOutOfStockMessage ||
+                  digitalProduct.pinCodeResponse
+                    .productNotServiceabilityMessage) ? (
                   <div className={styles.exchangeProductNotServiceable}>
-                    {
-                      digitalProduct.pinCodeResponse
-                        .productNotServiceabilityMessage
-                    }
+                    {digitalProduct.pinCodeResponse.productOutOfStockMessage
+                      ? digitalProduct.pinCodeResponse.productOutOfStockMessage
+                      : digitalProduct.pinCodeResponse
+                          .productNotServiceabilityMessage}
                   </div>
                 ) : !digitalProduct.pinCodeResponse ? (
                   <div className={styles.exchangeProductNotServiceable}>

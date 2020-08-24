@@ -76,8 +76,20 @@ export default class SingleBundledProduct extends React.Component {
             </div>
           ) : null}
 
-          <div className={styles.imageContainer}>
-            <div className={styles.imageHolder}>
+          <div
+            className={
+              !this.props.isMainProduct
+                ? styles.imageContainer
+                : styles.imageContainerMainProduct
+            }
+          >
+            <div
+              className={
+                !this.props.isMainProduct
+                  ? styles.imageHolder
+                  : styles.imageHolderMainProduct
+              }
+            >
               <Image
                 image={
                   this.props.isMainProduct
@@ -93,40 +105,43 @@ export default class SingleBundledProduct extends React.Component {
             className={
               !this.props.isMainProduct
                 ? styles.productDetailsContainer
-                : styles.productDetailsContainerFluid
+                : styles.productDetailsContainerMainProduct
             }
           >
             <div className={styles.productName}>
               {this.props.productData.productName}
             </div>
-            {this.props.productData.averageRating !== 0
-              ? this.props.productData.averageRating && (
-                  <StarRating
-                    averageRating={this.props.productData.averageRating}
-                    isPlp={true}
-                    isFromProductBundling={true}
-                  >
-                    {this.props.productData.ratingCount !== 0 &&
-                      this.props.productData.ratingCount && (
-                        <div className={styles.totalNoOfReviews}>{`(${
-                          this.props.productData.ratingCount
-                        })`}</div>
-                      )}
-                  </StarRating>
-                )
-              : null}
-
-            {this.props.productData.isdigitalProduct &&
-              this.props.productData.buyingTips && (
-                <div className={styles.buyingTipsContainer}>
-                  <div className={styles.iconHolder}>
-                    <Icon image={tipIcon} size={12} />
-                  </div>
-                  <div className={styles.buyingTips}>
-                    {this.props.productData.buyingTips}
-                  </div>
-                </div>
-              )}
+            <div className={styles.ratingContainer}>
+              {this.props.productData.averageRating !== 0
+                ? this.props.productData.averageRating && (
+                    <StarRating
+                      averageRating={this.props.productData.averageRating}
+                      isPlp={true}
+                      isFromProductBundling={true}
+                    >
+                      {this.props.productData.ratingCount !== 0 &&
+                        this.props.productData.ratingCount && (
+                          <div className={styles.totalNoOfReviews}>{`(${
+                            this.props.productData.ratingCount
+                          })`}</div>
+                        )}
+                    </StarRating>
+                  )
+                : null}
+            </div>
+            <div className={styles.buyingTipsContainer}>
+              {this.props.productData.isdigitalProduct &&
+                this.props.productData.buyingTips && (
+                  <React.Fragment>
+                    <div className={styles.iconHolder}>
+                      <Icon image={tipIcon} size={12} />
+                    </div>
+                    <div className={styles.buyingTips}>
+                      {this.props.productData.buyingTips}
+                    </div>
+                  </React.Fragment>
+                )}
+            </div>
           </div>
 
           <div className={styles.productPriceContainer}>
