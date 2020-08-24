@@ -131,7 +131,7 @@ export default class DeliveryInfoSelect extends React.Component {
                     return val.code === SAME_DAY_DELIVERY;
                   })
                   .map(val => {
-                    return val.deliveryCost;
+                    return val.charge && val.charge.value;
                   })[0]
               }
               cutOffTime={
@@ -220,7 +220,7 @@ export default class DeliveryInfoSelect extends React.Component {
                     return val.code === EXPRESS;
                   })
                   .map(val => {
-                    return val.deliveryCost;
+                    return val.charge && val.charge.value;
                   })[0]
               }
               available={
@@ -316,7 +316,7 @@ export default class DeliveryInfoSelect extends React.Component {
                     return val.code === COLLECT;
                   })
                   .map(val => {
-                    return val.deliveryCost;
+                    return val.charge && val.charge.value;
                   })[0]
               }
               available={
@@ -435,7 +435,7 @@ export default class DeliveryInfoSelect extends React.Component {
                         return val.code === HOME_DELIVERY;
                       })
                       .map(val => {
-                        return val.deliveryCost;
+                        return val.charge && val.charge.value;
                       })[0]
                   }
                   available={

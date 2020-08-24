@@ -77,6 +77,13 @@ font-family: regular;
   vertical-align: middle;
   border-left: 1px solid #8d8d8d;
 }
+.deliveryChargeFree {
+  color: #00964d;
+  font-family: regular;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 600;
+}
 .fontRegular{
   font-family: regular;
   font-size: 14px;

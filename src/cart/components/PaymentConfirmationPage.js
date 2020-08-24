@@ -6,13 +6,20 @@ import OrderSucessCard from "./OrderSucessCard.js";
 import Icon from "../../xelpmoc-core/Icon";
 import OrderConfirmationFooter from "./OrderConfirmationFooter.js";
 import CustomInstructionContainer from "../../cart/containers/CustomInstructionContainer";
+import successImg from "./img/success_done.svg";
+import thankYouImg from "./img/thankYou_img.png";
+import { numberWithCommas, digitIntoWord } from "../../lib/dateTimeFunction";
+import Button from "../../general/components/Button";
+
 import {
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_ORDERS_PAGE,
   MY_ACCOUNT_SAVED_CARDS_PAGE,
   MY_ACCOUNT_ADDRESS_PAGE,
   SAVE_LIST_PAGE,
-  DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION
+  DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION,
+  RUPEE_SYMBOL,
+  HOME_ROUTER
 } from "../../lib/constants";
 import styles from "./PaymentConfirmationPage.css";
 import wishlistIcon from "../../general/components/img/download.svg";
@@ -108,7 +115,19 @@ export default class PaymentConfirmationPage extends React.Component {
       state: { currentCashbackMode: currentCashbackMode, orderId: orderId }
     });
   }
+
+  onContinueShopping() {
+    this.props.history.push(HOME_ROUTER);
+  }
+  componentWillUnmount() {
+    localStorage.removeItem("GiftCardAmount");
+    localStorage.removeItem("productType");
+  }
   render() {
+    let totalValue = localStorage.getItem("GiftCardAmount");
+    let productType = localStorage.getItem("productType");
+    const numberFormater = numberWithCommas(totalValue);
+    const digitIntoNumberFormat = digitIntoWord(totalValue);
     return (
       <React.Fragment>
         {!this.state.showloader && (
@@ -123,19 +142,83 @@ export default class PaymentConfirmationPage extends React.Component {
             </DesktopOnly>
             <div className={styles.pageSectionHolder}>
               <div className={styles.leftSection}>
-                <div className={styles.orderBannerHolder}>
-                  <PaymentBanner
-                    history={this.props.history}
-                    headingText={this.props.orderStatusMessage}
-                    label={this.props.orderId}
-                    onClick={() => this.trackOrder()}
-                    isContinueShopping={true}
-                    isGiftCard={
-                      this.props.orderDetails &&
-                      this.props.orderDetails.isEgvOrder
-                    }
-                  />
-                </div>
+                {productType === "topUp" || "eGiftCard" ? (
+                  <div className={styles.gtThnkHed}>
+                    <div className={styles.gtThnkHedInner}>
+                      <div className={styles.gtThnkIcon}>
+                        <div className={styles.imgSuccessDiv}>
+                          <img src={successImg} width="30px" />
+                        </div>
+                        {productType === "topUp" ? (
+                          <div className={styles.topUp}>
+                            <div className={styles.topAdded}>
+                              Top-Up Added Successfully
+                            </div>
+                          </div>
+                        ) : (
+                          <h3>You've sent the CLiQ Gift Card successfuly</h3>
+                        )}
+                      </div>
+                      <div className={styles.gtThnkAmtn}>
+                        <span className={styles.rupeeSymabol}>
+                          {RUPEE_SYMBOL}{" "}
+                        </span>
+                        {numberFormater}
+                      </div>
+                      <div className={styles.gtThnkAmtnWrd}>
+                        <p>Rupees {digitIntoNumberFormat}</p>
+                      </div>
+                      <div className={styles.gtThnkHedImg}>
+                        <img src={thankYouImg} />
+                      </div>
+                      <div className={styles.gtThnkHdTxt}>
+                        Please check your email for order confirmation and order
+                        details
+                      </div>
+                      <DesktopOnly>
+                        {
+                          <div className={styles.buttonHolder}>
+                            <div
+                              className={styles.button}
+                              onClick={() => this.onContinueShopping()}
+                            >
+                              Continue Shopping
+                            </div>
+                          </div>
+                        }
+                        {!this.props.isGiftCard && (
+                          <div
+                            className={styles.buttonHolder}
+                            style={{ marginLeft: 10 }}
+                          >
+                            <Button
+                              type="hollow"
+                              color="#212121"
+                              label="View Orders"
+                              height={37}
+                              width={175}
+                              onClick={() => this.trackOrder()}
+                            />
+                          </div>
+                        )}
+                      </DesktopOnly>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.orderBannerHolder}>
+                    <PaymentBanner
+                      history={this.props.history}
+                      headingText={this.props.orderStatusMessage}
+                      label={this.props.orderId}
+                      onClick={() => this.trackOrder()}
+                      isContinueShopping={true}
+                      isGiftCard={
+                        this.props.orderDetails &&
+                        this.props.orderDetails.isEgvOrder
+                      }
+                    />
+                  </div>
+                )}
                 <div className={styles.orderBannerHolder}>
                   <CustomInstructionContainer />
                 </div>
