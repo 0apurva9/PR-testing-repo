@@ -190,51 +190,7 @@ export default class EmiPanel extends React.Component {
     this.props.setSunEmiOption(currentSelectedEMIType);
     this.setState({ currentSelectedEMIType });
   }
-  /**
-   * Tab changes
-   */
-  toggleTab = tabName => {
-    const emiTenure = localStorage.getItem(EMI_TENURE);
-    if (emiTenure && this.props.openPopUp) {
-      this.props.openPopUp({
-        heading: "Are you sure you want to discard your selection?",
-        children: this.alertModalBody(tabName)
-      });
-    } else {
-      this.onChangeEMIType(tabName, false, this.state.subMenuSelected, false);
-    }
-  };
-  alertModalBody = tabName => {
-    return (
-      <div className={styles.buttonBox}>
-        <button
-          type="button"
-          className={styles.btn}
-          onClick={() =>
-            this.onChangeEMIType(
-              tabName,
-              true,
-              this.state.subMenuSelected,
-              true
-            )
-          }
-        >
-          YES
-        </button>
-        <div className={styles.borderMiddle} />
-        <button
-          type="button"
-          className={styles.btn}
-          onClick={() => this.props.hideModal()}
-        >
-          NO
-        </button>
-      </div>
-    );
-  };
-  /**
-   * EOC
-   */
+
   render() {
     if (this.props.isCliqCashApplied) {
       return null;
@@ -392,13 +348,27 @@ export default class EmiPanel extends React.Component {
               {isStandardEmiEligibleFlag && isNoCostEmiEligibleFlag && (
                 <div className={styles.tabHeader}>
                   <div
-                    onClick={() => this.toggleTab(NO_COST_EMI)}
+                    onClick={() =>
+                      this.onChangeEMIType(
+                        NO_COST_EMI,
+                        false,
+                        this.state.subMenuSelected,
+                        true
+                      )
+                    }
                     className={clsNce}
                   >
                     No Cost EMI
                   </div>
                   <div
-                    onClick={() => this.toggleTab(STANDARD_EMI)}
+                    onClick={() =>
+                      this.onChangeEMIType(
+                        STANDARD_EMI,
+                        false,
+                        this.state.subMenuSelected,
+                        true
+                      )
+                    }
                     className={clsStandard}
                   >
                     Standard EMI
@@ -507,13 +477,27 @@ export default class EmiPanel extends React.Component {
                   {isStandardEmiEligibleFlag && isNoCostEmiEligibleFlag && (
                     <div className={styles.tabHeader}>
                       <div
-                        onClick={() => this.toggleTab(NO_COST_EMI)}
+                        onClick={() =>
+                          this.onChangeEMIType(
+                            NO_COST_EMI,
+                            false,
+                            this.state.subMenuSelected,
+                            true
+                          )
+                        }
                         className={clsNce}
                       >
                         No Cost EMI
                       </div>
                       <div
-                        onClick={() => this.toggleTab(STANDARD_EMI)}
+                        onClick={() =>
+                          this.onChangeEMIType(
+                            STANDARD_EMI,
+                            false,
+                            this.state.subMenuSelected,
+                            true
+                          )
+                        }
                         className={clsStandard}
                       >
                         Standard EMI
@@ -651,7 +635,6 @@ EmiPanel.propTypes = {
   hideModal: PropTypes.func,
   changeSubEmiOption: PropTypes.func,
   setSunEmiOption: PropTypes.func,
-  openPopUp: PropTypes.func,
   currentPaymentMode: PropTypes.string,
   cart: PropTypes.shape({
     emiEligibilityDetails: PropTypes.shape({
