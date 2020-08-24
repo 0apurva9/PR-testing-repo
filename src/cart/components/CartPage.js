@@ -689,6 +689,7 @@ class CartPage extends React.Component {
       this.props &&
       this.props.cart &&
       this.props.cart.cartDetails &&
+      this.props.cart.cartDetails.count > 0 &&
       this.props.cart.cartDetails.products &&
       this.props.cart.cartDetails.products[0].pinCodeResponse &&
       this.props.cart.cartDetails.products[0].pinCodeResponse.city;
@@ -1180,7 +1181,9 @@ class CartPage extends React.Component {
                     this.props.wishListCount > 0 && (
                       <div className={styles.wishListCountSection}>
                         <div className={styles.iconWishList} />
-                        <span>{`You have ${this.props.wishListCount} items in your saved list`}</span>
+                        <span>{`You have ${
+                          this.props.wishListCount
+                        } items in your saved list`}</span>
                         <div className={styles.buttonHolder}>
                           <UnderLinedButton
                             size="14px"
