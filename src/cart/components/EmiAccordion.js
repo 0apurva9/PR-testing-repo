@@ -166,14 +166,19 @@ export default class EmiAccordion extends React.Component {
               </GridSelect>
             </MobileOnly>
             <DesktopOnly>
-              <EmiSectionDesktop
-                emiData={this.props.emiList}
-                showHeader={false}
-                showButton={true}
-                selectPlan={val => this.handleSelectPlan(val)}
-                selectBank={val => this.handleSelectBank(val)}
-                confirmPlan={() => this.handleConfirmPlan()}
-              />
+              {this.props.emiList &&
+                this.props.emiList.map((val, i) => {
+                  return (
+                    <EmiSectionDesktop
+                      emiData={this.props.emiList}
+                      showHeader={false}
+                      showButton={true}
+                      selectPlan={val => this.handleSelectPlan(val)}
+                      selectBank={val => this.handleSelectBank(val)}
+                      confirmPlan={() => this.handleConfirmPlan()}
+                    />
+                  );
+                })}
             </DesktopOnly>
           </React.Fragment>
         )}

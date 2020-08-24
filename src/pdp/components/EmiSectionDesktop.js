@@ -45,6 +45,7 @@ export default class EmiSectionDesktop extends React.Component {
 
   render() {
     const bankListData = this.props && this.props.emiData;
+    console.log("this.props", bankListData);
     const emiInfo = bankListData && bankListData[this.state.isSelect].emiInfo;
     const convenienceFeeValue =
       bankListData &&
