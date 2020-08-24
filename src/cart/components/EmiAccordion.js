@@ -192,7 +192,7 @@ export default class EmiAccordion extends React.Component {
               changePlan={() => this.handleChangePlan()}
             />
             <CreditCardForm
-              buttonDisabled={this.props.creditCardValid()}
+              buttonDisabled={() => this.props.creditCardValid()}
               onFocusInput={this.props.onFocusInput}
               cardDetails={this.props.cardDetails}
               onChangeCardDetail={val => this.onChangeCardDetail(val)}
@@ -202,6 +202,8 @@ export default class EmiAccordion extends React.Component {
               emiBinValidationErrorMessage={
                 this.props.emiBinValidationErrorMessage
               }
+              isDebitCard={this.props.isDebitCard}
+              dCEmiEligibiltyDetails={this.props.dCEmiEligibiltyDetails}
             />
           </React.Fragment>
         )}
