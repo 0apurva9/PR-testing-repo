@@ -99,7 +99,8 @@ import {
   EXCHANGE_CASHBACK_INFO_MODAL,
   hideModal,
   CLIQ_CASH_MODULE,
-  POP_UP
+  POP_UP,
+  BOTTOM_ALERT_POP_UP
   // UPIHOWTOPAY_MODAL
 } from "../../general/modal.actions";
 import {
@@ -851,7 +852,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(hideModal(CLIQ_CASH_MODULE));
     },
     openPopUp: data => {
-      dispatch(showModal(POP_UP, data));
+      dispatch(showModal(BOTTOM_ALERT_POP_UP, data));
     },
 
     softReservationPaymentForUPI: (

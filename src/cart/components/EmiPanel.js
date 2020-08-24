@@ -456,6 +456,7 @@ export default class EmiPanel extends React.Component {
                   onChangeCardDetail={val => this.onChangeCardDetail(val)}
                   cardDetails={this.props.cardDetails}
                   changeEmiPlan={() => this.changeEmiPlan()}
+                  onCheckout={this.props.onCheckout}
                   emiBinValidationErrorMessage={
                     this.props.emiBinValidationErrorMessage
                   }
@@ -570,6 +571,7 @@ export default class EmiPanel extends React.Component {
                       onChangeCardDetail={val => this.onChangeCardDetail(val)}
                       cardDetails={this.props.cardDetails}
                       changeEmiPlan={() => this.changeEmiPlan()}
+                      onCheckout={this.props.onCheckout}
                       emiBinValidationErrorMessage={
                         this.props.emiBinValidationErrorMessage
                       }
