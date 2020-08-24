@@ -322,7 +322,6 @@ export default class EmiPanel extends React.Component {
     isStandardEmiEligibleFlag = !isJewelleryProduct
       ? !isRetryPaymentFromURL
       : false;
-    debugger;
     return (
       <div className={styles.base}>
         {isRetryPaymentFromURL && (
