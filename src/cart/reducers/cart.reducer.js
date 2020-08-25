@@ -259,6 +259,7 @@ const cart = (
     cartCountError: null,
     cartCount: null,
     cartCountDetails: null,
+    cartCountDetailsLoading: false,
 
     minicartStatus: null,
     minicartError: null,
@@ -2331,11 +2332,13 @@ const cart = (
       return Object.assign({}, state, {
         cartCount: action.cartDetails && action.cartDetails.count,
         cartCountStatus: action.status,
-        cartCountDetails: action.cartDetails
+        cartCountDetails: action.cartDetails,
+        cartCountDetailsLoading: false
       });
     case cartActions.GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST:
       return Object.assign({}, state, {
-        cartCountStatus: action.status
+        cartCountStatus: action.status,
+        cartCountDetailsLoading: true
       });
     case cartActions.GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE:
       Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
@@ -2344,7 +2347,8 @@ const cart = (
       return Object.assign({}, state, {
         cartCountError: action.error,
         cartCountStatus: action.status,
-        cartCount: null
+        cartCount: null,
+        cartCountDetailsLoading: false
       });
     case cartActions.GET_MINICART_REQUEST:
       return Object.assign({}, state, {

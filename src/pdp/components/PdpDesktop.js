@@ -1163,13 +1163,17 @@ export default class PdpApparel extends React.Component {
               addToCartFromChatbot={true}
               getProductPinCode={this.props.getProductPinCode}
               isServiceableToPincode={productData.isServiceableToPincode}
-              pincodeError={this.props.pincodeError}
               displayToast={this.props.displayToast}
               addProductToCart={this.props.addProductToCart}
               addToCartResponseDetails={this.props.addToCartResponseDetails}
               history={this.props.history}
               addToCartResponseLoading={this.props.addToCartResponseLoading}
               cartCountDetails={this.props.cartCountDetails}
+              checkPincodeDetailsLoading={this.props.checkPincodeDetailsLoading}
+              checkPincodeFromHaptikChatbot={
+                this.props.checkPincodeFromHaptikChatbot
+              }
+              cartCountDetailsLoading={this.props.cartCountDetailsLoading}
             />
             <div className={styles.pageCenter} ref="scrollToViewGallery">
               <div className={styles.gallery}>
