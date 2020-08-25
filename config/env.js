@@ -292,9 +292,13 @@ if (process.env.REACT_APP_STAGE === "production") {
 if (process.env.REACT_APP_STAGE === "production") {
   process.env.REACT_APP_HAPTIK_CHATBOT_URL =
     "https://buzzodjangostorage.blob.core.windows.net/production";
+  process.env.REACT_APP_HAPTIK_CHATBOT_API_URL =
+    "/adminstatic/js/mkt_desktop_chat.json";
 } else {
   process.env.REACT_APP_HAPTIK_CHATBOT_URL =
     "https://buzzodjangostorage.blob.core.windows.net";
+  process.env.REACT_APP_HAPTIK_CHATBOT_API_URL =
+    "/adminstatic/js/mkt_desktop_chat_lower.json";
 }
 
 function getClientEnvironment(publicUrl) {
