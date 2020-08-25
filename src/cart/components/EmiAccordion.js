@@ -166,14 +166,19 @@ export default class EmiAccordion extends React.Component {
               </GridSelect>
             </MobileOnly>
             <DesktopOnly>
-              <EmiSectionDesktop
-                emiData={this.props.emiList}
-                showHeader={false}
-                showButton={true}
-                selectPlan={val => this.handleSelectPlan(val)}
-                selectBank={val => this.handleSelectBank(val)}
-                confirmPlan={() => this.handleConfirmPlan()}
-              />
+              {this.props.emiList &&
+                this.props.emiList.map((val, i) => {
+                  return (
+                    <EmiSectionDesktop
+                      emiData={this.props.emiList}
+                      showHeader={false}
+                      showButton={true}
+                      selectPlan={val => this.handleSelectPlan(val)}
+                      selectBank={val => this.handleSelectBank(val)}
+                      confirmPlan={() => this.handleConfirmPlan()}
+                    />
+                  );
+                })}
             </DesktopOnly>
           </React.Fragment>
         )}
@@ -187,7 +192,7 @@ export default class EmiAccordion extends React.Component {
               changePlan={() => this.handleChangePlan()}
             />
             <CreditCardForm
-              buttonDisabled={this.props.creditCardValid()}
+              buttonDisabled={() => this.props.creditCardValid()}
               onFocusInput={this.props.onFocusInput}
               cardDetails={this.props.cardDetails}
               onChangeCardDetail={val => this.onChangeCardDetail(val)}
@@ -197,6 +202,8 @@ export default class EmiAccordion extends React.Component {
               emiBinValidationErrorMessage={
                 this.props.emiBinValidationErrorMessage
               }
+              isDebitCard={this.props.isDebitCard}
+              dCEmiEligibiltyDetails={this.props.dCEmiEligibiltyDetails}
             />
           </React.Fragment>
         )}

@@ -13,18 +13,26 @@ import {
   STANDARD_EMI,
   CARDLESS_EMI,
   INSTACRED,
+  DEBIT_CARD_EMI,
+  CREDIT_CARD_EMI,
   CATEGORY_FINE_JEWELLERY,
   CATEGORY_FASHION_JEWELLERY,
-  PAYMENT_FAILURE_CART_PRODUCT
+  PAYMENT_FAILURE_CART_PRODUCT,
+  IS_DC_EMI_SELECTED,
+  EMI_TENURE
 } from "../../lib/constants";
 const PAYMENT_MODE = "EMI";
+
 export default class EmiPanel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       currentSelectedEMIType: this.props.subEmiOption
         ? this.props.subEmiOption
-        : ""
+        : "",
+      isNoCostSelected: true,
+      isStandardSelected: false,
+      subMenuSelected: null
     };
   }
   changeEmiPlan = () => {
@@ -54,7 +62,11 @@ export default class EmiPanel extends React.Component {
     if (this.props.instaCredISEnableMidddleLayer) {
       this.props.instaCredISEnableMidddleLayer();
     }
+    if (this.props.getDCEmiEligibility) {
+      this.props.getDCEmiEligibility();
+    }
   };
+
   onBankSelect(val) {
     if (this.props.onBankSelect) {
       this.props.onBankSelect(val);
@@ -130,14 +142,55 @@ export default class EmiPanel extends React.Component {
       this.setState({ currentSelectedEMIType: null });
     }
   }
-  onChangeEMIType(currentSelectedEMIType) {
+  onChangeEMIType(
+    currentSelectedEMIType,
+    isConfirmPop = false,
+    subMenuSelected,
+    fromToggleTab = false
+  ) {
+    localStorage.setItem(IS_DC_EMI_SELECTED, false);
+    this.props.onChange({ currentPaymentMode: EMI });
     this.props.changeSubEmiOption(currentSelectedEMIType);
-    this.setState({ currentSelectedEMIType });
+    this.setState({ currentSelectedEMIType, subMenuSelected });
+
+    if (!fromToggleTab && subMenuSelected === CREDIT_CARD_EMI) {
+      if (!this.props.emiList && this.props.getEmiBankDetails) {
+        this.props.getEmiBankDetails();
+      }
+      if (this.props.getBankAndTenureDetails) {
+        this.props.getBankAndTenureDetails(false);
+      }
+    } else if (!fromToggleTab && subMenuSelected === DEBIT_CARD_EMI) {
+      localStorage.setItem(IS_DC_EMI_SELECTED, true);
+      if (!this.props.emiList && this.props.getBankDetailsforDCEmi) {
+        this.props.getBankDetailsforDCEmi();
+      }
+      if (this.props.getBankAndTenureDetails) {
+        this.props.getBankAndTenureDetails(true);
+      }
+    }
+    if (currentSelectedEMIType === NO_COST_EMI) {
+      this.setState({
+        isNoCostSelected: true,
+        isStandardSelected: false
+      });
+    } else if (currentSelectedEMIType === STANDARD_EMI) {
+      this.setState({
+        isNoCostSelected: false,
+        isStandardSelected: true
+      });
+    }
+
+    if (isConfirmPop && this.props.hideModal) {
+      this.props.hideModal();
+    }
   }
+
   onSetEMIType(currentSelectedEMIType) {
     this.props.setSunEmiOption(currentSelectedEMIType);
     this.setState({ currentSelectedEMIType });
   }
+
   render() {
     if (this.props.isCliqCashApplied) {
       return null;
@@ -158,11 +211,7 @@ export default class EmiPanel extends React.Component {
         isRetryPaymentFromURL = true;
       }
     }
-    let { cart, isJewelleryItemAvailable } = this.props;
-    let paymentMode =
-      this.props.cart &&
-      this.props.cart.paymentModes &&
-      this.props.cart.paymentModes.paymentModes;
+    let { paymentMode, cart, isJewelleryItemAvailable } = this.props;
     var instacredMode =
       paymentMode &&
       paymentMode.filter(obj => {
@@ -196,6 +245,7 @@ export default class EmiPanel extends React.Component {
     if (isJewelleryItemAvailable) {
       isJewelleryProduct = isJewelleryItemAvailable;
     }
+
     let instacredMiddleLayerISEnable = false;
     if (
       this.props.cart &&
@@ -211,6 +261,44 @@ export default class EmiPanel extends React.Component {
               .applicationProperties[0].value
           : false;
     }
+
+    /**
+     * Tab changes
+     */
+    let clsNce = this.state.isNoCostSelected
+      ? [styles.isSelectedTab, styles.tabNceStandard].join(" ")
+      : styles.tabNceStandard;
+    let clsStandard = this.state.isStandardSelected
+      ? [styles.isSelectedTab, styles.tabNceStandard].join(" ")
+      : styles.tabNceStandard;
+
+    let isNoCostEmiEligibleFlag = false;
+    let isStandardEmiEligibleFlag = false;
+    isNoCostEmiEligibleFlag =
+      !this.props.isCliqCashApplied &&
+      this.props.cart &&
+      this.props.cart.emiEligibilityDetails &&
+      this.props.cart.emiEligibilityDetails.isNoCostEMIEligible
+        ? this.props.cart.emiEligibilityDetails.isNoCostEMIEligible
+        : false;
+
+    isStandardEmiEligibleFlag = !isJewelleryProduct
+      ? !isRetryPaymentFromURL
+      : false;
+    let creditCardTabNameExtension = "Standard";
+    let debitCardTabNameExtension = "Standard";
+    if (isNoCostEmiEligibleFlag) {
+      creditCardTabNameExtension = "No Cost/Standard";
+    }
+    if (
+      this.props.cart &&
+      this.props.cart.emiEligibilityDetails &&
+      this.props.cart.emiEligibilityDetails.isNoCostEMIEligible &&
+      this.props.dCEmiEligibiltyDetails &&
+      this.props.dCEmiEligibiltyDetails.isDCEMIEligible
+    ) {
+      debitCardTabNameExtension = "No Cost/Standard";
+    }
     return (
       <div className={styles.base}>
         {isRetryPaymentFromURL && (
@@ -221,135 +309,298 @@ export default class EmiPanel extends React.Component {
           </span>
         )}
         <MenuDetails
-          text={"Easy Monthly Installments"}
+          text={EMI}
           icon={emiIcon}
           isOpen={isOpen}
           onOpenMenu={currentPaymentMode =>
             this.props.onChange({ currentPaymentMode })
           }
-          textValue={EMI}
         >
-          {!this.props.isCliqCashApplied &&
-            this.props.cart &&
-            this.props.cart.emiEligibilityDetails &&
-            this.props.cart.emiEligibilityDetails.isNoCostEMIEligible && (
-              <div className={styles.subListHolder}>
-                <NoCostEmi
-                  EMIText={NO_COST_EMI}
-                  isOpenSubEMI={isOpenSubEMI}
-                  onChangeEMIType={currentSelectedEMIType =>
-                    this.onChangeEMIType(currentSelectedEMIType)
+          <div className={styles.subListHolder}>
+            <NoCostEmi
+              EMIText={NO_COST_EMI}
+              EMITabName={CREDIT_CARD_EMI}
+              creditCardTabNameExtension={creditCardTabNameExtension}
+              isOpenSubEMI={this.state.subMenuSelected === CREDIT_CARD_EMI}
+              onChangeEMIType={(
+                currentSelectedEMIType,
+                isConfirmPop,
+                subMenuSelected
+              ) =>
+                this.onChangeEMIType(
+                  currentSelectedEMIType,
+                  isConfirmPop,
+                  subMenuSelected
+                )
+              }
+              getBankAndTenureDetails={() => this.getBankAndTenureDetails()}
+              onChangeCardDetail={val => this.onChangeCardDetail(val)}
+              isRetryPaymentFromURL={isRetryPaymentFromURL}
+              getEmiBankDetails={() => this.getEmiBankDetails()}
+              emiList={
+                this.props.cart.emiBankDetails &&
+                this.props.cart.emiBankDetails.bankList
+              }
+              emiBinValidationErrorMessage={
+                this.props.emiBinValidationErrorMessage
+              }
+            >
+              {isStandardEmiEligibleFlag && isNoCostEmiEligibleFlag && (
+                <div className={styles.tabHeader}>
+                  <div
+                    onClick={() =>
+                      this.onChangeEMIType(
+                        NO_COST_EMI,
+                        false,
+                        this.state.subMenuSelected,
+                        true
+                      )
+                    }
+                    className={clsNce}
+                  >
+                    No Cost EMI
+                  </div>
+                  <div
+                    onClick={() =>
+                      this.onChangeEMIType(
+                        STANDARD_EMI,
+                        false,
+                        this.state.subMenuSelected,
+                        true
+                      )
+                    }
+                    className={clsStandard}
+                  >
+                    Standard EMI
+                  </div>
+                </div>
+              )}
+              {isNoCostEmiEligibleFlag && this.state.isNoCostSelected && (
+                <NoCostEmiBankDetails
+                  isNoCostEmiApplied={this.props.isNoCostEmiApplied}
+                  selectedEMIType={this.state.currentSelectedEMIType}
+                  onBankSelect={val => this.onBankSelect(val)}
+                  onSelectMonth={val => this.onSelectMonth(val)}
+                  onFocusInput={this.props.onFocusInput}
+                  bankList={
+                    this.props.cart &&
+                    this.props.cart.bankAndTenureDetails &&
+                    this.props.cart.bankAndTenureDetails.bankList
                   }
-                  getBankAndTenureDetails={() => this.getBankAndTenureDetails()}
-                  onChangeCardDetail={val => this.onChangeCardDetail(val)}
-                >
-                  <NoCostEmiBankDetails
-                    isNoCostEmiApplied={this.props.isNoCostEmiApplied}
-                    selectedEMIType={this.state.currentSelectedEMIType}
-                    onBankSelect={val => this.onBankSelect(val)}
-                    onSelectMonth={val => this.onSelectMonth(val)}
-                    onFocusInput={this.props.onFocusInput}
-                    bankList={
-                      this.props.cart &&
-                      this.props.cart.bankAndTenureDetails &&
-                      this.props.cart.bankAndTenureDetails.bankList
-                    }
-                    noCostEmiProductCount={
-                      this.props.cart &&
-                      this.props.cart.bankAndTenureDetails &&
-                      this.props.cart.bankAndTenureDetails.numEligibleProducts
-                    }
-                    totalProductCount={this.props.totalProductCount}
-                    getEmiTermsAndConditionsForBank={(code, bankName) =>
-                      this.getEmiTermsAndConditionsForBank(code, bankName)
-                    }
-                    applyNoCostEmi={(couponCode, bankName) =>
-                      this.applyNoCostEmi(couponCode, bankName)
-                    }
-                    removeNoCostEmi={couponCode =>
-                      this.removeNoCostEmi(couponCode)
-                    }
-                    noCostEmiDetails={this.props.cart.noCostEmiDetails}
-                    getItemBreakUpDetails={(
+                  noCostEmiProductCount={
+                    this.props.cart &&
+                    this.props.cart.bankAndTenureDetails &&
+                    this.props.cart.bankAndTenureDetails.numEligibleProducts
+                  }
+                  totalProductCount={this.props.totalProductCount}
+                  getEmiTermsAndConditionsForBank={(code, bankName) =>
+                    this.getEmiTermsAndConditionsForBank(code, bankName)
+                  }
+                  applyNoCostEmi={(couponCode, bankName) =>
+                    this.applyNoCostEmi(couponCode, bankName)
+                  }
+                  removeNoCostEmi={couponCode =>
+                    this.removeNoCostEmi(couponCode)
+                  }
+                  noCostEmiDetails={this.props.cart.noCostEmiDetails}
+                  getItemBreakUpDetails={(
+                    couponCode,
+                    noCostEmiText,
+                    noCostProductCount,
+                    emiInfo
+                  ) =>
+                    this.getItemBreakUpDetails(
                       couponCode,
                       noCostEmiText,
                       noCostProductCount,
                       emiInfo
-                    ) =>
-                      this.getItemBreakUpDetails(
-                        couponCode,
-                        noCostEmiText,
-                        noCostProductCount,
-                        emiInfo
-                      )
-                    }
-                    isNoCostEmiProceeded={this.props.isNoCostEmiProceeded}
-                    binValidation={binNo => this.binValidation(binNo)}
-                    softReservationForPayment={cardDetails =>
-                      this.softReservationForPayment(cardDetails)
-                    }
-                    displayToast={this.props.displayToast}
-                    changeNoCostEmiPlan={() => this.changeNoCostEmiPlan()}
-                    onChangeCardDetail={val => this.onChangeCardDetail(val)}
-                    cardDetails={this.props.cardDetails}
-                    changeEmiPlan={() => this.changeEmiPlan()}
-                    onCheckout={this.props.onCheckout}
-                    creditCardValid={this.props.creditCardValid}
-                    emiBinValidationErrorMessage={
-                      this.props.emiBinValidationErrorMessage
-                    }
-                    isRetryPaymentFromURL={isRetryPaymentFromURL}
-                    retryPaymentDetails={this.props.retryPaymentDetails}
-                  />
-                </NoCostEmi>
-              </div>
-            )}
-          {!isRetryPaymentFromURL && (
-            <div className={styles.subListHolder}>
-              <NoCostEmi
-                isOpenSubEMI={
-                  this.state.currentSelectedEMIType === STANDARD_EMI
-                }
-                EMIText={STANDARD_EMI}
-                onChangeEMIType={currentSelectedEMIType =>
-                  this.onChangeEMIType(currentSelectedEMIType)
-                }
-                getEmiBankDetails={() => this.getEmiBankDetails()}
-                emiList={
-                  this.props.cart.emiBankDetails &&
-                  this.props.cart.emiBankDetails.bankList
-                }
-                onChangeCardDetail={val => this.onChangeCardDetail(val)}
-              >
+                    )
+                  }
+                  isNoCostEmiProceeded={this.props.isNoCostEmiProceeded}
+                  binValidation={binNo => this.binValidation(binNo)}
+                  softReservationForPayment={cardDetails =>
+                    this.softReservationForPayment(cardDetails)
+                  }
+                  displayToast={this.props.displayToast}
+                  changeNoCostEmiPlan={() => this.changeNoCostEmiPlan()}
+                  onChangeCardDetail={val => this.onChangeCardDetail(val)}
+                  cardDetails={this.props.cardDetails}
+                  changeEmiPlan={() => this.changeEmiPlan()}
+                  onCheckout={this.props.onCheckout}
+                  emiBinValidationErrorMessage={
+                    this.props.emiBinValidationErrorMessage
+                  }
+                  isRetryPaymentFromURL={isRetryPaymentFromURL}
+                  retryPaymentDetails={this.props.retryPaymentDetails}
+                />
+              )}
+              {isStandardEmiEligibleFlag && this.state.isStandardSelected && (
                 <CheckoutEmi
                   {...this.props}
                   selectedEMIType={this.state.currentSelectedEMIType}
                   changeEmiPlan={() => this.changeEmiPlan()}
-                  onCheckout={this.props.onCheckout}
-                  creditCardValid={this.props.creditCardValid}
+                />
+              )}
+            </NoCostEmi>
+          </div>
+          {this.props.dCEmiEligibiltyDetails &&
+            this.props.dCEmiEligibiltyDetails.isDCEMIEligible && (
+              <div className={styles.subListHolder}>
+                <NoCostEmi
+                  EMIText={NO_COST_EMI}
+                  EMITabName={DEBIT_CARD_EMI}
+                  debitCardTabNameExtension={debitCardTabNameExtension}
+                  isOpenSubEMI={this.state.subMenuSelected === DEBIT_CARD_EMI}
+                  onChangeEMIType={(
+                    currentSelectedEMIType,
+                    isConfirmPop,
+                    subMenuSelected
+                  ) =>
+                    this.onChangeEMIType(
+                      currentSelectedEMIType,
+                      isConfirmPop,
+                      subMenuSelected
+                    )
+                  }
+                  getBankAndTenureDetails={() => this.getBankAndTenureDetails()}
+                  onChangeCardDetail={val => this.onChangeCardDetail(val)}
+                  isRetryPaymentFromURL={isRetryPaymentFromURL}
+                  getEmiBankDetails={() => this.getEmiBankDetails()}
+                  emiList={
+                    this.props.cart.emiBankDetails &&
+                    this.props.cart.emiBankDetails.bankList
+                  }
                   emiBinValidationErrorMessage={
                     this.props.emiBinValidationErrorMessage
                   }
-                />
-              </NoCostEmi>
-            </div>
-          )}
-
+                >
+                  {isStandardEmiEligibleFlag && isNoCostEmiEligibleFlag && (
+                    <div className={styles.tabHeader}>
+                      <div
+                        onClick={() =>
+                          this.onChangeEMIType(
+                            NO_COST_EMI,
+                            false,
+                            this.state.subMenuSelected,
+                            true
+                          )
+                        }
+                        className={clsNce}
+                      >
+                        No Cost EMI
+                      </div>
+                      <div
+                        onClick={() =>
+                          this.onChangeEMIType(
+                            STANDARD_EMI,
+                            false,
+                            this.state.subMenuSelected,
+                            true
+                          )
+                        }
+                        className={clsStandard}
+                      >
+                        Standard EMI
+                      </div>
+                    </div>
+                  )}
+                  {isNoCostEmiEligibleFlag && this.state.isNoCostSelected && (
+                    <NoCostEmiBankDetails
+                      isNoCostEmiApplied={this.props.isNoCostEmiApplied}
+                      selectedEMIType={this.state.currentSelectedEMIType}
+                      onBankSelect={val => this.onBankSelect(val)}
+                      onSelectMonth={val => this.onSelectMonth(val)}
+                      onFocusInput={this.props.onFocusInput}
+                      bankList={
+                        this.props.cart &&
+                        this.props.cart.bankAndTenureDetails &&
+                        this.props.cart.bankAndTenureDetails.bankList
+                      }
+                      noCostEmiProductCount={
+                        this.props.cart &&
+                        this.props.cart.bankAndTenureDetails &&
+                        this.props.cart.bankAndTenureDetails.numEligibleProducts
+                      }
+                      totalProductCount={this.props.totalProductCount}
+                      getEmiTermsAndConditionsForBank={(code, bankName) =>
+                        this.getEmiTermsAndConditionsForBank(code, bankName)
+                      }
+                      applyNoCostEmi={(couponCode, bankName) =>
+                        this.applyNoCostEmi(couponCode, bankName)
+                      }
+                      removeNoCostEmi={couponCode =>
+                        this.removeNoCostEmi(couponCode)
+                      }
+                      noCostEmiDetails={this.props.cart.noCostEmiDetails}
+                      getItemBreakUpDetails={(
+                        couponCode,
+                        noCostEmiText,
+                        noCostProductCount,
+                        emiInfo
+                      ) =>
+                        this.getItemBreakUpDetails(
+                          couponCode,
+                          noCostEmiText,
+                          noCostProductCount,
+                          emiInfo
+                        )
+                      }
+                      isNoCostEmiProceeded={this.props.isNoCostEmiProceeded}
+                      binValidation={binNo => this.binValidation(binNo)}
+                      softReservationForPayment={cardDetails =>
+                        this.softReservationForPayment(cardDetails)
+                      }
+                      displayToast={this.props.displayToast}
+                      changeNoCostEmiPlan={() => this.changeNoCostEmiPlan()}
+                      onChangeCardDetail={val => this.onChangeCardDetail(val)}
+                      cardDetails={this.props.cardDetails}
+                      changeEmiPlan={() => this.changeEmiPlan()}
+                      onCheckout={this.props.onCheckout}
+                      emiBinValidationErrorMessage={
+                        this.props.emiBinValidationErrorMessage
+                      }
+                      isRetryPaymentFromURL={isRetryPaymentFromURL}
+                      retryPaymentDetails={this.props.retryPaymentDetails}
+                      isDebitCard={true}
+                      dCEmiEligibiltyDetails={this.props.dCEmiEligibiltyDetails}
+                    />
+                  )}
+                  {isStandardEmiEligibleFlag &&
+                    this.state.isStandardSelected && (
+                      <CheckoutEmi
+                        {...this.props}
+                        isDebitCard={true}
+                        selectedEMIType={this.state.currentSelectedEMIType}
+                        changeEmiPlan={() => this.changeEmiPlan()}
+                      />
+                    )}
+                </NoCostEmi>
+              </div>
+            )}
           {instacredMiddleLayerISEnable && !isJewelleryProduct
             ? !isRetryPaymentFromURL && (
                 <div className={styles.subListHolder}>
-                  {paymentMode &&
+                  {this.props.paymentMode &&
                     instacredMode.length > 0 &&
                     instacredMode[0].value === true && (
                       <NoCostEmi
                         isOpenSubEMI={
                           this.state.currentSelectedEMIType === CARDLESS_EMI
                         }
-                        onChangeEMIType={currentSelectedEMIType =>
-                          this.onChangeEMIType(currentSelectedEMIType)
+                        onChangeEMIType={(
+                          currentSelectedEMIType,
+                          isConfirmPop,
+                          subMenuSelected
+                        ) =>
+                          this.onChangeEMIType(
+                            currentSelectedEMIType,
+                            isConfirmPop,
+                            subMenuSelected
+                          )
                         }
                         {...this.props}
                         EMIText={CARDLESS_EMI}
+                        EMITabName={CARDLESS_EMI}
                       >
                         <CheckoutCardless
                           {...this.props}
@@ -367,5 +618,74 @@ export default class EmiPanel extends React.Component {
 }
 EmiPanel.propTypes = {
   onBankSelect: PropTypes.func,
-  onSelectMonth: PropTypes.func
+  onSelectMonth: PropTypes.func,
+  getDCEmiEligibility: PropTypes.func,
+  changeEmiPlan: PropTypes.func,
+  subEmiOption: PropTypes.string,
+  getEmiEligibility: PropTypes.func,
+  isFromRetryUrl: PropTypes.bool,
+  onChange: PropTypes.func,
+  instaCredISEnableMidddleLayer: PropTypes.func,
+  getEmiBankDetails: PropTypes.func,
+  getBankAndTenureDetails: PropTypes.func,
+  getEmiTermsAndConditionsForBank: PropTypes.func,
+  applyNoCostEmi: PropTypes.func,
+  removeNoCostEmi: PropTypes.func,
+  getItemBreakUpDetails: PropTypes.func,
+  binValidation: PropTypes.func,
+  onChangeCardDetail: PropTypes.func,
+  hideModal: PropTypes.func,
+  changeSubEmiOption: PropTypes.func,
+  setSunEmiOption: PropTypes.func,
+  currentPaymentMode: PropTypes.string,
+  cart: PropTypes.shape({
+    emiEligibilityDetails: PropTypes.shape({
+      isNoCostEMIEligible: PropTypes.bool
+    }),
+    emiBankDetails: PropTypes.shape({
+      bankList: PropTypes.arrayOf(
+        PropTypes.shape({
+          code: PropTypes.string,
+          emiBank: PropTypes.string,
+          emitermsrate: PropTypes.arrayOf(
+            PropTypes.shape({
+              interestPayable: PropTypes.string,
+              interestRate: PropTypes.string,
+              monthlyInstallment: PropTypes.string,
+              overallCost: PropTypes.string,
+              term: PropTypes.string
+            })
+          )
+        })
+      )
+    }),
+    bankAndTenureDetails: PropTypes.shape({
+      bankList: PropTypes.arrayOf(
+        PropTypes.shape({
+          bankCode: PropTypes.string,
+          bankName: PropTypes.string,
+          code: PropTypes.string,
+          emiInfo: PropTypes.string,
+          logoUrl: PropTypes.string,
+          noCostEMICouponList: PropTypes.arrayOf(
+            PropTypes.shape({
+              description: PropTypes.string,
+              emicouponCode: PropTypes.string,
+              emicouponName: PropTypes.string,
+              isPercentage: PropTypes.string,
+              tenure: PropTypes.string,
+              value: PropTypes.string
+            })
+          )
+        })
+      )
+    }),
+    instacredMiddleLayerISEnable: PropTypes.shape({
+      applicationProperties: PropTypes.arrayOf(
+        PropTypes.shape({
+          value: PropTypes.bool
+        })
+      )
+    })
+  })
 };

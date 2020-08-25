@@ -191,6 +191,13 @@ export default class CreditCardForm extends React.Component {
   render() {
     return (
       <div className={styles.base}>
+        {this.props.isDebitCard &&
+          this.props.dCEmiEligibiltyDetails &&
+          this.props.dCEmiEligibiltyDetails.DCEMIEligibleMessage && (
+            <div className={styles.maskedNumber}>
+              {`${this.props.dCEmiEligibiltyDetails.DCEMIEligibleMessage}`}
+            </div>
+          )}
         <div className={styles.cardDetails}>
           <div className={styles.contentHolder}>
             <div className={styles.content}>

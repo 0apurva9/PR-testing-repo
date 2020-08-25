@@ -31,30 +31,47 @@ export default class CheckoutEmi extends React.Component {
     }
   };
   render() {
+    let bankList = [];
+    if (this.props.isDebitCard) {
+      bankList =
+        this.props.cart.dCEmiBankDetails &&
+        this.props.cart.dCEmiBankDetails.bankList
+          ? this.props.cart.dCEmiBankDetails.bankList
+          : [];
+    } else {
+      bankList =
+        this.props.cart.emiBankDetails &&
+        this.props.cart.emiBankDetails.bankList
+          ? this.props.cart.emiBankDetails.bankList
+          : [];
+    }
     return (
       <div>
-        {this.props.cart.emiBankDetails &&
-          this.props.cart.emiBankDetails.bankList && (
-            <EmiAccordion
-              onFocusInput={this.props.onFocusInput}
-              selectedEMIType={this.props.selectedEMIType}
-              emiList={this.props.cart.emiBankDetails.bankList}
-              cardDetails={this.props.cardDetails}
-              onChangeCvv={i => this.onChangeCvv(i)}
-              binValidation={(paymentMode, binNo) =>
-                this.binValidation(paymentMode, binNo)
-              }
-              onChangeCardDetail={val => this.onChangeCardDetail(val)}
-              changeEmiPlan={() => this.changeEmiPlan()}
-              onCheckout={this.props.onCheckout}
-              creditCardValid={this.props.creditCardValid}
-              emiBinValidationErrorMessage={
-                this.props.emiBinValidationErrorMessage
-              }
-            />
-          )}
+        {bankList && (
+          <EmiAccordion
+            onFocusInput={this.props.onFocusInput}
+            selectedEMIType={this.props.selectedEMIType}
+            emiList={bankList}
+            cardDetails={this.props.cardDetails}
+            onChangeCvv={i => this.onChangeCvv(i)}
+            binValidation={(paymentMode, binNo) =>
+              this.binValidation(paymentMode, binNo)
+            }
+            onChangeCardDetail={val => this.onChangeCardDetail(val)}
+            changeEmiPlan={() => this.changeEmiPlan()}
+            emiBinValidationErrorMessage={
+              this.props.emiBinValidationErrorMessage
+            }
+            isDebitCard={this.props.isDebitCard}
+            dCEmiEligibiltyDetails={this.props.dCEmiEligibiltyDetails}
+          />
+        )}
         {!this.props.cart.emiBankDetails &&
           this.props.cart.emiBankStatus === ERROR && (
+            <div className={styles.errorText}>{EMI_ERROR_TEXT}</div>
+          )}
+        {!this.props.cart.dCEmiBankDetails &&
+          this.props.cart.dCEmiBankDetailsStatus === ERROR && (
             <div className={styles.errorText}>{EMI_ERROR_TEXT}</div>
           )}
       </div>

@@ -126,7 +126,8 @@ import {
   UPI,
   UPI_ID,
   INSTACRED,
-  CARDLESS_EMI
+  CARDLESS_EMI,
+  IS_DC_EMI_SELECTED
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -296,6 +297,9 @@ class CheckOutPage extends React.Component {
   };
   onChangePaymentMode = async val => {
     localStorage.removeItem(BIN_CARD_TYPE);
+    if (val && val.currentPaymentMode !== EMI) {
+      localStorage.setItem(IS_DC_EMI_SELECTED, false);
+    }
     let noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
     if (
       val &&
@@ -1189,8 +1193,7 @@ class CheckOutPage extends React.Component {
                 selectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
                 selectedSlaveIdObj[
                   this.state.selectedProductsUssIdForCliqAndPiq
-                ] =
-                  product.selectedStoreCNC;
+                ] = product.selectedStoreCNC;
                 this.setState(
                   {
                     ussIdAndDeliveryModesObj: updatedDeliveryModeUssid,
@@ -1954,6 +1957,39 @@ if you have order id in local storage then you have to show order confirmation p
       }
     }
   };
+  getBankDetailsforDCEmi = async () => {
+    if (this.props.getBankDetailsforDCEmi) {
+      if (this.state.isPaymentFailed) {
+        this.props.getBankDetailsforDCEmi(
+          this.props.cart.paymentFailureOrderDetails &&
+            this.props.cart.paymentFailureOrderDetails.cartAmount &&
+            this.props.cart.paymentFailureOrderDetails.cartAmount.paybleAmount
+              .value,
+          this.props.cart.cartDetailsCNC &&
+            this.props.cart.cartDetailsCNC.cartGuid
+        );
+      } else {
+        let noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
+        if (noCostEmiCouponCode) {
+          await this.removeNoCostEmi(noCostEmiCouponCode);
+        }
+        if (this.state.isComingFromRetryUrl) {
+          this.props.getBankDetailsforDCEmi(
+            this.state.payableAmount,
+            this.props.cart.cartDetailsCNC &&
+              this.props.cart.cartDetailsCNC.cartGuid
+          );
+        } else {
+          this.props.getBankDetailsforDCEmi(
+            this.props.cart.cartDetailsCNC.cartAmount &&
+              this.props.cart.cartDetailsCNC.cartAmount.paybleAmount.value,
+            this.props.cart.cartDetailsCNC &&
+              this.props.cart.cartDetailsCNC.cartGuid
+          );
+        }
+      }
+    }
+  };
 
   getEmiEligibility = () => {
     let carGuId;
@@ -2010,7 +2046,7 @@ if you have order id in local storage then you have to show order confirmation p
     }
   };
 
-  getBankAndTenureDetails = () => {
+  getBankAndTenureDetails = isFromDebitCard => {
     if (this.props.getBankAndTenureDetails) {
       this.setState({
         isNoCostEmiApplied: false,
@@ -2019,7 +2055,8 @@ if you have order id in local storage then you have to show order confirmation p
       this.props.getBankAndTenureDetails(
         this.state.retryFlagForEmiCoupon,
         this.state.isComingFromRetryUrl,
-        this.state.retryCartGuid
+        this.state.retryCartGuid,
+        isFromDebitCard
       );
     }
   };
@@ -3242,9 +3279,7 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
-              this.state.cardDetails.emi_bank
-            } card.`
+            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
           });
         } else if (
           binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
@@ -3255,9 +3290,7 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${
-              this.state.cardDetails.selectedBankName
-            } card only.`
+            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${this.state.cardDetails.selectedBankName} card only.`
           });
         } else if (
           this.props.cart &&
@@ -3325,9 +3358,7 @@ if you have order id in local storage then you have to show order confirmation p
       ) {
         this.setState({
           emiBinValidationStatus: true,
-          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
-            this.state.cardDetails.emi_bank
-          } card.`
+          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
         });
       } else {
         this.setState({
@@ -4313,6 +4344,9 @@ if you have order id in local storage then you have to show order confirmation p
                       getBankAndTenureDetails={() =>
                         this.getBankAndTenureDetails()
                       }
+                      getBankAndTenureDetails={isFromDebitCard =>
+                        this.getBankAndTenureDetails(isFromDebitCard)
+                      }
                       getEmiTermsAndConditionsForBank={(bankCode, bankName) =>
                         this.getEmiTermsAndConditionsForBank(bankCode, bankName)
                       }
@@ -4391,6 +4425,14 @@ if you have order id in local storage then you have to show order confirmation p
                       instaCredISEnableMidddleLayer={() =>
                         this.props.instaCredISEnableMidddleLayer()
                       }
+                      getDCEmiEligibility={() =>
+                        this.props.getDCEmiEligibility()
+                      }
+                      dCEmiEligibiltyDetails={this.props.dCEmiEligibiltyDetails}
+                      getBankDetailsforDCEmi={() =>
+                        this.getBankDetailsforDCEmi()
+                      }
+                      hideModal={() => this.props.hideModal()}
                       getPaymentModes={val => this.props.getPaymentModes(val)}
                       retryCartGuid={this.state.retryCartGuid}
                       isJewelleryItemAvailable={

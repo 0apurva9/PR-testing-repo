@@ -259,6 +259,7 @@ const cart = (
     cartCountError: null,
     cartCount: null,
     cartCountDetails: null,
+    cartCountDetailsLoading: false,
 
     minicartStatus: null,
     minicartError: null,
@@ -300,7 +301,16 @@ const cart = (
     feedBackPageError: null,
     getCustomComponent: null,
     getCustomComponentError: null,
-    getCustomComponentLoading: false
+    getCustomComponentLoading: false,
+    instacredMiddleLayerISEnableError: null,
+
+    dCEmiEligibiltyDetails: null,
+    dCEmiEligibiltyStatus: null,
+    dCEmiEligibiltyError: null,
+
+    dCEmiBankDetails: null,
+    dCEmiBankDetailsStatus: null,
+    dCEmiBankDetailsError: null
   },
   action
 ) => {
@@ -2322,11 +2332,13 @@ const cart = (
       return Object.assign({}, state, {
         cartCount: action.cartDetails && action.cartDetails.count,
         cartCountStatus: action.status,
-        cartCountDetails: action.cartDetails
+        cartCountDetails: action.cartDetails,
+        cartCountDetailsLoading: false
       });
     case cartActions.GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST:
       return Object.assign({}, state, {
-        cartCountStatus: action.status
+        cartCountStatus: action.status,
+        cartCountDetailsLoading: true
       });
     case cartActions.GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE:
       Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
@@ -2335,7 +2347,8 @@ const cart = (
       return Object.assign({}, state, {
         cartCountError: action.error,
         cartCountStatus: action.status,
-        cartCount: null
+        cartCount: null,
+        cartCountDetailsLoading: false
       });
     case cartActions.GET_MINICART_REQUEST:
       return Object.assign({}, state, {
@@ -2411,6 +2424,47 @@ const cart = (
         getCustomComponentStatus: action.status,
         getCustomComponentLoading: false,
         getCustomComponentError: action.error
+      });
+    case cartActions.CHECK_DC_EMI_ELIGIBILITY_REQUEST:
+      return Object.assign({}, state, {
+        dCEmiEligibiltyStatus: action.status,
+        loading: true
+      });
+
+    case cartActions.CHECK_DC_EMI_ELIGIBILITY_SUCCESS:
+      return Object.assign({}, state, {
+        dCEmiEligibiltyStatus: action.status,
+        dCEmiEligibiltyDetails: action.dCEmiEligibility,
+        loading: false
+      });
+
+    case cartActions.CHECK_DC_EMI_ELIGIBILITY_FAILURE:
+      return Object.assign({}, state, {
+        dCEmiEligibiltyStatus: action.status,
+        dCEmiEligibiltyError: action.error,
+        dCEmiEligibiltyDetails: null,
+        loading: false
+      });
+
+    case cartActions.DC_EMI_BANK_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        dCEmiBankDetailsStatus: action.status,
+        loading: true
+      });
+
+    case cartActions.DC_EMI_BANK_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        dCEmiBankDetailsStatus: action.status,
+        dCEmiBankDetails: action.dCEmiBankDetails,
+        loading: false
+      });
+
+    case cartActions.DC_EMI_BANK_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        dCEmiBankDetailsStatus: action.status,
+        dCEmiBankDetailsError: action.error,
+        dCEmiBankDetails: null,
+        loading: false
       });
 
     default:

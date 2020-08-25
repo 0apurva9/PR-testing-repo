@@ -722,7 +722,7 @@ export default class NoCostEmiBankDetails extends React.Component {
               emiBinValidationErrorMessage={
                 this.props.emiBinValidationErrorMessage
               }
-              buttonDisabled={this.props.creditCardValid()}
+              buttonDisabled={() => this.props.creditCardValid()}
               onFocusInput={this.props.onFocusInput}
               onChangeCvv={i => this.onChangeCvv(i)}
               binValidation={binNo => this.binValidation(binNo)}
@@ -732,6 +732,8 @@ export default class NoCostEmiBankDetails extends React.Component {
               displayToast={this.props.displayToast}
               cardDetails={this.props.cardDetails}
               onCheckout={this.props.onCheckout}
+              isDebitCard={true}
+              dCEmiEligibiltyDetails={this.props.dCEmiEligibiltyDetails}
             />
           </React.Fragment>
         )}

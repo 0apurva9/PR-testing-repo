@@ -6,7 +6,9 @@ import {
   NO_COST_EMI,
   STANDARD_EMI,
   INSTACRED,
-  CARDLESS_EMI
+  CARDLESS_EMI,
+  CREDIT_CARD_EMI,
+  DEBIT_CARD_EMI
 } from "../../lib/constants";
 export default class NoCostEmi extends React.Component {
   constructor(props) {
@@ -23,30 +25,34 @@ export default class NoCostEmi extends React.Component {
     });
     if (this.props.onChangeEMIType) {
       if (isOpen) {
-        this.props.onChangeEMIType(this.props.EMIText);
+        this.props.onChangeEMIType(
+          this.props.EMIText,
+          false,
+          this.props.EMITabName
+        );
       } else {
-        this.props.onChangeEMIType(null);
+        this.props.onChangeEMIType(null, false, null);
       }
     }
     if (this.props.EMIText === "Cardless EMI") {
       this.props.selectInstacred(true);
       this.props.onChange({ currentPaymentMode: INSTACRED });
     }
-    if (
-      isOpen &&
-      this.props.EMIText === STANDARD_EMI &&
-      !this.props.emiList &&
-      this.props.getEmiBankDetails
-    ) {
-      this.props.getEmiBankDetails();
-    }
-    if (
-      isOpen &&
-      this.props.EMIText === NO_COST_EMI &&
-      this.props.getBankAndTenureDetails
-    ) {
-      this.props.getBankAndTenureDetails();
-    }
+    // if (
+    //   isOpen &&
+    //   this.props.EMIText === STANDARD_EMI &&
+    //   !this.props.emiList &&
+    //   this.props.getEmiBankDetails
+    // ) {
+    //   this.props.getEmiBankDetails();
+    // }
+    // if (
+    //   isOpen &&
+    //   this.props.EMIText === NO_COST_EMI &&
+    //   this.props.getBankAndTenureDetails
+    // ) {
+    //   this.props.getBankAndTenureDetails();
+    // }
     if (isOpen && this.props.EMIText === CARDLESS_EMI) {
       const isOpen = true;
       this.setState({
@@ -64,6 +70,12 @@ export default class NoCostEmi extends React.Component {
     if (this.state.isOpen) {
       rotateIcon = styles.rot;
     }
+    let tabExtension = "";
+    if (this.props.EMITabName === CREDIT_CARD_EMI) {
+      tabExtension = this.props.creditCardTabNameExtension;
+    } else if (this.props.EMITabName === DEBIT_CARD_EMI) {
+      tabExtension = this.props.debitCardTabNameExtension;
+    }
     return (
       <div className={styles.base}>
         <div
@@ -74,18 +86,8 @@ export default class NoCostEmi extends React.Component {
         >
           <div className={rotateIcon} />
           <div className={styles.textHolder}>
-            {this.props.EMIText === STANDARD_EMI && (
-              <span>
-                {STANDARD_EMI}
-                <span className={styles.subText}> (Credit card only)</span>
-              </span>
-            )}
-            {this.props.EMIText !== STANDARD_EMI && (
-              <span>
-                {this.props.EMIText}
-                <span className={styles.subText}> (Credit card only)</span>
-              </span>
-            )}
+            {this.props.EMITabName}
+            {tabExtension && `(${tabExtension})`}
           </div>
         </div>
         <Collapse isOpened={this.state.isOpen}>{this.props.children}</Collapse>

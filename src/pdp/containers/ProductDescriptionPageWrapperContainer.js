@@ -57,9 +57,12 @@ import {
   NO,
   SELECTED_STORE
 } from "../../lib/constants.js";
-import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 import {
   tempCartIdForLoggedInUser,
+  getDCEmiEligibility
+} from "../../cart/actions/cart.actions";
+import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
+import {
   getCartDetails,
   addStoreCNC,
   addPickupPersonCNC,
@@ -157,7 +160,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       winningUssID,
       isComingFromPiqPage,
       isExchangeAvailable,
-      isComingFromClickEvent
+      isComingFromClickEvent,
+      isComingFromHaptikChatbot
     ) => {
       localStorage.removeItem(SELECTED_STORE);
       return dispatch(
@@ -167,7 +171,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           winningUssID,
           isComingFromPiqPage,
           isExchangeAvailable,
-          isComingFromClickEvent
+          isComingFromClickEvent,
+          isComingFromHaptikChatbot
         )
       );
     },
@@ -352,7 +357,12 @@ const mapStateToProps = state => {
     chatbotDetailsData: state.productListings.getChatbotDetailsData,
     addToCartResponseDetails: state.productDescription.addToCartResponseDetails,
     addToCartResponseLoading: state.productDescription.addToCartResponseLoading,
-    cartCountDetails: state.cart.cartCountDetails
+    cartCountDetails: state.cart.cartCountDetails,
+    checkPincodeDetailsLoading:
+      state.productDescription.checkPincodeDetailsLoading,
+    checkPincodeFromHaptikChatbot:
+      state.productDescription.checkPincodeFromHaptikChatbot,
+    cartCountDetailsLoading: state.cart.cartCountDetailsLoading
   };
 };
 

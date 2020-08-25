@@ -563,6 +563,20 @@ export default class Plp extends React.Component {
             <Chatbot
               productListings={this.props.productListings}
               chatbotDetailsData={this.props.chatbotDetailsData}
+              addToCartFromChatbot={true}
+              getProductPinCode={this.props.getProductPinCode}
+              isServiceableToPincode={this.props.isServiceableToPincode}
+              displayToast={this.props.displayToast}
+              addProductToCart={this.props.addProductToCart}
+              addToCartResponseDetails={this.props.addToCartResponseDetails}
+              history={this.props.history}
+              addToCartResponseLoading={this.props.addToCartResponseLoading}
+              cartCountDetails={this.props.cartCountDetails}
+              checkPincodeDetailsLoading={this.props.checkPincodeDetailsLoading}
+              checkPincodeFromHaptikChatbot={
+                this.props.checkPincodeFromHaptikChatbot
+              }
+              cartCountDetailsLoading={this.props.cartCountDetailsLoading}
             />
             {this.renderPageTags()}
             {isBrowser && this.renderAmpTags()}
