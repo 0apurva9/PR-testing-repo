@@ -412,10 +412,17 @@ export default class OrderRelatedIssue extends React.Component {
     console.log("=========7777");
     this.setState({ isScgeduleACall: true });
   };
-  timeSlotPopUP = () => {
+  timeSlotPopUP = times => {
+    const timeFunction = {
+      setTimeSlot: this.setTimeSlot
+    };
     if (this.props.timeSlotPopUP) {
-      this.props.timeSlotPopUP();
+      this.props.timeSlotPopUP(timeFunction);
     }
+  };
+  // ScheduleACallClick: this.ScheduleACallClick
+  setTimeSlot = time => {
+    this.setState({ timing: time });
   };
 
   render() {
@@ -551,7 +558,7 @@ export default class OrderRelatedIssue extends React.Component {
                         className={styles.customBtn}
                         onClick={() => this.timeSlotPopUP()}
                       >
-                        Change
+                        {!this.state.timing ? "Select" : "Change"}
                       </div>
                     </div>
                   </div>

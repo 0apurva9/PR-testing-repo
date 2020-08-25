@@ -29,6 +29,12 @@ export default class TimeSlotPopUp extends Component {
     // }
     this.setState({ isSelected: val });
   }
+  setTimeSlot = time => {
+    this.props.closeModal();
+    if (this.props.setTimeSlot) {
+      this.props.setTimeSlot(time);
+    }
+  };
 
   timeSlotArray = () => {
     let mornginAftre = false;
@@ -41,13 +47,19 @@ export default class TimeSlotPopUp extends Component {
           {time.mornginAfter ? (
             <div className={styles.txt}>{time.mornginAfter}</div>
           ) : null}
-          <div className={styles.timeCard}>{time.time}</div>
+          <div
+            className={styles.timeCard}
+            onClick={() => this.setTimeSlot(time.time)}
+          >
+            {time.time}
+          </div>
         </React.Fragment>
       );
     });
   };
 
   render() {
+    console.log(this.props);
     return (
       <BottomSlideModal>
         <div className={styles.timeslotBox}>

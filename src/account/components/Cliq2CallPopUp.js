@@ -20,6 +20,11 @@ export default class Cliq2CallPopUp extends Component {
           >
             X
           </div>
+          <div className={styles.alredySlotBookBox}>
+            We have already scheduled a callback for
+            <br /> today at
+            <span className={styles.fontBold}> 03:00 PM - 04:00 PM</span>
+          </div>
           <div
             className={styles.buttonBox}
             onClick={() => this.callMeBackClick()}
