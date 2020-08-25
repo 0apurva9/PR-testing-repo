@@ -704,7 +704,7 @@
 
 .popularCardPriceSymbol {
   font-size: 16px;
-  padding-top: 4px;
+
 }
 
 .popularCardButton {
@@ -916,4 +916,22 @@
   color: #d88600;
   padding-top: 10px;
   text-align: left;
+}
+
+
+.availableTop{
+ display: inline-block;
+ color: #4a4a4a;
+ font-weight: 100;
+}
+.balanceTopUp{
+  display: inline;
+    font-size: 16px;
+    font-family: semibold;
+    word-break: break-word;
+    display: inline;
+}
+.rupeeTopUp{
+  font-family: semibold;
+    font-size: 16px;
 }

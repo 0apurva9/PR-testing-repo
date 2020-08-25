@@ -170,7 +170,26 @@ export default class CliqCashTopUp extends Component {
           <div className={styles.cliqCashDetail}>
             <div className={styles.popularCardBox}>
               <div className={styles.header}>
-                <div className={styles.availableTop}>{}</div>
+                <div className={styles.availableTop}>
+                  Total Available Balance :
+                  <div className={styles.balanceTopUp}>
+                    <span className={styles.rupeeTopUp}>₹</span>
+                    {this.props &&
+                    this.props.cliqCashUserDetails &&
+                    this.props.cliqCashUserDetails.totalCliqCashBalance &&
+                    this.props.cliqCashUserDetails.totalCliqCashBalance.value &&
+                    this.props.cliqCashUserDetails.totalCliqCashBalance.value >
+                      0
+                      ? parseFloat(
+                          Math.round(
+                            this.props.cliqCashUserDetails.totalCliqCashBalance
+                              .value * 100
+                          ) / 100
+                        ).toLocaleString("hi-IN")
+                      : "0"}
+                    <span className={styles.floatingNumber}>.00</span>
+                  </div>
+                </div>
                 <div className={styles.checkBalRightText}>
                   <Link
                     to={`/my-account/cliq-cash`}
@@ -239,7 +258,9 @@ export default class CliqCashTopUp extends Component {
                 <Button
                   type="primary"
                   disabled={
-                    this.state.email === "" || this.state.senderName === ""
+                    this.state.email === "" ||
+                    this.state.senderName === "" ||
+                    this.state.selectedAmount == ""
                       ? true
                       : false
                   }
