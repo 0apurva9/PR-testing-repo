@@ -35,7 +35,7 @@ import Button from "../../general/components/Button";
 
 import { Link } from "react-router-dom";
 import { getItemBreakUpDetails } from "../../cart/actions/cart.actions";
-const MINIMUM_PRICE = 15;
+const MINIMUM_PRICE = 10;
 const MAXIMUM_PRICE = 10000;
 const PRODUCT_ID = "MP000000000127263";
 const QUANTITY = "1";
@@ -139,7 +139,23 @@ export default class CliqCashTopUp extends Component {
       giftCardDetails.mobileNumber = MOBILE_NUMBER;
       giftCardDetails.productType = "topUp";
       giftCardDetails.receiverName = formatUserDetails.firstName || "CliqCash";
-      this.props.createGiftCardDetails(giftCardDetails);
+      if (!this.state.selectedAmount) {
+        this.props.displayToast("Please select the amount");
+        return false;
+      }
+      if (
+        !(
+          this.state.selectedAmount <= this.state.maxPrice &&
+          this.state.selectedAmount >= this.state.minPrice
+        )
+      ) {
+        this.props.displayToast(
+          `Amount should be greater than ₹${this.state.minPrice}  and less than ₹${this.state.maxPrice}.`
+        );
+        return false;
+      } else {
+        this.props.createGiftCardDetails(giftCardDetails);
+      }
     }
   }
 
@@ -216,9 +232,7 @@ export default class CliqCashTopUp extends Component {
                 )}
                 <Input2
                   hollow={true}
-                  placeholder={`Or enter an amount between ${RUPEE_SYMBOL}${
-                    this.state.minPrice
-                  }-${RUPEE_SYMBOL}${this.state.maxPrice}`}
+                  placeholder={`Or enter an amount between ${RUPEE_SYMBOL}${this.state.minPrice}-${RUPEE_SYMBOL}${this.state.maxPrice}`}
                   value={this.state.selectedAmount}
                   onChange={amount => this.selectAmount(amount)}
                   textStyle={{ fontSize: 14, letterSpacing: "0.03px" }}
