@@ -126,8 +126,8 @@ export default class PaymentConfirmationPage extends React.Component {
   render() {
     let totalValue = localStorage.getItem("GiftCardAmount");
     let productType = localStorage.getItem("productType");
-    const numberFormater = numberWithCommas(totalValue);
-    const digitIntoNumberFormat = digitIntoWord(totalValue);
+    const numberFormater = totalValue && numberWithCommas(totalValue);
+    const digitIntoNumberFormat = totalValue && digitIntoWord(totalValue);
     return (
       <React.Fragment>
         {!this.state.showloader && (
