@@ -211,7 +211,11 @@ export default class EmiPanel extends React.Component {
         isRetryPaymentFromURL = true;
       }
     }
-    let { paymentMode, cart, isJewelleryItemAvailable } = this.props;
+    let { cart, isJewelleryItemAvailable } = this.props;
+    let paymentMode =
+      this.props.cart &&
+      this.props.cart.paymentModes &&
+      this.props.cart.paymentModes.paymentModes;
     var instacredMode =
       paymentMode &&
       paymentMode.filter(obj => {
@@ -427,6 +431,7 @@ export default class EmiPanel extends React.Component {
                   cardDetails={this.props.cardDetails}
                   changeEmiPlan={() => this.changeEmiPlan()}
                   onCheckout={this.props.onCheckout}
+                  creditCardValid={this.props.creditCardValid}
                   emiBinValidationErrorMessage={
                     this.props.emiBinValidationErrorMessage
                   }
@@ -556,6 +561,7 @@ export default class EmiPanel extends React.Component {
                       cardDetails={this.props.cardDetails}
                       changeEmiPlan={() => this.changeEmiPlan()}
                       onCheckout={this.props.onCheckout}
+                      creditCardValid={this.props.creditCardValid}
                       emiBinValidationErrorMessage={
                         this.props.emiBinValidationErrorMessage
                       }
@@ -580,7 +586,7 @@ export default class EmiPanel extends React.Component {
           {instacredMiddleLayerISEnable && !isJewelleryProduct
             ? !isRetryPaymentFromURL && (
                 <div className={styles.subListHolder}>
-                  {this.props.paymentMode &&
+                  {paymentMode &&
                     instacredMode.length > 0 &&
                     instacredMode[0].value === true && (
                       <NoCostEmi
