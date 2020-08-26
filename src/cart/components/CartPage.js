@@ -1016,6 +1016,18 @@ class CartPage extends React.Component {
                             }
                             displayToast={this.props.displayToast}
                             getCartDetails={this.props.getCartDetails}
+                            getBundledProductSuggestion={
+                              this.props.getBundledProductSuggestion
+                            }
+                            bundledProductSuggestionDetails={
+                              this.props.bundledProductSuggestionDetails
+                            }
+                            addBundledProductsToCart={
+                              this.props.addBundledProductsToCart
+                            }
+                            addBundledProductsToCartDetails={
+                              this.props.addBundledProductsToCartDetails
+                            }
                           />
                         </DesktopOnly>
                       </div>

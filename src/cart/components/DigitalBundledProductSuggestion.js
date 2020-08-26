@@ -1,0 +1,122 @@
+import React from "react";
+import styles from "./DigitalBundledProductSuggestion.css";
+import PropTypes from "prop-types";
+import ProductImage from "../../general/components/ProductImage";
+import {
+  SUCCESS,
+  ADD_TO_BAG_TEXT,
+  FAILURE_LOWERCASE,
+  PRODUCT_CART_ROUTER,
+  DEFAULT_PIN_CODE_LOCAL_STORAGE
+} from "../../lib/constants";
+import {
+  getGlobalAccessToken,
+  getCustomerAccessToken,
+  getLoggedInUserDetails,
+  getCartDetailsForLoggedInUser,
+  getCartDetailsForAnonymousInUser
+} from "../../lib/getCookieDetails.js";
+
+export default class DigitalBundledProductSuggestion extends React.Component {
+  addBundledProductToCart(mainProduct, digitalProduct) {
+    let bundledProductDataForAddToCart = {};
+    bundledProductDataForAddToCart.baseItem = {
+      ussID: mainProduct.USSID,
+      productCode: mainProduct.productcode,
+      quantity: 1
+    };
+    bundledProductDataForAddToCart.associatedItems = [
+      {
+        ussID: digitalProduct.winningUssID,
+        productCode: digitalProduct.productListingId,
+        quantity: 1,
+        recommendationType: digitalProduct.recommendationType
+      }
+    ];
+    this.props.addBundledProductsToCart(bundledProductDataForAddToCart);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.props.addBundledProductsToCartDetails !==
+      prevProps.addBundledProductsToCartDetails
+    ) {
+      if (
+        this.props.addBundledProductsToCartDetails.status.toLowerCase() ===
+        SUCCESS
+      ) {
+        let loggedInUserDetails = getLoggedInUserDetails();
+        let cartDetails = getCartDetailsForAnonymousInUser();
+        let cartId = cartDetails.guid;
+        let user = "anonymous";
+        let accessToken = getGlobalAccessToken();
+        if (loggedInUserDetails) {
+          user = loggedInUserDetails.userName;
+          cartDetails = getCartDetailsForLoggedInUser();
+          cartId = cartDetails.code;
+          accessToken = getCustomerAccessToken();
+        }
+        let defaultPinCode = localStorage.getItem(
+          DEFAULT_PIN_CODE_LOCAL_STORAGE
+        );
+
+        this.props.displayToast(ADD_TO_BAG_TEXT);
+        // this.props.history.push(PRODUCT_CART_ROUTER);
+        this.props.getCartDetails(user, accessToken, cartId, defaultPinCode);
+      }
+
+      if (
+        this.props.addBundledProductsToCartDetails.status.toLowerCase() ===
+        FAILURE_LOWERCASE
+      ) {
+        this.props.displayToast(
+          this.props.addBundledProductsToCartDetails.error
+        );
+      }
+    }
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <div className={styles.digitalBundledProductDetails}>
+          <div className={styles.digitalBundledProductImage}>
+            <ProductImage
+              image={this.props.digitalProduct.imageURL}
+              onClickImage={() => this.onClick()}
+            />
+          </div>
+          <div className={styles.digitalProductDetails}>
+            <div className={styles.digitalProductName}>
+              {this.props.digitalProduct.productName}
+            </div>
+            {this.props.digitalProduct.mrpPrice && (
+              <div className={styles.digitalProductOfferPrice}>
+                {this.props.digitalProduct.mrpPrice.formattedValueNoDecimal}
+              </div>
+            )}
+            {this.props.digitalProduct.winningSellerPrice && (
+              <div className={styles.digitalProductPrice}>
+                {
+                  this.props.digitalProduct.winningSellerPrice
+                    .formattedValueNoDecimal
+                }
+              </div>
+            )}
+          </div>
+          <div
+            className={styles.addButton}
+            onClick={() =>
+              this.addBundledProductToCart(
+                this.props.mainProduct,
+                this.props.digitalProduct
+              )
+            }
+          >
+            &#x2B; Add
+          </div>
+        </div>
+      </React.Fragment>
+    );
+  }
+}

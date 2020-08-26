@@ -38,6 +38,8 @@ import {
   ADOBE_MDE_CLICK_ON_CART_VIEW_LESS,
   ADOBE_MDE_CLICK_ON_CART_TNC
 } from "../../lib/adobeUtils";
+import DigitalBundledProduct from "./DigitalBundledProduct";
+import RecommendedBundledProduct from "./RecommendedBundledProduct";
 const NO_SIZE = "NO SIZE";
 const OUT_OF_STOCK = "Product is out of stock";
 export default class CartItemForDesktop extends React.Component {
@@ -631,58 +633,30 @@ export default class CartItemForDesktop extends React.Component {
           </React.Fragment>
         )}
         {this.props.product.digitalProductData &&
-          this.props.product.digitalProductData.map(digitalProduct => {
+          this.props.product.digitalProductData.map((digitalProduct, index) => {
             return (
-              <React.Fragment>
-                <div className={styles.digitalBundledProductDetails}>
-                  <img
-                    src={closeIcon}
-                    alt="remove icon"
-                    className={styles.closeIcon}
-                    onClick={() =>
-                      this.handleRemove(digitalProduct.entryNumber)
-                    }
-                  />
-                  <div className={styles.digitalBundledProductImage}>
-                    <ProductImage
-                      image={digitalProduct.imageURL}
-                      onClickImage={() => this.onClick()}
-                    />
-                  </div>
-                  <div className={styles.digitalProductDetails}>
-                    <div className={styles.digitalProductName}>
-                      {digitalProduct.productName}
-                    </div>
-                    {digitalProduct.offerPrice && (
-                      <div className={styles.digitalProductOfferPrice}>
-                        {RUPEE_SYMBOL}
-                        {digitalProduct.offerPrice}
-                      </div>
-                    )}
-                    <div className={styles.digitalProductPrice}>
-                      {RUPEE_SYMBOL}
-                      {digitalProduct.price}
-                    </div>
-                  </div>
-                </div>
-                {digitalProduct.pinCodeResponse &&
-                (digitalProduct.pinCodeResponse.productOutOfStockMessage ||
-                  digitalProduct.pinCodeResponse
-                    .productNotServiceabilityMessage) ? (
-                  <div className={styles.exchangeProductNotServiceable}>
-                    {digitalProduct.pinCodeResponse.productOutOfStockMessage
-                      ? digitalProduct.pinCodeResponse.productOutOfStockMessage
-                      : digitalProduct.pinCodeResponse
-                          .productNotServiceabilityMessage}
-                  </div>
-                ) : !digitalProduct.pinCodeResponse ? (
-                  <div className={styles.exchangeProductNotServiceable}>
-                    {NOT_SERVICEABLE}
-                  </div>
-                ) : null}
-              </React.Fragment>
+              <DigitalBundledProduct
+                key={index}
+                digitalProduct={digitalProduct}
+              />
             );
           })}
+
+        {this.props.product.bundlingSuggestionAvailable && (
+          <RecommendedBundledProduct
+            product={this.props.product}
+            getBundledProductSuggestion={this.props.getBundledProductSuggestion}
+            bundledProductSuggestionDetails={
+              this.props.bundledProductSuggestionDetails
+            }
+            addBundledProductsToCart={this.props.addBundledProductsToCart}
+            addBundledProductsToCartDetails={
+              this.props.addBundledProductsToCartDetails
+            }
+            getCartDetails={this.props.getCartDetails}
+          />
+        )}
+
         {this.props.isGiveAway === NO &&
           this.props.deliveryInformation && (
             <div className={styles.deliveryInfo}>
