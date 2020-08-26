@@ -633,54 +633,35 @@ export default class CartItemForDesktop extends React.Component {
         {this.props.product.digitalProductData &&
           this.props.product.digitalProductData.map(digitalProduct => {
             return (
-              <React.Fragment>
-                <div className={styles.digitalBundledProductDetails}>
-                  <img
-                    src={closeIcon}
-                    alt="remove icon"
-                    className={styles.closeIcon}
-                    onClick={() =>
-                      this.handleRemove(digitalProduct.entryNumber)
-                    }
+              <div className={styles.digitalBundledProductDetails}>
+                <img
+                  src={closeIcon}
+                  alt="remove icon"
+                  className={styles.closeIcon}
+                  onClick={() => this.handleRemove(digitalProduct.entryNumber)}
+                />
+                <div className={styles.digitalBundledProductImage}>
+                  <ProductImage
+                    image={digitalProduct.imageURL}
+                    onClickImage={() => this.onClick()}
                   />
-                  <div className={styles.digitalBundledProductImage}>
-                    <ProductImage
-                      image={digitalProduct.imageURL}
-                      onClickImage={() => this.onClick()}
-                    />
+                </div>
+                <div className={styles.digitalProductDetails}>
+                  <div className={styles.digitalProductName}>
+                    {digitalProduct.productName}
                   </div>
-                  <div className={styles.digitalProductDetails}>
-                    <div className={styles.digitalProductName}>
-                      {digitalProduct.productName}
-                    </div>
-                    {digitalProduct.offerPrice && (
-                      <div className={styles.digitalProductOfferPrice}>
-                        {RUPEE_SYMBOL}
-                        {digitalProduct.offerPrice}
-                      </div>
-                    )}
-                    <div className={styles.digitalProductPrice}>
+                  {digitalProduct.offerPrice && (
+                    <div className={styles.digitalProductOfferPrice}>
                       {RUPEE_SYMBOL}
-                      {digitalProduct.price}
+                      {digitalProduct.offerPrice}
                     </div>
+                  )}
+                  <div className={styles.digitalProductPrice}>
+                    {RUPEE_SYMBOL}
+                    {digitalProduct.price}
                   </div>
                 </div>
-                {digitalProduct.pinCodeResponse &&
-                (digitalProduct.pinCodeResponse.productOutOfStockMessage ||
-                  digitalProduct.pinCodeResponse
-                    .productNotServiceabilityMessage) ? (
-                  <div className={styles.exchangeProductNotServiceable}>
-                    {digitalProduct.pinCodeResponse.productOutOfStockMessage
-                      ? digitalProduct.pinCodeResponse.productOutOfStockMessage
-                      : digitalProduct.pinCodeResponse
-                          .productNotServiceabilityMessage}
-                  </div>
-                ) : !digitalProduct.pinCodeResponse ? (
-                  <div className={styles.exchangeProductNotServiceable}>
-                    {NOT_SERVICEABLE}
-                  </div>
-                ) : null}
-              </React.Fragment>
+              </div>
             );
           })}
         {this.props.isGiveAway === NO &&
