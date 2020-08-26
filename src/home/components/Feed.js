@@ -5,6 +5,12 @@ import WidgetContainer from "../containers/WidgetContainer";
 import HomeSkeleton from "../../general/components/HomeSkeleton.js";
 import HeroBanner from "./HeroBanner.js";
 import AllQuickLinks from "./AllQuickLinks";
+import PersonalisedQuickLinks from "./PersonalisedQuickLinks";
+import BankOfferPersonalisedComponent from "./BankOfferPersonalisedComponent";
+import ConnectWidgetPersonalisedComponent from "./ConnectWidgetPersonalisedComponent";
+import MultipleBannersPersonalisedComponent from "./MultipleBannersPersonalisedComponent";
+import CuratedFeatureForPersonalisedComponent from "./CuratedFeatureForPersonalisedComponent";
+import HeroBannerPersonalisedComponent from "./HeroBannerPersonalisedComponent";
 import styles from "./Feed.css";
 import * as Cookie from "../../lib/Cookie";
 import List from "@researchgate/react-intersection-list";
@@ -277,6 +283,13 @@ export const typeComponentMapping = {
     return <BrandCardHeader {...props} />;
   },
   quickLinksComponent: props => <AllQuickLinks {...props} />,
+  "01QLC-P": props => <PersonalisedQuickLinks {...props} />,
+  "01BOC-P": props => <BankOfferPersonalisedComponent {...props} />,
+  "01MPB-P": props => <ConnectWidgetPersonalisedComponent {...props} />,
+  "01MBC-P": props => <MultipleBannersPersonalisedComponent {...props} />,
+  "01TBT-P": props => <CuratedFeatureForPersonalisedComponent {...props} />,
+  "01HBC-P": props => <HeroBannerPersonalisedComponent {...props} />,
+  // "01LEC-P":props => <LuxEditorial
   "Hero Banner Component": props => <HeroBanner {...props} />, // no hard coded data
   "Theme Offers Component": props => <ThemeOffer {...props} />, // no hard coded data
   "Desktop Theme Offer Component": props => <ThemeOffer {...props} />,

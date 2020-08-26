@@ -4,7 +4,8 @@ import {
   getItems,
   msdDiscoverMoreHomeComponents,
   msdAbcComponents,
-  automatedWidgetsForHome
+  automatedWidgetsForHome,
+  getTargetMboxData
 } from "../actions/home.actions";
 import { withRouter } from "react-router-dom";
 import Widget from "../components/Widget";
@@ -52,6 +53,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     automatedWidgetsForHome: widgetData => {
       dispatch(automatedWidgetsForHome(widgetData));
     },
+    getTargetMboxData: async (componentName, pageType, sequence) => {
+      return dispatch(getTargetMboxData(componentName, pageType, sequence));
+    },
     followAndUnFollowBrand: (brandId, followStatus) => {
       dispatch(
         followAndUnFollowBrand(
@@ -79,7 +83,8 @@ const mapStateToProps = (state, ownProps) => {
     homeMsdData: state.feed.homeMsdData,
     homeAbcMsdData: state.feed.homeAbcMsdData,
     homeAutoWidget: state.feed.homeAutoWidget,
-    automatedWidgetData: state.feed.automatedWidgetData
+    automatedWidgetData: state.feed.automatedWidgetData,
+    targetMboxData: state.feed.targetMboxData
   };
 };
 
