@@ -20,9 +20,11 @@ export default class ProductBundling extends React.Component {
       isFirstProductSelected: false,
       isSecondProductSelected: false,
       totalBundledPriceDetails: null,
-      bundledProductDataForAddToCart: null
+      bundledProductDataForAddToCart: null,
+      hideExtraProducts: true
     };
     this.handleClick = this.handleClick.bind(this);
+    this.toggleShowingProducts = this.toggleShowingProducts.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -134,10 +136,19 @@ export default class ProductBundling extends React.Component {
     );
   }
 
+  toggleShowingProducts() {
+    this.setState({ hideExtraProducts: !this.state.hideExtraProducts });
+  }
+
   render() {
     let bundledPriceAPIStatus =
       this.state.totalBundledPriceDetails &&
       this.state.totalBundledPriceDetails.status;
+    let productCount =
+      this.props.bundledProductSuggestionDetails &&
+      this.props.bundledProductSuggestionDetails.suggestionList &&
+      this.props.bundledProductSuggestionDetails.suggestionList.length;
+    let remainingProducts = productCount - 2;
     return (
       <React.Fragment>
         {this.props.bundledProductSuggestionDetails ? (
@@ -178,10 +189,30 @@ export default class ProductBundling extends React.Component {
                         }
                         productIndex={index}
                         bundledPriceAPIStatus={bundledPriceAPIStatus}
+                        hideExtraProducts={this.state.hideExtraProducts}
                       />
                     );
                   }
                 )}
+
+              {productCount > 2 && (
+                <React.Fragment>
+                  {this.state.hideExtraProducts ? (
+                    <div
+                      className={styles.showMoreProducts}
+                      onClick={() => this.toggleShowingProducts()}
+                    >{`Show ${remainingProducts} more products`}</div>
+                  ) : (
+                    <div
+                      className={styles.showLessProducts}
+                      onClick={() => this.toggleShowingProducts()}
+                    >
+                      Show less products
+                    </div>
+                  )}
+                </React.Fragment>
+              )}
+
               <div className={styles.totalDetailsContainer}>
                 {(this.state.isFirstProductSelected ||
                   this.state.isSecondProductSelected) &&
