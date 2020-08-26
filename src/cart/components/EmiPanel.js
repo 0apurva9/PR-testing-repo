@@ -139,19 +139,95 @@ export default class EmiPanel extends React.Component {
       nextProps.currentPaymentMode !== INSTACRED &&
       this.state.currentSelectedEMIType !== null
     ) {
-      this.setState({ currentSelectedEMIType: null });
+      this.setState({ currentSelectedEMIType: null, subMenuSelected: null });
+    }
+    if (
+      this.props.currentPaymentMode === PAYMENT_MODE &&
+      this.props.cart &&
+      this.props.cart.emiEligibilityDetails
+    ) {
+      let isNoCostEmiEligibleFlag =
+        !this.props.isCliqCashApplied &&
+        this.props.cart &&
+        this.props.cart.emiEligibilityDetails &&
+        this.props.cart.emiEligibilityDetails.isNoCostEMIEligible
+          ? this.props.cart.emiEligibilityDetails.isNoCostEMIEligible
+          : false;
+      let isJewelleryProduct = false;
+      let cartProductData = [];
+      if (localStorage.getItem(PAYMENT_FAILURE_CART_PRODUCT)) {
+        cartProductData = [
+          ...JSON.parse(localStorage.getItem(PAYMENT_FAILURE_CART_PRODUCT))
+        ];
+      } else if (
+        this.props.cart &&
+        this.props.cart.orderSummary &&
+        this.props.cart.orderSummary.products &&
+        this.props.cart.orderSummary.products.length > 0
+      ) {
+        cartProductData = [...this.props.cart.orderSummary.products];
+      }
+
+      cartProductData.map(item => {
+        if (
+          item.rootCategory === CATEGORY_FINE_JEWELLERY ||
+          item.rootCategory === CATEGORY_FASHION_JEWELLERY
+        ) {
+          isJewelleryProduct = true;
+        }
+      });
+
+      if (this.props.isJewelleryItemAvailable) {
+        isJewelleryProduct = this.props.isJewelleryItemAvailable;
+      }
+      let isRetryPaymentFromURL = false;
+      if (this.props.isFromRetryUrl) {
+        if (
+          this.props.retryPaymentDetails &&
+          this.props.retryPaymentDetails.orderRetry &&
+          this.props.retryPaymentDetails.retryFlagEmiCoupon
+        ) {
+          isRetryPaymentFromURL = true;
+        }
+      }
+      let isStandardEmiEligibleFlag = !isJewelleryProduct
+        ? !isRetryPaymentFromURL
+        : false;
+      if (
+        !isNoCostEmiEligibleFlag &&
+        this.state.isNoCostSelected &&
+        isStandardEmiEligibleFlag &&
+        !this.state.isStandardSelected &&
+        this.state.currentSelectedEMIType !== STANDARD_EMI
+      ) {
+        this.setState({ currentSelectedEMIType: STANDARD_EMI });
+        if (this.state.currentSelectedEMIType !== STANDARD_EMI) {
+          this.onChangeEMIType(
+            STANDARD_EMI,
+            false,
+            this.state.subMenuSelected,
+            false,
+            true
+          );
+        }
+      }
     }
   }
   onChangeEMIType(
     currentSelectedEMIType,
     isConfirmPop = false,
     subMenuSelected,
-    fromToggleTab = false
+    fromToggleTab = false,
+    isFromCompReceive = false
   ) {
     localStorage.setItem(IS_DC_EMI_SELECTED, false);
     this.props.onChange({ currentPaymentMode: EMI });
     this.props.changeSubEmiOption(currentSelectedEMIType);
-    this.setState({ currentSelectedEMIType, subMenuSelected });
+    if (isFromCompReceive) {
+      this.setState({ currentSelectedEMIType });
+    } else {
+      this.setState({ currentSelectedEMIType, subMenuSelected });
+    }
 
     if (!fromToggleTab && subMenuSelected === CREDIT_CARD_EMI) {
       if (!this.props.emiList && this.props.getEmiBankDetails) {
@@ -439,6 +515,16 @@ export default class EmiPanel extends React.Component {
                   retryPaymentDetails={this.props.retryPaymentDetails}
                 />
               )}
+              {!isNoCostEmiEligibleFlag &&
+                this.state.isNoCostSelected &&
+                isStandardEmiEligibleFlag &&
+                !this.state.isStandardSelected && (
+                  <CheckoutEmi
+                    {...this.props}
+                    selectedEMIType={this.state.currentSelectedEMIType}
+                    changeEmiPlan={() => this.changeEmiPlan()}
+                  />
+                )}
               {isStandardEmiEligibleFlag && this.state.isStandardSelected && (
                 <CheckoutEmi
                   {...this.props}
@@ -571,6 +657,17 @@ export default class EmiPanel extends React.Component {
                       dCEmiEligibiltyDetails={this.props.dCEmiEligibiltyDetails}
                     />
                   )}
+                  {!isNoCostEmiEligibleFlag &&
+                    this.state.isNoCostSelected &&
+                    isStandardEmiEligibleFlag &&
+                    !this.state.isStandardSelected && (
+                      <CheckoutEmi
+                        {...this.props}
+                        isDebitCard={true}
+                        selectedEMIType={this.state.currentSelectedEMIType}
+                        changeEmiPlan={() => this.changeEmiPlan()}
+                      />
+                    )}
                   {isStandardEmiEligibleFlag &&
                     this.state.isStandardSelected && (
                       <CheckoutEmi
