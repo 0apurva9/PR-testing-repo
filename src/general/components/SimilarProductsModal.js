@@ -24,8 +24,7 @@ export default class SimilarProductsModal extends React.Component {
       this.state.showLoader === false &&
       !this.props.msdItems[key] &&
       (this.props.status &&
-        (this.props.status.toLowerCase() === "success" ||
-          this.props.status.toLowerCase() === "failure" ||
+        (this.props.status.toLowerCase() === "failure" ||
           this.props.status.toLowerCase() === "error"))
     ) {
       return (
@@ -115,6 +114,9 @@ export default class SimilarProductsModal extends React.Component {
   }
   componentDidMount() {
     this.loadMsd();
+  }
+  componentWillUnmount() {
+    this.props.clearAllMsdItems();
   }
   render() {
     return (

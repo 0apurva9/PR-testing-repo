@@ -229,24 +229,10 @@ class PDPRecommendedSections extends React.Component {
         >
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
-            const productImage =
-              transformedDatum &&
-              Array.isArray(transformedDatum.galleryImagesList) &&
-              transformedDatum.galleryImagesList[0] &&
-              Array.isArray(
-                transformedDatum.galleryImagesList[0].galleryImages
-              ) &&
-              transformedDatum.galleryImagesList[0].galleryImages[0] &&
-              transformedDatum.galleryImagesList[0].galleryImages[0].value;
-            const mrpInteger =
-              transformedDatum &&
-              transformedDatum.mrpPrice &&
-              transformedDatum.mrpPrice.doubleValue;
+            const productImage = transformedDatum && transformedDatum.imageUrl;
+            const mrpInteger = transformedDatum && transformedDatum.mrp;
             let seoDoublePrice =
-              transformedDatum.winningSellerPrice &&
-              transformedDatum.winningSellerPrice.doubleValue
-                ? transformedDatum.winningSellerPrice.doubleValue
-                : mrpInteger;
+              transformedDatum && transformedDatum.winningSellerMOP;
             let discount =
               mrpInteger && seoDoublePrice
                 ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)
@@ -261,7 +247,7 @@ class PDPRecommendedSections extends React.Component {
                 isShowAddToWishlistIcon={false}
                 discountPercent={discount}
                 onClick={url =>
-                  this.goToProductDescription(url, val, widgetName, i)
+                  this.goToProductDescription(val.webURL, val, widgetName, i)
                 }
                 widgetName={widgetName}
                 sourceOfWidget="msd"
@@ -361,6 +347,7 @@ class PDPRecommendedSections extends React.Component {
     const options = {
       onChange: this.handleIntersection
     };
+    console.log("=========>check1234567", this.props);
     return (
       <React.Fragment>
         {/* <div

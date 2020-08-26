@@ -462,17 +462,34 @@ export function nullSearchMsd() {
       if (convertedTPArray && convertedTPArray.length > 0) {
         let productCode =
           convertedTPArray && convertedTPArray.map(value => value.product_id);
-        productCode = productCode && productCode.toString();
-        const getProductdetails = await api.getMiddlewareUrl(
-          `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
-        );
-        finalProductDetails = await getProductdetails.json();
+        //productCode = productCode && productCode.toString();
+        let finalProductDetails = null;
+        let requests =
+          productCode &&
+          productCode.map(id =>
+            api.getMiddlewareUrl(
+              `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+            )
+          );
+        //requests for individual calls
+        const results = await Promise.allSettled(requests);
+        const successfulPromises =
+          results && results.filter(request => request.status === "fulfilled");
+        finalProductDetails =
+          successfulPromises &&
+          (await Promise.all(successfulPromises)
+            .then(response => Promise.all(response.map(r => r.value.json())))
+            .then(respon => respon && respon.results && respon.results[0]));
+        // const getProductdetails = await api.getMiddlewareUrl(
+        //   `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
+        // );
+        // finalProductDetails = await getProductdetails.json();
       }
       if (
         discoverMoreresultJson.status === FAILURE &&
         ((trendingproductresultJson &&
           trendingproductresultJson.status === FAILURE) ||
-          (finalProductDetails && finalProductDetails.status === FAILURE))
+          !finalProductDetails)
       ) {
         throw new Error(`${discoverMoreresultJson.message}`);
       }
@@ -488,7 +505,7 @@ export function nullSearchMsd() {
         },
         {
           trendingProducts: {
-            data: finalProductDetails && finalProductDetails.results
+            data: finalProductDetails
           }
         }
       ];
