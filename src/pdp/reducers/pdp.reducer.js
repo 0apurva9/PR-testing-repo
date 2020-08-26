@@ -86,6 +86,8 @@ const productDescription = (
     serviceableOtherSellersUssid: null,
     addToCartResponseLoading: false,
     addToCartResponseDetails: null,
+    checkPincodeDetailsLoading: false,
+    checkPincodeFromHaptikChatbot: false,
 
     getBundledProductSuggestionStatus: null,
     getBundledProductSuggestionLoading: false,
@@ -186,7 +188,8 @@ const productDescription = (
         status: action.status,
         loading: true,
         serviceablePincodeListResponse: null,
-        pincodeError: null
+        pincodeError: null,
+        checkPincodeDetailsLoading: true
       });
 
     case pdpActions.CHECK_PRODUCT_PIN_CODE_SUCCESS:
@@ -370,7 +373,10 @@ const productDescription = (
         loading: false,
         serviceablePincodeListResponse: pincodeListResponse,
         pincodeError: action.productPinCode.pincodeError,
-        serviceableOtherSellersUssid: serviceableOtherSellersUssid
+        serviceableOtherSellersUssid: serviceableOtherSellersUssid,
+        checkPincodeDetailsLoading: false,
+        checkPincodeFromHaptikChatbot:
+          action.productPinCode.checkPincodeFromHaptikChatbot
       });
 
     case pdpActions.CHECK_PRODUCT_PIN_CODE_FAILURE:
@@ -379,7 +385,8 @@ const productDescription = (
         error: action.error,
         loading: false,
         serviceablePincodeListResponse: null,
-        pincodeError: null
+        pincodeError: null,
+        checkPincodeDetailsLoading: false
       });
 
     case pdpActions.ADD_PRODUCT_TO_CART_REQUEST:
