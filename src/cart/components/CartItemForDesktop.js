@@ -398,7 +398,9 @@ export default class CartItemForDesktop extends React.Component {
                 </div>
                 <div
                   className={styles.removeLabel}
-                  onClick={() => this.handleRemove(this.props.index)}
+                  onClick={() =>
+                    this.handleRemove(this.props.product.entryNumber)
+                  }
                 >
                   {this.props.removeText}
                 </div>
@@ -628,6 +630,40 @@ export default class CartItemForDesktop extends React.Component {
             )}
           </React.Fragment>
         )}
+        {this.props.product.digitalProductData &&
+          this.props.product.digitalProductData.map(digitalProduct => {
+            return (
+              <div className={styles.digitalBundledProductDetails}>
+                <img
+                  src={closeIcon}
+                  alt="remove icon"
+                  className={styles.closeIcon}
+                  onClick={() => this.handleRemove(digitalProduct.entryNumber)}
+                />
+                <div className={styles.digitalBundledProductImage}>
+                  <ProductImage
+                    image={digitalProduct.imageURL}
+                    onClickImage={() => this.onClick()}
+                  />
+                </div>
+                <div className={styles.digitalProductDetails}>
+                  <div className={styles.digitalProductName}>
+                    {digitalProduct.productName}
+                  </div>
+                  {digitalProduct.offerPrice && (
+                    <div className={styles.digitalProductOfferPrice}>
+                      {RUPEE_SYMBOL}
+                      {digitalProduct.offerPrice}
+                    </div>
+                  )}
+                  <div className={styles.digitalProductPrice}>
+                    {RUPEE_SYMBOL}
+                    {digitalProduct.price}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         {this.props.isGiveAway === NO &&
           this.props.deliveryInformation && (
             <div className={styles.deliveryInfo}>

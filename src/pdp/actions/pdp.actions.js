@@ -2230,8 +2230,12 @@ export function getBundledProductSuggestion(
     dispatch(getBundledProductSuggestionRequest());
     try {
       let globalAccessToken = getGlobalAccessToken();
-      const result = await api.get(
-        `v2/mpl/products/${productId}/suggestion?access_token=${globalAccessToken}&ussId=${ussId}&categoryCode=${categoryCode}&brandCode=${brandCode}&channel=${CHANNEL}&updatedFlag=true&source=${source}&pincode=${pincode}`
+      let headers = {
+        "access-token": globalAccessToken
+      };
+      const result = await api.getDataWithMicroservicesWithHeaders(
+        `marketplacemicroscervices/getSuggestions?productCode=${productId}&ussid=${ussId}&categoryCode=${categoryCode}&brandCode=${brandCode}&channel=${CHANNEL}&updatedFlag=true&source=${source}&pinCode=${pincode}`,
+        headers
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
