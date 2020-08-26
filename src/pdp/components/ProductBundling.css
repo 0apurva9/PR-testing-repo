@@ -4,7 +4,7 @@
 	margin-top: 40px;
 }
 .bundlingHeadingContainer{
-  width: 100%;
+ 	width: 100%;
 	background: #fafafa;
 	font-size: 18px;
 	padding: 22px 39px;
@@ -12,8 +12,8 @@
 }
 .details{
 	position: relative;
-  background-color: #ffffff;
-  padding: 9px 49px 18px 49px;
+	background-color: #ffffff;
+	padding: 9px 49px 18px 49px;
 }
 .totalDetailsContainer{
 	border-top: 1px solid #e5e5e5;
@@ -25,16 +25,16 @@
 .totalDetailsText{
 	display: inline-block;
 	font-size: 16px;
-  text-align: center;
+  	text-align: center;
 	color: #2c2627;
 	vertical-align: middle;
 }
 .totalPrice{
 	display: inline-block;
 	font-family: semibold;
-  font-size: 24px;
-  line-height: 0.67;
-  letter-spacing: 0.05px;
+	font-size: 24px;
+	line-height: 0.67;
+	letter-spacing: 0.05px;
 	color: #2c2627;
 	vertical-align: middle;
 	margin: 0 16px;
@@ -46,15 +46,16 @@
 .productSelectionText{
 	display: inline-block;
 	font-size: 16px;
-  text-align: center;
+  	text-align: center;
 	color: #2c2627;
 	margin-right: 35px;
 }
-.showMoreProducts,.showLessProducts{
+.showMoreProducts,
+.showLessProducts{
 	position: relative;
 	display: inline-block;
 	font-family: semibold;
-  font-size: 16px;
+  	font-size: 16px;
 	color: #6c6c6c;
 	margin: 15px 0 15px 10%;
 	cursor: pointer;
