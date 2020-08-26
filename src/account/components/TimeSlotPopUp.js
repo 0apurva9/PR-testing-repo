@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import BottomSlideModal from "../../general/components/BottomSlideModal";
+import Button from "../../general/components/Button.js";
 import TabHolder from "../../account/components/TabHolder";
 import TabData from "../../account/components/TabData";
 import styles from "./TimeSlotPopUp.css";
@@ -20,7 +21,8 @@ const timeSlotArray = [
 ];
 export default class TimeSlotPopUp extends Component {
   state = {
-    isSelected: 0
+    isSelected: 0,
+    noTimeSlot: true
   };
 
   tabSelect(val) {
@@ -83,9 +85,28 @@ export default class TimeSlotPopUp extends Component {
           <div className={styles.dateBox}>
             {this.state.isSelected === 0 && (
               <div className={styles.dateSection}>
-                <div className={styles.timeSlotBox}>
-                  {this.timeSlotArray()}
-                  {/* <div className={styles.txt}>Morning</div>
+                {this.state.noTimeSlot ? (
+                  <div className={styles.noTimeSlotBox}>
+                    <div className={styles.noTimeSlot}>
+                      No Available Slots Found Today
+                    </div>
+                    <Button
+                      type="primary"
+                      backgroundColor="#da1c5c"
+                      height={40}
+                      label={"CALL ME BACK NOW"}
+                      borderRadius={6}
+                      width={205}
+                      textStyle={{ color: "#FFF", fontSize: 14 }}
+                      disabled={this.state.btnDisable}
+                      disabledLightGray={this.state.btnDisable}
+                      // onClick={() => this.nextField(currentStep)}
+                    />
+                  </div>
+                ) : (
+                  this.timeSlotArray()
+                )}
+                {/* <div className={styles.txt}>Morning</div>
                   <div className={styles.timeCard}>7 AM - 8 AM</div>
                   <div className={styles.timeCard}>8 AM - 9 AM</div>
                   <div className={styles.timeCard}>9 AM - 10 AM</div>
@@ -106,7 +127,6 @@ export default class TimeSlotPopUp extends Component {
                   <div className={styles.timeCard}>8 PM - 9 PM</div>
                   <div className={styles.timeCard}>9 PM - 10 PM</div>
                 </div> */}
-                </div>
               </div>
             )}
             {this.state.isSelected === 1 && (
