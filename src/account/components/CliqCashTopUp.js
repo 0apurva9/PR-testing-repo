@@ -150,7 +150,9 @@ export default class CliqCashTopUp extends Component {
         )
       ) {
         this.props.displayToast(
-          `Amount should be greater than ₹${this.state.minPrice}  and less than ₹${this.state.maxPrice}.`
+          `Amount should be greater than ₹${
+            this.state.minPrice
+          }  and less than ₹${this.state.maxPrice}.`
         );
         return false;
       } else {
@@ -189,6 +191,7 @@ export default class CliqCashTopUp extends Component {
                 <div className={styles.availableTop}>
                   Total Available Balance :
                   <div className={styles.balanceTopUp}>
+                    {" "}
                     <span className={styles.rupeeTopUp}>₹</span>
                     {this.props &&
                     this.props.cliqCashUserDetails &&
@@ -251,7 +254,9 @@ export default class CliqCashTopUp extends Component {
                 )}
                 <Input2
                   hollow={true}
-                  placeholder={`Or enter an amount between ${RUPEE_SYMBOL}${this.state.minPrice}-${RUPEE_SYMBOL}${this.state.maxPrice}`}
+                  placeholder={`Or enter an amount between ${RUPEE_SYMBOL}${
+                    this.state.minPrice
+                  }-${RUPEE_SYMBOL}${this.state.maxPrice}`}
                   value={this.state.selectedAmount}
                   onChange={amount => this.selectAmount(amount)}
                   textStyle={{ fontSize: 14, letterSpacing: "0.03px" }}
@@ -274,7 +279,9 @@ export default class CliqCashTopUp extends Component {
                   disabled={
                     this.state.email === "" ||
                     this.state.senderName === "" ||
-                    this.state.selectedAmount == ""
+                    this.state.selectedAmount == "" ||
+                    this.state.selectedAmount < this.state.minPrice ||
+                    this.state.selectedAmount > this.state.maxPrice
                       ? true
                       : false
                   }
