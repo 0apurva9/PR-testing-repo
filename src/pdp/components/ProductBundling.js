@@ -166,7 +166,8 @@ export default class ProductBundling extends React.Component {
                 isMainProduct={true}
               />
               {this.props.bundledProductSuggestionDetails &&
-                this.props.bundledProductSuggestionDetails.map(
+                this.props.bundledProductSuggestionDetails.slots &&
+                this.props.bundledProductSuggestionDetails.slots.map(
                   (data, index) => {
                     return (
                       <SingleBundledProduct
