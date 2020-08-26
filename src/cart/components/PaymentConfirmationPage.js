@@ -142,7 +142,7 @@ export default class PaymentConfirmationPage extends React.Component {
             </DesktopOnly>
             <div className={styles.pageSectionHolder}>
               <div className={styles.leftSection}>
-                {productType === "topUp" || "eGiftCard" ? (
+                {productType === "topUp" || productType === "eGiftCard" ? (
                   <div className={styles.gtThnkHed}>
                     <div className={styles.gtThnkHedInner}>
                       <div className={styles.gtThnkIcon}>
