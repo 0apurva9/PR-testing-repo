@@ -42,15 +42,18 @@ export default class SingleBundledProduct extends React.Component {
     ) {
       checked = true;
     }
-    let mainProductImageUrl =
-      this.props.productData &&
-      this.props.productData.galleryImagesList &&
-      this.props.productData.galleryImagesList[0] &&
-      this.props.productData.galleryImagesList[0].galleryImages &&
-      this.props.productData.galleryImagesList[0].galleryImages[1] &&
-      this.props.productData.galleryImagesList[0].galleryImages[1].value;
+    let styleForExtraProducts = styles.hideProducts;
+    if (this.props.productIndex <= 1) {
+      styleForExtraProducts = styles.showProducts;
+    }
+    if (this.props.productIndex > 1 && this.props.hideExtraProducts) {
+      styleForExtraProducts = styles.hideProducts;
+    }
+    if (this.props.productIndex > 1 && !this.props.hideExtraProducts) {
+      styleForExtraProducts = styles.showProducts;
+    }
     return (
-      <React.Fragment>
+      <div className={!this.props.isMainProduct ? styleForExtraProducts : null}>
         {!this.props.isMainProduct ? <div className={styles.divider} /> : null}
         <div className={styles.singleProductContainer}>
           {!this.props.isMainProduct ? (
@@ -73,24 +76,13 @@ export default class SingleBundledProduct extends React.Component {
             </div>
           ) : null}
 
-          <div
-            className={
-              !this.props.isMainProduct
-                ? styles.imageContainer
-                : styles.imageContainerMainProduct
-            }
-          >
-            <div
-              className={
-                !this.props.isMainProduct
-                  ? styles.imageHolder
-                  : styles.imageHolderMainProduct
-              }
-            >
+          <div className={styles.imageContainer}>
+            <div className={styles.imageHolder}>
               <Image
                 image={
                   this.props.isMainProduct
-                    ? mainProductImageUrl
+                    ? this.props.productData.galleryImagesList[0]
+                        .galleryImages[1].value
                     : this.props.productData.imageURL
                 }
                 alt={this.props.productData.productName}
@@ -101,43 +93,40 @@ export default class SingleBundledProduct extends React.Component {
             className={
               !this.props.isMainProduct
                 ? styles.productDetailsContainer
-                : styles.productDetailsContainerMainProduct
+                : styles.productDetailsContainerFluid
             }
           >
             <div className={styles.productName}>
               {this.props.productData.productName}
             </div>
-            <div className={styles.ratingContainer}>
-              {this.props.productData.averageRating !== 0
-                ? this.props.productData.averageRating && (
-                    <StarRating
-                      averageRating={this.props.productData.averageRating}
-                      isPlp={true}
-                      isFromProductBundling={true}
-                    >
-                      {this.props.productData.ratingCount !== 0 &&
-                        this.props.productData.ratingCount && (
-                          <div className={styles.totalNoOfReviews}>{`(${
-                            this.props.productData.ratingCount
-                          })`}</div>
-                        )}
-                    </StarRating>
-                  )
-                : null}
-            </div>
-            <div className={styles.buyingTipsContainer}>
-              {this.props.productData.isdigitalProduct &&
-                this.props.productData.buyingTips && (
-                  <React.Fragment>
-                    <div className={styles.iconHolder}>
-                      <Icon image={tipIcon} size={12} />
-                    </div>
-                    <div className={styles.buyingTips}>
-                      {this.props.productData.buyingTips}
-                    </div>
-                  </React.Fragment>
-                )}
-            </div>
+            {this.props.productData.averageRating !== 0
+              ? this.props.productData.averageRating && (
+                  <StarRating
+                    averageRating={this.props.productData.averageRating}
+                    isPlp={true}
+                    isFromProductBundling={true}
+                  >
+                    {this.props.productData.ratingCount !== 0 &&
+                      this.props.productData.ratingCount && (
+                        <div className={styles.totalNoOfReviews}>{`(${
+                          this.props.productData.ratingCount
+                        })`}</div>
+                      )}
+                  </StarRating>
+                )
+              : null}
+
+            {this.props.productData.isdigitalProduct &&
+              this.props.productData.buyingTips && (
+                <div className={styles.buyingTipsContainer}>
+                  <div className={styles.iconHolder}>
+                    <Icon image={tipIcon} size={12} />
+                  </div>
+                  <div className={styles.buyingTips}>
+                    {this.props.productData.buyingTips}
+                  </div>
+                </div>
+              )}
           </div>
 
           <div className={styles.productPriceContainer}>
@@ -161,7 +150,7 @@ export default class SingleBundledProduct extends React.Component {
             )}
           </div>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

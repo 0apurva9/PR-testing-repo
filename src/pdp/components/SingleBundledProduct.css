@@ -16,22 +16,13 @@
   width: 9%;
   vertical-align: middle;
 }
-.imageContainerMainProduct{
-  display: inline-block;
-  width: 68px;
-  vertical-align: middle;
-}
 .imageHolder{
   width: 96px;
   height: 128px;
 }
-.imageHolderMainProduct{
-  width: 68px;
-  height: 90px;
-}
-.productDetailsContainerMainProduct{
+.productDetailsContainerFluid{
   display: inline-block;
-  width: calc(66% - 68px);
+  width: 57%;
   vertical-align: middle;
   padding-left: 35px;
 }
@@ -48,16 +39,9 @@
   color: #2c2627;
   margin-bottom: 13px;
 }
-.productDetailsContainer > .productName{
-  height: 18px;
-}
-.productDetailsContainer > .ratingContainer{
-  height: 25px;
-}
-.productDetailsContainer > .buyingTipsContainer{
+.buyingTipsContainer{
   display: inline-block;
   margin-top: 17px;
-  height: 19px;
 }
 .iconHolder{
   display: inline-block;
