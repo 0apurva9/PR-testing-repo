@@ -12,16 +12,16 @@ import {
 import PropTypes from "prop-types";
 const allBundledProductData = [];
 const allBundledProductDataForAddToCart = [];
+const isBundledProductSelected = [];
 
 export default class ProductBundling extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isFirstProductSelected: false,
-      isSecondProductSelected: false,
       totalBundledPriceDetails: null,
       bundledProductDataForAddToCart: null,
-      hideExtraProducts: true
+      hideExtraProducts: true,
+      enableAddToCartButton: false
     };
     this.handleClick = this.handleClick.bind(this);
     this.toggleShowingProducts = this.toggleShowingProducts.bind(this);
@@ -116,17 +116,12 @@ export default class ProductBundling extends React.Component {
       this.props.getTotalBundledPrice(bundledProductData);
     }
 
-    if (productIndex === 0 && checkboxChecked === false) {
-      this.setState({ isFirstProductSelected: true });
+    isBundledProductSelected[productIndex] = checkboxChecked;
+    if (isBundledProductSelected.includes(false)) {
+      this.setState({ enableAddToCartButton: true });
     }
-    if (productIndex === 0 && checkboxChecked === true) {
-      this.setState({ isFirstProductSelected: false });
-    }
-    if (productIndex === 1 && checkboxChecked === false) {
-      this.setState({ isSecondProductSelected: true });
-    }
-    if (productIndex === 1 && checkboxChecked === true) {
-      this.setState({ isSecondProductSelected: false });
+    if (!isBundledProductSelected.includes(false)) {
+      this.setState({ enableAddToCartButton: false });
     }
   }
 
@@ -146,8 +141,8 @@ export default class ProductBundling extends React.Component {
       this.state.totalBundledPriceDetails.status;
     let productCount =
       this.props.bundledProductSuggestionDetails &&
-      this.props.bundledProductSuggestionDetails.suggestionList &&
-      this.props.bundledProductSuggestionDetails.suggestionList.length;
+      this.props.bundledProductSuggestionDetails.slots &&
+      this.props.bundledProductSuggestionDetails.slots.length;
     let remainingProducts = productCount - 2;
     return (
       <React.Fragment>
@@ -215,8 +210,7 @@ export default class ProductBundling extends React.Component {
               )}
 
               <div className={styles.totalDetailsContainer}>
-                {(this.state.isFirstProductSelected ||
-                  this.state.isSecondProductSelected) &&
+                {this.state.enableAddToCartButton &&
                 bundledPriceAPIStatus === SUCCESS ? (
                   <React.Fragment>
                     <div className={styles.totalDetailsText}>
