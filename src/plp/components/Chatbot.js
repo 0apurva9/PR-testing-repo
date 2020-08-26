@@ -501,9 +501,8 @@ export default class Chatbot extends React.Component {
             return categoryIds.includes(value.categoryCode);
           });
         if (eligiblePDPData && typeof eligiblePDPData !== undefined) {
-          let categoryAvailable = categoryIds.includes(
-            eligiblePDPData.categoryCode
-          );
+          let categoryAvailable =
+            categoryIds && categoryIds.includes(eligiblePDPData.categoryCode);
 
           if (
             eligiblePDPData.showWidget &&
