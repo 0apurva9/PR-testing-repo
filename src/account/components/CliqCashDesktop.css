@@ -161,7 +161,7 @@
     word-break: break-word;
   }
   .floatingNumber {
-    font-size: 16px;
+    font-size: 15px;
     color: #212121;
     font-family: light;
   }
@@ -928,12 +928,12 @@
 }
 .balanceTopUp{
   display: inline;
-    font-size: 16px;
+    font-size: 15px;
     font-family: semibold;
     word-break: break-word;
     display: inline;
 }
 .rupeeTopUp{
   font-family: semibold;
-    font-size: 16px;
+    font-size: 15px;
 }
