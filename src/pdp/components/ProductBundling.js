@@ -165,8 +165,8 @@ export default class ProductBundling extends React.Component {
                 productData={this.props.productData}
                 isMainProduct={true}
               />
-              {this.props.bundledProductSuggestionDetails.suggestionList &&
-                this.props.bundledProductSuggestionDetails.suggestionList.map(
+              {this.props.bundledProductSuggestionDetails &&
+                this.props.bundledProductSuggestionDetails.map(
                   (data, index) => {
                     return (
                       <SingleBundledProduct
@@ -280,9 +280,5 @@ ProductBundling.propTypes = {
       productListingId: PropTypes.string
     })
   ),
-  bundledProductSuggestionDetails: PropTypes.objectOf(
-    PropTypes.shape({
-      suggestionList: PropTypes.array
-    })
-  )
+  bundledProductSuggestionDetails: PropTypes.array
 };

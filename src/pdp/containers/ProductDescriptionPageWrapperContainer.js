@@ -160,7 +160,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       winningUssID,
       isComingFromPiqPage,
       isExchangeAvailable,
-      isComingFromClickEvent
+      isComingFromClickEvent,
+      isComingFromHaptikChatbot
     ) => {
       localStorage.removeItem(SELECTED_STORE);
       return dispatch(
@@ -170,7 +171,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           winningUssID,
           isComingFromPiqPage,
           isExchangeAvailable,
-          isComingFromClickEvent
+          isComingFromClickEvent,
+          isComingFromHaptikChatbot
         )
       );
     },
@@ -381,6 +383,11 @@ const mapStateToProps = state => {
     addToCartResponseDetails: state.productDescription.addToCartResponseDetails,
     addToCartResponseLoading: state.productDescription.addToCartResponseLoading,
     cartCountDetails: state.cart.cartCountDetails,
+    checkPincodeDetailsLoading:
+      state.productDescription.checkPincodeDetailsLoading,
+    checkPincodeFromHaptikChatbot:
+      state.productDescription.checkPincodeFromHaptikChatbot,
+    cartCountDetailsLoading: state.cart.cartCountDetailsLoading,
     bundledProductSuggestionDetails:
       state.productDescription.getBundledProductSuggestionDetails,
     totalBundledPriceDetails:

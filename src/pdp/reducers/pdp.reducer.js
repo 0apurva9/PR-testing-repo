@@ -11,9 +11,13 @@ import {
 import { transferPincodeToPdpPincode } from "./utils";
 import { CLEAR_ERROR } from "../../general/error.actions.js";
 import * as Cookies from "../../lib/Cookie";
-
 import concat from "lodash.concat";
 import cloneDeep from "lodash.clonedeep";
+import {
+  getCustomerAccessToken,
+  getLoggedInUserDetails
+} from "../../lib/getCookieDetails.js";
+
 const productDescription = (
   state = {
     status: null,
@@ -82,6 +86,8 @@ const productDescription = (
     serviceableOtherSellersUssid: null,
     addToCartResponseLoading: false,
     addToCartResponseDetails: null,
+    checkPincodeDetailsLoading: false,
+    checkPincodeFromHaptikChatbot: false,
 
     getBundledProductSuggestionStatus: null,
     getBundledProductSuggestionLoading: false,
@@ -101,6 +107,8 @@ const productDescription = (
   action
 ) => {
   let sizeGuide, currentBrandDetails;
+  const loggedInUserDetails = getLoggedInUserDetails();
+  const customerAccessToken = getCustomerAccessToken();
   switch (action.type) {
     case CLEAR_ERROR:
       return Object.assign({}, state, {
@@ -180,7 +188,8 @@ const productDescription = (
         status: action.status,
         loading: true,
         serviceablePincodeListResponse: null,
-        pincodeError: null
+        pincodeError: null,
+        checkPincodeDetailsLoading: true
       });
 
     case pdpActions.CHECK_PRODUCT_PIN_CODE_SUCCESS:
@@ -364,7 +373,10 @@ const productDescription = (
         loading: false,
         serviceablePincodeListResponse: pincodeListResponse,
         pincodeError: action.productPinCode.pincodeError,
-        serviceableOtherSellersUssid: serviceableOtherSellersUssid
+        serviceableOtherSellersUssid: serviceableOtherSellersUssid,
+        checkPincodeDetailsLoading: false,
+        checkPincodeFromHaptikChatbot:
+          action.productPinCode.checkPincodeFromHaptikChatbot
       });
 
     case pdpActions.CHECK_PRODUCT_PIN_CODE_FAILURE:
@@ -373,7 +385,8 @@ const productDescription = (
         error: action.error,
         loading: false,
         serviceablePincodeListResponse: null,
-        pincodeError: null
+        pincodeError: null,
+        checkPincodeDetailsLoading: false
       });
 
     case pdpActions.ADD_PRODUCT_TO_CART_REQUEST:
@@ -1155,11 +1168,7 @@ const productDescription = (
       });
 
     case pdpActions.ADD_BUNDLED_PRODUCTS_TO_CART_SUCCESS:
-      const loggedInUserDetails = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
-      const customerAccessTokenCookie = Cookies.getCookie(
-        CUSTOMER_ACCESS_TOKEN
-      );
-      if (loggedInUserDetails && customerAccessTokenCookie) {
+      if (loggedInUserDetails && customerAccessToken) {
         Cookies.createCookie(
           CART_DETAILS_FOR_LOGGED_IN_USER,
           JSON.stringify(action.data)
