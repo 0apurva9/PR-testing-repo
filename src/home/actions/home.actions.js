@@ -75,6 +75,9 @@ export const MSD_HOME_COMPONENT_SUCCESS = "MSD_HOME_COMPONENT_SUCCESS";
 export const MSD_HOME_ABC_COMPONENT_REQUEST = "MSD_HOME_ABC_COMPONENT_REQUEST";
 export const MSD_HOME_ABC_COMPONENT_SUCCESS = "MSD_HOME_ABC_COMPONENT_SUCCESS";
 
+export const MSD_PRODUCT_ABC_DATA_REQUEST = "MSD_PRODUCT_ABC_DATA_REQUEST";
+export const MSD_PRODUCT_ABC_DATA_SUCCESS = "MSD_PRODUCT_ABC_DATA_SUCCESS";
+
 export const CLEAR_ITEMS_FOR_PARTICULAR_POSITION =
   "CLEAR_ITEMS_FOR_PARTICULAR_POSITION";
 const ADOBE_TARGET_DELAY = 2500;
@@ -247,29 +250,35 @@ export function getItems(positionInFeed, itemIds, feedType) {
   return async (dispatch, getState, { api }) => {
     dispatch(getItemsRequest(positionInFeed));
     try {
-      // let productCodes;
-      // each(itemIds, itemId => {
-      //   productCodes = `${itemId},${productCodes}`;
-      // });
-      let productCodes = itemIds && itemIds.toString();
-      const url = `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
-      const result = await api.getMiddlewareUrl(url);
-      const resultJson = await result.json();
-
-      if (resultJson.status === "FAILURE") {
-        throw new Error(`${resultJson.message}`);
-      }
+      //let productCodes = itemIds && itemIds.toString();
+      // const url = `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
+      // const result = await api.getMiddlewareUrl(url);
+      // const resultJson = await result.json();
+      let requests =
+        itemIds &&
+        itemIds.map(id =>
+          api.getMiddlewareUrl(
+            `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+          )
+        );
+      //requests for individual calls
+      const results = await Promise.allSettled(requests);
+      const successfulPromises = results.filter(
+        request => request.status === "fulfilled"
+      );
+      const productList = await Promise.all(successfulPromises)
+        .then(response => Promise.all(response.map(r => r.value.json())))
+        .then(respon => respon && respon.results && respon.results[0]);
+      // if (resultJson && resultJson.status === "FAILURE") {
+      //   throw new Error(`${resultJson.message}`);
+      // }
 
       if (feedType === SECONDARY_FEED_TYPE) {
         dispatch(
-          secondaryFeedGetItemsSuccess(
-            positionInFeed,
-            resultJson.results,
-            itemIds
-          )
+          secondaryFeedGetItemsSuccess(positionInFeed, productList, itemIds)
         );
       } else {
-        dispatch(getItemsSuccess(positionInFeed, resultJson.results, itemIds));
+        dispatch(getItemsSuccess(positionInFeed, productList, itemIds));
       }
     } catch (e) {
       if (feedType === SECONDARY_FEED_TYPE) {
@@ -818,6 +827,45 @@ export function msdDiscoverMoreHomeComponents(type) {
         data: discoverMoreresultJson && discoverMoreresultJson.data
       };
       dispatch(msdHomeComponentsSuccess(data.data));
+    } catch (e) {
+      throw new Error(`${e.message}`);
+    }
+  };
+}
+export function getMsdProductDataSuccess(productData) {
+  return {
+    type: MSD_PRODUCT_ABC_DATA_SUCCESS,
+    status: SUCCESS,
+    productData
+  };
+}
+export function getMsdProductDataRequest() {
+  return {
+    type: MSD_PRODUCT_ABC_DATA_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getMsdProductData(productIds) {
+  return async (dispatch, getState, { api }) => {
+    try {
+      let requests =
+        productIds &&
+        productIds.map(id =>
+          api.getMiddlewareUrl(
+            `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+          )
+        );
+      //requests for individual calls
+      const results = await Promise.allSettled(requests);
+      const successfulPromises = results.filter(
+        request => request.status === "fulfilled"
+      );
+      const productList = await Promise.all(successfulPromises)
+        .then(response => Promise.all(response.map(r => r.value.json())))
+        .then(respon => respon && respon.results && respon.results[0]);
+      if (productList) {
+        return dispatch(getMsdProductDataSuccess(productList));
+      }
     } catch (e) {
       throw new Error(`${e.message}`);
     }

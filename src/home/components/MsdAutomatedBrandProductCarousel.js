@@ -12,28 +12,58 @@ export default class PreAutomatedBrandProductCarousel extends React.Component {
     this.props.history.push(urlSuffix);
     this.props.setClickedElementId();
   }
-  doSome(value) {
-    let apiUrl = "";
-    if (env.REACT_APP_STAGE === "production") {
-      apiUrl = "https://www.tatacliq.com";
-    }
+  async doSome(value) {
+    //let apiUrl = "";
+    // if (env.REACT_APP_STAGE === "production") {
+    let apiUrl = "https://www.tatacliq.com";
+    //}
     // let productCodes;
     // each(value.itemIds, itemId => {
     //   productCodes = `${itemId},${productCodes}`;
     // });
-    let productCodes = value.itemIds && value.itemIds.toString();
-    const url = `${apiUrl}/marketplacewebservices/v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
-    return fetch(url)
-      .then(response => response.json())
-      .then(function(response) {
-        return response;
+    // let productCodes = value.itemIds && value.itemIds.toString();
+    // const url = `${apiUrl}/marketplacewebservices/v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
+    // return fetch(url)
+    //   .then(response => response.json())
+    //   .then(function(response) {
+    //     return response;
+    //   });
+    let requests =
+      value &&
+      value.itemIds.map(id =>
+        fetch(
+          `${apiUrl}v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+        )
+      );
+    //requests for individual calls
+    // const results = await Promise.allSettled(requests);
+    // const successfulPromises = results.filter(
+    //   request => request.status === "fulfilled"
+    // );
+    let productList;
+    await Promise.all(requests)
+      .then(response =>
+        Promise.all(
+          response.map(r => {
+            debugger;
+            return r.value.json();
+          })
+        )
+      )
+      .then(respon => {
+        if (respon && respon.results && respon.results[0]) {
+          productList.push(respon.results[0]);
+        }
       });
+    return productList;
   }
 
   render() {
+    console.log("=============>props", this.props.homeAbcMsdData);
     if (this.props.homeAbcMsdData && this.props.homeAbcMsdData.length > 0) {
-      return this.props.homeAbcMsdData.map((value, index) => {
-        let res = this.doSome(value);
+      return this.props.homeAbcMsdData.map(async (value, index) => {
+        debugger;
+        let res = await this.doSome(value);
         const buttonText = this.props.feedComponentData.btnText;
         return (
           <FeedComponentABPC
@@ -61,7 +91,8 @@ export default class PreAutomatedBrandProductCarousel extends React.Component {
           />
         );
       });
+    } else {
+      return null;
     }
-    return false;
   }
 }
