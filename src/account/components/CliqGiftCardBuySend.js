@@ -40,7 +40,7 @@ export default class CliqGiftCardBuySend extends Component {
       giftCardDetails.amount = this.state.selectedAmount;
       localStorage.setItem(EGV_GIFT_CART_ID, JSON.stringify(giftCardDetails));
       localStorage.setItem("GiftCardAmount", this.state.selectedAmount);
-
+      localStorage.setItem("productType", "eGiftCard");
       this.props.history.push({
         pathname: CHECKOUT_ROUTER,
         state: {
@@ -73,6 +73,8 @@ export default class CliqGiftCardBuySend extends Component {
           giftCardDetails.receiverEmailID = this.state.email;
           giftCardDetails.receiverName = this.state.senderName;
           giftCardDetails.mobileNumber = MOBILE_NUMBER;
+          giftCardDetails.productType = "eGiftCard";
+
           if (!this.state.selectedAmount) {
             this.props.displayToast("Please select the amount");
             return false;
@@ -114,6 +116,7 @@ export default class CliqGiftCardBuySend extends Component {
           giftCardDetails.receiverEmailID = this.state.email;
           giftCardDetails.receiverName = this.state.receiverName;
           giftCardDetails.mobileNumber = MOBILE_NUMBER;
+          giftCardDetails.productType = "eGiftCard";
           if (!this.state.selectedAmount) {
             this.props.displayToast("Please select the amount");
             return false;
