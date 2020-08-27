@@ -2281,10 +2281,11 @@ export function getTotalBundledPrice(data) {
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status && result.status !== 200) {
+      if (resultJsonStatus.status || result.status !== 200) {
         dispatch(getTotalBundledPriceFailure(resultJsonStatus.message));
+      } else {
+        dispatch(getTotalBundledPriceSuccess(resultJson));
       }
-      dispatch(getTotalBundledPriceSuccess(resultJson));
     } catch (e) {
       dispatch(getTotalBundledPriceFailure(e.message));
     }
