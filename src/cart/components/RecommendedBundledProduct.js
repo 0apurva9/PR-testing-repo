@@ -29,10 +29,10 @@ export default class RecommendedBundledProduct extends React.Component {
     }
   }
 
-  componentDidUpdate(prevPros, prevState) {
+  componentWillReceiveProps(nextProps) {
     if (
-      this.props.bundledProductSuggestionDetails !==
-      prevPros.bundledProductSuggestionDetails
+      nextProps.bundledProductSuggestionDetails !==
+      this.state.bundledProductSuggestionDetails
     ) {
       this.setState({
         bundledProductDetails: this.props.bundledProductSuggestionDetails
@@ -67,3 +67,21 @@ export default class RecommendedBundledProduct extends React.Component {
     );
   }
 }
+
+RecommendedBundledProduct.propTypes = {
+  getBundledProductSuggestion: PropTypes.func,
+  product: PropTypes.objectOf(
+    PropTypes.shape({
+      categoryHierarchy: PropTypes.array,
+      productcode: PropTypes.string,
+      USSID: PropTypes.string,
+      productBrandCode: PropTypes.string
+    })
+  ),
+  history: PropTypes.object,
+  bundledProductSuggestionDetails: PropTypes.object,
+  addBundledProductsToCartDetails: PropTypes.object,
+  addBundledProductsToCart: PropTypes.func,
+  getCartDetails: PropTypes.func,
+  displayToast: PropTypes.func
+};

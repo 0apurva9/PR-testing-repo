@@ -43,7 +43,6 @@ export default class DigitalBundledProductSuggestion extends React.Component {
         );
 
         this.props.displayToast(ADD_TO_BAG_TEXT);
-        // this.props.history.push(PRODUCT_CART_ROUTER);
         this.props.getCartDetails(user, accessToken, cartId, defaultPinCode);
       }
 
@@ -130,3 +129,46 @@ export default class DigitalBundledProductSuggestion extends React.Component {
     );
   }
 }
+
+DigitalBundledProductSuggestion.propTypes = {
+  mainProduct: PropTypes.object,
+  digitalProduct: PropTypes.objectOf(
+    PropTypes.shape({
+      imageURL: PropTypes.string,
+      productListingId: PropTypes.string,
+      productName: PropTypes.string,
+      mrpPrice: PropTypes.objectOf(
+        PropTypes.shape({
+          currencyIso: PropTypes.string,
+          doubleValue: PropTypes.number,
+          formattedValue: PropTypes.string,
+          formattedValueNoDecimal: PropTypes.string,
+          priceType: PropTypes.string,
+          value: PropTypes.number,
+          currencySymbol: PropTypes.string
+        })
+      ),
+      winningSellerPrice: PropTypes.objectOf(
+        PropTypes.shape({
+          currencyIso: PropTypes.string,
+          doubleValue: PropTypes.number,
+          formattedValue: PropTypes.string,
+          formattedValueNoDecimal: PropTypes.string,
+          priceType: PropTypes.string,
+          value: PropTypes.number,
+          currencySymbol: PropTypes.string
+        })
+      )
+    })
+  ),
+  history: PropTypes.object,
+  addBundledProductsToCartDetails: PropTypes.objectOf(
+    PropTypes.shape({
+      status: PropTypes.string,
+      error: PropTypes.string
+    })
+  ),
+  addBundledProductsToCart: PropTypes.func,
+  getCartDetails: PropTypes.func,
+  displayToast: PropTypes.func
+};

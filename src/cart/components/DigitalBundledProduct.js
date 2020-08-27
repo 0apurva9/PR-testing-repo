@@ -80,3 +80,24 @@ export default class DigitalBundledProduct extends React.Component {
     );
   }
 }
+
+DigitalBundledProduct.propTypes = {
+  onRemove: PropTypes.func,
+  history: PropTypes.object,
+  mainProductUssid: PropTypes.string,
+  digitalProduct: PropTypes.objectOf(
+    PropTypes.shape({
+      entryNumber: PropTypes.number,
+      imageURL: PropTypes.string,
+      productcode: PropTypes.string,
+      productName: PropTypes.string,
+      offerPrice: PropTypes.number,
+      pinCodeResponse: PropTypes.objectOf(
+        PropTypes.shape({
+          productOutOfStockMessage: PropTypes.string,
+          productNotServiceabilityMessage: PropTypes.string
+        })
+      )
+    })
+  )
+};
