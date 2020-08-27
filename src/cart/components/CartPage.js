@@ -57,7 +57,6 @@ import SaveAndSecure from "../../general/components/SaveAndSecure";
 import styles from "./CartPage.css";
 import CliqandPiqModal from "../../pdp//components/CliqandPiqModal.js";
 import ModalPanel from "../../general/components/ModalPanel.js";
-import * as getFormattedProducts from "../../lib/getFormattedProducts.js";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
@@ -283,16 +282,30 @@ class CartPage extends React.Component {
     );
   };
 
-  removeItemFromCart = cartListItemPosition => {
+  removeItemFromCart = (
+    entryNumber,
+    mainProductUssid,
+    isForDigitalBundledProduct
+  ) => {
     const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     if (userDetails) {
       if (this.props.removeItemFromCartLoggedIn) {
-        this.props.removeItemFromCartLoggedIn(cartListItemPosition, pinCode);
+        this.props.removeItemFromCartLoggedIn(
+          entryNumber,
+          pinCode,
+          mainProductUssid,
+          isForDigitalBundledProduct
+        );
       }
     } else {
       if (this.props.removeItemFromCartLoggedOut) {
-        this.props.removeItemFromCartLoggedOut(cartListItemPosition, pinCode);
+        this.props.removeItemFromCartLoggedOut(
+          entryNumber,
+          pinCode,
+          mainProductUssid,
+          isForDigitalBundledProduct
+        );
       }
     }
   };
@@ -714,29 +727,7 @@ class CartPage extends React.Component {
       return <Redirect exact to={HOME_ROUTER} />;
     }
     if (this.props.cart.cartDetails && this.props.cart.cartDetails.products) {
-      let cartDetails = "";
-      // check if products contain bundled products
-      let isBundledProductInCart = this.props.cart.cartDetails.products.filter(
-        product => {
-          return (
-            product.bundledAssociatedItems &&
-            product.bundledAssociatedItems.length > 0
-          );
-        }
-      );
-      // if bundled products then format products data - PB-81
-      if (isBundledProductInCart && isBundledProductInCart.length > 0) {
-        let formattedProducts = getFormattedProducts.getFormattedProductsForBundling(
-          this.props.cart.cartDetails.products
-        );
-        let cartData = this.props.cart.cartDetails;
-        cartData.products = formattedProducts;
-        cartDetails = cartData;
-      } else {
-        // else pass products as normal
-        cartDetails = this.props.cart.cartDetails;
-      }
-
+      const cartDetails = this.props.cart.cartDetails;
       let defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
 
       let deliveryCharge = "0.00";
@@ -1028,6 +1019,7 @@ class CartPage extends React.Component {
                             addBundledProductsToCartDetails={
                               this.props.addBundledProductsToCartDetails
                             }
+                            history={this.props.history}
                           />
                         </DesktopOnly>
                       </div>

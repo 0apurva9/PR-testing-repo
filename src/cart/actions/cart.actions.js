@@ -5196,7 +5196,12 @@ export function removeItemFromCartLoggedInFailure(error) {
 }
 
 // Action Creator for remove Item from Cart Logged In
-export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
+export function removeItemFromCartLoggedIn(
+  entryNumber,
+  pinCode,
+  mainProductUssid,
+  isForDigitalBundledProduct
+) {
   return async (dispatch, getState, { api }) => {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -5204,13 +5209,21 @@ export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
     const cartId = cartDetailsCookie && JSON.parse(cartDetailsCookie).code;
     dispatch(removeItemFromCartLoggedInRequest());
     try {
-      const result = await api.get(
-        `${USER_CART_PATH}/${
+      let url = `${USER_CART_PATH}/${
+        JSON.parse(userDetails).userName
+      }/carts/${cartId}/deleteEntries/${entryNumber}?access_token=${
+        JSON.parse(customerCookie).access_token
+      }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}&isMDE=true`;
+
+      if (isForDigitalBundledProduct) {
+        url = `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/carts/${cartId}/deleteEntries/${cartListItemPosition}?access_token=${
+        }/carts/${cartId}/deleteEntries/${entryNumber}?access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}&isMDE=true`
-      );
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}&isMDE=true&bundledBaseItemSKU=${mainProductUssid}`;
+      }
+
+      const result = await api.get(url);
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
@@ -5271,20 +5284,33 @@ export function removeItemFromCartLoggedOutFailure(error) {
 }
 
 // Action Creator for remove Item from Cart Logged Out
-export function removeItemFromCartLoggedOut(cartListItemPosition, pinCode) {
+export function removeItemFromCartLoggedOut(
+  entryNumber,
+  pinCode,
+  mainProductUssid,
+  isForDigitalBundledProduct
+) {
   return async (dispatch, getState, { api }) => {
     const cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
     const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     dispatch(removeItemFromCartLoggedOutRequest());
 
     try {
-      const result = await api.get(
-        `${USER_CART_PATH}/anonymous/carts/${
+      let url = `${USER_CART_PATH}/anonymous/carts/${
+        JSON.parse(cartDetailsAnonymous).guid
+      }/deleteEntries/${entryNumber}?access_token=${
+        JSON.parse(globalCookie).access_token
+      }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}&isMDE=true`;
+
+      if (isForDigitalBundledProduct) {
+        url = `${USER_CART_PATH}/anonymous/carts/${
           JSON.parse(cartDetailsAnonymous).guid
-        }/deleteEntries/${cartListItemPosition}?access_token=${
+        }/deleteEntries/${entryNumber}?access_token=${
           JSON.parse(globalCookie).access_token
-        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}&isMDE=true`
-      );
+        }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}&isMDE=true&bundledBaseItemSKU=${mainProductUssid}`;
+      }
+
+      const result = await api.get(url);
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 

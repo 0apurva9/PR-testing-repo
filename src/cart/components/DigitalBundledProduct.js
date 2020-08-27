@@ -6,6 +6,21 @@ import ProductImage from "../../general/components/ProductImage";
 import { RUPEE_SYMBOL, NOT_SERVICEABLE } from "../../lib/constants";
 
 export default class DigitalBundledProduct extends React.Component {
+  handleRemove(entryNumber, mainProductUssid) {
+    let isForDigitalBundledProduct = true;
+    this.props.onRemove(
+      entryNumber,
+      mainProductUssid,
+      isForDigitalBundledProduct
+    );
+  }
+
+  handleImageClick(productCode) {
+    if (productCode) {
+      this.props.history.push(`/p-${productCode.toLowerCase()}`);
+    }
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -15,13 +30,18 @@ export default class DigitalBundledProduct extends React.Component {
             alt="remove icon"
             className={styles.closeIcon}
             onClick={() =>
-              this.handleRemove(this.props.digitalProduct.entryNumber)
+              this.handleRemove(
+                this.props.digitalProduct.entryNumber,
+                this.props.mainProductUssid
+              )
             }
           />
           <div className={styles.digitalBundledProductImage}>
             <ProductImage
               image={this.props.digitalProduct.imageURL}
-              onClickImage={() => this.onClick()}
+              onClickImage={() =>
+                this.handleImageClick(this.props.digitalProduct.productcode)
+              }
             />
           </div>
           <div className={styles.digitalProductDetails}>

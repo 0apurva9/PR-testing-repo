@@ -16,16 +16,13 @@ export default class RecommendedBundledProduct extends React.Component {
     let categoryId =
       categoryHierarchyCheck &&
       categoryHierarchyCheck[categoryHierarchyCheck.length - 1].category_id;
-    let brandCode =
-      this.props.product.productBrand &&
-      this.props.product.productBrand.toUpperCase();
     let pincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
     if (this.props.product.bundlingSuggestionAvailable) {
       this.props.getBundledProductSuggestion(
         this.props.product.productcode,
         this.props.product.USSID,
         categoryId,
-        brandCode,
+        this.props.product.productBrandCode,
         "CART",
         pincode
       );
@@ -46,7 +43,8 @@ export default class RecommendedBundledProduct extends React.Component {
   render() {
     return (
       this.state.bundledProductDetails &&
-      this.state.bundledProductDetails.map((product, index) => {
+      this.state.bundledProductDetails.slots &&
+      this.state.bundledProductDetails.slots.map((product, index) => {
         return (
           <React.Fragment>
             {product.isdigitalProduct && (
@@ -59,6 +57,8 @@ export default class RecommendedBundledProduct extends React.Component {
                   this.props.addBundledProductsToCartDetails
                 }
                 getCartDetails={this.props.getCartDetails}
+                displayToast={this.props.displayToast}
+                history={this.props.history}
               />
             )}
           </React.Fragment>

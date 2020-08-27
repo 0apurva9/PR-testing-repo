@@ -142,11 +142,35 @@ const mapDispatchToProps = dispatch => {
       );
     },
 
-    removeItemFromCartLoggedIn: (cartListItemPosition, pinCode) => {
-      dispatch(removeItemFromCartLoggedIn(cartListItemPosition, pinCode));
+    removeItemFromCartLoggedIn: (
+      entryNumber,
+      pinCode,
+      mainProductUssid,
+      isForDigitalBundledProduct
+    ) => {
+      dispatch(
+        removeItemFromCartLoggedIn(
+          entryNumber,
+          pinCode,
+          mainProductUssid,
+          isForDigitalBundledProduct
+        )
+      );
     },
-    removeItemFromCartLoggedOut: (cartListItemPosition, pinCode) => {
-      dispatch(removeItemFromCartLoggedOut(cartListItemPosition, pinCode));
+    removeItemFromCartLoggedOut: (
+      entryNumber,
+      pinCode,
+      mainProductUssid,
+      isForDigitalBundledProduct
+    ) => {
+      dispatch(
+        removeItemFromCartLoggedOut(
+          entryNumber,
+          pinCode,
+          mainProductUssid,
+          isForDigitalBundledProduct
+        )
+      );
     },
     getWishListItems: isSetDataLayer => {
       dispatch(getWishListItems(isSetDataLayer));

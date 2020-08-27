@@ -18,24 +18,6 @@ import {
 } from "../../lib/getCookieDetails.js";
 
 export default class DigitalBundledProductSuggestion extends React.Component {
-  addBundledProductToCart(mainProduct, digitalProduct) {
-    let bundledProductDataForAddToCart = {};
-    bundledProductDataForAddToCart.baseItem = {
-      ussID: mainProduct.USSID,
-      productCode: mainProduct.productcode,
-      quantity: 1
-    };
-    bundledProductDataForAddToCart.associatedItems = [
-      {
-        ussID: digitalProduct.winningUssID,
-        productCode: digitalProduct.productListingId,
-        quantity: 1,
-        recommendationType: digitalProduct.recommendationType
-      }
-    ];
-    this.props.addBundledProductsToCart(bundledProductDataForAddToCart);
-  }
-
   componentDidUpdate(prevProps, prevState) {
     if (
       this.props.addBundledProductsToCartDetails !==
@@ -76,6 +58,30 @@ export default class DigitalBundledProductSuggestion extends React.Component {
     }
   }
 
+  handleImageClick(productCode) {
+    if (productCode) {
+      this.props.history.push(`/p-${productCode.toLowerCase()}`);
+    }
+  }
+
+  addBundledProductToCart(mainProduct, digitalProduct) {
+    let bundledProductDataForAddToCart = {};
+    bundledProductDataForAddToCart.baseItem = {
+      ussID: mainProduct.USSID,
+      productCode: mainProduct.productcode,
+      quantity: 1
+    };
+    bundledProductDataForAddToCart.associatedItems = [
+      {
+        ussID: digitalProduct.winningUssID,
+        productCode: digitalProduct.productListingId,
+        quantity: 1,
+        recommendationType: digitalProduct.recommendationType
+      }
+    ];
+    this.props.addBundledProductsToCart(bundledProductDataForAddToCart);
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -83,7 +89,11 @@ export default class DigitalBundledProductSuggestion extends React.Component {
           <div className={styles.digitalBundledProductImage}>
             <ProductImage
               image={this.props.digitalProduct.imageURL}
-              onClickImage={() => this.onClick()}
+              onClickImage={() =>
+                this.handleImageClick(
+                  this.props.digitalProduct.productListingId
+                )
+              }
             />
           </div>
           <div className={styles.digitalProductDetails}>

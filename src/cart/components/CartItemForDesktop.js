@@ -59,9 +59,13 @@ export default class CartItemForDesktop extends React.Component {
       this.props.onClickImage();
     }
   }
-  handleRemove(index) {
+  handleRemove(entryNumber, mainProductUssid, isForDigitalBundledProduct) {
     if (this.props.onRemove) {
-      this.props.onRemove(index);
+      this.props.onRemove(
+        entryNumber,
+        mainProductUssid,
+        isForDigitalBundledProduct
+      );
     }
   }
   getDeliveryName = type => {
@@ -632,15 +636,30 @@ export default class CartItemForDesktop extends React.Component {
             )}
           </React.Fragment>
         )}
-        {this.props.product.digitalProductData &&
-          this.props.product.digitalProductData.map((digitalProduct, index) => {
-            return (
-              <DigitalBundledProduct
-                key={index}
-                digitalProduct={digitalProduct}
-              />
-            );
-          })}
+        {this.props.product.bundledDigitalItems &&
+          this.props.product.bundledDigitalItems.map(
+            (digitalProduct, index) => {
+              return (
+                <DigitalBundledProduct
+                  key={index}
+                  digitalProduct={digitalProduct}
+                  mainProductUssid={this.props.product.USSID}
+                  onRemove={(
+                    entryNumber,
+                    mainProductUssid,
+                    isForDigitalBundledProduct
+                  ) =>
+                    this.handleRemove(
+                      entryNumber,
+                      mainProductUssid,
+                      isForDigitalBundledProduct
+                    )
+                  }
+                  history={this.props.history}
+                />
+              );
+            }
+          )}
 
         {this.props.product.bundlingSuggestionAvailable && (
           <RecommendedBundledProduct
@@ -654,6 +673,8 @@ export default class CartItemForDesktop extends React.Component {
               this.props.addBundledProductsToCartDetails
             }
             getCartDetails={this.props.getCartDetails}
+            displayToast={this.props.displayToast}
+            history={this.props.history}
           />
         )}
 
