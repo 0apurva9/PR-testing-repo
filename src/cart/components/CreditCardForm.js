@@ -85,7 +85,10 @@ export default class CreditCardForm extends React.Component {
   onChangeCardNumber(val) {
     this.setState({ cardNumber: val });
     this.onChange({ cardNumber: val });
-
+    let ignoreEmiEligibleBin = false;
+    if (this.props.isDebitCard == undefined) {
+      ignoreEmiEligibleBin = true;
+    }
     if (val.replace(/\s/g, "").length < 6) {
       this.setState({ isCalledBinValidation: false });
     }
@@ -98,17 +101,14 @@ export default class CreditCardForm extends React.Component {
           val.replace(/\s/g, "").slice(0, 5) !==
             this.state.cardNumber.replace(/\s/g, "").slice(0, 5) &&
           this.state.cardNumber !== val)) &&
-      this.props.isDebitCard == undefined
+      !ignoreEmiEligibleBin
     ) {
       this.setState({ isCalledBinValidation: true });
       this.props.binValidation(val.replace(/\s/g, "").substring(0, 6));
     }
     if (val.replace(/\s/g, "").length >= 6) {
       this.setState({ isCalledBinValidation: true });
-      if (
-        !this.state.isCalledBinValidation &&
-        this.props.isDebitCard == undefined
-      ) {
+      if (!this.state.isCalledBinValidation && !ignoreEmiEligibleBin) {
         this.props.binValidation(val.replace(/\s/g, "").substring(0, 6));
       }
     }
