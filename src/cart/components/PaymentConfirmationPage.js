@@ -128,6 +128,10 @@ export default class PaymentConfirmationPage extends React.Component {
     let productType = localStorage.getItem("productType");
     const numberFormater = totalValue && numberWithCommas(totalValue);
     const digitIntoNumberFormat = totalValue && digitIntoWord(totalValue);
+    let isEgvOrder =
+      this.props &&
+      this.props.orderDetailsPaymentPage &&
+      this.props.orderDetailsPaymentPage.isEgvOrder.toString();
     return (
       <React.Fragment>
         {!this.state.showloader && (
@@ -135,204 +139,217 @@ export default class PaymentConfirmationPage extends React.Component {
             <img className={styles.customloaderImg} src={loader} alt="loader" />
           </div>
         )}
-        <div className={styles.base}>
-          <div className={styles.pageCenter}>
-            <DesktopOnly>
-              <div className={styles.thanKText}>Thank you</div>
-            </DesktopOnly>
-            <div className={styles.pageSectionHolder}>
-              <div className={styles.leftSection}>
-                {this.props &&
-                this.props.orderDetailsPaymentPage &&
-                this.props.orderDetailsPaymentPage.isEgvOrder ? (
-                  <div className={styles.gtThnkHed}>
-                    <div className={styles.gtThnkHedInner}>
-                      <div className={styles.gtThnkIcon}>
-                        <div className={styles.imgSuccessDiv}>
-                          <img src={successImg} width="30px" />
+        {this.state.showloader && (
+          <div className={styles.base}>
+            <div className={styles.pageCenter}>
+              <DesktopOnly>
+                <div className={styles.thanKText}>Thank you</div>
+              </DesktopOnly>
+              <div className={styles.pageSectionHolder}>
+                <div className={styles.leftSection}>
+                  {isEgvOrder == "true" ? (
+                    <React.Fragment>
+                      <div className={styles.gtThnkHed}>
+                        <div className={styles.gtThnkHedInner}>
+                          <div className={styles.gtThnkIcon}>
+                            <div className={styles.imgSuccessDiv}>
+                              <img src={successImg} width="30px" />
+                            </div>
+                            {productType === "topUp" ? (
+                              <div className={styles.topUp}>
+                                <div className={styles.topAdded}>
+                                  Top-Up Added Successfully
+                                </div>
+                              </div>
+                            ) : (
+                              <h3>
+                                You've sent the CLiQ Gift Card successfuly
+                              </h3>
+                            )}
+                          </div>
+                          <div className={styles.gtThnkAmtn}>
+                            <span className={styles.rupeeSymabol}>
+                              {RUPEE_SYMBOL}{" "}
+                            </span>
+                            {numberFormater}
+                          </div>
+                          <div className={styles.gtThnkAmtnWrd}>
+                            <p>Rupees {digitIntoNumberFormat}</p>
+                          </div>
+                          <div className={styles.gtThnkHedImg}>
+                            <img src={thankYouImg} />
+                          </div>
+                          <div className={styles.gtThnkHdTxt}>
+                            Please check your email for order confirmation and
+                            order details
+                          </div>
+                          <DesktopOnly>
+                            {
+                              <div className={styles.buttonHolder}>
+                                <div
+                                  className={styles.button}
+                                  onClick={() => this.onContinueShopping()}
+                                >
+                                  Continue Shopping
+                                </div>
+                              </div>
+                            }
+                            {!this.props.isGiftCard && (
+                              <div
+                                className={styles.buttonHolder}
+                                style={{ marginLeft: 10 }}
+                              >
+                                <Button
+                                  type="hollow"
+                                  color="#212121"
+                                  label="View Orders"
+                                  height={37}
+                                  width={175}
+                                  onClick={() => this.trackOrder()}
+                                />
+                              </div>
+                            )}
+                          </DesktopOnly>
                         </div>
-                        {productType === "topUp" ? (
-                          <div className={styles.topUp}>
-                            <div className={styles.topAdded}>
-                              Top-Up Added Successfully
-                            </div>
-                          </div>
-                        ) : (
-                          <h3>You've sent the CLiQ Gift Card successfuly</h3>
-                        )}
                       </div>
-                      <div className={styles.gtThnkAmtn}>
-                        <span className={styles.rupeeSymabol}>
-                          {RUPEE_SYMBOL}{" "}
-                        </span>
-                        {numberFormater}
+                      <div className={styles.orderBannerHolder}>
+                        <CustomInstructionContainer />
                       </div>
-                      <div className={styles.gtThnkAmtnWrd}>
-                        <p>Rupees {digitIntoNumberFormat}</p>
+                    </React.Fragment>
+                  ) : null}
+                  {isEgvOrder == "false" ? (
+                    <React.Fragment>
+                      <div className={styles.orderBannerHolder}>
+                        <PaymentBanner
+                          history={this.props.history}
+                          headingText={this.props.orderStatusMessage}
+                          label={this.props.orderId}
+                          onClick={() => this.trackOrder()}
+                          isContinueShopping={true}
+                          isGiftCard={
+                            this.props.orderDetails &&
+                            this.props.orderDetails.isEgvOrder
+                          }
+                        />
                       </div>
-                      <div className={styles.gtThnkHedImg}>
-                        <img src={thankYouImg} />
+                      <div className={styles.orderBannerHolder}>
+                        <CustomInstructionContainer />
                       </div>
-                      <div className={styles.gtThnkHdTxt}>
-                        Please check your email for order confirmation and order
-                        details
-                      </div>
-                      <DesktopOnly>
-                        {
-                          <div className={styles.buttonHolder}>
-                            <div
-                              className={styles.button}
-                              onClick={() => this.onContinueShopping()}
-                            >
-                              Continue Shopping
-                            </div>
-                          </div>
+                    </React.Fragment>
+                  ) : null}
+
+                  <MobileOnly>
+                    <div className={styles.rateHolder}>
+                      <RateYourExperienceCard
+                        captureOrderExperience={rating =>
+                          this.captureOrderExperience(rating)
                         }
-                        {!this.props.isGiftCard && (
-                          <div
-                            className={styles.buttonHolder}
-                            style={{ marginLeft: 10 }}
-                          >
-                            <Button
-                              type="hollow"
-                              color="#212121"
-                              label="View Orders"
-                              height={37}
-                              width={175}
-                              onClick={() => this.trackOrder()}
-                            />
-                          </div>
-                        )}
-                      </DesktopOnly>
+                        continueShopping={() => this.continueShopping()}
+                      />
                     </div>
-                  </div>
-                ) : (
-                  <div className={styles.orderBannerHolder}>
-                    <PaymentBanner
-                      history={this.props.history}
-                      headingText={this.props.orderStatusMessage}
-                      label={this.props.orderId}
-                      onClick={() => this.trackOrder()}
-                      isContinueShopping={true}
-                      isGiftCard={
+                  </MobileOnly>
+                  {this.props.orderDetails &&
+                    this.props.orderDetails.products &&
+                    this.props.orderDetails.products.map(order => {
+                      return (
+                        <React.Fragment>
+                          <MobileOnly>
+                            <div className={styles.orderDetailsCardHolder}>
+                              <OrderDetailsCard
+                                productDetails={order}
+                                orderDetails={this.props.orderDetails}
+                                orderId={this.props.orderId}
+                                trackOrder={() => this.trackOrder()}
+                              />
+                            </div>
+                          </MobileOnly>
+                          <DesktopOnly>
+                            <OrderSucessCard
+                              imageURL={order.imageURL}
+                              price={order.pricevalue}
+                              productName={order.productName}
+                              quantity={order.quantity}
+                              selectedDeliveryMode={order.selectedDeliveryMode}
+                              edd={order.EDD}
+                            />
+                          </DesktopOnly>
+                        </React.Fragment>
+                      );
+                    })}
+                  <MobileOnly>
+                    <OrderConfirmationFooter
+                      isEgvOrder={
                         this.props.orderDetails &&
+                        this.props.orderDetails.isEgvOrder &&
                         this.props.orderDetails.isEgvOrder
                       }
-                    />
-                  </div>
-                )}
-                <div className={styles.orderBannerHolder}>
-                  <CustomInstructionContainer />
-                </div>
-                <MobileOnly>
-                  <div className={styles.rateHolder}>
-                    <RateYourExperienceCard
-                      captureOrderExperience={rating =>
-                        this.captureOrderExperience(rating)
-                      }
                       continueShopping={() => this.continueShopping()}
+                      trackOrder={() => this.trackOrder()}
                     />
+                    <div className={styles.dummySection} />
+                  </MobileOnly>
+                </div>
+                <DesktopOnly>
+                  <div className={styles.rightSection}>
+                    <div className={styles.rateHolder}>
+                      <RateYourExperienceCard
+                        captureOrderExperience={rating =>
+                          this.captureOrderExperience(rating)
+                        }
+                        continueShopping={() => this.continueShopping()}
+                      />
+                    </div>
+                    <div className={styles.linkHolder}>
+                      <div className={styles.linkHeader}>My CLiQ</div>
+                      <div
+                        className={styles.link}
+                        onClick={() => this.goToUrl(SAVE_LIST_PAGE)}
+                      >
+                        <div className={styles.icon}>
+                          <Icon size={25} image={wishlistIcon} />
+                        </div>
+                        Saved List
+                        <div className={styles.arrow} />
+                      </div>
+                      <div
+                        className={styles.link}
+                        onClick={() => this.goToUrl(MY_ACCOUNT_ADDRESS_PAGE)}
+                      >
+                        <div className={styles.icon}>
+                          <Icon size={25} image={addressIcon} />
+                        </div>
+                        Address Book
+                        <div className={styles.arrow} />
+                      </div>
+                      <div
+                        className={styles.link}
+                        onClick={() => this.goToUrl(MY_ACCOUNT_ORDERS_PAGE)}
+                      >
+                        <div className={styles.icon}>
+                          <Icon size={25} image={orderHistoryIcon} />
+                        </div>
+                        Order History
+                        <div className={styles.arrow} />
+                      </div>
+                      <div
+                        className={styles.link}
+                        onClick={() =>
+                          this.goToUrl(MY_ACCOUNT_SAVED_CARDS_PAGE)
+                        }
+                      >
+                        <div className={styles.icon}>
+                          <Icon size={25} image={savedPayments} />
+                        </div>
+                        Saved Payments
+                        <div className={styles.arrow} />
+                      </div>
+                    </div>
                   </div>
-                </MobileOnly>
-                {this.props.orderDetails &&
-                  this.props.orderDetails.products &&
-                  this.props.orderDetails.products.map(order => {
-                    return (
-                      <React.Fragment>
-                        <MobileOnly>
-                          <div className={styles.orderDetailsCardHolder}>
-                            <OrderDetailsCard
-                              productDetails={order}
-                              orderDetails={this.props.orderDetails}
-                              orderId={this.props.orderId}
-                              trackOrder={() => this.trackOrder()}
-                            />
-                          </div>
-                        </MobileOnly>
-                        <DesktopOnly>
-                          <OrderSucessCard
-                            imageURL={order.imageURL}
-                            price={order.pricevalue}
-                            productName={order.productName}
-                            quantity={order.quantity}
-                            selectedDeliveryMode={order.selectedDeliveryMode}
-                            edd={order.EDD}
-                          />
-                        </DesktopOnly>
-                      </React.Fragment>
-                    );
-                  })}
-                <MobileOnly>
-                  <OrderConfirmationFooter
-                    isEgvOrder={
-                      this.props.orderDetails &&
-                      this.props.orderDetails.isEgvOrder &&
-                      this.props.orderDetails.isEgvOrder
-                    }
-                    continueShopping={() => this.continueShopping()}
-                    trackOrder={() => this.trackOrder()}
-                  />
-                  <div className={styles.dummySection} />
-                </MobileOnly>
+                </DesktopOnly>
               </div>
-              <DesktopOnly>
-                <div className={styles.rightSection}>
-                  <div className={styles.rateHolder}>
-                    <RateYourExperienceCard
-                      captureOrderExperience={rating =>
-                        this.captureOrderExperience(rating)
-                      }
-                      continueShopping={() => this.continueShopping()}
-                    />
-                  </div>
-                  <div className={styles.linkHolder}>
-                    <div className={styles.linkHeader}>My CLiQ</div>
-                    <div
-                      className={styles.link}
-                      onClick={() => this.goToUrl(SAVE_LIST_PAGE)}
-                    >
-                      <div className={styles.icon}>
-                        <Icon size={25} image={wishlistIcon} />
-                      </div>
-                      Saved List
-                      <div className={styles.arrow} />
-                    </div>
-                    <div
-                      className={styles.link}
-                      onClick={() => this.goToUrl(MY_ACCOUNT_ADDRESS_PAGE)}
-                    >
-                      <div className={styles.icon}>
-                        <Icon size={25} image={addressIcon} />
-                      </div>
-                      Address Book
-                      <div className={styles.arrow} />
-                    </div>
-                    <div
-                      className={styles.link}
-                      onClick={() => this.goToUrl(MY_ACCOUNT_ORDERS_PAGE)}
-                    >
-                      <div className={styles.icon}>
-                        <Icon size={25} image={orderHistoryIcon} />
-                      </div>
-                      Order History
-                      <div className={styles.arrow} />
-                    </div>
-                    <div
-                      className={styles.link}
-                      onClick={() => this.goToUrl(MY_ACCOUNT_SAVED_CARDS_PAGE)}
-                    >
-                      <div className={styles.icon}>
-                        <Icon size={25} image={savedPayments} />
-                      </div>
-                      Saved Payments
-                      <div className={styles.arrow} />
-                    </div>
-                  </div>
-                </div>
-              </DesktopOnly>
             </div>
           </div>
-        </div>
+        )}
       </React.Fragment>
     );
   }
