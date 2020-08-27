@@ -41,6 +41,24 @@ class PDPRecommendedSections extends React.Component {
     super(props);
     this.selector = React.createRef();
   }
+  componentDidMount = () => {
+    if (this.props.visitedNewProduct) {
+      if (this.props.match.path === PRODUCT_DESCRIPTION_PRODUCT_CODE) {
+        this.props.setToOld();
+        this.props.getMsdRequest(this.props.match.params[0]);
+        this.props.pdpAboutBrand(this.props.match.params[0]);
+      } else if (
+        this.props.match.path === PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE
+      ) {
+        this.props.setToOld();
+        this.props.getMsdRequest(this.props.match.params[1]);
+        this.props.pdpAboutBrand(this.props.match.params[1]);
+      }
+      if (this.props.getRecentlyViewedProduct) {
+        this.props.getRecentlyViewedProduct();
+      }
+    }
+  };
   goToProductDescription = (url, items, widgetName, index) => {
     let similarWidgetData = {
       widgetName: widgetName,
@@ -298,22 +316,6 @@ class PDPRecommendedSections extends React.Component {
 
   handleIntersection = event => {
     if (event.isIntersecting) {
-      if (this.props.visitedNewProduct) {
-        if (this.props.match.path === PRODUCT_DESCRIPTION_PRODUCT_CODE) {
-          this.props.setToOld();
-          this.props.getMsdRequest(this.props.match.params[0]);
-          this.props.pdpAboutBrand(this.props.match.params[0]);
-        } else if (
-          this.props.match.path === PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE
-        ) {
-          this.props.setToOld();
-          this.props.getMsdRequest(this.props.match.params[1]);
-          this.props.pdpAboutBrand(this.props.match.params[1]);
-        }
-        if (this.props.getRecentlyViewedProduct) {
-          this.props.getRecentlyViewedProduct();
-        }
-      }
       let mainProduct =
         this.props.productData && this.props.productData.productDetails;
       let categoryHierarchy =
