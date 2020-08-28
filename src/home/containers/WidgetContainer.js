@@ -3,8 +3,7 @@ import {
   getComponentData,
   getItems,
   msdDiscoverMoreHomeComponents,
-  msdAbcComponents,
-  getMsdProductData
+  msdAbcComponents
 } from "../actions/home.actions";
 import { withRouter } from "react-router-dom";
 import Widget from "../components/Widget";
@@ -38,9 +37,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     msdAbcComponents: () => {
       dispatch(msdAbcComponents());
-    },
-    getMsdProductData: productList => {
-      return dispatch(getMsdProductData(productList));
     },
     getItems: (positionInFeed, itemIds) => {
       dispatch(getItems(positionInFeed, itemIds, ownProps.feedType));
