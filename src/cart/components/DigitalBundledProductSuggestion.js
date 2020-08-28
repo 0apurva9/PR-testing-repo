@@ -29,13 +29,13 @@ export default class DigitalBundledProductSuggestion extends React.Component {
       ) {
         let loggedInUserDetails = getLoggedInUserDetails();
         let cartDetails = getCartDetailsForAnonymousInUser();
-        let cartId = cartDetails.guid;
+        let cartId = cartDetails && cartDetails.guid;
         let user = "anonymous";
         let accessToken = getGlobalAccessToken();
         if (loggedInUserDetails) {
           user = loggedInUserDetails.userName;
           cartDetails = getCartDetailsForLoggedInUser();
-          cartId = cartDetails.code;
+          cartId = cartDetails && cartDetails.code;
           accessToken = getCustomerAccessToken();
         }
         let defaultPinCode = localStorage.getItem(
