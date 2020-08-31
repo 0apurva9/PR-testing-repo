@@ -6,7 +6,6 @@ import {
   SUCCESS,
   ADD_TO_BAG_TEXT,
   FAILURE_LOWERCASE,
-  PRODUCT_CART_ROUTER,
   DEFAULT_PIN_CODE_LOCAL_STORAGE
 } from "../../lib/constants";
 import {
