@@ -485,7 +485,7 @@ export function homeFeedBackUp() {
                 }
               ],
               title: "",
-              type: "quickLinksComponent"
+              type: "01QLC-P"
             }
           },
           {
@@ -546,7 +546,7 @@ export function homeFeedBackUp() {
                     "https://www.tatacliq.com/electronics-personal-care/c-msh1236?&icid2=hero:hbr:main:hmp:m1236:mulb:best:05:R4:clp:bx:010"
                 }
               ],
-              type: "Hero Banner Component"
+              type: "01HBC-P"
             }
           },
           {
@@ -573,7 +573,7 @@ export function homeFeedBackUp() {
                 }
               ],
               title: "The Westside Store",
-              type: "bankOfferComponent"
+              type: "01BOC-P"
             }
           },
           {
@@ -671,7 +671,7 @@ export function homeFeedBackUp() {
                 }
               ],
               title: "",
-              type: "luxeEditorialCarousel"
+              type: "01LEC-P"
             }
           },
           {
@@ -787,7 +787,7 @@ export function homeFeedBackUp() {
                 }
               ],
               title: "",
-              type: "luxeEditorialCarousel"
+              type: "01LEC-P"
             }
           },
           {
@@ -911,7 +911,7 @@ export function homeFeedBackUp() {
                 }
               ],
               title: "",
-              type: "multipleBannerComponent"
+              type: "01MBC-P"
             }
           },
           {
@@ -938,7 +938,7 @@ export function homeFeedBackUp() {
                 }
               ],
               title: "",
-              type: "bankOfferComponent"
+              type: "01BOC-P"
             }
           },
           {
@@ -1108,7 +1108,7 @@ export function homeFeedBackUp() {
                 }
               ],
               title: "",
-              type: "luxeShopbySubCategory"
+              type: "01LSSC-P"
             }
           },
           {
@@ -1150,7 +1150,7 @@ export function homeFeedBackUp() {
                 }
               ],
               title: "",
-              type: "Two by Two Banner Component"
+              type: "01TBT-P"
             }
           },
           {
