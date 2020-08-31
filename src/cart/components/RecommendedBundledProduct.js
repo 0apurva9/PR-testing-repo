@@ -35,7 +35,7 @@ export default class RecommendedBundledProduct extends React.Component {
       this.state.bundledProductSuggestionDetails
     ) {
       this.setState({
-        bundledProductDetails: this.props.bundledProductSuggestionDetails
+        bundledProductDetails: nextProps.bundledProductSuggestionDetails
       });
     }
   }
