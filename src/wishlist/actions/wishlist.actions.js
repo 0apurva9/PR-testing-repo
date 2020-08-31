@@ -48,6 +48,10 @@ export const REMOVE_PRODUCT_FROM_WISH_LIST_SUCCESS =
 export const REMOVE_PRODUCT_FROM_WISH_LIST_FAILURE =
   "REMOVE_PRODUCT_FROM_WISH_LIST_FAILURE";
 
+export const GET_WISHLIST_REQUEST = "GET_WISHLIST_REQUEST";
+export const GET_WISHLIST_SUCCESS = "GET_WISHLIST_SUCCESS";
+export const GET_WISHLIST_FAILURE = "GET_WISHLIST_FAILURE";
+
 export const PRODUCT_DETAILS_PATH = "v2/mpl/users";
 const MY_WISH_LIST = "MyWishList";
 
@@ -200,7 +204,7 @@ export function removeProductFromWishListFailure(error) {
   };
 }
 
-export function removeProductFromWishList(productDetails) {
+export function removeProductFromWishList(productDetails, onPLP = null) {
   return async (dispatch, getState, { api }) => {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -235,7 +239,9 @@ export function removeProductFromWishList(productDetails) {
         throw new Error(resultJsonStatus.message);
       }
       dispatch(hideSecondaryLoader());
-      dispatch(getWishListItems());
+      if (!onPLP) {
+        dispatch(getWishListItems());
+      }
       return dispatch(removeProductFromWishListSuccess(productDetails));
     } catch (e) {
       dispatch(hideSecondaryLoader());
@@ -291,6 +297,57 @@ export function createWishlist(productDetails) {
       return dispatch(createWishlistSuccess());
     } catch (e) {
       return dispatch(createWishlistFailure(e.message));
+    }
+  };
+}
+
+// wishlist
+export function getWishlistRequest() {
+  return {
+    type: GET_WISHLIST_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getWishlistSuccess(wishlist) {
+  return {
+    type: GET_WISHLIST_SUCCESS,
+    status: SUCCESS,
+    wishlist
+  };
+}
+
+export function getWishlistFailure(error) {
+  return {
+    type: GET_WISHLIST_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getWishlist(isSetDataLayer) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getWishlistRequest());
+    try {
+      const result = await api.postFormData(
+        `${PRODUCT_DETAILS_PATH}/${
+          JSON.parse(userDetails).userName
+        }/wishlist?platformNumber=${PLAT_FORM_NUMBER}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&wishlistName=${MY_WISH_LIST}`
+      );
+
+      const resultJson = await result.json();
+
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getWishlistSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getWishlistFailure(e.message));
     }
   };
 }

@@ -5,6 +5,7 @@ import { CLEAR_ERROR } from "../../general/error.actions.js";
 const wishlistItems = (
   state = {
     wishlistItems: [],
+    wishlistProductId: [],
     name: null,
     count: null,
     loading: false,
@@ -37,6 +38,7 @@ const wishlistItems = (
       });
     case wishlistActions.GET_WISH_LIST_ITEMS_REQUEST:
     case wishlistActions.REMOVE_PRODUCT_FROM_WISH_LIST_REQUEST:
+    case wishlistActions.GET_WISHLIST_REQUEST:
       return Object.assign({}, state, {
         status: action.status,
         loading: true
@@ -83,7 +85,7 @@ const wishlistItems = (
         loading: false
       });
     case wishlistActions.ADD_PRODUCT_TO_WISH_LIST_SUCCESS:
-      currentWishlistItems = cloneDeep(state.wishlistItems);
+      currentWishlistItems = cloneDeep(state.wishlistProductId);
       currentWishlistItems.push(action.product);
       return Object.assign({}, state, {
         status: action.status,
@@ -93,6 +95,27 @@ const wishlistItems = (
     case wishlistActions.REMOVE_PRODUCT_FROM_WISH_LIST_SUCCESS:
       return Object.assign({}, state, {
         status: action.status,
+        loading: false
+      });
+    case wishlistActions.GET_WISHLIST_FAILURE:
+      return Object.assign({}, state, {
+        status: action.status,
+        loading: false,
+        error: action.error
+      });
+    case wishlistActions.GET_WISHLIST_SUCCESS:
+      let wislistedProducts = cloneDeep(state.wishlistProductId);
+      let wishlistcount;
+      if (action.wishlist) {
+        wislistedProducts = action.wishlist.productList
+          ? action.wishlist.productList
+          : [];
+        wishlistcount = action.wishlist.count;
+      }
+      return Object.assign({}, state, {
+        status: action.status,
+        wishlistProductId: wislistedProducts,
+        count: wishlistcount,
         loading: false
       });
     default:

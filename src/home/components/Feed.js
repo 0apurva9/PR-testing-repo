@@ -506,7 +506,8 @@ class Feed extends Component {
       }
     }
     if (userDetails && customerCookie && this.props.getWishListItems) {
-      this.props.getWishListItems();
+      // this.props.getWishListItems();
+      this.props.getWishlist();
     }
     if (this.props.clickedElementId) {
       delay(() => {
