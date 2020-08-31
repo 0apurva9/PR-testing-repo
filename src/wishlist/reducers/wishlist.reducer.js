@@ -85,7 +85,7 @@ const wishlistItems = (
         loading: false
       });
     case wishlistActions.ADD_PRODUCT_TO_WISH_LIST_SUCCESS:
-      currentWishlistItems = cloneDeep(state.wishlistProductId);
+      currentWishlistItems = cloneDeep(state.wishlistItems);
       currentWishlistItems.push(action.product);
       return Object.assign({}, state, {
         status: action.status,
