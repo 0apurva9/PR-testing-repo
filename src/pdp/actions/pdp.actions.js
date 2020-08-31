@@ -2362,10 +2362,12 @@ export function addBundledProductsToCart(data) {
           let isProductInCart = [];
           // check if selected bundled product ussid present in bundled product ussid of cart
           selectedBundledProductUssIds.map(ussid => {
-            let index = bundledProductsUssid.find(productUssid => {
-              return productUssid.ussID === ussid;
-            });
-            if (index) {
+            let cartProductUssid =
+              bundledProductsUssid &&
+              bundledProductsUssid.find(productUssid => {
+                return productUssid.ussID === ussid;
+              });
+            if (cartProductUssid) {
               // product in cart
               isProductInCart.push("Y");
             } else {
