@@ -25,6 +25,7 @@ import {
   setDataLayer,
   ADOBE_MY_ACCOUNT_SAVED_LIST
 } from "../../lib/adobeUtils";
+import { displayToast } from "../../general/toast.actions.js";
 
 export const GET_WISH_LIST_ITEMS_REQUEST = "GET_WISH_LIST_ITEMS_REQUEST";
 export const GET_WISH_LIST_ITEMS_SUCCESS = "GET_WISH_LIST_ITEMS_SUCCESS";
@@ -54,6 +55,11 @@ export const GET_WISHLIST_FAILURE = "GET_WISHLIST_FAILURE";
 
 export const PRODUCT_DETAILS_PATH = "v2/mpl/users";
 const MY_WISH_LIST = "MyWishList";
+
+const WISHLIST_USER_NOTFOUND_CODE = "W0001";
+const WISHLIST_NOTFOUND_CODE = "W0002";
+const WISHLIST_CATALOG_NOTFOUND_CODE = "W0003";
+const WISHLIST_UNEXPECTED_BACKEND_ERROR_CODE = "W0004";
 
 export function getWishListItemsRequest() {
   return {
@@ -343,7 +349,17 @@ export function getWishlist(isSetDataLayer) {
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
+        if (
+          resultJson.errorCode === WISHLIST_USER_NOTFOUND_CODE ||
+          resultJson.errorCode === WISHLIST_NOTFOUND_CODE ||
+          resultJson.errorCode === WISHLIST_CATALOG_NOTFOUND_CODE ||
+          resultJson.errorCode === WISHLIST_UNEXPECTED_BACKEND_ERROR_CODE
+        ) {
+          dispatch(displayToast(resultJson.error));
+          throw new Error(resultJson.error);
+        } else {
+          throw new Error(resultJsonStatus.message);
+        }
       }
       return dispatch(getWishlistSuccess(resultJson));
     } catch (e) {
