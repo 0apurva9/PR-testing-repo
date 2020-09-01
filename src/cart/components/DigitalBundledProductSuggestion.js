@@ -7,7 +7,8 @@ import {
   ADD_TO_BAG_TEXT,
   FAILURE_LOWERCASE,
   PRODUCT_CART_ROUTER,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  ANONYMOUS_USER
 } from "../../lib/constants";
 import {
   getGlobalAccessToken,
@@ -30,7 +31,7 @@ export default class DigitalBundledProductSuggestion extends React.Component {
         let loggedInUserDetails = getLoggedInUserDetails();
         let cartDetails = getCartDetailsForAnonymousInUser();
         let cartId = cartDetails.guid;
-        let user = "anonymous";
+        let user = ANONYMOUS_USER;
         let accessToken = getGlobalAccessToken();
         if (loggedInUserDetails) {
           user = loggedInUserDetails.userName;
