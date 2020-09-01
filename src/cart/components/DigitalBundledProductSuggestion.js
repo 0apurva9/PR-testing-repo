@@ -98,17 +98,17 @@ export default class DigitalBundledProductSuggestion extends React.Component {
             <div className={styles.digitalProductName}>
               {this.props.digitalProduct.productName}
             </div>
-            {this.props.digitalProduct.mrpPrice && (
-              <div className={styles.digitalProductOfferPrice}>
-                {this.props.digitalProduct.mrpPrice.formattedValueNoDecimal}
-              </div>
-            )}
             {this.props.digitalProduct.winningSellerPrice && (
-              <div className={styles.digitalProductPrice}>
+              <div className={styles.digitalProductOfferPrice}>
                 {
                   this.props.digitalProduct.winningSellerPrice
                     .formattedValueNoDecimal
                 }
+              </div>
+            )}
+            {this.props.digitalProduct.mrpPrice && (
+              <div className={styles.digitalProductPrice}>
+                {this.props.digitalProduct.mrpPrice.formattedValueNoDecimal}
               </div>
             )}
           </div>
