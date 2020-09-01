@@ -97,7 +97,8 @@ class CartPage extends React.Component {
       this.props.displayToast(msg);
     }
     document.title = "Shopping Cart - TATA CLiQ ";
-    this.props.getWishListItems();
+    // this.props.getWishListItems();
+    this.props.getWishlist();
     this.props.getUserAddress();
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);

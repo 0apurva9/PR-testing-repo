@@ -68,7 +68,8 @@ import {
 } from "../../account/actions/account.actions";
 import {
   createWishlist,
-  getWishListItems
+  getWishListItems,
+  getWishlist
 } from "../../wishlist/actions/wishlist.actions";
 import {
   singleAuthCallHasFailed,
@@ -158,7 +159,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             );
             // At the time of login Get Cart GUID for logged-in user
             guid = JSON.parse(cartDetailsLoggedInUser).guid;
-            const existingWishList = await dispatch(getWishListItems());
+            const existingWishList = await dispatch(getWishlist());
 
             if (!existingWishList || !existingWishList.wishlist) {
               dispatch(createWishlist());
@@ -195,7 +196,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
               }
             }
           }
-          const existingWishList = await dispatch(getWishListItems());
+          const existingWishList = await dispatch(getWishlist());
           if (!existingWishList || !existingWishList.wishlist) {
             dispatch(createWishlist());
           }
@@ -283,7 +284,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 }
               }
             }
-            const existingWishList = await dispatch(getWishListItems());
+            const existingWishList = await dispatch(getWishlist());
             if (!existingWishList || !existingWishList.wishlist) {
               dispatch(createWishlist());
             }
