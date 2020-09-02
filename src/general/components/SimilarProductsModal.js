@@ -24,8 +24,7 @@ export default class SimilarProductsModal extends React.Component {
       this.state.showLoader === false &&
       !this.props.msdItems[key] &&
       (this.props.status &&
-        (this.props.status.toLowerCase() === "success" ||
-          this.props.status.toLowerCase() === "failure" ||
+        (this.props.status.toLowerCase() === "failure" ||
           this.props.status.toLowerCase() === "error"))
     ) {
       return (
@@ -62,18 +61,28 @@ export default class SimilarProductsModal extends React.Component {
         >
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
-            const productImage = transformedDatum.image;
-            const discountedPrice = transformedDatum.discountPrice;
-            const mrpInteger = parseInt(
-              transformedDatum.price.replace(RUPEE_SYMBOL, ""),
-              10
-            );
-            const discount = Math.floor(
-              (mrpInteger -
-                parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
-                mrpInteger *
-                100
-            );
+            const productImage =
+              transformedDatum &&
+              Array.isArray(transformedDatum.galleryImagesList) &&
+              transformedDatum.galleryImagesList[0] &&
+              Array.isArray(
+                transformedDatum.galleryImagesList[0].galleryImages
+              ) &&
+              transformedDatum.galleryImagesList[0].galleryImages[0] &&
+              transformedDatum.galleryImagesList[0].galleryImages[0].value;
+            const mrpInteger =
+              transformedDatum &&
+              transformedDatum.mrpPrice &&
+              transformedDatum.mrpPrice.doubleValue;
+            let seoDoublePrice =
+              transformedDatum.winningSellerPrice &&
+              transformedDatum.winningSellerPrice.doubleValue
+                ? transformedDatum.winningSellerPrice.doubleValue
+                : mrpInteger;
+            let discount =
+              mrpInteger && seoDoublePrice
+                ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)
+                : "";
             return (
               <ProductModule
                 key={i}
@@ -115,6 +124,9 @@ export default class SimilarProductsModal extends React.Component {
   }
   componentDidMount() {
     this.loadMsd();
+  }
+  componentWillUnmount() {
+    this.props.clearAllMsdItems();
   }
   render() {
     return (
