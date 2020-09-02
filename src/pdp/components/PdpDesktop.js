@@ -494,14 +494,14 @@ export default class PdpApparel extends React.Component {
                 const defaultPinCode = localStorage.getItem(
                   DEFAULT_PIN_CODE_LOCAL_STORAGE
                 );
-                this.props.history.push({
-                  pathname: PRODUCT_CART_ROUTER,
-                  state: {
-                    ProductCode: this.props.productDetails.productListingId,
-                    pinCode: defaultPinCode,
-                    isClickOnAddToBag: !buyNowFlag
-                  }
-                });
+                // this.props.history.push({
+                //   pathname: PRODUCT_CART_ROUTER,
+                //   state: {
+                //     ProductCode: this.props.productDetails.productListingId,
+                //     pinCode: defaultPinCode,
+                //     isClickOnAddToBag: !buyNowFlag
+                //   }
+                // });
               }
             }
             this.setState({ sizeError: false });
