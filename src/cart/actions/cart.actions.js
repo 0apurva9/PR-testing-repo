@@ -6011,7 +6011,31 @@ export function getValidDeliveryModeDetails(
     }
   });
   let index = 0;
-  each(cartProductDetails, product => {
+
+  let bundledDigitalProducts =
+    cartProductDetails &&
+    cartProductDetails.filter(value => {
+      return value.bundledDigitalItems;
+    });
+  let allProducts = [];
+  // if main products contains digital product then create new array of products
+  if (bundledDigitalProducts && bundledDigitalProducts.length > 0) {
+    cartProductDetails.map((product, index) => {
+      allProducts.push(product);
+      if (
+        product.bundledDigitalItems &&
+        product.bundledDigitalItems.length > 0
+      ) {
+        product.bundledDigitalItems.map(digitalProduct => {
+          allProducts.push(digitalProduct);
+        });
+      }
+    });
+  } else {
+    allProducts = cartProductDetails;
+  }
+
+  each(allProducts, product => {
     if (product.isGiveAway === NO || isFromRetryUrl) {
       let selectedDeliveryModeDetails = "";
       //get the selected delivery Mode
