@@ -84,47 +84,52 @@ export default class DigitalBundledProductSuggestion extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className={styles.digitalBundledProductDetails}>
-          <div className={styles.digitalBundledProductImage}>
-            <ProductImage
-              image={this.props.digitalProduct.imageURL}
-              onClickImage={() =>
-                this.handleImageClick(
-                  this.props.digitalProduct.productListingId
+        {this.props.digitalProduct && (
+          <div className={styles.digitalBundledProductDetails}>
+            <div className={styles.digitalBundledProductImage}>
+              <ProductImage
+                image={this.props.digitalProduct.imageURL}
+                onClickImage={() =>
+                  this.handleImageClick(
+                    this.props.digitalProduct.productListingId
+                  )
+                }
+              />
+            </div>
+            <div className={styles.digitalProductDetails}>
+              <div className={styles.digitalProductName}>
+                {this.props.digitalProduct.productName}
+              </div>
+              {this.props.digitalProduct.winningSellerPrice &&
+                this.props.digitalProduct.winningSellerPrice
+                  .formattedValueNoDecimal && (
+                  <div className={styles.digitalProductOfferPrice}>
+                    {
+                      this.props.digitalProduct.winningSellerPrice
+                        .formattedValueNoDecimal
+                    }
+                  </div>
+                )}
+              {this.props.digitalProduct.mrpPrice &&
+                this.props.digitalProduct.mrpPrice.formattedValueNoDecimal && (
+                  <div className={styles.digitalProductPrice}>
+                    {this.props.digitalProduct.mrpPrice.formattedValueNoDecimal}
+                  </div>
+                )}
+            </div>
+            <div
+              className={styles.addButton}
+              onClick={() =>
+                this.addBundledProductToCart(
+                  this.props.mainProduct,
+                  this.props.digitalProduct
                 )
               }
-            />
-          </div>
-          <div className={styles.digitalProductDetails}>
-            <div className={styles.digitalProductName}>
-              {this.props.digitalProduct.productName}
+            >
+              &#x2B; Add
             </div>
-            {this.props.digitalProduct.winningSellerPrice && (
-              <div className={styles.digitalProductOfferPrice}>
-                {
-                  this.props.digitalProduct.winningSellerPrice
-                    .formattedValueNoDecimal
-                }
-              </div>
-            )}
-            {this.props.digitalProduct.mrpPrice && (
-              <div className={styles.digitalProductPrice}>
-                {this.props.digitalProduct.mrpPrice.formattedValueNoDecimal}
-              </div>
-            )}
           </div>
-          <div
-            className={styles.addButton}
-            onClick={() =>
-              this.addBundledProductToCart(
-                this.props.mainProduct,
-                this.props.digitalProduct
-              )
-            }
-          >
-            &#x2B; Add
-          </div>
-        </div>
+        )}
       </React.Fragment>
     );
   }

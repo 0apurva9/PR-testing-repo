@@ -2354,6 +2354,7 @@ export function addBundledProductsToCart(data) {
         );
         if (
           mainProductWithBundledItems &&
+          Array.isArray(mainProductWithBundledItems) &&
           mainProductWithBundledItems.length > 0 &&
           mainProductWithBundledItems[0]
         ) {
