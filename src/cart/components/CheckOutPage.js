@@ -1309,7 +1309,12 @@ class CheckOutPage extends React.Component {
               product.bundledDigitalItems.length > 0
             ) {
               product.bundledDigitalItems.map(digitalProduct => {
-                allProducts.push(digitalProduct);
+                let isProductAlreadyInAllProducts = allProducts.find(value => {
+                  return value.USSID === digitalProduct.USSID;
+                });
+                if (!isProductAlreadyInAllProducts) {
+                  allProducts.push(digitalProduct);
+                }
               });
             }
           });
@@ -2693,7 +2698,14 @@ if you have order id in local storage then you have to show order confirmation p
                 product.bundledDigitalItems.length > 0
               ) {
                 product.bundledDigitalItems.map(digitalProduct => {
-                  allProducts.push(digitalProduct);
+                  let isProductAlreadyInAllProducts = allProducts.find(
+                    value => {
+                      return value.USSID === digitalProduct.USSID;
+                    }
+                  );
+                  if (!isProductAlreadyInAllProducts) {
+                    allProducts.push(digitalProduct);
+                  }
                 });
               }
             });
