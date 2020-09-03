@@ -1,0 +1,40 @@
+/***Review and Rating****/
+.reviewRatingblock {
+}
+.ratingStar {
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+  background: transparent url(../../img/green-filled-star.svg) 0 0/100% auto
+    no-repeat;
+  display: inline-block;
+  vertical-align: -1px;
+}
+.ratingValue {
+  font-family: "Rubik", sans-serif;
+  font-size: 16px;
+  line-height: 16px;
+  color: rgb(74, 74, 74);
+}
+.ratingTotalCount {
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 16px;
+  color: rgb(151, 151, 151);
+}
+.ratingTotalReview {
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 16px;
+  color: rgb(151, 151, 151);
+}
+.noRatingText {
+  width: 100%;
+  height: auto;
+  color: #ff1744;
+  font-family: light;
+  font-size: 13px;
+  margin-top: 25px;
+  cursor: pointer;
+}
+/***Review and Rating End****/

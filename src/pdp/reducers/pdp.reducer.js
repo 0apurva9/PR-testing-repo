@@ -81,7 +81,11 @@ const productDescription = (
     productNotServiceableMessage: null,
     serviceableOtherSellersUssid: null,
     addToCartResponseLoading: false,
-    addToCartResponseDetails: null
+    addToCartResponseDetails: null,
+    masterTemplateStatus: null,
+    masterTemplateLoading: false,
+    masterTemplateDetails: null,
+    masterTemplateError: null
   },
   action
 ) => {
@@ -1091,6 +1095,26 @@ const productDescription = (
         status: action.status,
         recentlyViewedProduct: newMsdRecentlyViewedItems,
         loading: false
+      });
+
+    case pdpActions.GET_MASTER_TEMPLATE_REQUEST:
+      return Object.assign({}, state, {
+        masterTemplateStatus: action.status,
+        masterTemplateLoading: true
+      });
+
+    case pdpActions.GET_MASTER_TEMPLATE_SUCCESS:
+      return Object.assign({}, state, {
+        masterTemplateStatus: action.status,
+        masterTemplateDetails: action.masterTemplateResult,
+        masterTemplateLoading: false
+      });
+
+    case pdpActions.GET_MASTER_TEMPLATE_FAILURE:
+      return Object.assign({}, state, {
+        masterTemplateStatus: action.status,
+        masterTemplateError: action.error,
+        masterTemplateStatusLoading: false
       });
     default:
       return state;

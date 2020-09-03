@@ -44,3 +44,23 @@ export function groupByBrandAccordingToFirstLetter(arr, prop) {
     return groups;
   }, {});
 }
+
+export function renderComponent(componentItem, typeComponentMapping, props) {
+  if (!componentItem.componentId) return null;
+  else if (componentItem.componentId) {
+    const typeCompMapping = typeComponentMapping[componentItem.componentId];
+    if (typeCompMapping) {
+      return (
+        typeComponentMapping[componentItem.componentId] &&
+        typeComponentMapping[componentItem.componentId](props)
+      );
+    } else {
+      console.log(
+        "Missing component implementation",
+        componentItem.componentId
+      );
+    }
+  } else {
+    return null;
+  }
+}

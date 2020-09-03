@@ -140,6 +140,10 @@ export const OPEN_IN_APP_REQUEST = "OPEN_IN_APP_REQUEST";
 export const OPEN_IN_APP_SUCCESS = "OPEN_IN_APP_SUCCESS";
 export const OPEN_IN_APP_FAILURE = "OPEN_IN_APP_FAILURE";
 
+export const GET_MASTER_TEMPLATE_REQUEST = "GET_MASTER_TEMPLATE_REQUEST";
+export const GET_MASTER_TEMPLATE_SUCCESS = "GET_MASTER_TEMPLATE_SUCCESS";
+export const GET_MASTER_TEMPLATE_FAILURE = "GET_MASTER_TEMPLATE_FAILURE";
+
 export const RELEVANT_BUNDLE_PRODUCT_REQUEST =
   "RELEVANT_BUNDLE_PRODUCT_REQUEST";
 export const RELEVANT_BUNDLE_PRODUCT_SUCCESS =
@@ -291,6 +295,54 @@ export function getProductDescription(
     }
   };
 }
+
+export function getMasterTemplate() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getMasterTemplateRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=MSH2233100`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(
+        getMasterTemplateSuccess(
+          resultJson &&
+            resultJson.applicationProperties &&
+            resultJson.applicationProperties[0]
+        )
+      );
+    } catch (e) {
+      dispatch(getMasterTemplateFailure(e.message));
+    }
+  };
+}
+
+export function getMasterTemplateRequest() {
+  return {
+    type: GET_MASTER_TEMPLATE_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getMasterTemplateSuccess(masterTemplateResult) {
+  return {
+    type: GET_MASTER_TEMPLATE_SUCCESS,
+    status: SUCCESS,
+    masterTemplateResult
+  };
+}
+export function getMasterTemplateFailure(error) {
+  return {
+    type: GET_MASTER_TEMPLATE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
 export function setToOld() {
   return {
     type: SET_TO_OLD

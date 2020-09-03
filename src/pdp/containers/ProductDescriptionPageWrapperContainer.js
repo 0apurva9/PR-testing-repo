@@ -19,7 +19,8 @@ import {
   getRelevantBundleProduct,
   relevantProductServibilty,
   relevantBundleProductCode,
-  getExchangeDetails
+  getExchangeDetails,
+  getMasterTemplate
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -316,6 +317,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getChatbotDetails: async () => {
       await dispatch(getChatbotDetails());
+    },
+    getMasterTemplate: async () => {
+      return await dispatch(getMasterTemplate());
     }
   };
 };
@@ -352,7 +356,10 @@ const mapStateToProps = state => {
     chatbotDetailsData: state.productListings.getChatbotDetailsData,
     addToCartResponseDetails: state.productDescription.addToCartResponseDetails,
     addToCartResponseLoading: state.productDescription.addToCartResponseLoading,
-    cartCountDetails: state.cart.cartCountDetails
+    cartCountDetails: state.cart.cartCountDetails,
+    masterTemplateResponse: state.productDescription.masterTemplateDetails,
+    masterTemplateError: state.productDescription.masterTemplateError,
+    masterTemplateLoading: state.productDescription.masterTemplateLoading
   };
 };
 
