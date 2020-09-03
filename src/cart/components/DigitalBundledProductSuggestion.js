@@ -6,7 +6,6 @@ import {
   SUCCESS,
   ADD_TO_BAG_TEXT,
   FAILURE_LOWERCASE,
-  PRODUCT_CART_ROUTER,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   ANONYMOUS_USER
 } from "../../lib/constants";
@@ -30,13 +29,13 @@ export default class DigitalBundledProductSuggestion extends React.Component {
       ) {
         let loggedInUserDetails = getLoggedInUserDetails();
         let cartDetails = getCartDetailsForAnonymousInUser();
-        let cartId = cartDetails.guid;
+        let cartId = cartDetails && cartDetails.guid;
         let user = ANONYMOUS_USER;
         let accessToken = getGlobalAccessToken();
         if (loggedInUserDetails) {
           user = loggedInUserDetails.userName;
           cartDetails = getCartDetailsForLoggedInUser();
-          cartId = cartDetails.code;
+          cartId = cartDetails && cartDetails.code;
           accessToken = getCustomerAccessToken();
         }
         let defaultPinCode = localStorage.getItem(
@@ -85,47 +84,52 @@ export default class DigitalBundledProductSuggestion extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className={styles.digitalBundledProductDetails}>
-          <div className={styles.digitalBundledProductImage}>
-            <ProductImage
-              image={this.props.digitalProduct.imageURL}
-              onClickImage={() =>
-                this.handleImageClick(
-                  this.props.digitalProduct.productListingId
+        {this.props.digitalProduct && (
+          <div className={styles.digitalBundledProductDetails}>
+            <div className={styles.digitalBundledProductImage}>
+              <ProductImage
+                image={this.props.digitalProduct.imageURL}
+                onClickImage={() =>
+                  this.handleImageClick(
+                    this.props.digitalProduct.productListingId
+                  )
+                }
+              />
+            </div>
+            <div className={styles.digitalProductDetails}>
+              <div className={styles.digitalProductName}>
+                {this.props.digitalProduct.productName}
+              </div>
+              {this.props.digitalProduct.winningSellerPrice &&
+                this.props.digitalProduct.winningSellerPrice
+                  .formattedValueNoDecimal && (
+                  <div className={styles.digitalProductOfferPrice}>
+                    {
+                      this.props.digitalProduct.winningSellerPrice
+                        .formattedValueNoDecimal
+                    }
+                  </div>
+                )}
+              {this.props.digitalProduct.mrpPrice &&
+                this.props.digitalProduct.mrpPrice.formattedValueNoDecimal && (
+                  <div className={styles.digitalProductPrice}>
+                    {this.props.digitalProduct.mrpPrice.formattedValueNoDecimal}
+                  </div>
+                )}
+            </div>
+            <div
+              className={styles.addButton}
+              onClick={() =>
+                this.addBundledProductToCart(
+                  this.props.mainProduct,
+                  this.props.digitalProduct
                 )
               }
-            />
-          </div>
-          <div className={styles.digitalProductDetails}>
-            <div className={styles.digitalProductName}>
-              {this.props.digitalProduct.productName}
+            >
+              &#x2B; Add
             </div>
-            {this.props.digitalProduct.mrpPrice && (
-              <div className={styles.digitalProductOfferPrice}>
-                {this.props.digitalProduct.mrpPrice.formattedValueNoDecimal}
-              </div>
-            )}
-            {this.props.digitalProduct.winningSellerPrice && (
-              <div className={styles.digitalProductPrice}>
-                {
-                  this.props.digitalProduct.winningSellerPrice
-                    .formattedValueNoDecimal
-                }
-              </div>
-            )}
           </div>
-          <div
-            className={styles.addButton}
-            onClick={() =>
-              this.addBundledProductToCart(
-                this.props.mainProduct,
-                this.props.digitalProduct
-              )
-            }
-          >
-            &#x2B; Add
-          </div>
-        </div>
+        )}
       </React.Fragment>
     );
   }

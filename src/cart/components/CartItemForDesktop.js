@@ -661,22 +661,26 @@ export default class CartItemForDesktop extends React.Component {
             }
           )}
 
-        {this.props.product.bundlingSuggestionAvailable && (
-          <RecommendedBundledProduct
-            product={this.props.product}
-            getBundledProductSuggestion={this.props.getBundledProductSuggestion}
-            bundledProductSuggestionDetails={
-              this.props.bundledProductSuggestionDetails
-            }
-            addBundledProductsToCart={this.props.addBundledProductsToCart}
-            addBundledProductsToCartDetails={
-              this.props.addBundledProductsToCartDetails
-            }
-            getCartDetails={this.props.getCartDetails}
-            displayToast={this.props.displayToast}
-            history={this.props.history}
-          />
-        )}
+        {this.props.product.bundlingSuggestionAvailable &&
+          !this.props.isOutOfStock &&
+          this.props.productIsServiceable && (
+            <RecommendedBundledProduct
+              product={this.props.product}
+              getBundledProductSuggestion={
+                this.props.getBundledProductSuggestion
+              }
+              bundledProductSuggestionDetails={
+                this.props.bundledProductSuggestionDetails
+              }
+              addBundledProductsToCart={this.props.addBundledProductsToCart}
+              addBundledProductsToCartDetails={
+                this.props.addBundledProductsToCartDetails
+              }
+              getCartDetails={this.props.getCartDetails}
+              displayToast={this.props.displayToast}
+              history={this.props.history}
+            />
+          )}
 
         {this.props.isGiveAway === NO &&
           this.props.deliveryInformation && (

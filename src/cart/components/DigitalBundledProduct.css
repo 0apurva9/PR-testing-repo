@@ -46,3 +46,10 @@
   top: -7px;
   cursor: pointer;
 }
+.productNotServiceable{
+  color: #d88600;
+  font-size: 13px;
+  font-family:light;
+  margin-left: 181px;
+  margin-top: 8px;
+}

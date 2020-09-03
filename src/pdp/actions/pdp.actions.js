@@ -2331,10 +2331,11 @@ export function addBundledProductsToCart(data) {
   let disableNext = false;
 
   return async (dispatch, getState, { api }) => {
-    let bundledProductUssIds = [];
-    bundledProductUssIds.push(data.baseItem.ussID);
+    // main product ussid
+    let mainProductUssid = data.baseItem.ussID;
+    let selectedBundledProductUssIds = [];
     data.associatedItems.map(product => {
-      bundledProductUssIds.push(product.ussID);
+      selectedBundledProductUssIds.push(product.ussID);
     });
     // check if bundled product in cart
     // if all bundled products are in cart then show modal else add bundled product in cart which are not in cart
@@ -2345,35 +2346,51 @@ export function addBundledProductsToCart(data) {
         cartCountDetails.status.toLowerCase() === SUCCESS &&
         cartCountDetails.cartDetails.products
       ) {
-        let isProductInCart = [];
-        let cartProductUssIds = [];
-        cartCountDetails.cartDetails.products.map(product => {
-          cartProductUssIds.push(product.USSID);
-        });
-        bundledProductUssIds.map(ussid => {
-          let index = cartProductUssIds.indexOf(ussid);
-          if (index !== -1) {
-            // product in cart
-            isProductInCart.push("Y");
-          } else {
-            // product not in cart
-            isProductInCart.push("N");
+        // check if main bumdled product in cart and gets it relevant bundled products
+        let mainProductWithBundledItems = cartCountDetails.cartDetails.products.filter(
+          product => {
+            return product.USSID === mainProductUssid;
           }
-        });
-        if (!isProductInCart.includes("N")) {
-          dispatch(
-            showModal(PRODUCT_IN_BAG_MODAL, {
-              isWithProductBundling: true
-            })
-          );
-          disableNext = true;
-        } else {
-          // add only bundled products which are not in cart
-          isProductInCart.map((value, index) => {
-            if (index > 0 && value === "Y") {
-              data.associatedItems.splice(index - 1, 1);
+        );
+        if (
+          mainProductWithBundledItems &&
+          Array.isArray(mainProductWithBundledItems) &&
+          mainProductWithBundledItems.length > 0 &&
+          mainProductWithBundledItems[0]
+        ) {
+          let bundledProductsUssid =
+            mainProductWithBundledItems[0].bundledAssociatedItems;
+          let isProductInCart = [];
+          // check if selected bundled product ussid present in bundled product ussid of cart
+          selectedBundledProductUssIds.map(ussid => {
+            let cartProductUssid =
+              bundledProductsUssid &&
+              bundledProductsUssid.find(productUssid => {
+                return productUssid.ussID === ussid;
+              });
+            if (cartProductUssid) {
+              // product in cart
+              isProductInCart.push("Y");
+            } else {
+              // product not in cart
+              isProductInCart.push("N");
             }
           });
+          if (!isProductInCart.includes("N")) {
+            dispatch(
+              showModal(PRODUCT_IN_BAG_MODAL, {
+                isWithProductBundling: true
+              })
+            );
+            disableNext = true;
+          } else {
+            // keep only bundled products which are not in cart, remove others, add to cart
+            for (var i = isProductInCart.length - 1; i >= 0; i--) {
+              if (isProductInCart[i] === "Y") {
+                data.associatedItems.splice(i, 1);
+              }
+            }
+          }
         }
       }
     });

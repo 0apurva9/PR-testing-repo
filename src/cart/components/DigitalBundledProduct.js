@@ -64,7 +64,7 @@ export default class DigitalBundledProduct extends React.Component {
         (this.props.digitalProduct.pinCodeResponse.productOutOfStockMessage ||
           this.props.digitalProduct.pinCodeResponse
             .productNotServiceabilityMessage) ? (
-          <div className={styles.exchangeProductNotServiceable}>
+          <div className={styles.productNotServiceable}>
             {this.props.digitalProduct.pinCodeResponse.productOutOfStockMessage
               ? this.props.digitalProduct.pinCodeResponse
                   .productOutOfStockMessage
@@ -72,9 +72,7 @@ export default class DigitalBundledProduct extends React.Component {
                   .productNotServiceabilityMessage}
           </div>
         ) : !this.props.digitalProduct.pinCodeResponse ? (
-          <div className={styles.exchangeProductNotServiceable}>
-            {NOT_SERVICEABLE}
-          </div>
+          <div className={styles.productNotServiceable}>{NOT_SERVICEABLE}</div>
         ) : null}
       </React.Fragment>
     );
