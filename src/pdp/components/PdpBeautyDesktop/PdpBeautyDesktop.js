@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import {
   IMAGE_GALLERY_COMPONENT,
   PRODUCT_AND_BRAND_COMPONENT,
@@ -12,24 +13,11 @@ import {
   GUARANTEE_COMPONENT,
   FREEBIE_COMPONENT,
   RATING_REVIEW_DETAIL_COMPONENT,
-  DETAILS_COMPONENT
+  DETAILS_COMPONENT,
+  SECTION_OF_IMAGE_AND_CONTENT_COMPONENTS
 } from "./ComponentConstants";
 import ImageGalleryContentComponent from "./ImageGalleryContentComponents/ImageGalleryContentComponent";
 import styles from "./PdpBeautyDesktop.css";
-
-const SECTION_OF_IMAGE_AND_CONTENT_COMPONENTS = [
-  IMAGE_GALLERY_COMPONENT,
-  PRODUCT_AND_BRAND_COMPONENT,
-  RATING_REVIEW_COMPONENT,
-  PRICE_COMPONENT,
-  SIZE_COMPONENT,
-  OFFERS_COMPONENT,
-  SHIPPING_DETAIL_COMPONENT,
-  COLOR_COMPONENT,
-  GUARANTEE_COMPONENT,
-  FREEBIE_COMPONENT,
-  DETAILS_COMPONENT
-];
 
 const SECTION_PRODUCT_GUIDE = [];
 const SECTION_INGREDIENTS = [];
@@ -46,7 +34,6 @@ export default class PdpBeautyDesktop extends React.Component {
   };
 
   render() {
-    // console.log("pdp-beauty-desktop", this.props);
     const masterTemplateDetails =
       this.props &&
       this.props.masterTemplateResponse &&
@@ -60,11 +47,14 @@ export default class PdpBeautyDesktop extends React.Component {
         if (pos1 && pos2 && pos1 < pos2) {
           return -1;
         }
+
         if (pos1 && pos2 && pos1 > pos2) {
           return 1;
         }
+
         return 0;
       });
+
     if (sortedMasterTempLateDetails && sortedMasterTempLateDetails.length > 0) {
       let sectionOfImageAndContentComponent = [];
       sortedMasterTempLateDetails &&
@@ -75,9 +65,8 @@ export default class PdpBeautyDesktop extends React.Component {
             }
           });
         });
-      // console.log("masterTemplateDetailsSorted", sortedMasterTempLateDetails);
       return (
-        <div className={styles.mainContainer}>
+        <div className={styles["main-container"]}>
           <div className={styles.container}>
             <ImageGalleryContentComponent
               {...this.props}

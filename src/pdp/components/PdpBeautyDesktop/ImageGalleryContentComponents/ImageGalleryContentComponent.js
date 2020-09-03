@@ -1,6 +1,7 @@
 import React from "react";
 import Loadable from "react-loadable";
 import PropTypes from "prop-types";
+
 import {
   IMAGE_GALLERY_COMPONENT,
   PRODUCT_AND_BRAND_COMPONENT,
@@ -12,34 +13,31 @@ import {
   COLOR_COMPONENT,
   GUARANTEE_COMPONENT,
   FREEBIE_COMPONENT,
-  DETAILS_COMPONENT
+  DETAILS_COMPONENT,
+  SECTION_OF_PRODUCT_DETAILS
 } from "../ComponentConstants";
 import styles from "./ImageGalleryContentComponent.css";
+import SecondaryLoader from "../../../../general/components/SecondaryLoader";
 
-const SECTION_OF_PRODUCT_DETAILS = [
-  PRODUCT_AND_BRAND_COMPONENT,
-  RATING_REVIEW_COMPONENT,
-  PRICE_COMPONENT,
-  SIZE_COMPONENT,
-  OFFERS_COMPONENT,
-  SHIPPING_DETAIL_COMPONENT,
-  COLOR_COMPONENT,
-  GUARANTEE_COMPONENT,
-  FREEBIE_COMPONENT,
-  DETAILS_COMPONENT
-];
+const Loader = () => {
+  return (
+    <div>
+      <SecondaryLoader />
+    </div>
+  );
+};
 
 const GalleryImagesComponent = Loadable({
   loader: () => import("./GalleryImagesComponent/GalleryImagesComponent"),
   loading() {
-    return <div />;
+    return <Loader />;
   }
 });
 
 const ProductDetailsSection = Loadable({
   loader: () => import("./ProductDetailsSection/ProductDetailsSection"),
   loading() {
-    return <div />;
+    return <Loader />;
   }
 });
 
@@ -60,14 +58,14 @@ export default class ImageGalleryContentComponent extends React.Component {
         });
       });
     return (
-      <div className={styles.gallerycontentcontainer}>
-        <div className={styles.galleryContainer}>
+      <div>
+        <div className={styles["gallery-container"]}>
           <GalleryImagesComponent
             {...this.props}
             galleryCompDetails={galleryCompDetails}
           />
         </div>
-        <div className={styles.productDetailsContainer}>
+        <div className={styles["product-details-container"]}>
           <ProductDetailsSection
             {...this.props}
             productCompDetails={productCompDetails}

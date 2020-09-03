@@ -1,10 +1,11 @@
-.galleryContainer {
+.gallery-container {
   width: 58%;
   display: inline-block;
   z-index: 999;
   margin: 0 30px 0 0;
 }
-.productDetailsContainer {
+
+.product-details-container {
   width: 39%;
   display: inline-block;
   vertical-align: top;

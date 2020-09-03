@@ -4,17 +4,17 @@
   padding: 0;
   font-family: "Rubik", sans-serif;
 }
-.mainContainer {
+
+.main-container {
   width: 100%;
   text-align: center;
 }
+
 .container {
   width: 100%;
   display: inline-block;
   max-width: 1200px;
   text-align: left;
   position: relative;
-  /**margin: 50px auto;
-   background-color: grey;**/
 }
 /***Common End***/

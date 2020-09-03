@@ -1,5 +1,5 @@
 /***PDP Brand Name****/
-.brandName {
+.brand-name {
   font-family: "Rubik", sans-serif;
   font-weight: 600;
   color: rgb(33, 33, 33);
@@ -9,7 +9,8 @@
   margin: 0 0 4px;
   display: block;
 }
-.productDesc {
+
+.product-desc {
   font-family: "Rubik", sans-serif;
   font-weight: 300;
   color: rgb(74, 74, 74);

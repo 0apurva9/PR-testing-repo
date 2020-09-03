@@ -1,15 +1,17 @@
 /***Image Gallery***/
-.imageGalleryList {
+.image-gallery-list {
   list-style-type: none;
   display: block;
   margin-left: -10px;
 }
-.imageGalleryListBlock {
+
+.image-gallery-list-block {
   display: block;
   margin: 0 0 10px 10px;
   float: left;
 }
-.imageGalleryListBlockLink {
+
+.image-gallery-list-block-link {
   display: block;
 }
 /****Image Gallery End***/

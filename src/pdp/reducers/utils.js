@@ -46,8 +46,9 @@ export function groupByBrandAccordingToFirstLetter(arr, prop) {
 }
 
 export function renderComponent(componentItem, typeComponentMapping, props) {
-  if (!componentItem.componentId) return null;
-  else if (componentItem.componentId) {
+  if (!componentItem.componentId) {
+    return null;
+  } else if (componentItem.componentId) {
     const typeCompMapping = typeComponentMapping[componentItem.componentId];
     if (typeCompMapping) {
       return (

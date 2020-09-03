@@ -301,14 +301,16 @@ export function getMasterTemplate() {
     dispatch(getMasterTemplateRequest());
     try {
       const result = await api.customGetMiddlewareUrl(
-        `/otatacliq/getApplicationProperties.json?propertyNames=MSH2233100`
+        "/otatacliq/getApplicationProperties.json?propertyNames=MSH2233100"
       );
       const resultJson = await result.json();
+
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
+
       return dispatch(
         getMasterTemplateSuccess(
           resultJson &&
@@ -316,8 +318,8 @@ export function getMasterTemplate() {
             resultJson.applicationProperties[0]
         )
       );
-    } catch (e) {
-      dispatch(getMasterTemplateFailure(e.message));
+    } catch (error) {
+      dispatch(getMasterTemplateFailure(error.message));
     }
   };
 }
@@ -328,6 +330,7 @@ export function getMasterTemplateRequest() {
     status: REQUESTING
   };
 }
+
 export function getMasterTemplateSuccess(masterTemplateResult) {
   return {
     type: GET_MASTER_TEMPLATE_SUCCESS,
@@ -335,11 +338,12 @@ export function getMasterTemplateSuccess(masterTemplateResult) {
     masterTemplateResult
   };
 }
+
 export function getMasterTemplateFailure(error) {
   return {
+    error,
     type: GET_MASTER_TEMPLATE_FAILURE,
-    status: ERROR,
-    error
+    status: ERROR
   };
 }
 

@@ -1,9 +1,9 @@
 import React from "react";
+
 import styles from "./PriceComponent.css";
 
 export default class PriceComponent extends React.Component {
   render() {
-    // console.log("inside-price-component", this.props);
     const productDetails = this.props && this.props.productDetails;
     const maxOfferPrice =
       productDetails.winningSellerPrice &&
@@ -14,23 +14,23 @@ export default class PriceComponent extends React.Component {
     return (
       <React.Fragment>
         {maxRetailPrice !== maxOfferPrice ? (
-          <div className={styles.priceComponent}>
-            <div className={styles.discountedPriceBlock}>
-              <h3 className={styles.discountedPrice}>{maxOfferPrice}</h3>
+          <div className={styles["price-component"]}>
+            <div className={styles["discounted-price-block"]}>
+              <h3 className={styles["discounted-price"]}>{maxOfferPrice}</h3>
             </div>
-            <div className={styles.mrp}>
-              <span className={styles.slashPrice}>{maxRetailPrice}</span>
+            <div className={styles["mrp"]}>
+              <span className={styles["slash-price"]}>{maxRetailPrice}</span>
               {productDetails.discount && productDetails.discount > 0 && (
                 <span
-                  className={styles.discountPercentage}
+                  className={styles["discount-percentage"]}
                 >{`(${productDetails.discount}% OFF)`}</span>
               )}
             </div>
           </div>
         ) : (
           <React.Fragment>
-            <div className={styles.discountedPriceBlock}>
-              <h3 className={styles.discountedPrice}>{maxRetailPrice}</h3>
+            <div className={styles["discounted-price-block"]}>
+              <h3 className={styles["discounted-price"]}>{maxRetailPrice}</h3>
             </div>
           </React.Fragment>
         )}

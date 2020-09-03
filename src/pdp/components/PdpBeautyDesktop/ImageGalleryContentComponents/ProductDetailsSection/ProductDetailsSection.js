@@ -1,6 +1,7 @@
 import React from "react";
 import Loadable from "react-loadable";
 import PropTypes from "prop-types";
+
 import {
   PRODUCT_AND_BRAND_COMPONENT,
   RATING_REVIEW_COMPONENT,
@@ -15,45 +16,41 @@ import {
 } from "../../ComponentConstants";
 import styles from "./ProductDetailsSection.css";
 import { renderComponent } from "../../../../../pdp/reducers/utils";
+import SecondaryLoader from "../../../../../general/components/SecondaryLoader";
 
-const SECTION_OF_PRODUCT_DETAILS = [
-  PRODUCT_AND_BRAND_COMPONENT,
-  RATING_REVIEW_COMPONENT,
-  PRICE_COMPONENT,
-  SIZE_COMPONENT,
-  OFFERS_COMPONENT,
-  SHIPPING_DETAIL_COMPONENT,
-  COLOR_COMPONENT, //??
-  GUARANTEE_COMPONENT,
-  FREEBIE_COMPONENT,
-  DETAILS_COMPONENT
-];
+const Loader = () => {
+  return (
+    <div>
+      <SecondaryLoader />
+    </div>
+  );
+};
 
 const ProductAndBrandComponent = Loadable({
   loader: () => import("./ProductAndBrandComponent"),
   loading() {
-    return <div />;
+    return <Loader />;
   }
 });
 
 const PriceComponent = Loadable({
   loader: () => import("./PriceComponent"),
   loading() {
-    return <div />;
+    return <Loader />;
   }
 });
 
 const RatingsAndReviewsComponent = Loadable({
   loader: () => import("./RatingsAndReviewsComponent"),
   loading() {
-    return <div />;
+    return <Loader />;
   }
 });
 
 const DetailsComponent = Loadable({
   loader: () => import("./DetailsComponent"),
   loading() {
-    return <div />;
+    return <Loader />;
   }
 });
 

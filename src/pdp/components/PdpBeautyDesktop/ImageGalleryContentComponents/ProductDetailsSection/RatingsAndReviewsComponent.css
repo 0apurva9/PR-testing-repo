@@ -1,7 +1,5 @@
 /***Review and Rating****/
-.reviewRatingblock {
-}
-.ratingStar {
+.rating-star {
   width: 15px;
   height: 15px;
   margin-right: 5px;
@@ -10,25 +8,29 @@
   display: inline-block;
   vertical-align: -1px;
 }
-.ratingValue {
+
+.rating-value {
   font-family: "Rubik", sans-serif;
   font-size: 16px;
   line-height: 16px;
   color: rgb(74, 74, 74);
 }
-.ratingTotalCount {
+
+.rating-total-count {
   font-weight: 300;
   font-size: 14px;
   line-height: 16px;
   color: rgb(151, 151, 151);
 }
-.ratingTotalReview {
+
+.rating-total-review {
   font-weight: 300;
   font-size: 14px;
   line-height: 16px;
   color: rgb(151, 151, 151);
 }
-.noRatingText {
+
+.no-rating-text {
   width: 100%;
   height: auto;
   color: #ff1744;
