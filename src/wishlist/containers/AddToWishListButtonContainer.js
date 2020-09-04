@@ -4,7 +4,8 @@ import AddToWishListButton from "../components/AddToWishListButton";
 import {
   addProductToWishList,
   getWishListItems,
-  removeProductFromWishList
+  removeProductFromWishList,
+  getWishlist
 } from "../actions/wishlist.actions";
 import { SUCCESS } from "../../lib/constants";
 import { withRouter } from "react-router-dom";
@@ -35,7 +36,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           );
         }
         dispatch(displayToast(PRODUCT_ADDED_TO_WISHLIST));
-        dispatch(getWishListItems());
+        //dispatch(getWishListItems());
+        dispatch(getWishlist());
       }
     },
     displayToast: () => {
@@ -46,12 +48,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(setUrlToRedirectToAfterAuth(url));
     },
     removeProductFromWishList: productDetails => {
-      dispatch(removeProductFromWishList(productDetails)).then(response => {
-        if (response.status === SUCCESS) {
-          dispatch(displayToast(REMOVED_SAVELIST));
-          dispatch(getWishListItems());
+      dispatch(removeProductFromWishList(productDetails, true)).then(
+        response => {
+          if (response.status === SUCCESS) {
+            dispatch(displayToast(REMOVED_SAVELIST));
+            // dispatch(getWishListItems());
+            dispatch(getWishlist());
+          }
         }
-      });
+      );
     },
     showAuthPopUp: () => {
       dispatch(showModal(DESKTOP_AUTH));
@@ -64,7 +69,7 @@ const mapStateToProps = (state, ownProps) => {
     productListingId: ownProps.productListingId,
     winningUssID: ownProps.winningUssID,
     isWhite: ownProps.isWhite,
-    wishlistItems: state.wishlistItems.wishlistItems,
+    wishlistItems: state.wishlistItems.wishlistProductId,
     type: ownProps.type,
     index: ownProps.index,
     isSizeSelectedForAddToWishlist: ownProps.isSizeSelectedForAddToWishlist,
