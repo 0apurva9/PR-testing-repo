@@ -93,12 +93,6 @@ const feed = (
         if (componentName === DESKTOP_THEME_OFFER_CN) {
           componentName = THEME_OFFER_CN;
         }
-        if (componentName === HERO_BANNER_PERSONALISED_COMPONENT) {
-          componentName = SUB_HEADER_HERO_BANNER;
-        }
-        if (componentName === TWO_BY_TWO_PERSONALISED_COMPONENT) {
-          componentName = SUB_HEADER_TWO_BY_TWO;
-        }
         return {
           ...subData[componentName],
           loading: false,
@@ -247,12 +241,6 @@ const feed = (
           if (componentName === DESKTOP_THEME_OFFER_CN) {
             componentName = THEME_OFFER_CN;
           }
-          if (componentName === HERO_BANNER_PERSONALISED_COMPONENT) {
-            componentName = SUB_HEADER_HERO_BANNER;
-          }
-          if (componentName === TWO_BY_TWO_PERSONALISED_COMPONENT) {
-            componentName = SUB_HEADER_TWO_BY_TWO;
-          }
           return {
             ...subData[componentName],
             loading: false,
@@ -320,12 +308,6 @@ const feed = (
       }
       if (componentName === DESKTOP_THEME_OFFER_CN) {
         componentName = THEME_OFFER_CN;
-      }
-      if (componentName === HERO_BANNER_PERSONALISED_COMPONENT) {
-        componentName = SUB_HEADER_HERO_BANNER;
-      }
-      if (componentName === TWO_BY_TWO_PERSONALISED_COMPONENT) {
-        componentName = SUB_HEADER_TWO_BY_TWO;
       }
       homeFeedData = state.homeFeed;
       homeFeedData[action.positionInFeed].useBackUpData = false;

@@ -1233,7 +1233,7 @@ export function homeFeedBackUp() {
                   description: "",
                   hexCode: "mp000000006735167",
                   imageURL: "",
-                  title: "",
+                  title: "Similar Products",
                   webURL: "0"
                 }
               ],
@@ -1251,7 +1251,7 @@ export function homeFeedBackUp() {
                   description: "",
                   hexCode: "",
                   imageURL: "",
-                  title: "",
+                  title: "Recently Viewed",
                   webURL: "7"
                 }
               ],
@@ -1269,7 +1269,7 @@ export function homeFeedBackUp() {
                   description: "",
                   hexCode: "",
                   imageURL: "",
-                  title: "",
+                  title: "XYZZZ",
                   webURL: "3"
                 }
               ],
@@ -1287,7 +1287,7 @@ export function homeFeedBackUp() {
                   description: "",
                   hexCode: "mp000000005753607",
                   imageURL: "",
-                  title: "",
+                  title: "Frequently Bought Together",
                   webURL: "4"
                 }
               ],
@@ -1305,7 +1305,7 @@ export function homeFeedBackUp() {
                   description: "",
                   hexCode: "",
                   imageURL: "",
-                  title: "",
+                  title: "Top Picks",
                   webURL: "11"
                 }
               ],
@@ -1323,7 +1323,7 @@ export function homeFeedBackUp() {
                   description: "",
                   hexCode: "mp000000005753607",
                   imageURL: "",
-                  title: "",
+                  title: "About The Brand",
                   webURL: "114"
                 }
               ],
@@ -1382,7 +1382,6 @@ export function getTargetMboxDataSuccess(dataMboxHome) {
 export function getTargetMboxData(componentName, sequence, pageType) {
   return async (dispatch, getState, { api }) => {
     try {
-      debugger;
       let tntId, mboxSessionIdJson, sessionId;
       let sessionMbox = Cookie.getCookie("mbox");
       let componentSequence = componentName;
@@ -1862,13 +1861,13 @@ export function msdAbcComponents(fetchURL) {
       postData.append("channel", "pwa");
 
       result = await api.postMsd(`${MSD_ROOT_PATH}/widgets`, postData);
-      resultJson = await result.json();
+      resultJson = (await result) && result.json();
 
       if (result && result.status && result.status === FAILURE) {
         throw new Error(`${result.message}`);
       }
 
-      resultJson = resultJson.data[0];
+      resultJson = resultJson && resultJson.data && resultJson.data[0];
       dispatch(msdAbcComponentsSuccess(resultJson));
     } catch (e) {
       throw new Error(`${e.message}`);
@@ -1958,7 +1957,7 @@ export function getAutomatedWidgetsItems(itemIds, widgetKey, productCode) {
         productCodes &&
         productCodes.map(id =>
           api.getMiddlewareUrl(
-            `${PRODUCT_DESCRIPTION_PATH}/${id}?isPwa=true&isMDE=true`
+            `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
           )
         );
       //requests for individual calls
@@ -1967,10 +1966,17 @@ export function getAutomatedWidgetsItems(itemIds, widgetKey, productCode) {
       const successfulPromises = results.filter(
         request => request.status === "fulfilled"
       );
-      productList = await Promise.all(successfulPromises)
-        .then(response => Promise.all(response.map(r => r.value.json())))
-        .then(respon => respon);
-
+      let productListWithStatus = await Promise.all(successfulPromises).then(
+        response =>
+          Promise.all(response.map(r => r && r.value && r.value.json()))
+      );
+      productListWithStatus &&
+        productListWithStatus.map(product => {
+          if (product.status === "Success" && product.results) {
+            productList.push(product.results[0]);
+          }
+        });
+      console.log("respon====>check", productList);
       if (Array.isArray(productList) && productList.length > 0) {
         dispatch(
           automatedWidgetsForHomeSuccess(productList, widgetKey, productCode)

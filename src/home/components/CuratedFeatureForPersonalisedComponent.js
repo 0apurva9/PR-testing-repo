@@ -17,7 +17,6 @@ export default class CuratedFeatureForPersonalisedComponent extends React.Compon
       this.props.feedComponentData &&
       this.props.feedComponentData.type &&
       this.props.feedComponentData.type.includes("-P");
-    debugger;
     if (this.props.feedComponentData && check) {
       let getPageTypeAndSequence =
         this.props.feedComponentData.items &&
@@ -80,11 +79,11 @@ export default class CuratedFeatureForPersonalisedComponent extends React.Compon
                             {val.title}
                           </div>
                         )}
-                        {val.description && (
+                        {/* {val.description && (
                           <div className={styles.featuresText}>
                             {val.description}
                           </div>
-                        )}
+                        )} */}
                       </div>
                     </div>
                   );

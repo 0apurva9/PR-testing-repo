@@ -100,9 +100,14 @@ class AutomatedWidgetsForHome extends React.Component {
   }
 
   renderProductModuleSection(key) {
+    let WidgetTitle =
+      this.props.feedComponentData &&
+      this.props.feedComponentData.items[0] &&
+      this.props.feedComponentData.items[0].title;
     if (key) {
       return (
         <div className={styles.brandSection}>
+          {WidgetTitle && <div className={styles.heading}>{WidgetTitle}</div>}
           {key && this.renderCarousel(key)}
         </div>
       );

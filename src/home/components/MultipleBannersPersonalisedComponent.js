@@ -17,7 +17,6 @@ export default class MultipleBannersPersonalisedComponent extends React.Componen
       this.props.feedComponentData &&
       this.props.feedComponentData.type &&
       this.props.feedComponentData.type.includes("-P");
-    debugger;
     if (this.props.feedComponentData && check) {
       let getPageTypeAndSequence =
         this.props.feedComponentData.items &&
@@ -77,7 +76,7 @@ export default class MultipleBannersPersonalisedComponent extends React.Componen
                     key={i}
                     image={val.imageURL}
                     title={val.title}
-                    description={val.description}
+                    //description={val.description}
                     onClick={() => this.handleClick(val.webURL)}
                   />
                 );

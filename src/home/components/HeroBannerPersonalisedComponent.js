@@ -16,7 +16,6 @@ export default class HeroBannerPersonalisedComponent extends React.Component {
       this.props.feedComponentData &&
       this.props.feedComponentData.type &&
       this.props.feedComponentData.type.includes("-P");
-    debugger;
     if (this.props.feedComponentData && check) {
       let getPageTypeAndSequence =
         this.props.feedComponentData.items &&
