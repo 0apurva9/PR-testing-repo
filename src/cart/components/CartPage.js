@@ -997,6 +997,15 @@ class CartPage extends React.Component {
                             }
                             displayToast={this.props.displayToast}
                             getCartDetails={this.props.getCartDetails}
+                            isShippingObjAvailable={
+                              this.props.cart &&
+                              this.props.cart.cartDetails &&
+                              this.props.cart.cartDetails.cartAmount &&
+                              this.props.cart.cartDetails.cartAmount
+                                .shippingCharge
+                                ? true
+                                : false
+                            }
                           />
                         </DesktopOnly>
                       </div>
@@ -1176,6 +1185,12 @@ class CartPage extends React.Component {
                           }
                           totalExchangeAmount={cartDetails.totalExchangeAmount}
                           isQuoteExpired={isQuoteExpired}
+                          isShippingObjAvailable={
+                            cartDetails.cartAmount &&
+                            cartDetails.cartAmount.shippingCharge
+                              ? true
+                              : false
+                          }
                         />
                       </div>
                     )}
@@ -1184,9 +1199,7 @@ class CartPage extends React.Component {
                     this.props.wishListCount > 0 && (
                       <div className={styles.wishListCountSection}>
                         <div className={styles.iconWishList} />
-                        <span>{`You have ${
-                          this.props.wishListCount
-                        } items in your saved list`}</span>
+                        <span>{`You have ${this.props.wishListCount} items in your saved list`}</span>
                         <div className={styles.buttonHolder}>
                           <UnderLinedButton
                             size="14px"

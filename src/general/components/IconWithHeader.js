@@ -185,12 +185,14 @@ export default class IconWithHeader extends React.Component {
                 {this.props.header && (
                   <span
                     className={
-                      this.props.header.toLowerCase() !== "free"
-                        ? styles.deliveyCharge
-                        : [
-                            styles.deliveyCharge,
-                            styles.deliveryChargeFree
-                          ].join(" ")
+                      this.props.isShippingObjAvailable
+                        ? this.props.header.toLowerCase() !== "free"
+                          ? styles.deliveyCharge
+                          : [
+                              styles.deliveyCharge,
+                              styles.deliveryChargeFree
+                            ].join(" ")
+                        : styles.deliveyCharge
                     }
                   >
                     {this.props.header}
