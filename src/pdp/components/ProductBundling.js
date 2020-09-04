@@ -21,13 +21,23 @@ export default class ProductBundling extends React.Component {
       totalBundledPriceDetails: null,
       bundledProductDataForAddToCart: null,
       hideExtraProducts: true,
-      enableAddToCartButton: false
+      enableAddToCartButton: false,
+      cartProducts: null
     };
     this.handleClick = this.handleClick.bind(this);
     this.toggleShowingProducts = this.toggleShowingProducts.bind(this);
+    // call bagCount API to show check icon against bundled product which are in cart
+    this.props.getCartCountForLoggedInUser();
   }
 
   componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.cartCountDetails &&
+      nextProps.cartCountDetails !== this.state.cartCountDetails
+    ) {
+      this.setState({ cartProducts: nextProps.cartCountDetails.products });
+    }
+
     if (
       nextProps.totalBundledPriceDetails !== this.state.totalBundledPriceDetails
     ) {
@@ -136,6 +146,21 @@ export default class ProductBundling extends React.Component {
   }
 
   render() {
+    // get bundled products and its ussids
+    let productWithBundledProducts =
+      this.state.cartProducts &&
+      this.state.cartProducts.find(product => {
+        return product.USSID === this.props.productData.winningUssID;
+      });
+    let bundledProducts =
+      productWithBundledProducts &&
+      productWithBundledProducts.bundledAssociatedItems;
+    let bundledProductsUssIds =
+      bundledProducts &&
+      bundledProducts.map(bundledProduct => {
+        return bundledProduct.ussID;
+      });
+
     let bundledPriceAPIStatus =
       this.state.totalBundledPriceDetails &&
       this.state.totalBundledPriceDetails.status;
@@ -164,6 +189,14 @@ export default class ProductBundling extends React.Component {
                 this.props.bundledProductSuggestionDetails.slots &&
                 this.props.bundledProductSuggestionDetails.slots.map(
                   (data, index) => {
+                    // check for current product is in cart or not
+                    let ussidIndex =
+                      bundledProductsUssIds &&
+                      bundledProductsUssIds.indexOf(data.winningUssID);
+                    let isBundledProductInCart = false;
+                    if (ussidIndex !== -1) {
+                      isBundledProductInCart = true;
+                    }
                     return (
                       <SingleBundledProduct
                         key={index}
@@ -186,6 +219,7 @@ export default class ProductBundling extends React.Component {
                         productIndex={index}
                         bundledPriceAPIStatus={bundledPriceAPIStatus}
                         hideExtraProducts={this.state.hideExtraProducts}
+                        isBundledProductInCart={isBundledProductInCart}
                       />
                     );
                   }

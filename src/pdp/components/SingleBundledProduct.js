@@ -7,6 +7,7 @@ import tipIcon from "./img/tip.svg";
 import styles from "./SingleBundledProduct.css";
 import { SUCCESS } from "../../lib/constants";
 import PropTypes from "prop-types";
+import checkboxEnabled from "../../general/components/img/checkboxEnabledProductBundling.svg";
 
 export default class SingleBundledProduct extends React.Component {
   constructor(props) {
@@ -65,21 +66,25 @@ export default class SingleBundledProduct extends React.Component {
         <div className={styles.singleProductContainer}>
           {!this.props.isMainProduct ? (
             <div className={styles.checkboxContainer}>
-              <CheckBox
-                isCircle={false}
-                checked={checked}
-                size={"24px"}
-                isFromProductBundling={true}
-                onClick={() =>
-                  this.selectBundledProduct(
-                    this.props.productIndex,
-                    this.state.isCheckboxClicked,
-                    this.props.productData.productListingId,
-                    this.props.productData.winningUssID,
-                    this.props.productData.recommendationType
-                  )
-                }
-              />
+              {this.props.isBundledProductInCart ? (
+                <Icon image={checkboxEnabled} size={24} />
+              ) : (
+                <CheckBox
+                  isCircle={false}
+                  checked={checked}
+                  size={"24px"}
+                  isFromProductBundling={true}
+                  onClick={() =>
+                    this.selectBundledProduct(
+                      this.props.productIndex,
+                      this.state.isCheckboxClicked,
+                      this.props.productData.productListingId,
+                      this.props.productData.winningUssID,
+                      this.props.productData.recommendationType
+                    )
+                  }
+                />
+              )}
             </div>
           ) : null}
 

@@ -32,7 +32,8 @@ import {
 import { setHeaderText } from "../../general/header.actions";
 import {
   getUserAddress,
-  getMinicartProducts
+  getMinicartProducts,
+  getCartCountForLoggedInUser
 } from "../../cart/actions/cart.actions";
 import {
   showModal,
@@ -346,6 +347,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     addBundledProductsToCart: data => {
       dispatch(addBundledProductsToCart(data));
+    },
+    getCartCountForLoggedInUser: () => {
+      dispatch(getCartCountForLoggedInUser());
     }
   };
 };

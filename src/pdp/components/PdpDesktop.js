@@ -1929,6 +1929,10 @@ export default class PdpApparel extends React.Component {
                       this.props.addBundledProductsToCartDetails
                     }
                     history={this.props.history}
+                    getCartCountForLoggedInUser={
+                      this.props.getCartCountForLoggedInUser
+                    }
+                    cartCountDetails={this.props.cartCountDetails}
                   />
                 )}
 
