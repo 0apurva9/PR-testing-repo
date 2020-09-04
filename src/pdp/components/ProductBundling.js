@@ -194,7 +194,7 @@ export default class ProductBundling extends React.Component {
                       bundledProductsUssIds &&
                       bundledProductsUssIds.indexOf(data.winningUssID);
                     let isBundledProductInCart = false;
-                    if (ussidIndex !== -1) {
+                    if (ussidIndex && ussidIndex !== -1) {
                       isBundledProductInCart = true;
                     }
                     return (
