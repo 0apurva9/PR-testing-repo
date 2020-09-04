@@ -26,8 +26,11 @@ export default class ProductBundling extends React.Component {
     };
     this.handleClick = this.handleClick.bind(this);
     this.toggleShowingProducts = this.toggleShowingProducts.bind(this);
+  }
+
+  async componentDidMount() {
     // call bagCount API to show check icon against bundled product which are in cart
-    this.props.getCartCountForLoggedInUser();
+    await this.props.getCartCountForLoggedInUser();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -169,6 +172,7 @@ export default class ProductBundling extends React.Component {
       this.props.bundledProductSuggestionDetails.slots &&
       this.props.bundledProductSuggestionDetails.slots.length;
     let remainingProducts = productCount - 2;
+
     return (
       <React.Fragment>
         {this.props.bundledProductSuggestionDetails ? (
@@ -184,19 +188,21 @@ export default class ProductBundling extends React.Component {
               <SingleBundledProduct
                 productData={this.props.productData}
                 isMainProduct={true}
+                isBundledProductInCart={false}
               />
               {this.props.bundledProductSuggestionDetails &&
                 this.props.bundledProductSuggestionDetails.slots &&
                 this.props.bundledProductSuggestionDetails.slots.map(
                   (data, index) => {
                     // check for current product is in cart or not
-                    let ussidIndex =
+                    let isCurrentUssidInCart =
                       bundledProductsUssIds &&
-                      bundledProductsUssIds.indexOf(data.winningUssID);
+                      bundledProductsUssIds.includes(data.winningUssID);
                     let isBundledProductInCart = false;
-                    if (ussidIndex && ussidIndex !== -1) {
+                    if (isCurrentUssidInCart) {
                       isBundledProductInCart = true;
                     }
+
                     return (
                       <SingleBundledProduct
                         key={index}
