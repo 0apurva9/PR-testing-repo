@@ -122,7 +122,7 @@ export default class AddToWishListButton extends React.Component {
     } else {
       let indexOfProduct = wishlistItems.findIndex(item => {
         return (
-          item.productcode === productListingId && item.USSID === winningUssID
+          item.productCode === productListingId && item.ussid === winningUssID
         );
       });
       // as per MDEQ-226 MDEQ-263 - done following change
@@ -186,9 +186,8 @@ export default class AddToWishListButton extends React.Component {
     ) {
       let self = this;
       let foundWishListItem = props.wishlistItems.find(item => {
-        if (item.winningUssID)
-          return item.winningUssID === self.props.winningUssID;
-        else if (item.USSID) return item.USSID === self.props.winningUssID;
+        if (item.ussid) return item.ussid === self.props.ussid;
+        else if (item.USSID) return item.USSID === self.props.ussid;
       });
       if (
         typeof foundWishListItem === "object" &&
@@ -316,8 +315,8 @@ AddToWishListButton.propTypes = {
   winningUssID: PropTypes.string.isRequired,
   wishlistItems: PropTypes.arrayOf(
     PropTypes.shape({
-      productListingId: PropTypes.string,
-      winningUssID: PropTypes.string
+      productCode: PropTypes.string,
+      ussid: PropTypes.string
     })
   ),
   addProductToWishList: PropTypes.func,

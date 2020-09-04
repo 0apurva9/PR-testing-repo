@@ -136,7 +136,13 @@ export default class HeaderWrapper extends React.Component {
   };
 
   componentDidMount() {
-    this.props.getWishListItems();
+    // this.props.getWishListItems();
+    if (
+      this.props.location.pathname !== HOME_ROUTER &&
+      !this.props.location.pathname.includes(SAVE_LIST_PAGE)
+    ) {
+      this.props.getWishlist();
+    }
     window.scroll(0, 0);
     this.throttledScroll = this.handleScroll();
     window.addEventListener("scroll", this.throttledScroll);
@@ -188,7 +194,7 @@ export default class HeaderWrapper extends React.Component {
   render() {
     const searchQuery = queryString.parse(this.props.history.location.search);
     let wishListCount = this.props.wishListCount;
-    let lengthOfWishList = wishListCount.length;
+    let lengthOfWishList = wishListCount.count;
 
     const hasAppView = searchQuery.appview;
     if (hasAppView && !Cookie.getCookie(APP_VIEW)) {
