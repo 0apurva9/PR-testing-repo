@@ -45,7 +45,8 @@ import { getCartDetails } from "../../cart/actions/cart.actions.js";
 import {
   getWishListItems,
   createWishlist,
-  addProductToWishList
+  addProductToWishList,
+  getWishlist
 } from "../../wishlist/actions/wishlist.actions";
 import {
   showSecondaryLoader,
@@ -130,7 +131,7 @@ const mapDispatchToProps = dispatch => {
               // At the time of login Get Cart GUID for logged-in user
               guid = JSON.parse(cartDetailsLoggedInUser).guid;
               cartCode = JSON.parse(cartDetailsLoggedInUser).code;
-              const existingWishList = await dispatch(getWishListItems());
+              const existingWishList = await dispatch(getWishlist());
 
               if (!existingWishList || !existingWishList.wishlist) {
                 dispatch(createWishlist());
@@ -173,7 +174,7 @@ const mapDispatchToProps = dispatch => {
                 }
               }
             }
-            const existingWishList = await dispatch(getWishListItems());
+            const existingWishList = await dispatch(getWishlist());
             if (!existingWishList || !existingWishList.wishlist) {
               dispatch(createWishlist());
             }
@@ -231,6 +232,7 @@ const mapDispatchToProps = dispatch => {
         }
         dispatch(hideSecondaryLoader());
         dispatch(displayToast(PRODUCT_ADDED_TO_WISHLIST));
+        dispatch(getWishlist());
       }
     },
     retryPayment: (retryPaymentGuId, retryPaymentUserId) => {
