@@ -6,10 +6,23 @@
   border: solid 0.5px #d2d2d2;
   margin-top: 24px;
 }
+.digitalBundledProductDetailsCheckout{
+  position: relative;
+  width: 305px;
+  border-radius: 2px;
+  padding: 8px;
+  border: solid 0.5px #d2d2d2;
+  margin-top: 11px;
+}
 .digitalBundledProductImage{
   display: inline-block;
   width: 60px;
   height: 75px;
+}
+.digitalBundledProductImageCheckout{
+  display: inline-block;
+  width: 30px;
+  height: 34px;
 }
 .digitalProductDetails{
   display: inline-block;
@@ -17,10 +30,20 @@
   padding-left: 13px;
   vertical-align: top;
 }
+.digitalProductDetailsCheckout{
+  display: inline-block;
+  width: calc(100% - 30px);
+  padding-left: 10px;
+  vertical-align: top;
+}
 .digitalProductName{
   font-size: 16px;
   letter-spacing: 0.03px;
   margin-bottom: 18px;
+}
+.digitalProductNameCheckout{
+  font-size: 14px;
+  color: #3e4e35;
 }
 .digitalProductOfferPrice{
   display: inline-block;

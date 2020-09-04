@@ -16,27 +16,39 @@ export default class DigitalBundledProduct extends React.Component {
   }
 
   handleImageClick(productCode) {
-    if (productCode) {
+    if (productCode && this.props.pageType === "CART") {
       this.props.history.push(`/p-${productCode.toLowerCase()}`);
     }
   }
 
   render() {
+    let mainContainerClass = styles.digitalBundledProductDetails;
+    let digitalBundledProductImage = styles.digitalBundledProductImage;
+    let digitalProductDetails = styles.digitalProductDetails;
+    let digitalProductName = styles.digitalProductName;
+    if (this.props.pageType === "CHECKOUT") {
+      mainContainerClass = styles.digitalBundledProductDetailsCheckout;
+      digitalBundledProductImage = styles.digitalBundledProductImageCheckout;
+      digitalProductDetails = styles.digitalProductDetailsCheckout;
+      digitalProductName = styles.digitalProductNameCheckout;
+    }
     return (
       <React.Fragment>
-        <div className={styles.digitalBundledProductDetails}>
-          <img
-            src={closeIcon}
-            alt="remove icon"
-            className={styles.closeIcon}
-            onClick={() =>
-              this.handleRemove(
-                this.props.digitalProduct.entryNumber,
-                this.props.mainProductUssid
-              )
-            }
-          />
-          <div className={styles.digitalBundledProductImage}>
+        <div className={mainContainerClass}>
+          {this.props.showRemoveButton && (
+            <img
+              src={closeIcon}
+              alt="remove icon"
+              className={styles.closeIcon}
+              onClick={() =>
+                this.handleRemove(
+                  this.props.digitalProduct.entryNumber,
+                  this.props.mainProductUssid
+                )
+              }
+            />
+          )}
+          <div className={digitalBundledProductImage}>
             <ProductImage
               image={this.props.digitalProduct.imageURL}
               onClickImage={() =>
@@ -44,20 +56,23 @@ export default class DigitalBundledProduct extends React.Component {
               }
             />
           </div>
-          <div className={styles.digitalProductDetails}>
-            <div className={styles.digitalProductName}>
+          <div className={digitalProductDetails}>
+            <div className={digitalProductName}>
               {this.props.digitalProduct.productName}
             </div>
-            {this.props.digitalProduct.offerPrice && (
-              <div className={styles.digitalProductOfferPrice}>
+            {this.props.showPriceSection &&
+              this.props.digitalProduct.offerPrice && (
+                <div className={styles.digitalProductOfferPrice}>
+                  {RUPEE_SYMBOL}
+                  {this.props.digitalProduct.offerPrice}
+                </div>
+              )}
+            {this.props.showPriceSection && (
+              <div className={styles.digitalProductPrice}>
                 {RUPEE_SYMBOL}
-                {this.props.digitalProduct.offerPrice}
+                {this.props.digitalProduct.price}
               </div>
             )}
-            <div className={styles.digitalProductPrice}>
-              {RUPEE_SYMBOL}
-              {this.props.digitalProduct.price}
-            </div>
           </div>
         </div>
         {this.props.digitalProduct.pinCodeResponse &&
@@ -97,5 +112,14 @@ DigitalBundledProduct.propTypes = {
         })
       )
     })
-  )
+  ),
+  showPriceSection: PropTypes.bool,
+  showRemoveButton: PropTypes.bool,
+  pageType: PropTypes.string
+};
+
+DigitalBundledProduct.defaultProps = {
+  showPriceSection: true,
+  showRemoveButton: true,
+  pageType: "CART"
 };
