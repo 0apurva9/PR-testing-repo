@@ -28,6 +28,7 @@ const PAGE_REGEX = /page-(\d+)/;
 const MAX_PRICE_FROM_API = "and Above";
 const MAX_PRICE_FROM_API_2 = "Greater than";
 const MAX_PRICE_FROM_UI = "-₹9,999,999";
+const CATEGORY_TEXT = "category";
 
 class ProductListingsPage extends Component {
   constructor(props) {
@@ -36,6 +37,33 @@ class ProductListingsPage extends Component {
       isVirtualPageLoaded: false
     };
   }
+
+  /**
+   * To check whether category exists in query string if not then append one.
+   *
+   * @access     private
+   *
+   * @param {string} searchText              Query String.
+   * @param {string} textToReplace           Value to replace eg :relevance.
+   * @param {string} replaceWith             Replace textToReplace value with replaceWith value
+   *                                         eg :relevance:category.
+   * @param {string} categoryCodeParameter   category code.
+   *
+   * @return {string}                        Returns query string.
+   */
+  categoryQueryStringURL(
+    searchText,
+    textToReplace,
+    replaceWith,
+    categoryCodeParameter
+  ) {
+    if (!searchText.includes(`${CATEGORY_TEXT}:${categoryCodeParameter}`)) {
+      searchText = searchText.replace(textToReplace, replaceWith);
+    }
+
+    return searchText;
+  }
+
   getSearchTextFromUrl(currentUrl) {
     const parsedQueryString = currentUrl
       ? queryString.parseUrl(currentUrl).query
@@ -100,29 +128,31 @@ class ProductListingsPage extends Component {
 
       if (searchText) {
         if (searchText.includes("relevance")) {
-          searchText = searchText.replace(
+          searchText = this.categoryQueryStringURL(
+            searchText,
             ":relevance",
-            `:relevance:category:${catParams}`
+            `:relevance:${CATEGORY_TEXT}:${catParams}`,
+            catParams
           );
         } else if (
           searchText.includes("price-asc") &&
-          !searchText.includes(`:price-asc:category:${catParams}`)
+          !searchText.includes(`${CATEGORY_TEXT}:${catParams}`)
         ) {
           searchText = searchText.replace(
             ":price-asc",
-            `:price-asc:category:${catParams}`
+            `:price-asc:${CATEGORY_TEXT}:${catParams}`
           );
         } else if (
           searchText.includes("price-desc") &&
-          !searchText.includes(`:price-desc:category:${catParams}`)
+          !searchText.includes(`${CATEGORY_TEXT}:${catParams}`)
         ) {
           searchText = searchText.replace(
             ":price-desc",
-            `:price-desc:category:${catParams}`
+            `:price-desc:${CATEGORY_TEXT}:${catParams}`
           );
         }
       } else {
-        searchText = `:relevance:category:${catParams}`;
+        searchText = `:relevance:${CATEGORY_TEXT}:${catParams}`;
       }
     }
     if (this.props.match.path === BRAND_AND_CATEGORY_PAGE) {
@@ -132,11 +162,11 @@ class ProductListingsPage extends Component {
         if (searchText.includes("relevance")) {
           searchText = searchText.replace(
             ":relevance",
-            `:relevance:category:${categoryId}:brand:${brandId}`
+            `:relevance:${CATEGORY_TEXT}:${categoryId}:brand:${brandId}`
           );
         }
       } else {
-        searchText = `:relevance:category:${categoryId}:brand:${brandId}`;
+        searchText = `:relevance:${CATEGORY_TEXT}:${categoryId}:brand:${brandId}`;
       }
     }
 
