@@ -218,6 +218,7 @@ export const PDP_MANUFACTURER_FAILURE = "PDP_MANUFACTURER_FAILURE";
 export const PDP_RECENTLY_VIEWED_REQUEST = "PDP_RECENTLY_VIEWED_REQUEST";
 export const PDP_RECENTLY_VIEWED_SUCCESS = "PDP_RECENTLY_VIEWED_SUCCESS";
 export const PDP_RECENTLY_VIEWED_FAILURE = "PDP_RECENTLY_VIEWED_FAILURE";
+export const CLEAR_ALL_MSD_ITEMS = "CLEAR_ALL_MSD_ITEMS";
 
 export function getProductDescriptionRequest() {
   return {
@@ -244,7 +245,7 @@ export function getProductDescription(
   productCode,
   behaviorOfPage,
   isApiCall: 0,
-  componentName
+  componentName: true
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(getProductDescriptionRequest());
@@ -272,13 +273,15 @@ export function getProductDescription(
         ) {
           window.location.pathname = resultJson.seo.alternateURL;
         }
-        setDataLayer(
-          ADOBE_PDP_TYPE,
-          resultJson,
-          null,
-          null,
-          behaviorOfPageTheCurrent
-        );
+        if (componentName) {
+          setDataLayer(
+            ADOBE_PDP_TYPE,
+            resultJson,
+            null,
+            null,
+            behaviorOfPageTheCurrent
+          );
+        }
         return dispatch(getProductDescriptionSuccess(resultJson));
       } else {
         if (resultJson.status === 404 && isApiCall === 0) {
@@ -1211,6 +1214,11 @@ export function getMsdRequest(
     } catch (e) {
       dispatch(productMsdFailure(e.message));
     }
+  };
+}
+export function clearAllMsdItems() {
+  return {
+    type: CLEAR_ALL_MSD_ITEMS
   };
 }
 export function productMsdRecentlyViewedRequest() {

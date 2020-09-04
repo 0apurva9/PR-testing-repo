@@ -95,8 +95,7 @@ class PDPRecommendedSections extends React.Component {
       destProdID: items && items.productListingId,
       prodPrice: items && items.mrp,
       posOfReco: index,
-      widgetID: selectedWidgetID,
-      pageType: "pdp"
+      widgetID: selectedWidgetID
     };
     setDataLayerForMsdItemWidgets(jsonDetailsForWidgets, ADOBE_CAROUSEL_CLICK);
     widgetsTrackingForRecommendation({
@@ -338,8 +337,7 @@ class PDPRecommendedSections extends React.Component {
           mainProduct.winningSellerPrice.doubleValue
             ? mainProduct.winningSellerPrice.doubleValue
             : mainProduct && mainProduct.mrpPrice && mainProduct.mrpPrice.value,
-        widgetID: widgetSelectedID,
-        pageType: "pdp"
+        widgetID: widgetSelectedID
       };
       setDataLayerForMsdItemWidgets(widgetShowObj, ADOBE_CAROUSEL_SHOW);
     }

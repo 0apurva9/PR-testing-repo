@@ -481,7 +481,8 @@ export const BANK_ACCOUNT = "BANK_ACCOUNT";
 export const MY_ACCOUNT_SUFFIX = "/my-account/(.*)";
 export const DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION =
   "digitalDataForPaymentConfirmation";
-
+export const DIGITAL_DATA_FOR_BEFORE_PAYMENT_CONFIRMATION =
+  "digitalDataForPaymentConfirmationBeforePayment";
 // errors
 export const ERROR_CODE_JAVA_NET = "java.net";
 export const ERROR_CODE_REDIS_CLIENT = "redis.clients";
@@ -531,3 +532,4 @@ export const WEB_URL_REG_EX = /^https?:[\/]{2}(www\.)?tatacliq.com/g;
 // for haptik chatbot add to cart event
 export const ADD_TO_CART_EVENT_HAPTIK_CHATBOT = "add_to_cart";
 export const GO_TO_CART_EVENT_HAPTIK_CHATBOT = "go_to_cart";
+export const DIGITAL_DATA_FOR_CART = "digitalDataForCart";
