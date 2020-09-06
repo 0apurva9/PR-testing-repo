@@ -11,32 +11,36 @@ export default class GalleryImagesComponent extends React.Component {
             <li class={styles["image-gallery-list-block"]}>
               <a href="#" class={styles["image-gallery-list-block-link"]}>
                 <img
-                  src="https://via.placeholder.com/342x460"
+                  src="https://via.placeholder.com/338x460"
                   alt="Image Gallery"
+                  class={styles["image-gallery-img"]}
                 />
               </a>
             </li>
             <li class={styles["image-gallery-list-block"]}>
               <a href="#" class={styles["image-gallery-list-block-link"]}>
                 <img
-                  src="https://via.placeholder.com/342x460"
+                  src="https://via.placeholder.com/338x460"
                   alt="Image Gallery"
+                  class={styles["image-gallery-img"]}
                 />
               </a>
             </li>
             <li class={styles["image-gallery-list-block"]}>
               <a href="#" class={styles["image-gallery-list-block-link"]}>
                 <img
-                  src="https://via.placeholder.com/342x460"
+                  src="https://via.placeholder.com/338x460"
                   alt="Image Gallery"
+                  class={styles["image-gallery-img"]}
                 />
               </a>
             </li>
             <li class={styles["image-gallery-list-block"]}>
               <a href="#" class={styles["image-gallery-list-block-link"]}>
                 <img
-                  src="https://via.placeholder.com/342x460"
+                  src="https://via.placeholder.com/338x460"
                   alt="Image Gallery"
+                  class={styles["image-gallery-img"]}
                 />
               </a>
             </li>

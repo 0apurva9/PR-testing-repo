@@ -1,8 +1,9 @@
 /***Image Gallery***/
 .image-gallery-list {
   list-style-type: none;
-  display: block;
-  margin-left: -10px;
+  display: inline-block;
+  padding: 0;
+  margin:0 0 0 -10px;
 }
 
 .image-gallery-list-block {
@@ -13,5 +14,10 @@
 
 .image-gallery-list-block-link {
   display: block;
+}
+.image-gallery-img {
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 /****Image Gallery End***/

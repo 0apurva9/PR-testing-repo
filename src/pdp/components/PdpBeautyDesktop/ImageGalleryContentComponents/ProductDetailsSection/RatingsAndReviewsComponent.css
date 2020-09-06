@@ -1,12 +1,15 @@
 /***Review and Rating****/
+.rating-review-component {
+  margin: 0 0 20px 0;
+}
 .rating-star {
   width: 15px;
   height: 15px;
-  margin-right: 5px;
+  margin:0 8px 0 3px;
   background: transparent url(../../img/green-filled-star.svg) 0 0/100% auto
     no-repeat;
   display: inline-block;
-  vertical-align: -1px;
+  vertical-align: -2px;
 }
 
 .rating-value {
