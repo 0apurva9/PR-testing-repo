@@ -501,6 +501,14 @@ export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_SUCCESS =
   "SUBMIT_EXCHANGE_CASHBACK_DETAILS_SUCCESS";
 export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_FAILURE =
   "SUBMIT_EXCHANGE_CASHBACK_DETAILS_FAILURE";
+getCliq2CallConfig;
+export const GET_CLIQ_2_CALL_CONFIG_REQUEST = "GET_CLIQ_2_CALL_CONFIG_REQUEST";
+export const GET_CLIQ_2_CALL_CONFIG_SUCCESS = "GET_CLIQ_2_CALL_CONFIG_SUCCESS";
+export const GET_CLIQ_2_CALL_CONFIG_FAILURE = "GET_CLIQ_2_CALL_CONFIG_FAILURE";
+
+export const GET_GENESYS_RESPONSE_REQUEST = "GET_GENESYS_RESPONSE_REQUEST";
+export const GET_GENESYS_RESPONSE_SUCCESS = "GET_GENESYS_RESPONSE_SUCCESS";
+export const GET_GENESYS_RESPONSE_FAILURE = "GET_GENESYS_RESPONSE_FAILURE";
 
 const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -5252,6 +5260,94 @@ export function submitExchangeCashbackDetails(orderId, cashbackDetails) {
       return dispatch(submitExchangeCashbackDetailsSuccess(resultJson));
     } catch (e) {
       return dispatch(submitExchangeCashbackDetailsFailure(e.message));
+    }
+  };
+}
+
+export function getCliq2CallConfigRequest() {
+  return {
+    type: GET_CLIQ_2_CALL_CONFIG_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getCliq2CallConfigSuccess(cliq2CallConfigData) {
+  return {
+    type: GET_CLIQ_2_CALL_CONFIG_SUCCESS,
+    status: SUCCESS,
+    cliq2CallConfigData
+  };
+}
+export function getCliq2CallConfigFailure() {
+  return {
+    type: GET_CLIQ_2_CALL_CONFIG_FAILURE,
+    status: FAILURE
+  };
+}
+
+export function getCliq2CallConfig(Cliq2CallConfigId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getCliq2CallConfigRequest());
+    try {
+      const result = await api.get(
+        `v2/mpl/cms/defaultpage?pageId=${Cliq2CallConfigId}`
+      );
+      console.log("result", result);
+      let resultJson = await result.json();
+      console.log("result", result);
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getCliq2CallConfigSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getCliq2CallConfigFailure(e.message));
+    }
+  };
+}
+
+export function getGenesysResponseRequest() {
+  return {
+    type: GET_GENESYS_RESPONSE_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getGenesysResponseSuccess(genesysResponse) {
+  return {
+    type: GET_GENESYS_RESPONSE_SUCCESS,
+    status: SUCCESS,
+    genesysResponse
+  };
+}
+export function getGenesysResponseFailure() {
+  return {
+    type: GET_GENESYS_RESPONSE_FAILURE,
+    status: FAILURE
+  };
+}
+
+export function getGenesysResponse() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getGenesysResponseRequest());
+    try {
+      // const result = await api.get(
+      //   `v2/mpl/cms/defaultpage?pageId=${Cliq2CallConfigId}`
+      // );
+      const result = {
+        waitTime: null,
+        totalRequestsToday: null,
+        totalRequestsNextDay: null,
+        openRequest: null
+      };
+      console.log("result", result);
+      let resultJson = await result.json();
+      console.log("result", result);
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getGenesysResponseSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getGenesysResponseFailure(e.message));
     }
   };
 }

@@ -18,7 +18,9 @@ import {
   sendInvoice,
   getFaqRelatedQuestions,
   setSelfServeState,
-  fetchOrderItemDetails
+  fetchOrderItemDetails,
+  getCliq2CallConfig,
+  getGenesysResponse
   // setUrlToRedirectToAfterAuth
 } from "../actions/account.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -31,8 +33,10 @@ import {
   showModal,
   CUSTOMER_QUERY_POPUP,
   CLIQ_2_CALL_POP_UP,
-  TIME_SLOT_POP_UP
+  TIME_SLOT_POP_UP,
+  CUSTOMER_QUERY_ERROR_MODAL
 } from "../../general/modal.actions";
+import { stat } from "fs";
 const mapDispatchToProps = dispatch => {
   return {
     getOrderRelatedQuestions: async transactionId => {
@@ -97,11 +101,22 @@ const mapDispatchToProps = dispatch => {
     fetchOrderItemDetails: (orderId, transactionId) => {
       dispatch(fetchOrderItemDetails(orderId, transactionId));
     },
+    customerQueryErrorModal: getCustomerQueryDetailsObject => {
+      dispatch(
+        showModal(CUSTOMER_QUERY_ERROR_MODAL, getCustomerQueryDetailsObject)
+      );
+    },
+    getCliq2CallConfig: async Cliq2CallConfigId => {
+      return dispatch(getCliq2CallConfig(Cliq2CallConfigId));
+    },
     showCliq2CallOption: getCustomerQueryDetailsObject => {
       dispatch(showModal(CLIQ_2_CALL_POP_UP, getCustomerQueryDetailsObject));
     },
     timeSlotPopUP: getCustomerQueryDetailsObject => {
       dispatch(showModal(TIME_SLOT_POP_UP, getCustomerQueryDetailsObject));
+    },
+    getGenesysResponse: () => {
+      dispatch(getGenesysResponse());
     }
     // setHeaderText: text => {
     //   dispatch(setHeaderText(text));
@@ -153,7 +168,11 @@ const mapStateToProps = state => {
     logoutUserStatus: state.profile.logoutUserStatus,
     loadingForFetchOrderDetails: state.profile.loadingForFetchOrderDetails,
     selectedOrderDetails: state.profile.fetchOrderDetails,
-    loadingForSendInvoice: state.profile.loadingForSendInvoice
+    loadingForSendInvoice: state.profile.loadingForSendInvoice,
+    cliq2CallConfigDataLoading: state.profile.cliq2CallConfigDataLoading,
+    cliq2CallConfigData: state.profile.cliq2CallConfigData,
+    genesysResponseLoading: state.profile.genesysResponseLoading,
+    genesysResponseData: state.profile.genesysResponseData
   };
 };
 

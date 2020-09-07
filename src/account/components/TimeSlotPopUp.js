@@ -4,25 +4,10 @@ import Button from "../../general/components/Button.js";
 import TabHolder from "../../account/components/TabHolder";
 import TabData from "../../account/components/TabData";
 import styles from "./TimeSlotPopUp.css";
-const timeSlotArray = [
-  { mornginAfter: "Morning", time: "7 AM - 8 AM" },
-  { time: "8 AM - 9 AM" },
-  { time: "9 AM - 10 AM" },
-  { time: "10 AM - 11 AM" },
-  { time: "11 AM - 12 PM" },
-  { mornginAfter: "Afternoon", time: "12 PM - 1 PM" },
-  { time: "1 PM - 2 PM" },
-  { time: "3 PM - 4 PM" },
-  { mornginAfter: "Evening", time: "5 PM - 6 PM" },
-  { time: "6 PM - 7 PM" },
-  { time: "7 PM - 8 PM" },
-  { time: "8 PM - 9 PM" },
-  { time: "9 PM - 10 PM" }
-];
 export default class TimeSlotPopUp extends Component {
   state = {
     isSelected: 0,
-    noTimeSlot: true
+    noTimeSlot: false
   };
 
   tabSelect(val) {
@@ -31,51 +16,94 @@ export default class TimeSlotPopUp extends Component {
     // }
     this.setState({ isSelected: val });
   }
-  setTimeSlot = time => {
+  setTimeSlot = (time, date) => {
     this.props.closeModal();
     if (this.props.setTimeSlot) {
-      this.props.setTimeSlot(time);
+      this.props.setTimeSlot(time, date);
     }
   };
+  getDayNumberSuffix = date => {
+    switch (date) {
+      case 1:
+      case 21:
+      case 31:
+        return "" + date + "st ";
+      case 2:
+      case 22:
+        return "" + date + "nd ";
+      case 3:
+      case 23:
+        return "" + date + "rd ";
+      default:
+        return "" + date + "th ";
+    }
+  };
+  dateMothFormat = nextDay => {
+    let days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ];
+    let months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
+    let d = new Date();
 
-  timeSlotArray = () => {
-    let mornginAftre = false;
-    return timeSlotArray.map(time => {
-      // if(time.mornginAfter){
-      //   mornginAftre=true
-      // }
-      return (
-        <React.Fragment>
-          {time.mornginAfter ? (
-            <div className={styles.txt}>{time.mornginAfter}</div>
-          ) : null}
-          <div
-            className={styles.timeCard}
-            onClick={() => this.setTimeSlot(time.time)}
-          >
-            {time.time}
-          </div>
-        </React.Fragment>
-      );
-    });
+    let formatedDate = "";
+    if (nextDay) {
+      let dayName = days[d.getDay() + 1];
+      let monthName = months[d.getMonth()];
+      let date = d.getDate() + 1;
+      if (date == 1) {
+        monthName = months[d.getMonth() + 1];
+      }
+      formatedDate =
+        dayName + "," + this.getDayNumberSuffix(date) + " " + monthName;
+    } else {
+      let dayName = days[d.getDay()];
+      let monthName = months[d.getMonth()];
+      let date = d.getDate();
+      formatedDate =
+        dayName + ", " + this.getDayNumberSuffix(date) + " " + monthName;
+    }
+    return formatedDate;
+    // console.log("getMonth",getMonth);
   };
 
   render() {
     console.log(this.props);
+    const todayDate = this.dateMothFormat(false);
+    const tomorrowDate = this.dateMothFormat(true);
+    const { cliq2CallConfigData } = this.props;
     return (
       <BottomSlideModal>
         <div className={styles.timeslotBox}>
           <TabHolder>
             <TabData
               width="50%"
-              label={"Today <br/> Monday, 3rd February"}
+              label={`Today <br/> ${todayDate}`}
               subHeding={true}
               selected={this.state.isSelected === 0}
               selectItem={() => this.tabSelect(0)}
             />
             <TabData
               width="50%"
-              label={"Tomorrow <br/> Monday, 3rd February"}
+              label={`Tomorrow <br/> ${tomorrowDate}`}
               subHeding={true}
               selected={this.state.isSelected === 1}
               selectItem={() => this.tabSelect(1)}
@@ -85,7 +113,8 @@ export default class TimeSlotPopUp extends Component {
           <div className={styles.dateBox}>
             {this.state.isSelected === 0 && (
               <div className={styles.dateSection}>
-                {this.state.noTimeSlot ? (
+                {!cliq2CallConfigData.availableSlots &&
+                cliq2CallConfigData.availableSlots.today ? (
                   <div className={styles.noTimeSlotBox}>
                     <div className={styles.noTimeSlot}>
                       No Available Slots Found Today
@@ -104,56 +133,156 @@ export default class TimeSlotPopUp extends Component {
                     />
                   </div>
                 ) : (
-                  this.timeSlotArray()
+                  <React.Fragment>
+                    <div className={styles.morningSlot}>
+                      <div className={styles.txt}>Morning</div>
+                      {cliq2CallConfigData &&
+                        cliq2CallConfigData.availableSlots &&
+                        cliq2CallConfigData.availableSlots.today &&
+                        cliq2CallConfigData.availableSlots.today.morning.map(
+                          time => {
+                            return (
+                              <div
+                                className={styles.timeCard}
+                                onClick={() =>
+                                  this.setTimeSlot(time.value, todayDate)
+                                }
+                              >
+                                {time.label}
+                              </div>
+                            );
+                          }
+                        )}
+                    </div>
+                    <div className={styles.afternoonSlot}>
+                      <div className={styles.txt}> afternoon</div>
+                      {cliq2CallConfigData &&
+                        cliq2CallConfigData.availableSlots &&
+                        cliq2CallConfigData.availableSlots.today &&
+                        cliq2CallConfigData.availableSlots.today.afternoon.map(
+                          time => {
+                            return (
+                              <div
+                                className={styles.timeCard}
+                                onClick={() =>
+                                  this.setTimeSlot(time.value, todayDate)
+                                }
+                              >
+                                {time.label}
+                              </div>
+                            );
+                          }
+                        )}
+                    </div>
+                    <div className={styles.eveingSlot}>
+                      <div className={styles.txt}>evening</div>
+                      {cliq2CallConfigData &&
+                        cliq2CallConfigData.availableSlots &&
+                        cliq2CallConfigData.availableSlots.today &&
+                        cliq2CallConfigData.availableSlots.today.evening.map(
+                          time => {
+                            return (
+                              <div
+                                className={styles.timeCard}
+                                onClick={() =>
+                                  this.setTimeSlot(time.value, todayDate)
+                                }
+                              >
+                                {time.label}
+                              </div>
+                            );
+                          }
+                        )}
+                    </div>
+                  </React.Fragment>
                 )}
-                {/* <div className={styles.txt}>Morning</div>
-                  <div className={styles.timeCard}>7 AM - 8 AM</div>
-                  <div className={styles.timeCard}>8 AM - 9 AM</div>
-                  <div className={styles.timeCard}>9 AM - 10 AM</div>
-                  <div className={styles.timeCard}>10 AM - 11 AM</div>
-                  <div className={styles.timeCard}>11 AM - 12 PM</div>
-                </div>
-                <div className={styles.timeSlotBox}>
-                  <div className={styles.txt}>Afternoon</div>
-                  <div className={styles.timeCard}>12 PM - 1 PM</div>
-                  <div className={styles.timeCard}>1 PM - 2 PM</div>
-                  <div className={styles.timeCard}>3 PM - 4 PM</div>
-                </div>
-                <div className={styles.timeSlotBox}>
-                  <div className={styles.txt}>Evening</div>
-                  <div className={styles.timeCard}>5 PM - 6 PM</div>
-                  <div className={styles.timeCard}>6 PM - 7 PM</div>
-                  <div className={styles.timeCard}>7 PM - 8 PM</div>
-                  <div className={styles.timeCard}>8 PM - 9 PM</div>
-                  <div className={styles.timeCard}>9 PM - 10 PM</div>
-                </div> */}
               </div>
             )}
             {this.state.isSelected === 1 && (
               <div className={styles.dateSection}>
-                {this.timeSlotArray()}
-                {/* <div className={styles.timeSlotBox}>
-                  <div className={styles.txt}>Morning</div>
-                  <div className={styles.timeCard}>7 AM - 8 AM</div>
-                  <div className={styles.timeCard}>8 AM - 9 AM</div>
-                  <div className={styles.timeCard}>9 AM - 10 AM</div>
-                  <div className={styles.timeCard}>10 AM - 11 AM</div>
-                  <div className={styles.timeCard}>11 AM - 12 PM</div>
-                </div>
-                <div className={styles.timeSlotBox}>
-                  <div className={styles.txt}>Afternoon</div>
-                  <div className={styles.timeCard}>12 PM - 1 PM</div>
-                  <div className={styles.timeCard}>1 PM - 2 PM</div>
-                  <div className={styles.timeCard}>3 PM - 4 PM</div>
-                </div>
-                <div className={styles.timeSlotBox}>
-                  <div className={styles.txt}>Evening</div>
-                  <div className={styles.timeCard}>5 PM - 6 PM</div>
-                  <div className={styles.timeCard}>6 PM - 7 PM</div>
-                  <div className={styles.timeCard}>7 PM - 8 PM</div>
-                  <div className={styles.timeCard}>8 PM - 9 PM</div>
-                  <div className={styles.timeCard}>9 PM - 10 PM</div>
-                </div> */}
+                {!cliq2CallConfigData.availableSlots &&
+                cliq2CallConfigData.availableSlots.today ? (
+                  <div className={styles.noTimeSlotBox}>
+                    <div className={styles.noTimeSlot}>
+                      No Available Slots Found Today
+                    </div>
+                    <Button
+                      type="primary"
+                      backgroundColor="#da1c5c"
+                      height={40}
+                      label={"CALL ME BACK NOW"}
+                      borderRadius={6}
+                      width={205}
+                      textStyle={{ color: "#FFF", fontSize: 14 }}
+                      disabled={this.state.btnDisable}
+                      disabledLightGray={this.state.btnDisable}
+                      // onClick={() => this.nextField(currentStep)}
+                    />
+                  </div>
+                ) : (
+                  <React.Fragment>
+                    <div className={styles.morningSlot}>
+                      <div className={styles.txt}>Morning</div>
+                      {cliq2CallConfigData &&
+                        cliq2CallConfigData.availableSlots &&
+                        cliq2CallConfigData.availableSlots.tommorrow &&
+                        cliq2CallConfigData.availableSlots.tommorrow.morning.map(
+                          time => {
+                            return (
+                              <div
+                                className={styles.timeCard}
+                                onClick={() =>
+                                  this.setTimeSlot(time.value, tomorrowDate)
+                                }
+                              >
+                                {time.label}
+                              </div>
+                            );
+                          }
+                        )}
+                    </div>
+                    <div className={styles.afternoonSlot}>
+                      <div className={styles.txt}> afternoon</div>
+                      {cliq2CallConfigData &&
+                        cliq2CallConfigData.availableSlots &&
+                        cliq2CallConfigData.availableSlots.tommorrow &&
+                        cliq2CallConfigData.availableSlots.tommorrow.afternoon.map(
+                          time => {
+                            return (
+                              <div
+                                className={styles.timeCard}
+                                onClick={() =>
+                                  this.setTimeSlot(time.value, tomorrowDate)
+                                }
+                              >
+                                {time.label}
+                              </div>
+                            );
+                          }
+                        )}
+                    </div>
+                    <div className={styles.eveingSlot}>
+                      <div className={styles.txt}>evening</div>
+                      {cliq2CallConfigData &&
+                        cliq2CallConfigData.availableSlots &&
+                        cliq2CallConfigData.availableSlots.tommorrow &&
+                        cliq2CallConfigData.availableSlots.tommorrow.evening.map(
+                          time => {
+                            return (
+                              <div
+                                className={styles.timeCard}
+                                onClick={() =>
+                                  this.setTimeSlot(time.value, tomorrowDate)
+                                }
+                              >
+                                {time.label}
+                              </div>
+                            );
+                          }
+                        )}
+                    </div>
+                  </React.Fragment>
+                )}
               </div>
             )}
           </div>

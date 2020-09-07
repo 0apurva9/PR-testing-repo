@@ -305,7 +305,17 @@ const account = (
     submitExchangeCashbackDetailsStatus: null,
     submitExchangeCashbackDetailsLoading: false,
     submitExchangeCashbackDetails: null,
-    submitExchangeCashbackDetailsError: null
+    submitExchangeCashbackDetailsError: null,
+
+    cliq2CallConfigDataStatus: null,
+    cliq2CallConfigDataLoading: false,
+    cliq2CallConfigData: null,
+    cliq2CallConfigDataError: null,
+
+    genesysResponseStatus: null,
+    genesysResponseLoading: false,
+    genesysResponseData: null,
+    genesysResponseError: null
   },
   action
 ) => {
@@ -1961,6 +1971,47 @@ const account = (
         submitExchangeCashbackDetailsLoading: false,
         submitExchangeCashbackDetailsError: action.error
       });
+
+    case accountActions.GET_CLIQ_2_CALL_CONFIG_REQUEST:
+      return Object.assign({}, state, {
+        cliq2CallConfigDataStatus: action.status,
+        cliq2CallConfigDataLoading: true
+      });
+
+    case accountActions.GET_CLIQ_2_CALL_CONFIG_SUCCESS:
+      return Object.assign({}, state, {
+        cliq2CallConfigDataStatus: action.status,
+        cliq2CallConfigDataLoading: false,
+        cliq2CallConfigData: action.cliq2CallConfigData
+      });
+
+    case accountActions.GET_CLIQ_2_CALL_CONFIG_FAILURE:
+      return Object.assign({}, state, {
+        cliq2CallConfigDataStatus: action.status,
+        cliq2CallConfigDataLoading: false,
+        cliq2CallConfigDataError: action.error
+      });
+
+    case accountActions.GET_GENESYS_RESPONSE_REQUEST:
+      return Object.assign({}, state, {
+        genesysResponseStatus: action.status,
+        genesysResponseLoading: true
+      });
+
+    case accountActions.GET_GENESYS_RESPONSE_SUCCESS:
+      return Object.assign({}, state, {
+        genesysResponseStatus: action.status,
+        genesysResponseLoading: false,
+        genesysResponseData: action.genesysResponse
+      });
+
+    case accountActions.GET_GENESYS_RESPONSE_FAILURE:
+      return Object.assign({}, state, {
+        genesysResponseStatus: action.status,
+        genesysResponseLoading: false,
+        genesysResponseError: action.error
+      });
+
     default:
       return state;
   }
