@@ -17,6 +17,7 @@ import {
   SECTION_OF_IMAGE_AND_CONTENT_COMPONENTS
 } from "./ComponentConstants";
 import ImageGalleryContentComponent from "./ImageGalleryContentComponents/ImageGalleryContentComponent";
+import BreadCrumbs from "./BreadCrumbsSection/BreadCrumbs";
 import styles from "./PdpBeautyDesktop.css";
 
 const SECTION_PRODUCT_GUIDE = [];
@@ -67,6 +68,9 @@ export default class PdpBeautyDesktop extends React.Component {
         });
       return (
         <div className={styles["main-container"]}>
+          <div class={styles.container}>
+            <BreadCrumbs {...this.props} />
+          </div>
           <div className={styles.container}>
             <ImageGalleryContentComponent
               {...this.props}

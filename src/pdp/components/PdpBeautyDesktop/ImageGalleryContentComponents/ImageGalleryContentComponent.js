@@ -58,7 +58,7 @@ export default class ImageGalleryContentComponent extends React.Component {
         });
       });
     return (
-      <div class={styles["gallery-content-container"]}>
+      <div className={styles["gallery-content-container"]}>
         <div className={styles["gallery-container"]}>
           <GalleryImagesComponent
             {...this.props}

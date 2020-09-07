@@ -30,16 +30,31 @@ export default class RatingsAndReviewsComponent extends React.Component {
     return (
       <React.Fragment>
         {averageRatingNew && (
-          <div class={styles["rating-review-component"]}>
-            <div class={styles["review-rating-block"]}>
-              <span class={styles["rating-value"]}>{averageRatingNew}</span>
-              <span class={styles["rating-star"]}></span>
-              <span class={styles["rating-total-count"]}>
+          <div className={styles["rating-review-component"]}>
+            <div className={styles["review-rating-block"]}>
+              <span className={styles["rating-value"]}>{averageRatingNew}</span>
+              {averageRatingNew > 2.5 && (
+                <span
+                  className={[
+                    styles["rating-star"],
+                    styles["rating-star-green"]
+                  ].join(" ")}
+                ></span>
+              )}
+              {averageRatingNew < 2.5 && (
+                <span
+                  className={[
+                    styles["rating-star"],
+                    styles["rating-star-orange"]
+                  ].join(" ")}
+                ></span>
+              )}
+              <span className={styles["rating-total-count"]}>
                 {ratingCount}
                 {ratingCount > 1 ? " Ratings" : " Rating"}
               </span>
               {numberOfReviews ? (
-                <span class={styles["rating-total-review"]}>
+                <span className={styles["rating-total-review"]}>
                   {" & "}
                   {numberOfReviews}
                   {numberOfReviews > 1 ? " Reviews" : " Review"}

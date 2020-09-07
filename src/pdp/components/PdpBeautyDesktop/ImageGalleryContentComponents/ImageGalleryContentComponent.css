@@ -2,11 +2,12 @@
   display: flex;
   flex-wrap: wrap;
 }
+
 .gallery-container {
   width: 686px;
-  z-index: 999;
   margin: 0 28px 0 0;
 }
+
 .product-details-container {
   width: 486px;
   vertical-align: top;

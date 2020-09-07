@@ -1,21 +1,26 @@
 /***Image Gallery***/
 .image-gallery-Block {
   display: block;
+  z-index: -20;
 }
+
 .image-gallery-list {
   list-style-type: none;
   display: inline-block;
   padding: 0;
   margin:0 0 0 -10px;
 }
+
 .image-gallery-list-block {
   display: block;
   margin: 0 0 10px 10px;
   float: left;
 }
+
 .image-gallery-list-block-link {
   display: block;
 }
+
 .image-gallery-img {
   display: block;
   margin: 0;

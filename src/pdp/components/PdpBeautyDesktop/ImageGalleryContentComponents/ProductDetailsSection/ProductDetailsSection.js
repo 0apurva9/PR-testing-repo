@@ -33,15 +33,15 @@ const ProductAndBrandComponent = Loadable({
   }
 });
 
-const PriceComponent = Loadable({
-  loader: () => import("./PriceComponent"),
+const RatingsAndReviewsComponent = Loadable({
+  loader: () => import("./RatingsAndReviewsComponent"),
   loading() {
     return <Loader />;
   }
 });
 
-const RatingsAndReviewsComponent = Loadable({
-  loader: () => import("./RatingsAndReviewsComponent"),
+const PriceComponent = Loadable({
+  loader: () => import("./PriceComponent"),
   loading() {
     return <Loader />;
   }
@@ -58,8 +58,8 @@ const typeComponentMapping = {
   [PRODUCT_AND_BRAND_COMPONENT]: props => (
     <ProductAndBrandComponent {...props} />
   ),
-  [PRICE_COMPONENT]: props => <PriceComponent {...props} />,
   [RATING_REVIEW_COMPONENT]: props => <RatingsAndReviewsComponent {...props} />,
+  [PRICE_COMPONENT]: props => <PriceComponent {...props} />,
   [DETAILS_COMPONENT]: props => <DetailsComponent {...props} />
 };
 
