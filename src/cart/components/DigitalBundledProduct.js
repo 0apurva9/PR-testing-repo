@@ -26,11 +26,19 @@ export default class DigitalBundledProduct extends React.Component {
     let digitalBundledProductImage = styles.digitalBundledProductImage;
     let digitalProductDetails = styles.digitalProductDetails;
     let digitalProductName = styles.digitalProductName;
+    let digitalProductPrice = styles.digitalProductPrice;
     if (this.props.pageType === "CHECKOUT") {
       mainContainerClass = styles.digitalBundledProductDetailsCheckout;
       digitalBundledProductImage = styles.digitalBundledProductImageCheckout;
       digitalProductDetails = styles.digitalProductDetailsCheckout;
       digitalProductName = styles.digitalProductNameCheckout;
+    }
+    if (this.props.pageType === "CANCEL" || this.props.pageType === "RETURN") {
+      mainContainerClass = styles.digitalBundledProductDetailsCancel;
+      digitalBundledProductImage = styles.digitalBundledProductImageCancel;
+      digitalProductDetails = styles.digitalProductDetailsCancel;
+      digitalProductName = styles.digitalProductNameCancel;
+      digitalProductPrice = styles.digitalProductPriceCancel;
     }
     return (
       <React.Fragment>
@@ -68,27 +76,36 @@ export default class DigitalBundledProduct extends React.Component {
                 </div>
               )}
             {this.props.showPriceSection && (
-              <div className={styles.digitalProductPrice}>
+              <div className={digitalProductPrice}>
                 {RUPEE_SYMBOL}
                 {this.props.digitalProduct.price}
               </div>
             )}
           </div>
         </div>
-        {this.props.digitalProduct.pinCodeResponse &&
-        (this.props.digitalProduct.pinCodeResponse.productOutOfStockMessage ||
-          this.props.digitalProduct.pinCodeResponse
-            .productNotServiceabilityMessage) ? (
-          <div className={styles.productNotServiceable}>
-            {this.props.digitalProduct.pinCodeResponse.productOutOfStockMessage
-              ? this.props.digitalProduct.pinCodeResponse
-                  .productOutOfStockMessage
-              : this.props.digitalProduct.pinCodeResponse
-                  .productNotServiceabilityMessage}
-          </div>
-        ) : !this.props.digitalProduct.pinCodeResponse ? (
-          <div className={styles.productNotServiceable}>{NOT_SERVICEABLE}</div>
-        ) : null}
+        {this.props.pageType !== "CANCEL" &&
+          this.props.pageType !== "RETURN" && (
+            <React.Fragment>
+              {this.props.digitalProduct.pinCodeResponse &&
+              (this.props.digitalProduct.pinCodeResponse
+                .productOutOfStockMessage ||
+                this.props.digitalProduct.pinCodeResponse
+                  .productNotServiceabilityMessage) ? (
+                <div className={styles.productNotServiceable}>
+                  {this.props.digitalProduct.pinCodeResponse
+                    .productOutOfStockMessage
+                    ? this.props.digitalProduct.pinCodeResponse
+                        .productOutOfStockMessage
+                    : this.props.digitalProduct.pinCodeResponse
+                        .productNotServiceabilityMessage}
+                </div>
+              ) : !this.props.digitalProduct.pinCodeResponse ? (
+                <div className={styles.productNotServiceable}>
+                  {NOT_SERVICEABLE}
+                </div>
+              ) : null}
+            </React.Fragment>
+          )}
       </React.Fragment>
     );
   }
