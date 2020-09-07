@@ -2229,9 +2229,13 @@ export function getBundledProductSuggestion(
   return async (dispatch, getState, { api }) => {
     dispatch(getBundledProductSuggestionRequest());
     try {
-      let globalAccessToken = getGlobalAccessToken();
+      let loggedInUserDetails = getLoggedInUserDetails();
+      let accessToken = getGlobalAccessToken();
+      if (loggedInUserDetails) {
+        accessToken = getCustomerAccessToken();
+      }
       let headers = {
-        "access-token": globalAccessToken
+        "access-token": accessToken
       };
       const result = await api.getDataWithMicroservicesWithHeaders(
         `marketplacemicroscervices/getSuggestions?productCode=${productId}&ussid=${ussId}&categoryCode=${categoryCode}&brandCode=${brandCode}&channel=${CHANNEL}&updatedFlag=true&source=${source}&pinCode=${pincode}`,

@@ -11,14 +11,14 @@ export default class RecommendedBundledProduct extends React.Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     let categoryHierarchyCheck = this.props.product.categoryHierarchy;
     let categoryId =
       categoryHierarchyCheck &&
       categoryHierarchyCheck[categoryHierarchyCheck.length - 1].category_id;
     let pincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
     if (this.props.product.bundlingSuggestionAvailable) {
-      this.props.getBundledProductSuggestion(
+      await this.props.getBundledProductSuggestion(
         this.props.product.productcode,
         this.props.product.USSID,
         categoryId,
