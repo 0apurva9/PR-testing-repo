@@ -40,6 +40,8 @@
 	color: #2c2627;
 	vertical-align: middle;
 	margin: 0 16px;
+	width: 120px;
+  text-align: left;
 }
 .buttonContainer{
 	display: inline-block;
@@ -59,7 +61,7 @@
 	font-family: semibold;
  	font-size: 16px;
 	color: #6c6c6c;
-	margin: 15px 0 15px 10%;
+	margin: 15px 0 15px 5%;
 	cursor: pointer;
 }
 .showMoreProducts::after{
