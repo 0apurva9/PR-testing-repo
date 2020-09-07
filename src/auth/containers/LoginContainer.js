@@ -119,10 +119,10 @@ const mapDispatchToProps = dispatch => {
                   JSON.parse(cartDetailsLoggedInUser).code,
                   localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
                   lastUrl === "/cart" &&
-                    parseInt(
-                      mergeCartIdWithOldOneResponse.cartDetails.count,
-                      10
-                    ) !== currentBagCount
+                  parseInt(
+                    mergeCartIdWithOldOneResponse.cartDetails.count,
+                    10
+                  ) !== currentBagCount
                     ? true
                     : false
                 )
@@ -190,7 +190,7 @@ const mapDispatchToProps = dispatch => {
             );
           }
           if (cartCode) {
-            dispatch(getMinicartProducts());
+            // dispatch(getMinicartProducts());
           }
         } else {
           setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE);
