@@ -4832,7 +4832,7 @@ export function orderConfirmation(orderId) {
 
       await dispatch(orderConfirmationSuccess(resultJson));
       // calling minicart after placing an order
-      dispatch(getMinicartProducts());
+      // dispatch(getMinicartProducts());
     } catch (e) {
       dispatch(orderConfirmationFailure(e.message));
     }
@@ -5360,7 +5360,7 @@ export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
             dispatch(getCartCountForLoggedInUser()).then(userCart => {
               if (userCart.status === SUCCESS) {
                 // calling minicart after remove product from cart
-                dispatch(getMinicartProducts());
+                // dispatch(getMinicartProducts());
               }
             });
           }
@@ -6016,7 +6016,7 @@ export function getPaymentFailureOrderDetails() {
         CART_DETAILS_FOR_LOGGED_IN_USER,
         JSON.stringify({ guid: cartGuId })
       );
-      dispatch(getMinicartProducts());
+      // dispatch(getMinicartProducts());
     } catch (e) {
       dispatch(getPaymentFailureOrderDetailsFailure(e.message));
     }
@@ -6305,7 +6305,7 @@ export function mergeTempCartWithOldCart() {
           localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
         )
       );
-      dispatch(getMinicartProducts());
+      // dispatch(getMinicartProducts());
     } catch (e) {
       dispatch(mergeTempCartWithOldCartFailure(e.message));
     }
@@ -6839,9 +6839,10 @@ export function getMinicartProducts() {
     // Dispatching Requesting event before API CALL
     dispatch(getMinicartProductsRequest());
     try {
-      const result = await api.get(
-        `${USER_CART_PATH}/${userId}/carts/${cartCode}/miniCartDetails?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
-      );
+      const result = {};
+      // await api.get(
+      //   `${USER_CART_PATH}/${userId}/carts/${cartCode}/miniCartDetails?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
+      // );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
