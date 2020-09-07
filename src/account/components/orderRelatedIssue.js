@@ -27,7 +27,8 @@ import {
   ADOBE_SELF_SERVE_SUBMIT_CLICK,
   ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
   ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK,
-  ADOBE_LOGIN_START
+  ADOBE_LOGIN_START,
+  ADOBE_SELF_SERVE_FAQ_PAGE_LOAD
 } from "../../lib/adobeUtils";
 import SSRquest from "../../general/components/SSRequest";
 import Icon from "../../xelpmoc-core/Icon";
@@ -210,8 +211,6 @@ export default class OrderRelatedIssue extends React.Component {
       );
       setTimeout(() => {
         if (submitOrderDetailsResponse.status === SUCCESS) {
-          getCustomerQueryDetailsObject.ticketID =
-            submitOrderDetailsResponse.submitOrder.referenceNum;
           if (
             submitOrderDetailsResponse.submitOrder.referenceNum == "duplicate"
           ) {
@@ -228,7 +227,9 @@ export default class OrderRelatedIssue extends React.Component {
               raiseTiketRequest: false,
               formSubmit: true
             });
-            this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+            this.props.showCustomerQueryModal({
+              ticketId: submitOrderDetailsResponse.submitOrder.referenceNum
+            });
             this.props.setSelfServeState(null);
           } else {
             let pageName = this.state.otherQuestion
@@ -246,7 +247,10 @@ export default class OrderRelatedIssue extends React.Component {
             });
             setTimeout(() => {
               this.setState({ showLoader: false, raiseTiketSucess: false });
-              this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
+              this.props.showCustomerQueryModal({
+                ticketId: submitOrderDetailsResponse.submitOrder.referenceNum,
+                sla: submitOrderDetailsResponse.submitOrder.sla
+              });
               this.props.setSelfServeState(null);
             }, 2000);
           }
@@ -289,18 +293,6 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   async orderRelatedInfo(orderData) {
-    setDataLayerForCLiQCarePage(
-      ADOBE_SELF_SERVE_PAGE_LOAD,
-      {
-        status:
-          orderData && orderData.product && orderData.product.statusDisplay,
-        id: orderData && orderData.product && orderData.product.transactionId,
-        productId:
-          orderData && orderData.product && orderData.product.productcode
-      },
-      "Care_Order_Questions"
-    );
-
     if (this.props.fetchOrderItemDetails) {
       this.props.fetchOrderItemDetails(
         orderData.orderCode,
@@ -311,6 +303,30 @@ export default class OrderRelatedIssue extends React.Component {
       const response = await this.props.getOrderRelatedQuestions(
         orderData.transactionId
       );
+
+      setDataLayerForCLiQCarePage(
+        ADOBE_SELF_SERVE_PAGE_LOAD,
+        {
+          order: {
+            status:
+              orderData && orderData.product && orderData.product.statusDisplay,
+            id:
+              orderData && orderData.product && orderData.product.transactionId,
+            productId:
+              orderData && orderData.product && orderData.product.productcode
+          },
+          issue: {
+            status:
+              response &&
+              response.orderRelatedQuestions &&
+              response.orderRelatedQuestions.listOfIssues
+                ? "Found"
+                : "Not Found"
+          }
+        },
+        "Care_Order_Questions"
+      );
+
       if (response.status == SUCCESS && response.orderRelatedQuestions) {
         this.setState({
           orderAllList: false,
@@ -343,6 +359,12 @@ export default class OrderRelatedIssue extends React.Component {
       ADOBE_SELF_SERVE_ALL_HELP_TOPIC_CLICK,
       faq.FAQHeader
     );
+
+    setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_FAQ_PAGE_LOAD, null, [
+      CLIQ_CARE,
+      "Care_FAQ_Questions"
+    ]);
+
     if (this.state.parentIssueType !== faq.FAQHeader) {
       if (this.props.getFaqRelatedQuestions) {
         const response = await this.props.getFaqRelatedQuestions(faq.FAQPageId);

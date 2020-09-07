@@ -36,12 +36,6 @@ class OrderListDetails extends Component {
 
   componentDidMount() {
     window.scroll(0, 0);
-    if (this.props.FAQquestion) {
-      setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_FAQ_PAGE_LOAD, null, [
-        CLIQ_CARE,
-        "Care_FAQ_Questions"
-      ]);
-    }
   }
 
   // selectQuestion(question, index) {
