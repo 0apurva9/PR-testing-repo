@@ -114,6 +114,7 @@ export default class Button extends React.Component {
         onMouseEnter={() => this.hoverIn()}
         onMouseLeave={() => this.hoverOut()}
         onClick={e => this.handleClick(e)}
+        data-test={this.props.dataTest + `-main-div`}
       >
         {this.props.icon && this.props.icon.element && (
           <div
@@ -134,9 +135,16 @@ export default class Button extends React.Component {
         )}
 
         {textStyle ? (
-          <span style={{ ...textStyle }}>{this.props.label}</span>
+          <span style={{ ...textStyle }} data-test={this.props.dataTest}>
+            {this.props.label}
+          </span>
         ) : (
-          <span style={{ ...this.props.textStyle }}>{this.props.label}</span>
+          <span
+            style={{ ...this.props.textStyle }}
+            data-test={this.props.dataTest}
+          >
+            {this.props.label}
+          </span>
         )}
       </div>
     );
@@ -164,7 +172,8 @@ Button.propTypes = {
     hoveredElement: PropTypes.element,
     size: PropTypes.number,
     offset: PropTypes.number
-  })
+  }),
+  dataTest: PropTypes.string
 };
 
 Button.defaultProps = {
@@ -183,5 +192,6 @@ Button.defaultProps = {
   icon: {
     size: 30,
     offset: 10
-  }
+  },
+  dataTest: "button"
 };
