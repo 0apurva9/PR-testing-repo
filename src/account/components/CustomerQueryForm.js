@@ -795,7 +795,7 @@ export default class CustomerQueryForm extends Component {
                     onChange={
                       (email => this.setState({ email: email }),
                       () => {
-                        this.validateForm(false);
+                        this.validateForm(true);
                       })
                     }
                     fontSize={"11px"}
