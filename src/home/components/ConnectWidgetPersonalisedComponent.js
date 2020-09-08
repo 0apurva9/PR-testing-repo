@@ -21,7 +21,6 @@ export default class ConnectWidgetPersonalisedComponent extends React.Component 
       this.props.feedComponentData &&
       this.props.feedComponentData.type &&
       this.props.feedComponentData.type.includes("-P");
-    debugger;
     if (this.props.feedComponentData && check) {
       let getPageTypeAndSequence =
         this.props.feedComponentData.items &&
@@ -35,7 +34,6 @@ export default class ConnectWidgetPersonalisedComponent extends React.Component 
         pageType,
         sequence
       );
-      console.log("====XXXX====>ConnectWidget ", data);
       if (
         data &&
         data.status === "success" &&

@@ -29,7 +29,6 @@ export default class BankOfferPersonalisedComponent extends React.Component {
         pageType,
         sequence
       );
-      console.log("====XXXX====>BankOfferPersonalisedComponent ", data);
       if (
         data &&
         data.status === "success" &&

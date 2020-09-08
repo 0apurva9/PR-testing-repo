@@ -28,7 +28,6 @@ export default class PersonalisedQuickLinks extends React.Component {
         pageType,
         sequence
       );
-      console.log("====XXXX====>QuickLink ", data);
       if (
         data &&
         data.status === "success" &&
@@ -47,7 +46,6 @@ export default class PersonalisedQuickLinks extends React.Component {
   };
 
   render() {
-    console.log("LANDED ON PERSONALISED PAGE", this.props);
     let data = this.state.targetData
       ? this.state.targetData
       : this.props.feedComponentData;

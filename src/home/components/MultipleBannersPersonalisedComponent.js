@@ -30,7 +30,6 @@ export default class MultipleBannersPersonalisedComponent extends React.Componen
         pageType,
         sequence
       );
-      console.log("====XXXX====>MultipleBannerComponent ", data);
       if (
         data &&
         data.status === "success" &&

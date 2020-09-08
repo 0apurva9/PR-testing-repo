@@ -30,7 +30,6 @@ export default class CuratedFeatureForPersonalisedComponent extends React.Compon
         pageType,
         sequence
       );
-      console.log("====XXXX====>CuratedFeature", data);
       if (
         data &&
         data.status === "success" &&

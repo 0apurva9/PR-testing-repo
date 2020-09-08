@@ -1434,15 +1434,9 @@ export function getTargetMboxData(componentName, sequence, pageType) {
         };
         let result = await api.postMsd(url, JSON.stringify(payloadData));
         let resultJson = await result.json();
-        console.log("YYYYYYYYYYYYYYYYYY", resultJson);
         if (resultJson.errors) {
           throw new Error(`${resultJson.errors[0].message}`);
         }
-        // if(resultJson && resultJson.status === 200 && resultJson.execute && resultJson.execute.mboxes && resultJson.execute.mboxes[0].options && resultJson.execute.mboxes[0].options[0] && resultJson.execute.mboxes[0].options[0].content) {
-        console.log(
-          "XXXXXXXXXX=========>11",
-          resultJson.execute.mboxes[0].options[0].content
-        );
         let data = resultJson.execute.mboxes[0].options[0].content;
         return dispatch(getTargetMboxDataSuccess(data));
         //}
@@ -1976,7 +1970,6 @@ export function getAutomatedWidgetsItems(itemIds, widgetKey, productCode) {
             productList.push(product.results[0]);
           }
         });
-      console.log("respon====>check", productList);
       if (Array.isArray(productList) && productList.length > 0) {
         dispatch(
           automatedWidgetsForHomeSuccess(productList, widgetKey, productCode)

@@ -29,7 +29,6 @@ export default class HeroBannerPersonalisedComponent extends React.Component {
         pageType,
         sequence
       );
-      console.log("====XXXX====>HeroBannerPersonalised ", data);
       if (
         data &&
         data.status === "success" &&

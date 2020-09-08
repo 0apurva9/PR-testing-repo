@@ -125,12 +125,6 @@ class AutomatedWidgetsForHome extends React.Component {
       this.props.feedComponentData &&
       this.props.feedComponentData.items[0] &&
       this.props.feedComponentData.items[0].hexCode;
-    console.log(
-      "===============>>>111133222222222222222",
-      component,
-      productCode,
-      this.props.homeAutoWidget
-    );
     let data =
       this.props.homeAutoWidget &&
       component &&
