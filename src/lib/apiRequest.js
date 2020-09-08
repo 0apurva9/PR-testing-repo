@@ -15,7 +15,7 @@ let MIDDLEWARE_API_URL_ROOT = "/que-marketplacewebservices";
 export let TATA_CLIQ_ROOT = /https?:[\/]{2}\S*?(\/\S*)/;
 export const TOKEN_PATH = "oauth/token";
 export let URL_ROOT = "";
-let TESTING_BASE_URL = "";
+let TESTING_BASE_URL = ""; //For testing only
 
 let count = 0;
 if (
@@ -74,6 +74,7 @@ if (
   API_URL_ROOT = "https://preprod3.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
     "https://preprod3.tataunistore.com/marketplacewebservices";
+  TESTING_BASE_URL = "https://www.tatacliq.com/marketplacewebservices"; //For testing only
 } else if (process.env.REACT_APP_STAGE === "preprod2") {
   API_URL_ROOT = "https://preprod2.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
@@ -90,7 +91,6 @@ if (
   API_URL_ROOT = "https://qa3.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
     "https://qa3.tataunistore.com/marketplacewebservices";
-  TESTING_BASE_URL = "https://www.tatacliq.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "qa10") {
   API_URL_ROOT = "https://qa10.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
@@ -351,6 +351,8 @@ export async function get(url) {
   }
 }
 
+//For testing only
+
 export async function coreGetProdPointing(url) {
   function btoa(str) {
     if (Buffer.byteLength(str) !== str.length) throw new Error("bad string!");
@@ -369,6 +371,7 @@ export async function coreGetProdPointing(url) {
   });
 }
 
+//For testing only
 export async function prodPointingGet(url) {
   const result = await coreGetProdPointing(url);
   const resultClone = result.clone();
