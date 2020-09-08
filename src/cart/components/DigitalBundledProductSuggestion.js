@@ -15,8 +15,18 @@ import {
   getCartDetailsForLoggedInUser,
   getCartDetailsForAnonymousInUser
 } from "../../lib/getCookieDetails.js";
+import {
+  setDataLayer,
+  ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_CART
+} from "../../lib/adobeUtils";
 
 export default class DigitalBundledProductSuggestion extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      addToCartAnalyticsData: null
+    };
+  }
   componentDidUpdate(prevProps, prevState) {
     if (
       this.props.addBundledProductsToCartDetails !==
@@ -40,7 +50,10 @@ export default class DigitalBundledProductSuggestion extends React.Component {
         let defaultPinCode = localStorage.getItem(
           DEFAULT_PIN_CODE_LOCAL_STORAGE
         );
-
+        setDataLayer(
+          ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_CART,
+          this.state.addToCartAnalyticsData
+        );
         this.props.displayToast(ADD_TO_BAG_TEXT);
         this.props.getCartDetails(user, accessToken, cartId, defaultPinCode);
       }
@@ -64,6 +77,7 @@ export default class DigitalBundledProductSuggestion extends React.Component {
 
   addBundledProductToCart(mainProduct, digitalProduct) {
     let bundledProductDataForAddToCart = {};
+    let addToCartAnalyticsData = {};
     bundledProductDataForAddToCart.baseItem = {
       ussID: mainProduct.USSID,
       productCode: mainProduct.productcode,
@@ -77,6 +91,17 @@ export default class DigitalBundledProductSuggestion extends React.Component {
         recommendationType: digitalProduct.recommendationType
       }
     ];
+    // for analytics
+    let productPrice =
+      digitalProduct.winningSellerPrice &&
+      digitalProduct.winningSellerPrice.value;
+    if (!digitalProduct.winningSellerPrice) {
+      productPrice = digitalProduct.mrpPrice && digitalProduct.mrpPrice.value;
+    }
+    addToCartAnalyticsData.productId = digitalProduct.productListingId;
+    addToCartAnalyticsData.productCategory = digitalProduct.rootCategory;
+    addToCartAnalyticsData.productPrice = productPrice;
+    this.setState({ addToCartAnalyticsData });
     this.props.addBundledProductsToCart(bundledProductDataForAddToCart);
   }
 

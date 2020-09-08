@@ -679,6 +679,19 @@ export const ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE =
 const MSD_AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE =
   "msdAutomatedBannerProductCarouselComponent";
 
+// for product bundling
+const ADOBE_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP = "add_both_product_to_cart";
+export const ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP =
+  "ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP";
+
+const ADOBE_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_CART = "add_to_continue_click";
+export const ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_CART =
+  "ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_CART";
+
+const ADOBE_REMOVE_BUNDLED_PRODUCT_FROM_CART = "cpj_cart_removal";
+export const ADOBE_PB_REMOVE_BUNDLED_PRODUCT_FROM_CART =
+  "ADOBE_PB_REMOVE_BUNDLED_PRODUCT_FROM_CART";
+
 export async function setDataLayer(
   type,
   apiResponse,
@@ -1534,6 +1547,42 @@ export async function setDataLayer(
   if (type === ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE) {
     if (window._satellite) {
       window._satellite.track(ADOBE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE);
+    }
+  }
+  // for product bundling
+  if (type === ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP) {
+    let data = window.digitalData;
+    if (data && data.cpj && data.cpj.product) {
+      data.cpj.product.category = apiResponse.productCategories;
+      data.cpj.product.id = apiResponse.productIds;
+      data.cpj.product.price = apiResponse.productPrices;
+      window.digitalData = data;
+    }
+    if (window._satellite) {
+      window._satellite.track(ADOBE_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP);
+    }
+  }
+  if (type === ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_CART) {
+    let data = window.digitalData;
+    if (data && data.cpj && data.cpj.product) {
+      data.cpj.product.category = apiResponse.productCategory;
+      data.cpj.product.id = apiResponse.productId;
+      data.cpj.product.price = apiResponse.productPrice;
+      window.digitalData = data;
+    }
+    if (window._satellite) {
+      window._satellite.track(ADOBE_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_CART);
+    }
+  }
+  if (type === ADOBE_PB_REMOVE_BUNDLED_PRODUCT_FROM_CART) {
+    let data = window.digitalData;
+    if (data && data.cpj && data.cpj.product) {
+      data.cpj.product.category = apiResponse.productCategory;
+      data.cpj.product.id = apiResponse.productId;
+      window.digitalData = data;
+    }
+    if (window._satellite) {
+      window._satellite.track(ADOBE_REMOVE_BUNDLED_PRODUCT_FROM_CART);
     }
   }
 }
