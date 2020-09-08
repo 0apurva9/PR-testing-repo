@@ -283,6 +283,7 @@ const account = (
     addUserUPIError: null,
     userRatingStatus: null,
     userRatingError: null,
+    userRating: null,
 
     UserNotificationHeaderText: "",
     UserNotificationDetailsStatus: null,
@@ -1831,7 +1832,8 @@ const account = (
     case accountActions.GET_USER_RATING_SUCCESS:
       return Object.assign({}, state, {
         userRatingStatus: action.status,
-        loading: false
+        loading: false,
+        userRating: action.rating
       });
     case accountActions.GET_USER_RATING_FAILURE:
       return Object.assign({}, state, {

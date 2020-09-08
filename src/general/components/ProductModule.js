@@ -165,8 +165,8 @@ export default class ProductModule extends React.Component {
                     electronicView
                       ? styles.ElectronicListimageHolder
                       : this.props.view === "grid"
-                        ? styles.imageHolder
-                        : styles.ListimageHolder
+                      ? styles.imageHolder
+                      : styles.ListimageHolder
                   }
                 >
                   <ProductImage
@@ -199,24 +199,27 @@ export default class ProductModule extends React.Component {
                 electronicView
                   ? styles.electronicViewContent
                   : this.props.view === "grid"
-                    ? styles.content
-                    : styles.Listcontent
+                  ? styles.content
+                  : styles.Listcontent
               }
             >
               <ProductDescription
                 {...this.props}
                 electronicView={electronicView}
               />
-
-              <ProductInfo
-                isPlp={this.props.isPlp}
-                electronicView={electronicView}
-                averageRating={this.props.averageRating}
-                ratingCount={this.props.ratingCount}
-                offerText={this.props.offerText}
-                bestDeliveryInfo={this.props.bestDeliveryInfo}
-                maxExchangePrice={this.props.maxExchangePrice}
-              />
+              {this.props &&
+                !this.props.widgetName &&
+                this.props.widgetName === undefined && (
+                  <ProductInfo
+                    isPlp={this.props.isPlp}
+                    electronicView={electronicView}
+                    averageRating={this.props.averageRating}
+                    ratingCount={this.props.ratingCount}
+                    offerText={this.props.offerText}
+                    bestDeliveryInfo={this.props.bestDeliveryInfo}
+                    maxExchangePrice={this.props.maxExchangePrice}
+                  />
+                )}
             </div>
           </div>
           <React.Fragment>

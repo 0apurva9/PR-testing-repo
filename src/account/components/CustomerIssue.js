@@ -16,8 +16,8 @@ export default class CustomerIssue extends React.Component {
         {this.props.orderAllList && (
           <AllOrdersList
             ordersTransactionData={this.props.ordersTransactionData}
-            getOrderRelatedQuestions={orderData =>
-              this.props.getOrderRelatedQuestions(orderData)
+            getOrderRelatedQuestions={(orderData, product) =>
+              this.props.getOrderRelatedQuestions(orderData, product)
             }
             hideAllOrder={() => this.props.hideAllOrder()}
             getMoreOrder={() => this.props.getMoreOrder()}
@@ -31,7 +31,7 @@ export default class CustomerIssue extends React.Component {
                 {!this.props.isUserLogin ? (
                   <div className={styles.loginBox}>
                     <div className={styles.loginImg}>
-                      <img src={loginIcon} alt="Login icon"></img>
+                      <img src={loginIcon} alt="Login icon" />
                     </div>
                     <div className={styles.loginHeading}>
                       Need help with recent orders
@@ -52,8 +52,8 @@ export default class CustomerIssue extends React.Component {
                 ) : (
                   <OrderList
                     ordersTransactionData={this.props.ordersTransactionData}
-                    getOrderRelatedQuestions={orderData =>
-                      this.props.getOrderRelatedQuestions(orderData)
+                    getOrderRelatedQuestions={(orderData, product) =>
+                      this.props.getOrderRelatedQuestions(orderData, product)
                     }
                     showAllOrdersList={() => this.props.showAllOrdersList()}
                   />

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import Carousel from "../../general/components/Carousel";
 import { getDayNumberSuffix } from "../../lib/dateTimeFunction";
@@ -25,6 +26,83 @@ class OrderList extends Component {
   renderToContinueShopping() {
     this.props.history.push(HOME_ROUTER);
   }
+  orderListRender = () => {
+    let { ordersTransactionData } = this.props;
+    let orderList = [];
+    if (ordersTransactionData && ordersTransactionData.orderData.length) {
+      orderList = ordersTransactionData.orderData.slice(0, 5);
+    }
+    let productList = [];
+    orderList.forEach(orderItem => {
+      if (orderItem.products.length) {
+        orderItem.products.forEach(product => {
+          if (productList.length < 5) {
+            productList.push(
+              <div
+                className={styles.orderDataCard}
+                onClick={() =>
+                  this.props.getOrderRelatedQuestions(orderItem, product)
+                }
+              >
+                <div className={styles.orderDataBox}>
+                  <div className={styles.orderImageBox}>
+                    <ProductImage image={product.imageURL} />
+                  </div>
+                  <div className={styles.orderDatils}>
+                    <div className={styles.productName}>
+                      {product.productName}
+                    </div>
+                    <div className={styles.orderStatus}>
+                      Order status:
+                      <span className={styles.fontBold}>
+                        {" "}
+                        {product.statusDisplay}{" "}
+                      </span>
+                    </div>
+
+                    {product.pickUpDateCNC ? (
+                      product.statusDisplay === ORDER_IN_PROCESS ||
+                      product.statusDisplay === READY_FOR_COLLECTION ? (
+                        <div className={styles.orderStatus}>
+                          {PICKUP_DATE}&nbsp;
+                          <span className={styles.fontBold}>
+                            {getDayNumberSuffix(product.pickUpDateCNC, true)}
+                          </span>
+                        </div>
+                      ) : null
+                    ) : (product.statusDisplay === ORDER_CONFIRMED ||
+                        product.statusDisplay === ORDER_IN_PROCESS ||
+                        product.statusDisplay === SHIPPED ||
+                        product.statusDisplay === ITEM_PACKED ||
+                        product.statusDisplay === OUT_FOR_DELIVERY ||
+                        product.statusDisplay === READY_FOR_COLLECTION) &&
+                      (product.EDD || product.estimateddeliverydate) ? (
+                      <div className={styles.orderStatus}>
+                        {ESTIMATED_DATE}&nbsp;
+                        <div className={styles.fontBold}>
+                          {getDayNumberSuffix(
+                            product.EDD || product.estimateddeliverydate
+                          )}
+                        </div>
+                      </div>
+                    ) : product.deliveryDate ? (
+                      <div className={styles.orderStatus}>
+                        {DELIVERY_TEXT}&nbsp;
+                        <span className={styles.fontBold}>
+                          {getDayNumberSuffix(product.deliveryDate, true)}
+                        </span>
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+            );
+          }
+        });
+      }
+    });
+    return productList;
+  };
 
   render() {
     if (
@@ -50,89 +128,7 @@ class OrderList extends Component {
             showBottomNav={true}
             buttonColor={true}
           >
-            {this.props.ordersTransactionData &&
-              this.props.ordersTransactionData.orderData &&
-              this.props.ordersTransactionData.orderData
-                .slice(0, 5)
-                .map(orderData => {
-                  return (
-                    <div
-                      className={styles.orderDataCard}
-                      onClick={() =>
-                        this.props.getOrderRelatedQuestions(orderData)
-                      }
-                    >
-                      <div className={styles.orderDataBox}>
-                        <div className={styles.orderImageBox}>
-                          <ProductImage
-                            image={orderData.products[0].imageURL}
-                          />
-                        </div>
-                        <div className={styles.orderDatils}>
-                          <div className={styles.productName}>
-                            {orderData.products[0].productName}
-                          </div>
-                          <div className={styles.orderStatus}>
-                            Order status:
-                            <span className={styles.fontBold}>
-                              {" "}
-                              {orderData.products[0].statusDisplay}{" "}
-                            </span>
-                          </div>
-
-                          {orderData.products[0].pickUpDateCNC ? (
-                            orderData.products[0].statusDisplay ===
-                              ORDER_IN_PROCESS ||
-                            orderData.products[0].statusDisplay ===
-                              READY_FOR_COLLECTION ? (
-                              <div className={styles.orderStatus}>
-                                {PICKUP_DATE}&nbsp;
-                                <span className={styles.fontBold}>
-                                  {getDayNumberSuffix(
-                                    orderData.products[0].pickUpDateCNC,
-                                    true
-                                  )}
-                                </span>
-                              </div>
-                            ) : null
-                          ) : (orderData.products[0].statusDisplay ===
-                              ORDER_CONFIRMED ||
-                              orderData.products[0].statusDisplay ===
-                                ORDER_IN_PROCESS ||
-                              orderData.products[0].statusDisplay === SHIPPED ||
-                              orderData.products[0].statusDisplay ===
-                                ITEM_PACKED ||
-                              orderData.products[0].statusDisplay ===
-                                OUT_FOR_DELIVERY ||
-                              orderData.products[0].statusDisplay ===
-                                READY_FOR_COLLECTION) &&
-                            (orderData.products[0].EDD ||
-                              orderData.products[0].estimateddeliverydate) ? (
-                            <div className={styles.orderStatus}>
-                              {ESTIMATED_DATE}&nbsp;
-                              <div className={styles.fontBold}>
-                                {getDayNumberSuffix(
-                                  orderData.products[0].EDD ||
-                                    orderData.products[0].estimateddeliverydate
-                                )}
-                              </div>
-                            </div>
-                          ) : orderData.products[0].deliveryDate ? (
-                            <div className={styles.orderStatus}>
-                              {DELIVERY_TEXT}&nbsp;
-                              <span className={styles.fontBold}>
-                                {getDayNumberSuffix(
-                                  orderData.products[0].deliveryDate,
-                                  true
-                                )}
-                              </span>
-                            </div>
-                          ) : null}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+            {this.orderListRender()}
           </Carousel>
         </React.Fragment>
       );
@@ -161,3 +157,23 @@ class OrderList extends Component {
   }
 }
 export default withRouter(OrderList);
+OrderList.propTypes = {
+  showAllOrdersList: PropTypes.func,
+  getOrderRelatedQuestions: PropTypes.func,
+  ordersTransactionData: PropTypes.shape({
+    orderData: PropTypes.arrayOf(
+      PropTypes.shape({
+        products: PropTypes.arrayOf(
+          PropTypes.shape({
+            imageURL: PropTypes.string,
+            productName: PropTypes.string,
+            statusDisplay: PropTypes.string,
+            pickUpDateCNC: PropTypes.string,
+            EDD: PropTypes.string,
+            estimateddeliverydate: PropTypes.string
+          })
+        )
+      })
+    )
+  })
+};

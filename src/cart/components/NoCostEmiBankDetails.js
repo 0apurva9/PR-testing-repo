@@ -49,9 +49,7 @@ export default class NoCostEmiBankDetails extends React.Component {
           });
         } else {
           this.setState({
-            noCostEmiText: `*No Cost EMI available only on ${
-              this.props.noCostEmiProductCount
-            } product(s). Standard EMI will apply to products, if any, bought along with it.`
+            noCostEmiText: `*No Cost EMI available only on ${this.props.noCostEmiProductCount} product(s). Standard EMI will apply to products, if any, bought along with it.`
           });
         }
         this.getDataForRetryPage();
@@ -325,7 +323,10 @@ export default class NoCostEmiBankDetails extends React.Component {
       }
     }
   }
-  async onSelectMonth(index, val, event) {
+  async onSelectMonth(index, val, event, noCostEMICouponList) {
+    if (this.props.isNoCostEmiApplied && noCostEMICouponList.length <= 1) {
+      return;
+    }
     if (this.state.selectedBankName !== "Other Bank") {
       if (this.props.removeNoCostEmi && this.state.selectedCouponCode) {
         const removeNoCostEmiResponce = await this.props.removeNoCostEmi(
@@ -499,25 +500,24 @@ export default class NoCostEmiBankDetails extends React.Component {
               </div>
             )}
           <DesktopOnly>
-            {this.props.isNoCostEmiApplied &&
-              !this.props.isNoCostEmiProceeded && (
-                <div className={styles.buttonHolder}>
-                  <div className={styles.button}>
-                    <Button
-                      type="primary"
-                      backgroundColor="#ff1744"
-                      height={40}
-                      label="Pay now"
-                      width={150}
-                      textStyle={{
-                        color: "#FFF",
-                        fontSize: 14
-                      }}
-                      onClick={() => this.noCostEMIClick()}
-                    />
-                  </div>
+            {this.props.isNoCostEmiApplied && !this.props.isNoCostEmiProceeded && (
+              <div className={styles.buttonHolder}>
+                <div className={styles.button}>
+                  <Button
+                    type="primary"
+                    backgroundColor="#ff1744"
+                    height={40}
+                    label="Pay now"
+                    width={150}
+                    textStyle={{
+                      color: "#FFF",
+                      fontSize: 14
+                    }}
+                    onClick={() => this.noCostEMIClick()}
+                  />
                 </div>
-              )}
+              </div>
+            )}
           </DesktopOnly>
         </div>
       </div>
@@ -637,7 +637,14 @@ export default class NoCostEmiBankDetails extends React.Component {
                           className={styles.monthWithCheckbox}
                           key={i}
                           value={val.emicouponCode}
-                          onClick={event => this.onSelectMonth(i, val, event)}
+                          onClick={event =>
+                            this.onSelectMonth(
+                              i,
+                              val,
+                              event,
+                              modifiedBankList.noCostEMICouponList
+                            )
+                          }
                         >
                           <div className={styles.checkbox}>
                             <CheckBox
@@ -651,20 +658,17 @@ export default class NoCostEmiBankDetails extends React.Component {
                 </div>
               </div>
             )}
-            {this.state.selectedMonth !== null &&
-              this.props.noCostEmiDetails && (
-                <div>
-                  {this.props.noCostEmiDetails.cartAmount &&
-                    this.props.noCostEmiDetails.cartAmount.emiInfo && (
-                      <div className={styles.charges}>
-                        {this.props.noCostEmiDetails.cartAmount.emiInfo}
-                      </div>
-                    )}
-                  {this.renderMonthsPlan(
-                    this.props.noCostEmiDetails.cartAmount
+            {this.state.selectedMonth !== null && this.props.noCostEmiDetails && (
+              <div>
+                {this.props.noCostEmiDetails.cartAmount &&
+                  this.props.noCostEmiDetails.cartAmount.emiInfo && (
+                    <div className={styles.charges}>
+                      {this.props.noCostEmiDetails.cartAmount.emiInfo}
+                    </div>
                   )}
-                </div>
-              )}
+                {this.renderMonthsPlan(this.props.noCostEmiDetails.cartAmount)}
+              </div>
+            )}
             {this.state.selectedMonth !== null &&
               this.props.isRetryPaymentFromURL &&
               this.props.retryPaymentDetails && (

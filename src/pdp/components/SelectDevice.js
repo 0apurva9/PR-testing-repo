@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./ExchangeModal.css";
 import SelectBoxMobileExchange from "../../general/components/SelectBoxMobileExchange";
+import PropTypes from "prop-types";
 export default class SelectDevice extends React.Component {
   constructor(props) {
     super(props);
@@ -20,7 +21,20 @@ export default class SelectDevice extends React.Component {
   saveDeviceDetails(deviceNo) {
     this.props.saveDeviceDetails(deviceNo);
   }
+
   render() {
+    let brandNames = this.props.makeModelDetails;
+    let sortedBrandNames =
+      brandNames &&
+      brandNames.sort((a, b) =>
+        a.exchangeBrandName.localeCompare(b.exchangeBrandName)
+      );
+    let modelNames = this.props.currentModelList;
+    let sortedModelNames =
+      modelNames &&
+      modelNames.sort((a, b) =>
+        a.exchangeModelName.localeCompare(b.exchangeModelName)
+      );
     return (
       <React.Fragment>
         <div className={styles.smallHeading}>{this.props.heading}</div>
@@ -28,8 +42,8 @@ export default class SelectDevice extends React.Component {
           placeholder={"Select Brand"}
           customSelect="customSelect1"
           options={
-            this.props.makeModelDetails &&
-            this.props.makeModelDetails.map((val, i) => {
+            sortedBrandNames &&
+            sortedBrandNames.map((val, i) => {
               return {
                 value: val.exchangeBrandId,
                 label: val.exchangeBrandName,
@@ -45,8 +59,8 @@ export default class SelectDevice extends React.Component {
           placeholder={"Select Model"}
           customSelect="customSelect2"
           options={
-            this.props.currentModelList &&
-            this.props.currentModelList.map((val, i) => {
+            sortedModelNames &&
+            sortedModelNames.map((val, i) => {
               return {
                 value: val.exchangeModelName,
                 label: val.exchangeModelName,
@@ -71,3 +85,15 @@ export default class SelectDevice extends React.Component {
     );
   }
 }
+
+SelectDevice.propTypes = {
+  makeModelDetails: PropTypes.object,
+  currentModelList: PropTypes.object,
+  heading: PropTypes.string,
+  isEnableForBrand: PropTypes.bool,
+  isEnableForModel: PropTypes.bool,
+  deviceNo: PropTypes.number,
+  onChange: PropTypes.func,
+  onChangeSecondary: PropTypes.func,
+  saveDeviceDetails: PropTypes.func
+};

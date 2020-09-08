@@ -7,8 +7,11 @@ import { ORDER_CODE } from "../../lib/constants";
 
 export default class QuestionFeedback extends Component {
   componentDidMount() {
-    window.scroll(0, 0);
+    if (!this.props.FAQquestion) {
+      window.scroll(0, 0);
+    }
   }
+
   constructor(props) {
     super(props);
   }
@@ -66,7 +69,7 @@ export default class QuestionFeedback extends Component {
           dangerouslySetInnerHTML={{
             __html: newSolution
           }}
-        ></div>
+        />
         <div className={styles.feedBack}>
           <div className={styles.feedBackBox}>
             <div className={styles.feedBackHeader}>{`${
@@ -113,7 +116,7 @@ export default class QuestionFeedback extends Component {
             styles.questionsAction,
             this.props.otherQuestion ? styles.maginBottom : null
           ].join(" ")}
-        ></div>
+        />
       </div>
     );
   }

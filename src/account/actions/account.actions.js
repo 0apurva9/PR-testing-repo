@@ -3012,22 +3012,10 @@ export function fetchOrderDetails(orderId, pageName) {
       );
       let resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      if (pageName === "paymentConfirmation") {
-        setDataLayer(
-          ADOBE_ORDER_CONFIRMATION,
-          resultJson,
-          getState().icid.value,
-          getState().icid.icidType
-        );
-        setDataLayerForOrderConfirmationDirectCalls(
-          ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_SUCCESS,
-          resultJson.orderId
-        );
-      } else {
+      if (pageName !== "order confirmation") {
         setDataLayer(ADOBE_MY_ACCOUNT_ORDER_DETAILS);
       }
       dispatch(fetchOrderDetailsSuccess(resultJson));
@@ -4125,9 +4113,12 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
   return async (dispatch, getState, { api }) => {
     dispatch(getCustomerQueriesFieldsRequestv2());
     try {
-      const result = await fetch(
-        `https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
+      const result = await api.get(
+        `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
       );
+      // const result = await fetch(
+      //   `https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
+      // );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
@@ -4953,10 +4944,11 @@ export function productRatingByUserRequest() {
   };
 }
 
-export function productRatingByUserSuccess() {
+export function productRatingByUserSuccess(rating) {
   return {
     type: GET_USER_RATING_SUCCESS,
-    status: SUCCESS
+    status: SUCCESS,
+    rating
   };
 }
 
@@ -4992,8 +4984,12 @@ export function submitProductRatingByUser(ratingValue, propsData) {
       );
 
       const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
       if (resultJson.rating) {
-        dispatch(displayToast(SUCCESSFUL_PRODUCT_RATING_BY_USER));
+        dispatch(displayToast("RATING_SUBMIT_SUCCESS_TOAST"));
         setDataLayerForRatingAndReview(SET_DATA_LAYER_RATING_MESSAGE, {
           rating: null,
           statusText: SUCCESSFUL_PRODUCT_RATING_BY_USER
@@ -5007,22 +5003,7 @@ export function submitProductRatingByUser(ratingValue, propsData) {
       }
       dispatch(clearOrderDetails());
       dispatch(getAllOrdersDetails());
-      dispatch(productRatingByUserSuccess());
-      if (
-        propsData &&
-        propsData.productDetails &&
-        !propsData.productDetails.hasOwnProperty("userRating")
-      ) {
-        dispatch(
-          showModal(RATING_AND_REVIEW_MODAL, {
-            ...propsData,
-            productDetails: {
-              ...propsData.productDetails,
-              userRating: resultJson.rating
-            }
-          })
-        );
-      }
+      dispatch(productRatingByUserSuccess(resultJson.rating));
     } catch (e) {
       dispatch(productRatingByUserFailure(e.message));
     }

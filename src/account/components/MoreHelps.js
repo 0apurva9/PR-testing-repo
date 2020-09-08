@@ -74,7 +74,7 @@ const MoreHelps = props => {
             props.selectedOrder.click2Call == YES &&
             props.selectedOrder &&
             props.selectedOrder.chat == YES && (
-              <div className={styles.lineSeperator}></div>
+              <div className={styles.lineSeperator} />
             )}
 
           {props.selectedOrder && props.selectedOrder.click2Call == YES && (
@@ -115,14 +115,14 @@ const MoreHelps = props => {
           >
             Go to Previous Page{" "}
           </div>
-          <div className={styles.buttonSeperator}></div>
+          <div className={styles.buttonSeperator} />
           <div
             className={styles.customButton}
             onClick={() => props.navigateHomePage()}
           >
             Continue Shopping
           </div>
-          <div className={[styles.arrow, styles.rightArrow].join(" ")}></div>
+          <div className={[styles.arrow, styles.rightArrow].join(" ")} />
         </div>
       </div>
     </div>

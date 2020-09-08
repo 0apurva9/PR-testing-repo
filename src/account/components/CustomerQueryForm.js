@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import FloatingLabelInputWithPlace from "../../general/components/FloatingLabelInputWithPlace";
 import TextArea from "../../general/components/TextArea";
 import Icon from "../../xelpmoc-core/Icon";
@@ -206,11 +207,13 @@ export default class CustomerQueryForm extends Component {
                   maxLength={listOfField.maxLimit}
                   value={this.state[listOfField.componentId]}
                   onChange={value =>
-                    this.setState({ [listOfField.componentId]: value })
+                    this.setState({ [listOfField.componentId]: value }, () => {
+                      this.validateForm(false);
+                    })
                   }
                   fontSize={"11px"}
                   onlyNumber={listOfField.hexCode == "isNumeric" ? true : false}
-                  onBlur={() => this.onBlur(false)}
+                  // onBlur={() => this.onBlur(false)}
                 />
               </div>
             </div>
@@ -283,10 +286,12 @@ export default class CustomerQueryForm extends Component {
                   placeholder={listOfField.placeholder}
                   value={this.state[listOfField.componentId]}
                   onChange={value =>
-                    this.setState({ [listOfField.componentId]: value })
+                    this.setState({ [listOfField.componentId]: value }, () => {
+                      this.validateForm(false);
+                    })
                   }
                   maxLength={parseInt(listOfField.maxLimit)}
-                  onBlur={() => this.onBlur(false)}
+                  // onBlur={() => this.onBlur(false)}
                 />
               </div>
             </React.Fragment>
@@ -334,7 +339,8 @@ export default class CustomerQueryForm extends Component {
         [selectObj.componentId]: evt.target.value
       },
       () => {
-        this.onBlur();
+        // this.onBlur();
+        this.validateForm();
         if (option.webFormTemplate) {
           this.props.getCustomerQueriesFields(option.webFormTemplate, true);
         }
@@ -468,7 +474,9 @@ export default class CustomerQueryForm extends Component {
               if (uploadedAttachment && uploadedAttachment.length > 0) {
                 let urlList = [];
                 uploadedAttachment.forEach(item => {
-                  let list = item.urlList.map(url => url.fileURL);
+                  let list = item.urlList
+                    ? item.urlList.map(url => url.fileURL)
+                    : [];
                   urlList.push(...list);
                 });
                 additionalInfo[uploadFileTitle] = urlList.join(",");
@@ -528,7 +536,7 @@ export default class CustomerQueryForm extends Component {
     }
   }
 
-  onBlur(isEmailMobileValidate) {
+  validateForm(isEmailMobileValidate) {
     if (isEmailMobileValidate) {
       if (!this.state.email || !this.state.mobile) {
         this.setState({ btnDisable: true });
@@ -579,39 +587,57 @@ export default class CustomerQueryForm extends Component {
   }
   async onUploadFile(file, { maxFileLimit, maxFileSize, title }) {
     const newFile = Array.from(file);
-    if (newFile.length > 0) {
-      let combinedSize = 0,
-        totalFile = [...newFile, ...this.state.file];
-      for (let f of totalFile) combinedSize += f.size / 1048576; //converting file size into MB
-      let issueType =
-        this.props.isSelected == 1 ? "NonOrderRelated" : "orderRelated";
-      if (combinedSize <= maxFileSize && totalFile.length <= maxFileLimit) {
-        const uploadFileResponse = await this.props.uploadUserFile(
-          this.props.questionType,
-          title,
-          Array.from(newFile)
-        );
-        let { uploadUserFile, status } = uploadFileResponse;
-        if (uploadFileResponse && status === SUCCESS) {
-          this.setState(prevState => ({
-            file: [...prevState.file, ...newFile],
-            btnDisable: false,
-            uploadedAttachment: [
-              ...prevState.uploadedAttachment,
-              ...uploadUserFile.imageURLlist
-            ]
-          }));
-        }
+    let validFile = true;
+    for (let value of newFile) {
+      if (
+        value.name.includes("jpg") ||
+        value.name.includes("jpeg") ||
+        value.name.includes("png") ||
+        value.name.includes("pdf")
+      ) {
+        validFile = true;
       } else {
-        if (totalFile.length > maxFileLimit)
-          this.props.displayToast(
-            `Maximum ${maxFileLimit} No. of files allowed`
-          );
-        else
-          this.props.displayToast(
-            `File size should be less then ${maxFileSize} MB`
-          );
+        validFile = false;
+        break;
       }
+    }
+    if (validFile) {
+      if (newFile.length > 0) {
+        let combinedSize = 0,
+          totalFile = [...newFile, ...this.state.file];
+        for (let f of totalFile) combinedSize += f.size / 1048576; //converting file size into MB
+        let issueType =
+          this.props.isSelected == 1 ? "NonOrderRelated" : "orderRelated";
+        if (combinedSize <= maxFileSize && totalFile.length <= maxFileLimit) {
+          const uploadFileResponse = await this.props.uploadUserFile(
+            this.props.questionType,
+            title,
+            Array.from(newFile)
+          );
+          let { uploadUserFile, status } = uploadFileResponse;
+          if (uploadFileResponse && status === SUCCESS) {
+            this.setState(prevState => ({
+              file: [...prevState.file, ...newFile],
+              btnDisable: false,
+              uploadedAttachment: [
+                ...prevState.uploadedAttachment,
+                ...uploadUserFile.imageURLlist
+              ]
+            }));
+          }
+        } else {
+          if (totalFile.length > maxFileLimit)
+            this.props.displayToast(
+              `Maximum ${maxFileLimit} No. of files allowed`
+            );
+          else
+            this.props.displayToast(
+              `File size should be less then ${maxFileSize} MB`
+            );
+        }
+      }
+    } else {
+      return this.props.displayToast("Upload JPEG, PNG, or PDF only");
     }
   }
 
@@ -637,9 +663,6 @@ export default class CustomerQueryForm extends Component {
     );
   }
 
-  componentWillUnmount() {
-    console.log("unMount check");
-  }
   previewPage() {
     if (this.state.currentStep == BASIC_FORM) {
       this.props.navigatePreviousPage();
@@ -792,9 +815,14 @@ export default class CustomerQueryForm extends Component {
                     placeholder={"Enter email ID"}
                     disabled={this.state.email ? true : false}
                     value={this.state.email}
-                    onChange={email => this.setState({ email: email })}
+                    onChange={
+                      (email => this.setState({ email: email }),
+                      () => {
+                        this.validateForm(true);
+                      })
+                    }
                     fontSize={"11px"}
-                    onBlur={() => this.onBlur(true)}
+                    // onBlur={() => this.onBlur(true)}
                     type={"email"}
                   />
                 )}
@@ -815,7 +843,7 @@ export default class CustomerQueryForm extends Component {
                   }
                   fontSize={"11px"}
                   onlyNumber={true}
-                  onBlur={() => this.onBlur(true)}
+                  // onBlur={() => this.onBlur(true)}
                 />
               </div>
             </div>
@@ -863,3 +891,16 @@ export default class CustomerQueryForm extends Component {
     );
   }
 }
+
+CustomerQueryForm.propTypes = {
+  questionType: PropTypes.string,
+  parentIssueType: PropTypes.string,
+  otherQuestion: PropTypes.bool,
+  navigatePreviousPage: PropTypes.func,
+  getCustomerQueriesFields: PropTypes.func,
+  displayToast: PropTypes.func,
+  uploadUserFile: PropTypes.func,
+  submitCustomerForms: PropTypes.func,
+  userDetails: PropTypes.object,
+  selectedOrder: PropTypes.object
+};

@@ -561,6 +561,10 @@ export const REMOVE_EXCHANGE_REQUEST = "REMOVE_EXCHANGE_REQUEST";
 export const REMOVE_EXCHANGE_SUCCESS = "REMOVE_EXCHANGE_SUCCESS";
 export const REMOVE_EXCHANGE_FAILURE = "REMOVE_EXCHANGE_FAILURE";
 
+export const GET_CUSTOM_COMPONENT_REQUEST = "GET_CUSTOM_COMPONENT_REQUEST";
+export const GET_CUSTOM_COMPONENT_SUCCESS = "GET_CUSTOM_COMPONENT_SUCCESS";
+export const GET_CUSTOM_COMPONENT_FAILURE = "GET_CUSTOM_COMPONENT_FAILURE";
+
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 export function displayCouponRequest() {
   return {
@@ -2316,9 +2320,7 @@ export function collectPaymentOrderForGiftCardUPI(
   bankName
 ) {
   return async (dispatch, getState, { api }) => {
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -2433,9 +2435,7 @@ export function collectPaymentOrderForUPI(
     }
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
 
     let orderDetails = "";
     let inventoryItems = cartItem;
@@ -2717,9 +2717,7 @@ export function createJusPayOrderForUPI(
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
   let upi_vpa = JSON.parse(localStorage.getItem(UPI_VPA));
   let cartItem = cartItemObj;
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/multi/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/multi/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
@@ -3639,9 +3637,7 @@ export function createJusPayOrder(
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
@@ -3771,9 +3767,7 @@ export function createJusPayOrderForGiftCard(
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -3829,9 +3823,7 @@ export function createJusPayOrderForNetBanking(
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
@@ -3941,9 +3933,7 @@ export function createJusPayOrderForGiftCardNetBanking(
   bankCode,
   bankName
 ) {
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -3994,9 +3984,7 @@ export function createJusPayOrderForSavedCards(
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
   let cartItem = cartItemObj;
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/multi/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/multi/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
@@ -4106,9 +4094,7 @@ export function createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId) {
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -4172,9 +4158,7 @@ export function createJusPayOrderForCliqCash(
     localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
   }
 
-  const jusPayUrl = `${
-    window.location.origin
-  }/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
@@ -5980,18 +5964,17 @@ export function getValidDeliveryModeDetails(
       updatedDeliveryModes[productMode] = SHORT_COLLECT;
     }
   });
+  let index = 0;
   each(cartProductDetails, product => {
     if (product.isGiveAway === NO || isFromRetryUrl) {
       let selectedDeliveryModeDetails = "";
       //get the selected delivery Mode
       if (isFromRetryUrl) {
-        selectedDeliveryModeDetails = pincodeDetails.pinCodeResponseList[0].validDeliveryModes.find(
-          validDeliveryMode => {
-            return (
-              validDeliveryMode.type === updatedDeliveryModes[product.USSID]
-            );
-          }
-        );
+        selectedDeliveryModeDetails = pincodeDetails.pinCodeResponseList[
+          index
+        ].validDeliveryModes.find(validDeliveryMode => {
+          return validDeliveryMode.type === updatedDeliveryModes[product.USSID];
+        });
       } else {
         selectedDeliveryModeDetails = product.pinCodeResponse.validDeliveryModes.find(
           validDeliveryMode => {
@@ -6001,6 +5984,7 @@ export function getValidDeliveryModeDetails(
           }
         );
       }
+      index++;
       let productDetails = {};
       productDetails.ussId = product.USSID;
       productDetails.quantity = product.qtySelectedByUser;
@@ -7114,6 +7098,11 @@ export function getPrepaidOrderPaymentConfirmation(orderDetails) {
       ) {
         throw new Error(resultJsonStatus.message);
       }
+      setDataLayer(ADOBE_ORDER_CONFIRMATION, resultJson);
+      setDataLayerForOrderConfirmationDirectCalls(
+        ADOBE_DIRECT_CALLS_FOR_ORDER_CONFIRMATION_SUCCESS,
+        orderDetails && orderDetails.orderId
+      );
       dispatch(getPrepaidOrderPaymentConfirmationSuccess(resultJson));
     } catch (e) {
       dispatch(getPrepaidOrderPaymentConfirmationFailure(e));
@@ -7131,9 +7120,7 @@ export function stripe_juspay_Tokenize(
   retryCartGuid
 ) {
   return async (dispatch, getState, { api }) => {
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let orderDetails = "";
     let inventoryItems = cartItems;
     if (isFromRetryUrl && !isPaymentFailed) {
@@ -7236,9 +7223,7 @@ export function stripe_juspay_TokenizeGiftCard(
   isFromRetryUrl
 ) {
   return async (dispatch, getState, { api }) => {
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     if (cardDetails) {
       let juspayToken = await dispatch(
         jusPayTokenizeForGiftCard(cardDetails, paymentMode, egvCartGuid)
@@ -7322,9 +7307,7 @@ export function collectPaymentOrderForSavedCards(
         .toLowerCase()} Card`;
     }
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let orderDetails = "";
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
     let inventoryItems = cartItem;
@@ -7473,9 +7456,7 @@ export function collectPaymentOrderForGiftCardFromSavedCards(
         .toLowerCase()} Card`;
     }
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let orderDetails = "";
     orderDetails = {
       wrapperItems: [
@@ -7571,9 +7552,7 @@ export function collectPaymentOrderForNetBanking(
     let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
 
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let orderDetails,
       cartDetails = "";
     let inventoryItems = cartItem;
@@ -7726,9 +7705,7 @@ export function collectPaymentOrderForGiftCardNetBanking(
   bankName
 ) {
   return async (dispatch, getState, { api }) => {
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -7854,9 +7831,7 @@ export function collectPaymentOrderForCliqCash(
     const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
-    const returnUrl = `${
-      window.location.origin
-    }/checkout/payment-method/cardPayment`;
+    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
     let orderDetails = "";
     let inventoryItems = cartItem;
     if (isPaymentFailed) {
@@ -8019,9 +7994,7 @@ export function removeExchange(data) {
     dispatch(removeExchangeRequest());
     try {
       const result = await api.getMiddlewareUrl(
-        `v2/mpl/products/cancelExchange?access_token=${accessToken}&guid=${guId}&entryNumber=${
-          data.entryNumber
-        }&quoteId=${data.quoteId}&imeiNumber=${data.IMEINumber}`
+        `v2/mpl/products/cancelExchange?access_token=${accessToken}&guid=${guId}&entryNumber=${data.entryNumber}&quoteId=${data.quoteId}&imeiNumber=${data.IMEINumber}`
       );
       const resultJson = await result.json();
       if (
@@ -8073,6 +8046,48 @@ export function getCartCodeAndGuidForLoggedInUser() {
       return resultJson;
     } catch (e) {
       console.log(e.message);
+    }
+  };
+}
+export function getCustomInstructionRequest() {
+  return {
+    type: GET_CUSTOM_COMPONENT_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getCustomInstructionSuccess(customComponent) {
+  return {
+    type: GET_CUSTOM_COMPONENT_SUCCESS,
+    status: SUCCESS,
+    customComponent
+  };
+}
+
+export function getCustomInstructionFailure(error) {
+  return {
+    type: GET_CUSTOM_COMPONENT_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function getCustomInstruction() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getCustomInstructionRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=MPL_GET_CUSTOM_COMPONENT`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(getCustomInstructionSuccess(resultJson));
+    } catch (e) {
+      dispatch(getCustomInstructionFailure(e.message));
     }
   };
 }
