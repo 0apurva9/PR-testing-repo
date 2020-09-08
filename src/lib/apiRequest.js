@@ -15,6 +15,8 @@ let MIDDLEWARE_API_URL_ROOT = "/que-marketplacewebservices";
 export let TATA_CLIQ_ROOT = /https?:[\/]{2}\S*?(\/\S*)/;
 export const TOKEN_PATH = "oauth/token";
 export let URL_ROOT = "";
+let TESTING_BASE_URL = "";
+
 let count = 0;
 if (
   process.env.REACT_APP_STAGE === "devxelp" ||
@@ -84,6 +86,11 @@ if (
   API_URL_ROOT = "https://qa9.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
     "https://qa9.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "qa3") {
+  API_URL_ROOT = "https://qa3.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://qa3.tataunistore.com/marketplacewebservices";
+  TESTING_BASE_URL = "https://www.tatacliq.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "qa10") {
   API_URL_ROOT = "https://qa10.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
@@ -311,6 +318,59 @@ export async function coreGet(url) {
 
 export async function get(url) {
   const result = await coreGet(url);
+  const resultClone = result.clone();
+  const resultJson = await result.json();
+  const errorStatus = ErrorHandling.getFailureResponse(resultJson);
+
+  try {
+    if (errorStatus.status && url.includes("cartDetails")) {
+      throw errorStatus;
+    }
+
+    if (
+      (!errorStatus.status ||
+        !isInvalidAccessTokenError(errorStatus.message)) &&
+      !isCartNotFoundError(resultJson)
+    ) {
+      return resultClone;
+    }
+    let newUrl;
+
+    if (isCartNotFoundError(resultJson)) {
+      newUrl = await handleCartNotFoundError(resultJson, url);
+    }
+    if (isInvalidAccessTokenError(errorStatus.message)) {
+      newUrl = await handleInvalidGlobalAccesssTokenOrCustomerAccessToken(
+        errorStatus.message,
+        url
+      );
+    }
+    return await coreGet(newUrl);
+  } catch (e) {
+    throw e;
+  }
+}
+
+export async function coreGetProdPointing(url) {
+  function btoa(str) {
+    if (Buffer.byteLength(str) !== str.length) throw new Error("bad string!");
+    return Buffer(str, "binary").toString("base64");
+  }
+  return await fetch(`${TESTING_BASE_URL}/${url}`, {
+    headers: {
+      Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#"),
+      "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+      "Content-Length": 1897,
+      "Content-Type": "application/json; charset=utf-8",
+      Expires: "Mon, 01 Jan 1990 00:00:00 GMT",
+      Pragma: "no-cache",
+      Server: "Microsoft-IIS/8.0"
+    }
+  });
+}
+
+export async function prodPointingGet(url) {
+  const result = await coreGetProdPointing(url);
   const resultClone = result.clone();
   const resultJson = await result.json();
   const errorStatus = ErrorHandling.getFailureResponse(resultJson);
