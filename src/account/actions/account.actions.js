@@ -3896,7 +3896,10 @@ export function getAllOthersHelp(pageId) {
   return async (dispatch, getState, { api }) => {
     dispatch(getAllOthersHelpRequest());
     try {
-      const result = await api.get(`${PATH}/cms/defaultpage?pageId=${pageId}`);
+      // const result = await api.get(`${PATH}/cms/defaultpage?pageId=${pageId}`);
+      const result = await api.prodPointingGet(
+        `${PATH}/cms/defaultpage?pageId=${pageId}`
+      );
       let resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
@@ -3975,8 +3978,12 @@ export function getFaqRelatedQuestions(FAQPageId) {
   return async (dispatch, getState, { api }) => {
     dispatch(getFaqRelatedQuestionsRequest());
     try {
-      const result = await api.get(
-        `v2/mpl/cms/defaultpage?pageId=${FAQPageId}`
+      // const result = await api.get(
+      //   `v2/mpl/cms/defaultpage?pageId=${FAQPageId}`
+      // );
+
+      const result = await api.prodPointingGet(
+        `${PATH}/cms/defaultpage?pageId=${FAQPageId}`
       );
       let resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4113,12 +4120,12 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
   return async (dispatch, getState, { api }) => {
     dispatch(getCustomerQueriesFieldsRequestv2());
     try {
-      const result = await api.get(
+      // const result = await api.get(
+      //   `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
+      // );
+      const result = await api.prodPointingGet(
         `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
       );
-      // const result = await fetch(
-      //   `https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
-      // );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
