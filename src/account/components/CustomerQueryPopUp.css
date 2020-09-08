@@ -12,10 +12,10 @@
   animation: slideInUp 200ms forwards;
   text-align: center;
 }
-.heightOrder{
+.heightOrder {
   height: 302px;
 }
-.heightOther{
+.heightOther {
   height: 339px;
 }
 @keyframes slideInUp {
@@ -29,61 +29,64 @@
 .headerText {
   font-family: semibold;
   font-size: 20px;
-  color: #2D2D2D;
+  color: #2d2d2d;
 }
 @media screen and (min-width: 1025px) {
   .base {
-    width:667px;
+    width: 667px;
   }
 }
 .colorRed {
-  color: #DA1C5C;
+  color: #da1c5c;
   font-size: 14px;
   font-family: semibold;
 }
-.image{
+.image {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 24px;
 }
-.duplicateIcon{
+.duplicateIcon {
   margin-top: 66px;
 }
-.txt{
+.txt {
   font-size: 12px;
-  color: #2D2D2D;
+  color: #2d2d2d;
   font-family: light;
-  padding-bottom: 7px;
+  padding-bottom: 2px;
 }
-.duplicateTxt{
+.duplicateTxt {
   font-size: 12px;
-    color: #2D2D2D;
-    font-family: light;
-    /* padding-bottom: 7px; */
-    padding: 10px 0px 0px 0px;
+  color: #2d2d2d;
+  font-family: light;
+  /* padding-bottom: 7px; */
+  padding: 10px 0px 0px 0px;
 }
-.ticketId, .expDateTime{
+.ticketId,
+.expDateTime {
   font-size: 14px;
-  color: #2D2D2D;
+  color: #2d2d2d;
   font-family: semibold;
 }
-.ticketIdBox{
+.ticketIdBox {
   margin: 20px 0px;
 }
-.buttonHolder{
+.buttonHolder {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.marginTop {
   margin-top: 53px;
 }
-.closeModal{
+.closeModal {
   top: 14px;
-    /* left: 11px; */
-    text-align: lecft;
-    position: absolute;
-    /* left: 10px; */
-    right: 17px;
+  /* left: 11px; */
+  text-align: lecft;
+  position: absolute;
+  /* left: 10px; */
+  right: 17px;
 }
