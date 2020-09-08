@@ -1405,10 +1405,10 @@ export function getTargetMboxData(componentName, sequence, pageType) {
               height: window && window.innerHeight
             },
             browser: {
-              host: "localhost"
+              host: document && document.location && document.location.origin
             },
             address: {
-              url: "http://localhost:3001/"
+              url: document && document.location && document.location.origin
             }
           },
           id: {
