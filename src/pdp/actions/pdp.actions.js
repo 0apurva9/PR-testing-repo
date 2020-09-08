@@ -98,8 +98,6 @@ export const DELETE_PRODUCT_REVIEW_REQUEST = "DELETE_PRODUCT_REVIEW_REQUEST";
 export const DELETE_PRODUCT_REVIEW_SUCCESS = "DELETE_PRODUCT_REVIEW_SUCCESS";
 export const DELETE_PRODUCT_REVIEW_FAILURE = "DELETE_PRODUCT_REVIEW_FAILURE";
 
-export const CLEAR_ALL_MSD_ITEMS = "CLEAR_ALL_MSD_ITEMS";
-
 export const PRODUCT_MSD_REQUEST = "PRODUCT_MSD_REQUEST";
 export const PRODUCT_MSD_SUCCESS = "PRODUCT_MSD_SUCCESS";
 export const PRODUCT_MSD_FAILURE = "PRODUCT_MSD_FAILURE";
@@ -1054,12 +1052,6 @@ export function getProductReviews(productCode, pageIndex, orderBy, sortBy) {
     } catch (e) {
       dispatch(getProductReviewsFailure(e.message));
     }
-  };
-}
-
-export function clearAllMsdItems() {
-  return {
-    type: CLEAR_ALL_MSD_ITEMS
   };
 }
 
