@@ -251,11 +251,13 @@ export default class CustomerQueryForm extends Component {
                   maxLength={listOfField.maxLimit}
                   value={this.state[listOfField.componentId]}
                   onChange={value =>
-                    this.setState({ [listOfField.componentId]: value })
+                    this.setState({ [listOfField.componentId]: value }, () => {
+                      this.validateForm(false);
+                    })
                   }
                   fontSize={"11px"}
                   onlyNumber={listOfField.hexCode == "isNumeric" ? true : false}
-                  onBlur={() => this.onBlur(false)}
+                  // onBlur={() => this.onBlur(false)}
                 />
               </div>
             </div>
@@ -328,10 +330,12 @@ export default class CustomerQueryForm extends Component {
                   placeholder={listOfField.placeholder}
                   value={this.state[listOfField.componentId]}
                   onChange={value =>
-                    this.setState({ [listOfField.componentId]: value })
+                    this.setState({ [listOfField.componentId]: value }, () => {
+                      this.validateForm(false);
+                    })
                   }
                   maxLength={parseInt(listOfField.maxLimit)}
-                  onBlur={() => this.onBlur(false)}
+                  // onBlur={() => this.onBlur(false)}
                 />
               </div>
             </React.Fragment>
@@ -379,7 +383,8 @@ export default class CustomerQueryForm extends Component {
         [selectObj.componentId]: evt.target.value
       },
       () => {
-        this.onBlur();
+        // this.onBlur();
+        this.validateForm();
         if (option.webFormTemplate) {
           this.props.getCustomerQueriesFields(option.webFormTemplate, true);
         }
@@ -603,7 +608,7 @@ export default class CustomerQueryForm extends Component {
     }
   }
 
-  onBlur(isEmailMobileValidate) {
+  validateForm(isEmailMobileValidate) {
     if (isEmailMobileValidate) {
       if (!this.state.email || !this.state.mobile) {
         this.setState({ btnDisable: true });
@@ -908,9 +913,14 @@ export default class CustomerQueryForm extends Component {
                     placeholder={"Enter email ID"}
                     disabled={this.state.email ? true : false}
                     value={this.state.email}
-                    onChange={email => this.setState({ email: email })}
+                    onChange={
+                      (email => this.setState({ email: email }),
+                      () => {
+                        this.validateForm(true);
+                      })
+                    }
                     fontSize={"11px"}
-                    onBlur={() => this.onBlur(true)}
+                    // onBlur={() => this.onBlur(true)}
                     type={"email"}
                   />
                 )}
@@ -931,7 +941,7 @@ export default class CustomerQueryForm extends Component {
                   }
                   fontSize={"11px"}
                   onlyNumber={true}
-                  onBlur={() => this.onBlur(true)}
+                  // onBlur={() => this.onBlur(true)}
                 />
               </div>
             </div>
