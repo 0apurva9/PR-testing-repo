@@ -145,6 +145,7 @@ export default class CartItem extends React.Component {
                 inCartPageIcon={true}
                 cliqPiqSelected={this.props.cliqPiqSelected}
                 winningUssID={this.props.product && this.props.product.USSID}
+                isShippingObjAvailable={this.props.isShippingObjAvailable}
               />
             </div>
           )}

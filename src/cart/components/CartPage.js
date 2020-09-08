@@ -97,7 +97,6 @@ class CartPage extends React.Component {
       this.props.displayToast(msg);
     }
     document.title = "Shopping Cart - TATA CLiQ ";
-    this.props.getWishListItems();
     this.props.getUserAddress();
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
@@ -143,19 +142,6 @@ class CartPage extends React.Component {
           ? cliqPiqCartCode
           : JSON.parse(cartDetailsLoggedInUser).code,
         defaultPinCode
-      );
-
-      if (localStorage.getItem(CART_BAG_DETAILS)) {
-        this.props.displayCouponsForLoggedInUser(
-          JSON.parse(userDetails).userName,
-          JSON.parse(customerCookie).access_token,
-          JSON.parse(cartDetailsLoggedInUser).guid
-        );
-      }
-      this.props.displayCouponsForLoggedInUser(
-        JSON.parse(userDetails).userName,
-        JSON.parse(customerCookie).access_token,
-        cliqPiqCartId ? cliqPiqCartId : JSON.parse(cartDetailsLoggedInUser).guid
       );
     } else {
       if (globalCookie !== undefined && cartDetailsAnonymous !== undefined) {
@@ -355,11 +341,13 @@ class CartPage extends React.Component {
     }
   };
 
-  goToCouponPage = () => {
-    let couponDetails = Object.assign(this.props.cart.coupons, this.props);
-    this.props.showCouponModal(couponDetails);
-  };
-
+  componentWillReceiveProps(nextProps) {
+    if (this.props.cart.coupons !== nextProps.cart.coupons) {
+      let couponDetails =
+        nextProps.cart && Object.assign(nextProps.cart.coupons, nextProps);
+      this.props.showCouponModal(couponDetails);
+    }
+  }
   navigateToLogin() {
     const url = this.props.location.pathname;
     if (this.props.setUrlToRedirectToAfterAuth) {
@@ -510,6 +498,21 @@ class CartPage extends React.Component {
       checkPinCodeAvailability: pinCode =>
         this.checkPinCodeAvailability(pinCode)
     });
+  };
+  displayCouponsforLoggedInUser = () => {
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const cartDetailsLoggedInUser = Cookie.getCookie(
+      CART_DETAILS_FOR_LOGGED_IN_USER
+    );
+    if (localStorage.getItem(CART_BAG_DETAILS)) {
+      this.props.displayCouponsForLoggedInUser(
+        JSON.parse(userDetails).userName,
+        JSON.parse(customerCookie).access_token,
+        JSON.parse(cartDetailsLoggedInUser).guid
+      );
+    }
   };
   renderBankOffers = () => {
     if (
@@ -994,6 +997,15 @@ class CartPage extends React.Component {
                             }
                             displayToast={this.props.displayToast}
                             getCartDetails={this.props.getCartDetails}
+                            isShippingObjAvailable={
+                              this.props.cart &&
+                              this.props.cart.cartDetails &&
+                              this.props.cart.cartDetails.cartAmount &&
+                              this.props.cart.cartDetails.cartAmount
+                                .shippingCharge
+                                ? true
+                                : false
+                            }
                           />
                         </DesktopOnly>
                       </div>
@@ -1018,7 +1030,6 @@ class CartPage extends React.Component {
                 {cartDetails.products && (
                   <SavedProduct
                     saveProduct={() => this.goToWishList()}
-                    onApplyCoupon={() => this.goToCouponPage()}
                     appliedCouponCode={this.state.appliedCouponCode}
                   />
                 )}
@@ -1063,7 +1074,6 @@ class CartPage extends React.Component {
                             <div className={styles.couponWrapper}>
                               <SavedProduct
                                 saveProduct={() => this.goToWishList()}
-                                onApplyCoupon={() => this.goToCouponPage()}
                                 appliedCouponCode={this.state.appliedCouponCode}
                               />
                             </div>
@@ -1117,10 +1127,12 @@ class CartPage extends React.Component {
               <div className={styles.bagTotal}>
                 <div className={styles.bagTotalFixed}>
                   {cartDetails.products && (
-                    <div className={styles.couponCard}>
+                    <div
+                      className={styles.couponCard}
+                      onClick={() => this.displayCouponsforLoggedInUser()}
+                    >
                       <SavedProduct
                         saveProduct={() => this.goToWishList()}
-                        onApplyCoupon={() => this.goToCouponPage()}
                         appliedCouponCode={this.state.appliedCouponCode}
                       />
                     </div>
@@ -1173,6 +1185,12 @@ class CartPage extends React.Component {
                           }
                           totalExchangeAmount={cartDetails.totalExchangeAmount}
                           isQuoteExpired={isQuoteExpired}
+                          isShippingObjAvailable={
+                            cartDetails.cartAmount &&
+                            cartDetails.cartAmount.shippingCharge
+                              ? true
+                              : false
+                          }
                         />
                       </div>
                     )}
@@ -1181,9 +1199,7 @@ class CartPage extends React.Component {
                     this.props.wishListCount > 0 && (
                       <div className={styles.wishListCountSection}>
                         <div className={styles.iconWishList} />
-                        <span>{`You have ${
-                          this.props.wishListCount
-                        } items in your saved list`}</span>
+                        <span>{`You have ${this.props.wishListCount} items in your saved list`}</span>
                         <div className={styles.buttonHolder}>
                           <UnderLinedButton
                             size="14px"
@@ -1231,10 +1247,11 @@ here we need to hit call for merging cart id if user
         if (localStorage.getItem(CNC_CART)) {
           localStorage.removeItem(CNC_CART);
         }
-      } else {
-        // Before leaving cart page call minicart
-        this.props.getMinicartProducts();
       }
+      //  else {
+      //   // Before leaving cart page call minicart
+      //   // this.props.getMinicartProducts();
+      // }
     } else {
       //localStorage.removeItem(SELECTED_STORE);
     }

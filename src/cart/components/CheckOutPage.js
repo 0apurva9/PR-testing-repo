@@ -606,20 +606,24 @@ class CheckOutPage extends React.Component {
       <div className={styles.addInitialAddAddress}>
         <ConfirmAddress
           address={
-            cartData.userAddress.addresses &&
-            cartData.userAddress.addresses.map(address => {
-              return {
-                addressTitle: address.addressType,
-                addressDescription: `${address.line1 ? address.line1 : ""} ${
-                  address.line2 ? address.line2 : ""
-                }  ${address.state ? address.state : ""} ${
-                  address.postalCode ? address.postalCode : ""
-                }`,
-                value: address.id,
-                phone: address.phone,
-                selected: address.defaultAddress
-              };
-            })
+            cartData.cartDetailsCNC &&
+            cartData.cartDetailsCNC.addressDetailsList &&
+            cartData.cartDetailsCNC.addressDetailsList.addresses &&
+            cartData.cartDetailsCNC.addressDetailsList.addresses.map(
+              address => {
+                return {
+                  addressTitle: address.addressType,
+                  addressDescription: `${address.line1 ? address.line1 : ""} ${
+                    address.line2 ? address.line2 : ""
+                  }  ${address.state ? address.state : ""} ${
+                    address.postalCode ? address.postalCode : ""
+                  }`,
+                  value: address.id,
+                  phone: address.phone,
+                  selected: address.defaultAddress
+                };
+              }
+            )
           }
           onRedirectionToNextSection={
             this.state.isPaymentFailed
@@ -690,6 +694,14 @@ class CheckOutPage extends React.Component {
                   selectedStoreDetails={val.storeDetails}
                   cliqPiqSelected={this.state.cliqPiqSelected}
                   product={val}
+                  isShippingObjAvailable={
+                    this.props.cart &&
+                    this.props.cart.cartDetailsCNC &&
+                    this.props.cart.cartDetailsCNC.cartAmount &&
+                    this.props.cart.cartDetailsCNC.cartAmount.shippingCharge
+                      ? true
+                      : false
+                  }
                 />
               </div>
             );
@@ -1280,11 +1292,11 @@ class CheckOutPage extends React.Component {
         );
       }
     }
-    if (!nextProps.cart.getUserAddressStatus && !this.state.isPaymentFailed) {
-      this.props.getUserAddress(
-        localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
-      );
-    }
+    // if (!nextProps.cart.getUserAddressStatus && !this.state.isPaymentFailed) {
+    //   this.props.getUserAddress(
+    //     localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+    //   );
+    // }
     if (
       !this.state.isComingFromCliqAndPiq &&
       !this.state.isDeliveryModeSelected &&
@@ -1854,11 +1866,11 @@ if you have order id in local storage then you have to show order confirmation p
             isComingFromCliqAndPiq: true
           });
         }
-        if (!this.props.cart.userAddress && !this.state.isPaymentFailed) {
-          this.props.getUserAddress(
-            localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
-          );
-        }
+        // if (!this.props.cart.userAddress && !this.state.isPaymentFailed) {
+        //   this.props.getUserAddress(
+        //     localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+        //   );
+        // }
         if (!cartDetailsLoggedInUser) {
           this.props.history.push(HOME_ROUTER);
         }
@@ -3594,6 +3606,14 @@ if you have order id in local storage then you have to show order confirmation p
         }
         isExchangeServiceableArray={isExchangeServiceableArray}
         isQuoteExpiredCheckout={isQuoteExpired}
+        isShippingObjAvailable={
+          this.props.cart &&
+          this.props.cart.cartDetailsCNC &&
+          this.props.cart.cartDetailsCNC.cartAmount &&
+          this.props.cart.cartDetailsCNC.cartAmount.shippingCharge
+            ? true
+            : false
+        }
       />
     );
   };
