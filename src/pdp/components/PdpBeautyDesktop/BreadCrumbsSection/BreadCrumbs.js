@@ -34,9 +34,9 @@ export default class ProductAndBrandComponent extends React.Component {
             </a>
           </li>
           {reverseBreadCrumbs &&
-            reverseBreadCrumbs.map(el => {
+            reverseBreadCrumbs.map((el, i) => {
               return (
-                <li className={styles["bread-crumb-list"]}>
+                <li className={styles["bread-crumb-list"]} key={i}>
                   <a
                     href={""}
                     onClick={e => this.handleBreadCrumbClick(e, el.url)}

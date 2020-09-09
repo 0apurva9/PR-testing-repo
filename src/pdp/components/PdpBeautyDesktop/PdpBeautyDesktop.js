@@ -32,6 +32,7 @@ const SECTION_SIMILAR_PRODUCTS = [];
 export default class PdpBeautyDesktop extends React.Component {
   componentDidMount = () => {
     this.props.getMasterTemplate();
+    this.props.getPdpOffers();
   };
 
   render() {
@@ -68,7 +69,7 @@ export default class PdpBeautyDesktop extends React.Component {
         });
       return (
         <div className={styles["main-container"]}>
-          <div class={styles.container}>
+          <div className={styles.container}>
             <BreadCrumbs {...this.props} />
           </div>
           <div className={styles.container}>

@@ -54,13 +54,21 @@ const DetailsComponent = Loadable({
   }
 });
 
+const OffersComponent = Loadable({
+  loader: () => import("./OffersComponent"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const typeComponentMapping = {
   [PRODUCT_AND_BRAND_COMPONENT]: props => (
     <ProductAndBrandComponent {...props} />
   ),
   [RATING_REVIEW_COMPONENT]: props => <RatingsAndReviewsComponent {...props} />,
   [PRICE_COMPONENT]: props => <PriceComponent {...props} />,
-  [DETAILS_COMPONENT]: props => <DetailsComponent {...props} />
+  [DETAILS_COMPONENT]: props => <DetailsComponent {...props} />,
+  [OFFERS_COMPONENT]: props => <OffersComponent {...props} />
 };
 
 export default class ProductsDetailsSection extends React.Component {
