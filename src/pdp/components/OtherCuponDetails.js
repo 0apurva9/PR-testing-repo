@@ -1,19 +1,10 @@
 import React from "react";
-import styles from "./CuponDetails.css";
-import CheckBox from "../../general/components/CheckBox.js";
+import styles from "./OtherCuponDetails.css";
 import PropTypes from "prop-types";
 import { RUPEE_SYMBOL } from "../../lib/constants.js";
 import { Link } from "react-router-dom";
 
-const COUPON_TYPE = "COUPON";
-export default class CuponDetails extends React.Component {
-  handleClick(val) {
-    if (this.props.couponType === COUPON_TYPE) {
-      if (this.props.selectItem) {
-        this.props.selectItem();
-      }
-    }
-  }
+export default class OtherCuponDetails extends React.Component {
   render() {
     let date;
     let couponExpiryDate =
@@ -28,20 +19,12 @@ export default class CuponDetails extends React.Component {
     }
     return (
       <div className={styles.base}>
-        <div
-          className={styles.cuponCard}
-          onClick={val => this.handleClick(val)}
-        >
+        <div className={styles.cuponCard}>
           {
             <div className={styles.headerText}>
               <span className={styles.cuponCodeColor}>
                 {this.props.promotionTitle}
               </span>
-              {this.props.couponType === COUPON_TYPE && this.props.selectItem && (
-                <div className={styles.checkBoxHolder}>
-                  <CheckBox selected={this.props.selected} />
-                </div>
-              )}
             </div>
           }
           <div className={styles.promotionDetailsText}>
@@ -83,7 +66,7 @@ export default class CuponDetails extends React.Component {
     );
   }
 }
-CuponDetails.propTypes = {
+OtherCuponDetails.propTypes = {
   productOfferPromotion: PropTypes.arrayOf(
     PropTypes.shape({
       promotionTitle: PropTypes.string,

@@ -1,0 +1,134 @@
+.base {
+  width: 100%;
+  height: auto;
+}
+.holder {
+  width: 100%;
+  transition: 300ms;
+  position: relative;
+  padding-right: 30px;
+}
+.textBox {
+  height: auto;
+  color: #212121;
+  font-size: 14px;
+  line-height: 50px;
+  font-family: regular;
+  text-align: left;
+  transition: 300ms;
+  user-select: none;
+}
+.textBoxActive {
+  composes: textBox;
+  font-family: semibold;
+}
+.text {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+.icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-image: url("./img/arrow.svg");
+  position: absolute;
+  background-size: auto 14px;
+  background-repeat: no-repeat;
+  right: 10px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background-position: center;
+  transition: 300ms;
+  transform: rotate(-90deg);
+}
+.iconup {
+  composes: icon;
+  transform: rotate(90deg);
+}
+.faqQuestion {
+  width: 100%;
+  height: auto;
+  padding: 15px 30px 15px 15px;
+  line-height: normal;
+  font-size: 13px;
+}
+.text1 {
+  display: inline-block;
+  vertical-align: top;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.text2 {
+  display: inline-block;
+  vertical-align: top;
+}
+@media screen and (min-width: 1025px) {
+  .textBox {
+    font-family: light;
+    cursor: pointer;
+  }
+  .textBoxActive {
+    font-family: semibold;
+  }
+  .textBoxActive .text1 {
+    line-height: 30px;
+    padding: 10px 0;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
+  .faqQuestion {
+    font-size: 14px;
+  }
+  .holder {
+    padding-right: 40px;
+  }
+}
+
+
+/* tooltip css added */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  /* border-bottom: 1px dotted black; */
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 280px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 25%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+  line-height: 1.5;
+}
