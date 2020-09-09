@@ -505,8 +505,9 @@ class Feed extends Component {
         setDataLayer(ADOBE_HOME_TYPE);
       }
     }
-    if (userDetails && customerCookie && this.props.getWishListItems) {
-      this.props.getWishListItems();
+    if (userDetails && customerCookie && this.props.getWishlist) {
+      // this.props.getWishListItems();
+      this.props.getWishlist();
     }
     if (this.props.clickedElementId) {
       delay(() => {
