@@ -10,7 +10,10 @@ import {
 import { showModal, DESKTOP_AUTH } from "../../general/modal.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import { getHeader } from "../../clp/actions/clp.actions";
-import { getWishListItems } from "../../wishlist/actions/wishlist.actions";
+import {
+  getWishListItems,
+  getWishlist
+} from "../../wishlist/actions/wishlist.actions";
 const mapDispatchToProps = dispatch => {
   return {
     setHeaderText: text => {
@@ -36,6 +39,9 @@ const mapDispatchToProps = dispatch => {
     },
     userSelectedOutOfStock: () => {
       dispatch(userSelectedOutOfStock(false));
+    },
+    getWishlist: () => {
+      dispatch(getWishlist());
     }
   };
 };
@@ -47,7 +53,8 @@ const mapStateToProps = state => {
     orderConfirmationDetails: state.cart.orderConfirmationDetails,
     cliqCashJusPayDetails: state.cart.cliqCashJusPayDetails,
     headerDetails: state.categoryDefault.headerDetails,
-    wishListCount: state.wishlistItems.wishlistItems,
+    // wishListCount: state.wishlistItems.wishlistItems,
+    wishListCount: state.wishlistItems,
     minicart: state.cart.minicart
   };
 };

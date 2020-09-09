@@ -41,7 +41,8 @@ import {
 } from "../../lib/constants";
 import {
   createWishlist,
-  getWishListItems
+  getWishListItems,
+  getWishlist
 } from "../../wishlist/actions/wishlist.actions.js";
 import { clearUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import {
@@ -210,7 +211,7 @@ const mapDispatchToProps = dispatch => {
 
               guid = JSON.parse(cartDetailsLoggedInUser).guid;
               cartCode = JSON.parse(cartDetailsLoggedInUser).code;
-              const existingWishList = await dispatch(getWishListItems());
+              const existingWishList = await dispatch(getWishlist());
 
               if (!existingWishList || !existingWishList.wishlist) {
                 dispatch(createWishlist());
@@ -248,7 +249,7 @@ const mapDispatchToProps = dispatch => {
                 }
               }
             }
-            const existingWishList = await dispatch(getWishListItems());
+            const existingWishList = await dispatch(getWishlist());
             if (!existingWishList || !existingWishList.wishlist) {
               dispatch(createWishlist());
             }
@@ -393,7 +394,7 @@ const mapDispatchToProps = dispatch => {
               );
               guid = JSON.parse(cartDetailsLoggedInUser).guid;
               cartCode = JSON.parse(cartDetailsLoggedInUser).code;
-              const existingWishList = await dispatch(getWishListItems());
+              const existingWishList = await dispatch(getWishlist());
 
               if (!existingWishList || !existingWishList.wishlist) {
                 dispatch(createWishlist());
@@ -433,7 +434,7 @@ const mapDispatchToProps = dispatch => {
                 }
               }
             }
-            const existingWishList = await dispatch(getWishListItems());
+            const existingWishList = await dispatch(getWishlist());
 
             if (!existingWishList || !existingWishList.wishlist) {
               dispatch(createWishlist());
