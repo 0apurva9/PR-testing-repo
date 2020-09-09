@@ -45,9 +45,19 @@ export default class SimilarProductsModal extends React.Component {
           <div className={styles.blankHeight} />
         </div>
       );
-    } else if (this.props.msdItems[key] && PRODUCT_CODE_REGEX.test(path)) {
+    } else if (
+      this.props.msdItems[key] &&
+      PRODUCT_CODE_REGEX.test(path) &&
+      this.props.msdItems.recommendedProducts.length > 0
+    ) {
       return this.renderCarousel(this.props.msdItems[key]);
-    } else if (!this.props.msdItems[key] && PRODUCT_CODE_REGEX.test(path)) {
+    } else if (
+      (!this.props.msdItems ||
+        (this.props.msdItems &&
+          Array.isArray(this.props.msdItems.recommendedProducts) &&
+          this.props.msdItems.recommendedProducts.length < 0)) &&
+      PRODUCT_CODE_REGEX.test(path)
+    ) {
       return (
         <div>
           <div className={styles.noProductsFound}>
