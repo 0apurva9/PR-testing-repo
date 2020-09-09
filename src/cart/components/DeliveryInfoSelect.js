@@ -84,6 +84,9 @@ export default class DeliveryInfoSelect extends React.Component {
     let deliveryInformationWithDate = this.props.deliveryInformationWithDate;
     let elligibleDeliveryModes = this.props.deliveryInformation;
     const isCod = this.props.isCod;
+    let isShippingObjAvailable = this.props.isShippingObjAvailable
+      ? true
+      : false;
     return (
       <div className={styles.base}>
         {deliveryInformationWithDate &&
@@ -131,9 +134,14 @@ export default class DeliveryInfoSelect extends React.Component {
                     return val.code === SAME_DAY_DELIVERY;
                   })
                   .map(val => {
-                    return val.charge && val.charge.value;
+                    if (isShippingObjAvailable) {
+                      return val.charge && val.charge.value;
+                    } else {
+                      return val.deliveryCost;
+                    }
                   })[0]
               }
+              isShippingObjAvailable={isShippingObjAvailable}
               cutOffTime={
                 deliveryInformationWithDate &&
                 deliveryInformationWithDate
@@ -220,9 +228,14 @@ export default class DeliveryInfoSelect extends React.Component {
                     return val.code === EXPRESS;
                   })
                   .map(val => {
-                    return val.charge && val.charge.value;
+                    if (isShippingObjAvailable) {
+                      return val.charge && val.charge.value;
+                    } else {
+                      return val.deliveryCost;
+                    }
                   })[0]
               }
+              isShippingObjAvailable={isShippingObjAvailable}
               available={
                 deliveryInformationWithDate &&
                 deliveryInformationWithDate
@@ -316,9 +329,14 @@ export default class DeliveryInfoSelect extends React.Component {
                     return val.code === COLLECT;
                   })
                   .map(val => {
-                    return val.charge && val.charge.value;
+                    if (isShippingObjAvailable) {
+                      return val.charge && val.charge.value;
+                    } else {
+                      return val.deliveryCost;
+                    }
                   })[0]
               }
+              isShippingObjAvailable={isShippingObjAvailable}
               available={
                 deliveryInformationWithDate &&
                 deliveryInformationWithDate
@@ -435,9 +453,14 @@ export default class DeliveryInfoSelect extends React.Component {
                         return val.code === HOME_DELIVERY;
                       })
                       .map(val => {
-                        return val.charge && val.charge.value;
+                        if (isShippingObjAvailable) {
+                          return val.charge && val.charge.value;
+                        } else {
+                          return val.deliveryCost;
+                        }
                       })[0]
                   }
+                  isShippingObjAvailable={isShippingObjAvailable}
                   available={
                     deliveryInformationWithDate &&
                     deliveryInformationWithDate

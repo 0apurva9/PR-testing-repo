@@ -185,12 +185,14 @@ export default class IconWithHeader extends React.Component {
                 {this.props.header && (
                   <span
                     className={
-                      this.props.header.toLowerCase() !== "free"
-                        ? styles.deliveyCharge
-                        : [
-                            styles.deliveyCharge,
-                            styles.deliveryChargeFree
-                          ].join(" ")
+                      this.props.isShippingObjAvailable
+                        ? this.props.header.toLowerCase() !== "free"
+                          ? styles.deliveyCharge
+                          : [
+                              styles.deliveyCharge,
+                              styles.deliveryChargeFree
+                            ].join(" ")
+                        : styles.deliveyCharge
                     }
                   >
                     {this.props.header}
@@ -380,7 +382,8 @@ IconWithHeader.propTypes = {
   isNotUnderLineButton: PropTypes.bool,
   notShowDay: PropTypes.bool,
   splitIntoTwoLine: PropTypes.bool,
-  inCartPage: PropTypes.bool
+  inCartPage: PropTypes.bool,
+  isShippingObjAvailable: PropTypes.bool
 };
 IconWithHeader.defaultProps = {
   isHomeDelivery: false,
@@ -389,5 +392,6 @@ IconWithHeader.defaultProps = {
   isNotUnderLineButton: false,
   notShowDay: false,
   splitIntoTwoLine: true,
-  inCartPage: false
+  inCartPage: false,
+  isShippingObjAvailable: false
 };

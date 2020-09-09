@@ -239,7 +239,11 @@ export default class DeliveryInformations extends React.Component {
     }
 
     let deliveryCharge = "";
-    if (this.props.deliveryCharge === 0 && this.props.showDeliveryCharge) {
+    if (
+      this.props.isShippingObjAvailable &&
+      this.props.deliveryCharge === 0 &&
+      this.props.showDeliveryCharge
+    ) {
       deliveryCharge = "Free";
     }
     if (this.props.deliveryCharge && this.props.type !== SHORT_COLLECT) {
@@ -281,6 +285,7 @@ export default class DeliveryInformations extends React.Component {
             inPdpPage={this.props.pdpApparel}
             type={this.props.type}
             inCartPage={this.props.inCartPage}
+            isShippingObjAvailable={this.props.isShippingObjAvailable}
           >
             {this.props.cutOffTime && (
               <CountDownTimer cutOffSeconds={this.props.cutOffTime} />
@@ -408,7 +413,8 @@ DeliveryInformations.propTypes = {
   isArrowIcon: PropTypes.bool,
   isCartForMargin: PropTypes.bool,
   inCartPage: PropTypes.bool,
-  inCartPageIcon: PropTypes.bool
+  inCartPageIcon: PropTypes.bool,
+  isShippingObjAvailable: PropTypes.bool
 };
 
 DeliveryInformations.defaultProps = {
@@ -419,5 +425,6 @@ DeliveryInformations.defaultProps = {
   deliveryInformationByCart: false,
   isCartForMargin: false,
   inCartPage: false,
-  inCartPageIcon: false
+  inCartPageIcon: false,
+  isShippingObjAvailable: false
 };
