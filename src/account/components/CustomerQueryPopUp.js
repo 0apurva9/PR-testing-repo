@@ -82,7 +82,12 @@ export default class CustomerQueryPopUp extends React.Component {
             </div>
           </div>
         )}
-        <div className={styles.buttonHolder}>
+        <div
+          className={[
+            styles.buttonHolder,
+            isTicketDuplicate ? styles.marginTop : null
+          ].join(" ")}
+        >
           <Button
             type="primary"
             backgroundColor="#da1c5c"
