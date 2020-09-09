@@ -1351,45 +1351,45 @@ export default class OrderDetails extends React.Component {
                     orderDetails && orderDetails.cliqCashAmountDeducted
                   }
                 />
-                  <React.Fragment>
-                    {this.state.itemDetails && (
-                      <div
-                        onClick={() => this.redirectToCustomHelpPage()}
-                        className={styles.helpSupport}
-                      >
-                        Help & Support
-                      </div>
-                    )}
+                <React.Fragment>
+                  {this.state.itemDetails && (
+                    <div
+                      onClick={() => this.redirectToCustomHelpPage()}
+                      className={styles.helpSupport}
+                    >
+                      Help & Support
+                    </div>
+                  )}
 
-                    <OrderPaymentMethod
-                      history={this.props.history}
-                      deliveryAddress={orderDetails.deliveryAddress}
-                      phoneNumber={
-                        orderDetails.deliveryAddress &&
-                        orderDetails.deliveryAddress.phone
-                      }
-                      paymentMethod={orderDetails.paymentMethod}
-                      isCDA={orderDetails.isCDA}
-                      orderId={orderDetails.orderId}
-                      clickcollect={
-                        orderDetails.products[0].selectedDeliveryMode.code ===
-                        CLICK_COLLECT
-                          ? true
-                          : false
-                      }
-                      orderDetails={orderDetails}
-                      //isInvoiceAvailable={products.isInvoiceAvailable}
-                      //statusDisplay={products.statusDisplayMsg}
-                      // request={() =>
-                      //   this.requestInvoice(
-                      //     products.transactionId,
-                      //     products.sellerorderno
-                      //   )
-                      // }
-                    />
-                  </React.Fragment>
-                </div>
-              )}
+                  <OrderPaymentMethod
+                    history={this.props.history}
+                    deliveryAddress={orderDetails.deliveryAddress}
+                    phoneNumber={
+                      orderDetails.deliveryAddress &&
+                      orderDetails.deliveryAddress.phone
+                    }
+                    paymentMethod={orderDetails.paymentMethod}
+                    isCDA={orderDetails.isCDA}
+                    orderId={orderDetails.orderId}
+                    clickcollect={
+                      orderDetails.products[0].selectedDeliveryMode.code ===
+                      CLICK_COLLECT
+                        ? true
+                        : false
+                    }
+                    orderDetails={orderDetails}
+                    //isInvoiceAvailable={products.isInvoiceAvailable}
+                    //statusDisplay={products.statusDisplayMsg}
+                    // request={() =>
+                    //   this.requestInvoice(
+                    //     products.transactionId,
+                    //     products.sellerorderno
+                    //   )
+                    // }
+                  />
+                </React.Fragment>
+              </div>
+            )}
             <CustomInstructionContainer />
           </div>
           {/* showing user details only for desktop */}
