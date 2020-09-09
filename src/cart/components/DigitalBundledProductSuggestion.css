@@ -2,10 +2,10 @@
   position: relative;
   margin-left: 181px;
   border-radius: 2px;
-  padding: 8px;
+  padding: 16px;
   border: solid 0.5px #edfae3;
   margin-top: 24px;
-  background: linear-gradient(280deg, #f9fff5 99%, #edfae3);
+  background: linear-gradient(280deg, #f9fff5 5%, #edfae3);
 }
 .digitalBundledProductImage{
   display: inline-block;
@@ -14,7 +14,7 @@
 }
 .digitalProductDetails{
   display: inline-block;
-  width: calc(100% - 220px);
+  width: 397px;
   padding-left: 13px;
   vertical-align: top;
 }
@@ -48,7 +48,7 @@
   border: solid 1px #da1c5c;
   background-color: #da1c5c;
   color: #ffffff;
-  margin: 18px 29px 18px 39px;
+  margin: 18px 0px 18px 0px;
   text-align: center;
   padding: 8px;
   font-family: semibold;

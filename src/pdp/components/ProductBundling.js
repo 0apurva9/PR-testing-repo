@@ -9,10 +9,17 @@ import {
   FAILURE_LOWERCASE,
   ADD_TO_BAG_TEXT
 } from "../../lib/constants";
+import {
+  setDataLayer,
+  ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP
+} from "../../lib/adobeUtils";
 import PropTypes from "prop-types";
 const allBundledProductData = [];
 const allBundledProductDataForAddToCart = [];
 const isBundledProductSelected = [];
+const productIds = [];
+const productCategories = [];
+const productPrices = [];
 
 export default class ProductBundling extends React.Component {
   constructor(props) {
@@ -22,7 +29,8 @@ export default class ProductBundling extends React.Component {
       bundledProductDataForAddToCart: null,
       hideExtraProducts: true,
       enableAddToCartButton: false,
-      cartProducts: null
+      cartProducts: null,
+      addToCartAnalyticsData: null
     };
     this.handleClick = this.handleClick.bind(this);
     this.toggleShowingProducts = this.toggleShowingProducts.bind(this);
@@ -65,6 +73,19 @@ export default class ProductBundling extends React.Component {
         this.props.addBundledProductsToCartDetails.status.toLowerCase() ===
         SUCCESS
       ) {
+        // for analytics
+        let categoryHierarchy = this.props.productData.categoryHierarchy;
+        let categoryName =
+          categoryHierarchy &&
+          categoryHierarchy[categoryHierarchy.length - 1].category_name;
+        let data = this.state.addToCartAnalyticsData;
+        data.productIds.unshift(this.props.productData.productListingId);
+        data.productCategories.unshift(categoryName);
+        data.productPrices.unshift(
+          this.props.productData.winningSellerPrice.value
+        );
+        setDataLayer(ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP, data);
+
         this.props.displayToast(ADD_TO_BAG_TEXT);
         this.props.history.push(PRODUCT_CART_ROUTER);
       }
@@ -84,7 +105,9 @@ export default class ProductBundling extends React.Component {
     checkboxChecked,
     productId,
     ussId,
-    recommendationType
+    recommendationType,
+    productCategory,
+    productPrice
   ) {
     let bundledProductData = {};
     let bundledProductDataForAddToCart = {};
@@ -117,15 +140,29 @@ export default class ProductBundling extends React.Component {
       allBundledProductDataForAddToCart.push(
         singleBundledProductDataForAddToCart
       );
+      productIds.push(productId);
+      productCategories.push(productCategory);
+      productPrices.push(productPrice);
     }
-    if (bundledProductIndex !== -1) {
+    if (bundledProductIndex > -1) {
       allBundledProductData.splice(bundledProductIndex, 1);
       allBundledProductDataForAddToCart.splice(bundledProductIndex, 1);
+      productIds.splice(bundledProductIndex, 1);
+      productCategories.splice(bundledProductIndex, 1);
+      productPrices.splice(bundledProductIndex, 1);
     }
     bundledProductData.associatedItems = allBundledProductData;
     bundledProductDataForAddToCart.associatedItems = allBundledProductDataForAddToCart;
+
+    let addToCartAnalyticsData = {
+      productIds: productIds,
+      productCategories: productCategories,
+      productPrices: productPrices
+    };
+
     if (allBundledProductData.length !== 0) {
       this.setState({ bundledProductDataForAddToCart });
+      this.setState({ addToCartAnalyticsData });
       this.props.getTotalBundledPrice(bundledProductData);
     }
 
@@ -212,14 +249,18 @@ export default class ProductBundling extends React.Component {
                           checkboxChecked,
                           productId,
                           ussId,
-                          recommendationType
+                          recommendationType,
+                          productCategory,
+                          productPrice
                         ) =>
                           this.handleClick(
                             productIndex,
                             checkboxChecked,
                             productId,
                             ussId,
-                            recommendationType
+                            recommendationType,
+                            productCategory,
+                            productPrice
                           )
                         }
                         productIndex={index}

@@ -4,9 +4,25 @@ import PropTypes from "prop-types";
 import closeIcon from "../../cart/components/img/exchangeCloseIcon.svg";
 import ProductImage from "../../general/components/ProductImage";
 import { RUPEE_SYMBOL, NOT_SERVICEABLE } from "../../lib/constants";
+import {
+  setDataLayer,
+  ADOBE_PB_REMOVE_BUNDLED_PRODUCT_FROM_CART
+} from "../../lib/adobeUtils";
 
 export default class DigitalBundledProduct extends React.Component {
-  handleRemove(entryNumber, mainProductUssid) {
+  handleRemove(entryNumber, mainProductUssid, productcode, categoryHierarchy) {
+    // for analytics
+    let addToCartAnalyticsData = {};
+    let categoryName =
+      categoryHierarchy &&
+      categoryHierarchy[categoryHierarchy.length - 1].category_name;
+    addToCartAnalyticsData.productId = productcode;
+    addToCartAnalyticsData.productCategory = categoryName;
+    setDataLayer(
+      ADOBE_PB_REMOVE_BUNDLED_PRODUCT_FROM_CART,
+      addToCartAnalyticsData
+    );
+
     let isForDigitalBundledProduct = true;
     this.props.onRemove(
       entryNumber,
@@ -51,7 +67,9 @@ export default class DigitalBundledProduct extends React.Component {
               onClick={() =>
                 this.handleRemove(
                   this.props.digitalProduct.entryNumber,
-                  this.props.mainProductUssid
+                  this.props.mainProductUssid,
+                  this.props.digitalProduct.productcode,
+                  this.props.digitalProduct.categoryHierarchy
                 )
               }
             />

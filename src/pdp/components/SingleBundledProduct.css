@@ -3,12 +3,12 @@
 }
 .divider{
   border-bottom: 1px solid #e5e5e5;
-  width: 66%;
-  margin-left: 211px;
+  width: 67%;
+  margin-left: 190px;
 }
 .checkboxContainer{
   display: inline-block;
-  width: 7%;
+  width: 56px;
   vertical-align: middle;
 }
 .imageContainer{
@@ -31,7 +31,7 @@
 }
 .productDetailsContainerMainProduct{
   display: inline-block;
-  width: calc(66% - 68px);
+  width: calc(64% - 68px);
   vertical-align: middle;
   padding-left: 35px;
 }

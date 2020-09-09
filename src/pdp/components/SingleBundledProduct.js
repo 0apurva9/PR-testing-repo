@@ -23,7 +23,9 @@ export default class SingleBundledProduct extends React.Component {
     checkboxChecked,
     productId,
     ussId,
-    recommendationType
+    recommendationType,
+    productCategory,
+    productPrice
   ) {
     this.setState({ isCheckboxClicked: !this.state.isCheckboxClicked });
     this.props.handleClick(
@@ -31,7 +33,9 @@ export default class SingleBundledProduct extends React.Component {
       checkboxChecked,
       productId,
       ussId,
-      recommendationType
+      recommendationType,
+      productCategory,
+      productPrice
     );
   }
 
@@ -60,6 +64,15 @@ export default class SingleBundledProduct extends React.Component {
       this.props.productData.galleryImagesList[0].galleryImages &&
       this.props.productData.galleryImagesList[0].galleryImages[1] &&
       this.props.productData.galleryImagesList[0].galleryImages[1].value;
+
+    let productPrice =
+      this.props.productData.winningSellerPrice &&
+      this.props.productData.winningSellerPrice.value;
+    if (!this.props.productData.winningSellerPrice) {
+      productPrice =
+        this.props.productData.mrpPrice &&
+        this.props.productData.mrpPrice.value;
+    }
     return (
       <div className={!this.props.isMainProduct ? styleForExtraProducts : null}>
         {!this.props.isMainProduct ? <div className={styles.divider} /> : null}
@@ -80,7 +93,9 @@ export default class SingleBundledProduct extends React.Component {
                       this.state.isCheckboxClicked,
                       this.props.productData.productListingId,
                       this.props.productData.winningUssID,
-                      this.props.productData.recommendationType
+                      this.props.productData.recommendationType,
+                      this.props.productData.rootCategory,
+                      productPrice
                     )
                   }
                 />
