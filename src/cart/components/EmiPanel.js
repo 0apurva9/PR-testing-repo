@@ -342,9 +342,6 @@ export default class EmiPanel extends React.Component {
           : false;
     }
 
-    /**
-     * Tab changes
-     */
     let clsNce = this.state.isNoCostSelected
       ? [styles.isSelectedTab, styles.tabNceStandard].join(" ")
       : styles.tabNceStandard;
@@ -379,6 +376,10 @@ export default class EmiPanel extends React.Component {
     ) {
       debitCardTabNameExtension = "No Cost/Standard";
     }
+    if (isJewelleryProduct) {
+      isOpen = false;
+    }
+
     return (
       <div className={styles.base}>
         {isRetryPaymentFromURL && (
@@ -395,6 +396,8 @@ export default class EmiPanel extends React.Component {
           onOpenMenu={currentPaymentMode =>
             this.props.onChange({ currentPaymentMode })
           }
+          isJewelleryProduct={isJewelleryProduct}
+          displayToast={this.props.displayToast}
         >
           <div className={styles.subListHolder}>
             <NoCostEmi
