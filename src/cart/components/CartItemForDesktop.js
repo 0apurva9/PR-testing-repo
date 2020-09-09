@@ -226,7 +226,15 @@ export default class CartItemForDesktop extends React.Component {
       }
     }
     let hideQuantityArrow = false;
-    if (this.props.product && this.props.product.exchangeDetails) {
+    let isDigitalBundledProduct =
+      this.props.product &&
+      this.props.product.bundledDigitalItems &&
+      Array.isArray(this.props.product.bundledDigitalItems) &&
+      this.props.product.bundledDigitalItems.length > 0;
+    if (
+      this.props.product &&
+      (this.props.product.exchangeDetails || isDigitalBundledProduct)
+    ) {
       hideQuantityArrow = true;
     }
     let productMessage = this.props.productNotServiceable
