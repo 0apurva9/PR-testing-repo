@@ -16,6 +16,12 @@
 .content {
   margin-top: 20px;
 }
+.contentAutoWidget {
+  padding-top: 20px;
+  background: #fff;
+  padding-left: 18px;
+  font-size: 18px;
+}
 .ListimageHolder {
   composes: imageHolder;
   width: 30%;
