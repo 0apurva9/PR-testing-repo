@@ -527,6 +527,7 @@ const feed = (
         loadMsdSkeleton: true,
         loading: false
       });
+
     case homeActions.AUTOMATED_WIDGET_HOME_REQUEST:
       return Object.assign({}, state, {
         loadMsdSkeleton: true
@@ -582,6 +583,17 @@ const feed = (
       const targetMbox = { ...state.targetMboxData, ...mboxData };
       return Object.assign({}, state, {
         targetMboxData: targetMbox
+
+    case homeActions.MSD_PRODUCT_ABC_DATA_SUCCESS:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: false,
+        productListABC: action.productData
+      });
+    case homeActions.MSD_HOME_ABC_COMPONENT_REQUEST:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: true,
+        loading: false
+
       });
 
     default:
