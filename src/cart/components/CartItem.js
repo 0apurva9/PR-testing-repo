@@ -206,11 +206,13 @@ CartItem.propTypes = {
   product: PropTypes.object,
   pinCode: PropTypes.object,
   maxQuantityAllowed: PropTypes.string,
-  qtySelectedByUser: PropTypes.string
+  qtySelectedByUser: PropTypes.string,
+  isShippingObjAvailable: PropTypes.bool
 };
 
 CartItem.defaultProps = {
   deliveryInfoToggle: true,
   hasFooter: true,
-  dropdownLabel: "Qty :"
+  dropdownLabel: "Qty :",
+  isShippingObjAvailable: false
 };

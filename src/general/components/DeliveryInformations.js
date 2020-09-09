@@ -413,7 +413,8 @@ DeliveryInformations.propTypes = {
   isArrowIcon: PropTypes.bool,
   isCartForMargin: PropTypes.bool,
   inCartPage: PropTypes.bool,
-  inCartPageIcon: PropTypes.bool
+  inCartPageIcon: PropTypes.bool,
+  isShippingObjAvailable: PropTypes.bool
 };
 
 DeliveryInformations.defaultProps = {
@@ -424,5 +425,6 @@ DeliveryInformations.defaultProps = {
   deliveryInformationByCart: false,
   isCartForMargin: false,
   inCartPage: false,
-  inCartPageIcon: false
+  inCartPageIcon: false,
+  isShippingObjAvailable: false
 };
