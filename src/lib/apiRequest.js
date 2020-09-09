@@ -15,6 +15,7 @@ let MIDDLEWARE_API_URL_ROOT = "/que-marketplacewebservices";
 export let TATA_CLIQ_ROOT = /https?:[\/]{2}\S*?(\/\S*)/;
 export const TOKEN_PATH = "oauth/token";
 export let URL_ROOT = "";
+
 let count = 0;
 if (
   process.env.REACT_APP_STAGE === "devxelp" ||
@@ -81,9 +82,14 @@ if (
   MIDDLEWARE_API_URL_ROOT =
     "https://qa8.tataunistore.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "qa9") {
-  API_URL_ROOT = "https://qa9.tataunistore.com/marketplacewebservices";
+  API_URL_ROOT =
+    "https://cors-anywhere.herokuapp.com/https://qa9.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
-    "https://qa9.tataunistore.com/marketplacewebservices";
+    "https://cors-anywhere.herokuapp.com/https://qa9.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "qa3") {
+  API_URL_ROOT = "https://qa3.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://qa3.tataunistore.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "qa10") {
   API_URL_ROOT = "https://qa10.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =

@@ -259,6 +259,7 @@ export const CANCEL_RETURN_PREFIX = "/cancel-return/(.*)/(.*)";
 export const WALLET = "WALLET";
 
 //header name
+export const CLIQ_CARE = "CLiQ Care";
 export const SAVED_PAYMENTS = "Saved Cards";
 export const MY_CLIQ = "My Account";
 export const SAVED_LIST = "My Wish List";
