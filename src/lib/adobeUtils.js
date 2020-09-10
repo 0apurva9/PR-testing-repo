@@ -1552,7 +1552,7 @@ export async function setDataLayer(
   // for product bundling
   if (type === ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP) {
     let data = window.digitalData;
-    if (data && data.cpj && data.cpj.product) {
+    if (data && data.cpj && data.cpj.product && apiResponse) {
       data.cpj.product.category = apiResponse.productCategories;
       data.cpj.product.id = apiResponse.productIds;
       data.cpj.product.price = apiResponse.productPrices;
@@ -1564,7 +1564,7 @@ export async function setDataLayer(
   }
   if (type === ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_CART) {
     let data = window.digitalData;
-    if (data && data.cpj && data.cpj.product) {
+    if (data && data.cpj && data.cpj.product && apiResponse) {
       data.cpj.product.category = apiResponse.productCategory;
       data.cpj.product.id = apiResponse.productId;
       data.cpj.product.price = apiResponse.productPrice;
@@ -1576,7 +1576,7 @@ export async function setDataLayer(
   }
   if (type === ADOBE_PB_REMOVE_BUNDLED_PRODUCT_FROM_CART) {
     let data = window.digitalData;
-    if (data && data.cpj && data.cpj.product) {
+    if (data && data.cpj && data.cpj.product && apiResponse) {
       data.cpj.product.category = apiResponse.productCategory;
       data.cpj.product.id = apiResponse.productId;
       window.digitalData = data;
