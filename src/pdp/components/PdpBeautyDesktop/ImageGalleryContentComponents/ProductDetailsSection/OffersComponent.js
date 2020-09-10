@@ -31,7 +31,6 @@ export default class OffersComponent extends React.Component {
       }
       i++;
     }
-    console.log("inside-offers-comp", this.props);
     if (offers.length > 0) {
       return (
         <div className={styles["offers-component"]}>

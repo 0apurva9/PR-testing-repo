@@ -3,7 +3,6 @@ import styles from "./BeautyOfferModal.css";
 
 export default class BeautyOfferModal extends React.Component {
   render() {
-    console.log("inside-beauty-offer-modal", this.props);
     return (
       <div className={styles["modal-content"]}>
         <div className={styles["modal-heading"]}>OFFERS</div>
