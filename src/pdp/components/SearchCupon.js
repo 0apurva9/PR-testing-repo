@@ -61,7 +61,7 @@ export default class SearchCupon extends React.Component {
           <ControlInput
             boxy={true}
             placeholder={this.props.placeholder}
-            onChange={val => this.getValue(val)}
+            onChange={val => this.getValue(val.toUpperCase())}
             value={this.state.couponCode}
             textStyle={{ fontSize: 14 }}
             height={35}
