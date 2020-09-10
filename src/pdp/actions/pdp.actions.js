@@ -2242,11 +2242,15 @@ export function getBundledProductSuggestion(
         headers
       );
       const resultJson = await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
+      if (
+        resultJson &&
+        resultJson.status &&
+        resultJson.status.toLowerCase() === SUCCESS
+      ) {
+        dispatch(getBundledProductSuggestionSuccess(resultJson));
+      } else {
+        dispatch(getBundledProductSuggestionFailure(resultJson.message));
       }
-      dispatch(getBundledProductSuggestionSuccess(resultJson));
     } catch (e) {
       dispatch(getBundledProductSuggestionFailure(e.message));
     }
