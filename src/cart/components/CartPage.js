@@ -342,7 +342,10 @@ class CartPage extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.cart.coupons !== nextProps.cart.coupons) {
+    if (
+      this.props.cart.coupons !== nextProps.cart.coupons &&
+      this.state.currentState
+    ) {
       let couponDetails =
         nextProps.cart && Object.assign(nextProps.cart.coupons, nextProps);
       this.props.showCouponModal(couponDetails);
@@ -500,18 +503,27 @@ class CartPage extends React.Component {
     });
   };
   displayCouponsforLoggedInUser = () => {
+    this.setState({ currentState: true });
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
     const cartDetailsLoggedInUser = Cookie.getCookie(
       CART_DETAILS_FOR_LOGGED_IN_USER
     );
     if (localStorage.getItem(CART_BAG_DETAILS)) {
-      this.props.displayCouponsForLoggedInUser(
-        JSON.parse(userDetails).userName,
-        JSON.parse(customerCookie).access_token,
-        JSON.parse(cartDetailsLoggedInUser).guid
-      );
+      if (globalCookie && cartDetailsAnonymous) {
+        this.props.displayCouponsForAnonymous(
+          ANONYMOUS_USER,
+          JSON.parse(globalCookie).access_token
+        );
+      } else {
+        this.props.displayCouponsForLoggedInUser(
+          JSON.parse(userDetails).userName,
+          JSON.parse(customerCookie).access_token,
+          JSON.parse(cartDetailsLoggedInUser).guid
+        );
+      }
     }
   };
   renderBankOffers = () => {
@@ -1199,7 +1211,9 @@ class CartPage extends React.Component {
                     this.props.wishListCount > 0 && (
                       <div className={styles.wishListCountSection}>
                         <div className={styles.iconWishList} />
-                        <span>{`You have ${this.props.wishListCount} items in your saved list`}</span>
+                        <span>{`You have ${
+                          this.props.wishListCount
+                        } items in your saved list`}</span>
                         <div className={styles.buttonHolder}>
                           <UnderLinedButton
                             size="14px"
