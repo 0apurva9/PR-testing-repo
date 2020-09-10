@@ -24,6 +24,7 @@
 .imageHolder{
   width: 96px;
   height: 128px;
+  cursor: pointer;
 }
 .imageHolderMainProduct{
   width: 68px;
@@ -41,15 +42,18 @@
   vertical-align: middle;
   padding-left: 35px;
 }
-.productName{
+.productNameContainer{
   font-size: 16px;
   line-height: 1.13;
   letter-spacing: 0.03px;
   color: #2c2627;
   margin-bottom: 13px;
 }
-.productDetailsContainer > .productName{
+.productDetailsContainer > .productNameContainer{
   height: 18px;
+}
+.productDetailsContainer > .productNameContainer > .productName{
+  cursor: pointer;
 }
 .productDetailsContainer > .ratingContainer{
   height: 25px;
