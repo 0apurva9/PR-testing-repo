@@ -51,6 +51,15 @@ export default class CartItemForDesktop extends React.Component {
   }
   componentDidMount() {
     document.title = "Shopping Cart - TATA CLiQ";
+    if (
+      this.props.product &&
+      this.props.product.exchangeDetails &&
+      this.props.product.exchangeDetails.exchangeCancelMessage
+    ) {
+      this.props.displayToast(
+        this.props.product.exchangeDetails.exchangeCancelMessage
+      );
+    }
   }
   onClick() {
     if (this.props.onClickImage) {
