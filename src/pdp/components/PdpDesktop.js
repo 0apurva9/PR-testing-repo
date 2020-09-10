@@ -1188,6 +1188,7 @@ export default class PdpApparel extends React.Component {
                   details={productData.details}
                   showSimilarProducts={this.props.showSimilarProducts}
                   category={productData.rootCategory}
+                  productData={productData}
                 />
                 {productData.winningSellerPrice && (
                   <PdpFlags

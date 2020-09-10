@@ -140,7 +140,8 @@ import {
   ADOBE_CALL_FOR_SELECT_DELIVERY_MODE,
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE,
   setDataLayerForWhatsappUncheck,
-  ADOBE_CHECKOUT_DEFAULT_NEW_ADDRESS
+  ADOBE_CHECKOUT_DEFAULT_NEW_ADDRESS,
+  setDataLayerForRetryPaymentAccountSection
 } from "../../lib/adobeUtils";
 import {
   CART_ITEM_COOKIE,
@@ -1205,7 +1206,8 @@ class CheckOutPage extends React.Component {
                 selectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
                 selectedSlaveIdObj[
                   this.state.selectedProductsUssIdForCliqAndPiq
-                ] = product.selectedStoreCNC;
+                ] =
+                  product.selectedStoreCNC;
                 this.setState(
                   {
                     ussIdAndDeliveryModesObj: updatedDeliveryModeUssid,
@@ -1600,7 +1602,19 @@ class CheckOutPage extends React.Component {
     let cartDetailsLoggedInUser = Cookie.getCookie(
       CART_DETAILS_FOR_LOGGED_IN_USER
     );
-
+    if (
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.productDetails
+    ) {
+      let dataRetry = this.props.location.state.productDetails;
+      setDataLayerForRetryPaymentAccountSection(
+        this.props.location.state.productDetails,
+        this.props.location &&
+          this.props.location.state &&
+          this.props.location.state.totalPriceData
+      );
+    }
     if (!customerCookie || !userDetails) {
       return this.navigateToLogin();
     }
@@ -1632,7 +1646,12 @@ if you have order id in local storage then you have to show order confirmation p
       this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
       return;
     }
-    if (!orderId) {
+    if (
+      !orderId &&
+      this.props.location &&
+      this.props.location.state &&
+      !this.props.location.state.productDetails
+    ) {
       setDataLayerForCheckoutDirectCalls(
         ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE
       );
@@ -3291,7 +3310,9 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
+            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
+              this.state.cardDetails.emi_bank
+            } card.`
           });
         } else if (
           binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
@@ -3302,7 +3323,9 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${this.state.cardDetails.selectedBankName} card only.`
+            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${
+              this.state.cardDetails.selectedBankName
+            } card only.`
           });
         } else if (
           this.props.cart &&
@@ -3370,7 +3393,9 @@ if you have order id in local storage then you have to show order confirmation p
       ) {
         this.setState({
           emiBinValidationStatus: true,
-          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
+          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
+            this.state.cardDetails.emi_bank
+          } card.`
         });
       } else {
         this.setState({
@@ -4463,6 +4488,7 @@ if you have order id in local storage then you have to show order confirmation p
                       isExchangeServiceableArray={isExchangeServiceableArray}
                       showSecondaryLoader={this.props.showSecondaryLoader}
                       hideSecondaryLoader={this.props.hideSecondaryLoader}
+                      whatsappSelected={this.state.whatsappSelected}
                     />
                   </div>
                 )}

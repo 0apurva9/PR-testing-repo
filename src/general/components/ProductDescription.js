@@ -45,9 +45,29 @@ export default class ProductDescription extends Component {
     ) {
       priceClass = styles.priceCancelled;
     }
+    if (
+      this.props.discountPrice &&
+      this.props.price !== this.props.discountPrice &&
+      this.props.autoWidget
+    ) {
+      priceClass = styles.priceCancelledForAutoWidget;
+    }
+    if (
+      this.props.discountPrice &&
+      this.props.price === this.props.discountPrice &&
+      this.props.autoWidget
+    ) {
+      priceClass = styles.nodiscountForAutoWidget;
+    }
     if (this.props.isWhite) {
       headerText = styles.headerWhite;
       contentClass = styles.contentWhite;
+    }
+    let discountAutoWidget = styles.discount;
+    if (this.props.autoWidget) {
+      headerText = styles.headerTextForAutoWidget;
+      headerClass = styles.headerAutoWidget;
+      discountAutoWidget = styles.discountAutoWidget;
     }
     return (
       <div
@@ -122,7 +142,7 @@ export default class ProductDescription extends Component {
               !electronicView &&
               this.props.discountPrice &&
               this.props.discountPrice !== this.props.price && (
-                <div className={styles.discount}>
+                <div className={discountAutoWidget}>
                   <h3>
                     {" "}
                     {this.props.discountPrice.toString().includes(RUPEE_SYMBOL)
@@ -189,34 +209,52 @@ export default class ProductDescription extends Component {
             )}
           </React.Fragment>
 
-          {this.props.isRange && this.props.minPrice && this.props.maxPrice && (
-            <div
-              className={styles.description}
-              style={{ display: "inline-flex" }}
-            >
-              {this.props.maxPrice !== this.props.minPrice && (
-                <React.Fragment>
-                  <h3>
+          {this.props.isRange &&
+            this.props.minPrice &&
+            this.props.maxPrice && (
+              <div
+                className={styles.description}
+                style={{ display: "inline-flex" }}
+              >
+                {this.props.maxPrice !== this.props.minPrice && (
+                  <React.Fragment>
+                    <h3>
+                      {" "}
+                      {this.props.minPrice.toString().includes(RUPEE_SYMBOL)
+                        ? this.props.minPrice
+                        : `${RUPEE_SYMBOL}${this.props.minPrice}`}{" "}
+                      -{" "}
+                    </h3>
+                    <h3>
+                      {" "}
+                      {this.props.maxPrice.toString().includes(RUPEE_SYMBOL)
+                        ? this.props.maxPrice
+                        : `${RUPEE_SYMBOL}${this.props.maxPrice}`}
+                    </h3>
+                  </React.Fragment>
+                )}
+                {this.props.maxPrice === this.props.minPrice && (
+                  <React.Fragment>
                     {" "}
-                    {this.props.minPrice.toString().includes(RUPEE_SYMBOL)
-                      ? this.props.minPrice
-                      : `${RUPEE_SYMBOL}${this.props.minPrice}`}{" "}
-                    -{" "}
-                  </h3>
-                  <h3>
-                    {" "}
-                    {this.props.maxPrice.toString().includes(RUPEE_SYMBOL)
-                      ? this.props.maxPrice
-                      : `${RUPEE_SYMBOL}${this.props.maxPrice}`}
-                  </h3>
-                </React.Fragment>
-              )}
-              {this.props.maxPrice === this.props.minPrice && (
-                <React.Fragment>
-                  {" "}
-                  {this.props.discountPrice &&
-                    this.props.discountPrice !== this.props.price && (
-                      <div className={styles.discount}>
+                    {this.props.discountPrice &&
+                      this.props.discountPrice !== this.props.price && (
+                        <div className={styles.discount}>
+                          <div className={discountAutoWidget}>
+                            <h3>
+                              {" "}
+                              {this.props.discountPrice
+                                .toString()
+                                .includes(RUPEE_SYMBOL)
+                                ? this.props.discountPrice
+                                : `${RUPEE_SYMBOL}${Math.floor(
+                                    this.props.discountPrice
+                                  )}`}
+                            </h3>
+                          </div>
+                        </div>
+                      )}
+                    {this.props.price && (
+                      <div className={priceClass}>
                         <h3>
                           {" "}
                           {this.props.discountPrice
@@ -229,20 +267,10 @@ export default class ProductDescription extends Component {
                         </h3>
                       </div>
                     )}
-                  {this.props.price && (
-                    <div className={priceClass}>
-                      <h3>
-                        {" "}
-                        {this.props.price.toString().includes(RUPEE_SYMBOL)
-                          ? this.props.price
-                          : `${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}
-                      </h3>
-                    </div>
-                  )}
-                </React.Fragment>
-              )}
-            </div>
-          )}
+                  </React.Fragment>
+                )}
+              </div>
+            )}
         </div>
       </div>
     );

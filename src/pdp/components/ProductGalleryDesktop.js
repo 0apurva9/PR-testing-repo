@@ -64,7 +64,7 @@ export default class ProductGalleryDesktop extends React.Component {
   showSimilarProducts() {
     this.props.showSimilarProducts();
     //setDataLayer(ADOBE_PDP_SIMILAR_PRODUCT, this.props.productDetails);
-    setDataLayer(ADOBE_SIMILAR_PRODUCTS_PDP, this.props.productDetails);
+    setDataLayer(ADOBE_SIMILAR_PRODUCTS_PDP, this.props.productData);
   }
   componentDidMount() {
     if (this.type === "image") {
@@ -78,10 +78,9 @@ export default class ProductGalleryDesktop extends React.Component {
       (window.pageYOffset || this.refs.zoom.scrollTop) -
       (this.refs.zoom.clientTop || 0);
     const zoomX =
-      ((evt.clientX - this.zoomPositionX) / this.zoomWidth) * -100 + 25;
+      (evt.clientX - this.zoomPositionX) / this.zoomWidth * -100 + 25;
     const zoomY =
-      ((evt.clientY - this.zoomPositionY + scrollTop) / this.zoomHeight) *
-        -100 +
+      (evt.clientY - this.zoomPositionY + scrollTop) / this.zoomHeight * -100 +
       25;
     setTimeout(() => {
       if (zoomX <= 0 && zoomX >= -51) {
@@ -248,7 +247,9 @@ export default class ProductGalleryDesktop extends React.Component {
           <div
             className={styles.zoomer}
             style={{
-              transform: `translateX(${this.state.zoomX}%) translateY(${this.state.zoomY}%)`
+              transform: `translateX(${this.state.zoomX}%) translateY(${
+                this.state.zoomY
+              }%)`
             }}
           >
             <Image

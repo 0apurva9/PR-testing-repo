@@ -2069,6 +2069,17 @@ const account = (
         submitExchangeCashbackDetailsLoading: false,
         submitExchangeCashbackDetailsError: action.error
       });
+
+    case accountActions.RETRY_ORDER_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        retryOrderDetailsStatus: action.status,
+        retryOrderDetailsError: action.error
+      });
+    case accountActions.RETRY_ORDER_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        retryOrderDetailsStatus: action.status,
+        retryOrderDetails: action.retryOrderDetails
+      });
     default:
       return state;
   }
