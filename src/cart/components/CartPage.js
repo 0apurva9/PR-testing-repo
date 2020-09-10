@@ -512,7 +512,7 @@ class CartPage extends React.Component {
       CART_DETAILS_FOR_LOGGED_IN_USER
     );
     if (localStorage.getItem(CART_BAG_DETAILS)) {
-      if (globalCookie !== undefined && cartDetailsAnonymous !== undefined) {
+      if (globalCookie && cartDetailsAnonymous) {
         this.props.displayCouponsForAnonymous(
           ANONYMOUS_USER,
           JSON.parse(globalCookie).access_token
