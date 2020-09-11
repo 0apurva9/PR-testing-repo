@@ -266,7 +266,8 @@ export function getProductDescription(
         if (
           resultJson.seo &&
           resultJson.seo.alternateURL &&
-          urlLength.length === 2
+          urlLength.length === 2 &&
+          !(urlLength.includes("my-account") || urlLength.includes("checkout"))
         ) {
           window.location.pathname = resultJson.seo.alternateURL;
         }
