@@ -516,7 +516,6 @@ export default class EmiPanel extends React.Component {
                   }
                   isRetryPaymentFromURL={isRetryPaymentFromURL}
                   retryPaymentDetails={this.props.retryPaymentDetails}
-                  isDebitCard={false}
                 />
               )}
               {!isNoCostEmiEligibleFlag &&
