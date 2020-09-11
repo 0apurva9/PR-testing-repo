@@ -139,9 +139,13 @@ import {
   ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE,
   ADOBE_CALL_FOR_SELECT_DELIVERY_MODE,
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE,
-  setDataLayerForWhatsappUncheck,
+  setDataLayerForWhatsappCheckUncheck,
   ADOBE_CHECKOUT_DEFAULT_NEW_ADDRESS,
-  setDataLayerForRetryPaymentAccountSection
+  setDataLayerForRetryPaymentAccountSection,
+  WHATSAPP_CHECKBOX_UNCHECK,
+  getWhatsAppNotification,
+  WHATSAPP_NOTIFICATION_CHECKED,
+  WHATSAPP_NOTIFICATION_UNCHECKED
 } from "../../lib/adobeUtils";
 import {
   CART_ITEM_COOKIE,
@@ -588,7 +592,7 @@ class CheckOutPage extends React.Component {
     if (isSelected && !whatsappNotification) {
       Cookie.createCookie(WHATSAPP_NOTIFICATION, isSelected);
     } else {
-      setDataLayerForWhatsappUncheck();
+      setDataLayerForWhatsappCheckUncheck(WHATSAPP_CHECKBOX_UNCHECK);
       Cookie.deleteCookie(WHATSAPP_NOTIFICATION);
     }
   }
@@ -3832,6 +3836,7 @@ if you have order id in local storage then you have to show order confirmation p
   }
 
   render() {
+    console.log("=========>check", this.props);
     let labelForButton,
       checkoutButtonStatus = false;
     if (

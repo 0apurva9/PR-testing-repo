@@ -263,11 +263,14 @@ export function getProductDescription(
         resultJson.status === SUCCESS_UPPERCASE ||
         resultJson.status === SUCCESS_CAMEL_CASE
       ) {
+        let location = window && window.location && window.location.pathname;
         let urlLength = window.location.pathname.split("/");
         if (
           resultJson.seo &&
           resultJson.seo.alternateURL &&
-          urlLength.length === 2
+          urlLength.length === 2 &&
+          !location.includes("my-account") &&
+          !location.includes("checkout")
         ) {
           window.location.pathname = resultJson.seo.alternateURL;
         }

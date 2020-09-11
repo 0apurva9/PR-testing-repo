@@ -100,7 +100,8 @@ export default class AllOrderDetails extends React.Component {
       stickyPortion: false,
       showStickyPortion: 0,
       sortValue: "",
-      sortLabel: ""
+      sortLabel: "",
+      disableRetry: false
     };
     const currentYear = new Date().getFullYear();
     this.filterOptions = [
@@ -347,78 +348,81 @@ export default class AllOrderDetails extends React.Component {
     }
   };
   onClickRetryPayment = async (retryUrl, products, orderId) => {
-    let retryPaymentSplitUrl = retryUrl.split("?")[1].split("&");
-    let guId = retryPaymentSplitUrl[0].split("value=")[1];
-    let userId = retryPaymentSplitUrl[1].split("userId=")[1];
-    if (this.props.retryPayment) {
-      let retryPaymentResponse = await this.props.retryPayment(guId, userId);
-      if (retryPaymentResponse && retryPaymentResponse.status === SUCCESS) {
-        let retryPaymentDetailsObject = {};
-        retryPaymentDetailsObject.retryPaymentDetails =
-          retryPaymentResponse.retryPaymentDetails;
-        localStorage.setItem(RETRY_PAYMENT_CART_ID, JSON.stringify(guId));
-        localStorage.setItem(
-          RETRY_PAYMENT_DETAILS,
-          JSON.stringify(retryPaymentDetailsObject)
-        );
-        let isJewelleryProduct = false;
-        // this.props.history.push({
-        //   pathname: CHECKOUT_ROUTER,
-        //   state: {
-        //     isFromRetryUrl: true,
-        //     retryPaymentGuid: guId
-        //   }
-        // });
-        let productDetailsResponse = [];
-        let { status, productDescription } = productDetailsResponse;
-        if (productDetailsResponse && status === SUCCESS) {
-          if (
-            productDescription.rootCategory === CATEGORY_FINE_JEWELLERY ||
-            productDescription.rootCategory === CATEGORY_FASHION_JEWELLERY
-          ) {
-            isJewelleryProduct = true;
+    this.setState({ disableRetry: true }, async () => {
+      let retryPaymentSplitUrl = retryUrl.split("?")[1].split("&");
+      let guId = retryPaymentSplitUrl[0].split("value=")[1];
+      let userId = retryPaymentSplitUrl[1].split("userId=")[1];
+      if (this.props.retryPayment) {
+        let retryPaymentResponse = await this.props.retryPayment(guId, userId);
+        if (retryPaymentResponse && retryPaymentResponse.status === SUCCESS) {
+          let retryPaymentDetailsObject = {};
+          retryPaymentDetailsObject.retryPaymentDetails =
+            retryPaymentResponse.retryPaymentDetails;
+          localStorage.setItem(RETRY_PAYMENT_CART_ID, JSON.stringify(guId));
+          localStorage.setItem(
+            RETRY_PAYMENT_DETAILS,
+            JSON.stringify(retryPaymentDetailsObject)
+          );
+          let isJewelleryProduct = false;
+          // this.props.history.push({
+          //   pathname: CHECKOUT_ROUTER,
+          //   state: {
+          //     isFromRetryUrl: true,
+          //     retryPaymentGuid: guId
+          //   }
+          // });
+          let productDetailsResponse,
+            failedOrderDetails,
+            retryproductData = [];
+          let { status, productDescription } = productDetailsResponse;
+          if (productDetailsResponse && status === SUCCESS) {
+            if (
+              productDescription.rootCategory === CATEGORY_FINE_JEWELLERY ||
+              productDescription.rootCategory === CATEGORY_FASHION_JEWELLERY
+            ) {
+              isJewelleryProduct = true;
+            }
+          }
+          // this.props.history.push({
+          //   pathname: CHECKOUT_ROUTER,
+          //   state: {
+          //     isFromRetryUrl: true,
+          //     retryPaymentGuid: guId
+          //   }
+          // });
+
+          failedOrderDetails = await this.props.getRetryOrderDetails(orderId);
+          let productRequest =
+            products &&
+            products.map(
+              async data =>
+                await this.props.getProductDescription(data.productcode)
+            );
+          await Promise.all(productRequest).then(responses =>
+            responses.forEach(res => {
+              let { status, productDescription } = res;
+              if (res && res.productDescription && status === SUCCESS) {
+                retryproductData.push(res.productDescription);
+              }
+            })
+          );
+          if (retryproductData.length > 0 && failedOrderDetails) {
+            this.props.history.push({
+              pathname: CHECKOUT_ROUTER,
+              state: {
+                isFromRetryUrl: true,
+                retryPaymentGuid: guId,
+                productDetails: retryproductData,
+                totalPriceData:
+                  failedOrderDetails &&
+                  failedOrderDetails.retryOrderDetails &&
+                  failedOrderDetails.retryOrderDetails.products
+              }
+            });
           }
         }
-
-        // this.props.history.push({
-        //   pathname: CHECKOUT_ROUTER,
-        //   state: {
-        //     isFromRetryUrl: true,
-        //     retryPaymentGuid: guId
-        //   }
-        // });
-        let failedOrderDetails,
-          retryproductData = [];
-        failedOrderDetails = await this.props.getRetryOrderDetails(orderId);
-        let productRequest =
-          products &&
-          products.map(data =>
-            this.props.getProductDescription(data.productcode)
-          );
-        await Promise.all(productRequest).then(responses =>
-          responses.forEach(res => {
-            let { status, productDescription } = res;
-            if (res && res.productDescription && status === SUCCESS) {
-              retryproductData.push(res.productDescription);
-            }
-          })
-        );
-        if (retryproductData && failedOrderDetails) {
-          this.props.history.push({
-            pathname: CHECKOUT_ROUTER,
-            state: {
-              isFromRetryUrl: true,
-              retryPaymentGuid: guId,
-              productDetails: retryproductData,
-              totalPriceData:
-                failedOrderDetails &&
-                failedOrderDetails.retryOrderDetails &&
-                failedOrderDetails.retryOrderDetails.products
-            }
-          });
-        }
       }
-    }
+    });
   };
   getDivWithWithoutBorder(productsLength, key) {
     if (productsLength === key + 1) {
@@ -779,6 +783,7 @@ export default class AllOrderDetails extends React.Component {
                                           color: "#212121",
                                           fontSize: 14
                                         }}
+                                        disabled={this.state.disableRetry}
                                         onClick={() =>
                                           this.onClickRetryPayment(
                                             orderDetails.retryPaymentUrl,
@@ -1065,6 +1070,7 @@ export default class AllOrderDetails extends React.Component {
                                               color: "#212121",
                                               fontSize: 14
                                             }}
+                                            disabled={this.state.disableRetry}
                                             onClick={() =>
                                               this.onClickRetryPayment(
                                                 orderDetails.retryPaymentUrl,

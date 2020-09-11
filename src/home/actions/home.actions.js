@@ -377,9 +377,9 @@ export function homeFeedBackUp() {
       //   `v2/mpl/cms/defaultpage?pageId=defaulthomepage&channel=${WCMS_PLATFORM}`
       // );
       // const result = await api.get(
-      //   `v2/mpl/cms/defaultpage?pageId=hp-test`
+      //   `v2/mpl/cms/defaultpage?pageId=hp-test&channel=${WCMS_PLATFORM}`
       // );
-      //const resultJson = await result.json();
+      // const resultJson = await result.json();
       const resultJson = {
         items: [
           {
@@ -1447,7 +1447,14 @@ export function getTargetMboxData(componentName, sequence, pageType) {
         if (resultJson.errors) {
           throw new Error(`${resultJson.errors[0].message}`);
         }
-        let data = resultJson.execute.mboxes[0].options[0].content;
+        let data =
+          resultJson &&
+          resultJson.execute &&
+          resultJson.execute.mboxes &&
+          resultJson.execute.mboxes[0] &&
+          resultJson.execute.mboxes[0].options &&
+          resultJson.execute.mboxes[0].options[0] &&
+          resultJson.execute.mboxes[0].options[0].content;
         return dispatch(getTargetMboxDataSuccess(data));
         //}
       }
