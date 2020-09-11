@@ -699,14 +699,16 @@ class CheckOutPage extends React.Component {
                   selectedStoreDetails={val.storeDetails}
                   cliqPiqSelected={this.state.cliqPiqSelected}
                   product={val}
-                  isShippingObjAvailable={
-                    this.props.cart &&
+                  /**
+                   * Old Implementation
+                   * this.props.cart &&
                     this.props.cart.cartDetailsCNC &&
                     this.props.cart.cartDetailsCNC.cartAmount &&
                     this.props.cart.cartDetailsCNC.cartAmount.shippingCharge
                       ? true
                       : false
-                  }
+                   */
+                  isShippingObjAvailable={false}
                 />
               </div>
             );
@@ -3635,14 +3637,16 @@ if you have order id in local storage then you have to show order confirmation p
         }
         isExchangeServiceableArray={isExchangeServiceableArray}
         isQuoteExpiredCheckout={isQuoteExpired}
-        isShippingObjAvailable={
-          this.props.cart &&
+        /**
+         * Old Implementation
+         * this.props.cart &&
           this.props.cart.cartDetailsCNC &&
           this.props.cart.cartDetailsCNC.cartAmount &&
           this.props.cart.cartDetailsCNC.cartAmount.shippingCharge
             ? true
             : false
-        }
+         */
+        isShippingObjAvailable={false}
       />
     );
   };
