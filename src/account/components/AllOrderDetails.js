@@ -361,33 +361,25 @@ export default class AllOrderDetails extends React.Component {
           RETRY_PAYMENT_DETAILS,
           JSON.stringify(retryPaymentDetailsObject)
         );
-        let isJewelleryProduct = false,
-          productDetailsResponse = null;
+        let isJewelleryProduct = false;
+        // this.props.history.push({
+        //   pathname: CHECKOUT_ROUTER,
+        //   state: {
+        //     isFromRetryUrl: true,
+        //     retryPaymentGuid: guId
+        //   }
+        // });
+        let productDetailsResponse = [];
+        let { status, productDescription } = productDetailsResponse;
+        if (productDetailsResponse && status === SUCCESS) {
+          if (
+            productDescription.rootCategory === CATEGORY_FINE_JEWELLERY ||
+            productDescription.rootCategory === CATEGORY_FASHION_JEWELLERY
+          ) {
+            isJewelleryProduct = true;
+          }
+        }
 
-        products.map(async (data, index) => {
-          productDetailsResponse = await this.props.getProductDescription(
-            data.productcode
-          );
-          let { status, productDescription } = productDetailsResponse;
-          if (productDetailsResponse && status === SUCCESS) {
-            if (
-              productDescription.rootCategory === CATEGORY_FINE_JEWELLERY ||
-              productDescription.rootCategory === CATEGORY_FASHION_JEWELLERY
-            ) {
-              isJewelleryProduct = true;
-            }
-          }
-          if (status === SUCCESS && index === products.length - 1) {
-            this.props.history.push({
-              pathname: CHECKOUT_ROUTER,
-              state: {
-                isFromRetryUrl: true,
-                retryPaymentGuid: guId,
-                isJewelleryAvailable: isJewelleryProduct
-              }
-            });
-          }
-        });
         // this.props.history.push({
         //   pathname: CHECKOUT_ROUTER,
         //   state: {
