@@ -414,7 +414,7 @@ const REVIEW_RATE_THE_PRODUCT = "cpj_review_rate_theProduct";
 const REVIEW_STAR_RATING = "cpj_rating_click";
 export const ADOBE_REVIEW_STAR_RATING = "ADOBE_REVIEW_STAR_RATING";
 const VIEW_CART_FROM_MINIBAG = "cpj_minicart_viewbag";
-const WHATSAPP_CHECKBOX_UNCHECK = "cpj_whatsappCheckboxUncheck";
+export const WHATSAPP_CHECKBOX_UNCHECK = "cpj_whatsappCheckboxUncheck";
 export const ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING =
   "ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING";
 export const ICID2 = "ICID2";
@@ -4597,9 +4597,11 @@ export function setDataLayerForMinibag() {
   }
 }
 
-export function setDataLayerForWhatsappUncheck() {
-  if (window._satellite) {
-    window._satellite.track(WHATSAPP_CHECKBOX_UNCHECK);
+export function setDataLayerForWhatsappCheckUncheck(type) {
+  if (type === WHATSAPP_CHECKBOX_UNCHECK) {
+    if (window._satellite) {
+      window._satellite.track(WHATSAPP_CHECKBOX_UNCHECK);
+    }
   }
 }
 
@@ -4706,4 +4708,3 @@ export function getWhatsAppNotification(type) {
 //     }
 //   }
 // }
-

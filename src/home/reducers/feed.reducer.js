@@ -583,7 +583,7 @@ const feed = (
       const targetMbox = { ...state.targetMboxData, ...mboxData };
       return Object.assign({}, state, {
         targetMboxData: targetMbox
-
+      });
     case homeActions.MSD_PRODUCT_ABC_DATA_SUCCESS:
       return Object.assign({}, state, {
         loadMsdSkeleton: false,
@@ -593,7 +593,6 @@ const feed = (
       return Object.assign({}, state, {
         loadMsdSkeleton: true,
         loading: false
-
       });
 
     default:
