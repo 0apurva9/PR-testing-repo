@@ -1406,7 +1406,7 @@ export function getTargetMboxData(componentName, sequence, pageType) {
             ? splitData[1].split("#")[1]
             : splitData[0].split("#")[1];
 
-        let url = `http://tataunistore.tt.omtrdc.net/rest/v1/delivery?client=tataunistore&sessionId=${mboxSessionIdJson}&version=2.1.1`;
+        let url = `//tataunistore.tt.omtrdc.net/rest/v1/delivery?client=tataunistore&sessionId=${mboxSessionIdJson}&version=2.1.1`;
         let payloadData = {
           context: {
             channel: "web",
