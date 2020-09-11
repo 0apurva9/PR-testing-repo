@@ -63,8 +63,7 @@ export default class PayPalOptions extends React.Component {
                     The safer and easier way to pay
                   </div>
                   <div className={styles.payPalSubText}>
-                    Note: Only credit and debit card (AMEX, Visa, Mastercard)
-                    transaction are supported on PayPal
+                    Note: PayPal accepts all the cards.
                   </div>
                 </div>
               </div>
