@@ -1138,7 +1138,8 @@ const productDescription = (
       return Object.assign({}, state, {
         getBundledProductSuggestionStatus: action.status,
         getBundledProductSuggestionLoading: false,
-        getBundledProductSuggestionError: action.error
+        getBundledProductSuggestionError: action.error,
+        getBundledProductSuggestionDetails: null
       });
 
     case pdpActions.GET_TOTAL_BUNDLED_PRICE_REQUEST:

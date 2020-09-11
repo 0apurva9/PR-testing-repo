@@ -39,6 +39,12 @@ export default class SingleBundledProduct extends React.Component {
     );
   }
 
+  goToPDP(productId) {
+    if (!this.props.isMainProduct && productId) {
+      this.props.history.push(`/p-${productId.toLowerCase()}`);
+    }
+  }
+
   render() {
     let checked = false;
     if (
@@ -116,6 +122,9 @@ export default class SingleBundledProduct extends React.Component {
                   ? styles.imageHolder
                   : styles.imageHolderMainProduct
               }
+              onClick={() =>
+                this.goToPDP(this.props.productData.productListingId)
+              }
             >
               <Image
                 image={
@@ -134,8 +143,15 @@ export default class SingleBundledProduct extends React.Component {
                 : styles.productDetailsContainerMainProduct
             }
           >
-            <div className={styles.productName}>
-              {this.props.productData.productName}
+            <div className={styles.productNameContainer}>
+              <span
+                className={styles.productName}
+                onClick={() =>
+                  this.goToPDP(this.props.productData.productListingId)
+                }
+              >
+                {this.props.productData.productName}
+              </span>
             </div>
             <div className={styles.ratingContainer}>
               {this.props.productData.averageRating !== 0

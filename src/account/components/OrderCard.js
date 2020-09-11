@@ -796,7 +796,8 @@ export default class OrderCard extends React.Component {
             <div className={styles.commonTitle}>
               {!this.props.calloutMessage ? (
                 <React.Fragment>
-                  {estimatedDeliveryDateFormatted &&
+                  {!this.props.isDigitalProduct &&
+                    estimatedDeliveryDateFormatted &&
                     !checkStatus &&
                     (date || returnEligibleDate) && (
                       <React.Fragment>
@@ -843,7 +844,8 @@ export default class OrderCard extends React.Component {
                         </span>
                       </React.Fragment>
                     )}
-                  {!estimatedDeliveryDateFormatted &&
+                  {!this.props.isDigitalProduct &&
+                    !estimatedDeliveryDateFormatted &&
                     !checkStatus &&
                     (date || returnEligibleDate) && (
                       <React.Fragment>

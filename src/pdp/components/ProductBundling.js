@@ -267,6 +267,8 @@ export default class ProductBundling extends React.Component {
                         bundledPriceAPIStatus={bundledPriceAPIStatus}
                         hideExtraProducts={this.state.hideExtraProducts}
                         isBundledProductInCart={isBundledProductInCart}
+                        history={this.props.history}
+                        isMainProduct={false}
                       />
                     );
                   }

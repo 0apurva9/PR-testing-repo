@@ -268,12 +268,21 @@ export default class PdpApparel extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (
+      nextProps.bundledProductSuggestionDetails &&
       nextProps.bundledProductSuggestionDetails !==
-      this.state.bundledProductSuggestionDetails
+        this.state.bundledProductSuggestionDetails
     ) {
       this.setState({
         bundledProductSuggestionDetails:
           nextProps.bundledProductSuggestionDetails
+      });
+    }
+    if (
+      nextProps.bundledProductSuggestionStatus === "error" &&
+      !nextProps.bundledProductSuggestionDetails
+    ) {
+      this.setState({
+        bundledProductSuggestionDetails: null
       });
     }
   }
