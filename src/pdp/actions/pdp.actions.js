@@ -260,7 +260,898 @@ export function getProductDescription(
       const result = await api.getMiddlewareUrl(
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true&isMDE=true`
       );
-      const resultJson = await result.json();
+      let resultJson = await result.json();
+
+      resultJson = {
+        type: "mplNewProductDetailMobileWsData",
+        status: "SUCCESS",
+        APlusContent: {
+          productContent: [
+            {
+              key: "Section1A",
+              value: {
+                imageList: [
+                  "https://assets.tatacliq.com/medias/sys_master/images/MP000000001955258_1.jpeg"
+                ]
+              }
+            },
+            {
+              key: "Section2B",
+              value: {
+                imageList: [
+                  "https://assets.tatacliq.com/medias/sys_master/images/MP000000001955258_2.jpeg"
+                ]
+              }
+            },
+            {
+              key: "Section3B",
+              value: {
+                textList: [
+                  "<h3>Design and Display</h3><p>How do you create a deeply intelligent device whose enclosure and display are a single, uninterrupted element? That's the goal we first set for ourselves with the original iPhone. With iPhone X, we've achieved it. To create a continuous surface, with nothing to get in the way of your experience, we replaced the Home button with new yet familiar ways to navigate.</p>"
+                ]
+              }
+            },
+            {
+              key: "Section2A",
+              value: {
+                textList: [
+                  "<h3>The art of photography. Simplified.</h3><p>Can a camera capture more than meets the eye? To find out, we integrated faster, optically image-stabilised cameras with the advanced machine learning of the A11 Bionic chip. The result is a photography system that sees more, understands more and does more. The intelligent, Apple-designed image signal processor detects elements in the scene - like people, motion and lighting conditions - to optimise your photos even before you take them. It also delivers advanced pixel processing, wide colour capture, faster autofocus and better HDR photos.</p>"
+                ]
+              }
+            },
+            {
+              key: "Section1B",
+              value: {
+                textList: [
+                  "<h3>Your face is your secure password-Face ID</h3><p>What could be more natural than a touch? A look. That was the insight behind Face ID, a powerful and secure authentication system that's even more convenient than Touch ID. It makes unlocking your iPhone X fast, easy and intuitive. With Face ID, iPhone X unlocks only when you're looking at it. It's designed to prevent spoofing by photos or masks. Your facial map is encrypted and protected by the Secure Enclave. And authentication happens instantly on the device, not in the cloud.</p>"
+                ]
+              }
+            },
+            {
+              key: "Section6B",
+              value: {
+                textList: [
+                  "<h3>Resists water, splashes and dust.</h3><p>iPhone X is precision-engineered at the microscopic level to protect against water, splashes and dust. The all glass designs keeps the phone secure, come rain or shine.</p>"
+                ]
+              }
+            },
+            {
+              key: "Section5A",
+              value: {
+                imageList: [
+                  "https://assets.tatacliq.com/medias/sys_master/images/MP000000001955258_5.jpeg"
+                ]
+              }
+            },
+            {
+              key: "Section8C",
+              value: {
+                videoList: ["https://www.youtube.com/embed/mW6hFttt_KE"]
+              }
+            },
+            {
+              key: "Section6A",
+              value: {
+                textList: [
+                  "<h3>A11 Bionic</h3><p>Can you create a chip that's both powerful and intelligent? Meet A11 Bionic, the most powerful and smartest chip ever in a smartphone. With six cores and 4.3 billion transistors, A11 Bionic has four efficiency cores that are up to 70 per cent faster than the A10 fusion chip and two performance cores that are up to 25 per cent faster. The CPU cam harness all six comes simultaneously when you need a turbo boost.</p>"
+                ]
+              }
+            },
+            {
+              key: "Section5C",
+              value: {
+                imageList: [
+                  "https://assets.tatacliq.com/medias/sys_master/images/MP000000001955258_7.jpeg"
+                ]
+              }
+            },
+            {
+              key: "Section3A",
+              value: {
+                imageList: [
+                  "https://assets.tatacliq.com/medias/sys_master/images/MP000000001955258_3.jpeg"
+                ]
+              }
+            },
+            {
+              key: "Section4A",
+              value: {
+                textList: ["<h2>Features</h2>"]
+              }
+            },
+            {
+              key: "Section6C",
+              value: {
+                textList: [
+                  "<h3>Wireless Charging</h3><p>How do you make an iPhone designed for a wireless world? By building on wireless technology like headphones and advanced networking to introduce easy wireless charging. The glass back, together with an efficient charging system, allows you to simply set iPhone X down to charge it up. We wanted people to enjoy the convenience of wireless charging anywhere. So iPhone X works with Qi wireless chargers commonly found in hotels, cafes, airports and cars. Belkin and mophie have also developed two new wireless chargers designed for iPhone X.</p>"
+                ]
+              }
+            },
+            {
+              key: "Section5B",
+              value: {
+                imageList: [
+                  "https://assets.tatacliq.com/medias/sys_master/images/MP000000001955258_6.jpeg"
+                ]
+              }
+            },
+            {
+              key: "Section9A",
+              value: {
+                textList: ["<h3>iPhone X - Apple</h3>"]
+              }
+            },
+            {
+              key: "Section9C",
+              value: {
+                textList: ["<h3>Meet iPhone X - Apple</h3>"]
+              }
+            },
+            {
+              key: "Section8B",
+              value: {
+                videoList: ["https://www.youtube.com/embed/K4wEI5zhHB0"]
+              }
+            },
+            {
+              key: "Section7A",
+              value: {
+                textList: ["<h3>Related Videos</h3>"]
+              }
+            },
+            {
+              key: "Section8A",
+              value: {
+                videoList: ["https://www.youtube.com/embed/wmEqgjT61FA"]
+              }
+            },
+            {
+              key: "Section9B",
+              value: {
+                textList: ["<h3>iPhone X - Introducing iPhone X - Apple</h3>"]
+              }
+            }
+          ],
+          temlateName: "MP000000001111132_AplusContent_1"
+        },
+        allOOStock: false,
+        averageRating: 4.5,
+        brandInfo: "Lifestyle brand",
+        brandName: "Yardley",
+        brandURL: "/yardley/c-mbh22a00123",
+        categoryHierarchy: [
+          {
+            category_id: "MSH22",
+            category_name: "Beauty & Grooming"
+          },
+          {
+            category_id: "MSH2211",
+            category_name: "Fragrances and Perfumes"
+          },
+          {
+            category_id: "MSH2233100",
+            category_name: "Fragrances"
+          }
+        ],
+        deliveryModesATP: [
+          {
+            key: "home-delivery",
+            value: "Delivered in 5-6 days."
+          },
+          {
+            key: "express-delivery",
+            value: "Delivered in 1-2 days."
+          }
+        ],
+        discount: "20",
+        detailsSection: [
+          {
+            key: "Additional Details 2",
+            order: "1",
+            value: "Additional Details 2"
+          },
+          {
+            key: "Skin Type",
+            order: "2",
+            value: "Normal"
+          },
+          {
+            key: "Top Note",
+            order: "3",
+            value: "Top Note"
+          },
+          {
+            key: "Liquid",
+            order: "4",
+            value: "Yes"
+          },
+          {
+            key: "Feature 3",
+            order: "4",
+            value: "Feature 3"
+          },
+          {
+            key: "Number of Pieces",
+            order: "5",
+            value: "3"
+          },
+          {
+            key: "SPF",
+            order: "6",
+            value: "Above 30"
+          },
+          {
+            key: "Size",
+            order: "7",
+            value: "35 ml"
+          },
+          {
+            key: "Additional Details 5",
+            order: "8",
+            value: "Additional Details 5"
+          },
+          {
+            key: "Finish",
+            order: "9",
+            value: "Clear"
+          },
+          {
+            key: "Fragrance Family",
+            order: "10",
+            value: "Fruity"
+          },
+          {
+            key: "Best Within",
+            order: "11",
+            value: "Best Within1,Best Within2"
+          },
+          {
+            key: "Formulation",
+            order: "12",
+            value: "Mist"
+          },
+          {
+            key: "Special Features",
+            order: "13",
+            value: "Special Features"
+          },
+          {
+            key: "Sillage",
+            order: "14",
+            value: "Soft"
+          },
+          {
+            key: "Country of Origin",
+            order: "15",
+            value: "India"
+          },
+          {
+            key: "Flammable",
+            order: "16",
+            value: "Yes"
+          },
+          {
+            key: "Feature 2",
+            order: "17",
+            value: "Feature 2"
+          },
+          {
+            key: "Additional Details 4",
+            order: "18",
+            value: "Additional Details 4"
+          },
+          {
+            key: "Additional Details 1",
+            order: "19",
+            value: "Additional Details 1"
+          },
+          {
+            key: "Perishable",
+            order: "20",
+            value: "Yes"
+          },
+          {
+            key: "Hazardous Material",
+            order: "21",
+            value: "Yes"
+          },
+          {
+            key: "Collection",
+            order: "22",
+            value: "Collection"
+          },
+          {
+            key: "Benefits",
+            order: "23",
+            value: "Luminous"
+          },
+          {
+            key: "Fragrance Type",
+            order: "24",
+            value: "Eau de Parfum"
+          },
+          {
+            key: "Color",
+            order: "25",
+            value: "Orange"
+          },
+          {
+            key: "Base Note",
+            order: "26",
+            value: "Base Note"
+          },
+          {
+            key: "Feature 1",
+            order: "27",
+            value: "Feature 1"
+          },
+          {
+            key: "Coverage",
+            order: "28",
+            value: "Full Coverage"
+          },
+          {
+            key: "Combo",
+            order: "29",
+            value: "yes"
+          },
+          {
+            key: "Occasion",
+            order: "30",
+            value: "Day"
+          },
+          {
+            key: "Longevity",
+            order: "31",
+            value: "Moderate"
+          },
+          {
+            key: "Middle Note",
+            order: "32",
+            value: "Middle Note"
+          },
+          {
+            key: "Additional Details 3",
+            order: "33",
+            value: "Additional Details 3"
+          },
+          {
+            key: "Age",
+            order: "34",
+            value: "Above 20"
+          },
+          {
+            key: "Key Fragrance Notes",
+            order: "35",
+            value: "Key Fragrance Notes"
+          },
+          {
+            key: "Preference",
+            order: "36",
+            value: "Oil-Free"
+          },
+          {
+            key: "Concerns",
+            order: "37",
+            value: "Firmness"
+          },
+          {
+            key: "Hair Type",
+            order: "38",
+            value: "Normal Hair"
+          }
+        ],
+        exchangeAvailable: false,
+        exchangeOfferAvailable: false,
+        fulfillmentType: "tship",
+        galleryImagesList: [
+          {
+            galleryImages: [
+              {
+                key: "product",
+                value:
+                  "//img.tatacliq.com/images/i4/437Wx649H/MP000000006401418_437Wx649H_20200317101317.jpeg"
+              },
+              {
+                key: "thumbnail",
+                value:
+                  "//img.tatacliq.com/images/i4/97Wx144H/MP000000006401418_97Wx144H_20200317101317.jpeg"
+              },
+              {
+                key: "searchPage",
+                value:
+                  "//img.tatacliq.com/images/i4/252Wx374H/MP000000006401418_252Wx374H_20200317101317.jpeg"
+              },
+              {
+                key: "mobilePdpView",
+                value:
+                  "//img.tatacliq.com/images/i4/450Wx545H/MP000000006401418_450Wx545H_20200317101317.jpeg"
+              },
+              {
+                key: "superZoom",
+                value:
+                  "//img.tatacliq.com/images/i4/1348Wx2000H/MP000000006401418_1348Wx2000H_20200317101317.jpeg"
+              },
+              {
+                key: "cartIcon",
+                value:
+                  "//img.tatacliq.com/images/i4/97Wx144H/MP000000006401418_97Wx144H_20200317101317.jpeg"
+              },
+              {
+                key: "zoom",
+                value:
+                  "//img.tatacliq.com/images/i4/437Wx649H/MP000000006401418_437Wx649H_20200317101317.jpeg"
+              },
+              {
+                key: "cartPage",
+                value:
+                  "//img.tatacliq.com/images/i4/113Wx168H/MP000000006401418_113Wx168H_20200317101317.jpeg"
+              }
+            ],
+            mediaType: "Image"
+          },
+          {
+            galleryImages: [
+              {
+                key: "product",
+                value:
+                  "//img.tatacliq.com/images/i4/437Wx649H/MP000000006401418_437Wx649H_20200317101320.jpeg"
+              },
+              {
+                key: "thumbnail",
+                value:
+                  "//img.tatacliq.com/images/i4/97Wx144H/MP000000006401418_97Wx144H_20200317101320.jpeg"
+              },
+              {
+                key: "searchPage",
+                value:
+                  "//img.tatacliq.com/images/i4/252Wx374H/MP000000006401418_252Wx374H_20200317101320.jpeg"
+              },
+              {
+                key: "mobilePdpView",
+                value:
+                  "//img.tatacliq.com/images/i4/450Wx545H/MP000000006401418_450Wx545H_20200317101320.jpeg"
+              },
+              {
+                key: "superZoom",
+                value:
+                  "//img.tatacliq.com/images/i4/1348Wx2000H/MP000000006401418_1348Wx2000H_20200317101320.jpeg"
+              },
+              {
+                key: "cartIcon",
+                value:
+                  "//img.tatacliq.com/images/i4/97Wx144H/MP000000006401418_97Wx144H_20200317101320.jpeg"
+              },
+              {
+                key: "zoom",
+                value:
+                  "//img.tatacliq.com/images/i4/437Wx649H/MP000000006401418_437Wx649H_20200317101320.jpeg"
+              },
+              {
+                key: "cartPage",
+                value:
+                  "//img.tatacliq.com/images/i4/113Wx168H/MP000000006401418_113Wx168H_20200317101320.jpeg"
+              }
+            ],
+            mediaType: "Image"
+          },
+          {
+            galleryImages: [
+              {
+                key: "product",
+                value:
+                  "//img.tatacliq.com/images/i4/437Wx649H/MP000000006401418_437Wx649H_20200317101318.jpeg"
+              },
+              {
+                key: "thumbnail",
+                value:
+                  "//img.tatacliq.com/images/i4/97Wx144H/MP000000006401418_97Wx144H_20200317101318.jpeg"
+              },
+              {
+                key: "searchPage",
+                value:
+                  "//img.tatacliq.com/images/i4/252Wx374H/MP000000006401418_252Wx374H_20200317101318.jpeg"
+              },
+              {
+                key: "mobilePdpView",
+                value:
+                  "//img.tatacliq.com/images/i4/450Wx545H/MP000000006401418_450Wx545H_20200317101318.jpeg"
+              },
+              {
+                key: "superZoom",
+                value:
+                  "//img.tatacliq.com/images/i4/1348Wx2000H/MP000000006401418_1348Wx2000H_20200317101318.jpeg"
+              },
+              {
+                key: "cartIcon",
+                value:
+                  "//img.tatacliq.com/images/i4/97Wx144H/MP000000006401418_97Wx144H_20200317101318.jpeg"
+              },
+              {
+                key: "zoom",
+                value:
+                  "//img.tatacliq.com/images/i4/437Wx649H/MP000000006401418_437Wx649H_20200317101318.jpeg"
+              },
+              {
+                key: "cartPage",
+                value:
+                  "//img.tatacliq.com/images/i4/113Wx168H/MP000000006401418_113Wx168H_20200317101318.jpeg"
+              }
+            ],
+            mediaType: "Image"
+          },
+          {
+            galleryImages: [
+              {
+                key: "product",
+                value:
+                  "//img.tatacliq.com/images/i4/437Wx649H/MP000000006401418_437Wx649H_20200317101321.jpeg"
+              },
+              {
+                key: "thumbnail",
+                value:
+                  "//img.tatacliq.com/images/i4/97Wx144H/MP000000006401418_97Wx144H_20200317101321.jpeg"
+              },
+              {
+                key: "searchPage",
+                value:
+                  "//img.tatacliq.com/images/i4/252Wx374H/MP000000006401418_252Wx374H_20200317101321.jpeg"
+              },
+              {
+                key: "mobilePdpView",
+                value:
+                  "//img.tatacliq.com/images/i4/450Wx545H/MP000000006401418_450Wx545H_20200317101321.jpeg"
+              },
+              {
+                key: "superZoom",
+                value:
+                  "//img.tatacliq.com/images/i4/1348Wx2000H/MP000000006401418_1348Wx2000H_20200317101321.jpeg"
+              },
+              {
+                key: "cartIcon",
+                value:
+                  "//img.tatacliq.com/images/i4/97Wx144H/MP000000006401418_97Wx144H_20200317101321.jpeg"
+              },
+              {
+                key: "zoom",
+                value:
+                  "//img.tatacliq.com/images/i4/437Wx649H/MP000000006401418_437Wx649H_20200317101321.jpeg"
+              },
+              {
+                key: "cartPage",
+                value:
+                  "//img.tatacliq.com/images/i4/113Wx168H/MP000000006401418_113Wx168H_20200317101321.jpeg"
+              }
+            ],
+            mediaType: "Image"
+          }
+        ],
+        isCOD: "N",
+        isEMIEligible: "N",
+        isExchangeAvailable: false,
+        isOfferExisting: "N",
+        isOnlineExclusive: "N",
+        isProductNew: "Y",
+        ingredientsNotContained: [
+          {
+            key: " This may change later What it doesn’t have",
+            value: "This product is not vegan, cruelty-free, and gluten-free"
+          }
+        ],
+        ingredientDetails: [
+          {
+            key: "Things it has that may cause allergies",
+            order: "2",
+            values: [
+              {
+                description: "Not tested for animal",
+                imageURL:
+                  "//img.tatacliq.com/images/i4/113Wx168H/MP000000006401418_113Wx168H_20200317101321.jpeg",
+                key: "Cruelty Free"
+              },
+              {
+                description: "Anti-inflamatory",
+                imageURL:
+                  "//img.tatacliq.com/images/i4/113Wx168H/MP000000006401418_113Wx168H_20200317101321.jpeg",
+                key: "Linalool"
+              }
+            ]
+          },
+          {
+            key: "What it has that really matters",
+            order: "1",
+            values: [
+              {
+                description: "Irritates Sensetive Skin",
+                imageURL:
+                  "//img.tatacliq.com/images/i4/113Wx168H/MP000000006401418_113Wx168H_20200317101321.jpeg",
+                key: "Benzyl Benzonate"
+              },
+              {
+                description: "Could Cause hives",
+                imageURL:
+                  "//img.tatacliq.com/images/i4/113Wx168H/MP000000006401418_113Wx168H_20200317101321.jpeg",
+                key: "Benzyl Alcohol"
+              }
+            ]
+          }
+        ],
+        knowMore: [
+          {
+            knowMoreItem:
+              "An order, once placed, can be cancelled until the seller processes it."
+          },
+          {
+            knowMoreItem: "This product is non-returnable."
+          },
+          {
+            knowMoreItem:
+              "For any other queries, do reach out to CliQ Care at 1800-208-8282."
+          }
+        ],
+        knowMoreEmail: "hello@tatacliq.com",
+        knowMorePhoneNo: "1800-208-8282",
+        knowMoreV2: [
+          {
+            knowMoreItemV2: "0 Days Easy Return"
+          },
+          {
+            knowMoreItemV2:
+              "An order, once placed, can be cancelled until the seller processes it."
+          }
+        ],
+        maxQuantityAllowed: "10",
+        mrpPrice: {
+          commaFormattedValue: "₹11500.00",
+          commaFormattedValueNoDecimal: "₹11,500",
+          currencyIso: "INR",
+          currencySymbol: "₹",
+          doubleValue: 11500,
+          formattedValue: "₹11500.00",
+          formattedValueNoDecimal: "₹11500",
+          priceType: "BUY",
+          value: 11500
+        },
+        nceAvailable: false,
+        numberOfReviews: 0,
+        otherIngredients: [
+          {
+            key: "Ingredients",
+            value: "Ingredients,Ingredients,Ingredients"
+          }
+        ],
+        productDescription:
+          "Estēe Lauder Women Beautiful Belle Love Eau de Parfum, 35ml",
+        productListingId: "MP000000001111112",
+        productName:
+          "Estēe Lauder Women Beautiful Belle Love Eau de Parfum, 35ml",
+        productTitle: "Women Beautiful Belle Love Eau de Parfum, 35ml",
+        primaryIngredients: [
+          {
+            key: "Ingredient - This may change later",
+            value: "Primary Ingredient,Primary Ingredient,Primary Ingredient"
+          }
+        ],
+        ratingCount: 0,
+        rootCategory: "Beauty&Grooming",
+        sellerAssociationstatus: "Y",
+        seo: {
+          alternateURL:
+            "/yardley-london-gentleman-urbane-deo-body-spray-for-men/p-mp000000001111112",
+          breadcrumbs: [
+            {
+              name:
+                "Now try the exciting combo of Yardley gentleman urbane, a fragrance for a man with vigour and flamboyance.",
+              url:
+                "/yardley-london-gentleman-urbane-deo-body-spray-for-men/p-mp000000001111112"
+            },
+            {
+              name: "Fragrances",
+              url:
+                "/beauty-grooming-fragrances-and-perfumes-fragrances/c-msh2233100"
+            },
+            {
+              name: "Fragrances and Perfumes",
+              url: "/beauty-grooming-fragrances-and-perfumes/c-msh2211"
+            },
+            {
+              name: "Beauty & Grooming",
+              url: "/beauty-grooming/c-msh22"
+            }
+          ],
+          canonicalURL:
+            "/yardley-london-gentleman-urbane-deo-body-spray-for-men/p-mp000000001111112",
+          description: "Yardley London Gentleman Urbane Deo Body Spray for Men",
+          title:
+            "Now try the exciting combo of Yardley gentleman urbane, a fragrance for a man with vigour and flamb"
+        },
+        setInformation: {
+          key: "This set contains",
+          values: [
+            {
+              key: "Product 2",
+              order: "2",
+              value: "Product 2"
+            },
+            {
+              key: "Product 1",
+              order: "1",
+              value: "Product 1, abcd,Product 11,Product 2"
+            },
+            {
+              key: "Product 10",
+              order: "10",
+              value: "Product 10"
+            },
+            {
+              key: "Product 9",
+              order: "9",
+              value: "Product 9"
+            },
+            {
+              key: "Product 8",
+              order: "8",
+              value: "Product 8"
+            },
+            {
+              key: "Product 7",
+              order: "7",
+              value: "Product 7"
+            },
+            {
+              key: "Product 6",
+              order: "6",
+              value: "Product 6"
+            },
+            {
+              key: "Product 5",
+              order: "5",
+              value: "Product 5"
+            },
+            {
+              key: "Product 4",
+              order: "4",
+              value: "Product 4"
+            },
+            {
+              key: "Product 3",
+              order: "3",
+              value: "Product 3"
+            }
+          ]
+        },
+        sharedText:
+          "Wow!Check out this amazing find http://localhost:9001/yardley-london-gentleman-urbane-deo-body-spray-for-men/p-mp000000001111112 . Like or  comment to tell me what you think, or share for warm fuzzies.",
+        shortStoryLarge: [
+          {
+            description: "Lychee, Rose, Petals, Mimosa",
+            imageURL:
+              "https://assets.tatacliq.com/medias/sys_master/images/TopNote_1.jpeg",
+            key: "Top Note",
+            order: "1"
+          },
+          {
+            description: "Orris Root",
+            imageURL:
+              "https://assets.tatacliq.com/medias/sys_master/images/BaseNote_1.jpeg",
+            key: "Base Note",
+            order: "3"
+          },
+          {
+            description: "Orange Flower",
+            imageURL:
+              "https://assets.tatacliq.com/medias/sys_master/images/HeartNote_1.jpeg",
+            key: "Middle Note",
+            order: "2"
+          }
+        ],
+        shortStorySmall: [
+          {
+            imageURL:
+              "https://assets.tatacliq.com/medias/sys_master/images/Longlasting_1.jpeg",
+            key: "Long Lasting"
+          },
+          {
+            imageURL:
+              "https://assets.tatacliq.com/medias/sys_master/images/moon_1.jpeg",
+            key: "Evening Wear"
+          },
+          {
+            imageURL:
+              "https://assets.tatacliq.com/medias/sys_master/images/gender_1.jpeg",
+            key: "Feminine"
+          },
+          {
+            imageURL:
+              "https://assets.tatacliq.com/medias/sys_master/images/FloralOriantal_1.jpeg",
+            key: "Floral Original Fragrance"
+          },
+          {
+            imageURL:
+              "https://assets.tatacliq.com/medias/sys_master/images/Winter_1.jpeg",
+            key: "Beast Worn in Winter"
+          },
+          {
+            imageURL:
+              "https://assets.tatacliq.com/medias/sys_master/images/Sensual_1.jpeg",
+            key: "Romantic Sensual Mood"
+          }
+        ],
+        showSizeGuide: false,
+        styleNote: "Yardley London Gentleman Urbane Deo Body Spray for Men",
+        variantOptions: [
+          {
+            colorlink: {
+              colorurl:
+                "/yardley-london-gentleman-urbane-deo-body-spray-for-men/p-mp000000001111112",
+              selected: true
+            },
+            sizelink: {
+              imageUrl:
+                "https://assets.tatacliq.com/medias/sys_master/images/Sdefault_1.jpeg",
+              isAvailable: true,
+              productCode: "MP000000001111112",
+              size: "35 ml",
+              url:
+                "/yardley-london-gentleman-urbane-deo-body-spray-for-men/p-mp000000001111112"
+            }
+          },
+          {
+            colorlink: {
+              colorurl:
+                "/yardley-london-gentleman-urbane-deo-body-spray-for-men/p-mp000000001111113",
+              selected: false
+            },
+            sizelink: {
+              imageUrl:
+                "https://assets.tatacliq.com/medias/sys_master/images/Mdefault_1.jpeg",
+              isAvailable: true,
+              productCode: "MP000000001111113",
+              size: "50 ml",
+              url:
+                "/yardley-london-gentleman-urbane-deo-body-spray-for-men/p-mp000000001111113"
+            }
+          },
+          {
+            colorlink: {
+              colorurl:
+                "/yardley-london-gentleman-urbane-deo-body-spray-for-men/p-mp000000001111114",
+              selected: false
+            },
+            sizelink: {
+              imageUrl:
+                "https://assets.tatacliq.com/medias/sys_master/images/Ldefault_1.jpeg",
+              isAvailable: true,
+              productCode: "MP000000001111114",
+              size: "100 ml",
+              url:
+                "/yardley-london-gentleman-urbane-deo-body-spray-for-men/p-mp000000001111114"
+            }
+          }
+        ],
+        whatElseYouNeedtoKnow: [
+          {
+            key: "What Else You Need to Know:",
+            value: "What Else You Need to Know"
+          }
+        ],
+        winningSellerAvailableStock: "500",
+        winningSellerID: "500001",
+        winningSellerName: "Yardley Store",
+        winningSellerPrice: {
+          commaFormattedValue: "₹11400.00",
+          commaFormattedValueNoDecimal: "₹11,400",
+          currencyIso: "INR",
+          currencySymbol: "₹",
+          doubleValue: 11400,
+          formattedValue: "₹11400.00",
+          formattedValueNoDecimal: "₹11400",
+          priceType: "BUY",
+          value: 11400
+        },
+        winningUssID: "50000110000001111"
+      };
+
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
@@ -303,7 +1194,124 @@ export function getMasterTemplate() {
       const result = await api.customGetMiddlewareUrl(
         "/otatacliq/getApplicationProperties.json?propertyNames=MSH2233100"
       );
-      const resultJson = await result.json();
+      let resultJson = await result.json();
+      resultJson = {
+        applicationProperties: [
+          {
+            name: "MSH2416100",
+            value: {
+              templateName: "eyewear template",
+              templateCode: "c-lsh1810",
+              templateIs: "missing",
+              componentList: [
+                {
+                  componentId: "productAndBrandComponent",
+                  componentPosition: "2",
+                  componentProperties: {
+                    shareButton: "true"
+                  }
+                },
+                {
+                  componentId: "ratingReviewComponent",
+                  componentPosition: "3"
+                },
+                {
+                  componentId: "priceComponent",
+                  componentPosition: "4"
+                },
+                {
+                  componentId: "sizeComponent",
+                  componentPosition: "5"
+                },
+                {
+                  componentId: "colorComponent",
+                  componentPosition: "6"
+                },
+                {
+                  componentId: "freebeeComponent",
+                  componentPosition: "7"
+                },
+                {
+                  componentId: "offersComponent",
+                  componentPosition: "10"
+                },
+                {
+                  componentId: "storyComponent",
+                  componentPosition: "9"
+                },
+                {
+                  componentId: "detailsComponent",
+                  componentPosition: "8"
+                },
+                {
+                  componentId: "fromTheBrandComponent",
+                  componentPosition: "40"
+                },
+                {
+                  componentId: "ingredientsComponent",
+                  componentPosition: "50"
+                },
+                {
+                  componentId: "howToWearComponent",
+                  componentPosition: "60"
+                },
+                {
+                  componentId: "shippingDetailComponent",
+                  componentPosition: "70"
+                },
+                {
+                  componentId: "imageGalleryComponent",
+                  componentPosition: "1",
+                  componentProperties: {
+                    componentScrollingPosition: "horizontal",
+                    componentSliderDotsPosition: "bottomStart",
+                    tagPosition: "bottomCenter"
+                  }
+                },
+                {
+                  componentId: "guaranteeComponent",
+                  componentPosition: "80"
+                },
+                {
+                  componentId: "ratingReviewDetailComponent",
+                  componentPosition: "90",
+                  componentProperties: {
+                    reviewsOnScreenLimit: "2"
+                  }
+                },
+                {
+                  componentId: "expertTalkComponent",
+                  componentPosition: "100"
+                },
+                {
+                  componentId: "returnsComponent",
+                  componentPosition: "110"
+                },
+                {
+                  componentId: "aboutTheBrandComponent",
+                  componentPosition: "120"
+                },
+                {
+                  componentId: "useItTogetherComponent",
+                  componentPosition: "130"
+                },
+                {
+                  componentId: "moreFromThisBrandComponent",
+                  componentPosition: "140"
+                },
+                {
+                  componentId: "similarBrandsComponent",
+                  componentPosition: "150"
+                },
+                {
+                  componentId: "listingIdComponent",
+                  componentPosition: "160"
+                }
+              ]
+            }
+          }
+        ]
+      };
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -1589,7 +2597,97 @@ export function getPdpOffers() {
         categoryCode,
         brandCodeLast.toUpperCase()
       );
-      const pdpOffersApiJson = await pdpOffersApi.json();
+      let pdpOffersApiJson = await pdpOffersApi.json();
+      pdpOffersApiJson = {
+        type: "voucherSequenceListDTO",
+
+        status: "Success",
+
+        offerCalloutList: [
+          {
+            channel: "ALL",
+
+            couponType: "TERTIARY_OFFER",
+
+            endDateAndTime: "2020-07-21 23:59:59",
+
+            imageUrl:
+              "https://assets.tatacliq.com/medias/sys_master/14766233681950.png",
+
+            name:
+              "Apply Coupon GOKOTAK and get 10% instant discount with Kotak Credit/Debit Cards* Min Purchase : Rs. 5000 | Max Discount: Rs. 1000.",
+
+            offerEndDate: "2020-07-21 23:59:59",
+
+            offerStartDate: "2020-07-21 00:00:00",
+
+            offerType: "Tertiary Offer",
+
+            priority: 1000,
+
+            promotionDisplayText:
+              'The offer is valid on select products. View All Kotak Bank offer <a href="https://www.tatacliq.com/bank-offers" target="_blank">T&Cs</a>',
+
+            sequence: 2,
+
+            startDateAndTime: "2020-07-21 00:00:00",
+
+            voucherIdentifier: "MARTLSKOTAK"
+          },
+
+          {
+            channel: "ALL",
+
+            couponType: "TERTIARY_OFFER",
+
+            endDateAndTime: "2021-07-31 23:59:00",
+
+            name: "Free Shipping on cart value of Rs. 1499 & more",
+
+            offerEndDate: "2021-07-31 23:59:00",
+
+            offerStartDate: "2020-06-11 00:00:00",
+
+            offerType: "Tertiary Offer",
+
+            priority: 993,
+
+            sequence: 3,
+
+            startDateAndTime: "2020-06-11 00:00:00",
+
+            voucherIdentifier: "LIFESTYLESHIP"
+          },
+
+          {
+            channel: "ALL",
+
+            couponType: "TERTIARY_OFFER",
+
+            endDateAndTime: "2020-07-24 23:59:59",
+
+            name:
+              "1) Apply Coupon HDFC2000 and get Rs. 2,000 off on HDFC Bank Credit Card and Credit Card EMI on min. purchase of Rs. 25,000. Offer on select products only. Limited Period Offer.<br>2) Apply Coupon AMEXTECH and get 10% Instant Discount on American Express Credit Card and EMI Transaction on Min Purchase: Rs. 10000 | Max Discount: Rs.1500",
+
+            offerEndDate: "2020-07-24 23:59:59",
+
+            offerStartDate: "2020-07-24 00:00:00",
+
+            offerType: "Tertiary Offer",
+
+            priority: 1000,
+
+            promotionDisplayText:
+              'T&C\'s<br> 1) The offer is valid on Electronics & Lifestyle<br> 2) The Offer not valid on Gold Coins<br> View All Bank offer <a href="https://www.tatacliq.com/hdfc-credit-card-offer-tnc" target="_blank">T&Cs</a>',
+
+            sequence: 1,
+
+            startDateAndTime: "2020-07-24 00:00:00",
+
+            voucherIdentifier: "HDFC2000T"
+          }
+        ]
+      };
 
       if (pdpOffersApiJson.offerCalloutList) {
         dispatch(
