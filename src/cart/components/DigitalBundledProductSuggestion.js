@@ -20,12 +20,14 @@ import {
   setDataLayer,
   ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_CART
 } from "../../lib/adobeUtils";
+import SectionLoaderDesktop from "../../general/components/SectionLoaderDesktop";
 
 export default class DigitalBundledProductSuggestion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      addToCartAnalyticsData: null
+      addToCartAnalyticsData: null,
+      showLoader: false
     };
   }
   componentDidUpdate(prevProps, prevState) {
@@ -37,6 +39,7 @@ export default class DigitalBundledProductSuggestion extends React.Component {
         this.props.addBundledProductsToCartDetails.status.toLowerCase() ===
         SUCCESS
       ) {
+        this.setState({ showLoader: false });
         let loggedInUserDetails = getLoggedInUserDetails();
         let cartDetails = getCartDetailsForAnonymousInUser();
         let cartId = cartDetails && cartDetails.guid;
@@ -63,6 +66,7 @@ export default class DigitalBundledProductSuggestion extends React.Component {
         this.props.addBundledProductsToCartDetails.status.toLowerCase() ===
         FAILURE_LOWERCASE
       ) {
+        this.setState({ showLoader: false });
         this.props.displayToast(
           this.props.addBundledProductsToCartDetails.error
         );
@@ -77,6 +81,7 @@ export default class DigitalBundledProductSuggestion extends React.Component {
   }
 
   addBundledProductToCart(mainProduct, digitalProduct) {
+    this.setState({ showLoader: true });
     let bundledProductDataForAddToCart = {};
     let addToCartAnalyticsData = {};
     bundledProductDataForAddToCart.baseItem = {
@@ -111,6 +116,7 @@ export default class DigitalBundledProductSuggestion extends React.Component {
       <React.Fragment>
         {this.props.digitalProduct && (
           <div className={styles.digitalBundledProductDetails}>
+            {this.state.showLoader && <SectionLoaderDesktop />}
             <div className={styles.digitalBundledProductImage}>
               <ProductImage
                 image={this.props.digitalProduct.imageURL}
