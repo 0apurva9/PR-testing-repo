@@ -46,9 +46,9 @@ import {
   CHECKOUT_ROUTER,
   RETRY_PAYMENT_CART_ID,
   RETRY_PAYMENT_DETAILS,
-  COSTUMER_ORDER_RELATED_QUERY_ROUTE,
   CNCTOHD,
-  RATE_THIS_ITEM
+  RATE_THIS_ITEM,
+  COSTUMER_CLIQ_CARE_ROUTE
 } from "../../lib/constants";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
 import ProfileMenu from "./ProfileMenu";
@@ -207,11 +207,26 @@ export default class AllOrderDetails extends React.Component {
         ...this.props,
         productDetails: productDetails
       });
+      if (
+        !productDetails.hasOwnProperty("userRating") ||
+        productDetails.userRating === 0
+      ) {
+        setTimeout(() => {
+          this.props.showRatingAndReviewModal({
+            ...this.props,
+            productDetails: productDetails,
+            rating: val
+          });
+        }, 3000);
+      }
     }
   };
+
   redirectToHelp = url => {
-    const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
-    this.props.history.push(urlSuffix);
+    // const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
+    // this.props.history.push(urlSuffix);
+
+    this.props.history.push(`${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`);
   };
   renderToContinueShopping() {
     setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
@@ -361,12 +376,41 @@ export default class AllOrderDetails extends React.Component {
       return styles.orderCardIndividualWithBorder;
     }
   }
-  redirectToHelpPage() {
+  redirectToHelpPage(orderDetails) {
     setDataLayer(ADOBE_MY_ACCOUNT_HELP_AND_SUPPORT);
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
-    this.props.history.push(
-      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
-    );
+    const orderCode = orderDetails.orderId;
+    const transactionId = orderDetails.products[0].transactionId;
+    if (orderDetails) {
+      if (orderDetails.products && orderDetails.products.length == 1) {
+        const selectedOrderObj = {
+          orderCode,
+          transactionId,
+          product: orderDetails.products[0]
+        };
+        this.props.history.push({
+          pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
+          state: {
+            selectedOrderObj
+          }
+        });
+      } else {
+        this.props.history.push(
+          `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`
+        );
+      }
+    }
+    // const selectedOrderObj = {
+    //   orderCode,
+    //   transactionId,
+    //   orderDetails: orderDetails
+    // };
+    // this.props.history.push({
+    //   pathname: `${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`,
+    //   state: {
+    //     selectedOrderObj
+    //   }
+    // });
   }
   onClickCncToHd(orderId, transactionId) {
     let isCncToHdOrderDetails = "";
@@ -393,7 +437,6 @@ export default class AllOrderDetails extends React.Component {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const orderDetails = this.props.profile.orderDetails;
-    console.log("allOrderdetials, ", this.props);
     if (this.props.profile.reSendEmailLoader) {
       return Loader();
     }
@@ -407,7 +450,7 @@ export default class AllOrderDetails extends React.Component {
     if (UserAgent.checkUserAgentIsMobile()) {
       baseClassName = styles.base;
     }
-    let productsDetails = orderDetails && orderDetails.products;
+    // let productsDetails = orderDetails && orderDetails.products;
 
     return (
       <div className={baseClassName}>
@@ -834,6 +877,7 @@ export default class AllOrderDetails extends React.Component {
                                       displayToast={this.props.displayToast}
                                       logisticName={product.logisticName}
                                       trackingAWB={product.trackingAWB}
+                                      exchangeDetails={product.exchangeDetails}
                                     />
                                     <DesktopOnly>
                                       <div className={styles.returnReview}>
@@ -858,7 +902,9 @@ export default class AllOrderDetails extends React.Component {
                                               "ORDER_UNCOLLECTED") && (
                                             <div
                                               onClick={() =>
-                                                this.redirectToHelpPage()
+                                                this.redirectToHelpPage(
+                                                  orderDetails
+                                                )
                                               }
                                               className={styles.helpSupport}
                                             >
@@ -879,7 +925,7 @@ export default class AllOrderDetails extends React.Component {
                                               <div
                                                 className={styles.reviewHeading}
                                               >
-                                                {RATE_THIS_ITEM}
+                                                Rate this product
                                               </div>
                                               <div className={styles.ratingBar}>
                                                 <FillupRatingOrder

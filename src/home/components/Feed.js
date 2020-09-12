@@ -28,7 +28,7 @@ import {
   setDataLayerForLogin,
   ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER
 } from "../../lib/adobeUtils";
-
+import Chatbot from "../../plp/components/Chatbot";
 export const PRODUCT_RECOMMENDATION_TYPE = "productRecommendationWidget";
 const DEFAULT_TITLE =
   "Online Shopping Site in India - Upto 60% Off On Mobiles, Electronics & Fashion at Tata CLiQ";
@@ -402,6 +402,13 @@ class Feed extends Component {
     if (this.props.clearProductModuleRef) {
       this.props.clearProductModuleRef();
     }
+    // get chatbot json details on clp pages
+    if (
+      this.props.feedType === SECONDARY_FEED_TYPE &&
+      this.props.getChatbotDetails
+    ) {
+      this.props.getChatbotDetails();
+    }
   }
   async componentDidUpdate() {
     if (window._osFetchBrandAds) {
@@ -503,8 +510,9 @@ class Feed extends Component {
         setDataLayer(ADOBE_HOME_TYPE);
       }
     }
-    if (userDetails && customerCookie && this.props.getWishListItems) {
-      this.props.getWishListItems();
+    if (userDetails && customerCookie && this.props.getWishlist) {
+      // this.props.getWishListItems();
+      this.props.getWishlist();
     }
     if (this.props.clickedElementId) {
       delay(() => {
@@ -589,6 +597,10 @@ class Feed extends Component {
             {this.renderFeedComponent}
           </List>
         ) : null}
+        <Chatbot
+          clpUrl={this.props.clpUrl}
+          chatbotDetailsData={this.props.chatbotDetailsData}
+        />
         <MobileOnly>
           <div
             style={{
@@ -611,7 +623,24 @@ Feed.propTypes = {
   passwordValue: PropTypes.string,
   loading: PropTypes.bool,
   marginTop: PropTypes.string,
-  feedType: PropTypes.oneOf([HOME_FEED_TYPE, SECONDARY_FEED_TYPE])
+  feedType: PropTypes.oneOf([HOME_FEED_TYPE, SECONDARY_FEED_TYPE]),
+  clpUrl: PropTypes.string,
+  getChatbotDetails: PropTypes.func,
+  chatbotDetailsData: PropTypes.objectOf(
+    PropTypes.shape({
+      chatEnabled: PropTypes.bool,
+      list: PropTypes.arrayOf(
+        PropTypes.shape({
+          pageType: PropTypes.string,
+          showWidget: PropTypes.bool,
+          categoryCode: PropTypes.string,
+          categoryName: PropTypes.string,
+          enableAfterSeconds: PropTypes.number,
+          categoryLandingPage: PropTypes.string
+        })
+      )
+    })
+  )
 };
 
 Feed.defaultProps = {

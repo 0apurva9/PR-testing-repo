@@ -2,6 +2,7 @@ import * as plpActions from "../actions/plp.actions";
 import concat from "lodash.concat";
 import cloneDeep from "lodash.clonedeep";
 import { CLEAR_ERROR } from "../../general/error.actions";
+import { YES, NO } from "../../lib/constants";
 const productListings = (
   state = {
     status: null,
@@ -22,7 +23,16 @@ const productListings = (
     urlString: null,
     loadMsdSkeleton: null,
     searchMsdData: [],
-    banners: []
+    banners: [],
+    getChatbotDetailsStatus: null,
+    getChatbotDetailsLoading: false,
+    getChatbotDetailsData: null,
+    getChatbotDetailsError: null,
+    checkPincodeDetailsStatus: null,
+    checkPincodeDetailsLoading: false,
+    checkPincodeFromHaptikChatbot: false,
+    checkPincodeDetailsError: null,
+    isServiceableToPincode: null
   },
   action
 ) => {
@@ -213,6 +223,84 @@ const productListings = (
       return Object.assign({}, state, {
         banners: []
       });
+
+    case plpActions.GET_CHATBOT_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        getChatbotDetailsStatus: action.status,
+        getChatbotDetailsLoading: true
+      });
+
+    case plpActions.GET_CHATBOT_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        getChatbotDetailsStatus: action.status,
+        getChatbotDetailsLoading: false,
+        getChatbotDetailsData: action.data
+      });
+
+    case plpActions.GET_CHATBOT_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        getChatbotDetailsStatus: action.status,
+        getChatbotDetailsLoading: false,
+        getChatbotDetailsError: action.error
+      });
+
+    case plpActions.CHECK_PIN_CODE_FROM_PLP_REQUEST:
+      return Object.assign({}, state, {
+        checkPincodeDetailsStatus: action.status,
+        checkPincodeDetailsLoading: true
+      });
+
+    case plpActions.CHECK_PIN_CODE_FROM_PLP_SUCCESS:
+      let pincodeListResponse = "";
+      if (
+        action.data &&
+        action.data.deliveryOptions &&
+        action.data.deliveryOptions.pincodeListResponse
+      ) {
+        pincodeListResponse = action.data.deliveryOptions.pincodeListResponse;
+      }
+      let serviceableSeller =
+        pincodeListResponse &&
+        pincodeListResponse.find(seller => {
+          return (
+            seller.ussid === action.data.ussId &&
+            seller.stockCount > 0 &&
+            seller.isServicable === "Y"
+          );
+        });
+
+      let serviceablePincodeDetails = {};
+      if (serviceableSeller) {
+        Object.assign(serviceablePincodeDetails, {
+          city: action.data.city,
+          status: YES,
+          pinCode: action.data.pinCode
+        });
+      } else {
+        Object.assign(serviceablePincodeDetails, {
+          city: action.data.city,
+          status: NO,
+          pinCode: action.data.pinCode,
+          productOutOfStockMessage: action.data.productOutOfStockMessage,
+          productNotServiceableMessage: action.data.productNotServiceableMessage
+        });
+      }
+
+      return Object.assign({}, state, {
+        checkPincodeDetailsStatus: action.status,
+        checkPincodeDetailsLoading: false,
+        checkPincodeFromHaptikChatbot:
+          action.data.checkPincodeFromHaptikChatbot,
+        isServiceableToPincode: serviceablePincodeDetails
+      });
+
+    case plpActions.CHECK_PIN_CODE_FROM_PLP_FAILURE:
+      return Object.assign({}, state, {
+        checkPincodeDetailsStatus: action.status,
+        checkPincodeDetailsLoading: false,
+        checkPincodeDetailsError: action.error
+      });
+
     default:
       return state;
   }

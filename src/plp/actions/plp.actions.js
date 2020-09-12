@@ -3,7 +3,11 @@ import {
   REQUESTING,
   ERROR,
   FAILURE,
-  LOGGED_IN_USER_DETAILS
+  LOGGED_IN_USER_DETAILS,
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  CUSTOMER_ACCESS_TOKEN,
+  GLOBAL_ACCESS_TOKEN,
+  ANONYMOUS_USER
 } from "../../lib/constants";
 import {
   showSecondaryLoader,
@@ -22,6 +26,9 @@ import * as Cookie from "../../lib/Cookie";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent";
 import { COMPONENT_BACK_UP_FAILURE } from "../../home/actions/home.actions";
 import { isBrowser } from "browser-or-node";
+import { displayToast } from "../../general/toast.actions.js";
+import * as ErrorHandling from "../../general/ErrorHandling.js";
+export const PRODUCT_DETAILS_PATH = "v2/mpl/users";
 export const PRODUCT_LISTINGS_REQUEST = "PRODUCT_LISTINGS_REQUEST";
 export const PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR =
   "PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR";
@@ -62,9 +69,19 @@ export const USER_SELECTED_OUT_OF_STOCK = "USER_SELECTED_OUT_OF_STOCK";
 export const MSD_ROOT_PATH = "https://ap-southeast-1-api.madstreetden.com";
 const EXCLUDE_OUT_OF_STOCK_FLAG = "%3AinStockFlag%3Atrue";
 const api_key = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
+const env = process.env;
 export const VIEW_SIMILAR_PRODUCTS = "VIEW_SIMILAR_PRODUCTS";
 export const GET_PLP_BANNERS_SUCCESS = "GET_PLP_BANNERS_SUCCESS";
 export const GET_PLP_BANNERS_FAILURE = "GET_PLP_BANNERS_FAILURE";
+export const GET_CHATBOT_DETAILS_REQUEST = "CHATBOT_DETAILS_REQUEST";
+export const GET_CHATBOT_DETAILS_SUCCESS = "GET_CHATBOT_DETAILS_SUCCESS";
+export const GET_CHATBOT_DETAILS_FAILURE = "GET_CHATBOT_DETAILS_FAILURE";
+export const CHECK_PIN_CODE_FROM_PLP_REQUEST =
+  "CHECK_PIN_CODE_FROM_PLP_REQUEST";
+export const CHECK_PIN_CODE_FROM_PLP_SUCCESS =
+  "CHECK_PIN_CODE_FROM_PLP_SUCCESS";
+export const CHECK_PIN_CODE_FROM_PLP_FAILURE =
+  "CHECK_PIN_CODE_FROM_PLP_FAILURE";
 
 export function setProductModuleRef(ref) {
   return {
@@ -273,7 +290,7 @@ export function getProductListings(
       let keyWordRedirect = currentKeywordRedirect
         ? currentKeywordRedirect
         : false;
-      let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true&channel=WEB`;
+      let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true&channel=WEB&isMDE=true`;
       if (suffix) {
         queryString = `${queryString}${suffix}`;
       }
@@ -304,6 +321,7 @@ export function getProductListings(
         }
         throw new Error(`${resultJson.error}`);
       }
+      setDataLayer(ADOBE_PLP_TYPE, resultJson);
       if (
         isBrowser &&
         resultJson &&
@@ -346,30 +364,25 @@ export function getProductListings(
           getState().icid.value,
           getState().icid.icidType
         );
-      } else {
-        if (
-          isBrowser &&
-          window.digitalData &&
-          window.digitalData.page &&
-          window.digitalData.page.pageInfo &&
-          window.digitalData.page.pageInfo.pageName !== "product grid"
-        ) {
-          if (
-            componentName === "Flash Sale Component" ||
-            componentName === "Theme offers component" ||
-            componentName === "Curated products component"
-          ) {
-            setDataLayer(ADOBE_PLP_TYPE, resultJson);
-          } else {
-            setDataLayer(
-              ADOBE_PLP_TYPE,
-              resultJson,
-              getState().icid.value,
-              getState().icid.icidType
-            );
-          }
-        }
       }
+      // } else {
+      //   if (
+      //     isBrowser &&
+      //     window.digitalData &&
+      //     window.digitalData.page &&
+      //     window.digitalData.page.pageInfo &&
+      //     window.digitalData.page.pageInfo.pageName !== "product grid"
+      //   ) {
+      //     if (
+      //       componentName === "Flash Sale Component" ||
+      //       componentName === "Theme offers component" ||
+      //       componentName === "Curated products component"
+      //     ) {
+      //       setDataLayer(ADOBE_PLP_TYPE, resultJson);
+      //     } else {
+      //     }
+      //   }
+      // }
       if (paginated) {
         if (resultJson.searchresult) {
           dispatch(getProductListingsPaginatedSuccess(resultJson, true));
@@ -414,9 +427,15 @@ export function nullSearchMsd() {
   return async (dispatch, getState, { api }) => {
     try {
       dispatch(showSecondaryLoader());
-      const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      if (userDetails) {
+        userDetails = JSON.parse(userDetails);
+      }
       dispatch(nullSearchMsdRequest());
       let discoverMoreData = new FormData();
+      if (userDetails && userDetails.customerId) {
+        discoverMoreData.append("user_id", userDetails.customerId);
+      }
       discoverMoreData.append("api_key", api_key);
       discoverMoreData.append("widget_list", [109]);
       discoverMoreData.append("num_results", [10]);
@@ -428,6 +447,9 @@ export function nullSearchMsd() {
       );
       const discoverMoreresultJson = await discoverMoreresult.json();
       let trendingProducts = new FormData();
+      if (userDetails && userDetails.customerId) {
+        trendingProducts.append("user_id", userDetails.customerId);
+      }
       trendingProducts.append("api_key", api_key);
       trendingProducts.append("mad_uuid", await getMcvId());
       trendingProducts.append("details", true);
@@ -528,5 +550,130 @@ export function getPlpBannersFailure() {
     type: GET_PLP_BANNERS_FAILURE,
     status: SUCCESS,
     banners: []
+  };
+}
+
+//get chatbot json data
+export function getChatbotDetailsRequest() {
+  return {
+    type: GET_CHATBOT_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getChatbotDetailsSuccess(data) {
+  return {
+    type: GET_CHATBOT_DETAILS_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function getChatbotDetailsFailure(error) {
+  return {
+    type: GET_CHATBOT_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getChatbotDetails() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getChatbotDetailsRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        env.REACT_APP_HAPTIK_CHATBOT_API_URL
+      );
+      if (result.status === 200) {
+        const resultJson = await result.json();
+        return dispatch(getChatbotDetailsSuccess(resultJson));
+      } else {
+        dispatch(getChatbotDetailsFailure(result.statusText));
+      }
+    } catch (e) {
+      dispatch(getChatbotDetailsFailure(e.message));
+    }
+  };
+}
+
+export function checkPincodeFromPLPRequest() {
+  return {
+    type: CHECK_PIN_CODE_FROM_PLP_REQUEST,
+    status: REQUESTING
+  };
+}
+export function checkPincodeFromPLPSuccess(data) {
+  return {
+    type: CHECK_PIN_CODE_FROM_PLP_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function checkPincodeFromPLPFailure(error) {
+  return {
+    type: CHECK_PIN_CODE_FROM_PLP_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function checkPincodeFromPLP(
+  pinCode,
+  productCode,
+  ussId,
+  isComingFromHaptikChatbot
+) {
+  let validProductCode = productCode.toUpperCase();
+  if (pinCode) {
+    localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, pinCode);
+  }
+  let checkPincodeFromHaptikChatbot = false;
+  if (isComingFromHaptikChatbot) {
+    checkPincodeFromHaptikChatbot = true;
+  }
+  return async (dispatch, getState, { api }) => {
+    dispatch(checkPincodeFromPLPRequest());
+    try {
+      let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+      let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+      let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      let url;
+      if (userDetails) {
+        let userName = JSON.parse(userDetails).userName;
+        let accessToken = JSON.parse(customerCookie).access_token;
+        url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false&isMDE=true`;
+      } else {
+        let userName = ANONYMOUS_USER;
+        let accessToken = JSON.parse(globalCookie).access_token;
+        url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false&isMDE=true`;
+      }
+      const result = await api.post(url);
+      const resultJson = await result.json();
+
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        return dispatch(checkPincodeFromPLPFailure(resultJsonStatus.message));
+      }
+
+      return dispatch(
+        checkPincodeFromPLPSuccess({
+          pinCode,
+          deliveryOptions:
+            resultJson &&
+            resultJson.listOfDataList &&
+            resultJson.listOfDataList[0] &&
+            resultJson.listOfDataList[0].value,
+          city: resultJson.city,
+          productOutOfStockMessage: resultJson.productOutOfStockMessage,
+          productNotServiceableMessage:
+            resultJson.productNotServiceabilityMessage,
+          checkPincodeFromHaptikChatbot: checkPincodeFromHaptikChatbot,
+          ussId: ussId
+        })
+      );
+    } catch (e) {
+      return dispatch(checkPincodeFromPLPFailure(e.message));
+    }
   };
 }

@@ -258,6 +258,8 @@ const cart = (
     cartCountStatus: null,
     cartCountError: null,
     cartCount: null,
+    cartCountDetails: null,
+    cartCountDetailsLoading: false,
 
     minicartStatus: null,
     minicartError: null,
@@ -267,6 +269,11 @@ const cart = (
     orderConfirmationBannerDetails: null,
     orderConfirmationBannerDetailsLoading: false,
     orderConfirmationBannerDetailsError: null,
+
+    removeExchangeStatus: null,
+    removeExchangeLoading: false,
+    removeExchangeDetails: null,
+    removeExchangeError: null,
 
     upiMiddleLayerIsNewStatus: null,
     upiMiddleLayerIsNew: null,
@@ -281,7 +288,15 @@ const cart = (
     upiMiddleLayerCombinedLogoStatus: null,
     upiMiddleLayerCombinedLogo: null,
     upiMiddleLayerCombinedLogoLoading: false,
-    upiMiddleLayerCombinedLogoError: null
+    upiMiddleLayerCombinedLogoError: null,
+
+    feedBackPageStatus: null,
+    feedBackPageData: null,
+    loadingForfeedBackPage: false,
+    feedBackPageError: null,
+    getCustomComponent: null,
+    getCustomComponentError: null,
+    getCustomComponentLoading: false
   },
   action
 ) => {
@@ -2278,11 +2293,14 @@ const cart = (
       }
       return Object.assign({}, state, {
         cartCount: action.cartDetails && action.cartDetails.count,
-        cartCountStatus: action.status
+        cartCountStatus: action.status,
+        cartCountDetails: action.cartDetails,
+        cartCountDetailsLoading: false
       });
     case cartActions.GET_CART_COUNT_FOR_LOGGED_IN_USER_REQUEST:
       return Object.assign({}, state, {
-        cartCountStatus: action.status
+        cartCountStatus: action.status,
+        cartCountDetailsLoading: true
       });
     case cartActions.GET_CART_COUNT_FOR_LOGGED_IN_USER_FAILURE:
       Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
@@ -2291,7 +2309,8 @@ const cart = (
       return Object.assign({}, state, {
         cartCountError: action.error,
         cartCountStatus: action.status,
-        cartCount: null
+        cartCount: null,
+        cartCountDetailsLoading: false
       });
     case cartActions.GET_MINICART_REQUEST:
       return Object.assign({}, state, {
@@ -2312,6 +2331,61 @@ const cart = (
       return Object.assign({}, state, {
         minicartStatus: action.status,
         minicart: action.minicartDetails
+      });
+
+    case cartActions.GET_INTERMITTENT_FEEDBACK_DATA_REQUEST:
+      return Object.assign({}, state, {
+        feedBackPageStatus: action.status,
+        loadingForfeedBackPage: true
+      });
+    case cartActions.GET_INTERMITTENT_FEEDBACK_DATA_SUCCESS:
+      return Object.assign({}, state, {
+        feedBackPageStatus: action.status,
+        feedBackPageData: action.feedBackDetails,
+        loadingForfeedBackPage: false
+      });
+    case cartActions.GET_INTERMITTENT_FEEDBACK_DATA_FAILURE:
+      return Object.assign({}, state, {
+        feedBackPageStatus: action.status,
+        feedBackPageError: action.error,
+        loadingForfeedBackPage: false
+      });
+
+    case cartActions.REMOVE_EXCHANGE_REQUEST:
+      return Object.assign({}, state, {
+        removeExchangeStatus: action.status,
+        removeExchangeLoading: true
+      });
+
+    case cartActions.REMOVE_EXCHANGE_SUCCESS:
+      return Object.assign({}, state, {
+        removeExchangeStatus: action.status,
+        removeExchangeLoading: false,
+        removeExchangeDetails: action.data
+      });
+
+    case cartActions.REMOVE_EXCHANGE_FAILURE:
+      return Object.assign({}, state, {
+        removeExchangeStatus: action.status,
+        removeExchangeLoading: false,
+        removeExchangeError: action.error
+      });
+    case cartActions.GET_CUSTOM_COMPONENT_REQUEST:
+      return Object.assign({}, state, {
+        getCustomComponentStatus: action.status,
+        getCustomComponentLoading: true
+      });
+    case cartActions.GET_CUSTOM_COMPONENT_SUCCESS:
+      return Object.assign({}, state, {
+        getCustomComponentStatus: action.status,
+        getCustomComponentLoading: false,
+        customComponent: action.customComponent
+      });
+    case cartActions.GET_CUSTOM_COMPONENT_FAILURE:
+      return Object.assign({}, state, {
+        getCustomComponentStatus: action.status,
+        getCustomComponentLoading: false,
+        getCustomComponentError: action.error
       });
 
     default:

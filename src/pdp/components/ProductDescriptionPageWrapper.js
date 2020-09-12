@@ -149,6 +149,10 @@ export default class ProductDescriptionPageWrapper extends React.Component {
         this.props.showPincodeModal(this.props.match.params[1]);
       }
     }
+    // get chatbot json details
+    if (this.props.getChatbotDetails) {
+      this.props.getChatbotDetails();
+    }
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -187,7 +191,6 @@ export default class ProductDescriptionPageWrapper extends React.Component {
 
   renderRootCategory = datumType => {
     let pdpToRender = typeComponentMapping[datumType];
-    console.log("pdptorender is ", pdpToRender);
     if (!pdpToRender) {
       pdpToRender = typeComponentMapping["Clothing"];
     }
@@ -367,7 +370,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
     } else {
       this.hideLoader();
     }
-    console.log("PRODUCT DESCRIPTION PAGE WRAPPER RENDER HIT");
+
     if (
       !checkUserAgentIsMobile() &&
       this.props.showPiqPage &&

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52">
+    <g fill="none" fill-rule="evenodd" transform="translate(0 1)">
+        <path stroke="#DA1C5C" stroke-linecap="round" stroke-linejoin="round" d="M38.273.116v2.322V.115z"/>
+        <g stroke="#FFF" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1.277 0v2.321V0zM0 1.172L2.554 1.172" transform="translate(15.631 46.08)"/>
+        </g>
+        <circle cx="13.039" cy="40.664" r="1.664" fill="#FFF" stroke="#DA1C5C" stroke-width=".5"/>
+        <circle cx="43.101" cy="5.726" r="1" stroke="#DA1C5C" stroke-width=".5"/>
+        <circle cx="23.292" cy="46.815" r="1" fill="#FFF" stroke="#DA1C5C" stroke-width=".5"/>
+        <path stroke="#DA1C5C" stroke-linecap="round" stroke-linejoin="round" d="M36.911 1.288L39.464 1.288"/>
+        <circle cx="4.875" cy="14.625" r="1.625" fill="#FFF"/>
+        <circle cx="2.438" cy="5.688" r="2.438" fill="#FFF"/>
+        <circle cx="45.5" cy="47.125" r="1.625" fill="#FFF"/>
+        <circle cx="50.375" cy="1.625" r="1.625" fill="#FFF"/>
+        <g stroke="#DA1C5C" stroke-linecap="round" stroke-linejoin="round">
+            <path fill="#FFF" stroke-dasharray="0 2" d="M17.024 34.048c9.402 0 17.024-7.622 17.024-17.024C34.048 7.622 26.426 0 17.024 0 7.622 0 0 7.622 0 17.024c0 9.402 7.622 17.024 17.024 17.024z" transform="translate(13.077 7.66)"/>
+            <path d="M8.323 18.4L13.997 24.212 25.725 11.349" transform="translate(13.077 7.66)"/>
+        </g>
+    </g>
+</svg>

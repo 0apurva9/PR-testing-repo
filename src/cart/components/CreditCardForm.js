@@ -88,6 +88,19 @@ export default class CreditCardForm extends React.Component {
     if (val.replace(/\s/g, "").length < 6) {
       this.setState({ isCalledBinValidation: false });
     }
+    if (
+      (val.replace(/\s/g, "").length >= 6 &&
+        val.replace(/\s/g, "").length -
+          this.state.cardNumber.replace(/\s/g, "").length >
+          1) ||
+      (val.replace(/\s/g, "").length >= 6 &&
+        val.replace(/\s/g, "").slice(0, 5) !==
+          this.state.cardNumber.replace(/\s/g, "").slice(0, 5) &&
+        this.state.cardNumber !== val)
+    ) {
+      this.setState({ isCalledBinValidation: true });
+      this.props.binValidation(val.replace(/\s/g, "").substring(0, 6));
+    }
     if (val.replace(/\s/g, "").length >= 6) {
       this.setState({ isCalledBinValidation: true });
       if (!this.state.isCalledBinValidation) {
@@ -103,11 +116,11 @@ export default class CreditCardForm extends React.Component {
           .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
           .trim()
       : this.state.cardNumber
-      ? this.state.cardNumber
-          .replace(REGX_FOR_WHITE_SPACE, "")
-          .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
-          .trim()
-      : "";
+        ? this.state.cardNumber
+            .replace(REGX_FOR_WHITE_SPACE, "")
+            .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
+            .trim()
+        : "";
   }
 
   onChange(val) {

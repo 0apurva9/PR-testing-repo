@@ -36,7 +36,7 @@ import SortDesktopContainer from "../containers/SortDesktopContainer";
 import FilterContainer from "../containers/FilterContainer";
 import ProductGrid from "./ProductGrid";
 import PlpMobileFooter from "./PlpMobileFooter";
-
+import Chatbot from "./Chatbot";
 export const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
@@ -164,9 +164,7 @@ export default class Plp extends React.Component {
       this.props.pageNumber <
         this.props.productListings.pagination.totalPages - 1
     ) {
-      if (this.props.status !== REQUESTING) {
-        this.props.paginate(this.props.pageNumber + 1, SUFFIX);
-      }
+      this.props.paginate(this.props.pageNumber + 1, SUFFIX);
     }
   }
   componentDidMount() {
@@ -200,18 +198,20 @@ export default class Plp extends React.Component {
                 icid = search.cid;
                 icidType = CID;
               }
-              // setDataLayer(
-              //   ADOBE_PLP_TYPE,
-              //   this.props.productListings,
-              //   icid,
-              //   icidType
-              // );
+              setDataLayer(
+                ADOBE_PLP_TYPE,
+                this.props.productListings,
+                icid,
+                icidType
+              );
             } else {
-              // setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
+              setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
             }
           }
         }
       });
+    } else {
+      setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
     }
 
     //show refine if filtersOpenAmp is true
@@ -228,6 +228,10 @@ export default class Plp extends React.Component {
       window.gemPageId = "0002321000100200";
     }
     /* End - Gemini Script */
+    // get chatbot json details
+    if (this.props.getChatbotDetails) {
+      this.props.getChatbotDetails();
+    }
   }
 
   setHeaderText = () => {
@@ -404,8 +408,6 @@ export default class Plp extends React.Component {
   };
 
   renderPageTags = () => {
-    console.log("RENDER PAGE TAGS");
-    console.log(this.props.productListings.currentQuery);
     let url = `${URL_ROOT}${this.props.productListings.currentQuery.url}`;
     if (this.props.productListings.pagination) {
       const lastPage = Number.parseInt(
@@ -501,7 +503,9 @@ export default class Plp extends React.Component {
       );
     }
     if (AMP_SEARCH_REG_EX.test(this.props.history.location.pathname)) {
-      let ampUrl = `${this.props.history.location.pathname}${this.props.location.search}`;
+      let ampUrl = `${this.props.history.location.pathname}${
+        this.props.location.search
+      }`;
       return (
         <Helmet>
           <link rel="amphtml" href={`${window.location.origin}/amp${ampUrl}`} />
@@ -515,7 +519,6 @@ export default class Plp extends React.Component {
   };
 
   render() {
-    console.log("ARE WE RENDERING HTE PLP?");
     let selectedFilterCount = 0;
     let selectedFilter = [];
     let filterSelected = false;
@@ -559,6 +562,24 @@ export default class Plp extends React.Component {
       <React.Fragment>
         {this.props.productListings && (
           <div className={styles.base}>
+            <Chatbot
+              productListings={this.props.productListings}
+              chatbotDetailsData={this.props.chatbotDetailsData}
+              addToCartFromChatbot={true}
+              getProductPinCode={this.props.getProductPinCode}
+              isServiceableToPincode={this.props.isServiceableToPincode}
+              displayToast={this.props.displayToast}
+              addProductToCart={this.props.addProductToCart}
+              addToCartResponseDetails={this.props.addToCartResponseDetails}
+              history={this.props.history}
+              addToCartResponseLoading={this.props.addToCartResponseLoading}
+              cartCountDetails={this.props.cartCountDetails}
+              checkPincodeDetailsLoading={this.props.checkPincodeDetailsLoading}
+              checkPincodeFromHaptikChatbot={
+                this.props.checkPincodeFromHaptikChatbot
+              }
+              cartCountDetailsLoading={this.props.cartCountDetailsLoading}
+            />
             {this.renderPageTags()}
             {isBrowser && this.renderAmpTags()}
             {this.props.productListings.seo
@@ -606,7 +627,9 @@ export default class Plp extends React.Component {
                     {this.props.productListings &&
                       this.props.productListings.pagination &&
                       this.props.productListings.pagination.totalResults &&
-                      `${this.props.productListings.pagination.totalResults} Products`}
+                      `${
+                        this.props.productListings.pagination.totalResults
+                      } Products`}
                   </div>
                 </div>
               )}

@@ -101,8 +101,8 @@ export default class SizeGuideElementClothing extends Component {
                     !sizeGuidForInch.length
                       ? sizeGuidForCms && sizeGuidForCms[0]
                       : this.state.inchActive
-                      ? sizeGuidForInch && sizeGuidForInch[0]
-                      : sizeGuidForCms && sizeGuidForCms[0]
+                        ? sizeGuidForInch && sizeGuidForInch[0]
+                        : sizeGuidForCms && sizeGuidForCms[0]
                   }
                 />
                 <div className={styles.imageHolder}>
@@ -130,8 +130,8 @@ export default class SizeGuideElementClothing extends Component {
                     !sizeGuidForInch.length
                       ? sizeGuidForCms && sizeGuidForCms[0]
                       : this.state.inchActive
-                      ? sizeGuidForInch && sizeGuidForInch[0]
-                      : sizeGuidForCms && sizeGuidForCms[0]
+                        ? sizeGuidForInch && sizeGuidForInch[0]
+                        : sizeGuidForCms && sizeGuidForCms[0]
                   }
                 />
                 {(tip1 || tip2) && (
@@ -234,8 +234,8 @@ export default class SizeGuideElementClothing extends Component {
                   !sizeGuidForInch.length
                     ? sizeGuidForCms && sizeGuidForCms[0]
                     : this.state.inchActive
-                    ? sizeGuidForInch && sizeGuidForInch[0]
-                    : sizeGuidForCms && sizeGuidForCms[0]
+                      ? sizeGuidForInch && sizeGuidForInch[0]
+                      : sizeGuidForCms && sizeGuidForCms[0]
                 }
               />
             </div>

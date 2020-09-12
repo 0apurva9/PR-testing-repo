@@ -5,12 +5,14 @@ import OrderDetailsCard from "./OrderDetailsCard.js";
 import OrderSucessCard from "./OrderSucessCard.js";
 import Icon from "../../xelpmoc-core/Icon";
 import OrderConfirmationFooter from "./OrderConfirmationFooter.js";
+import CustomInstructionContainer from "../../cart/containers/CustomInstructionContainer";
 import {
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_ORDERS_PAGE,
   MY_ACCOUNT_SAVED_CARDS_PAGE,
   MY_ACCOUNT_ADDRESS_PAGE,
-  SAVE_LIST_PAGE
+  SAVE_LIST_PAGE,
+  DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION
 } from "../../lib/constants";
 import styles from "./OrderConfirmation.css";
 import wishlistIcon from "../../general/components/img/download.svg";
@@ -19,12 +21,14 @@ import addressIcon from "../../general/components/img/addressbook.svg";
 import savedPayments from "../../general/components/img/card.svg";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
-import ModalPanel from "../../general/components/ModalPanel.js";
-import BottomSlideModal2 from "../../general/components/BottomSlideModal2.js";
+// import ModalPanel from "../../general/components/ModalPanel.js";
+// import BottomSlideModal2 from "../../general/components/BottomSlideModal2.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import {
+  setDataLayer,
   setDataLayerForGiftCard,
-  SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT
+  SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT,
+  ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE
 } from "../../lib/adobeUtils";
 
 import PaymentBanner from "./PaymentBanner.js";
@@ -32,9 +36,10 @@ export default class OrderConfirmation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showBanner: false,
-      bannerImg: "",
-      bannerPDPUrl: ""
+      commonExchangePaymentDetails: ""
+      // showBanner: false,
+      // bannerImg: "",
+      // bannerPDPUrl: ""
     };
     this.onCancel = this.onCancel.bind(this);
   }
@@ -42,35 +47,74 @@ export default class OrderConfirmation extends React.Component {
     if (this.props.orderDetails.isEgvOrder) {
       setDataLayerForGiftCard(SET_DATA_LAYER_BUY_GIFT_CARD_SUBMIT);
     }
-    let firstProductCategory = this.props.orderDetails.products[0]
-      .productCategory;
-    let bannerData = await this.props.orderConfirmationBanner();
-    let bannerCategoryCodes =
-      bannerData &&
-      JSON.parse(
-        bannerData.orderConfirmationBannerDetails.applicationProperties[0].value
-      );
-    let matchedCategoryCode = "";
-    let matchedPDPUrl = "";
-    if (bannerCategoryCodes) {
-      for (var key in bannerCategoryCodes.categoryCodes) {
-        if (key === firstProductCategory) {
-          matchedCategoryCode = key;
-          matchedPDPUrl = bannerCategoryCodes.categoryCodes[key];
+    // commented as it is not required - will remove code after confirmation
+    // let firstProductCategory = this.props.orderDetails.products[0]
+    //   .productCategory;
+    // let bannerData = await this.props.orderConfirmationBanner();
+    // let bannerCategoryCodes =
+    //   bannerData &&
+    //   JSON.parse(
+    //     bannerData.orderConfirmationBannerDetails.applicationProperties[0].value
+    //   );
+    // let matchedCategoryCode = "";
+    // let matchedPDPUrl = "";
+    // if (bannerCategoryCodes) {
+    //   for (var key in bannerCategoryCodes.categoryCodes) {
+    //     if (key === firstProductCategory) {
+    //       matchedCategoryCode = key;
+    //       matchedPDPUrl = bannerCategoryCodes.categoryCodes[key];
+    //     }
+    //   }
+    //   let bannerImgUrl = bannerCategoryCodes.bannerUrl;
+    //   if (bannerImgUrl) {
+    //     this.setState({ bannerImg: bannerImgUrl });
+    //   }
+    //   if (matchedPDPUrl) {
+    //     this.setState({ bannerPDPUrl: matchedPDPUrl });
+    //   }
+    //   if (matchedCategoryCode) {
+    //     this.showBanner();
+    //   }
+    // }
+
+    let data = {};
+    let commonExchangePaymentDetails = {};
+    if (this.props.orderDetails) {
+      this.props.orderDetails.products.map(product => {
+        if (
+          product.exchangeDetails &&
+          product.exchangeDetails.exchangePaymentDetails
+        ) {
+          commonExchangePaymentDetails =
+            product.exchangeDetails.exchangePaymentDetails;
         }
+      });
+      //check for isComingFromCncToHd
+      if (
+        this.props.isComingFromCncToHd &&
+        this.props.orderDetails.exchangeDetails &&
+        this.props.orderDetails.exchangeDetails.exchangePaymentDetails
+      ) {
+        commonExchangePaymentDetails = this.props.orderDetails.exchangeDetails
+          .exchangePaymentDetails;
       }
-      let bannerImgUrl = bannerCategoryCodes.bannerUrl;
-      if (bannerImgUrl) {
-        this.setState({ bannerImg: bannerImgUrl });
-      }
-      if (matchedPDPUrl) {
-        this.setState({ bannerPDPUrl: matchedPDPUrl });
-      }
-      if (matchedCategoryCode) {
-        this.showBanner();
+    }
+    if (commonExchangePaymentDetails) {
+      this.setState({
+        commonExchangePaymentDetails: commonExchangePaymentDetails
+      });
+      data.orderId = this.props.orderId;
+      if (commonExchangePaymentDetails && commonExchangePaymentDetails[0]) {
+        data.exchangePaymentMode =
+          commonExchangePaymentDetails[0].exchangePaymentMode;
+        if (commonExchangePaymentDetails[0].accountNumber) {
+          data.accountNumber = commonExchangePaymentDetails[0].accountNumber;
+        }
+        this.props.showChangeExchangeCashabackModal(data);
       }
     }
   }
+
   captureOrderExperience = rating => {
     this.props.captureOrderExperience(rating);
   };
@@ -105,11 +149,20 @@ export default class OrderConfirmation extends React.Component {
     }
   }
 
+  goToEchangeCashbackSelection(orderId, currentCashbackMode) {
+    setDataLayer(ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE);
+    let exchangeCashbackSelectionURL = `/my-account/getAccountInfoForExchange?parentOrderId=${orderId}`;
+    this.props.history.push({
+      pathname: exchangeCashbackSelectionURL,
+      state: { currentCashbackMode: currentCashbackMode, orderId: orderId }
+    });
+  }
+
   render() {
     return (
       <div className={styles.base}>
         <div className={styles.pageCenter}>
-          {this.state.showBanner && (
+          {/* {this.state.showBanner && (
             <ModalPanel>
               <BottomSlideModal2 onCancel={this.onCancel}>
                 <div className={styles.popup}>
@@ -123,7 +176,7 @@ export default class OrderConfirmation extends React.Component {
                 </div>
               </BottomSlideModal2>
             </ModalPanel>
-          )}
+          )} */}
           <DesktopOnly>
             <div className={styles.thanKText}>Thank you</div>
           </DesktopOnly>
@@ -195,11 +248,15 @@ export default class OrderConfirmation extends React.Component {
                           quantity={order.quantity}
                           selectedDeliveryMode={order.selectedDeliveryMode}
                           edd={order.EDD}
+                          exchangeDetails={order.exchangeDetails}
                         />
                       </DesktopOnly>
                     </React.Fragment>
                   );
                 })}
+              <div className={styles.baseCustom}>
+                <CustomInstructionContainer />
+              </div>
               {this.props.isComingFromCncToHd && (
                 <OrderSucessCard
                   imageURL={this.props.orderDetails.imageURL}
@@ -210,6 +267,7 @@ export default class OrderConfirmation extends React.Component {
                     this.props.orderDetails.selectedDeliveryMode
                   }
                   edd={this.props.orderDetails.EDD}
+                  exchangeDetails={this.props.orderDetails.exchangeDetails}
                 />
               )}
               <MobileOnly>
@@ -220,6 +278,49 @@ export default class OrderConfirmation extends React.Component {
                 />
                 <div className={styles.dummySection} />
               </MobileOnly>
+              {this.state.commonExchangePaymentDetails &&
+                this.state.commonExchangePaymentDetails[0] &&
+                this.state.commonExchangePaymentDetails[0]
+                  .exchangePaymentMode && (
+                  <div className={styles.exchangeCashbackDetailsContainer}>
+                    <div className={styles.exchangeCashbackDetails}>
+                      <div className={styles.exchangeCashbackTextContainer}>
+                        <span className={styles.exchangeCashbackText}>
+                          You will receive Exchange Cashback, post your old
+                          phone pickup, in{" "}
+                        </span>
+                        {this.state.commonExchangePaymentDetails[0]
+                          .exchangePaymentMode === "CLIQ_CASH" ? (
+                          <span className={styles.exchangeCashbackAccountText}>
+                            CLiQ Cash wallet
+                          </span>
+                        ) : (
+                          <span className={styles.exchangeCashbackAccountText}>
+                            A/c{" "}
+                            {this.state.commonExchangePaymentDetails[0]
+                              .accountNumber &&
+                              this.state.commonExchangePaymentDetails[0].accountNumber.replace(
+                                /.(?=.{4,}$)/g,
+                                "x"
+                              )}
+                          </span>
+                        )}
+                      </div>
+                      <div
+                        className={styles.exchangeCashbackChangeMode}
+                        onClick={() =>
+                          this.goToEchangeCashbackSelection(
+                            this.props.orderId,
+                            this.state.commonExchangePaymentDetails[0]
+                              .exchangePaymentMode
+                          )
+                        }
+                      >
+                        Change Mode
+                      </div>
+                    </div>
+                  </div>
+                )}
             </div>
             <DesktopOnly>
               <div className={styles.rightSection}>

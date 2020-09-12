@@ -18,7 +18,8 @@ import {
   openInApp,
   getRelevantBundleProduct,
   relevantProductServibilty,
-  relevantBundleProductCode
+  relevantBundleProductCode,
+  getExchangeDetails
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -45,7 +46,8 @@ import {
   BUNDLEDPRODUCT_MODAL,
   SIMILAR_PRODUCTS_MODAL,
   SIMILAR_PRODUCTS_OOS_MODAL,
-  SIZE_SELECTOR_OOS_MODAL
+  SIZE_SELECTOR_OOS_MODAL,
+  EXCHANGE_MODAL
 } from "../../general/modal.actions.js";
 import ProductDescriptionPageWrapper from "../components/ProductDescriptionPageWrapper";
 import { withRouter } from "react-router-dom";
@@ -69,14 +71,8 @@ import {
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE
 } from "../../lib/adobeUtils";
 import { getUserDetails } from "../../account/actions/account.actions.js";
+import { getChatbotDetails } from "../../plp/actions/plp.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
-  let componentName =
-    ownProps &&
-    ownProps.location &&
-    ownProps.location.state &&
-    ownProps.location.state.componentName
-      ? ownProps.location.state.componentName
-      : "";
   return {
     getProductDescription: async productCode => {
       const productDetailsResponse = await dispatch(
@@ -89,7 +85,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             getProductPinCode(
               pinCode,
               productCode,
-              productDetailsResponse.productDescription.winningUssID
+              productDetailsResponse.productDescription.winningUssID,
+              false,
+              productDetailsResponse.productDescription.exchangeAvailable,
+              false
             )
           );
         }
@@ -115,6 +114,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showTermsNConditions: data => {
       dispatch(showModal(TERMSNCONDITIONS_MODAL, data));
+    },
+    showExchangeModal: data => {
+      dispatch(showModal(EXCHANGE_MODAL, data));
     },
     showManufactureDetailsModal: data => {
       dispatch(showModal(MANUFACTURER_MODAL, data));
@@ -149,9 +151,27 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showPincodeModal: (productCode, winningUssID) => {
       dispatch(showModal(ADDRESS, { productCode }, { winningUssID }));
     },
-    getProductPinCode: (pinCode, productCode, winningUssID) => {
+    getProductPinCode: (
+      pinCode,
+      productCode,
+      winningUssID,
+      isComingFromPiqPage,
+      isExchangeAvailable,
+      isComingFromClickEvent,
+      isComingFromHaptikChatbot
+    ) => {
       localStorage.removeItem(SELECTED_STORE);
-      return dispatch(getProductPinCode(pinCode, productCode, winningUssID));
+      return dispatch(
+        getProductPinCode(
+          pinCode,
+          productCode,
+          winningUssID,
+          isComingFromPiqPage,
+          isExchangeAvailable,
+          isComingFromClickEvent,
+          isComingFromHaptikChatbot
+        )
+      );
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());
@@ -228,8 +248,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     addProductToCart1: async productDetails => {
       return await dispatch(addProductToCart(productDetails));
     },
-    getUserAddress: () => {
-      dispatch(getUserAddress());
+    getExchangeDetails: async (
+      listingId,
+      ussid,
+      maxExchangeAmount,
+      pickupCharge
+    ) => {
+      return await dispatch(
+        getExchangeDetails(listingId, ussid, maxExchangeAmount, pickupCharge)
+      );
     },
     /** */
     addressModal: pinCodeObj => {
@@ -288,6 +315,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     mergeTempCartWithOldCart: () => {
       dispatch(mergeTempCartWithOldCart());
+    },
+    getChatbotDetails: async () => {
+      await dispatch(getChatbotDetails());
     }
   };
 };
@@ -313,13 +343,23 @@ const mapStateToProps = state => {
       state.productDescription.secondaryBundleProductData,
     relevantBundleProductCodeData:
       state.productDescription.relevantBundleProductCodeData,
+    exchangeDetails: state.productDescription.exchangeDetails,
     userDetails: state.profile.userDetails,
     loadingOfBuyNowSuccess: state.cart.tempCartIdForLoggedInUserStatus,
     loadingForAddStoreToCnc: state.cart.loadingForAddStore,
     loadingForCartDetail: state.cart.loadingForCartDetail,
     pincodeError: state.productDescription.pincodeError,
     serviceableOtherSellersUssid:
-      state.productDescription.serviceableOtherSellersUssid
+      state.productDescription.serviceableOtherSellersUssid,
+    chatbotDetailsData: state.productListings.getChatbotDetailsData,
+    addToCartResponseDetails: state.productDescription.addToCartResponseDetails,
+    addToCartResponseLoading: state.productDescription.addToCartResponseLoading,
+    cartCountDetails: state.cart.cartCountDetails,
+    checkPincodeDetailsLoading:
+      state.productDescription.checkPincodeDetailsLoading,
+    checkPincodeFromHaptikChatbot:
+      state.productDescription.checkPincodeFromHaptikChatbot,
+    cartCountDetailsLoading: state.cart.cartCountDetailsLoading
   };
 };
 

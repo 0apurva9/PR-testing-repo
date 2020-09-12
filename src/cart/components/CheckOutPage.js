@@ -708,7 +708,6 @@ class CheckOutPage extends React.Component {
                   selectedStoreDetails={val.storeDetails}
                   cliqPiqSelected={this.state.cliqPiqSelected}
                   product={val}
-                  sizeType={val.isSizeOrLength}
                 />
               </div>
             );
@@ -1900,7 +1899,10 @@ if you have order id in local storage then you have to show order confirmation p
       );
     }
     let failedorderRetryPayment = localStorage.getItem(FAILED_ORDER);
-    if (this.props.location.pathname === `${RETRY_FAILED_ORDER}`) {
+    if (
+      this.props.location.pathname === `${RETRY_FAILED_ORDER}` ||
+      failedorderRetryPayment
+    ) {
       let querySearch = this.props.location.search
         ? this.props.location.search
         : window.location.search;
@@ -3007,10 +3009,10 @@ if you have order id in local storage then you have to show order confirmation p
         this.props.displayToast(SELECT_ADDRESS_TYPE);
         return false;
       }
-      if (!address.userEmailId && !address.emailId && address.emailId === "") {
-        this.props.displayToast("Please enter the EmailId");
-        return false;
-      }
+      // if (!address.userEmailId && !address.emailId && address.emailId === "") {
+      //   this.props.displayToast("Please enter the EmailId");
+      //   return false;
+      // }
       if (
         address.emailId &&
         address.emailId !== "" &&
@@ -3419,7 +3421,11 @@ if you have order id in local storage then you have to show order confirmation p
     }
   };
 
-  renderDesktopCheckout = checkoutButtonStatus => {
+  renderDesktopCheckout = (
+    checkoutButtonStatus,
+    isExchangeServiceableArray,
+    isQuoteExpired
+  ) => {
     let retryPaymentDetailsObj = JSON.parse(
       localStorage.getItem(RETRY_PAYMENT_DETAILS)
     );
@@ -3482,6 +3488,13 @@ if you have order id in local storage then you have to show order confirmation p
               this.props.cart.cartDetailsCNC.cartAmount
         }
         isFromRetryUrl={this.state.isComingFromRetryUrl}
+        totalExchangeAmount={
+          this.props.cart &&
+          this.props.cart.cartDetailsCNC &&
+          this.props.cart.cartDetailsCNC.totalExchangeAmount
+        }
+        isExchangeServiceableArray={isExchangeServiceableArray}
+        isQuoteExpiredCheckout={isQuoteExpired}
       />
     );
   };
@@ -3767,6 +3780,34 @@ if you have order id in local storage then you have to show order confirmation p
       checkoutButtonStatus = false;
       labelForButton = PAY_NOW;
     }
+    //if exchange not serviceable disable checkout button and show error toast
+    let isExchangeServiceableArray = [];
+    let isQuoteExpired = [];
+    if (
+      this.props.cart &&
+      this.props.cart.cartDetailsCNC &&
+      this.props.cart.cartDetailsCNC.products
+    ) {
+      this.props.cart.cartDetailsCNC.products.map(product => {
+        if (product.exchangeDetails && product.pinCodeResponse) {
+          isExchangeServiceableArray.push(
+            product.pinCodeResponse.isPickupAvailableForExchange
+          );
+          isQuoteExpired.push(product.exchangeDetails.quoteExpired);
+        }
+      });
+      if (
+        (isExchangeServiceableArray &&
+          isExchangeServiceableArray.length > 0 &&
+          isExchangeServiceableArray.includes(false)) ||
+        (isQuoteExpired &&
+          isQuoteExpired.length > 0 &&
+          isQuoteExpired.includes(true))
+      ) {
+        checkoutButtonStatus = true;
+      }
+    }
+
     const OrderIdForOrderUsingNonJusPayPayments = localStorage.getItem(
       ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE
     );
@@ -3862,7 +3903,11 @@ if you have order id in local storage then you have to show order confirmation p
               />
             </div>
             <div className={styles.rightSection}>
-              {this.renderDesktopCheckout(false)}
+              {this.renderDesktopCheckout(
+                false,
+                isExchangeServiceableArray,
+                isQuoteExpired
+              )}
             </div>
           </div>
         </div>
@@ -4257,6 +4302,7 @@ if you have order id in local storage then you have to show order confirmation p
                       }
                       getPaymentModes={val => this.props.getPaymentModes(val)}
                       retryCartGuid={this.state.retryCartGuid}
+                      isExchangeServiceableArray={isExchangeServiceableArray}
                       showSecondaryLoader={this.props.showSecondaryLoader}
                       hideSecondaryLoader={this.props.hideSecondaryLoader}
                     />
@@ -4291,7 +4337,11 @@ if you have order id in local storage then you have to show order confirmation p
               </div>
               <DesktopOnly>
                 <div className={styles.rightSection}>
-                  {this.renderDesktopCheckout(checkoutButtonStatus)}
+                  {this.renderDesktopCheckout(
+                    checkoutButtonStatus,
+                    isExchangeServiceableArray,
+                    isQuoteExpired
+                  )}
                   <div className={styles.disclaimer}>{DISCLAIMER}</div>
                   {this.props.cart.paymentModes &&
                     this.props.cart.paymentModes.whatsappText && (
@@ -4334,6 +4384,9 @@ if you have order id in local storage then you have to show order confirmation p
                 orderConfirmationBanner={() =>
                   this.props.orderConfirmationBanner()
                 }
+                showChangeExchangeCashabackModal={data =>
+                  this.props.showChangeExchangeCashabackModal(data)
+                }
               />
             </div>
           )}
@@ -4355,6 +4408,9 @@ if you have order id in local storage then you have to show order confirmation p
                   )
                 }
                 orderDetails={this.props.cart.cliqCashJusPayDetails}
+                showChangeExchangeCashabackModal={data =>
+                  this.props.showChangeExchangeCashabackModal(data)
+                }
               />
             </div>
           )}
@@ -4376,6 +4432,13 @@ if you have order id in local storage then you have to show order confirmation p
             fetchOrderDetails={(orderId, pageName) =>
               this.props.fetchOrderDetails(orderId, pageName)
             }
+            exchangeDetails={
+              this.props.cart.getPrepaidOrderPaymentConfirmation.exchangeDetails
+            }
+            showChangeExchangeCashabackModal={data =>
+              this.props.showChangeExchangeCashabackModal(data)
+            }
+            orderDetailsPaymentPage={this.props.orderDetailsPaymentPage}
           />
         </div>
       );

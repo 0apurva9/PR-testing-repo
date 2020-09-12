@@ -3,146 +3,108 @@ import styles from "./CustomerQueryPopUp.css";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import Icon from "../../xelpmoc-core/Icon";
-import orderSuccess from "../components/img/orderSuccess.svg";
-import { MY_ACCOUNT_PAGE } from "../../lib/constants";
+import format from "date-fns/format";
+// import orderSuccess from "../components/img/orderSuccess.svg";
+import raisedTicket from "../components/img/raisedTicket.svg";
+import cancleSvg from "../components/img/cancleSvg.svg";
+import raiseTicketDuplicate from "../components/img/raiseTicketDuplicate.svg";
+import { MY_ACCOUNT_PAGE, HOME_ROUTER } from "../../lib/constants";
+const DATE_FORMAT = "Do MMMM";
 export default class CustomerQueryPopUp extends React.Component {
   constructor() {
     super();
     this.clickedOnSubmitButton = false;
   }
 
-  getDayNumberSuffix(d) {
-    let newDate = new Date(d);
-    let date = newDate.getDate();
-    let month = newDate.getMonth();
-    let year = newDate.getFullYear();
-    let monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
-    ];
-    switch (date) {
-      case 1:
-      case 21:
-      case 31:
-        return "" + date + "st " + monthNames[month] + " " + year;
-      case 2:
-      case 22:
-        return "" + date + "nd " + monthNames[month] + " " + year;
-      case 3:
-      case 23:
-        return "" + date + "rd " + monthNames[month] + " " + year;
-      default:
-        return "" + date + "th " + monthNames[month] + " " + year;
-    }
-  }
-  // hoursToMeridiem = (hour, minute) => {
-  //   //const min = minute === 0 ? "00" : minute.toString();
-  //   if (minute !== 0) {
-  //     hour += 1;
-  //   }
-  //   if (hour > 12) {
-  //     return `${hour - 12}:00 PM`;
-  //   }
-  //   if (hour === 0) {
-  //     return `${12}:00 AM`;
-  //   }
-  //   if (hour === 12) {
-  //     return `${12}:00 PM`;
-  //   }
-  //   if (hour < 12) {
-  //     return `${hour}:00 AM`;
-  //   }
-  // };
-
   submit() {
     this.clickedOnSubmitButton = true;
-    this.props.history.push(MY_ACCOUNT_PAGE);
+    this.props.history.push(HOME_ROUTER);
   }
   componentWillUnmount() {
     if (!this.clickedOnSubmitButton) {
-      this.props.history.push(MY_ACCOUNT_PAGE);
+      this.props.history.push(HOME_ROUTER);
     }
   }
+  closeModal() {
+    this.props.closeModal();
+  }
   render() {
-    let { tat, issueCategory, ticketID, issue, emailId } = this.props;
-    let today = new Date();
-    let extraDays = !isNaN(parseInt(tat)) ? Math.round(parseInt(tat) / 24) : 0;
-    let queryDate = new Date();
-    let displayDate = this.getDayNumberSuffix(
-      queryDate.setDate(today.getDate() + extraDays)
-    );
-    // Hiding time as per SSQ-114
-    // let displayTime = this.hoursToMeridiem(
-    //   queryDate.getHours(),
-    //   queryDate.getMinutes()
-    // );
-
+    let { sla, ticketId } = this.props;
+    let isTicketDuplicate = false;
+    if (ticketId == "duplicate") {
+      isTicketDuplicate = true;
+    }
+    let formattedDate = "";
+    if (sla) {
+      let modifiedDate = new Date(
+        sla.split(" ")[0].replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3")
+      );
+      formattedDate = modifiedDate ? format(modifiedDate, DATE_FORMAT) : "";
+    }
     return (
-      <div
-        className={[
-          styles.base,
-          issueCategory ? styles.heightOther : styles.heightOrder
-        ].join(" ")}
-      >
-        <div className={styles.headerTextWithIcon}>
-          <Icon image={orderSuccess} size={38} />
-          <div className={styles.headerText}>
-            Your Query is Submitted Successfully
-          </div>
+      <div className={styles.base}>
+        <div className={styles.closeModal} onClick={() => this.closeModal()}>
+          <Icon image={cancleSvg} size={17} />
         </div>
-        <div className={(styles.subText, styles.blackBorderBottom)}>
-          We have noted your concern and will update you by{" "}
-          <div className={styles.colorRed}> {`${displayDate}`}</div>
+        <div className={styles.headerText}>
+          {isTicketDuplicate ? "Duplicate Ticket" : "Your Ticket Details"}
         </div>
-        <div className={styles.userDetails}>
-          {/* <div className={styles.userDetailsHeaderWithText}>
-            <div className={styles.userDetailsHeader}>Ticket ID</div>
-            <div className={styles.userDetailsText}>{this.props.ticketID}</div>
-          </div> */}
-          {issueCategory && (
-            <div className={styles.userDetailsHeaderWithText}>
-              <div className={styles.userDetailsHeader}>Issue Category</div>
-              <div className={styles.userDetailsText}>{issueCategory}</div>
+        <div className={styles.image}>
+          {isTicketDuplicate ? (
+            <div className={styles.duplicateIcon}>
+              <Icon image={raiseTicketDuplicate} width={232} height={160} />
             </div>
-          )}
-          {issue && (
-            <div className={styles.userDetailsHeaderWithText}>
-              <div className={styles.userDetailsHeader}>Issue</div>
-              <div className={styles.userDetailsText}>{issue}</div>
-            </div>
+          ) : (
+            <Icon image={raisedTicket} size={214} />
           )}
         </div>
-        <div className={styles.submittedText}>
-          <div className={styles.subText}>
-            A summary of your query has been sent to your email ID
-            <span className={styles.colorRed}> {emailId}</span>
+        {isTicketDuplicate ? (
+          <div className={styles.duplicate}>
+            <div className={styles.duplicateTxt}>
+              A ticket has already been raised for the
+              <br />
+              same issue previously.
+            </div>
           </div>
-        </div>
-
-        <div className={styles.buttonHolder}>
-          <div className={styles.button}>
-            <Button
-              backgroundColor="#000"
-              height={36}
-              label={"DONE"}
-              borderRadius={"4"}
-              width={96}
-              textStyle={{ color: "#fff", fontSize: 14, borderRadius: 4 }}
-              onClick={() => this.submit()}
-            />
+        ) : (
+          <div>
+            <div className={styles.expTime}>
+              <div className={styles.txt}>
+                {" "}
+                Our team is working on priority to resolve the problem. We will
+                get back to you by.
+              </div>
+              <div className={styles.expDateTime}>{`${formattedDate}`}</div>
+            </div>
+            <div className={styles.ticketIdBox}>
+              <div className={styles.txt}>Your ticket reference number is</div>
+              <div className={styles.ticketId}>{ticketId}</div>
+            </div>
           </div>
+        )}
+        <div
+          className={[
+            styles.buttonHolder,
+            isTicketDuplicate ? styles.marginTop : null
+          ].join(" ")}
+        >
+          <Button
+            type="primary"
+            backgroundColor="#da1c5c"
+            height={40}
+            borderRadius={6}
+            label={"CONTINUE SHOPPING"}
+            width={204}
+            textStyle={{ color: "#FFF", fontSize: 14 }}
+            // disabled={true}
+            onClick={() => this.submit()}
+          />
         </div>
       </div>
     );
   }
 }
+CustomerQueryPopUp.propTypes = {
+  ticketId: PropTypes.string,
+  sla: PropTypes.string
+};

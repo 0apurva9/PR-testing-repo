@@ -13,15 +13,31 @@ import {
   NO,
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   SHORT_COLLECT,
-  NOT_SERVICEABLE
+  NOT_SERVICEABLE,
+  LOGGED_IN_USER_DETAILS,
+  CART_DETAILS_FOR_ANONYMOUS,
+  CART_DETAILS_FOR_LOGGED_IN_USER,
+  CUSTOMER_ACCESS_TOKEN,
+  GLOBAL_ACCESS_TOKEN
 } from "../../lib/constants";
+import * as Cookie from "../../lib/Cookie";
 import ProductImage from "../../general/components/ProductImage.js";
 import styles from "./CartItemForDesktop.css";
 import { RUPEE_SYMBOL } from "../../lib/constants";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import { WISHLIST_BUTTON_TEXT_TYPE_SMALL } from "../../wishlist/components/AddToWishListButton";
 import { ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART } from "../../lib/adobeUtils";
+import exchangeIconLight from "../../cart/components/img/exchangeIconLight.svg";
+import closeIcon from "../../cart/components/img/exchangeCloseIcon.svg";
 import format from "date-fns/format";
+import {
+  setDataLayer,
+  ADOBE_MDE_CLICK_ON_REMOVE_EXCHANGE,
+  ADOBE_MDE_CLICK_ON_GET_NEW_PRICE,
+  ADOBE_MDE_CLICK_ON_CART_VIEW_MORE,
+  ADOBE_MDE_CLICK_ON_CART_VIEW_LESS,
+  ADOBE_MDE_CLICK_ON_CART_TNC
+} from "../../lib/adobeUtils";
 const NO_SIZE = "NO SIZE";
 const OUT_OF_STOCK = "Product is out of stock";
 export default class CartItemForDesktop extends React.Component {
@@ -29,7 +45,8 @@ export default class CartItemForDesktop extends React.Component {
     super(props);
     this.state = {
       showDelivery: this.props.showDelivery ? this.props.showDelivery : false,
-      label: "See all"
+      label: "See all",
+      showMore: false
     };
   }
   componentDidMount() {
@@ -82,6 +99,27 @@ export default class CartItemForDesktop extends React.Component {
       this.props.onQuantityChange(this.props.entryNumber, updatedQuantity);
     }
   }
+  viewMoreDetails() {
+    this.setState({ showMore: true });
+    setDataLayer(ADOBE_MDE_CLICK_ON_CART_VIEW_MORE);
+  }
+  viewLessDetails() {
+    this.setState({ showMore: false });
+    setDataLayer(ADOBE_MDE_CLICK_ON_CART_VIEW_LESS);
+  }
+  openTnCModal() {
+    this.props.showExchangeTnCModal();
+    setDataLayer(ADOBE_MDE_CLICK_ON_CART_TNC);
+  }
+  async removeExchange() {
+    await this.props.showRemoveExchangeModal({
+      cartGuid: this.props.cartGuid,
+      entryNumber: this.props.entryNumber,
+      quoteId: this.props.product.exchangeDetails.quoteId,
+      IMEINumber: this.props.product.exchangeDetails.IMEINumber
+    });
+    setDataLayer(ADOBE_MDE_CLICK_ON_REMOVE_EXCHANGE);
+  }
   getDayNumberSuffix(d) {
     let dateWithMonth = new Date(d);
     let date = dateWithMonth.getDate();
@@ -116,6 +154,59 @@ export default class CartItemForDesktop extends React.Component {
         return "" + date + "th " + monthNames[month];
     }
   }
+  async verifyIMEINumber() {
+    if (this.props) {
+      const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+      const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+      let loggedInUserDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+      let user = "anonymous";
+      let accessToken = globalCookie && JSON.parse(globalCookie).access_token;
+      let cartId = cartDetails && JSON.parse(cartDetails).guid;
+      if (loggedInUserDetails) {
+        user = JSON.parse(loggedInUserDetails).userName;
+        cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+        accessToken = JSON.parse(customerCookie).access_token;
+        cartId = cartDetails && JSON.parse(cartDetails).code;
+      }
+      const defaultPinCode = localStorage.getItem(
+        DEFAULT_PIN_CODE_LOCAL_STORAGE
+      );
+      let guid = JSON.parse(cartDetails).guid;
+      let response = await this.props.verifyIMEINumber(
+        this.props.product.exchangeDetails.IMEINumber,
+        this.props.product.exchangeDetails.exchangeProductId,
+        this.props.product.exchangeDetails.exchangePriceDetail
+          .exchangeAmountCashify.value,
+        this.props.product.exchangeDetails.exchangePriceDetail.TULBump
+          ? this.props.product.exchangeDetails.exchangePriceDetail.TULBump.value
+          : null,
+        this.props.product.exchangeDetails.exchangePriceDetail.pickupCharge
+          .value,
+        this.props.product.productcode,
+        this.props.product.USSID,
+        guid,
+        this.props.product.entryNumber
+      );
+      if (
+        response.status &&
+        response.status.toLowerCase() === "success" &&
+        response.isIMEIVerified
+      ) {
+        this.props.displayToast("Exchange Cashback has been updated");
+        this.props.getCartDetails(user, accessToken, cartId, defaultPinCode);
+      }
+      if (
+        response.status &&
+        response.status.toLowerCase() === "failure" &&
+        !response.isIMEIVerified &&
+        response.error
+      ) {
+        this.props.displayToast(response.error);
+      }
+      setDataLayer(ADOBE_MDE_CLICK_ON_GET_NEW_PRICE);
+    }
+  }
   render() {
     let fetchedQuantityList = [];
     if (this.props.isOutOfStock) {
@@ -127,6 +218,10 @@ export default class CartItemForDesktop extends React.Component {
           label: i.toString()
         });
       }
+    }
+    let hideQuantityArrow = false;
+    if (this.props.product && this.props.product.exchangeDetails) {
+      hideQuantityArrow = true;
     }
     let productMessage = this.props.productNotServiceable
       ? this.props.productNotServiceable
@@ -227,8 +322,8 @@ export default class CartItemForDesktop extends React.Component {
                         </div>
                       </React.Fragment>
                     )
-                  : this.props.isOutOfStock ||
-                    (this.props.productOutOfStocks && (
+                  : (this.props.isOutOfStock ||
+                      this.props.productOutOfStocks) && (
                       <React.Fragment>
                         <div className={styles.space}>|</div>
                         <div className={styles.serviceAvailabilityText}>
@@ -236,7 +331,7 @@ export default class CartItemForDesktop extends React.Component {
                           {this.props.productOutOfStocks}
                         </div>
                       </React.Fragment>
-                    )))}
+                    ))}
             </div>
             {this.props.isGiveAway === YES && (
               <div className={styles.isGiveAwayQuantity}>
@@ -268,6 +363,7 @@ export default class CartItemForDesktop extends React.Component {
                     paddingLeftFontFamily={"light"}
                     paddingLeft={"0px"}
                     rightArrow={0}
+                    hideArrow={hideQuantityArrow}
                   />
                 </div>
               )}
@@ -297,6 +393,7 @@ export default class CartItemForDesktop extends React.Component {
                     winningUssID={this.props.product.USSID}
                     setDataLayerType={ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART}
                     index={this.props.index}
+                    exchangeDetails={this.props.product.exchangeDetails}
                   />
                 </div>
                 <div
@@ -381,6 +478,156 @@ export default class CartItemForDesktop extends React.Component {
             </div>
           )}
 
+        {this.props.product.exchangeDetails && (
+          <React.Fragment>
+            <div
+              className={
+                this.props.product.pinCodeResponse &&
+                this.props.product.pinCodeResponse.errorMessagePincode
+                  ? styles.exchangeDetailsPickupNotAvail
+                  : styles.exchangeDetails
+              }
+            >
+              <div className={styles.exchangeDetailsSectionOne}>
+                <img
+                  src={closeIcon}
+                  alt="exchange icon"
+                  className={styles.closeIcon}
+                  onClick={() => this.removeExchange()}
+                />
+                <img
+                  src={exchangeIconLight}
+                  alt="exchange icon"
+                  className={styles.exchangeIcon}
+                />
+                <div className={styles.exchangeDetailsHeading}>
+                  Exchange Cashback for{" "}
+                  <span className={styles.exchangeProductName}>
+                    {this.props.product.exchangeDetails.exchangeModelName}
+                  </span>
+                  {this.props.product.exchangeDetails.quoteExpired && (
+                    <span> has been updated</span>
+                  )}
+                </div>
+              </div>
+              <div className={styles.exchangeDetailsSectionTwo}>
+                {this.props.product.exchangeDetails.quoteExpired ? (
+                  <div className={styles.exchangePriceNDetails}>
+                    <div
+                      className={styles.getNewPrice}
+                      onClick={() => this.verifyIMEINumber()}
+                    >
+                      Get New Price
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.exchangePriceNDetails}>
+                    <div className={styles.exchangePrice}>
+                      {this.props.product.exchangeDetails.exchangePriceDetail &&
+                        this.props.product.exchangeDetails.exchangePriceDetail
+                          .totalExchangeCashback &&
+                        this.props.product.exchangeDetails.exchangePriceDetail
+                          .totalExchangeCashback.formattedValueNoDecimal}
+                    </div>
+                    {!this.state.showMore && (
+                      <div
+                        className={styles.exchangeViewDetails}
+                        onClick={() => this.viewMoreDetails()}
+                      >
+                        View Details
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {this.state.showMore && (
+                <React.Fragment>
+                  {this.props.product.exchangeDetails.exchangePriceDetail &&
+                    this.props.product.exchangeDetails.exchangePriceDetail
+                      .exchangeAmountCashify && (
+                      <React.Fragment>
+                        <div className={styles.font14LightLeft}>Base Value</div>
+                        <div className={styles.font14LightRight}>
+                          {
+                            this.props.product.exchangeDetails
+                              .exchangePriceDetail.exchangeAmountCashify
+                              .formattedValueNoDecimal
+                          }
+                        </div>
+                      </React.Fragment>
+                    )}
+                  {this.props.product.exchangeDetails.exchangePriceDetail &&
+                    this.props.product.exchangeDetails.exchangePriceDetail
+                      .TULBump && (
+                      <React.Fragment>
+                        <div className={styles.font14LightLeft}>
+                          CLiQ Exclusive Cashback
+                        </div>
+                        <div className={styles.font14LightRight}>
+                          {
+                            this.props.product.exchangeDetails
+                              .exchangePriceDetail.TULBump
+                              .formattedValueNoDecimal
+                          }
+                        </div>
+                      </React.Fragment>
+                    )}
+                  <div className={styles.exchangePickupDetails}>
+                    <span className={styles.font14bold}>Pick Up</span>: Within 3
+                    days of Product Delivery{" "}
+                    <span className={styles.separator}>|</span>
+                    <span className={styles.font14bold}>
+                      Pick Up Charge
+                    </span>:{" "}
+                    {this.props.product.exchangeDetails.exchangePriceDetail &&
+                    this.props.product.exchangeDetails.exchangePriceDetail
+                      .pickupCharge &&
+                    this.props.product.exchangeDetails.exchangePriceDetail
+                      .pickupCharge.value === 0 ? (
+                      <span className={styles.font14green}>FREE</span>
+                    ) : (
+                      <span>
+                        {this.props.product.exchangeDetails
+                          .exchangePriceDetail &&
+                          this.props.product.exchangeDetails.exchangePriceDetail
+                            .pickupCharge &&
+                          this.props.product.exchangeDetails.exchangePriceDetail
+                            .pickupCharge.formattedValueNoDecimal}
+                      </span>
+                    )}
+                  </div>
+                  <div className={styles.font12light}>
+                    Your mobile will be examined during pick up.{" "}
+                    <span
+                      className={styles.tncLink}
+                      onClick={() => this.openTnCModal()}
+                    >
+                      T&amp;C
+                    </span>{" "}
+                  </div>
+                  <div
+                    className={styles.exchangeViewLessDetails}
+                    onClick={() => this.viewLessDetails()}
+                  >
+                    View Less
+                  </div>
+                </React.Fragment>
+              )}
+            </div>
+            {this.props.product.pinCodeResponse &&
+              this.props.product.pinCodeResponse.errorMessagePincode && (
+                <div className={styles.exchangeProductNotServiceable}>
+                  {this.props.product.pinCodeResponse.errorMessagePincode}
+                </div>
+              )}
+            {!this.props.productIsServiceable && (
+              <div className={styles.exchangeProductNotServiceable}>
+                Cannot service Exchange since main product not serviceable
+              </div>
+            )}
+          </React.Fragment>
+        )}
         {this.props.isGiveAway === NO &&
           this.props.deliveryInformation && (
             <div className={styles.deliveryInfo}>

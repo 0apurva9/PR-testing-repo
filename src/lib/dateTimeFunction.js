@@ -172,3 +172,57 @@ export const getWholeDayTimeFormat = (date, timeDetails) => {
   }
   return dateString + " " + timeString;
 };
+
+export function getDateMonthFormate(dateWithMonth, hideDelay) {
+  let date = dateWithMonth.getDate();
+  let month = dateWithMonth.getMonth() + 1;
+  let year = dateWithMonth.getFullYear();
+  let isDelayed = "";
+  if (!hideDelay) {
+    isDelayed =
+      new Date(dateWithMonth).setHours(0, 0, 0, 0) <
+      new Date().setHours(0, 0, 0, 0)
+        ? " (Delayed)"
+        : "";
+  }
+
+  let monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ];
+  switch (date) {
+    case 1:
+    case 21:
+    case 31:
+      return "" + date + "st " + monthNames[month - 1] + " " + year + isDelayed;
+    case 2:
+    case 22:
+      return "" + date + "nd " + monthNames[month - 1] + " " + year + isDelayed;
+    case 3:
+    case 23:
+      return "" + date + "rd " + monthNames[month - 1] + " " + year + isDelayed;
+    default:
+      return "" + date + "th " + monthNames[month - 1] + " " + year + isDelayed;
+  }
+}
+export function getDayNumberSuffix(d, hideDelay) {
+  let dateWithMonth =
+    d.split(" ").length !== 2
+      ? d.replace(/(\d{2}) (\d{2}) (\d{4})/, "$2/$1/$3")
+      : d.split(" ")[0].replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3");
+  dateWithMonth = new Date(dateWithMonth);
+
+  if (dateWithMonth) {
+    return getDateMonthFormate(dateWithMonth, hideDelay);
+  } else return "";
+}

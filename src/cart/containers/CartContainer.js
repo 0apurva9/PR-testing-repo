@@ -22,7 +22,10 @@ import { displayToast } from "../../general/toast.actions";
 import { withRouter } from "react-router-dom";
 import CartPage from "../components/CartPage";
 import { setHeaderText } from "../../general/header.actions";
-import { getWishListItems } from "../../wishlist/actions/wishlist.actions";
+import {
+  getWishListItems,
+  getWishlist
+} from "../../wishlist/actions/wishlist.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 
 import {
@@ -34,6 +37,8 @@ import {
   showModal,
   ADDRESS,
   DESKTOP_AUTH,
+  EXCHANGE_TnC_MODAL,
+  EXCHANGE_REMOVE_MODAL,
   CLIQ_PIQ_MODAL
 } from "../../general/modal.actions";
 import { SUCCESS, NO } from "../../lib/constants";
@@ -42,6 +47,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE
 } from "../../lib/adobeUtils";
+import { verifyIMEINumber } from "../../pdp/actions/pdp.actions";
 const mapDispatchToProps = dispatch => {
   return {
     displayToast: toastMessage => {
@@ -174,14 +180,48 @@ const mapDispatchToProps = dispatch => {
     getMinicartProducts: () => {
       dispatch(getMinicartProducts());
     },
+    showExchangeTnCModal: () => {
+      dispatch(showModal(EXCHANGE_TnC_MODAL));
+    },
+    showRemoveExchangeModal: data => {
+      dispatch(showModal(EXCHANGE_REMOVE_MODAL, data));
+    },
     getAllStoresCNC: pinCode => {
       return dispatch(getAllStoresCNC(pinCode));
     },
     showPdpCliqAndPiqPage: storeDetails => {
       dispatch(showModal(CLIQ_PIQ_MODAL, storeDetails));
     },
+    verifyIMEINumber: async (
+      IMEINumber,
+      exchangeProductId,
+      exchangeAmountCashify,
+      tulBump,
+      pickUpCharge,
+      listingId,
+      ussId,
+      guid,
+      entry
+    ) => {
+      return await dispatch(
+        verifyIMEINumber(
+          IMEINumber,
+          exchangeProductId,
+          exchangeAmountCashify,
+          tulBump,
+          pickUpCharge,
+          listingId,
+          ussId,
+          guid,
+          entry
+        )
+      );
+    },
     getCartCodeAndGuidForLoggedInUser: async () => {
       return await dispatch(getCartCodeAndGuidForLoggedInUser());
+    },
+    getWishlist: () => {
+      dispatch(getWishlist());
     }
   };
 };
@@ -192,8 +232,7 @@ const mapStateToProps = state => {
     user: state.user,
     loginFromMyBag: state.cart.loginFromMyBag,
     loadingForCartDetail: state.cart.loadingForCartDetail,
-    wishListCount: state.wishlistItems.count,
-    loadingForCartDetail: state.cart.loadingForCartDetail
+    wishListCount: state.wishlistItems.count
   };
 };
 const CartContainer = withRouter(

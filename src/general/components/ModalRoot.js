@@ -141,6 +141,20 @@ const TermsNConditionsWrapperModal = Loadable({
   }
 });
 
+const ExchangeModal = Loadable({
+  loader: () => import("../../pdp/components/ExchangeModal"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const ExchangeTnCModal = Loadable({
+  loader: () => import("../../pdp/components/ExchangeTnCModal"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const ProductCouponDetails = Loadable({
   loader: () => import("../../pdp/components/ProductCouponDetails.js"),
   loading() {
@@ -324,6 +338,27 @@ const GiftCardSucessBottomModel = Loadable({
 const SellerReviewSubmitRemovalPopup = Loadable({
   loader: () =>
     import("../../account/components/SellerReviewSubmitRemovalPopup.js"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const ExchangeRemoveModal = Loadable({
+  loader: () => import("../../cart/components/ExchangeRemoveModal"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const ProductInBagModal = Loadable({
+  loader: () => import("../../pdp/components/ProductInBagModal"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const ChangeExchangeCashabackModal = Loadable({
+  loader: () => import("../../cart/components/ChangeExchangeCashabackModal"),
   loading() {
     return <Loader />;
   }
@@ -659,6 +694,38 @@ export default class ModalRoot extends React.Component {
     }
   };
 
+  updateProductState(data) {
+    this.props.updateProductState(data);
+  }
+
+  verifyIMEINumber(
+    IMEINumber,
+    exchangeProductId,
+    exchangeAmountCashify,
+    tulBump,
+    pickUpCharge,
+    listingId,
+    ussId
+  ) {
+    return this.props.verifyIMEINumber(
+      IMEINumber,
+      exchangeProductId,
+      exchangeAmountCashify,
+      tulBump,
+      pickUpCharge,
+      listingId,
+      ussId
+    );
+  }
+
+  addProductToCart(productDetails) {
+    return this.props.addProductToCart(productDetails);
+  }
+
+  async removeExchange(data) {
+    return await this.props.removeExchange(data);
+  }
+
   render() {
     //  const couponCode = localStorage.getItem(BANK_COUPON_COOKIE);
     const MODAL_COMPONENTS = {
@@ -903,6 +970,7 @@ export default class ModalRoot extends React.Component {
         <RatingAndReviewWrapperModal
           closeModal={() => this.handleClose()}
           {...this.props.ownProps}
+          userRating={this.props.userRating}
         />
       ),
       OfferDetailsModal: (
@@ -921,6 +989,43 @@ export default class ModalRoot extends React.Component {
         <TermsNConditionsWrapperModal
           closeModal={data => this.handleOfferModalClose(data)}
           {...this.props.ownProps}
+        />
+      ),
+      ExchangeModal: (
+        <ExchangeModal
+          closeModal={() => this.handleClose()}
+          updateProductState={data => this.updateProductState(data)}
+          verifyIMEINumber={(
+            IMEINumber,
+            exchangeProductId,
+            exchangeAmountCashify,
+            tulBump,
+            pickUpCharge,
+            listingId,
+            ussId
+          ) =>
+            this.verifyIMEINumber(
+              IMEINumber,
+              exchangeProductId,
+              exchangeAmountCashify,
+              tulBump,
+              pickUpCharge,
+              listingId,
+              ussId
+            )
+          }
+          addProductToCart={productDetails =>
+            this.props.addProductToCart(productDetails)
+          }
+          {...this.props.ownProps}
+          history={this.props.history}
+          displayToast={this.props.displayToast}
+        />
+      ),
+      ExchangeTnCModal: (
+        <ExchangeTnCModal
+          history={this.props.history}
+          closeTnCModal={() => this.handleClose()}
         />
       ),
       NoCostEmiItemBreakUp: (
@@ -995,6 +1100,7 @@ export default class ModalRoot extends React.Component {
       ),
       CustomerQueryPopUp: (
         <CustomerQueryPopUp
+          closeModal={() => this.handleClose()}
           {...this.props.ownProps}
           history={this.props.history}
         />
@@ -1071,6 +1177,27 @@ export default class ModalRoot extends React.Component {
         <SellerReviewSubmitRemovalPopup
           rating={this.props.rating}
           closeModal={() => this.handleClose()}
+        />
+      ),
+      ExchangeRemoveModal: (
+        <ExchangeRemoveModal
+          {...this.props.ownProps}
+          closeModal={() => this.handleClose()}
+          removeExchange={data => this.removeExchange(data)}
+        />
+      ),
+      ProductInBagModal: (
+        <ProductInBagModal
+          {...this.props.ownProps}
+          closeModal={() => this.handleClose()}
+          history={this.props.history}
+        />
+      ),
+      ChangeExchangeCashabackModal: (
+        <ChangeExchangeCashabackModal
+          {...this.props.ownProps}
+          closeModal={() => this.handleClose()}
+          history={this.props.history}
         />
       )
     };

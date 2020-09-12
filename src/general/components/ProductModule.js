@@ -13,7 +13,9 @@ import MobileOnly from "../../general/components/MobileOnly";
 import {
   widgetsTracking,
   setDataLayer,
-  ADOBE_SIMILAR_PRODUCTS_PLP
+  ADOBE_SIMILAR_PRODUCTS_PLP,
+  ADOBE_CLICK_ON_PRODUCTS_PLP_WITH_EXCHANGE,
+  ADOBE_CLICK_ON_PRODUCTS_PLP_WITHOUT_EXCHANGE
 } from "../../lib/adobeUtils";
 import Icon from "../../xelpmoc-core/Icon";
 import similarIcon from "../../general/components/img/similarIcon.svg";
@@ -38,7 +40,19 @@ export default class ProductModule extends React.Component {
     }
     return urlSuffix;
   }
-  handleClickOnLink = event => {
+  handleClickOnLink = (event, exchangeOfferAvailable) => {
+    if (exchangeOfferAvailable) {
+      setDataLayer(
+        ADOBE_CLICK_ON_PRODUCTS_PLP_WITH_EXCHANGE,
+        this.props.productId
+      );
+    } else {
+      setDataLayer(
+        ADOBE_CLICK_ON_PRODUCTS_PLP_WITHOUT_EXCHANGE,
+        this.props.productId
+      );
+    }
+
     event.preventDefault();
   };
   onClick = val => {
@@ -151,8 +165,8 @@ export default class ProductModule extends React.Component {
                     electronicView
                       ? styles.ElectronicListimageHolder
                       : this.props.view === "grid"
-                      ? styles.imageHolder
-                      : styles.ListimageHolder
+                        ? styles.imageHolder
+                        : styles.ListimageHolder
                   }
                 >
                   <ProductImage
@@ -173,8 +187,8 @@ export default class ProductModule extends React.Component {
                       seasonTag={this.props.seasonTag}
                       outOfStock={this.props.outOfStock}
                       newProduct={this.props.newProduct}
-                      isExchangeAvailable={this.props.isExchangeAvailable}
                       showExchangeTag={this.props.showExchangeTag}
+                      exchangeOfferAvailable={this.props.exchangeOfferAvailable}
                     />
                   </div>
                 </div>
@@ -185,23 +199,27 @@ export default class ProductModule extends React.Component {
                 electronicView
                   ? styles.electronicViewContent
                   : this.props.view === "grid"
-                  ? styles.content
-                  : styles.Listcontent
+                    ? styles.content
+                    : styles.Listcontent
               }
             >
               <ProductDescription
                 {...this.props}
                 electronicView={electronicView}
               />
-
-              <ProductInfo
-                isPlp={this.props.isPlp}
-                electronicView={electronicView}
-                averageRating={this.props.averageRating}
-                ratingCount={this.props.ratingCount}
-                offerText={this.props.offerText}
-                bestDeliveryInfo={this.props.bestDeliveryInfo}
-              />
+              {this.props &&
+                !this.props.widgetName &&
+                this.props.widgetName === undefined && (
+                  <ProductInfo
+                    isPlp={this.props.isPlp}
+                    electronicView={electronicView}
+                    averageRating={this.props.averageRating}
+                    ratingCount={this.props.ratingCount}
+                    offerText={this.props.offerText}
+                    bestDeliveryInfo={this.props.bestDeliveryInfo}
+                    maxExchangePrice={this.props.maxExchangePrice}
+                  />
+                )}
             </div>
           </div>
           <React.Fragment>
@@ -229,7 +247,12 @@ export default class ProductModule extends React.Component {
                 }}
                 target="_blank"
                 title={this.props.alt}
-                onClick={event => this.handleClickOnLink(event)}
+                onClick={event =>
+                  this.handleClickOnLink(
+                    event,
+                    this.props.exchangeOfferAvailable
+                  )
+                }
               >
                 <div className={styles.dummyDiv} />
               </Link>

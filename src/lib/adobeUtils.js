@@ -60,8 +60,8 @@ const PINCODE_FAILURE = "pin_failed";
 const ADOBE_DIRECT_CALL_FOR_LANDING_USER = "cpj_cart_page";
 const ADOBE_DIRECT_CALL_FOR_SIZE_GUIDE = "cpj_size_guide";
 const ADOBE_DIRECT_CALL_ON_CART_FOR_REMOVE_TRIGGER = "cpj_cart_removal";
-const ADOVE_DIRECT_CALL_ON_CLICK_CHECKOUT = "cpj_cart_checkout";
-const ADOVE_DIRECT_CALL_FOR_CHANGE_QUANTITY_ON_CART =
+const ADOBE_DIRECT_CALL_ON_CLICK_CHECKOUT = "cpj_cart_checkout";
+const ADOBE_DIRECT_CALL_FOR_CHANGE_QUANTITY_ON_CART =
   "cpj_cart_quantity_change";
 const ADOBE_DIRECT_CALL_FOR_SAVE_PORDUCT_ON_CART = "cpj_cart_button_save";
 // end of direct call url for cart page
@@ -76,7 +76,7 @@ const ADD_NEW_ADDRESS_ON_CHECKOUT = "cpj_checkout_addNewAddress";
 const ADD_NEW_ADDRESS_ON_MY_ACCOUNT = "cpj_myAccount_addNewAddress";
 const ADOBE_CONFIRM_ADDRESS = "cpj_checkout_confirm_address";
 const ADOBE_SELECT_DELIVERY_MODES = "cpj_checkout_delivery_option_select";
-const ADOVE_PROCEED_FROM_DELIVERY_MODE = "cpj_checkout_delivery_option";
+const ADOBE_PROCEED_FROM_DELIVERY_MODE = "cpj_checkout_delivery_option";
 const ADOBE_LANDS_ON_PAYMENT_MODES = "cpj_checkout_proceed_to_payment";
 const ADOBE_SELECT_PAYMENT_MODES = "cpj_checkout_payment_selection";
 const ADOBE_FINAL_PAYMENT = "cpj_place_order";
@@ -519,6 +519,12 @@ export const ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_SUCCESS =
   "ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_SUCCESS";
 const PDP_KNOW_MORE_CLICK = "pdp_show_more";
 export const ADOBE_PDP_KNOW_MORE_CLICK = "ADOBE_PDP_KNOW_MORE_CLICK";
+export const SIMILAR_PRODUCTS_PDP_WIDGET = "SIMILAR_PRODUCTS_PDP_WIDGET";
+export const ADOBE_CAROUSEL_SWIPE = "ADOBE_CAROUSEL_SWIPE";
+export const ADOBE_CAROUSEL_CLICK = "ADOBE_CAROUSEL_CLICK";
+export const ADOBE_CAROUSEL_SHOW = "ADOBE_CAROUSEL_SHOW";
+// export const TARGET_EVENT_FOR_PAGELOAD = "target_pageload_First";
+// export const TARGET_EVENT_FOR_PAGEVIEW = "target_pageview_First";
 
 //Rating and Review
 const RATING_STAR_CLICK = "rating_Star_Click";
@@ -553,6 +559,162 @@ export const TRACK_UID_ADD = "upi_AddNewUPIID_Click";
 export const SET_DATA_LAYER_UID_SAVE = "SET_DATA_LAYER_UID_SAVE";
 export const TRACK_UID_SAVE = "upi_Save";
 
+// mobile device exchange - MDE
+const ADOBE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER =
+  "plp_Exchange_Available_Filter";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER";
+
+const ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP_MOBILE_EXCHANGE =
+  "plp_With_Exchange_Offer";
+const ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP_WITHOUT_MOBILE_EXCHANGE =
+  "plp_Without_Exchange_Offer";
+export const ADOBE_CLICK_ON_PRODUCTS_PLP_WITH_EXCHANGE =
+  "ADOBE_CLICK_ON_PRODUCTS_PLP_WITH_EXCHANGE";
+export const ADOBE_CLICK_ON_PRODUCTS_PLP_WITHOUT_EXCHANGE =
+  "ADOBE_CLICK_ON_PRODUCTS_PLP_WITHOUT_EXCHANGE";
+
+const ADOBE_CLICK_ON_EXCHANGE_LINK = "pdp_Exchange_Widget";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_LINK =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_LINK";
+
+const ADOBE_CLICK_ON_CHANGE_DEVICE = "exchange_Model_Change";
+export const ADOBE_MDE_CLICK_ON_CHANGE_DEVICE =
+  "ADOBE_MDE_CLICK_ON_CHANGE_DEVICE";
+
+const ADOBE_CLICK_ON_HOW_EXCHANGE_WORKS = "pdp_How_Exchange_Works";
+export const ADOBE_MDE_CLICK_ON_HOW_EXCHANGE_WORKS =
+  "ADOBE_MDE_CLICK_ON_HOW_EXCHANGE_WORKS";
+
+const ADOBE_PRODUCT_ALREADY_IN_CART = "pdp_Already_Added_Cart";
+const ADOBE_PRODUCT_ALREADY_IN_CART_GO_TO_BAG = "pdp_Already_Cart_GotoBag";
+const ADOBE_PRODUCT_ALREADY_IN_CART_CANCEL = "pdp_Already_Cart_Cancel";
+export const ADOBE_MDE_PRODUCT_ALREADY_IN_CART =
+  "ADOBE_MDE_PRODUCT_ALREADY_IN_CART";
+export const ADOBE_MDE_PRODUCT_ALREADY_IN_CART_GO_TO_BAG =
+  "ADOBE_MDE_PRODUCT_ALREADY_IN_CART_GO_TO_BAG";
+export const ADOBE_MDE_PRODUCT_ALREADY_IN_CART_CANCEL =
+  "ADOBE_MDE_PRODUCT_ALREADY_IN_CART_CANCEL";
+
+const ADOBE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER =
+  "pdp_Exchange_Through_Seller";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER";
+
+const ADOBE_CLICK_ON_EXCHANGE_MODAL_KNOW_MORE = "exchange_Model_Know_More";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_KNOW_MORE =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_KNOW_MORE";
+
+const ADOBE_CLICK_ON_EXCHANGE_MODAL_TNC = "exchange_Model_T&c";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_TNC =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_TNC";
+
+const ADOBE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE =
+  "exchange_Model_Add_Another_Mobile";
+export const ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE =
+  "ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE";
+
+const ADOBE_CLICK_ON_PROCEED_WITH_EXCHANGE =
+  "exchange_Model_Proceed_with_Exchange";
+export const ADOBE_MDE_CLICK_ON_PROCEED_WITH_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_PROCEED_WITH_EXCHANGE";
+
+const ADOBE_CLICK_ON_CASHBACK_DETAILS = "exchange_Model_Cashback_Details";
+export const ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS =
+  "ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS";
+
+const ADOBE_CLICK_ON_VERIFY_IMEI = "exchange_Model_Verify";
+export const ADOBE_MDE_CLICK_ON_VERIFY_IMEI = "ADOBE_MDE_CLICK_ON_VERIFY_IMEI";
+
+const ADOBE_CLICK_ON_REMOVE_EXCHANGE = "cart_Exchange_Remove";
+export const ADOBE_MDE_CLICK_ON_REMOVE_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_REMOVE_EXCHANGE";
+
+const ADOBE_CLICK_ON_GET_NEW_PRICE = "cart_Exchange_Get_New_Price";
+export const ADOBE_MDE_CLICK_ON_GET_NEW_PRICE =
+  "ADOBE_MDE_CLICK_ON_GET_NEW_PRICE";
+
+const ADOBE_CLICK_ON_CART_VIEW_MORE = "cart_Exchange_View_More";
+export const ADOBE_MDE_CLICK_ON_CART_VIEW_MORE =
+  "ADOBE_MDE_CLICK_ON_CART_VIEW_MORE";
+
+const ADOBE_CLICK_ON_CART_VIEW_LESS = "cart_Exchange_View_Less";
+export const ADOBE_MDE_CLICK_ON_CART_VIEW_LESS =
+  "ADOBE_MDE_CLICK_ON_CART_VIEW_LESS";
+
+const ADOBE_CLICK_ON_CART_TNC = "cart_Exchange_t&c";
+export const ADOBE_MDE_CLICK_ON_CART_TNC = "ADOBE_MDE_CLICK_ON_CART_TNC";
+
+const ADOBE_CLICK_ON_SAVE_TO_WISHLIST = "cart_Exchange_Save";
+export const ADOBE_MDE_CLICK_ON_SAVE_TO_WISHLIST =
+  "ADOBE_MDE_CLICK_ON_SAVE_TO_WISHLIST";
+
+const ADOBE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE = "cart_Exchange_Checkout";
+export const ADOBE_MDE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE";
+
+const ADOBE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE = "cart_Exchange_CliqCash";
+export const ADOBE_MDE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE";
+
+const ADOBE_CLICK_ON_CANCEL_WITH_EXCHANGE = "OD_Exchange_Cancel";
+export const ADOBE_MDE_CLICK_ON_CANCEL_WITH_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_CANCEL_WITH_EXCHANGE";
+
+const ADOBE_CLICK_ON_RETURN_WITH_EXCHANGE = "OD_Exchange_Returns";
+export const ADOBE_MDE_CLICK_ON_RETURN_WITH_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_RETURN_WITH_EXCHANGE";
+
+const ADOBE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE = "OC_Change_Account";
+export const ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE =
+  "ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE";
+
+const ADOBE_CASHBACK_MODE_CLIQCASH_EXCHANGE = "OC_Cliq_Cash";
+export const ADOBE_MDE_CASHBACK_MODE_CLIQCASH_EXCHANGE =
+  "ADOBE_MDE_CASHBACK_MODE_CLIQCASH_EXCHANGE";
+
+const ADOBE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE = "OC_Account_Details_CM";
+export const ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE =
+  "ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE";
+const MSD_AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE =
+  "msdAutomatedBannerProductCarouselComponent";
+
+//Cliq care Page
+const SELF_SERVE_OTHER_ISSUES = "selfserve_OtherIssue";
+const SELF_SERVE_ALL_HELP_TOPIC_SELECTION = "selfserve_Topic_Selection";
+const SELF_SERVE_PAGE_LOAD = "selfserve_PageLoad";
+const SELF_SERVE_QUESTION_SELECTION = "selfserve_Issue_Selection";
+const SELF_SERVE_FEEDBACK_SELECTION = "selfserve_Feedback_Selection";
+const SELF_SERVE_CONTINUE_BUTTON_CLICK = "selfserve_Continue_button";
+const SELF_SERVE_MORE_HELP_PAGE_BUTTON_CLICK = "selfserve_Buttons_Click";
+const SELF_SERVE_NON_ORDER_CATEGORY_CLICK = "selfserve_Tab_Click";
+const SELF_SERVE_SUBMIT_BUTTON_CLICK = "selfserve_Submit";
+const SELF_SERVE_NON_ORDER_PAGE_LOAD = "selfserve_AR_Load";
+const SELF_SERVE_NON_ORDER_QUESTION_CLICK = "selfserve_AR_Topic_Selection";
+const SELF_SERVE_FAQ_PAGE_LOAD = "selfserve_IW_Load";
+
+export const ADOBE_SELF_SERVE_OTHER_ISSUES_CLICK =
+  "ADOBE_SELF_SERVE_OTHER_ISSUES_CLICK";
+export const ADOBE_SELF_SERVE_ALL_HELP_TOPIC_CLICK =
+  "ADOBE_SELF_SERVE_ALL_HELP_TOPIC_CLICK";
+export const ADOBE_SELF_SERVE_PAGE_LOAD = "ADOBE_SELF_SERVE_PAGE_LOAD";
+export const ADOBE_SELF_SERVE_ISSUE_SELECTION =
+  "ADOBE_SELF_SERVE_ISSUE_SELECTION";
+export const ADOBE_SELF_SERVE_FEEDBACK_SELECTION =
+  "ADOBE_SELF_SERVE_FEEDBACK_SELECTION";
+export const ADOBE_SELF_SERVE_CONTINUE_BUTTON_CLICK =
+  "ADOBE_SELF_SERVE_CONTINUE_BUTTON_CLICK";
+export const ADOBE_SELF_SERVE_MORE_HELP_PAGE_BUTTON_CLICK =
+  "ADOBE_SELF_SERVE_MORE_HELP_PAGE_BUTTON_CLICK";
+export const ADOBE_SELF_SERVE_NON_ORDER_CATEGORY_CLICK =
+  "ADOBE_SELF_SERVE_NON_ORDER_CATEGORY_CLICK";
+export const ADOBE_SELF_SERVE_SUBMIT_CLICK = "ADOBE_SELF_SERVE_SUBMIT_CLICK";
+export const ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK =
+  "ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK";
+export const ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD =
+  "ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD";
+export const ADOBE_SELF_SERVE_FAQ_PAGE_LOAD = "ADOBE_SELF_SERVE_FAQ_PAGE_LOAD";
+
 export async function setDataLayer(
   type,
   apiResponse,
@@ -563,49 +725,94 @@ export async function setDataLayer(
   const response = cloneDeep(apiResponse);
 
   let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
+  let userLoginFailed = getCookie(constants.NON_LOGGED_IN_USER_DETAILS);
   if (userDetails) {
     userDetails = JSON.parse(userDetails);
+  } else if (userLoginFailed) {
+    userLoginFailed = JSON.parse(userLoginFailed);
   }
-  if (userDetails) {
+
+  if (userDetails && window.digitalData && window.digitalData.account) {
     if (userDetails.loginType === LOGIN_WITH_EMAIL) {
-      window.digitalData.account = {
+      Object.assign(window.digitalData.account, {
         login: {
           customerID: userDetails.customerId,
           type: EMAIL
         }
-      };
+      });
     } else if (userDetails.loginType === LOGIN_WITH_MOBILE) {
-      window.digitalData.account = {
+      Object.assign(window.digitalData.account, {
         login: {
           customerID: userDetails.customerId,
           type: MOBILE
         }
-      };
+      });
     } else if (userDetails.loginType === FACEBOOK_PLATFORM) {
-      window.digitalData.account = {
+      Object.assign(window.digitalData.account, {
         login: {
           customerID: userDetails.customerId,
           type: FACEBOOK
         }
-      };
+      });
     } else if (userDetails.loginType === GOOGLE_PLUS_PLATFORM) {
-      window.digitalData.account = {
+      Object.assign(window.digitalData.account, {
         login: {
           customerID: userDetails.customerId,
           type: GOOGLE
         }
-      };
+      });
     }
-  } else {
+  } else if (userLoginFailed) {
+    if (userLoginFailed.loginType === LOGIN_WITH_EMAIL) {
+      Object.assign(window.digitalData, {
+        account: {
+          login: {
+            customerID: userLoginFailed.customerId,
+            type: EMAIL
+          }
+        }
+      });
+    } else if (userLoginFailed.loginType === LOGIN_WITH_MOBILE) {
+      Object.assign(window.digitalData, {
+        account: {
+          login: {
+            customerID: userLoginFailed.customerId,
+            type: MOBILE
+          }
+        }
+      });
+    } else if (userLoginFailed.loginType === FACEBOOK_PLATFORM) {
+      Object.assign(window.digitalData, {
+        account: {
+          login: {
+            customerID: userLoginFailed.customerId,
+            type: FACEBOOK
+          }
+        }
+      });
+    } else if (userLoginFailed.loginType === GOOGLE_PLUS_PLATFORM) {
+      Object.assign(window.digitalData, {
+        account: {
+          login: {
+            customerID: userLoginFailed.customerId,
+            type: GOOGLE
+          }
+        }
+      });
+    }
     const mcvId = await getMcvId();
-    window.digitalData.account = {
-      login: {
-        customerID: "anonumous"
-      },
-      mcvId: mcvId
-    };
+    if (window.digitalData && window.digitalData.account) {
+      Object.assign(window.digitalData.account, {
+        mcvId: mcvId
+      });
+    }
   }
-  const previousDigitalData = cloneDeep(window.digitalData);
+  if (window.digitalData && window.digitalData.account) {
+    localStorage.setItem(
+      "loginType",
+      JSON.stringify(window.digitalData.account)
+    );
+  }
   // if (type === ADOBE_PDP_SIMILAR_PRODUCT) {
   //   if (window._satellite) {
   //     window._satellite.track(PDP_PRODUCT_SIMILAR);
@@ -634,7 +841,7 @@ export async function setDataLayer(
         }
       };
     }
-    window.digitalData = Object.assign(previousDigitalData, dataSort);
+    window.digitalData = Object.assign(window.digitalData, dataSort);
     // window.digitalData = getDigitalDataForSort(response);
     if (window._satellite) {
       window._satellite.track(ADOBE_SORT_BY_CLICK);
@@ -642,42 +849,34 @@ export async function setDataLayer(
   }
   if (type === ADOBE_PLP_TYPE) {
     let newVariable = getDigitalDataForPlp(type, response);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_PLP_CPJ);
     }
   }
   if (type === ADOBE_SIMILAR_PRODUCTS_PLP) {
     let newVariable = getDigitalDataForPlp(type, response);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(SIMILAR_PRODUCTS_PLP);
     }
   }
   if (type === ADOBE_ADD_TO_WISHLIST_PDP) {
-    // let newVariable = getDigitalDataForPdp(type, response);
-    // window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADD_TO_WISHLIST_PDP);
     }
   }
   if (type === ADOBE_ADD_TO_WISHLIST_PLP) {
-    // let newVariable = getDigitalDataForPlp(type, response);
-    // window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADD_TO_WISHLIST_PLP);
     }
   }
   if (type === ADOBE_WISHLIST_PLP_REMOVE) {
-    // let newVariable = getDigitalDataForPlp(type, response);
-    // window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(WISHLIST_PLP_REMOVE);
     }
   }
   if (type === ADOBE_WISHLIST_PDP_REMOVE) {
-    // let newVariable = getDigitalDataForPdp(type, response);
-    // window.digitalData = Object.assign(previousDigitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(WISHLIST_PDP_REMOVE);
     }
@@ -690,28 +889,28 @@ export async function setDataLayer(
     behaviorOfPage !== "isFilterTrue"
   ) {
     let newVariable = getDigitalDataForSearchPageSuccess(response, type);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_INTERNAL_SEARCH_SUCCESS);
     }
   }
   if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_SP) {
     let newVariable = getDigitalDataForSearchPageSuccess(response, type);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_INTERNAL_SEARCH_SUCCESS_SP);
     }
   }
   if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_TRENDING) {
     let newVariable = getDigitalDataForSearchPageSuccess(response, type);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_INTERNAL_SEARCH_SUCCESS_TRENDING);
     }
   }
   if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL) {
     let newVariable = getDigitalDataForSearchPageForNullResult(response);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_INTERNAL_SEARCH_NULL);
     }
@@ -735,7 +934,7 @@ export async function setDataLayer(
       const badge = window.digitalData.cpj.product.badge;
       Object.assign(digitalDataForPDP.cpj.product, { badge });
     }
-    window.digitalData = Object.assign(previousDigitalData, digitalDataForPDP);
+    window.digitalData = Object.assign(window.digitalData, digitalDataForPDP);
     if (response && response.allOOStock) {
       if (window._satellite) {
         window._satellite.track(ADOBE_OUT_OF_STOCK_PDP);
@@ -747,10 +946,9 @@ export async function setDataLayer(
   }
   if (type === ADOBE_ERROR_TOAST_MESSAGE) {
     let previousData = cloneDeep(window.digitalData);
-    let data = window.digitalData;
     if (window.digitalData) {
-      if (data.page) {
-        Object.assign(data.page, {
+      if (previousData && previousData.page) {
+        Object.assign(previousData.page, {
           error: {
             name: response.msg,
             type: response.type
@@ -761,11 +959,16 @@ export async function setDataLayer(
                 ? previousData.page.pageInfo.pageName
                 : previousData.cpj &&
                   previousData.cpj.pdp &&
-                  previousData.cpj.pdp.findingMethod
+                  previousData.cpj.pdp.findingMethod,
+            pageType:
+              previousData &&
+              previousData.page &&
+              previousData.page.pageInfo &&
+              previousData.page.pageInfo.pageType
           }
         });
       } else {
-        Object.assign(data, {
+        Object.assign(previousData, {
           page: {
             error: {
               name: response.msg,
@@ -777,13 +980,18 @@ export async function setDataLayer(
                   ? previousData.page.pageInfo.pageName
                   : previousData.cpj &&
                     previousData.cpj.pdp &&
-                    previousData.cpj.pdp.findingMethod
+                    previousData.cpj.pdp.findingMethod,
+              pageType:
+                previousData &&
+                previousData.page &&
+                previousData.page.pageInfo &&
+                previousData.page.pageInfo.pageType
             }
           }
         });
       }
     }
-    window.digitalData = Object.assign(previousData, data);
+    Object.assign(window.digitalData, previousData);
     if (window._satellite) {
       window._satellite.track(ERROR_TOAST_MESSAGE);
     }
@@ -802,7 +1010,7 @@ export async function setDataLayer(
       const badge = window.digitalData.cpj.product.badge;
       Object.assign(digitalDataForPDP.cpj.product, { badge });
     }
-    window.digitalData = Object.assign(previousDigitalData, digitalDataForPDP);
+    window.digitalData = Object.assign(window.digitalData, digitalDataForPDP);
     if (response && response.allOOStock) {
       if (window._satellite) {
         window._satellite.track(ADOBE_OUT_OF_STOCK_PDP);
@@ -849,7 +1057,7 @@ export async function setDataLayer(
   }
   if (type === ADOBE_CART_TYPE) {
     let newVariable = getDigitalDataForCart(type, response);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
     if (window._satellite) {
       window._satellite.track(ADOBE_DIRECT_CALL_FOR_LANDING_USER);
     }
@@ -859,69 +1067,69 @@ export async function setDataLayer(
   }
   if (type === ADOBE_MY_ACCOUNT_LANDING_PAGE) {
     let newVariable = getDigitalDataForMyAccount(MY_ACCOUNT_OVERVIEW);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
   }
   if (type === ADOBE_MY_ACCOUNT_SAVED_LIST) {
     let myAccountDetails = getDigitalDataForMyAccount(
       MY_ACCOUNT_SAVED_LIST,
       response
     );
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_ADDRESS_BOOK) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_ADDRESS_BOOK);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_BRANDS) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_BRANDS);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_ORDER_HISTORY) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_ORDER_HISTORY);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_SAVED_PAYMENTS) {
     let myAccountDetails = getDigitalDataForMyAccount(
       MY_ACCOUNT_SAVED_PAYMENTS
     );
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_ALERTS) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_ALERTS);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_USEFUL_LINKS) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_USEFUL_LINKS);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_COUPONS) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_COUPONS);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_GIFT_CARD) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_GIFT_CARD);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_CLIQ_CASH) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_CLIQ_CASH);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === AODBE_MY_ACCOUNT_SETTINGS) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_SETTING);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === AODBE_MY_ACCOUNT_REVIEW) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_REVIEW);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_MY_ACCOUNT_ORDER_DETAILS) {
     let myAccountDetails = getDigitalDataForMyAccount(MY_ACCOUNT_ORDER_DETAIL);
-    window.digitalData = Object.assign(previousDigitalData, myAccountDetails);
+    window.digitalData = Object.assign(window.digitalData, myAccountDetails);
   }
   if (type === ADOBE_BLP_PAGE_LOAD) {
     let digitalDataForBrandPage = getDigitalDataForBLP(BRAND_PAGE, response);
     window.digitalData = Object.assign(
-      previousDigitalData,
+      window.digitalData,
       digitalDataForBrandPage
     );
     if (window._satellite) {
@@ -931,7 +1139,7 @@ export async function setDataLayer(
   if (type === ADOBE_CLP_PAGE_LOAD) {
     let digitalDataForCategoryPage = getDigitalDataForCLP(response);
     window.digitalData = Object.assign(
-      previousDigitalData,
+      window.digitalData,
       digitalDataForCategoryPage
     );
     if (window._satellite) {
@@ -949,21 +1157,18 @@ export async function setDataLayer(
   ) {
     let digitalDataForBlpOrClp = getDigitalDataForDefaultBlpOrClp(response);
     window.digitalData = Object.assign(
-      previousDigitalData,
+      window.digitalData,
       digitalDataForBlpOrClp
     );
   }
   if (type === ADOBE_LOGIN_AND_SIGN_UP_PAGE) {
     let digitalDataForLogin = getDigitalDataForLoginAndSignup(response);
-    window.digitalData = Object.assign(
-      previousDigitalData,
-      digitalDataForLogin
-    );
+    window.digitalData = Object.assign(window.digitalData, digitalDataForLogin);
   }
   if (type === ADOBE_STATIC_PAGE) {
     let digitalDataForStaticData = getDigitalDataForStatic(response);
     window.digitalData = Object.assign(
-      previousDigitalData,
+      window.digitalData,
       digitalDataForStaticData
     );
   }
@@ -973,6 +1178,14 @@ export async function setDataLayer(
       Object.assign(data.page, {
         pageInfo: {
           pageName: window.location.pathname.replace(/\//g, "")
+        }
+      });
+    } else {
+      Object.assign(data, {
+        page: {
+          pageInfo: {
+            pageName: window.location.pathname.replace(/\//g, "")
+          }
         }
       });
     }
@@ -1015,21 +1228,21 @@ export async function setDataLayer(
   }
 
   if (
-    previousDigitalData &&
-    previousDigitalData.page &&
-    previousDigitalData.page.pageInfo &&
-    previousDigitalData.page.pageInfo.pageName
+    window.digitalData &&
+    window.digitalData.page &&
+    window.digitalData.page.pageInfo &&
+    window.digitalData.page.pageInfo.pageName
   ) {
     const currentDigitalData = window.digitalData;
     if (currentDigitalData.cpj) {
       if (currentDigitalData.cpj.pdp) {
         Object.assign(currentDigitalData.cpj.pdp, {
-          findingMethod: previousDigitalData.page.pageInfo.pageName
+          findingMethod: window.digitalData.page.pageInfo.pageName
         });
       } else {
         Object.assign(currentDigitalData.cpj, {
           pdp: {
-            findingMethod: previousDigitalData.page.pageInfo.pageName
+            findingMethod: window.digitalData.page.pageInfo.pageName
           }
         });
       }
@@ -1037,12 +1250,12 @@ export async function setDataLayer(
       Object.assign(currentDigitalData, {
         cpj: {
           pdp: {
-            findingMethod: previousDigitalData.page.pageInfo.pageName
+            findingMethod: window.digitalData.page.pageInfo.pageName
           }
         }
       });
     }
-    window.digitalData = Object.assign(previousDigitalData, currentDigitalData);
+    window.digitalData = Object.assign(window.digitalData, currentDigitalData);
   }
 
   if (type === ADOBE_VIRTUAL_PAGELOAD) {
@@ -1130,14 +1343,22 @@ export async function setDataLayer(
     }
   }
   if (type === ADOBE_MODE_OF_REFUND_SUBMITTED) {
-    window.digitalData.modeOfRefund = apiResponse;
+    Object.assign(window.digitalData, {
+      modeOfRefund: apiResponse
+    });
+    //window.digitalData.modeOfRefund = apiResponse;
     if (window._satellite) {
       window._satellite.track(MODE_OF_REFUND_SUBMITTED);
     }
   }
   if (type === ADOBE_MODE_OF_RETURN_SUBMITTED) {
-    window.digitalData.modeOfReturn = apiResponse.modeOfReturn;
-    window.digitalData.refundAddressPincode = apiResponse.refundAddressPincode;
+    Object.assign(window.digitalData, {
+      modeOfRefund: apiResponse.modeOfReturn,
+      refundAddressPincode: apiResponse.refundAddressPincode
+    });
+    // window.digitalData.modeOfReturn = apiResponse.modeOfReturn;
+    // window.digitalData.refundAddressPincode =
+    //   apiResponse.refundAddressPincode;
     if (window._satellite) {
       window._satellite.track(MODE_OF_RETURN_SUBMITTED);
     }
@@ -1188,34 +1409,222 @@ export async function setDataLayer(
 
   if (type === ADOBE_HOME_TYPE) {
     let newVariable = getDigitalDataForHome(response);
-    window.digitalData = Object.assign(previousDigitalData, newVariable);
+    window.digitalData = Object.assign(window.digitalData, newVariable);
   }
   if (type === ADOBE_PDP_KNOW_MORE_CLICK) {
     if (window._satellite) {
       window._satellite.track(PDP_KNOW_MORE_CLICK);
     }
   }
+
+  // mobile device exchnage
+
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER);
+    }
+  }
+  if (type === ADOBE_CLICK_ON_PRODUCTS_PLP_WITH_EXCHANGE) {
+    window.digitalData.cpj.product = { id: apiResponse };
+    if (window._satellite) {
+      window._satellite.track(
+        ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP_MOBILE_EXCHANGE
+      );
+    }
+  }
+  if (type === ADOBE_CLICK_ON_PRODUCTS_PLP_WITHOUT_EXCHANGE) {
+    window.digitalData.cpj.product = { id: apiResponse };
+    if (window._satellite) {
+      window._satellite.track(
+        ADOBE_FOR_CLICK_ON_PRODUCT_ON_PLP_WITHOUT_MOBILE_EXCHANGE
+      );
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_LINK) {
+    window.digitalData.cpj.product = { id: apiResponse };
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_LINK);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CHANGE_DEVICE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CHANGE_DEVICE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_HOW_EXCHANGE_WORKS) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_HOW_EXCHANGE_WORKS);
+    }
+  }
+  if (type === ADOBE_MDE_PRODUCT_ALREADY_IN_CART) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_PRODUCT_ALREADY_IN_CART);
+    }
+  }
+  if (type === ADOBE_MDE_PRODUCT_ALREADY_IN_CART_GO_TO_BAG) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_PRODUCT_ALREADY_IN_CART_GO_TO_BAG);
+    }
+  }
+  if (type === ADOBE_MDE_PRODUCT_ALREADY_IN_CART_CANCEL) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_PRODUCT_ALREADY_IN_CART_CANCEL);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_LINK_THROUGH_SELLER);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_KNOW_MORE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_MODAL_KNOW_MORE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_TNC) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_MODAL_TNC);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_EXCHANGE_MODAL_ADD_ANOTHER_DEVICE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_PROCEED_WITH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_PROCEED_WITH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CASHBACK_DETAILS) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CASHBACK_DETAILS);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_VERIFY_IMEI) {
+    window.digitalData.exchange = { imei: { status: apiResponse } };
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_VERIFY_IMEI);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_REMOVE_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_REMOVE_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_GET_NEW_PRICE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_GET_NEW_PRICE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CART_VIEW_MORE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CART_VIEW_MORE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CART_VIEW_LESS) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CART_VIEW_LESS);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CART_TNC) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CART_TNC);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_SAVE_TO_WISHLIST) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_SAVE_TO_WISHLIST);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CHECKOUT_BTN_CART_WITH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CANCEL_WITH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CANCEL_WITH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_RETURN_WITH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_RETURN_WITH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CLICK_ON_CHANGE_ACCOUNT_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CASHBACK_MODE_CLIQCASH_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CASHBACK_MODE_CLIQCASH_EXCHANGE);
+    }
+  }
+  if (type === ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE) {
+    if (window._satellite) {
+      window._satellite.track(ADOBE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE);
+    }
+  }
 }
 
-export function getDeliveryModeForMyAccountReturn(type, apiResponse) {
-  const response = cloneDeep(apiResponse);
-  if (type === "ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_INITIATE") {
-    if (window._satellite) {
-      window._satellite.track(MYACCOUNT_DELIVERYMODE_CHANGE_INITIATE);
-    }
+export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
+  let loginType =
+    localStorage.getItem("loginType") !== "undefined" &&
+    JSON.parse(localStorage.getItem("loginType"));
+  const selectedColour =
+    pdpResponse &&
+    pdpResponse.variantOptions &&
+    pdpResponse.variantOptions.filter(val => {
+      return val.colorlink.selected;
+    })[0].colorlink.color;
+  let seasonData = {};
+  if (pdpResponse && pdpResponse.seasonDetails !== undefined) {
+    seasonData = pdpResponse.seasonDetails.find(item => {
+      return item.key === "Season";
+    });
   }
-  if (type === "ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_SUCCESS") {
-    if (window._satellite) {
-      window._satellite.track(MYACCOUNT_DELIVERYMODE_CHANGE_SUCCESS);
-    }
-  }
-}
-function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
-  const data = {
+  let productTag =
+    pdpResponse && pdpResponse.allOOStock === true
+      ? "Out of Stock"
+      : pdpResponse && pdpResponse.isProductNew === "Y"
+        ? "New"
+        : seasonData && seasonData.key === "Season"
+          ? seasonData.value
+          : pdpResponse.isOnlineExclusive === "Y"
+            ? "New"
+            : pdpResponse.isExchangeAvailable === true &&
+              pdpResponse.showExchangeTag === true
+              ? "Exchange Offer"
+              : pdpResponse &&
+                pdpResponse.discount &&
+                pdpResponse.discount !== "0"
+                ? `${parseInt(pdpResponse.discount, 10)}% off`
+                : pdpResponse &&
+                  pdpResponse.isOfferExisting &&
+                  pdpResponse.isOfferExisting == "Y"
+                  ? "On Offer"
+                  : "";
+  let productCategoryId = pdpResponse && pdpResponse.categoryHierarchy;
+  let APlusTamplete =
+    pdpResponse &&
+    pdpResponse.APlusContent &&
+    pdpResponse.APlusContent.temlateName;
+  let data = {
     cpj: {
       product: {
         id: pdpResponse ? pdpResponse.productListingId : "",
-        category: pdpResponse ? pdpResponse.productCategory : ""
+        category: pdpResponse ? pdpResponse.rootCategory : "",
+        category_id:
+          productCategoryId && productCategoryId[productCategoryId.length - 1],
+        colour: selectedColour ? selectedColour : "",
+        tag: productTag ? productTag : ""
       },
       brand: {
         name: pdpResponse ? pdpResponse.brandName : ""
@@ -1223,44 +1632,103 @@ function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
     },
 
     page: {
+      ...window.digitalData.page,
       category: {
         primaryCategory: "product"
       }
-    }
+    },
+    video: APlusTamplete ? APlusTamplete : ""
   };
+  if (window.digitalData && window.digitalData.account) {
+    Object.assign(data, {
+      account: window.digitalData.account
+    });
+  } else {
+    Object.assign(data, {
+      account: loginType
+    });
+  }
   const subCategories = getSubCategories(pdpResponse);
   if (subCategories) {
-    Object.assign(data.page.category, { ...subCategories });
+    if (data.page && data.page.category) {
+      Object.assign(data.page.category, { ...subCategories });
+    } else {
+      Object.assign(data.page, {
+        category: { ...subCategories }
+      });
+    }
   }
+
   const productBreadcrumbs = getProductBreadCrumbs(pdpResponse);
   if (productBreadcrumbs) {
     if (behaviorOfPage === IS_COMING_FOR_REVIEW_PAGE) {
-      Object.assign(data.page, {
-        pageInfo: {
-          pageName: "product review:".concat(
-            productBreadcrumbs ? productBreadcrumbs : ""
-          )
-        }
-      });
+      if (data.page) {
+        Object.assign(data.page, {
+          pageInfo: {
+            pageName: "product review:".concat(
+              productBreadcrumbs ? productBreadcrumbs : ""
+            )
+          }
+        });
+      } else {
+        Object.assign(data, {
+          page: {
+            pageInfo: {
+              pageName: "product review:".concat(
+                productBreadcrumbs ? productBreadcrumbs : ""
+              )
+            }
+          }
+        });
+      }
     } else {
-      Object.assign(data.page, {
-        pageInfo: {
-          pageName: "product details:".concat(
-            productBreadcrumbs ? productBreadcrumbs : ""
-          )
-        }
-      });
+      if (data.page) {
+        Object.assign(data.page, {
+          pageInfo: {
+            pageName: "product details:".concat(
+              productBreadcrumbs ? productBreadcrumbs : ""
+            ),
+            pageType: "PDP"
+          }
+        });
+      } else {
+        Object.assign(data, {
+          page: {
+            pageInfo: {
+              pageName: "product details:".concat(
+                productBreadcrumbs ? productBreadcrumbs : ""
+              ),
+              pageType: "PDP"
+            }
+          }
+        });
+      }
     }
   }
   const displayHierarchy = getDisplayHierarchy(pdpResponse);
-  Object.assign(data.page, {
-    display: {
-      hierarchy: displayHierarchy
-    }
-  });
+  if (data.page) {
+    Object.assign(data.page, {
+      display: {
+        hierarchy: displayHierarchy
+      }
+    });
+  } else {
+    Object.assign(data, {
+      page: {
+        display: {
+          hierarchy: displayHierarchy
+        }
+      }
+    });
+  }
   if (pdpResponse && pdpResponse.mrpPrice && pdpResponse.mrpPrice.doubleValue) {
     Object.assign(data.cpj.product, {
-      price: pdpResponse.mrpPrice.doubleValue
+      price:
+        pdpResponse &&
+        pdpResponse.winningSellerPrice &&
+        pdpResponse.winningSellerPrice.doubleValue
+          ? pdpResponse.winningSellerPrice.doubleValue
+          : pdpResponse.mrpPrice.doubleValue
     });
     if (
       pdpResponse.winningSellerPrice &&
@@ -1296,40 +1764,29 @@ function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
   return data;
 }
 
-function getDigitalDataForHome(response) {
+async function getDigitalDataForHome() {
   let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
+  const mcvId = await getMcvId();
   if (userDetails) {
     userDetails = JSON.parse(userDetails);
   }
   const previousDigitalData = cloneDeep(window.digitalData);
-  let data;
-  if (response) {
-    if (!userDetails) {
-      data = {
-        page: {
-          category: {
-            primaryCategory: "home"
-          },
-          pageInfo: {
-            pageName: "homepage"
-          }
-        },
-        account: {
-          mvcId: response,
-          login: {
-            customerID: "anonymous"
-          }
-        }
-      };
-    }
-  } else {
+  let data = {};
+  if (!userDetails) {
     data = {
       page: {
         category: {
           primaryCategory: "home"
         },
         pageInfo: {
-          pageName: "homepage"
+          pageName: "homepage",
+          pageType: "Homepage"
+        }
+      },
+      account: {
+        mvcId: mcvId,
+        login: {
+          customerID: "anonymous"
         }
       }
     };
@@ -1351,10 +1808,14 @@ function getDigitalDataForHome(response) {
       }
     });
   }
+  localStorage.setItem("loginType", JSON.stringify(data.account));
   window.digitalData = Object.assign(previousDigitalData, data);
   return window.digitalData;
 }
 function getDigitalDataForCart(type, cartResponse) {
+  let loginType =
+    localStorage.getItem("loginType") !== "undefined" &&
+    JSON.parse(localStorage.getItem("loginType"));
   let data = {
     page: {
       category: {
@@ -1366,20 +1827,31 @@ function getDigitalDataForCart(type, cartResponse) {
       }
     }
   };
+  if (window.digitalData && window.digitalData.account) {
+    Object.assign(data, {
+      account: window.digitalData.account
+    });
+  } else {
+    Object.assign(data, {
+      account: loginType
+    });
+  }
   const getProductData = getProductsDigitalData(cartResponse);
   if (getProductData) {
     let {
       productIdsArray,
       productQuantityArray,
       productPriceArray,
-      productBrandArray
+      productBrandArray,
+      categoryArray
     } = getProductData;
     Object.assign(data, {
       cpj: {
         product: {
           id: productIdsArray,
           quantity: productQuantityArray,
-          price: productPriceArray
+          price: productPriceArray,
+          category: categoryArray
         },
         brand: {
           name: productBrandArray
@@ -1401,7 +1873,13 @@ function getDigitalDataForCart(type, cartResponse) {
   }
   const categoryHierarchy = getCategoryHierarchy(cartResponse);
   if (categoryHierarchy) {
-    Object.assign(data.page.category, categoryHierarchy);
+    if (data.page && data.page.category) {
+      Object.assign(data.page.category, categoryHierarchy);
+    } else {
+      Object.assign(data.page, {
+        category: categoryHierarchy
+      });
+    }
   }
   return data;
 }
@@ -1412,10 +1890,17 @@ function getDigitalDataForCheckout(type, CheckoutResponse) {
         primaryCategory: "multistepcheckoutsummary"
       },
       pageInfo: {
-        pageName: "multi checkout summary page"
+        pageName: "multi checkout summary page",
+        pageType: "Checkout"
       }
     }
   };
+  const accountData = setAccountData();
+  if (accountData) {
+    Object.assign(data, {
+      account: accountData
+    });
+  }
   const getProductData = getProductsDigitalData(CheckoutResponse); //here we set third parameter as true because we need to set second level
   if (getProductData) {
     let {
@@ -1442,23 +1927,60 @@ function getDigitalDataForCheckout(type, CheckoutResponse) {
 
   const categoryHierarchy = getCategoryHierarchy(CheckoutResponse);
   if (categoryHierarchy) {
-    Object.assign(data.page.category, categoryHierarchy);
+    if (data.page && data.page.category) {
+      Object.assign(data.page.category, categoryHierarchy);
+    } else {
+      Object.assign(data.page, {
+        category: categoryHierarchy
+      });
+    }
   }
   return data;
 }
 
 function getDigitalDataForOrderConfirmation(type, response) {
-  let data = {
-    page: {
-      category: {
-        primaryCategory: "orderconfirmation"
-      },
-      pageInfo: {
-        pageName: "order confirmation",
-        pageType: "Order Successfull"
+  let orderData = localStorage.getItem(
+    constants.DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION
+  );
+  if (orderData && orderData !== "undefined") {
+    Object.assign(window.digitalData, JSON.parse(orderData));
+  }
+  let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
+  if (userDetails) {
+    userDetails = JSON.parse(userDetails);
+    Object.assign(window.digitalData, {
+      account: {
+        login: {
+          customerID: userDetails.customerId,
+          type: userDetails.loginType
+        }
       }
-    }
-  };
+    });
+  }
+  let data = window.digitalData;
+  if (data && data.page && data.page.pageInfo) {
+    Object.assign(data.page.pageInfo, {
+      pageName: "order confirmation",
+      pageType: "Order Successfull"
+    });
+  }
+  if (data && data.page && data.page.category) {
+    Object.assign(data.page.category, {
+      primaryCategory: "orderconfirmation",
+      subCategory1:
+        window.digitalData.page &&
+        window.digitalData.page.category &&
+        window.digitalData.page.category.subCategory1,
+      subCategory2:
+        window.digitalData.page &&
+        window.digitalData.page.category &&
+        window.digitalData.page.category.subCategory2,
+      subCategory3:
+        window.digitalData.page &&
+        window.digitalData.page.category &&
+        window.digitalData.page.category.subCategory3
+    });
+  }
 
   const getProductData = getProductsDigitalData(response);
   if (getProductData) {
@@ -1480,10 +2002,30 @@ function getDigitalDataForOrderConfirmation(type, response) {
     Object.assign(data, {
       cpj: {
         product: {
-          id: productIdsArray,
-          quantity: productQuantityArray,
-          price: productPriceArray,
+          id: productIdsArray
+            ? productIdsArray
+            : window.digitalData &&
+              window.digitalData.cpj &&
+              window.digitalData.cpj.product &&
+              window.digitalData.cpj.product.id,
+          quantity: productQuantityArray
+            ? productQuantityArray
+            : window.digitalData &&
+              window.digitalData.cpj &&
+              window.digitalData.cpj.product &&
+              window.digitalData.cpj.product.quantity,
+          price: productPriceArray
+            ? productPriceArray
+            : window.digitalData &&
+              window.digitalData.cpj &&
+              window.digitalData.cpj.product &&
+              window.digitalData.cpj.product.price,
           category: categoryArray
+            ? categoryArray
+            : window.digitalData &&
+              window.digitalData.cpj &&
+              window.digitalData.cpj.product &&
+              window.digitalData.cpj.product.category
         },
         brand: {
           name: productBrandArray
@@ -1496,7 +2038,13 @@ function getDigitalDataForOrderConfirmation(type, response) {
   }
   const categoryHierarchy = getCategoryHierarchy(response);
   if (categoryHierarchy) {
-    Object.assign(data.page.category, categoryHierarchy);
+    if (data.page && data.page.category) {
+      Object.assign(data.page.category, categoryHierarchy);
+    } else {
+      Object.assign(data.page, {
+        category: categoryHierarchy
+      });
+    }
   }
   return data;
 }
@@ -1519,8 +2067,8 @@ function getProductsDigitalData(response, type) {
           product.qtySelectedByUser
             ? product.qtySelectedByUser
             : product.quantity
-            ? product.quantity
-            : 1,
+              ? product.quantity
+              : 1,
           10
         )
       );
@@ -1529,12 +2077,12 @@ function getProductsDigitalData(response, type) {
           product.offerPrice
             ? product.offerPrice
             : product.pricevalue
-            ? product.pricevalue
-            : product.price
-            ? product.price
-            : product.mrp && product.mrp.value
-            ? product.mrp.value
-            : null,
+              ? product.pricevalue
+              : product.price
+                ? product.price
+                : product.mrp && product.mrp.value
+                  ? product.mrp.value
+                  : null,
           10
         )
       );
@@ -1546,27 +2094,35 @@ function getProductsDigitalData(response, type) {
         let reverseArrayLength =
           product.categoryHierarchy && product.categoryHierarchy.length;
         let currentReverseArray = reverseArrayLength - 1;
-        categoryArray.push(
-          product.productName === "Gift Card"
-            ? "Gift card"
-            : product.categoryHierarchy &&
+        if (reverseArrayLength) {
+          categoryArray.push(
+            product.productName === "Gift Card"
+              ? "Gift card"
+              : product.categoryHierarchy &&
                 product.categoryHierarchy[currentReverseArray] &&
                 product.categoryHierarchy[currentReverseArray].category_name &&
                 product.categoryHierarchy[currentReverseArray].category_name
                   .replace(/ /g, "_")
                   .toLowerCase()
-        );
+          );
+        } else if (product.rootCategory) {
+          categoryArray.push(product.rootCategory);
+        }
       } else if (!type || !type.isReverse) {
-        categoryArray.push(
-          product.productName === "Gift Card"
-            ? "Gift card"
-            : product.categoryHierarchy &&
+        if (product.categoryHierarchy) {
+          categoryArray.push(
+            product.productName === "Gift Card"
+              ? "Gift card"
+              : product.categoryHierarchy &&
                 product.categoryHierarchy[0] &&
                 product.categoryHierarchy[0].category_name &&
                 product.categoryHierarchy[0].category_name
                   .replace(/ /g, "_")
                   .toLowerCase()
-        );
+          );
+        } else if (product.rootCategory) {
+          categoryArray.push(product.rootCategory);
+        }
       }
     });
     return {
@@ -1758,8 +2314,32 @@ export async function getMcvId() {
     }
   });
 }
-export function setDataLayerForPdpDirectCalls(type, layerData: null) {
+export function getDeliveryModeForMyAccountReturn(type, apiResponse) {
+  const response = cloneDeep(apiResponse);
+  if (type === "ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_INITIATE") {
+    if (window._satellite) {
+      window._satellite.track(MYACCOUNT_DELIVERYMODE_CHANGE_INITIATE);
+    }
+  }
+  if (type === "ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_SUCCESS") {
+    if (window._satellite) {
+      window._satellite.track(MYACCOUNT_DELIVERYMODE_CHANGE_SUCCESS);
+    }
+  }
+}
+export function setDataLayerForPdpDirectCalls(type, layerData: null, response) {
   const previousDigitalData = cloneDeep(window.digitalData);
+  if (response) {
+    Object.assign(
+      previousDigitalData &&
+        previousDigitalData.cpj &&
+        previousDigitalData.cpj.product,
+      {
+        size: response
+      }
+    );
+  }
+  window.digitalData = previousDigitalData;
   let data = window.digitalData;
   if (type === SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT) {
     if (window._satellite) {
@@ -1883,8 +2463,19 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null) {
   }
 }
 export function setDataLayerForCartDirectCalls(type, response, linkName) {
-  const previousData = cloneDeep(window.digitalData);
-  let data = {};
+  let data = cloneDeep(window.digitalData);
+  let loginType =
+    localStorage.getItem("loginType") !== "undefined" &&
+    JSON.parse(localStorage.getItem("loginType"));
+  if (window.digitalData && window.digitalData.account) {
+    Object.assign(data, {
+      account: window.digitalData.account
+    });
+  } else {
+    Object.assign(data, {
+      account: loginType
+    });
+  }
   if (type === ADOBE_REMOVE_ITEM) {
     const getProductData = getProductsDigitalData(response);
     if (getProductData) {
@@ -1892,14 +2483,16 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
         productIdsArray,
         productQuantityArray,
         productPriceArray,
-        productBrandArray
+        productBrandArray,
+        categoryArray
       } = getProductData;
       Object.assign(data, {
         cpj: {
           product: {
             id: productIdsArray,
             quantity: productQuantityArray,
-            price: productPriceArray
+            price: productPriceArray,
+            category: categoryArray
           },
           brand: {
             name: productBrandArray
@@ -1913,21 +2506,21 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
     }
   }
   if (type === ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT) {
-    Object.assign(previousData.page, {
+    Object.assign(data.page, {
       pageInfo: { pageName: "multi checkout summary page" }
     });
 
     if (window._satellite) {
-      window._satellite.track(ADOVE_DIRECT_CALL_ON_CLICK_CHECKOUT);
+      window._satellite.track(ADOBE_DIRECT_CALL_ON_CLICK_CHECKOUT);
     }
   }
   if (type === ADOBE_CALLS_FOR_CHANGE_QUANTITY) {
     if (window._satellite) {
-      window._satellite.track(ADOVE_DIRECT_CALL_FOR_CHANGE_QUANTITY_ON_CART);
+      window._satellite.track(ADOBE_DIRECT_CALL_FOR_CHANGE_QUANTITY_ON_CART);
     }
   }
   if (type === ADOBE_CALLS_FOR_APPLY_COUPON_SUCCESS) {
-    Object.assign(previousData.cpj, {
+    Object.assign(data.cpj, {
       coupon: { code: response }
     });
 
@@ -1936,7 +2529,7 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
     }
   }
   if (type === ADOBE_CALLS_FOR_APPLY_COUPON_FAIL) {
-    Object.assign(previousData.cpj, {
+    Object.assign(data.cpj, {
       coupon: { code: response }
     });
 
@@ -1950,13 +2543,15 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
     }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS) {
-    window.digitalData = setDataLayerForPinCode(response);
+    let pinCodeData = setDataLayerForPinCode(response, type);
+    Object.assign(data, pinCodeData);
     if (window._satellite) {
       window._satellite.track(PINCODE_SUCCESS);
     }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE) {
-    window.digitalData = setDataLayerForPinCode(response);
+    let pinCodeData = setDataLayerForPinCode(response, type);
+    Object.assign(data, pinCodeData);
     if (window._satellite) {
       window._satellite.track(PINCODE_FAILURE);
     }
@@ -1977,7 +2572,7 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
     }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_CART_FOOTER_LINK_CLICK) {
-    Object.assign(previousData, {
+    Object.assign(data, {
       cart: {
         footerName: linkName
       }
@@ -1988,64 +2583,118 @@ export function setDataLayerForCartDirectCalls(type, response, linkName) {
     }
   }
 
-  window.digitalData = previousData;
+  window.digitalData = data;
 }
-function getDigitalDataForPlp(type, response) {
-  // let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
-  // if (userDetails) {
-  // 	userDetails = JSON.parse(userDetails);
-  // }
-
+export function getDigitalDataForPlp(type, response) {
+  let loginType =
+    localStorage.getItem("loginType") !== "undefined" &&
+    JSON.parse(localStorage.getItem("loginType"));
   let data = {
     page: {
       category: {
         primaryCategory: "category"
       },
       pageInfo: {
-        pageName: "product grid"
+        pageName: "product grid",
+        pageType: "PLP"
       }
     }
   };
-
+  if (window.digitalData && window.digitalData.account) {
+    Object.assign(data, {
+      account: window.digitalData.account
+    });
+  } else {
+    Object.assign(data, {
+      account: loginType
+    });
+  }
   if (response && response.searchresult && response.searchresult.length > 0) {
     const productCodes = response.searchresult.splice(0, 9).map(product => {
       return product.productId.toLowerCase();
     });
     const impression = productCodes.join("|");
-    Object.assign(data.page, {
-      products: {
-        impression
-      }
-    });
+    if (data.page) {
+      Object.assign(data.page, {
+        products: {
+          impression
+        }
+      });
+    } else {
+      Object.assign(data, {
+        page: {
+          products: {
+            impression
+          }
+        }
+      });
+    }
   }
   const hierarchy = getDisplayHierarchy(response);
   if (hierarchy) {
-    Object.assign(data.page, {
-      display: {
-        hierarchy
-      }
-    });
+    if (data.page) {
+      Object.assign(data.page, {
+        display: {
+          hierarchy
+        }
+      });
+    } else {
+      Object.assign(data, {
+        page: {
+          display: {
+            hierarchy
+          }
+        }
+      });
+    }
   }
   const subCategories = getSubCategories(response);
   if (subCategories) {
-    Object.assign(data.page.category, { ...subCategories });
+    // Object.assign(data.page.category, { ...subCategories });
     Object.assign(data.page, {
       pageInfo: {
         pageName: `product grid:${
           subCategories.subCategory1 ? subCategories.subCategory1 : ""
         }:${subCategories.subCategory2 ? subCategories.subCategory2 : ""}:${
           subCategories.subCategory3 ? subCategories.subCategory3 : ""
-        }`
-      }
+        }`,
+        pageType: "PLP"
+      },
+      category: { ...subCategories }
     });
   } else {
     Object.assign(data.page, {
       pageInfo: {
         pageName: "product grid"
-      }
+      },
+      category: { ...subCategories }
     });
   }
   return data;
+}
+export function setDataLayerForMsdItemWidgets(response, type) {
+  let digitalDataForCarousel = window.digitalData;
+  if (type === ADOBE_CAROUSEL_SWIPE) {
+    let dataSwipe = Object.assign(digitalDataForCarousel, response);
+    window.digitalData = dataSwipe;
+    if (window._satellite) {
+      window._satellite.track("carouselSwipe");
+    }
+  }
+  if (type === ADOBE_CAROUSEL_CLICK) {
+    let dataClick = Object.assign(digitalDataForCarousel, response);
+    window.digitalData = dataClick;
+    if (window._satellite) {
+      window._satellite.track("carouselClick");
+    }
+  }
+  if (type === ADOBE_CAROUSEL_SHOW) {
+    let dataShow = Object.assign(digitalDataForCarousel, response);
+    window.digitalData = dataShow;
+    if (window._satellite) {
+      window._satellite.track("CarouselShow");
+    }
+  }
 }
 export function getDigitalDataForSearchPageSuccess(response, type) {
   const offersCount =
@@ -2069,7 +2718,7 @@ export function getDigitalDataForSearchPageSuccess(response, type) {
       }
     },
     page: {
-      pageInfo: { pageName: "search results page" },
+      pageInfo: { pageName: "search results page", pageType: "PLP" },
       category: { primaryCategory: "productsearch" },
       display: {
         hierarchy: `home |${
@@ -2082,7 +2731,10 @@ export function getDigitalDataForSearchPageSuccess(response, type) {
         category: response.currentQuery
           ? response.currentQuery.searchQuery
           : "all",
-        results: response.pagination ? response.pagination.totalResults : 0,
+        results:
+          response && response.pagination && response.pagination.totalResults
+            ? response.pagination.totalResults
+            : 0,
         term: response.currentQuery ? response.currentQuery.searchQuery : null,
         offersCount,
         newCount
@@ -2110,8 +2762,14 @@ export function getDigitalDataForSearchPageSuccess(response, type) {
         response.seo.breadcrumbs[0].name
           ? response.seo.breadcrumbs[0].name
           : "all",
-      results: response.pagination.totalResults,
-      term: response.currentQuery.query.value.split(":")[0],
+      results:
+        response && response.pagination && response.pagination.totalResults,
+      term:
+        response &&
+        response.currentQuery &&
+        response.currentQuery.query &&
+        response.currentQuery.query.value &&
+        response.currentQuery.query.value.split(":")[0],
       offersCount: offersCount,
       newCount: newCount
     });
@@ -2122,8 +2780,14 @@ export function getDigitalDataForSearchPageSuccess(response, type) {
   } else {
     Object.assign(data.internal.search, {
       category: "all",
-      results: response.pagination.totalResults,
-      term: response.currentQuery.query.value.split(":")[0],
+      results:
+        response && response.pagination && response.pagination.totalResults,
+      term:
+        response &&
+        response.currentQuery &&
+        response.currentQuery.query &&
+        response.currentQuery.query.value &&
+        response.currentQuery.query.value.split(":")[0],
       offersCount: offersCount,
       newCount: newCount
     });
@@ -2144,20 +2808,36 @@ export function getDigitalDataForSearchPageSuccess(response, type) {
     });
     let searchResultObj = {
       category: response.currentQuery.query.value.split(":")[0],
-      results: response.pagination.totalResults,
-      term: response.currentQuery.query.value.split(":")[0],
+      results:
+        response && response.pagination && response.pagination.totalResults,
+      term:
+        response &&
+        response.currentQuery &&
+        response.currentQuery.query &&
+        response.currentQuery.query.value &&
+        response.currentQuery.query.value.split(":")[0],
       offersCount: offersCount,
       newCount: newCount
     };
     if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_SP) {
       searchResultObj["searchType"] = "Search History";
       searchResultObj["searchHistory"] = {
-        keyword: response.currentQuery.query.value.split(":")[0]
+        keyword:
+          response &&
+          response.currentQuery &&
+          response.currentQuery.query &&
+          response.currentQuery.query.value &&
+          response.currentQuery.query.value.split(":")[0]
       };
     } else if (type === ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_TRENDING) {
       searchResultObj["searchType"] = "Trending Now";
       searchResultObj["trendingNow"] = {
-        keyword: response.currentQuery.query.value.split(":")[0]
+        keyword:
+          response &&
+          response.currentQuery &&
+          response.currentQuery.query &&
+          response.currentQuery.query.value &&
+          response.currentQuery.query.value.split(":")[0]
       };
     }
     Object.assign(data.internal, {
@@ -2178,7 +2858,8 @@ export function getDigitalDataForSearchPageForNullResult(response) {
   let data = {
     page: {
       pageInfo: {
-        pathname: "search results page"
+        pathname: "search results page",
+        pageType: "PLP"
       },
       category: {
         primaryCategory: "productsearch"
@@ -2259,8 +2940,11 @@ export function setDataLayerForPlpDirectCalls(response, index: 0) {
 }
 export async function setDataLayerForLogin(type, lastLocation) {
   let userDetails = getCookie(constants.LOGGED_IN_USER_DETAILS);
+  let userLoginFailed = getCookie(constants.NON_LOGGED_IN_USER_DETAILS);
   if (userDetails) {
     userDetails = JSON.parse(userDetails);
+  } else if (userLoginFailed) {
+    userLoginFailed = JSON.parse(userLoginFailed);
   }
   let data = window.digitalData;
   if (type === ADOBE_DIRECT_CALL_FOR_LOGIN_SUCCESS) {
@@ -2372,6 +3056,73 @@ export async function setDataLayerForLogin(type, lastLocation) {
     }
   }
   if (type === ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE) {
+    if (userLoginFailed) {
+      if (userLoginFailed.loginType === LOGIN_WITH_EMAIL) {
+        Object.assign(data, {
+          account: {
+            login: {
+              customerID: userLoginFailed.customerId,
+              type: EMAIL
+            }
+          }
+        });
+      } else if (userLoginFailed.loginType === LOGIN_WITH_MOBILE) {
+        if (data.account) {
+          Object.assign(data.account, {
+            login: {
+              customerID: userLoginFailed.customerId,
+              type: MOBILE
+            }
+          });
+        } else {
+          Object.assign(data, {
+            account: {
+              login: {
+                customerID: userLoginFailed.customerId,
+                type: MOBILE
+              }
+            }
+          });
+        }
+      } else if (userLoginFailed.loginType === FACEBOOK_PLATFORM) {
+        if (data.account) {
+          Object.assign(data.account, {
+            login: {
+              customerID: userLoginFailed.customerId,
+              type: FACEBOOK
+            }
+          });
+        } else {
+          Object.assign(data, {
+            account: {
+              login: {
+                customerID: userLoginFailed.customerId,
+                type: FACEBOOK
+              }
+            }
+          });
+        }
+      } else if (userLoginFailed.loginType === GOOGLE_PLUS_PLATFORM) {
+        if (data.account) {
+          Object.assign(data.account, {
+            login: {
+              customerID: userLoginFailed.customerId,
+              type: GOOGLE
+            }
+          });
+        } else {
+          Object.assign(data, {
+            account: {
+              login: {
+                customerID: userLoginFailed.customerId,
+                type: GOOGLE
+              }
+            }
+          });
+        }
+      }
+    }
+    window.digitalData = Object.assign(window.digitalData, data);
     if (window.digitalData) {
       window.digitalData.flag = ADOBE_LOGIN_FAILURE;
     } else {
@@ -2388,28 +3139,41 @@ export async function setDataLayerForLogin(type, lastLocation) {
   }
   if (type === ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER) {
     const mcvId = await getMcvId();
-    //window.digitalData = data;
+    window.digitalData = data;
     if (window.digitalData) {
       Object.assign(data, {
         account: {
           login: {
-            customerID: "anonumous"
+            customerID: "anonymous"
           },
           mcvId: mcvId
         },
         page: {
+          category: {
+            primaryCategory:
+              data &&
+              data.page &&
+              data.page.category &&
+              data.page.category.primaryCategory
+          },
           pageInfo: {
             pageName:
               data &&
               data.page &&
               data.page.pageInfo &&
-              data.page.pageInfo.pageName
+              data.page.pageInfo.pageName,
+            pageType:
+              data &&
+              data.page &&
+              data.page.pageInfo &&
+              data.page.pageInfo.pageType
           }
         }
       });
       window.digitalData = data;
     }
   }
+  localStorage.setItem("loginType", JSON.stringify(data.account));
 }
 export function setDataLayerForOrderConfirmationDirectCalls(
   type,
@@ -2437,6 +3201,7 @@ export function setDataLayerForOrderConfirmationDirectCalls(
     }
     window.digitalData = previousData;
     if (window._satellite) {
+      // window._satellite.track(TARGET_EVENT_FOR_PAGEVIEW);
       window._satellite.track(ADOBE_ORDER_CONFIRMATION_SUCCESS);
       window._satellite.track(ADOBE_PAYMENT_CHECKOUT_SUCCESSFUL);
     }
@@ -2476,6 +3241,15 @@ export function setDataLayerForOrderConfirmationDirectCalls(
     if (window._satellite) {
       window._satellite.track(ADOBE_ORDER_CONFIRMATION_FAILURE);
     }
+  }
+}
+function setAccountData() {
+  let loginType =
+    localStorage.getItem("loginType") !== "undefined" &&
+    JSON.parse(localStorage.getItem("loginType"));
+  let accountData;
+  if (loginType) {
+    return loginType;
   }
 }
 export function setDataLayerForCheckoutDirectCalls(type, response) {
@@ -2538,7 +3312,7 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
   }
   if (type === ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE) {
     if (window._satellite) {
-      window._satellite.track(ADOVE_PROCEED_FROM_DELIVERY_MODE);
+      window._satellite.track(ADOBE_PROCEED_FROM_DELIVERY_MODE);
     }
   }
   if (type === ADOBE_CALL_FOR_SEE_ALL_BANK_OFFER) {
@@ -2694,7 +3468,12 @@ export function setDataLayerForCheckoutDirectCalls(type, response) {
       window._satellite.track(ADOBE_SELECT_PAYMENT_MODES);
     }
   }
+  data = Object.assign(window.digitalData, data);
   window.digitalData = data;
+  localStorage.setItem(
+    "digitalDataForPaymentConfirmation",
+    JSON.stringify(data)
+  );
 }
 export function setDataLayerForMyAccountDirectCalls(
   type,
@@ -2753,7 +3532,7 @@ export function setDataLayerForMyAccountDirectCalls(
 export function getDigitalDataForMyAccount(pageTitle, response) {
   const data = {
     page: {
-      pageInfo: { pageName: pageTitle },
+      pageInfo: { pageName: pageTitle, pageType: "My Account" },
       category: { primaryCategory: pageTitle },
       display: { hierarchy: `home|my_tata_cliq|${pageTitle}` }
     }
@@ -2765,14 +3544,16 @@ export function getDigitalDataForMyAccount(pageTitle, response) {
         productIdsArray,
         productQuantityArray,
         productPriceArray,
-        productBrandArray
+        productBrandArray,
+        categoryArray
       } = getProductData;
       Object.assign(data, {
         cpj: {
           product: {
             id: productIdsArray,
             quantity: productQuantityArray,
-            price: productPriceArray
+            price: productPriceArray,
+            category: categoryArray
           },
           brand: {
             name: productBrandArray
@@ -2830,7 +3611,7 @@ export function getDigitalDataForCLP(response) {
   };
   const subCategories = getSubCategories(response);
   if (subCategories) {
-    Object.assign(data.page.category, { ...subCategories });
+    // Object.assign(data.page.category, { ...subCategories });
     Object.assign(data, {
       header: {
         headerName: "Categories",
@@ -2843,13 +3624,16 @@ export function getDigitalDataForCLP(response) {
           subCategories.subCategory1 ? subCategories.subCategory1 : null
         } : ${
           subCategories.subCategory2 ? subCategories.subCategory2 : null
-        } : ${subCategories.subCategory3 ? subCategories.subCategory3 : null}`
-      }
+        } : ${subCategories.subCategory3 ? subCategories.subCategory3 : null}`,
+        pageType: "PLP"
+      },
+      category: { ...subCategories }
     });
   } else {
     Object.assign(data.page, {
       pageInfo: {
-        pageName: `product grid: ${null}: ${null}: ${null}`
+        pageName: `product grid: ${null}: ${null}: ${null}`,
+        pageType: "PLP"
       }
     });
   }
@@ -2895,7 +3679,7 @@ export function setDataLayerForFollowAndUnFollowBrand(type, response) {
     }
   }
 }
-export function setDataLayerForPinCode(response) {
+export function setDataLayerForPinCode(response, type) {
   const previousData = cloneDeep(window.digitalData);
   if (previousData) {
     if (previousData.geolocation) {
@@ -2922,20 +3706,68 @@ export function setDataLayerForPinCode(response) {
         page: { pin: { value: response } }
       });
     }
+    if (previousData.cpj) {
+      Object.assign(previousData.cpj, {
+        pin: {
+          status:
+            type === ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS
+              ? "success"
+              : "failure"
+        }
+      });
+    } else {
+      Object.assign(previousData, {
+        cpj: {
+          pin: {
+            status:
+              type === ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS
+                ? "success"
+                : "failure"
+          }
+        }
+      });
+    }
   } else {
+    if (previousData.cpj) {
+      Object.assign(previousData.cpj, {
+        pin: {
+          status:
+            type === ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS
+              ? "success"
+              : "failure"
+        }
+      });
+    } else {
+      Object.assign(previousData, {
+        cpj: {
+          pin: {
+            status:
+              type === ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS
+                ? "success"
+                : "failure"
+          }
+        }
+      });
+    }
     Object.assign(previousData, {
       page: { pin: { value: response } }
     });
   }
   return previousData;
 }
-function getDigitalDataForDefaultBlpOrClp(response) {
+export function getDigitalDataForDefaultBlpOrClp(response) {
   const data = {
     page: { category: { primaryCategory: "category" } }
   };
   const subCategories = getSubCategories(response);
   if (subCategories) {
-    Object.assign(data.page.category, { ...subCategories });
+    if (data.page && data.page.category) {
+      Object.assign(data.page.category, { ...subCategories });
+    } else {
+      Object.assign(data.page, {
+        category: { ...subCategories }
+      });
+    }
   }
   if (response && response.pageName) {
     if (response.pageName.replace(/ /g, "_").toLowerCase() == "atoz_brands") {
@@ -2974,7 +3806,7 @@ function getDigitalDataForDefaultBlpOrClp(response) {
   return data;
 }
 
-function getDigitalDataForLoginAndSignup(isLoginFromCheckoutPage) {
+export function getDigitalDataForLoginAndSignup(isLoginFromCheckoutPage) {
   let pageTitle = window.location.pathname.replace(/\//g, "");
   if (isLoginFromCheckoutPage) {
     pageTitle = "checkout-login page";
@@ -2990,13 +3822,19 @@ function getDigitalDataForLoginAndSignup(isLoginFromCheckoutPage) {
   };
   return data;
 }
-function getDigitalDataForStatic(response) {
+export function getDigitalDataForStatic(response) {
   const data = {
     page: { category: { primaryCategory: "category" } }
   };
   const subCategories = getSubCategories(response);
   if (subCategories) {
-    Object.assign(data.page.category, { ...subCategories });
+    if (data.page && data.page.category) {
+      Object.assign(data.page.category, { ...subCategories });
+    } else {
+      Object.assign(data.page, {
+        category: { ...subCategories }
+      });
+    }
   }
   if (response && response.pageName) {
     Object.assign(data.page, {
@@ -3065,59 +3903,7 @@ export function widgetsTracking(widgetObj: {}) {
     return;
   }
   const data = cloneDeep(window.digitalData);
-  const currentDigitalData = window.digitalData;
-  if (currentDigitalData.cpj) {
-    // Object.assign(data && data.cpj, {
-    //   widgetname: `${widgetObj.productId ? widgetObj.productId : "x"}:${
-    //     widgetObj.widgetName
-    //   }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
-    //     widgetObj.type ? widgetObj.type : "product"
-    //   }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
-    //     widgetObj.categoryName ? widgetObj.categoryName : "x"
-    //   }:${
-    //     data && data.page && data.page.pageInfo && data.page.pageInfo.pageName
-    //       ? data.page.pageInfo.pageName
-    //       : "x"
-    //   }:${widgetObj.PositionOfProduct ? widgetObj.PositionOfProduct : "x"}`
-    // });
-    Object.assign(data, {
-      page: {
-        widget: {
-          name: `${widgetObj.productId ? widgetObj.productId : "x"}:${
-            widgetObj.widgetName
-          }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
-            widgetObj.type ? widgetObj.type : "product"
-          }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
-            widgetObj.categoryName ? widgetObj.categoryName : "x"
-          }`
-        }
-      }
-    });
-  } else {
-    Object.assign(data, {
-      cpj: {
-        pdp: {
-          findingMethod: data.page.pageInfo.pageName,
-          widgetname: `${widgetObj.productId ? widgetObj.productId : "x"}:${
-            widgetObj.widgetName
-          }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
-            widgetObj.type ? widgetObj.type : "product"
-          }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
-            widgetObj.categoryName ? widgetObj.categoryName : "x"
-          }:${
-            data &&
-            data.page &&
-            data.page.pageInfo &&
-            data.page.pageInfo.pageName
-              ? data.page.pageInfo.pageName
-              : "x"
-          }:${widgetObj.PositionOfProduct ? widgetObj.PositionOfProduct : "x"}`
-        }
-      }
-    });
-  }
-  window.digitalData = data;
-  let widgetType;
+  let widgetType, widgetID;
   const DEFAULT_FALLBACK_ADOBE = widgetObj.widgetName
     .split(" ")
     .join("_")
@@ -3133,24 +3919,33 @@ export function widgetsTracking(widgetObj: {}) {
       break;
     case FRESH_FROM_BRANDS:
       widgetType = FRESH_FROM_BRAND_ADOBE;
+      widgetID = 111;
       break;
     case DISCOVER_MORE:
       widgetType = DISCOVER_MORE_ADOBE;
+      widgetID = 110;
       break;
     case ABOUT_THE_BRAND:
       widgetType = ABOUT_THE_BRAND_ADOBE;
+      widgetID = 114;
       break;
     case SIMILAR_PRODUCTS:
       widgetType = PDP_SIMILAR_PRODUCT;
+      widgetID = 0;
       break;
     case FREQUENTLY_BOUGHT_TOGETHER:
       widgetType = FREQUENTLY_BOUGHT_TOGETHER_ADOBE;
       break;
     case AUTOMATED_BRAND_PRODUCT_CAROUSAL:
       widgetType = AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE;
+      widgetID = 113;
       if (window._satellite) {
         window._satellite.track(AUTOMATED_BRAND_PRODUCT_CAROUSAL);
       }
+      break;
+    case MSD_AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE:
+      widgetType = MSD_AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE;
+      widgetID = 113;
       break;
     case BANNER_PRODUCT_CAROUSAL:
       widgetType = BANNER_PRODUCT_CAROUSAL_ADOBE;
@@ -3183,8 +3978,98 @@ export function widgetsTracking(widgetObj: {}) {
       widgetType = DEFAULT_FALLBACK_ADOBE;
       break;
   }
+  if (data && data.cpj) {
+    Object.assign(data.cpj, {
+      widgetName: `${widgetObj.productId ? widgetObj.productId : "x"}:${
+        widgetObj.widgetName
+      }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
+        widgetObj.type ? widgetObj.type : "product"
+      }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
+        widgetObj.categoryName ? widgetObj.categoryName : "x"
+      }:${widgetObj.widgetId ? widgetObj.widgetId : widgetID ? widgetID : "x"}`
+    });
+  } else {
+    Object.assign(data, {
+      cpj: {
+        widgetName: `${widgetObj.productId ? widgetObj.productId : "x"}:${
+          widgetObj.widgetName
+        }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
+          widgetObj.type ? widgetObj.type : "product"
+        }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
+          widgetObj.categoryName ? widgetObj.categoryName : "x"
+        }:${
+          widgetObj.widgetId ? widgetObj.widgetId : widgetID ? widgetID : "x"
+        }`
+      }
+    });
+  }
+  if (data && data.cpj) {
+    Object.assign(data.cpj, {
+      widgetName: `${widgetObj.productId ? widgetObj.productId : "x"}:${
+        widgetObj.widgetName
+      }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
+        widgetObj.type ? widgetObj.type : "product"
+      }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
+        widgetObj.categoryName ? widgetObj.categoryName : "x"
+      }:${widgetObj.widgetId ? widgetObj.widgetId : widgetID ? widgetID : "x"}`
+    });
+  } else if (data && data.page) {
+    Object.assign(data.page, {
+      widget: {
+        name: `${widgetObj.productId ? widgetObj.productId : "x"}:${
+          widgetObj.widgetName
+        }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
+          widgetObj.type ? widgetObj.type : "product"
+        }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
+          widgetObj.categoryName ? widgetObj.categoryName : "x"
+        }:${
+          widgetObj.widgetId ? widgetObj.widgetId : widgetID ? widgetID : "x"
+        }`
+      }
+    });
+  } else {
+    Object.assign(data, {
+      page: {
+        widget: {
+          name: `${widgetObj.productId ? widgetObj.productId : "x"}:${
+            widgetObj.widgetName
+          }:${widgetObj.sourceOfWidget ? widgetObj.sourceOfWidget : ""}:${
+            widgetObj.type ? widgetObj.type : "product"
+          }:${widgetObj.brandName ? widgetObj.brandName : "x"}:${
+            widgetObj.categoryName ? widgetObj.categoryName : "x"
+          }:${
+            widgetObj.widgetId ? widgetObj.widgetId : widgetID ? widgetID : "x"
+          }`
+        }
+      }
+    });
+  }
+  window.digitalData = data;
   if (window._satellite) {
     window._satellite.track(widgetType);
+    window._satellite.track(ADOBE_WIDGET_TRACKING);
+  }
+}
+export function widgetsTrackingForRecommendation(widgetObject: {}) {
+  if (!widgetObject.widgetName) {
+    return;
+  }
+  const data = cloneDeep(window.digitalData);
+  Object.assign(window.digitalData, {
+    page: {
+      ...data.page,
+      widget: {
+        name: `${widgetObject.productId ? widgetObject.productId : "x"}:${
+          widgetObject.widgetName
+        }:${widgetObject.pageName ? widgetObject.pageName : ""}:${
+          widgetObject.brandName ? widgetObject.brandName : "x"
+        }:${widgetObject.category ? widgetObject.category : "x"}:${
+          widgetObject.PositionOfProduct ? widgetObject.PositionOfProduct : "x"
+        }:${widgetObject.widgetID ? widgetObject.widgetID : "x"}`
+      }
+    }
+  });
+  if (window._satellite) {
     window._satellite.track(ADOBE_WIDGET_TRACKING);
   }
 }
@@ -3204,7 +4089,13 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
   ) {
     Object.assign(currentDigitalData, {
       page: {
-        pageInfo: { pageName: previousDigitalData.page.pageInfo.pageName }
+        pageInfo: {
+          pageName:
+            value === "Tata CLiQ Logo"
+              ? "Homepage"
+              : previousDigitalData.page.pageInfo.pageName
+        },
+        pageType: value === "Tata CLiQ Logo" ? "Homepage" : ""
       }
     });
     window.digitalData = Object.assign(previousDigitalData, currentDigitalData);
@@ -3245,6 +4136,15 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
         categoryName: value
       }
     });
+    if (
+      currentDigitalData &&
+      currentDigitalData.page &&
+      currentDigitalData.page.pageInfo
+    ) {
+      Object.assign(currentDigitalData.page.pageInfo, {
+        pageType: "CLP"
+      });
+    }
     window.digitalData = Object.assign(previousDigitalData, currentDigitalData);
     if (window._satellite) {
       window._satellite.track(ADOBE_CLP_DIRECT_CALL);
@@ -3259,6 +4159,15 @@ export function setDataLayerForHeaderAndFooterDirectCalls(type, value) {
         headerName: "Brands"
       }
     });
+    if (
+      currentDigitalData &&
+      currentDigitalData.page &&
+      currentDigitalData.page.pageInfo
+    ) {
+      Object.assign(currentDigitalData.page.pageInfo, {
+        pageType: "BLP"
+      });
+    }
     window.digitalData.page.pageInfo.pageName = "brand page";
     window.digitalData = Object.assign(previousDigitalData, currentDigitalData);
     if (window._satellite) {
@@ -3346,7 +4255,8 @@ export function updatePdpDetailsBackFromReviewPage() {
     Object.assign(currentDigitalData, {
       page: {
         pageInfo: {
-          pageName: reviewPage
+          pageName: reviewPage,
+          pageType: reviewPage
         }
       }
     });
@@ -3366,7 +4276,8 @@ export function setDataLayerForFaqAndTc(type) {
     Object.assign(data, {
       page: {
         pageInfo: {
-          pageName: FAQ
+          pageName: FAQ,
+          pageType: FAQ
         }
       }
     });
@@ -3385,7 +4296,8 @@ export function setDataLayerForFaqAndTc(type) {
     Object.assign(data, {
       page: {
         pageInfo: {
-          pageName: ABOUT_US
+          pageName: ABOUT_US,
+          pageType: ABOUT_US
         }
       }
     });
@@ -3396,7 +4308,8 @@ export function setDataLayerForFaqAndTc(type) {
     Object.assign(data, {
       page: {
         pageInfo: {
-          pageName: HELP
+          pageName: HELP,
+          pageType: HELP
         }
       }
     });
@@ -3407,7 +4320,8 @@ export function setDataLayerForFaqAndTc(type) {
     Object.assign(data, {
       page: {
         pageInfo: {
-          pageName: CUSTOMER_CARE
+          pageName: CUSTOMER_CARE,
+          pageType: CUSTOMER_CARE
         }
       }
     });
@@ -3418,7 +4332,8 @@ export function setDataLayerForFaqAndTc(type) {
     Object.assign(data, {
       page: {
         pageInfo: {
-          pageName: CONTACT_US
+          pageName: CONTACT_US,
+          pageType: CONTACT_US
         }
       }
     });
@@ -3521,4 +4436,241 @@ export function setDataLayerForRatingAndReview(type, reviewData) {
     }
   }
   window.digitalData = previousDigitalData;
+}
+export function setPageNameAndPageType(response) {
+  if (response) {
+    let digitalDataForPageName = window.digitalData;
+    if (digitalDataForPageName.page && digitalDataForPageName.page.pageInfo) {
+      Object.assign(digitalDataForPageName.page.pageInfo, {
+        pageName: response.pageName,
+        pageType: "homePage"
+      });
+    }
+    Object.assign(window.digitalData, digitalDataForPageName);
+  }
+}
+// export function targetPageViewEvent(type, response, pageType) {
+//   if (response && pageType === "PDP") {
+//     Object.assign(window.digitalData, getDigitalDataForPdp(type, response));
+//   } else if (response && pageType === "PLP") {
+//     Object.assign(window.digitalData, getDigitalDataForPlp(type, response));
+//   } else if (response && pageType === "CART") {
+//     Object.assign(window.digitalData, getDigitalDataForCart(type, response));
+//   } else if (response && pageType === "HOME") {
+//     Object.assign(window.digitalData, getDigitalDataForHome());
+//   } else if (response && pageType === "ORDER_CONFIRMATION") {
+//     Object.assign(
+//       window.digitalData,
+//       getDigitalDataForOrderConfirmation(type, response)
+//     );
+//   }
+//   if (type === TARGET_EVENT_FOR_PAGELOAD) {
+//     if (window._satellite) {
+//       window._satellite.track(TARGET_EVENT_FOR_PAGELOAD);
+//     }
+//   } else if (type === TARGET_EVENT_FOR_PAGEVIEW) {
+//     if (window._satellite) {
+//       window._satellite.track(TARGET_EVENT_FOR_PAGEVIEW);
+//     }
+//   }
+// }
+
+export function setDataLayerForCLiQCarePage(type, data, pageName) {
+  let previousDigitalData = { ...window.digitalData };
+  if (type === ADOBE_SELF_SERVE_OTHER_ISSUES_CLICK) {
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_OTHER_ISSUES);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_ALL_HELP_TOPIC_CLICK) {
+    window.digitalData = Object.assign(previousDigitalData, {
+      selfserve: {
+        topics: {
+          name: data
+        }
+      }
+    });
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_ALL_HELP_TOPIC_SELECTION);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_PAGE_LOAD) {
+    if (!data) {
+      window.digitalData = {
+        page: {
+          pageInfo: {
+            pageType: pageName[0],
+            pageName: pageName[1]
+          }
+        }
+      };
+    } else if (pageName[1] === "TicketCreation") {
+      window.digitalData = {
+        ...previousDigitalData,
+        page: {
+          pageInfo: {
+            ...previousDigitalData.page.pageInfo,
+            pageName: pageName[0]
+          }
+        },
+        selfserve: {
+          response: data
+        }
+      };
+    } else {
+      window.digitalData = Object.assign(previousDigitalData, {
+        page: {
+          pageInfo: {
+            ...previousDigitalData.page.pageInfo,
+            pageName: pageName
+          }
+        },
+        selfserve: data
+      });
+    }
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_PAGE_LOAD);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_ISSUE_SELECTION) {
+    window.digitalData = Object.assign(previousDigitalData, {
+      selfserve: {
+        issue: {
+          title: data
+        }
+      }
+    });
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_QUESTION_SELECTION);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_FEEDBACK_SELECTION) {
+    if (previousDigitalData && previousDigitalData.selfserve) {
+      window.digitalData = Object.assign(previousDigitalData, {
+        selfserve: {
+          ...previousDigitalData.selfserve,
+          feedback: {
+            optionName: data
+          }
+        }
+      });
+    } else {
+      window.digitalData = Object.assign(previousDigitalData, {
+        selfserve: {
+          feedback: {
+            optionName: data
+          }
+        }
+      });
+    }
+
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_FEEDBACK_SELECTION);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_CONTINUE_BUTTON_CLICK) {
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_CONTINUE_BUTTON_CLICK);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_MORE_HELP_PAGE_BUTTON_CLICK) {
+    if (previousDigitalData && previousDigitalData.selfserve) {
+      window.digitalData = Object.assign(previousDigitalData, {
+        selfserve: {
+          ...previousDigitalData.selfserve,
+          button: {
+            name: data
+          }
+        }
+      });
+    } else {
+      window.digitalData = Object.assign(previousDigitalData, {
+        selfserve: {
+          button: {
+            name: data
+          }
+        }
+      });
+    }
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_MORE_HELP_PAGE_BUTTON_CLICK);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_NON_ORDER_CATEGORY_CLICK) {
+    window.digitalData = Object.assign(previousDigitalData, {
+      selfserve: {
+        issue: {
+          Tab: data
+        }
+      }
+    });
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_NON_ORDER_CATEGORY_CLICK);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_SUBMIT_CLICK) {
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_SUBMIT_BUTTON_CLICK);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD) {
+    window.digitalData = Object.assign(previousDigitalData, {
+      page: {
+        pageInfo: {
+          ...previousDigitalData.page.pageInfo,
+          pageName: pageName
+        }
+      },
+      selfserve: {
+        topics: data
+      }
+    });
+
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_NON_ORDER_PAGE_LOAD);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK) {
+    window.digitalData = Object.assign(previousDigitalData, {
+      selfserve: {
+        topics: {
+          ...previousDigitalData.selfserve.topics,
+          question: data
+        }
+      }
+    });
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_NON_ORDER_QUESTION_CLICK);
+    }
+  }
+
+  if (type === ADOBE_SELF_SERVE_FAQ_PAGE_LOAD) {
+    window.digitalData = {
+      ...previousDigitalData,
+      page: {
+        pageInfo: {
+          pageType: pageName[0],
+          pageName: pageName[1]
+        }
+      }
+    };
+    if (window._satellite) {
+      window._satellite.track(SELF_SERVE_FAQ_PAGE_LOAD);
+    }
+  }
+  if (type === ADOBE_LOGIN_START) {
+    if (window._satellite) {
+      window._satellite.track(LOGIN_START);
+    }
+  }
 }

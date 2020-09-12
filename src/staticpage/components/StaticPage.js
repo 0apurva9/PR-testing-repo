@@ -16,11 +16,12 @@ import {
   SUCCESS,
   ABOUT_US_URL,
   CONTACT_URL,
-  COSTUMER_ORDER_RELATED_QUERY_ROUTE,
+  COSTUMER_CLIQ_CARE_ROUTE,
   MY_ACCOUNT_PAGE
 } from "../../lib/constants";
 import { Redirect } from "react-router-dom";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import PropTypes from "prop-types";
 export default class StaticPage extends Component {
   constructor(props) {
     super();
@@ -46,9 +47,7 @@ export default class StaticPage extends Component {
     this.props.history.push(urlSuffix);
   };
   redirectToOrderRelatedPage() {
-    this.props.history.push(
-      `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
-    );
+    this.props.history.push(`${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`);
   }
   navigateTo404() {
     return <Redirect to={NOT_FOUND} />;
@@ -375,8 +374,39 @@ export default class StaticPage extends Component {
           homeFeedData={this.props.data}
           seo={this.props.seo}
           setHeaderText={this.props.setHeaderText}
+          clpUrl={this.props.clpUrl}
+          getChatbotDetails={this.props.getChatbotDetails}
+          chatbotDetailsData={this.props.chatbotDetailsData}
         />
       );
     }
   }
 }
+
+StaticPage.propTypes = {
+  match: PropTypes.object,
+  getStaticPage: PropTypes.func,
+  history: PropTypes.object,
+  data: PropTypes.object,
+  loading: PropTypes.bool,
+  feedType: PropTypes.string,
+  setHeaderText: PropTypes.func,
+  location: PropTypes.object,
+  seo: PropTypes.object,
+  getChatbotDetails: PropTypes.func,
+  chatbotDetailsData: PropTypes.objectOf(
+    PropTypes.shape({
+      chatEnabled: PropTypes.bool,
+      list: PropTypes.arrayOf(
+        PropTypes.shape({
+          pageType: PropTypes.string,
+          showWidget: PropTypes.bool,
+          categoryCode: PropTypes.string,
+          categoryName: PropTypes.string,
+          enableAfterSeconds: PropTypes.number,
+          categoryLandingPage: PropTypes.string
+        })
+      )
+    })
+  )
+};

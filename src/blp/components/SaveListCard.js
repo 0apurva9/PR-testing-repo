@@ -38,6 +38,7 @@ export default class SaveListCard extends React.Component {
             onClickImage={() => this.onClickImage()}
             size={this.props.size}
             isSizeOrLength={this.props.isSizeOrLength}
+            exchangeDetails={this.props.exchangeDetails}
           />
           <div className={styles.rating}>
             {this.props.totalNoOfReviews && (

@@ -117,9 +117,11 @@ export const MY_ACCOUNT_COUPON_PAGE = "/coupons";
 export const MY_ACCOUNT_CART_PAGE = "/cart";
 export const MY_ACCOUNT_CLIQ_CASH_PAGE = "/cliq-cash";
 export const EDIT_ADDRESS_BOOK = "/my-account/address-book/edit";
-export const COSTUMER_ORDER_RELATED_QUERY_ROUTE = "/order-related";
+export const COSTUMER_CLIQ_CARE_ROUTE = "/cliq-care";
 export const CUSTOMER_CARE = "Customer Care";
 export const MY_ACCOUNT_USER_NOTIFICATION_PAGE = "/notifications";
+export const MY_ACCOUNT_EXCHANGE_MODE_SELECTION_PAGE =
+  "/getAccountInfoForExchange*";
 //returns
 export const RETURNS_PREFIX = "/returns";
 export const RETURNS = "/returns/(.*)";
@@ -156,6 +158,10 @@ export const CHANGE_RETURN_ADDRESS = "/changeReturnAddress";
 export const MY_ACCOUNT_ADDRESS_EDIT_PAGE = "/address-book/edit";
 export const MY_ACCOUNT_ADDRESS_ADD_PAGE = "/address-book/add";
 export const FEEDBACK_PAGE = "/feedback/NPSFeedbackForm(.*)";
+export const RETURN_FEEDBACK_PAGE = "/feedback/ReturnNPSFeedbackForm(.*)";
+export const FEEDBACK_INTERMITTENT_PAGE = "/feedback/NPSFeedback(.*)";
+export const FEEDBACK_RETURN_INTERMITTENT_PAGE =
+  "/feedback/ReturnNPSFeedback(.*)";
 export const CLIQ_AND_PIQ = "/select-stores";
 export const PRODUCT_CART_DELIVERY_MODES = "/deliveryModes";
 export const PRODUCT_DELIVERY_ADDRESSES = "/deliveryAddress";
@@ -175,6 +181,7 @@ export const EMI_TYPE = "emiType";
 export const CART_DETAILS_FOR_ANONYMOUS = "cartDetailsForAnonymous";
 export const CART_DETAILS_FOR_LOGGED_IN_USER = "cartDetails";
 export const LOGGED_IN_USER_DETAILS = "userDetails";
+export const NON_LOGGED_IN_USER_DETAILS = "LogInFailed";
 export const CATEGORIES_LANDING_PAGE = "/categories";
 export const ANONYMOUS_USER = "anonymous";
 export const COUPON_COOKIE = "couponCode";
@@ -252,6 +259,7 @@ export const CANCEL_RETURN_PREFIX = "/cancel-return/(.*)/(.*)";
 export const WALLET = "WALLET";
 
 //header name
+export const CLIQ_CARE = "CLiQ Care";
 export const SAVED_PAYMENTS = "Saved Cards";
 export const MY_CLIQ = "My Account";
 export const SAVED_LIST = "My Wish List";
@@ -420,6 +428,13 @@ export const ORDER_IN_PROCESS = "ORDER_IN_PROCESS";
 export const CANCEL_STATUS = "CANCEL";
 export const SHIPPING = "SHIPPING";
 export const SHIPPED = "SHIPPED";
+export const HOTC = "HOTC";
+export const RETURN_CLOSED = "RETURN_CLOSED";
+export const RETURNINITIATED_BY_RTO = "RETURNINITIATED_BY_RTO";
+export const RTO_INITIATED = "RTO_INITIATED";
+export const REFUND_IN_PROGRESS = "REFUND_IN_PROGRESS";
+export const RETURN_COMPLETED = "RETURN_COMPLETED";
+export const ORDER_REJECTED = "ORDER_REJECTED";
 export const DELIVERED = "DELIVERED";
 export const OUT_FOR_DELIVERY = "OUT_FOR_DELIVERY";
 export const REFUND_INITIATED = "REFUND_INITIATED";
@@ -465,6 +480,8 @@ export const EXPIRED_REJECTED_FORMAT = "0001-01-01T00:00:00";
 export const PREVENT_NUMBERS_VALIDATION = /^([^0-9]*)$/;
 export const BANK_ACCOUNT = "BANK_ACCOUNT";
 export const MY_ACCOUNT_SUFFIX = "/my-account/(.*)";
+export const DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION =
+  "digitalDataForPaymentConfirmation";
 
 // errors
 export const ERROR_CODE_JAVA_NET = "java.net";
@@ -509,3 +526,9 @@ export const EDD_TEXT = "Estimated Delivery Date";
 //CleverTap email unsubsctibe
 export const UNSUBSCRIBE_CLEVER_TAP_EMAILS = "/emails-unsubscribe";
 export const NOT_SERVICEABLE = "Not available at your PIN code";
+
+export const WEB_URL_REG_EX = /^https?:[\/]{2}(www\.)?tatacliq.com/g;
+
+// for haptik chatbot add to cart event
+export const ADD_TO_CART_EVENT_HAPTIK_CHATBOT = "add_to_cart";
+export const GO_TO_CART_EVENT_HAPTIK_CHATBOT = "go_to_cart";

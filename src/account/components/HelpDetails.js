@@ -15,7 +15,7 @@ import {
   FAQ_URL,
   CONTACT_URL,
   HELP,
-  COSTUMER_ORDER_RELATED_QUERY_ROUTE
+  COSTUMER_CLIQ_CARE_ROUTE
 } from "../../lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -57,10 +57,8 @@ export default class HelpDetails extends React.Component {
     this.props.history.push(url);
   };
   redirectToOrderRelatedPage() {
-    // setDataLayerForFaqAndTc(SET_DATA_LAYER_CC);
-    // this.props.history.push(
-    //   `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
-    // );
+    setDataLayerForFaqAndTc(SET_DATA_LAYER_CC);
+    this.props.history.push(`${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`);
   }
   render() {
     return (
@@ -101,9 +99,7 @@ export default class HelpDetails extends React.Component {
             <div
               className={styles.helpCard}
               onClick={() =>
-                this.redirectToOrderRelatedPage(
-                  COSTUMER_ORDER_RELATED_QUERY_ROUTE
-                )
+                this.redirectToOrderRelatedPage(COSTUMER_CLIQ_CARE_ROUTE)
               }
             >
               <div className={styles.helpCardWithIcon}>
@@ -140,9 +136,7 @@ export default class HelpDetails extends React.Component {
             <div
               className={styles.helpCard}
               onClick={() =>
-                this.redirectToOrderRelatedPage(
-                  COSTUMER_ORDER_RELATED_QUERY_ROUTE
-                )
+                this.redirectToOrderRelatedPage(COSTUMER_CLIQ_CARE_ROUTE)
               }
             >
               <div className={styles.iconHolder}>

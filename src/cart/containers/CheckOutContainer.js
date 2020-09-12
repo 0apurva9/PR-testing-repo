@@ -91,7 +91,8 @@ import {
   TNC_FOR_BANK_OFFER_POPUP,
   DESKTOP_AUTH,
   CONFIRMATION_NOTIFICATION,
-  UPITERMSANDCONDITION_MODAL
+  UPITERMSANDCONDITION_MODAL,
+  CHANGE_EXCHANGE_CASHBACK_MODAL
   // UPIHOWTOPAY_MODAL
 } from "../../general/modal.actions";
 import {
@@ -752,8 +753,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         collectPaymentOrderForCliqCash(pinCode, cartItem, isPaymentFailed)
       );
     },
-    fetchOrderDetails: (orderId, pageName) => {
-      dispatch(fetchOrderDetails(orderId, pageName));
+    fetchOrderDetails: async (orderId, pageName) => {
+      await dispatch(fetchOrderDetails(orderId, pageName));
     },
     resetFailedOrderDetails: () => {
       dispatch(resetFailedOrderDetails());
@@ -844,6 +845,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           bankName
         )
       );
+    },
+    showChangeExchangeCashabackModal: data => {
+      dispatch(showModal(CHANGE_EXCHANGE_CASHBACK_MODAL, data));
     }
   };
 };
@@ -860,7 +864,8 @@ const mapStateToProps = state => {
     binValidationStatus: state.cart.binValidationStatus,
     addUserUPIStatus: state.profile.addUserUPIStatus,
     addUserUPIDetails: state.profile.addUserUPIDetails,
-    completedOrderDetails: state.profile.fetchOrderDetails
+    completedOrderDetails: state.profile.fetchOrderDetails,
+    orderDetailsPaymentPage: state.profile.fetchOrderDetails
   };
 };
 

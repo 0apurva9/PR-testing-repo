@@ -8,9 +8,12 @@ import {
   hideFilter,
   setIfFilterHasBeenClicked,
   setProductModuleRef,
-  userSelectedOutOfStock
+  userSelectedOutOfStock,
+  getChatbotDetails,
+  checkPincodeFromPLP
 } from "../../plp/actions/plp.actions.js";
 import { displayToast } from "../../general/toast.actions";
+import { addProductToCart } from "../../pdp/actions/pdp.actions";
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -40,6 +43,30 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     userSelectedOutOfStock: flag => {
       dispatch(userSelectedOutOfStock(flag));
+    },
+    getChatbotDetails: async () => {
+      await dispatch(getChatbotDetails());
+    },
+    getProductPinCode: (
+      pinCode,
+      productCode,
+      winningUssID,
+      isComingFromPiqPage,
+      isExchangeAvailable,
+      isComingFromClickEvent,
+      isComingFromHaptikChatbot
+    ) => {
+      dispatch(
+        checkPincodeFromPLP(
+          pinCode,
+          productCode,
+          winningUssID,
+          isComingFromHaptikChatbot
+        )
+      );
+    },
+    addProductToCart: productDetails => {
+      dispatch(addProductToCart(productDetails));
     }
   };
 };
@@ -62,7 +89,17 @@ const mapStateToProps = (state, ownProps) => {
     status: state.productListings.status,
     headerText: state.header.text,
     searchMsdData: state.productListings.searchMsdData,
-    banners: state.productListings.banners
+    banners: state.productListings.banners,
+    chatbotDetailsData: state.productListings.getChatbotDetailsData,
+    isServiceableToPincode: state.productListings.isServiceableToPincode,
+    addToCartResponseDetails: state.productDescription.addToCartResponseDetails,
+    addToCartResponseLoading: state.productDescription.addToCartResponseLoading,
+    cartCountDetails: state.cart.cartCountDetails,
+    checkPincodeDetailsLoading:
+      state.productListings.checkPincodeDetailsLoading,
+    checkPincodeFromHaptikChatbot:
+      state.productListings.checkPincodeFromHaptikChatbot,
+    cartCountDetailsLoading: state.cart.cartCountDetailsLoading
   };
 };
 
