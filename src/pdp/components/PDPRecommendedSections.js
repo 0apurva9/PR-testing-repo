@@ -50,10 +50,10 @@ class PDPRecommendedSections extends React.Component {
       widgetName === "About the Brand"
         ? 114
         : widgetName === "Similar Products"
-        ? 0
-        : widgetName === "Frequently Bought Together"
-        ? 4
-        : 7;
+          ? 0
+          : widgetName === "Frequently Bought Together"
+            ? 4
+            : 7;
     // getDigitalDataForPdp(SIMILAR_PRODUCTS_PDP_WIDGET, similarWidgetData);
     let mainProduct =
       this.props.productData && this.props.productData.productDetails;
@@ -94,10 +94,11 @@ class PDPRecommendedSections extends React.Component {
             Array.isArray(categoryHierarchy) &&
             categoryHierarchy[categoryHierarchy.length - 1].category_name
           : widgetName == "Similar Products"
-          ? this.props.recommendedItems.recommendedProducts[index + 1].ontology
-          : widgetName == "Frequently Bought Together"
-          ? this.props.recommendedItems.similarProducts[index + 1].ontology
-          : "",
+            ? this.props.recommendedItems.recommendedProducts[index + 1]
+                .ontology
+            : widgetName == "Frequently Bought Together"
+              ? this.props.recommendedItems.similarProducts[index + 1].ontology
+              : "",
       PositionOfProduct: index + 1,
       productId: items && items.productListingId,
       widgetID: selectedWidgetID
@@ -143,7 +144,9 @@ class PDPRecommendedSections extends React.Component {
                 <div
                   className={styles.brandLogoHolder}
                   style={{
-                    backgroundImage: `url(${this.props.aboutTheBrand.brandLogo})`
+                    backgroundImage: `url(${
+                      this.props.aboutTheBrand.brandLogo
+                    })`
                   }}
                 />
               )}
@@ -246,7 +249,7 @@ class PDPRecommendedSections extends React.Component {
                 : mrpInteger;
             let discount =
               mrpInteger && seoDoublePrice
-                ? Math.floor(((mrpInteger - seoDoublePrice) / mrpInteger) * 100)
+                ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)
                 : "";
             return (
               <ProductModule

@@ -139,7 +139,7 @@ export default class Chatbot extends React.Component {
       this.props.addToCartResponseDetails !==
         nextProps.addToCartResponseDetails &&
       nextProps.addToCartResponseDetails.status &&
-        nextProps.addToCartResponseDetails.status.toLowerCase() === SUCCESS
+      nextProps.addToCartResponseDetails.status.toLowerCase() === SUCCESS
     ) {
       this.props.displayToast(ADD_TO_BAG_TEXT);
       this.submitHaptikEvent("", SUCCESS, this.state.productIdProvidedHaptik);

@@ -2,7 +2,7 @@
   cursor: pointer;
   position: relative;
 }
-.square {
+.square,.productBundlingUnchecked {
   cursor: pointer;
   position: relative;
 }
@@ -17,7 +17,9 @@
   transition: 300ms;
 }
 .square:after,
-.square:before {
+.square:before,
+.productBundlingUnchecked:after,
+.productBundlingUnchecked:before {
   content: "";
   height: 100%;
   width: 100%;
@@ -65,4 +67,17 @@
 }
 .selected:before {
   opacity: 1;
+}
+.productBundlingChecked {
+  composes: square;
+}
+.productBundlingUnchecked:after {
+  background: url(./img/checkboxDisabledProductBundling.svg) no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+.productBundlingChecked:after {
+  background: url(./img/checkboxEnabledProductBundling.svg) no-repeat;
+  background-size: contain;
+  background-position: center;
 }

@@ -679,6 +679,19 @@ export const ADOBE_MDE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE =
 const MSD_AUTOMATED_BRAND_PRODUCT_CAROUSAL_ADOBE =
   "msdAutomatedBannerProductCarouselComponent";
 
+// for product bundling
+const ADOBE_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP = "add_both_product_to_cart";
+export const ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP =
+  "ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP";
+
+const ADOBE_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_CART = "add_to_continue_click";
+export const ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_CART =
+  "ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_CART";
+
+const ADOBE_REMOVE_BUNDLED_PRODUCT_FROM_CART = "cpj_cart_removal";
+export const ADOBE_PB_REMOVE_BUNDLED_PRODUCT_FROM_CART =
+  "ADOBE_PB_REMOVE_BUNDLED_PRODUCT_FROM_CART";
+
 //Cliq care Page
 const SELF_SERVE_OTHER_ISSUES = "selfserve_OtherIssue";
 const SELF_SERVE_ALL_HELP_TOPIC_SELECTION = "selfserve_Topic_Selection";
@@ -1572,6 +1585,42 @@ export async function setDataLayer(
       window._satellite.track(ADOBE_CASHBACK_MODE_BANK_ACCOUNT_EXCHANGE);
     }
   }
+  // for product bundling
+  if (type === ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP) {
+    let data = window.digitalData;
+    if (data && data.cpj && data.cpj.product && apiResponse) {
+      data.cpj.product.category = apiResponse.productCategories;
+      data.cpj.product.id = apiResponse.productIds;
+      data.cpj.product.price = apiResponse.productPrices;
+      window.digitalData = data;
+    }
+    if (window._satellite) {
+      window._satellite.track(ADOBE_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP);
+    }
+  }
+  if (type === ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_CART) {
+    let data = window.digitalData;
+    if (data && data.cpj && data.cpj.product && apiResponse) {
+      data.cpj.product.category = apiResponse.productCategory;
+      data.cpj.product.id = apiResponse.productId;
+      data.cpj.product.price = apiResponse.productPrice;
+      window.digitalData = data;
+    }
+    if (window._satellite) {
+      window._satellite.track(ADOBE_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_CART);
+    }
+  }
+  if (type === ADOBE_PB_REMOVE_BUNDLED_PRODUCT_FROM_CART) {
+    let data = window.digitalData;
+    if (data && data.cpj && data.cpj.product && apiResponse) {
+      data.cpj.product.category = apiResponse.productCategory;
+      data.cpj.product.id = apiResponse.productId;
+      window.digitalData = data;
+    }
+    if (window._satellite) {
+      window._satellite.track(ADOBE_REMOVE_BUNDLED_PRODUCT_FROM_CART);
+    }
+  }
 }
 
 export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
@@ -1594,21 +1643,23 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
     pdpResponse && pdpResponse.allOOStock === true
       ? "Out of Stock"
       : pdpResponse && pdpResponse.isProductNew === "Y"
-      ? "New"
-      : seasonData && seasonData.key === "Season"
-      ? seasonData.value
-      : pdpResponse.isOnlineExclusive === "Y"
-      ? "New"
-      : pdpResponse.isExchangeAvailable === true &&
-        pdpResponse.showExchangeTag === true
-      ? "Exchange Offer"
-      : pdpResponse && pdpResponse.discount && pdpResponse.discount !== "0"
-      ? `${parseInt(pdpResponse.discount, 10)}% off`
-      : pdpResponse &&
-        pdpResponse.isOfferExisting &&
-        pdpResponse.isOfferExisting == "Y"
-      ? "On Offer"
-      : "";
+        ? "New"
+        : seasonData && seasonData.key === "Season"
+          ? seasonData.value
+          : pdpResponse.isOnlineExclusive === "Y"
+            ? "New"
+            : pdpResponse.isExchangeAvailable === true &&
+              pdpResponse.showExchangeTag === true
+              ? "Exchange Offer"
+              : pdpResponse &&
+                pdpResponse.discount &&
+                pdpResponse.discount !== "0"
+                ? `${parseInt(pdpResponse.discount, 10)}% off`
+                : pdpResponse &&
+                  pdpResponse.isOfferExisting &&
+                  pdpResponse.isOfferExisting == "Y"
+                  ? "On Offer"
+                  : "";
   let productCategoryId = pdpResponse && pdpResponse.categoryHierarchy;
   let APlusTamplete =
     pdpResponse &&
@@ -2065,8 +2116,8 @@ function getProductsDigitalData(response, type) {
           product.qtySelectedByUser
             ? product.qtySelectedByUser
             : product.quantity
-            ? product.quantity
-            : 1,
+              ? product.quantity
+              : 1,
           10
         )
       );
@@ -2075,12 +2126,12 @@ function getProductsDigitalData(response, type) {
           product.offerPrice
             ? product.offerPrice
             : product.pricevalue
-            ? product.pricevalue
-            : product.price
-            ? product.price
-            : product.mrp && product.mrp.value
-            ? product.mrp.value
-            : null,
+              ? product.pricevalue
+              : product.price
+                ? product.price
+                : product.mrp && product.mrp.value
+                  ? product.mrp.value
+                  : null,
           10
         )
       );
@@ -2097,12 +2148,11 @@ function getProductsDigitalData(response, type) {
             product.productName === "Gift Card"
               ? "Gift card"
               : product.categoryHierarchy &&
-                  product.categoryHierarchy[currentReverseArray] &&
-                  product.categoryHierarchy[currentReverseArray]
-                    .category_name &&
-                  product.categoryHierarchy[currentReverseArray].category_name
-                    .replace(/ /g, "_")
-                    .toLowerCase()
+                product.categoryHierarchy[currentReverseArray] &&
+                product.categoryHierarchy[currentReverseArray].category_name &&
+                product.categoryHierarchy[currentReverseArray].category_name
+                  .replace(/ /g, "_")
+                  .toLowerCase()
           );
         } else if (product.rootCategory) {
           categoryArray.push(product.rootCategory);
@@ -2113,11 +2163,11 @@ function getProductsDigitalData(response, type) {
             product.productName === "Gift Card"
               ? "Gift card"
               : product.categoryHierarchy &&
-                  product.categoryHierarchy[0] &&
-                  product.categoryHierarchy[0].category_name &&
-                  product.categoryHierarchy[0].category_name
-                    .replace(/ /g, "_")
-                    .toLowerCase()
+                product.categoryHierarchy[0] &&
+                product.categoryHierarchy[0].category_name &&
+                product.categoryHierarchy[0].category_name
+                  .replace(/ /g, "_")
+                  .toLowerCase()
           );
         } else if (product.rootCategory) {
           categoryArray.push(product.rootCategory);
