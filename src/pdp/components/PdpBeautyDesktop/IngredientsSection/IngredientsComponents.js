@@ -58,4 +58,32 @@ export default class IngredientsComponents extends Component {
   }
 }
 
-IngredientsComponents.propTypes = {};
+IngredientsComponents.propTypes = {
+  ingredientData: PropTypes.shape({
+    sortedIngredient: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string,
+        order: PropTypes.string,
+        values: PropTypes.arrayOf(
+          PropTypes.shape({
+            key: PropTypes.string,
+            description: PropTypes.string,
+            imageURL: PropTypes.string
+          })
+        )
+      })
+    ),
+    allIngredients: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string,
+        value: PropTypes.string
+      })
+    ),
+    notIngredients: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string,
+        value: PropTypes.string
+      })
+    )
+  })
+};

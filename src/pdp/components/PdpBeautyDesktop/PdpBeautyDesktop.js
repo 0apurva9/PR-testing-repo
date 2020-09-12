@@ -63,7 +63,6 @@ export default class PdpBeautyDesktop extends React.Component {
       sortedMasterTempLateDetails &&
         sortedMasterTempLateDetails.map(componentDetails => {
           return SECTION_OF_IMAGE_AND_CONTENT_COMPONENTS.find(componentName => {
-            console.log(componentName);
             if (componentDetails.componentId === componentName) {
               sectionOfImageAndContentComponent.push(componentDetails);
             }

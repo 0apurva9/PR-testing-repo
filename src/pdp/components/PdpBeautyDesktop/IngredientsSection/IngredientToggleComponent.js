@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import styles from "./IngredientsComponents.css";
+import PropTypes from "prop-types";
 
 export default class IngredientToggleComponent extends Component {
   render() {
@@ -66,3 +67,33 @@ export default class IngredientToggleComponent extends Component {
     );
   }
 }
+
+IngredientToggleComponent.propTypes = {
+  ingredientData: PropTypes.shape({
+    sortedIngredient: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string,
+        order: PropTypes.string,
+        values: PropTypes.arrayOf(
+          PropTypes.shape({
+            key: PropTypes.string,
+            description: PropTypes.string,
+            imageURL: PropTypes.string
+          })
+        )
+      })
+    ),
+    allIngredients: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string,
+        value: PropTypes.string
+      })
+    ),
+    notIngredients: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string,
+        value: PropTypes.string
+      })
+    )
+  })
+};
