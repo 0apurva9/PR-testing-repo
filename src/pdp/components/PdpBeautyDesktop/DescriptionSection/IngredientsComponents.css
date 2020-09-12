@@ -1,3 +1,14 @@
+.container {
+  width: 100%;
+  display: inline-block;
+  max-width: 1200px;
+  text-align: left;
+  position: relative;
+  margin-bottom: 50px;
+  /**margin: 50px auto;
+ background-color: grey;**/
+}
+
 .base {
   width: 100%;
   height: auto;

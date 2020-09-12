@@ -8,13 +8,13 @@ export default class IngredientsComponents extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: true
+      isOpen: true,
     };
   }
 
   openMenu() {
-    this.setState(prevState => ({
-      isOpen: !prevState.isOpen
+    this.setState((prevState) => ({
+      isOpen: !prevState.isOpen,
     }));
   }
 
@@ -26,31 +26,33 @@ export default class IngredientsComponents extends Component {
 
     return (
       <Fragment>
-        <div
-          className={
-            this.state.isOpen
-              ? styles["ingredents-component"]
-              : styles["ingredents-component-hide-padding"]
-          }
-        >
-          <div className={styles.base}>
-            <div
-              className={styles.holder}
-              onClick={() => {
-                this.openMenu();
-              }}
-            >
-              <div className={styles["ingredents-heading"]}>
-                {this.props.heading}
+        <div className={styles.container}>
+          <div
+            className={
+              this.state.isOpen
+                ? styles["ingredents-component"]
+                : styles["ingredents-component-hide-padding"]
+            }
+          >
+            <div className={styles.base}>
+              <div
+                className={styles.holder}
+                onClick={() => {
+                  this.openMenu();
+                }}
+              >
+                <div className={styles["ingredents-heading"]}>
+                  {this.props.heading}
+                </div>
+                <div className={iconActive} />
               </div>
-              <div className={iconActive} />
-            </div>
 
-            <Collapse isOpened={this.state.isOpen}>
-              <IngredientToggleComponent
-                ingredientData={this.props.ingredientData}
-              />
-            </Collapse>
+              <Collapse isOpened={this.state.isOpen}>
+                <IngredientToggleComponent
+                  ingredientData={this.props.ingredientData}
+                />
+              </Collapse>
+            </div>
           </div>
         </div>
       </Fragment>
@@ -68,22 +70,22 @@ IngredientsComponents.propTypes = {
           PropTypes.shape({
             key: PropTypes.string,
             description: PropTypes.string,
-            imageURL: PropTypes.string
+            imageURL: PropTypes.string,
           })
-        )
+        ),
       })
     ),
     allIngredients: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string,
-        value: PropTypes.string
+        value: PropTypes.string,
       })
     ),
     notIngredients: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string,
-        value: PropTypes.string
+        value: PropTypes.string,
       })
-    )
-  })
+    ),
+  }),
 };

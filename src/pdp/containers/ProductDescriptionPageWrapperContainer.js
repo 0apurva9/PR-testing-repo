@@ -20,7 +20,8 @@ import {
   relevantProductServibilty,
   relevantBundleProductCode,
   getExchangeDetails,
-  getMasterTemplate
+  getMasterTemplate,
+  getHowToWear
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -324,6 +325,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getMasterTemplate: async () => {
       return await dispatch(getMasterTemplate());
+    },
+    getHowToWear: async categoryId => {
+      return await dispatch(getHowToWear(categoryId));
     }
   };
 };
@@ -363,7 +367,10 @@ const mapStateToProps = state => {
     cartCountDetails: state.cart.cartCountDetails,
     masterTemplateResponse: state.productDescription.masterTemplateDetails,
     masterTemplateError: state.productDescription.masterTemplateError,
-    masterTemplateLoading: state.productDescription.masterTemplateLoading
+    masterTemplateLoading: state.productDescription.masterTemplateLoading,
+    howToWearResponse: state.productDescription.howToWearDetails,
+    howToWearError: state.productDescription.howToWearError,
+    howToWearLoading: state.productDescription.howToWearLoading
   };
 };
 

@@ -14,12 +14,12 @@ import {
   FREEBIE_COMPONENT,
   RATING_REVIEW_DETAIL_COMPONENT,
   DETAILS_COMPONENT,
-  SECTION_OF_IMAGE_AND_CONTENT_COMPONENTS
+  SECTION_OF_ALL_BEAUTY_COMPONENTS
 } from "./ComponentConstants";
 import ImageGalleryContentComponent from "./ImageGalleryContentComponents/ImageGalleryContentComponent";
 import BreadCrumbs from "./BreadCrumbsSection/BreadCrumbs";
 import styles from "./PdpBeautyDesktop.css";
-import IngredientsContainer from "./IngredientsSection/IngredientsContainer";
+import DescriptionContainer from "./DescriptionSection/DescriptionContainer";
 
 const SECTION_PRODUCT_GUIDE = [];
 const SECTION_INGREDIENTS = [];
@@ -32,6 +32,16 @@ const SECTION_SIMILAR_PRODUCTS = [];
 
 export default class PdpBeautyDesktop extends React.Component {
   componentDidMount = () => {
+    const categoryHierarchy = this.props.productDetails.categoryHierarchy
+      ? this.props.productDetails.categoryHierarchy
+      : [];
+    let categoryId;
+    if (categoryHierarchy.length > 0) {
+      categoryId = categoryHierarchy[categoryHierarchy.length - 1].category_id;
+    }
+    if (categoryId) {
+      this.props.getHowToWear(categoryId);
+    }
     this.props.getMasterTemplate();
     this.props.getPdpOffers();
   };
@@ -62,7 +72,7 @@ export default class PdpBeautyDesktop extends React.Component {
       let sectionOfImageAndContentComponent = [];
       sortedMasterTempLateDetails &&
         sortedMasterTempLateDetails.map(componentDetails => {
-          return SECTION_OF_IMAGE_AND_CONTENT_COMPONENTS.find(componentName => {
+          return SECTION_OF_ALL_BEAUTY_COMPONENTS.find(componentName => {
             if (componentDetails.componentId === componentName) {
               sectionOfImageAndContentComponent.push(componentDetails);
             }
@@ -115,8 +125,7 @@ export default class PdpBeautyDesktop extends React.Component {
             />
           </div>
           <div className={styles.container}>
-            <IngredientsContainer
-              heading={"INGREDIENTS"}
+            <DescriptionContainer
               ingredientData={ingredientData}
               compDetails={sectionOfImageAndContentComponent}
               {...this.props}
