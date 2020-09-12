@@ -22,7 +22,10 @@ import { displayToast } from "../../general/toast.actions";
 import { withRouter } from "react-router-dom";
 import CartPage from "../components/CartPage";
 import { setHeaderText } from "../../general/header.actions";
-import { getWishListItems } from "../../wishlist/actions/wishlist.actions";
+import {
+  getWishListItems,
+  getWishlist
+} from "../../wishlist/actions/wishlist.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 
 import {
@@ -266,6 +269,9 @@ const mapDispatchToProps = dispatch => {
     },
     addBundledProductsToCart: data => {
       dispatch(addBundledProductsToCart(data));
+    },
+    getWishlist: () => {
+      dispatch(getWishlist());
     }
   };
 };

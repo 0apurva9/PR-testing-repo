@@ -1826,7 +1826,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                               </div>
                             </div>
                           ) : completedSteps.includes(ITEM_PACKED) &&
-                            this.props.consignmentStatus !== ORDER_REJECTED ? (
+                          this.props.consignmentStatus !== ORDER_REJECTED ? (
                             <div
                               className={
                                 completedSteps.includes(ITEM_PACKED)
