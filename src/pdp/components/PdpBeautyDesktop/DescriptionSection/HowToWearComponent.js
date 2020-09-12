@@ -40,7 +40,7 @@ export default class HowToWearComponent extends Component {
                   this.openMenu();
                 }}
               >
-                <div className={styles["ingredents-heading"]}>
+                <div className={styles["htw-heading"]}>
                   {this.props.heading}
                 </div>
 
