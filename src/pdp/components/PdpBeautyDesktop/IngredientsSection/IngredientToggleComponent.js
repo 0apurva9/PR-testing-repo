@@ -39,22 +39,28 @@ export default class IngredientToggleComponent extends Component {
           ))}
         </div>
         <div className={styles["ingredents-all-ingre-sec"]}>
-          <div className={styles["ingredents-all-block"]}>
-            <div className={styles["all-ingred-head"]}>
-              {this.props.ingredientData.allIngredients[0].key}:
-            </div>
-            <div className={styles["all-ingred-desc"]}>
-              {this.props.ingredientData.allIngredients[0].value}
-            </div>
-          </div>
-          <div className={styles["ingredents-all-block"]}>
-            <div className={styles["all-ingred-head"]}>
-              {this.props.ingredientData.notIngredients[0].key}:
-            </div>
-            <div className={styles["all-ingred-desc"]}>
-              {this.props.ingredientData.notIngredients[0].value}
-            </div>
-          </div>
+          {this.props.ingredientData.allIngredients &&
+            this.props.ingredientData.allIngredients.length > 0 && (
+              <div className={styles["ingredents-all-block"]}>
+                <div className={styles["all-ingred-head"]}>
+                  {this.props.ingredientData.allIngredients[0].key}:
+                </div>
+                <div className={styles["all-ingred-desc"]}>
+                  {this.props.ingredientData.allIngredients[0].value}
+                </div>
+              </div>
+            )}
+          {this.props.ingredientData.notIngredients &&
+            this.props.ingredientData.notIngredients.length > 0 && (
+              <div className={styles["ingredents-all-block"]}>
+                <div className={styles["all-ingred-head"]}>
+                  {this.props.ingredientData.notIngredients[0].key}:
+                </div>
+                <div className={styles["all-ingred-desc"]}>
+                  {this.props.ingredientData.notIngredients[0].value}
+                </div>
+              </div>
+            )}
         </div>
       </Fragment>
     );
