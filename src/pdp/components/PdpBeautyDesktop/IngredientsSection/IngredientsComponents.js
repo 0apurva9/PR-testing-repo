@@ -19,9 +19,9 @@ export default class IngredientsComponents extends Component {
   }
 
   render() {
-    let iconActive = styles.icon;
+    let iconActive = styles.iconup;
     if (this.state.isOpen) {
-      iconActive = styles.iconup;
+      iconActive = styles.icon;
     }
 
     return (
