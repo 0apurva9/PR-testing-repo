@@ -364,7 +364,6 @@ export default class AllOrderDetails extends React.Component {
             JSON.stringify(retryPaymentDetailsObject)
           );
           let isJewelleryProduct = false,
-            productDetailsResponse,
             failedOrderDetails,
             retryproductData = [];
           failedOrderDetails = await this.props.getRetryOrderDetails(orderId);
@@ -380,23 +379,13 @@ export default class AllOrderDetails extends React.Component {
               if (res && res.productDescription && status === SUCCESS) {
                 retryproductData.push(productDescription);
               }
-              if (productDetailsResponse && status === SUCCESS) {
+              if (status === SUCCESS) {
                 if (
                   productDescription.rootCategory === CATEGORY_FINE_JEWELLERY ||
                   productDescription.rootCategory === CATEGORY_FASHION_JEWELLERY
                 ) {
                   isJewelleryProduct = true;
                 }
-              }
-              if (status === SUCCESS && index === products.length - 1) {
-                this.props.history.push({
-                  pathname: CHECKOUT_ROUTER,
-                  state: {
-                    isFromRetryUrl: true,
-                    retryPaymentGuid: guId,
-                    isJewelleryAvailable: isJewelleryProduct
-                  }
-                });
               }
             })
           );
@@ -407,6 +396,7 @@ export default class AllOrderDetails extends React.Component {
                 isFromRetryUrl: true,
                 retryPaymentGuid: guId,
                 productDetails: retryproductData,
+                isJewelleryAvailable: isJewelleryProduct,
                 totalPriceData:
                   failedOrderDetails &&
                   failedOrderDetails.retryOrderDetails &&
