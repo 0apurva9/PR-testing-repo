@@ -151,6 +151,13 @@ export const GET_USER_CLIQ_CASH_EXPIRING_DETAILS_SUCCESS =
 export const GET_USER_CLIQ_CASH_EXPIRING_DETAILS_FAILURE =
   "GET_USER_CLIQ_CASH_EXPIRING_DETAILS_FAILURE";
 
+export const GET_USER_CLIQ_CASHBACK_DETAILS_REQUEST =
+  "GET_USER_CLIQ_CASHBACK_DETAILS_REQUEST";
+export const GET_USER_CLIQ_CASHBACK_DETAILS_SUCCESS =
+  "GET_USER_CLIQ_CASHBACK_DETAILS_SUCCESS";
+export const GET_USER_CLIQ_CASHBACK_DETAILS_FAILURE =
+  "GET_USER_CLIQ_CASHBACK_DETAILS_FAILURE";
+
 export const FETCH_ORDER_DETAILS_REQUEST = "FETCH_ORDER_DETAILS_REQUEST";
 export const FETCH_ORDER_DETAILS_SUCCESS = "FETCH_ORDER_DETAILS_SUCCESS";
 export const FETCH_ORDER_DETAILS_FAILURE = "FETCH_ORDER_DETAILS_FAILURE";
@@ -5062,6 +5069,54 @@ export function getCliqCashExpiring() {
       dispatch(getCliqCashExpiringSuccess(resultJson));
     } catch (e) {
       dispatch(getCliqCashExpiringFailure(e.message));
+    }
+  };
+}
+
+export function getCliqCashbackDetailsRequest() {
+  return {
+    type: GET_USER_CLIQ_CASHBACK_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getCliqCashbackDetailsSuccess(getCliqCashbackDetails) {
+  return {
+    type: GET_USER_CLIQ_CASHBACK_DETAILS_SUCCESS,
+    status: SUCCESS,
+    getCliqCashbackDetails
+  };
+}
+
+export function getCliqCashbackDetailsFailure(error) {
+  return {
+    type: GET_USER_CLIQ_CASHBACK_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getCliqCashbackDetails() {
+  return async (dispatch, getState, { api }) => {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    dispatch(getCliqCashbackDetailsRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getCliqCashbackDetails?access_token=${
+          JSON.parse(customerCookie).access_token
+        }`
+      );
+      let resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getCliqCashbackDetailsSuccess(resultJson));
+    } catch (e) {
+      dispatch(getCliqCashbackDetailsFailure(e.message));
     }
   };
 }

@@ -5,7 +5,8 @@ import {
   getTransactionDetails,
   clearTransaction,
   getCliqCashExpiring,
-  getCliqCashPageConfiguration
+  getCliqCashPageConfiguration,
+  getCliqCashbackDetails
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import { setHeaderText } from "../../general/header.actions";
@@ -80,6 +81,9 @@ const mapDispatchToProps = dispatch => {
     },
     getCliqCashPageConfiguration: () => {
       dispatch(getCliqCashPageConfiguration());
+    },
+    getCliqCashbackDetails: () => {
+      dispatch(getCliqCashbackDetails());
     }
   };
 };
@@ -101,7 +105,9 @@ const mapStateToProps = state => {
     promotionalCashStatementDetails:
       state.profile.promotionalCashStatementDetails,
     cliqCashExpiringDetails: state.profile.cliqCashExpiringDetails,
-    cliqCashExpiringError: state.profile.cliqCashExpiringError
+    cliqCashExpiringError: state.profile.cliqCashExpiringError,
+    cliqCashbackDetails: state.profile.cliqCashbackDetails,
+    cliqCashbackDetailsError: state.profile.cliqCashbackDetailsError
   };
 };
 
