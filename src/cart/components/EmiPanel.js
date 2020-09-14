@@ -155,11 +155,12 @@ export default class EmiPanel extends React.Component {
           : false;
       let isJewelleryProduct = false;
       let cartProductData = [];
-      if (localStorage.getItem(PAYMENT_FAILURE_CART_PRODUCT)) {
-        cartProductData = [
-          ...JSON.parse(localStorage.getItem(PAYMENT_FAILURE_CART_PRODUCT))
-        ];
-      } else if (
+      // if (localStorage.getItem(PAYMENT_FAILURE_CART_PRODUCT)) {
+      //   cartProductData = [
+      //     ...JSON.parse(localStorage.getItem(PAYMENT_FAILURE_CART_PRODUCT))
+      //   ];
+      // } else
+      if (
         this.props.cart &&
         this.props.cart.orderSummary &&
         this.props.cart.orderSummary.products &&
@@ -300,11 +301,12 @@ export default class EmiPanel extends React.Component {
 
     let isJewelleryProduct = false;
     let cartProductData = [];
-    if (localStorage.getItem(PAYMENT_FAILURE_CART_PRODUCT)) {
-      cartProductData = [
-        ...JSON.parse(localStorage.getItem(PAYMENT_FAILURE_CART_PRODUCT))
-      ];
-    } else if (
+    // if (localStorage.getItem(PAYMENT_FAILURE_CART_PRODUCT)) {
+    //   cartProductData = [
+    //     ...JSON.parse(localStorage.getItem(PAYMENT_FAILURE_CART_PRODUCT))
+    //   ];
+    // } else
+    if (
       cart &&
       cart.orderSummary &&
       cart.orderSummary.products &&
