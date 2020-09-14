@@ -10,7 +10,6 @@ export default class HowToWearToggleComponent extends Component {
     if (htwData && htwData.length > 0) {
       videoURL = htwData[0].items[0].webURL;
     }
-    console.log(videoURL);
     return (
       <Fragment>
         <div className={styles["htw-sections"]}>

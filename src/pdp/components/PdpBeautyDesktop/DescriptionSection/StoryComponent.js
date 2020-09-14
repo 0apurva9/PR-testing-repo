@@ -1,12 +1,32 @@
 import React from "react";
+import { Collapse } from "react-collapse";
 
 import styles from "./StoryComponent.css";
-import DetailsComponentLong from "./DetailsComponentLong";
+import StoryToggleComponent from "./StoryToggleComponent";
+import { sortArrayOfObjectByIntegerKeyValue } from "../../../../pdp/reducers/utils";
 
 const HEADING = "THE PERFUME GUIDE";
 
 export default class StoryComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpen: true
+    };
+  }
+
+  openMenu() {
+    this.setState(prevState => ({
+      isOpen: !prevState.isOpen
+    }));
+  }
+
   render() {
+    let iconActive = styles.iconup;
+    if (this.state.isOpen) {
+      iconActive = styles.icon;
+    }
+
     const productDetails = this.props && this.props.productDetails;
     const shortStorySmallContent = productDetails.shortStorySmall
       ? productDetails.shortStorySmall
@@ -14,57 +34,75 @@ export default class StoryComponent extends React.Component {
     const shortStoryLargeContent = productDetails.shortStoryLarge
       ? productDetails.shortStoryLarge
       : [];
-    const shortStoryLargeContentSorted =
+    const setInformationContent =
+      productDetails.setInformation && productDetails.setInformation.values
+        ? productDetails.setInformation.values
+        : [];
+    const setInformationHeading =
+      productDetails.setInformation && productDetails.setInformation.key;
+    let shortStoryLargeContentSorted = [];
+    shortStoryLargeContentSorted =
       shortStoryLargeContent.length > 0 &&
-      shortStoryLargeContent.sort((comp1, comp2) => {
-        const pos1 = parseInt(comp1.order);
-        const pos2 = parseInt(comp2.order);
-        if (pos1 && pos2 && pos1 < pos2) {
-          return -1;
-        }
-
-        if (pos1 && pos2 && pos1 > pos2) {
-          return 1;
-        }
-
-        return 0;
-      });
+      sortArrayOfObjectByIntegerKeyValue(shortStoryLargeContent, "order");
+    const styleNotes = productDetails && productDetails.styleNote;
+    const whatElseYouNeedToKnowContent =
+      productDetails && productDetails.whatElseYouNeedtoKnow
+        ? productDetails.whatElseYouNeedtoKnow
+        : [];
+    const detailsSectionContent =
+      productDetails && productDetails.detailsSection
+        ? productDetails.detailsSection
+        : [];
+    let detailsSectionContentSorted = [];
+    detailsSectionContentSorted =
+      detailsSectionContent.length > 0 &&
+      sortArrayOfObjectByIntegerKeyValue(detailsSectionContent, "order");
+    let setInformationContentSorted = [];
+    setInformationContentSorted =
+      setInformationContent.length > 0 &&
+      sortArrayOfObjectByIntegerKeyValue(setInformationContent, "order");
+    const items = detailsSectionContentSorted.length;
+    const halfSet = Math.ceil(items / 2);
+    const halfSetItems = detailsSectionContentSorted.slice(0, halfSet);
+    const remSetItems = detailsSectionContentSorted.slice(halfSet, items);
     return (
-      <div className={styles["container"]}>
-        <div className={styles["details-component"]}>
-          <div className={styles["details-heading"]}>{HEADING}</div>
-          <div className={styles["details-sections"]}>
-            <div className={styles["perfume-guide-sec"]}>
-              {shortStorySmallContent.map((el, i) => (
-                <div key={i} className={styles["perfume-guide-blocks"]}>
-                  <div
-                    className={styles["perfume-guide-img"]}
-                    style={{ backgroundImage: `url(${el.imageURL})` }}
-                  ></div>
-                  <div className={styles["perfume-guide-heading"]}>
-                    {el.key}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className={styles["perfume-note-section"]}>
-              {shortStoryLargeContentSorted.map((el, i) => (
-                <div key={i} className={styles["perfume-note-block"]}>
-                  <div
-                    className={styles["perfume-note-img"]}
-                    style={{ backgroundImage: `url(${el.imageURL})` }}
-                  ></div>
-                  <div className={styles["perfume-note-head"]}>{el.key}</div>
-                  <div className={styles["perfume-note-desc"]}>
-                    {el.description}
-                  </div>
-                </div>
-              ))}
+      <React.Fragment>
+        <div className={styles.container}>
+          <div
+            className={
+              this.state.isOpen
+                ? styles["details-component"]
+                : styles["details-component-hide-padding"]
+            }
+          >
+            <div className={styles.base}>
+              <div
+                className={styles.holder}
+                onClick={() => {
+                  this.openMenu();
+                }}
+              >
+                <div className={styles["details-heading"]}>{HEADING}</div>
+                <div className={iconActive} />
+              </div>
+
+              <Collapse isOpened={this.state.isOpen}>
+                <StoryToggleComponent
+                  shortStorySmallContent={shortStorySmallContent}
+                  shortStoryLargeContentSorted={shortStoryLargeContentSorted}
+                  halfSetItems={halfSetItems}
+                  remSetItems={remSetItems}
+                  styleNotes={styleNotes}
+                  whatElseYouNeedToKnowContent={whatElseYouNeedToKnowContent}
+                  setInformationContentSorted={setInformationContentSorted}
+                  setInformationHeading={setInformationHeading}
+                  detailsComponent={this.props.detailsComponent}
+                />
+              </Collapse>
             </div>
           </div>
-          {this.props.detailsComponent && <DetailsComponentLong />}
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

@@ -35,7 +35,6 @@ export default class GalleryImagesComponent extends React.Component {
       <div className={styles["image-gallery-Block"]}>
         <ul className={styles["image-gallery-list"]}>
           {productImages.map((image, i) => {
-            console.log("imagegal", image);
             return (
               <li key={i} className={styles["image-gallery-list-block"]}>
                 <a className={styles["image-gallery-list-block-link"]}>

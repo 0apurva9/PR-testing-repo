@@ -8,9 +8,49 @@
   margin-bottom: 50px;
 }
 
+.base {
+  width: 100%;
+  height: auto;
+}
+.holder {
+  width: 100%;
+  transition: 300ms;
+  position: relative;
+  padding-right: 30px;
+  cursor: pointer;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-image: url("../../../components/img/arrow.svg");
+  position: absolute;
+  background-size: auto 14px;
+  background-repeat: no-repeat;
+  right: 10px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background-position: center;
+  transition: 300ms;
+  transform: rotate(-90deg);
+}
+.iconup {
+  composes: icon;
+  transform: rotate(90deg);
+}
+
 .details-component {
   border: 1px solid rgb(213, 213, 213);
   padding: 52px 75px 48px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+.details-component-hide-padding {
+  padding: 52px 75px 10px;
+  border: 1px solid rgb(213, 213, 213);
   border-radius: 4px;
   -webkit-border-radius: 4px;
 }
@@ -60,7 +100,7 @@
   height: 80px;
   display: block;
   margin: 0 auto;
-  background: transparent center center/auto auto no-repeat;
+  background: transparent center center/67% auto no-repeat;
 }
 
 .perfume-guide-heading  {
@@ -114,7 +154,7 @@
 .perfume-note-desc {
   font-family: "Rubik", sans-serif;
   color: rgb(33, 33, 33);
-  padding: 0 15px;
+  padding: 0 10px;
   font-weight: 300;
   font-size: 14px;
   line-height: 18px;

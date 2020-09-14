@@ -20,6 +20,7 @@ import ImageGalleryContentComponent from "./ImageGalleryContentComponents/ImageG
 import BreadCrumbs from "./BreadCrumbsSection/BreadCrumbs";
 import styles from "./PdpBeautyDesktop.css";
 import DescriptionContainer from "./DescriptionSection/DescriptionContainer";
+import { sortArrayOfObjectByIntegerKeyValue } from "../../../pdp/reducers/utils";
 
 const SECTION_PRODUCT_GUIDE = [];
 const SECTION_INGREDIENTS = [];
@@ -52,21 +53,14 @@ export default class PdpBeautyDesktop extends React.Component {
       this.props.masterTemplateResponse &&
       this.props.masterTemplateResponse.value &&
       this.props.masterTemplateResponse.value.componentList;
-    const sortedMasterTempLateDetails =
+    let sortedMasterTempLateDetails = [];
+    sortedMasterTempLateDetails =
       masterTemplateDetails &&
-      masterTemplateDetails.sort((comp1, comp2) => {
-        const pos1 = parseInt(comp1.componentPosition);
-        const pos2 = parseInt(comp2.componentPosition);
-        if (pos1 && pos2 && pos1 < pos2) {
-          return -1;
-        }
-
-        if (pos1 && pos2 && pos1 > pos2) {
-          return 1;
-        }
-
-        return 0;
-      });
+      masterTemplateDetails.length > 0 &&
+      sortArrayOfObjectByIntegerKeyValue(
+        masterTemplateDetails,
+        "componentPosition"
+      );
 
     if (sortedMasterTempLateDetails && sortedMasterTempLateDetails.length > 0) {
       let sectionOfImageAndContentComponent = [];
@@ -86,19 +80,7 @@ export default class PdpBeautyDesktop extends React.Component {
       const sortedIngredientDetails =
         ingredientDetails &&
         ingredientDetails.length > 0 &&
-        ingredientDetails.sort((comp1, comp2) => {
-          const pos1 = parseInt(comp1.order);
-          const pos2 = parseInt(comp2.order);
-          if (pos1 && pos2 && pos1 < pos2) {
-            return -1;
-          }
-
-          if (pos1 && pos2 && pos1 > pos2) {
-            return 1;
-          }
-
-          return 0;
-        });
+        sortArrayOfObjectByIntegerKeyValue(ingredientDetails, "order");
 
       const allIngredients = this.props.productDetails.otherIngredients
         ? this.props.productDetails.otherIngredients
