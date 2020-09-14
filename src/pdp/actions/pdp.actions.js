@@ -539,9 +539,12 @@ export function addProductToCart(productDetails) {
           return val.USSID === productDetails.ussId;
         });
         if (
-          isProductInCart &&
-          isProductInCart.exchangeDetails &&
-          productDetails.isFromMobileExchange
+          (isProductInCart &&
+            isProductInCart.exchangeDetails &&
+            productDetails.isFromMobileExchange) ||
+          (isProductInCart &&
+            isProductInCart.exchangeDetails &&
+            !productDetails.isFromMobileExchange)
         ) {
           dispatch(
             showModal(PRODUCT_IN_BAG_MODAL, {
