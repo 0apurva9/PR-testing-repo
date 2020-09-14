@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import {
   INGREDIENTS_COMPONENT,
   HOW_TO_WEAR_COMPONENT,
-  SECTION_OF_PRODUCT_DESCRIPTION
+  SECTION_OF_PRODUCT_DESCRIPTION,
+  STORY_COMPONENT,
+  DETAILS_COMPONENT
 } from "../ComponentConstants";
 import Loadable from "react-loadable";
 import SecondaryLoader from "../../../../general/components/SecondaryLoader";
@@ -16,6 +18,20 @@ const Loader = () => {
     </div>
   );
 };
+
+const DetailsComponentLong = Loadable({
+  loader: () => import("./DetailsComponentLong"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const StoryComponent = Loadable({
+  loader: () => import("./StoryComponent"),
+  loading() {
+    return <Loader />;
+  }
+});
 
 const IngredientsComponents = Loadable({
   loader: () => import("./IngredientsComponents"),
@@ -32,6 +48,16 @@ const HowToWearComponent = Loadable({
 });
 
 const typeComponentMapping = {
+  [STORY_COMPONENT]: (props, descripCompDetails) => {
+    const detailsComponentFound = descripCompDetails.filter(
+      el => el.componentId === DETAILS_COMPONENT
+    );
+    if (detailsComponentFound) {
+      return <StoryComponent {...props} detailsComponent={true} />;
+    } else {
+      return <StoryComponent {...props} />;
+    }
+  },
   [INGREDIENTS_COMPONENT]: props => (
     <IngredientsComponents {...props} heading={"INGREDIENTS"} />
   ),
@@ -58,7 +84,12 @@ export default class DescriptionContainer extends Component {
       <Fragment>
         {descripCompDetails &&
           descripCompDetails.map(componentDetails =>
-            renderComponent(componentDetails, typeComponentMapping, this.props)
+            renderComponent(
+              componentDetails,
+              typeComponentMapping,
+              this.props,
+              descripCompDetails
+            )
           )}
       </Fragment>
     );
