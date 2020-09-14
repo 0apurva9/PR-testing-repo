@@ -268,7 +268,7 @@
 	display: inline-block;
 	/* margin-left: 212px; */
 	text-align: center;
-	margin-bottom: 24px;
+	/* margin-bottom: 24px; */
 }
 .retryPayment {
 	width: 100%;
@@ -281,7 +281,9 @@
 	padding: 34px;
 }
 .retryPaymentTitle {
-	vertical-align: middle;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	margin: 0 0 20px 0;
 	font-size: 14px;
 	font-family: light;

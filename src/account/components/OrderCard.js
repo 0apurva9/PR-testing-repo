@@ -11,7 +11,10 @@ import {
   ORDER,
   ORDER_CODE,
   PRODUCT_CANCEL,
-  EDD_TEXT
+  EDD_TEXT,
+  PAYMENT_PENDING,
+  PAYMENT_TIMEOUT,
+  PAYMENT_FAILED
 } from "../../lib/constants";
 import {
   setDataLayer,
@@ -275,6 +278,15 @@ export default class OrderCard extends React.Component {
         this.props.calloutMessage.includes("Estimated Delivery Date");
     }
 
+    let isPaymentFailure = false;
+    if (
+      this.props.orderStatusCode === PAYMENT_PENDING ||
+      this.props.orderStatusCode === PAYMENT_TIMEOUT ||
+      this.props.orderStatusCode === PAYMENT_FAILED
+    ) {
+      isPaymentFailure = true;
+    }
+
     return (
       <div className={this.props.onHollow ? styles.onHollow : styles.base}>
         {this.props.returnFlow && (
@@ -411,8 +423,8 @@ export default class OrderCard extends React.Component {
             !this.props.calloutMessage.includes(EDD_TEXT) && (
               <div
                 className={
-                  this.props.orderStatusCode === "PAYMENT_PENDING" ||
-                  this.props.orderStatusCode === "PAYMENT_TIMEOUT"
+                  this.props.orderStatusCode === PAYMENT_PENDING ||
+                  this.props.orderStatusCode === PAYMENT_TIMEOUT
                     ? styles.calloutMessagePayment
                     : styles.calloutMessage
                 }
@@ -528,10 +540,9 @@ export default class OrderCard extends React.Component {
               </React.Fragment>
             )}
 
-          {!this.props.isEgvOrder &&
+          {!isPaymentFailure &&
+            !this.props.isEgvOrder &&
             !this.props.retryPaymentUrl &&
-            (this.props.orderStatusCode != "PAYMENT_PENDING" ||
-              this.props.orderStatusCode != "PAYMENT_TIMEOUT") &&
             this.props.showRightArrow && (
               <span
                 className={styles.rightArrow}
@@ -545,9 +556,7 @@ export default class OrderCard extends React.Component {
             )}
 
           {!this.props.isEgvOrder &&
-            (this.props.retryPaymentUrl ||
-              this.props.orderStatusCode === "PAYMENT_PENDING" ||
-              this.props.orderStatusCode === "PAYMENT_TIMEOUT") &&
+            (this.props.retryPaymentUrl || isPaymentFailure) &&
             this.props.showRightArrow && (
               <span
                 className={styles.rightArrow}
@@ -555,9 +564,8 @@ export default class OrderCard extends React.Component {
               />
             )}
 
-          {this.props.isGiveAway === NO &&
-            (this.props.orderStatusCode != "PAYMENT_PENDING" ||
-              this.props.orderStatusCode != "PAYMENT_TIMEOUT") &&
+          {!isPaymentFailure &&
+            this.props.isGiveAway === NO &&
             !this.props.retryPaymentUrl && (
               <div
                 className={styles.trackOrderText}
