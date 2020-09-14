@@ -96,7 +96,8 @@ if (
   process.env.REACT_APP_STAGE === "awsqa5" ||
   process.env.REACT_APP_STAGE === "awsqa6" ||
   process.env.REACT_APP_STAGE === "awspt1" ||
-  process.env.REACT_APP_STAGE === "awspt2"
+  process.env.REACT_APP_STAGE === "awspt2" ||
+  process.env.REACT_APP_STAGE === "qa6"
 ) {
   process.env.REACT_APP_FACEBOOK_CLIENT_ID = "552270434933633";
   process.env.REACT_APP_FLEXMONEYAPI = "staging";
