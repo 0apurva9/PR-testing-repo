@@ -27,7 +27,7 @@ export default class SearchCupon extends React.Component {
       this.props.applyUserCoupon(this.props.couponCode);
     }
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.couponCode !== this.state.couponCode) {
       this.setState({ couponCode: nextProps.couponCode });
     }
@@ -53,6 +53,7 @@ export default class SearchCupon extends React.Component {
                 width={120}
                 label={this.props.label}
                 onClick={() => this.onApply()}
+                dataTest="apply-button"
               />
             </DesktopOnly>
           </div>
@@ -67,6 +68,7 @@ export default class SearchCupon extends React.Component {
             height={35}
             disabled={this.props.disableManualType}
             background="#fff"
+            dataTest="coupon-input-field"
           />
         </div>
       </div>

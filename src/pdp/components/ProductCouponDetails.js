@@ -203,19 +203,31 @@ class ProductCouponDetails extends Component {
               Login to view personal coupons
             </div>
           )}
+          {this.props.activeEligibleCouponList &&
+            this.props.activeEligibleCouponList.length > 0 && (
+              <DesktopOnly>
+                <div
+                  className={styles.disclaimer_desktop}
+                  data-test="eligible-coupon-note"
+                >
+                  {USER_COUPON_NOTE_DESKTOP}
+                </div>
+              </DesktopOnly>
+            )}
           <div className={styles.eligibleCouponsDesign}>
             {this.props.activeEligibleCouponList &&
               this.props.activeEligibleCouponList.length > 0 && (
                 <React.Fragment>
-                  <DesktopOnly>
-                    <div className={styles.disclaimer_desktop}>
-                      {USER_COUPON_NOTE_DESKTOP}
-                    </div>
-                  </DesktopOnly>
-                  <span className={styles.eligibleCoupon}>
+                  <span
+                    className={styles.eligibleCoupon}
+                    data-test="eligible-coupon-text"
+                  >
                     Eligible Coupons
                   </span>
-                  <span className={styles.tooltip}>
+                  <span
+                    className={styles.tooltip}
+                    data-test="eligible-tool-tip"
+                  >
                     {" "}
                     <img src={ibutton} className={styles.arrow} />
                     <span className={styles.tooltiptext}>

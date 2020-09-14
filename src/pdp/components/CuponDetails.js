@@ -27,7 +27,10 @@ export default class CuponDetails extends React.Component {
         couponExpiryDate[5];
     }
     return (
-      <div className={styles.base}>
+      <div
+        className={styles.base}
+        data-test={`single-coupon-section-${this.props.promotionTitle}`}
+      >
         <div className={styles.cuponCard}>
           {
             <div className={styles.headerText}>
@@ -38,6 +41,7 @@ export default class CuponDetails extends React.Component {
                 <div
                   className={styles.checkBoxHolder}
                   onClick={val => this.handleClick(val)}
+                  data-test={`coupon-radio-btn-${this.props.promotionTitle}`}
                 >
                   <CheckBox selected={this.props.selected} />
                 </div>
@@ -59,7 +63,10 @@ export default class CuponDetails extends React.Component {
 
           <div className={styles.dataHolder}>
             {this.props.dateTime && (
-              <div className={styles.amountExpireHolder}>
+              <div
+                className={styles.amountExpireHolder}
+                data-test={`valid-till-date-${this.props.promotionTitle}`}
+              >
                 <div className={styles.dataHeader}>
                   Valid till:{" "}
                   <span className={styles.dataInformation}>{date}</span>
@@ -67,7 +74,10 @@ export default class CuponDetails extends React.Component {
               </div>
             )}
             {this.props.amount && (
-              <div className={styles.amountExpireHolder}>
+              <div
+                className={styles.amountExpireHolder}
+                data-test={`max-discount-${this.props.promotionTitle}`}
+              >
                 <div className={styles.dataHeader}>
                   Max Discount:{" "}
                   <span className={styles.dataInformation}>
