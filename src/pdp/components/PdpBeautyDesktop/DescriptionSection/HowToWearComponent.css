@@ -71,6 +71,7 @@
   flex-wrap: wrap;
   align-items: flex-start;
   padding: 0 13px 0;
+  height: 65vh;
 }
 .embed-video {
   bottom: 0;
