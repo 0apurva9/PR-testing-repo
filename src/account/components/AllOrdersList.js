@@ -4,6 +4,10 @@ import styles from "./CustomerIssue.css";
 import { getDayNumberSuffix } from "../../lib/dateTimeFunction";
 import Button from "../../general/components/Button.js";
 import ProductImage from "../../general/components/ProductImage.js";
+import {
+  setDataLayerForCLiQCarePage,
+  ADOBE_SELF_SERVE_PAGE_LOAD
+} from "../../lib/adobeUtils";
 const ORDER_IN_PROCESS = "Order in Process";
 const READY_FOR_COLLECTION = "Ready for Collection";
 const PICKUP_DATE = "Pickup Date:";
@@ -17,8 +21,39 @@ const DELIVERY_TEXT = "Delivered on:";
 export default class AllOrdersList extends Component {
   componentDidMount() {
     window.scroll(0, 0);
+    this.analyticCall(this.props.ordersTransactionData);
   }
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps &&
+      nextProps.ordersTransactionData !== this.props.ordersTransactionData
+    ) {
+      this.analyticCall(nextProps.ordersTransactionData);
+    }
+  }
+  analyticCall = ordersTransactionData => {
+    let orderData = [];
+    ordersTransactionData &&
+      ordersTransactionData.orderData.map(orderItem => {
+        if (orderItem.products) {
+          orderItem.products.map(item => {
+            orderData.push({
+              status: item.statusDisplay,
+              id: item.transactionId,
+              productId: item.productcode
+            });
+          });
+        }
+      });
+    setDataLayerForCLiQCarePage(
+      ADOBE_SELF_SERVE_PAGE_LOAD,
+      orderData,
+      "Care_Order_All"
+    );
+  };
+
   render() {
+    // this.analyticCall()
     return (
       <div className={styles.whiteCard}>
         <div className={styles.headerBox}>
@@ -73,12 +108,12 @@ export default class AllOrdersList extends Component {
                             </div>
                           ) : null
                         ) : (product.statusDisplay === ORDER_CONFIRMED ||
-                            product.statusDisplay === ORDER_IN_PROCESS ||
-                            product.statusDisplay === SHIPPED ||
-                            product.statusDisplay === ITEM_PACKED ||
-                            product.statusDisplay === OUT_FOR_DELIVERY ||
-                            product.statusDisplay === READY_FOR_COLLECTION) &&
-                          (product.EDD || product.estimateddeliverydate) ? (
+                          product.statusDisplay === ORDER_IN_PROCESS ||
+                          product.statusDisplay === SHIPPED ||
+                          product.statusDisplay === ITEM_PACKED ||
+                          product.statusDisplay === OUT_FOR_DELIVERY ||
+                          product.statusDisplay === READY_FOR_COLLECTION) &&
+                        (product.EDD || product.estimateddeliverydate) ? (
                           <div className={styles.orderStatus}>
                             {ESTIMATED_DATE}&nbsp;
                             <span className={styles.fontBold}>

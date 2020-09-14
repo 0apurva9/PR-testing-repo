@@ -239,31 +239,25 @@ export default class ProductDescription extends Component {
                     {this.props.discountPrice &&
                       this.props.discountPrice !== this.props.price && (
                         <div className={styles.discount}>
-                          <div className={discountAutoWidget}>
-                            <h3>
-                              {" "}
-                              {this.props.discountPrice
-                                .toString()
-                                .includes(RUPEE_SYMBOL)
-                                ? this.props.discountPrice
-                                : `${RUPEE_SYMBOL}${Math.floor(
-                                    this.props.discountPrice
-                                  )}`}
-                            </h3>
-                          </div>
+                          <h3>
+                            {" "}
+                            {this.props.discountPrice
+                              .toString()
+                              .includes(RUPEE_SYMBOL)
+                              ? this.props.discountPrice
+                              : `${RUPEE_SYMBOL}${Math.floor(
+                                  this.props.discountPrice
+                                )}`}
+                          </h3>
                         </div>
                       )}
                     {this.props.price && (
                       <div className={priceClass}>
                         <h3>
                           {" "}
-                          {this.props.discountPrice
-                            .toString()
-                            .includes(RUPEE_SYMBOL)
-                            ? this.props.discountPrice
-                            : `${RUPEE_SYMBOL}${Math.floor(
-                                this.props.discountPrice
-                              )}`}
+                          {this.props.price.toString().includes(RUPEE_SYMBOL)
+                            ? this.props.price
+                            : `${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}
                         </h3>
                       </div>
                     )}

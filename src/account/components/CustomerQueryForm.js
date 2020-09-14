@@ -6,6 +6,12 @@ import Icon from "../../xelpmoc-core/Icon";
 import CheckboxAndText from "../../cart/components/CheckboxAndText";
 import * as Cookie from "../../lib/Cookie";
 import {
+  setDataLayerForCLiQCarePage,
+  ADOBE_SELF_SERVE_PAGE_LOAD,
+  ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD
+} from "../../lib/adobeUtils";
+
+import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
 } from "../../auth/components/Login";
@@ -60,10 +66,6 @@ export default class CustomerQueryForm extends Component {
     };
   }
 
-  componentDidMount() {
-    window.scroll(0, 0);
-  }
-
   componentWillReceiveProps(nextProps) {
     if (
       nextProps &&
@@ -78,7 +80,9 @@ export default class CustomerQueryForm extends Component {
           : "",
         name:
           nextProps.userDetails.firstName || nextProps.userDetails.lastName
-            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
+            ? `${nextProps.userDetails.firstName} ${
+                nextProps.userDetails.lastName
+              }`
             : "",
         mobile: nextProps.userDetails.mobileNumber
           ? nextProps.userDetails.mobileNumber
@@ -93,8 +97,32 @@ export default class CustomerQueryForm extends Component {
   // setUserDetail(){
 
   // }
+  getOtherData = () => {
+    const { parentIssueType, question } = this.props;
+    return {
+      name: parentIssueType,
+      question: question.subIssueType
+    };
+  };
 
   componentDidMount() {
+    window.scroll(0, 0);
+    if (!this.props.formSubmit) {
+      if (this.props.questionType == "orderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_PAGE_LOAD,
+          this.getOrderData(),
+          "Care_Order_Webform_1"
+        );
+      }
+      if (this.props.questionType == "NonOrderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
+          this.getOtherData(),
+          "Care_Other_Webform_1"
+        );
+      }
+    }
     this.initialState(this.props.customerQueriesField, false);
     if (this.props.userDetails) {
       this.setState({
@@ -103,7 +131,9 @@ export default class CustomerQueryForm extends Component {
           : "",
         name:
           this.props.userDetails.firstName || this.props.userDetails.lastName
-            ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
+            ? `${this.props.userDetails.firstName} ${
+                this.props.userDetails.lastName
+              }`
             : "",
         mobile: this.props.userDetails.mobileNumber
           ? this.props.userDetails.mobileNumber
@@ -111,6 +141,24 @@ export default class CustomerQueryForm extends Component {
       });
     }
   }
+
+  getOrderData = () => {
+    const { selectedOrder } = this.props;
+    return {
+      status:
+        selectedOrder &&
+        selectedOrder.products &&
+        selectedOrder.products[0].statusDisplay,
+      id:
+        selectedOrder &&
+        selectedOrder.products &&
+        selectedOrder.products[0].transactionId,
+      productId:
+        selectedOrder &&
+        selectedOrder.products &&
+        selectedOrder.products[0].productcode
+    };
+  };
 
   initialState(customerQueriesField, isAppend) {
     customerQueriesField &&
@@ -207,11 +255,13 @@ export default class CustomerQueryForm extends Component {
                   maxLength={listOfField.maxLimit}
                   value={this.state[listOfField.componentId]}
                   onChange={value =>
-                    this.setState({ [listOfField.componentId]: value })
+                    this.setState({ [listOfField.componentId]: value }, () => {
+                      this.validateForm(false);
+                    })
                   }
                   fontSize={"11px"}
                   onlyNumber={listOfField.hexCode == "isNumeric" ? true : false}
-                  onBlur={() => this.onBlur(false)}
+                  // onBlur={() => this.onBlur(false)}
                 />
               </div>
             </div>
@@ -284,9 +334,12 @@ export default class CustomerQueryForm extends Component {
                   placeholder={listOfField.placeholder}
                   value={this.state[listOfField.componentId]}
                   onChange={value =>
-                    this.setState({ [listOfField.componentId]: value })
+                    this.setState({ [listOfField.componentId]: value }, () => {
+                      this.validateForm(false);
+                    })
                   }
                   maxLength={parseInt(listOfField.maxLimit)}
+                  // onBlur={() => this.onBlur(false)}
                 />
               </div>
             </React.Fragment>
@@ -334,7 +387,8 @@ export default class CustomerQueryForm extends Component {
         [selectObj.componentId]: evt.target.value
       },
       () => {
-        this.onBlur();
+        // this.onBlur();
+        this.validateForm();
         if (option.webFormTemplate) {
           this.props.getCustomerQueriesFields(option.webFormTemplate, true);
         }
@@ -357,6 +411,20 @@ export default class CustomerQueryForm extends Component {
 
     let validateStatus = false;
     if (currentStep == BASIC_FORM) {
+      if (this.props.questionType == "orderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_PAGE_LOAD,
+          this.getOrderData(),
+          "Care_Order_Webform_2"
+        );
+      }
+      if (this.props.questionType == "NonOrderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
+          this.getOtherData(),
+          "Care_Other_Webform_2"
+        );
+      }
       window.scroll(0, 0);
       for (let obj of customerQueriesField) {
         validateStatus = this.formValidate(obj);
@@ -381,6 +449,20 @@ export default class CustomerQueryForm extends Component {
     }
 
     if (currentStep == ATTACHEMENT) {
+      if (this.props.questionType == "orderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_PAGE_LOAD,
+          this.getOrderData(),
+          "Care_Order_Webform_3"
+        );
+      }
+      if (this.props.questionType == "NonOrderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
+          this.getOtherData(),
+          "Care_Other_Webform_3"
+        );
+      }
       window.scroll(0, 0);
       this.setState({
         attachment: false,
@@ -452,11 +534,18 @@ export default class CustomerQueryForm extends Component {
           boxImages: "",
           balanceScreenshot: "",
           lastTransactionScreenshot: "",
-          missingAccessories: ""
+          missingAccessories: "",
+          webformChannel: "",
+          appVersion: "",
+          refundIssue: "",
+          deficitAmount: ""
         };
 
         for (let obj of customerQueriesField) {
           for (let [key, value] of Object.entries(additionalInfo)) {
+            if (key == "webformChannel") {
+              additionalInfo.webformChannel = "desktop";
+            }
             if (key == uploadFileTitle) {
               if (uploadedAttachment && uploadedAttachment.length > 0) {
                 let urlList = [];
@@ -523,7 +612,7 @@ export default class CustomerQueryForm extends Component {
     }
   }
 
-  onBlur(isEmailMobileValidate) {
+  validateForm(isEmailMobileValidate) {
     if (isEmailMobileValidate) {
       if (!this.state.email || !this.state.mobile) {
         this.setState({ btnDisable: true });
@@ -655,6 +744,20 @@ export default class CustomerQueryForm extends Component {
       this.props.navigatePreviousPage();
       this.setState({ btnDisable: false });
     } else if (this.state.currentStep == ATTACHEMENT) {
+      if (this.props.questionType == "orderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_PAGE_LOAD,
+          this.getOrderData(),
+          "Care_Order_Webform_1"
+        );
+      }
+      if (this.props.questionType == "NonOrderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
+          this.getOtherData(),
+          "Care_Other_Webform_1"
+        );
+      }
       this.setState({
         basicForm: true,
         attachment: false,
@@ -663,6 +766,20 @@ export default class CustomerQueryForm extends Component {
         currentStep: BASIC_FORM
       });
     } else if (this.state.currentStep == COMMUNICATION) {
+      if (this.props.questionType == "orderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_PAGE_LOAD,
+          this.getOrderData(),
+          "Care_Order_Webform_2"
+        );
+      }
+      if (this.props.questionType == "NonOrderRelated") {
+        setDataLayerForCLiQCarePage(
+          ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
+          this.getOtherData(),
+          "Care_Other_Webform_2"
+        );
+      }
       this.setState({
         basicForm: false,
         attachment: true,
@@ -671,8 +788,6 @@ export default class CustomerQueryForm extends Component {
         btnDisable: false,
         currentStep: ATTACHEMENT
       });
-      // attachment: false,
-      // communication: true,
     }
   }
   updateNumber() {}
@@ -802,9 +917,14 @@ export default class CustomerQueryForm extends Component {
                     placeholder={"Enter email ID"}
                     disabled={this.state.email ? true : false}
                     value={this.state.email}
-                    onChange={email => this.setState({ email: email })}
+                    onChange={
+                      (email => this.setState({ email: email }),
+                      () => {
+                        this.validateForm(true);
+                      })
+                    }
                     fontSize={"11px"}
-                    onBlur={() => this.onBlur(true)}
+                    // onBlur={() => this.onBlur(true)}
                     type={"email"}
                   />
                 )}
@@ -825,7 +945,7 @@ export default class CustomerQueryForm extends Component {
                   }
                   fontSize={"11px"}
                   onlyNumber={true}
-                  onBlur={() => this.onBlur(true)}
+                  // onBlur={() => this.onBlur(true)}
                 />
               </div>
             </div>
