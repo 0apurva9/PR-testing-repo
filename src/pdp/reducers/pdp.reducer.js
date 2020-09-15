@@ -126,6 +126,11 @@ const productDescription = (
           status: action.status
         }
       });
+    case pdpActions.CLEAR_ALL_MSD_ITEMS:
+      return {
+        ...state,
+        msdItems: {}
+      };
     case pdpActions.GET_EMI_TERMS_AND_CONDITIONS_REQUEST:
       return Object.assign({}, state, {
         emiTerms: null,
@@ -182,7 +187,11 @@ const productDescription = (
       return Object.assign({}, state, {
         visitedNewProduct: false
       });
-
+    case pdpActions.CLEAR_ALL_MSD_ITEMS:
+      return {
+        ...state,
+        msdItems: {}
+      };
     case pdpActions.CHECK_PRODUCT_PIN_CODE_REQUEST:
       return Object.assign({}, state, {
         status: action.status,

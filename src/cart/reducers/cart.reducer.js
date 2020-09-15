@@ -280,6 +280,11 @@ const cart = (
     upiMiddleLayerIsNewLoading: false,
     upiMiddleLayerIsNewError: null,
 
+    instacredMiddleLayerISEnableStatus: null,
+    instacredMiddleLayerISEnable: null,
+    instacredMiddleLayerISEnableLoading: false,
+    instacredMiddleLayerISEnableError: null,
+
     upiMiddleLayerHowItWorksStatus: null,
     upiMiddleLayerHowItWorks: null,
     upiMiddleLayerHowItWorksLoading: false,
@@ -296,7 +301,16 @@ const cart = (
     feedBackPageError: null,
     getCustomComponent: null,
     getCustomComponentError: null,
-    getCustomComponentLoading: false
+    getCustomComponentLoading: false,
+    instacredMiddleLayerISEnableError: null,
+
+    dCEmiEligibiltyDetails: null,
+    dCEmiEligibiltyStatus: null,
+    dCEmiEligibiltyError: null,
+
+    dCEmiBankDetails: null,
+    dCEmiBankDetailsStatus: null,
+    dCEmiBankDetailsError: null
   },
   action
 ) => {
@@ -920,6 +934,30 @@ const cart = (
     /**
      * EOC
      */
+    /**
+     * Instacred Middle Layer
+     */
+
+    case cartActions.INSTACRED_MIDDLE_LAYER_IS_ENABLE_REQUEST:
+      return Object.assign({}, state, {
+        instacredMiddleLayerISEnableStatus: action.status,
+        instacredMiddleLayerISEnableLoading: true
+      });
+
+    case cartActions.INSTACRED_MIDDLE_LAYER_IS_ENABLE_SUCCESS:
+      return Object.assign({}, state, {
+        instacredMiddleLayerISEnableStatus: action.status,
+        instacredMiddleLayerISEnable:
+          action.instaCredISEnableMidddleLayerDetails,
+        instacredMiddleLayerISEnableLoading: false
+      });
+
+    case cartActions.INSTACRED_MIDDLE_LAYER_IS_ENABLE_FAILURE:
+      return Object.assign({}, state, {
+        instacredMiddleLayerISEnableStatus: action.status,
+        instacredMiddleLayerISEnableError: action.error,
+        instacredMiddleLayerISEnableLoading: false
+      });
 
     case cartActions.APPLY_BANK_OFFER_REQUEST:
       return Object.assign({}, state, {
@@ -2383,6 +2421,47 @@ const cart = (
         getCustomComponentStatus: action.status,
         getCustomComponentLoading: false,
         getCustomComponentError: action.error
+      });
+    case cartActions.CHECK_DC_EMI_ELIGIBILITY_REQUEST:
+      return Object.assign({}, state, {
+        dCEmiEligibiltyStatus: action.status,
+        loading: true
+      });
+
+    case cartActions.CHECK_DC_EMI_ELIGIBILITY_SUCCESS:
+      return Object.assign({}, state, {
+        dCEmiEligibiltyStatus: action.status,
+        dCEmiEligibiltyDetails: action.dCEmiEligibility,
+        loading: false
+      });
+
+    case cartActions.CHECK_DC_EMI_ELIGIBILITY_FAILURE:
+      return Object.assign({}, state, {
+        dCEmiEligibiltyStatus: action.status,
+        dCEmiEligibiltyError: action.error,
+        dCEmiEligibiltyDetails: null,
+        loading: false
+      });
+
+    case cartActions.DC_EMI_BANK_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        dCEmiBankDetailsStatus: action.status,
+        loading: true
+      });
+
+    case cartActions.DC_EMI_BANK_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        dCEmiBankDetailsStatus: action.status,
+        dCEmiBankDetails: action.dCEmiBankDetails,
+        loading: false
+      });
+
+    case cartActions.DC_EMI_BANK_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        dCEmiBankDetailsStatus: action.status,
+        dCEmiBankDetailsError: action.error,
+        dCEmiBankDetails: null,
+        loading: false
       });
 
     default:

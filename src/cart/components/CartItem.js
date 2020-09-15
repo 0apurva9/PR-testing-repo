@@ -147,6 +147,7 @@ export default class CartItem extends React.Component {
                 inCartPageIcon={true}
                 cliqPiqSelected={this.props.cliqPiqSelected}
                 winningUssID={this.props.product && this.props.product.USSID}
+                isShippingObjAvailable={this.props.isShippingObjAvailable}
               />
             </div>
           )}
@@ -208,11 +209,13 @@ CartItem.propTypes = {
   product: PropTypes.object,
   pinCode: PropTypes.object,
   maxQuantityAllowed: PropTypes.string,
-  qtySelectedByUser: PropTypes.string
+  qtySelectedByUser: PropTypes.string,
+  isShippingObjAvailable: PropTypes.bool
 };
 
 CartItem.defaultProps = {
   deliveryInfoToggle: true,
   hasFooter: true,
-  dropdownLabel: "Qty :"
+  dropdownLabel: "Qty :",
+  isShippingObjAvailable: false
 };

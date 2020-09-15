@@ -97,9 +97,9 @@ class CartPage extends React.Component {
       this.props.displayToast(msg);
     }
     document.title = "Shopping Cart - TATA CLiQ ";
-    // this.props.getWishListItems();
-    this.props.getWishlist();
+    //  this.props.getWishListItems();
     this.props.getUserAddress();
+    this.props.getWishlist();
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -374,7 +374,6 @@ class CartPage extends React.Component {
     let couponDetails = Object.assign(this.props.cart.coupons, this.props);
     this.props.showCouponModal(couponDetails);
   };
-
   navigateToLogin() {
     const url = this.props.location.pathname;
     if (this.props.setUrlToRedirectToAfterAuth) {
@@ -1021,6 +1020,17 @@ class CartPage extends React.Component {
                               this.props.addBundledProductsToCartDetails
                             }
                             history={this.props.history}
+                            /**
+                             * Old implementation
+                             * this.props.cart &&
+                              this.props.cart.cartDetails &&
+                              this.props.cart.cartDetails.cartAmount &&
+                              this.props.cart.cartDetails.cartAmount
+                                .shippingCharge
+                                ? true
+                                : false
+                             */
+                            isShippingObjAvailable={false}
                           />
                         </DesktopOnly>
                       </div>
@@ -1200,6 +1210,14 @@ class CartPage extends React.Component {
                           }
                           totalExchangeAmount={cartDetails.totalExchangeAmount}
                           isQuoteExpired={isQuoteExpired}
+                          /**
+                           * Old Implementation
+                           * cartDetails.cartAmount &&
+                            cartDetails.cartAmount.shippingCharge
+                              ? true
+                              : false
+                           */
+                          isShippingObjAvailable={false}
                         />
                       </div>
                     )}

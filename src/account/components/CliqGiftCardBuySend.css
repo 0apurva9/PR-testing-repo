@@ -1,0 +1,93 @@
+.receivedGiftCardBox {
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 24px;
+  margin-bottom: 18px;
+}
+.receivedGiftCardHeading {
+  font-size: 16px;
+  color: #212121;
+  font-family: semibold;
+  padding-bottom: 20px;
+}
+.cliqCardPurchaseButton {
+  width: 309px;
+}
+.cliqGiftCardPdp {
+  border-bottom: 2px solid #d8d8d8;
+  font-size: 12px;
+  padding-bottom: 5px;
+}
+.cliqGiftCardPdp :first-child {
+  margin-right: 10px;
+}
+.cliqGiftCardPdp :last-child {
+  margin-left: 10px;
+}
+.activeTab {
+  color: #212121;
+  font-family: semibold;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #da1c5c;
+}
+.nonActive{
+  cursor: pointer;
+}
+.buyForYourself {
+  font-size: 16px;
+  margin-top: 23px;
+}
+.buyForYourselfsubHeading {
+  font-size: 16px;
+  font-family: semibold;
+}
+.buyGiftCardEmailField{
+  padding-bottom: 10px;
+  padding-top: 14px;
+  width:60%;
+}
+.crossSign {
+  position: relative;
+  float: right;
+  right: 9px;
+  width: auto;
+  bottom: 25px;
+  cursor: pointer;
+}
+.inputError {
+  font-size: 10px;
+  color: #d88600;
+  padding-top: 10px;
+  font-family: light;
+}
+.changeNameDiv {
+  margin-top: 10px;
+}
+.changeNameSpan {
+  font-size: 12px;
+  color: #212121;
+  font-family: regular;
+}
+.changeNameFrom {
+  font-size: 11px;
+  color: #8d8d8d;
+  font-family: regular;
+}
+.changeLink {
+  font-size: 11px;
+  color: #da1c5c;
+  font-family: semibold;
+  cursor: pointer;
+}
+.sendGiftCardBtn {
+  padding-left: 25%;
+  margin-top: 3%;
+}
+.tabSeparator {
+  color: #8d8d8d;
+}
+.optionalText {
+  color: #4a4a4a;
+}

@@ -117,3 +117,17 @@ input[type="number"]::-webkit-outer-spin-button {
     font-family: light;
   }
 }
+.placeHoldertext{
+  color: #8d8d8d;
+  font-size: 12px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 0;
+  top: 5px;
+  transition: 300ms ease all;
+}
+input:focus ~ label,input:valid ~ label{
+top: -10px;
+font-size: 10px;
+}

@@ -44,7 +44,8 @@ import {
   SAME_DAY_DELIVERY,
   SHORT_SAME_DAY_DELIVERY,
   RETRY_PAYMENT_CART_ID,
-  SELECTED_STORE
+  SELECTED_STORE,
+  IS_DC_EMI_SELECTED
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -101,6 +102,7 @@ import {
   ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED,
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
 } from "../../lib/adobeUtils";
+import { getCustomerAccessToken } from "../../common/services/common.services";
 
 const EGV_GIFT_CART_ID = "giftCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
@@ -186,6 +188,17 @@ export const NET_BANKING_DETAILS_FAILURE = "NET_BANKING_DETAILS_FAILURE";
 export const EMI_BANKING_DETAILS_REQUEST = "EMI_BANKING_DETAILS_REQUEST";
 export const EMI_BANKING_DETAILS_SUCCESS = "EMI_BANKING_DETAILS_SUCCESS";
 export const EMI_BANKING_DETAILS_FAILURE = "EMI_BANKING_DETAILS_FAILURE";
+
+export const CHECK_DC_EMI_ELIGIBILITY_REQUEST =
+  "CHECK_DC_EMI_ELIGIBILITY_REQUEST";
+export const CHECK_DC_EMI_ELIGIBILITY_SUCCESS =
+  "CHECK_DC_EMI_ELIGIBILITY_SUCCESS";
+export const CHECK_DC_EMI_ELIGIBILITY_FAILURE =
+  "CHECK_DC_EMI_ELIGIBILITY_FAILURE";
+
+export const DC_EMI_BANK_DETAILS_REQUEST = "DC_EMI_BANK_DETAILS_REQUEST";
+export const DC_EMI_BANK_DETAILS_SUCCESS = "DC_EMI_BANK_DETAILS_SUCCESS";
+export const DC_EMI_BANK_DETAILS_FAILURE = "DC_EMI_BANK_DETAILS_FAILURE";
 
 export const GENERATE_CART_ID_FOR_ANONYMOUS_USER_REQUEST =
   "GENERATE_CART_ID_FOR_ANONYMOUS_USER_REQUEST";
@@ -287,6 +300,13 @@ export const UPI_MIDDLE_LAYER_IS_ENABLE_SUCCESS =
   "UPI_MIDDLE_LAYER_IS_ENABLE_SUCCESS";
 export const UPI_MIDDLE_LAYER_IS_ENABLE_FAILURE =
   "UPI_MIDDLE_LAYER_IS_ENABLE_FAILURE";
+
+export const INSTACRED_MIDDLE_LAYER_IS_ENABLE_REQUEST =
+  "INSTACRED_MIDDLE_LAYER_IS_ENABLE_REQUEST";
+export const INSTACRED_MIDDLE_LAYER_IS_ENABLE_SUCCESS =
+  "INSTACRED_MIDDLE_LAYER_IS_ENABLE_SUCCESS";
+export const INSTACRED_MIDDLE_LAYER_IS_ENABLE_FAILURE =
+  "INSTACRED_MIDDLE_LAYER_IS_ENABLE_FAILURE";
 
 export const COLLECT_PAYMENT_ORDER_FOR_UPI_REQUEST =
   "COLLECT_PAYMENT_ORDER_FOR_UPI_REQUEST";
@@ -2162,6 +2182,59 @@ export function upiPaymentISEnableMidddleLayer(orderId) {
  */
 
 /**
+ * Code for Instacred Middle Layer
+ */
+
+export function instaCredISEnableMidddleLayerRequest() {
+  return {
+    type: INSTACRED_MIDDLE_LAYER_IS_ENABLE_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function instaCredISEnableMidddleLayerSuccess(
+  instaCredISEnableMidddleLayerDetails
+) {
+  return {
+    type: INSTACRED_MIDDLE_LAYER_IS_ENABLE_SUCCESS,
+    status: SUCCESS,
+    instaCredISEnableMidddleLayerDetails
+  };
+}
+
+export function instaCredISEnableMidddleLayerFailure(error) {
+  return {
+    type: INSTACRED_MIDDLE_LAYER_IS_ENABLE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function instaCredISEnableMidddleLayer() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(instaCredISEnableMidddleLayerRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=MP_DESKTOP_INSTACRED_ENABLED`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(instaCredISEnableMidddleLayerSuccess(resultJson));
+    } catch (e) {
+      dispatch(instaCredISEnableMidddleLayerFailure(e.message));
+    }
+  };
+}
+/**
+ * EOC
+ */
+
+/**
  * @comment Code for the UPI Eligibility check
  */
 
@@ -2362,6 +2435,7 @@ export function collectPaymentOrderForGiftCardUPI(
                   pspName: "Stripe",
                   token: "",
                   cardToken: "",
+                  cardCountry: "",
                   cardFingerprint: "",
                   cardRefNo: "",
                   returnUrl: returnUrl
@@ -2512,6 +2586,7 @@ export function collectPaymentOrderForUPI(
                     pspName: "Stripe",
                     token: "",
                     cardToken: "",
+                    cardCountry: "",
                     cardFingerprint: "",
                     cardRefNo: "",
                     returnUrl: returnUrl
@@ -4570,6 +4645,55 @@ export function jusPayPaymentMethodTypeForPaypal(
   };
 }
 
+export function jusPayPaymentMethodTypeForInstaCred(
+  paymentMethodType,
+  juspayOrderId,
+  bankName
+) {
+  // Mobile number will be activated with "Consumer Finance flow".
+  //let phone = localStorage.getItem('phone');
+  return async (dispatch, getState, { api }) => {
+    const params = {
+      payment_method_type: "NB",
+      redirect_after_payment: "true",
+      format: "json",
+      merchant_id: getState().cart.paymentModes.merchantID,
+      order_id: juspayOrderId,
+      payment_method: "NB_INSTACRED"
+      // Mobile number will be activated with "Consumer Finance flow".
+      // mobile_number:phone
+    };
+    localStorage.removeItem("phone");
+    let cardObject = Object.keys(params)
+      .map(key => {
+        return encodeURIComponent(key) + "=" + encodeURIComponent(params[key]);
+      })
+      .join("&");
+    dispatch(jusPayPaymentMethodTypeRequest());
+    dispatch(jusPayPaymentMethodTypeRequest());
+    try {
+      const result = await api.postJusPayUrlEncode(`txns?`, cardObject);
+      const resultJson = await result.json();
+      if (
+        resultJson.status === JUS_PAY_PENDING ||
+        resultJson.status === SUCCESS ||
+        resultJson.status === SUCCESS_CAMEL_CASE ||
+        resultJson.status === SUCCESS_UPPERCASE ||
+        resultJson.status === JUS_PAY_CHARGED
+      ) {
+        dispatch(jusPayPaymentMethodTypeSuccess(resultJson));
+        dispatch(setBagCount(0));
+        localStorage.setItem(CART_BAG_DETAILS, []);
+        dispatch(generateCartIdForLoggedInUser());
+      } else {
+        throw new Error(resultJson.error_message);
+      }
+    } catch (e) {
+      dispatch(jusPayPaymentMethodTypeFailure(e.message));
+    }
+  };
+}
+
 export function jusPayPaymentMethodTypeForGiftCardNetBanking(
   juspayOrderId,
   bankName,
@@ -5236,7 +5360,8 @@ export function removeItemFromCartLoggedIn(
           JSON.parse(userDetails).userName,
           JSON.parse(customerCookie).access_token,
           cartId,
-          pinCode
+          pinCode,
+          true
         )
       ).then(cartDetails => {
         if (cartDetails.status === SUCCESS) {
@@ -5322,7 +5447,8 @@ export function removeItemFromCartLoggedOut(
           ANONYMOUS_USER,
           JSON.parse(globalCookie).access_token,
           JSON.parse(cartDetailsAnonymous).guid,
-          pinCode
+          pinCode,
+          true
         )
       ).then(cartDetails => {
         if (cartDetails.status === SUCCESS) {
@@ -5391,7 +5517,8 @@ export function updateQuantityInCartLoggedIn(selectedItem, quantity, pinCode) {
           JSON.parse(userDetails).userName,
           JSON.parse(customerCookie).access_token,
           cartId,
-          pinCode
+          pinCode,
+          true
         )
       ).then(cartDetails => {
         if (cartDetails.status === SUCCESS) {
@@ -5460,7 +5587,8 @@ export function updateQuantityInCartLoggedOut(selectedItem, quantity, pinCode) {
           ANONYMOUS_USER,
           JSON.parse(globalCookie).access_token,
           JSON.parse(cartDetailsAnonymous).guid,
-          pinCode
+          pinCode,
+          true
         )
       ).then(cartDetails => {
         if (cartDetails.status === SUCCESS) {
@@ -5558,7 +5686,8 @@ export function getBankAndTenureDetailsFailure(error) {
 export function getBankAndTenureDetails(
   retryFlagForEmiCoupon,
   isFromRetryUrl,
-  retryCartGuid
+  retryCartGuid,
+  isFromDebitCard = false
 ) {
   return async (dispatch, getState, { api }) => {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -5578,7 +5707,7 @@ export function getBankAndTenureDetails(
           JSON.parse(userDetails).userName
         }/payments/noCostEmiTenureList?access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartId}&retryFlag=${retryFlagForEmiCoupon}&isUpdatedPwa=true&emiConvChargeFlag=true`
+        }&cartGuid=${cartId}&retryFlag=${retryFlagForEmiCoupon}&isUpdatedPwa=true&emiConvChargeFlag=true&isFromDebitCard=${isFromDebitCard}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -6227,7 +6356,8 @@ export function mergeTempCartWithOldCart() {
           JSON.parse(userDetails).userName,
           JSON.parse(customerCookie).access_token,
           resultJson.buyNowCartCode,
-          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+          true
         )
       );
       dispatch(getMinicartProducts());
@@ -7080,7 +7210,7 @@ export function collectPaymentOrder(
     if (isPaymentFailed) {
       cartGuId = Cookie.getCookie(OLD_CART_GU_ID);
     }
-
+    let dcemi = localStorage.getItem(IS_DC_EMI_SELECTED);
     dispatch(collectPaymentOrderRequest());
     try {
       const result = await api.post(
@@ -7092,7 +7222,7 @@ export function collectPaymentOrder(
           cardDetails.emi_tenure
         }&cardBrandName=${cardBrandName}${
           whatsappNotification ? "&whatsapp=true" : ""
-        }`,
+        }&dcemi=${dcemi}`,
         cartdetails
       );
       const resultJson = await result.json();
@@ -7114,6 +7244,7 @@ export function collectPaymentOrder(
       }
       dispatch(collectPaymentOrderSuccess(resultJson));
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
+      localStorage.setItem(IS_DC_EMI_SELECTED, false);
       if (resultJson.pspName === "Juspay") {
         dispatch(
           jusPayPaymentMethodType(
@@ -7262,6 +7393,8 @@ export function stripe_juspay_Tokenize(
         pspName: "Stripe",
         token: stripeToken && stripeToken.id,
         cardToken: stripeToken && stripeToken.card && stripeToken.card.id,
+        cardCountry:
+          stripeToken && stripeToken.card && stripeToken.card.country,
         cardFingerprint:
           stripeToken && stripeToken.card && stripeToken.card.fingerprint,
         cardRefNo: "",
@@ -7333,6 +7466,8 @@ export function stripe_juspay_TokenizeGiftCard(
         cardToken: stripeToken && stripeToken.card && stripeToken.card.id,
         cardFingerprint:
           stripeToken && stripeToken.card && stripeToken.card.fingerprint,
+        cardCountry:
+          stripeToken && stripeToken.card && stripeToken.card.country,
         cardRefNo: "",
         returnUrl: returnUrl
       };
@@ -7457,6 +7592,7 @@ export function collectPaymentOrderForSavedCards(
                     pspName: "Stripe",
                     token: "",
                     cardToken: "",
+                    cardCountry: "",
                     cardFingerprint: cardDetails && cardDetails.cardFingerprint,
                     cardRefNo: cardDetails && cardDetails.cardRefNo,
                     returnUrl: returnUrl
@@ -7560,6 +7696,7 @@ export function collectPaymentOrderForGiftCardFromSavedCards(
                   pspName: "Stripe",
                   token: "",
                   cardToken: "",
+                  cardCountry: "",
                   cardFingerprint: cardDetails && cardDetails.cardFingerprint,
                   cardRefNo: cardDetails && cardDetails.cardRefNo,
                   returnUrl: returnUrl
@@ -7711,6 +7848,7 @@ export function collectPaymentOrderForNetBanking(
                     pspName: "Stripe",
                     token: "",
                     cardToken: "",
+                    cardCountry: "",
                     cardFingerprint: "",
                     cardRefNo: "",
                     returnUrl: returnUrl
@@ -7757,6 +7895,14 @@ export function collectPaymentOrderForNetBanking(
       if (localStorage.getItem(PAYMENT_MODE_TYPE) === PAYPAL) {
         dispatch(
           jusPayPaymentMethodTypeForPaypal(
+            paymentMethodType,
+            resultJson.pspAuditId,
+            bankCode
+          )
+        );
+      } else if (localStorage.getItem(PAYMENT_MODE_TYPE) === "Instacred") {
+        dispatch(
+          jusPayPaymentMethodTypeForInstaCred(
             paymentMethodType,
             resultJson.pspAuditId,
             bankCode
@@ -7824,6 +7970,7 @@ export function collectPaymentOrderForGiftCardNetBanking(
                   pspName: "Stripe",
                   token: "",
                   cardToken: "",
+                  cardCountry: "",
                   cardFingerprint: "",
                   cardRefNo: "",
                   returnUrl: returnUrl
@@ -7971,6 +8118,7 @@ export function collectPaymentOrderForCliqCash(
                     pspName: "Stripe",
                     token: "",
                     cardToken: "",
+                    cardCountry: "",
                     cardFingerprint: "",
                     cardRefNo: "",
                     returnUrl: returnUrl
@@ -8174,6 +8322,115 @@ export function getCustomInstruction() {
       return dispatch(getCustomInstructionSuccess(resultJson));
     } catch (e) {
       dispatch(getCustomInstructionFailure(e.message));
+    }
+  };
+}
+export function checkDCEmiEligibiltyRequest() {
+  return {
+    type: CHECK_DC_EMI_ELIGIBILITY_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function checkDCEmiEligibiltySuccess(dCEmiEligibility) {
+  return {
+    type: CHECK_DC_EMI_ELIGIBILITY_SUCCESS,
+    status: SUCCESS,
+    dCEmiEligibility
+  };
+}
+export function checkDCEmiEligibiltyFailure(error) {
+  return {
+    type: CHECK_DC_EMI_ELIGIBILITY_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getDCEmiEligibility(isFromPDP = false) {
+  const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  let cartGuId;
+  if (cartDetails === undefined) {
+    cartGuId = "";
+  } else {
+    cartGuId = JSON.parse(cartDetails).guid;
+  }
+  let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  return async (dispatch, getState, { api }) => {
+    const customerAccessToken = await getCustomerAccessToken();
+    dispatch(checkDCEmiEligibiltyRequest());
+    try {
+      const result = await api.get(
+        `${USER_CART_PATH}/${
+          JSON.parse(userDetails).userName
+        }/payments/getDCEmiEligibility?access_token=${customerAccessToken}&cartGuid=${cartGuId}&isFromPDP=${isFromPDP}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(checkDCEmiEligibiltySuccess(resultJson));
+      return resultJson;
+    } catch (e) {
+      dispatch(checkDCEmiEligibiltyFailure(e.message));
+    }
+  };
+}
+
+export function getBankDetailsforDCEmiRequest() {
+  return {
+    type: DC_EMI_BANK_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getBankDetailsforDCEmiSuccess(dCEmiBankDetails) {
+  return {
+    type: DC_EMI_BANK_DETAILS_SUCCESS,
+    status: SUCCESS,
+    dCEmiBankDetails
+  };
+}
+
+export function getBankDetailsforDCEmiFailure(error) {
+  return {
+    type: DC_EMI_BANK_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getBankDetailsforDCEmi(price, cartGuid) {
+  let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+  let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  let cartId = cartGuid;
+  let retryCartID = localStorage.getItem(RETRY_PAYMENT_CART_ID);
+  if (!cartId) {
+    if (retryCartID) {
+      cartId = retryCartID.replace(/"/g, "");
+    } else {
+      cartId =
+        cartDetails && JSON.parse(cartDetails).guid
+          ? JSON.parse(cartDetails).guid
+          : Cookie.getCookie(OLD_CART_GU_ID);
+    }
+  }
+  return async (dispatch, getState, { api }) => {
+    dispatch(getBankDetailsforDCEmiRequest());
+    try {
+      const result = await api.get(
+        `${CART_PATH}/getBankDetailsforDCEmi?platformNumber=${PLAT_FORM_NUMBER}&productValue=${price}&access_token=${
+          JSON.parse(globalCookie).access_token
+        }&guid=${cartId}&emiConvChargeFlag=true`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getBankDetailsforDCEmiSuccess(resultJson));
+    } catch (e) {
+      dispatch(getBankDetailsforDCEmiFailure(e.message));
     }
   };
 }

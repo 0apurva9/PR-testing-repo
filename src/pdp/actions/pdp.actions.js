@@ -223,6 +223,7 @@ export const PDP_MANUFACTURER_FAILURE = "PDP_MANUFACTURER_FAILURE";
 export const PDP_RECENTLY_VIEWED_REQUEST = "PDP_RECENTLY_VIEWED_REQUEST";
 export const PDP_RECENTLY_VIEWED_SUCCESS = "PDP_RECENTLY_VIEWED_SUCCESS";
 export const PDP_RECENTLY_VIEWED_FAILURE = "PDP_RECENTLY_VIEWED_FAILURE";
+export const CLEAR_ALL_MSD_ITEMS = "CLEAR_ALL_MSD_ITEMS";
 
 export const GET_BUNDLED_PRODUCT_SUGGESTION_REQUEST =
   "GET_BUNDLED_PRODUCT_SUGGESTION_REQUEST";
@@ -270,7 +271,7 @@ export function getProductDescription(
   productCode,
   behaviorOfPage,
   isApiCall: 0,
-  componentName
+  componentName: true
 ) {
   return async (dispatch, getState, { api }) => {
     dispatch(getProductDescriptionRequest());
@@ -290,21 +291,25 @@ export function getProductDescription(
         resultJson.status === SUCCESS_UPPERCASE ||
         resultJson.status === SUCCESS_CAMEL_CASE
       ) {
+        let location = window && window.location && window.location.pathname;
         let urlLength = window.location.pathname.split("/");
         if (
           resultJson.seo &&
           resultJson.seo.alternateURL &&
-          urlLength.length === 2
+          urlLength.length === 2 &&
+          !(urlLength.includes("my-account") || urlLength.includes("checkout"))
         ) {
           window.location.pathname = resultJson.seo.alternateURL;
         }
-        setDataLayer(
-          ADOBE_PDP_TYPE,
-          resultJson,
-          null,
-          null,
-          behaviorOfPageTheCurrent
-        );
+        if (componentName) {
+          setDataLayer(
+            ADOBE_PDP_TYPE,
+            resultJson,
+            null,
+            null,
+            behaviorOfPageTheCurrent
+          );
+        }
         return dispatch(getProductDescriptionSuccess(resultJson));
       } else {
         if (resultJson.status === 404 && isApiCall === 0) {
@@ -1239,6 +1244,11 @@ export function getMsdRequest(
     }
   };
 }
+export function clearAllMsdItems() {
+  return {
+    type: CLEAR_ALL_MSD_ITEMS
+  };
+}
 export function productMsdRecentlyViewedRequest() {
   return {
     type: PDP_RECENTLY_VIEWED_REQUEST,
@@ -1307,7 +1317,7 @@ export function getRecentlyViewedProduct(productCode) {
           removedDuplicate &&
           removedDuplicate.map(id =>
             api.getMiddlewareUrl(
-              `${PRODUCT_DESCRIPTION_PATH}/${id}?isPwa=true&isMDE=true`
+              `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
             )
           );
         //seprating each requests call
@@ -1319,8 +1329,13 @@ export function getRecentlyViewedProduct(productCode) {
               // if (res && res.results && res.results.length && res.results[0]) {
               //   productList.push(res.results[0]);
               // }
-              if (res && res.status === "SUCCESS") {
-                productList.push(res);
+              if (
+                res &&
+                res.status === "Success" &&
+                res.results &&
+                res.results[0]
+              ) {
+                productList.push(res.results[0]);
               }
             })
           );
@@ -1445,7 +1460,7 @@ export function getPdpItems(itemIds, widgetKey) {
         productCodes &&
         productCodes.map(id =>
           api.getMiddlewareUrl(
-            `${PRODUCT_DESCRIPTION_PATH}/${id}?isPwa=true&isMDE=true`
+            `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
           )
         );
       // seperating individual calls
@@ -1459,8 +1474,13 @@ export function getPdpItems(itemIds, widgetKey) {
             //   throw new Error(resultJsonStatus.message);
             // }
             //changes done for handling error if product is not available
-            if (res && res.status === "SUCCESS") {
-              productList.push(res);
+            if (
+              res &&
+              res.status === "Success" &&
+              res.results &&
+              res.results[0]
+            ) {
+              productList.push(res.results[0]);
             }
           })
         );

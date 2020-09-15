@@ -61,9 +61,12 @@ import {
   NO,
   SELECTED_STORE
 } from "../../lib/constants.js";
-import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 import {
   tempCartIdForLoggedInUser,
+  getDCEmiEligibility
+} from "../../cart/actions/cart.actions";
+import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
+import {
   getCartDetails,
   addStoreCNC,
   addPickupPersonCNC,
@@ -80,7 +83,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getProductDescription: async productCode => {
       const productDetailsResponse = await dispatch(
-        getProductDescription(productCode)
+        getProductDescription(productCode, null, null, true)
       );
       if (productDetailsResponse && productDetailsResponse.status === SUCCESS) {
         const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);

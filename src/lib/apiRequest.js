@@ -527,7 +527,7 @@ async function handleInvalidCustomerAccessToken(message, oldUrl) {
   return newUrl;
 }
 
-async function logoutUserOnInvalidRefreshToken() {
+export async function logoutUserOnInvalidRefreshToken() {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
   try {
@@ -641,7 +641,7 @@ async function replaceOldCartCookieForAnonymnous(url, newCustomerCookie) {
   return url.replace(oldCustomerCookie.guid, newCustomerCookie.guid);
 }
 
-async function refreshCustomerAccessToken() {
+export async function refreshCustomerAccessToken() {
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   if (!JSON.parse(customerCookie).refresh_token) {
     throw new Error("No refresh token for expired customer access token");

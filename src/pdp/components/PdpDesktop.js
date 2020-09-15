@@ -1249,6 +1249,7 @@ export default class PdpApparel extends React.Component {
                   details={productData.details}
                   showSimilarProducts={this.props.showSimilarProducts}
                   category={productData.rootCategory}
+                  productData={productData}
                 />
                 {productData.winningSellerPrice && (
                   <PdpFlags
@@ -1260,6 +1261,7 @@ export default class PdpApparel extends React.Component {
                     newProduct={productData.isProductNew}
                     showExchangeTag={productData.showExchangeTag}
                     exchangeOfferAvailable={productData.exchangeOfferAvailable}
+                    dCEmiEligibiltyDetails={this.props.dCEmiEligibiltyDetails}
                   />
                 )}
                 {!productData.winningSellerPrice && (

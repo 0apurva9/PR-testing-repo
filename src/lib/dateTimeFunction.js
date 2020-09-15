@@ -170,9 +170,64 @@ export const getWholeDayTimeFormat = (date, timeDetails) => {
   if (timeDetails) {
     timeString = getTimeAmPm(timeDetails);
   }
-  return dateString + " " + timeString;
+  return dateString + ", " + timeString;
 };
 
+export const oridinalNumberDateFormat = date => {
+  const dateSplit = date.split(" ");
+  let oridinalNumber = "";
+  if (dateSplit[0] == 1 || dateSplit[0] == 21 || dateSplit[0] == 31) {
+    oridinalNumber = "st";
+  } else if (dateSplit[0] == 2 || dateSplit[0] == 22) {
+    oridinalNumber = "nd";
+  } else if (dateSplit[0] == 3 || dateSplit[0] == 23) {
+    oridinalNumber = "rd";
+  } else {
+    oridinalNumber = "th";
+  }
+  return `${dateSplit[0]}${oridinalNumber} ${dateSplit[1]} ${dateSplit[2]} ${
+    dateSplit[3]
+  }`;
+};
+
+//Number with thousand seperated value.
+export const numberWithCommas = x =>
+  x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+var a = [
+  "",
+  "one ",
+  "two ",
+  "three ",
+  "four ",
+  "five ",
+  "six ",
+  "seven ",
+  "eight ",
+  "nine ",
+  "ten ",
+  "eleven ",
+  "twelve ",
+  "thirteen ",
+  "fourteen ",
+  "fifteen ",
+  "sixteen ",
+  "seventeen ",
+  "eighteen ",
+  "nineteen "
+];
+var b = [
+  "",
+  "",
+  "twenty",
+  "thirty",
+  "forty",
+  "fifty",
+  "sixty",
+  "seventy",
+  "eighty",
+  "ninety"
+];
 export function getDateMonthFormate(dateWithMonth, hideDelay) {
   let date = dateWithMonth.getDate();
   let month = dateWithMonth.getMonth() + 1;
@@ -226,3 +281,35 @@ export function getDayNumberSuffix(d, hideDelay) {
     return getDateMonthFormate(dateWithMonth, hideDelay);
   } else return "";
 }
+
+export const digitIntoWord = num => {
+  if ((num = num.toString()).length > 9) return "overflow";
+  let n = ("000000000" + num)
+    .substr(-9)
+    .match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+  if (!n) return;
+  var str = "";
+  str +=
+    n[1] != 0
+      ? (a[Number(n[1])] || b[n[1][0]] + " " + a[n[1][1]]) + "crore "
+      : "";
+  str +=
+    n[2] != 0
+      ? (a[Number(n[2])] || b[n[2][0]] + " " + a[n[2][1]]) + "lakh "
+      : "";
+  str +=
+    n[3] != 0
+      ? (a[Number(n[3])] || b[n[3][0]] + " " + a[n[3][1]]) + "thousand "
+      : "";
+  str +=
+    n[4] != 0
+      ? (a[Number(n[4])] || b[n[4][0]] + " " + a[n[4][1]]) + "hundred "
+      : "";
+  str +=
+    n[5] != 0
+      ? (str != "" ? "and " : "") +
+        (a[Number(n[5])] || b[n[5][0]] + " " + a[n[5][1]]) +
+        "only "
+      : "";
+  return str;
+};
