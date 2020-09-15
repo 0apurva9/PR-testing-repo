@@ -358,7 +358,7 @@ export function getHowToWear(category_id) {
     try {
       const url = `/v2/mpl/cms/defaultpage?pageId=HTW-${category_id}`;
       const result = await api.get(url);
-      let resultJson = await result.json();
+      const resultJson = await result.json();
 
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
