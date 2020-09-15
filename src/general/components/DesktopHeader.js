@@ -7,6 +7,7 @@ import {
   MY_ACCOUNT_PAGE,
   MY_ACCOUNT_CLIQ_CASH_PAGE,
   HELP_URL,
+  // COSTUMER_ORDER_RELATED_QUERY_ROUTE
   RUPEE_SYMBOL,
   COSTUMER_CLIQ_CARE_ROUTE
 } from "../../../src/lib/constants";
@@ -24,9 +25,11 @@ import {
   SET_DATA_LAYER_CC
 } from "../../lib/adobeUtils";
 import { isBrowser } from "browser-or-node";
+// import ProductImage from "./ProductImage.js";
 import Minibag from "./minibag.js";
 const CATEGORY = "Categories";
 const BRANDS = "Brands";
+// const NO_SIZE = "NO SIZE";
 
 export default class DesktopHeader extends React.Component {
   constructor(props) {

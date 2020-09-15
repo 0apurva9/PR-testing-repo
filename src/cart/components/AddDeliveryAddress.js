@@ -98,12 +98,6 @@ export default class AddDeliveryAddress extends React.Component {
     }
   }
 
-  componentDidMount() {
-    if (this.props.getUserDetails) {
-      this.props.getUserDetails();
-    }
-  }
-
   getPinCodeDetails = val => {
     let landmarkList = [];
     if (val === "" || /^[0-9]+$/.test(val)) {
@@ -438,8 +432,8 @@ export default class AddDeliveryAddress extends React.Component {
               !this.props.label
                 ? styles.onlyLeft
                 : this.props.isReturn
-                  ? styles.forReturn
-                  : styles.base
+                ? styles.forReturn
+                : styles.base
             }
           >
             <div className={styles.pageCenter}>

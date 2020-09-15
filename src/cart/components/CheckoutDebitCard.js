@@ -61,6 +61,7 @@ export default class CheckoutDebitCard extends React.Component {
             this.props.cart.binValidationDetails &&
             this.props.cart.binValidationDetails.errorMsg
           }
+          whatsappSelected={this.props.whatsappSelected}
         />
       </ManueDetails>
     );

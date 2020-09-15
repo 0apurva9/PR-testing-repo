@@ -124,3 +124,12 @@
   font-size: 12px;
   color: red;
 }
+.maskedNumber {
+  background: #fbe8ee;
+  padding: 2%;
+  border-radius: 9px;
+  margin-bottom: 13px;
+  font-size: 14px;
+  font-family: regular;
+  color: #212121;
+}

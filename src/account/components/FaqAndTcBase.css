@@ -71,3 +71,19 @@
   background-position: center;
   margin: 64px 0px 14px 0px;
 }
+.pleaseNoteContainer {
+  margin-bottom: 15%;
+  letter-spacing: 0;
+  font-size: 17.5px;
+}
+.pleaseNote {
+  color: #212121;
+  margin-bottom: 3%;
+}
+.pleaseNoteBody {
+  color: #4a4a4a;
+  font-family: light;
+}
+.marginBottom {
+  margin-bottom: 12px;
+}

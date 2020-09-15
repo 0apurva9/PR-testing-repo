@@ -14,9 +14,15 @@ export default class ProductImageHeader extends React.Component {
     if (this.props.description) {
       className = styles.hasDescription;
     }
+    let classNameForBanner;
+    if (this.props.height) {
+      classNameForBanner = styles.contentBanner;
+    } else {
+      classNameForBanner = styles.content;
+    }
     return (
       <div className={className} onClick={this.onClick}>
-        <div className={styles.content}>
+        <div className={classNameForBanner}>
           <Image image={this.props.image} />
           <MediaQuery query="(max-device-width:1024px)">
             {this.props.logo && (

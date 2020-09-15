@@ -133,6 +133,7 @@ export default class CheckoutUpi extends React.Component {
             displayToast={message => this.props.displayToast(message)}
             combinedLogoUrl={combinedLogoUrl}
             howUpiWorksPageId={howUpiWorksPageId}
+            whatsappSelected={this.props.whatsappSelected}
           />
         </MenuDetails>
       );
