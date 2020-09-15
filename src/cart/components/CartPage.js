@@ -1203,6 +1203,9 @@ class CartPage extends React.Component {
                               ? true
                               : false
                           }
+                          shippingPromoMessage={
+                            cartDetails.shippingPromoMessage
+                          }
                         />
                       </div>
                     )}
@@ -1211,9 +1214,7 @@ class CartPage extends React.Component {
                     this.props.wishListCount > 0 && (
                       <div className={styles.wishListCountSection}>
                         <div className={styles.iconWishList} />
-                        <span>{`You have ${
-                          this.props.wishListCount
-                        } items in your saved list`}</span>
+                        <span>{`You have ${this.props.wishListCount} items in your saved list`}</span>
                         <div className={styles.buttonHolder}>
                           <UnderLinedButton
                             size="14px"
