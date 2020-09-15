@@ -1,24 +1,11 @@
 /*** Modal Popup ****/
-.modal-content {
-  position: absolute;
-  width: 440px;
-  padding: 28px;
-  height: auto;
-  min-height: 300px;
-  max-height: 600px;
-  border-radius: 4px;
-  top: 20%;
-  left: 50%;
-  margin: 0 0 0 -200px;
-  background-color: #ffffff;
-  z-index: 999;
-}
 
 .modal-inner-content {
   width: 100%;
   min-height: 300px;
   max-height: 500px;
   overflow-y: auto;
+  padding-right: 18px;
 }
 
 .modal-heading {
@@ -78,6 +65,7 @@
   font-weight: 500;
   font-size: 14px;
   width: 100px;
+  display: inline-block;
 }
 
 .modal-valid-till {
@@ -92,5 +80,6 @@
   font-weight: 400;
   font-size: 14px;
   width: 100px;
+  display: inline-block;
 }
 /*** Modal Popup End****/
