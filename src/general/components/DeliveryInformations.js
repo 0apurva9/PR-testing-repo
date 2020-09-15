@@ -239,6 +239,13 @@ export default class DeliveryInformations extends React.Component {
     }
 
     let deliveryCharge = "";
+    if (
+      this.props.isShippingObjAvailable &&
+      this.props.deliveryCharge === 0 &&
+      this.props.showDeliveryCharge
+    ) {
+      deliveryCharge = "Free";
+    }
     if (this.props.deliveryCharge && this.props.type !== SHORT_COLLECT) {
       if (this.props.showDeliveryCharge) {
         deliveryCharge = "Free";
@@ -278,17 +285,17 @@ export default class DeliveryInformations extends React.Component {
             inPdpPage={this.props.pdpApparel}
             type={this.props.type}
             inCartPage={this.props.inCartPage}
+            isShippingObjAvailable={this.props.isShippingObjAvailable}
           >
             {this.props.cutOffTime && (
               <CountDownTimer cutOffSeconds={this.props.cutOffTime} />
             )}
 
-            {this.props.available &&
-              this.props.placedTimeForCod && (
-                <div className={styles.placeTime}>
-                  {this.props.placedTimeForCod}
-                </div>
-              )}
+            {this.props.available && this.props.placedTimeForCod && (
+              <div className={styles.placeTime}>
+                {this.props.placedTimeForCod}
+              </div>
+            )}
 
             {this.props.deliverText && (
               <div className={styles.placeTime}>
@@ -305,12 +312,11 @@ export default class DeliveryInformations extends React.Component {
               this.props.isShowCliqAndPiqUnderLineText &&
               this.props.available && (
                 <div className={styles.underLineButtonHolder}>
-                  {storeDetails &&
-                    storeDetails.address && (
-                      <div className={cncDeliveryAddressClass}>
-                        {storeDetails.address}
-                      </div>
-                    )}
+                  {storeDetails && storeDetails.address && (
+                    <div className={cncDeliveryAddressClass}>
+                      {storeDetails.address}
+                    </div>
+                  )}
                   <span className={styles.buttonHolderPiq}>
                     <UnderLinedButton
                       inCheckOutPage={this.props.inCheckOutPage}
@@ -349,9 +355,9 @@ export default class DeliveryInformations extends React.Component {
               </div>
             )
           ) : this.props.onSelect &&
-          this.props.isClickable &&
-          this.props.inCartPage ? null : this.props.onSelect &&
-          !this.props.inCartPage ? (
+            this.props.isClickable &&
+            this.props.inCartPage ? null : this.props.onSelect &&
+            !this.props.inCartPage ? (
             <div
               className={[
                 styles.checkboxHolder,
@@ -369,15 +375,14 @@ export default class DeliveryInformations extends React.Component {
             </div>
           ) : null}
 
-          {this.props.arrowClick &&
-            this.props.type === COLLECT && (
-              <div
-                className={styles.arrowHolder}
-                onClick={() => this.arrowClick()}
-              >
-                <Icon image={arrowIcon} size={20} />
-              </div>
-            )}
+          {this.props.arrowClick && this.props.type === COLLECT && (
+            <div
+              className={styles.arrowHolder}
+              onClick={() => this.arrowClick()}
+            >
+              <Icon image={arrowIcon} size={20} />
+            </div>
+          )}
           {this.props.showCliqAndPiqButton &&
             this.props.isClickable &&
             !this.props.selected &&
@@ -408,7 +413,8 @@ DeliveryInformations.propTypes = {
   isArrowIcon: PropTypes.bool,
   isCartForMargin: PropTypes.bool,
   inCartPage: PropTypes.bool,
-  inCartPageIcon: PropTypes.bool
+  inCartPageIcon: PropTypes.bool,
+  isShippingObjAvailable: PropTypes.bool
 };
 
 DeliveryInformations.defaultProps = {
@@ -419,5 +425,6 @@ DeliveryInformations.defaultProps = {
   deliveryInformationByCart: false,
   isCartForMargin: false,
   inCartPage: false,
-  inCartPageIcon: false
+  inCartPageIcon: false,
+  isShippingObjAvailable: false
 };

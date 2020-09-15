@@ -28,6 +28,73 @@
     padding: 24px;
     margin-bottom: 18px;
   }
+  .cliqCashDetailWithHolderCheckBal {
+    width: 100%;
+    height: 282px;
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 18px;
+    background: url(../../account/components/img/cliqCashBg.svg) no-repeat;
+    background-size: cover;
+  }
+  .cliqGiftCardWithHolderCheckBal {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 18px;
+    background: url(../../account/components/img/cliqGiftCardBg.svg) no-repeat;
+    background-size: cover;
+  }
+
+  .heading {
+    padding: 0px;
+    font-family: semibold;
+  }
+  .checkBalLeftText {
+    font-size: 18px;
+    color: #212121;
+  }
+  .cliqGiftCardHeaderText {
+    font-size: 24px;
+    color: #da1c5c;
+  }
+  .cliqGiftCardSubHeader {
+    font-family: regular;
+    font-size: 16px;
+    margin-top: 1.5%;
+  }
+  .checkBalRightText{
+    font-size: 14px;
+    float: right;
+  }
+  .checkBalRightTextLink {
+    color:#da1c5c;
+  }
+  .cardImage {
+    margin: 0 auto;
+    margin-top: 7%;
+  }
+  .cliqGiftCardImage {
+    margin: 0 auto;
+    margin-top: 7%;
+    margin-bottom: 25px;
+  }
+  .cardImageImg {
+    height: 170px;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    border-radius: 6px;
+  }
+  .cliqGiftCardImageImg {
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
   .faqAndTcHolder {
     width: 100%;
     height: auto;
@@ -45,61 +112,83 @@
     border-radius: 4px;
     user-select: none;
   }
-  .cliqCashBalanceHolder {
+   .cliqCashBalanceHolder {
     width: 100%;
     height: auto;
-    background: linear-gradient(#ce5096, #da6060);
-    padding: 10px;
-    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.05);
-    margin-bottom: 20px;
-  }
-  .cliqCashBalanceContainer {
+    margin-bottom: 18px;
+    }
+ .cliqCashBalanceContainer {
     width: 100%;
     height: auto;
-    background: #ffffff;
-    min-height: 60px;
-    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 10px;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: cover;
+    border-radius: 6px;
   }
   .cliqCashBalanceHeader {
     width: 100%;
     height: auto;
-    font-family: semibold;
+    font-family: regular;
     font-size: 16px;
     color: #212121;
+    margin: 0 0 18px;
   }
   .totalBalanceHolder {
-    width: 100%;
-    height: auto;
-    padding-top: 18px;
-    display: inline-block;
+    margin: 0 0 18px;
   }
-  .totalBalance {
+   .totalBalance {
     width: 50%;
     height: auto;
-    border-right: 1px solid #ececec;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
     display: inline-block;
     vertical-align: top;
   }
-  .balanceHeader {
+   .balanceHeader {
     width: 100%;
     height: auto;
     font-size: 14px;
-    font-family: regular;
+    font-family: light;
     color: #212121;
-    padding-bottom: 12px;
+    margin: 0 0 9px;
   }
   .balance {
     width: 100%;
     height: auto;
-    font-size: 30px;
-    font-family: regular;
+    font-size: 24px;
+    font-family: semibold;
+    word-break: break-word;
+  }
+  .floatingNumber {
+    font-size: 15px;
+    color: #212121;
+    font-family: light;
   }
   .infoBase {
     width: 50%;
     height: auto;
     display: inline-block;
+    text-align: center;
   }
   .info {
+    width: 100%;
+    height: auto;
+    font-size: 10px;
+    line-height: 14px;
+    color: #212121;
+    font-family: regular;
+    vertical-align: top;
+    display: inline-block;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .infoBaseKnowMore {
+    width: 50%;
+    height: auto;
+    display: inline-block;
+  }
+  .infoKnowMore {
     width: 90%;
     height: auto;
     font-size: 14px;
@@ -109,6 +198,12 @@
     vertical-align: middle;
     display: inline-block;
   }
+  .btnCenter{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .spacing {
     width: 10%;
     height: auto;
@@ -117,7 +212,6 @@
   .rupee {
     font-family: semibold;
     font-size: 12px;
-    letter-spacing: 2px;
   }
   .knowMore {
     font-family: semibold;
@@ -140,8 +234,8 @@
   .aboutCliqCashHeaderText {
     width: 100%;
     height: auto;
-    font-size: 16px;
-    font-family: semibold;
+    font-size: 18px;
+    font-family: regular;
   }
   .aboutCliqCash {
     width: 100%;
@@ -159,7 +253,7 @@
   .aboutCliqCashIconAndText::after {
     content: "";
     position: absolute;
-    border-left: 1px dashed #8d8d8d;
+    border-left: 2px dotted #f2f2f2;
     height: 48px;
     top: 6px;
     right: 0px;
@@ -239,7 +333,6 @@
     height: auto;
   }
   .giftCardHeading {
-    width: 100%;
     height: auto;
     font-size: 16px;
     font-family: semibold;
@@ -250,6 +343,7 @@
     height: auto;
     display: inline-block;
     padding: 24px 0px;
+    border-bottom: 2px dotted #f2f2f2;
   }
 
   .addGiftCardIconHolder {
@@ -261,7 +355,7 @@
   .addGiftCardIcon {
     width: 70px;
     height: 34px;
-    background: url(../../general/components/img/add_giftcard.svg) no-repeat;
+    background: url(../../account/components/img/giftcardAddAccount.svg) no-repeat;
     background-size: cover;
     background-position: center;
   }
@@ -272,14 +366,14 @@
     height: auto;
     vertical-align: middle;
   }
-  .addGiftCard::after {
+  /* .addGiftCard::after {
     content: "";
     position: absolute;
     border-bottom: 1px dotted #8d8d8d;
     width: 100%;
     top: 56px;
     left: 0;
-  }
+  } */
   .addGiftCardHeaderAndSubHeading {
     width: 74%;
     height: auto;
@@ -315,7 +409,21 @@
     background-color: transparent;
     border: 1px solid #ff1744;
   }
+  .addGiftCardButtonCliq {
+    height: 32px;
+    width: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    background-color: transparent;
+    border: 1px solid #4a4a4a;
+  }
   .addGiftCardButtonText {
+    font-size: 14px;
+    color: #da1c5c;
+  }
+  .addGiftCardButtonTextCliq {
     font-size: 14px;
     color: #4a4a4a;
   }
@@ -379,7 +487,7 @@
     align-items: center;
     border-radius: 16px;
     background-color: transparent;
-    border: 1px solid #ff1744;
+    border: 1px solid #4a4a4a;
   }
   .buyGiftCardButtonText {
     font-size: 14px;
@@ -400,9 +508,9 @@
   .cliqCashTransactionHeading {
     width: 100%;
     height: auto;
-    font-size: 16px;
-    font-family: semibold;
-    color: #000000;
+    font-size: 18px;
+    font-family: regular;
+    color: #212121;
   }
   .cliqCashTransactionDetailsBase {
     width: 100%;
@@ -484,4 +592,348 @@
   .cliqCashBalanceHolder {
     border-bottom: 1px solid #ececec;
   }
+}
+
+.promoBase{
+  width: 100%;
+  height: 180px;
+  position: relative;
+  cursor: pointer;
+}
+
+.giftCardPromoContainer{
+
+    background-image: url(./img/redirect_promos_desktop.svg);
+    background-repeat: no-repeat;
+    height: 88%;
+    max-width: 900px;
+    background-size: cover;
+    cursor: pointer;
+}
+
+.promoCliqCashText{
+  padding-top: 8%;
+  text-align: center;
+  font-family: semibold;
+}
+.promoCliqCashText :first-child{
+  font-size: 27px;
+  margin-bottom: 1%;
+}
+.viewRewards{
+  color: #da1c5c;
+  font-size:18px ;
+}
+
+.flexJustify {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #d8d8d8;
+}
+.buttonSimple {
+  color: #da1c5c;
+  font-size: 12px;
+  font-family: semibold;
+  background: transparent;
+  border: transparent;
+  padding: 0px;
+  cursor: pointer;
+}
+/**
+* Popular
+*/
+
+.popularCardBox {
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 24px;
+  margin-bottom: 18px;
+}
+
+.popularHeading {
+  font-size: 18px;
+  color: #212121;
+  font-family: semibold;
+  padding-top: 10px;
+}
+.popularContent {
+  font-size: 14px;
+  color: #212121;
+  font-family: light;
+  padding-top: 10px;
+  line-height: 17px;
+}
+
+.popularCardPriceBox {
+  padding: 30px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.popularCardPrice {
+  width: 140px;
+  color: #be1a51;
+  font-size: 20px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-family: semibold;
+  position: relative;
+  border: 1px solid #d8d8d8;
+}
+
+.popularCardPrice:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  margin: -1px;
+  border-radius: inherit;
+  background: linear-gradient(to top right, #ffffff, #ffeff3);
+}
+
+.popularCardPriceSymbol {
+  font-size: 16px;
+
+}
+
+.popularCardButton {
+  width: 50%;
+  margin: auto;
+  cursor: pointer;
+}
+
+/**
+* Received GV section
+*/
+.receivedGiftCardBox {
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 24px;
+  margin-bottom: 18px;
+}
+
+.receivedGiftCardHeading {
+  font-size: 16px;
+  color: #212121;
+  font-family: semibold;
+  padding-bottom: 20px;
+}
+.receivedGiftLink{
+  border-top: 1px solid #d8d8d8;
+}
+.receivedGiftCardbtn {
+  outline: none;
+  display: flex;
+  font-size: 14px;
+  background: #ffffff;
+  padding: 13px 0px 15px 0px;
+  font-weight: 500;
+  color: #1c1a17;
+  margin: 0px 10px 0px 10px;
+  text-decoration: none;
+  align-items: center;
+  justify-content:space-between;
+}
+.receivedGiftCardbtn:first-child{
+  border-bottom: 2px dotted #f2f2f2;
+}
+.receivedGiftCardbtnHead {
+  font-size: 14px;
+  margin: 0 0 5px;
+  display: block;
+  font-family: regular;
+  color: #212121;
+}
+
+.receivedGiftCardbtnTit {
+  font-size: 12px;
+  margin: 0;
+  display: block;
+  font-family: light;
+  color: #4a4a4a;
+}
+
+.receivedGiftCardred {
+  border: 0 solid #da1c5c;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 6px;
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+.receivedGiftCardDiv1 {
+  width: 14%;
+}
+.receivedGiftCardDiv2 {
+  width: 58%;
+}
+.receivedGiftCardBtnFloatRight {
+  float: right;
+  height: 36px;
+  width: 134px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 18px;
+  background-color: transparent;
+  border: 1px solid #da1c5c;
+}
+
+.arrowDiv{
+  position: absolute;
+    right: 20px;
+    top: 60px;
+  }
+  .arrow{
+    width:36px;
+  }
+
+/**
+* Giftcard purchase
+*/
+.popularCardPricePurchase {
+  width: 124px;
+  color: #be1a51;
+  font-size: 16px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  font-family: semibold;
+  position: relative;
+  border: 1px solid #d8d8d8;
+}
+.selectedCardPricePurchase {
+  width: 124px;
+  color: #ffffff;
+  background-color: #da1c5c;
+  font-size: 16px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  font-family: semibold;
+  position: relative;
+  border: 1px solid #d8d8d8;
+}
+.cliqCardPurchaseButton {
+  width: 309px;
+}
+/* .cliqGiftCardPdp {
+  border-bottom: 1px solid #d8d8d8;
+  font-size: 12px;
+  padding-bottom: 5px;
+}
+.cliqGiftCardPdp :first-child {
+  margin-right: 10px;
+}
+.cliqGiftCardPdp :last-child {
+  margin-left: 10px;
+} */
+/* .activeTab {
+  color: #212121;
+  font-family: semibold;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #f2f2f2;
+} */
+/* .buyForYourself {
+  font-size: 16px;
+  margin-top: 23px;
+} */
+/* .buyForYourselfsubHeading {
+  font-size: 16px;
+  font-family: semibold;
+} */
+/* .buyGiftCardEmailField{
+  padding-bottom: 10px;
+  padding-top: 20px;
+  width:300px;
+} */
+ .crossSign {
+  position: relative;
+  float: right;
+  right: 9px;
+  width: auto;
+  top: -21px;
+}
+.inputError {
+  font-size: 10px;
+  color: #d88600;
+  padding-top: 10px;
+  font-family: light;
+}
+/*
+.changeNameDiv {
+  margin-top: 10px;
+} */
+/* .changeNameSpan {
+  font-size: 12px;
+  color: #212121;
+  font-family: regular;
+}
+.changeNameFrom {
+  font-size: 11px;
+  color: #8d8d8d;
+  font-family: regular;
+}
+.changeLink {
+  font-size: 11px;
+  color: #da1c5c;
+  font-family: semibold;
+}
+
+.tabSeparator {
+  color: #8d8d8d;
+} */
+
+.sendGiftCardBtn {
+  padding-left: 25%;
+  margin-top: 3%;
+}
+.buySendPriceSymbol {
+  position: relative;
+  top: 31px;
+  color: #8d8d8d;
+}
+.topupInputError{
+  font-size: 10px;
+  color: #d88600;
+  padding-top: 10px;
+  text-align: left;
+}
+
+
+.availableTop{
+ display: inline-block;
+ color: #4a4a4a;
+ font-weight: 100;
+ font-size: 15px;
+}
+.balanceTopUp{
+  display: inline;
+    font-size: 15px;
+    font-family: semibold;
+    word-break: break-word;
+    display: inline;
+}
+.rupeeTopUp{
+  font-family: semibold;
+    font-size: 15px;
 }

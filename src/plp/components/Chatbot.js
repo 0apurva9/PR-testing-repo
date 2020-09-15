@@ -139,7 +139,7 @@ export default class Chatbot extends React.Component {
       this.props.addToCartResponseDetails !==
         nextProps.addToCartResponseDetails &&
       nextProps.addToCartResponseDetails.status &&
-        nextProps.addToCartResponseDetails.status.toLowerCase() === SUCCESS
+      nextProps.addToCartResponseDetails.status.toLowerCase() === SUCCESS
     ) {
       this.props.displayToast(ADD_TO_BAG_TEXT);
       this.submitHaptikEvent("", SUCCESS, this.state.productIdProvidedHaptik);
@@ -495,10 +495,16 @@ export default class Chatbot extends React.Component {
             return category["category_id"];
           });
 
-        let eligiblePDPData = pdpData.find(value => {
-          return categoryIds.includes(value.categoryCode);
-        });
-        if (eligiblePDPData && typeof eligiblePDPData !== undefined) {
+        let eligiblePDPData =
+          categoryIds &&
+          pdpData.find(value => {
+            return categoryIds.includes(value.categoryCode);
+          });
+        if (
+          eligiblePDPData &&
+          typeof eligiblePDPData !== undefined &&
+          categoryIds
+        ) {
           let categoryAvailable = categoryIds.includes(
             eligiblePDPData.categoryCode
           );

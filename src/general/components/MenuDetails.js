@@ -12,7 +12,8 @@ import {
   EASY_MONTHLY_INSTALLMENTS,
   NET_BANKING_PAYMENT_MODE,
   CART_DETAILS_FOR_LOGGED_IN_USER,
-  UPI
+  UPI,
+  EMI
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 
@@ -60,6 +61,13 @@ export default class MenuDetails extends React.Component {
       ) {
         this.openMenu();
       }
+    }
+  };
+  checkEMI = () => {
+    if (!this.props.isOpen && this.props.displayToast) {
+      this.props.displayToast(
+        "One or more products are not eligible for EMI, please use another payment method to make your purchase."
+      );
     }
   };
   openMenu() {
@@ -115,7 +123,11 @@ export default class MenuDetails extends React.Component {
         <div
           className={styles.holder}
           onClick={() =>
-            this.props.text === UPI ? this.checkupi() : this.openMenu()
+            this.props.text === UPI
+              ? this.checkupi()
+              : this.props.text === EMI && this.props.isJewelleryProduct
+              ? this.checkEMI()
+              : this.openMenu()
           }
         >
           <div className={styles.debitCardIcon}>
@@ -123,16 +135,15 @@ export default class MenuDetails extends React.Component {
           </div>
           <div className={styles.textBox}>
             {this.props.text === UPI ? "UPI ID" : this.props.text}
-            {this.props.secondIcon &&
-              !this.state.isOpen && (
-                <div className={styles.secondIcon}>
-                  <Icon
-                    image={this.props.secondIcon}
-                    size={37}
-                    backgroundSize={`100%`}
-                  />
-                </div>
-              )}
+            {this.props.secondIcon && !this.state.isOpen && (
+              <div className={styles.secondIcon}>
+                <Icon
+                  image={this.props.secondIcon}
+                  size={37}
+                  backgroundSize={`100%`}
+                />
+              </div>
+            )}
             <div className={iconActive} />
           </div>
         </div>
@@ -150,5 +161,6 @@ MenuDetails.propTypes = {
 
 MenuDetails.defaultProps = {
   icon: couponIcon,
-  isNoBorderTop: false
+  isNoBorderTop: false,
+  isJewelleryProduct: false
 };
