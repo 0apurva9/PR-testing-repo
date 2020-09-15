@@ -12,6 +12,7 @@ import Button from "../../general/components/Button.js";
 import { withRouter } from "react-router-dom";
 import Observer from "@researchgate/react-intersection-observer";
 import CommonCenter from "../../general/components/CommonCenter";
+import ImageFlexible from "../../general/components/ImageFlexible";
 import {
   ABOUT_THE_BRAND_WIDGET_KEY,
   SIMILAR_PRODUCTS_WIDGET_KEY
@@ -84,16 +85,28 @@ class AutomatedWidgetsForHome extends React.Component {
       </div>
     );
   }
+  getProductTitle(WidgetTitle, imageUrl) {
+    //let imageURL = "https://assets.tatacliq.com/medias/sys_master/images/27773874831390.jpg";
+    if (imageUrl) {
+      return <ImageFlexible image={imageUrl} />;
+    } else if (WidgetTitle) {
+      return <div className={styles.heading}>{WidgetTitle}</div>;
+    }
+  }
 
   renderProductModuleSection(key) {
     let WidgetTitle =
       this.props.feedComponentData &&
       this.props.feedComponentData.items[0] &&
       this.props.feedComponentData.items[0].title;
-    if (key) {
+    let imageProductUrl =
+      this.props.feedComponentData &&
+      this.props.feedComponentData.items[0] &&
+      this.props.feedComponentData.items[0].imageURL;
+    if (key || WidgetTitle || imageProductUrl) {
       return (
         <div className={styles.brandSection}>
-          {WidgetTitle && <div className={styles.heading}>{WidgetTitle}</div>}
+          {this.getProductTitle(WidgetTitle, imageProductUrl)}
           {key && this.renderCarousel(key)}
         </div>
       );
