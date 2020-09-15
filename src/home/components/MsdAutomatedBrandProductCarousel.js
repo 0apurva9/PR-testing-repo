@@ -21,12 +21,37 @@ export default class PreAutomatedBrandProductCarousel extends React.Component {
     // each(value.itemIds, itemId => {
     //   productCodes = `${itemId},${productCodes}`;
     // });
-    let productCodes = value.itemIds && value.itemIds.toString();
-    const url = `${apiUrl}/marketplacewebservices/v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
-    return fetch(url)
-      .then(response => response.json())
-      .then(function(response) {
-        return response;
+    // let productCodes = value.itemIds && value.itemIds.toString();
+    // const url = `${apiUrl}/marketplacewebservices/v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
+    // return fetch(url)
+    //   .then(response => response.json())
+    //   .then(function(response) {
+    //     return response;
+    //   });
+    let requests =
+      value.itemIds &&
+      value.itemIds.map(id => {
+        return fetch(
+          `${apiUrl}/marketplacewebservices/v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+        );
+      });
+
+    return Promise.all(requests)
+      .then(response =>
+        Promise.all(
+          response.map(r => {
+            return r.json();
+          })
+        )
+      )
+      .then(res => {
+        let list = [];
+        res.forEach(item => {
+          if (item && item.status !== "FAILURE") {
+            list.push(item.results[0]);
+          }
+        });
+        return { results: list };
       });
   }
 
@@ -61,7 +86,8 @@ export default class PreAutomatedBrandProductCarousel extends React.Component {
           />
         );
       });
+    } else {
+      return null;
     }
-    return false;
   }
 }

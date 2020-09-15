@@ -325,6 +325,23 @@ export default class CartItemForDesktop extends React.Component {
                   )}
                 </div>
               )}
+              {this.props.product &&
+                this.props.product.price &&
+                this.props.offerPrice &&
+                this.props.product.price !== this.props.offerPrice && (
+                  <div className={styles.priceCancelled}>
+                    <span
+                      className={styles.cancelPrice}
+                    >{`${RUPEE_SYMBOL}${Math.floor(
+                      this.props.product.price
+                    )}`}</span>
+                    <span className={styles.discount}>
+                      {this.props.discount && this.props.discount > 0
+                        ? `(${this.props.discount}%)`
+                        : null}
+                    </span>
+                  </div>
+                )}
               {this.props.isGiveAway === NO &&
                 (!this.props.productIsServiceable && productMessage
                   ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE) && (
@@ -490,6 +507,7 @@ export default class CartItemForDesktop extends React.Component {
                   this.props.product && this.props.product.productcode
                 }
                 winningUssID={this.props.product && this.props.product.USSID}
+                isShippingObjAvailable={this.props.isShippingObjAvailable}
               />
             </div>
           )}
@@ -699,6 +717,7 @@ export default class CartItemForDesktop extends React.Component {
                 onSelect={val => this.selectDeliveryMode(val)}
                 onPiq={val => this.getPickUpDetails()}
                 isClickable={this.props.isClickable}
+                isShippingObjAvailable={this.props.isShippingObjAvailable}
               />
             </div>
           )}
@@ -727,7 +746,8 @@ CartItemForDesktop.propTypes = {
   product: PropTypes.object,
   pinCode: PropTypes.object,
   maxQuantityAllowed: PropTypes.string,
-  qtySelectedByUser: PropTypes.string
+  qtySelectedByUser: PropTypes.string,
+  isShippingObjAvailable: PropTypes.bool
 };
 
 CartItemForDesktop.defaultProps = {
@@ -735,5 +755,6 @@ CartItemForDesktop.defaultProps = {
   hasFooter: true,
   dropdownLabel: "Quantity:",
   removeText: "Remove",
-  isFromCnc: false
+  isFromCnc: false,
+  isShippingObjAvailable: false
 };

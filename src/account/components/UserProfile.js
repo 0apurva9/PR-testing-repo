@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./UserProfile.css";
-import Icon from "../../xelpmoc-core/Icon";
 import PropTypes from "prop-types";
 import { CDN_URL_ROOT } from "../../../src/lib/constants";
 import ProfileImage from "../../xelpmoc-core/ProfileImage";
@@ -38,7 +37,7 @@ export default class UserProfile extends React.Component {
           </div>
           <div className={styles.headindTextWithLink}>
             <div className={styles.headingText}>
-              {name && name !== "undefined" && this.props.heading}
+              {name && name !== "undefined" && heading}
               {this.props.lastName &&
                 this.props.lastName !== "undefined" &&
                 this.props.lastName}
@@ -88,16 +87,11 @@ export default class UserProfile extends React.Component {
   }
 }
 UserProfile.propTypes = {
-  onClick: PropTypes.func,
-  title: PropTypes.string,
-  btnText: PropTypes.string,
-  backgroundColor: PropTypes.string,
-  logo: PropTypes.string,
   image: PropTypes.string,
-  header: PropTypes.string,
-  color: PropTypes.string
-};
-UserProfile.defaultProps = {
-  color: "#fff",
-  backgroundColor: "#ff1744"
+  firstName: PropTypes.string,
+  heading: PropTypes.string,
+  lastName: PropTypes.string,
+  userAddress: PropTypes.object,
+  loginType: PropTypes.string,
+  userLogin: PropTypes.string
 };

@@ -738,6 +738,8 @@ export default class NoCostEmiBankDetails extends React.Component {
               displayToast={this.props.displayToast}
               cardDetails={this.props.cardDetails}
               onCheckout={this.props.onCheckout}
+              isDebitCard={this.props.isDebitCard}
+              dCEmiEligibiltyDetails={this.props.dCEmiEligibiltyDetails}
             />
           </React.Fragment>
         )}

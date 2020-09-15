@@ -28,7 +28,7 @@ class DesktopFooter extends React.Component {
       this.props.getDesktopFooter(currentUrl);
     }
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.location && nextProps.location) {
       if (this.props.location.pathname !== nextProps.location.pathname) {
         this.props.getDesktopFooter(nextProps.location.pathname);
@@ -134,7 +134,7 @@ class DesktopFooter extends React.Component {
                 footerData.items[0].pageLinks &&
                 footerData.items[0].pageLinks.map((val, i) => {
                   return (
-                    <div className={styles.linkSection}>
+                    <div className={styles.linkSection} key={i}>
                       <div className={styles.linkHeader}>
                         {val && val.heading}
                       </div>
@@ -147,6 +147,7 @@ class DesktopFooter extends React.Component {
                               onClick={() =>
                                 this.onClick(data.webUrl, data.text)
                               }
+                              key={i}
                             >
                               {data.text}
                             </div>
@@ -232,7 +233,7 @@ class DesktopFooter extends React.Component {
                   footerData.items[0].socialLinks[1].list &&
                   footerData.items[0].socialLinks[1].list.map((val, i) => {
                     return (
-                      <a href={val.webUrl} target="_blank">
+                      <a href={val.webUrl} target="_blank" key={i}>
                         <div className={styles.appIconHolder}>
                           <Icon image={val.imageURL} size={20} />
                         </div>
@@ -251,7 +252,7 @@ class DesktopFooter extends React.Component {
                   footerData.items[0].socialLinks[0].list &&
                   footerData.items[0].socialLinks[0].list.map((val, i) => {
                     return (
-                      <a href={val.webUrl} target="_blank">
+                      <a href={val.webUrl} target="_blank" key={i}>
                         <div
                           className={styles.socialIcon}
                           onClick={() => this.onClickSocialMedia(val.webUrl)}

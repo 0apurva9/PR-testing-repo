@@ -3,12 +3,18 @@ import {
   getComponentData,
   getItems,
   msdDiscoverMoreHomeComponents,
-  msdAbcComponents
+  msdAbcComponents,
+  automatedWidgetsForHome,
+  getTargetMboxData
 } from "../actions/home.actions";
 import { withRouter } from "react-router-dom";
 import Widget from "../components/Widget";
 import { showModal, STORY_MODAL } from "../../general/modal.actions";
-import { SECONDARY_FEED_TYPE } from "../../lib/constants";
+import { followAndUnFollowBrand } from "../../account/actions/account.actions";
+import {
+  SECONDARY_FEED_TYPE,
+  MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW
+} from "../../lib/constants";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getComponentData: (
@@ -43,6 +49,21 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showStory: (position, data) => {
       dispatch(showModal(STORY_MODAL, position, data));
+    },
+    automatedWidgetsForHome: widgetData => {
+      dispatch(automatedWidgetsForHome(widgetData));
+    },
+    getTargetMboxData: async (componentName, pageType, sequence) => {
+      return dispatch(getTargetMboxData(componentName, pageType, sequence));
+    },
+    followAndUnFollowBrand: (brandId, followStatus) => {
+      dispatch(
+        followAndUnFollowBrand(
+          brandId,
+          followStatus,
+          MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW
+        )
+      );
     }
   };
 };
@@ -60,7 +81,10 @@ const mapStateToProps = (state, ownProps) => {
     loading: feedComponentData.loading,
     loadMsdSkeleton: state.feed.loadMsdSkeleton,
     homeMsdData: state.feed.homeMsdData,
-    homeAbcMsdData: state.feed.homeAbcMsdData
+    homeAbcMsdData: state.feed.homeAbcMsdData,
+    homeAutoWidget: state.feed.homeAutoWidget,
+    automatedWidgetData: state.feed.automatedWidgetData,
+    targetMboxData: state.feed.targetMboxData
   };
 };
 

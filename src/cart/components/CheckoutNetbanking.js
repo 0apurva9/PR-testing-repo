@@ -63,6 +63,7 @@ export default class CheckoutNetBanking extends React.Component {
           binValidationSucessDetails={
             this.props.cart && this.props.cart.binValidationDetails
           }
+          whatsappSelected={this.props.whatsappSelected}
         />
       </ManueDetails>
     );

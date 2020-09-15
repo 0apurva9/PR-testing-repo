@@ -1,0 +1,134 @@
+.container {
+    max-width: 767px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .whiteBox_new {
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    background: #fff;
+  }
+  .whiteBox_new.skeltonBox {
+    padding: 25px;
+  }
+  .skltnLineFrme60 {
+    width: 60%;
+  }
+  .skltnLine {
+    width: 100%;
+    position: relative;
+    margin: 3px auto;
+    height: 15px;
+    border-radius: 1px;
+  }
+  .skltnBox {
+    background-color: #ccc;
+    background-image: linear-gradient(
+      90deg,
+      #f3f3f3 0px,
+      #e9e9e9 40px,
+      #f1f1f1 80px
+    );
+    background-size: 600%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    animation: shine 1s infinite;
+  }
+  .flexRow12 {
+    margin: 0 -12px 10px;
+    display: flex;
+  }
+  .mrBt20 {
+    margin-bottom: 20px !important;
+  }
+  .flexRow12Col {
+    flex: 1 0 0;
+    max-width: 50%;
+    padding: 0 12px;
+  }
+  .flexRow12Col {
+    flex: 1 0 0;
+    max-width: 50%;
+    padding: 0 12px;
+  }
+  .skltnLine.sklHgt38 {
+    height: 38px;
+  }
+  @keyframes shine {
+    to {
+      background-position: 300px 0;
+    }
+  }
+
+  .giftCardBox {
+    width: 100%;
+    padding: 20px 20px;
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    background: #fff;
+    margin-top: 20px;
+  }
+  .giftCardHeading {
+    font-size: 16px;
+    font-family: regular;
+    color: #212121;
+  }
+  .giftCadrNumber {
+    font-size: 12px;
+    font-family: light;
+    padding-left: 10px;
+    color: #212121;
+  }
+  .giftCardExpDate {
+    font-size: 10px;
+    color: #d88600;
+    padding: 5px 0px;
+    font-family: semibold;
+  }
+  .giftCardBalanceContainer {
+    width: 100%;
+    height: auto;
+    padding-top: 20px;
+    display: inline-block;
+  }
+  .giftCardBalance {
+    width: 23%;
+    height: auto;
+    border-right: 1px solid #ececec;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .giftCardTotal {
+    font-size: 10px;
+    color: #212121;
+    font-family: light;
+    padding-bottom: 7px;
+  }
+  .giftCardTotalBalance {
+    font-size: 24px;
+    color: #212121;
+    font-family: regular;
+  }
+  .rupeeSymbol {
+    font-size: 12px;
+  }
+  .giftCardAddCardButton {
+    width: 50%;
+    height: auto;
+    display: inline-block;
+    text-align: center;
+  }
+  .zero{
+    font-size: 14px;
+    font-family: light;
+  }
+  .btnCenter{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 4%;
+    margin-left: 10%;
+  }

@@ -37,6 +37,15 @@ export default class Checkout extends React.Component {
         ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
         : null;
 
+    let amountWithoutSymbol;
+    if (this.props.amount && this.props.amount.toString().includes("₹")) {
+      amountWithoutSymbol =
+        this.props.amount && this.props.amount.replace("₹", "");
+    } else {
+      amountWithoutSymbol = this.props.amount;
+    }
+    this.props.amount && localStorage.setItem("amount", amountWithoutSymbol);
+
     return (
       <React.Fragment>
         <div className={styles.base}>
