@@ -356,7 +356,7 @@ export function getHowToWear(category_id) {
   return async (dispatch, getState, { api }) => {
     dispatch(getHowToWearRequest());
     try {
-      const url = `/v2/lux/cms/HTW-${category_id}`;
+      const url = `/v2/mpl/cms/defaultpage?pageId=HTW-${category_id}`;
       const result = await api.get(url);
       const resultJson = await result.json();
 
