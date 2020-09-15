@@ -10,11 +10,16 @@ export default class DetailsComponentLong extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div class={styles["details-what-it-is-sec"]}>
-          <div class={styles["details-heading"]}>{HEADING}</div>
-          <div class={styles["details-what-it-is-block"]}>
-            <div class={styles["details-what-it-is-head"]}>{SUBHEADING}</div>
-            <div class={styles["details-what-it-is-desc"]}>
+        <div
+          ref={this.props.detailsLongRef}
+          className={styles["details-what-it-is-sec"]}
+        >
+          <div className={styles["details-heading"]}>{HEADING}</div>
+          <div className={styles["details-what-it-is-block"]}>
+            <div className={styles["details-what-it-is-head"]}>
+              {SUBHEADING}
+            </div>
+            <div className={styles["details-what-it-is-desc"]}>
               {this.props.styleNotes}
             </div>
           </div>
@@ -25,33 +30,41 @@ export default class DetailsComponentLong extends React.Component {
             <div className={styles["details-what-it-is-desc"]}>
               <ul>
                 {this.props.setInformationContentSorted.map((el, i) => (
-                  <li>{`${el.key}:${el.value}`}</li>
+                  <li key={i}>{`${el.key}:${el.value}`}</li>
                 ))}
               </ul>
             </div>
           </div>
-          <div class={styles["details-what-it-is-block"]}>
+          <div className={styles["details-what-it-is-block"]}>
             {this.props.whatElseYouNeedToKnowContent.map((el, i) => (
-              <React.Fragment>
-                <div class={styles["details-what-it-is-head"]}>{el.key}</div>
-                <div class={styles["details-what-it-is-desc"]}>{el.value}</div>
+              <React.Fragment key={i}>
+                <div className={styles["details-what-it-is-head"]}>
+                  {el.key}
+                </div>
+                <div className={styles["details-what-it-is-desc"]}>
+                  {el.value}
+                </div>
               </React.Fragment>
             ))}
           </div>
         </div>
-        <div class={styles["product-details-section"]}>
+        <div className={styles["product-details-section"]}>
           {this.props.halfSetItems.map((el, i) => (
-            <div key={i} class={styles["product-details-block"]}>
-              <div class={styles["product-details-col"]}>
-                <span class={styles["product-details-head"]}>{el.key}:</span>
+            <div key={i} className={styles["product-details-block"]}>
+              <div className={styles["product-details-col"]}>
+                <span className={styles["product-details-head"]}>
+                  {el.key}:
+                </span>
                 {el.value}
               </div>
             </div>
           ))}
           {this.props.remSetItems.map((el, i) => (
-            <div key={i} class={styles["product-details-block"]}>
-              <div class={styles["product-details-col"]}>
-                <span class={styles["product-details-head"]}>{el.key}:</span>
+            <div key={i} className={styles["product-details-block"]}>
+              <div className={styles["product-details-col"]}>
+                <span className={styles["product-details-head"]}>
+                  {el.key}:
+                </span>
                 {el.value}
               </div>
             </div>

@@ -88,6 +88,7 @@ export default class StoryComponent extends React.Component {
 
               <Collapse isOpened={this.state.isOpen}>
                 <StoryToggleComponent
+                  detailsLongRef={this.props.detailsLongRef}
                   shortStorySmallContent={shortStorySmallContent}
                   shortStoryLargeContentSorted={shortStoryLargeContentSorted}
                   halfSetItems={halfSetItems}

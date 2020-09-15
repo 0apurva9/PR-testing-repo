@@ -37,6 +37,7 @@ export default class StoryToggleComponent extends Component {
         </div>
         {this.props.detailsComponent && (
           <DetailsComponentLong
+            detailsLongRef={this.props.detailsLongRef}
             halfSetItems={this.props.halfSetItems}
             remSetItems={this.props.remSetItems}
             styleNotes={this.props.styleNotes}

@@ -32,6 +32,24 @@ const SECTION_MORE_FROM_THIS_BRAND = [];
 const SECTION_SIMILAR_PRODUCTS = [];
 
 export default class PdpBeautyDesktop extends React.Component {
+  constructor(props) {
+    super(props);
+    this.detailsRef = React.createRef();
+  }
+
+  handleDetailsScroll = () => {
+    if (this.detailsRef.current) {
+      let headerOffset = 45,
+        elementPosition = this.detailsRef.current.getBoundingClientRect().top,
+        offsetPosition = elementPosition - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
+  };
+
   componentDidMount = () => {
     const categoryHierarchy = this.props.productDetails.categoryHierarchy
       ? this.props.productDetails.categoryHierarchy
@@ -104,6 +122,7 @@ export default class PdpBeautyDesktop extends React.Component {
             <ImageGalleryContentComponent
               {...this.props}
               compDetails={sectionOfImageAndContentComponent}
+              handleDetailsScroll={this.handleDetailsScroll}
             />
           </div>
           <div className={styles.container}>
@@ -111,6 +130,7 @@ export default class PdpBeautyDesktop extends React.Component {
               ingredientData={ingredientData}
               compDetails={sectionOfImageAndContentComponent}
               {...this.props}
+              detailsLongRef={this.detailsRef}
             />
           </div>
         </div>
