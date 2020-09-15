@@ -50,6 +50,14 @@
   text-align: right;
   font-family: light;
 }
+.freeInfo {
+  composes: label;
+  text-align: right;
+  font-family: regular;
+  color: #00964d;
+  font-size: 15px;
+  font-weight: 600;
+}
 .labelForAdditionalDiscount {
   width: 60%;
   display: inline-block;

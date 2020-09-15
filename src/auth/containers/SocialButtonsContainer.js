@@ -202,8 +202,8 @@ const mapDispatchToProps = dispatch => {
                     JSON.parse(cartDetailsLoggedInUser).code,
                   localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
                   lastUrl === "/cart" &&
-                  parseInt(mergeCartResponse.cartDetails.count, 10) !==
-                    currentBagCount
+                    parseInt(mergeCartResponse.cartDetails.count, 10) !==
+                      currentBagCount
                     ? true
                     : false
                 )
@@ -386,8 +386,8 @@ const mapDispatchToProps = dispatch => {
                     JSON.parse(cartDetailsLoggedInUser).code,
                   localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
                   lastUrl === "/cart" &&
-                  parseInt(mergeCartResponse.cartDetails.count, 10) !==
-                    currentBagCount
+                    parseInt(mergeCartResponse.cartDetails.count, 10) !==
+                      currentBagCount
                     ? true
                     : false
                 )
@@ -470,8 +470,9 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const SocialButtonsContainer = connect(mapStateToProps, mapDispatchToProps)(
-  SocialButtons
-);
+const SocialButtonsContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SocialButtons);
 
 export default SocialButtonsContainer;

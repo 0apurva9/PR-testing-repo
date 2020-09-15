@@ -5,6 +5,11 @@ import Input2 from "../../general/components/Input2.js";
 import Button from "../../general/components/Button";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import styles from "./SavedCard.css";
+import {
+  WHATSAPP_NOTIFICATION_CHECKED,
+  WHATSAPP_NOTIFICATION_UNCHECKED,
+  getWhatsAppNotification
+} from "../../lib/adobeUtils";
 export default class SavedCard extends React.Component {
   constructor(props) {
     super(props);
@@ -31,6 +36,14 @@ export default class SavedCard extends React.Component {
     }
   }
   handleClick = () => {
+    if (this.props.whatsappSelected && this.props.whatsappSelected === true) {
+      getWhatsAppNotification(WHATSAPP_NOTIFICATION_CHECKED);
+    } else if (
+      this.props.whatsappSelected &&
+      this.props.whatsappSelected === false
+    ) {
+      getWhatsAppNotification(WHATSAPP_NOTIFICATION_UNCHECKED);
+    }
     if (this.props.onCheckout) {
       this.props.onCheckout();
     }

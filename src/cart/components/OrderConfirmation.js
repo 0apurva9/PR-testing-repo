@@ -12,7 +12,8 @@ import {
   MY_ACCOUNT_SAVED_CARDS_PAGE,
   MY_ACCOUNT_ADDRESS_PAGE,
   SAVE_LIST_PAGE,
-  DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION
+  DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION,
+  DIGITAL_DATA_FOR_CART
 } from "../../lib/constants";
 import styles from "./OrderConfirmation.css";
 import wishlistIcon from "../../general/components/img/download.svg";
@@ -157,7 +158,10 @@ export default class OrderConfirmation extends React.Component {
       state: { currentCashbackMode: currentCashbackMode, orderId: orderId }
     });
   }
-
+  componentWillUnmount() {
+    localStorage.removeItem(DIGITAL_DATA_FOR_CART);
+    localStorage.removeItem(DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION);
+  }
   render() {
     return (
       <div className={styles.base}>

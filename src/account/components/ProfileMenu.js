@@ -15,7 +15,8 @@ import {
   ORDER_PREFIX,
   RETURNS,
   REDMI_WALLET_FROM_EMAIL,
-  MY_ACCOUNT_USER_NOTIFICATION_PAGE
+  MY_ACCOUNT_USER_NOTIFICATION_PAGE,
+  MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE
 } from "../../lib/constants";
 import savedList from "../../general/components/img/download.svg";
 import savedListRed from "./img/SaveListRed.png";
@@ -77,6 +78,13 @@ export default class PofileMenuGridForDesktop extends React.Component {
       pathName === REDMI_WALLET_FROM_EMAIL
     ) {
       selected = "CLiQ Cash";
+    }
+    if (
+      pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}` ||
+      pathName ===
+        `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE}`
+    ) {
+      selected = "Gift Card";
     }
     if (pathName === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_USER_NOTIFICATION_PAGE}`) {
       selected = "Manage Notifications";

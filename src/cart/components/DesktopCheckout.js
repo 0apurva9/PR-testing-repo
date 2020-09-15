@@ -78,7 +78,11 @@ export default class DesktopCheckout extends React.Component {
             ) : (
               <div className={styles.row}>
                 <div className={styles.label}>Shipping Charge</div>
-                <div className={styles.info}>{RUPEE_SYMBOL}0.00</div>
+                {this.props.isShippingObjAvailable ? (
+                  <div className={styles.freeInfo}>FREE</div>
+                ) : (
+                  <div className={styles.info}>{RUPEE_SYMBOL}0.00</div>
+                )}
               </div>
             )}
             {bagSubTotal && (
@@ -99,15 +103,14 @@ export default class DesktopCheckout extends React.Component {
                   </div>
                 </div>
               )}
-            {cartAmount.bagDiscount &&
-              cartAmount.bagDiscount.value !== 0 && (
-                <div className={styles.row}>
-                  <div className={styles.label}>Bag Discount</div>
-                  <div className={styles.info}>
-                    -{cartAmount.bagDiscount.formattedValue}
-                  </div>
+            {cartAmount.bagDiscount && cartAmount.bagDiscount.value !== 0 && (
+              <div className={styles.row}>
+                <div className={styles.label}>Bag Discount</div>
+                <div className={styles.info}>
+                  -{cartAmount.bagDiscount.formattedValue}
                 </div>
-              )}
+              </div>
+            )}
             {cartAmount.couponDiscountAmount &&
               cartAmount.couponDiscountAmount.value !== 0 && (
                 <div className={styles.row}>
@@ -129,15 +132,14 @@ export default class DesktopCheckout extends React.Component {
                   </div>
                 </div>
               )}
-            {cartAmount.cartDiscount &&
-              cartAmount.cartDiscount.value !== 0 && (
-                <div className={styles.row}>
-                  <div className={styles.label}>Bank Offer Discount</div>
-                  <div className={styles.info}>
-                    -{cartAmount.cartDiscount.formattedValue}
-                  </div>
+            {cartAmount.cartDiscount && cartAmount.cartDiscount.value !== 0 && (
+              <div className={styles.row}>
+                <div className={styles.label}>Bank Offer Discount</div>
+                <div className={styles.info}>
+                  -{cartAmount.cartDiscount.formattedValue}
                 </div>
-              )}
+              </div>
+            )}
             {cartAmount.noCostEMIDiscountValue &&
               !this.props.noCostEmiEligibility &&
               cartAmount.noCostEMIDiscountValue.value !== 0 && (
@@ -260,10 +262,10 @@ export default class DesktopCheckout extends React.Component {
                   {/* cart page */}
                   {this.props.isOnCartPage &&
                     this.props.totalExchangeAmount &&
-                    (this.props.productExchangeServiceable.length > 0 &&
-                      !this.props.productExchangeServiceable.includes(false) &&
-                      (this.props.isQuoteExpired.length > 0 &&
-                        !this.props.isQuoteExpired.includes(true))) && (
+                    this.props.productExchangeServiceable.length > 0 &&
+                    !this.props.productExchangeServiceable.includes(false) &&
+                    this.props.isQuoteExpired.length > 0 &&
+                    !this.props.isQuoteExpired.includes(true) && (
                       <span>
                         {" "}
                         {cartAmount.totalDiscountAmount.value === 0 ? (
@@ -281,10 +283,10 @@ export default class DesktopCheckout extends React.Component {
                   {/* checkout page */}
                   {!this.props.isOnCartPage &&
                     this.props.totalExchangeAmount &&
-                    (this.props.isExchangeServiceableArray.length > 0 &&
-                      !this.props.isExchangeServiceableArray.includes(false) &&
-                      (this.props.isQuoteExpiredCheckout.length > 0 &&
-                        !this.props.isQuoteExpiredCheckout.includes(true))) && (
+                    this.props.isExchangeServiceableArray.length > 0 &&
+                    !this.props.isExchangeServiceableArray.includes(false) &&
+                    this.props.isQuoteExpiredCheckout.length > 0 &&
+                    !this.props.isQuoteExpiredCheckout.includes(true) && (
                       <span>
                         {" "}
                         {cartAmount.totalDiscountAmount.value === 0 ? (
@@ -376,54 +378,52 @@ export default class DesktopCheckout extends React.Component {
                   </div>
                 )}
 
-                {this.props.isOnCartPage &&
-                  defaultPinCode && (
-                    <div
-                      className={[
-                        styles.button,
-                        disableButton ? "" : styles.shadowBtn
-                      ].join(" ")}
-                    >
-                      <Button
-                        disabled={disableButton}
-                        disabledBgGrey={true}
-                        type="primary"
-                        backgroundColor="#ff1744"
-                        height={40}
-                        label={this.props.label}
-                        width={150}
-                        textStyle={{
-                          color: "#FFF",
-                          fontSize: 14
-                        }}
-                        onClick={() => this.handleClick()}
-                      />
-                    </div>
-                  )}
-                {this.props.isOnCartPage &&
-                  !defaultPinCode && (
-                    <div
-                      className={[
-                        styles.button,
-                        disableButton ? "" : styles.shadowBtn
-                      ].join(" ")}
-                    >
-                      <Button
-                        disabled={disableButton}
-                        disabledBgGrey={true}
-                        type="primary"
-                        backgroundColor="#ff1744"
-                        height={40}
-                        label={this.props.label}
-                        width={150}
-                        textStyle={{
-                          color: "#FFF",
-                          fontSize: 14
-                        }}
-                        onClick={() => this.handleFocusOnPinCode()}
-                      />
-                    </div>
-                  )}
+                {this.props.isOnCartPage && defaultPinCode && (
+                  <div
+                    className={[
+                      styles.button,
+                      disableButton ? "" : styles.shadowBtn
+                    ].join(" ")}
+                  >
+                    <Button
+                      disabled={disableButton}
+                      disabledBgGrey={true}
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={40}
+                      label={this.props.label}
+                      width={150}
+                      textStyle={{
+                        color: "#FFF",
+                        fontSize: 14
+                      }}
+                      onClick={() => this.handleClick()}
+                    />
+                  </div>
+                )}
+                {this.props.isOnCartPage && !defaultPinCode && (
+                  <div
+                    className={[
+                      styles.button,
+                      disableButton ? "" : styles.shadowBtn
+                    ].join(" ")}
+                  >
+                    <Button
+                      disabled={disableButton}
+                      disabledBgGrey={true}
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={40}
+                      label={this.props.label}
+                      width={150}
+                      textStyle={{
+                        color: "#FFF",
+                        fontSize: 14
+                      }}
+                      onClick={() => this.handleFocusOnPinCode()}
+                    />
+                  </div>
+                )}
               </React.Fragment>
             )}
           </div>
@@ -451,8 +451,10 @@ export default class DesktopCheckout extends React.Component {
   }
 }
 DesktopCheckout.propTypes = {
-  onContinue: PropTypes.bool
+  onContinue: PropTypes.bool,
+  isShippingObjAvailable: PropTypes.bool
 };
 DesktopCheckout.defaultProps = {
-  onContinue: true
+  onContinue: true,
+  isShippingObjAvailable: false
 };

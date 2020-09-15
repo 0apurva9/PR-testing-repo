@@ -41,3 +41,24 @@
   display: flex;
   align-items: center;
 }
+
+.inputBoxHideIcon {
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding: 0 10px;
+  color: #212121;
+}
+
+.inputBoxShowIcon {
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding: 0 10px;
+  color: #212121;
+  background-image: url(./img/tick_copy_2.svg);
+  background-repeat: no-repeat;
+  background-attachment: center;
+  background-position: 98% 50%;
+
+}
