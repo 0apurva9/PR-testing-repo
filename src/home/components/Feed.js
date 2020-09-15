@@ -9,6 +9,7 @@ import styles from "./Feed.css";
 import * as Cookie from "../../lib/Cookie";
 import List from "@researchgate/react-intersection-list";
 import MobileOnly from "../../general/components/MobileOnly";
+import HomeAutoWishlistComponent from "./HomeAutoWishlistComponent";
 import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
@@ -334,6 +335,12 @@ export const typeComponentMapping = {
   msdAutomatedBannerProductCarouselComponent: props => (
     <MsdAutomatedBrandProductCarousel {...props} />
   ),
+  AutoWishlist: props => (
+    <HomeAutoWishlistComponent
+      {...props}
+      wishListedItem={this.state && this.state.wishListedItem}
+    />
+  ),
   msdAutoDiscoverMoreComponent: props => <DiscoverMoreMsd {...props} />,
 
   "Simple Banner Component": props => {
@@ -369,6 +376,9 @@ class Feed extends Component {
   constructor(props) {
     super(props);
     this.pageSize = this.props.pageSize;
+    this.state = {
+      wishListedItem: null
+    };
   }
   componentDidMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -472,7 +482,7 @@ class Feed extends Component {
 
     return (
       typeComponentMapping[feedDatum.type] && (
-        <WidgetContainer {...props}>
+        <WidgetContainer {...props} wishListedItem={this.state.wishListedItem}>
           {typeComponentMapping[feedDatum.type] &&
             typeComponentMapping[feedDatum.type]}
         </WidgetContainer>
@@ -489,7 +499,7 @@ class Feed extends Component {
     );
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails) {
@@ -507,7 +517,16 @@ class Feed extends Component {
     }
     if (userDetails && customerCookie && this.props.getWishlist) {
       // this.props.getWishListItems();
-      this.props.getWishlist();
+      //this.props.getWishlist();
+      let wishListedItem = await this.props.getWishlist();
+      if (
+        wishListedItem &&
+        wishListedItem.status === "success" &&
+        wishListedItem.wishlist &&
+        wishListedItem.wishlist.productList
+      ) {
+        this.setState({ wishListedItem: wishListedItem.wishlist.productList });
+      }
     }
     if (this.props.clickedElementId) {
       delay(() => {

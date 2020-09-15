@@ -25,6 +25,14 @@ export default class Widget extends React.Component {
       "msdAutomatedBannerProductCarouselComponent"
     ) {
       this.props.msdAbcComponents();
+    } else if (this.props.feedComponentData.type === "AutoWishlist") {
+      if (this.props.wishListedItem) {
+        let wishListedProductIds = this.props.wishListedItem.map(product => {
+          return product.productCode;
+        });
+        this.props.autoWishlistComponent(wishListedProductIds);
+        console.log("wishlisted products=========", wishListedProductIds);
+      }
     }
   }
 

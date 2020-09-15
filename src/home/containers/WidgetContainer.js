@@ -3,7 +3,8 @@ import {
   getComponentData,
   getItems,
   msdDiscoverMoreHomeComponents,
-  msdAbcComponents
+  msdAbcComponents,
+  autoWishlistComponent
 } from "../actions/home.actions";
 import { withRouter } from "react-router-dom";
 import Widget from "../components/Widget";
@@ -43,6 +44,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showStory: (position, data) => {
       dispatch(showModal(STORY_MODAL, position, data));
+    },
+    autoWishlistComponent: productId => {
+      dispatch(autoWishlistComponent(productId));
     }
   };
 };
@@ -60,7 +64,8 @@ const mapStateToProps = (state, ownProps) => {
     loading: feedComponentData.loading,
     loadMsdSkeleton: state.feed.loadMsdSkeleton,
     homeMsdData: state.feed.homeMsdData,
-    homeAbcMsdData: state.feed.homeAbcMsdData
+    homeAbcMsdData: state.feed.homeAbcMsdData,
+    autoWishList: state.feed.autoWishList
   };
 };
 

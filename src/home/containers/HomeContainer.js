@@ -39,7 +39,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(clearProductModuleRef());
     },
     getWishlist: () => {
-      dispatch(getWishlist());
+      return dispatch(getWishlist());
     }
   };
 };
