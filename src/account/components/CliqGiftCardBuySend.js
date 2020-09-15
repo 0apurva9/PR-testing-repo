@@ -18,8 +18,8 @@ export default class CliqGiftCardBuySend extends Component {
       selectedAmount: this.props.selectedAmount
         ? this.props.selectedAmount
         : "",
-      email: this.props.email && this.props.email,
-      senderName: this.props.senderName && this.props.senderName,
+      email: this.props.email ? this.props.email : "",
+      senderName: this.props.senderName ? this.props.senderName : "",
       buyForYourself: true,
       sendGiftCard: false,
       emailValidate: false,
@@ -176,9 +176,9 @@ export default class CliqGiftCardBuySend extends Component {
                 this.setState({
                   buyForYourself: true,
                   sendGiftCard: false,
-                  email: this.props.email && this.props.email,
-                  showUpdateSenderField: false,
-                  senderName: this.props.senderName && this.props.senderName
+                  email: this.props.email ? this.props.email : "",
+                  showUpdateSenderField: this.state.senderName ? false : true,
+                  senderName: this.props.senderName ? this.props.senderName : ""
                 })
               }
               className={
@@ -194,8 +194,8 @@ export default class CliqGiftCardBuySend extends Component {
                   buyForYourself: false,
                   sendGiftCard: true,
                   email: "",
-                  showUpdateSenderField: false,
-                  senderName: this.props.senderName && this.props.senderName
+                  showUpdateSenderField: this.state.senderName ? false : true,
+                  senderName: this.props.senderName ? this.props.senderName : ""
                 })
               }
               className={
