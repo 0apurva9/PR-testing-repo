@@ -1,0 +1,25 @@
+.cliqCashExpireBox {
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+.cliqCashExpire {
+  background: #fff8ec;
+  font-size: 11px;
+  color: #212121;
+  border: 2px solid #f1cf97;
+  text-align: center;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 4px 12px 4px 12px;
+  font-family: light;
+}
+.cliqCashExpireBalance,
+.cliqCashExpireDate {
+  font-family: semibold;
+}
+.rupee {
+  font-family: semibold;
+  font-size: 12px;
+  letter-spacing: 2px;
+}

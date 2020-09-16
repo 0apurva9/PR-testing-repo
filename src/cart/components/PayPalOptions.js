@@ -9,6 +9,11 @@ import Logo from "../../general/components/Logo";
 import { E_WALLET_PAYPAL } from "../../lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import Button from "../../general/components/Button";
+import {
+  WHATSAPP_NOTIFICATION_CHECKED,
+  WHATSAPP_NOTIFICATION_UNCHECKED,
+  getWhatsAppNotification
+} from "../../lib/adobeUtils";
 export default class PayPalOptions extends React.Component {
   constructor(props) {
     super(props);
@@ -31,6 +36,14 @@ export default class PayPalOptions extends React.Component {
     }
   }
   handleCheckout = () => {
+    if (this.props.whatsappSelected && this.props.whatsappSelected === true) {
+      getWhatsAppNotification(WHATSAPP_NOTIFICATION_CHECKED);
+    } else if (
+      this.props.whatsappSelected &&
+      this.props.whatsappSelected === false
+    ) {
+      getWhatsAppNotification(WHATSAPP_NOTIFICATION_UNCHECKED);
+    }
     if (this.props.onCheckout) {
       this.props.onCheckout();
     }
@@ -63,8 +76,7 @@ export default class PayPalOptions extends React.Component {
                     The safer and easier way to pay
                   </div>
                   <div className={styles.payPalSubText}>
-                    Note: Only credit and debit card (AMEX, Visa, Mastercard)
-                    transaction are supported on PayPal
+                    Note: PayPal accepts all the cards.
                   </div>
                 </div>
               </div>

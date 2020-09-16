@@ -440,7 +440,11 @@ class App extends Component {
       // Else remove cartDetails from Local storage
       localStorage.removeItem(CART_BAG_DETAILS);
     }
-    if (cartCode) {
+    if (
+      cartCode &&
+      (!this.props.location.pathname.includes("cart") &&
+        !this.props.location.pathname.includes("checkout"))
+    ) {
       // Call minicart after landing on the site or reloading page
       this.props.getMinicartProducts();
     }

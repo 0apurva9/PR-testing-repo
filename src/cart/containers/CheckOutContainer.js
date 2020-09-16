@@ -77,7 +77,10 @@ import {
   upiPaymentISEnableMidddleLayer,
   softReservationPaymentForUPI,
   upiPaymentHowItWorksMidddleLayer,
-  upiPaymentCombinedLogoMidddleLayer
+  upiPaymentCombinedLogoMidddleLayer,
+  instaCredISEnableMidddleLayer,
+  getDCEmiEligibility,
+  getBankDetailsforDCEmi
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -92,7 +95,11 @@ import {
   DESKTOP_AUTH,
   CONFIRMATION_NOTIFICATION,
   UPITERMSANDCONDITION_MODAL,
-  CHANGE_EXCHANGE_CASHBACK_MODAL
+  CHANGE_EXCHANGE_CASHBACK_MODAL,
+  EXCHANGE_CASHBACK_INFO_MODAL,
+  hideModal,
+  CLIQ_CASH_MODULE,
+  POP_UP
   // UPIHOWTOPAY_MODAL
 } from "../../general/modal.actions";
 import {
@@ -405,13 +412,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getBankAndTenureDetails: (
       retryFlagForEmiCoupon,
       isFromRetryUrl,
-      retryCartGuid
+      retryCartGuid,
+      isFromDebitCard
     ) => {
       dispatch(
         getBankAndTenureDetails(
           retryFlagForEmiCoupon,
           isFromRetryUrl,
-          retryCartGuid
+          retryCartGuid,
+          isFromDebitCard
         )
       );
     },
@@ -829,6 +838,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     upiPaymentCombinedLogoMidddleLayer: () => {
       dispatch(upiPaymentCombinedLogoMidddleLayer());
     },
+    instaCredISEnableMidddleLayer: () => {
+      dispatch(instaCredISEnableMidddleLayer());
+    },
+    getDCEmiEligibility: async () => {
+      return await dispatch(getDCEmiEligibility());
+    },
+    getBankDetailsforDCEmi: (price, cartGuid) => {
+      dispatch(getBankDetailsforDCEmi(price, cartGuid));
+    },
+    hideModal: () => {
+      dispatch(hideModal(CLIQ_CASH_MODULE));
+    },
+
     softReservationPaymentForUPI: (
       paymentMethodType,
       paymentMode,
@@ -865,7 +887,8 @@ const mapStateToProps = state => {
     addUserUPIStatus: state.profile.addUserUPIStatus,
     addUserUPIDetails: state.profile.addUserUPIDetails,
     completedOrderDetails: state.profile.fetchOrderDetails,
-    orderDetailsPaymentPage: state.profile.fetchOrderDetails
+    orderDetailsPaymentPage: state.profile.fetchOrderDetails,
+    dCEmiEligibiltyDetails: state.cart.dCEmiEligibiltyDetails
   };
 };
 

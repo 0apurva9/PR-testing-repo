@@ -6,10 +6,52 @@
 .subListHolder {
   width: 100%;
   height: auto;
+  cursor: pointer;
 }
 .noCostRetryPayment {
   padding-bottom: 20px;
   display: block;
   font-size: 14px;
   color: #db9116;
+}
+.tabHeader {
+  width: 100%;
+  background: #f8f8f8;
+  padding: 17px 0px 13px 0px;
+  text-align: center;
+  font-size: 18px;
+  height: 56px;
+  border-bottom: 1px solid #ececec;
+}
+.tabNceStandard {
+  width: 50%;
+  float: left;
+  padding-left: 6%;
+}
+.isSelectedTab {
+  font-weight: 600;
+  border-bottom: 1px solid red;
+  padding-bottom: 15px;
+}
+
+.buttonBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #ccc;
+  padding: 10px 15px;
+  /* margin-left: 17%; */
+}
+.btn{
+  background: transparent;
+  color: #da1c5c;
+  font-size: 14px;
+  font-family: semibold;
+  border: transparent;
+}
+.borderMiddle{
+  width: 1px;
+  height: 18px;
+  background: #ccc;
+  margin-left: 11px
 }

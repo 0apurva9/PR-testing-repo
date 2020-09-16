@@ -98,12 +98,6 @@ export default class AddDeliveryAddress extends React.Component {
     }
   }
 
-  componentDidMount() {
-    if (this.props.getUserDetails) {
-      this.props.getUserDetails();
-    }
-  }
-
   getPinCodeDetails = val => {
     let landmarkList = [];
     if (val === "" || /^[0-9]+$/.test(val)) {

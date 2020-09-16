@@ -16,7 +16,7 @@ export default class EmiAccordion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      planSelected: this.props.cardDetails.is_emi ? true : false,
+      planSelected: false,
       selectedEmi: this.props.cardDetails.emi_tenure
         ? this.props.cardDetails.emi_tenure
         : "",
@@ -166,14 +166,17 @@ export default class EmiAccordion extends React.Component {
               </GridSelect>
             </MobileOnly>
             <DesktopOnly>
-              <EmiSectionDesktop
-                emiData={this.props.emiList}
-                showHeader={false}
-                showButton={true}
-                selectPlan={val => this.handleSelectPlan(val)}
-                selectBank={val => this.handleSelectBank(val)}
-                confirmPlan={() => this.handleConfirmPlan()}
-              />
+              {this.props.emiList &&
+                this.props.emiList.length > 0 && (
+                  <EmiSectionDesktop
+                    emiData={this.props.emiList}
+                    showHeader={false}
+                    showButton={true}
+                    selectPlan={val => this.handleSelectPlan(val)}
+                    selectBank={val => this.handleSelectBank(val)}
+                    confirmPlan={() => this.handleConfirmPlan()}
+                  />
+                )}
             </DesktopOnly>
           </React.Fragment>
         )}
@@ -197,6 +200,8 @@ export default class EmiAccordion extends React.Component {
               emiBinValidationErrorMessage={
                 this.props.emiBinValidationErrorMessage
               }
+              isDebitCard={this.props.isDebitCard}
+              dCEmiEligibiltyDetails={this.props.dCEmiEligibiltyDetails}
             />
           </React.Fragment>
         )}
