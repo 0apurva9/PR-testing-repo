@@ -84,9 +84,10 @@ export default class DeliveryInfoSelect extends React.Component {
     let deliveryInformationWithDate = this.props.deliveryInformationWithDate;
     let elligibleDeliveryModes = this.props.deliveryInformation;
     const isCod = this.props.isCod;
-    let isShippingObjAvailable = this.props.isShippingObjAvailable
-      ? true
-      : false;
+    // let isShippingObjAvailable = this.props.isShippingObjAvailable
+    //   ? true
+    //   : false;
+    let isShippingObjAvailable = false;
     return (
       <div className={styles.base}>
         {deliveryInformationWithDate &&

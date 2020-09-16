@@ -19,7 +19,8 @@ import {
   SAVE_LIST_PAGE,
   DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION,
   RUPEE_SYMBOL,
-  HOME_ROUTER
+  HOME_ROUTER,
+  DIGITAL_DATA_FOR_CART
 } from "../../lib/constants";
 import styles from "./PaymentConfirmationPage.css";
 import wishlistIcon from "../../general/components/img/download.svg";
@@ -101,7 +102,10 @@ export default class PaymentConfirmationPage extends React.Component {
   trackOrder() {
     this.props.trackOrder();
   }
-
+  componentWillUnmount() {
+    localStorage.removeItem(DIGITAL_DATA_FOR_CART);
+    localStorage.removeItem(DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION);
+  }
   goToUrl(value) {
     if (value) {
       this.props.history.push(`${MY_ACCOUNT_PAGE}${value}`);

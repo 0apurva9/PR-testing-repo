@@ -16,7 +16,7 @@ export default class EmiAccordion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      planSelected: this.props.cardDetails.is_emi ? true : false,
+      planSelected: false,
       selectedEmi: this.props.cardDetails.emi_tenure
         ? this.props.cardDetails.emi_tenure
         : "",

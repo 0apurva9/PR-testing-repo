@@ -139,8 +139,13 @@ import {
   ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE,
   ADOBE_CALL_FOR_SELECT_DELIVERY_MODE,
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE,
-  setDataLayerForWhatsappUncheck,
-  ADOBE_CHECKOUT_DEFAULT_NEW_ADDRESS
+  setDataLayerForWhatsappCheckUncheck,
+  ADOBE_CHECKOUT_DEFAULT_NEW_ADDRESS,
+  setDataLayerForRetryPaymentAccountSection,
+  WHATSAPP_CHECKBOX_UNCHECK,
+  getWhatsAppNotification,
+  WHATSAPP_NOTIFICATION_CHECKED,
+  WHATSAPP_NOTIFICATION_UNCHECKED
 } from "../../lib/adobeUtils";
 import {
   CART_ITEM_COOKIE,
@@ -587,7 +592,7 @@ class CheckOutPage extends React.Component {
     if (isSelected && !whatsappNotification) {
       Cookie.createCookie(WHATSAPP_NOTIFICATION, isSelected);
     } else {
-      setDataLayerForWhatsappUncheck();
+      setDataLayerForWhatsappCheckUncheck(WHATSAPP_CHECKBOX_UNCHECK);
       Cookie.deleteCookie(WHATSAPP_NOTIFICATION);
     }
   }
@@ -694,14 +699,16 @@ class CheckOutPage extends React.Component {
                   selectedStoreDetails={val.storeDetails}
                   cliqPiqSelected={this.state.cliqPiqSelected}
                   product={val}
-                  isShippingObjAvailable={
-                    this.props.cart &&
+                  /**
+                   * Old Implementation
+                   * this.props.cart &&
                     this.props.cart.cartDetailsCNC &&
                     this.props.cart.cartDetailsCNC.cartAmount &&
                     this.props.cart.cartDetailsCNC.cartAmount.shippingCharge
                       ? true
                       : false
-                  }
+                   */
+                  isShippingObjAvailable={false}
                 />
               </div>
             );
@@ -1600,7 +1607,19 @@ class CheckOutPage extends React.Component {
     let cartDetailsLoggedInUser = Cookie.getCookie(
       CART_DETAILS_FOR_LOGGED_IN_USER
     );
-
+    if (
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.productDetails
+    ) {
+      let dataRetry = this.props.location.state.productDetails;
+      setDataLayerForRetryPaymentAccountSection(
+        this.props.location.state.productDetails,
+        this.props.location &&
+          this.props.location.state &&
+          this.props.location.state.totalPriceData
+      );
+    }
     if (!customerCookie || !userDetails) {
       return this.navigateToLogin();
     }
@@ -1632,7 +1651,12 @@ if you have order id in local storage then you have to show order confirmation p
       this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
       return;
     }
-    if (!orderId) {
+    if (
+      !orderId &&
+      this.props.location &&
+      this.props.location.state &&
+      !this.props.location.state.productDetails
+    ) {
       setDataLayerForCheckoutDirectCalls(
         ADOBE_LANDING_ON_ADDRESS_TAB_ON_CHECKOUT_PAGE
       );
@@ -3606,14 +3630,16 @@ if you have order id in local storage then you have to show order confirmation p
         }
         isExchangeServiceableArray={isExchangeServiceableArray}
         isQuoteExpiredCheckout={isQuoteExpired}
-        isShippingObjAvailable={
-          this.props.cart &&
+        /**
+         * Old Implementation
+         * this.props.cart &&
           this.props.cart.cartDetailsCNC &&
           this.props.cart.cartDetailsCNC.cartAmount &&
           this.props.cart.cartDetailsCNC.cartAmount.shippingCharge
             ? true
             : false
-        }
+         */
+        isShippingObjAvailable={false}
       />
     );
   };
@@ -3807,6 +3833,7 @@ if you have order id in local storage then you have to show order confirmation p
   }
 
   render() {
+    console.log("=========>check", this.props);
     let labelForButton,
       checkoutButtonStatus = false;
     if (
@@ -4463,6 +4490,7 @@ if you have order id in local storage then you have to show order confirmation p
                       isExchangeServiceableArray={isExchangeServiceableArray}
                       showSecondaryLoader={this.props.showSecondaryLoader}
                       hideSecondaryLoader={this.props.hideSecondaryLoader}
+                      whatsappSelected={this.state.whatsappSelected}
                     />
                   </div>
                 )}

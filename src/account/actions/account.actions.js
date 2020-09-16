@@ -155,6 +155,9 @@ export const FETCH_ORDER_DETAILS_REQUEST = "FETCH_ORDER_DETAILS_REQUEST";
 export const FETCH_ORDER_DETAILS_SUCCESS = "FETCH_ORDER_DETAILS_SUCCESS";
 export const FETCH_ORDER_DETAILS_FAILURE = "FETCH_ORDER_DETAILS_FAILURE";
 
+export const RETRY_ORDER_DETAILS_SUCCESS = "RETRY_ORDER_DETAILS_SUCCESS";
+export const RETRY_ORDER_DETAILS_FAILURE = "RETRY_ORDER_DETAILS_FAILURE";
+
 export const FETCH_ORDER_ITEM_DETAILS_REQUEST =
   "FETCH_ORDER_ITEM_DETAILS_REQUEST";
 export const FETCH_ORDER_ITEM_DETAILS_SUCCESS =
@@ -3048,6 +3051,45 @@ export function fetchOrderDetails(orderId, pageName) {
     }
   };
 }
+
+export function retryOrderDetailsSuccess(retryOrderDetails) {
+  return {
+    type: RETRY_ORDER_DETAILS_SUCCESS,
+    status: SUCCESS,
+    retryOrderDetails
+  };
+}
+
+export function retryOrderDetailsFailure(error) {
+  return {
+    type: RETRY_ORDER_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function getRetryOrderDetails(orderId) {
+  return async (dispatch, getState, { api }) => {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getSelectedOrder_V1/${orderId}?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&isMDE=true`
+      );
+      let resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(retryOrderDetailsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(retryOrderDetailsFailure(e.message));
+    }
+  };
+}
 export function fetchOrderItemDetails(orderId, transactionId) {
   return async (dispatch, getState, { api }) => {
     dispatch(fetchOrderDetailsRequest());
@@ -4136,16 +4178,11 @@ let firstData = [];
 export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
   return async (dispatch, getState, { api }) => {
     dispatch(getCustomerQueriesFieldsRequestv2());
-    let v1 = "";
-    // if(isSelectRadio){
-    //   v1=UItemplateCode
-    // }else{
-    //   v1="SSW_01"
-    // }
     try {
       const result = await api.get(
         `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
       );
+
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
@@ -4206,14 +4243,15 @@ const getFormattedString = (strValue = "") => {
   if (strValue.includes("(") && strValue.includes(")")) {
     startIndex = strValue.indexOf("(");
     endIndex = strValue.indexOf(")");
-    strValue = strValue.slice(0, startIndex - 1) + strValue.slice(startIndex);
-
-    formattedValue =
-      strValue.slice(0, endIndex - 1) + strValue.slice(endIndex - 1);
+    strValue = `${strValue.slice(0, startIndex - 1)}${strValue.slice(
+      startIndex
+    )}`;
+    formattedValue = `${strValue.slice(0, endIndex - 2)}${strValue.slice(
+      endIndex - 1
+    )}`;
   } else {
     formattedValue = strValue;
   }
-
   return formattedValue;
 };
 
@@ -4419,8 +4457,7 @@ const getTextBoxApiData = (apiData = []) => {
     //       ? itemsTitle.split("|")[2].split(",")[1]
     //       : ""
     //     : "",
-    regex: getFormattedString(regexExp),
-    regex: regexExp,
+    regex: regexExp ? getFormattedString(regexExp) : regexExp,
     regexError: regexErr,
     webURL: items && items.webURL ? items.webURL : "",
     title: apiData.singleBannerComponent.title

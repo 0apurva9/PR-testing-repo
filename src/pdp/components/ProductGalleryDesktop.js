@@ -64,7 +64,7 @@ export default class ProductGalleryDesktop extends React.Component {
   showSimilarProducts() {
     this.props.showSimilarProducts();
     //setDataLayer(ADOBE_PDP_SIMILAR_PRODUCT, this.props.productDetails);
-    setDataLayer(ADOBE_SIMILAR_PRODUCTS_PDP, this.props.productDetails);
+    setDataLayer(ADOBE_SIMILAR_PRODUCTS_PDP, this.props.productData);
   }
   componentDidMount() {
     if (this.type === "image") {

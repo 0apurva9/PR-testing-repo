@@ -451,8 +451,10 @@ export default class DesktopCheckout extends React.Component {
   }
 }
 DesktopCheckout.propTypes = {
-  onContinue: PropTypes.bool
+  onContinue: PropTypes.bool,
+  isShippingObjAvailable: PropTypes.bool
 };
 DesktopCheckout.defaultProps = {
-  onContinue: true
+  onContinue: true,
+  isShippingObjAvailable: false
 };

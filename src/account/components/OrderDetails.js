@@ -1351,7 +1351,6 @@ export default class OrderDetails extends React.Component {
                     orderDetails && orderDetails.cliqCashAmountDeducted
                   }
                 />
-
                 <React.Fragment>
                   {this.state.itemDetails && (
                     <div

@@ -45,9 +45,29 @@ export default class ProductDescription extends Component {
     ) {
       priceClass = styles.priceCancelled;
     }
+    if (
+      this.props.discountPrice &&
+      this.props.price !== this.props.discountPrice &&
+      this.props.autoWidget
+    ) {
+      priceClass = styles.priceCancelledForAutoWidget;
+    }
+    if (
+      this.props.discountPrice &&
+      this.props.price === this.props.discountPrice &&
+      this.props.autoWidget
+    ) {
+      priceClass = styles.nodiscountForAutoWidget;
+    }
     if (this.props.isWhite) {
       headerText = styles.headerWhite;
       contentClass = styles.contentWhite;
+    }
+    let discountAutoWidget = styles.discount;
+    if (this.props.autoWidget) {
+      headerText = styles.headerTextForAutoWidget;
+      headerClass = styles.headerAutoWidget;
+      discountAutoWidget = styles.discountAutoWidget;
     }
     return (
       <div
@@ -122,7 +142,7 @@ export default class ProductDescription extends Component {
               !electronicView &&
               this.props.discountPrice &&
               this.props.discountPrice !== this.props.price && (
-                <div className={styles.discount}>
+                <div className={discountAutoWidget}>
                   <h3>
                     {" "}
                     {this.props.discountPrice.toString().includes(RUPEE_SYMBOL)

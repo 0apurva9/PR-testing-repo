@@ -5327,7 +5327,8 @@ export function removeItemFromCartLoggedIn(cartListItemPosition, pinCode) {
           JSON.parse(userDetails).userName,
           JSON.parse(customerCookie).access_token,
           cartId,
-          pinCode
+          pinCode,
+          true
         )
       ).then(cartDetails => {
         if (cartDetails.status === SUCCESS) {
@@ -5400,7 +5401,8 @@ export function removeItemFromCartLoggedOut(cartListItemPosition, pinCode) {
           ANONYMOUS_USER,
           JSON.parse(globalCookie).access_token,
           JSON.parse(cartDetailsAnonymous).guid,
-          pinCode
+          pinCode,
+          true
         )
       ).then(cartDetails => {
         if (cartDetails.status === SUCCESS) {
@@ -5469,7 +5471,8 @@ export function updateQuantityInCartLoggedIn(selectedItem, quantity, pinCode) {
           JSON.parse(userDetails).userName,
           JSON.parse(customerCookie).access_token,
           cartId,
-          pinCode
+          pinCode,
+          true
         )
       ).then(cartDetails => {
         if (cartDetails.status === SUCCESS) {
@@ -5538,7 +5541,8 @@ export function updateQuantityInCartLoggedOut(selectedItem, quantity, pinCode) {
           ANONYMOUS_USER,
           JSON.parse(globalCookie).access_token,
           JSON.parse(cartDetailsAnonymous).guid,
-          pinCode
+          pinCode,
+          true
         )
       ).then(cartDetails => {
         if (cartDetails.status === SUCCESS) {
@@ -6282,7 +6286,8 @@ export function mergeTempCartWithOldCart() {
           JSON.parse(userDetails).userName,
           JSON.parse(customerCookie).access_token,
           resultJson.buyNowCartCode,
-          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
+          localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
+          true
         )
       );
       // dispatch(getMinicartProducts());

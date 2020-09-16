@@ -4,7 +4,8 @@ import {
   clearOrderDetails,
   reSendEmailForGiftCard,
   retryPayment,
-  submitProductRatingByUser
+  submitProductRatingByUser,
+  getRetryOrderDetails
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import AllOrderDetails from "../components/AllOrderDetails";
@@ -15,9 +16,11 @@ import {
   DESKTOP_AUTH,
   RATING_AND_REVIEW_MODAL
 } from "../../general/modal.actions";
-import { addProductReview } from "../../pdp/actions/pdp.actions";
+import {
+  addProductReview,
+  getProductDescription
+} from "../../pdp/actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions";
-import { getProductDescription } from "../../pdp/actions/pdp.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getAllOrdersDetails: showDataAccordingToUser => {
@@ -64,7 +67,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(hideModal());
     },
     getProductDescription: productCode => {
-      return dispatch(getProductDescription(productCode));
+      return dispatch(getProductDescription(productCode, null, null, false));
+    },
+    getRetryOrderDetails: orderId => {
+      return dispatch(getRetryOrderDetails(orderId));
     }
   };
 };
