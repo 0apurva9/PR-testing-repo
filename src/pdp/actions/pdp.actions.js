@@ -2163,7 +2163,10 @@ export function verifyIMEINumber(
       if (wishlistName) {
         bodyParams.wishlistName = wishlistName;
       }
-      const result = await api.post(`v2/mpl/verifyIMEINumber`, bodyParams);
+      const result = await api.post(
+        `v2/mpl/verifyIMEINumber?isDuplicateImei=true`,
+        bodyParams
+      );
       const resultJson = await result.json();
       return resultJson;
     } catch (e) {
