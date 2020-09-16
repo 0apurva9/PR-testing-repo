@@ -23,7 +23,8 @@ export default class ProductInBagModal extends React.Component {
       <div className={styles.base}>
         <div className={styles.heading}>
           Product is already in cart{" "}
-          {this.props.isWithExchange ? "with Exchange" : null}.
+          {this.props.isWithExchange ? "with Exchange." : null}
+          {this.props.isWithProductBundling ? "with Combo." : null}
         </div>
         <div className={styles.cancelButton} onClick={() => this.closeModal()}>
           CANCEL
