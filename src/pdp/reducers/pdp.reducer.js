@@ -89,7 +89,11 @@ const productDescription = (
     howToWearStatus: null,
     howToWearLoading: false,
     howToWearDetails: null,
-    howToWearError: null
+    howToWearError: null,
+    moreFromBrandStatus: null,
+    moreFromBrandLoading: false,
+    moreFromBrandDetails: null,
+    moreFromBrandError: null
   },
   action
 ) => {
@@ -1137,6 +1141,24 @@ const productDescription = (
         howToWearStatus: action.status,
         howToWearError: action.error,
         howToWearLoading: false
+      });
+
+    case pdpActions.GET_MORE_FROM_BRAND_REQUEST:
+      return Object.assign({}, state, {
+        moreFromBrandStatus: action.status,
+        moreFromBrandLoading: true
+      });
+    case pdpActions.GET_MORE_FROM_BRAND_SUCCESS:
+      return Object.assign({}, state, {
+        moreFromBrandStatus: action.status,
+        moreFromBrandDetails: action.moreFromBrandResult,
+        moreFromBrandLoading: false
+      });
+    case pdpActions.GET_MORE_FROM_BRAND_FAILURE:
+      return Object.assign({}, state, {
+        moreFromBrandStatus: action.status,
+        moreFromBrandError: action.error,
+        moreFromBrandLoading: false
       });
     default:
       return state;

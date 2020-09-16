@@ -4,7 +4,8 @@ import {
   INGREDIENTS_COMPONENT,
   HOW_TO_WEAR_COMPONENT,
   FROM_THE_BRAND_COMPONENT,
-  SECTION_OF_PRODUCT_DESCRIPTION
+  SECTION_OF_PRODUCT_DESCRIPTION,
+  MORE_FROM_THIS_BRAND_COMPONENT
 } from "../ComponentConstants";
 import Loadable from "react-loadable";
 import SecondaryLoader from "../../../../general/components/SecondaryLoader";
@@ -39,6 +40,13 @@ const APlusTemplate = Loadable({
   }
 });
 
+const MoreFromBrand = Loadable({
+  loader: () => import("./MoreFromBrand"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const typeComponentMapping = {
   [INGREDIENTS_COMPONENT]: props => (
     <IngredientsComponents {...props} heading={"INGREDIENTS"} />
@@ -48,6 +56,9 @@ const typeComponentMapping = {
   ),
   [FROM_THE_BRAND_COMPONENT]: props => (
     <APlusTemplate {...props} heading={"FROM THE BRAND"} />
+  ),
+  [MORE_FROM_THIS_BRAND_COMPONENT]: props => (
+    <MoreFromBrand {...props} heading={"MORE FROM THIS BRAND"} />
   )
 };
 

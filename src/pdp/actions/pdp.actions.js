@@ -42,6 +42,7 @@ import { isBrowser } from "browser-or-node";
 import { getCartCountForLoggedInUser } from "../../cart/actions/cart.actions.js";
 import { API_MSD_URL_ROOT } from "../../lib/apiRequest.js";
 import { displayToast } from "../../general/toast.actions.js";
+import { MSD_ROOT_PATH } from "../../../src/plp/actions/plp.actions";
 export const SUBMIT_REVIEW_TEXT = "Thanks! Review submitted successfully";
 export const PRODUCT_DESCRIPTION_REQUEST = "PRODUCT_DESCRIPTION_REQUEST";
 export const PRODUCT_DESCRIPTION_SUCCESS = "PRODUCT_DESCRIPTION_SUCCESS";
@@ -148,6 +149,10 @@ export const GET_HOW_TO_WEAR_REQUEST = "GET_HOW_TO_WEAR_REQUEST";
 export const GET_HOW_TO_WEAR_SUCCESS = "GET_HOW_TO_WEAR_SUCCESS";
 export const GET_HOW_TO_WEAR_FAILURE = "GET_HOW_TO_WEAR_FAILURE";
 
+export const GET_MORE_FROM_BRAND_REQUEST = "GET_MORE_FROM_BRAND_REQUEST";
+export const GET_MORE_FROM_BRAND_SUCCESS = "GET_MORE_FROM_BRAND_SUCCESS";
+export const GET_MORE_FROM_BRAND_FAILURE = "GET_MORE_FROM_BRAND_FAILURE";
+
 export const RELEVANT_BUNDLE_PRODUCT_REQUEST =
   "RELEVANT_BUNDLE_PRODUCT_REQUEST";
 export const RELEVANT_BUNDLE_PRODUCT_SUCCESS =
@@ -216,6 +221,7 @@ const MSD_REQUEST_PATH = "widgets";
 const API_KEY = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
 const WIDGET_LIST = [0, 4];
 const WIDGET_LIST_FOR_ABOUT_BRAND = [114];
+const WIDGET_LIST_FOR_MORE_FROM_BRAND = [0, 4];
 const NUMBER_RESULTS = [10, 10];
 //TPR-9957 for Desktop
 export const PDP_MANUFACTURER_REQUEST = "PDP_MANUFACTURER_REQUEST";
@@ -392,6 +398,92 @@ export function getHowToWearFailure(error) {
     error,
     type: GET_HOW_TO_WEAR_FAILURE,
     status: ERROR
+  };
+}
+
+export function getMoreFromBrand(productId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getMoreFromBrandRequest());
+    const mcvId = await getMcvId();
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let msdFormData = new FormData();
+    let userData;
+    if (userDetails) {
+      userData = JSON.parse(userDetails);
+    }
+    msdFormData.append("api_key", API_KEY);
+    msdFormData.append("num_results", JSON.stringify(NUMBER_RESULTS));
+    msdFormData.append("mad_uuid", mcvId);
+    msdFormData.append("details", false);
+    msdFormData.append(
+      "widget_list",
+      JSON.stringify(WIDGET_LIST_FOR_MORE_FROM_BRAND)
+    );
+    msdFormData.append("product_id", productId);
+    if (userData && userData.customerId) {
+      msdFormData.append("user_id", userData.customerId);
+    }
+
+    try {
+      const moreBrand = await api.postMsd(
+        `${MSD_ROOT_PATH}/widgets`,
+        msdFormData
+      );
+      const moreBrandJson = await moreBrand.json();
+      const moreBrandJsonStatus = ErrorHandling.getFailureResponse(
+        moreBrandJson
+      );
+
+      if (moreBrandJsonStatus.status) {
+        throw new Error();
+      }
+
+      let finalProductDetails = null;
+
+      if (moreBrandJson.data && moreBrandJson.data.length > 0) {
+        let productCode = moreBrandJson.data[0].toString();
+        const getProductdetails = await api.getMiddlewareUrl(
+          `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
+        );
+        finalProductDetails = await getProductdetails.json();
+      }
+
+      if (finalProductDetails && finalProductDetails.status === FAILURE) {
+        const finalProductStatus = ErrorHandling.getFailureResponse(
+          finalProductDetails
+        );
+
+        if (finalProductStatus.status) {
+          throw new Error();
+        }
+      }
+      return dispatch(getMoreFromBrandSuccess(finalProductDetails));
+    } catch (error) {
+      dispatch(getMoreFromBrandFailure(error.message));
+    }
+  };
+}
+
+export function getMoreFromBrandSuccess(moreFromBrandResult) {
+  return {
+    type: GET_MORE_FROM_BRAND_SUCCESS,
+    status: SUCCESS,
+    moreFromBrandResult
+  };
+}
+
+export function getMoreFromBrandFailure(error) {
+  return {
+    error,
+    type: GET_MORE_FROM_BRAND_FAILURE,
+    status: ERROR
+  };
+}
+
+export function getMoreFromBrandRequest() {
+  return {
+    type: GET_MORE_FROM_BRAND_REQUEST,
+    status: REQUESTING
   };
 }
 
