@@ -29,6 +29,7 @@ import {
 import BackToCliqCashSection from "./BackToCliqCashSection";
 import Input2 from "../../general/components/Input2";
 import CliqGiftCardBuySend from "./CliqGiftCardBuySend";
+import greenLightBulb from "../components/img/greenLightBulb.svg";
 const MINIMUM_PRICE = 15;
 const MAXIMUM_PRICE = 10000;
 
@@ -124,6 +125,12 @@ export default class CliqGiftCardPurchase extends Component {
     if (!userDetails || !customerAccessToken) {
       return this.navigateToLogin();
     }
+    let offerDetails =
+      this.props &&
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.offerDetails;
+
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
@@ -137,6 +144,12 @@ export default class CliqGiftCardPurchase extends Component {
 
             <div className={styles.popularCardBox}>
               <div className={styles.popularHeading}>Send a CLiQ Gift Card</div>
+              {offerDetails && (
+                <div className={styles.cashBackOffer}>
+                  Get up to ₹{offerDetails.maxCashback.value} Cashback on gift
+                  voucher of {offerDetails.offerThreshold.value} and above*
+                </div>
+              )}
               <div className={styles.popularCardPriceBox}>
                 {this.props.giftCardsDetails &&
                   this.props.giftCardsDetails.landingPageOptions &&
@@ -189,6 +202,17 @@ export default class CliqGiftCardPurchase extends Component {
                   </div>
                 ) : null}
               </div>
+              {offerDetails && (
+                <div className={styles.cashBackOfferMsgDiv}>
+                  <div className={styles.cashBackOfferImgDiv}>
+                    <img src={greenLightBulb} alt={"Offer Text"} />
+                  </div>
+                  <div className={styles.cashBackOfferMsg}>
+                    Your earned cashback will be credited to your CLiQ Cash
+                    wallet within 24 Hrs of successful top up.
+                  </div>
+                </div>
+              )}
             </div>
             <CliqGiftCardBuySend
               selectedAmount={this.state.selectedAmount}

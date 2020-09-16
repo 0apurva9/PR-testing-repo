@@ -11,9 +11,18 @@ import {
   GIFT_CARD,
   RUPEE_SYMBOL,
   MY_ACCOUNT_PAGE,
-  MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE
+  MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE,
+  SUCCESS
 } from "../../lib/constants";
-import PropTypes, { array, arrayOf, string, object, bool } from "prop-types";
+import PropTypes, {
+  array,
+  arrayOf,
+  string,
+  object,
+  bool,
+  shape,
+  number
+} from "prop-types";
 import { Redirect } from "react-router-dom";
 import headerBg from "./img/headerBg.svg";
 import { getCustomerAccessToken } from "../../common/services/common.services";
@@ -25,6 +34,7 @@ import {
   setDataLayerForGiftCard,
   SET_DATA_LAYER_ADD_GIFT_CARD
 } from "../../lib/adobeUtils";
+import AvailableOffersMyAcc from "./AvailableOffersMyAcc";
 
 export default class CliqGiftCard extends Component {
   componentDidMount() {
@@ -32,14 +42,34 @@ export default class CliqGiftCard extends Component {
     if (this.props.getGiftCardDetails) {
       this.props.getGiftCardDetails();
     }
+    if (this.props.getCliqCashbackDetails) {
+      const cashbackmode = "EGV";
+      this.props.getCliqCashbackDetails(cashbackmode);
+    }
   }
   selectAmount(amount) {
-    this.props.history.push({
-      pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE}`,
-      state: {
-        selectedAmount: amount
-      }
-    });
+    if (
+      this.props.cliqCashbackDetailsStatus &&
+      this.props.cliqCashbackDetailsStatus === SUCCESS &&
+      this.props.cliqCashbackDetails &&
+      this.props.cliqCashbackDetails.cashbackOffers &&
+      this.props.cliqCashbackDetails.cashbackOffers.length > 0
+    ) {
+      this.props.history.push({
+        pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE}`,
+        state: {
+          offerDetails: this.props.cliqCashbackDetails.cashbackOffers[0],
+          selectedAmount: amount
+        }
+      });
+    } else {
+      this.props.history.push({
+        pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE}`,
+        state: {
+          selectedAmount: amount
+        }
+      });
+    }
   }
   navigateToLogin() {
     const url = this.props.location.pathname;
@@ -74,9 +104,24 @@ export default class CliqGiftCard extends Component {
     }
   }
   navigateSendGiftCard() {
-    this.props.history.push(
-      `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE}`
-    );
+    if (
+      this.props.cliqCashbackDetailsStatus &&
+      this.props.cliqCashbackDetailsStatus === SUCCESS &&
+      this.props.cliqCashbackDetails &&
+      this.props.cliqCashbackDetails.cashbackOffers &&
+      this.props.cliqCashbackDetails.cashbackOffers.length > 0
+    ) {
+      this.props.history.push({
+        pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE}`,
+        state: {
+          offerDetails: this.props.cliqCashbackDetails.cashbackOffers[0]
+        }
+      });
+    } else {
+      this.props.history.push(
+        `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE}`
+      );
+    }
   }
 
   render() {
@@ -132,6 +177,17 @@ export default class CliqGiftCard extends Component {
                 </div>
               </div>
             </div>
+
+            {this.props.cliqCashbackDetailsStatus &&
+              this.props.cliqCashbackDetailsStatus === SUCCESS &&
+              this.props.cliqCashbackDetails &&
+              this.props.cliqCashbackDetails.cashbackOffers &&
+              this.props.cliqCashbackDetails.cashbackOffers.length > 0 && (
+                <AvailableOffersMyAcc
+                  cliqCashbackDetails={this.props.cliqCashbackDetails}
+                  history={this.props.history}
+                />
+              )}
 
             <div className={styles.popularCardBox}>
               <div className={styles.popularHeading}>
@@ -306,5 +362,33 @@ CliqGiftCard.propTypes = {
     isWalletOtpVerified: bool
   }),
   showCliqCashModule: PropTypes.func,
-  showKycVerification: PropTypes.func
+  showKycVerification: PropTypes.func,
+  cliqCashbackDetailsStatus: PropTypes.string,
+  cliqCashbackDetails: PropTypes.shape({
+    cashbackOffers: arrayOf(
+      PropTypes.shape({
+        cashbackMode: string,
+        cashbackType: string,
+        offerValue: string,
+        offerThreshold: shape({
+          currencyIso: string,
+          doubleValue: number,
+          formattedValue: string,
+          formattedValueNoDecimal: string,
+          value: number
+        }),
+        offerDesc: string,
+        offerStatus: string,
+        maxCashback: shape({
+          currencyIso: string,
+          doubleValue: number,
+          formattedValue: string,
+          formattedValueNoDecimal: string,
+          value: number
+        }),
+        offerStartDate: string,
+        offerEndDate: string
+      })
+    )
+  })
 };

@@ -107,7 +107,8 @@ const mapStateToProps = state => {
     cliqCashExpiringDetails: state.profile.cliqCashExpiringDetails,
     cliqCashExpiringError: state.profile.cliqCashExpiringError,
     cliqCashbackDetails: state.profile.cliqCashbackDetails,
-    cliqCashbackDetailsError: state.profile.cliqCashbackDetailsError
+    cliqCashbackDetailsError: state.profile.cliqCashbackDetailsError,
+    cliqCashbackDetailsStatus: state.profile.cliqCashbackDetailsStatus
   };
 };
 

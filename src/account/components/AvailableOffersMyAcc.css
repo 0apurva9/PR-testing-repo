@@ -1,0 +1,89 @@
+.offerBase {
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 24px;
+  margin-bottom: 18px;
+}
+.offerContainer {
+  width: 100%;
+  height: auto;
+}
+.flexJustify {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #d8d8d8;
+}
+.offerHeading {
+  height: auto;
+  font-size: 16px;
+  font-family: semibold;
+  color: #000000;
+}
+.offerAvailContainer {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding: 21px 0px;
+}
+.borderBottom {
+  border-bottom: 2px dotted #f2f2f2;
+}
+.offerAvailIconHolder {
+  width: 10%;
+  height: 34px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.offerAvailIcon {
+  width: 42px;
+  height: 42px;
+  background: url(../../account/components/img/cashBackOffer.svg) no-repeat;
+}
+.offerAvail {
+  display: inline-block;
+  position: relative;
+  width: 90%;
+  height: auto;
+  vertical-align: middle;
+}
+.offerAvailHeaderAndSubHeading {
+  width: 85%;
+  height: auto;
+  display: inline-block;
+}
+.offerAvailHeading {
+  width: 100%;
+  height: auto;
+  font-size: 14px;
+  color: #212121;
+}
+.offerAvailButton {
+  height: 32px;
+  width: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+  background-color: transparent;
+  border: 1px solid #ff1744;
+}
+.offerAvailButtonText {
+  font-size: 14px;
+  color: #da1c5c;
+}
+.faqOptionArrow {
+  width: 10%;
+  display: inline-block;
+  text-align: right;
+}
+.arrowRight {
+  border: 59px solid #212121;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(-45deg);
+}

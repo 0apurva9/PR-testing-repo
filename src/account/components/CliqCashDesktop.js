@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+import PropTypes, { arrayOf, string, shape, number } from "prop-types";
 import styles from "./CliqCashDesktop.css";
 import walletBg from "./img/cliqCashWalletBg.svg";
 import Button from "../../general/components/Button";
@@ -39,8 +39,8 @@ import ProfileMenu from "./ProfileMenu";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
 import FaqAndTcBase from "./FaqAndTcBase";
+import AvailableOffersMyAcc from "./AvailableOffersMyAcc";
 const currentDate = new Date();
-const cashbackmode = "TOPUP";
 
 export default class CliqCashDesktop extends React.Component {
   constructor(props) {
@@ -82,6 +82,7 @@ export default class CliqCashDesktop extends React.Component {
       this.props.getCliqCashExpiring();
     }
     if (this.props.getCliqCashbackDetails) {
+      const cashbackmode = "EGV|TOPUP";
       this.props.getCliqCashbackDetails(cashbackmode);
     }
   }
@@ -154,9 +155,27 @@ export default class CliqCashDesktop extends React.Component {
     }
   };
   navigateTopUp = () => {
-    this.props.history.push(
-      `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PURCHASE_PAGE}`
-    );
+    if (window._satellite) {
+      window._satellite.track("cliqCash_Add_Top_Up");
+    }
+    if (
+      this.props.cliqCashbackDetailsStatus &&
+      this.props.cliqCashbackDetailsStatus === SUCCESS &&
+      this.props.cliqCashbackDetails &&
+      this.props.cliqCashbackDetails.cashbackOffers &&
+      this.props.cliqCashbackDetails.cashbackOffers.length > 0
+    ) {
+      this.props.history.push({
+        pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PURCHASE_PAGE}`,
+        state: {
+          offerDetails: this.props.cliqCashbackDetails.cashbackOffers[0]
+        }
+      });
+    } else {
+      this.props.history.push(
+        `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PURCHASE_PAGE}`
+      );
+    }
   };
   checkDateExpired = date => {
     let expiredDate = new Date(date);
@@ -319,6 +338,17 @@ export default class CliqCashDesktop extends React.Component {
                       ) : null}
                     </div>
                   </div>
+                  {this.props.cliqCashbackDetailsStatus &&
+                    this.props.cliqCashbackDetailsStatus === SUCCESS &&
+                    this.props.cliqCashbackDetails &&
+                    this.props.cliqCashbackDetails.cashbackOffers &&
+                    this.props.cliqCashbackDetails.cashbackOffers.length >
+                      0 && (
+                      <AvailableOffersMyAcc
+                        cliqCashbackDetails={this.props.cliqCashbackDetails}
+                        history={this.props.history}
+                      />
+                    )}
                   <div className={styles.giftCardBase}>
                     <div className={styles.giftCardContainer}>
                       <div className={styles.flexJustify}>
@@ -688,5 +718,33 @@ CliqCashDesktop.propTypes = {
   showSecondaryLoader: PropTypes.func,
   cliqCashConfig: PropTypes.object,
   cliqCashExpiringDetails: PropTypes.object,
-  getCliqCashExpiring: PropTypes.func
+  getCliqCashExpiring: PropTypes.func,
+  cliqCashbackDetailsStatus: PropTypes.string,
+  cliqCashbackDetails: PropTypes.shape({
+    cashbackOffers: arrayOf(
+      PropTypes.shape({
+        cashbackMode: string,
+        cashbackType: string,
+        offerValue: string,
+        offerThreshold: shape({
+          currencyIso: string,
+          doubleValue: number,
+          formattedValue: string,
+          formattedValueNoDecimal: string,
+          value: number
+        }),
+        offerDesc: string,
+        offerStatus: string,
+        maxCashback: shape({
+          currencyIso: string,
+          doubleValue: number,
+          formattedValue: string,
+          formattedValueNoDecimal: string,
+          value: number
+        }),
+        offerStartDate: string,
+        offerEndDate: string
+      })
+    )
+  })
 };

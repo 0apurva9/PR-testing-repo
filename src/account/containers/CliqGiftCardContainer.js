@@ -3,7 +3,10 @@ import { withRouter } from "react-router-dom";
 import { displayToast } from "../../general/toast.actions";
 import CliqGiftCard from "../components/CliqGiftCard.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
-import { getGiftCardDetails } from "../actions/account.actions";
+import {
+  getGiftCardDetails,
+  getCliqCashbackDetails
+} from "../actions/account.actions";
 import { setHeaderText } from "../../general/header.actions";
 import {
   showModal,
@@ -30,6 +33,9 @@ const mapDispatchToProps = dispatch => {
     },
     showCliqCashModule: data => {
       dispatch(showModal(CLIQ_CASH_MODULE, data));
+    },
+    getCliqCashbackDetails: cashbackmode => {
+      dispatch(getCliqCashbackDetails(cashbackmode));
     }
   };
 };
@@ -38,7 +44,10 @@ const mapStateToProps = state => {
   return {
     giftCardsDetails: state.profile.giftCards,
     cliqCashUserDetails: state.profile.cliqCashUserDetails,
-    userAddress: state.profile.userAddress
+    userAddress: state.profile.userAddress,
+    cliqCashbackDetails: state.profile.cliqCashbackDetails,
+    cliqCashbackDetailsError: state.profile.cliqCashbackDetailsError,
+    cliqCashbackDetailsStatus: state.profile.cliqCashbackDetailsStatus
   };
 };
 

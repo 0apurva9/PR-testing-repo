@@ -35,6 +35,7 @@ import Button from "../../general/components/Button";
 
 import { Link } from "react-router-dom";
 import { getItemBreakUpDetails } from "../../cart/actions/cart.actions";
+import greenLightBulb from "../components/img/greenLightBulb.svg";
 const MINIMUM_PRICE = 10;
 const MAXIMUM_PRICE = 10000;
 const PRODUCT_ID = "MP000000000127263";
@@ -177,6 +178,12 @@ export default class CliqCashTopUp extends Component {
       return this.navigateToLogin();
     }
 
+    let offerDetails =
+      this.props &&
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.offerDetails;
+
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
@@ -217,6 +224,13 @@ export default class CliqCashTopUp extends Component {
                 </div>
               </div>
               <div className={styles.popularHeading}>Popular Top-ups</div>
+              {offerDetails && (
+                <div className={styles.cashBackOffer}>
+                  Get up to ₹{offerDetails.maxCashback.value} Cashback on top-up
+                  of {offerDetails.offerThreshold.value} and above*
+                </div>
+              )}
+
               <div className={styles.popularCardPriceBox}>
                 {this.props.giftCardsDetails &&
                   this.props.giftCardsDetails.topUpOptions &&
@@ -269,6 +283,18 @@ export default class CliqCashTopUp extends Component {
                   </div>
                 ) : null}
               </div>
+              {offerDetails && (
+                <div className={styles.cashBackOfferMsgDiv}>
+                  <div className={styles.cashBackOfferImgDiv}>
+                    <img src={greenLightBulb} alt={"Offer Text"} />
+                  </div>
+                  <div className={styles.cashBackOfferMsg}>
+                    Your earned cashback will be credited to your CLiQ Cash
+                    wallet within 24 Hrs of successful top up.
+                  </div>
+                </div>
+              )}
+
               <div className={styles.sendGiftCardBtn}>
                 <Button
                   type="primary"
