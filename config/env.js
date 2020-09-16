@@ -54,6 +54,10 @@ process.env.NODE_PATH = (process.env.NODE_PATH || "")
 // injected into the application via DefinePlugin in Webpack configuration.
 const REACT_APP = /^REACT_APP_/i;
 
+// OnlineSales CLIENT ID
+process.env.REACT_APP_MONETIZATION_CLIENT_ID =
+  process.env.REACT_APP_STAGE === "production" ? "100007" : "171780";
+
 if (process.env.NODE_ENV !== "development") {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
     "367761167032-apbr4v0nndom1cafs9inrrnkk7iag5be.apps.googleusercontent.com";

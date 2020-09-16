@@ -13,4 +13,4 @@ export const MAD_UUID = "tata_user_1";
 export const MSD_WIDGET_LIST = "tata_1";
 export const MSD_WIDGET_PLATFORM = "msd";
 
-export const MONETIZATION_CLIENT_ID = "100007";
+//export const MONETIZATION_CLIENT_ID = "171780";

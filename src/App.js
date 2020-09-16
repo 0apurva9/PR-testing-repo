@@ -473,7 +473,9 @@ class App extends Component {
     let tracker = document.createElement("script");
     tracker.type = "text/javascript";
     tracker.async = true;
-    tracker.src = `https://c.o-s.io/${MONETIZATION_CLIENT_ID}/tracker.js`;
+    tracker.src = `https://c.o-s.io/${
+      process.env.REACT_APP_MONETIZATION_CLIENT_ID
+    }/tracker.js`;
     var mainScript = document.getElementsByTagName("script")[0];
     mainScript.parentNode.insertBefore(tracker, mainScript);
   }

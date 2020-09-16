@@ -9,6 +9,7 @@ import styles from "./Feed.css";
 import * as Cookie from "../../lib/Cookie";
 import List from "@researchgate/react-intersection-list";
 import MobileOnly from "../../general/components/MobileOnly";
+import HeroBannerComponentMonetization from "./HeroBannerComponentMonetization.js";
 import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
@@ -268,6 +269,32 @@ const MsdAutomatedBrandProductCarousel = Loadable({
   }
 });
 
+// Import Monetization Components
+const MultiPurposeBannerMonetization = Loadable({
+  loader: () => import("./MultiPurposeBannerMonetization.js"),
+  loading() {
+    return <div />;
+  }
+});
+const TopSellingBrandsComponentMonetization = Loadable({
+  loader: () => import("./TopSellingBrandsComponentMonetization.js"),
+  loading() {
+    return <div />;
+  }
+});
+const OffersComponentMonetization = Loadable({
+  loader: () => import("./OffersComponentMonetization.js"),
+  loading() {
+    return <div />;
+  }
+});
+const SplitBannerComponentMonetization = Loadable({
+  loader: () => import("./SplitBannerComponentMonetization.js"),
+  loading() {
+    return <div />;
+  }
+});
+
 export const typeComponentMapping = {
   "Product Capsules Component": props => (
     <ProductCapsulesContainer {...props} />
@@ -362,6 +389,21 @@ export const typeComponentMapping = {
   },
   "Account Navigation Component": props => (
     <AccountNavigationComponent {...props} />
+  ),
+  HeroBannerComponent_Monetization: props => (
+    <HeroBannerComponentMonetization {...props} />
+  ),
+  MultiPurposeBanner_Monetization: props => (
+    <MultiPurposeBannerMonetization {...props} />
+  ),
+  DesktopTopSellingBrandsComponent_Monetization: props => (
+    <TopSellingBrandsComponentMonetization {...props} />
+  ),
+  OffersComponent_Monetization: props => (
+    <OffersComponentMonetization {...props} />
+  ),
+  SplitBannerComponent_Monetization: props => (
+    <SplitBannerComponentMonetization {...props} />
   )
 };
 
@@ -411,11 +453,6 @@ class Feed extends Component {
     }
   }
   async componentDidUpdate() {
-    if (window._osFetchBrandAds) {
-      let homeBanner = await window._osFetchBrandAds({
-        pt: "HOME"
-      });
-    }
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     if (!userDetails) {
       setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);

@@ -29,7 +29,8 @@ export default class Banner extends React.Component {
     }
   }
   render() {
-    const urlSuffix = this.props.url.replace(TATA_CLIQ_ROOT, "$1");
+    const urlSuffix =
+      this.props.url && this.props.url.replace(TATA_CLIQ_ROOT, "$1");
     return (
       <React.Fragment>
         <MediaQuery query="(min-device-width: 1025px)">
