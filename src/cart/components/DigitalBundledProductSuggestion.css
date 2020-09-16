@@ -1,0 +1,56 @@
+.digitalBundledProductDetails{
+  position: relative;
+  margin-left: 181px;
+  border-radius: 2px;
+  padding: 16px;
+  border: solid 0.5px #edfae3;
+  margin-top: 24px;
+  background: linear-gradient(280deg, #f9fff5 5%, #edfae3);
+}
+.digitalBundledProductImage{
+  display: inline-block;
+  width: 60px;
+  height: 75px;
+}
+.digitalProductDetails{
+  display: inline-block;
+  width: 397px;
+  padding-left: 13px;
+  vertical-align: top;
+}
+.digitalProductName{
+  font-size: 16px;
+  letter-spacing: 0.03px;
+  color: #338715;
+  margin-bottom: 18px;
+}
+.digitalProductOfferPrice{
+  display: inline-block;
+  font-size: 16px;
+  font-family: semibold;
+  letter-spacing: 0.03px;
+  color: #212121ed;
+  margin-right: 4px;
+}
+.digitalProductPrice{
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.02px;
+  color: #4a4a4a;
+  text-decoration: line-through;
+}
+.addButton{
+  display: inline-block;
+  vertical-align: top;
+  width: 83px;
+  height: 38px;
+  border-radius: 20px;
+  border: solid 1px #da1c5c;
+  background-color: #da1c5c;
+  color: #ffffff;
+  margin: 18px 0px;
+  text-align: center;
+  padding: 8px;
+  font-family: semibold;
+  cursor: pointer;
+}
