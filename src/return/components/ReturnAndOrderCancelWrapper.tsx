@@ -94,6 +94,7 @@ export default class ReturnAndOrderCancelWrapper extends React.Component<IProps,
 												returnProductDetails.orderProductWsDTO &&
 												returnProductDetails.orderProductWsDTO[0] &&
 												returnProductDetails.orderProductWsDTO[0].exchangeDetails}
+											bundledAssociatedItems={returnProductDetails && returnProductDetails.bundledAssociatedItems}
 										>
 											{returnProductDetails &&
 												returnProductDetails.orderProductWsDTO &&

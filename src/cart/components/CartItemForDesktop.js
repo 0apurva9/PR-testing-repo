@@ -38,6 +38,8 @@ import {
   ADOBE_MDE_CLICK_ON_CART_VIEW_LESS,
   ADOBE_MDE_CLICK_ON_CART_TNC
 } from "../../lib/adobeUtils";
+import DigitalBundledProduct from "./DigitalBundledProduct";
+import RecommendedBundledProduct from "./RecommendedBundledProduct";
 const NO_SIZE = "NO SIZE";
 const OUT_OF_STOCK = "Product is out of stock";
 export default class CartItemForDesktop extends React.Component {
@@ -57,9 +59,13 @@ export default class CartItemForDesktop extends React.Component {
       this.props.onClickImage();
     }
   }
-  handleRemove(index) {
+  handleRemove(entryNumber, mainProductUssid, isForDigitalBundledProduct) {
     if (this.props.onRemove) {
-      this.props.onRemove(index);
+      this.props.onRemove(
+        entryNumber,
+        mainProductUssid,
+        isForDigitalBundledProduct
+      );
     }
   }
   getDeliveryName = type => {
@@ -220,14 +226,22 @@ export default class CartItemForDesktop extends React.Component {
       }
     }
     let hideQuantityArrow = false;
-    if (this.props.product && this.props.product.exchangeDetails) {
+    let isDigitalBundledProduct =
+      this.props.product &&
+      this.props.product.bundledDigitalItems &&
+      Array.isArray(this.props.product.bundledDigitalItems) &&
+      this.props.product.bundledDigitalItems.length > 0;
+    if (
+      this.props.product &&
+      (this.props.product.exchangeDetails || isDigitalBundledProduct)
+    ) {
       hideQuantityArrow = true;
     }
     let productMessage = this.props.productNotServiceable
       ? this.props.productNotServiceable
       : !this.props.productOutOfStocks
-      ? NOT_SERVICEABLE
-      : null;
+        ? NOT_SERVICEABLE
+        : null;
     let pickUpDateDetails = "";
     if (this.props.storeDetails && this.props.storeDetails.slaveId) {
       let productSlaveId = this.props.storeDetails.slaveId;
@@ -359,30 +373,31 @@ export default class CartItemForDesktop extends React.Component {
               </div>
             )}
 
-            {this.props.isGiveAway === NO && this.props.hasFooter && (
-              <div className={styles.dropDown}>
-                <SelectBoxDesktop
-                  value={this.props.qtySelectedByUser}
-                  label={this.props.qtySelectedByUser}
-                  height={30}
-                  options={fetchedQuantityList}
-                  onChange={val => this.handleQuantityChange(val)}
-                  size={10}
-                  leftChild={this.props.dropdownLabel}
-                  leftChildSize={80}
-                  rightChildSize={30}
-                  labelWithLeftChild={true}
-                  arrowColour="black"
-                  disabled={this.props.isOutOfStock}
-                  theme="hollowBox"
-                  paddingLeftColour={"#212121"}
-                  paddingLeftFontFamily={"light"}
-                  paddingLeft={"0px"}
-                  rightArrow={0}
-                  hideArrow={hideQuantityArrow}
-                />
-              </div>
-            )}
+            {this.props.isGiveAway === NO &&
+              this.props.hasFooter && (
+                <div className={styles.dropDown}>
+                  <SelectBoxDesktop
+                    value={this.props.qtySelectedByUser}
+                    label={this.props.qtySelectedByUser}
+                    height={30}
+                    options={fetchedQuantityList}
+                    onChange={val => this.handleQuantityChange(val)}
+                    size={10}
+                    leftChild={this.props.dropdownLabel}
+                    leftChildSize={80}
+                    rightChildSize={30}
+                    labelWithLeftChild={true}
+                    arrowColour="black"
+                    disabled={this.props.isOutOfStock}
+                    theme="hollowBox"
+                    paddingLeftColour={"#212121"}
+                    paddingLeftFontFamily={"light"}
+                    paddingLeft={"0px"}
+                    rightArrow={0}
+                    hideArrow={hideQuantityArrow}
+                  />
+                </div>
+              )}
             {(this.props.size || this.props.color) && (
               <div className={styles.colourSizeHolder}>
                 {this.props.color && (
@@ -399,26 +414,29 @@ export default class CartItemForDesktop extends React.Component {
               </div>
             )}
           </div>
-          {this.props.isGiveAway === NO && this.props.hasFooter && (
-            <div className={styles.footer}>
-              <div className={styles.wishlist}>
-                <AddToWishListButtonContainer
-                  type={WISHLIST_BUTTON_TEXT_TYPE_SMALL}
-                  productListingId={this.props.product.productcode}
-                  winningUssID={this.props.product.USSID}
-                  setDataLayerType={ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART}
-                  index={this.props.index}
-                  exchangeDetails={this.props.product.exchangeDetails}
-                />
+          {this.props.isGiveAway === NO &&
+            this.props.hasFooter && (
+              <div className={styles.footer}>
+                <div className={styles.wishlist}>
+                  <AddToWishListButtonContainer
+                    type={WISHLIST_BUTTON_TEXT_TYPE_SMALL}
+                    productListingId={this.props.product.productcode}
+                    winningUssID={this.props.product.USSID}
+                    setDataLayerType={ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART}
+                    index={this.props.index}
+                    exchangeDetails={this.props.product.exchangeDetails}
+                  />
+                </div>
+                <div
+                  className={styles.removeLabel}
+                  onClick={() =>
+                    this.handleRemove(this.props.product.entryNumber)
+                  }
+                >
+                  {this.props.removeText}
+                </div>
               </div>
-              <div
-                className={styles.removeLabel}
-                onClick={() => this.handleRemove(this.props.index)}
-              >
-                {this.props.removeText}
-              </div>
-            </div>
-          )}
+            )}
         </div>
         {this.props.isFromCnc &&
           this.props.storeDetails &&
@@ -453,12 +471,12 @@ export default class CartItemForDesktop extends React.Component {
                             pickUpDateDetails && pickUpDateDetails.pickupDate
                           )}`
                         : nextDayFormat === productDayFormatOfClqAndPiq
-                        ? `Tomorrow, ${this.getDayNumberSuffix(
-                            pickUpDateDetails && pickUpDateDetails.pickupDate
-                          )}`
-                        : `${this.getDayNumberSuffix(
-                            pickUpDateDetails && pickUpDateDetails.pickupDate
-                          )}`
+                          ? `Tomorrow, ${this.getDayNumberSuffix(
+                              pickUpDateDetails && pickUpDateDetails.pickupDate
+                            )}`
+                          : `${this.getDayNumberSuffix(
+                              pickUpDateDetails && pickUpDateDetails.pickupDate
+                            )}`
                       : ""}
                     {hours !== 0 ? ` | After ${strTime}` : ""}
                   </div>
@@ -644,18 +662,65 @@ export default class CartItemForDesktop extends React.Component {
             )}
           </React.Fragment>
         )}
-        {this.props.isGiveAway === NO && this.props.deliveryInformation && (
-          <div className={styles.deliveryInfo}>
-            <DeliveryInfoSelect
-              deliveryInformation={this.props.deliveryInformation}
-              selected={this.props.selected}
-              onSelect={val => this.selectDeliveryMode(val)}
-              onPiq={val => this.getPickUpDetails()}
-              isClickable={this.props.isClickable}
-              isShippingObjAvailable={this.props.isShippingObjAvailable}
+        {this.props.product.bundledDigitalItems &&
+          this.props.product.bundledDigitalItems.map(
+            (digitalProduct, index) => {
+              return (
+                <DigitalBundledProduct
+                  key={index}
+                  digitalProduct={digitalProduct}
+                  mainProductUssid={this.props.product.USSID}
+                  onRemove={(
+                    entryNumber,
+                    mainProductUssid,
+                    isForDigitalBundledProduct
+                  ) =>
+                    this.handleRemove(
+                      entryNumber,
+                      mainProductUssid,
+                      isForDigitalBundledProduct
+                    )
+                  }
+                  history={this.props.history}
+                />
+              );
+            }
+          )}
+
+        {this.props.product.bundlingSuggestionAvailable &&
+          !this.props.isOutOfStock &&
+          this.props.productIsServiceable && (
+            <RecommendedBundledProduct
+              product={this.props.product}
+              getBundledProductSuggestion={
+                this.props.getBundledProductSuggestion
+              }
+              bundledProductSuggestionDetails={
+                this.props.bundledProductSuggestionDetails
+              }
+              addBundledProductsToCart={this.props.addBundledProductsToCart}
+              addBundledProductsToCartDetails={
+                this.props.addBundledProductsToCartDetails
+              }
+              getCartDetails={this.props.getCartDetails}
+              displayToast={this.props.displayToast}
+              history={this.props.history}
             />
-          </div>
-        )}
+          )}
+
+        {this.props.isGiveAway === NO &&
+          this.props.deliveryInformation && (
+            <div className={styles.deliveryInfo}>
+              <DeliveryInfoSelect
+                deliveryInformation={this.props.deliveryInformation}
+                selected={this.props.selected}
+                onSelect={val => this.selectDeliveryMode(val)}
+                onPiq={val => this.getPickUpDetails()}
+                isClickable={this.props.isClickable}
+                isShippingObjAvailable={this.props.isShippingObjAvailable}
+              />
+            </div>
+          )}
       </div>
     );
   }

@@ -177,7 +177,9 @@ export default class CliqGiftCardPurchase extends Component {
                 )}
                 <Input2
                   hollow={true}
-                  placeholder={`Or enter an amount between ${RUPEE_SYMBOL}${this.state.minPrice}-${RUPEE_SYMBOL}${this.state.maxPrice}`}
+                  placeholder={`Or enter an amount between ${RUPEE_SYMBOL}${
+                    this.state.minPrice
+                  }-${RUPEE_SYMBOL}${this.state.maxPrice}`}
                   value={this.state.selectedAmount}
                   onChange={amount => this.selectAmount(amount)}
                   textStyle={{ fontSize: 14, letterSpacing: "0.03px" }}
