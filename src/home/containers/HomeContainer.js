@@ -5,7 +5,10 @@ import {
   setPageFeedSize
 } from "../actions/home.actions";
 import { getCartId } from "../../cart/actions/cart.actions";
-import { getWishListItems } from "../../wishlist/actions/wishlist.actions";
+import {
+  getWishListItems,
+  getWishlist
+} from "../../wishlist/actions/wishlist.actions";
 import { clearProductModuleRef } from "../../plp/actions/plp.actions";
 import Feed from "../components/Feed";
 import { setHeaderText } from "../../general/header.actions";
@@ -34,6 +37,9 @@ const mapDispatchToProps = dispatch => {
     },
     clearProductModuleRef: () => {
       dispatch(clearProductModuleRef());
+    },
+    getWishlist: () => {
+      dispatch(getWishlist());
     }
   };
 };

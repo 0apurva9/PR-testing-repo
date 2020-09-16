@@ -1,19 +1,10 @@
 import React from "react";
-import styles from "./CuponDetails.css";
-import CheckBox from "../../general/components/CheckBox.js";
+import styles from "./OtherCuponDetails.css";
 import PropTypes from "prop-types";
 import { RUPEE_SYMBOL } from "../../lib/constants.js";
 import { Link } from "react-router-dom";
 
-const COUPON_TYPE = "COUPON";
-export default class CuponDetails extends React.Component {
-  handleClick(val) {
-    if (this.props.couponType === COUPON_TYPE) {
-      if (this.props.selectItem) {
-        this.props.selectItem();
-      }
-    }
-  }
+export default class OtherCuponDetails extends React.Component {
   render() {
     let date;
     let couponExpiryDate =
@@ -27,25 +18,13 @@ export default class CuponDetails extends React.Component {
         couponExpiryDate[5];
     }
     return (
-      <div
-        className={styles.base}
-        data-test={`single-coupon-section-${this.props.promotionTitle}`}
-      >
+      <div className={styles.base}>
         <div className={styles.cuponCard}>
           {
             <div className={styles.headerText}>
               <span className={styles.cuponCodeColor}>
                 {this.props.promotionTitle}
               </span>
-              {this.props.couponType === COUPON_TYPE && this.props.selectItem && (
-                <div
-                  className={styles.checkBoxHolder}
-                  onClick={val => this.handleClick(val)}
-                  data-test={`coupon-radio-btn-${this.props.promotionTitle}`}
-                >
-                  <CheckBox selected={this.props.selected} />
-                </div>
-              )}
             </div>
           }
           <div className={styles.promotionDetailsText}>
@@ -63,10 +42,7 @@ export default class CuponDetails extends React.Component {
 
           <div className={styles.dataHolder}>
             {this.props.dateTime && (
-              <div
-                className={styles.amountExpireHolder}
-                data-test={`valid-till-date-${this.props.promotionTitle}`}
-              >
+              <div className={styles.amountExpireHolder}>
                 <div className={styles.dataHeader}>
                   Valid till:{" "}
                   <span className={styles.dataInformation}>{date}</span>
@@ -74,10 +50,7 @@ export default class CuponDetails extends React.Component {
               </div>
             )}
             {this.props.amount && (
-              <div
-                className={styles.amountExpireHolder}
-                data-test={`max-discount-${this.props.promotionTitle}`}
-              >
+              <div className={styles.amountExpireHolder}>
                 <div className={styles.dataHeader}>
                   Max Discount:{" "}
                   <span className={styles.dataInformation}>
@@ -93,7 +66,7 @@ export default class CuponDetails extends React.Component {
     );
   }
 }
-CuponDetails.propTypes = {
+OtherCuponDetails.propTypes = {
   productOfferPromotion: PropTypes.arrayOf(
     PropTypes.shape({
       promotionTitle: PropTypes.string,
