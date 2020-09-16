@@ -1,0 +1,73 @@
+.separator {
+	width: 100%;
+	height: auto;
+	margin-top: 30px;
+}
+
+.pinAndDeliveryHolder {
+  width: 100%;
+  height: auto;
+}
+
+.notServiciableTetx {
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	color: #d88600;
+	font-size: 12px;
+	font-family: regular;
+}
+
+.deliveryModesHolder {
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	/* margin-top: 35px; */
+}
+
+.invalidPinText {
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	color: rgb(74, 74, 74);
+	font-size: 12px;
+	font-family: regular;
+	padding-left: 75px;
+}
+
+@media screen and (min-width: 1025px) {
+  .horizontalOffset {
+		width: 100%;
+		height: auto;
+    display: inline-block;
+  }
+  .separator {
+		margin-top: 15px;
+		border-bottom: 1px solid #e2e2e2;
+  }
+  .pinAndDeliveryHolder {
+		width: 100%;
+		height: auto;
+  }
+  .updatePincodeHolder {
+		width: 360px;
+		height: auto;
+    	display: inline-block;
+		position: relative;
+		padding-left: 65px;
+		/* margin: 15px 0; */
+	}
+	.updatePincodeHolder:before {
+		content: 'Ship To';
+		position: absolute;
+		left: 0;
+		bottom: 16px;
+		font-size: 14px;
+		line-height: 0px;
+		color: #212121;
+		font-family: semibold;
+  }
+  .overlay {
+		padding-top: 14px;
+	}
+}

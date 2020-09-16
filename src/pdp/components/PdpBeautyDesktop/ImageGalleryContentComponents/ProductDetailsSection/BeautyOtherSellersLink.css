@@ -1,0 +1,21 @@
+.sellers {
+	font-size: 14px;
+	line-height: 22px;
+	font-family: regular;
+}
+
+.winningSellerText {
+	font-family: semibold;
+}
+
+
+@media screen and (min-width: 1025px) {
+  .sellers {
+		display: inline-block;
+		font-family: light;
+		font-size: 13px;
+  }
+  .otherText {
+		color: #808080;
+	}
+}

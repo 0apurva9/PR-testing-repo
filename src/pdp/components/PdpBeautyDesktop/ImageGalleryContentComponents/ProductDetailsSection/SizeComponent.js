@@ -16,10 +16,13 @@ export default class SizeComponent extends React.Component {
   }
 
   render() {
-    const variantOptions =
+    let variantOptions;
+    variantOptions =
       this.props &&
       this.props.productDetails &&
-      this.props.productDetails.variantOptions;
+      this.props.productDetails.variantOptions
+        ? this.props.productDetails.variantOptions
+        : [];
     const sizeOptions = variantOptions.map(el => el.sizelink);
     let selectedClass;
     return (
