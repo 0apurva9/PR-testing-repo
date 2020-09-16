@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import Carousel from "../../../../general/components/Carousel";
 import ProductModule from "../../../../general/components/ProductModule";
 import { transformData } from "../../../../home/components/utils";
@@ -60,3 +61,20 @@ export default class MoreFromBrand extends Component {
     );
   }
 }
+
+MoreFromBrand.propTypes = {
+  moreFromBrandResponse: PropTypes.shape({
+    results: PropTypes.arrayOf(
+      PropTypes.shape({
+        imageUrl: PropTypes.string,
+        mrp: PropTypes.string,
+        productListingId: PropTypes.string,
+        productName: PropTypes.string,
+        sharedText: PropTypes.string,
+        webURL: PropTypes.string,
+        winningSellerMOP: PropTypes.string,
+        winningUssID: PropTypes.string
+      })
+    )
+  })
+};
