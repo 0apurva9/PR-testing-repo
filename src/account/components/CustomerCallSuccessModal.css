@@ -1,13 +1,13 @@
 .base{
-    width: 468px;
+    width: 532px;
     height: auto;
     background: #fff;
     border-radius: 8px;
-    padding: 10px;
+    padding: 13px 10px 27px 10px;
     text-align: center;
     position: relative;
 }
-.heading{
+.timing{
     font-size: 14px;
     font-family: semibold;
     color: #212121;

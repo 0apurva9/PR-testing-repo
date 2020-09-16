@@ -315,7 +315,12 @@ const account = (
     genesysResponseStatus: null,
     genesysResponseLoading: false,
     genesysResponseData: null,
-    genesysResponseError: null
+    genesysResponseError: null,
+
+    genesysCustomerCallRequestStatus: null,
+    genesysCustomerCallRequestLoading: false,
+    genesysCustomerCallRequestData: null,
+    genesysCustomerCallRequestError: null
   },
   action
 ) => {
@@ -2011,6 +2016,27 @@ const account = (
         genesysResponseLoading: false,
         genesysResponseError: action.error
       });
+
+    case accountActions.GENESYS_CUSTOMER_CALL_REQUEST:
+      return {
+        ...state,
+        genesysCustomerCallRequestStatus: action.status,
+        genesysCustomerCallRequestLoading: true
+      };
+    case accountActions.GENESYS_CUSTOMER_CALL_REQUEST_SUCCESS:
+      return {
+        ...state,
+        genesysCustomerCallRequestStatus: action.status,
+        genesysCustomerCallRequestLoading: false,
+        genesysCustomerCallRequestData: action.data
+      };
+    case accountActions.GENESYS_CUSTOMER_CALL_REQUEST_FAILURE:
+      return {
+        ...state,
+        genesysCustomerCallRequestStatus: action.status,
+        genesysCustomerCallRequestLoading: false,
+        genesysCustomerCallRequestError: action.error
+      };
 
     default:
       return state;

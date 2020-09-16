@@ -26,7 +26,8 @@ import GoToCartPopUp from "../../pdp/components/GoToCartPopUp";
 import { LOGIN_PATH } from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";
 import DesktopAuth from "../../auth/components/DesktopAuth.js";
-import Cliq2CallPopUp from "../../account/components/Cliq2CallPopUp";
+// import Cliq2CallPopUp from "../../account/components/Cliq2CallPopUp";
+import CustomerQueryErrorModal from "../../account/components/CustomerQueryErrorModal";
 import TimeSlotPopUp from "../../account/components/TimeSlotPopUp";
 const modalRoot = document.getElementById("modal-root");
 const GenerateOtp = "GenerateOtpForEgv";
@@ -365,6 +366,21 @@ const ChangeExchangeCashabackModal = Loadable({
     return <Loader />;
   }
 });
+
+const Cliq2CallPopUp = Loadable({
+  loader: () => import("../../account/components/Cliq2CallPopUp"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const CustomerCallQuerySuccess = Loadable({
+  loader: () => import("../../account/components/CustomerCallSuccessModal"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 export default class ModalRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -830,6 +846,29 @@ export default class ModalRoot extends React.Component {
       Cliq2CallPopUp: (
         <Cliq2CallPopUp
           {...this.props.ownProps}
+          // goToCartPage={productCode => this.goToCartPage(productCode)}
+          // closeModal={() => this.handleClose()}
+          // goToHomePage={() => this.goToHomePage()}
+          genesysCallConfigData={this.props.genesysCallConfigData}
+          genesysDataLoader={this.props.genesysCallConfigDataLoading}
+          closeModal={() => this.handleClose()}
+          showModal={this.props.showModal}
+          getGenesysCallConfigData={() => this.props.getGenesysCallConfigData()}
+        />
+      ),
+
+      CustomerQueryErrorModal: (
+        <CustomerQueryErrorModal
+          {...this.props.ownProps}
+          // goToCartPage={productCode => this.goToCartPage(productCode)}
+          closeModal={() => this.handleClose()}
+          goToHomePage={() => this.goToHomePage()}
+        />
+      ),
+
+      CustomerCallQuerySuccess: (
+        <CustomerCallQuerySuccess
+          callSuccessData={this.props.ownProps}
           // goToCartPage={productCode => this.goToCartPage(productCode)}
           closeModal={() => this.handleClose()}
           goToHomePage={() => this.goToHomePage()}

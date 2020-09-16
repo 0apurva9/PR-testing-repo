@@ -510,6 +510,18 @@ export const GET_GENESYS_RESPONSE_REQUEST = "GET_GENESYS_RESPONSE_REQUEST";
 export const GET_GENESYS_RESPONSE_SUCCESS = "GET_GENESYS_RESPONSE_SUCCESS";
 export const GET_GENESYS_RESPONSE_FAILURE = "GET_GENESYS_RESPONSE_FAILURE";
 
+export const GENESYS_CUSTOMER_CALL_REQUEST = "GENESYS_CUSTOMER_CALL_REQUEST";
+export const GENESYS_CUSTOMER_CALL_REQUEST_SUCCESS =
+  "GENESYS_CUSTOMER_CALL_REQUEST_SUCCESS";
+export const GENESYS_CUSTOMER_CALL_REQUEST_FAILURE =
+  "GENESYS_CUSTOMER_CALL_REQUEST_FAILURE";
+
+//Genesys API CALL URL
+const GENESYS_CALL_CONFIG_URL =
+  "https://219.65.91.76/UnistoreCallBack/api/Lead";
+const GENESYS_CALL_REQUEST_URL =
+  "https://219.65.91.76/UnistoreCallBack/api/Push";
+
 const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
 
@@ -5288,12 +5300,14 @@ export function getCliq2CallConfig(Cliq2CallConfigId) {
   return async (dispatch, getState, { api }) => {
     dispatch(getCliq2CallConfigRequest());
     try {
-      const result = await api.get(
-        `v2/mpl/cms/defaultpage?pageId=${Cliq2CallConfigId}`
+      // const result = await api.get(
+      //   `v2/mpl/cms/defaultpage?pageId=${Cliq2CallConfigId}`
+      // );
+      const result = await fetch(
+        `https://cors-anywhere.herokuapp.com/https://qa3.tataunistore.com/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=cliq2call-config`
       );
-      console.log("result", result);
+
       let resultJson = await result.json();
-      console.log("result", result);
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
@@ -5325,22 +5339,16 @@ export function getGenesysResponseFailure() {
   };
 }
 
-export function getGenesysResponse() {
+export function getGenesysCallConfigData() {
+  const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const userDetails = JSON.parse(userDetailsCookie);
   return async (dispatch, getState, { api }) => {
     dispatch(getGenesysResponseRequest());
     try {
-      // const result = await api.get(
-      //   `v2/mpl/cms/defaultpage?pageId=${Cliq2CallConfigId}`
-      // );
-      const result = {
-        waitTime: null,
-        totalRequestsToday: null,
-        totalRequestsNextDay: null,
-        openRequest: null
-      };
-      console.log("result", result);
-      let resultJson = await result.json();
-      console.log("result", result);
+      const result = await api.postWithoutApiUrlRoot(GENESYS_CALL_CONFIG_URL, {
+        CustomerId: userDetails.customerId
+      });
+      const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
@@ -5348,6 +5356,54 @@ export function getGenesysResponse() {
       return dispatch(getGenesysResponseSuccess(resultJson));
     } catch (e) {
       return dispatch(getGenesysResponseFailure(e.message));
+    }
+  };
+}
+
+export function genesysCustomerCallRequest() {
+  return {
+    type: GENESYS_CUSTOMER_CALL_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function genesysCustomerCallRequestSuccess(data) {
+  return {
+    type: GENESYS_CUSTOMER_CALL_REQUEST_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function genesysCustomerCallRequestFailure(error) {
+  return {
+    type: GENESYS_CUSTOMER_CALL_REQUEST_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function placeCustomerCallRequest(callRequestData) {
+  const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const userDetails = JSON.parse(userDetailsCookie);
+  return async (dispatch, getState, { api }) => {
+    dispatch(genesysCustomerCallRequest());
+    callRequestData.CustomerId = userDetails.customerId;
+    try {
+      const result = await api.postWithoutApiUrlRoot(
+        GENESYS_CALL_REQUEST_URL,
+        callRequestData
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(genesysCustomerCallRequestSuccess(resultJson));
+    } catch (e) {
+      return dispatch(genesysCustomerCallRequestFailure(e.message));
     }
   };
 }

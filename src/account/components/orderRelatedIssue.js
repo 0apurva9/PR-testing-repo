@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./OrderRelatedIssue.css";
 import FloatingLabelInputWithPlace from "../../general/components/FloatingLabelInputWithPlace";
 import Button from "../../general/components/Button.js";
-import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import * as Cookie from "../../lib/Cookie";
 import CustomerIssue from "./CustomerIssue.js";
@@ -16,12 +15,13 @@ import {
   MY_ACCOUNT_PAGE,
   HOME_ROUTER
 } from "../../lib/constants";
+import { MOBILE_PATTERN } from "../../auth/components/Login";
 import SSRquest from "../../general/components/SSRequest";
 import Icon from "../../xelpmoc-core/Icon";
 const ORDER_REALTED_QUESTION = "orderRelated";
 const NON_ORDER_REALTED_QUESTION = "NonOrderRelated";
 const FAQ_PAGE = "ss-faq";
-const CLIQ_2_CALL_CONFIG = "cliq2call-config";
+const CLIQ_2_CALL_CONFIG = "cliq2call-config-file";
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
     super(props);
@@ -36,7 +36,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.location.state &&
       this.props.location.state.selectedOrderObj;
     this.state = {
-      isIssueOptions: true, //only testing
+      isIssueOptions: false, //only testing
       isQuesryForm: false,
       questionList: [],
       orderList: true,
@@ -69,10 +69,11 @@ export default class OrderRelatedIssue extends React.Component {
         getUserDetails.userName
           ? getUserDetails.userName
           : "",
-      chooseLanguage: "",
+      chooseLanguage: "English",
       timing: "",
       selectedDate: "",
-      cliq2CallConfigData: ""
+      cliq2CallConfigData: "",
+      shift: ""
     };
     this.resetState = this.state;
   }
@@ -365,6 +366,8 @@ export default class OrderRelatedIssue extends React.Component {
         isIssueOptions: false,
         showFeedBack: true
       });
+    } else if (this.state.isCallMeBackForm) {
+      this.setState({ isIssueOptions: true, isCallMeBackForm: false });
     }
   }
   navigateHomePage() {
@@ -378,14 +381,7 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   async CLiQ2CallClick() {
-    this.props.customerQueryErrorModal({
-      heading: "Sorry, no agents are available right now",
-      subHeading: "Please try again later or choose other options",
-      showBtn: false
-    });
     this.setState({ callMeBackJourney: true });
-    // const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    // const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!this.userDetailsCookie || !this.customerCookie) {
       this.props.setSelfServeState(this.state);
       this.navigateLogin();
@@ -394,39 +390,40 @@ export default class OrderRelatedIssue extends React.Component {
         const response = await this.props.getCliq2CallConfig(
           CLIQ_2_CALL_CONFIG
         );
-        console.log("cliq2CallData", response);
         if (response.status === SUCCESS) {
           if (response) {
             const cliq2CallData = JSON.parse(
               response.cliq2CallConfigData.items[0].cmsParagraphComponent
                 .content
             );
-            // console.log("cliq2CallData",JSON.parse(cliq2CallData));
+            let currentTime = new Date().toLocaleTimeString("en-US", {
+              hour12: false
+            });
+            let isUserWithinBusinessTime =
+              currentTime > cliq2CallData.businessStartTime &&
+              currentTime < cliq2CallData.businessEndTime
+                ? true
+                : false;
             const buttonShowObject = {
               businessEndTime: cliq2CallData.businessEndTime,
               businessStartTime: cliq2CallData.businessStartTime,
               callBackNowFlag: cliq2CallData.callBackNowFlag,
+              allowedRequestLimit: cliq2CallData.allowedRequestLimit,
               scheduleCallFlag: cliq2CallData.scheduleCallFlag,
               callMeBackClick: this.callMeBackCallClick,
               scheduleACallClick: this.scheduleACallClick
             };
-
-            console.log("this", cliq2CallData);
-            if (false) {
-              this.props.getGenesysResponse();
-              console.log(
-                "genesysResponseLoading",
-                this.props.genesysResponseLoading
-              );
-
-              this.props.showCliq2CallOption(buttonShowObject);
-            } else {
-              // console.log("open modal Sorry, no agents are available right now");
+            if (
+              !cliq2CallData.scheduleCallFlag &&
+              (!cliq2CallData.callBackNowFlag || !isUserWithinBusinessTime)
+            ) {
               this.props.customerQueryErrorModal({
                 heading: "Sorry, no agents are available right now",
                 subHeading: "Please try again later or choose other options",
                 showBtn: false
               });
+            } else {
+              this.props.showCliq2CallOption(buttonShowObject);
             }
             this.setState({
               cliq2CallConfigData: cliq2CallData
@@ -434,42 +431,29 @@ export default class OrderRelatedIssue extends React.Component {
           }
         }
       }
-
-      const obj = {
-        //   isCallMeBack: true,
-        //   isScgeduleACall: false,
-        //   callMeBackClick: this.callMeBackCallClick,
-        //   ScheduleACallClick: this.ScheduleACallClick
-        // };
-        // this.props.showCliq2CallOption(obj);
-        // if (true) {
-        //   let getCustomerQueryDetailsObject = Object.assign(
-        //     {},
-        //     {
-        //       callMeBackJourney: this.status.callMeBackJourney
-        //     }
-        //   );
-        //   this.props.showCustomerQueryModal(getCustomerQueryDetailsObject);
-        // } else {
-        //   this.props.showCliq2CallOption(obj);
-        // }
-      };
     }
   }
 
   callMeBackCallClick = () => {
-    console.log("=========111");
-    this.setState({ isCallMeBackForm: true });
+    this.setState({
+      isCallMeBackForm: true,
+      isIssueOptions: false,
+      isScgeduleACall: false
+    });
   };
 
   scheduleACallClick = () => {
-    // console.log("=========7777");
-    this.setState({ isCallMeBackForm: true, isScgeduleACall: true });
+    this.setState({
+      isCallMeBackForm: true,
+      isScgeduleACall: true,
+      isIssueOptions: false
+    });
   };
   timeSlotPopUP = times => {
     const timeFunction = {
       setTimeSlot: this.setTimeSlot,
-      cliq2CallConfigData: this.state.cliq2CallConfigData
+      cliq2CallConfigData: this.state.cliq2CallConfigData,
+      callMeBackCallClick: this.callMeBackCallClick
     };
     if (this.props.timeSlotPopUP) {
       this.props.timeSlotPopUP(timeFunction);
@@ -477,13 +461,73 @@ export default class OrderRelatedIssue extends React.Component {
   };
   // ScheduleACallClick: this.ScheduleACallClick
   setTimeSlot = (time, date) => {
-    console.log("time", time);
-    console.log("date", date);
-    this.setState({ timing: time, selectedDate: date });
+    this.setState({
+      timing: time.label,
+      selectedDate: date,
+      shift: time.shift
+    });
   };
 
+  getEpochDateValue(slotTimeList, shift) {
+    let date = new Date(),
+      start = null,
+      end = null;
+    if (shift === "tomorrow") {
+      date.setDate(date.getDate() + 1);
+    }
+    start = Math.floor(
+      date.setHours(parseInt(slotTimeList[0].split(":")[0]), 0, 0) / 1000
+    );
+    end = Math.floor(
+      date.setHours(parseInt(slotTimeList[1].split(":")[0]), 0, 0) / 1000
+    );
+    return `${start}-${end}`;
+  }
+
+  async onCallRequestClick() {
+    if (!MOBILE_PATTERN.test(this.state.mobile)) {
+      this.props.displayToast("Please enter valid number");
+      return false;
+    }
+    const slotTimeList = this.state.timing && this.state.timing.split("-");
+    const callRequestObj = {
+      Language: this.state.chooseLanguage ? this.state.chooseLanguage : "",
+      MobileNo: this.state.mobile ? this.state.mobile : "",
+      CallbackType: this.state.isScgeduleACall ? "" : "Now",
+      PreferredSlot: this.state.isScgeduleACall
+        ? this.getEpochDateValue(slotTimeList, this.state.shift)
+        : "",
+      CustomerId: "",
+      CustomerName:
+        this.props.userDetails &&
+        this.props.userDetails.firstName +
+          " " +
+          this.props.userDetails.lastName,
+      IssueType: this.state.parentIssueType
+        ? this.state.parentIssueType
+        : this.state.question.issueType,
+      OrderId: this.state.slectOrderData
+        ? this.state.slectOrderData.sellerorderno
+        : "",
+      TransactionId: this.state.slectOrderData
+        ? this.state.slectOrderData.transactionId
+        : "",
+      RequestSource: "desktop"
+    };
+    const placeCustomerResponse = await this.props.placeCustomerCallRequest(
+      callRequestObj
+    );
+    this.setState({ raiseTiketRequest: true, showLoader: true });
+    setTimeout(() => {
+      this.setState({ raiseTiketRequest: false, raiseTiketSucess: true });
+      setTimeout(() => {
+        this.setState({ raiseTiketSucess: false, showLoader: false });
+        this.props.showCallQuerySuccessModal(placeCustomerResponse);
+      }, 2000);
+    }, 2000);
+  }
+
   render() {
-    console.log("cliq2CallConfigData", this.props.cliq2CallConfigData);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let isUserLogin = false;
@@ -509,7 +553,8 @@ export default class OrderRelatedIssue extends React.Component {
       loadingForFetchOrderDetails,
       loadingForSendInvoice,
       cliq2CallConfigDataLoading,
-      genesysResponseLoading
+      genesysResponseLoading,
+      genesysCustomerCallRequestData
     } = this.props;
     if (
       customerQueriesOtherIssueLoading ||
@@ -522,8 +567,7 @@ export default class OrderRelatedIssue extends React.Component {
       FAQRelatedDataLoading ||
       loadingForFetchOrderDetails ||
       loadingForSendInvoice ||
-      cliq2CallConfigDataLoading ||
-      genesysResponseLoading
+      cliq2CallConfigDataLoading
     ) {
       this.props.showSecondaryLoader();
     } else {
@@ -555,7 +599,6 @@ export default class OrderRelatedIssue extends React.Component {
                         onChange={value => this.setState({ mobile: value })}
                         fontSize={"11px"}
                         onlyNumber={true}
-                        // onBlur={() => this.onBlur(false)}
                       />
                       <div
                         className={styles.customBtn}
@@ -608,16 +651,10 @@ export default class OrderRelatedIssue extends React.Component {
                         <FloatingLabelInputWithPlace
                           placeholder={"Select your time slot"}
                           disabled={false}
-                          // maxLength={10}
                           value={
                             this.state.timing + " , " + this.state.selectedDate
                           }
-                          // onChange={value =>
-                          //   this.setState({ [listOfField.componentId]: value })
-                          // }
                           fontSize={"11px"}
-                          // onlyNumber={true}
-                          // onBlur={() => this.onBlur(false)}
                         />
                         <div
                           className={styles.customBtn}
@@ -638,15 +675,19 @@ export default class OrderRelatedIssue extends React.Component {
                       borderRadius={6}
                       width={205}
                       textStyle={{ color: "#FFF", fontSize: 14 }}
-                      disabled={this.state.btnDisable}
-                      disabledLightGray={this.state.btnDisable}
-                      // onClick={() => this.nextField(currentStep)}
+                      onClick={this.onCallRequestClick.bind(this)}
+                      disabled={
+                        this.state.isScheduleACall && !this.state.timing
+                      }
+                      disabledLightGray={
+                        this.state.isScheduleACall && !this.state.timing
+                      }
                     />
                   </div>
                   <div className={styles.buttonBox}>
                     <div
                       className={styles.customBtn}
-                      // onClick={() => this.previewPage()}
+                      onClick={() => this.navigatePreviousPage()}
                     >
                       Or go back to previous page
                     </div>

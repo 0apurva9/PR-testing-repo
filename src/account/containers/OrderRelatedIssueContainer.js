@@ -20,7 +20,8 @@ import {
   setSelfServeState,
   fetchOrderItemDetails,
   getCliq2CallConfig,
-  getGenesysResponse
+  placeCustomerCallRequest
+  // getGenesysCallConfigData
   // setUrlToRedirectToAfterAuth
 } from "../actions/account.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -34,7 +35,8 @@ import {
   CUSTOMER_QUERY_POPUP,
   CLIQ_2_CALL_POP_UP,
   TIME_SLOT_POP_UP,
-  CUSTOMER_QUERY_ERROR_MODAL
+  CUSTOMER_QUERY_ERROR_MODAL,
+  CUSTOMER_CALL_QUERY_SUCCESS
 } from "../../general/modal.actions";
 import { stat } from "fs";
 const mapDispatchToProps = dispatch => {
@@ -115,9 +117,15 @@ const mapDispatchToProps = dispatch => {
     timeSlotPopUP: getCustomerQueryDetailsObject => {
       dispatch(showModal(TIME_SLOT_POP_UP, getCustomerQueryDetailsObject));
     },
-    getGenesysResponse: () => {
-      dispatch(getGenesysResponse());
+    placeCustomerCallRequest: async callRequestData => {
+      return dispatch(placeCustomerCallRequest(callRequestData));
+    },
+    showCallQuerySuccessModal: callSuccessData => {
+      dispatch(showModal(CUSTOMER_CALL_QUERY_SUCCESS, callSuccessData));
     }
+    // getGenesysCallConfigData: () => {
+    //   dispatch(getGenesysCallConfigData());
+    // }
     // setHeaderText: text => {
     //   dispatch(setHeaderText(text));
     // },
@@ -172,7 +180,8 @@ const mapStateToProps = state => {
     cliq2CallConfigDataLoading: state.profile.cliq2CallConfigDataLoading,
     cliq2CallConfigData: state.profile.cliq2CallConfigData,
     genesysResponseLoading: state.profile.genesysResponseLoading,
-    genesysResponseData: state.profile.genesysResponseData
+    genesysResponseData: state.profile.genesysResponseData,
+    genesysCustomerCallRequestData: state.profile.genesysCustomerCallRequestData
   };
 };
 
