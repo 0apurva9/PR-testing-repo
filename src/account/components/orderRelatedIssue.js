@@ -36,7 +36,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.location.state &&
       this.props.location.state.selectedOrderObj;
     this.state = {
-      isIssueOptions: false, //only testing
+      isIssueOptions: false,
       isQuesryForm: false,
       questionList: [],
       orderList: true,
@@ -438,14 +438,14 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState({
       isCallMeBackForm: true,
       isIssueOptions: false,
-      isScgeduleACall: false
+      isScheduleACall: false
     });
   };
 
   scheduleACallClick = () => {
     this.setState({
       isCallMeBackForm: true,
-      isScgeduleACall: true,
+      isScheduleACall: true,
       isIssueOptions: false
     });
   };
@@ -493,8 +493,8 @@ export default class OrderRelatedIssue extends React.Component {
     const callRequestObj = {
       Language: this.state.chooseLanguage ? this.state.chooseLanguage : "",
       MobileNo: this.state.mobile ? this.state.mobile : "",
-      CallbackType: this.state.isScgeduleACall ? "" : "Now",
-      PreferredSlot: this.state.isScgeduleACall
+      CallbackType: this.state.isScheduleACall ? "Later" : "Now",
+      PreferredSlot: this.state.isScheduleACall
         ? this.getEpochDateValue(slotTimeList, this.state.shift)
         : "",
       CustomerId: "",
@@ -506,8 +506,8 @@ export default class OrderRelatedIssue extends React.Component {
       IssueType: this.state.parentIssueType
         ? this.state.parentIssueType
         : this.state.question.issueType,
-      OrderId: this.state.slectOrderData
-        ? this.state.slectOrderData.sellerorderno
+      OrderId: this.props.selectedOrderDetails
+        ? this.props.selectedOrderDetails.orderId
         : "",
       TransactionId: this.state.slectOrderData
         ? this.state.slectOrderData.transactionId
@@ -644,7 +644,7 @@ export default class OrderRelatedIssue extends React.Component {
                       </div>
                     </div>
                   </div>
-                  {this.state.isScgeduleACall ? (
+                  {this.state.isScheduleACall ? (
                     <div className={styles.mobileNumberBox}>
                       <div className={styles.fieldLabel}>Time slot</div>
                       <div className={styles.inputField}>
@@ -652,7 +652,11 @@ export default class OrderRelatedIssue extends React.Component {
                           placeholder={"Select your time slot"}
                           disabled={false}
                           value={
-                            this.state.timing + " , " + this.state.selectedDate
+                            this.state.timing
+                              ? this.state.timing +
+                                " , " +
+                                this.state.selectedDate
+                              : this.state.timing
                           }
                           fontSize={"11px"}
                         />
@@ -678,9 +682,13 @@ export default class OrderRelatedIssue extends React.Component {
                       onClick={this.onCallRequestClick.bind(this)}
                       disabled={
                         this.state.isScheduleACall && !this.state.timing
+                          ? true
+                          : false
                       }
                       disabledLightGray={
                         this.state.isScheduleACall && !this.state.timing
+                          ? true
+                          : false
                       }
                     />
                   </div>

@@ -57,7 +57,6 @@ export default class Cliq2CallPopUp extends Component {
       allowedRequestLimit,
       WaitTime
     );
-
     if (scheduleCallFlag) {
       if (
         TotalRequestsToday < allowedRequestLimit ||
@@ -128,10 +127,11 @@ export default class Cliq2CallPopUp extends Component {
                   : SCHEDULE_CALL_BACK}
               </div>
               <div className={styles.labelTxt}>
-                Call request can be placed only for <br /> business hours
+                Call request can be placed only for <br /> business hours (
                 {` ${businessStartTime &&
                   businessStartTime.split(":")[0]} AM - ${businessEndTime &&
                   businessEndTime.split(":")[0] - 12}PM`}
+                )
               </div>
             </React.Fragment>
           )}

@@ -5300,11 +5300,8 @@ export function getCliq2CallConfig(Cliq2CallConfigId) {
   return async (dispatch, getState, { api }) => {
     dispatch(getCliq2CallConfigRequest());
     try {
-      // const result = await api.get(
-      //   `v2/mpl/cms/defaultpage?pageId=${Cliq2CallConfigId}`
-      // );
-      const result = await fetch(
-        `https://cors-anywhere.herokuapp.com/https://qa3.tataunistore.com/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=cliq2call-config`
+      const result = await api.get(
+        `v2/mpl/cms/defaultpage?pageId=${Cliq2CallConfigId}`
       );
 
       let resultJson = await result.json();

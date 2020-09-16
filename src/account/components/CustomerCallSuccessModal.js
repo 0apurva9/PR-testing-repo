@@ -27,7 +27,10 @@ class CustomerCallSuccessModal extends React.Component {
   }
   render() {
     const { PrefferedSlot = "" } =
-      (this.props && this.props.callSuccessData) || {};
+      (this.props &&
+        this.props.callSuccessData &&
+        this.props.callSuccessData.data) ||
+      {};
 
     let timeSlotList = PrefferedSlot.split("-");
     let dateString = getSlotTime(timeSlotList).timeSlot;
@@ -41,8 +44,8 @@ class CustomerCallSuccessModal extends React.Component {
           <div className={styles.subHeading}>
             Our team is working on priority to serve you.
             <br />
-            You will receive a callback in next
-            <span className={styles.timing}> {dateString} </span>
+            Your callback request has been scheduled between
+            <div className={styles.timing}> {dateString} </div>
           </div>
           <div className={styles.buttonHolder}>
             <Button
