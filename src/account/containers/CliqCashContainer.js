@@ -82,8 +82,8 @@ const mapDispatchToProps = dispatch => {
     getCliqCashPageConfiguration: () => {
       dispatch(getCliqCashPageConfiguration());
     },
-    getCliqCashbackDetails: () => {
-      dispatch(getCliqCashbackDetails());
+    getCliqCashbackDetails: cashbackmode => {
+      dispatch(getCliqCashbackDetails(cashbackmode));
     }
   };
 };

@@ -40,6 +40,7 @@ import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
 import FaqAndTcBase from "./FaqAndTcBase";
 const currentDate = new Date();
+const cashbackmode = "TOPUP";
 
 export default class CliqCashDesktop extends React.Component {
   constructor(props) {
@@ -81,7 +82,7 @@ export default class CliqCashDesktop extends React.Component {
       this.props.getCliqCashExpiring();
     }
     if (this.props.getCliqCashbackDetails) {
-      this.props.getCliqCashbackDetails();
+      this.props.getCliqCashbackDetails(cashbackmode);
     }
   }
   redirectToPromoCliqCash = () => {

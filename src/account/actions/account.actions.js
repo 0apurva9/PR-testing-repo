@@ -5091,7 +5091,7 @@ export function getCliqCashbackDetailsFailure(error) {
   };
 }
 
-export function getCliqCashbackDetails() {
+export function getCliqCashbackDetails(cashbackmode) {
   return async (dispatch, getState, { api }) => {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -5102,7 +5102,7 @@ export function getCliqCashbackDetails() {
           JSON.parse(userDetails).userName
         }/getCliqCashbackDetails?access_token=${
           JSON.parse(customerCookie).access_token
-        }`
+        }&cashbackmode=${cashbackmode}`
       );
       let resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
