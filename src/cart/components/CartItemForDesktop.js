@@ -681,7 +681,8 @@ CartItemForDesktop.propTypes = {
   product: PropTypes.object,
   pinCode: PropTypes.object,
   maxQuantityAllowed: PropTypes.string,
-  qtySelectedByUser: PropTypes.string
+  qtySelectedByUser: PropTypes.string,
+  isShippingObjAvailable: PropTypes.bool
 };
 
 CartItemForDesktop.defaultProps = {
@@ -689,5 +690,6 @@ CartItemForDesktop.defaultProps = {
   hasFooter: true,
   dropdownLabel: "Quantity:",
   removeText: "Remove",
-  isFromCnc: false
+  isFromCnc: false,
+  isShippingObjAvailable: false
 };

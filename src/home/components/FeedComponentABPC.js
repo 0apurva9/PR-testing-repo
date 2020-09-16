@@ -27,15 +27,17 @@ class FeedComponentABPC extends React.Component {
   componentDidMount() {
     let productDataArr = "";
     let currentComponent = this;
-    this.props.data.then(function(res) {
-      if (
-        res.results &&
-        (typeof res.results !== undefined || res.results !== null)
-      ) {
-        productDataArr = Array.from(res.results);
-        currentComponent.setState({ eachPrductData: productDataArr });
-      }
-    });
+    this.props.data &&
+      this.props.data.then(function(res) {
+        if (
+          res &&
+          res.results &&
+          (typeof res.results !== undefined || res.results !== null)
+        ) {
+          productDataArr = Array.from(res.results);
+          currentComponent.setState({ eachPrductData: productDataArr });
+        }
+      });
   }
 
   render() {

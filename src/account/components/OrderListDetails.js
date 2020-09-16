@@ -8,6 +8,11 @@ import ProductImage from "../../general/components/ProductImage.js";
 import { getDayNumberSuffix } from "../../lib/dateTimeFunction";
 import CustomerQueryForm from "./CustomerQueryForm";
 import QuestionList from "./QuestionList";
+import {
+  setDataLayerForCLiQCarePage,
+  ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK,
+  ADOBE_SELF_SERVE_FAQ_PAGE_LOAD
+} from "../../lib/adobeUtils";
 const ORDER_IN_PROCESS = "Order in Process";
 const READY_FOR_COLLECTION = "Ready for Collection";
 const PICKUP_DATE = "Pickup Date:";
@@ -17,6 +22,7 @@ const ITEM_PACKED = "Item Packed";
 const OUT_FOR_DELIVERY = "Out For Delivery";
 const ESTIMATED_DATE = "Estimated Delivery Date:";
 const DELIVERY_TEXT = "Delivered on:";
+const CLIQ_CARE = "CLiQ Care";
 
 class OrderListDetails extends Component {
   state = {
@@ -93,6 +99,10 @@ class OrderListDetails extends Component {
     );
   }
   showFaqSolutions(listOfIssue) {
+    setDataLayerForCLiQCarePage(
+      ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK,
+      listOfIssue.question_component
+    );
     if (this.state.showFaqSolution != listOfIssue.question_component) {
       this.props.updateThanks();
     }
@@ -316,6 +326,7 @@ class OrderListDetails extends Component {
             parentIssueType={this.props.parentIssueType}
             otherQuestion={this.props.otherQuestion}
             navigatePreviousPage={() => this.props.navigatePreviousPage()}
+            formSubmit={this.props.formSubmit}
           />
         )}
       </div>

@@ -28,8 +28,8 @@
   /* border-radius: 6px; */
   cursor: pointer;
   border-radius: 8px;
-    box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.07);
-    background-color: #ffffff;
+  box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.07);
+  background-color: #ffffff;
 }
 .orderDataBox {
   display: flex;
@@ -54,34 +54,35 @@
   overflow: hidden;
   padding-left: 9px;
 }
-.noOrderBox{
+.noOrderBox {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 35px 0px 30px 0px;
 }
-.noOrderHeader{
+.noOrderHeader {
   font-size: 16px;
   font-family: semibold;
   color: #4a4a4a;
 }
-.noOrderTxt{
+.noOrderTxt {
   font-size: 16px;
   font-family: light;
   color: #4a4a4a;
   padding: 8px 0px 24px 0px;
 }
-.continueShoping{}
+.continueShoping {
+}
 
 .productName {
   font-size: 14px;
   font-family: light;
   color: #4a4a4a;
   padding-bottom: 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .orderStatus {
   font-size: 12px;
@@ -89,10 +90,10 @@
   font-family: light;
   padding-bottom: 6px;
   /* width: 100; */
-    white-space: initial;
+  white-space: initial;
 }
 .fontBold {
-  font-family: semibold!important;
+  font-family: semibold !important;
 }
 
 .headerBox {
@@ -141,11 +142,11 @@
   width: 50%;
   display: flex;
 }
-.questionListHeading{
+.questionListHeading {
   font-size: 16px;
-    color: #212121;
-    font-family: semibold;
-    margin-bottom: 24px;
+  color: #212121;
+  font-family: semibold;
+  margin-bottom: 24px;
 }
 .orderDetailsImgBox {
   width: 80px;
@@ -291,11 +292,11 @@
   width: 13px;
   height: 13px;
 }
-.marginBottom{
+.marginBottom {
   margin-bottom: 20px;
 }
 
-.allOrderDataBox{
+.allOrderDataBox {
   display: flex;
   padding: 16px;
   margin-bottom: 16px;
@@ -303,128 +304,129 @@
 /* .allOrderDataBox:not(:last-child){
 margin-bottom: 20px;
 } */
-.allOrderImageBox{
+.allOrderImageBox {
   width: 80px;
   /* height: 100px; */
 }
 
-.allOrderDatils{
+.allOrderDatils {
   /* width: 87%; */
   /* overflow: hidden; */
   padding-left: 14px;
 }
-.allOrderImage{
+.allOrderImage {
   width: 93%;
-    height: 100%;
-    border-radius: 4px;
+  height: 100%;
+  border-radius: 4px;
 }
-.otherQuestionAnswer{
+.otherQuestionAnswer {
   padding-right: 93px;
 }
-.faqQuestionAnswer{
+.faqQuestionAnswer {
   border: 2px solid #eee;
   border-radius: 8px;
   padding: 20px 20px 5px 20px;
   margin-bottom: 17px;
   margin-right: 50px;
 }
-.prentIssueType{
-    font-size: 16px;
-    color: #212121;
-    font-family: semibold;
-    padding: 0px;
-    margin-top: 24px;
-    margin-bottom: 9px;
-
-}
-.parentIssueT{
+.prentIssueType {
   font-size: 16px;
-    color: #212121;
-    font-family: semibold;
-    margin-bottom: 15px;
+  color: #212121;
+  font-family: semibold;
+  padding: 0px;
+  margin-top: 24px;
+  margin-bottom: 9px;
+}
+.parentIssueT {
+  font-size: 16px;
+  color: #212121;
+  font-family: semibold;
+  margin-bottom: 15px;
 
-margin-top: 20px;
-
+  margin-top: 20px;
 }
 
-.maginBottom{
+.maginBottom {
   margin-bottom: 15px;
 }
 
-.noQuestions{
+.noQuestions {
   font-size: 16px;
-    font-family: regular;
-    color: #212121;
-    width: 100%;
-    padding-top: 50px;
-    padding-bottom: 90px;
-    text-align: center;
+  font-family: regular;
+  color: #212121;
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 90px;
+  text-align: center;
 }
 
-.orderActionButton{
+.orderActionButton {
   font-size: 14px;
   color: #da1c5c;
   font-family: light;
   margin-bottom: 12px;
   cursor: pointer;
 }
-.accordianBox{
+.accordianBox {
   margin-top: 24px;
 }
-.faqHeading{font-size: 14px;
-color: #212121;
-font-family: light;
-padding-bottom: 16px;
+.faqHeading {
+  font-size: 14px;
+  color: #212121;
+  font-family: light;
+  padding-bottom: 16px;
+  cursor: pointer;
 }
-.fontBold{
+.fontBold {
   font-weight: semibold;
 }
-.parentIssueBox{
+.parentIssueBox {
   margin-bottom: 16px;
 }
-.parentIssue{
+.parentIssue {
   font-size: 16px;
   color: #212121;
   font-family: semibold;
 }
-.staticContent{
+.staticContent {
   font-size: 14px;
   font-family: light;
 }
-.allOrderDate{
+.allOrderDate {
   font-size: 12px;
-    color: #4a4a4a;
-    font-family: light;
-    padding-bottom: 6px;
-    /* width: 189px; */
-    /* white-space: initial; */
+  color: #4a4a4a;
+  font-family: light;
+  padding-bottom: 6px;
+  /* width: 189px; */
+  /* white-space: initial; */
 }
-.subIssueType{
+.subIssueType {
   font-size: 14px;
   font-family: regular;
-  padding-top:24px;
+  padding-top: 24px;
   padding-bottom: 5px;
 }
-.customBtn{
+.customBtn {
   color: rgb(218, 28, 92);
-    font-size: 14px;
-    font-family: semibold;
-    cursor: pointer;
+  font-size: 14px;
+  font-family: semibold;
+  cursor: pointer;
 }
-.orderDetailsSeperator{border-bottom: 1px solid #eee;
-margin-bottom: 16px;}
+.orderDetailsSeperator {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 16px;
+}
 
-.loadMore{
+.loadMore {
   text-align: center;
   padding: 10px 0px;
 }
-.loadMoreText{
+.loadMoreText {
   display: inline-block;
   cursor: pointer;
 }
 
-.dateStyle{
+.dateStyle {
   font-size: 12px;
   font-family: semibold;
-  
 }
