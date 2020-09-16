@@ -993,17 +993,15 @@ class CartPage extends React.Component {
                             }
                             displayToast={this.props.displayToast}
                             getCartDetails={this.props.getCartDetails}
-                            /**
-                             * Old implementation
-                             * this.props.cart &&
+                            isShippingObjAvailable={
+                              this.props.cart &&
                               this.props.cart.cartDetails &&
                               this.props.cart.cartDetails.cartAmount &&
                               this.props.cart.cartDetails.cartAmount
                                 .shippingCharge
                                 ? true
                                 : false
-                             */
-                            isShippingObjAvailable={false}
+                            }
                           />
                         </DesktopOnly>
                       </div>
@@ -1183,14 +1181,12 @@ class CartPage extends React.Component {
                           }
                           totalExchangeAmount={cartDetails.totalExchangeAmount}
                           isQuoteExpired={isQuoteExpired}
-                          /**
-                           * Old Implementation
-                           * cartDetails.cartAmount &&
+                          isShippingObjAvailable={
+                            cartDetails.cartAmount &&
                             cartDetails.cartAmount.shippingCharge
                               ? true
                               : false
-                           */
-                          isShippingObjAvailable={false}
+                          }
                         />
                       </div>
                     )}
