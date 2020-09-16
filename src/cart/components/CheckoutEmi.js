@@ -72,7 +72,10 @@ export default class CheckoutEmi extends React.Component {
           this.props.cart.emiBankStatus === ERROR && (
             <div className={styles.errorText}>{EMI_ERROR_TEXT}</div>
           )}
-        {!this.props.cart.dCEmiBankDetails &&
+        {!this.props.cart.emiBankDetails &&
+          this.props.cart.emiBankStatus !== ERROR &&
+          this.props.isDebitCard &&
+          !this.props.cart.dCEmiBankDetails &&
           this.props.cart.dCEmiBankDetailsStatus === ERROR && (
             <div className={styles.errorText}>{EMI_ERROR_TEXT}</div>
           )}

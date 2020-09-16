@@ -500,9 +500,14 @@ export default class Chatbot extends React.Component {
           pdpData.find(value => {
             return categoryIds.includes(value.categoryCode);
           });
-        if (eligiblePDPData && typeof eligiblePDPData !== undefined) {
-          let categoryAvailable =
-            categoryIds && categoryIds.includes(eligiblePDPData.categoryCode);
+        if (
+          eligiblePDPData &&
+          typeof eligiblePDPData !== undefined &&
+          categoryIds
+        ) {
+          let categoryAvailable = categoryIds.includes(
+            eligiblePDPData.categoryCode
+          );
 
           if (
             eligiblePDPData.showWidget &&

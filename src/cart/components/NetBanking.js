@@ -13,6 +13,11 @@ import sbiBankIcon from "./img/pwa_NB_SBI.svg";
 import induslandBankIcon from "./img/indusind.svg";
 import kotakBankIcon from "./img/kotak.svg";
 import { BANK_GATWAY_DOWN } from "../../lib/constants";
+import {
+  WHATSAPP_NOTIFICATION_CHECKED,
+  WHATSAPP_NOTIFICATION_UNCHECKED,
+  getWhatsAppNotification
+} from "../../lib/adobeUtils";
 const axisBankCode = "NB_AXIS";
 const hdfcBankCode = "NB_HDFC";
 const iciciBankCode = "NB_ICICI";
@@ -70,6 +75,11 @@ export default class NetBanking extends React.Component {
     this.props.onSelectBankForNetBanking(bankCode, bankName);
   }
   handleCheckout = () => {
+    if (this.props.whatsappSelected) {
+      getWhatsAppNotification(WHATSAPP_NOTIFICATION_CHECKED);
+    } else if (!this.props.whatsappSelected) {
+      getWhatsAppNotification(WHATSAPP_NOTIFICATION_UNCHECKED);
+    }
     if (this.props.onCheckout) {
       this.props.onCheckout();
     }

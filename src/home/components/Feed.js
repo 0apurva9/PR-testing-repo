@@ -5,6 +5,12 @@ import WidgetContainer from "../containers/WidgetContainer";
 import HomeSkeleton from "../../general/components/HomeSkeleton.js";
 import HeroBanner from "./HeroBanner.js";
 import AllQuickLinks from "./AllQuickLinks";
+import PersonalisedQuickLinks from "./PersonalisedQuickLinks";
+import BankOfferPersonalisedComponent from "./BankOfferPersonalisedComponent";
+import ConnectWidgetPersonalisedComponent from "./ConnectWidgetPersonalisedComponent";
+import MultipleBannersPersonalisedComponent from "./MultipleBannersPersonalisedComponent";
+import CuratedFeatureForPersonalisedComponent from "./CuratedFeatureForPersonalisedComponent";
+import HeroBannerPersonalisedComponent from "./HeroBannerPersonalisedComponent";
 import styles from "./Feed.css";
 import * as Cookie from "../../lib/Cookie";
 import List from "@researchgate/react-intersection-list";
@@ -29,6 +35,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER
 } from "../../lib/adobeUtils";
 import Chatbot from "../../plp/components/Chatbot";
+import AutomatedWidgetsForHome from "./AutomatedWidgetsForHome";
 export const PRODUCT_RECOMMENDATION_TYPE = "productRecommendationWidget";
 const DEFAULT_TITLE =
   "Online Shopping Site in India - Upto 60% Off On Mobiles, Electronics & Fashion at Tata CLiQ";
@@ -276,6 +283,13 @@ export const typeComponentMapping = {
     return <BrandCardHeader {...props} />;
   },
   quickLinksComponent: props => <AllQuickLinks {...props} />,
+  "01QLC-P": props => <PersonalisedQuickLinks {...props} />,
+  "01BOC-P": props => <BankOfferPersonalisedComponent {...props} />,
+  "01MPB-P": props => <ConnectWidgetPersonalisedComponent {...props} />,
+  "01MBC-P": props => <MultipleBannersPersonalisedComponent {...props} />,
+  "01TBT-P": props => <CuratedFeatureForPersonalisedComponent {...props} />,
+  "01HBC-P": props => <HeroBannerPersonalisedComponent {...props} />,
+  // "01LEC-P":props => <LuxEditorial
   "Hero Banner Component": props => <HeroBanner {...props} />, // no hard coded data
   "Theme Offers Component": props => <ThemeOffer {...props} />, // no hard coded data
   "Desktop Theme Offer Component": props => <ThemeOffer {...props} />,
@@ -331,6 +345,7 @@ export const typeComponentMapping = {
   "Multi Click Banner Component": props => (
     <MultiClickBannerComponent {...props} />
   ),
+  AutoWidget: props => <AutomatedWidgetsForHome {...props} />,
   msdAutomatedBannerProductCarouselComponent: props => (
     <MsdAutomatedBrandProductCarousel {...props} />
   ),
@@ -505,8 +520,9 @@ class Feed extends Component {
         setDataLayer(ADOBE_HOME_TYPE);
       }
     }
-    if (userDetails && customerCookie && this.props.getWishListItems) {
-      this.props.getWishListItems();
+    if (userDetails && customerCookie && this.props.getWishlist) {
+      // this.props.getWishListItems();
+      this.props.getWishlist();
     }
     if (this.props.clickedElementId) {
       delay(() => {

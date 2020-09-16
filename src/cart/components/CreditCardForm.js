@@ -8,6 +8,11 @@ import cardValidator from "simple-card-validator";
 import styles from "./CreditCardForm.css";
 import MobileOnly from "../../general/components/MobileOnly";
 import { BANK_GATWAY_DOWN } from "../../lib/constants";
+import {
+  WHATSAPP_NOTIFICATION_CHECKED,
+  WHATSAPP_NOTIFICATION_UNCHECKED,
+  getWhatsAppNotification
+} from "../../lib/adobeUtils";
 const MINIMUM_YEARS_TO_SHOW = 0;
 const MAXIMUM_YEARS_TO_SHOW = 19;
 const REGX_FOR_WHITE_SPACE = /\W/gi;
@@ -121,11 +126,11 @@ export default class CreditCardForm extends React.Component {
           .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
           .trim()
       : this.state.cardNumber
-        ? this.state.cardNumber
-            .replace(REGX_FOR_WHITE_SPACE, "")
-            .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
-            .trim()
-        : "";
+      ? this.state.cardNumber
+          .replace(REGX_FOR_WHITE_SPACE, "")
+          .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
+          .trim()
+      : "";
   }
 
   onChange(val) {
@@ -189,6 +194,11 @@ export default class CreditCardForm extends React.Component {
   }
   handleCheckout = () => {
     if (this.props.onCheckout) {
+      if (this.props.whatsappSelected) {
+        getWhatsAppNotification(WHATSAPP_NOTIFICATION_CHECKED);
+      } else if (!this.props.whatsappSelected) {
+        getWhatsAppNotification(WHATSAPP_NOTIFICATION_UNCHECKED);
+      }
       this.props.onCheckout();
     }
   };

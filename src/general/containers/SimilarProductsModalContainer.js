@@ -1,5 +1,8 @@
 import { connect } from "react-redux";
-import { getMsdRequest } from "../../pdp/actions/pdp.actions.js";
+import {
+  getMsdRequest,
+  clearAllMsdItems
+} from "../../pdp/actions/pdp.actions.js";
 import { withRouter } from "react-router-dom";
 import SimilarProductsModal from "../components/SimilarProductsModal";
 
@@ -7,6 +10,9 @@ const mapDispatchToProps = dispatch => {
   return {
     getMsdRequest: async (productCode, similarProduct) => {
       await dispatch(getMsdRequest(productCode, similarProduct, null, [5, 5]));
+    },
+    clearAllMsdItems: () => {
+      dispatch(clearAllMsdItems());
     }
   };
 };

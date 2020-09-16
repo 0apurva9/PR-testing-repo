@@ -2,13 +2,13 @@
   width: 100%;
   height: auto;
   display: inline-block;
-  background-color: #ececec;
 }
 .cuponCard {
   width: 100%;
   height: auto;
   padding: 15px;
-  border-bottom: 1px solid #d2d2d2;
+  border-bottom: 2px dotted #d8d8d8;
+  margin-top: 5px;
 }
 .headerText {
   width: 100%;
@@ -39,6 +39,7 @@
   line-height: normal;
   margin-bottom: 10px;
   line-height: 22px;
+  margin-top: 7px;
 }
 .dataHolder {
   width: 100%;
@@ -55,9 +56,8 @@
   width: 100%;
   height: auto;
   display: inline-block;
-  color: #181818;
+  color: #4a4a4a;
   font-size: 11px;
-  font-family: semibold;
   text-align: left;
   margin-bottom: 3px;
 }
@@ -70,11 +70,28 @@
   font-family: regular;
 }
 @media only screen and (min-width: 1025px) {
-  .base {
-    background: #f9f9f9;
-  }
   .cuponCard {
     padding: 15px 0px;
-    border-bottom: 1px solid #979797;
+    border-bottom: 2px dotted #d8d8d8;
   }
+}
+
+/**
+* Eligible coupon details
+*/
+.cuponCodeColor{
+  height: auto;
+  width: auto;
+  background-color: #f3faf2;
+  padding: 10px;
+  border-radius: 5px;
+  color: #00964d;
+  border-style: dashed;
+  border-width: 0.1em;
+}
+.viewtnc{
+  color:#da1c5c;
+  margin-left: 5px;
+  font-weight: bold;
+  font-size: 12px;
 }
