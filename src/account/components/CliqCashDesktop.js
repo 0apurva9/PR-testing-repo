@@ -347,6 +347,9 @@ export default class CliqCashDesktop extends React.Component {
                       <AvailableOffersMyAcc
                         cliqCashbackDetails={this.props.cliqCashbackDetails}
                         history={this.props.history}
+                        showCashBackDetailsPopup={data =>
+                          this.props.showCashBackDetailsPopup(data)
+                        }
                       />
                     )}
                   <div className={styles.giftCardBase}>

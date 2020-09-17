@@ -87,3 +87,44 @@
   padding: 3px;
   transform: rotate(-45deg);
 }
+
+.viewMore {
+  color: #da1c5c;
+  font-size: 14px;
+  font-family: regular;
+}
+
+
+.cashBackOfferLine{
+  font-size: 14px;
+  text-align: left;
+}
+.cashBackOfferLine1 {
+  color: #212121;
+  font-weight: 700;
+  line-height: 18px;
+  margin-top: 20px;
+}
+.cashBackOfferLine2 {
+  letter-spacing: 0.28px;
+  margin: 10px 0px;
+}
+.cashBackOfferLine3 {
+  letter-spacing: 0.28px;
+  margin: 10px 0px;
+}
+.cashBackOfferLine4 {
+  letter-spacing: 0.28px;
+  margin: 10px 0px;
+}
+.viewTNC {
+  color: #da1c5c;
+  font-size: 14px;
+  letter-spacing: 0.28px;
+  font-weight: 700;
+}
+.priceDate {
+  font-weight: 700;
+  color: #212121;
+  letter-spacing: 0.28px;
+}

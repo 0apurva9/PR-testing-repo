@@ -186,6 +186,9 @@ export default class CliqGiftCard extends Component {
                 <AvailableOffersMyAcc
                   cliqCashbackDetails={this.props.cliqCashbackDetails}
                   history={this.props.history}
+                  showCashBackDetailsPopup={data =>
+                    this.props.showCashBackDetailsPopup(data)
+                  }
                 />
               )}
 

@@ -36,6 +36,7 @@ import Button from "../../general/components/Button";
 import { Link } from "react-router-dom";
 import { getItemBreakUpDetails } from "../../cart/actions/cart.actions";
 import greenLightBulb from "../components/img/greenLightBulb.svg";
+import moment from "moment";
 const MINIMUM_PRICE = 10;
 const MAXIMUM_PRICE = 10000;
 const PRODUCT_ID = "MP000000000127263";
@@ -159,6 +160,45 @@ export default class CliqCashTopUp extends Component {
       }
     }
   }
+
+  popupBody = offer => {
+    const expiryDate = moment(offer.offerEndDate).format("Do MMM, YYYY");
+    const expiryTime = moment(offer.offerEndDate).format("h:mm A");
+    return (
+      <div className={styles.cashBackOfferLine}>
+        <div className={styles.cashBackOfferLine1}>{offer.offerDesc}</div>
+        <div className={styles.cashBackOfferLine2}>
+          Maximum Available Discount:{" "}
+          <span className={styles.priceDate}>
+            {offer.maxCashback && offer.maxCashback.formattedValueNoDecimal}
+          </span>
+        </div>
+        <div className={styles.cashBackOfferLine3}>
+          Offer Validity: <span className={styles.priceDate}>{expiryDate}</span>{" "}
+          | {expiryTime}
+        </div>
+        <div className={styles.cashBackOfferLine4}>
+          To know more about the cashback offer{" "}
+          <Link
+            to={"/cliqcashback-offers-tnc"}
+            target="_blank"
+            className={styles.viewTNC}
+          >
+            view T&C.
+          </Link>
+        </div>
+      </div>
+    );
+  };
+
+  showPopup = offer => {
+    if (this.props.showCashBackDetailsPopup) {
+      this.props.showCashBackDetailsPopup({
+        heading: "Cashback Details",
+        children: this.popupBody(offer)
+      });
+    }
+  };
 
   render() {
     let userData, fullName, email;
@@ -291,6 +331,13 @@ export default class CliqCashTopUp extends Component {
                   <div className={styles.cashBackOfferMsg}>
                     Your earned cashback will be credited to your CLiQ Cash
                     wallet within 24 Hrs of successful top up.
+                    <span
+                      className={styles.knowMore}
+                      onClick={() => this.showPopup(offerDetails)}
+                    >
+                      {" "}
+                      know more
+                    </span>
                   </div>
                 </div>
               )}

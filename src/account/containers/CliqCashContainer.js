@@ -20,7 +20,8 @@ import {
   CLIQ_CASH_MODULE,
   CLIQ_CASH_SUCESS_MODULE,
   GENERATE_OTP_FOR_CLIQ_CASH,
-  CLIQ_CASH_KNOW_MORE
+  CLIQ_CASH_KNOW_MORE,
+  CASHBACK_DETAILS_POPUP
 } from "../../general/modal.actions";
 import { SUCCESS_CAMEL_CASE, SUCCESS_UPPERCASE } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
@@ -84,6 +85,9 @@ const mapDispatchToProps = dispatch => {
     },
     getCliqCashbackDetails: cashbackmode => {
       dispatch(getCliqCashbackDetails(cashbackmode));
+    },
+    showCashBackDetailsPopup: data => {
+      dispatch(showModal(CASHBACK_DETAILS_POPUP, data));
     }
   };
 };

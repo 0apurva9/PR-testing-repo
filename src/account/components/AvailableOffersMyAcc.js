@@ -7,6 +7,7 @@ import {
   MY_ACCOUNT_CLIQ_CASH_PURCHASE_PAGE
 } from "../../lib/constants";
 import PropTypes, { arrayOf, string, number, shape } from "prop-types";
+import moment from "moment";
 const TOPUP = "TOPUP";
 
 export default class AvailableOffersMyAcc extends Component {
@@ -25,6 +26,45 @@ export default class AvailableOffersMyAcc extends Component {
         state: {
           offerDetails: offer
         }
+      });
+    }
+  };
+
+  popupBody = offer => {
+    const expiryDate = moment(offer.offerEndDate).format("Do MMM, YYYY");
+    const expiryTime = moment(offer.offerEndDate).format("h:mm A");
+    return (
+      <div className={styles.cashBackOfferLine}>
+        <div className={styles.cashBackOfferLine1}>{offer.offerDesc}</div>
+        <div className={styles.cashBackOfferLine2}>
+          Maximum Available Discount:{" "}
+          <span className={styles.priceDate}>
+            {offer.maxCashback && offer.maxCashback.formattedValueNoDecimal}
+          </span>
+        </div>
+        <div className={styles.cashBackOfferLine3}>
+          Offer Validity: <span className={styles.priceDate}>{expiryDate}</span>{" "}
+          | {expiryTime}
+        </div>
+        <div className={styles.cashBackOfferLine4}>
+          To know more about the cashback offer{" "}
+          <Link
+            to={"/cliqcashback-offers-tnc"}
+            target="_blank"
+            className={styles.viewTNC}
+          >
+            view T&C.
+          </Link>
+        </div>
+      </div>
+    );
+  };
+
+  showPopup = offer => {
+    if (this.props.showCashBackDetailsPopup) {
+      this.props.showCashBackDetailsPopup({
+        heading: "Cashback Details",
+        children: this.popupBody(offer)
       });
     }
   };
@@ -60,11 +100,12 @@ export default class AvailableOffersMyAcc extends Component {
                       <div className={styles.offerAvailHeaderAndSubHeading}>
                         <div className={styles.offerAvailHeading}>
                           {offer.offerDesc}
-                          <span>
-                            <Link to={"www.google.com"} target="_blank">
-                              {" "}
-                              View more
-                            </Link>
+                          <span
+                            className={styles.viewMore}
+                            onClick={() => this.showPopup(offer)}
+                          >
+                            {" "}
+                            view more
                           </span>
                         </div>
                       </div>

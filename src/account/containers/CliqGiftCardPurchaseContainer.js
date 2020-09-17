@@ -11,7 +11,8 @@ import { setHeaderText } from "../../general/header.actions";
 import {
   showModal,
   GENERATE_OTP_FOR_CLIQ_CASH,
-  CLIQ_CASH_MODULE
+  CLIQ_CASH_MODULE,
+  CASHBACK_DETAILS_POPUP
 } from "../../general/modal.actions";
 import CliqGiftCardPurchase from "../components/CliqGiftCardPurchase";
 
@@ -40,6 +41,9 @@ const mapDispatchToProps = dispatch => {
     },
     clearGiftCardStatus: () => {
       dispatch(clearGiftCardStatus());
+    },
+    showCashBackDetailsPopup: data => {
+      dispatch(showModal(CASHBACK_DETAILS_POPUP, data));
     }
   };
 };

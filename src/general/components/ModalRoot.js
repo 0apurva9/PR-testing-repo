@@ -26,6 +26,7 @@ import GoToCartPopUp from "../../pdp/components/GoToCartPopUp";
 import { LOGIN_PATH } from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";
 import DesktopAuth from "../../auth/components/DesktopAuth.js";
+import CashBackDetailsPopupContainer from "../containers/CashBackDetailsPopupContainer";
 const modalRoot = document.getElementById("modal-root");
 const GenerateOtp = "GenerateOtpForEgv";
 const RestorePasswords = "RestorePassword";
@@ -899,6 +900,12 @@ export default class ModalRoot extends React.Component {
           {...this.props.ownProps}
           closeModal={() => this.handleClose()}
           displayToast={message => this.props.displayToast(message)}
+        />
+      ),
+      cashBackDetailsPopup: (
+        <CashBackDetailsPopupContainer
+          data={this.props.ownProps}
+          closeModal={() => this.handleClose()}
         />
       ),
       cliqcashknowmore: (
