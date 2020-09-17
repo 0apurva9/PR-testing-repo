@@ -73,7 +73,8 @@ export default class OrderRelatedIssue extends React.Component {
       timing: "",
       selectedDate: "",
       cliq2CallConfigData: "",
-      shift: ""
+      shift: "",
+      selectedSlot: ""
     };
     this.resetState = this.state;
   }
@@ -455,7 +456,11 @@ export default class OrderRelatedIssue extends React.Component {
     const timeFunction = {
       setTimeSlot: this.setTimeSlot,
       cliq2CallConfigData: this.state.cliq2CallConfigData,
-      callMeBackCallClick: this.callMeBackCallClick
+      callMeBackCallClick: this.callMeBackCallClick,
+      selectedSlot: {
+        date: this.state.selectedDate,
+        slotTime: this.state.selectedSlot
+      }
     };
     if (this.props.timeSlotPopUP) {
       this.props.timeSlotPopUP(timeFunction);
@@ -466,7 +471,8 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState({
       timing: time.label,
       selectedDate: date,
-      shift: time.shift
+      shift: time.shift,
+      selectedSlot: time
     });
   };
 

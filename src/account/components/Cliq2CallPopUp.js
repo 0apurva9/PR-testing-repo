@@ -39,14 +39,17 @@ export default class Cliq2CallPopUp extends Component {
       OpenRequest = ""
     } = (this.props && this.props.genesysCallConfigData) || {};
 
-    // if (OpenRequest === "now") {
-    //   this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
-    //     heading: "We already have a callback request in queue",
-    //     subHeading: "Please be patient, our executive will call you soon",
-    //     showBtn: true
-    //   });
-    //   return null;
-    // }
+    if (this.props.genesysDataLoader) {
+      return <Loader />;
+    }
+    if (OpenRequest === "now") {
+      this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
+        heading: "We already have a callback request in queue",
+        subHeading: "Please be patient, our executive will call you soon",
+        showBtn: true
+      });
+      return null;
+    }
 
     let showCallMeBackBtn = false,
       showScheduleCallBtn = false;

@@ -9,6 +9,10 @@ import { HOME_ROUTER } from "../../lib/constants";
 import raisedTicket from "../components/img/raisedTicket.svg";
 import { withRouter } from "react-router-dom";
 const DATE_FORMAT = "Do MMMM";
+const CALL_ME_BACK_TEXT =
+  "Our team is working on priority to serve you.You will receive a callback in next";
+const SCHEDULE_CALL_TEXT =
+  "Our team is working on priority to serve you.Your callback request has been scheduled between";
 class CustomerCallSuccessModal extends React.Component {
   constructor() {
     super();
@@ -26,14 +30,22 @@ class CustomerCallSuccessModal extends React.Component {
     this.props.closeModal();
   }
   render() {
-    const { PrefferedSlot = "" } =
+    const { PrefferedSlot = "", WaitTime = 0 } =
       (this.props &&
         this.props.callSuccessData &&
         this.props.callSuccessData.data) ||
       {};
 
-    let timeSlotList = PrefferedSlot.split("-");
-    let dateString = getSlotTime(timeSlotList).timeSlot;
+    let timeContent = "";
+    if (PrefferedSlot) {
+      timeContent = getSlotTime(PrefferedSlot.split("-")).timeSlot;
+    } else if (WaitTime) {
+      timeContent = `${WaitTime} Minutes`;
+    }
+
+    const contents = PrefferedSlot
+      ? SCHEDULE_CALL_TEXT.split(".")
+      : CALL_ME_BACK_TEXT.split(".");
 
     return (
       <BottomSlideModal>
@@ -42,10 +54,9 @@ class CustomerCallSuccessModal extends React.Component {
             <Icon image={raisedTicket} size={222} />
           </div>
           <div className={styles.subHeading}>
-            Our team is working on priority to serve you.
-            <br />
-            Your callback request has been scheduled between
-            <div className={styles.timing}> {dateString} </div>
+            <div>{contents[0]}</div>
+            <div>{contents[1]}</div>
+            <div className={styles.timing}> {timeContent} </div>
           </div>
           <div className={styles.buttonHolder}>
             <Button
@@ -77,14 +88,24 @@ CustomerCallSuccessModal.propTypes = {
 };
 
 export const getSlotTime = timeSlotList => {
-  let startDateTime = new Date(parseInt(timeSlotList[0]) * 1000),
+  const startDateTime = new Date(parseInt(timeSlotList[0]) * 1000),
     endDateTime = new Date(parseInt(timeSlotList[1]) * 1000);
 
   let startTime = startDateTime.getHours(),
     endTime = endDateTime.getHours();
 
-  startTime = startTime > 12 ? `${startTime - 12} PM` : `${startTime} AM`;
-  endTime = endTime > 12 ? `${endTime - 12} PM` : `${endTime} AM`;
+  startTime =
+    startTime >= 12
+      ? startTime > 12
+        ? `${startTime - 12} PM`
+        : `${startTime} PM`
+      : `${startTime} AM`;
+  endTime =
+    endTime >= 12
+      ? endTime > 12
+        ? `${endTime - 12} PM`
+        : `${endTime} PM`
+      : `${endTime} AM`;
 
   return {
     timeSlot: `${startTime} - ${endTime}, ${format(

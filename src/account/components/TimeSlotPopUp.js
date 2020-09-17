@@ -48,7 +48,7 @@ class TimeSlotPopUp extends Component {
     this.props.callMeBackCallClick();
   }
 
-  renderCallSlot = (slot, shift, callData, date) => {
+  renderCallSlot = (slot, shift, callData, date, slotDuration) => {
     let header =
       slot === "morning"
         ? "Morning"
@@ -57,9 +57,10 @@ class TimeSlotPopUp extends Component {
         : "Evening";
     let today = new Date(),
       isTimeSlotDisabled = false,
+      isAlreadySelected = false,
       slotRangeList = [];
 
-    today.setHours(today.getHours() + 1);
+    today.setHours(today.getHours() + slotDuration + 1);
     const currentTime = this.get24HrsTime(today);
 
     return (
@@ -73,12 +74,24 @@ class TimeSlotPopUp extends Component {
                 currentTime > slotRangeList[0] &&
                 currentTime > slotRangeList[1];
             }
+            if (
+              this.props.selectedSlot &&
+              this.props.selectedSlot.slotTime &&
+              this.props.selectedSlot.slotTime.shift === shift
+            ) {
+              isAlreadySelected =
+                timeSlot.value === this.props.selectedSlot.slotTime.value;
+            }
             return (
               <div
                 key={timeSlot.label}
                 className={styles.activeTimeSlot}
                 style={
-                  isTimeSlotDisabled ? { border: "1px dashed #e7e7e7" } : null
+                  isTimeSlotDisabled
+                    ? { border: "1px solid #e7e7e7" }
+                    : isAlreadySelected
+                    ? { border: "1px solid #da1c5c" }
+                    : null
                 }
                 onClick={() =>
                   !isTimeSlotDisabled

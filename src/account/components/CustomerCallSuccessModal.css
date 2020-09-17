@@ -13,11 +13,11 @@
     color: #212121;
 }
 .subHeading{
-    font-size: 12px;
+    font-size: 16px;
     font-family: light;
     color: #212121;
-    padding-top: 7px;
-    padding-bottom: 20px;
+    /* padding-top: 7px;
+    padding-bottom: 20px; */
 }
 .iconBox{
     width: 100%;
@@ -36,4 +36,6 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 16px;
+    margin-top: 30px;
+
 }
