@@ -232,6 +232,11 @@ export default class CliqCashTopUp extends Component {
       this.props.location &&
       this.props.location.state &&
       this.props.location.state.offerDetails;
+    {
+      offerDetails
+        ? localStorage.setItem("cashback", true)
+        : localStorage.setItem("cashback", false);
+    }
     if (offerDetails === undefined) {
       offerDetails =
         this.props.cliqCashbackDetails &&
