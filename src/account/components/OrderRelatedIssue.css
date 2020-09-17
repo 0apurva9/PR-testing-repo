@@ -183,10 +183,14 @@ border-bottom:1px solid #e5e5e5;
   position: relative;
   display: block;
   width: 100%;
+  font-family: light;
   /* color: #4a4a4a;
   
   font-size: 14px;
   font-family: light; */
+}
+.fontBold{
+  font-weight: 600!important;
 }
 
 .radioTicketType label input[type="radio"] {

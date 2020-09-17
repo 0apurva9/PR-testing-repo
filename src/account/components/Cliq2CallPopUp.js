@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import styles from "./Cliq2CallPopUp.css";
 import Icon from "../../xelpmoc-core/Icon";
 import callMeBack from "../components/img/callMeBack.svg";
+import scheduleaCall from "../components/img/scheduleaCall.svg";
+import cancelGrey from "../components/img/cancelGrey.svg";
 import Loader from "../../general/components/Loader";
 import { getSlotTime } from "./CustomerCallSuccessModal";
 const CALL_ME_BACK = "Call me back now";
@@ -37,14 +39,14 @@ export default class Cliq2CallPopUp extends Component {
       OpenRequest = ""
     } = (this.props && this.props.genesysCallConfigData) || {};
 
-    if (OpenRequest === "now") {
-      this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
-        heading: "We already have a callback request in queue",
-        subHeading: "Please be patient, our executive will call you soon",
-        showBtn: true
-      });
-      return null;
-    }
+    // if (OpenRequest === "now") {
+    //   this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
+    //     heading: "We already have a callback request in queue",
+    //     subHeading: "Please be patient, our executive will call you soon",
+    //     showBtn: true
+    //   });
+    //   return null;
+    // }
 
     let showCallMeBackBtn = false,
       showScheduleCallBtn = false;
@@ -86,7 +88,7 @@ export default class Cliq2CallPopUp extends Component {
             className={styles.crossIcon}
             onClick={() => this.props.closeModal()}
           >
-            X
+            <Icon image={cancelGrey} size={17} />
           </div>
           {OpenRequest && OpenRequest !== "now" && OpenRequest !== "" && (
             <div className={styles.alredySlotBookBox}>
@@ -120,7 +122,7 @@ export default class Cliq2CallPopUp extends Component {
                 onClick={() => this.scheduleACallClick()}
               >
                 <div className={styles.iconBox}>
-                  <Icon image={callMeBack} size={20} />
+                  <Icon image={scheduleaCall} size={20} />
                 </div>
                 {OpenRequest !== "" && OpenRequest !== "now"
                   ? `Re-${SCHEDULE_CALL_BACK}`
