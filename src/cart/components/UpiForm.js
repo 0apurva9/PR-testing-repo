@@ -12,7 +12,10 @@ import {
   setDataLayer,
   SET_DATA_LAYER_VERIFY_BUTTON_UPI,
   SET_DATA_LAYER_UID_SELECTION,
-  SET_DATA_LAYER_UID_ADD
+  SET_DATA_LAYER_UID_ADD,
+  WHATSAPP_NOTIFICATION_CHECKED,
+  WHATSAPP_NOTIFICATION_UNCHECKED,
+  getWhatsAppNotification
 } from "../../lib/adobeUtils";
 // import { LocalStorage } from "node-localstorage";
 const UPI_REGEX = /^[A-Za-z0-9_\-\.]+@[A-Za-z0-9]\w+$/;
@@ -171,6 +174,14 @@ export default class UpiForm extends React.Component {
     if (payNowBtnFlag) {
       this.props.displayToast("Please verify your UPI Address to proceed");
     } else if (this.props.onCheckout) {
+      if (this.props.whatsappSelected && this.props.whatsappSelected === true) {
+        getWhatsAppNotification(WHATSAPP_NOTIFICATION_CHECKED);
+      } else if (
+        this.props.whatsappSelected &&
+        this.props.whatsappSelected === false
+      ) {
+        getWhatsAppNotification(WHATSAPP_NOTIFICATION_UNCHECKED);
+      }
       this.props.onCheckout();
     }
   };

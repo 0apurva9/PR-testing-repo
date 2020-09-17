@@ -37,7 +37,7 @@ export default class ControlInput extends React.Component {
       className = styles.whiteBox;
     }
     return (
-      <div className={className}>
+      <div className={className} data-test={this.props.dataTest + `-main-div`}>
         <div className={this.props.focused ? styles.focused : styles.wrapper}>
           <div
             className={this.props.hollow ? styles.hollow : styles.box}
@@ -67,6 +67,7 @@ export default class ControlInput extends React.Component {
               disabled={this.props.disabled}
               autoFocus={this.props.autoFocus}
               onKeyPress={event => this.handleKeyPress(event)}
+              data-test={this.props.dataTest}
             />
           </div>
           {this.props.leftChild && (
@@ -106,7 +107,8 @@ ControlInput.propTypes = {
   background: PropTypes.string,
   textStyle: PropTypes.shape({
     fontSize: PropTypes.number
-  })
+  }),
+  dataTest: PropTypes.string
 };
 
 ControlInput.defaultProps = {
@@ -117,5 +119,6 @@ ControlInput.defaultProps = {
     fontSize: 14
   },
   disabled: false,
-  borderBottom: "1px solid #d2d2d2"
+  borderBottom: "1px solid #d2d2d2",
+  dataTest: "control-input-field"
 };

@@ -494,7 +494,8 @@ export const BANK_ACCOUNT = "BANK_ACCOUNT";
 export const MY_ACCOUNT_SUFFIX = "/my-account/(.*)";
 export const DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION =
   "digitalDataForPaymentConfirmation";
-
+export const DIGITAL_DATA_FOR_BEFORE_PAYMENT_CONFIRMATION =
+  "digitalDataForPaymentConfirmationBeforePayment";
 // errors
 export const ERROR_CODE_JAVA_NET = "java.net";
 export const ERROR_CODE_REDIS_CLIENT = "redis.clients";
@@ -547,3 +548,17 @@ export const GO_TO_CART_EVENT_HAPTIK_CHATBOT = "go_to_cart";
 export const CREDIT_CARD_EMI = "Credit Card EMI";
 export const DEBIT_CARD_EMI = "Debit Card EMI";
 export const IS_DC_EMI_SELECTED = "isDcEMISelected";
+
+export const AUTOMATED_WIDGETS_FOR_HOME = "AutoWidget";
+export const QUICK_LINK_PERSONALISED_COMPONENT = "01QLC-P";
+export const HERO_BANNER_PERSONALISED_COMPONENT = "01HBC-P";
+export const BANK_OFFER_PERSONALISED_COMPONENT = "01BOC-P";
+export const MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT = "01MPB-P";
+export const LUXE_EDITORIAL_PERSONALISED_CAROUSEL = "01LEC-P";
+export const TWO_BY_TWO_PERSONALISED_COMPONENT = "01TBT-P";
+export const LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT = "01LSSC-P";
+export const MULTI_BANNER_PERSONALISED_COMPONENT = "01MBC-P";
+export const SUB_HEADER_HERO_BANNER = "heroBannerComponent";
+export const SUB_HEADER_TWO_BY_TWO = "twoByTwoBannerComponent";
+
+export const DIGITAL_DATA_FOR_CART = "digitalDataForCart";

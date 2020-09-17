@@ -19,7 +19,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import * as api from "../src/lib/apiRequest";
 import thunk from "redux-thunk";
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   auth,
   user,
   modal,
