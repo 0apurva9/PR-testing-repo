@@ -36,6 +36,7 @@ import {
   showModal,
   EMI_MODAL,
   OFFER_MODAL,
+  BEAUTY_OFFER_MODAL,
   ADDRESS,
   PRICE_BREAKUP,
   SIZE_SELECTOR,
@@ -109,6 +110,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showOfferDetails: data => {
       dispatch(showModal(OFFER_MODAL, data));
+    },
+    showBeautyOfferDetails: data => {
+      dispatch(showModal(BEAUTY_OFFER_MODAL, data));
     },
     showBundledProduct: data => {
       dispatch(showModal(BUNDLEDPRODUCT_MODAL, data));
