@@ -79,6 +79,15 @@ export default class CliqCashTopUp extends Component {
     if (this.props.getGiftCardDetails) {
       this.props.getGiftCardDetails();
     }
+    let offerDetails =
+      this.props &&
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.offerDetails;
+    if (offerDetails === undefined && this.props.getCliqCashbackDetails) {
+      const cashbackmode = "EGV|TOPUP";
+      this.props.getCliqCashbackDetails(cashbackmode);
+    }
   }
   selectAmount(amount) {
     if (amount < this.state.minPrice || amount > this.state.maxPrice) {
@@ -223,6 +232,12 @@ export default class CliqCashTopUp extends Component {
       this.props.location &&
       this.props.location.state &&
       this.props.location.state.offerDetails;
+    if (offerDetails === undefined) {
+      offerDetails =
+        this.props.cliqCashbackDetails &&
+        this.props.cliqCashbackDetails.cashbackOffers &&
+        this.props.cliqCashbackDetails.cashbackOffers[0];
+    }
 
     return (
       <div className={styles.base}>
