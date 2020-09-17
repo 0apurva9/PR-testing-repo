@@ -221,7 +221,7 @@ const MSD_REQUEST_PATH = "widgets";
 const API_KEY = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
 const WIDGET_LIST = [0, 4];
 const WIDGET_LIST_FOR_ABOUT_BRAND = [114];
-const WIDGET_LIST_FOR_MORE_FROM_BRAND = [0, 4];
+const WIDGET_LIST_FOR_MORE_FROM_BRAND = [0];
 const NUMBER_RESULTS = [10, 10];
 //TPR-9957 for Desktop
 export const PDP_MANUFACTURER_REQUEST = "PDP_MANUFACTURER_REQUEST";
@@ -417,7 +417,7 @@ export function getMoreFromBrand(productId) {
     msdFormData.append("details", false);
     msdFormData.append(
       "widget_list",
-      JSON.stringify(WIDGET_LIST_FOR_MORE_FROM_BRAND)
+      JSON.stringify(WIDGET_LIST_FOR_ABOUT_BRAND)
     );
     msdFormData.append("product_id", productId);
     if (userData && userData.customerId) {
@@ -441,7 +441,7 @@ export function getMoreFromBrand(productId) {
       let finalProductDetails = null;
 
       if (moreBrandJson.data && moreBrandJson.data.length > 0) {
-        let productCode = moreBrandJson.data[0].toString();
+        let productCode = moreBrandJson.data[0].itemIds.toString();
         const getProductdetails = await api.getMiddlewareUrl(
           `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
         );
