@@ -12,7 +12,18 @@ const TOPUP = "TOPUP";
 
 export default class AvailableOffersMyAcc extends Component {
   navigationToRespectivePages = offer => {
-    console.log(offer);
+    if (window._satellite) {
+      window._satellite.track("cliqCash_Offer_Click");
+    }
+    if (window && window.digitalData) {
+      Object.assign(window.digitalData, {
+        cliqcash: {
+          offer: {
+            name: offer.offerDesc
+          }
+        }
+      });
+    }
     if (offer.cashbackMode === TOPUP) {
       this.props.history.push({
         pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PURCHASE_PAGE}`,

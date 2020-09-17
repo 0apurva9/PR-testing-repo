@@ -36,7 +36,6 @@ import Button from "../../general/components/Button";
 import { Link } from "react-router-dom";
 import { getItemBreakUpDetails } from "../../cart/actions/cart.actions";
 import greenLightBulb from "../components/img/greenLightBulb.svg";
-import moment from "moment";
 const MINIMUM_PRICE = 10;
 const MAXIMUM_PRICE = 10000;
 const PRODUCT_ID = "MP000000000127263";
@@ -94,6 +93,18 @@ export default class CliqCashTopUp extends Component {
       this.setState({ selectedAmount: amount, isValidAmount: false });
     } else {
       this.setState({ selectedAmount: amount, isValidAmount: true });
+    }
+    if (window && window.digitalData) {
+      Object.assign(window.digitalData, {
+        cliqcash: {
+          price: {
+            value: amount
+          }
+        }
+      });
+    }
+    if (window._satellite) {
+      window._satellite.track("cliqCash_Price_card_Click");
     }
   }
   navigateToLogin() {
@@ -165,49 +176,22 @@ export default class CliqCashTopUp extends Component {
         );
         return false;
       } else {
+        if (window._satellite) {
+          window._satellite.track("cliqCash_Add_Amount_Click");
+        }
+        if (window && window.digitalData) {
+          Object.assign(window.digitalData, {
+            cliqcash: {
+              price: {
+                value: this.state.selectedAmount
+              }
+            }
+          });
+        }
         this.props.createGiftCardDetails(giftCardDetails);
       }
     }
   }
-
-  popupBody = offer => {
-    const expiryDate = moment(offer.offerEndDate).format("Do MMM, YYYY");
-    const expiryTime = moment(offer.offerEndDate).format("h:mm A");
-    return (
-      <div className={styles.cashBackOfferLine}>
-        <div className={styles.cashBackOfferLine1}>{offer.offerDesc}</div>
-        <div className={styles.cashBackOfferLine2}>
-          Maximum Available Discount:{" "}
-          <span className={styles.priceDate}>
-            {offer.maxCashback && offer.maxCashback.formattedValueNoDecimal}
-          </span>
-        </div>
-        <div className={styles.cashBackOfferLine3}>
-          Offer Validity: <span className={styles.priceDate}>{expiryDate}</span>{" "}
-          | {expiryTime}
-        </div>
-        <div className={styles.cashBackOfferLine4}>
-          To know more about the cashback offer{" "}
-          <Link
-            to={"/cliqcashback-offers-tnc"}
-            target="_blank"
-            className={styles.viewTNC}
-          >
-            view T&C.
-          </Link>
-        </div>
-      </div>
-    );
-  };
-
-  showPopup = offer => {
-    if (this.props.showCashBackDetailsPopup) {
-      this.props.showCashBackDetailsPopup({
-        heading: "Cashback Details",
-        children: this.popupBody(offer)
-      });
-    }
-  };
 
   render() {
     let userData, fullName, email;
@@ -279,13 +263,21 @@ export default class CliqCashTopUp extends Component {
                 </div>
               </div>
               <div className={styles.popularHeading}>Popular Top-ups</div>
-              {offerDetails && (
-                <div className={styles.cashBackOffer}>
-                  Get up to ₹{offerDetails.maxCashback.value} Cashback on top-up
-                  of {offerDetails.offerThreshold.value} and above*
-                </div>
-              )}
-
+              {offerDetails &&
+                offerDetails.cashbackType.toLowerCase() === "fixed" && (
+                  <div className={styles.cashBackOfferLong}>
+                    Get ₹{offerDetails.offerValue} cashback up to{" "}
+                    {offerDetails.maxCashback.formattedValueNoDecimal} on top-up
+                    of ₹{offerDetails.offerThreshold.value} and above*
+                  </div>
+                )}
+              {offerDetails &&
+                offerDetails.cashbackType.toLowerCase() !== "fixed" && (
+                  <div className={styles.cashBackOfferSmall}>
+                    Get ₹{offerDetails.offerValue} cashback on top-up of ₹
+                    {offerDetails.offerThreshold.value} and above*
+                  </div>
+                )}
               <div className={styles.popularCardPriceBox}>
                 {this.props.giftCardsDetails &&
                   this.props.giftCardsDetails.topUpOptions &&
@@ -344,15 +336,17 @@ export default class CliqCashTopUp extends Component {
                     <img src={greenLightBulb} alt={"Offer Text"} />
                   </div>
                   <div className={styles.cashBackOfferMsg}>
-                    Your earned cashback will be credited to your CLiQ Cash
-                    wallet within 24 Hrs of successful top up.
-                    <span
+                    The cashback will be credited to your account as CLiQ Cash
+                    within 24 hrs. Please read the offer
+                    <Link
+                      to={"/cliqcashback-offers-tnc"}
+                      target="_blank"
                       className={styles.knowMore}
-                      onClick={() => this.showPopup(offerDetails)}
                     >
                       {" "}
-                      know more
-                    </span>
+                      T&C{" "}
+                    </Link>
+                    carefully.
                   </div>
                 </div>
               )}

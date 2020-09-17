@@ -939,7 +939,17 @@
 }
 
 
-.cashBackOffer {
+.cashBackOfferLong {
+  background-color: #e5f7f2;
+  color: #007d5c;
+  font-size: 12px;
+  font-family: regular;
+  width: 60%;
+  padding: 3px;
+  border-radius: 2px;
+  margin-top: 13px;
+}
+.cashBackOfferSmall {
   background-color: #e5f7f2;
   color: #007d5c;
   font-size: 12px;

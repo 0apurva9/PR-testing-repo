@@ -2842,6 +2842,27 @@ if you have order id in local storage then you have to show order confirmation p
           this.softReservationForPayment(this.state.cardDetails);
         }
       }
+      if (this.state.currentPaymentMode === EMI) {
+        if (window._satellite) {
+          window._satellite.track("cpj_EMI_Pay_Now_Click");
+        }
+        if (window && window.digitalData) {
+          Object.assign(window.digitalData, {
+            checkout: {
+              tenure: {
+                value: this.state.cardDetails.emi_tenure
+              }
+            }
+          });
+          Object.assign(window.digitalData, {
+            checkout: {
+              option: {
+                name: this.state.currentSelectedEMIType
+              }
+            }
+          });
+        }
+      }
 
       if (this.state.currentPaymentMode === NET_BANKING_PAYMENT_MODE) {
         if (this.state.isGiftCard) {
@@ -3829,7 +3850,6 @@ if you have order id in local storage then you have to show order confirmation p
   }
 
   render() {
-    console.log("=========>check", this.props);
     let labelForButton,
       checkoutButtonStatus = false;
     if (

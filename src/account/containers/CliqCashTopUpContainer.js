@@ -43,9 +43,6 @@ const mapDispatchToProps = dispatch => {
     clearGiftCardStatus: () => {
       dispatch(clearGiftCardStatus());
     },
-    showCashBackDetailsPopup: data => {
-      dispatch(showModal(CASHBACK_DETAILS_POPUP, data));
-    },
     getCliqCashbackDetails: cashbackmode => {
       dispatch(getCliqCashbackDetails(cashbackmode));
     }

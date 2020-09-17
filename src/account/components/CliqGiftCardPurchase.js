@@ -30,7 +30,6 @@ import BackToCliqCashSection from "./BackToCliqCashSection";
 import Input2 from "../../general/components/Input2";
 import CliqGiftCardBuySend from "./CliqGiftCardBuySend";
 import greenLightBulb from "../components/img/greenLightBulb.svg";
-import moment from "moment";
 import { Link } from "react-router-dom";
 const MINIMUM_PRICE = 15;
 const MAXIMUM_PRICE = 10000;
@@ -119,45 +118,6 @@ export default class CliqGiftCardPurchase extends Component {
     }
   }
 
-  popupBody = offer => {
-    const expiryDate = moment(offer.offerEndDate).format("Do MMM, YYYY");
-    const expiryTime = moment(offer.offerEndDate).format("h:mm A");
-    return (
-      <div className={styles.cashBackOfferLine}>
-        <div className={styles.cashBackOfferLine1}>{offer.offerDesc}</div>
-        <div className={styles.cashBackOfferLine2}>
-          Maximum Available Discount:{" "}
-          <span className={styles.priceDate}>
-            {offer.maxCashback && offer.maxCashback.formattedValueNoDecimal}
-          </span>
-        </div>
-        <div className={styles.cashBackOfferLine3}>
-          Offer Validity: <span className={styles.priceDate}>{expiryDate}</span>{" "}
-          | {expiryTime}
-        </div>
-        <div className={styles.cashBackOfferLine4}>
-          To know more about the cashback offer{" "}
-          <Link
-            to={"/cliqcashback-offers-tnc"}
-            target="_blank"
-            className={styles.viewTNC}
-          >
-            view T&C.
-          </Link>
-        </div>
-      </div>
-    );
-  };
-
-  showPopup = offer => {
-    if (this.props.showCashBackDetailsPopup) {
-      this.props.showCashBackDetailsPopup({
-        heading: "Cashback Details",
-        children: this.popupBody(offer)
-      });
-    }
-  };
-
   render() {
     let userData, fullName, email;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -205,12 +165,21 @@ export default class CliqGiftCardPurchase extends Component {
 
             <div className={styles.popularCardBox}>
               <div className={styles.popularHeading}>Send a CLiQ Gift Card</div>
-              {offerDetails && (
-                <div className={styles.cashBackOffer}>
-                  Get up to ₹{offerDetails.maxCashback.value} Cashback on gift
-                  voucher of {offerDetails.offerThreshold.value} and above*
-                </div>
-              )}
+              {offerDetails &&
+                offerDetails.cashbackType.toLowerCase() === "fixed" && (
+                  <div className={styles.cashBackOfferLong}>
+                    Get ₹{offerDetails.offerValue} cashback up to{" "}
+                    {offerDetails.maxCashback.formattedValueNoDecimal} on gift
+                    voucher of ₹{offerDetails.offerThreshold.value} and above*
+                  </div>
+                )}
+              {offerDetails &&
+                offerDetails.cashbackType.toLowerCase() !== "fixed" && (
+                  <div className={styles.cashBackOfferSmall}>
+                    Get ₹{offerDetails.offerValue} cashback on gift voucher of ₹
+                    {offerDetails.offerThreshold.value} and above*
+                  </div>
+                )}
               <div className={styles.popularCardPriceBox}>
                 {this.props.giftCardsDetails &&
                   this.props.giftCardsDetails.landingPageOptions &&
@@ -269,15 +238,17 @@ export default class CliqGiftCardPurchase extends Component {
                     <img src={greenLightBulb} alt={"Offer Text"} />
                   </div>
                   <div className={styles.cashBackOfferMsg}>
-                    Your earned cashback will be credited to your CLiQ Cash
-                    wallet within 24 Hrs of successful top up.
-                    <span
+                    The cashback will be credited to your account as CLiQ Cash
+                    within 24 hrs. Please read the offer
+                    <Link
+                      to={"/cliqcashback-offers-tnc"}
+                      target="_blank"
                       className={styles.knowMore}
-                      onClick={() => this.showPopup(offerDetails)}
                     >
                       {" "}
-                      know more
-                    </span>
+                      T&C{" "}
+                    </Link>
+                    carefully.
                   </div>
                 </div>
               )}
