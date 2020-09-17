@@ -177,14 +177,17 @@ export default class CliqGiftCardPurchase extends Component {
                   <div className={styles.cashBackOfferLong}>
                     Get ₹{offerDetails.offerValue} cashback up to{" "}
                     {offerDetails.maxCashback.formattedValueNoDecimal} on gift
-                    voucher of ₹{offerDetails.offerThreshold.value} and above*
+                    voucher of{" "}
+                    {offerDetails.offerThreshold.formattedValueNoDecimal} and
+                    above*
                   </div>
                 )}
               {offerDetails &&
                 offerDetails.cashbackType.toLowerCase() !== "fixed" && (
                   <div className={styles.cashBackOfferSmall}>
-                    Get ₹{offerDetails.offerValue} cashback on gift voucher of ₹
-                    {offerDetails.offerThreshold.value} and above*
+                    Get ₹{offerDetails.offerValue} cashback on gift voucher of{" "}
+                    {offerDetails.offerThreshold.formattedValueNoDecimal} and
+                    above*
                   </div>
                 )}
               <div className={styles.popularCardPriceBox}>

@@ -273,14 +273,16 @@ export default class CliqCashTopUp extends Component {
                   <div className={styles.cashBackOfferLong}>
                     Get ₹{offerDetails.offerValue} cashback up to{" "}
                     {offerDetails.maxCashback.formattedValueNoDecimal} on top-up
-                    of ₹{offerDetails.offerThreshold.value} and above*
+                    of {offerDetails.offerThreshold.formattedValueNoDecimal} and
+                    above*
                   </div>
                 )}
               {offerDetails &&
                 offerDetails.cashbackType.toLowerCase() !== "fixed" && (
                   <div className={styles.cashBackOfferSmall}>
-                    Get ₹{offerDetails.offerValue} cashback on top-up of ₹
-                    {offerDetails.offerThreshold.value} and above*
+                    Get ₹{offerDetails.offerValue} cashback on top-up of{" "}
+                    {offerDetails.offerThreshold.formattedValueNoDecimal} and
+                    above*
                   </div>
                 )}
               <div className={styles.popularCardPriceBox}>
