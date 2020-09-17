@@ -48,14 +48,14 @@ export default class AvailableOffersMyAcc extends Component {
       <div className={styles.cashBackOfferLine}>
         <div className={styles.cashBackOfferLine1}>{offer.offerDesc}</div>
         <div className={styles.cashBackOfferLine2}>
-          Maximum Available Discount:{" "}
+          Maximum applicable cashback:{" "}
           <span className={styles.priceDate}>
             {offer.maxCashback && offer.maxCashback.formattedValueNoDecimal}
           </span>
         </div>
         <div className={styles.cashBackOfferLine3}>
-          Offer Validity: <span className={styles.priceDate}>{expiryDate}</span>{" "}
-          | {expiryTime}
+          Offer valid till:{" "}
+          <span className={styles.priceDate}>{expiryDate}</span> | {expiryTime}
         </div>
         <div className={styles.cashBackOfferLine4}>
           To know more about the cashback offer{" "}

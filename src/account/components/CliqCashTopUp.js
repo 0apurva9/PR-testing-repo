@@ -268,23 +268,21 @@ export default class CliqCashTopUp extends Component {
                 </div>
               </div>
               <div className={styles.popularHeading}>Popular Top-ups</div>
-              {offerDetails &&
-                offerDetails.cashbackType.toLowerCase() === "fixed" && (
-                  <div className={styles.cashBackOfferLong}>
-                    Get ₹{offerDetails.offerValue} cashback up to{" "}
-                    {offerDetails.maxCashback.formattedValueNoDecimal} on top-up
-                    of {offerDetails.offerThreshold.formattedValueNoDecimal} and
-                    above*
-                  </div>
-                )}
-              {offerDetails &&
-                offerDetails.cashbackType.toLowerCase() !== "fixed" && (
-                  <div className={styles.cashBackOfferSmall}>
-                    Get ₹{offerDetails.offerValue} cashback on top-up of{" "}
-                    {offerDetails.offerThreshold.formattedValueNoDecimal} and
-                    above*
-                  </div>
-                )}
+              {offerDetails && offerDetails.cashbackType === "Fixed" && (
+                <div className={styles.cashBackOfferLong}>
+                  Get ₹{offerDetails.offerValue} cashback up to{" "}
+                  {offerDetails.maxCashback.formattedValueNoDecimal} on top-up
+                  of {offerDetails.offerThreshold.formattedValueNoDecimal} and
+                  above*
+                </div>
+              )}
+              {offerDetails && offerDetails.cashbackType !== "Fixed" && (
+                <div className={styles.cashBackOfferSmall}>
+                  Get ₹{offerDetails.offerValue} cashback on top-up of{" "}
+                  {offerDetails.offerThreshold.formattedValueNoDecimal} and
+                  above*
+                </div>
+              )}
               <div className={styles.popularCardPriceBox}>
                 {this.props.giftCardsDetails &&
                   this.props.giftCardsDetails.topUpOptions &&
@@ -347,7 +345,6 @@ export default class CliqCashTopUp extends Component {
                     within 24 hrs. Please read the offer
                     <Link
                       to={"/cliqcashback-offers-tnc"}
-                      target="_blank"
                       className={styles.knowMore}
                     >
                       {" "}

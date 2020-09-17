@@ -172,24 +172,22 @@ export default class CliqGiftCardPurchase extends Component {
 
             <div className={styles.popularCardBox}>
               <div className={styles.popularHeading}>Send a CLiQ Gift Card</div>
-              {offerDetails &&
-                offerDetails.cashbackType.toLowerCase() === "fixed" && (
-                  <div className={styles.cashBackOfferLong}>
-                    Get ₹{offerDetails.offerValue} cashback up to{" "}
-                    {offerDetails.maxCashback.formattedValueNoDecimal} on gift
-                    voucher of{" "}
-                    {offerDetails.offerThreshold.formattedValueNoDecimal} and
-                    above*
-                  </div>
-                )}
-              {offerDetails &&
-                offerDetails.cashbackType.toLowerCase() !== "fixed" && (
-                  <div className={styles.cashBackOfferSmall}>
-                    Get ₹{offerDetails.offerValue} cashback on gift voucher of{" "}
-                    {offerDetails.offerThreshold.formattedValueNoDecimal} and
-                    above*
-                  </div>
-                )}
+              {offerDetails && offerDetails.cashbackType === "Fixed" && (
+                <div className={styles.cashBackOfferLong}>
+                  Get ₹{offerDetails.offerValue} cashback up to{" "}
+                  {offerDetails.maxCashback.formattedValueNoDecimal} on gift
+                  voucher of{" "}
+                  {offerDetails.offerThreshold.formattedValueNoDecimal} and
+                  above*
+                </div>
+              )}
+              {offerDetails && offerDetails.cashbackType !== "Fixed" && (
+                <div className={styles.cashBackOfferSmall}>
+                  Get ₹{offerDetails.offerValue} cashback on gift voucher of{" "}
+                  {offerDetails.offerThreshold.formattedValueNoDecimal} and
+                  above*
+                </div>
+              )}
               <div className={styles.popularCardPriceBox}>
                 {this.props.giftCardsDetails &&
                   this.props.giftCardsDetails.landingPageOptions &&
@@ -252,7 +250,6 @@ export default class CliqGiftCardPurchase extends Component {
                     within 24 hrs. Please read the offer
                     <Link
                       to={"/cliqcashback-offers-tnc"}
-                      target="_blank"
                       className={styles.knowMore}
                     >
                       {" "}
