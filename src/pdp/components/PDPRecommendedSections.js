@@ -90,6 +90,7 @@ class PDPRecommendedSections extends React.Component {
       sourceCatgID:
         categoryHierarchy &&
         Array.isArray(categoryHierarchy) &&
+        categoryHierarchy[categoryHierarchy.length - 1] &&
         categoryHierarchy[categoryHierarchy.length - 1].category_id,
       prodPrice:
         mainProduct &&
