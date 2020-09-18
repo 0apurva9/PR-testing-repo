@@ -394,44 +394,43 @@ export default class OrderRelatedIssue extends React.Component {
           CLIQ_2_CALL_CONFIG
         );
         if (response.status === SUCCESS) {
-          if (response) {
-            const cliq2CallData = JSON.parse(
-              response.cliq2CallConfigData.items[0].cmsParagraphComponent
-                .content
-            );
-            let currentTime = new Date().toLocaleTimeString("en-US", {
-              hour12: false
+          const cliq2CallData = JSON.parse(
+            response.cliq2CallConfigData.items[0].cmsParagraphComponent.content
+          );
+          let currentTime = new Date().toLocaleTimeString("en-US", {
+            hour12: false
+          });
+          let isUserWithinBusinessTime =
+            currentTime > cliq2CallData.businessStartTime &&
+            currentTime < cliq2CallData.businessEndTime
+              ? true
+              : false;
+          const buttonShowObject = {
+            businessEndTime: cliq2CallData.businessEndTime,
+            businessStartTime: cliq2CallData.businessStartTime,
+            callBackNowFlag: cliq2CallData.callBackNowFlag,
+            allowedRequestLimit: cliq2CallData.allowedRequestLimit,
+            scheduleCallFlag: cliq2CallData.scheduleCallFlag,
+            availableSlots: cliq2CallData.availableSlots,
+            slotDuration: cliq2CallData.slotDuration,
+            callMeBackClick: this.callMeBackCallClick,
+            scheduleACallClick: this.scheduleACallClick
+          };
+          if (
+            !cliq2CallData.scheduleCallFlag &&
+            (!cliq2CallData.callBackNowFlag || !isUserWithinBusinessTime)
+          ) {
+            this.props.customerQueryErrorModal({
+              heading: "Sorry, no agents are available right now",
+              subHeading: "Please try again later or choose other help options",
+              showBtn: false
             });
-            let isUserWithinBusinessTime =
-              currentTime > cliq2CallData.businessStartTime &&
-              currentTime < cliq2CallData.businessEndTime
-                ? true
-                : false;
-            const buttonShowObject = {
-              businessEndTime: cliq2CallData.businessEndTime,
-              businessStartTime: cliq2CallData.businessStartTime,
-              callBackNowFlag: cliq2CallData.callBackNowFlag,
-              allowedRequestLimit: cliq2CallData.allowedRequestLimit,
-              scheduleCallFlag: cliq2CallData.scheduleCallFlag,
-              callMeBackClick: this.callMeBackCallClick,
-              scheduleACallClick: this.scheduleACallClick
-            };
-            if (
-              !cliq2CallData.scheduleCallFlag &&
-              (!cliq2CallData.callBackNowFlag || !isUserWithinBusinessTime)
-            ) {
-              this.props.customerQueryErrorModal({
-                heading: "Sorry, no agents are available right now",
-                subHeading: "Please try again later or choose other options",
-                showBtn: false
-              });
-            } else {
-              this.props.showCliq2CallOption(buttonShowObject);
-            }
-            this.setState({
-              cliq2CallConfigData: cliq2CallData
-            });
+          } else {
+            this.props.showCliq2CallOption(buttonShowObject);
           }
+          this.setState({
+            cliq2CallConfigData: cliq2CallData
+          });
         }
       }
     }
@@ -601,7 +600,7 @@ export default class OrderRelatedIssue extends React.Component {
                     <div className={styles.fieldLabel}>Mobile number</div>
                     <div className={styles.inputField}>
                       <FloatingLabelInputWithPlace
-                        placeholder={"Enter your mobile numer"}
+                        placeholder={"Enter your mobile numer *"}
                         disabled={false}
                         maxLength={10}
                         value={this.state.mobile}
@@ -619,7 +618,7 @@ export default class OrderRelatedIssue extends React.Component {
                   </div>
                   <div className={styles.languageBox}>
                     <div className={styles.fieldLabel}>
-                      Select your language
+                      Select preferred language
                     </div>
 
                     <div className={styles.language}>
@@ -646,7 +645,7 @@ export default class OrderRelatedIssue extends React.Component {
                       <div className={styles.radioTicketType}>
                         <label
                           className={
-                            this.state.chooseLanguage == "हिंदी"
+                            this.state.chooseLanguage == "Hindi"
                               ? styles.fontBold
                               : null
                           }
@@ -654,8 +653,8 @@ export default class OrderRelatedIssue extends React.Component {
                           हिंदी
                           <input
                             type="radio"
-                            value="हिंदी"
-                            checked={this.state.chooseLanguage == "हिंदी"}
+                            value="Hindi"
+                            checked={this.state.chooseLanguage == "Hindi"}
                             onChange={e =>
                               this.setState({ chooseLanguage: e.target.value })
                             }
@@ -667,7 +666,9 @@ export default class OrderRelatedIssue extends React.Component {
                   </div>
                   {this.state.isScheduleACall ? (
                     <div className={styles.mobileNumberBox}>
-                      <div className={styles.fieldLabel}>Time slot</div>
+                      <div className={styles.fieldLabel}>
+                        Select preferred time slot
+                      </div>
                       <div className={styles.inputField}>
                         <FloatingLabelInputWithPlace
                           placeholder={"Select your time slot"}

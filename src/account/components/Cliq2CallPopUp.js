@@ -9,6 +9,7 @@ import scheduleaCall from "../components/img/scheduleaCall.svg";
 import cancelGrey from "../components/img/cancelGrey.svg";
 import Loader from "../../general/components/Loader";
 import { getSlotTime } from "./CustomerCallSuccessModal";
+import { getDetailsOfSlots } from "./TimeSlotPopUp";
 const CALL_ME_BACK = "Call me back now";
 const SCHEDULE_CALL_BACK = "Schedule a call";
 export default class Cliq2CallPopUp extends Component {
@@ -26,10 +27,12 @@ export default class Cliq2CallPopUp extends Component {
   render() {
     const {
       scheduleCallFlag = false,
+      callBackNowFlag = false,
       businessEndTime = "",
       businessStartTime = "",
-      callBackNowFlag = false,
       allowedRequestLimit = 0,
+      slotDuration = 0,
+      availableSlots = {},
       genesysDataLoader
     } = this.props;
     let {
@@ -39,12 +42,12 @@ export default class Cliq2CallPopUp extends Component {
       OpenRequest = ""
     } = (this.props && this.props.genesysCallConfigData) || {};
 
-    if (this.props.genesysDataLoader) {
-      return <Loader />;
-    }
+    // if (this.props.genesysDataLoader) {
+    //   return <Loader />;
+    // }
     if (OpenRequest === "now") {
       this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
-        heading: "We already have a callback request in queue",
+        heading: "We already have your callback request in the queue",
         subHeading: "Please be patient, our executive will call you soon",
         showBtn: true
       });
@@ -79,6 +82,34 @@ export default class Cliq2CallPopUp extends Component {
       }
     }
 
+    const todayObj = getDetailsOfSlots(
+      0,
+      availableSlots,
+      slotDuration,
+      businessEndTime
+    );
+    if (
+      (TotalRequestsToday >= allowedRequestLimit ||
+        todayObj.isSlotsNotAvailable) &&
+      TotalRequestsNextDay >= allowedRequestLimit
+    ) {
+      this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
+        text: "Call limit has exceeded",
+        subText:
+          "You cannot place anymore call. Please try again after sometime",
+        showBtn: false
+      });
+      return null;
+    }
+
+    if (WaitTime > 60) {
+      if (!showScheduleCallBtn) {
+        showCallMeBackBtn = true;
+      } else {
+        showCallMeBackBtn = false;
+      }
+    }
+
     let scheduleCallObj = {};
     if (OpenRequest !== "now" && OpenRequest !== "") {
       scheduleCallObj = getSlotTime(OpenRequest.split("-"));
@@ -93,15 +124,16 @@ export default class Cliq2CallPopUp extends Component {
           >
             <Icon image={cancelGrey} size={17} />
           </div>
-          {OpenRequest && OpenRequest !== "now" && OpenRequest !== "" && (
+          {OpenRequest !== "now" && OpenRequest !== "" && (
             <div className={styles.alredySlotBookBox}>
-              {`We have already scheduled a callback for ${scheduleCallObj.shift}`}
+              {`We have already scheduled a callback for ${scheduleCallObj.shift} between`}
               <br />
               <span className={styles.fontBold}>
                 {scheduleCallObj.timeSlot.split(",")[0]}
               </span>
             </div>
           )}
+
           {showCallMeBackBtn && (
             <React.Fragment>
               <div
@@ -146,26 +178,6 @@ export default class Cliq2CallPopUp extends Component {
   }
 }
 
-Cliq2CallPopUp.propTypes = {
-  callMeBackClick: PropTypes.func,
-  scheduleACallClick: PropTypes.func,
-  getGenesysCallConfigData: PropTypes.func,
-  callBackNowFlag: PropTypes.bool,
-  scheduleCallFlag: PropTypes.bool,
-  businessStartTime: PropTypes.string,
-  businessEndTime: PropTypes.string,
-  allowedRequestLimit: PropTypes.number,
-  genesysCallConfigData: PropTypes.shape({
-    WaitTime: PropTypes.number,
-    TotalRequestsToday: PropTypes.number,
-    TotalRequestsNextDay: PropTypes.number,
-    OpenRequest: PropTypes.string
-  }),
-  genesysDataLoader: PropTypes.bool,
-  closeModal: PropTypes.func,
-  showModal: PropTypes.func
-};
-
 export function isCallBackBtnEnable(
   callBackNowFlag,
   startTime,
@@ -195,3 +207,23 @@ export function isCallBackBtnEnable(
 
   return isCallMeBackEnabled;
 }
+
+Cliq2CallPopUp.propTypes = {
+  callMeBackClick: PropTypes.func,
+  scheduleACallClick: PropTypes.func,
+  getGenesysCallConfigData: PropTypes.func,
+  callBackNowFlag: PropTypes.bool,
+  scheduleCallFlag: PropTypes.bool,
+  businessStartTime: PropTypes.string,
+  businessEndTime: PropTypes.string,
+  allowedRequestLimit: PropTypes.number,
+  genesysCallConfigData: PropTypes.shape({
+    WaitTime: PropTypes.number,
+    TotalRequestsToday: PropTypes.number,
+    TotalRequestsNextDay: PropTypes.number,
+    OpenRequest: PropTypes.string
+  }),
+  genesysDataLoader: PropTypes.bool,
+  closeModal: PropTypes.func,
+  showModal: PropTypes.func
+};

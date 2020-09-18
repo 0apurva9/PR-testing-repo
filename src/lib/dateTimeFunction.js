@@ -226,3 +226,7 @@ export function getDayNumberSuffix(d, hideDelay) {
     return getDateMonthFormate(dateWithMonth, hideDelay);
   } else return "";
 }
+
+export function get24HrsTime(date) {
+  return date.toLocaleTimeString("en-US", { hour12: false });
+}

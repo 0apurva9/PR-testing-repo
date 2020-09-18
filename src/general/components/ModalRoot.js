@@ -879,6 +879,7 @@ export default class ModalRoot extends React.Component {
         <TimeSlotPopUp
           {...this.props.ownProps}
           // goToCartPage={productCode => this.goToCartPage(productCode)}
+          genesysCallConfigData={this.props.genesysCallConfigData}
           closeModal={() => this.handleClose()}
           goToHomePage={() => this.goToHomePage()}
         />

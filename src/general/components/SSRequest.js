@@ -1,6 +1,6 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import styles from "./SSRequest.css";
-import Icon from "../../xelpmoc-core/Icon";
 import ssloader from "../components/img/ssloader.svg";
 import ssloaders from "../components/img/ssloaders.svg";
 export default class SSRquest extends Component {
@@ -14,7 +14,7 @@ export default class SSRquest extends Component {
             </div>
             <div className={styles.requestHeading}>
               {this.props.isCallMeBackForm
-                ? "Hold on, we’re placing your call request"
+                ? "Hold on, we're placing your callback request"
                 : "We will get our best minds on this issue to resolve it"}
             </div>
             <div className={styles.requestContetn}>
@@ -33,7 +33,7 @@ export default class SSRquest extends Component {
             </div>
             <div className={styles.requestHeading}>
               {this.props.isCallMeBackForm
-                ? `We have successfully placed your call request`
+                ? `We have successfully placed your callback request`
                 : `We have successfully registered your issue`}
             </div>
             <div className={styles.requestContetn}>
@@ -47,3 +47,9 @@ export default class SSRquest extends Component {
     );
   }
 }
+
+SSRquest.propTypes = {
+  raiseTiketRequest: PropTypes.bool,
+  isCallMeBackForm: PropTypes.bool,
+  raiseTiketSucess: PropTypes.boo
+};

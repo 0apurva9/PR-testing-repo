@@ -8,11 +8,12 @@ import styles from "./TimeSlotPopUp.css";
 import format from "date-fns/format";
 import { withRouter } from "react-router-dom";
 import { isCallBackBtnEnable } from "./Cliq2CallPopUp";
+import { get24HrsTime } from "../../lib/dateTimeFunction";
 
 const DATE_FORMAT = "Do MMMM";
 const TODAY = "Today";
 const TOMORROW = "Tomorrow";
-const EMPTY_SLOTS = "No Available Slots Found ";
+const EMPTY_SLOTS = "Sorry. No slots are available for";
 const CALL_REQUEST_LIMIT_ECXCEEDED = "Call limit has exceeded for ";
 const WEEK_DAY = [
   "Sunday",
@@ -25,9 +26,26 @@ const WEEK_DAY = [
 ];
 class TimeSlotPopUp extends Component {
   state = {
-    isSelected: 0,
-    noTimeSlot: false
+    isSelected: 0
   };
+
+  componentDidMount() {
+    const dataObj = getDetailsOfSlots(
+      this.state.isSelected,
+      this.props.cliq2CallConfigData.availableSlots,
+      this.props.cliq2CallConfigData.slotDuration,
+      this.props.cliq2CallConfigData.businessEndTime
+    );
+    if (
+      (this.props &&
+        this.props.genesysCallConfigData &&
+        this.props.genesysCallConfigData.TotalRequestsToday >=
+          this.props.cliq2CallConfigData.allowedRequestLimit) ||
+      dataObj.isSlotsNotAvailable
+    ) {
+      this.setState({ isSelected: 1 });
+    }
+  }
 
   tabSelect(val) {
     this.setState({ isSelected: val });
@@ -38,10 +56,6 @@ class TimeSlotPopUp extends Component {
       this.props.setTimeSlot(time, date);
     }
   };
-
-  get24HrsTime(date) {
-    return date.toLocaleTimeString("en-US", { hour12: false });
-  }
 
   onContinueShoppingClick() {
     this.props.closeModal();
@@ -61,7 +75,7 @@ class TimeSlotPopUp extends Component {
       slotRangeList = [];
 
     today.setHours(today.getHours() + slotDuration + 1);
-    const currentTime = this.get24HrsTime(today);
+    const currentTime = get24HrsTime(today);
 
     return (
       <React.Fragment>
@@ -129,44 +143,32 @@ class TimeSlotPopUp extends Component {
     const { WaitTime = 0, TotalRequestsToday = 0, TotalRequestsNextDay = 0 } =
       (this.props && this.props.genesysCallConfigData) || {};
 
-    let slotKey = this.state.isSelected
-        ? TOMORROW.toLowerCase()
-        : TODAY.toLowerCase(),
-      slotsData = availableSlots[slotKey];
-
+    const dataObj = getDetailsOfSlots(
+      this.state.isSelected,
+      availableSlots,
+      slotDuration,
+      businessEndTime
+    );
     let today = new Date(),
       currentDate = `${WEEK_DAY[today.getDay()]}, ${format(
         today,
         DATE_FORMAT
       )}`,
       tomorrow = today;
+
     tomorrow.setDate(tomorrow.getDate() + 1);
     let nextDate = `${WEEK_DAY[tomorrow.getDay()]}, ${format(
       tomorrow,
       DATE_FORMAT
     )}`;
 
-    let isSlotsNotAvailable = true;
-    Object.keys(slotsData).forEach(slot => {
-      if (slotsData[slot].length) {
-        isSlotsNotAvailable = false;
-      }
-    });
-
-    today.setHours(today.getHours() + slotDuration + 1);
-    if (
-      slotKey === TODAY.toLowerCase() &&
-      this.get24HrsTime(today) > businessEndTime
-    ) {
-      isSlotsNotAvailable = true;
-    }
-
     let callRequestLimit = 0;
-    if (this.state.isSelected) {
+    if (this.state.selectedTab) {
       callRequestLimit = TotalRequestsNextDay;
     } else {
       callRequestLimit = TotalRequestsToday;
     }
+
     return (
       <BottomSlideModal>
         <div className={styles.timeslotBox}>
@@ -189,10 +191,12 @@ class TimeSlotPopUp extends Component {
 
           <div className={styles.dateBox}>
             <div className={styles.dateSection}>
-              {isSlotsNotAvailable ? (
+              {dataObj.isSlotsNotAvailable ? (
                 <div className={styles.noTimeSlotAvailabe}>
                   <span className={styles.noTimeSlotTxt}>{`${EMPTY_SLOTS}${
-                    this.state.isSelected ? TOMORROW : TODAY
+                    this.state.isSelected
+                      ? TOMORROW.toLowerCase()
+                      : TODAY.toLowerCase()
                   }`}</span>
                   {isCallBackBtnEnable(
                     callBackNowFlag,
@@ -220,19 +224,19 @@ class TimeSlotPopUp extends Component {
               ) : callRequestLimit >= allowedRequestLimit ? (
                 <span>
                   {`${CALL_REQUEST_LIMIT_ECXCEEDED}${
-                    this.state.selectedTab
+                    this.state.isSelected
                       ? TOMORROW.toLowerCase()
                       : TODAY.toLowerCase()
                   }`}
                 </span>
               ) : (
-                Object.keys(slotsData).map(slot => {
+                Object.keys(dataObj.slotsData).map(slot => {
                   return (
                     <div key={slot} className={styles.slotsContainer}>
                       {this.renderCallSlot(
                         slot,
-                        slotKey,
-                        slotsData[slot],
+                        dataObj.slotKey,
+                        dataObj.slotsData[slot],
                         this.state.isSelected ? nextDate : currentDate,
                         slotDuration
                       )}
@@ -249,6 +253,32 @@ class TimeSlotPopUp extends Component {
 }
 
 export default withRouter(TimeSlotPopUp);
+
+export function getDetailsOfSlots(
+  selectedTab,
+  availableSlots,
+  slotDuration,
+  endTime
+) {
+  const slotKey = selectedTab ? TOMORROW.toLowerCase() : TODAY.toLowerCase(),
+    slotsData = availableSlots[slotKey];
+
+  let today = new Date();
+  today.setHours(today.getHours() + slotDuration + 1);
+
+  let isSlotsNotAvailable = true;
+  Object.keys(slotsData).forEach(slot => {
+    if (slotsData[slot].length) {
+      isSlotsNotAvailable = false;
+    }
+  });
+
+  if (slotKey === TODAY.toLowerCase() && get24HrsTime(today) > endTime) {
+    isSlotsNotAvailable = true;
+  }
+
+  return { slotKey, slotsData, isSlotsNotAvailable };
+}
 
 const timeSlotObj = PropTypes.shape({
   label: PropTypes.string,
