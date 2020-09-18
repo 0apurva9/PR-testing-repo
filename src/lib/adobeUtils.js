@@ -4322,6 +4322,9 @@ export function widgetsTrackingForRecommendation(widgetObject: {}) {
     window._satellite.track(ADOBE_WIDGET_TRACKING);
   }
 }
+export function ICIDTracking(value) {
+  Object.assign(window.digitalData, { icid2: value });
+}
 export function setDataLayerForVisitBrand() {
   if (window._satellite) {
     window._satellite.track(VISIT_BRAND);

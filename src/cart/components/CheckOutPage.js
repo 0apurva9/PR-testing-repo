@@ -3840,7 +3840,6 @@ if you have order id in local storage then you have to show order confirmation p
   }
 
   render() {
-    console.log("=========>check", this.props);
     let labelForButton,
       checkoutButtonStatus = false;
     if (

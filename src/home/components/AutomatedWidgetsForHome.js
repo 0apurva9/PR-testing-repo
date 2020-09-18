@@ -33,7 +33,8 @@ import {
   setDataLayerForMsdItemWidgets,
   ADOBE_CAROUSEL_CLICK,
   ADOBE_CAROUSEL_SHOW,
-  widgetsTrackingForRecommendation
+  widgetsTrackingForRecommendation,
+  ICIDTracking
 } from "../../lib/adobeUtils.js";
 import { automatedWidgetsForHome } from "../actions/home.actions.js";
 
@@ -45,10 +46,17 @@ class AutomatedWidgetsForHome extends React.Component {
     this.selector = React.createRef();
   }
   goToProductDescription = (url, items, widgetName, index) => {
+    let icidTracking = `"home":${widgetName}:"blank":${index +
+      1}:"blank ":"blank":"blank":${
+      widgetName === "About the Brand"
+        ? items && items.productListingId
+        : items.product_id
+    }`;
+    ICIDTracking(icidTracking);
     this.props.history.push(url);
   };
 
-  renderCarousel(items) {
+  renderCarousel(items, widgetId) {
     return (
       <div className={styles.brandProductCarousel}>
         <CarouselWithControls
@@ -58,11 +66,44 @@ class AutomatedWidgetsForHome extends React.Component {
         >
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
-            const productImage = transformedDatum && transformedDatum.imageUrl;
-            const mrpInteger = transformedDatum && transformedDatum.mrp;
-            let seoDoublePrice =
-              transformedDatum && transformedDatum.winningSellerMOP;
-            let discount =
+            let productImage, mrpInteger, seoDoublePrice, discount, imageURL;
+            if (widgetId === "114") {
+              productImage = transformedDatum && transformedDatum.imageUrl;
+              mrpInteger = transformedDatum && transformedDatum.mrp;
+              seoDoublePrice =
+                transformedDatum && transformedDatum.winningSellerMOP;
+              discount =
+                mrpInteger && seoDoublePrice
+                  ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)
+                  : "";
+              imageURL = val.webURL;
+              //   productImage =
+              //   transformedDatum &&
+              //   transformedDatum.galleryImagesList &&
+              //   Array.isArray(transformedDatum.galleryImagesList) &&
+              //   transformedDatum.galleryImagesList[0] &&
+              //   transformedDatum.galleryImagesList[0].galleryImages && commented for productDetails api
+              //   Array.isArray(
+              //     transformedDatum.galleryImagesList[0].galleryImages
+              //   ) &&
+              //   transformedDatum.galleryImagesList[0].galleryImages[0] &&
+              //   transformedDatum.galleryImagesList[0].galleryImages[0].value;
+              // mrpInteger =
+              //   transformedDatum &&
+              //   transformedDatum.mrpPrice &&
+              //   transformedDatum.mrpPrice.doubleValue;
+              // seoDoublePrice =
+              //   transformedDatum.winningSellerPrice &&
+              //   transformedDatum.winningSellerPrice.doubleValue
+              //     ? transformedDatum.winningSellerPrice.doubleValue
+              //     : mrpInteger;
+            } else {
+              productImage = transformedDatum && transformedDatum.image_link;
+              mrpInteger = transformedDatum && transformedDatum.price;
+              seoDoublePrice = transformedDatum && transformedDatum.mop;
+              imageURL = val.link && val.link.replace(/^.*\/\/[^\/]+/, "");
+            }
+            discount =
               mrpInteger && seoDoublePrice
                 ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)
                 : "";
@@ -74,8 +115,11 @@ class AutomatedWidgetsForHome extends React.Component {
                 productImage={productImage}
                 productId={val.productListingId}
                 isShowAddToWishlistIcon={false}
+                discountPrice={seoDoublePrice}
                 discountPercent={discount}
-                onClick={url => this.goToProductDescription(url, val, "", i)}
+                onClick={url =>
+                  this.goToProductDescription(imageURL, val, widgetId, i)
+                }
                 autoWidget="true"
                 sourceOfWidget="msd"
               />
@@ -94,7 +138,7 @@ class AutomatedWidgetsForHome extends React.Component {
     }
   }
 
-  renderProductModuleSection(key) {
+  renderProductModuleSection(key, widgetId) {
     let WidgetTitle =
       this.props.feedComponentData &&
       this.props.feedComponentData.items[0] &&
@@ -107,7 +151,7 @@ class AutomatedWidgetsForHome extends React.Component {
       return (
         <div className={styles.brandSection}>
           {this.getProductTitle(WidgetTitle, imageProductUrl)}
-          {key && this.renderCarousel(key)}
+          {key && this.renderCarousel(key, widgetId)}
         </div>
       );
     } else {
@@ -136,7 +180,7 @@ class AutomatedWidgetsForHome extends React.Component {
       return (
         <React.Fragment>
           <CommonCenter>
-            {this.renderProductModuleSection(data[productCode])}
+            {this.renderProductModuleSection(data[productCode], component)}
           </CommonCenter>
         </React.Fragment>
       );
