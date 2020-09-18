@@ -13,7 +13,7 @@ export default class MsdAutomatedBrandProductCarousel extends React.Component {
     this.props.setClickedElementId();
   }
   doSome(value) {
-    let apiUrl = "https://preprod3.tataunistore.com";
+    let apiUrl = "https://www.tatacliq.com";
     // if (env.REACT_APP_STAGE === "production") {
     //   apiUrl = "https://www.tatacliq.com";
     // }

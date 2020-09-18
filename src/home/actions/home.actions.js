@@ -375,9 +375,12 @@ export function homeFeedBackUp() {
       // const result = await api.get(
       //   `v2/mpl/cms/defaultpage?pageId=defaulthomepage&channel=${WCMS_PLATFORM}`
       // );
-      const result = await api.get(
-        `v2/mpl/cms/defaultpage?pageId=hp-test&channel=${WCMS_PLATFORM}`
-      );
+      // const result = await api.get(
+      //   `v2/mpl/cms/defaultpage?pageId=hp-test&channel=${WCMS_PLATFORM}`
+      // );
+      let apiUrl = "https://www.tatacliq.com";
+      let url = `${apiUrl}/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=hp-test&channel=${WCMS_PLATFORM}`;
+      const result = await fetch(url);
       const resultJson = await result.json();
       // const resultJson = {
       //   items: [
