@@ -378,97 +378,97 @@ export function homeFeedBackUp() {
       const result = await api.get(
         `v2/mpl/cms/defaultpage?pageId=hp-test&channel=${WCMS_PLATFORM}`
       );
-      // const resultJson = await result.json();
-      const resultJson = {
-        items: [
-          {
-            componentName: "AutoWidget",
-            singleBannerComponent: {
-              componentId: "cmsitem_00287045",
-              items: [
-                {
-                  btnText: "10",
-                  description: "",
-                  hexCode: "",
-                  imageURL: "",
-                  title: "",
-                  webURL: "7"
-                }
-              ],
-              title: "",
-              type: "AutoWidget"
-            }
-          },
-          {
-            componentName: "AutoWidget",
-            singleBannerComponent: {
-              componentId: "cmsitem_00287047",
-              items: [
-                {
-                  btnText: "10",
-                  description: "category;contains;electronics",
-                  hexCode: "",
-                  imageURL:
-                    "//assets.tatacliq.com/medias/sys_master/images/28004370776094.jpg",
-                  title: "",
-                  webURL: "11"
-                }
-              ],
-              title: "",
-              type: "AutoWidget"
-            }
-          },
-          {
-            componentName: "AutoWidget",
-            singleBannerComponent: {
-              componentId: "cmsitem_00287049",
-              items: [
-                {
-                  btnText: "10",
-                  description: "brand;contains;samsung",
-                  hexCode: "",
-                  imageURL:
-                    "//assets.tatacliq.com/medias/sys_master/images/28004370841630.jpg",
-                  title: "",
-                  webURL: "11"
-                }
-              ],
-              title: "",
-              type: "AutoWidget"
-            }
-          },
-          {
-            componentName: "AutoWidget",
-            singleBannerComponent: {
-              componentId: "cmsitem_00293068",
-              items: [
-                {
-                  btnText: "10",
-                  description: "price;range;1000,2000",
-                  hexCode: "",
-                  imageURL: "",
-                  title: "",
-                  webURL: "11"
-                }
-              ],
-              title: "",
-              type: "AutoWidget"
-            }
-          }
-        ],
-        message: "cmsitem_00244236",
-        pageName: "hp-test-180820",
-        pageType: "",
-        seo: {
-          alternateURL: "",
-          canonicalURL: "",
-          description: "",
-          imageURL: "",
-          keywords: "",
-          title: "hp-test"
-        },
-        status: "SUCCESS"
-      };
+      const resultJson = await result.json();
+      // const resultJson = {
+      //   items: [
+      //     {
+      //       componentName: "AutoWidget",
+      //       singleBannerComponent: {
+      //         componentId: "cmsitem_00287045",
+      //         items: [
+      //           {
+      //             btnText: "10",
+      //             description: "",
+      //             hexCode: "",
+      //             imageURL: "",
+      //             title: "",
+      //             webURL: "7"
+      //           }
+      //         ],
+      //         title: "",
+      //         type: "AutoWidget"
+      //       }
+      //     },
+      //     {
+      //       componentName: "AutoWidget",
+      //       singleBannerComponent: {
+      //         componentId: "cmsitem_00287047",
+      //         items: [
+      //           {
+      //             btnText: "10",
+      //             description: "category;contains;electronics",
+      //             hexCode: "",
+      //             imageURL:
+      //               "//assets.tatacliq.com/medias/sys_master/images/28004370776094.jpg",
+      //             title: "",
+      //             webURL: "11"
+      //           }
+      //         ],
+      //         title: "",
+      //         type: "AutoWidget"
+      //       }
+      //     },
+      //     {
+      //       componentName: "AutoWidget",
+      //       singleBannerComponent: {
+      //         componentId: "cmsitem_00287049",
+      //         items: [
+      //           {
+      //             btnText: "10",
+      //             description: "brand;contains;samsung",
+      //             hexCode: "",
+      //             imageURL:
+      //               "//assets.tatacliq.com/medias/sys_master/images/28004370841630.jpg",
+      //             title: "",
+      //             webURL: "11"
+      //           }
+      //         ],
+      //         title: "",
+      //         type: "AutoWidget"
+      //       }
+      //     },
+      //     {
+      //       componentName: "AutoWidget",
+      //       singleBannerComponent: {
+      //         componentId: "cmsitem_00293068",
+      //         items: [
+      //           {
+      //             btnText: "10",
+      //             description: "price;range;1000,2000",
+      //             hexCode: "",
+      //             imageURL: "",
+      //             title: "",
+      //             webURL: "11"
+      //           }
+      //         ],
+      //         title: "",
+      //         type: "AutoWidget"
+      //       }
+      //     }
+      //   ],
+      //   message: "cmsitem_00244236",
+      //   pageName: "hp-test-180820",
+      //   pageType: "",
+      //   seo: {
+      //     alternateURL: "",
+      //     canonicalURL: "",
+      //     description: "",
+      //     imageURL: "",
+      //     keywords: "",
+      //     title: "hp-test"
+      //   },
+      //   status: "SUCCESS"
+      // };
       if (resultJson && resultJson.pageName) {
         let pageData = {
           pageName: resultJson.pageName
@@ -1164,7 +1164,6 @@ export function automatedWidgetsForHome(widgetData) {
             widgetData.description &&
             widgetData.description.split(";");
           let filterParsedData;
-          debugger;
           if (filterValue[1] === "contains") {
             filterParsedData = [
               {
