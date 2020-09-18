@@ -5,7 +5,8 @@ import {
   getTransactionDetails,
   clearTransaction,
   getCliqCashExpiring,
-  getCliqCashPageConfiguration
+  getCliqCashPageConfiguration,
+  getCliqCashbackDetails
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import { setHeaderText } from "../../general/header.actions";
@@ -19,7 +20,8 @@ import {
   CLIQ_CASH_MODULE,
   CLIQ_CASH_SUCESS_MODULE,
   GENERATE_OTP_FOR_CLIQ_CASH,
-  CLIQ_CASH_KNOW_MORE
+  CLIQ_CASH_KNOW_MORE,
+  CASHBACK_DETAILS_POPUP
 } from "../../general/modal.actions";
 import { SUCCESS_CAMEL_CASE, SUCCESS_UPPERCASE } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
@@ -80,6 +82,12 @@ const mapDispatchToProps = dispatch => {
     },
     getCliqCashPageConfiguration: () => {
       dispatch(getCliqCashPageConfiguration());
+    },
+    getCliqCashbackDetails: cashbackmode => {
+      dispatch(getCliqCashbackDetails(cashbackmode));
+    },
+    showCashBackDetailsPopup: data => {
+      dispatch(showModal(CASHBACK_DETAILS_POPUP, data));
     }
   };
 };
@@ -101,7 +109,10 @@ const mapStateToProps = state => {
     promotionalCashStatementDetails:
       state.profile.promotionalCashStatementDetails,
     cliqCashExpiringDetails: state.profile.cliqCashExpiringDetails,
-    cliqCashExpiringError: state.profile.cliqCashExpiringError
+    cliqCashExpiringError: state.profile.cliqCashExpiringError,
+    cliqCashbackDetails: state.profile.cliqCashbackDetails,
+    cliqCashbackDetailsError: state.profile.cliqCashbackDetailsError,
+    cliqCashbackDetailsStatus: state.profile.cliqCashbackDetailsStatus
   };
 };
 

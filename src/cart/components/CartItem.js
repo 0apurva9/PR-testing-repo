@@ -102,6 +102,7 @@ export default class CartItem extends React.Component {
             sizeType={this.props.sizeType}
             exchangeDetails={this.props.product.exchangeDetails}
             pinCodeResponse={this.props.product.pinCodeResponse}
+            bundledDigitalItems={this.props.product.bundledDigitalItems}
           />
         </div>
         {this.props.deliveryInformation && this.props.deliveryInfoToggle && (

@@ -17,16 +17,17 @@ export default class SimilarProductsOOSModal extends React.Component {
     if (
       this.showLoader === false &&
       this.props.msdItems[key] &&
-      this.props.status && this.props.status.toLowerCase() === "success"
+      this.props.status &&
+      this.props.status.toLowerCase() === "success"
     ) {
       return this.renderCarousel(this.props.msdItems[key]);
     } else if (
       this.showLoader === false &&
       !this.props.msdItems[key] &&
       this.props.status &&
-        (this.props.status.toLowerCase() === "success" ||
-          this.props.status.toLowerCase() === "failure" ||
-          this.props.status.toLowerCase() === "error")
+      (this.props.status.toLowerCase() === "success" ||
+        this.props.status.toLowerCase() === "failure" ||
+        this.props.status.toLowerCase() === "error")
     ) {
       return (
         <div>

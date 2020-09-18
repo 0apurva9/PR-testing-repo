@@ -50,7 +50,8 @@ import {
   HOME_ROUTER,
   BUY_NOW_PRODUCT_DETAIL,
   BUY_NOW_ERROR_MESSAGE,
-  LOGIN_PATH
+  LOGIN_PATH,
+  YES
 } from "../../lib/constants";
 import { isBrowser } from "browser-or-node";
 import styles from "./ProductDescriptionPage.css";
@@ -71,6 +72,7 @@ import FilledStarBlack from "../../general/components/img/star-fill-black.svg";
 import ExchangeDetailsPDPDesktop from "./ExchangeDetailsPDPDesktop";
 import Chatbot from "../../plp/components/Chatbot";
 import PropTypes from "prop-types";
+import ProductBundling from "./ProductBundling";
 const WASH = "Wash";
 const NECK_COLLAR = "Neck/Collar";
 const SLEEVE = "Sleeve";
@@ -121,7 +123,9 @@ export default class PdpApparel extends React.Component {
       secondRelevantProduct: {},
       selected: false,
       productCategory: "",
-      eyeWearCheck: ""
+      eyeWearCheck: "",
+      bundledProductSuggestionDetails: null,
+      categoryId: null
     };
     this.reviewListRef = React.createRef();
     this.ScrollIntoView = this.ScrollIntoView.bind(this);
@@ -155,12 +159,12 @@ export default class PdpApparel extends React.Component {
       }
     }
     /***EyeWear Category Filter */
+    let categoryHierarchyCheck =
+      this.props.productDetails && this.props.productDetails.categoryHierarchy;
     if (
-      this.props.productDetails &&
-      this.props.productDetails.categoryHierarchy &&
+      categoryHierarchyCheck &&
       this.props.productDetails.rootCategory === "Accessories"
     ) {
-      let categoryHierarchyCheck = this.props.productDetails.categoryHierarchy;
       if (
         categoryHierarchyCheck[categoryHierarchyCheck.length - 1]
           .category_name === "Eye Frames" ||
@@ -179,6 +183,9 @@ export default class PdpApparel extends React.Component {
         this.setState({ eyeWearCheck: "EyeWear" });
       }
     }
+    let categoryId =
+      categoryHierarchyCheck[categoryHierarchyCheck.length - 1].category_id;
+    this.setState({ categoryId });
     /***relavant Bundling Product */
     if (
       this.props &&
@@ -258,6 +265,28 @@ export default class PdpApparel extends React.Component {
       }
     }
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.bundledProductSuggestionDetails &&
+      nextProps.bundledProductSuggestionDetails !==
+        this.state.bundledProductSuggestionDetails
+    ) {
+      this.setState({
+        bundledProductSuggestionDetails:
+          nextProps.bundledProductSuggestionDetails
+      });
+    }
+    if (
+      nextProps.bundledProductSuggestionStatus === "error" &&
+      !nextProps.bundledProductSuggestionDetails
+    ) {
+      this.setState({
+        bundledProductSuggestionDetails: null
+      });
+    }
+  }
+
   relevantProductServibilty = async params => {
     let pinCode = "208007";
     // let pinCode =
@@ -290,7 +319,7 @@ export default class PdpApparel extends React.Component {
     return status;
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (
       this.props.productDetails &&
       this.props.productDetails.serviceableSellerMessage &&
@@ -300,6 +329,28 @@ export default class PdpApparel extends React.Component {
       this.props.displayToast(
         this.props.productDetails.serviceableSellerMessage
       );
+    }
+
+    if (
+      this.props.productDetails.isServiceableToPincode !==
+        prevProps.productDetails.isServiceableToPincode &&
+      this.props.productDetails.isServiceableToPincode.status === YES
+    ) {
+      if (this.props.productDetails.bundlingSuggestionAvailable) {
+        let productId = this.props.productDetails.productListingId;
+        let ussId = this.props.productDetails.winningUssID;
+        let pincode = this.props.productDetails.isServiceableToPincode.pinCode;
+        let categoryCode = this.state.categoryId;
+        let brandCode = this.getBrandCode(this.props.productDetails.brandURL);
+        this.props.getBundledProductSuggestion(
+          productId,
+          ussId,
+          categoryCode,
+          brandCode,
+          "PDP",
+          pincode
+        );
+      }
     }
   }
   selectProduct() {
@@ -915,6 +966,16 @@ export default class PdpApparel extends React.Component {
   clickedSamsungChat() {
     setDataLayerForPdpDirectCalls(ADOBE_SUMSUNG_CHAT_LINK_CLICK);
   }
+  getBrandCode(brandUrl) {
+    if (brandUrl) {
+      let brandCode = brandUrl.split("/c-");
+      let brandCodeInUpperCase = brandCode[1].toUpperCase();
+      return brandCodeInUpperCase;
+    } else {
+      return null;
+    }
+  }
+
   render() {
     let seasonData = {};
     if (this.props.productDetails["seasonDetails"] !== undefined) {
@@ -1850,6 +1911,37 @@ export default class PdpApparel extends React.Component {
               )}
 
               <div className={styles.pageCenter}>
+                {!disabledStatus && (
+                  <ProductBundling
+                    bundledProductSuggestionDetails={
+                      this.state.bundledProductSuggestionDetails
+                    }
+                    productData={productData}
+                    getTotalBundledPrice={this.props.getTotalBundledPrice}
+                    totalBundledPriceDetails={
+                      this.props.totalBundledPriceDetails
+                    }
+                    getTotalBundledPriceLoading={
+                      this.props.getTotalBundledPriceLoading
+                    }
+                    displayToast={this.props.displayToast}
+                    addBundledProductsToCart={
+                      this.props.addBundledProductsToCart
+                    }
+                    addBundledProductsToCartLoading={
+                      this.props.addBundledProductsToCartLoading
+                    }
+                    addBundledProductsToCartDetails={
+                      this.props.addBundledProductsToCartDetails
+                    }
+                    history={this.props.history}
+                    getCartCountForLoggedInUser={
+                      this.props.getCartCountForLoggedInUser
+                    }
+                    cartCountDetails={this.props.cartCountDetails}
+                  />
+                )}
+
                 <div
                   className={styles.detailsHolder}
                   ref="scrollToViewAccrodian"
@@ -2302,7 +2394,68 @@ export default class PdpApparel extends React.Component {
 
 PdpApparel.propTypes = {
   location: PropTypes.object,
-  productDetails: PropTypes.object,
+  productDetails: PropTypes.objectOf(
+    PropTypes.shape({
+      seo: PropTypes.objectOf(
+        PropTypes.shape({
+          alternateURL: PropTypes.string,
+          breadcrumbs: PropTypes.arrayOf(
+            PropTypes.shape({
+              name: PropTypes.string,
+              url: PropTypes.string
+            })
+          ),
+          canonicalURL: PropTypes.string,
+          description: PropTypes.string,
+          imageURL: PropTypes.string,
+          keywords: PropTypes.string,
+          title: PropTypes.string
+        })
+      ),
+      categoryHierarchy: PropTypes.arrayOf(
+        PropTypes.shape({
+          category_id: PropTypes.string,
+          category_name: PropTypes.string
+        })
+      ).isRequired,
+      rootCategory: PropTypes.string,
+      allOOStock: PropTypes.bool,
+      productListingId: PropTypes.string,
+      winningUssID: PropTypes.string,
+      winningSellerPrice: PropTypes.objectOf(
+        PropTypes.shape({
+          currencyIso: PropTypes.string,
+          currencySymbol: PropTypes.string,
+          doubleValue: PropTypes.number,
+          formattedValue: PropTypes.string,
+          formattedValueNoDecimal: PropTypes.string,
+          priceType: PropTypes.string,
+          value: PropTypes.number
+        })
+      ),
+      winningSellerAvailableStock: PropTypes.string,
+      showSizeGuide: PropTypes.bool,
+      eligibleDeliveryModes: PropTypes.arrayOf(
+        PropTypes.shape({
+          code: PropTypes.string,
+          displayCost: PropTypes.string,
+          name: PropTypes.string
+        })
+      ),
+      maxExchangeAmount: PropTypes.objectOf(
+        PropTypes.shape({
+          currencyIso: PropTypes.string,
+          currencySymbol: PropTypes.string,
+          doubleValue: PropTypes.number,
+          formattedValue: PropTypes.string,
+          formattedValueNoDecimal: PropTypes.string,
+          priceType: PropTypes.string,
+          value: PropTypes.number
+        })
+      ),
+      productName: PropTypes.string
+    })
+  ),
   getUserAddress: PropTypes.func,
   getPdpOffers: PropTypes.func,
   getManufacturerDetails: PropTypes.func,
@@ -2361,5 +2514,10 @@ PdpApparel.propTypes = {
         })
       )
     })
-  )
+  ),
+  getBundledProductSuggestion: PropTypes.func,
+  bundledProductSuggestionDetails: PropTypes.object,
+  getTotalBundledPrice: PropTypes.func,
+  totalBundledPriceDetails: PropTypes.object,
+  getTotalBundledPriceLoading: PropTypes.bool
 };

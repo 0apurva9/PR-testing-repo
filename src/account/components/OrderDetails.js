@@ -826,6 +826,7 @@ export default class OrderDetails extends React.Component {
                         installationRequestReschedule={requestReschedule}
                         installationRequestClosed={requestClosed}
                         installationRequestCompleted={requestCompleted}
+                        isDigitalProduct={products.isDigitalProduct}
                       />
 
                       {products.awbPopupLink === AWB_POPUP_TRUE && (

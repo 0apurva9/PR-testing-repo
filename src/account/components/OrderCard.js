@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ProductImage from "../../general/components/ProductImage.js";
 import CheckBox from "../../general/components/CheckBox.js";
+import DigitalBundledProduct from "../../cart/components/DigitalBundledProduct";
 import styles from "./OrderCard.css";
 import format from "date-fns/format";
 import {
@@ -654,6 +655,36 @@ export default class OrderCard extends React.Component {
             </React.Fragment>
           )}
 
+        {(this.props.title === PRODUCT_CANCEL || this.props.returnFlow) &&
+          this.props.bundledAssociatedItems && (
+            <React.Fragment>
+              {this.props.title === PRODUCT_CANCEL &&
+                !this.props.returnFlow && (
+                  <div className={styles.bundledProductCancelSectionTitle}>
+                    Attached Product will also get cancelled
+                  </div>
+                )}
+              {this.props.returnFlow && (
+                <div className={styles.bundledProductCancelSectionTitle}>
+                  Attached Product will also be returned
+                </div>
+              )}
+
+              {this.props.bundledAssociatedItems.map(
+                (bundledProduct, index) => {
+                  return (
+                    <DigitalBundledProduct
+                      key={index}
+                      digitalProduct={bundledProduct}
+                      pageType={"CANCEL"}
+                      showRemoveButton={false}
+                    />
+                  );
+                }
+              )}
+            </React.Fragment>
+          )}
+
         {this.props.selectedDeliveryMode &&
           this.props.selectedDeliveryMode.name &&
           this.props.selectedDeliveryMode.name.toLowerCase() ===
@@ -762,7 +793,8 @@ export default class OrderCard extends React.Component {
             <div className={styles.commonTitle}>
               {!this.props.calloutMessage ? (
                 <React.Fragment>
-                  {estimatedDeliveryDateFormatted &&
+                  {!this.props.isDigitalProduct &&
+                    estimatedDeliveryDateFormatted &&
                     !checkStatus &&
                     (date || returnEligibleDate) && (
                       <React.Fragment>
@@ -807,7 +839,8 @@ export default class OrderCard extends React.Component {
                         </span>
                       </React.Fragment>
                     )}
-                  {!estimatedDeliveryDateFormatted &&
+                  {!this.props.isDigitalProduct &&
+                    !estimatedDeliveryDateFormatted &&
                     !checkStatus &&
                     (date || returnEligibleDate) && (
                       <React.Fragment>

@@ -48,6 +48,10 @@ const account = (
     cliqCashExpiringDetails: null,
     cliqCashExpiringError: null,
 
+    cliqCashbackDetailsStatus: null,
+    cliqCashbackDetails: null,
+    cliqCashbackDetailsError: null,
+
     wishlist: null,
     wishlistStatus: null,
     wishlistError: null,
@@ -912,6 +916,26 @@ const account = (
       return Object.assign({}, state, {
         cliqCashExpiringStatus: action.status,
         cliqCashExpiringError: action.error,
+        loading: false
+      });
+
+    case accountActions.GET_USER_CLIQ_CASHBACK_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        cliqCashbackDetailsStatus: action.status,
+        loading: true
+      });
+
+    case accountActions.GET_USER_CLIQ_CASHBACK_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        cliqCashbackDetailsStatus: action.status,
+        cliqCashbackDetails: action.getCliqCashbackDetails,
+        loading: false
+      });
+
+    case accountActions.GET_USER_CLIQ_CASHBACK_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        cliqCashbackDetailsStatus: action.status,
+        cliqCashbackDetailsError: action.error,
         loading: false
       });
 

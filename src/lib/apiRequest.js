@@ -902,3 +902,11 @@ export async function postWithoutApiUrlRoot(url, postData) {
     body: JSON.stringify(postData)
   });
 }
+
+export async function getDataWithMicroservicesWithHeaders(path, headers) {
+  const url = `${URL_ROOT}/${path}`;
+  return await fetch(url, {
+    method: "GET",
+    headers: headers
+  });
+}

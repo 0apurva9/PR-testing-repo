@@ -58,7 +58,7 @@ class MoreHelps extends Component {
                   textStyle={{ color: "#fff", fontSize: 14 }}
                   onClick={() => this.getCustomerQueriesFields(WRITE_TO_US)}
                   icon={{
-                    element: <Icon image={editIcon} size={20} />,
+                    element: <Icon image={chatIcon} size={20} />,
                     size: 20,
                     width: 20,
                     offset: 10
@@ -79,7 +79,7 @@ class MoreHelps extends Component {
                 color={"#da1c5c"}
                 padding="0px 5px"
                 icon={{
-                  element: <Icon image={editIcon} size={20} />,
+                  element: <Icon image={chatIcon} size={20} />,
                   size: 20,
                   width: 20,
                   offset: 10

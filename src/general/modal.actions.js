@@ -65,6 +65,7 @@ export const SELLER_REVIEW_SUBMIT_REMOVAL_POP_UP =
 export const POP_UP = "PopUp";
 export const PRODUCT_IN_BAG_MODAL = "ProductInBagModal";
 export const CHANGE_EXCHANGE_CASHBACK_MODAL = "ChangeExchangeCashabackModal";
+export const CASHBACK_DETAILS_POPUP = "cashBackDetailsPopup";
 
 export function showModal(type, ownProps) {
   const scrollPosition =

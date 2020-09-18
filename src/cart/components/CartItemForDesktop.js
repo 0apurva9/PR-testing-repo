@@ -38,6 +38,8 @@ import {
   ADOBE_MDE_CLICK_ON_CART_VIEW_LESS,
   ADOBE_MDE_CLICK_ON_CART_TNC
 } from "../../lib/adobeUtils";
+import DigitalBundledProduct from "./DigitalBundledProduct";
+import RecommendedBundledProduct from "./RecommendedBundledProduct";
 const NO_SIZE = "NO SIZE";
 const OUT_OF_STOCK = "Product is out of stock";
 export default class CartItemForDesktop extends React.Component {
@@ -57,9 +59,13 @@ export default class CartItemForDesktop extends React.Component {
       this.props.onClickImage();
     }
   }
-  handleRemove(index) {
+  handleRemove(entryNumber, mainProductUssid, isForDigitalBundledProduct) {
     if (this.props.onRemove) {
-      this.props.onRemove(index);
+      this.props.onRemove(
+        entryNumber,
+        mainProductUssid,
+        isForDigitalBundledProduct
+      );
     }
   }
   getDeliveryName = type => {
@@ -220,7 +226,15 @@ export default class CartItemForDesktop extends React.Component {
       }
     }
     let hideQuantityArrow = false;
-    if (this.props.product && this.props.product.exchangeDetails) {
+    let isDigitalBundledProduct =
+      this.props.product &&
+      this.props.product.bundledDigitalItems &&
+      Array.isArray(this.props.product.bundledDigitalItems) &&
+      this.props.product.bundledDigitalItems.length > 0;
+    if (
+      this.props.product &&
+      (this.props.product.exchangeDetails || isDigitalBundledProduct)
+    ) {
       hideQuantityArrow = true;
     }
     let productMessage = this.props.productNotServiceable
@@ -413,7 +427,9 @@ export default class CartItemForDesktop extends React.Component {
               </div>
               <div
                 className={styles.removeLabel}
-                onClick={() => this.handleRemove(this.props.index)}
+                onClick={() =>
+                  this.handleRemove(this.props.product.entryNumber)
+                }
               >
                 {this.props.removeText}
               </div>
@@ -644,6 +660,52 @@ export default class CartItemForDesktop extends React.Component {
             )}
           </React.Fragment>
         )}
+        {this.props.product.bundledDigitalItems &&
+          this.props.product.bundledDigitalItems.map(
+            (digitalProduct, index) => {
+              return (
+                <DigitalBundledProduct
+                  key={index}
+                  digitalProduct={digitalProduct}
+                  mainProductUssid={this.props.product.USSID}
+                  onRemove={(
+                    entryNumber,
+                    mainProductUssid,
+                    isForDigitalBundledProduct
+                  ) =>
+                    this.handleRemove(
+                      entryNumber,
+                      mainProductUssid,
+                      isForDigitalBundledProduct
+                    )
+                  }
+                  history={this.props.history}
+                />
+              );
+            }
+          )}
+
+        {this.props.product.bundlingSuggestionAvailable &&
+          !this.props.isOutOfStock &&
+          this.props.productIsServiceable && (
+            <RecommendedBundledProduct
+              product={this.props.product}
+              getBundledProductSuggestion={
+                this.props.getBundledProductSuggestion
+              }
+              bundledProductSuggestionDetails={
+                this.props.bundledProductSuggestionDetails
+              }
+              addBundledProductsToCart={this.props.addBundledProductsToCart}
+              addBundledProductsToCartDetails={
+                this.props.addBundledProductsToCartDetails
+              }
+              getCartDetails={this.props.getCartDetails}
+              displayToast={this.props.displayToast}
+              history={this.props.history}
+            />
+          )}
+
         {this.props.isGiveAway === NO && this.props.deliveryInformation && (
           <div className={styles.deliveryInfo}>
             <DeliveryInfoSelect

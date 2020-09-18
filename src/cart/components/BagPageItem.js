@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./BagPageItem.css";
 import ProductImage from "../../general/components/ProductImage.js";
+import DigitalBundledProduct from "./DigitalBundledProduct";
 import PropTypes from "prop-types";
 import {
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
@@ -123,6 +124,18 @@ export default class BagPageItem extends React.Component {
                 )}
             </div>
           )}
+          {this.props.bundledDigitalItems &&
+            this.props.bundledDigitalItems.map((digitalProduct, index) => {
+              return (
+                <DigitalBundledProduct
+                  key={index}
+                  digitalProduct={digitalProduct}
+                  pageType={"CHECKOUT"}
+                  showPriceSection={false}
+                  showRemoveButton={false}
+                />
+              );
+            })}
         </div>
         <div
           className={styles.productImage}

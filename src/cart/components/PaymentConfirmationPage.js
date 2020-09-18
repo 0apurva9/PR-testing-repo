@@ -10,6 +10,7 @@ import successImg from "./img/success_done.svg";
 import thankYouImg from "./img/thankYou_img.png";
 import { numberWithCommas, digitIntoWord } from "../../lib/dateTimeFunction";
 import Button from "../../general/components/Button";
+import ibutton from "../../cart/components/img/infoIbutton.svg";
 
 import {
   MY_ACCOUNT_PAGE,
@@ -130,6 +131,7 @@ export default class PaymentConfirmationPage extends React.Component {
   render() {
     let totalValue = localStorage.getItem("GiftCardAmount");
     let productType = localStorage.getItem("productType");
+    let cashback = localStorage.getItem("cashback");
     const numberFormater = totalValue && numberWithCommas(totalValue);
     const digitIntoNumberFormat = totalValue && digitIntoWord(totalValue);
     let isEgvOrder =
@@ -187,6 +189,18 @@ export default class PaymentConfirmationPage extends React.Component {
                             Please check your email for order confirmation and
                             order details
                           </div>
+                          {cashback === true && (
+                            <div className={styles.cashBackOfferMsgDiv}>
+                              <div className={styles.cashBackOfferImgDiv}>
+                                <img src={ibutton} alt={"Offer Text"} />
+                              </div>
+                              <div className={styles.cashBackOfferMsg}>
+                                Applicable CLiQ CashBack (if any) will be
+                                credited to your CLiQ Cash account within 24
+                                hours.
+                              </div>
+                            </div>
+                          )}
                           <DesktopOnly>
                             {
                               <div className={styles.buttonHolder}>
