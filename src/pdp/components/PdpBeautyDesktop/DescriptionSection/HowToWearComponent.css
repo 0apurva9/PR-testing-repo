@@ -5,8 +5,6 @@
   text-align: left;
   position: relative;
   margin-bottom: 50px;
-  /**margin: 50px auto;
- background-color: grey;**/
 }
 
 .base {
@@ -71,6 +69,7 @@
   flex-wrap: wrap;
   align-items: flex-start;
   padding: 0 13px 0;
+  height: 65vh;
 }
 .embed-video {
   bottom: 0;

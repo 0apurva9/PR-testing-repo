@@ -309,7 +309,6 @@ export function getMasterTemplate() {
         "/otatacliq/getApplicationProperties.json?propertyNames=MSH2233100"
       );
       const resultJson = await result.json();
-
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
       if (resultJsonStatus.status) {
@@ -356,7 +355,7 @@ export function getHowToWear(category_id) {
   return async (dispatch, getState, { api }) => {
     dispatch(getHowToWearRequest());
     try {
-      const url = `/v2/lux/cms/HTW-${category_id}`;
+      const url = `/v2/mpl/cms/defaultpage?pageId=HTW-${category_id}`;
       const result = await api.get(url);
       const resultJson = await result.json();
 
@@ -1638,7 +1637,97 @@ export function getPdpOffers() {
         categoryCode,
         brandCodeLast.toUpperCase()
       );
-      const pdpOffersApiJson = await pdpOffersApi.json();
+      let pdpOffersApiJson = await pdpOffersApi.json();
+      pdpOffersApiJson = {
+        type: "voucherSequenceListDTO",
+
+        status: "Success",
+
+        offerCalloutList: [
+          {
+            channel: "ALL",
+
+            couponType: "TERTIARY_OFFER",
+
+            endDateAndTime: "2020-07-21 23:59:59",
+
+            imageUrl:
+              "https://assets.tatacliq.com/medias/sys_master/14766233681950.png",
+
+            name:
+              "Apply Coupon GOKOTAK and get 10% instant discount with Kotak Credit/Debit Cards* Min Purchase : Rs. 5000 | Max Discount: Rs. 1000.",
+
+            offerEndDate: "2020-07-21 23:59:59",
+
+            offerStartDate: "2020-07-21 00:00:00",
+
+            offerType: "Tertiary Offer",
+
+            priority: 1000,
+
+            promotionDisplayText:
+              'The offer is valid on select products. View All Kotak Bank offer <a href="https://www.tatacliq.com/bank-offers" target="_blank">T&Cs</a>',
+
+            sequence: 2,
+
+            startDateAndTime: "2020-07-21 00:00:00",
+
+            voucherIdentifier: "MARTLSKOTAK"
+          },
+
+          {
+            channel: "ALL",
+
+            couponType: "TERTIARY_OFFER",
+
+            endDateAndTime: "2021-07-31 23:59:00",
+
+            name: "Free Shipping on cart value of Rs. 1499 & more",
+
+            offerEndDate: "2021-07-31 23:59:00",
+
+            offerStartDate: "2020-06-11 00:00:00",
+
+            offerType: "Tertiary Offer",
+
+            priority: 993,
+
+            sequence: 3,
+
+            startDateAndTime: "2020-06-11 00:00:00",
+
+            voucherIdentifier: "LIFESTYLESHIP"
+          },
+
+          {
+            channel: "ALL",
+
+            couponType: "TERTIARY_OFFER",
+
+            endDateAndTime: "2020-07-24 23:59:59",
+
+            name:
+              "1) Apply Coupon HDFC2000 and get Rs. 2,000 off on HDFC Bank Credit Card and Credit Card EMI on min. purchase of Rs. 25,000. Offer on select products only. Limited Period Offer.<br>2) Apply Coupon AMEXTECH and get 10% Instant Discount on American Express Credit Card and EMI Transaction on Min Purchase: Rs. 10000 | Max Discount: Rs.1500",
+
+            offerEndDate: "2020-07-24 23:59:59",
+
+            offerStartDate: "2020-07-24 00:00:00",
+
+            offerType: "Tertiary Offer",
+
+            priority: 1000,
+
+            promotionDisplayText:
+              'T&C\'s<br> 1) The offer is valid on Electronics & Lifestyle<br> 2) The Offer not valid on Gold Coins<br> View All Bank offer <a href="https://www.tatacliq.com/hdfc-credit-card-offer-tnc" target="_blank">T&Cs</a>',
+
+            sequence: 1,
+
+            startDateAndTime: "2020-07-24 00:00:00",
+
+            voucherIdentifier: "HDFC2000T"
+          }
+        ]
+      };
 
       if (pdpOffersApiJson.offerCalloutList) {
         dispatch(

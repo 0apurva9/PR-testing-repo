@@ -95,7 +95,7 @@ export default class PdpBeautyDesktop extends React.Component {
       const ingredientDetails = productDetails.ingredientDetails
         ? productDetails.ingredientDetails
         : [];
-      const sortedIngredientDetails =
+      const sortedIngredient =
         ingredientDetails &&
         ingredientDetails.length > 0 &&
         sortArrayOfObjectByIntegerKeyValue(ingredientDetails, "order");
@@ -108,9 +108,9 @@ export default class PdpBeautyDesktop extends React.Component {
         : [];
 
       const ingredientData = {
-        sortedIngredient: sortedIngredientDetails,
-        allIngredients: allIngredients,
-        notIngredients: notIngredients
+        sortedIngredient,
+        allIngredients,
+        notIngredients
       };
 
       return (
@@ -140,6 +140,7 @@ export default class PdpBeautyDesktop extends React.Component {
     }
   }
 }
+
 PdpBeautyDesktop.propTypes = {
   masterTemplateResponse: PropTypes.shape({
     name: PropTypes.string,

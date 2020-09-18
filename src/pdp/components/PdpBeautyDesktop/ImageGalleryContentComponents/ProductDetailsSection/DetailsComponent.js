@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import styles from "./DetailsComponent.css";
 
@@ -46,3 +47,7 @@ export default class DetailsComponent extends React.Component {
     );
   }
 }
+
+DetailsComponent.propTypes = {
+  productDetails: PropTypes.object
+};

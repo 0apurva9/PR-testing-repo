@@ -11,16 +11,16 @@
 }
 
 .offers-heading {
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 16px;
   margin: 0 0 12px 0;
-  color: rgb(33,33,33);
+  color: rgb(33, 33, 33);
   text-transform: uppercase;
 }
 
-.offers-desc b{
+.offers-desc b {
   font-weight: 400;
 }
 
@@ -36,17 +36,18 @@
 }
 
 .offers-list {
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
   font-weight: 300;
   font-size: 14px;
   line-height: 26px;
+  margin-bottom: 15px;
 }
 
 .offers-list-link {
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
   font-weight: 300;
   font-size: 14px;
-  color: rgb(218,28,92);
+  color: rgb(218, 28, 92);
   text-decoration: none;
 }
 /*** Offer Component ***/

@@ -5,7 +5,8 @@ import {
   HOW_TO_WEAR_COMPONENT,
   SECTION_OF_PRODUCT_DESCRIPTION,
   STORY_COMPONENT,
-  DETAILS_COMPONENT
+  DETAILS_COMPONENT,
+  FROM_THE_BRAND_COMPONENT
 } from "../ComponentConstants";
 import Loadable from "react-loadable";
 import SecondaryLoader from "../../../../general/components/SecondaryLoader";
@@ -18,13 +19,6 @@ const Loader = () => {
     </div>
   );
 };
-
-const DetailsComponentLong = Loadable({
-  loader: () => import("./DetailsComponentLong"),
-  loading() {
-    return <Loader />;
-  }
-});
 
 const StoryComponent = Loadable({
   loader: () => import("./StoryComponent"),
@@ -47,6 +41,13 @@ const HowToWearComponent = Loadable({
   }
 });
 
+const APlusTemplate = Loadable({
+  loader: () => import("./APlusTemplate"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const typeComponentMapping = {
   [STORY_COMPONENT]: (props, descripCompDetails) => {
     const detailsComponentFound = descripCompDetails.filter(
@@ -63,12 +64,15 @@ const typeComponentMapping = {
   ),
   [HOW_TO_WEAR_COMPONENT]: props => (
     <HowToWearComponent {...props} heading={"HOW TO WEAR"} />
+  ),
+  [FROM_THE_BRAND_COMPONENT]: props => (
+    <APlusTemplate {...props} heading={"FROM THE BRAND"} />
   )
 };
 
 export default class DescriptionContainer extends Component {
   render() {
-    let descripCompDetails = [];
+    const descripCompDetails = [];
 
     const ingredientsComponents =
       this.props.compDetails &&
