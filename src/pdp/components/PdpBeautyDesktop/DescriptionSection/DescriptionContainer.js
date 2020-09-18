@@ -5,7 +5,10 @@ import {
   HOW_TO_WEAR_COMPONENT,
   FROM_THE_BRAND_COMPONENT,
   SECTION_OF_PRODUCT_DESCRIPTION,
-  MORE_FROM_THIS_BRAND_COMPONENT
+  MORE_FROM_THIS_BRAND_COMPONENT,
+  STORY_COMPONENT,
+  DETAILS_COMPONENT,
+  FROM_THE_BRAND_COMPONENT
 } from "../ComponentConstants";
 import Loadable from "react-loadable";
 import SecondaryLoader from "../../../../general/components/SecondaryLoader";
@@ -18,6 +21,13 @@ const Loader = () => {
     </div>
   );
 };
+
+const StoryComponent = Loadable({
+  loader: () => import("./StoryComponent"),
+  loading() {
+    return <Loader />;
+  }
+});
 
 const IngredientsComponents = Loadable({
   loader: () => import("./IngredientsComponents"),
@@ -48,6 +58,16 @@ const MoreFromBrand = Loadable({
 });
 
 const typeComponentMapping = {
+  [STORY_COMPONENT]: (props, descripCompDetails) => {
+    const detailsComponentFound = descripCompDetails.filter(
+      el => el.componentId === DETAILS_COMPONENT
+    );
+    if (detailsComponentFound) {
+      return <StoryComponent {...props} detailsComponent={true} />;
+    } else {
+      return <StoryComponent {...props} />;
+    }
+  },
   [INGREDIENTS_COMPONENT]: props => (
     <IngredientsComponents {...props} heading={"INGREDIENTS"} />
   ),
@@ -64,7 +84,8 @@ const typeComponentMapping = {
 
 export default class DescriptionContainer extends Component {
   render() {
-    let descripCompDetails = [];
+    const descripCompDetails = [];
+
     const ingredientsComponents =
       this.props.compDetails &&
       this.props.compDetails.map(componentDetails => {
@@ -79,7 +100,12 @@ export default class DescriptionContainer extends Component {
       <Fragment>
         {descripCompDetails &&
           descripCompDetails.map(componentDetails =>
-            renderComponent(componentDetails, typeComponentMapping, this.props)
+            renderComponent(
+              componentDetails,
+              typeComponentMapping,
+              this.props,
+              descripCompDetails
+            )
           )}
       </Fragment>
     );

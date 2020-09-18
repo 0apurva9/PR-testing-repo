@@ -4,31 +4,7 @@ import styles from "./HowToWearComponent.css";
 import HowToWearToggleComponent from "./HowToWearToggleComponent";
 
 export default class HowToWearComponent extends Component {
-  //this may be used later if requested
-
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     isOpen: true,
-  //   };
-  // }
-
-  //this may be used later if requested
-
-  // openMenu() {
-  //   this.setState((prevState) => ({
-  //     isOpen: !prevState.isOpen,
-  //   }));
-  // }
-
   render() {
-    //this may be used later if requested
-
-    // let iconActive = styles.iconup;
-    // if (this.state.isOpen) {
-    //   iconActive = styles.icon;
-    // }
-
     return (
       <Fragment>
         <div className={styles.container}>
@@ -43,10 +19,6 @@ export default class HowToWearComponent extends Component {
                 <div className={styles["htw-heading"]}>
                   {this.props.heading}
                 </div>
-
-                {/* this may be used later if requested */}
-
-                {/* <div className={iconActive} /> */}
               </div>
 
               <HowToWearToggleComponent {...this.props} />

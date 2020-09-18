@@ -7,8 +7,8 @@ export default class IngredientToggleComponent extends Component {
     return (
       <Fragment>
         <div className={styles["ingredents-sections"]}>
-          {this.props.ingredientData.sortedIngredient.map((item, i) => (
-            <div key={i} className={styles["ingredents-sec-blocks"]}>
+          {this.props.ingredientData.sortedIngredient.map(item => (
+            <div className={styles["ingredents-sec-blocks"]}>
               <div className={styles["ingredents-blk-sub-head"]}>
                 {item.key}:
               </div>
@@ -19,8 +19,8 @@ export default class IngredientToggleComponent extends Component {
                     : styles["ingredents-sec-inner-blocks1"]
                 }
               >
-                {item.values.map((value, i) => (
-                  <div key={i} className={styles["ingredents-details"]}>
+                {item.values.map(value => (
+                  <div className={styles["ingredents-details"]}>
                     <div
                       className={styles["ingredents-icon"]}
                       style={{

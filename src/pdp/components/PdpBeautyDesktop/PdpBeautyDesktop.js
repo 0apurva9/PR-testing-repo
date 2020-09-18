@@ -20,6 +20,7 @@ import ImageGalleryContentComponent from "./ImageGalleryContentComponents/ImageG
 import BreadCrumbs from "./BreadCrumbsSection/BreadCrumbs";
 import styles from "./PdpBeautyDesktop.css";
 import DescriptionContainer from "./DescriptionSection/DescriptionContainer";
+import { sortArrayOfObjectByIntegerKeyValue } from "../../../pdp/reducers/utils";
 
 const SECTION_PRODUCT_GUIDE = [];
 const SECTION_INGREDIENTS = [];
@@ -31,6 +32,24 @@ const SECTION_MORE_FROM_THIS_BRAND = [];
 const SECTION_SIMILAR_PRODUCTS = [];
 
 export default class PdpBeautyDesktop extends React.Component {
+  constructor(props) {
+    super(props);
+    this.detailsRef = React.createRef();
+  }
+
+  handleDetailsScroll = () => {
+    if (this.detailsRef.current) {
+      let headerOffset = 45,
+        elementPosition = this.detailsRef.current.getBoundingClientRect().top,
+        offsetPosition = elementPosition - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
+  };
+
   componentDidMount = () => {
     const categoryHierarchy = this.props.productDetails.categoryHierarchy
       ? this.props.productDetails.categoryHierarchy
@@ -58,21 +77,14 @@ export default class PdpBeautyDesktop extends React.Component {
       this.props.masterTemplateResponse &&
       this.props.masterTemplateResponse.value &&
       this.props.masterTemplateResponse.value.componentList;
-    const sortedMasterTempLateDetails =
+    let sortedMasterTempLateDetails = [];
+    sortedMasterTempLateDetails =
       masterTemplateDetails &&
-      masterTemplateDetails.sort((comp1, comp2) => {
-        const pos1 = parseInt(comp1.componentPosition);
-        const pos2 = parseInt(comp2.componentPosition);
-        if (pos1 && pos2 && pos1 < pos2) {
-          return -1;
-        }
-
-        if (pos1 && pos2 && pos1 > pos2) {
-          return 1;
-        }
-
-        return 0;
-      });
+      masterTemplateDetails.length > 0 &&
+      sortArrayOfObjectByIntegerKeyValue(
+        masterTemplateDetails,
+        "componentPosition"
+      );
 
     if (sortedMasterTempLateDetails && sortedMasterTempLateDetails.length > 0) {
       let sectionOfImageAndContentComponent = [];
@@ -89,22 +101,10 @@ export default class PdpBeautyDesktop extends React.Component {
       const ingredientDetails = productDetails.ingredientDetails
         ? productDetails.ingredientDetails
         : [];
-      const sortedIngredientDetails =
+      const sortedIngredient =
         ingredientDetails &&
         ingredientDetails.length > 0 &&
-        ingredientDetails.sort((comp1, comp2) => {
-          const pos1 = parseInt(comp1.order);
-          const pos2 = parseInt(comp2.order);
-          if (pos1 && pos2 && pos1 < pos2) {
-            return -1;
-          }
-
-          if (pos1 && pos2 && pos1 > pos2) {
-            return 1;
-          }
-
-          return 0;
-        });
+        sortArrayOfObjectByIntegerKeyValue(ingredientDetails, "order");
 
       const allIngredients = this.props.productDetails.otherIngredients
         ? this.props.productDetails.otherIngredients
@@ -114,9 +114,9 @@ export default class PdpBeautyDesktop extends React.Component {
         : [];
 
       const ingredientData = {
-        sortedIngredient: sortedIngredientDetails,
-        allIngredients: allIngredients,
-        notIngredients: notIngredients
+        sortedIngredient,
+        allIngredients,
+        notIngredients
       };
 
       return (
@@ -128,6 +128,7 @@ export default class PdpBeautyDesktop extends React.Component {
             <ImageGalleryContentComponent
               {...this.props}
               compDetails={sectionOfImageAndContentComponent}
+              handleDetailsScroll={this.handleDetailsScroll}
             />
           </div>
           <div className={styles.container}>
@@ -135,6 +136,7 @@ export default class PdpBeautyDesktop extends React.Component {
               ingredientData={ingredientData}
               compDetails={sectionOfImageAndContentComponent}
               {...this.props}
+              detailsLongRef={this.detailsRef}
             />
           </div>
         </div>
@@ -144,6 +146,7 @@ export default class PdpBeautyDesktop extends React.Component {
     }
   }
 }
+
 PdpBeautyDesktop.propTypes = {
   masterTemplateResponse: PropTypes.shape({
     name: PropTypes.string,

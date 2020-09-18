@@ -1,11 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import styles from "./BreadCrumbs.css";
 import { reverse } from "../../../reducers/utils";
 import { HOME_ROUTER } from "../../../../lib/constants";
 import { TATA_CLIQ_ROOT } from "../../../../lib/apiRequest.js";
 
-export default class ProductAndBrandComponent extends React.Component {
+export default class BreadCrumbs extends React.Component {
   handleHomeClick(e) {
     e.preventDefault();
     this.props.history.push(HOME_ROUTER);
@@ -52,3 +53,7 @@ export default class ProductAndBrandComponent extends React.Component {
     );
   }
 }
+
+BreadCrumbs.propTypes = {
+  productDetails: PropTypes.object
+};

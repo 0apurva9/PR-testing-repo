@@ -45,7 +45,12 @@ export function groupByBrandAccordingToFirstLetter(arr, prop) {
   }, {});
 }
 
-export function renderComponent(componentItem, typeComponentMapping, props) {
+export function renderComponent(
+  componentItem,
+  typeComponentMapping,
+  props,
+  componentDetailsObj
+) {
   if (!componentItem.componentId) {
     return null;
   } else if (componentItem.componentId) {
@@ -53,7 +58,10 @@ export function renderComponent(componentItem, typeComponentMapping, props) {
     if (typeCompMapping) {
       return (
         typeComponentMapping[componentItem.componentId] &&
-        typeComponentMapping[componentItem.componentId](props)
+        typeComponentMapping[componentItem.componentId](
+          props,
+          componentDetailsObj
+        )
       );
     } else {
       console.log(
@@ -64,4 +72,20 @@ export function renderComponent(componentItem, typeComponentMapping, props) {
   } else {
     return null;
   }
+}
+
+export function sortArrayOfObjectByIntegerKeyValue(array, keyName) {
+  return array.sort((comp1, comp2) => {
+    const pos1 = parseInt(comp1[keyName]);
+    const pos2 = parseInt(comp2[keyName]);
+    if (pos1 && pos2 && pos1 < pos2) {
+      return -1;
+    }
+
+    if (pos1 && pos2 && pos1 > pos2) {
+      return 1;
+    }
+
+    return 0;
+  });
 }

@@ -3,9 +3,8 @@ import styles from "./BeautyOfferModal.css";
 
 export default class BeautyOfferModal extends React.Component {
   render() {
-    console.log("inside-beauty-offer-modal", this.props);
     return (
-      <div className={styles["modal-content"]}>
+      <React.Fragment>
         <div className={styles["modal-heading"]}>OFFERS</div>
         <div className={styles["modal-inner-content"]}>
           {this.props.offers.map((offer, i) => {
@@ -39,7 +38,7 @@ export default class BeautyOfferModal extends React.Component {
             );
           })}
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
