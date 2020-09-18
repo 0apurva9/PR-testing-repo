@@ -85,7 +85,11 @@ const productDescription = (
     masterTemplateStatus: null,
     masterTemplateLoading: false,
     masterTemplateDetails: null,
-    masterTemplateError: null
+    masterTemplateError: null,
+    howToWearStatus: null,
+    howToWearLoading: false,
+    howToWearDetails: null,
+    howToWearError: null
   },
   action
 ) => {
@@ -1114,7 +1118,25 @@ const productDescription = (
       return Object.assign({}, state, {
         masterTemplateStatus: action.status,
         masterTemplateError: action.error,
-        masterTemplateStatusLoading: false
+        masterTemplateLoading: false
+      });
+
+    case pdpActions.GET_HOW_TO_WEAR_REQUEST:
+      return Object.assign({}, state, {
+        howToWearStatus: action.status,
+        howToWearLoading: true
+      });
+    case pdpActions.GET_HOW_TO_WEAR_SUCCESS:
+      return Object.assign({}, state, {
+        howToWearStatus: action.status,
+        howToWearDetails: action.howToWearResult,
+        howToWearLoading: false
+      });
+    case pdpActions.GET_HOW_TO_WEAR_FAILURE:
+      return Object.assign({}, state, {
+        howToWearStatus: action.status,
+        howToWearError: action.error,
+        howToWearLoading: false
       });
     default:
       return state;
