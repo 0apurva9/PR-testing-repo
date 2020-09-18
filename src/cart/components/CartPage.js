@@ -283,16 +283,30 @@ class CartPage extends React.Component {
     );
   };
 
-  removeItemFromCart = cartListItemPosition => {
+  removeItemFromCart = (
+    entryNumber,
+    mainProductUssid,
+    isForDigitalBundledProduct
+  ) => {
     const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     if (userDetails) {
       if (this.props.removeItemFromCartLoggedIn) {
-        this.props.removeItemFromCartLoggedIn(cartListItemPosition, pinCode);
+        this.props.removeItemFromCartLoggedIn(
+          entryNumber,
+          pinCode,
+          mainProductUssid,
+          isForDigitalBundledProduct
+        );
       }
     } else {
       if (this.props.removeItemFromCartLoggedOut) {
-        this.props.removeItemFromCartLoggedOut(cartListItemPosition, pinCode);
+        this.props.removeItemFromCartLoggedOut(
+          entryNumber,
+          pinCode,
+          mainProductUssid,
+          isForDigitalBundledProduct
+        );
       }
     }
   };
@@ -1002,6 +1016,19 @@ class CartPage extends React.Component {
                                 ? true
                                 : false
                             }
+                            getBundledProductSuggestion={
+                              this.props.getBundledProductSuggestion
+                            }
+                            bundledProductSuggestionDetails={
+                              this.props.bundledProductSuggestionDetails
+                            }
+                            addBundledProductsToCart={
+                              this.props.addBundledProductsToCart
+                            }
+                            addBundledProductsToCartDetails={
+                              this.props.addBundledProductsToCartDetails
+                            }
+                            history={this.props.history}
                           />
                         </DesktopOnly>
                       </div>

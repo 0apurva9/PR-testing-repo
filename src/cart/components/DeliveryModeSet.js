@@ -81,8 +81,8 @@ export default class DeliveryModeSet extends React.Component {
         dayFormat === productDayFormat
           ? `Today, `
           : nextDayFormat === productDayFormat
-            ? `Tomorrow, `
-            : "";
+          ? `Tomorrow, `
+          : "";
       switch (date) {
         case 1:
         case 21:
@@ -102,6 +102,30 @@ export default class DeliveryModeSet extends React.Component {
     }
   }
   render() {
+    let allProductsInCart = this.props.productDelivery;
+    let bundledDigitalProducts =
+      allProductsInCart &&
+      allProductsInCart.filter(value => {
+        return value.bundledDigitalItems;
+      });
+    let allProducts = [];
+    // if main products contains digital product then create new array of products
+    if (bundledDigitalProducts && bundledDigitalProducts.length > 0) {
+      allProductsInCart.map((product, index) => {
+        allProducts.push(product);
+        if (
+          product.bundledDigitalItems &&
+          product.bundledDigitalItems.length > 0
+        ) {
+          product.bundledDigitalItems.map(digitalProduct => {
+            allProducts.push(digitalProduct);
+          });
+        }
+      });
+    } else {
+      allProducts = allProductsInCart;
+    }
+
     return (
       <DeliveryCard
         onClick={() => this.handleClick()}
@@ -109,8 +133,8 @@ export default class DeliveryModeSet extends React.Component {
         indexNumber="2"
         completed={true}
       >
-        {this.props.productDelivery &&
-          this.props.productDelivery.map((data, i) => {
+        {allProducts &&
+          allProducts.map((data, i) => {
             if (data.isGiveAway === YES) {
               return <div />;
             }
@@ -148,7 +172,9 @@ export default class DeliveryModeSet extends React.Component {
                 <div className={styles.deliveryWay}>
                   {deliveryOption &&
                     `${
-                      deliveryOption.code === COLLECT
+                      data.isDigitalBundled
+                        ? "Activation Post Delivery"
+                        : deliveryOption.code === COLLECT
                         ? textForCollect
                           ? textForCollect
                           : ""

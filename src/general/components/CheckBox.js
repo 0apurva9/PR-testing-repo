@@ -2,6 +2,12 @@ import React from "react";
 import styles from "./CheckBox.css";
 import PropTypes from "prop-types";
 export default class CheckBox extends React.Component {
+  handleClick() {
+    if (this.props.onClick) {
+      this.props.onClick();
+    }
+  }
+
   render() {
     let className = styles.base;
     if (this.props.selected) {
@@ -10,6 +16,12 @@ export default class CheckBox extends React.Component {
     let squareBox = styles.square;
     if (this.props.checked) {
       squareBox = styles.checked;
+    }
+    if (this.props.isFromProductBundling && !this.props.checked) {
+      squareBox = styles.productBundlingUnchecked;
+    }
+    if (this.props.isFromProductBundling && this.props.checked) {
+      squareBox = styles.productBundlingChecked;
     }
     return (
       <React.Fragment>
@@ -23,6 +35,7 @@ export default class CheckBox extends React.Component {
           <div
             className={squareBox}
             style={{ width: this.props.size, height: this.props.size }}
+            onClick={() => this.handleClick()}
           />
         )}
       </React.Fragment>
@@ -30,7 +43,10 @@ export default class CheckBox extends React.Component {
   }
 }
 CheckBox.propTypes = {
-  isCircle: PropTypes.bool
+  isCircle: PropTypes.bool,
+  onClick: PropTypes.func,
+  isFromProductBundling: PropTypes.bool,
+  checked: PropTypes.bool
 };
 CheckBox.defaultProps = {
   size: "20px",

@@ -13,7 +13,7 @@ export default class Button extends React.Component {
             backgroundColor={
               this.props.backgroundColor
                 ? this.props.backgroundColor
-                : "#FF1744"
+                : "#da1c5c"
             }
             borderRadius={
               this.props.borderRadius
@@ -23,7 +23,10 @@ export default class Button extends React.Component {
             textStyle={{
               color: "#FFF",
               fontSize: 14,
-              fontFamily: "semibold"
+              fontFamily:
+                this.props.textStyle && this.props.textStyle.fontFamily
+                  ? this.props.textStyle.fontFamily
+                  : "semibold"
             }}
           />
         );
@@ -104,7 +107,15 @@ Button.propTypes = {
     "hollow",
     "linearGradient"
   ]),
-  dataTest: PropTypes.string
+  dataTest: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  textStyle: PropTypes.objectOf(
+    PropTypes.shape({
+      color: PropTypes.string,
+      fontSize: PropTypes.number,
+      fontFamily: PropTypes.string
+    })
+  )
 };
 
 Button.defaultProps = {
