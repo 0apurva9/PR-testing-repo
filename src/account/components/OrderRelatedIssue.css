@@ -103,3 +103,130 @@
 .colorRed{
   color: #da1c5c;
 }
+
+.callMeBackFormBox{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.formBox{
+    width: 460px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 32px;
+    margin: 20px 0px;
+}
+.mobileNumberBox{
+  border: 1px solid #cdcdcd;
+    border-radius: 8px;
+    padding: 24px;
+}
+.fieldLabel{
+  font-size: 16px;
+  font-family: semibold;
+  color: #212121;
+}
+.languageBox{
+  margin-top: 24px;
+}
+.language{
+  border: 1px solid #cdcdcd;
+  border-radius: 8px;
+  padding: 0px 24px;
+  margin: 20px 0px;
+}
+.inputField{
+  position: relative;
+}
+.inputField > .customBtn{
+  position: absolute;
+    top: 6px;
+    right: 2px;
+}
+.customBtn{
+  color: rgb(218, 28, 92);
+    font-size: 14px;
+    font-family: semibold;
+    cursor: pointer;
+}
+.requestButtonBox{
+  
+  margin-top: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.buttonBox{
+  margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.radioTicketType{
+  margin:0px;
+  font-size: 14px;
+  font-family: regular;
+  width: 100%;
+  color: #4a4a4a;
+  padding: 17px 0px;
+
+}
+.radioTicketType:not(:last-child){
+border-bottom:1px solid #e5e5e5; 
+}
+
+.radioTicketType label {
+  padding: 0px 0 0 0px;
+  position: relative;
+  display: block;
+  width: 100%;
+  font-family: light;
+  /* color: #4a4a4a;
+  
+  font-size: 14px;
+  font-family: light; */
+}
+.fontBold{
+  font-weight: 600!important;
+}
+
+.radioTicketType label input[type="radio"] {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  padding: 0;
+}
+
+.radioTicketType label input[type="radio"] + span {
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  /* left: 0; */
+  top: -1px;
+  background: #ffffff;
+  border: 1px solid #212121;
+  border-radius: 100%;
+  right: 0px;
+}
+
+.radioTicketType label input[type="radio"] + span:after {
+  content: url(./img/active.svg);
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  position: absolute;
+  left: -2px;
+    top: -2px;
+  transform: scale(0);
+}
+
+.radioTicketType label input[type="radio"]:checked + span:after {
+    transform: scale(1);
+}

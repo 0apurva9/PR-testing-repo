@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./OrderRelatedIssue.css";
-import MobileOnly from "../../general/components/MobileOnly";
+import FloatingLabelInputWithPlace from "../../general/components/FloatingLabelInputWithPlace";
+import Button from "../../general/components/Button.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import * as Cookie from "../../lib/Cookie";
 import CustomerIssue from "./CustomerIssue.js";
@@ -14,14 +15,22 @@ import {
   MY_ACCOUNT_PAGE,
   HOME_ROUTER
 } from "../../lib/constants";
+import { MOBILE_PATTERN } from "../../auth/components/Login";
 import SSRquest from "../../general/components/SSRequest";
 import Icon from "../../xelpmoc-core/Icon";
 const ORDER_REALTED_QUESTION = "orderRelated";
 const NON_ORDER_REALTED_QUESTION = "NonOrderRelated";
 const FAQ_PAGE = "ss-faq";
+const CLIQ_2_CALL_CONFIG = "cliq2call-config-file";
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
     super(props);
+    this.userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    this.customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const getUserDetails = this.userDetailsCookie
+      ? JSON.parse(this.userDetailsCookie)
+      : {};
+
     const selectedOrderObj =
       this.props.location &&
       this.props.location.state &&
@@ -50,7 +59,22 @@ export default class OrderRelatedIssue extends React.Component {
       showLoader: false,
       raiseTiketRequest: false,
       raiseTiketSucess: false,
-      slectOrderData: null
+      slectOrderData: null,
+      isCallMeBackForm: false,
+      isScheduleACall: false,
+      callMeBackJourney: false,
+      mobile:
+        getUserDetails &&
+        getUserDetails.loginType === "mobile" &&
+        getUserDetails.userName
+          ? getUserDetails.userName
+          : "",
+      chooseLanguage: "English",
+      timing: "",
+      selectedDate: "",
+      cliq2CallConfigData: "",
+      shift: "",
+      selectedSlot: ""
     };
     this.resetState = this.state;
   }
@@ -84,6 +108,17 @@ export default class OrderRelatedIssue extends React.Component {
         this.setState(this.resetState);
       }
     }
+    if (
+      nextProps &&
+      JSON.stringify(this.props.userDetails) !==
+        JSON.stringify(nextProps.userDetails)
+    ) {
+      this.setState({
+        mobile: nextProps.userDetails.mobileNumber
+          ? nextProps.userDetails.mobileNumber
+          : ""
+      });
+    }
   }
   moreHelps() {
     const { FAQquestion, question } = this.state;
@@ -110,7 +145,8 @@ export default class OrderRelatedIssue extends React.Component {
         this.setState({
           isIssueOptions: false,
           isQuesryForm: true,
-          showFeedBack: false
+          showFeedBack: false,
+          isCallMeBackForm: false
         });
       }
     } else {
@@ -126,7 +162,8 @@ export default class OrderRelatedIssue extends React.Component {
             this.setState({
               isIssueOptions: false,
               isQuesryForm: true,
-              showFeedBack: false
+              showFeedBack: false,
+              isCallMeBackForm: false
             });
           }
         }
@@ -309,7 +346,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.sendInvoice(ussid, sellerOrderNo);
     }
   }
-  hideLoader() {}
+
   navigatePreviousPage() {
     if (this.state.showQuestionList) {
       this.setState(this.resetState);
@@ -332,6 +369,8 @@ export default class OrderRelatedIssue extends React.Component {
         isIssueOptions: false,
         showFeedBack: true
       });
+    } else if (this.state.isCallMeBackForm) {
+      this.setState({ isIssueOptions: true, isCallMeBackForm: false });
     }
   }
   navigateHomePage() {
@@ -342,6 +381,157 @@ export default class OrderRelatedIssue extends React.Component {
   }
   navigateCliqCarePage() {
     this.setState(this.resetState);
+  }
+
+  async CLiQ2CallClick() {
+    this.setState({ callMeBackJourney: true });
+    if (!this.userDetailsCookie || !this.customerCookie) {
+      this.props.setSelfServeState(this.state);
+      this.navigateLogin();
+    } else {
+      if (this.props.getCliq2CallConfig) {
+        const response = await this.props.getCliq2CallConfig(
+          CLIQ_2_CALL_CONFIG
+        );
+        if (response.status === SUCCESS) {
+          const cliq2CallData = JSON.parse(
+            response.cliq2CallConfigData.items[0].cmsParagraphComponent.content
+          );
+          let currentTime = new Date().toLocaleTimeString("en-US", {
+            hour12: false
+          });
+          let isUserWithinBusinessTime =
+            currentTime > cliq2CallData.businessStartTime &&
+            currentTime < cliq2CallData.businessEndTime
+              ? true
+              : false;
+          const buttonShowObject = {
+            businessEndTime: cliq2CallData.businessEndTime,
+            businessStartTime: cliq2CallData.businessStartTime,
+            callBackNowFlag: cliq2CallData.callBackNowFlag,
+            allowedRequestLimit: cliq2CallData.allowedRequestLimit,
+            scheduleCallFlag: cliq2CallData.scheduleCallFlag,
+            availableSlots: cliq2CallData.availableSlots,
+            slotDuration: cliq2CallData.slotDuration,
+            callMeBackClick: this.callMeBackCallClick,
+            scheduleACallClick: this.scheduleACallClick
+          };
+          if (
+            !cliq2CallData.scheduleCallFlag &&
+            (!cliq2CallData.callBackNowFlag || !isUserWithinBusinessTime)
+          ) {
+            this.props.customerQueryErrorModal({
+              heading: "Sorry, no agents are available right now",
+              subHeading: "Please try again later or choose other help options",
+              showBtn: false
+            });
+          } else {
+            this.props.showCliq2CallOption(buttonShowObject);
+          }
+          this.setState({
+            cliq2CallConfigData: cliq2CallData
+          });
+        }
+      }
+    }
+  }
+
+  callMeBackCallClick = () => {
+    this.setState({
+      isCallMeBackForm: true,
+      isIssueOptions: false,
+      isScheduleACall: false
+    });
+  };
+
+  scheduleACallClick = () => {
+    this.setState({
+      isCallMeBackForm: true,
+      isScheduleACall: true,
+      isIssueOptions: false
+    });
+  };
+  timeSlotPopUP = times => {
+    const timeFunction = {
+      setTimeSlot: this.setTimeSlot,
+      cliq2CallConfigData: this.state.cliq2CallConfigData,
+      callMeBackCallClick: this.callMeBackCallClick,
+      selectedSlot: {
+        date: this.state.selectedDate,
+        slotTime: this.state.selectedSlot
+      }
+    };
+    if (this.props.timeSlotPopUP) {
+      this.props.timeSlotPopUP(timeFunction);
+    }
+  };
+  // ScheduleACallClick: this.ScheduleACallClick
+  setTimeSlot = (time, date) => {
+    this.setState({
+      timing: time.label,
+      selectedDate: date,
+      shift: time.shift,
+      selectedSlot: time
+    });
+  };
+
+  getEpochDateValue(slotTimeList, shift) {
+    let date = new Date(),
+      start = null,
+      end = null;
+    if (shift === "tomorrow") {
+      date.setDate(date.getDate() + 1);
+    }
+    start = Math.floor(
+      date.setHours(parseInt(slotTimeList[0].split(":")[0]), 0, 0) / 1000
+    );
+    end = Math.floor(
+      date.setHours(parseInt(slotTimeList[1].split(":")[0]), 0, 0) / 1000
+    );
+    return `${start}-${end}`;
+  }
+
+  async onCallRequestClick() {
+    if (!MOBILE_PATTERN.test(this.state.mobile)) {
+      this.props.displayToast("Please enter valid number");
+      return false;
+    }
+    const slotTimeList = this.state.timing && this.state.timing.split("-");
+    const callRequestObj = {
+      Language: this.state.chooseLanguage ? this.state.chooseLanguage : "",
+      MobileNo: this.state.mobile ? this.state.mobile : "",
+      CallbackType: this.state.isScheduleACall ? "Later" : "Now",
+      PreferredSlot: this.state.isScheduleACall
+        ? this.getEpochDateValue(slotTimeList, this.state.shift)
+        : "",
+      CustomerId: "",
+      CustomerName:
+        this.props.userDetails &&
+        this.props.userDetails.firstName +
+          " " +
+          this.props.userDetails.lastName,
+      IssueType: this.state.parentIssueType
+        ? this.state.parentIssueType
+        : this.state.question.issueType,
+      OrderId: this.props.selectedOrderDetails
+        ? this.props.selectedOrderDetails.orderId
+        : "",
+      TransactionId: this.state.slectOrderData
+        ? this.state.slectOrderData.transactionId
+        : "",
+      RequestSource: "MPL-desktop"
+    };
+    const placeCustomerResponse = await this.props.placeCustomerCallRequest(
+      callRequestObj
+    );
+    this.setState({ raiseTiketRequest: true, showLoader: true });
+    setTimeout(() => {
+      this.setState({ raiseTiketRequest: false, raiseTiketSucess: true });
+      setTimeout(() => {
+        this.setState({ raiseTiketSucess: false, showLoader: false });
+        this.props.showCallQuerySuccessModal(placeCustomerResponse);
+      }, 2000);
+    }, 2000);
   }
 
   render() {
@@ -368,7 +558,10 @@ export default class OrderRelatedIssue extends React.Component {
       FAQRelatedDataLoading,
       FAQDataLoading,
       loadingForFetchOrderDetails,
-      loadingForSendInvoice
+      loadingForSendInvoice,
+      cliq2CallConfigDataLoading,
+      genesysResponseLoading,
+      genesysCustomerCallRequestData
     } = this.props;
     if (
       customerQueriesOtherIssueLoading ||
@@ -380,7 +573,8 @@ export default class OrderRelatedIssue extends React.Component {
       FAQDataLoading ||
       FAQRelatedDataLoading ||
       loadingForFetchOrderDetails ||
-      loadingForSendInvoice
+      loadingForSendInvoice ||
+      cliq2CallConfigDataLoading
     ) {
       this.props.showSecondaryLoader();
     } else {
@@ -392,147 +586,303 @@ export default class OrderRelatedIssue extends React.Component {
         <SSRquest
           raiseTiketRequest={this.state.raiseTiketRequest}
           raiseTiketSucess={this.state.raiseTiketSucess}
+          isCallMeBackForm={this.state.isCallMeBackForm}
         />
       );
     } else {
       return (
         <div className={styles.base}>
           <DesktopOnly>
-            {this.state.isIssueOptions ? (
-              <MoreHelps
-                getCustomerQueriesFields={() => this.getCustomerQueriesFields()}
-                selectedOrder={this.state.question}
-                navigatePreviousPage={() => this.navigatePreviousPage()}
-                navigateHomePage={() => this.navigateHomePage()}
-              />
-            ) : (
-              <div className={styles.baseWrapper}>
-                <div className={styles.formAbdTabHolder}>
-                  <div className={styles.tabHolder}>
-                    <div className={styles.tabHolderBox}>
-                      <div className={styles.tabHeader}>All Help Topics</div>
-
-                      <div className={styles.faqList}>
-                        {FAQData &&
-                          FAQData.map((faq, index) => {
-                            return (
-                              <div
-                                className={styles.faqListBox}
-                                onClick={() => {
-                                  this.handleFAQClick(faq);
-                                }}
-                              >
-                                <div className={styles.faqIcon}>
-                                  <Icon
-                                    image={
-                                      this.state.parentIssueType ==
-                                      faq.FAQHeader
-                                        ? `${require("../components/img/" +
-                                            faq.image.split(".")[0] +
-                                            "active" +
-                                            ".svg")}`
-                                        : `${require("../components/img/" +
-                                            faq.image.split(".")[0] +
-                                            ".svg")}`
-                                    }
-                                    width={33}
-                                    height={33}
-                                  />
-                                </div>
-                                <div className={styles.faqHederBox}>
-                                  <div
-                                    className={[
-                                      styles.faqHeader,
-                                      this.state.parentIssueType ==
-                                      faq.FAQHeader
-                                        ? styles.colorRed
-                                        : null
-                                    ].join(" ")}
-                                  >
-                                    {faq.FAQHeader.replace("&amp;", "&")}
-                                  </div>
-                                  <div className={styles.faqSubheading}>
-                                    {faq.FAQSubHeader.includes("&amp;")
-                                      ? faq.FAQSubHeader.replace(/&amp;/g, "&")
-                                      : faq.FAQSubHeader}
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })}
+            {this.state.isCallMeBackForm ? (
+              <div className={styles.callMeBackFormBox}>
+                <div className={styles.formBox}>
+                  <div className={styles.mobileNumberBox}>
+                    <div className={styles.fieldLabel}>Mobile number</div>
+                    <div className={styles.inputField}>
+                      <FloatingLabelInputWithPlace
+                        placeholder={"Enter your mobile numer *"}
+                        disabled={false}
+                        maxLength={10}
+                        value={this.state.mobile}
+                        onChange={value => this.setState({ mobile: value })}
+                        fontSize={"11px"}
+                        onlyNumber={true}
+                      />
+                      <div
+                        className={styles.customBtn}
+                        // onClick={() => this.previewPage()}
+                      >
+                        Change
                       </div>
                     </div>
                   </div>
+                  <div className={styles.languageBox}>
+                    <div className={styles.fieldLabel}>
+                      Select preferred language
+                    </div>
 
-                  <div className={styles.formHolder}>
-                    <CustomerIssue
-                      customerQueriesOtherIssueData={
-                        customerQueriesOtherIssueData
+                    <div className={styles.language}>
+                      <div className={styles.radioTicketType}>
+                        <label
+                          className={
+                            this.state.chooseLanguage == "English"
+                              ? styles.fontBold
+                              : null
+                          }
+                        >
+                          English
+                          <input
+                            type="radio"
+                            value="English"
+                            checked={this.state.chooseLanguage == "English"}
+                            onChange={e =>
+                              this.setState({ chooseLanguage: e.target.value })
+                            }
+                          />
+                          <span />
+                        </label>
+                      </div>
+                      <div className={styles.radioTicketType}>
+                        <label
+                          className={
+                            this.state.chooseLanguage == "Hindi"
+                              ? styles.fontBold
+                              : null
+                          }
+                        >
+                          हिंदी
+                          <input
+                            type="radio"
+                            value="Hindi"
+                            checked={this.state.chooseLanguage == "Hindi"}
+                            onChange={e =>
+                              this.setState({ chooseLanguage: e.target.value })
+                            }
+                          />
+                          <span />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  {this.state.isScheduleACall ? (
+                    <div className={styles.mobileNumberBox}>
+                      <div className={styles.fieldLabel}>
+                        Select preferred time slot
+                      </div>
+                      <div className={styles.inputField}>
+                        <FloatingLabelInputWithPlace
+                          placeholder={"Select your time slot"}
+                          disabled={false}
+                          value={
+                            this.state.timing
+                              ? this.state.timing +
+                                " , " +
+                                this.state.selectedDate
+                              : this.state.timing
+                          }
+                          fontSize={"11px"}
+                        />
+                        <div
+                          className={styles.customBtn}
+                          onClick={() => this.timeSlotPopUP()}
+                        >
+                          {!this.state.timing ? "Select" : "Change"}
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  <div className={styles.requestButtonBox}>
+                    <Button
+                      type="primary"
+                      backgroundColor="#da1c5c"
+                      height={40}
+                      label={"PLACE A CALL REQUEST"}
+                      borderRadius={6}
+                      width={205}
+                      textStyle={{ color: "#FFF", fontSize: 14 }}
+                      onClick={this.onCallRequestClick.bind(this)}
+                      disabled={
+                        this.state.isScheduleACall && !this.state.timing
+                          ? true
+                          : false
                       }
-                      selectedOrder={this.props.selectedOrderDetails || null}
-                      orderList={this.state.orderList}
-                      isOrderDatails={this.state.isOrderDatails}
-                      moreHelps={() => this.moreHelps()}
-                      ordersTransactionData={ordersTransactionData}
-                      questionsList={this.state.questionList}
-                      selectQuestion={(listOfIssue, index) =>
-                        this.selectQuestion(listOfIssue, index)
+                      disabledLightGray={
+                        this.state.isScheduleACall && !this.state.timing
+                          ? true
+                          : false
                       }
-                      showFeedBack={this.state.showFeedBack}
-                      question={this.state.question}
-                      getOrderRelatedQuestions={(orderData, product) =>
-                        this.getOrderRelatedQuestions(orderData, product)
-                      }
-                      orderRelatedQuestionsStatus={orderRelatedQuestionsStatus}
-                      isQuesryForm={this.state.isQuesryForm}
-                      uploadUserFile={(issueType, title, file) =>
-                        this.props.uploadUserFile(issueType, title, file)
-                      }
-                      feedBackHelpFull={() => this.feedBackHelpFull()}
-                      isAnswerHelpFull={this.state.isAnswerHelpFull}
-                      uploadedAttachments={this.state.uploadedAttachments}
-                      userDetails={this.props.userDetails}
-                      submitCustomerForms={formaData =>
-                        this.submitCustomerForms(formaData)
-                      }
-                      displayToast={message => this.props.displayToast(message)}
-                      customerQueriesField={customerQueriesField}
-                      getCustomerQueriesFields={(
-                        webFormTemplate,
-                        isIssueOptions
-                      ) =>
-                        this.getCustomerQueriesFields(
-                          webFormTemplate,
-                          isIssueOptions
-                        )
-                      }
-                      orderRelatedQuestion={this.state.orderRelatedQuestion}
-                      otherQuestion={this.state.otherQuestion}
-                      FAQquestion={this.state.FAQquestion}
-                      selectOtehrQuestion={selectedOtehrQuestion =>
-                        this.selectOtehrQuestion(selectedOtehrQuestion)
-                      }
-                      parentIssueType={this.state.parentIssueType}
-                      orderAllList={this.state.orderAllList}
-                      showAllOrdersList={() => this.showAllOrdersList()}
-                      hideAllOrder={() => this.hideAllOrder()}
-                      questionType={this.state.questionType}
-                      isUserLogin={isUserLogin}
-                      navigateLogin={() => this.navigateLogin()}
-                      getMoreOrder={() => this.getMoreOrder()}
-                      showQuestionList={this.state.showQuestionList}
-                      sendInvoice={(ussid, sellerOrderNo) => {
-                        this.sendInvoice(ussid, sellerOrderNo);
-                      }}
-                      navigatePreviousPage={() => this.navigatePreviousPage()}
-                      navigateHomePage={() => this.navigateHomePage()}
-                      updateThanks={() => this.updateThanks()}
-                      navigateCliqCarePage={() => this.navigateCliqCarePage()}
-                      slectOrderData={this.state.slectOrderData}
                     />
+                  </div>
+                  <div className={styles.buttonBox}>
+                    <div
+                      className={styles.customBtn}
+                      onClick={() => this.navigatePreviousPage()}
+                    >
+                      Or go back to previous page
+                    </div>
                   </div>
                 </div>
               </div>
+            ) : (
+              <React.Fragment>
+                {this.state.isIssueOptions ? (
+                  <MoreHelps
+                    getCustomerQueriesFields={() =>
+                      this.getCustomerQueriesFields()
+                    }
+                    selectedOrder={this.state.question}
+                    navigatePreviousPage={() => this.navigatePreviousPage()}
+                    navigateHomePage={() => this.navigateHomePage()}
+                    CLiQ2CallClick={() => this.CLiQ2CallClick()}
+                  />
+                ) : (
+                  <div className={styles.baseWrapper}>
+                    <div className={styles.formAbdTabHolder}>
+                      <div className={styles.tabHolder}>
+                        <div className={styles.tabHolderBox}>
+                          <div className={styles.tabHeader}>
+                            All Help Topics
+                          </div>
+
+                          <div className={styles.faqList}>
+                            {FAQData &&
+                              FAQData.map((faq, index) => {
+                                return (
+                                  <div
+                                    className={styles.faqListBox}
+                                    onClick={() => {
+                                      this.handleFAQClick(faq);
+                                    }}
+                                  >
+                                    <div className={styles.faqIcon}>
+                                      <Icon
+                                        image={
+                                          this.state.parentIssueType ==
+                                          faq.FAQHeader
+                                            ? `${require("../components/img/" +
+                                                faq.image.split(".")[0] +
+                                                "active" +
+                                                ".svg")}`
+                                            : `${require("../components/img/" +
+                                                faq.image.split(".")[0] +
+                                                ".svg")}`
+                                        }
+                                        width={33}
+                                        height={33}
+                                      />
+                                    </div>
+                                    <div className={styles.faqHederBox}>
+                                      <div
+                                        className={[
+                                          styles.faqHeader,
+                                          this.state.parentIssueType ==
+                                          faq.FAQHeader
+                                            ? styles.colorRed
+                                            : null
+                                        ].join(" ")}
+                                      >
+                                        {faq.FAQHeader.replace("&amp;", "&")}
+                                      </div>
+                                      <div className={styles.faqSubheading}>
+                                        {faq.FAQSubHeader.includes("&amp;")
+                                          ? faq.FAQSubHeader.replace(
+                                              /&amp;/g,
+                                              "&"
+                                            )
+                                          : faq.FAQSubHeader}
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={styles.formHolder}>
+                        <CustomerIssue
+                          customerQueriesOtherIssueData={
+                            customerQueriesOtherIssueData
+                          }
+                          selectedOrder={
+                            this.props.selectedOrderDetails || null
+                          }
+                          orderList={this.state.orderList}
+                          isOrderDatails={this.state.isOrderDatails}
+                          moreHelps={() => this.moreHelps()}
+                          ordersTransactionData={ordersTransactionData}
+                          questionsList={this.state.questionList}
+                          selectQuestion={(listOfIssue, index) =>
+                            this.selectQuestion(listOfIssue, index)
+                          }
+                          showFeedBack={this.state.showFeedBack}
+                          question={this.state.question}
+                          getOrderRelatedQuestions={(orderData, product) =>
+                            this.getOrderRelatedQuestions(orderData, product)
+                          }
+                          orderRelatedQuestionsStatus={
+                            orderRelatedQuestionsStatus
+                          }
+                          isQuesryForm={this.state.isQuesryForm}
+                          uploadUserFile={(issueType, title, file) =>
+                            this.props.uploadUserFile(issueType, title, file)
+                          }
+                          feedBackHelpFull={() => this.feedBackHelpFull()}
+                          isAnswerHelpFull={this.state.isAnswerHelpFull}
+                          uploadedAttachments={this.state.uploadedAttachments}
+                          userDetails={this.props.userDetails}
+                          submitCustomerForms={formaData =>
+                            this.submitCustomerForms(formaData)
+                          }
+                          displayToast={message =>
+                            this.props.displayToast(message)
+                          }
+                          customerQueriesField={customerQueriesField}
+                          getCustomerQueriesFields={(
+                            webFormTemplate,
+                            isIssueOptions
+                          ) =>
+                            this.getCustomerQueriesFields(
+                              webFormTemplate,
+                              isIssueOptions
+                            )
+                          }
+                          orderRelatedQuestion={this.state.orderRelatedQuestion}
+                          otherQuestion={this.state.otherQuestion}
+                          FAQquestion={this.state.FAQquestion}
+                          selectOtehrQuestion={selectedOtehrQuestion =>
+                            this.selectOtehrQuestion(selectedOtehrQuestion)
+                          }
+                          parentIssueType={this.state.parentIssueType}
+                          orderAllList={this.state.orderAllList}
+                          showAllOrdersList={() => this.showAllOrdersList()}
+                          hideAllOrder={() => this.hideAllOrder()}
+                          questionType={this.state.questionType}
+                          isUserLogin={isUserLogin}
+                          navigateLogin={() => this.navigateLogin()}
+                          getMoreOrder={() => this.getMoreOrder()}
+                          showQuestionList={this.state.showQuestionList}
+                          sendInvoice={(ussid, sellerOrderNo) => {
+                            this.sendInvoice(ussid, sellerOrderNo);
+                          }}
+                          navigatePreviousPage={() =>
+                            this.navigatePreviousPage()
+                          }
+                          navigateHomePage={() => this.navigateHomePage()}
+                          updateThanks={() => this.updateThanks()}
+                          navigateCliqCarePage={() =>
+                            this.navigateCliqCarePage()
+                          }
+                          slectOrderData={this.state.slectOrderData}
+                          isCallMeBackForm={this.state.isCallMeBackForm}
+                          isScheduleACall={this.state.isScheduleACall}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </React.Fragment>
             )}
           </DesktopOnly>
         </div>
