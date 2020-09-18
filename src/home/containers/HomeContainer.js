@@ -39,7 +39,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(clearProductModuleRef());
     },
     getWishlist: () => {
-      return dispatch(getWishlist());
+      dispatch(getWishlist());
     }
   };
 };
@@ -65,6 +65,7 @@ const mapStateToProps = state => {
     feedType: HOME_FEED_TYPE,
     clickedElementId: state.feed.clickedElementId,
     pageSize: state.feed.pageSize,
+    wishlistProductId: state.wishlistItems.wishlistProductId,
     isHomePage: true
   };
 };

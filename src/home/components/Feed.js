@@ -482,7 +482,10 @@ class Feed extends Component {
 
     return (
       typeComponentMapping[feedDatum.type] && (
-        <WidgetContainer {...props} wishListedItem={this.state.wishListedItem}>
+        <WidgetContainer
+          {...props}
+          wishListedItem={this.props.wishlistProductId}
+        >
           {typeComponentMapping[feedDatum.type] &&
             typeComponentMapping[feedDatum.type]}
         </WidgetContainer>
@@ -499,7 +502,7 @@ class Feed extends Component {
     );
   }
 
-  async componentWillMount() {
+  componentWillMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!userDetails) {
@@ -517,16 +520,7 @@ class Feed extends Component {
     }
     if (userDetails && customerCookie && this.props.getWishlist) {
       // this.props.getWishListItems();
-      //this.props.getWishlist();
-      let wishListedItem = await this.props.getWishlist();
-      if (
-        wishListedItem &&
-        wishListedItem.status === "success" &&
-        wishListedItem.wishlist &&
-        wishListedItem.wishlist.productList
-      ) {
-        this.setState({ wishListedItem: wishListedItem.wishlist.productList });
-      }
+      this.props.getWishlist();
     }
     if (this.props.clickedElementId) {
       delay(() => {

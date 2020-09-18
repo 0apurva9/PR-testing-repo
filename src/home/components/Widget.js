@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { SUCCESS } from "../../lib/constants";
 
 export default class Widget extends React.Component {
-  componentDidMount() {
+  async componentDidMount() {
     if (
       this.props.feedComponentData.fetchURL &&
       this.props.feedComponentData.status !== SUCCESS
@@ -27,11 +27,10 @@ export default class Widget extends React.Component {
       this.props.msdAbcComponents();
     } else if (this.props.feedComponentData.type === "AutoWishlist") {
       if (this.props.wishListedItem) {
-        let wishListedProductIds = this.props.wishListedItem.map(product => {
+        const wishListedProductIds = this.props.wishListedItem.map(product => {
           return product.productCode;
         });
-        this.props.autoWishlistComponent(wishListedProductIds);
-        console.log("wishlisted products=========", wishListedProductIds);
+        await this.props.autoWishlistComponent(wishListedProductIds);
       }
     }
   }

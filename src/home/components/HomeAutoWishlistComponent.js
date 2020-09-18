@@ -44,7 +44,7 @@ class HomeAutoWishlistComponent extends React.Component {
     this.selector = React.createRef();
   }
 
-  goToProductDescription = (url, items, widgetName, index) => {
+  goToProductDescription = url => {
     this.props.history.push(url);
   };
 
