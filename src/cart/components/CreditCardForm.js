@@ -8,6 +8,11 @@ import cardValidator from "simple-card-validator";
 import styles from "./CreditCardForm.css";
 import MobileOnly from "../../general/components/MobileOnly";
 import { BANK_GATWAY_DOWN } from "../../lib/constants";
+import {
+  WHATSAPP_NOTIFICATION_CHECKED,
+  WHATSAPP_NOTIFICATION_UNCHECKED,
+  getWhatsAppNotification
+} from "../../lib/adobeUtils";
 const MINIMUM_YEARS_TO_SHOW = 0;
 const MAXIMUM_YEARS_TO_SHOW = 19;
 const REGX_FOR_WHITE_SPACE = /\W/gi;
@@ -85,25 +90,30 @@ export default class CreditCardForm extends React.Component {
   onChangeCardNumber(val) {
     this.setState({ cardNumber: val });
     this.onChange({ cardNumber: val });
+    let allowEmiEligibleBin = false;
+    if (this.props.isDebitCard == undefined) {
+      allowEmiEligibleBin = true;
+    }
     if (val.replace(/\s/g, "").length < 6) {
       this.setState({ isCalledBinValidation: false });
     }
     if (
-      (val.replace(/\s/g, "").length >= 6 &&
+      ((val.replace(/\s/g, "").length >= 6 &&
         val.replace(/\s/g, "").length -
           this.state.cardNumber.replace(/\s/g, "").length >
           1) ||
-      (val.replace(/\s/g, "").length >= 6 &&
-        val.replace(/\s/g, "").slice(0, 5) !==
-          this.state.cardNumber.replace(/\s/g, "").slice(0, 5) &&
-        this.state.cardNumber !== val)
+        (val.replace(/\s/g, "").length >= 6 &&
+          val.replace(/\s/g, "").slice(0, 5) !==
+            this.state.cardNumber.replace(/\s/g, "").slice(0, 5) &&
+          this.state.cardNumber !== val)) &&
+      allowEmiEligibleBin
     ) {
       this.setState({ isCalledBinValidation: true });
       this.props.binValidation(val.replace(/\s/g, "").substring(0, 6));
     }
     if (val.replace(/\s/g, "").length >= 6) {
       this.setState({ isCalledBinValidation: true });
-      if (!this.state.isCalledBinValidation) {
+      if (!this.state.isCalledBinValidation && allowEmiEligibleBin) {
         this.props.binValidation(val.replace(/\s/g, "").substring(0, 6));
       }
     }
@@ -116,11 +126,11 @@ export default class CreditCardForm extends React.Component {
           .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
           .trim()
       : this.state.cardNumber
-      ? this.state.cardNumber
-          .replace(REGX_FOR_WHITE_SPACE, "")
-          .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
-          .trim()
-      : "";
+        ? this.state.cardNumber
+            .replace(REGX_FOR_WHITE_SPACE, "")
+            .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
+            .trim()
+        : "";
   }
 
   onChange(val) {
@@ -184,6 +194,11 @@ export default class CreditCardForm extends React.Component {
   }
   handleCheckout = () => {
     if (this.props.onCheckout) {
+      if (this.props.whatsappSelected) {
+        getWhatsAppNotification(WHATSAPP_NOTIFICATION_CHECKED);
+      } else if (!this.props.whatsappSelected) {
+        getWhatsAppNotification(WHATSAPP_NOTIFICATION_UNCHECKED);
+      }
       this.props.onCheckout();
     }
   };
@@ -191,6 +206,13 @@ export default class CreditCardForm extends React.Component {
   render() {
     return (
       <div className={styles.base}>
+        {this.props.isDebitCard &&
+          this.props.dCEmiEligibiltyDetails &&
+          this.props.dCEmiEligibiltyDetails.DCEMIEligibleMessage && (
+            <div className={styles.maskedNumber}>
+              {`${this.props.dCEmiEligibiltyDetails.DCEMIEligibleMessage}`}
+            </div>
+          )}
         <div className={styles.cardDetails}>
           <div className={styles.contentHolder}>
             <div className={styles.content}>

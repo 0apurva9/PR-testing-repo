@@ -4,12 +4,18 @@ import {
   getItems,
   msdDiscoverMoreHomeComponents,
   msdAbcComponents,
-  autoWishlistComponent
+  autoWishlistComponent,
+  automatedWidgetsForHome,
+  getTargetMboxData
 } from "../actions/home.actions";
 import { withRouter } from "react-router-dom";
 import Widget from "../components/Widget";
 import { showModal, STORY_MODAL } from "../../general/modal.actions";
-import { SECONDARY_FEED_TYPE } from "../../lib/constants";
+import { followAndUnFollowBrand } from "../../account/actions/account.actions";
+import {
+  SECONDARY_FEED_TYPE,
+  MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW
+} from "../../lib/constants";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getComponentData: (
@@ -47,6 +53,21 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     autoWishlistComponent: productId => {
       dispatch(autoWishlistComponent(productId));
+    },
+    automatedWidgetsForHome: widgetData => {
+      dispatch(automatedWidgetsForHome(widgetData));
+    },
+    getTargetMboxData: async (componentName, pageType, sequence) => {
+      return dispatch(getTargetMboxData(componentName, pageType, sequence));
+    },
+    followAndUnFollowBrand: (brandId, followStatus) => {
+      dispatch(
+        followAndUnFollowBrand(
+          brandId,
+          followStatus,
+          MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW
+        )
+      );
     }
   };
 };
@@ -65,7 +86,10 @@ const mapStateToProps = (state, ownProps) => {
     loadMsdSkeleton: state.feed.loadMsdSkeleton,
     homeMsdData: state.feed.homeMsdData,
     homeAbcMsdData: state.feed.homeAbcMsdData,
-    autoWishList: state.feed.autoWishList
+    autoWishList: state.feed.autoWishList,
+    homeAutoWidget: state.feed.homeAutoWidget,
+    automatedWidgetData: state.feed.automatedWidgetData,
+    targetMboxData: state.feed.targetMboxData
   };
 };
 

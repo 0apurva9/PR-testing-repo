@@ -32,6 +32,10 @@ export default class Widget extends React.Component {
         });
         await this.props.autoWishlistComponent(wishListedProductIds);
       }
+    } else if (this.props.feedComponentData.type === "AutoWidget") {
+      await this.props.automatedWidgetsForHome(
+        this.props.feedComponentData.items[0]
+      );
     }
   }
 

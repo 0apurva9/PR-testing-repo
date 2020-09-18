@@ -13,7 +13,18 @@ import {
   THEME_OFFER_CN,
   MSD_DISCOVER_MORE,
   MSD_AUTOMATED_BRAND_CAROUSEL,
-  AUTO_WISHLIST
+  AUTO_WISHLIST,
+  AUTOMATED_WIDGETS_FOR_HOME,
+  HERO_BANNER_PERSONALISED_COMPONENT,
+  QUICK_LINK_PERSONALISED_COMPONENT,
+  BANK_OFFER_PERSONALISED_COMPONENT,
+  MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT,
+  LUXE_EDITORIAL_PERSONALISED_CAROUSEL,
+  TWO_BY_TWO_PERSONALISED_COMPONENT,
+  LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT,
+  MULTI_BANNER_PERSONALISED_COMPONENT,
+  SUB_HEADER_HERO_BANNER,
+  SUB_HEADER_TWO_BY_TWO
 } from "../../lib/constants";
 
 import { transformFetchingItemsOrder } from "./utils";
@@ -70,7 +81,14 @@ const feed = (
           componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
           componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
           componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
-          componentName === MSD_DISCOVER_MORE
+          componentName === MSD_DISCOVER_MORE ||
+          componentName === AUTOMATED_WIDGETS_FOR_HOME ||
+          componentName === QUICK_LINK_PERSONALISED_COMPONENT ||
+          componentName === BANK_OFFER_PERSONALISED_COMPONENT ||
+          componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
+          componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
+          componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
+          componentName === MULTI_BANNER_PERSONALISED_COMPONENT
         ) {
           componentName = HARD_CODED_KEY_FOR_COMPONENT;
         }
@@ -111,7 +129,21 @@ const feed = (
     case homeActions.HOME_FEED_BACK_UP_SUCCESS:
       if (state.useBackUpHomeFeed) {
         homeFeedClonedData = cloneDeep(action.data);
-
+        //   for (var i in homeFeedClonedData) {
+        //     if (homeFeedClonedData[i].componentName.indexOf("-P") !== -1) {
+        //       if(homeFeedClonedData[i].componentName !== TWO_BY_TWO_PERSONALISED_COMPONENT || homeFeedClonedData[i].componentName !== HERO_BANNER_PERSONALISED_COMPONENT) {
+        //         homeFeedClonedData[i].componentName.HARD_CODED_KEY_FOR_COMPONENT.type = homeFeedClonedData[i].componentName;
+        //       }
+        //       else if(homeFeedClonedData[i].componentName === TWO_BY_TWO_PERSONALISED_COMPONENT) {
+        //         homeFeedClonedData[i].componentName.SUB_HEADER_TWO_BY_TWO.type = homeFeedClonedData[i].componentName;
+        //       }
+        //       else if(homeFeedClonedData[i].componentName === HERO_BANNER_PERSONALISED_COMPONENT){
+        //         homeFeedClonedData[i].componentName.SUB_HEADER_HERO_BANNER.type = homeFeedClonedData[i].componentName
+        //       }
+        //        //break; //Stop this loop, we found it!
+        //     }
+        //   }
+        // console.log("check data ============>", homeFeedClonedData)
         homeFeedData = homeFeedClonedData.map(subData => {
           // we do this because TCS insists on having the data that backs a component have an object that wraps the data we care about.
           let componentName = subData.componentName;
@@ -121,9 +153,22 @@ const feed = (
             componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
             componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
             componentName === MSD_DISCOVER_MORE ||
-            componentName === AUTO_WISHLIST
+            componentName === AUTO_WISHLIST ||
+            componentName === AUTOMATED_WIDGETS_FOR_HOME ||
+            componentName === QUICK_LINK_PERSONALISED_COMPONENT ||
+            componentName === BANK_OFFER_PERSONALISED_COMPONENT ||
+            componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
+            componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
+            componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
+            componentName === MULTI_BANNER_PERSONALISED_COMPONENT
           ) {
             componentName = HARD_CODED_KEY_FOR_COMPONENT;
+          }
+          if (componentName === HERO_BANNER_PERSONALISED_COMPONENT) {
+            componentName = SUB_HEADER_HERO_BANNER;
+          }
+          if (componentName === TWO_BY_TWO_PERSONALISED_COMPONENT) {
+            componentName = SUB_HEADER_TWO_BY_TWO;
           }
           if (componentName === DESKTOP_THEME_OFFER_CN) {
             componentName = THEME_OFFER_CN;
@@ -185,7 +230,14 @@ const feed = (
             componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
             componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
             componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
-            componentName === MSD_DISCOVER_MORE
+            componentName === MSD_DISCOVER_MORE ||
+            componentName === AUTOMATED_WIDGETS_FOR_HOME ||
+            componentName === QUICK_LINK_PERSONALISED_COMPONENT ||
+            componentName === BANK_OFFER_PERSONALISED_COMPONENT ||
+            componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
+            componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
+            componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
+            componentName === MULTI_BANNER_PERSONALISED_COMPONENT
           ) {
             componentName = HARD_CODED_KEY_FOR_COMPONENT;
           }
@@ -246,7 +298,14 @@ const feed = (
         componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
         componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
         componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
-        componentName === MSD_DISCOVER_MORE
+        componentName === MSD_DISCOVER_MORE ||
+        componentName === AUTOMATED_WIDGETS_FOR_HOME ||
+        componentName === QUICK_LINK_PERSONALISED_COMPONENT ||
+        componentName === BANK_OFFER_PERSONALISED_COMPONENT ||
+        componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
+        componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
+        componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
+        componentName === MULTI_BANNER_PERSONALISED_COMPONENT
       ) {
         componentName = HARD_CODED_KEY_FOR_COMPONENT;
       }
@@ -382,12 +441,25 @@ const feed = (
           componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
           componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
           componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
-          componentName === MSD_DISCOVER_MORE
+          componentName === MSD_DISCOVER_MORE ||
+          componentName === AUTOMATED_WIDGETS_FOR_HOME ||
+          componentName === QUICK_LINK_PERSONALISED_COMPONENT ||
+          componentName === BANK_OFFER_PERSONALISED_COMPONENT ||
+          componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
+          componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
+          componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
+          componentName === MULTI_BANNER_PERSONALISED_COMPONENT
         ) {
           componentName = HARD_CODED_KEY_FOR_COMPONENT;
         }
         if (componentName === DESKTOP_THEME_OFFER_CN) {
           componentName = THEME_OFFER_CN;
+        }
+        if (componentName === HERO_BANNER_PERSONALISED_COMPONENT) {
+          componentName = SUB_HEADER_HERO_BANNER;
+        }
+        if (componentName === TWO_BY_TWO_PERSONALISED_COMPONENT) {
+          componentName = SUB_HEADER_TWO_BY_TWO;
         }
         if (!action.isMsd) {
           toUpdate = action.data[componentName];
@@ -466,6 +538,73 @@ const feed = (
       return Object.assign({}, state, {
         loadMsdSkeleton: false,
         autoWishList: action.productList
+      });
+
+    case homeActions.AUTOMATED_WIDGET_HOME_REQUEST:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: true
+      });
+    case homeActions.AUTOMATED_WIDGET_ITEM_REQUEST:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: true
+      });
+    case homeActions.AUTOMATED_MSD_WIDGET_ITEM_DATA:
+      const msdWidgetRecommendedItems = { ...state.automatedWidgetData };
+      msdWidgetRecommendedItems[action.widgetName] = action.automatedData;
+      return Object.assign({}, state, {
+        loadMsdSkeleton: true,
+        automatedWidgetData: msdWidgetRecommendedItems
+      });
+    case homeActions.AUTOMATED_WIDGET_HOME_SUCCESS:
+      const newMsdRecommendedItems = { ...state.homeAutoWidget };
+      let check = {};
+      if (
+        action.widgetKey === "4" ||
+        action.widgetKey === "114" ||
+        action.widgetKey === "0"
+      ) {
+        if (newMsdRecommendedItems) {
+          const filtered = Object.keys(newMsdRecommendedItems).filter(
+            key => key === action.widgetKey
+          );
+          if (filtered && Array.isArray(filtered) && filtered.length > 0) {
+            check[action.productCode] = action.homeAutoWidgetData;
+            newMsdRecommendedItems[action.widgetKey] = {
+              ...check,
+              ...state.homeAutoWidget[action.widgetKey]
+            };
+          } else {
+            check[action.productCode] = action.homeAutoWidgetData;
+            newMsdRecommendedItems[action.widgetKey] = check;
+          }
+        } else {
+          check[action.productCode] = action.homeAutoWidgetData;
+          newMsdRecommendedItems[action.widgetKey] = check;
+        }
+      } else {
+        check[action.productCode] = action.homeAutoWidgetData;
+        newMsdRecommendedItems[action.widgetKey] = check;
+      }
+      return Object.assign({}, state, {
+        loadMsdSkeleton: true,
+        homeAutoWidget: newMsdRecommendedItems,
+        widgetName: action.widgetName
+      });
+    case homeActions.TARGET_MBOX_SUCCESS:
+      let mboxData = action.dataMboxHome;
+      const targetMbox = { ...state.targetMboxData, ...mboxData };
+      return Object.assign({}, state, {
+        targetMboxData: targetMbox
+      });
+    case homeActions.MSD_PRODUCT_ABC_DATA_SUCCESS:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: false,
+        productListABC: action.productData
+      });
+    case homeActions.MSD_HOME_ABC_COMPONENT_REQUEST:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: true,
+        loading: false
       });
 
     default:

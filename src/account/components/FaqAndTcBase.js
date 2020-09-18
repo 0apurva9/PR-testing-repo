@@ -13,6 +13,8 @@ import {
   FAQ,
   TC
 } from "../../lib/adobeUtils";
+import PropTypes from "prop-types";
+
 export default class FaqAndTcBase extends Component {
   redirectPage = type => {
     let url = "";
@@ -32,6 +34,27 @@ export default class FaqAndTcBase extends Component {
     return (
       <div className={styles.faqAndTcBase}>
         <div className={styles.faqAndTcContainer}>
+          <div className={styles.pleaseNoteContainer}>
+            <div className={styles.pleaseNote}>
+              <b>PLEASE NOTE</b>
+            </div>
+            <div className={styles.pleaseNoteBody}>
+              <div className={styles.marginBottom}>
+                CLiQ Cash can't be cancelled or transferred to another account.
+              </div>
+              <div className={styles.marginBottom}>
+                It can't be withdrawn in the form of cash or transferred to any
+                bank account. It can't be used to purchase Gift Cards.
+              </div>
+              <div className={styles.marginBottom}>
+                Net-banking and credit/debit cards issued in India can be used
+                for CLiq Credit top up.
+              </div>
+              <div className={styles.marginBottom}>
+                CLiQ Cash has an expiration date. Check FAQs for details.
+              </div>
+            </div>
+          </div>
           <div
             className={styles.faqOptionWrapper}
             onClick={() => this.redirectPage(FAQ)}
@@ -56,3 +79,7 @@ export default class FaqAndTcBase extends Component {
     );
   }
 }
+
+FaqAndTcBase.propTypes = {
+  history: PropTypes.object
+};

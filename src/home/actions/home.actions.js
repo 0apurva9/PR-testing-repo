@@ -6,7 +6,15 @@ import {
   SECONDARY_FEED_TYPE,
   HOME_FEED_TYPE,
   CUSTOMER_ACCESS_TOKEN,
-  LOGGED_IN_USER_DETAILS
+  LOGGED_IN_USER_DETAILS,
+  QUICK_LINK_PERSONALISED_COMPONENT,
+  BANK_OFFER_PERSONALISED_COMPONENT,
+  MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT,
+  LUXE_EDITORIAL_PERSONALISED_CAROUSEL,
+  LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT,
+  MULTI_BANNER_PERSONALISED_COMPONENT,
+  HERO_BANNER_PERSONALISED_COMPONENT,
+  TWO_BY_TWO_PERSONALISED_COMPONENT
 } from "../../lib/constants";
 import each from "lodash.foreach";
 import delay from "lodash.delay";
@@ -60,6 +68,8 @@ export const COMPONENT_DATA_FAILURE = "COMPONENT_DATA_FAILURE";
 export const COMPONENT_BACK_UP_REQUEST = "COMPONENT_BACK_UP_REQUEST";
 export const COMPONENT_BACK_UP_SUCCESS = "COMPONENT_BACK_UP_SUCCESS";
 export const COMPONENT_BACK_UP_FAILURE = "COMPONENT_BACK_UP_FAILURE";
+export const TARGET_MBOX_SUCCESS = "TARGET_MBOX_SUCCESS";
+export const TARGET_MBOX_FAILURE = "TARGET_MBOX_FAILURE";
 export const HOME_FEED_PATH = "homepage";
 export const GET_ITEMS_REQUEST = "GET_SALE_ITEMS_REQUEST";
 export const GET_ITEMS_SUCCESS = "GET_SALE_ITEMS_SUCCESS";
@@ -79,6 +89,19 @@ export const AUTO_WISHLIST_COMPONENT_SUCCESS =
   "AUTO_WISHLIST_COMPONENT_SUCCESS";
 export const AUTO_WISHLIST_COMPONENT_REQUEST =
   "AUTO_WISHLIST_COMPONENT_REQUEST";
+export const AUTOMATED_WIDGET_HOME_REQUEST = "AUTOMATED_WIDGET_HOME_REQUEST";
+export const AUTOMATED_WIDGET_HOME_SUCCESS = "AUTOMATED_WIDGET_HOME_SUCCESS";
+export const AUTOMATED_WIDGET_ITEM_REQUEST = "AUTOMATED_WIDGET_ITEM_REQUEST";
+export const AUTOMATED_MSD_WIDGET_ITEM_DATA = "AUTOMATED_MSD_WIDGET_ITEM_DATA";
+export const ABOUT_THE_BRAND_WIDGET_KEY = "aboutTheBrand";
+export const FREQUENTLY_BOUGHT_TOGETHER_WIDGET_KEY = "FrequentlyBoughtTogether";
+export const SIMILAR_PRODUCTS_WIDGET_KEY = "similarProducts";
+export const TOP_PICKS_FOR_YOU = "TopPicksForYou";
+export const RECENTLY_VIEWED = "RecentlyViewed";
+export const TRENDING_PRODUCTS = "TrendingProducts";
+
+export const MSD_PRODUCT_ABC_DATA_REQUEST = "MSD_PRODUCT_ABC_DATA_REQUEST";
+export const MSD_PRODUCT_ABC_DATA_SUCCESS = "MSD_PRODUCT_ABC_DATA_SUCCESS";
 
 export const CLEAR_ITEMS_FOR_PARTICULAR_POSITION =
   "CLEAR_ITEMS_FOR_PARTICULAR_POSITION";
@@ -112,6 +135,7 @@ const FOLLOW_WIDGET = "Auto Following Brands Component";
 const MULTI_CLICK_COMPONENT = "Multi Click Component";
 const AUTO_PRODUCT_RECOMMENDATION_COMPONENT =
   "Auto Product Recommendation Component";
+const PRODUCT_DESCRIPTION_PATH = "v2/mpl/products/productDetails";
 // TODO Followed Widget
 let ADOBE_TARGET_HOME_FEED_MBOX_NAME, // for local/devxelp/uat2tmpprod
   ADOBE_TARGET_PRODUCTION_HOME_FEED_MBOX_NAME,
@@ -252,29 +276,35 @@ export function getItems(positionInFeed, itemIds, feedType) {
   return async (dispatch, getState, { api }) => {
     dispatch(getItemsRequest(positionInFeed));
     try {
-      // let productCodes;
-      // each(itemIds, itemId => {
-      //   productCodes = `${itemId},${productCodes}`;
-      // });
-      let productCodes = itemIds && itemIds.toString();
-      const url = `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
-      const result = await api.getMiddlewareUrl(url);
-      const resultJson = await result.json();
-
-      if (resultJson.status === "FAILURE") {
-        throw new Error(`${resultJson.message}`);
-      }
+      //let productCodes = itemIds && itemIds.toString();
+      // const url = `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
+      // const result = await api.getMiddlewareUrl(url);
+      // const resultJson = await result.json();
+      let requests =
+        itemIds &&
+        itemIds.map(id =>
+          api.getMiddlewareUrl(
+            `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+          )
+        );
+      //requests for individual calls
+      const results = await Promise.allSettled(requests);
+      const successfulPromises = results.filter(
+        request => request.status === "fulfilled"
+      );
+      const productList = await Promise.all(successfulPromises)
+        .then(response => Promise.all(response.map(r => r.value.json())))
+        .then(respon => respon && respon.results && respon.results[0]);
+      // if (resultJson && resultJson.status === "FAILURE") {
+      //   throw new Error(`${resultJson.message}`);
+      // }
 
       if (feedType === SECONDARY_FEED_TYPE) {
         dispatch(
-          secondaryFeedGetItemsSuccess(
-            positionInFeed,
-            resultJson.results,
-            itemIds
-          )
+          secondaryFeedGetItemsSuccess(positionInFeed, productList, itemIds)
         );
       } else {
-        dispatch(getItemsSuccess(positionInFeed, resultJson.results, itemIds));
+        dispatch(getItemsSuccess(positionInFeed, productList, itemIds));
       }
     } catch (e) {
       if (feedType === SECONDARY_FEED_TYPE) {
@@ -2024,7 +2054,6 @@ export function homeFeedBackUp() {
       if (failureResponse.status) {
         dispatch(new Error(failureResponse.message));
       }
-
       dispatch(homeFeedBackupSuccess(resultJson.items));
     } catch (e) {
       dispatch(homeFeedBackUpFailure(e.message));
@@ -2032,6 +2061,96 @@ export function homeFeedBackUp() {
   };
 }
 
+export function getTargetMboxDataFailure(error) {
+  return {
+    type: TARGET_MBOX_FAILURE,
+    error,
+    status: ERROR
+  };
+}
+
+export function getTargetMboxDataSuccess(dataMboxHome) {
+  return {
+    type: TARGET_MBOX_SUCCESS,
+    status: SUCCESS,
+    dataMboxHome
+  };
+}
+
+export function getTargetMboxData(componentName, sequence, pageType) {
+  return async (dispatch, getState, { api }) => {
+    try {
+      let tntId, mboxSessionIdJson, sessionId;
+      let sessionMbox = Cookie.getCookie("mbox");
+      let componentSequence = componentName;
+      if (sessionMbox) {
+        let splitData = sessionMbox.split("|");
+        mboxSessionIdJson =
+          splitData && splitData[1].includes("session")
+            ? splitData[1].split("#")[1]
+            : splitData[0].split("#")[1];
+        tntId =
+          splitData && splitData[1].includes("PC")
+            ? splitData[1].split("#")[1]
+            : splitData[0].split("#")[1];
+
+        let url = `//tataunistore.tt.omtrdc.net/rest/v1/delivery?client=tataunistore&sessionId=${mboxSessionIdJson}&version=2.1.1`;
+        let payloadData = {
+          context: {
+            channel: "web",
+            screen: {
+              width: window && window.innerWidth,
+              height: window && window.innerHeight
+            },
+            browser: {
+              host: document && document.location && document.location.origin
+            },
+            address: {
+              url: document && document.location && document.location.origin
+            }
+          },
+          id: {
+            tntId: tntId
+          },
+          execute: {
+            pageLoad: {},
+            mboxes: [
+              {
+                index: 0,
+                name: "HomeOOBTest",
+                parameters: {
+                  sequence: sequence,
+                  pageType: pageType,
+                  componentName: componentName
+                }
+              }
+            ]
+          },
+          prefetch: {
+            views: [{}]
+          }
+        };
+        let result = await api.postMsd(url, JSON.stringify(payloadData));
+        let resultJson = await result.json();
+        if (resultJson.errors) {
+          throw new Error(`${resultJson.errors[0].message}`);
+        }
+        let data =
+          resultJson &&
+          resultJson.execute &&
+          resultJson.execute.mboxes &&
+          resultJson.execute.mboxes[0] &&
+          resultJson.execute.mboxes[0].options &&
+          resultJson.execute.mboxes[0].options[0] &&
+          resultJson.execute.mboxes[0].options[0].content;
+        return dispatch(getTargetMboxDataSuccess(data));
+        //}
+      }
+    } catch (e) {
+      dispatch(getTargetMboxDataFailure(e.message));
+    }
+  };
+}
 // this is not simple home feed .it is a general feed like
 // brand feed and category feed  . we need to rename this function name like feed
 // this is also now used for static pages, so the name brandIdOrCategoryId makes less sense
@@ -2441,13 +2560,13 @@ export function msdAbcComponents(fetchURL) {
       postData.append("channel", "pwa");
 
       result = await api.postMsd(`${MSD_ROOT_PATH}/widgets`, postData);
-      resultJson = await result.json();
+      resultJson = (await result) && result.json();
 
       if (result && result.status && result.status === FAILURE) {
         throw new Error(`${result.message}`);
       }
 
-      resultJson = resultJson.data[0];
+      resultJson = resultJson && resultJson.data && resultJson.data[0];
       dispatch(msdAbcComponentsSuccess(resultJson));
     } catch (e) {
       throw new Error(`${e.message}`);
@@ -2487,6 +2606,136 @@ export function msdDiscoverMoreHomeComponents(type) {
         data: discoverMoreresultJson && discoverMoreresultJson.data
       };
       dispatch(msdHomeComponentsSuccess(data.data));
+    } catch (e) {
+      throw new Error(`${e.message}`);
+    }
+  };
+}
+export function automatedWidgetsForHomeSuccess(
+  homeAutoWidgetData,
+  widgetKey,
+  productCode
+) {
+  return {
+    type: AUTOMATED_WIDGET_HOME_SUCCESS,
+    status: SUCCESS,
+    homeAutoWidgetData,
+    widgetKey,
+    productCode
+  };
+}
+export function automatedWidgetsForHomeRequest() {
+  return {
+    type: AUTOMATED_WIDGET_HOME_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getAutomatedWidgetsItemsRequest() {
+  return {
+    type: AUTOMATED_WIDGET_ITEM_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getWidgetsData(automatedData, widgetName) {
+  return {
+    type: AUTOMATED_MSD_WIDGET_ITEM_DATA,
+    status: SUCCESS,
+    automatedData,
+    widgetName
+  };
+}
+
+export function getAutomatedWidgetsItems(itemIds, widgetKey, productCode) {
+  return async (dispatch, getState, { api }) => {
+    try {
+      dispatch(getAutomatedWidgetsItemsRequest());
+      let productCodes;
+      productCodes = itemIds;
+
+      let requests =
+        productCodes &&
+        productCodes.map(id =>
+          api.getMiddlewareUrl(
+            `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+          )
+        );
+      //requests for individual calls
+      let productList = [];
+      const results = await Promise.allSettled(requests);
+      const successfulPromises = results.filter(
+        request => request.status === "fulfilled"
+      );
+      let productListWithStatus = await Promise.all(successfulPromises).then(
+        response =>
+          Promise.all(response.map(r => r && r.value && r.value.json()))
+      );
+      productListWithStatus &&
+        productListWithStatus.map(product => {
+          if (product.status === "Success" && product.results) {
+            productList.push(product.results[0]);
+          }
+        });
+      if (Array.isArray(productList) && productList.length > 0) {
+        dispatch(
+          automatedWidgetsForHomeSuccess(productList, widgetKey, productCode)
+        );
+      }
+    } catch (e) {
+      throw new Error(`${e.message}`);
+    }
+  };
+}
+
+export function automatedWidgetsForHome(widgetData) {
+  return async (dispatch, getState, { api }) => {
+    try {
+      dispatch(automatedWidgetsForHomeRequest());
+      let data;
+      let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+      if (userDetails) {
+        userDetails = JSON.parse(userDetails);
+      }
+
+      let msdWidgetData = new FormData();
+      msdWidgetData.append("api_key", api_key);
+      msdWidgetData.append("widget_list", widgetData.webURL);
+      msdWidgetData.append("num_results", widgetData.btnText);
+      msdWidgetData.append("mad_uuid", await getMcvId());
+      msdWidgetData.append("details", false);
+      if (userDetails && userDetails.customerId) {
+        msdWidgetData.append("user_id", userDetails.customerId);
+      }
+      msdWidgetData.append("product_id", widgetData.hexCode.toUpperCase());
+      // msdWidgetData.append("filters", widgetData.description);
+      // msdWidgetData.append("fields", widgetData.title);
+      // msdWidgetData.append("channel", "pwa");
+      const msdWidgetDataResult = await api.postMsd(
+        `${MSD_ROOT_PATH}/widgets`,
+        msdWidgetData
+      );
+      const msdWidgetDataJson = await msdWidgetDataResult.json();
+      if (msdWidgetDataJson.status === FAILURE) {
+        throw new Error(`${msdWidgetDataJson.message}`);
+      }
+      if (widgetData.webURL === "114") {
+        data =
+          msdWidgetDataJson &&
+          msdWidgetDataJson.data[0] &&
+          msdWidgetDataJson.data[0].itemIds;
+      } else {
+        data = msdWidgetDataJson && msdWidgetDataJson.data[0];
+      }
+      if (
+        msdWidgetDataJson &&
+        msdWidgetDataJson.data &&
+        Array.isArray(msdWidgetDataJson.data) &&
+        msdWidgetDataJson.status !== "failure"
+      ) {
+        dispatch(getWidgetsData(msdWidgetDataJson.data[0], widgetData.webURL));
+        dispatch(
+          getAutomatedWidgetsItems(data, widgetData.webURL, widgetData.hexCode)
+        );
+      }
     } catch (e) {
       throw new Error(`${e.message}`);
     }
