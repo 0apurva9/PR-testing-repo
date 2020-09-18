@@ -56,7 +56,7 @@ export default class OffersComponent extends React.Component {
                   onClick={e => this.showVoucherOffersModal(e, offers)}
                   className={styles["offers-list-link"]}
                 >
-                  More
+                  See all
                 </a>
               )}
             </div>

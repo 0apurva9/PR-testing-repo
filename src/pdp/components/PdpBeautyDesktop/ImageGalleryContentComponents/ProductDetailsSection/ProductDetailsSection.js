@@ -54,6 +54,13 @@ const DetailsComponent = Loadable({
   }
 });
 
+const SizeComponent = Loadable({
+  loader: () => import("./SizeComponent"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const OffersComponent = Loadable({
   loader: () => import("./OffersComponent"),
   loading() {
@@ -68,6 +75,7 @@ const typeComponentMapping = {
   [RATING_REVIEW_COMPONENT]: props => <RatingsAndReviewsComponent {...props} />,
   [PRICE_COMPONENT]: props => <PriceComponent {...props} />,
   [DETAILS_COMPONENT]: props => <DetailsComponent {...props} />,
+  [SIZE_COMPONENT]: props => <SizeComponent {...props} />,
   [OFFERS_COMPONENT]: props => <OffersComponent {...props} />
 };
 
