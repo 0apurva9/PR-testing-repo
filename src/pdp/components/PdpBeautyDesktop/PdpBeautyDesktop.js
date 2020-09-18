@@ -19,6 +19,7 @@ import {
 import ImageGalleryContentComponent from "./ImageGalleryContentComponents/ImageGalleryContentComponent";
 import BreadCrumbs from "./BreadCrumbsSection/BreadCrumbs";
 import styles from "./PdpBeautyDesktop.css";
+import IngredientsContainer from "./IngredientsSection/IngredientsContainer";
 
 const SECTION_PRODUCT_GUIDE = [];
 const SECTION_INGREDIENTS = [];
@@ -67,6 +68,41 @@ export default class PdpBeautyDesktop extends React.Component {
             }
           });
         });
+
+      const productDetails = this.props.productDetails;
+      const ingredientDetails = productDetails.ingredientDetails
+        ? productDetails.ingredientDetails
+        : [];
+      const sortedIngredient =
+        ingredientDetails &&
+        ingredientDetails.length > 0 &&
+        ingredientDetails.sort((comp1, comp2) => {
+          const pos1 = parseInt(comp1.order);
+          const pos2 = parseInt(comp2.order);
+          if (pos1 && pos2 && pos1 < pos2) {
+            return -1;
+          }
+
+          if (pos1 && pos2 && pos1 > pos2) {
+            return 1;
+          }
+
+          return 0;
+        });
+
+      const allIngredients = this.props.productDetails.otherIngredients
+        ? this.props.productDetails.otherIngredients
+        : [];
+      const notIngredients = this.props.productDetails.ingredientsNotContained
+        ? this.props.productDetails.ingredientsNotContained
+        : [];
+
+      const ingredientData = {
+        sortedIngredient,
+        allIngredients,
+        notIngredients
+      };
+
       return (
         <div className={styles["main-container"]}>
           <div className={styles.container}>
@@ -76,6 +112,14 @@ export default class PdpBeautyDesktop extends React.Component {
             <ImageGalleryContentComponent
               {...this.props}
               compDetails={sectionOfImageAndContentComponent}
+            />
+          </div>
+          <div className={styles.container}>
+            <IngredientsContainer
+              heading={"INGREDIENTS"}
+              ingredientData={ingredientData}
+              compDetails={sectionOfImageAndContentComponent}
+              {...this.props}
             />
           </div>
         </div>
