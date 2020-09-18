@@ -6,6 +6,7 @@ import {
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import styles from "./DesktopCheckout.css";
+import shippingTruck from "../components/img/shipping-truck.svg";
 export default class DesktopCheckout extends React.Component {
   constructor(props) {
     super(props);
@@ -58,6 +59,19 @@ export default class DesktopCheckout extends React.Component {
     if (cartAmount) {
       return (
         <div className={styles.base}>
+          {this.props.shippingPromoMessage &&
+            this.props.shippingPromoMessage !== "" && (
+              <div className={styles.shippingChargeMessage}>
+                <div className={styles.innerShippingMsgDiv}>
+                  <div className={styles.shippingChargeMsgIcon}>
+                    <img src={shippingTruck} alt="shippingTruck" />
+                  </div>
+                  <div className={styles.shippingChargeMsgText}>
+                    {this.props.shippingPromoMessage}
+                  </div>
+                </div>
+              </div>
+            )}
           <div className={styles.section}>
             {cartAmount.bagTotal && (
               <div className={styles.row}>

@@ -157,3 +157,29 @@
   display: inline-block;
   text-align: right;
 }
+
+/**
+* Shipping charge message
+*/
+.shippingChargeMessage {
+  width: 100%;
+  height: auto;
+  padding: 21px 32px 0px 27px;
+}
+.innerShippingMsgDiv {
+  width: 100%;
+  border-bottom: 2px dotted #ececec;
+  height: auto;
+  display: flex;
+  padding-bottom: 12px;
+}
+.shippingChargeMsgText {
+  width: 82%;
+  font-size: 14px;
+  color: #212121;
+  font-family: regular;
+  margin-left: 6px;
+}
+.shippingChargeMsgIcon {
+  width: 12%;
+}

@@ -1187,6 +1187,9 @@ class CartPage extends React.Component {
                               ? true
                               : false
                           }
+                          shippingPromoMessage={
+                            cartDetails.shippingPromoMessage
+                          }
                         />
                       </div>
                     )}
