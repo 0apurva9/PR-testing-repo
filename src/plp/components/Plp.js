@@ -354,6 +354,13 @@ export default class Plp extends React.Component {
         url = url.replace(/\//g, "");
       }
       url = pathname + url;
+    } else if (url.includes("view-all-offers")) {
+      url = url.replace("/view-all-offers", "");
+      let pathname = this.props.location.pathname.replace(PAGE_REGEX, "");
+      if (pathname.charAt(pathname.length - 1).match("/")) {
+        url = url.replace(/\//g, "");
+      }
+      url = pathname + url;
     }
 
     if (colourSlug) {
