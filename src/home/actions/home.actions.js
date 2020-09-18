@@ -379,7 +379,7 @@ export function homeFeedBackUp() {
       //   `v2/mpl/cms/defaultpage?pageId=hp-test&channel=${WCMS_PLATFORM}`
       // );
       let apiUrl = "https://www.tatacliq.com";
-      let url = `${apiUrl}/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=hp-test&channel=${WCMS_PLATFORM}`;
+      let url = `${apiUrl}/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=hp-test&channel=desktop`;
       const result = await fetch(url);
       const resultJson = await result.json();
       // const resultJson = {
