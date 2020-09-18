@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {
   INGREDIENTS_COMPONENT,
   HOW_TO_WEAR_COMPONENT,
+  FROM_THE_BRAND_COMPONENT,
   SECTION_OF_PRODUCT_DESCRIPTION
 } from "../ComponentConstants";
 import Loadable from "react-loadable";
@@ -31,12 +32,22 @@ const HowToWearComponent = Loadable({
   }
 });
 
+const APlusTemplate = Loadable({
+  loader: () => import("./APlusTemplate"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const typeComponentMapping = {
   [INGREDIENTS_COMPONENT]: props => (
     <IngredientsComponents {...props} heading={"INGREDIENTS"} />
   ),
   [HOW_TO_WEAR_COMPONENT]: props => (
     <HowToWearComponent {...props} heading={"HOW TO WEAR"} />
+  ),
+  [FROM_THE_BRAND_COMPONENT]: props => (
+    <APlusTemplate {...props} heading={"FROM THE BRAND"} />
   )
 };
 
