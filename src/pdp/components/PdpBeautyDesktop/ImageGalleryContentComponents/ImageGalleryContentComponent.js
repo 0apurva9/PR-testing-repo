@@ -42,6 +42,12 @@ const ProductDetailsSection = Loadable({
 });
 
 export default class ImageGalleryContentComponent extends React.Component {
+  handleDetailsScroll = () => {
+    if (this.props.handleDetailsScroll) {
+      this.props.handleDetailsScroll();
+    }
+  };
+
   render() {
     const galleryCompDetails =
       this.props.compDetails &&
@@ -68,6 +74,7 @@ export default class ImageGalleryContentComponent extends React.Component {
         <div className={styles["product-details-container"]}>
           <ProductDetailsSection
             {...this.props}
+            handleDetailsScroll={this.handleDetailsScroll}
             productCompDetails={productCompDetails}
           />
         </div>

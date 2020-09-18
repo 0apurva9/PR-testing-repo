@@ -4,6 +4,13 @@ import PropTypes from "prop-types";
 import styles from "./DetailsComponent.css";
 
 export default class DetailsComponent extends React.Component {
+  handleDetailsScroll(e) {
+    e.preventDefault();
+    if (this.props.handleDetailsScroll) {
+      this.props.handleDetailsScroll();
+    }
+  }
+
   render() {
     const productDetails = this.props && this.props.productDetails;
     const stylenotes = productDetails.styleNote;
@@ -14,7 +21,11 @@ export default class DetailsComponent extends React.Component {
           {stylenotes.length > 189 && (
             <div className={styles["what-it-is-desc"]}>
               {`${stylenotes.substring(0, 186)}..`}
-              <a href={""} className={styles["what-it-is-link"]}>
+              <a
+                href={""}
+                onClick={e => this.handleDetailsScroll(e)}
+                className={styles["what-it-is-link"]}
+              >
                 More
               </a>
             </div>
@@ -22,7 +33,11 @@ export default class DetailsComponent extends React.Component {
           {stylenotes.length <= 189 && (
             <div className={styles["what-it-is-desc"]}>
               {`${stylenotes}..`}
-              <a href={""} className={styles["what-it-is-link"]}>
+              <a
+                href={""}
+                onClick={e => this.handleDetailsScroll(e)}
+                className={styles["what-it-is-link"]}
+              >
                 More
               </a>
             </div>
