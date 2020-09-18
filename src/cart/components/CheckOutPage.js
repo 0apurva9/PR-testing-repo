@@ -155,6 +155,7 @@ import {
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import WhatsappUpdates from "./WhatsappUpdates";
 import PaymentConfirmationPage from "./PaymentConfirmationPage";
+import { Redirect } from "react-router-dom";
 const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
 const PAYMENT_MODE = "EMI";
 const NET_BANKING = "NB";
@@ -1210,7 +1211,8 @@ class CheckOutPage extends React.Component {
                 selectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
                 selectedSlaveIdObj[
                   this.state.selectedProductsUssIdForCliqAndPiq
-                ] = product.selectedStoreCNC;
+                ] =
+                  product.selectedStoreCNC;
                 this.setState(
                   {
                     ussIdAndDeliveryModesObj: updatedDeliveryModeUssid,
@@ -1556,11 +1558,21 @@ class CheckOutPage extends React.Component {
     if (nextProps.cart.orderConfirmationDetailsStatus === SUCCESS) {
       window.scrollTo(0, 0);
       this.setState({ orderConfirmation: true, paymentConfirmation: false });
+      if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+        this.continueShopping();
+      } else {
+        console.info("==============This page is not reloaded");
+      }
     }
 
     if (nextProps.cart.getPrepaidOrderPaymentConfirmationStatus === SUCCESS) {
       window.scrollTo(0, 0);
       this.setState({ paymentConfirmation: true, orderConfirmation: false });
+      if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+        this.continueShopping();
+      } else {
+        console.info("==============This page is not reloaded");
+      }
     }
 
     if (
@@ -3394,7 +3406,9 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
+            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
+              this.state.cardDetails.emi_bank
+            } card.`
           });
         } else if (
           binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
@@ -3405,7 +3419,9 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${this.state.cardDetails.selectedBankName} card only.`
+            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${
+              this.state.cardDetails.selectedBankName
+            } card only.`
           });
         } else if (
           this.props.cart &&
@@ -3473,7 +3489,9 @@ if you have order id in local storage then you have to show order confirmation p
       ) {
         this.setState({
           emiBinValidationStatus: true,
-          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
+          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
+            this.state.cardDetails.emi_bank
+          } card.`
         });
       } else {
         this.setState({
