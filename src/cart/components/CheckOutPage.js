@@ -1318,7 +1318,36 @@ class CheckOutPage extends React.Component {
         nextProps.cart.cartDetailsCNC &&
         nextProps.cart.cartDetailsCNC.products
       ) {
-        nextProps.cart.cartDetailsCNC.products.forEach(product => {
+        let allProductsInCart = nextProps.cart.cartDetailsCNC.products;
+        let bundledDigitalProducts =
+          allProductsInCart &&
+          allProductsInCart.filter(value => {
+            return value.bundledDigitalItems;
+          });
+        let allProducts = [];
+        // if main products contains digital product then create new array of products
+        if (bundledDigitalProducts && bundledDigitalProducts.length > 0) {
+          allProductsInCart.map((product, index) => {
+            allProducts.push(product);
+            if (
+              product.bundledDigitalItems &&
+              product.bundledDigitalItems.length > 0
+            ) {
+              product.bundledDigitalItems.map(digitalProduct => {
+                let isProductAlreadyInAllProducts = allProducts.find(value => {
+                  return value.USSID === digitalProduct.USSID;
+                });
+                if (!isProductAlreadyInAllProducts) {
+                  allProducts.push(digitalProduct);
+                }
+              });
+            }
+          });
+        } else {
+          allProducts = allProductsInCart;
+        }
+
+        allProducts.forEach(product => {
           if (
             product.pinCodeResponse &&
             product.pinCodeResponse.isServicable === NO
@@ -2752,14 +2781,45 @@ if you have order id in local storage then you have to show order confirmation p
           !this.checkAvailabilityOfService()
         ) {
           let sizeNew = size(this.state.ussIdAndDeliveryModesObj);
-          let actualProductSize =
+
+          let allProductsInCart =
             this.props &&
             this.props.cart &&
             this.props.cart.cartDetailsCNC &&
-            this.props.cart.cartDetailsCNC.products &&
-            this.props.cart.cartDetailsCNC.products.filter(product => {
-              return product.isGiveAway === NO;
-            }).length;
+            this.props.cart.cartDetailsCNC.products;
+          let bundledDigitalProducts =
+            allProductsInCart &&
+            allProductsInCart.filter(value => {
+              return value.bundledDigitalItems;
+            });
+          let allProducts = [];
+          // if main products contains digital product then create new array of products
+          if (bundledDigitalProducts && bundledDigitalProducts.length > 0) {
+            allProductsInCart.map((product, index) => {
+              allProducts.push(product);
+              if (
+                product.bundledDigitalItems &&
+                product.bundledDigitalItems.length > 0
+              ) {
+                product.bundledDigitalItems.map(digitalProduct => {
+                  let isProductAlreadyInAllProducts = allProducts.find(
+                    value => {
+                      return value.USSID === digitalProduct.USSID;
+                    }
+                  );
+                  if (!isProductAlreadyInAllProducts) {
+                    allProducts.push(digitalProduct);
+                  }
+                });
+              }
+            });
+          } else {
+            allProducts = allProductsInCart;
+          }
+
+          let actualProductSize = allProducts.filter(product => {
+            return product.isGiveAway === NO;
+          }).length;
           if (sizeNew === actualProductSize) {
             this.setState(
               {

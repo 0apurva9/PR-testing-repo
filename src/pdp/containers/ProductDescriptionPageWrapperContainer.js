@@ -19,7 +19,10 @@ import {
   getRelevantBundleProduct,
   relevantProductServibilty,
   relevantBundleProductCode,
-  getExchangeDetails
+  getExchangeDetails,
+  getBundledProductSuggestion,
+  getTotalBundledPrice,
+  addBundledProductsToCart
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -29,7 +32,8 @@ import {
 import { setHeaderText } from "../../general/header.actions";
 import {
   getUserAddress,
-  getMinicartProducts
+  getMinicartProducts,
+  getCartCountForLoggedInUser
 } from "../../cart/actions/cart.actions";
 import {
   showModal,
@@ -321,6 +325,34 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getChatbotDetails: async () => {
       await dispatch(getChatbotDetails());
+    },
+    getBundledProductSuggestion: (
+      productId,
+      ussId,
+      categoryCode,
+      brandCode,
+      source,
+      pincode
+    ) => {
+      dispatch(
+        getBundledProductSuggestion(
+          productId,
+          ussId,
+          categoryCode,
+          brandCode,
+          source,
+          pincode
+        )
+      );
+    },
+    getTotalBundledPrice: data => {
+      dispatch(getTotalBundledPrice(data));
+    },
+    addBundledProductsToCart: data => {
+      dispatch(addBundledProductsToCart(data));
+    },
+    getCartCountForLoggedInUser: () => {
+      dispatch(getCartCountForLoggedInUser());
     }
   };
 };
@@ -362,7 +394,19 @@ const mapStateToProps = state => {
       state.productDescription.checkPincodeDetailsLoading,
     checkPincodeFromHaptikChatbot:
       state.productDescription.checkPincodeFromHaptikChatbot,
-    cartCountDetailsLoading: state.cart.cartCountDetailsLoading
+    cartCountDetailsLoading: state.cart.cartCountDetailsLoading,
+    bundledProductSuggestionDetails:
+      state.productDescription.getBundledProductSuggestionDetails,
+    totalBundledPriceDetails:
+      state.productDescription.getTotalBundledPriceDetails,
+    getTotalBundledPriceLoading:
+      state.productDescription.getTotalBundledPriceLoading,
+    addBundledProductsToCartLoading:
+      state.productDescription.addBundledProductsToCartLoading,
+    addBundledProductsToCartDetails:
+      state.productDescription.addBundledProductsToCartDetails,
+    bundledProductSuggestionStatus:
+      state.productDescription.getBundledProductSuggestionStatus
   };
 };
 

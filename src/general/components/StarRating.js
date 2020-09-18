@@ -83,13 +83,23 @@ export default class StarRating extends React.Component {
         {this.props.isPlp ? (
           <div
             className={
-              ratingCnt > 2.5 ? styles.starRatingHigh : styles.starRatingLow
+              this.props.isFromProductBundling
+                ? ratingCnt > 2.5
+                  ? styles.starRatingHighProductBundling
+                  : styles.starRatingLowProductBundling
+                : ratingCnt > 2.5
+                  ? styles.starRatingHigh
+                  : styles.starRatingLow
             }
           >
             {Math.round(ratingCnt * 10) / 10}
             <img
               src={starFillWhite}
-              className={styles.starFillWhite}
+              className={
+                this.props.isFromProductBundling
+                  ? styles.starFillWhiteProductBundling
+                  : styles.starFillWhite
+              }
               alt="star icon"
             />
           </div>
@@ -97,7 +107,15 @@ export default class StarRating extends React.Component {
           <div className={styles.starHolder}>{starSpans}</div>
         )}
         {this.props.children && (
-          <div className={styles.content}>{this.props.children}</div>
+          <div
+            className={
+              this.props.isFromProductBundling
+                ? styles.contentProductBundling
+                : styles.content
+            }
+          >
+            {this.props.children}
+          </div>
         )}
       </div>
     );
@@ -105,7 +123,8 @@ export default class StarRating extends React.Component {
 }
 StarRating.propTypes = {
   averageRating: PropTypes.number,
-  isPlp: PropTypes.bool
+  isPlp: PropTypes.bool,
+  isFromProductBundling: PropTypes.bool
 };
 StarRating.defaultProps = {
   size: 15

@@ -47,7 +47,11 @@ import {
   ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
   ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE
 } from "../../lib/adobeUtils";
-import { verifyIMEINumber } from "../../pdp/actions/pdp.actions";
+import {
+  verifyIMEINumber,
+  getBundledProductSuggestion,
+  addBundledProductsToCart
+} from "../../pdp/actions/pdp.actions";
 const mapDispatchToProps = dispatch => {
   return {
     displayToast: toastMessage => {
@@ -141,11 +145,35 @@ const mapDispatchToProps = dispatch => {
       );
     },
 
-    removeItemFromCartLoggedIn: (cartListItemPosition, pinCode) => {
-      dispatch(removeItemFromCartLoggedIn(cartListItemPosition, pinCode));
+    removeItemFromCartLoggedIn: (
+      entryNumber,
+      pinCode,
+      mainProductUssid,
+      isForDigitalBundledProduct
+    ) => {
+      dispatch(
+        removeItemFromCartLoggedIn(
+          entryNumber,
+          pinCode,
+          mainProductUssid,
+          isForDigitalBundledProduct
+        )
+      );
     },
-    removeItemFromCartLoggedOut: (cartListItemPosition, pinCode) => {
-      dispatch(removeItemFromCartLoggedOut(cartListItemPosition, pinCode));
+    removeItemFromCartLoggedOut: (
+      entryNumber,
+      pinCode,
+      mainProductUssid,
+      isForDigitalBundledProduct
+    ) => {
+      dispatch(
+        removeItemFromCartLoggedOut(
+          entryNumber,
+          pinCode,
+          mainProductUssid,
+          isForDigitalBundledProduct
+        )
+      );
     },
     getWishListItems: isSetDataLayer => {
       dispatch(getWishListItems(isSetDataLayer));
@@ -220,6 +248,28 @@ const mapDispatchToProps = dispatch => {
     getCartCodeAndGuidForLoggedInUser: async () => {
       return await dispatch(getCartCodeAndGuidForLoggedInUser());
     },
+    getBundledProductSuggestion: (
+      productId,
+      ussId,
+      categoryCode,
+      brandCode,
+      source,
+      pincode
+    ) => {
+      dispatch(
+        getBundledProductSuggestion(
+          productId,
+          ussId,
+          categoryCode,
+          brandCode,
+          source,
+          pincode
+        )
+      );
+    },
+    addBundledProductsToCart: data => {
+      dispatch(addBundledProductsToCart(data));
+    },
     getWishlist: () => {
       dispatch(getWishlist());
     }
@@ -232,7 +282,11 @@ const mapStateToProps = state => {
     user: state.user,
     loginFromMyBag: state.cart.loginFromMyBag,
     loadingForCartDetail: state.cart.loadingForCartDetail,
-    wishListCount: state.wishlistItems.count
+    wishListCount: state.wishlistItems.count,
+    bundledProductSuggestionDetails:
+      state.productDescription.getBundledProductSuggestionDetails,
+    addBundledProductsToCartDetails:
+      state.productDescription.addBundledProductsToCartDetails
   };
 };
 const CartContainer = withRouter(
