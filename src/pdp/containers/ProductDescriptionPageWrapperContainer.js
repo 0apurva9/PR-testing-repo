@@ -21,7 +21,8 @@ import {
   relevantBundleProductCode,
   getExchangeDetails,
   getMasterTemplate,
-  getHowToWear
+  getHowToWear,
+  getMoreFromBrand
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -328,6 +329,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getHowToWear: async categoryId => {
       return await dispatch(getHowToWear(categoryId));
+    },
+    getMoreFromBrand: async productId => {
+      return await dispatch(getMoreFromBrand(productId));
     }
   };
 };
@@ -370,7 +374,10 @@ const mapStateToProps = state => {
     masterTemplateLoading: state.productDescription.masterTemplateLoading,
     howToWearResponse: state.productDescription.howToWearDetails,
     howToWearError: state.productDescription.howToWearError,
-    howToWearLoading: state.productDescription.howToWearLoading
+    howToWearLoading: state.productDescription.howToWearLoading,
+    moreFromBrandResponse: state.productDescription.moreFromBrandDetails,
+    moreFromBrandError: state.productDescription.moreFromBrandError,
+    moreFromBrandLoading: state.productDescription.moreFromBrandLoading
   };
 };
 

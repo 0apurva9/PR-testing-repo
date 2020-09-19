@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import {
   INGREDIENTS_COMPONENT,
   HOW_TO_WEAR_COMPONENT,
+  FROM_THE_BRAND_COMPONENT,
   SECTION_OF_PRODUCT_DESCRIPTION,
+  MORE_FROM_THIS_BRAND_COMPONENT,
   STORY_COMPONENT,
   DETAILS_COMPONENT,
   FROM_THE_BRAND_COMPONENT
@@ -48,6 +50,13 @@ const APlusTemplate = Loadable({
   }
 });
 
+const MoreFromBrand = Loadable({
+  loader: () => import("./MoreFromBrand"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const typeComponentMapping = {
   [STORY_COMPONENT]: (props, descripCompDetails) => {
     const detailsComponentFound = descripCompDetails.filter(
@@ -67,6 +76,9 @@ const typeComponentMapping = {
   ),
   [FROM_THE_BRAND_COMPONENT]: props => (
     <APlusTemplate {...props} heading={"FROM THE BRAND"} />
+  ),
+  [MORE_FROM_THIS_BRAND_COMPONENT]: props => (
+    <MoreFromBrand {...props} heading={"MORE FROM THIS BRAND"} />
   )
 };
 
