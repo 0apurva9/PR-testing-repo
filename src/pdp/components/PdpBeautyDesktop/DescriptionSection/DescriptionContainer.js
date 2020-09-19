@@ -6,6 +6,7 @@ import {
   FROM_THE_BRAND_COMPONENT,
   SECTION_OF_PRODUCT_DESCRIPTION,
   MORE_FROM_THIS_BRAND_COMPONENT,
+  RETURNS_COMPONENT,
   STORY_COMPONENT,
   DETAILS_COMPONENT,
   FROM_THE_BRAND_COMPONENT
@@ -57,6 +58,13 @@ const MoreFromBrand = Loadable({
   }
 });
 
+const NoReturnComponent = Loadable({
+  loader: () => import("./NoReturnComponent"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const typeComponentMapping = {
   [STORY_COMPONENT]: (props, descripCompDetails) => {
     const detailsComponentFound = descripCompDetails.filter(
@@ -79,6 +87,13 @@ const typeComponentMapping = {
   ),
   [MORE_FROM_THIS_BRAND_COMPONENT]: props => (
     <MoreFromBrand {...props} heading={"MORE FROM THIS BRAND"} />
+  ),
+  [RETURNS_COMPONENT]: props => (
+    <NoReturnComponent
+      {...props}
+      heading={"NO RETURNS"}
+      heading2={"MANUFACTURER INFORMATION"}
+    />
   )
 };
 

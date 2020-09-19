@@ -68,6 +68,7 @@ export default class PdpBeautyDesktop extends React.Component {
       this.props.getMoreFromBrand(productId);
     }
     this.props.getMasterTemplate();
+    this.props.getManufacturerDetails();
     this.props.getPdpOffers();
   };
 
