@@ -320,7 +320,7 @@ export function getMasterTemplate(categoryId) {
     dispatch(getMasterTemplateRequest());
     try {
       const result = await api.customGetMiddlewareUrl(
-        `/otatacliq/getApplicationProperties.json?propertyNames=${categoryId}`
+        `/otatacliq/getApplicationProperties.json?propertyNames=${categoryId}_desktop`
       );
       const resultJson = await result.json();
       const value =
