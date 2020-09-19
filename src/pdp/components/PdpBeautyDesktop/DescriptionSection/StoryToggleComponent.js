@@ -10,29 +10,33 @@ export default class StoryToggleComponent extends Component {
       <React.Fragment>
         <div className={styles["details-sections"]}>
           <div className={styles["perfume-guide-sec"]}>
-            {this.props.shortStorySmallContent.map((el, i) => (
-              <div key={i} className={styles["perfume-guide-blocks"]}>
-                <div
-                  className={styles["perfume-guide-img"]}
-                  style={{ backgroundImage: `url(${el.imageURL})` }}
-                ></div>
-                <div className={styles["perfume-guide-heading"]}>{el.key}</div>
-              </div>
-            ))}
+            {this.props.shortStorySmallContent &&
+              this.props.shortStorySmallContent.map((el, i) => (
+                <div key={i} className={styles["perfume-guide-blocks"]}>
+                  <div
+                    className={styles["perfume-guide-img"]}
+                    style={{ backgroundImage: `url(${el.imageURL})` }}
+                  ></div>
+                  <div className={styles["perfume-guide-heading"]}>
+                    {el.key}
+                  </div>
+                </div>
+              ))}
           </div>
           <div className={styles["perfume-note-section"]}>
-            {this.props.shortStoryLargeContentSorted.map((el, i) => (
-              <div key={i} className={styles["perfume-note-block"]}>
-                <div
-                  className={styles["perfume-note-img"]}
-                  style={{ backgroundImage: `url(${el.imageURL})` }}
-                ></div>
-                <div className={styles["perfume-note-head"]}>{el.key}</div>
-                <div className={styles["perfume-note-desc"]}>
-                  {el.description}
+            {this.props.shortStoryLargeContentSorted &&
+              this.props.shortStoryLargeContentSorted.map((el, i) => (
+                <div key={i} className={styles["perfume-note-block"]}>
+                  <div
+                    className={styles["perfume-note-img"]}
+                    style={{ backgroundImage: `url(${el.imageURL})` }}
+                  ></div>
+                  <div className={styles["perfume-note-head"]}>{el.key}</div>
+                  <div className={styles["perfume-note-desc"]}>
+                    {el.description}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
         {this.props.detailsComponent && (

@@ -54,7 +54,7 @@ export default class PdpBeautyDesktop extends React.Component {
     const categoryHierarchy = this.props.productDetails.categoryHierarchy
       ? this.props.productDetails.categoryHierarchy
       : [];
-    let categoryId;
+    let categoryId, masterCategoryId;
     if (categoryHierarchy.length > 0) {
       categoryId = categoryHierarchy[categoryHierarchy.length - 1].category_id;
     }
@@ -75,14 +75,13 @@ export default class PdpBeautyDesktop extends React.Component {
     if (brandId) {
       this.props.getAboutTheBrand(brandId);
     }
-    const brandId = this.props.productDetails.brandURL
-      .split("-")
-      .slice(-1)[0]
-      .toUpperCase();
-    if (brandId) {
-      this.props.getAboutTheBrand(brandId);
+
+    if (categoryHierarchy.length > 0) {
+      masterCategoryId = categoryHierarchy[2].category_id;
     }
-    this.props.getMasterTemplate();
+    if (masterCategoryId) {
+      this.props.getMasterTemplate(masterCategoryId);
+    }
     this.props.getManufacturerDetails();
     this.props.getPdpOffers();
   };

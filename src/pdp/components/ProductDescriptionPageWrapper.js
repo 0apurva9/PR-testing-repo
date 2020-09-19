@@ -423,7 +423,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
             this.props.productDetails.categoryHierarchy;
           let beautyCategory = [];
           beautyCategory = categoryHierarchy.filter(
-            hierarchy => hierarchy.category_id === "MSH22"
+            hierarchy => hierarchy.category_id.toLowerCase() === "msh25"
           );
           if (beautyCategory.length > 0) {
             return <PdpBeautyDesktop {...this.props} />;

@@ -1,6 +1,7 @@
 .gallery-content-container {
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 50px;
 }
 
 .gallery-container {

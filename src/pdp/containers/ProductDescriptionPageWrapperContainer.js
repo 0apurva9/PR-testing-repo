@@ -326,8 +326,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getChatbotDetails: async () => {
       await dispatch(getChatbotDetails());
     },
-    getMasterTemplate: async () => {
-      return await dispatch(getMasterTemplate());
+    getMasterTemplate: async categoryId => {
+      return await dispatch(getMasterTemplate(categoryId));
     },
     getHowToWear: async categoryId => {
       return await dispatch(getHowToWear(categoryId));

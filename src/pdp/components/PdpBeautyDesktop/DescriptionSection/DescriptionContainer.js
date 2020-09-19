@@ -10,8 +10,7 @@ import {
   ABOUT_THE_BRAND_COMPONENT,
   SIMILAR_BRANDS_COMPONENT,
   STORY_COMPONENT,
-  DETAILS_COMPONENT,
-  FROM_THE_BRAND_COMPONENT
+  DETAILS_COMPONENT
 } from "../ComponentConstants";
 import Loadable from "react-loadable";
 import SecondaryLoader from "../../../../general/components/SecondaryLoader";

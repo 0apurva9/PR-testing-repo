@@ -39,7 +39,9 @@ export default class NoReturnComponent extends Component {
         <div className={styles.container}>
           <div
             className={
-              this.state.isReturnOpen && !this.props.manufacturerDetails
+              this.state.isReturnOpen &&
+              !this.props.manufacturerDetails &&
+              Object.keys(this.props.manufacturerDetails).length === 0
                 ? styles["return-component"]
                 : styles["return-component-hide-padding"]
             }
@@ -69,80 +71,85 @@ export default class NoReturnComponent extends Component {
                 </div>
               </Collapse>
             </div>
-            {this.props.manufacturerDetails && (
-              <div className={styles["manufacture-all-ingre-sec"]}>
-                <div
-                  className={styles.holder}
-                  onClick={() => {
-                    this.manufactureOpenMenu();
-                  }}
-                >
-                  <div className={styles["manufacture-heading"]}>
-                    {this.props.heading2}
+            {this.props.manufacturerDetails &&
+              Object.keys(this.props.manufacturerDetails).length > 0 && (
+                <div className={styles["manufacture-all-ingre-sec"]}>
+                  <div
+                    className={styles.holder}
+                    onClick={() => {
+                      this.manufactureOpenMenu();
+                    }}
+                  >
+                    <div className={styles["manufacture-heading"]}>
+                      {this.props.heading2}
+                    </div>
+                    <div className={manufacIconActive} />
                   </div>
-                  <div className={manufacIconActive} />
+                  <Collapse isOpened={this.state.isManufactureOpen}>
+                    <Fragment>
+                      <div className={styles["manufacture-col"]}>
+                        {this.props.manufacturerDetails.countryOfOrigin && (
+                          <Fragment>
+                            <span className={styles["manufacture-head"]}>
+                              Country Of Origin:
+                            </span>
+                            <span>
+                              {this.props.manufacturerDetails.countryOfOrigin}
+                            </span>
+                          </Fragment>
+                        )}
+                      </div>
+                      <div className={styles["manufacture-col"]}>
+                        {this.props.manufacturerDetails.manufacturer &&
+                          this.props.manufacturerDetails.manufacturer.length >
+                            0 && (
+                            <Fragment>
+                              <span className={styles["manufacture-head"]}>
+                                Manufacturer's Details:
+                              </span>
+                              <span>
+                                {
+                                  this.props.manufacturerDetails.manufacturer[0]
+                                    .value
+                                }
+                              </span>
+                            </Fragment>
+                          )}
+                      </div>
+                      <div className={styles["manufacture-col"]}>
+                        {this.props.manufacturerDetails.packer &&
+                          this.props.manufacturerDetails.packer.length > 0 && (
+                            <Fragment>
+                              <span className={styles["manufacture-head"]}>
+                                Packer's Details:
+                              </span>
+                              <span>
+                                {this.props.manufacturerDetails.packer[0].value}
+                              </span>
+                            </Fragment>
+                          )}
+                      </div>
+                      <div className={styles["manufacture-col"]}>
+                        {this.props.manufacturerDetails.importer &&
+                          this.props.manufacturerDetails.importer.length >
+                            0 && (
+                            <Fragment>
+                              <span className={styles["manufacture-head"]}>
+                                Importer's Details:
+                              </span>
+                              <span>
+                                {
+                                  this.props.manufacturerDetails.importer[0]
+                                    .value
+                                }
+                              </span>
+                            </Fragment>
+                          )}
+                      </div>
+                    </Fragment>
+                  </Collapse>
                 </div>
-                <Collapse isOpened={this.state.isManufactureOpen}>
-                  <Fragment>
-                    <div className={styles["manufacture-col"]}>
-                      {this.props.manufacturerDetails.countryOfOrigin && (
-                        <Fragment>
-                          <span className={styles["manufacture-head"]}>
-                            Country Of Origin:
-                          </span>
-                          <span>
-                            {this.props.manufacturerDetails.countryOfOrigin}
-                          </span>
-                        </Fragment>
-                      )}
-                    </div>
-                    <div className={styles["manufacture-col"]}>
-                      {this.props.manufacturerDetails.manufacturer &&
-                        this.props.manufacturerDetails.manufacturer.length >
-                          0 && (
-                          <Fragment>
-                            <span className={styles["manufacture-head"]}>
-                              Manufacturer's Details:
-                            </span>
-                            <span>
-                              {
-                                this.props.manufacturerDetails.manufacturer[0]
-                                  .value
-                              }
-                            </span>
-                          </Fragment>
-                        )}
-                    </div>
-                    <div className={styles["manufacture-col"]}>
-                      {this.props.manufacturerDetails.packer &&
-                        this.props.manufacturerDetails.packer.length > 0 && (
-                          <Fragment>
-                            <span className={styles["manufacture-head"]}>
-                              Packer's Details:
-                            </span>
-                            <span>
-                              {this.props.manufacturerDetails.packer[0].value}
-                            </span>
-                          </Fragment>
-                        )}
-                    </div>
-                    <div className={styles["manufacture-col"]}>
-                      {this.props.manufacturerDetails.importer &&
-                        this.props.manufacturerDetails.importer.length > 0 && (
-                          <Fragment>
-                            <span className={styles["manufacture-head"]}>
-                              Importer's Details:
-                            </span>
-                            <span>
-                              {this.props.manufacturerDetails.importer[0].value}
-                            </span>
-                          </Fragment>
-                        )}
-                    </div>
-                  </Fragment>
-                </Collapse>
-              </div>
-            )}
+              )}
           </div>
         </div>
       </Fragment>

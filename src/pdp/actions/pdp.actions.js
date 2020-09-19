@@ -315,14 +315,19 @@ export function getProductDescription(
   };
 }
 
-export function getMasterTemplate() {
+export function getMasterTemplate(categoryId) {
   return async (dispatch, getState, { api }) => {
     dispatch(getMasterTemplateRequest());
     try {
       const result = await api.customGetMiddlewareUrl(
-        "/otatacliq/getApplicationProperties.json?propertyNames=MSH2233100"
+        `/otatacliq/getApplicationProperties.json?propertyNames=${categoryId}`
       );
       const resultJson = await result.json();
+      const value =
+        resultJson &&
+        resultJson.applicationProperties[0] &&
+        JSON.parse(resultJson.applicationProperties[0].value);
+      const finalJson = { name: categoryId, value };
 
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
@@ -330,13 +335,7 @@ export function getMasterTemplate() {
         throw new Error(resultJsonStatus.message);
       }
 
-      return dispatch(
-        getMasterTemplateSuccess(
-          resultJson &&
-            resultJson.applicationProperties &&
-            resultJson.applicationProperties[0]
-        )
-      );
+      return dispatch(getMasterTemplateSuccess(finalJson));
     } catch (error) {
       dispatch(getMasterTemplateFailure(error.message));
     }
