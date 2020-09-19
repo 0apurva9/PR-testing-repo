@@ -23,7 +23,8 @@ import {
   getMasterTemplate,
   getHowToWear,
   getMoreFromBrand,
-  getAboutTheBrand
+  getAboutTheBrand,
+  getSimilarProduct
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -336,6 +337,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getAboutTheBrand: async mshId => {
       return await dispatch(getAboutTheBrand(mshId));
+    },
+    getSimilarProduct: async productId => {
+      return await dispatch(getSimilarProduct(productId));
     }
   };
 };
@@ -384,7 +388,10 @@ const mapStateToProps = state => {
     moreFromBrandLoading: state.productDescription.moreFromBrandLoading,
     aboutTheBrandResponse: state.productDescription.aboutTheBrandDetails,
     aboutTheBrandError: state.productDescription.aboutTheBrandError,
-    aboutTheBrandLoading: state.productDescription.aboutTheBrandLoading
+    aboutTheBrandLoading: state.productDescription.aboutTheBrandLoading,
+    similarProductResponse: state.productDescription.similarProductDetails,
+    similarProductError: state.productDescription.similarProductError,
+    similarProductLoading: state.productDescription.similarProductLoading
   };
 };
 

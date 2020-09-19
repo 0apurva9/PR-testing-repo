@@ -97,7 +97,11 @@ const productDescription = (
     aboutTheBrandStatus: null,
     aboutTheBrandLoading: false,
     aboutTheBrandDetails: null,
-    aboutTheBrandError: null
+    aboutTheBrandError: null,
+    similarProductStatus: null,
+    similarProductLoading: false,
+    similarProductDetails: null,
+    similarProductError: null
   },
   action
 ) => {
@@ -1181,6 +1185,24 @@ const productDescription = (
         aboutTheBrandStatus: action.status,
         aboutTheBrandError: action.error,
         aboutTheBrandLoading: false
+      });
+
+    case pdpActions.GET_SIMILAR_PRODUCT_REQUEST:
+      return Object.assign({}, state, {
+        similarProductStatus: action.status,
+        similarProductLoading: true
+      });
+    case pdpActions.GET_SIMILAR_PRODUCT_SUCCESS:
+      return Object.assign({}, state, {
+        similarProductStatus: action.status,
+        similarProductDetails: action.similarProductResult,
+        similarProductLoading: false
+      });
+    case pdpActions.GET_SIMILAR_PRODUCT_FAILURE:
+      return Object.assign({}, state, {
+        similarProductStatus: action.status,
+        similarProductError: action.error,
+        similarProductLoading: false
       });
     default:
       return state;

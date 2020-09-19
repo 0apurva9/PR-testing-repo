@@ -157,6 +157,10 @@ export const GET_MORE_FROM_BRAND_REQUEST = "GET_MORE_FROM_BRAND_REQUEST";
 export const GET_MORE_FROM_BRAND_SUCCESS = "GET_MORE_FROM_BRAND_SUCCESS";
 export const GET_MORE_FROM_BRAND_FAILURE = "GET_MORE_FROM_BRAND_FAILURE";
 
+export const GET_SIMILAR_PRODUCT_REQUEST = "GET_SIMILAR_PRODUCT_REQUEST";
+export const GET_SIMILAR_PRODUCT_SUCCESS = "GET_SIMILAR_PRODUCT_SUCCESS";
+export const GET_SIMILAR_PRODUCT_FAILURE = "GET_SIMILAR_PRODUCT_FAILURE";
+
 export const RELEVANT_BUNDLE_PRODUCT_REQUEST =
   "RELEVANT_BUNDLE_PRODUCT_REQUEST";
 export const RELEVANT_BUNDLE_PRODUCT_SUCCESS =
@@ -225,7 +229,7 @@ const MSD_REQUEST_PATH = "widgets";
 const API_KEY = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
 const WIDGET_LIST = [0, 4];
 const WIDGET_LIST_FOR_ABOUT_BRAND = [114];
-const WIDGET_LIST_FOR_MORE_FROM_BRAND = [0];
+const WIDGET_LIST_FOR_SIMILAR_PRODUCT = [0];
 const NUMBER_RESULTS = [10, 10];
 //TPR-9957 for Desktop
 export const PDP_MANUFACTURER_REQUEST = "PDP_MANUFACTURER_REQUEST";
@@ -537,6 +541,92 @@ export function getMoreFromBrandFailure(error) {
 export function getMoreFromBrandRequest() {
   return {
     type: GET_MORE_FROM_BRAND_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getSimilarProduct(productId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getSimilarProductRequest());
+    const mcvId = await getMcvId();
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let msdFormData = new FormData();
+    let userData;
+    if (userDetails) {
+      userData = JSON.parse(userDetails);
+    }
+    msdFormData.append("api_key", API_KEY);
+    msdFormData.append("num_results", JSON.stringify(NUMBER_RESULTS));
+    msdFormData.append("mad_uuid", mcvId);
+    msdFormData.append("details", false);
+    msdFormData.append(
+      "widget_list",
+      JSON.stringify(WIDGET_LIST_FOR_SIMILAR_PRODUCT)
+    );
+    msdFormData.append("product_id", productId);
+    if (userData && userData.customerId) {
+      msdFormData.append("user_id", userData.customerId);
+    }
+
+    try {
+      const similarProduct = await api.postMsd(
+        `${MSD_ROOT_PATH}/widgets`,
+        msdFormData
+      );
+      const similarProductJson = await similarProduct.json();
+      const similarProductJsonStatus = ErrorHandling.getFailureResponse(
+        similarProductJson
+      );
+
+      if (similarProductJsonStatus.status) {
+        throw new Error();
+      }
+
+      let finalProductDetails = null;
+
+      if (similarProductJson.data && similarProductJson.data.length > 0) {
+        let productCode = similarProductJson.data[0].toString();
+        const getProductdetails = await api.getMiddlewareUrl(
+          `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
+        );
+        finalProductDetails = await getProductdetails.json();
+      }
+
+      if (finalProductDetails && finalProductDetails.status === FAILURE) {
+        const finalProductStatus = ErrorHandling.getFailureResponse(
+          finalProductDetails
+        );
+
+        if (finalProductStatus.status) {
+          throw new Error();
+        }
+      }
+      return dispatch(getSimilarProductSuccess(finalProductDetails));
+    } catch (error) {
+      dispatch(getSimilarProductFailure(error.message));
+    }
+  };
+}
+
+export function getSimilarProductSuccess(similarProductResult) {
+  return {
+    type: GET_SIMILAR_PRODUCT_SUCCESS,
+    status: SUCCESS,
+    similarProductResult
+  };
+}
+
+export function getSimilarProductFailure(error) {
+  return {
+    error,
+    type: GET_SIMILAR_PRODUCT_FAILURE,
+    status: ERROR
+  };
+}
+
+export function getSimilarProductRequest() {
+  return {
+    type: GET_SIMILAR_PRODUCT_REQUEST,
     status: REQUESTING
   };
 }

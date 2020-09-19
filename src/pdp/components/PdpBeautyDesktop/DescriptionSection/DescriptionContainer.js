@@ -8,6 +8,7 @@ import {
   MORE_FROM_THIS_BRAND_COMPONENT,
   RETURNS_COMPONENT,
   ABOUT_THE_BRAND_COMPONENT,
+  SIMILAR_BRANDS_COMPONENT,
   STORY_COMPONENT,
   DETAILS_COMPONENT,
   FROM_THE_BRAND_COMPONENT
@@ -73,6 +74,13 @@ const AboutTheBrandComponent = Loadable({
   }
 });
 
+const SimilarProductComponent = Loadable({
+  loader: () => import("./SimiarProductComponent"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const typeComponentMapping = {
   [STORY_COMPONENT]: (props, descripCompDetails) => {
     const detailsComponentFound = descripCompDetails.filter(
@@ -103,7 +111,10 @@ const typeComponentMapping = {
       heading2={"MANUFACTURER INFORMATION"}
     />
   ),
-  [ABOUT_THE_BRAND_COMPONENT]: props => <AboutTheBrandComponent {...props} />
+  [ABOUT_THE_BRAND_COMPONENT]: props => <AboutTheBrandComponent {...props} />,
+  [SIMILAR_BRANDS_COMPONENT]: props => (
+    <SimilarProductComponent {...props} heading={"SIMILAR PRODUCTS"} />
+  )
 };
 
 export default class DescriptionContainer extends Component {
