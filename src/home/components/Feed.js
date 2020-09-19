@@ -239,12 +239,12 @@ const BannerSeparator = Loadable({
     return <div />;
   }
 }); */
-const PreAutomatedBrandProductCarousel = Loadable({
-  loader: () => import("./PreAutomatedBrandProductCarousel.js"),
-  loading() {
-    return <div />;
-  }
-});
+// const PreAutomatedBrandProductCarousel = Loadable({
+//   loader: () => import("./PreAutomatedBrandProductCarousel.js"),
+//   loading() {
+//     return <div />;
+//   }
+// });
 const BannerProductCarousel = Loadable({
   loader: () => import("./BannerProductCarousel.js"),
   loading() {
@@ -305,9 +305,9 @@ export const typeComponentMapping = {
   "Video Product Carousel Component": props => (
     <VideoProductCarousel {...props} />
   ),
-  "Automated Banner Product Carousel Component": props => (
-    <PreAutomatedBrandProductCarousel {...props} />
-  ),
+  // "Automated Banner Product Carousel Component": props => (
+  //   <PreAutomatedBrandProductCarousel {...props} />
+  // ),
   "Auto Following Brands Component": props => <FollowingBrands {...props} />,
   multipleBannerComponent: props => <MultipleBanners {...props} />,
   "Flash Sales Component": props => <FlashSale {...props} />, // wired up

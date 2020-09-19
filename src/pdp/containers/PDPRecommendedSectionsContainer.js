@@ -10,8 +10,8 @@ import { withRouter } from "react-router-dom";
 
 const mapDispatchToProps = dispatch => {
   return {
-    getMsdRequest: productCode => {
-      dispatch(getMsdRequest(productCode));
+    getMsdRequest: (productCode, widgetName) => {
+      dispatch(getMsdRequest(productCode, widgetName));
     },
     getRecentlyViewedProduct: productCode => {
       dispatch(getRecentlyViewedProduct(productCode));

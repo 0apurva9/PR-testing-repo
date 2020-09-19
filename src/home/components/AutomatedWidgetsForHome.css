@@ -80,6 +80,12 @@
   margin-top: 20px;
 }
 
+.iconHolder {
+    width: 60px;
+    height: 60px;
+    float: left;
+}
+
 @media screen and (min-width: 1025px) {
   .brandSection {
     background: transparent;
