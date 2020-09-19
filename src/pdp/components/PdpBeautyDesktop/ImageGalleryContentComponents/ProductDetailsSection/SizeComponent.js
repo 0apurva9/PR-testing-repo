@@ -1,6 +1,7 @@
 import React from "react";
 
 import styles from "./SizeComponent.css";
+import size from "lodash.size";
 
 export default class SizeComponent extends React.Component {
   constructor(props) {
@@ -11,8 +12,29 @@ export default class SizeComponent extends React.Component {
     };
   }
 
-  handleSelect(i) {
-    this.setState({ isSelected: !this.state.isSelected, selectedIndex: i });
+  componentDidMount() {
+    const variantOptions =
+      this.props &&
+      this.props.productDetails &&
+      this.props.productDetails.variantOptions;
+    let sizeOptions = [];
+    sizeOptions = variantOptions && variantOptions.map(el => el.sizelink);
+    const productListingId =
+      this.props &&
+      this.props.productDetails &&
+      this.props.productDetails.productListingId;
+    let selectedSize = [];
+    selectedSize =
+      sizeOptions &&
+      sizeOptions.filter((el, i) => {
+        if (el.productCode === productListingId && el.isAvailable === true) {
+          this.setState({ isSelected: true, selectedIndex: i });
+        }
+      });
+  }
+
+  handleSizeOptionClick(url) {
+    this.props.history.push(url);
   }
 
   render() {
@@ -20,7 +42,8 @@ export default class SizeComponent extends React.Component {
       this.props &&
       this.props.productDetails &&
       this.props.productDetails.variantOptions;
-    const sizeOptions = variantOptions.map(el => el.sizelink);
+    let sizeOptions = [];
+    sizeOptions = variantOptions && variantOptions.map(el => el.sizelink);
     let selectedClass;
     return (
       <div className={styles["size-component"]}>
@@ -37,7 +60,7 @@ export default class SizeComponent extends React.Component {
                   <div
                     key={i}
                     className={styles["size-select"]}
-                    onClick={() => this.handleSelect(i)}
+                    onClick={() => this.handleSizeOptionClick(val.url)}
                   >
                     <div className={selectedClass}>
                       <div

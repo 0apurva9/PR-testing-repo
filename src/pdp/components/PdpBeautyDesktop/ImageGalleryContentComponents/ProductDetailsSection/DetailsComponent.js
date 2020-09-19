@@ -16,11 +16,14 @@ export default class DetailsComponent extends React.Component {
     const stylenotes = productDetails.styleNote;
     return (
       <div className={styles["story-component"]}>
-        <div className={styles["what-it-is-block"]}>
+        <div
+          className={styles["what-it-is-block"]}
+          onClick={e => this.handleDetailsScroll(e)}
+        >
           <div className={styles["what-it-is-heading"]}>What it is:</div>
           {stylenotes.length > 189 && (
             <div className={styles["what-it-is-desc"]}>
-              {`${stylenotes.substring(0, 186)}..`}
+              {`${stylenotes.substring(0, 215)}..`}
               <a
                 href={""}
                 onClick={e => this.handleDetailsScroll(e)}
@@ -30,17 +33,8 @@ export default class DetailsComponent extends React.Component {
               </a>
             </div>
           )}
-          {stylenotes.length <= 189 && (
-            <div className={styles["what-it-is-desc"]}>
-              {`${stylenotes}..`}
-              <a
-                href={""}
-                onClick={e => this.handleDetailsScroll(e)}
-                className={styles["what-it-is-link"]}
-              >
-                More
-              </a>
-            </div>
+          {stylenotes.length <= 215 && (
+            <div className={styles["what-it-is-desc"]}>{`${stylenotes}`}</div>
           )}
         </div>
       </div>
