@@ -7,37 +7,39 @@ export default class IngredientToggleComponent extends Component {
     return (
       <Fragment>
         <div className={styles["ingredents-sections"]}>
-          {this.props.ingredientData.sortedIngredient.map(item => (
-            <div className={styles["ingredents-sec-blocks"]}>
-              <div className={styles["ingredents-blk-sub-head"]}>
-                {item.key}:
+          {this.props.ingredientData.sortedIngredient &&
+            this.props.ingredientData.sortedIngredient.map(item => (
+              <div className={styles["ingredents-sec-blocks"]}>
+                <div className={styles["ingredents-blk-sub-head"]}>
+                  {item.key}:
+                </div>
+                <div
+                  className={
+                    item.order % 2
+                      ? styles["ingredents-sec-inner-blocks"]
+                      : styles["ingredents-sec-inner-blocks1"]
+                  }
+                >
+                  {item &&
+                    item.values.map(value => (
+                      <div className={styles["ingredents-details"]}>
+                        <div
+                          className={styles["ingredents-icon"]}
+                          style={{
+                            backgroundImage: `url(https:${value.imageURL})`
+                          }}
+                        ></div>
+                        <div className={styles["ingredents-txt"]}>
+                          <span className={styles["ingredents-txt-head"]}>
+                            {value.key}
+                          </span>
+                          ({value.description})
+                        </div>
+                      </div>
+                    ))}
+                </div>
               </div>
-              <div
-                className={
-                  item.order % 2
-                    ? styles["ingredents-sec-inner-blocks"]
-                    : styles["ingredents-sec-inner-blocks1"]
-                }
-              >
-                {item.values.map(value => (
-                  <div className={styles["ingredents-details"]}>
-                    <div
-                      className={styles["ingredents-icon"]}
-                      style={{
-                        backgroundImage: `url(https:${value.imageURL})`
-                      }}
-                    ></div>
-                    <div className={styles["ingredents-txt"]}>
-                      <span className={styles["ingredents-txt-head"]}>
-                        {value.key}
-                      </span>
-                      ({value.description})
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
         <div className={styles["ingredents-all-ingre-sec"]}>
           {this.props.ingredientData.allIngredients &&
