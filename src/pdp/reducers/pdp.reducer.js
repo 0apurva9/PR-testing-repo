@@ -93,7 +93,11 @@ const productDescription = (
     moreFromBrandStatus: null,
     moreFromBrandLoading: false,
     moreFromBrandDetails: null,
-    moreFromBrandError: null
+    moreFromBrandError: null,
+    aboutTheBrandStatus: null,
+    aboutTheBrandLoading: false,
+    aboutTheBrandDetails: null,
+    aboutTheBrandError: null
   },
   action
 ) => {
@@ -1159,6 +1163,24 @@ const productDescription = (
         moreFromBrandStatus: action.status,
         moreFromBrandError: action.error,
         moreFromBrandLoading: false
+      });
+
+    case pdpActions.GET_ABOUT_THE_BRAND_REQUEST:
+      return Object.assign({}, state, {
+        aboutTheBrandStatus: action.status,
+        aboutTheBrandLoading: true
+      });
+    case pdpActions.GET_ABOUT_THE_BRAND_SUCCESS:
+      return Object.assign({}, state, {
+        aboutTheBrandStatus: action.status,
+        aboutTheBrandDetails: action.aboutTheBrandResult,
+        aboutTheBrandLoading: false
+      });
+    case pdpActions.GET_ABOUT_THE_BRAND_FAILURE:
+      return Object.assign({}, state, {
+        aboutTheBrandStatus: action.status,
+        aboutTheBrandError: action.error,
+        aboutTheBrandLoading: false
       });
     default:
       return state;

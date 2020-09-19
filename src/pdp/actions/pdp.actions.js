@@ -149,6 +149,10 @@ export const GET_HOW_TO_WEAR_REQUEST = "GET_HOW_TO_WEAR_REQUEST";
 export const GET_HOW_TO_WEAR_SUCCESS = "GET_HOW_TO_WEAR_SUCCESS";
 export const GET_HOW_TO_WEAR_FAILURE = "GET_HOW_TO_WEAR_FAILURE";
 
+export const GET_ABOUT_THE_BRAND_REQUEST = "GET_ABOUT_THE_BRAND_REQUEST";
+export const GET_ABOUT_THE_BRAND_SUCCESS = "GET_ABOUT_THE_BRAND_SUCCESS";
+export const GET_ABOUT_THE_BRAND_FAILURE = "GET_ABOUT_THE_BRAND_FAILURE";
+
 export const GET_MORE_FROM_BRAND_REQUEST = "GET_MORE_FROM_BRAND_REQUEST";
 export const GET_MORE_FROM_BRAND_SUCCESS = "GET_MORE_FROM_BRAND_SUCCESS";
 export const GET_MORE_FROM_BRAND_FAILURE = "GET_MORE_FROM_BRAND_FAILURE";
@@ -397,6 +401,56 @@ export function getHowToWearFailure(error) {
   return {
     error,
     type: GET_HOW_TO_WEAR_FAILURE,
+    status: ERROR
+  };
+}
+
+export function getAboutTheBrand(mbhId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getAboutTheBrandRequest());
+    try {
+      const url = `/v2/mpl/cms/defaultpage?pageId=ATB-${mbhId}`;
+      const result = await api.get(url);
+      const resultJson = await result.json();
+
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      let finalResult;
+      if (resultJson.items && resultJson.items.length > 0) {
+        finalResult = resultJson.items.find(
+          item => item.componentName === "ATBPDPCarouselComponent"
+        );
+      }
+
+      return dispatch(getAboutTheBrandSuccess(finalResult));
+    } catch (error) {
+      dispatch(getAboutTheBrandFailure(error.message));
+    }
+  };
+}
+
+export function getAboutTheBrandRequest() {
+  return {
+    type: GET_ABOUT_THE_BRAND_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getAboutTheBrandSuccess(aboutTheBrandResult) {
+  return {
+    type: GET_ABOUT_THE_BRAND_SUCCESS,
+    status: SUCCESS,
+    aboutTheBrandResult
+  };
+}
+
+export function getAboutTheBrandFailure(error) {
+  return {
+    error,
+    type: GET_ABOUT_THE_BRAND_FAILURE,
     status: ERROR
   };
 }

@@ -1,4 +1,4 @@
-.mfb-heading {
+.atb-heading {
   font-family: "Rubik", sans-serif;
   color: rgb(33, 33, 33);
   font-weight: 500;
@@ -17,5 +17,5 @@
   position: relative;
   /* margin-bottom: 50px; */
   margin-top: 20px;
- /* background-color: grey;* */
+ /* background-color: grey; */
 }

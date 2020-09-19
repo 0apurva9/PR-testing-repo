@@ -7,6 +7,7 @@ import {
   SECTION_OF_PRODUCT_DESCRIPTION,
   MORE_FROM_THIS_BRAND_COMPONENT,
   RETURNS_COMPONENT,
+  ABOUT_THE_BRAND_COMPONENT,
   STORY_COMPONENT,
   DETAILS_COMPONENT,
   FROM_THE_BRAND_COMPONENT
@@ -65,6 +66,13 @@ const NoReturnComponent = Loadable({
   }
 });
 
+const AboutTheBrandComponent = Loadable({
+  loader: () => import("./AboutTheBrandComponent"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const typeComponentMapping = {
   [STORY_COMPONENT]: (props, descripCompDetails) => {
     const detailsComponentFound = descripCompDetails.filter(
@@ -94,7 +102,8 @@ const typeComponentMapping = {
       heading={"NO RETURNS"}
       heading2={"MANUFACTURER INFORMATION"}
     />
-  )
+  ),
+  [ABOUT_THE_BRAND_COMPONENT]: props => <AboutTheBrandComponent {...props} />
 };
 
 export default class DescriptionContainer extends Component {
