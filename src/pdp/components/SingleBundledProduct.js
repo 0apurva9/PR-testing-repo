@@ -200,11 +200,12 @@ export default class SingleBundledProduct extends React.Component {
               {this.props.productData.mrpPrice &&
                 this.props.productData.mrpPrice.formattedValueNoDecimal}
             </div>
-            {this.props.productData.discount && (
-              <div className={styles.productDiscount}>
-                ({this.props.productData.discount}% OFF)
-              </div>
-            )}
+            {this.props.productData.discount &&
+              this.props.productData.discount != 0 && (
+                <div className={styles.productDiscount}>
+                  ({this.props.productData.discount}% OFF)
+                </div>
+              )}
           </div>
         </div>
       </div>
