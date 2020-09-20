@@ -53,6 +53,13 @@ export default class SingleBundledProduct extends React.Component {
     ) {
       checked = true;
     }
+    let highlightMainProductPrice = false;
+    if (
+      this.props.isBundledProductSelected &&
+      this.props.isBundledProductSelected.includes(false)
+    ) {
+      highlightMainProductPrice = true;
+    }
     let styleForExtraProducts = styles.hideProducts;
     if (this.props.productIndex <= 1) {
       styleForExtraProducts = styles.showProducts;
@@ -188,7 +195,15 @@ export default class SingleBundledProduct extends React.Component {
 
           <div className={styles.productPriceContainer}>
             <div
-              className={checked ? styles.productMop : styles.productMopGrey}
+              className={
+                this.props.isMainProduct
+                  ? highlightMainProductPrice
+                    ? styles.productMop
+                    : styles.productMopGrey
+                  : checked
+                    ? styles.productMop
+                    : styles.productMopGrey
+              }
             >
               {this.props.productData.winningSellerPrice &&
                 this.props.productData.winningSellerPrice
@@ -248,5 +263,6 @@ SingleBundledProduct.propTypes = {
         })
       )
     })
-  )
+  ),
+  isBundledProductSelected: PropTypes.array
 };
