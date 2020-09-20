@@ -17,7 +17,7 @@
   flex-wrap: wrap;
   align-items: center;
   border-radius: 4px;
-  margin: 0 0 20px;
+  margin: 0;
 }
 .pin-code-change-input-block {
   width: 294px;

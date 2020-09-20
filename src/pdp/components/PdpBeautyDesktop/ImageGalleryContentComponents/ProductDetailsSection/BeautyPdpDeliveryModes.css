@@ -2,7 +2,6 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  margin-bottom: 15px;
 }
 
 .base,
@@ -25,18 +24,6 @@
   display: block;
   background: #fff;
   position: relative;
-  padding-top: 5px;
-}
-.standardAndCashOnDelivery::before {
-  content: "";
-  width: 100%;
-  height: 0px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto;
-  top: 5px;
-  z-index: 1;
 }
 .infoHolder {
   /* width: 50%; */
