@@ -10,7 +10,6 @@ export default class CertifiedComponent extends React.Component {
     const certifiedComponent =
       compDetails &&
       compDetails.filter(el => el.componentId === CERTIFIED_COMPONENT);
-    console.log("certi", certifiedComponent);
     return (
       <div className={styles["authentic-img-component"]}>
         <div className={styles["authentic-img-block"]}>
