@@ -1,20 +1,7 @@
-.base {
-  width: 100%;
-  height: auto;
-  padding-right: 45px;
+.ship-date-block {
+  padding: 0 15px 0 40px;
+  width: 195px;
   position: relative;
-  background: #fff;
-}
-.dataHolder {
-  width: 100%;
-  height: auto;
-  display: flex;
-    align-items: flex-start;
-}
-.notAvailable {
-  composes: dataHolder;
-  opacity: 0.4;
-  pointer-events: none;
 }
 .placeTime {
   width: 100%;
@@ -53,7 +40,7 @@
   bottom: 0;
   margin: auto; */
   z-index: 1;
-    margin-top: 12px;
+  margin-top: 12px;
 }
 .arrowHolder {
   composes: checkboxHolder;
@@ -74,7 +61,6 @@
   font-family: light;
   font-size: 14px;
   line-height: 20px;
-
 }
 .cncDeliveryAddress {
   width: 72%;
@@ -109,10 +95,9 @@
   }
 }
 
-.address{
+.address {
   font-size: 13px;
   font-family: light;
-  color: rgb(33,33,33);
-  width: 56%
-
+  color: rgb(33, 33, 33);
+  width: 56%;
 }

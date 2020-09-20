@@ -114,9 +114,9 @@ export default class BeautyPdpDeliveryModes extends React.Component {
         ? styles.standardAndCashOnDelivery
         : styles.noStandardAndCashOnDelivery;
     return (
-      <div className={baseClass}>
+      <React.Fragment>
         {QuiqPiq === true && (
-          <div className={styles.quickDeliveryMode}>
+          <React.Fragment>
             <BeautyDeliveryInformation
               isQuiqPiq={QuiqPiq}
               isStaticText={true}
@@ -290,7 +290,7 @@ export default class BeautyPdpDeliveryModes extends React.Component {
                   storeDetails={storeDetails}
                 />
               )}
-          </div>
+          </React.Fragment>
         )}
         <div className={wrapperClass}>
           {deliveryDates &&
@@ -299,7 +299,7 @@ export default class BeautyPdpDeliveryModes extends React.Component {
                 return val.type;
               })
               .includes(SHORT_HOME_DELIVERY) && (
-              <div className={styles.infoHolder}>
+              <div className={styles["ship-deli-pick-block"]}>
                 <BeautyDeliveryInformation
                   pdpApparel={this.props.pdpApparel}
                   paddingTop={"0px"}
@@ -366,7 +366,7 @@ export default class BeautyPdpDeliveryModes extends React.Component {
             </div>
           )}
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

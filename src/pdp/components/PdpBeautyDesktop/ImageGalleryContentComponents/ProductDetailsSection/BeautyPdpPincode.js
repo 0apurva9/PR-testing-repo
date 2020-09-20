@@ -80,59 +80,37 @@ export default class BeautyPdpPincode extends React.Component {
   render() {
     const listOfAllPinCode = this.props.listOfAllPinCode;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    let baseClass =
-      this.props.pdpApparel ||
-      this.props.pdpHome ||
-      this.props.pdpJewellery ||
-      this.props.pdpElectronics
-        ? styles.basePdp
-        : styles.base;
-    let buttonHolderClass =
-      this.props.pdpApparel ||
-      this.props.pdpHome ||
-      this.props.pdpJewellery ||
-      this.props.pdpElectronics
-        ? styles.buttonHolderPdp
-        : styles.buttonHolder;
-    let labelMessageClass = this.props.pdpApparel
-      ? styles.labelMessagePdp
-      : styles.labelMessage;
+
     return this.props.hasPincode ? (
-      <div className={baseClass}>
-        <div
-          className={
-            this.props.status === "N"
-              ? styles.borderLeft
-              : styles.pinCodeAndButtonHolder
-          }
-        >
-          <div className={[styles.label, styles.dFlex].join(" ")}>
-            <div className={styles.pincodeField}>
-              <Input2
-                boxy={true}
-                textStyle={{ fontSize: 14 }}
-                height={25}
-                maxLength={"6"}
-                onChange={val => this.onChange(val)}
-                onlyNumber={true}
-                border={"none"}
-                value={
-                  this.state.showCity && this.props.city
-                    ? `${this.props.city}, ${this.state.pincode}`
-                    : this.state.pincode
-                }
-                noPadding={true}
-                onKeyUp={event => {
-                  this.enterPassword(event.key);
-                }}
-                onFocus={event => this.onFocus(event)}
-                onBlur={event => this.onBlur(event)}
-              />
-            </div>
+      <React.Fragment>
+        <div className={styles["pin-code-heading"]}>SHIP TO</div>
+        <div className={styles["pin-code-change-block"]}>
+          <div className={styles["pin-code-change-input"]}>
+            <Input2
+              boxy={true}
+              textStyle={{ fontSize: 16, fontWeight: 500 }}
+              height={25}
+              maxLength={"6"}
+              onChange={val => this.onChange(val)}
+              onlyNumber={true}
+              border={"none"}
+              value={
+                this.state.showCity && this.props.city
+                  ? `${this.props.city}, ${this.state.pincode}`
+                  : this.state.pincode
+              }
+              noPadding={true}
+              onKeyUp={event => {
+                this.enterPassword(event.key);
+              }}
+              onFocus={event => this.onFocus(event)}
+              onBlur={event => this.onBlur(event)}
+              className={styles["pin-code-change-input"]}
+            />
           </div>
-          <div className={buttonHolderClass}>
+          <div className={styles["pin-code-change-button-block"]}>
             <div
-              className={styles.button}
+              className={styles["pin-code-change-button"]}
               id="change"
               onClick={() => this.onCheckPinCode(this.state.pincode)}
             >
@@ -184,9 +162,9 @@ export default class BeautyPdpPincode extends React.Component {
             )}
           </div>
         )}
-      </div>
+      </React.Fragment>
     ) : (
-      <div className={baseClass}>
+      <React.Fragment>
         {this.state.showDropDown && (
           <div className={styles.pincodeListDropDownForNotDefault}>
             <div className={styles.listOfPincode}>
@@ -231,32 +209,35 @@ export default class BeautyPdpPincode extends React.Component {
             )}
           </div>
         )}
-        <div className={styles.borderForNoPinCode}>
-          <Input2
-            placeholder={"Enter Pincode"}
-            boxy={true}
-            textStyle={{ fontSize: 14 }}
-            height={25}
-            maxLength={"6"}
-            onChange={val => this.onChange(val)}
-            onlyNumber={true}
-            border={"none"}
-            value={this.state.pincode}
-            noPadding={true}
-            onKeyUp={event => {
-              this.enterPassword(event.key);
-            }}
-          />
-          <div className={buttonHolderClass}>
+        <div className={styles["pin-code-heading"]}>SHIP TO</div>
+        <div className={styles["pin-code-change-block"]}>
+          <div className={styles["pin-code-change-input"]}>
+            <Input2
+              placeholder={"Enter Pincode"}
+              boxy={true}
+              textStyle={{ fontSize: 16, fontWeight: 500 }}
+              height={25}
+              maxLength={"6"}
+              onChange={val => this.onChange(val)}
+              onlyNumber={true}
+              border={"none"}
+              value={this.state.pincode}
+              noPadding={true}
+              onKeyUp={event => {
+                this.enterPassword(event.key);
+              }}
+            />
+          </div>
+          <div className={styles["pin-code-change-button-block"]}>
             <div
-              className={styles.button}
+              className={styles["pin-code-change-button"]}
               onClick={() => this.onCheckPinCode(this.state.pincode)}
             >
               Check
             </div>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

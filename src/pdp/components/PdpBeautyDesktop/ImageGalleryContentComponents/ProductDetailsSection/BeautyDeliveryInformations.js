@@ -262,12 +262,8 @@ export default class BeautyDeliveryInformations extends React.Component {
     }
     let storeDetails = this.props.storeDetails;
     return (
-      <div className={baseClass}>
-        <div
-          className={
-            this.props.available ? styles.dataHolder : styles.notAvailable
-          }
-        >
+      <React.Fragment>
+        <div className={styles["ship-date-block"]}>
           <BeautyIconWithHeader
             image={iconImage}
             iconShow={this.props.iconShow}
@@ -367,7 +363,6 @@ export default class BeautyDeliveryInformations extends React.Component {
               )}
             </div>
           ) : null}
-
           {this.props.arrowClick && this.props.type === COLLECT && (
             <div
               className={styles.arrowHolder}
@@ -385,7 +380,7 @@ export default class BeautyDeliveryInformations extends React.Component {
               </div>
             )}
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

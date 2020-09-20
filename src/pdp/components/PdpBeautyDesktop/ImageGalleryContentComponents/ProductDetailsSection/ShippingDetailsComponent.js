@@ -172,20 +172,8 @@ export default class ShippingDetailsComponent extends React.Component {
       firstSlaveData && firstSlaveData.CNCServiceableSlavesData;
     return (
       <React.Fragment>
-        <div className={styles.horizontalOffset} id="DWSN">
-          <div className={styles.separator}>
-            <BeautyOtherSellersLink
-              serviceableOtherSellersUssid={
-                this.props.serviceableOtherSellersUssid
-              }
-              onClick={this.goToSellerPage}
-              winningSeller={productData.winningSellerName}
-              winnningSellerUssId={productData.winningUssID}
-            />
-          </div>
-        </div>
-        <div className={styles.pinAndDeliveryHolder} id="CPIN">
-          <div className={styles.updatePincodeHolder}>
+        <div className={styles["pin-code-component"]} id="CPIN">
+          <div className={styles["pin-code-block"]}>
             {this.props.productDetails.isServiceableToPincode &&
             this.props.productDetails.isServiceableToPincode.pinCode ? (
               <BeautyPdpPincode
@@ -247,36 +235,30 @@ export default class ShippingDetailsComponent extends React.Component {
           this.props.productDetails.isServiceableToPincode.status === NO ? (
             this.props.productDetails.isServiceableToPincode
               .productOutOfStockMessage ? (
-              <div className={styles.overlay}>
-                <div className={styles.notServiciableTetx}>
-                  *{" "}
-                  {
-                    this.props.productDetails.isServiceableToPincode
-                      .productOutOfStockMessage
-                  }
-                </div>
+              <div className={styles["pin-code-error"]}>
+                *{" "}
+                {
+                  this.props.productDetails.isServiceableToPincode
+                    .productOutOfStockMessage
+                }
               </div>
             ) : this.props.productDetails.isServiceableToPincode
                 .productNotServiceableMessage ? (
-              <div className={styles.overlay}>
-                <div className={styles.notServiciableTetx}>
-                  *{" "}
-                  {
-                    this.props.productDetails.isServiceableToPincode
-                      .productNotServiceableMessage
-                  }
-                </div>
+              <div className={styles["pin-code-error"]}>
+                *{" "}
+                {
+                  this.props.productDetails.isServiceableToPincode
+                    .productNotServiceableMessage
+                }
               </div>
             ) : this.props.pincodeError ? (
-              <div className={styles.overlay}>
-                <div className={styles.notServiciableTetx}>
-                  * {this.props.pincodeError}
-                </div>
+              <div className={styles["pin-code-error"]}>
+                * {this.props.pincodeError}
               </div>
             ) : null
           ) : this.props.productDetails.isServiceableToPincode &&
             this.props.productDetails.isServiceableToPincode.pinCode ? (
-            <div className={styles.deliveryModesHolder}>
+            <div className={styles["ship-deli-pick-block"]}>
               <BeautyPdpDeliveryModes
                 onPiq={() => this.handleShowPiqPage()}
                 eligibleDeliveryModes={productData.eligibleDeliveryModes}
@@ -290,10 +272,22 @@ export default class ShippingDetailsComponent extends React.Component {
               />
             </div>
           ) : (
-            <div className={styles.invalidPinText}>
+            <div className={styles["pin-code-error"]}>
               To check for delivery options please enter your pincode above{" "}
             </div>
           )}
+        </div>
+        <div className={styles.horizontalOffset} id="DWSN">
+          <div className={styles.separator}>
+            <BeautyOtherSellersLink
+              serviceableOtherSellersUssid={
+                this.props.serviceableOtherSellersUssid
+              }
+              onClick={this.goToSellerPage}
+              winningSeller={productData.winningSellerName}
+              winnningSellerUssId={productData.winningUssID}
+            />
+          </div>
         </div>
       </React.Fragment>
     );

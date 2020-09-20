@@ -133,15 +133,7 @@ export default class BeautyIconWithHeader extends React.Component {
         className={baseClass}
         style={{ marginBottom: this.props.marginBottom }}
       >
-        <div
-          className={[
-            styles.iconHolder,
-            this.props.inPdpPage
-              ? styles.paddingRight70
-              : styles.paddingRight50,
-            this.props.type === SHORT_COLLECT ? styles.alignSelf : null
-          ].join(" ")}
-        >
+        <div className={styles["pin-code-error"]}>
           <Icon
             image={this.props.image}
             size={this.props.iconSize ? this.props.iconSize : 30}

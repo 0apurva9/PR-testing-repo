@@ -1,3 +1,10 @@
+.ship-deli-pick-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
 .base,
 .baseClass {
   width: 100%;
@@ -35,7 +42,7 @@
   /* width: 50%; */
   height: auto;
   display: block;
- /*  vertical-align: top; */
+  /*  vertical-align: top; */
 }
 .sellerBase .infoHolder {
   width: 100%;
