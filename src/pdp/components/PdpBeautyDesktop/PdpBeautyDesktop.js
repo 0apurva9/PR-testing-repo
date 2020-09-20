@@ -22,15 +22,6 @@ import styles from "./PdpBeautyDesktop.css";
 import DescriptionContainer from "./DescriptionSection/DescriptionContainer";
 import { sortArrayOfObjectByIntegerKeyValue } from "../../../pdp/reducers/utils";
 
-const SECTION_PRODUCT_GUIDE = [];
-const SECTION_INGREDIENTS = [];
-const SECTION_FROM_THE_BRAND = [];
-const SECTION_HOW_TO_WEAR = [];
-const SECTION_RATINGS_AND_REVIEWS = [RATING_REVIEW_DETAIL_COMPONENT];
-const SECTION_ABOUT_THE_BRAND = [];
-const SECTION_MORE_FROM_THIS_BRAND = [];
-const SECTION_SIMILAR_PRODUCTS = [];
-
 export default class PdpBeautyDesktop extends React.Component {
   constructor(props) {
     super(props);

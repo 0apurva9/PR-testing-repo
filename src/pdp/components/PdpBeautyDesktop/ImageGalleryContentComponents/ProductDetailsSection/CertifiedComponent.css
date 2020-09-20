@@ -1,0 +1,19 @@
+/*** Authentic Img Component ****/
+
+.authentic-img-component {
+  display: block;
+  width: 100%;
+  margin: 20px 0 0 0;
+  border-top: 1px solid rgb(230, 230, 230);
+}
+
+.authentic-img-block {
+  padding: 0;
+}
+
+.authentic-image {
+  width: 100%;
+  display: block;
+}
+
+/*** Authentic Img Component End ****/

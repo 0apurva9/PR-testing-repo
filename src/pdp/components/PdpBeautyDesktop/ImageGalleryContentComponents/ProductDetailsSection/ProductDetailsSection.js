@@ -12,7 +12,8 @@ import {
   COLOR_COMPONENT,
   GUARANTEE_COMPONENT,
   FREEBIE_COMPONENT,
-  DETAILS_COMPONENT
+  DETAILS_COMPONENT,
+  CERTIFIED_COMPONENT
 } from "../../ComponentConstants";
 import styles from "./ProductDetailsSection.css";
 import { renderComponent } from "../../../../../pdp/reducers/utils";
@@ -68,6 +69,13 @@ const OffersComponent = Loadable({
   }
 });
 
+const CertifiedComponent = Loadable({
+  loader: () => import("./CertifiedComponent"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const typeComponentMapping = {
   [PRODUCT_AND_BRAND_COMPONENT]: props => (
     <ProductAndBrandComponent {...props} />
@@ -76,7 +84,8 @@ const typeComponentMapping = {
   [PRICE_COMPONENT]: props => <PriceComponent {...props} />,
   [DETAILS_COMPONENT]: props => <DetailsComponent {...props} />,
   [SIZE_COMPONENT]: props => <SizeComponent {...props} />,
-  [OFFERS_COMPONENT]: props => <OffersComponent {...props} />
+  [OFFERS_COMPONENT]: props => <OffersComponent {...props} />,
+  [CERTIFIED_COMPONENT]: props => <CertifiedComponent {...props} />
 };
 
 export default class ProductsDetailsSection extends React.Component {
