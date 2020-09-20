@@ -226,6 +226,7 @@ export default class ProductBundling extends React.Component {
                 productData={this.props.productData}
                 isMainProduct={true}
                 isBundledProductInCart={false}
+                isBundledProductSelected={isBundledProductSelected}
               />
               {this.props.bundledProductSuggestionDetails &&
                 this.props.bundledProductSuggestionDetails.slots &&

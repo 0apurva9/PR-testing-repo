@@ -50,7 +50,7 @@
   margin-bottom: 13px;
 }
 .productDetailsContainer > .productNameContainer{
-  height: 18px;
+  min-height: 18px;
 }
 .productDetailsContainer > .productNameContainer > .productName{
   cursor: pointer;
