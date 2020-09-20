@@ -5,7 +5,7 @@ import styles from "./StoryComponent.css";
 import StoryToggleComponent from "./StoryToggleComponent";
 import { sortArrayOfObjectByIntegerKeyValue } from "../../../../pdp/reducers/utils";
 
-const HEADING = "THE PERFUME GUIDE";
+const HEADING = "The Finer Details";
 
 export default class StoryComponent extends React.Component {
   constructor(props) {
