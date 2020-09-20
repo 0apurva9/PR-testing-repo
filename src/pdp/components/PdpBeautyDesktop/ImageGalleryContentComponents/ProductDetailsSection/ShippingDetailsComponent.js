@@ -162,6 +162,7 @@ export default class ShippingDetailsComponent extends React.Component {
         }
       );
     }
+
     const firstSlaveData =
       getDeliveryModesByWinningUssid &&
       getDeliveryModesByWinningUssid.validDeliveryModes &&

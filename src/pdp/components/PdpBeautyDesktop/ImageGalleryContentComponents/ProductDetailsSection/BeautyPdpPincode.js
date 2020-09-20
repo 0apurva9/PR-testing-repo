@@ -1,4 +1,5 @@
 import React from "react";
+
 import Input2 from "../../../../../general/components/Input2.js";
 import styles from "./BeautyPdpPincode.css";
 import * as Cookie from "../../../../../lib/Cookie";

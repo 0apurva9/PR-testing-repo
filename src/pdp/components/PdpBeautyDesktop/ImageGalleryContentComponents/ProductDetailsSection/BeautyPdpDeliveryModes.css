@@ -11,13 +11,16 @@
   background: #fff;
   padding: 20px 0px 0px 0px;
 }
+
 .sellerBase {
   padding: 0;
 }
+
 .basePdp {
   float: left;
   width: 100%;
 }
+
 .standardAndCashOnDelivery {
   width: 100%;
   height: auto;
@@ -25,15 +28,16 @@
   background: #fff;
   position: relative;
 }
+
 .infoHolder {
-  /* width: 50%; */
   height: auto;
   display: block;
-  /*  vertical-align: top; */
 }
+
 .sellerBase .infoHolder {
   width: 100%;
 }
+
 .noStandardAndCashOnDelivery {
   width: 100%;
   height: auto;
@@ -42,6 +46,7 @@
   position: relative;
   padding-top: 5px;
 }
+
 .noStandardAndCashOnDelivery::before {
   content: "";
   width: 90%;
@@ -53,6 +58,7 @@
   top: 5px;
   z-index: 1;
 }
+
 .quickDeliveryMode {
   padding-bottom: 3px;
   border-bottom: 1px solid #e2e2e2;

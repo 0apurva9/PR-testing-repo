@@ -1,4 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { isBrowser } from "browser-or-node";
+
 import BeautyDeliveryInformation from "./BeautyDeliveryInformations";
 import {
   EXPRESS,
@@ -13,10 +16,8 @@ import {
   SAME_DAY_DELIVERY,
   SELECTED_STORE
 } from "../../../../../lib/constants";
-import PropTypes from "prop-types";
 import styles from "./BeautyPdpDeliveryModes.css";
 import { checkUserAgentIsMobile } from "../../../../../lib/UserAgent.js";
-import { isBrowser } from "browser-or-node";
 export default class BeautyPdpDeliveryModes extends React.Component {
   render() {
     let deliveryMode = "";

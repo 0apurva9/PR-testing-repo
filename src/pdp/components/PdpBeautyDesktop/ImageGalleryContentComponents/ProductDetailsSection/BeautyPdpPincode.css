@@ -1,6 +1,7 @@
 .baseClass {
   width: 100%;
 }
+
 .pin-code-heading {
   font-family: "Rubik", sans-serif;
   font-weight: 400;
@@ -10,6 +11,7 @@
   color: rgb(33, 33, 33);
   text-transform: uppercase;
 }
+
 .pin-code-change-block {
   border: 1px solid rgb(230, 230, 230);
   width: 385px;
@@ -19,15 +21,18 @@
   border-radius: 4px;
   margin: 0;
 }
+
 .pin-code-change-input-block {
   width: 294px;
 }
+
 .pin-code-change-input {
   padding: 12px;
   font-family: "Rubik", sans-serif;
   color: rgb(33, 33, 33);
   width: 293px;
 }
+
 .pin-code-change-input::-webkit-input-placeholder {
   /* Edge */
   color: rgb(33, 33, 33);
@@ -49,6 +54,7 @@
   text-align: center;
   cursor: pointer;
 }
+
 .pin-code-change-button {
   border: 0;
   background: none;
@@ -63,7 +69,6 @@
 }
 
 .basePdp {
-  /* background-color: #fff !important; */
   background-color: #fff;
   z-index: 11;
   float: left;
@@ -72,21 +77,25 @@
   height: auto;
   position: relative;
 }
+
 .label {
   width: 100%;
   height: auto;
   line-height: 25px;
   font-size: 14px;
 }
+
 .dFlex {
   display: -webkit-box;
 }
+
 .pinCodeAndButtonHolder {
   width: 100%;
   height: auto;
   padding-right: 70px;
   position: relative;
 }
+
 .pinCodeAndButtonHolder::after {
   content: "";
   width: 100%;
@@ -95,12 +104,14 @@
   left: 0;
   bottom: -5px;
 }
+
 .borderLeft {
   width: 100%;
   height: auto;
   padding-right: 70px;
   position: relative;
 }
+
 .borderLeft::after {
   content: "";
   width: 100%;
@@ -109,9 +120,11 @@
   left: 0;
   bottom: -10px;
 }
+
 .borderForNoPinCode {
   composes: borderLeft;
 }
+
 .borderForNoPinCode:after {
   content: "";
   width: 100%;
@@ -120,18 +133,21 @@
   left: 0;
   bottom: -5px;
 }
+
 .labelMessage {
   width: 100%;
   height: auto;
   font-size: 14px;
   color: #000000;
 }
+
 .labelMessagePdp {
   width: 60%;
   height: auto;
   font-size: 14px;
   color: #000000;
 }
+
 .buttonHolder,
 .buttonHolderPdp {
   width: 120px;
@@ -141,10 +157,12 @@
   text-align: right;
   position: absolute;
 }
+
 .buttonHolderPdp {
   width: auto;
   right: 0;
 }
+
 .button {
   width: auto;
   display: inline-block;
@@ -158,6 +176,7 @@
   min-width: 52px;
   text-align: left;
 }
+
 .shipToLabel {
   width: 100%;
   height: auto;
@@ -166,6 +185,7 @@
   font-family: semibold;
   margin-bottom: 15px;
 }
+
 .pincodeListDropDown {
   width: 100%;
   height: auto;
@@ -178,24 +198,29 @@
   z-index: 2;
   background: #fff;
 }
+
 .pincodeListDropDownForNotDefault {
   composes: pincodeListDropDown;
   top: 50px;
 }
+
 .listOfPincode {
   width: 100%;
   height: auto;
 }
+
 .dropdownList {
   width: 100%;
   height: auto;
   margin-bottom: 20px;
   color: #000;
 }
+
 .withoutLoginSection {
   width: 100%;
   height: auto;
 }
+
 .addressHeaderWithoutLogin {
   width: 100%;
   height: auto;
@@ -203,9 +228,11 @@
   color: rgb(33, 33, 33);
   cursor: pointer;
 }
+
 .addressHeaderWithoutLogin span {
   color: rgb(255, 23, 68);
 }
+
 .addressHeader {
   width: 100%;
   height: auto;
@@ -213,6 +240,7 @@
   font-size: 12px;
   font-family: semibold;
 }
+
 .addressDetails {
   width: 100%;
   height: 28px;
@@ -226,10 +254,12 @@
   white-space: nowrap;
   cursor: pointer;
 }
+
 .pinSection {
   padding-right: 5px;
   font-family: semibold;
 }
+
 .moreAddress {
   width: 100%;
   height: auto;
