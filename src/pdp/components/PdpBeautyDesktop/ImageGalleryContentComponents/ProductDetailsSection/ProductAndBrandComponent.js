@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import styles from "./ProductAndBrandComponent.css";
 import { TATA_CLIQ_ROOT } from "../../../../../lib/apiRequest.js";
@@ -19,3 +20,7 @@ export default class ProductAndBrandComponent extends React.Component {
     );
   }
 }
+
+ProductAndBrandComponent.propTypes = {
+  productDetails: PropTypes.object
+};

@@ -20,7 +20,11 @@ import {
   relevantProductServibilty,
   relevantBundleProductCode,
   getExchangeDetails,
-  getMasterTemplate
+  getMasterTemplate,
+  getHowToWear,
+  getMoreFromBrand,
+  getAboutTheBrand,
+  getSimilarProduct
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -322,8 +326,20 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getChatbotDetails: async () => {
       await dispatch(getChatbotDetails());
     },
-    getMasterTemplate: async () => {
-      return await dispatch(getMasterTemplate());
+    getMasterTemplate: async categoryId => {
+      return await dispatch(getMasterTemplate(categoryId));
+    },
+    getHowToWear: async categoryId => {
+      return await dispatch(getHowToWear(categoryId));
+    },
+    getMoreFromBrand: async productId => {
+      return await dispatch(getMoreFromBrand(productId));
+    },
+    getAboutTheBrand: async mshId => {
+      return await dispatch(getAboutTheBrand(mshId));
+    },
+    getSimilarProduct: async productId => {
+      return await dispatch(getSimilarProduct(productId));
     }
   };
 };
@@ -363,7 +379,19 @@ const mapStateToProps = state => {
     cartCountDetails: state.cart.cartCountDetails,
     masterTemplateResponse: state.productDescription.masterTemplateDetails,
     masterTemplateError: state.productDescription.masterTemplateError,
-    masterTemplateLoading: state.productDescription.masterTemplateLoading
+    masterTemplateLoading: state.productDescription.masterTemplateLoading,
+    howToWearResponse: state.productDescription.howToWearDetails,
+    howToWearError: state.productDescription.howToWearError,
+    howToWearLoading: state.productDescription.howToWearLoading,
+    moreFromBrandResponse: state.productDescription.moreFromBrandDetails,
+    moreFromBrandError: state.productDescription.moreFromBrandError,
+    moreFromBrandLoading: state.productDescription.moreFromBrandLoading,
+    aboutTheBrandResponse: state.productDescription.aboutTheBrandDetails,
+    aboutTheBrandError: state.productDescription.aboutTheBrandError,
+    aboutTheBrandLoading: state.productDescription.aboutTheBrandLoading,
+    similarProductResponse: state.productDescription.similarProductDetails,
+    similarProductError: state.productDescription.similarProductError,
+    similarProductLoading: state.productDescription.similarProductLoading
   };
 };
 
