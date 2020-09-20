@@ -261,7 +261,9 @@ export default class BeautyDeliveryInformations extends React.Component {
           className={[
             this.props.type === QUIQPIQ ? styles["quiq-piq"] : "",
             this.props.type === SHORT_COLLECT ? styles["pick-store-block"] : "",
-            !this.props.isQuiqPiq && !this.props.type === SHORT_COLLECT
+            this.props.type === SHORT_SAME_DAY_DELIVERY ||
+            this.props.type === SHORT_HOME_DELIVERY ||
+            this.props.isCod === "Y"
               ? styles["ship-date-block"]
               : ""
           ].join(" ")}

@@ -47,6 +47,7 @@
   border-left: 1px solid rgb(230, 230, 230);
   height: 34px;
   text-align: center;
+  cursor: pointer;
 }
 .pin-code-change-button {
   border: 0;

@@ -24,7 +24,7 @@
 .ship-deli-pick-block {
 	display: flex;
 	flex-wrap: wrap;
-	align-items: center;
+	align-items: flex-start;
 	margin-bottom: 15px;
 }
 
