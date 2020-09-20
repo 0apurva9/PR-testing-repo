@@ -1,29 +1,25 @@
-.base {
-  width: 100%;
-  height: auto;
-  background-color: #fff;
-  /* padding: 10px 0px 10px 46px;
+.pin-delivery-icon {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  display: block;
+  top: 0;
+  left: 0;
+  background: transparent center center/ 100% auto no-repeat;
+}
+.ship-date-txt {
+  font-family: "Rubik", sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 18px;
+  color: rgb(33, 33, 33);
+}
+.cashOnDelTxt {
   display: inline-block;
-  position: relative; */
-  display: flex;
-    align-items: center;
-    padding: 12px 0px;
 }
-.baseCheckout {
-  /* padding: 10px 30px 10px 46px; */
-}
-.basePdp {
-  /* display: flex;
-    align-items: center; */
-  /* padding: 15px 0px 15px 57px; */
-}
-.alignSelf{
+.alignSelf {
   align-self: end;
   margin-top: -5px;
-}
-.baseNoPadding {
-  composes: base;
-  padding: 5px 0px 5px 0px;
 }
 .textHolder {
   width: 100%;
@@ -44,27 +40,27 @@
   bottom: 0px;
   margin: auto; */
 }
-.paddingRight70{
+.paddingRight70 {
   padding-right: 64px;
 }
-.paddingRight50{
+.paddingRight50 {
   padding-right: 50px;
 }
 
-.paddingZero{
-  padding-right:0px;
+.paddingZero {
+  padding-right: 0px;
 }
-.paddingDefault{
-  padding-right:24px;
+.paddingDefault {
+  padding-right: 24px;
 }
 
-.dateFormatted{
+.dateFormatted {
   font-size: 14px;
   color: #212121;
-/*   font-weight: bold; */
-font-family: regular;
+  /*   font-weight: bold; */
+  font-family: regular;
 }
-.cncStoreText{
+.cncStoreText {
   font-weight: bold;
   font-size: 14px;
 }
@@ -77,11 +73,11 @@ font-family: regular;
   vertical-align: middle;
   border-left: 1px solid #8d8d8d;
 }
-.fontRegular{
+.fontRegular {
   font-family: regular;
   font-size: 14px;
 }
-.fontLight{
+.fontLight {
   font-family: light;
   font-size: 14px;
 }

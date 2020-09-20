@@ -11,10 +11,10 @@ import arrowIcon from "../../../../../general/components/img/arrowBackblack.svg"
 import greyArrow from "../../../../../general/components/img/greyArrow.svg";
 import CollectImage from "../../../../../general/components/img/collect.svg";
 import quiqpiqImage from "../../../../../general/components/img/quiqlogo.png";
-import codImage from "../../../../../general/components/img/cod.svg";
+import codImage from "../../../../../general/components/img/beauty-COD.svg";
 import clockImage from "../../../../../general/components/img/clock.png";
-import quiqIcon from "../../../../../general/components/img/QuiQIcon.svg";
-import deliveryIcon from "../../../../../general/components/img/deliveryIcon.svg";
+import quiqIcon from "../../../../../general/components/img/beautyPick.svg";
+import deliveryIcon from "../../../../../general/components/img/expressDeliveryBeauty.svg";
 import {
   EXPRESS,
   SHORT_EXPRESS,
@@ -248,12 +248,6 @@ export default class BeautyDeliveryInformations extends React.Component {
         deliveryCharge = `₹${parseInt(this.props.deliveryCharge, 10)}`;
       }
     }
-    if (this.props.pdpApparel) {
-      baseClass = styles.basePdp;
-    }
-    if (this.props.isQuiqPiq === "Y") {
-      baseClass = styles.basePdp;
-    }
     if (this.props.fromSellerCard) {
       cncDeliveryAddressClass = styles.cncDeliveryAddressFullWidth;
     }
@@ -263,7 +257,15 @@ export default class BeautyDeliveryInformations extends React.Component {
     let storeDetails = this.props.storeDetails;
     return (
       <React.Fragment>
-        <div className={styles["ship-date-block"]}>
+        <div
+          className={[
+            this.props.type === QUIQPIQ ? styles["quiq-piq"] : "",
+            this.props.type === SHORT_COLLECT ? styles["pick-store-block"] : "",
+            !this.props.isQuiqPiq && !this.props.type === SHORT_COLLECT
+              ? styles["ship-date-block"]
+              : ""
+          ].join(" ")}
+        >
           <BeautyIconWithHeader
             image={iconImage}
             iconShow={this.props.iconShow}
@@ -275,15 +277,19 @@ export default class BeautyDeliveryInformations extends React.Component {
             inPdpPage={this.props.pdpApparel}
             type={this.props.type}
             inCartPage={this.props.inCartPage}
+            isCod={this.props.isCod}
           >
             {this.props.cutOffTime && (
-              <CountDownTimer cutOffSeconds={this.props.cutOffTime} />
+              <CountDownTimer
+                cutOffSeconds={this.props.cutOffTime}
+                fromBeautyPdp={true}
+              />
             )}
 
             {this.props.available && this.props.placedTimeForCod && (
-              <div className={styles.placeTime}>
-                {this.props.placedTimeForCod}
-              </div>
+              <span className={styles.placeTime}>
+                {` ${this.props.placedTimeForCod}`}
+              </span>
             )}
 
             {this.props.deliverText && (
@@ -314,9 +320,9 @@ export default class BeautyDeliveryInformations extends React.Component {
                       /*    size={
                         UserAgent.checkUserAgentIsMobile() ? "14px" : "12px"
                       } */
-                      fontFamily="semibold"
-                      color="#ff1744"
+                      color="#da1c5c"
                       size="14px"
+                      fontWeight="300"
                       label={this.props.numberOfStore}
                       onClick={() => this.onPiq()}
                     />

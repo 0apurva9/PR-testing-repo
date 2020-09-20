@@ -1,12 +1,26 @@
 .ship-date-block {
   padding: 0 15px 0 40px;
-  width: 195px;
+  width: 250px;
+  margin-bottom: 15px;
   position: relative;
+}
+.quiq-piq {
+  width: 100%;
+  min-height: 30px;
+  margin-bottom: 15px;
+  position: relative;
+  padding: 0 15px 0 40px;
+}
+.pick-store-block {
+  padding: 0 15px 0 40px;
+  width: 150px;
+  position: relative;
+  text-align: right;
 }
 .placeTime {
   width: 100%;
   height: auto;
-  font-family: light;
+  font-family: 500;
   font-size: 14px;
   line-height: 20px;
   margin-bottom: 5px;
@@ -74,7 +88,7 @@
     padding-right: 0px;
   }
   .placeTime {
-    font-size: 12px;
+    font-size: 14px;
   }
   .checkboxHolder {
     composes: checkboxHolder;
