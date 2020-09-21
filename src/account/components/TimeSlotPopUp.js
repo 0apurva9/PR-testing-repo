@@ -50,6 +50,7 @@ class TimeSlotPopUp extends Component {
   tabSelect(val) {
     this.setState({ isSelected: val });
   }
+
   setTimeSlot = (time, date) => {
     this.props.closeModal();
     if (this.props.setTimeSlot) {
@@ -99,13 +100,13 @@ class TimeSlotPopUp extends Component {
             return (
               <div
                 key={timeSlot.label}
-                className={styles.activeTimeSlot}
-                style={
+                className={
                   isTimeSlotDisabled
-                    ? { border: "1px solid #e7e7e7" }
-                    : isAlreadySelected
-                    ? { border: "1px solid #da1c5c" }
-                    : null
+                    ? styles.disableTimeSlot
+                    : styles.activeTimeSlot
+                }
+                style={
+                  isAlreadySelected ? { border: "1px solid #da1c5c" } : null
                 }
                 onClick={() =>
                   !isTimeSlotDisabled
@@ -163,7 +164,7 @@ class TimeSlotPopUp extends Component {
     )}`;
 
     let callRequestLimit = 0;
-    if (this.state.selectedTab) {
+    if (this.state.isSelected) {
       callRequestLimit = TotalRequestsNextDay;
     } else {
       callRequestLimit = TotalRequestsToday;
@@ -193,7 +194,7 @@ class TimeSlotPopUp extends Component {
             <div className={styles.dateSection}>
               {dataObj.isSlotsNotAvailable ? (
                 <div className={styles.noTimeSlotAvailabe}>
-                  <span className={styles.noTimeSlotTxt}>{`${EMPTY_SLOTS}${
+                  <span className={styles.noTimeSlotTxt}>{`${EMPTY_SLOTS} ${
                     this.state.isSelected
                       ? TOMORROW.toLowerCase()
                       : TODAY.toLowerCase()
