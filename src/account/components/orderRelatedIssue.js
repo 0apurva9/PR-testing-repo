@@ -30,7 +30,6 @@ export default class OrderRelatedIssue extends React.Component {
     const getUserDetails = this.userDetailsCookie
       ? JSON.parse(this.userDetailsCookie)
       : {};
-
     const selectedOrderObj =
       this.props.location &&
       this.props.location.state &&
@@ -69,6 +68,10 @@ export default class OrderRelatedIssue extends React.Component {
         getUserDetails.userName
           ? getUserDetails.userName
           : "",
+      name:
+        getUserDetails && (getUserDetails.firstName || getUserDetails.lastName)
+          ? `${getUserDetails.firstName.trim()} ${getUserDetails.lastName.trim()}`
+          : "",
       chooseLanguage: "English",
       timing: "",
       selectedDate: "",
@@ -101,6 +104,17 @@ export default class OrderRelatedIssue extends React.Component {
     if (this.state.selectedOrderObj) {
       this.orderRelatedInfo(this.state.selectedOrderObj);
     }
+    if (this.props.userDetails) {
+      this.setState({
+        name:
+          this.props.userDetails.firstName || this.props.userDetails.lastName
+            ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
+            : "",
+        mobile: this.props.userDetails.mobileNumber
+          ? this.props.userDetails.mobileNumber
+          : ""
+      });
+    }
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.logoutUserStatus !== this.props.logoutUserStatus) {
@@ -114,8 +128,12 @@ export default class OrderRelatedIssue extends React.Component {
     //     JSON.stringify(nextProps.userDetails)
     // ) {
 
-    if (nextProps && nextProps.userDetails !== this.props.userDetails) {
+    if (nextProps && nextProps.userDetails) {
       this.setState({
+        name:
+          nextProps.userDetails.firstName || nextProps.userDetails.lastName
+            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
+            : "",
         mobile: nextProps.userDetails.mobileNumber
           ? nextProps.userDetails.mobileNumber
           : ""
@@ -376,7 +394,7 @@ export default class OrderRelatedIssue extends React.Component {
         isIssueOptions: true,
         isCallMeBackForm: false,
         mobile: "",
-        chooseLanguage: ""
+        chooseLanguage: "English"
       });
     }
   }
@@ -515,12 +533,7 @@ export default class OrderRelatedIssue extends React.Component {
         ? this.getEpochDateValue(slotTimeList, this.state.shift)
         : "",
       CustomerId: "",
-      CustomerName:
-        this.props.userDetails && this.props.userDetails.firstName
-          ? this.props.userDetails.firstName
-          : " " + " " + this.props.userDetails.lastName
-          ? this.props.userDetails.lastName
-          : "",
+      CustomerName: this.state.name,
       IssueType: this.state.parentIssueType
         ? this.state.parentIssueType
         : this.state.question.issueType,
@@ -609,7 +622,7 @@ export default class OrderRelatedIssue extends React.Component {
                 <div className={styles.formBox}>
                   <div className={styles.mobileNumberBox}>
                     <div className={styles.fieldLabel}>
-                      Enter your mobile numer
+                      Enter your Mobile Number
                     </div>
                     <div className={styles.inputField}>
                       <FloatingLabelInputWithPlace
