@@ -109,16 +109,17 @@ export default class AvailableOffersMyAcc extends Component {
                     </div>
                     <div className={styles.offerAvail}>
                       <div className={styles.offerAvailHeaderAndSubHeading}>
-                        <div className={styles.offerAvailHeading}>
-                          {offer.offerDesc}
-                          <span
-                            className={styles.viewMore}
-                            onClick={() => this.showPopup(offer)}
-                          >
-                            {" "}
-                            view more
-                          </span>
-                        </div>
+                        <span
+                          className={styles.offerAvailHeading}
+                          dangerouslySetInnerHTML={{ __html: offer.offerDesc }}
+                        ></span>
+                        <span
+                          className={styles.viewMore}
+                          onClick={() => this.showPopup(offer)}
+                        >
+                          {" "}
+                          view more
+                        </span>
                       </div>
                       <div
                         className={styles.faqOptionArrow}

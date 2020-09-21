@@ -189,7 +189,7 @@ export default class PaymentConfirmationPage extends React.Component {
                             Please check your email for order confirmation and
                             order details
                           </div>
-                          {cashback === true && (
+                          {cashback === "enabled" && (
                             <div className={styles.cashBackOfferMsgDiv}>
                               <div className={styles.cashBackOfferImgDiv}>
                                 <img src={ibutton} alt={"Offer Text"} />
