@@ -1,7 +1,6 @@
 import React from "react";
 
 import styles from "./SizeComponent.css";
-import size from "lodash.size";
 
 export default class SizeComponent extends React.Component {
   constructor(props) {

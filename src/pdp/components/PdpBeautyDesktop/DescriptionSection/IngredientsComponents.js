@@ -8,13 +8,13 @@ export default class IngredientsComponents extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: true,
+      isOpen: true
     };
   }
 
   openMenu() {
-    this.setState((prevState) => ({
-      isOpen: !prevState.isOpen,
+    this.setState(prevState => ({
+      isOpen: !prevState.isOpen
     }));
   }
 
@@ -70,22 +70,22 @@ IngredientsComponents.propTypes = {
           PropTypes.shape({
             key: PropTypes.string,
             description: PropTypes.string,
-            imageURL: PropTypes.string,
+            imageURL: PropTypes.string
           })
-        ),
+        )
       })
     ),
     allIngredients: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string,
-        value: PropTypes.string,
+        value: PropTypes.string
       })
     ),
     notIngredients: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string,
-        value: PropTypes.string,
+        value: PropTypes.string
       })
-    ),
-  }),
+    )
+  })
 };

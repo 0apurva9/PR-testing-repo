@@ -69,6 +69,13 @@ const OffersComponent = Loadable({
   }
 });
 
+const ShippingDetailsComponent = Loadable({
+  loader: () => import("./ShippingDetailsComponent"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const CertifiedComponent = Loadable({
   loader: () => import("./CertifiedComponent"),
   loading() {
@@ -85,6 +92,7 @@ const typeComponentMapping = {
   [DETAILS_COMPONENT]: props => <DetailsComponent {...props} />,
   [SIZE_COMPONENT]: props => <SizeComponent {...props} />,
   [OFFERS_COMPONENT]: props => <OffersComponent {...props} />,
+  [SHIPPING_DETAIL_COMPONENT]: props => <ShippingDetailsComponent {...props} />,
   [CERTIFIED_COMPONENT]: props => <CertifiedComponent {...props} />
 };
 
