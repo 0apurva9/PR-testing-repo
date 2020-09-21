@@ -373,17 +373,23 @@ export default class BuyNowAddToBagComponent extends React.Component {
                   <div
                     className={[
                       styles.buttonAddToBag,
-                      disabledStatus ? "" : styles.shadowBtn
+                      disabledStatus ? "" : "" /*styles.shadowBtn*/
                     ].join(" ")}
                   >
                     <Button
                       disabledBgGrey={true}
                       type="primary"
-                      height={45}
-                      width={195}
+                      height={40}
+                      width={180}
                       label="BUY NOW"
                       onClick={this.onClickOfBuyNow}
                       disabled={disabledStatus}
+                      backgroundColor={"#ffffff"}
+                      borderRadius={4}
+                      borderColor={"#da1c5c"}
+                      borderWidth={1}
+                      fromBeautyPdp={true}
+                      buyNowBeautyPdp={true}
                     />
                   </div>
                 </div>
@@ -394,15 +400,16 @@ export default class BuyNowAddToBagComponent extends React.Component {
                   <div
                     className={[
                       styles.buttonAddToBag,
-                      disabledStatus ? "" : styles.shadowBtn
+                      disabledStatus ? "" : "" /*styles.shadowBtn*/
                     ].join(" ")}
                   >
                     <Button
                       disabledBgGrey={true}
-                      type="hollow"
-                      height={45}
-                      width={195}
-                      color={"#ff1744"}
+                      type="primary"
+                      height={40}
+                      width={180}
+                      backgroundColor={"#da1c5c"}
+                      borderRadius={4}
                       label={
                         this.state.goToCartPageFlag ? "GO TO BAG" : "ADD TO BAG"
                       }
@@ -412,24 +419,27 @@ export default class BuyNowAddToBagComponent extends React.Component {
                           : () => this.addToCart(false)
                       }
                       disabled={disabledStatus}
+                      addToBagBeauty={true}
                     />
                   </div>
                 </div>
               )}
+            {buttonToShow &&
+              buttonToShow.filter(el => el.key === WISHLIST).length > 0 && (
+                <AddToWishListButtonContainer
+                  type={ONLY_ICON}
+                  productListingId={productDetails.productListingId}
+                  winningUssID={productDetails.winningUssID}
+                  setDataLayerType={
+                    SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP
+                  }
+                  isSizeSelectedForAddToWishlist={this.isSizeSelectedForAddToWishlist()}
+                  showSizeSelector={this.isSizeNotSelectedForAddToWishlist}
+                  ussid={productDetails.winningUssID}
+                />
+              )}
           </div>
         )}
-        {buttonToShow &&
-          buttonToShow.filter(el => el.key === WISHLIST).length > 0 && (
-            <AddToWishListButtonContainer
-              type={ONLY_ICON}
-              productListingId={productDetails.productListingId}
-              winningUssID={productDetails.winningUssID}
-              setDataLayerType={SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP}
-              isSizeSelectedForAddToWishlist={this.isSizeSelectedForAddToWishlist()}
-              showSizeSelector={this.isSizeNotSelectedForAddToWishlist}
-              ussid={productDetails.winningUssID}
-            />
-          )}
       </React.Fragment>
     );
   }
