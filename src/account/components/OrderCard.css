@@ -330,6 +330,14 @@ display: none;
 	border-top: 1px solid #d5d5d5;
   margin-top: 10px;
 }
+.bundledProductCancelSectionTitle{
+	font-size: 14px;
+	font-family: semibold;
+	color: #a19e9f;
+	margin-top: 15px;
+	padding-top: 15px;
+	border-top: 1px solid #e3e1e1;
+}
 
 @media screen and (min-width: 1025px) {
 	.productImageHolder {

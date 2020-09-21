@@ -10,6 +10,16 @@
   padding-right: 20px;
   overflow: hidden;
 }
+.headerAutoWidget {
+  width: 100%;
+  margin-bottom: 13px;
+  height: 17px;
+  position: relative;
+  padding-right: 20px;
+  overflow: hidden;
+  background: #fff;
+}
+
 .headerText {
   width: 100%;
   font-family: regular;
@@ -21,6 +31,12 @@
 .headerWhite {
   composes: headerText;
   color: #fff;
+}
+.headerTextForAutoWidget {
+  composes: headerText;
+  font-size: 18px;
+  font-weight: 300;
+  padding-bottom: 12px;
 }
 .electronicHeaderText {
   width: 100%;
@@ -82,6 +98,29 @@
   composes: priceHolder;
   text-decoration: line-through;
   color: #9b9b9b;
+}
+.discountAutoWidget {
+  composes: priceHolder;
+  margin-right: 10px;
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 26px;
+  color: #90112f;
+}
+.priceCancelledForAutoWidget {
+  composes: priceHolder;
+  text-decoration: line-through;
+  color: #9b9b9b;
+  display: inline-block;
+  font-size: 18px;
+}
+.nodiscountForAutoWidget {
+  composes: priceHolder;
+  margin-right: 10px;
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 26px;
+  color: #90112f;
 }
 .contentWhite .priceCancelled {
   color: #fff;

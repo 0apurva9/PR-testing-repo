@@ -371,6 +371,9 @@ export default class ReturnModes extends React.Component {
                         data.products[0] &&
                         data.products[0].exchangeDetails
                       }
+                      bundledAssociatedItems={
+                        data && data.bundledAssociatedItems
+                      }
                     >
                       {returnProductDetails &&
                         returnProductDetails.orderProductWsDTO &&

@@ -28,7 +28,11 @@ import {
   EDIT,
   CNC_TO_HD_ORDER,
   MY_ACCOUNT_USER_NOTIFICATION_PAGE,
-  MY_ACCOUNT_EXCHANGE_MODE_SELECTION_PAGE
+  MY_ACCOUNT_PROMOS_PAGE,
+  MY_ACCOUNT_CHECK_BALANCE_PAGE,
+  MY_ACCOUNT_EXCHANGE_MODE_SELECTION_PAGE,
+  MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE,
+  MY_ACCOUNT_CLIQ_CASH_PURCHASE_PAGE
 } from "../../lib/constants.js";
 import AllOrderContainer from "../containers/AllOrderContainer";
 import MyAccountContainer from "../containers/MyAccountContainer";
@@ -36,6 +40,7 @@ import UserAlertsAndCouponsContainer from "../containers/UserAlertsAndCouponsCon
 import MyAccountBrandsContainer from "../containers/MyAccountBrandsContainer";
 import UpdateProfileContainer from "../containers/UpdateProfileContainer.js";
 import EditAddressBookContainer from "../containers/EditAddressBookContainer.js";
+import CheckBalanceContainer from "../containers/CheckBalanceContainer";
 import AddAddressContainer from "../containers/AddAddressContainer.js";
 import SaveListContainer from "../containers/SaveListContainer";
 import CliqCashContainer from "../containers/CliqCashContainer.js";
@@ -52,7 +57,12 @@ import ReturnEditAddressContainer from "../../return/containers/ReturnEditAddres
 import ReturnAddAddressContainer from "../../return/containers/ReturnAddAddressContainer.js";
 import CncToHdFlowContainer from "../containers/CncToHdFlowContainer.js";
 import NotificationContainer from "../containers/NotificationContainer.js";
+import CliqCashPromosContainer from "../containers/CliqCashPromosContainer.js";
+import CliqGiftCardContainer from "../containers/CliqGiftCardContainer.js";
+
 import ExchangeModeSelectionContainer from "../containers/ExchangeModeSelectionContainer";
+import CliqGiftCardPurchaseContainer from "../containers/CliqGiftCardPurchaseContainer.js";
+import CliqCashTopUpContainer from "../containers/CliqCashTopUpContainer.js";
 export default class MyAccountWrapper extends React.Component {
   componentDidMount() {
     this.props.getUserAddress();
@@ -135,16 +145,45 @@ export default class MyAccountWrapper extends React.Component {
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_COUPON_PAGE}`}
           component={UserAlertsAndCouponsContainer}
         />
+        {
+          // This page has been revamped
+          //   <Route
+          //   exact
+          //   path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`}
+          //   component={GiftCardContainer}
+          // />
+        }
         <Route
           exact
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`}
-          component={GiftCardContainer}
+          component={CliqGiftCardContainer}
+        />
+        <Route
+          exact
+          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE}`}
+          component={CliqGiftCardPurchaseContainer}
+        />
+        <Route
+          exact
+          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PURCHASE_PAGE}`}
+          component={CliqCashTopUpContainer}
+        />
+        <Route
+          exact
+          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${MY_ACCOUNT_PROMOS_PAGE}`}
+          component={CliqCashPromosContainer}
         />
         <Route
           exact
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`}
           component={CliqCashContainer}
         />
+        <Route
+          exact
+          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CHECK_BALANCE_PAGE}`}
+          component={CheckBalanceContainer}
+        />
+
         <Route
           exact
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_DETAIL_PAGE}`}

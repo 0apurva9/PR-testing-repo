@@ -38,6 +38,8 @@ import {
   ADOBE_MDE_CLICK_ON_CART_VIEW_LESS,
   ADOBE_MDE_CLICK_ON_CART_TNC
 } from "../../lib/adobeUtils";
+import DigitalBundledProduct from "./DigitalBundledProduct";
+import RecommendedBundledProduct from "./RecommendedBundledProduct";
 const NO_SIZE = "NO SIZE";
 const OUT_OF_STOCK = "Product is out of stock";
 export default class CartItemForDesktop extends React.Component {
@@ -66,9 +68,13 @@ export default class CartItemForDesktop extends React.Component {
       this.props.onClickImage();
     }
   }
-  handleRemove(index) {
+  handleRemove(entryNumber, mainProductUssid, isForDigitalBundledProduct) {
     if (this.props.onRemove) {
-      this.props.onRemove(index);
+      this.props.onRemove(
+        entryNumber,
+        mainProductUssid,
+        isForDigitalBundledProduct
+      );
     }
   }
   getDeliveryName = type => {
@@ -229,7 +235,15 @@ export default class CartItemForDesktop extends React.Component {
       }
     }
     let hideQuantityArrow = false;
-    if (this.props.product && this.props.product.exchangeDetails) {
+    let isDigitalBundledProduct =
+      this.props.product &&
+      this.props.product.bundledDigitalItems &&
+      Array.isArray(this.props.product.bundledDigitalItems) &&
+      this.props.product.bundledDigitalItems.length > 0;
+    if (
+      this.props.product &&
+      (this.props.product.exchangeDetails || isDigitalBundledProduct)
+    ) {
       hideQuantityArrow = true;
     }
     let productMessage = this.props.productNotServiceable
@@ -320,6 +334,23 @@ export default class CartItemForDesktop extends React.Component {
                   )}
                 </div>
               )}
+              {this.props.product &&
+                this.props.product.price &&
+                this.props.offerPrice &&
+                this.props.product.price !== this.props.offerPrice && (
+                  <div className={styles.priceCancelled}>
+                    <span
+                      className={styles.cancelPrice}
+                    >{`${RUPEE_SYMBOL}${Math.floor(
+                      this.props.product.price
+                    )}`}</span>
+                    <span className={styles.discount}>
+                      {this.props.discount && this.props.discount > 0
+                        ? `(${this.props.discount}%)`
+                        : null}
+                    </span>
+                  </div>
+                )}
               {this.props.isGiveAway === NO &&
                 (!this.props.productIsServiceable && productMessage
                   ? localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE) && (
@@ -407,7 +438,9 @@ export default class CartItemForDesktop extends React.Component {
                 </div>
                 <div
                   className={styles.removeLabel}
-                  onClick={() => this.handleRemove(this.props.index)}
+                  onClick={() =>
+                    this.handleRemove(this.props.product.entryNumber)
+                  }
                 >
                   {this.props.removeText}
                 </div>
@@ -483,6 +516,7 @@ export default class CartItemForDesktop extends React.Component {
                   this.props.product && this.props.product.productcode
                 }
                 winningUssID={this.props.product && this.props.product.USSID}
+                isShippingObjAvailable={this.props.isShippingObjAvailable}
               />
             </div>
           )}
@@ -642,6 +676,52 @@ export default class CartItemForDesktop extends React.Component {
               )}
             </React.Fragment>
           )}
+        {this.props.product.bundledDigitalItems &&
+          this.props.product.bundledDigitalItems.map(
+            (digitalProduct, index) => {
+              return (
+                <DigitalBundledProduct
+                  key={index}
+                  digitalProduct={digitalProduct}
+                  mainProductUssid={this.props.product.USSID}
+                  onRemove={(
+                    entryNumber,
+                    mainProductUssid,
+                    isForDigitalBundledProduct
+                  ) =>
+                    this.handleRemove(
+                      entryNumber,
+                      mainProductUssid,
+                      isForDigitalBundledProduct
+                    )
+                  }
+                  history={this.props.history}
+                />
+              );
+            }
+          )}
+
+        {this.props.product.bundlingSuggestionAvailable &&
+          !this.props.isOutOfStock &&
+          this.props.productIsServiceable && (
+            <RecommendedBundledProduct
+              product={this.props.product}
+              getBundledProductSuggestion={
+                this.props.getBundledProductSuggestion
+              }
+              bundledProductSuggestionDetails={
+                this.props.bundledProductSuggestionDetails
+              }
+              addBundledProductsToCart={this.props.addBundledProductsToCart}
+              addBundledProductsToCartDetails={
+                this.props.addBundledProductsToCartDetails
+              }
+              getCartDetails={this.props.getCartDetails}
+              displayToast={this.props.displayToast}
+              history={this.props.history}
+            />
+          )}
+
         {this.props.isGiveAway === NO &&
           this.props.deliveryInformation && (
             <div className={styles.deliveryInfo}>
@@ -651,6 +731,7 @@ export default class CartItemForDesktop extends React.Component {
                 onSelect={val => this.selectDeliveryMode(val)}
                 onPiq={val => this.getPickUpDetails()}
                 isClickable={this.props.isClickable}
+                isShippingObjAvailable={this.props.isShippingObjAvailable}
               />
             </div>
           )}
@@ -679,7 +760,8 @@ CartItemForDesktop.propTypes = {
   product: PropTypes.object,
   pinCode: PropTypes.object,
   maxQuantityAllowed: PropTypes.string,
-  qtySelectedByUser: PropTypes.string
+  qtySelectedByUser: PropTypes.string,
+  isShippingObjAvailable: PropTypes.bool
 };
 
 CartItemForDesktop.defaultProps = {
@@ -687,5 +769,6 @@ CartItemForDesktop.defaultProps = {
   hasFooter: true,
   dropdownLabel: "Quantity:",
   removeText: "Remove",
-  isFromCnc: false
+  isFromCnc: false,
+  isShippingObjAvailable: false
 };
