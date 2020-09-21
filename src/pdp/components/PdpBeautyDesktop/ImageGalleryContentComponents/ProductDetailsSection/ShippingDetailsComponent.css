@@ -1,0 +1,74 @@
+.separator {
+	width: 100%;
+	height: auto;
+	margin-top: 30px;
+}
+
+.pin-code-component {
+	display: block;
+	width: 100%;
+	margin: 20px 0 0 0;
+	border-top: 1px solid rgb(230, 230, 230);
+}
+.pin-code-block {
+	padding: 20px 0 0;
+}
+.pin-code-error {
+	font-family: "Rubik", sans-serif;
+	font-weight: 300;
+	font-size: 14px;
+	line-height: 16px;
+	color: rgb(196, 116, 3);
+	margin: 20px 0 0;
+}
+.ship-deli-pick-block {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	margin-top: 15px;
+}
+
+.deliveryModesHolder {
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	/* margin-top: 35px; */
+}
+
+.invalidPinText {
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	color: rgb(74, 74, 74);
+	font-size: 12px;
+	font-family: regular;
+	padding-left: 75px;
+}
+
+@media screen and (min-width: 1025px) {
+	.horizontalOffset {
+		width: 100%;
+		height: auto;
+		display: inline-block;
+	}
+	.separator {
+		margin-top: 20px;
+		padding: 12px 0 0;
+		border-top: 1px solid #e2e2e2;
+	}
+	.pinAndDeliveryHolder {
+		width: 100%;
+		height: auto;
+	}
+	.updatePincodeHolder {
+		width: 360px;
+		height: auto;
+		display: inline-block;
+		position: relative;
+		padding-left: 65px;
+		/* margin: 15px 0; */
+	}
+	.overlay {
+		padding-top: 14px;
+	}
+}

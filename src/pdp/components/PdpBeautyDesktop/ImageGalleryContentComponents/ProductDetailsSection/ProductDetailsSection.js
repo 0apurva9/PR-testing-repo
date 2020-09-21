@@ -13,7 +13,8 @@ import {
   GUARANTEE_COMPONENT,
   FREEBIE_COMPONENT,
   DETAILS_COMPONENT,
-  BUYNOW_ADDTOBAG_COMPONENT
+  BUYNOW_ADDTOBAG_COMPONENT,
+  CERTIFIED_COMPONENT
 } from "../../ComponentConstants";
 import styles from "./ProductDetailsSection.css";
 import { renderComponent } from "../../../../../pdp/reducers/utils";
@@ -76,6 +77,20 @@ const BuyNowAddToBagComponent = Loadable({
   }
 });
 
+const ShippingDetailsComponent = Loadable({
+  loader: () => import("./ShippingDetailsComponent"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const CertifiedComponent = Loadable({
+  loader: () => import("./CertifiedComponent"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const typeComponentMapping = {
   [PRODUCT_AND_BRAND_COMPONENT]: props => (
     <ProductAndBrandComponent {...props} />
@@ -85,7 +100,9 @@ const typeComponentMapping = {
   [DETAILS_COMPONENT]: props => <DetailsComponent {...props} />,
   [SIZE_COMPONENT]: props => <SizeComponent {...props} />,
   [OFFERS_COMPONENT]: props => <OffersComponent {...props} />,
-  [BUYNOW_ADDTOBAG_COMPONENT]: props => <BuyNowAddToBagComponent {...props} />
+  [BUYNOW_ADDTOBAG_COMPONENT]: props => <BuyNowAddToBagComponent {...props} />,
+  [SHIPPING_DETAIL_COMPONENT]: props => <ShippingDetailsComponent {...props} />,
+  [CERTIFIED_COMPONENT]: props => <CertifiedComponent {...props} />
 };
 
 export default class ProductsDetailsSection extends React.Component {

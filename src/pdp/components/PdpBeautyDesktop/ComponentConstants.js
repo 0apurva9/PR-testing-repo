@@ -1,13 +1,13 @@
 export const IMAGE_GALLERY_COMPONENT = "imageGalleryComponent";
 export const PRODUCT_AND_BRAND_COMPONENT = "productAndBrandComponent";
-export const RATING_REVIEW_COMPONENT = "ratingReviewComponent";
+export const RATING_REVIEW_COMPONENT = "ratingReviewShortComponent";
 export const PRICE_COMPONENT = "priceComponent";
 export const SIZE_COMPONENT = "sizeComponent";
 export const COLOR_COMPONENT = "colorComponent";
 export const FREEBIE_COMPONENT = "freebeeComponent";
 export const OFFERS_COMPONENT = "offersComponent";
 export const STORY_COMPONENT = "storyComponent";
-export const DETAILS_COMPONENT = "detailsComponent";
+export const DETAILS_COMPONENT = "detailsShortComponent";
 export const FROM_THE_BRAND_COMPONENT = "fromTheBrandComponent";
 export const INGREDIENTS_COMPONENT = "ingredientsComponent";
 export const HOW_TO_WEAR_COMPONENT = "howToWearComponent";
@@ -26,6 +26,7 @@ export const BUYNOW_ADDTOBAG_COMPONENT = "buyNowAddToBagComponent";
 export const BUYNOW = "buyNow";
 export const ADDTOBAG = "addToBag";
 export const WISHLIST = "wishList";
+export const CERTIFIED_COMPONENT = "certifiedComponent";
 
 export const SECTION_OF_ALL_BEAUTY_COMPONENTS = [
   IMAGE_GALLERY_COMPONENT,
@@ -47,8 +48,10 @@ export const SECTION_OF_ALL_BEAUTY_COMPONENTS = [
   RETURNS_COMPONENT,
   ABOUT_THE_BRAND_COMPONENT,
   SIMILAR_BRANDS_COMPONENT,
-  BUYNOW_ADDTOBAG_COMPONENT
+  BUYNOW_ADDTOBAG_COMPONENT,
+  CERTIFIED_COMPONENT
 ];
+
 export const SECTION_OF_PRODUCT_DETAILS = [
   PRODUCT_AND_BRAND_COMPONENT,
   RATING_REVIEW_COMPONENT,
@@ -60,7 +63,8 @@ export const SECTION_OF_PRODUCT_DETAILS = [
   GUARANTEE_COMPONENT,
   FREEBIE_COMPONENT,
   DETAILS_COMPONENT,
-  BUYNOW_ADDTOBAG_COMPONENT
+  BUYNOW_ADDTOBAG_COMPONENT,
+  CERTIFIED_COMPONENT
 ];
 
 export const SECTION_OF_PRODUCT_DESCRIPTION = [

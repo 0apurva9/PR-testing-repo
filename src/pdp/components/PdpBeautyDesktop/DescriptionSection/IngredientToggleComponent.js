@@ -20,22 +20,23 @@ export default class IngredientToggleComponent extends Component {
                       : styles["ingredents-sec-inner-blocks1"]
                   }
                 >
-                  {item.values.map((value, i) => (
-                    <div key={i} className={styles["ingredents-details"]}>
-                      <div
-                        className={styles["ingredents-icon"]}
-                        style={{
-                          backgroundImage: `url(https:${value.imageURL})`
-                        }}
-                      ></div>
-                      <div className={styles["ingredents-txt"]}>
-                        <span className={styles["ingredents-txt-head"]}>
-                          {value.key}
-                        </span>
-                        ({value.description})
+                  {item &&
+                    item.values.map((value, i) => (
+                      <div key={i} className={styles["ingredents-details"]}>
+                        <div
+                          className={styles["ingredents-icon"]}
+                          style={{
+                            backgroundImage: `url(https:${value.imageURL})`
+                          }}
+                        ></div>
+                        <div className={styles["ingredents-txt"]}>
+                          <span className={styles["ingredents-txt-head"]}>
+                            {value.key}
+                          </span>
+                          ({value.description})
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </div>
             ))}
