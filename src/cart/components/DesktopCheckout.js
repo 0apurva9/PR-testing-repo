@@ -66,9 +66,12 @@ export default class DesktopCheckout extends React.Component {
                   <div className={styles.shippingChargeMsgIcon}>
                     <img src={shippingTruck} alt="shippingTruck" />
                   </div>
-                  <div className={styles.shippingChargeMsgText}>
-                    {this.props.shippingPromoMessage}
-                  </div>
+                  <div
+                    className={styles.shippingChargeMsgText}
+                    dangerouslySetInnerHTML={{
+                      __html: this.props.shippingPromoMessage
+                    }}
+                  ></div>
                 </div>
               </div>
             )}
