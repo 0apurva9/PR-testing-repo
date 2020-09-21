@@ -147,9 +147,10 @@ export default class CliqGiftCardPurchase extends Component {
       this.props.location.state.offerDetails;
 
     {
-      offerDetails
-        ? localStorage.setItem("cashback", true)
-        : localStorage.setItem("cashback", false);
+      this.props.location.state.offerDetails.cashbackMode === "TOPUP" ||
+      this.props.location.state.offerDetails.cashbackMode === "EGV"
+        ? localStorage.setItem("cashback", "enabled")
+        : localStorage.setItem("cashback", "disabled");
     }
 
     if (offerDetails === undefined) {
