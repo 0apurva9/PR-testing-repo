@@ -19,19 +19,24 @@ const PlpBannerComponentMonetization = Loadable({
   }
 });
 
-export const typeComponentMapping = {
-  plpBannerComponent: props => <PlpBannerComponent {...props} />,
-  plpShortBannerComponent: props => <PlpBannerComponent {...props} />,
-  plpBannerComponent_Monetization: props => (
-    <PlpBannerComponentMonetization {...props} />
-  ),
-  plpShortBannerComponent_Monetization: props => (
-    <PlpBannerComponentMonetization {...props} />
-  )
-};
+// export const typeComponentMapping = {
+//   plpBannerComponent: (
+//     <PlpBannerComponent {...this.props} />
+//   ),
+//   plpShortBannerComponent: (
+//     <PlpBannerComponent {...this.props} />
+//   ),
+//   plpBannerComponent_Monetization: (
+//     <PlpBannerComponentMonetization {...this.props} />
+//   ),
+//   plpShortBannerComponent_Monetization: (
+//     <PlpBannerComponentMonetization {...this.props} />
+//   )
+// };
 
 const typeKeyMapping = {
-  plpBannerComponent: "plpBannerComponent"
+  plpBannerComponent: "plpBannerComponent",
+  plpShortBannerComponent: "plpShortBannerComponent"
 };
 
 class PlpBannerFeed extends Component {
@@ -39,26 +44,46 @@ class PlpBannerFeed extends Component {
     super(props);
   }
 
-  render() {
-    const feedData = this.props.plpFeedData[0];
-    let index = 0;
-    let props = {
-      positionInFeed: index,
-      key: index,
-      id: `Feed-${index}`,
-      type: typeKeyMapping[feedData.type],
-      postData: feedData.postParams,
-      feedType: SECONDARY_FEED_TYPE
-    };
-    console.log("1===================", feedData.type);
-    return (
-      typeComponentMapping[feedData.type] && (
-        <WidgetContainer {...props}>
-          {typeComponentMapping[feedData.type] &&
-            typeComponentMapping[feedData.type]}
-        </WidgetContainer>
+  renderFeedComponent(feedData, index) {
+    const typeComponentMapping = {
+      plpBannerComponent: (
+        <PlpBannerComponent feedComponentData={feedData} {...this.props} />
+      ),
+      plpShortBannerComponent: (
+        <PlpBannerComponent feedComponentData={feedData} {...this.props} />
+      ),
+      plpBannerComponent_Monetization: (
+        <PlpBannerComponentMonetization
+          feedComponentData={feedData}
+          {...this.props}
+        />
+      ),
+      plpShortBannerComponent_Monetization: (
+        <PlpBannerComponentMonetization
+          feedComponentData={feedData}
+          {...this.props}
+        />
       )
+    };
+
+    if (typeComponentMapping[feedData.type]) {
+      return typeComponentMapping[feedData.type];
+    } else {
+      return null;
+    }
+  }
+
+  renderFeedComponents() {
+    return (
+      this.props.plpFeedData &&
+      this.props.plpFeedData.map((feedData, i) => {
+        return this.renderFeedComponent(feedData, this.props.index);
+      })
     );
+  }
+
+  render() {
+    return <React.Fragment>{this.renderFeedComponents()}</React.Fragment>;
   }
 }
 
