@@ -539,9 +539,12 @@ export function addProductToCart(productDetails) {
           return val.USSID === productDetails.ussId;
         });
         if (
-          isProductInCart &&
-          isProductInCart.exchangeDetails &&
-          productDetails.isFromMobileExchange
+          (isProductInCart &&
+            isProductInCart.exchangeDetails &&
+            productDetails.isFromMobileExchange) ||
+          (isProductInCart &&
+            isProductInCart.exchangeDetails &&
+            !productDetails.isFromMobileExchange)
         ) {
           dispatch(
             showModal(PRODUCT_IN_BAG_MODAL, {
@@ -2160,7 +2163,10 @@ export function verifyIMEINumber(
       if (wishlistName) {
         bodyParams.wishlistName = wishlistName;
       }
-      const result = await api.post(`v2/mpl/verifyIMEINumber`, bodyParams);
+      const result = await api.post(
+        `v2/mpl/verifyIMEINumber?isDuplicateImei=true`,
+        bodyParams
+      );
       const resultJson = await result.json();
       return resultJson;
     } catch (e) {
