@@ -13,6 +13,7 @@ import {
   GUARANTEE_COMPONENT,
   FREEBIE_COMPONENT,
   DETAILS_COMPONENT,
+  BUYNOW_ADDTOBAG_COMPONENT,
   CERTIFIED_COMPONENT
 } from "../../ComponentConstants";
 import styles from "./ProductDetailsSection.css";
@@ -69,6 +70,13 @@ const OffersComponent = Loadable({
   }
 });
 
+const BuyNowAddToBagComponent = Loadable({
+  loader: () => import("./BuyNowAddToBagComponent"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const ShippingDetailsComponent = Loadable({
   loader: () => import("./ShippingDetailsComponent"),
   loading() {
@@ -92,6 +100,7 @@ const typeComponentMapping = {
   [DETAILS_COMPONENT]: props => <DetailsComponent {...props} />,
   [SIZE_COMPONENT]: props => <SizeComponent {...props} />,
   [OFFERS_COMPONENT]: props => <OffersComponent {...props} />,
+  [BUYNOW_ADDTOBAG_COMPONENT]: props => <BuyNowAddToBagComponent {...props} />,
   [SHIPPING_DETAIL_COMPONENT]: props => <ShippingDetailsComponent {...props} />,
   [CERTIFIED_COMPONENT]: props => <CertifiedComponent {...props} />
 };
