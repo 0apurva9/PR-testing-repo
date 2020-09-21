@@ -719,6 +719,9 @@ export default class CartItemForDesktop extends React.Component {
               getCartDetails={this.props.getCartDetails}
               displayToast={this.props.displayToast}
               history={this.props.history}
+              bundledProductSuggestionStatus={
+                this.props.bundledProductSuggestionStatus
+              }
             />
           )}
 
