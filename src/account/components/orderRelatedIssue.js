@@ -372,7 +372,12 @@ export default class OrderRelatedIssue extends React.Component {
         showFeedBack: true
       });
     } else if (this.state.isCallMeBackForm) {
-      this.setState({ isIssueOptions: true, isCallMeBackForm: false });
+      this.setState({
+        isIssueOptions: true,
+        isCallMeBackForm: false,
+        mobile: "",
+        chooseLanguage: ""
+      });
     }
   }
   navigateHomePage() {
@@ -439,6 +444,7 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   callMeBackCallClick = () => {
+    window.scroll(0, 0);
     this.setState({
       isCallMeBackForm: true,
       isIssueOptions: false,
@@ -447,6 +453,7 @@ export default class OrderRelatedIssue extends React.Component {
   };
 
   scheduleACallClick = () => {
+    window.scroll(0, 0);
     this.setState({
       isCallMeBackForm: true,
       isScheduleACall: true,
@@ -608,18 +615,19 @@ export default class OrderRelatedIssue extends React.Component {
                       <FloatingLabelInputWithPlace
                         placeholder={"Mobile number *"}
                         disabled={false}
-                        maxLength={10}
+                        maxLength={"10"}
                         value={this.state.mobile}
                         onChange={value => this.setState({ mobile: value })}
                         fontSize={"11px"}
                         onlyNumber={true}
+                        focusBack={true}
                       />
-                      <div
+                      {/* <div
                         className={styles.customBtn}
                         onClick={() => this.previewPage()}
                       >
                         Change
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div className={styles.languageBox}>

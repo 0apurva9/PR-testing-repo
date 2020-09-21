@@ -192,7 +192,7 @@ class TimeSlotPopUp extends Component {
 
           <div className={styles.dateBox}>
             <div className={styles.dateSection}>
-              {true ? (
+              {dataObj.isSlotsNotAvailable ? (
                 <div className={styles.noTimeSlotAvailabe}>
                   <span className={styles.noTimeSlotTxt}>{`${EMPTY_SLOTS} ${
                     this.state.isSelected
