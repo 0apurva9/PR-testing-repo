@@ -19,6 +19,7 @@ class CustomerQueryErrorModal extends React.Component {
   }
   onContinueShoppingClick = () => {
     this.props.history.push(HOME_ROUTER);
+    window.location.reload();
   };
 
   render() {

@@ -108,11 +108,13 @@ export default class OrderRelatedIssue extends React.Component {
         this.setState(this.resetState);
       }
     }
-    if (
-      nextProps &&
-      JSON.stringify(this.props.userDetails) !==
-        JSON.stringify(nextProps.userDetails)
-    ) {
+    // if (
+    //   nextProps &&
+    //   JSON.stringify(this.props.userDetails) !==
+    //     JSON.stringify(nextProps.userDetails)
+    // ) {
+
+    if (nextProps && nextProps.userDetails !== this.props.userDetails) {
       this.setState({
         mobile: nextProps.userDetails.mobileNumber
           ? nextProps.userDetails.mobileNumber
@@ -496,7 +498,8 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.displayToast("Please enter valid number");
       return false;
     }
-    const slotTimeList = this.state.timing && this.state.timing.split("-");
+    const slotTimeList =
+      this.state.selectedSlot.value && this.state.selectedSlot.value.split("-");
     const callRequestObj = {
       Language: this.state.chooseLanguage ? this.state.chooseLanguage : "",
       MobileNo: this.state.mobile ? this.state.mobile : "",
@@ -506,10 +509,11 @@ export default class OrderRelatedIssue extends React.Component {
         : "",
       CustomerId: "",
       CustomerName:
-        this.props.userDetails &&
-        this.props.userDetails.firstName +
-          " " +
-          this.props.userDetails.lastName,
+        this.props.userDetails && this.props.userDetails.firstName
+          ? this.props.userDetails.firstName
+          : " " + " " + this.props.userDetails.lastName
+          ? this.props.userDetails.lastName
+          : "",
       IssueType: this.state.parentIssueType
         ? this.state.parentIssueType
         : this.state.question.issueType,
@@ -597,10 +601,12 @@ export default class OrderRelatedIssue extends React.Component {
               <div className={styles.callMeBackFormBox}>
                 <div className={styles.formBox}>
                   <div className={styles.mobileNumberBox}>
-                    <div className={styles.fieldLabel}>Mobile number</div>
+                    <div className={styles.fieldLabel}>
+                      Enter your mobile numer
+                    </div>
                     <div className={styles.inputField}>
                       <FloatingLabelInputWithPlace
-                        placeholder={"Enter your mobile numer *"}
+                        placeholder={"Mobile number *"}
                         disabled={false}
                         maxLength={10}
                         value={this.state.mobile}
@@ -610,7 +616,7 @@ export default class OrderRelatedIssue extends React.Component {
                       />
                       <div
                         className={styles.customBtn}
-                        // onClick={() => this.previewPage()}
+                        onClick={() => this.previewPage()}
                       >
                         Change
                       </div>

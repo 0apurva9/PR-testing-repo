@@ -54,7 +54,7 @@ class CustomerCallSuccessModal extends React.Component {
             <Icon image={raisedTicket} size={222} />
           </div>
           <div className={styles.subHeading}>
-            <div>{contents[0]}</div>
+            <div>{contents[0]}.</div>
             <div>{contents[1]}</div>
             <div className={styles.timing}> {timeContent} </div>
           </div>

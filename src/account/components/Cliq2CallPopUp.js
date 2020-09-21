@@ -42,9 +42,9 @@ export default class Cliq2CallPopUp extends Component {
       OpenRequest = ""
     } = (this.props && this.props.genesysCallConfigData) || {};
 
-    // if (this.props.genesysDataLoader) {
-    //   return <Loader />;
-    // }
+    if (this.props.genesysDataLoader) {
+      return <Loader />;
+    }
     if (OpenRequest === "now") {
       this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
         heading: "We already have your callback request in the queue",
@@ -117,6 +117,7 @@ export default class Cliq2CallPopUp extends Component {
 
     return (
       <BottomSlideModal>
+        {}
         <div className={styles.popUpBox}>
           <div
             className={styles.crossIcon}
@@ -126,8 +127,8 @@ export default class Cliq2CallPopUp extends Component {
           </div>
           {OpenRequest !== "now" && OpenRequest !== "" && (
             <div className={styles.alredySlotBookBox}>
-              {`We have already scheduled a callback for ${scheduleCallObj.shift} between`}
-              <br />
+              We have already scheduled a callback for <br />
+              {`${scheduleCallObj.shift} between`}{" "}
               <span className={styles.fontBold}>
                 {scheduleCallObj.timeSlot.split(",")[0]}
               </span>
@@ -191,7 +192,6 @@ export function isCallBackBtnEnable(
     currentTime = today.toLocaleTimeString("en-US", { hour12: false }),
     isUserWithinBusinessTime =
       currentTime > startTime && currentTime < endTime ? true : false;
-
   if (callBackNowFlag && isUserWithinBusinessTime) {
     let checkBusinessTime = new Date(
       today.getTime() + parseInt(waitTime) * 60000
