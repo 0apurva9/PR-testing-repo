@@ -37,15 +37,7 @@ export default class NoReturnComponent extends Component {
     return (
       <Fragment>
         <div className={styles.container}>
-          <div
-            className={
-              this.state.isReturnOpen &&
-              !this.props.manufacturerDetails &&
-              Object.keys(this.props.manufacturerDetails).length === 0
-                ? styles["return-component"]
-                : styles["return-component-hide-padding"]
-            }
-          >
+          <div className={styles["return-component"]}>
             <div className={styles.base}>
               <div
                 className={styles.holder}
@@ -86,7 +78,7 @@ export default class NoReturnComponent extends Component {
                     <div className={manufacIconActive} />
                   </div>
                   <Collapse isOpened={this.state.isManufactureOpen}>
-                    <Fragment>
+                    <div className={styles["manufacture-desc"]}>
                       <div className={styles["manufacture-col"]}>
                         {this.props.manufacturerDetails.countryOfOrigin && (
                           <Fragment>
@@ -146,7 +138,7 @@ export default class NoReturnComponent extends Component {
                             </Fragment>
                           )}
                       </div>
-                    </Fragment>
+                    </div>
                   </Collapse>
                 </div>
               )}
