@@ -302,6 +302,28 @@ const SplitBannerComponentMonetization = Loadable({
   }
 });
 
+const PlpBannerComponent = Loadable({
+  loader: () => import("../../staticpage/components/PlpBannerComponent.js"),
+  loading() {
+    return <div />;
+  }
+});
+
+const PlpBannerComponentMonetization = Loadable({
+  loader: () =>
+    import("../../staticpage/components/PlpBannerComponentMonetization.js"),
+  loading() {
+    return <div />;
+  }
+});
+
+const SimpleBannerComponentMonetization = Loadable({
+  loader: () => import("./SimpleBannerComponentMonetization.js"),
+  loading() {
+    return <div />;
+  }
+});
+
 export const typeComponentMapping = {
   "Product Capsules Component": props => (
     <ProductCapsulesContainer {...props} />
@@ -405,8 +427,11 @@ export const typeComponentMapping = {
   "Account Navigation Component": props => (
     <AccountNavigationComponent {...props} />
   ),
-  HeroBannerComponent_Monetization: props => (
+  HeroBannerComponentMonetization: props => (
     <HeroBannerComponentMonetization {...props} />
+  ),
+  SimpleBannerComponentMonetization: props => (
+    <SimpleBannerComponentMonetization {...props} />
   ),
   MultiPurposeBanner_Monetization: props => (
     <MultiPurposeBannerMonetization {...props} />
@@ -419,6 +444,14 @@ export const typeComponentMapping = {
   ),
   SplitBannerComponent_Monetization: props => (
     <SplitBannerComponentMonetization {...props} />
+  ),
+  plpBannerComponent: props => <PlpBannerComponent {...props} />,
+  plpShortBannerComponent: props => <PlpBannerComponent {...props} />,
+  plpBannerComponent_Monetization: props => (
+    <PlpBannerComponentMonetization {...props} />
+  ),
+  plpShortBannerComponent_Monetization: props => (
+    <PlpBannerComponentMonetization {...props} />
   )
 };
 
@@ -526,7 +559,6 @@ class Feed extends Component {
         setClickedElementId
       };
     }
-
     return (
       typeComponentMapping[feedDatum.type] && (
         <WidgetContainer {...props}>

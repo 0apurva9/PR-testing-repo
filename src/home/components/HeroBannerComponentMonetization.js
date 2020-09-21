@@ -16,7 +16,8 @@ export default class HeroBannerComponentMonetization extends React.Component {
     };
   }
   componentDidMount() {
-    if (window._osFetchBrandAds) {
+    const objWindow = window;
+    if (objWindow._osFetchBrandAds) {
       const url = this.props.location.pathname;
       let pageType = "CATEGORY";
       this.setState({ bannerLoading: true });
@@ -25,13 +26,19 @@ export default class HeroBannerComponentMonetization extends React.Component {
         pageType = "HOME";
       }
 
-      window
+      objWindow
         ._osFetchBrandAds({
           au: "HeroBannerComponent_Monetization",
           pt: pageType
         })
         .then(response => {
           this.setState({ heroBanner: response, bannerLoading: false });
+          if (
+            objWindow._osAdImpression &&
+            (response.ads[0] && response.ads[0].uclid)
+          ) {
+            objWindow._osAdImpression({ uclid: response.ads[0].uclid });
+          }
         })
         .catch(err => {
           this.setState({ bannerLoading: false });
@@ -57,7 +64,7 @@ export default class HeroBannerComponentMonetization extends React.Component {
                   buttonLabel={elements.CTA}
                   image={elements.image}
                   key={i}
-                  url={elements.destination_url}
+                  url={datum.click_tracking_url}
                 />
               );
             })}
@@ -79,7 +86,7 @@ export default class HeroBannerComponentMonetization extends React.Component {
                   buttonLabel={elements.CTA}
                   // ratio={feedComponentData.dimension}
                   key={i}
-                  url={elements.destination_url}
+                  url={datum.click_tracking_url}
                 />
               );
             })}

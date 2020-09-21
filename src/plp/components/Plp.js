@@ -792,6 +792,7 @@ export default class Plp extends React.Component {
                       view={this.state.view}
                       gridBreakup={this.state.gridBreakup}
                       productListings={this.props.productListings}
+                      secondaryFeedData={this.props.secondaryFeedData}
                     />
                   </div>
                   <DesktopOnly>

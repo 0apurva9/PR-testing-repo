@@ -46,7 +46,7 @@ export function setTracker(type, responseData) {
       products: [
         {
           skuId: responseData.productListingId,
-          sellerId: responseData.winningUssID,
+          sellerId: responseData.winningSellerID,
           category: categoryList,
           productPrice: `${responseData.mrpPrice.doubleValue}`,
           currency: "INR",
@@ -62,7 +62,7 @@ export function setTracker(type, responseData) {
       products: [
         {
           skuId: responseData.productListingId,
-          sellerId: responseData.winningUssID,
+          sellerId: responseData.winningSellerID,
           category: categoryList,
           productPrice: `${responseData.mrpPrice.doubleValue}`,
           currency: "INR",
