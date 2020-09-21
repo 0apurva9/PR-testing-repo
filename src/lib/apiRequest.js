@@ -169,6 +169,10 @@ if (
 } else if (process.env.REACT_APP_STAGE === "mock") {
   API_URL_ROOT = "https://mock.tatacliq.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT = "https://mock.tatacliq.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "qa6") {
+  API_URL_ROOT = "https://qa6.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://qa6.tataunistore.com/marketplacewebservices";
 }
 
 if (process.env.REACT_APP_STAGE === "tmpprod") {
