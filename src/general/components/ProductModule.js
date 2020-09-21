@@ -189,6 +189,7 @@ export default class ProductModule extends React.Component {
                       newProduct={this.props.newProduct}
                       showExchangeTag={this.props.showExchangeTag}
                       exchangeOfferAvailable={this.props.exchangeOfferAvailable}
+                      maxExchangeBumpUp={this.props.maxExchangeBumpUp}
                     />
                   </div>
                 </div>
