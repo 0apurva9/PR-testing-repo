@@ -51,7 +51,7 @@ import { checkUserLoggedIn } from "../../../../../lib/userUtils";
 const NO_SIZE = "NO SIZE";
 const FREE_SIZE = "Free Size";
 const PRODUCT_QUANTITY = "1";
-const ONLY_ICON = "wishlistIconForPdp";
+const BEAUTY_PDP_ICON = "beautyIconForPdp";
 
 export default class BuyNowAddToBagComponent extends React.Component {
   constructor(props) {
@@ -330,7 +330,6 @@ export default class BuyNowAddToBagComponent extends React.Component {
   };
 
   render() {
-    console.log("enteredbuynow", this.props);
     const productDetails = this.props && this.props.productDetails;
     const compDetails =
       this.props && this.props.compDetails ? this.props.compDetails : [];
@@ -427,7 +426,7 @@ export default class BuyNowAddToBagComponent extends React.Component {
             {buttonToShow &&
               buttonToShow.filter(el => el.key === WISHLIST).length > 0 && (
                 <AddToWishListButtonContainer
-                  type={ONLY_ICON}
+                  type={BEAUTY_PDP_ICON}
                   productListingId={productDetails.productListingId}
                   winningUssID={productDetails.winningUssID}
                   setDataLayerType={

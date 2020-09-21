@@ -99,7 +99,8 @@ export default class Button extends React.Component {
     if (
       this.props.fromBeautyPdp &&
       this.props.buyNowBeautyPdp &&
-      this.props.type === "primary"
+      this.props.type === "primary" &&
+      this.props.disabled
     ) {
       textStyle = Object.assign(this.props.textStyle, {
         color: "#d5d5d5",
