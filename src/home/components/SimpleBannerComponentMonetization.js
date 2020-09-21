@@ -14,7 +14,8 @@ export default class SimpleBannerComponentMonetization extends React.Component {
     };
   }
   componentDidMount() {
-    if (window._osFetchBrandAds) {
+    const objWindow = window;
+    if (objWindow._osFetchBrandAds) {
       const url = this.props.location.pathname;
       let pageType = "CATEGORY";
       this.setState({ bannerLoading: true });
@@ -23,13 +24,19 @@ export default class SimpleBannerComponentMonetization extends React.Component {
         pageType = "HOME";
       }
 
-      window
+      objWindow
         ._osFetchBrandAds({
           au: "SimpleBannerComponent_Monetization",
           pt: pageType
         })
         .then(response => {
           this.setState({ simpleBanner: response, bannerLoading: false });
+          if (
+            objWindow._osAdImpression &&
+            (response.ads[0] && response.ads[0].uclid)
+          ) {
+            objWindow._osAdImpression({ uclid: response.ads[0].uclid });
+          }
         })
         .catch(err => {
           this.setState({ bannerLoading: false });
