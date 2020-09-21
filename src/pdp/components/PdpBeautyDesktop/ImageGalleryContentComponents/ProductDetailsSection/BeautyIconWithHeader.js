@@ -20,7 +20,7 @@ import OrderCountdown from "../../../../../general/components/OrderCountdown";
 import format from "date-fns/format";
 export default class BeautyIconWithHeader extends React.Component {
   getDateMonthFormate(date, month) {
-    let monthNames = [
+    const monthNames = [
       "Jan",
       "Feb",
       "Mar",
@@ -125,10 +125,6 @@ export default class BeautyIconWithHeader extends React.Component {
 
     return (
       <React.Fragment>
-        {/*<Icon
-          image={this.props.image}
-          size={this.props.iconSize ? this.props.iconSize : 30}
-        />*/}
         <div
           className={styles["pin-delivery-icon"]}
           style={{ backgroundImage: `url(${this.props.image})` }}
@@ -147,7 +143,6 @@ export default class BeautyIconWithHeader extends React.Component {
           {this.props.isTop && (
             <React.Fragment>
               {" "}
-              {/*this.props.header*/}
               <span>{this.props.dateFormattedText}</span>{" "}
               <span>{this.props.dateFormatted}</span>
               {this.props.header && (
