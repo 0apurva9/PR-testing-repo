@@ -6,12 +6,16 @@ import { transformData } from "../../home/components/utils.js";
 import styles from "./SimilarProductsModal.css";
 import { RUPEE_SYMBOL } from "../../lib/constants.js";
 import SecondaryLoader from "./SecondaryLoader";
+import { ICIDTracking } from "../../lib/adobeUtils.js";
 const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
 export default class SimilarProductsModal extends React.Component {
   state = {
     showLoader: true
   };
-  goToProductDescription = url => {
+  goToProductDescription = (url, item, index) => {
+    let icidTracking = `"home":"Similar Products":"blank":${index +
+      1}:"blank ":"blank":"blank":${item.product_id}`;
+    ICIDTracking(icidTracking);
     this.props.history.push(url);
   };
   renderData(key) {
@@ -48,14 +52,14 @@ export default class SimilarProductsModal extends React.Component {
     } else if (
       this.props.msdItems[key] &&
       PRODUCT_CODE_REGEX.test(path) &&
-      this.props.msdItems.recommendedProducts.length > 0
+      this.props.msdItems.similarProducts.length > 0
     ) {
       return this.renderCarousel(this.props.msdItems[key]);
     } else if (
       (!this.props.msdItems ||
         (this.props.msdItems &&
-          Array.isArray(this.props.msdItems.recommendedProducts) &&
-          this.props.msdItems.recommendedProducts.length < 0)) &&
+          Array.isArray(this.props.msdItems.similarProducts) &&
+          this.props.msdItems.similarProducts.length < 0)) &&
       PRODUCT_CODE_REGEX.test(path)
     ) {
       return (
@@ -92,20 +96,28 @@ export default class SimilarProductsModal extends React.Component {
         >
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
-            const productImage = transformedDatum.image;
-            const discountedPrice = transformedDatum.discountPrice;
-            const mrpInteger =
-              transformedDatum.price &&
-              parseInt(transformedDatum.price.replace(RUPEE_SYMBOL, ""), 10);
-            const discount =
-              mrpInteger &&
-              discountedPrice &&
-              Math.floor(
-                (mrpInteger -
-                  parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
-                  mrpInteger *
-                  100
-              );
+            // const productImage = transformedDatum.image;
+            // const discountedPrice = transformedDatum.discountPrice;
+            // const mrpInteger =
+            //   transformedDatum.price &&
+            //   parseInt(transformedDatum.price.replace(RUPEE_SYMBOL, ""), 10); commented for getProductInfo api
+            // const discount =
+            //   mrpInteger &&
+            //   discountedPrice &&
+            //   Math.floor(
+            //     (mrpInteger -
+            //       parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
+            //       mrpInteger *
+            //       100
+            //   );
+            let productImage = transformedDatum && transformedDatum.image_link;
+            let mrpInteger = transformedDatum && transformedDatum.price;
+            let seoDoublePrice = transformedDatum && transformedDatum.mop;
+            let discount =
+              mrpInteger && seoDoublePrice
+                ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)
+                : "";
+            let imageURL = val.link && val.link.replace(/^.*\/\/[^\/]+/, "");
             return (
               <ProductModule
                 key={i}
@@ -115,7 +127,7 @@ export default class SimilarProductsModal extends React.Component {
                 productId={val.productListingId}
                 isShowAddToWishlistIcon={false}
                 discountPercent={discount}
-                onClick={url => this.goToProductDescription(url)}
+                onClick={url => this.goToProductDescription(imageURL, val, i)}
               />
             );
           })}
@@ -141,14 +153,14 @@ export default class SimilarProductsModal extends React.Component {
     if (retry) {
       this.setState({ showLoader: true });
       this.props
-        .getMsdRequest(this.props.viewSimilarProductOfId, true)
+        .getMsdRequest(this.props.viewSimilarProductOfId, "SimilarProduct")
         .then(done => {
           this.setState({ showLoader: false });
         });
     }
     if (!PRODUCT_CODE_REGEX.test(path)) {
       this.props
-        .getMsdRequest(this.props.viewSimilarProductOfId, true)
+        .getMsdRequest(this.props.viewSimilarProductOfId, "SimilarProduct")
         .then(done => {
           this.setState({ showLoader: false });
         });
@@ -167,10 +179,7 @@ export default class SimilarProductsModal extends React.Component {
   render() {
     return (
       <BottomModal>
-        {this.renderProductModuleSection(
-          "Similar Products",
-          "recommendedProducts"
-        )}
+        {this.renderProductModuleSection("Similar Products", "similarProducts")}
       </BottomModal>
     );
   }

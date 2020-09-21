@@ -372,13 +372,105 @@ export function homeFeedBackUp() {
   return async (dispatch, getState, { api }) => {
     dispatch(homeFeedBackUpRequest());
     try {
-      const result = await api.get(
-        `v2/mpl/cms/defaultpage?pageId=defaulthomepage&channel=${WCMS_PLATFORM}`
-      );
+      // const result = await api.get(
+      //   `v2/mpl/cms/defaultpage?pageId=defaulthomepage&channel=${WCMS_PLATFORM}`
+      // );
       // const result = await api.get(
       //   `v2/mpl/cms/defaultpage?pageId=hp-test&channel=${WCMS_PLATFORM}`
       // );
-      const resultJson = await result.json();
+      // let url = `https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=hp-test&channel=desktop`;
+      // const result = await fetch(url);
+      //const resultJson = await result.json();
+      const resultJson = {
+        items: [
+          {
+            componentName: "AutoWidget",
+            singleBannerComponent: {
+              componentId: "cmsitem_00287045",
+              items: [
+                {
+                  btnText: "10",
+                  description: "",
+                  hexCode: "",
+                  imageURL: "",
+                  title: "",
+                  webURL: "7"
+                }
+              ],
+              title: "",
+              type: "AutoWidget"
+            }
+          },
+          {
+            componentName: "AutoWidget",
+            singleBannerComponent: {
+              componentId: "cmsitem_00287047",
+              items: [
+                {
+                  btnText: "10",
+                  description: "category;contains;electronics",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/28004370776094.jpg",
+                  title: "",
+                  webURL: "11"
+                }
+              ],
+              title: "",
+              type: "AutoWidget"
+            }
+          },
+          {
+            componentName: "AutoWidget",
+            singleBannerComponent: {
+              componentId: "cmsitem_00287049",
+              items: [
+                {
+                  btnText: "10",
+                  description: "brand;contains;samsung",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/28004370841630.jpg",
+                  title: "",
+                  webURL: "11"
+                }
+              ],
+              title: "",
+              type: "AutoWidget"
+            }
+          },
+          {
+            componentName: "AutoWidget",
+            singleBannerComponent: {
+              componentId: "cmsitem_00293068",
+              items: [
+                {
+                  btnText: "10",
+                  description: "price;range;1000,2000",
+                  hexCode: "",
+                  imageURL: "",
+                  title: "",
+                  webURL: "11"
+                }
+              ],
+              title: "",
+              type: "AutoWidget"
+            }
+          }
+        ],
+        message: "cmsitem_00244236",
+        pageName: "hp-test-180820",
+        pageType: "",
+        seo: {
+          alternateURL: "",
+          canonicalURL: "",
+          description: "",
+          imageURL: "",
+          keywords: "",
+          title: "hp-test"
+        },
+        status: "SUCCESS"
+      };
       if (resultJson && resultJson.pageName) {
         let pageData = {
           pageName: resultJson.pageName
@@ -876,7 +968,7 @@ export function msdAbcComponentsRequest() {
     status: REQUESTING
   };
 }
-export function msdAbcComponents(fetchURL) {
+export function msdAbcComponents() {
   return async (dispatch, getState, { api }) => {
     try {
       dispatch(msdAbcComponentsRequest());
@@ -895,8 +987,7 @@ export function msdAbcComponents(fetchURL) {
       postData.append("channel", "pwa");
 
       result = await api.postMsd(`${MSD_ROOT_PATH}/widgets`, postData);
-      resultJson = (await result) && result.json();
-
+      resultJson = await result.json();
       if (result && result.status && result.status === FAILURE) {
         throw new Error(`${result.message}`);
       }
@@ -936,11 +1027,12 @@ export function msdDiscoverMoreHomeComponents(type) {
       if (discoverMoreresultJson.status === FAILURE) {
         throw new Error(`${discoverMoreresultJson.message}`);
       }
-
-      data = {
-        data: discoverMoreresultJson && discoverMoreresultJson.data
-      };
-      dispatch(msdHomeComponentsSuccess(data.data));
+      if (discoverMoreresultJson.status === "success") {
+        data = {
+          data: discoverMoreresultJson && discoverMoreresultJson.data
+        };
+        dispatch(msdHomeComponentsSuccess(data.data));
+      }
     } catch (e) {
       throw new Error(`${e.message}`);
     }
@@ -984,37 +1076,59 @@ export function getAutomatedWidgetsItems(itemIds, widgetKey, productCode) {
   return async (dispatch, getState, { api }) => {
     try {
       dispatch(getAutomatedWidgetsItemsRequest());
-      let productCodes;
-      productCodes = itemIds;
-
-      let requests =
-        productCodes &&
-        productCodes.map(id =>
-          api.getMiddlewareUrl(
-            `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+      // let requests =
+      //   productCodes &&
+      //   productCodes.map(id =>
+      //     api.getMiddlewareUrl(
+      //       `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+      //     )
+      //   );
+      let productCodes = itemIds && itemIds.toString();
+      const url = `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
+      const result = await api.getMiddlewareUrl(url);
+      const resultJson = await result.json();
+      if (resultJson && resultJson.status === "Success" && resultJson.results) {
+        dispatch(
+          automatedWidgetsForHomeSuccess(
+            resultJson.results,
+            widgetKey,
+            productCode
           )
         );
-      //requests for individual calls
-      let productList = [];
-      const results = await Promise.allSettled(requests);
-      const successfulPromises = results.filter(
-        request => request.status === "fulfilled"
-      );
-      let productListWithStatus = await Promise.all(successfulPromises).then(
-        response =>
-          Promise.all(response.map(r => r && r.value && r.value.json()))
-      );
-      productListWithStatus &&
-        productListWithStatus.map(product => {
-          if (product.status === "Success" && product.results) {
-            productList.push(product.results[0]);
-          }
-        });
-      if (Array.isArray(productList) && productList.length > 0) {
-        dispatch(
-          automatedWidgetsForHomeSuccess(productList, widgetKey, productCode)
-        );
       }
+      // let requests =
+      //   productCodes &&
+      //   productCodes.map(id =>
+      //     api.getMiddlewareUrl(
+      //       `${PRODUCT_DESCRIPTION_PATH}/${id}?isPwa=true&isMDE=true`
+      //     )
+      //   );
+
+      //requests for individual calls
+      // let productList = [];
+      // const results = await Promise.allSettled(requests);
+      // const successfulPromises = results.filter(
+      //   request => request.status === "fulfilled"
+      // );
+      // let productListWithStatus = await Promise.all(successfulPromises).then(
+      //   response =>
+      //     Promise.all(response.map(r => r && r.value && r.value.json()))
+      // );
+      // productListWithStatus &&
+      //   productListWithStatus.map(product => {
+      //     if (product.status === "Success" && product.results) {
+      //       productList.push(product.results[0]);
+      //     }
+      //     //commented for productDetails
+      //     // if(product.status === "SUCCESS") {
+      //     //   productList.push(product);
+      //     // }
+      //   });
+      // if (Array.isArray(productList) && productList.length > 0) {
+      //   dispatch(
+      //     automatedWidgetsForHomeSuccess(productList, widgetKey, productCode)
+      //   );
+      // }
     } catch (e) {
       throw new Error(`${e.message}`);
     }
@@ -1030,17 +1144,49 @@ export function automatedWidgetsForHome(widgetData) {
       if (userDetails) {
         userDetails = JSON.parse(userDetails);
       }
-
+      let productId =
+        widgetData && widgetData.hexCode && widgetData.hexCode.toUpperCase();
       let msdWidgetData = new FormData();
+      if (userDetails && userDetails.customerId) {
+        msdWidgetData.append("user_id", userDetails.customerId);
+      }
       msdWidgetData.append("api_key", api_key);
       msdWidgetData.append("widget_list", widgetData.webURL);
       msdWidgetData.append("num_results", widgetData.btnText);
       msdWidgetData.append("mad_uuid", await getMcvId());
-      msdWidgetData.append("details", false);
-      if (userDetails && userDetails.customerId) {
-        msdWidgetData.append("user_id", userDetails.customerId);
+      msdWidgetData.append("product_id", productId);
+      if (widgetData && widgetData.webURL && widgetData.webURL === "114") {
+        msdWidgetData.append("details", false);
+      } else {
+        msdWidgetData.append("details", true);
+        msdWidgetData.append("fields", JSON.stringify(["mop"]));
+        if (widgetData && widgetData.description) {
+          let filterValue =
+            widgetData &&
+            widgetData.description &&
+            widgetData.description.split(";");
+          let filterParsedData;
+          if (filterValue[1] === "contains") {
+            filterParsedData = [
+              {
+                field: `${filterValue[0]}`,
+                type: `${filterValue[1]}`,
+                value: `${filterValue[2]}`
+              }
+            ];
+          } else {
+            let value = [filterValue[2]];
+            filterParsedData = [
+              {
+                field: `${filterValue[0]}`,
+                type: `${filterValue[1]}`,
+                value: `${value}`
+              }
+            ];
+          }
+          msdWidgetData.append("filters", JSON.stringify(filterParsedData));
+        }
       }
-      msdWidgetData.append("product_id", widgetData.hexCode.toUpperCase());
       // msdWidgetData.append("filters", widgetData.description);
       // msdWidgetData.append("fields", widgetData.title);
       // msdWidgetData.append("channel", "pwa");
@@ -1067,9 +1213,23 @@ export function automatedWidgetsForHome(widgetData) {
         msdWidgetDataJson.status !== "failure"
       ) {
         dispatch(getWidgetsData(msdWidgetDataJson.data[0], widgetData.webURL));
-        dispatch(
-          getAutomatedWidgetsItems(data, widgetData.webURL, widgetData.hexCode)
-        );
+        if (widgetData.webURL === "114") {
+          dispatch(
+            getAutomatedWidgetsItems(
+              data,
+              widgetData.webURL,
+              widgetData.hexCode
+            )
+          );
+        } else {
+          dispatch(
+            automatedWidgetsForHomeSuccess(
+              data,
+              widgetData.webURL,
+              widgetData.hexCode
+            )
+          );
+        }
       }
     } catch (e) {
       throw new Error(`${e.message}`);
