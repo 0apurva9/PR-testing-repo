@@ -17,14 +17,15 @@ import {
 import { BANK_OFFERS } from "../../general/modal.actions.js";
 export default class ValidateOffersPopUp extends React.Component {
   getBanksList(bankDetail) {
-    return (
-      bankDetail &&
-      bankDetail
+    if (bankDetail) {
+      return bankDetail
         .map(bank => {
           return bank.bankName;
         })
-        .join(",")
-    );
+        .join(",");
+    } else {
+      return "UPI Apps,";
+    }
   }
   getPaymentModesList(paymentModes) {
     return (
