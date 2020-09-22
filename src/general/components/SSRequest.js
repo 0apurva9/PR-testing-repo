@@ -4,6 +4,10 @@ import styles from "./SSRequest.css";
 import ssloader from "../components/img/ssloader.svg";
 import ssloaders from "../components/img/ssloaders.svg";
 export default class SSRquest extends Component {
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   render() {
     return (
       <div className={styles.base}>

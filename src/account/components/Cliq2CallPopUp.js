@@ -43,7 +43,8 @@ export default class Cliq2CallPopUp extends Component {
     } = (this.props && this.props.genesysCallConfigData) || {};
 
     if (this.props.genesysDataLoader) {
-      return <Loader />;
+      this.props.showSecondaryLoader();
+      return null;
     }
     if (OpenRequest === "now") {
       this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
@@ -121,14 +122,6 @@ export default class Cliq2CallPopUp extends Component {
       }
     }
 
-    // if (WaitTime > 60) {
-    //   if (!showScheduleCallBtn) {
-    //     showCallMeBackBtn = true;
-    //   } else {
-    //     showCallMeBackBtn = false;
-    //   }
-    // }
-
     let scheduleCallObj = {};
     if (OpenRequest !== "now" && OpenRequest !== "") {
       scheduleCallObj = getSlotTime(OpenRequest.split("-"));
@@ -136,7 +129,6 @@ export default class Cliq2CallPopUp extends Component {
 
     return (
       <BottomSlideModal>
-        {}
         <div className={styles.popUpBox}>
           <div
             className={styles.crossIcon}
@@ -183,7 +175,7 @@ export default class Cliq2CallPopUp extends Component {
                   <Icon image={scheduleaCall} size={20} />
                 </div>
                 {OpenRequest !== "" && OpenRequest !== "now"
-                  ? `Re-${SCHEDULE_CALL_BACK}`
+                  ? `Re-${SCHEDULE_CALL_BACK.toLowerCase()}`
                   : SCHEDULE_CALL_BACK}
               </div>
               <div className={styles.labelTxt}>

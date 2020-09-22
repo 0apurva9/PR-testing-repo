@@ -854,6 +854,7 @@ export default class ModalRoot extends React.Component {
           closeModal={() => this.handleClose()}
           showModal={this.props.showModal}
           getGenesysCallConfigData={() => this.props.getGenesysCallConfigData()}
+          showSecondaryLoader={this.props.showSecondaryLoader}
         />
       ),
 

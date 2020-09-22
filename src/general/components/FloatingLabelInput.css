@@ -30,15 +30,17 @@ input {
   pointer-events: none;
 }
 .changeText {
-  font-family: regular;
-  font-size: 12px;
+  
+  font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: #ff1744;
+  color: #da1c5c;
   bottom: 8px;
   position: absolute;
   right: 0;
+  cursor: pointer;
+  font-family: semibold;
 }
