@@ -5,6 +5,7 @@ import downloadIcon from "./img/download.svg";
 import * as Cookie from "../../lib/Cookie";
 import FooterButton from "../../general/components/FooterButton.js";
 import saveIcon from "../../general/components/img/download.svg";
+import wishListBeautyIcon from "../../general/components/img/wishlistBeauty.svg";
 import styles from "./AddToWishListButton.css";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
@@ -33,6 +34,7 @@ export const WISHLIST_FOOTER_ICON_TYPE = "wishlistIcon";
 export const WISHLIST_BUTTON_TEXT_TYPE = "wishlistText";
 export const WISHLIST_BUTTON_TEXT_TYPE_SMALL = "wishlistTextSmall";
 export const ONLY_ICON = "wishlistIconForPdp";
+const BEAUTY_PDP_ICON = "beautyIconForPdp";
 const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
 const PRODUCT_REGEX_CART = /cart(.*)/i;
 
@@ -295,6 +297,16 @@ export default class AddToWishListButton extends React.Component {
         <div className={styles.saveButton} onClick={e => this.onClick(e)}>
           <div className={styles.iconHolderForPdp}>
             <Icon image={saveIcon} size={20} />
+          </div>
+        </div>
+      );
+    }
+
+    if (this.props.type === BEAUTY_PDP_ICON) {
+      return (
+        <div className={styles.saveButton} onClick={e => this.onClick(e)}>
+          <div className={styles.iconHolderForBeautyPdp}>
+            <Icon image={wishListBeautyIcon} width={20} height={36} />
           </div>
         </div>
       );

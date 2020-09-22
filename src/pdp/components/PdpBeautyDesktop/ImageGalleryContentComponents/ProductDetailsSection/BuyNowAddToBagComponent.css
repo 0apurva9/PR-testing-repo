@@ -1,0 +1,79 @@
+@media screen and (min-width: 1025px) {
+	.buttonWrapper {
+		width: 100%;
+		height: auto;
+		margin-top: 25px;
+		display: inline-block;
+	}
+
+	.buttonHolder {
+		width: auto;
+		display: inline-block;
+		margin-right: 40px;
+		vertical-align: top;
+		position: relative;
+	}
+
+	.nonClickButton {
+		composes: buttonHolder;
+		pointer-events: none;
+	}
+
+	.buttonHolder:last-child {
+		margin-right: 0px;
+	}
+
+	.loaderHolder {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
+		border-radius: 22.5px;
+		background: rgba(255, 255, 255, 0.6);
+		pointer-events: none;
+		z-index: 2;
+	}
+
+	.loader {
+		border: 3px solid #f3f3f3;
+		animation: spin 1s linear infinite;
+		border-top: 3px solid #555;
+		border-radius: 50%;
+		width: 30px;
+		height: 30px;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+	}
+
+	.buttonAddToBag {
+		width: auto;
+		height: auto;
+		border-radius: 22.5px;
+		transition: 300ms;
+	}
+	.shadowBtn {
+		box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+	}
+	.shadowBtn:hover {
+		box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
+	}
+	.buttonDisabled {
+		composes: buttonAddToBag;
+		pointer-events: none;
+	}
+
+	@keyframes spin {
+		0% {
+			transform: rotate(0deg);
+		}
+
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+}

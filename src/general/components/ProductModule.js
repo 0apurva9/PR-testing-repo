@@ -165,8 +165,8 @@ export default class ProductModule extends React.Component {
                     electronicView
                       ? styles.ElectronicListimageHolder
                       : this.props.view === "grid"
-                        ? styles.imageHolder
-                        : styles.ListimageHolder
+                      ? styles.imageHolder
+                      : styles.ListimageHolder
                   }
                 >
                   <ProductImage

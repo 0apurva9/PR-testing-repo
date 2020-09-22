@@ -1,0 +1,16 @@
+.gallery-content-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+
+.gallery-container {
+  width: 686px;
+  margin: 0 28px 0 0;
+}
+
+.product-details-container {
+  width: 486px;
+  vertical-align: top;
+}
+
