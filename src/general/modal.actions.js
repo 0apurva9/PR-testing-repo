@@ -60,8 +60,10 @@ export const CONFIRMATION_NOTIFICATION = "NotificationConfirmation";
 export const CANCEL_RETURN_REQUEST_POP_UP = "CancelReturnRequestPopUp";
 export const SHOW_RETURN_CONFIRM_POP_UP = "ShowReturnConfirmPopup";
 export const SHOW_DELIVERY_CONFIRM_POP_UP = "ShowDeliveryConfirmPopup";
+export const BOTTOM_ALERT_POP_UP = "BottomAlertPopUp";
 export const SELLER_REVIEW_SUBMIT_REMOVAL_POP_UP =
   "SellerReviewSubmitRemovalPopup";
+export const POP_UP = "PopUp";
 export const PRODUCT_IN_BAG_MODAL = "ProductInBagModal";
 export const CHANGE_EXCHANGE_CASHBACK_MODAL = "ChangeExchangeCashabackModal";
 

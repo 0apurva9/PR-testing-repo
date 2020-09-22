@@ -78,7 +78,11 @@ export default class DesktopCheckout extends React.Component {
             ) : (
               <div className={styles.row}>
                 <div className={styles.label}>Shipping Charge</div>
-                <div className={styles.info}>{RUPEE_SYMBOL}0.00</div>
+                {this.props.isShippingObjAvailable ? (
+                  <div className={styles.freeInfo}>FREE</div>
+                ) : (
+                  <div className={styles.info}>{RUPEE_SYMBOL}0.00</div>
+                )}
               </div>
             )}
             {bagSubTotal && (
@@ -260,10 +264,10 @@ export default class DesktopCheckout extends React.Component {
                   {/* cart page */}
                   {this.props.isOnCartPage &&
                     this.props.totalExchangeAmount &&
-                    (this.props.productExchangeServiceable.length > 0 &&
-                      !this.props.productExchangeServiceable.includes(false) &&
-                      (this.props.isQuoteExpired.length > 0 &&
-                        !this.props.isQuoteExpired.includes(true))) && (
+                    this.props.productExchangeServiceable.length > 0 &&
+                    !this.props.productExchangeServiceable.includes(false) &&
+                    this.props.isQuoteExpired.length > 0 &&
+                    !this.props.isQuoteExpired.includes(true) && (
                       <span>
                         {" "}
                         {cartAmount.totalDiscountAmount.value === 0 ? (
@@ -281,10 +285,10 @@ export default class DesktopCheckout extends React.Component {
                   {/* checkout page */}
                   {!this.props.isOnCartPage &&
                     this.props.totalExchangeAmount &&
-                    (this.props.isExchangeServiceableArray.length > 0 &&
-                      !this.props.isExchangeServiceableArray.includes(false) &&
-                      (this.props.isQuoteExpiredCheckout.length > 0 &&
-                        !this.props.isQuoteExpiredCheckout.includes(true))) && (
+                    this.props.isExchangeServiceableArray.length > 0 &&
+                    !this.props.isExchangeServiceableArray.includes(false) &&
+                    this.props.isQuoteExpiredCheckout.length > 0 &&
+                    !this.props.isQuoteExpiredCheckout.includes(true) && (
                       <span>
                         {" "}
                         {cartAmount.totalDiscountAmount.value === 0 ? (
@@ -451,8 +455,10 @@ export default class DesktopCheckout extends React.Component {
   }
 }
 DesktopCheckout.propTypes = {
-  onContinue: PropTypes.bool
+  onContinue: PropTypes.bool,
+  isShippingObjAvailable: PropTypes.bool
 };
 DesktopCheckout.defaultProps = {
-  onContinue: true
+  onContinue: true,
+  isShippingObjAvailable: false
 };

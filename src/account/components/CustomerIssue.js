@@ -115,6 +115,7 @@ export default class CustomerIssue extends React.Component {
                 updateThanks={() => this.props.updateThanks()}
                 navigateCliqCarePage={() => this.props.navigateCliqCarePage()}
                 slectOrderData={this.props.slectOrderData}
+                formSubmit={this.props.formSubmit}
               />
             )}
           </div>

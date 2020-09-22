@@ -74,7 +74,8 @@ export default class ContentWidgetDesktop extends React.Component {
             }
           >
             <div className={styles.bannerHolder}>
-              <Image image={this.props.allData[this.state.position].imageURL} />;
+              <Image image={this.props.allData[this.state.position].imageURL} />
+              ;
             </div>
             <div className={styles.navHolder}>
               {this.props.allData &&

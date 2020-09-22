@@ -238,7 +238,7 @@
   font-size: 13px;
   font-family:light;
   margin-left: 181px;
-  margin-top: 5px;
+  margin-top: 8px;
 }
 .storeDataHolder {
   width: 30%;
@@ -295,3 +295,21 @@
   cursor: pointer;
   text-align: right;
 }
+.priceCancelled {
+  position: relative;
+  display: inline-block;
+  margin-left: 10px;
+  font-family: light;
+}
+.priceCancelled:after{
+  content: "";
+  width: 100%;
+  height: 2px;
+  background: #4a4a4a;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+

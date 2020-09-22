@@ -1,7 +1,8 @@
 import { connect } from "react-redux";
 import {
   getCliqCashDetails,
-  redeemCliqVoucher
+  redeemCliqVoucher,
+  checkBalance
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import {
@@ -16,6 +17,7 @@ import {
 import { SUCCESS_CAMEL_CASE, SUCCESS_UPPERCASE } from "../../lib/constants";
 import { displayToast } from "../../general/toast.actions";
 import CliqCashModule from "../components/CliqCashModule";
+import { setHeaderText } from "../../general/header.actions";
 const mapDispatchToProps = dispatch => {
   return {
     redeemCliqVoucher: cliqCashDetails => {
@@ -39,6 +41,12 @@ const mapDispatchToProps = dispatch => {
         }
       });
     },
+    setHeaderText: text => {
+      dispatch(setHeaderText(text));
+    },
+    checkBalance: checkBalanceDetails => {
+      dispatch(checkBalance(checkBalanceDetails));
+    },
     showSecondaryLoader: () => {
       dispatch(showSecondaryLoader());
     },
@@ -53,7 +61,9 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    loading: state.profile.loading
+    loading: state.profile.loading,
+    checkBalanceDetailsError: state.profile.checkBalanceDetailsError,
+    checkBalanceStatus: state.profile.checkBalanceStatus
   };
 };
 const CliqCashModuleContainer = withRouter(

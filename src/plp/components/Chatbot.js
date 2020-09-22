@@ -73,10 +73,12 @@ export default class Chatbot extends React.Component {
     // check pincode success
     if (
       nextProps.isServiceableToPincode &&
-      this.props.isServiceableToPincode !== nextProps.isServiceableToPincode
+      this.props.isServiceableToPincode !== nextProps.isServiceableToPincode &&
+      nextProps.checkPincodeFromHaptikChatbot
     ) {
       if (
-        !nextProps.pincodeError &&
+        this.props.checkPincodeDetailsLoading !==
+          nextProps.checkPincodeDetailsLoading &&
         !nextProps.isServiceableToPincode.productOutOfStockMessage &&
         !nextProps.isServiceableToPincode.productNotServiceableMessage
       ) {
@@ -91,10 +93,7 @@ export default class Chatbot extends React.Component {
         }
       } else {
         let errorMessage = "";
-        if (nextProps.pincodeError) {
-          this.props.displayToast(nextProps.pincodeError);
-          errorMessage = nextProps.pincodeError;
-        } else if (nextProps.isServiceableToPincode.productOutOfStockMessage) {
+        if (nextProps.isServiceableToPincode.productOutOfStockMessage) {
           this.props.displayToast(
             nextProps.isServiceableToPincode.productOutOfStockMessage
           );
@@ -109,13 +108,22 @@ export default class Chatbot extends React.Component {
           errorMessage =
             nextProps.isServiceableToPincode.productNotServiceableMessage;
         }
-        this.submitHaptikEvent(
-          errorMessage,
-          FAILURE_LOWERCASE,
-          this.state.productIdProvidedHaptik
-        );
+        if (errorMessage) {
+          this.submitHaptikEvent(
+            errorMessage,
+            FAILURE_LOWERCASE,
+            this.state.productIdProvidedHaptik
+          );
+        }
       }
     }
+
+    let isProductInCartPreviousData =
+      this.props.cartCountDetails &&
+      this.props.cartCountDetails.products &&
+      this.props.cartCountDetails.products.find(val => {
+        return val.USSID === this.state.ussId;
+      });
     let isProductInCart =
       nextProps.cartCountDetails &&
       nextProps.cartCountDetails.products &&
@@ -130,14 +138,17 @@ export default class Chatbot extends React.Component {
         nextProps.addToCartResponseLoading &&
       this.props.addToCartResponseDetails !==
         nextProps.addToCartResponseDetails &&
-      (nextProps.addToCartResponseDetails.status &&
-        nextProps.addToCartResponseDetails.status.toLowerCase() === SUCCESS)
+      nextProps.addToCartResponseDetails.status &&
+      nextProps.addToCartResponseDetails.status.toLowerCase() === SUCCESS
     ) {
       this.props.displayToast(ADD_TO_BAG_TEXT);
       this.submitHaptikEvent("", SUCCESS, this.state.productIdProvidedHaptik);
     }
     if (
       isProductInCart &&
+      isProductInCart !== isProductInCartPreviousData &&
+      this.props.cartCountDetailsLoading !==
+        nextProps.cartCountDetailsLoading &&
       !this.state.isProductInCart &&
       !nextProps.addToCartResponseLoading
     ) {
@@ -148,6 +159,10 @@ export default class Chatbot extends React.Component {
       );
       this.setState({ isProductInCart: true });
     }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("haptik_event", this.addToCartFromHaptikChatbot);
   }
 
   submitHaptikEvent(message, status, productId) {
@@ -190,6 +205,7 @@ export default class Chatbot extends React.Component {
         let productId = haptikEventDetails.product_id.toUpperCase();
         this.setState({ productId: productId });
         this.setState({ ussId: haptikEventDetails.extras.ussid });
+        this.setState({ isProductInCart: false });
         let pincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
         this.props.getProductPinCode(
           pincode,
@@ -197,6 +213,7 @@ export default class Chatbot extends React.Component {
           haptikEventDetails.extras.ussid,
           false,
           false,
+          true,
           true
         );
       }
@@ -368,9 +385,9 @@ export default class Chatbot extends React.Component {
               }
             });
 
+          const currentCategoryNameInLowerCase =
+            currentCategoryName && currentCategoryName.toLowerCase();
           if (brandAndFilterValuesText) {
-            const currentCategoryNameInLowerCase =
-              currentCategoryName && currentCategoryName.toLowerCase();
             const categoryNameInLowerCase =
               eligiblePLPData.categoryName &&
               eligiblePLPData.categoryName.toLowerCase();
@@ -379,6 +396,8 @@ export default class Chatbot extends React.Component {
             } else {
               searchCriteria = brandAndFilterValuesText;
             }
+          } else {
+            searchCriteria = currentCategoryNameInLowerCase;
           }
 
           let isSearchPage = plpProductDetails.currentQuery.searchQuery;
@@ -476,10 +495,16 @@ export default class Chatbot extends React.Component {
             return category["category_id"];
           });
 
-        let eligiblePDPData = pdpData.find(value => {
-          return categoryIds.includes(value.categoryCode);
-        });
-        if (eligiblePDPData && typeof eligiblePDPData !== undefined) {
+        let eligiblePDPData =
+          categoryIds &&
+          pdpData.find(value => {
+            return categoryIds.includes(value.categoryCode);
+          });
+        if (
+          eligiblePDPData &&
+          typeof eligiblePDPData !== undefined &&
+          categoryIds
+        ) {
           let categoryAvailable = categoryIds.includes(
             eligiblePDPData.categoryCode
           );

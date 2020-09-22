@@ -15,6 +15,7 @@ let MIDDLEWARE_API_URL_ROOT = "/que-marketplacewebservices";
 export let TATA_CLIQ_ROOT = /https?:[\/]{2}\S*?(\/\S*)/;
 export const TOKEN_PATH = "oauth/token";
 export let URL_ROOT = "";
+
 let count = 0;
 if (
   process.env.REACT_APP_STAGE === "devxelp" ||
@@ -81,9 +82,14 @@ if (
   MIDDLEWARE_API_URL_ROOT =
     "https://qa8.tataunistore.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "qa9") {
-  API_URL_ROOT = "https://qa9.tataunistore.com/marketplacewebservices";
+  API_URL_ROOT =
+    "https://cors-anywhere.herokuapp.com/https://qa9.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
-    "https://qa9.tataunistore.com/marketplacewebservices";
+    "https://cors-anywhere.herokuapp.com/https://qa9.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "qa3") {
+  API_URL_ROOT = "https://qa3.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://qa3.tataunistore.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "qa10") {
   API_URL_ROOT = "https://qa10.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
@@ -160,6 +166,9 @@ if (
   API_URL_ROOT = "https://awspt2.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
     "https://awspt2.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "mock") {
+  API_URL_ROOT = "https://mock.tatacliq.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT = "https://mock.tatacliq.com/marketplacewebservices";
 }
 
 if (process.env.REACT_APP_STAGE === "tmpprod") {
@@ -234,6 +243,8 @@ if (process.env.REACT_APP_STAGE === "tmpprod") {
   URL_ROOT = "https://awspt1.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "awspt2") {
   URL_ROOT = "https://awspt2.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "mock") {
+  URL_ROOT = "https://mock.tatacliq.com";
 }
 
 export const API_URL_ROOT_DUMMY =
@@ -516,7 +527,7 @@ async function handleInvalidCustomerAccessToken(message, oldUrl) {
   return newUrl;
 }
 
-async function logoutUserOnInvalidRefreshToken() {
+export async function logoutUserOnInvalidRefreshToken() {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
   try {
@@ -630,7 +641,7 @@ async function replaceOldCartCookieForAnonymnous(url, newCustomerCookie) {
   return url.replace(oldCustomerCookie.guid, newCustomerCookie.guid);
 }
 
-async function refreshCustomerAccessToken() {
+export async function refreshCustomerAccessToken() {
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   if (!JSON.parse(customerCookie).refresh_token) {
     throw new Error("No refresh token for expired customer access token");
@@ -883,5 +894,13 @@ export async function postWithoutApiUrlRoot(url, postData) {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(postData)
+  });
+}
+
+export async function getDataWithMicroservicesWithHeaders(path, headers) {
+  const url = `${URL_ROOT}/${path}`;
+  return await fetch(url, {
+    method: "GET",
+    headers: headers
   });
 }
