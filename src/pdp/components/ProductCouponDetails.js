@@ -215,19 +215,28 @@ class ProductCouponDetails extends Component {
               </DesktopOnly>
             )}
           <div className={styles.eligibleCouponsDesign}>
-            <span
-              className={styles.eligibleCoupon}
-              data-test="eligible-coupon-text"
-            >
-              Eligible Coupons
-            </span>
-            <span className={styles.tooltip} data-test="eligible-tool-tip">
-              {" "}
-              <img src={ibutton} className={styles.arrow} />
-              <span className={styles.tooltiptext}>
-                Coupons shown are based on products added in your cart
-              </span>
-            </span>
+            {this.props.activeEligibleCouponList &&
+              this.props.activeEligibleCouponList.length > 0 && (
+                <React.Fragment>
+                  <span
+                    className={styles.eligibleCoupon}
+                    data-test="eligible-coupon-text"
+                  >
+                    Eligible Coupons
+                  </span>
+                  <span
+                    className={styles.tooltip}
+                    data-test="eligible-tool-tip"
+                  >
+                    {" "}
+                    <img src={ibutton} className={styles.arrow} />
+                    <span className={styles.tooltiptext}>
+                      Coupons shown are based on products added in your cart
+                    </span>
+                  </span>
+                </React.Fragment>
+              )}
+
             {coupons && coupons.length > 0 && (
               <GridSelect
                 elementWidthMobile={100}
