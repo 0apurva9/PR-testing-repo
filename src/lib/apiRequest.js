@@ -154,10 +154,10 @@ if (
   API_URL_ROOT = "https://awsqa5.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
     "https://awsqa5.tataunistore.com/marketplacewebservices";
-} else if (process.env.REACT_APP_STAGE === "qa6") {
-  API_URL_ROOT = "https://preprod3.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "awsqa6") {
+  API_URL_ROOT = "https://awsqa6.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
-    "https://preprod3.tataunistore.com/marketplacewebservices";
+    "https://awsqa6.tataunistore.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "awspt1") {
   API_URL_ROOT = "https://awspt1.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
@@ -170,9 +170,9 @@ if (
   API_URL_ROOT = "https://mock.tatacliq.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT = "https://mock.tatacliq.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "qa6") {
-  API_URL_ROOT = "https://preprod3.tataunistore.com/marketplacewebservices";
+  API_URL_ROOT = "https://qa6.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
-    "https://preprod3.tataunistore.com/marketplacewebservices";
+    "https://qa6.tataunistore.com/marketplacewebservices";
 }
 
 if (process.env.REACT_APP_STAGE === "tmpprod") {
@@ -204,7 +204,7 @@ if (process.env.REACT_APP_STAGE === "tmpprod") {
 } else if (process.env.REACT_APP_STAGE === "e2e1") {
   URL_ROOT = "https://e2e1.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "preprod3") {
-  URL_ROOT = "https://preprod3.tataunistore.com";
+  URL_ROOT = "https://qa6.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "qa8") {
   URL_ROOT = "https://qa8.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "qa9") {
@@ -241,8 +241,8 @@ if (process.env.REACT_APP_STAGE === "tmpprod") {
   URL_ROOT = "https://awsqa4.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "awsqa5") {
   URL_ROOT = "https://awsqa5.tataunistore.com";
-} else if (process.env.REACT_APP_STAGE === "qa6") {
-  URL_ROOT = "https://preprod3.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "awsqa6") {
+  URL_ROOT = "https://awsqa6.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "awspt1") {
   URL_ROOT = "https://awspt1.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "awspt2") {
