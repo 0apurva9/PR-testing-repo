@@ -30,7 +30,8 @@ export default class ProductBundling extends React.Component {
       hideExtraProducts: true,
       enableAddToCartButton: false,
       cartProducts: null,
-      addToCartAnalyticsData: null
+      addToCartAnalyticsData: null,
+      disableButton: false
     };
     this.handleClick = this.handleClick.bind(this);
     this.toggleShowingProducts = this.toggleShowingProducts.bind(this);
@@ -176,9 +177,13 @@ export default class ProductBundling extends React.Component {
   }
 
   addBundledProductToCart() {
+    this.setState({ disableButton: true });
     this.props.addBundledProductsToCart(
       this.state.bundledProductDataForAddToCart
     );
+    setTimeout(() => {
+      this.setState({ disableButton: false });
+    }, 1000);
   }
 
   toggleShowingProducts() {
@@ -319,6 +324,7 @@ export default class ProductBundling extends React.Component {
                             .bundlingItemcount} ITEMS TO BAG`}
                         textStyle={{ fontFamily: "regular" }}
                         onClick={() => this.addBundledProductToCart()}
+                        disabled={this.state.disableButton}
                       />
                     </div>
                   </React.Fragment>
