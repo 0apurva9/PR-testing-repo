@@ -186,7 +186,12 @@ export default class SearchPage extends React.Component {
       this.setState({
         searchString: val
       });
-      this.props.getSearchResults(val);
+      if (val.length > 2) {
+        this.props.getSearchResults(val);
+      } else {
+        this.setState({ showResults: false });
+        this.props.clearSearchResults();
+      }
     }
   }
   handleBackClick() {
