@@ -316,7 +316,7 @@ export default class ProductBundling extends React.Component {
                         height={42}
                         label={`ADD ${this.state.totalBundledPriceDetails &&
                           this.state.totalBundledPriceDetails
-                            .bundlingItemcount} ITEMS TO CART`}
+                            .bundlingItemcount} ITEMS TO BAG`}
                         textStyle={{ fontFamily: "regular" }}
                         onClick={() => this.addBundledProductToCart()}
                       />
@@ -332,7 +332,7 @@ export default class ProductBundling extends React.Component {
                         type="primary"
                         width={220}
                         height={42}
-                        label="ADD ITEMS TO CART"
+                        label="ADD ITEMS TO BAG"
                         disabledBgGrey={true}
                         disabled={true}
                         textStyle={{ fontFamily: "regular" }}
