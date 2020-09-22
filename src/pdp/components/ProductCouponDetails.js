@@ -215,56 +215,75 @@ class ProductCouponDetails extends Component {
               </DesktopOnly>
             )}
           <div className={styles.eligibleCouponsDesign}>
-            <span
-              className={styles.eligibleCoupon}
-              data-test="eligible-coupon-text"
-            >
-              Eligible Coupons
-            </span>
-            <span className={styles.tooltip} data-test="eligible-tool-tip">
-              {" "}
-              <img src={ibutton} className={styles.arrow} />
-              <span className={styles.tooltiptext}>
-                Coupons shown are based on products added in your cart
-              </span>
-            </span>
-            <GridSelect
-              elementWidthMobile={100}
-              elementWidthDesktop={100}
-              offset={0}
-              offsetDesktop="0px 22px 20px 22px"
-              limit={1}
-              onSelect={val => this.onSelectCouponCode(val)}
-              selected={[this.state.selectedCouponCode]}
-            >
-              <React.Fragment>
-                {coupons &&
-                  coupons.length > 0 &&
-                  coupons.map((value, i) => {
-                    let couponName = value.couponName
-                      ? value.couponName
-                      : value.couponCode;
-                    return (
-                      <CuponDetails
-                        promotionTitle={couponName}
-                        promotionDetail={value.description}
-                        tnc={value.tnc}
-                        dateTime={value.couponExpiryDate}
-                        amount={value.maxDiscount}
-                        key={i}
-                        couponType={value.couponType}
-                        value={value.couponCode}
-                      />
-                    );
-                  })}
+            {this.props.activeEligibleCouponList &&
+              this.props.activeEligibleCouponList.length > 0 && (
+                <React.Fragment>
+                  <span
+                    className={styles.eligibleCoupon}
+                    data-test="eligible-coupon-text"
+                  >
+                    Eligible Coupons
+                  </span>
+                  <span
+                    className={styles.tooltip}
+                    data-test="eligible-tool-tip"
+                  >
+                    {" "}
+                    <img src={ibutton} className={styles.arrow} />
+                    <span className={styles.tooltiptext}>
+                      Coupons shown are based on products added in your cart
+                    </span>
+                  </span>
+                </React.Fragment>
+              )}
+
+            {coupons && coupons.length > 0 && (
+              <GridSelect
+                elementWidthMobile={100}
+                elementWidthDesktop={100}
+                offset={0}
+                offsetDesktop="0px 22px 20px 22px"
+                limit={1}
+                onSelect={val => this.onSelectCouponCode(val)}
+                selected={[this.state.selectedCouponCode]}
+              >
+                {coupons.map((value, i) => {
+                  let couponName = value.couponName
+                    ? value.couponName
+                    : value.couponCode;
+                  return (
+                    <CuponDetails
+                      promotionTitle={couponName}
+                      promotionDetail={value.description}
+                      tnc={value.tnc}
+                      dateTime={value.couponExpiryDate}
+                      amount={value.maxDiscount}
+                      key={i}
+                      couponType={value.couponType}
+                      value={value.couponCode}
+                    />
+                  );
+                })}
+              </GridSelect>
+            )}
+            {coupons && coupons.length === 0 && (
+              <GridSelect
+                elementWidthMobile={100}
+                elementWidthDesktop={100}
+                offset={0}
+                offsetDesktop="0px 22px 20px 22px"
+                limit={1}
+                onSelect={val => this.onSelectCouponCode(val)}
+                selected={[this.state.selectedCouponCode]}
+              >
                 {coupons && coupons.length === 0 && (
                   <div className={styles.noEligiblecoupon}>
                     Currently you dont have any eligible coupons for the items
                     in your cart.
                   </div>
                 )}
-              </React.Fragment>
-            </GridSelect>
+              </GridSelect>
+            )}
           </div>
           {otherCoupons && otherCoupons.length > 0 && (
             <div className={styles.otherEligibleCouponsDesign}>
