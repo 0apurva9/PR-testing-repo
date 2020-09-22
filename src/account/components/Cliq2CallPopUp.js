@@ -86,8 +86,8 @@ export default class Cliq2CallPopUp extends Component {
         showScheduleCallBtn = true;
       } else {
         this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
-          text: "Call limit has exceeded",
-          subText:
+          heading: "Call limit has exceeded",
+          subHeading:
             "You cannot place anymore call. Please try again after sometime",
           showBtn: false
         });
@@ -105,16 +105,16 @@ export default class Cliq2CallPopUp extends Component {
         showCallMeBackBtn = true;
       } else if (TotalRequestsToday >= allowedRequestLimit && WaitTime <= 60) {
         this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
-          text: "Call limit has exceeded",
-          subText:
+          heading: "Call limit has exceeded",
+          subHeading:
             "You cannot place anymore call. Please try again after sometime",
           showBtn: false
         });
         return null;
       } else {
         this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
-          text: "Sorry, no agents are available right now",
-          subText: "Please try again later or choose other help options",
+          heading: "Sorry, no agents are available right now",
+          subHeading: "Please try again later or choose other help options",
           showBtn: false
         });
         return null;
