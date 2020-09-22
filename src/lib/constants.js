@@ -562,3 +562,8 @@ export const SUB_HEADER_HERO_BANNER = "heroBannerComponent";
 export const SUB_HEADER_TWO_BY_TWO = "twoByTwoBannerComponent";
 
 export const DIGITAL_DATA_FOR_CART = "digitalDataForCart";
+
+export const PLP_BANNER_COMPONENT = "plpBannerComponent";
+export const PLP_SHORT_BANNER_COMPONENT = "plpShortBannerComponent";
+export const HERO_BANNER_MONETIZATION = "HeroBannerComponentMonetization";
+export const SIMPLE_BANNER_MONETIZATION = "SimpleBannerComponentMonetization";

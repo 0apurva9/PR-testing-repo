@@ -133,11 +133,12 @@ export default class StaticPage extends Component {
                 {this.props.location.pathname !== "/contact" &&
                   this.props.location.pathname !== "/aboutus" && (
                     <React.Fragment>
-                      {listTitle && listTitle.title && (
-                        <div className={styles.header}>
-                          {listTitle && listTitle.title}
-                        </div>
-                      )}
+                      {listTitle &&
+                        listTitle.title && (
+                          <div className={styles.header}>
+                            {listTitle && listTitle.title}
+                          </div>
+                        )}
                     </React.Fragment>
                   )}
                 <div
@@ -300,28 +301,30 @@ export default class StaticPage extends Component {
             )}
             {this.props.location.pathname === "/aboutus" && (
               <div>
-                {aboutUsImage && aboutUsImage.media && (
-                  <div className={styles.aboutUsImageHolder}>
-                    <div className={styles.aboutUsTextWrap}>
-                      <div className={styles.aboutUsTextHolder}>
-                        {listTitle && listTitle.title}
+                {aboutUsImage &&
+                  aboutUsImage.media && (
+                    <div className={styles.aboutUsImageHolder}>
+                      <div className={styles.aboutUsTextWrap}>
+                        <div className={styles.aboutUsTextHolder}>
+                          {listTitle && listTitle.title}
+                        </div>
+                      </div>
+                      <div className={styles.abouUsImageContainer}>
+                        <Image image={aboutUsImage.media} fit="cover" />
                       </div>
                     </div>
-                    <div className={styles.abouUsImageContainer}>
-                      <Image image={aboutUsImage.media} fit="cover" />
+                  )}
+                {aboutUsText &&
+                  aboutUsText.content && (
+                    <div className={styles.aboutUsDataHolder}>
+                      <div
+                        className={styles.aboutUsTxtWrp}
+                        dangerouslySetInnerHTML={{
+                          __html: aboutUsText.content
+                        }}
+                      />
                     </div>
-                  </div>
-                )}
-                {aboutUsText && aboutUsText.content && (
-                  <div className={styles.aboutUsDataHolder}>
-                    <div
-                      className={styles.aboutUsTxtWrp}
-                      dangerouslySetInnerHTML={{
-                        __html: aboutUsText.content
-                      }}
-                    />
-                  </div>
-                )}
+                  )}
                 <div
                   className={styles.sectionHolder}
                   style={{

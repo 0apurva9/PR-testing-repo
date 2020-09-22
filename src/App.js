@@ -92,6 +92,8 @@ import ProductDescriptionPageWrapperContainer from "./pdp/containers/ProductDesc
 import MobileOnly from "./general/components/MobileOnly";
 import DesktopOnly from "./general/components/DesktopOnly";
 import { setDataLayer, ADOBE_VIRTUAL_PAGELOAD } from "../src/lib/adobeUtils";
+
+import { MONETIZATION_CLIENT_ID } from "./lib/config";
 /*
     Setting default pin code
     for user if user dont have pin code in
@@ -427,6 +429,7 @@ class App extends Component {
         cartCode = JSON.parse(cartDetailsForAnonymous).code;
       }
     }
+    this.renderMonetizationScript();
     // Check if GUID exists
     if (guid) {
       // Get the bagCount if Cart GUID exists for Logged-in user or Anonymous user
@@ -468,6 +471,17 @@ class App extends Component {
         <SecondaryLoader />
       </div>
     );
+  }
+
+  renderMonetizationScript() {
+    let tracker = document.createElement("script");
+    tracker.type = "text/javascript";
+    tracker.async = true;
+    tracker.src = `https://c.o-s.io/${
+      process.env.REACT_APP_MONETIZATION_CLIENT_ID
+    }/tracker.js`;
+    var mainScript = document.getElementsByTagName("script")[0];
+    mainScript.parentNode.insertBefore(tracker, mainScript);
   }
 
   render() {

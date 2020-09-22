@@ -54,6 +54,10 @@ process.env.NODE_PATH = (process.env.NODE_PATH || "")
 // injected into the application via DefinePlugin in Webpack configuration.
 const REACT_APP = /^REACT_APP_/i;
 
+// OnlineSales CLIENT ID
+process.env.REACT_APP_MONETIZATION_CLIENT_ID =
+  process.env.REACT_APP_STAGE === "production" ? "100007" : "171780";
+
 if (process.env.NODE_ENV !== "development") {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
     "367761167032-apbr4v0nndom1cafs9inrrnkk7iag5be.apps.googleusercontent.com";
@@ -87,16 +91,15 @@ if (
   process.env.REACT_APP_STAGE === "awspreprod1" ||
   process.env.REACT_APP_STAGE === "awspreprod2" ||
   process.env.REACT_APP_STAGE === "awspreprod3" ||
-  process.env.REACT_APP_STAGE === "awsdev1" ||
-  process.env.REACT_APP_STAGE === "awsdev2" ||
-  process.env.REACT_APP_STAGE === "awsqa1" ||
-  process.env.REACT_APP_STAGE === "awsqa2" ||
-  process.env.REACT_APP_STAGE === "awsqa3" ||
-  process.env.REACT_APP_STAGE === "awsqa4" ||
-  process.env.REACT_APP_STAGE === "awsqa5" ||
-  process.env.REACT_APP_STAGE === "awsqa6" ||
-  process.env.REACT_APP_STAGE === "awspt1" ||
-  process.env.REACT_APP_STAGE === "awspt2"
+  process.env.REACT_APP_STAGE === "dev1" ||
+  process.env.REACT_APP_STAGE === "dev2" ||
+  process.env.REACT_APP_STAGE === "qa1" ||
+  process.env.REACT_APP_STAGE === "qa3" ||
+  process.env.REACT_APP_STAGE === "qa4" ||
+  process.env.REACT_APP_STAGE === "qa5" ||
+  process.env.REACT_APP_STAGE === "qa6" ||
+  process.env.REACT_APP_STAGE === "pt1" ||
+  process.env.REACT_APP_STAGE === "pt2"
 ) {
   process.env.REACT_APP_FACEBOOK_CLIENT_ID = "552270434933633";
   process.env.REACT_APP_FLEXMONEYAPI = "staging";
@@ -149,9 +152,6 @@ if (process.env.REACT_APP_STAGE === "devxelp") {
 } else if (process.env.REACT_APP_STAGE === "uat6tcs") {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
     "970557259016-c6hhcmldr7sns7b8ehrpfomfsho3c7r7.apps.googleusercontent.com";
-} else if (process.env.REACT_APP_STAGE === "qa2") {
-  process.env.REACT_APP_GOOGLE_CLIENT_ID =
-    "970557259016-hq6jh5addsah2a2q9d4vijgj8h6um29a.apps.googleusercontent.com";
 } else if (process.env.REACT_APP_STAGE === "e2e") {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
     "970557259016-tlp1vii8eoc4i3lq1i9a028lrtiieo5q.apps.googleusercontent.com";
@@ -177,16 +177,16 @@ if (process.env.REACT_APP_STAGE === "devxelp") {
   process.env.REACT_APP_STAGE === "awspreprod1" ||
   process.env.REACT_APP_STAGE === "awspreprod2" ||
   process.env.REACT_APP_STAGE === "awspreprod3" ||
-  process.env.REACT_APP_STAGE === "awsdev1" ||
-  process.env.REACT_APP_STAGE === "awsdev2" ||
-  process.env.REACT_APP_STAGE === "awsqa1" ||
-  process.env.REACT_APP_STAGE === "awsqa2" ||
-  process.env.REACT_APP_STAGE === "awsqa3" ||
-  process.env.REACT_APP_STAGE === "awsqa4" ||
-  process.env.REACT_APP_STAGE === "awsqa5" ||
-  process.env.REACT_APP_STAGE === "awsqa6" ||
-  process.env.REACT_APP_STAGE === "awspt1" ||
-  process.env.REACT_APP_STAGE === "awspt2"
+  process.env.REACT_APP_STAGE === "dev1" ||
+  process.env.REACT_APP_STAGE === "dev2" ||
+  process.env.REACT_APP_STAGE === "qa1" ||
+  process.env.REACT_APP_STAGE === "qa2" ||
+  process.env.REACT_APP_STAGE === "qa3" ||
+  process.env.REACT_APP_STAGE === "qa4" ||
+  process.env.REACT_APP_STAGE === "qa5" ||
+  process.env.REACT_APP_STAGE === "qa6" ||
+  process.env.REACT_APP_STAGE === "pt1" ||
+  process.env.REACT_APP_STAGE === "pt2"
 ) {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
     "970557259016-dn8cfjib6e40a1ejlisqitoakqpac2uj.apps.googleusercontent.com";
@@ -213,8 +213,7 @@ if (
 } else if (
   process.env.REACT_APP_STAGE === "uat2" ||
   process.env.REACT_APP_STAGE === "stage" ||
-  process.env.REACT_APP_STAGE === "uat6tcs" ||
-  process.env.REACT_APP_STAGE === "qa2"
+  process.env.REACT_APP_STAGE === "uat6tcs"
 ) {
   process.env.REACT_APP_RECAPTCHA_SITE_KEY =
     "6Lec7BUUAAAAAL8HzkX7KJdtLHBpxvb8jFwehZGz";
@@ -244,16 +243,16 @@ if (
   process.env.REACT_APP_STAGE === "awspreprod1" ||
   process.env.REACT_APP_STAGE === "awspreprod2" ||
   process.env.REACT_APP_STAGE === "awspreprod3" ||
-  process.env.REACT_APP_STAGE === "awsdev1" ||
-  process.env.REACT_APP_STAGE === "awsdev2" ||
-  process.env.REACT_APP_STAGE === "awsqa1" ||
-  process.env.REACT_APP_STAGE === "awsqa2" ||
-  process.env.REACT_APP_STAGE === "awsqa3" ||
-  process.env.REACT_APP_STAGE === "awsqa4" ||
-  process.env.REACT_APP_STAGE === "awsqa5" ||
-  process.env.REACT_APP_STAGE === "awsqa6" ||
-  process.env.REACT_APP_STAGE === "awspt1" ||
-  process.env.REACT_APP_STAGE === "awspt2"
+  process.env.REACT_APP_STAGE === "dev1" ||
+  process.env.REACT_APP_STAGE === "dev2" ||
+  process.env.REACT_APP_STAGE === "qa1" ||
+  process.env.REACT_APP_STAGE === "qa2" ||
+  process.env.REACT_APP_STAGE === "qa3" ||
+  process.env.REACT_APP_STAGE === "qa4" ||
+  process.env.REACT_APP_STAGE === "qa5" ||
+  process.env.REACT_APP_STAGE === "qa6" ||
+  process.env.REACT_APP_STAGE === "pt1" ||
+  process.env.REACT_APP_STAGE === "pt2"
 ) {
   process.env.REACT_APP_RECAPTCHA_SITE_KEY =
     "6Lc6qHcUAAAAAGMXu2mgFvK0pcsaG2DDO6V47Mjf";

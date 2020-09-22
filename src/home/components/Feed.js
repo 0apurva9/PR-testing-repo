@@ -15,6 +15,7 @@ import styles from "./Feed.css";
 import * as Cookie from "../../lib/Cookie";
 import List from "@researchgate/react-intersection-list";
 import MobileOnly from "../../general/components/MobileOnly";
+import HeroBannerComponentMonetization from "./HeroBannerComponentMonetization.js";
 import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
@@ -275,6 +276,54 @@ const MsdAutomatedBrandProductCarousel = Loadable({
   }
 });
 
+// Import Monetization Components
+const MultiPurposeBannerMonetization = Loadable({
+  loader: () => import("./MultiPurposeBannerMonetization.js"),
+  loading() {
+    return <div />;
+  }
+});
+const TopSellingBrandsComponentMonetization = Loadable({
+  loader: () => import("./TopSellingBrandsComponentMonetization.js"),
+  loading() {
+    return <div />;
+  }
+});
+const OffersComponentMonetization = Loadable({
+  loader: () => import("./OffersComponentMonetization.js"),
+  loading() {
+    return <div />;
+  }
+});
+const SplitBannerComponentMonetization = Loadable({
+  loader: () => import("./SplitBannerComponentMonetization.js"),
+  loading() {
+    return <div />;
+  }
+});
+
+const PlpBannerComponent = Loadable({
+  loader: () => import("../../staticpage/components/PlpBannerComponent.js"),
+  loading() {
+    return <div />;
+  }
+});
+
+const PlpBannerComponentMonetization = Loadable({
+  loader: () =>
+    import("../../staticpage/components/PlpBannerComponentMonetization.js"),
+  loading() {
+    return <div />;
+  }
+});
+
+const SimpleBannerComponentMonetization = Loadable({
+  loader: () => import("./SimpleBannerComponentMonetization.js"),
+  loading() {
+    return <div />;
+  }
+});
+
 export const typeComponentMapping = {
   "Product Capsules Component": props => (
     <ProductCapsulesContainer {...props} />
@@ -377,6 +426,32 @@ export const typeComponentMapping = {
   },
   "Account Navigation Component": props => (
     <AccountNavigationComponent {...props} />
+  ),
+  HeroBannerComponentMonetization: props => (
+    <HeroBannerComponentMonetization {...props} />
+  ),
+  SimpleBannerComponentMonetization: props => (
+    <SimpleBannerComponentMonetization {...props} />
+  ),
+  MultiPurposeBanner_Monetization: props => (
+    <MultiPurposeBannerMonetization {...props} />
+  ),
+  DesktopTopSellingBrandsComponent_Monetization: props => (
+    <TopSellingBrandsComponentMonetization {...props} />
+  ),
+  OffersComponent_Monetization: props => (
+    <OffersComponentMonetization {...props} />
+  ),
+  SplitBannerComponent_Monetization: props => (
+    <SplitBannerComponentMonetization {...props} />
+  ),
+  plpBannerComponent: props => <PlpBannerComponent {...props} />,
+  plpShortBannerComponent: props => <PlpBannerComponent {...props} />,
+  plpBannerComponent_Monetization: props => (
+    <PlpBannerComponentMonetization {...props} />
+  ),
+  plpShortBannerComponent_Monetization: props => (
+    <PlpBannerComponentMonetization {...props} />
   )
 };
 
@@ -425,7 +500,7 @@ class Feed extends Component {
       this.props.getChatbotDetails();
     }
   }
-  componentDidUpdate() {
+  async componentDidUpdate() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     if (!userDetails) {
       setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
@@ -484,7 +559,6 @@ class Feed extends Component {
         setClickedElementId
       };
     }
-
     return (
       typeComponentMapping[feedDatum.type] && (
         <WidgetContainer {...props}>
