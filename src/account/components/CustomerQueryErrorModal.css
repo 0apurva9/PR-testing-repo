@@ -1,0 +1,39 @@
+.base{
+    width: 468px;
+    height: auto;
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    position: relative;
+}
+.heading{
+    font-size: 14px;
+    font-family: semibold;
+    color: #212121;
+}
+.subHeading{
+    font-size: 12px;
+    font-family: light;
+    color: #212121;
+    padding-top: 7px;
+    padding-bottom: 20px;
+}
+.iconBox{
+    width: 100%;
+    /* text-align: center; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.closeModal{
+    position: absolute;
+    right: 12px;
+}
+.buttonHolder{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
