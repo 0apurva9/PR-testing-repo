@@ -921,6 +921,7 @@ export async function getOnlineSalesAds(componentName, pageType) {
       })
       .catch(err => {
         console.error(err);
+        return err;
       });
   }
 }
