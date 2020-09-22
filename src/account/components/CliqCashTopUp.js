@@ -215,13 +215,17 @@ export default class CliqCashTopUp extends Component {
       this.props &&
       this.props.location &&
       this.props.location.state &&
-      this.props.location.state.offerDetails;
-    {
-      this.props.location.state.offerDetails.cashbackMode === "TOPUP" ||
-      this.props.location.state.offerDetails.cashbackMode === "EGV"
-        ? localStorage.setItem("cashback", "enabled")
-        : localStorage.setItem("cashback", "disabled");
-    }
+      this.props.location.state.offerDetails
+        ? this.props.location.state.offerDetails
+        : undefined;
+
+    (offerDetails &&
+      offerDetails.cashbackMode &&
+      offerDetails.cashbackMode === "TOPUP") ||
+    (offerDetails && offerDetails.cashbackMode && offerDetails.cashbackMode) ===
+      "EGV"
+      ? localStorage.setItem("cashback", "enabled")
+      : localStorage.setItem("cashback", "disabled");
     if (offerDetails === undefined) {
       offerDetails =
         this.props.cliqCashbackDetails &&
