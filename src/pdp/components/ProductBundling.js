@@ -101,6 +101,15 @@ export default class ProductBundling extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    allBundledProductData = [];
+    allBundledProductDataForAddToCart = [];
+    isBundledProductSelected = [];
+    productIds = [];
+    productCategories = [];
+    productPrices = [];
+  }
+
   handleClick(
     productIndex,
     checkboxChecked,
