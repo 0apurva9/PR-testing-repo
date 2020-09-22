@@ -142,7 +142,7 @@ export default class Cliq2CallPopUp extends Component {
             className={styles.crossIcon}
             onClick={() => this.props.closeModal()}
           >
-            <Icon image={cancelGrey} size={17} />
+            <Icon image={cancelGrey} size={14} />
           </div>
           {OpenRequest !== "now" && OpenRequest !== "" && (
             <div className={styles.alredySlotBookBox}>
@@ -173,7 +173,10 @@ export default class Cliq2CallPopUp extends Component {
           {showScheduleCallBtn && (
             <React.Fragment>
               <div
-                className={styles.buttonBox}
+                className={[
+                  styles.buttonBox,
+                  showCallMeBackBtn ? styles.marginTop : null
+                ].join(" ")}
                 onClick={() => this.scheduleACallClick()}
               >
                 <div className={styles.iconBox}>

@@ -62,6 +62,12 @@ export default class OrderRelatedIssue extends React.Component {
       isCallMeBackForm: false,
       isScheduleACall: false,
       callMeBackJourney: false,
+      copyMobileNumber:
+        getUserDetails &&
+        getUserDetails.loginType === "mobile" &&
+        getUserDetails.userName
+          ? getUserDetails.userName
+          : "",
       mobile:
         getUserDetails &&
         getUserDetails.loginType === "mobile" &&
@@ -112,6 +118,9 @@ export default class OrderRelatedIssue extends React.Component {
             : "",
         mobile: this.props.userDetails.mobileNumber
           ? this.props.userDetails.mobileNumber
+          : "",
+        copyMobileNumber: this.props.userDetails.mobileNumber
+          ? this.props.userDetails.mobileNumber
           : ""
       });
     }
@@ -127,13 +136,16 @@ export default class OrderRelatedIssue extends React.Component {
         this.setState(this.resetState);
       }
     }
-    if (nextProps && nextProps.userDetails) {
+    if (nextProps && nextProps.userDetails !== this.props.userDetails) {
       this.setState({
         name:
           nextProps.userDetails.firstName || nextProps.userDetails.lastName
             ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
             : "",
         mobile: nextProps.userDetails.mobileNumber
+          ? nextProps.userDetails.mobileNumber
+          : "",
+        copyMobileNumber: nextProps.userDetails.mobileNumber
           ? nextProps.userDetails.mobileNumber
           : ""
       });
@@ -396,7 +408,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.setState({
         isIssueOptions: true,
         isCallMeBackForm: false,
-        mobile: "",
+        mobile: this.state.copyMobileNumber,
         chooseLanguage: "English",
         timing: "",
         selectedDate: "",
@@ -468,6 +480,7 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   callMeBackCallClick = () => {
+    // window.scrollTo(0, 0);
     this.setState({
       isCallMeBackForm: true,
       isIssueOptions: false,
@@ -476,6 +489,7 @@ export default class OrderRelatedIssue extends React.Component {
   };
 
   scheduleACallClick = () => {
+    // window.scrollTo(0, 0);
     this.setState({
       isCallMeBackForm: true,
       isScheduleACall: true,
@@ -539,8 +553,8 @@ export default class OrderRelatedIssue extends React.Component {
         : "",
       CustomerId: "",
       CustomerName: this.state.name,
-      IssueType: this.state.parentIssueType
-        ? this.state.parentIssueType
+      IssueType: this.state.otherQuestion
+        ? this.state.question.subIssueType
         : this.state.question.issueType,
       OrderId: this.props.selectedOrderDetails
         ? this.props.selectedOrderDetails.orderId
