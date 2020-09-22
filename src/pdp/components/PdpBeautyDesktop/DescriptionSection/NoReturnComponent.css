@@ -12,6 +12,7 @@
 .base {
   width: 100%;
   height: auto;
+  padding: 52px 72px 52px;
 }
 .holder {
   width: 100%;
@@ -43,12 +44,10 @@
 .return-component {
   border: 1px solid rgb(213, 213, 213);
   border-radius: 4px;
-  padding: 52px 75px 48px;
   -webkit-border-radius: 4px;
 }
 
 .return-component-hide-padding {
-  padding: 52px 75px 40px;
   border: 1px solid rgb(213, 213, 213);
   border-radius: 4px;
   -webkit-border-radius: 4px;
@@ -61,7 +60,7 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 16px;
-  margin: 0 13px 32px;
+  margin: 0 13px 0;
   text-align: left;
   transition: 300ms;
   height: auto;
@@ -73,7 +72,7 @@
   font-weight: 300;
   font-size: 14px;
   line-height: 26px;
-  margin: 0 13px 10px;
+  padding: 32px 0 0 13px;
 }
 
 .manufacture-heading {
@@ -82,17 +81,16 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 16px;
-  margin: 0 0 32px;
   text-align: left;
   transition: 300ms;
+  margin: 0 13px 0;
   height: auto;
 }
 
 .manufacture-all-ingre-sec {
   border-top: 1px solid rgb(213, 213, 213);
-  padding: 30px 0 0 13px;
-  margin-top: 30px;
   display: flex;
+  padding: 52px 72px 52px;
   flex-wrap: wrap;
   align-items: flex-start;
 }
@@ -105,14 +103,15 @@
     line-height: 16px;
     width: 300px;
     display: inline-block;
-    margin-bottom: 16px;
 }
+
 .manufacture-desc {
   font-family: "Rubik", sans-serif;
   color: rgb(33, 33, 33);
   font-weight: 300;
   font-size: 12px;
   line-height: 26px;
+  padding: 18px 0 0 13px;
 }
 
 .manufacture-col{
@@ -120,5 +119,5 @@
   color: rgb(33, 33, 33);
   font-weight: 300;
   font-size: 14px;
-  line-height: 16px;
+  line-height: 23px;
 }
