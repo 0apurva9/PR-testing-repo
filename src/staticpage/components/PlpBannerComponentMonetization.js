@@ -77,3 +77,7 @@ export default class PlpBannerComponentMonetization extends React.Component {
     }
   }
 }
+
+PlpBannerComponentMonetization.propTypes = {
+  firstBanner: PropTypes.bool
+};

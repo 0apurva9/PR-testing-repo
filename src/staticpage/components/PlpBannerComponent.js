@@ -57,5 +57,6 @@ PlpBannerComponent.propTypes = {
         })
       )
     })
-  })
+  }),
+  firstBanner: PropTypes.bool
 };

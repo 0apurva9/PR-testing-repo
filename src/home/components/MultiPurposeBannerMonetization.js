@@ -48,9 +48,6 @@ export default class MultiPurposeBanner_Monetization extends React.Component {
       } else {
         const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1").trim();
         this.props.history.push(urlSuffix);
-        if (this.props.setClickedElementId) {
-          this.props.setClickedElementId();
-        }
       }
     }
   }
