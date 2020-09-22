@@ -3,7 +3,7 @@
     height: auto;
     border-radius: 8px;
     background: #fff;
-    padding: 1px 10px 40px 40px;
+    padding: 1px 10px 30px 40px;
     position: relative;
 }
 .labelTxt{
@@ -12,7 +12,7 @@
     color: #9d9e9f;
     width: 100%;
     text-align: center;
-    padding-top: 8px;
+    padding-top: 3px;
 }
 .buttonBox{
     border: 1px solid #da1c5c;

@@ -116,18 +116,17 @@ export default class OrderRelatedIssue extends React.Component {
       });
     }
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.callMeBackJourney && !this.state.isCallMeBackForm) {
+      window.scrollTo(0, 0);
+    }
+  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.logoutUserStatus !== this.props.logoutUserStatus) {
       if (nextProps.logoutUserStatus == "success") {
         this.setState(this.resetState);
       }
     }
-    // if (
-    //   nextProps &&
-    //   JSON.stringify(this.props.userDetails) !==
-    //     JSON.stringify(nextProps.userDetails)
-    // ) {
-
     if (nextProps && nextProps.userDetails) {
       this.setState({
         name:
@@ -166,7 +165,8 @@ export default class OrderRelatedIssue extends React.Component {
           isIssueOptions: false,
           isQuesryForm: true,
           showFeedBack: false,
-          isCallMeBackForm: false
+          isCallMeBackForm: false,
+          callMeBackJourney: false
         });
       }
     } else {
@@ -183,7 +183,8 @@ export default class OrderRelatedIssue extends React.Component {
               isIssueOptions: false,
               isQuesryForm: true,
               showFeedBack: false,
-              isCallMeBackForm: false
+              isCallMeBackForm: false,
+              callMeBackJourney: false
             });
           }
         }
@@ -254,7 +255,8 @@ export default class OrderRelatedIssue extends React.Component {
       showQuestionList: true,
       questionList: selectOtehrQuestion.listofSubIssues,
       parentIssueType: selectOtehrQuestion.parentIssueType,
-      questionType: NON_ORDER_REALTED_QUESTION
+      questionType: NON_ORDER_REALTED_QUESTION,
+      callMeBackJourney: false
     });
   }
 
@@ -318,7 +320,8 @@ export default class OrderRelatedIssue extends React.Component {
               parentIssueType: faq.FAQHeader,
               questionType: NON_ORDER_REALTED_QUESTION,
               showFeedBack: false,
-              isQuesryForm: false
+              isQuesryForm: false,
+              callMeBackJourney: false
             });
           }
         }
@@ -394,7 +397,10 @@ export default class OrderRelatedIssue extends React.Component {
         isIssueOptions: true,
         isCallMeBackForm: false,
         mobile: "",
-        chooseLanguage: "English"
+        chooseLanguage: "English",
+        timing: "",
+        selectedDate: "",
+        callMeBackJourney: false
       });
     }
   }
@@ -462,7 +468,6 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   callMeBackCallClick = () => {
-    window.scroll(0, 0);
     this.setState({
       isCallMeBackForm: true,
       isIssueOptions: false,
@@ -471,13 +476,13 @@ export default class OrderRelatedIssue extends React.Component {
   };
 
   scheduleACallClick = () => {
-    window.scroll(0, 0);
     this.setState({
       isCallMeBackForm: true,
       isScheduleACall: true,
       isIssueOptions: false
     });
   };
+
   timeSlotPopUP = times => {
     const timeFunction = {
       setTimeSlot: this.setTimeSlot,
@@ -545,6 +550,7 @@ export default class OrderRelatedIssue extends React.Component {
         : "",
       RequestSource: "MPL-desktop"
     };
+
     const placeCustomerResponse = await this.props.placeCustomerCallRequest(
       callRequestObj
     );
@@ -635,12 +641,6 @@ export default class OrderRelatedIssue extends React.Component {
                         onlyNumber={true}
                         focusBack={true}
                       />
-                      {/* <div
-                        className={styles.customBtn}
-                        onClick={() => this.previewPage()}
-                      >
-                        Change
-                      </div> */}
                     </div>
                   </div>
                   <div className={styles.languageBox}>

@@ -65,10 +65,23 @@ export default class Cliq2CallPopUp extends Component {
       allowedRequestLimit,
       WaitTime
     );
+
+    const todayObj = getDetailsOfSlots(
+      0,
+      availableSlots,
+      slotDuration,
+      businessEndTime
+    );
+
     if (scheduleCallFlag) {
       if (
-        TotalRequestsToday < allowedRequestLimit ||
-        TotalRequestsNextDay < allowedRequestLimit
+        (TotalRequestsToday < allowedRequestLimit ||
+          TotalRequestsNextDay < allowedRequestLimit) &&
+        !(
+          (TotalRequestsToday >= allowedRequestLimit ||
+            todayObj.isSlotsNotAvailable) &&
+          TotalRequestsNextDay >= allowedRequestLimit
+        )
       ) {
         showScheduleCallBtn = true;
       } else {
@@ -82,33 +95,39 @@ export default class Cliq2CallPopUp extends Component {
       }
     }
 
-    const todayObj = getDetailsOfSlots(
-      0,
-      availableSlots,
-      slotDuration,
-      businessEndTime
-    );
     if (
-      (TotalRequestsToday >= allowedRequestLimit ||
-        todayObj.isSlotsNotAvailable) &&
-      TotalRequestsNextDay >= allowedRequestLimit
+      !(showCallMeBackBtn || scheduleCallFlag) ||
+      (WaitTime > 60 && showCallMeBackBtn)
     ) {
-      this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
-        text: "Call limit has exceeded",
-        subText:
-          "You cannot place anymore call. Please try again after sometime",
-        showBtn: false
-      });
-      return null;
-    }
-
-    if (WaitTime > 60) {
-      if (!showScheduleCallBtn) {
-        showCallMeBackBtn = true;
-      } else {
+      if (showCallMeBackBtn && showScheduleCallBtn) {
         showCallMeBackBtn = false;
+      } else if (showCallMeBackBtn && !showScheduleCallBtn) {
+        showCallMeBackBtn = true;
+      } else if (TotalRequestsToday >= allowedRequestLimit && WaitTime <= 60) {
+        this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
+          text: "Call limit has exceeded",
+          subText:
+            "You cannot place anymore call. Please try again after sometime",
+          showBtn: false
+        });
+        return null;
+      } else {
+        this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
+          text: "Sorry, no agents are available right now",
+          subText: "Please try again later or choose other help options",
+          showBtn: false
+        });
+        return null;
       }
     }
+
+    // if (WaitTime > 60) {
+    //   if (!showScheduleCallBtn) {
+    //     showCallMeBackBtn = true;
+    //   } else {
+    //     showCallMeBackBtn = false;
+    //   }
+    // }
 
     let scheduleCallObj = {};
     if (OpenRequest !== "now" && OpenRequest !== "") {
