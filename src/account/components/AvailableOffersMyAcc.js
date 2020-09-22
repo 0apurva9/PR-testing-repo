@@ -46,7 +46,10 @@ export default class AvailableOffersMyAcc extends Component {
     const expiryTime = moment(offer.offerEndDate).format("h:mm A");
     return (
       <div className={styles.cashBackOfferLine}>
-        <div className={styles.cashBackOfferLine1}>{offer.offerDesc}</div>
+        <div
+          className={styles.cashBackOfferLine1}
+          dangerouslySetInnerHTML={{ __html: offer.offerDesc }}
+        ></div>
         <div className={styles.cashBackOfferLine2}>
           Maximum applicable cashback:{" "}
           <span className={styles.priceDate}>
