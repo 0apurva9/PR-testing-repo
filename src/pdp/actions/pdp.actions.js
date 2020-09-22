@@ -1181,7 +1181,10 @@ export function getMsdRequest(
     msdRequestObject.append("api_key", API_KEY);
     const mcvId = await getMcvId();
     msdRequestObject.append("mad_uuid", mcvId);
-    if (similarProducts === "SimilarProduct") {
+    if (
+      similarProducts === "SimilarProduct" ||
+      similarProducts === "similarOutOfStockProducts"
+    ) {
       msdRequestObject.append("widget_list", WIDGET_LIST_SIMILAR_PRODUCT);
     } else {
       msdRequestObject.append(
@@ -1221,7 +1224,9 @@ export function getMsdRequest(
       let widgetCheck =
         similarProducts === "SimilarProduct"
           ? SIMILAR_PRODUCTS_WIDGET_KEY
-          : RECOMMENDED_PRODUCTS_WIDGET_KEY;
+          : similarProducts === "similarOutOfStockProducts"
+            ? "similarOutOfStockProducts"
+            : RECOMMENDED_PRODUCTS_WIDGET_KEY;
       if (
         resultJson &&
         resultJson.data &&
