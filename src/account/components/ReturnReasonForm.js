@@ -263,6 +263,10 @@ export default class ReturnReasonForm extends React.Component {
                           returnProductDetails.orderProductWsDTO[0]
                             .exchangeDetails
                         }
+                        bundledAssociatedItems={
+                          this.props.returnRequest &&
+                          this.props.returnRequest.bundledAssociatedItems
+                        }
                       >
                         {returnProductDetails &&
                           returnProductDetails.orderProductWsDTO &&

@@ -753,30 +753,30 @@ export default class AllOrderDetails extends React.Component {
                                         {orderDetails.calloutMessage}
                                       </div>
                                     </div>
-                                  </div>
-                                  <div
-                                    className={
-                                      styles.buttonHolderForRetryPayment
-                                    }
-                                  >
-                                    <Button
-                                      type="hollow"
-                                      height={36}
-                                      label="RETRY PAYMENT"
-                                      color="#ff1744"
-                                      textStyle={{
-                                        color: "#212121",
-                                        fontSize: 14
-                                      }}
-                                      disabled={this.state.disableRetry}
-                                      onClick={() =>
-                                        this.onClickRetryPayment(
-                                          orderDetails.retryPaymentUrl,
-                                          orderDetails.products,
-                                          orderDetails && orderDetails.orderId
-                                        )
+                                    <div
+                                      className={
+                                        styles.buttonHolderForRetryPayment
                                       }
-                                    />
+                                    >
+                                      <Button
+                                        type="hollow"
+                                        height={36}
+                                        label="RETRY PAYMENT"
+                                        color="#ff1744"
+                                        textStyle={{
+                                          color: "#212121",
+                                          fontSize: 14
+                                        }}
+                                        disabled={this.state.disableRetry}
+                                        onClick={() =>
+                                          this.onClickRetryPayment(
+                                            orderDetails.retryPaymentUrl,
+                                            orderDetails.products,
+                                            orderDetails && orderDetails.orderId
+                                          )
+                                        }
+                                      />
+                                    </div>
                                   </div>
                                 </div>
                               )}
