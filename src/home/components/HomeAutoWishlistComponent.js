@@ -104,7 +104,6 @@ class HomeAutoWishlistComponent extends React.Component {
   }
 
   render() {
-    console.log("this.props======================>", this.props);
     let data = this.props.autoWishList;
     if (data) {
       return (

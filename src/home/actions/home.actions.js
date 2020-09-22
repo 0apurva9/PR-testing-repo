@@ -388,6 +388,24 @@ export function homeFeedBackUp() {
       const resultJson = {
         items: [
           {
+            componentName: "msdAutomatedBannerProductCarouselComponent",
+            singleBannerComponent: {
+              componentId: "comp_0000JS7P",
+              items: [
+                {
+                  btnText: "View more",
+                  description: "msdAutomatedBannerProductCarouselComponent",
+                  hexCode: "10",
+                  imageURL: "",
+                  title: "msd",
+                  webURL: "https://ap-southeast-1-api.madstreetden.com/widgets"
+                }
+              ],
+              title: "",
+              type: "msdAutomatedBannerProductCarouselComponent"
+            }
+          },
+          {
             componentName: "AutoWidget",
             singleBannerComponent: {
               componentId: "cmsitem_00287045",
@@ -460,7 +478,8 @@ export function homeFeedBackUp() {
               title: "",
               type: "AutoWidget"
             }
-          },{
+          },
+          {
             componentName: "AutoWishlist",
             singleBannerComponent: {
               componentId: "cmsitem_00232462",
@@ -1006,6 +1025,8 @@ export function msdAbcComponents() {
       postData.append("num_brands", JSON.stringify(msdABPCBrandCount));
       postData.append("num_products", JSON.stringify(MSD_NUM_PRODUCTS));
       postData.append("channel", "pwa");
+      postData.append("fields", JSON.stringify(["mop"]));
+      postData.append("details", true);
 
       result = await api.postMsd(`${MSD_ROOT_PATH}/widgets`, postData);
       resultJson = await result.json();
@@ -1176,38 +1197,38 @@ export function automatedWidgetsForHome(widgetData) {
       msdWidgetData.append("num_results", widgetData.btnText);
       msdWidgetData.append("mad_uuid", await getMcvId());
       msdWidgetData.append("product_id", productId);
-      if (widgetData && widgetData.webURL && widgetData.webURL === "114") {
-        msdWidgetData.append("details", false);
-      } else {
-        msdWidgetData.append("details", true);
-        msdWidgetData.append("fields", JSON.stringify(["mop"]));
-        if (widgetData && widgetData.description) {
-          let filterValue =
-            widgetData &&
-            widgetData.description &&
-            widgetData.description.split(";");
-          let filterParsedData;
-          if (filterValue[1] === "contains") {
-            filterParsedData = [
-              {
-                field: `${filterValue[0]}`,
-                type: `${filterValue[1]}`,
-                value: `${filterValue[2]}`
-              }
-            ];
-          } else {
-            let value = [filterValue[2]];
-            filterParsedData = [
-              {
-                field: `${filterValue[0]}`,
-                type: `${filterValue[1]}`,
-                value: `${value}`
-              }
-            ];
-          }
-          msdWidgetData.append("filters", JSON.stringify(filterParsedData));
+      // if (widgetData && widgetData.webURL && widgetData.webURL === "114") {
+      //   msdWidgetData.append("details", false);
+      // } else {
+      msdWidgetData.append("details", true);
+      msdWidgetData.append("fields", JSON.stringify(["mop"]));
+      if (widgetData && widgetData.description) {
+        let filterValue =
+          widgetData &&
+          widgetData.description &&
+          widgetData.description.split(";");
+        let filterParsedData;
+        if (filterValue[1] === "range") {
+          let rangeValue = filterValue[2] && parseInt(filterValue[2]);
+          filterParsedData = [
+            {
+              field: `${filterValue[0]}`,
+              type: `${filterValue[1]}`,
+              value: [rangeValue]
+            }
+          ];
+        } else {
+          filterParsedData = [
+            {
+              field: `${filterValue[0]}`,
+              type: `${filterValue[1]}`,
+              value: `${filterValue[2]}`
+            }
+          ];
         }
+        msdWidgetData.append("filters", JSON.stringify(filterParsedData));
       }
+      //}
       // msdWidgetData.append("filters", widgetData.description);
       // msdWidgetData.append("fields", widgetData.title);
       // msdWidgetData.append("channel", "pwa");
@@ -1234,23 +1255,23 @@ export function automatedWidgetsForHome(widgetData) {
         msdWidgetDataJson.status !== "failure"
       ) {
         dispatch(getWidgetsData(msdWidgetDataJson.data[0], widgetData.webURL));
-        if (widgetData.webURL === "114") {
-          dispatch(
-            getAutomatedWidgetsItems(
-              data,
-              widgetData.webURL,
-              widgetData.hexCode
-            )
-          );
-        } else {
-          dispatch(
-            automatedWidgetsForHomeSuccess(
-              data,
-              widgetData.webURL,
-              widgetData.hexCode
-            )
-          );
-        }
+        // if (widgetData.webURL === "114") {
+        //   dispatch(
+        //     getAutomatedWidgetsItems(
+        //       data,
+        //       widgetData.webURL,
+        //       widgetData.hexCode
+        //     )
+        //   );
+        // } else {
+        dispatch(
+          automatedWidgetsForHomeSuccess(
+            data,
+            widgetData.webURL,
+            widgetData.hexCode
+          )
+        );
+        //}
       }
     } catch (e) {
       throw new Error(`${e.message}`);
