@@ -108,6 +108,8 @@ export const MY_ACCOUNT_PAGE = "/my-account";
 export const MY_ACCOUNT_WISHLIST_PAGE = "/wishList";
 export const MY_ACCOUNT_ORDERS_PAGE = "/orders";
 export const MY_ACCOUNT_GIFT_CARD_PAGE = "/giftCard";
+export const MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE = "/giftCard/purchase";
+export const MY_ACCOUNT_CLIQ_CASH_PURCHASE_PAGE = "/cliq-cash/purchase";
 export const MY_ACCOUNT_SAVED_CARDS_PAGE = "/payment-details";
 export const MY_ACCOUNT_ADDRESS_PAGE = "/address-book";
 export const MY_ACCOUNT_BRANDS_PAGE = "/brands";
@@ -116,6 +118,8 @@ export const MY_ACCOUNT_ALERTS_PAGE = "/alerts";
 export const MY_ACCOUNT_COUPON_PAGE = "/coupons";
 export const MY_ACCOUNT_CART_PAGE = "/cart";
 export const MY_ACCOUNT_CLIQ_CASH_PAGE = "/cliq-cash";
+export const MY_ACCOUNT_CHECK_BALANCE_PAGE = "/checkbalance";
+
 export const EDIT_ADDRESS_BOOK = "/my-account/address-book/edit";
 export const COSTUMER_CLIQ_CARE_ROUTE = "/cliq-care";
 export const CUSTOMER_CARE = "Customer Care";
@@ -269,6 +273,7 @@ export const ADDRESS_BOOK = "Address Book";
 export const ORDER_HISTORY = "Order History";
 export const CLIQ_CASH = "CLiQ Cash";
 export const GIFT_CARD = "Gift Card";
+export const GIFT_CARD_HEADER_TEXT = "Gift Card";
 export const YOUR_BAG = "Your Bag";
 export const CATEGORIES = "Categories";
 export const CHECKOUT = "Checkout";
@@ -301,6 +306,7 @@ export const CLIQ_CASH_TC = "/cliq-cash-tnc";
 export const HELP_URL = "/help";
 export const CONTACT_URL = "/contactus";
 export const BUYER_POLICY_URL = "/buyer-policies";
+export const MY_ACCOUNT_PROMOS_PAGE = "/promos";
 
 // constants for payments method
 export const EASY_MONTHLY_INSTALLMENTS = "Easy monthly installments";
@@ -318,11 +324,16 @@ export const CASH_ON_DELIVERY_PAYMENT_MODE = "Cash on Delivery";
 export const RUPEE_SYMBOL = "₹";
 export const STRIPE_DETAILS = "stripeDetails";
 export const BANK_GATWAY_DOWN = "0";
+export const CARDLESS_EMI = "Cardless EMI";
+export const INSTACRED = "Instacred";
 /**
  * @comment Added const for the UPI
  */
 export const UPI = "UPI";
 export const UPI_ID = "UPI ID";
+export const PAYMENT_FAILURE_CART_PRODUCT = "paymentFailureCartProduct";
+export const CATEGORY_FINE_JEWELLERY = "FineJewellery";
+export const CATEGORY_FASHION_JEWELLERY = "FashionJewellery";
 // META TAGS CONSTANTS
 
 export const GOOGLE_TAG_TITLE_DEFAULT =
@@ -479,13 +490,15 @@ export const COMMENTS_PLACEHOLDER = "Add comments (optional)";
 export const RECEIVED = "Received";
 export const PAID = "Paid";
 export const EXPIRED = "Expired";
+export const Expiring = "Expiring";
 export const EXPIRED_REJECTED_FORMAT = "0001-01-01T00:00:00";
 export const PREVENT_NUMBERS_VALIDATION = /^([^0-9]*)$/;
 export const BANK_ACCOUNT = "BANK_ACCOUNT";
 export const MY_ACCOUNT_SUFFIX = "/my-account/(.*)";
 export const DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION =
   "digitalDataForPaymentConfirmation";
-
+export const DIGITAL_DATA_FOR_BEFORE_PAYMENT_CONFIRMATION =
+  "digitalDataForPaymentConfirmationBeforePayment";
 // errors
 export const ERROR_CODE_JAVA_NET = "java.net";
 export const ERROR_CODE_REDIS_CLIENT = "redis.clients";
@@ -535,3 +548,20 @@ export const WEB_URL_REG_EX = /^https?:[\/]{2}(www\.)?tatacliq.com/g;
 // for haptik chatbot add to cart event
 export const ADD_TO_CART_EVENT_HAPTIK_CHATBOT = "add_to_cart";
 export const GO_TO_CART_EVENT_HAPTIK_CHATBOT = "go_to_cart";
+export const CREDIT_CARD_EMI = "Credit Card EMI";
+export const DEBIT_CARD_EMI = "Debit Card EMI";
+export const IS_DC_EMI_SELECTED = "isDcEMISelected";
+
+export const AUTOMATED_WIDGETS_FOR_HOME = "AutoWidget";
+export const QUICK_LINK_PERSONALISED_COMPONENT = "01QLC-P";
+export const HERO_BANNER_PERSONALISED_COMPONENT = "01HBC-P";
+export const BANK_OFFER_PERSONALISED_COMPONENT = "01BOC-P";
+export const MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT = "01MPB-P";
+export const LUXE_EDITORIAL_PERSONALISED_CAROUSEL = "01LEC-P";
+export const TWO_BY_TWO_PERSONALISED_COMPONENT = "01TBT-P";
+export const LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT = "01LSSC-P";
+export const MULTI_BANNER_PERSONALISED_COMPONENT = "01MBC-P";
+export const SUB_HEADER_HERO_BANNER = "heroBannerComponent";
+export const SUB_HEADER_TWO_BY_TWO = "twoByTwoBannerComponent";
+
+export const DIGITAL_DATA_FOR_CART = "digitalDataForCart";

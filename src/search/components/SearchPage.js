@@ -510,7 +510,10 @@ export default class SearchPage extends React.Component {
             <div className={styles.searchResults}>
               {" "}
               {/* store details or brand details */}
-              {suggestedKeyWord && suggestedKeyWord[0].storeDetails ? (
+              {suggestedKeyWord &&
+              Array.isArray(suggestedKeyWord) &&
+              suggestedKeyWord[0] &&
+              suggestedKeyWord[0].storeDetails ? (
                 <SearchResultItem
                   suggestedText={suggestedKeyWord[0].storeDetails.storeTitle}
                   imageUrl={suggestedKeyWord[0].storeDetails.storeImageUrl}

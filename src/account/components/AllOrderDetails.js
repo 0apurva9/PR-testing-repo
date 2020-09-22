@@ -48,6 +48,8 @@ import {
   RETRY_PAYMENT_DETAILS,
   CNCTOHD,
   RATE_THIS_ITEM,
+  CATEGORY_FINE_JEWELLERY,
+  CATEGORY_FASHION_JEWELLERY,
   COSTUMER_CLIQ_CARE_ROUTE
 } from "../../lib/constants";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2.js";
@@ -98,7 +100,8 @@ export default class AllOrderDetails extends React.Component {
       stickyPortion: false,
       showStickyPortion: 0,
       sortValue: "",
-      sortLabel: ""
+      sortLabel: "",
+      disableRetry: false
     };
     const currentYear = new Date().getFullYear();
     this.filterOptions = [
@@ -344,30 +347,66 @@ export default class AllOrderDetails extends React.Component {
       this.props.reSendEmailForGiftCard(orderId);
     }
   };
-  onClickRetryPayment = async retryUrl => {
-    let retryPaymentSplitUrl = retryUrl.split("?")[1].split("&");
-    let guId = retryPaymentSplitUrl[0].split("value=")[1];
-    let userId = retryPaymentSplitUrl[1].split("userId=")[1];
-    if (this.props.retryPayment) {
-      let retryPaymentResponse = await this.props.retryPayment(guId, userId);
-      if (retryPaymentResponse && retryPaymentResponse.status === SUCCESS) {
-        let retryPaymentDetailsObject = {};
-        retryPaymentDetailsObject.retryPaymentDetails =
-          retryPaymentResponse.retryPaymentDetails;
-        localStorage.setItem(RETRY_PAYMENT_CART_ID, JSON.stringify(guId));
-        localStorage.setItem(
-          RETRY_PAYMENT_DETAILS,
-          JSON.stringify(retryPaymentDetailsObject)
-        );
-        this.props.history.push({
-          pathname: CHECKOUT_ROUTER,
-          state: {
-            isFromRetryUrl: true,
-            retryPaymentGuid: guId
+  onClickRetryPayment = async (retryUrl, products, orderId) => {
+    this.setState({ disableRetry: true }, async () => {
+      let retryPaymentSplitUrl = retryUrl.split("?")[1].split("&");
+      let guId = retryPaymentSplitUrl[0].split("value=")[1];
+      let userId = retryPaymentSplitUrl[1].split("userId=")[1];
+      if (this.props.retryPayment) {
+        let retryPaymentResponse = await this.props.retryPayment(guId, userId);
+        if (retryPaymentResponse && retryPaymentResponse.status === SUCCESS) {
+          let retryPaymentDetailsObject = {};
+          retryPaymentDetailsObject.retryPaymentDetails =
+            retryPaymentResponse.retryPaymentDetails;
+          localStorage.setItem(RETRY_PAYMENT_CART_ID, JSON.stringify(guId));
+          localStorage.setItem(
+            RETRY_PAYMENT_DETAILS,
+            JSON.stringify(retryPaymentDetailsObject)
+          );
+          let isJewelleryProduct = false,
+            failedOrderDetails,
+            retryproductData = [];
+          failedOrderDetails = await this.props.getRetryOrderDetails(orderId);
+          let productRequest =
+            products &&
+            products.map(
+              async data =>
+                await this.props.getProductDescription(data.productcode)
+            );
+          await Promise.all(productRequest).then(responses =>
+            responses.forEach((res, index) => {
+              let { status, productDescription } = res;
+              if (res && res.productDescription && status === SUCCESS) {
+                retryproductData.push(productDescription);
+              }
+              if (status === SUCCESS) {
+                if (
+                  productDescription.rootCategory === CATEGORY_FINE_JEWELLERY ||
+                  productDescription.rootCategory === CATEGORY_FASHION_JEWELLERY
+                ) {
+                  isJewelleryProduct = true;
+                }
+              }
+            })
+          );
+          if (retryproductData.length > 0 && failedOrderDetails) {
+            this.props.history.push({
+              pathname: CHECKOUT_ROUTER,
+              state: {
+                isFromRetryUrl: true,
+                retryPaymentGuid: guId,
+                productDetails: retryproductData,
+                isJewelleryAvailable: isJewelleryProduct,
+                totalPriceData:
+                  failedOrderDetails &&
+                  failedOrderDetails.retryOrderDetails &&
+                  failedOrderDetails.retryOrderDetails.products
+              }
+            });
           }
-        });
+        }
       }
-    }
+    });
   };
   getDivWithWithoutBorder(productsLength, key) {
     if (productsLength === key + 1) {
@@ -728,9 +767,12 @@ export default class AllOrderDetails extends React.Component {
                                           color: "#212121",
                                           fontSize: 14
                                         }}
+                                        disabled={this.state.disableRetry}
                                         onClick={() =>
                                           this.onClickRetryPayment(
-                                            orderDetails.retryPaymentUrl
+                                            orderDetails.retryPaymentUrl,
+                                            orderDetails.products,
+                                            orderDetails && orderDetails.orderId
                                           )
                                         }
                                       />
@@ -1018,9 +1060,13 @@ export default class AllOrderDetails extends React.Component {
                                               color: "#212121",
                                               fontSize: 14
                                             }}
+                                            disabled={this.state.disableRetry}
                                             onClick={() =>
                                               this.onClickRetryPayment(
-                                                orderDetails.retryPaymentUrl
+                                                orderDetails.retryPaymentUrl,
+                                                orderDetails.products,
+                                                orderDetails &&
+                                                  orderDetails.orderId
                                               )
                                             }
                                           />

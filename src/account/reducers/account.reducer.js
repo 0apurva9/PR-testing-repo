@@ -40,6 +40,14 @@ const account = (
     sellerReviewError: null,
     loadingForSellerReview: null,
 
+    cliqCashConfig: null,
+    cliqCashConfigStatus: null,
+    cliqCashConfigError: null,
+
+    cliqCashExpiringStatus: null,
+    cliqCashExpiringDetails: null,
+    cliqCashExpiringError: null,
+
     wishlist: null,
     wishlistStatus: null,
     wishlistError: null,
@@ -291,6 +299,9 @@ const account = (
     UserNotificationDetails: null,
     UserNotificationConfig: null,
 
+    checkBalanceStatus: null,
+    checkBalanceDetailsError: null,
+    checkBalanceDetails: null,
     customerQueriesFieldStatus: null,
     customerQueriesFieldError: null,
     customerQueriesField: null,
@@ -305,7 +316,22 @@ const account = (
     submitExchangeCashbackDetailsStatus: null,
     submitExchangeCashbackDetailsLoading: false,
     submitExchangeCashbackDetails: null,
-    submitExchangeCashbackDetailsError: null
+    submitExchangeCashbackDetailsError: null,
+
+    cliq2CallConfigDataStatus: null,
+    cliq2CallConfigDataLoading: false,
+    cliq2CallConfigData: null,
+    cliq2CallConfigDataError: null,
+
+    genesysResponseStatus: null,
+    genesysResponseLoading: false,
+    genesysResponseData: null,
+    genesysResponseError: null,
+
+    genesysCustomerCallRequestStatus: null,
+    genesysCustomerCallRequestLoading: false,
+    genesysCustomerCallRequestData: null,
+    genesysCustomerCallRequestError: null
   },
   action
 ) => {
@@ -848,6 +874,60 @@ const account = (
         fetchOrderItemDetailsStatus: action.status,
         fetchOrderItemDetailsError: action.error,
         loadingForFetchOrderItemDetails: false
+      });
+
+    case accountActions.GET_CLIQ_CASH_CONFIG_REQUEST:
+      return Object.assign({}, state, {
+        cliqCashConfigStatus: action.status,
+        loading: true
+      });
+
+    case accountActions.GET_CLIQ_CASH_CONFIG_SUCCESS:
+      return Object.assign({}, state, {
+        cliqCashConfigStatus: action.status,
+        cliqCashConfig: action.cliqCashConfig,
+        loading: false
+      });
+
+    case accountActions.GET_CLIQ_CASH_CONFIG_FAILURE:
+      return Object.assign({}, state, {
+        cliqCashConfigStatus: action.status,
+        cliqCashConfigError: action.error,
+        loading: false
+      });
+
+    case accountActions.GET_USER_CLIQ_CASH_EXPIRING_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        cliqCashExpiringStatus: action.status,
+        loading: true
+      });
+    case accountActions.GET_USER_CLIQ_CASH_EXPIRING_DETAILS_SUCCESS:
+      const expDetails = action.cliqCashExpiringDetails;
+      const giftCardDetails = {};
+      if (
+        expDetails.expiryDate &&
+        expDetails.expiryTime &&
+        expDetails.amount.value
+      ) {
+        (giftCardDetails.isExpiring = true),
+          (giftCardDetails.expiryDate = expDetails.expiryDate),
+          (giftCardDetails.expiryTime = expDetails.expiryTime),
+          (giftCardDetails.value = expDetails.amount.value),
+          (giftCardDetails.expiryDateTime = expDetails.expiryDateTime);
+      } else {
+        giftCardDetails.isExpiring = false;
+      }
+      return Object.assign({}, state, {
+        cliqCashExpiringStatus: action.status,
+        cliqCashExpiringDetails: giftCardDetails,
+        loading: false
+      });
+
+    case accountActions.GET_USER_CLIQ_CASH_EXPIRING_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        cliqCashExpiringStatus: action.status,
+        cliqCashExpiringError: action.error,
+        loading: false
       });
 
     case accountActions.SEND_INVOICE_REQUEST:
@@ -1589,6 +1669,7 @@ const account = (
         retryPaymentDetailsError: action.error,
         retryPaymentDetailsLoading: false
       });
+
     case accountActions.SUBMIT_RETURNIMGUPLOAD_DETAILS_REQUEST:
       return Object.assign({}, state, {
         submitImageUploadDetailsStatus: action.status,
@@ -1911,6 +1992,48 @@ const account = (
         userAddress: null,
         loading: false
       });
+    case accountActions.GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        promotionalCashStatementStatus: action.status,
+        loading: true
+      });
+
+    case accountActions.GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        promotionalCashStatementStatus: action.status,
+        promotionalCashStatementDetails: action.promotionalCashStatementDetails,
+        loading: false
+      });
+
+    case accountActions.GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        promotionalCashStatementStatus: action.status,
+        promotionalCashStatementError: action.error,
+        loading: false
+      });
+
+    case accountActions.CHECK_BALANCE_REQUEST:
+      return Object.assign({}, state, {
+        checkBalanceStatus: action.status,
+        isModal: true,
+        loading: true
+      });
+
+    case accountActions.CHECK_BALANCE_SUCCESS:
+      return Object.assign({}, state, {
+        checkBalanceStatus: action.status,
+        checkBalanceDetails: action.checkBalanceDetails,
+        isModal: false,
+        loading: false
+      });
+    case accountActions.CHECK_BALANCE_FAILURE:
+      return Object.assign({}, state, {
+        checkBalanceStatus: action.status,
+        checkBalanceDetailsError: action.error,
+        loading: false,
+        isModal: true
+      });
+
     case accountActions.SET_SELF_SERVE_STATE:
       return Object.assign({}, state, {
         currentState: action.currentState
@@ -1961,6 +2084,78 @@ const account = (
         submitExchangeCashbackDetailsLoading: false,
         submitExchangeCashbackDetailsError: action.error
       });
+
+    case accountActions.RETRY_ORDER_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        retryOrderDetailsStatus: action.status,
+        retryOrderDetailsError: action.error
+      });
+    case accountActions.RETRY_ORDER_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        retryOrderDetailsStatus: action.status,
+        retryOrderDetails: action.retryOrderDetails
+      });
+    case accountActions.GET_CLIQ_2_CALL_CONFIG_REQUEST:
+      return Object.assign({}, state, {
+        cliq2CallConfigDataStatus: action.status,
+        cliq2CallConfigDataLoading: true
+      });
+
+    case accountActions.GET_CLIQ_2_CALL_CONFIG_SUCCESS:
+      return Object.assign({}, state, {
+        cliq2CallConfigDataStatus: action.status,
+        cliq2CallConfigDataLoading: false,
+        cliq2CallConfigData: action.cliq2CallConfigData
+      });
+
+    case accountActions.GET_CLIQ_2_CALL_CONFIG_FAILURE:
+      return Object.assign({}, state, {
+        cliq2CallConfigDataStatus: action.status,
+        cliq2CallConfigDataLoading: false,
+        cliq2CallConfigDataError: action.error
+      });
+
+    case accountActions.GET_GENESYS_RESPONSE_REQUEST:
+      return Object.assign({}, state, {
+        genesysResponseStatus: action.status,
+        genesysResponseLoading: true
+      });
+
+    case accountActions.GET_GENESYS_RESPONSE_SUCCESS:
+      return Object.assign({}, state, {
+        genesysResponseStatus: action.status,
+        genesysResponseLoading: false,
+        genesysResponseData: action.genesysResponse
+      });
+
+    case accountActions.GET_GENESYS_RESPONSE_FAILURE:
+      return Object.assign({}, state, {
+        genesysResponseStatus: action.status,
+        genesysResponseLoading: false,
+        genesysResponseError: action.error
+      });
+
+    case accountActions.GENESYS_CUSTOMER_CALL_REQUEST:
+      return {
+        ...state,
+        genesysCustomerCallRequestStatus: action.status,
+        genesysCustomerCallRequestLoading: true
+      };
+    case accountActions.GENESYS_CUSTOMER_CALL_REQUEST_SUCCESS:
+      return {
+        ...state,
+        genesysCustomerCallRequestStatus: action.status,
+        genesysCustomerCallRequestLoading: false,
+        genesysCustomerCallRequestData: action.data
+      };
+    case accountActions.GENESYS_CUSTOMER_CALL_REQUEST_FAILURE:
+      return {
+        ...state,
+        genesysCustomerCallRequestStatus: action.status,
+        genesysCustomerCallRequestLoading: false,
+        genesysCustomerCallRequestError: action.error
+      };
+
     default:
       return state;
   }

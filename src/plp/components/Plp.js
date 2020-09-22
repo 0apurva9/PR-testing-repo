@@ -354,6 +354,13 @@ export default class Plp extends React.Component {
         url = url.replace(/\//g, "");
       }
       url = pathname + url;
+    } else if (url.includes("view-all-offers")) {
+      url = url.replace("/view-all-offers", "");
+      let pathname = this.props.location.pathname.replace(PAGE_REGEX, "");
+      if (pathname.charAt(pathname.length - 1).match("/")) {
+        url = url.replace(/\//g, "");
+      }
+      url = pathname + url;
     }
 
     if (colourSlug) {
@@ -503,7 +510,9 @@ export default class Plp extends React.Component {
       );
     }
     if (AMP_SEARCH_REG_EX.test(this.props.history.location.pathname)) {
-      let ampUrl = `${this.props.history.location.pathname}${this.props.location.search}`;
+      let ampUrl = `${this.props.history.location.pathname}${
+        this.props.location.search
+      }`;
       return (
         <Helmet>
           <link rel="amphtml" href={`${window.location.origin}/amp${ampUrl}`} />
@@ -625,7 +634,9 @@ export default class Plp extends React.Component {
                     {this.props.productListings &&
                       this.props.productListings.pagination &&
                       this.props.productListings.pagination.totalResults &&
-                      `${this.props.productListings.pagination.totalResults} Products`}
+                      `${
+                        this.props.productListings.pagination.totalResults
+                      } Products`}
                   </div>
                 </div>
               )}

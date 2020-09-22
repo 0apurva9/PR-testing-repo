@@ -10,7 +10,7 @@ export default class Input2 extends React.Component {
       oldPosition: 0
     };
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.state.value) {
       this.setState({ value: nextProps.value });
     }
@@ -142,7 +142,13 @@ export default class Input2 extends React.Component {
               disabled={this.props.disabled}
               autoFocus={this.props.autoFocus}
               onKeyPress={event => this.handleKeyPress(event)}
+              required={this.props.required ? this.props.required : false}
             />
+            {this.props.placeholderMoving ? (
+              <label className={styles.placeHoldertext}>
+                {this.props.placeholderText}
+              </label>
+            ) : null}
           </div>
           {this.props.leftChild && (
             <div
@@ -194,5 +200,7 @@ Input2.defaultProps = {
   disabled: false,
   borderBottom: "1px solid #d2d2d2",
   onlyAlphabet: false,
-  onlyNumber: false
+  onlyNumber: false,
+  required: false,
+  placeholderMoving: false
 };

@@ -15,7 +15,8 @@ import {
   redeemCliqVoucher,
   cancelProduct,
   updateReturnCancellation,
-  updateReturnForHOTC
+  updateReturnForHOTC,
+  getGenesysCallConfigData
 } from "../../account/actions/account.actions";
 import {
   getTncForBankOffer,
@@ -100,7 +101,9 @@ const mapStateToProps = (state, ownProps) => {
     redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl,
     loadingForUpdateReturnCancellation:
       state.profile.loadingForUpdateReturnCancellation,
-    userRating: state.profile.userRating
+    userRating: state.profile.userRating,
+    genesysCallConfigDataLoading: state.profile.genesysResponseLoading,
+    genesysCallConfigData: state.profile.genesysResponseData
   };
 };
 
@@ -445,6 +448,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     removeExchange: async data => {
       return await dispatch(removeExchange(data));
+    },
+    getGenesysCallConfigData: () => {
+      dispatch(getGenesysCallConfigData());
     }
   };
 };

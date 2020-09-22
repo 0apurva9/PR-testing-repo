@@ -64,16 +64,18 @@ export default class SimilarProductsOOSModal extends React.Component {
             const transformedDatum = transformData(val);
             const productImage = transformedDatum.image;
             const discountedPrice = transformedDatum.discountPrice;
-            const mrpInteger = parseInt(
-              transformedDatum.price.replace(RUPEE_SYMBOL, ""),
-              10
-            );
-            const discount = Math.floor(
-              (mrpInteger -
-                parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
-                mrpInteger *
-                100
-            );
+            const mrpInteger =
+              transformedDatum.price &&
+              parseInt(transformedDatum.price.replace(RUPEE_SYMBOL, ""), 10);
+            const discount =
+              mrpInteger &&
+              discountedPrice &&
+              Math.floor(
+                (mrpInteger -
+                  parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
+                  mrpInteger *
+                  100
+              );
             return (
               <ProductModule
                 key={i}

@@ -42,7 +42,8 @@ import {
   GIFT_CARD_MODAL,
   UPDATE_REFUND_DETAILS_POPUP,
   SHOW_RETURN_CONFIRM_POP_UP,
-  RATING_AND_REVIEW_MODAL
+  RATING_AND_REVIEW_MODAL,
+  CLIQ_CASH_MODULE
 } from "../../general/modal.actions.js";
 import format from "date-fns/format";
 import {
@@ -82,6 +83,7 @@ import {
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { setBagCount } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions";
+import { getCustomerAccessToken } from "../../common/services/common.services";
 
 export const GET_USER_DETAILS_REQUEST = "GET_USER_DETAILS_REQUEST";
 export const GET_USER_DETAILS_SUCCESS = "GET_USER_DETAILS_SUCCESS";
@@ -138,9 +140,23 @@ export const GET_RETURN_REQUEST = "RETURN_REQEUEST";
 export const GET_RETURN_REQUEST_SUCCESS = "GET_RETURN_REQUEST_SUCCESS";
 export const GET_RETURN_REQUEST_FAILURE = "GET_RETURN_REQUEST_FAILURE";
 
+export const GET_CLIQ_CASH_CONFIG_REQUEST = "GET_CLIQ_CASH_CONFIG_REQUEST";
+export const GET_CLIQ_CASH_CONFIG_SUCCESS = "GET_CLIQ_CASH_CONFIG_SUCCESS";
+export const GET_CLIQ_CASH_CONFIG_FAILURE = "GET_CLIQ_CASH_CONFIG_FAILURE";
+
+export const GET_USER_CLIQ_CASH_EXPIRING_DETAILS_REQUEST =
+  "GET_USER_CLIQ_CASH_EXPIRING_DETAILS_REQUEST";
+export const GET_USER_CLIQ_CASH_EXPIRING_DETAILS_SUCCESS =
+  "GET_USER_CLIQ_CASH_EXPIRING_DETAILS_SUCCESS";
+export const GET_USER_CLIQ_CASH_EXPIRING_DETAILS_FAILURE =
+  "GET_USER_CLIQ_CASH_EXPIRING_DETAILS_FAILURE";
+
 export const FETCH_ORDER_DETAILS_REQUEST = "FETCH_ORDER_DETAILS_REQUEST";
 export const FETCH_ORDER_DETAILS_SUCCESS = "FETCH_ORDER_DETAILS_SUCCESS";
 export const FETCH_ORDER_DETAILS_FAILURE = "FETCH_ORDER_DETAILS_FAILURE";
+
+export const RETRY_ORDER_DETAILS_SUCCESS = "RETRY_ORDER_DETAILS_SUCCESS";
+export const RETRY_ORDER_DETAILS_FAILURE = "RETRY_ORDER_DETAILS_FAILURE";
 
 export const FETCH_ORDER_ITEM_DETAILS_REQUEST =
   "FETCH_ORDER_ITEM_DETAILS_REQUEST";
@@ -363,6 +379,13 @@ export const CNC_TO_HD_DETAILS_REQUEST = "CNC_TO_HD_DETAILS_REQUEST";
 export const CNC_TO_HD_DETAILS_SUCCESS = "CNC_TO_HD_DETAILS_SUCCESS";
 export const CNC_TO_HD_DETAILS_FAILURE = "CNC_TO_HD_DETAILS_FAILURE";
 
+export const GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_REQUEST =
+  "GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_REQUEST";
+export const GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_SUCCESS =
+  "GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_SUCCESS";
+export const GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_FAILURE =
+  "GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_FAILURE";
+
 export const RESET_USER_ADDRESS = "RESET_USER_ADDRESS";
 
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
@@ -501,9 +524,33 @@ export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_SUCCESS =
   "SUBMIT_EXCHANGE_CASHBACK_DETAILS_SUCCESS";
 export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_FAILURE =
   "SUBMIT_EXCHANGE_CASHBACK_DETAILS_FAILURE";
+getCliq2CallConfig;
+export const GET_CLIQ_2_CALL_CONFIG_REQUEST = "GET_CLIQ_2_CALL_CONFIG_REQUEST";
+export const GET_CLIQ_2_CALL_CONFIG_SUCCESS = "GET_CLIQ_2_CALL_CONFIG_SUCCESS";
+export const GET_CLIQ_2_CALL_CONFIG_FAILURE = "GET_CLIQ_2_CALL_CONFIG_FAILURE";
+
+export const GET_GENESYS_RESPONSE_REQUEST = "GET_GENESYS_RESPONSE_REQUEST";
+export const GET_GENESYS_RESPONSE_SUCCESS = "GET_GENESYS_RESPONSE_SUCCESS";
+export const GET_GENESYS_RESPONSE_FAILURE = "GET_GENESYS_RESPONSE_FAILURE";
+
+export const GENESYS_CUSTOMER_CALL_REQUEST = "GENESYS_CUSTOMER_CALL_REQUEST";
+export const GENESYS_CUSTOMER_CALL_REQUEST_SUCCESS =
+  "GENESYS_CUSTOMER_CALL_REQUEST_SUCCESS";
+export const GENESYS_CUSTOMER_CALL_REQUEST_FAILURE =
+  "GENESYS_CUSTOMER_CALL_REQUEST_FAILURE";
+
+//Genesys API CALL URL
+const GENESYS_CALL_CONFIG_URL =
+  "https://219.65.91.76/UnistoreCallBack/api/Lead";
+const GENESYS_CALL_REQUEST_URL =
+  "https://219.65.91.76/UnistoreCallBack/api/Push";
 
 const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+
+export const CHECK_BALANCE_REQUEST = "CHECK_BALANCE_REQUEST";
+export const CHECK_BALANCE_SUCCESS = "CHECK_BALANCE_SUCCESS";
+export const CHECK_BALANCE_FAILURE = "CHECK_BALANCE_FAILURE";
 
 export function getDetailsOfCancelledProductRequest() {
   return {
@@ -3024,6 +3071,45 @@ export function fetchOrderDetails(orderId, pageName) {
     }
   };
 }
+
+export function retryOrderDetailsSuccess(retryOrderDetails) {
+  return {
+    type: RETRY_ORDER_DETAILS_SUCCESS,
+    status: SUCCESS,
+    retryOrderDetails
+  };
+}
+
+export function retryOrderDetailsFailure(error) {
+  return {
+    type: RETRY_ORDER_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+export function getRetryOrderDetails(orderId) {
+  return async (dispatch, getState, { api }) => {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getSelectedOrder_V1/${orderId}?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&isPwa=true&isMDE=true`
+      );
+      let resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(retryOrderDetailsSuccess(resultJson));
+    } catch (e) {
+      return dispatch(retryOrderDetailsFailure(e.message));
+    }
+  };
+}
 export function fetchOrderItemDetails(orderId, transactionId) {
   return async (dispatch, getState, { api }) => {
     dispatch(fetchOrderDetailsRequest());
@@ -3569,7 +3655,7 @@ export function redeemCliqVoucher(cliqCashDetails, fromCheckout) {
         }/cliqcash/redeemCliqVoucher?access_token=${
           JSON.parse(customerCookie).access_token
         }&cartGuid=&couponCode=${cliqCashDetails.cardNumber}&passKey=${
-          cliqCashDetails.pinNumber
+          cliqCashDetails.cardPin
         }`
       );
       const resultJson = await result.json();
@@ -4936,6 +5022,107 @@ export function submitCncToHdDetails(userAddress, transactionId, orderId) {
   };
 }
 
+/**
+ * Cliq Cash configuration API
+ */
+export function getCliqCashPageConfigurationRequest() {
+  return {
+    type: GET_CLIQ_CASH_CONFIG_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getCliqCashPageConfigurationSuccess(cliqCashConfig) {
+  return {
+    type: GET_CLIQ_CASH_CONFIG_SUCCESS,
+    cliqCashConfig,
+    status: SUCCESS
+  };
+}
+
+export function getCliqCashPageConfigurationFailure(error) {
+  return {
+    type: GET_CLIQ_CASH_CONFIG_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
+
+export function getCliqCashPageConfiguration(startDate, endDate) {
+  return async (dispatch, getState, { api }) => {
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    dispatch(getCliqCashPageConfigurationRequest());
+
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getCliqCashPageActions?channel=${CHANNEL}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }`
+      );
+      let resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getCliqCashPageConfigurationSuccess(resultJson));
+    } catch (e) {
+      dispatch(getCliqCashPageConfigurationFailure(e.message));
+    }
+  };
+}
+/**
+ * EOC
+ */
+
+export function getCliqCashExpiringRequest() {
+  return {
+    type: GET_USER_CLIQ_CASH_EXPIRING_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getCliqCashExpiringSuccess(cliqCashExpiringDetails) {
+  return {
+    type: GET_USER_CLIQ_CASH_EXPIRING_DETAILS_SUCCESS,
+    status: SUCCESS,
+    cliqCashExpiringDetails
+  };
+}
+
+export function getCliqCashExpiringFailure(error) {
+  return {
+    type: GET_USER_CLIQ_CASH_EXPIRING_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getCliqCashExpiring() {
+  return async (dispatch, getState, { api }) => {
+    const customerAccessToken = await getCustomerAccessToken();
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    dispatch(getCliqCashExpiringRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getCliqCashExpiring?access_token=${customerAccessToken}`
+      );
+      let resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getCliqCashExpiringSuccess(resultJson));
+    } catch (e) {
+      dispatch(getCliqCashExpiringFailure(e.message));
+    }
+  };
+}
+
 export function productRatingByUserRequest() {
   return {
     type: GET_USER_RATING_REQUEST
@@ -5120,6 +5307,50 @@ export function resetUserAddressAfterLogout() {
   };
 }
 
+export function getPromotionalCashStatementRequest() {
+  return {
+    type: GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getPromotionalCashStatementSuccess(
+  promotionalCashStatementDetails
+) {
+  return {
+    type: GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_SUCCESS,
+    status: SUCCESS,
+    promotionalCashStatementDetails
+  };
+}
+
+export function getPromotionalCashStatementFailure(error) {
+  return {
+    type: GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_FAILURE,
+    status: ERROR
+  };
+}
+
+export function checkBalanceRequest() {
+  return {
+    type: CHECK_BALANCE_REQUEST,
+    status: REQUESTING
+  };
+}
+export function checkBalanceSuccess(checkBalanceDetails) {
+  return {
+    type: CHECK_BALANCE_SUCCESS,
+    status: SUCCESS,
+    checkBalanceDetails
+  };
+}
+
+export function checkBalanceFailure(error) {
+  return {
+    type: CHECK_BALANCE_FAILURE,
+    status: FAILURE,
+    error
+  };
+}
 export function dispatchSelfServeState(currentState) {
   return {
     type: SET_SELF_SERVE_STATE,
@@ -5173,6 +5404,28 @@ export function getExchangeCashbackDetailsFailure(error) {
   };
 }
 
+export function getPromotionalCashStatement() {
+  return async (dispatch, getState, { api }) => {
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerAccessToken = await getCustomerAccessToken();
+    dispatch(getPromotionalCashStatementRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getPromotionalCashStatement?access_token=${customerAccessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getPromotionalCashStatementSuccess(resultJson));
+    } catch (e) {
+      dispatch(getPromotionalCashStatementFailure(e.message));
+    }
+  };
+}
 export function getExchangeCashbackDetails(parentOrderId) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -5198,6 +5451,41 @@ export function getExchangeCashbackDetails(parentOrderId) {
   };
 }
 
+export function checkBalance(checkBalanceDetails) {
+  return async (dispatch, getState, { api }) => {
+    const customerAccessToken = await getCustomerAccessToken();
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    dispatch(checkBalanceRequest());
+    try {
+      const result = await api.post(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/giftCardCheckBalance?access_token=${customerAccessToken}&channel=web`,
+        checkBalanceDetails
+      );
+      let resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      if (resultJson.status && resultJson.status.toLowerCase() === "success") {
+        /**
+         * Appending `cardPin` in the resultJson as we need it latter for adding the GC
+         * to the Wallet.
+         */
+        resultJson &&
+          Object.assign(resultJson, {
+            cardPin: checkBalanceDetails.cardPin
+          });
+        dispatch(checkBalanceSuccess(resultJson));
+        dispatch(hideModal(CLIQ_CASH_MODULE));
+      }
+    } catch (e) {
+      dispatch(checkBalanceFailure(e.message));
+    }
+  };
+}
 export function submitExchangeCashbackDetailsRequest() {
   return {
     type: SUBMIT_EXCHANGE_CASHBACK_DETAILS_REQUEST,
@@ -5247,6 +5535,135 @@ export function submitExchangeCashbackDetails(orderId, cashbackDetails) {
       return dispatch(submitExchangeCashbackDetailsSuccess(resultJson));
     } catch (e) {
       return dispatch(submitExchangeCashbackDetailsFailure(e.message));
+    }
+  };
+}
+
+export function getCliq2CallConfigRequest() {
+  return {
+    type: GET_CLIQ_2_CALL_CONFIG_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getCliq2CallConfigSuccess(cliq2CallConfigData) {
+  return {
+    type: GET_CLIQ_2_CALL_CONFIG_SUCCESS,
+    status: SUCCESS,
+    cliq2CallConfigData
+  };
+}
+export function getCliq2CallConfigFailure() {
+  return {
+    type: GET_CLIQ_2_CALL_CONFIG_FAILURE,
+    status: FAILURE
+  };
+}
+
+export function getCliq2CallConfig(Cliq2CallConfigId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getCliq2CallConfigRequest());
+    try {
+      const result = await api.get(
+        `v2/mpl/cms/defaultpage?pageId=${Cliq2CallConfigId}`
+      );
+
+      let resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getCliq2CallConfigSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getCliq2CallConfigFailure(e.message));
+    }
+  };
+}
+
+export function getGenesysResponseRequest() {
+  return {
+    type: GET_GENESYS_RESPONSE_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getGenesysResponseSuccess(genesysResponse) {
+  return {
+    type: GET_GENESYS_RESPONSE_SUCCESS,
+    status: SUCCESS,
+    genesysResponse
+  };
+}
+export function getGenesysResponseFailure() {
+  return {
+    type: GET_GENESYS_RESPONSE_FAILURE,
+    status: FAILURE
+  };
+}
+
+export function getGenesysCallConfigData() {
+  const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const userDetails = JSON.parse(userDetailsCookie);
+  return async (dispatch, getState, { api }) => {
+    dispatch(getGenesysResponseRequest());
+    try {
+      const result = await api.postWithoutApiUrlRoot(GENESYS_CALL_CONFIG_URL, {
+        CustomerId: userDetails.customerId
+      });
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getGenesysResponseSuccess(resultJson));
+    } catch (e) {
+      return dispatch(getGenesysResponseFailure(e.message));
+    }
+  };
+}
+
+export function genesysCustomerCallRequest() {
+  return {
+    type: GENESYS_CUSTOMER_CALL_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function genesysCustomerCallRequestSuccess(data) {
+  return {
+    type: GENESYS_CUSTOMER_CALL_REQUEST_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function genesysCustomerCallRequestFailure(error) {
+  return {
+    type: GENESYS_CUSTOMER_CALL_REQUEST_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function placeCustomerCallRequest(callRequestData) {
+  const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const userDetails = JSON.parse(userDetailsCookie);
+  return async (dispatch, getState, { api }) => {
+    dispatch(genesysCustomerCallRequest());
+    callRequestData.CustomerId = userDetails.customerId;
+    try {
+      const result = await api.postWithoutApiUrlRoot(
+        GENESYS_CALL_REQUEST_URL,
+        callRequestData
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(genesysCustomerCallRequestSuccess(resultJson));
+    } catch (e) {
+      return dispatch(genesysCustomerCallRequestFailure(e.message));
     }
   };
 }

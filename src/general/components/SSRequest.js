@@ -1,20 +1,9 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import styles from "./SSRequest.css";
-import Icon from "../../xelpmoc-core/Icon";
 import ssloader from "../components/img/ssloader.svg";
 import ssloaders from "../components/img/ssloaders.svg";
 export default class SSRquest extends Component {
-  // state = {
-  //   request: true,
-  //   success: false
-  // };
-  // componentDidMount() {
-  //   setTimeout(() => {
-  //     this.setState({ request: false, success: true });
-  //     // this.props.hideLoader()
-  //     this.setState({ request: false, success: true });
-  //   }, 2000);
-  // }
   render() {
     return (
       <div className={styles.base}>
@@ -24,12 +13,16 @@ export default class SSRquest extends Component {
               <img src={ssloader} alt="Loader..." />
             </div>
             <div className={styles.requestHeading}>
-              We will get our best minds on this issue to resolve it
+              {this.props.isCallMeBackForm
+                ? "Hold on, we're placing your callback request"
+                : "We will get our best minds on this issue to resolve it"}
             </div>
             <div className={styles.requestContetn}>
-              Give us a chance to make it work and you won’t be disappointed.
-              We’ll be on this problem around the clock and get back to you with
-              a solution at the earliest.
+              {this.props.isCallMeBackForm
+                ? "It’ll only take a moment"
+                : `Give us a chance to make it work and you won’t be disappointed.
+                We’ll be on this problem around the clock and get back to you with
+                a solution at the earliest.`}
             </div>
           </div>
         )}
@@ -39,10 +32,14 @@ export default class SSRquest extends Component {
               <img src={ssloaders} alt="Loader..." />
             </div>
             <div className={styles.requestHeading}>
-              We have successfully registered your issue
+              {this.props.isCallMeBackForm
+                ? `We have successfully placed your callback request`
+                : `We have successfully registered your issue`}
             </div>
             <div className={styles.requestContetn}>
-              Thanks for your patience. We are almost done.
+              {this.props.isCallMeBackForm
+                ? `You will receive a callback soon`
+                : `Thanks for your patience. We are almost done.`}
             </div>
           </div>
         )}
@@ -50,3 +47,9 @@ export default class SSRquest extends Component {
     );
   }
 }
+
+SSRquest.propTypes = {
+  raiseTiketRequest: PropTypes.bool,
+  isCallMeBackForm: PropTypes.bool,
+  raiseTiketSucess: PropTypes.boo
+};

@@ -165,8 +165,8 @@ export default class ProductModule extends React.Component {
                     electronicView
                       ? styles.ElectronicListimageHolder
                       : this.props.view === "grid"
-                      ? styles.imageHolder
-                      : styles.ListimageHolder
+                        ? styles.imageHolder
+                        : styles.ListimageHolder
                   }
                 >
                   <ProductImage
@@ -198,17 +198,21 @@ export default class ProductModule extends React.Component {
               className={
                 electronicView
                   ? styles.electronicViewContent
-                  : this.props.view === "grid"
-                  ? styles.content
-                  : styles.Listcontent
+                  : this.props.autoWidget
+                    ? styles.contentAutoWidget
+                    : this.props.view === "grid"
+                      ? styles.content
+                      : styles.Listcontent
               }
             >
               <ProductDescription
                 {...this.props}
                 electronicView={electronicView}
+                autoWidget={this.props.autoWidget}
               />
               {this.props &&
                 !this.props.widgetName &&
+                !this.props.autoWidget &&
                 this.props.widgetName === undefined && (
                   <ProductInfo
                     isPlp={this.props.isPlp}

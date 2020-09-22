@@ -24,7 +24,7 @@ export default class CustomInstructionComponent extends React.Component {
       baseClassName = styles.holder;
     }
     return (
-      <div className={styles.baseClassName}>
+      <div className={baseClassName}>
         <div className={styles.descriptionHolder}>
           <div className={styles.header}>
             {customComponent && customComponent.header}

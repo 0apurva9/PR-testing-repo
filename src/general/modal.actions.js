@@ -59,11 +59,16 @@ export const CONFIRMATION_NOTIFICATION = "NotificationConfirmation";
 export const CANCEL_RETURN_REQUEST_POP_UP = "CancelReturnRequestPopUp";
 export const SHOW_RETURN_CONFIRM_POP_UP = "ShowReturnConfirmPopup";
 export const SHOW_DELIVERY_CONFIRM_POP_UP = "ShowDeliveryConfirmPopup";
+export const BOTTOM_ALERT_POP_UP = "BottomAlertPopUp";
 export const SELLER_REVIEW_SUBMIT_REMOVAL_POP_UP =
   "SellerReviewSubmitRemovalPopup";
+export const POP_UP = "PopUp";
 export const PRODUCT_IN_BAG_MODAL = "ProductInBagModal";
 export const CHANGE_EXCHANGE_CASHBACK_MODAL = "ChangeExchangeCashabackModal";
-
+export const CLIQ_2_CALL_POP_UP = "Cliq2CallPopUp";
+export const CUSTOMER_QUERY_ERROR_MODAL = "CustomerQueryErrorModal";
+export const TIME_SLOT_POP_UP = "TimeSlotPopUp";
+export const CUSTOMER_CALL_QUERY_SUCCESS = "CustomerCallQuerySuccess";
 export function showModal(type, ownProps) {
   const scrollPosition =
     window.pageYOffset || document.documentElement.scrollTop;
