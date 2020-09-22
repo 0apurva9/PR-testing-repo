@@ -14,12 +14,12 @@ import {
   ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP
 } from "../../lib/adobeUtils";
 import PropTypes from "prop-types";
-const allBundledProductData = [];
-const allBundledProductDataForAddToCart = [];
-const isBundledProductSelected = [];
-const productIds = [];
-const productCategories = [];
-const productPrices = [];
+let allBundledProductData = [];
+let allBundledProductDataForAddToCart = [];
+let isBundledProductSelected = [];
+let productIds = [];
+let productCategories = [];
+let productPrices = [];
 
 export default class ProductBundling extends React.Component {
   constructor(props) {
