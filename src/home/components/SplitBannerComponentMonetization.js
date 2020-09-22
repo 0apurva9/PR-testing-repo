@@ -4,6 +4,9 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import CommonCenter from "../../general/components/CommonCenter";
 import { WEB_URL_REG_EX, HOME_ROUTER } from "../../lib/constants";
 import styles from "./SplitBannerForDesktop.css";
+import { getOnlineSalesAds } from "../../lib/apiRequest";
+
+const SPLIT_BANNER_COMPONENT_MONETIZATION = "SplitBannerComponent_Monetization";
 
 export default class SplitBannerComponentMonetization extends React.Component {
   constructor(props) {
@@ -14,28 +17,20 @@ export default class SplitBannerComponentMonetization extends React.Component {
     };
   }
 
-  componentDidMount() {
-    if (window._osFetchBrandAds) {
-      const url = this.props.location.pathname;
-      let pageType = "CATEGORY";
-      this.setState({ bannerLoading: true });
+  async componentDidMount() {
+    const url = this.props.location.pathname;
+    let pageType = "CATEGORY";
+    this.setState({ bannerLoading: true });
 
-      if (url === HOME_ROUTER) {
-        pageType = "HOME";
-      }
-
-      window
-        ._osFetchBrandAds({
-          au: "SplitBannerComponent_Monetization",
-          pt: pageType
-        })
-        .then(response => {
-          this.setState({ bannerComponent: response, bannerLoading: false });
-        })
-        .catch(err => {
-          this.setState({ bannerLoading: false });
-          console.error(err);
-        });
+    if (url === HOME_ROUTER) {
+      pageType = "HOME";
+    }
+    let bannerComponent = await getOnlineSalesAds(
+      SPLIT_BANNER_COMPONENT_MONETIZATION,
+      pageType
+    );
+    if (bannerComponent) {
+      this.setState({ bannerComponent, bannerLoading: false });
     }
   }
   handleClick(webURL) {

@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./PlpBannerComponent.css";
 import PropTypes from "prop-types";
-import Image from "../../xelpmoc-core/Image";
 import ImageFlexible from "../../general/components/ImageFlexible";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import { WEB_URL_REG_EX } from "../../lib/constants";

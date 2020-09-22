@@ -8,6 +8,9 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import ConnectBaseWidget from "./ConnectBaseWidget";
 import CommonCenter from "../../general/components/CommonCenter.js";
 import { WEB_URL_REG_EX, HOME_ROUTER } from "../../lib/constants";
+import { getOnlineSalesAds } from "../../lib/apiRequest";
+
+const MULTIPURPOSE_BANNER_MONETIZATION = "MultiPurposeBanner_Monetization";
 
 export default class MultiPurposeBanner_Monetization extends React.Component {
   constructor(props) {
@@ -18,28 +21,20 @@ export default class MultiPurposeBanner_Monetization extends React.Component {
     };
   }
 
-  componentDidMount() {
-    if (window._osFetchBrandAds) {
-      const url = this.props.location.pathname;
-      let pageType = "CATEGORY";
-      this.setState({ bannerLoading: true });
+  async componentDidMount() {
+    const url = this.props.location.pathname;
+    let pageType = "CATEGORY";
+    this.setState({ bannerLoading: true });
 
-      if (url === HOME_ROUTER) {
-        pageType = "HOME";
-      }
-
-      window
-        ._osFetchBrandAds({
-          au: "MultiPurposeBanner_Monetization",
-          pt: pageType
-        })
-        .then(response => {
-          this.setState({ bannerComponent: response, bannerLoading: false });
-        })
-        .catch(err => {
-          this.setState({ bannerLoading: false });
-          console.error(err);
-        });
+    if (url === HOME_ROUTER) {
+      pageType = "HOME";
+    }
+    let bannerComponent = await getOnlineSalesAds(
+      MULTIPURPOSE_BANNER_MONETIZATION,
+      pageType
+    );
+    if (bannerComponent) {
+      this.setState({ bannerComponent, bannerLoading: false });
     }
   }
 
@@ -62,78 +57,83 @@ export default class MultiPurposeBanner_Monetization extends React.Component {
 
   render() {
     let className = styles.base;
-    if (this.props.feedComponentData["sub-type"] === "bannerInCard") {
-      className = styles.inCard;
+    const { bannerComponent } = this.state;
+    if (!bannerComponent) {
+      return null;
     }
-
-    return (
-      <div
-        className={
-          this.props.positionInFeed === 1
-            ? styles.firstPositionHolder
-            : styles.holder
-        }
-        onClick={() => {
-          this.handleClick(this.props.feedComponentData.webURL);
-        }}
-        style={{
-          backgroundImage: `linear-gradient(165deg, ${
-            this.props.feedComponentData.startHexCode
-          } ,${this.props.feedComponentData.endHexCode})`
-        }}
-      >
-        <MediaQuery query="(min-device-width: 1025px)">
-          <CommonCenter>
-            <ConnectBaseWidget
-              {...this.props.feedComponentData}
-              heading={this.props.feedComponentData.title}
-            />
-          </CommonCenter>
-        </MediaQuery>
-        <MediaQuery query="(max-device-width: 1024px)">
-          <div className={className}>
+    {
+      bannerComponent.ads &&
+        bannerComponent.ads.map &&
+        bannerComponent.ads.map((datum, i) => {
+          const { elements } = datum;
+          if (datum["sub-type"] === "bannerInCard") {
+            className = styles.inCard;
+          }
+          return (
             <div
-              className={styles.buffer}
+              className={
+                this.props.positionInFeed === 1
+                  ? styles.firstPositionHolder
+                  : styles.holder
+              }
+              onClick={() => {
+                this.handleClick(elements.click_tracking_url);
+              }}
               style={{
-                backgroundImage: `url(${
-                  this.props.feedComponentData.backgroundImageURL
-                }`,
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "100% 100%",
-                backgroundPosition: "center"
+                backgroundImage: `linear-gradient(165deg, ${
+                  elements.startHexCode
+                } ,${elements.endHexCode})`
               }}
             >
-              <div className={styles.content}>
-                {this.props.feedComponentData.iconImageURL && (
-                  <div className={styles.icon}>
-                    <Icon
-                      image={this.props.feedComponentData.iconImageURL}
-                      size={40}
-                    />
-                  </div>
-                )}
-                <div className={styles.dataHolder}>
-                  <div className={styles.connectBox}>
-                    {this.props.feedComponentData.title}
-                  </div>
-                  <div className={styles.label}>
-                    {this.props.feedComponentData.description}
-                  </div>
-                  {this.props.feedComponentData.btnText && (
-                    <div className={styles.buttonBox}>
-                      <ConnectKnowMore
-                        url={this.props.feedComponentData.webURL}
-                        btnText={this.props.feedComponentData.btnText}
-                      />
+              <MediaQuery query="(min-device-width: 1025px)">
+                <CommonCenter>
+                  <ConnectBaseWidget
+                    {...elements}
+                    heading={elements.headline}
+                  />
+                </CommonCenter>
+              </MediaQuery>
+              <MediaQuery query="(max-device-width: 1024px)">
+                <div className={className}>
+                  <div
+                    className={styles.buffer}
+                    style={{
+                      backgroundImage: `url(${elements.image}`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "100% 100%",
+                      backgroundPosition: "center"
+                    }}
+                  >
+                    <div className={styles.content}>
+                      {elements.brandLogo && (
+                        <div className={styles.icon}>
+                          <Icon image={elements.brandLogo} size={40} />
+                        </div>
+                      )}
+                      <div className={styles.dataHolder}>
+                        <div className={styles.connectBox}>
+                          {elements.headline}
+                        </div>
+                        <div className={styles.label}>
+                          {elements.Description}
+                        </div>
+                        {elements.CTA && (
+                          <div className={styles.buttonBox}>
+                            <ConnectKnowMore
+                              url={elements.destination_url}
+                              btnText={elements.CTA}
+                            />
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  )}
+                  </div>
                 </div>
-              </div>
+              </MediaQuery>
             </div>
-          </div>
-        </MediaQuery>
-      </div>
-    );
+          );
+        });
+    }
   }
 }
 MultiPurposeBanner_Monetization.propTypes = {

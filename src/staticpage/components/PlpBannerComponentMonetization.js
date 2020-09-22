@@ -1,26 +1,79 @@
 import React from "react";
 import styles from "./PlpBannerComponentMonetization.css";
 import PropTypes from "prop-types";
-import Image from "../../xelpmoc-core/Image";
+import ImageFlexible from "../../general/components/ImageFlexible";
+import { TATA_CLIQ_ROOT, getOnlineSalesAds } from "../../lib/apiRequest.js";
+import { WEB_URL_REG_EX, HOME_ROUTER } from "../../lib/constants";
+
+const PLP_BANNER_COMPONENT_MONETIZATION = "PlpBannerComponent_Monetization";
+
 export default class PlpBannerComponentMonetization extends React.Component {
-  handleClick(urlLink) {
-    this.props.history.push(urlLink);
+  constructor(props) {
+    super(props);
+    this.state = {
+      bannerLoading: false,
+      plpBanner: null
+    };
+  }
+  async componentDidMount() {
+    const url = this.props.location.pathname;
+    let pageType = "CATEGORY";
+    this.setState({ bannerLoading: true });
+
+    if (url === HOME_ROUTER) {
+      pageType = "HOME";
+    }
+    let plpBanner = await getOnlineSalesAds(
+      PLP_BANNER_COMPONENT_MONETIZATION,
+      pageType
+    );
+    if (plpBanner) {
+      this.setState({ plpBanner, bannerLoading: false });
+    }
+  }
+  handleClick(event, urlLink) {
+    event.preventDefault();
+    if (urlLink) {
+      const isMatch = WEB_URL_REG_EX.test(urlLink);
+      const urlPath = new URL(urlLink).pathname;
+
+      if (urlPath.indexOf("/que") > -1 || !isMatch) {
+        window.open(urlLink, "_blank");
+        window.focus();
+      } else {
+        const urlSuffix = urlLink.replace(TATA_CLIQ_ROOT, "$1");
+        this.props.history.push(urlSuffix);
+      }
+    }
   }
   render() {
-    return this.props.feedComponentData ? (
-      <div
-        className={styles.base}
-        onClick={() => this.handleClick(this.props.urlLink)}
-      >
-        <div className={styles.imageHolder}>
-          <Image image={this.props.feedComponentData.media} fit="cover" />
-          {this.props.feedComponentData.title && (
-            <div className={styles.displayTitle}>
-              {this.props.feedComponentData.title}
+    const { firstBanner } = this.props;
+    const { plpBanner } = this.state;
+    if (plpBanner && plpBanner.ads) {
+      plpBanner.ads.map &&
+        plpBanner.ads.map((datum, i) => {
+          const { elements } = datum;
+          let baseClass = datum.click_tracking_url
+            ? styles.baseWithCursor
+            : styles.base;
+          if (!firstBanner) {
+            baseClass = datum.click_tracking_url
+              ? styles.bannerInMiddleWithCursor
+              : styles.bannerInMiddle;
+          }
+          return (
+            <div
+              className={baseClass}
+              onClick={event =>
+                this.handleClick(event, datum.click_tracking_url)
+              }
+            >
+              <ImageFlexible image={elements.image} />
             </div>
-          )}
-        </div>
-      </div>
-    ) : null;
+          );
+        });
+    } else {
+      return null;
+    }
   }
 }

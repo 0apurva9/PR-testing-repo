@@ -6,6 +6,9 @@ import PropTypes from "prop-types";
 import OfferCard from "./OfferCard.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import { WEB_URL_REG_EX, HOME_ROUTER } from "../../lib/constants";
+import { getOnlineSalesAds } from "../../lib/apiRequest";
+
+const OFFERS_COMPONENT_MONETIZATION = "OffersComponent_Monetization";
 
 export default class OffersComponentMonetization extends React.Component {
   constructor(props) {
@@ -15,28 +18,20 @@ export default class OffersComponentMonetization extends React.Component {
       offersComponent: null
     };
   }
-  componentDidMount() {
-    if (window._osFetchBrandAds) {
-      const url = this.props.location.pathname;
-      let pageType = "CATEGORY";
-      this.setState({ bannerLoading: true });
+  async componentDidMount() {
+    const url = this.props.location.pathname;
+    let pageType = "CATEGORY";
+    this.setState({ bannerLoading: true });
 
-      if (url === HOME_ROUTER) {
-        pageType = "HOME";
-      }
-
-      window
-        ._osFetchBrandAds({
-          au: "OffersComponent_Monetization",
-          pt: pageType
-        })
-        .then(response => {
-          this.setState({ offersComponent: response, bannerLoading: false });
-        })
-        .catch(err => {
-          this.setState({ bannerLoading: false });
-          console.error(err);
-        });
+    if (url === HOME_ROUTER) {
+      pageType = "HOME";
+    }
+    let offersComponent = await getOnlineSalesAds(
+      OFFERS_COMPONENT_MONETIZATION,
+      pageType
+    );
+    if (offersComponent) {
+      this.setState({ offersComponent, bannerLoading: false });
     }
   }
   handleClick = webUrl => {

@@ -5,6 +5,10 @@ import Carousel from "../../general/components/Carousel";
 import CommonCenter from "../../general/components/CommonCenter";
 import TopSellingBrandComponent from "../../general/components/TopSellingBrandComponent";
 import { HOME_ROUTER } from "../../lib/constants";
+import { getOnlineSalesAds } from "../../lib/apiRequest";
+
+const TOP_SELLING_BRAND_COMPONENT_MONETIZATION =
+  "DesktopTopSellingBrandsComponent_Monetization";
 
 export default class TopSellingBrandsMonetization extends React.Component {
   constructor(props) {
@@ -15,28 +19,20 @@ export default class TopSellingBrandsMonetization extends React.Component {
     };
   }
 
-  componentDidMount() {
-    if (window._osFetchBrandAds) {
-      const url = this.props.location.pathname;
-      let pageType = "CATEGORY";
-      this.setState({ bannerLoading: true });
+  async componentDidMount() {
+    const url = this.props.location.pathname;
+    let pageType = "CATEGORY";
+    this.setState({ bannerLoading: true });
 
-      if (url === HOME_ROUTER) {
-        pageType = "HOME";
-      }
-
-      window
-        ._osFetchBrandAds({
-          au: "DesktopTopSellingBrandsComponent_Monetization",
-          pt: pageType
-        })
-        .then(response => {
-          this.setState({ bannerComponent: response, bannerLoading: false });
-        })
-        .catch(err => {
-          this.setState({ bannerLoading: false });
-          console.error(err);
-        });
+    if (url === HOME_ROUTER) {
+      pageType = "HOME";
+    }
+    let bannerComponent = await getOnlineSalesAds(
+      TOP_SELLING_BRAND_COMPONENT_MONETIZATION,
+      pageType
+    );
+    if (bannerComponent) {
+      this.setState({ bannerComponent, bannerLoading: false });
     }
   }
   handleClickOnLink = event => {

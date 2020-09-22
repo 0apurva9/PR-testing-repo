@@ -900,3 +900,27 @@ export async function getDataWithMicroservicesWithHeaders(path, headers) {
     headers: headers
   });
 }
+
+// OnlineSales fetch
+export async function getOnlineSalesAds(componentName, pageType) {
+  const objWindow = window;
+  if (objWindow._osFetchBrandAds) {
+    return await objWindow
+      ._osFetchBrandAds({
+        au: componentName,
+        pt: pageType
+      })
+      .then(response => {
+        if (
+          objWindow._osAdImpression &&
+          (response.ads[0] && response.ads[0].uclid)
+        ) {
+          objWindow._osAdImpression({ uclid: response.ads[0].uclid });
+        }
+        return response;
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+}

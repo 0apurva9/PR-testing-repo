@@ -4,6 +4,10 @@ import PropTypes from "prop-types";
 import Image from "../../xelpmoc-core/Image";
 import { HOME_ROUTER, WEB_URL_REG_EX } from "../../lib/constants";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import { getOnlineSalesAds } from "../../lib/apiRequest";
+
+const SIMPLE_BANNER_COMPONENT_MONETIZATION =
+  "SimpleBannerComponent_Monetization";
 
 export default class SimpleBannerComponentMonetization extends React.Component {
   constructor(props) {
@@ -13,35 +17,20 @@ export default class SimpleBannerComponentMonetization extends React.Component {
       simpleBanner: null
     };
   }
-  componentDidMount() {
-    const objWindow = window;
-    if (objWindow._osFetchBrandAds) {
-      const url = this.props.location.pathname;
-      let pageType = "CATEGORY";
-      this.setState({ bannerLoading: true });
+  async componentDidMount() {
+    const url = this.props.location.pathname;
+    let pageType = "CATEGORY";
+    this.setState({ bannerLoading: true });
 
-      if (url === HOME_ROUTER) {
-        pageType = "HOME";
-      }
-
-      objWindow
-        ._osFetchBrandAds({
-          au: "SimpleBannerComponent_Monetization",
-          pt: pageType
-        })
-        .then(response => {
-          this.setState({ simpleBanner: response, bannerLoading: false });
-          if (
-            objWindow._osAdImpression &&
-            (response.ads[0] && response.ads[0].uclid)
-          ) {
-            objWindow._osAdImpression({ uclid: response.ads[0].uclid });
-          }
-        })
-        .catch(err => {
-          this.setState({ bannerLoading: false });
-          console.error(err);
-        });
+    if (url === HOME_ROUTER) {
+      pageType = "HOME";
+    }
+    let simpleBanner = await getOnlineSalesAds(
+      SIMPLE_BANNER_COMPONENT_MONETIZATION,
+      pageType
+    );
+    if (simpleBanner) {
+      this.setState({ simpleBanner, bannerLoading: false });
     }
   }
   handleClick(urlLink) {
