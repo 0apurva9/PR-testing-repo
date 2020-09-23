@@ -204,7 +204,7 @@ if (process.env.REACT_APP_STAGE === "tmpprod") {
 } else if (process.env.REACT_APP_STAGE === "e2e1") {
   URL_ROOT = "https://e2e1.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "preprod3") {
-  URL_ROOT = "https://preprod3.tataunistore.com";
+  URL_ROOT = "https://qa6.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "qa8") {
   URL_ROOT = "https://qa8.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "qa9") {

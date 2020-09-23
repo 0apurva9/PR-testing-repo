@@ -133,7 +133,7 @@
     "awsqa3": "REACT_APP_STAGE=awsqa3 node scripts/build.js",
     "awsqa4": "REACT_APP_STAGE=awsqa4 node scripts/build.js",
     "awsqa5": "REACT_APP_STAGE=awsqa5 node scripts/build.js",
-    "awsqa6": "REACT_APP_STAGE=awsqa6 node scripts/build.js",
+    "qa6": "REACT_APP_STAGE=preprod3 node scripts/build.js",
     "awspt1": "REACT_APP_STAGE=awspt1 node scripts/build.js",
     "awspt2": "REACT_APP_STAGE=awspt2 node scripts/build.js",
     "qa8": "REACT_APP_STAGE=qa8 node scripts/build.js",

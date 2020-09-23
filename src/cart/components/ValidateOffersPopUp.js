@@ -24,17 +24,19 @@ export default class ValidateOffersPopUp extends React.Component {
         })
         .join(",");
     } else {
-      return "UPI Apps,";
+      return "UPI Apps";
     }
   }
   getPaymentModesList(paymentModes) {
     return (
       paymentModes &&
-      paymentModes
-        .map(mode => {
-          return mode.mode;
-        })
-        .join(",")
+      paymentModes.map(payment => {
+        if (payment.mode == "UPI Intent") {
+          return " ";
+        } else {
+          return payment.mode;
+        }
+      })
     );
   }
   getInvalidUserCouponTemplate(couponResponse) {
