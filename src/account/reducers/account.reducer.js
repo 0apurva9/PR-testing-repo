@@ -2105,7 +2105,8 @@ const account = (
       return Object.assign({}, state, {
         cliq2CallConfigDataStatus: action.status,
         cliq2CallConfigDataLoading: false,
-        cliq2CallConfigData: action.cliq2CallConfigData
+        cliq2CallConfigData: action.cliq2CallConfigData,
+        genesysResponseData: null
       });
 
     case accountActions.GET_CLIQ_2_CALL_CONFIG_FAILURE:

@@ -846,21 +846,18 @@ export default class ModalRoot extends React.Component {
       Cliq2CallPopUp: (
         <Cliq2CallPopUp
           {...this.props.ownProps}
-          // goToCartPage={productCode => this.goToCartPage(productCode)}
-          // closeModal={() => this.handleClose()}
-          // goToHomePage={() => this.goToHomePage()}
           genesysCallConfigData={this.props.genesysCallConfigData}
           genesysDataLoader={this.props.genesysCallConfigDataLoading}
           closeModal={() => this.handleClose()}
           showModal={this.props.showModal}
           getGenesysCallConfigData={() => this.props.getGenesysCallConfigData()}
+          showSecondaryLoader={this.props.showSecondaryLoader}
         />
       ),
 
       CustomerQueryErrorModal: (
         <CustomerQueryErrorModal
           {...this.props.ownProps}
-          // goToCartPage={productCode => this.goToCartPage(productCode)}
           closeModal={() => this.handleClose()}
           goToHomePage={() => this.goToHomePage()}
         />
@@ -869,7 +866,6 @@ export default class ModalRoot extends React.Component {
       CustomerCallQuerySuccess: (
         <CustomerCallQuerySuccess
           callSuccessData={this.props.ownProps}
-          // goToCartPage={productCode => this.goToCartPage(productCode)}
           closeModal={() => this.handleClose()}
           goToHomePage={() => this.goToHomePage()}
         />
@@ -878,7 +874,6 @@ export default class ModalRoot extends React.Component {
       TimeSlotPopUp: (
         <TimeSlotPopUp
           {...this.props.ownProps}
-          // goToCartPage={productCode => this.goToCartPage(productCode)}
           genesysCallConfigData={this.props.genesysCallConfigData}
           closeModal={() => this.handleClose()}
           goToHomePage={() => this.goToHomePage()}

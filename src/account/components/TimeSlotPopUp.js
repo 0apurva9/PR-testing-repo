@@ -223,7 +223,7 @@ class TimeSlotPopUp extends Component {
                   ) : null}
                 </div>
               ) : callRequestLimit >= allowedRequestLimit ? (
-                <span>
+                <span className={styles.callLimittExceded}>
                   {`${CALL_REQUEST_LIMIT_ECXCEEDED}${
                     this.state.isSelected
                       ? TOMORROW.toLowerCase()
@@ -274,7 +274,10 @@ export function getDetailsOfSlots(
     }
   });
 
-  if (slotKey === TODAY.toLowerCase() && get24HrsTime(today) > endTime) {
+  if (
+    (slotKey === TODAY.toLowerCase() && get24HrsTime(today) > endTime) ||
+    today.getHours() === 0
+  ) {
     isSlotsNotAvailable = true;
   }
 

@@ -48,7 +48,6 @@ export default class OrderRelatedIssue extends React.Component {
     const getUserDetails = this.userDetailsCookie
       ? JSON.parse(this.userDetailsCookie)
       : {};
-
     const selectedOrderObj =
       this.props.location &&
       this.props.location.state &&
@@ -82,11 +81,21 @@ export default class OrderRelatedIssue extends React.Component {
       isCallMeBackForm: false,
       isScheduleACall: false,
       callMeBackJourney: false,
+      copyMobileNumber:
+        getUserDetails &&
+        getUserDetails.loginType === "mobile" &&
+        getUserDetails.userName
+          ? getUserDetails.userName
+          : "",
       mobile:
         getUserDetails &&
         getUserDetails.loginType === "mobile" &&
         getUserDetails.userName
           ? getUserDetails.userName
+          : "",
+      name:
+        getUserDetails && (getUserDetails.firstName || getUserDetails.lastName)
+          ? `${getUserDetails.firstName.trim()} ${getUserDetails.lastName.trim()}`
           : "",
       chooseLanguage: "English",
       timing: "",
@@ -124,6 +133,25 @@ export default class OrderRelatedIssue extends React.Component {
     if (this.state.selectedOrderObj) {
       this.orderRelatedInfo(this.state.selectedOrderObj);
     }
+    if (this.props.userDetails) {
+      this.setState({
+        name:
+          this.props.userDetails.firstName || this.props.userDetails.lastName
+            ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
+            : "",
+        mobile: this.props.userDetails.mobileNumber
+          ? this.props.userDetails.mobileNumber
+          : "",
+        copyMobileNumber: this.props.userDetails.mobileNumber
+          ? this.props.userDetails.mobileNumber
+          : ""
+      });
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.callMeBackJourney && !this.state.isCallMeBackForm) {
+      window.scrollTo(0, 0);
+    }
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.logoutUserStatus !== this.props.logoutUserStatus) {
@@ -131,15 +159,16 @@ export default class OrderRelatedIssue extends React.Component {
         this.setState(this.resetState);
       }
     }
-    // if (
-    //   nextProps &&
-    //   JSON.stringify(this.props.userDetails) !==
-    //     JSON.stringify(nextProps.userDetails)
-    // ) {
-
     if (nextProps && nextProps.userDetails !== this.props.userDetails) {
       this.setState({
+        name:
+          nextProps.userDetails.firstName || nextProps.userDetails.lastName
+            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
+            : "",
         mobile: nextProps.userDetails.mobileNumber
+          ? nextProps.userDetails.mobileNumber
+          : "",
+        copyMobileNumber: nextProps.userDetails.mobileNumber
           ? nextProps.userDetails.mobileNumber
           : ""
       });
@@ -190,7 +219,8 @@ export default class OrderRelatedIssue extends React.Component {
           isIssueOptions: false,
           isQuesryForm: true,
           showFeedBack: false,
-          isCallMeBackForm: false
+          isCallMeBackForm: false,
+          callMeBackJourney: false
         });
       }
     } else {
@@ -207,7 +237,8 @@ export default class OrderRelatedIssue extends React.Component {
               isIssueOptions: false,
               isQuesryForm: true,
               showFeedBack: false,
-              isCallMeBackForm: false
+              isCallMeBackForm: false,
+              callMeBackJourney: false
             });
           }
         }
@@ -327,7 +358,8 @@ export default class OrderRelatedIssue extends React.Component {
       showQuestionList: true,
       questionList: selectOtehrQuestion.listofSubIssues,
       parentIssueType: selectOtehrQuestion.parentIssueType,
-      questionType: NON_ORDER_REALTED_QUESTION
+      questionType: NON_ORDER_REALTED_QUESTION,
+      callMeBackJourney: false
     });
   }
 
@@ -425,7 +457,8 @@ export default class OrderRelatedIssue extends React.Component {
               parentIssueType: faq.FAQHeader,
               questionType: NON_ORDER_REALTED_QUESTION,
               showFeedBack: false,
-              isQuesryForm: false
+              isQuesryForm: false,
+              callMeBackJourney: false
             });
           }
         }
@@ -601,8 +634,11 @@ export default class OrderRelatedIssue extends React.Component {
       this.setState({
         isIssueOptions: true,
         isCallMeBackForm: false,
-        mobile: "",
-        chooseLanguage: ""
+        mobile: this.state.copyMobileNumber,
+        chooseLanguage: "English",
+        timing: "",
+        selectedDate: "",
+        callMeBackJourney: false
       });
     }
   }
@@ -675,7 +711,7 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   callMeBackCallClick = () => {
-    window.scroll(0, 0);
+    // window.scrollTo(0, 0);
     this.setState({
       isCallMeBackForm: true,
       isIssueOptions: false,
@@ -684,13 +720,14 @@ export default class OrderRelatedIssue extends React.Component {
   };
 
   scheduleACallClick = () => {
-    window.scroll(0, 0);
+    // window.scrollTo(0, 0);
     this.setState({
       isCallMeBackForm: true,
       isScheduleACall: true,
       isIssueOptions: false
     });
   };
+
   timeSlotPopUP = times => {
     const timeFunction = {
       setTimeSlot: this.setTimeSlot,
@@ -746,14 +783,9 @@ export default class OrderRelatedIssue extends React.Component {
         ? this.getEpochDateValue(slotTimeList, this.state.shift)
         : "",
       CustomerId: "",
-      CustomerName:
-        this.props.userDetails && this.props.userDetails.firstName
-          ? this.props.userDetails.firstName
-          : " " + " " + this.props.userDetails.lastName
-          ? this.props.userDetails.lastName
-          : "",
-      IssueType: this.state.parentIssueType
-        ? this.state.parentIssueType
+      CustomerName: this.state.name,
+      IssueType: this.state.otherQuestion
+        ? this.state.question.subIssueType
         : this.state.question.issueType,
       OrderId: this.props.selectedOrderDetails
         ? this.props.selectedOrderDetails.orderId
@@ -763,6 +795,7 @@ export default class OrderRelatedIssue extends React.Component {
         : "",
       RequestSource: "MPL-desktop"
     };
+
     const placeCustomerResponse = await this.props.placeCustomerCallRequest(
       callRequestObj
     );
@@ -840,7 +873,7 @@ export default class OrderRelatedIssue extends React.Component {
                 <div className={styles.formBox}>
                   <div className={styles.mobileNumberBox}>
                     <div className={styles.fieldLabel}>
-                      Enter your mobile numer
+                      Enter your Mobile Number
                     </div>
                     <div className={styles.inputField}>
                       <FloatingLabelInputWithPlace
@@ -853,12 +886,6 @@ export default class OrderRelatedIssue extends React.Component {
                         onlyNumber={true}
                         focusBack={true}
                       />
-                      {/* <div
-                        className={styles.customBtn}
-                        onClick={() => this.previewPage()}
-                      >
-                        Change
-                      </div> */}
                     </div>
                   </div>
                   <div className={styles.languageBox}>

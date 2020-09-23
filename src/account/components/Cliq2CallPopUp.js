@@ -32,18 +32,18 @@ export default class Cliq2CallPopUp extends Component {
       businessStartTime = "",
       allowedRequestLimit = 0,
       slotDuration = 0,
-      availableSlots = {},
-      genesysDataLoader
+      availableSlots = {}
     } = this.props;
     let {
-      WaitTime = "",
+      WaitTime = 0,
       TotalRequestsToday = 0,
       TotalRequestsNextDay = 0,
       OpenRequest = ""
     } = (this.props && this.props.genesysCallConfigData) || {};
 
     if (this.props.genesysDataLoader) {
-      return <Loader />;
+      this.props.showSecondaryLoader();
+      return null;
     }
     if (OpenRequest === "now") {
       this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
@@ -65,22 +65,6 @@ export default class Cliq2CallPopUp extends Component {
       allowedRequestLimit,
       WaitTime
     );
-    if (scheduleCallFlag) {
-      if (
-        TotalRequestsToday < allowedRequestLimit ||
-        TotalRequestsNextDay < allowedRequestLimit
-      ) {
-        showScheduleCallBtn = true;
-      } else {
-        this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
-          text: "Call limit has exceeded",
-          subText:
-            "You cannot place anymore call. Please try again after sometime",
-          showBtn: false
-        });
-        return null;
-      }
-    }
 
     const todayObj = getDetailsOfSlots(
       0,
@@ -88,25 +72,52 @@ export default class Cliq2CallPopUp extends Component {
       slotDuration,
       businessEndTime
     );
-    if (
-      (TotalRequestsToday >= allowedRequestLimit ||
-        todayObj.isSlotsNotAvailable) &&
-      TotalRequestsNextDay >= allowedRequestLimit
-    ) {
-      this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
-        text: "Call limit has exceeded",
-        subText:
-          "You cannot place anymore call. Please try again after sometime",
-        showBtn: false
-      });
-      return null;
+
+    if (scheduleCallFlag) {
+      if (
+        (TotalRequestsToday < allowedRequestLimit ||
+          TotalRequestsNextDay < allowedRequestLimit) &&
+        !(
+          (TotalRequestsToday >= allowedRequestLimit ||
+            todayObj.isSlotsNotAvailable) &&
+          TotalRequestsNextDay >= allowedRequestLimit
+        )
+      ) {
+        showScheduleCallBtn = true;
+      } else {
+        this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
+          heading: "Call limit has exceeded",
+          subHeading:
+            "You cannot place anymore call. Please try again after sometime",
+          showBtn: false
+        });
+        return null;
+      }
     }
 
-    if (WaitTime > 60) {
-      if (!showScheduleCallBtn) {
-        showCallMeBackBtn = true;
-      } else {
+    if (
+      !(showCallMeBackBtn || scheduleCallFlag) ||
+      (WaitTime > 60 && showCallMeBackBtn)
+    ) {
+      if (showCallMeBackBtn && showScheduleCallBtn) {
         showCallMeBackBtn = false;
+      } else if (showCallMeBackBtn && !showScheduleCallBtn) {
+        showCallMeBackBtn = true;
+      } else if (TotalRequestsToday >= allowedRequestLimit && WaitTime <= 60) {
+        this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
+          heading: "Call limit has exceeded",
+          subHeading:
+            "You cannot place anymore call. Please try again after sometime",
+          showBtn: false
+        });
+        return null;
+      } else {
+        this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
+          heading: "Sorry, no agents are available right now",
+          subHeading: "Please try again later or choose other help options",
+          showBtn: false
+        });
+        return null;
       }
     }
 
@@ -117,13 +128,12 @@ export default class Cliq2CallPopUp extends Component {
 
     return (
       <BottomSlideModal>
-        {}
         <div className={styles.popUpBox}>
           <div
             className={styles.crossIcon}
             onClick={() => this.props.closeModal()}
           >
-            <Icon image={cancelGrey} size={17} />
+            <Icon image={cancelGrey} size={14} />
           </div>
           {OpenRequest !== "now" && OpenRequest !== "" && (
             <div className={styles.alredySlotBookBox}>
@@ -154,14 +164,17 @@ export default class Cliq2CallPopUp extends Component {
           {showScheduleCallBtn && (
             <React.Fragment>
               <div
-                className={styles.buttonBox}
+                className={[
+                  styles.buttonBox,
+                  showCallMeBackBtn ? styles.marginTop : null
+                ].join(" ")}
                 onClick={() => this.scheduleACallClick()}
               >
                 <div className={styles.iconBox}>
                   <Icon image={scheduleaCall} size={20} />
                 </div>
                 {OpenRequest !== "" && OpenRequest !== "now"
-                  ? `Re-${SCHEDULE_CALL_BACK}`
+                  ? `Re-${SCHEDULE_CALL_BACK.toLowerCase()}`
                   : SCHEDULE_CALL_BACK}
               </div>
               <div className={styles.labelTxt}>

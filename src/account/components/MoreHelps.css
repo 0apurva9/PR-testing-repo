@@ -35,8 +35,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid #e8e8e8;
-  padding-bottom: 32px;
+  /* border-bottom: 1px solid #e8e8e8; */
+  /* padding-bottom: 32px; */
   width: 100%;
   max-width: 578px;
   margin: auto;
@@ -51,7 +51,7 @@
   align-items: center;
   /* text-align: center; */
   justify-content: center;
-  margin: 24px 0px 34px 0px;
+  margin: 25px 0px 25px 0px;
 }
 .lineSeperator {
   width: 2px;
