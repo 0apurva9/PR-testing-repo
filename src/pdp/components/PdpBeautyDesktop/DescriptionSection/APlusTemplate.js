@@ -1,10 +1,10 @@
 import React from "react";
 import { Collapse } from "react-collapse";
 import PropTypes from "prop-types";
-import APlusTemplate1 from "./APlusTemplate1";
-import APlusTemplate2 from "./APlusTemplate2";
-import APlusTemplate3 from "./APlusTemplate3";
 import styles from "./APlusTemplates.css";
+import APlusTemplate1 from "../../APlusTemplate1";
+import APlusTemplate2 from "../../APlusTemplate2";
+import APlusTemplate3 from "../../APlusTemplate3";
 export default class APlusTemplate extends React.Component {
   constructor(props) {
     super(props);
