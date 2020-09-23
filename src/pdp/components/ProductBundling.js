@@ -31,7 +31,8 @@ export default class ProductBundling extends React.Component {
       enableAddToCartButton: false,
       cartProducts: null,
       addToCartAnalyticsData: null,
-      disableButton: false
+      disableButton: false,
+      userLoggedOut: false
     };
     this.handleClick = this.handleClick.bind(this);
     this.toggleShowingProducts = this.toggleShowingProducts.bind(this);
@@ -43,6 +44,12 @@ export default class ProductBundling extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.logoutUserStatus !== this.props.logoutUserStatus &&
+      nextProps.logoutUserStatus === SUCCESS
+    ) {
+      this.setState({ userLoggedOut: true });
+    }
     if (
       nextProps.cartCountDetails &&
       nextProps.cartCountDetails !== this.state.cartCountDetails
@@ -202,6 +209,7 @@ export default class ProductBundling extends React.Component {
   render() {
     // get bundled products and its ussids
     let productWithBundledProducts =
+      !this.state.userLoggedOut &&
       this.state.cartProducts &&
       this.state.cartProducts.find(product => {
         return product.USSID === this.props.productData.winningUssID;
