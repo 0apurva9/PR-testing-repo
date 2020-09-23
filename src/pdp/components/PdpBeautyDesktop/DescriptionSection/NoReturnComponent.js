@@ -48,10 +48,10 @@ export default class NoReturnComponent extends Component {
                 <div className={styles["return-heading"]}>
                   {this.props.productDetails &&
                   this.props.productDetails.knowMoreV2 &&
-                  this.props.productDetails.knowMoreV2[0].knowMoreItemV2 ===
-                    "0 Days Easy Return"
+                  this.props.productDetails.knowMoreV2[0].knowMoreItemV2.toLowerCase() ===
+                    "0 days easy return"
                     ? this.props.heading
-                    : this.props.productDetails.knowMoreV2[0].knowMoreItemV2}
+                    : this.props.productDetails.knowMoreV2[0].knowMoreItemV2.toUpperCase()}
                 </div>
                 <div className={returnIconActive} />
               </div>
@@ -99,12 +99,14 @@ export default class NoReturnComponent extends Component {
                               <span className={styles["manufacture-head"]}>
                                 Manufacturer's Details:
                               </span>
-                              <span>
-                                {
-                                  this.props.manufacturerDetails.manufacturer[0]
-                                    .value
-                                }
-                              </span>
+                              {this.props.manufacturerDetails.manufacturer.map(
+                                (item, i) => (
+                                  <span key={i}>
+                                    {i ? ", " : ""}
+                                    {item.value}
+                                  </span>
+                                )
+                              )}
                             </Fragment>
                           )}
                       </div>
@@ -115,9 +117,14 @@ export default class NoReturnComponent extends Component {
                               <span className={styles["manufacture-head"]}>
                                 Packer's Details:
                               </span>
-                              <span>
-                                {this.props.manufacturerDetails.packer[0].value}
-                              </span>
+                              {this.props.manufacturerDetails.packer.map(
+                                (item, i) => (
+                                  <span key={i}>
+                                    {i ? ", " : ""}
+                                    {item.value}
+                                  </span>
+                                )
+                              )}
                             </Fragment>
                           )}
                       </div>
@@ -129,12 +136,14 @@ export default class NoReturnComponent extends Component {
                               <span className={styles["manufacture-head"]}>
                                 Importer's Details:
                               </span>
-                              <span>
-                                {
-                                  this.props.manufacturerDetails.importer[0]
-                                    .value
-                                }
-                              </span>
+                              {this.props.manufacturerDetails.importer.map(
+                                (item, i) => (
+                                  <span key={i}>
+                                    {i ? ", " : ""}
+                                    {item.value}
+                                  </span>
+                                )
+                              )}
                             </Fragment>
                           )}
                       </div>

@@ -18,7 +18,7 @@ export default class AboutTheBrandComponent extends Component {
         <div className={styles.container}>
           <div className={styles["atb-heading"]}>
             {this.props.aboutTheBrandResponse &&
-              this.props.aboutTheBrandResponse.singleBannerComponent.title}
+              this.props.aboutTheBrandResponse.singleBannerComponent.title.toUpperCase()}
           </div>
         </div>
         <Carousel

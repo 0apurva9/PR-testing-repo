@@ -82,7 +82,9 @@ export default class StoryComponent extends React.Component {
                   this.openMenu();
                 }}
               >
-                <div className={styles["details-heading"]}>{HEADING}</div>
+                <div className={styles["details-heading"]}>
+                  {HEADING.toUpperCase()}
+                </div>
                 <div className={iconActive} />
               </div>
 

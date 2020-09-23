@@ -5,6 +5,18 @@ import HowToWearToggleComponent from "./HowToWearToggleComponent";
 
 export default class HowToWearComponent extends Component {
   render() {
+    const htwData = this.props.howToWearResponse
+      ? this.props.howToWearResponse.items
+      : [];
+    let title;
+    if (htwData && htwData.length > 0) {
+      htwData.forEach(element => {
+        if (element.componentName === "HTWPDPCarouselComponent") {
+          title = element.singleBannerComponent.title;
+        }
+      });
+    }
+
     return (
       <Fragment>
         <div className={styles.container}>
@@ -17,7 +29,7 @@ export default class HowToWearComponent extends Component {
                 }}
               >
                 <div className={styles["htw-heading"]}>
-                  {this.props.heading}
+                  {title ? title.toUpperCase() : ""}
                 </div>
               </div>
 

@@ -94,9 +94,7 @@ const typeComponentMapping = {
   [INGREDIENTS_COMPONENT]: props => (
     <IngredientsComponents {...props} heading={"INGREDIENTS"} />
   ),
-  [HOW_TO_WEAR_COMPONENT]: props => (
-    <HowToWearComponent {...props} heading={"HOW TO WEAR"} />
-  ),
+  [HOW_TO_WEAR_COMPONENT]: props => <HowToWearComponent {...props} />,
   [FROM_THE_BRAND_COMPONENT]: props => (
     <APlusTemplate {...props} heading={"FROM THE BRAND"} />
   ),
@@ -106,7 +104,7 @@ const typeComponentMapping = {
   [RETURNS_COMPONENT]: props => (
     <NoReturnComponent
       {...props}
-      heading={"NO RETURNS"}
+      heading={"NON-RETURNABLE"}
       heading2={"MANUFACTURER INFORMATION"}
     />
   ),
