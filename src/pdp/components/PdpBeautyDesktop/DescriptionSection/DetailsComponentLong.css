@@ -24,6 +24,11 @@
   margin: 4px 90px 24px 0;
 }
 
+.details-what-it-is-block-inner{
+  width: 400px;
+  margin-top: 32px;
+}
+
 .details-what-it-is-head {
   font-family: "Rubik", sans-serif;
   color: rgb(33, 33, 33);
