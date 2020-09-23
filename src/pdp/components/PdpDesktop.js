@@ -163,6 +163,7 @@ export default class PdpApparel extends React.Component {
       this.props.productDetails && this.props.productDetails.categoryHierarchy;
     if (
       categoryHierarchyCheck &&
+      Array.isArray(categoryHierarchyCheck) &&
       this.props.productDetails.rootCategory === "Accessories"
     ) {
       if (
@@ -184,6 +185,9 @@ export default class PdpApparel extends React.Component {
       }
     }
     let categoryId =
+      categoryHierarchyCheck &&
+      Array.isArray(categoryHierarchyCheck) &&
+      categoryHierarchyCheck[categoryHierarchyCheck.length - 1] &&
       categoryHierarchyCheck[categoryHierarchyCheck.length - 1].category_id;
     this.setState({ categoryId });
     /***relavant Bundling Product */
