@@ -272,18 +272,18 @@ class PDPRecommendedSections extends React.Component {
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
             let productImage, mrpInteger, seoDoublePrice, imageURL;
-            if (widgetName === "About the Brand") {
-              productImage = transformedDatum && transformedDatum.imageUrl;
-              mrpInteger = transformedDatum && transformedDatum.mrp;
-              seoDoublePrice =
-                transformedDatum && transformedDatum.winningSellerMOP;
-              imageURL = val.webURL;
-            } else {
-              productImage = transformedDatum && transformedDatum.image_link;
-              mrpInteger = transformedDatum && transformedDatum.price;
-              seoDoublePrice = transformedDatum && transformedDatum.mop;
-              imageURL = val.link && val.link.replace(/^.*\/\/[^\/]+/, "");
-            }
+            // if (widgetName === "About the Brand") {
+            //   productImage = transformedDatum && transformedDatum.imageUrl;
+            //   mrpInteger = transformedDatum && transformedDatum.mrp;
+            //   seoDoublePrice =
+            //     transformedDatum && transformedDatum.winningSellerMOP;
+            //   imageURL = val.webURL;
+            // } else {
+            productImage = transformedDatum && transformedDatum.image_link;
+            mrpInteger = transformedDatum && transformedDatum.price;
+            seoDoublePrice = transformedDatum && transformedDatum.mop;
+            imageURL = val.link && val.link.replace(/^.*\/\/[^\/]+/, "");
+            //}
             let discount =
               mrpInteger && seoDoublePrice
                 ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)

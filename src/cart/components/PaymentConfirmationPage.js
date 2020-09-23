@@ -105,6 +105,8 @@ export default class PaymentConfirmationPage extends React.Component {
   componentWillUnmount() {
     localStorage.removeItem(DIGITAL_DATA_FOR_CART);
     localStorage.removeItem(DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION);
+    localStorage.removeItem("GiftCardAmount");
+    localStorage.removeItem("productType");
   }
   goToUrl(value) {
     if (value) {
@@ -123,10 +125,7 @@ export default class PaymentConfirmationPage extends React.Component {
   onContinueShopping() {
     this.props.history.push(HOME_ROUTER);
   }
-  componentWillUnmount() {
-    localStorage.removeItem("GiftCardAmount");
-    localStorage.removeItem("productType");
-  }
+
   render() {
     let totalValue = localStorage.getItem("GiftCardAmount");
     let productType = localStorage.getItem("productType");

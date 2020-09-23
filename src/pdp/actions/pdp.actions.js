@@ -1415,6 +1415,7 @@ export function pdpAboutBrand(productCode) {
     msdRequestObject.append("mad_uuid", mcvId);
     msdRequestObject.append("details", true);
     msdRequestObject.append("product_id", productCode.toUpperCase());
+    msdRequestObject.append("fields", JSON.stringify(["mop"]));
 
     dispatch(pdpAboutBrandRequest());
     try {
@@ -1437,8 +1438,14 @@ export function pdpAboutBrand(productCode) {
         resultJson.data[0].itemIds.length > 0
       ) {
         dispatch(
-          getPdpItems(resultJson.data[0].itemIds, ABOUT_THE_BRAND_WIDGET_KEY)
+          getPdpItemsPdpSuccess(
+            resultJson.data[0].itemIds,
+            ABOUT_THE_BRAND_WIDGET_KEY
+          )
         );
+        // dispatch(
+        //   getPdpItems(resultJson.data[0].itemIds, ABOUT_THE_BRAND_WIDGET_KEY)
+        // );
         // updating reducer for follow brand  key
         dispatch(pdpAboutBrandSuccess(resultJson.data[0]));
       }
