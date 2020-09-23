@@ -60,7 +60,8 @@ export default class DesktopCheckout extends React.Component {
       return (
         <div className={styles.base}>
           {this.props.shippingPromoMessage &&
-            this.props.shippingPromoMessage !== "" && (
+            this.props.shippingPromoMessage !== "" &&
+            this.props.showShippingMsg && (
               <div className={styles.shippingChargeMessage}>
                 <div className={styles.innerShippingMsgDiv}>
                   <div className={styles.shippingChargeMsgIcon}>
