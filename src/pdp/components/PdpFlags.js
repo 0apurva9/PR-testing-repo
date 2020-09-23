@@ -1,43 +1,95 @@
 import React from "react";
 import styles from "./PdpFlags.css";
+import beautyFlag from "./img/beautyFlag.png";
 export default class PdpFlags extends React.Component {
+  renderBeautyPdpOffer(offerName) {
+    return (
+      <div className={styles["new-arrival-component"]}>
+        <div
+          className={styles["new-arrival-block"]}
+          style={{ backgroundImage: `url(${beautyFlag})` }}
+        >
+          {offerName}
+        </div>
+      </div>
+    );
+  }
+
   renderFlag = () => {
     if (this.props.outOfStock) {
-      return (
-        <div className={styles.overlay}>
-          <div className={styles.base}>Out of Stock</div>
-        </div>
-      );
+      if (this.props.isBeautyPdp) {
+        return this.renderBeautyPdpOffer("Out of Stock");
+      } else {
+        return (
+          <div className={styles.overlay}>
+            <div className={styles.base}>Out of Stock</div>
+          </div>
+        );
+      }
     } else if (
       this.props.showExchangeTag &&
       this.props.exchangeOfferAvailable
     ) {
-      return <div className={styles.exchangeOffer}>Offers on Exchange</div>;
+      if (this.props.isBeautyPdp) {
+        return this.renderBeautyPdpOffer("Offers on Exchange");
+      } else {
+        return <div className={styles.exchangeOffer}>Offers on Exchange</div>;
+      }
     } else if (this.props.newProduct === "Y") {
-      return <div className={styles.new}>New</div>;
+      if (this.props.isBeautyPdp) {
+        return this.renderBeautyPdpOffer("New");
+      } else {
+        return <div className={styles.new}>New</div>;
+      }
     } else if (
       (this.props.seasonSale && this.props.seasonSale.key === "Season") ||
       this.props.seasonTag
     ) {
-      return (
-        <div className={styles.basePdp}>
-          {this.props.seasonSale
-            ? this.props.seasonSale.value
-            : this.props.seasonTag}
-        </div>
-      );
+      if (
+        this.props.isBeautyPdp &&
+        this.props.seasonSale &&
+        this.props.seasonSale.value
+      ) {
+        return this.renderBeautyPdpOffer(`${this.props.seasonSale.value}`);
+      } else if (this.props.isBeautyPdp && this.props.seasonTag) {
+        return this.renderBeautyPdpOffer(`${this.props.seasonTag}`);
+      } else {
+        return (
+          <div className={styles.basePdp}>
+            {this.props.seasonSale
+              ? this.props.seasonSale.value
+              : this.props.seasonTag}
+          </div>
+        );
+      }
     } else if (this.props.onlineExclusive === "Y") {
-      return <div className={styles.new}>New</div>;
+      if (this.props.isBeautyPdp) {
+        return this.renderBeautyPdpOffer("New");
+      } else {
+        return <div className={styles.new}>New</div>;
+      }
     }
     //bundled offer tag
     else if (this.props.discountPercent && this.props.discountPercent !== "0") {
-      return (
-        <div className={styles.offer}>
-          {parseInt(this.props.discountPercent, 10)}% off{" "}
-        </div>
-      );
+      if (this.props.isBeautyPdp) {
+        const discountToShow = `${parseInt(
+          this.props.discountPercent,
+          10
+        )}% off{" "}`;
+        return this.renderBeautyPdpOffer(`${discountToShow}`);
+      } else {
+        return (
+          <div className={styles.offer}>
+            {parseInt(this.props.discountPercent, 10)}% off{" "}
+          </div>
+        );
+      }
     } else if (this.props.isOfferExisting === "Y") {
-      return <div className={styles.offer}>On offer</div>;
+      if (this.props.isBeautyPdp) {
+        return this.renderBeautyPdpOffer("On Offer");
+      } else {
+        return <div className={styles.offer}>On offer</div>;
+      }
     } else {
       return null;
     }

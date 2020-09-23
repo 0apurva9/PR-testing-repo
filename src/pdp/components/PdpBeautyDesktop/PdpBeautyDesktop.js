@@ -125,11 +125,23 @@ export default class PdpBeautyDesktop extends React.Component {
         notIngredients
       };
 
+      const imageGalleryTemplateData =
+        sectionOfImageAndContentComponent &&
+        sectionOfImageAndContentComponent.filter(
+          el => el.componentId === IMAGE_GALLERY_COMPONENT
+        );
+      const showBreadCrumbs =
+        imageGalleryTemplateData[0] &&
+        imageGalleryTemplateData[0].componentProperties &&
+        imageGalleryTemplateData[0].componentProperties.breadcrumbs;
+
       return (
         <div className={styles["main-container"]}>
-          <div className={styles.container}>
-            <BreadCrumbs {...this.props} />
-          </div>
+          {showBreadCrumbs && showBreadCrumbs === true && (
+            <div className={styles.container}>
+              <BreadCrumbs {...this.props} />
+            </div>
+          )}
           <div className={styles.container}>
             <ImageGalleryContentComponent
               {...this.props}
