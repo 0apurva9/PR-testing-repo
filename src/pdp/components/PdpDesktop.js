@@ -1948,6 +1948,7 @@ export default class PdpApparel extends React.Component {
                       this.props.getCartCountForLoggedInUser
                     }
                     cartCountDetails={this.props.cartCountDetails}
+                    logoutUserStatus={this.props.logoutUserStatus}
                   />
                 )}
 
