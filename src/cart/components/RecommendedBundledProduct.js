@@ -1,6 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants";
+import {
+  SUCCESS,
+  ERROR,
+  DEFAULT_PIN_CODE_LOCAL_STORAGE
+} from "../../lib/constants";
 import DigitalBundledProductSuggestion from "./DigitalBundledProductSuggestion";
 
 export default class RecommendedBundledProduct extends React.Component {
@@ -12,10 +16,7 @@ export default class RecommendedBundledProduct extends React.Component {
   }
 
   async componentDidMount() {
-    let categoryHierarchyCheck = this.props.product.categoryHierarchy;
-    let categoryId =
-      categoryHierarchyCheck &&
-      categoryHierarchyCheck[categoryHierarchyCheck.length - 1].category_id;
+    let categoryId = this.props.product.categoryL4Code;
     let pincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
     if (this.props.product.bundlingSuggestionAvailable) {
       await this.props.getBundledProductSuggestion(
@@ -31,11 +32,21 @@ export default class RecommendedBundledProduct extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (
+      nextProps.bundledProductSuggestionStatus === SUCCESS &&
+      nextProps.bundledProductSuggestionDetails &&
       nextProps.bundledProductSuggestionDetails !==
-      this.state.bundledProductSuggestionDetails
+        this.state.bundledProductSuggestionDetails
     ) {
       this.setState({
         bundledProductDetails: nextProps.bundledProductSuggestionDetails
+      });
+    }
+    if (
+      nextProps.bundledProductSuggestionStatus === ERROR &&
+      !nextProps.bundledProductSuggestionDetails
+    ) {
+      this.setState({
+        bundledProductDetails: null
       });
     }
   }
@@ -72,10 +83,10 @@ RecommendedBundledProduct.propTypes = {
   getBundledProductSuggestion: PropTypes.func,
   product: PropTypes.objectOf(
     PropTypes.shape({
-      categoryHierarchy: PropTypes.array,
       productcode: PropTypes.string,
       USSID: PropTypes.string,
-      productBrandCode: PropTypes.string
+      productBrandCode: PropTypes.string,
+      categoryL4Code: PropTypes.string
     })
   ),
   history: PropTypes.object,

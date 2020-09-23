@@ -440,7 +440,8 @@ export function nullSearchMsd() {
       discoverMoreData.append("widget_list", [109]);
       discoverMoreData.append("num_results", [10]);
       discoverMoreData.append("mad_uuid", await getMcvId());
-      discoverMoreData.append("details", false);
+      // discoverMoreData.append("details", true);
+      // discoverMoreData.append("fields", JSON.stringify(["mop"]));
       const discoverMoreresult = await api.postMsd(
         `${MSD_ROOT_PATH}/widgets`,
         discoverMoreData
@@ -453,6 +454,7 @@ export function nullSearchMsd() {
       trendingProducts.append("api_key", api_key);
       trendingProducts.append("mad_uuid", await getMcvId());
       trendingProducts.append("details", true);
+      trendingProducts.append("fields", JSON.stringify(["mop"]));
       if (userDetails) {
         // trendingProducts.append("num_results", "[5, 5, 10]");
         trendingProducts.append("num_results", "[1, 1, 3]");
@@ -467,38 +469,38 @@ export function nullSearchMsd() {
         trendingProducts
       );
       const trendingproductresultJson = await trendingproductresult.json();
+
       var convertedTPArray =
         trendingproductresultJson &&
         trendingproductresultJson.data &&
         trendingproductresultJson.data.reduce((r, e) => (r.push(...e), r), []);
-
-      let finalProductDetails = null;
-      if (convertedTPArray && convertedTPArray.length > 0) {
-        let productCode =
-          convertedTPArray && convertedTPArray.map(value => value.product_id);
-        //productCode = productCode && productCode.toString();
-        let finalProductDetails = null;
-        let requests =
-          productCode &&
-          productCode.map(id =>
-            api.getMiddlewareUrl(
-              `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
-            )
-          );
-        //requests for individual calls
-        const results = await Promise.allSettled(requests);
-        const successfulPromises =
-          results && results.filter(request => request.status === "fulfilled");
-        finalProductDetails =
-          successfulPromises &&
-          (await Promise.all(successfulPromises)
-            .then(response => Promise.all(response.map(r => r.value.json())))
-            .then(respon => respon && respon.results && respon.results[0]));
-        // const getProductdetails = await api.getMiddlewareUrl(
-        //   `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
-        // );
-        // finalProductDetails = await getProductdetails.json();
-      }
+      let finalProductDetails = convertedTPArray;
+      // if (convertedTPArray && convertedTPArray.length > 0) {
+      //   let productCode =
+      //     convertedTPArray && convertedTPArray.map(value => value.product_id);
+      //   //productCode = productCode && productCode.toString();
+      //   let finalProductDetails = null;
+      //   let requests =
+      //     productCode &&
+      //     productCode.map(id =>
+      //       api.getMiddlewareUrl(
+      //         `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+      //       )
+      //     );
+      //   //requests for individual calls
+      //   const results = await Promise.allSettled(requests);
+      //   const successfulPromises =
+      //     results && results.filter(request => request.status === "fulfilled");
+      //   finalProductDetails =
+      //     successfulPromises &&
+      //     (await Promise.all(successfulPromises)
+      //       .then(response => Promise.all(response.map(r => r.value.json())))
+      //       .then(respon => respon && respon.results && respon.results[0]));
+      //   // const getProductdetails = await api.getMiddlewareUrl(
+      //   //   `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
+      //   // );
+      //   // finalProductDetails = await getProductdetails.json();
+      // }
       if (
         discoverMoreresultJson.status === FAILURE &&
         ((trendingproductresultJson &&

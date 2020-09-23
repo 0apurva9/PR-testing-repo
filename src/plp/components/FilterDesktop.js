@@ -204,7 +204,16 @@ export default class FilterDesktop extends React.Component {
           colourUrl = webUrl.replace(`${colourValue.toLowerCase()}~color/`, "");
         }
       }
-      val = val.replace("/search/page-{pageNo}", colourUrl);
+      if (val.includes("/search")) {
+        val = val.replace("/search/page-{pageNo}", colourUrl);
+      } else {
+        val = val.replace("/view-all-offers/page-{pageNo}", colourUrl);
+      }
+    } else if (val.includes("/view-all-offers")) {
+      val = val.replace(
+        "/view-all-offers/page-{pageNo}",
+        `${this.props.location.pathname}`
+      );
     } else {
       val = val.replace(
         "/search/page-{pageNo}",

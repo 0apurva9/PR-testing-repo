@@ -185,9 +185,7 @@ export const oridinalNumberDateFormat = date => {
   } else {
     oridinalNumber = "th";
   }
-  return `${dateSplit[0]}${oridinalNumber} ${dateSplit[1]} ${dateSplit[2]} ${
-    dateSplit[3]
-  }`;
+  return `${dateSplit[0]}${oridinalNumber} ${dateSplit[1]} ${dateSplit[2]} ${dateSplit[3]}`;
 };
 
 //Number with thousand seperated value.
@@ -313,3 +311,6 @@ export const digitIntoWord = num => {
       : "";
   return str;
 };
+export function get24HrsTime(date) {
+  return date.toLocaleTimeString("en-US", { hour12: false });
+}

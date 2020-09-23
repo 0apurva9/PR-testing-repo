@@ -51,7 +51,8 @@ import {
   BUY_NOW_PRODUCT_DETAIL,
   BUY_NOW_ERROR_MESSAGE,
   LOGIN_PATH,
-  YES
+  YES,
+  ERROR
 } from "../../lib/constants";
 import { isBrowser } from "browser-or-node";
 import styles from "./ProductDescriptionPage.css";
@@ -124,8 +125,7 @@ export default class PdpApparel extends React.Component {
       selected: false,
       productCategory: "",
       eyeWearCheck: "",
-      bundledProductSuggestionDetails: null,
-      categoryId: null
+      bundledProductSuggestionDetails: null
     };
     this.reviewListRef = React.createRef();
     this.ScrollIntoView = this.ScrollIntoView.bind(this);
@@ -163,6 +163,7 @@ export default class PdpApparel extends React.Component {
       this.props.productDetails && this.props.productDetails.categoryHierarchy;
     if (
       categoryHierarchyCheck &&
+      Array.isArray(categoryHierarchyCheck) &&
       this.props.productDetails.rootCategory === "Accessories"
     ) {
       if (
@@ -184,8 +185,10 @@ export default class PdpApparel extends React.Component {
       }
     }
     let categoryId =
+      categoryHierarchyCheck &&
+      Array.isArray(categoryHierarchyCheck) &&
+      categoryHierarchyCheck[categoryHierarchyCheck.length - 1] &&
       categoryHierarchyCheck[categoryHierarchyCheck.length - 1].category_id;
-    this.setState({ categoryId });
     /***relavant Bundling Product */
     if (
       this.props &&
@@ -268,6 +271,7 @@ export default class PdpApparel extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (
+      nextProps.bundledProductSuggestionStatus === SUCCESS &&
       nextProps.bundledProductSuggestionDetails &&
       nextProps.bundledProductSuggestionDetails !==
         this.state.bundledProductSuggestionDetails
@@ -278,7 +282,7 @@ export default class PdpApparel extends React.Component {
       });
     }
     if (
-      nextProps.bundledProductSuggestionStatus === "error" &&
+      nextProps.bundledProductSuggestionStatus === ERROR &&
       !nextProps.bundledProductSuggestionDetails
     ) {
       this.setState({
@@ -340,7 +344,7 @@ export default class PdpApparel extends React.Component {
         let productId = this.props.productDetails.productListingId;
         let ussId = this.props.productDetails.winningUssID;
         let pincode = this.props.productDetails.isServiceableToPincode.pinCode;
-        let categoryCode = this.state.categoryId;
+        let categoryCode = this.props.productDetails.categoryL4Code;
         let brandCode = this.getBrandCode(this.props.productDetails.brandURL);
         this.props.getBundledProductSuggestion(
           productId,
@@ -1939,6 +1943,7 @@ export default class PdpApparel extends React.Component {
                       this.props.getCartCountForLoggedInUser
                     }
                     cartCountDetails={this.props.cartCountDetails}
+                    logoutUserStatus={this.props.logoutUserStatus}
                   />
                 )}
 
@@ -2453,7 +2458,8 @@ PdpApparel.propTypes = {
           value: PropTypes.number
         })
       ),
-      productName: PropTypes.string
+      productName: PropTypes.string,
+      categoryL4Code: PropTypes.string
     })
   ),
   getUserAddress: PropTypes.func,

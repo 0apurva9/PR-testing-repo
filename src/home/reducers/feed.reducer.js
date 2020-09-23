@@ -13,6 +13,7 @@ import {
   THEME_OFFER_CN,
   MSD_DISCOVER_MORE,
   MSD_AUTOMATED_BRAND_CAROUSEL,
+  AUTO_WISHLIST,
   AUTOMATED_WIDGETS_FOR_HOME,
   HERO_BANNER_PERSONALISED_COMPONENT,
   QUICK_LINK_PERSONALISED_COMPONENT,
@@ -49,7 +50,8 @@ const feed = (
     seo: null,
     loadMsdSkeleton: null,
     homeMsdData: {},
-    homeAbcMsdData: {}
+    homeAbcMsdData: {},
+    autoWishList: null
   },
   action
 ) => {
@@ -151,6 +153,7 @@ const feed = (
             componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
             componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
             componentName === MSD_DISCOVER_MORE ||
+            componentName === AUTO_WISHLIST ||
             componentName === AUTOMATED_WIDGETS_FOR_HOME ||
             componentName === QUICK_LINK_PERSONALISED_COMPONENT ||
             componentName === BANK_OFFER_PERSONALISED_COMPONENT ||
@@ -526,6 +529,15 @@ const feed = (
       return Object.assign({}, state, {
         loadMsdSkeleton: true,
         loading: false
+      });
+    case homeActions.AUTO_WISHLIST_COMPONENT_REQUEST:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: false
+      });
+    case homeActions.AUTO_WISHLIST_COMPONENT_SUCCESS:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: false,
+        autoWishList: action.productList
       });
 
     case homeActions.AUTOMATED_WIDGET_HOME_REQUEST:

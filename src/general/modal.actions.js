@@ -67,6 +67,10 @@ export const PRODUCT_IN_BAG_MODAL = "ProductInBagModal";
 export const CHANGE_EXCHANGE_CASHBACK_MODAL = "ChangeExchangeCashabackModal";
 export const CASHBACK_DETAILS_POPUP = "cashBackDetailsPopup";
 
+export const CLIQ_2_CALL_POP_UP = "Cliq2CallPopUp";
+export const CUSTOMER_QUERY_ERROR_MODAL = "CustomerQueryErrorModal";
+export const TIME_SLOT_POP_UP = "TimeSlotPopUp";
+export const CUSTOMER_CALL_QUERY_SUCCESS = "CustomerCallQuerySuccess";
 export function showModal(type, ownProps) {
   const scrollPosition =
     window.pageYOffset || document.documentElement.scrollTop;

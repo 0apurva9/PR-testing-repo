@@ -15,7 +15,7 @@ export default class SimilarProductsOOSModal extends React.Component {
   };
   renderData(key) {
     if (
-      this.showLoader === false &&
+      (this.showLoader === false || this.showLoader === undefined) &&
       this.props.msdItems[key] &&
       this.props.status &&
       this.props.status.toLowerCase() === "success"
@@ -63,20 +63,31 @@ export default class SimilarProductsOOSModal extends React.Component {
         >
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
-            const productImage = transformedDatum.image;
-            const discountedPrice = transformedDatum.discountPrice;
-            const mrpInteger =
-              transformedDatum.price &&
-              parseInt(transformedDatum.price.replace(RUPEE_SYMBOL, ""), 10);
-            const discount =
-              mrpInteger &&
-              discountedPrice &&
-              Math.floor(
-                ((mrpInteger -
-                  parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
-                  mrpInteger) *
-                  100
-              );
+            let productImage = transformedDatum && transformedDatum.image_link;
+            let mrpInteger = transformedDatum && transformedDatum.price;
+            let seoDoublePrice = transformedDatum && transformedDatum.mop;
+            let discount =
+              mrpInteger && seoDoublePrice
+                ? Math.floor(((mrpInteger - seoDoublePrice) / mrpInteger) * 100)
+                : "";
+            let imageURL =
+              transformedDatum &&
+              transformedDatum.link &&
+              transformedDatum.link.replace(/^.*\/\/[^\/]+/, "");
+            // const productImage = transformedDatum.image;
+            // const discountedPrice = transformedDatum.discountPrice;
+            // const mrpInteger =
+            //   transformedDatum.price &&
+            //   parseInt(transformedDatum.price.replace(RUPEE_SYMBOL, ""), 10);
+            // const discount =
+            //   mrpInteger &&
+            //   discountedPrice &&
+            //   Math.floor(
+            //     (mrpInteger -
+            //       parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
+            //       mrpInteger *
+            //       100
+            //   );
             return (
               <ProductModule
                 key={i}
@@ -86,7 +97,7 @@ export default class SimilarProductsOOSModal extends React.Component {
                 productId={val.productListingId}
                 isShowAddToWishlistIcon={false}
                 discountPercent={discount}
-                onClick={url => this.goToProductDescription(url)}
+                onClick={url => this.goToProductDescription(imageURL)}
               />
             );
           })}
@@ -111,15 +122,19 @@ export default class SimilarProductsOOSModal extends React.Component {
       this.setState({ showLoader: true });
     }
     this.props
-      .getMsdRequest(this.props.viewSimilarProductOfId, true, [
-        {
-          field: "size",
-          type: "exact",
-          value: `${this.props.product &&
-            this.props.product.sizelink &&
-            this.props.product.sizelink.size}`
-        }
-      ])
+      .getMsdRequest(
+        this.props.viewSimilarProductOfId,
+        "similarOutOfStockProducts",
+        [
+          {
+            field: "size",
+            type: "exact",
+            value: `${this.props.product &&
+              this.props.product.sizelink &&
+              this.props.product.sizelink.size}`
+          }
+        ]
+      )
       .then(done => {
         this.showLoader = false;
       });
@@ -132,7 +147,7 @@ export default class SimilarProductsOOSModal extends React.Component {
       <BottomModal>
         {this.renderProductModuleSection(
           "Similar Products",
-          "recommendedProducts"
+          "similarOutOfStockProducts"
         )}
       </BottomModal>
     );

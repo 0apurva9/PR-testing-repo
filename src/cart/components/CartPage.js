@@ -1053,6 +1053,9 @@ class CartPage extends React.Component {
                               this.props.addBundledProductsToCartDetails
                             }
                             history={this.props.history}
+                            bundledProductSuggestionStatus={
+                              this.props.bundledProductSuggestionStatus
+                            }
                           />
                         </DesktopOnly>
                       </div>

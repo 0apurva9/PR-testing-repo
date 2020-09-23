@@ -286,7 +286,9 @@ const mapStateToProps = state => {
     bundledProductSuggestionDetails:
       state.productDescription.getBundledProductSuggestionDetails,
     addBundledProductsToCartDetails:
-      state.productDescription.addBundledProductsToCartDetails
+      state.productDescription.addBundledProductsToCartDetails,
+    bundledProductSuggestionStatus:
+      state.productDescription.getBundledProductSuggestionStatus
   };
 };
 const CartContainer = withRouter(
