@@ -638,7 +638,8 @@ export default class OrderRelatedIssue extends React.Component {
         chooseLanguage: "English",
         timing: "",
         selectedDate: "",
-        callMeBackJourney: false
+        callMeBackJourney: false,
+        selectedSlot: ""
       });
     }
   }
