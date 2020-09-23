@@ -273,10 +273,10 @@ export default class CliqCashDesktop extends React.Component {
                             this.props.cliqCashUserDetails.totalCliqCashBalance
                               .value > 0
                               ? parseFloat(
-                                  Math.ceil(
+                                  Math.floor(
                                     this.props.cliqCashUserDetails
-                                      .totalCliqCashBalance.value * 100
-                                  ) / 100
+                                      .totalCliqCashBalance.value
+                                  )
                                 ).toLocaleString("hi-IN")
                               : "0"}
                             <span className={styles.floatingNumber}>.00</span>
