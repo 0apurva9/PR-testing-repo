@@ -18,21 +18,31 @@ export default class Widget extends React.Component {
         this.props.msdABPCBrandCount
       );
     }
-    if (this.props.feedComponentData.type === "msdAutoDiscoverMoreComponent") {
+    if (
+      this.props.feedComponentData &&
+      this.props.feedComponentData.type === "msdAutoDiscoverMoreComponent"
+    ) {
       this.props.msdDiscoverMoreHomeComponents();
     } else if (
+      this.props.feedComponentData &&
       this.props.feedComponentData.type ===
-      "msdAutomatedBannerProductCarouselComponent"
+        "msdAutomatedBannerProductCarouselComponent"
     ) {
       this.props.msdAbcComponents();
-    } else if (this.props.feedComponentData.type === "AutoWishlist") {
+    } else if (
+      this.props.feedComponentData &&
+      this.props.feedComponentData.type === "AutoWishlist"
+    ) {
       if (this.props.wishListedItem) {
         const wishListedProductIds = this.props.wishListedItem.map(product => {
           return product.productCode;
         });
         await this.props.autoWishlistComponent(wishListedProductIds);
       }
-    } else if (this.props.feedComponentData.type === "AutoWidget") {
+    } else if (
+      this.props.feedComponentData &&
+      this.props.feedComponentData.type === "AutoWidget"
+    ) {
       await this.props.automatedWidgetsForHome(
         this.props.feedComponentData.items[0]
       );

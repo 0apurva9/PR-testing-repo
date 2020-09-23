@@ -1077,13 +1077,18 @@ export function automatedWidgetsForHome(widgetData) {
           widgetData.description &&
           widgetData.description.split(";");
         let filterParsedData;
-        if (filterValue[1] === "range") {
-          let rangeValue = filterValue[2] && parseInt(filterValue[2]);
+        if (
+          filterValue &&
+          Array.isArray(filterValue) &&
+          filterValue[1] === "range"
+        ) {
+          let rangeValue =
+            filterValue && filterValue[2] && filterValue[2].split(",");
           filterParsedData = [
             {
               field: `${filterValue[0]}`,
               type: `${filterValue[1]}`,
-              value: [rangeValue]
+              value: [rangeValue[0], rangeValue[1]]
             }
           ];
         } else {
