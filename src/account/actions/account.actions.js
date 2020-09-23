@@ -541,9 +541,9 @@ export const GENESYS_CUSTOMER_CALL_REQUEST_FAILURE =
 
 //Genesys API CALL URL
 const GENESYS_CALL_CONFIG_URL =
-  "https://219.65.91.76/UnistoreCallBack/api/Lead";
+  "https://172.29.43.70/UnistoreCallBack/api/Lead";
 const GENESYS_CALL_REQUEST_URL =
-  "https://219.65.91.76/UnistoreCallBack/api/Push";
+  "https://172.29.43.70/UnistoreCallBack/api/Push";
 
 const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
