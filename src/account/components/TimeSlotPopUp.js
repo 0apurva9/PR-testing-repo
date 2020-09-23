@@ -274,7 +274,10 @@ export function getDetailsOfSlots(
     }
   });
 
-  if (slotKey === TODAY.toLowerCase() && get24HrsTime(today) > endTime) {
+  if (
+    (slotKey === TODAY.toLowerCase() && get24HrsTime(today) > endTime) ||
+    today.getHours() === 0
+  ) {
     isSlotsNotAvailable = true;
   }
 
