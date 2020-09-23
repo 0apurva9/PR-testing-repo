@@ -296,7 +296,7 @@
 
 .cashBackOfferMsgDiv {
   background-color: #e5f7f2;
-  border: 1px solid #d8d8d8;
+  border: 1px solid #00B081;
   display: flex;
   margin-top: 22px;
   border-radius: 3px;
@@ -304,6 +304,8 @@
   padding: 6px 0px 7px 0px;
   border-style: dashed;
   border-width: 0.1em;
+  width: 79%;
+  margin-left: 70px;
 }
 .cashBackOfferImgDiv {
   width: 10%;
