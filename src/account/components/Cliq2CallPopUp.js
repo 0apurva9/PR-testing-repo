@@ -180,8 +180,10 @@ export default class Cliq2CallPopUp extends Component {
               <div className={styles.labelTxt}>
                 Call request can be placed only for <br /> business hours (
                 {` ${businessStartTime &&
-                  businessStartTime.split(":")[0]} AM - ${businessEndTime &&
-                  businessEndTime.split(":")[0] - 12}PM`}
+                  parseInt(
+                    businessStartTime.split(":")[0]
+                  )} AM - ${businessEndTime &&
+                  businessEndTime.split(":")[0] - 12} PM`}
                 )
               </div>
             </React.Fragment>
