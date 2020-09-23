@@ -406,7 +406,8 @@ const mapStateToProps = state => {
     addBundledProductsToCartDetails:
       state.productDescription.addBundledProductsToCartDetails,
     bundledProductSuggestionStatus:
-      state.productDescription.getBundledProductSuggestionStatus
+      state.productDescription.getBundledProductSuggestionStatus,
+    logoutUserStatus: state.profile.logoutUserStatus
   };
 };
 

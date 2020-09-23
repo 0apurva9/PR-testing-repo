@@ -4877,7 +4877,7 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
           JSON.parse(userDetails).userName
         }/payments/failedorderdetails?&access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=${retryPaymentGuId}&retryFlag=true&isUpdatedPwa=true&retryUserId=${retryPaymentUserId}&emiConvChargeFlag=true`
+        }&cartGuid=${retryPaymentGuId}&retryFlag=true&isUpdatedPwa=true&retryUserId=${retryPaymentUserId}&emiConvChargeFlag=true&isDuplicateImei=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4899,6 +4899,13 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
           BANK_COUPON_COOKIE,
           resultJson.bankCouponName.couponName
         );
+      }
+      if (
+        resultJson &&
+        resultJson.exchangeInfo &&
+        resultJson.exchangeInfo.exchangeCancelMessage
+      ) {
+        dispatch(displayToast(resultJson.exchangeInfo.exchangeCancelMessage));
       }
       return dispatch(retryPaymentSuccess(resultJson));
     } catch (e) {

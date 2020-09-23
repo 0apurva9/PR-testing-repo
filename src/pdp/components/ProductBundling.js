@@ -14,12 +14,12 @@ import {
   ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP
 } from "../../lib/adobeUtils";
 import PropTypes from "prop-types";
-const allBundledProductData = [];
-const allBundledProductDataForAddToCart = [];
-const isBundledProductSelected = [];
-const productIds = [];
-const productCategories = [];
-const productPrices = [];
+let allBundledProductData = [];
+let allBundledProductDataForAddToCart = [];
+let isBundledProductSelected = [];
+let productIds = [];
+let productCategories = [];
+let productPrices = [];
 
 export default class ProductBundling extends React.Component {
   constructor(props) {
@@ -30,7 +30,9 @@ export default class ProductBundling extends React.Component {
       hideExtraProducts: true,
       enableAddToCartButton: false,
       cartProducts: null,
-      addToCartAnalyticsData: null
+      addToCartAnalyticsData: null,
+      disableButton: false,
+      userLoggedOut: false
     };
     this.handleClick = this.handleClick.bind(this);
     this.toggleShowingProducts = this.toggleShowingProducts.bind(this);
@@ -42,6 +44,12 @@ export default class ProductBundling extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.logoutUserStatus !== this.props.logoutUserStatus &&
+      nextProps.logoutUserStatus === SUCCESS
+    ) {
+      this.setState({ userLoggedOut: true });
+    }
     if (
       nextProps.cartCountDetails &&
       nextProps.cartCountDetails !== this.state.cartCountDetails
@@ -98,6 +106,15 @@ export default class ProductBundling extends React.Component {
         );
       }
     }
+  }
+
+  componentWillUnmount() {
+    allBundledProductData = [];
+    allBundledProductDataForAddToCart = [];
+    isBundledProductSelected = [];
+    productIds = [];
+    productCategories = [];
+    productPrices = [];
   }
 
   handleClick(
@@ -176,9 +193,13 @@ export default class ProductBundling extends React.Component {
   }
 
   addBundledProductToCart() {
+    this.setState({ disableButton: true });
     this.props.addBundledProductsToCart(
       this.state.bundledProductDataForAddToCart
     );
+    setTimeout(() => {
+      this.setState({ disableButton: false });
+    }, 1000);
   }
 
   toggleShowingProducts() {
@@ -188,6 +209,7 @@ export default class ProductBundling extends React.Component {
   render() {
     // get bundled products and its ussids
     let productWithBundledProducts =
+      !this.state.userLoggedOut &&
       this.state.cartProducts &&
       this.state.cartProducts.find(product => {
         return product.USSID === this.props.productData.winningUssID;
@@ -226,6 +248,7 @@ export default class ProductBundling extends React.Component {
                 productData={this.props.productData}
                 isMainProduct={true}
                 isBundledProductInCart={false}
+                isBundledProductSelected={isBundledProductSelected}
               />
               {this.props.bundledProductSuggestionDetails &&
                 this.props.bundledProductSuggestionDetails.slots &&
@@ -315,9 +338,10 @@ export default class ProductBundling extends React.Component {
                         height={42}
                         label={`ADD ${this.state.totalBundledPriceDetails &&
                           this.state.totalBundledPriceDetails
-                            .bundlingItemcount} ITEMS TO CART`}
+                            .bundlingItemcount} ITEMS TO BAG`}
                         textStyle={{ fontFamily: "regular" }}
                         onClick={() => this.addBundledProductToCart()}
+                        disabled={this.state.disableButton}
                       />
                     </div>
                   </React.Fragment>
@@ -331,7 +355,7 @@ export default class ProductBundling extends React.Component {
                         type="primary"
                         width={220}
                         height={42}
-                        label="ADD ITEMS TO CART"
+                        label="ADD ITEMS TO BAG"
                         disabledBgGrey={true}
                         disabled={true}
                         textStyle={{ fontFamily: "regular" }}
