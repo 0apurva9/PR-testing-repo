@@ -3654,6 +3654,20 @@ if you have order id in local storage then you have to show order confirmation p
     let retryPaymentDetailsObj = JSON.parse(
       localStorage.getItem(RETRY_PAYMENT_DETAILS)
     );
+    /**
+     * Condition to show shipping message only in case of the "Choose Delivery Mode"
+     */
+    const showShippingMsg =
+      !this.state.isPaymentFailed &&
+      this.props.cart.cartDetailsCNC &&
+      this.state.confirmAddress &&
+      !this.state.deliverMode &&
+      !this.state.isComingFromCliqAndPiq &&
+      !this.state.isGiftCard &&
+      !this.state.isComingFromRetryUrl
+        ? true
+        : false;
+
     return (
       <DesktopCheckout
         padding={this.state.padding}
@@ -3733,6 +3747,7 @@ if you have order id in local storage then you have to show order confirmation p
           this.props.cart.cartDetailsCNC &&
           this.props.cart.cartDetailsCNC.shippingPromoMessage
         }
+        showShippingMsg={showShippingMsg}
       />
     );
   };
