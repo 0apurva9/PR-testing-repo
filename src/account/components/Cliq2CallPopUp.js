@@ -32,11 +32,10 @@ export default class Cliq2CallPopUp extends Component {
       businessStartTime = "",
       allowedRequestLimit = 0,
       slotDuration = 0,
-      availableSlots = {},
-      genesysDataLoader
+      availableSlots = {}
     } = this.props;
     let {
-      WaitTime = "",
+      WaitTime = 0,
       TotalRequestsToday = 0,
       TotalRequestsNextDay = 0,
       OpenRequest = ""

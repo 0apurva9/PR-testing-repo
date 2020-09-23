@@ -223,7 +223,7 @@ class TimeSlotPopUp extends Component {
                   ) : null}
                 </div>
               ) : callRequestLimit >= allowedRequestLimit ? (
-                <span>
+                <span className={styles.callLimittExceded}>
                   {`${CALL_REQUEST_LIMIT_ECXCEEDED}${
                     this.state.isSelected
                       ? TOMORROW.toLowerCase()
