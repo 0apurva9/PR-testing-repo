@@ -19,24 +19,26 @@ export default class HowToWearComponent extends Component {
 
     return (
       <Fragment>
-        <div className={styles.container}>
-          <div className={styles["htw-component"]}>
-            <div className={styles.base}>
-              <div
-                className={styles.holder}
-                onClick={() => {
-                  this.openMenu();
-                }}
-              >
-                <div className={styles["htw-heading"]}>
-                  {title ? title.toUpperCase() : ""}
+        {this.props.howToWearResponse && (
+          <div className={styles.container}>
+            <div className={styles["htw-component"]}>
+              <div className={styles.base}>
+                <div
+                  className={styles.holder}
+                  onClick={() => {
+                    this.openMenu();
+                  }}
+                >
+                  <div className={styles["htw-heading"]}>
+                    {title ? title.toUpperCase() : ""}
+                  </div>
                 </div>
-              </div>
 
-              <HowToWearToggleComponent {...this.props} />
+                <HowToWearToggleComponent {...this.props} />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </Fragment>
     );
   }
