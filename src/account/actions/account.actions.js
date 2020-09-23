@@ -5350,9 +5350,9 @@ export function getGenesysCallConfigData() {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      return dispatch(getGenesysResponseSuccess(resultJson));
+      dispatch(getGenesysResponseSuccess(resultJson));
     } catch (e) {
-      return dispatch(getGenesysResponseFailure(e.message));
+      dispatch(getGenesysResponseFailure(e.message));
     }
   };
 }

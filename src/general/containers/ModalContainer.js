@@ -82,6 +82,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE
 } from "../../lib/adobeUtils";
 import { addProductToCart } from "../../pdp/actions/pdp.actions.js";
+import { showSecondaryLoader } from "../../general/secondaryLoader.actions";
 const ERROR_MESSAGE_IN_CANCELING_ORDER = "Error in Canceling order";
 const UPDATE_PASSWORD = "Password Updated Successfully";
 const mapStateToProps = (state, ownProps) => {
@@ -450,6 +451,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getGenesysCallConfigData: () => {
       dispatch(getGenesysCallConfigData());
+    },
+    showSecondaryLoader: () => {
+      dispatch(showSecondaryLoader());
     }
   };
 };
