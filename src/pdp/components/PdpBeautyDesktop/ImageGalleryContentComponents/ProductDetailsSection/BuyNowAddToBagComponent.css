@@ -4,14 +4,14 @@
 		height: auto;
 		margin-top: 25px;
 		display: inline-block;
+		position: relative;
 	}
 
 	.buttonHolder {
 		width: auto;
 		display: inline-block;
-		margin-right: 40px;
+		margin-right: 27px;
 		vertical-align: top;
-		position: relative;
 	}
 
 	.nonClickButton {

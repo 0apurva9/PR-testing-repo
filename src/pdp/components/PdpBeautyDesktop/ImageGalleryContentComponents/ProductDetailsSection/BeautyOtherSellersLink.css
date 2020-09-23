@@ -1,11 +1,13 @@
 .sellers {
-	font-size: 14px;
+	font-size: 12px;
 	line-height: 22px;
 	font-family: regular;
 }
 
 .winningSellerText {
-	font-family: semibold;
+	font-family: regular;
+	font-weight: 500;
+	font-size: 12px;
 }
 
 

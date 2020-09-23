@@ -304,7 +304,10 @@ export default class AddToWishListButton extends React.Component {
 
     if (this.props.type === BEAUTY_PDP_ICON) {
       return (
-        <div className={styles.saveButton} onClick={e => this.onClick(e)}>
+        <div
+          className={styles.saveButtonBeautyPdp}
+          onClick={e => this.onClick(e)}
+        >
           <div className={styles.iconHolderForBeautyPdp}>
             <Icon image={wishListBeautyIcon} width={20} height={36} />
           </div>

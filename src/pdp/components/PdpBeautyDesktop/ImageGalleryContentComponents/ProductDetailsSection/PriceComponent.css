@@ -33,5 +33,6 @@
 .discount-percentage {
   color: rgb(51, 135, 21);
   text-transform: uppercase;
+  font-weight: 500;
 }
 /***PDP Pricing End****/

@@ -9,7 +9,7 @@ export default class ProductAndBrandComponent extends React.Component {
     const productDetails = this.props && this.props.productDetails;
     const brandURL = productDetails.brandURL;
     return (
-      <div>
+      <div className={styles["product-name-and-brand"]}>
         <h2>
           <a href={brandURL} className={styles["brand-name"]}>
             {productDetails.brandName}

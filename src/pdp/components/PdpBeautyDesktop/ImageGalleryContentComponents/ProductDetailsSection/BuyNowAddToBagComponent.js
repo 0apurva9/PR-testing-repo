@@ -419,6 +419,7 @@ export default class BuyNowAddToBagComponent extends React.Component {
                       }
                       disabled={disabledStatus}
                       addToBagBeauty={true}
+                      fromBeautyPdp={true}
                     />
                   </div>
                 </div>

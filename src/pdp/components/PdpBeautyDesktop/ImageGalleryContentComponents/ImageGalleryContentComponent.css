@@ -7,10 +7,17 @@
 .gallery-container {
   width: 686px;
   margin: 0 28px 0 0;
+  position: sticky;
+  top: 70px;
+  height: 100%;
 }
 
 .product-details-container {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 110px;
+  height: 100%;
   width: 486px;
   vertical-align: top;
-}
+ }
 

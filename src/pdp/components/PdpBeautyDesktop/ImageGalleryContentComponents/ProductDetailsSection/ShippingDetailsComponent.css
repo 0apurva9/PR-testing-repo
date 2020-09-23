@@ -12,6 +12,7 @@
 }
 .pin-code-block {
 	padding: 20px 0 0;
+	position: relative;
 }
 .pin-code-error {
 	font-family: "Rubik", sans-serif;

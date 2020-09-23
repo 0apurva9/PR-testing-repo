@@ -78,11 +78,16 @@ export default class Button extends React.Component {
         fontFamily: "semibold"
       });
     }
-    if (this.props.fromBeautyPdp && this.props.type === "primary") {
+    if (
+      this.props.fromBeautyPdp &&
+      this.props.type === "primary" &&
+      this.props.buyNowBeautyPdp
+    ) {
       textStyle = Object.assign(this.props.textStyle, {
         color: "#da1c5c",
-        fontSize: 14,
-        fontFamily: "semibold"
+        fontSize: 12,
+        fontFamily: "regular",
+        fontWeight: 500
       });
     }
     if (
@@ -92,8 +97,9 @@ export default class Button extends React.Component {
     ) {
       textStyle = Object.assign(this.props.textStyle, {
         color: "#ffffff",
-        fontSize: 14,
-        fontFamily: "semibold"
+        fontSize: 12,
+        fontFamily: "regular",
+        fontWeight: 500
       });
     }
     if (
@@ -104,8 +110,9 @@ export default class Button extends React.Component {
     ) {
       textStyle = Object.assign(this.props.textStyle, {
         color: "#d5d5d5",
-        fontSize: 14,
-        fontFamily: "semibold"
+        fontSize: 12,
+        fontFamily: "regular",
+        fontWeight: 500
       });
     }
 

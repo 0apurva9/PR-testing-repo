@@ -31,6 +31,7 @@ export default class GalleryImagesComponent extends React.Component {
           return image;
         }
       });
+
     return (
       <div className={styles["image-gallery-Block"]}>
         <ul className={styles["image-gallery-list"]}>
