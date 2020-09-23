@@ -51,7 +51,8 @@ import {
   BUY_NOW_PRODUCT_DETAIL,
   BUY_NOW_ERROR_MESSAGE,
   LOGIN_PATH,
-  YES
+  YES,
+  ERROR
 } from "../../lib/constants";
 import { isBrowser } from "browser-or-node";
 import styles from "./ProductDescriptionPage.css";
@@ -162,6 +163,7 @@ export default class PdpApparel extends React.Component {
       this.props.productDetails && this.props.productDetails.categoryHierarchy;
     if (
       categoryHierarchyCheck &&
+      Array.isArray(categoryHierarchyCheck) &&
       this.props.productDetails.rootCategory === "Accessories"
     ) {
       if (
@@ -183,6 +185,9 @@ export default class PdpApparel extends React.Component {
       }
     }
     let categoryId =
+      categoryHierarchyCheck &&
+      Array.isArray(categoryHierarchyCheck) &&
+      categoryHierarchyCheck[categoryHierarchyCheck.length - 1] &&
       categoryHierarchyCheck[categoryHierarchyCheck.length - 1].category_id;
     /***relavant Bundling Product */
     if (
@@ -266,6 +271,7 @@ export default class PdpApparel extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (
+      nextProps.bundledProductSuggestionStatus === SUCCESS &&
       nextProps.bundledProductSuggestionDetails &&
       nextProps.bundledProductSuggestionDetails !==
         this.state.bundledProductSuggestionDetails
@@ -276,7 +282,7 @@ export default class PdpApparel extends React.Component {
       });
     }
     if (
-      nextProps.bundledProductSuggestionStatus === "error" &&
+      nextProps.bundledProductSuggestionStatus === ERROR &&
       !nextProps.bundledProductSuggestionDetails
     ) {
       this.setState({

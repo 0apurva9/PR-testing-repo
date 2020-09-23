@@ -1,6 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { ERROR, DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants";
+import {
+  SUCCESS,
+  ERROR,
+  DEFAULT_PIN_CODE_LOCAL_STORAGE
+} from "../../lib/constants";
 import DigitalBundledProductSuggestion from "./DigitalBundledProductSuggestion";
 
 export default class RecommendedBundledProduct extends React.Component {
@@ -28,6 +32,7 @@ export default class RecommendedBundledProduct extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (
+      nextProps.bundledProductSuggestionStatus === SUCCESS &&
       nextProps.bundledProductSuggestionDetails &&
       nextProps.bundledProductSuggestionDetails !==
         this.state.bundledProductSuggestionDetails

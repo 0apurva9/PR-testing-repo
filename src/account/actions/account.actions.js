@@ -4880,6 +4880,13 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
           resultJson.bankCouponName.couponName
         );
       }
+      if (
+        resultJson &&
+        resultJson.exchangeInfo &&
+        resultJson.exchangeInfo.exchangeCancelMessage
+      ) {
+        dispatch(displayToast(resultJson.exchangeInfo.exchangeCancelMessage));
+      }
       return dispatch(retryPaymentSuccess(resultJson));
     } catch (e) {
       return dispatch(retryPaymentFailure(e.message));
