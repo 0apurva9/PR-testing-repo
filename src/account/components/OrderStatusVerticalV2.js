@@ -30,7 +30,9 @@ import {
   RETURN_CLOSED,
   RETURN_COMPLETED,
   CASH_ON_DELIVERY,
-  ORDER_REJECTED
+  ORDER_REJECTED,
+  RTO_DELIVERED,
+  RTO_IN_PROGRESS
 } from "../../lib/constants";
 
 export default class OrderStatusVerticalV2 extends React.Component {
@@ -1040,6 +1042,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                 !responseCode.includes(RETURN_CLOSED) &&
                 !responseCode.includes(RETURNINITIATED_BY_RTO) &&
                 !responseCode.includes(RTO_INITIATED) &&
+                !responseCode.includes(RTO_DELIVERED) &&
+                !responseCode.includes(RTO_IN_PROGRESS) &&
                 !responseCode.includes(REFUND_IN_PROGRESS) &&
                 !responseCode.includes(REFUND_INITIATED) && (
                   <React.Fragment>
@@ -1491,6 +1495,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                 (responseCode.includes(RETURN_CLOSED) ||
                   responseCode.includes(RETURNINITIATED_BY_RTO) ||
                   responseCode.includes(RTO_INITIATED) ||
+                  responseCode.includes(RTO_DELIVERED) ||
+                  responseCode.includes(RTO_IN_PROGRESS) ||
                   this.props.consignmentStatus === RETURN_COMPLETED ||
                   this.props.consignmentStatus === ORDER_CANCELLED ||
                   this.props.consignmentStatus === REFUND_IN_PROGRESS ||
@@ -1631,7 +1637,11 @@ export default class OrderStatusVerticalV2 extends React.Component {
                               </div>
                             </div>
                           </React.Fragment>
-                        ) : (
+                        ) : !(
+                          this.props.consignmentStatus === RTO_INITIATED ||
+                          this.props.consignmentStatus === RTO_DELIVERED ||
+                          this.props.consignmentStatus === RTO_IN_PROGRESS
+                        ) ? (
                           <div
                             className={
                               completedSteps.includes(REFUND_SUCCESSFUL)
@@ -1664,7 +1674,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                               </div>
                             </div>
                           </div>
-                        )}
+                        ) : null}
                       </React.Fragment>
                     )}
                   </React.Fragment>
