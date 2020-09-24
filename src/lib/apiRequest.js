@@ -491,22 +491,22 @@ async function handleInvalidGlobalAccesssTokenOrCustomerAccessToken(
   message,
   url
 ) {
-  clearCookie();
-  window.location.replace("/");
-  // let newUrl = url;
-  // try {
-  //   newUrl = await handleInvalidCustomerAccessToken(message, url);
-  //   if (newUrl) {
-  //     return newUrl;
-  //   }
-  //   newUrl = await handleInvalidGlobalAccessToken(message, url);
-  //   if (newUrl) {
-  //     return newUrl;
-  //   }
-  //   return newUrl;
-  // } catch (e) {
-  //   throw e;
-  // }
+  // clearCookie();
+  // window.location.replace("/");
+  let newUrl = url;
+  try {
+    newUrl = await handleInvalidCustomerAccessToken(message, url);
+    if (newUrl) {
+      return newUrl;
+    }
+    newUrl = await handleInvalidGlobalAccessToken(message, url);
+    if (newUrl) {
+      return newUrl;
+    }
+    return newUrl;
+  } catch (e) {
+    throw e;
+  }
 }
 
 async function handleInvalidCustomerAccessToken(message, oldUrl) {
