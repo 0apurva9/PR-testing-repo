@@ -15,6 +15,7 @@ let MIDDLEWARE_API_URL_ROOT = "/que-marketplacewebservices";
 export let TATA_CLIQ_ROOT = /https?:[\/]{2}\S*?(\/\S*)/;
 export const TOKEN_PATH = "oauth/token";
 export let URL_ROOT = "";
+const ACEESS_TOKEN_REGEX = /(access_token=).*?(&)/;
 
 let count = 0;
 if (
@@ -521,7 +522,10 @@ async function handleInvalidCustomerAccessToken(message, oldUrl) {
       }
       // throw new Error("Customer Access Token refresh failure ");
     } else {
-      newUrl = replaceOldCustomerCookie(oldUrl, customerAccessTokenResponse);
+      newUrl = await replaceOldCustomerCookie(
+        oldUrl,
+        customerAccessTokenResponse
+      );
     }
   }
   return newUrl;
@@ -587,34 +591,59 @@ async function handleInvalidGlobalAccessToken(message, oldUrl) {
     if (!globalAccessTokenResponse) {
       throw new Error("Global Access Token refresh failure");
     }
-
-    newUrl = replaceOldGlobalTokenCookie(oldUrl, globalAccessTokenResponse);
+    newUrl = await replaceOldGlobalTokenCookie(
+      oldUrl,
+      globalAccessTokenResponse
+    );
   }
   return newUrl;
 }
 
-function replaceOldGlobalTokenCookie(url, newGlobalTokenCookie) {
+async function replaceOldGlobalTokenCookie(url, newGlobalTokenCookie) {
   let oldGlobalCookie = JSON.parse(Cookie.getCookie(GLOBAL_ACCESS_TOKEN));
-  Cookie.deleteCookie(GLOBAL_ACCESS_TOKEN);
-  Cookie.createCookie(
+  await Cookie.deleteCookie(GLOBAL_ACCESS_TOKEN);
+  await Cookie.createCookie(
     GLOBAL_ACCESS_TOKEN,
     JSON.stringify(newGlobalTokenCookie)
   );
 
-  return url.replace(
-    oldGlobalCookie.access_token,
-    newGlobalTokenCookie.access_token
-  );
+  if (
+    !url.includes(newGlobalTokenCookie.access_token) &&
+    oldGlobalCookie.access_token === newGlobalTokenCookie.access_token
+  ) {
+    return url.replace(
+      ACEESS_TOKEN_REGEX,
+      `$1${newGlobalTokenCookie.access_token}$2`
+    );
+  } else {
+    return url.replace(
+      oldGlobalCookie.access_token,
+      newGlobalTokenCookie.access_token
+    );
+  }
 }
 
-function replaceOldCustomerCookie(url, newCustomerCookie) {
+async function replaceOldCustomerCookie(url, newCustomerCookie) {
   let oldCustomerCookie = JSON.parse(Cookie.getCookie(CUSTOMER_ACCESS_TOKEN));
-  Cookie.deleteCookie(CUSTOMER_ACCESS_TOKEN);
-  Cookie.createCookie(CUSTOMER_ACCESS_TOKEN, JSON.stringify(newCustomerCookie));
-  return url.replace(
-    oldCustomerCookie.access_token,
-    newCustomerCookie.access_token
+  await Cookie.deleteCookie(CUSTOMER_ACCESS_TOKEN);
+  await Cookie.createCookie(
+    CUSTOMER_ACCESS_TOKEN,
+    JSON.stringify(newCustomerCookie)
   );
+  if (
+    !url.includes(newCustomerCookie.access_token) &&
+    oldCustomerCookie.access_token === newCustomerCookie.access_token
+  ) {
+    return url.replace(
+      ACEESS_TOKEN_REGEX,
+      `$1${newCustomerCookie.access_token}$2`
+    );
+  } else {
+    return url.replace(
+      oldCustomerCookie.access_token,
+      newCustomerCookie.access_token
+    );
+  }
 }
 async function replaceOldCartCookieForLoggedInUser(url, newCustomerCookie) {
   let oldCustomerCookie = JSON.parse(
@@ -664,7 +693,7 @@ export async function refreshCustomerAccessToken() {
   return refreshTokenResultJson;
 }
 
-async function refreshGlobalAccessToken() {
+export async function refreshGlobalAccessToken() {
   const result = await post(
     `${TOKEN_PATH}?grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=secret&isPwa=true`
   );

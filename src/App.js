@@ -355,10 +355,10 @@ const CleverTapUnsubscribeEmail = Loadable({
 });
 
 class App extends Component {
-  componentWillMount() {
+  async componentWillMount() {
     let globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     if (!globalAccessToken && !this.props.cartLoading) {
-      this.props.getGlobalAccessToken();
+      await this.props.getGlobalAccessToken();
       globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     }
     let loggedInUserDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
