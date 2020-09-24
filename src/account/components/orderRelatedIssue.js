@@ -669,9 +669,7 @@ export default class OrderRelatedIssue extends React.Component {
           CLIQ_2_CALL_CONFIG
         );
         if (response.status === SUCCESS) {
-          const cliq2CallData = JSON.parse(
-            response.cliq2CallConfigData.items[0].cmsParagraphComponent.content
-          );
+          const cliq2CallData = response.cliq2CallConfigData;
           let currentTime = new Date().toLocaleTimeString("en-US", {
             hour12: false
           });
