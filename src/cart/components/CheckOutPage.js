@@ -1557,21 +1557,11 @@ class CheckOutPage extends React.Component {
     if (nextProps.cart.orderConfirmationDetailsStatus === SUCCESS) {
       window.scrollTo(0, 0);
       this.setState({ orderConfirmation: true, paymentConfirmation: false });
-      if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-        this.continueShopping();
-      } else {
-        console.info("==============This page is not reloaded");
-      }
     }
 
     if (nextProps.cart.getPrepaidOrderPaymentConfirmationStatus === SUCCESS) {
       window.scrollTo(0, 0);
       this.setState({ paymentConfirmation: true, orderConfirmation: false });
-      if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-        this.continueShopping();
-      } else {
-        console.info("==============This page is not reloaded");
-      }
     }
 
     if (
