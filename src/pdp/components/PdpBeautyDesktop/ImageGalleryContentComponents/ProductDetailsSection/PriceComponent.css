@@ -1,6 +1,7 @@
 /***PDP Pricing****/
 .price-component {
   margin: 0;
+  position: relative;
 }
 
 .discounted-price-block {

@@ -88,7 +88,9 @@
 }
 
 .manufacture-all-ingre-sec {
-  border-top: 1px solid rgb(213, 213, 213);
+  border-image-source: linear-gradient(to right, white,rgb(213, 213, 213) 20%,rgb(213, 213, 213) 10%,rgb(213, 213, 213) 94%, white 0%);
+  border-image-slice: 1;
+  border-top: 1px solid;
   display: flex;
   padding: 52px 72px 52px;
   flex-wrap: wrap;

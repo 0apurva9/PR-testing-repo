@@ -89,7 +89,7 @@ export default class BeautyPdpPincode extends React.Component {
           <div className={styles["pin-code-change-input"]}>
             <Input2
               boxy={true}
-              textStyle={{ fontSize: 16, fontWeight: 500 }}
+              textStyle={{ fontSize: 16, fontWeight: 600 }}
               height={25}
               maxLength={"6"}
               onChange={val => this.onChange(val)}
