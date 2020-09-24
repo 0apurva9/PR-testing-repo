@@ -546,18 +546,14 @@ export const GENESYS_CUSTOMER_CALL_REQUEST_SUCCESS =
 export const GENESYS_CUSTOMER_CALL_REQUEST_FAILURE =
   "GENESYS_CUSTOMER_CALL_REQUEST_FAILURE";
 
-//Genesys API CALL URL
-const GENESYS_CALL_CONFIG_URL =
-  "https://172.29.43.70/UnistoreCallBack/api/Lead";
-const GENESYS_CALL_REQUEST_URL =
-  "https://172.29.43.70/UnistoreCallBack/api/Push";
-
 const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
 
 export const CHECK_BALANCE_REQUEST = "CHECK_BALANCE_REQUEST";
 export const CHECK_BALANCE_SUCCESS = "CHECK_BALANCE_SUCCESS";
 export const CHECK_BALANCE_FAILURE = "CHECK_BALANCE_FAILURE";
+
+const GENESYS_KEY = "Zgjei@$Pu";
 
 export function getDetailsOfCancelledProductRequest() {
   return {
@@ -5634,7 +5630,17 @@ export function getCliq2CallConfig(Cliq2CallConfigId) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      return dispatch(getCliq2CallConfigSuccess(resultJson));
+      let resultJsonParse = "";
+      if (
+        resultJson &&
+        resultJson.items &&
+        resultJson.items[0].cmsParagraphComponent
+      ) {
+        resultJsonParse = JSON.parse(
+          resultJson.items[0].cmsParagraphComponent.content
+        );
+      }
+      return dispatch(getCliq2CallConfigSuccess(resultJsonParse));
     } catch (e) {
       return dispatch(getCliq2CallConfigFailure(e.message));
     }
@@ -5666,9 +5672,14 @@ export function getGenesysCallConfigData() {
   const userDetails = JSON.parse(userDetailsCookie);
   return async (dispatch, getState, { api }) => {
     dispatch(getGenesysResponseRequest());
+    let genesysApiUrl = "";
+    if (getState().profile.cliq2CallConfigData) {
+      genesysApiUrl = getState().profile.cliq2CallConfigData.genesysApiUrl;
+    }
     try {
-      const result = await api.postWithoutApiUrlRoot(GENESYS_CALL_CONFIG_URL, {
-        CustomerId: userDetails.customerId
+      const result = await api.postWithoutApiUrlRoot(`${genesysApiUrl}/Lead`, {
+        CustomerId: userDetails.customerId,
+        Source: GENESYS_KEY
       });
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -5710,10 +5721,15 @@ export function placeCustomerCallRequest(callRequestData) {
   const userDetails = JSON.parse(userDetailsCookie);
   return async (dispatch, getState, { api }) => {
     dispatch(genesysCustomerCallRequest());
+    let genesysApiUrl = "";
+    if (getState().profile.cliq2CallConfigData) {
+      genesysApiUrl = getState().profile.cliq2CallConfigData.genesysApiUrl;
+    }
     callRequestData.CustomerId = userDetails.customerId;
+    callRequestData.Source = GENESYS_KEY;
     try {
       const result = await api.postWithoutApiUrlRoot(
-        GENESYS_CALL_REQUEST_URL,
+        `${genesysApiUrl}/Push`,
         callRequestData
       );
       const resultJson = await result.json();
