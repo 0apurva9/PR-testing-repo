@@ -4,6 +4,7 @@ import {
   getItems,
   msdDiscoverMoreHomeComponents,
   msdAbcComponents,
+  autoWishlistComponent,
   automatedWidgetsForHome,
   getTargetMboxData
 } from "../actions/home.actions";
@@ -50,6 +51,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showStory: (position, data) => {
       dispatch(showModal(STORY_MODAL, position, data));
     },
+    autoWishlistComponent: productId => {
+      dispatch(autoWishlistComponent(productId));
+    },
     automatedWidgetsForHome: widgetData => {
       dispatch(automatedWidgetsForHome(widgetData));
     },
@@ -82,6 +86,7 @@ const mapStateToProps = (state, ownProps) => {
     loadMsdSkeleton: state.feed.loadMsdSkeleton,
     homeMsdData: state.feed.homeMsdData,
     homeAbcMsdData: state.feed.homeAbcMsdData,
+    autoWishList: state.feed.autoWishList,
     homeAutoWidget: state.feed.homeAutoWidget,
     automatedWidgetData: state.feed.automatedWidgetData,
     targetMboxData: state.feed.targetMboxData

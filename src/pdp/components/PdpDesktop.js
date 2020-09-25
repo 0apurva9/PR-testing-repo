@@ -51,7 +51,8 @@ import {
   BUY_NOW_PRODUCT_DETAIL,
   BUY_NOW_ERROR_MESSAGE,
   LOGIN_PATH,
-  YES
+  YES,
+  ERROR
 } from "../../lib/constants";
 import { isBrowser } from "browser-or-node";
 import styles from "./ProductDescriptionPage.css";
@@ -124,8 +125,7 @@ export default class PdpApparel extends React.Component {
       selected: false,
       productCategory: "",
       eyeWearCheck: "",
-      bundledProductSuggestionDetails: null,
-      categoryId: null
+      bundledProductSuggestionDetails: null
     };
     this.reviewListRef = React.createRef();
     this.ScrollIntoView = this.ScrollIntoView.bind(this);
@@ -189,7 +189,6 @@ export default class PdpApparel extends React.Component {
       Array.isArray(categoryHierarchyCheck) &&
       categoryHierarchyCheck[categoryHierarchyCheck.length - 1] &&
       categoryHierarchyCheck[categoryHierarchyCheck.length - 1].category_id;
-    this.setState({ categoryId });
     /***relavant Bundling Product */
     if (
       this.props &&
@@ -272,6 +271,7 @@ export default class PdpApparel extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (
+      nextProps.bundledProductSuggestionStatus === SUCCESS &&
       nextProps.bundledProductSuggestionDetails &&
       nextProps.bundledProductSuggestionDetails !==
         this.state.bundledProductSuggestionDetails
@@ -282,7 +282,7 @@ export default class PdpApparel extends React.Component {
       });
     }
     if (
-      nextProps.bundledProductSuggestionStatus === "error" &&
+      nextProps.bundledProductSuggestionStatus === ERROR &&
       !nextProps.bundledProductSuggestionDetails
     ) {
       this.setState({
@@ -344,7 +344,7 @@ export default class PdpApparel extends React.Component {
         let productId = this.props.productDetails.productListingId;
         let ussId = this.props.productDetails.winningUssID;
         let pincode = this.props.productDetails.isServiceableToPincode.pinCode;
-        let categoryCode = this.state.categoryId;
+        let categoryCode = this.props.productDetails.categoryL4Code;
         let brandCode = this.getBrandCode(this.props.productDetails.brandURL);
         this.props.getBundledProductSuggestion(
           productId,
@@ -549,14 +549,14 @@ export default class PdpApparel extends React.Component {
                 const defaultPinCode = localStorage.getItem(
                   DEFAULT_PIN_CODE_LOCAL_STORAGE
                 );
-                this.props.history.push({
-                  pathname: PRODUCT_CART_ROUTER,
-                  state: {
-                    ProductCode: this.props.productDetails.productListingId,
-                    pinCode: defaultPinCode,
-                    isClickOnAddToBag: !buyNowFlag
-                  }
-                });
+                // this.props.history.push({
+                //   pathname: PRODUCT_CART_ROUTER,
+                //   state: {
+                //     ProductCode: this.props.productDetails.productListingId,
+                //     pinCode: defaultPinCode,
+                //     isClickOnAddToBag: !buyNowFlag
+                //   }
+                // });
               }
             }
             this.setState({ sizeError: false });
@@ -587,9 +587,7 @@ export default class PdpApparel extends React.Component {
     setDataLayerForPdpDirectCalls(
       SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT
     );
-    const url = `${
-      this.props.location.pathname
-    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
   renderRatings = () => {
@@ -1126,7 +1124,7 @@ export default class PdpApparel extends React.Component {
       if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
         mrpDoubleValue = productData.mrpPrice.doubleValue;
         discountPdp = Math.floor(
-          (mrpDoubleValue - seoDoublePrice) / mrpDoubleValue * 100
+          ((mrpDoubleValue - seoDoublePrice) / mrpDoubleValue) * 100
         );
       }
       let flixModelNo = "";
@@ -1247,9 +1245,7 @@ export default class PdpApparel extends React.Component {
                   productImages={productImages}
                   thumbNailImages={thumbNailImages}
                   zoomImages={zoomImages}
-                  alt={`${productData.productName}-${productData.brandName}-${
-                    productData.rootCategory
-                  }-TATA CLIQ`}
+                  alt={`${productData.productName}-${productData.brandName}-${productData.rootCategory}-TATA CLIQ`}
                   details={productData.details}
                   showSimilarProducts={this.props.showSimilarProducts}
                   category={productData.rootCategory}
@@ -1739,7 +1735,7 @@ export default class PdpApparel extends React.Component {
                         </div>
                       </div>
                     ) : this.props.productDetails.isServiceableToPincode
-                      .productNotServiceableMessage ? (
+                        .productNotServiceableMessage ? (
                       <div className={styles.overlay}>
                         <div className={styles.notServiciableTetx}>
                           *{" "}
@@ -1771,7 +1767,7 @@ export default class PdpApparel extends React.Component {
                     </div>
                   ) */
                   this.props.productDetails.isServiceableToPincode &&
-                  this.props.productDetails.isServiceableToPincode.pinCode ? (
+                    this.props.productDetails.isServiceableToPincode.pinCode ? (
                     <div className={styles.deliveryModesHolder}>
                       <PdpDeliveryModes
                         onPiq={() => this.handleShowPiqPage()}
@@ -1797,35 +1793,34 @@ export default class PdpApparel extends React.Component {
                   )}
                 </div>
                 <React.Fragment>
-                  {mshProduct &&
-                    mshProduct.includes("samsung") && (
-                      <div className={styles.sumsungSeparator}>
-                        <div className={styles.chatIcon}>
-                          {productData.brandName === "Samsung" ||
-                          productData.brandName === "SAMSUNG" ? (
-                            <a
-                              href={samsungChatUrl}
-                              target="_blank"
-                              className={styles.samsungChatImgHolder}
-                            >
-                              <img
-                                src="https://assets.tatacliq.com/medias/sys_master/images/11437918060574.png"
-                                alt="Samsung Chat"
-                              />
-                            </a>
-                          ) : null}
-                          <div className={styles.chatText}>
-                            <p>
-                              Chat with the Samsung brand representative
-                              directly for more info
-                            </p>
-                            <a href={samsungChatUrl} target="_blank">
-                              Click here to chat
-                            </a>
-                          </div>
+                  {mshProduct && mshProduct.includes("samsung") && (
+                    <div className={styles.sumsungSeparator}>
+                      <div className={styles.chatIcon}>
+                        {productData.brandName === "Samsung" ||
+                        productData.brandName === "SAMSUNG" ? (
+                          <a
+                            href={samsungChatUrl}
+                            target="_blank"
+                            className={styles.samsungChatImgHolder}
+                          >
+                            <img
+                              src="https://assets.tatacliq.com/medias/sys_master/images/11437918060574.png"
+                              alt="Samsung Chat"
+                            />
+                          </a>
+                        ) : null}
+                        <div className={styles.chatText}>
+                          <p>
+                            Chat with the Samsung brand representative directly
+                            for more info
+                          </p>
+                          <a href={samsungChatUrl} target="_blank">
+                            Click here to chat
+                          </a>
                         </div>
                       </div>
-                    )}
+                    </div>
+                  )}
                 </React.Fragment>
               </div>
             </div>
@@ -1948,6 +1943,7 @@ export default class PdpApparel extends React.Component {
                       this.props.getCartCountForLoggedInUser
                     }
                     cartCountDetails={this.props.cartCountDetails}
+                    logoutUserStatus={this.props.logoutUserStatus}
                   />
                 )}
 
@@ -1980,23 +1976,22 @@ export default class PdpApparel extends React.Component {
                                 productData.prdDetails
                               )}
                           </div>
-                          {productData.prdDetails &&
-                            !this.state.eyeWearCheck && (
-                              <div className={styles.productDetailsImagesCard}>
-                                {this.displayPrdDetails(
-                                  productData.prdDetails,
-                                  WASH
-                                )}
-                                {this.displayPrdDetails(
-                                  productData.prdDetails,
-                                  NECK_COLLAR
-                                )}
-                                {this.displayPrdDetails(
-                                  productData.prdDetails,
-                                  SLEEVE
-                                )}
-                              </div>
-                            )}
+                          {productData.prdDetails && !this.state.eyeWearCheck && (
+                            <div className={styles.productDetailsImagesCard}>
+                              {this.displayPrdDetails(
+                                productData.prdDetails,
+                                WASH
+                              )}
+                              {this.displayPrdDetails(
+                                productData.prdDetails,
+                                NECK_COLLAR
+                              )}
+                              {this.displayPrdDetails(
+                                productData.prdDetails,
+                                SLEEVE
+                              )}
+                            </div>
+                          )}
                           {productData.rootCategory === "Accessories" &&
                             this.state.eyeWearCheck &&
                             imageArray.length > 0 && (
@@ -2213,14 +2208,13 @@ export default class PdpApparel extends React.Component {
                           </div>
                         </Accordion>
                       )}
-                    {productData.brandInfo &&
-                      !this.state.eyeWearCheck && (
-                        <Accordion text="Brand Info" headerFontSize={18}>
-                          <div className={styles.accordionContentWithoutBorder}>
-                            {productData.brandInfo}
-                          </div>
-                        </Accordion>
-                      )}
+                    {productData.brandInfo && !this.state.eyeWearCheck && (
+                      <Accordion text="Brand Info" headerFontSize={18}>
+                        <div className={styles.accordionContentWithoutBorder}>
+                          {productData.brandInfo}
+                        </div>
+                      </Accordion>
+                    )}
 
                     {manufacturerDetails &&
                       manufacturerDetails.countryOfOrigin && (
@@ -2464,7 +2458,8 @@ PdpApparel.propTypes = {
           value: PropTypes.number
         })
       ),
-      productName: PropTypes.string
+      productName: PropTypes.string,
+      categoryL4Code: PropTypes.string
     })
   ),
   getUserAddress: PropTypes.func,

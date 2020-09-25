@@ -337,12 +337,12 @@ export default class IconWithHeader extends React.Component {
                           )}`
                         : nextDayFormat === productDayFormatOfClqAndPiq &&
                           !this.props.notShowDay
-                          ? `, Tomorrow , ${this.getDayNumberSuffix(
-                              getClickAndPiqSelectedDate.pickupDate
-                            )}`
-                          : `, ${this.getDayNumberSuffix(
-                              getClickAndPiqSelectedDate.pickupDate
-                            )}`
+                        ? `, Tomorrow , ${this.getDayNumberSuffix(
+                            getClickAndPiqSelectedDate.pickupDate
+                          )}`
+                        : `, ${this.getDayNumberSuffix(
+                            getClickAndPiqSelectedDate.pickupDate
+                          )}`
                       : ""}
                   </div>
                   <div className={styles.changeButtonHolder}>

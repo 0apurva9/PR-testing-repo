@@ -20,14 +20,19 @@ export default class ProductFlags extends React.Component {
       );
     } else if (
       this.props.showExchangeTag &&
-      this.props.exchangeOfferAvailable
+      this.props.exchangeOfferAvailable &&
+      this.props.maxExchangeBumpUp &&
+      this.props.maxExchangeBumpUp.doubleValue &&
+      this.props.maxExchangeBumpUp.doubleValue !== 0 &&
+      this.props.maxExchangeBumpUp.formattedValueNoDecimal
     ) {
       return (
         <div
           className={styles.base}
           style={{ backgroundImage: `url(${exchangeOfferFlag})` }}
         >
-          Offers on Exchange
+          Extra {this.props.maxExchangeBumpUp.formattedValueNoDecimal} on
+          Exchange
         </div>
       );
     } else if (this.props.newProduct) {

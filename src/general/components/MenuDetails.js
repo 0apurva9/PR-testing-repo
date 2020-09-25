@@ -126,8 +126,8 @@ export default class MenuDetails extends React.Component {
             this.props.text === UPI
               ? this.checkupi()
               : this.props.text === EMI && this.props.isJewelleryProduct
-                ? this.checkEMI()
-                : this.openMenu()
+              ? this.checkEMI()
+              : this.openMenu()
           }
         >
           <div className={styles.debitCardIcon}>
@@ -135,16 +135,15 @@ export default class MenuDetails extends React.Component {
           </div>
           <div className={styles.textBox}>
             {this.props.text === UPI ? "UPI ID" : this.props.text}
-            {this.props.secondIcon &&
-              !this.state.isOpen && (
-                <div className={styles.secondIcon}>
-                  <Icon
-                    image={this.props.secondIcon}
-                    size={37}
-                    backgroundSize={`100%`}
-                  />
-                </div>
-              )}
+            {this.props.secondIcon && !this.state.isOpen && (
+              <div className={styles.secondIcon}>
+                <Icon
+                  image={this.props.secondIcon}
+                  size={37}
+                  backgroundSize={`100%`}
+                />
+              </div>
+            )}
             <div className={iconActive} />
           </div>
         </div>

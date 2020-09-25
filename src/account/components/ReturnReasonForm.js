@@ -351,14 +351,13 @@ export default class ReturnReasonForm extends React.Component {
                       </DeskTopOnly>
                     </div>
                   </div>
-                  {data &&
-                    data.showReverseSealFrJwlry === "yes" && (
-                      <div className={styles.reverseSealHolder}>
-                        <ReverseSealYesNo
-                          selectReverseSeal={val => this.selectReverseSeal(val)}
-                        />
-                      </div>
-                    )}
+                  {data && data.showReverseSealFrJwlry === "yes" && (
+                    <div className={styles.reverseSealHolder}>
+                      <ReverseSealYesNo
+                        selectReverseSeal={val => this.selectReverseSeal(val)}
+                      />
+                    </div>
+                  )}
 
                   {this.props.returnFlow ? (
                     ""

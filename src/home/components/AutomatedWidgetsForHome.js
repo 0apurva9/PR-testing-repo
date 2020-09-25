@@ -45,6 +45,7 @@ class AutomatedWidgetsForHome extends React.Component {
     super(props);
     this.selector = React.createRef();
   }
+
   goToProductDescription = (url, items, widgetName, index) => {
     let icidTracking = `"home":${widgetName}:"blank":${index +
       1}:"blank ":"blank":"blank":${
@@ -67,45 +68,45 @@ class AutomatedWidgetsForHome extends React.Component {
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
             let productImage, mrpInteger, seoDoublePrice, discount, imageURL;
-            if (widgetId === "114") {
-              productImage = transformedDatum && transformedDatum.imageUrl;
-              mrpInteger = transformedDatum && transformedDatum.mrp;
-              seoDoublePrice =
-                transformedDatum && transformedDatum.winningSellerMOP;
-              discount =
-                mrpInteger && seoDoublePrice
-                  ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)
-                  : "";
-              imageURL = val.webURL;
-              //   productImage =
-              //   transformedDatum &&
-              //   transformedDatum.galleryImagesList &&
-              //   Array.isArray(transformedDatum.galleryImagesList) &&
-              //   transformedDatum.galleryImagesList[0] &&
-              //   transformedDatum.galleryImagesList[0].galleryImages && commented for productDetails api
-              //   Array.isArray(
-              //     transformedDatum.galleryImagesList[0].galleryImages
-              //   ) &&
-              //   transformedDatum.galleryImagesList[0].galleryImages[0] &&
-              //   transformedDatum.galleryImagesList[0].galleryImages[0].value;
-              // mrpInteger =
-              //   transformedDatum &&
-              //   transformedDatum.mrpPrice &&
-              //   transformedDatum.mrpPrice.doubleValue;
-              // seoDoublePrice =
-              //   transformedDatum.winningSellerPrice &&
-              //   transformedDatum.winningSellerPrice.doubleValue
-              //     ? transformedDatum.winningSellerPrice.doubleValue
-              //     : mrpInteger;
-            } else {
-              productImage = transformedDatum && transformedDatum.image_link;
-              mrpInteger = transformedDatum && transformedDatum.price;
-              seoDoublePrice = transformedDatum && transformedDatum.mop;
-              imageURL = val.link && val.link.replace(/^.*\/\/[^\/]+/, "");
-            }
+            // if (widgetId === "114") {
+            // productImage = transformedDatum && transformedDatum.imageUrl;
+            // mrpInteger = transformedDatum && transformedDatum.mrp;
+            // seoDoublePrice =
+            //   transformedDatum && transformedDatum.winningSellerMOP;
+            // discount =
+            //   mrpInteger && seoDoublePrice
+            //     ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)
+            //     : "";
+            // imageURL = val.webURL;
+            //   productImage =
+            //   transformedDatum &&
+            //   transformedDatum.galleryImagesList &&
+            //   Array.isArray(transformedDatum.galleryImagesList) &&
+            //   transformedDatum.galleryImagesList[0] &&
+            //   transformedDatum.galleryImagesList[0].galleryImages && commented for productDetails api
+            //   Array.isArray(
+            //     transformedDatum.galleryImagesList[0].galleryImages
+            //   ) &&
+            //   transformedDatum.galleryImagesList[0].galleryImages[0] &&
+            //   transformedDatum.galleryImagesList[0].galleryImages[0].value;
+            // mrpInteger =
+            //   transformedDatum &&
+            //   transformedDatum.mrpPrice &&
+            //   transformedDatum.mrpPrice.doubleValue;
+            // seoDoublePrice =
+            //   transformedDatum.winningSellerPrice &&
+            //   transformedDatum.winningSellerPrice.doubleValue
+            //     ? transformedDatum.winningSellerPrice.doubleValue
+            //     : mrpInteger;
+            // } else {
+            productImage = transformedDatum && transformedDatum.image_link;
+            mrpInteger = transformedDatum && transformedDatum.price;
+            seoDoublePrice = transformedDatum && transformedDatum.mop;
+            imageURL = val.link && val.link.replace(/^.*\/\/[^\/]+/, "");
+            // }
             discount =
               mrpInteger && seoDoublePrice
-                ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)
+                ? Math.floor(((mrpInteger - seoDoublePrice) / mrpInteger) * 100)
                 : "";
             return (
               <ProductModule
@@ -164,10 +165,19 @@ class AutomatedWidgetsForHome extends React.Component {
       this.props.feedComponentData &&
       this.props.feedComponentData.items[0] &&
       this.props.feedComponentData.items[0].webURL;
-    let productCode =
-      this.props.feedComponentData &&
-      this.props.feedComponentData.items[0] &&
-      this.props.feedComponentData.items[0].hexCode;
+    let productCode;
+    if (component === "114" || component === "0" || component === "4") {
+      productCode =
+        this.props.feedComponentData &&
+        this.props.feedComponentData.items[0] &&
+        this.props.feedComponentData.items[0].hexCode;
+    } else {
+      productCode =
+        this.props.feedComponentData &&
+        this.props.feedComponentData.items[0] &&
+        this.props.feedComponentData.items[0].description;
+    }
+
     let data =
       this.props.homeAutoWidget &&
       component &&

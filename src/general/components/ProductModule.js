@@ -127,8 +127,8 @@ export default class ProductModule extends React.Component {
             electronicView
               ? styles.electronicsBase
               : this.props.autoWidget
-                ? styles.whiteBase
-                : styles.base
+              ? styles.whiteBase
+              : styles.base
           }
           onClick={this.onClick}
           id={`ProductModule-${this.props.productId}`}
@@ -171,8 +171,8 @@ export default class ProductModule extends React.Component {
                     electronicView
                       ? styles.ElectronicListimageHolder
                       : this.props.view === "grid"
-                        ? styles.imageHolder
-                        : styles.ListimageHolder
+                      ? styles.imageHolder
+                      : styles.ListimageHolder
                   }
                 >
                   <ProductImage
@@ -195,6 +195,7 @@ export default class ProductModule extends React.Component {
                       newProduct={this.props.newProduct}
                       showExchangeTag={this.props.showExchangeTag}
                       exchangeOfferAvailable={this.props.exchangeOfferAvailable}
+                      maxExchangeBumpUp={this.props.maxExchangeBumpUp}
                     />
                   </div>
                 </div>
@@ -205,10 +206,10 @@ export default class ProductModule extends React.Component {
                 electronicView
                   ? styles.electronicViewContent
                   : this.props.autoWidget
-                    ? styles.contentAutoWidget
-                    : this.props.view === "grid"
-                      ? styles.content
-                      : styles.Listcontent
+                  ? styles.contentAutoWidget
+                  : this.props.view === "grid"
+                  ? styles.content
+                  : styles.Listcontent
               }
             >
               <ProductDescription

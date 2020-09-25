@@ -15,6 +15,7 @@ import styles from "./Feed.css";
 import * as Cookie from "../../lib/Cookie";
 import List from "@researchgate/react-intersection-list";
 import MobileOnly from "../../general/components/MobileOnly";
+import HomeAutoWishlistComponent from "./HomeAutoWishlistComponent";
 import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
@@ -349,6 +350,12 @@ export const typeComponentMapping = {
   msdAutomatedBannerProductCarouselComponent: props => (
     <MsdAutomatedBrandProductCarousel {...props} />
   ),
+  AutoWishlist: props => (
+    <HomeAutoWishlistComponent
+      {...props}
+      wishListedItem={this.state && this.state.wishListedItem}
+    />
+  ),
   msdAutoDiscoverMoreComponent: props => <DiscoverMoreMsd {...props} />,
 
   "Simple Banner Component": props => {
@@ -384,6 +391,9 @@ class Feed extends Component {
   constructor(props) {
     super(props);
     this.pageSize = this.props.pageSize;
+    this.state = {
+      wishListedItem: null
+    };
   }
   componentDidMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -487,7 +497,10 @@ class Feed extends Component {
 
     return (
       typeComponentMapping[feedDatum.type] && (
-        <WidgetContainer {...props}>
+        <WidgetContainer
+          {...props}
+          wishListedItem={this.props.wishlistProductId}
+        >
           {typeComponentMapping[feedDatum.type] &&
             typeComponentMapping[feedDatum.type]}
         </WidgetContainer>

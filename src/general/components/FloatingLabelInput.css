@@ -29,3 +29,18 @@ input {
   composes: base;
   pointer-events: none;
 }
+.changeText {
+  
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #da1c5c;
+  bottom: 8px;
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+  font-family: semibold;
+}

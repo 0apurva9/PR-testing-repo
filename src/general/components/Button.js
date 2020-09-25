@@ -86,9 +86,8 @@ export default class Button extends React.Component {
               fontSize: 14,
               fontFamily: "semibold"
             }}
-            background={`linear-gradient(${this.props.linearColor.fromColor},${
-              this.props.linearColor.toColor
-            })`}
+            background={`linear-gradient(${this.props.linearColor.fromColor},${this.props.linearColor.toColor})`}
+            dataTest={this.props.dataTest}
           />
         );
       default:
@@ -108,6 +107,7 @@ Button.propTypes = {
     "hollow",
     "linearGradient"
   ]),
+  dataTest: PropTypes.string,
   backgroundColor: PropTypes.string,
   textStyle: PropTypes.objectOf(
     PropTypes.shape({
@@ -124,5 +124,6 @@ Button.defaultProps = {
   linearColor: {
     fromColor: "#ce5096",
     toColor: "#da6060"
-  }
+  },
+  dataTest: "button"
 };

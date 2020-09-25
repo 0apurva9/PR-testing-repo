@@ -13,7 +13,9 @@ export default class MsdAutomatedBrandProductCarousel extends React.Component {
     this.props.setClickedElementId();
   }
   doSome(value) {
-    let apiUrl = "https://www.tatacliq.com";
+    if (value) {
+      return value.itemIds;
+    }
     // if (env.REACT_APP_STAGE === "production") {
     //   apiUrl = "https://www.tatacliq.com";
     // }
@@ -21,15 +23,15 @@ export default class MsdAutomatedBrandProductCarousel extends React.Component {
     // each(value.itemIds, itemId => {
     //   productCodes = `${itemId},${productCodes}`;
     // });
-    let productCodes = value.itemIds && value.itemIds.toString();
-    const url = `${apiUrl}/marketplacewebservices/v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
-    return fetch(url)
-      .then(response => response.json())
-      .then(function(response) {
-        if (response && response.status && response.status === "Success") {
-          return response;
-        }
-      });
+    // let productCodes = value.itemIds && value.itemIds.toString();
+    // const url = `${apiUrl}/marketplacewebservices/v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
+    // return fetch(url)
+    //   .then(response => response.json())
+    //   .then(function(response) {
+    //     if (response && response.status && response.status === "Success") {
+    //       return response;
+    //     }
+    //   });
     // let requests =
     //   value.itemIds &&
     //   value.itemIds.map(id => {
