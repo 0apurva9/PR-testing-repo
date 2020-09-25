@@ -3,7 +3,7 @@ import BannerImage from "../../general/components/BannerImage";
 import Banner from "../../general/components/Banner";
 import PropTypes from "prop-types";
 import HomeSkeleton from "../../general/components/HomeSkeleton.js";
-import styles from "./HeroBanner.css";
+import styles from "./HeroBannerComponentMonetization.css";
 import { getOnlineSalesAds } from "../../lib/apiRequest";
 
 import { HOME_ROUTER } from "../../lib/constants";
@@ -26,12 +26,20 @@ export default class HeroBannerComponentMonetization extends React.Component {
     if (url === HOME_ROUTER) {
       pageType = "HOME";
     }
+
     let heroBanner = await getOnlineSalesAds(
       HERO_BANNER_COMPONENT_MONETIZATION,
       pageType
     );
     if (heroBanner) {
-      this.setState({ heroBanner, bannerLoading: false });
+      this.setState({ bannerLoading: false });
+      if (
+        window._osAdImpression &&
+        (heroBanner.ads && heroBanner.ads[0] && heroBanner.ads[0].uclid)
+      ) {
+        window._osAdImpression({ uclid: heroBanner.ads[0].uclid });
+      }
+      this.setState({ heroBanner });
     }
   }
   renderBanner = () => {

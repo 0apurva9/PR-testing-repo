@@ -31,6 +31,14 @@ export default class SplitBannerComponentMonetization extends React.Component {
     );
     if (bannerComponent) {
       this.setState({ bannerComponent, bannerLoading: false });
+      if (
+        window._osAdImpression &&
+        (bannerComponent.ads &&
+          bannerComponent.ads[0] &&
+          bannerComponent.ads[0].uclid)
+      ) {
+        window._osAdImpression({ uclid: bannerComponent.ads[0].uclid });
+      }
     }
   }
   handleClick(webURL) {
@@ -48,17 +56,18 @@ export default class SplitBannerComponentMonetization extends React.Component {
     }
   }
   renderCard = feedComponentDatum => {
+    const { elements } = feedComponentDatum;
     return (
       <div
         className={styles.splitBannerHolder}
-        onClick={() => this.handleClick(feedComponentDatum.destination_url)}
+        onClick={() => this.handleClick(feedComponentDatum.click_tracking_url)}
       >
         <SplitBanner
-          logo={feedComponentDatum.brandLogo}
-          image={feedComponentDatum.image}
-          subTitle={feedComponentDatum.Description}
-          title={feedComponentDatum.headline}
-          btnText={feedComponentDatum.CTA}
+          logo={elements.brandLogo}
+          image={elements.image}
+          subTitle={elements.Description}
+          title={elements.headline}
+          btnText={elements.CTA}
         />
       </div>
     );
