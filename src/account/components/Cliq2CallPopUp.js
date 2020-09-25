@@ -7,7 +7,6 @@ import Icon from "../../xelpmoc-core/Icon";
 import callMeBack from "../components/img/callMeBack.svg";
 import scheduleaCall from "../components/img/scheduleaCall.svg";
 import cancelGrey from "../components/img/cancelGrey.svg";
-import Loader from "../../general/components/Loader";
 import { getSlotTime } from "./CustomerCallSuccessModal";
 import { getDetailsOfSlots } from "./TimeSlotPopUp";
 const CALL_ME_BACK = "Call me back now";
@@ -85,13 +84,15 @@ export default class Cliq2CallPopUp extends Component {
       ) {
         showScheduleCallBtn = true;
       } else {
-        this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
-          heading: "Call limit has exceeded",
-          subHeading:
-            "You cannot place anymore call. Please try again after sometime",
-          showBtn: false
-        });
-        return null;
+        if (!showCallMeBackBtn || WaitTime > 60) {
+          this.props.showModal(CUSTOMER_QUERY_ERROR_MODAL, {
+            heading: "Call limit has exceeded",
+            subHeading:
+              "You cannot place anymore call. Please try again after sometime",
+            showBtn: false
+          });
+          return null;
+        }
       }
     }
 

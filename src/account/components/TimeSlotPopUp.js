@@ -206,7 +206,7 @@ class TimeSlotPopUp extends Component {
                     TotalRequestsToday,
                     allowedRequestLimit,
                     WaitTime
-                  ) ? (
+                  ) && WaitTime < 60 ? (
                     <div className={styles.callMeBackBtn}>
                       <Button
                         type="primary"
