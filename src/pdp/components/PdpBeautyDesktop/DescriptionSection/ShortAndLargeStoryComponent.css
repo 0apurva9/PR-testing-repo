@@ -1,4 +1,3 @@
-
 /*** StoryAndLargeStory Component Ends****/
 .details-sections {
   display: flex;
@@ -7,7 +6,6 @@
 }
 
 .perfume-guide-sec {
-
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
