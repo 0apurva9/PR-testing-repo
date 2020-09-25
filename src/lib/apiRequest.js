@@ -256,6 +256,7 @@ const ACCESS_TOKEN_EXPIRED_MESSAGE = "Access token expired";
 const ACCESS_TOKEN_INVALID_MESSAGE = "Invalid access token";
 const CLIENT_ID = "gauravj@dewsolutions.in";
 const CART_NOT_FOUND_ERROR = "CartError";
+const NO_DATA = "No data found.";
 
 export const API_MSD_URL_ROOT = "https://ap-southeast-1-api.madstreetden.com";
 
@@ -911,17 +912,27 @@ export async function getOnlineSalesAds(componentName, pageType) {
         pt: pageType
       })
       .then(response => {
-        if (
-          objWindow._osAdImpression &&
-          (response.ads[0] && response.ads[0].uclid)
-        ) {
-          objWindow._osAdImpression({ uclid: response.ads[0].uclid });
+        if (response) {
+          let ifNoData = false;
+          if (!response.ads) {
+            ifNoData = true;
+            console.error(`Error: ${NO_DATA}`);
+          } else if (response.ads.length <= 0) {
+            ifNoData = true;
+            console.error(`Error: ${NO_DATA}`);
+          } else if (response.ads.length > 0 && !response.ads[0]) {
+            ifNoData = true;
+            console.error(`Error: ${NO_DATA}`);
+          }
+          if (ifNoData) {
+            return null;
+          }
         }
         return response;
       })
       .catch(err => {
         console.error(err);
-        return err;
+        return null;
       });
   }
 }

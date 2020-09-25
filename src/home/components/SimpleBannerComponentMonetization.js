@@ -1,10 +1,9 @@
 import React from "react";
-import styles from "../../staticpage/components/SimpleBannerComponent.css";
+import styles from "./SimpleBannerComponentMonetization.css";
 import PropTypes from "prop-types";
 import Image from "../../xelpmoc-core/Image";
 import { HOME_ROUTER, WEB_URL_REG_EX } from "../../lib/constants";
-import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-import { getOnlineSalesAds } from "../../lib/apiRequest";
+import { TATA_CLIQ_ROOT, getOnlineSalesAds } from "../../lib/apiRequest.js";
 
 const SIMPLE_BANNER_COMPONENT_MONETIZATION =
   "SimpleBannerComponent_Monetization";
@@ -31,6 +30,12 @@ export default class SimpleBannerComponentMonetization extends React.Component {
     );
     if (simpleBanner) {
       this.setState({ simpleBanner, bannerLoading: false });
+      if (
+        window._osAdImpression &&
+        (simpleBanner.ads && simpleBanner.ads[0] && simpleBanner.ads[0].uclid)
+      ) {
+        window._osAdImpression({ uclid: simpleBanner.ads[0].uclid });
+      }
     }
   }
   handleClick(urlLink) {
@@ -50,9 +55,17 @@ export default class SimpleBannerComponentMonetization extends React.Component {
     if (simpleBanner && simpleBanner.ads) {
       return simpleBanner.ads.map((datum, i) => {
         const { elements } = datum;
+        let baseClass = datum.click_tracking_url
+          ? styles.baseWithCursor
+          : styles.base;
+        let basClassMargin = datum.click_tracking_url
+          ? styles.marginTopWithBaseCursor
+          : styles.marginTopWithBase;
         return (
           <div
-            className={styles.base}
+            className={
+              this.props.positionInFeed === 0 ? baseClass : basClassMargin
+            }
             onClick={() => this.handleClick(datum.click_tracking_url)}
           >
             <div className={styles.imageHolder}>

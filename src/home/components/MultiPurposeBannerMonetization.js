@@ -35,6 +35,14 @@ export default class MultiPurposeBanner_Monetization extends React.Component {
     );
     if (bannerComponent) {
       this.setState({ bannerComponent, bannerLoading: false });
+      if (
+        window._osAdImpression &&
+        (bannerComponent.ads &&
+          bannerComponent.ads[0] &&
+          bannerComponent.ads[0].uclid)
+      ) {
+        window._osAdImpression({ uclid: bannerComponent.ads[0].uclid });
+      }
     }
   }
 
@@ -117,7 +125,7 @@ export default class MultiPurposeBanner_Monetization extends React.Component {
                         {elements.CTA && (
                           <div className={styles.buttonBox}>
                             <ConnectKnowMore
-                              url={elements.destination_url}
+                              url={datum.click_tracking_url}
                               btnText={elements.CTA}
                             />
                           </div>
