@@ -803,7 +803,9 @@ export default class OrderRelatedIssue extends React.Component {
       this.setState({ raiseTiketRequest: false, raiseTiketSucess: true });
       setTimeout(() => {
         this.setState({ raiseTiketSucess: false, showLoader: false });
-        this.props.showCallQuerySuccessModal(placeCustomerResponse);
+        if (placeCustomerResponse.status == SUCCESS) {
+          this.props.showCallQuerySuccessModal(placeCustomerResponse);
+        }
       }, 2000);
     }, 2000);
   }
