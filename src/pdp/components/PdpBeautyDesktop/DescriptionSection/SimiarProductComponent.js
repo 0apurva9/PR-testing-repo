@@ -13,7 +13,9 @@ export default class MoreFromBrand extends Component {
 
   render() {
     return (
-      this.props.similarProductResponse && (
+      this.props.similarProductResponse &&
+      this.props.similarProductResponse.status &&
+      this.props.similarProductResponse.status.toLowerCase() === "success" && (
         <div>
           <div className={styles.container}>
             <div className={styles["sp-heading"]}>{this.props.heading}</div>
