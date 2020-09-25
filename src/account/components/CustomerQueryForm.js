@@ -575,6 +575,7 @@ export default class CustomerQueryForm extends Component {
               this.props.questionType == "orderRelated"
                 ? selectedOrder &&
                   selectedOrder.products &&
+                  selectedOrder.products.length &&
                   selectedOrder.products[0].transactionId
                 : "",
             orderCode:
@@ -585,6 +586,7 @@ export default class CustomerQueryForm extends Component {
               this.props.questionType == "orderRelated"
                 ? selectedOrder &&
                   selectedOrder.products &&
+                  selectedOrder.products.length &&
                   selectedOrder.products[0].sellerorderno
                 : ""
           }
