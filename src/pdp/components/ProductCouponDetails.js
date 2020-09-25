@@ -17,10 +17,17 @@ import {
 import { LOGGED_IN_USER_DETAILS } from "../../lib/constants";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
+import ibutton from "../components/img/info.svg";
+import OtherCuponDetails from "./OtherCuponDetails.js";
+import AccordionWithTooltip from "../../general/components/AccordionWithTooltip.js";
 const REMOVE = "Remove";
 const APPLY = "Apply";
 const USER_COUPON_NOTE =
   "Note: Additional Bank offers, if applicable, can be applied during payment";
+const USER_COUPON_NOTE_DESKTOP =
+  "Additional bank offers can be applied at payment";
+const USER_COUPON_OTHER_NOTE_DESKTOP =
+  "Availablity of the coupon in the list depends on the items added on the cart.";
 const isStickyHeader = !(
   navigator.userAgent && navigator.userAgent.match(/SamsungBrowser/i)
 );
@@ -126,18 +133,30 @@ class ProductCouponDetails extends Component {
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let coupons = [];
+    let otherCoupons = [];
     let showLogOutUserCoupon = userDetails ? true : false;
     if (
-      userDetails &&
-      this.props.closedcouponsList &&
-      this.props.closedcouponsList.length > 0
+      (this.props.opencouponsList && this.props.opencouponsList.length > 0) ||
+      (this.props.closedcouponsList && this.props.closedcouponsList.length > 0)
     ) {
-      coupons = this.props.closedcouponsList.concat(this.props.opencouponsList);
-    } else {
-      if (this.props.opencouponsList) {
-        coupons = this.props.opencouponsList;
+      if (
+        userDetails &&
+        this.props.closedcouponsList &&
+        this.props.closedcouponsList.length > 0
+      ) {
+        coupons = this.props.closedcouponsList.concat(
+          this.props.opencouponsList
+        );
+      } else {
+        if (this.props.opencouponsList) {
+          coupons = this.props.opencouponsList;
+        }
       }
+    } else {
+      coupons = this.props.activeEligibleCouponList;
+      otherCoupons = this.props.activeNonEligibleCouponList;
     }
+
     return (
       <SlideModal {...this.props}>
         <div className={styles.base}>
@@ -180,44 +199,144 @@ class ProductCouponDetails extends Component {
             <div className={styles.link} onClick={() => this.navigateToLogin()}>
               <div className={styles.linkArrow}>
                 <Icon image={arrowIcon} size={10} />
-              </div>Login to view personal coupons
+              </div>
+              Login to view personal coupons
             </div>
           )}
-          <GridSelect
-            elementWidthMobile={100}
-            elementWidthDesktop={100}
-            offset={0}
-            offsetDesktop="0px 35px 20px 35px"
-            limit={1}
-            onSelect={val => this.onSelectCouponCode(val)}
-            selected={[this.state.selectedCouponCode]}
-          >
-            {coupons &&
-              coupons.map((value, i) => {
-                let couponName = value.couponName
-                  ? value.couponName
-                  : value.couponCode;
+          {this.props.activeEligibleCouponList &&
+            this.props.activeEligibleCouponList.length > 0 && (
+              <DesktopOnly>
+                <div
+                  className={styles.disclaimer_desktop}
+                  data-test="eligible-coupon-note"
+                >
+                  {USER_COUPON_NOTE_DESKTOP}
+                </div>
+              </DesktopOnly>
+            )}
+          <div className={styles.eligibleCouponsDesign}>
+            {this.props.activeEligibleCouponList &&
+              this.props.activeEligibleCouponList.length > 0 && (
+                <React.Fragment>
+                  <span
+                    className={styles.eligibleCoupon}
+                    data-test="eligible-coupon-text"
+                  >
+                    Eligible Coupons
+                  </span>
+                  <span
+                    className={styles.tooltip}
+                    data-test="eligible-tool-tip"
+                  >
+                    {" "}
+                    <img src={ibutton} className={styles.arrow} />
+                    <span className={styles.tooltiptext}>
+                      Coupons shown are based on products added in your cart
+                    </span>
+                  </span>
+                </React.Fragment>
+              )}
 
-                /* let formattedDate;
-                if (value.couponExpiryDate) {
-                  let dateOfBirth = new Date(
-                    value.couponExpiryDate.split("IST").join()
+            {coupons && coupons.length > 0 && (
+              <GridSelect
+                elementWidthMobile={100}
+                elementWidthDesktop={100}
+                offset={0}
+                offsetDesktop="0px 22px 20px 22px"
+                limit={1}
+                onSelect={val => this.onSelectCouponCode(val)}
+                selected={[this.state.selectedCouponCode]}
+              >
+                {coupons.map((value, i) => {
+                  let couponName = value.couponName
+                    ? value.couponName
+                    : value.couponCode;
+                  return (
+                    <CuponDetails
+                      promotionTitle={couponName}
+                      promotionDetail={value.description}
+                      tnc={value.tnc}
+                      dateTime={value.couponExpiryDate}
+                      amount={value.maxDiscount}
+                      key={i}
+                      couponType={value.couponType}
+                      value={value.couponCode}
+                    />
                   );
-                  formattedDate = format(dateOfBirth, "DD MMM YYYY");
-                } */
-                return (
-                  <CuponDetails
-                    promotionTitle={couponName}
-                    promotionDetail={value.description}
-                    dateTime={value.couponExpiryDate}
-                    amount={value.maxDiscount}
-                    key={i}
-                    couponType={value.couponType}
-                    value={value.couponCode}
-                  />
-                );
-              })}
-          </GridSelect>
+                })}
+              </GridSelect>
+            )}
+            {coupons && coupons.length === 0 && (
+              <GridSelect
+                elementWidthMobile={100}
+                elementWidthDesktop={100}
+                offset={0}
+                offsetDesktop="0px 22px 20px 22px"
+                limit={1}
+                onSelect={val => this.onSelectCouponCode(val)}
+                selected={[this.state.selectedCouponCode]}
+              >
+                {coupons && coupons.length === 0 && (
+                  <div className={styles.noEligiblecoupon}>
+                    Currently you dont have any eligible coupons for the items
+                    in your cart.
+                  </div>
+                )}
+              </GridSelect>
+            )}
+          </div>
+          {otherCoupons && otherCoupons.length > 0 && (
+            <div className={styles.otherEligibleCouponsDesign}>
+              <AccordionWithTooltip
+                key={1}
+                text2={"Other Active coupon"}
+                text2Size={14}
+                widthForText2={`100%`}
+                headerFontSize={16}
+                textAlign={"left"}
+                marginLeft2={`20px`}
+                fontWeight2={`bold`}
+                tooltip={true}
+                tooltipSrc={ibutton}
+                tooltipText={`To use these coupons, you might have to add or modify products in your cart`}
+                subHeading={true}
+              >
+                <DesktopOnly>
+                  <div className={styles.other_coupon_disclaimer_desktop}>
+                    {USER_COUPON_OTHER_NOTE_DESKTOP}
+                  </div>
+                </DesktopOnly>
+                <GridSelect
+                  elementWidthMobile={100}
+                  elementWidthDesktop={100}
+                  offset={0}
+                  offsetDesktop="0px 22px 20px 22px"
+                  limit={1}
+                  onSelect={val => this.onSelectCouponCode(val)}
+                  selected={[this.state.selectedCouponCode]}
+                >
+                  {otherCoupons &&
+                    otherCoupons.map((value, i) => {
+                      let couponName = value.couponName
+                        ? value.couponName
+                        : value.couponCode;
+                      return (
+                        <OtherCuponDetails
+                          promotionTitle={couponName}
+                          promotionDetail={value.description}
+                          tnc={value.tnc}
+                          dateTime={value.couponExpiryDate}
+                          amount={value.maxDiscount}
+                          key={i}
+                          couponType={value.couponType}
+                          value={value.couponCode}
+                        />
+                      );
+                    })}
+                </GridSelect>
+              </AccordionWithTooltip>
+            </div>
+          )}
         </div>
       </SlideModal>
     );
@@ -225,7 +344,58 @@ class ProductCouponDetails extends Component {
 }
 
 ProductCouponDetails.propTypes = {
-  productOfferPromotion: PropTypes.array
+  productOfferPromotion: PropTypes.array,
+  activeNonEligibleCouponList: PropTypes.arrayOf(
+    PropTypes.shape({
+      couponCode: PropTypes.string,
+      couponCreationDate: PropTypes.string,
+      couponExpiryDate: PropTypes.string,
+      couponName: PropTypes.string,
+      couponSequenceNumber: PropTypes.number,
+      couponType: PropTypes.string,
+      description: PropTypes.string,
+      isPercentage: PropTypes.bool,
+      marketIndicator: PropTypes.string,
+      tnc: PropTypes.string,
+      value: PropTypes.number
+    })
+  ),
+  activeEligibleCouponList: PropTypes.arrayOf(
+    PropTypes.shape({
+      couponCode: PropTypes.string,
+      couponCreationDate: PropTypes.string,
+      couponExpiryDate: PropTypes.string,
+      couponName: PropTypes.string,
+      couponSequenceNumber: PropTypes.number,
+      couponType: PropTypes.string,
+      description: PropTypes.string,
+      isPercentage: PropTypes.bool,
+      marketIndicator: PropTypes.string,
+      maxDiscount: PropTypes.number,
+      tnc: PropTypes.string,
+      value: PropTypes.number
+    })
+  ),
+  opencouponsList: PropTypes.arrayOf(
+    PropTypes.shape({
+      couponCode: PropTypes.string,
+      couponCreationDate: PropTypes.string,
+      couponExpiryDate: PropTypes.string,
+      couponName: PropTypes.string,
+      couponSequenceNumber: PropTypes.number,
+      couponType: PropTypes.string,
+      isPercentage: PropTypes.bool,
+      marketIndicator: PropTypes.string,
+      maxDiscount: PropTypes.number,
+      value: PropTypes.number
+    })
+  )
+};
+
+ProductCouponDetails.defaultProps = {
+  activeNonEligibleCouponList: [],
+  activeEligibleCouponList: [],
+  opencouponsList: []
 };
 
 export default ProductCouponDetails;

@@ -29,6 +29,8 @@ import {
 import BackToCliqCashSection from "./BackToCliqCashSection";
 import Input2 from "../../general/components/Input2";
 import CliqGiftCardBuySend from "./CliqGiftCardBuySend";
+import greenLightBulb from "../components/img/greenLightBulb.svg";
+import { Link } from "react-router-dom";
 const MINIMUM_PRICE = 15;
 const MAXIMUM_PRICE = 10000;
 
@@ -45,19 +47,19 @@ export default class CliqGiftCardPurchase extends Component {
       isValidAmount: true,
       maxPrice:
         this.props.giftCardsDetails &&
-        this.props.giftCardsDetails.landingPageOptions &&
-        this.props.giftCardsDetails.landingPageOptions.maxPrice &&
-        this.props.giftCardsDetails.landingPageOptions.maxPrice &&
-        this.props.giftCardsDetails.landingPageOptions.maxPrice.value
-          ? this.props.giftCardsDetails.landingPageOptions.maxPrice.value
+        this.props.giftCardsDetails.amountOptions &&
+        this.props.giftCardsDetails.amountOptions.maxPrice &&
+        this.props.giftCardsDetails.amountOptions.maxPrice &&
+        this.props.giftCardsDetails.amountOptions.maxPrice.value
+          ? this.props.giftCardsDetails.amountOptions.maxPrice.value
           : MAXIMUM_PRICE,
       minPrice:
         this.props.giftCardsDetails &&
-        this.props.giftCardsDetails.landingPageOptions &&
-        this.props.giftCardsDetails.landingPageOptions.minPrice &&
-        this.props.giftCardsDetails.landingPageOptions.minPrice &&
-        this.props.giftCardsDetails.landingPageOptions.minPrice.value
-          ? this.props.giftCardsDetails.landingPageOptions.minPrice.value
+        this.props.giftCardsDetails.amountOptions &&
+        this.props.giftCardsDetails.amountOptions.minPrice &&
+        this.props.giftCardsDetails.amountOptions.minPrice &&
+        this.props.giftCardsDetails.amountOptions.minPrice.value
+          ? this.props.giftCardsDetails.amountOptions.minPrice.value
           : MINIMUM_PRICE
     };
   }
@@ -65,6 +67,15 @@ export default class CliqGiftCardPurchase extends Component {
     this.props.setHeaderText(GIFT_CARD);
     if (this.props.getGiftCardDetails) {
       this.props.getGiftCardDetails();
+    }
+    let offerDetails =
+      this.props &&
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.offerDetails;
+    if (offerDetails === undefined && this.props.getCliqCashbackDetails) {
+      const cashbackmode = "EGV";
+      this.props.getCliqCashbackDetails(cashbackmode);
     }
   }
   selectAmount(amount) {
@@ -129,6 +140,29 @@ export default class CliqGiftCardPurchase extends Component {
     if (!userDetails || !customerAccessToken) {
       return this.navigateToLogin();
     }
+    let offerDetails =
+      this.props &&
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.offerDetails
+        ? this.props.location.state.offerDetails
+        : undefined;
+
+    (offerDetails &&
+      offerDetails.cashbackMode &&
+      offerDetails.cashbackMode === "TOPUP") ||
+    (offerDetails && offerDetails.cashbackMode && offerDetails.cashbackMode) ===
+      "EGV"
+      ? localStorage.setItem("cashback", "enabled")
+      : localStorage.setItem("cashback", "disabled");
+
+    if (offerDetails === undefined) {
+      offerDetails =
+        this.props.cliqCashbackDetails &&
+        this.props.cliqCashbackDetails.cashbackOffers &&
+        this.props.cliqCashbackDetails.cashbackOffers[0];
+    }
+
     return (
       <div className={styles.base}>
         <div className={MyAccountStyles.holder}>
@@ -142,11 +176,27 @@ export default class CliqGiftCardPurchase extends Component {
 
             <div className={styles.popularCardBox}>
               <div className={styles.popularHeading}>Send a CLiQ Gift Card</div>
+              {offerDetails && offerDetails.cashbackType === "Fixed" && (
+                <div className={styles.cashBackOfferLong}>
+                  Get ₹{offerDetails.offerValue} cashback up to{" "}
+                  {offerDetails.maxCashback.formattedValueNoDecimal} on gift
+                  voucher of{" "}
+                  {offerDetails.offerThreshold.formattedValueNoDecimal} and
+                  above*
+                </div>
+              )}
+              {offerDetails && offerDetails.cashbackType !== "Fixed" && (
+                <div className={styles.cashBackOfferSmall}>
+                  Get {offerDetails.offerValue}% cashback on gift voucher of{" "}
+                  {offerDetails.offerThreshold.formattedValueNoDecimal} and
+                  above*
+                </div>
+              )}
               <div className={styles.popularCardPriceBox}>
                 {this.props.giftCardsDetails &&
-                  this.props.giftCardsDetails.landingPageOptions &&
-                  this.props.giftCardsDetails.landingPageOptions.options &&
-                  this.props.giftCardsDetails.landingPageOptions.options
+                  this.props.giftCardsDetails.amountOptions &&
+                  this.props.giftCardsDetails.amountOptions.options &&
+                  this.props.giftCardsDetails.amountOptions.options
                     .slice(0, 4)
                     .map((option, index) => {
                       return (
@@ -177,9 +227,7 @@ export default class CliqGiftCardPurchase extends Component {
                 )}
                 <Input2
                   hollow={true}
-                  placeholder={`Or enter an amount between ${RUPEE_SYMBOL}${
-                    this.state.minPrice
-                  }-${RUPEE_SYMBOL}${this.state.maxPrice}`}
+                  placeholder={`Or enter an amount between ${RUPEE_SYMBOL}${this.state.minPrice}-${RUPEE_SYMBOL}${this.state.maxPrice}`}
                   value={this.state.selectedAmount}
                   onChange={amount => this.selectAmount(amount)}
                   textStyle={{ fontSize: 14, letterSpacing: "0.03px" }}
@@ -196,6 +244,25 @@ export default class CliqGiftCardPurchase extends Component {
                   </div>
                 ) : null}
               </div>
+              {offerDetails && (
+                <div className={styles.cashBackOfferMsgDiv}>
+                  <div className={styles.cashBackOfferImgDiv}>
+                    <img src={greenLightBulb} alt={"Offer Text"} />
+                  </div>
+                  <div className={styles.cashBackOfferMsg}>
+                    The cashback will be credited to your account as CLiQ Cash
+                    within 24 hrs. Please read the offer
+                    <Link
+                      to={"/cliqcashback-offers-tnc"}
+                      className={styles.knowMore}
+                    >
+                      {" "}
+                      T&C{" "}
+                    </Link>
+                    carefully.
+                  </div>
+                </div>
+              )}
             </div>
             <CliqGiftCardBuySend
               selectedAmount={this.state.selectedAmount}
@@ -264,7 +331,7 @@ CliqGiftCardPurchase.propTypes = {
   setHeaderText: PropTypes.func.isRequired,
   getGiftCardDetails: PropTypes.func.isRequired,
   giftCardsDetails: PropTypes.shape({
-    landingPageOptions: PropTypes.shape({
+    amountOptions: PropTypes.shape({
       option: array,
       maxPrice: PropTypes.shape({
         value: number

@@ -24,9 +24,7 @@ export default class QuestionList extends Component {
               your
               website
               related
-            >{`(Browse all your ${
-              this.props.parentIssueType
-            } issues and choose your help topic.)`}</span>
+            >{`(Browse all your ${this.props.parentIssueType} issues and choose your help topic.)`}</span>
           </div>
         )}
 

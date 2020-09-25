@@ -69,18 +69,16 @@ export default class ExchangeDetailsTrack extends React.Component {
               {exchangeInitiated && exchangeInitiated.customerFacingName}
             </div>
             <div className={styles.eieDateAndTimeHolder}>
-              {exchangeInitiated &&
-                exchangeInitiated.displayDate && (
-                  <div className={styles.eieDateNTimeContainer}>
-                    {exchangeInitiated.displayDate}
-                  </div>
-                )}
-              {exchangeInitiated &&
-                exchangeInitiated.displayTime && (
-                  <div className={styles.eieDateNTimeContainer}>
-                    {exchangeInitiated.displayTime}
-                  </div>
-                )}
+              {exchangeInitiated && exchangeInitiated.displayDate && (
+                <div className={styles.eieDateNTimeContainer}>
+                  {exchangeInitiated.displayDate}
+                </div>
+              )}
+              {exchangeInitiated && exchangeInitiated.displayTime && (
+                <div className={styles.eieDateNTimeContainer}>
+                  {exchangeInitiated.displayTime}
+                </div>
+              )}
             </div>
           </div>
 
@@ -114,18 +112,16 @@ export default class ExchangeDetailsTrack extends React.Component {
                 : "Pick Up in Progress"}
             </div>
             <div className={styles.eieDateAndTimeHolder}>
-              {pickUpInProgress &&
-                pickUpInProgress.displayDate && (
-                  <div className={styles.eieDateNTimeContainer}>
-                    {pickUpInProgress.displayDate}
-                  </div>
-                )}
-              {pickUpInProgress &&
-                pickUpInProgress.displayTime && (
-                  <div className={styles.eieDateNTimeContainer}>
-                    {pickUpInProgress.displayTime}
-                  </div>
-                )}
+              {pickUpInProgress && pickUpInProgress.displayDate && (
+                <div className={styles.eieDateNTimeContainer}>
+                  {pickUpInProgress.displayDate}
+                </div>
+              )}
+              {pickUpInProgress && pickUpInProgress.displayTime && (
+                <div className={styles.eieDateNTimeContainer}>
+                  {pickUpInProgress.displayTime}
+                </div>
+              )}
             </div>
           </div>
 
@@ -160,18 +156,16 @@ export default class ExchangeDetailsTrack extends React.Component {
                   : "Picked Up"}
               </div>
               <div className={styles.eieDateAndTimeHolder}>
-                {pickedUp &&
-                  pickedUp.displayDate && (
-                    <div className={styles.eieDateNTimeContainer}>
-                      {pickedUp.displayDate}
-                    </div>
-                  )}
-                {pickedUp &&
-                  pickedUp.displayTime && (
-                    <div className={styles.eieDateNTimeContainer}>
-                      {pickedUp.displayTime}
-                    </div>
-                  )}
+                {pickedUp && pickedUp.displayDate && (
+                  <div className={styles.eieDateNTimeContainer}>
+                    {pickedUp.displayDate}
+                  </div>
+                )}
+                {pickedUp && pickedUp.displayTime && (
+                  <div className={styles.eieDateNTimeContainer}>
+                    {pickedUp.displayTime}
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -207,18 +201,16 @@ export default class ExchangeDetailsTrack extends React.Component {
                   : "Cashback Credited"}
               </div>
               <div className={styles.eieDateAndTimeHolder}>
-                {cashbackCredited &&
-                  cashbackCredited.displayDate && (
-                    <div className={styles.eieDateNTimeContainer}>
-                      {cashbackCredited.displayDate}
-                    </div>
-                  )}
-                {cashbackCredited &&
-                  cashbackCredited.displayTime && (
-                    <div className={styles.eieDateNTimeContainer}>
-                      {cashbackCredited.displayTime}
-                    </div>
-                  )}
+                {cashbackCredited && cashbackCredited.displayDate && (
+                  <div className={styles.eieDateNTimeContainer}>
+                    {cashbackCredited.displayDate}
+                  </div>
+                )}
+                {cashbackCredited && cashbackCredited.displayTime && (
+                  <div className={styles.eieDateNTimeContainer}>
+                    {cashbackCredited.displayTime}
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -256,18 +248,16 @@ export default class ExchangeDetailsTrack extends React.Component {
                     : "Cancelled"}
                 </div>
                 <div className={styles.eieDateAndTimeHolder}>
-                  {Cancelled &&
-                    Cancelled.displayDate && (
-                      <div className={styles.eieDateNTimeContainer}>
-                        {Cancelled.displayDate}
-                      </div>
-                    )}
-                  {Cancelled &&
-                    Cancelled.displayTime && (
-                      <div className={styles.eieDateNTimeContainer}>
-                        {Cancelled.displayTime}
-                      </div>
-                    )}
+                  {Cancelled && Cancelled.displayDate && (
+                    <div className={styles.eieDateNTimeContainer}>
+                      {Cancelled.displayDate}
+                    </div>
+                  )}
+                  {Cancelled && Cancelled.displayTime && (
+                    <div className={styles.eieDateNTimeContainer}>
+                      {Cancelled.displayTime}
+                    </div>
+                  )}
                 </div>
               </div>
             )}

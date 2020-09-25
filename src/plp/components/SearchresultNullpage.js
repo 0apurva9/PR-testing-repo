@@ -32,7 +32,7 @@ export default class SearchresultNullpage extends Component {
     //.replace(RUPEE_SYMBOL, "")
     const mrpInteger = parseInt(price, 10);
     const discount = Math.floor(
-      (mrpInteger - parseInt(discountedPrice, 10)) / mrpInteger * 100
+      ((mrpInteger - parseInt(discountedPrice, 10)) / mrpInteger) * 100
     );
 
     return discount;
@@ -41,148 +41,142 @@ export default class SearchresultNullpage extends Component {
     return (
       <React.Fragment>
         <DesktopOnly>
-          {this.props &&
-            this.props.feeds &&
-            this.props.feeds[0] && (
-              <div className={styles.base}>
-                <div className={styles.headingHolder}>
-                  We couldn’t find anything matching your search term. Please
-                  try searching for something else.
+          {this.props && this.props.feeds && this.props.feeds[0] && (
+            <div className={styles.base}>
+              <div className={styles.headingHolder}>
+                We couldn’t find anything matching your search term. Please try
+                searching for something else.
+              </div>
+              <div className={styles.orText}>Or</div>
+              <div className={styles.buttonHolder}>
+                <div className={styles.button}>
+                  <Button
+                    type="primary"
+                    backgroundColor="#ff1744"
+                    height={42}
+                    label="Continue Shopping"
+                    width={204}
+                    textStyle={{ color: "#FFF", fontSize: 14 }}
+                    onClick={() => this.handleOnContinue()}
+                  />
                 </div>
-                <div className={styles.orText}>Or</div>
-                <div className={styles.buttonHolder}>
-                  <div className={styles.button}>
-                    <Button
-                      type="primary"
-                      backgroundColor="#ff1744"
-                      height={42}
-                      label="Continue Shopping"
-                      width={204}
-                      textStyle={{ color: "#FFF", fontSize: 14 }}
-                      onClick={() => this.handleOnContinue()}
-                    />
-                  </div>
-                </div>
+              </div>
 
-                <CommonCenter>
-                  <div className={styles.nullPageData}>
-                    <div className={styles.TopPicksCenter}>
-                      {this.props &&
-                      this.props.feeds &&
-                      this.props.feeds[0] &&
-                      this.props.feeds[0].discoverMore &&
-                      this.props.feeds[0].discoverMore.data[0] &&
-                      this.props.feeds[0].discoverMore.type === "L3" ? (
-                        <Carousel
-                          header="Browse Category"
-                          elementWidthDesktop={33.33}
-                        >
-                          {this.props &&
-                          this.props.feeds &&
-                          this.props.feeds[0] &&
-                          this.props.feeds[0].discoverMore.data[0] &&
-                          this.props.feeds[0].discoverMore.type === "L3"
-                            ? this.props.feeds[0].discoverMore.data[0].map(
-                                (datum, i) => {
-                                  return (
-                                    <DiscoverMoreComponentDesktop
-                                      imageURL={
-                                        datum.L1_metadata &&
-                                        datum.L1_metadata.imageURL
-                                      }
-                                      title={datum.L1}
-                                      webURL={
-                                        datum.L1_metadata &&
-                                        datum.L1_metadata.webURL
-                                      }
-                                      btnText={datum.btnText}
-                                      items={datum.L3_list}
-                                      history={this.props.history}
-                                      setClickedElementId={
-                                        this.props.setClickedElementId
-                                      }
-                                      key={i}
-                                    />
-                                  );
-                                }
-                              )
-                            : null}
-                        </Carousel>
-                      ) : (
-                        <DiscoverMoreL1ForNullSearchResultDesktop
-                          history={this.props.history}
-                          feedComponentData={this.props.feeds[0].discoverMore}
-                          setClickedElementId={this.props.setClickedElementId}
-                        />
-                      )}
-                    </div>
+              <CommonCenter>
+                <div className={styles.nullPageData}>
+                  <div className={styles.TopPicksCenter}>
                     {this.props &&
-                      this.props.feeds &&
-                      this.props.feeds.map((data, i) => {
-                        return (
-                          <div className={styles.dataAndLabelHolder} key={i}>
-                            <div className={styles.browseCategory}>
-                              <div className={styles.TopPicksCenter}>
-                                {data.trendingProducts &&
-                                  data.trendingProducts.data && (
-                                    <div className={styles.dataAndLabelHolder}>
-                                      <div
-                                        className={
-                                          styles.categoryCarouselHolderForTopPicks
-                                        }
+                    this.props.feeds &&
+                    this.props.feeds[0] &&
+                    this.props.feeds[0].discoverMore &&
+                    this.props.feeds[0].discoverMore.data[0] &&
+                    this.props.feeds[0].discoverMore.type === "L3" ? (
+                      <Carousel
+                        header="Browse Category"
+                        elementWidthDesktop={33.33}
+                      >
+                        {this.props &&
+                        this.props.feeds &&
+                        this.props.feeds[0] &&
+                        this.props.feeds[0].discoverMore.data[0] &&
+                        this.props.feeds[0].discoverMore.type === "L3"
+                          ? this.props.feeds[0].discoverMore.data[0].map(
+                              (datum, i) => {
+                                return (
+                                  <DiscoverMoreComponentDesktop
+                                    imageURL={
+                                      datum.L1_metadata &&
+                                      datum.L1_metadata.imageURL
+                                    }
+                                    title={datum.L1}
+                                    webURL={
+                                      datum.L1_metadata &&
+                                      datum.L1_metadata.webURL
+                                    }
+                                    btnText={datum.btnText}
+                                    items={datum.L3_list}
+                                    history={this.props.history}
+                                    setClickedElementId={
+                                      this.props.setClickedElementId
+                                    }
+                                    key={i}
+                                  />
+                                );
+                              }
+                            )
+                          : null}
+                      </Carousel>
+                    ) : (
+                      <DiscoverMoreL1ForNullSearchResultDesktop
+                        history={this.props.history}
+                        feedComponentData={this.props.feeds[0].discoverMore}
+                        setClickedElementId={this.props.setClickedElementId}
+                      />
+                    )}
+                  </div>
+                  {this.props &&
+                    this.props.feeds &&
+                    this.props.feeds.map((data, i) => {
+                      return (
+                        <div className={styles.dataAndLabelHolder} key={i}>
+                          <div className={styles.browseCategory}>
+                            <div className={styles.TopPicksCenter}>
+                              {data.trendingProducts &&
+                                data.trendingProducts.data && (
+                                  <div className={styles.dataAndLabelHolder}>
+                                    <div
+                                      className={
+                                        styles.categoryCarouselHolderForTopPicks
+                                      }
+                                    >
+                                      <Carousel
+                                        elementWidthMobile={45}
+                                        header="Top picks for you"
                                       >
-                                        <Carousel
-                                          elementWidthMobile={45}
-                                          header="Top picks for you"
-                                        >
-                                          {data.trendingProducts &&
-                                            data.trendingProducts.data &&
-                                            data.trendingProducts.data.map(
-                                              (val, j) => {
-                                                return (
-                                                  <ProductModule
-                                                    productImage={
-                                                      val.image_link
-                                                    }
-                                                    onClick={() =>
-                                                      this.redirectToPlp(
-                                                        val.link,
-                                                        val,
-                                                        "Top picks for you",
-                                                        j
-                                                      )
-                                                    }
-                                                    productId={val.product_id}
-                                                    price={val.price}
-                                                    title={val.title}
-                                                    discountPercent={this.dicountPrice(
-                                                      val.mop,
-                                                      val.price
-                                                    )}
-                                                    searchresultNullpage={true}
-                                                    description={
-                                                      val.description
-                                                    }
-                                                    discountPrice={val.mop}
-                                                    noBrace={true}
-                                                    key={val.title}
-                                                  />
-                                                );
-                                              }
-                                            )}
-                                        </Carousel>
-                                      </div>
+                                        {data.trendingProducts &&
+                                          data.trendingProducts.data &&
+                                          data.trendingProducts.data.map(
+                                            (val, j) => {
+                                              return (
+                                                <ProductModule
+                                                  productImage={val.image_link}
+                                                  onClick={() =>
+                                                    this.redirectToPlp(
+                                                      val.link,
+                                                      val,
+                                                      "Top picks for you",
+                                                      j
+                                                    )
+                                                  }
+                                                  productId={val.product_id}
+                                                  price={val.price}
+                                                  title={val.title}
+                                                  discountPercent={this.dicountPrice(
+                                                    val.mop,
+                                                    val.price
+                                                  )}
+                                                  searchresultNullpage={true}
+                                                  description={val.description}
+                                                  discountPrice={val.mop}
+                                                  noBrace={true}
+                                                  key={val.title}
+                                                />
+                                              );
+                                            }
+                                          )}
+                                      </Carousel>
                                     </div>
-                                  )}
-                              </div>
+                                  </div>
+                                )}
                             </div>
                           </div>
-                        );
-                      })}
-                  </div>
-                </CommonCenter>
-              </div>
-            )}
+                        </div>
+                      );
+                    })}
+                </div>
+              </CommonCenter>
+            </div>
+          )}
         </DesktopOnly>
       </React.Fragment>
     );

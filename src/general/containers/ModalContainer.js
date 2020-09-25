@@ -15,7 +15,8 @@ import {
   redeemCliqVoucher,
   cancelProduct,
   updateReturnCancellation,
-  updateReturnForHOTC
+  updateReturnForHOTC,
+  getGenesysCallConfigData
 } from "../../account/actions/account.actions";
 import {
   getTncForBankOffer,
@@ -82,6 +83,7 @@ import {
   ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE
 } from "../../lib/adobeUtils";
 import { addProductToCart } from "../../pdp/actions/pdp.actions.js";
+import { showSecondaryLoader } from "../../general/secondaryLoader.actions";
 const ERROR_MESSAGE_IN_CANCELING_ORDER = "Error in Canceling order";
 const UPDATE_PASSWORD = "Password Updated Successfully";
 const mapStateToProps = (state, ownProps) => {
@@ -100,7 +102,9 @@ const mapStateToProps = (state, ownProps) => {
     redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl,
     loadingForUpdateReturnCancellation:
       state.profile.loadingForUpdateReturnCancellation,
-    userRating: state.profile.userRating
+    userRating: state.profile.userRating,
+    genesysCallConfigDataLoading: state.profile.genesysResponseLoading,
+    genesysCallConfigData: state.profile.genesysResponseData
   };
 };
 
@@ -445,6 +449,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     removeExchange: async data => {
       return await dispatch(removeExchange(data));
+    },
+    getGenesysCallConfigData: () => {
+      dispatch(getGenesysCallConfigData());
+    },
+    showSecondaryLoader: () => {
+      dispatch(showSecondaryLoader());
     }
   };
 };

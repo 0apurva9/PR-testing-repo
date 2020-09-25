@@ -80,9 +80,7 @@ export default class CustomerQueryForm extends Component {
           : "",
         name:
           nextProps.userDetails.firstName || nextProps.userDetails.lastName
-            ? `${nextProps.userDetails.firstName} ${
-                nextProps.userDetails.lastName
-              }`
+            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
             : "",
         mobile: nextProps.userDetails.mobileNumber
           ? nextProps.userDetails.mobileNumber
@@ -131,9 +129,7 @@ export default class CustomerQueryForm extends Component {
           : "",
         name:
           this.props.userDetails.firstName || this.props.userDetails.lastName
-            ? `${this.props.userDetails.firstName} ${
-                this.props.userDetails.lastName
-              }`
+            ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
             : "",
         mobile: this.props.userDetails.mobileNumber
           ? this.props.userDetails.mobileNumber
@@ -576,20 +572,22 @@ export default class CustomerQueryForm extends Component {
             l4: question.l4,
             ticketType: question.ticketType,
             transactionId:
-              selectedOrder &&
-              selectedOrder.products &&
-              selectedOrder.products[0].transactionId
-                ? selectedOrder.products[0].transactionId
+              this.props.questionType == "orderRelated"
+                ? selectedOrder &&
+                  selectedOrder.products &&
+                  selectedOrder.products.length &&
+                  selectedOrder.products[0].transactionId
                 : "",
             orderCode:
-              selectedOrder && selectedOrder.orderId
-                ? selectedOrder.orderId
+              this.props.questionType == "orderRelated"
+                ? selectedOrder && selectedOrder.orderId
                 : "",
             subOrderCode:
-              selectedOrder &&
-              selectedOrder.products &&
-              selectedOrder.products[0].sellerorderno
-                ? selectedOrder.products[0].sellerorderno
+              this.props.questionType == "orderRelated"
+                ? selectedOrder &&
+                  selectedOrder.products &&
+                  selectedOrder.products.length &&
+                  selectedOrder.products[0].sellerorderno
                 : ""
           }
         );

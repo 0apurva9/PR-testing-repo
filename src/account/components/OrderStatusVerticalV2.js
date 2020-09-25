@@ -1324,10 +1324,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
                                     )}
                                   </div>
                                 ) : completedSteps.includes(ITEM_PACKED) &&
-                                this.props.consignmentStatus !==
-                                  "ORDER_REJECTED" &&
-                                this.props.consignmentStatus !==
-                                  "REFUND_IN_PROGRESS" ? (
+                                  this.props.consignmentStatus !==
+                                    "ORDER_REJECTED" &&
+                                  this.props.consignmentStatus !==
+                                    "REFUND_IN_PROGRESS" ? (
                                   <React.Fragment>
                                     {/* <div className={styles.orderProcessHolder}>{itemPackedCustomerFacingName}</div> */}
                                     <div
@@ -1638,10 +1638,10 @@ export default class OrderStatusVerticalV2 extends React.Component {
                             </div>
                           </React.Fragment>
                         ) : !(
-                          this.props.consignmentStatus === RTO_INITIATED ||
-                          this.props.consignmentStatus === RTO_DELIVERED ||
-                          this.props.consignmentStatus === RTO_IN_PROGRESS
-                        ) ? (
+                            this.props.consignmentStatus === RTO_INITIATED ||
+                            this.props.consignmentStatus === RTO_DELIVERED ||
+                            this.props.consignmentStatus === RTO_IN_PROGRESS
+                          ) ? (
                           <div
                             className={
                               completedSteps.includes(REFUND_SUCCESSFUL)
@@ -1836,7 +1836,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
                               </div>
                             </div>
                           ) : completedSteps.includes(ITEM_PACKED) &&
-                          this.props.consignmentStatus !== ORDER_REJECTED ? (
+                            this.props.consignmentStatus !== ORDER_REJECTED ? (
                             <div
                               className={
                                 completedSteps.includes(ITEM_PACKED)

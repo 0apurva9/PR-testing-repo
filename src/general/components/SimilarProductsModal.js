@@ -25,15 +25,16 @@ export default class SimilarProductsModal extends React.Component {
       this.state.showLoader === false &&
       this.props.msdItems[key] &&
       !PRODUCT_CODE_REGEX.test(path) &&
-      (this.props.status && this.props.status.toLowerCase() === "success")
+      this.props.status &&
+      this.props.status.toLowerCase() === "success"
     ) {
       return this.renderCarousel(this.props.msdItems[key]);
     } else if (
       this.state.showLoader === false &&
       !this.props.msdItems[key] &&
-      (this.props.status &&
-        (this.props.status.toLowerCase() === "failure" ||
-          this.props.status.toLowerCase() === "error"))
+      this.props.status &&
+      (this.props.status.toLowerCase() === "failure" ||
+        this.props.status.toLowerCase() === "error")
     ) {
       return (
         <div>
@@ -115,7 +116,7 @@ export default class SimilarProductsModal extends React.Component {
             let seoDoublePrice = transformedDatum && transformedDatum.mop;
             let discount =
               mrpInteger && seoDoublePrice
-                ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)
+                ? Math.floor(((mrpInteger - seoDoublePrice) / mrpInteger) * 100)
                 : "";
             let imageURL = val.link && val.link.replace(/^.*\/\/[^\/]+/, "");
             return (

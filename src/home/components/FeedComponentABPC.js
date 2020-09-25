@@ -31,18 +31,21 @@ class FeedComponentABPC extends React.Component {
   componentDidMount() {
     let productDataArr = "";
     let currentComponent = this;
-    this.props.data &&
-      this.props.data.then(function(res) {
-        if (
-          res &&
-          res.results &&
-          (typeof res.results !== undefined || res.results !== null) &&
-          res.status === "Success"
-        ) {
-          productDataArr = Array.from(res.results);
-          currentComponent.setState({ eachPrductData: productDataArr });
-        }
-      });
+    if (this.props.data) {
+      currentComponent.setState({ eachPrductData: this.props.data });
+    }
+    // this.props.data &&
+    //   this.props.data.then(function(res) {
+    //     if (
+    //       res &&
+    //       res.results &&
+    //       (typeof res.results !== undefined || res.results !== null) &&
+    //       res.status === "Success"
+    //     ) {
+    //       productDataArr = Array.from(res.results);
+    //       currentComponent.setState({ eachPrductData: productDataArr });
+    //     }
+    //   });
   }
 
   render() {
@@ -95,6 +98,10 @@ class FeedComponentABPC extends React.Component {
             >
               {this.state.eachPrductData &&
                 this.state.eachPrductData.map((datum, i) => {
+                  let imageLink =
+                    datum &&
+                    datum.link &&
+                    datum.link.replace(/^.*\/\/[^\/]+/, "");
                   //       let productImage =
                   //       datum &&
                   //       datum.galleryImagesList &&                             commented for productDetails api
@@ -130,17 +137,17 @@ class FeedComponentABPC extends React.Component {
                           ? this.props.recentlyViewed
                           : null
                       }
-                      productImage={datum.imageUrl}
-                      title={datum.productName}
-                      price={datum.mrp}
-                      discountPrice={datum.winningSellerMOP}
+                      productImage={datum.image_link}
+                      title={datum.title}
+                      price={datum.price}
+                      discountPrice={datum.mop}
                       description={datum.description}
                       onDownload={datum.onDownload}
-                      webURL={datum.webURL}
-                      productId={datum.productListingId}
+                      webURL={imageLink}
+                      productId={datum.product_id}
                       showWishListButton={false}
                       ussId={datum.winningUssID}
-                      onClick={url => this.onClick(datum.webURL, datum, i)}
+                      onClick={url => this.onClick(imageLink, datum, i)}
                       {...rest}
                       {...datum}
                       widgetName={

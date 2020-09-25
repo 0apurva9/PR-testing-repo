@@ -573,9 +573,12 @@ export function addProductToCart(productDetails) {
           return val.USSID === productDetails.ussId;
         });
         if (
-          isProductInCart &&
-          isProductInCart.exchangeDetails &&
-          productDetails.isFromMobileExchange
+          (isProductInCart &&
+            isProductInCart.exchangeDetails &&
+            productDetails.isFromMobileExchange) ||
+          (isProductInCart &&
+            isProductInCart.exchangeDetails &&
+            !productDetails.isFromMobileExchange)
         ) {
           dispatch(
             showModal(PRODUCT_IN_BAG_MODAL, {
@@ -1225,8 +1228,8 @@ export function getMsdRequest(
         similarProducts === "SimilarProduct"
           ? SIMILAR_PRODUCTS_WIDGET_KEY
           : similarProducts === "similarOutOfStockProducts"
-            ? "similarOutOfStockProducts"
-            : RECOMMENDED_PRODUCTS_WIDGET_KEY;
+          ? "similarOutOfStockProducts"
+          : RECOMMENDED_PRODUCTS_WIDGET_KEY;
       if (
         resultJson &&
         resultJson.data &&
@@ -1412,6 +1415,7 @@ export function pdpAboutBrand(productCode) {
     msdRequestObject.append("mad_uuid", mcvId);
     msdRequestObject.append("details", true);
     msdRequestObject.append("product_id", productCode.toUpperCase());
+    msdRequestObject.append("fields", JSON.stringify(["mop"]));
 
     dispatch(pdpAboutBrandRequest());
     try {
@@ -1434,8 +1438,14 @@ export function pdpAboutBrand(productCode) {
         resultJson.data[0].itemIds.length > 0
       ) {
         dispatch(
-          getPdpItems(resultJson.data[0].itemIds, ABOUT_THE_BRAND_WIDGET_KEY)
+          getPdpItemsPdpSuccess(
+            resultJson.data[0].itemIds,
+            ABOUT_THE_BRAND_WIDGET_KEY
+          )
         );
+        // dispatch(
+        //   getPdpItems(resultJson.data[0].itemIds, ABOUT_THE_BRAND_WIDGET_KEY)
+        // );
         // updating reducer for follow brand  key
         dispatch(pdpAboutBrandSuccess(resultJson.data[0]));
       }
@@ -2237,7 +2247,10 @@ export function verifyIMEINumber(
       if (wishlistName) {
         bodyParams.wishlistName = wishlistName;
       }
-      const result = await api.post(`v2/mpl/verifyIMEINumber`, bodyParams);
+      const result = await api.post(
+        `v2/mpl/verifyIMEINumber?isDuplicateImei=true`,
+        bodyParams
+      );
       const resultJson = await result.json();
       return resultJson;
     } catch (e) {
@@ -2389,11 +2402,12 @@ export function addBundledProductsToCart(data) {
 
   return async (dispatch, getState, { api }) => {
     // main product ussid
-    let mainProductUssid = data.baseItem.ussID;
+    let mainProductUssid = data && data.baseItem.ussID;
     let selectedBundledProductUssIds = [];
-    data.associatedItems.map(product => {
-      selectedBundledProductUssIds.push(product.ussID);
-    });
+    data &&
+      data.associatedItems.map(product => {
+        selectedBundledProductUssIds.push(product.ussID);
+      });
     // check if bundled product in cart
     // if all bundled products are in cart then show modal else add bundled product in cart which are not in cart
     await dispatch(getCartCountForLoggedInUser()).then(cartCountDetails => {
@@ -2419,20 +2433,21 @@ export function addBundledProductsToCart(data) {
             mainProductWithBundledItems[0].bundledAssociatedItems;
           let isProductInCart = [];
           // check if selected bundled product ussid present in bundled product ussid of cart
-          selectedBundledProductUssIds.map(ussid => {
-            let cartProductUssid =
-              bundledProductsUssid &&
-              bundledProductsUssid.find(productUssid => {
-                return productUssid.ussID === ussid;
-              });
-            if (cartProductUssid) {
-              // product in cart
-              isProductInCart.push("Y");
-            } else {
-              // product not in cart
-              isProductInCart.push("N");
-            }
-          });
+          selectedBundledProductUssIds &&
+            selectedBundledProductUssIds.map(ussid => {
+              let cartProductUssid =
+                bundledProductsUssid &&
+                bundledProductsUssid.find(productUssid => {
+                  return productUssid.ussID === ussid;
+                });
+              if (cartProductUssid) {
+                // product in cart
+                isProductInCart.push("Y");
+              } else {
+                // product not in cart
+                isProductInCart.push("N");
+              }
+            });
           if (!isProductInCart.includes("N")) {
             dispatch(
               showModal(PRODUCT_IN_BAG_MODAL, {
