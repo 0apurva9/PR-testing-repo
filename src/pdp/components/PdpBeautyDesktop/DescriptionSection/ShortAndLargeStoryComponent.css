@@ -3,24 +3,26 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
+}
+
+.perfume-note-section:last-child:before {
+  content: "";
+  width: 1px;
+  height: 70%;
+  position: absolute;
+  top: 15%;
+  left: 0;
+  background-color: rgb(213, 213, 213);
 }
 
 .perfume-guide-sec {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  width: 480px;
+  justify-content: center;
+  width: 50%;
   position: relative;
-}
-
-.perfume-guide-sec:after {
-  content: '';
-  width: 1px;
-  height: 70%;
-  position: absolute;
-  top: 15%;
-  right: 0;
-  background-color: rgb(213,213,213)
 }
 
 .perfume-guide-blocks {
@@ -36,7 +38,7 @@
   background: transparent center center/67% auto no-repeat;
 }
 
-.perfume-guide-heading  {
+.perfume-guide-heading {
   width: 110px;
   display: block;
   margin: 0 auto;
@@ -49,20 +51,24 @@
 }
 
 .perfume-note-section {
-  width: 540px;
+  width: 50%;
   position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
+  justify-content: center;
+  align-items: stretch;
+  position: relative;
 }
 
 .perfume-note-block {
-  background-color: rgb(226,226,226);
+  background-color: rgb(236, 236, 236);
   border-radius: 66px;
   width: 130px;
-  height: 226px;
-  margin-left: 50px;
+  max-height: 350px;
+  margin-left: 35px;
   padding: 10px;
+  display: table-cell;
 }
 
 .perfume-note-img {
@@ -76,7 +82,7 @@
 .perfume-note-head {
   font-family: "Rubik", sans-serif;
   color: rgb(33, 33, 33);
-  font-weight: 600;
+  font-weight: 500;
   font-size: 14px;
   line-height: 16px;
   width: 100%;
@@ -87,7 +93,7 @@
 .perfume-note-desc {
   font-family: "Rubik", sans-serif;
   color: rgb(33, 33, 33);
-  padding: 0 10px;
+  padding: 0 13px;
   font-weight: 300;
   font-size: 14px;
   line-height: 18px;

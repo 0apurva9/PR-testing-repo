@@ -1,7 +1,6 @@
 .ship-date-block {
   padding: 0 10px 0 35px;
   width: 250px;
-  margin-top: 15px;
   position: relative;
 }
 
@@ -10,6 +9,7 @@
   min-height: 28px;
   position: relative;
   padding: 0 10px 0 35px;
+  margin-bottom: 15px;
 }
 
 .pick-store-block {
@@ -17,7 +17,7 @@
   width: 145px;
   position: relative;
   text-align: right;
-  margin-top: 15px;
+  margin-bottom: -5px;
 }
 
 .placeTime {
@@ -72,7 +72,6 @@
 .buttonHolderPiq {
   composes: buttonHolder;
   margin-left: 0;
-  margin-top: 4px;
 }
 
 .cncDeliveryAddress,
@@ -114,7 +113,6 @@
     composes: checkboxHolder;
     top: 0px;
   }
-
 }
 
 .address {
