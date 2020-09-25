@@ -24,7 +24,10 @@ import {
   stopLoaderOnLoginForOTPVerification
 } from "./auth.actions";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
-import { displayToast } from "../../general/toast.actions";
+import {
+  displayToast,
+  SOMETHING_WENT_WRONG
+} from "../../general/toast.actions";
 export const LOGIN_USER_REQUEST = "LOGIN_USER_REQUEST";
 export const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";
 export const LOGIN_USER_FAILURE = "LOGIN_USER_FAILURE";
@@ -493,7 +496,7 @@ export function globalAccessTokenFailure(error) {
   };
 }
 
-export function getGlobalAccessToken() {
+export function getGlobalAccessToken(isApiCall: 0) {
   return async (dispatch, getState, { api }) => {
     dispatch(globalAccessTokenRequest());
     try {
@@ -502,12 +505,21 @@ export function getGlobalAccessToken() {
       );
       const resultJson = await result.json();
 
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
+      if (resultJson && resultJson.access_token) {
+        return dispatch(globalAccessTokenSuccess(resultJson));
+      } else {
+        if (!resultJson && isApiCall === 0) {
+          isApiCall = isApiCall + 1;
+          dispatch(getGlobalAccessToken(isApiCall));
+        } else {
+          const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+          if (resultJsonStatus.status) {
+            throw new Error(resultJsonStatus.message);
+          } else {
+            dispatch(displayToast(SOMETHING_WENT_WRONG));
+          }
+        }
       }
-
-      return dispatch(globalAccessTokenSuccess(resultJson));
     } catch (e) {
       return dispatch(globalAccessTokenFailure(e.message));
     }
