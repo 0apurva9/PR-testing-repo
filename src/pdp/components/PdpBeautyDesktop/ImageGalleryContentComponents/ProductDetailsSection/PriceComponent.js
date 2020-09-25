@@ -48,7 +48,10 @@ export default class PriceComponent extends React.Component {
             </React.Fragment>
           )}
           {shareComponent && (
-            <ShareLinkComponent displayToast={this.props.displayToast} />
+            <ShareLinkComponent
+              displayToast={this.props.displayToast}
+              openBeautyPopup={this.props.openBeautyPopup}
+            />
           )}
         </div>
       </React.Fragment>

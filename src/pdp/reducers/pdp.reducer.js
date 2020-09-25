@@ -122,7 +122,8 @@ const productDescription = (
     similarProductStatus: null,
     similarProductLoading: false,
     similarProductDetails: null,
-    similarProductError: null
+    similarProductError: null,
+    beautyPopupModal: false
   },
   action
 ) => {
@@ -1313,6 +1314,10 @@ const productDescription = (
         similarProductStatus: action.status,
         similarProductError: action.error,
         similarProductLoading: false
+      });
+    case pdpActions.BEAUTY_POP_UP_TOGGLE:
+      return Object.assign({}, state, {
+        beautyPopupModal: action.status
       });
     default:
       return state;

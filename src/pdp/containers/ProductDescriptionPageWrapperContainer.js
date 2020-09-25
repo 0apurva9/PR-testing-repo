@@ -27,7 +27,8 @@ import {
   getHowToWear,
   getMoreFromBrand,
   getAboutTheBrand,
-  getSimilarProduct
+  getSimilarProduct,
+  openBeautyPopup
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -377,6 +378,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getSimilarProduct: async productId => {
       return await dispatch(getSimilarProduct(productId));
+    },
+    openBeautyPopup: toggle => {
+      return dispatch(openBeautyPopup(toggle));
     }
   };
 };

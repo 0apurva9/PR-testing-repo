@@ -442,8 +442,8 @@ class App extends Component {
     }
     if (
       cartCode &&
-      (!this.props.location.pathname.includes("cart") &&
-        !this.props.location.pathname.includes("checkout"))
+      !this.props.location.pathname.includes("cart") &&
+        !this.props.location.pathname.includes("checkout")
     ) {
       // Call minicart after landing on the site or reloading page
       this.props.getMinicartProducts();
@@ -477,9 +477,7 @@ class App extends Component {
     let tracker = document.createElement("script");
     tracker.type = "text/javascript";
     tracker.async = true;
-    tracker.src = `https://c.o-s.io/${
-      process.env.REACT_APP_MONETIZATION_CLIENT_ID
-    }/tracker.js`;
+    tracker.src = `https://c.o-s.io/${process.env.REACT_APP_MONETIZATION_CLIENT_ID}/tracker.js`;
     var mainScript = document.getElementsByTagName("script")[0];
     mainScript.parentNode.insertBefore(tracker, mainScript);
   }
@@ -514,13 +512,17 @@ class App extends Component {
       }
     }
 
-    if (this.props.modalStatus) {
+    if (this.props.beautyPopupModal) {
+      className = AppStyles.beauty_blur;
+    } else if (this.props.modalStatus) {
       className = AppStyles.blur;
     }
+
     const appTransform =
       this.props.scrollPosition !== 0
         ? `translateY(-${this.props.scrollPosition}px)`
         : null;
+
     return (
       <React.Fragment>
         <div className={className} style={{ transform: appTransform }}>
