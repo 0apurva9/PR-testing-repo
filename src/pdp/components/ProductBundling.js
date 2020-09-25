@@ -40,7 +40,12 @@ export default class ProductBundling extends React.Component {
 
   async componentDidMount() {
     // call bagCount API to show check icon against bundled product which are in cart
-    await this.props.getCartCountForLoggedInUser();
+    if (
+      this.props.bundledProductSuggestionDetails &&
+      this.props.bundledProductSuggestionDetails.slots
+    ) {
+      await this.props.getCartCountForLoggedInUser();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
