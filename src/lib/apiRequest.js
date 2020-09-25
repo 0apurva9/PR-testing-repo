@@ -615,6 +615,11 @@ async function replaceOldGlobalTokenCookie(url, newGlobalTokenCookie) {
       ACEESS_TOKEN_REGEX,
       `$1${newGlobalTokenCookie.access_token}$2`
     );
+  } else if (oldGlobalCookie && !oldGlobalCookie.access_token) {
+    return url.replace(
+      ACEESS_TOKEN_REGEX,
+      `$1${newGlobalTokenCookie.access_token}$2`
+    );
   } else {
     return url.replace(
       oldGlobalCookie.access_token,
@@ -634,6 +639,11 @@ async function replaceOldCustomerCookie(url, newCustomerCookie) {
     !url.includes(newCustomerCookie.access_token) &&
     oldCustomerCookie.access_token === newCustomerCookie.access_token
   ) {
+    return url.replace(
+      ACEESS_TOKEN_REGEX,
+      `$1${newCustomerCookie.access_token}$2`
+    );
+  } else if (oldCustomerCookie && !oldCustomerCookie.access_token) {
     return url.replace(
       ACEESS_TOKEN_REGEX,
       `$1${newCustomerCookie.access_token}$2`
