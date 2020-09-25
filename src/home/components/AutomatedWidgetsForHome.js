@@ -45,6 +45,7 @@ class AutomatedWidgetsForHome extends React.Component {
     super(props);
     this.selector = React.createRef();
   }
+
   goToProductDescription = (url, items, widgetName, index) => {
     let icidTracking = `"home":${widgetName}:"blank":${index +
       1}:"blank ":"blank":"blank":${
@@ -164,10 +165,19 @@ class AutomatedWidgetsForHome extends React.Component {
       this.props.feedComponentData &&
       this.props.feedComponentData.items[0] &&
       this.props.feedComponentData.items[0].webURL;
-    let productCode =
-      this.props.feedComponentData &&
-      this.props.feedComponentData.items[0] &&
-      this.props.feedComponentData.items[0].hexCode;
+    let productCode;
+    if (component === "114" || component === "0" || component === "4") {
+      productCode =
+        this.props.feedComponentData &&
+        this.props.feedComponentData.items[0] &&
+        this.props.feedComponentData.items[0].hexCode;
+    } else {
+      productCode =
+        this.props.feedComponentData &&
+        this.props.feedComponentData.items[0] &&
+        this.props.feedComponentData.items[0].description;
+    }
+
     let data =
       this.props.homeAutoWidget &&
       component &&

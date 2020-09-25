@@ -558,15 +558,15 @@ const feed = (
     case homeActions.AUTOMATED_WIDGET_HOME_SUCCESS:
       const newMsdRecommendedItems = { ...state.homeAutoWidget };
       let check = {};
+      const filtered = Object.keys(newMsdRecommendedItems).filter(
+        key => key === action.widgetKey
+      );
       if (
         action.widgetKey === "4" ||
         action.widgetKey === "114" ||
         action.widgetKey === "0"
       ) {
         if (newMsdRecommendedItems) {
-          const filtered = Object.keys(newMsdRecommendedItems).filter(
-            key => key === action.widgetKey
-          );
           if (filtered && Array.isArray(filtered) && filtered.length > 0) {
             check[action.productCode] = action.homeAutoWidgetData;
             newMsdRecommendedItems[action.widgetKey] = {
@@ -582,8 +582,16 @@ const feed = (
           newMsdRecommendedItems[action.widgetKey] = check;
         }
       } else {
-        check[action.productCode] = action.homeAutoWidgetData;
-        newMsdRecommendedItems[action.widgetKey] = check;
+        if (filtered && Array.isArray(filtered) && filtered.length > 0) {
+          check[action.filterData] = action.homeAutoWidgetData;
+          newMsdRecommendedItems[action.widgetKey] = {
+            ...check,
+            ...state.homeAutoWidget[action.widgetKey]
+          };
+        } else {
+          check[action.filterData] = action.homeAutoWidgetData;
+          newMsdRecommendedItems[action.widgetKey] = check;
+        }
       }
       return Object.assign({}, state, {
         loadMsdSkeleton: true,

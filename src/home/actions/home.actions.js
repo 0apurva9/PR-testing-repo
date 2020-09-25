@@ -952,14 +952,16 @@ export function msdDiscoverMoreHomeComponents(type) {
 export function automatedWidgetsForHomeSuccess(
   homeAutoWidgetData,
   widgetKey,
-  productCode
+  productCode,
+  filterData
 ) {
   return {
     type: AUTOMATED_WIDGET_HOME_SUCCESS,
     status: SUCCESS,
     homeAutoWidgetData,
     widgetKey,
-    productCode
+    productCode,
+    filterData
   };
 }
 export function automatedWidgetsForHomeRequest() {
@@ -1142,7 +1144,8 @@ export function automatedWidgetsForHome(widgetData) {
           automatedWidgetsForHomeSuccess(
             data,
             widgetData.webURL,
-            widgetData.hexCode
+            widgetData.hexCode,
+            widgetData.description
           )
         );
         //}
