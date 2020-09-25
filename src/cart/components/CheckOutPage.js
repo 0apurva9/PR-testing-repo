@@ -155,6 +155,7 @@ import {
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import WhatsappUpdates from "./WhatsappUpdates";
 import PaymentConfirmationPage from "./PaymentConfirmationPage";
+import { Redirect } from "react-router-dom";
 const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
 const PAYMENT_MODE = "EMI";
 const NET_BANKING = "NB";
@@ -699,16 +700,14 @@ class CheckOutPage extends React.Component {
                   selectedStoreDetails={val.storeDetails}
                   cliqPiqSelected={this.state.cliqPiqSelected}
                   product={val}
-                  /**
-                   * Old Implementation
-                   * this.props.cart &&
+                  isShippingObjAvailable={
+                    this.props.cart &&
                     this.props.cart.cartDetailsCNC &&
                     this.props.cart.cartDetailsCNC.cartAmount &&
                     this.props.cart.cartDetailsCNC.cartAmount.shippingCharge
                       ? true
                       : false
-                   */
-                  isShippingObjAvailable={false}
+                  }
                 />
               </div>
             );
@@ -1212,8 +1211,7 @@ class CheckOutPage extends React.Component {
                 selectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
                 selectedSlaveIdObj[
                   this.state.selectedProductsUssIdForCliqAndPiq
-                ] =
-                  product.selectedStoreCNC;
+                ] = product.selectedStoreCNC;
                 this.setState(
                   {
                     ussIdAndDeliveryModesObj: updatedDeliveryModeUssid,
@@ -2905,6 +2903,27 @@ if you have order id in local storage then you have to show order confirmation p
           this.softReservationForPayment(this.state.cardDetails);
         }
       }
+      if (this.state.currentPaymentMode === EMI) {
+        if (window._satellite) {
+          window._satellite.track("cpj_EMI_Pay_Now_Click");
+        }
+        if (window && window.digitalData) {
+          Object.assign(window.digitalData, {
+            checkout: {
+              tenure: {
+                value: this.state.cardDetails.emi_tenure
+              }
+            }
+          });
+          Object.assign(window.digitalData, {
+            checkout: {
+              option: {
+                name: this.state.currentSelectedEMIType
+              }
+            }
+          });
+        }
+      }
 
       if (this.state.currentPaymentMode === NET_BANKING_PAYMENT_MODE) {
         if (this.state.isGiftCard) {
@@ -3376,9 +3395,7 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
-              this.state.cardDetails.emi_bank
-            } card.`
+            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
           });
         } else if (
           binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
@@ -3389,9 +3406,7 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${
-              this.state.cardDetails.selectedBankName
-            } card only.`
+            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${this.state.cardDetails.selectedBankName} card only.`
           });
         } else if (
           this.props.cart &&
@@ -3459,9 +3474,7 @@ if you have order id in local storage then you have to show order confirmation p
       ) {
         this.setState({
           emiBinValidationStatus: true,
-          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
-            this.state.cardDetails.emi_bank
-          } card.`
+          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
         });
       } else {
         this.setState({
@@ -3631,6 +3644,20 @@ if you have order id in local storage then you have to show order confirmation p
     let retryPaymentDetailsObj = JSON.parse(
       localStorage.getItem(RETRY_PAYMENT_DETAILS)
     );
+    /**
+     * Condition to show shipping message only in case of the "Choose Delivery Mode"
+     */
+    const showShippingMsg =
+      !this.state.isPaymentFailed &&
+      this.props.cart.cartDetailsCNC &&
+      this.state.confirmAddress &&
+      !this.state.deliverMode &&
+      !this.state.isComingFromCliqAndPiq &&
+      !this.state.isGiftCard &&
+      !this.state.isComingFromRetryUrl
+        ? true
+        : false;
+
     return (
       <DesktopCheckout
         padding={this.state.padding}
@@ -3697,16 +3724,20 @@ if you have order id in local storage then you have to show order confirmation p
         }
         isExchangeServiceableArray={isExchangeServiceableArray}
         isQuoteExpiredCheckout={isQuoteExpired}
-        /**
-         * Old Implementation
-         * this.props.cart &&
+        isShippingObjAvailable={
+          this.props.cart &&
           this.props.cart.cartDetailsCNC &&
           this.props.cart.cartDetailsCNC.cartAmount &&
           this.props.cart.cartDetailsCNC.cartAmount.shippingCharge
             ? true
             : false
-         */
-        isShippingObjAvailable={false}
+        }
+        shippingPromoMessage={
+          this.props.cart &&
+          this.props.cart.cartDetailsCNC &&
+          this.props.cart.cartDetailsCNC.shippingPromoMessage
+        }
+        showShippingMsg={showShippingMsg}
       />
     );
   };

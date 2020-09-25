@@ -53,6 +53,13 @@ export default class SingleBundledProduct extends React.Component {
     ) {
       checked = true;
     }
+    let highlightMainProductPrice = false;
+    if (
+      this.props.isBundledProductSelected &&
+      this.props.isBundledProductSelected.includes(false)
+    ) {
+      highlightMainProductPrice = true;
+    }
     let styleForExtraProducts = styles.hideProducts;
     if (this.props.productIndex <= 1) {
       styleForExtraProducts = styles.showProducts;
@@ -163,9 +170,9 @@ export default class SingleBundledProduct extends React.Component {
                     >
                       {this.props.productData.ratingCount !== 0 &&
                         this.props.productData.ratingCount && (
-                          <div className={styles.totalNoOfReviews}>{`(${
-                            this.props.productData.ratingCount
-                          })`}</div>
+                          <div
+                            className={styles.totalNoOfReviews}
+                          >{`(${this.props.productData.ratingCount})`}</div>
                         )}
                     </StarRating>
                   )
@@ -188,7 +195,15 @@ export default class SingleBundledProduct extends React.Component {
 
           <div className={styles.productPriceContainer}>
             <div
-              className={checked ? styles.productMop : styles.productMopGrey}
+              className={
+                this.props.isMainProduct
+                  ? highlightMainProductPrice
+                    ? styles.productMop
+                    : styles.productMopGrey
+                  : checked
+                  ? styles.productMop
+                  : styles.productMopGrey
+              }
             >
               {this.props.productData.winningSellerPrice &&
                 this.props.productData.winningSellerPrice
@@ -200,11 +215,12 @@ export default class SingleBundledProduct extends React.Component {
               {this.props.productData.mrpPrice &&
                 this.props.productData.mrpPrice.formattedValueNoDecimal}
             </div>
-            {this.props.productData.discount && (
-              <div className={styles.productDiscount}>
-                ({this.props.productData.discount}% OFF)
-              </div>
-            )}
+            {this.props.productData.discount &&
+              this.props.productData.discount != 0 && (
+                <div className={styles.productDiscount}>
+                  ({this.props.productData.discount}% OFF)
+                </div>
+              )}
           </div>
         </div>
       </div>
@@ -247,5 +263,6 @@ SingleBundledProduct.propTypes = {
         })
       )
     })
-  )
+  ),
+  isBundledProductSelected: PropTypes.array
 };

@@ -97,12 +97,12 @@ export default class Button extends React.Component {
               : this.props.disabled &&
                 this.props.disabledBgGrey &&
                 this.props.type === "primary"
-                ? "#989898"
-                : this.props.disabled &&
-                  this.props.disabledBgGrey &&
-                  this.props.type === "hollow"
-                  ? "#FFF"
-                  : this.state.backgroundColor,
+              ? "#989898"
+              : this.props.disabled &&
+                this.props.disabledBgGrey &&
+                this.props.type === "hollow"
+              ? "#FFF"
+              : this.state.backgroundColor,
           border: `2px solid ${
             this.props.disabled &&
             this.props.disabledBgGrey &&
@@ -114,30 +114,37 @@ export default class Button extends React.Component {
         onMouseEnter={() => this.hoverIn()}
         onMouseLeave={() => this.hoverOut()}
         onClick={e => this.handleClick(e)}
+        data-test={this.props.dataTest + `-main-div`}
       >
-        {this.props.icon &&
-          this.props.icon.element && (
-            <div
-              className={this.styles.iconWrapper}
-              style={{
-                height: this.props.icon.size,
-                width: this.props.icon.size,
-                marginRight: this.props.icon.offset
-              }}
-            >
-              <div className={iconClass}>{this.props.icon.element}</div>
-              {this.props.icon.hoveredElement && (
-                <div className={secondaryIconClass}>
-                  {this.props.icon.hoveredElement}
-                </div>
-              )}
-            </div>
-          )}
+        {this.props.icon && this.props.icon.element && (
+          <div
+            className={this.styles.iconWrapper}
+            style={{
+              height: this.props.icon.size,
+              width: this.props.icon.size,
+              marginRight: this.props.icon.offset
+            }}
+          >
+            <div className={iconClass}>{this.props.icon.element}</div>
+            {this.props.icon.hoveredElement && (
+              <div className={secondaryIconClass}>
+                {this.props.icon.hoveredElement}
+              </div>
+            )}
+          </div>
+        )}
 
         {textStyle ? (
-          <span style={{ ...textStyle }}>{this.props.label}</span>
+          <span style={{ ...textStyle }} data-test={this.props.dataTest}>
+            {this.props.label}
+          </span>
         ) : (
-          <span style={{ ...this.props.textStyle }}>{this.props.label}</span>
+          <span
+            style={{ ...this.props.textStyle }}
+            data-test={this.props.dataTest}
+          >
+            {this.props.label}
+          </span>
         )}
       </div>
     );
@@ -165,7 +172,8 @@ Button.propTypes = {
     hoveredElement: PropTypes.element,
     size: PropTypes.number,
     offset: PropTypes.number
-  })
+  }),
+  dataTest: PropTypes.string
 };
 
 Button.defaultProps = {
@@ -184,5 +192,6 @@ Button.defaultProps = {
   icon: {
     size: 30,
     offset: 10
-  }
+  },
+  dataTest: "button"
 };

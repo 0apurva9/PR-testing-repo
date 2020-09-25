@@ -6,6 +6,7 @@ import {
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import styles from "./DesktopCheckout.css";
+import shippingTruck from "../components/img/shipping-truck.svg";
 export default class DesktopCheckout extends React.Component {
   constructor(props) {
     super(props);
@@ -58,6 +59,23 @@ export default class DesktopCheckout extends React.Component {
     if (cartAmount) {
       return (
         <div className={styles.base}>
+          {this.props.shippingPromoMessage &&
+            this.props.shippingPromoMessage !== "" &&
+            this.props.showShippingMsg && (
+              <div className={styles.shippingChargeMessage}>
+                <div className={styles.innerShippingMsgDiv}>
+                  <div className={styles.shippingChargeMsgIcon}>
+                    <img src={shippingTruck} alt="shippingTruck" />
+                  </div>
+                  <div
+                    className={styles.shippingChargeMsgText}
+                    dangerouslySetInnerHTML={{
+                      __html: this.props.shippingPromoMessage
+                    }}
+                  ></div>
+                </div>
+              </div>
+            )}
           <div className={styles.section}>
             {cartAmount.bagTotal && (
               <div className={styles.row}>
@@ -103,15 +121,14 @@ export default class DesktopCheckout extends React.Component {
                   </div>
                 </div>
               )}
-            {cartAmount.bagDiscount &&
-              cartAmount.bagDiscount.value !== 0 && (
-                <div className={styles.row}>
-                  <div className={styles.label}>Bag Discount</div>
-                  <div className={styles.info}>
-                    -{cartAmount.bagDiscount.formattedValue}
-                  </div>
+            {cartAmount.bagDiscount && cartAmount.bagDiscount.value !== 0 && (
+              <div className={styles.row}>
+                <div className={styles.label}>Bag Discount</div>
+                <div className={styles.info}>
+                  -{cartAmount.bagDiscount.formattedValue}
                 </div>
-              )}
+              </div>
+            )}
             {cartAmount.couponDiscountAmount &&
               cartAmount.couponDiscountAmount.value !== 0 && (
                 <div className={styles.row}>
@@ -133,15 +150,14 @@ export default class DesktopCheckout extends React.Component {
                   </div>
                 </div>
               )}
-            {cartAmount.cartDiscount &&
-              cartAmount.cartDiscount.value !== 0 && (
-                <div className={styles.row}>
-                  <div className={styles.label}>Bank Offer Discount</div>
-                  <div className={styles.info}>
-                    -{cartAmount.cartDiscount.formattedValue}
-                  </div>
+            {cartAmount.cartDiscount && cartAmount.cartDiscount.value !== 0 && (
+              <div className={styles.row}>
+                <div className={styles.label}>Bank Offer Discount</div>
+                <div className={styles.info}>
+                  -{cartAmount.cartDiscount.formattedValue}
                 </div>
-              )}
+              </div>
+            )}
             {cartAmount.noCostEMIDiscountValue &&
               !this.props.noCostEmiEligibility &&
               cartAmount.noCostEMIDiscountValue.value !== 0 && (
@@ -380,54 +396,52 @@ export default class DesktopCheckout extends React.Component {
                   </div>
                 )}
 
-                {this.props.isOnCartPage &&
-                  defaultPinCode && (
-                    <div
-                      className={[
-                        styles.button,
-                        disableButton ? "" : styles.shadowBtn
-                      ].join(" ")}
-                    >
-                      <Button
-                        disabled={disableButton}
-                        disabledBgGrey={true}
-                        type="primary"
-                        backgroundColor="#ff1744"
-                        height={40}
-                        label={this.props.label}
-                        width={150}
-                        textStyle={{
-                          color: "#FFF",
-                          fontSize: 14
-                        }}
-                        onClick={() => this.handleClick()}
-                      />
-                    </div>
-                  )}
-                {this.props.isOnCartPage &&
-                  !defaultPinCode && (
-                    <div
-                      className={[
-                        styles.button,
-                        disableButton ? "" : styles.shadowBtn
-                      ].join(" ")}
-                    >
-                      <Button
-                        disabled={disableButton}
-                        disabledBgGrey={true}
-                        type="primary"
-                        backgroundColor="#ff1744"
-                        height={40}
-                        label={this.props.label}
-                        width={150}
-                        textStyle={{
-                          color: "#FFF",
-                          fontSize: 14
-                        }}
-                        onClick={() => this.handleFocusOnPinCode()}
-                      />
-                    </div>
-                  )}
+                {this.props.isOnCartPage && defaultPinCode && (
+                  <div
+                    className={[
+                      styles.button,
+                      disableButton ? "" : styles.shadowBtn
+                    ].join(" ")}
+                  >
+                    <Button
+                      disabled={disableButton}
+                      disabledBgGrey={true}
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={40}
+                      label={this.props.label}
+                      width={150}
+                      textStyle={{
+                        color: "#FFF",
+                        fontSize: 14
+                      }}
+                      onClick={() => this.handleClick()}
+                    />
+                  </div>
+                )}
+                {this.props.isOnCartPage && !defaultPinCode && (
+                  <div
+                    className={[
+                      styles.button,
+                      disableButton ? "" : styles.shadowBtn
+                    ].join(" ")}
+                  >
+                    <Button
+                      disabled={disableButton}
+                      disabledBgGrey={true}
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={40}
+                      label={this.props.label}
+                      width={150}
+                      textStyle={{
+                        color: "#FFF",
+                        fontSize: 14
+                      }}
+                      onClick={() => this.handleFocusOnPinCode()}
+                    />
+                  </div>
+                )}
               </React.Fragment>
             )}
           </div>

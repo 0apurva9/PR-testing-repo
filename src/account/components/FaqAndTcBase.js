@@ -36,7 +36,7 @@ export default class FaqAndTcBase extends Component {
         <div className={styles.faqAndTcContainer}>
           <div className={styles.pleaseNoteContainer}>
             <div className={styles.pleaseNote}>
-              <b>PLEASE NOTE</b>
+              <b>Please Note</b>
             </div>
             <div className={styles.pleaseNoteBody}>
               <div className={styles.marginBottom}>

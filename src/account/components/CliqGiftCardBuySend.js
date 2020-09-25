@@ -104,6 +104,27 @@ export default class CliqGiftCardBuySend extends Component {
             this.props.displayToast("Please enter sender name");
             return false;
           } else {
+            if (window._satellite) {
+              window._satellite.track("cliqCash_Proceed_Click");
+            }
+            if (window && window.digitalData) {
+              Object.assign(window.digitalData, {
+                cliqcash: {
+                  price: {
+                    value: this.state.selectedAmount
+                  }
+                }
+              });
+            }
+            if (window && window.digitalData) {
+              Object.assign(window.digitalData, {
+                cliqcash: {
+                  checkbox: {
+                    name: "Buy for yourself"
+                  }
+                }
+              });
+            }
             this.props.createGiftCardDetails(giftCardDetails);
           }
         } else {
@@ -156,6 +177,27 @@ export default class CliqGiftCardBuySend extends Component {
             this.props.displayToast("Please enter sender name");
             return false;
           } else {
+            if (window._satellite) {
+              window._satellite.track("cliqCash_Proceed_Click");
+            }
+            if (window && window.digitalData) {
+              Object.assign(window.digitalData, {
+                cliqcash: {
+                  price: {
+                    value: this.state.selectedAmount
+                  }
+                }
+              });
+            }
+            if (window && window.digitalData) {
+              Object.assign(window.digitalData, {
+                cliqcash: {
+                  checkbox: {
+                    name: "Send as Gift card"
+                  }
+                }
+              });
+            }
             this.props.createGiftCardDetails(giftCardDetails);
           }
         }

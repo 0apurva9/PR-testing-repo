@@ -39,6 +39,12 @@
   opacity: 1;
   transition: 300ms;
 }
+.subHeding{
+  display: block;
+  font-size: 12px;
+  margin-top: 6px;
+
+}
 @media screen and (max-width: 1024px) {
   .active {
     color: #ff1744;

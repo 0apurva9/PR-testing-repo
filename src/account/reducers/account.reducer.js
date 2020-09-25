@@ -48,6 +48,10 @@ const account = (
     cliqCashExpiringDetails: null,
     cliqCashExpiringError: null,
 
+    cliqCashbackDetailsStatus: null,
+    cliqCashbackDetails: null,
+    cliqCashbackDetailsError: null,
+
     wishlist: null,
     wishlistStatus: null,
     wishlistError: null,
@@ -316,7 +320,22 @@ const account = (
     submitExchangeCashbackDetailsStatus: null,
     submitExchangeCashbackDetailsLoading: false,
     submitExchangeCashbackDetails: null,
-    submitExchangeCashbackDetailsError: null
+    submitExchangeCashbackDetailsError: null,
+
+    cliq2CallConfigDataStatus: null,
+    cliq2CallConfigDataLoading: false,
+    cliq2CallConfigData: null,
+    cliq2CallConfigDataError: null,
+
+    genesysResponseStatus: null,
+    genesysResponseLoading: false,
+    genesysResponseData: null,
+    genesysResponseError: null,
+
+    genesysCustomerCallRequestStatus: null,
+    genesysCustomerCallRequestLoading: false,
+    genesysCustomerCallRequestData: null,
+    genesysCustomerCallRequestError: null
   },
   action
 ) => {
@@ -912,6 +931,26 @@ const account = (
       return Object.assign({}, state, {
         cliqCashExpiringStatus: action.status,
         cliqCashExpiringError: action.error,
+        loading: false
+      });
+
+    case accountActions.GET_USER_CLIQ_CASHBACK_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        cliqCashbackDetailsStatus: action.status,
+        loading: true
+      });
+
+    case accountActions.GET_USER_CLIQ_CASHBACK_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        cliqCashbackDetailsStatus: action.status,
+        cliqCashbackDetails: action.getCliqCashbackDetails,
+        loading: false
+      });
+
+    case accountActions.GET_USER_CLIQ_CASHBACK_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        cliqCashbackDetailsStatus: action.status,
+        cliqCashbackDetailsError: action.error,
         loading: false
       });
 
@@ -2080,6 +2119,68 @@ const account = (
         retryOrderDetailsStatus: action.status,
         retryOrderDetails: action.retryOrderDetails
       });
+    case accountActions.GET_CLIQ_2_CALL_CONFIG_REQUEST:
+      return Object.assign({}, state, {
+        cliq2CallConfigDataStatus: action.status,
+        cliq2CallConfigDataLoading: true
+      });
+
+    case accountActions.GET_CLIQ_2_CALL_CONFIG_SUCCESS:
+      return Object.assign({}, state, {
+        cliq2CallConfigDataStatus: action.status,
+        cliq2CallConfigDataLoading: false,
+        cliq2CallConfigData: action.cliq2CallConfigData,
+        genesysResponseData: null
+      });
+
+    case accountActions.GET_CLIQ_2_CALL_CONFIG_FAILURE:
+      return Object.assign({}, state, {
+        cliq2CallConfigDataStatus: action.status,
+        cliq2CallConfigDataLoading: false,
+        cliq2CallConfigDataError: action.error
+      });
+
+    case accountActions.GET_GENESYS_RESPONSE_REQUEST:
+      return Object.assign({}, state, {
+        genesysResponseStatus: action.status,
+        genesysResponseLoading: true
+      });
+
+    case accountActions.GET_GENESYS_RESPONSE_SUCCESS:
+      return Object.assign({}, state, {
+        genesysResponseStatus: action.status,
+        genesysResponseLoading: false,
+        genesysResponseData: action.genesysResponse
+      });
+
+    case accountActions.GET_GENESYS_RESPONSE_FAILURE:
+      return Object.assign({}, state, {
+        genesysResponseStatus: action.status,
+        genesysResponseLoading: false,
+        genesysResponseError: action.error
+      });
+
+    case accountActions.GENESYS_CUSTOMER_CALL_REQUEST:
+      return {
+        ...state,
+        genesysCustomerCallRequestStatus: action.status,
+        genesysCustomerCallRequestLoading: true
+      };
+    case accountActions.GENESYS_CUSTOMER_CALL_REQUEST_SUCCESS:
+      return {
+        ...state,
+        genesysCustomerCallRequestStatus: action.status,
+        genesysCustomerCallRequestLoading: false,
+        genesysCustomerCallRequestData: action.data
+      };
+    case accountActions.GENESYS_CUSTOMER_CALL_REQUEST_FAILURE:
+      return {
+        ...state,
+        genesysCustomerCallRequestStatus: action.status,
+        genesysCustomerCallRequestLoading: false,
+        genesysCustomerCallRequestError: action.error
+      };
+
     default:
       return state;
   }
