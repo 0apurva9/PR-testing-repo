@@ -786,10 +786,10 @@ export default class OrderRelatedIssue extends React.Component {
       IssueType: this.state.otherQuestion
         ? this.state.question.subIssueType
         : this.state.question.issueType,
-      OrderId: this.props.selectedOrderDetails
+      OrderId: this.state.orderRelatedQuestion
         ? this.props.selectedOrderDetails.orderId
         : "",
-      TransactionId: this.state.slectOrderData
+      TransactionId: this.state.orderRelatedQuestion
         ? this.state.slectOrderData.transactionId
         : "",
       RequestSource: "MPL-desktop"
@@ -798,6 +798,7 @@ export default class OrderRelatedIssue extends React.Component {
     const placeCustomerResponse = await this.props.placeCustomerCallRequest(
       callRequestObj
     );
+
     this.setState({ raiseTiketRequest: true, showLoader: true });
     setTimeout(() => {
       this.setState({ raiseTiketRequest: false, raiseTiketSucess: true });
