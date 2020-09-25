@@ -268,6 +268,8 @@ export const ADD_BUNDLED_PRODUCTS_TO_CART_SUCCESS =
 export const ADD_BUNDLED_PRODUCTS_TO_CART_FAILURE =
   "ADD_BUNDLED_PRODUCTS_TO_CART_FAILURE";
 
+export const BEAUTY_POP_UP_TOGGLE = "BEAUTY_POP_UP_TOGGLE";
+
 export function getProductDescriptionRequest() {
   return {
     type: PRODUCT_DESCRIPTION_REQUEST,
@@ -395,6 +397,13 @@ export function getMasterTemplateFailure(error) {
     error,
     type: GET_MASTER_TEMPLATE_FAILURE,
     status: ERROR
+  };
+}
+
+export function openBeautyPopup(toggle) {
+  return {
+    type: BEAUTY_POP_UP_TOGGLE,
+    status: toggle
   };
 }
 
