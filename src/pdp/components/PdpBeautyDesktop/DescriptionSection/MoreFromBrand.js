@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+
 import Carousel from "../../../../general/components/Carousel";
 import ProductModule from "../../../../general/components/ProductModule";
 import { transformData } from "../../../../home/components/utils";

@@ -2,7 +2,8 @@ import React from "react";
 import { Collapse } from "react-collapse";
 
 import styles from "./StoryComponent.css";
-import StoryToggleComponent from "./StoryToggleComponent";
+import DetailsLongComponent from "./DetailsLongComponent";
+import ShortAndLargeStoryComponent from "./ShortAndLargeStoryComponent";
 import { sortArrayOfObjectByIntegerKeyValue } from "../../../../pdp/reducers/utils";
 
 const HEADING = "The Finer Details";
@@ -65,6 +66,9 @@ export default class StoryComponent extends React.Component {
     const halfSet = Math.ceil(items / 2);
     const halfSetItems = detailsSectionContentSorted.slice(0, halfSet);
     const remSetItems = detailsSectionContentSorted.slice(halfSet, items);
+    const hasStory =
+      (shortStorySmallContent && shortStorySmallContent.length > 0) ||
+      (shortStoryLargeContentSorted && shortStoryLargeContentSorted.length > 0);
     return (
       <React.Fragment>
         <div className={styles.container}>
@@ -82,17 +86,27 @@ export default class StoryComponent extends React.Component {
                   this.openMenu();
                 }}
               >
-                <div className={styles["details-heading"]}>
-                  {HEADING.toUpperCase()}
-                </div>
-                <div className={iconActive} />
+                {((shortStorySmallContent &&
+                  shortStorySmallContent.length > 0) ||
+                  (shortStoryLargeContentSorted &&
+                    shortStoryLargeContentSorted.length > 0)) && (
+                  <React.Fragment>
+                    <div className={styles["details-heading"]}>
+                      {HEADING.toUpperCase()}
+                    </div>
+                    <div className={iconActive} />
+                  </React.Fragment>
+                )}
               </div>
 
               <Collapse isOpened={this.state.isOpen}>
-                <StoryToggleComponent
-                  detailsLongRef={this.props.detailsLongRef}
+                <ShortAndLargeStoryComponent
                   shortStorySmallContent={shortStorySmallContent}
                   shortStoryLargeContentSorted={shortStoryLargeContentSorted}
+                />
+                <DetailsLongComponent
+                  hasStory={hasStory}
+                  detailsLongRef={this.props.detailsLongRef}
                   halfSetItems={halfSetItems}
                   remSetItems={remSetItems}
                   styleNotes={styleNotes}

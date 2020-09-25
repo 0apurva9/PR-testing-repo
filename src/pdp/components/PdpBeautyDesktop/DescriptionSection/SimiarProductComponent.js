@@ -27,6 +27,7 @@ export default class MoreFromBrand extends Component {
             sliderWidthFull={true}
           >
             {this.props.similarProductResponse &&
+              this.props.similarProductResponse.results &&
               this.props.similarProductResponse.results.map((val, i) => {
                 const transformedDatum = transformData(val);
                 const productImage = transformedDatum.image;

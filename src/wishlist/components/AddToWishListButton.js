@@ -6,6 +6,7 @@ import * as Cookie from "../../lib/Cookie";
 import FooterButton from "../../general/components/FooterButton.js";
 import saveIcon from "../../general/components/img/download.svg";
 import wishListBeautyIcon from "../../general/components/img/wishlistBeauty.svg";
+import wishListBeautyFullFilledIcon from "../../general/components/img/wishlistBeautyFullfilled.svg";
 import styles from "./AddToWishListButton.css";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
@@ -282,6 +283,28 @@ export default class AddToWishListButton extends React.Component {
         </div>
       );
     }
+
+    if (this.state.foundInWishList && this.props.type === BEAUTY_PDP_ICON) {
+      return (
+        <div
+          className={styles.saveButtonBeautyPdp}
+          onClick={e => this.removeProduct(e, this.props.winningUssID)}
+        >
+          <div className={styles.iconHolderForBeautyPdp}>
+            <Icon
+              image={
+                this.props.isWhite
+                  ? wishListBeautyIcon
+                  : wishListBeautyFullFilledIcon
+              }
+              width={20}
+              height={36}
+            />
+          </div>
+        </div>
+      );
+    }
+
     if (this.state.foundInWishList) {
       return (
         <div onClick={e => this.removeProduct(e, this.props.winningUssID)}>
@@ -292,6 +315,7 @@ export default class AddToWishListButton extends React.Component {
         </div>
       );
     }
+
     if (this.props.type === ONLY_ICON) {
       return (
         <div className={styles.saveButton} onClick={e => this.onClick(e)}>
