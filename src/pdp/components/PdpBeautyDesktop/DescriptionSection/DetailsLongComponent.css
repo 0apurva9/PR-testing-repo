@@ -1,8 +1,48 @@
-/***** Details Component Long ****/
+/***** Details Toggle Component ****/
+.base {
+  width: 100%;
+  height: auto;
+}
+
+.holder {
+  width: 100%;
+  transition: 300ms;
+  position: relative;
+  padding-right: 30px;
+  cursor: pointer;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-image: url("../../../components/img/arrow.svg");
+  position: absolute;
+  background-size: auto 14px;
+  background-repeat: no-repeat;
+  right: 10px;
+  top: 0;
+  bottom: 29px;
+  margin: auto;
+  background-position: center;
+  transition: 300ms;
+  transform: rotate(-90deg);
+}
+.iconup {
+  composes: icon;
+  transform: rotate(90deg);
+}
+
 .details-what-it-is-sec {
   border-top: 1px solid rgb(213, 213, 213);
   padding: 30px 0 0;
   margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.details-on-has-no-story {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -78,4 +118,4 @@
   display: inline-block;
   margin-bottom: 16px;
 }
-/***** Details Component Long END ****/
+/***** Details Toggle Component End ****/

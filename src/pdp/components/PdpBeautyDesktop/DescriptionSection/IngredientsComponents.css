@@ -137,6 +137,7 @@
   width: 145px;
   display: block;
 }
+
 .ingredents-all-ingre-sec {
   border-top: 1px solid rgb(213, 213, 213);
   padding: 30px 13px 0;
@@ -145,6 +146,14 @@
   flex-wrap: wrap;
   align-items: flex-start;
 }
+
+.ingredents-on-has-no-sorted-ing {
+  padding: 30px 13px 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
 .ingredents-all-block {
   width: 412px;
   padding: 0 20px 0 0;

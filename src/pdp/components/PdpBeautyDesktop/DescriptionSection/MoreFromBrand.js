@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+
 import Carousel from "../../../../general/components/Carousel";
 import ProductModule from "../../../../general/components/ProductModule";
 import { transformData } from "../../../../home/components/utils";
@@ -27,6 +28,7 @@ export default class MoreFromBrand extends Component {
             sliderWidthFull={true}
           >
             {this.props.moreFromBrandResponse &&
+              this.props.moreFromBrandResponse.results &&
               this.props.moreFromBrandResponse.results.map((val, i) => {
                 const transformedDatum = transformData(val);
                 const productImage = transformedDatum.image;

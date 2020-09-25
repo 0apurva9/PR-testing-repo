@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from "react";
+import { Collapse } from "react-collapse";
 import PropTypes from "prop-types";
+
 import styles from "./IngredientsComponents.css";
 import IngredientToggleComponent from "./IngredientToggleComponent";
-import { Collapse } from "react-collapse";
 
 export default class IngredientsComponents extends Component {
   constructor(props) {

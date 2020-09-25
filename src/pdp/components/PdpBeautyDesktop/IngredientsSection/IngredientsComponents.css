@@ -2,6 +2,7 @@
   width: 100%;
   height: auto;
 }
+
 .holder {
   width: 100%;
   transition: 300ms;
@@ -26,6 +27,7 @@
   transition: 300ms;
   transform: rotate(-90deg);
 }
+
 .iconup {
   composes: icon;
   transform: rotate(90deg);
@@ -57,6 +59,7 @@
   transition: 300ms;
   height: auto;
 }
+
 .ingredents-sections {
   display: flex;
   flex-wrap: wrap;
@@ -64,6 +67,7 @@
   padding: 0 13px 0;
   margin-left: -100px;
 }
+
 .ingredents-sec-blocks {
   width: 412px;
   margin-left: 100px;
@@ -78,6 +82,7 @@
   width: 100%;
   margin: 0 0 12px 0;
 }
+
 .ingredents-sec-inner-blocks {
   border: 1px solid rgb(172, 227, 209);
   padding: 25px;
@@ -87,6 +92,7 @@
   flex-wrap: wrap;
   align-items: flex-start;
 }
+
 .ingredents-sec-inner-blocks1 {
   width: 100%;
   border: 1px solid rgb(255, 193, 166);
@@ -97,12 +103,14 @@
   flex-wrap: wrap;
   align-items: flex-start;
 }
+
 .ingredents-details {
   width: 180px;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
 }
+
 .ingredents-icon {
   width: 31px;
   height: 31px;
@@ -110,6 +118,7 @@
   margin-right: 3px;
   background: transparent center center/ 100% auto no-repeat;
 }
+
 .ingredents-txt-head {
   color: rgb(33, 33, 33);
   font-weight: 500;
@@ -118,6 +127,7 @@
   width: 100%;
   display: block;
 }
+
 .ingredents-txt {
   color: rgb(74, 74, 74);
   font-weight: 300;
@@ -126,6 +136,7 @@
   width: 145px;
   display: block;
 }
+
 .ingredents-all-ingre-sec {
   border-top: 1px solid rgb(213, 213, 213);
   padding: 30px 13px 0;
@@ -134,11 +145,20 @@
   flex-wrap: wrap;
   align-items: flex-start;
 }
+
+.ingredents-on-has-no-sorted-ing {
+  padding: 30px 13px 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
 .ingredents-all-block {
   width: 400px;
   padding: 0 20px 0 0;
   margin: 0 90px 0 0;
 }
+
 .all-ingred-head {
   font-family: "Rubik", sans-serif;
   color: rgb(33, 33, 33);
@@ -148,6 +168,7 @@
   width: 100%;
   margin: 0 0 10px;
 }
+
 .all-ingred-desc {
   font-family: "Rubik", sans-serif;
   color: rgb(33, 33, 33);
