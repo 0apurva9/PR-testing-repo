@@ -26,11 +26,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         addProductToWishList(productObj, ownProps.setDataLayerType)
       );
       if (wishlistResponse.status === SUCCESS) {
-        //checking here the index, if its grater than or equal to 0 then we are removing item from the cart
-        if (ownProps.index >= 0) {
+        if (ownProps.entryNumber) {
           dispatch(
             removeItemFromCartLoggedIn(
-              ownProps.index,
+              ownProps.entryNumber,
               localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)
             )
           );
