@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Carousel from "../../../../general/components/Carousel";
 import ProductModule from "../../../../general/components/ProductModule";
 import { transformData } from "../../../../home/components/utils";
-import { RUPEE_SYMBOL } from "../../../../lib/constants";
+import { RUPEE_SYMBOL, SUCCESS } from "../../../../lib/constants";
 import styles from "./MoreFromBrand.css";
 
 export default class MoreFromBrand extends Component {
@@ -13,7 +13,9 @@ export default class MoreFromBrand extends Component {
 
   render() {
     return (
-      this.props.similarProductResponse && (
+      this.props.similarProductResponse &&
+      this.props.similarProductResponse.status &&
+      this.props.similarProductResponse.status.toLowerCase() === SUCCESS && (
         <div>
           <div className={styles.container}>
             <div className={styles["sp-heading"]}>{this.props.heading}</div>
