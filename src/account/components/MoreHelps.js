@@ -112,7 +112,7 @@ class MoreHelps extends Component {
                     width: 20,
                     offset: 10
                   }}
-                  // onClick={() => this.props.showAllQuestion(CALL_ME_BACK)}
+                  onClick={() => this.props.CLiQ2CallClick()}
                 />
               )}
           </div>

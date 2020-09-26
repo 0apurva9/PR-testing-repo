@@ -13,6 +13,7 @@ import {
   THEME_OFFER_CN,
   MSD_DISCOVER_MORE,
   MSD_AUTOMATED_BRAND_CAROUSEL,
+  AUTO_WISHLIST,
   AUTOMATED_WIDGETS_FOR_HOME,
   HERO_BANNER_PERSONALISED_COMPONENT,
   QUICK_LINK_PERSONALISED_COMPONENT,
@@ -53,7 +54,8 @@ const feed = (
     seo: null,
     loadMsdSkeleton: null,
     homeMsdData: {},
-    homeAbcMsdData: {}
+    homeAbcMsdData: {},
+    autoWishList: null
   },
   action
 ) => {
@@ -159,6 +161,7 @@ const feed = (
             componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
             componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
             componentName === MSD_DISCOVER_MORE ||
+            componentName === AUTO_WISHLIST ||
             componentName === AUTOMATED_WIDGETS_FOR_HOME ||
             componentName === QUICK_LINK_PERSONALISED_COMPONENT ||
             componentName === BANK_OFFER_PERSONALISED_COMPONENT ||
@@ -543,6 +546,15 @@ const feed = (
         loadMsdSkeleton: true,
         loading: false
       });
+    case homeActions.AUTO_WISHLIST_COMPONENT_REQUEST:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: false
+      });
+    case homeActions.AUTO_WISHLIST_COMPONENT_SUCCESS:
+      return Object.assign({}, state, {
+        loadMsdSkeleton: false,
+        autoWishList: action.productList
+      });
 
     case homeActions.AUTOMATED_WIDGET_HOME_REQUEST:
       return Object.assign({}, state, {
@@ -562,15 +574,15 @@ const feed = (
     case homeActions.AUTOMATED_WIDGET_HOME_SUCCESS:
       const newMsdRecommendedItems = { ...state.homeAutoWidget };
       let check = {};
+      const filtered = Object.keys(newMsdRecommendedItems).filter(
+        key => key === action.widgetKey
+      );
       if (
         action.widgetKey === "4" ||
         action.widgetKey === "114" ||
         action.widgetKey === "0"
       ) {
         if (newMsdRecommendedItems) {
-          const filtered = Object.keys(newMsdRecommendedItems).filter(
-            key => key === action.widgetKey
-          );
           if (filtered && Array.isArray(filtered) && filtered.length > 0) {
             check[action.productCode] = action.homeAutoWidgetData;
             newMsdRecommendedItems[action.widgetKey] = {
@@ -586,8 +598,16 @@ const feed = (
           newMsdRecommendedItems[action.widgetKey] = check;
         }
       } else {
-        check[action.productCode] = action.homeAutoWidgetData;
-        newMsdRecommendedItems[action.widgetKey] = check;
+        if (filtered && Array.isArray(filtered) && filtered.length > 0) {
+          check[action.filterData] = action.homeAutoWidgetData;
+          newMsdRecommendedItems[action.widgetKey] = {
+            ...check,
+            ...state.homeAutoWidget[action.widgetKey]
+          };
+        } else {
+          check[action.filterData] = action.homeAutoWidgetData;
+          newMsdRecommendedItems[action.widgetKey] = check;
+        }
       }
       return Object.assign({}, state, {
         loadMsdSkeleton: true,

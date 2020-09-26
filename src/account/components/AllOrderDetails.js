@@ -892,9 +892,15 @@ export default class AllOrderDetails extends React.Component {
                                       isCNCToHDConverted={
                                         product && product.isCNCToHDConverted
                                       }
-                                      orderStatusCode={product.orderStatusCode}
+                                      orderStatusCode={
+                                        product.orderStatusCode
+                                          ? product.orderStatusCode
+                                          : orderDetails.orderStatusCode
+                                      }
                                       displayStatusName={
                                         product.displayStatusName
+                                          ? product.displayStatusName
+                                          : orderDetails.displayStatusName
                                       }
                                       clickAndCollect={
                                         orderDetails &&

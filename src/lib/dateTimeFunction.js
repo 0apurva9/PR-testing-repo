@@ -313,3 +313,6 @@ export const digitIntoWord = num => {
       : "";
   return str;
 };
+export function get24HrsTime(date) {
+  return date.toLocaleTimeString("en-US", { hour12: false });
+}

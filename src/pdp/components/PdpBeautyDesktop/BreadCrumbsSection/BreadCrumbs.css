@@ -12,25 +12,26 @@
 .bread-crumb-list {
   display: block;
   float: left;
+  font-weight: 300;
+  font-size: 11px;
+  line-height: 12px;
 }
 
 .bread-crumb-list:after {
-  content: '/';
+  content: "/";
   display: inline-block;
   font-size: 11px;
   line-height: 12px;
-  color: rgb(108,108,108);
-  font-family: 'Rubik', sans-serif;
+  color: rgb(108, 108, 108);
+  font-family: "Rubik", sans-serif;
   width: 15px;
   text-align: center;
   height: 12px;
 }
 
 .breadcrumb-link {
-  font-size: 11px;
-  line-height: 12px;
-  color: rgb(108,108,108);
-  font-family: 'Rubik', sans-serif;
+  color: rgb(108, 108, 108);
+  font-family: "Rubik", sans-serif;
   text-decoration: none;
 }
 
@@ -43,7 +44,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 90px;
-  color: rgb(108,108,108);
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
 }
 /***BreadCrumb End****/

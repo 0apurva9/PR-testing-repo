@@ -576,20 +576,22 @@ export default class CustomerQueryForm extends Component {
             l4: question.l4,
             ticketType: question.ticketType,
             transactionId:
-              selectedOrder &&
-              selectedOrder.products &&
-              selectedOrder.products[0].transactionId
-                ? selectedOrder.products[0].transactionId
+              this.props.questionType == "orderRelated"
+                ? selectedOrder &&
+                  selectedOrder.products &&
+                  selectedOrder.products.length &&
+                  selectedOrder.products[0].transactionId
                 : "",
             orderCode:
-              selectedOrder && selectedOrder.orderId
-                ? selectedOrder.orderId
+              this.props.questionType == "orderRelated"
+                ? selectedOrder && selectedOrder.orderId
                 : "",
             subOrderCode:
-              selectedOrder &&
-              selectedOrder.products &&
-              selectedOrder.products[0].sellerorderno
-                ? selectedOrder.products[0].sellerorderno
+              this.props.questionType == "orderRelated"
+                ? selectedOrder &&
+                  selectedOrder.products &&
+                  selectedOrder.products.length &&
+                  selectedOrder.products[0].sellerorderno
                 : ""
           }
         );

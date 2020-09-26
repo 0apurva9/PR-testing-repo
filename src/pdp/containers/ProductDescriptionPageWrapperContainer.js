@@ -435,6 +435,7 @@ const mapStateToProps = state => {
       state.productDescription.addBundledProductsToCartDetails,
     bundledProductSuggestionStatus:
       state.productDescription.getBundledProductSuggestionStatus,
+    logoutUserStatus: state.profile.logoutUserStatus,
     masterTemplateResponse: state.productDescription.masterTemplateDetails,
     masterTemplateError: state.productDescription.masterTemplateError,
     masterTemplateLoading: state.productDescription.masterTemplateLoading,

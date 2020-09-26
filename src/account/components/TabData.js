@@ -12,14 +12,31 @@ export default class TabData extends React.Component {
     if (this.props.selected) {
       className = styles.active;
     }
+    let heading = "";
+    let subHeading = "";
+    if (this.props.subHeding) {
+      const head = this.props.label.split("<br/>");
+      heading = head[0];
+      subHeading = head[1];
+    }
     return (
-      <div
-        className={className}
-        onClick={() => this.onSelect()}
-        style={{ width: `${this.props.width}` }}
-      >
-        {this.props.label}
-      </div>
+      <React.Fragment>
+        <div
+          className={className}
+          onClick={() => this.onSelect()}
+          style={{ width: `${this.props.width}` }}
+        >
+          {this.props.subHeding ? (
+            <React.Fragment>
+              {heading}
+              <span className={styles.subHeding}>{subHeading}</span>
+            </React.Fragment>
+          ) : (
+            this.props.label
+          )}
+          {/* {} */}
+        </div>
+      </React.Fragment>
     );
   }
 }

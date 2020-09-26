@@ -366,11 +366,15 @@ export default class ExchangeModal extends React.Component {
     ) {
       if (deviceNo === 1) {
         this.setState({
-          checkIMEIMessageFirstDevice: this.state.IMEIFailureMessage
+          checkIMEIMessageFirstDevice: data.error
+            ? `<span style='color:#c47403;'>${data.error}</span>`
+            : this.state.IMEIFailureMessage
         });
       } else {
         this.setState({
-          checkIMEIMessageSecondDevice: this.state.IMEIFailureMessage
+          checkIMEIMessageSecondDevice: data.error
+            ? `<span style='color:#c47403;'>${data.error}</span>`
+            : this.state.IMEIFailureMessage
         });
       }
     }
