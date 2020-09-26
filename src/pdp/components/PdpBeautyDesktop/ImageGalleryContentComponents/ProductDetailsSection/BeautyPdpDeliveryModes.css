@@ -1,0 +1,65 @@
+.ship-deli-pick-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.base,
+.baseClass {
+  width: 100%;
+  height: auto;
+  background: #fff;
+  padding: 20px 0px 0px 0px;
+}
+
+.sellerBase {
+  padding: 0;
+}
+
+.basePdp {
+  float: left;
+  width: 100%;
+}
+
+.standardAndCashOnDelivery {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: #fff;
+  position: relative;
+}
+
+.infoHolder {
+  height: auto;
+  display: block;
+}
+
+.sellerBase .infoHolder {
+  width: 100%;
+}
+
+.noStandardAndCashOnDelivery {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  background: #fff;
+  position: relative;
+  padding-top: 5px;
+}
+
+.noStandardAndCashOnDelivery::before {
+  content: "";
+  width: 90%;
+  height: 0px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 5px;
+  z-index: 1;
+}
+
+.quickDeliveryMode {
+  padding-bottom: 3px;
+  border-bottom: 1px solid #e2e2e2;
+}

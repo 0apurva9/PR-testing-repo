@@ -1,0 +1,186 @@
+.container {
+  width: 100%;
+  display: inline-block;
+  max-width: 1200px;
+  text-align: left;
+  position: relative;
+  margin-bottom: 50px;
+  /**margin: 50px auto;
+ background-color: grey;**/
+}
+
+.base {
+  width: 100%;
+  height: auto;
+}
+.holder {
+  width: 100%;
+  transition: 300ms;
+  position: relative;
+  padding-right: 30px;
+  cursor: pointer;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-image: url("../../../components/img/arrow.svg");
+  position: absolute;
+  background-size: auto 14px;
+  background-repeat: no-repeat;
+  right: 10px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background-position: center;
+  transition: 300ms;
+  transform: rotate(-90deg);
+}
+
+.iconup {
+  composes: icon;
+  transform: rotate(90deg);
+}
+
+/***** ingredents-component ***/
+.ingredents-component {
+  border: 1px solid rgb(213, 213, 213);
+  border-radius: 4px;
+  padding: 52px 75px 48px;
+  -webkit-border-radius: 4px;
+}
+
+.ingredents-component-hide-padding {
+  padding: 52px 75px 10px;
+  border: 1px solid rgb(213, 213, 213);
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+.ingredents-heading {
+  font-family: "Rubik", sans-serif;
+  color: rgb(33, 33, 33);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  margin: 0 13px 32px;
+  text-align: left;
+  transition: 300ms;
+  height: auto;
+}
+.ingredents-sections {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  padding: 0 13px 0;
+  margin-left: -100px;
+}
+.ingredents-sec-blocks {
+  width: 412px;
+  margin-left: 99px;
+}
+
+.ingredents-blk-sub-head {
+  font-family: "Rubik", sans-serif;
+  color: rgb(33, 33, 33);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  width: 100%;
+  margin: 0 0 12px 0;
+}
+.ingredents-sec-inner-blocks {
+  border: 1px solid rgb(172, 227, 209);
+  padding: 25px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.ingredents-sec-inner-blocks1 {
+  width: 100%;
+  border: 1px solid rgb(255, 193, 166);
+  padding: 25px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.ingredents-details {
+  width: 180px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.ingredents-icon {
+  width: 31px;
+  height: 31px;
+  display: block;
+  margin-right: 3px;
+  background: transparent center center/ 100% auto no-repeat;
+}
+
+.ingredents-txt-head {
+  color: rgb(33, 33, 33);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  width: 100%;
+  display: block;
+}
+
+.ingredents-txt {
+  color: rgb(74, 74, 74);
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 18px;
+  width: 145px;
+  display: block;
+}
+
+.ingredents-all-ingre-sec {
+  border-top: 1px solid rgb(213, 213, 213);
+  padding: 30px 13px 0;
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.ingredents-on-has-no-sorted-ing {
+  padding: 30px 13px 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.ingredents-all-block {
+  width: 412px;
+  padding: 0 20px 0 0;
+  margin: 0 99px 0 0;
+}
+
+.all-ingred-head {
+  font-family: "Rubik", sans-serif;
+  color: rgb(33, 33, 33);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  width: 100%;
+  margin: 0 0 10px;
+}
+
+.all-ingred-desc {
+  font-family: "Rubik", sans-serif;
+  color: rgb(33, 33, 33);
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 26px;
+}
+/***** ingredents component END ****/
