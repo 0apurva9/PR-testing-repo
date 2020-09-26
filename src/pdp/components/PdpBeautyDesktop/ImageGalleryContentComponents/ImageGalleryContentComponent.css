@@ -19,8 +19,5 @@
   height: 100%;
   width: 486px;
   vertical-align: top;
- }
-
-.set-zindex {
-  z-index: -1;
+  border-bottom: 1px solid rgb(230, 230, 230);
 }
