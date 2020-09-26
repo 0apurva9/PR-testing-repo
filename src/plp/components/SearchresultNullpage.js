@@ -13,23 +13,26 @@ import Button from "../../general/components/Button";
 import propTypes from "prop-types";
 import {
   setDataLayerForCartDirectCalls,
-  ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING
+  ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING,
+  ICIDTracking
 } from "../../lib/adobeUtils";
 export default class SearchresultNullpage extends Component {
   handleOnContinue() {
     setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
   }
-  redirectToPlp(webUrl) {
+  redirectToPlp(webUrl, item, widgetName, index) {
+    let icidTracking = `"search":${widgetName}:"blank":${index +
+      1}:"blank ":"blank":"blank":${item.product_id}`;
+    ICIDTracking(icidTracking);
     const urlSuffix = webUrl.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   }
   dicountPrice(discountedPrice, price) {
-    const mrpInteger = parseInt(price.replace(RUPEE_SYMBOL, ""), 10);
+    //.replace(RUPEE_SYMBOL, "")
+    const mrpInteger = parseInt(price, 10);
     const discount = Math.floor(
-      (mrpInteger - parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
-        mrpInteger *
-        100
+      (mrpInteger - parseInt(discountedPrice, 10)) / mrpInteger * 100
     );
 
     return discount;
@@ -67,6 +70,7 @@ export default class SearchresultNullpage extends Component {
                       {this.props &&
                       this.props.feeds &&
                       this.props.feeds[0] &&
+                      this.props.feeds[0].discoverMore &&
                       this.props.feeds[0].discoverMore.data[0] &&
                       this.props.feeds[0].discoverMore.type === "L3" ? (
                         <Carousel
@@ -134,33 +138,34 @@ export default class SearchresultNullpage extends Component {
                                           {data.trendingProducts &&
                                             data.trendingProducts.data &&
                                             data.trendingProducts.data.map(
-                                              val => {
+                                              (val, j) => {
                                                 return (
                                                   <ProductModule
-                                                    productImage={val.imageUrl}
+                                                    productImage={
+                                                      val.image_link
+                                                    }
                                                     onClick={() =>
                                                       this.redirectToPlp(
-                                                        val.webURL
+                                                        val.link,
+                                                        val,
+                                                        "Top picks for you",
+                                                        j
                                                       )
                                                     }
-                                                    productId={
-                                                      val.productListingId
-                                                    }
-                                                    price={val.mrp}
-                                                    title={val.productName}
+                                                    productId={val.product_id}
+                                                    price={val.price}
+                                                    title={val.title}
                                                     discountPercent={this.dicountPrice(
-                                                      val.winningSellerMOP,
-                                                      val.mrp
+                                                      val.mop,
+                                                      val.price
                                                     )}
                                                     searchresultNullpage={true}
                                                     description={
                                                       val.description
                                                     }
-                                                    discountPrice={
-                                                      val.winningSellerMOP
-                                                    }
+                                                    discountPrice={val.mop}
                                                     noBrace={true}
-                                                    key={val.productName}
+                                                    key={val.title}
                                                   />
                                                 );
                                               }

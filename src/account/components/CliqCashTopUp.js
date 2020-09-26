@@ -35,6 +35,7 @@ import Button from "../../general/components/Button";
 
 import { Link } from "react-router-dom";
 import { getItemBreakUpDetails } from "../../cart/actions/cart.actions";
+import greenLightBulb from "../components/img/greenLightBulb.svg";
 const MINIMUM_PRICE = 10;
 const MAXIMUM_PRICE = 10000;
 const PRODUCT_ID = "MP000000000127263";
@@ -77,12 +78,33 @@ export default class CliqCashTopUp extends Component {
     if (this.props.getGiftCardDetails) {
       this.props.getGiftCardDetails();
     }
+    let offerDetails =
+      this.props &&
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.offerDetails;
+    if (offerDetails === undefined && this.props.getCliqCashbackDetails) {
+      const cashbackmode = "EGV|TOPUP";
+      this.props.getCliqCashbackDetails(cashbackmode);
+    }
   }
   selectAmount(amount) {
     if (amount < this.state.minPrice || amount > this.state.maxPrice) {
       this.setState({ selectedAmount: amount, isValidAmount: false });
     } else {
       this.setState({ selectedAmount: amount, isValidAmount: true });
+    }
+    if (window && window.digitalData) {
+      Object.assign(window.digitalData, {
+        cliqcash: {
+          price: {
+            value: amount
+          }
+        }
+      });
+    }
+    if (window._satellite) {
+      window._satellite.track("cliqCash_Price_card_Click");
     }
   }
   navigateToLogin() {
@@ -156,6 +178,18 @@ export default class CliqCashTopUp extends Component {
         );
         return false;
       } else {
+        if (window._satellite) {
+          window._satellite.track("cliqCash_Add_Amount_Click");
+        }
+        if (window && window.digitalData) {
+          Object.assign(window.digitalData, {
+            cliqcash: {
+              price: {
+                value: this.state.selectedAmount
+              }
+            }
+          });
+        }
         this.props.createGiftCardDetails(giftCardDetails);
       }
     }
@@ -177,6 +211,28 @@ export default class CliqCashTopUp extends Component {
 
     if (!userDetails || !customerAccessToken) {
       return this.navigateToLogin();
+    }
+
+    let offerDetails =
+      this.props &&
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.offerDetails
+        ? this.props.location.state.offerDetails
+        : undefined;
+
+    (offerDetails &&
+      offerDetails.cashbackMode &&
+      offerDetails.cashbackMode === "TOPUP") ||
+    (offerDetails && offerDetails.cashbackMode && offerDetails.cashbackMode) ===
+      "EGV"
+      ? localStorage.setItem("cashback", "enabled")
+      : localStorage.setItem("cashback", "disabled");
+    if (offerDetails === undefined) {
+      offerDetails =
+        this.props.cliqCashbackDetails &&
+        this.props.cliqCashbackDetails.cashbackOffers &&
+        this.props.cliqCashbackDetails.cashbackOffers[0];
     }
 
     return (
@@ -219,6 +275,23 @@ export default class CliqCashTopUp extends Component {
                 </div>
               </div>
               <div className={styles.popularHeading}>Popular Top-ups</div>
+              {offerDetails &&
+                offerDetails.cashbackType === "Fixed" && (
+                  <div className={styles.cashBackOfferLong}>
+                    Get ₹{offerDetails.offerValue} cashback up to{" "}
+                    {offerDetails.maxCashback.formattedValueNoDecimal} on top-up
+                    of {offerDetails.offerThreshold.formattedValueNoDecimal} and
+                    above*
+                  </div>
+                )}
+              {offerDetails &&
+                offerDetails.cashbackType === "Percentage" && (
+                  <div className={styles.cashBackOfferSmall}>
+                    Get {offerDetails.offerValue}% cashback on top-up of{" "}
+                    {offerDetails.offerThreshold.formattedValueNoDecimal} and
+                    above*
+                  </div>
+                )}
               <div className={styles.popularCardPriceBox}>
                 {this.props.giftCardsDetails &&
                   this.props.giftCardsDetails.topUpOptions &&
@@ -273,6 +346,26 @@ export default class CliqCashTopUp extends Component {
                   </div>
                 ) : null}
               </div>
+              {offerDetails && (
+                <div className={styles.cashBackOfferMsgDiv}>
+                  <div className={styles.cashBackOfferImgDiv}>
+                    <img src={greenLightBulb} alt={"Offer Text"} />
+                  </div>
+                  <div className={styles.cashBackOfferMsg}>
+                    The cashback will be credited to your account as CLiQ Cash
+                    within 24 hrs. Please read the offer
+                    <Link
+                      to={"/cliqcashback-offers-tnc"}
+                      className={styles.knowMore}
+                    >
+                      {" "}
+                      T&C{" "}
+                    </Link>
+                    carefully.
+                  </div>
+                </div>
+              )}
+
               <div className={styles.sendGiftCardBtn}>
                 <Button
                   type="primary"

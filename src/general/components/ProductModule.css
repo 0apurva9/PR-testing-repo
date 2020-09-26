@@ -1,6 +1,10 @@
 .base {
   width: 100%;
 }
+.whiteBase {
+  width: 100%;
+  background: #fff;
+}
 .electronicsBase {
   width: 100%;
   background-color: #fff;
@@ -18,7 +22,7 @@
 }
 .contentAutoWidget {
   padding-top: 20px;
-  background: #fff;
+  /* background: #fff; */
   padding-left: 18px;
   font-size: 18px;
 }
@@ -79,11 +83,20 @@
     cursor: pointer;
     position: relative;
   }
+  .whiteBase {
+    cursor: pointer;
+    position: relative;
+    background: #fff;
+  }
   .imageHolder {
     transform: scale(1);
     transition: 300ms;
   }
   .base:hover .imageHolder {
+    transform: scale(1.03);
+    overflow: hidden;
+  }
+  .whiteBase:hover .imageHolder {
     transform: scale(1.03);
     overflow: hidden;
   }

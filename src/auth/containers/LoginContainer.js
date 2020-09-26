@@ -191,7 +191,7 @@ const mapDispatchToProps = dispatch => {
             );
           }
           if (cartCode) {
-            dispatch(getMinicartProducts());
+            // dispatch(getMinicartProducts());
           }
         } else {
           setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_LOGIN_FAILURE);

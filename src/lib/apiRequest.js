@@ -15,6 +15,7 @@ let MIDDLEWARE_API_URL_ROOT = "/que-marketplacewebservices";
 export let TATA_CLIQ_ROOT = /https?:[\/]{2}\S*?(\/\S*)/;
 export const TOKEN_PATH = "oauth/token";
 export let URL_ROOT = "";
+const ACEESS_TOKEN_REGEX = /(access_token=).*?(&)/;
 
 let count = 0;
 if (
@@ -78,10 +79,9 @@ if (
   MIDDLEWARE_API_URL_ROOT =
     "https://qa8.tataunistore.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "qa9") {
-  API_URL_ROOT =
-    "https://cors-anywhere.herokuapp.com/https://qa9.tataunistore.com/marketplacewebservices";
+  API_URL_ROOT = "https://qa9.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
-    "https://cors-anywhere.herokuapp.com/https://qa9.tataunistore.com/marketplacewebservices";
+    "https://qa9.tataunistore.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "qa3") {
   API_URL_ROOT = "https://qa3.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
@@ -165,6 +165,10 @@ if (
 } else if (process.env.REACT_APP_STAGE === "mock") {
   API_URL_ROOT = "https://mock.tatacliq.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT = "https://mock.tatacliq.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "qa6") {
+  API_URL_ROOT = "https://qa6.tataunistore.com/marketplacewebservices";
+  MIDDLEWARE_API_URL_ROOT =
+    "https://qa6.tataunistore.com/marketplacewebservices";
 }
 
 if (process.env.REACT_APP_STAGE === "tmpprod") {
@@ -196,7 +200,7 @@ if (process.env.REACT_APP_STAGE === "tmpprod") {
 } else if (process.env.REACT_APP_STAGE === "e2e1") {
   URL_ROOT = "https://e2e1.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "preprod3") {
-  URL_ROOT = "https://preprod3.tataunistore.com";
+  URL_ROOT = "https://qa6.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "qa8") {
   URL_ROOT = "https://qa8.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "qa9") {
@@ -241,8 +245,9 @@ if (process.env.REACT_APP_STAGE === "tmpprod") {
   URL_ROOT = "https://pt2.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "mock") {
   URL_ROOT = "https://mock.tatacliq.com";
+} else if (process.env.REACT_APP_STAGE === "qa4") {
+  URL_ROOT = "https://qa4.tataunistore.com";
 }
-
 export const API_URL_ROOT_DUMMY =
   "https://www.tatacliq.com/marketplacewebservices";
 // export const API_URL_ROOT = API_URL_ROOT_DUMMY;
@@ -488,22 +493,22 @@ async function handleInvalidGlobalAccesssTokenOrCustomerAccessToken(
   message,
   url
 ) {
-  clearCookie();
-  window.location.replace("/");
-  // let newUrl = url;
-  // try {
-  //   newUrl = await handleInvalidCustomerAccessToken(message, url);
-  //   if (newUrl) {
-  //     return newUrl;
-  //   }
-  //   newUrl = await handleInvalidGlobalAccessToken(message, url);
-  //   if (newUrl) {
-  //     return newUrl;
-  //   }
-  //   return newUrl;
-  // } catch (e) {
-  //   throw e;
-  // }
+  // clearCookie();
+  // window.location.replace("/");
+  let newUrl = url;
+  try {
+    newUrl = await handleInvalidCustomerAccessToken(message, url);
+    if (newUrl) {
+      return newUrl;
+    }
+    newUrl = await handleInvalidGlobalAccessToken(message, url);
+    if (newUrl) {
+      return newUrl;
+    }
+    return newUrl;
+  } catch (e) {
+    throw e;
+  }
 }
 
 async function handleInvalidCustomerAccessToken(message, oldUrl) {
@@ -518,7 +523,10 @@ async function handleInvalidCustomerAccessToken(message, oldUrl) {
       }
       // throw new Error("Customer Access Token refresh failure ");
     } else {
-      newUrl = replaceOldCustomerCookie(oldUrl, customerAccessTokenResponse);
+      newUrl = await replaceOldCustomerCookie(
+        oldUrl,
+        customerAccessTokenResponse
+      );
     }
   }
   return newUrl;
@@ -584,34 +592,59 @@ async function handleInvalidGlobalAccessToken(message, oldUrl) {
     if (!globalAccessTokenResponse) {
       throw new Error("Global Access Token refresh failure");
     }
-
-    newUrl = replaceOldGlobalTokenCookie(oldUrl, globalAccessTokenResponse);
+    newUrl = await replaceOldGlobalTokenCookie(
+      oldUrl,
+      globalAccessTokenResponse
+    );
   }
   return newUrl;
 }
 
-function replaceOldGlobalTokenCookie(url, newGlobalTokenCookie) {
+async function replaceOldGlobalTokenCookie(url, newGlobalTokenCookie) {
   let oldGlobalCookie = JSON.parse(Cookie.getCookie(GLOBAL_ACCESS_TOKEN));
-  Cookie.deleteCookie(GLOBAL_ACCESS_TOKEN);
-  Cookie.createCookie(
+  await Cookie.deleteCookie(GLOBAL_ACCESS_TOKEN);
+  await Cookie.createCookie(
     GLOBAL_ACCESS_TOKEN,
     JSON.stringify(newGlobalTokenCookie)
   );
 
-  return url.replace(
-    oldGlobalCookie.access_token,
-    newGlobalTokenCookie.access_token
-  );
+  if (
+    !url.includes(newGlobalTokenCookie.access_token) &&
+    oldGlobalCookie.access_token === newGlobalTokenCookie.access_token
+  ) {
+    return url.replace(
+      ACEESS_TOKEN_REGEX,
+      `$1${newGlobalTokenCookie.access_token}$2`
+    );
+  } else {
+    return url.replace(
+      oldGlobalCookie.access_token,
+      newGlobalTokenCookie.access_token
+    );
+  }
 }
 
-function replaceOldCustomerCookie(url, newCustomerCookie) {
+async function replaceOldCustomerCookie(url, newCustomerCookie) {
   let oldCustomerCookie = JSON.parse(Cookie.getCookie(CUSTOMER_ACCESS_TOKEN));
-  Cookie.deleteCookie(CUSTOMER_ACCESS_TOKEN);
-  Cookie.createCookie(CUSTOMER_ACCESS_TOKEN, JSON.stringify(newCustomerCookie));
-  return url.replace(
-    oldCustomerCookie.access_token,
-    newCustomerCookie.access_token
+  await Cookie.deleteCookie(CUSTOMER_ACCESS_TOKEN);
+  await Cookie.createCookie(
+    CUSTOMER_ACCESS_TOKEN,
+    JSON.stringify(newCustomerCookie)
   );
+  if (
+    !url.includes(newCustomerCookie.access_token) &&
+    oldCustomerCookie.access_token === newCustomerCookie.access_token
+  ) {
+    return url.replace(
+      ACEESS_TOKEN_REGEX,
+      `$1${newCustomerCookie.access_token}$2`
+    );
+  } else {
+    return url.replace(
+      oldCustomerCookie.access_token,
+      newCustomerCookie.access_token
+    );
+  }
 }
 async function replaceOldCartCookieForLoggedInUser(url, newCustomerCookie) {
   let oldCustomerCookie = JSON.parse(
@@ -661,7 +694,7 @@ export async function refreshCustomerAccessToken() {
   return refreshTokenResultJson;
 }
 
-async function refreshGlobalAccessToken() {
+export async function refreshGlobalAccessToken() {
   const result = await post(
     `${TOKEN_PATH}?grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=secret&isPwa=true`
   );

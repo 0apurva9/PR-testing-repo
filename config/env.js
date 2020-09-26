@@ -71,7 +71,6 @@ if (process.env.NODE_ENV !== "development") {
 
 if (
   process.env.REACT_APP_STAGE === "devxelp" ||
-  process.env.REACT_APP_STAGE === "uat2" ||
   process.env.REACT_APP_STAGE === "uat6tcs" ||
   process.env.REACT_APP_STAGE === "qa2" ||
   process.env.REACT_APP_STAGE === "pt" ||
@@ -105,6 +104,8 @@ if (
   process.env.REACT_APP_FLEXMONEYAPI = "staging";
   process.env.REACT_APP_MERCHANTID = "694339";
 } else if (
+  process.env.REACT_APP_STAGE === "qa4" ||
+  process.env.REACT_APP_STAGE === "uat2" ||
   process.env.REACT_APP_STAGE === "p2" ||
   process.env.REACT_APP_STAGE === "preprod3" ||
   process.env.REACT_APP_STAGE === "tmpprod" ||
@@ -168,6 +169,7 @@ if (process.env.REACT_APP_STAGE === "devxelp") {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
     "742445068598-2t1f67127eqan2jjt4t7kagofp8rbchl.apps.googleusercontent.com";
 } else if (
+  process.env.REACT_APP_STAGE === "qa4" ||
   process.env.REACT_APP_STAGE === "preprod2" ||
   process.env.REACT_APP_STAGE === "preprod1" ||
   process.env.REACT_APP_STAGE === "prod1" ||
@@ -224,6 +226,7 @@ if (
   process.env.REACT_APP_RECAPTCHA_SITE_KEY =
     "6Lec7BUUAAAAAL8HzkX7KJdtLHBpxvb8jFwehZGz";
 } else if (
+  process.env.REACT_APP_STAGE === "qa4" ||
   process.env.REACT_APP_STAGE === "uat5" ||
   process.env.REACT_APP_STAGE === "uat6" ||
   process.env.REACT_APP_STAGE === "e2e" ||

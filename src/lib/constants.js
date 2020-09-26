@@ -434,6 +434,9 @@ export const PINCODE_NOT_SERVICEABLE_TEXT =
 export const BUY_NOW_PRODUCT_DETAIL = "buyNowTempProduct";
 export const DEFAULT_PINCODE = 110001;
 
+export const PAYMENT_PENDING = "PAYMENT_PENDING";
+export const PAYMENT_TIMEOUT = "PAYMENT_TIMEOUT";
+export const PAYMENT_FAILED = "PAYMENT_FAILED";
 export const ORDER_CONFIRMED = "ORDER_CONFIRMED";
 export const ORDER_IN_PROCESS = "ORDER_IN_PROCESS";
 export const CANCEL_STATUS = "CANCEL";
@@ -443,6 +446,8 @@ export const HOTC = "HOTC";
 export const RETURN_CLOSED = "RETURN_CLOSED";
 export const RETURNINITIATED_BY_RTO = "RETURNINITIATED_BY_RTO";
 export const RTO_INITIATED = "RTO_INITIATED";
+export const RTO_DELIVERED = "RTO_DELIVERED";
+export const RTO_IN_PROGRESS = "RTO_IN_PROGRESS";
 export const REFUND_IN_PROGRESS = "REFUND_IN_PROGRESS";
 export const RETURN_COMPLETED = "RETURN_COMPLETED";
 export const ORDER_REJECTED = "ORDER_REJECTED";
@@ -545,6 +550,7 @@ export const WEB_URL_REG_EX = /^https?:[\/]{2}(www\.)?tatacliq.com/g;
 // for haptik chatbot add to cart event
 export const ADD_TO_CART_EVENT_HAPTIK_CHATBOT = "add_to_cart";
 export const GO_TO_CART_EVENT_HAPTIK_CHATBOT = "go_to_cart";
+export const AUTO_WISHLIST = "AutoWishlist";
 export const CREDIT_CARD_EMI = "Credit Card EMI";
 export const DEBIT_CARD_EMI = "Debit Card EMI";
 export const IS_DC_EMI_SELECTED = "isDcEMISelected";

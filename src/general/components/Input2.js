@@ -109,7 +109,7 @@ export default class Input2 extends React.Component {
       className = styles.whiteBox;
     }
     return (
-      <div className={className}>
+      <div className={className} data-test={this.props.dataTest + `-main-div`}>
         <div className={this.state.focused ? styles.focused : styles.wrapper}>
           <div
             className={this.props.hollow ? styles.hollow : styles.box}
@@ -142,6 +142,7 @@ export default class Input2 extends React.Component {
               disabled={this.props.disabled}
               autoFocus={this.props.autoFocus}
               onKeyPress={event => this.handleKeyPress(event)}
+              data-test={this.props.dataTest}
               required={this.props.required ? this.props.required : false}
             />
             {this.props.placeholderMoving ? (
@@ -187,7 +188,8 @@ Input2.propTypes = {
   background: PropTypes.string,
   textStyle: PropTypes.shape({
     fontSize: PropTypes.number
-  })
+  }),
+  dataTest: PropTypes.string
 };
 
 Input2.defaultProps = {
@@ -201,6 +203,7 @@ Input2.defaultProps = {
   borderBottom: "1px solid #d2d2d2",
   onlyAlphabet: false,
   onlyNumber: false,
+  dataTest: "input2-field",
   required: false,
   placeholderMoving: false
 };

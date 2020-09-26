@@ -7,12 +7,14 @@ import { setHeaderText } from "../../general/header.actions";
 import {
   getGiftCardDetails,
   createGiftCardDetails,
-  clearGiftCardStatus
+  clearGiftCardStatus,
+  getCliqCashbackDetails
 } from "../actions/account.actions";
 import {
   showModal,
   GENERATE_OTP_FOR_CLIQ_CASH,
-  CLIQ_CASH_MODULE
+  CLIQ_CASH_MODULE,
+  CASHBACK_DETAILS_POPUP
 } from "../../general/modal.actions";
 
 const mapDispatchToProps = dispatch => {
@@ -40,6 +42,9 @@ const mapDispatchToProps = dispatch => {
     },
     clearGiftCardStatus: () => {
       dispatch(clearGiftCardStatus());
+    },
+    getCliqCashbackDetails: cashbackmode => {
+      dispatch(getCliqCashbackDetails(cashbackmode));
     }
   };
 };
@@ -51,7 +56,10 @@ const mapStateToProps = state => {
     giftCardDetailsStatus: state.profile.giftCardDetailsStatus,
     giftCardDetails: state.profile.giftCardDetails,
     loadingForGiftCardDetails: state.profile.loadingForGiftCardDetails,
-    userAddress: state.profile.userAddress
+    userAddress: state.profile.userAddress,
+    cliqCashbackDetails: state.profile.cliqCashbackDetails,
+    cliqCashbackDetailsError: state.profile.cliqCashbackDetailsError,
+    cliqCashbackDetailsStatus: state.profile.cliqCashbackDetailsStatus
   };
 };
 const CliqCashTopUpContainer = withRouter(

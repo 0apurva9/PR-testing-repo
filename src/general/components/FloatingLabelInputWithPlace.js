@@ -17,6 +17,9 @@ export default class FloatingLabelInputWithPlace extends React.Component {
       });
     }
   }
+  onFocusBack = () => {
+    this.current.focus();
+  };
   handleFocus(event) {
     if (this.props.onFocus) {
       this.props.onFocus(event);
@@ -108,8 +111,16 @@ export default class FloatingLabelInputWithPlace extends React.Component {
           onChange={event => this.handleChange(event)}
           value={this.props.value ? this.props.value : this.state.value}
           placeholder={this.props.placeholder ? this.props.placeholder : ""}
+          ref={input => (this.current = input)}
           // disabled={this.props.disabled}
         />
+        {this.props.focusBack &&
+        this.props.value &&
+        this.props.value.length.toString() === this.props.maxLength ? (
+          <span className={styles.changeText} onClick={this.onFocusBack}>
+            Change
+          </span>
+        ) : null}
       </div>
     );
   }

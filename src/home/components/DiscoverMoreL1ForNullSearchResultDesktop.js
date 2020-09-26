@@ -27,7 +27,8 @@ export default class DiscoverMoreL1ForNullSearchResultDesktop extends React.Comp
     }
     return (
       feedComponentData &&
-      feedComponentData.data && (
+      feedComponentData.data &&
+      feedComponentData.data.length > 0 && (
         <React.Fragment>
           <div className={styles.base}>
             <div className={styles.header}>

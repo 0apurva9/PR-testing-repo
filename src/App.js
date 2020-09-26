@@ -357,10 +357,10 @@ const CleverTapUnsubscribeEmail = Loadable({
 });
 
 class App extends Component {
-  componentWillMount() {
+  async componentWillMount() {
     let globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     if (!globalAccessToken && !this.props.cartLoading) {
-      this.props.getGlobalAccessToken();
+      await this.props.getGlobalAccessToken();
       globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     }
     let loggedInUserDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -440,14 +440,14 @@ class App extends Component {
       // Else remove cartDetails from Local storage
       localStorage.removeItem(CART_BAG_DETAILS);
     }
-    if (
-      cartCode &&
-      (!this.props.location.pathname.includes("cart") &&
-        !this.props.location.pathname.includes("checkout"))
-    ) {
-      // Call minicart after landing on the site or reloading page
-      this.props.getMinicartProducts();
-    }
+    // if (
+    //   cartCode &&
+    //   (!this.props.location.pathname.includes("cart") &&
+    //     !this.props.location.pathname.includes("checkout"))
+    // ) {
+    //   // Call minicart after landing on the site or reloading page
+    //   this.props.getMinicartProducts();
+    // }
 
     if (!this.props.location.pathname.includes("/my-account")) {
       if (window.od && window.od.messenger && window.od.messenger("update")) {
