@@ -41,6 +41,13 @@ const ProductDetailsSection = Loadable({
   }
 });
 
+const ProductBadgesComponent = Loadable({
+  loader: () => import("./ProductDetailsSection/ProductBadgesComponent"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 export default class ImageGalleryContentComponent extends React.Component {
   handleDetailsScroll = () => {
     if (this.props.handleDetailsScroll) {
@@ -65,6 +72,7 @@ export default class ImageGalleryContentComponent extends React.Component {
       });
     return (
       <div className={styles["gallery-content-container"]}>
+        <ProductBadgesComponent {...this.props} />
         <div className={styles["gallery-container"]}>
           <GalleryImagesComponent
             {...this.props}

@@ -14,8 +14,7 @@ import {
   FREEBIE_COMPONENT,
   DETAILS_COMPONENT,
   BUYNOW_ADDTOBAG_COMPONENT,
-  CERTIFIED_COMPONENT,
-  PRODUCT_BADGES_COMPONENT
+  CERTIFIED_COMPONENT
 } from "../../ComponentConstants";
 import styles from "./ProductDetailsSection.css";
 import { renderComponent } from "../../../../../pdp/reducers/utils";
@@ -92,13 +91,6 @@ const CertifiedComponent = Loadable({
   }
 });
 
-const ProductBadgesComponent = Loadable({
-  loader: () => import("./ProductBadgesComponent"),
-  loading() {
-    return <Loader />;
-  }
-});
-
 const typeComponentMapping = {
   [PRODUCT_AND_BRAND_COMPONENT]: props => (
     <ProductAndBrandComponent {...props} />
@@ -110,8 +102,7 @@ const typeComponentMapping = {
   [OFFERS_COMPONENT]: props => <OffersComponent {...props} />,
   [BUYNOW_ADDTOBAG_COMPONENT]: props => <BuyNowAddToBagComponent {...props} />,
   [SHIPPING_DETAIL_COMPONENT]: props => <ShippingDetailsComponent {...props} />,
-  [CERTIFIED_COMPONENT]: props => <CertifiedComponent {...props} />,
-  [PRODUCT_BADGES_COMPONENT]: props => <ProductBadgesComponent {...props} />
+  [CERTIFIED_COMPONENT]: props => <CertifiedComponent {...props} />
 };
 
 export default class ProductsDetailsSection extends React.Component {
