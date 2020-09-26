@@ -1,7 +1,7 @@
 .pin-delivery-icon {
   position: absolute;
   width: 25px;
-  height: 25px;
+  height: 26px;
   display: block;
   top: 0;
   left: 0;
@@ -14,6 +14,7 @@
   font-size: 14px;
   line-height: 18px;
   color: rgb(33, 33, 33);
+  padding: 4px 0 0;
 }
 
 .cashOnDelTxt {

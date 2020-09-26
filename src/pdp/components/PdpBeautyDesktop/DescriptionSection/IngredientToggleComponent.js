@@ -40,7 +40,7 @@ export default class IngredientToggleComponent extends Component {
                             <span className={styles["ingredents-txt-head"]}>
                               {value.key}
                             </span>
-                            ({value.description})
+                            {value.description}
                           </div>
                         </div>
                       ))}
