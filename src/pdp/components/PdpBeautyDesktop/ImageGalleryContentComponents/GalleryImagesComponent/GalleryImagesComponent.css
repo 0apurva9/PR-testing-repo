@@ -16,6 +16,7 @@
 .image-gallery-list-block {
   margin: 0 0 10px 10px;
   width: 48%;
+  position: relative;
 }
 
 .image-gallery-list-block-link {
@@ -34,6 +35,7 @@
   height: 100%;
   position: absolute;
   left: 0;
+  top: 0;
 }
 
 .zoomArea {

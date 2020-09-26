@@ -9,7 +9,9 @@ export default class GalleryImagesComponent extends React.Component {
     this.state = {
       position: 0,
       zoomX: 0,
-      zoomY: 0
+      zoomY: 0,
+      isZoom: false,
+      hoveredIndex: -1
     };
     this.zoomPositionX = null;
     this.zoomPositionY = null;
@@ -57,11 +59,13 @@ export default class GalleryImagesComponent extends React.Component {
     }, 0);
   }
 
-  handleMouseEnter() {
-    this.setState({ isZoom: true });
+  handleMouseEnter(e, i) {
+    this.props.setZindex();
+    this.setState({ isZoom: true, hoveredIndex: i });
   }
-  handleMouseLeave() {
-    this.setState({ isZoom: false });
+  handleMouseLeave(e, i) {
+    this.props.resetZindex();
+    this.setState({ isZoom: false, hoveredIndex: i });
   }
 
   componentDidMount() {
@@ -122,16 +126,10 @@ export default class GalleryImagesComponent extends React.Component {
         }
       });
 
-    let loopedImageIndex = -1;
-
     return (
       <div className={styles["image-gallery-Block"]}>
         <ul className={styles["image-gallery-list"]}>
           {productImages.map((image, i) => {
-            loopedImageIndex = i;
-            if (i === this.state.position) {
-              this.type = image.type;
-            }
             return (
               <li key={i} className={styles["image-gallery-list-block"]}>
                 <a className={styles["image-gallery-list-block-link"]}>
@@ -141,28 +139,26 @@ export default class GalleryImagesComponent extends React.Component {
                     className={styles["image-gallery-img"]}
                   />
                 </a>
+                <div
+                  className={styles.image}
+                  ref="zoom"
+                  onMouseMove={evt => this.handleZoomMove(evt)}
+                  onMouseEnter={evt => this.handleMouseEnter(evt, i)}
+                  onMouseLeave={evt => this.handleMouseLeave(evt, i)}
+                >
+                  <div
+                    className={
+                      this.state.isZoom ? styles.zoomArea : styles.hideZoomArea
+                    }
+                    style={{
+                      left: `${-this.state.zoomX}%`,
+                      top: `${-this.state.zoomY}%`
+                    }}
+                  />
+                </div>
               </li>
             );
           })}
-          {this.type === "image" && (
-            <div
-              className={styles.image}
-              ref="zoom"
-              onMouseMove={evt => this.handleZoomMove(evt)}
-              onMouseEnter={evt => this.handleMouseEnter(evt)}
-              onMouseLeave={evt => this.handleMouseLeave(evt)}
-            >
-              <div
-                className={
-                  this.state.isZoom ? styles.zoomArea : styles.hideZoomArea
-                }
-                style={{
-                  left: `${-this.state.zoomX}%`,
-                  top: `${-this.state.zoomY}%`
-                }}
-              />
-            </div>
-          )}
         </ul>
         <div className={this.state.isZoom ? styles.zoomVisible : styles.zoom}>
           <div
@@ -172,7 +168,9 @@ export default class GalleryImagesComponent extends React.Component {
             }}
           >
             <Image
-              image={zoomImages[loopedImageIndex]}
+              image={
+                this.state.isZoom ? zoomImages[this.state.hoveredIndex] : -1
+              }
               fit="contain"
               alt={this.props.alt}
             />
