@@ -187,8 +187,8 @@ const mapDispatchToProps = dispatch => {
     displayCouponsForLoggedInUser: (userId, accessToken, guId) => {
       dispatch(displayCouponsForLoggedInUser(userId, accessToken, guId));
     },
-    displayCouponsForAnonymous: (userId, accessToken) => {
-      dispatch(displayCouponsForAnonymous(userId, accessToken));
+    displayCouponsForAnonymous: (userId, accessToken, guId) => {
+      dispatch(displayCouponsForAnonymous(userId, accessToken, guId));
     },
     showSecondaryLoader: () => {
       dispatch(showSecondaryLoader());
@@ -286,7 +286,9 @@ const mapStateToProps = state => {
     bundledProductSuggestionDetails:
       state.productDescription.getBundledProductSuggestionDetails,
     addBundledProductsToCartDetails:
-      state.productDescription.addBundledProductsToCartDetails
+      state.productDescription.addBundledProductsToCartDetails,
+    bundledProductSuggestionStatus:
+      state.productDescription.getBundledProductSuggestionStatus
   };
 };
 const CartContainer = withRouter(

@@ -91,6 +91,33 @@ class CartPage extends React.Component {
     setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
   }
+  displayCoupons = () => {
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const cartDetailsLoggedInUser = Cookie.getCookie(
+      CART_DETAILS_FOR_LOGGED_IN_USER
+    );
+    const cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
+    if (
+      userDetails !== undefined &&
+      customerCookie !== undefined &&
+      cartDetailsLoggedInUser !== undefined
+    ) {
+      this.props.displayCouponsForLoggedInUser(
+        JSON.parse(userDetails).userName,
+        JSON.parse(customerCookie).access_token,
+        JSON.parse(cartDetailsLoggedInUser).guid
+      );
+    }
+    if (globalCookie !== undefined && cartDetailsAnonymous !== undefined) {
+      this.props.displayCouponsForAnonymous(
+        ANONYMOUS_USER,
+        JSON.parse(globalCookie).access_token,
+        cartDetailsAnonymous && JSON.parse(cartDetailsAnonymous).guid
+      );
+    }
+  };
   componentDidMount() {
     //localStorage.removeItem(SELECTED_STORE);
     if (localStorage.getItem("cartPromotionText")) {
@@ -98,9 +125,9 @@ class CartPage extends React.Component {
       this.props.displayToast(msg);
     }
     document.title = "Shopping Cart - TATA CLiQ ";
-    //  this.props.getWishListItems();
-    this.props.getUserAddress();
+    // this.props.getWishListItems();
     this.props.getWishlist();
+    this.props.getUserAddress();
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -147,18 +174,13 @@ class CartPage extends React.Component {
         defaultPinCode
       );
 
-      if (localStorage.getItem(CART_BAG_DETAILS)) {
-        this.props.displayCouponsForLoggedInUser(
-          JSON.parse(userDetails).userName,
-          JSON.parse(customerCookie).access_token,
-          JSON.parse(cartDetailsLoggedInUser).guid
-        );
-      }
-      this.props.displayCouponsForLoggedInUser(
-        JSON.parse(userDetails).userName,
-        JSON.parse(customerCookie).access_token,
-        cliqPiqCartId ? cliqPiqCartId : JSON.parse(cartDetailsLoggedInUser).guid
-      );
+      // if (localStorage.getItem(CART_BAG_DETAILS)) {
+      //   this.props.displayCouponsForLoggedInUser(
+      //     JSON.parse(userDetails).userName,
+      //     JSON.parse(customerCookie).access_token,
+      //     JSON.parse(cartDetailsLoggedInUser).guid
+      //   );
+      // }
     } else {
       if (globalCookie !== undefined && cartDetailsAnonymous !== undefined) {
         this.props.getCartDetails(
@@ -166,10 +188,6 @@ class CartPage extends React.Component {
           JSON.parse(globalCookie).access_token,
           JSON.parse(cartDetailsAnonymous).guid,
           defaultPinCode
-        );
-        this.props.displayCouponsForAnonymous(
-          ANONYMOUS_USER,
-          JSON.parse(globalCookie).access_token
         );
       }
     }
@@ -233,7 +251,13 @@ class CartPage extends React.Component {
     ) {
       this.setState({ isComingFromCliqAndPiq: true });
     }
+    if (this.props.cart.coupons !== nextProps.cart.coupons) {
+      let couponDetails =
+        nextProps.cart && Object.assign(nextProps.cart.coupons, nextProps);
+      this.props.showCouponModal(couponDetails);
+    }
   }
+
   componentDidUpdate(prevProps, prevState) {
     this.props.setHeaderText(YOUR_BAG);
     if (prevProps.cart) {
@@ -373,10 +397,10 @@ class CartPage extends React.Component {
     }
   };
 
-  goToCouponPage = () => {
-    let couponDetails = Object.assign(this.props.cart.coupons, this.props);
-    this.props.showCouponModal(couponDetails);
-  };
+  // goToCouponPage = () => {
+  //   let couponDetails = Object.assign(this.props.cart.coupons, this.props);
+  //   this.props.showCouponModal(couponDetails);
+  // };
   navigateToLogin() {
     const url = this.props.location.pathname;
     if (this.props.setUrlToRedirectToAfterAuth) {
@@ -1010,6 +1034,15 @@ class CartPage extends React.Component {
                             }
                             displayToast={this.props.displayToast}
                             getCartDetails={this.props.getCartDetails}
+                            isShippingObjAvailable={
+                              this.props.cart &&
+                              this.props.cart.cartDetails &&
+                              this.props.cart.cartDetails.cartAmount &&
+                              this.props.cart.cartDetails.cartAmount
+                                .shippingCharge
+                                ? true
+                                : false
+                            }
                             getBundledProductSuggestion={
                               this.props.getBundledProductSuggestion
                             }
@@ -1023,17 +1056,9 @@ class CartPage extends React.Component {
                               this.props.addBundledProductsToCartDetails
                             }
                             history={this.props.history}
-                            /**
-                             * Old implementation
-                             * this.props.cart &&
-                              this.props.cart.cartDetails &&
-                              this.props.cart.cartDetails.cartAmount &&
-                              this.props.cart.cartDetails.cartAmount
-                                .shippingCharge
-                                ? true
-                                : false
-                             */
-                            isShippingObjAvailable={false}
+                            bundledProductSuggestionStatus={
+                              this.props.bundledProductSuggestionStatus
+                            }
                           />
                         </DesktopOnly>
                       </div>
@@ -1058,7 +1083,7 @@ class CartPage extends React.Component {
                 {cartDetails.products && (
                   <SavedProduct
                     saveProduct={() => this.goToWishList()}
-                    onApplyCoupon={() => this.goToCouponPage()}
+                    onApplyCoupon={() => this.displayCoupons()}
                     appliedCouponCode={this.state.appliedCouponCode}
                   />
                 )}
@@ -1103,7 +1128,7 @@ class CartPage extends React.Component {
                             <div className={styles.couponWrapper}>
                               <SavedProduct
                                 saveProduct={() => this.goToWishList()}
-                                onApplyCoupon={() => this.goToCouponPage()}
+                                onApplyCoupon={() => this.displayCoupons()}
                                 appliedCouponCode={this.state.appliedCouponCode}
                               />
                             </div>
@@ -1160,7 +1185,7 @@ class CartPage extends React.Component {
                     <div className={styles.couponCard}>
                       <SavedProduct
                         saveProduct={() => this.goToWishList()}
-                        onApplyCoupon={() => this.goToCouponPage()}
+                        onApplyCoupon={() => this.displayCoupons()}
                         appliedCouponCode={this.state.appliedCouponCode}
                       />
                     </div>
@@ -1213,14 +1238,16 @@ class CartPage extends React.Component {
                           }
                           totalExchangeAmount={cartDetails.totalExchangeAmount}
                           isQuoteExpired={isQuoteExpired}
-                          /**
-                           * Old Implementation
-                           * cartDetails.cartAmount &&
+                          isShippingObjAvailable={
+                            cartDetails.cartAmount &&
                             cartDetails.cartAmount.shippingCharge
                               ? true
                               : false
-                           */
-                          isShippingObjAvailable={false}
+                          }
+                          shippingPromoMessage={
+                            cartDetails.shippingPromoMessage
+                          }
+                          showShippingMsg={true}
                         />
                       </div>
                     )}

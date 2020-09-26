@@ -85,6 +85,10 @@ export const MSD_HOME_COMPONENT_SUCCESS = "MSD_HOME_COMPONENT_SUCCESS";
 export const MSD_HOME_ABC_COMPONENT_REQUEST = "MSD_HOME_ABC_COMPONENT_REQUEST";
 export const MSD_HOME_ABC_COMPONENT_SUCCESS = "MSD_HOME_ABC_COMPONENT_SUCCESS";
 
+export const AUTO_WISHLIST_COMPONENT_SUCCESS =
+  "AUTO_WISHLIST_COMPONENT_SUCCESS";
+export const AUTO_WISHLIST_COMPONENT_REQUEST =
+  "AUTO_WISHLIST_COMPONENT_REQUEST";
 export const AUTOMATED_WIDGET_HOME_REQUEST = "AUTOMATED_WIDGET_HOME_REQUEST";
 export const AUTOMATED_WIDGET_HOME_SUCCESS = "AUTOMATED_WIDGET_HOME_SUCCESS";
 export const AUTOMATED_WIDGET_ITEM_REQUEST = "AUTOMATED_WIDGET_ITEM_REQUEST";
@@ -375,9 +379,6 @@ export function homeFeedBackUp() {
       const result = await api.get(
         `v2/mpl/cms/defaultpage?pageId=defaulthomepage&channel=${WCMS_PLATFORM}`
       );
-      // const result = await api.get(
-      //   `v2/mpl/cms/defaultpage?pageId=hp-test&channel=${WCMS_PLATFORM}`
-      // );
       const resultJson = await result.json();
       if (resultJson && resultJson.pageName) {
         let pageData = {
@@ -876,7 +877,7 @@ export function msdAbcComponentsRequest() {
     status: REQUESTING
   };
 }
-export function msdAbcComponents(fetchURL) {
+export function msdAbcComponents() {
   return async (dispatch, getState, { api }) => {
     try {
       dispatch(msdAbcComponentsRequest());
@@ -893,10 +894,11 @@ export function msdAbcComponents(fetchURL) {
       postData.append("num_brands", JSON.stringify(msdABPCBrandCount));
       postData.append("num_products", JSON.stringify(MSD_NUM_PRODUCTS));
       postData.append("channel", "pwa");
+      postData.append("fields", JSON.stringify(["mop"]));
+      postData.append("details", true);
 
       result = await api.postMsd(`${MSD_ROOT_PATH}/widgets`, postData);
-      resultJson = (await result) && result.json();
-
+      resultJson = await result.json();
       if (result && result.status && result.status === FAILURE) {
         throw new Error(`${result.message}`);
       }
@@ -936,11 +938,12 @@ export function msdDiscoverMoreHomeComponents(type) {
       if (discoverMoreresultJson.status === FAILURE) {
         throw new Error(`${discoverMoreresultJson.message}`);
       }
-
-      data = {
-        data: discoverMoreresultJson && discoverMoreresultJson.data
-      };
-      dispatch(msdHomeComponentsSuccess(data.data));
+      if (discoverMoreresultJson.status === "success") {
+        data = {
+          data: discoverMoreresultJson && discoverMoreresultJson.data
+        };
+        dispatch(msdHomeComponentsSuccess(data.data));
+      }
     } catch (e) {
       throw new Error(`${e.message}`);
     }
@@ -949,14 +952,16 @@ export function msdDiscoverMoreHomeComponents(type) {
 export function automatedWidgetsForHomeSuccess(
   homeAutoWidgetData,
   widgetKey,
-  productCode
+  productCode,
+  filterData
 ) {
   return {
     type: AUTOMATED_WIDGET_HOME_SUCCESS,
     status: SUCCESS,
     homeAutoWidgetData,
     widgetKey,
-    productCode
+    productCode,
+    filterData
   };
 }
 export function automatedWidgetsForHomeRequest() {
@@ -984,37 +989,59 @@ export function getAutomatedWidgetsItems(itemIds, widgetKey, productCode) {
   return async (dispatch, getState, { api }) => {
     try {
       dispatch(getAutomatedWidgetsItemsRequest());
-      let productCodes;
-      productCodes = itemIds;
-
-      let requests =
-        productCodes &&
-        productCodes.map(id =>
-          api.getMiddlewareUrl(
-            `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+      // let requests =
+      //   productCodes &&
+      //   productCodes.map(id =>
+      //     api.getMiddlewareUrl(
+      //       `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+      //     )
+      //   );
+      let productCodes = itemIds && itemIds.toString();
+      const url = `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
+      const result = await api.getMiddlewareUrl(url);
+      const resultJson = await result.json();
+      if (resultJson && resultJson.status === "Success" && resultJson.results) {
+        dispatch(
+          automatedWidgetsForHomeSuccess(
+            resultJson.results,
+            widgetKey,
+            productCode
           )
         );
-      //requests for individual calls
-      let productList = [];
-      const results = await Promise.allSettled(requests);
-      const successfulPromises = results.filter(
-        request => request.status === "fulfilled"
-      );
-      let productListWithStatus = await Promise.all(successfulPromises).then(
-        response =>
-          Promise.all(response.map(r => r && r.value && r.value.json()))
-      );
-      productListWithStatus &&
-        productListWithStatus.map(product => {
-          if (product.status === "Success" && product.results) {
-            productList.push(product.results[0]);
-          }
-        });
-      if (Array.isArray(productList) && productList.length > 0) {
-        dispatch(
-          automatedWidgetsForHomeSuccess(productList, widgetKey, productCode)
-        );
       }
+      // let requests =
+      //   productCodes &&
+      //   productCodes.map(id =>
+      //     api.getMiddlewareUrl(
+      //       `${PRODUCT_DESCRIPTION_PATH}/${id}?isPwa=true&isMDE=true`
+      //     )
+      //   );
+
+      //requests for individual calls
+      // let productList = [];
+      // const results = await Promise.allSettled(requests);
+      // const successfulPromises = results.filter(
+      //   request => request.status === "fulfilled"
+      // );
+      // let productListWithStatus = await Promise.all(successfulPromises).then(
+      //   response =>
+      //     Promise.all(response.map(r => r && r.value && r.value.json()))
+      // );
+      // productListWithStatus &&
+      //   productListWithStatus.map(product => {
+      //     if (product.status === "Success" && product.results) {
+      //       productList.push(product.results[0]);
+      //     }
+      //     //commented for productDetails
+      //     // if(product.status === "SUCCESS") {
+      //     //   productList.push(product);
+      //     // }
+      //   });
+      // if (Array.isArray(productList) && productList.length > 0) {
+      //   dispatch(
+      //     automatedWidgetsForHomeSuccess(productList, widgetKey, productCode)
+      //   );
+      // }
     } catch (e) {
       throw new Error(`${e.message}`);
     }
@@ -1030,17 +1057,54 @@ export function automatedWidgetsForHome(widgetData) {
       if (userDetails) {
         userDetails = JSON.parse(userDetails);
       }
-
+      let productId =
+        widgetData && widgetData.hexCode && widgetData.hexCode.toUpperCase();
       let msdWidgetData = new FormData();
+      if (userDetails && userDetails.customerId) {
+        msdWidgetData.append("user_id", userDetails.customerId);
+      }
       msdWidgetData.append("api_key", api_key);
       msdWidgetData.append("widget_list", widgetData.webURL);
       msdWidgetData.append("num_results", widgetData.btnText);
       msdWidgetData.append("mad_uuid", await getMcvId());
-      msdWidgetData.append("details", false);
-      if (userDetails && userDetails.customerId) {
-        msdWidgetData.append("user_id", userDetails.customerId);
+      msdWidgetData.append("product_id", productId);
+      // if (widgetData && widgetData.webURL && widgetData.webURL === "114") {
+      //   msdWidgetData.append("details", false);
+      // } else {
+      msdWidgetData.append("details", true);
+      msdWidgetData.append("fields", JSON.stringify(["mop"]));
+      if (widgetData && widgetData.description) {
+        let filterValue =
+          widgetData &&
+          widgetData.description &&
+          widgetData.description.split(";");
+        let filterParsedData;
+        if (
+          filterValue &&
+          Array.isArray(filterValue) &&
+          filterValue[1] === "range"
+        ) {
+          let rangeValue =
+            filterValue && filterValue[2] && filterValue[2].split(",");
+          filterParsedData = [
+            {
+              field: `${filterValue[0]}`,
+              type: `${filterValue[1]}`,
+              value: [rangeValue[0], rangeValue[1]]
+            }
+          ];
+        } else {
+          filterParsedData = [
+            {
+              field: `${filterValue[0]}`,
+              type: `${filterValue[1]}`,
+              value: `${filterValue[2]}`
+            }
+          ];
+        }
+        msdWidgetData.append("filters", JSON.stringify(filterParsedData));
       }
-      msdWidgetData.append("product_id", widgetData.hexCode.toUpperCase());
+      //}
       // msdWidgetData.append("filters", widgetData.description);
       // msdWidgetData.append("fields", widgetData.title);
       // msdWidgetData.append("channel", "pwa");
@@ -1067,9 +1131,76 @@ export function automatedWidgetsForHome(widgetData) {
         msdWidgetDataJson.status !== "failure"
       ) {
         dispatch(getWidgetsData(msdWidgetDataJson.data[0], widgetData.webURL));
+        // if (widgetData.webURL === "114") {
+        //   dispatch(
+        //     getAutomatedWidgetsItems(
+        //       data,
+        //       widgetData.webURL,
+        //       widgetData.hexCode
+        //     )
+        //   );
+        // } else {
         dispatch(
-          getAutomatedWidgetsItems(data, widgetData.webURL, widgetData.hexCode)
+          automatedWidgetsForHomeSuccess(
+            data,
+            widgetData.webURL,
+            widgetData.hexCode,
+            widgetData.description
+          )
         );
+        //}
+      }
+    } catch (e) {
+      throw new Error(`${e.message}`);
+    }
+  };
+}
+
+export function autoWishListSuccess(productList) {
+  return {
+    type: AUTO_WISHLIST_COMPONENT_SUCCESS,
+    status: SUCCESS,
+    productList
+  };
+}
+export function autoWishListRequest() {
+  return {
+    type: AUTO_WISHLIST_COMPONENT_REQUEST,
+    status: REQUESTING
+  };
+}
+export function autoWishlistComponent(productId) {
+  return async (dispatch, getState, { api }) => {
+    try {
+      dispatch(autoWishListRequest());
+      let productCodes;
+      productCodes = productId;
+
+      let requests =
+        productId &&
+        productId.map(id =>
+          api.getMiddlewareUrl(
+            `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+          )
+        );
+      //requests for individual calls
+      let productList = [];
+      const results = await Promise.allSettled(requests);
+      const successfulPromises = results.filter(
+        request => request.status === "fulfilled"
+      );
+      let productListWithStatus = await Promise.all(successfulPromises).then(
+        response =>
+          Promise.all(response.map(r => r && r.value && r.value.json()))
+      );
+      productListWithStatus &&
+        productListWithStatus.map(product => {
+          if (product.status === "Success" && product.results) {
+            productList.push(product.results[0]);
+          }
+        });
+      if (Array.isArray(productList) && productList.length > 0) {
+        dispatch(autoWishListSuccess(productList));
       }
     } catch (e) {
       throw new Error(`${e.message}`);

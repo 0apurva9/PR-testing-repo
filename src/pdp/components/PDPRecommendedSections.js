@@ -31,7 +31,8 @@ import {
   setDataLayerForMsdItemWidgets,
   ADOBE_CAROUSEL_CLICK,
   ADOBE_CAROUSEL_SHOW,
-  widgetsTrackingForRecommendation
+  widgetsTrackingForRecommendation,
+  ICIDTracking
 } from "../../lib/adobeUtils.js";
 
 // only want to kick off a request for the MSD stuff if they are visible.
@@ -51,7 +52,11 @@ class PDPRecommendedSections extends React.Component {
         this.props.match.path === PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE
       ) {
         this.props.setToOld();
-        this.props.getMsdRequest(this.props.match.params[1]);
+        this.props.getMsdRequest(this.props.match.params[1], "SimilarProduct");
+        this.props.getMsdRequest(
+          this.props.match.params[1],
+          "FrequentlyBroughtTogether"
+        );
         this.props.pdpAboutBrand(this.props.match.params[1]);
       }
       if (this.props.getRecentlyViewedProduct) {
@@ -85,6 +90,7 @@ class PDPRecommendedSections extends React.Component {
       sourceCatgID:
         categoryHierarchy &&
         Array.isArray(categoryHierarchy) &&
+        categoryHierarchy[categoryHierarchy.length - 1] &&
         categoryHierarchy[categoryHierarchy.length - 1].category_id,
       prodPrice:
         mainProduct &&
@@ -92,12 +98,28 @@ class PDPRecommendedSections extends React.Component {
         mainProduct.winningSellerPrice.doubleValue
           ? mainProduct.winningSellerPrice.doubleValue
           : mainProduct && mainProduct.mrpPrice && mainProduct.mrpPrice.value,
-      destProdID: items && items.productListingId,
-      prodPrice: items && items.mrp,
+      destProdID:
+        widgetName === "About the Brand"
+          ? items && items.productListingId
+          : items.product_id,
+      prodPrice:
+        widgetName === "About the Brand" ? items && items.mrp : items.price,
       posOfReco: index,
       widgetID: selectedWidgetID
     };
     setDataLayerForMsdItemWidgets(jsonDetailsForWidgets, ADOBE_CAROUSEL_CLICK);
+    //"screentype":"widgtetname":"widget position on screen":"position of item clicked with widget":"blank ":"blank":"brand name":"product listing id"
+    let icidTracking = `"pdp":${widgetName}:"blank":${index +
+      1}:"blank ":"blank":${
+      widgetName == "About the Brand"
+        ? mainProduct && mainProduct.brandName
+        : "blank"
+    }:${
+      widgetName === "About the Brand"
+        ? items && items.productListingId
+        : items.product_id
+    }`;
+    ICIDTracking(icidTracking);
     widgetsTrackingForRecommendation({
       widgetName: widgetName ? widgetName : "",
       pageName: "pdp",
@@ -117,7 +139,10 @@ class PDPRecommendedSections extends React.Component {
               ? this.props.recommendedItems.similarProducts[index + 1].ontology
               : "",
       PositionOfProduct: index + 1,
-      productId: items && items.productListingId,
+      productId:
+        widgetName === "About the Brand"
+          ? items && items.productListingId
+          : items.product_id,
       widgetID: selectedWidgetID
     });
     this.props.history.push(url);
@@ -246,10 +271,19 @@ class PDPRecommendedSections extends React.Component {
         >
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
-            const productImage = transformedDatum && transformedDatum.imageUrl;
-            const mrpInteger = transformedDatum && transformedDatum.mrp;
-            let seoDoublePrice =
-              transformedDatum && transformedDatum.winningSellerMOP;
+            let productImage, mrpInteger, seoDoublePrice, imageURL;
+            // if (widgetName === "About the Brand") {
+            //   productImage = transformedDatum && transformedDatum.imageUrl;
+            //   mrpInteger = transformedDatum && transformedDatum.mrp;
+            //   seoDoublePrice =
+            //     transformedDatum && transformedDatum.winningSellerMOP;
+            //   imageURL = val.webURL;
+            // } else {
+            productImage = transformedDatum && transformedDatum.image_link;
+            mrpInteger = transformedDatum && transformedDatum.price;
+            seoDoublePrice = transformedDatum && transformedDatum.mop;
+            imageURL = val.link && val.link.replace(/^.*\/\/[^\/]+/, "");
+            //}
             let discount =
               mrpInteger && seoDoublePrice
                 ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)
@@ -264,10 +298,11 @@ class PDPRecommendedSections extends React.Component {
                 isShowAddToWishlistIcon={false}
                 discountPercent={discount}
                 onClick={url =>
-                  this.goToProductDescription(val.webURL, val, widgetName, i)
+                  this.goToProductDescription(imageURL, val, widgetName, i)
                 }
                 widgetName={widgetName}
                 sourceOfWidget="msd"
+                discountPrice={seoDoublePrice}
               />
             );
           })}
@@ -294,18 +329,15 @@ class PDPRecommendedSections extends React.Component {
   }
   renderRecentlyBoughtTogetherModuleSection(title, key) {
     if (
-      this.props.recentlyViewedProduct &&
-      this.props.recentlyViewedProduct.RecentlyViewed &&
-      this.props.recentlyViewedProduct.RecentlyViewed.length > 0
+      this.props.msdItems &&
+      this.props.msdItems[key] &&
+      this.props.msdItems[key].length > 0
     ) {
-      return this.props.recentlyViewedProduct.RecentlyViewed ? (
+      return this.props.msdItems[key] ? (
         <div className={styles.brandSectionForRecentlyViewed} id="JRVP">
           <h3 className={styles.brandHeader}>{title}</h3>
-          {this.props.recentlyViewedProduct.RecentlyViewed &&
-            this.renderCarousel(
-              this.props.recentlyViewedProduct.RecentlyViewed,
-              title
-            )}
+          {this.props.msdItems[key] &&
+            this.renderCarousel(this.props.msdItems[key], title)}
         </div>
       ) : null;
     } else {
@@ -347,7 +379,6 @@ class PDPRecommendedSections extends React.Component {
     const options = {
       onChange: this.handleIntersection
     };
-
     return (
       <React.Fragment>
         {/* <div
@@ -365,15 +396,15 @@ class PDPRecommendedSections extends React.Component {
           {this.renderAboutTheBrand()}
           {this.renderProductModuleSection(
             "Similar Products",
-            "recommendedProducts"
+            SIMILAR_PRODUCTS_WIDGET_KEY
           )}
           {this.renderProductModuleSection(
             "Frequently Bought Together",
-            SIMILAR_PRODUCTS_WIDGET_KEY
+            "recommendedProducts"
           )}
           {this.renderRecentlyBoughtTogetherModuleSection(
             "Recently Viewed Products",
-            "Recently Viewed"
+            "RecentlyViewed"
           )}
         </div>
         {/* </div> */}

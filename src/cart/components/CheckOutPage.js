@@ -161,6 +161,7 @@ import {
   VIEW_CHECKOUT,
   SALE_COMPLETED
 } from "../../lib/onlinesalesUtils";
+import { Redirect } from "react-router-dom";
 const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
 const PAYMENT_MODE = "EMI";
 const NET_BANKING = "NB";
@@ -723,16 +724,14 @@ class CheckOutPage extends React.Component {
                   selectedStoreDetails={val.storeDetails}
                   cliqPiqSelected={this.state.cliqPiqSelected}
                   product={val}
-                  /**
-                   * Old Implementation
-                   * this.props.cart &&
+                  isShippingObjAvailable={
+                    this.props.cart &&
                     this.props.cart.cartDetailsCNC &&
                     this.props.cart.cartDetailsCNC.cartAmount &&
                     this.props.cart.cartDetailsCNC.cartAmount.shippingCharge
                       ? true
                       : false
-                   */
-                  isShippingObjAvailable={false}
+                  }
                 />
               </div>
             );
@@ -2929,6 +2928,27 @@ if you have order id in local storage then you have to show order confirmation p
           this.softReservationForPayment(this.state.cardDetails);
         }
       }
+      if (this.state.currentPaymentMode === EMI) {
+        if (window._satellite) {
+          window._satellite.track("cpj_EMI_Pay_Now_Click");
+        }
+        if (window && window.digitalData) {
+          Object.assign(window.digitalData, {
+            checkout: {
+              tenure: {
+                value: this.state.cardDetails.emi_tenure
+              }
+            }
+          });
+          Object.assign(window.digitalData, {
+            checkout: {
+              option: {
+                name: this.state.currentSelectedEMIType
+              }
+            }
+          });
+        }
+      }
 
       if (this.state.currentPaymentMode === NET_BANKING_PAYMENT_MODE) {
         if (this.state.isGiftCard) {
@@ -3655,6 +3675,20 @@ if you have order id in local storage then you have to show order confirmation p
     let retryPaymentDetailsObj = JSON.parse(
       localStorage.getItem(RETRY_PAYMENT_DETAILS)
     );
+    /**
+     * Condition to show shipping message only in case of the "Choose Delivery Mode"
+     */
+    const showShippingMsg =
+      !this.state.isPaymentFailed &&
+      this.props.cart.cartDetailsCNC &&
+      this.state.confirmAddress &&
+      !this.state.deliverMode &&
+      !this.state.isComingFromCliqAndPiq &&
+      !this.state.isGiftCard &&
+      !this.state.isComingFromRetryUrl
+        ? true
+        : false;
+
     return (
       <DesktopCheckout
         padding={this.state.padding}
@@ -3721,16 +3755,20 @@ if you have order id in local storage then you have to show order confirmation p
         }
         isExchangeServiceableArray={isExchangeServiceableArray}
         isQuoteExpiredCheckout={isQuoteExpired}
-        /**
-         * Old Implementation
-         * this.props.cart &&
+        isShippingObjAvailable={
+          this.props.cart &&
           this.props.cart.cartDetailsCNC &&
           this.props.cart.cartDetailsCNC.cartAmount &&
           this.props.cart.cartDetailsCNC.cartAmount.shippingCharge
             ? true
             : false
-         */
-        isShippingObjAvailable={false}
+        }
+        shippingPromoMessage={
+          this.props.cart &&
+          this.props.cart.cartDetailsCNC &&
+          this.props.cart.cartDetailsCNC.shippingPromoMessage
+        }
+        showShippingMsg={showShippingMsg}
       />
     );
   };
@@ -3924,7 +3962,6 @@ if you have order id in local storage then you have to show order confirmation p
   }
 
   render() {
-    console.log("=========>check", this.props);
     let labelForButton,
       checkoutButtonStatus = false;
     if (

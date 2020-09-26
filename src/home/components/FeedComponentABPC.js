@@ -6,6 +6,7 @@ import CommonCenter from "../../general/components/CommonCenter";
 import PropTypes from "prop-types";
 import styles from "./FeedComponent.css";
 import { withRouter } from "react-router";
+import { ICIDTracking } from "../../lib/adobeUtils.js";
 
 class FeedComponentABPC extends React.Component {
   constructor() {
@@ -14,8 +15,11 @@ class FeedComponentABPC extends React.Component {
       eachPrductData: ""
     };
   }
-  onClick = val => {
-    this.props.history.push(val);
+  onClick = (url, item, index) => {
+    let icidTracking = `"home":"msdAutomatedBannerProductCarouselComponent":"blank":${index +
+      1}:"blank ":"blank":"blank":${item.productListingId}`;
+    ICIDTracking(icidTracking);
+    this.props.history.push(url);
     if (this.props.setClickedElementId) {
       this.props.setClickedElementId();
     }
@@ -27,17 +31,21 @@ class FeedComponentABPC extends React.Component {
   componentDidMount() {
     let productDataArr = "";
     let currentComponent = this;
-    this.props.data &&
-      this.props.data.then(function(res) {
-        if (
-          res &&
-          res.results &&
-          (typeof res.results !== undefined || res.results !== null)
-        ) {
-          productDataArr = Array.from(res.results);
-          currentComponent.setState({ eachPrductData: productDataArr });
-        }
-      });
+    if (this.props.data) {
+      currentComponent.setState({ eachPrductData: this.props.data });
+    }
+    // this.props.data &&
+    //   this.props.data.then(function(res) {
+    //     if (
+    //       res &&
+    //       res.results &&
+    //       (typeof res.results !== undefined || res.results !== null) &&
+    //       res.status === "Success"
+    //     ) {
+    //       productDataArr = Array.from(res.results);
+    //       currentComponent.setState({ eachPrductData: productDataArr });
+    //     }
+    //   });
   }
 
   render() {
@@ -90,6 +98,30 @@ class FeedComponentABPC extends React.Component {
             >
               {this.state.eachPrductData &&
                 this.state.eachPrductData.map((datum, i) => {
+                  let imageLink =
+                    datum &&
+                    datum.link &&
+                    datum.link.replace(/^.*\/\/[^\/]+/, "");
+                  //       let productImage =
+                  //       datum &&
+                  //       datum.galleryImagesList &&                             commented for productDetails api
+                  //   Array.isArray(datum.galleryImagesList) &&
+                  //   datum.galleryImagesList[0] &&
+                  //   datum.galleryImagesList[0].galleryImages &&
+                  //   Array.isArray(
+                  //     datum.galleryImagesList[0].galleryImages
+                  //   ) &&
+                  //   datum.galleryImagesList[0].galleryImages[0] &&
+                  //   datum.galleryImagesList[0].galleryImages[0].value;
+                  // let mrpInteger =
+                  // datum &&
+                  // datum.mrpPrice &&
+                  // datum.mrpPrice.doubleValue;
+                  // let seoDoublePrice =
+                  // datum.winningSellerPrice &&
+                  // datum.winningSellerPrice.doubleValue
+                  //     ? datum.winningSellerPrice.doubleValue
+                  //     : mrpInteger;
                   return (
                     <ProductModule
                       key={i}
@@ -105,17 +137,17 @@ class FeedComponentABPC extends React.Component {
                           ? this.props.recentlyViewed
                           : null
                       }
-                      productImage={datum.imageUrl}
-                      title={datum.productName}
-                      price={datum.mrp}
-                      discountPrice={datum.winningSellerMOP}
+                      productImage={datum.image_link}
+                      title={datum.title}
+                      price={datum.price}
+                      discountPrice={datum.mop}
                       description={datum.description}
                       onDownload={datum.onDownload}
-                      webURL={datum.webURL}
-                      productId={datum.productListingId}
+                      webURL={imageLink}
+                      productId={datum.product_id}
                       showWishListButton={false}
                       ussId={datum.winningUssID}
-                      onClick={this.onClick}
+                      onClick={url => this.onClick(imageLink, datum, i)}
                       {...rest}
                       {...datum}
                       widgetName={

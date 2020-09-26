@@ -16,6 +16,7 @@ import * as Cookie from "../../lib/Cookie";
 import List from "@researchgate/react-intersection-list";
 import MobileOnly from "../../general/components/MobileOnly";
 import HeroBannerComponentMonetization from "./HeroBannerComponentMonetization.js";
+import HomeAutoWishlistComponent from "./HomeAutoWishlistComponent";
 import {
   LOGGED_IN_USER_DETAILS,
   CUSTOMER_ACCESS_TOKEN,
@@ -239,12 +240,12 @@ const BannerSeparator = Loadable({
     return <div />;
   }
 }); */
-const PreAutomatedBrandProductCarousel = Loadable({
-  loader: () => import("./PreAutomatedBrandProductCarousel.js"),
-  loading() {
-    return <div />;
-  }
-});
+// const PreAutomatedBrandProductCarousel = Loadable({
+//   loader: () => import("./PreAutomatedBrandProductCarousel.js"),
+//   loading() {
+//     return <div />;
+//   }
+// });
 const BannerProductCarousel = Loadable({
   loader: () => import("./BannerProductCarousel.js"),
   loading() {
@@ -353,9 +354,9 @@ export const typeComponentMapping = {
   "Video Product Carousel Component": props => (
     <VideoProductCarousel {...props} />
   ),
-  "Automated Banner Product Carousel Component": props => (
-    <PreAutomatedBrandProductCarousel {...props} />
-  ),
+  // "Automated Banner Product Carousel Component": props => (
+  //   <PreAutomatedBrandProductCarousel {...props} />
+  // ),
   "Auto Following Brands Component": props => <FollowingBrands {...props} />,
   multipleBannerComponent: props => <MultipleBanners {...props} />,
   "Flash Sales Component": props => <FlashSale {...props} />, // wired up
@@ -397,6 +398,12 @@ export const typeComponentMapping = {
   AutoWidget: props => <AutomatedWidgetsForHome {...props} />,
   msdAutomatedBannerProductCarouselComponent: props => (
     <MsdAutomatedBrandProductCarousel {...props} />
+  ),
+  AutoWishlist: props => (
+    <HomeAutoWishlistComponent
+      {...props}
+      wishListedItem={this.state && this.state.wishListedItem}
+    />
   ),
   msdAutoDiscoverMoreComponent: props => <DiscoverMoreMsd {...props} />,
 
@@ -459,6 +466,9 @@ class Feed extends Component {
   constructor(props) {
     super(props);
     this.pageSize = this.props.pageSize;
+    this.state = {
+      wishListedItem: null
+    };
   }
   componentDidMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -561,7 +571,10 @@ class Feed extends Component {
     }
     return (
       typeComponentMapping[feedDatum.type] && (
-        <WidgetContainer {...props}>
+        <WidgetContainer
+          {...props}
+          wishListedItem={this.props.wishlistProductId}
+        >
           {typeComponentMapping[feedDatum.type] &&
             typeComponentMapping[feedDatum.type]}
         </WidgetContainer>

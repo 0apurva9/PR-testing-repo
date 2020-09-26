@@ -614,7 +614,7 @@ export function displayCouponsForLoggedInUser(userId, accessToken, cartId) {
 
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/displayCouponOffers?access_token=${accessToken}&cartGuid=${cartId}&channel=web`
+        `${USER_CART_PATH}/${userId}/displayCouponOffers?access_token=${accessToken}&cartGuid=${cartId}&updatedVisibility=true&channel=web`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -630,13 +630,13 @@ export function displayCouponsForLoggedInUser(userId, accessToken, cartId) {
   };
 }
 
-export function displayCouponsForAnonymous(userId, accessToken) {
+export function displayCouponsForAnonymous(userId, accessToken, guid) {
   return async (dispatch, getState, { api }) => {
     dispatch(displayCouponRequest());
 
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/displayOpenCouponOffers?access_token=${accessToken}`
+        `${USER_CART_PATH}/${userId}/displayOpenCouponOffers?&cartGuid=${guid}&access_token=${accessToken}&updatedVisibility=true&channel=web`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -684,7 +684,7 @@ export function getCartDetails(
     dispatch(cartDetailsRequest());
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetails?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}&isMDE=true`
+        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetails?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}&isMDE=true&isDuplicateImei=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4832,7 +4832,7 @@ export function orderConfirmation(orderId) {
 
       await dispatch(orderConfirmationSuccess(resultJson));
       // calling minicart after placing an order
-      dispatch(getMinicartProducts());
+      // dispatch(getMinicartProducts());
     } catch (e) {
       dispatch(orderConfirmationFailure(e.message));
     }
@@ -5374,7 +5374,7 @@ export function removeItemFromCartLoggedIn(
             dispatch(getCartCountForLoggedInUser()).then(userCart => {
               if (userCart.status === SUCCESS) {
                 // calling minicart after remove product from cart
-                dispatch(getMinicartProducts());
+                // dispatch(getMinicartProducts());
               }
             });
           }
@@ -6046,7 +6046,7 @@ export function getPaymentFailureOrderDetails() {
         CART_DETAILS_FOR_LOGGED_IN_USER,
         JSON.stringify({ guid: cartGuId })
       );
-      dispatch(getMinicartProducts());
+      // dispatch(getMinicartProducts());
     } catch (e) {
       dispatch(getPaymentFailureOrderDetailsFailure(e.message));
     }
@@ -6360,7 +6360,7 @@ export function mergeTempCartWithOldCart() {
           true
         )
       );
-      dispatch(getMinicartProducts());
+      // dispatch(getMinicartProducts());
     } catch (e) {
       dispatch(mergeTempCartWithOldCartFailure(e.message));
     }
@@ -6894,9 +6894,10 @@ export function getMinicartProducts() {
     // Dispatching Requesting event before API CALL
     dispatch(getMinicartProductsRequest());
     try {
-      const result = await api.get(
-        `${USER_CART_PATH}/${userId}/carts/${cartCode}/miniCartDetails?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
-      );
+      const result = {};
+      // await api.get(
+      //   `${USER_CART_PATH}/${userId}/carts/${cartCode}/miniCartDetails?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
+      // );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 

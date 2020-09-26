@@ -234,10 +234,11 @@ const PAGE_VALUE = "0";
 const PAGE_NUMBER = "25";
 const MSD_REQUEST_PATH = "widgets";
 const API_KEY = "8783ef14595919d35b91cbc65b51b5b1da72a5c3";
-const WIDGET_LIST = [0, 4];
+const WIDGET_LIST_SIMILAR_PRODUCT = [0];
+const WIDGET_LIST_FREQUENTLY_BOUGHT = [4];
 const WIDGET_LIST_FOR_ABOUT_BRAND = [114];
+const NUMBER_RESULTS = [10];
 const WIDGET_LIST_FOR_SIMILAR_PRODUCT = [0];
-const NUMBER_RESULTS = [10, 10];
 //TPR-9957 for Desktop
 export const PDP_MANUFACTURER_REQUEST = "PDP_MANUFACTURER_REQUEST";
 export const PDP_MANUFACTURER_SUCCESS = "PDP_MANUFACTURER_SUCCESS";
@@ -920,9 +921,12 @@ export function addProductToCart(productDetails) {
           return val.USSID === productDetails.ussId;
         });
         if (
-          isProductInCart &&
-          isProductInCart.exchangeDetails &&
-          productDetails.isFromMobileExchange
+          (isProductInCart &&
+            isProductInCart.exchangeDetails &&
+            productDetails.isFromMobileExchange) ||
+          (isProductInCart &&
+            isProductInCart.exchangeDetails &&
+            !productDetails.isFromMobileExchange)
         ) {
           dispatch(
             showModal(PRODUCT_IN_BAG_MODAL, {
@@ -1526,20 +1530,27 @@ export function getMsdRequest(
       msdRequestObject.append("user_id", userDetails.customerId);
     }
     msdRequestObject.append("api_key", API_KEY);
-    // if (process.env.REACT_APP_STAGE === "qa2") {
-    //   msdRequestObject.append("mad_uuid", QA2_MCV_ID);
-    // } else {
     const mcvId = await getMcvId();
     msdRequestObject.append("mad_uuid", mcvId);
-    // }
-    msdRequestObject.append("widget_list", JSON.stringify(WIDGET_LIST));
-    if (resultsRequired !== undefined && resultsRequired.length) {
-      msdRequestObject.append("num_results", JSON.stringify(resultsRequired));
+    if (
+      similarProducts === "SimilarProduct" ||
+      similarProducts === "similarOutOfStockProducts"
+    ) {
+      msdRequestObject.append("widget_list", WIDGET_LIST_SIMILAR_PRODUCT);
     } else {
-      msdRequestObject.append("num_results", JSON.stringify(NUMBER_RESULTS));
+      msdRequestObject.append(
+        "widget_list",
+        JSON.stringify(WIDGET_LIST_FREQUENTLY_BOUGHT)
+      );
     }
+    // if (resultsRequired !== undefined && resultsRequired.length) {
+    //   msdRequestObject.append("num_results", JSON.stringify(resultsRequired));
+    // } else {
+    msdRequestObject.append("num_results", JSON.stringify(NUMBER_RESULTS));
+    //}
     msdRequestObject.append("details", true);
     msdRequestObject.append("product_id", productCode.toUpperCase());
+    msdRequestObject.append("fields", JSON.stringify(["mop"]));
     if (filters) {
       msdRequestObject.append("filters", JSON.stringify(filters));
     }
@@ -1561,32 +1572,39 @@ export function getMsdRequest(
       //   resultJson.data[0] = SIMILAR_PRODUCTS_QA2;
       // }
 
+      let widgetCheck =
+        similarProducts === "SimilarProduct"
+          ? SIMILAR_PRODUCTS_WIDGET_KEY
+          : similarProducts === "similarOutOfStockProducts"
+            ? "similarOutOfStockProducts"
+            : RECOMMENDED_PRODUCTS_WIDGET_KEY;
       if (
         resultJson &&
         resultJson.data &&
         resultJson.data[0] &&
         resultJson.data[0].length > 0
       ) {
-        dispatch(
-          getPdpItems(resultJson.data[0], RECOMMENDED_PRODUCTS_WIDGET_KEY)
-        );
-        dispatch(
-          productMsdSuccess(resultJson.data[0], RECOMMENDED_PRODUCTS_WIDGET_KEY)
-        );
-      } else {
-        dispatch(getPdpItems([], RECOMMENDED_PRODUCTS_WIDGET_KEY));
+        // dispatch(
+        //   getPdpItems(resultJson.data[0], RECOMMENDED_PRODUCTS_WIDGET_KEY)
+        // );
+        dispatch(getPdpItemsPdpSuccess(resultJson.data[0], widgetCheck));
+        dispatch(productMsdSuccess(resultJson.data[0], widgetCheck));
       }
-      if (
-        resultJson &&
-        resultJson.data &&
-        resultJson.data[1] &&
-        resultJson.data[1].length > 0
-      ) {
-        dispatch(getPdpItems(resultJson.data[1], SIMILAR_PRODUCTS_WIDGET_KEY));
-        dispatch(
-          productMsdSuccess(resultJson.data[1], SIMILAR_PRODUCTS_WIDGET_KEY)
-        );
-      }
+      // else {
+      //   dispatch(getPdpItems([], widgetCheck));
+      // }
+      // if (
+      //   resultJson &&
+      //   resultJson.data &&
+      //   resultJson.data[1] &&
+      //   resultJson.data[1].length > 0
+      // ) {
+      //   //dispatch(getPdpItems(resultJson.data[1], SIMILAR_PRODUCTS_WIDGET_KEY));
+      //   dispatch(getPdpItemsPdpSuccess(resultJson.data[1], SIMILAR_PRODUCTS_WIDGET_KEY));
+      //   dispatch(
+      //     productMsdSuccess(resultJson.data[1], SIMILAR_PRODUCTS_WIDGET_KEY)
+      //   );
+      // }
     } catch (e) {
       dispatch(productMsdFailure(e.message));
     }
@@ -1640,7 +1658,8 @@ export function getRecentlyViewedProduct(productCode) {
     }
     msdRequestObject.append("widget_list", [7]);
     msdRequestObject.append("num_results", [10]);
-    msdRequestObject.append("details", false);
+    msdRequestObject.append("details", true);
+    msdRequestObject.append("fields", JSON.stringify(["mop"]));
     dispatch(productMsdRecentlyViewedRequest());
     try {
       const result = await api.postMsd(
@@ -1653,44 +1672,51 @@ export function getRecentlyViewedProduct(productCode) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-
       if (
         resultJson &&
         resultJson.data &&
         resultJson.data[0] &&
         resultJson.data[0].length > 0
       ) {
-        const removedDuplicate = [...new Set(resultJson.data[0])];
-        let requests =
-          removedDuplicate &&
-          removedDuplicate.map(id =>
-            api.getMiddlewareUrl(
-              `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
-            )
-          );
-        //seprating each requests call
-        let productList = [];
-        await Promise.all(requests)
-          .then(responses => Promise.all(responses.map(r => r.json())))
-          .then(results =>
-            results.forEach(res => {
-              // if (res && res.results && res.results.length && res.results[0]) {
-              //   productList.push(res.results[0]);
-              // }
-              if (
-                res &&
-                res.status === "Success" &&
-                res.results &&
-                res.results[0]
-              ) {
-                productList.push(res.results[0]);
-              }
-            })
-          );
-        dispatch(
-          productMsdRecentlyViewedSuccess(productList, "RecentlyViewed")
-        );
+        dispatch(getPdpItemsPdpSuccess(resultJson.data[0], "RecentlyViewed"));
       }
+      // if (
+      //   resultJson &&
+      //   resultJson.data &&
+      //   resultJson.data[0] &&
+      //   resultJson.data[0].length > 0
+      // ) {
+      //   const removedDuplicate = [...new Set(resultJson.data[0])];
+      //   let requests =
+      //     removedDuplicate &&
+      //     removedDuplicate.map(id =>
+      //       api.getMiddlewareUrl(
+      //         `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+      //       )
+      //     );
+      //   //seprating each requests call
+      //   let productList = [];
+      //   await Promise.all(requests)
+      //     .then(responses => Promise.all(responses.map(r => r.json())))
+      //     .then(results =>
+      //       results.forEach(res => {
+      //         // if (res && res.results && res.results.length && res.results[0]) {
+      //         //   productList.push(res.results[0]);
+      //         // }
+      //         if (
+      //           res &&
+      //           res.status === "Success" &&
+      //           res.results &&
+      //           res.results[0]
+      //         ) {
+      //           productList.push(res.results[0]);
+      //         }
+      //       })
+      //     );
+      //   dispatch(
+      //     productMsdRecentlyViewedSuccess(productList, "RecentlyViewed")
+      //   );
+      // }
     } catch (e) {
       dispatch(productMsdRecentlyViewedFailure(e.message));
     }
@@ -1737,6 +1763,7 @@ export function pdpAboutBrand(productCode) {
     msdRequestObject.append("mad_uuid", mcvId);
     msdRequestObject.append("details", true);
     msdRequestObject.append("product_id", productCode.toUpperCase());
+    msdRequestObject.append("fields", JSON.stringify(["mop"]));
 
     dispatch(pdpAboutBrandRequest());
     try {
@@ -1759,8 +1786,14 @@ export function pdpAboutBrand(productCode) {
         resultJson.data[0].itemIds.length > 0
       ) {
         dispatch(
-          getPdpItems(resultJson.data[0].itemIds, ABOUT_THE_BRAND_WIDGET_KEY)
+          getPdpItemsPdpSuccess(
+            resultJson.data[0].itemIds,
+            ABOUT_THE_BRAND_WIDGET_KEY
+          )
         );
+        // dispatch(
+        //   getPdpItems(resultJson.data[0].itemIds, ABOUT_THE_BRAND_WIDGET_KEY)
+        // );
         // updating reducer for follow brand  key
         dispatch(pdpAboutBrandSuccess(resultJson.data[0]));
       }
@@ -1796,43 +1829,49 @@ export function getPdpItems(itemIds, widgetKey) {
     dispatch(getPdpItemsPdpRequest());
     try {
       let productCodes;
-      if (widgetKey === "aboutTheBrand") {
-        productCodes = itemIds;
-      } else {
-        productCodes = itemIds.map(obj => {
-          return obj.product_id;
-        });
-        productCodes = productCodes;
+      productCodes = itemIds && itemIds.toString();
+      const url = `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCodes}`;
+      const result = await api.getMiddlewareUrl(url);
+      const resultJson = await result.json();
+      if (resultJson && resultJson.status === "Success" && resultJson.results) {
+        dispatch(getPdpItemsPdpSuccess(resultJson.results, widgetKey));
       }
-      let requests =
-        productCodes &&
-        productCodes.map(id =>
-          api.getMiddlewareUrl(
-            `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
-          )
-        );
+      // if (widgetKey === "aboutTheBrand") {
+      //   productCodes = itemIds;
+      // } else {
+      //   productCodes = itemIds.map(obj => {
+      //     return obj.product_id;
+      //   });
+      //   productCodes = productCodes;
+      // }
+      // let requests =
+      //   productCodes &&
+      //   productCodes.map(id =>
+      //     api.getMiddlewareUrl(
+      //       `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
+      //     )
+      //   );
       // seperating individual calls
-      let productList = [];
-      await Promise.all(requests)
-        .then(responses => Promise.all(responses.map(r => r.json())))
-        .then(results =>
-          results.forEach(res => {
-            // const resultJsonStatus = ErrorHandling.getFailureResponse(res);
-            // if (resultJsonStatus.status) {
-            //   throw new Error(resultJsonStatus.message);
-            // }
-            //changes done for handling error if product is not available
-            if (
-              res &&
-              res.status === "Success" &&
-              res.results &&
-              res.results[0]
-            ) {
-              productList.push(res.results[0]);
-            }
-          })
-        );
-      dispatch(getPdpItemsPdpSuccess(productList, widgetKey));
+      //let productList = [];
+      // await Promise.all(requests)
+      //   .then(responses => Promise.all(responses.map(r => r.json())))
+      //   .then(results =>
+      //     results.forEach(res => {
+      //       // const resultJsonStatus = ErrorHandling.getFailureResponse(res);
+      //       // if (resultJsonStatus.status) {
+      //       //   throw new Error(resultJsonStatus.message);
+      //       // }
+      //       //changes done for handling error if product is not available
+      //       if (
+      //         res &&
+      //         res.status === "Success" &&
+      //         res.results &&
+      //         res.results[0]
+      //       ) {
+      //         productList.push(res.results[0]);
+      //       }
+      //     })
+      //   );
     } catch (e) {
       dispatch(getPdpItemsFailure(`MSD ${e.message}`));
     }
@@ -2556,7 +2595,10 @@ export function verifyIMEINumber(
       if (wishlistName) {
         bodyParams.wishlistName = wishlistName;
       }
-      const result = await api.post(`v2/mpl/verifyIMEINumber`, bodyParams);
+      const result = await api.post(
+        `v2/mpl/verifyIMEINumber?isDuplicateImei=true`,
+        bodyParams
+      );
       const resultJson = await result.json();
       return resultJson;
     } catch (e) {
@@ -2708,11 +2750,12 @@ export function addBundledProductsToCart(data) {
 
   return async (dispatch, getState, { api }) => {
     // main product ussid
-    let mainProductUssid = data.baseItem.ussID;
+    let mainProductUssid = data && data.baseItem.ussID;
     let selectedBundledProductUssIds = [];
-    data.associatedItems.map(product => {
-      selectedBundledProductUssIds.push(product.ussID);
-    });
+    data &&
+      data.associatedItems.map(product => {
+        selectedBundledProductUssIds.push(product.ussID);
+      });
     // check if bundled product in cart
     // if all bundled products are in cart then show modal else add bundled product in cart which are not in cart
     await dispatch(getCartCountForLoggedInUser()).then(cartCountDetails => {
@@ -2738,20 +2781,21 @@ export function addBundledProductsToCart(data) {
             mainProductWithBundledItems[0].bundledAssociatedItems;
           let isProductInCart = [];
           // check if selected bundled product ussid present in bundled product ussid of cart
-          selectedBundledProductUssIds.map(ussid => {
-            let cartProductUssid =
-              bundledProductsUssid &&
-              bundledProductsUssid.find(productUssid => {
-                return productUssid.ussID === ussid;
-              });
-            if (cartProductUssid) {
-              // product in cart
-              isProductInCart.push("Y");
-            } else {
-              // product not in cart
-              isProductInCart.push("N");
-            }
-          });
+          selectedBundledProductUssIds &&
+            selectedBundledProductUssIds.map(ussid => {
+              let cartProductUssid =
+                bundledProductsUssid &&
+                bundledProductsUssid.find(productUssid => {
+                  return productUssid.ussID === ussid;
+                });
+              if (cartProductUssid) {
+                // product in cart
+                isProductInCart.push("Y");
+              } else {
+                // product not in cart
+                isProductInCart.push("N");
+              }
+            });
           if (!isProductInCart.includes("N")) {
             dispatch(
               showModal(PRODUCT_IN_BAG_MODAL, {
