@@ -85,7 +85,7 @@ export default class Button extends React.Component {
     ) {
       textStyle = Object.assign(this.props.textStyle, {
         color: "#da1c5c",
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: "regular",
         fontWeight: 500
       });
@@ -97,7 +97,7 @@ export default class Button extends React.Component {
     ) {
       textStyle = Object.assign(this.props.textStyle, {
         color: "#ffffff",
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: "regular",
         fontWeight: 500
       });
@@ -110,7 +110,7 @@ export default class Button extends React.Component {
     ) {
       textStyle = Object.assign(this.props.textStyle, {
         color: "#d5d5d5",
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: "regular",
         fontWeight: 500
       });

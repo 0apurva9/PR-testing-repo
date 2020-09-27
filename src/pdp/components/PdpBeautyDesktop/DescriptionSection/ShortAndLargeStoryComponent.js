@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
+import shortStoryLarge from "../img/shortStoryLarge.svg";
+import shortStorySmall from "../img/shortStorySmall.svg";
 import styles from "./ShortAndLargeStoryComponent.css";
 
 export default class ShortAndLargeStoryComponent extends Component {
@@ -22,7 +23,11 @@ export default class ShortAndLargeStoryComponent extends Component {
                     <div key={i} className={styles["perfume-guide-blocks"]}>
                       <div
                         className={styles["perfume-guide-img"]}
-                        style={{ backgroundImage: `url(${el.imageURL})` }}
+                        style={{
+                          backgroundImage: `url(${
+                            el.imageURL ? el.imageURL : shortStorySmall
+                          })`
+                        }}
                       ></div>
                       <div className={styles["perfume-guide-heading"]}>
                         {el.key}
@@ -39,7 +44,11 @@ export default class ShortAndLargeStoryComponent extends Component {
                     <div key={i} className={styles["perfume-note-block"]}>
                       <div
                         className={styles["perfume-note-img"]}
-                        style={{ backgroundImage: `url(${el.imageURL})` }}
+                        style={{
+                          backgroundImage: `url(${
+                            el.imageURL ? el.imageURL : shortStoryLarge
+                          })`
+                        }}
                       ></div>
                       <div className={styles["perfume-note-head"]}>
                         {el.key}

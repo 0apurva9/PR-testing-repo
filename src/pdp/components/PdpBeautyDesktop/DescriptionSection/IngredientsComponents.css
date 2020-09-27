@@ -47,12 +47,12 @@
 .ingredents-component {
   border: 1px solid rgb(213, 213, 213);
   border-radius: 4px;
-  padding: 52px 75px 48px;
+  padding: 52px 75px 52px;
   -webkit-border-radius: 4px;
 }
 
 .ingredents-component-hide-padding {
-  padding: 52px 75px 10px;
+  padding: 52px 75px 20px;
   border: 1px solid rgb(213, 213, 213);
   border-radius: 4px;
   -webkit-border-radius: 4px;
@@ -74,20 +74,19 @@
   flex-wrap: wrap;
   align-items: flex-start;
   padding: 0 13px 0;
-  margin-left: -100px;
+  width: 1048px;
 }
 .ingredents-sec-blocks {
-  width: 412px;
-  margin-left: 99px;
+  width: 50%;
 }
 
 .ingredents-blk-sub-head {
   font-family: "Rubik", sans-serif;
   color: rgb(33, 33, 33);
   font-weight: 500;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 16px;
-  width: 100%;
+  width: 88%;
   margin: 0 0 12px 0;
 }
 .ingredents-sec-inner-blocks {
@@ -98,6 +97,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
+  width: 85%;
 }
 
 .ingredents-sec-inner-blocks1 {
@@ -112,7 +112,7 @@
 }
 
 .ingredents-details {
-  width: 180px;
+  width: 50%;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -161,16 +161,16 @@
 }
 
 .ingredents-all-block {
-  width: 412px;
+  width: 50%;
   padding: 0 20px 0 0;
-  margin: 0 99px 0 0;
+  margin: 0;
 }
 
 .all-ingred-head {
   font-family: "Rubik", sans-serif;
   color: rgb(33, 33, 33);
   font-weight: 500;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 16px;
   width: 100%;
   margin: 0 0 10px;
@@ -180,7 +180,7 @@
   font-family: "Rubik", sans-serif;
   color: rgb(33, 33, 33);
   font-weight: 300;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 26px;
 }
 /***** ingredents component END ****/

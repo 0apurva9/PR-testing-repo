@@ -1,8 +1,6 @@
 /***Image Gallery***/
 .image-gallery-Block {
-  margin-top: 20px;
   display: block;
-  z-index: -20;
 }
 
 .image-gallery-list {
