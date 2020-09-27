@@ -8,15 +8,16 @@ export const SALE_COMPLETED = "SALE_COMPLETED";
 
 function mergeCategory(objCategory, isReverse) {
   const reverseCategory = isReverse ? reverse(objCategory) : objCategory;
-
-  return (
-    reverseCategory &&
-    reverseCategory
+  
+  if (reverseCategory) {
+    return reverseCategory
       .map(category => {
         return category.name ? category.name : category.category_name;
       })
-      .join(" > ")
-  );
+      .join(" > ");
+  } else {
+    return null;
+  }
 }
 
 function returnProductDetails(product) {
@@ -42,39 +43,59 @@ function returnProductDetails(product) {
 }
 
 export function setTracker(type, responseData) {
-  if (type === VIEW_PRODUCT && window._osViewProduct) {
-    let categoryList = mergeCategory(responseData.seo.breadcrumbs, true);
+  if (!responseData) {
+    return false;
+  }
+  let categoryList;
+  if (responseData.seo && responseData.seo.breadcrumbs) {
+    categoryList = mergeCategory(responseData.seo.breadcrumbs, true);
+  }
 
+  if (type === VIEW_PRODUCT && window._osViewProduct) {
     window._osViewProduct({
       products: [
         {
           skuId: responseData.productListingId,
           sellerId: responseData.winningSellerID,
           category: categoryList,
-          productPrice: `${responseData.mrpPrice.doubleValue}`,
+          productPrice:
+            responseData.mrpPrice && responseData.mrpPrice.doubleValue
+              ? `${responseData.mrpPrice.doubleValue}`
+              : "",
           currency: "INR",
-          discount: `${responseData.winningSellerPrice.doubleValue}`
+          discount:
+            responseData.winningSellerPrice &&
+            responseData.winningSellerPrice.doubleValue
+              ? `${responseData.winningSellerPrice.doubleValue}`
+              : ""
         }
       ]
     });
   }
-  if (type === ADD_TO_CART && window._osAdd2Cart) {
-    let categoryList = mergeCategory(responseData.seo.breadcrumbs, true);
 
+  if (type === ADD_TO_CART && window._osAdd2Cart) {
     window._osAdd2Cart({
       products: [
         {
           skuId: responseData.productListingId,
           sellerId: responseData.winningSellerID,
           category: categoryList,
-          productPrice: `${responseData.mrpPrice.doubleValue}`,
+          productPrice:
+            responseData.mrpPrice && responseData.mrpPrice.doubleValue
+              ? `${responseData.mrpPrice.doubleValue}`
+              : "",
           currency: "INR",
-          discount: `${responseData.winningSellerPrice.doubleValue}`,
+          discount:
+            responseData.winningSellerPrice &&
+            responseData.winningSellerPrice.doubleValue
+              ? `${responseData.winningSellerPrice.doubleValue}`
+              : "",
           quantity: responseData.quantity
         }
       ]
     });
   }
+
   if (type === VIEW_CART && window._osViewCart) {
     let cartDetailsTracker = {};
     cartDetailsTracker.products =
@@ -83,10 +104,12 @@ export function setTracker(type, responseData) {
     cartDetailsTracker.totalAmount =
       responseData.cartAmount &&
       responseData.cartAmount.paybleAmount &&
+      responseData.cartAmount.paybleAmount.doubleValue &&
       `${responseData.cartAmount.paybleAmount.doubleValue}`;
     cartDetailsTracker.currency = "INR";
     window._osViewCart(cartDetailsTracker);
   }
+
   if (type === VIEW_CHECKOUT && window._osCheckout) {
     let cartDetailsTracker = {};
     cartDetailsTracker.products =
@@ -95,10 +118,12 @@ export function setTracker(type, responseData) {
     cartDetailsTracker.totalAmount =
       responseData.cartAmount &&
       responseData.cartAmount.paybleAmount &&
+      responseData.cartAmount.paybleAmount.doubleValue &&
       `${responseData.cartAmount.paybleAmount.doubleValue}`;
     cartDetailsTracker.currency = "INR";
     window._osCheckout(cartDetailsTracker);
   }
+
   if (type === SALE_COMPLETED && window._osSaleComplete) {
     let orderDetailsTracker = {};
     orderDetailsTracker.products =
@@ -106,7 +131,9 @@ export function setTracker(type, responseData) {
       responseData.products.map(product => returnProductDetails(product));
     orderDetailsTracker.totalAmount = responseData.finalAmount
       ? `${responseData.finalAmount}`
-      : `${responseData.totalOrderAmount}`;
+      : responseData.totalOrderAmount
+        ? `${responseData.totalOrderAmount}`
+        : "";
     orderDetailsTracker.currency = "INR";
     orderDetailsTracker.orderId = responseData.orderRefNo
       ? responseData.orderRefNo
