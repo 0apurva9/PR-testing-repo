@@ -49,6 +49,7 @@ import {
   getCartDetailsForLoggedInUser,
   getCartDetailsForAnonymousInUser
 } from "../../lib/getCookieDetails.js";
+import { MSD_ROOT_PATH } from "../../../src/plp/actions/plp.actions";
 export const SUBMIT_REVIEW_TEXT = "Thanks! Review submitted successfully";
 export const PRODUCT_DESCRIPTION_REQUEST = "PRODUCT_DESCRIPTION_REQUEST";
 export const PRODUCT_DESCRIPTION_SUCCESS = "PRODUCT_DESCRIPTION_SUCCESS";
@@ -147,6 +148,26 @@ export const OPEN_IN_APP_REQUEST = "OPEN_IN_APP_REQUEST";
 export const OPEN_IN_APP_SUCCESS = "OPEN_IN_APP_SUCCESS";
 export const OPEN_IN_APP_FAILURE = "OPEN_IN_APP_FAILURE";
 
+export const GET_MASTER_TEMPLATE_REQUEST = "GET_MASTER_TEMPLATE_REQUEST";
+export const GET_MASTER_TEMPLATE_SUCCESS = "GET_MASTER_TEMPLATE_SUCCESS";
+export const GET_MASTER_TEMPLATE_FAILURE = "GET_MASTER_TEMPLATE_FAILURE";
+
+export const GET_HOW_TO_WEAR_REQUEST = "GET_HOW_TO_WEAR_REQUEST";
+export const GET_HOW_TO_WEAR_SUCCESS = "GET_HOW_TO_WEAR_SUCCESS";
+export const GET_HOW_TO_WEAR_FAILURE = "GET_HOW_TO_WEAR_FAILURE";
+
+export const GET_ABOUT_THE_BRAND_REQUEST = "GET_ABOUT_THE_BRAND_REQUEST";
+export const GET_ABOUT_THE_BRAND_SUCCESS = "GET_ABOUT_THE_BRAND_SUCCESS";
+export const GET_ABOUT_THE_BRAND_FAILURE = "GET_ABOUT_THE_BRAND_FAILURE";
+
+export const GET_MORE_FROM_BRAND_REQUEST = "GET_MORE_FROM_BRAND_REQUEST";
+export const GET_MORE_FROM_BRAND_SUCCESS = "GET_MORE_FROM_BRAND_SUCCESS";
+export const GET_MORE_FROM_BRAND_FAILURE = "GET_MORE_FROM_BRAND_FAILURE";
+
+export const GET_SIMILAR_PRODUCT_REQUEST = "GET_SIMILAR_PRODUCT_REQUEST";
+export const GET_SIMILAR_PRODUCT_SUCCESS = "GET_SIMILAR_PRODUCT_SUCCESS";
+export const GET_SIMILAR_PRODUCT_FAILURE = "GET_SIMILAR_PRODUCT_FAILURE";
+
 export const RELEVANT_BUNDLE_PRODUCT_REQUEST =
   "RELEVANT_BUNDLE_PRODUCT_REQUEST";
 export const RELEVANT_BUNDLE_PRODUCT_SUCCESS =
@@ -217,6 +238,7 @@ const WIDGET_LIST_SIMILAR_PRODUCT = [0];
 const WIDGET_LIST_FREQUENTLY_BOUGHT = [4];
 const WIDGET_LIST_FOR_ABOUT_BRAND = [114];
 const NUMBER_RESULTS = [10];
+const WIDGET_LIST_FOR_SIMILAR_PRODUCT = [0];
 //TPR-9957 for Desktop
 export const PDP_MANUFACTURER_REQUEST = "PDP_MANUFACTURER_REQUEST";
 export const PDP_MANUFACTURER_SUCCESS = "PDP_MANUFACTURER_SUCCESS";
@@ -246,6 +268,8 @@ export const ADD_BUNDLED_PRODUCTS_TO_CART_SUCCESS =
   "ADD_BUNDLED_PRODUCTS_TO_CART_SUCCESS";
 export const ADD_BUNDLED_PRODUCTS_TO_CART_FAILURE =
   "ADD_BUNDLED_PRODUCTS_TO_CART_FAILURE";
+
+export const BEAUTY_POP_UP_TOGGLE = "BEAUTY_POP_UP_TOGGLE";
 
 export function getProductDescriptionRequest() {
   return {
@@ -287,6 +311,7 @@ export function getProductDescription(
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true&isMDE=true`
       );
       const resultJson = await result.json();
+
       if (
         resultJson.status === SUCCESS ||
         resultJson.status === SUCCESS_UPPERCASE ||
@@ -325,6 +350,329 @@ export function getProductDescription(
     }
   };
 }
+
+export function getMasterTemplate(categoryId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getMasterTemplateRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=${categoryId}_desktop`
+      );
+      const resultJson = await result.json();
+      const value =
+        resultJson &&
+        resultJson.applicationProperties[0] &&
+        JSON.parse(resultJson.applicationProperties[0].value);
+      const finalJson = { name: categoryId, value };
+
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      return dispatch(getMasterTemplateSuccess(finalJson));
+    } catch (error) {
+      dispatch(getMasterTemplateFailure(error.message));
+    }
+  };
+}
+
+export function getMasterTemplateRequest() {
+  return {
+    type: GET_MASTER_TEMPLATE_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getMasterTemplateSuccess(masterTemplateResult) {
+  return {
+    type: GET_MASTER_TEMPLATE_SUCCESS,
+    status: SUCCESS,
+    masterTemplateResult
+  };
+}
+
+export function getMasterTemplateFailure(error) {
+  return {
+    error,
+    type: GET_MASTER_TEMPLATE_FAILURE,
+    status: ERROR
+  };
+}
+
+export function openBeautyPopup(toggle) {
+  return {
+    type: BEAUTY_POP_UP_TOGGLE,
+    status: toggle
+  };
+}
+
+export function getHowToWear(category_id) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getHowToWearRequest());
+    try {
+      const url = `/v2/mpl/cms/defaultpage?pageId=HTW-${category_id}`;
+      const result = await api.get(url);
+      const resultJson = await result.json();
+
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(getHowToWearSuccess(resultJson));
+    } catch (error) {
+      dispatch(getHowToWearFailure(error.message));
+    }
+  };
+}
+
+export function getHowToWearRequest() {
+  return {
+    type: GET_HOW_TO_WEAR_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getHowToWearSuccess(howToWearResult) {
+  return {
+    type: GET_HOW_TO_WEAR_SUCCESS,
+    status: SUCCESS,
+    howToWearResult
+  };
+}
+
+export function getHowToWearFailure(error) {
+  return {
+    error,
+    type: GET_HOW_TO_WEAR_FAILURE,
+    status: ERROR
+  };
+}
+
+export function getAboutTheBrand(mbhId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getAboutTheBrandRequest());
+    try {
+      const url = `/v2/mpl/cms/defaultpage?pageId=ATB-${mbhId}`;
+      const result = await api.get(url);
+      const resultJson = await result.json();
+
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      let finalResult;
+      if (resultJson.items && resultJson.items.length > 0) {
+        finalResult = resultJson.items.find(
+          item => item.componentName === "ATBPDPCarouselComponent"
+        );
+      }
+
+      return dispatch(getAboutTheBrandSuccess(finalResult));
+    } catch (error) {
+      dispatch(getAboutTheBrandFailure(error.message));
+    }
+  };
+}
+
+export function getAboutTheBrandRequest() {
+  return {
+    type: GET_ABOUT_THE_BRAND_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getAboutTheBrandSuccess(aboutTheBrandResult) {
+  return {
+    type: GET_ABOUT_THE_BRAND_SUCCESS,
+    status: SUCCESS,
+    aboutTheBrandResult
+  };
+}
+
+export function getAboutTheBrandFailure(error) {
+  return {
+    error,
+    type: GET_ABOUT_THE_BRAND_FAILURE,
+    status: ERROR
+  };
+}
+
+export function getMoreFromBrand(productId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getMoreFromBrandRequest());
+    const mcvId = await getMcvId();
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let msdFormData = new FormData();
+    let userData;
+    if (userDetails) {
+      userData = JSON.parse(userDetails);
+    }
+    msdFormData.append("api_key", API_KEY);
+    msdFormData.append("num_results", JSON.stringify(NUMBER_RESULTS));
+    msdFormData.append("mad_uuid", mcvId);
+    msdFormData.append("details", false);
+    msdFormData.append(
+      "widget_list",
+      JSON.stringify(WIDGET_LIST_FOR_ABOUT_BRAND)
+    );
+    msdFormData.append("product_id", productId);
+    if (userData && userData.customerId) {
+      msdFormData.append("user_id", userData.customerId);
+    }
+
+    try {
+      const moreBrand = await api.postMsd(
+        `${MSD_ROOT_PATH}/widgets`,
+        msdFormData
+      );
+      const moreBrandJson = await moreBrand.json();
+      const moreBrandJsonStatus = ErrorHandling.getFailureResponse(
+        moreBrandJson
+      );
+
+      if (moreBrandJsonStatus.status) {
+        throw new Error();
+      }
+
+      let finalProductDetails = null;
+
+      if (moreBrandJson.data && moreBrandJson.data.length > 0) {
+        let productCode = moreBrandJson.data[0].itemIds.toString();
+        const getProductdetails = await api.getMiddlewareUrl(
+          `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
+        );
+        finalProductDetails = await getProductdetails.json();
+      }
+
+      if (finalProductDetails && finalProductDetails.status === FAILURE) {
+        const finalProductStatus = ErrorHandling.getFailureResponse(
+          finalProductDetails
+        );
+
+        if (finalProductStatus.status) {
+          throw new Error();
+        }
+      }
+      return dispatch(getMoreFromBrandSuccess(finalProductDetails));
+    } catch (error) {
+      dispatch(getMoreFromBrandFailure(error.message));
+    }
+  };
+}
+
+export function getMoreFromBrandSuccess(moreFromBrandResult) {
+  return {
+    type: GET_MORE_FROM_BRAND_SUCCESS,
+    status: SUCCESS,
+    moreFromBrandResult
+  };
+}
+
+export function getMoreFromBrandFailure(error) {
+  return {
+    error,
+    type: GET_MORE_FROM_BRAND_FAILURE,
+    status: ERROR
+  };
+}
+
+export function getMoreFromBrandRequest() {
+  return {
+    type: GET_MORE_FROM_BRAND_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getSimilarProduct(productId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getSimilarProductRequest());
+    const mcvId = await getMcvId();
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let msdFormData = new FormData();
+    let userData;
+    if (userDetails) {
+      userData = JSON.parse(userDetails);
+    }
+    msdFormData.append("api_key", API_KEY);
+    msdFormData.append("num_results", JSON.stringify(NUMBER_RESULTS));
+    msdFormData.append("mad_uuid", mcvId);
+    msdFormData.append("details", false);
+    msdFormData.append(
+      "widget_list",
+      JSON.stringify(WIDGET_LIST_FOR_SIMILAR_PRODUCT)
+    );
+    msdFormData.append("product_id", productId);
+    if (userData && userData.customerId) {
+      msdFormData.append("user_id", userData.customerId);
+    }
+
+    try {
+      const similarProduct = await api.postMsd(
+        `${MSD_ROOT_PATH}/widgets`,
+        msdFormData
+      );
+      const similarProductJson = await similarProduct.json();
+      const similarProductJsonStatus = ErrorHandling.getFailureResponse(
+        similarProductJson
+      );
+
+      if (similarProductJsonStatus.status) {
+        throw new Error();
+      }
+
+      let finalProductDetails = null;
+
+      if (similarProductJson.data && similarProductJson.data.length > 0) {
+        let productCode = similarProductJson.data[0].toString();
+        const getProductdetails = await api.getMiddlewareUrl(
+          `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
+        );
+        finalProductDetails = await getProductdetails.json();
+      }
+
+      if (finalProductDetails && finalProductDetails.status === FAILURE) {
+        const finalProductStatus = ErrorHandling.getFailureResponse(
+          finalProductDetails
+        );
+
+        if (finalProductStatus.status) {
+          throw new Error();
+        }
+      }
+      return dispatch(getSimilarProductSuccess(finalProductDetails));
+    } catch (error) {
+      dispatch(getSimilarProductFailure(error.message));
+    }
+  };
+}
+
+export function getSimilarProductSuccess(similarProductResult) {
+  return {
+    type: GET_SIMILAR_PRODUCT_SUCCESS,
+    status: SUCCESS,
+    similarProductResult
+  };
+}
+
+export function getSimilarProductFailure(error) {
+  return {
+    error,
+    type: GET_SIMILAR_PRODUCT_FAILURE,
+    status: ERROR
+  };
+}
+
+export function getSimilarProductRequest() {
+  return {
+    type: GET_SIMILAR_PRODUCT_REQUEST,
+    status: REQUESTING
+  };
+}
+
 export function setToOld() {
   return {
     type: SET_TO_OLD

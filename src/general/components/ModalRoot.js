@@ -138,6 +138,16 @@ const OfferDetailsModal = Loadable({
   }
 });
 
+const BeautyOfferDetailsModal = Loadable({
+  loader: () =>
+    import(
+      "../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyOfferDetailsModal"
+    ),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const TermsNConditionsWrapperModal = Loadable({
   loader: () => import("../../pdp/components/TermsNConditionsWrapperModal"),
   loading() {
@@ -1037,6 +1047,12 @@ export default class ModalRoot extends React.Component {
       ),
       OfferDetailsModal: (
         <OfferDetailsModal
+          closeModal={() => this.handleClose()}
+          {...this.props.ownProps}
+        />
+      ),
+      BeautyOfferDetailsModal: (
+        <BeautyOfferDetailsModal
           closeModal={() => this.handleClose()}
           {...this.props.ownProps}
         />

@@ -1,0 +1,125 @@
+.ship-date-block {
+  padding: 0 10px 0 35px;
+  width: 250px;
+  margin-top: 15px;
+  position: relative;
+}
+
+.quiq-piq {
+  width: 100%;
+  min-height: 28px;
+  position: relative;
+  padding: 0 10px 0 35px;
+}
+
+.pick-store-block {
+  padding: 0 10px 0 35px;
+  width: 145px;
+  position: relative;
+  text-align: right;
+  margin-top: 15px;
+}
+
+.placeTime {
+  width: 100%;
+  height: auto;
+  font-family: 500;
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 5px;
+}
+
+.text {
+  width: 100%;
+  height: auto;
+  font-family: semibold;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.buttonHolder {
+  width: auto;
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.headerHolder {
+  width: 100%;
+  height: auto;
+  font-family: bold;
+  font-size: 16px;
+  line-height: 20px;
+  margin-bottom: 35px;
+}
+
+.checkboxHolder {
+  width: 20px;
+  height: 20px;
+  z-index: 1;
+  margin-top: 12px;
+}
+
+.arrowHolder {
+  composes: checkboxHolder;
+  transform: rotate(180deg);
+}
+
+.underLineButtonHolder {
+  width: 100%;
+  height: auto;
+}
+
+.buttonHolderPiq {
+  composes: buttonHolder;
+  margin-left: 0;
+  margin-top: 4px;
+}
+
+.cncDeliveryAddress,
+.cncDeliveryAddressCartPage,
+.cncDeliveryAddressFullWidth {
+  font-family: light;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.cncDeliveryAddress {
+  width: 72%;
+  padding-top: 5px;
+}
+
+.cncDeliveryAddressFullWidth {
+  width: 100%;
+}
+
+@media only screen and (min-width: 1025px) {
+  .base {
+    padding-right: 0px;
+  }
+
+  .placeTime {
+    font-size: 14px;
+  }
+
+  .checkboxHolder {
+    composes: checkboxHolder;
+  }
+
+  .arrowLink {
+    composes: checkboxHolder;
+    top: -21px;
+  }
+
+  .arrowLink1 {
+    composes: checkboxHolder;
+    top: 0px;
+  }
+
+}
+
+.address {
+  font-size: 13px;
+  font-family: light;
+  color: rgb(33, 33, 33);
+  width: 56%;
+}

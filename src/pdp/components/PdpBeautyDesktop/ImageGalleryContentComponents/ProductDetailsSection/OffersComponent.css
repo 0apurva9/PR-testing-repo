@@ -1,0 +1,54 @@
+/*** Offer Component ***/
+.offers-component {
+  display: block;
+  width: 100%;
+  margin: 20px 0 0 0;
+  border-top: 1px solid rgb(230, 230, 230);
+}
+
+.offers-block {
+  padding: 20px 0 0;
+}
+
+.offers-heading {
+  font-family: "Rubik", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+  margin: 0 0 12px 0;
+  color: rgb(33, 33, 33);
+  text-transform: uppercase;
+}
+
+.offers-desc b {
+  font-weight: 400;
+}
+
+.offers-list-container {
+  width: 100%;
+  display: block;
+}
+
+.offers-list-block {
+  margin: 12px 0 0 0;
+  padding: 12px 0 0 0;
+  list-style-type: none;
+  cursor: pointer;
+}
+
+.offers-list {
+  font-family: "Rubik", sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 26px;
+  margin-bottom: 15px;
+}
+
+.offers-list-link {
+  font-family: "Rubik", sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  color: rgb(218, 28, 92);
+  text-decoration: none;
+}
+/*** Offer Component ***/

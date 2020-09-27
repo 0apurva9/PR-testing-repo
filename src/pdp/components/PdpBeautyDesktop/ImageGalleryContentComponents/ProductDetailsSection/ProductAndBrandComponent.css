@@ -1,0 +1,27 @@
+/***PDP Brand Name****/
+.product-name-and-brand{
+  width: 100%;
+}
+
+.brand-name {
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+  color: rgb(33, 33, 33);
+  font-size: 18px;
+  line-height: 24px;
+  text-decoration: none;
+  margin: 0 0 4px;
+  display: block;
+}
+
+.product-desc {
+  font-family: "Rubik", sans-serif;
+  font-weight: 300;
+  color: rgb(74, 74, 74);
+  font-size: 18px;
+  line-height: 20px;
+  text-decoration: none;
+  margin: 0 0 8px;
+  display: block;
+}
+/***PDP Brand Name End****/

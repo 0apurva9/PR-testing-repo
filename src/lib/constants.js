@@ -573,3 +573,9 @@ export const PLP_BANNER_COMPONENT = "plpBannerComponent";
 export const PLP_SHORT_BANNER_COMPONENT = "plpShortBannerComponent";
 export const HERO_BANNER_MONETIZATION = "HeroBannerComponentMonetization";
 export const SIMPLE_BANNER_MONETIZATION = "SimpleBannerComponentMonetization";
+
+export const SHARE_FACEBOOK_URL =
+  "https://www.facebook.com/sharer/sharer.php?u=";
+export const SHARE_TWITTER_URL = "https://twitter.com/intent/tweet?url=";
+export const POP_UP_WINDOW_STYLE =
+  "toolbar=no, menubar=no, width=600, height=700, top=100, left=100";

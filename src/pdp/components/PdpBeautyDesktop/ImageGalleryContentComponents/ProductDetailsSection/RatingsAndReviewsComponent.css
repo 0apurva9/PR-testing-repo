@@ -1,0 +1,54 @@
+/***Review and Rating****/
+.rating-review-component {
+  margin: 0 0 20px 0;
+}
+
+.rating-star {
+  width: 15px;
+  height: 15px;
+  margin:0 8px 0 3px;
+  display: inline-block;
+  vertical-align: -2px;
+}
+
+.rating-star-green {
+  background: transparent url(../../img/green-filled-star.svg) 0 0/100% auto
+  no-repeat;
+}
+
+.rating-star-orange {
+  background: transparent url(../../img/orange-filled-star.svg) 0 0/100% auto
+  no-repeat;
+}
+
+.rating-value {
+  font-family: "Rubik", sans-serif;
+  font-size: 16px;
+  line-height: 16px;
+  color: rgb(74, 74, 74);
+}
+
+.rating-total-count {
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 16px;
+  color: rgb(151, 151, 151);
+}
+
+.rating-total-review {
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 16px;
+  color: rgb(151, 151, 151);
+}
+
+.no-rating-text {
+  width: 100%;
+  height: auto;
+  color: #ff1744;
+  font-family: light;
+  font-size: 13px;
+  margin-top: 25px;
+  cursor: pointer;
+}
+/***Review and Rating End****/

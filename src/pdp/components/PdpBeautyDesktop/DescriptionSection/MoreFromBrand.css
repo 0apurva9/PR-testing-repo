@@ -1,0 +1,21 @@
+.mfb-heading {
+  font-family: "Rubik", sans-serif;
+  color: rgb(33, 33, 33);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: left;
+  transition: 300ms;
+  height: auto;
+}
+
+.container {
+  width: 100%;
+  display: inline-block;
+  max-width: 1200px;
+  text-align: left;
+  position: relative;
+  /* margin-bottom: 50px; */
+  margin-top: 20px;
+ /* background-color: grey;* */
+}
