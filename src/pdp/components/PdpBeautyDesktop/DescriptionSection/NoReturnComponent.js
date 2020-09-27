@@ -46,19 +46,30 @@ export default class NoReturnComponent extends Component {
                 }}
               >
                 <div className={styles["return-heading"]}>
-                  {this.props.productDetails &&
+                  {this.props &&
+                  this.props.productDetails &&
                   this.props.productDetails.knowMoreV2 &&
+                  this.props.productDetails.knowMoreV2.length > 0 &&
+                  this.props.productDetails.knowMoreV2[0] &&
+                  this.props.productDetails.knowMoreV2[0].knowMoreItemV2 &&
                   this.props.productDetails.knowMoreV2[0].knowMoreItemV2.toLowerCase() ===
                     "0 days easy return"
                     ? this.props.heading
-                    : this.props.productDetails.knowMoreV2[0].knowMoreItemV2.toUpperCase()}
+                    : this.props &&
+                      this.productDetails &&
+                      this.productDetails.knowMoreV2[0] &&
+                      this.productDetails.knowMoreV2[0].knowMoreItemV2 &&
+                      this.productDetails.knowMoreV2[0].knowMoreItemV2.toUpperCase()}
                 </div>
                 <div className={returnIconActive} />
               </div>
               <Collapse isOpened={this.state.isReturnOpen}>
                 <div className={styles["return-desc"]}>
-                  {this.props.productDetails &&
+                  {this.props &&
+                    this.props.productDetails &&
                     this.props.productDetails.knowMoreV2 &&
+                    this.props.productDetails.knowMoreV2.length > 0 &&
+                    this.props.productDetails.knowMoreV2[1] &&
                     this.props.productDetails.knowMoreV2[1].knowMoreItemV2}
                 </div>
               </Collapse>
