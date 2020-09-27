@@ -9,11 +9,14 @@ export const SALE_COMPLETED = "SALE_COMPLETED";
 function mergeCategory(objCategory, isReverse) {
   const reverseCategory = isReverse ? reverse(objCategory) : objCategory;
 
-  return reverseCategory
-    .map(category => {
-      return category.name ? category.name : category.category_name;
-    })
-    .join(" > ");
+  return (
+    reverseCategory &&
+    reverseCategory
+      .map(category => {
+        return category.name ? category.name : category.category_name;
+      })
+      .join(" > ")
+  );
 }
 
 function returnProductDetails(product) {
@@ -23,8 +26,8 @@ function returnProductDetails(product) {
   let productQuantity = product.qtySelectedByUser
     ? product.qtySelectedByUser
     : product.quantity
-      ? product.quantity
-      : 1;
+    ? product.quantity
+    : 1;
   let productPrice = product.price ? `${product.price}` : product.pricevalue;
   let discountedPrice = product.offerPrice ? product.offerPrice : productPrice;
   return {
@@ -74,9 +77,9 @@ export function setTracker(type, responseData) {
   }
   if (type === VIEW_CART && window._osViewCart) {
     let cartDetailsTracker = {};
-    cartDetailsTracker.products = responseData.products.map(product =>
-      returnProductDetails(product)
-    );
+    cartDetailsTracker.products =
+      responseData.products &&
+      responseData.products.map(product => returnProductDetails(product));
     cartDetailsTracker.totalAmount =
       responseData.cartAmount &&
       responseData.cartAmount.paybleAmount &&
@@ -86,9 +89,9 @@ export function setTracker(type, responseData) {
   }
   if (type === VIEW_CHECKOUT && window._osCheckout) {
     let cartDetailsTracker = {};
-    cartDetailsTracker.products = responseData.products.map(product =>
-      returnProductDetails(product)
-    );
+    cartDetailsTracker.products =
+      responseData.products &&
+      responseData.products.map(product => returnProductDetails(product));
     cartDetailsTracker.totalAmount =
       responseData.cartAmount &&
       responseData.cartAmount.paybleAmount &&
@@ -98,9 +101,9 @@ export function setTracker(type, responseData) {
   }
   if (type === SALE_COMPLETED && window._osSaleComplete) {
     let orderDetailsTracker = {};
-    orderDetailsTracker.products = responseData.products.map(product =>
-      returnProductDetails(product)
-    );
+    orderDetailsTracker.products =
+      responseData.products &&
+      responseData.products.map(product => returnProductDetails(product));
     orderDetailsTracker.totalAmount = responseData.finalAmount
       ? `${responseData.finalAmount}`
       : `${responseData.totalOrderAmount}`;
