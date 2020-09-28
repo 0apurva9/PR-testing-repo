@@ -56,7 +56,7 @@ export default class GalleryImagesComponent extends React.Component {
           return image;
         }
       });
-    console.log("productimages", productImages);
+
     const zoomImages = images
       .map(galleryImageList => {
         if (galleryImageList.mediaType === IMAGE) {
@@ -78,7 +78,7 @@ export default class GalleryImagesComponent extends React.Component {
           return image[0].value;
         }
       });
-    console.log("zoomimages", zoomImages);
+
     return (
       <div className={styles["image-gallery-Block"]}>
         <ul className={styles["image-gallery-list"]} id={styles.samples}>

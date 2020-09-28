@@ -87,8 +87,8 @@ export default class ImageGalleryContentComponent extends React.Component {
       });
     return (
       <div className={styles["gallery-content-container"]}>
-        <ProductBadgesComponent {...this.props} />
         <div className={styles["gallery-container"]}>
+          <ProductBadgesComponent {...this.props} />
           <GalleryImagesComponent
             {...this.props}
             galleryCompDetails={galleryCompDetails}
