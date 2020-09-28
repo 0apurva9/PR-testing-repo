@@ -37,7 +37,7 @@ export default class PdpFlags extends React.Component {
       }
     } else if (this.props.newProduct === "Y") {
       if (this.props.isBeautyPdp) {
-        return this.renderBeautyPdpOffer("New");
+        return this.renderBeautyPdpOffer("New Arrival");
       } else {
         return <div className={styles.new}>New</div>;
       }
@@ -64,7 +64,7 @@ export default class PdpFlags extends React.Component {
       }
     } else if (this.props.onlineExclusive === "Y") {
       if (this.props.isBeautyPdp) {
-        return this.renderBeautyPdpOffer("New");
+        return this.renderBeautyPdpOffer("New Arrival");
       } else {
         return <div className={styles.new}>New</div>;
       }

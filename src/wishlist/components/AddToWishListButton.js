@@ -333,7 +333,7 @@ export default class AddToWishListButton extends React.Component {
           onClick={e => this.onClick(e)}
         >
           <div className={styles.iconHolderForBeautyPdp}>
-            <Icon image={wishListBeautyIcon} width={20} height={36} />
+            <Icon image={wishListBeautyIcon} width={26} height={36} />
           </div>
         </div>
       );
