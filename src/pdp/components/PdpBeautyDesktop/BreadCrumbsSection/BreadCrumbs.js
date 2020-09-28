@@ -20,8 +20,10 @@ export default class BreadCrumbs extends React.Component {
 
   render() {
     const productDetails = this.props && this.props.productDetails;
-    const breadCrumbs = productDetails.seo.breadcrumbs;
-    const reverseBreadCrumbs = reverse(breadCrumbs);
+    const breadCrumbs =
+      productDetails && productDetails.seo && productDetails.seo.breadcrumbs;
+    const reverseBreadCrumbs =
+      breadCrumbs && breadCrumbs.length > 0 && reverse(breadCrumbs);
     return (
       <div className={styles["bread-crumb-container"]}>
         <ul className={styles["bread-crumb-ulblock"]}>

@@ -49,10 +49,25 @@ const ProductBadgesComponent = Loadable({
 });
 
 export default class ImageGalleryContentComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      setZindex: false
+    };
+  }
+
   handleDetailsScroll = () => {
     if (this.props.handleDetailsScroll) {
       this.props.handleDetailsScroll();
     }
+  };
+
+  setZindex() {
+    this.setState({ setZindex: true });
+  }
+
+  resetZindex = () => {
+    this.setState({ setZindex: false });
   };
 
   render() {
@@ -72,14 +87,25 @@ export default class ImageGalleryContentComponent extends React.Component {
       });
     return (
       <div className={styles["gallery-content-container"]}>
-        <ProductBadgesComponent {...this.props} />
         <div className={styles["gallery-container"]}>
+          <ProductBadgesComponent {...this.props} />
           <GalleryImagesComponent
             {...this.props}
             galleryCompDetails={galleryCompDetails}
+            setZindex={() => this.setZindex()}
+            resetZindex={() => this.resetZindex()}
           />
         </div>
-        <div className={styles["product-details-container"]}>
+        <div
+          className={
+            this.state.setZindex
+              ? [
+                  styles["product-details-container"],
+                  styles["set-zindex"]
+                ].join(" ")
+              : styles["product-details-container"]
+          }
+        >
           <ProductDetailsSection
             {...this.props}
             handleDetailsScroll={this.handleDetailsScroll}

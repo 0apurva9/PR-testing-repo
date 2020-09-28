@@ -33,7 +33,7 @@ export default class APlusTemplate extends React.Component {
     }
 
     const data = {};
-    productContent &&
+    productContent.length > 0 &&
       productContent
         .sort((a, b) => {
           if (a.key < b.key) {

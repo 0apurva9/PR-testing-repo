@@ -154,7 +154,7 @@
 }
 
 .ingredents-on-has-no-sorted-ing {
-  padding: 30px 13px 0;
+  padding: 0px 13px 0;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;

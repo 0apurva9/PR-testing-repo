@@ -21,7 +21,7 @@ export default class DetailsComponent extends React.Component {
           onClick={e => this.handleDetailsScroll(e)}
         >
           <div className={styles["what-it-is-heading"]}>What it is:</div>
-          {stylenotes.length > 189 && (
+          {stylenotes && stylenotes.length > 189 && (
             <div className={styles["what-it-is-desc"]}>
               {`${stylenotes.substring(0, 215)}..`}
               <a
@@ -33,7 +33,7 @@ export default class DetailsComponent extends React.Component {
               </a>
             </div>
           )}
-          {stylenotes.length <= 215 && (
+          {stylenotes && stylenotes.length <= 215 && (
             <div className={styles["what-it-is-desc"]}>{`${stylenotes}`}</div>
           )}
         </div>

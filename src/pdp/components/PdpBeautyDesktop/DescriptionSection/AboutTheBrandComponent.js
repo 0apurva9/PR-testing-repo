@@ -19,7 +19,7 @@ export default class AboutTheBrandComponent extends Component {
         <div>
           <div className={styles.container}>
             <div className={styles["atb-heading"]}>
-              {this.props.aboutTheBrandResponse &&
+              {this.props.aboutTheBrandResponse.singleBannerComponent.title &&
                 this.props.aboutTheBrandResponse.singleBannerComponent.title.toUpperCase()}
             </div>
           </div>
@@ -32,6 +32,8 @@ export default class AboutTheBrandComponent extends Component {
             sliderWidthFull={true}
           >
             {this.props.aboutTheBrandResponse &&
+              this.props.aboutTheBrandResponse.singleBannerComponent.items
+                .length > 0 &&
               this.props.aboutTheBrandResponse.singleBannerComponent.items.map(
                 (val, i) => {
                   const transformedDatum = transformData(val);

@@ -30,6 +30,7 @@ export default class MoreFromBrand extends Component {
           >
             {this.props.similarProductResponse &&
               this.props.similarProductResponse.results &&
+              this.props.similarProductResponse.results.length > 0 &&
               this.props.similarProductResponse.results.map((val, i) => {
                 const transformedDatum = transformData(val);
                 const productImage = transformedDatum.image;

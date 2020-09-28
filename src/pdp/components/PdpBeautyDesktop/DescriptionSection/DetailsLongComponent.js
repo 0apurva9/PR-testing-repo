@@ -74,35 +74,43 @@ export default class DetailsLongComponent extends Component {
                           )}
                           <div className={styles["details-what-it-is-desc"]}>
                             <ul className={styles["set-information-list"]}>
-                              {this.props.setInformationContentSorted.map(
-                                (el, i) => (
-                                  <li key={i}>{`${el.key}:${el.value}`}</li>
-                                )
-                              )}
+                              {this.props.setInformationContentSorted.length >
+                                0 &&
+                                this.props.setInformationContentSorted.map(
+                                  (el, i) => (
+                                    <li key={i}>{`${el.key}:${el.value}`}</li>
+                                  )
+                                )}
                             </ul>
                           </div>
                         </div>
                       )}
-                      {this.props && this.props.whatElseYouNeedToKnowContent && (
-                        <div className={styles["details-what-it-is-block"]}>
-                          {this.props.whatElseYouNeedToKnowContent.map(
-                            (el, i) => (
-                              <React.Fragment key={i}>
-                                <div
-                                  className={styles["details-what-it-is-head"]}
-                                >
-                                  {el.key}
-                                </div>
-                                <div
-                                  className={styles["details-what-it-is-desc"]}
-                                >
-                                  {el.value}
-                                </div>
-                              </React.Fragment>
-                            )
-                          )}
-                        </div>
-                      )}
+                      {this.props &&
+                        this.props.whatElseYouNeedToKnowContent &&
+                        this.props.whatElseYouNeedToKnowContent.length > 0 && (
+                          <div className={styles["details-what-it-is-block"]}>
+                            {this.props.whatElseYouNeedToKnowContent.map(
+                              (el, i) => (
+                                <React.Fragment key={i}>
+                                  <div
+                                    className={
+                                      styles["details-what-it-is-head"]
+                                    }
+                                  >
+                                    {el.key}
+                                  </div>
+                                  <div
+                                    className={
+                                      styles["details-what-it-is-desc"]
+                                    }
+                                  >
+                                    {el.value}
+                                  </div>
+                                </React.Fragment>
+                              )
+                            )}
+                          </div>
+                        )}
                     </div>
                   </Collapse>
                 </React.Fragment>
@@ -112,6 +120,7 @@ export default class DetailsLongComponent extends Component {
               {(this.props.halfSetItems || this.props.remSetItems) && (
                 <div className={styles["product-details-section"]}>
                   {this.props.halfSetItems &&
+                    this.props.halfSetItems.length > 0 &&
                     this.props.halfSetItems.map((el, i) => (
                       <div key={i} className={styles["product-details-block"]}>
                         <div className={styles["product-details-col"]}>
@@ -123,6 +132,7 @@ export default class DetailsLongComponent extends Component {
                       </div>
                     ))}
                   {this.props.remSetItems &&
+                    this.props.remSetItems.length > 0 &&
                     this.props.remSetItems.map((el, i) => (
                       <div key={i} className={styles["product-details-block"]}>
                         <div className={styles["product-details-col"]}>
