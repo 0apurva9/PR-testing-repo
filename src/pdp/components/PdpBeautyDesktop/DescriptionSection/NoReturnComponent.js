@@ -57,6 +57,8 @@ export default class NoReturnComponent extends Component {
                     ? this.props.heading
                     : this.props &&
                       this.props.productDetails &&
+                      this.props.productDetails.knowMoreV2 &&
+                      this.props.productDetails.knowMoreV2.length > 0 &&
                       this.props.productDetails.knowMoreV2[0] &&
                       this.props.productDetails.knowMoreV2[0].knowMoreItemV2 &&
                       this.props.productDetails.knowMoreV2[0].knowMoreItemV2.toUpperCase()}
