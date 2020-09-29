@@ -77,14 +77,17 @@ export default class SizeComponent extends React.Component {
                   return (
                     <div
                       key={i}
-                      className={styles["size-select size-not-avail"]}
+                      className={[
+                        styles["size-not-avail"],
+                        styles["size-select"]
+                      ].join(" ")}
                     >
                       <div className={styles["size-outer"]}>
                         <div
                           className={styles["size-icon"]}
                           style={{
                             backgroundImage: `url(${val.imageUrl})`,
-                            backgroundSize: `auto ${36}px`
+                            backgroundSize: `auto ${34}px`
                           }}
                         ></div>
                         {val.size}

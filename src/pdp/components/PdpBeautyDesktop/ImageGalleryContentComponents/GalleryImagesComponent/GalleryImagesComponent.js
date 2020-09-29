@@ -33,79 +33,84 @@ export default class GalleryImagesComponent extends React.Component {
 
   render() {
     const galleryImages = this.props && this.props.productDetails;
-    const images = galleryImages.galleryImagesList
-      ? galleryImages.galleryImagesList.filter(val => {
-          return val.mediaType === IMAGE;
+    const images =
+      galleryImages && galleryImages.galleryImagesList
+        ? galleryImages.galleryImagesList.filter(val => {
+            return val.mediaType === IMAGE;
+          })
+        : [];
+    const productImages =
+      images &&
+      images
+        .map(galleryImageList => {
+          if (galleryImageList.mediaType === IMAGE) {
+            return galleryImageList.galleryImages.filter(galleryImages => {
+              return {
+                product: galleryImages.key === "product",
+                type: "image"
+              };
+            });
+          }
         })
-      : [];
-    const productImages = images
-      .map(galleryImageList => {
-        if (galleryImageList.mediaType === IMAGE) {
-          return galleryImageList.galleryImages.filter(galleryImages => {
+        .map(image => {
+          if (image[0].value) {
             return {
-              product: galleryImages.key === "product",
-              type: "image"
+              value: image[0].value,
+              type: image[0].key === "product" ? "image" : ""
             };
-          });
-        }
-      })
-      .map(image => {
-        if (image[0].value) {
-          return {
-            value: image[0].value,
-            type: image[0].key === "product" ? "image" : ""
-          };
-        } else {
-          return image;
-        }
-      });
+          } else {
+            return image;
+          }
+        });
 
-    const zoomImages = images
-      .map(galleryImageList => {
-        if (galleryImageList.mediaType === IMAGE) {
-          return galleryImageList.galleryImages.filter(galleryImages => {
-            if (galleryImages.key === "superZoom") {
-              return galleryImages.key === "superZoom";
-            } else {
-              return galleryImages.key === "zoom";
-            }
-          });
-        } else if (galleryImageList.mediaType === "Video") {
-          return galleryImageList.galleryImages.filter(galleryImages => {
-            return galleryImages.key === "thumbnail";
-          });
-        }
-      })
-      .map(image => {
-        if (image[0] && image[0].value) {
-          return image[0].value;
-        }
-      });
-
+    const zoomImages =
+      images &&
+      images
+        .map(galleryImageList => {
+          if (galleryImageList.mediaType === IMAGE) {
+            return galleryImageList.galleryImages.filter(galleryImages => {
+              if (galleryImages.key === "superZoom") {
+                return galleryImages.key === "superZoom";
+              } else {
+                return galleryImages.key === "zoom";
+              }
+            });
+          } else if (galleryImageList.mediaType === "Video") {
+            return galleryImageList.galleryImages.filter(galleryImages => {
+              return galleryImages.key === "thumbnail";
+            });
+          }
+        })
+        .map(image => {
+          if (image[0] && image[0].value) {
+            return image[0].value;
+          }
+        });
     return (
       <div className={styles["image-gallery-Block"]}>
         <ul className={styles["image-gallery-list"]} id={styles.samples}>
-          {productImages.map((image, i) => {
-            if (i === this.state.position) {
-              this.type = image.type;
-            }
-            return (
-              <li
-                key={i}
-                className={styles["image-gallery-list-block"]}
-                id={`zoom${i}`}
-              >
-                <img
-                  src={`https:${image.value}`}
-                  data-src={zoomImages[i]}
-                  alt="image-gallery"
-                  className={styles["image-gallery-img"]}
-                  onMouseMove={event => this.zoomIn(event)}
-                  onMouseOut={() => this.zoomOut()}
-                />
-              </li>
-            );
-          })}
+          {productImages &&
+            productImages.map((image, i) => {
+              if (i === this.state.position) {
+                this.type = image.type;
+              }
+              return (
+                <li
+                  key={i}
+                  className={styles["image-gallery-list-block"]}
+                  id={`zoom${i}`}
+                >
+                  <img
+                    src={`https:${image.value}`}
+                    data-src={zoomImages[i]}
+                    alt="image-gallery"
+                    className={styles["image-gallery-img"]}
+                    onMouseMove={event => this.zoomIn(event)}
+                    onMouseOut={() => this.zoomOut()}
+                  />
+                </li>
+              );
+            })}
         </ul>
         <div
           id="preview"

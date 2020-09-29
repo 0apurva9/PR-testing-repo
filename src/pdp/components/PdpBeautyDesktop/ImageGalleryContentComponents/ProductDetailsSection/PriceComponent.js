@@ -15,7 +15,9 @@ export default class PriceComponent extends React.Component {
 
     let shareComponent = false;
     this.props.masterTemplateResponse &&
+      this.props.masterTemplateResponse.value &&
       this.props.masterTemplateResponse.value.componentList &&
+      this.props.masterTemplateResponse.value.componentList.length > 0 &&
       this.props.masterTemplateResponse.value.componentList.forEach(element => {
         if (element.componentId === "productAndBrandComponent") {
           shareComponent =
@@ -42,9 +44,13 @@ export default class PriceComponent extends React.Component {
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <div className={styles["discounted-price-block"]}>
-                <h3 className={styles["discounted-price"]}>{maxRetailPrice}</h3>
-              </div>
+              {maxRetailPrice && (
+                <div className={styles["discounted-price-block"]}>
+                  <h3 className={styles["discounted-price"]}>
+                    {maxRetailPrice}
+                  </h3>
+                </div>
+              )}
             </React.Fragment>
           )}
           {shareComponent && (
