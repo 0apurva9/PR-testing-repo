@@ -10,6 +10,7 @@ import BreadCrumbs from "./BreadCrumbsSection/BreadCrumbs";
 import styles from "./PdpBeautyDesktop.css";
 import DescriptionContainer from "./DescriptionSection/DescriptionContainer";
 import { sortArrayOfObjectByIntegerKeyValue } from "../../../pdp/reducers/utils";
+import { setTracker, VIEW_PRODUCT } from "../../../lib/onlinesalesUtils";
 
 export default class PdpBeautyDesktop extends React.Component {
   constructor(props) {
@@ -41,6 +42,7 @@ export default class PdpBeautyDesktop extends React.Component {
     if (categoryId) {
       this.props.getHowToWear(categoryId);
     }
+    setTracker(VIEW_PRODUCT, this.props.productDetails);
     let productId = this.props.productDetails
       ? this.props.productDetails.productListingId
       : null;
@@ -126,11 +128,12 @@ export default class PdpBeautyDesktop extends React.Component {
 
       return (
         <div className={styles["main-container"]}>
-          {showBreadCrumbs && showBreadCrumbs === true && (
-            <div className={styles.container}>
-              <BreadCrumbs {...this.props} />
-            </div>
-          )}
+          {showBreadCrumbs &&
+            showBreadCrumbs === true && (
+              <div className={styles.container}>
+                <BreadCrumbs {...this.props} />
+              </div>
+            )}
           <div className={styles.container}>
             <ImageGalleryContentComponent
               {...this.props}

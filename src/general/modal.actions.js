@@ -11,6 +11,7 @@ export const ADDRESS = "Address";
 export const EMI_MODAL = "EmiModal";
 export const OFFER_MODAL = "OfferDetailsModal";
 export const BEAUTY_OFFER_MODAL = "BeautyOfferDetailsModal";
+export const BEAUTY_IMAGE_ZOOM_IN = "BeautyPdpImageZoomIn";
 export const TERMSNCONDITIONS_MODAL = "TermsNConditionsWrapperModal";
 export const EXCHANGE_MODAL = "ExchangeModal";
 export const EXCHANGE_TnC_MODAL = "ExchangeTnCModal";

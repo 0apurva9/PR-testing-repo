@@ -46,6 +46,7 @@ import {
   EMI_MODAL,
   OFFER_MODAL,
   BEAUTY_OFFER_MODAL,
+  BEAUTY_IMAGE_ZOOM_IN,
   ADDRESS,
   PRICE_BREAKUP,
   SIZE_SELECTOR,
@@ -125,6 +126,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showBeautyOfferDetails: data => {
       dispatch(showModal(BEAUTY_OFFER_MODAL, data));
+    },
+    showBeautyImageZoomIn: data => {
+      dispatch(showModal(BEAUTY_IMAGE_ZOOM_IN, data));
     },
     showBundledProduct: data => {
       dispatch(showModal(BUNDLEDPRODUCT_MODAL, data));
