@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Collapse } from "react-collapse";
 
@@ -30,7 +30,7 @@ export default class DetailsLongComponent extends Component {
     return (
       <div className={styles.base}>
         {this.props.detailsComponent && (
-          <React.Fragment>
+          <Fragment>
             <div
               ref={this.props.detailsLongRef}
               className={
@@ -46,14 +46,14 @@ export default class DetailsLongComponent extends Component {
                 }}
               >
                 {this.props.styleNotes && (
-                  <React.Fragment>
+                  <Fragment>
                     <div className={styles["details-heading"]}>{HEADING}</div>
                     <div className={iconActive} />
-                  </React.Fragment>
+                  </Fragment>
                 )}
               </div>
               {this.props.styleNotes && (
-                <React.Fragment>
+                <Fragment>
                   <Collapse isOpened={this.state.isOpen}>
                     <div className={styles["details-complete-block"]}>
                       <div className={styles["details-what-it-is-block"]}>
@@ -74,44 +74,53 @@ export default class DetailsLongComponent extends Component {
                           )}
                           <div className={styles["details-what-it-is-desc"]}>
                             <ul className={styles["set-information-list"]}>
-                              {this.props.setInformationContentSorted.map(
-                                (el, i) => (
-                                  <li key={i}>{`${el.key}:${el.value}`}</li>
-                                )
-                              )}
+                              {this.props.setInformationContentSorted.length >
+                                0 &&
+                                this.props.setInformationContentSorted.map(
+                                  (el, i) => (
+                                    <li key={i}>{`${el.key}:${el.value}`}</li>
+                                  )
+                                )}
                             </ul>
                           </div>
                         </div>
                       )}
-                      {this.props && this.props.whatElseYouNeedToKnowContent && (
-                        <div className={styles["details-what-it-is-block"]}>
-                          {this.props.whatElseYouNeedToKnowContent.map(
-                            (el, i) => (
-                              <React.Fragment key={i}>
-                                <div
-                                  className={styles["details-what-it-is-head"]}
-                                >
-                                  {el.key}
-                                </div>
-                                <div
-                                  className={styles["details-what-it-is-desc"]}
-                                >
-                                  {el.value}
-                                </div>
-                              </React.Fragment>
-                            )
-                          )}
-                        </div>
-                      )}
+                      {this.props &&
+                        this.props.whatElseYouNeedToKnowContent &&
+                        this.props.whatElseYouNeedToKnowContent.length > 0 && (
+                          <div className={styles["details-what-it-is-block"]}>
+                            {this.props.whatElseYouNeedToKnowContent.map(
+                              (el, i) => (
+                                <Fragment key={i}>
+                                  <div
+                                    className={
+                                      styles["details-what-it-is-head"]
+                                    }
+                                  >
+                                    {el.key}
+                                  </div>
+                                  <div
+                                    className={
+                                      styles["details-what-it-is-desc"]
+                                    }
+                                  >
+                                    {el.value}
+                                  </div>
+                                </Fragment>
+                              )
+                            )}
+                          </div>
+                        )}
                     </div>
                   </Collapse>
-                </React.Fragment>
+                </Fragment>
               )}
             </div>
             <Collapse isOpened={this.state.isOpen}>
               {(this.props.halfSetItems || this.props.remSetItems) && (
                 <div className={styles["product-details-section"]}>
                   {this.props.halfSetItems &&
+                    this.props.halfSetItems.length > 0 &&
                     this.props.halfSetItems.map((el, i) => (
                       <div key={i} className={styles["product-details-block"]}>
                         <div className={styles["product-details-col"]}>
@@ -123,6 +132,7 @@ export default class DetailsLongComponent extends Component {
                       </div>
                     ))}
                   {this.props.remSetItems &&
+                    this.props.remSetItems.length > 0 &&
                     this.props.remSetItems.map((el, i) => (
                       <div key={i} className={styles["product-details-block"]}>
                         <div className={styles["product-details-col"]}>
@@ -136,7 +146,7 @@ export default class DetailsLongComponent extends Component {
                 </div>
               )}
             </Collapse>
-          </React.Fragment>
+          </Fragment>
         )}
       </div>
     );

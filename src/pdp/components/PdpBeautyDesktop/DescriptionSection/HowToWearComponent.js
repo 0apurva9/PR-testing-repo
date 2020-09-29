@@ -19,7 +19,7 @@ export default class HowToWearComponent extends Component {
 
     return (
       <Fragment>
-        {this.props.howToWearResponse && (
+        {this.props.howToWearResponse ? (
           <div className={styles.container}>
             <div className={styles["htw-component"]}>
               <div className={styles.base}>
@@ -38,7 +38,7 @@ export default class HowToWearComponent extends Component {
               </div>
             </div>
           </div>
-        )}
+        ) : null}
       </Fragment>
     );
   }

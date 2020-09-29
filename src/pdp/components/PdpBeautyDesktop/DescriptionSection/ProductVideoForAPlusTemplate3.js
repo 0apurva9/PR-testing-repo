@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Video from "../../../../general/components/Video";
 import Image from "../../../../xelpmoc-core/Image";
 import Logo from "../../../../general/components/Logo";
@@ -24,38 +24,40 @@ export default class ProductVideoForAPlusTemplate3 extends React.Component {
       overlayClass = styles.overlayHidden;
     }
     return (
-      <div className={styles.base}>
-        <div className={styles.video} style={{ backgroundColor: "#212121" }}>
-          <Video
-            url={this.props.url}
-            playing={this.state.played}
-            controls
-            onEnded={() => this.onEnded()}
-            onPlay={() => {
-              this.onPlay();
-            }}
-          />
-        </div>
-        {!this.state.played && (
-          <div
-            className={overlayClass}
-            onClick={() => {
-              this.setState({ played: !this.state.played });
-            }}
-          >
-            <div className={styles.video}>
-              <Image image={this.props.image} color="transparent" />
-            </div>
-            <div className={styles.logoHolder}>
-              <div className={styles.logo}>
-                <Logo image={this.props.logo} />
-              </div>
-            </div>
-            <div className={styles.play} />
-            <div className={styles.description}>{this.props.description}</div>
+      <Fragment>
+        <div className={styles.base}>
+          <div className={styles.video} style={{ backgroundColor: "#212121" }}>
+            <Video
+              url={this.props.url}
+              playing={this.state.played}
+              controls
+              onEnded={() => this.onEnded()}
+              onPlay={() => {
+                this.onPlay();
+              }}
+            />
           </div>
-        )}
-      </div>
+          {!this.state.played && (
+            <div
+              className={overlayClass}
+              onClick={() => {
+                this.setState({ played: !this.state.played });
+              }}
+            >
+              <div className={styles.video}>
+                <Image image={this.props.image} color="transparent" />
+              </div>
+              <div className={styles.logoHolder}>
+                <div className={styles.logo}>
+                  <Logo image={this.props.logo} />
+                </div>
+              </div>
+              <div className={styles.play} />
+              <div className={styles.description}>{this.props.description}</div>
+            </div>
+          )}
+        </div>
+      </Fragment>
     );
   }
 }

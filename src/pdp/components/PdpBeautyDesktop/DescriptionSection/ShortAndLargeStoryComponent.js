@@ -8,12 +8,12 @@ export default class ShortAndLargeStoryComponent extends Component {
   render() {
     return (
       <React.Fragment>
-        {((this.props &&
+        {(this.props &&
           this.props.shortStorySmallContent &&
           this.props.shortStorySmallContent.length > 0) ||
-          (this.props &&
-            this.props.shortStoryLargeContentSorted &&
-            this.props.shortStoryLargeContentSorted.length > 0)) && (
+        (this.props &&
+          this.props.shortStoryLargeContentSorted &&
+          this.props.shortStoryLargeContentSorted.length > 0) ? (
           <div className={styles["details-sections"]}>
             {this.props &&
               this.props.shortStorySmallContent &&
@@ -61,7 +61,7 @@ export default class ShortAndLargeStoryComponent extends Component {
                 </div>
               )}
           </div>
-        )}
+        ) : null}
       </React.Fragment>
     );
   }

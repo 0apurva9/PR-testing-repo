@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Collapse } from "react-collapse";
 import PropTypes from "prop-types";
 import styles from "./APlusTemplates.css";
@@ -33,7 +33,7 @@ export default class APlusTemplate extends React.Component {
     }
 
     const data = {};
-    productContent &&
+    productContent.length > 0 &&
       productContent
         .sort((a, b) => {
           if (a.key < b.key) {
@@ -58,45 +58,46 @@ export default class APlusTemplate extends React.Component {
     let APlusContentType = template && template.split("_")[2];
 
     return (
-      productContent &&
-      productContent.length > 0 && (
-        <div>
-          <div className={styles.container}>
-            <div
-              className={
-                this.state.isOpen
-                  ? styles["ftb-component"]
-                  : styles["ftb-component-hide-padding"]
-              }
-            >
-              <div className={styles.base}>
-                <div
-                  className={styles.holder}
-                  onClick={() => {
-                    this.openMenu();
-                  }}
-                >
-                  <div className={styles["ftb-heading"]}>
-                    {this.props.heading}
+      <Fragment>
+        {productContent && productContent.length > 0 ? (
+          <div>
+            <div className={styles.container}>
+              <div
+                className={
+                  this.state.isOpen
+                    ? styles["ftb-component"]
+                    : styles["ftb-component-hide-padding"]
+                }
+              >
+                <div className={styles.base}>
+                  <div
+                    className={styles.holder}
+                    onClick={() => {
+                      this.openMenu();
+                    }}
+                  >
+                    <div className={styles["ftb-heading"]}>
+                      {this.props.heading}
+                    </div>
+                    <div className={iconActive} />
                   </div>
-                  <div className={iconActive} />
+                  <Collapse isOpened={this.state.isOpen}>
+                    {data && APlusContentType === "1" && (
+                      <APlusTemplate1 data={data} />
+                    )}
+                    {data && APlusContentType === "2" && (
+                      <APlusTemplate2 data={data} />
+                    )}
+                    {data && APlusContentType === "3" && (
+                      <APlusTemplate3 data={data} />
+                    )}
+                  </Collapse>
                 </div>
-                <Collapse isOpened={this.state.isOpen}>
-                  {data && APlusContentType === "1" && (
-                    <APlusTemplate1 data={data} />
-                  )}
-                  {data && APlusContentType === "2" && (
-                    <APlusTemplate2 data={data} />
-                  )}
-                  {data && APlusContentType === "3" && (
-                    <APlusTemplate3 data={data} />
-                  )}
-                </Collapse>
               </div>
             </div>
           </div>
-        </div>
-      )
+        ) : null}
+      </Fragment>
     );
   }
 }

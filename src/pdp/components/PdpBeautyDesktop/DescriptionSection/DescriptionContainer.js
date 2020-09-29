@@ -92,7 +92,7 @@ const typeComponentMapping = {
     }
   },
   [INGREDIENTS_COMPONENT]: props => (
-    <IngredientsComponents {...props} heading={"INGREDIENTS"} />
+    <IngredientsComponents {...props} heading={"COMPOSITION"} />
   ),
   [HOW_TO_WEAR_COMPONENT]: props => <HowToWearComponent {...props} />,
   [FROM_THE_BRAND_COMPONENT]: props => (

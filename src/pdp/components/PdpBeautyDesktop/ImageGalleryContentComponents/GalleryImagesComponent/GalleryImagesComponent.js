@@ -7,13 +7,15 @@ export default class GalleryImagesComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      position: 0
+      position: 0,
+      opacity: true
     };
     this.type = null;
   }
 
   zoomIn(event) {
     this.props.setZindex();
+    this.setState({ opacity: false });
     let pre = document.getElementById("preview");
     pre.style.visibility = "visible";
     pre.style.backgroundImage = "url(" + event.target.dataset.src + ")";
@@ -23,6 +25,7 @@ export default class GalleryImagesComponent extends React.Component {
   }
 
   zoomOut() {
+    this.setState({ opacity: true });
     this.props.resetZindex();
     let pre = document.getElementById("preview");
     pre.style.visibility = "hidden";
@@ -106,7 +109,11 @@ export default class GalleryImagesComponent extends React.Component {
         </ul>
         <div
           id="preview"
-          className={styles.preview}
+          className={
+            this.state.opacity
+              ? [styles.preview, styles.opacity].join(" ")
+              : styles.preview
+          }
           onmousemove={event => this.zoomIn(event)}
         />
       </div>

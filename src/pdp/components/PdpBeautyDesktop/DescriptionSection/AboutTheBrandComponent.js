@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import Carousel from "../../../../general/components/Carousel";
 import styles from "./AboutTheBrand.css";
@@ -14,40 +14,44 @@ export default class AboutTheBrandComponent extends Component {
 
   render() {
     return (
-      this.props.aboutTheBrandResponse &&
-      this.props.aboutTheBrandResponse.singleBannerComponent && (
-        <div>
-          <div className={styles.container}>
-            <div className={styles["atb-heading"]}>
-              {this.props.aboutTheBrandResponse &&
-                this.props.aboutTheBrandResponse.singleBannerComponent.title.toUpperCase()}
+      <Fragment>
+        {this.props.aboutTheBrandResponse &&
+        this.props.aboutTheBrandResponse.singleBannerComponent ? (
+          <div>
+            <div className={styles.container}>
+              <div className={styles["atb-heading"]}>
+                {this.props.aboutTheBrandResponse.singleBannerComponent.title &&
+                  this.props.aboutTheBrandResponse.singleBannerComponent.title.toUpperCase()}
+              </div>
             </div>
+            <Carousel
+              elementWidth={120}
+              isPaddingTop={false}
+              elementWidthDesktop={33}
+              header=""
+              buttonColor={true}
+              sliderWidthFull={true}
+            >
+              {this.props.aboutTheBrandResponse &&
+                this.props.aboutTheBrandResponse.singleBannerComponent.items
+                  .length > 0 &&
+                this.props.aboutTheBrandResponse.singleBannerComponent.items.map(
+                  (val, i) => {
+                    const transformedDatum = transformData(val);
+                    const productImage = transformedDatum.image;
+                    return (
+                      <ProductModule
+                        key={i}
+                        productImage={productImage}
+                        onClick={() => this.goToProductDescription(val)}
+                      />
+                    );
+                  }
+                )}
+            </Carousel>
           </div>
-          <Carousel
-            elementWidth={120}
-            isPaddingTop={false}
-            elementWidthDesktop={33}
-            header=""
-            buttonColor={true}
-            sliderWidthFull={true}
-          >
-            {this.props.aboutTheBrandResponse &&
-              this.props.aboutTheBrandResponse.singleBannerComponent.items.map(
-                (val, i) => {
-                  const transformedDatum = transformData(val);
-                  const productImage = transformedDatum.image;
-                  return (
-                    <ProductModule
-                      key={i}
-                      productImage={productImage}
-                      onClick={() => this.goToProductDescription(val)}
-                    />
-                  );
-                }
-              )}
-          </Carousel>
-        </div>
-      )
+        ) : null}
+      </Fragment>
     );
   }
 }

@@ -26,35 +26,39 @@ export default class IngredientsComponents extends Component {
 
     return (
       <Fragment>
-        <div className={styles.container}>
-          <div
-            className={
-              this.state.isOpen
-                ? styles["ingredents-component"]
-                : styles["ingredents-component-hide-padding"]
-            }
-          >
-            <div className={styles.base}>
-              <div
-                className={styles.holder}
-                onClick={() => {
-                  this.openMenu();
-                }}
-              >
-                <div className={styles["ingredents-heading"]}>
-                  {this.props.heading}
+        {this.props.ingredientData &&
+        this.props.ingredientData.sortedIngredient &&
+        this.props.ingredientData.sortedIngredient.length > 0 ? (
+          <div className={styles.container}>
+            <div
+              className={
+                this.state.isOpen
+                  ? styles["ingredents-component"]
+                  : styles["ingredents-component-hide-padding"]
+              }
+            >
+              <div className={styles.base}>
+                <div
+                  className={styles.holder}
+                  onClick={() => {
+                    this.openMenu();
+                  }}
+                >
+                  <div className={styles["ingredents-heading"]}>
+                    {this.props.heading}
+                  </div>
+                  <div className={iconActive} />
                 </div>
-                <div className={iconActive} />
-              </div>
 
-              <Collapse isOpened={this.state.isOpen}>
-                <IngredientToggleComponent
-                  ingredientData={this.props.ingredientData}
-                />
-              </Collapse>
+                <Collapse isOpened={this.state.isOpen}>
+                  <IngredientToggleComponent
+                    ingredientData={this.props.ingredientData}
+                  />
+                </Collapse>
+              </div>
             </div>
           </div>
-        </div>
+        ) : null}
       </Fragment>
     );
   }
