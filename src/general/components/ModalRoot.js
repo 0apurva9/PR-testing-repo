@@ -1066,7 +1066,8 @@ export default class ModalRoot extends React.Component {
       BeautyPdpImageZoomIn: (
         <BeautyPdpImageZoomIn
           closeModal={() => this.handleClose()}
-          zoomImgList={this.props.ownProps}
+          zoomImgList={this.props.ownProps && this.props.ownProps.zoomImgList}
+          position={this.props.ownProps && this.props.ownProps.position}
         />
       ),
       BundledProductModal: (

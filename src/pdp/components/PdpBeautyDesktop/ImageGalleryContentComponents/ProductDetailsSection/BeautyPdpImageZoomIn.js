@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 export default class BeautyPdpImageZoomIn extends Component {
   state = {
-    position: 0,
+    position: this.props.position ? this.props.position : 0,
     previousPage: null,
     nextPage: null
   };
@@ -25,14 +25,27 @@ export default class BeautyPdpImageZoomIn extends Component {
   }
 
   autoMouseScroll(event) {
+    let totalWindowHeight = window.innerHeight;
     const ele = document.getElementById("autoScroll");
     ele.style.backgroundPositionX = "-50px";
     ele.style.backgroundPositionY = -event.clientY - 50 + "px";
   }
 
+  handleClose() {
+    if (this.props.closeModal) {
+      this.props.closeModal();
+    }
+  }
+
   render() {
     return (
       <div className={styles.base}>
+        <span
+          className={styles.cancel}
+          onClick={() => {
+            this.handleClose();
+          }}
+        />
         <div
           id="autoScroll"
           className={styles["desktop-image-zoom-image-container"]}
@@ -61,5 +74,6 @@ export default class BeautyPdpImageZoomIn extends Component {
 }
 
 BeautyPdpImageZoomIn.propTypes = {
-  zoomImgList: PropTypes.arrayOf(PropTypes.string)
+  zoomImgList: PropTypes.arrayOf(PropTypes.string),
+  position: PropTypes.number
 };

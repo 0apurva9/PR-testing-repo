@@ -13,8 +13,9 @@ export default class GalleryImagesComponent extends React.Component {
     this.type = null;
   }
 
-  onZoomInClick(zoomImgList) {
-    this.props.showBeautyImageZoomIn(zoomImgList);
+  onZoomInClick(zoomImgList, position) {
+    let zoomComponent = { zoomImgList, position };
+    this.props.showBeautyImageZoomIn(zoomComponent);
   }
 
   zoomIn(event) {
@@ -109,7 +110,7 @@ export default class GalleryImagesComponent extends React.Component {
                     data-src={zoomImages[i]}
                     alt="image-gallery"
                     className={styles["image-gallery-img"]}
-                    onClick={() => this.onZoomInClick(zoomImages)}
+                    onClick={() => this.onZoomInClick(zoomImages, i)}
                   />
                 </li>
               );
