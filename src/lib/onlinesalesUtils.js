@@ -8,7 +8,7 @@ export const SALE_COMPLETED = "SALE_COMPLETED";
 
 function mergeCategory(objCategory, isReverse) {
   const reverseCategory = isReverse ? reverse(objCategory) : objCategory;
-  
+
   if (reverseCategory) {
     return reverseCategory
       .map(category => {
@@ -27,8 +27,8 @@ function returnProductDetails(product) {
   let productQuantity = product.qtySelectedByUser
     ? product.qtySelectedByUser
     : product.quantity
-    ? product.quantity
-    : 1;
+      ? product.quantity
+      : 1;
   let productPrice = product.price ? `${product.price}` : product.pricevalue;
   let discountedPrice = product.offerPrice ? product.offerPrice : productPrice;
   return {

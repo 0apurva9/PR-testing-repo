@@ -48,6 +48,8 @@ import {
 } from "../../../../../lib/adobeUtils";
 import { checkUserLoggedIn } from "../../../../../lib/userUtils";
 
+import { setTracker, ADD_TO_CART } from "../../../../../lib/onlinesalesUtils";
+
 const NO_SIZE = "NO SIZE";
 const FREE_SIZE = "Free Size";
 const PRODUCT_QUANTITY = "1";
@@ -219,11 +221,26 @@ export default class BuyNowAddToBagComponent extends React.Component {
 
   addToCart = async buyNowFlag => {
     let productDetails = {};
+    let productDetailsForAddToCart = (({
+      productListingId,
+      winningUssID,
+      seo,
+      mrpPrice,
+      winningSellerPrice
+    }) => ({
+      productListingId,
+      winningUssID,
+      seo,
+      mrpPrice,
+      winningSellerPrice
+    }))(this.props.productDetails);
     productDetails.code = this.props.productDetails.productListingId;
     //Updating Product quantity(selected by user) when user clicks on Add To Bag
-    productDetails.quantity = buyNowFlag
+    const quantitySelected = buyNowFlag
       ? PRODUCT_QUANTITY
       : this.state.productQuantityOption.value;
+    productDetails.quantity = quantitySelected;
+    productDetailsForAddToCart.quantity = quantitySelected;
     if (!productDetails.quantity) {
       productDetails.quantity = PRODUCT_QUANTITY;
     }
@@ -272,6 +289,7 @@ export default class BuyNowAddToBagComponent extends React.Component {
           } else {
             //localStorage.removeItem(SELECTED_STORE);
             this.setState({ isLoader: true });
+            setTracker(ADD_TO_CART, productDetailsForAddToCart);
             if (buyNowFlag) {
               setDataLayerForPdpDirectCalls(
                 SET_DATA_LAYER_FOR_BUY_NOW_EVENT,
