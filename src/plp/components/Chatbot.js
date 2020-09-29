@@ -307,6 +307,18 @@ export default class Chatbot extends React.Component {
           currentCategoryName = plpProductDetails.seo.breadcrumbs[0].name;
         } else if (plpProductDetails.seo && plpProductDetails.seo.tag) {
           currentCategoryName = plpProductDetails.seo.tag;
+        } else if (
+          this.props.history &&
+          this.props.history.location &&
+          this.props.history.location.pathname
+        ) {
+          let currentPathName = this.props.history.location.pathname;
+          if (currentPathName.includes("/custom/")) {
+            let path = currentPathName.split("/custom/");
+            let requiredPath = path && path[1];
+            currentCategoryName =
+              requiredPath && requiredPath.replace(/-/g, " ");
+          }
         }
 
         // filters data
