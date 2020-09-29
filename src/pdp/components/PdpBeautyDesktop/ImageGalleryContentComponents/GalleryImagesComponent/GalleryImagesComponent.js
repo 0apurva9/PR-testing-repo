@@ -13,6 +13,10 @@ export default class GalleryImagesComponent extends React.Component {
     this.type = null;
   }
 
+  onZoomInClick(zoomImgList) {
+    this.props.showBeautyImageZoomIn(zoomImgList);
+  }
+
   zoomIn(event) {
     this.props.setZindex();
     this.setState({ opacity: false });
@@ -105,8 +109,7 @@ export default class GalleryImagesComponent extends React.Component {
                     data-src={zoomImages[i]}
                     alt="image-gallery"
                     className={styles["image-gallery-img"]}
-                    onMouseMove={event => this.zoomIn(event)}
-                    onMouseOut={() => this.zoomOut()}
+                    onClick={() => this.onZoomInClick(zoomImages)}
                   />
                 </li>
               );
