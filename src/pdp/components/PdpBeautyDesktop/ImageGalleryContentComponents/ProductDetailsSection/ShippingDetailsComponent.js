@@ -273,9 +273,17 @@ export default class ShippingDetailsComponent extends React.Component {
               />
             </div>
           ) : (
-            <div className={styles["pin-code-error"]}>
-              To check for delivery options please enter your pincode above{" "}
-            </div>
+            <React.Fragment>
+              {this.props && this.props.pincodeError ? (
+                <div className={styles["pin-code-error"]}>
+                  {this.props.pincodeError}
+                </div>
+              ) : (
+                <div className={styles["pin-code-error"]}>
+                  To check for delivery options please enter your pincode above{" "}
+                </div>
+              )}
+            </React.Fragment>
           )}
         </div>
         <div className={styles.horizontalOffset} id="DWSN">

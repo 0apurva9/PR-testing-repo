@@ -773,6 +773,13 @@ export function getProductPinCode(
           }
         );
       }
+
+      if (resultJson && resultJson.errorCode === "B9004") {
+        pincodeError =
+          " The pincode you entered is currently unserviceable, please try another pincode.";
+        return dispatch(getProductPinCodeFailure(pincodeError));
+      }
+
       if (
         resultJson &&
         resultJson.listOfDataList &&
@@ -1576,8 +1583,8 @@ export function getMsdRequest(
         similarProducts === "SimilarProduct"
           ? SIMILAR_PRODUCTS_WIDGET_KEY
           : similarProducts === "similarOutOfStockProducts"
-            ? "similarOutOfStockProducts"
-            : RECOMMENDED_PRODUCTS_WIDGET_KEY;
+          ? "similarOutOfStockProducts"
+          : RECOMMENDED_PRODUCTS_WIDGET_KEY;
       if (
         resultJson &&
         resultJson.data &&

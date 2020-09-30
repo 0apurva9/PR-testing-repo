@@ -415,7 +415,7 @@ const productDescription = (
         error: action.error,
         loading: false,
         serviceablePincodeListResponse: null,
-        pincodeError: null,
+        pincodeError: action.error,
         checkPincodeDetailsLoading: false
       });
 

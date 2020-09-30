@@ -11,6 +11,7 @@ import styles from "./PdpBeautyDesktop.css";
 import DescriptionContainer from "./DescriptionSection/DescriptionContainer";
 import { sortArrayOfObjectByIntegerKeyValue } from "../../../pdp/reducers/utils";
 import { setTracker, VIEW_PRODUCT } from "../../../lib/onlinesalesUtils";
+import { setDataLayer, ADOBE_VIRTUAL_PAGELOAD } from "../../../lib/adobeUtils";
 
 export default class PdpBeautyDesktop extends React.Component {
   constructor(props) {
@@ -32,6 +33,7 @@ export default class PdpBeautyDesktop extends React.Component {
   };
 
   componentDidMount = () => {
+    setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
     const categoryHierarchy = this.props.productDetails.categoryHierarchy
       ? this.props.productDetails.categoryHierarchy
       : [];
@@ -128,12 +130,11 @@ export default class PdpBeautyDesktop extends React.Component {
 
       return (
         <div className={styles["main-container"]}>
-          {showBreadCrumbs &&
-            showBreadCrumbs === true && (
-              <div className={styles.container}>
-                <BreadCrumbs {...this.props} />
-              </div>
-            )}
+          {showBreadCrumbs && showBreadCrumbs === true && (
+            <div className={styles.container}>
+              <BreadCrumbs {...this.props} />
+            </div>
+          )}
           <div className={styles.container}>
             <ImageGalleryContentComponent
               {...this.props}
