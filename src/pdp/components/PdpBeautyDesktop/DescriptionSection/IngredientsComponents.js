@@ -26,9 +26,15 @@ export default class IngredientsComponents extends Component {
 
     return (
       <Fragment>
-        {this.props.ingredientData &&
-        this.props.ingredientData.sortedIngredient &&
-        this.props.ingredientData.sortedIngredient.length > 0 ? (
+        {(this.props.ingredientData &&
+          this.props.ingredientData.sortedIngredient &&
+          this.props.ingredientData.sortedIngredient.length > 0) ||
+        (this.props.ingredientData &&
+          this.props.ingredientData.allIngredients &&
+          this.props.ingredientData.allIngredients.length > 0) ||
+        (this.props.ingredientData &&
+          this.props.ingredientData.notIngredients &&
+          this.props.ingredientData.notIngredients.length > 0) ? (
           <div className={styles.container}>
             <div
               className={
