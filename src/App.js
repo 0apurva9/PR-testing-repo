@@ -92,6 +92,8 @@ import ProductDescriptionPageWrapperContainer from "./pdp/containers/ProductDesc
 import MobileOnly from "./general/components/MobileOnly";
 import DesktopOnly from "./general/components/DesktopOnly";
 import { setDataLayer, ADOBE_VIRTUAL_PAGELOAD } from "../src/lib/adobeUtils";
+
+import { MONETIZATION_CLIENT_ID } from "./lib/config";
 /*
     Setting default pin code
     for user if user dont have pin code in
@@ -427,6 +429,7 @@ class App extends Component {
         cartCode = JSON.parse(cartDetailsForAnonymous).code;
       }
     }
+    this.renderMonetizationScript();
     // Check if GUID exists
     if (guid) {
       // Get the bagCount if Cart GUID exists for Logged-in user or Anonymous user
@@ -437,6 +440,7 @@ class App extends Component {
       // Else remove cartDetails from Local storage
       localStorage.removeItem(CART_BAG_DETAILS);
     }
+    
     // if (
     //   cartCode &&
     //   (!this.props.location.pathname.includes("cart") &&
@@ -470,6 +474,15 @@ class App extends Component {
     );
   }
 
+  renderMonetizationScript() {
+    let tracker = document.createElement("script");
+    tracker.type = "text/javascript";
+    tracker.async = true;
+    tracker.src = `https://c.o-s.io/${process.env.REACT_APP_MONETIZATION_CLIENT_ID}/tracker.js`;
+    var mainScript = document.getElementsByTagName("script")[0];
+    mainScript.parentNode.insertBefore(tracker, mainScript);
+  }
+
   render() {
     if (!this.props.location.pathname.includes("/my-account")) {
       if (window.od && window.od.messenger && window.od.messenger("update")) {
@@ -500,13 +513,17 @@ class App extends Component {
       }
     }
 
-    if (this.props.modalStatus) {
+    if (this.props.beautyPopupModal) {
+      className = AppStyles.beauty_blur;
+    } else if (this.props.modalStatus) {
       className = AppStyles.blur;
     }
+
     const appTransform =
       this.props.scrollPosition !== 0
         ? `translateY(-${this.props.scrollPosition}px)`
         : null;
+
     return (
       <React.Fragment>
         <div className={className} style={{ transform: appTransform }}>

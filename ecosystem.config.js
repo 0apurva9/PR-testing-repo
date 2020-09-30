@@ -14,8 +14,8 @@ module.exports = {
       user: "ubuntu",
       host: "54.147.12.99",
       key: "~/.ssh/ORACLE-HYBRIS.pem",
-      ref: "origin/sprint-csr-order-details",
-      repo: "git@github.com:tcs-chennai/TUL_PWA_FRONT_NEW_END_CODE.git",
+      ref: "origin/production",
+      repo: "git@github.com:tcs-chennai/tatacliq-web-desktop.git",
       ssh_options: ["StrictHostKeyChecking=no", "PasswordAuthentication=no"],
       path: "/home/ubuntu/tata-cliq-frontend",
       "post-deploy": "yarn install && yarn run pre-build"

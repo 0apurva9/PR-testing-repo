@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="27px" height="37px" viewBox="0 0 27 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>a/icon/wishlist/desktop</title>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="o/addtobagbuynowwishlist" transform="translate(-438.000000, -1.000000)">
+            <g id="Group" transform="translate(206.000000, 0.000000)">
+                <g transform="translate(233.000000, 2.000000)" id="Group-7">
+                    <path d="M19.3846154,22.4066922 L19.3846154,33.9228185 C19.3846154,34.3061819 19.0744615,34.6148103 18.6923077,34.6148103 C18.4763077,34.6148103 18.2713846,34.5137795 18.1412308,34.3407815 L10.2433846,23.9207701 C10.0121538,23.6162937 9.57876923,23.5567824 9.27415385,23.7879077 C9.22430769,23.8252752 9.17861538,23.8709467 9.14123077,23.9207701 L1.24338462,34.3407815 C1.01215385,34.6452579 0.578769231,34.7061532 0.274153846,34.4750279 C0.101076923,34.3435495 0,34.1401039 0,33.9228185 L0,2.07597519 C0,0.9286529 0.930461538,0 2.07692308,0 L17.3076923,0 C18.4541538,0 19.3846154,0.9286529 19.3846154,2.07597519 L19.3846154,4.57821728" id="Stroke-1" stroke="#6C6C6C" stroke-width="1.27810651"></path>
+                    <g id="Group" transform="translate(13.846154, 8.307692)" stroke="#686868" stroke-width="1.59763314">
+                        <line x1="5.53846154" y1="0" x2="5.53846154" y2="11.0769231" id="Stroke-3"></line>
+                        <line x1="0" y1="5.53846154" x2="11.0769231" y2="5.53846154" id="Stroke-5"></line>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

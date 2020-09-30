@@ -29,7 +29,8 @@ export default class Banner extends React.Component {
     }
   }
   render() {
-    const urlSuffix = this.props.url.replace(TATA_CLIQ_ROOT, "$1");
+    const urlSuffix =
+      this.props.url && this.props.url.replace(TATA_CLIQ_ROOT, "$1");
     return (
       <React.Fragment>
         <MediaQuery query="(min-device-width: 1025px)">
@@ -51,16 +52,17 @@ export default class Banner extends React.Component {
                     <div className={styles.subTitle}>{this.props.subTitle}</div>
                   )}
 
-                  {this.props.showButton && this.props.buttonLabel && (
-                    <div className={styles.button}>
-                      <Button
-                        width={195}
-                        height={46}
-                        label={this.props.buttonLabel}
-                        type={"primary"}
-                      />
-                    </div>
-                  )}
+                  {this.props.showButton &&
+                    this.props.buttonLabel && (
+                      <div className={styles.button}>
+                        <Button
+                          width={195}
+                          height={46}
+                          label={this.props.buttonLabel}
+                          type={"primary"}
+                        />
+                      </div>
+                    )}
                 </div>
               </div>
             </div>

@@ -1,9 +1,12 @@
-.pdpTimeTxt{
+.pdpTimeTxt {
     margin-top: 5px;
     font-size: 12px;
-    color: #4A4A4A;
+    color: #4a4a4a;
 }
 
-.pdpTimeTxt span{
-    color: #00964D;
+.pdpTimeTxt span {
+    color: #00964d;
+}
+.withinHourTxt {
+    font-size: 13px;
 }

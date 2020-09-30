@@ -283,7 +283,9 @@ export default class Plp extends React.Component {
     if (this.props.productListings.seo && this.props.productListings.seo.tag) {
       const tagText =
         (brandData && brandData.length) ===
-          (searchresult && searchresult.length) && !isBrand
+          (searchresult && searchresult.length) &&
+        !isBrand &&
+        brandName !== this.props.productListings.seo.tag
           ? brandName + " " + this.props.productListings.seo.tag
           : this.props.productListings.seo.tag;
       return tagText;
@@ -304,11 +306,15 @@ export default class Plp extends React.Component {
       this.props.productListings.seo.breadcrumbs[0] &&
       this.props.productListings.seo.breadcrumbs[0].name
     ) {
+      const breadcrumbsName = this.props.productListings.seo.breadcrumbs[0]
+        .name;
       const headerText =
         (brandData && brandData.length) ===
-          (searchresult && searchresult.length) && !isBrand
-          ? brandName + " " + this.props.productListings.seo.breadcrumbs[0].name
-          : this.props.productListings.seo.breadcrumbs[0].name;
+          (searchresult && searchresult.length) &&
+        !isBrand &&
+        brandName !== breadcrumbsName
+          ? brandName + " " + breadcrumbsName
+          : breadcrumbsName;
       return headerText;
     }
     if (slug) {
@@ -510,7 +516,9 @@ export default class Plp extends React.Component {
       );
     }
     if (AMP_SEARCH_REG_EX.test(this.props.history.location.pathname)) {
-      let ampUrl = `${this.props.history.location.pathname}${this.props.location.search}`;
+      let ampUrl = `${this.props.history.location.pathname}${
+        this.props.location.search
+      }`;
       return (
         <Helmet>
           <link rel="amphtml" href={`${window.location.origin}/amp${ampUrl}`} />
@@ -632,7 +640,9 @@ export default class Plp extends React.Component {
                     {this.props.productListings &&
                       this.props.productListings.pagination &&
                       this.props.productListings.pagination.totalResults &&
-                      `${this.props.productListings.pagination.totalResults} Products`}
+                      `${
+                        this.props.productListings.pagination.totalResults
+                      } Products`}
                   </div>
                 </div>
               )}
@@ -789,6 +799,7 @@ export default class Plp extends React.Component {
                       view={this.state.view}
                       gridBreakup={this.state.gridBreakup}
                       productListings={this.props.productListings}
+                      secondaryFeedData={this.props.secondaryFeedData}
                     />
                   </div>
                   <DesktopOnly>

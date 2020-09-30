@@ -886,6 +886,7 @@ const mapStateToProps = state => {
     binValidationStatus: state.cart.binValidationStatus,
     addUserUPIStatus: state.profile.addUserUPIStatus,
     addUserUPIDetails: state.profile.addUserUPIDetails,
+    completedOrderDetails: state.profile.fetchOrderDetails,
     orderDetailsPaymentPage: state.profile.fetchOrderDetails,
     dCEmiEligibiltyDetails: state.cart.dCEmiEligibiltyDetails
   };

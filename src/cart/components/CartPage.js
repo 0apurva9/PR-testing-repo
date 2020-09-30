@@ -57,6 +57,7 @@ import SaveAndSecure from "../../general/components/SaveAndSecure";
 import styles from "./CartPage.css";
 import CliqandPiqModal from "../../pdp//components/CliqandPiqModal.js";
 import ModalPanel from "../../general/components/ModalPanel.js";
+import { setTracker, VIEW_CART } from "../../lib/onlinesalesUtils";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
@@ -270,6 +271,8 @@ class CartPage extends React.Component {
         );
       }
       if (prevProps.cart.cartDetails !== this.props.cart.cartDetails) {
+        // Track Cart details
+        setTracker(VIEW_CART, this.props.cart.cartDetails);
         let productServiceAvailability = filter(
           this.props.cart &&
             this.props.cart.cartDetails &&
@@ -1253,7 +1256,9 @@ class CartPage extends React.Component {
                     this.props.wishListCount > 0 && (
                       <div className={styles.wishListCountSection}>
                         <div className={styles.iconWishList} />
-                        <span>{`You have ${this.props.wishListCount} items in your saved list`}</span>
+                        <span>{`You have ${
+                          this.props.wishListCount
+                        } items in your saved list`}</span>
                         <div className={styles.buttonHolder}>
                           <UnderLinedButton
                             size="14px"

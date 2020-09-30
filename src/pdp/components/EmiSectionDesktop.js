@@ -99,17 +99,17 @@ export default class EmiSectionDesktop extends React.Component {
                       <div className={styles.tenureDataHolder}>
                         <div className={styles.textAndAmountHolder}>
                           <div className={styles.textHolder}>Interest Rate</div>
-                          <div
-                            className={styles.amountHolder}
-                          >{`${val.interestRate} %`}</div>
+                          <div className={styles.amountHolder}>{`${
+                            val.interestRate
+                          } %`}</div>
                         </div>
                         <div className={styles.textAndAmountHolder}>
                           <div className={styles.textHolder}>
                             Monthly Installments
                           </div>
-                          <div
-                            className={styles.amountHolder}
-                          >{`Rs . ${val.monthlyInstallment}`}</div>
+                          <div className={styles.amountHolder}>{`Rs . ${
+                            val.monthlyInstallment
+                          }`}</div>
                         </div>
                         {/* {convenienceFee &&
                           convenienceFee.value && (
@@ -127,9 +127,9 @@ export default class EmiSectionDesktop extends React.Component {
                           <div className={styles.textHolder}>
                             Total Interest paid to bank
                           </div>
-                          <div
-                            className={styles.amountHolder}
-                          >{`Rs . ${val.interestPayable}`}</div>
+                          <div className={styles.amountHolder}>{`Rs . ${
+                            val.interestPayable
+                          }`}</div>
                         </div>
 
                         {convenienceFeeValue && (

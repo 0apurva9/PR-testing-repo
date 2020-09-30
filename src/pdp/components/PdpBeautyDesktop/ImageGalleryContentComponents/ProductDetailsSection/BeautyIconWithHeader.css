@@ -1,0 +1,164 @@
+.pin-delivery-icon {
+  position: absolute;
+  width: 25px;
+  height: 26px;
+  display: block;
+  top: 0;
+  left: 0;
+  background: transparent center center/ 100% auto no-repeat;
+}
+
+.ship-date-txt {
+  font-family: "Rubik", sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 18px;
+  color: rgb(33, 33, 33);
+  padding: 4px 0 0;
+}
+
+.cashOnDelTxt {
+  display: inline-block;
+}
+
+.alignSelf {
+  align-self: end;
+  margin-top: -5px;
+}
+
+.textHolder {
+  width: 100%;
+  height: auto;
+  font-family: semibold;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.iconHolder {
+  width: 35px;
+  height: 35px;
+}
+
+.paddingRight70 {
+  padding-right: 64px;
+}
+
+.paddingRight50 {
+  padding-right: 50px;
+}
+
+.paddingZero {
+  padding-right: 0px;
+}
+
+.paddingDefault {
+  padding-right: 24px;
+}
+
+.dateFormatted {
+  font-size: 14px;
+  color: #212121;
+  font-family: regular;
+}
+
+.cncStoreText {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.deliveyCharge::before {
+  content: "";
+  width: 1px;
+  height: 16px;
+  margin: 0 6px 0;
+  display: inline-block;
+  vertical-align: middle;
+  border-left: 1px solid #8d8d8d;
+}
+
+.fontRegular {
+  font-family: regular;
+  font-size: 14px;
+}
+
+.fontLight {
+  font-family: light;
+  font-size: 14px;
+}
+
+@media only screen and (min-width: 1025px) {
+  .textHolder {
+    font-size: 13px;
+  }
+
+  .base {
+    background-color: unset;
+  }
+
+  .labelHolder {
+    width: 100%;
+    height: auto;
+    color: rgb(33, 33, 33);
+    font-size: 14px;
+    line-height: 20px;
+    font-family: light;
+  }
+
+  .labelHolderBold {
+    composes: labelHolder;
+    font-family: semibold;
+  }
+
+  .autoLabelHolder {
+    composes: labelHolder;
+    width: auto;
+    display: inline-block;
+  }
+
+  .autoLabelHolderQuiqPiq {
+    font-size: 14px;
+    font-family: semibold;
+  }
+
+  .spanBlock {
+    width: 100%;
+    height: auto;
+    color: rgb(33, 33, 33);
+    font-size: 14px;
+    font-family: regular;
+    line-height: 20px;
+  }
+
+  .span {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+  }
+
+  .spanInSameLine {
+    width: auto;
+    display: inline-block;
+    padding-left: 5px;
+  }
+
+  .storeCount {
+    width: 100%;
+    height: auto;
+    color: rgb(255, 23, 68);
+    font-size: 14px;
+    font-family: semibold;
+    cursor: pointer;
+  }
+
+  .cartPageData {
+    width: 100%;
+    height: auto;
+    font-size: 13px;
+    color: rgb(33, 33, 33);
+    font-family: regular;
+  }
+
+  .classLight {
+    font-family: light;
+  }
+}

@@ -1,0 +1,39 @@
+/***PDP Pricing****/
+.price-component {
+  margin: 0;
+  position: relative;
+}
+
+.discounted-price-block {
+  display: inline-block;
+  color: rgb(74, 74, 74);
+  font-size: 22px;
+  line-height: 24px;
+}
+
+.discounted-price {
+  font-family: semibold;
+  font-weight: 500;
+  display: inline-block;
+  margin: 0 10px 0 0;
+}
+
+.mrp {
+  display: inline-block;
+}
+
+.slash-price {
+  text-decoration: line-through;
+  font-family: "Rubik", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: rgb(151, 151, 151);
+  padding: 0 5px 0 0;
+}
+
+.discount-percentage {
+  color: rgb(51, 135, 21);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+/***PDP Pricing End****/

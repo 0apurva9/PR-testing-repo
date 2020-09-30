@@ -8,6 +8,7 @@ import MediaQuery from "react-responsive";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import { PRODUCT_LISTINGS_WITHOUT_SLASH } from "../../lib/constants";
 import { setDataLayerForPlpDirectCalls } from "../../lib/adobeUtils";
+
 const LIST = "list";
 const GRID = "grid";
 export const PLPAD = "plpAd";
@@ -58,7 +59,9 @@ export default class ProductGrid extends React.Component {
   };
 
   renderComponent = (data, index) => {
-    const altTag = `${data.productname}-${data.brandname}-${data.productCategoryType}-TATA CLIQ`;
+    const altTag = `${data.productname}-${data.brandname}-${
+      data.productCategoryType
+    }-TATA CLIQ`;
     return (
       <ProductModuleContainer
         key={index}
@@ -150,10 +153,12 @@ export default class ProductGrid extends React.Component {
               elementWidthDesktop={this.props.gridBreakup ? 33.33 : 25}
               banners={this.props.banners}
               view={this.props.view}
+              plpBannerData={this.props.secondaryFeedData}
             >
               {this.props.data &&
                 this.props.data.map((datum, i) => {
                   let widthMobile = false;
+
                   return (
                     <PlpComponent
                       key={i}
