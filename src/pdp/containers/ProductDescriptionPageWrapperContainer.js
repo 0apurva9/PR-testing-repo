@@ -22,7 +22,13 @@ import {
   getExchangeDetails,
   getBundledProductSuggestion,
   getTotalBundledPrice,
-  addBundledProductsToCart
+  addBundledProductsToCart,
+  getMasterTemplate,
+  getHowToWear,
+  getMoreFromBrand,
+  getAboutTheBrand,
+  getSimilarProduct,
+  openBeautyPopup
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -39,6 +45,8 @@ import {
   showModal,
   EMI_MODAL,
   OFFER_MODAL,
+  BEAUTY_OFFER_MODAL,
+  BEAUTY_IMAGE_ZOOM_IN,
   ADDRESS,
   PRICE_BREAKUP,
   SIZE_SELECTOR,
@@ -115,6 +123,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showOfferDetails: data => {
       dispatch(showModal(OFFER_MODAL, data));
+    },
+    showBeautyOfferDetails: data => {
+      dispatch(showModal(BEAUTY_OFFER_MODAL, data));
+    },
+    showBeautyImageZoomIn: data => {
+      dispatch(showModal(BEAUTY_IMAGE_ZOOM_IN, data));
     },
     showBundledProduct: data => {
       dispatch(showModal(BUNDLEDPRODUCT_MODAL, data));
@@ -353,6 +367,24 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getCartCountForLoggedInUser: () => {
       dispatch(getCartCountForLoggedInUser());
+    },
+    getMasterTemplate: async categoryId => {
+      return await dispatch(getMasterTemplate(categoryId));
+    },
+    getHowToWear: async categoryId => {
+      return await dispatch(getHowToWear(categoryId));
+    },
+    getMoreFromBrand: async productId => {
+      return await dispatch(getMoreFromBrand(productId));
+    },
+    getAboutTheBrand: async mshId => {
+      return await dispatch(getAboutTheBrand(mshId));
+    },
+    getSimilarProduct: async productId => {
+      return await dispatch(getSimilarProduct(productId));
+    },
+    openBeautyPopup: toggle => {
+      return dispatch(openBeautyPopup(toggle));
     }
   };
 };
@@ -407,7 +439,22 @@ const mapStateToProps = state => {
       state.productDescription.addBundledProductsToCartDetails,
     bundledProductSuggestionStatus:
       state.productDescription.getBundledProductSuggestionStatus,
-    logoutUserStatus: state.profile.logoutUserStatus
+    logoutUserStatus: state.profile.logoutUserStatus,
+    masterTemplateResponse: state.productDescription.masterTemplateDetails,
+    masterTemplateError: state.productDescription.masterTemplateError,
+    masterTemplateLoading: state.productDescription.masterTemplateLoading,
+    howToWearResponse: state.productDescription.howToWearDetails,
+    howToWearError: state.productDescription.howToWearError,
+    howToWearLoading: state.productDescription.howToWearLoading,
+    moreFromBrandResponse: state.productDescription.moreFromBrandDetails,
+    moreFromBrandError: state.productDescription.moreFromBrandError,
+    moreFromBrandLoading: state.productDescription.moreFromBrandLoading,
+    aboutTheBrandResponse: state.productDescription.aboutTheBrandDetails,
+    aboutTheBrandError: state.productDescription.aboutTheBrandError,
+    aboutTheBrandLoading: state.productDescription.aboutTheBrandLoading,
+    similarProductResponse: state.productDescription.similarProductDetails,
+    similarProductError: state.productDescription.similarProductError,
+    similarProductLoading: state.productDescription.similarProductLoading
   };
 };
 

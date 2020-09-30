@@ -235,7 +235,9 @@ export default class PdpApparel extends React.Component {
   };
 
   goToReviewPage = () => {
-    const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    const url = `${
+      this.props.location.pathname
+    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
 
@@ -356,7 +358,7 @@ export default class PdpApparel extends React.Component {
       if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
         mrpDoubleValue = productData.mrpPrice.doubleValue;
         discountPdp = Math.round(
-          ((mrpDoubleValue - seoDoublePrice) / mrpDoubleValue) * 100
+          (mrpDoubleValue - seoDoublePrice) / mrpDoubleValue * 100
         );
       }
       return (
@@ -507,7 +509,7 @@ export default class PdpApparel extends React.Component {
                 </div>
               </div>
             ) : this.props.productDetails.isServiceableToPincode
-                .productNotServiceableMessage ? (
+              .productNotServiceableMessage ? (
               <div className={styles.overlay}>
                 <div className={styles.notServiciableTetx}>
                   *{" "}

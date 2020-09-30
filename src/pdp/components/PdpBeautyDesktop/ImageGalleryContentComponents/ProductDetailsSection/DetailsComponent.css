@@ -1,0 +1,39 @@
+/*** Story Component ***/
+.story-component {
+  display: block;
+  width: 100%;
+  margin: 20px 0 0 0;
+  border-top: 1px solid rgb(230, 230, 230);
+}
+
+.what-it-is-block {
+  padding: 20px 0 0;
+  cursor: pointer;
+}
+
+.what-it-is-heading {
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  margin: 0 0 12px 0;
+  color: rgb(33, 33, 33);
+  text-transform: uppercase;
+}
+
+.what-it-is-desc {
+  font-family: "Rubik", sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 21px;
+  color: rgb(74, 74, 74);
+}
+
+.what-it-is-link {
+  font-family: "Rubik", sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  color: rgb(218, 28, 92);
+  text-decoration: none;
+}
+/*** Story Component End****/

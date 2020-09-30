@@ -1,0 +1,85 @@
+.share-component {
+  display: inline-block;
+  float: right;
+}
+.share-btn {
+  width: 22px;
+  height: 25px;
+  background: transparent url("./img/share.svg") center center/100% auto no-repeat;
+  cursor: pointer;
+}
+
+.share-modal-content {
+  position: absolute;
+  width: 304px;
+  padding: 16px;
+  height: 88px;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  top: 0;
+  right: 0;
+  margin: 0;
+  background-color: #ffffff;
+  z-index: 999;
+  display: block;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+}
+.share-inner-content {
+  position: relative;
+}
+.share-cls-icon {
+  background: transparent url("./img/cross.svg") left center/10px 10px no-repeat;
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  cursor: pointer;
+}
+.share-block {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin: 16px 0 0;
+  padding: 0;
+}
+.share-fb-icon {
+  padding: 3px 0 3px 25px;
+  background: transparent url("./img/share-fb-icon.svg") left center/16px 16px no-repeat;
+  color: rgb(108, 108, 108);
+  font-size: 12px;
+  text-decoration: none;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.share-twt-icon {
+  padding: 3px 0 3px 25px;
+  background: transparent url("./img/share-twt-icon.svg") left center/20px 16px no-repeat;
+  color: rgb(108, 108, 108);
+  font-size: 12px;
+  text-decoration: none;
+  margin-right: 16px;
+  cursor: pointer;
+}
+.share-copy-icon {
+  padding: 3px 0 3px 25px;
+  background: transparent url("./img/share-copy-icon.svg") left center/16px 16px no-repeat;
+  color: rgb(108, 108, 108);
+  font-size: 12px;
+  text-decoration: none;
+  margin-right: 0;
+  cursor: pointer;
+}
+
+.background {
+  background: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 600;
+  overflow: hidden;
+}

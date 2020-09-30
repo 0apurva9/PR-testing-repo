@@ -68,8 +68,8 @@ class TimeSlotPopUp extends Component {
       slot === "morning"
         ? "Morning"
         : slot === "afternoon"
-        ? "Afternoon"
-        : "Evening";
+          ? "Afternoon"
+          : "Evening";
     let today = new Date(),
       isTimeSlotDisabled = false,
       isAlreadySelected = false,
@@ -139,7 +139,8 @@ class TimeSlotPopUp extends Component {
       allowedRequestLimit = 0,
       slotDuration = 0,
       availableSlots = {}
-    } = this.props && this.props.cliq2CallConfigData;
+    } =
+      this.props && this.props.cliq2CallConfigData;
 
     const { WaitTime = 0, TotalRequestsToday = 0, TotalRequestsNextDay = 0 } =
       (this.props && this.props.genesysCallConfigData) || {};

@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import MediaQuery from "react-responsive";
 import styles from "./Grid.css";
+import PlpBannerFeed from "../../home/components/PlpBannerFeed";
 
 export default class Grid extends React.Component {
   recordScreenScroll = () => {
@@ -23,6 +24,28 @@ export default class Grid extends React.Component {
   //   if (nextProps.banners) {
   //   }
   // }
+  renderPlpBanner(index) {
+    let plpBannerDetails =
+      this.props.plpBannerData &&
+      this.props.plpBannerData.filter(data => {
+        return (
+          data &&
+          data.items &&
+          data.items[0] &&
+          data.items[0].hexCode &&
+          parseInt(data.items[0].hexCode) === index
+        );
+      });
+    return (
+      plpBannerDetails && (
+        <PlpBannerFeed
+          plpFeedData={plpBannerDetails}
+          index={index}
+          firstBanner={index === 0 ? true : false}
+        />
+      )
+    );
+  }
   renderEachPlpItem() {
     let str = [];
     let displayClass =
@@ -102,84 +125,96 @@ export default class Grid extends React.Component {
                     </a>
                   ) : null}
                   {child ? (
-                    <div
-                      className={
-                        this.props.electronicView
-                          ? styles.electronicViewElement
-                          : styles.element
-                      }
-                      style={{
-                        width: this.props.electronicView
-                          ? { width: "100%" }
-                          : child.props && child.props.gridWidthDesktop
-                            ? `${child.props.gridWidthDesktop}%`
-                            : `${this.props.elementWidthDesktop}%`,
+                    <React.Fragment>
+                      {this.renderPlpBanner(i)}
+                      <div
+                        className={
+                          this.props.electronicView
+                            ? styles.electronicViewElement
+                            : styles.element
+                        }
+                        style={{
+                          width: this.props.electronicView
+                            ? { width: "100%" }
+                            : child.props && child.props.gridWidthDesktop
+                              ? `${child.props.gridWidthDesktop}%`
+                              : `${this.props.elementWidthDesktop}%`,
 
-                        padding: `${this.props.offset / 2}px`
-                      }}
-                    >
-                      {child}
-                    </div>
+                          padding: `${this.props.offset / 2}px`
+                        }}
+                      >
+                        {child}
+                      </div>
+                    </React.Fragment>
                   ) : null}
                   {child1 ? (
-                    <div
-                      className={
-                        this.props.electronicView
-                          ? styles.electronicViewElement
-                          : styles.element
-                      }
-                      style={{
-                        width: this.props.electronicView
-                          ? { width: "100%" }
-                          : child1.props && child1.props.gridWidthDesktop
-                            ? `${child1.props.gridWidthDesktop}%`
-                            : `${this.props.elementWidthDesktop}%`,
+                    <React.Fragment>
+                      {this.renderPlpBanner(i + 1)}
+                      <div
+                        className={
+                          this.props.electronicView
+                            ? styles.electronicViewElement
+                            : styles.element
+                        }
+                        style={{
+                          width: this.props.electronicView
+                            ? { width: "100%" }
+                            : child1.props && child1.props.gridWidthDesktop
+                              ? `${child1.props.gridWidthDesktop}%`
+                              : `${this.props.elementWidthDesktop}%`,
 
-                        padding: `${this.props.offset / 2}px`
-                      }}
-                    >
-                      {child1}
-                    </div>
+                          padding: `${this.props.offset / 2}px`
+                        }}
+                      >
+                        {child1}
+                      </div>
+                    </React.Fragment>
                   ) : null}
                   {child2 ? (
-                    <div
-                      className={
-                        this.props.electronicView
-                          ? styles.electronicViewElement
-                          : styles.element
-                      }
-                      style={{
-                        width: this.props.electronicView
-                          ? { width: "100%" }
-                          : child2.props && child2.props.gridWidthDesktop
-                            ? `${child1.props.gridWidthDesktop}%`
-                            : `${this.props.elementWidthDesktop}%`,
+                    <React.Fragment>
+                      {this.renderPlpBanner(i + 2)}
+                      <div
+                        className={
+                          this.props.electronicView
+                            ? styles.electronicViewElement
+                            : styles.element
+                        }
+                        style={{
+                          width: this.props.electronicView
+                            ? { width: "100%" }
+                            : child2.props && child2.props.gridWidthDesktop
+                              ? `${child1.props.gridWidthDesktop}%`
+                              : `${this.props.elementWidthDesktop}%`,
 
-                        padding: `${this.props.offset / 2}px`
-                      }}
-                    >
-                      {child2}
-                    </div>
+                          padding: `${this.props.offset / 2}px`
+                        }}
+                      >
+                        {child2}
+                      </div>
+                    </React.Fragment>
                   ) : null}
                   {child3 ? (
-                    <div
-                      className={
-                        this.props.electronicView
-                          ? styles.electronicViewElement
-                          : styles.element
-                      }
-                      style={{
-                        width: this.props.electronicView
-                          ? { width: "100%" }
-                          : child3.props && child3.props.gridWidthDesktop
-                            ? `${child1.props.gridWidthDesktop}%`
-                            : `${this.props.elementWidthDesktop}%`,
+                    <React.Fragment>
+                      {this.renderPlpBanner(i + 3)}
+                      <div
+                        className={
+                          this.props.electronicView
+                            ? styles.electronicViewElement
+                            : styles.element
+                        }
+                        style={{
+                          width: this.props.electronicView
+                            ? { width: "100%" }
+                            : child3.props && child3.props.gridWidthDesktop
+                              ? `${child1.props.gridWidthDesktop}%`
+                              : `${this.props.elementWidthDesktop}%`,
 
-                        padding: `${this.props.offset / 2}px`
-                      }}
-                    >
-                      {child3}
-                    </div>
+                          padding: `${this.props.offset / 2}px`
+                        }}
+                      >
+                        {child3}
+                      </div>
+                    </React.Fragment>
                   ) : null}
                   {/* {child4 ? (
                     <div
@@ -298,61 +333,70 @@ export default class Grid extends React.Component {
                     </a>
                   ) : null}
                   {child ? (
-                    <div
-                      className={
-                        this.props.electronicView
-                          ? styles.electronicViewElement
-                          : styles.element
-                      }
-                      style={{
-                        width:
-                          child.props && child.props.gridWidthDesktop
-                            ? `${child.props.gridWidthDesktop}%`
-                            : `${this.props.elementWidthDesktop}%`,
+                    <React.Fragment>
+                      {this.renderPlpBanner(i)}
+                      <div
+                        className={
+                          this.props.electronicView
+                            ? styles.electronicViewElement
+                            : styles.element
+                        }
+                        style={{
+                          width:
+                            child.props && child.props.gridWidthDesktop
+                              ? `${child.props.gridWidthDesktop}%`
+                              : `${this.props.elementWidthDesktop}%`,
 
-                        padding: `${this.props.offset / 2}px`
-                      }}
-                    >
-                      {child}
-                    </div>
+                          padding: `${this.props.offset / 2}px`
+                        }}
+                      >
+                        {child}
+                      </div>
+                    </React.Fragment>
                   ) : null}
                   {child1 ? (
-                    <div
-                      className={
-                        this.props.electronicView
-                          ? styles.electronicViewElement
-                          : styles.element
-                      }
-                      style={{
-                        width:
-                          child1.props && child1.props.gridWidthDesktop
-                            ? `${child1.props.gridWidthDesktop}%`
-                            : `${this.props.elementWidthDesktop}%`,
+                    <React.Fragment>
+                      {this.renderPlpBanner(i + 1)}
+                      <div
+                        className={
+                          this.props.electronicView
+                            ? styles.electronicViewElement
+                            : styles.element
+                        }
+                        style={{
+                          width:
+                            child1.props && child1.props.gridWidthDesktop
+                              ? `${child1.props.gridWidthDesktop}%`
+                              : `${this.props.elementWidthDesktop}%`,
 
-                        padding: `${this.props.offset / 2}px`
-                      }}
-                    >
-                      {child1}
-                    </div>
+                          padding: `${this.props.offset / 2}px`
+                        }}
+                      >
+                        {child1}
+                      </div>
+                    </React.Fragment>
                   ) : null}
                   {child2 ? (
-                    <div
-                      className={
-                        this.props.electronicView
-                          ? styles.electronicViewElement
-                          : styles.element
-                      }
-                      style={{
-                        width:
-                          child1.props && child1.props.gridWidthDesktop
-                            ? `${child1.props.gridWidthDesktop}%`
-                            : `${this.props.elementWidthDesktop}%`,
+                    <React.Fragment>
+                      {this.renderPlpBanner(i + 2)}
+                      <div
+                        className={
+                          this.props.electronicView
+                            ? styles.electronicViewElement
+                            : styles.element
+                        }
+                        style={{
+                          width:
+                            child1.props && child1.props.gridWidthDesktop
+                              ? `${child1.props.gridWidthDesktop}%`
+                              : `${this.props.elementWidthDesktop}%`,
 
-                        padding: `${this.props.offset / 2}px`
-                      }}
-                    >
-                      {child2}
-                    </div>
+                          padding: `${this.props.offset / 2}px`
+                        }}
+                      >
+                        {child2}
+                      </div>
+                    </React.Fragment>
                   ) : null}
                   {/* comment............ */}
                   {/* {child3 ? (

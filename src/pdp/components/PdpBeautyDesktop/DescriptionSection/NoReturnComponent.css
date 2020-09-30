@@ -1,0 +1,126 @@
+.container {
+  width: 100%;
+  display: inline-block;
+  max-width: 1200px;
+  text-align: left;
+  position: relative;
+  margin-bottom: 50px;
+  /**margin: 50px auto;
+ background-color: grey;**/
+}
+
+.base {
+  width: 100%;
+  height: auto;
+  padding: 52px 72px 52px;
+}
+.holder {
+  width: 100%;
+  transition: 300ms;
+  position: relative;
+  padding-right: 30px;
+  cursor: pointer;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-image: url("../../../components/img/arrow.svg");
+  position: absolute;
+  background-size: auto 14px;
+  background-repeat: no-repeat;
+  right: 10px;
+  top: 0;
+  margin: auto;
+  background-position: center;
+  transition: 300ms;
+  transform: rotate(-90deg);
+}
+.iconup {
+  composes: icon;
+  transform: rotate(90deg);
+}
+.return-component {
+  border: 1px solid rgb(213, 213, 213);
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+.return-component-hide-padding {
+  border: 1px solid rgb(213, 213, 213);
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+
+.return-heading {
+  font-family: "Rubik", sans-serif;
+  color: rgb(33, 33, 33);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  margin: 0 13px 0;
+  text-align: left;
+  transition: 300ms;
+  height: auto;
+}
+
+.return-desc {
+  font-family: "Rubik", sans-serif;
+  color: rgb(33, 33, 33);
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 26px;
+  padding: 32px 0 0 13px;
+}
+
+.manufacture-heading {
+  font-family: "Rubik", sans-serif;
+  color: rgb(33, 33, 33);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: left;
+  transition: 300ms;
+  margin: 0 13px 0;
+  height: auto;
+}
+
+.manufacture-all-ingre-sec {
+  border-image-source: linear-gradient(to right, white,rgb(213, 213, 213) 20%,rgb(213, 213, 213) 10%,rgb(213, 213, 213) 94%, white 0%);
+  border-image-slice: 1;
+  border-top: 1px solid;
+  display: flex;
+  padding: 52px 72px 52px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.manufacture-head {
+  font-family: "Rubik", sans-serif;
+    color: rgb(33, 33, 33);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    width: 200px;
+    margin-bottom: 16px;
+    display: inline-block;
+}
+
+.manufacture-desc {
+  font-family: "Rubik", sans-serif;
+  color: rgb(33, 33, 33);
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 26px;
+  padding: 18px 0 0 13px;
+}
+
+.manufacture-col{
+  font-family: "Rubik", sans-serif;
+  color: rgb(33, 33, 33);
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 23px;
+}

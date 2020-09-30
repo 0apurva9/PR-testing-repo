@@ -137,7 +137,9 @@ export default class OrderRelatedIssue extends React.Component {
       this.setState({
         name:
           this.props.userDetails.firstName || this.props.userDetails.lastName
-            ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
+            ? `${this.props.userDetails.firstName} ${
+                this.props.userDetails.lastName
+              }`
             : "",
         mobile: this.props.userDetails.mobileNumber
           ? this.props.userDetails.mobileNumber
@@ -163,7 +165,9 @@ export default class OrderRelatedIssue extends React.Component {
       this.setState({
         name:
           nextProps.userDetails.firstName || nextProps.userDetails.lastName
-            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
+            ? `${nextProps.userDetails.firstName} ${
+                nextProps.userDetails.lastName
+              }`
             : "",
         mobile: nextProps.userDetails.mobileNumber
           ? nextProps.userDetails.mobileNumber

@@ -138,6 +138,22 @@ const OfferDetailsModal = Loadable({
   }
 });
 
+const BeautyOfferDetailsModal = Loadable({
+  loader: () =>
+    import("../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyOfferDetailsModal"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const BeautyPdpImageZoomIn = Loadable({
+  loader: () =>
+    import("../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyPdpImageZoomIn"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const TermsNConditionsWrapperModal = Loadable({
   loader: () => import("../../pdp/components/TermsNConditionsWrapperModal"),
   loading() {
@@ -1039,6 +1055,19 @@ export default class ModalRoot extends React.Component {
         <OfferDetailsModal
           closeModal={() => this.handleClose()}
           {...this.props.ownProps}
+        />
+      ),
+      BeautyOfferDetailsModal: (
+        <BeautyOfferDetailsModal
+          closeModal={() => this.handleClose()}
+          {...this.props.ownProps}
+        />
+      ),
+      BeautyPdpImageZoomIn: (
+        <BeautyPdpImageZoomIn
+          closeModal={() => this.handleClose()}
+          zoomImgList={this.props.ownProps && this.props.ownProps.zoomImgList}
+          position={this.props.ownProps && this.props.ownProps.position}
         />
       ),
       BundledProductModal: (

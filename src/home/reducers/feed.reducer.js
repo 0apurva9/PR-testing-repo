@@ -24,7 +24,11 @@ import {
   LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT,
   MULTI_BANNER_PERSONALISED_COMPONENT,
   SUB_HEADER_HERO_BANNER,
-  SUB_HEADER_TWO_BY_TWO
+  SUB_HEADER_TWO_BY_TWO,
+  PLP_BANNER_COMPONENT,
+  PLP_SHORT_BANNER_COMPONENT,
+  HERO_BANNER_MONETIZATION,
+  SIMPLE_BANNER_MONETIZATION
 } from "../../lib/constants";
 
 import { transformFetchingItemsOrder } from "./utils";
@@ -88,7 +92,11 @@ const feed = (
           componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
           componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
           componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
-          componentName === MULTI_BANNER_PERSONALISED_COMPONENT
+          componentName === MULTI_BANNER_PERSONALISED_COMPONENT ||
+          componentName === PLP_BANNER_COMPONENT ||
+          componentName === PLP_SHORT_BANNER_COMPONENT ||
+          componentName === HERO_BANNER_MONETIZATION ||
+          componentName === SIMPLE_BANNER_MONETIZATION
         ) {
           componentName = HARD_CODED_KEY_FOR_COMPONENT;
         }
@@ -160,7 +168,9 @@ const feed = (
             componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
             componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
             componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
-            componentName === MULTI_BANNER_PERSONALISED_COMPONENT
+            componentName === MULTI_BANNER_PERSONALISED_COMPONENT ||
+            componentName === HERO_BANNER_MONETIZATION ||
+            componentName === SIMPLE_BANNER_MONETIZATION
           ) {
             componentName = HARD_CODED_KEY_FOR_COMPONENT;
           }
@@ -237,7 +247,9 @@ const feed = (
             componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
             componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
             componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
-            componentName === MULTI_BANNER_PERSONALISED_COMPONENT
+            componentName === MULTI_BANNER_PERSONALISED_COMPONENT ||
+            componentName === HERO_BANNER_MONETIZATION ||
+            componentName === SIMPLE_BANNER_MONETIZATION
           ) {
             componentName = HARD_CODED_KEY_FOR_COMPONENT;
           }
@@ -305,7 +317,9 @@ const feed = (
         componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
         componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
         componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
-        componentName === MULTI_BANNER_PERSONALISED_COMPONENT
+        componentName === MULTI_BANNER_PERSONALISED_COMPONENT ||
+        componentName === HERO_BANNER_MONETIZATION ||
+        componentName === SIMPLE_BANNER_MONETIZATION
       ) {
         componentName = HARD_CODED_KEY_FOR_COMPONENT;
       }
@@ -448,7 +462,9 @@ const feed = (
           componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
           componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
           componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
-          componentName === MULTI_BANNER_PERSONALISED_COMPONENT
+          componentName === MULTI_BANNER_PERSONALISED_COMPONENT ||
+          componentName === HERO_BANNER_MONETIZATION ||
+          componentName === SIMPLE_BANNER_MONETIZATION
         ) {
           componentName = HARD_CODED_KEY_FOR_COMPONENT;
         }
