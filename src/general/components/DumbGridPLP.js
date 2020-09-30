@@ -29,6 +29,8 @@ export default class Grid extends React.Component {
       this.props.plpBannerData &&
       this.props.plpBannerData.filter(data => {
         return (
+          data &&
+          data.items &&
           data.items[0] &&
           data.items[0].hexCode &&
           parseInt(data.items[0].hexCode) === index
