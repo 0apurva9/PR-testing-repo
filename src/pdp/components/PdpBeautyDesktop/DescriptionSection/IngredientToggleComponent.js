@@ -65,7 +65,7 @@ export default class IngredientToggleComponent extends Component {
               this.props.ingredientData.allIngredients.length > 0 && (
                 <div className={styles["ingredents-all-block"]}>
                   <div className={styles["all-ingred-head"]}>
-                    {this.props.ingredientData.allIngredients[0].key}:
+                    {this.props.ingredientData.allIngredients[0].key}
                   </div>
                   <div className={styles["all-ingred-desc"]}>
                     {this.props.ingredientData.allIngredients[0].value}
@@ -76,7 +76,7 @@ export default class IngredientToggleComponent extends Component {
               this.props.ingredientData.notIngredients.length > 0 && (
                 <div className={styles["ingredents-all-block"]}>
                   <div className={styles["all-ingred-head"]}>
-                    {this.props.ingredientData.notIngredients[0].key}:
+                    {this.props.ingredientData.notIngredients[0].key}
                   </div>
                   <div className={styles["all-ingred-desc"]}>
                     {this.props.ingredientData.notIngredients[0].value}
