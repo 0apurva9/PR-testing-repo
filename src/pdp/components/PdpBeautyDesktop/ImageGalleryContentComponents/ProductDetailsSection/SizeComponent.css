@@ -37,7 +37,6 @@
   font-weight: 500;
   font-size: 14px;
   color: rgb(74, 74, 74);
-  line-height: 40px;
   margin: 12px 15px 0 0;
   cursor: pointer;
 }
@@ -47,10 +46,11 @@
   border-radius: 3px;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   width: 101px;
   height: 38px;
-  padding: 0 5px 0 10px;
+  padding: 0 5px 0 1px;
+  line-height: 38px;
 }
 
 .selected,
@@ -60,6 +60,11 @@
 
 .size-not-avail {
   opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.size-not-avail .size-outer:hover {
+  border: 1px solid transparent;
 }
 
 .size-not-avail:after {
@@ -76,9 +81,8 @@
 }
 
 .size-icon {
-  width: 24px;
+  width: 36px;
   height: 36px;
   background: transparent center center/100% auto no-repeat;
-  margin-right: 8px;
 }
 /*** Size Component End ****/

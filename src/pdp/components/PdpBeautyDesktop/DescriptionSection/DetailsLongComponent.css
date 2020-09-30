@@ -103,7 +103,10 @@
   color: rgb(33, 33, 33);
   font-weight: 300;
   font-size: 14px;
-  line-height: 16px;
+  line-height: 18px;
+  position: relative;
+  margin: 0 0 16px;
+  padding-left: 200px;
 }
 
 .product-details-head {
@@ -115,6 +118,9 @@
   width: 200px;
   display: inline-block;
   margin-bottom: 16px;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 .details-complete-block {

@@ -33,7 +33,11 @@ export default class IngredientToggleComponent extends Component {
                           <div
                             className={styles["ingredents-icon"]}
                             style={{
-                              backgroundImage: `url(https:${value.imageURL})`
+                              backgroundImage: `url(${
+                                value.imageURL.includes("https://")
+                                  ? `${value.imageURL}`
+                                  : `https:${value.imageURL}`
+                              })`
                             }}
                           ></div>
                           <div className={styles["ingredents-txt"]}>
