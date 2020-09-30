@@ -14,7 +14,7 @@ module.exports = {
       user: "ubuntu",
       host: "54.147.12.99",
       key: "~/.ssh/ORACLE-HYBRIS.pem",
-      ref: "origin/release-csr-beauty-category",
+      ref: "origin/production",
       repo: "git@github.com:tcs-chennai/tatacliq-web-desktop.git",
       ssh_options: ["StrictHostKeyChecking=no", "PasswordAuthentication=no"],
       path: "/home/ubuntu/tata-cliq-frontend",
