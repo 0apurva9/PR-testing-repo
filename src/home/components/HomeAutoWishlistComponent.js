@@ -91,6 +91,7 @@ class HomeAutoWishlistComponent extends React.Component {
                 </React.Fragment>
               );
             } else if (
+              itemCount &&
               val.productName === "View More" &&
               parseInt(itemCount) >= items.length - 1
             ) {
