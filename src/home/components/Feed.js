@@ -399,12 +399,7 @@ export const typeComponentMapping = {
   msdAutomatedBannerProductCarouselComponent: props => (
     <MsdAutomatedBrandProductCarousel {...props} />
   ),
-  AutoWishlist: props => (
-    <HomeAutoWishlistComponent
-      {...props}
-      wishListedItem={this.state && this.state.wishListedItem}
-    />
-  ),
+  AutoWishlist: props => <HomeAutoWishlistComponent {...props} />,
   msdAutoDiscoverMoreComponent: props => <DiscoverMoreMsd {...props} />,
 
   "Simple Banner Component": props => {
@@ -574,6 +569,7 @@ class Feed extends Component {
         <WidgetContainer
           {...props}
           wishListedItem={this.props.wishlistProductId}
+          wishlistCount={this.props.wishlistCount}
         >
           {typeComponentMapping[feedDatum.type] &&
             typeComponentMapping[feedDatum.type]}

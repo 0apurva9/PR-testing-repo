@@ -86,6 +86,30 @@
     float: left;
 }
 
+.viewAllBlock {
+  cursor: pointer;
+  position: relative;
+  background: #fff;
+  height:393px;
+}
+.backgroundImage {
+  background-image:url("../../home/components/img/group_10.png");
+  background-repeat:no-repeat;
+  background-position:center center;
+  height: 343px;
+}
+
+.viewMoreText {
+  background-color: #ffff;
+    text-align: center;
+    font-size: 14px;
+    color: #da1c5c;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 65%);
+}
+
 @media screen and (min-width: 1025px) {
   .brandSection {
     background: transparent;
