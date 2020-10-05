@@ -9,7 +9,6 @@ import {
   PRODUCT_CART_ROUTER,
   FAILURE_LOWERCASE
 } from "../../lib/constants.js";
-const env = process.env;
 const PRODUCT_IN_CART = "Product is already in cart";
 const ADD_TO_CART_UPDATE = "add_to_cart_update";
 const ADDED = "added";
@@ -28,23 +27,6 @@ export default class Chatbot extends React.Component {
     );
   }
   componentDidMount() {
-    var f = document.getElementsByTagName("SCRIPT")[0];
-    var p = document.createElement("SCRIPT");
-    var date = new Date();
-    var timestamp = date.getTime();
-    var source_url =
-      env.REACT_APP_HAPTIK_CHATBOT_URL +
-      "/static/aspectwise/js/haptik.js?" +
-      timestamp;
-    p.type = "text/javascript";
-    p.setAttribute("charset", "utf-8");
-    p.setAttribute("clientid", "tatacliq");
-    p.async = true;
-    p.id = "buzzosrc";
-    p.src = source_url;
-    if (!document.getElementById("buzzosrc")) {
-      f.parentNode.insertBefore(p, f);
-    }
     if (this.props.addToCartFromChatbot) {
       window.addEventListener("haptik_event", this.addToCartFromHaptikChatbot);
     }
