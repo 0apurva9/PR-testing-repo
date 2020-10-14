@@ -467,10 +467,10 @@ class Feed extends Component {
   }
   componentDidMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
     if (!userDetails) {
       setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
     }
-    setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
     this.props.seo
       ? this.props.seo.title
         ? (document.title = this.props.seo.title)

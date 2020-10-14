@@ -18,6 +18,7 @@ import {
   CATEGORY_CAPTURE_REGEX,
   BRAND_CAPTURE_REGEX
 } from "./PlpBrandCategoryWrapper.js";
+import { setDataLayer, ADOBE_PLP_TYPE, ICID2, CID } from "../../lib/adobeUtils";
 import { isBrowser } from "browser-or-node";
 
 const OUT_OF_STOCK_FLAG = "inStockFlag";
@@ -285,6 +286,31 @@ class ProductListingsPage extends Component {
             }, 50);
           }
         }
+        let icid, icidType;
+        if (
+          this.props.lastVisitedPlpUrl &&
+          (this.props.lastVisitedPlpUrl.includes("icid2") ||
+            this.props.lastVisitedPlpUrl.includes("cid"))
+        ) {
+          const search = queryString.parse(
+            this.props.location && this.props.location.search
+          );
+          if (search.icid2) {
+            icid = search.icid2;
+            icidType = ICID2;
+          } else if (search.cid) {
+            icid = search.cid;
+            icidType = CID;
+          }
+          console.log("back button pressed==============>");
+          setDataLayer(
+            ADOBE_PLP_TYPE,
+            this.props.productListings,
+            icid,
+            icidType
+          );
+        }
+
         return;
       }
     }

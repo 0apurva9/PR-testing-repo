@@ -321,7 +321,12 @@ export function getProductListings(
         }
         throw new Error(`${resultJson.error}`);
       }
-      setDataLayer(ADOBE_PLP_TYPE, resultJson);
+      setDataLayer(
+        ADOBE_PLP_TYPE,
+        resultJson,
+        getState().icid.value,
+        getState().icid.icidType
+      );
       if (
         isBrowser &&
         resultJson &&

@@ -326,13 +326,14 @@ export function getProductDescription(
           !(urlLength.includes("my-account") || urlLength.includes("checkout"))
         ) {
           window.location.pathname = resultJson.seo.alternateURL;
+          return;
         }
         if (componentName) {
           setDataLayer(
             ADOBE_PDP_TYPE,
             resultJson,
-            null,
-            null,
+            getState().icid.value,
+            getState().icid.icidType,
             behaviorOfPageTheCurrent
           );
         }
@@ -1583,8 +1584,8 @@ export function getMsdRequest(
         similarProducts === "SimilarProduct"
           ? SIMILAR_PRODUCTS_WIDGET_KEY
           : similarProducts === "similarOutOfStockProducts"
-          ? "similarOutOfStockProducts"
-          : RECOMMENDED_PRODUCTS_WIDGET_KEY;
+            ? "similarOutOfStockProducts"
+            : RECOMMENDED_PRODUCTS_WIDGET_KEY;
       if (
         resultJson &&
         resultJson.data &&

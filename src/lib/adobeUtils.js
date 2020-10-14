@@ -839,6 +839,28 @@ export async function setDataLayer(
   //     window._satellite.track(PDP_PRODUCT_SIMILAR);
   //   }
   // }
+  if (icidType === ICID2) {
+    let data = window.digitalData;
+    data.flag = INTERNAL_CAMPAIGN;
+    data.internal = {
+      campaign: {
+        id: icid
+      }
+    };
+    window.digitalData = data;
+    if (window._satellite) {
+      window._satellite.track(INTERNAL_CAMPAIGN_TRACK);
+    }
+  } else if (icidType === CID) {
+    let data = window.digitalData;
+    data.external = {
+      campaign: {
+        id: icid
+      }
+    };
+    data.flag = EXTERNAL_CAMPAIGN;
+    window.digitalData = data;
+  }
   if (type === ADOBE_MY_ACCOUNT_TAB_CLICKED) {
     let currentDigitalData = window.digitalData;
     if (apiResponse) {
@@ -1216,29 +1238,6 @@ export async function setDataLayer(
         }
       });
     }
-    window.digitalData = data;
-  }
-
-  if (icidType === ICID2) {
-    let data = window.digitalData;
-    data.flag = INTERNAL_CAMPAIGN;
-    data.internal = {
-      campaign: {
-        id: icid
-      }
-    };
-    window.digitalData = data;
-    if (window._satellite) {
-      window._satellite.track(INTERNAL_CAMPAIGN_TRACK);
-    }
-  } else if (icidType === CID) {
-    let data = window.digitalData;
-    data.external = {
-      campaign: {
-        id: icid
-      }
-    };
-    data.flag = EXTERNAL_CAMPAIGN;
     window.digitalData = data;
   }
 
@@ -2576,6 +2575,7 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null, response) {
   if (type === SET_DATA_LAYER_FOR_BUY_NOW_EVENT) {
     if (window._satellite) {
       window._satellite.track(ADOBE_BUY_NOW);
+      window._satellite.track(ADOBE_ADD_TO_CART);
     }
   }
   if (type === SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP) {
