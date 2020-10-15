@@ -98,7 +98,8 @@ if (
   process.env.REACT_APP_STAGE === "qa5" ||
   process.env.REACT_APP_STAGE === "qa6" ||
   process.env.REACT_APP_STAGE === "pt1" ||
-  process.env.REACT_APP_STAGE === "pt2"
+  process.env.REACT_APP_STAGE === "pt2" ||
+  process.env.REACT_APP_STAGE === "qa7"
 ) {
   process.env.REACT_APP_FACEBOOK_CLIENT_ID = "552270434933633";
   process.env.REACT_APP_FLEXMONEYAPI = "staging";
@@ -188,7 +189,8 @@ if (process.env.REACT_APP_STAGE === "devxelp") {
   process.env.REACT_APP_STAGE === "qa5" ||
   process.env.REACT_APP_STAGE === "qa6" ||
   process.env.REACT_APP_STAGE === "pt1" ||
-  process.env.REACT_APP_STAGE === "pt2"
+  process.env.REACT_APP_STAGE === "pt2" ||
+  process.env.REACT_APP_STAGE === "qa7"
 ) {
   process.env.REACT_APP_GOOGLE_CLIENT_ID =
     "970557259016-dn8cfjib6e40a1ejlisqitoakqpac2uj.apps.googleusercontent.com";
@@ -255,7 +257,8 @@ if (
   process.env.REACT_APP_STAGE === "qa5" ||
   process.env.REACT_APP_STAGE === "qa6" ||
   process.env.REACT_APP_STAGE === "pt1" ||
-  process.env.REACT_APP_STAGE === "pt2"
+  process.env.REACT_APP_STAGE === "pt2" ||
+  process.env.REACT_APP_STAGE === "qa7"
 ) {
   process.env.REACT_APP_RECAPTCHA_SITE_KEY =
     "6Lc6qHcUAAAAAGMXu2mgFvK0pcsaG2DDO6V47Mjf";
