@@ -1655,6 +1655,12 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
     pdpResponse.variantOptions.filter(val => {
       return val.colorlink.selected;
     })[0].colorlink.color;
+  const selectedSize =
+    pdpResponse &&
+    pdpResponse.variantOptions &&
+    pdpResponse.variantOptions.filter(val => {
+      return val.colorlink.selected;
+    })[0].sizelink.size;
   let seasonData = {};
   if (pdpResponse && pdpResponse.seasonDetails !== undefined) {
     seasonData = pdpResponse.seasonDetails.find(item => {
@@ -1692,10 +1698,13 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
       product: {
         id: pdpResponse ? pdpResponse.productListingId : "",
         category: pdpResponse ? pdpResponse.rootCategory : "",
-        category_id:
-          productCategoryId && productCategoryId[productCategoryId.length - 1],
+        category_id: productCategoryId
+          ? productCategoryId && productCategoryId[productCategoryId.length - 1]
+          : pdpResponse && pdpResponse.categoryL4Code,
         colour: selectedColour ? selectedColour : "",
-        tag: productTag ? productTag : ""
+        tag: productTag ? productTag : "",
+        productName: pdpResponse && pdpResponse.productName,
+        size: selectedSize ? selectedSize : ""
       },
       brand: {
         name: pdpResponse ? pdpResponse.brandName : ""
@@ -2042,7 +2051,9 @@ function getDigitalDataForCart(type, cartResponse) {
       productQuantityArray,
       productPriceArray,
       productBrandArray,
-      categoryArray
+      categoryArray,
+      productCategoryIdArray,
+      productNameArray
     } = getProductData;
     Object.assign(data, {
       cpj: {
@@ -2050,7 +2061,9 @@ function getDigitalDataForCart(type, cartResponse) {
           id: productIdsArray,
           quantity: productQuantityArray,
           price: productPriceArray,
-          category: categoryArray
+          category: categoryArray,
+          categoryId: productCategoryIdArray,
+          productName: productNameArray
         },
         brand: {
           name: productBrandArray
@@ -2262,7 +2275,9 @@ function getProductsDigitalData(response, type) {
       productQuantityArray = [],
       productPriceArray = [],
       productBrandArray = [],
-      categoryArray = [];
+      categoryArray = [],
+      productCategoryIdArray = [],
+      productNameArray = [];
     response.products.forEach(function(product) {
       productIdsArray.push(
         product.productcode && product.productcode.toLowerCase()
@@ -2277,6 +2292,12 @@ function getProductsDigitalData(response, type) {
           10
         )
       );
+      product &&
+        product.productCategoryId &&
+        productCategoryIdArray.push(product.productCategoryId);
+      product &&
+        product.productName &&
+        productNameArray.push(product.productName);
       productPriceArray.push(
         parseInt(
           product.offerPrice
@@ -2335,7 +2356,9 @@ function getProductsDigitalData(response, type) {
       productQuantityArray,
       productPriceArray,
       productBrandArray,
-      categoryArray
+      categoryArray,
+      productCategoryIdArray,
+      productNameArray
     };
   } else {
     return null;
