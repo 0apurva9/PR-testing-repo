@@ -104,7 +104,9 @@ const mapStateToProps = (state, ownProps) => {
       state.profile.loadingForUpdateReturnCancellation,
     userRating: state.profile.userRating,
     genesysCallConfigDataLoading: state.profile.genesysResponseLoading,
-    genesysCallConfigData: state.profile.genesysResponseData
+    genesysCallConfigData: state.profile.genesysResponseData,
+    appliancesExchangeDetails:
+      state.productDescription.getAppliancesExchangeDetails
   };
 };
 
