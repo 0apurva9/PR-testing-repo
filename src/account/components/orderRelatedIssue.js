@@ -33,6 +33,7 @@ import {
 } from "../../lib/adobeUtils";
 import { MOBILE_PATTERN } from "../../auth/components/Login";
 import SSRquest from "../../general/components/SSRequest";
+import RecentOrderHistory from "./RecentOrderHistory";
 import Icon from "../../xelpmoc-core/Icon";
 const ORDER_REALTED_QUESTION = "orderRelated";
 const NON_ORDER_REALTED_QUESTION = "NonOrderRelated";
@@ -102,7 +103,11 @@ export default class OrderRelatedIssue extends React.Component {
       selectedDate: "",
       cliq2CallConfigData: "",
       shift: "",
-      selectedSlot: ""
+      selectedSlot: "",
+      isRecentOrderHistory: false,
+      filterCard: false,
+      filterTypeData: "All Tickets",
+      isRecentOrderDetails: false
     };
     this.resetState = this.state;
   }
@@ -137,9 +142,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.setState({
         name:
           this.props.userDetails.firstName || this.props.userDetails.lastName
-            ? `${this.props.userDetails.firstName} ${
-                this.props.userDetails.lastName
-              }`
+            ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
             : "",
         mobile: this.props.userDetails.mobileNumber
           ? this.props.userDetails.mobileNumber
@@ -165,9 +168,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.setState({
         name:
           nextProps.userDetails.firstName || nextProps.userDetails.lastName
-            ? `${nextProps.userDetails.firstName} ${
-                nextProps.userDetails.lastName
-              }`
+            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
             : "",
         mobile: nextProps.userDetails.mobileNumber
           ? nextProps.userDetails.mobileNumber
@@ -452,6 +453,7 @@ export default class OrderRelatedIssue extends React.Component {
               : JSON.parse(response.data.items[1].cmsTextComponent.content);
             this.setState({
               isOrderDatails: true,
+              isRecentOrderHistory: false,
               orderList: false,
               orderRelatedQuestion: false,
               otherQuestion: false,
@@ -815,6 +817,25 @@ export default class OrderRelatedIssue extends React.Component {
     }, 2000);
   }
 
+  showRecentOrderHistory(ticketType) {
+    this.setState({
+      parentIssueType: ticketType,
+      isRecentOrderHistory: true,
+      isOrderDatails: false,
+      FAQquestion: false,
+      showQuestionList: false
+    });
+  }
+  handleFilterClick = () => {
+    this.setState({ filterCard: true });
+  };
+  handleSelectedFilterClick = filterData => {
+    this.setState({ filterTypeData: filterData, filterCard: false });
+  };
+  showRecentOrderDetails = () => {
+    this.setState({ isRecentOrderDetails: true });
+  };
+
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -1018,6 +1039,52 @@ export default class OrderRelatedIssue extends React.Component {
                   <div className={styles.baseWrapper}>
                     <div className={styles.formAbdTabHolder}>
                       <div className={styles.tabHolder}>
+                        <div className={styles.recentOrder}>
+                          <div className={styles.tabHeader}>
+                            Your Recent Tickets
+                          </div>
+
+                          <div
+                            className={styles.faqList}
+                            onClick={() =>
+                              this.showRecentOrderHistory("openTicket")
+                            }
+                          >
+                            <div
+                              className={[
+                                styles.faqHeader,
+                                this.state.parentIssueType == "openTicket"
+                                  ? styles.colorRed
+                                  : null
+                              ].join(" ")}
+                            >
+                              Open Tickets
+                            </div>
+                            <div className={styles.faqSubheading}>
+                              Lorem ipsum dorem lorem
+                            </div>
+                          </div>
+                          <div
+                            className={styles.faqList}
+                            onClick={() =>
+                              this.showRecentOrderHistory("closeTicket")
+                            }
+                          >
+                            <div
+                              className={[
+                                styles.faqHeader,
+                                this.state.parentIssueType == "closeTicket"
+                                  ? styles.colorRed
+                                  : null
+                              ].join(" ")}
+                            >
+                              Close Tickets
+                            </div>
+                            <div className={styles.faqSubheading}>
+                              Lorem ipsum dorem lorem
+                            </div>
+                          </div>
+                        </div>
                         <div className={styles.tabHolderBox}>
                           <div className={styles.tabHeader}>
                             All Help Topics
@@ -1077,86 +1144,100 @@ export default class OrderRelatedIssue extends React.Component {
                           </div>
                         </div>
                       </div>
-
-                      <div className={styles.formHolder}>
-                        <CustomerIssue
-                          customerQueriesOtherIssueData={
-                            customerQueriesOtherIssueData
+                      {this.state.isRecentOrderHistory ? (
+                        <RecentOrderHistory
+                          handleFilterClick={this.handleFilterClick}
+                          filterCard={this.state.filterCard}
+                          handleSelectedFilterClick={selectedFilter =>
+                            this.handleSelectedFilterClick(selectedFilter)
                           }
-                          selectedOrder={
-                            this.props.selectedOrderDetails || null
-                          }
-                          orderList={this.state.orderList}
-                          isOrderDatails={this.state.isOrderDatails}
-                          moreHelps={() => this.moreHelps()}
-                          ordersTransactionData={ordersTransactionData}
-                          questionsList={this.state.questionList}
-                          selectQuestion={(listOfIssue, index) =>
-                            this.selectQuestion(listOfIssue, index)
-                          }
-                          showFeedBack={this.state.showFeedBack}
-                          question={this.state.question}
-                          getOrderRelatedQuestions={(orderData, product) =>
-                            this.getOrderRelatedQuestions(orderData, product)
-                          }
-                          orderRelatedQuestionsStatus={
-                            orderRelatedQuestionsStatus
-                          }
-                          isQuesryForm={this.state.isQuesryForm}
-                          uploadUserFile={(issueType, title, file) =>
-                            this.props.uploadUserFile(issueType, title, file)
-                          }
-                          feedBackHelpFull={() => this.feedBackHelpFull()}
-                          isAnswerHelpFull={this.state.isAnswerHelpFull}
-                          uploadedAttachments={this.state.uploadedAttachments}
-                          userDetails={this.props.userDetails}
-                          submitCustomerForms={formaData =>
-                            this.submitCustomerForms(formaData)
-                          }
-                          displayToast={message =>
-                            this.props.displayToast(message)
-                          }
-                          customerQueriesField={customerQueriesField}
-                          getCustomerQueriesFields={(
-                            webFormTemplate,
-                            isIssueOptions
-                          ) =>
-                            this.getCustomerQueriesFields(
+                          filterTypeData={this.state.filterTypeData}
+                          showRecentOrderDetails={this.showRecentOrderDetails}
+                          isRecentOrderDetails={this.state.isRecentOrderDetails}
+                        />
+                      ) : (
+                        <div className={styles.formHolder}>
+                          <CustomerIssue
+                            customerQueriesOtherIssueData={
+                              customerQueriesOtherIssueData
+                            }
+                            selectedOrder={
+                              this.props.selectedOrderDetails || null
+                            }
+                            orderList={this.state.orderList}
+                            isOrderDatails={this.state.isOrderDatails}
+                            moreHelps={() => this.moreHelps()}
+                            ordersTransactionData={ordersTransactionData}
+                            questionsList={this.state.questionList}
+                            selectQuestion={(listOfIssue, index) =>
+                              this.selectQuestion(listOfIssue, index)
+                            }
+                            showFeedBack={this.state.showFeedBack}
+                            question={this.state.question}
+                            getOrderRelatedQuestions={(orderData, product) =>
+                              this.getOrderRelatedQuestions(orderData, product)
+                            }
+                            orderRelatedQuestionsStatus={
+                              orderRelatedQuestionsStatus
+                            }
+                            isQuesryForm={this.state.isQuesryForm}
+                            uploadUserFile={(issueType, title, file) =>
+                              this.props.uploadUserFile(issueType, title, file)
+                            }
+                            feedBackHelpFull={() => this.feedBackHelpFull()}
+                            isAnswerHelpFull={this.state.isAnswerHelpFull}
+                            uploadedAttachments={this.state.uploadedAttachments}
+                            userDetails={this.props.userDetails}
+                            submitCustomerForms={formaData =>
+                              this.submitCustomerForms(formaData)
+                            }
+                            displayToast={message =>
+                              this.props.displayToast(message)
+                            }
+                            customerQueriesField={customerQueriesField}
+                            getCustomerQueriesFields={(
                               webFormTemplate,
                               isIssueOptions
-                            )
-                          }
-                          orderRelatedQuestion={this.state.orderRelatedQuestion}
-                          otherQuestion={this.state.otherQuestion}
-                          FAQquestion={this.state.FAQquestion}
-                          selectOtehrQuestion={selectedOtehrQuestion =>
-                            this.selectOtehrQuestion(selectedOtehrQuestion)
-                          }
-                          parentIssueType={this.state.parentIssueType}
-                          orderAllList={this.state.orderAllList}
-                          showAllOrdersList={() => this.showAllOrdersList()}
-                          hideAllOrder={() => this.hideAllOrder()}
-                          questionType={this.state.questionType}
-                          isUserLogin={isUserLogin}
-                          navigateLogin={() => this.navigateLogin()}
-                          getMoreOrder={() => this.getMoreOrder()}
-                          showQuestionList={this.state.showQuestionList}
-                          sendInvoice={(ussid, sellerOrderNo) => {
-                            this.sendInvoice(ussid, sellerOrderNo);
-                          }}
-                          navigatePreviousPage={() =>
-                            this.navigatePreviousPage()
-                          }
-                          navigateHomePage={() => this.navigateHomePage()}
-                          updateThanks={() => this.updateThanks()}
-                          navigateCliqCarePage={() =>
-                            this.navigateCliqCarePage()
-                          }
-                          slectOrderData={this.state.slectOrderData}
-                          isCallMeBackForm={this.state.isCallMeBackForm}
-                          isScheduleACall={this.state.isScheduleACall}
-                        />
-                      </div>
+                            ) =>
+                              this.getCustomerQueriesFields(
+                                webFormTemplate,
+                                isIssueOptions
+                              )
+                            }
+                            orderRelatedQuestion={
+                              this.state.orderRelatedQuestion
+                            }
+                            otherQuestion={this.state.otherQuestion}
+                            FAQquestion={this.state.FAQquestion}
+                            selectOtehrQuestion={selectedOtehrQuestion =>
+                              this.selectOtehrQuestion(selectedOtehrQuestion)
+                            }
+                            parentIssueType={this.state.parentIssueType}
+                            orderAllList={this.state.orderAllList}
+                            showAllOrdersList={() => this.showAllOrdersList()}
+                            hideAllOrder={() => this.hideAllOrder()}
+                            questionType={this.state.questionType}
+                            isUserLogin={isUserLogin}
+                            navigateLogin={() => this.navigateLogin()}
+                            getMoreOrder={() => this.getMoreOrder()}
+                            showQuestionList={this.state.showQuestionList}
+                            sendInvoice={(ussid, sellerOrderNo) => {
+                              this.sendInvoice(ussid, sellerOrderNo);
+                            }}
+                            navigatePreviousPage={() =>
+                              this.navigatePreviousPage()
+                            }
+                            navigateHomePage={() => this.navigateHomePage()}
+                            updateThanks={() => this.updateThanks()}
+                            navigateCliqCarePage={() =>
+                              this.navigateCliqCarePage()
+                            }
+                            slectOrderData={this.state.slectOrderData}
+                            isCallMeBackForm={this.state.isCallMeBackForm}
+                            isScheduleACall={this.state.isScheduleACall}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

@@ -233,3 +233,10 @@ border-bottom:1px solid #e5e5e5;
 .radioTicketType label input[type="radio"]:checked + span:after {
     transform: scale(1);
 }
+
+.recentOrder{
+  margin-bottom: 20px;
+  background: #fff;
+  padding: 0px 24px 43px 24px;
+  border-radius: 6px;
+}
