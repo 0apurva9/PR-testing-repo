@@ -239,6 +239,7 @@ const WIDGET_LIST_FREQUENTLY_BOUGHT = [4];
 const WIDGET_LIST_FOR_ABOUT_BRAND = [114];
 const NUMBER_RESULTS = [10];
 const WIDGET_LIST_FOR_SIMILAR_PRODUCT = [0];
+const env = process.env;
 //TPR-9957 for Desktop
 export const PDP_MANUFACTURER_REQUEST = "PDP_MANUFACTURER_REQUEST";
 export const PDP_MANUFACTURER_SUCCESS = "PDP_MANUFACTURER_SUCCESS";
@@ -270,6 +271,13 @@ export const ADD_BUNDLED_PRODUCTS_TO_CART_FAILURE =
   "ADD_BUNDLED_PRODUCTS_TO_CART_FAILURE";
 
 export const BEAUTY_POP_UP_TOGGLE = "BEAUTY_POP_UP_TOGGLE";
+
+export const GET_APPLIANCES_EXCHANGE_DETAILS_REQUEST =
+  "GET_APPLIANCES_EXCHANGE_DETAILS_REQUEST";
+export const GET_APPLIANCES_EXCHANGE_DETAILS_SUCCESS =
+  "GET_APPLIANCES_EXCHANGE_DETAILS_SUCCESS";
+export const GET_APPLIANCES_EXCHANGE_DETAILS_FAILURE =
+  "GET_APPLIANCES_EXCHANGE_DETAILS_FAILURE";
 
 export function getProductDescriptionRequest() {
   return {
@@ -1034,6 +1042,45 @@ export function addProductToCart(productDetails) {
         JSON.stringify(bagItemsInJsonFormat)
       );
 
+      let acPdpExchangeDetails = localStorage.getItem("acPdpExchangeDetails");
+      let acPdpExchangeData =
+        acPdpExchangeDetails && JSON.parse(acPdpExchangeDetails);
+      if (
+        acPdpExchangeData &&
+        acPdpExchangeData.ussid === productDetails.ussId &&
+        acPdpExchangeData.isExchangeSelected
+      ) {
+        let acCartExchangeDetails = localStorage.getItem(
+          "acCartExchangeDetails"
+        );
+        if (acCartExchangeDetails) {
+          let acCartExchangeData = JSON.parse(acCartExchangeDetails);
+          let productIndex = "";
+          let isProductInExchangeData =
+            acCartExchangeData &&
+            acCartExchangeData.find((data, index) => {
+              if (data.ussid === productDetails.ussId) {
+                productIndex = index;
+              }
+              return data.ussid === productDetails.ussId;
+            });
+          if (isProductInExchangeData) {
+            acCartExchangeData[productIndex] = acPdpExchangeData;
+          } else {
+            acCartExchangeData.push(acPdpExchangeData);
+          }
+          localStorage.setItem(
+            "acCartExchangeDetails",
+            JSON.stringify(acCartExchangeData)
+          );
+        } else {
+          localStorage.setItem(
+            "acCartExchangeDetails",
+            JSON.stringify([acPdpExchangeData])
+          );
+        }
+      }
+
       // here we dispatch a modal to show something was added to the bag
       dispatch(setBagCount(bagItemsInJsonFormat.length));
       setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_ADD_TO_BAG_EVENT);
@@ -1583,8 +1630,8 @@ export function getMsdRequest(
         similarProducts === "SimilarProduct"
           ? SIMILAR_PRODUCTS_WIDGET_KEY
           : similarProducts === "similarOutOfStockProducts"
-          ? "similarOutOfStockProducts"
-          : RECOMMENDED_PRODUCTS_WIDGET_KEY;
+            ? "similarOutOfStockProducts"
+            : RECOMMENDED_PRODUCTS_WIDGET_KEY;
       if (
         resultJson &&
         resultJson.data &&
@@ -2840,6 +2887,48 @@ export function addBundledProductsToCart(data) {
       dispatch(addBundledProductsToCartSuccess(resultJson));
     } catch (e) {
       dispatch(addBundledProductsToCartFailure(e.message));
+    }
+  };
+}
+
+export function getAppliancesExchangeDetailsRequest() {
+  return {
+    type: GET_APPLIANCES_EXCHANGE_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getAppliancesExchangeDetailsSuccess(data) {
+  return {
+    type: GET_APPLIANCES_EXCHANGE_DETAILS_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function getAppliancesExchangeDetailsFailure(error) {
+  return {
+    type: GET_APPLIANCES_EXCHANGE_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getAppliancesExchangeDetails() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getAppliancesExchangeDetailsRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        env.REACT_APP_APPLIANCES_EXCHANGE
+      );
+      if (result.status === 200) {
+        const resultJson = await result.json();
+        return dispatch(getAppliancesExchangeDetailsSuccess(resultJson));
+      } else {
+        dispatch(getAppliancesExchangeDetailsFailure(result.statusText));
+      }
+    } catch (e) {
+      dispatch(getAppliancesExchangeDetailsFailure(e.message));
     }
   };
 }

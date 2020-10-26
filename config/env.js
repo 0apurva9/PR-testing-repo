@@ -312,6 +312,10 @@ if (process.env.REACT_APP_STAGE === "production") {
     "/adminstatic/js/mkt_desktop_chat_lower.json";
 }
 
+// for appliances exchange
+process.env.REACT_APP_APPLIANCES_EXCHANGE =
+  "/adminstatic/js/appliance_exchange_v1.json";
+
 function getClientEnvironment(publicUrl) {
   const raw = Object.keys(process.env)
     .filter(key => REACT_APP.test(key))
