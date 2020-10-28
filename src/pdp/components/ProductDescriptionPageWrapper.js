@@ -154,6 +154,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
     if (this.props.getChatbotDetails) {
       this.props.getChatbotDetails();
     }
+    this.props.getAppliancesExchangeDetails();
   };
 
   componentDidUpdate(prevProps, prevState) {
