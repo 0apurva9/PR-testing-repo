@@ -321,12 +321,41 @@ export function getProductListings(
         }
         throw new Error(`${resultJson.error}`);
       }
-      setDataLayer(
-        ADOBE_PLP_TYPE,
-        resultJson,
-        getState().icid.value,
-        getState().icid.icidType
-      );
+      const breadcrumbs =
+        resultJson &&
+        resultJson.seo &&
+        resultJson.seo.breadcrumbs &&
+        resultJson.seo.breadcrumbs.reverse();
+      if (
+        (breadcrumbs &&
+          breadcrumbs[0] &&
+          window.digitalData &&
+          window.digitalData.page &&
+          window.digitalData.page.category &&
+          window.digitalData.page.category.subCategory1 &&
+          breadcrumbs[0].name &&
+          breadcrumbs[0].name.replace(/ /g, "_").toLowerCase() !==
+            window.digitalData.page.category.subCategory1 &&
+          breadcrumbs[1].name &&
+          breadcrumbs[1].name.replace(/ /g, "_").toLowerCase() !==
+            window.digitalData.page.category.subCategory2) ||
+        (breadcrumbs[0] &&
+          window.digitalData &&
+          window.digitalData.page &&
+          window.digitalData.page.category &&
+          !window.digitalData.page.category.subCategory1) ||
+        (breadcrumbs[0] &&
+          window.digitalData &&
+          window.digitalData.page &&
+          !window.digitalData.page.category)
+      ) {
+        setDataLayer(
+          ADOBE_PLP_TYPE,
+          resultJson,
+          getState().icid.value,
+          getState().icid.icidType
+        );
+      }
       if (
         isBrowser &&
         resultJson &&

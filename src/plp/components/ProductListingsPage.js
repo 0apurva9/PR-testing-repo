@@ -302,13 +302,38 @@ class ProductListingsPage extends Component {
             icid = search.cid;
             icidType = CID;
           }
-          console.log("back button pressed==============>");
-          setDataLayer(
-            ADOBE_PLP_TYPE,
-            this.props.productListings,
-            icid,
-            icidType
-          );
+          const breadcrumbs =
+            this.props.productListings &&
+            this.props.productListings.seo &&
+            this.props.productListings.seo.breadcrumbs &&
+            this.props.productListings.seo.breadcrumbs.reverse();
+          //console.log("=================12345===========", breadcrumbs);
+          if (
+            (breadcrumbs &&
+              breadcrumbs[0] &&
+              window.digitalData &&
+              window.digitalData.page &&
+              window.digitalData.page.category &&
+              window.digitalData.page.category.subCategory1 &&
+              breadcrumbs[0].name &&
+              breadcrumbs[0].name.replace(/ /g, "_").toLowerCase() !==
+                window.digitalData.page.category.subCategory1 &&
+              breadcrumbs[1].name &&
+              breadcrumbs[1].name.replace(/ /g, "_").toLowerCase() !==
+                window.digitalData.page.category.subCategory2) ||
+            (breadcrumbs[0] &&
+              window.digitalData &&
+              window.digitalData.page &&
+              window.digitalData.page.category &&
+              !window.digitalData.page.category.subCategory1)
+          ) {
+            setDataLayer(
+              ADOBE_PLP_TYPE,
+              this.props.productListings,
+              icid,
+              icidType
+            );
+          }
         }
 
         return;
