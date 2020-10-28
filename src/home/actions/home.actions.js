@@ -444,6 +444,25 @@ export function homeFeedBackUp() {
             }
           },
           {
+            componentName: "AutoWishlist",
+            singleBannerComponent: {
+              componentId: "cmsitem_00283034",
+              items: [
+                {
+                  btnText: "10",
+                  description: "",
+                  hexCode: "",
+                  imageURL:
+                    "//assets.tatacliq.com/medias/sys_master/images/28164412997662.jpg",
+                  title: "",
+                  webURL: ""
+                }
+              ],
+              title: "",
+              type: "AutoWishlist"
+            }
+          },
+          {
             componentName: "heroBannerComponent",
             heroBannerComponent: {
               componentId: "cmsitem_00382090",
