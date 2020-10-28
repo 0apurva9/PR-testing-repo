@@ -326,9 +326,10 @@ export function getProductListings(
         resultJson.seo &&
         resultJson.seo.breadcrumbs &&
         resultJson.seo.breadcrumbs.reverse();
+      const productCategoryLength = breadcrumbs && breadcrumbs.length;
       if (
         (breadcrumbs &&
-          breadcrumbs[0] &&
+          productCategoryLength &&
           window.digitalData &&
           window.digitalData.page &&
           window.digitalData.page.category &&
