@@ -20,7 +20,8 @@ import {
   setSelfServeState,
   fetchOrderItemDetails,
   getCliq2CallConfig,
-  placeCustomerCallRequest
+  placeCustomerCallRequest,
+  getRecentTicketHistoryDetails
   // getGenesysCallConfigData
   // setUrlToRedirectToAfterAuth
 } from "../actions/account.actions";
@@ -122,6 +123,9 @@ const mapDispatchToProps = dispatch => {
     },
     showCallQuerySuccessModal: callSuccessData => {
       dispatch(showModal(CUSTOMER_CALL_QUERY_SUCCESS, callSuccessData));
+    },
+    getRecentTicketHistoryDetails: ticketType => {
+      dispatch(getRecentTicketHistoryDetails(ticketType));
     }
     // getGenesysCallConfigData: () => {
     //   dispatch(getGenesysCallConfigData());

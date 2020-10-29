@@ -168,11 +168,18 @@ export default class RecentOrderHistory extends Component {
             </div>
             {this.props.filterCard && (
               <div className={Styles.filterCard}>
-                <div className={Styles.filterType}>All Tickets</div>
                 <div
                   className={Styles.filterType}
                   onClick={() =>
-                    this.props.handleSelectedFilterClick("In Process")
+                    this.props.handleSelectedFilterClick("all-ticket")
+                  }
+                >
+                  All Tickets
+                </div>
+                <div
+                  className={Styles.filterType}
+                  onClick={() =>
+                    this.props.handleSelectedFilterClick("in-progress")
                   }
                 >
                   In Process
@@ -249,6 +256,21 @@ export default class RecentOrderHistory extends Component {
     );
   }
 }
+
+// const ticketDetailsProps = PropTypes.shape({
+//   creationDate: PropTypes.string,
+//   customerComment: PropTypes.string,
+//   issueBucket: PropTypes.string,
+//   issueType: PropTypes.string,
+//   orderId: PropTypes.string,
+//   productImage: PropTypes.string,
+//   productTitle: PropTypes.string,
+//   resolutionDate: PropTypes.string,
+//   slaBreach: PropTypes.string,
+//   ticketId: PropTypes.string,
+//   ticketStatus: PropTypes.string,
+//   transactionId: PropTypes.string
+// });
 
 RecentOrderHistory.propTypes = {
   handleFilterClick: PropTypes.func,

@@ -818,6 +818,9 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   showRecentOrderHistory(ticketType) {
+    if (this.props.getRecentTicketHistoryDetails) {
+      this.props.getRecentTicketHistoryDetails(ticketType);
+    }
     this.setState({
       parentIssueType: ticketType,
       isRecentOrderHistory: true,

@@ -395,6 +395,13 @@ export const GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_FAILURE =
 
 export const RESET_USER_ADDRESS = "RESET_USER_ADDRESS";
 
+export const TICKET_RECENT_HISTORY_DETAILS_REQUEST =
+  "TICKET_RECENT_HISTORY_DETAILS_REQUEST";
+export const TICKET_RECENT_HISTORY_DETAILS_SUCCESS =
+  "TICKET_RECENT_HISTORY_DETAILS_SUCCESS";
+export const TICKET_RECENT_HISTORY_DETAILS_FAILURE =
+  "TICKET_RECENT_HISTORY_DETAILS_FAILURE";
+
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
 export const Clear_ORDER_TRANSACTION_DATA = "Clear_ORDER_TRANSACTION_DATA";
 export const RE_SET_ADD_ADDRESS_DETAILS = "RE_SET_ADD_ADDRESS_DETAILS";
@@ -5742,6 +5749,53 @@ export function placeCustomerCallRequest(callRequestData) {
       return dispatch(genesysCustomerCallRequestSuccess(resultJson));
     } catch (e) {
       return dispatch(genesysCustomerCallRequestFailure(e.message));
+    }
+  };
+}
+
+export function getRecentTicketHistoryDetailsRequest() {
+  return {
+    type: TICKET_RECENT_HISTORY_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getRecentTicketHistoryDetailsSuccess(ticketDetails) {
+  return {
+    type: TICKET_RECENT_HISTORY_DETAILS_SUCCESS,
+    status: SUCCESS,
+    ticketDetails
+  };
+}
+
+export function getRecentTicketHistoryDetailsRequestFailure(error) {
+  return {
+    type: TICKET_RECENT_HISTORY_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getRecentTicketHistoryDetails(ticketType) {
+  return async (dispatch, getState, api) => {
+    const customerAccessToken = await getCustomerAccessToken();
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    dispatch(getRecentTicketHistoryDetailsRequest());
+    try {
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getTicketHistory?CurrentPage=${0}&access_token=${customerAccessToken}&pageSize=${10}&ticketYear=${2020}&ticketStatus=${true}`
+      );
+      const resultJson = await result.json();
+
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(getRecentTicketHistoryDetailsSuccess(resultJson));
+    } catch (e) {
+      dispatch(getRecentTicketHistoryDetailsRequestFailure(e));
     }
   };
 }

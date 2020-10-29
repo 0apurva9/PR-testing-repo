@@ -335,7 +335,11 @@ const account = (
     genesysCustomerCallRequestStatus: null,
     genesysCustomerCallRequestLoading: false,
     genesysCustomerCallRequestData: null,
-    genesysCustomerCallRequestError: null
+    genesysCustomerCallRequestError: null,
+
+    ticketRecentDetailsStatus: null,
+    ticketRecentHistoryDetails: null,
+    ticketRecentDetailsError: null
   },
   action
 ) => {
@@ -2179,6 +2183,24 @@ const account = (
         genesysCustomerCallRequestStatus: action.status,
         genesysCustomerCallRequestLoading: false,
         genesysCustomerCallRequestError: action.error
+      };
+
+    case accountActions.TICKET_RECENT_HISTORY_DETAILS_REQUEST:
+      return {
+        ...state,
+        ticketRecentDetailsStatus: action.status
+      };
+    case accountActions.TICKET_RECENT_HISTORY_DETAILS_SUCCESS:
+      return {
+        ...state,
+        ticketRecentDetailsStatus: action.status,
+        ticketRecentHistoryDetails: action.ticketDetails
+      };
+    case accountActions.TICKET_RECENT_HISTORY_DETAILS_FAILURE:
+      return {
+        ...state,
+        ticketRecentDetailsStatus: action.status,
+        ticketRecentDetailsError: action.error
       };
 
     default:
