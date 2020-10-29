@@ -137,9 +137,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.setState({
         name:
           this.props.userDetails.firstName || this.props.userDetails.lastName
-            ? `${this.props.userDetails.firstName} ${
-                this.props.userDetails.lastName
-              }`
+            ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
             : "",
         mobile: this.props.userDetails.mobileNumber
           ? this.props.userDetails.mobileNumber
@@ -165,9 +163,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.setState({
         name:
           nextProps.userDetails.firstName || nextProps.userDetails.lastName
-            ? `${nextProps.userDetails.firstName} ${
-                nextProps.userDetails.lastName
-              }`
+            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
             : "",
         mobile: nextProps.userDetails.mobileNumber
           ? nextProps.userDetails.mobileNumber
@@ -198,18 +194,8 @@ export default class OrderRelatedIssue extends React.Component {
         "Care_Other_MoreHelp"
       );
     }
-    const { FAQquestion, question } = this.state;
-    if (
-      FAQquestion ||
-      (question.webform === "No" &&
-        question.call === "No" &&
-        question.chat === "No" &&
-        question.click2Call === "No")
-    ) {
-      this.setState({ isAnswerHelpFull: true });
-    } else {
-      this.setState({ isIssueOptions: true, showFeedBack: false });
-    }
+
+    this.setState({ isIssueOptions: true, showFeedBack: false });
   }
 
   async getCustomerQueriesFields(issue, isSelecteRadio = false) {

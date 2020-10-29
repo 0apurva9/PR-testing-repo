@@ -1,10 +1,10 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import thankYou from "../components/img/thankYou.svg";
-import likeIcon from "../components/img/like.png";
 import styles from "./CustomerIssue.css";
 import { ORDER_CODE } from "../../lib/constants";
-
+const YES = "yes";
 export default class QuestionFeedback extends Component {
   componentDidMount() {
     if (!this.props.FAQquestion) {
@@ -16,13 +16,11 @@ export default class QuestionFeedback extends Component {
     super(props);
   }
   render() {
+    const { question } = this.props;
     let newSolution = this.props.FAQquestion
-      ? this.props.question.answer
-      : this.props.question.solution;
-    if (
-      this.props.question.solution &&
-      this.props.question.solution.indexOf("<a") !== -1
-    ) {
+      ? question.answer
+      : question.solution;
+    if (question.solution && question.solution.indexOf("<a") !== -1) {
       let startIndex = newSolution.indexOf("<a"),
         endIndex = newSolution.indexOf("</a>");
       let link = newSolution.slice(startIndex, endIndex + 4);
@@ -34,9 +32,7 @@ export default class QuestionFeedback extends Component {
           0,
           div.firstChild.href.indexOf(`{`)
         );
-        newURL = `${newURL}${this.props.selectedOrder.orderId}&transactionId=${
-          this.props.selectedOrder.products[0].transactionId
-        }`;
+        newURL = `${newURL}${this.props.selectedOrder.orderId}&transactionId=${this.props.selectedOrder.products[0].transactionId}`;
         div.firstChild.setAttribute("href", newURL);
         div.firstChild.setAttribute("target", "_blank");
         newSolution = `${newSolution.slice(0, startIndex)}${
@@ -44,7 +40,17 @@ export default class QuestionFeedback extends Component {
         }${newSolution.slice(endIndex + 4)}`;
       }
     }
-
+    let showContactUsButton = false;
+    if (
+      question.call.toLowerCase() == YES ||
+      question.chat.toLowerCase() == YES ||
+      question.click2Call.toLowerCase() == YES ||
+      question.webform.toLowerCase() == YES
+    ) {
+      showContactUsButton = true;
+    } else {
+      showContactUsButton = false;
+    }
     return (
       <div
         className={
@@ -53,18 +59,15 @@ export default class QuestionFeedback extends Component {
             : styles.otherQuestionAnswer
         }
       >
-        {!this.props.FAQquestion &&
-          this.props.parentIssueType && (
-            <div className={styles.prentIssueType}>
-              {this.props.parentIssueType.replace("&amp;", "&")}
-            </div>
-          )}
+        {!this.props.FAQquestion && this.props.parentIssueType && (
+          <div className={styles.prentIssueType}>
+            {this.props.parentIssueType.replace("&amp;", "&")}
+          </div>
+        )}
         {!this.props.FAQquestion && (
           <div className={styles.question}>
-            {this.props.orderRelatedQuestion
-              ? this.props.question.issueType
-              : null}
-            {this.props.otherQuestion ? this.props.question.subIssueType : null}
+            {this.props.orderRelatedQuestion ? question.issueType : null}
+            {this.props.otherQuestion ? question.subIssueType : null}
           </div>
         )}
         <div
@@ -76,7 +79,11 @@ export default class QuestionFeedback extends Component {
         <div className={styles.feedBack}>
           <div className={styles.feedBackBox}>
             <div className={styles.feedBackHeader}>{`${
-              this.props.isAnswerHelpFull ? "Thank you" : "Was this helpful?"
+              showContactUsButton
+                ? "Is your issue still not resolved?"
+                : this.props.isAnswerHelpFull
+                ? "Thank you"
+                : "Was this helpful?"
             }`}</div>
             <div className={styles.feedBackContent}>
               {`${
@@ -91,26 +98,45 @@ export default class QuestionFeedback extends Component {
               <img src={thankYou} alt="Thank you" />
             </div>
           ) : (
-            <div className={styles.feedBackButton}>
-              <Button
-                backgroundColor="#fff"
-                height={28}
-                label="Yes"
-                width={90}
-                // color="#da1c5c"
-                borderRadius="20px"
-                textStyle={{ color: "#da1c5c", fontSize: 14 }}
-                onClick={() => this.props.feedBackHelpFull()}
-              />
-              <Button
-                backgroundColor="#fff"
-                height={28}
-                label="No"
-                width={90}
-                borderRadius="20px"
-                textStyle={{ color: "#da1c5c", fontSize: 14 }}
-                onClick={() => this.props.moreHelps()}
-              />
+            <div
+              className={
+                showContactUsButton
+                  ? styles.contactUsBtn
+                  : styles.feedBackButton
+              }
+            >
+              {showContactUsButton ? (
+                <Button
+                  backgroundColor="#fff"
+                  height={31}
+                  label="Contact Us"
+                  width={108}
+                  borderRadius={20}
+                  textStyle={{ color: "#da1c5c", fontSize: 14 }}
+                  onClick={() => this.props.moreHelps()}
+                />
+              ) : (
+                <React.Fragment>
+                  <Button
+                    backgroundColor="#fff"
+                    height={28}
+                    label="Yes"
+                    width={90}
+                    borderRadius={20}
+                    textStyle={{ color: "#da1c5c", fontSize: 14 }}
+                    onClick={() => this.props.feedBackHelpFull()}
+                  />
+                  <Button
+                    backgroundColor="#fff"
+                    height={28}
+                    label="No"
+                    width={90}
+                    borderRadius={20}
+                    textStyle={{ color: "#da1c5c", fontSize: 14 }}
+                    onClick={() => this.props.feedBackHelpFull()}
+                  />
+                </React.Fragment>
+              )}
             </div>
           )}
         </div>
@@ -124,3 +150,29 @@ export default class QuestionFeedback extends Component {
     );
   }
 }
+
+QuestionFeedback.propTypes = {
+  feedBackHelpFull: PropTypes.func,
+  moreHelps: PropTypes.func,
+  FAQquestion: PropTypes.bool,
+  isAnswerHelpFull: PropTypes.bool,
+  orderRelatedQuestion: PropTypes.bool,
+  otherQuestion: PropTypes.bool,
+  parentIssueType: PropTypes.string,
+  question: PropTypes.shape({
+    UItemplateCode: PropTypes.string,
+    call: PropTypes.string,
+    chat: PropTypes.string,
+    click2Call: PropTypes.string,
+    l0: PropTypes.string,
+    l1: PropTypes.string,
+    l2: PropTypes.string,
+    l3: PropTypes.string,
+    l4: PropTypes.string,
+    solution: PropTypes.string,
+    subIssueType: PropTypes.string,
+    tat: PropTypes.string,
+    ticketType: PropTypes.string,
+    webform: PropTypes.string
+  })
+};
