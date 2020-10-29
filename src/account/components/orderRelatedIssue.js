@@ -137,9 +137,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.setState({
         name:
           this.props.userDetails.firstName || this.props.userDetails.lastName
-            ? `${this.props.userDetails.firstName} ${
-                this.props.userDetails.lastName
-              }`
+            ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
             : "",
         mobile: this.props.userDetails.mobileNumber
           ? this.props.userDetails.mobileNumber
@@ -165,9 +163,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.setState({
         name:
           nextProps.userDetails.firstName || nextProps.userDetails.lastName
-            ? `${nextProps.userDetails.firstName} ${
-                nextProps.userDetails.lastName
-              }`
+            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
             : "",
         mobile: nextProps.userDetails.mobileNumber
           ? nextProps.userDetails.mobileNumber
@@ -750,23 +746,22 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState({
       timing: time.label,
       selectedDate: date,
-      shift: time.shift,
       selectedSlot: time
     });
   };
 
-  getEpochDateValue(slotTimeList, shift) {
+  getEpochDateValue() {
     let date = new Date(),
       start = null,
       end = null;
-    if (shift === "tomorrow") {
+    if (this.state.selectedSlot.shiftDay) {
       date.setDate(date.getDate() + 1);
     }
     start = Math.floor(
-      date.setHours(parseInt(slotTimeList[0].split(":")[0]), 0, 0) / 1000
+      date.setHours(parseInt(this.state.selectedSlot.from, 10), 0, 0) / 1000
     );
     end = Math.floor(
-      date.setHours(parseInt(slotTimeList[1].split(":")[0]), 0, 0) / 1000
+      date.setHours(parseInt(this.state.selectedSlot.to, 10), 0, 0) / 1000
     );
     return `${start}-${end}`;
   }
@@ -776,15 +771,11 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.displayToast("Please enter valid number");
       return false;
     }
-    const slotTimeList =
-      this.state.selectedSlot.value && this.state.selectedSlot.value.split("-");
     const callRequestObj = {
       Language: this.state.chooseLanguage ? this.state.chooseLanguage : "",
       MobileNo: this.state.mobile ? this.state.mobile : "",
       CallbackType: this.state.isScheduleACall ? "Later" : "Now",
-      PreferredSlot: this.state.isScheduleACall
-        ? this.getEpochDateValue(slotTimeList, this.state.shift)
-        : "",
+      PreferredSlot: this.state.isScheduleACall ? this.getEpochDateValue() : "",
       CustomerId: "",
       CustomerName: this.state.name,
       IssueType: this.state.otherQuestion

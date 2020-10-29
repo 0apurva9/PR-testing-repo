@@ -31,15 +31,14 @@ export default class Cliq2CallPopUp extends Component {
       businessStartTime = "",
       allowedRequestLimit = 0,
       slotDuration = 0,
-      availableSlots = {}
+      availableSlots = []
     } = this.props;
     let {
       WaitTime = 0,
       TotalRequestsToday = 0,
       TotalRequestsNextDay = 0,
       OpenRequest = ""
-    } =
-      (this.props && this.props.genesysCallConfigData) || {};
+    } = (this.props && this.props.genesysCallConfigData) || {};
 
     if (this.props.genesysDataLoader) {
       this.props.showSecondaryLoader();
@@ -137,16 +136,15 @@ export default class Cliq2CallPopUp extends Component {
           >
             <Icon image={cancelGrey} size={14} />
           </div>
-          {OpenRequest !== "now" &&
-            OpenRequest !== "" && (
-              <div className={styles.alredySlotBookBox}>
-                We have already scheduled a callback for <br />
-                {`${scheduleCallObj.shift} between`}{" "}
-                <span className={styles.fontBold}>
-                  {scheduleCallObj.timeSlot.split(",")[0]}
-                </span>
-              </div>
-            )}
+          {OpenRequest !== "now" && OpenRequest !== "" && (
+            <div className={styles.alredySlotBookBox}>
+              We have already scheduled a callback for <br />
+              {`${scheduleCallObj.shift} between`}{" "}
+              <span className={styles.fontBold}>
+                {scheduleCallObj.timeSlot.split(",")[0]}
+              </span>
+            </div>
+          )}
 
           {showCallMeBackBtn && (
             <React.Fragment>
@@ -184,7 +182,8 @@ export default class Cliq2CallPopUp extends Component {
                 Call request can be placed only for <br /> business hours (
                 {` ${businessStartTime &&
                   parseInt(
-                    businessStartTime.split(":")[0]
+                    businessStartTime.split(":")[0],
+                    10
                   )} AM - ${businessEndTime &&
                   businessEndTime.split(":")[0] - 12} PM`}
                 )
@@ -226,22 +225,65 @@ export function isCallBackBtnEnable(
   return isCallMeBackEnabled;
 }
 
+// Cliq2CallPopUp.propTypes = {
+//   callMeBackClick: PropTypes.func,
+//   scheduleACallClick: PropTypes.func,
+//   getGenesysCallConfigData: PropTypes.func,
+//   callBackNowFlag: PropTypes.bool,
+//   scheduleCallFlag: PropTypes.bool,
+//   businessStartTime: PropTypes.string,
+//   businessEndTime: PropTypes.string,
+//   allowedRequestLimit: PropTypes.number,
+//   genesysCallConfigData: PropTypes.shape({
+//     WaitTime: PropTypes.number,
+//     TotalRequestsToday: PropTypes.number,
+//     TotalRequestsNextDay: PropTypes.number,
+//     OpenRequest: PropTypes.string
+//   }),
+//   genesysDataLoader: PropTypes.bool,
+//   closeModal: PropTypes.func,
+//   showModal: PropTypes.func
+// };
+
+const spanFromShape = PropTypes.shape({
+  hour: PropTypes.string,
+  min: PropTypes.string,
+  sec: PropTypes.string,
+  text: PropTypes.string
+});
+
 Cliq2CallPopUp.propTypes = {
+  getGenesysCallConfigData: PropTypes.func,
   callMeBackClick: PropTypes.func,
   scheduleACallClick: PropTypes.func,
-  getGenesysCallConfigData: PropTypes.func,
   callBackNowFlag: PropTypes.bool,
   scheduleCallFlag: PropTypes.bool,
   businessStartTime: PropTypes.string,
   businessEndTime: PropTypes.string,
   allowedRequestLimit: PropTypes.number,
+  slotDuration: PropTypes.number,
+  availableSlots: PropTypes.arrayOf(
+    PropTypes.shape({
+      dayCount: PropTypes.number,
+      displayText: PropTypes.string,
+      daySlots: PropTypes.arrayOf(
+        PropTypes.shape({
+          displayText: PropTypes.string,
+          timeSlots: PropTypes.arrayOf(
+            PropTypes.shape({
+              label: PropTypes.string,
+              spanFrom: spanFromShape,
+              spanTo: spanFromShape
+            })
+          )
+        })
+      )
+    })
+  ),
   genesysCallConfigData: PropTypes.shape({
     WaitTime: PropTypes.number,
     TotalRequestsToday: PropTypes.number,
     TotalRequestsNextDay: PropTypes.number,
     OpenRequest: PropTypes.string
-  }),
-  genesysDataLoader: PropTypes.bool,
-  closeModal: PropTypes.func,
-  showModal: PropTypes.func
+  })
 };
