@@ -35,8 +35,8 @@ export default class OffersComponentMonetization extends React.Component {
       if (
         window._osAdImpression &&
         offersComponent.ads &&
-          offersComponent.ads[0] &&
-          offersComponent.ads[0].uclid
+        offersComponent.ads[0] &&
+        offersComponent.ads[0].uclid
       ) {
         window._osAdImpression({ uclid: offersComponent.ads[0].uclid });
       }

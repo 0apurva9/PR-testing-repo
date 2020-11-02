@@ -42,19 +42,22 @@ import {
 import {
   getPaymentModesSuccessMockData,
   noCostEmiTenureListSuccessMockData,
-  getBankDetailsforDCEmiSuccessMockData
+  getBankDetailsforDCEmiSuccessMockData,
+  bankConvFeeIsZero,
+  bankConvFeeNonZero
 } from "../__unit-test-mock-data__/dcEmi.mock";
+import NoCostEmiBankDetails from "../cart/components/NoCostEmiBankDetails";
 
 Enzyme.configure({
   adapter: new EnzymeAdapter(),
   disableLifecycleMethods: true
 });
 
-// const setup = (props = {}, state = null) => {
-//   const wrapper = shallow(<CliqCashDesktop {...props} />);
-//   if (state) wrapper.setState(state);
-//   return wrapper;
-// };
+const setup = (props = {}, state = null) => {
+  const wrapper = shallow(<NoCostEmiBankDetails {...props} />);
+  if (state) wrapper.setState(state);
+  return wrapper;
+};
 
 describe("testing DCEMI on Payment page", () => {
   describe("API testing", () => {
@@ -406,5 +409,22 @@ describe("testing DCEMI on Payment page", () => {
           });
       });
     });
+  });
+});
+
+/**
+ * Ticket:- PP-1764 (Convenience charge is displaying as 0 for NCE under DC EMI section if not configured)
+ */
+
+describe(`Testing 'Bank Convenience Fees' section in case of DCEMI `, () => {
+  test(`'Bank Convenience Fees' will not show if its value is 0 in the API`, () => {
+    const wrapper = setup(bankConvFeeIsZero);
+    const couponInputField = findByTestAttr(wrapper, "bank-conv-fee-test");
+    expect(couponInputField.length).toBe(0);
+  });
+  test(`'Bank Convenience Fees' will show if its value is non-zero in the API`, () => {
+    const wrapper = setup(bankConvFeeNonZero);
+    const couponInputField = findByTestAttr(wrapper, "bank-conv-fee-test");
+    expect(couponInputField.length).toBe(1);
   });
 });

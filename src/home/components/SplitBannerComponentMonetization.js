@@ -34,8 +34,8 @@ export default class SplitBannerComponentMonetization extends React.Component {
       if (
         window._osAdImpression &&
         bannerComponent.ads &&
-          bannerComponent.ads[0] &&
-          bannerComponent.ads[0].uclid
+        bannerComponent.ads[0] &&
+        bannerComponent.ads[0].uclid
       ) {
         window._osAdImpression({ uclid: bannerComponent.ads[0].uclid });
       }
