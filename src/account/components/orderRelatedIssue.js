@@ -702,7 +702,18 @@ export default class OrderRelatedIssue extends React.Component {
             this.props.showCliq2CallOption(buttonShowObject);
           }
           this.setState({
-            cliq2CallConfigData: cliq2CallData
+            cliq2CallConfigData: cliq2CallData,
+            name:
+              this.props.userDetails.firstName ||
+              this.props.userDetails.lastName
+                ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
+                : "",
+            mobile: this.props.userDetails.mobileNumber
+              ? this.props.userDetails.mobileNumber
+              : "",
+            copyMobileNumber: this.props.userDetails.mobileNumber
+              ? this.props.userDetails.mobileNumber
+              : ""
           });
         }
       }
