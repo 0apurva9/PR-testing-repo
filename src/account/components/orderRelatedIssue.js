@@ -647,6 +647,8 @@ export default class OrderRelatedIssue extends React.Component {
         callMeBackJourney: false,
         selectedSlot: ""
       });
+    } else if (this.state.isRecentOrderDetails) {
+      this.setState({ isRecentOrderDetails: false });
     }
   }
   navigateHomePage() {
@@ -818,9 +820,9 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   showRecentOrderHistory(ticketType) {
-    if (this.props.getRecentTicketHistoryDetails) {
-      this.props.getRecentTicketHistoryDetails(ticketType);
-    }
+    // if (this.props.getRecentTicketHistoryDetails) {
+    //   this.props.getRecentTicketHistoryDetails(ticketType);
+    // }
     this.setState({
       parentIssueType: ticketType,
       isRecentOrderHistory: true,
@@ -1157,6 +1159,9 @@ export default class OrderRelatedIssue extends React.Component {
                           filterTypeData={this.state.filterTypeData}
                           showRecentOrderDetails={this.showRecentOrderDetails}
                           isRecentOrderDetails={this.state.isRecentOrderDetails}
+                          navigatePreviousPage={() =>
+                            this.navigatePreviousPage()
+                          }
                         />
                       ) : (
                         <div className={styles.formHolder}>

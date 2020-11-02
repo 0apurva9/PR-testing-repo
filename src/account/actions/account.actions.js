@@ -5788,7 +5788,6 @@ export function getRecentTicketHistoryDetails(ticketType) {
         }/getTicketHistory?CurrentPage=${0}&access_token=${customerAccessToken}&pageSize=${10}&ticketYear=${2020}&ticketStatus=${true}`
       );
       const resultJson = await result.json();
-
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);

@@ -30,12 +30,13 @@ export default class RecentOrderDetails extends Component {
         <div className={Styles.statusDisplay}>
           <div className={Styles.fontLight}>
             {" "}
-            Status : <span className={Styles.fontBold}> TQ12062020123456 </span>
+            Status : <span className={Styles.fontBold}> In Process</span>
           </div>
           <div className={Styles.fontLight}>
             {" "}
             Estimated Resolution :{" "}
-            <span className={Styles.fontBold}> TQ12062020123456 </span>
+            <span className={Styles.fontBold}> 10 Jun, 2020 </span>{" "}
+            <span className={Styles.colorMaroon}>(Delayed)</span>
           </div>
           <div className={Styles.note}>
             Note: It seems that your issue is taking more than usual time to get
@@ -53,8 +54,9 @@ export default class RecentOrderDetails extends Component {
                 Customer :{" "}
                 <span className={Styles.fontLight}>
                   {
-                    this.props.orderDataList.orderData[0].products[0]
-                      .statusDisplay
+                    // this.props.orderDataList.orderData[0].products[0]
+                    //   .statusDisplay
+                    "09 Jun, 12:30"
                   }
                 </span>
               </div>

@@ -122,15 +122,12 @@
     border-radius: 50%;
     display: inline-block;
     margin-right: 6px;
-background: #338715;
+    background: #338715;
 }
 .fontBold{
     font-size: 14px;
     color: #4a4a4a;
     font-family: semibold;
-}
-.orderDate{
-
 }
 
 .orderInfo{
@@ -168,4 +165,19 @@ margin-top: 23px;
 .customerCetails{
 display: flex;
 margin-top: 12px;
+}
+
+.previousPageBtn{
+    font-size: 14px;
+    font-family: semibold;
+    color: #da1c5c;
+    cursor: pointer;
+}
+.colorGreen{
+    color: #338715;
+    font-family: semibold;
+}
+.colorMaroon{
+    color: #f34c14;
+    font-family: semibold;
 }

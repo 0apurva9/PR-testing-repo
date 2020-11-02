@@ -147,25 +147,29 @@ const orderDataList = {
 
 export default class RecentOrderHistory extends Component {
   render() {
-    console.log(
-      "orderDataList================",
-      orderDataList.orderData[0].products[0].imageURL
-    );
-    orderDataList.orderData.map(data => {
-      console.log("orderDataList", data);
-    });
     return (
       <div className={Styles.base}>
         <div className={Styles.whiteCard}>
           <div className={Styles.headerBox}>
             <div className={Styles.header}>Recent tickets</div>
-            <div
-              className={Styles.filter}
-              onClick={() => this.props.handleFilterClick()}
-            >
-              {this.props.filterTypeData}
-              <Icon image={downArrow} size={11} />
-            </div>
+
+            {this.props.isRecentOrderDetails ? (
+              <div
+                className={Styles.previousPageBtn}
+                onClick={() => this.props.navigatePreviousPage()}
+              >
+                Go to Previous Page
+              </div>
+            ) : (
+              <div
+                className={Styles.filter}
+                onClick={() => this.props.handleFilterClick()}
+              >
+                {this.props.filterTypeData}
+                <Icon image={downArrow} size={11} />
+              </div>
+            )}
+
             {this.props.filterCard && (
               <div className={Styles.filterCard}>
                 <div
@@ -233,6 +237,7 @@ export default class RecentOrderHistory extends Component {
                   });
                 }
               })}
+
             {!orderDataList && !this.props.isRecentOrderDetails && (
               <div className={Styles.noRecentOrder}>
                 <div className={Styles.heading}> No recent queries </div>
