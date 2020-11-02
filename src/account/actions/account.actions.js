@@ -4751,6 +4751,10 @@ export function uploadUserFile(issueType, title, file) {
       );
 
       const resultJson = await result.json();
+
+      if (resultJson.status.toLowerCase() == FAILURE.toLowerCase()) {
+        dispatch(displayToast(resultJson.error));
+      }
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
