@@ -127,8 +127,8 @@ export default class ProductModule extends React.Component {
             electronicView
               ? styles.electronicsBase
               : this.props.autoWidget
-                ? styles.whiteBase
-                : styles.base
+              ? styles.whiteBase
+              : styles.base
           }
           onClick={this.onClick}
           id={`ProductModule-${this.props.productId}`}

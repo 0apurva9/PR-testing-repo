@@ -185,9 +185,7 @@ export const oridinalNumberDateFormat = date => {
   } else {
     oridinalNumber = "th";
   }
-  return `${dateSplit[0]}${oridinalNumber} ${dateSplit[1]} ${dateSplit[2]} ${
-    dateSplit[3]
-  }`;
+  return `${dateSplit[0]}${oridinalNumber} ${dateSplit[1]} ${dateSplit[2]} ${dateSplit[3]}`;
 };
 
 //Number with thousand seperated value.

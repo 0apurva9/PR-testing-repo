@@ -38,8 +38,7 @@ export default class Cliq2CallPopUp extends Component {
       TotalRequestsToday = 0,
       TotalRequestsNextDay = 0,
       OpenRequest = ""
-    } =
-      (this.props && this.props.genesysCallConfigData) || {};
+    } = (this.props && this.props.genesysCallConfigData) || {};
 
     if (this.props.genesysDataLoader) {
       this.props.showSecondaryLoader();
@@ -137,16 +136,15 @@ export default class Cliq2CallPopUp extends Component {
           >
             <Icon image={cancelGrey} size={14} />
           </div>
-          {OpenRequest !== "now" &&
-            OpenRequest !== "" && (
-              <div className={styles.alredySlotBookBox}>
-                We have already scheduled a callback for <br />
-                {`${scheduleCallObj.shift} between`}{" "}
-                <span className={styles.fontBold}>
-                  {scheduleCallObj.timeSlot.split(",")[0]}
-                </span>
-              </div>
-            )}
+          {OpenRequest !== "now" && OpenRequest !== "" && (
+            <div className={styles.alredySlotBookBox}>
+              We have already scheduled a callback for <br />
+              {`${scheduleCallObj.shift} between`}{" "}
+              <span className={styles.fontBold}>
+                {scheduleCallObj.timeSlot.split(",")[0]}
+              </span>
+            </div>
+          )}
 
           {showCallMeBackBtn && (
             <React.Fragment>

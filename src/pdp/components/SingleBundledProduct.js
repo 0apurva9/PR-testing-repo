@@ -170,9 +170,9 @@ export default class SingleBundledProduct extends React.Component {
                     >
                       {this.props.productData.ratingCount !== 0 &&
                         this.props.productData.ratingCount && (
-                          <div className={styles.totalNoOfReviews}>{`(${
-                            this.props.productData.ratingCount
-                          })`}</div>
+                          <div
+                            className={styles.totalNoOfReviews}
+                          >{`(${this.props.productData.ratingCount})`}</div>
                         )}
                     </StarRating>
                   )
@@ -201,8 +201,8 @@ export default class SingleBundledProduct extends React.Component {
                     ? styles.productMop
                     : styles.productMopGrey
                   : checked
-                    ? styles.productMop
-                    : styles.productMopGrey
+                  ? styles.productMop
+                  : styles.productMopGrey
               }
             >
               {this.props.productData.winningSellerPrice &&

@@ -27,9 +27,9 @@ export default class ProductInfo extends React.Component {
                     isPlp={this.props.isPlp}
                   >
                     {this.props.ratingCount && (
-                      <div className={styles.totalNoOfReviews}>{`(${
-                        this.props.ratingCount
-                      })`}</div>
+                      <div
+                        className={styles.totalNoOfReviews}
+                      >{`(${this.props.ratingCount})`}</div>
                     )}
                   </StarRating>
                 )

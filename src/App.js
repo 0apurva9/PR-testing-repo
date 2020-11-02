@@ -440,7 +440,7 @@ class App extends Component {
       // Else remove cartDetails from Local storage
       localStorage.removeItem(CART_BAG_DETAILS);
     }
-    
+
     // if (
     //   cartCode &&
     //   (!this.props.location.pathname.includes("cart") &&
