@@ -212,11 +212,13 @@ export default class ProductModule extends React.Component {
                   : styles.Listcontent
               }
             >
-              <ProductDescription
-                {...this.props}
-                electronicView={electronicView}
-                autoWidget={this.props.autoWidget}
-              />
+              {this.props.price && (
+                <ProductDescription
+                  {...this.props}
+                  electronicView={electronicView}
+                  autoWidget={this.props.autoWidget}
+                />
+              )}
               {this.props &&
                 !this.props.widgetName &&
                 !this.props.autoWidget &&

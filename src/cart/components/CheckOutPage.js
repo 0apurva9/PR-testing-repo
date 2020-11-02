@@ -155,6 +155,12 @@ import {
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import WhatsappUpdates from "./WhatsappUpdates";
 import PaymentConfirmationPage from "./PaymentConfirmationPage";
+import isEqual from "lodash.isequal";
+import {
+  setTracker,
+  VIEW_CHECKOUT,
+  SALE_COMPLETED
+} from "../../lib/onlinesalesUtils";
 import { Redirect } from "react-router-dom";
 const SEE_ALL_BANK_OFFERS = "See All Bank Offers";
 const PAYMENT_MODE = "EMI";
@@ -426,6 +432,14 @@ class CheckOutPage extends React.Component {
   componentDidUpdate(prevProps) {
     const parsedQueryString = queryString.parse(this.props.location.search);
     const value = parsedQueryString.status;
+    const isCartDetailsEqual = isEqual(
+      prevProps.cart.cartDetailsCNC,
+      this.props.cart.cartDetailsCNC
+    );
+    if (!isCartDetailsEqual) {
+      // Track Cart details on Checkout
+      setTracker(VIEW_CHECKOUT, this.props.cart.cartDetailsCNC);
+    }
 
     if (
       this.props.cart.paymentModes &&
@@ -454,6 +468,16 @@ class CheckOutPage extends React.Component {
       this.props.cart.cliqCashJusPayDetails
     ) {
       this.props.setHeaderText(THANK_YOU);
+      const isOrderDetailsEqual = isEqual(
+        prevProps.cart.orderConfirmationDetails,
+        this.props.cart.orderConfirmationDetails
+      );
+      if (this.props.completedOrderDetails || !isOrderDetailsEqual) {
+        let confirmedOrderDetails = this.props.completedOrderDetails
+          ? this.props.completedOrderDetails
+          : this.props.cart.orderConfirmationDetails;
+        setTracker(SALE_COMPLETED, confirmedOrderDetails);
+      }
     } else {
       this.props.setHeaderText(CHECKOUT);
     }

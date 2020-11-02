@@ -72,7 +72,7 @@ export default class DesktopCheckout extends React.Component {
                     dangerouslySetInnerHTML={{
                       __html: this.props.shippingPromoMessage
                     }}
-                  ></div>
+                  />
                 </div>
               </div>
             )}

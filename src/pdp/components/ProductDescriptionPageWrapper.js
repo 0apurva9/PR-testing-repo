@@ -36,6 +36,7 @@ import {
 // import PdpApparel from "./PdpApparel";
 // import PdpHome from "./PdpHome";
 import PdpDesktop from "./PdpDesktop";
+import PdpBeautyDesktop from "./PdpBeautyDesktop/PdpBeautyDesktop";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import queryString, { parse } from "query-string";
 import { isBrowser } from "browser-or-node";
@@ -416,7 +417,22 @@ export default class ProductDescriptionPageWrapper extends React.Component {
             </MobileOnly>
           );
         } else {
-          return <PdpDesktop {...this.props} />;
+          const categoryHierarchy =
+            this.props &&
+            this.props.productDetails &&
+            this.props.productDetails.categoryHierarchy;
+          let beautyCategory = [];
+          beautyCategory =
+            categoryHierarchy &&
+            categoryHierarchy.length > 0 &&
+            categoryHierarchy.filter(
+              hierarchy => hierarchy.category_id.toLowerCase() === "msh25"
+            );
+          if (beautyCategory && beautyCategory.length > 0) {
+            return <PdpBeautyDesktop {...this.props} />;
+          } else {
+            return <PdpDesktop {...this.props} />;
+          }
         }
       } else {
         return (

@@ -1,0 +1,102 @@
+/*** StoryAndLargeStory Component Ends****/
+.details-sections {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.perfume-note-section:last-child:before {
+  content: "";
+  width: 1px;
+  height: 70%;
+  position: absolute;
+  top: 15%;
+  left: 0;
+  background-color: rgb(213, 213, 213);
+}
+
+.perfume-guide-sec {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  width: 50%;
+  position: relative;
+}
+
+.perfume-guide-blocks {
+  width: 130px;
+  margin: 0 30px 25px 0;
+}
+
+.perfume-guide-img {
+  width: 80px;
+  height: 80px;
+  display: block;
+  margin: 0 auto;
+  background: transparent center center/67% auto no-repeat;
+}
+
+.perfume-guide-heading {
+  width: 110px;
+  display: block;
+  margin: 0 auto;
+  font-family: "Rubik", sans-serif;
+  color: rgb(74, 74, 74);
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 17px;
+  text-align: center;
+}
+
+.perfume-note-section {
+  width: 50%;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: center;
+  align-items: stretch;
+  position: relative;
+}
+
+.perfume-note-block {
+  background-color: rgb(236, 236, 236);
+  border-radius: 66px;
+  width: 130px;
+  max-height: 700px;
+  margin-left: 35px;
+  padding: 10px;
+  display: table-cell;
+}
+
+.perfume-note-img {
+  border-radius: 50%;
+  width: 110px;
+  height: 110px;
+  background: transparent center center/ 100% auto no-repeat;
+  margin: 0 0 10px;
+}
+
+.perfume-note-head {
+  font-family: "Rubik", sans-serif;
+  color: rgb(33, 33, 33);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  width: 100%;
+  margin: 0 0 10px;
+  text-align: center;
+}
+
+.perfume-note-desc {
+  font-family: "Rubik", sans-serif;
+  color: rgb(33, 33, 33);
+  padding: 0 13px;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+}
+/*** StoryAndLargeStory Component Ends****/

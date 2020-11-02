@@ -43,14 +43,6 @@ if (
   API_URL_ROOT = "https://uat.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
     "https://uat.tataunistore.com/marketplacewebservices";
-} else if (process.env.REACT_APP_STAGE === "qa2") {
-  API_URL_ROOT = "https://qa2.tataunistore.com/marketplacewebservices";
-  MIDDLEWARE_API_URL_ROOT =
-    "https://qa2.tataunistore.com/marketplacewebservices";
-} else if (process.env.REACT_APP_STAGE === "qa4") {
-  API_URL_ROOT = "https://qa4.tataunistore.com/marketplacewebservices";
-  MIDDLEWARE_API_URL_ROOT =
-    "https://qa4.tataunistore.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "uat6tcs") {
   API_URL_ROOT = "https://uat6-tcs.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
@@ -130,46 +122,46 @@ if (
   API_URL_ROOT = "https://awspreprod3.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
     "https://awspreprod3.tataunistore.com/marketplacewebservices";
-} else if (process.env.REACT_APP_STAGE === "awsdev1") {
-  API_URL_ROOT = "https://awsdev1.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "dev1") {
+  API_URL_ROOT = "https://dev1.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
-    "https://awsdev1.tataunistore.com/marketplacewebservices";
-} else if (process.env.REACT_APP_STAGE === "awsdev2") {
-  API_URL_ROOT = "https://awsdev2.tataunistore.com/marketplacewebservices";
+    "https://dev1.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "dev2") {
+  API_URL_ROOT = "https://dev2.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
-    "https://awsdev2.tataunistore.com/marketplacewebservices";
-} else if (process.env.REACT_APP_STAGE === "awsqa1") {
-  API_URL_ROOT = "https://awsqa1.tataunistore.com/marketplacewebservices";
+    "https://dev2.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "qa1") {
+  API_URL_ROOT = "https://qa1.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
-    "https://awsqa1.tataunistore.com/marketplacewebservices";
-} else if (process.env.REACT_APP_STAGE === "awsqa2") {
-  API_URL_ROOT = "https://awsqa2.tataunistore.com/marketplacewebservices";
+    "https://qa1.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "qa2") {
+  API_URL_ROOT = "https://qa2.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
-    "https://awsqa2.tataunistore.com/marketplacewebservices";
-} else if (process.env.REACT_APP_STAGE === "awsqa3") {
-  API_URL_ROOT = "https://awsqa3.tataunistore.com/marketplacewebservices";
+    "https://qa2.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "qa3") {
+  API_URL_ROOT = "https://qa3.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
-    "https://awsqa3.tataunistore.com/marketplacewebservices";
-} else if (process.env.REACT_APP_STAGE === "awsqa4") {
-  API_URL_ROOT = "https://awsqa4.tataunistore.com/marketplacewebservices";
+    "https://qa3.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "qa4") {
+  API_URL_ROOT = "https://qa4.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
-    "https://awsqa4.tataunistore.com/marketplacewebservices";
-} else if (process.env.REACT_APP_STAGE === "awsqa5") {
-  API_URL_ROOT = "https://awsqa5.tataunistore.com/marketplacewebservices";
+    "https://qa4.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "qa5") {
+  API_URL_ROOT = "https://qa5.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
-    "https://awsqa5.tataunistore.com/marketplacewebservices";
-} else if (process.env.REACT_APP_STAGE === "awsqa6") {
-  API_URL_ROOT = "https://awsqa6.tataunistore.com/marketplacewebservices";
+    "https://qa5.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "qa6") {
+  API_URL_ROOT = "https://qa6.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
-    "https://awsqa6.tataunistore.com/marketplacewebservices";
-} else if (process.env.REACT_APP_STAGE === "awspt1") {
-  API_URL_ROOT = "https://awspt1.tataunistore.com/marketplacewebservices";
+    "https://qa6.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "pt1") {
+  API_URL_ROOT = "https://pt1.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
-    "https://awspt1.tataunistore.com/marketplacewebservices";
-} else if (process.env.REACT_APP_STAGE === "awspt2") {
-  API_URL_ROOT = "https://awspt2.tataunistore.com/marketplacewebservices";
+    "https://pt1.tataunistore.com/marketplacewebservices";
+} else if (process.env.REACT_APP_STAGE === "pt2") {
+  API_URL_ROOT = "https://pt2.tataunistore.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT =
-    "https://awspt2.tataunistore.com/marketplacewebservices";
+    "https://pt2.tataunistore.com/marketplacewebservices";
 } else if (process.env.REACT_APP_STAGE === "mock") {
   API_URL_ROOT = "https://mock.tatacliq.com/marketplacewebservices";
   MIDDLEWARE_API_URL_ROOT = "https://mock.tatacliq.com/marketplacewebservices";
@@ -208,7 +200,7 @@ if (process.env.REACT_APP_STAGE === "tmpprod") {
 } else if (process.env.REACT_APP_STAGE === "e2e1") {
   URL_ROOT = "https://e2e1.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "preprod3") {
-  URL_ROOT = "https://qa6.tataunistore.com";
+  URL_ROOT = "https://preprod3.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "qa8") {
   URL_ROOT = "https://qa8.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "qa9") {
@@ -231,26 +223,26 @@ if (process.env.REACT_APP_STAGE === "tmpprod") {
   URL_ROOT = "https://awspreprod2.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "awspreprod3") {
   URL_ROOT = "https://awspreprod3.tataunistore.com";
-} else if (process.env.REACT_APP_STAGE === "awsdev1") {
-  URL_ROOT = "https://awsdev1.tataunistore.com";
-} else if (process.env.REACT_APP_STAGE === "awsdev2") {
-  URL_ROOT = "https://awsdev2.tataunistore.com";
-} else if (process.env.REACT_APP_STAGE === "awsqa1") {
-  URL_ROOT = "https://awsqa1.tataunistore.com";
-} else if (process.env.REACT_APP_STAGE === "awsqa2") {
-  URL_ROOT = "https://awsqa2.tataunistore.com";
-} else if (process.env.REACT_APP_STAGE === "awsqa3") {
-  URL_ROOT = "https://awsqa3.tataunistore.com";
-} else if (process.env.REACT_APP_STAGE === "awsqa4") {
-  URL_ROOT = "https://awsqa4.tataunistore.com";
-} else if (process.env.REACT_APP_STAGE === "awsqa5") {
-  URL_ROOT = "https://awsqa5.tataunistore.com";
-} else if (process.env.REACT_APP_STAGE === "awsqa6") {
-  URL_ROOT = "https://awsqa6.tataunistore.com";
-} else if (process.env.REACT_APP_STAGE === "awspt1") {
-  URL_ROOT = "https://awspt1.tataunistore.com";
-} else if (process.env.REACT_APP_STAGE === "awspt2") {
-  URL_ROOT = "https://awspt2.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "dev1") {
+  URL_ROOT = "https://dev1.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "dev2") {
+  URL_ROOT = "https://dev2.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "qa1") {
+  URL_ROOT = "https://qa1.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "qa2") {
+  URL_ROOT = "https://qa2.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "qa3") {
+  URL_ROOT = "https://qa3.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "qa4") {
+  URL_ROOT = "https://qa4.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "qa5") {
+  URL_ROOT = "https://qa5.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "qa6") {
+  URL_ROOT = "https://qa6.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "pt1") {
+  URL_ROOT = "https://pt1.tataunistore.com";
+} else if (process.env.REACT_APP_STAGE === "pt2") {
+  URL_ROOT = "https://pt2.tataunistore.com";
 } else if (process.env.REACT_APP_STAGE === "mock") {
   URL_ROOT = "https://mock.tatacliq.com";
 } else if (process.env.REACT_APP_STAGE === "qa4") {
@@ -269,6 +261,7 @@ const ACCESS_TOKEN_EXPIRED_MESSAGE = "Access token expired";
 const ACCESS_TOKEN_INVALID_MESSAGE = "Invalid access token";
 const CLIENT_ID = "gauravj@dewsolutions.in";
 const CART_NOT_FOUND_ERROR = "CartError";
+const NO_DATA = "No data found.";
 
 export const API_MSD_URL_ROOT = "https://ap-southeast-1-api.madstreetden.com";
 
@@ -623,6 +616,11 @@ async function replaceOldGlobalTokenCookie(url, newGlobalTokenCookie) {
       ACEESS_TOKEN_REGEX,
       `$1${newGlobalTokenCookie.access_token}$2`
     );
+  } else if (oldGlobalCookie && !oldGlobalCookie.access_token) {
+    return url.replace(
+      ACEESS_TOKEN_REGEX,
+      `$1${newGlobalTokenCookie.access_token}$2`
+    );
   } else {
     return url.replace(
       oldGlobalCookie.access_token,
@@ -642,6 +640,11 @@ async function replaceOldCustomerCookie(url, newCustomerCookie) {
     !url.includes(newCustomerCookie.access_token) &&
     oldCustomerCookie.access_token === newCustomerCookie.access_token
   ) {
+    return url.replace(
+      ACEESS_TOKEN_REGEX,
+      `$1${newCustomerCookie.access_token}$2`
+    );
+  } else if (oldCustomerCookie && !oldCustomerCookie.access_token) {
     return url.replace(
       ACEESS_TOKEN_REGEX,
       `$1${newCustomerCookie.access_token}$2`
@@ -940,4 +943,39 @@ export async function getDataWithMicroservicesWithHeaders(path, headers) {
     method: "GET",
     headers: headers
   });
+}
+
+// OnlineSales fetch
+export async function getOnlineSalesAds(componentName, pageType) {
+  const objWindow = window;
+  if (objWindow._osFetchBrandAds) {
+    return await objWindow
+      ._osFetchBrandAds({
+        au: componentName,
+        pt: pageType
+      })
+      .then(response => {
+        if (response) {
+          let ifNoData = false;
+          if (!response.ads) {
+            ifNoData = true;
+            console.error(`Error: ${NO_DATA}`);
+          } else if (response.ads.length <= 0) {
+            ifNoData = true;
+            console.error(`Error: ${NO_DATA}`);
+          } else if (response.ads.length > 0 && !response.ads[0]) {
+            ifNoData = true;
+            console.error(`Error: ${NO_DATA}`);
+          }
+          if (ifNoData) {
+            return null;
+          }
+        }
+        return response;
+      })
+      .catch(err => {
+        console.error(err);
+        return null;
+      });
+  }
 }
