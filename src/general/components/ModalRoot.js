@@ -398,6 +398,13 @@ const CustomerCallQuerySuccess = Loadable({
   }
 });
 
+const AppliancesExchangeModal = Loadable({
+  loader: () => import("../../pdp/components/AppliancesExchangeModal"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 export default class ModalRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -1289,6 +1296,14 @@ export default class ModalRoot extends React.Component {
           {...this.props.ownProps}
           closeModal={() => this.handleClose()}
           history={this.props.history}
+        />
+      ),
+      AppliancesExchangeModal: (
+        <AppliancesExchangeModal
+          {...this.props.ownProps}
+          history={this.props.history}
+          closeAppliancesExchangeModal={() => this.handleClose()}
+          appliancesExchangeDetails={this.props.appliancesExchangeDetails}
         />
       )
     };
