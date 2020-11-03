@@ -448,6 +448,7 @@ export default class OrderRelatedIssue extends React.Component {
               : JSON.parse(response.data.items[1].cmsTextComponent.content);
             this.setState({
               isOrderDatails: true,
+              orderAllList: false,
               orderList: false,
               orderRelatedQuestion: false,
               otherQuestion: false,
