@@ -21,9 +21,9 @@ export default class QuestionFeedback extends Component {
       ? question.answer
       : question.solution;
     if (question.solution && question.solution.indexOf("<a") !== -1) {
-      let startIndex = newSolution.indexOf("<a"),
+      const startIndex = newSolution.indexOf("<a"),
         endIndex = newSolution.indexOf("</a>");
-      let link = newSolution.slice(startIndex, endIndex + 4);
+      const link = newSolution.slice(startIndex, endIndex + 4);
       let div = document.createElement("div");
       div.innerHTML = link.trim();
 
