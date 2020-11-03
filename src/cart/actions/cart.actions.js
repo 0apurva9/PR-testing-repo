@@ -1120,8 +1120,8 @@ export function addUserAddress(userAddress, fromAccount) {
     } else {
       addressObject.append("line3", "");
     }
-    addressObject.append("state", userAddress.state);
-    addressObject.append("town", userAddress.town);
+    addressObject.append("state", userAddress.state.trim());
+    addressObject.append("town", userAddress.town.trim());
     addressObject.append("defaultFlag", userAddress.defaultFlag);
     if (userAddress.landmark) {
       addressObject.append("landmark", userAddress.landmark);
@@ -1143,6 +1143,9 @@ export function addUserAddress(userAddress, fromAccount) {
 
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
+      }
+      if (resultJson.status && resultJson.status.toLowerCase() === SUCCESS) {
+        dispatch(displayToast("New address has been added"));
       }
       return dispatch(addUserAddressSuccess());
     } catch (e) {
