@@ -194,18 +194,8 @@ export default class OrderRelatedIssue extends React.Component {
         "Care_Other_MoreHelp"
       );
     }
-    const { FAQquestion, question } = this.state;
-    if (
-      FAQquestion ||
-      (question.webform === "No" &&
-        question.call === "No" &&
-        question.chat === "No" &&
-        question.click2Call === "No")
-    ) {
-      this.setState({ isAnswerHelpFull: true });
-    } else {
-      this.setState({ isIssueOptions: true, showFeedBack: false });
-    }
+
+    this.setState({ isIssueOptions: true, showFeedBack: false });
   }
 
   async getCustomerQueriesFields(issue, isSelecteRadio = false) {
