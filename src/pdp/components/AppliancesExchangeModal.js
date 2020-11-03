@@ -49,11 +49,17 @@ export default class AppliancesExchangeModal extends React.Component {
     } else {
       return (
         <AppliancesExchangeSelection
+          openHowAppliancesExchangeWorks={data =>
+            this.openHowAppliancesExchangeWorks(data)
+          }
           closeAppliancesExchangeModal={() =>
             this.closeAppliancesExchangeModal()
           }
           appliancesExchangeDetails={this.props.appliancesExchangeDetails}
           ussid={this.props.ussid}
+          updateAppliancesExchangeDetails={exchangeData =>
+            this.props.updateAppliancesExchangeDetails(exchangeData)
+          }
         />
       );
     }

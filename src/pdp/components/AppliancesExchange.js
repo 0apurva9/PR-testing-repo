@@ -39,6 +39,20 @@ export default class AppliancesExchange extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.updatedAppliancesExchangeDetails &&
+      this.props.updatedAppliancesExchangeDetails !==
+        prevProps.updatedAppliancesExchangeDetails
+    ) {
+      this.setState({
+        exchangeData: this.props.updatedAppliancesExchangeDetails,
+        removeExchange: true
+      });
+      this.props.displayToast("Exchange has been added.");
+    }
+  }
+
   openAppliancesExchangeModal(data) {
     this.props.openAppliancesExchangeModal(data);
   }
@@ -121,28 +135,15 @@ export default class AppliancesExchange extends React.Component {
                 </span>
                 cashback on your{" "}
                 <span className={styles.fontRegular}>
-                  {this.trimProductName(this.state.exchangeData.brandName)} AC{" "}
+                  {this.trimProductName(this.state.exchangeData.brandName)}-{
+                    this.state.exchangeData.modelType
+                  }{" "}
+                  AC{" "}
                 </span>
-                {this.props.exchangeDisabled ? (
-                  <span className={styles.withDisabledExchangeLink}>
-                    with Exchange
-                  </span>
-                ) : (
-                  <span
-                    className={styles.withExchangeLink}
-                    onClick={() =>
-                      this.openAppliancesExchangeModal({
-                        ussid: this.props.ussid
-                      })
-                    }
-                  >
-                    with Exchange
-                  </span>
-                )}
               </div>
             )}
             <div
-              className={styles.exchangeDetails}
+              className={styles.appliancesExchangeDetails}
               onClick={() =>
                 this.openAppliancesExchangeModal({
                   showAppliancesExchangeWorks: true
@@ -151,6 +152,26 @@ export default class AppliancesExchange extends React.Component {
             >
               How Exchange works?
             </div>
+            {this.state.exchangeData && (
+              <React.Fragment>
+                {this.props.exchangeDisabled ? (
+                  <span className={styles.changeDeviceLinkDisabled}>
+                    Change Device
+                  </span>
+                ) : (
+                  <span
+                    className={styles.changeDeviceLink}
+                    onClick={() =>
+                      this.openAppliancesExchangeModal({
+                        ussid: this.props.ussid
+                      })
+                    }
+                  >
+                    Change Device
+                  </span>
+                )}
+              </React.Fragment>
+            )}
           </React.Fragment>
         </div>
         {this.state.exchangeData && (

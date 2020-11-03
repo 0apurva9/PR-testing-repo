@@ -1304,6 +1304,9 @@ export default class ModalRoot extends React.Component {
           history={this.props.history}
           closeAppliancesExchangeModal={() => this.handleClose()}
           appliancesExchangeDetails={this.props.appliancesExchangeDetails}
+          updateAppliancesExchangeDetails={exchangeData =>
+            this.props.updateAppliancesExchangeDetails(exchangeData)
+          }
         />
       )
     };

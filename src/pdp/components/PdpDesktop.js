@@ -134,7 +134,8 @@ export default class PdpApparel extends React.Component {
       selected: false,
       productCategory: "",
       eyeWearCheck: "",
-      bundledProductSuggestionDetails: null
+      bundledProductSuggestionDetails: null,
+      updatedAppliancesExchangeDetails: null
     };
     this.reviewListRef = React.createRef();
     this.ScrollIntoView = this.ScrollIntoView.bind(this);
@@ -365,6 +366,16 @@ export default class PdpApparel extends React.Component {
           pincode
         );
       }
+    }
+
+    if (
+      this.props.updatedAppliancesExchangeDetails !==
+      prevProps.updatedAppliancesExchangeDetails
+    ) {
+      this.setState({
+        updatedAppliancesExchangeDetails: this.props
+          .updatedAppliancesExchangeDetails
+      });
     }
   }
   selectProduct() {
@@ -1451,6 +1462,9 @@ export default class PdpApparel extends React.Component {
                         }
                         ussid={this.props.productDetails.winningUssID}
                         displayToast={this.props.displayToast}
+                        updatedAppliancesExchangeDetails={
+                          this.state.updatedAppliancesExchangeDetails
+                        }
                       />
                     )}
                 </div>

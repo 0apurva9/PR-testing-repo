@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <path id="tadsxqzlea" d="M7 0c2.761 0 5 2.236 5 4.994 0 1.635-1.319 4.45-3.956 8.445-.094.14-.215.262-.356.355-.535.352-1.242.24-1.644-.238l-.088-.117-.277-.424C3.226 9.245 2 6.571 2 4.994 2 2.236 4.239 0 7 0zm0 2.497c-1.38 0-2.5 1.118-2.5 2.497C4.5 6.373 5.62 7.49 7 7.49s2.5-1.118 2.5-2.497c0-1.38-1.12-2.497-2.5-2.497z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g>
+                    <path fill="#F7F5F6" d="M0 0H24V24H0z" transform="translate(-906 -552) translate(902 394) translate(4 158)"/>
+                    <g transform="translate(-906 -552) translate(902 394) translate(4 158) translate(5 4)">
+                        <path stroke="#DA1C5C" stroke-linecap="round" stroke-linejoin="round" stroke-width=".9" d="M3.035 12.352C1.202 12.712 0 13.316 0 14c0 1.105 3.134 2 7 2s7-.895 7-2c0-.675-1.171-1.272-2.964-1.634"/>
+                        <use stroke="#5C5456" stroke-width=".9" xlink:href="#tadsxqzlea"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

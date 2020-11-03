@@ -6,6 +6,8 @@ import searchIconRed from "../../pdp/components/img/searchIconRed.svg";
 import closeSearch from "../../general/components/img/cancelGrey.svg";
 import backArrowIcon from "../../pdp/components/img/arrowBack.svg";
 import PropTypes from "prop-types";
+import AppliancesExchangeDetails from "./AppliancesExchangeDetails";
+import ExchangeTnCModal from "./ExchangeTnCModal";
 
 export default class AppliancesExchangeSelection extends React.Component {
   constructor(props) {
@@ -16,7 +18,9 @@ export default class AppliancesExchangeSelection extends React.Component {
       selectedBrandData: null,
       selectedCapacityData: null,
       selectedConditionData: null,
-      showSearchBox: false
+      showSearchBox: false,
+      exchangeData: null,
+      showTnCModal: false
     };
   }
 
@@ -64,8 +68,10 @@ export default class AppliancesExchangeSelection extends React.Component {
     this.setState({ selectedBrandData: brandDetails });
   }
 
-  selectCapacity(capacityDetails) {
-    this.setState({ selectedCapacityData: capacityDetails });
+  selectCapacity(capacityDetails, modelType) {
+    let info = capacityDetails;
+    info.modelType = modelType;
+    this.setState({ selectedCapacityData: info });
   }
 
   selectCondition(conditionDetails) {
@@ -77,7 +83,8 @@ export default class AppliancesExchangeSelection extends React.Component {
     data.exchangeAmount = conditionDetails.exchangeAmount;
     data.totalExchangeAmount = conditionDetails.totalExchangeAmount;
     data.ussid = this.props.ussid;
-    localStorage.setItem("acPdpExchangeDetails", JSON.stringify(data));
+    data.modelType = this.state.selectedCapacityData.modelType;
+    this.setState({ exchangeData: data });
   }
 
   openSearchInputBox() {
@@ -96,6 +103,25 @@ export default class AppliancesExchangeSelection extends React.Component {
     if (section === "three") {
       this.setState({ selectedCapacityData: null });
     }
+    if (section === "all") {
+      this.setState({
+        selectedBrandData: null,
+        selectedCapacityData: null,
+        selectedConditionData: null
+      });
+    }
+  }
+
+  openHowAppliancesExchangeWorks(data) {
+    this.props.openHowAppliancesExchangeWorks(data);
+  }
+
+  openTnCModal() {
+    this.setState({ showTnCModal: true });
+  }
+
+  closeTnCModal() {
+    this.setState({ showTnCModal: false });
   }
 
   render() {
@@ -115,32 +141,44 @@ export default class AppliancesExchangeSelection extends React.Component {
           className={styles.closeIcon}
           onClick={() => this.closeAppliancesExchangeModal()}
         />
-        <div className={classForProgress} />
+        {!this.state.selectedConditionData && (
+          <div className={classForProgress} />
+        )}
+        {/* Modal for terms and condiions */}
+        {this.state.showTnCModal ? (
+          <ExchangeTnCModal
+            history={this.props.history}
+            closeTnCModal={() => this.closeTnCModal()}
+          />
+        ) : null}
         <div className={styles.appliancesExchangeTopContainer}>
           {!this.state.showSearchBox && (
-            <div className={styles.howExchangeWorksHeading}>
-              {this.state.selectedBrandData && (
-                <div
-                  className={styles.backButtonContainer}
-                  onClick={() =>
-                    this.resetState(
-                      !this.state.selectedBrandData
-                        ? "one"
-                        : !this.state.selectedCapacityData
-                          ? "two"
-                          : "three"
-                    )
-                  }
-                >
-                  <Icon image={backArrowIcon} size={12} />
-                </div>
-              )}
+            <div className={styles.aeHowExchangeWorksHeading}>
+              {this.state.selectedBrandData &&
+                !this.state.selectedConditionData && (
+                  <div
+                    className={styles.backButtonContainer}
+                    onClick={() =>
+                      this.resetState(
+                        !this.state.selectedBrandData
+                          ? "one"
+                          : !this.state.selectedCapacityData
+                            ? "two"
+                            : "three"
+                      )
+                    }
+                  >
+                    <Icon image={backArrowIcon} size={12} />
+                  </div>
+                )}
               <div className={styles.sectionName}>
                 {!this.state.selectedBrandData
                   ? "Select Brand"
                   : !this.state.selectedCapacityData
                     ? "Select Capacity"
-                    : "Select Working Condition"}
+                    : !this.state.selectedConditionData
+                      ? "Select Working Condition"
+                      : "Exchange Details"}
               </div>
               {!this.state.selectedBrandData && (
                 <div
@@ -214,7 +252,9 @@ export default class AppliancesExchangeSelection extends React.Component {
                         return (
                           <div
                             className={styles.capacityNameContainer}
-                            onClick={() => this.selectCapacity(value)}
+                            onClick={() =>
+                              this.selectCapacity(value, capacity.modelType)
+                            }
                           >
                             <span className={styles.capacityName}>
                               {value.capacity}
@@ -226,7 +266,7 @@ export default class AppliancesExchangeSelection extends React.Component {
                   );
                 })}
             </React.Fragment>
-          ) : (
+          ) : !this.state.selectedConditionData ? (
             <React.Fragment>
               {this.state.selectedCapacityData &&
                 this.state.selectedCapacityData.state &&
@@ -246,6 +286,24 @@ export default class AppliancesExchangeSelection extends React.Component {
                   );
                 })}
             </React.Fragment>
+          ) : (
+            <AppliancesExchangeDetails
+              resetState={section => this.resetState(section)}
+              exchangeData={this.state.exchangeData}
+              bonusExchangeAmount={
+                this.props.appliancesExchangeDetails.bonusExchangeAmount
+              }
+              openHowAppliancesExchangeWorks={data =>
+                this.openHowAppliancesExchangeWorks(data)
+              }
+              closeAppliancesExchangeModal={() =>
+                this.closeAppliancesExchangeModal()
+              }
+              openTnCModal={() => this.openTnCModal()}
+              updateAppliancesExchangeDetails={exchangeData =>
+                this.props.updateAppliancesExchangeDetails(exchangeData)
+              }
+            />
           )}
         </div>
       </div>

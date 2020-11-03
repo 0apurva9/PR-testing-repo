@@ -279,6 +279,9 @@ export const GET_APPLIANCES_EXCHANGE_DETAILS_SUCCESS =
 export const GET_APPLIANCES_EXCHANGE_DETAILS_FAILURE =
   "GET_APPLIANCES_EXCHANGE_DETAILS_FAILURE";
 
+export const UPDATE_APPLIANCES_EXCHANGE_DETAILS =
+  "UPDATE_APPLIANCES_EXCHANGE_DETAILS";
+
 export function getProductDescriptionRequest() {
   return {
     type: PRODUCT_DESCRIPTION_REQUEST,
@@ -2930,5 +2933,15 @@ export function getAppliancesExchangeDetails() {
     } catch (e) {
       dispatch(getAppliancesExchangeDetailsFailure(e.message));
     }
+  };
+}
+
+// This function accepts selected details of appliances exchange
+// This function updates PDP UI with selected exchange details on modal close
+export function updateAppliancesExchangeDetails(exchangeData) {
+  return {
+    type: UPDATE_APPLIANCES_EXCHANGE_DETAILS,
+    status: SUCCESS,
+    exchangeData
   };
 }
