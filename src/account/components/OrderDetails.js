@@ -276,6 +276,7 @@ export default class OrderDetails extends React.Component {
       if (
         this.props.orderDetails.products &&
         Array.isArray(this.props.orderDetails.products) &&
+        this.props.orderDetails.products.length == 1 &&
         transactionId
       ) {
         const selectedOrderObj = {

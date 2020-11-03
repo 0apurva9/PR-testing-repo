@@ -41,15 +41,17 @@ export default class QuestionFeedback extends Component {
       }
     }
     let showContactUsButton = false;
-    if (
-      question.call.toLowerCase() == YES ||
-      question.chat.toLowerCase() == YES ||
-      question.click2Call.toLowerCase() == YES ||
-      question.webform.toLowerCase() == YES
-    ) {
-      showContactUsButton = true;
-    } else {
-      showContactUsButton = false;
+    if (!this.props.FAQquestion) {
+      if (
+        question.call.toLowerCase() == YES ||
+        question.chat.toLowerCase() == YES ||
+        question.click2Call.toLowerCase() == YES ||
+        question.webform.toLowerCase() == YES
+      ) {
+        showContactUsButton = true;
+      } else {
+        showContactUsButton = false;
+      }
     }
     return (
       <div
