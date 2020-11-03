@@ -51,7 +51,7 @@ export default class OrderPaymentMethod extends React.Component {
     if (this.props.orderDetails) {
       if (
         this.props.orderDetails.products &&
-        this.props.orderDetails.products.length == 1 &&
+        Array.isArray(this.props.orderDetails.products) &&
         transactionId
       ) {
         const selectedOrderObj = {
@@ -217,10 +217,26 @@ export default class OrderPaymentMethod extends React.Component {
     );
   }
 }
+
 OrderPaymentMethod.propTypes = {
   // underlineButtonLabel: PropTypes.string,
   // underlineButtonColour: PropTypes.string,
-  phoneNumber: PropTypes.string
+  phoneNumber: PropTypes.string,
+  clickcollect: PropTypes.bool,
+  deliveryAddress: PropTypes.shape({
+    addressLine1: PropTypes.string,
+    addressType: PropTypes.string,
+    country: PropTypes.string,
+    defaultAddress: PropTypes.bool,
+    firstName: PropTypes.string,
+    id: PropTypes.string,
+    lastName: PropTypes.string,
+    phone: PropTypes.string,
+    postalcode: PropTypes.string,
+    shippingFlag: PropTypes.bool,
+    state: PropTypes.string,
+    town: PropTypes.string
+  })
   //request: PropTypes.func
 };
 OrderPaymentMethod.defaultProps = {
