@@ -256,7 +256,9 @@ class CheckOutPage extends React.Component {
       isComingFromCliqAndPiq: false,
       retryPaymentDetails: props.retryPaymentDetails
         ? props.retryPaymentDetails
-        : null
+        : null,
+      isFromCheckoutCnfAdd: false,
+      showPinCodePopUp: false
     };
   }
 
@@ -623,14 +625,28 @@ class CheckOutPage extends React.Component {
   }
   renderCheckoutAddress = disabled => {
     const cartData = this.props.cart;
+    /**
+     * Added code to update the default addressId with the pincode selected address
+     */
+    const postCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
     let addressSelectedId =
-      this.props.cart.cartDetailsCNC &&
-      this.props.cart.cartDetailsCNC.addressDetailsList &&
-      this.props.cart.cartDetailsCNC.addressDetailsList.addresses[0];
-    let fetchId = addressSelectedId && addressSelectedId.id;
-    let defaultAddressId = fetchId;
-    if (this.state.addressId) {
-      defaultAddressId = this.state.addressId;
+      cartData.cartDetailsCNC &&
+      cartData.cartDetailsCNC.addressDetailsList &&
+      cartData.cartDetailsCNC.addressDetailsList.addresses &&
+      cartData.cartDetailsCNC.addressDetailsList.addresses
+        .filter(val => val.postalCode === postCode)
+        .map(val => val.id);
+    let defaultAddressId = addressSelectedId && addressSelectedId[0];
+    if (defaultAddressId === undefined) {
+      addressSelectedId =
+        this.props.cart.cartDetailsCNC &&
+        this.props.cart.cartDetailsCNC.addressDetailsList &&
+        this.props.cart.cartDetailsCNC.addressDetailsList.addresses[0];
+      let fetchId = addressSelectedId && addressSelectedId.id;
+      defaultAddressId = fetchId;
+      if (this.state.addressId) {
+        defaultAddressId = this.state.addressId;
+      }
     }
     return (
       <div className={styles.addInitialAddAddress}>
@@ -650,7 +666,7 @@ class CheckOutPage extends React.Component {
                   }`,
                   value: address.id,
                   phone: address.phone,
-                  selected: address.defaultAddress
+                  selected: defaultAddressId === address.id ? true : false
                 };
               }
             )
@@ -662,7 +678,9 @@ class CheckOutPage extends React.Component {
           }
           disabled={[defaultAddressId] ? false : true}
           selected={[defaultAddressId]}
-          onNewAddress={() => this.addNewAddress()}
+          onNewAddress={isFromCheckoutCnfAdd =>
+            this.addNewAddress(isFromCheckoutCnfAdd)
+          }
           onSelectAddress={address => this.onSelectAddress(address)}
         />
       </div>
@@ -1103,18 +1121,36 @@ class CheckOutPage extends React.Component {
           this.getPaymentModes();
         }
       } else {
-        defaultAddress = nextProps.cart.userAddress.addresses.find(address => {
-          return address.defaultAddress;
-        });
+        const postalCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+        if (postalCode) {
+          defaultAddress = nextProps.cart.userAddress.addresses.find(
+            address => {
+              return postalCode === address.postalCode;
+            }
+          );
+        } else {
+          defaultAddress = nextProps.cart.userAddress.addresses.find(
+            address => {
+              return address.defaultAddress;
+            }
+          );
+        }
+        if (!defaultAddress) {
+          defaultAddress = nextProps.cart.userAddress.addresses.find(
+            address => {
+              return address.defaultAddress;
+            }
+          );
+        }
       }
       if (defaultAddress) {
         defaultAddressId = defaultAddress.id;
       }
-      if (!localStorage.getItem(CNC_CART)) {
-        this.updateLocalStoragePinCode(
-          defaultAddress && defaultAddress.postalCode
-        );
-      }
+      // if (!localStorage.getItem(CNC_CART)) {
+      //   this.updateLocalStoragePinCode(
+      //     defaultAddress && defaultAddress.postalCode
+      //   );
+      // }
       this.setState({
         addressId: defaultAddressId,
         selectedAddress: defaultAddress
@@ -3274,9 +3310,31 @@ if you have order id in local storage then you have to show order confirmation p
   onCloseTransactionFailed() {
     this.setState({ isOpenTransactionFailedPopUp: false });
   }
-  addNewAddress = () => {
+  addNewAddress = (isFromCheckoutCnfAdd = false) => {
+    /**
+     * Added logic to show popup on the checkout add address page if the pincode
+     * in local storage is serviceable and is not available in the saved address
+     */
+    let showPinCodePopUp = false;
+    if (isFromCheckoutCnfAdd) {
+      const defaultPostalCode = localStorage.getItem(
+        DEFAULT_PIN_CODE_LOCAL_STORAGE
+      );
+      var postalCodeArr = [];
+      this.props.cart &&
+        this.props.cart.cartDetailsCNC &&
+        this.props.cart.cartDetailsCNC.addressDetailsList &&
+        this.props.cart.cartDetailsCNC.addressDetailsList.addresses &&
+        this.props.cart.cartDetailsCNC.addressDetailsList.addresses.map(val =>
+          postalCodeArr.push(val.postalCode)
+        );
+      showPinCodePopUp = postalCodeArr.includes(defaultPostalCode);
+    }
+    /**
+     * EOC
+     */
     setDataLayerForCheckoutDirectCalls(ADOBE_CHECKOUT_DEFAULT_NEW_ADDRESS);
-    this.setState({ addNewAddress: true });
+    this.setState({ addNewAddress: true, showPinCodePopUp });
   };
   binValidationForPaytm = val => {
     if (val) {
@@ -4185,6 +4243,9 @@ if you have order id in local storage then you have to show order confirmation p
                 cliqCashPaidAmount={this.state.cliqCashPaidAmount}
                 isFromMyBag={false}
                 isFromCliqAndPiq={this.state.isFromCliqAndPiq}
+                showPinCodePopUp={this.state.showPinCodePopUp}
+                showAddNewPinPop={data => this.props.showAddNewPinPop(data)}
+                closeModal={() => this.props.closeModal()}
               />
             </div>
             <div className={styles.rightSection}>
