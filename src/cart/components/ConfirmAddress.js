@@ -34,7 +34,7 @@ export default class ConfirmAddress extends React.Component {
   }
   onNewAddress() {
     if (this.props.onNewAddress) {
-      this.props.onNewAddress();
+      this.props.onNewAddress(true);
     }
   }
   onSelectAddress(addressId) {

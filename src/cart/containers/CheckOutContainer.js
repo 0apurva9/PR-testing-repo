@@ -99,7 +99,8 @@ import {
   EXCHANGE_CASHBACK_INFO_MODAL,
   hideModal,
   CLIQ_CASH_MODULE,
-  POP_UP
+  POP_UP,
+  CASHBACK_DETAILS_POPUP
   // UPIHOWTOPAY_MODAL
 } from "../../general/modal.actions";
 import {
@@ -870,6 +871,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showChangeExchangeCashabackModal: data => {
       dispatch(showModal(CHANGE_EXCHANGE_CASHBACK_MODAL, data));
+    },
+    showAddNewPinPop: data => {
+      dispatch(showModal(CASHBACK_DETAILS_POPUP, data));
+    },
+    closeModal: () => {
+      dispatch(hideModal());
     }
   };
 };
