@@ -32,6 +32,17 @@ body {
     filter: blur(10px);
   }
 }
+
+.beauty_blur {
+  composes: base;
+  transition: 200ms filter linear;
+  transition: 200ms -webkit-filter linear;
+  position: fixed;
+  left: 0;
+  top: 0;
+  transition-delay: 100ms;
+}
+
 @media only screen and (min-width: 1025px) {
   ::-webkit-scrollbar {
     width: 5px;

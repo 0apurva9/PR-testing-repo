@@ -11,6 +11,7 @@ export const BRAND_REGEX = /c-mbh*/;
 export const CATEGORY_CAPTURE_REGEX = /c-msh([a-zA-Z0-9]+)/;
 export const BRAND_CAPTURE_REGEX = /c-mbh([a-zA-Z0-9]+)/;
 export const BRAND_CATEGORY_PREFIX = "c-";
+const RICH_QUERYSTRING = /[?&]richplp=/;
 
 export default class PlpBrandCategoryWrapper extends React.Component {
   constructor(props) {
@@ -36,6 +37,11 @@ export default class PlpBrandCategoryWrapper extends React.Component {
       }
 
       categoryOrBrandId = categoryOrBrandId.replace(BRAND_CATEGORY_PREFIX, "");
+
+      const parsedQueryString = queryString.parse(this.props.location.search);
+      if (parsedQueryString && parsedQueryString.richplp) {
+        categoryOrBrandId = parsedQueryString.richplp;
+      }
 
       this.props.getFeed(categoryOrBrandId);
     } catch (e) {
@@ -64,6 +70,11 @@ export default class PlpBrandCategoryWrapper extends React.Component {
         this.pathname !== this.props.location.pathname
       ) {
         this.pathname = this.props.location.pathname;
+
+        const parsedQueryString = queryString.parse(this.props.location.search);
+        if (parsedQueryString && parsedQueryString.richplp) {
+          categoryOrBrandId = parsedQueryString.richplp;
+        }
         this.props.getFeed(categoryOrBrandId);
       }
     } catch (e) {
@@ -113,7 +124,11 @@ export default class PlpBrandCategoryWrapper extends React.Component {
     }
 
     if (this.props.homeFeedData.feedType === SECONDARY_FEED_TYPE) {
-      if (this.props.homeFeedData.secondaryFeed.length > 0) {
+      const url = this.props.location.search;
+      if (
+        this.props.homeFeedData.secondaryFeed.length > 0 &&
+        !RICH_QUERYSTRING.test(url)
+      ) {
         return <BrandLandingPageContainer />;
       } else {
         return (

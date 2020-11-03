@@ -49,7 +49,7 @@ export default class AvailableOffersMyAcc extends Component {
         <div
           className={styles.cashBackOfferLine1}
           dangerouslySetInnerHTML={{ __html: offer.offerDesc }}
-        ></div>
+        />
         <div className={styles.cashBackOfferLine2}>
           Maximum applicable cashback:{" "}
           <span className={styles.priceDate}>
@@ -115,7 +115,7 @@ export default class AvailableOffersMyAcc extends Component {
                         <span
                           className={styles.offerAvailHeading}
                           dangerouslySetInnerHTML={{ __html: offer.offerDesc }}
-                        ></span>
+                        />
                         <span
                           className={styles.viewMore}
                           onClick={() => this.showPopup(offer)}

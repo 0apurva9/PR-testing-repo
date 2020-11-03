@@ -1,0 +1,79 @@
+.base {
+  max-width: 980px;
+  background: #fff;
+  width: 100%;
+  position: relative;
+  margin: 0 auto;
+  height: 100%;
+  overflow: hidden;
+}
+
+.desktop-image-zoom-image-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow-y: scroll;
+  cursor: all-scroll;
+  scrollbar-width: none;
+  background-repeat: no-repeat;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.desktop-image-zoom-image-container::-webkit-scrollbar {
+  display: none;
+}
+
+.desktop-image-zoom-image-container {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.nav {
+  width: 100%;
+  height: auto;
+  text-align: center;
+  margin-top: 20px;
+}
+
+ .navArrow {
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  top: -40px;
+  bottom: 0;
+  right: 10px;
+  margin: auto;
+  background: url("../../../../../general/components/img/down-arrow-grey.svg");
+  background-position: center;
+  background-size: contain;
+  transform: rotate(-90deg);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: 200ms;
+}
+.navArrowBack {
+  composes: navArrow;
+  transform: rotate(90deg);
+  right: initial;
+  left: 10px;
+}
+.navArrow:hover {
+  opacity: 1;
+}
+
+.cancel {
+	width: 12px;
+	height: 12px;
+	position: absolute;
+	right: 40px;
+	top: 20px;
+	background: url(../../../../../general/components/img/cancelBlack.svg) no-repeat;
+	background-position: center;
+	background-size: 20px;
+	z-index: 2;
+	cursor: pointer;
+}

@@ -452,8 +452,9 @@ export default class NoCostEmiBankDetails extends React.Component {
             )}
           {noCostEmiDetails &&
             noCostEmiDetails.noCostEMIConvCharge &&
+            noCostEmiDetails.noCostEMIConvCharge.value > 0 &&
             noCostEmiDetails.noCostEMIConvCharge.value && (
-              <div className={styles.amountData}>
+              <div className={styles.amountData} data-test="bank-conv-fee-test">
                 <div className={styles.amountLabel}>Bank Convenience Fees</div>
                 <div className={styles.amount}>{`₹ ${Math.round(
                   noCostEmiDetails.noCostEMIConvCharge.value

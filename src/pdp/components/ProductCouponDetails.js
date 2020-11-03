@@ -40,7 +40,8 @@ class ProductCouponDetails extends Component {
         : "",
       selectedCouponCode: Cookie.getCookie(COUPON_COOKIE)
         ? Cookie.getCookie(COUPON_COOKIE)
-        : ""
+        : "",
+      isOpen: true
     };
   }
 
@@ -300,6 +301,7 @@ class ProductCouponDetails extends Component {
                 tooltipSrc={ibutton}
                 tooltipText={`To use these coupons, you might have to add or modify products in your cart`}
                 subHeading={true}
+                isOpen={this.state.isOpen}
               >
                 <DesktopOnly>
                   <div className={styles.other_coupon_disclaimer_desktop}>

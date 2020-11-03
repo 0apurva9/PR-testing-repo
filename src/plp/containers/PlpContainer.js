@@ -99,7 +99,8 @@ const mapStateToProps = (state, ownProps) => {
       state.productListings.checkPincodeDetailsLoading,
     checkPincodeFromHaptikChatbot:
       state.productListings.checkPincodeFromHaptikChatbot,
-    cartCountDetailsLoading: state.cart.cartCountDetailsLoading
+    cartCountDetailsLoading: state.cart.cartCountDetailsLoading,
+    secondaryFeedData: state.feed.secondaryFeed
   };
 };
 

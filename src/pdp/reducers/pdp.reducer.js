@@ -102,7 +102,28 @@ const productDescription = (
     addBundledProductsToCartStatus: null,
     addBundledProductsToCartLoading: false,
     addBundledProductsToCartDetails: null,
-    addBundledProductsToCartError: null
+    addBundledProductsToCartError: null,
+    masterTemplateStatus: null,
+    masterTemplateLoading: false,
+    masterTemplateDetails: null,
+    masterTemplateError: null,
+    howToWearStatus: null,
+    howToWearLoading: false,
+    howToWearDetails: null,
+    howToWearError: null,
+    moreFromBrandStatus: null,
+    moreFromBrandLoading: false,
+    moreFromBrandDetails: null,
+    moreFromBrandError: null,
+    aboutTheBrandStatus: null,
+    aboutTheBrandLoading: false,
+    aboutTheBrandDetails: null,
+    aboutTheBrandError: null,
+    similarProductStatus: null,
+    similarProductLoading: false,
+    similarProductDetails: null,
+    similarProductError: null,
+    beautyPopupModal: false
   },
   action
 ) => {
@@ -394,7 +415,7 @@ const productDescription = (
         error: action.error,
         loading: false,
         serviceablePincodeListResponse: null,
-        pincodeError: null,
+        pincodeError: action.error,
         checkPincodeDetailsLoading: false
       });
 
@@ -1203,6 +1224,101 @@ const productDescription = (
         addBundledProductsToCartError: action.error
       });
 
+    case pdpActions.GET_MASTER_TEMPLATE_REQUEST:
+      return Object.assign({}, state, {
+        masterTemplateStatus: action.status,
+        masterTemplateLoading: true
+      });
+
+    case pdpActions.GET_MASTER_TEMPLATE_SUCCESS:
+      return Object.assign({}, state, {
+        masterTemplateStatus: action.status,
+        masterTemplateDetails: action.masterTemplateResult,
+        masterTemplateLoading: false
+      });
+
+    case pdpActions.GET_MASTER_TEMPLATE_FAILURE:
+      return Object.assign({}, state, {
+        masterTemplateStatus: action.status,
+        masterTemplateError: action.error,
+        masterTemplateLoading: false
+      });
+
+    case pdpActions.GET_HOW_TO_WEAR_REQUEST:
+      return Object.assign({}, state, {
+        howToWearStatus: action.status,
+        howToWearLoading: true
+      });
+    case pdpActions.GET_HOW_TO_WEAR_SUCCESS:
+      return Object.assign({}, state, {
+        howToWearStatus: action.status,
+        howToWearDetails: action.howToWearResult,
+        howToWearLoading: false
+      });
+    case pdpActions.GET_HOW_TO_WEAR_FAILURE:
+      return Object.assign({}, state, {
+        howToWearStatus: action.status,
+        howToWearError: action.error,
+        howToWearLoading: false
+      });
+
+    case pdpActions.GET_MORE_FROM_BRAND_REQUEST:
+      return Object.assign({}, state, {
+        moreFromBrandStatus: action.status,
+        moreFromBrandLoading: true
+      });
+    case pdpActions.GET_MORE_FROM_BRAND_SUCCESS:
+      return Object.assign({}, state, {
+        moreFromBrandStatus: action.status,
+        moreFromBrandDetails: action.moreFromBrandResult,
+        moreFromBrandLoading: false
+      });
+    case pdpActions.GET_MORE_FROM_BRAND_FAILURE:
+      return Object.assign({}, state, {
+        moreFromBrandStatus: action.status,
+        moreFromBrandError: action.error,
+        moreFromBrandLoading: false
+      });
+
+    case pdpActions.GET_ABOUT_THE_BRAND_REQUEST:
+      return Object.assign({}, state, {
+        aboutTheBrandStatus: action.status,
+        aboutTheBrandLoading: true
+      });
+    case pdpActions.GET_ABOUT_THE_BRAND_SUCCESS:
+      return Object.assign({}, state, {
+        aboutTheBrandStatus: action.status,
+        aboutTheBrandDetails: action.aboutTheBrandResult,
+        aboutTheBrandLoading: false
+      });
+    case pdpActions.GET_ABOUT_THE_BRAND_FAILURE:
+      return Object.assign({}, state, {
+        aboutTheBrandStatus: action.status,
+        aboutTheBrandError: action.error,
+        aboutTheBrandLoading: false
+      });
+
+    case pdpActions.GET_SIMILAR_PRODUCT_REQUEST:
+      return Object.assign({}, state, {
+        similarProductStatus: action.status,
+        similarProductLoading: true
+      });
+    case pdpActions.GET_SIMILAR_PRODUCT_SUCCESS:
+      return Object.assign({}, state, {
+        similarProductStatus: action.status,
+        similarProductDetails: action.similarProductResult,
+        similarProductLoading: false
+      });
+    case pdpActions.GET_SIMILAR_PRODUCT_FAILURE:
+      return Object.assign({}, state, {
+        similarProductStatus: action.status,
+        similarProductError: action.error,
+        similarProductLoading: false
+      });
+    case pdpActions.BEAUTY_POP_UP_TOGGLE:
+      return Object.assign({}, state, {
+        beautyPopupModal: action.status
+      });
     default:
       return state;
   }

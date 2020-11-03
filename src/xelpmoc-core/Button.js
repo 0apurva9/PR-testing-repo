@@ -78,6 +78,43 @@ export default class Button extends React.Component {
         fontFamily: "semibold"
       });
     }
+    if (
+      this.props.fromBeautyPdp &&
+      this.props.type === "primary" &&
+      this.props.buyNowBeautyPdp
+    ) {
+      textStyle = Object.assign(this.props.textStyle, {
+        color: "#da1c5c",
+        fontSize: 14,
+        fontFamily: "regular",
+        fontWeight: 500
+      });
+    }
+    if (
+      this.props.fromBeautyPdp &&
+      this.props.addToBagBeauty &&
+      this.props.type === "primary"
+    ) {
+      textStyle = Object.assign(this.props.textStyle, {
+        color: "#ffffff",
+        fontSize: 14,
+        fontFamily: "regular",
+        fontWeight: 500
+      });
+    }
+    if (
+      this.props.fromBeautyPdp &&
+      this.props.buyNowBeautyPdp &&
+      this.props.type === "primary" &&
+      this.props.disabled
+    ) {
+      textStyle = Object.assign(this.props.textStyle, {
+        color: "#d5d5d5",
+        fontSize: 14,
+        fontFamily: "regular",
+        fontWeight: 500
+      });
+    }
 
     return (
       <div
@@ -92,22 +129,41 @@ export default class Button extends React.Component {
           backgroundColor:
             this.props.disabled &&
             this.props.disabledLightGray &&
-            this.props.type === "primary"
+            this.props.type === "primary" &&
+            !this.props.fromBeautyPdp
               ? "#d8d8d8"
               : this.props.disabled &&
                 this.props.disabledBgGrey &&
-                this.props.type === "primary"
+                this.props.type === "primary" &&
+                !this.props.fromBeautyPdp
               ? "#989898"
               : this.props.disabled &&
                 this.props.disabledBgGrey &&
                 this.props.type === "hollow"
               ? "#FFF"
+              : this.props.disabled &&
+                this.props.disabledBgGrey &&
+                this.props.type === "primary" &&
+                this.props.fromBeautyPdp === true &&
+                this.props.buyNowBeautyPdp
+              ? "#FFFFFF"
+              : this.props.disabled &&
+                this.props.disabledBgGrey &&
+                this.props.type === "primary" &&
+                this.props.fromBeautyPdp === true &&
+                this.props.addToBagBeauty
+              ? "#d5d5d5"
               : this.state.backgroundColor,
           border: `2px solid ${
             this.props.disabled &&
             this.props.disabledBgGrey &&
             this.props.type === "hollow"
               ? "#989898"
+              : this.props.disabled &&
+                this.props.disabledBgGrey &&
+                this.props.buyNowBeautyPdp &&
+                this.props.type === "primary"
+              ? "#d5d5d5"
               : this.state.borderColor
           }`
         }}

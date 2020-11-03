@@ -191,7 +191,11 @@ export default class Carousel extends React.Component {
           </MediaQuery>
           <MediaQuery query="(min-device-width: 1025px)">
             <div
-              className={styles.sliderHolder}
+              className={
+                this.props.sliderWidthFull
+                  ? styles.fullSliderHolder
+                  : styles.sliderHolder
+              }
               style={{
                 paddingLeft: `${this.props.offsetDesktop}px`
               }}

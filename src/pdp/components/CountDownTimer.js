@@ -64,7 +64,12 @@ export default class Timer extends Component {
     return (
       <div>
         {minutes === 0 && seconds === 0 ? null : (
-          <p className={styles.pdpTimeTxt}>
+          <p
+            className={[
+              styles.pdpTimeTxt,
+              this.props.fromBeautyPdp ? styles.withinHourTxt : ""
+            ].join(" ")}
+          >
             Order within{" "}
             <span>
               {`${hours} hrs`}{" "}
