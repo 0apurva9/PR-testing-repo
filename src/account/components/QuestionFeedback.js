@@ -82,7 +82,7 @@ export default class QuestionFeedback extends Component {
           <div className={styles.feedBackBox}>
             <div className={styles.feedBackHeader}>{`${
               showContactUsButton
-                ? "Is your issue still not resolved?"
+                ? "Need more help?"
                 : this.props.isAnswerHelpFull
                 ? "Thank you"
                 : "Was this helpful?"
