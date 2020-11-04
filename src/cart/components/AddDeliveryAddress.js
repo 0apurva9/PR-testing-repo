@@ -440,7 +440,7 @@ export default class AddDeliveryAddress extends React.Component {
   };
 
   componentDidMount() {
-    if (!this.props.showPinCodePopUp && this.props.showAddNewPinPop) {
+    if (this.props.showPinCodePopUp && this.props.showAddNewPinPop) {
       this.props.showAddNewPinPop({
         children: this.popBody()
       });
