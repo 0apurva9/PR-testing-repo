@@ -3312,29 +3312,14 @@ if you have order id in local storage then you have to show order confirmation p
   }
   addNewAddress = (isFromCheckoutCnfAdd = false) => {
     /**
-     * Added logic to show popup on the checkout add address page if the pincode
-     * in local storage is serviceable and is not available in the saved address
-     */
-    let showPinCodePopUp = false;
-    if (isFromCheckoutCnfAdd) {
-      const defaultPostalCode = localStorage.getItem(
-        DEFAULT_PIN_CODE_LOCAL_STORAGE
-      );
-      var postalCodeArr = [];
-      this.props.cart &&
-        this.props.cart.cartDetailsCNC &&
-        this.props.cart.cartDetailsCNC.addressDetailsList &&
-        this.props.cart.cartDetailsCNC.addressDetailsList.addresses &&
-        this.props.cart.cartDetailsCNC.addressDetailsList.addresses.map(val =>
-          postalCodeArr.push(val.postalCode)
-        );
-      showPinCodePopUp = postalCodeArr.includes(defaultPostalCode);
-    }
-    /**
-     * EOC
+     * Setting `isFromCheckoutCnfAdd` in the state `showPinCodePopUp` because pincode popup will only show
+     * when we are adding address from the checkout page.
      */
     setDataLayerForCheckoutDirectCalls(ADOBE_CHECKOUT_DEFAULT_NEW_ADDRESS);
-    this.setState({ addNewAddress: true, showPinCodePopUp });
+    this.setState({
+      addNewAddress: true,
+      showPinCodePopUp: isFromCheckoutCnfAdd
+    });
   };
   binValidationForPaytm = val => {
     if (val) {
