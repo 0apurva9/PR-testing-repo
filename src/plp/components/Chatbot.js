@@ -300,6 +300,11 @@ export default class Chatbot extends React.Component {
             let requiredPath = path && path[1];
             currentCategoryName =
               requiredPath && requiredPath.replace(/-/g, " ");
+          } else {
+            let path = currentPathName.split("/");
+            let requiredPath = path && path[1];
+            currentCategoryName =
+              requiredPath && requiredPath.replace(/-/g, " ");
           }
         }
 
