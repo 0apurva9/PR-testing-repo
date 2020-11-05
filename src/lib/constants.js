@@ -579,3 +579,5 @@ export const SHARE_FACEBOOK_URL =
 export const SHARE_TWITTER_URL = "https://twitter.com/intent/tweet?url=";
 export const POP_UP_WINDOW_STYLE =
   "toolbar=no, menubar=no, width=600, height=700, top=100, left=100";
+
+export const PLATFORM = "desktop";
