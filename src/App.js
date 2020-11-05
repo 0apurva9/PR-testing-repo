@@ -457,12 +457,18 @@ class App extends Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
+    this.checkExistenceOfDefaultPincode();
     // Are we adding new items to the list?
     // Capture the scroll position so we can adjust scroll later.
     if (prevProps.location.pathname != this.props.location.pathname) {
       setTimeout(() => {
         setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
       }, 300);
+    }
+  }
+  checkExistenceOfDefaultPincode() {
+    if (!localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE)) {
+      localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, DEFAULT_PINCODE);
     }
   }
 
