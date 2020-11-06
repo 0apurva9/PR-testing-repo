@@ -79,6 +79,7 @@ import ExchangeDetailsPDPDesktop from "./ExchangeDetailsPDPDesktop";
 import Chatbot from "../../plp/components/Chatbot";
 import PropTypes from "prop-types";
 import ProductBundling from "./ProductBundling";
+import { renderMetaTags } from "./../../lib/seoUtils";
 
 let testcheck = false;
 
@@ -141,7 +142,10 @@ export default class PdpApparel extends React.Component {
   }
   componentDidMount = async () => {
     setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
-    document.title = this.props.productDetails.seo.title;
+    debugger;
+
+    // document.title = this.props.productDetails.seo.title;
+    debugger;
     this.props.getUserAddress();
     this.props.getPdpOffers();
     this.props.getManufacturerDetails();
@@ -612,9 +616,7 @@ export default class PdpApparel extends React.Component {
     setDataLayerForPdpDirectCalls(
       SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT
     );
-    const url = `${
-      this.props.location.pathname
-    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
   renderRatings = () => {
@@ -1151,7 +1153,7 @@ export default class PdpApparel extends React.Component {
       if (productData.mrpPrice && productData.mrpPrice.doubleValue) {
         mrpDoubleValue = productData.mrpPrice.doubleValue;
         discountPdp = Math.floor(
-          (mrpDoubleValue - seoDoublePrice) / mrpDoubleValue * 100
+          ((mrpDoubleValue - seoDoublePrice) / mrpDoubleValue) * 100
         );
       }
       let flixModelNo = "";
@@ -1246,6 +1248,7 @@ export default class PdpApparel extends React.Component {
           productListingId={productData.productListingId}
           showSimilarProducts={this.props.showSimilarProducts}
         >
+          {renderMetaTags(this.props.productDetails)}
           <div className={styles.base}>
             <Chatbot
               productDetails={this.props.productDetails}
@@ -1272,9 +1275,7 @@ export default class PdpApparel extends React.Component {
                   productImages={productImages}
                   thumbNailImages={thumbNailImages}
                   zoomImages={zoomImages}
-                  alt={`${productData.productName}-${productData.brandName}-${
-                    productData.rootCategory
-                  }-TATA CLIQ`}
+                  alt={`${productData.productName}-${productData.brandName}-${productData.rootCategory}-TATA CLIQ`}
                   details={productData.details}
                   showSimilarProducts={this.props.showSimilarProducts}
                   category={productData.rootCategory}
@@ -1764,7 +1765,7 @@ export default class PdpApparel extends React.Component {
                         </div>
                       </div>
                     ) : this.props.productDetails.isServiceableToPincode
-                      .productNotServiceableMessage ? (
+                        .productNotServiceableMessage ? (
                       <div className={styles.overlay}>
                         <div className={styles.notServiciableTetx}>
                           *{" "}
@@ -1796,7 +1797,7 @@ export default class PdpApparel extends React.Component {
                     </div>
                   ) */
                   this.props.productDetails.isServiceableToPincode &&
-                  this.props.productDetails.isServiceableToPincode.pinCode ? (
+                    this.props.productDetails.isServiceableToPincode.pinCode ? (
                     <div className={styles.deliveryModesHolder}>
                       <PdpDeliveryModes
                         onPiq={() => this.handleShowPiqPage()}
@@ -1822,35 +1823,34 @@ export default class PdpApparel extends React.Component {
                   )}
                 </div>
                 <React.Fragment>
-                  {mshProduct &&
-                    mshProduct.includes("samsung") && (
-                      <div className={styles.sumsungSeparator}>
-                        <div className={styles.chatIcon}>
-                          {productData.brandName === "Samsung" ||
-                          productData.brandName === "SAMSUNG" ? (
-                            <a
-                              href={samsungChatUrl}
-                              target="_blank"
-                              className={styles.samsungChatImgHolder}
-                            >
-                              <img
-                                src="https://assets.tatacliq.com/medias/sys_master/images/11437918060574.png"
-                                alt="Samsung Chat"
-                              />
-                            </a>
-                          ) : null}
-                          <div className={styles.chatText}>
-                            <p>
-                              Chat with the Samsung brand representative
-                              directly for more info
-                            </p>
-                            <a href={samsungChatUrl} target="_blank">
-                              Click here to chat
-                            </a>
-                          </div>
+                  {mshProduct && mshProduct.includes("samsung") && (
+                    <div className={styles.sumsungSeparator}>
+                      <div className={styles.chatIcon}>
+                        {productData.brandName === "Samsung" ||
+                        productData.brandName === "SAMSUNG" ? (
+                          <a
+                            href={samsungChatUrl}
+                            target="_blank"
+                            className={styles.samsungChatImgHolder}
+                          >
+                            <img
+                              src="https://assets.tatacliq.com/medias/sys_master/images/11437918060574.png"
+                              alt="Samsung Chat"
+                            />
+                          </a>
+                        ) : null}
+                        <div className={styles.chatText}>
+                          <p>
+                            Chat with the Samsung brand representative directly
+                            for more info
+                          </p>
+                          <a href={samsungChatUrl} target="_blank">
+                            Click here to chat
+                          </a>
                         </div>
                       </div>
-                    )}
+                    </div>
+                  )}
                 </React.Fragment>
               </div>
             </div>
@@ -2006,23 +2006,22 @@ export default class PdpApparel extends React.Component {
                                 productData.prdDetails
                               )}
                           </div>
-                          {productData.prdDetails &&
-                            !this.state.eyeWearCheck && (
-                              <div className={styles.productDetailsImagesCard}>
-                                {this.displayPrdDetails(
-                                  productData.prdDetails,
-                                  WASH
-                                )}
-                                {this.displayPrdDetails(
-                                  productData.prdDetails,
-                                  NECK_COLLAR
-                                )}
-                                {this.displayPrdDetails(
-                                  productData.prdDetails,
-                                  SLEEVE
-                                )}
-                              </div>
-                            )}
+                          {productData.prdDetails && !this.state.eyeWearCheck && (
+                            <div className={styles.productDetailsImagesCard}>
+                              {this.displayPrdDetails(
+                                productData.prdDetails,
+                                WASH
+                              )}
+                              {this.displayPrdDetails(
+                                productData.prdDetails,
+                                NECK_COLLAR
+                              )}
+                              {this.displayPrdDetails(
+                                productData.prdDetails,
+                                SLEEVE
+                              )}
+                            </div>
+                          )}
                           {productData.rootCategory === "Accessories" &&
                             this.state.eyeWearCheck &&
                             imageArray.length > 0 && (
@@ -2239,14 +2238,13 @@ export default class PdpApparel extends React.Component {
                           </div>
                         </Accordion>
                       )}
-                    {productData.brandInfo &&
-                      !this.state.eyeWearCheck && (
-                        <Accordion text="Brand Info" headerFontSize={18}>
-                          <div className={styles.accordionContentWithoutBorder}>
-                            {productData.brandInfo}
-                          </div>
-                        </Accordion>
-                      )}
+                    {productData.brandInfo && !this.state.eyeWearCheck && (
+                      <Accordion text="Brand Info" headerFontSize={18}>
+                        <div className={styles.accordionContentWithoutBorder}>
+                          {productData.brandInfo}
+                        </div>
+                      </Accordion>
+                    )}
 
                     {manufacturerDetails &&
                       manufacturerDetails.countryOfOrigin && (

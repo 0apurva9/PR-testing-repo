@@ -12,6 +12,7 @@ import DescriptionContainer from "./DescriptionSection/DescriptionContainer";
 import { sortArrayOfObjectByIntegerKeyValue } from "../../../pdp/reducers/utils";
 import { setTracker, VIEW_PRODUCT } from "../../../lib/onlinesalesUtils";
 import { setDataLayer, ADOBE_VIRTUAL_PAGELOAD } from "../../../lib/adobeUtils";
+import { renderMetaTags } from "../../../lib/seoUtils";
 
 export default class PdpBeautyDesktop extends React.Component {
   constructor(props) {
@@ -135,6 +136,7 @@ export default class PdpBeautyDesktop extends React.Component {
               <BreadCrumbs {...this.props} />
             </div>
           )}
+          {renderMetaTags(this.props.productDetails)}
           <div className={styles.container}>
             <ImageGalleryContentComponent
               {...this.props}

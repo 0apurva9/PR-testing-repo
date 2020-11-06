@@ -27,14 +27,17 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
   let canonicalUrl = productDetails.seo.canonicalURL
     ? productDetails.seo.canonicalURL
     : isBrowser
-      ? window.location.href
-      : "";
+    ? window.location.href
+    : "";
   let alternateUrl = productDetails.seo.alternateURL
     ? productDetails.seo.alternateURL
     : isBrowser
-      ? window.location.href
-      : "";
-  title = productDetails.seo.title ? productDetails.seo.title : TITLE_DEFAULT;
+    ? window.location.href
+    : "";
+  title = productDetails.seo.title
+    ? `Buy ${productDetails.productName} from ${productDetails.brandName} for only ${productDetails.winningSellerPrice.commaFormattedValueNoDecimal} on Tata CLiQ`
+    : TITLE_DEFAULT;
+  // document.title = title;
   if (title.length === 0) {
     title = TITLE_DEFAULT;
   }
@@ -46,12 +49,11 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
   if (alternateUrl.length === 0) {
     alternateUrl = isBrowser ? window.location.href : "";
   }
-
-  description = productDetails.seo.description;
+  debugger;
+  description = `Shop for ${productDetails.productName} from ${productDetails.brandName} online in India only for ${productDetails.winningSellerPrice.commaFormattedValueNoDecimal}
+  from Tata CLiQ. Buy ${productDetails.productName} now & get ✓best deals ✓fast delivery.`;
   if (isReviewPage) {
-    description = `${productDetails.productName} Review - Check ${
-      productDetails.productName
-    } reviews, rating & other specifications.`;
+    description = `${productDetails.productName} Review - Check ${productDetails.productName} reviews, rating & other specifications.`;
     title = `${productDetails.productName} Reviews & Ratings - Tata CLiQ`;
   }
 
@@ -70,6 +72,7 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
       productDetails.searchresult !== undefined &&
       productDetails.seo.title !== undefined
     ) {
+      debugger;
       title = `Buy ${productDetails.searchresult[0].brandname} ${
         productDetails.seo.title.split("|")[0]
       } - Upto ${maxDiscount}% Off Online - TATA CLIQ`;
@@ -90,6 +93,7 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
         productDetails.seo.title.split("|")[0]
       } Online`;
     } else {
+      debugger;
       if (
         productDetails.seo !== undefined &&
         productDetails.seo.title !== undefined
@@ -112,11 +116,10 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
   }
   if (window.location.href.indexOf("viewSellers") !== -1) {
     title = `${productDetails.productName} Sellers at Tata CLIQ`;
-    description = `Shop ${
-      productDetails.productName
-    } Online at Tata CLiQ. View sellers, Price and Shipping details for a hassle-free shopping experience.`;
+    description = `Shop ${productDetails.productName} Online at Tata CLiQ. View sellers, Price and Shipping details for a hassle-free shopping experience.`;
   }
-
+  console.log("!!!!!!title", title);
+  console.log("!!!!!!description", description);
   return (
     <MetaTags>
       <title> {title}</title>
@@ -185,24 +188,12 @@ export const renderOgTags = (productDetails, isReviewPage: false) => {
     facebookTitle = productDetails.seo.title;
     facebookImageUrl = productDetails.seo.imageURL;
     if (isReviewPage) {
-      googleTitle = `${
-        productDetails.productName
-      } Reviews & Ratings - Tata CLiQ`;
-      twitterTitle = `${
-        productDetails.productName
-      } Reviews & Ratings - Tata CLiQ`;
-      facebookTitle = `${
-        productDetails.productName
-      } Reviews & Ratings - Tata CLiQ`;
-      googleDescription = `${productDetails.productName} Review - Check ${
-        productDetails.productName
-      } reviews, rating & other specifications.`;
-      facebookDescription = `${productDetails.productName} Review - Check ${
-        productDetails.productName
-      } reviews, rating & other specifications.`;
-      twitterDescription = `${productDetails.productName} Review - Check ${
-        productDetails.productName
-      } reviews, rating & other specifications.`;
+      googleTitle = `${productDetails.productName} Reviews & Ratings - Tata CLiQ`;
+      twitterTitle = `${productDetails.productName} Reviews & Ratings - Tata CLiQ`;
+      facebookTitle = `${productDetails.productName} Reviews & Ratings - Tata CLiQ`;
+      googleDescription = `${productDetails.productName} Review - Check ${productDetails.productName} reviews, rating & other specifications.`;
+      facebookDescription = `${productDetails.productName} Review - Check ${productDetails.productName} reviews, rating & other specifications.`;
+      twitterDescription = `${productDetails.productName} Review - Check ${productDetails.productName} reviews, rating & other specifications.`;
     }
   }
 
