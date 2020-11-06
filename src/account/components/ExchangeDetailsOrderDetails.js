@@ -179,102 +179,111 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
         <div className={styles.bbCustom} />
         {!this.props.products.consignmentStatus.includes("CANCEL") &&
           !this.props.products.consignmentStatus.includes("REFUND") &&
-          !this.props.products.consignmentStatus.includes("DELIVERED") &&
-          !this.props.products.exchangeDetails.exchangePickupPromiseDate &&
-          !this.props.products.exchangeDetails.exchangePickedUpDate && (
-            <div className={styles.exchangeEDDContainer}>
-              <span className={styles.fontBold}>Estimated Pick Up by:</span>
-              <span className={styles.fontLight}>
-                {" "}
-                Within 3 days of Product Delivery
-              </span>
-            </div>
-          )}
-        {this.props.products.exchangeDetails.exchangePickupPromiseDate &&
-          !this.props.products.exchangeDetails.exchangePickedUpDate &&
-          !hideExchangeDetails && (
-            <div className={styles.exchangeEDDContainer}>
-              <span className={styles.fontBold}>
-                Estimated Exchange Pick up Date:
-              </span>
-              <span className={styles.fontLight}>
-                {" "}
-                {format(
-                  this.props.products.exchangeDetails.exchangePickupPromiseDate,
-                  dateFormat
+          !this.props.products.consignmentStatus.includes("RETURN") &&
+          !this.props.products.consignmentStatus.includes("DELIVERED") && (
+            <React.Fragment>
+              {!this.props.products.exchangeDetails.exchangePickupPromiseDate &&
+                !this.props.products.exchangeDetails.exchangePickedUpDate && (
+                  <div className={styles.exchangeEDDContainer}>
+                    <span className={styles.fontBold}>
+                      Estimated Pick Up by:
+                    </span>
+                    <span className={styles.fontLight}>
+                      {" "}
+                      Within 3 days of Product Delivery
+                    </span>
+                  </div>
                 )}
-              </span>
-            </div>
-          )}
-        {this.props.products.exchangeDetails.exchangePickedUpDate &&
-          !hideExchangeDetails && (
-            <div className={styles.exchangeEDDContainer}>
-              <span className={styles.fontBold}>
-                Exchange Product Picked up on:
-              </span>
-              <span className={styles.fontLight}>
-                {" "}
-                {format(
-                  this.props.products.exchangeDetails.exchangePickedUpDate,
-                  dateFormat
-                )}
-              </span>
-            </div>
-          )}
-        {!this.props.products.consignmentStatus.includes("CANCEL") &&
-          !this.props.products.consignmentStatus.includes("REFUND") &&
-          !this.props.products.consignmentStatus.includes("DELIVERED") &&
-          !this.props.products.exchangeDetails.exchangeTrackDiagram &&
-          this.props.products.exchangeDetails.exchangePaymentDetails &&
-          this.props.products.exchangeDetails.exchangePaymentDetails[0] &&
-          this.props.products.exchangeDetails.exchangePaymentDetails[0]
-            .exchangePaymentMode && (
-            <div className={styles.exchangeCashbackDetails}>
-              <div className={styles.exchangeCashbackTextContainer}>
-                <span className={styles.exchangeCashbackText}>
-                  You will receive Exchange Cashback, post your old phone
-                  pickup, in{" "}
-                </span>
-                {this.props.products.exchangeDetails.exchangePaymentDetails[0]
-                  .exchangePaymentMode === "CLIQ_CASH" ? (
-                  <span className={styles.exchangeCashbackAccountText}>
-                    CLiQ Cash wallet
-                  </span>
-                ) : (
-                  <span className={styles.exchangeCashbackAccountText}>
-                    A/c{" "}
-                    {this.props.products.exchangeDetails
-                      .exchangePaymentDetails[0].accountNumber &&
-                      this.props.products.exchangeDetails.exchangePaymentDetails[0].accountNumber.replace(
-                        /.(?=.{4,}$)/g,
-                        "x"
+
+              {this.props.products.exchangeDetails.exchangePickupPromiseDate &&
+                !this.props.products.exchangeDetails.exchangePickedUpDate && (
+                  <div className={styles.exchangeEDDContainer}>
+                    <span className={styles.fontBold}>
+                      Estimated Exchange Pick up Date:
+                    </span>
+                    <span className={styles.fontLight}>
+                      {" "}
+                      {format(
+                        this.props.products.exchangeDetails
+                          .exchangePickupPromiseDate,
+                        dateFormat
                       )}
-                  </span>
+                    </span>
+                  </div>
                 )}
-              </div>
-              <div
-                className={styles.exchangeCashbackChangeMode}
-                onClick={() =>
-                  this.goToEchangeCashbackSelection(
-                    this.props.orderDetails.orderId,
-                    this.props.products.exchangeDetails
-                      .exchangePaymentDetails[0].exchangePaymentMode
-                  )
-                }
-              >
-                Change Mode
-              </div>
-            </div>
+
+              {this.props.products.exchangeDetails.exchangePickedUpDate && (
+                <div className={styles.exchangeEDDContainer}>
+                  <span className={styles.fontBold}>
+                    Exchange Product Picked up on:
+                  </span>
+                  <span className={styles.fontLight}>
+                    {" "}
+                    {format(
+                      this.props.products.exchangeDetails.exchangePickedUpDate,
+                      dateFormat
+                    )}
+                  </span>
+                </div>
+              )}
+
+              {!this.props.products.exchangeDetails.exchangeTrackDiagram &&
+                this.props.products.exchangeDetails.exchangePaymentDetails &&
+                this.props.products.exchangeDetails.exchangePaymentDetails[0] &&
+                this.props.products.exchangeDetails.exchangePaymentDetails[0]
+                  .exchangePaymentMode && (
+                  <div className={styles.exchangeCashbackDetails}>
+                    <div className={styles.exchangeCashbackTextContainer}>
+                      <span className={styles.exchangeCashbackText}>
+                        You will receive Exchange Cashback, post your old phone
+                        pickup, in{" "}
+                      </span>
+                      {this.props.products.exchangeDetails
+                        .exchangePaymentDetails[0].exchangePaymentMode ===
+                      "CLIQ_CASH" ? (
+                        <span className={styles.exchangeCashbackAccountText}>
+                          CLiQ Cash wallet
+                        </span>
+                      ) : (
+                        <span className={styles.exchangeCashbackAccountText}>
+                          A/c{" "}
+                          {this.props.products.exchangeDetails
+                            .exchangePaymentDetails[0].accountNumber &&
+                            this.props.products.exchangeDetails.exchangePaymentDetails[0].accountNumber.replace(
+                              /.(?=.{4,}$)/g,
+                              "x"
+                            )}
+                        </span>
+                      )}
+                    </div>
+                    <div
+                      className={styles.exchangeCashbackChangeMode}
+                      onClick={() =>
+                        this.goToEchangeCashbackSelection(
+                          this.props.orderDetails.orderId,
+                          this.props.products.exchangeDetails
+                            .exchangePaymentDetails[0].exchangePaymentMode
+                        )
+                      }
+                    >
+                      Change Mode
+                    </div>
+                  </div>
+                )}
+            </React.Fragment>
           )}
 
         {(this.props.products.consignmentStatus.includes("CANCEL") ||
-          hideTrackDiagram) && (
-          <React.Fragment>
-            <div className={styles.exchangeCancelledText}>
-              {this.props.products.exchangeDetails.exchangeCancelMessage}
-            </div>
-          </React.Fragment>
-        )}
+          this.props.products.consignmentStatus.includes("RETURN") ||
+          this.props.products.consignmentStatus.includes("REFUND") ||
+          hideTrackDiagram) &&
+          this.props.products.exchangeDetails.exchangeCancelMessage && (
+            <React.Fragment>
+              <div className={styles.exchangeCancelledText}>
+                {this.props.products.exchangeDetails.exchangeCancelMessage}
+              </div>
+            </React.Fragment>
+          )}
 
         {cashbackCredited &&
           cashbackCredited.status &&
