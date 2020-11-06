@@ -51,7 +51,9 @@ export default class OrderPaymentMethod extends React.Component {
     if (this.props.orderDetails) {
       if (
         this.props.orderDetails.products &&
-        this.props.orderDetails.products.length == 1
+        Array.isArray(this.props.orderDetails.products) &&
+        this.props.orderDetails.products.length == 1 &&
+        transactionId
       ) {
         const selectedOrderObj = {
           orderCode,
@@ -83,9 +85,7 @@ export default class OrderPaymentMethod extends React.Component {
   onChangeAddress = () => {
     //this.props.history.push(`${MY_ACCOUNT_PAGE}/${this.props.orderId}${RETURN_TO_ADDRESS}`);
     this.props.history.push({
-      pathname: `${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${
-        this.props.orderId
-      }${RETURN_TO_ADDRESS}`,
+      pathname: `${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${this.props.orderId}${RETURN_TO_ADDRESS}`,
       state: {
         urlAddress: window.location.href,
         orderId: this.props.orderId,
@@ -147,60 +147,59 @@ export default class OrderPaymentMethod extends React.Component {
             </div>
           </div>
         )}
-        {this.props.deliveryAddress &&
-          this.props.clickcollect != true && (
+        {this.props.deliveryAddress && this.props.clickcollect != true && (
+          <React.Fragment>
             <React.Fragment>
-              <React.Fragment>
-                <div className={styles.deliveryAddressTitle}>
-                  <span className={styles.ffsemibold}>Delivery Address:</span>
+              <div className={styles.deliveryAddressTitle}>
+                <span className={styles.ffsemibold}>Delivery Address:</span>
+              </div>
+              {this.props.isCDA ? (
+                <div
+                  className={styles.helpSupport}
+                  onClick={() => this.onChangeAddress()}
+                >
+                  Change
                 </div>
-                {this.props.isCDA ? (
-                  <div
-                    className={styles.helpSupport}
-                    onClick={() => this.onChangeAddress()}
-                  >
-                    Change
-                  </div>
-                ) : (
-                  ""
-                )}
-              </React.Fragment>
+              ) : (
+                ""
+              )}
+            </React.Fragment>
 
-              {addressLine1 && (
-                <div className={styles.deliveryAddress}>
-                  <React.Fragment>
-                    {addressLine1.addressLine1 && (
-                      <span className={styles.addressLine}>
-                        {addressLine1.addressLine1},{" "}
-                      </span>
-                    )}
-                    {/* {/* <span className={styles.addressLine}>
+            {addressLine1 && (
+              <div className={styles.deliveryAddress}>
+                <React.Fragment>
+                  {addressLine1.addressLine1 && (
+                    <span className={styles.addressLine}>
+                      {addressLine1.addressLine1},{" "}
+                    </span>
+                  )}
+                  {/* {/* <span className={styles.addressLine}>
                       {this.state.deliveryAddress.addressLine ||
                         this.state.deliveryAddress.addressLine1},{" "}
                     </span>
                     <span className={styles.addressLine}>
                       {this.state.deliveryAddress.landmark},{" "}
                     </span> */}
-                    {addressLine1.town && (
-                      <span className={styles.addressLine}>
-                        {addressLine1.town},{" "}
-                      </span>
-                    )}
-                    {addressLine1.state && (
-                      <span className={styles.addressLine}>
-                        {addressLine1.state},{" "}
-                      </span>
-                    )}
-                    {addressLine1.postalcode && (
-                      <span className={styles.addressLine}>
-                        {addressLine1.postalcode}
-                      </span>
-                    )}
-                  </React.Fragment>
-                </div>
-              )}
-            </React.Fragment>
-          )}
+                  {addressLine1.town && (
+                    <span className={styles.addressLine}>
+                      {addressLine1.town},{" "}
+                    </span>
+                  )}
+                  {addressLine1.state && (
+                    <span className={styles.addressLine}>
+                      {addressLine1.state},{" "}
+                    </span>
+                  )}
+                  {addressLine1.postalcode && (
+                    <span className={styles.addressLine}>
+                      {addressLine1.postalcode}
+                    </span>
+                  )}
+                </React.Fragment>
+              </div>
+            )}
+          </React.Fragment>
+        )}
 
         {/* {(this.props.paymentMethod || this.props.phoneNumber) && (
           <div className={styles.cashAndMobileHolder}>
@@ -219,10 +218,26 @@ export default class OrderPaymentMethod extends React.Component {
     );
   }
 }
+
 OrderPaymentMethod.propTypes = {
   // underlineButtonLabel: PropTypes.string,
   // underlineButtonColour: PropTypes.string,
-  phoneNumber: PropTypes.string
+  phoneNumber: PropTypes.string,
+  clickcollect: PropTypes.bool,
+  deliveryAddress: PropTypes.shape({
+    addressLine1: PropTypes.string,
+    addressType: PropTypes.string,
+    country: PropTypes.string,
+    defaultAddress: PropTypes.bool,
+    firstName: PropTypes.string,
+    id: PropTypes.string,
+    lastName: PropTypes.string,
+    phone: PropTypes.string,
+    postalcode: PropTypes.string,
+    shippingFlag: PropTypes.bool,
+    state: PropTypes.string,
+    town: PropTypes.string
+  })
   //request: PropTypes.func
 };
 OrderPaymentMethod.defaultProps = {
