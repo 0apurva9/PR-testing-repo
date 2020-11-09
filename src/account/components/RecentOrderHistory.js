@@ -151,7 +151,7 @@ export default class RecentOrderHistory extends Component {
       <div className={Styles.base}>
         <div className={Styles.whiteCard}>
           <div className={Styles.headerBox}>
-            <div className={Styles.header}>Recent tickets</div>
+            <div className={Styles.header}>All Tickets</div>
 
             {this.props.isRecentOrderDetails ? (
               <div

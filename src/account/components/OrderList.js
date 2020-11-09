@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
+import onOrder from "../components/img/onOrder.svg";
 import Carousel from "../../general/components/Carousel";
 import { getDayNumberSuffix } from "../../lib/dateTimeFunction";
 import styles from "./CustomerIssue.css";
@@ -71,12 +72,12 @@ class OrderList extends Component {
                         </div>
                       ) : null
                     ) : (product.statusDisplay === ORDER_CONFIRMED ||
-                      product.statusDisplay === ORDER_IN_PROCESS ||
-                      product.statusDisplay === SHIPPED ||
-                      product.statusDisplay === ITEM_PACKED ||
-                      product.statusDisplay === OUT_FOR_DELIVERY ||
-                      product.statusDisplay === READY_FOR_COLLECTION) &&
-                    (product.EDD || product.estimateddeliverydate) ? (
+                        product.statusDisplay === ORDER_IN_PROCESS ||
+                        product.statusDisplay === SHIPPED ||
+                        product.statusDisplay === ITEM_PACKED ||
+                        product.statusDisplay === OUT_FOR_DELIVERY ||
+                        product.statusDisplay === READY_FOR_COLLECTION) &&
+                      (product.EDD || product.estimateddeliverydate) ? (
                       <div className={styles.orderStatus}>
                         {ESTIMATED_DATE}&nbsp;
                         <div className={styles.fontBold}>
@@ -135,21 +136,23 @@ class OrderList extends Component {
     } else {
       return (
         <div className={styles.noOrderBox}>
+          <div className={styles.loginImg}>
+            <img src={onOrder} alt="on Order image" />
+          </div>
           <div className={styles.noOrderHeader}>Your have no recent orders</div>
           <div className={styles.noOrderTxt}>
-            You can go to the homepage to browse and start shopping.
+            You dont have any orders with us recently.
+            <br />
+            You can go to home page to view more items or else.
           </div>
           <div className={styles.continueShoping}>
-            <Button
-              type="primary"
-              backgroundColor="#da1c5c"
-              height={40}
-              label="START SHOPPING"
-              borderRadius={6}
-              width={205}
-              textStyle={{ color: "#FFF", fontSize: 14 }}
+            <div
+              className={styles.loginBtn}
               onClick={() => this.renderToContinueShopping()}
-            />
+            >
+              {" "}
+              START SHOPPING{" "}
+            </div>
           </div>
         </div>
       );

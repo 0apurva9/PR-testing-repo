@@ -13,12 +13,26 @@
   justify-content: center;
 }
 .loginHeading {
-  font-size: 16px;
+  font-size: 18px;
   font-family: semibold;
   color: #212121;
+  margin-top: 22px;
+  margin-bottom: 6px;
+}
+.loginSubHeading{
+  font-size: 14px;
+  font-family: light;
+  color: #8d8d8d;
+  text-align: center;
 }
 .loginButton {
   padding: 21px 0px 3px 0px;
+}
+.loginBtn{
+  font-size: 18px;
+  color: #da1c5c;
+  font-family: semibold;
+  cursor: pointer;
 }
 .orderDataCard {
   background: #fff;
@@ -59,18 +73,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 35px 0px 30px 0px;
+  padding: 6px 0px 6px 0px;
 }
 .noOrderHeader {
-  font-size: 16px;
+  font-size: 18px;
   font-family: semibold;
-  color: #4a4a4a;
+  color: #212121;
+  margin-top: 10px;
 }
 .noOrderTxt {
-  font-size: 16px;
+  font-size: 14px;
   font-family: light;
-  color: #4a4a4a;
-  padding: 8px 0px 24px 0px;
+  color: #8d8d8d;
+  padding: 8px 0px 17px 0px;
+  text-align: center;
 }
 .continueShoping {
 }
@@ -429,4 +445,27 @@ margin-bottom: 20px;
 .dateStyle {
   font-size: 12px;
   font-family: semibold;
+}
+.cliqCare{
+  background: #fff;
+  padding: 24px 80px 24px 30px;
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 18px;
+}
+.cliqCareBox{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cliqCareHeading{
+  font-size: 24px;
+  color: #212121;
+  font-family: semibold;
+  margin-bottom: 14px;
+}
+.cliqCareSubHeading{
+  font-size: 16px;
+  color: #4a4a4a;
+  font-family: light;
 }

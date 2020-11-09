@@ -6,6 +6,7 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import * as Cookie from "../../lib/Cookie";
 import CustomerIssue from "./CustomerIssue.js";
 import MoreHelps from "./MoreHelps";
+import noLogin from "../components/img/noLogin.svg";
 import {
   SUCCESS,
   LOGGED_IN_USER_DETAILS,
@@ -1045,11 +1046,52 @@ export default class OrderRelatedIssue extends React.Component {
                     <div className={styles.formAbdTabHolder}>
                       <div className={styles.tabHolder}>
                         <div className={styles.recentOrder}>
-                          <div className={styles.tabHeader}>
-                            Your Recent Tickets
+                          <div className={styles.recentTicketBox}>
+                            <div className={styles.recentTxt}>
+                              {" "}
+                              Your Recent Ticket(s)
+                            </div>
+                            <div
+                              className={styles.viewAll}
+                              onClick={() =>
+                                this.showRecentOrderHistory("closeTicket")
+                              }
+                            >
+                              View All
+                            </div>
+                          </div>
+                          <div className={styles.recentTicketDetailsBox}>
+                            <div className={styles.recentTicketDetails}>
+                              <div className={styles.recentTicektImage}>
+                                <img src={noLogin} alt="noLogin" />
+                              </div>
+                              <div className={styles.recentTicketTxt}>
+                                Issue regarding faulty mobile accessory that has
+                                been received with or…
+                              </div>
+                            </div>
+                            <div className={styles.recentTiketStatusBox}>
+                              <div className={styles.recentTicektCircle}></div>
+                              <div>
+                                <div className={styles.recentStatus}>
+                                  Ticket Status:{" "}
+                                  <span className={styles.fontBold}>
+                                    In Process
+                                  </span>
+                                </div>
+                                <div className={styles.recentStatus}>
+                                  {" "}
+                                  Estimated Resolution:{" "}
+                                  <span className={styles.fontBold}>
+                                    {" "}
+                                    08 Jun, 2020
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
 
-                          <div
+                          {/* <div
                             className={styles.faqList}
                             onClick={() =>
                               this.showRecentOrderHistory("openTicket")
@@ -1068,8 +1110,8 @@ export default class OrderRelatedIssue extends React.Component {
                             <div className={styles.faqSubheading}>
                               Lorem ipsum dorem lorem
                             </div>
-                          </div>
-                          <div
+                          </div> */}
+                          {/* <div
                             className={styles.faqList}
                             onClick={() =>
                               this.showRecentOrderHistory("closeTicket")
@@ -1088,7 +1130,7 @@ export default class OrderRelatedIssue extends React.Component {
                             <div className={styles.faqSubheading}>
                               Lorem ipsum dorem lorem
                             </div>
-                          </div>
+                          </div> */}
                         </div>
                         <div className={styles.tabHolderBox}>
                           <div className={styles.tabHeader}>
