@@ -39,7 +39,8 @@ import {
   DESKTOP_AUTH,
   EXCHANGE_TnC_MODAL,
   EXCHANGE_REMOVE_MODAL,
-  CLIQ_PIQ_MODAL
+  CLIQ_PIQ_MODAL,
+  APPLIANCES_EXCHANGE_MODAL
 } from "../../general/modal.actions";
 import { SUCCESS, NO } from "../../lib/constants";
 import {
@@ -272,6 +273,9 @@ const mapDispatchToProps = dispatch => {
     },
     getWishlist: () => {
       dispatch(getWishlist());
+    },
+    openAppliancesExchangeModal: data => {
+      dispatch(showModal(APPLIANCES_EXCHANGE_MODAL, data));
     }
   };
 };
