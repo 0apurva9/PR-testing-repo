@@ -1042,6 +1042,7 @@ export function addProductToCart(productDetails) {
         JSON.stringify(bagItemsInJsonFormat)
       );
 
+      // appiance exchange poc
       let acPdpExchangeDetails = localStorage.getItem("acPdpExchangeDetails");
       let acPdpExchangeData =
         acPdpExchangeDetails && JSON.parse(acPdpExchangeDetails);
