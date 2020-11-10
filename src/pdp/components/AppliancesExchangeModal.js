@@ -60,6 +60,7 @@ export default class AppliancesExchangeModal extends React.Component {
           updateAppliancesExchangeDetails={exchangeData =>
             this.props.updateAppliancesExchangeDetails(exchangeData)
           }
+          history={this.props.history}
         />
       );
     }
