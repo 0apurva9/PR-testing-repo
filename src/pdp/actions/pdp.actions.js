@@ -16,7 +16,8 @@ import {
   ANONYMOUS_USER,
   TIME_OUT_FOR_APIS,
   LOW_INTERNET_CONNECTION_MESSAGE,
-  CHANNEL
+  CHANNEL,
+  AC_PDP_EXCHANGE_DETAILS
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -278,6 +279,9 @@ export const GET_APPLIANCES_EXCHANGE_DETAILS_SUCCESS =
   "GET_APPLIANCES_EXCHANGE_DETAILS_SUCCESS";
 export const GET_APPLIANCES_EXCHANGE_DETAILS_FAILURE =
   "GET_APPLIANCES_EXCHANGE_DETAILS_FAILURE";
+
+export const UPDATE_APPLIANCES_EXCHANGE_DETAILS =
+  "UPDATE_APPLIANCES_EXCHANGE_DETAILS";
 
 export function getProductDescriptionRequest() {
   return {
@@ -1042,8 +1046,7 @@ export function addProductToCart(productDetails) {
         JSON.stringify(bagItemsInJsonFormat)
       );
 
-      // appiance exchange poc
-      let acPdpExchangeDetails = localStorage.getItem("acPdpExchangeDetails");
+      let acPdpExchangeDetails = localStorage.getItem(AC_PDP_EXCHANGE_DETAILS);
       let acPdpExchangeData =
         acPdpExchangeDetails && JSON.parse(acPdpExchangeDetails);
       if (
@@ -2931,5 +2934,15 @@ export function getAppliancesExchangeDetails() {
     } catch (e) {
       dispatch(getAppliancesExchangeDetailsFailure(e.message));
     }
+  };
+}
+
+// This function accepts selected details of appliances exchange
+// This function updates PDP UI with selected exchange details on modal close
+export function updateAppliancesExchangeDetails(exchangeData) {
+  return {
+    type: UPDATE_APPLIANCES_EXCHANGE_DETAILS,
+    status: SUCCESS,
+    exchangeData
   };
 }

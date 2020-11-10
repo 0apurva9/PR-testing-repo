@@ -128,7 +128,11 @@ const productDescription = (
     getAppliancesExchangeDetailsStatus: null,
     getAppliancesExchangeDetailsLoading: false,
     getAppliancesExchangeDetails: null,
-    getAppliancesExchangeDetailsError: null
+    getAppliancesExchangeDetailsError: null,
+
+    updatedAppliancesExchangeDetailsStatus: null,
+    updatedAppliancesExchangeDetails: null,
+    updatedAppliancesExchangeDetailsLoading: false
   },
   action
 ) => {
@@ -1343,6 +1347,13 @@ const productDescription = (
         getAppliancesExchangeDetailsStatus: action.status,
         getAppliancesExchangeDetailsLoading: false,
         getAppliancesExchangeDetailsError: action.error
+      });
+
+    case pdpActions.UPDATE_APPLIANCES_EXCHANGE_DETAILS:
+      return Object.assign({}, state, {
+        updatedAppliancesExchangeDetailsStatus: action.status,
+        updatedAppliancesExchangeDetails: action.exchangeData,
+        updatedAppliancesExchangeDetailsLoading: false
       });
 
     default:

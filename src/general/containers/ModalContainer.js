@@ -42,7 +42,8 @@ import {
   hidePdpPiqPage,
   updateProductState,
   verifyIMEINumber,
-  getProductPinCode
+  getProductPinCode,
+  updateAppliancesExchangeDetails
 } from "../../pdp/actions/pdp.actions";
 import { updateProfile } from "../../account/actions/account.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -457,6 +458,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showSecondaryLoader: () => {
       dispatch(showSecondaryLoader());
+    },
+    updateAppliancesExchangeDetails: exchangeData => {
+      dispatch(updateAppliancesExchangeDetails(exchangeData));
     }
   };
 };

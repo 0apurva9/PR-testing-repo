@@ -1,5 +1,10 @@
 import React from "react";
-import { RUPEE_SYMBOL } from "../../lib/constants";
+import {
+  RUPEE_SYMBOL,
+  AC_PDP_EXCHANGE_DETAILS,
+  EXCHANGE_ADDED_MESSAGE,
+  EXCHANGE_REMOVED_MESSAGE
+} from "../../lib/constants";
 import PropTypes from "prop-types";
 import exchangeLogoLoader from "./img/exchangeLogoLoader.svg";
 import Icon from "../../xelpmoc-core/Icon";
@@ -17,7 +22,7 @@ export default class AppliancesExchange extends React.Component {
   }
 
   componentDidMount() {
-    let exchangeDetails = localStorage.getItem("acPdpExchangeDetails");
+    let exchangeDetails = localStorage.getItem(AC_PDP_EXCHANGE_DETAILS);
     if (exchangeDetails) {
       let parsedExchangeDetails = JSON.parse(exchangeDetails);
       this.setState({ exchangeData: parsedExchangeDetails });
@@ -33,9 +38,23 @@ export default class AppliancesExchange extends React.Component {
       //update ussid for every pdp
       parsedExchangeDetails.ussid = this.props.ussid;
       localStorage.setItem(
-        "acPdpExchangeDetails",
+        AC_PDP_EXCHANGE_DETAILS,
         JSON.stringify(parsedExchangeDetails)
       );
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.updatedAppliancesExchangeDetails &&
+      this.props.updatedAppliancesExchangeDetails !==
+        prevProps.updatedAppliancesExchangeDetails
+    ) {
+      this.setState({
+        exchangeData: this.props.updatedAppliancesExchangeDetails,
+        removeExchange: true
+      });
+      this.props.displayToast(EXCHANGE_ADDED_MESSAGE);
     }
   }
 
@@ -54,24 +73,24 @@ export default class AppliancesExchange extends React.Component {
   addOrRemoveExchange() {
     this.setState({ removeExchange: !this.state.removeExchange });
     if (!this.state.removeExchange) {
-      this.props.displayToast("Exchange has been added.");
+      this.props.displayToast(EXCHANGE_ADDED_MESSAGE);
       let acPdpExchangeDetails = this.state.exchangeData;
       if (acPdpExchangeDetails) {
         acPdpExchangeDetails.ussid = this.props.ussid;
         acPdpExchangeDetails.isExchangeSelected = true;
         localStorage.setItem(
-          "acPdpExchangeDetails",
+          AC_PDP_EXCHANGE_DETAILS,
           JSON.stringify(acPdpExchangeDetails)
         );
         this.setState({ exchangeData: acPdpExchangeDetails });
       }
     } else {
-      this.props.displayToast("Exchange has been removed.");
+      this.props.displayToast(EXCHANGE_REMOVED_MESSAGE);
       let acPdpExchangeDetails = this.state.exchangeData;
       if (acPdpExchangeDetails) {
         acPdpExchangeDetails.isExchangeSelected = false;
         localStorage.setItem(
-          "acPdpExchangeDetails",
+          AC_PDP_EXCHANGE_DETAILS,
           JSON.stringify(acPdpExchangeDetails)
         );
         this.setState({ exchangeData: acPdpExchangeDetails });
@@ -121,28 +140,15 @@ export default class AppliancesExchange extends React.Component {
                 </span>
                 cashback on your{" "}
                 <span className={styles.fontRegular}>
-                  {this.trimProductName(this.state.exchangeData.brandName)} AC{" "}
+                  {this.trimProductName(this.state.exchangeData.brandName)}-{
+                    this.state.exchangeData.modelType
+                  }{" "}
+                  AC{" "}
                 </span>
-                {this.props.exchangeDisabled ? (
-                  <span className={styles.withDisabledExchangeLink}>
-                    with Exchange
-                  </span>
-                ) : (
-                  <span
-                    className={styles.withExchangeLink}
-                    onClick={() =>
-                      this.openAppliancesExchangeModal({
-                        ussid: this.props.ussid
-                      })
-                    }
-                  >
-                    with Exchange
-                  </span>
-                )}
               </div>
             )}
             <div
-              className={styles.exchangeDetails}
+              className={styles.appliancesExchangeDetails}
               onClick={() =>
                 this.openAppliancesExchangeModal({
                   showAppliancesExchangeWorks: true
@@ -151,6 +157,26 @@ export default class AppliancesExchange extends React.Component {
             >
               How Exchange works?
             </div>
+            {this.state.exchangeData && (
+              <React.Fragment>
+                {this.props.exchangeDisabled ? (
+                  <span className={styles.changeDeviceLinkDisabled}>
+                    Change Device
+                  </span>
+                ) : (
+                  <span
+                    className={styles.changeDeviceLink}
+                    onClick={() =>
+                      this.openAppliancesExchangeModal({
+                        ussid: this.props.ussid
+                      })
+                    }
+                  >
+                    Change Device
+                  </span>
+                )}
+              </React.Fragment>
+            )}
           </React.Fragment>
         </div>
         {this.state.exchangeData && (
