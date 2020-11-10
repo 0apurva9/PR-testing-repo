@@ -8,12 +8,12 @@ import backArrowIcon from "../../pdp/components/img/arrowBack.svg";
 import PropTypes from "prop-types";
 import AppliancesExchangeDetails from "./AppliancesExchangeDetails";
 import ExchangeTnCModal from "./ExchangeTnCModal";
+import HowAppliancesExchangeWorks from "./HowAppliancesExchangeWorks";
 const OTHERS = "others";
 const SELECT_BRAND = "Select Brand";
 const SELECT_CAPACITY = "Select Capacity";
 const SELECT_WORKING_CONDITION = "Select Working Condition";
 const EXCHANGE_DETAILS = "Exchange Details";
-
 export default class AppliancesExchangeSelection extends React.Component {
   constructor(props) {
     super(props);
@@ -25,7 +25,8 @@ export default class AppliancesExchangeSelection extends React.Component {
       selectedConditionData: null,
       showSearchBox: false,
       exchangeData: null,
-      showTnCModal: false
+      showTnCModal: false,
+      showHowAppliancesExchangeWorks: false
     };
   }
 
@@ -117,8 +118,12 @@ export default class AppliancesExchangeSelection extends React.Component {
     }
   }
 
-  openHowAppliancesExchangeWorks(data) {
-    this.props.openHowAppliancesExchangeWorks(data);
+  showHowAppliancesExchangeWorks(data) {
+    this.setState({ showHowAppliancesExchangeWorks: true });
+  }
+
+  hideHowAppliancesExchangeWorks(data) {
+    this.setState({ showHowAppliancesExchangeWorks: false });
   }
 
   openTnCModal() {
@@ -156,6 +161,19 @@ export default class AppliancesExchangeSelection extends React.Component {
             closeTnCModal={() => this.closeTnCModal()}
           />
         ) : null}
+
+        {this.state.showHowAppliancesExchangeWorks ? (
+          <HowAppliancesExchangeWorks
+            hideHowAppliancesExchangeWorks={() =>
+              this.hideHowAppliancesExchangeWorks()
+            }
+            closeAppliancesExchangeModal={() =>
+              this.closeAppliancesExchangeModal()
+            }
+            showBackButton={true}
+          />
+        ) : null}
+
         <div className={styles.appliancesExchangeTopContainer}>
           {!this.state.showSearchBox && (
             <div className={styles.aeHowExchangeWorksHeading}>
@@ -298,8 +316,8 @@ export default class AppliancesExchangeSelection extends React.Component {
               bonusExchangeAmount={
                 this.props.appliancesExchangeDetails.bonusExchangeAmount
               }
-              openHowAppliancesExchangeWorks={data =>
-                this.openHowAppliancesExchangeWorks(data)
+              showHowAppliancesExchangeWorks={() =>
+                this.showHowAppliancesExchangeWorks()
               }
               closeAppliancesExchangeModal={() =>
                 this.closeAppliancesExchangeModal()

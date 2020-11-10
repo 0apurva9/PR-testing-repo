@@ -7,23 +7,6 @@ import PropTypes from "prop-types";
 export default class AppliancesExchangeModal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      showAppliancesExchangeWorks: false,
-      showBackButton: false
-    };
-  }
-
-  openHowAppliancesExchangeWorks(data) {
-    if (data.showAppliancesExchangeWorks) {
-      this.setState({ showAppliancesExchangeWorks: true });
-    } else {
-      this.setState({ showAppliancesExchangeWorks: false });
-    }
-    if (data.showBackButton) {
-      this.setState({ showBackButton: true });
-    } else {
-      this.setState({ showBackButton: false });
-    }
   }
 
   closeAppliancesExchangeModal() {
@@ -31,27 +14,18 @@ export default class AppliancesExchangeModal extends React.Component {
   }
 
   render() {
-    if (
-      this.props.showAppliancesExchangeWorks ||
-      this.state.showAppliancesExchangeWorks
-    ) {
+    if (this.props.showAppliancesExchangeWorks) {
       return (
         <HowAppliancesExchangeWorks
-          openHowAppliancesExchangeWorks={data =>
-            this.openHowAppliancesExchangeWorks(data)
-          }
           closeAppliancesExchangeModal={() =>
             this.closeAppliancesExchangeModal()
           }
-          showBackButton={this.state.showBackButton}
+          showBackButton={false}
         />
       );
     } else {
       return (
         <AppliancesExchangeSelection
-          openHowAppliancesExchangeWorks={data =>
-            this.openHowAppliancesExchangeWorks(data)
-          }
           closeAppliancesExchangeModal={() =>
             this.closeAppliancesExchangeModal()
           }
