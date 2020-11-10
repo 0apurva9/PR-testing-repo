@@ -185,7 +185,9 @@ const mapStateToProps = state => {
     cliq2CallConfigData: state.profile.cliq2CallConfigData,
     genesysResponseLoading: state.profile.genesysResponseLoading,
     genesysResponseData: state.profile.genesysResponseData,
-    genesysCustomerCallRequestData: state.profile.genesysCustomerCallRequestData
+    genesysCustomerCallRequestData:
+      state.profile.genesysCustomerCallRequestData,
+    ticketHistoryDetails: state.profile.ticketRecentHistoryDetails
   };
 };
 

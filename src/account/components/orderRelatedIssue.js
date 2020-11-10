@@ -126,6 +126,10 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.getNonOrderRelatedQuestions();
     }
 
+    if (this.props.getRecentTicketHistoryDetails) {
+      this.props.getRecentTicketHistoryDetails();
+    }
+
     if (this.props.getUserDetails) {
       this.props.getUserDetails();
     }
@@ -821,9 +825,6 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   showRecentOrderHistory(ticketType) {
-    // if (this.props.getRecentTicketHistoryDetails) {
-    //   this.props.getRecentTicketHistoryDetails(ticketType);
-    // }
     this.setState({
       parentIssueType: ticketType,
       isRecentOrderHistory: true,

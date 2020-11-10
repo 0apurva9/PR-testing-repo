@@ -5782,12 +5782,40 @@ export function getRecentTicketHistoryDetails(ticketType) {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     dispatch(getRecentTicketHistoryDetailsRequest());
     try {
-      const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/getTicketHistory?CurrentPage=${0}&access_token=${customerAccessToken}&pageSize=${10}&ticketYear=${2020}&ticketStatus=${true}`
-      );
-      const resultJson = await result.json();
+      // const result = await api.get(
+      //   `${USER_PATH}/${
+      //     JSON.parse(userDetails).userName
+      //   }/getTicketHistory?CurrentPage=${0}&access_token=${customerAccessToken}&pageSize=${10}&ticketYear=${2020}&ticketStatus=${true}`
+      // );
+      // const resultJson = await result.json();
+      const resultJson = {
+        type: "ticketHistoryData",
+        status: "Success",
+        tickets: [
+          {
+            creationDate: "16-09-2020 12:55:53",
+            customerComment: "comment",
+            issueType: "Sample issue type",
+            orderId: "09876",
+            productImage:
+              "////img.tatacliq.com/images/i3/97Wx144H/MP000000003182513_97Wx144H_20180526020449.jpeg",
+            productTitle: "Spykar Dark Grey Slim Fit Shirt",
+            resolutionDate: "30-09-2020 09:55:30",
+            slaBreach: "true",
+            ticketId: "0987654",
+            ticketStatus: "Open",
+            transactionId: "100081000450814"
+          },
+          {
+            creationDate: "09-09-2020 02:34:52",
+            issueBucket: "Account related",
+            issueType: "sample issue type",
+            resolutionDate: "30-09-2020 06:55:47",
+            slaBreach: "false",
+            ticketId: "0987653"
+          }
+        ]
+      };
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
