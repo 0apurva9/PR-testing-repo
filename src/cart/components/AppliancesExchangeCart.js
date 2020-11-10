@@ -63,7 +63,9 @@ export default class AppliancesExchangeCart extends React.Component {
             <div className={styles.exchangeDetailsHeading}>
               Exchange Cashback for{" "}
               <span className={styles.exchangeProductName}>
-                {this.state.exchangeData && this.state.exchangeData.brandName}
+                {this.state.exchangeData && this.state.exchangeData.brandName}-{this
+                  .state.exchangeData && this.state.exchangeData.modelType}{" "}
+                AC
               </span>
             </div>
           </div>
