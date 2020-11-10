@@ -82,6 +82,7 @@ export default class ConnectWidget extends React.Component {
 
     return (
       <div
+        data-test="connect-to-widget-test"
         className={
           this.props.positionInFeed === 1
             ? styles.firstPositionHolder
