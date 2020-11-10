@@ -40,6 +40,7 @@ import {
 } from "../../lib/adobeUtils";
 import DigitalBundledProduct from "./DigitalBundledProduct";
 import RecommendedBundledProduct from "./RecommendedBundledProduct";
+import AppliancesExchangeCart from "./AppliancesExchangeCart";
 const NO_SIZE = "NO SIZE";
 const OUT_OF_STOCK = "Product is out of stock";
 export default class CartItemForDesktop extends React.Component {
@@ -677,6 +678,14 @@ export default class CartItemForDesktop extends React.Component {
               )}
             </React.Fragment>
           )}
+
+        <AppliancesExchangeCart
+          productUssid={this.props.product.USSID}
+          pinCodeResponse={this.props.product.pinCodeResponse}
+          productIsServiceable={this.props.productIsServiceable}
+          openAppliancesExchangeModal={this.props.openAppliancesExchangeModal}
+        />
+
         {this.props.product.bundledDigitalItems &&
           this.props.product.bundledDigitalItems.map(
             (digitalProduct, index) => {
