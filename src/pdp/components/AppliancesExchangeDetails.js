@@ -1,4 +1,5 @@
 import React from "react";
+import { AC_PDP_EXCHANGE_DETAILS } from "../../lib/constants";
 import styles from "./ExchangeModal.css";
 import closeIcon from "../../general/components/img/closeIcon.svg";
 import Icon from "../../xelpmoc-core/Icon";
@@ -48,7 +49,7 @@ export default class AppliancesExchangeDetails extends React.Component {
   saveAppliancesExchangeDetails() {
     let exchangeData = this.props.exchangeData;
     exchangeData.isExchangeSelected = true;
-    localStorage.setItem("acPdpExchangeDetails", JSON.stringify(exchangeData));
+    localStorage.setItem(AC_PDP_EXCHANGE_DETAILS, JSON.stringify(exchangeData));
     this.props.closeAppliancesExchangeModal();
     this.props.updateAppliancesExchangeDetails(exchangeData);
   }

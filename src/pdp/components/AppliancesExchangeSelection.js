@@ -8,6 +8,11 @@ import backArrowIcon from "../../pdp/components/img/arrowBack.svg";
 import PropTypes from "prop-types";
 import AppliancesExchangeDetails from "./AppliancesExchangeDetails";
 import ExchangeTnCModal from "./ExchangeTnCModal";
+const OTHERS = "others";
+const SELECT_BRAND = "Select Brand";
+const SELECT_CAPACITY = "Select Capacity";
+const SELECT_WORKING_CONDITION = "Select Working Condition";
+const EXCHANGE_DETAILS = "Exchange Details";
 
 export default class AppliancesExchangeSelection extends React.Component {
   constructor(props) {
@@ -34,7 +39,7 @@ export default class AppliancesExchangeSelection extends React.Component {
     let otherBrand =
       this.props.appliancesExchangeDetails &&
       this.props.appliancesExchangeDetails.brands.filter(brand => {
-        return brand.brandName.toLowerCase() === "others";
+        return brand.brandName.toLowerCase() === OTHERS;
       });
     this.setState({ otherBrand });
   }
@@ -173,12 +178,12 @@ export default class AppliancesExchangeSelection extends React.Component {
                 )}
               <div className={styles.sectionName}>
                 {!this.state.selectedBrandData
-                  ? "Select Brand"
+                  ? SELECT_BRAND
                   : !this.state.selectedCapacityData
-                    ? "Select Capacity"
+                    ? SELECT_CAPACITY
                     : !this.state.selectedConditionData
-                      ? "Select Working Condition"
-                      : "Exchange Details"}
+                      ? SELECT_WORKING_CONDITION
+                      : EXCHANGE_DETAILS}
               </div>
               {!this.state.selectedBrandData && (
                 <div

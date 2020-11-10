@@ -16,7 +16,8 @@ import {
   ANONYMOUS_USER,
   TIME_OUT_FOR_APIS,
   LOW_INTERNET_CONNECTION_MESSAGE,
-  CHANNEL
+  CHANNEL,
+  AC_PDP_EXCHANGE_DETAILS
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -1045,7 +1046,7 @@ export function addProductToCart(productDetails) {
         JSON.stringify(bagItemsInJsonFormat)
       );
 
-      let acPdpExchangeDetails = localStorage.getItem("acPdpExchangeDetails");
+      let acPdpExchangeDetails = localStorage.getItem(AC_PDP_EXCHANGE_DETAILS);
       let acPdpExchangeData =
         acPdpExchangeDetails && JSON.parse(acPdpExchangeDetails);
       if (
