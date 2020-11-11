@@ -2011,11 +2011,7 @@ if you have order id in local storage then you have to show order confirmation p
       let querySearch = this.props.location.search
         ? this.props.location.search
         : window.location.search;
-      if (
-        !querySearch &&
-        failedorderRetryPayment &&
-        !this.state.isComingFromRetryUrl
-      ) {
+      if (failedorderRetryPayment && !this.state.isComingFromRetryUrl) {
         querySearch = failedorderRetryPayment.includes("?")
           ? failedorderRetryPayment.split("?")[1]
           : failedorderRetryPayment;
