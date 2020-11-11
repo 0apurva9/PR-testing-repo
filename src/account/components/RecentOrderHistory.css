@@ -182,3 +182,33 @@ margin-top: 12px;
     color: #f34c14;
     font-family: semibold;
 }
+.resolved{
+width: 12px;
+height: 12px;
+background: #338715;
+border-radius: 50px;
+display: inline-block;
+margin-right: 8px;
+}
+.delayed{
+ width: 12px;
+ height: 12px;
+ background: #f34c14;
+ border-radius: 50px;
+ display: inline-block;
+ margin-right: 8px;
+}
+.inProcess{
+   width: 12px;
+   height: 12px;
+   border: 1px solid #499b1f;
+   border-radius: 50px;
+   display: inline-block;
+   margin-right: 8px;
+}
+.delayedStatus{
+    font-size: 14px;
+    color: #d83e09;
+    font-family: regular;
+    margin-top: 10px;
+}

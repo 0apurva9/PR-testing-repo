@@ -5795,7 +5795,49 @@ export function getRecentTicketHistoryDetails(ticketType) {
           {
             creationDate: "16-09-2020 12:55:53",
             customerComment: "comment",
-            issueType: "Sample issue type",
+            issueType: "Sample issue type 2",
+            orderId: "09876",
+            productImage:
+              "////img.tatacliq.com/images/i3/97Wx144H/MP000000003182513_97Wx144H_20180526020449.jpeg",
+            productTitle: "Spykar Dark Grey Slim Fit Shirt",
+            resolutionDate: "30-09-2020 09:55:30",
+            slaBreach: "true",
+            ticketId: "0987654",
+            ticketStatus: "Open",
+            transactionId: "100081000450814"
+          },
+          {
+            creationDate: "15-09-2020 12:55:53",
+            customerComment: "comment",
+            issueType: "Sample issue type 3",
+            orderId: "09876",
+            productImage:
+              "////img.tatacliq.com/images/i3/97Wx144H/MP000000003182513_97Wx144H_20180526020449.jpeg",
+            productTitle: "Spykar Dark Grey Slim Fit Shirt",
+            resolutionDate: "11-09-2020 09:55:30",
+            slaBreach: "false",
+            ticketId: "0987654334",
+            ticketStatus: "Open",
+            transactionId: "100081000450814"
+          },
+          {
+            creationDate: "19-09-2020 12:55:53",
+            customerComment: "comment",
+            issueType: "Sample issue type 4",
+            orderId: "09876",
+            productImage:
+              "////img.tatacliq.com/images/i3/97Wx144H/MP000000003182513_97Wx144H_20180526020449.jpeg",
+            productTitle: "Spykar Dark Grey Slim Fit Shirt",
+            resolutionDate: "30-09-2020 09:55:30",
+            slaBreach: "true",
+            ticketId: "0987654",
+            ticketStatus: "Close",
+            transactionId: "100081000450814"
+          },
+          {
+            creationDate: "16-09-2020 12:55:53",
+            customerComment: "comment",
+            issueType: "Sample issue type 5",
             orderId: "09876",
             productImage:
               "////img.tatacliq.com/images/i3/97Wx144H/MP000000003182513_97Wx144H_20180526020449.jpeg",

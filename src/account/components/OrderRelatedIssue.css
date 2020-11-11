@@ -269,8 +269,9 @@ border-bottom:1px solid #e5e5e5;
 }
 .recentTicketDetails{
   display: flex;
-    align-items: center;
-    justify-content: space-between;
+    /* align-items: center; */
+    /* justify-content: space-between; */
+    margin: 11px 0px;
 }
 .recentTicketTxt{
   font-size: 12px;
@@ -282,13 +283,14 @@ border-bottom:1px solid #e5e5e5;
 .recentTiketStatusBox{
   display: flex;
 }
-.recentTicektCircle{
+.inProcess{
   width: 8px;
   height: 8px;
   border: 1px solid #499b1f;
   border-radius: 50px;
   margin-right: 10px;
 }
+
 .recentStatus{
   font-size: 12px;
     font-family: light;

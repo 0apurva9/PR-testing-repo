@@ -5,6 +5,10 @@ import Icon from "../../xelpmoc-core/Icon";
 import downArrow from "./img/down-arrow-grey.svg";
 import ProductImage from "../../general/components/ProductImage";
 import RecentOrderDetails from "./RecentOrderDetails";
+import moment from "moment";
+
+const STATUS_DATE_FORMAT = "DD MMM, YYYY";
+
 const orderDataList = {
   type: "getOrderHistoryListWsDTO",
   status: "Success",
@@ -147,6 +151,8 @@ const orderDataList = {
 
 export default class RecentOrderHistory extends Component {
   render() {
+    console.log("ticketHistoryDetails", this.props.ticketHistoryDetails);
+    const { ticketHistoryDetails } = this.props;
     return (
       <div className={Styles.base}>
         <div className={Styles.whiteCard}>
@@ -192,50 +198,62 @@ export default class RecentOrderHistory extends Component {
                   className={Styles.filterType}
                   onClick={() => this.props.handleSelectedFilterClick("Closed")}
                 >
-                  Closed
+                  Resolved
                 </div>
               </div>
             )}
           </div>
           <div className={Styles.contentBox}>
-            {orderDataList &&
+            {ticketHistoryDetails &&
               !this.props.isRecentOrderDetails &&
-              orderDataList.orderData.map(data => {
-                if (data.products) {
-                  return data.products.map(product => {
-                    return (
-                      <div
-                        className={Styles.orderDetailsCardBox}
-                        onClick={() => this.props.showRecentOrderDetails()}
-                      >
-                        <div className={Styles.orderImg}>
-                          <ProductImage image={product.imageURL} />
-                        </div>
-                        <div className={Styles.orderDetails}>
-                          <div className={Styles.productName}>
-                            {product.productName}
-                          </div>
-                          <div className={Styles.fontLight}>
-                            <div
-                              className={Styles.orderStatusIconResolve}
-                            ></div>
-                            Status :{" "}
-                            <span className={Styles.fontBold}>
-                              {product.statusDisplay}
-                            </span>
-                          </div>
-                          <div className={Styles.fontLight}>
-                            {" "}
-                            Estimated Resolution Date:{" "}
-                            <span className={Styles.fontBold}>
-                              {product.EDD}{" "}
-                            </span>
-                          </div>
-                        </div>
+              ticketHistoryDetails.tickets.map(tickets => {
+                return (
+                  <div
+                    className={Styles.orderDetailsCardBox}
+                    onClick={() => this.props.showRecentOrderDetails()}
+                  >
+                    <div className={Styles.orderImg}>
+                      <ProductImage image={tickets.productImage} />
+                    </div>
+                    <div className={Styles.orderDetails}>
+                      <div className={Styles.productName}>
+                        {tickets.issueType}
                       </div>
-                    );
-                  });
-                }
+                      <div className={Styles.fontLight}>
+                        <span
+                          className={
+                            tickets.ticketStatus === "Close"
+                              ? Styles.resolved
+                              : tickets.slaBreach === "true"
+                              ? Styles.delayed
+                              : Styles.inProcess
+                          }
+                        ></span>
+                        Status :{" "}
+                        <span className={Styles.fontBold}>
+                          {tickets.ticketStatus === "Open"
+                            ? "In Process"
+                            : "Resolved"}
+                        </span>
+                      </div>
+                      <div className={Styles.fontLight}>
+                        {" "}
+                        Estimated Resolution Date:{" "}
+                        <span className={Styles.fontBold}>
+                          {moment(
+                            tickets.resolutionDate.split(" ")[0],
+                            "DD-MM-YYYY"
+                          ).format(STATUS_DATE_FORMAT)}
+                        </span>
+                      </div>
+                      {tickets.slaBreach === "true" && (
+                        <div className={Styles.delayedStatus}>
+                          Resolution delayed
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
               })}
 
             {!orderDataList && !this.props.isRecentOrderDetails && (

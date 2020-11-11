@@ -36,12 +36,15 @@ import { MOBILE_PATTERN } from "../../auth/components/Login";
 import SSRquest from "../../general/components/SSRequest";
 import RecentOrderHistory from "./RecentOrderHistory";
 import Icon from "../../xelpmoc-core/Icon";
+import moment from "moment";
+import ProductImage from "../../general/components/ProductImage";
 const ORDER_REALTED_QUESTION = "orderRelated";
 const NON_ORDER_REALTED_QUESTION = "NonOrderRelated";
 const FAQ_PAGE = "ss-faq";
 const YES = "Yes";
 const NO = "No";
 const CLIQ_2_CALL_CONFIG = "cliq2call-config-file";
+const STATUS_DATE_FORMAT = "DD MMM, YYYY";
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
     super(props);
@@ -870,7 +873,8 @@ export default class OrderRelatedIssue extends React.Component {
       loadingForSendInvoice,
       cliq2CallConfigDataLoading,
       genesysResponseLoading,
-      genesysCustomerCallRequestData
+      genesysCustomerCallRequestData,
+      ticketHistoryDetails
     } = this.props;
     if (
       customerQueriesOtherIssueLoading ||
@@ -1064,20 +1068,27 @@ export default class OrderRelatedIssue extends React.Component {
                           <div className={styles.recentTicketDetailsBox}>
                             <div className={styles.recentTicketDetails}>
                               <div className={styles.recentTicektImage}>
-                                <img src={noLogin} alt="noLogin" />
+                                <ProductImage
+                                  image={
+                                    ticketHistoryDetails &&
+                                    ticketHistoryDetails.tickets[0].productImage
+                                  }
+                                />
                               </div>
                               <div className={styles.recentTicketTxt}>
-                                Issue regarding faulty mobile accessory that has
-                                been received with or…
+                                {ticketHistoryDetails &&
+                                  ticketHistoryDetails.tickets[0].issueType}
                               </div>
                             </div>
                             <div className={styles.recentTiketStatusBox}>
-                              <div className={styles.recentTicektCircle}></div>
+                              <div className={styles.inProcess}></div>
                               <div>
                                 <div className={styles.recentStatus}>
                                   Ticket Status:{" "}
                                   <span className={styles.fontBold}>
-                                    In Process
+                                    {ticketHistoryDetails &&
+                                      ticketHistoryDetails.tickets[0]
+                                        .ticketStatus}
                                   </span>
                                 </div>
                                 <div className={styles.recentStatus}>
@@ -1085,7 +1096,13 @@ export default class OrderRelatedIssue extends React.Component {
                                   Estimated Resolution:{" "}
                                   <span className={styles.fontBold}>
                                     {" "}
-                                    08 Jun, 2020
+                                    {moment(
+                                      ticketHistoryDetails &&
+                                        ticketHistoryDetails.tickets[0].resolutionDate.split(
+                                          " "
+                                        )[0],
+                                      "DD-MM-YYYY"
+                                    ).format(STATUS_DATE_FORMAT)}
                                   </span>
                                 </div>
                               </div>
@@ -1204,6 +1221,10 @@ export default class OrderRelatedIssue extends React.Component {
                           isRecentOrderDetails={this.state.isRecentOrderDetails}
                           navigatePreviousPage={() =>
                             this.navigatePreviousPage()
+                          }
+                          ticketHistoryDetails={
+                            this.props.ticketHistoryDetails &&
+                            this.props.ticketHistoryDetails
                           }
                         />
                       ) : (
