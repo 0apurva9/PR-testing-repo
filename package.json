@@ -129,7 +129,7 @@
     "awsdev1": "REACT_APP_STAGE=awsdev1 node scripts/build.js",
     "awsdev2": "REACT_APP_STAGE=awsdev2 node scripts/build.js",
     "qa1": "REACT_APP_STAGE=qa1 node scripts/build.js",
-    "qa3": "REACT_APP_STAGE=qa3 node scripts/build.js",
+    "qa3": "REACT_APP_STAGE=production node scripts/build.js",
     "qa4": "REACT_APP_STAGE=qa4 node scripts/build.js",
     "qa5": "REACT_APP_STAGE=qa5 node scripts/build.js",
     "qa6": "REACT_APP_STAGE=qa6 node scripts/build.js",
