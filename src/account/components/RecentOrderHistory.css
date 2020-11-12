@@ -212,3 +212,14 @@ margin-right: 8px;
     font-family: regular;
     margin-top: 10px;
 }
+.delayedStatusText{
+    font-size: 14px;
+    font-family: semibold;
+    color: #d83e09;
+}
+.statusText{
+    font-size: 14px;
+    font-family: semibold;
+    color: #338715;
+    
+}

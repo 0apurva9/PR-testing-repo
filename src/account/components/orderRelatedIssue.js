@@ -111,7 +111,10 @@ export default class OrderRelatedIssue extends React.Component {
       isRecentOrderHistory: false,
       filterCard: false,
       filterTypeData: "All Tickets",
-      isRecentOrderDetails: false
+      isRecentOrderDetails: false,
+      selectedTickerHistory: "",
+      isShowRecentOrderCard: true,
+      isViewAllClick: false
     };
     this.resetState = this.state;
   }
@@ -372,7 +375,8 @@ export default class OrderRelatedIssue extends React.Component {
       questionList: selectOtehrQuestion.listofSubIssues,
       parentIssueType: selectOtehrQuestion.parentIssueType,
       questionType: NON_ORDER_REALTED_QUESTION,
-      callMeBackJourney: false
+      callMeBackJourney: false,
+      isShowRecentOrderCard: false
     });
   }
 
@@ -423,7 +427,8 @@ export default class OrderRelatedIssue extends React.Component {
           questionList: response.orderRelatedQuestions.listOfIssues,
           parentIssueType: null,
           questionType: ORDER_REALTED_QUESTION,
-          slectOrderData: orderData.product
+          slectOrderData: orderData.product,
+          isShowRecentOrderCard: false
         });
       }
     }
@@ -472,7 +477,8 @@ export default class OrderRelatedIssue extends React.Component {
               questionType: NON_ORDER_REALTED_QUESTION,
               showFeedBack: false,
               isQuesryForm: false,
-              callMeBackJourney: false
+              callMeBackJourney: false,
+              isShowRecentOrderCard: false
             });
           }
         }
@@ -528,14 +534,14 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   showAllOrdersList() {
-    this.setState({ orderAllList: true });
+    this.setState({ orderAllList: true, isShowRecentOrderCard: false });
   }
   hideAllOrder() {
     setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_PAGE_LOAD, null, [
       CLIQ_CARE,
       "Care_Homepage"
     ]);
-    this.setState({ orderAllList: false });
+    this.setState({ orderAllList: false, isShowRecentOrderCard: true });
   }
 
   navigateLogin() {
@@ -657,6 +663,15 @@ export default class OrderRelatedIssue extends React.Component {
       });
     } else if (this.state.isRecentOrderDetails) {
       this.setState({ isRecentOrderDetails: false });
+      // if(this.state.isViewAllClick){
+      //   console.log("dfdf")
+      //   this.setState({isRecentOrderHistory:false})
+      // }
+      // else{
+      //   this.setState({ isRecentOrderDetails: false });
+      // }
+    } else if (this.state.isRecentOrderHistory) {
+      this.setState({ isRecentOrderHistory: false });
     }
   }
   navigateHomePage() {
@@ -833,17 +848,26 @@ export default class OrderRelatedIssue extends React.Component {
       isRecentOrderHistory: true,
       isOrderDatails: false,
       FAQquestion: false,
-      showQuestionList: false
+      showQuestionList: false,
+      isViewAllClick: true
     });
   }
+
   handleFilterClick = () => {
     this.setState({ filterCard: true });
   };
   handleSelectedFilterClick = filterData => {
     this.setState({ filterTypeData: filterData, filterCard: false });
   };
-  showRecentOrderDetails = () => {
-    this.setState({ isRecentOrderDetails: true });
+  showRecentOrderDetails = selectedTickerHistory => {
+    this.setState({
+      isRecentOrderDetails: true,
+      selectedTickerHistory: selectedTickerHistory,
+      isRecentOrderHistory: true,
+      isOrderDatails: false,
+      FAQquestion: false,
+      showQuestionList: false
+    });
   };
 
   render() {
@@ -892,6 +916,15 @@ export default class OrderRelatedIssue extends React.Component {
       this.props.showSecondaryLoader();
     } else {
       this.props.hideSecondaryLoader();
+    }
+    let showRecentOrderCard = false;
+    if (
+      isUserLogin &&
+      ordersTransactionData &&
+      ordersTransactionData.orderData &&
+      !this.state.isRecentOrderHistory
+    ) {
+      showRecentOrderCard = true;
     }
 
     if (this.state.showLoader) {
@@ -1050,106 +1083,77 @@ export default class OrderRelatedIssue extends React.Component {
                   <div className={styles.baseWrapper}>
                     <div className={styles.formAbdTabHolder}>
                       <div className={styles.tabHolder}>
-                        <div className={styles.recentOrder}>
-                          <div className={styles.recentTicketBox}>
-                            <div className={styles.recentTxt}>
-                              {" "}
-                              Your Recent Ticket(s)
-                            </div>
-                            <div
-                              className={styles.viewAll}
-                              onClick={() =>
-                                this.showRecentOrderHistory("closeTicket")
-                              }
-                            >
-                              View All
-                            </div>
-                          </div>
-                          <div className={styles.recentTicketDetailsBox}>
-                            <div className={styles.recentTicketDetails}>
-                              <div className={styles.recentTicektImage}>
-                                <ProductImage
-                                  image={
-                                    ticketHistoryDetails &&
-                                    ticketHistoryDetails.tickets[0].productImage
-                                  }
-                                />
-                              </div>
-                              <div className={styles.recentTicketTxt}>
-                                {ticketHistoryDetails &&
-                                  ticketHistoryDetails.tickets[0].issueType}
-                              </div>
-                            </div>
-                            <div className={styles.recentTiketStatusBox}>
-                              <div className={styles.inProcess}></div>
-                              <div>
-                                <div className={styles.recentStatus}>
-                                  Ticket Status:{" "}
-                                  <span className={styles.fontBold}>
-                                    {ticketHistoryDetails &&
-                                      ticketHistoryDetails.tickets[0]
-                                        .ticketStatus}
-                                  </span>
-                                </div>
-                                <div className={styles.recentStatus}>
+                        {showRecentOrderCard &&
+                          this.state.isShowRecentOrderCard && (
+                            <div className={styles.recentOrder}>
+                              <div className={styles.recentTicketBox}>
+                                <div className={styles.recentTxt}>
                                   {" "}
-                                  Estimated Resolution:{" "}
-                                  <span className={styles.fontBold}>
-                                    {" "}
-                                    {moment(
-                                      ticketHistoryDetails &&
-                                        ticketHistoryDetails.tickets[0].resolutionDate.split(
-                                          " "
-                                        )[0],
-                                      "DD-MM-YYYY"
-                                    ).format(STATUS_DATE_FORMAT)}
-                                  </span>
+                                  Your Recent Ticket(s)
+                                </div>
+                                <div
+                                  className={styles.viewAll}
+                                  onClick={() =>
+                                    this.showRecentOrderHistory("closeTicket")
+                                  }
+                                >
+                                  View All
+                                </div>
+                              </div>
+                              <div
+                                className={styles.recentTicketDetailsBox}
+                                onClick={() =>
+                                  this.showRecentOrderDetails(
+                                    ticketHistoryDetails.tickets[0]
+                                  )
+                                }
+                              >
+                                <div className={styles.recentTicketDetails}>
+                                  <div className={styles.recentTicektImage}>
+                                    <ProductImage
+                                      image={
+                                        ticketHistoryDetails &&
+                                        ticketHistoryDetails.tickets[0]
+                                          .productImage
+                                      }
+                                    />
+                                  </div>
+                                  <div className={styles.recentTicketTxt}>
+                                    {ticketHistoryDetails &&
+                                      ticketHistoryDetails.tickets[0].issueType}
+                                  </div>
+                                </div>
+                                <div className={styles.recentTiketStatusBox}>
+                                  <div className={styles.inProcess}></div>
+                                  <div>
+                                    <div className={styles.recentStatus}>
+                                      Ticket Status:{" "}
+                                      <span className={styles.fontBold}>
+                                        {ticketHistoryDetails &&
+                                          ticketHistoryDetails.tickets[0]
+                                            .ticketStatus}
+                                      </span>
+                                    </div>
+                                    <div className={styles.recentStatus}>
+                                      {" "}
+                                      Estimated Resolution:{" "}
+                                      <span className={styles.fontBold}>
+                                        {" "}
+                                        {moment(
+                                          ticketHistoryDetails &&
+                                            ticketHistoryDetails.tickets[0].resolutionDate.split(
+                                              " "
+                                            )[0],
+                                          "DD-MM-YYYY"
+                                        ).format(STATUS_DATE_FORMAT)}
+                                      </span>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          )}
 
-                          {/* <div
-                            className={styles.faqList}
-                            onClick={() =>
-                              this.showRecentOrderHistory("openTicket")
-                            }
-                          >
-                            <div
-                              className={[
-                                styles.faqHeader,
-                                this.state.parentIssueType == "openTicket"
-                                  ? styles.colorRed
-                                  : null
-                              ].join(" ")}
-                            >
-                              Open Tickets
-                            </div>
-                            <div className={styles.faqSubheading}>
-                              Lorem ipsum dorem lorem
-                            </div>
-                          </div> */}
-                          {/* <div
-                            className={styles.faqList}
-                            onClick={() =>
-                              this.showRecentOrderHistory("closeTicket")
-                            }
-                          >
-                            <div
-                              className={[
-                                styles.faqHeader,
-                                this.state.parentIssueType == "closeTicket"
-                                  ? styles.colorRed
-                                  : null
-                              ].join(" ")}
-                            >
-                              Close Tickets
-                            </div>
-                            <div className={styles.faqSubheading}>
-                              Lorem ipsum dorem lorem
-                            </div>
-                          </div> */}
-                        </div>
                         <div className={styles.tabHolderBox}>
                           <div className={styles.tabHeader}>
                             All Help Topics
@@ -1217,7 +1221,12 @@ export default class OrderRelatedIssue extends React.Component {
                             this.handleSelectedFilterClick(selectedFilter)
                           }
                           filterTypeData={this.state.filterTypeData}
-                          showRecentOrderDetails={this.showRecentOrderDetails}
+                          showRecentOrderDetails={selectedTickets =>
+                            this.showRecentOrderDetails(selectedTickets)
+                          }
+                          selectedTickerHistory={
+                            this.state.selectedTickerHistory
+                          }
                           isRecentOrderDetails={this.state.isRecentOrderDetails}
                           navigatePreviousPage={() =>
                             this.navigatePreviousPage()
