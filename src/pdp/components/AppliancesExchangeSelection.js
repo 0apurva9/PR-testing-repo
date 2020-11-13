@@ -26,7 +26,10 @@ export default class AppliancesExchangeSelection extends React.Component {
       showSearchBox: false,
       exchangeData: null,
       showTnCModal: false,
-      showHowAppliancesExchangeWorks: false
+      showHowAppliancesExchangeWorks: false,
+      selectedBrandIndex: null,
+      selectedCapacityIndex: null,
+      selectedConditionIndex: null
     };
   }
 
@@ -69,19 +72,27 @@ export default class AppliancesExchangeSelection extends React.Component {
     }
   }
 
-  selectBrand(brandDetails) {
-    this.setState({ showSearchBox: false });
-    this.setState({ selectedBrandData: brandDetails });
+  selectBrand(brandDetails, index) {
+    this.setState({ selectedBrandIndex: index, showSearchBox: false });
+    setTimeout(() => {
+      this.setState({ selectedBrandData: brandDetails });
+    }, 500);
   }
 
-  selectCapacity(capacityDetails, modelType) {
+  selectCapacity(capacityDetails, modelType, capacityIndex, index) {
+    this.setState({ selectedCapacityIndex: `${capacityIndex}${index}` });
     let info = capacityDetails;
     info.modelType = modelType;
-    this.setState({ selectedCapacityData: info });
+    setTimeout(() => {
+      this.setState({ selectedCapacityData: info });
+    }, 500);
   }
 
-  selectCondition(conditionDetails) {
-    this.setState({ selectedConditionData: conditionDetails });
+  selectCondition(conditionDetails, index) {
+    this.setState({ selectedConditionIndex: index });
+    setTimeout(() => {
+      this.setState({ selectedConditionData: conditionDetails });
+    }, 500);
     let data = {};
     data.brandName = this.state.selectedBrandData.brandName;
     data.modelCapacity = this.state.selectedCapacityData.capacity;
@@ -98,8 +109,10 @@ export default class AppliancesExchangeSelection extends React.Component {
   }
 
   closeSearchInputBox() {
-    this.setState({ showSearchBox: false });
-    this.setState({ brandList: this.props.appliancesExchangeDetails.brands });
+    this.setState({
+      showSearchBox: false,
+      brandList: this.props.appliancesExchangeDetails.brands
+    });
   }
 
   resetState(section) {
@@ -116,6 +129,11 @@ export default class AppliancesExchangeSelection extends React.Component {
         selectedConditionData: null
       });
     }
+    this.setState({
+      selectedBrandIndex: null,
+      selectedCapacityIndex: null,
+      selectedConditionIndex: null
+    });
   }
 
   showHowAppliancesExchangeWorks(data) {
@@ -240,11 +258,15 @@ export default class AppliancesExchangeSelection extends React.Component {
           {!this.state.selectedBrandData ? (
             <React.Fragment>
               {this.state.brandList &&
-                this.state.brandList.map(brand => {
+                this.state.brandList.map((brand, index) => {
                   return (
                     <div
-                      className={styles.brandNameContainer}
-                      onClick={() => this.selectBrand(brand)}
+                      className={
+                        index === this.state.selectedBrandIndex
+                          ? styles.brandNameContainerSelected
+                          : styles.brandNameContainer
+                      }
+                      onClick={() => this.selectBrand(brand, index)}
                     >
                       <img className={styles.brandImage} src={brand.imageUrl} />
                       <span className={styles.brandName}>
@@ -258,56 +280,82 @@ export default class AppliancesExchangeSelection extends React.Component {
             <React.Fragment>
               {this.state.selectedBrandData &&
                 this.state.selectedBrandData.modelCapacityList &&
-                this.state.selectedBrandData.modelCapacityList.map(capacity => {
-                  return (
-                    <React.Fragment>
-                      <div className={styles.capacityHeading}>
-                        {capacity.iconUrl && (
-                          <div className={styles.capacityIconContainer}>
-                            <Icon image={capacity.iconUrl} size={24} />
+                this.state.selectedBrandData.modelCapacityList.map(
+                  (capacity, capacityIndex) => {
+                    return (
+                      <React.Fragment>
+                        <div className={styles.capacityHeading}>
+                          {capacity.iconUrl && (
+                            <div className={styles.capacityIconContainer}>
+                              <Icon image={capacity.iconUrl} size={24} />
+                            </div>
+                          )}
+                          <div className={styles.capacityModelType}>
+                            {capacity.modelType}
                           </div>
-                        )}
-                        <div className={styles.capacityModelType}>
-                          {capacity.modelType}
                         </div>
-                      </div>
-                      {capacity.capacityList.map(value => {
-                        return (
-                          <div
-                            className={styles.capacityNameContainer}
-                            onClick={() =>
-                              this.selectCapacity(value, capacity.modelType)
-                            }
-                          >
-                            <span className={styles.capacityName}>
-                              {value.capacity}
-                            </span>
-                          </div>
-                        );
-                      })}
-                    </React.Fragment>
-                  );
-                })}
+                        {capacity.capacityList.map((value, index) => {
+                          let currentIndex = `${capacityIndex}${index}`;
+                          return (
+                            <div
+                              className={
+                                currentIndex ===
+                                this.state.selectedCapacityIndex
+                                  ? styles.capacityNameContainerSelected
+                                  : styles.capacityNameContainer
+                              }
+                              onClick={() =>
+                                this.selectCapacity(
+                                  value,
+                                  capacity.modelType,
+                                  capacityIndex,
+                                  index
+                                )
+                              }
+                            >
+                              <span className={styles.capacityName}>
+                                {value.capacity}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </React.Fragment>
+                    );
+                  }
+                )}
             </React.Fragment>
           ) : !this.state.selectedConditionData ? (
             <React.Fragment>
               {this.state.selectedCapacityData &&
                 this.state.selectedCapacityData.state &&
-                this.state.selectedCapacityData.state.map(condition => {
-                  return (
-                    <div
-                      className={styles.conditionNameContainer}
-                      onClick={() => this.selectCondition(condition)}
-                    >
-                      <div className={styles.conditionIconContainer}>
-                        <Icon image={condition.nonSelectedImageUrl} size={45} />
+                this.state.selectedCapacityData.state.map(
+                  (condition, index) => {
+                    return (
+                      <div
+                        className={
+                          index === this.state.selectedConditionIndex
+                            ? styles.conditionNameContainerSelected
+                            : styles.conditionNameContainer
+                        }
+                        onClick={() => this.selectCondition(condition, index)}
+                      >
+                        <div className={styles.conditionIconContainer}>
+                          <Icon
+                            image={
+                              index === this.state.selectedConditionIndex
+                                ? condition.selectedImageUrl
+                                : condition.nonSelectedImageUrl
+                            }
+                            size={45}
+                          />
+                        </div>
+                        <span className={styles.conditionName}>
+                          {condition.value}
+                        </span>
                       </div>
-                      <span className={styles.conditionName}>
-                        {condition.value}
-                      </span>
-                    </div>
-                  );
-                })}
+                    );
+                  }
+                )}
             </React.Fragment>
           ) : (
             <AppliancesExchangeDetails
