@@ -4,7 +4,12 @@ import EmiCartSelect from "./EmiCartSelect";
 import EmiDisplay from "./EmiDisplay";
 import CreditCardForm from "./CreditCardForm";
 import PropTypes from "prop-types";
-import { STANDARD_EMI, EMI_TYPE, EMI_TENURE } from "../../lib/constants";
+import {
+  STANDARD_EMI,
+  EMI_TYPE,
+  EMI_TENURE,
+  SELECTED_BANK_NAME
+} from "../../lib/constants";
 import EmiSectionDesktop from "../../pdp/components/EmiSectionDesktop";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -32,7 +37,7 @@ export default class EmiAccordion extends React.Component {
       selectedBankName: ""
     };
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.selectedEMIType !== STANDARD_EMI) {
       this.setState({
         planSelected: false,
@@ -89,6 +94,7 @@ export default class EmiAccordion extends React.Component {
       option.emitermsrate = sortBy(option.emitermsrate, bank => {
         return parseInt(bank.term, 10);
       });
+      localStorage.setItem(SELECTED_BANK_NAME, option.code);
       this.setState({
         selectedBank: option.code,
         selectedEmiRate: option.emitermsrate[0].interestRate,
@@ -200,7 +206,7 @@ export default class EmiAccordion extends React.Component {
                 this.props.emiBinValidationErrorMessage
               }
               isDebitCard={this.props.isDebitCard}
-              dCEmiEligibiltyDetails={this.props.dCEmiEligibiltyDetails}
+              emiEligibiltyDetails={this.props.emiEligibiltyDetails}
             />
           </React.Fragment>
         )}

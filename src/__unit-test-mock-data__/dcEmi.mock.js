@@ -2842,7 +2842,7 @@ export const bankConvFeeIsZero = {
   isRetryPaymentFromURL: false,
   retryPaymentDetails: null,
   isDebitCard: true,
-  dCEmiEligibiltyDetails: {
+  emiEligibiltyDetails: {
     type: "dcemiEligibilityDTO",
     status: "Success",
     DCEMIEligibleMessage:
@@ -3049,7 +3049,7 @@ export const bankConvFeeNonZero = {
   isRetryPaymentFromURL: false,
   retryPaymentDetails: null,
   isDebitCard: true,
-  dCEmiEligibiltyDetails: {
+  emiEligibiltyDetails: {
     type: "dcemiEligibilityDTO",
     status: "Success",
     DCEMIEligibleMessage:

@@ -63,15 +63,19 @@ export default class MenuDetails extends React.Component {
       }
     }
   };
-  checkEMI = () => {
-    if (!this.props.isOpen && this.props.displayToast) {
-      this.props.displayToast(
-        "One or more products are not eligible for EMI, please use another payment method to make your purchase."
-      );
+  checkEMI = async () => {
+    if (this.props.getEMIEligibilityDetails) {
+      await this.props.getEMIEligibilityDetails();
+      if (
+        this.props.emiEligibiltyDetails &&
+        !this.props.emiEligibiltyDetails.error
+      ) {
+        this.openMenu();
+      }
     }
   };
   openMenu() {
-    let cartGuidUPI = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    // let cartGuidUPI = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     let isOpen = !this.state.isOpen;
     if (isOpen) {
       setDataLayerForCheckoutDirectCalls(
@@ -103,7 +107,7 @@ export default class MenuDetails extends React.Component {
       }
     }
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.isOpen !== this.state.isOpen) {
       this.setState({ isOpen: nextProps.isOpen });
     }
@@ -125,7 +129,7 @@ export default class MenuDetails extends React.Component {
           onClick={() =>
             this.props.text === UPI
               ? this.checkupi()
-              : this.props.text === EMI && this.props.isJewelleryProduct
+              : this.props.text === EMI
               ? this.checkEMI()
               : this.openMenu()
           }
@@ -156,11 +160,21 @@ MenuDetails.propTypes = {
   text: PropTypes.string,
   icon: PropTypes.string,
   onOpenMenu: PropTypes.func,
-  isNoBorderTop: PropTypes.bool
+  isNoBorderTop: PropTypes.bool,
+  getEMIEligibilityDetails: PropTypes.func,
+  emiEligibiltyDetails: PropTypes.shape({
+    isCCEMIEligible: PropTypes.bool,
+    isCCNoCostEMIEligible: PropTypes.bool,
+    isDCEMIEligible: PropTypes.bool,
+    isDCNoCostEMIEligible: PropTypes.bool,
+    error: PropTypes.string,
+    nonEmiProdList: PropTypes.array,
+    type: PropTypes.string
+  })
 };
 
 MenuDetails.defaultProps = {
   icon: couponIcon,
   isNoBorderTop: false,
-  isJewelleryProduct: false
+  emiEligibiltyDetails: {}
 };
