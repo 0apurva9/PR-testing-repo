@@ -505,8 +505,8 @@ export function getFeed(pageId: null) {
       if (pageId) {
         feedTypeRequest = SECONDARY_FEED_TYPE;
         try {
-          result = await api.getMiddlewareUrl(
-            `v2/mpl/cms/defaultpage?pageId=${pageId}&channel=${WCMS_PLATFORM}`
+          result = await fetch(
+            `https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=${pageId}&channel=${WCMS_PLATFORM}`
           );
         } catch (e) {
           dispatch(secondaryFeedSuccess([], feedTypeRequest));
@@ -1189,9 +1189,10 @@ export function autoWishlistComponent(productId) {
       const successfulPromises = results.filter(
         request => request.status === "fulfilled"
       );
-      let productListWithStatus = await Promise.all(successfulPromises).then(
-        response =>
-          Promise.all(response.map(r => r && r.value && r.value.json()))
+      let productListWithStatus = await Promise.all(
+        successfulPromises
+      ).then(response =>
+        Promise.all(response.map(r => r && r.value && r.value.json()))
       );
       productListWithStatus &&
         productListWithStatus.map(product => {
