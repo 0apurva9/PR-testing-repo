@@ -73,7 +73,7 @@ export default class RecentOrderHistory extends Component {
           <div className={Styles.contentBox}>
             {ticketHistoryDetails &&
               !this.props.isRecentOrderDetails &&
-              ticketHistoryDetails.tickets.map(tickets => {
+              ticketHistoryDetails.map(tickets => {
                 return (
                   <div
                     className={Styles.orderDetailsCardBox}
@@ -107,10 +107,11 @@ export default class RecentOrderHistory extends Component {
                         {" "}
                         Estimated Resolution Date:{" "}
                         <span className={Styles.fontBold}>
-                          {moment(
-                            tickets.resolutionDate.split(" ")[0],
-                            "DD-MM-YYYY"
-                          ).format(STATUS_DATE_FORMAT)}
+                          {tickets.resolutionDate &&
+                            moment(
+                              tickets.resolutionDate.split(" ")[0],
+                              "DD-MM-YYYY"
+                            ).format(STATUS_DATE_FORMAT)}
                         </span>
                       </div>
                       {tickets.slaBreach === "true" && (
@@ -149,26 +150,26 @@ export default class RecentOrderHistory extends Component {
   }
 }
 
-// const ticketDetailsProps = PropTypes.shape({
-//   creationDate: PropTypes.string,
-//   customerComment: PropTypes.string,
-//   issueBucket: PropTypes.string,
-//   issueType: PropTypes.string,
-//   orderId: PropTypes.string,
-//   productImage: PropTypes.string,
-//   productTitle: PropTypes.string,
-//   resolutionDate: PropTypes.string,
-//   slaBreach: PropTypes.string,
-//   ticketId: PropTypes.string,
-//   ticketStatus: PropTypes.string,
-//   transactionId: PropTypes.string
-// });
-
 RecentOrderHistory.propTypes = {
+  filterCard: PropTypes.bool,
+  filterTypeData: PropTypes.string,
   handleFilterClick: PropTypes.func,
   handleSelectedFilterClick: PropTypes.func,
-  filterCard: PropTypes.bool,
   isRecentOrderDetails: PropTypes.bool,
-  filterTypeData: PropTypes.string,
-  showRecentOrderDetails: PropTypes.showRecentOrderDetails
+  navigatePreviousPage: PropTypes.func,
+  showRecentOrderDetails: PropTypes.showRecentOrderDetails,
+  ticketHistoryDetails: PropTypes.arrayOf(
+    PropTypes.shape({
+      creationDate: PropTypes.string,
+      customerComment: PropTypes.string,
+      orderId: PropTypes.string,
+      productImage: PropTypes.string,
+      productTitle: PropTypes.string,
+      resolutionDate: PropTypes.string,
+      slaBreach: PropTypes.string,
+      ticketId: PropTypes.string,
+      ticketStatus: PropTypes.string,
+      transactionId: PropTypes.string
+    })
+  )
 };

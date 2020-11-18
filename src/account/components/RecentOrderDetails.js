@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import ProductImage from "../../general/components/ProductImage";
 import Styles from "./RecentOrderHistory.css";
 import moment from "moment";
@@ -24,10 +25,11 @@ export default class RecentOrderDetails extends Component {
           {" "}
           Created on :{" "}
           <span className={Styles.fontBold}>
-            {moment(
-              selectedTickerHistory.creationDate.split(" ")[0],
-              "DD-MM-YYYY"
-            ).format(CREATION_DATE_FORMAT)}
+            {selectedTickerHistory.creationDate &&
+              moment(
+                selectedTickerHistory.creationDate.split(" ")[0],
+                "DD-MM-YYYY"
+              ).format(CREATION_DATE_FORMAT)}
           </span>
         </div>
         <div className={Styles.orderInfoDetails}>
@@ -55,10 +57,11 @@ export default class RecentOrderDetails extends Component {
             {" "}
             Estimated Resolution :{" "}
             <span className={Styles.fontBold}>
-              {moment(
-                selectedTickerHistory.resolutionDate.split(" ")[0],
-                "DD-MM-YYYY"
-              ).format(STATUS_DATE_FORMAT)}
+              {selectedTickerHistory.resolutionDate &&
+                moment(
+                  selectedTickerHistory.resolutionDate.split(" ")[0],
+                  "DD-MM-YYYY"
+                ).format(STATUS_DATE_FORMAT)}
             </span>{" "}
             <span
               className={
@@ -102,3 +105,17 @@ export default class RecentOrderDetails extends Component {
     );
   }
 }
+RecentOrderDetails.propTypes = {
+  selectedTickerHistory: PropTypes.shape({
+    creationDate: PropTypes.string,
+    customerComment: PropTypes.string,
+    orderId: PropTypes.string,
+    productImage: PropTypes.string,
+    productTitle: PropTypes.string,
+    resolutionDate: PropTypes.string,
+    slaBreach: PropTypes.string,
+    ticketId: PropTypes.string,
+    ticketStatus: PropTypes.string,
+    transactionId: PropTypes.string
+  })
+};

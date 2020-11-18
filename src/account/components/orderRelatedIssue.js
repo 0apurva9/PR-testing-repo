@@ -114,7 +114,7 @@ export default class OrderRelatedIssue extends React.Component {
       isRecentOrderDetails: false,
       selectedTickerHistory: "",
       isShowRecentOrderCard: true,
-      isViewAllClick: false
+      recentTicketClicked: false
     };
     this.resetState = this.state;
   }
@@ -662,14 +662,13 @@ export default class OrderRelatedIssue extends React.Component {
         selectedSlot: ""
       });
     } else if (this.state.isRecentOrderDetails) {
+      if (this.state.recentTicketClicked) {
+        this.setState({
+          isRecentOrderHistory: false,
+          recentTicketClicked: false
+        });
+      }
       this.setState({ isRecentOrderDetails: false });
-      // if(this.state.isViewAllClick){
-      //   console.log("dfdf")
-      //   this.setState({isRecentOrderHistory:false})
-      // }
-      // else{
-      //   this.setState({ isRecentOrderDetails: false });
-      // }
     } else if (this.state.isRecentOrderHistory) {
       this.setState({ isRecentOrderHistory: false });
     }
@@ -844,12 +843,11 @@ export default class OrderRelatedIssue extends React.Component {
 
   showRecentOrderHistory(ticketType) {
     this.setState({
-      parentIssueType: ticketType,
       isRecentOrderHistory: true,
       isOrderDatails: false,
       FAQquestion: false,
-      showQuestionList: false,
-      isViewAllClick: true
+      showQuestionList: false
+      // isViewAllClick: true
     });
   }
 
@@ -859,7 +857,10 @@ export default class OrderRelatedIssue extends React.Component {
   handleSelectedFilterClick = filterData => {
     this.setState({ filterTypeData: filterData, filterCard: false });
   };
-  showRecentOrderDetails = selectedTickerHistory => {
+  showRecentOrderDetails = (selectedTickerHistory, recentTicketClicked) => {
+    if (recentTicketClicked == "recentTicketClicked") {
+      this.setState({ recentTicketClicked: true });
+    }
     this.setState({
       isRecentOrderDetails: true,
       selectedTickerHistory: selectedTickerHistory,
@@ -1104,7 +1105,8 @@ export default class OrderRelatedIssue extends React.Component {
                                 className={styles.recentTicketDetailsBox}
                                 onClick={() =>
                                   this.showRecentOrderDetails(
-                                    ticketHistoryDetails.tickets[0]
+                                    ticketHistoryDetails.tickets[1],
+                                    "recentTicketClicked"
                                   )
                                 }
                               >
@@ -1113,14 +1115,14 @@ export default class OrderRelatedIssue extends React.Component {
                                     <ProductImage
                                       image={
                                         ticketHistoryDetails &&
-                                        ticketHistoryDetails.tickets[0]
+                                        ticketHistoryDetails.tickets[1]
                                           .productImage
                                       }
                                     />
                                   </div>
                                   <div className={styles.recentTicketTxt}>
                                     {ticketHistoryDetails &&
-                                      ticketHistoryDetails.tickets[0].issueType}
+                                      ticketHistoryDetails.tickets[1].issueType}
                                   </div>
                                 </div>
                                 <div className={styles.recentTiketStatusBox}>
@@ -1130,7 +1132,7 @@ export default class OrderRelatedIssue extends React.Component {
                                       Ticket Status:{" "}
                                       <span className={styles.fontBold}>
                                         {ticketHistoryDetails &&
-                                          ticketHistoryDetails.tickets[0]
+                                          ticketHistoryDetails.tickets[1]
                                             .ticketStatus}
                                       </span>
                                     </div>
@@ -1141,7 +1143,10 @@ export default class OrderRelatedIssue extends React.Component {
                                         {" "}
                                         {moment(
                                           ticketHistoryDetails &&
-                                            ticketHistoryDetails.tickets[0].resolutionDate.split(
+                                            ticketHistoryDetails.tickets &&
+                                            ticketHistoryDetails.tickets[1]
+                                              .resolutionDate &&
+                                            ticketHistoryDetails.tickets[1].resolutionDate.split(
                                               " "
                                             )[0],
                                           "DD-MM-YYYY"
@@ -1233,7 +1238,7 @@ export default class OrderRelatedIssue extends React.Component {
                           }
                           ticketHistoryDetails={
                             this.props.ticketHistoryDetails &&
-                            this.props.ticketHistoryDetails
+                            this.props.ticketHistoryDetails.tickets
                           }
                         />
                       ) : (

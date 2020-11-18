@@ -5776,88 +5776,79 @@ export function getRecentTicketHistoryDetailsRequestFailure(error) {
   };
 }
 
-export function getRecentTicketHistoryDetails(ticketType) {
-  return async (dispatch, getState, api) => {
-    const customerAccessToken = await getCustomerAccessToken();
-    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+export function getRecentTicketHistoryDetails(paginated) {
+  return async (dispatch, getState, { api }) => {
     dispatch(getRecentTicketHistoryDetailsRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
-      // const result = await api.get(
-      //   `${USER_PATH}/${
-      //     JSON.parse(userDetails).userName
-      //   }/getTicketHistory?CurrentPage=${0}&access_token=${customerAccessToken}&pageSize=${10}&ticketYear=${2020}&ticketStatus=${true}`
-      // );
-      // const resultJson = await result.json();
-      const resultJson = {
-        type: "ticketHistoryData",
-        status: "Success",
-        tickets: [
-          {
-            creationDate: "16-09-2020 12:55:53",
-            customerComment: "comment",
-            issueType: "Sample issue type 2",
-            orderId: "09876",
-            productImage:
-              "////img.tatacliq.com/images/i3/97Wx144H/MP000000003182513_97Wx144H_20180526020449.jpeg",
-            productTitle: "Spykar Dark Grey Slim Fit Shirt",
-            resolutionDate: "30-09-2020 09:55:30",
-            slaBreach: "true",
-            ticketId: "0987654",
-            ticketStatus: "Open",
-            transactionId: "100081000450814"
-          },
-          {
-            creationDate: "15-09-2020 12:55:53",
-            customerComment: "comment",
-            issueType: "Sample issue type 3",
-            orderId: "09876",
-            productImage:
-              "////img.tatacliq.com/images/i3/97Wx144H/MP000000003182513_97Wx144H_20180526020449.jpeg",
-            productTitle: "Spykar Dark Grey Slim Fit Shirt",
-            resolutionDate: "11-09-2020 09:55:30",
-            slaBreach: "false",
-            ticketId: "0987654334",
-            ticketStatus: "Open",
-            transactionId: "100081000450814"
-          },
-          {
-            creationDate: "19-09-2020 12:55:53",
-            customerComment: "comment",
-            issueType: "Sample issue type 4",
-            orderId: "09876",
-            productImage:
-              "////img.tatacliq.com/images/i3/97Wx144H/MP000000003182513_97Wx144H_20180526020449.jpeg",
-            productTitle: "Spykar Dark Grey Slim Fit Shirt",
-            resolutionDate: "30-09-2020 09:55:30",
-            slaBreach: "true",
-            ticketId: "0987654",
-            ticketStatus: "Close",
-            transactionId: "100081000450814"
-          },
-          {
-            creationDate: "16-09-2020 12:55:53",
-            customerComment: "comment",
-            issueType: "Sample issue type 5",
-            orderId: "09876",
-            productImage:
-              "////img.tatacliq.com/images/i3/97Wx144H/MP000000003182513_97Wx144H_20180526020449.jpeg",
-            productTitle: "Spykar Dark Grey Slim Fit Shirt",
-            resolutionDate: "30-09-2020 09:55:30",
-            slaBreach: "true",
-            ticketId: "0987654",
-            ticketStatus: "Open",
-            transactionId: "100081000450814"
-          },
-          {
-            creationDate: "09-09-2020 02:34:52",
-            issueBucket: "Account related",
-            issueType: "sample issue type",
-            resolutionDate: "30-09-2020 06:55:47",
-            slaBreach: "false",
-            ticketId: "0987653"
-          }
-        ]
-      };
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getTicketHistory?currentPage=${0}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }&pageSize=${10}&ticketYear=""&ticketStatus=${true}`
+      );
+      //   {
+      //     "type" : "ticketHistoryData",
+      //     "status" : "Success",
+      //     "tickets" : [ {
+      //        "creationDate" : "12-11-2020 11:52:54",
+      //        "customerComment" : "saashvashasjvahbasxa",
+      //        "ticketId" : "2000002680",
+      //        "ticketStatus" : "In Process"
+      //     }, {
+      //        "creationDate" : "10-11-2020 02:09:56",
+      //        "customerComment" : "fvdvdfvfdv",
+      //        "orderId" : "930000449",
+      //        "productImage" : "//imgqa3.tataunistore.com/images/i3/97Wx144H/MP000000004508752_97Wx144H_20190314110302.jpeg",
+      //        "productTitle" : "Voltas 1.5 Ton 5 Star Copper (2019 Range) (R32) 185 LZH Window AC (White)",
+      //        "resolutionDate" : "31-10-0012 10:02:00",
+      //        "slaBreach" : "true",
+      //        "ticketId" : "4000043352",
+      //        "ticketStatus" : "In Process",
+      //        "transactionId" : "100065093000578"
+      //     }, {
+      //        "creationDate" : "09-11-2020 06:59:03",
+      //        "orderId" : "930000449",
+      //        "productImage" : "//imgqa3.tataunistore.com/images/i3/97Wx144H/MP000000004508752_97Wx144H_20190314110302.jpeg",
+      //        "productTitle" : "Voltas 1.5 Ton 5 Star Copper (2019 Range) (R32) 185 LZH Window AC (White)",
+      //        "resolutionDate" : "31-10-0013 10:02:00",
+      //        "slaBreach" : "true",
+      //        "ticketId" : "4000043342",
+      //        "ticketStatus" : "In Process",
+      //        "transactionId" : "100065093000578"
+      //     }, {
+      //        "creationDate" : "09-11-2020 04:00:21",
+      //        "ticketStatus" : "In Process"
+      //     }, {
+      //        "creationDate" : "09-11-2020 02:57:02",
+      //        "ticketStatus" : "In Process"
+      //     }, {
+      //        "creationDate" : "06-11-2020 06:33:42",
+      //        "ticketStatus" : "In Process"
+      //     }, {
+      //        "creationDate" : "06-11-2020 06:29:20",
+      //        "ticketStatus" : "In Process"
+      //     }, {
+      //        "creationDate" : "06-11-2020 06:22:45",
+      //        "ticketStatus" : "In Process"
+      //     }, {
+      //        "creationDate" : "06-11-2020 05:39:15",
+      //        "orderId" : "930000426",
+      //        "productImage" : "//imgqa3.tataunistore.com/images/i3/97Wx144H/MP000000004508752_97Wx144H_20190314110302.jpeg",
+      //        "productTitle" : "Voltas 1.5 Ton 5 Star Copper (2019 Range) (R32) 185 LZH Window AC (White)",
+      //        "resolutionDate" : "31-10-0007 10:02:00",
+      //        "slaBreach" : "true",
+      //        "ticketId" : "4000043332",
+      //        "ticketStatus" : "In Process",
+      //        "transactionId" : "100065093000556"
+      //     }, {
+      //        "creationDate" : "06-11-2020 03:59:02",
+      //        "ticketStatus" : "In Process"
+      //     } ]
+      //  }
+      const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
