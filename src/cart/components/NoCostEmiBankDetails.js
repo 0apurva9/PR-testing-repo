@@ -234,31 +234,32 @@ export default class NoCostEmiBankDetails extends React.Component {
         selectedTenure: null
       });
     }
-    if (this.state.selectedBankIndex === index) {
+    // removed this code to handle(show) EMI plans on double click of bankLogo PP-1765
+    // if (this.state.selectedBankIndex === index) {
+    //   this.setState({
+    //     selectedBankIndex: null,
+    //     selectedBankName: null,
+    //     selectedCode: null,
+    //     selectedFromDropDown: false,
+    //     selectedTenure: null
+    //   });
+    // } else {
+    let selectedBankCodeObj = this.props.bankList.find(
+      bank => bank.code === code
+    );
+    if (selectedBankCodeObj) {
       this.setState({
-        selectedBankIndex: null,
-        selectedBankName: null,
-        selectedCode: null,
-        selectedFromDropDown: false,
-        selectedTenure: null
+        selectedBankIndex: index,
+        selectedMonth: null,
+        selectedBankName: selectedBankCodeObj.bankName,
+        selectedCode: selectedBankCodeObj.code,
+        selectedBankCode: selectedBankCodeObj.bankCode,
+        bankName: null,
+        selectedFromDropDown: selectedFromDropDown
       });
-    } else {
-      let selectedBankCodeObj = this.props.bankList.find(
-        bank => bank.code === code
-      );
-      if (selectedBankCodeObj) {
-        localStorage.setItem(SELECTED_BANK_NAME, selectedBankCodeObj.bankName);
-        this.setState({
-          selectedBankIndex: index,
-          selectedMonth: null,
-          selectedBankName: selectedBankCodeObj.bankName,
-          selectedCode: selectedBankCodeObj.code,
-          selectedBankCode: selectedBankCodeObj.bankCode,
-          bankName: null,
-          selectedFromDropDown: selectedFromDropDown
-        });
-      }
+
     }
+    // }
   }
   termsAndCondition() {
     if (this.props.getEmiTermsAndConditionsForBank) {
