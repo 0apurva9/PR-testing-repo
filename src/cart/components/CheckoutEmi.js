@@ -65,7 +65,7 @@ export default class CheckoutEmi extends React.Component {
               this.props.emiBinValidationErrorMessage
             }
             isDebitCard={this.props.isDebitCard}
-            dCEmiEligibiltyDetails={this.props.dCEmiEligibiltyDetails}
+            emiEligibiltyDetails={this.props.emiEligibiltyDetails}
           />
         )}
         {!this.props.cart.emiBankDetails &&

@@ -11,7 +11,8 @@ import {
   RUPEE_SYMBOL,
   SUCCESS,
   NO_COST_EMI_COUPON,
-  EMI_TENURE
+  EMI_TENURE,
+  SELECTED_BANK_NAME
 } from "../../lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import Button from "../../general/components/Button";
@@ -83,7 +84,7 @@ export default class NoCostEmiBankDetails extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       nextProps.selectedEMIType &&
       nextProps.selectedEMIType !== NO_COST_EMI
@@ -162,6 +163,8 @@ export default class NoCostEmiBankDetails extends React.Component {
 
     const selectedBankName = val.label;
     const selectedBankIndex = val.value;
+
+    localStorage.setItem(SELECTED_BANK_NAME, selectedBankName);
 
     const selectedBankCodeObj = this.props.bankList.find(
       bank => bank.bankName === val.label
@@ -244,6 +247,7 @@ export default class NoCostEmiBankDetails extends React.Component {
         bank => bank.code === code
       );
       if (selectedBankCodeObj) {
+        localStorage.setItem(SELECTED_BANK_NAME, selectedBankCodeObj.bankName);
         this.setState({
           selectedBankIndex: index,
           selectedMonth: null,
@@ -734,7 +738,7 @@ export default class NoCostEmiBankDetails extends React.Component {
               cardDetails={this.props.cardDetails}
               onCheckout={this.props.onCheckout}
               isDebitCard={this.props.isDebitCard}
-              dCEmiEligibiltyDetails={this.props.dCEmiEligibiltyDetails}
+              emiEligibiltyDetails={this.props.emiEligibiltyDetails}
             />
           </React.Fragment>
         )}

@@ -72,6 +72,7 @@ export default class EmiSectionDesktop extends React.Component {
                         : styles.bankList
                     }
                     onClick={() => this.tabChange(i)}
+                    key={i}
                   >
                     {val.emiBank}
                   </div>
@@ -132,7 +133,7 @@ export default class EmiSectionDesktop extends React.Component {
                           >{`Rs . ${val.interestPayable}`}</div>
                         </div>
 
-                        {convenienceFeeValue && (
+                        {convenienceFeeValue && convenienceFeeValue > 0 && (
                           <div className={styles.textAndAmountHolder}>
                             <div className={styles.textHolder}>
                               Bank Convenience Fees

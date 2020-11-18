@@ -189,12 +189,9 @@ export const EMI_BANKING_DETAILS_REQUEST = "EMI_BANKING_DETAILS_REQUEST";
 export const EMI_BANKING_DETAILS_SUCCESS = "EMI_BANKING_DETAILS_SUCCESS";
 export const EMI_BANKING_DETAILS_FAILURE = "EMI_BANKING_DETAILS_FAILURE";
 
-export const CHECK_DC_EMI_ELIGIBILITY_REQUEST =
-  "CHECK_DC_EMI_ELIGIBILITY_REQUEST";
-export const CHECK_DC_EMI_ELIGIBILITY_SUCCESS =
-  "CHECK_DC_EMI_ELIGIBILITY_SUCCESS";
-export const CHECK_DC_EMI_ELIGIBILITY_FAILURE =
-  "CHECK_DC_EMI_ELIGIBILITY_FAILURE";
+export const GET_EMI_ELIGIBILITY_REQUEST = "GET_EMI_ELIGIBILITY_REQUEST";
+export const GET_EMI_ELIGIBILITY_SUCCESS = "GET_EMI_ELIGIBILITY_SUCCESS";
+export const GET_EMI_ELIGIBILITY_FAILURE = "GET_EMI_ELIGIBILITY_FAILURE";
 
 export const DC_EMI_BANK_DETAILS_REQUEST = "DC_EMI_BANK_DETAILS_REQUEST";
 export const DC_EMI_BANK_DETAILS_SUCCESS = "DC_EMI_BANK_DETAILS_SUCCESS";
@@ -448,12 +445,12 @@ export const DISPLAY_COUPON_REQUEST = "DISPLAY_COUPON_REQUEST";
 export const DISPLAY_COUPON_SUCCESS = "DISPLAY_COUPON_SUCCESS";
 export const DISPLAY_COUPON_FAILURE = "DISPLAY_COUPON_FAILURE";
 
-export const ELIGIBILITY_OF_NO_COST_EMI_REQUEST =
-  "ELIGIBILITY_OF_NO_COST_EMI_REQUEST";
-export const ELIGIBILITY_OF_NO_COST_EMI_SUCCESS =
-  "ELIGIBILITY_OF_NO_COST_EMI_SUCCESS";
-export const ELIGIBILITY_OF_NO_COST_EMI_FAILURE =
-  "ELIGIBILITY_OF_NO_COST_EMI_FAILURE";
+// export const ELIGIBILITY_OF_NO_COST_EMI_REQUEST =
+//   "ELIGIBILITY_OF_NO_COST_EMI_REQUEST";
+// export const ELIGIBILITY_OF_NO_COST_EMI_SUCCESS =
+//   "ELIGIBILITY_OF_NO_COST_EMI_SUCCESS";
+// export const ELIGIBILITY_OF_NO_COST_EMI_FAILURE =
+//   "ELIGIBILITY_OF_NO_COST_EMI_FAILURE";
 
 export const BANK_AND_TENURE_DETAILS_REQUEST =
   "BANK_AND_TENURE_DETAILS_REQUEST";
@@ -5588,57 +5585,59 @@ export function clearCartDetails() {
   };
 }
 
-export function getEligibilityOfNoCostEmiRequest() {
-  return {
-    type: ELIGIBILITY_OF_NO_COST_EMI_REQUEST,
-    status: REQUESTING
-  };
-}
+// export function getEligibilityOfNoCostEmiRequest() {
+//   return {
+//     type: ELIGIBILITY_OF_NO_COST_EMI_REQUEST,
+//     status: REQUESTING
+//   };
+// }
 
-export function getEligibilityOfNoCostEmiSuccess(emiEligibility) {
-  return {
-    type: ELIGIBILITY_OF_NO_COST_EMI_SUCCESS,
-    status: SUCCESS,
-    emiEligibility
-  };
-}
+// export function getEligibilityOfNoCostEmiSuccess(emiEligibility) {
+//   return {
+//     type: ELIGIBILITY_OF_NO_COST_EMI_SUCCESS,
+//     status: SUCCESS,
+//     emiEligibility
+//   };
+// }
 
-export function getEligibilityOfNoCostEmiFailure(error) {
-  return {
-    type: ELIGIBILITY_OF_NO_COST_EMI_FAILURE,
-    status: ERROR,
-    error
-  };
-}
+// export function getEligibilityOfNoCostEmiFailure(error) {
+//   return {
+//     type: ELIGIBILITY_OF_NO_COST_EMI_FAILURE,
+//     status: ERROR,
+//     error
+//   };
+// }
+// /**
+//  * This API will be removed
+//  */
+// export function getEmiEligibility(cartGuId) {
+//   return async (dispatch, getState, { api }) => {
+//     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+//     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+//     const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
 
-export function getEmiEligibility(cartGuId) {
-  return async (dispatch, getState, { api }) => {
-    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+//     const cartId = cartDetails && JSON.parse(cartDetails).guid;
+//     dispatch(getEligibilityOfNoCostEmiRequest());
+//     try {
+//       const result = await api.post(
+//         `${USER_CART_PATH}/${
+//           JSON.parse(userDetails).userName
+//         }/payments/noCostEmiCheck?platformNumber=${PLAT_FORM_NUMBER}&access_token=${
+//           JSON.parse(customerCookie).access_token
+//         }&cartGuid=${cartGuId}`
+//       );
+//       const resultJson = await result.json();
+//       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
-    const cartId = cartDetails && JSON.parse(cartDetails).guid;
-    dispatch(getEligibilityOfNoCostEmiRequest());
-    try {
-      const result = await api.post(
-        `${USER_CART_PATH}/${
-          JSON.parse(userDetails).userName
-        }/payments/noCostEmiCheck?platformNumber=${PLAT_FORM_NUMBER}&access_token=${
-          JSON.parse(customerCookie).access_token
-        }&cartGuid=${cartGuId}`
-      );
-      const resultJson = await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
-      }
-      dispatch(getEligibilityOfNoCostEmiSuccess(resultJson));
-    } catch (e) {
-      dispatch(getEligibilityOfNoCostEmiFailure(e.message));
-    }
-  };
-}
+//       if (resultJsonStatus.status) {
+//         throw new Error(resultJsonStatus.message);
+//       }
+//       dispatch(getEligibilityOfNoCostEmiSuccess(resultJson));
+//     } catch (e) {
+//       dispatch(getEligibilityOfNoCostEmiFailure(e.message));
+//     }
+//   };
+// }
 
 export function getBankAndTenureDetailsRequest() {
   return {
@@ -8290,55 +8289,99 @@ export function getCustomInstruction() {
     }
   };
 }
-export function checkDCEmiEligibiltyRequest() {
+export function getEMIEligibilityDetailsRequest() {
   return {
-    type: CHECK_DC_EMI_ELIGIBILITY_REQUEST,
+    type: GET_EMI_ELIGIBILITY_REQUEST,
     status: REQUESTING
   };
 }
 
-export function checkDCEmiEligibiltySuccess(dCEmiEligibility) {
+export function getEMIEligibilityDetailsSuccess(emiEligibility) {
   return {
-    type: CHECK_DC_EMI_ELIGIBILITY_SUCCESS,
+    type: GET_EMI_ELIGIBILITY_SUCCESS,
     status: SUCCESS,
-    dCEmiEligibility
+    emiEligibility
   };
 }
-export function checkDCEmiEligibiltyFailure(error) {
+export function getEMIEligibilityDetailsFailure(error) {
   return {
-    type: CHECK_DC_EMI_ELIGIBILITY_FAILURE,
+    type: GET_EMI_ELIGIBILITY_FAILURE,
     status: ERROR,
     error
   };
 }
-
-export function getDCEmiEligibility(isFromPDP = false) {
-  const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-  let cartGuId;
-  if (cartDetails === undefined) {
-    cartGuId = "";
-  } else {
+/**
+ * This API is being changes from `/getDCEmiEligibility' to `/getEMIEligibility`.
+ * Updated API will give bool response for the NCE & Standard section of Credit Card and Debit Card.
+ */
+export function getEMIEligibilityDetails(cartGuId) {
+  if (!cartGuId) {
+    const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     cartGuId = JSON.parse(cartDetails).guid;
   }
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   return async (dispatch, getState, { api }) => {
     const customerAccessToken = await getCustomerAccessToken();
-    dispatch(checkDCEmiEligibiltyRequest());
+    dispatch(getEMIEligibilityDetailsRequest());
     try {
       const result = await api.get(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/payments/getDCEmiEligibility?access_token=${customerAccessToken}&cartGuid=${cartGuId}&isFromPDP=${isFromPDP}`
+        }/payments/getEmiEligibility?platformNumber=${PLAT_FORM_NUMBER}&access_token=${customerAccessToken}&cartGuid=${cartGuId}`
       );
       const resultJson = await result.json();
+      // const resultJson = {
+      //   "type": "emiEligibilityDTO",
+      //   // "error": "One or more products are not eligible for EMI, please use another payment method to make your purchase.",
+      //   "DCEMIEligibleMessage": "Please enter the card details registered with +91 9867543209",
+      //   "isCCEMIEligible": true,
+      //   "isCCNoCostEMIEligible": true,
+      //   "isDCEMIEligible": true,
+      //   "isDCNoCostEMIEligible": true,
+      //   "nonEmiProdList": [
+      //   {
+      //   "USSID": "100002C16TREE06MPRINTL",
+      //   "imageURL": "//img.tatacliq.com/images/252Wx374H/MP000000000011921_252Wx374H_20160217044126.jpeg",
+      //   "isExchangeAllow": false,
+      //   "mop": {
+      //   "currencyIso": "INR",
+      //   "currencySymbol": "₹",
+      //   "doubleValue": 1000,
+      //   "formattedValue": "₹1000.00",
+      //   "formattedValueNoDecimal": "₹1000",
+      //   "priceType": "BUY",
+      //   "value": 1000
+      //   },
+      //   "mrp": {
+      //   "currencyIso": "INR",
+      //   "currencySymbol": "₹",
+      //   "doubleValue": 2100,
+      //   "formattedValue": "₹2100.00",
+      //   "formattedValueNoDecimal": "₹2100",
+      //   "priceType": "BUY",
+      //   "value": 2100
+      //   },
+      //   "productBrand": "109 F",
+      //   "productName": "109 F Multicolor Printed Kurti",
+      //   "specialPrice": {
+      //   "currencyIso": "INR",
+      //   "currencySymbol": "₹",
+      //   "doubleValue": 900,
+      //   "formattedValue": "₹900.00",
+      //   "formattedValueNoDecimal": "₹900",
+      //   "priceType": "BUY",
+      //   "value": 900
+      //   }}]}
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (resultJsonStatus.status && !resultJson.error) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(checkDCEmiEligibiltySuccess(resultJson));
-      return resultJson;
+      if (resultJson && resultJson.error) {
+        dispatch(displayToast(resultJson.error));
+      }
+      return dispatch(getEMIEligibilityDetailsSuccess(resultJson));
     } catch (e) {
-      dispatch(checkDCEmiEligibiltyFailure(e.message));
+      return dispatch(getEMIEligibilityDetailsFailure(e.message));
     }
   };
 }

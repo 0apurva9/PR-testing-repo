@@ -26,10 +26,10 @@ import {
   GET_PAYMENT_MODES_SUCCESS,
   getPaymentModes,
   GET_PAYMENT_MODES_FAILURE,
-  getDCEmiEligibility,
-  CHECK_DC_EMI_ELIGIBILITY_REQUEST,
-  CHECK_DC_EMI_ELIGIBILITY_SUCCESS,
-  CHECK_DC_EMI_ELIGIBILITY_FAILURE,
+  getEMIEligibilityDetails,
+  GET_EMI_ELIGIBILITY_REQUEST,
+  GET_EMI_ELIGIBILITY_SUCCESS,
+  GET_EMI_ELIGIBILITY_FAILURE,
   BANK_AND_TENURE_DETAILS_REQUEST,
   BANK_AND_TENURE_DETAILS_SUCCESS,
   getBankAndTenureDetails,
@@ -160,7 +160,7 @@ describe("testing DCEMI on Payment page", () => {
         });
       });
     });
-    describe("testing getDCEmiEligibility API", () => {
+    describe("testing getEMIEligibilityDetails API", () => {
       test("testing success response in case API succeed", () => {
         const apiResponse = {
           type: "dcemiEligibilityDTO",
@@ -184,9 +184,9 @@ describe("testing DCEMI on Payment page", () => {
         mockStore = configureMockStore(middleWares);
         const store = mockStore(initialState);
         const expectedActions = [
-          { type: CHECK_DC_EMI_ELIGIBILITY_REQUEST, status: REQUESTING },
+          { type: GET_EMI_ELIGIBILITY_REQUEST, status: REQUESTING },
           {
-            type: CHECK_DC_EMI_ELIGIBILITY_SUCCESS,
+            type: GET_EMI_ELIGIBILITY_SUCCESS,
             dCEmiEligibility: {
               type: "dcemiEligibilityDTO",
               status: "Success",
@@ -196,7 +196,7 @@ describe("testing DCEMI on Payment page", () => {
             status: "success"
           }
         ];
-        return store.dispatch(getDCEmiEligibility(false)).then(() => {
+        return store.dispatch(getEMIEligibilityDetails()).then(() => {
           expect(store.getActions()).toEqual(expectedActions);
           expect(postMock.mock.calls.length).toBe(1);
         });
@@ -227,14 +227,14 @@ describe("testing DCEMI on Payment page", () => {
         mockStore = configureMockStore(middleWares);
         const store = mockStore(initialState);
         const expectedActions = [
-          { type: CHECK_DC_EMI_ELIGIBILITY_REQUEST, status: REQUESTING },
+          { type: GET_EMI_ELIGIBILITY_REQUEST, status: REQUESTING },
           {
-            type: CHECK_DC_EMI_ELIGIBILITY_FAILURE,
+            type: GET_EMI_ELIGIBILITY_FAILURE,
             status: ERROR,
             error: "System Exception - Glitch in Code.."
           }
         ];
-        return store.dispatch(getDCEmiEligibility(false)).then(() => {
+        return store.dispatch(getEMIEligibilityDetails()).then(() => {
           expect(store.getActions()).toEqual(expectedActions);
           expect(postMock.mock.calls.length).toBe(1);
         });
