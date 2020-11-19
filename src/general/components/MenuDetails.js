@@ -64,7 +64,7 @@ export default class MenuDetails extends React.Component {
     }
   };
   checkEMI = async () => {
-    if (this.props.getEMIEligibilityDetails) {
+    if (!this.state.isOpen && this.props.getEMIEligibilityDetails) {
       await this.props.getEMIEligibilityDetails();
       if (
         this.props.emiEligibiltyDetails &&
@@ -72,6 +72,8 @@ export default class MenuDetails extends React.Component {
       ) {
         this.openMenu();
       }
+    } else if (this.state.isOpen) {
+      this.openMenu();
     }
   };
   openMenu() {

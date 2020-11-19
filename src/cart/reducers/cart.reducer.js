@@ -1721,31 +1721,6 @@ const cart = (
         jusPaymentLoader: false,
         isPaymentProceeded: false
       });
-    /**
-     * This API will be removed
-     */
-    // case cartActions.ELIGIBILITY_OF_NO_COST_EMI_REQUEST:
-    //   return Object.assign({}, state, {
-    //     emiEligibilityStatus: action.status,
-    //     loading: true
-    //   });
-
-    // case cartActions.ELIGIBILITY_OF_NO_COST_EMI_SUCCESS:
-    //   return Object.assign({}, state, {
-    //     emiEligibilityStatus: action.status,
-    //     emiEligibilityDetails: action.emiEligibility,
-    //     loading: false
-    //   });
-
-    // case cartActions.ELIGIBILITY_OF_NO_COST_EMI_FAILURE:
-    //   return Object.assign({}, state, {
-    //     emiEligibilityStatus: action.status,
-    //     emiEligibilityError: action.error,
-    //     loading: false
-    //   });
-    /**
-     * EOC
-     */
 
     case cartActions.BANK_AND_TENURE_DETAILS_REQUEST:
       return Object.assign({}, state, {

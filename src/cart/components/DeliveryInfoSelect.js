@@ -28,7 +28,7 @@ export default class DeliveryInfoSelect extends React.Component {
       }
     });
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.selected !== this.state.selectedCode) {
       this.setState({ selectedCode: nextProps.selected });
     }

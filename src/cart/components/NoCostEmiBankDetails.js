@@ -333,7 +333,11 @@ export default class NoCostEmiBankDetails extends React.Component {
       return;
     }
     if (this.state.selectedBankName !== "Other Bank") {
-      if (this.props.removeNoCostEmi && this.state.selectedCouponCode) {
+      if (
+        this.props.removeNoCostEmi &&
+        this.state.selectedCouponCode &&
+        this.state.selectedMonth !== null
+      ) {
         const removeNoCostEmiResponce = await this.props.removeNoCostEmi(
           this.state.selectedCouponCode
         );
