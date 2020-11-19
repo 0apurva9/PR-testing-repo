@@ -250,6 +250,7 @@ class CheckOutPage extends React.Component {
       isComingFromRetryUrl: false,
       retryCartGuid: null,
       retryFlagForEmiCoupon: false,
+      retryFlagDCEmi: false,
       emiBinValidationErrorMessage: null,
       emiBinValidationStatus: false,
       whatsappSelected: true,
@@ -979,7 +980,7 @@ class CheckOutPage extends React.Component {
     });
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.cart.resetAllPaymentModeFlag) {
       this.props.preventRestingAllPaymentMode();
       this.onChangePaymentMode({ currentPaymentMode: null });
@@ -1038,6 +1039,12 @@ class CheckOutPage extends React.Component {
             retryPaymentDetailsObj.retryPaymentDetails &&
             retryPaymentDetailsObj.retryPaymentDetails.retryFlagEmiCoupon
               ? retryPaymentDetailsObj.retryPaymentDetails.retryFlagEmiCoupon
+              : false,
+          retryFlagDCEmi:
+            retryPaymentDetailsObj &&
+            retryPaymentDetailsObj.retryPaymentDetails &&
+            retryPaymentDetailsObj.retryPaymentDetails.retryFlagDCEmi === "true"
+              ? true
               : false,
           isRemainingAmount: true,
           deliverMode: true,
@@ -1813,6 +1820,13 @@ if you have order id in local storage then you have to show order confirmation p
               retryPaymentDetailsObj.retryPaymentDetails.retryFlagEmiCoupon
                 ? retryPaymentDetailsObj.retryPaymentDetails.retryFlagEmiCoupon
                 : false,
+            retryFlagDCEmi:
+              retryPaymentDetailsObj &&
+              retryPaymentDetailsObj.retryPaymentDetails &&
+              retryPaymentDetailsObj.retryPaymentDetails.retryFlagDCEmi ===
+                "true"
+                ? true
+                : false,
             isRemainingAmount: true,
             deliverMode: true,
             confirmAddress: true
@@ -1922,6 +1936,12 @@ if you have order id in local storage then you have to show order confirmation p
             retryPaymentDetailsObj.retryPaymentDetails &&
             retryPaymentDetailsObj.retryPaymentDetails.retryFlagEmiCoupon
               ? retryPaymentDetailsObj.retryPaymentDetails.retryFlagEmiCoupon
+              : false,
+          retryFlagDCEmi:
+            retryPaymentDetailsObj &&
+            retryPaymentDetailsObj.retryPaymentDetails &&
+            retryPaymentDetailsObj.retryPaymentDetails.retryFlagDCEmi === "true"
+              ? true
               : false,
           isRemainingAmount: true,
           deliverMode: true,
@@ -2170,14 +2190,16 @@ if you have order id in local storage then you have to show order confirmation p
     }
   };
 
-  getBankAndTenureDetails = isFromDebitCard => {
+  getBankAndTenureDetails = (isFromDebitCard = false) => {
     if (this.props.getBankAndTenureDetails) {
       this.setState({
         isNoCostEmiApplied: false,
         isNoCostEmiProceeded: false
       });
       this.props.getBankAndTenureDetails(
-        this.state.retryFlagForEmiCoupon,
+        isFromDebitCard
+          ? this.state.retryFlagDCEmi
+          : this.state.retryFlagForEmiCoupon,
         this.state.isComingFromRetryUrl,
         this.state.retryCartGuid,
         isFromDebitCard
@@ -4554,9 +4576,9 @@ if you have order id in local storage then you have to show order confirmation p
                       getNetBankDetails={() => this.getNetBankDetails()}
                       getEmiBankDetails={() => this.getEmiBankDetails()}
                       getEmiEligibility={() => this.getEMIEligibilityDetails()}
-                      getBankAndTenureDetails={() =>
-                        this.getBankAndTenureDetails()
-                      }
+                      // getBankAndTenureDetails={() =>
+                      //   this.getBankAndTenureDetails()
+                      // }
                       getBankAndTenureDetails={isFromDebitCard =>
                         this.getBankAndTenureDetails(isFromDebitCard)
                       }
@@ -4648,11 +4670,6 @@ if you have order id in local storage then you have to show order confirmation p
                       hideModal={() => this.props.hideModal()}
                       getPaymentModes={val => this.props.getPaymentModes(val)}
                       retryCartGuid={this.state.retryCartGuid}
-                      // isJewelleryItemAvailable={
-                      //   this.props.location &&
-                      //   this.props.location.state &&
-                      //   this.props.location.state.isJewelleryAvailable
-                      // }
                       isExchangeServiceableArray={isExchangeServiceableArray}
                       showSecondaryLoader={this.props.showSecondaryLoader}
                       hideSecondaryLoader={this.props.hideSecondaryLoader}

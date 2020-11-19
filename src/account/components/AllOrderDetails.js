@@ -363,8 +363,7 @@ export default class AllOrderDetails extends React.Component {
             RETRY_PAYMENT_DETAILS,
             JSON.stringify(retryPaymentDetailsObject)
           );
-          let isJewelleryProduct = false,
-            failedOrderDetails,
+          let failedOrderDetails,
             retryproductData = [];
           failedOrderDetails = await this.props.getRetryOrderDetails(orderId);
           let productRequest =
@@ -379,14 +378,6 @@ export default class AllOrderDetails extends React.Component {
               if (res && res.productDescription && status === SUCCESS) {
                 retryproductData.push(productDescription);
               }
-              if (status === SUCCESS) {
-                if (
-                  productDescription.rootCategory === CATEGORY_FINE_JEWELLERY ||
-                  productDescription.rootCategory === CATEGORY_FASHION_JEWELLERY
-                ) {
-                  isJewelleryProduct = true;
-                }
-              }
             })
           );
           if (retryproductData.length > 0 && failedOrderDetails) {
@@ -396,7 +387,6 @@ export default class AllOrderDetails extends React.Component {
                 isFromRetryUrl: true,
                 retryPaymentGuid: guId,
                 productDetails: retryproductData,
-                isJewelleryAvailable: isJewelleryProduct,
                 totalPriceData:
                   failedOrderDetails &&
                   failedOrderDetails.retryOrderDetails &&

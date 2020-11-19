@@ -445,13 +445,6 @@ export const DISPLAY_COUPON_REQUEST = "DISPLAY_COUPON_REQUEST";
 export const DISPLAY_COUPON_SUCCESS = "DISPLAY_COUPON_SUCCESS";
 export const DISPLAY_COUPON_FAILURE = "DISPLAY_COUPON_FAILURE";
 
-// export const ELIGIBILITY_OF_NO_COST_EMI_REQUEST =
-//   "ELIGIBILITY_OF_NO_COST_EMI_REQUEST";
-// export const ELIGIBILITY_OF_NO_COST_EMI_SUCCESS =
-//   "ELIGIBILITY_OF_NO_COST_EMI_SUCCESS";
-// export const ELIGIBILITY_OF_NO_COST_EMI_FAILURE =
-//   "ELIGIBILITY_OF_NO_COST_EMI_FAILURE";
-
 export const BANK_AND_TENURE_DETAILS_REQUEST =
   "BANK_AND_TENURE_DETAILS_REQUEST";
 export const BANK_AND_TENURE_DETAILS_SUCCESS =
@@ -5585,60 +5578,6 @@ export function clearCartDetails() {
   };
 }
 
-// export function getEligibilityOfNoCostEmiRequest() {
-//   return {
-//     type: ELIGIBILITY_OF_NO_COST_EMI_REQUEST,
-//     status: REQUESTING
-//   };
-// }
-
-// export function getEligibilityOfNoCostEmiSuccess(emiEligibility) {
-//   return {
-//     type: ELIGIBILITY_OF_NO_COST_EMI_SUCCESS,
-//     status: SUCCESS,
-//     emiEligibility
-//   };
-// }
-
-// export function getEligibilityOfNoCostEmiFailure(error) {
-//   return {
-//     type: ELIGIBILITY_OF_NO_COST_EMI_FAILURE,
-//     status: ERROR,
-//     error
-//   };
-// }
-// /**
-//  * This API will be removed
-//  */
-// export function getEmiEligibility(cartGuId) {
-//   return async (dispatch, getState, { api }) => {
-//     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-//     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-//     const cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-
-//     const cartId = cartDetails && JSON.parse(cartDetails).guid;
-//     dispatch(getEligibilityOfNoCostEmiRequest());
-//     try {
-//       const result = await api.post(
-//         `${USER_CART_PATH}/${
-//           JSON.parse(userDetails).userName
-//         }/payments/noCostEmiCheck?platformNumber=${PLAT_FORM_NUMBER}&access_token=${
-//           JSON.parse(customerCookie).access_token
-//         }&cartGuid=${cartGuId}`
-//       );
-//       const resultJson = await result.json();
-//       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
-//       if (resultJsonStatus.status) {
-//         throw new Error(resultJsonStatus.message);
-//       }
-//       dispatch(getEligibilityOfNoCostEmiSuccess(resultJson));
-//     } catch (e) {
-//       dispatch(getEligibilityOfNoCostEmiFailure(e.message));
-//     }
-//   };
-// }
-
 export function getBankAndTenureDetailsRequest() {
   return {
     type: BANK_AND_TENURE_DETAILS_REQUEST,
@@ -8330,48 +8269,6 @@ export function getEMIEligibilityDetails(cartGuId) {
         }/payments/getEmiEligibility?platformNumber=${PLAT_FORM_NUMBER}&access_token=${customerAccessToken}&cartGuid=${cartGuId}`
       );
       const resultJson = await result.json();
-      // const resultJson = {
-      //   "type": "emiEligibilityDTO",
-      //   // "error": "One or more products are not eligible for EMI, please use another payment method to make your purchase.",
-      //   "DCEMIEligibleMessage": "Please enter the card details registered with +91 9867543209",
-      //   "isCCEMIEligible": true,
-      //   "isCCNoCostEMIEligible": true,
-      //   "isDCEMIEligible": true,
-      //   "isDCNoCostEMIEligible": true,
-      //   "nonEmiProdList": [
-      //   {
-      //   "USSID": "100002C16TREE06MPRINTL",
-      //   "imageURL": "//img.tatacliq.com/images/252Wx374H/MP000000000011921_252Wx374H_20160217044126.jpeg",
-      //   "isExchangeAllow": false,
-      //   "mop": {
-      //   "currencyIso": "INR",
-      //   "currencySymbol": "₹",
-      //   "doubleValue": 1000,
-      //   "formattedValue": "₹1000.00",
-      //   "formattedValueNoDecimal": "₹1000",
-      //   "priceType": "BUY",
-      //   "value": 1000
-      //   },
-      //   "mrp": {
-      //   "currencyIso": "INR",
-      //   "currencySymbol": "₹",
-      //   "doubleValue": 2100,
-      //   "formattedValue": "₹2100.00",
-      //   "formattedValueNoDecimal": "₹2100",
-      //   "priceType": "BUY",
-      //   "value": 2100
-      //   },
-      //   "productBrand": "109 F",
-      //   "productName": "109 F Multicolor Printed Kurti",
-      //   "specialPrice": {
-      //   "currencyIso": "INR",
-      //   "currencySymbol": "₹",
-      //   "doubleValue": 900,
-      //   "formattedValue": "₹900.00",
-      //   "formattedValueNoDecimal": "₹900",
-      //   "priceType": "BUY",
-      //   "value": 900
-      //   }}]}
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status && !resultJson.error) {
         throw new Error(resultJsonStatus.message);
