@@ -13,7 +13,8 @@ import {
   MY_ACCOUNT_ADDRESS_PAGE,
   SAVE_LIST_PAGE,
   DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION,
-  DIGITAL_DATA_FOR_CART
+  DIGITAL_DATA_FOR_CART,
+  STATUS_CONFIRMED
 } from "../../lib/constants";
 import styles from "./OrderConfirmation.css";
 import wishlistIcon from "../../general/components/img/download.svg";
@@ -114,6 +115,11 @@ export default class OrderConfirmation extends React.Component {
         this.props.showChangeExchangeCashabackModal(data);
       }
     }
+    this.props.submitAppliancesExchangeData(
+      this.props.orderId,
+      STATUS_CONFIRMED,
+      true
+    );
   }
 
   captureOrderExperience = rating => {

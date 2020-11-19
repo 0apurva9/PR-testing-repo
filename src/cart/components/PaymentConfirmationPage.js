@@ -21,7 +21,8 @@ import {
   DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION,
   RUPEE_SYMBOL,
   HOME_ROUTER,
-  DIGITAL_DATA_FOR_CART
+  DIGITAL_DATA_FOR_CART,
+  STATUS_CONFIRMED
 } from "../../lib/constants";
 import styles from "./PaymentConfirmationPage.css";
 import wishlistIcon from "../../general/components/img/download.svg";
@@ -56,6 +57,7 @@ export default class PaymentConfirmationPage extends React.Component {
       orderId = stripeDetailsJson.orderId;
     }
     if (orderId) {
+      this.props.submitAppliancesExchangeData(orderId, STATUS_CONFIRMED, true);
       let pageName = "order confirmation";
       await this.wait(7000);
       this.setState({ showloader: true });

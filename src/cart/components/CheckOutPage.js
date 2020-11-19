@@ -3999,7 +3999,6 @@ if you have order id in local storage then you have to show order confirmation p
         "acCartExchangeDetails",
         JSON.stringify(parsedExchangeDetails)
       );
-      // this.props.submitAppliancesExchangeData(parsedExchangeDetails);
     }
   }
 
@@ -4743,6 +4742,17 @@ if you have order id in local storage then you have to show order confirmation p
                 showChangeExchangeCashabackModal={data =>
                   this.props.showChangeExchangeCashabackModal(data)
                 }
+                submitAppliancesExchangeData={(
+                  orderId,
+                  status,
+                  removeLocalStorage
+                ) =>
+                  this.props.submitAppliancesExchangeData(
+                    orderId,
+                    status,
+                    removeLocalStorage
+                  )
+                }
               />
             </div>
           )}
@@ -4766,6 +4776,17 @@ if you have order id in local storage then you have to show order confirmation p
                 orderDetails={this.props.cart.cliqCashJusPayDetails}
                 showChangeExchangeCashabackModal={data =>
                   this.props.showChangeExchangeCashabackModal(data)
+                }
+                submitAppliancesExchangeData={(
+                  orderId,
+                  status,
+                  removeLocalStorage
+                ) =>
+                  this.props.submitAppliancesExchangeData(
+                    orderId,
+                    status,
+                    removeLocalStorage
+                  )
                 }
               />
             </div>
@@ -4795,6 +4816,17 @@ if you have order id in local storage then you have to show order confirmation p
               this.props.showChangeExchangeCashabackModal(data)
             }
             orderDetailsPaymentPage={this.props.orderDetailsPaymentPage}
+            submitAppliancesExchangeData={(
+              orderId,
+              status,
+              removeLocalStorage
+            ) =>
+              this.props.submitAppliancesExchangeData(
+                orderId,
+                status,
+                removeLocalStorage
+              )
+            }
           />
         </div>
       );
