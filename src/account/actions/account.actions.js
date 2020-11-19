@@ -3001,8 +3001,8 @@ export function editAddress(addressDetails) {
     } else {
       addressObject.append("line3", "");
     }
-    addressObject.append("state", addressDetails.state);
-    addressObject.append("town", addressDetails.town);
+    addressObject.append("state", addressDetails.state.trim());
+    addressObject.append("town", addressDetails.town.trim());
     addressObject.append("defaultFlag", addressDetails.defaultFlag);
     addressObject.append("addressId", addressDetails.addressId);
     if (addressDetails.landmark) {
@@ -3025,6 +3025,9 @@ export function editAddress(addressDetails) {
 
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
+      }
+      if (resultJson.status && resultJson.status.toLowerCase() === SUCCESS) {
+        dispatch(displayToast("Address has been updated"));
       }
       return dispatch(editAddressSuccess(resultJson));
     } catch (e) {
@@ -4758,6 +4761,10 @@ export function uploadUserFile(issueType, title, file) {
       );
 
       const resultJson = await result.json();
+
+      if (resultJson.status.toLowerCase() == FAILURE.toLowerCase()) {
+        dispatch(displayToast(resultJson.error));
+      }
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
