@@ -2474,6 +2474,7 @@ if you have order id in local storage then you have to show order confirmation p
     if (!oldCartId) {
       return this.navigateUserToMyBagAfter15MinOfpaymentFailure();
     }
+    this.validateLocalStorageProducts();
     if (
       this.state.savedCardDetails !== "" &&
       this.state.savedCardDetails !== null
@@ -2862,6 +2863,9 @@ if you have order id in local storage then you have to show order confirmation p
             this.props.displayToast(PRODUCT_NOT_SERVICEABLE_MESSAGE);
           }
         }
+      }
+      if (this.state.currentPaymentMode) {
+        this.validateLocalStorageProducts();
       }
       if (
         this.state.savedCardDetails &&
@@ -3958,6 +3962,44 @@ if you have order id in local storage then you have to show order confirmation p
       }
     } else {
       return false;
+    }
+  }
+
+  // check if local storage products are same as current products in cart or not
+  // remove the products from local storage which are not in cart
+  validateLocalStorageProducts() {
+    let cartProducts =
+      this.props.cart &&
+      this.props.cart.cartDetailsCNC &&
+      this.props.cart.cartDetailsCNC.products;
+    let cartProductsUssids =
+      cartProducts &&
+      cartProducts.map(product => {
+        return product.USSID;
+      });
+    let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+    if (cartExchangeDetails) {
+      let productToBeRemovedIndex = [];
+      let parsedExchangeDetails = JSON.parse(cartExchangeDetails);
+      parsedExchangeDetails &&
+        parsedExchangeDetails.map((product, index) => {
+          if (
+            cartProductsUssids &&
+            !cartProductsUssids.includes(product.ussid)
+          ) {
+            productToBeRemovedIndex.push(index);
+          }
+        });
+      if (productToBeRemovedIndex) {
+        for (var i = productToBeRemovedIndex.length - 1; i >= 0; i--) {
+          parsedExchangeDetails.splice(productToBeRemovedIndex[i], 1);
+        }
+      }
+      localStorage.setItem(
+        "acCartExchangeDetails",
+        JSON.stringify(parsedExchangeDetails)
+      );
+      // this.props.submitAppliancesExchangeData(parsedExchangeDetails);
     }
   }
 

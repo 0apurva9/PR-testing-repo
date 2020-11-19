@@ -585,7 +585,16 @@ export const GET_CUSTOM_COMPONENT_REQUEST = "GET_CUSTOM_COMPONENT_REQUEST";
 export const GET_CUSTOM_COMPONENT_SUCCESS = "GET_CUSTOM_COMPONENT_SUCCESS";
 export const GET_CUSTOM_COMPONENT_FAILURE = "GET_CUSTOM_COMPONENT_FAILURE";
 
+export const SUBMIT_APPLIANCES_EXCHANGE_DATA_REQUEST =
+  "SUBMIT_APPLIANCES_EXCHANGE_DATA_REQUEST";
+export const SUBMIT_APPLIANCES_EXCHANGE_DATA_SUCCESS =
+  "SUBMIT_APPLIANCES_EXCHANGE_DATA_SUCCESS";
+export const SUBMIT_APPLIANCES_EXCHANGE_DATA_FAILURE =
+  "SUBMIT_APPLIANCES_EXCHANGE_DATA_FAILURE";
+
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
+const env = process.env;
+
 export function displayCouponRequest() {
   return {
     type: DISPLAY_COUPON_REQUEST,
@@ -6296,7 +6305,7 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
         JSON.stringify([productDetails.ussId])
       );
 
-      // appiance exchange poc
+      // appliance exchange poc
       let acPdpExchangeDetails = localStorage.getItem("acPdpExchangeDetails");
       let acPdpExchangeData =
         acPdpExchangeDetails && JSON.parse(acPdpExchangeDetails);
@@ -6309,6 +6318,7 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
           "acCartExchangeDetails"
         );
         if (acCartExchangeDetails) {
+          delete acPdpExchangeData.isExchangeSelected;
           let acCartExchangeData = JSON.parse(acCartExchangeDetails);
           let productIndex = "";
           let isProductInExchangeData =
@@ -6329,6 +6339,7 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
             JSON.stringify(acCartExchangeData)
           );
         } else {
+          delete acPdpExchangeData.isExchangeSelected;
           localStorage.setItem(
             "acCartExchangeDetails",
             JSON.stringify([acPdpExchangeData])
@@ -8473,6 +8484,48 @@ export function getBankDetailsforDCEmi(price, cartGuid) {
       dispatch(getBankDetailsforDCEmiSuccess(resultJson));
     } catch (e) {
       dispatch(getBankDetailsforDCEmiFailure(e.message));
+    }
+  };
+}
+
+export function submitAppliancesExchangeDataRequest() {
+  return {
+    type: SUBMIT_APPLIANCES_EXCHANGE_DATA_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function submitAppliancesExchangeDataSuccess(data) {
+  return {
+    type: SUBMIT_APPLIANCES_EXCHANGE_DATA_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function submitAppliancesExchangeDataFailure(error) {
+  return {
+    type: SUBMIT_APPLIANCES_EXCHANGE_DATA_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function submitAppliancesExchangeData(data) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(submitAppliancesExchangeDataRequest());
+    try {
+      const result = await api.postWithoutApiUrlRoot(
+        env.REACT_APP_SUBMIT_APPLIANCES_EXCHANGE_DATA
+      );
+      if (result.status === 200) {
+        const resultJson = await result.json();
+        dispatch(submitAppliancesExchangeDataSuccess(resultJson));
+      } else {
+        dispatch(submitAppliancesExchangeDataFailure(result.statusText));
+      }
+    } catch (e) {
+      dispatch(submitAppliancesExchangeDataFailure(e.message));
     }
   };
 }
