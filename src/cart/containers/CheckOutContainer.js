@@ -39,7 +39,6 @@ import {
   createJusPayOrderForGiftCardFromSavedCards,
   clearCaptureOrderExperience,
   applyUserCouponForAnonymous,
-  getEmiEligibility,
   getBankAndTenureDetails,
   getEmiTermsAndConditionsForBank,
   applyNoCostEmi,
@@ -79,8 +78,8 @@ import {
   upiPaymentHowItWorksMidddleLayer,
   upiPaymentCombinedLogoMidddleLayer,
   instaCredISEnableMidddleLayer,
-  getDCEmiEligibility,
-  getBankDetailsforDCEmi
+  getBankDetailsforDCEmi,
+  getEMIEligibilityDetails
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -405,10 +404,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());
-    },
-
-    getEmiEligibility: cartGuId => {
-      dispatch(getEmiEligibility(cartGuId));
     },
     getBankAndTenureDetails: (
       retryFlagForEmiCoupon,
@@ -842,8 +837,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     instaCredISEnableMidddleLayer: () => {
       dispatch(instaCredISEnableMidddleLayer());
     },
-    getDCEmiEligibility: async () => {
-      return await dispatch(getDCEmiEligibility());
+    getEMIEligibilityDetails: async cartGuId => {
+      return await dispatch(getEMIEligibilityDetails(cartGuId));
     },
     getBankDetailsforDCEmi: (price, cartGuid) => {
       dispatch(getBankDetailsforDCEmi(price, cartGuid));
@@ -895,7 +890,7 @@ const mapStateToProps = state => {
     addUserUPIDetails: state.profile.addUserUPIDetails,
     completedOrderDetails: state.profile.fetchOrderDetails,
     orderDetailsPaymentPage: state.profile.fetchOrderDetails,
-    dCEmiEligibiltyDetails: state.cart.dCEmiEligibiltyDetails
+    emiEligibiltyDetails: state.cart.emiEligibiltyDetails
   };
 };
 

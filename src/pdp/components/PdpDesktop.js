@@ -1286,7 +1286,6 @@ export default class PdpApparel extends React.Component {
                     newProduct={productData.isProductNew}
                     showExchangeTag={productData.showExchangeTag}
                     exchangeOfferAvailable={productData.exchangeOfferAvailable}
-                    dCEmiEligibiltyDetails={this.props.dCEmiEligibiltyDetails}
                   />
                 )}
                 {!productData.winningSellerPrice && (

@@ -1507,8 +1507,8 @@ class CheckOutPage extends React.Component {
         }
         if (
           nextProps.cart &&
-          nextProps.cart.emiEligibilityDetails &&
-          nextProps.cart.emiEligibilityDetails.isNoCostEMIEligible &&
+          nextProps.emiEligibiltyDetails &&
+          nextProps.emiEligibiltyDetails.isCCNoCostEMIEligible &&
           nextProps.cart.cartDetailsCNC.cartAmount &&
           nextProps.cart.cartDetailsCNC.cartAmount.noCostEMIDiscountValue
         ) {
@@ -2111,7 +2111,7 @@ if you have order id in local storage then you have to show order confirmation p
     }
   };
 
-  getEmiEligibility = () => {
+  getEMIEligibilityDetails = () => {
     let carGuId;
     const parsedQueryString = queryString.parse(this.props.location.search);
     const value = parsedQueryString.status;
@@ -2142,7 +2142,7 @@ if you have order id in local storage then you have to show order confirmation p
         carGuId = Cookie.getCookie(OLD_CART_GU_ID);
       }
     }
-    if (this.props.getEmiEligibility) {
+    if (this.props.getEMIEligibilityDetails) {
       this.setState({
         isNoCostEmiApplied: false,
         isNoCostEmiProceeded: false
@@ -2159,9 +2159,9 @@ if you have order id in local storage then you have to show order confirmation p
         } else {
           retryCartGuId = this.props.location.state.retryPaymentGuid;
         }
-        this.props.getEmiEligibility(retryCartGuId);
+        this.props.getEMIEligibilityDetails(retryCartGuId);
       } else {
-        this.props.getEmiEligibility(carGuId);
+        this.props.getEMIEligibilityDetails(carGuId);
       }
     }
   };
@@ -4202,8 +4202,8 @@ if you have order id in local storage then you have to show order confirmation p
                 label={labelForButton}
                 noCostEmiEligibility={
                   this.props.cart &&
-                  this.props.cart.emiEligibilityDetails &&
-                  this.props.cart.emiEligibilityDetails.isNoCostEMIEligible
+                  this.props.emiEligibiltyDetails &&
+                  this.props.emiEligibiltyDetails.isCCNoCostEMIEligible
                 }
                 isNoCostEmiApplied={this.state.isNoCostEmiApplied}
                 noCostEmiDiscount={this.state.noCostEmiDiscount}
@@ -4330,9 +4330,8 @@ if you have order id in local storage then you have to show order confirmation p
                       label={labelForButton}
                       noCostEmiEligibility={
                         this.props.cart &&
-                        this.props.cart.emiEligibilityDetails &&
-                        this.props.cart.emiEligibilityDetails
-                          .isNoCostEMIEligible
+                        this.props.emiEligibiltyDetails &&
+                        this.props.emiEligibiltyDetails.isCCNoCostEMIEligible
                       }
                       isNoCostEmiApplied={this.state.isNoCostEmiApplied}
                       amount={
@@ -4550,7 +4549,7 @@ if you have order id in local storage then you have to show order confirmation p
                       }
                       getNetBankDetails={() => this.getNetBankDetails()}
                       getEmiBankDetails={() => this.getEmiBankDetails()}
-                      getEmiEligibility={() => this.getEmiEligibility()}
+                      getEmiEligibility={() => this.getEMIEligibilityDetails()}
                       getBankAndTenureDetails={() =>
                         this.getBankAndTenureDetails()
                       }
@@ -4635,21 +4634,21 @@ if you have order id in local storage then you have to show order confirmation p
                       instaCredISEnableMidddleLayer={() =>
                         this.props.instaCredISEnableMidddleLayer()
                       }
-                      getDCEmiEligibility={() =>
-                        this.props.getDCEmiEligibility()
+                      getEMIEligibilityDetails={() =>
+                        this.props.getEMIEligibilityDetails()
                       }
-                      dCEmiEligibiltyDetails={this.props.dCEmiEligibiltyDetails}
+                      emiEligibiltyDetails={this.props.emiEligibiltyDetails}
                       getBankDetailsforDCEmi={() =>
                         this.getBankDetailsforDCEmi()
                       }
                       hideModal={() => this.props.hideModal()}
                       getPaymentModes={val => this.props.getPaymentModes(val)}
                       retryCartGuid={this.state.retryCartGuid}
-                      isJewelleryItemAvailable={
-                        this.props.location &&
-                        this.props.location.state &&
-                        this.props.location.state.isJewelleryAvailable
-                      }
+                      // isJewelleryItemAvailable={
+                      //   this.props.location &&
+                      //   this.props.location.state &&
+                      //   this.props.location.state.isJewelleryAvailable
+                      // }
                       isExchangeServiceableArray={isExchangeServiceableArray}
                       showSecondaryLoader={this.props.showSecondaryLoader}
                       hideSecondaryLoader={this.props.hideSecondaryLoader}
