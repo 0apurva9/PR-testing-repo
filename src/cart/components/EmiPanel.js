@@ -284,6 +284,10 @@ export default class EmiPanel extends React.Component {
           ? emiEligibiltyDetails.isCCNoCostEMIEligible
           : false;
     }
+    const dcwPageId =
+      emiEligibiltyDetails && emiEligibiltyDetails.dcwPageId
+        ? emiEligibiltyDetails.dcwPageId
+        : "";
 
     if (this.props.isFromRetryUrl) {
       if (
@@ -607,6 +611,7 @@ export default class EmiPanel extends React.Component {
                     retryPaymentDetails={this.props.retryPaymentDetails}
                     isDebitCard={true}
                     emiEligibiltyDetails={this.props.emiEligibiltyDetails}
+                    dcwPageId={dcwPageId}
                   />
                 )}
                 {isDCEMIEligible && this.state.isStandardSelected && (
