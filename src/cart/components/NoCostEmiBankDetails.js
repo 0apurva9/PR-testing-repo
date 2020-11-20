@@ -422,6 +422,14 @@ export default class NoCostEmiBankDetails extends React.Component {
     }
   };
 
+  dcEmiTermsAndcondition() {
+    if (this.props.dcwPageId) {
+      this.props.history.push({
+        pathname: this.props.dcwPageId
+      });
+    }
+  }
+
   renderMonthsPlan(noCostEmiDetails) {
     return (
       <div className={styles.monthsPlanDataHolder}>
@@ -698,15 +706,27 @@ export default class NoCostEmiBankDetails extends React.Component {
             {this.state.selectedBankCode &&
               this.state.selectedBankIndex !== null && (
                 <div className={styles.itemLevelButtonHolder}>
-                  <div className={styles.itemLevelButton}>
-                    <UnderLinedButton
-                      size="14px"
-                      fontFamily="regular"
-                      color="#000"
-                      label="View T&C"
-                      onClick={() => this.termsAndCondition()}
-                    />
-                  </div>
+                  {this.props.isDebitCard && (
+                    <React.Fragment>
+                      <div className={styles.knowMoreText}>
+                        Know more about Debit Card EMI &#9432;
+                      </div>
+                      <div className={styles.tncText}>View T&C</div>
+                    </React.Fragment>
+                  )}
+                  {!this.props.isDebitCard && (
+                    <React.Fragment>
+                      <div className={styles.itemLevelButton}>
+                        <UnderLinedButton
+                          size="14px"
+                          fontFamily="regular"
+                          color="#000"
+                          label="View T&C"
+                          onClick={() => this.termsAndCondition()}
+                        />
+                      </div>
+                    </React.Fragment>
+                  )}
                 </div>
               )}
           </div>
