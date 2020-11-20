@@ -284,10 +284,6 @@ export default class EmiPanel extends React.Component {
           ? emiEligibiltyDetails.isCCNoCostEMIEligible
           : false;
     }
-    const DCEMIEligibleMessage =
-      emiEligibiltyDetails && emiEligibiltyDetails.DCEMIEligibleMessage
-        ? true
-        : false;
 
     if (this.props.isFromRetryUrl) {
       if (
@@ -491,7 +487,7 @@ export default class EmiPanel extends React.Component {
               </NoCostEmi>
             </div>
           )}
-          {!DCEMIEligibleMessage && (isDCEMIEligible || isDCNoCostEMIEligible) && (
+          {(isDCEMIEligible || isDCNoCostEMIEligible) && (
             <div className={styles.subListHolder}>
               <NoCostEmi
                 EMIText={dcEmiText}
