@@ -8605,7 +8605,8 @@ export function submitAppliancesExchangeDataFailure(error) {
 export function submitAppliancesExchangeData(
   orderId,
   status,
-  removeLocalStorage
+  removeLocalStorage,
+  apiCallCount = 0
 ) {
   let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
   let parsedExchangeDetails = JSON.parse(cartExchangeDetails);
@@ -8632,7 +8633,19 @@ export function submitAppliancesExchangeData(
           localStorage.removeItem("acCartExchangeDetails");
         }
       } else {
-        dispatch(submitAppliancesExchangeDataFailure(result.statusText));
+        if (apiCallCount === 0) {
+          apiCallCount = apiCallCount + 1;
+          dispatch(
+            submitAppliancesExchangeData(
+              orderId,
+              status,
+              removeLocalStorage,
+              apiCallCount
+            )
+          );
+        } else {
+          dispatch(submitAppliancesExchangeDataFailure(result.statusText));
+        }
       }
     } catch (e) {
       dispatch(submitAppliancesExchangeDataFailure(e.message));
