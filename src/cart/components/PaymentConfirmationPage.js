@@ -57,7 +57,14 @@ export default class PaymentConfirmationPage extends React.Component {
       orderId = stripeDetailsJson.orderId;
     }
     if (orderId) {
-      this.props.submitAppliancesExchangeData(orderId, STATUS_CONFIRMED, true);
+      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      if (cartExchangeDetails) {
+        this.props.submitAppliancesExchangeData(
+          orderId,
+          STATUS_CONFIRMED,
+          true
+        );
+      }
       let pageName = "order confirmation";
       await this.wait(7000);
       this.setState({ showloader: true });

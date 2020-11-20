@@ -2476,13 +2476,16 @@ export function collectPaymentOrderForGiftCardUPI(
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       dispatch(collectPaymentOrderForGiftCardSuccess(resultJson, egvCartGuid));
-      dispatch(
-        submitAppliancesExchangeData(
-          resultJson.orderId,
-          STATUS_PROCESSING,
-          false
-        )
-      );
+      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       dispatch(
         jusPayPaymentMethodTypeForGiftCardUPI(
           resultJson.pspAuditId,
@@ -2647,13 +2650,16 @@ export function collectPaymentOrderForUPI(
         }
       }
       dispatch(collectPaymentOrderSuccess(resultJson));
-      dispatch(
-        submitAppliancesExchangeData(
-          resultJson.orderId,
-          STATUS_PROCESSING,
-          false
-        )
-      );
+      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       dispatch(jusPayPaymentMethodTypeForUPI(resultJson.pspAuditId, upi_vpa));
     } catch (e) {
       dispatch(
@@ -7202,13 +7208,16 @@ export function collectPaymentOrderForGiftCard(
         throw new Error(resultJsonStatus.message);
       }
       dispatch(collectPaymentOrderForGiftCardSuccess(resultJson, egvCartGuid));
-      dispatch(
-        submitAppliancesExchangeData(
-          resultJson.orderId,
-          STATUS_PROCESSING,
-          false
-        )
-      );
+      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       if (
         (resultJson.pspName && resultJson.pspName.toLowerCase()) === "juspay"
@@ -7318,13 +7327,16 @@ export function collectPaymentOrder(
         }
       }
       dispatch(collectPaymentOrderSuccess(resultJson));
-      dispatch(
-        submitAppliancesExchangeData(
-          resultJson.orderId,
-          STATUS_PROCESSING,
-          false
-        )
-      );
+      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       localStorage.setItem(IS_DC_EMI_SELECTED, false);
       if (resultJson.pspName === "Juspay") {
@@ -7718,13 +7730,16 @@ export function collectPaymentOrderForSavedCards(
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       dispatch(collectPaymentOrderSuccess(resultJson));
-      dispatch(
-        submitAppliancesExchangeData(
-          resultJson.orderId,
-          STATUS_PROCESSING,
-          false
-        )
-      );
+      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       dispatch(
         jusPayPaymentMethodTypeForSavedCards(resultJson.pspAuditId, cardDetails)
       );
@@ -7816,13 +7831,16 @@ export function collectPaymentOrderForGiftCardFromSavedCards(
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       dispatch(collectPaymentOrderForGiftCardSuccess(resultJson));
-      dispatch(
-        submitAppliancesExchangeData(
-          resultJson.orderId,
-          STATUS_PROCESSING,
-          false
-        )
-      );
+      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       dispatch(
         jusPayPaymentMethodTypeForGiftCardFromSavedCards(
           resultJson.pspAuditId,
@@ -7988,13 +8006,16 @@ export function collectPaymentOrderForNetBanking(
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       dispatch(collectPaymentOrderSuccess(resultJson));
-      dispatch(
-        submitAppliancesExchangeData(
-          resultJson.orderId,
-          STATUS_PROCESSING,
-          false
-        )
-      );
+      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       if (localStorage.getItem(PAYMENT_MODE_TYPE) === PAYPAL) {
         dispatch(
           jusPayPaymentMethodTypeForPaypal(
@@ -8104,13 +8125,16 @@ export function collectPaymentOrderForGiftCardNetBanking(
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       dispatch(collectPaymentOrderForGiftCardSuccess(resultJson, egvCartGuid));
-      dispatch(
-        submitAppliancesExchangeData(
-          resultJson.orderId,
-          STATUS_PROCESSING,
-          false
-        )
-      );
+      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       dispatch(
         jusPayPaymentMethodTypeForGiftCardNetBanking(
           resultJson.pspAuditId,
@@ -8280,13 +8304,16 @@ export function collectPaymentOrderForCliqCash(
       );
       localStorage.setItem(CART_BAG_DETAILS, []);
       dispatch(collectPaymentOrderForCliqCashSuccess(resultJson));
-      dispatch(
-        submitAppliancesExchangeData(
-          resultJson.orderId,
-          STATUS_PROCESSING,
-          false
-        )
-      );
+      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       dispatch(getPrepaidOrderPaymentConfirmation(resultJson));
       dispatch(generateCartIdAfterOrderPlace());
     } catch (e) {
@@ -8582,6 +8609,9 @@ export function submitAppliancesExchangeData(
 ) {
   let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
   let parsedExchangeDetails = JSON.parse(cartExchangeDetails);
+  if (!orderId || !parsedExchangeDetails) {
+    return false;
+  }
   let data = {
     orderId: orderId,
     status: status,

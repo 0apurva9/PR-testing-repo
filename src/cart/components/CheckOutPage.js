@@ -127,7 +127,8 @@ import {
   UPI_ID,
   INSTACRED,
   CARDLESS_EMI,
-  IS_DC_EMI_SELECTED
+  IS_DC_EMI_SELECTED,
+  STATUS_FAILED
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -1729,6 +1730,15 @@ if you have order id in local storage then you have to show order confirmation p
         return this.navigateUserToMyBagAfter15MinOfpaymentFailure();
       }
       this.setState({ isPaymentFailed: true });
+      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      if (cartExchangeDetails) {
+        let failedOrderId = stripeDetails && stripeDetails.orderId;
+        this.props.submitAppliancesExchangeData(
+          failedOrderId,
+          STATUS_FAILED,
+          false
+        );
+      }
       if (stripeDetails) {
         if (this.props.getPrepaidOrderPaymentConfirmation) {
           this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);

@@ -115,11 +115,14 @@ export default class OrderConfirmation extends React.Component {
         this.props.showChangeExchangeCashabackModal(data);
       }
     }
-    this.props.submitAppliancesExchangeData(
-      this.props.orderId,
-      STATUS_CONFIRMED,
-      true
-    );
+    let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+    if (cartExchangeDetails) {
+      this.props.submitAppliancesExchangeData(
+        this.props.orderId,
+        STATUS_CONFIRMED,
+        true
+      );
+    }
   }
 
   captureOrderExperience = rating => {
