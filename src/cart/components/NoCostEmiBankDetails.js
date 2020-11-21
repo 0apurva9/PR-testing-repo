@@ -16,6 +16,7 @@ import {
 } from "../../lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import Button from "../../general/components/Button";
+import { Link } from "react-router-dom";
 export default class NoCostEmiBankDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -431,14 +432,6 @@ export default class NoCostEmiBankDetails extends React.Component {
     }
   };
 
-  dcEmiTermsAndcondition() {
-    if (this.props.dcwPageId) {
-      this.props.history.push({
-        pathname: this.props.dcwPageId
-      });
-    }
-  }
-
   renderMonthsPlan(noCostEmiDetails) {
     return (
       <div className={styles.monthsPlanDataHolder}>
@@ -719,7 +712,9 @@ export default class NoCostEmiBankDetails extends React.Component {
                       <div className={styles.knowMoreText}>
                         Know more about Debit Card EMI &#9432;
                       </div>
-                      <div className={styles.tncText}>View T&C</div>
+                      <Link to={this.props.dcwPageId}>
+                        <div className={styles.tncText}>View T&C</div>
+                      </Link>
                     </React.Fragment>
                   )}
                   {!this.props.isDebitCard && (
