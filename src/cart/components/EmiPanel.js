@@ -159,6 +159,16 @@ export default class EmiPanel extends React.Component {
     subMenuSelected,
     fromToggleTab = false
   ) {
+    if (
+      (this.props.retryPaymentDetails &&
+        this.props.retryPaymentDetails.orderRetry &&
+        this.props.retryPaymentDetails.retryFlagDCEmi === "true") ||
+      (this.props.retryPaymentDetails &&
+        this.props.retryPaymentDetails.orderRetry &&
+        this.props.retryPaymentDetails.retryFlagEmiCoupon === "true")
+    ) {
+      return;
+    }
     let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
     if (paymentMode !== EMI) {
       localStorage.setItem(PAYMENT_MODE_TYPE, EMI);
@@ -288,46 +298,64 @@ export default class EmiPanel extends React.Component {
       emiEligibiltyDetails && emiEligibiltyDetails.dcwPageId
         ? emiEligibiltyDetails.dcwPageId
         : "";
+    let retryFlagEmiCoupon = false;
+    let retryFlagDCEmi = false;
 
     if (this.props.isFromRetryUrl) {
-      if (
+      retryFlagEmiCoupon =
         this.props.retryPaymentDetails &&
         this.props.retryPaymentDetails.orderRetry &&
-        this.props.retryPaymentDetails.retryFlagEmiCoupon === "true"
-      ) {
+        this.props.retryPaymentDetails.retryFlagEmiCoupon;
+      retryFlagDCEmi =
+        this.props.retryPaymentDetails &&
+        this.props.retryPaymentDetails.orderRetry &&
+        this.props.retryPaymentDetails.retryFlagDCEmi;
+
+      if (retryFlagEmiCoupon === "true") {
         isOpen = true;
         isOpenSubEMI = true;
         isRetryPaymentFromURL = true;
         isCCNoCostEMIEligible = true;
-      } else if (
-        this.props.retryPaymentDetails &&
-        this.props.retryPaymentDetails.orderRetry &&
-        this.props.retryPaymentDetails.retryFlagDCEmi === "true"
-      ) {
+      } else if (retryFlagDCEmi === "true") {
         isOpen = true;
         isOpenSubEMI = true;
         isRetryPaymentFromURL = true;
         isDCNoCostEMIEligible = true;
+      } else {
+        isDCEMIEligible =
+          emiEligibiltyDetails && emiEligibiltyDetails.isDCEMIEligible
+            ? emiEligibiltyDetails.isDCEMIEligible
+            : false;
+        isDCNoCostEMIEligible =
+          emiEligibiltyDetails && emiEligibiltyDetails.isDCNoCostEMIEligible
+            ? emiEligibiltyDetails.isDCNoCostEMIEligible
+            : false;
+        isCCEMIEligible =
+          emiEligibiltyDetails && emiEligibiltyDetails.isCCEMIEligible
+            ? emiEligibiltyDetails.isCCEMIEligible
+            : false;
+        isCCNoCostEMIEligible =
+          emiEligibiltyDetails && emiEligibiltyDetails.isCCNoCostEMIEligible
+            ? emiEligibiltyDetails.isCCNoCostEMIEligible
+            : false;
       }
     }
 
     let creditCardTabNameExtension = "";
     let debitCardTabNameExtension = "";
-    if (!this.props.isFromRetryUrl) {
-      if (isCCEMIEligible && isCCNoCostEMIEligible) {
-        creditCardTabNameExtension = "No Cost/Standard";
-      } else if (isCCEMIEligible) {
-        creditCardTabNameExtension = "Standard";
-      } else if (isCCNoCostEMIEligible) {
-        creditCardTabNameExtension = "No Cost";
-      }
-      if (isDCEMIEligible && isDCNoCostEMIEligible) {
-        debitCardTabNameExtension = "No Cost/Standard";
-      } else if (isDCEMIEligible) {
-        debitCardTabNameExtension = "Standard";
-      } else if (isDCNoCostEMIEligible) {
-        debitCardTabNameExtension = "No Cost";
-      }
+    if (isCCEMIEligible && isCCNoCostEMIEligible) {
+      creditCardTabNameExtension = "No Cost/Standard";
+    } else if (isCCEMIEligible) {
+      creditCardTabNameExtension = "Standard";
+    } else if (isCCNoCostEMIEligible) {
+      creditCardTabNameExtension = "No Cost";
+    }
+    if (isDCEMIEligible && isDCNoCostEMIEligible) {
+      debitCardTabNameExtension = "No Cost/Standard";
+    } else if (isDCEMIEligible) {
+      debitCardTabNameExtension = "Standard";
+    } else if (isDCNoCostEMIEligible) {
+      debitCardTabNameExtension = "No Cost";
     }
 
     let ccEmiText = isCCNoCostEMIEligible
@@ -360,6 +388,8 @@ export default class EmiPanel extends React.Component {
           getEMIEligibilityDetails={() => this.props.getEMIEligibilityDetails()}
           displayToast={this.props.displayToast}
           emiEligibiltyDetails={this.props.emiEligibiltyDetails}
+          retryFlagDCEmi={retryFlagDCEmi}
+          retryFlagEmiCoupon={retryFlagEmiCoupon}
         >
           {(isCCNoCostEMIEligible || isCCEMIEligible) && (
             <div className={styles.subListHolder}>

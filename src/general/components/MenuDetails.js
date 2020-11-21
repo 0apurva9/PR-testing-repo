@@ -64,6 +64,12 @@ export default class MenuDetails extends React.Component {
     }
   };
   checkEMI = async () => {
+    if (
+      this.props.retryFlagDCEmi === "true" ||
+      this.props.retryFlagEmiCoupon === "true"
+    ) {
+      return;
+    }
     if (!this.state.isOpen && this.props.getEMIEligibilityDetails) {
       await this.props.getEMIEligibilityDetails();
       if (
@@ -172,11 +178,15 @@ MenuDetails.propTypes = {
     error: PropTypes.string,
     nonEmiProdList: PropTypes.array,
     type: PropTypes.string
-  })
+  }),
+  retryFlagEmiCoupon: PropTypes.string,
+  retryFlagDCEmi: PropTypes.string
 };
 
 MenuDetails.defaultProps = {
   icon: couponIcon,
   isNoBorderTop: false,
-  emiEligibiltyDetails: {}
+  emiEligibiltyDetails: {},
+  retryFlagEmiCoupon: false,
+  retryFlagDCEmi: false
 };

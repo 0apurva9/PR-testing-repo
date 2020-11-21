@@ -16,6 +16,7 @@ import {
 } from "../../lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import Button from "../../general/components/Button";
+import { Link } from "react-router-dom";
 export default class NoCostEmiBankDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -34,7 +35,8 @@ export default class NoCostEmiBankDetails extends React.Component {
       selectedTenure:
         (this.props.cardDetails && this.props.cardDetails.emi_tenure) || "",
       selectedFromDropDown: false,
-      noCostEmiText: ""
+      noCostEmiText: "",
+      emiInfo: ""
     };
   }
 
@@ -50,7 +52,9 @@ export default class NoCostEmiBankDetails extends React.Component {
           });
         } else {
           this.setState({
-            noCostEmiText: `*No Cost EMI available only on ${this.props.noCostEmiProductCount} product(s). Standard EMI will apply to products, if any, bought along with it.`
+            noCostEmiText: `*No Cost EMI available only on ${
+              this.props.noCostEmiProductCount
+            } product(s). Standard EMI will apply to products, if any, bought along with it.`
           });
         }
         this.getDataForRetryPage();
@@ -179,7 +183,8 @@ export default class NoCostEmiBankDetails extends React.Component {
       selectedBankCode: selectedBankCodeObj.bankCode,
       selectedCode,
       selectedFromDropDown: true,
-      selectedMonth: null
+      selectedMonth: null,
+      emiInfo: selectedBankCodeObj.emiInfo ? selectedBankCodeObj.emiInfo : null
     });
   }
   itemBreakup() {
@@ -231,7 +236,8 @@ export default class NoCostEmiBankDetails extends React.Component {
         selectedBankName: null,
         selectedCode: null,
         selectedFromDropDown: false,
-        selectedTenure: null
+        selectedTenure: null,
+        emiInfo: null
       });
     }
     // removed this code to handle(show) EMI plans on double click of bankLogo PP-1765
@@ -249,15 +255,32 @@ export default class NoCostEmiBankDetails extends React.Component {
     );
     if (selectedBankCodeObj) {
       this.setState({
-        selectedBankIndex: index,
-        selectedMonth: null,
-        selectedBankName: selectedBankCodeObj.bankName,
-        selectedCode: selectedBankCodeObj.code,
-        selectedBankCode: selectedBankCodeObj.bankCode,
-        bankName: null,
-        selectedFromDropDown: selectedFromDropDown
+        selectedBankIndex: null,
+        selectedBankName: null,
+        selectedCode: null,
+        selectedFromDropDown: false,
+        selectedTenure: null,
+        emiInfo: null
       });
-
+    } else {
+      let selectedBankCodeObj = this.props.bankList.find(
+        bank => bank.code === code
+      );
+      if (selectedBankCodeObj) {
+        localStorage.setItem(SELECTED_BANK_NAME, selectedBankCodeObj.bankName);
+        this.setState({
+          selectedBankIndex: index,
+          selectedMonth: null,
+          selectedBankName: selectedBankCodeObj.bankName,
+          selectedCode: selectedBankCodeObj.code,
+          selectedBankCode: selectedBankCodeObj.bankCode,
+          bankName: null,
+          selectedFromDropDown: selectedFromDropDown,
+          emiInfo: selectedBankCodeObj.emiInfo
+            ? selectedBankCodeObj.emiInfo
+            : null
+        });
+      }
     }
     // }
   }
@@ -393,7 +416,10 @@ export default class NoCostEmiBankDetails extends React.Component {
         selectedCode: selectedBankCodeObj.code,
         selectedBankCode: selectedBankCodeObj.bankCode,
         bankName: null,
-        selectedFromDropDown: selectedFromDropDown
+        selectedFromDropDown: selectedFromDropDown,
+        emiInfo: selectedBankCodeObj.emiInfo
+          ? selectedBankCodeObj.emiInfo
+          : null
       });
 
       if (val.noCostEMICouponList && val.noCostEMICouponList[0]) {
@@ -421,14 +447,6 @@ export default class NoCostEmiBankDetails extends React.Component {
       this.props.changeEmiPlan();
     }
   };
-
-  dcEmiTermsAndcondition() {
-    if (this.props.dcwPageId) {
-      this.props.history.push({
-        pathname: this.props.dcwPageId
-      });
-    }
-  }
 
   renderMonthsPlan(noCostEmiDetails) {
     return (
@@ -518,24 +536,25 @@ export default class NoCostEmiBankDetails extends React.Component {
               </div>
             )}
           <DesktopOnly>
-            {this.props.isNoCostEmiApplied && !this.props.isNoCostEmiProceeded && (
-              <div className={styles.buttonHolder}>
-                <div className={styles.button}>
-                  <Button
-                    type="primary"
-                    backgroundColor="#ff1744"
-                    height={40}
-                    label="Pay now"
-                    width={150}
-                    textStyle={{
-                      color: "#FFF",
-                      fontSize: 14
-                    }}
-                    onClick={() => this.noCostEMIClick()}
-                  />
+            {this.props.isNoCostEmiApplied &&
+              !this.props.isNoCostEmiProceeded && (
+                <div className={styles.buttonHolder}>
+                  <div className={styles.button}>
+                    <Button
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={40}
+                      label="Continue"
+                      width={150}
+                      textStyle={{
+                        color: "#FFF",
+                        fontSize: 14
+                      }}
+                      onClick={() => this.noCostEMIClick()}
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </DesktopOnly>
         </div>
       </div>
@@ -676,17 +695,16 @@ export default class NoCostEmiBankDetails extends React.Component {
                 </div>
               </div>
             )}
-            {this.state.selectedMonth !== null && this.props.noCostEmiDetails && (
-              <div>
-                {this.props.noCostEmiDetails.cartAmount &&
-                  this.props.noCostEmiDetails.cartAmount.emiInfo && (
-                    <div className={styles.charges}>
-                      {this.props.noCostEmiDetails.cartAmount.emiInfo}
-                    </div>
-                  )}
-                {this.renderMonthsPlan(this.props.noCostEmiDetails.cartAmount)}
-              </div>
-            )}
+
+            <div>
+              {!this.props.isRetryPaymentFromURL && this.state.emiInfo && (
+                <div className={styles.charges}>{this.state.emiInfo}</div>
+              )}
+              {this.state.selectedMonth !== null &&
+                this.state.selectedMonth !== "" &&
+                this.props.noCostEmiDetails &&
+                this.renderMonthsPlan(this.props.noCostEmiDetails.cartAmount)}
+            </div>
             {this.state.selectedMonth !== null &&
               this.props.isRetryPaymentFromURL &&
               this.props.retryPaymentDetails && (
@@ -706,13 +724,22 @@ export default class NoCostEmiBankDetails extends React.Component {
             {this.state.selectedBankCode &&
               this.state.selectedBankIndex !== null && (
                 <div className={styles.itemLevelButtonHolder}>
-                  {this.props.isDebitCard && (
+                  {this.props.isDebitCard && this.props.dcwPageId && (
                     <React.Fragment>
-                      <div className={styles.knowMoreText}>
-                        Know more about Debit Card EMI &#9432;
-                      </div>
-                      <div className={styles.tncText}>View T&C</div>
+                      <Link to={this.props.dcwPageId} target="_blank">
+                        <div className={styles.knowMoreText}>
+                          Know more about Debit Card EMI &#9432;
+                        </div>
+                      </Link>
                     </React.Fragment>
+                  )}
+                  {this.props.isDebitCard && (
+                    <div
+                      className={styles.tncText}
+                      onClick={() => this.termsAndCondition()}
+                    >
+                      View T&C
+                    </div>
                   )}
                   {!this.props.isDebitCard && (
                     <React.Fragment>

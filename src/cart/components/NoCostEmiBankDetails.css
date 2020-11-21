@@ -162,10 +162,11 @@
   }
 }
 .charges{
-  font-size: 12px;
+  font-size: 13px;
   font-family: regular;
   color: #212121;
   padding-bottom: 15px;
+  padding-left: 15px;
 }
 .knowMoreText {
   display: inline;
@@ -173,6 +174,7 @@
   font-size: 13px;
 }
 .tncText {
+  font-size: 13px;
   display: inline;
   float: right;
   text-decoration: underline;
