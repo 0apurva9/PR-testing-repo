@@ -34,7 +34,8 @@ export default class NoCostEmiBankDetails extends React.Component {
       selectedTenure:
         (this.props.cardDetails && this.props.cardDetails.emi_tenure) || "",
       selectedFromDropDown: false,
-      noCostEmiText: ""
+      noCostEmiText: "",
+      emiInfo: ""
     };
   }
 
@@ -179,7 +180,8 @@ export default class NoCostEmiBankDetails extends React.Component {
       selectedBankCode: selectedBankCodeObj.bankCode,
       selectedCode,
       selectedFromDropDown: true,
-      selectedMonth: null
+      selectedMonth: null,
+      emiInfo: selectedBankCodeObj.emiInfo ? selectedBankCodeObj.emiInfo : null
     });
   }
   itemBreakup() {
@@ -231,7 +233,8 @@ export default class NoCostEmiBankDetails extends React.Component {
         selectedBankName: null,
         selectedCode: null,
         selectedFromDropDown: false,
-        selectedTenure: null
+        selectedTenure: null,
+        emiInfo: null
       });
     }
     if (this.state.selectedBankIndex === index) {
@@ -240,7 +243,8 @@ export default class NoCostEmiBankDetails extends React.Component {
         selectedBankName: null,
         selectedCode: null,
         selectedFromDropDown: false,
-        selectedTenure: null
+        selectedTenure: null,
+        emiInfo: null
       });
     } else {
       let selectedBankCodeObj = this.props.bankList.find(
@@ -255,7 +259,10 @@ export default class NoCostEmiBankDetails extends React.Component {
           selectedCode: selectedBankCodeObj.code,
           selectedBankCode: selectedBankCodeObj.bankCode,
           bankName: null,
-          selectedFromDropDown: selectedFromDropDown
+          selectedFromDropDown: selectedFromDropDown,
+          emiInfo: selectedBankCodeObj.emiInfo
+            ? selectedBankCodeObj.emiInfo
+            : null
         });
       }
     }
@@ -392,7 +399,10 @@ export default class NoCostEmiBankDetails extends React.Component {
         selectedCode: selectedBankCodeObj.code,
         selectedBankCode: selectedBankCodeObj.bankCode,
         bankName: null,
-        selectedFromDropDown: selectedFromDropDown
+        selectedFromDropDown: selectedFromDropDown,
+        emiInfo: selectedBankCodeObj.emiInfo
+          ? selectedBankCodeObj.emiInfo
+          : null
       });
 
       if (val.noCostEMICouponList && val.noCostEMICouponList[0]) {
@@ -675,17 +685,16 @@ export default class NoCostEmiBankDetails extends React.Component {
                 </div>
               </div>
             )}
-            {this.state.selectedMonth !== null && this.props.noCostEmiDetails && (
-              <div>
-                {this.props.noCostEmiDetails.cartAmount &&
-                  this.props.noCostEmiDetails.cartAmount.emiInfo && (
-                    <div className={styles.charges}>
-                      {this.props.noCostEmiDetails.cartAmount.emiInfo}
-                    </div>
-                  )}
-                {this.renderMonthsPlan(this.props.noCostEmiDetails.cartAmount)}
-              </div>
-            )}
+
+            <div>
+              {this.state.emiInfo && (
+                <div className={styles.charges}>{this.state.emiInfo}</div>
+              )}
+              {this.state.selectedMonth !== null &&
+                this.state.selectedMonth !== "" &&
+                this.props.noCostEmiDetails &&
+                this.renderMonthsPlan(this.props.noCostEmiDetails.cartAmount)}
+            </div>
             {this.state.selectedMonth !== null &&
               this.props.isRetryPaymentFromURL &&
               this.props.retryPaymentDetails && (
