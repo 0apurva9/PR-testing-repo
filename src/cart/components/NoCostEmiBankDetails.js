@@ -694,7 +694,7 @@ export default class NoCostEmiBankDetails extends React.Component {
             )}
 
             <div>
-              {this.state.emiInfo && (
+              {!this.props.isRetryPaymentFromURL && this.state.emiInfo && (
                 <div className={styles.charges}>{this.state.emiInfo}</div>
               )}
               {this.state.selectedMonth !== null &&
@@ -721,20 +721,22 @@ export default class NoCostEmiBankDetails extends React.Component {
             {this.state.selectedBankCode &&
               this.state.selectedBankIndex !== null && (
                 <div className={styles.itemLevelButtonHolder}>
-                  {this.props.isDebitCard && (
+                  {this.props.isDebitCard && this.props.dcwPageId && (
                     <React.Fragment>
-                      <Link to={this.props.dcwPageId}>
+                      <Link to={this.props.dcwPageId} target="_blank">
                         <div className={styles.knowMoreText}>
                           Know more about Debit Card EMI &#9432;
                         </div>
                       </Link>
-                      <div
-                        className={styles.tncText}
-                        onClick={() => this.termsAndCondition()}
-                      >
-                        View T&C
-                      </div>
                     </React.Fragment>
+                  )}
+                  {this.props.isDebitCard && (
+                    <div
+                      className={styles.tncText}
+                      onClick={() => this.termsAndCondition()}
+                    >
+                      View T&C
+                    </div>
                   )}
                   {!this.props.isDebitCard && (
                     <React.Fragment>

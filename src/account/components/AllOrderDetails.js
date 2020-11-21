@@ -814,6 +814,7 @@ export default class AllOrderDetails extends React.Component {
                                         ? styles.orderDetailsHolder
                                         : styles.orderCardIndividualWithBorder
                                     }
+                                    key={key}
                                   >
                                     <OrderCard
                                       orderBreachMessage={
