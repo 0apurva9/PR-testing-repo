@@ -238,7 +238,20 @@ export default class NoCostEmiBankDetails extends React.Component {
         emiInfo: null
       });
     }
-    if (this.state.selectedBankIndex === index) {
+    // removed this code to handle(show) EMI plans on double click of bankLogo PP-1765
+    // if (this.state.selectedBankIndex === index) {
+    //   this.setState({
+    //     selectedBankIndex: null,
+    //     selectedBankName: null,
+    //     selectedCode: null,
+    //     selectedFromDropDown: false,
+    //     selectedTenure: null
+    //   });
+    // } else {
+    let selectedBankCodeObj = this.props.bankList.find(
+      bank => bank.code === code
+    );
+    if (selectedBankCodeObj) {
       this.setState({
         selectedBankIndex: null,
         selectedBankName: null,
@@ -267,6 +280,7 @@ export default class NoCostEmiBankDetails extends React.Component {
         });
       }
     }
+    // }
   }
   termsAndCondition() {
     if (this.props.getEmiTermsAndConditionsForBank) {

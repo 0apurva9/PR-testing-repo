@@ -22,9 +22,9 @@ export default class ValidateOffersPopUp extends React.Component {
         .map(bank => {
           return bank.bankName;
         })
-        .join(",");
+        .join(", ");
     } else {
-      return "UPI Apps";
+      return "";
     }
   }
   getPaymentModesList(paymentModes) {
@@ -32,7 +32,7 @@ export default class ValidateOffersPopUp extends React.Component {
       paymentModes &&
       paymentModes.map(payment => {
         if (payment.mode == "UPI Intent") {
-          return " ";
+          return "UPI Apps";
         } else {
           return payment.mode;
         }
