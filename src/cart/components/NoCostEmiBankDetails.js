@@ -709,12 +709,17 @@ export default class NoCostEmiBankDetails extends React.Component {
                 <div className={styles.itemLevelButtonHolder}>
                   {this.props.isDebitCard && (
                     <React.Fragment>
-                      <div className={styles.knowMoreText}>
-                        Know more about Debit Card EMI &#9432;
-                      </div>
                       <Link to={this.props.dcwPageId}>
-                        <div className={styles.tncText}>View T&C</div>
+                        <div className={styles.knowMoreText}>
+                          Know more about Debit Card EMI &#9432;
+                        </div>
                       </Link>
+                      <div
+                        className={styles.tncText}
+                        onClick={() => this.termsAndCondition()}
+                      >
+                        View T&C
+                      </div>
                     </React.Fragment>
                   )}
                   {!this.props.isDebitCard && (
