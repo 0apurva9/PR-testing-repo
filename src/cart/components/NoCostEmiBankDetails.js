@@ -52,9 +52,7 @@ export default class NoCostEmiBankDetails extends React.Component {
           });
         } else {
           this.setState({
-            noCostEmiText: `*No Cost EMI available only on ${
-              this.props.noCostEmiProductCount
-            } product(s). Standard EMI will apply to products, if any, bought along with it.`
+            noCostEmiText: `*No Cost EMI available only on ${this.props.noCostEmiProductCount} product(s). Standard EMI will apply to products, if any, bought along with it.`
           });
         }
         this.getDataForRetryPage();
@@ -250,38 +248,38 @@ export default class NoCostEmiBankDetails extends React.Component {
     //     selectedTenure: null
     //   });
     // } else {
+    // let selectedBankCodeObj = this.props.bankList.find(
+    //   bank => bank.code === code
+    // );
+    // if (selectedBankCodeObj) {
+    //   this.setState({
+    //     selectedBankIndex: null,
+    //     selectedBankName: null,
+    //     selectedCode: null,
+    //     selectedFromDropDown: false,
+    //     selectedTenure: null,
+    //     emiInfo: null
+    //   });
+    // } else {
     let selectedBankCodeObj = this.props.bankList.find(
       bank => bank.code === code
     );
     if (selectedBankCodeObj) {
+      localStorage.setItem(SELECTED_BANK_NAME, selectedBankCodeObj.bankName);
       this.setState({
-        selectedBankIndex: null,
-        selectedBankName: null,
-        selectedCode: null,
-        selectedFromDropDown: false,
-        selectedTenure: null,
-        emiInfo: null
+        selectedBankIndex: index,
+        selectedMonth: null,
+        selectedBankName: selectedBankCodeObj.bankName,
+        selectedCode: selectedBankCodeObj.code,
+        selectedBankCode: selectedBankCodeObj.bankCode,
+        bankName: null,
+        selectedFromDropDown: selectedFromDropDown,
+        emiInfo: selectedBankCodeObj.emiInfo
+          ? selectedBankCodeObj.emiInfo
+          : null
       });
-    } else {
-      let selectedBankCodeObj = this.props.bankList.find(
-        bank => bank.code === code
-      );
-      if (selectedBankCodeObj) {
-        localStorage.setItem(SELECTED_BANK_NAME, selectedBankCodeObj.bankName);
-        this.setState({
-          selectedBankIndex: index,
-          selectedMonth: null,
-          selectedBankName: selectedBankCodeObj.bankName,
-          selectedCode: selectedBankCodeObj.code,
-          selectedBankCode: selectedBankCodeObj.bankCode,
-          bankName: null,
-          selectedFromDropDown: selectedFromDropDown,
-          emiInfo: selectedBankCodeObj.emiInfo
-            ? selectedBankCodeObj.emiInfo
-            : null
-        });
-      }
     }
+    // }
     // }
   }
   termsAndCondition() {
@@ -536,25 +534,24 @@ export default class NoCostEmiBankDetails extends React.Component {
               </div>
             )}
           <DesktopOnly>
-            {this.props.isNoCostEmiApplied &&
-              !this.props.isNoCostEmiProceeded && (
-                <div className={styles.buttonHolder}>
-                  <div className={styles.button}>
-                    <Button
-                      type="primary"
-                      backgroundColor="#ff1744"
-                      height={40}
-                      label="Continue"
-                      width={150}
-                      textStyle={{
-                        color: "#FFF",
-                        fontSize: 14
-                      }}
-                      onClick={() => this.noCostEMIClick()}
-                    />
-                  </div>
+            {this.props.isNoCostEmiApplied && !this.props.isNoCostEmiProceeded && (
+              <div className={styles.buttonHolder}>
+                <div className={styles.button}>
+                  <Button
+                    type="primary"
+                    backgroundColor="#ff1744"
+                    height={40}
+                    label="Continue"
+                    width={150}
+                    textStyle={{
+                      color: "#FFF",
+                      fontSize: 14
+                    }}
+                    onClick={() => this.noCostEMIClick()}
+                  />
                 </div>
-              )}
+              </div>
+            )}
           </DesktopOnly>
         </div>
       </div>
