@@ -2076,10 +2076,10 @@ if you have order id in local storage then you have to show order confirmation p
               .value
         );
       } else {
-        let noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
-        if (noCostEmiCouponCode) {
-          this.removeNoCostEmi(noCostEmiCouponCode);
-        }
+        // let noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
+        // if (noCostEmiCouponCode) {
+        //   this.removeNoCostEmi(noCostEmiCouponCode);
+        // }
         this.setState({
           isNoCostEmiApplied: false,
           isNoCostEmiProceeded: false,
@@ -2109,10 +2109,10 @@ if you have order id in local storage then you have to show order confirmation p
             this.props.cart.cartDetailsCNC.cartGuid
         );
       } else {
-        let noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
-        if (noCostEmiCouponCode) {
-          await this.removeNoCostEmi(noCostEmiCouponCode);
-        }
+        // let noCostEmiCouponCode = localStorage.getItem(NO_COST_EMI_COUPON);
+        // if (noCostEmiCouponCode) {
+        //   await this.removeNoCostEmi(noCostEmiCouponCode);
+        // }
         if (this.state.isComingFromRetryUrl) {
           this.props.getBankDetailsforDCEmi(
             this.state.payableAmount,
