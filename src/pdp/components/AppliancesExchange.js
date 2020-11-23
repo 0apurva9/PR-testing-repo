@@ -11,6 +11,10 @@ import Icon from "../../xelpmoc-core/Icon";
 import exchangeCheck from "../../pdp/components/img/exchangeCheck.svg";
 import exchangeUncheck from "../../pdp/components/img/exchangeUncheck.svg";
 import styles from "./ExchangeDetailsPDPDesktop.css";
+import {
+  setDataLayer,
+  ADOBE_TRACK_APPLIANCES_EXCHANGE_JOURNEY
+} from "../../lib/adobeUtils";
 
 export default class AppliancesExchange extends React.Component {
   constructor(props) {
@@ -59,6 +63,7 @@ export default class AppliancesExchange extends React.Component {
   }
 
   openAppliancesExchangeModal(data) {
+    setDataLayer(ADOBE_TRACK_APPLIANCES_EXCHANGE_JOURNEY);
     this.props.openAppliancesExchangeModal(data);
   }
 

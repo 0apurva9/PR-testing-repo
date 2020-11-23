@@ -8,12 +8,15 @@ import backArrowIcon from "../../pdp/components/img/arrowBack.svg";
 import PropTypes from "prop-types";
 import AppliancesExchangeDetails from "./AppliancesExchangeDetails";
 import ExchangeTnCModal from "./ExchangeTnCModal";
+import {
+  setDataLayer,
+  ADOBE_TRACK_APPLIANCES_EXCHANGE_AC_JOURNEY
+} from "../../lib/adobeUtils";
 const OTHERS = "others";
 const SELECT_BRAND = "Select Brand";
 const SELECT_CAPACITY = "Select Capacity";
 const SELECT_WORKING_CONDITION = "Select Working Condition";
 const EXCHANGE_DETAILS = "Exchange Details";
-
 export default class AppliancesExchangeSelection extends React.Component {
   constructor(props) {
     super(props);
@@ -90,6 +93,8 @@ export default class AppliancesExchangeSelection extends React.Component {
     data.ussid = this.props.ussid;
     data.modelType = this.state.selectedCapacityData.modelType;
     this.setState({ exchangeData: data });
+    let journeyDetails = `${data.modelType} Ac:MDE:${data.brandName}:null:null`;
+    setDataLayer(ADOBE_TRACK_APPLIANCES_EXCHANGE_AC_JOURNEY, journeyDetails);
   }
 
   openSearchInputBox() {
