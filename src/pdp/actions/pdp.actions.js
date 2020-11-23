@@ -870,7 +870,9 @@ export function getProductPinCode(
           productNotServiceableMessage:
             resultJson.productNotServiceabilityMessage,
           pincodeError,
-          checkPincodeFromHaptikChatbot: checkPincodeFromHaptikChatbot
+          checkPincodeFromHaptikChatbot: checkPincodeFromHaptikChatbot,
+          isPickupAvailableForAppliance:
+            resultJson.isPickupAvailableForAppliance
         })
       );
       // if (isComingFromPiqPage) {

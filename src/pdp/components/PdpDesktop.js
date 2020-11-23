@@ -1465,6 +1465,9 @@ export default class PdpApparel extends React.Component {
                         updatedAppliancesExchangeDetails={
                           this.state.updatedAppliancesExchangeDetails
                         }
+                        isPickupAvailableForAppliance={
+                          productData.isPickupAvailableForAppliance
+                        }
                       />
                     )}
                 </div>

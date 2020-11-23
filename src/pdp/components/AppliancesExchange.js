@@ -99,6 +99,17 @@ export default class AppliancesExchange extends React.Component {
   }
 
   render() {
+    let disableExchangeLink = false;
+    if (this.props.exchangeDisabled) {
+      if (!this.props.isPickupAvailableForAppliance) {
+        disableExchangeLink = true;
+      }
+    } else {
+      if (!this.props.isPickupAvailableForAppliance) {
+        disableExchangeLink = true;
+      }
+    }
+
     return (
       <div className={styles.appliancesExchangeMainContainer}>
         <div className={styles.exchangeLogoContainer}>
@@ -115,7 +126,7 @@ export default class AppliancesExchange extends React.Component {
               <div className={styles.exchangeLink}>
                 {this.props.appliancesExchangeDetails &&
                   this.props.appliancesExchangeDetails.desktopDescription}{" "}
-                {this.props.exchangeDisabled ? (
+                {disableExchangeLink ? (
                   <span className={styles.withDisabledExchangeLink}>
                     with Exchange
                   </span>
@@ -159,7 +170,7 @@ export default class AppliancesExchange extends React.Component {
             </div>
             {this.state.exchangeData && (
               <React.Fragment>
-                {this.props.exchangeDisabled ? (
+                {disableExchangeLink ? (
                   <span className={styles.changeDeviceLinkDisabled}>
                     Change Device
                   </span>
@@ -202,5 +213,6 @@ AppliancesExchange.propTypes = {
   appliancesExchangeDetails: PropTypes.object,
   exchangeDisabled: PropTypes.bool,
   productData: PropTypes.object,
-  ussid: PropTypes.string
+  ussid: PropTypes.string,
+  isPickupAvailableForAppliance: PropTypes.bool
 };
