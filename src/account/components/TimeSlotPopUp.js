@@ -51,7 +51,7 @@ class TimeSlotPopUp extends Component {
     this.setState({ isSelected: val });
   }
 
-  setTimeSlot = (time, date) => {
+  onTimeSlotClick = (time, date) => {
     this.props.closeModal();
     if (this.props.setTimeSlot) {
       this.props.setTimeSlot(time, date);
@@ -63,69 +63,72 @@ class TimeSlotPopUp extends Component {
     this.props.callMeBackCallClick();
   }
 
-  renderCallSlot = (slot, shift, callData, date, slotDuration) => {
-    let header =
-      slot === "morning"
-        ? "Morning"
-        : slot === "afternoon"
-        ? "Afternoon"
-        : "Evening";
+  renderCallSlot = (slotData, shiftDay, date, slotDuration) => {
     let today = new Date(),
       isTimeSlotDisabled = false,
-      isAlreadySelected = false,
-      slotRangeList = [];
+      isAlreadySelected = false;
 
     today.setHours(today.getHours() + slotDuration + 1);
     const currentTime = get24HrsTime(today);
 
     return (
       <React.Fragment>
-        <span className={styles.slotHeader}>{header}</span>
+        <span className={styles.slotHeader}>{slotData.displayText}</span>
         <div className={styles.slotAvailabilityHolder}>
-          {callData.map(timeSlot => {
-            if (shift === TODAY.toLowerCase()) {
-              slotRangeList = timeSlot.value && timeSlot.value.split("-");
-              isTimeSlotDisabled =
-                currentTime > slotRangeList[0] &&
-                currentTime > slotRangeList[1];
-            }
-            if (
-              this.props.selectedSlot &&
-              this.props.selectedSlot.slotTime &&
-              this.props.selectedSlot.slotTime.shift === shift
-            ) {
-              isAlreadySelected =
-                timeSlot.value === this.props.selectedSlot.slotTime.value;
-            }
-            return (
-              <div
-                key={timeSlot.label}
-                className={
-                  isTimeSlotDisabled
-                    ? styles.disableTimeSlot
-                    : styles.activeTimeSlot
-                }
-                style={
-                  isAlreadySelected ? { border: "1px solid #da1c5c" } : null
-                }
-                onClick={() =>
-                  !isTimeSlotDisabled
-                    ? this.setTimeSlot({ ...timeSlot, shift }, date)
-                    : null
-                }
-              >
-                <span
+          {slotData.timeSlots &&
+            slotData.timeSlots.map(({ label, spanFrom, spanTo }) => {
+              if (!shiftDay) {
+                isTimeSlotDisabled =
+                  currentTime > (spanFrom && spanFrom.text) &&
+                  currentTime > (spanTo && spanTo.text);
+              }
+              if (
+                this.props.selectedSlot &&
+                this.props.selectedSlot.slotTime &&
+                this.props.selectedSlot.slotTime.shiftDay === shiftDay
+              ) {
+                isAlreadySelected =
+                  label === this.props.selectedSlot.slotTime.label
+                    ? true
+                    : false;
+              }
+              return (
+                <div
+                  key={label}
                   className={
                     isTimeSlotDisabled
-                      ? styles.disabledSlotText
-                      : styles.slotText
+                      ? styles.disableTimeSlot
+                      : styles.activeTimeSlot
+                  }
+                  style={
+                    isAlreadySelected ? { border: "1px solid #da1c5c" } : null
+                  }
+                  onClick={() =>
+                    !isTimeSlotDisabled
+                      ? this.onTimeSlotClick(
+                          {
+                            label,
+                            from: spanFrom.hour,
+                            to: spanTo.hour,
+                            shiftDay
+                          },
+                          date
+                        )
+                      : null
                   }
                 >
-                  {timeSlot.label}
-                </span>
-              </div>
-            );
-          })}
+                  <span
+                    className={
+                      isTimeSlotDisabled
+                        ? styles.disabledSlotText
+                        : styles.slotText
+                    }
+                  >
+                    {label}
+                  </span>
+                </div>
+              );
+            })}
         </div>
       </React.Fragment>
     );
@@ -138,9 +141,8 @@ class TimeSlotPopUp extends Component {
       businessEndTime = "",
       allowedRequestLimit = 0,
       slotDuration = 0,
-      availableSlots = {}
-    } = this.props && this.props.cliq2CallConfigData;
-
+      availableSlots = []
+    } = (this.props && this.props.cliq2CallConfigData) || {};
     const { WaitTime = 0, TotalRequestsToday = 0, TotalRequestsNextDay = 0 } =
       (this.props && this.props.genesysCallConfigData) || {};
 
@@ -150,6 +152,7 @@ class TimeSlotPopUp extends Component {
       slotDuration,
       businessEndTime
     );
+
     let today = new Date(),
       currentDate = `${WEEK_DAY[today.getDay()]}, ${format(
         today,
@@ -231,13 +234,12 @@ class TimeSlotPopUp extends Component {
                   }`}
                 </span>
               ) : (
-                Object.keys(dataObj.slotsData).map(slot => {
+                dataObj.daySlots.map(slot => {
                   return (
                     <div key={slot} className={styles.slotsContainer}>
                       {this.renderCallSlot(
                         slot,
-                        dataObj.slotKey,
-                        dataObj.slotsData[slot],
+                        dataObj.dayCount,
                         this.state.isSelected ? nextDate : currentDate,
                         slotDuration
                       )}
@@ -261,38 +263,29 @@ export function getDetailsOfSlots(
   slotDuration,
   endTime
 ) {
-  const slotKey = selectedTab ? TOMORROW.toLowerCase() : TODAY.toLowerCase(),
-    slotsData = availableSlots[slotKey];
-
+  const { dayCount = 0, daySlots = [] } = availableSlots[selectedTab];
   let today = new Date();
   today.setHours(today.getHours() + slotDuration + 1);
 
   let isSlotsNotAvailable = true;
-  Object.keys(slotsData).forEach(slot => {
-    if (slotsData[slot].length) {
-      isSlotsNotAvailable = false;
-    }
-  });
-
-  if (
-    (slotKey === TODAY.toLowerCase() && get24HrsTime(today) > endTime) ||
-    today.getHours() === 0
-  ) {
+  daySlots &&
+    daySlots.length &&
+    daySlots.forEach(({ timeSlots }) => {
+      if (timeSlots && timeSlots.length) {
+        isSlotsNotAvailable = false;
+      }
+    });
+  if (!dayCount && (get24HrsTime(today) > endTime || today.getHours() === 0)) {
     isSlotsNotAvailable = true;
   }
-
-  return { slotKey, slotsData, isSlotsNotAvailable };
+  return { dayCount, daySlots, isSlotsNotAvailable };
 }
 
-const timeSlotObj = PropTypes.shape({
-  label: PropTypes.string,
-  value: PropTypes.string
-});
-
-const shiftSlotObj = PropTypes.shape({
-  morning: PropTypes.arrayOf(timeSlotObj),
-  afternoon: PropTypes.arrayOf(timeSlotObj),
-  evening: PropTypes.arrayOf(timeSlotObj)
+const spanFromShape = PropTypes.shape({
+  hour: PropTypes.string,
+  min: PropTypes.string,
+  sec: PropTypes.string,
+  text: PropTypes.string
 });
 
 TimeSlotPopUp.propTypes = {
@@ -307,13 +300,28 @@ TimeSlotPopUp.propTypes = {
   }),
   cliq2CallConfigData: PropTypes.shape({
     callBackNowFlag: PropTypes.bool,
+    scheduleCallFlag: PropTypes.bool,
     businessStartTime: PropTypes.string,
     businessEndTime: PropTypes.string,
     allowedRequestLimit: PropTypes.number,
     slotDuration: PropTypes.number,
-    availableSlots: PropTypes.shape({
-      today: shiftSlotObj,
-      tomorrow: shiftSlotObj
-    })
+    availableSlots: PropTypes.arrayOf(
+      PropTypes.shape({
+        dayCount: PropTypes.number,
+        daySlots: PropTypes.arrayOf(
+          PropTypes.shape({
+            displayText: PropTypes.string,
+            timeSlots: PropTypes.arrayOf(
+              PropTypes.shape({
+                label: PropTypes.string,
+                spanFrom: spanFromShape,
+                spanTo: spanFromShape
+              })
+            )
+          })
+        ),
+        displayText: PropTypes.string
+      })
+    )
   })
 };
