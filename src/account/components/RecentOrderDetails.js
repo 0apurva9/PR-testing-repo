@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import ProductImage from "../../general/components/ProductImage";
 import Styles from "./RecentOrderHistory.css";
 import moment from "moment";
-const CREATION_DATE_FORMAT = "ddd DD MMM, HH:mm";
+const CREATION_DATE_FORMAT = "ddd DD MMM, hh:mm";
 const STATUS_DATE_FORMAT = "DD MMM, YYYY";
 export default class RecentOrderDetails extends Component {
   componentDidMount() {
@@ -27,14 +27,31 @@ export default class RecentOrderDetails extends Component {
           <span className={Styles.fontBold}>
             {selectedTickerHistory.creationDate &&
               moment(
-                selectedTickerHistory.creationDate.split(" ")[0],
-                "DD-MM-YYYY"
+                selectedTickerHistory.creationDate,
+                "DD-MM-YYYY hh:mm:ss"
               ).format(CREATION_DATE_FORMAT)}
           </span>
         </div>
         <div className={Styles.orderInfoDetails}>
           <div className={Styles.orderImg}>
-            <ProductImage image={selectedTickerHistory.productImage} />
+            {selectedTickerHistory.issueBucket ? (
+              <div className={Styles.nonOrderIcon}>
+                <div
+                  style={{
+                    background: `url(${require(`./img/${selectedTickerHistory.issueBucket
+                      .split(" ")[0]
+                      .toLowerCase()}_ticket.svg`)})`,
+                    backgroundSize: "contain",
+                    backgroundRepeat: "no-repeat",
+                    width: "50px",
+                    height: "50px"
+                  }}
+                />
+              </div>
+            ) : (
+              <ProductImage image={selectedTickerHistory.productImage} />
+            )}
+            {/* <ProductImage image={selectedTickerHistory.productImage} /> */}
           </div>
           <div className={Styles.orderDetails}>
             <div className={Styles.productName}>
@@ -48,9 +65,10 @@ export default class RecentOrderDetails extends Component {
             Status :{" "}
             <span className={Styles.fontBold}>
               {" "}
-              {selectedTickerHistory.ticketStatus === "Open"
+              {/* {selectedTickerHistory.ticketStatus === "Open"
                 ? "In Process"
-                : "Resolved"}
+                : "Resolved"} */}
+              {selectedTickerHistory.ticketStatus}
             </span>
           </div>
           <div className={Styles.fontLight}>
@@ -83,24 +101,34 @@ export default class RecentOrderDetails extends Component {
             the issue or ignore if resolved.
           </div>
         </div>
-        <div className={Styles.communication}>
-          <div className={Styles.communicationHeading}>
-            Communication details
-          </div>
-          <div className={Styles.customerCetails}>
-            <div className={Styles.customerCircle}></div>
-            <div>
-              <div className={Styles.fontBold}>
-                Customer :{" "}
-                <span className={Styles.fontLight}>{"09 Jun, 12:30"}</span>
-              </div>
-              <div className={Styles.fontLight}>
-                Unfortunately, your product has not performed well [or the
-                service was inadequate] because state the problem.
+        {selectedTickerHistory.customerComment && (
+          <div className={Styles.communication}>
+            <div className={Styles.communicationHeading}>
+              Communication details
+            </div>
+            <div className={Styles.customerCetails}>
+              <div className={Styles.customerCircle}></div>
+              <div>
+                <div className={Styles.fontBold}>
+                  {this.props.userName} :{" "}
+                  <span className={Styles.fontLight}>
+                    {selectedTickerHistory.creationDate &&
+                      moment(
+                        selectedTickerHistory.creationDate,
+                        "DD-MM-YYYY hh:mm:ss"
+                      ).format(CREATION_DATE_FORMAT)}
+                  </span>
+                </div>
+
+                {selectedTickerHistory.customerComment && (
+                  <div className={Styles.fontLight}>
+                    {selectedTickerHistory.customerComment}
+                  </div>
+                )}
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }

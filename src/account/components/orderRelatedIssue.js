@@ -838,6 +838,87 @@ export default class OrderRelatedIssue extends React.Component {
     }, 2000);
   }
 
+  renderLatestTicketDetails(recentOrder) {
+    return (
+      <div className={styles.recentOrder}>
+        <div className={styles.recentTicketBox}>
+          {this.state.isRecentOrderHistory ? (
+            <div className={styles.homePage}>CLiQCare</div>
+          ) : (
+            <React.Fragment>
+              <div className={styles.recentTxt}> Your Recent Ticket(s)</div>
+              <div
+                className={styles.viewAll}
+                onClick={() => this.showRecentOrderHistory("closeTicket")}
+              >
+                View All
+              </div>
+            </React.Fragment>
+          )}
+        </div>
+        {this.state.isRecentOrderHistory ? (
+          <div className={styles.tickets}>Your ticket(s)</div>
+        ) : (
+          <div
+            className={styles.recentTicketDetailsBox}
+            onClick={() =>
+              this.showRecentOrderDetails(recentOrder, "recentTicketClicked")
+            }
+          >
+            <div className={styles.recentTicketDetails}>
+              <div className={styles.recentTicektImage}>
+                {recentOrder.issueBucket ? (
+                  <div
+                    className={styles.nonOrderIcon}
+                    style={{
+                      background: `url(${require(`./img/${recentOrder.issueBucket
+                        .split(" ")[0]
+                        .toLowerCase()}_ticket.svg`)})`,
+                      backgroundSize: "contain",
+                      backgroundRepeat: "no-repeat",
+                      width: "35px",
+                      height: "35px"
+                    }}
+                  />
+                ) : (
+                  <ProductImage image={recentOrder.productImage} />
+                )}
+              </div>
+              <div className={styles.recentTicketTxt}>
+                {" "}
+                {recentOrder.issueType}{" "}
+              </div>
+            </div>
+            <div className={styles.recentTiketStatusBox}>
+              <div className={styles.inProcess}></div>
+              <div>
+                <div className={styles.recentStatus}>
+                  Ticket Status:{" "}
+                  <span className={styles.fontBold}>
+                    {" "}
+                    {recentOrder.ticketStatus}{" "}
+                  </span>
+                </div>
+                <div className={styles.recentStatus}>
+                  {" "}
+                  Estimated Resolution:{" "}
+                  <span className={styles.fontBold}>
+                    {" "}
+                    {recentOrder.resolutionDate &&
+                      moment(
+                        recentOrder.resolutionDate.split(" ")[0],
+                        "DD-MM-YYYY"
+                      ).format(STATUS_DATE_FORMAT)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   showRecentOrderHistory(ticketType) {
     this.setState({
       isRecentOrderHistory: true,
@@ -852,7 +933,8 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState({ filterCard: true });
   };
   handleSelectedFilterClick = filterData => {
-    this.setState({ filterTypeData: filterData, filterCard: false });
+    this.setState({ filterTypeData: filterData.label, filterCard: false });
+    this.props.getRecentTicketHistoryDetails(false, filterData.value);
   };
   showRecentOrderDetails = (selectedTickerHistory, recentTicketClicked) => {
     if (recentTicketClicked == "recentTicketClicked") {
@@ -896,7 +978,8 @@ export default class OrderRelatedIssue extends React.Component {
       cliq2CallConfigDataLoading,
       genesysResponseLoading,
       genesysCustomerCallRequestData,
-      ticketHistoryDetails
+      ticketHistoryDetails,
+      initialTicketDetailsData
     } = this.props;
     if (
       customerQueriesOtherIssueLoading ||
@@ -919,8 +1002,7 @@ export default class OrderRelatedIssue extends React.Component {
     if (
       isUserLogin &&
       ordersTransactionData &&
-      ordersTransactionData.orderData &&
-      !this.state.isRecentOrderHistory
+      ordersTransactionData.orderData
     ) {
       showRecentOrderCard = true;
     }
@@ -1082,78 +1164,13 @@ export default class OrderRelatedIssue extends React.Component {
                     <div className={styles.formAbdTabHolder}>
                       <div className={styles.tabHolder}>
                         {showRecentOrderCard &&
-                          this.state.isShowRecentOrderCard && (
-                            <div className={styles.recentOrder}>
-                              <div className={styles.recentTicketBox}>
-                                <div className={styles.recentTxt}>
-                                  {" "}
-                                  Your Recent Ticket(s)
-                                </div>
-                                <div
-                                  className={styles.viewAll}
-                                  onClick={() =>
-                                    this.showRecentOrderHistory("closeTicket")
-                                  }
-                                >
-                                  View All
-                                </div>
-                              </div>
-                              <div
-                                className={styles.recentTicketDetailsBox}
-                                onClick={() =>
-                                  this.showRecentOrderDetails(
-                                    ticketHistoryDetails.tickets[1],
-                                    "recentTicketClicked"
-                                  )
-                                }
-                              >
-                                <div className={styles.recentTicketDetails}>
-                                  <div className={styles.recentTicektImage}>
-                                    <ProductImage
-                                      image={
-                                        ticketHistoryDetails &&
-                                        ticketHistoryDetails.tickets[1]
-                                          .productImage
-                                      }
-                                    />
-                                  </div>
-                                  <div className={styles.recentTicketTxt}>
-                                    {ticketHistoryDetails &&
-                                      ticketHistoryDetails.tickets[1].issueType}
-                                  </div>
-                                </div>
-                                <div className={styles.recentTiketStatusBox}>
-                                  <div className={styles.inProcess}></div>
-                                  <div>
-                                    <div className={styles.recentStatus}>
-                                      Ticket Status:{" "}
-                                      <span className={styles.fontBold}>
-                                        {ticketHistoryDetails &&
-                                          ticketHistoryDetails.tickets[1]
-                                            .ticketStatus}
-                                      </span>
-                                    </div>
-                                    <div className={styles.recentStatus}>
-                                      {" "}
-                                      Estimated Resolution:{" "}
-                                      <span className={styles.fontBold}>
-                                        {" "}
-                                        {moment(
-                                          ticketHistoryDetails &&
-                                            ticketHistoryDetails.tickets &&
-                                            ticketHistoryDetails.tickets[1]
-                                              .resolutionDate &&
-                                            ticketHistoryDetails.tickets[1].resolutionDate.split(
-                                              " "
-                                            )[0],
-                                          "DD-MM-YYYY"
-                                        ).format(STATUS_DATE_FORMAT)}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                          this.state.isShowRecentOrderCard &&
+                          initialTicketDetailsData &&
+                          Array.isArray(initialTicketDetailsData.tickets) &&
+                          this.props.initialTicketDetailsData.tickets.length >
+                            0 &&
+                          this.renderLatestTicketDetails(
+                            initialTicketDetailsData.tickets[0]
                           )}
 
                         <div className={styles.tabHolderBox}>
@@ -1237,6 +1254,7 @@ export default class OrderRelatedIssue extends React.Component {
                             this.props.ticketHistoryDetails &&
                             this.props.ticketHistoryDetails.tickets
                           }
+                          userName={this.state.name}
                         />
                       ) : (
                         <div className={styles.formHolder}>

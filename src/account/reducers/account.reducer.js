@@ -337,9 +337,11 @@ const account = (
     genesysCustomerCallRequestData: null,
     genesysCustomerCallRequestError: null,
 
-    ticketRecentDetailsStatus: null,
-    ticketRecentHistoryDetails: null,
-    ticketRecentDetailsError: null
+    ticketDetailsStatus: null,
+    ticketHistoryDetails: null,
+    initialTicketDetailsData: null,
+    ticketDetailsDataLoading: false,
+    ticketDetailsError: null
   },
   action
 ) => {
@@ -2188,19 +2190,48 @@ const account = (
     case accountActions.TICKET_RECENT_HISTORY_DETAILS_REQUEST:
       return {
         ...state,
-        ticketRecentDetailsStatus: action.status
+        ticketDetailsStatus: action.status,
+        ticketDetailsDataLoading: true
       };
     case accountActions.TICKET_RECENT_HISTORY_DETAILS_SUCCESS:
+      let ticketHistoryDetailsObj = { ...state.ticketHistoryDetails };
+      if (
+        action.isPaginated &&
+        ticketHistoryDetailsObj &&
+        ticketHistoryDetailsObj.tickets
+      ) {
+        ticketHistoryDetailsObj.tickets = ticketHistoryDetailsObj.tickets.concat(
+          action.ticketDetails.tickets
+        );
+        ticketHistoryDetailsObj.currentPage =
+          ticketHistoryDetailsObj.currentPage + 1;
+      } else {
+        ticketHistoryDetailsObj.tickets = action.ticketDetails.tickets;
+        Object.assign(ticketHistoryDetailsObj, {
+          currentPage: 0,
+          ticketCount: parseInt(action.ticketDetails.ticketCount, 10)
+        });
+      }
       return {
         ...state,
-        ticketRecentDetailsStatus: action.status,
-        ticketRecentHistoryDetails: action.ticketDetails
+        ticketDetailsStatus: action.status,
+        ticketHistoryDetails: ticketHistoryDetailsObj,
+        initialTicketDetailsData: !state.ticketHistoryDetails
+          ? ticketHistoryDetailsObj
+          : state.initialTicketDetailsData,
+        ticketDetailsDataLoading: false
       };
     case accountActions.TICKET_RECENT_HISTORY_DETAILS_FAILURE:
       return {
         ...state,
-        ticketRecentDetailsStatus: action.status,
-        ticketRecentDetailsError: action.error
+        ticketDetailsStatus: action.status,
+        ticketDetailsError: action.error,
+        ticketDetailsDataLoading: false
+      };
+    case accountActions.RESET_TICKETS_HISTORY_DATA_TO_INITIAL:
+      return {
+        ...state,
+        ticketHistoryDetails: { ...state.initialTicketDetailsData }
       };
 
     default:

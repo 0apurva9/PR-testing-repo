@@ -124,8 +124,8 @@ const mapDispatchToProps = dispatch => {
     showCallQuerySuccessModal: callSuccessData => {
       dispatch(showModal(CUSTOMER_CALL_QUERY_SUCCESS, callSuccessData));
     },
-    getRecentTicketHistoryDetails: ticketType => {
-      dispatch(getRecentTicketHistoryDetails(ticketType));
+    getRecentTicketHistoryDetails: (paginated, ticketStatus) => {
+      dispatch(getRecentTicketHistoryDetails(paginated, ticketStatus));
     }
     // getGenesysCallConfigData: () => {
     //   dispatch(getGenesysCallConfigData());
@@ -187,7 +187,9 @@ const mapStateToProps = state => {
     genesysResponseData: state.profile.genesysResponseData,
     genesysCustomerCallRequestData:
       state.profile.genesysCustomerCallRequestData,
-    ticketHistoryDetails: state.profile.ticketRecentHistoryDetails
+    ticketDetailsDataLoading: state.profile.ticketDetailsDataLoading,
+    ticketHistoryDetails: state.profile.ticketHistoryDetails,
+    initialTicketDetailsData: state.profile.initialTicketDetailsData
   };
 };
 

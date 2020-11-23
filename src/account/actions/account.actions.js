@@ -402,6 +402,9 @@ export const TICKET_RECENT_HISTORY_DETAILS_SUCCESS =
 export const TICKET_RECENT_HISTORY_DETAILS_FAILURE =
   "TICKET_RECENT_HISTORY_DETAILS_FAILURE";
 
+export const RESET_TICKETS_HISTORY_DATA_TO_INITIAL =
+  "RESET_TICKETS_HISTORY_DATA_TO_INITIAL";
+
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
 export const Clear_ORDER_TRANSACTION_DATA = "Clear_ORDER_TRANSACTION_DATA";
 export const RE_SET_ADD_ADDRESS_DETAILS = "RE_SET_ADD_ADDRESS_DETAILS";
@@ -5767,11 +5770,16 @@ export function getRecentTicketHistoryDetailsRequest() {
   };
 }
 
-export function getRecentTicketHistoryDetailsSuccess(ticketDetails) {
+export function getRecentTicketHistoryDetailsSuccess(
+  ticketDetails,
+  isPaginated = false,
+  ticketStatus
+) {
   return {
     type: TICKET_RECENT_HISTORY_DETAILS_SUCCESS,
     status: SUCCESS,
-    ticketDetails
+    ticketDetails,
+    isPaginated
   };
 }
 
@@ -5783,18 +5791,30 @@ export function getRecentTicketHistoryDetailsRequestFailure(error) {
   };
 }
 
-export function getRecentTicketHistoryDetails(paginated) {
+export function getRecentTicketHistoryDetails(
+  paginated = false,
+  ticketStatus = "",
+  ticketYear = ""
+) {
   return async (dispatch, getState, { api }) => {
     dispatch(getRecentTicketHistoryDetailsRequest());
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
+      let currentPage = 0;
+      const ticketDetailsState = { ...getState().profile.ticketHistoryDetails };
+      if (Object.keys(ticketDetailsState).length && paginated && ticketStatus) {
+        currentPage = ticketDetailsState.currentPage + 1;
+      }
+
       const result = await api.get(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
-        }/getTicketHistory?currentPage=${0}&access_token=${
+        }/getTicketHistory?currentPage=${currentPage}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&pageSize=${10}&ticketYear=""&ticketStatus=${true}`
+        }&pageSize=${10}&ticketYear=${ticketYear}&ticketStatus=${
+          ticketStatus === "all" ? "" : ticketStatus
+        }`
       );
       //   {
       //     "type" : "ticketHistoryData",
@@ -5860,9 +5880,19 @@ export function getRecentTicketHistoryDetails(paginated) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      dispatch(getRecentTicketHistoryDetailsSuccess(resultJson));
+      // if (resultJson && !resultJson.tickets) {
+      //   dispatch(displayToast(resultJson.status));
+      // }
+
+      dispatch(getRecentTicketHistoryDetailsSuccess(resultJson, paginated));
     } catch (e) {
-      dispatch(getRecentTicketHistoryDetailsRequestFailure(e));
+      dispatch(getRecentTicketHistoryDetailsRequestFailure(e, paginated));
     }
+  };
+}
+
+export function resetTicketsDataToInitial() {
+  return {
+    type: RESET_TICKETS_HISTORY_DATA_TO_INITIAL
   };
 }

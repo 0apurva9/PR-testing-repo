@@ -7,11 +7,16 @@ import ProductImage from "../../general/components/ProductImage";
 import RecentOrderDetails from "./RecentOrderDetails";
 import moment from "moment";
 
+const ticketStatusDropDownMenu = [
+  { label: "All Tickets", value: "all" },
+  { label: "In Process", value: "In Process" },
+  { label: "Resolved", value: "Resolved" }
+];
+
 const STATUS_DATE_FORMAT = "DD MMM, YYYY";
 
 export default class RecentOrderHistory extends Component {
   render() {
-    console.log("ticketHistoryDetails", this.props.ticketHistoryDetails);
     const { ticketHistoryDetails } = this.props;
     return (
       <div className={Styles.base}>
@@ -43,7 +48,19 @@ export default class RecentOrderHistory extends Component {
 
             {this.props.filterCard && (
               <div className={Styles.filterCard}>
-                <div
+                {ticketStatusDropDownMenu.map(filterData => {
+                  return (
+                    <div
+                      className={Styles.filterType}
+                      onClick={() =>
+                        this.props.handleSelectedFilterClick(filterData)
+                      }
+                    >
+                      {filterData.label}
+                    </div>
+                  );
+                })}
+                {/* <div
                   className={Styles.filterType}
                   onClick={() =>
                     this.props.handleSelectedFilterClick("All-ticket")
@@ -66,7 +83,7 @@ export default class RecentOrderHistory extends Component {
                   }
                 >
                   Resolved
-                </div>
+                </div> */}
               </div>
             )}
           </div>
@@ -80,7 +97,23 @@ export default class RecentOrderHistory extends Component {
                     onClick={() => this.props.showRecentOrderDetails(tickets)}
                   >
                     <div className={Styles.orderImg}>
-                      <ProductImage image={tickets.productImage} />
+                      {tickets.issueBucket ? (
+                        <div className={Styles.nonRelatedIcon}>
+                          <div
+                            style={{
+                              background: `url(${require(`./img/${tickets.issueBucket
+                                .split(" ")[0]
+                                .toLowerCase()}_ticket.svg`)})`,
+                              backgroundSize: "auto",
+                              backgroundRepeat: "no-repeat",
+                              width: "42px",
+                              height: "42px"
+                            }}
+                          ></div>
+                        </div>
+                      ) : (
+                        <ProductImage image={tickets.productImage} />
+                      )}
                     </div>
                     <div className={Styles.orderDetails}>
                       <div className={Styles.productName}>
@@ -89,7 +122,7 @@ export default class RecentOrderHistory extends Component {
                       <div className={Styles.fontLight}>
                         <span
                           className={
-                            tickets.ticketStatus === "Close"
+                            tickets.ticketStatus === "Resolved"
                               ? Styles.resolved
                               : tickets.slaBreach === "true"
                               ? Styles.delayed
@@ -98,22 +131,22 @@ export default class RecentOrderHistory extends Component {
                         ></span>
                         Status :{" "}
                         <span className={Styles.fontBold}>
-                          {tickets.ticketStatus === "Open"
-                            ? "In Process"
-                            : "Resolved"}
+                          {tickets.ticketStatus}
                         </span>
                       </div>
-                      <div className={Styles.fontLight}>
-                        {" "}
-                        Estimated Resolution Date:{" "}
-                        <span className={Styles.fontBold}>
-                          {tickets.resolutionDate &&
-                            moment(
+                      {tickets.resolutionDate && (
+                        <div className={Styles.fontLight}>
+                          {" "}
+                          Estimated Resolution Date:{" "}
+                          <span className={Styles.fontBold}>
+                            {moment(
                               tickets.resolutionDate.split(" ")[0],
                               "DD-MM-YYYY"
                             ).format(STATUS_DATE_FORMAT)}
-                        </span>
-                      </div>
+                          </span>
+                        </div>
+                      )}
+
                       {tickets.slaBreach === "true" && (
                         <div className={Styles.delayedStatus}>
                           Resolution delayed
@@ -124,27 +157,19 @@ export default class RecentOrderHistory extends Component {
                 );
               })}
 
-            {/* {!orderDataList && !this.props.isRecentOrderDetails && (
-              <div className={Styles.noRecentOrder}>
-                <div className={Styles.heading}> No recent queries </div>
-                <div className={Styles.txt}>
-                  {" "}
-                  There were no queries raised in{" "}
-                  <span className={Styles.heading}> Last 30 Days </span>
-                </div>
-                <div className={Styles.txt}>
-                  Search for{" "}
-                  <span className={Styles.date}> Different Dates </span>
-                </div>
-              </div>
-            )} */}
             {this.props.isRecentOrderDetails && (
               <RecentOrderDetails
                 selectedTickerHistory={this.props.selectedTickerHistory}
+                userName={this.props.userName}
               />
             )}
           </div>
         </div>
+        {!this.props.isRecentOrderDetails && (
+          <div className={Styles.showMoreButtonBox}>
+            <div className={Styles.showMore}>Show More</div>
+          </div>
+        )}
       </div>
     );
   }
