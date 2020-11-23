@@ -61,6 +61,11 @@
 	width: calc(100% - 89px);
 	margin-right: 10px;
 }
+.exchangeContainerAppliances{
+	float: left;
+	width: calc(100% - 65px);
+	margin-right: 10px;
+}
 .exchangeLink{
 	font-family: light;
   font-size: 14px;

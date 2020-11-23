@@ -32,7 +32,7 @@ export default class HowAppliancesExchangeWorksLessDetails extends React.Compone
         <div className={styles.contentContainer}>
           <div className={styles.aeContentDescription}>
             Exchange request is serviceable only on selected pin codes of Delhi
-            and Mumbai region. Pin code list here.
+            and Mumbai region.
           </div>
         </div>
         <img src={hew4} alt="" className={styles.iconSize} />
