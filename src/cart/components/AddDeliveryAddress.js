@@ -381,6 +381,11 @@ export default class AddDeliveryAddress extends React.Component {
         );
       }
       this.props.addUserAddress(addressObj);
+      // set localStorage in Case of nonServicable pincode route to cart PP-1935
+      localStorage.setItem(
+        DEFAULT_PIN_CODE_LOCAL_STORAGE,
+        this.props.postalCode ? this.props.postalCode : this.state.postalCode
+      );
     }
   };
 
