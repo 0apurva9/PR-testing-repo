@@ -99,7 +99,8 @@ export default class NoCostEmiBankDetails extends React.Component {
         selectedCode: null,
         selectedCouponCode: null,
         selectedTenure: null,
-        selectedFromDropDown: false
+        selectedFromDropDown: false,
+        emiInfo: ""
       });
     }
 
