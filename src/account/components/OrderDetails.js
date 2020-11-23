@@ -275,7 +275,9 @@ export default class OrderDetails extends React.Component {
     if (this.props.orderDetails) {
       if (
         this.props.orderDetails.products &&
-        this.props.orderDetails.products.length == 1
+        Array.isArray(this.props.orderDetails.products) &&
+        this.props.orderDetails.products.length == 1 &&
+        transactionId
       ) {
         const selectedOrderObj = {
           orderCode,
@@ -1431,6 +1433,7 @@ OrderDetails.propTypes = {
       totalDiscounts: PropTypes.string,
       convenienceCharge: PropTypes.string,
       paymentMethod: PropTypes.string,
+      paymentRetryLink: PropTypes.string,
       billingAddress: PropTypes.arrayOf(
         PropTypes.shape({
           addressLine1: PropTypes.string,
