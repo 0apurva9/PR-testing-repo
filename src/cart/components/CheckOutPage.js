@@ -127,7 +127,8 @@ import {
   UPI_ID,
   INSTACRED,
   CARDLESS_EMI,
-  IS_DC_EMI_SELECTED
+  IS_DC_EMI_SELECTED,
+  DEFAULT_PIN_CODE_ID_LOCAL_STORAGE
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -624,31 +625,41 @@ class CheckOutPage extends React.Component {
       Cookie.deleteCookie(WHATSAPP_NOTIFICATION);
     }
   }
+
+  sortAddressArray(AddressArr, selectedId) {
+    AddressArr.sort(function(x, y) {
+      return x.id === selectedId ? -1 : y.id === selectedId ? 1 : 0;
+    });
+  }
+
   renderCheckoutAddress = disabled => {
     const cartData = this.props.cart;
     /**
      * Added code to update the default addressId with the pincode selected address
      */
-    const postCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
-    let addressSelectedId =
-      cartData.cartDetailsCNC &&
-      cartData.cartDetailsCNC.addressDetailsList &&
-      cartData.cartDetailsCNC.addressDetailsList.addresses &&
-      cartData.cartDetailsCNC.addressDetailsList.addresses
-        .filter(val => val.postalCode === postCode)
-        .map(val => val.id);
-    let defaultAddressId = addressSelectedId && addressSelectedId[0];
-    if (defaultAddressId === undefined) {
-      addressSelectedId =
-        this.props.cart.cartDetailsCNC &&
-        this.props.cart.cartDetailsCNC.addressDetailsList &&
-        this.props.cart.cartDetailsCNC.addressDetailsList.addresses[0];
-      let fetchId = addressSelectedId && addressSelectedId.id;
-      defaultAddressId = fetchId;
-      if (this.state.addressId) {
-        defaultAddressId = this.state.addressId;
-      }
+
+    let defaultAddressId = "";
+    if (this.state.addressId) {
+      defaultAddressId = this.state.addressId;
+    } else {
+      const postCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+      let addressSelectedId =
+        cartData.cartDetailsCNC &&
+        cartData.cartDetailsCNC.addressDetailsList &&
+        cartData.cartDetailsCNC.addressDetailsList.addresses &&
+        cartData.cartDetailsCNC.addressDetailsList.addresses
+          .filter(val => val.postalCode === postCode)
+          .map(val => val.id);
+      defaultAddressId = addressSelectedId && addressSelectedId[0];
     }
+
+    this.props.cart.cartDetailsCNC &&
+      this.props.cart.cartDetailsCNC.addressDetailsList &&
+      this.props.cart.cartDetailsCNC.addressDetailsList.addresses &&
+      this.sortAddressArray(
+        this.props.cart.cartDetailsCNC.addressDetailsList.addresses,
+        defaultAddressId
+      );
     return (
       <div className={styles.addInitialAddAddress}>
         <ConfirmAddress
@@ -1129,18 +1140,44 @@ class CheckOutPage extends React.Component {
         }
       } else {
         const postalCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
-        if (postalCode) {
+        const defaultPincodeId = localStorage.getItem(
+          DEFAULT_PIN_CODE_ID_LOCAL_STORAGE
+        );
+        if (defaultPincodeId) {
           defaultAddress = nextProps.cart.userAddress.addresses.find(
             address => {
-              return postalCode === address.postalCode;
+              return defaultPincodeId === address.id;
             }
           );
+          if (!defaultAddress) {
+            if (postalCode) {
+              defaultAddress = nextProps.cart.userAddress.addresses.find(
+                address => {
+                  return postalCode === address.postalCode;
+                }
+              );
+            } else {
+              defaultAddress = nextProps.cart.userAddress.addresses.find(
+                address => {
+                  return address.defaultAddress;
+                }
+              );
+            }
+          }
         } else {
-          defaultAddress = nextProps.cart.userAddress.addresses.find(
-            address => {
-              return address.defaultAddress;
-            }
-          );
+          if (postalCode) {
+            defaultAddress = nextProps.cart.userAddress.addresses.find(
+              address => {
+                return postalCode === address.postalCode;
+              }
+            );
+          } else {
+            defaultAddress = nextProps.cart.userAddress.addresses.find(
+              address => {
+                return address.defaultAddress;
+              }
+            );
+          }
         }
         if (!defaultAddress) {
           defaultAddress = nextProps.cart.userAddress.addresses.find(

@@ -20,7 +20,8 @@ import {
   BUY_NOW_PRODUCT_DETAIL,
   SUCCESS,
   CNC_CART,
-  SELECTED_STORE
+  SELECTED_STORE,
+  DEFAULT_PIN_CODE_ID_LOCAL_STORAGE
 } from "../../lib/constants";
 import SavedProduct from "./SavedProduct";
 import filter from "lodash.filter";
@@ -464,7 +465,7 @@ class CartPage extends React.Component {
     }
   }
 
-  checkPinCodeAvailability = val => {
+  checkPinCodeAvailability = (val, addressId = "") => {
     this.setState({
       pinCode: val,
       changePinCode: false,
@@ -478,6 +479,7 @@ class CartPage extends React.Component {
       localStorage.removeItem(SELECTED_STORE);
     }
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, val);
+    localStorage.setItem(DEFAULT_PIN_CODE_ID_LOCAL_STORAGE, addressId);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -548,8 +550,8 @@ class CartPage extends React.Component {
     this.props.addressModal({
       addressModalForCartPage: true,
       labelText: "Submit",
-      checkPinCodeAvailability: pinCode =>
-        this.checkPinCodeAvailability(pinCode)
+      checkPinCodeAvailability: (pinCode, addressId) =>
+        this.checkPinCodeAvailability(pinCode, addressId)
     });
   };
   renderBankOffers = () => {
