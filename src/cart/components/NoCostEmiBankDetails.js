@@ -695,9 +695,11 @@ export default class NoCostEmiBankDetails extends React.Component {
             )}
 
             <div>
-              {!this.props.isRetryPaymentFromURL && this.state.emiInfo && (
-                <div className={styles.charges}>{this.state.emiInfo}</div>
-              )}
+              {!this.props.isRetryPaymentFromURL &&
+                this.state.selectedBankName !== null &&
+                this.state.emiInfo && (
+                  <div className={styles.charges}>{this.state.emiInfo}</div>
+                )}
               {this.state.selectedMonth !== null &&
                 this.state.selectedMonth !== "" &&
                 this.props.noCostEmiDetails &&
@@ -724,7 +726,13 @@ export default class NoCostEmiBankDetails extends React.Component {
                 <div className={styles.itemLevelButtonHolder}>
                   {this.props.isDebitCard && this.props.dcwPageId && (
                     <React.Fragment>
-                      <Link to={this.props.dcwPageId} target="_blank">
+                      <Link
+                        to={{
+                          pathname:
+                            `https://www.tatacliq.com/` + this.props.dcwPageId
+                        }}
+                        target="_blank"
+                      >
                         <div className={styles.knowMoreText}>
                           Know more about Debit Card EMI &#9432;
                         </div>
