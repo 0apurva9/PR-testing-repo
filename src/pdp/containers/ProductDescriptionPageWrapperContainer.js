@@ -28,7 +28,8 @@ import {
   getMoreFromBrand,
   getAboutTheBrand,
   getSimilarProduct,
-  openBeautyPopup
+  openBeautyPopup,
+  getAppliancesExchangeDetails
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -59,7 +60,8 @@ import {
   SIMILAR_PRODUCTS_MODAL,
   SIMILAR_PRODUCTS_OOS_MODAL,
   SIZE_SELECTOR_OOS_MODAL,
-  EXCHANGE_MODAL
+  EXCHANGE_MODAL,
+  APPLIANCES_EXCHANGE_MODAL
 } from "../../general/modal.actions.js";
 import ProductDescriptionPageWrapper from "../components/ProductDescriptionPageWrapper";
 import { withRouter } from "react-router-dom";
@@ -385,6 +387,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     openBeautyPopup: toggle => {
       return dispatch(openBeautyPopup(toggle));
+    },
+    showAppliancesExchangeModal: data => {
+      dispatch(showModal(APPLIANCES_EXCHANGE_MODAL, data));
+    },
+    getAppliancesExchangeDetails: () => {
+      dispatch(getAppliancesExchangeDetails());
     }
   };
 };
@@ -454,7 +462,11 @@ const mapStateToProps = state => {
     aboutTheBrandLoading: state.productDescription.aboutTheBrandLoading,
     similarProductResponse: state.productDescription.similarProductDetails,
     similarProductError: state.productDescription.similarProductError,
-    similarProductLoading: state.productDescription.similarProductLoading
+    similarProductLoading: state.productDescription.similarProductLoading,
+    appliancesExchangeDetails:
+      state.productDescription.getAppliancesExchangeDetails,
+    updatedAppliancesExchangeDetails:
+      state.productDescription.updatedAppliancesExchangeDetails
   };
 };
 

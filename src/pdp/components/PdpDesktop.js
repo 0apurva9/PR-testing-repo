@@ -79,6 +79,7 @@ import ExchangeDetailsPDPDesktop from "./ExchangeDetailsPDPDesktop";
 import Chatbot from "../../plp/components/Chatbot";
 import PropTypes from "prop-types";
 import ProductBundling from "./ProductBundling";
+import AppliancesExchange from "./AppliancesExchange";
 
 let testcheck = false;
 
@@ -133,7 +134,8 @@ export default class PdpApparel extends React.Component {
       selected: false,
       productCategory: "",
       eyeWearCheck: "",
-      bundledProductSuggestionDetails: null
+      bundledProductSuggestionDetails: null,
+      updatedAppliancesExchangeDetails: null
     };
     this.reviewListRef = React.createRef();
     this.ScrollIntoView = this.ScrollIntoView.bind(this);
@@ -364,6 +366,16 @@ export default class PdpApparel extends React.Component {
           pincode
         );
       }
+    }
+
+    if (
+      this.props.updatedAppliancesExchangeDetails !==
+      prevProps.updatedAppliancesExchangeDetails
+    ) {
+      this.setState({
+        updatedAppliancesExchangeDetails: this.props
+          .updatedAppliancesExchangeDetails
+      });
     }
   }
   selectProduct() {
@@ -1007,6 +1019,10 @@ export default class PdpApparel extends React.Component {
     }
   }
 
+  openAppliancesExchangeModal(data) {
+    this.props.showAppliancesExchangeModal(data);
+  }
+
   render() {
     let seasonData = {};
     if (this.props.productDetails["seasonDetails"] !== undefined) {
@@ -1238,6 +1254,12 @@ export default class PdpApparel extends React.Component {
         }
       }
 
+      let categoryHierarchy = this.props.productDetails.categoryHierarchy;
+
+      let isACCategory = categoryHierarchy.find(category => {
+        return category.category_id === "MSH1230";
+      });
+
       return (
         <PdpFrame
           goToCart={() => this.goToCart()}
@@ -1429,6 +1451,26 @@ export default class PdpApparel extends React.Component {
                       }
                     />
                   )}
+
+                  {isACCategory &&
+                    this.props.appliancesExchangeDetails &&
+                    this.props.appliancesExchangeDetails.brands &&
+                    this.props.appliancesExchangeDetails.brands.length > 0 && (
+                      <AppliancesExchange
+                        exchangeDisabled={disabledStatus}
+                        openAppliancesExchangeModal={data =>
+                          this.openAppliancesExchangeModal(data)
+                        }
+                        appliancesExchangeDetails={
+                          this.props.appliancesExchangeDetails
+                        }
+                        ussid={this.props.productDetails.winningUssID}
+                        displayToast={this.props.displayToast}
+                        updatedAppliancesExchangeDetails={
+                          this.state.updatedAppliancesExchangeDetails
+                        }
+                      />
+                    )}
                 </div>
                 {productData.variantOptions && (
                   <div>
@@ -2561,5 +2603,7 @@ PdpApparel.propTypes = {
   bundledProductSuggestionDetails: PropTypes.object,
   getTotalBundledPrice: PropTypes.func,
   totalBundledPriceDetails: PropTypes.object,
-  getTotalBundledPriceLoading: PropTypes.bool
+  getTotalBundledPriceLoading: PropTypes.bool,
+  appliancesExchangeDetails: PropTypes.object,
+  showAppliancesExchangeModal: PropTypes.func
 };

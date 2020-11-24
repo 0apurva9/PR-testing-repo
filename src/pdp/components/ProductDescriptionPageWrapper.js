@@ -156,6 +156,7 @@ export default class ProductDescriptionPageWrapper extends React.Component {
       this.props.getChatbotDetails();
     }
     this.initiateHaptikScript();
+    this.props.getAppliancesExchangeDetails();
   };
 
   initiateHaptikScript() {

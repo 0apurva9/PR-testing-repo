@@ -40,6 +40,7 @@ import {
 } from "../../lib/adobeUtils";
 import DigitalBundledProduct from "./DigitalBundledProduct";
 import RecommendedBundledProduct from "./RecommendedBundledProduct";
+import AppliancesExchangeCart from "./AppliancesExchangeCart";
 const NO_SIZE = "NO SIZE";
 const OUT_OF_STOCK = "Product is out of stock";
 export default class CartItemForDesktop extends React.Component {
@@ -75,6 +76,7 @@ export default class CartItemForDesktop extends React.Component {
         mainProductUssid,
         isForDigitalBundledProduct
       );
+      this.removeAppliancesExchange(mainProductUssid);
     }
   }
   getDeliveryName = type => {
@@ -222,6 +224,23 @@ export default class CartItemForDesktop extends React.Component {
       setDataLayer(ADOBE_MDE_CLICK_ON_GET_NEW_PRICE);
     }
   }
+
+  removeAppliancesExchange(ussid) {
+    let acCartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+    let cartExchangeDetails =
+      acCartExchangeDetails && JSON.parse(acCartExchangeDetails);
+    if (cartExchangeDetails) {
+      let index = cartExchangeDetails.findIndex(product => {
+        return product.ussid === ussid;
+      });
+      cartExchangeDetails.splice(index, 1);
+      localStorage.setItem(
+        "acCartExchangeDetails",
+        JSON.stringify(cartExchangeDetails)
+      );
+    }
+  }
+
   render() {
     let fetchedQuantityList = [];
     if (this.props.isOutOfStock) {
@@ -435,12 +454,19 @@ export default class CartItemForDesktop extends React.Component {
                     index={this.props.index}
                     exchangeDetails={this.props.product.exchangeDetails}
                     entryNumber={this.props.entryNumber}
+                    isFromCartPage={true}
+                    removeAppliancesExchange={ussid =>
+                      this.removeAppliancesExchange(ussid)
+                    }
                   />
                 </div>
                 <div
                   className={styles.removeLabel}
                   onClick={() =>
-                    this.handleRemove(this.props.product.entryNumber)
+                    this.handleRemove(
+                      this.props.product.entryNumber,
+                      this.props.product.USSID
+                    )
                   }
                 >
                   {this.props.removeText}
@@ -677,6 +703,18 @@ export default class CartItemForDesktop extends React.Component {
               )}
             </React.Fragment>
           )}
+
+        <AppliancesExchangeCart
+          productUssid={this.props.product.USSID}
+          pinCodeResponse={this.props.product.pinCodeResponse}
+          productIsServiceable={this.props.productIsServiceable}
+          openAppliancesExchangeModal={this.props.openAppliancesExchangeModal}
+          removeAppliancesExchange={ussid =>
+            this.removeAppliancesExchange(ussid)
+          }
+          displayToast={this.props.displayToast}
+        />
+
         {this.props.product.bundledDigitalItems &&
           this.props.product.bundledDigitalItems.map(
             (digitalProduct, index) => {

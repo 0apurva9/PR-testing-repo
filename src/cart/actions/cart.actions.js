@@ -6298,6 +6298,47 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
         CART_BAG_DETAILS,
         JSON.stringify([productDetails.ussId])
       );
+
+      // appiance exchange poc
+      let acPdpExchangeDetails = localStorage.getItem("acPdpExchangeDetails");
+      let acPdpExchangeData =
+        acPdpExchangeDetails && JSON.parse(acPdpExchangeDetails);
+      if (
+        acPdpExchangeData &&
+        acPdpExchangeData.ussid === productDetails.ussId &&
+        acPdpExchangeData.isExchangeSelected
+      ) {
+        let acCartExchangeDetails = localStorage.getItem(
+          "acCartExchangeDetails"
+        );
+        if (acCartExchangeDetails) {
+          let acCartExchangeData = JSON.parse(acCartExchangeDetails);
+          let productIndex = "";
+          let isProductInExchangeData =
+            acCartExchangeData &&
+            acCartExchangeData.find((data, index) => {
+              if (data.ussid === productDetails.ussId) {
+                productIndex = index;
+              }
+              return data.ussid === productDetails.ussId;
+            });
+          if (isProductInExchangeData) {
+            acCartExchangeData[productIndex] = acPdpExchangeData;
+          } else {
+            acCartExchangeData.push(acPdpExchangeData);
+          }
+          localStorage.setItem(
+            "acCartExchangeDetails",
+            JSON.stringify(acCartExchangeData)
+          );
+        } else {
+          localStorage.setItem(
+            "acCartExchangeDetails",
+            JSON.stringify([acPdpExchangeData])
+          );
+        }
+      }
+
       return dispatch(tempCartIdForLoggedInUserSuccess(resultJson));
     } catch (e) {
       return dispatch(tempCartIdForLoggedInUserFailure(e.message));

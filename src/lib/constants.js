@@ -581,3 +581,6 @@ export const POP_UP_WINDOW_STYLE =
   "toolbar=no, menubar=no, width=600, height=700, top=100, left=100";
 
 export const PLATFORM = "desktop";
+export const AC_PDP_EXCHANGE_DETAILS = "acPdpExchangeDetails";
+export const EXCHANGE_ADDED_MESSAGE = "Exchange has been added.";
+export const EXCHANGE_REMOVED_MESSAGE = "Exchange has been removed.";

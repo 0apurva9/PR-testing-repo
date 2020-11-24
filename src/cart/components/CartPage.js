@@ -1059,6 +1059,9 @@ class CartPage extends React.Component {
                             bundledProductSuggestionStatus={
                               this.props.bundledProductSuggestionStatus
                             }
+                            openAppliancesExchangeModal={
+                              this.props.openAppliancesExchangeModal
+                            }
                           />
                         </DesktopOnly>
                       </div>
