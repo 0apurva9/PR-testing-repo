@@ -230,6 +230,11 @@ export default class CreditCardForm extends React.Component {
                 isCard={true}
                 onBlur={() => this.onBlurOfCardInput()}
               />
+              {this.state.invalidCard && !this.state.emiInvalidCardError && (
+                <span className={styles.invalidCardText}>
+                  Please enter a valid card number
+                </span>
+              )}
               {this.state.cardNumber &&
                 this.props.bankGatewayStatus === BANK_GATWAY_DOWN && (
                   <span className={styles.invalidCardText}>
