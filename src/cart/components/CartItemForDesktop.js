@@ -233,11 +233,13 @@ export default class CartItemForDesktop extends React.Component {
       let index = cartExchangeDetails.findIndex(product => {
         return product.ussid === ussid;
       });
-      cartExchangeDetails.splice(index, 1);
-      localStorage.setItem(
-        "acCartExchangeDetails",
-        JSON.stringify(cartExchangeDetails)
-      );
+      if (index && index !== -1) {
+        cartExchangeDetails.splice(index, 1);
+        localStorage.setItem(
+          "acCartExchangeDetails",
+          JSON.stringify(cartExchangeDetails)
+        );
+      }
     }
   }
 
