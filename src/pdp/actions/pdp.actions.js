@@ -1059,6 +1059,7 @@ export function addProductToCart(productDetails) {
           "acCartExchangeDetails"
         );
         if (acCartExchangeDetails) {
+          delete acPdpExchangeData.isExchangeSelected;
           let acCartExchangeData = JSON.parse(acCartExchangeDetails);
           let productIndex = "";
           let isProductInExchangeData =
@@ -1079,6 +1080,7 @@ export function addProductToCart(productDetails) {
             JSON.stringify(acCartExchangeData)
           );
         } else {
+          delete acPdpExchangeData.isExchangeSelected;
           localStorage.setItem(
             "acCartExchangeDetails",
             JSON.stringify([acPdpExchangeData])

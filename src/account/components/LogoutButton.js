@@ -55,6 +55,12 @@ export default class LogoutButton extends React.Component {
 
         this.props.setFalseForAllAuthCallHasSucceedFlag();
         // this.props.getMinicartProducts();
+        let acPdpExchangeDetails = localStorage.getItem("acPdpExchangeDetails");
+        let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+        if (acPdpExchangeDetails || cartExchangeDetails) {
+          localStorage.removeItem("acPdpExchangeDetails");
+          localStorage.removeItem("acCartExchangeDetails");
+        }
       }
     }
   }

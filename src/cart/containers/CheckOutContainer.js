@@ -80,7 +80,8 @@ import {
   upiPaymentCombinedLogoMidddleLayer,
   instaCredISEnableMidddleLayer,
   getDCEmiEligibility,
-  getBankDetailsforDCEmi
+  getBankDetailsforDCEmi,
+  submitAppliancesExchangeData
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -870,6 +871,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showChangeExchangeCashabackModal: data => {
       dispatch(showModal(CHANGE_EXCHANGE_CASHBACK_MODAL, data));
+    },
+    submitAppliancesExchangeData: (orderId, status, removeLocalStorage) => {
+      dispatch(
+        submitAppliancesExchangeData(orderId, status, removeLocalStorage)
+      );
     }
   };
 };

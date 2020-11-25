@@ -101,6 +101,7 @@ export default class AppliancesExchangeSelection extends React.Component {
     data.totalExchangeAmount = conditionDetails.totalExchangeAmount;
     data.ussid = this.props.ussid;
     data.modelType = this.state.selectedCapacityData.modelType;
+    data.bonusExchangeAmount = this.props.appliancesExchangeDetails.bonusExchangeAmount;
     this.setState({ exchangeData: data });
   }
 

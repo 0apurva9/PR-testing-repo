@@ -584,3 +584,6 @@ export const PLATFORM = "desktop";
 export const AC_PDP_EXCHANGE_DETAILS = "acPdpExchangeDetails";
 export const EXCHANGE_ADDED_MESSAGE = "Exchange has been added.";
 export const EXCHANGE_REMOVED_MESSAGE = "Exchange has been removed.";
+export const STATUS_PROCESSING = "processing";
+export const STATUS_CONFIRMED = "confirmed";
+export const STATUS_FAILED = "failed";
