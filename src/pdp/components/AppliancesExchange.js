@@ -199,7 +199,11 @@ export default class AppliancesExchange extends React.Component {
         </div>
         {this.state.exchangeData && (
           <div
-            className={styles.addRemoveExchangeIconHolder}
+            className={
+              disableExchangeLink
+                ? styles.addRemoveExchangeIconHolderDisabled
+                : styles.addRemoveExchangeIconHolder
+            }
             onClick={() => this.addOrRemoveExchange()}
           >
             <Icon
