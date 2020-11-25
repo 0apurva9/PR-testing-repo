@@ -1346,7 +1346,8 @@ const productDescription = (
       return Object.assign({}, state, {
         getAppliancesExchangeDetailsStatus: action.status,
         getAppliancesExchangeDetailsLoading: false,
-        getAppliancesExchangeDetailsError: action.error
+        getAppliancesExchangeDetailsError: action.error,
+        getAppliancesExchangeDetails: null
       });
 
     case pdpActions.UPDATE_APPLIANCES_EXCHANGE_DETAILS:
