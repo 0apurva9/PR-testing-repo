@@ -9,8 +9,8 @@ import hew5 from "../../pdp/components/img/hew5.svg";
 import PropTypes from "prop-types";
 
 export default class HowAppliancesExchangeWorks extends React.Component {
-  openHowAppliancesExchangeWorks(data) {
-    this.props.openHowAppliancesExchangeWorks(data);
+  hideHowAppliancesExchangeWorks() {
+    this.props.hideHowAppliancesExchangeWorks();
   }
 
   closeAppliancesExchangeModal() {
@@ -19,25 +19,22 @@ export default class HowAppliancesExchangeWorks extends React.Component {
 
   render() {
     return (
-      <div className={styles.base}>
-        <img
-          src={closeIcon}
-          alt="closeIcon"
-          className={styles.closeIcon}
-          onClick={() => this.closeAppliancesExchangeModal()}
-        />
+      <div className={styles.appliancesExchangeBase}>
+        {!this.props.showBackButton && (
+          <img
+            src={closeIcon}
+            alt="closeIcon"
+            className={styles.closeIcon}
+            onClick={() => this.closeAppliancesExchangeModal()}
+          />
+        )}
         <div className={styles.topContainer}>
           <div className={styles.howExchangeWorksHeading}>
             How exchange works?
             {this.props.showBackButton && (
               <div
                 className={styles.modalForwardArrowContainer}
-                onClick={() =>
-                  this.openHowAppliancesExchangeWorks({
-                    showAppliancesExchangeWorks: false,
-                    showBackButton: false
-                  })
-                }
+                onClick={() => this.hideHowAppliancesExchangeWorks()}
               >
                 Back <div className={styles.modalForwardArrow} />
               </div>
@@ -78,7 +75,7 @@ export default class HowAppliancesExchangeWorks extends React.Component {
           <div className={styles.contentContainer}>
             <div className={styles.contentDescriptionHEW}>
               Exchange request is serviceable only on selected pin codes of
-              Delhi and Mumbai region. Pin code list here.
+              Delhi and Mumbai region.
             </div>
           </div>
           <img src={hew5} alt="" className={styles.iconSize} />
@@ -95,7 +92,7 @@ export default class HowAppliancesExchangeWorks extends React.Component {
 }
 
 HowAppliancesExchangeWorks.propTypes = {
-  openHowAppliancesExchangeWorks: PropTypes.func,
+  hideHowAppliancesExchangeWorks: PropTypes.func,
   closeAppliancesExchangeModal: PropTypes.func,
   showBackButton: PropTypes.bool
 };

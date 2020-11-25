@@ -30,8 +30,8 @@ export default class AppliancesExchangeDetails extends React.Component {
     }
   }
 
-  openHowAppliancesExchangeWorks(data) {
-    this.props.openHowAppliancesExchangeWorks(data);
+  showHowAppliancesExchangeWorks() {
+    this.props.showHowAppliancesExchangeWorks();
   }
 
   agreedTnC(e) {
@@ -117,12 +117,7 @@ export default class AppliancesExchangeDetails extends React.Component {
           <div className={styles.aeSmallHeading}>How Exchange works?</div>
           <div
             className={styles.aeKnowMoreContainer}
-            onClick={() =>
-              this.openHowAppliancesExchangeWorks({
-                showAppliancesExchangeWorks: true,
-                showBackButton: true
-              })
-            }
+            onClick={() => this.showHowAppliancesExchangeWorks()}
           >
             <span className={styles.aeKnowMoreText}>Know more</span>
           </div>
@@ -167,7 +162,7 @@ export default class AppliancesExchangeDetails extends React.Component {
 
 AppliancesExchangeDetails.propTypes = {
   resetState: PropTypes.func,
-  openHowAppliancesExchangeWorks: PropTypes.func,
+  showHowAppliancesExchangeWorks: PropTypes.func,
   openTnCModal: PropTypes.func,
   exchangeData: PropTypes.object,
   closeAppliancesExchangeModal: PropTypes.func,

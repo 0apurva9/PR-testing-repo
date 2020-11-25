@@ -322,11 +322,11 @@ export default class AddDeliveryAddress extends React.Component {
       return false;
     }
 
-    if (!this.state.town) {
+    if (!this.state.town.trim()) {
       this.props.displayToast(CITY_TEXT);
       return false;
     }
-    if (!this.state.state) {
+    if (!this.state.state.trim()) {
       this.props.displayToast(STATE_TEXT);
       return false;
     }

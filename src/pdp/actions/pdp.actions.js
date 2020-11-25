@@ -17,6 +17,7 @@ import {
   TIME_OUT_FOR_APIS,
   LOW_INTERNET_CONNECTION_MESSAGE,
   CHANNEL,
+  PLATFORM,
   AC_PDP_EXCHANGE_DETAILS
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
@@ -2656,7 +2657,7 @@ export function verifyIMEINumber(
         bodyParams.wishlistName = wishlistName;
       }
       const result = await api.post(
-        `v2/mpl/verifyIMEINumber?isDuplicateImei=true`,
+        `v2/mpl/verifyIMEINumber?isDuplicateImei=true&channel=${CHANNEL}&platform=${PLATFORM}`,
         bodyParams
       );
       const resultJson = await result.json();

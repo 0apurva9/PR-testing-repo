@@ -25,8 +25,10 @@ export default class AppliancesExchangeCart extends React.Component {
     }
   }
 
-  removeExchange() {
-    // remove data from exchange
+  removeAppliancesExchange(ussid) {
+    this.props.removeAppliancesExchange(ussid);
+    this.props.displayToast("Exchange for product removed");
+    this.setState({ exchangeData: null });
   }
 
   openAppliancesExchangeModal(data) {
@@ -53,7 +55,9 @@ export default class AppliancesExchangeCart extends React.Component {
               src={closeIcon}
               alt="exchange icon"
               className={styles.closeIcon}
-              onClick={() => this.removeExchange()}
+              onClick={() =>
+                this.removeAppliancesExchange(this.props.productUssid)
+              }
             />
             <img
               src={exchangeIconLight}
@@ -63,7 +67,9 @@ export default class AppliancesExchangeCart extends React.Component {
             <div className={styles.exchangeDetailsHeading}>
               Exchange Cashback for{" "}
               <span className={styles.exchangeProductName}>
-                {this.state.exchangeData && this.state.exchangeData.brandName}
+                {this.state.exchangeData && this.state.exchangeData.brandName}-{this
+                  .state.exchangeData && this.state.exchangeData.modelType}{" "}
+                AC
               </span>
             </div>
           </div>
