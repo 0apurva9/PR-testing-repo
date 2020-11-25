@@ -114,7 +114,13 @@ export default class AppliancesExchange extends React.Component {
           />
           <div className={styles.exchangeLogo} />
         </div>
-        <div className={styles.exchangeContainerNoMargin}>
+        <div
+          className={
+            this.state.exchangeData
+              ? styles.exchangeContainerNoMargin
+              : styles.exchangeContainerAppliances
+          }
+        >
           <React.Fragment>
             {!this.state.exchangeData ? (
               <div className={styles.exchangeLink}>
