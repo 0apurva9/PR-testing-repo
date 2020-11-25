@@ -291,9 +291,9 @@ export default class NoCostEmiBankDetails extends React.Component {
       );
     }
   }
-  binValidation = (paymentMode, binNo) => {
+  binValidation = (paymentMode, binNo, isDebitCard = false) => {
     if (this.props.binValidation) {
-      this.props.binValidation(paymentMode, binNo);
+      this.props.binValidation(paymentMode, binNo, isDebitCard);
     }
   };
 
@@ -788,7 +788,9 @@ export default class NoCostEmiBankDetails extends React.Component {
               buttonDisabled={this.props.creditCardValid()}
               onFocusInput={this.props.onFocusInput}
               onChangeCvv={i => this.onChangeCvv(i)}
-              binValidation={binNo => this.binValidation(binNo)}
+              binValidation={(binNo, isDebitCard) =>
+                this.binValidation(binNo, isDebitCard)
+              }
               onChangeCardDetail={cardDetails =>
                 this.onChangeCardDetail(cardDetails)
               }

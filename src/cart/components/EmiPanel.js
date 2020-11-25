@@ -115,9 +115,9 @@ export default class EmiPanel extends React.Component {
     }
   };
 
-  binValidation = binNo => {
+  binValidation = (binNo, isDebitCard = false) => {
     if (this.props.binValidation) {
-      this.props.binValidation(PAYMENT_MODE, binNo);
+      this.props.binValidation(PAYMENT_MODE, binNo, isDebitCard);
     }
   };
 
@@ -623,7 +623,9 @@ export default class EmiPanel extends React.Component {
                       )
                     }
                     isNoCostEmiProceeded={this.props.isNoCostEmiProceeded}
-                    binValidation={binNo => this.binValidation(binNo)}
+                    binValidation={(binNo, isDebitCard) =>
+                      this.binValidation(binNo, isDebitCard)
+                    }
                     softReservationForPayment={cardDetails =>
                       this.softReservationForPayment(cardDetails)
                     }
