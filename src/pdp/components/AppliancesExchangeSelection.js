@@ -8,6 +8,10 @@ import backArrowIcon from "../../pdp/components/img/arrowBack.svg";
 import PropTypes from "prop-types";
 import AppliancesExchangeDetails from "./AppliancesExchangeDetails";
 import ExchangeTnCModal from "./ExchangeTnCModal";
+import {
+  setDataLayer,
+  ADOBE_TRACK_APPLIANCES_EXCHANGE_AC_JOURNEY
+} from "../../lib/adobeUtils";
 import HowAppliancesExchangeWorks from "./HowAppliancesExchangeWorks";
 const OTHERS = "others";
 const SELECT_BRAND = "Select Brand";
@@ -101,7 +105,10 @@ export default class AppliancesExchangeSelection extends React.Component {
     data.totalExchangeAmount = conditionDetails.totalExchangeAmount;
     data.ussid = this.props.ussid;
     data.modelType = this.state.selectedCapacityData.modelType;
+    data.bonusExchangeAmount = this.props.appliancesExchangeDetails.bonusExchangeAmount;
     this.setState({ exchangeData: data });
+    let journeyDetails = `${data.modelType} Ac:MDE:${data.brandName}:null:null`;
+    setDataLayer(ADOBE_TRACK_APPLIANCES_EXCHANGE_AC_JOURNEY, journeyDetails);
   }
 
   openSearchInputBox() {
