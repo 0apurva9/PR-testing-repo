@@ -1272,24 +1272,28 @@ export default class PdpApparel extends React.Component {
           showSimilarProducts={this.props.showSimilarProducts}
         >
           <div className={styles.base}>
-            <Chatbot
-              productDetails={this.props.productDetails}
-              chatbotDetailsData={this.props.chatbotDetailsData}
-              addToCartFromChatbot={true}
-              getProductPinCode={this.props.getProductPinCode}
-              isServiceableToPincode={productData.isServiceableToPincode}
-              displayToast={this.props.displayToast}
-              addProductToCart={this.props.addProductToCart}
-              addToCartResponseDetails={this.props.addToCartResponseDetails}
-              history={this.props.history}
-              addToCartResponseLoading={this.props.addToCartResponseLoading}
-              cartCountDetails={this.props.cartCountDetails}
-              checkPincodeDetailsLoading={this.props.checkPincodeDetailsLoading}
-              checkPincodeFromHaptikChatbot={
-                this.props.checkPincodeFromHaptikChatbot
-              }
-              cartCountDetailsLoading={this.props.cartCountDetailsLoading}
-            />
+            {this.props.chatbotDetailsData && (
+              <Chatbot
+                productDetails={this.props.productDetails}
+                chatbotDetailsData={this.props.chatbotDetailsData}
+                addToCartFromChatbot={true}
+                getProductPinCode={this.props.getProductPinCode}
+                isServiceableToPincode={productData.isServiceableToPincode}
+                displayToast={this.props.displayToast}
+                addProductToCart={this.props.addProductToCart}
+                addToCartResponseDetails={this.props.addToCartResponseDetails}
+                history={this.props.history}
+                addToCartResponseLoading={this.props.addToCartResponseLoading}
+                cartCountDetails={this.props.cartCountDetails}
+                checkPincodeDetailsLoading={
+                  this.props.checkPincodeDetailsLoading
+                }
+                checkPincodeFromHaptikChatbot={
+                  this.props.checkPincodeFromHaptikChatbot
+                }
+                cartCountDetailsLoading={this.props.cartCountDetailsLoading}
+              />
+            )}
             <div className={styles.pageCenter} ref="scrollToViewGallery">
               <div className={styles.gallery}>
                 <ProductGalleryDesktop

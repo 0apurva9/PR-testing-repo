@@ -2657,7 +2657,7 @@ export function verifyIMEINumber(
         bodyParams.wishlistName = wishlistName;
       }
       const result = await api.post(
-        `v2/mpl/verifyIMEINumber?isDuplicateImei=true`,
+        `v2/mpl/verifyIMEINumber?isDuplicateImei=true&channel=${CHANNEL}&platform=${PLATFORM}`,
         bodyParams
       );
       const resultJson = await result.json();
