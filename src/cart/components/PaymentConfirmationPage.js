@@ -62,7 +62,7 @@ export default class PaymentConfirmationPage extends React.Component {
         this.props.submitAppliancesExchangeData(
           orderId,
           STATUS_CONFIRMED,
-          true
+          false
         );
       }
       let pageName = "order confirmation";
@@ -117,6 +117,8 @@ export default class PaymentConfirmationPage extends React.Component {
     localStorage.removeItem(DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION);
     localStorage.removeItem("GiftCardAmount");
     localStorage.removeItem("productType");
+    localStorage.removeItem("acPdpExchangeDetails");
+    localStorage.removeItem("acCartExchangeDetails");
   }
   goToUrl(value) {
     if (value) {

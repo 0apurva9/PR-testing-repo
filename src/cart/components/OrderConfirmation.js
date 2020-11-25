@@ -120,7 +120,7 @@ export default class OrderConfirmation extends React.Component {
       this.props.submitAppliancesExchangeData(
         this.props.orderId,
         STATUS_CONFIRMED,
-        true
+        false
       );
     }
   }
@@ -170,6 +170,8 @@ export default class OrderConfirmation extends React.Component {
   componentWillUnmount() {
     localStorage.removeItem(DIGITAL_DATA_FOR_CART);
     localStorage.removeItem(DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION);
+    localStorage.removeItem("acPdpExchangeDetails");
+    localStorage.removeItem("acCartExchangeDetails");
   }
   render() {
     return (
@@ -262,6 +264,7 @@ export default class OrderConfirmation extends React.Component {
                           selectedDeliveryMode={order.selectedDeliveryMode}
                           edd={order.EDD}
                           exchangeDetails={order.exchangeDetails}
+                          ussid={order.USSID}
                         />
                       </DesktopOnly>
                     </React.Fragment>
