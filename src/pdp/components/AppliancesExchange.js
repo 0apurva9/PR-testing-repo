@@ -39,6 +39,13 @@ export default class AppliancesExchange extends React.Component {
       } else {
         this.setState({ removeExchange: false });
       }
+      if (
+        parsedExchangeDetails.isExchangeSelected &&
+        parsedExchangeDetails.ussid &&
+        parsedExchangeDetails.ussid !== this.props.ussid
+      ) {
+        parsedExchangeDetails.isExchangeSelected = false;
+      }
       //update ussid for every pdp
       parsedExchangeDetails.ussid = this.props.ussid;
       localStorage.setItem(
@@ -203,7 +210,11 @@ export default class AppliancesExchange extends React.Component {
         </div>
         {this.state.exchangeData && (
           <div
-            className={styles.addRemoveExchangeIconHolder}
+            className={
+              disableExchangeLink
+                ? styles.addRemoveExchangeIconHolderDisabled
+                : styles.addRemoveExchangeIconHolder
+            }
             onClick={() => this.addOrRemoveExchange()}
           >
             <Icon

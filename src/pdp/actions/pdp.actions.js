@@ -1052,10 +1052,13 @@ export function addProductToCart(productDetails) {
       let acPdpExchangeDetails = localStorage.getItem(AC_PDP_EXCHANGE_DETAILS);
       let acPdpExchangeData =
         acPdpExchangeDetails && JSON.parse(acPdpExchangeDetails);
+      let isPickupAvailableForAppliance = getState().productDescription
+        .productDetails.isPickupAvailableForAppliance;
       if (
         acPdpExchangeData &&
         acPdpExchangeData.ussid === productDetails.ussId &&
-        acPdpExchangeData.isExchangeSelected
+        acPdpExchangeData.isExchangeSelected &&
+        isPickupAvailableForAppliance
       ) {
         let acCartExchangeDetails = localStorage.getItem(
           "acCartExchangeDetails"

@@ -321,7 +321,7 @@ if (process.env.REACT_APP_STAGE === "production") {
     "https://www.tataque.com/otatacliq/applianceExchangeDetails";
 } else {
   process.env.REACT_APP_SUBMIT_APPLIANCES_EXCHANGE_DATA =
-    "http://e2e.tataque.com/otatacliq/applianceExchangeDetails";
+    "https://e2e.tataque.com/otatacliq/applianceExchangeDetails";
 }
 
 function getClientEnvironment(publicUrl) {
