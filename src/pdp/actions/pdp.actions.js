@@ -926,6 +926,18 @@ export function addProductToCart(productDetails) {
   }
   let cartId = cartDetails ? JSON.parse(cartDetails).code : null;
 
+  let acPdpExchangeDetails = localStorage.getItem("acPdpExchangeDetails");
+  let acPdpExchangeData =
+    acPdpExchangeDetails && JSON.parse(acPdpExchangeDetails);
+  let acCartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+  let acCartExchangeData =
+    acCartExchangeDetails && JSON.parse(acCartExchangeDetails);
+  let isProductInExchangeData =
+    acCartExchangeData &&
+    acCartExchangeData.find((data, index) => {
+      return data.ussid === productDetails.ussId;
+    });
+
   return async (dispatch, getState, { api }) => {
     //get verify imei api response,check exchange avail or not,get product already in cart
     let IMEIApiResponse = productDetails.verifyIMEINumberAPIResponse;
@@ -955,7 +967,29 @@ export function addProductToCart(productDetails) {
           );
           disableNext = true;
         }
+
+        // check if current product with exchange is in pdp local stoarge
+        // check if current product with exchange is in cart local stoarge
         if (
+          isProductInCart &&
+          acPdpExchangeData &&
+          acPdpExchangeData.ussid === productDetails.ussId &&
+          isProductInExchangeData
+        ) {
+          dispatch(
+            showModal(PRODUCT_IN_BAG_MODAL, {
+              isWithExchange: true
+            })
+          );
+          disableNext = true;
+        } else if (
+          isProductInCart &&
+          acPdpExchangeData &&
+          acPdpExchangeData.ussid === productDetails.ussId &&
+          !isProductInExchangeData
+        ) {
+          disableNext = false;
+        } else if (
           isProductInCart &&
           !isProductInCart.exchangeDetails &&
           !productDetails.isFromMobileExchange
@@ -1047,20 +1081,16 @@ export function addProductToCart(productDetails) {
         JSON.stringify(bagItemsInJsonFormat)
       );
 
-      let acPdpExchangeDetails = localStorage.getItem(AC_PDP_EXCHANGE_DETAILS);
-      let acPdpExchangeData =
-        acPdpExchangeDetails && JSON.parse(acPdpExchangeDetails);
+      // appliance exchange poc
+      let isPickupAvailableForAppliance = getState().productDescription
+        .productDetails.isPickupAvailableForAppliance;
       if (
         acPdpExchangeData &&
         acPdpExchangeData.ussid === productDetails.ussId &&
         acPdpExchangeData.isExchangeSelected
       ) {
-        let acCartExchangeDetails = localStorage.getItem(
-          "acCartExchangeDetails"
-        );
         if (acCartExchangeDetails) {
           delete acPdpExchangeData.isExchangeSelected;
-          let acCartExchangeData = JSON.parse(acCartExchangeDetails);
           let productIndex = "";
           let isProductInExchangeData =
             acCartExchangeData &&
