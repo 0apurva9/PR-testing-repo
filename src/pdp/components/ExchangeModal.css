@@ -953,10 +953,11 @@ ul.contentHeading{
 	font-family: regular;
 }
 .aeBottomButtonLinkContainer{
-	position: absolute;
+	position: fixed;
 	left: 0;
 	right: 0;
 	bottom: 0;
+	background-color: #f7f5f6;
 }
 .aeTncContainer{
 	display: inline-block;
@@ -1022,4 +1023,12 @@ ul.contentHeading{
 	position: absolute;
 	right: 8px;
 	top: 8px;
+}
+.noteContentContainer{
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 112px;
+}
+.mb5{
+	margin-bottom: 5px;
 }

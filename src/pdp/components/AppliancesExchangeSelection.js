@@ -7,12 +7,12 @@ import closeSearch from "../../general/components/img/cancelGrey.svg";
 import backArrowIcon from "../../pdp/components/img/arrowBack.svg";
 import PropTypes from "prop-types";
 import AppliancesExchangeDetails from "./AppliancesExchangeDetails";
-import ExchangeTnCModal from "./ExchangeTnCModal";
+import AppliancesExchangeTnCModal from "./AppliancesExchangeTnCModal";
+import HowAppliancesExchangeWorks from "./HowAppliancesExchangeWorks";
 import {
   setDataLayer,
   ADOBE_TRACK_APPLIANCES_EXCHANGE_AC_JOURNEY
 } from "../../lib/adobeUtils";
-import HowAppliancesExchangeWorks from "./HowAppliancesExchangeWorks";
 const OTHERS = "others";
 const SELECT_BRAND = "Select Brand";
 const SELECT_CAPACITY = "Select Capacity";
@@ -181,7 +181,7 @@ export default class AppliancesExchangeSelection extends React.Component {
         )}
         {/* Modal for terms and condiions */}
         {this.state.showTnCModal ? (
-          <ExchangeTnCModal
+          <AppliancesExchangeTnCModal
             history={this.props.history}
             closeTnCModal={() => this.closeTnCModal()}
           />
