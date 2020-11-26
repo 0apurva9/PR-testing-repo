@@ -4704,8 +4704,8 @@ if you have order id in local storage then you have to show order confirmation p
                       instaCredISEnableMidddleLayer={() =>
                         this.props.instaCredISEnableMidddleLayer()
                       }
-                      getEMIEligibilityDetails={() =>
-                        this.props.getEMIEligibilityDetails()
+                      getEMIEligibilityDetails={cartGuId =>
+                        this.props.getEMIEligibilityDetails(cartGuId)
                       }
                       emiEligibiltyDetails={this.props.emiEligibiltyDetails}
                       getBankDetailsforDCEmi={() =>
