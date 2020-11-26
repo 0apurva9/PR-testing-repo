@@ -385,11 +385,14 @@ export default class EmiPanel extends React.Component {
           onOpenMenu={currentPaymentMode =>
             this.props.onChange({ currentPaymentMode })
           }
-          getEMIEligibilityDetails={() => this.props.getEMIEligibilityDetails()}
+          getEMIEligibilityDetails={cartGuId =>
+            this.props.getEMIEligibilityDetails(cartGuId)
+          }
           displayToast={this.props.displayToast}
           emiEligibiltyDetails={this.props.emiEligibiltyDetails}
           retryFlagDCEmi={retryFlagDCEmi}
           retryFlagEmiCoupon={retryFlagEmiCoupon}
+          isFromRetryUrl={this.props.isFromRetryUrl}
         >
           {(isCCNoCostEMIEligible || isCCEMIEligible) && (
             <div className={styles.subListHolder}>

@@ -13,7 +13,8 @@ import {
   NET_BANKING_PAYMENT_MODE,
   CART_DETAILS_FOR_LOGGED_IN_USER,
   UPI,
-  EMI
+  EMI,
+  RETRY_PAYMENT_CART_ID
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 
@@ -71,7 +72,13 @@ export default class MenuDetails extends React.Component {
       return;
     }
     if (!this.state.isOpen && this.props.getEMIEligibilityDetails) {
-      await this.props.getEMIEligibilityDetails();
+      if (this.props.isFromRetryUrl) {
+        await this.props.getEMIEligibilityDetails(
+          JSON.parse(localStorage.getItem(RETRY_PAYMENT_CART_ID))
+        );
+      } else {
+        await this.props.getEMIEligibilityDetails();
+      }
       if (
         this.props.emiEligibiltyDetails &&
         !this.props.emiEligibiltyDetails.error
@@ -180,7 +187,8 @@ MenuDetails.propTypes = {
     type: PropTypes.string
   }),
   retryFlagEmiCoupon: PropTypes.string,
-  retryFlagDCEmi: PropTypes.string
+  retryFlagDCEmi: PropTypes.string,
+  isFromRetryUrl: PropTypes.bool
 };
 
 MenuDetails.defaultProps = {
@@ -188,5 +196,6 @@ MenuDetails.defaultProps = {
   isNoBorderTop: false,
   emiEligibiltyDetails: {},
   retryFlagEmiCoupon: false,
-  retryFlagDCEmi: false
+  retryFlagDCEmi: false,
+  isFromRetryUrl: false
 };
