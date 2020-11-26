@@ -185,6 +185,19 @@
 }
 .addRemoveExchangeIconHolder{
 	float: left;
+	position: relative;
 	cursor: pointer;
 	margin-top: 6px;
+}
+.addRemoveExchangeIconHolderDisabled{
+	float: left;
+	position: relative;
+	cursor: pointer;
+	margin-top: 6px;
+	pointer-events: none;
+}
+.exchangeCheckContainer{
+	position: absolute;
+	top: 5px;
+	left: 5px;
 }

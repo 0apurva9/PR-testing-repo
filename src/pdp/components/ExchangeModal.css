@@ -1012,6 +1012,9 @@ ul.contentHeading{
   cursor: pointer;
   margin: 0 auto 62px auto;
 }
+.conditionNameContainerSelected:first-child{
+  margin-top: 30px;
+}
 .brandNameContainerSelected::after,
 .capacityNameContainerSelected::after,
 .conditionNameContainerSelected::after{
