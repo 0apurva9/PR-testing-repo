@@ -3495,8 +3495,19 @@ if you have order id in local storage then you have to show order confirmation p
     this.props.removeCliqCash();
   };
 
-  binValidation = async (paymentMode, binNo) => {
+  binValidation = async (paymentMode, binNo, isDebitCard = false) => {
     if (paymentMode === EMI) {
+      if (isDebitCard) {
+        localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
+        this.setState({ paymentModeSelected: paymentMode });
+        this.props.binValidation(
+          paymentMode,
+          binNo,
+          this.state.isComingFromRetryUrl,
+          this.state.retryCartGuid
+        );
+        return;
+      }
       let binValidationOfEmiEligibleResponse = await this.props.binValidationOfEmiEligible(
         binNo
       );
@@ -4568,8 +4579,8 @@ if you have order id in local storage then you have to show order confirmation p
                         )
                       }
                       onChangeCardDetail={val => this.onChangeCardDetail(val)}
-                      binValidation={(paymentMode, binNo) =>
-                        this.binValidation(paymentMode, binNo)
+                      binValidation={(paymentMode, binNo, isDebitCard) =>
+                        this.binValidation(paymentMode, binNo, isDebitCard)
                       }
                       binValidationForCOD={paymentMode =>
                         this.binValidationForCOD(paymentMode)
