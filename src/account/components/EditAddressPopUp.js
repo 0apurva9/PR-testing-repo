@@ -155,15 +155,15 @@ export default class EditAddressPopUp extends React.Component {
             : nextProps.getPinCodeDetails &&
               nextProps.getPinCodeDetails.state &&
               nextProps.getPinCodeDetails.state.name
-              ? nextProps.getPinCodeDetails.state.name
-              : "",
+            ? nextProps.getPinCodeDetails.state.name
+            : "",
           town: updatedState
             ? updatedState.city
             : nextProps.getPinCodeDetails &&
               nextProps.getPinCodeDetails.cityName
-              ? nextProps.getPinCodeDetails &&
-                nextProps.getPinCodeDetails.cityName
-              : "",
+            ? nextProps.getPinCodeDetails &&
+              nextProps.getPinCodeDetails.cityName
+            : "",
           landmarkList
         });
       } else {
@@ -173,13 +173,13 @@ export default class EditAddressPopUp extends React.Component {
           : nextProps.getPinCodeDetails &&
             nextProps.getPinCodeDetails.state &&
             nextProps.getPinCodeDetails.state.name
-            ? nextProps.getPinCodeDetails.state.name
-            : "";
+          ? nextProps.getPinCodeDetails.state.name
+          : "";
         let townName = updatedState
           ? updatedState.city
           : nextProps.getPinCodeDetails && nextProps.getPinCodeDetails.cityName
-            ? nextProps.getPinCodeDetails.cityName
-            : "";
+          ? nextProps.getPinCodeDetails.cityName
+          : "";
         this.setState({
           state: stateName,
           town: townName,
@@ -246,11 +246,11 @@ export default class EditAddressPopUp extends React.Component {
       return false;
     }
 
-    if (!this.state.town) {
+    if (!this.state.town.trim()) {
       this.props.displayToast(CITY_TEXT);
       return false;
     }
-    if (!this.state.state) {
+    if (!this.state.state.trim()) {
       this.props.displayToast(STATE_TEXT);
       return false;
     }

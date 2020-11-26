@@ -142,10 +142,6 @@ export default class PdpApparel extends React.Component {
   }
   componentDidMount = async () => {
     setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
-    debugger;
-
-    // document.title = this.props.productDetails.seo.title;
-    debugger;
     this.props.getUserAddress();
     this.props.getPdpOffers();
     this.props.getManufacturerDetails();
@@ -1250,24 +1246,28 @@ export default class PdpApparel extends React.Component {
         >
           {renderMetaTags(this.props.productDetails)}
           <div className={styles.base}>
-            <Chatbot
-              productDetails={this.props.productDetails}
-              chatbotDetailsData={this.props.chatbotDetailsData}
-              addToCartFromChatbot={true}
-              getProductPinCode={this.props.getProductPinCode}
-              isServiceableToPincode={productData.isServiceableToPincode}
-              displayToast={this.props.displayToast}
-              addProductToCart={this.props.addProductToCart}
-              addToCartResponseDetails={this.props.addToCartResponseDetails}
-              history={this.props.history}
-              addToCartResponseLoading={this.props.addToCartResponseLoading}
-              cartCountDetails={this.props.cartCountDetails}
-              checkPincodeDetailsLoading={this.props.checkPincodeDetailsLoading}
-              checkPincodeFromHaptikChatbot={
-                this.props.checkPincodeFromHaptikChatbot
-              }
-              cartCountDetailsLoading={this.props.cartCountDetailsLoading}
-            />
+            {this.props.chatbotDetailsData && (
+              <Chatbot
+                productDetails={this.props.productDetails}
+                chatbotDetailsData={this.props.chatbotDetailsData}
+                addToCartFromChatbot={true}
+                getProductPinCode={this.props.getProductPinCode}
+                isServiceableToPincode={productData.isServiceableToPincode}
+                displayToast={this.props.displayToast}
+                addProductToCart={this.props.addProductToCart}
+                addToCartResponseDetails={this.props.addToCartResponseDetails}
+                history={this.props.history}
+                addToCartResponseLoading={this.props.addToCartResponseLoading}
+                cartCountDetails={this.props.cartCountDetails}
+                checkPincodeDetailsLoading={
+                  this.props.checkPincodeDetailsLoading
+                }
+                checkPincodeFromHaptikChatbot={
+                  this.props.checkPincodeFromHaptikChatbot
+                }
+                cartCountDetailsLoading={this.props.cartCountDetailsLoading}
+              />
+            )}
             <div className={styles.pageCenter} ref="scrollToViewGallery">
               <div className={styles.gallery}>
                 <ProductGalleryDesktop

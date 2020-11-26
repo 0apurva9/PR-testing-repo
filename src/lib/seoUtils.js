@@ -35,9 +35,8 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
     ? window.location.href
     : "";
   title = productDetails.seo.title
-    ? `Buy ${productDetails.productName} from ${productDetails.brandName} for only ${productDetails.winningSellerPrice.commaFormattedValueNoDecimal} on Tata CLiQ`
+    ? `${productDetails.productName} from ${productDetails.brandName} at best prices on Tata CLiQ`
     : TITLE_DEFAULT;
-  // document.title = title;
   if (title.length === 0) {
     title = TITLE_DEFAULT;
   }
@@ -49,9 +48,8 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
   if (alternateUrl.length === 0) {
     alternateUrl = isBrowser ? window.location.href : "";
   }
-  debugger;
-  description = `Shop for ${productDetails.productName} from ${productDetails.brandName} online in India only for ${productDetails.winningSellerPrice.commaFormattedValueNoDecimal}
-  from Tata CLiQ. Buy ${productDetails.productName} now & get ✓best deals ✓fast delivery.`;
+  description = `Buy ${productDetails.productName} from ${productDetails.brandName} online at best deals only at Tata CLiQ
+  & enjoy ✓no cost EMI & ✓free shipping`;
   if (isReviewPage) {
     description = `${productDetails.productName} Review - Check ${productDetails.productName} reviews, rating & other specifications.`;
     title = `${productDetails.productName} Reviews & Ratings - Tata CLiQ`;
@@ -143,7 +141,7 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
   );
 };
 
-export const renderMetaTagsWithoutSeoObject = () => {
+export const renderMetaTagsWithoutSeoObject = url => {
   let description = "some default description";
   return (
     <MetaTags>
@@ -165,6 +163,25 @@ export const renderMetaTagsWithoutSeoObject = () => {
   );
 };
 
+export const addCanonicalUrl = url => {
+  if (url.includes("icid") && !url.includes("c-msh")) {
+    const splitUrl = url.split("?");
+    url = splitUrl[0];
+  }
+  return (
+    <MetaTags>
+      <link rel="canonical" href={url} hrefLang="en-in" />
+    </MetaTags>
+  );
+};
+
+export function removeCanonicalUrl() {
+  const canonicalLink = document.getElementById("canonical");
+  if (canonicalLink) {
+    canonicalLink.remove();
+  }
+}
+
 export const renderOgTags = (productDetails, isReviewPage: false) => {
   let googleTitle = GOOGLE_TAG_TITLE_DEFAULT;
   let googleDescription = null;
@@ -177,15 +194,16 @@ export const renderOgTags = (productDetails, isReviewPage: false) => {
   let facebookImageUrl = FACEBOOK_TAG_IMAGE_DEFAULT;
   let facebookTitle = null;
   if (productDetails && productDetails.seo) {
-    googleTitle = productDetails.seo.title;
-    googleDescription = productDetails.seo.description;
+    googleTitle = `${productDetails.productName} from ${productDetails.brandName} at best prices on Tata CLiQ`;
+    googleDescription = `Buy ${productDetails.productName} from ${productDetails.brandName} online at best deals only at Tata CLiQ & enjoy ✓no cost EMI & ✓free shipping`;
     googleImageUrl = productDetails.seo.imageURL;
-    twitterTitle = productDetails.seo.title;
+    twitterTitle = `${productDetails.productName} from ${productDetails.brandName} at best prices on Tata CLiQ`;
     twitterImageUrl = productDetails.seo.imageURL;
-    twitterDescription = productDetails.seo.description;
-    facebookDescription = productDetails.seo.description;
+    twitterDescription = `Buy ${productDetails.productName} from ${productDetails.brandName} online at best deals only at Tata CLiQ & enjoy ✓no cost EMI & ✓free shipping`;
+    facebookDescription = `Buy ${productDetails.productName} from ${productDetails.brandName} online at best deals only at Tata CLiQ & enjoy ✓no cost EMI & ✓free shipping`;
+
     facebookUrl = isBrowser ? window.location.href : "";
-    facebookTitle = productDetails.seo.title;
+    facebookTitle = `${productDetails.productName} from ${productDetails.brandName} at best prices on Tata CLiQ`;
     facebookImageUrl = productDetails.seo.imageURL;
     if (isReviewPage) {
       googleTitle = `${productDetails.productName} Reviews & Ratings - Tata CLiQ`;

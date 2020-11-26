@@ -14,9 +14,9 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
   ANONYMOUS_USER,
-  TIME_OUT_FOR_APIS,
   LOW_INTERNET_CONNECTION_MESSAGE,
-  CHANNEL
+  CHANNEL,
+  PLATFORM
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -302,11 +302,6 @@ export function getProductDescription(
     dispatch(getProductDescriptionRequest());
     try {
       let behaviorOfPageTheCurrent = behaviorOfPage ? behaviorOfPage : null;
-      // setTimeout(() => {
-      //   if (getState().productDescription.getProductDetailsLoading) {
-      //     // dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
-      //   }
-      // }, TIME_OUT_FOR_APIS);
       const result = await api.getMiddlewareUrl(
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true&isMDE=true`
       );
@@ -1909,11 +1904,6 @@ export function getBundleproduct(productCode, isApiCall = 0) {
   return async (dispatch, getState, { api }) => {
     dispatch(getbundleProductRequest());
     try {
-      // setTimeout(() => {
-      //   if (getState().productDescription.getProductDetailsLoading) {
-      //     dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
-      //   }
-      // }, TIME_OUT_FOR_APIS);
       const result = await api.getMiddlewareUrl(
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
@@ -2303,11 +2293,6 @@ export function getRelevantBundleProduct(productCode, isApiCall = 0, sequence) {
       ? dispatch(firstGetRelevantBundleProductRequest())
       : secondGetRelevantBundleProductRequest();
     try {
-      // setTimeout(() => {
-      //   if (getState().productDescription.relevantBundleProductLoading) {
-      //     dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
-      //   }
-      // }, TIME_OUT_FOR_APIS);
       const result = await api.getMiddlewareUrl(
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
@@ -2603,7 +2588,7 @@ export function verifyIMEINumber(
         bodyParams.wishlistName = wishlistName;
       }
       const result = await api.post(
-        `v2/mpl/verifyIMEINumber?isDuplicateImei=true`,
+        `v2/mpl/verifyIMEINumber?isDuplicateImei=true&channel=${CHANNEL}&platform=${PLATFORM}`,
         bodyParams
       );
       const resultJson = await result.json();
