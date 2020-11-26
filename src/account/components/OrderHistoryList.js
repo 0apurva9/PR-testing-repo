@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Styles from "./RecentOrderHistory.css";
+import Styles from "./OrderHistoryList.css";
 import Icon from "../../xelpmoc-core/Icon";
 import downArrow from "./img/down-arrow-grey.svg";
 import ProductImage from "../../general/components/ProductImage";
-import RecentOrderDetails from "./RecentOrderDetails";
+import OrderHistoryDetails from "./OrderHistoryDetails";
 import moment from "moment";
 
 const ticketStatusDropDownMenu = [
@@ -15,7 +15,7 @@ const ticketStatusDropDownMenu = [
 
 const STATUS_DATE_FORMAT = "DD MMM, YYYY";
 
-export default class RecentOrderHistory extends Component {
+export default class OrderHistoryList extends Component {
   render() {
     const { ticketHistoryDetails } = this.props;
     return (
@@ -28,13 +28,15 @@ export default class RecentOrderHistory extends Component {
                 ? "Ticket Details"
                 : "All Tickets"}
             </div>
-
-            <div
+               {this.props.isRecentOrderDetails && (
+                <div
               className={Styles.previousPageBtn}
               onClick={() => this.props.navigatePreviousPage()}
             >
               Go to Previous Page
             </div>
+               )} 
+            
 
             {!this.props.isRecentOrderDetails && (
               <div
@@ -60,30 +62,6 @@ export default class RecentOrderHistory extends Component {
                     </div>
                   );
                 })}
-                {/* <div
-                  className={Styles.filterType}
-                  onClick={() =>
-                    this.props.handleSelectedFilterClick("All-ticket")
-                  }
-                >
-                  All Tickets
-                </div>
-                <div
-                  className={Styles.filterType}
-                  onClick={() =>
-                    this.props.handleSelectedFilterClick("In-progress")
-                  }
-                >
-                  In Process
-                </div>
-                <div
-                  className={Styles.filterType}
-                  onClick={() =>
-                    this.props.handleSelectedFilterClick("Resolved")
-                  }
-                >
-                  Resolved
-                </div> */}
               </div>
             )}
           </div>
@@ -158,7 +136,7 @@ export default class RecentOrderHistory extends Component {
               })}
 
             {this.props.isRecentOrderDetails && (
-              <RecentOrderDetails
+              <OrderHistoryDetails
                 selectedTickerHistory={this.props.selectedTickerHistory}
                 userName={this.props.userName}
               />
@@ -175,7 +153,7 @@ export default class RecentOrderHistory extends Component {
   }
 }
 
-RecentOrderHistory.propTypes = {
+OrderHistoryList.propTypes = {
   filterCard: PropTypes.bool,
   filterTypeData: PropTypes.string,
   handleFilterClick: PropTypes.func,

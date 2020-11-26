@@ -1596,7 +1596,7 @@ const account = (
         ordersTransactionDataError: action.error,
         ordersTransactionLoading: false
       });
-    case accountActions.Clear_ORDER_TRANSACTION_DATA: {
+    case accountActions.CLEAR_ORDER_TRANSACTION_DATA: {
       return Object.assign({}, state, {
         type: null,
         status: null,

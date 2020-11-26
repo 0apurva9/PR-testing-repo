@@ -126,16 +126,15 @@ const mapDispatchToProps = dispatch => {
     },
     getRecentTicketHistoryDetails: (paginated, ticketStatus) => {
       dispatch(getRecentTicketHistoryDetails(paginated, ticketStatus));
+    },
+    clearOrderTransactionDetails: () => {
+      dispatch(clearOrderTransactionDetails());
     }
     // getGenesysCallConfigData: () => {
     //   dispatch(getGenesysCallConfigData());
     // }
     // setHeaderText: text => {
     //   dispatch(setHeaderText(text));
-    // },
-
-    // clearOrderTransactionDetails: () => {
-    //   dispatch(clearOrderTransactionDetails());
     // },
 
     // getCliqCareWmsResponse: () => {

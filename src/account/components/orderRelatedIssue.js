@@ -34,7 +34,7 @@ import {
 } from "../../lib/adobeUtils";
 import { MOBILE_PATTERN } from "../../auth/components/Login";
 import SSRquest from "../../general/components/SSRequest";
-import RecentOrderHistory from "./RecentOrderHistory";
+import OrderHistoryList from "./OrderHistoryList";
 import Icon from "../../xelpmoc-core/Icon";
 import moment from "moment";
 import ProductImage from "../../general/components/ProductImage";
@@ -169,6 +169,10 @@ export default class OrderRelatedIssue extends React.Component {
       window.scrollTo(0, 0);
     }
   }
+  componentWillUnmount() {
+    this.props.clearOrderTransactionDetails();
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.logoutUserStatus !== this.props.logoutUserStatus) {
       if (nextProps.logoutUserStatus == "success") {
@@ -843,7 +847,12 @@ export default class OrderRelatedIssue extends React.Component {
       <div className={styles.recentOrder}>
         <div className={styles.recentTicketBox}>
           {this.state.isRecentOrderHistory ? (
-            <div className={styles.homePage}>CLiQCare</div>
+            <div
+              className={styles.homePage}
+              onClick={() => this.setState(this.resetState)}
+            >
+              CLiQCare
+            </div>
           ) : (
             <React.Fragment>
               <div className={styles.recentTxt}> Your Recent Ticket(s)</div>
@@ -1233,7 +1242,7 @@ export default class OrderRelatedIssue extends React.Component {
                         </div>
                       </div>
                       {this.state.isRecentOrderHistory ? (
-                        <RecentOrderHistory
+                        <OrderHistoryList
                           handleFilterClick={this.handleFilterClick}
                           filterCard={this.state.filterCard}
                           handleSelectedFilterClick={selectedFilter =>

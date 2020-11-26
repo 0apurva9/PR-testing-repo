@@ -406,7 +406,7 @@ export const RESET_TICKETS_HISTORY_DATA_TO_INITIAL =
   "RESET_TICKETS_HISTORY_DATA_TO_INITIAL";
 
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
-export const Clear_ORDER_TRANSACTION_DATA = "Clear_ORDER_TRANSACTION_DATA";
+export const CLEAR_ORDER_TRANSACTION_DATA = "CLEAR_ORDER_TRANSACTION_DATA";
 export const RE_SET_ADD_ADDRESS_DETAILS = "RE_SET_ADD_ADDRESS_DETAILS";
 export const CLEAR_CHANGE_PASSWORD_DETAILS = "CLEAR_CHANGE_PASSWORD_DETAILS";
 export const CLEAR_PIN_CODE_STATUS = "CLEAR_PIN_CODE_STATUS";
@@ -4726,7 +4726,7 @@ export function getOrdersTransactionData(paginated) {
 
 export function clearOrderTransactionDetails() {
   return {
-    type: Clear_ORDER_TRANSACTION_DATA
+    type: CLEAR_ORDER_TRANSACTION_DATA
   };
 }
 export function uploadUserFileRequest() {
@@ -5772,8 +5772,7 @@ export function getRecentTicketHistoryDetailsRequest() {
 
 export function getRecentTicketHistoryDetailsSuccess(
   ticketDetails,
-  isPaginated = false,
-  ticketStatus
+  isPaginated = false
 ) {
   return {
     type: TICKET_RECENT_HISTORY_DETAILS_SUCCESS,
@@ -5816,77 +5815,20 @@ export function getRecentTicketHistoryDetails(
           ticketStatus === "all" ? "" : ticketStatus
         }`
       );
-      //   {
-      //     "type" : "ticketHistoryData",
-      //     "status" : "Success",
-      //     "tickets" : [ {
-      //        "creationDate" : "12-11-2020 11:52:54",
-      //        "customerComment" : "saashvashasjvahbasxa",
-      //        "ticketId" : "2000002680",
-      //        "ticketStatus" : "In Process"
-      //     }, {
-      //        "creationDate" : "10-11-2020 02:09:56",
-      //        "customerComment" : "fvdvdfvfdv",
-      //        "orderId" : "930000449",
-      //        "productImage" : "//imgqa3.tataunistore.com/images/i3/97Wx144H/MP000000004508752_97Wx144H_20190314110302.jpeg",
-      //        "productTitle" : "Voltas 1.5 Ton 5 Star Copper (2019 Range) (R32) 185 LZH Window AC (White)",
-      //        "resolutionDate" : "31-10-0012 10:02:00",
-      //        "slaBreach" : "true",
-      //        "ticketId" : "4000043352",
-      //        "ticketStatus" : "In Process",
-      //        "transactionId" : "100065093000578"
-      //     }, {
-      //        "creationDate" : "09-11-2020 06:59:03",
-      //        "orderId" : "930000449",
-      //        "productImage" : "//imgqa3.tataunistore.com/images/i3/97Wx144H/MP000000004508752_97Wx144H_20190314110302.jpeg",
-      //        "productTitle" : "Voltas 1.5 Ton 5 Star Copper (2019 Range) (R32) 185 LZH Window AC (White)",
-      //        "resolutionDate" : "31-10-0013 10:02:00",
-      //        "slaBreach" : "true",
-      //        "ticketId" : "4000043342",
-      //        "ticketStatus" : "In Process",
-      //        "transactionId" : "100065093000578"
-      //     }, {
-      //        "creationDate" : "09-11-2020 04:00:21",
-      //        "ticketStatus" : "In Process"
-      //     }, {
-      //        "creationDate" : "09-11-2020 02:57:02",
-      //        "ticketStatus" : "In Process"
-      //     }, {
-      //        "creationDate" : "06-11-2020 06:33:42",
-      //        "ticketStatus" : "In Process"
-      //     }, {
-      //        "creationDate" : "06-11-2020 06:29:20",
-      //        "ticketStatus" : "In Process"
-      //     }, {
-      //        "creationDate" : "06-11-2020 06:22:45",
-      //        "ticketStatus" : "In Process"
-      //     }, {
-      //        "creationDate" : "06-11-2020 05:39:15",
-      //        "orderId" : "930000426",
-      //        "productImage" : "//imgqa3.tataunistore.com/images/i3/97Wx144H/MP000000004508752_97Wx144H_20190314110302.jpeg",
-      //        "productTitle" : "Voltas 1.5 Ton 5 Star Copper (2019 Range) (R32) 185 LZH Window AC (White)",
-      //        "resolutionDate" : "31-10-0007 10:02:00",
-      //        "slaBreach" : "true",
-      //        "ticketId" : "4000043332",
-      //        "ticketStatus" : "In Process",
-      //        "transactionId" : "100065093000556"
-      //     }, {
-      //        "creationDate" : "06-11-2020 03:59:02",
-      //        "ticketStatus" : "In Process"
-      //     } ]
-      //  }
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      // if (resultJson && !resultJson.tickets) {
-      //   dispatch(displayToast(resultJson.status));
-      // }
+      if (resultJson && !resultJson.tickets) {
+        dispatch(displayToast(resultJson.status));
+      }
 
       dispatch(getRecentTicketHistoryDetailsSuccess(resultJson, paginated));
     } catch (e) {
-      dispatch(getRecentTicketHistoryDetailsRequestFailure(e, paginated));
+      dispatch(
+        getRecentTicketHistoryDetailsRequestFailure(e.message, paginated)
+      );
     }
   };
 }

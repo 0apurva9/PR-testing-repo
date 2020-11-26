@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ProductImage from "../../general/components/ProductImage";
-import Styles from "./RecentOrderHistory.css";
+import Styles from "./OrderHistoryList.css";
 import moment from "moment";
-const CREATION_DATE_FORMAT = "ddd DD MMM, hh:mm";
+const CREATION_DATE_FORMAT = "DD MMM, hh:mm";
 const STATUS_DATE_FORMAT = "DD MMM, YYYY";
-export default class RecentOrderDetails extends Component {
+export default class OrderHistoryDetails extends Component {
   componentDidMount() {
     window.scroll(0, 0);
   }
@@ -29,7 +29,7 @@ export default class RecentOrderDetails extends Component {
               moment(
                 selectedTickerHistory.creationDate,
                 "DD-MM-YYYY hh:mm:ss"
-              ).format(CREATION_DATE_FORMAT)}
+              ).format(`ddd ${CREATION_DATE_FORMAT}`)}
           </span>
         </div>
         <div className={Styles.orderInfoDetails}>
@@ -51,7 +51,6 @@ export default class RecentOrderDetails extends Component {
             ) : (
               <ProductImage image={selectedTickerHistory.productImage} />
             )}
-            {/* <ProductImage image={selectedTickerHistory.productImage} /> */}
           </div>
           <div className={Styles.orderDetails}>
             <div className={Styles.productName}>
@@ -65,9 +64,6 @@ export default class RecentOrderDetails extends Component {
             Status :{" "}
             <span className={Styles.fontBold}>
               {" "}
-              {/* {selectedTickerHistory.ticketStatus === "Open"
-                ? "In Process"
-                : "Resolved"} */}
               {selectedTickerHistory.ticketStatus}
             </span>
           </div>
@@ -133,7 +129,7 @@ export default class RecentOrderDetails extends Component {
     );
   }
 }
-RecentOrderDetails.propTypes = {
+OrderHistoryDetails.propTypes = {
   selectedTickerHistory: PropTypes.shape({
     creationDate: PropTypes.string,
     customerComment: PropTypes.string,
