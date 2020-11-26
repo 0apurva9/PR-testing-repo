@@ -1476,6 +1476,9 @@ export default class PdpApparel extends React.Component {
                         updatedAppliancesExchangeDetails={
                           this.state.updatedAppliancesExchangeDetails
                         }
+                        isPickupAvailableForAppliance={
+                          productData.isPickupAvailableForAppliance
+                        }
                       />
                     )}
                 </div>
@@ -1756,7 +1759,7 @@ export default class PdpApparel extends React.Component {
                             productData.productListingId,
                             productData.winningUssID,
                             false,
-                            productData.exchangeAvailable,
+                            isExchangeAvailableForProduct,
                             true
                           )
                         }
@@ -1788,7 +1791,7 @@ export default class PdpApparel extends React.Component {
                             productData.productListingId,
                             productData.winningUssID,
                             false,
-                            productData.exchangeAvailable,
+                            isExchangeAvailableForProduct,
                             true
                           )
                         }

@@ -6333,10 +6333,13 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
       let acPdpExchangeDetails = localStorage.getItem("acPdpExchangeDetails");
       let acPdpExchangeData =
         acPdpExchangeDetails && JSON.parse(acPdpExchangeDetails);
+      let isPickupAvailableForAppliance = getState().productDescription
+        .productDetails.isPickupAvailableForAppliance;
       if (
         acPdpExchangeData &&
         acPdpExchangeData.ussid === productDetails.ussId &&
-        acPdpExchangeData.isExchangeSelected
+        acPdpExchangeData.isExchangeSelected &&
+        isPickupAvailableForAppliance
       ) {
         let acCartExchangeDetails = localStorage.getItem(
           "acCartExchangeDetails"

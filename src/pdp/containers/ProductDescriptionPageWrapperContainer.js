@@ -96,6 +96,20 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         getProductDescription(productCode, null, null, true)
       );
       if (productDetailsResponse && productDetailsResponse.status === SUCCESS) {
+        let categoryHierarchy =
+          productDetailsResponse.productDescription.categoryHierarchy;
+        let isACCategory =
+          categoryHierarchy &&
+          categoryHierarchy.find(category => {
+            return category.category_id === "MSH1230";
+          });
+        let isExchangeAvailableForProduct = false;
+        if (
+          productDetailsResponse.productDescription.exchangeAvailable ||
+          isACCategory
+        ) {
+          isExchangeAvailableForProduct = true;
+        }
         const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
         if (pinCode) {
           dispatch(
@@ -104,7 +118,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
               productCode,
               productDetailsResponse.productDescription.winningUssID,
               false,
-              productDetailsResponse.productDescription.exchangeAvailable,
+              isExchangeAvailableForProduct,
               false
             )
           );
