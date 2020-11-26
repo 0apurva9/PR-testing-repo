@@ -46,7 +46,8 @@ export default class ValidateOffersPopUp extends React.Component {
     } is valid for ${this.getBanksList(
       couponResponse.bankDetails
     )} ${this.getPaymentModesList(couponResponse.paymentModes)} transactions`;
-    couponOffer.length > 100
+
+    couponOffer.length > 195
       ? (coupon =
           `Coupon code ${
             couponResponse.couponCode ? couponResponse.couponCode : ""
@@ -65,19 +66,19 @@ export default class ValidateOffersPopUp extends React.Component {
     return coupon;
   }
   getInvalidBankOfferTemplate(couponResponse) {
-    let bankOffer = "";
+    let bankOfferMessage = "";
     let bank = `The ${
       couponResponse.couponCode ? couponResponse.couponCode : ""
     } is valid for ${this.getBanksList(
       couponResponse.bankDetails
     )} ${this.getPaymentModesList(couponResponse.paymentModes)} transactions`;
 
-    bank.length > 100
-      ? (bankOffer = `The ${
+    bank.length < 195
+      ? (bankOfferMessage = `The ${
           couponResponse.couponCode ? couponResponse.couponCode : ""
         } is valid for ${this.getBanksList(couponResponse.bankDetails)}
      ${this.getPaymentModesList(couponResponse.paymentModes)} transactions`)
-      : (bankOffer =
+      : (bankOfferMessage =
           `The ${
             couponResponse.couponCode ? couponResponse.couponCode : ""
           } is valid for ${this.getBanksList(
@@ -86,7 +87,7 @@ export default class ValidateOffersPopUp extends React.Component {
             couponResponse.paymentModes
           )} transactions`.slice(0, 195) + "...");
 
-    return bankOffer;
+    return bankOfferMessage;
   }
 
   getInvalidNCEOfferTemplate(couponResponse) {
@@ -104,11 +105,31 @@ export default class ValidateOffersPopUp extends React.Component {
             return coupon.offerCode === this.props.couponCode;
           })
         : {};
-    return `The ${
+    let couponOfferMessage = "";
+    let coupon = `The ${
       this.props.couponCode ? this.props.couponCode : ""
     } is valid only on ${this.getBanksList(
       couponCodeObj.bankDetails
     )} ${this.getPaymentModesList(couponCodeObj.paymentModes)} transactions`;
+
+    coupon.length < 185
+      ? (couponOfferMessage = `The ${
+          this.props.couponCode ? this.props.couponCode : ""
+        } is valid only on ${this.getBanksList(
+          couponCodeObj.bankDetails
+        )} ${this.getPaymentModesList(
+          couponCodeObj.paymentModes
+        )} transactions`)
+      : (couponOfferMessage =
+          `The ${
+            this.props.couponCode ? this.props.couponCode : ""
+          } is valid only on ${this.getBanksList(
+            couponCodeObj.bankDetails
+          )} ${this.getPaymentModesList(
+            couponCodeObj.paymentModes
+          )} transactions`.slice(0, 185) + "...");
+
+    return couponOfferMessage;
   }
   getValidNCEOfferTemplate() {
     let couponCodeObj =
