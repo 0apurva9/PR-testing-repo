@@ -70,7 +70,8 @@ const mapStateToProps = state => {
       state.user.refreshCustomerAccessTokenStatus,
     cartIdForLoggedInUserStatus: state.cart.cartIdForLoggedInUserStatus,
     cartIdForAnonymousUserStatus: state.cart.cartIdForAnonymousUserStatus,
-    redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl
+    redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl,
+    isMobileNumberLoginModalActive: state.modal.isMobileNumberLoginModalActive
   };
 };
 

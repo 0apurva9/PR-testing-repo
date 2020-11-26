@@ -73,6 +73,10 @@ export const CLIQ_2_CALL_POP_UP = "Cliq2CallPopUp";
 export const CUSTOMER_QUERY_ERROR_MODAL = "CustomerQueryErrorModal";
 export const TIME_SLOT_POP_UP = "TimeSlotPopUp";
 export const CUSTOMER_CALL_QUERY_SUCCESS = "CustomerCallQuerySuccess";
+export const MOBILE_NUMBER_LOGIN_MODAL_ACTIVE = "MobileNumberLoginModalActive";
+export const MOBILE_NUMBER_LOGIN_MODAL_INACTIVE =
+  "MobileNumberLoginModalInActive";
+
 export function showModal(type, ownProps) {
   const scrollPosition =
     window.pageYOffset || document.documentElement.scrollTop;
@@ -89,5 +93,17 @@ export function hideModal() {
   return {
     type: HIDE_MODAL,
     modalType: null
+  };
+}
+
+export function showMobileNumberLoginModal() {
+  return {
+    type: MOBILE_NUMBER_LOGIN_MODAL_ACTIVE
+  };
+}
+
+export function hideMobileNumberLoginModal() {
+  return {
+    type: MOBILE_NUMBER_LOGIN_MODAL_INACTIVE
   };
 }

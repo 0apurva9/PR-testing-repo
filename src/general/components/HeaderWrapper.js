@@ -179,16 +179,17 @@ export default class HeaderWrapper extends React.Component {
     }
   };
   openSignUp = () => {
-    if (
-      this.props.location.pathname !== "/checkout" &&
-      this.props.location.pathname !== "/cart"
-    ) {
-      this.props.setUrlToRedirectToAfterAuth(
-        `${this.props.location.pathname}${this.props.location.search}`
-      );
-    }
-    this.props.history.push(LOGIN_PATH);
-    return null;
+    // if (
+    //   this.props.location.pathname !== "/checkout" &&
+    //   this.props.location.pathname !== "/cart"
+    // ) {
+    //   this.props.setUrlToRedirectToAfterAuth(
+    //     `${this.props.location.pathname}${this.props.location.search}`
+    //   );
+    // }
+    // this.props.history.push(LOGIN_PATH);
+    // return null;
+    this.props.openMobileNumberLoginModal();
   };
 
   render() {

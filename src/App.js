@@ -356,6 +356,14 @@ const CleverTapUnsubscribeEmail = Loadable({
   }
 });
 
+const MobileNumberContainer = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "mobile-number-login" */ "./mobile-number-login/mobile-number-login.container"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 class App extends Component {
   async componentWillMount() {
     let globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
@@ -369,6 +377,7 @@ class App extends Component {
       Cookie.deleteCookie(CUSTOMER_ACCESS_TOKEN);
     }
   }
+
   async componentDidMount() {
     let globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     let customerAccessToken = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -440,7 +449,7 @@ class App extends Component {
       // Else remove cartDetails from Local storage
       localStorage.removeItem(CART_BAG_DETAILS);
     }
-    
+
     // if (
     //   cartCode &&
     //   (!this.props.location.pathname.includes("cart") &&
@@ -478,7 +487,9 @@ class App extends Component {
     let tracker = document.createElement("script");
     tracker.type = "text/javascript";
     tracker.async = true;
-    tracker.src = `https://c.o-s.io/${process.env.REACT_APP_MONETIZATION_CLIENT_ID}/tracker.js`;
+    tracker.src = `https://c.o-s.io/${
+      process.env.REACT_APP_MONETIZATION_CLIENT_ID
+    }/tracker.js`;
     var mainScript = document.getElementsByTagName("script")[0];
     mainScript.parentNode.insertBefore(tracker, mainScript);
   }
@@ -513,7 +524,10 @@ class App extends Component {
       }
     }
 
-    if (this.props.beautyPopupModal) {
+    if (
+      this.props.beautyPopupModal ||
+      this.props.isMobileNumberLoginModalActive
+    ) {
       className = AppStyles.beauty_blur;
     } else if (this.props.modalStatus) {
       className = AppStyles.blur;
@@ -809,6 +823,9 @@ class App extends Component {
           <ModalContainer />
           <ErrorContainer />
           <ToastContainer />
+          {this.props.isMobileNumberLoginModalActive && (
+            <MobileNumberContainer />
+          )}
         </div>
       </React.Fragment>
     );

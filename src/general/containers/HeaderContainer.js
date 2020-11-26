@@ -7,7 +7,11 @@ import {
   hideFilter,
   userSelectedOutOfStock
 } from "../../plp/actions/plp.actions.js";
-import { showModal, DESKTOP_AUTH } from "../../general/modal.actions.js";
+import {
+  showModal,
+  DESKTOP_AUTH,
+  showMobileNumberLoginModal
+} from "../../general/modal.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import { getHeader } from "../../clp/actions/clp.actions";
 import {
@@ -42,6 +46,9 @@ const mapDispatchToProps = dispatch => {
     },
     getWishlist: () => {
       dispatch(getWishlist());
+    },
+    openMobileNumberLoginModal: () => {
+      dispatch(showMobileNumberLoginModal());
     }
   };
 };

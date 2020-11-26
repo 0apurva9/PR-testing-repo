@@ -24,6 +24,9 @@ export default class ReturnAndOrderCancelWrapper extends React.Component<IProps,
 	}
 	public render() {
 		const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+		if (!userDetails) {
+			return null;
+		}
 		const userAccountDetails = JSON.parse(userDetails);
 		let returnProductDetails = this.props.returnProductDetails;
 		const orderDetails = this.props.orderDetails;

@@ -18,6 +18,7 @@ import user from "../src/auth/reducers/user.reducer";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import * as api from "../src/lib/apiRequest";
 import thunk from "redux-thunk";
+import { mobileNumberLoginReducer } from "./mobile-number-login/store/mobile-number-login.reducer";
 
 export const rootReducer = combineReducers({
   auth,
@@ -36,10 +37,11 @@ export const rootReducer = combineReducers({
   wishlistItems,
   header,
   icid,
-  desktopFooter
+  desktopFooter,
+  mobileNumberLogin: mobileNumberLoginReducer
 });
 
-export default function configureStore(preloadedState) {
+export default function configureStore(preloadedState: any) {
   let store = createStore(
     rootReducer,
     preloadedState,
