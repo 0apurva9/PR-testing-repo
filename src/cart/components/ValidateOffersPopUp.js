@@ -40,19 +40,55 @@ export default class ValidateOffersPopUp extends React.Component {
     );
   }
   getInvalidUserCouponTemplate(couponResponse) {
-    return `Coupon code ${
+    let coupon = "";
+    let couponOffer = `Coupon code ${
       couponResponse.couponCode ? couponResponse.couponCode : ""
     } is valid for ${this.getBanksList(
       couponResponse.bankDetails
     )} ${this.getPaymentModesList(couponResponse.paymentModes)} transactions`;
+    couponOffer.length > 100
+      ? (coupon =
+          `Coupon code ${
+            couponResponse.couponCode ? couponResponse.couponCode : ""
+          } is valid for ${this.getBanksList(
+            couponResponse.bankDetails
+          )} ${this.getPaymentModesList(
+            couponResponse.paymentModes
+          )} transactions`.slice(0, 195) + "...")
+      : `Coupon code ${
+          couponResponse.couponCode ? couponResponse.couponCode : ""
+        } is valid for ${this.getBanksList(
+          couponResponse.bankDetails
+        )} ${this.getPaymentModesList(
+          couponResponse.paymentModes
+        )} transactions`;
+    return coupon;
   }
   getInvalidBankOfferTemplate(couponResponse) {
-    return `The ${
+    let bankOffer = "";
+    let bank = `The ${
       couponResponse.couponCode ? couponResponse.couponCode : ""
     } is valid for ${this.getBanksList(
       couponResponse.bankDetails
     )} ${this.getPaymentModesList(couponResponse.paymentModes)} transactions`;
+
+    bank.length > 100
+      ? (bankOffer = `The ${
+          couponResponse.couponCode ? couponResponse.couponCode : ""
+        } is valid for ${this.getBanksList(couponResponse.bankDetails)}
+     ${this.getPaymentModesList(couponResponse.paymentModes)} transactions`)
+      : (bankOffer =
+          `The ${
+            couponResponse.couponCode ? couponResponse.couponCode : ""
+          } is valid for ${this.getBanksList(
+            couponResponse.bankDetails
+          )} ${this.getPaymentModesList(
+            couponResponse.paymentModes
+          )} transactions`.slice(0, 195) + "...");
+
+    return bankOffer;
   }
+
   getInvalidNCEOfferTemplate(couponResponse) {
     return `The No Cost Emi offer is valid only for ${
       couponResponse.bankDetails
