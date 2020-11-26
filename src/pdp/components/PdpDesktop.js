@@ -1254,11 +1254,14 @@ export default class PdpApparel extends React.Component {
         }
       }
 
-      let categoryHierarchy = this.props.productDetails.categoryHierarchy;
-
-      let isACCategory = categoryHierarchy.find(category => {
+      let isACCategory = productData.categoryHierarchy.find(category => {
         return category.category_id === "MSH1230";
       });
+
+      let isExchangeAvailableForProduct = false;
+      if (productData.exchangeAvailable || isACCategory) {
+        isExchangeAvailableForProduct = true;
+      }
 
       return (
         <PdpFrame
@@ -1468,6 +1471,9 @@ export default class PdpApparel extends React.Component {
                         displayToast={this.props.displayToast}
                         updatedAppliancesExchangeDetails={
                           this.state.updatedAppliancesExchangeDetails
+                        }
+                        isPickupAvailableForAppliance={
+                          productData.isPickupAvailableForAppliance
                         }
                       />
                     )}
@@ -1749,7 +1755,7 @@ export default class PdpApparel extends React.Component {
                             productData.productListingId,
                             productData.winningUssID,
                             false,
-                            productData.exchangeAvailable,
+                            isExchangeAvailableForProduct,
                             true
                           )
                         }
@@ -1781,7 +1787,7 @@ export default class PdpApparel extends React.Component {
                             productData.productListingId,
                             productData.winningUssID,
                             false,
-                            productData.exchangeAvailable,
+                            isExchangeAvailableForProduct,
                             true
                           )
                         }

@@ -17,8 +17,8 @@ import {
   TIME_OUT_FOR_APIS,
   LOW_INTERNET_CONNECTION_MESSAGE,
   CHANNEL,
-  PLATFORM,
-  AC_PDP_EXCHANGE_DETAILS
+  AC_PDP_EXCHANGE_DETAILS,
+  PLATFORM
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -741,17 +741,17 @@ export function getProductPinCode(
         let userName = JSON.parse(userDetails).userName;
         let accessToken = JSON.parse(customerCookie).access_token;
         if (isExchangeAvailable) {
-          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=true&isMDE=true`;
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=true&isMDE=true&platform=${PLATFORM}`;
         } else {
-          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false&isMDE=true`;
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false&isMDE=true&platform=${PLATFORM}`;
         }
       } else {
         let userName = ANONYMOUS_USER;
         let accessToken = JSON.parse(globalCookie).access_token;
         if (isExchangeAvailable) {
-          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=true&isMDE=true`;
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=true&isMDE=true&platform=${PLATFORM}`;
         } else {
-          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false&isMDE=true`;
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false&isMDE=true&platform=${PLATFORM}`;
         }
       }
       const result = await api.post(url);
@@ -871,7 +871,9 @@ export function getProductPinCode(
           productNotServiceableMessage:
             resultJson.productNotServiceabilityMessage,
           pincodeError,
-          checkPincodeFromHaptikChatbot: checkPincodeFromHaptikChatbot
+          checkPincodeFromHaptikChatbot: checkPincodeFromHaptikChatbot,
+          isPickupAvailableForAppliance:
+            resultJson.isPickupAvailableForAppliance
         })
       );
       // if (isComingFromPiqPage) {

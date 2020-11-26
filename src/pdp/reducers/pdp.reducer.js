@@ -307,7 +307,9 @@ const productDescription = (
           },
           isPickupAvailableForExchange:
             action.productPinCode.isPickupAvailableForExchange,
-          cashifyPickupCharge: action.productPinCode.cashifyPickupCharge
+          cashifyPickupCharge: action.productPinCode.cashifyPickupCharge,
+          isPickupAvailableForAppliance:
+            action.productPinCode.isPickupAvailableForAppliance
         });
       } else if (
         listOfAllServiceableUssid.length &&
@@ -388,7 +390,9 @@ const productDescription = (
           maxExchangeAmount: leastMrpSellerUssid.maxExchangeAmount,
           isPickupAvailableForExchange:
             action.productPinCode.isPickupAvailableForExchange,
-          cashifyPickupCharge: action.productPinCode.cashifyPickupCharge
+          cashifyPickupCharge: action.productPinCode.cashifyPickupCharge,
+          isPickupAvailableForAppliance:
+            action.productPinCode.isPickupAvailableForAppliance
         });
       } else {
         Object.assign(currentPdpDetail, {
@@ -403,7 +407,9 @@ const productDescription = (
             pinCode: action.productPinCode.pinCode
           },
           isPickupAvailableForExchange:
-            action.productPinCode.isPickupAvailableForExchange
+            action.productPinCode.isPickupAvailableForExchange,
+          isPickupAvailableForAppliance:
+            action.productPinCode.isPickupAvailableForAppliance
         });
       }
       return Object.assign({}, state, {
