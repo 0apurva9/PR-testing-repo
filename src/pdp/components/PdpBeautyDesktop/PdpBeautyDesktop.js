@@ -15,6 +15,8 @@ import { setDataLayer, ADOBE_VIRTUAL_PAGELOAD } from "../../../lib/adobeUtils";
 import smoothscroll from "smoothscroll-polyfill";
 smoothscroll.polyfill();
 import { renderMetaTags } from "../../../lib/seoUtils";
+import smoothscroll from "smoothscroll-polyfill";
+smoothscroll.polyfill();
 
 export default class PdpBeautyDesktop extends React.Component {
   constructor(props) {
