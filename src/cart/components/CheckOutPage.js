@@ -3499,6 +3499,7 @@ if you have order id in local storage then you have to show order confirmation p
     if (paymentMode === EMI) {
       if (isDebitCard) {
         localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
+        localStorage.setItem(IS_DC_EMI_SELECTED, true);
         this.setState({ paymentModeSelected: paymentMode });
         this.props.binValidation(
           paymentMode,
@@ -3507,6 +3508,8 @@ if you have order id in local storage then you have to show order confirmation p
           this.state.retryCartGuid
         );
         return;
+      } else {
+        localStorage.setItem(IS_DC_EMI_SELECTED, false);
       }
       let binValidationOfEmiEligibleResponse = await this.props.binValidationOfEmiEligible(
         binNo
