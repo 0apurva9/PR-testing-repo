@@ -1736,7 +1736,7 @@ if you have order id in local storage then you have to show order confirmation p
         this.props.submitAppliancesExchangeData(
           failedOrderId,
           STATUS_FAILED,
-          false
+          true
         );
       }
       if (stripeDetails) {

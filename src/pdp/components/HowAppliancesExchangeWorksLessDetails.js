@@ -4,6 +4,7 @@ import hew1 from "../../pdp/components/img/aehew1.svg";
 import hew2 from "../../pdp/components/img/aehew2.svg";
 import hew3 from "../../pdp/components/img/aehew3.svg";
 import hew4 from "../../pdp/components/img/aehew4.svg";
+import hew5 from "../../pdp/components/img/aehew5.svg";
 
 export default class HowAppliancesExchangeWorksLessDetails extends React.Component {
   render() {
@@ -11,35 +12,63 @@ export default class HowAppliancesExchangeWorksLessDetails extends React.Compone
       <div className={styles.aeWorksLessDetailsContainer}>
         <img src={hew1} alt="" className={styles.iconSize} />
         <div className={styles.contentContainer}>
-          <div className={styles.aeContentDescription}>
-            Exchange of your old device will be{" "}
-            <span className={styles.aeItalicStyle}>processed separately</span>{" "}
-            post delivery of your new product.
+          <div className={styles.contentHeading}>
+            1. Share your old product details{" "}
+          </div>
+          <div className={styles.contentDescription}>
+            Enter the Brand &amp; Capacity of your old product
           </div>
         </div>
         <img src={hew2} alt="" className={styles.iconSize} />
         <div className={styles.contentContainer}>
-          <div className={styles.aeContentDescription}>
-            Our{" "}
-            <span className={styles.aeItalicStyle}>
-              CS agent will get in touch
-            </span>{" "}
-            with you for confirming the acceptance of exchange order post you
-            place an order for new product.
+          <div className={styles.contentHeading}>
+            2. Check applicable Exchange Cashback value{" "}
+          </div>
+          <div className={styles.contentDescription}>
+            Cashback value is proposed based on the Old Product Details
           </div>
         </div>
         <img src={hew3} alt="" className={styles.iconSize} />
         <div className={styles.contentContainer}>
-          <div className={styles.aeContentDescription}>
-            Exchange request is serviceable only on selected pin codes of Delhi
-            and Mumbai region.
+          <div className={styles.contentHeading}>
+            3. Place order with exchange{" "}
+          </div>
+          <div className={styles.contentDescription}>
+            Complete your Product purchase along with Exchange Offer
           </div>
         </div>
         <img src={hew4} alt="" className={styles.iconSize} />
         <div className={styles.contentContainer}>
-          <div className={styles.aeContentDescription}>
-            Cashback will be processed in your bank account, details of the same
-            will be provided by our CS team.
+          <div className={styles.contentHeading}>
+            4. Tata CLiQ CS agent will get in touch with you{" "}
+          </div>
+          <div className={styles.contentDescription}>
+            <ul>
+              <li className={styles.mb5}>
+                CS Agent will collect preferred Cashback mode information{" "}
+              </li>
+              <li>
+                Exchange product will be picked up within 3 days of the delivery
+                of the new product{" "}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <img src={hew5} alt="" className={styles.iconSize} />
+        <div className={styles.contentContainer}>
+          <div className={styles.contentHeading}>
+            5. Receive Exchange Cashback{" "}
+          </div>
+          <div className={styles.contentDescription}>
+            Exchange Cashback would be credited to your preferred mode within 2
+            business days after pickup of the old product
+          </div>
+        </div>
+        <div className={styles.noteContentContainer}>
+          <div className={styles.contentDescription}>
+            Points to be Noted: Physical Condition of the appliance will be such
+            as major damage, not switching on if declared and brand &amp;
+            capacity mismatch will lead to exchange cancellation
           </div>
         </div>
       </div>

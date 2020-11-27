@@ -217,12 +217,12 @@ export default class AppliancesExchange extends React.Component {
             }
             onClick={() => this.addOrRemoveExchange()}
           >
-            <Icon
-              image={
-                this.state.removeExchange ? exchangeCheck : exchangeUncheck
-              }
-              size={24}
-            />
+            <Icon image={exchangeUncheck} size={24} />
+            {this.state.removeExchange && (
+              <div className={styles.exchangeCheckContainer}>
+                <Icon image={exchangeCheck} size={14} />
+              </div>
+            )}
           </div>
         )}
       </div>

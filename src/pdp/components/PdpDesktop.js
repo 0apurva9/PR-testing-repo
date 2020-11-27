@@ -135,7 +135,8 @@ export default class PdpApparel extends React.Component {
       productCategory: "",
       eyeWearCheck: "",
       bundledProductSuggestionDetails: null,
-      updatedAppliancesExchangeDetails: null
+      updatedAppliancesExchangeDetails: null,
+      isACCategory: null
     };
     this.reviewListRef = React.createRef();
     this.ScrollIntoView = this.ScrollIntoView.bind(this);
@@ -277,6 +278,13 @@ export default class PdpApparel extends React.Component {
             throw Error(e);
           });
       }
+    }
+    let isACCategory = categoryHierarchyCheck.find(category => {
+      return category.category_id === "MSH1230";
+    });
+    if (isACCategory) {
+      this.props.getAppliancesExchangeDetails();
+      this.setState({ isACCategory: isACCategory });
     }
   };
 
@@ -1254,12 +1262,8 @@ export default class PdpApparel extends React.Component {
         }
       }
 
-      let isACCategory = productData.categoryHierarchy.find(category => {
-        return category.category_id === "MSH1230";
-      });
-
       let isExchangeAvailableForProduct = false;
-      if (productData.exchangeAvailable || isACCategory) {
+      if (productData.exchangeAvailable || this.state.isACCategory) {
         isExchangeAvailableForProduct = true;
       }
 
@@ -1455,7 +1459,7 @@ export default class PdpApparel extends React.Component {
                     />
                   )}
 
-                  {isACCategory &&
+                  {this.state.isACCategory &&
                     this.props.appliancesExchangeDetails &&
                     this.props.appliancesExchangeDetails.brands &&
                     this.props.appliancesExchangeDetails.brands.length > 0 && (
