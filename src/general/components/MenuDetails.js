@@ -85,6 +85,12 @@ export default class MenuDetails extends React.Component {
       ) {
         this.openMenu();
       }
+      if (
+        this.props.emiEligibiltyDetails &&
+        this.props.emiEligibiltyDetails.error
+      ) {
+        this.props.onOpenMenu(null);
+      }
     } else if (this.state.isOpen) {
       this.openMenu();
     }
