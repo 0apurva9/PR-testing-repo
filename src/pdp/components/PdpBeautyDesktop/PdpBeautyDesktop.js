@@ -12,8 +12,6 @@ import DescriptionContainer from "./DescriptionSection/DescriptionContainer";
 import { sortArrayOfObjectByIntegerKeyValue } from "../../../pdp/reducers/utils";
 import { setTracker, VIEW_PRODUCT } from "../../../lib/onlinesalesUtils";
 import { setDataLayer, ADOBE_VIRTUAL_PAGELOAD } from "../../../lib/adobeUtils";
-import smoothscroll from "smoothscroll-polyfill";
-smoothscroll.polyfill();
 import { renderMetaTags } from "../../../lib/seoUtils";
 import smoothscroll from "smoothscroll-polyfill";
 smoothscroll.polyfill();
