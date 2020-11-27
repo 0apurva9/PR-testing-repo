@@ -393,6 +393,7 @@ export default class EmiPanel extends React.Component {
           retryFlagDCEmi={retryFlagDCEmi}
           retryFlagEmiCoupon={retryFlagEmiCoupon}
           isFromRetryUrl={this.props.isFromRetryUrl}
+          removeNoCostEmi={couponCode => this.removeNoCostEmi(couponCode)}
         >
           {(isCCNoCostEMIEligible || isCCEMIEligible) && (
             <div className={styles.subListHolder}>

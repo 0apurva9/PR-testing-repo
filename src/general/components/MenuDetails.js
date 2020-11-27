@@ -14,7 +14,8 @@ import {
   CART_DETAILS_FOR_LOGGED_IN_USER,
   UPI,
   EMI,
-  RETRY_PAYMENT_CART_ID
+  RETRY_PAYMENT_CART_ID,
+  NO_COST_EMI_COUPON
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 
@@ -85,7 +86,17 @@ export default class MenuDetails extends React.Component {
       ) {
         this.openMenu();
       }
+      if (
+        this.props.emiEligibiltyDetails &&
+        this.props.emiEligibiltyDetails.error
+      ) {
+        this.props.onOpenMenu(null);
+      }
     } else if (this.state.isOpen) {
+      const emiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
+      if (emiCoupon) {
+        this.props.removeNoCostEmi(emiCoupon);
+      }
       this.openMenu();
     }
   };
@@ -188,7 +199,8 @@ MenuDetails.propTypes = {
   }),
   retryFlagEmiCoupon: PropTypes.string,
   retryFlagDCEmi: PropTypes.string,
-  isFromRetryUrl: PropTypes.bool
+  isFromRetryUrl: PropTypes.bool,
+  removeNoCostEmi: PropTypes.func
 };
 
 MenuDetails.defaultProps = {
@@ -197,5 +209,6 @@ MenuDetails.defaultProps = {
   emiEligibiltyDetails: {},
   retryFlagEmiCoupon: false,
   retryFlagDCEmi: false,
-  isFromRetryUrl: false
+  isFromRetryUrl: false,
+  removeNoCostEmi: () => {}
 };
