@@ -33,9 +33,9 @@ export function mobileNumberLoginReducer(
     state = initailState,
     action: MobileNumberLoginActions
 ): MobileNumberLoginReduxState {
+    const newState: MobileNumberLoginReduxState = JSON.parse(JSON.stringify(state));
     switch (action.type) {
         case CHANGE_LOGIN_STEP:
-            const newState: MobileNumberLoginReduxState = JSON.parse(JSON.stringify(state));
             Object.keys(newState.steps).forEach(
                 (key) => ((newState.steps as any)[key] = key === action.payload ? true : false)
             );
@@ -46,10 +46,12 @@ export function mobileNumberLoginReducer(
                 mnlApiData: action.payload,
             };
         case SET_MNL_API_Response:
-            return {
-                ...state,
-                mnlApiResponse: action.payload,
-            };
+            if (newState.mnlApiResponse) {
+                newState.mnlApiResponse.userData = { ...newState.mnlApiResponse.userData, ...action.payload.userData };
+            } else {
+                newState.mnlApiResponse = action.payload;
+            }
+            return newState;
         default:
             return state;
     }

@@ -2,9 +2,11 @@ import { RootState } from "common/models/root-state";
 import { MnlApiData } from "../mobile-number-login.types";
 import { MnlApiResponse } from "../mobile-number-login.types";
 import { hideSecondaryLoader } from "../../general/secondaryLoader.actions.js";
-import * as Cookie from "../../lib/Cookie";
-import { GLOBAL_ACCESS_TOKEN, CLIENT_ID, CLIENT_SECRET, PLAT_FORM_NUMBER } from "../../lib/constants";
+import * as Cookie from "../../lib/Cookie.js";
+import { GLOBAL_ACCESS_TOKEN, CLIENT_ID, CLIENT_SECRET, PLAT_FORM_NUMBER } from "../../lib/constants.js";
 import { getGlobalAccessToken, customerAccessTokenSuccess } from "../../auth/actions/user.actions.js";
+import * as ErrorHandling from "../../general/ErrorHandling.js";
+import { displayToast } from "../../general/toast.actions.js";
 
 export const CHANGE_LOGIN_STEP = "ChangeLoginStep";
 export const SET_MNL_API_DATA = "SetMnlApiData";
@@ -47,24 +49,37 @@ export function setMnlApiResponse(payload: MnlApiResponse): MobileNumberLoginAct
     };
 }
 
+async function getFetchGlobalAccessToken(dispatch: Function) {
+    let globalAccessTokenCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    if (!globalAccessTokenCookie) {
+        await dispatch(getGlobalAccessToken());
+        globalAccessTokenCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+    }
+    let globalAccessToken;
+    if (globalAccessTokenCookie) {
+        globalAccessToken = JSON.parse(globalAccessTokenCookie);
+    }
+    return globalAccessToken;
+}
+
 export function validateMnlChallenge() {
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().mobileNumberLogin.mnlApiData;
-        let globalAccessTokenCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-        if (!globalAccessTokenCookie) {
-            await dispatch(getGlobalAccessToken());
-            globalAccessTokenCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-        }
-        let globalAccessToken;
-        if (globalAccessTokenCookie) {
-            globalAccessToken = JSON.parse(globalAccessTokenCookie);
-        }
+        let globalAccessToken = await getFetchGlobalAccessToken(dispatch);
         const result: Response = await api.post("mobileloginapi/v1/authnuser/validate", apiData, true, {
             Authorization: `Bearer ${globalAccessToken.access_token}`,
             "register-user": false,
             registerviamobile: false,
         });
         const mnlApiResponse: MnlApiResponse = await result.json();
+        const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        if (errorStatus.status) {
+            dispatch(hideSecondaryLoader());
+            if (errorStatus.message) {
+                await dispatch(displayToast(errorStatus.message));
+            }
+            return;
+        }
         dispatch(setMnlApiResponse(mnlApiResponse));
         if (mnlApiResponse.userData.customer.passwordSet) {
             dispatch(changeLoginStep("isStepLoginPassword"));
@@ -97,6 +112,14 @@ export function loginWithPassword() {
                 platformnumber: PLAT_FORM_NUMBER,
             });
             const mnlApiResponse: MnlApiResponse = await result.json();
+            const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+            if (errorStatus.status) {
+                dispatch(hideSecondaryLoader());
+                if (errorStatus.message) {
+                    await dispatch(displayToast(errorStatus.message));
+                }
+                return;
+            }
             dispatch(setMnlApiResponse(mnlApiResponse));
             if (mnlApiResponse.userData.authentication && mnlApiResponse.userData.authentication.accessToken) {
                 dispatch(changeLoginStep("isStepLoginSuccess1"));
@@ -110,6 +133,15 @@ export function loginWithPassword() {
                 registerviamobile: false,
             });
             const mnlApiResponse: MnlApiResponse = await result.json();
+            const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+            if (errorStatus.status) {
+                dispatch(hideSecondaryLoader());
+                if (errorStatus.message) {
+                    await dispatch(displayToast(errorStatus.message));
+                }
+                return;
+            }
+
             dispatch(setMnlApiResponse(mnlApiResponse));
             if (mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.validated) {
                 dispatch(changeLoginStep("isStepAddMobileNumber"));
@@ -122,16 +154,7 @@ export function loginWithPassword() {
 export function generateOTP() {
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().mobileNumberLogin.mnlApiData;
-
-        let globalAccessTokenCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-        if (!globalAccessTokenCookie) {
-            await dispatch(getGlobalAccessToken());
-            globalAccessTokenCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-        }
-        let globalAccessToken;
-        if (globalAccessTokenCookie) {
-            globalAccessToken = JSON.parse(globalAccessTokenCookie);
-        }
+        let globalAccessToken = await getFetchGlobalAccessToken(dispatch);
 
         const result: Response = await api.post("mobileloginapi/v1/authnuser/otp", apiData, true, {
             Authorization: `Bearer ${globalAccessToken.access_token}`,
@@ -139,9 +162,51 @@ export function generateOTP() {
             registerviamobile: false,
         });
         const mnlApiResponse: MnlApiResponse = await result.json();
+        const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        if (errorStatus.status) {
+            dispatch(hideSecondaryLoader());
+            if (errorStatus.message) {
+                await dispatch(displayToast(errorStatus.message));
+            }
+            return;
+        }
+
         dispatch(setMnlApiResponse(mnlApiResponse));
         if (mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.otpSent) {
             dispatch(changeLoginStep("isStepValidateOtp"));
+        }
+        dispatch(hideSecondaryLoader());
+    };
+}
+
+export function validateOtp() {
+    return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
+        const apiData = getState().mobileNumberLogin.mnlApiData;
+        let globalAccessToken = await getFetchGlobalAccessToken(dispatch);
+
+        const result: Response = await api.post("mobileloginapi/v1/authnuser/authenticate", apiData, true, {
+            Authorization: `Bearer ${globalAccessToken.access_token}`,
+            "register-user": false,
+            registerviamobile: false,
+            grant_type: "password",
+            client_id: CLIENT_ID,
+            client_secret: CLIENT_SECRET,
+            platformnumber: PLAT_FORM_NUMBER,
+        });
+        const mnlApiResponse: MnlApiResponse = await result.json();
+        const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        if (errorStatus.status) {
+            dispatch(hideSecondaryLoader());
+            if (errorStatus.message) {
+                await dispatch(displayToast(errorStatus.message));
+            }
+            return;
+        }
+
+        dispatch(setMnlApiResponse(mnlApiResponse));
+        if (mnlApiResponse.userData.authentication && mnlApiResponse.userData.authentication.accessToken) {
+            dispatch(changeLoginStep("isStepLoginSuccess1"));
+            dispatch(customerAccessTokenSuccess(mnlApiResponse.userData.authentication));
         }
         dispatch(hideSecondaryLoader());
     };

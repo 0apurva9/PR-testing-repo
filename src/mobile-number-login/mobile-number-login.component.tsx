@@ -1,7 +1,7 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import * as styles from "./mobile-number-login.css";
-import { MobileNumberLoginSteps, MnlApiData } from "mobile-number-login/mobile-number-login.types";
+import { MobileNumberLoginSteps, MnlApiData, MnlApiResponse } from "mobile-number-login/mobile-number-login.types";
 import { MnlChallenge } from "./components/mnl-challenge.component";
 import { MnlPassword } from "./components/mnl-password.component";
 import { MnlSucess1 } from "./components/mnl-succes1.component";
@@ -29,7 +29,14 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                                 addMobileNumber={(apiData) => this.props.generateOtp(apiData)}
                             />
                         )}
-                        {this.props.steps.isStepValidateOtp && <MnlOtp />}
+                        {this.props.steps.isStepValidateOtp && (
+                            <MnlOtp
+                                validateOtp={(apidata) => this.props.validateOtp(apidata)}
+                                mnlApidata={this.props.mnlApiData}
+                                changeLoginStep={(stepKey) => this.props.changeLoginStep(stepKey)}
+                                mnlApiResponse={this.props.mnlApiResponse}
+                            />
+                        )}
                         {this.props.steps.isStepLoginSuccess1 && (
                             <MnlSucess1
                                 hideMobileNumberLoginModal={() => this.props.hideMobileNumberLoginModal()}
@@ -52,10 +59,12 @@ export interface MobileNumberLoginProps extends RouteComponentProps {
     hideMobileNumberLoginModal: () => void;
     steps: MobileNumberLoginSteps;
     mnlApiData: MnlApiData;
+    mnlApiResponse: MnlApiResponse;
     validateChallenge: (apiData: MnlApiData) => void;
     loginWithPassword: (apiData: MnlApiData) => void;
     changeLoginStep: (stepKey: string) => void;
     generateOtp: (apiData: MnlApiData) => void;
+    validateOtp: (apiData: MnlApiData) => void;
 }
 
 export interface MobileNumberLoginState {}

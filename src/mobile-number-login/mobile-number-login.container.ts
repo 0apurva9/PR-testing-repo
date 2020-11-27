@@ -11,11 +11,13 @@ import {
     loginWithPassword,
     changeLoginStep,
     generateOTP,
+    validateOtp,
 } from "./store/mobile-number-login.actions";
 
 const mapDispatchToProps = (disptach: Function) => {
     return {
         hideMobileNumberLoginModal: () => {
+            disptach(changeLoginStep("isStepLoginChallenge"));
             disptach(hideMobileNumberLoginModal());
         },
         validateChallenge: (apidata: MnlApiData) => {
@@ -36,6 +38,11 @@ const mapDispatchToProps = (disptach: Function) => {
             disptach(setMnlApiData(apiData));
             disptach(generateOTP());
         },
+        validateOtp: (apiData: MnlApiData) => {
+            disptach(showSecondaryLoader());
+            disptach(setMnlApiData(apiData));
+            disptach(validateOtp());
+        },
     };
 };
 
@@ -43,6 +50,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         steps: state.mobileNumberLogin.steps,
         mnlApiData: state.mobileNumberLogin.mnlApiData,
+        mnlApiResponse: state.mobileNumberLogin.mnlApiResponse,
     };
 };
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MobileNumberLogin));
