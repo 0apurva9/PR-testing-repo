@@ -9,6 +9,7 @@ export default class ReviewListSection extends React.Component {
     if (this.props.reviews && this.props.reviews.reviews) {
       return (
         <ReviewList
+          fromBeautyPdp={this.props.fromBeautyPdp}
           limit={this.props.limit}
           reviewList={this.props.reviews.reviews}
           totalNoOfReviews={this.props.reviews.totalNoOfPages}

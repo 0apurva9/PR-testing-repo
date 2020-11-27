@@ -509,7 +509,7 @@ export function getMoreFromBrand(productId) {
     msdFormData.append("api_key", API_KEY);
     msdFormData.append("num_results", JSON.stringify(NUMBER_RESULTS));
     msdFormData.append("mad_uuid", mcvId);
-    msdFormData.append("details", false);
+    msdFormData.append("details", true);
     msdFormData.append(
       "widget_list",
       JSON.stringify(WIDGET_LIST_FOR_ABOUT_BRAND)
@@ -535,23 +535,14 @@ export function getMoreFromBrand(productId) {
 
       let finalProductDetails = null;
 
-      if (moreBrandJson.data && moreBrandJson.data.length > 0) {
-        let productCode = moreBrandJson.data[0].itemIds.toString();
-        const getProductdetails = await api.getMiddlewareUrl(
-          `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
-        );
-        finalProductDetails = await getProductdetails.json();
+      if (
+        moreBrandJson &&
+        moreBrandJson.data &&
+        moreBrandJson.data.length > 0
+      ) {
+        finalProductDetails = moreBrandJson.data[0];
       }
 
-      if (finalProductDetails && finalProductDetails.status === FAILURE) {
-        const finalProductStatus = ErrorHandling.getFailureResponse(
-          finalProductDetails
-        );
-
-        if (finalProductStatus.status) {
-          throw new Error();
-        }
-      }
       return dispatch(getMoreFromBrandSuccess(finalProductDetails));
     } catch (error) {
       dispatch(getMoreFromBrandFailure(error.message));
@@ -595,7 +586,7 @@ export function getSimilarProduct(productId) {
     msdFormData.append("api_key", API_KEY);
     msdFormData.append("num_results", JSON.stringify(NUMBER_RESULTS));
     msdFormData.append("mad_uuid", mcvId);
-    msdFormData.append("details", false);
+    msdFormData.append("details", true);
     msdFormData.append(
       "widget_list",
       JSON.stringify(WIDGET_LIST_FOR_SIMILAR_PRODUCT)
@@ -621,23 +612,14 @@ export function getSimilarProduct(productId) {
 
       let finalProductDetails = null;
 
-      if (similarProductJson.data && similarProductJson.data.length > 0) {
-        let productCode = similarProductJson.data[0].toString();
-        const getProductdetails = await api.getMiddlewareUrl(
-          `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
-        );
-        finalProductDetails = await getProductdetails.json();
+      if (
+        similarProductJson &&
+        similarProductJson.data &&
+        similarProductJson.data.length > 0
+      ) {
+        finalProductDetails = similarProductJson.data[0];
       }
 
-      if (finalProductDetails && finalProductDetails.status === FAILURE) {
-        const finalProductStatus = ErrorHandling.getFailureResponse(
-          finalProductDetails
-        );
-
-        if (finalProductStatus.status) {
-          throw new Error();
-        }
-      }
       return dispatch(getSimilarProductSuccess(finalProductDetails));
     } catch (error) {
       dispatch(getSimilarProductFailure(error.message));

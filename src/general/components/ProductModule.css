@@ -78,6 +78,32 @@
   margin-top: 10px;
   font-family: light;
 }
+
+.sizesBlock {
+  position: absolute;
+  left: 20px;
+  top: 200px;
+  font-size: 14px;
+  width: 100px;
+  height: 80px;
+  z-index: 1;
+  font-family: regular;
+  display: table;
+  color: rgb(74, 74, 74);
+ }
+
+.sizesBlockContent {
+display: table-cell;
+vertical-align: bottom;
+}
+
+.variantString {
+  display: inline;
+  background: rgba(255, 255, 255, 0.4);
+  padding: 1px 3px;
+  border-radius: 5px;
+}
+
 @media screen and (min-width: 1025px) {
   .base {
     cursor: pointer;

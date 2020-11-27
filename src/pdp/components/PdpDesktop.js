@@ -756,11 +756,15 @@ export default class PdpApparel extends React.Component {
   };
   checkIfOneSize = () => {
     if (
+      this.props.productDetails &&
+      this.props.productDetails.variantOptions &&
       this.props.productDetails.variantOptions.length === 1 &&
       this.props.productDetails.rootCategory !== "HomeFurnishing" &&
       this.props.productDetails.rootCategory !== "FineJewellery" &&
       this.props.productDetails.rootCategory !== "FashionJewellery" &&
-      this.props.productDetails.categoryHierarchy.length &&
+      this.props.productDetails &&
+      this.props.productDetails.categoryHierarchy &&
+      this.props.productDetails.categoryHierarchy.length > 0 &&
       this.props.productDetails.categoryHierarchy[0].category_name !== "Eyewear"
     ) {
       return true;
@@ -1356,7 +1360,9 @@ export default class PdpApparel extends React.Component {
                         setDataLayerType={
                           SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP
                         }
-                        isSizeSelectedForAddToWishlist={this.isSizeSelectedForAddToWishlist()}
+                        isSizeSelectedForAddToWishlist={() =>
+                          this.isSizeSelectedForAddToWishlist()
+                        }
                         showSizeSelector={
                           this.isSizeNotSelectedForAddToWishlist
                         }
@@ -1581,7 +1587,9 @@ export default class PdpApparel extends React.Component {
                       setDataLayerType={
                         SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP
                       }
-                      isSizeSelectedForAddToWishlist={this.isSizeSelectedForAddToWishlist()}
+                      isSizeSelectedForAddToWishlist={() =>
+                        this.isSizeSelectedForAddToWishlist()
+                      }
                       showSizeSelector={this.isSizeNotSelectedForAddToWishlist}
                       ussid={productData.winningUssID}
                     />
