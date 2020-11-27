@@ -198,6 +198,24 @@ export default class CreditCardForm extends React.Component {
     }
   }
   handleCheckout = () => {
+    if (window._satellite) {
+      window._satellite.track("cpj_EMI_Pay_Now_Click");
+    }
+    if (window && window.digitalData) {
+      Object.assign(window.digitalData, {
+        checkout: {
+          option: {
+            name: localStorage.getItem("emiType")
+          },
+          bank: {
+            name: this.props.cardDetails.selectedBankName
+          },
+          tenure: {
+            value: this.props.cardDetails.emi_tenure
+          }
+        }
+      });
+    }
     if (this.props.onCheckout) {
       if (this.props.whatsappSelected) {
         getWhatsAppNotification(WHATSAPP_NOTIFICATION_CHECKED);
