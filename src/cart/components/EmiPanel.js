@@ -16,7 +16,8 @@ import {
   DEBIT_CARD_EMI,
   CREDIT_CARD_EMI,
   IS_DC_EMI_SELECTED,
-  PAYMENT_MODE_TYPE
+  PAYMENT_MODE_TYPE,
+  NO_COST_EMI_COUPON
 } from "../../lib/constants";
 const PAYMENT_MODE = "EMI";
 
@@ -56,6 +57,11 @@ export default class EmiPanel extends React.Component {
         this.props.onChange({ currentPaymentMode: PAYMENT_MODE });
         this.onSetEMIType(NO_COST_EMI);
         this.getBankAndTenureDetails(true);
+      }
+    } else {
+      const emiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
+      if (emiCoupon) {
+        this.removeNoCostEmi(emiCoupon);
       }
     }
     if (this.props.instaCredISEnableMidddleLayer) {
