@@ -101,7 +101,7 @@
     "build:server": "NODE_ENV=awsprod2 REACT_APP_STAGE=production node scripts/build-server.js",
     "run:server": "NODE_ENV=production REACT_APP_STAGE=production node build/server/static/js/main.js",
     "build-tmpprod:server": "NODE_ENV=production REACT_APP_STAGE=tmpprod node scripts/build-server.js",
-    "start": "REACT_APP_STAGE=preprod3 node -r dotenv/config scripts/start.js",
+    "start": "REACT_APP_STAGE=production node -r dotenv/config scripts/start.js",
     "start:desktop": "REACT_APP_STAGE=production node -r dotenv/config scripts/start.js",
     "stage": " REACT_APP_STAGE=stage node scripts/build.js",
     "tmpprod": " REACT_APP_STAGE=preprod3 node scripts/build.js",
