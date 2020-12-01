@@ -1732,6 +1732,9 @@ if you have order id in local storage then you have to show order confirmation p
       this.setState({ isPaymentFailed: true });
       let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
       if (cartExchangeDetails) {
+        this.props.displayToast(
+          "Exchange details won't be processed in case of payment retry."
+        );
         let failedOrderId = stripeDetails && stripeDetails.orderId;
         this.props.submitAppliancesExchangeData(
           failedOrderId,

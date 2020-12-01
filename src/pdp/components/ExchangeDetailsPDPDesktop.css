@@ -141,13 +141,6 @@
 	cursor: pointer;
 	margin-top: 5px;
 }
-.changeDeviceLinkDisabled{
-	float: right;
-	font-size: 12px;
-	color: #8d8d8d;
-	font-family: semibold;
-	margin-top: 5px;
-}
 .fontRegular{
 	font-family: regular;
 }
@@ -187,13 +180,6 @@
 	position: relative;
 	cursor: pointer;
 	margin-top: 6px;
-}
-.addRemoveExchangeIconHolderDisabled{
-	float: left;
-	position: relative;
-	cursor: pointer;
-	margin-top: 6px;
-	pointer-events: none;
 }
 .exchangeCheckContainer{
 	position: absolute;

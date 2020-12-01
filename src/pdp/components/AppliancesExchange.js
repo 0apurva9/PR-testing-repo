@@ -111,17 +111,6 @@ export default class AppliancesExchange extends React.Component {
   }
 
   render() {
-    let disableExchangeLink = false;
-    if (this.props.exchangeDisabled) {
-      if (!this.props.isPickupAvailableForAppliance) {
-        disableExchangeLink = true;
-      }
-    } else {
-      if (!this.props.isPickupAvailableForAppliance) {
-        disableExchangeLink = true;
-      }
-    }
-
     return (
       <div className={styles.appliancesExchangeMainContainer}>
         <div className={styles.exchangeLogoContainer}>
@@ -144,22 +133,16 @@ export default class AppliancesExchange extends React.Component {
               <div className={styles.exchangeLink}>
                 {this.props.appliancesExchangeDetails &&
                   this.props.appliancesExchangeDetails.desktopDescription}{" "}
-                {disableExchangeLink ? (
-                  <span className={styles.withDisabledExchangeLink}>
-                    with Exchange
-                  </span>
-                ) : (
-                  <span
-                    className={styles.withExchangeLink}
-                    onClick={() =>
-                      this.openAppliancesExchangeModal({
-                        ussid: this.props.ussid
-                      })
-                    }
-                  >
-                    with Exchange
-                  </span>
-                )}
+                <span
+                  className={styles.withExchangeLink}
+                  onClick={() =>
+                    this.openAppliancesExchangeModal({
+                      ussid: this.props.ussid
+                    })
+                  }
+                >
+                  with Exchange
+                </span>
               </div>
             ) : (
               <div className={styles.exchangeLink}>
@@ -187,34 +170,22 @@ export default class AppliancesExchange extends React.Component {
               How Exchange works?
             </div>
             {this.state.exchangeData && (
-              <React.Fragment>
-                {disableExchangeLink ? (
-                  <span className={styles.changeDeviceLinkDisabled}>
-                    Change Device
-                  </span>
-                ) : (
-                  <span
-                    className={styles.changeDeviceLink}
-                    onClick={() =>
-                      this.openAppliancesExchangeModal({
-                        ussid: this.props.ussid
-                      })
-                    }
-                  >
-                    Change Device
-                  </span>
-                )}
-              </React.Fragment>
+              <span
+                className={styles.changeDeviceLink}
+                onClick={() =>
+                  this.openAppliancesExchangeModal({
+                    ussid: this.props.ussid
+                  })
+                }
+              >
+                Change Device
+              </span>
             )}
           </React.Fragment>
         </div>
         {this.state.exchangeData && (
           <div
-            className={
-              disableExchangeLink
-                ? styles.addRemoveExchangeIconHolderDisabled
-                : styles.addRemoveExchangeIconHolder
-            }
+            className={styles.addRemoveExchangeIconHolder}
             onClick={() => this.addOrRemoveExchange()}
           >
             <Icon image={exchangeUncheck} size={24} />
@@ -233,8 +204,6 @@ export default class AppliancesExchange extends React.Component {
 AppliancesExchange.propTypes = {
   openAppliancesExchangeModal: PropTypes.func,
   appliancesExchangeDetails: PropTypes.object,
-  exchangeDisabled: PropTypes.bool,
   productData: PropTypes.object,
-  ussid: PropTypes.string,
-  isPickupAvailableForAppliance: PropTypes.bool
+  ussid: PropTypes.string
 };

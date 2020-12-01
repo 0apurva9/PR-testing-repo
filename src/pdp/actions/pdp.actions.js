@@ -284,6 +284,13 @@ export const GET_APPLIANCES_EXCHANGE_DETAILS_FAILURE =
 export const UPDATE_APPLIANCES_EXCHANGE_DETAILS =
   "UPDATE_APPLIANCES_EXCHANGE_DETAILS";
 
+export const APPLIANCE_EXCHANGE_CHECK_PINCODE_REQUEST =
+  "APPLIANCE_EXCHANGE_CHECK_PINCODE_REQUEST";
+export const APPLIANCE_EXCHANGE_CHECK_PINCODE_SUCCESS =
+  "APPLIANCE_EXCHANGE_CHECK_PINCODE_SUCCESS";
+export const APPLIANCE_EXCHANGE_CHECK_PINCODE_FAILURE =
+  "APPLIANCE_EXCHANGE_CHECK_PINCODE_FAILURE";
+
 export function getProductDescriptionRequest() {
   return {
     type: PRODUCT_DESCRIPTION_REQUEST,
@@ -871,9 +878,7 @@ export function getProductPinCode(
           productNotServiceableMessage:
             resultJson.productNotServiceabilityMessage,
           pincodeError,
-          checkPincodeFromHaptikChatbot: checkPincodeFromHaptikChatbot,
-          isPickupAvailableForAppliance:
-            resultJson.isPickupAvailableForAppliance
+          checkPincodeFromHaptikChatbot: checkPincodeFromHaptikChatbot
         })
       );
       // if (isComingFromPiqPage) {
@@ -1084,13 +1089,10 @@ export function addProductToCart(productDetails) {
       );
 
       // appliance exchange poc
-      let isPickupAvailableForAppliance = getState().productDescription
-        .productDetails.isPickupAvailableForAppliance;
       if (
         acPdpExchangeData &&
         acPdpExchangeData.ussid === productDetails.ussId &&
-        acPdpExchangeData.isExchangeSelected &&
-        isPickupAvailableForAppliance
+        acPdpExchangeData.isExchangeSelected
       ) {
         if (acCartExchangeDetails) {
           delete acPdpExchangeData.isExchangeSelected;
@@ -2980,5 +2982,56 @@ export function updateAppliancesExchangeDetails(exchangeData) {
     type: UPDATE_APPLIANCES_EXCHANGE_DETAILS,
     status: SUCCESS,
     exchangeData
+  };
+}
+
+// appliance exchange pincode check serviceability API
+export function appliancesExchangeCheckPincodeRequest() {
+  return {
+    type: APPLIANCE_EXCHANGE_CHECK_PINCODE_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function appliancesExchangeCheckPincodeSuccess(data) {
+  return {
+    type: APPLIANCE_EXCHANGE_CHECK_PINCODE_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function appliancesExchangeCheckPincodeFailure(error) {
+  return {
+    type: APPLIANCE_EXCHANGE_CHECK_PINCODE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function appliancesExchangeCheckPincode(productCode, pincode) {
+  let userDetails = getLoggedInUserDetails();
+  let accessToken = getGlobalAccessToken();
+  let userId = ANONYMOUS_USER;
+  if (userDetails) {
+    userId = userDetails.userName;
+    accessToken = getCustomerAccessToken();
+  }
+  return async (dispatch, getState, { api }) => {
+    dispatch(appliancesExchangeCheckPincodeRequest());
+    try {
+      const result = await api.post(
+        `${PRODUCT_DETAILS_PATH}/${userId}/appliancePincodeCheck?access_token=${accessToken}&productCode=${productCode}&pin=${pincode}&exchangeAvailable=true&isMDE=true&platform=${PLATFORM}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status && result.status !== 200) {
+        dispatch(appliancesExchangeCheckPincodeFailure(result.statusText));
+      } else {
+        dispatch(appliancesExchangeCheckPincodeSuccess(resultJson));
+      }
+    } catch (e) {
+      dispatch(appliancesExchangeCheckPincodeFailure(e.message));
+    }
   };
 }

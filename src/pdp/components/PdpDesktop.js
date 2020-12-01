@@ -136,7 +136,8 @@ export default class PdpApparel extends React.Component {
       eyeWearCheck: "",
       bundledProductSuggestionDetails: null,
       updatedAppliancesExchangeDetails: null,
-      isACCategory: null
+      isACCategory: null,
+      isPickupAvailableForAppliance: null
     };
     this.reviewListRef = React.createRef();
     this.ScrollIntoView = this.ScrollIntoView.bind(this);
@@ -308,6 +309,36 @@ export default class PdpApparel extends React.Component {
         bundledProductSuggestionDetails: null
       });
     }
+    if (
+      nextProps.appliancesExchangePincodeDetails &&
+      nextProps.appliancesExchangePincodeDetails.status &&
+      nextProps.appliancesExchangePincodeDetails.status.toLowerCase() ===
+        SUCCESS &&
+      nextProps.appliancesExchangePincodeDetails !==
+        this.state.isPickupAvailableForAppliance
+    ) {
+      let data =
+        nextProps.appliancesExchangePincodeDetails.listOfDataList &&
+        nextProps.appliancesExchangePincodeDetails.listOfDataList[0];
+      if (
+        data &&
+        data.key === this.props.productDetails.productListingId &&
+        Object.keys(data.value).length !== 0
+      ) {
+        let isPickupAvailableForAppliance =
+          data.value &&
+          data.value.vendorDetails &&
+          data.value.vendorDetails[0] &&
+          data.value.vendorDetails[0].isPickupAvailableForAppliance;
+        if (isPickupAvailableForAppliance) {
+          this.setState({
+            isPickupAvailableForAppliance: isPickupAvailableForAppliance
+          });
+        }
+      } else {
+        this.setState({ isPickupAvailableForAppliance: false });
+      }
+    }
   }
 
   relevantProductServibilty = async params => {
@@ -372,6 +403,12 @@ export default class PdpApparel extends React.Component {
           brandCode,
           "PDP",
           pincode
+        );
+      }
+      if (this.state.isACCategory) {
+        this.props.appliancesExchangeCheckPincode(
+          this.props.productDetails.productListingId,
+          this.props.productDetails.isServiceableToPincode.pinCode
         );
       }
     }
@@ -1262,11 +1299,6 @@ export default class PdpApparel extends React.Component {
         }
       }
 
-      let isExchangeAvailableForProduct = false;
-      if (productData.exchangeAvailable || this.state.isACCategory) {
-        isExchangeAvailableForProduct = true;
-      }
-
       return (
         <PdpFrame
           goToCart={() => this.goToCart()}
@@ -1459,12 +1491,11 @@ export default class PdpApparel extends React.Component {
                     />
                   )}
 
-                  {this.state.isACCategory &&
+                  {this.state.isPickupAvailableForAppliance &&
                     this.props.appliancesExchangeDetails &&
                     this.props.appliancesExchangeDetails.brands &&
                     this.props.appliancesExchangeDetails.brands.length > 0 && (
                       <AppliancesExchange
-                        exchangeDisabled={disabledStatus}
                         openAppliancesExchangeModal={data =>
                           this.openAppliancesExchangeModal(data)
                         }
@@ -1475,9 +1506,6 @@ export default class PdpApparel extends React.Component {
                         displayToast={this.props.displayToast}
                         updatedAppliancesExchangeDetails={
                           this.state.updatedAppliancesExchangeDetails
-                        }
-                        isPickupAvailableForAppliance={
-                          productData.isPickupAvailableForAppliance
                         }
                       />
                     )}
@@ -1759,7 +1787,7 @@ export default class PdpApparel extends React.Component {
                             productData.productListingId,
                             productData.winningUssID,
                             false,
-                            isExchangeAvailableForProduct,
+                            productData.exchangeAvailable,
                             true
                           )
                         }
@@ -1791,7 +1819,7 @@ export default class PdpApparel extends React.Component {
                             productData.productListingId,
                             productData.winningUssID,
                             false,
-                            isExchangeAvailableForProduct,
+                            productData.exchangeAvailable,
                             true
                           )
                         }

@@ -29,7 +29,8 @@ import {
   getAboutTheBrand,
   getSimilarProduct,
   openBeautyPopup,
-  getAppliancesExchangeDetails
+  getAppliancesExchangeDetails,
+  appliancesExchangeCheckPincode
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
@@ -407,6 +408,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getAppliancesExchangeDetails: () => {
       dispatch(getAppliancesExchangeDetails());
+    },
+    appliancesExchangeCheckPincode: (productCode, pincode) => {
+      dispatch(appliancesExchangeCheckPincode(productCode, pincode));
     }
   };
 };
@@ -480,7 +484,9 @@ const mapStateToProps = state => {
     appliancesExchangeDetails:
       state.productDescription.getAppliancesExchangeDetails,
     updatedAppliancesExchangeDetails:
-      state.productDescription.updatedAppliancesExchangeDetails
+      state.productDescription.updatedAppliancesExchangeDetails,
+    appliancesExchangePincodeDetails:
+      state.productDescription.appliancesExchangeCheckPincodeDetails
   };
 };
 
