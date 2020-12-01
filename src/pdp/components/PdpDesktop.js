@@ -1360,9 +1360,7 @@ export default class PdpApparel extends React.Component {
                         setDataLayerType={
                           SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP
                         }
-                        isSizeSelectedForAddToWishlist={() =>
-                          this.isSizeSelectedForAddToWishlist()
-                        }
+                        isSizeSelectedForAddToWishlist={this.isSizeSelectedForAddToWishlist()}
                         showSizeSelector={
                           this.isSizeNotSelectedForAddToWishlist
                         }
@@ -1587,9 +1585,7 @@ export default class PdpApparel extends React.Component {
                       setDataLayerType={
                         SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP
                       }
-                      isSizeSelectedForAddToWishlist={() =>
-                        this.isSizeSelectedForAddToWishlist()
-                      }
+                      isSizeSelectedForAddToWishlist={this.isSizeSelectedForAddToWishlist()}
                       showSizeSelector={this.isSizeNotSelectedForAddToWishlist}
                       ussid={productData.winningUssID}
                     />
