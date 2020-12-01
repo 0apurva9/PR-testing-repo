@@ -132,7 +132,12 @@ const productDescription = (
 
     updatedAppliancesExchangeDetailsStatus: null,
     updatedAppliancesExchangeDetails: null,
-    updatedAppliancesExchangeDetailsLoading: false
+    updatedAppliancesExchangeDetailsLoading: false,
+
+    appliancesExchangeCheckPincodeStatus: null,
+    appliancesExchangeCheckPincodeLoading: false,
+    appliancesExchangeCheckPincodeError: null,
+    appliancesExchangeCheckPincodeDetails: null
   },
   action
 ) => {
@@ -307,9 +312,7 @@ const productDescription = (
           },
           isPickupAvailableForExchange:
             action.productPinCode.isPickupAvailableForExchange,
-          cashifyPickupCharge: action.productPinCode.cashifyPickupCharge,
-          isPickupAvailableForAppliance:
-            action.productPinCode.isPickupAvailableForAppliance
+          cashifyPickupCharge: action.productPinCode.cashifyPickupCharge
         });
       } else if (
         listOfAllServiceableUssid.length &&
@@ -390,9 +393,7 @@ const productDescription = (
           maxExchangeAmount: leastMrpSellerUssid.maxExchangeAmount,
           isPickupAvailableForExchange:
             action.productPinCode.isPickupAvailableForExchange,
-          cashifyPickupCharge: action.productPinCode.cashifyPickupCharge,
-          isPickupAvailableForAppliance:
-            action.productPinCode.isPickupAvailableForAppliance
+          cashifyPickupCharge: action.productPinCode.cashifyPickupCharge
         });
       } else {
         Object.assign(currentPdpDetail, {
@@ -407,9 +408,7 @@ const productDescription = (
             pinCode: action.productPinCode.pinCode
           },
           isPickupAvailableForExchange:
-            action.productPinCode.isPickupAvailableForExchange,
-          isPickupAvailableForAppliance:
-            action.productPinCode.isPickupAvailableForAppliance
+            action.productPinCode.isPickupAvailableForExchange
         });
       }
       return Object.assign({}, state, {
@@ -1361,6 +1360,27 @@ const productDescription = (
         updatedAppliancesExchangeDetailsStatus: action.status,
         updatedAppliancesExchangeDetails: action.exchangeData,
         updatedAppliancesExchangeDetailsLoading: false
+      });
+
+    case pdpActions.APPLIANCE_EXCHANGE_CHECK_PINCODE_REQUEST:
+      return Object.assign({}, state, {
+        appliancesExchangeCheckPincodeStatus: action.status,
+        appliancesExchangeCheckPincodeLoading: true
+      });
+
+    case pdpActions.APPLIANCE_EXCHANGE_CHECK_PINCODE_SUCCESS:
+      return Object.assign({}, state, {
+        appliancesExchangeCheckPincodeStatus: action.status,
+        appliancesExchangeCheckPincodeLoading: false,
+        appliancesExchangeCheckPincodeDetails: action.data
+      });
+
+    case pdpActions.APPLIANCE_EXCHANGE_CHECK_PINCODE_FAILURE:
+      return Object.assign({}, state, {
+        appliancesExchangeCheckPincodeStatus: action.status,
+        appliancesExchangeCheckPincodeLoading: false,
+        appliancesExchangeCheckPincodeError: action.error,
+        appliancesExchangeCheckPincodeDetails: null
       });
 
     default:
