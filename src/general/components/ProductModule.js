@@ -168,7 +168,12 @@ export default class ProductModule extends React.Component {
           this.showSimilarIcons(electronicView)}
 
         {numberOfVariants && numberOfVariants.length > 0 && (
-          <div className={styles.sizesBlock}>
+          <div
+            className={[
+              styles.sizesBlock,
+              this.props.view === "grid" ? styles.topGrid : styles.topList
+            ].join(" ")}
+          >
             <div className={styles.sizesBlockContent}>
               {numberOfVariants.map(el => {
                 if (el && el.length > 0) {
