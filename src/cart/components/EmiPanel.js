@@ -159,6 +159,16 @@ export default class EmiPanel extends React.Component {
     subMenuSelected,
     fromToggleTab = false
   ) {
+    if (window && window.digitalData) {
+      Object.assign(window.digitalData, {
+        checkout: {
+          option: {
+            name: currentSelectedEMIType
+          }
+        }
+      });
+    }
+
     if (
       (this.props.retryPaymentDetails &&
         this.props.retryPaymentDetails.orderRetry &&
