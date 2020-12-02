@@ -1492,6 +1492,9 @@ export default class PdpApparel extends React.Component {
                   )}
 
                   {this.state.isPickupAvailableForAppliance &&
+                    (this.props.productDetails.isServiceableToPincode &&
+                      this.props.productDetails.isServiceableToPincode
+                        .status === YES) &&
                     this.props.appliancesExchangeDetails &&
                     this.props.appliancesExchangeDetails.brands &&
                     this.props.appliancesExchangeDetails.brands.length > 0 && (
