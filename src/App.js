@@ -431,7 +431,7 @@ class App extends Component {
     }
     this.renderMonetizationScript();
     // Check if GUID exists
-    if (guid) {
+    if (guid && this.props.history.location.pathname !== "/checkout") {
       // Get the bagCount if Cart GUID exists for Logged-in user or Anonymous user
       await this.props.getCartCountForLoggedInUsers(
         typeof guid === "object" ? guid : null

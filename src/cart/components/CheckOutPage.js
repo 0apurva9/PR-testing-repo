@@ -2332,8 +2332,9 @@ if you have order id in local storage then you have to show order confirmation p
 
       if (this.props.removeNoCostEmi) {
         let carGuId =
-          JSON.parse(cartDetailsLoggedInUser).guid ||
-          Cookie.getCookie(OLD_CART_GU_ID).guid;
+          cartDetailsLoggedInUser && JSON.parse(cartDetailsLoggedInUser).guid
+            ? JSON.parse(cartDetailsLoggedInUser).guid
+            : Cookie.getCookie(OLD_CART_GU_ID).guid;
         let cartId = JSON.parse(cartDetailsLoggedInUser).code;
         const removeNoCostEmiResponse = await this.props.removeNoCostEmi(
           couponCode,
