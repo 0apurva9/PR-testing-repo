@@ -104,7 +104,7 @@ export default class AppliancesExchangeSelection extends React.Component {
     data.exchangeAmount = conditionDetails.exchangeAmount;
     data.totalExchangeAmount = conditionDetails.totalExchangeAmount;
     data.ussid = this.props.ussid;
-    data.type = this.state.selectedCapacityData.modelType;
+    data.type = this.state.selectedCapacityData.type;
     data.bonusExchangeAmount = this.props.appliancesExchangeDetails.bonusExchangeAmount;
     this.setState({ exchangeData: data });
     let journeyDetails = `${data.type} Ac:MDE:${data.brandName}:null:null`;

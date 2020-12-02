@@ -54,6 +54,8 @@ export default class DesktopCheckout extends React.Component {
               isPickupAvailableForApplianceDetails.push(
                 vendordata.value.vendorDetails[0].isPickupAvailableForAppliance
               );
+            } else {
+              isPickupAvailableForApplianceDetails.push(false);
             }
           }
         );
