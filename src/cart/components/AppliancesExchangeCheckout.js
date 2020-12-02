@@ -34,7 +34,7 @@ export default class AppliancesExchangeCheckout extends React.Component {
         <div className={styles.name}>
           {" "}
           {this.state.exchangeData && this.state.exchangeData.brandName}-{this
-            .state.exchangeData && this.state.exchangeData.modelType}{" "}
+            .state.exchangeData && this.state.exchangeData.type}{" "}
           AC
         </div>
       </div>

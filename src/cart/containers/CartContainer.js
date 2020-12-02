@@ -51,7 +51,8 @@ import {
 import {
   verifyIMEINumber,
   getBundledProductSuggestion,
-  addBundledProductsToCart
+  addBundledProductsToCart,
+  appliancesExchangeCheckPincode
 } from "../../pdp/actions/pdp.actions";
 const mapDispatchToProps = dispatch => {
   return {
@@ -276,6 +277,9 @@ const mapDispatchToProps = dispatch => {
     },
     openAppliancesExchangeModal: data => {
       dispatch(showModal(APPLIANCES_EXCHANGE_MODAL, data));
+    },
+    appliancesExchangeCheckPincode: (productCode, pincode) => {
+      dispatch(appliancesExchangeCheckPincode(productCode, pincode));
     }
   };
 };
@@ -292,7 +296,9 @@ const mapStateToProps = state => {
     addBundledProductsToCartDetails:
       state.productDescription.addBundledProductsToCartDetails,
     bundledProductSuggestionStatus:
-      state.productDescription.getBundledProductSuggestionStatus
+      state.productDescription.getBundledProductSuggestionStatus,
+    appliancesExchangePincodeDetails:
+      state.productDescription.appliancesExchangeCheckPincodeDetails
   };
 };
 const CartContainer = withRouter(

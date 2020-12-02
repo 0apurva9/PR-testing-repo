@@ -32,6 +32,33 @@ export default class DesktopCheckout extends React.Component {
   };
   renderCheckout = () => {
     let disableButton = false;
+
+    let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+    let parsedExchangeDetails =
+      cartExchangeDetails && JSON.parse(cartExchangeDetails);
+    let isPickupAvailableForApplianceDetails = [];
+    if (
+      parsedExchangeDetails &&
+      parsedExchangeDetails.length > 0 &&
+      this.props.appliancesExchangePincodeData
+    ) {
+      this.props.appliancesExchangePincodeData.listOfDataList &&
+        this.props.appliancesExchangePincodeData.listOfDataList.map(
+          vendordata => {
+            if (
+              vendordata.value &&
+              Object.keys(vendordata.value).length !== 0 &&
+              vendordata.value.vendorDetails &&
+              vendordata.value.vendorDetails[0]
+            ) {
+              isPickupAvailableForApplianceDetails.push(
+                vendordata.value.vendorDetails[0].isPickupAvailableForAppliance
+              );
+            }
+          }
+        );
+    }
+
     if (
       (this.props.productExchangeServiceable &&
         this.props.productExchangeServiceable.length > 0 &&
@@ -39,7 +66,10 @@ export default class DesktopCheckout extends React.Component {
       (this.props.isQuoteExpired &&
         this.props.isQuoteExpired.length > 0 &&
         this.props.isQuoteExpired.includes(true)) ||
-      this.props.disabled
+      this.props.disabled ||
+      (isPickupAvailableForApplianceDetails &&
+        isPickupAvailableForApplianceDetails.length > 0 &&
+        isPickupAvailableForApplianceDetails.includes(false))
     ) {
       disableButton = true;
     }

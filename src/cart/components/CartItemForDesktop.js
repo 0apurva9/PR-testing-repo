@@ -18,7 +18,8 @@ import {
   CART_DETAILS_FOR_ANONYMOUS,
   CART_DETAILS_FOR_LOGGED_IN_USER,
   CUSTOMER_ACCESS_TOKEN,
-  GLOBAL_ACCESS_TOKEN
+  GLOBAL_ACCESS_TOKEN,
+  ANONYMOUS_USER
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import ProductImage from "../../general/components/ProductImage.js";
@@ -41,6 +42,13 @@ import {
 import DigitalBundledProduct from "./DigitalBundledProduct";
 import RecommendedBundledProduct from "./RecommendedBundledProduct";
 import AppliancesExchangeCart from "./AppliancesExchangeCart";
+import {
+  getGlobalAccessToken,
+  getCustomerAccessToken,
+  getLoggedInUserDetails,
+  getCartDetailsForLoggedInUser,
+  getCartDetailsForAnonymousInUser
+} from "../../lib/getCookieDetails.js";
 const NO_SIZE = "NO SIZE";
 const OUT_OF_STOCK = "Product is out of stock";
 export default class CartItemForDesktop extends React.Component {
@@ -229,7 +237,7 @@ export default class CartItemForDesktop extends React.Component {
     let acCartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
     let cartExchangeDetails =
       acCartExchangeDetails && JSON.parse(acCartExchangeDetails);
-    if (cartExchangeDetails) {
+    if (cartExchangeDetails && cartExchangeDetails.length > 0) {
       let index = cartExchangeDetails.findIndex(product => {
         return product.ussid === ussid;
       });
@@ -240,6 +248,20 @@ export default class CartItemForDesktop extends React.Component {
           JSON.stringify(cartExchangeDetails)
         );
       }
+
+      let loggedInUserDetails = getLoggedInUserDetails();
+      let cartDetails = getCartDetailsForAnonymousInUser();
+      let cartId = cartDetails && cartDetails.guid;
+      let user = ANONYMOUS_USER;
+      let accessToken = getGlobalAccessToken();
+      if (loggedInUserDetails) {
+        user = loggedInUserDetails.userName;
+        cartDetails = getCartDetailsForLoggedInUser();
+        cartId = cartDetails && cartDetails.code;
+        accessToken = getCustomerAccessToken();
+      }
+      let defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+      this.props.getCartDetails(user, accessToken, cartId, defaultPinCode);
     }
   }
 
@@ -715,6 +737,10 @@ export default class CartItemForDesktop extends React.Component {
             this.removeAppliancesExchange(ussid)
           }
           displayToast={this.props.displayToast}
+          appliancesExchangePincodeData={
+            this.props.appliancesExchangePincodeData
+          }
+          productCode={this.props.product.productcode}
         />
 
         {this.props.product.bundledDigitalItems &&

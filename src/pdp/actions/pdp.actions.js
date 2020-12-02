@@ -748,17 +748,17 @@ export function getProductPinCode(
         let userName = JSON.parse(userDetails).userName;
         let accessToken = JSON.parse(customerCookie).access_token;
         if (isExchangeAvailable) {
-          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=true&isMDE=true&platform=${PLATFORM}`;
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=true&isMDE=true`;
         } else {
-          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false&isMDE=true&platform=${PLATFORM}`;
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false&isMDE=true`;
         }
       } else {
         let userName = ANONYMOUS_USER;
         let accessToken = JSON.parse(globalCookie).access_token;
         if (isExchangeAvailable) {
-          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=true&isMDE=true&platform=${PLATFORM}`;
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=true&isMDE=true`;
         } else {
-          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false&isMDE=true&platform=${PLATFORM}`;
+          url = `${PRODUCT_DETAILS_PATH}/${userName}/checkPincode?access_token=${accessToken}&productCode=${validProductCode}&pin=${pinCode}&exchangeAvailable=false&isMDE=true`;
         }
       }
       const result = await api.post(url);
