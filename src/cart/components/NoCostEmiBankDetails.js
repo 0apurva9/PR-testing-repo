@@ -280,6 +280,16 @@ export default class NoCostEmiBankDetails extends React.Component {
           : null
       });
     }
+    if (window && window.digitalData) {
+      Object.assign(window.digitalData, {
+        checkout: {
+          ...window.digitalData.checkout,
+          bank: {
+            name: selectedBankCodeObj.bankName
+          }
+        }
+      });
+    }
     // }
     // }
   }
@@ -395,6 +405,16 @@ export default class NoCostEmiBankDetails extends React.Component {
           this.applyNoCostEmi(index, val);
         }
       }
+    }
+    if (window && window.digitalData) {
+      Object.assign(window.digitalData, {
+        checkout: {
+          ...window.digitalData.checkout,
+          tenure: {
+            value: val.tenure
+          }
+        }
+      });
     }
   }
 

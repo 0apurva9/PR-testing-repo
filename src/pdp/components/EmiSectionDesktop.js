@@ -30,8 +30,28 @@ export default class EmiSectionDesktop extends React.Component {
       SET_DATA_LAYER_FOR_EMI_BANK_EVENT,
       this.props.emiData[val].emiBank
     );
+    if (window && window.digitalData) {
+      Object.assign(window.digitalData, {
+        checkout: {
+          ...window.digitalData.checkout,
+          bank: {
+            name: this.props.emiData[val].emiBank
+          }
+        }
+      });
+    }
   }
   handleConfirmPlan(value) {
+    if (window && window.digitalData) {
+      Object.assign(window.digitalData, {
+        checkout: {
+          ...window.digitalData.checkout,
+          tenure: {
+            value: value.term
+          }
+        }
+      });
+    }
     if (this.props.confirmPlan) {
       this.props.confirmPlan();
     }
