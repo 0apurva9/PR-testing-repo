@@ -36,15 +36,22 @@ export default class EmiSectionDesktop extends React.Component {
           ...window.digitalData.checkout,
           bank: {
             name: this.props.emiData[val].emiBank
-          },
-          tenure: {
-            value: this.props.emiData[val].emitermsrate[val].term
           }
         }
       });
     }
   }
   handleConfirmPlan(value) {
+    if (window && window.digitalData) {
+      Object.assign(window.digitalData, {
+        checkout: {
+          ...window.digitalData.checkout,
+          tenure: {
+            value: value.term
+          }
+        }
+      });
+    }
     if (this.props.confirmPlan) {
       this.props.confirmPlan();
     }
