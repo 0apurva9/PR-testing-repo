@@ -106,9 +106,9 @@ const typeComponentMapping = {
 };
 
 export default class ProductsDetailsSection extends React.Component {
-  handleDetailsScroll = () => {
+  handleDetailsScroll = sectionToScroll => {
     if (this.props.handleDetailsScroll) {
-      this.props.handleDetailsScroll();
+      this.props.handleDetailsScroll(sectionToScroll);
     }
   };
 

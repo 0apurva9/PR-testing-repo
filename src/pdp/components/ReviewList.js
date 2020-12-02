@@ -26,6 +26,7 @@ export default class ReviewList extends React.Component {
                   data.principal.name.trim();
                 return (
                   <ReviewPage
+                    fromBeautyPdp={this.props.fromBeautyPdp}
                     rating={data && data.rating}
                     heading={data && data.headline}
                     text={data && data.comment}
@@ -51,6 +52,7 @@ export default class ReviewList extends React.Component {
                 data.principal.name.trim(); */
               return (
                 <ReviewPage
+                  fromBeautyPdp={this.props.fromBeautyPdp}
                   rating={data && data.rating}
                   heading={data && data.headline}
                   text={data && data.comment}
