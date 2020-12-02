@@ -58,7 +58,7 @@ export default class EmiPanel extends React.Component {
         this.onSetEMIType(NO_COST_EMI);
         this.getBankAndTenureDetails(true);
       }
-    } else {
+    } else if (this.props.isPaymentFailed) {
       const emiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
       if (emiCoupon) {
         this.removeNoCostEmi(emiCoupon);
