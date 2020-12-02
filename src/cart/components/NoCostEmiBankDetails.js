@@ -741,47 +741,51 @@ export default class NoCostEmiBankDetails extends React.Component {
                   )}
                 </div>
               )}
-            {this.state.selectedBankCode &&
-              this.state.selectedBankIndex !== null && (
-                <div className={styles.itemLevelButtonHolder}>
-                  {this.props.isDebitCard && this.props.dcwPageId && (
-                    <React.Fragment>
-                      <Link
-                        to={{
-                          pathname:
-                            `https://www.tatacliq.com/` + this.props.dcwPageId
-                        }}
-                        target="_blank"
-                      >
-                        <div className={styles.knowMoreText}>
-                          Know more about Debit Card EMI &#9432;
-                        </div>
-                      </Link>
-                    </React.Fragment>
-                  )}
-                  {this.props.isDebitCard && (
-                    <div
-                      className={styles.tncText}
-                      onClick={() => this.termsAndCondition()}
-                    >
-                      View T&C
+            {/* {this.state.selectedBankCode &&
+              this.state.selectedBankIndex !== null && ( */}
+            <div className={styles.itemLevelButtonHolder}>
+              {this.props.isDebitCard && this.props.dcwPageId && (
+                <React.Fragment>
+                  <Link
+                    to={{
+                      pathname:
+                        `https://www.tatacliq.com/` + this.props.dcwPageId
+                    }}
+                    target="_blank"
+                  >
+                    <div className={styles.knowMoreText}>
+                      Know more about Debit Card EMI &#9432;
                     </div>
-                  )}
-                  {!this.props.isDebitCard && (
-                    <React.Fragment>
-                      <div className={styles.itemLevelButton}>
-                        <UnderLinedButton
-                          size="14px"
-                          fontFamily="regular"
-                          color="#000"
-                          label="View T&C"
-                          onClick={() => this.termsAndCondition()}
-                        />
-                      </div>
-                    </React.Fragment>
-                  )}
-                </div>
+                  </Link>
+                </React.Fragment>
               )}
+              {this.state.selectedBankCode &&
+                this.state.selectedBankIndex !== null &&
+                this.props.isDebitCard && (
+                  <div
+                    className={styles.tncText}
+                    onClick={() => this.termsAndCondition()}
+                  >
+                    View T&C
+                  </div>
+                )}
+              {this.state.selectedBankCode &&
+                this.state.selectedBankIndex !== null &&
+                !this.props.isDebitCard && (
+                  <React.Fragment>
+                    <div className={styles.itemLevelButton}>
+                      <UnderLinedButton
+                        size="14px"
+                        fontFamily="regular"
+                        color="#000"
+                        label="View T&C"
+                        onClick={() => this.termsAndCondition()}
+                      />
+                    </div>
+                  </React.Fragment>
+                )}
+            </div>
+            {/* )} */}
           </div>
         )}
 
