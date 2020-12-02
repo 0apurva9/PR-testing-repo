@@ -1,7 +1,8 @@
 import React from "react";
 import {
   RUPEE_SYMBOL,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  AC_CART_EXCHANGE_DETAILS
 } from "../../lib/constants.js";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
@@ -33,7 +34,7 @@ export default class DesktopCheckout extends React.Component {
   renderCheckout = () => {
     let disableButton = false;
 
-    let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
     let parsedExchangeDetails =
       cartExchangeDetails && JSON.parse(cartExchangeDetails);
     let isPickupAvailableForApplianceDetails = [];

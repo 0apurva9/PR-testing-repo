@@ -19,7 +19,8 @@ import {
   CART_DETAILS_FOR_LOGGED_IN_USER,
   CUSTOMER_ACCESS_TOKEN,
   GLOBAL_ACCESS_TOKEN,
-  ANONYMOUS_USER
+  ANONYMOUS_USER,
+  AC_CART_EXCHANGE_DETAILS
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import ProductImage from "../../general/components/ProductImage.js";
@@ -234,7 +235,7 @@ export default class CartItemForDesktop extends React.Component {
   }
 
   removeAppliancesExchange(ussid) {
-    let acCartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+    let acCartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
     let cartExchangeDetails =
       acCartExchangeDetails && JSON.parse(acCartExchangeDetails);
     if (cartExchangeDetails && cartExchangeDetails.length > 0) {
@@ -244,7 +245,7 @@ export default class CartItemForDesktop extends React.Component {
       if (index !== -1) {
         cartExchangeDetails.splice(index, 1);
         localStorage.setItem(
-          "acCartExchangeDetails",
+          AC_CART_EXCHANGE_DETAILS,
           JSON.stringify(cartExchangeDetails)
         );
       }

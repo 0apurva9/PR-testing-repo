@@ -20,7 +20,8 @@ import {
   BUY_NOW_PRODUCT_DETAIL,
   SUCCESS,
   CNC_CART,
-  SELECTED_STORE
+  SELECTED_STORE,
+  AC_CART_EXCHANGE_DETAILS
 } from "../../lib/constants";
 import SavedProduct from "./SavedProduct";
 import filter from "lodash.filter";
@@ -314,7 +315,7 @@ class CartPage extends React.Component {
       }
     }
     if (this.props.cart.cartDetails !== prevProps.cart.cartDetails) {
-      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
       let parsedExchangeDetails =
         cartExchangeDetails && JSON.parse(cartExchangeDetails);
       if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {

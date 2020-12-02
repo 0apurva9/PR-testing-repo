@@ -22,7 +22,9 @@ import {
   RUPEE_SYMBOL,
   HOME_ROUTER,
   DIGITAL_DATA_FOR_CART,
-  STATUS_CONFIRMED
+  STATUS_CONFIRMED,
+  AC_PDP_EXCHANGE_DETAILS,
+  AC_CART_EXCHANGE_DETAILS
 } from "../../lib/constants";
 import styles from "./PaymentConfirmationPage.css";
 import wishlistIcon from "../../general/components/img/download.svg";
@@ -57,7 +59,7 @@ export default class PaymentConfirmationPage extends React.Component {
       orderId = stripeDetailsJson.orderId;
     }
     if (orderId) {
-      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
       if (cartExchangeDetails) {
         this.props.submitAppliancesExchangeData(
           orderId,
@@ -117,8 +119,8 @@ export default class PaymentConfirmationPage extends React.Component {
     localStorage.removeItem(DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION);
     localStorage.removeItem("GiftCardAmount");
     localStorage.removeItem("productType");
-    localStorage.removeItem("acPdpExchangeDetails");
-    localStorage.removeItem("acCartExchangeDetails");
+    localStorage.removeItem(AC_PDP_EXCHANGE_DETAILS);
+    localStorage.removeItem(AC_CART_EXCHANGE_DETAILS);
   }
   goToUrl(value) {
     if (value) {

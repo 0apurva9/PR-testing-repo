@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./AppliancesExchangeCheckout.css";
 import PropTypes from "prop-types";
-
+import { AC_CART_EXCHANGE_DETAILS } from "../../lib/constants";
 export default class AppliancesExchangeCheckout extends React.Component {
   constructor(props) {
     super(props);
@@ -11,7 +11,7 @@ export default class AppliancesExchangeCheckout extends React.Component {
   }
 
   componentDidMount() {
-    let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
     if (cartExchangeDetails) {
       let parsedExchangeDetails = JSON.parse(cartExchangeDetails);
       let exchangeDetails = parsedExchangeDetails.find(data => {

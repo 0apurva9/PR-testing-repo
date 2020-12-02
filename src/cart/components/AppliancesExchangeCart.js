@@ -3,7 +3,7 @@ import exchangeIconLight from "../../cart/components/img/exchangeIconLight.svg";
 import closeIcon from "../../cart/components/img/exchangeCloseIcon.svg";
 import styles from "./CartItemForDesktop.css";
 import PropTypes from "prop-types";
-import { SUCCESS } from "../../lib/constants";
+import { SUCCESS, AC_CART_EXCHANGE_DETAILS } from "../../lib/constants";
 export default class AppliancesExchangeCart extends React.Component {
   constructor(props) {
     super(props);
@@ -14,7 +14,7 @@ export default class AppliancesExchangeCart extends React.Component {
   }
 
   componentDidMount() {
-    let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
     let parsedExchangeDetails =
       cartExchangeDetails && JSON.parse(cartExchangeDetails);
     if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
@@ -28,7 +28,7 @@ export default class AppliancesExchangeCart extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
     let parsedExchangeDetails =
       cartExchangeDetails && JSON.parse(cartExchangeDetails);
     if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {

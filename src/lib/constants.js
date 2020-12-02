@@ -582,6 +582,7 @@ export const POP_UP_WINDOW_STYLE =
 
 export const PLATFORM = "desktop";
 export const AC_PDP_EXCHANGE_DETAILS = "acPdpExchangeDetails";
+export const AC_CART_EXCHANGE_DETAILS = "acCartExchangeDetails";
 export const EXCHANGE_ADDED_MESSAGE = "Exchange has been added.";
 export const EXCHANGE_REMOVED_MESSAGE = "Exchange has been removed.";
 export const STATUS_PROCESSING = "processing";

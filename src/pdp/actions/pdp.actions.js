@@ -18,7 +18,8 @@ import {
   LOW_INTERNET_CONNECTION_MESSAGE,
   CHANNEL,
   AC_PDP_EXCHANGE_DETAILS,
-  PLATFORM
+  PLATFORM,
+  AC_CART_EXCHANGE_DETAILS
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -933,10 +934,10 @@ export function addProductToCart(productDetails) {
   }
   let cartId = cartDetails ? JSON.parse(cartDetails).code : null;
 
-  let acPdpExchangeDetails = localStorage.getItem("acPdpExchangeDetails");
+  let acPdpExchangeDetails = localStorage.getItem(AC_PDP_EXCHANGE_DETAILS);
   let acPdpExchangeData =
     acPdpExchangeDetails && JSON.parse(acPdpExchangeDetails);
-  let acCartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+  let acCartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
   let acCartExchangeData =
     acCartExchangeDetails && JSON.parse(acCartExchangeDetails);
   let isProductInExchangeData =
@@ -1111,13 +1112,13 @@ export function addProductToCart(productDetails) {
             acCartExchangeData.push(acPdpExchangeData);
           }
           localStorage.setItem(
-            "acCartExchangeDetails",
+            AC_CART_EXCHANGE_DETAILS,
             JSON.stringify(acCartExchangeData)
           );
         } else {
           delete acPdpExchangeData.isExchangeSelected;
           localStorage.setItem(
-            "acCartExchangeDetails",
+            AC_CART_EXCHANGE_DETAILS,
             JSON.stringify([acPdpExchangeData])
           );
         }

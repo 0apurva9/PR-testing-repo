@@ -14,7 +14,9 @@ import {
   SAVE_LIST_PAGE,
   DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION,
   DIGITAL_DATA_FOR_CART,
-  STATUS_CONFIRMED
+  STATUS_CONFIRMED,
+  AC_PDP_EXCHANGE_DETAILS,
+  AC_CART_EXCHANGE_DETAILS
 } from "../../lib/constants";
 import styles from "./OrderConfirmation.css";
 import wishlistIcon from "../../general/components/img/download.svg";
@@ -115,7 +117,7 @@ export default class OrderConfirmation extends React.Component {
         this.props.showChangeExchangeCashabackModal(data);
       }
     }
-    let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
     if (cartExchangeDetails) {
       this.props.submitAppliancesExchangeData(
         this.props.orderId,
@@ -170,8 +172,8 @@ export default class OrderConfirmation extends React.Component {
   componentWillUnmount() {
     localStorage.removeItem(DIGITAL_DATA_FOR_CART);
     localStorage.removeItem(DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION);
-    localStorage.removeItem("acPdpExchangeDetails");
-    localStorage.removeItem("acCartExchangeDetails");
+    localStorage.removeItem(AC_PDP_EXCHANGE_DETAILS);
+    localStorage.removeItem(AC_CART_EXCHANGE_DETAILS);
   }
   render() {
     return (

@@ -46,7 +46,9 @@ import {
   RETRY_PAYMENT_CART_ID,
   SELECTED_STORE,
   IS_DC_EMI_SELECTED,
-  STATUS_PROCESSING
+  STATUS_PROCESSING,
+  AC_PDP_EXCHANGE_DETAILS,
+  AC_CART_EXCHANGE_DETAILS
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -2479,7 +2481,7 @@ export function collectPaymentOrderForGiftCardUPI(
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       dispatch(collectPaymentOrderForGiftCardSuccess(resultJson, egvCartGuid));
-      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
       if (cartExchangeDetails) {
         dispatch(
           submitAppliancesExchangeData(
@@ -2653,7 +2655,7 @@ export function collectPaymentOrderForUPI(
         }
       }
       dispatch(collectPaymentOrderSuccess(resultJson));
-      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
       if (cartExchangeDetails) {
         dispatch(
           submitAppliancesExchangeData(
@@ -6330,7 +6332,7 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
       );
 
       // appliance exchange poc
-      let acPdpExchangeDetails = localStorage.getItem("acPdpExchangeDetails");
+      let acPdpExchangeDetails = localStorage.getItem(AC_PDP_EXCHANGE_DETAILS);
       let acPdpExchangeData =
         acPdpExchangeDetails && JSON.parse(acPdpExchangeDetails);
       if (
@@ -6339,7 +6341,7 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
         acPdpExchangeData.isExchangeSelected
       ) {
         let acCartExchangeDetails = localStorage.getItem(
-          "acCartExchangeDetails"
+          AC_CART_EXCHANGE_DETAILS
         );
         if (acCartExchangeDetails) {
           delete acPdpExchangeData.isExchangeSelected;
@@ -6359,13 +6361,13 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
             acCartExchangeData.push(acPdpExchangeData);
           }
           localStorage.setItem(
-            "acCartExchangeDetails",
+            AC_CART_EXCHANGE_DETAILS,
             JSON.stringify(acCartExchangeData)
           );
         } else {
           delete acPdpExchangeData.isExchangeSelected;
           localStorage.setItem(
-            "acCartExchangeDetails",
+            AC_CART_EXCHANGE_DETAILS,
             JSON.stringify([acPdpExchangeData])
           );
         }
@@ -7211,7 +7213,7 @@ export function collectPaymentOrderForGiftCard(
         throw new Error(resultJsonStatus.message);
       }
       dispatch(collectPaymentOrderForGiftCardSuccess(resultJson, egvCartGuid));
-      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
       if (cartExchangeDetails) {
         dispatch(
           submitAppliancesExchangeData(
@@ -7330,7 +7332,7 @@ export function collectPaymentOrder(
         }
       }
       dispatch(collectPaymentOrderSuccess(resultJson));
-      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
       if (cartExchangeDetails) {
         dispatch(
           submitAppliancesExchangeData(
@@ -7733,7 +7735,7 @@ export function collectPaymentOrderForSavedCards(
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       dispatch(collectPaymentOrderSuccess(resultJson));
-      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
       if (cartExchangeDetails) {
         dispatch(
           submitAppliancesExchangeData(
@@ -7834,7 +7836,7 @@ export function collectPaymentOrderForGiftCardFromSavedCards(
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       dispatch(collectPaymentOrderForGiftCardSuccess(resultJson));
-      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
       if (cartExchangeDetails) {
         dispatch(
           submitAppliancesExchangeData(
@@ -8009,7 +8011,7 @@ export function collectPaymentOrderForNetBanking(
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       dispatch(collectPaymentOrderSuccess(resultJson));
-      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
       if (cartExchangeDetails) {
         dispatch(
           submitAppliancesExchangeData(
@@ -8128,7 +8130,7 @@ export function collectPaymentOrderForGiftCardNetBanking(
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       dispatch(collectPaymentOrderForGiftCardSuccess(resultJson, egvCartGuid));
-      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
       if (cartExchangeDetails) {
         dispatch(
           submitAppliancesExchangeData(
@@ -8307,7 +8309,7 @@ export function collectPaymentOrderForCliqCash(
       );
       localStorage.setItem(CART_BAG_DETAILS, []);
       dispatch(collectPaymentOrderForCliqCashSuccess(resultJson));
-      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
       if (cartExchangeDetails) {
         dispatch(
           submitAppliancesExchangeData(
@@ -8611,7 +8613,7 @@ export function submitAppliancesExchangeData(
   removeLocalStorage,
   apiCallCount = 0
 ) {
-  let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+  let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
   let parsedExchangeDetails = JSON.parse(cartExchangeDetails);
   if (!orderId || !parsedExchangeDetails) {
     return false;
@@ -8632,8 +8634,8 @@ export function submitAppliancesExchangeData(
         const resultJson = await result.json();
         dispatch(submitAppliancesExchangeDataSuccess(resultJson));
         if (removeLocalStorage) {
-          localStorage.removeItem("acPdpExchangeDetails");
-          localStorage.removeItem("acCartExchangeDetails");
+          localStorage.removeItem(AC_PDP_EXCHANGE_DETAILS);
+          localStorage.removeItem(AC_CART_EXCHANGE_DETAILS);
         }
       } else {
         if (apiCallCount === 0) {
