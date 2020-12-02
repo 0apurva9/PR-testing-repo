@@ -153,7 +153,7 @@ export default class AppliancesExchange extends React.Component {
                 cashback on your{" "}
                 <span className={styles.fontRegular}>
                   {this.trimProductName(this.state.exchangeData.brandName)}-{
-                    this.state.exchangeData.modelType
+                    this.state.exchangeData.type
                   }{" "}
                   AC{" "}
                 </span>

@@ -1,7 +1,8 @@
 import React from "react";
 import {
   RUPEE_SYMBOL,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  AC_CART_EXCHANGE_DETAILS
 } from "../../lib/constants.js";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
@@ -32,6 +33,35 @@ export default class DesktopCheckout extends React.Component {
   };
   renderCheckout = () => {
     let disableButton = false;
+
+    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+    let parsedExchangeDetails =
+      cartExchangeDetails && JSON.parse(cartExchangeDetails);
+    let isPickupAvailableForApplianceDetails = [];
+    if (
+      parsedExchangeDetails &&
+      parsedExchangeDetails.length > 0 &&
+      this.props.appliancesExchangePincodeData
+    ) {
+      this.props.appliancesExchangePincodeData.listOfDataList &&
+        this.props.appliancesExchangePincodeData.listOfDataList.map(
+          vendordata => {
+            if (
+              vendordata.value &&
+              Object.keys(vendordata.value).length !== 0 &&
+              vendordata.value.vendorDetails &&
+              vendordata.value.vendorDetails[0]
+            ) {
+              isPickupAvailableForApplianceDetails.push(
+                vendordata.value.vendorDetails[0].isPickupAvailableForAppliance
+              );
+            } else {
+              isPickupAvailableForApplianceDetails.push(false);
+            }
+          }
+        );
+    }
+
     if (
       (this.props.productExchangeServiceable &&
         this.props.productExchangeServiceable.length > 0 &&
@@ -39,7 +69,10 @@ export default class DesktopCheckout extends React.Component {
       (this.props.isQuoteExpired &&
         this.props.isQuoteExpired.length > 0 &&
         this.props.isQuoteExpired.includes(true)) ||
-      this.props.disabled
+      this.props.disabled ||
+      (isPickupAvailableForApplianceDetails &&
+        isPickupAvailableForApplianceDetails.length > 0 &&
+        isPickupAvailableForApplianceDetails.includes(false))
     ) {
       disableButton = true;
     }

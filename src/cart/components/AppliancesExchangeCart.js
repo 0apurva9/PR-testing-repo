@@ -3,19 +3,21 @@ import exchangeIconLight from "../../cart/components/img/exchangeIconLight.svg";
 import closeIcon from "../../cart/components/img/exchangeCloseIcon.svg";
 import styles from "./CartItemForDesktop.css";
 import PropTypes from "prop-types";
-
+import { SUCCESS, AC_CART_EXCHANGE_DETAILS } from "../../lib/constants";
 export default class AppliancesExchangeCart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      exchangeData: null
+      exchangeData: null,
+      isPickupAvailableForAppliance: false
     };
   }
 
   componentDidMount() {
-    let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
-    if (cartExchangeDetails) {
-      let parsedExchangeDetails = JSON.parse(cartExchangeDetails);
+    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+    let parsedExchangeDetails =
+      cartExchangeDetails && JSON.parse(cartExchangeDetails);
+    if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
       let exchangeDetails = parsedExchangeDetails.find(data => {
         return data.ussid === this.props.productUssid;
       });
@@ -25,10 +27,50 @@ export default class AppliancesExchangeCart extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+    let parsedExchangeDetails =
+      cartExchangeDetails && JSON.parse(cartExchangeDetails);
+    if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
+      if (
+        nextProps.appliancesExchangePincodeData &&
+        nextProps.appliancesExchangePincodeData.status &&
+        nextProps.appliancesExchangePincodeData.status.toLowerCase() ===
+          SUCCESS &&
+        nextProps.appliancesExchangePincodeData !==
+          this.state.isPickupAvailableForAppliance
+      ) {
+        let data = nextProps.appliancesExchangePincodeData.listOfDataList;
+        let serviceabliltyDetails = data.find(data => {
+          return data.key === this.props.productCode;
+        });
+        if (
+          serviceabliltyDetails &&
+          serviceabliltyDetails.key === this.props.productCode &&
+          Object.keys(serviceabliltyDetails.value).length !== 0
+        ) {
+          let isPickupAvailableForAppliance =
+            serviceabliltyDetails.value &&
+            serviceabliltyDetails.value.vendorDetails &&
+            serviceabliltyDetails.value.vendorDetails[0] &&
+            serviceabliltyDetails.value.vendorDetails[0]
+              .isPickupAvailableForAppliance;
+          if (isPickupAvailableForAppliance) {
+            this.setState({
+              isPickupAvailableForAppliance: isPickupAvailableForAppliance
+            });
+          }
+        } else {
+          this.setState({ isPickupAvailableForAppliance: false });
+        }
+      }
+    }
+  }
+
   removeAppliancesExchange(ussid) {
-    this.props.removeAppliancesExchange(ussid);
     this.props.displayToast("Exchange for product removed");
     this.setState({ exchangeData: null });
+    this.props.removeAppliancesExchange(ussid);
   }
 
   openAppliancesExchangeModal(data) {
@@ -44,8 +86,7 @@ export default class AppliancesExchangeCart extends React.Component {
       <React.Fragment>
         <div
           className={
-            this.props.pinCodeResponse &&
-            this.props.pinCodeResponse.errorMessagePincode
+            !this.state.isPickupAvailableForAppliance
               ? styles.exchangeDetailsPickupNotAvail
               : styles.exchangeDetails
           }
@@ -68,7 +109,7 @@ export default class AppliancesExchangeCart extends React.Component {
               Exchange Cashback for{" "}
               <span className={styles.exchangeProductName}>
                 {this.state.exchangeData && this.state.exchangeData.brandName}-{this
-                  .state.exchangeData && this.state.exchangeData.modelType}{" "}
+                  .state.exchangeData && this.state.exchangeData.type}{" "}
                 AC
               </span>
             </div>
@@ -92,12 +133,12 @@ export default class AppliancesExchangeCart extends React.Component {
             </div>
           </div>
         </div>
-        {this.props.pinCodeResponse &&
-          this.props.pinCodeResponse.errorMessagePincode && (
-            <div className={styles.exchangeProductNotServiceable}>
-              {this.props.pinCodeResponse.errorMessagePincode}
-            </div>
-          )}
+        {!this.state.isPickupAvailableForAppliance && (
+          <div className={styles.exchangeProductNotServiceable}>
+            Exchange is not serviceable on the specified pincode. Please try by
+            changing pincode
+          </div>
+        )}
         {!this.props.productIsServiceable && (
           <div className={styles.exchangeProductNotServiceable}>
             Cannot service Exchange since main product not serviceable

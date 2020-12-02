@@ -83,10 +83,10 @@ export default class AppliancesExchangeSelection extends React.Component {
     }, 500);
   }
 
-  selectCapacity(capacityDetails, modelType, capacityIndex, index) {
+  selectCapacity(capacityDetails, type, capacityIndex, index) {
     this.setState({ selectedCapacityIndex: `${capacityIndex}${index}` });
     let info = capacityDetails;
-    info.modelType = modelType;
+    info.type = type;
     setTimeout(() => {
       this.setState({ selectedCapacityData: info });
     }, 500);
@@ -104,10 +104,10 @@ export default class AppliancesExchangeSelection extends React.Component {
     data.exchangeAmount = conditionDetails.exchangeAmount;
     data.totalExchangeAmount = conditionDetails.totalExchangeAmount;
     data.ussid = this.props.ussid;
-    data.modelType = this.state.selectedCapacityData.modelType;
+    data.type = this.state.selectedCapacityData.type;
     data.bonusExchangeAmount = this.props.appliancesExchangeDetails.bonusExchangeAmount;
     this.setState({ exchangeData: data });
-    let journeyDetails = `${data.modelType} Ac:MDE:${data.brandName}:null:null`;
+    let journeyDetails = `${data.type} Ac:MDE:${data.brandName}:null:null`;
     setDataLayer(ADOBE_TRACK_APPLIANCES_EXCHANGE_AC_JOURNEY, journeyDetails);
   }
 

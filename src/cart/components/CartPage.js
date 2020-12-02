@@ -20,7 +20,8 @@ import {
   BUY_NOW_PRODUCT_DETAIL,
   SUCCESS,
   CNC_CART,
-  SELECTED_STORE
+  SELECTED_STORE,
+  AC_CART_EXCHANGE_DETAILS
 } from "../../lib/constants";
 import SavedProduct from "./SavedProduct";
 import filter from "lodash.filter";
@@ -75,7 +76,8 @@ class CartPage extends React.Component {
       changePinCode: false,
       appliedCouponCode: null,
       showCheckoutSection: true,
-      isComingFromCliqAndPiq: false
+      isComingFromCliqAndPiq: false,
+      appliancesExchangePincodeData: null
     };
   }
   showHideDetails = () => {
@@ -256,6 +258,19 @@ class CartPage extends React.Component {
         nextProps.cart && Object.assign(nextProps.cart.coupons, nextProps);
       this.props.showCouponModal(couponDetails);
     }
+    if (
+      nextProps.appliancesExchangePincodeDetails &&
+      nextProps.appliancesExchangePincodeDetails.status &&
+      nextProps.appliancesExchangePincodeDetails.status.toLowerCase() ===
+        SUCCESS &&
+      nextProps.appliancesExchangePincodeDetails !==
+        this.state.appliancesExchangePincodeData
+    ) {
+      this.setState({
+        appliancesExchangePincodeData:
+          nextProps.appliancesExchangePincodeDetails
+      });
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -297,6 +312,29 @@ class CartPage extends React.Component {
             isServiceable: true
           });
         }
+      }
+    }
+    if (this.props.cart.cartDetails !== prevProps.cart.cartDetails) {
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+      let parsedExchangeDetails =
+        cartExchangeDetails && JSON.parse(cartExchangeDetails);
+      if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
+        let exchangeProductUssids = parsedExchangeDetails.map(
+          exchangeProduct => {
+            return exchangeProduct.ussid;
+          }
+        );
+        let productIds = [];
+        exchangeProductUssids.map(exchangeProductUssid => {
+          this.props.cart.cartDetails.products.map(product => {
+            if (product.USSID === exchangeProductUssid) {
+              productIds.push(product.productcode);
+            }
+          });
+        });
+        let productIdList = productIds.join(",");
+        const pincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+        this.props.appliancesExchangeCheckPincode(productIdList, pincode);
       }
     }
   }
@@ -1062,6 +1100,9 @@ class CartPage extends React.Component {
                             openAppliancesExchangeModal={
                               this.props.openAppliancesExchangeModal
                             }
+                            appliancesExchangePincodeData={
+                              this.state.appliancesExchangePincodeData
+                            }
                           />
                         </DesktopOnly>
                       </div>
@@ -1251,6 +1292,9 @@ class CartPage extends React.Component {
                             cartDetails.shippingPromoMessage
                           }
                           showShippingMsg={true}
+                          appliancesExchangePincodeData={
+                            this.state.appliancesExchangePincodeData
+                          }
                         />
                       </div>
                     )}

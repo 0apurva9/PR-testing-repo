@@ -128,7 +128,8 @@ import {
   INSTACRED,
   CARDLESS_EMI,
   IS_DC_EMI_SELECTED,
-  STATUS_FAILED
+  STATUS_FAILED,
+  AC_CART_EXCHANGE_DETAILS
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -1730,7 +1731,7 @@ if you have order id in local storage then you have to show order confirmation p
         return this.navigateUserToMyBagAfter15MinOfpaymentFailure();
       }
       this.setState({ isPaymentFailed: true });
-      let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
       if (cartExchangeDetails) {
         this.props.displayToast(
           "Exchange details won't be processed in case of payment retry."
@@ -3990,7 +3991,7 @@ if you have order id in local storage then you have to show order confirmation p
       cartProducts.map(product => {
         return product.USSID;
       });
-    let cartExchangeDetails = localStorage.getItem("acCartExchangeDetails");
+    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
     if (cartExchangeDetails) {
       let productToBeRemovedIndex = [];
       let parsedExchangeDetails = JSON.parse(cartExchangeDetails);
@@ -4009,7 +4010,7 @@ if you have order id in local storage then you have to show order confirmation p
         }
       }
       localStorage.setItem(
-        "acCartExchangeDetails",
+        AC_CART_EXCHANGE_DETAILS,
         JSON.stringify(parsedExchangeDetails)
       );
     }

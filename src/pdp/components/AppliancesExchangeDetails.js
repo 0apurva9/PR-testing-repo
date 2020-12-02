@@ -67,8 +67,8 @@ export default class AppliancesExchangeDetails extends React.Component {
           </div>
           <div className={styles.exchangeDetailsContainer}>
             <div className={styles.aeDeviceName}>
-              {this.props.exchangeData.brandName}{" "}
-              {this.props.exchangeData.modelType} AC{" "}
+              {this.props.exchangeData.brandName} {this.props.exchangeData.type}{" "}
+              AC{" "}
             </div>
             <div className={styles.aeDeviceInfo}>
               {this.props.exchangeData.modelCapacity}
