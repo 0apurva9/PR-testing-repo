@@ -25,7 +25,8 @@ import {
 } from "../../lib/constants";
 import {
   renderMetaTags,
-  renderMetaTagsWithoutSeoObject
+  renderMetaTagsWithoutSeoObject,
+  addCanonicalUrl
 } from "../../lib/seoUtils";
 import Loadable from "react-loadable";
 import delay from "lodash.delay";
@@ -324,6 +325,7 @@ const SimpleBannerComponentMonetization = Loadable({
     return <div />;
   }
 });
+const env = process.env;
 
 export const typeComponentMapping = {
   "Product Capsules Component": props => (
@@ -509,7 +511,29 @@ class Feed extends Component {
     ) {
       this.props.getChatbotDetails();
     }
+    this.initiateHaptikScript();
   }
+
+  initiateHaptikScript() {
+    var f = document.getElementsByTagName("SCRIPT")[0];
+    var p = document.createElement("SCRIPT");
+    var date = new Date();
+    var timestamp = date.getTime();
+    var source_url =
+      env.REACT_APP_HAPTIK_CHATBOT_URL +
+      "/static/aspectwise/js/haptik.js?" +
+      timestamp;
+    p.type = "text/javascript";
+    p.setAttribute("charset", "utf-8");
+    p.setAttribute("clientid", "tatacliq");
+    p.async = true;
+    p.id = "buzzosrc";
+    p.src = source_url;
+    if (!document.getElementById("buzzosrc")) {
+      f.parentNode.insertBefore(p, f);
+    }
+  }
+
   async componentDidUpdate() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     if (!userDetails) {
@@ -639,12 +663,7 @@ class Feed extends Component {
   };
 
   renderMetaTags = () => {
-    const data = this.props.homeFeedData;
-    if (this.props.feedType !== "secondaryFeed") {
-      return data.seo
-        ? renderMetaTags(data)
-        : renderMetaTagsWithoutSeoObject(data);
-    }
+    return addCanonicalUrl(window.location.href);
   };
 
   renderAmpTags = () => {
@@ -683,7 +702,8 @@ class Feed extends Component {
     }
     return (
       <React.Fragment>
-        {this.props.feedType !== "secondaryFeed" && this.renderMetaTags()}
+        {/* {this.props.feedType !== "secondaryFeed" && this.renderMetaTags()} */}
+        {this.renderMetaTags()}
         {this.props.isHomePage ? this.renderAmpTags() : null}
         {this.props.homeFeedData ? (
           <List
@@ -694,10 +714,12 @@ class Feed extends Component {
             {this.renderFeedComponent}
           </List>
         ) : null}
-        <Chatbot
-          clpUrl={this.props.clpUrl}
-          chatbotDetailsData={this.props.chatbotDetailsData}
-        />
+        {this.props.clpUrl && this.props.chatbotDetailsData && (
+          <Chatbot
+            clpUrl={this.props.clpUrl}
+            chatbotDetailsData={this.props.chatbotDetailsData}
+          />
+        )}
         <MobileOnly>
           <div
             style={{

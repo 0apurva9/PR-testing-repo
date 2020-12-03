@@ -584,3 +584,4 @@ export const POP_UP_WINDOW_STYLE =
 export const APP_ID_FOR_SBA = "dd669910-e0d3-11e8-b431-1d83bfd113a3";
 export const SBA_VENDOR_URL = "https://cliqbook.tatacliq.com";
 export const PRIVATE_KEY_FOR_AES = "SgVkYp2s5v8y/B?E(H+MbQeThWmZq4t7";
+export const PLATFORM = "desktop";

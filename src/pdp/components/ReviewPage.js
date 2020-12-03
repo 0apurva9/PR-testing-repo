@@ -39,7 +39,13 @@ export default class ReviewPage extends React.Component {
           <div className={styles.heading}>{this.props.heading}</div>
         )}
         {this.props.text && (
-          <div className={styles.text}>
+          <div
+            className={
+              this.props.fromBeautyPdp
+                ? [styles.text, styles.familyLight].join(" ")
+                : styles.text
+            }
+          >
             {this.props.text.replace(new RegExp("<br />", "g"), "\r\n")}
           </div>
         )}
