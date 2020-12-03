@@ -7,27 +7,17 @@ import PropTypes from "prop-types";
 import exchangeCashback from "./img/exchangeCashback.svg";
 import HowAppliancesExchangeWorksLessDetails from "./HowAppliancesExchangeWorksLessDetails";
 import cashbackIcon from "../../general/components/img/infoCashback.svg";
-import tooltipClose from "../../pdp/components/img/tooltipClose.svg";
 
 export default class AppliancesExchangeDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      agreedTnCState: false,
-      showCashback: false
+      agreedTnCState: false
     };
   }
 
   resetState(section) {
     this.props.resetState(section);
-  }
-
-  showCashbackDetails(status) {
-    if (status) {
-      this.setState({ showCashback: true });
-    } else {
-      this.setState({ showCashback: false });
-    }
   }
 
   showHowAppliancesExchangeWorks() {
@@ -79,34 +69,23 @@ export default class AppliancesExchangeDetails extends React.Component {
             <div className={styles.exchangePrice}>
               {this.props.exchangeData.totalExchangeAmount}
             </div>
-            <div
-              className={styles.cashbackIconContainer}
-              onMouseEnter={() => this.showCashbackDetails(true)}
-            >
+            <div className={styles.cashbackIconContainer}>
               <Icon image={cashbackIcon} size={18} />
-              {this.state.showCashback && (
-                <div className={styles.cashbackTooltip}>
-                  <span className={styles.cashbackDetailsHeading}>
-                    Cashback Details
-                  </span>
-                  <span
-                    className={styles.cashbackDetailsCloseIcon}
-                    onClick={() => this.showCashbackDetails(false)}
-                  >
-                    <Icon image={tooltipClose} size={12} />
-                  </span>
-                  <span className={styles.leftSection}>Base Value</span>
-                  <span className={styles.rightSection}>
-                    {this.props.exchangeData.exchangeAmount}
-                  </span>
-                  <span className={styles.leftSection}>
-                    CLiQ Exclusive Cashback
-                  </span>
-                  <span className={styles.rightSection}>
-                    {this.props.bonusExchangeAmount}
-                  </span>
-                </div>
-              )}
+              <div className={styles.cashbackTooltip}>
+                <span className={styles.cashbackDetailsHeading}>
+                  Cashback Details
+                </span>
+                <span className={styles.leftSection}>Base Value</span>
+                <span className={styles.rightSection}>
+                  {this.props.exchangeData.exchangeAmount}
+                </span>
+                <span className={styles.leftSection}>
+                  CLiQ Exclusive Cashback
+                </span>
+                <span className={styles.rightSection}>
+                  {this.props.bonusExchangeAmount}
+                </span>
+              </div>
             </div>
           </div>
           <div className={styles.exchangeCashbackContainer}>

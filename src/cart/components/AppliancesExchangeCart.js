@@ -96,7 +96,7 @@ export default class AppliancesExchangeCart extends React.Component {
               : styles.exchangeDetails
           }
         >
-          <div className={styles.exchangeDetailsSectionOne}>
+          <div className={styles.aeExchangeDetailsSectionOne}>
             <img
               src={closeIcon}
               alt="exchange icon"
