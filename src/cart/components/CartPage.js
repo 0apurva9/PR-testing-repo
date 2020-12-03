@@ -326,11 +326,12 @@ class CartPage extends React.Component {
         );
         let productIds = [];
         exchangeProductUssids.map(exchangeProductUssid => {
-          this.props.cart.cartDetails.products.map(product => {
-            if (product.USSID === exchangeProductUssid) {
-              productIds.push(product.productcode);
-            }
-          });
+          this.props.cart.cartDetails &&
+            this.props.cart.cartDetails.products.map(product => {
+              if (product.USSID === exchangeProductUssid) {
+                productIds.push(product.productcode);
+              }
+            });
         });
         let productIdList = productIds.join(",");
         const pincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
