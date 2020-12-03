@@ -3,7 +3,12 @@ import exchangeIconLight from "../../cart/components/img/exchangeIconLight.svg";
 import closeIcon from "../../cart/components/img/exchangeCloseIcon.svg";
 import styles from "./CartItemForDesktop.css";
 import PropTypes from "prop-types";
-import { SUCCESS, AC_CART_EXCHANGE_DETAILS } from "../../lib/constants";
+import {
+  SUCCESS,
+  AC_CART_EXCHANGE_DETAILS,
+  EXCHANGE_NOT_SERVICEABLE,
+  MAIN_PRODUCT_NOT_SERVICEABLE_WITH_EXCHANGE
+} from "../../lib/constants";
 export default class AppliancesExchangeCart extends React.Component {
   constructor(props) {
     super(props);
@@ -133,15 +138,15 @@ export default class AppliancesExchangeCart extends React.Component {
             </div>
           </div>
         </div>
-        {!this.state.isPickupAvailableForAppliance && (
-          <div className={styles.exchangeProductNotServiceable}>
-            Exchange is not serviceable on the specified pincode. Please try by
-            changing pincode
-          </div>
-        )}
+        {this.props.productIsServiceable &&
+          !this.state.isPickupAvailableForAppliance && (
+            <div className={styles.exchangeProductNotServiceable}>
+              {EXCHANGE_NOT_SERVICEABLE}
+            </div>
+          )}
         {!this.props.productIsServiceable && (
           <div className={styles.exchangeProductNotServiceable}>
-            Cannot service Exchange since main product not serviceable
+            {MAIN_PRODUCT_NOT_SERVICEABLE_WITH_EXCHANGE}
           </div>
         )}
       </React.Fragment>

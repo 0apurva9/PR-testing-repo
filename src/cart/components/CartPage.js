@@ -1295,6 +1295,7 @@ class CartPage extends React.Component {
                           appliancesExchangePincodeData={
                             this.state.appliancesExchangePincodeData
                           }
+                          cartProducts={cartDetails.products}
                         />
                       </div>
                     )}

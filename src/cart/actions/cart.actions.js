@@ -106,6 +106,8 @@ import {
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
 } from "../../lib/adobeUtils";
 import { getCustomerAccessToken } from "../../common/services/common.services";
+import { getCartDetailsForLoggedInUser } from "../../lib/getCookieDetails.js";
+import { appliancesExchangeCheckPincode } from "../../pdp/actions/pdp.actions";
 
 const EGV_GIFT_CART_ID = "giftCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
@@ -1276,6 +1278,7 @@ export function addAddressToCart(addressId, pinCode, isComingFromCliqAndPiq) {
       if (selectedStore && !storeDetails) {
         localStorage.removeItem(SELECTED_STORE);
       }
+      dispatch(checkApplianceExchangeData());
       dispatch(
         getCartDetailsCNC(userId, access_token, cartId, newPinCode, false)
       );
@@ -8654,6 +8657,31 @@ export function submitAppliancesExchangeData(
       }
     } catch (e) {
       dispatch(submitAppliancesExchangeDataFailure(e.message));
+    }
+  };
+}
+
+export function checkApplianceExchangeData() {
+  return async (dispatch, getState, { api }) => {
+    let cartDetails = getCartDetailsForLoggedInUser();
+    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+    let parsedExchangeDetails =
+      cartExchangeDetails && JSON.parse(cartExchangeDetails);
+    if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
+      let exchangeProductUssids = parsedExchangeDetails.map(exchangeProduct => {
+        return exchangeProduct.ussid;
+      });
+      let productIds = [];
+      exchangeProductUssids.map(exchangeProductUssid => {
+        cartDetails.products.map(product => {
+          if (product.USSID === exchangeProductUssid) {
+            productIds.push(product.productcode);
+          }
+        });
+      });
+      let productIdList = productIds.join(",");
+      const pincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+      dispatch(appliancesExchangeCheckPincode(productIdList, pincode));
     }
   };
 }

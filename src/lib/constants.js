@@ -588,3 +588,7 @@ export const EXCHANGE_REMOVED_MESSAGE = "Exchange has been removed.";
 export const STATUS_PROCESSING = "processing";
 export const STATUS_CONFIRMED = "confirmed";
 export const STATUS_FAILED = "failed";
+export const EXCHANGE_NOT_SERVICEABLE =
+  "Exchange is not serviceable on the specified pincode. Please try by changing pincode";
+export const MAIN_PRODUCT_NOT_SERVICEABLE_WITH_EXCHANGE =
+  "Cannot service Exchange since main product not serviceable";

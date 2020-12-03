@@ -129,7 +129,8 @@ import {
   CARDLESS_EMI,
   IS_DC_EMI_SELECTED,
   STATUS_FAILED,
-  AC_CART_EXCHANGE_DETAILS
+  AC_CART_EXCHANGE_DETAILS,
+  EXCHANGE_NOT_SERVICEABLE
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -258,7 +259,8 @@ class CheckOutPage extends React.Component {
       isComingFromCliqAndPiq: false,
       retryPaymentDetails: props.retryPaymentDetails
         ? props.retryPaymentDetails
-        : null
+        : null,
+      appliancesExchangePincodeData: null
     };
   }
 
@@ -970,6 +972,42 @@ class CheckOutPage extends React.Component {
     }
     if (nextProps.cart.isSoftReservationFailed) {
       return this.navigateToCartForOutOfStock();
+    }
+
+    if (
+      nextProps.appliancesExchangePincodeDetails &&
+      nextProps.appliancesExchangePincodeDetails.status &&
+      nextProps.appliancesExchangePincodeDetails.status.toLowerCase() ===
+        SUCCESS &&
+      nextProps.appliancesExchangePincodeDetails !==
+        this.state.appliancesExchangePincodeData
+    ) {
+      this.setState({
+        appliancesExchangePincodeData:
+          nextProps.appliancesExchangePincodeDetails
+      });
+      let isPickupAvailableForApplianceDetails = [];
+      nextProps.appliancesExchangePincodeDetails.listOfDataList &&
+        nextProps.appliancesExchangePincodeDetails.listOfDataList.map(
+          vendordata => {
+            if (
+              vendordata.value &&
+              Object.keys(vendordata.value).length !== 0 &&
+              vendordata.value.vendorDetails &&
+              vendordata.value.vendorDetails[0]
+            ) {
+              isPickupAvailableForApplianceDetails.push(
+                vendordata.value.vendorDetails[0].isPickupAvailableForAppliance
+              );
+            } else {
+              isPickupAvailableForApplianceDetails.push(false);
+            }
+          }
+        );
+      if (isPickupAvailableForApplianceDetails.includes(false)) {
+        this.props.displayToast(EXCHANGE_NOT_SERVICEABLE);
+        this.props.history.push(PRODUCT_CART_ROUTER);
+      }
     }
 
     if (
@@ -3992,18 +4030,15 @@ if you have order id in local storage then you have to show order confirmation p
         return product.USSID;
       });
     let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
-    if (cartExchangeDetails) {
+    let parsedExchangeDetails =
+      cartExchangeDetails && JSON.parse(cartExchangeDetails);
+    if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
       let productToBeRemovedIndex = [];
-      let parsedExchangeDetails = JSON.parse(cartExchangeDetails);
-      parsedExchangeDetails &&
-        parsedExchangeDetails.map((product, index) => {
-          if (
-            cartProductsUssids &&
-            !cartProductsUssids.includes(product.ussid)
-          ) {
-            productToBeRemovedIndex.push(index);
-          }
-        });
+      parsedExchangeDetails.map((product, index) => {
+        if (cartProductsUssids && !cartProductsUssids.includes(product.ussid)) {
+          productToBeRemovedIndex.push(index);
+        }
+      });
       if (productToBeRemovedIndex) {
         for (var i = productToBeRemovedIndex.length - 1; i >= 0; i--) {
           parsedExchangeDetails.splice(productToBeRemovedIndex[i], 1);

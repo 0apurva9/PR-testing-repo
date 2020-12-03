@@ -19,6 +19,7 @@ export default class DesktopCheckout extends React.Component {
     if (this.props.onCheckout) {
       this.props.onCheckout();
     }
+    this.validateLocalStorageProducts();
   }
   handleFocusOnPinCode() {
     this.props.changePinCode();
@@ -501,6 +502,38 @@ export default class DesktopCheckout extends React.Component {
       }
     }
   };
+
+  // check if local storage products are same as current products in cart or not
+  // remove the products from local storage which are not in cart
+  validateLocalStorageProducts() {
+    let cartProducts = this.props.cartProducts;
+    let cartProductsUssids =
+      cartProducts &&
+      cartProducts.map(product => {
+        return product.USSID;
+      });
+    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+    let parsedExchangeDetails =
+      cartExchangeDetails && JSON.parse(cartExchangeDetails);
+    if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
+      let productToBeRemovedIndex = [];
+      parsedExchangeDetails.map((product, index) => {
+        if (cartProductsUssids && !cartProductsUssids.includes(product.ussid)) {
+          productToBeRemovedIndex.push(index);
+        }
+      });
+      if (productToBeRemovedIndex) {
+        for (var i = productToBeRemovedIndex.length - 1; i >= 0; i--) {
+          parsedExchangeDetails.splice(productToBeRemovedIndex[i], 1);
+        }
+      }
+      localStorage.setItem(
+        AC_CART_EXCHANGE_DETAILS,
+        JSON.stringify(parsedExchangeDetails)
+      );
+    }
+  }
+
   render() {
     return <div>{this.renderCheckout()}</div>;
   }
