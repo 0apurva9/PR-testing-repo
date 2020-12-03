@@ -84,6 +84,12 @@ export function validateMnlChallenge() {
         if (mnlApiResponse.userData.customer.passwordSet) {
             dispatch(changeLoginStep("isStepLoginPassword"));
         }
+        else if (mnlApiResponse.userData.customer.newUser) {
+            dispatch(changeLoginStep("isStepAddMobileNumber"));
+        }
+        else if (mnlApiResponse.userData.customer.maskedPhoneNumber.length) {
+            dispatch(generateOTP());
+        }
         dispatch(hideSecondaryLoader());
     };
 }
@@ -154,7 +160,12 @@ export function loginWithPassword() {
 export function generateOTP() {
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().mobileNumberLogin.mnlApiData;
+        const mnlApiResponseState = getState().mobileNumberLogin.mnlApiResponse;
         let globalAccessToken = await getFetchGlobalAccessToken(dispatch);
+
+        if (mnlApiResponseState && mnlApiResponseState.userData.customer && mnlApiResponseState.userData.customer.maskedPhoneNumber.length) {
+            apiData.maskedPhoneNumber = mnlApiResponseState.userData.customer.maskedPhoneNumber;
+        }
 
         const result: Response = await api.post("mobileloginapi/v1/authnuser/otp", apiData, true, {
             Authorization: `Bearer ${globalAccessToken.access_token}`,
