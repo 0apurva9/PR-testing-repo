@@ -172,7 +172,8 @@ export default class ValidateOffersPopUp extends React.Component {
     const isPaymentFailureCase = parsedQueryString.status;
     if (
       this.props.result &&
-      this.props.result.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_3
+      this.props.result.noCostEMI &&
+      Object.keys(this.props.result.noCostEMI).length > 0
     ) {
       this.props.resetAllPaymentModes();
     }
@@ -271,7 +272,6 @@ export default class ValidateOffersPopUp extends React.Component {
     document.body.style.pointerEvents = "none";
     const parsedQueryString = queryString.parse(this.props.location.search);
     const isPaymentFailureCase = parsedQueryString.status;
-    console.log("this.props", this.props);
     const data = this.props.result;
     let labelForFirstButton = "Change Payment Mode";
     let labelForSecondButton = "Continue without offers";
