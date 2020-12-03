@@ -14,9 +14,9 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
   ANONYMOUS_USER,
-  TIME_OUT_FOR_APIS,
   LOW_INTERNET_CONNECTION_MESSAGE,
-  CHANNEL
+  CHANNEL,
+  PLATFORM
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -302,11 +302,6 @@ export function getProductDescription(
     dispatch(getProductDescriptionRequest());
     try {
       let behaviorOfPageTheCurrent = behaviorOfPage ? behaviorOfPage : null;
-      setTimeout(() => {
-        if (getState().productDescription.getProductDetailsLoading) {
-          dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
-        }
-      }, TIME_OUT_FOR_APIS);
       const result = await api.getMiddlewareUrl(
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true&isMDE=true`
       );
@@ -514,7 +509,7 @@ export function getMoreFromBrand(productId) {
     msdFormData.append("api_key", API_KEY);
     msdFormData.append("num_results", JSON.stringify(NUMBER_RESULTS));
     msdFormData.append("mad_uuid", mcvId);
-    msdFormData.append("details", false);
+    msdFormData.append("details", true);
     msdFormData.append(
       "widget_list",
       JSON.stringify(WIDGET_LIST_FOR_ABOUT_BRAND)
@@ -540,23 +535,14 @@ export function getMoreFromBrand(productId) {
 
       let finalProductDetails = null;
 
-      if (moreBrandJson.data && moreBrandJson.data.length > 0) {
-        let productCode = moreBrandJson.data[0].itemIds.toString();
-        const getProductdetails = await api.getMiddlewareUrl(
-          `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
-        );
-        finalProductDetails = await getProductdetails.json();
+      if (
+        moreBrandJson &&
+        moreBrandJson.data &&
+        moreBrandJson.data.length > 0
+      ) {
+        finalProductDetails = moreBrandJson.data[0];
       }
 
-      if (finalProductDetails && finalProductDetails.status === FAILURE) {
-        const finalProductStatus = ErrorHandling.getFailureResponse(
-          finalProductDetails
-        );
-
-        if (finalProductStatus.status) {
-          throw new Error();
-        }
-      }
       return dispatch(getMoreFromBrandSuccess(finalProductDetails));
     } catch (error) {
       dispatch(getMoreFromBrandFailure(error.message));
@@ -600,7 +586,7 @@ export function getSimilarProduct(productId) {
     msdFormData.append("api_key", API_KEY);
     msdFormData.append("num_results", JSON.stringify(NUMBER_RESULTS));
     msdFormData.append("mad_uuid", mcvId);
-    msdFormData.append("details", false);
+    msdFormData.append("details", true);
     msdFormData.append(
       "widget_list",
       JSON.stringify(WIDGET_LIST_FOR_SIMILAR_PRODUCT)
@@ -626,23 +612,14 @@ export function getSimilarProduct(productId) {
 
       let finalProductDetails = null;
 
-      if (similarProductJson.data && similarProductJson.data.length > 0) {
-        let productCode = similarProductJson.data[0].toString();
-        const getProductdetails = await api.getMiddlewareUrl(
-          `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
-        );
-        finalProductDetails = await getProductdetails.json();
+      if (
+        similarProductJson &&
+        similarProductJson.data &&
+        similarProductJson.data.length > 0
+      ) {
+        finalProductDetails = similarProductJson.data[0];
       }
 
-      if (finalProductDetails && finalProductDetails.status === FAILURE) {
-        const finalProductStatus = ErrorHandling.getFailureResponse(
-          finalProductDetails
-        );
-
-        if (finalProductStatus.status) {
-          throw new Error();
-        }
-      }
       return dispatch(getSimilarProductSuccess(finalProductDetails));
     } catch (error) {
       dispatch(getSimilarProductFailure(error.message));
@@ -1909,11 +1886,6 @@ export function getBundleproduct(productCode, isApiCall = 0) {
   return async (dispatch, getState, { api }) => {
     dispatch(getbundleProductRequest());
     try {
-      setTimeout(() => {
-        if (getState().productDescription.getProductDetailsLoading) {
-          dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
-        }
-      }, TIME_OUT_FOR_APIS);
       const result = await api.getMiddlewareUrl(
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
@@ -2303,11 +2275,6 @@ export function getRelevantBundleProduct(productCode, isApiCall = 0, sequence) {
       ? dispatch(firstGetRelevantBundleProductRequest())
       : secondGetRelevantBundleProductRequest();
     try {
-      setTimeout(() => {
-        if (getState().productDescription.relevantBundleProductLoading) {
-          dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
-        }
-      }, TIME_OUT_FOR_APIS);
       const result = await api.getMiddlewareUrl(
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
@@ -2603,7 +2570,7 @@ export function verifyIMEINumber(
         bodyParams.wishlistName = wishlistName;
       }
       const result = await api.post(
-        `v2/mpl/verifyIMEINumber?isDuplicateImei=true`,
+        `v2/mpl/verifyIMEINumber?isDuplicateImei=true&channel=${CHANNEL}&platform=${PLATFORM}`,
         bodyParams
       );
       const resultJson = await result.json();

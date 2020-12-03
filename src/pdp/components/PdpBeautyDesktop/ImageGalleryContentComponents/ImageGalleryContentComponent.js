@@ -56,9 +56,9 @@ export default class ImageGalleryContentComponent extends React.Component {
     };
   }
 
-  handleDetailsScroll = () => {
+  handleDetailsScroll = sectionToScroll => {
     if (this.props.handleDetailsScroll) {
-      this.props.handleDetailsScroll();
+      this.props.handleDetailsScroll(sectionToScroll);
     }
   };
 

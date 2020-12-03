@@ -75,8 +75,8 @@ export default class PdpFlags extends React.Component {
         const discountToShow = `${parseInt(
           this.props.discountPercent,
           10
-        )}% off{" "}`;
-        return this.renderBeautyPdpOffer(`${discountToShow}`);
+        )}% off`;
+        return this.renderBeautyPdpOffer(discountToShow);
       } else {
         return (
           <div className={styles.offer}>
