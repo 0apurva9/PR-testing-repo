@@ -7,7 +7,8 @@ import {
   SUCCESS,
   AC_CART_EXCHANGE_DETAILS,
   EXCHANGE_NOT_SERVICEABLE,
-  MAIN_PRODUCT_NOT_SERVICEABLE_WITH_EXCHANGE
+  MAIN_PRODUCT_NOT_SERVICEABLE_WITH_EXCHANGE,
+  FAILURE_LOWERCASE
 } from "../../lib/constants";
 export default class AppliancesExchangeCart extends React.Component {
   constructor(props) {
@@ -40,32 +41,41 @@ export default class AppliancesExchangeCart extends React.Component {
       if (
         nextProps.appliancesExchangePincodeData &&
         nextProps.appliancesExchangePincodeData.status &&
-        nextProps.appliancesExchangePincodeData.status.toLowerCase() ===
-          SUCCESS &&
         nextProps.appliancesExchangePincodeData !==
           this.state.isPickupAvailableForAppliance
       ) {
-        let data = nextProps.appliancesExchangePincodeData.listOfDataList;
-        let serviceabliltyDetails = data.find(data => {
-          return data.key === this.props.productCode;
-        });
         if (
-          serviceabliltyDetails &&
-          serviceabliltyDetails.key === this.props.productCode &&
-          Object.keys(serviceabliltyDetails.value).length !== 0
+          nextProps.appliancesExchangePincodeData.status.toLowerCase() ===
+          SUCCESS
         ) {
-          let isPickupAvailableForAppliance =
-            serviceabliltyDetails.value &&
-            serviceabliltyDetails.value.vendorDetails &&
-            serviceabliltyDetails.value.vendorDetails[0] &&
-            serviceabliltyDetails.value.vendorDetails[0]
-              .isPickupAvailableForAppliance;
-          if (isPickupAvailableForAppliance) {
-            this.setState({
-              isPickupAvailableForAppliance: isPickupAvailableForAppliance
-            });
+          let data = nextProps.appliancesExchangePincodeData.listOfDataList;
+          let serviceabliltyDetails = data.find(data => {
+            return data.key === this.props.productCode;
+          });
+          if (
+            serviceabliltyDetails &&
+            serviceabliltyDetails.key === this.props.productCode &&
+            Object.keys(serviceabliltyDetails.value).length !== 0
+          ) {
+            let isPickupAvailableForAppliance =
+              serviceabliltyDetails.value &&
+              serviceabliltyDetails.value.vendorDetails &&
+              serviceabliltyDetails.value.vendorDetails[0] &&
+              serviceabliltyDetails.value.vendorDetails[0]
+                .isPickupAvailableForAppliance;
+            if (isPickupAvailableForAppliance) {
+              this.setState({
+                isPickupAvailableForAppliance: isPickupAvailableForAppliance
+              });
+            }
+          } else {
+            this.setState({ isPickupAvailableForAppliance: false });
           }
-        } else {
+        }
+        if (
+          nextProps.appliancesExchangePincodeData.status.toLowerCase() ===
+          FAILURE_LOWERCASE
+        ) {
           this.setState({ isPickupAvailableForAppliance: false });
         }
       }

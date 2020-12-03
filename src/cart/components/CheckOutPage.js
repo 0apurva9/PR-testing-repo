@@ -974,39 +974,55 @@ class CheckOutPage extends React.Component {
       return this.navigateToCartForOutOfStock();
     }
 
-    if (
-      nextProps.appliancesExchangePincodeDetails &&
-      nextProps.appliancesExchangePincodeDetails.status &&
-      nextProps.appliancesExchangePincodeDetails.status.toLowerCase() ===
-        SUCCESS &&
-      nextProps.appliancesExchangePincodeDetails !==
-        this.state.appliancesExchangePincodeData
-    ) {
-      this.setState({
-        appliancesExchangePincodeData:
-          nextProps.appliancesExchangePincodeDetails
-      });
-      let isPickupAvailableForApplianceDetails = [];
-      nextProps.appliancesExchangePincodeDetails.listOfDataList &&
-        nextProps.appliancesExchangePincodeDetails.listOfDataList.map(
-          vendordata => {
-            if (
-              vendordata.value &&
-              Object.keys(vendordata.value).length !== 0 &&
-              vendordata.value.vendorDetails &&
-              vendordata.value.vendorDetails[0]
-            ) {
-              isPickupAvailableForApplianceDetails.push(
-                vendordata.value.vendorDetails[0].isPickupAvailableForAppliance
-              );
-            } else {
-              isPickupAvailableForApplianceDetails.push(false);
-            }
-          }
-        );
-      if (isPickupAvailableForApplianceDetails.includes(false)) {
-        this.props.displayToast(EXCHANGE_NOT_SERVICEABLE);
-        this.props.history.push(PRODUCT_CART_ROUTER);
+    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+    let parsedExchangeDetails =
+      cartExchangeDetails && JSON.parse(cartExchangeDetails);
+    if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
+      if (
+        nextProps.appliancesExchangePincodeDetails &&
+        nextProps.appliancesExchangePincodeDetails.status &&
+        nextProps.appliancesExchangePincodeDetails !==
+          this.state.appliancesExchangePincodeData
+      ) {
+        this.setState({
+          appliancesExchangePincodeData:
+            nextProps.appliancesExchangePincodeDetails
+        });
+        let isPickupAvailableForApplianceDetails = [];
+        if (
+          nextProps.appliancesExchangePincodeDetails.status.toLowerCase() ===
+          SUCCESS
+        ) {
+          nextProps.appliancesExchangePincodeDetails.listOfDataList &&
+            nextProps.appliancesExchangePincodeDetails.listOfDataList.map(
+              vendordata => {
+                if (
+                  vendordata.value &&
+                  Object.keys(vendordata.value).length !== 0 &&
+                  vendordata.value.vendorDetails &&
+                  vendordata.value.vendorDetails[0]
+                ) {
+                  isPickupAvailableForApplianceDetails.push(
+                    vendordata.value.vendorDetails[0]
+                      .isPickupAvailableForAppliance
+                  );
+                } else {
+                  isPickupAvailableForApplianceDetails.push(false);
+                }
+              }
+            );
+        }
+        if (
+          nextProps.appliancesExchangePincodeDetails.status.toLowerCase() ===
+          FAILURE_LOWERCASE
+        ) {
+          isPickupAvailableForApplianceDetails.push(false);
+        }
+
+        if (isPickupAvailableForApplianceDetails.includes(false)) {
+          this.props.displayToast(EXCHANGE_NOT_SERVICEABLE);
+          this.props.history.push(PRODUCT_CART_ROUTER);
+        }
       }
     }
 
