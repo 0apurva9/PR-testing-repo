@@ -894,7 +894,9 @@ const mapStateToProps = state => {
     addUserUPIDetails: state.profile.addUserUPIDetails,
     completedOrderDetails: state.profile.fetchOrderDetails,
     orderDetailsPaymentPage: state.profile.fetchOrderDetails,
-    dCEmiEligibiltyDetails: state.cart.dCEmiEligibiltyDetails
+    dCEmiEligibiltyDetails: state.cart.dCEmiEligibiltyDetails,
+    appliancesExchangePincodeDetails:
+      state.productDescription.appliancesExchangeCheckPincodeDetails
   };
 };
 
