@@ -4030,18 +4030,15 @@ if you have order id in local storage then you have to show order confirmation p
         return product.USSID;
       });
     let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
-    if (cartExchangeDetails) {
+    let parsedExchangeDetails =
+      cartExchangeDetails && JSON.parse(cartExchangeDetails);
+    if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
       let productToBeRemovedIndex = [];
-      let parsedExchangeDetails = JSON.parse(cartExchangeDetails);
-      parsedExchangeDetails &&
-        parsedExchangeDetails.map((product, index) => {
-          if (
-            cartProductsUssids &&
-            !cartProductsUssids.includes(product.ussid)
-          ) {
-            productToBeRemovedIndex.push(index);
-          }
-        });
+      parsedExchangeDetails.map((product, index) => {
+        if (cartProductsUssids && !cartProductsUssids.includes(product.ussid)) {
+          productToBeRemovedIndex.push(index);
+        }
+      });
       if (productToBeRemovedIndex) {
         for (var i = productToBeRemovedIndex.length - 1; i >= 0; i--) {
           parsedExchangeDetails.splice(productToBeRemovedIndex[i], 1);
