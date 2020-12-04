@@ -87,7 +87,7 @@ export function validateMnlChallenge() {
         else if (mnlApiResponse.userData.customer.newUser) {
             dispatch(changeLoginStep("isStepAddMobileNumber"));
         }
-        else if (mnlApiResponse.userData.customer.maskedPhoneNumber.length) {
+        else if (mnlApiResponse.userData.customer.loginVia === "email" && mnlApiResponse.userData.customer.maskedPhoneNumber.length) {
             dispatch(generateOTP());
         }
         dispatch(hideSecondaryLoader());
