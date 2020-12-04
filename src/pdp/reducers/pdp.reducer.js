@@ -123,7 +123,21 @@ const productDescription = (
     similarProductLoading: false,
     similarProductDetails: null,
     similarProductError: null,
-    beautyPopupModal: false
+    beautyPopupModal: false,
+
+    getAppliancesExchangeDetailsStatus: null,
+    getAppliancesExchangeDetailsLoading: false,
+    getAppliancesExchangeDetails: null,
+    getAppliancesExchangeDetailsError: null,
+
+    updatedAppliancesExchangeDetailsStatus: null,
+    updatedAppliancesExchangeDetails: null,
+    updatedAppliancesExchangeDetailsLoading: false,
+
+    appliancesExchangeCheckPincodeStatus: null,
+    appliancesExchangeCheckPincodeLoading: false,
+    appliancesExchangeCheckPincodeError: null,
+    appliancesExchangeCheckPincodeDetails: null
   },
   action
 ) => {
@@ -1319,6 +1333,56 @@ const productDescription = (
       return Object.assign({}, state, {
         beautyPopupModal: action.status
       });
+
+    case pdpActions.GET_APPLIANCES_EXCHANGE_DETAILS_REQUEST:
+      return Object.assign({}, state, {
+        getAppliancesExchangeDetailsStatus: action.status,
+        getAppliancesExchangeDetailsLoading: true
+      });
+
+    case pdpActions.GET_APPLIANCES_EXCHANGE_DETAILS_SUCCESS:
+      return Object.assign({}, state, {
+        getAppliancesExchangeDetailsStatus: action.status,
+        getAppliancesExchangeDetailsLoading: false,
+        getAppliancesExchangeDetails: action.data
+      });
+
+    case pdpActions.GET_APPLIANCES_EXCHANGE_DETAILS_FAILURE:
+      return Object.assign({}, state, {
+        getAppliancesExchangeDetailsStatus: action.status,
+        getAppliancesExchangeDetailsLoading: false,
+        getAppliancesExchangeDetailsError: action.error,
+        getAppliancesExchangeDetails: null
+      });
+
+    case pdpActions.UPDATE_APPLIANCES_EXCHANGE_DETAILS:
+      return Object.assign({}, state, {
+        updatedAppliancesExchangeDetailsStatus: action.status,
+        updatedAppliancesExchangeDetails: action.exchangeData,
+        updatedAppliancesExchangeDetailsLoading: false
+      });
+
+    case pdpActions.APPLIANCE_EXCHANGE_CHECK_PINCODE_REQUEST:
+      return Object.assign({}, state, {
+        appliancesExchangeCheckPincodeStatus: action.status,
+        appliancesExchangeCheckPincodeLoading: true
+      });
+
+    case pdpActions.APPLIANCE_EXCHANGE_CHECK_PINCODE_SUCCESS:
+      return Object.assign({}, state, {
+        appliancesExchangeCheckPincodeStatus: action.status,
+        appliancesExchangeCheckPincodeLoading: false,
+        appliancesExchangeCheckPincodeDetails: action.data
+      });
+
+    case pdpActions.APPLIANCE_EXCHANGE_CHECK_PINCODE_FAILURE:
+      return Object.assign({}, state, {
+        appliancesExchangeCheckPincodeStatus: action.status,
+        appliancesExchangeCheckPincodeLoading: false,
+        appliancesExchangeCheckPincodeError: action.error,
+        appliancesExchangeCheckPincodeDetails: null
+      });
+
     default:
       return state;
   }

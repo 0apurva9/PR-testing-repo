@@ -45,7 +45,10 @@ import {
   SHORT_SAME_DAY_DELIVERY,
   RETRY_PAYMENT_CART_ID,
   SELECTED_STORE,
-  IS_DC_EMI_SELECTED
+  IS_DC_EMI_SELECTED,
+  STATUS_PROCESSING,
+  AC_PDP_EXCHANGE_DETAILS,
+  AC_CART_EXCHANGE_DETAILS
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -103,6 +106,8 @@ import {
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
 } from "../../lib/adobeUtils";
 import { getCustomerAccessToken } from "../../common/services/common.services";
+import { getCartDetailsForLoggedInUser } from "../../lib/getCookieDetails.js";
+import { appliancesExchangeCheckPincode } from "../../pdp/actions/pdp.actions";
 
 const EGV_GIFT_CART_ID = "giftCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
@@ -585,7 +590,16 @@ export const GET_CUSTOM_COMPONENT_REQUEST = "GET_CUSTOM_COMPONENT_REQUEST";
 export const GET_CUSTOM_COMPONENT_SUCCESS = "GET_CUSTOM_COMPONENT_SUCCESS";
 export const GET_CUSTOM_COMPONENT_FAILURE = "GET_CUSTOM_COMPONENT_FAILURE";
 
+export const SUBMIT_APPLIANCES_EXCHANGE_DATA_REQUEST =
+  "SUBMIT_APPLIANCES_EXCHANGE_DATA_REQUEST";
+export const SUBMIT_APPLIANCES_EXCHANGE_DATA_SUCCESS =
+  "SUBMIT_APPLIANCES_EXCHANGE_DATA_SUCCESS";
+export const SUBMIT_APPLIANCES_EXCHANGE_DATA_FAILURE =
+  "SUBMIT_APPLIANCES_EXCHANGE_DATA_FAILURE";
+
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
+const env = process.env;
+
 export function displayCouponRequest() {
   return {
     type: DISPLAY_COUPON_REQUEST,
@@ -1264,6 +1278,7 @@ export function addAddressToCart(addressId, pinCode, isComingFromCliqAndPiq) {
       if (selectedStore && !storeDetails) {
         localStorage.removeItem(SELECTED_STORE);
       }
+      dispatch(checkApplianceExchangeData());
       dispatch(
         getCartDetailsCNC(userId, access_token, cartId, newPinCode, false)
       );
@@ -2467,6 +2482,16 @@ export function collectPaymentOrderForGiftCardUPI(
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       dispatch(collectPaymentOrderForGiftCardSuccess(resultJson, egvCartGuid));
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       dispatch(
         jusPayPaymentMethodTypeForGiftCardUPI(
           resultJson.pspAuditId,
@@ -2629,6 +2654,16 @@ export function collectPaymentOrderForUPI(
         }
       }
       dispatch(collectPaymentOrderSuccess(resultJson));
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       dispatch(jusPayPaymentMethodTypeForUPI(resultJson.pspAuditId, upi_vpa));
     } catch (e) {
       dispatch(
@@ -6278,6 +6313,49 @@ export function tempCartIdForLoggedInUser(productDetails: {}) {
         CART_BAG_DETAILS,
         JSON.stringify([productDetails.ussId])
       );
+
+      // appliance exchange poc
+      let acPdpExchangeDetails = localStorage.getItem(AC_PDP_EXCHANGE_DETAILS);
+      let acPdpExchangeData =
+        acPdpExchangeDetails && JSON.parse(acPdpExchangeDetails);
+      if (
+        acPdpExchangeData &&
+        acPdpExchangeData.ussid === productDetails.ussId &&
+        acPdpExchangeData.isExchangeSelected
+      ) {
+        let acCartExchangeDetails = localStorage.getItem(
+          AC_CART_EXCHANGE_DETAILS
+        );
+        if (acCartExchangeDetails) {
+          delete acPdpExchangeData.isExchangeSelected;
+          let acCartExchangeData = JSON.parse(acCartExchangeDetails);
+          let productIndex = "";
+          let isProductInExchangeData =
+            acCartExchangeData &&
+            acCartExchangeData.find((data, index) => {
+              if (data.ussid === productDetails.ussId) {
+                productIndex = index;
+              }
+              return data.ussid === productDetails.ussId;
+            });
+          if (isProductInExchangeData) {
+            acCartExchangeData[productIndex] = acPdpExchangeData;
+          } else {
+            acCartExchangeData.push(acPdpExchangeData);
+          }
+          localStorage.setItem(
+            AC_CART_EXCHANGE_DETAILS,
+            JSON.stringify(acCartExchangeData)
+          );
+        } else {
+          delete acPdpExchangeData.isExchangeSelected;
+          localStorage.setItem(
+            AC_CART_EXCHANGE_DETAILS,
+            JSON.stringify([acPdpExchangeData])
+          );
+        }
+      }
+
       return dispatch(tempCartIdForLoggedInUserSuccess(resultJson));
     } catch (e) {
       return dispatch(tempCartIdForLoggedInUserFailure(e.message));
@@ -7118,6 +7196,16 @@ export function collectPaymentOrderForGiftCard(
         throw new Error(resultJsonStatus.message);
       }
       dispatch(collectPaymentOrderForGiftCardSuccess(resultJson, egvCartGuid));
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       if (
         (resultJson.pspName && resultJson.pspName.toLowerCase()) === "juspay"
@@ -7227,6 +7315,16 @@ export function collectPaymentOrder(
         }
       }
       dispatch(collectPaymentOrderSuccess(resultJson));
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       localStorage.setItem(IS_DC_EMI_SELECTED, false);
       if (resultJson.pspName === "Juspay") {
@@ -7614,6 +7712,16 @@ export function collectPaymentOrderForSavedCards(
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       dispatch(collectPaymentOrderSuccess(resultJson));
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       dispatch(
         jusPayPaymentMethodTypeForSavedCards(resultJson.pspAuditId, cardDetails)
       );
@@ -7703,6 +7811,16 @@ export function collectPaymentOrderForGiftCardFromSavedCards(
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       dispatch(collectPaymentOrderForGiftCardSuccess(resultJson));
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       dispatch(
         jusPayPaymentMethodTypeForGiftCardFromSavedCards(
           resultJson.pspAuditId,
@@ -7866,6 +7984,16 @@ export function collectPaymentOrderForNetBanking(
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       dispatch(collectPaymentOrderSuccess(resultJson));
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       if (localStorage.getItem(PAYMENT_MODE_TYPE) === PAYPAL) {
         dispatch(
           jusPayPaymentMethodTypeForPaypal(
@@ -7973,6 +8101,16 @@ export function collectPaymentOrderForGiftCardNetBanking(
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
       dispatch(collectPaymentOrderForGiftCardSuccess(resultJson, egvCartGuid));
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       dispatch(
         jusPayPaymentMethodTypeForGiftCardNetBanking(
           resultJson.pspAuditId,
@@ -8140,6 +8278,16 @@ export function collectPaymentOrderForCliqCash(
       );
       localStorage.setItem(CART_BAG_DETAILS, []);
       dispatch(collectPaymentOrderForCliqCashSuccess(resultJson));
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+      if (cartExchangeDetails) {
+        dispatch(
+          submitAppliancesExchangeData(
+            resultJson.orderId,
+            STATUS_PROCESSING,
+            false
+          )
+        );
+      }
       dispatch(getPrepaidOrderPaymentConfirmation(resultJson));
       dispatch(generateCartIdAfterOrderPlace());
     } catch (e) {
@@ -8399,6 +8547,105 @@ export function getBankDetailsforDCEmi(price, cartGuid) {
       dispatch(getBankDetailsforDCEmiSuccess(resultJson));
     } catch (e) {
       dispatch(getBankDetailsforDCEmiFailure(e.message));
+    }
+  };
+}
+
+export function submitAppliancesExchangeDataRequest() {
+  return {
+    type: SUBMIT_APPLIANCES_EXCHANGE_DATA_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function submitAppliancesExchangeDataSuccess(data) {
+  return {
+    type: SUBMIT_APPLIANCES_EXCHANGE_DATA_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function submitAppliancesExchangeDataFailure(error) {
+  return {
+    type: SUBMIT_APPLIANCES_EXCHANGE_DATA_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function submitAppliancesExchangeData(
+  orderId,
+  status,
+  removeLocalStorage,
+  apiCallCount = 0
+) {
+  let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+  let parsedExchangeDetails = JSON.parse(cartExchangeDetails);
+  if (!orderId || !parsedExchangeDetails) {
+    return false;
+  }
+  let data = {
+    orderId: orderId,
+    status: status,
+    exchangeDetails: parsedExchangeDetails
+  };
+  return async (dispatch, getState, { api }) => {
+    dispatch(submitAppliancesExchangeDataRequest());
+    try {
+      const result = await api.postWithoutApiUrlRoot(
+        env.REACT_APP_SUBMIT_APPLIANCES_EXCHANGE_DATA,
+        data
+      );
+      if (result.status === 200) {
+        const resultJson = await result.json();
+        dispatch(submitAppliancesExchangeDataSuccess(resultJson));
+        if (removeLocalStorage) {
+          localStorage.removeItem(AC_PDP_EXCHANGE_DETAILS);
+          localStorage.removeItem(AC_CART_EXCHANGE_DETAILS);
+        }
+      } else {
+        if (apiCallCount === 0) {
+          apiCallCount = apiCallCount + 1;
+          dispatch(
+            submitAppliancesExchangeData(
+              orderId,
+              status,
+              removeLocalStorage,
+              apiCallCount
+            )
+          );
+        } else {
+          dispatch(submitAppliancesExchangeDataFailure(result.statusText));
+        }
+      }
+    } catch (e) {
+      dispatch(submitAppliancesExchangeDataFailure(e.message));
+    }
+  };
+}
+
+export function checkApplianceExchangeData() {
+  return async (dispatch, getState, { api }) => {
+    let cartDetails = getCartDetailsForLoggedInUser();
+    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+    let parsedExchangeDetails =
+      cartExchangeDetails && JSON.parse(cartExchangeDetails);
+    if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
+      let exchangeProductUssids = parsedExchangeDetails.map(exchangeProduct => {
+        return exchangeProduct.ussid;
+      });
+      let productIds = [];
+      exchangeProductUssids.map(exchangeProductUssid => {
+        cartDetails.products.map(product => {
+          if (product.USSID === exchangeProductUssid) {
+            productIds.push(product.productcode);
+          }
+        });
+      });
+      let productIdList = productIds.join(",");
+      const pincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+      dispatch(appliancesExchangeCheckPincode(productIdList, pincode));
     }
   };
 }

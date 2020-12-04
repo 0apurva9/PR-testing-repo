@@ -714,6 +714,13 @@ const SELF_SERVE_NON_ORDER_PAGE_LOAD = "selfserve_AR_Load";
 const SELF_SERVE_NON_ORDER_QUESTION_CLICK = "selfserve_AR_Topic_Selection";
 const SELF_SERVE_FAQ_PAGE_LOAD = "selfserve_IW_Load";
 
+// for appliances exchange
+const MDE = "MDE";
+export const ADOBE_TRACK_APPLIANCES_EXCHANGE_JOURNEY =
+  "ADOBE_TRACK_APPLIANCES_EXCHANGE_JOURNEY";
+export const ADOBE_TRACK_APPLIANCES_EXCHANGE_AC_JOURNEY =
+  "ADOBE_TRACK_APPLIANCES_EXCHANGE_AC_JOURNEY";
+
 export const ADOBE_SELF_SERVE_OTHER_ISSUES_CLICK =
   "ADOBE_SELF_SERVE_OTHER_ISSUES_CLICK";
 export const ADOBE_SELF_SERVE_ALL_HELP_TOPIC_CLICK =
@@ -1633,6 +1640,22 @@ export async function setDataLayer(
     }
     if (window._satellite) {
       window._satellite.track(ADOBE_REMOVE_BUNDLED_PRODUCT_FROM_CART);
+    }
+  }
+  if (type === ADOBE_TRACK_APPLIANCES_EXCHANGE_JOURNEY) {
+    Object.assign(window.digitalData, {
+      journey: {
+        name: MDE
+      }
+    });
+  }
+  if (type === ADOBE_TRACK_APPLIANCES_EXCHANGE_AC_JOURNEY) {
+    if (apiResponse) {
+      Object.assign(window.digitalData, {
+        journey: {
+          name: apiResponse
+        }
+      });
     }
   }
 }

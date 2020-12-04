@@ -7,6 +7,15 @@
 	padding: 20px 10px 15px 5px;
 	border-radius: 8px;
 }
+.appliancesExchangeMainContainer{
+	position: relative;
+	display: inline-block;
+	width: auto;
+	margin-top: 30px;
+	border: 1px solid #e5e5e5;
+	padding: 20px 10px 15px 5px;
+	border-radius: 8px;
+}
 .exchangeMainContainerLessPadding{
 	position: relative;
 	display: inline-block;
@@ -47,6 +56,16 @@
 	width: calc(100% - 55px);
 	margin-top: 5px;
 }
+.exchangeContainerNoMargin{
+	float: left;
+	width: calc(100% - 89px);
+	margin-right: 10px;
+}
+.exchangeContainerAppliances{
+	float: left;
+	width: calc(100% - 65px);
+	margin-right: 10px;
+}
 .exchangeLink{
 	font-family: light;
   font-size: 14px;
@@ -54,6 +73,16 @@
 	color: #212121;
 }
 .exchangeDetails{
+	display: inline-block;
+	font-family: semibold;
+  font-size: 12px;
+	color: #1c1a17;
+	margin-top: 5px;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.appliancesExchangeDetails{
+	float: left;
 	font-family: semibold;
   font-size: 12px;
 	color: #1c1a17;
@@ -104,6 +133,14 @@
 	top: 4px;
 	right: -10px;
 }
+.changeDeviceLink{
+	float: right;
+	font-size: 12px;
+	color: #da1c5c;
+	font-family: semibold;
+	cursor: pointer;
+	margin-top: 5px;
+}
 .fontRegular{
 	font-family: regular;
 }
@@ -137,4 +174,15 @@
 	color: #d88600;
 	font-size: 12px;
 	font-family: regular;
+}
+.addRemoveExchangeIconHolder{
+	float: left;
+	position: relative;
+	cursor: pointer;
+	margin-top: 6px;
+}
+.exchangeCheckContainer{
+	position: absolute;
+	top: 5px;
+	left: 5px;
 }

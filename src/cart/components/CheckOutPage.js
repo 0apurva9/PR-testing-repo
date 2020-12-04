@@ -127,7 +127,11 @@ import {
   UPI_ID,
   INSTACRED,
   CARDLESS_EMI,
-  IS_DC_EMI_SELECTED
+  IS_DC_EMI_SELECTED,
+  STATUS_FAILED,
+  AC_CART_EXCHANGE_DETAILS,
+  EXCHANGE_NOT_SERVICEABLE,
+  EXCHANGE_DISABLED
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -256,7 +260,8 @@ class CheckOutPage extends React.Component {
       isComingFromCliqAndPiq: false,
       retryPaymentDetails: props.retryPaymentDetails
         ? props.retryPaymentDetails
-        : null
+        : null,
+      appliancesExchangePincodeData: null
     };
   }
 
@@ -968,6 +973,67 @@ class CheckOutPage extends React.Component {
     }
     if (nextProps.cart.isSoftReservationFailed) {
       return this.navigateToCartForOutOfStock();
+    }
+
+    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+    let parsedExchangeDetails =
+      cartExchangeDetails && JSON.parse(cartExchangeDetails);
+    if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
+      if (
+        nextProps.appliancesExchangePincodeDetails &&
+        nextProps.appliancesExchangePincodeDetails.status &&
+        nextProps.appliancesExchangePincodeDetails !==
+          this.state.appliancesExchangePincodeData
+      ) {
+        this.setState({
+          appliancesExchangePincodeData:
+            nextProps.appliancesExchangePincodeDetails
+        });
+        let isPickupAvailableForApplianceDetails = [];
+        let exchangeDisabled = false;
+        if (
+          nextProps.appliancesExchangePincodeDetails.status.toLowerCase() ===
+          SUCCESS
+        ) {
+          nextProps.appliancesExchangePincodeDetails.listOfDataList &&
+            nextProps.appliancesExchangePincodeDetails.listOfDataList.map(
+              vendordata => {
+                if (
+                  vendordata.value &&
+                  Object.keys(vendordata.value).length !== 0 &&
+                  vendordata.value.vendorDetails &&
+                  vendordata.value.vendorDetails[0]
+                ) {
+                  isPickupAvailableForApplianceDetails.push(
+                    vendordata.value.vendorDetails[0]
+                      .isPickupAvailableForAppliance
+                  );
+                } else {
+                  isPickupAvailableForApplianceDetails.push(false);
+                }
+              }
+            );
+        }
+        if (
+          nextProps.appliancesExchangePincodeDetails.status.toLowerCase() ===
+          FAILURE_LOWERCASE
+        ) {
+          exchangeDisabled = true;
+          isPickupAvailableForApplianceDetails.push(false);
+        }
+
+        if (exchangeDisabled) {
+          this.props.displayToast(EXCHANGE_DISABLED);
+          this.props.history.push(PRODUCT_CART_ROUTER);
+        }
+        if (
+          isPickupAvailableForApplianceDetails.includes(false) &&
+          !exchangeDisabled
+        ) {
+          this.props.displayToast(EXCHANGE_NOT_SERVICEABLE);
+          this.props.history.push(PRODUCT_CART_ROUTER);
+        }
+      }
     }
 
     if (
@@ -1729,6 +1795,18 @@ if you have order id in local storage then you have to show order confirmation p
         return this.navigateUserToMyBagAfter15MinOfpaymentFailure();
       }
       this.setState({ isPaymentFailed: true });
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+      if (cartExchangeDetails) {
+        this.props.displayToast(
+          "Exchange details won't be processed in case of payment retry."
+        );
+        let failedOrderId = stripeDetails && stripeDetails.orderId;
+        this.props.submitAppliancesExchangeData(
+          failedOrderId,
+          STATUS_FAILED,
+          true
+        );
+      }
       if (stripeDetails) {
         if (this.props.getPrepaidOrderPaymentConfirmation) {
           this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
@@ -2474,6 +2552,7 @@ if you have order id in local storage then you have to show order confirmation p
     if (!oldCartId) {
       return this.navigateUserToMyBagAfter15MinOfpaymentFailure();
     }
+    this.validateLocalStorageProducts();
     if (
       this.state.savedCardDetails !== "" &&
       this.state.savedCardDetails !== null
@@ -2862,6 +2941,9 @@ if you have order id in local storage then you have to show order confirmation p
             this.props.displayToast(PRODUCT_NOT_SERVICEABLE_MESSAGE);
           }
         }
+      }
+      if (this.state.currentPaymentMode) {
+        this.validateLocalStorageProducts();
       }
       if (
         this.state.savedCardDetails &&
@@ -3961,6 +4043,40 @@ if you have order id in local storage then you have to show order confirmation p
     }
   }
 
+  // check if local storage products are same as current products in cart or not
+  // remove the products from local storage which are not in cart
+  validateLocalStorageProducts() {
+    let cartProducts =
+      this.props.cart &&
+      this.props.cart.cartDetailsCNC &&
+      this.props.cart.cartDetailsCNC.products;
+    let cartProductsUssids =
+      cartProducts &&
+      cartProducts.map(product => {
+        return product.USSID;
+      });
+    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+    let parsedExchangeDetails =
+      cartExchangeDetails && JSON.parse(cartExchangeDetails);
+    if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
+      let productToBeRemovedIndex = [];
+      parsedExchangeDetails.map((product, index) => {
+        if (cartProductsUssids && !cartProductsUssids.includes(product.ussid)) {
+          productToBeRemovedIndex.push(index);
+        }
+      });
+      if (productToBeRemovedIndex) {
+        for (var i = productToBeRemovedIndex.length - 1; i >= 0; i--) {
+          parsedExchangeDetails.splice(productToBeRemovedIndex[i], 1);
+        }
+      }
+      localStorage.setItem(
+        AC_CART_EXCHANGE_DETAILS,
+        JSON.stringify(parsedExchangeDetails)
+      );
+    }
+  }
+
   render() {
     let labelForButton,
       checkoutButtonStatus = false;
@@ -4701,6 +4817,17 @@ if you have order id in local storage then you have to show order confirmation p
                 showChangeExchangeCashabackModal={data =>
                   this.props.showChangeExchangeCashabackModal(data)
                 }
+                submitAppliancesExchangeData={(
+                  orderId,
+                  status,
+                  removeLocalStorage
+                ) =>
+                  this.props.submitAppliancesExchangeData(
+                    orderId,
+                    status,
+                    removeLocalStorage
+                  )
+                }
               />
             </div>
           )}
@@ -4724,6 +4851,17 @@ if you have order id in local storage then you have to show order confirmation p
                 orderDetails={this.props.cart.cliqCashJusPayDetails}
                 showChangeExchangeCashabackModal={data =>
                   this.props.showChangeExchangeCashabackModal(data)
+                }
+                submitAppliancesExchangeData={(
+                  orderId,
+                  status,
+                  removeLocalStorage
+                ) =>
+                  this.props.submitAppliancesExchangeData(
+                    orderId,
+                    status,
+                    removeLocalStorage
+                  )
                 }
               />
             </div>
@@ -4753,6 +4891,17 @@ if you have order id in local storage then you have to show order confirmation p
               this.props.showChangeExchangeCashabackModal(data)
             }
             orderDetailsPaymentPage={this.props.orderDetailsPaymentPage}
+            submitAppliancesExchangeData={(
+              orderId,
+              status,
+              removeLocalStorage
+            ) =>
+              this.props.submitAppliancesExchangeData(
+                orderId,
+                status,
+                removeLocalStorage
+              )
+            }
           />
         </div>
       );

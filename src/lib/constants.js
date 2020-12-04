@@ -581,3 +581,16 @@ export const POP_UP_WINDOW_STYLE =
   "toolbar=no, menubar=no, width=600, height=700, top=100, left=100";
 
 export const PLATFORM = "desktop";
+export const AC_PDP_EXCHANGE_DETAILS = "acPdpExchangeDetails";
+export const AC_CART_EXCHANGE_DETAILS = "acCartExchangeDetails";
+export const EXCHANGE_ADDED_MESSAGE = "Exchange has been added.";
+export const EXCHANGE_REMOVED_MESSAGE = "Exchange has been removed.";
+export const STATUS_PROCESSING = "processing";
+export const STATUS_CONFIRMED = "confirmed";
+export const STATUS_FAILED = "failed";
+export const EXCHANGE_NOT_SERVICEABLE =
+  "Exchange is not serviceable on the specified pincode. Please try by changing pincode";
+export const MAIN_PRODUCT_NOT_SERVICEABLE_WITH_EXCHANGE =
+  "Cannot service Exchange since main product not serviceable";
+export const EXCHANGE_DISABLED =
+  "Exchange is not available for this Pincode currently, please change Pincode or remove exchange";
