@@ -435,6 +435,10 @@ export default class NoCostEmiBankDetails extends React.Component {
         selectedCode: selectedBankCodeObj.code,
         selectedBankCode: selectedBankCodeObj.bankCode,
         bankName: null,
+        selectedCouponCode:
+          selectedBankCodeObj.noCostEMICouponList &&
+          selectedBankCodeObj.noCostEMICouponList[0] &&
+          selectedBankCodeObj.noCostEMICouponList[0].emicouponCode,
         selectedFromDropDown: selectedFromDropDown,
         emiInfo: selectedBankCodeObj.emiInfo
           ? selectedBankCodeObj.emiInfo
