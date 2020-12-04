@@ -49,8 +49,8 @@ export default class HowAppliancesExchangeWorks extends React.Component {
                 1. Share your old appliance details{" "}
               </div>
               <div className={styles.contentDescriptionHEW}>
-                Once you have decided which to buy, to view the exchange
-                offer,enter the old product details manually{" "}
+                Once you have decided which appliance to buy, to view the
+                exchange offer,enter the old product details manually{" "}
               </div>
             </div>
             <img src={hew2} alt="" className={styles.iconSize} />
@@ -65,13 +65,12 @@ export default class HowAppliancesExchangeWorks extends React.Component {
             <img src={hew3} alt="" className={styles.iconSize} />
             <div className={styles.contentContainer}>
               <div className={styles.contentHeading}>
-                3. Place the order for your new appliance and select preferred
-                mode to get Exchange Cashback through Tata CLiQ CS
+                3. Place the order for your new appliance
               </div>
               <div className={styles.contentDescriptionHEW}>
                 Place the order for your new appliance along with exchange
-                offer. TUL CS agent will get in touch with you to get
-                information about the preferred mode of Cashback payment
+                offer. You will receive the Exchange Cashback through a paylink
+                shared by Tata CLiQ team post 5 days of old product pick up.
               </div>
             </div>
             <img src={hew4} alt="" className={styles.iconSize} />
@@ -91,9 +90,9 @@ export default class HowAppliancesExchangeWorks extends React.Component {
               </div>
               <div className={styles.contentDescriptionHEW}>
                 Your old appliance will be picked up separately after successful
-                delivery of your new ACappliance . Please note that AC should be
-                in working condition (Powers On) if declared otherwise it will
-                lead to cancellation of exchange
+                delivery of your new appliance. Please note that AC should be in
+                working condition (Powers On) if declared otherwise it will lead
+                to cancellation of exchange
               </div>
             </div>
             <img src={hew5} alt="" className={styles.iconSize} />
@@ -104,7 +103,7 @@ export default class HowAppliancesExchangeWorks extends React.Component {
               <div className={styles.contentDescriptionHEW}>
                 Upon successful pick-up of your old appliance, the Exchange
                 Cashback value will be credited to your preferred payment mode
-                within 2 business days
+                within 5 business days via paylink shared by Tata CLiQ team
               </div>
             </div>
             <div className={styles.contentHeading}>
@@ -116,7 +115,7 @@ export default class HowAppliancesExchangeWorks extends React.Component {
                 not power on
               </div>
               <div className={styles.contentDescriptionHEW}>
-                b) the brand or capacity is different from what was mentioned by
+                b) The brand or capacity is different from what was mentioned by
                 you on Tata CLiQ at the time of purchase of your new appliance
               </div>
             </div>

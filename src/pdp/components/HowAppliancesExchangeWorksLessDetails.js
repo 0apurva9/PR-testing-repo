@@ -40,14 +40,11 @@ export default class HowAppliancesExchangeWorksLessDetails extends React.Compone
         <img src={hew4} alt="" className={styles.iconSize} />
         <div className={styles.contentContainer}>
           <div className={styles.contentHeading}>
-            4. Tata CLiQ CS agent will get in touch with you{" "}
+            4. Hand over your old/exchange product{" "}
           </div>
           <div className={styles.contentDescription}>
             <ul>
               <li className={styles.mb5}>
-                CS Agent will collect preferred Cashback mode information{" "}
-              </li>
-              <li>
                 Exchange product will be picked up within 3 days of the delivery
                 of the new product{" "}
               </li>
@@ -60,8 +57,9 @@ export default class HowAppliancesExchangeWorksLessDetails extends React.Compone
             5. Receive Exchange Cashback{" "}
           </div>
           <div className={styles.contentDescription}>
-            Exchange Cashback would be credited to your preferred mode within 2
-            business days after pickup of the old product
+            Exchange Cashback would be credited to your preferred mode within 5
+            business days after pickup of the old product via paylink shared by
+            Tata CLiQ Team
           </div>
         </div>
         <div className={styles.noteContentContainer}>
