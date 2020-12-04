@@ -505,8 +505,8 @@ export function getFeed(pageId: null) {
       if (pageId) {
         feedTypeRequest = SECONDARY_FEED_TYPE;
         try {
-          result = await fetch(
-            `https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/defaultpage?pageId=${pageId}&channel=${WCMS_PLATFORM}`
+          result = await api.getMiddlewareUrl(
+            `v2/mpl/cms/defaultpage?pageId=${pageId}&channel=${WCMS_PLATFORM}`
           );
         } catch (e) {
           dispatch(secondaryFeedSuccess([], feedTypeRequest));
