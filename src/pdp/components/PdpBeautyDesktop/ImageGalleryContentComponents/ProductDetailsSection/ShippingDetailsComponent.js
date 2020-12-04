@@ -175,7 +175,8 @@ export default class ShippingDetailsComponent extends React.Component {
       <React.Fragment>
         <div className={styles["pin-code-component"]} id="CPIN">
           <div className={styles["pin-code-block"]}>
-            {this.props.productDetails.isServiceableToPincode &&
+            {this.props.productDetails &&
+            this.props.productDetails.isServiceableToPincode &&
             this.props.productDetails.isServiceableToPincode.pinCode ? (
               <BeautyPdpPincode
                 city={
@@ -209,7 +210,9 @@ export default class ShippingDetailsComponent extends React.Component {
             ) : (
               <BeautyPdpPincode
                 city={
+                  this.props.productDetails &&
                   this.props.productDetails.isServiceableToPincode &&
+                  this.props.productDetails.isServiceableToPincode.city &&
                   this.props.productDetails.isServiceableToPincode.city
                 }
                 pdpApparel={true}
@@ -232,7 +235,8 @@ export default class ShippingDetailsComponent extends React.Component {
             )}
           </div>
 
-          {this.props.productDetails.isServiceableToPincode &&
+          {this.props.productDetails &&
+          this.props.productDetails.isServiceableToPincode &&
           this.props.productDetails.isServiceableToPincode.status === NO ? (
             this.props.productDetails.isServiceableToPincode
               .productOutOfStockMessage ? (
@@ -257,7 +261,8 @@ export default class ShippingDetailsComponent extends React.Component {
                 * {this.props.pincodeError}
               </div>
             ) : null
-          ) : this.props.productDetails.isServiceableToPincode &&
+          ) : this.props.productDetails &&
+            this.props.productDetails.isServiceableToPincode &&
             this.props.productDetails.isServiceableToPincode.pinCode ? (
             <div className={styles["ship-deli-pick-block"]}>
               <BeautyPdpDeliveryModes

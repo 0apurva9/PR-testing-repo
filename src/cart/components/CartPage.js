@@ -11,6 +11,7 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import CartItemForDesktop from "./CartItemForDesktop";
 import Button from "../../general/components/Button.js";
+import { renderMetaTagsWithoutSeoObject } from "../../lib/seoUtils";
 import {
   HOME_ROUTER,
   NO,
@@ -672,6 +673,7 @@ class CartPage extends React.Component {
                     city={city}
                   />
                 </div>
+                {renderMetaTagsWithoutSeoObject()}
               </div>
             </div>
           </div>
@@ -1304,9 +1306,7 @@ class CartPage extends React.Component {
                     this.props.wishListCount > 0 && (
                       <div className={styles.wishListCountSection}>
                         <div className={styles.iconWishList} />
-                        <span>{`You have ${
-                          this.props.wishListCount
-                        } items in your saved list`}</span>
+                        <span>{`You have ${this.props.wishListCount} items in your saved list`}</span>
                         <div className={styles.buttonHolder}>
                           <UnderLinedButton
                             size="14px"

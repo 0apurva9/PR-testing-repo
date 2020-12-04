@@ -548,9 +548,7 @@ export async function logoutUserOnInvalidRefreshToken() {
     }
     await clearCookie();
     window.location.reload();
-  } catch (e) {
-    console.log(e.message);
-  }
+  } catch (e) {}
 }
 
 async function clearCookie() {
