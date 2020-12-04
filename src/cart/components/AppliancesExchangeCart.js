@@ -8,14 +8,16 @@ import {
   AC_CART_EXCHANGE_DETAILS,
   EXCHANGE_NOT_SERVICEABLE,
   MAIN_PRODUCT_NOT_SERVICEABLE_WITH_EXCHANGE,
-  FAILURE_LOWERCASE
+  FAILURE_LOWERCASE,
+  EXCHANGE_DISABLED
 } from "../../lib/constants";
 export default class AppliancesExchangeCart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       exchangeData: null,
-      isPickupAvailableForAppliance: false
+      isPickupAvailableForAppliance: false,
+      exchangeDisabled: false
     };
   }
 
@@ -76,7 +78,10 @@ export default class AppliancesExchangeCart extends React.Component {
           nextProps.appliancesExchangePincodeData.status.toLowerCase() ===
           FAILURE_LOWERCASE
         ) {
-          this.setState({ isPickupAvailableForAppliance: false });
+          this.setState({
+            isPickupAvailableForAppliance: false,
+            exchangeDisabled: true
+          });
         }
       }
     }
@@ -148,17 +153,24 @@ export default class AppliancesExchangeCart extends React.Component {
             </div>
           </div>
         </div>
+        {this.state.exchangeDisabled && (
+          <div className={styles.exchangeProductNotServiceable}>
+            {EXCHANGE_DISABLED}
+          </div>
+        )}
         {this.props.productIsServiceable &&
-          !this.state.isPickupAvailableForAppliance && (
+          !this.state.isPickupAvailableForAppliance &&
+          !this.state.exchangeDisabled && (
             <div className={styles.exchangeProductNotServiceable}>
               {EXCHANGE_NOT_SERVICEABLE}
             </div>
           )}
-        {!this.props.productIsServiceable && (
-          <div className={styles.exchangeProductNotServiceable}>
-            {MAIN_PRODUCT_NOT_SERVICEABLE_WITH_EXCHANGE}
-          </div>
-        )}
+        {!this.props.productIsServiceable &&
+          !this.state.exchangeDisabled && (
+            <div className={styles.exchangeProductNotServiceable}>
+              {MAIN_PRODUCT_NOT_SERVICEABLE_WITH_EXCHANGE}
+            </div>
+          )}
       </React.Fragment>
     );
   }

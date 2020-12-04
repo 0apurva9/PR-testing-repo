@@ -130,7 +130,8 @@ import {
   IS_DC_EMI_SELECTED,
   STATUS_FAILED,
   AC_CART_EXCHANGE_DETAILS,
-  EXCHANGE_NOT_SERVICEABLE
+  EXCHANGE_NOT_SERVICEABLE,
+  EXCHANGE_DISABLED
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -989,6 +990,7 @@ class CheckOutPage extends React.Component {
             nextProps.appliancesExchangePincodeDetails
         });
         let isPickupAvailableForApplianceDetails = [];
+        let exchangeDisabled = false;
         if (
           nextProps.appliancesExchangePincodeDetails.status.toLowerCase() ===
           SUCCESS
@@ -1016,10 +1018,18 @@ class CheckOutPage extends React.Component {
           nextProps.appliancesExchangePincodeDetails.status.toLowerCase() ===
           FAILURE_LOWERCASE
         ) {
+          exchangeDisabled = true;
           isPickupAvailableForApplianceDetails.push(false);
         }
 
-        if (isPickupAvailableForApplianceDetails.includes(false)) {
+        if (exchangeDisabled) {
+          this.props.displayToast(EXCHANGE_DISABLED);
+          this.props.history.push(PRODUCT_CART_ROUTER);
+        }
+        if (
+          isPickupAvailableForApplianceDetails.includes(false) &&
+          !exchangeDisabled
+        ) {
           this.props.displayToast(EXCHANGE_NOT_SERVICEABLE);
           this.props.history.push(PRODUCT_CART_ROUTER);
         }
