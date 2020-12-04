@@ -4449,9 +4449,9 @@ export function jusPayPaymentMethodType(
         if (localStorage.getItem(EMI_TENURE)) {
           localStorage.removeItem(EMI_TENURE);
         }
-        if (localStorage.getItem(NO_COST_EMI_COUPON)) {
-          localStorage.removeItem(NO_COST_EMI_COUPON);
-        }
+        // if (localStorage.getItem(NO_COST_EMI_COUPON)) {
+        //   localStorage.removeItem(NO_COST_EMI_COUPON);
+        // }
         dispatch(generateCartIdAfterOrderPlace());
       } else {
         throw new Error(resultJson.error_message);
