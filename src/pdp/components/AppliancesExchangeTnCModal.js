@@ -27,30 +27,35 @@ export default class AppliancesExchangeTnCModal extends React.Component {
           <ul className={styles.listDetailsTnC}>
             <li>
               When customer chooses a new appliance to purchase, he would see
-              all the brand-model combination that can be exchanged against it{" "}
+              all the brand-model combination that can be exchanged against it
             </li>
             <li>
               When customer enters old appliance details for exchange, he would
               see Total Exchange cashback broken up into Base value (as per the
               old appliance details) and Additional value (extra cashback
-              exclusive on the platform){" "}
+              exclusive on the platform)
+            </li>
+            <li>
+              Once the customer places an order, the exchange appliance will be
+              picked up within around 3 days after the new appliance is
+              delivered to the customer
             </li>
             <li>
               Customer will ensure that the Brand and model of the old appliance
               matches the details provided by them while entering the exchange
-              details{" "}
+              details
             </li>
             <li>
               If the old appliance is not working if declared or if there is any
               mismatch in the information provided by customer regarding the
-              appliance, then the Exchange offer will be cancelled{" "}
+              appliance, then the Exchange offer will be cancelled
             </li>
             <li>
               Customer must ensure that appliance being exchanged under the
               Exchange program is genuine and is not counterfeit, free from any
               and all encumbrances, liens, attachments, disputes, legal flaws,
               exchange or any agreement of sale etc. and the customer has got
-              the clear ownership of the said appliance{" "}
+              the clear ownership of the said appliance
             </li>
           </ul>
           <div className={styles.contentHeadingTnC}>
@@ -61,13 +66,13 @@ export default class AppliancesExchangeTnCModal extends React.Component {
               Once the Exchange process is initiated and the old appliance is
               scheduled, the Exchange process cannot be cancelled by the
               customer. However, customer can deny providing the exchange
-              appliance to the pick-up executive when the pickup is attempted{" "}
+              appliance to the pick-up executive when the pickup is attempted
             </li>
             <li>
               In case of order cancellation before delivery of new appliance,
               the Exchange order will also be cancelled automatically. The
               Exchange order will not be processed independently or without a
-              new appliance order{" "}
+              new appliance order
             </li>
             <li>
               The customer may have to pay pickup charges towards shipping of
@@ -87,8 +92,8 @@ export default class AppliancesExchangeTnCModal extends React.Component {
           <ul className={styles.listDetailsTnC}>
             <li>
               The Exchange amount of customer old appliance will be credited to
-              customer’s preferred mode post door-step quality check and pick up
-              which will be confirmed by Tata CLiQ CS Agent
+              customer’s preferred mode via paylink post door-step quality check
+              and pick up
             </li>
             <li>
               If the Exchange appliance doesn’t qualify the Quality check
@@ -97,13 +102,8 @@ export default class AppliancesExchangeTnCModal extends React.Component {
               failed Exchange transaction and will lead to no payout
             </li>
             <li>
-              By selecting CLiQ cash as a payment mode for customer Exchange
-              appliance the customer would get instant cashback of the amount in
-              CLiQ Cash wallet
-            </li>
-            <li>
               In case of account transfers, the customer will receive cashback
-              in their bank accounts within 2 business days post pick up of old
+              in their bank accounts within 5 business days post pick up of old
               appliance
             </li>
           </ul>

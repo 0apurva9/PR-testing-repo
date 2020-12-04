@@ -258,11 +258,10 @@ class CartPage extends React.Component {
         nextProps.cart && Object.assign(nextProps.cart.coupons, nextProps);
       this.props.showCouponModal(couponDetails);
     }
+
     if (
       nextProps.appliancesExchangePincodeDetails &&
       nextProps.appliancesExchangePincodeDetails.status &&
-      nextProps.appliancesExchangePincodeDetails.status.toLowerCase() ===
-        SUCCESS &&
       nextProps.appliancesExchangePincodeDetails !==
         this.state.appliancesExchangePincodeData
     ) {

@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import styles from "./DesktopCheckout.css";
 import shippingTruck from "../components/img/shipping-truck.svg";
+import { SUCCESS, FAILURE_LOWERCASE } from "../../lib/constants";
 export default class DesktopCheckout extends React.Component {
   constructor(props) {
     super(props);
@@ -42,25 +43,38 @@ export default class DesktopCheckout extends React.Component {
     if (
       parsedExchangeDetails &&
       parsedExchangeDetails.length > 0 &&
-      this.props.appliancesExchangePincodeData
+      this.props.appliancesExchangePincodeData &&
+      this.props.appliancesExchangePincodeData.status
     ) {
-      this.props.appliancesExchangePincodeData.listOfDataList &&
-        this.props.appliancesExchangePincodeData.listOfDataList.map(
-          vendordata => {
-            if (
-              vendordata.value &&
-              Object.keys(vendordata.value).length !== 0 &&
-              vendordata.value.vendorDetails &&
-              vendordata.value.vendorDetails[0]
-            ) {
-              isPickupAvailableForApplianceDetails.push(
-                vendordata.value.vendorDetails[0].isPickupAvailableForAppliance
-              );
-            } else {
-              isPickupAvailableForApplianceDetails.push(false);
+      if (
+        this.props.appliancesExchangePincodeData.status.toLowerCase() ===
+        SUCCESS
+      ) {
+        this.props.appliancesExchangePincodeData.listOfDataList &&
+          this.props.appliancesExchangePincodeData.listOfDataList.map(
+            vendordata => {
+              if (
+                vendordata.value &&
+                Object.keys(vendordata.value).length !== 0 &&
+                vendordata.value.vendorDetails &&
+                vendordata.value.vendorDetails[0]
+              ) {
+                isPickupAvailableForApplianceDetails.push(
+                  vendordata.value.vendorDetails[0]
+                    .isPickupAvailableForAppliance
+                );
+              } else {
+                isPickupAvailableForApplianceDetails.push(false);
+              }
             }
-          }
-        );
+          );
+      }
+      if (
+        this.props.appliancesExchangePincodeData.status.toLowerCase() ===
+        FAILURE_LOWERCASE
+      ) {
+        isPickupAvailableForApplianceDetails.push(false);
+      }
     }
 
     if (
