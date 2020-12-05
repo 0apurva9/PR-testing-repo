@@ -39,7 +39,7 @@ const NON_ORDER_REALTED_QUESTION = "NonOrderRelated";
 const FAQ_PAGE = "ss-faq";
 const YES = "Yes";
 const NO = "No";
-const CLIQ_2_CALL_CONFIG = "cliq2call-config-file";
+const CLIQ_2_CALL_CONFIG = "cliq2call-config-file-v1";
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
     super(props);
@@ -137,7 +137,9 @@ export default class OrderRelatedIssue extends React.Component {
       this.setState({
         name:
           this.props.userDetails.firstName || this.props.userDetails.lastName
-            ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
+            ? `${this.props.userDetails.firstName} ${
+                this.props.userDetails.lastName
+              }`
             : "",
         mobile: this.props.userDetails.mobileNumber
           ? this.props.userDetails.mobileNumber
@@ -163,7 +165,9 @@ export default class OrderRelatedIssue extends React.Component {
       this.setState({
         name:
           nextProps.userDetails.firstName || nextProps.userDetails.lastName
-            ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
+            ? `${nextProps.userDetails.firstName} ${
+                nextProps.userDetails.lastName
+              }`
             : "",
         mobile: nextProps.userDetails.mobileNumber
           ? nextProps.userDetails.mobileNumber
@@ -697,7 +701,9 @@ export default class OrderRelatedIssue extends React.Component {
             name:
               this.props.userDetails.firstName ||
               this.props.userDetails.lastName
-                ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
+                ? `${this.props.userDetails.firstName} ${
+                    this.props.userDetails.lastName
+                  }`
                 : "",
             mobile: this.props.userDetails.mobileNumber
               ? this.props.userDetails.mobileNumber

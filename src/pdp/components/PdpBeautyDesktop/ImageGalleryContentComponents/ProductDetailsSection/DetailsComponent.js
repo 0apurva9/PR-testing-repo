@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import styles from "./DetailsComponent.css";
 
 export default class DetailsComponent extends React.Component {
-  handleDetailsScroll(e) {
+  handleDetailsScroll(e, sectionToScroll) {
     e.preventDefault();
     if (this.props.handleDetailsScroll) {
-      this.props.handleDetailsScroll();
+      this.props.handleDetailsScroll(sectionToScroll);
     }
   }
 
@@ -18,24 +18,26 @@ export default class DetailsComponent extends React.Component {
       <div className={styles["story-component"]}>
         <div
           className={styles["what-it-is-block"]}
-          onClick={e => this.handleDetailsScroll(e)}
+          onClick={e => this.handleDetailsScroll(e, "detailsLong")}
         >
           <div className={styles["what-it-is-heading"]}>What it is:</div>
-          {stylenotes && stylenotes.length > 189 && (
-            <div className={styles["what-it-is-desc"]}>
-              {`${stylenotes.substring(0, 215)}..`}
-              <a
-                href={""}
-                onClick={e => this.handleDetailsScroll(e)}
-                className={styles["what-it-is-link"]}
-              >
-                More
-              </a>
-            </div>
-          )}
-          {stylenotes && stylenotes.length <= 215 && (
-            <div className={styles["what-it-is-desc"]}>{`${stylenotes}`}</div>
-          )}
+          {stylenotes &&
+            stylenotes.length > 189 && (
+              <div className={styles["what-it-is-desc"]}>
+                {`${stylenotes.substring(0, 215)}..`}
+                <a
+                  href={""}
+                  onClick={e => this.handleDetailsScroll(e, "detailsLong")}
+                  className={styles["what-it-is-link"]}
+                >
+                  More
+                </a>
+              </div>
+            )}
+          {stylenotes &&
+            stylenotes.length <= 215 && (
+              <div className={styles["what-it-is-desc"]}>{`${stylenotes}`}</div>
+            )}
         </div>
       </div>
     );

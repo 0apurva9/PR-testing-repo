@@ -312,6 +312,18 @@ if (process.env.REACT_APP_STAGE === "production") {
     "/adminstatic/js/mkt_desktop_chat_lower.json";
 }
 
+// for appliances exchange
+process.env.REACT_APP_APPLIANCES_EXCHANGE =
+  "/adminstatic/js/appliance_exchange_v1.json";
+
+if (process.env.REACT_APP_STAGE === "production") {
+  process.env.REACT_APP_SUBMIT_APPLIANCES_EXCHANGE_DATA =
+    "https://www.tataque.com/otatacliq/applianceExchangeDetails";
+} else {
+  process.env.REACT_APP_SUBMIT_APPLIANCES_EXCHANGE_DATA =
+    "https://e2e.tataque.com/otatacliq/applianceExchangeDetails";
+}
+
 function getClientEnvironment(publicUrl) {
   const raw = Object.keys(process.env)
     .filter(key => REACT_APP.test(key))

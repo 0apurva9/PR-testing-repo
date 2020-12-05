@@ -11,6 +11,7 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import CartItemForDesktop from "./CartItemForDesktop";
 import Button from "../../general/components/Button.js";
+import { renderMetaTagsWithoutSeoObject } from "../../lib/seoUtils";
 import {
   HOME_ROUTER,
   NO,
@@ -21,7 +22,8 @@ import {
   SUCCESS,
   CNC_CART,
   SELECTED_STORE,
-  DEFAULT_PIN_CODE_ID_LOCAL_STORAGE
+  DEFAULT_PIN_CODE_ID_LOCAL_STORAGE,
+  AC_CART_EXCHANGE_DETAILS
 } from "../../lib/constants";
 import SavedProduct from "./SavedProduct";
 import filter from "lodash.filter";
@@ -76,7 +78,8 @@ class CartPage extends React.Component {
       changePinCode: false,
       appliedCouponCode: null,
       showCheckoutSection: true,
-      isComingFromCliqAndPiq: false
+      isComingFromCliqAndPiq: false,
+      appliancesExchangePincodeData: null
     };
   }
   showHideDetails = () => {
@@ -257,6 +260,18 @@ class CartPage extends React.Component {
         nextProps.cart && Object.assign(nextProps.cart.coupons, nextProps);
       this.props.showCouponModal(couponDetails);
     }
+
+    if (
+      nextProps.appliancesExchangePincodeDetails &&
+      nextProps.appliancesExchangePincodeDetails.status &&
+      nextProps.appliancesExchangePincodeDetails !==
+        this.state.appliancesExchangePincodeData
+    ) {
+      this.setState({
+        appliancesExchangePincodeData:
+          nextProps.appliancesExchangePincodeDetails
+      });
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -298,6 +313,30 @@ class CartPage extends React.Component {
             isServiceable: true
           });
         }
+      }
+    }
+    if (this.props.cart.cartDetails !== prevProps.cart.cartDetails) {
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+      let parsedExchangeDetails =
+        cartExchangeDetails && JSON.parse(cartExchangeDetails);
+      if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
+        let exchangeProductUssids = parsedExchangeDetails.map(
+          exchangeProduct => {
+            return exchangeProduct.ussid;
+          }
+        );
+        let productIds = [];
+        exchangeProductUssids.map(exchangeProductUssid => {
+          this.props.cart.cartDetails &&
+            this.props.cart.cartDetails.products.map(product => {
+              if (product.USSID === exchangeProductUssid) {
+                productIds.push(product.productcode);
+              }
+            });
+        });
+        let productIdList = productIds.join(",");
+        const pincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+        this.props.appliancesExchangeCheckPincode(productIdList, pincode);
       }
     }
   }
@@ -636,6 +675,7 @@ class CartPage extends React.Component {
                     city={city}
                   />
                 </div>
+                {renderMetaTagsWithoutSeoObject()}
               </div>
             </div>
           </div>
@@ -1061,6 +1101,12 @@ class CartPage extends React.Component {
                             bundledProductSuggestionStatus={
                               this.props.bundledProductSuggestionStatus
                             }
+                            openAppliancesExchangeModal={
+                              this.props.openAppliancesExchangeModal
+                            }
+                            appliancesExchangePincodeData={
+                              this.state.appliancesExchangePincodeData
+                            }
                           />
                         </DesktopOnly>
                       </div>
@@ -1250,6 +1296,10 @@ class CartPage extends React.Component {
                             cartDetails.shippingPromoMessage
                           }
                           showShippingMsg={true}
+                          appliancesExchangePincodeData={
+                            this.state.appliancesExchangePincodeData
+                          }
+                          cartProducts={cartDetails.products}
                         />
                       </div>
                     )}
@@ -1258,7 +1308,9 @@ class CartPage extends React.Component {
                     this.props.wishListCount > 0 && (
                       <div className={styles.wishListCountSection}>
                         <div className={styles.iconWishList} />
-                        <span>{`You have ${this.props.wishListCount} items in your saved list`}</span>
+                        <span>{`You have ${
+                          this.props.wishListCount
+                        } items in your saved list`}</span>
                         <div className={styles.buttonHolder}>
                           <UnderLinedButton
                             size="14px"

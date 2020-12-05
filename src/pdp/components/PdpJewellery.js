@@ -32,6 +32,7 @@ import {
 } from "../../lib/adobeUtils";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 import PdpFlags from "../components/PdpFlags.js";
+import { renderMetaTags } from "../../lib/seoUtils";
 const PriceBreakUp = LoadableVisibility({
   loader: () => import("./PriceBreakUp"),
   loading: () => <div />
@@ -211,7 +212,9 @@ export default class PdpJewellery extends React.Component {
   };
 
   goToReviewPage = () => {
-    const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+    const url = `${
+      this.props.location.pathname
+    }/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
   showPincodeModal() {
@@ -388,6 +391,7 @@ export default class PdpJewellery extends React.Component {
           }
           ussId={productData.winningUssID}
         >
+          {renderMetaTags(this.props.productDetails)}
           <div className={styles.gallery}>
             <ProductGalleryMobile paddingBottom="114">
               {mobileGalleryImages.map((val, idx) => {
@@ -427,21 +431,25 @@ export default class PdpJewellery extends React.Component {
               showPriceBreakUp={this.showPriceBreakup}
             />
           </div>
-          {productData.details && productData.details.length > 0 && (
-            <div className={styles.info}>
-              <span className={styles.textOffset}>
-                {productData.details[0].value}
-              </span>
-              {this.state.showProductDetails && (
-                <div>{productData.productDescription}</div>
-              )}
-              {!this.state.showProductDetails && (
-                <span className={styles.link} onClick={this.showProductDetails}>
-                  Read More
+          {productData.details &&
+            productData.details.length > 0 && (
+              <div className={styles.info}>
+                <span className={styles.textOffset}>
+                  {productData.details[0].value}
                 </span>
-              )}
-            </div>
-          )}
+                {this.state.showProductDetails && (
+                  <div>{productData.productDescription}</div>
+                )}
+                {!this.state.showProductDetails && (
+                  <span
+                    className={styles.link}
+                    onClick={this.showProductDetails}
+                  >
+                    Read More
+                  </span>
+                )}
+              </div>
+            )}
           <PdpPaymentInfo
             hasEmi={productData.isEMIEligible}
             hasCod={productData.isCOD}
@@ -524,7 +532,7 @@ export default class PdpJewellery extends React.Component {
                 </div>
               </div>
             ) : this.props.productDetails.isServiceableToPincode
-                .productNotServiceableMessage ? (
+              .productNotServiceableMessage ? (
               <div className={styles.overlay}>
                 <div className={styles.notServiciableTetx}>
                   *{" "}

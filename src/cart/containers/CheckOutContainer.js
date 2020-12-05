@@ -79,7 +79,9 @@ import {
   upiPaymentCombinedLogoMidddleLayer,
   instaCredISEnableMidddleLayer,
   getBankDetailsforDCEmi,
-  getEMIEligibilityDetails
+  getEMIEligibilityDetails,
+  getDCEmiEligibility,
+  submitAppliancesExchangeData
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -872,6 +874,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     closeModal: () => {
       dispatch(hideModal());
+    },
+    submitAppliancesExchangeData: (orderId, status, removeLocalStorage) => {
+      dispatch(
+        submitAppliancesExchangeData(orderId, status, removeLocalStorage)
+      );
     }
   };
 };
@@ -890,7 +897,10 @@ const mapStateToProps = state => {
     addUserUPIDetails: state.profile.addUserUPIDetails,
     completedOrderDetails: state.profile.fetchOrderDetails,
     orderDetailsPaymentPage: state.profile.fetchOrderDetails,
-    emiEligibiltyDetails: state.cart.emiEligibiltyDetails
+    emiEligibiltyDetails: state.cart.emiEligibiltyDetails,
+    dCEmiEligibiltyDetails: state.cart.dCEmiEligibiltyDetails,
+    appliancesExchangePincodeDetails:
+      state.productDescription.appliancesExchangeCheckPincodeDetails
   };
 };
 

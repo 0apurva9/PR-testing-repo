@@ -10,7 +10,8 @@ import {
   ABOUT_THE_BRAND_COMPONENT,
   SIMILAR_BRANDS_COMPONENT,
   STORY_COMPONENT,
-  DETAILS_COMPONENT
+  DETAILS_COMPONENT,
+  RATING_REVIEW_DETAIL_COMPONENT
 } from "../ComponentConstants";
 import Loadable from "react-loadable";
 import SecondaryLoader from "../../../../general/components/SecondaryLoader";
@@ -80,6 +81,13 @@ const SimilarProductComponent = Loadable({
   }
 });
 
+const RatingAndReviewsLongComponent = Loadable({
+  loader: () => import("./RatingAndReviewsLongComponent"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const typeComponentMapping = {
   [STORY_COMPONENT]: (props, descripCompDetails) => {
     const detailsComponentFound = descripCompDetails.filter(
@@ -111,6 +119,9 @@ const typeComponentMapping = {
   [ABOUT_THE_BRAND_COMPONENT]: props => <AboutTheBrandComponent {...props} />,
   [SIMILAR_BRANDS_COMPONENT]: props => (
     <SimilarProductComponent {...props} heading={"SIMILAR PRODUCTS"} />
+  ),
+  [RATING_REVIEW_DETAIL_COMPONENT]: props => (
+    <RatingAndReviewsLongComponent {...props} />
   )
 };
 
