@@ -585,3 +585,16 @@ export const APP_ID_FOR_SBA = "dd669910-e0d3-11e8-b431-1d83bfd113a3";
 export const SBA_VENDOR_URL = "https://cliqbook.tatacliq.com";
 export const PRIVATE_KEY_FOR_AES = "SgVkYp2s5v8y/B?E(H+MbQeThWmZq4t7";
 export const PLATFORM = "desktop";
+export const AC_PDP_EXCHANGE_DETAILS = "acPdpExchangeDetails";
+export const AC_CART_EXCHANGE_DETAILS = "acCartExchangeDetails";
+export const EXCHANGE_ADDED_MESSAGE = "Exchange has been added.";
+export const EXCHANGE_REMOVED_MESSAGE = "Exchange has been removed.";
+export const STATUS_PROCESSING = "processing";
+export const STATUS_CONFIRMED = "confirmed";
+export const STATUS_FAILED = "failed";
+export const EXCHANGE_NOT_SERVICEABLE =
+  "Exchange is not serviceable on the specified pincode. Please try by changing pincode";
+export const MAIN_PRODUCT_NOT_SERVICEABLE_WITH_EXCHANGE =
+  "Cannot service Exchange since main product not serviceable";
+export const EXCHANGE_DISABLED =
+  "Exchange is not available for this Pincode currently, please change Pincode or remove exchange";

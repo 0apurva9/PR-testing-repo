@@ -310,7 +310,12 @@ const cart = (
 
     dCEmiBankDetails: null,
     dCEmiBankDetailsStatus: null,
-    dCEmiBankDetailsError: null
+    dCEmiBankDetailsError: null,
+
+    submitAppliancesExchangeDataStatus: null,
+    submitAppliancesExchangeDataLoading: false,
+    submitAppliancesExchangeDataDetails: null,
+    submitAppliancesExchangeDataError: null
   },
   action
 ) => {
@@ -2462,6 +2467,26 @@ const cart = (
         dCEmiBankDetailsError: action.error,
         dCEmiBankDetails: null,
         loading: false
+      });
+
+    case cartActions.SUBMIT_APPLIANCES_EXCHANGE_DATA_REQUEST:
+      return Object.assign({}, state, {
+        submitAppliancesExchangeDataStatus: action.status,
+        submitAppliancesExchangeDataLoading: true
+      });
+
+    case cartActions.SUBMIT_APPLIANCES_EXCHANGE_DATA_SUCCESS:
+      return Object.assign({}, state, {
+        submitAppliancesExchangeDataStatus: action.status,
+        submitAppliancesExchangeDataDetails: action.data,
+        submitAppliancesExchangeDataLoading: false
+      });
+
+    case cartActions.SUBMIT_APPLIANCES_EXCHANGE_DATA_FAILURE:
+      return Object.assign({}, state, {
+        submitAppliancesExchangeDataStatus: action.status,
+        submitAppliancesExchangeDataError: action.error,
+        submitAppliancesExchangeDataLoading: false
       });
 
     default:

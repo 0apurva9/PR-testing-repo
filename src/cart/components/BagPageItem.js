@@ -9,6 +9,7 @@ import {
   NO,
   YES
 } from "../../lib/constants";
+import AppliancesExchangeCheckout from "./AppliancesExchangeCheckout";
 
 const NOT_SERVICEABLE = "Not available at your PIN code";
 const OUT_OF_STOCK = "Product is out of stock";
@@ -138,6 +139,8 @@ export default class BagPageItem extends React.Component {
                 />
               );
             })}
+
+          <AppliancesExchangeCheckout productUssid={this.props.ussid} />
         </div>
         <div
           className={styles.productImage}
