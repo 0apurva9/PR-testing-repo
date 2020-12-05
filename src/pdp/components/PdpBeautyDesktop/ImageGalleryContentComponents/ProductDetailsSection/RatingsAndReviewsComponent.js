@@ -44,7 +44,7 @@ export default class RatingsAndReviewsComponent extends React.Component {
                     styles["rating-star"],
                     styles["rating-star-green"]
                   ].join(" ")}
-                ></span>
+                />
               )}
               {averageRatingNew < 2.5 && (
                 <span
@@ -52,7 +52,7 @@ export default class RatingsAndReviewsComponent extends React.Component {
                     styles["rating-star"],
                     styles["rating-star-orange"]
                   ].join(" ")}
-                ></span>
+                />
               )}
               <span className={styles["rating-total-count"]}>
                 {ratingCount}
@@ -68,16 +68,17 @@ export default class RatingsAndReviewsComponent extends React.Component {
             </div>
           </div>
         )}
-        {averageRating && this.props.isPdp && (
-          <DesktopOnly>
-            <div
-              className={styles["no-rating-text"]}
-              onClick={() => this.handleRatingLink()}
-            >
-              {NO_REVIEW_TEXT}
-            </div>
-          </DesktopOnly>
-        )}
+        {averageRating &&
+          this.props.isPdp && (
+            <DesktopOnly>
+              <div
+                className={styles["no-rating-text"]}
+                onClick={() => this.handleRatingLink()}
+              >
+                {NO_REVIEW_TEXT}
+              </div>
+            </DesktopOnly>
+          )}
       </React.Fragment>
     );
   }

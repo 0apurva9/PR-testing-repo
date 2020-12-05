@@ -16,12 +16,11 @@ export default class CheckOutHeader extends React.Component {
           style={{ fontSize: propFontSize ? propFontSize : "" }}
         >
           <DesktopOnly>
-            {this.props.indexNumber !== "0" &&
-              !this.props.completed && (
-                <div className={styles.circleHolder}>
-                  <div className={styles.circle}>{this.props.indexNumber}</div>
-                </div>
-              )}
+            {this.props.indexNumber !== "0" && !this.props.completed && (
+              <div className={styles.circleHolder}>
+                <div className={styles.circle}>{this.props.indexNumber}</div>
+              </div>
+            )}
             {this.props.completed && (
               <div className={styles.checkIconHolder}>
                 <Image image={checkIcon} fit="165%" />

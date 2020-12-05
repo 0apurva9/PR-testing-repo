@@ -304,9 +304,9 @@ const cart = (
     getCustomComponentLoading: false,
     instacredMiddleLayerISEnableError: null,
 
-    dCEmiEligibiltyDetails: null,
-    dCEmiEligibiltyStatus: null,
-    dCEmiEligibiltyError: null,
+    emiEligibiltyDetails: null,
+    emiEligibiltyStatus: null,
+    emiEligibiltyError: null,
 
     dCEmiBankDetails: null,
     dCEmiBankDetailsStatus: null,
@@ -1727,26 +1727,6 @@ const cart = (
         isPaymentProceeded: false
       });
 
-    case cartActions.ELIGIBILITY_OF_NO_COST_EMI_REQUEST:
-      return Object.assign({}, state, {
-        emiEligibilityStatus: action.status,
-        loading: true
-      });
-
-    case cartActions.ELIGIBILITY_OF_NO_COST_EMI_SUCCESS:
-      return Object.assign({}, state, {
-        emiEligibilityStatus: action.status,
-        emiEligibilityDetails: action.emiEligibility,
-        loading: false
-      });
-
-    case cartActions.ELIGIBILITY_OF_NO_COST_EMI_FAILURE:
-      return Object.assign({}, state, {
-        emiEligibilityStatus: action.status,
-        emiEligibilityError: action.error,
-        loading: false
-      });
-
     case cartActions.BANK_AND_TENURE_DETAILS_REQUEST:
       return Object.assign({}, state, {
         bankAndTenureStatus: action.status,
@@ -2427,24 +2407,24 @@ const cart = (
         getCustomComponentLoading: false,
         getCustomComponentError: action.error
       });
-    case cartActions.CHECK_DC_EMI_ELIGIBILITY_REQUEST:
+    case cartActions.GET_EMI_ELIGIBILITY_REQUEST:
       return Object.assign({}, state, {
-        dCEmiEligibiltyStatus: action.status,
+        emiEligibiltyStatus: action.status,
         loading: true
       });
 
-    case cartActions.CHECK_DC_EMI_ELIGIBILITY_SUCCESS:
+    case cartActions.GET_EMI_ELIGIBILITY_SUCCESS:
       return Object.assign({}, state, {
-        dCEmiEligibiltyStatus: action.status,
-        dCEmiEligibiltyDetails: action.dCEmiEligibility,
+        emiEligibiltyStatus: action.status,
+        emiEligibiltyDetails: action.emiEligibility,
         loading: false
       });
 
-    case cartActions.CHECK_DC_EMI_ELIGIBILITY_FAILURE:
+    case cartActions.GET_EMI_ELIGIBILITY_FAILURE:
       return Object.assign({}, state, {
-        dCEmiEligibiltyStatus: action.status,
-        dCEmiEligibiltyError: action.error,
-        dCEmiEligibiltyDetails: null,
+        emiEligibiltyStatus: action.status,
+        emiEligibiltyError: action.error,
+        emiEligibiltyDetails: null,
         loading: false
       });
 

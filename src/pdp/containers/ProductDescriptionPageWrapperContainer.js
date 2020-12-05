@@ -72,10 +72,7 @@ import {
   NO,
   SELECTED_STORE
 } from "../../lib/constants.js";
-import {
-  tempCartIdForLoggedInUser,
-  getDCEmiEligibility
-} from "../../cart/actions/cart.actions";
+import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 import {
   getCartDetails,

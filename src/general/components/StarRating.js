@@ -88,8 +88,8 @@ export default class StarRating extends React.Component {
                   ? styles.starRatingHighProductBundling
                   : styles.starRatingLowProductBundling
                 : ratingCnt > 2.5
-                  ? styles.starRatingHigh
-                  : styles.starRatingLow
+                ? styles.starRatingHigh
+                : styles.starRatingLow
             }
           >
             {Math.round(ratingCnt * 10) / 10}

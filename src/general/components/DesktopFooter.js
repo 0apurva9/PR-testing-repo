@@ -124,8 +124,10 @@ class DesktopFooter extends React.Component {
         : true;
     return (
       <div className={styles.contentHolder}>
-        {!url.includes("how-upi-work") && <TrustComponent />}
-        {!url.includes("how-upi-work") && (
+        {(!url.includes("how-upi-work") ||
+          !url.includes("how-dcemi-works")) && <TrustComponent />}
+        {(!url.includes("how-upi-work") ||
+          !url.includes("how-dcemi-works")) && (
           <div className={styles.linkAndSuscribeHolder}>
             <div className={styles.linkHolder}>
               {footerData &&

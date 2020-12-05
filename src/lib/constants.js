@@ -32,6 +32,7 @@ export const MAIN_ROUTER = "/";
 export const CUSTOMER_ACCESS_TOKEN = "customerAccessToken";
 export const GLOBAL_ACCESS_TOKEN = "globalAccessToken";
 export const DEFAULT_PIN_CODE_LOCAL_STORAGE = "defaultPinCode";
+export const DEFAULT_PIN_CODE_ID_LOCAL_STORAGE = "defaultPincodeId";
 export const CNC_CART = "cncCart";
 export const USER_SEARCH_LOCAL_STORAGE = "usersearchlocalstorage";
 export const SOFT_RESERVATION_ITEM = "softReservationItem";
