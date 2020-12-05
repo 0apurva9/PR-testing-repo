@@ -156,6 +156,22 @@ export default class EmiPanel extends React.Component {
         this.props.retryPaymentDetails.retryFlagDCEmi === "true"
       ) {
         this.setState({ subMenuSelected: DEBIT_CARD_EMI });
+        if (
+          this.props.cart &&
+          this.props.cart.bankAndTenureDetails &&
+          this.props.cart.bankAndTenureDetails.bankList &&
+          this.props.cart.bankAndTenureDetails.bankList[0] &&
+          this.props.cart.bankAndTenureDetails.bankList[0]
+            .noCostEMICouponList &&
+          this.props.cart.bankAndTenureDetails.bankList[0]
+            .noCostEMICouponList[0]
+        ) {
+          localStorage.setItem(
+            NO_COST_EMI_COUPON,
+            this.props.cart.bankAndTenureDetails.bankList[0]
+              .noCostEMICouponList[0].emicouponName
+          );
+        }
       }
     }
   }
