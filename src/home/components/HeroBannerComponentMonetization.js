@@ -35,7 +35,9 @@ export default class HeroBannerComponentMonetization extends React.Component {
       this.setState({ bannerLoading: false });
       if (
         window._osAdImpression &&
-        (heroBanner.ads && heroBanner.ads[0] && heroBanner.ads[0].uclid)
+        heroBanner.ads &&
+        heroBanner.ads[0] &&
+        heroBanner.ads[0].uclid
       ) {
         window._osAdImpression({ uclid: heroBanner.ads[0].uclid });
       }

@@ -150,11 +150,12 @@ export default class PdpBeautyDesktop extends React.Component {
 
       return (
         <div className={styles["main-container"]}>
-          {showBreadCrumbs && showBreadCrumbs === true && (
-            <div className={styles.container}>
-              <BreadCrumbs {...this.props} />
-            </div>
-          )}
+          {showBreadCrumbs &&
+            showBreadCrumbs === true && (
+              <div className={styles.container}>
+                <BreadCrumbs {...this.props} />
+              </div>
+            )}
           {renderMetaTags(this.props.productDetails)}
           <div className={styles.container}>
             <ImageGalleryContentComponent

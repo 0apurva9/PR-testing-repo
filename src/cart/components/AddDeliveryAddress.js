@@ -10,7 +10,11 @@ import TextArea from "../../general/components/TextArea.js";
 import cloneDeep from "lodash.clonedeep";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button";
-import { SUCCESS, ERROR } from "../../lib/constants.js";
+import {
+  SUCCESS,
+  ERROR,
+  DEFAULT_PIN_CODE_LOCAL_STORAGE
+} from "../../lib/constants.js";
 import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
@@ -377,6 +381,11 @@ export default class AddDeliveryAddress extends React.Component {
         );
       }
       this.props.addUserAddress(addressObj);
+      // set localStorage in Case of nonServicable pincode route to cart PP-1935
+      localStorage.setItem(
+        DEFAULT_PIN_CODE_LOCAL_STORAGE,
+        this.props.postalCode ? this.props.postalCode : this.state.postalCode
+      );
     }
   };
 
@@ -400,6 +409,47 @@ export default class AddDeliveryAddress extends React.Component {
   };
   onChangeSalutation(val) {
     this.setState({ salutation: val.value });
+  }
+
+  popBody = () => {
+    const postCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+    return (
+      <div>
+        Would you like to continue with {postCode} as your pincode?
+        <div className={styles.btnCls}>
+          <button
+            onClick={() => this.changeState(postCode)}
+            className={styles.yesBtn}
+          >
+            Yes
+          </button>
+          <button onClick={() => this.closeModal()}>No</button>
+        </div>
+      </div>
+    );
+  };
+
+  changeState = postalCode => {
+    this.setState({
+      postalCode
+    });
+    if (this.props.closeModal) {
+      this.props.closeModal();
+    }
+    this.getPinCodeDetails(postalCode);
+  };
+  closeModal = () => {
+    if (this.props.closeModal) {
+      this.props.closeModal();
+    }
+  };
+
+  componentDidMount() {
+    if (this.props.showPinCodePopUp && this.props.showAddNewPinPop) {
+      this.props.showAddNewPinPop({
+        children: this.popBody()
+      });
+    }
   }
 
   render() {

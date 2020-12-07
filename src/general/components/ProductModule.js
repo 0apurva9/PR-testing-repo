@@ -167,30 +167,31 @@ export default class ProductModule extends React.Component {
           this.props.shouldShowSimilarIcon &&
           this.showSimilarIcons(electronicView)}
 
-        {numberOfVariants && numberOfVariants.length > 0 && (
-          <div
-            className={[
-              styles.sizesBlock,
-              this.props.view === "grid" ? styles.topGrid : styles.topList
-            ].join(" ")}
-          >
-            <div className={styles.sizesBlockContent}>
-              {numberOfVariants.map(el => {
-                if (el && el.length > 0) {
-                  return <div className={styles.variantString}>{el}</div>;
-                } else return null;
-              })}
+        {numberOfVariants &&
+          numberOfVariants.length > 0 && (
+            <div
+              className={[
+                styles.sizesBlock,
+                this.props.view === "grid" ? styles.topGrid : styles.topList
+              ].join(" ")}
+            >
+              <div className={styles.sizesBlockContent}>
+                {numberOfVariants.map(el => {
+                  if (el && el.length > 0) {
+                    return <div className={styles.variantString}>{el}</div>;
+                  } else return null;
+                })}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
         <div
           className={
             electronicView
               ? styles.electronicsBase
               : this.props.autoWidget
-              ? styles.whiteBase
-              : styles.base
+                ? styles.whiteBase
+                : styles.base
           }
           onClick={this.onClick}
           id={`ProductModule-${this.props.productId}`}
@@ -233,8 +234,8 @@ export default class ProductModule extends React.Component {
                     electronicView
                       ? styles.ElectronicListimageHolder
                       : this.props.view === "grid"
-                      ? styles.imageHolder
-                      : styles.ListimageHolder
+                        ? styles.imageHolder
+                        : styles.ListimageHolder
                   }
                 >
                   <ProductImage
@@ -268,10 +269,10 @@ export default class ProductModule extends React.Component {
                 electronicView
                   ? styles.electronicViewContent
                   : this.props.autoWidget
-                  ? styles.contentAutoWidget
-                  : this.props.view === "grid"
-                  ? styles.content
-                  : styles.Listcontent
+                    ? styles.contentAutoWidget
+                    : this.props.view === "grid"
+                      ? styles.content
+                      : styles.Listcontent
               }
             >
               {this.props.price && (
