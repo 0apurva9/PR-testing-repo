@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import * as UserAgent from "../../lib/UserAgent.js";
 
 export default class ConfirmAddress extends React.Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     document.title = "Select Delivery Address";
   }
   constructor(props) {
@@ -34,7 +34,7 @@ export default class ConfirmAddress extends React.Component {
   }
   onNewAddress() {
     if (this.props.onNewAddress) {
-      this.props.onNewAddress();
+      this.props.onNewAddress(true);
     }
   }
   onSelectAddress(addressId) {

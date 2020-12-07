@@ -3,7 +3,9 @@ import {
   HOME_ROUTER,
   SUCCESS,
   SUCCESS_UPPERCASE,
-  SUCCESS_CAMEL_CASE
+  SUCCESS_CAMEL_CASE,
+  AC_PDP_EXCHANGE_DETAILS,
+  AC_CART_EXCHANGE_DETAILS
 } from "../../lib/constants";
 import PropTypes from "prop-types";
 import styles from "./LogoutButton.css";
@@ -55,6 +57,16 @@ export default class LogoutButton extends React.Component {
 
         this.props.setFalseForAllAuthCallHasSucceedFlag();
         // this.props.getMinicartProducts();
+        let acPdpExchangeDetails = localStorage.getItem(
+          AC_PDP_EXCHANGE_DETAILS
+        );
+        let cartExchangeDetails = localStorage.getItem(
+          AC_CART_EXCHANGE_DETAILS
+        );
+        if (acPdpExchangeDetails || cartExchangeDetails) {
+          localStorage.removeItem(AC_PDP_EXCHANGE_DETAILS);
+          localStorage.removeItem(AC_CART_EXCHANGE_DETAILS);
+        }
       }
     }
   }

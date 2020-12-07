@@ -44,51 +44,49 @@ class MoreHelps extends Component {
             Pro tip: Raise a complaint for faster resolution.
           </div>
 
-          {this.props.selectedOrder &&
-            this.props.selectedOrder.webform == YES && (
-              <div className={styles.actionButton}>
-                <div className={styles.actionWCMS}>
-                  <Button
-                    backgroundColor="#da1c5c"
-                    height={48}
-                    label={WRITE_TO_US}
-                    width={276}
-                    // color="#da1c5c"
-                    boxShadow="0 0 6px 2px rgba(0, 0, 0, 0.11)"
-                    borderRadius="6px"
-                    textStyle={{ color: "#fff", fontSize: 14 }}
-                    onClick={() => this.getCustomerQueriesFields(WRITE_TO_US)}
-                    icon={{
-                      element: <Icon image={editIcon} size={20} />,
-                      size: 20,
-                      width: 20,
-                      offset: 10
-                    }}
-                  />
-                </div>
-              </div>
-            )}
-
-          <div className={styles.callChatBox}>
-            {this.props.selectedOrder &&
-              this.props.selectedOrder.chat == YES && (
+          {this.props.selectedOrder && this.props.selectedOrder.webform == YES && (
+            <div className={styles.actionButton}>
+              <div className={styles.actionWCMS}>
                 <Button
-                  type="hollow"
-                  label={CHAT_WITH_US}
-                  borderColor={""}
-                  width={154}
-                  height={30}
-                  color={"#da1c5c"}
-                  padding="0px 5px"
+                  backgroundColor="#da1c5c"
+                  height={48}
+                  label={WRITE_TO_US}
+                  width={276}
+                  // color="#da1c5c"
+                  boxShadow="0 0 6px 2px rgba(0, 0, 0, 0.11)"
+                  borderRadius="6px"
+                  textStyle={{ color: "#fff", fontSize: 14 }}
+                  onClick={() => this.getCustomerQueriesFields(WRITE_TO_US)}
                   icon={{
-                    element: <Icon image={chatIcon} size={20} />,
+                    element: <Icon image={editIcon} size={20} />,
                     size: 20,
                     width: 20,
                     offset: 10
                   }}
-                  // onClick={() => this.props.showAllQuestion(CHAT_WITH_US)}
                 />
-              )}
+              </div>
+            </div>
+          )}
+
+          <div className={styles.callChatBox}>
+            {this.props.selectedOrder && this.props.selectedOrder.chat == YES && (
+              <Button
+                type="hollow"
+                label={CHAT_WITH_US}
+                borderColor={""}
+                width={154}
+                height={30}
+                color={"#da1c5c"}
+                padding="0px 5px"
+                icon={{
+                  element: <Icon image={chatIcon} size={20} />,
+                  size: 20,
+                  width: 20,
+                  offset: 10
+                }}
+                // onClick={() => this.props.showAllQuestion(CHAT_WITH_US)}
+              />
+            )}
             {this.props.selectedOrder &&
               this.props.selectedOrder.click2Call == YES &&
               this.props.selectedOrder &&
@@ -116,18 +114,17 @@ class MoreHelps extends Component {
                 />
               )}
           </div>
-          {this.props.selectedOrder &&
-            this.props.selectedOrder.call == YES && (
-              <div className={styles.callBox}>
-                <div className={styles.contatUs}>
-                  Or, alternatively contact us at
-                </div>
-                <div className={styles.callIconNumber}>
-                  <Icon image={call} size={20} />
-                  <div className={styles.number}>90291 08282</div>
-                </div>
+          {this.props.selectedOrder && this.props.selectedOrder.call == YES && (
+            <div className={styles.callBox}>
+              <div className={styles.contatUs}>
+                Or, alternatively contact us at
               </div>
-            )}
+              <div className={styles.callIconNumber}>
+                <Icon image={call} size={20} />
+                <div className={styles.number}>90291 08282</div>
+              </div>
+            </div>
+          )}
           <div className={styles.bottomButtonBox}>
             <div className={[styles.arrow, styles.leftArrow].join(" ")}> </div>
             <div
