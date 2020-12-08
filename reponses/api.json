@@ -1,0 +1,69 @@
+// UPF-220(Sign in using a registered email address and non-verified number using forgot password)
+// POST /mobileloginapi/v1/authnuser/validate (email)
+// POST /mobileloginapi/v1/authnuser/otp (mail)
+// POST /mobileloginapi/v1/authnuser/validate (mail,emailotp)
+// POST /mobileloginapi/v1/update/password (mail,password,emailotp)
+// POST /mobileloginapi/v1/authnuser/otp (email,phonenumber) - Add Header userUpdate: true
+// POST /mobileloginapi/v1/authnuser/authenticate (mail,phoneno,mobileotp)
+// validate
+{
+    "statusCode": 200,
+    "message": "",
+    "status": "success",
+    "userData": {
+        "customer": {
+            "maskedPhoneNumber": "",
+            "passwordSet": true,
+            "newUser": false,
+            "loginVia": "email",
+            "numberAdded": false,
+            "otpSent": false
+        }
+    }
+}
+// otp
+{
+    "statusCode": 200,
+    "message": "",
+    "status": "success",
+    "userData": {
+        "validation": {
+            "validated": false,
+            "maskedPhoneNumber": "",
+            "emailIdChanged": false,
+            "changedmailId": "",
+            "otpSent": true
+        }
+    }
+}
+// validate
+{
+    "statusCode": 200,
+    "message": "",
+    "status": "success",
+    "userData": {
+        "validation": {
+            "validated": true,
+            "maskedPhoneNumber": null,
+            "emailIdChanged": false,
+            "changedmailId": null,
+            "otpSent": false
+        }
+    }
+}
+//passowrd updated
+// entering phone number
+{
+    "statusCode": 200,
+    "message": "",
+    "status": "success",
+    "userData": {
+        "validation": {
+            "validated": false,
+            "maskedPhoneNumber": "",
+            "emailIdChanged": true,
+            "changedmailId": "shashankk@yopmail.com",
+            "otpSent": true
+        }
+    }
+}

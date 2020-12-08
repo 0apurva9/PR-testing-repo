@@ -13,6 +13,8 @@ export interface MobileNumberLoginSteps {
     isStepLoginSuccess2: boolean;
     isStepLoginSuccess3: boolean;
     isStepAddEmail: boolean;
+    isForgotPassword : boolean;
+    isStepEmail : boolean;
 }
 export interface MnlApiData {
     email: string;

@@ -17,6 +17,8 @@ const initailState: MobileNumberLoginReduxState = {
         isStepLoginSuccess2: false,
         isStepLoginSuccess3: false,
         isStepValidateOtp: false,
+        isForgotPassword: false,
+        isStepEmail : false
     },
     mnlApiData: {
         email: "",

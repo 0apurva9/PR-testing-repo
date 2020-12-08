@@ -12,6 +12,7 @@ import {
     changeLoginStep,
     generateOTP,
     validateOtp,
+    updatePassword
 } from "./store/mobile-number-login.actions";
 
 const mapDispatchToProps = (disptach: Function) => {
@@ -24,6 +25,7 @@ const mapDispatchToProps = (disptach: Function) => {
             disptach(showSecondaryLoader());
             disptach(setMnlApiData(apidata));
             disptach(validateMnlChallenge());
+            disptach(changeLoginStep("isStepValidateOtp"))
         },
         loginWithPassword: (apiData: MnlApiData) => {
             disptach(showSecondaryLoader());
@@ -43,6 +45,10 @@ const mapDispatchToProps = (disptach: Function) => {
             disptach(setMnlApiData(apiData));
             disptach(validateOtp());
         },
+        forgotPassword: () => {
+            disptach(showSecondaryLoader());
+            disptach(updatePassword())
+        } 
     };
 };
 

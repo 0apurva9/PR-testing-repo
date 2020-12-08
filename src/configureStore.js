@@ -15,41 +15,45 @@ import auth from "./auth/reducers/auth.reducer";
 import cart from "./cart/reducers/cart.reducer";
 import desktopFooter from "./general/desktopFooter.reducer";
 import user from "../src/auth/reducers/user.reducer";
-import { createStore, combineReducers, applyMiddleware } from "redux";
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import * as api from "../src/lib/apiRequest";
 import thunk from "redux-thunk";
 import { mobileNumberLoginReducer } from "./mobile-number-login/store/mobile-number-login.reducer";
 
 export const rootReducer = combineReducers({
-  auth,
-  user,
-  modal,
-  feed,
-  productListings,
-  productDescription,
-  search,
-  secondaryLoader,
-  toast,
-  cart,
-  brandDefault,
-  categoryDefault,
-  profile,
-  wishlistItems,
-  header,
-  icid,
-  desktopFooter,
-  mobileNumberLogin: mobileNumberLoginReducer
+    auth,
+    user,
+    modal,
+    feed,
+    productListings,
+    productDescription,
+    search,
+    secondaryLoader,
+    toast,
+    cart,
+    brandDefault,
+    categoryDefault,
+    profile,
+    wishlistItems,
+    header,
+    icid,
+    desktopFooter,
+    mobileNumberLogin: mobileNumberLoginReducer,
 });
 
 export default function configureStore(preloadedState: any) {
-  let store = createStore(
-    rootReducer,
-    preloadedState,
-    applyMiddleware(
-      thunk.withExtraArgument({
-        api
-      })
-    )
-  );
-  return store;
+    // added redux tools
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    let store = createStore(
+        rootReducer,
+        preloadedState,
+        composeEnhancers(
+            applyMiddleware(
+                thunk.withExtraArgument({
+                    api,
+                })
+            )
+        )
+    );
+    return store;
 }

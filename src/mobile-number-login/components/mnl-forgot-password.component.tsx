@@ -2,7 +2,7 @@ import React from "react";
 import * as styles from "../mobile-number-login.css";
 import { MnlApiData } from "../mobile-number-login.types";
 
-export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordState> {
+export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPasswordState> {
     public state: Readonly<MnlPasswordState> = {
         showPassword: false,
         password: "",
@@ -25,7 +25,9 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
     public onContinuButtonClick() {
         const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
         mnlApiData.pass = this.state.password;
-        this.props.setMnlApiData(mnlApiData);   
+        this.props.setMnlApiData(mnlApiData);
+        this.props.forgotPassword();
+        
     }
 
     public render() {
@@ -35,7 +37,7 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
                 <div className={styles.whiteBox}>
                     <div className={styles.headSec}>
                         <h2>Welcome Back</h2>
-                        <p>Please enter your password tom proceed</p>
+                        <p>Please enter new password to Continue</p>
                     </div>
                     <div className={styles.formSec}>
                         <div className={styles.feildSec}>

@@ -7,6 +7,8 @@ import { MnlPassword } from "./components/mnl-password.component";
 import { MnlSucess1 } from "./components/mnl-succes1.component";
 import { MnlAddMobileNumber } from "./components/mnl-add-mobile-number.component";
 import { MnlOtp } from "./components/mnl-otp.component";
+import { MnlForgotPassword } from "./components/mnl-forgot-password.component";
+import {MnlEmail} from "./components/mnl-email-component";
 
 export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, MobileNumberLoginState> {
     public render() {
@@ -14,6 +16,23 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
             <div className={styles.overLay}>
                 <div className={styles.overLayInner}>
                     <div className={styles.signIn}>
+                        {this.props.steps.isStepEmail && (
+                            <MnlEmail
+                            setMnlApiData={(mnlApiData) => this.props.validateChallenge(mnlApiData)}
+                            validateOtp={(apidata) => this.props.validateOtp(apidata)}                            
+                            mnlApiData={this.props.mnlApiData}
+                            />
+                            
+                        )}
+                        {this.props.steps.isForgotPassword && (
+                            <MnlForgotPassword
+                                mnlApiData={this.props.mnlApiData}
+                                setMnlApiData={(apiData) => this.props.loginWithPassword(apiData)}
+                                changeLoginStep={(stepKey) => this.props.changeLoginStep(stepKey)}
+                                generateOtp={(apiData) => this.props.generateOtp(apiData)}
+                                forgotPassword={() => this.props.forgotPassword()}
+                            />
+                        )}
                         {this.props.steps.isStepLoginChallenge && (
                             <MnlChallenge setMnlApiData={(mnlApiData) => this.props.validateChallenge(mnlApiData)} />
                         )}
@@ -21,6 +40,9 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                             <MnlPassword
                                 mnlApiData={this.props.mnlApiData}
                                 setMnlApiData={(apiData) => this.props.loginWithPassword(apiData)}
+                                changeLoginStep={(stepKey) => this.props.changeLoginStep(stepKey)}
+                                generateOtp={(apiData) => this.props.generateOtp(apiData)}
+                                forgotPassword={() => this.props.forgotPassword()}
                             />
                         )}
                         {this.props.steps.isStepAddMobileNumber && (
@@ -35,6 +57,7 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                                 mnlApidata={this.props.mnlApiData}
                                 changeLoginStep={(stepKey) => this.props.changeLoginStep(stepKey)}
                                 mnlApiResponse={this.props.mnlApiResponse}
+                                validateChallenge={(mnlApiData) => this.props.validateChallenge(mnlApiData)}
                             />
                         )}
                         {this.props.steps.isStepLoginSuccess1 && (
@@ -65,6 +88,7 @@ export interface MobileNumberLoginProps extends RouteComponentProps {
     changeLoginStep: (stepKey: string) => void;
     generateOtp: (apiData: MnlApiData) => void;
     validateOtp: (apiData: MnlApiData) => void;
+    forgotPassword: () => void;
 }
 
-export interface MobileNumberLoginState {}
+export interface MobileNumberLoginState { }
