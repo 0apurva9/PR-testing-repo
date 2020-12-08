@@ -51,7 +51,14 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
                                 ></button>
                             </div>
                             <div className={styles.formInfoTxt}>
-                                <button type="button" className={styles.btnLink}>
+                                <button
+                                    type="button"
+                                    className={styles.btnLink}
+                                    style={{ float: "left" }}
+                                    onClick={() => this.props.useOtp(this.props.mnlApiData)}>
+                                    Use OTP
+                                </button>
+                                <button type="button" className={styles.btnLink} style={{ float: "right" }}>
                                     Forgot Password?
                                 </button>
                             </div>
@@ -75,6 +82,7 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
 export interface MnlPasswordProps {
     mnlApiData: MnlApiData;
     setMnlApiData: (mnlApiData: MnlApiData) => void;
+    useOtp: (mnlApiData: MnlApiData) => void;
 }
 
 export interface MnlPasswordState {
