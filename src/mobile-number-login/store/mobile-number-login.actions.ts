@@ -211,7 +211,7 @@ export function validateOtp() {
         if (mnlApiResponseState && mnlApiResponseState.userData.customer.loginVia === "mobile") {
             header = {
                 Authorization: `Bearer ${globalAccessToken.access_token}`,
-                "register-user": false,
+                "register-user": true,
                 registerviamobile: true,
                 grant_type: "password",
                 client_id: CLIENT_ID,
