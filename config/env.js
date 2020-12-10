@@ -97,6 +97,7 @@ if (
   process.env.REACT_APP_STAGE === "qa4" ||
   process.env.REACT_APP_STAGE === "qa5" ||
   process.env.REACT_APP_STAGE === "qa6" ||
+  process.env.REACT_APP_STAGE === "qa7" ||
   process.env.REACT_APP_STAGE === "pt1" ||
   process.env.REACT_APP_STAGE === "pt2"
 ) {
@@ -187,6 +188,7 @@ if (process.env.REACT_APP_STAGE === "devxelp") {
   process.env.REACT_APP_STAGE === "qa4" ||
   process.env.REACT_APP_STAGE === "qa5" ||
   process.env.REACT_APP_STAGE === "qa6" ||
+  process.env.REACT_APP_STAGE === "qa7" ||
   process.env.REACT_APP_STAGE === "pt1" ||
   process.env.REACT_APP_STAGE === "pt2"
 ) {
@@ -254,6 +256,7 @@ if (
   process.env.REACT_APP_STAGE === "qa4" ||
   process.env.REACT_APP_STAGE === "qa5" ||
   process.env.REACT_APP_STAGE === "qa6" ||
+  process.env.REACT_APP_STAGE === "qa7" ||
   process.env.REACT_APP_STAGE === "pt1" ||
   process.env.REACT_APP_STAGE === "pt2"
 ) {

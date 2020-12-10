@@ -134,6 +134,7 @@
     "qa4": "REACT_APP_STAGE=qa4 node scripts/build.js",
     "qa5": "REACT_APP_STAGE=qa5 node scripts/build.js",
     "qa6": "REACT_APP_STAGE=qa6 node scripts/build.js",
+    "qa7": "REACT_APP_STAGE=qa7 node scripts/build.js",
     "pt1": "REACT_APP_STAGE=pt1 node scripts/build.js",
     "pt2": "REACT_APP_STAGE=pt2 node scripts/build.js",
     "qa8": "REACT_APP_STAGE=qa8 node scripts/build.js",
