@@ -1685,27 +1685,33 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
       return item.key === "Season";
     });
   }
+  const selectedSizeOption =
+    pdpResponse &&
+    pdpResponse.variantOptions &&
+    pdpResponse.variantOptions.find(option => option.colorlink.selected);
+  const selectedSize =
+    selectedSizeOption &&
+    selectedSizeOption.sizelink &&
+    selectedSizeOption.sizelink.size;
   let productTag =
     pdpResponse && pdpResponse.allOOStock === true
       ? "Out of Stock"
       : pdpResponse && pdpResponse.isProductNew === "Y"
-        ? "New"
-        : seasonData && seasonData.key === "Season"
-          ? seasonData.value
-          : pdpResponse.isOnlineExclusive === "Y"
-            ? "New"
-            : pdpResponse.isExchangeAvailable === true &&
-              pdpResponse.showExchangeTag === true
-              ? "Exchange Offer"
-              : pdpResponse &&
-                pdpResponse.discount &&
-                pdpResponse.discount !== "0"
-                ? `${parseInt(pdpResponse.discount, 10)}% off`
-                : pdpResponse &&
-                  pdpResponse.isOfferExisting &&
-                  pdpResponse.isOfferExisting == "Y"
-                  ? "On Offer"
-                  : "";
+      ? "New"
+      : seasonData && seasonData.key === "Season"
+      ? seasonData.value
+      : pdpResponse.isOnlineExclusive === "Y"
+      ? "New"
+      : pdpResponse.isExchangeAvailable === true &&
+        pdpResponse.showExchangeTag === true
+      ? "Exchange Offer"
+      : pdpResponse && pdpResponse.discount && pdpResponse.discount !== "0"
+      ? `${parseInt(pdpResponse.discount, 10)}% off`
+      : pdpResponse &&
+        pdpResponse.isOfferExisting &&
+        pdpResponse.isOfferExisting == "Y"
+      ? "On Offer"
+      : "";
   let productCategoryId = pdpResponse && pdpResponse.categoryHierarchy;
   let APlusTamplete =
     pdpResponse &&
@@ -1716,10 +1722,13 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
       product: {
         id: pdpResponse ? pdpResponse.productListingId : "",
         category: pdpResponse ? pdpResponse.rootCategory : "",
-        category_id:
-          productCategoryId && productCategoryId[productCategoryId.length - 1],
+        ccategory_id: productCategoryId
+          ? productCategoryId && productCategoryId[productCategoryId.length - 1]
+          : pdpResponse && pdpResponse.categoryL4Code,
         colour: selectedColour ? selectedColour : "",
-        tag: productTag ? productTag : ""
+        tag: productTag ? productTag : "",
+        size: selectedSize || "",
+        name: pdpResponse && pdpResponse.productName
       },
       brand: {
         name: pdpResponse ? pdpResponse.brandName : ""
@@ -1950,8 +1959,8 @@ export function setDataLayerForRetryPaymentAccountSection(
           product.winningSellerPrice && product.winningSellerPrice.doubleValue
             ? product.winningSellerPrice.doubleValue
             : product.mrpPrice && product.mrpPrice.doubleValue
-              ? product.mrpPrice.doubleValue
-              : null;
+            ? product.mrpPrice.doubleValue
+            : null;
         let quantity =
           totalPrice > originalPrice ? totalPrice / originalPrice : 1;
         productQuantityArray.push(quantity);
@@ -1959,16 +1968,16 @@ export function setDataLayerForRetryPaymentAccountSection(
           totalPrice
             ? totalPrice
             : product.mrpPrice && product.mrpPrice.doubleValue
-              ? product.mrpPrice.doubleValue
-              : null
+            ? product.mrpPrice.doubleValue
+            : null
         );
       } else {
         productPriceArray.push(
           product.winningSellerPrice && product.winningSellerPrice.doubleValue
             ? product.winningSellerPrice.doubleValue
             : product.mrpPrice && product.mrpPrice.doubleValue
-              ? product.mrpPrice.doubleValue
-              : null
+            ? product.mrpPrice.doubleValue
+            : null
         );
         productQuantityArray.push(1);
       }
@@ -2066,7 +2075,9 @@ function getDigitalDataForCart(type, cartResponse) {
       productQuantityArray,
       productPriceArray,
       productBrandArray,
-      categoryArray
+      categoryArray,
+      productCategoryIdArray,
+      productNameArray
     } = getProductData;
     Object.assign(data, {
       cpj: {
@@ -2074,7 +2085,9 @@ function getDigitalDataForCart(type, cartResponse) {
           id: productIdsArray,
           quantity: productQuantityArray,
           price: productPriceArray,
-          category: categoryArray
+          category: categoryArray,
+          categoryId: productCategoryIdArray,
+          productName: productNameArray
         },
         brand: {
           name: productBrandArray
@@ -2286,7 +2299,9 @@ function getProductsDigitalData(response, type) {
       productQuantityArray = [],
       productPriceArray = [],
       productBrandArray = [],
-      categoryArray = [];
+      categoryArray = [],
+      productCategoryIdArray = [],
+      productNameArray = [];
     response.products.forEach(function(product) {
       productIdsArray.push(
         product.productcode && product.productcode.toLowerCase()
@@ -2296,22 +2311,28 @@ function getProductsDigitalData(response, type) {
           product.qtySelectedByUser
             ? product.qtySelectedByUser
             : product.quantity
-              ? product.quantity
-              : 1,
+            ? product.quantity
+            : 1,
           10
         )
       );
+      product &&
+        product.productCategoryId &&
+        productCategoryIdArray.push(product.productCategoryId);
+      product &&
+        product.productName &&
+        productNameArray.push(product.productName);
       productPriceArray.push(
         parseInt(
           product.offerPrice
             ? product.offerPrice
             : product.pricevalue
-              ? product.pricevalue
-              : product.price
-                ? product.price
-                : product.mrp && product.mrp.value
-                  ? product.mrp.value
-                  : null,
+            ? product.pricevalue
+            : product.price
+            ? product.price
+            : product.mrp && product.mrp.value
+            ? product.mrp.value
+            : null,
           10
         )
       );
@@ -2328,11 +2349,12 @@ function getProductsDigitalData(response, type) {
             product.productName === "Gift Card"
               ? "Gift card"
               : product.categoryHierarchy &&
-                product.categoryHierarchy[currentReverseArray] &&
-                product.categoryHierarchy[currentReverseArray].category_name &&
-                product.categoryHierarchy[currentReverseArray].category_name
-                  .replace(/ /g, "_")
-                  .toLowerCase()
+                  product.categoryHierarchy[currentReverseArray] &&
+                  product.categoryHierarchy[currentReverseArray]
+                    .category_name &&
+                  product.categoryHierarchy[currentReverseArray].category_name
+                    .replace(/ /g, "_")
+                    .toLowerCase()
           );
         } else if (product.rootCategory) {
           categoryArray.push(product.rootCategory);
@@ -2343,11 +2365,11 @@ function getProductsDigitalData(response, type) {
             product.productName === "Gift Card"
               ? "Gift card"
               : product.categoryHierarchy &&
-                product.categoryHierarchy[0] &&
-                product.categoryHierarchy[0].category_name &&
-                product.categoryHierarchy[0].category_name
-                  .replace(/ /g, "_")
-                  .toLowerCase()
+                  product.categoryHierarchy[0] &&
+                  product.categoryHierarchy[0].category_name &&
+                  product.categoryHierarchy[0].category_name
+                    .replace(/ /g, "_")
+                    .toLowerCase()
           );
         } else if (product.rootCategory) {
           categoryArray.push(product.rootCategory);
@@ -2359,7 +2381,9 @@ function getProductsDigitalData(response, type) {
       productQuantityArray,
       productPriceArray,
       productBrandArray,
-      categoryArray
+      categoryArray,
+      productCategoryIdArray,
+      productNameArray
     };
   } else {
     return null;
