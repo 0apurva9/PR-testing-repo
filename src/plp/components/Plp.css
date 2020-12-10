@@ -185,3 +185,8 @@
   width: 25%;
   display: inline-block;
 }
+
+.switchView {
+  position: relative;
+  top: 44px;
+}

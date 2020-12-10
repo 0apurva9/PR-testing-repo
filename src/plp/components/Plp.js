@@ -52,7 +52,9 @@ export default class Plp extends React.Component {
       fixedScroll: false,
       view: GRID,
       gridBreakup: false,
-      isCurrentUrl: 0
+      isCurrentUrl: 0,
+      showToggleButton: false,
+      toggleView: false
     };
   }
   toggleFilter = () => {
@@ -168,6 +170,19 @@ export default class Plp extends React.Component {
       this.props.paginate(this.props.pageNumber + 1, SUFFIX);
     }
   }
+
+  UNSAFE_componentWillReceiveProps() {
+    const viewInfoData =
+      this.props &&
+      this.props.productListings &&
+      this.props.productListings.view;
+    if (viewInfoData) {
+      if (viewInfoData.imageToggle) {
+        this.setState({ showToggleButton: true });
+      }
+    }
+  }
+
   componentDidMount() {
     this.throttledScroll = !UserAgent.checkUserAgentIsMobile()
       ? () => this.handleScroll()
@@ -405,6 +420,7 @@ export default class Plp extends React.Component {
       isFilter: false
     });
   }
+
   componentDidUpdate(prevProps) {
     this.setHeaderText();
     if (!UserAgent.checkUserAgentIsMobile()) {
@@ -420,7 +436,22 @@ export default class Plp extends React.Component {
         this.setState({ totalHeight: maxHeight });
       }
     }
+    if (
+      (prevProps.productListings && prevProps.productListings.view) !==
+      (this.props.productListings && this.props.productListings.view)
+    ) {
+      const viewInfoData =
+        this.props &&
+        this.props.productListings &&
+        this.props.productListings.view;
+      if (viewInfoData) {
+        if (viewInfoData.imageToggle) {
+          this.setState({ showToggleButton: true });
+        }
+      }
+    }
   }
+
   backPage = () => {
     if (this.props.isFilterOpen) {
       this.props.hideFilter();
@@ -550,6 +581,10 @@ export default class Plp extends React.Component {
       );
     }
   };
+
+  toggleSwatchProductView() {
+    this.setState({ toggleView: !this.state.toggleView });
+  }
 
   render() {
     let selectedFilterCount = 0;
@@ -725,6 +760,21 @@ export default class Plp extends React.Component {
                           <Icon image={listImage} size={20} />
                         )}
                       </div>
+                      {!electronicView && this.state.showToggleButton && (
+                        <div className={styles.switchView}>
+                          <div
+                            className={styles.icon}
+                            onClick={() => this.toggleSwatchProductView()}
+                          >
+                            {this.state.gridBreakup && (
+                              <Icon image={gridImage} size={20} />
+                            )}
+                            {!this.state.gridBreakup && (
+                              <Icon image={listImage} size={20} />
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </DesktopOnly>
                   </div>
                 )}
@@ -822,6 +872,7 @@ export default class Plp extends React.Component {
                       gridBreakup={this.state.gridBreakup}
                       productListings={this.props.productListings}
                       secondaryFeedData={this.props.secondaryFeedData}
+                      toggleView={this.state.toggleView}
                     />
                   </div>
                   <DesktopOnly>
