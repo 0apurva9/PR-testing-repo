@@ -195,10 +195,10 @@ export function validateOtp() {
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().mobileNumberLogin.mnlApiData;
         const mnlApiResponseState = getState().mobileNumberLogin.mnlApiResponse;
-        if (mnlApiResponseState && !mnlApiResponseState.userData.customer.numberAdded) {
+        if (mnlApiResponseState && mnlApiResponseState.userData && !mnlApiResponseState.userData.customer.numberAdded) {
             apiData.pass = "";
         }
-        if (mnlApiResponseState && mnlApiResponseState.userData.validation && mnlApiResponseState.userData.validation.changedmailId) {
+        if (mnlApiResponseState && mnlApiResponseState.userData && mnlApiResponseState.userData.validation && mnlApiResponseState.userData.validation.changedmailId) {
             apiData.email = mnlApiResponseState.userData.validation.changedmailId;
         }
         let globalAccessToken = await getFetchGlobalAccessToken(dispatch);
