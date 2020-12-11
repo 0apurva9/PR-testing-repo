@@ -87,9 +87,10 @@ export function validateMnlChallenge() {
         else if (mnlApiResponse.userData.customer.newUser) {
             dispatch(changeLoginStep("isStepAddMobileNumber"));
         }
-        else if (mnlApiResponse.userData.customer.loginVia === "email" && mnlApiResponse.userData.customer.maskedPhoneNumber.length) {
-            dispatch(generateOTP());
+        else if (mnlApiResponse.userData.customer.maskedPhoneNumber.length) {
+            mnlApiResponse.userData.customer.loginVia === "email" ? dispatch(generateOTP()) : dispatch(changeLoginStep("isStepValidateOtp"));
         }
+
         dispatch(hideSecondaryLoader());
     };
 }
