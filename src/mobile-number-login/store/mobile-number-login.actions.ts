@@ -344,7 +344,7 @@ export function addnewEmail() {
 
         let authentication: any = Cookie.getCookie("MNL_ACCESS_TOKEN")
 
-        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/updateprofile_V1?emailid=${apiData.email}&otp=${apiData.otp}&emailOld=${mnlUserDetails.email}&ProfileDataRequired=false&isPwa=true`, null, true, {
+        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/updateprofile_V1?emailOld=${mnlUserDetails.email}&otpOld=${apiData.otp}&emailid=${apiData.email}&ProfileDataRequired=false&isPwa=true`, null, true, {
             Authorization: `Bearer ${JSON.parse(authentication).accessToken}`,
             // "register-user": true,
             // registerviamobile: false,
