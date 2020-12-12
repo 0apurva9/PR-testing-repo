@@ -13,6 +13,9 @@ export interface MobileNumberLoginSteps {
     isStepLoginSuccess2: boolean;
     isStepLoginSuccess3: boolean;
     isStepAddEmail: boolean;
+    isStepChangeEmailOtp: boolean;
+    isStepChangeEmail: boolean;
+    isStepChangeEmailSucess: boolean;
 }
 export interface MnlApiData {
     email: string;
