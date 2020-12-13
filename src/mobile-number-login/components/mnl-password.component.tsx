@@ -20,6 +20,7 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
     public onForgotPasswordClick(){
         const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
         this.props.generateOtp(mnlApiData);
+        this.props.toggleForgotPassswordClick();
     }
 
     public onContinuButtonClick() {
@@ -84,7 +85,8 @@ export interface MnlPasswordProps {
     setMnlApiData: (mnlApiData: MnlApiData) => void;
     changeLoginStep: (stepKey: string) => void;
     generateOtp: (apiData: MnlApiData) => void;
-    forgotPassword : () => void;
+    forgotPassword : (apiData: MnlApiData) => void;
+    toggleForgotPassswordClick : () => void;
 }
 
 export interface MnlPasswordState {

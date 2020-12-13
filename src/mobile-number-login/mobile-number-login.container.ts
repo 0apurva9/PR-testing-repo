@@ -12,7 +12,10 @@ import {
     changeLoginStep,
     generateOTP,
     validateOtp,
-    updatePassword
+    updatePassword,
+    verifyOtpUpdatePassword,
+    updatePasswordProfile,
+    validateOtpChangeProfileNumber
 } from "./store/mobile-number-login.actions";
 
 const mapDispatchToProps = (disptach: Function) => {
@@ -45,10 +48,23 @@ const mapDispatchToProps = (disptach: Function) => {
             disptach(setMnlApiData(apiData));
             disptach(validateOtp());
         },
-        forgotPassword: () => {
+        forgotPassword: (apiData: MnlApiData) => {
             disptach(showSecondaryLoader());
+            disptach(setMnlApiData(apiData));
             disptach(updatePassword())
-        } 
+        },
+        validateProfileOtp : (apiData: MnlApiData) => {
+            disptach(setMnlApiData(apiData));
+            disptach(verifyOtpUpdatePassword())
+        },
+        changeProfilePassword : (apiData: MnlApiData) => {
+            disptach(setMnlApiData(apiData));
+            disptach(updatePasswordProfile())
+        },
+        updateProfileMobileNumber : (apiData: MnlApiData) => {
+            disptach(setMnlApiData(apiData));
+            disptach(validateOtpChangeProfileNumber())
+        }
     };
 };
 

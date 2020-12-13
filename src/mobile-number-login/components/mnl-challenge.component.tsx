@@ -39,6 +39,7 @@ export class MnlChallenge extends React.Component<MnlChallengeProps, MnlChalleng
             pass: "",
             phoneNumber: this.state.mobileNumber,
             platformNumber: PLAT_FORM_NUMBER,
+            otp2 : ""
         });
     }
 

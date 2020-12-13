@@ -18,15 +18,24 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
     }
 
     public onForgotPasswordClick(){
-        const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
+        const mnlApiData: MnlApiData = Object.assign({},this.props.mnlApiData );
         this.props.generateOtp(mnlApiData);
     }
 
     public onContinuButtonClick() {
-        const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
+        // const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
+        const mnlApiData: MnlApiData = Object.assign({},this.props.mnlApiData );
+
         mnlApiData.pass = this.state.password;
-        this.props.setMnlApiData(mnlApiData);
-        this.props.forgotPassword();
+        // condition for changing password for profile section
+        // if(this.props.isForgotPassword){
+        //     this.props.changeProfilePassword(mnlApiData);
+        // }else{
+
+        //     this.props.forgotPassword(mnlApiData);
+        // }
+        this.props.forgotPassword(mnlApiData);
+
         
     }
 
@@ -57,13 +66,6 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
                                     onClick={() => this.setState({ showPassword: !this.state.showPassword })}
                                 ></button>
                             </div>
-                            <div className={styles.formInfoTxt}>
-                                <button type="button" className={styles.btnLink}
-                                onClick = {() => this.onForgotPasswordClick()}
-                                >
-                                    Forgot Password?
-                                </button>
-                            </div>
                         </div>
 
                         <button
@@ -86,7 +88,9 @@ export interface MnlPasswordProps {
     setMnlApiData: (mnlApiData: MnlApiData) => void;
     changeLoginStep: (stepKey: string) => void;
     generateOtp: (apiData: MnlApiData) => void;
-    forgotPassword : () => void;
+    forgotPassword : (apiData: MnlApiData) => void;
+    isForgotPassword : boolean;
+    changeProfilePassword : (apiData: MnlApiData) => void;
 }
 
 export interface MnlPasswordState {
