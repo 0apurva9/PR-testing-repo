@@ -1353,6 +1353,13 @@ export default class OrderDetails extends React.Component {
                   cliqCashAmountDeducted={
                     orderDetails && orderDetails.cliqCashAmountDeducted
                   }
+                  noCostEmiDiscount={
+                    orderDetails.orderAmount &&
+                    orderDetails.orderAmount.noCostEMIDiscountValue &&
+                    orderDetails.orderAmount.noCostEMIDiscountValue.value
+                      ? orderDetails.orderAmount.noCostEMIDiscountValue.value
+                      : 0
+                  }
                 />
                 <React.Fragment>
                   {this.state.itemDetails && (
