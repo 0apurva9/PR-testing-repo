@@ -6,6 +6,7 @@ import {
 } from "./mobile-number-login.actions";
 import { PLAT_FORM_NUMBER } from "../../lib/constants";
 import { MobileNumberLoginReduxState } from "../mobile-number-login.types";
+import * as Cookies from "../../lib/Cookie";
 
 const initailState: MobileNumberLoginReduxState = {
     steps: {
@@ -17,6 +18,9 @@ const initailState: MobileNumberLoginReduxState = {
         isStepLoginSuccess2: false,
         isStepLoginSuccess3: false,
         isStepValidateOtp: false,
+        isStepChangeEmailOtp: false,
+        isStepChangeEmail: false,
+        isStepChangeEmailSucess: false,
     },
     mnlApiData: {
         email: "",
@@ -51,6 +55,15 @@ export function mobileNumberLoginReducer(
             } else {
                 newState.mnlApiResponse = action.payload;
             }
+
+            if (newState.mnlApiResponse && newState.mnlApiResponse.userData && newState.mnlApiResponse.userData.customer && newState.mnlApiResponse.userData.customer) {
+                let mnlUserDetails: any = {};
+                mnlUserDetails.loginType = newState.mnlApiResponse.userData.customer.loginVia;
+                mnlUserDetails.email = newState.mnlApiData.email;
+                mnlUserDetails.phoneNumber = newState.mnlApiData.phoneNumber;
+                Cookies.createCookie("mnlUserDetails", JSON.stringify(mnlUserDetails));
+            }
+
             return newState;
         default:
             return state;

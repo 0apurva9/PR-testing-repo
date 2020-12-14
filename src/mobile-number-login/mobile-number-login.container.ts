@@ -12,6 +12,8 @@ import {
     changeLoginStep,
     generateOTP,
     validateOtp,
+    validateEmailOtp,
+    addnewEmail,
 } from "./store/mobile-number-login.actions";
 
 const mapDispatchToProps = (disptach: Function) => {
@@ -43,6 +45,17 @@ const mapDispatchToProps = (disptach: Function) => {
             disptach(setMnlApiData(apiData));
             disptach(validateOtp());
         },
+        validateEmailOtp: (apiData: MnlApiData) => {
+            disptach(showSecondaryLoader());
+            disptach(setMnlApiData(apiData));
+            disptach(validateEmailOtp());
+        },
+        addnewEmail: (apiData: MnlApiData) => {
+            disptach(showSecondaryLoader());
+            disptach(setMnlApiData(apiData));
+            disptach(addnewEmail());
+        },
+
     };
 };
 

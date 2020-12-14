@@ -2,7 +2,7 @@ import React from "react";
 import * as styles from "../mobile-number-login.css";
 import { MnlApiData, MnlApiResponse } from "../mobile-number-login.types";
 
-export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
+export class MnlEmailChangeOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     public state: Readonly<MnlOtpState> = {
         otp: "      ",
         isInputValid: false,
@@ -66,22 +66,18 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
         }
     }
 
-    private editMobileNumber() {
-        this.props.changeLoginStep("isStepAddMobileNumber");
-    }
-
     private onContinueBtnClick() {
         const mnlApidata = Object.assign({}, this.props.mnlApidata, { otp: this.state.otp });
-        this.props.validateOtp(mnlApidata);
+        this.props.validateEmailOtp(mnlApidata);
     }
 
     public render() {
         return (
             <div className={styles.whiteBox}>
                 <div className={styles.headSec}>
-                    <h2>Almost There</h2>
+                    <h2>Update Your E-mail</h2>
                     <p>
-                        Please enter the 6 digit OTP that we just sent on +91{" "}
+                        Please enter the 6 digit OTP that we just sent on Email{" "}
                         {this.props.mnlApiResponse && this.props.mnlApiResponse.userData && this.props.mnlApiResponse.userData.customer && this.props.mnlApiResponse.userData.customer.maskedPhoneNumber ||
                             this.props.mnlApidata.phoneNumber}
                     </p>
@@ -108,15 +104,6 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                             })}
                         </div>
                         <div className={[styles.flexRow50, styles.justify_space].join(" ")}>
-                            <div className={styles.flexRow50Cols}>
-                                <button
-                                    type="button"
-                                    className={styles.btnLink}
-                                    onClick={() => this.editMobileNumber()}
-                                >
-                                    Edit Number
-                                </button>
-                            </div>
                             <div className={[styles.flexRow50Cols, styles.text_right].join(" ")}>
                                 {this.state.resendOtp ? (
                                     <button type="button" className={styles.btnLink}>
@@ -144,7 +131,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
 
 export interface MnlOtpProps {
     mnlApidata: MnlApiData;
-    validateOtp: (mnlApiData: MnlApiData) => void;
+    validateEmailOtp: (mnlApiData: MnlApiData) => void;
     changeLoginStep: (stepKey: string) => void;
     mnlApiResponse: MnlApiResponse;
 }

@@ -5,8 +5,11 @@ import { MobileNumberLoginSteps, MnlApiData, MnlApiResponse } from "mobile-numbe
 import { MnlChallenge } from "./components/mnl-challenge.component";
 import { MnlPassword } from "./components/mnl-password.component";
 import { MnlSucess1 } from "./components/mnl-succes1.component";
+import { MnlEmailChange } from "./components/mnl-change-email.component";
 import { MnlAddMobileNumber } from "./components/mnl-add-mobile-number.component";
 import { MnlOtp } from "./components/mnl-otp.component";
+import { MnlEmailChangeOtp } from "./components/mnl-change-email-otp.component";
+import { MnlChangeEmailSucess } from "./components/mnl-change-email-succes.component"
 
 export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, MobileNumberLoginState> {
     public render() {
@@ -32,12 +35,32 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                         )}
                         {this.props.steps.isStepValidateOtp && (
                             <MnlOtp
-                                validateOtp={(apidata) => this.props.validateOtp(apidata)}
+                                validateOtp={(apidata) => this.props.validateEmailOtp(apidata)}
                                 mnlApidata={this.props.mnlApiData}
                                 changeLoginStep={(stepKey) => this.props.changeLoginStep(stepKey)}
                                 mnlApiResponse={this.props.mnlApiResponse}
                             />
                         )}
+                        {this.props.steps.isStepChangeEmailOtp && (
+                            <MnlEmailChangeOtp
+                                validateEmailOtp={(apidata) => this.props.validateEmailOtp(apidata)}
+                                mnlApidata={this.props.mnlApiData}
+                                changeLoginStep={(stepKey) => this.props.changeLoginStep(stepKey)}
+                                mnlApiResponse={this.props.mnlApiResponse}
+                            />
+                        )}
+                        {this.props.steps.isStepChangeEmail && (
+                            <MnlEmailChange
+                                addnewEmail={(apidata) => this.props.addnewEmail(apidata)}
+                                mnlApidata={this.props.mnlApiData}
+                                mnlApiResponse={this.props.mnlApiResponse}
+                            />
+                        )}
+                        {this.props.steps.isStepChangeEmailSucess &&
+                            (<MnlChangeEmailSucess
+                                hideMobileNumberLoginModal={() => this.props.hideMobileNumberLoginModal()}
+                                changeLoginStep={(stepKey) => this.props.changeLoginStep(stepKey)} />)}
+
                         {this.props.steps.isStepLoginSuccess1 && (
                             <MnlSucess1
                                 hideMobileNumberLoginModal={() => this.props.hideMobileNumberLoginModal()}
@@ -66,6 +89,8 @@ export interface MobileNumberLoginProps extends RouteComponentProps {
     changeLoginStep: (stepKey: string) => void;
     generateOtp: (apiData: MnlApiData) => void;
     validateOtp: (apiData: MnlApiData) => void;
+    validateEmailOtp: (apiData: MnlApiData) => void;
+    addnewEmail: (apiData: MnlApiData) => void;
 }
 
 export interface MobileNumberLoginState { }

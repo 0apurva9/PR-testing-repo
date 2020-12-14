@@ -7,6 +7,7 @@ import { GLOBAL_ACCESS_TOKEN, CLIENT_ID, CLIENT_SECRET, PLAT_FORM_NUMBER } from 
 import { getGlobalAccessToken, customerAccessTokenSuccess } from "../../auth/actions/user.actions.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { displayToast } from "../../general/toast.actions.js";
+import { showMobileNumberLoginModal } from "../../general/modal.actions";
 
 export const CHANGE_LOGIN_STEP = "ChangeLoginStep";
 export const SET_MNL_API_DATA = "SetMnlApiData";
@@ -90,7 +91,6 @@ export function validateMnlChallenge() {
         else if (mnlApiResponse.userData.customer.maskedPhoneNumber.length) {
             mnlApiResponse.userData.customer.loginVia === "email" ? dispatch(generateOTP()) : dispatch(changeLoginStep("isStepValidateOtp"));
         }
-
         dispatch(hideSecondaryLoader());
     };
 }
@@ -119,6 +119,7 @@ export function loginWithPassword() {
                 platformnumber: PLAT_FORM_NUMBER,
             });
             const mnlApiResponse: MnlApiResponse = await result.json();
+            Cookie.createCookie("MNL_ACCESS_TOKEN", JSON.stringify(mnlApiResponse.userData.authentication));
             const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
             if (errorStatus.status) {
                 dispatch(hideSecondaryLoader());
@@ -128,6 +129,7 @@ export function loginWithPassword() {
                 return;
             }
             dispatch(setMnlApiResponse(mnlApiResponse));
+
             if (mnlApiResponse.userData.authentication && mnlApiResponse.userData.authentication.accessToken) {
                 dispatch(changeLoginStep("isStepLoginSuccess1"));
                 dispatch(customerAccessTokenSuccess(mnlApiResponse.userData.authentication));
@@ -226,6 +228,152 @@ export function validateOtp() {
         if (mnlApiResponse.userData.authentication && mnlApiResponse.userData.authentication.accessToken) {
             dispatch(changeLoginStep("isStepLoginSuccess1"));
             dispatch(customerAccessTokenSuccess(mnlApiResponse.userData.authentication));
+        }
+        dispatch(hideSecondaryLoader());
+    };
+}
+
+export function updateEmailOtp() {
+    return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
+
+        let authentication: any = Cookie.getCookie("MNL_ACCESS_TOKEN");
+
+        let loginId = "";
+
+        let mnlUserDetailsCookies: any = Cookie.getCookie("mnlUserDetails");
+
+        let mnlUserDetails = JSON.parse(mnlUserDetailsCookies);
+
+        if (mnlUserDetails && mnlUserDetails.loginType === "email") {
+            loginId = mnlUserDetails.email;
+        } else {
+            loginId = mnlUserDetails.phoneNumber;
+        }
+
+        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/updateprofile_V1?emailOld=${mnlUserDetails.email}&ProfileDataRequired=false&isPwa=true`, null, true, {
+            Authorization: `Bearer ${JSON.parse(authentication).accessToken}`,
+            "register-user": true,
+            registerviamobile: false,
+            client_id: CLIENT_ID,
+            client_secret: CLIENT_SECRET,
+            platformnumber: PLAT_FORM_NUMBER,
+        });
+        const mnlApiResponse: MnlApiResponse = await result.json();
+        const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        if (errorStatus.status) {
+            dispatch(hideSecondaryLoader());
+            if (errorStatus.message) {
+                await dispatch(displayToast(errorStatus.message));
+            }
+            return;
+        }
+
+        dispatch(setMnlApiResponse(mnlApiResponse));
+
+        if (mnlApiResponse.status === "Success") {
+            dispatch(showMobileNumberLoginModal());
+            dispatch(changeLoginStep("isStepChangeEmailOtp"));
+        }
+        dispatch(hideSecondaryLoader());
+    };
+}
+
+export function validateEmailOtp() {
+    return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
+
+        let authentication: any = Cookie.getCookie("MNL_ACCESS_TOKEN");
+
+        const mnlApiData = getState().mobileNumberLogin.mnlApiData;
+
+        let loginId = "";
+
+        let mnlUserDetailsCookies: any = Cookie.getCookie("mnlUserDetails");
+
+        let mnlUserDetails = JSON.parse(mnlUserDetailsCookies);
+
+        if (mnlUserDetails && mnlUserDetails.loginType === "email") {
+            loginId = mnlUserDetails.email;
+        } else {
+            loginId = mnlUserDetails.phoneNumber;
+        }
+
+        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/updateprofile_V1?emailOld=${mnlUserDetails.email}&otpOld=${mnlApiData.otp}&ProfileDataRequired=false&isPwa=true`, null, true, {
+            Authorization: `Bearer ${JSON.parse(authentication).accessToken}`,
+            "register-user": true,
+            registerviamobile: false,
+            client_id: CLIENT_ID,
+            client_secret: CLIENT_SECRET,
+            platformnumber: PLAT_FORM_NUMBER,
+        });
+        const mnlApiResponse: MnlApiResponse = await result.json();
+        const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        if (errorStatus.status) {
+            dispatch(hideSecondaryLoader());
+            if (errorStatus.message) {
+                await dispatch(displayToast(errorStatus.message));
+            }
+            return;
+        }
+
+        dispatch(setMnlApiResponse(mnlApiResponse));
+
+        if (mnlApiResponse.status === "Success") {
+
+            dispatch(changeLoginStep("isStepChangeEmail"));
+        }
+        dispatch(hideSecondaryLoader());
+    };
+}
+
+export function addnewEmail() {
+    return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
+
+        const apiData = getState().mobileNumberLogin.mnlApiData;
+
+        let loginId = "";
+
+        let mnlUserDetailsCookies: any = Cookie.getCookie("mnlUserDetails");
+
+        let mnlUserDetails = JSON.parse(mnlUserDetailsCookies);
+
+        if (mnlUserDetails && mnlUserDetails.loginType === "email") {
+            loginId = mnlUserDetails.email;
+        } else {
+            loginId = mnlUserDetails.phoneNumber;
+        }
+
+        let authentication: any = Cookie.getCookie("MNL_ACCESS_TOKEN")
+
+        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/updateprofile_V1?emailOld=${mnlUserDetails.email}&otpOld=${apiData.otp}&emailid=${apiData.email}&ProfileDataRequired=false&isPwa=true`, null, true, {
+            Authorization: `Bearer ${JSON.parse(authentication).accessToken}`,
+            // "register-user": true,
+            // registerviamobile: false,
+            // //grant_type: "password",
+            // client_id: CLIENT_ID,
+            // client_secret: CLIENT_SECRET,
+            // platformnumber: PLAT_FORM_NUMBER,
+        });
+        const mnlApiResponse: MnlApiResponse = await result.json();
+        const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        if (errorStatus.status) {
+            dispatch(hideSecondaryLoader());
+            if (errorStatus.message) {
+                await dispatch(displayToast(errorStatus.message));
+            }
+            return;
+        }
+
+        dispatch(setMnlApiResponse(mnlApiResponse));
+
+        dispatch(changeLoginStep("isStepChangeEmailSucess"));
+        if (mnlApiResponse.status === "Success") {
+
+            mnlUserDetails.email = apiData.email;
+
+            Cookie.createCookie("mnlUserDetails", JSON.stringify(mnlUserDetails));
+
+            dispatch(changeLoginStep("isStepChangeEmailSucess"));
+
         }
         dispatch(hideSecondaryLoader());
     };
