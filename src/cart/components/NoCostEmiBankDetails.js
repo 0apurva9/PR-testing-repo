@@ -724,7 +724,8 @@ export default class NoCostEmiBankDetails extends React.Component {
                 this.state.emiInfo && (
                   <div className={styles.charges}>{this.state.emiInfo}</div>
                 )}
-              {this.state.selectedMonth !== null &&
+              {!this.props.isRetryPaymentFromURL &&
+                this.state.selectedMonth !== null &&
                 this.state.selectedMonth !== "" &&
                 this.props.noCostEmiDetails &&
                 this.renderMonthsPlan(this.props.noCostEmiDetails.cartAmount)}
