@@ -4,10 +4,11 @@ import { MnlApiResponse } from "../mobile-number-login.types";
 import { hideSecondaryLoader } from "../../general/secondaryLoader.actions.js";
 import * as Cookie from "../../lib/Cookie.js";
 import { GLOBAL_ACCESS_TOKEN, CLIENT_ID, CLIENT_SECRET, PLAT_FORM_NUMBER } from "../../lib/constants.js";
-import { getGlobalAccessToken, customerAccessTokenSuccess } from "../../auth/actions/user.actions.js";
+import { getGlobalAccessToken, customerAccessTokenSuccess, refreshTokenSuccess } from "../../auth/actions/user.actions.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { displayToast } from "../../general/toast.actions.js";
 import { showMobileNumberLoginModal } from "../../general/modal.actions";
+import { getUserDetails } from '../../account/actions/account.actions'
 
 export const CHANGE_LOGIN_STEP = "ChangeLoginStep";
 export const SET_MNL_API_DATA = "SetMnlApiData";
@@ -28,6 +29,16 @@ interface SetMnlApiResponse {
     readonly type: typeof SET_MNL_API_Response;
     readonly payload: MnlApiResponse;
 }
+
+export function setLoginCustomerData(mnlApiResponse: MnlApiResponse) {
+    return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
+        Cookie.createCookie("userDetails", JSON.stringify({ "userName": "shashankk@yopmail.com" }))
+        dispatch(customerAccessTokenSuccess(mnlApiResponse.userData.authentication));
+        dispatch(refreshTokenSuccess(mnlApiResponse.userData.authentication));
+        dispatch(getUserDetails(true))
+    }
+}
+
 
 export function changeLoginStep(loginStepKey: string): MobileNumberLoginActions {
     return {
@@ -119,7 +130,6 @@ export function loginWithPassword() {
                 platformnumber: PLAT_FORM_NUMBER,
             });
             const mnlApiResponse: MnlApiResponse = await result.json();
-            Cookie.createCookie("MNL_ACCESS_TOKEN", JSON.stringify(mnlApiResponse.userData.authentication));
             const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
             if (errorStatus.status) {
                 dispatch(hideSecondaryLoader());
@@ -132,7 +142,7 @@ export function loginWithPassword() {
 
             if (mnlApiResponse.userData.authentication && mnlApiResponse.userData.authentication.accessToken) {
                 dispatch(changeLoginStep("isStepLoginSuccess1"));
-                dispatch(customerAccessTokenSuccess(mnlApiResponse.userData.authentication));
+                dispatch(setLoginCustomerData(mnlApiResponse));
             }
             dispatch(hideSecondaryLoader());
         } else {
@@ -144,7 +154,7 @@ export function loginWithPassword() {
             const mnlApiResponse: MnlApiResponse = await result.json();
             const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
             if (errorStatus.status) {
-                dispatch(hideSecondaryLoader());
+                dispatch(hideSecondaryLoader()); dispatch(setLoginCustomerData(mnlApiResponse));
                 if (errorStatus.message) {
                     await dispatch(displayToast(errorStatus.message));
                 }
@@ -227,7 +237,7 @@ export function validateOtp() {
         dispatch(setMnlApiResponse(mnlApiResponse));
         if (mnlApiResponse.userData.authentication && mnlApiResponse.userData.authentication.accessToken) {
             dispatch(changeLoginStep("isStepLoginSuccess1"));
-            dispatch(customerAccessTokenSuccess(mnlApiResponse.userData.authentication));
+            dispatch(setLoginCustomerData(mnlApiResponse));
         }
         dispatch(hideSecondaryLoader());
     };

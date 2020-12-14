@@ -2525,48 +2525,16 @@ export function getUserDetailsFailure(error) {
     };
 }
 
-/* export function getUserDetails(isSetDataLayer) {
-  return async (dispatch, getState, { api }) => {
-    dispatch(getUserDetailsRequest());
-    console.log(getState());
-    const mnlApiResponseState = getState().mobileNumberLogin.mnlApiResponse;
-    console.log(mnlApiResponseState);
-    try {
-      const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-      const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-      const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/getCustomerProfile?access_token=${
-          JSON.parse(customerCookie).access_token
-        }&isPwa=true`
-      );
-      const resultJson = await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
-      }
-      if (isSetDataLayer) {
-        setDataLayer(AODBE_MY_ACCOUNT_SETTINGS);
-      }
-      dispatch(getUserDetailsSuccess(resultJson));
-    } catch (e) {
-      dispatch(getUserDetailsFailure(e.message));
-    }
-  };
-} */
-
 export function getUserDetails(isSetDataLayer) {
     return async (dispatch, getState, { api }) => {
         dispatch(getUserDetailsRequest());
+        console.log(getState());
         try {
             const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-            const mnlUserDetails = Cookie.getCookie("mnlUserDetails");
             const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
             const result = await api.get(
-                `${USER_PATH}/${JSON.parse(mnlUserDetails).email}/getCustomerProfile?access_token=${
-                    JSON.parse(customerCookie).access_token
+                `${USER_PATH}/${JSON.parse(userDetails).userName}/getCustomerProfile?access_token=${
+                    JSON.parse(customerCookie).accessToken
                 }&isPwa=true`
             );
             const resultJson = await result.json();
@@ -2584,6 +2552,34 @@ export function getUserDetails(isSetDataLayer) {
         }
     };
 }
+
+// export function getUserDetails(isSetDataLayer) {
+//     return async (dispatch, getState, { api }) => {
+//         dispatch(getUserDetailsRequest());
+//         try {
+//             const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+//             const mnlUserDetails = Cookie.getCookie("mnlUserDetails");
+//             const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+//             const result = await api.get(
+//                 `${USER_PATH}/${JSON.parse(mnlUserDetails).email}/getCustomerProfile?access_token=${
+//                     JSON.parse(customerCookie).access_token
+//                 }&isPwa=true`
+//             );
+//             const resultJson = await result.json();
+//             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+//             if (resultJsonStatus.status) {
+//                 throw new Error(resultJsonStatus.message);
+//             }
+//             if (isSetDataLayer) {
+//                 setDataLayer(AODBE_MY_ACCOUNT_SETTINGS);
+//             }
+//             dispatch(getUserDetailsSuccess(resultJson));
+//         } catch (e) {
+//             dispatch(getUserDetailsFailure(e.message));
+//         }
+//     };
+// }
 
 export function getUserCouponsRequest() {
     return {
