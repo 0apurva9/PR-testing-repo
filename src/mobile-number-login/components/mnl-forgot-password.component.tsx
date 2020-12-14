@@ -23,17 +23,8 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
     }
 
     public onContinuButtonClick() {
-        // const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
         const mnlApiData: MnlApiData = Object.assign({},this.props.mnlApiData );
-
         mnlApiData.pass = this.state.password;
-        // condition for changing password for profile section
-        // if(this.props.isForgotPassword){
-        //     this.props.changeProfilePassword(mnlApiData);
-        // }else{
-
-        //     this.props.forgotPassword(mnlApiData);
-        // }
         this.props.forgotPassword(mnlApiData);
 
         

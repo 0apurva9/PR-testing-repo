@@ -64,7 +64,7 @@ async function getFetchGlobalAccessToken(dispatch: Function) {
 export function validateMnlChallenge() {
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().mobileNumberLogin.mnlApiData;
-        let globalAccessToken = await getFetchGlobalAccessToken(dispatch);
+        const globalAccessToken = await getFetchGlobalAccessToken(dispatch);
         const result: Response = await api.post("mobileloginapi/v1/authnuser/validate", apiData, true, {
             Authorization: `Bearer ${globalAccessToken.access_token}`,
             "register-user": false,
@@ -80,15 +80,9 @@ export function validateMnlChallenge() {
             return;
         }
         dispatch(setMnlApiResponse(mnlApiResponse));
-        if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.passwordSet) {	        //need to update condition
-            dispatch(changeLoginStep("isStepLoginPassword"));	        // 1. check response for profile updated
+        if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.passwordSet) {	  
+            dispatch(changeLoginStep("isStepLoginPassword"));	        
         }
-        //need to update condition
-        // 1. check response for profile updated
-        // 2. remove current conditions
-        // if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.passwordSet) {
-        //     dispatch(changeLoginStep("isStepLoginPassword"));
-        // }
         dispatch(hideSecondaryLoader());
     };
 }
@@ -161,7 +155,7 @@ export function loginWithPassword() {
 export function generateOTP() {
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().mobileNumberLogin.mnlApiData;
-        let globalAccessToken = await getFetchGlobalAccessToken(dispatch);
+        const globalAccessToken = await getFetchGlobalAccessToken(dispatch);
         const mnlApiResponseState = getState().mobileNumberLogin.mnlApiResponse;
         let otpHeader = {
             Authorization: `Bearer ${globalAccessToken.access_token}`,
@@ -198,7 +192,7 @@ export function generateOTP() {
 export function validateOtp() {
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().mobileNumberLogin.mnlApiData;
-        let globalAccessToken = await getFetchGlobalAccessToken(dispatch);
+        const globalAccessToken = await getFetchGlobalAccessToken(dispatch);
         const mnlApiResponseState = getState().mobileNumberLogin.mnlApiResponse;
         let header = {
             Authorization: `Bearer ${globalAccessToken.access_token}`,
@@ -225,7 +219,6 @@ export function validateOtp() {
         }
         const result: Response = await api.post("mobileloginapi/v1/authnuser/authenticate", apiData, true, header);
         const mnlApiResponse: MnlApiResponse = await result.json();
-        console.log(mnlApiResponse, "mnlApiResponse")
         const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
         if (errorStatus.status) {
             dispatch(hideSecondaryLoader());
@@ -248,7 +241,7 @@ export function updatePassword() {
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().mobileNumberLogin.mnlApiData;
         const mnlApiResponseState :any   = getState().mobileNumberLogin.mnlApiResponse;
-        let globalAccessToken = await getFetchGlobalAccessToken(dispatch);
+        const globalAccessToken = await getFetchGlobalAccessToken(dispatch);
         const result: Response = await api.post("mobileloginapi/v1/update/password", apiData, true, {
             Authorization: `Bearer ${globalAccessToken.access_token}`
         });
@@ -274,7 +267,6 @@ export function sendOtpUpdatePassword() {
     console.log("Generate OTP");
     let result = JSON.parse(Cookie.getCookie("MNL_ACCESS_TOKEN") || "");
     let token = result.accessToken;
-    console.log(typeof result, result.accessToken);
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const result: Response = await api.post("marketplacewebservices/v2/mpl/users/shashankk@yopmail.com/sendotpUpdatepassword", {
             "email": "shashankk@yopmail.com",
@@ -290,7 +282,6 @@ export function sendOtpUpdatePassword() {
 }
 
 export function verifyOtpUpdatePassword() {
-    console.log("verifyOtpUpdatePassword");
     let result = JSON.parse(Cookie.getCookie("MNL_ACCESS_TOKEN") || "");
     let token = result.accessToken;
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {

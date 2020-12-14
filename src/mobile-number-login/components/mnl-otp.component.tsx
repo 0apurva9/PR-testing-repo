@@ -82,20 +82,9 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
   }
 
   private onContinueBtnClick() {
-    const mnlApidata = Object.assign({}, this.props.mnlApidata, {
+    const mnlApidata : MnlApiData = Object.assign({}, this.props.mnlApidata, {
       otp: this.state.otp,
     });
-    
-    // validating otp for profile section
-    // if(this.props.isStepValidateOtp){
-    //   const mnlApidata = Object.assign({}, this.props.mnlApidata, {
-    //     otp: this.state.otp,
-    //     email : "shashankk@yopmail.com",
-    //     phoneNumber : "9717768747"
-    //   });
-    //   this.props.validateProfileOtp(mnlApidata);
-    //   return;
-    // }
 
     if (this.props.isForgotPasswordClicked) {
       this.props.validateChallenge(mnlApidata);
