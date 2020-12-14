@@ -331,7 +331,7 @@ export default class EditAccountDetails extends React.Component {
                                             <div className={styles.textHolder}>Name</div>
 
                                             <div className={styles.inputHolder}>
-                                                <ControlInput
+                                                {/* <ControlInput
                                                     placeholder="Name"
                                                     value={
                                                         this.state.firstName !== "undefined" ? this.state.firstName : ""
@@ -341,7 +341,9 @@ export default class EditAccountDetails extends React.Component {
                                                     height={33}
                                                     onChange={firstName => this.onChange({ firstName })}
                                                     maxLength={20}
-                                                />
+                                                /> */}
+                                                <input type="text" className={styles.inputBoxNew} placeholder="Name" />
+                                                <button type="button" className={styles.editBtn}></button>
                                             </div>
                                         </div>
                                         {/* <div className={styles.container}>
@@ -364,10 +366,10 @@ export default class EditAccountDetails extends React.Component {
                       </div>
                     </div> */}
                                         <div className={styles.container}>
-                                            <div className={styles.textHolder}>Phone</div>
+                                            <div className={styles.textHolder}>Mobile Number</div>
 
                                             <div className={styles.inputHolder}>
-                                                <ControlInput
+                                                {/* <ControlInput
                                                     placeholder="Mobile Number"
                                                     value={this.state.mobileNumber}
                                                     boxy={true}
@@ -375,14 +377,20 @@ export default class EditAccountDetails extends React.Component {
                                                     height={33}
                                                     onChange={mobileNumber => this.onChangeMobileNumber(mobileNumber)}
                                                     disabled={false}
+                                                /> */}
+                                                <input
+                                                    type="text"
+                                                    className={styles.inputBoxNew}
+                                                    placeholder="Mobile Number"
                                                 />
+                                                <button type="button" className={styles.editBtn}></button>
                                             </div>
                                         </div>
                                         <div className={styles.container}>
                                             <div className={styles.textHolder}>E-mail</div>
 
                                             <div className={styles.inputHolder}>
-                                                <ControlInput
+                                                {/* <ControlInput
                                                     placeholder="Email"
                                                     value={this.state.emailId}
                                                     boxy={true}
@@ -396,7 +404,9 @@ export default class EditAccountDetails extends React.Component {
                                                     label={"Update Email"}
                                                     width={150}
                                                     onClick={() => this.props.updateEmail()}
-                                                />
+                                                /> */}
+                                                <input type="text" className={styles.inputBoxNew} placeholder="Email" />
+                                                <button type="button" className={styles.editBtn}></button>
                                             </div>
                                         </div>
                                         <div className={styles.container}>
@@ -429,10 +439,13 @@ export default class EditAccountDetails extends React.Component {
                                         </div>
                                     </div>
                                     <div className={styles.changePassword}>
-                                        <ShopByBrandLists
+                                        {/* <ShopByBrandLists
                                             brandList={"Change Password"}
                                             onClick={() => this.renderChangePassword()}
-                                        />
+                                        /> */}
+                                        <button type="button" className={styles.redLink}>
+                                            Change Password
+                                        </button>
                                     </div>
 
                                     <div className={styles.updateButtonHolder}>
