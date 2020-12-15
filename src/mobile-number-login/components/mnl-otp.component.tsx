@@ -75,6 +75,15 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
         this.props.validateOtp(mnlApidata);
     }
 
+    private onClickUsePassword() {
+        this.props.changeLoginStep("isStepLoginPassword");
+    }
+
+    private onClickResendOtp() {
+        const mnlApidata = Object.assign({}, this.props.mnlApidata);
+        this.props.resendOtp(mnlApidata);
+    }
+
     public render() {
         return (
             <div className={styles.whiteBox}>
@@ -109,17 +118,29 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                         </div>
                         <div className={[styles.flexRow50, styles.justify_space].join(" ")}>
                             <div className={styles.flexRow50Cols}>
-                                <button
-                                    type="button"
-                                    className={styles.btnLink}
-                                    onClick={() => this.editMobileNumber()}
-                                >
-                                    Edit Number
+                                {this.props.mnlApiResponse.userData.customer.passwordSet &&
+                                    !!this.props.mnlApiResponse.userData.customer.maskedPhoneNumber.length &&
+                                    <button
+                                        type="button"
+                                        className={styles.btnLink}
+                                        onClick={() => this.onClickUsePassword()}
+                                    >
+                                        Use Password
                                 </button>
+                                }
+                                {!this.props.mnlApiResponse.userData.customer.maskedPhoneNumber.length &&
+                                    <button
+                                        type="button"
+                                        className={styles.btnLink}
+                                        onClick={() => this.editMobileNumber()}
+                                    >
+                                        Edit Number
+                            </button>
+                                }
                             </div>
                             <div className={[styles.flexRow50Cols, styles.text_right].join(" ")}>
                                 {this.state.resendOtp ? (
-                                    <button type="button" className={styles.btnLink}>
+                                    <button type="button" className={styles.btnLink} onClick={() => this.onClickResendOtp()}>
                                         Resend OTP
                                     </button>
                                 ) : (
@@ -147,6 +168,7 @@ export interface MnlOtpProps {
     validateOtp: (mnlApiData: MnlApiData) => void;
     changeLoginStep: (stepKey: string) => void;
     mnlApiResponse: MnlApiResponse;
+    resendOtp: (mnlApiData: MnlApiData) => void;
 }
 
 export interface MnlOtpState {
