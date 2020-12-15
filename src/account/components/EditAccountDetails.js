@@ -32,6 +32,7 @@ import MobileOnly from "../../general/components/MobileOnly";
 import ProfileMenu from "./ProfileMenu";
 import * as myAccountStyles from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
+import { ProfileInputChange } from "../../general/components/profile-input-change.component";
 const ACCOUNT_SETTING_HEADER = "Account Settings";
 const MINIMUM_PASSWORD_LENGTH = 8;
 const OLD_PASSWORD_TEXT = "Please enter old password";
@@ -329,75 +330,25 @@ export default class EditAccountDetails extends React.Component {
                                     <div className={styles.holder}>
                                         <div className={styles.container}>
                                             <div className={styles.textHolder}>Name</div>
-
-                                            <div className={styles.inputHolder}>
-                                                <ControlInput
-                                                    placeholder="Name"
-                                                    value={
-                                                        this.state.firstName !== "undefined" ? this.state.firstName : ""
-                                                    }
-                                                    boxy={true}
-                                                    textStyle={{ fontSize: 14 }}
-                                                    height={33}
-                                                    onChange={firstName => this.onChange({ firstName })}
-                                                    maxLength={20}
-                                                />
-                                            </div>
+                                            <ProfileInputChange
+                                                placeholder="Name"
+                                                value={this.state.firstName !== "undefined" ? this.state.firstName : ""}
+                                            />
                                         </div>
-                                        {/* <div className={styles.container}>
-                      <div className={styles.textHolder}>Last Name</div>
-
-                      <div className={styles.inputHolder}>
-                        <ControlInput
-                          placeholder="Last Name"
-                          value={
-                            this.state.lastName !== "undefined"
-                              ? this.state.lastName
-                              : ""
-                          }
-                          boxy={true}
-                          textStyle={{ fontSize: 14 }}
-                          height={33}
-                          onChange={lastName => this.onChange({ lastName })}
-                          maxLength={20}
-                        />
-                      </div>
-                    </div> */}
                                         <div className={styles.container}>
-                                            <div className={styles.textHolder}>Phone</div>
-
-                                            <div className={styles.inputHolder}>
-                                                <ControlInput
-                                                    placeholder="Mobile Number"
-                                                    value={this.state.mobileNumber}
-                                                    boxy={true}
-                                                    textStyle={{ fontSize: 14 }}
-                                                    height={33}
-                                                    onChange={mobileNumber => this.onChangeMobileNumber(mobileNumber)}
-                                                    disabled={false}
-                                                />
-                                            </div>
+                                            <div className={styles.textHolder}>Mobile Number</div>
+                                            <ProfileInputChange
+                                                placeholder="Mobile Number"
+                                                value={this.state.mobileNumber}
+                                            />
                                         </div>
                                         <div className={styles.container}>
                                             <div className={styles.textHolder}>E-mail</div>
-
-                                            <div className={styles.inputHolder}>
-                                                <ControlInput
-                                                    placeholder="Email"
-                                                    value={this.state.emailId}
-                                                    boxy={true}
-                                                    textStyle={{ fontSize: 14 }}
-                                                    height={33}
-                                                    onChange={emailId => this.onChange({ emailId })}
-                                                />
-                                                <Button
-                                                    type="hollow"
-                                                    color="#000"
-                                                    label={"Update Email"}
-                                                    width={150}
-                                                    onClick={() => this.props.updateEmail()}
-                                                />
-                                            </div>
+                                            <ProfileInputChange
+                                                placeholder="E-mail"
+                                                value={this.state.emailId}
+                                                onClick={() => this.props.updateEmail()}
+                                            />
                                         </div>
                                         <div className={styles.container}>
                                             <div className={styles.textHolder}>Gender</div>
@@ -429,10 +380,13 @@ export default class EditAccountDetails extends React.Component {
                                         </div>
                                     </div>
                                     <div className={styles.changePassword}>
-                                        <ShopByBrandLists
-                                            brandList={"Change Password"}
+                                        <button
+                                            type="button"
+                                            className={styles.redLink}
                                             onClick={() => this.renderChangePassword()}
-                                        />
+                                        >
+                                            Change Password
+                                        </button>
                                     </div>
 
                                     <div className={styles.updateButtonHolder}>
