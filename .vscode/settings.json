@@ -1,18 +1,18 @@
-// {
-//   "git.ignoreLimitWarning": true,
-//   "javascript.format.enable": false,
-//   "javascript.validate.enable": false,
-//   "workbench.colorTheme": "Default Dark+",
-//   "workbench.iconTheme": "material-icon-theme",
-//   "editor.formatOnSave": true,
-//   "editor.lineHeight": 20,
-//   "editor.tabSize": 4,
-//   "files.trimTrailingWhitespace": true,
-//   "window.zoomLevel": 0,
-//   "files.eol": "\n",
-//   "prettier.eslintIntegration": true,
-//   "typescript.tsdk": "node_modules/typescript/lib",
-//   "editor.codeActionsOnSave": {
-//     "source.fixAll.eslint": true
-//   }
-// }
+{
+  "git.ignoreLimitWarning": true,
+  "javascript.format.enable": false,
+  "javascript.validate.enable": false,
+  "workbench.colorTheme": "Default Dark+",
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.formatOnSave": true,
+  "editor.lineHeight": 20,
+  "editor.tabSize": 4,
+  "files.trimTrailingWhitespace": true,
+  "window.zoomLevel": 0,
+  "files.eol": "\n",
+  "prettier.eslintIntegration": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
