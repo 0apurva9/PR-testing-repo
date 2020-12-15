@@ -278,7 +278,6 @@ const user = (
                 loading: true,
             });
         case userActions.CUSTOMER_ACCESS_TOKEN_SUCCESS:
-            debugger;
             Cookies.createCookie(
                 CUSTOMER_ACCESS_TOKEN,
                 JSON.stringify(action.customerAccessTokenDetails),
@@ -401,7 +400,6 @@ const user = (
                 action.customerAccessTokenDetails,
                 action.customerAccessTokenDetails.refreshToken
             );
-            debugger;
             Cookies.createCookie(
                 CUSTOMER_ACCESS_TOKEN,
                 JSON.stringify(action.customerAccessTokenDetails),

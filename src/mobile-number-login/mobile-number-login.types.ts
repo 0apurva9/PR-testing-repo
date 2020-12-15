@@ -68,3 +68,10 @@ export interface MnlApiResponse {
     statusCode: number;
     userData: UserData;
 }
+
+export interface UserDetails {
+    userName?: string;
+    loginType?: string;
+    mobileNumber?: string;
+    email?: string;
+}
