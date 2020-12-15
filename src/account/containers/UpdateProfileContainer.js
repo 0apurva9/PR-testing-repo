@@ -8,7 +8,6 @@ import {
 } from "../actions/account.actions";
 import {
     sendOtpUpdatePassword,
-    changeLoginStep,
     generateOtpChangeProfileNumber,
 } from "../../mobile-number-login/store/mobile-number-login.actions";
 import { showMobileNumberLoginModal } from "../../general/modal.actions";
