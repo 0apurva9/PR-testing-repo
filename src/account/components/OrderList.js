@@ -71,12 +71,12 @@ class OrderList extends Component {
                         </div>
                       ) : null
                     ) : (product.statusDisplay === ORDER_CONFIRMED ||
-                      product.statusDisplay === ORDER_IN_PROCESS ||
-                      product.statusDisplay === SHIPPED ||
-                      product.statusDisplay === ITEM_PACKED ||
-                      product.statusDisplay === OUT_FOR_DELIVERY ||
-                      product.statusDisplay === READY_FOR_COLLECTION) &&
-                    (product.EDD || product.estimateddeliverydate) ? (
+                        product.statusDisplay === ORDER_IN_PROCESS ||
+                        product.statusDisplay === SHIPPED ||
+                        product.statusDisplay === ITEM_PACKED ||
+                        product.statusDisplay === OUT_FOR_DELIVERY ||
+                        product.statusDisplay === READY_FOR_COLLECTION) &&
+                      (product.EDD || product.estimateddeliverydate) ? (
                       <div className={styles.orderStatus}>
                         {ESTIMATED_DATE}&nbsp;
                         <div className={styles.fontBold}>

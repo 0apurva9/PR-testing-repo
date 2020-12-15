@@ -9,9 +9,9 @@ const EMI_ERROR_TEXT =
   "This order amount doesn't meet the EMI eligibility criterion.";
 
 export default class CheckoutEmi extends React.Component {
-  binValidation = (paymentMode, binNo) => {
+  binValidation = (paymentMode, binNo, isDebitCard = false) => {
     if (this.props.binValidation) {
-      this.props.binValidation(paymentMode, binNo);
+      this.props.binValidation(paymentMode, binNo, isDebitCard);
     }
   };
 
@@ -54,8 +54,8 @@ export default class CheckoutEmi extends React.Component {
             emiList={bankList}
             cardDetails={this.props.cardDetails}
             onChangeCvv={i => this.onChangeCvv(i)}
-            binValidation={(paymentMode, binNo) =>
-              this.binValidation(paymentMode, binNo)
+            binValidation={(paymentMode, binNo, isDebitCard) =>
+              this.binValidation(paymentMode, binNo, isDebitCard)
             }
             onChangeCardDetail={val => this.onChangeCardDetail(val)}
             changeEmiPlan={() => this.changeEmiPlan()}
@@ -65,7 +65,7 @@ export default class CheckoutEmi extends React.Component {
               this.props.emiBinValidationErrorMessage
             }
             isDebitCard={this.props.isDebitCard}
-            dCEmiEligibiltyDetails={this.props.dCEmiEligibiltyDetails}
+            emiEligibiltyDetails={this.props.emiEligibiltyDetails}
           />
         )}
         {!this.props.cart.emiBankDetails &&

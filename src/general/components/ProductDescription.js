@@ -209,62 +209,60 @@ export default class ProductDescription extends Component {
             )}
           </React.Fragment>
 
-          {this.props.isRange &&
-            this.props.minPrice &&
-            this.props.maxPrice && (
-              <div
-                className={styles.description}
-                style={{ display: "inline-flex" }}
-              >
-                {this.props.maxPrice !== this.props.minPrice && (
-                  <React.Fragment>
-                    <h3>
-                      {" "}
-                      {this.props.minPrice.toString().includes(RUPEE_SYMBOL)
-                        ? this.props.minPrice
-                        : `${RUPEE_SYMBOL}${this.props.minPrice}`}{" "}
-                      -{" "}
-                    </h3>
-                    <h3>
-                      {" "}
-                      {this.props.maxPrice.toString().includes(RUPEE_SYMBOL)
-                        ? this.props.maxPrice
-                        : `${RUPEE_SYMBOL}${this.props.maxPrice}`}
-                    </h3>
-                  </React.Fragment>
-                )}
-                {this.props.maxPrice === this.props.minPrice && (
-                  <React.Fragment>
+          {this.props.isRange && this.props.minPrice && this.props.maxPrice && (
+            <div
+              className={styles.description}
+              style={{ display: "inline-flex" }}
+            >
+              {this.props.maxPrice !== this.props.minPrice && (
+                <React.Fragment>
+                  <h3>
                     {" "}
-                    {this.props.discountPrice &&
-                      this.props.discountPrice !== this.props.price && (
-                        <div className={styles.discount}>
-                          <h3>
-                            {" "}
-                            {this.props.discountPrice
-                              .toString()
-                              .includes(RUPEE_SYMBOL)
-                              ? this.props.discountPrice
-                              : `${RUPEE_SYMBOL}${Math.floor(
-                                  this.props.discountPrice
-                                )}`}
-                          </h3>
-                        </div>
-                      )}
-                    {this.props.price && (
-                      <div className={priceClass}>
+                    {this.props.minPrice.toString().includes(RUPEE_SYMBOL)
+                      ? this.props.minPrice
+                      : `${RUPEE_SYMBOL}${this.props.minPrice}`}{" "}
+                    -{" "}
+                  </h3>
+                  <h3>
+                    {" "}
+                    {this.props.maxPrice.toString().includes(RUPEE_SYMBOL)
+                      ? this.props.maxPrice
+                      : `${RUPEE_SYMBOL}${this.props.maxPrice}`}
+                  </h3>
+                </React.Fragment>
+              )}
+              {this.props.maxPrice === this.props.minPrice && (
+                <React.Fragment>
+                  {" "}
+                  {this.props.discountPrice &&
+                    this.props.discountPrice !== this.props.price && (
+                      <div className={styles.discount}>
                         <h3>
                           {" "}
-                          {this.props.price.toString().includes(RUPEE_SYMBOL)
-                            ? this.props.price
-                            : `${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}
+                          {this.props.discountPrice
+                            .toString()
+                            .includes(RUPEE_SYMBOL)
+                            ? this.props.discountPrice
+                            : `${RUPEE_SYMBOL}${Math.floor(
+                                this.props.discountPrice
+                              )}`}
                         </h3>
                       </div>
                     )}
-                  </React.Fragment>
-                )}
-              </div>
-            )}
+                  {this.props.price && (
+                    <div className={priceClass}>
+                      <h3>
+                        {" "}
+                        {this.props.price.toString().includes(RUPEE_SYMBOL)
+                          ? this.props.price
+                          : `${RUPEE_SYMBOL}${Math.floor(this.props.price)}`}
+                      </h3>
+                    </div>
+                  )}
+                </React.Fragment>
+              )}
+            </div>
+          )}
         </div>
       </div>
     );

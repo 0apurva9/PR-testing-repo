@@ -140,7 +140,9 @@ const OfferDetailsModal = Loadable({
 
 const BeautyOfferDetailsModal = Loadable({
   loader: () =>
-    import("../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyOfferDetailsModal"),
+    import(
+      "../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyOfferDetailsModal"
+    ),
   loading() {
     return <Loader />;
   }
@@ -148,7 +150,9 @@ const BeautyOfferDetailsModal = Loadable({
 
 const BeautyPdpImageZoomIn = Loadable({
   loader: () =>
-    import("../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyPdpImageZoomIn"),
+    import(
+      "../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyPdpImageZoomIn"
+    ),
   loading() {
     return <Loader />;
   }
@@ -393,6 +397,13 @@ const Cliq2CallPopUp = Loadable({
 
 const CustomerCallQuerySuccess = Loadable({
   loader: () => import("../../account/components/CustomerCallSuccessModal"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const AppliancesExchangeModal = Loadable({
+  loader: () => import("../../pdp/components/AppliancesExchangeModal"),
   loading() {
     return <Loader />;
   }
@@ -1289,6 +1300,17 @@ export default class ModalRoot extends React.Component {
           {...this.props.ownProps}
           closeModal={() => this.handleClose()}
           history={this.props.history}
+        />
+      ),
+      AppliancesExchangeModal: (
+        <AppliancesExchangeModal
+          {...this.props.ownProps}
+          history={this.props.history}
+          closeAppliancesExchangeModal={() => this.handleClose()}
+          appliancesExchangeDetails={this.props.appliancesExchangeDetails}
+          updateAppliancesExchangeDetails={exchangeData =>
+            this.props.updateAppliancesExchangeDetails(exchangeData)
+          }
         />
       )
     };

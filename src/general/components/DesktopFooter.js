@@ -124,8 +124,10 @@ class DesktopFooter extends React.Component {
         : true;
     return (
       <div className={styles.contentHolder}>
-        {!url.includes("how-upi-work") && <TrustComponent />}
-        {!url.includes("how-upi-work") && (
+        {(!url.includes("how-upi-work") ||
+          !url.includes("how-dcemi-works")) && <TrustComponent />}
+        {(!url.includes("how-upi-work") ||
+          !url.includes("how-dcemi-works")) && (
           <div className={styles.linkAndSuscribeHolder}>
             <div className={styles.linkHolder}>
               {footerData &&
@@ -317,41 +319,36 @@ class DesktopFooter extends React.Component {
           </div>
         )}
 
-        {isNotPdp &&
-          !isPlp &&
-          !url.includes("how-upi-work") && (
-            <div>
-              {this.props.footer && this.props.footer.title ? (
-                <h1 className={styles.seoPagetitle}>
-                  {this.props.footer.title}
-                </h1>
-              ) : (
-                <h1 className={styles.seoPagetitle}>{TITLE_DEFAULT}</h1>
-              )}
+        {isNotPdp && !isPlp && !url.includes("how-upi-work") && (
+          <div>
+            {this.props.footer && this.props.footer.title ? (
+              <h1 className={styles.seoPagetitle}>{this.props.footer.title}</h1>
+            ) : (
+              <h1 className={styles.seoPagetitle}>{TITLE_DEFAULT}</h1>
+            )}
 
-              <div
-                className={styles.footerData}
-                dangerouslySetInnerHTML={{
-                  __html:
-                    footerData &&
-                    footerData.items &&
-                    footerData.items[0].pageSpecificFooterData
-                }}
-              />
-            </div>
-          )}
-        {isNotPdp &&
-          !isPlp && (
             <div
               className={styles.footerData}
               dangerouslySetInnerHTML={{
                 __html:
                   footerData &&
                   footerData.items &&
-                  footerData.items[0].popularSearches
+                  footerData.items[0].pageSpecificFooterData
               }}
             />
-          )}
+          </div>
+        )}
+        {isNotPdp && !isPlp && (
+          <div
+            className={styles.footerData}
+            dangerouslySetInnerHTML={{
+              __html:
+                footerData &&
+                footerData.items &&
+                footerData.items[0].popularSearches
+            }}
+          />
+        )}
       </div>
     );
   }

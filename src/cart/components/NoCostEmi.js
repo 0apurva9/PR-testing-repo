@@ -3,8 +3,6 @@ import styles from "./NoCostEmi.css";
 import PropTypes from "prop-types";
 import { Collapse } from "react-collapse";
 import {
-  NO_COST_EMI,
-  STANDARD_EMI,
   INSTACRED,
   CARDLESS_EMI,
   CREDIT_CARD_EMI,
@@ -60,7 +58,7 @@ export default class NoCostEmi extends React.Component {
       });
     }
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.isOpenSubEMI !== this.state.isOpen) {
       this.setState({ isOpen: nextProps.isOpenSubEMI });
     }

@@ -15,6 +15,7 @@ import {
   OFFER_ERROR_PAYMENT_MODE_TYPE
 } from "../../lib/constants";
 import { BANK_OFFERS } from "../../general/modal.actions.js";
+const ERROR_CODE_FOR_BANK_OFFER_INVALID_3 = "B9599";
 export default class ValidateOffersPopUp extends React.Component {
   getBanksList(bankDetail) {
     if (bankDetail) {
@@ -22,9 +23,9 @@ export default class ValidateOffersPopUp extends React.Component {
         .map(bank => {
           return bank.bankName;
         })
-        .join(",");
+        .join(", ");
     } else {
-      return "UPI Apps";
+      return "";
     }
   }
   getPaymentModesList(paymentModes) {
@@ -32,7 +33,7 @@ export default class ValidateOffersPopUp extends React.Component {
       paymentModes &&
       paymentModes.map(payment => {
         if (payment.mode == "UPI Intent") {
-          return " ";
+          return "UPI Apps";
         } else {
           return payment.mode;
         }
@@ -40,19 +41,56 @@ export default class ValidateOffersPopUp extends React.Component {
     );
   }
   getInvalidUserCouponTemplate(couponResponse) {
-    return `Coupon code ${
+    let coupon = "";
+    let couponOffer = `Coupon code ${
       couponResponse.couponCode ? couponResponse.couponCode : ""
     } is valid for ${this.getBanksList(
       couponResponse.bankDetails
     )} ${this.getPaymentModesList(couponResponse.paymentModes)} transactions`;
+
+    couponOffer.length > 195
+      ? (coupon =
+          `Coupon code ${
+            couponResponse.couponCode ? couponResponse.couponCode : ""
+          } is valid for ${this.getBanksList(
+            couponResponse.bankDetails
+          )} ${this.getPaymentModesList(
+            couponResponse.paymentModes
+          )} transactions`.slice(0, 195) + "...")
+      : `Coupon code ${
+          couponResponse.couponCode ? couponResponse.couponCode : ""
+        } is valid for ${this.getBanksList(
+          couponResponse.bankDetails
+        )} ${this.getPaymentModesList(
+          couponResponse.paymentModes
+        )} transactions`;
+    return coupon;
   }
   getInvalidBankOfferTemplate(couponResponse) {
-    return `The ${
+    let bankOfferMessage = "";
+    let bank = `The ${
       couponResponse.couponCode ? couponResponse.couponCode : ""
     } is valid for ${this.getBanksList(
       couponResponse.bankDetails
     )} ${this.getPaymentModesList(couponResponse.paymentModes)} transactions`;
+
+    bank.length < 195
+      ? (bankOfferMessage = `The ${
+          couponResponse.couponCode ? couponResponse.couponCode : ""
+        } is valid for ${this.getBanksList(couponResponse.bankDetails)}
+     ${this.getPaymentModesList(couponResponse.paymentModes)} transactions`)
+      : (bankOfferMessage =
+          `The ${
+            couponResponse.couponCode ? couponResponse.couponCode : ""
+          } is valid for ${this.getBanksList(
+            couponResponse.bankDetails
+          )} ${this.getPaymentModesList(
+            couponResponse.paymentModes
+          )} transactions`.slice(0, 195) + "...");
+
+    return bankOfferMessage;
   }
+
   getInvalidNCEOfferTemplate(couponResponse) {
     return `The No Cost Emi offer is valid only for ${
       couponResponse.bankDetails
@@ -68,11 +106,31 @@ export default class ValidateOffersPopUp extends React.Component {
             return coupon.offerCode === this.props.couponCode;
           })
         : {};
-    return `The ${
+    let couponOfferMessage = "";
+    let coupon = `The ${
       this.props.couponCode ? this.props.couponCode : ""
     } is valid only on ${this.getBanksList(
       couponCodeObj.bankDetails
     )} ${this.getPaymentModesList(couponCodeObj.paymentModes)} transactions`;
+
+    coupon.length < 185
+      ? (couponOfferMessage = `The ${
+          this.props.couponCode ? this.props.couponCode : ""
+        } is valid only on ${this.getBanksList(
+          couponCodeObj.bankDetails
+        )} ${this.getPaymentModesList(
+          couponCodeObj.paymentModes
+        )} transactions`)
+      : (couponOfferMessage =
+          `The ${
+            this.props.couponCode ? this.props.couponCode : ""
+          } is valid only on ${this.getBanksList(
+            couponCodeObj.bankDetails
+          )} ${this.getPaymentModesList(
+            couponCodeObj.paymentModes
+          )} transactions`.slice(0, 185) + "...");
+
+    return couponOfferMessage;
   }
   getValidNCEOfferTemplate() {
     let couponCodeObj =
@@ -91,13 +149,17 @@ export default class ValidateOffersPopUp extends React.Component {
     }.`;
   }
 
-  changePaymentMethod() {
+  async changePaymentMethod() {
     if (this.props.offerType === BANK_OFFER_TYPE) {
       this.props.showModal(BANK_OFFERS, { coupons: this.props.bankOffers });
     } else if (this.props.offerType === NCE_OFFER_TYPE) {
       this.props.changePaymentMethod();
     } else if (this.props.offerType === OFFER_ERROR_PAYMENT_MODE_TYPE) {
       this.props.closeModal();
+      const noCostEmiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
+      if (noCostEmiCoupon) {
+        await this.props.releaseNoCostEmiCoupon(noCostEmiCoupon);
+      }
       this.props.resetAllPaymentModes();
     }
   }
@@ -108,6 +170,13 @@ export default class ValidateOffersPopUp extends React.Component {
     const noCostEmiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
     const parsedQueryString = queryString.parse(this.props.location.search);
     const isPaymentFailureCase = parsedQueryString.status;
+    if (
+      this.props.result &&
+      this.props.result.noCostEMI &&
+      Object.keys(this.props.result.noCostEMI).length > 0
+    ) {
+      this.props.resetAllPaymentModes();
+    }
     if (this.props.result && this.props.result.userCoupon) {
       if (noCostEmiCoupon) {
         releaseStatus = await this.props.releaseNoCostEmiCoupon(
@@ -203,7 +272,6 @@ export default class ValidateOffersPopUp extends React.Component {
     document.body.style.pointerEvents = "none";
     const parsedQueryString = queryString.parse(this.props.location.search);
     const isPaymentFailureCase = parsedQueryString.status;
-
     const data = this.props.result;
     let labelForFirstButton = "Change Payment Mode";
     let labelForSecondButton = "Continue without offers";
@@ -226,8 +294,8 @@ export default class ValidateOffersPopUp extends React.Component {
               {this.props.result.couponMessage
                 ? this.props.result.couponMessage
                 : this.props.result.error
-                  ? this.props.result.error
-                  : ""}
+                ? this.props.result.error
+                : ""}
             </div>
             {this.props.offerType === BANK_OFFER_TYPE && (
               <div className={styles.invalidCouponHeading}>
@@ -239,34 +307,26 @@ export default class ValidateOffersPopUp extends React.Component {
                 {this.getValidNCEOfferTemplate()}
               </div>
             )}
-            {data &&
-              data.userCoupon &&
-              data.userCoupon && (
-                <div className={styles.invalidCouponHeading}>
-                  {this.getInvalidUserCouponTemplate(data.userCoupon)}
-                </div>
-              )}
-            {data &&
-              data.bankOffer &&
-              data.bankOffer && (
-                <div className={styles.invalidCouponHeading}>
-                  {this.getInvalidBankOfferTemplate(data.bankOffer)}
-                </div>
-              )}
-            {data &&
-              data.noCostEmiCoupon &&
-              data.noCostEmiCoupon && (
-                <div className={styles.invalidCouponHeading}>
-                  {this.getInvalidNCEOfferTemplate(data.noCostEmiCoupon)}
-                </div>
-              )}
-            {data &&
-              data.noCostEMI &&
-              data.noCostEMI && (
-                <div className={styles.invalidCouponHeading}>
-                  {this.getInvalidNCEOfferTemplate(data.noCostEMI)}
-                </div>
-              )}
+            {data && data.userCoupon && data.userCoupon && (
+              <div className={styles.invalidCouponHeading}>
+                {this.getInvalidUserCouponTemplate(data.userCoupon)}
+              </div>
+            )}
+            {data && data.bankOffer && data.bankOffer && (
+              <div className={styles.invalidCouponHeading}>
+                {this.getInvalidBankOfferTemplate(data.bankOffer)}
+              </div>
+            )}
+            {data && data.noCostEmiCoupon && data.noCostEmiCoupon && (
+              <div className={styles.invalidCouponHeading}>
+                {this.getInvalidNCEOfferTemplate(data.noCostEmiCoupon)}
+              </div>
+            )}
+            {data && data.noCostEMI && data.noCostEMI && (
+              <div className={styles.invalidCouponHeading}>
+                {this.getInvalidNCEOfferTemplate(data.noCostEMI)}
+              </div>
+            )}
             {/* {data &&
               ((data.noCostEmiCoupon &&
                 data.noCostEmiCoupon.status &&

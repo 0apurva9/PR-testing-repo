@@ -14,9 +14,9 @@ import {
 } from "../../lib/constants";
 
 export default class AddressModal extends React.Component {
-  checkPinCodeAvailability(pincode) {
+  checkPinCodeAvailability(pincode, addressId = "") {
     if (this.props.addressModalForCartPage) {
-      this.props.checkPinCodeAvailability(pincode);
+      this.props.checkPinCodeAvailability(pincode, addressId);
       this.props.closeModal();
       return;
     }
@@ -83,8 +83,8 @@ export default class AddressModal extends React.Component {
                   this.props.userAddress.addresses && (
                     <AddressList
                       data={this.props.userAddress.addresses}
-                      selectAddress={pincode =>
-                        this.checkPinCodeAvailability(pincode)
+                      selectAddress={(pincode, addressId) =>
+                        this.checkPinCodeAvailability(pincode, addressId)
                       }
                     />
                   )}

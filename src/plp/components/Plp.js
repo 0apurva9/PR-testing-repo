@@ -43,6 +43,7 @@ const OFFSET_BOTTOM = 800;
 const LIST = "list";
 const GRID = "grid";
 const PAGE_REGEX = /\/page-(\d+)/;
+const env = process.env;
 export default class Plp extends React.Component {
   constructor() {
     super();
@@ -191,6 +192,27 @@ export default class Plp extends React.Component {
     // get chatbot json details
     if (this.props.getChatbotDetails) {
       this.props.getChatbotDetails();
+    }
+    this.initiateHaptikScript();
+  }
+
+  initiateHaptikScript() {
+    var f = document.getElementsByTagName("SCRIPT")[0];
+    var p = document.createElement("SCRIPT");
+    var date = new Date();
+    var timestamp = date.getTime();
+    var source_url =
+      env.REACT_APP_HAPTIK_CHATBOT_URL +
+      "/static/aspectwise/js/haptik.js?" +
+      timestamp;
+    p.type = "text/javascript";
+    p.setAttribute("charset", "utf-8");
+    p.setAttribute("clientid", "tatacliq");
+    p.async = true;
+    p.id = "buzzosrc";
+    p.src = source_url;
+    if (!document.getElementById("buzzosrc")) {
+      f.parentNode.insertBefore(p, f);
     }
   }
 
@@ -476,9 +498,7 @@ export default class Plp extends React.Component {
       );
     }
     if (AMP_SEARCH_REG_EX.test(this.props.history.location.pathname)) {
-      let ampUrl = `${this.props.history.location.pathname}${
-        this.props.location.search
-      }`;
+      let ampUrl = `${this.props.history.location.pathname}${this.props.location.search}`;
       return (
         <Helmet>
           <link rel="amphtml" href={`${window.location.origin}/amp${ampUrl}`} />
@@ -535,24 +555,28 @@ export default class Plp extends React.Component {
       <React.Fragment>
         {this.props.productListings && (
           <div className={styles.base}>
-            <Chatbot
-              productListings={this.props.productListings}
-              chatbotDetailsData={this.props.chatbotDetailsData}
-              addToCartFromChatbot={true}
-              getProductPinCode={this.props.getProductPinCode}
-              isServiceableToPincode={this.props.isServiceableToPincode}
-              displayToast={this.props.displayToast}
-              addProductToCart={this.props.addProductToCart}
-              addToCartResponseDetails={this.props.addToCartResponseDetails}
-              history={this.props.history}
-              addToCartResponseLoading={this.props.addToCartResponseLoading}
-              cartCountDetails={this.props.cartCountDetails}
-              checkPincodeDetailsLoading={this.props.checkPincodeDetailsLoading}
-              checkPincodeFromHaptikChatbot={
-                this.props.checkPincodeFromHaptikChatbot
-              }
-              cartCountDetailsLoading={this.props.cartCountDetailsLoading}
-            />
+            {this.props.chatbotDetailsData && (
+              <Chatbot
+                productListings={this.props.productListings}
+                chatbotDetailsData={this.props.chatbotDetailsData}
+                addToCartFromChatbot={true}
+                getProductPinCode={this.props.getProductPinCode}
+                isServiceableToPincode={this.props.isServiceableToPincode}
+                displayToast={this.props.displayToast}
+                addProductToCart={this.props.addProductToCart}
+                addToCartResponseDetails={this.props.addToCartResponseDetails}
+                history={this.props.history}
+                addToCartResponseLoading={this.props.addToCartResponseLoading}
+                cartCountDetails={this.props.cartCountDetails}
+                checkPincodeDetailsLoading={
+                  this.props.checkPincodeDetailsLoading
+                }
+                checkPincodeFromHaptikChatbot={
+                  this.props.checkPincodeFromHaptikChatbot
+                }
+                cartCountDetailsLoading={this.props.cartCountDetailsLoading}
+              />
+            )}
             {this.renderPageTags()}
             {isBrowser && this.renderAmpTags()}
             {this.props.productListings.seo
@@ -600,9 +624,7 @@ export default class Plp extends React.Component {
                     {this.props.productListings &&
                       this.props.productListings.pagination &&
                       this.props.productListings.pagination.totalResults &&
-                      `${
-                        this.props.productListings.pagination.totalResults
-                      } Products`}
+                      `${this.props.productListings.pagination.totalResults} Products`}
                   </div>
                 </div>
               )}

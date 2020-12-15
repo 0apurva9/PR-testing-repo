@@ -90,31 +90,36 @@ export default class CreditCardForm extends React.Component {
   onChangeCardNumber(val) {
     this.setState({ cardNumber: val });
     this.onChange({ cardNumber: val });
-    let allowEmiEligibleBin = false;
-    if (this.props.isDebitCard == undefined) {
-      allowEmiEligibleBin = true;
-    }
+    // let allowEmiEligibleBin = false;
+    // if (this.props.isDebitCard == undefined) {
+    //   allowEmiEligibleBin = true;
+    // }
     if (val.replace(/\s/g, "").length < 6) {
       this.setState({ isCalledBinValidation: false });
     }
     if (
-      ((val.replace(/\s/g, "").length >= 6 &&
+      (val.replace(/\s/g, "").length >= 6 &&
         val.replace(/\s/g, "").length -
           this.state.cardNumber.replace(/\s/g, "").length >
           1) ||
-        (val.replace(/\s/g, "").length >= 6 &&
-          val.replace(/\s/g, "").slice(0, 5) !==
-            this.state.cardNumber.replace(/\s/g, "").slice(0, 5) &&
-          this.state.cardNumber !== val)) &&
-      allowEmiEligibleBin
+      (val.replace(/\s/g, "").length >= 6 &&
+        val.replace(/\s/g, "").slice(0, 5) !==
+          this.state.cardNumber.replace(/\s/g, "").slice(0, 5) &&
+        this.state.cardNumber !== val)
     ) {
       this.setState({ isCalledBinValidation: true });
-      this.props.binValidation(val.replace(/\s/g, "").substring(0, 6));
+      this.props.binValidation(
+        val.replace(/\s/g, "").substring(0, 6),
+        this.props.isDebitCard
+      );
     }
     if (val.replace(/\s/g, "").length >= 6) {
       this.setState({ isCalledBinValidation: true });
-      if (!this.state.isCalledBinValidation && allowEmiEligibleBin) {
-        this.props.binValidation(val.replace(/\s/g, "").substring(0, 6));
+      if (!this.state.isCalledBinValidation) {
+        this.props.binValidation(
+          val.replace(/\s/g, "").substring(0, 6),
+          this.props.isDebitCard
+        );
       }
     }
   }
@@ -126,11 +131,11 @@ export default class CreditCardForm extends React.Component {
           .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
           .trim()
       : this.state.cardNumber
-        ? this.state.cardNumber
-            .replace(REGX_FOR_WHITE_SPACE, "")
-            .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
-            .trim()
-        : "";
+      ? this.state.cardNumber
+          .replace(REGX_FOR_WHITE_SPACE, "")
+          .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
+          .trim()
+      : "";
   }
 
   onChange(val) {
@@ -207,10 +212,10 @@ export default class CreditCardForm extends React.Component {
     return (
       <div className={styles.base}>
         {this.props.isDebitCard &&
-          this.props.dCEmiEligibiltyDetails &&
-          this.props.dCEmiEligibiltyDetails.DCEMIEligibleMessage && (
+          this.props.emiEligibiltyDetails &&
+          this.props.emiEligibiltyDetails.DCEMIEligibleMessage && (
             <div className={styles.maskedNumber}>
-              {`${this.props.dCEmiEligibiltyDetails.DCEMIEligibleMessage}`}
+              {`${this.props.emiEligibiltyDetails.DCEMIEligibleMessage}`}
             </div>
           )}
         <div className={styles.cardDetails}>
@@ -230,6 +235,11 @@ export default class CreditCardForm extends React.Component {
                 isCard={true}
                 onBlur={() => this.onBlurOfCardInput()}
               />
+              {this.state.invalidCard && !this.state.emiInvalidCardError && (
+                <span className={styles.invalidCardText}>
+                  Please enter a valid card number
+                </span>
+              )}
               {this.state.cardNumber &&
                 this.props.bankGatewayStatus === BANK_GATWAY_DOWN && (
                   <span className={styles.invalidCardText}>
