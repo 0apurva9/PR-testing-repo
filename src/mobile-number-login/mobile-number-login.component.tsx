@@ -5,11 +5,14 @@ import { MobileNumberLoginSteps, MnlApiData, MnlApiResponse } from "mobile-numbe
 import { MnlChallenge } from "./components/mnl-challenge.component";
 import { MnlPassword } from "./components/mnl-password.component";
 import { MnlSucess1 } from "./components/mnl-succes1.component";
+import { MnlEmailChange } from "./components/mnl-change-email.component";
 import { MnlAddMobileNumber } from "./components/mnl-add-mobile-number.component";
 import { MnlOtp } from "./components/mnl-otp.component";
 import { MnlForgotPassword } from "./components/mnl-forgot-password.component";
 import {MnlEmail} from "./components/mnl-email-component";
 import {MnlProfileOtp} from './components/mnl-profile-otp.component';
+import { MnlEmailChangeOtp } from "./components/mnl-change-email-otp.component";
+import { MnlChangeEmailSucess } from "./components/mnl-change-email-succes.component"
 
 export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, MobileNumberLoginState> {
 
@@ -69,6 +72,7 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                                 generateOtp={(apiData) => this.props.generateOtp(apiData)}
                                 forgotPassword={(apiData) => this.props.forgotPassword(apiData)}
                                 toggleForgotPassswordClick = {() => this.toggleForgotPassswordClick()}
+                                useOtp={(apiData) => this.props.generateOtp(apiData)}
                             />
                         )}
                         {this.props.steps.isStepAddMobileNumber && (
@@ -79,7 +83,7 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                         )}
                         {this.props.steps.isStepValidateOtp && (
                             <MnlOtp
-                                validateOtp={(apidata) => this.props.validateOtp(apidata)}
+                                validateOtp={(apidata) => this.props.validateEmailOtp(apidata)}
                                 mnlApidata={this.props.mnlApiData}
                                 changeLoginStep={(stepKey) => this.props.changeLoginStep(stepKey)}
                                 mnlApiResponse={this.props.mnlApiResponse}
@@ -89,6 +93,26 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                                 isForgotPasswordClicked = {this.state.isForgotPasswordClicked}
                             />
                         )}
+                        {this.props.steps.isStepChangeEmailOtp && (
+                            <MnlEmailChangeOtp
+                                validateEmailOtp={(apidata) => this.props.validateEmailOtp(apidata)}
+                                mnlApidata={this.props.mnlApiData}
+                                changeLoginStep={(stepKey) => this.props.changeLoginStep(stepKey)}
+                                mnlApiResponse={this.props.mnlApiResponse}
+                            />
+                        )}
+                        {this.props.steps.isStepChangeEmail && (
+                            <MnlEmailChange
+                                addnewEmail={(apidata) => this.props.addnewEmail(apidata)}
+                                mnlApidata={this.props.mnlApiData}
+                                mnlApiResponse={this.props.mnlApiResponse}
+                            />
+                        )}
+                        {this.props.steps.isStepChangeEmailSucess &&
+                            (<MnlChangeEmailSucess
+                                hideMobileNumberLoginModal={() => this.props.hideMobileNumberLoginModal()}
+                                changeLoginStep={(stepKey) => this.props.changeLoginStep(stepKey)} />)}
+
                         {this.props.steps.isStepLoginSuccess1 && (
                             <MnlSucess1
                                 hideMobileNumberLoginModal={() => this.props.hideMobileNumberLoginModal()}
@@ -121,7 +145,10 @@ export interface MobileNumberLoginProps extends RouteComponentProps {
     validateProfileOtp: (apiData: MnlApiData) => void;
     changeProfilePassword : (apiData: MnlApiData) => void;
     updateProfileMobileNumber : (apiData: MnlApiData) => void;
+    validateEmailOtp: (apiData: MnlApiData) => void;
+    addnewEmail: (apiData: MnlApiData) => void;
 }
+
 
 export interface MobileNumberLoginState {
     isForgotPasswordClicked : boolean;

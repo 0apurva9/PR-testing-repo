@@ -16,6 +16,9 @@ export interface MobileNumberLoginSteps {
     isForgotPassword : boolean;
     isStepEmail : boolean;
     isChangeNumberOtp : boolean;
+    isStepChangeEmailOtp: boolean;
+    isStepChangeEmail: boolean;
+    isStepChangeEmailSucess: boolean;
 }
 export interface MnlApiData {
     email: string;
@@ -68,4 +71,11 @@ export interface MnlApiResponse {
     status: string;
     statusCode: number;
     userData: UserData;
+}
+
+export interface UserDetails {
+    userName?: string;
+    loginType?: string;
+    mobileNumber?: string;
+    email?: string;
 }

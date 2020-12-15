@@ -19,7 +19,10 @@ const initailState: MobileNumberLoginReduxState = {
         isStepValidateOtp: false,
         isForgotPassword: false,
         isStepEmail : false,
-        isChangeNumberOtp : false
+        isChangeNumberOtp : false,
+        isStepChangeEmailOtp: false,
+        isStepChangeEmail: false,
+        isStepChangeEmailSucess: false,
     },
     mnlApiData: {
         email: "",
@@ -55,6 +58,7 @@ export function mobileNumberLoginReducer(
             } else {
                 newState.mnlApiResponse = action.payload;
             }
+
             return newState;
         default:
             return state;

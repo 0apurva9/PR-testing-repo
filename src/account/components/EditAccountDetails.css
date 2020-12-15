@@ -86,16 +86,21 @@
     width: 20%;
     height: auto;
     display: inline-block;
-    font-size: 14px;
-    font-family: light;
+    font-size: 16px;
+    font-family: regular;
     vertical-align: top;
     line-height: 33px;
+    color:#212121;
   }
   .inputHolder {
     width: 80%;
     height: auto;
     display: inline-block;
+    position: relative;
   }
+.inputBoxNew{width:100%;padding:0 28px 0 8px;border:0;border:1px solid #d2d2d2;border-radius: 2px;position: relative;height:34px;}
+.editBtn{background: transparent url(../../account/components/img/editGreyIcon.svg) no-repeat;display:inline-block;position: absolute;right:9px;top:7px;border:0;width:20px;height:20px;cursor: pointer;outline: none;}
+.redLink{display: inline-block;padding:10px 5px 15px;font-size: 18px;color:#ff1744;font-weight:400;background: transparent;outline:none;cursor: pointer;border:0;}
   .updateButtonHolder {
     width: 100%;
     height: auto;
@@ -113,5 +118,6 @@
   }
   .changePassword {
     cursor: pointer;
+    margin:0 0 60px;
   }
 }

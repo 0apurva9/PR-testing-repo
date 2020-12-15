@@ -18,6 +18,7 @@ import EditAccountDetails from "../components/EditAccountDetails.js";
 import { displayToast } from "../../general/toast.actions";
 import { SUCCESS } from "../../lib/constants.js";
 import { DESKTOP_AUTH, showModal, CHANGE_PASSWORD_POP_UP } from "../../general/modal.actions";
+import { changeLoginStep, updateEmailOtp } from "../../mobile-number-login/store/mobile-number-login.actions";
 const UPDATE_PROFILE_SUCCESS = "Profile Updated Successfully";
 const UPDATE_PASSWORD = "Password Updated Successfully";
 const mapDispatchToProps = dispatch => {
@@ -67,6 +68,10 @@ const mapDispatchToProps = dispatch => {
             dispatch(showMobileNumberLoginModal());
             dispatch(sendOtpUpdatePassword());
             dispatch(changeLoginStep("isStepValidateOtp"));
+            dispatch(showModal(CHANGE_PASSWORD_POP_UP));
+        },
+        updateEmail: () => {
+            dispatch(updateEmailOtp());
         },
     };
 };
