@@ -1,13 +1,14 @@
 import { RootState } from "common/models/root-state";
-import { MnlApiData } from "../mobile-number-login.types";
-import { MnlApiResponse } from "../mobile-number-login.types";
+import { MnlApiData, MnlApiResponse, UserDetails } from "../mobile-number-login.types";
 import { hideSecondaryLoader } from "../../general/secondaryLoader.actions.js";
 import * as Cookie from "../../lib/Cookie.js";
 import { GLOBAL_ACCESS_TOKEN, CLIENT_ID, CLIENT_SECRET, PLAT_FORM_NUMBER } from "../../lib/constants.js";
-import { getGlobalAccessToken, customerAccessTokenSuccess } from "../../auth/actions/user.actions.js";
+import { getGlobalAccessToken, customerAccessTokenSuccess, refreshTokenSuccess } from "../../auth/actions/user.actions.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { displayToast } from "../../general/toast.actions.js";
 import { showMobileNumberLoginModal } from "../../general/modal.actions";
+import { getUserDetails } from '../../account/actions/account.actions'
+import { CUSTOMER_ACCESS_TOKEN, LOGGED_IN_USER_DETAILS } from "../../lib/constants";
 
 export const CHANGE_LOGIN_STEP = "ChangeLoginStep";
 export const SET_MNL_API_DATA = "SetMnlApiData";
@@ -28,6 +29,32 @@ interface SetMnlApiResponse {
     readonly type: typeof SET_MNL_API_Response;
     readonly payload: MnlApiResponse;
 }
+
+export function setLoginCustomerData(mnlApiResponse: MnlApiResponse) {
+    return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
+        const apiData = getState().mobileNumberLogin.mnlApiData;
+        const mnlApiResponseState = getState().mobileNumberLogin.mnlApiResponse;
+        const userDetails: UserDetails = {};
+
+        if (mnlApiResponseState) {
+            if (mnlApiResponseState.userData.customer.loginVia == "email") {
+                userDetails.userName = apiData.email;
+                userDetails.email = apiData.email;
+                userDetails.loginType = mnlApiResponseState.userData.customer.loginVia;
+            } else {
+                userDetails.userName = apiData.phoneNumber;
+                userDetails.mobileNumber = apiData.email;
+                userDetails.loginType = mnlApiResponseState.userData.customer.loginVia;
+            }
+        }
+
+        Cookie.createCookie(LOGGED_IN_USER_DETAILS, JSON.stringify(userDetails));
+        dispatch(customerAccessTokenSuccess(mnlApiResponse.userData.authentication));
+        dispatch(refreshTokenSuccess(mnlApiResponse.userData.authentication));
+        dispatch(getUserDetails(true))
+    }
+}
+
 
 export function changeLoginStep(loginStepKey: string): MobileNumberLoginActions {
     return {
@@ -119,7 +146,6 @@ export function loginWithPassword() {
                 platformnumber: PLAT_FORM_NUMBER,
             });
             const mnlApiResponse: MnlApiResponse = await result.json();
-            Cookie.createCookie("MNL_ACCESS_TOKEN", JSON.stringify(mnlApiResponse.userData.authentication));
             const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
             if (errorStatus.status) {
                 dispatch(hideSecondaryLoader());
@@ -132,7 +158,7 @@ export function loginWithPassword() {
 
             if (mnlApiResponse.userData.authentication && mnlApiResponse.userData.authentication.accessToken) {
                 dispatch(changeLoginStep("isStepLoginSuccess1"));
-                dispatch(customerAccessTokenSuccess(mnlApiResponse.userData.authentication));
+                dispatch(setLoginCustomerData(mnlApiResponse));
             }
             dispatch(hideSecondaryLoader());
         } else {
@@ -144,7 +170,7 @@ export function loginWithPassword() {
             const mnlApiResponse: MnlApiResponse = await result.json();
             const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
             if (errorStatus.status) {
-                dispatch(hideSecondaryLoader());
+                dispatch(hideSecondaryLoader()); dispatch(setLoginCustomerData(mnlApiResponse));
                 if (errorStatus.message) {
                     await dispatch(displayToast(errorStatus.message));
                 }
@@ -227,7 +253,7 @@ export function validateOtp() {
         dispatch(setMnlApiResponse(mnlApiResponse));
         if (mnlApiResponse.userData.authentication && mnlApiResponse.userData.authentication.accessToken) {
             dispatch(changeLoginStep("isStepLoginSuccess1"));
-            dispatch(customerAccessTokenSuccess(mnlApiResponse.userData.authentication));
+            dispatch(setLoginCustomerData(mnlApiResponse));
         }
         dispatch(hideSecondaryLoader());
     };
@@ -236,21 +262,15 @@ export function validateOtp() {
 export function updateEmailOtp() {
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
 
-        let authentication: any = Cookie.getCookie("MNL_ACCESS_TOKEN");
+        const authentication: any = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
 
-        let loginId = "";
+        const userDetailsCookies = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 
-        let mnlUserDetailsCookies: any = Cookie.getCookie("mnlUserDetails");
+        const userDetails: UserDetails = userDetailsCookies ? JSON.parse(userDetailsCookies) : {};
 
-        let mnlUserDetails = JSON.parse(mnlUserDetailsCookies);
+        const loginId = userDetails.userName || null;
 
-        if (mnlUserDetails && mnlUserDetails.loginType === "email") {
-            loginId = mnlUserDetails.email;
-        } else {
-            loginId = mnlUserDetails.phoneNumber;
-        }
-
-        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/updateprofile_V1?emailOld=${mnlUserDetails.email}&ProfileDataRequired=false&isPwa=true`, null, true, {
+        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/updateprofile_V1?emailOld=${userDetails.email}&ProfileDataRequired=false&isPwa=true`, null, true, {
             Authorization: `Bearer ${JSON.parse(authentication).accessToken}`,
             "register-user": true,
             registerviamobile: false,
@@ -281,23 +301,18 @@ export function updateEmailOtp() {
 export function validateEmailOtp() {
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
 
-        let authentication: any = Cookie.getCookie("MNL_ACCESS_TOKEN");
+        const apiData = getState().mobileNumberLogin.mnlApiData;
 
-        const mnlApiData = getState().mobileNumberLogin.mnlApiData;
+        const authentication: any = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
 
-        let loginId = "";
+        const userDetailsCookies = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 
-        let mnlUserDetailsCookies: any = Cookie.getCookie("mnlUserDetails");
+        const userDetails: UserDetails = userDetailsCookies ? JSON.parse(userDetailsCookies) : {};
 
-        let mnlUserDetails = JSON.parse(mnlUserDetailsCookies);
+        const loginId = userDetails.userName || null;
 
-        if (mnlUserDetails && mnlUserDetails.loginType === "email") {
-            loginId = mnlUserDetails.email;
-        } else {
-            loginId = mnlUserDetails.phoneNumber;
-        }
 
-        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/updateprofile_V1?emailOld=${mnlUserDetails.email}&otpOld=${mnlApiData.otp}&ProfileDataRequired=false&isPwa=true`, null, true, {
+        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/updateprofile_V1?emailOld=${userDetails.email}&otpOld=${apiData.otp}&ProfileDataRequired=false&isPwa=true`, null, true, {
             Authorization: `Bearer ${JSON.parse(authentication).accessToken}`,
             "register-user": true,
             registerviamobile: false,
@@ -330,21 +345,15 @@ export function addnewEmail() {
 
         const apiData = getState().mobileNumberLogin.mnlApiData;
 
-        let loginId = "";
+        const authentication: any = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
 
-        let mnlUserDetailsCookies: any = Cookie.getCookie("mnlUserDetails");
+        const userDetailsCookies = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 
-        let mnlUserDetails = JSON.parse(mnlUserDetailsCookies);
+        const userDetails: UserDetails = userDetailsCookies ? JSON.parse(userDetailsCookies) : {};
 
-        if (mnlUserDetails && mnlUserDetails.loginType === "email") {
-            loginId = mnlUserDetails.email;
-        } else {
-            loginId = mnlUserDetails.phoneNumber;
-        }
+        const loginId = userDetails.userName || null;
 
-        let authentication: any = Cookie.getCookie("MNL_ACCESS_TOKEN")
-
-        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/updateprofile_V1?emailOld=${mnlUserDetails.email}&otpOld=${apiData.otp}&emailid=${apiData.email}&ProfileDataRequired=false&isPwa=true`, null, true, {
+        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/updateprofile_V1?emailOld=${userDetails.email}&otpOld=${apiData.otp}&emailid=${apiData.email}&ProfileDataRequired=false&isPwa=true`, null, true, {
             Authorization: `Bearer ${JSON.parse(authentication).accessToken}`,
             // "register-user": true,
             // registerviamobile: false,
@@ -368,9 +377,9 @@ export function addnewEmail() {
         dispatch(changeLoginStep("isStepChangeEmailSucess"));
         if (mnlApiResponse.status === "Success") {
 
-            mnlUserDetails.email = apiData.email;
+            userDetails.email = apiData.email;
 
-            Cookie.createCookie("mnlUserDetails", JSON.stringify(mnlUserDetails));
+            Cookie.createCookie(LOGGED_IN_USER_DETAILS, JSON.stringify(userDetails));
 
             dispatch(changeLoginStep("isStepChangeEmailSucess"));
 
