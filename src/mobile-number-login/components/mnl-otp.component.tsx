@@ -85,6 +85,10 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     const mnlApidata : MnlApiData = Object.assign({}, this.props.mnlApidata, {
       otp: this.state.otp,
     });
+    if(this.props.isStepValidateProfileOtp){
+      this.props.validateProfileOtp(mnlApidata)
+      return
+    }
 
     if (this.props.isForgotPasswordClicked) {
       this.props.validateChallenge(mnlApidata);
@@ -179,6 +183,7 @@ export interface MnlOtpProps {
   isStepValidateOtp : boolean;
   validateProfileOtp : (apiData: MnlApiData) => void;
   isForgotPasswordClicked : boolean
+  isStepValidateProfileOtp : boolean
 }
 
 export interface MnlOtpState {

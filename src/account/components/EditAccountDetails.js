@@ -192,13 +192,13 @@ export default class EditAccountDetails extends React.Component {
         }
     }
     renderChangePassword = () => {
-        if (UserAgent.checkUserAgentIsMobile()) {
-            this.setState({ changePassword: true });
-        } else {
-            if (this.props.showChangePasswordModal) {
-                this.props.showChangePasswordModal();
-            }
+        // if (UserAgent.checkUserAgentIsMobile()) {
+        //     this.setState({ changePassword: true });
+        // } else {
+        if (this.props.showChangePasswordModal) {
+            this.props.showChangePasswordModal();
         }
+        // }
     };
 
     render() {
@@ -272,7 +272,7 @@ export default class EditAccountDetails extends React.Component {
                                                     boxy={true}
                                                     textStyle={{ fontSize: 14 }}
                                                     height={33}
-                                                    onChange={mobileNumber => this.onChangeMobileNumber(mobileNumber)}
+                                                    onChange={() => this.props.showAddOtpMobileChange()}
                                                     disabled={false}
                                                 />
                                             </div>

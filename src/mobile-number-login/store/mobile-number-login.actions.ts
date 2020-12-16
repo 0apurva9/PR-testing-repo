@@ -466,8 +466,17 @@ export function verifyOtpUpdatePassword() {
 
             Authorization: `Bearer ${token}`
         });
-        dispatch(changeLoginStep("isForgotPassword"))
-        console.log(result);
+        const mnlApiResponse: MnlApiResponse = await result.json();
+        const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        if (errorStatus.status) {
+            dispatch(hideSecondaryLoader());
+            if (errorStatus.message) {
+                await dispatch(displayToast(errorStatus.message));
+            }
+            return;
+        }
+        dispatch(changeLoginStep("isForgotPasswordProfile"))
+
     }
 }
 
@@ -482,7 +491,16 @@ export function updatePasswordProfile() {
 
             Authorization: `Bearer ${token}`
         });
-        console.log(result);
+        const mnlApiResponse: MnlApiResponse = await result.json();
+        const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        if (errorStatus.status) {
+            dispatch(hideSecondaryLoader());
+            if (errorStatus.message) {
+                await dispatch(displayToast(errorStatus.message));
+            }
+            return;
+        }
+        dispatch(changeLoginStep("isChangeProfilePasswordSuccess"))
     }
 
 }

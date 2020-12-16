@@ -23,6 +23,10 @@ const initailState: MobileNumberLoginReduxState = {
         isStepChangeEmailOtp: false,
         isStepChangeEmail: false,
         isStepChangeEmailSucess: false,
+        isStepValidateProfileOtp:false,
+        isForgotPasswordProfile : false,
+        isChangeProfilePasswordSuccess : false,
+        isChangeProfileMobile : false
     },
     mnlApiData: {
         email: "",
