@@ -2926,7 +2926,8 @@ export function getDigitalDataForPlp(type, response) {
   } else {
     Object.assign(data.page, {
       pageInfo: {
-        pageName: "product grid"
+        pageName: "product grid",
+        pageType: "PLP"
       },
       category: { ...subCategories }
     });
