@@ -14,7 +14,8 @@ import {
     validateOtp,
     validateEmailOtp,
     addnewEmail,
-    updateEmailOtp
+    updateEmailOtp,
+    setResendOtpTimmer
 } from "./store/mobile-number-login.actions";
 
 const mapDispatchToProps = (disptach: Function) => {
@@ -59,6 +60,9 @@ const mapDispatchToProps = (disptach: Function) => {
         updateEmailOtp: () => {
             disptach(updateEmailOtp());
         },
+        setResendOtpTimmer: (resendOtpTimmer: number) => {
+            disptach(setResendOtpTimmer(resendOtpTimmer));
+        }
 
     };
 };
@@ -68,6 +72,7 @@ const mapStateToProps = (state: RootState) => {
         steps: state.mobileNumberLogin.steps,
         mnlApiData: state.mobileNumberLogin.mnlApiData,
         mnlApiResponse: state.mobileNumberLogin.mnlApiResponse,
+        resendOtpTime: state.mobileNumberLogin.resendOtpTimmer
     };
 };
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MobileNumberLogin));

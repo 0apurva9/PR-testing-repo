@@ -23,6 +23,14 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
         this.props.setMnlApiData(mnlApiData);
     }
 
+    private onClickUseOtp() {
+        if (this.props.mnlApiResponse.userData.customer.loginVia == "email") {
+            this.props.useOtpViaEmail(this.props.mnlApiData);
+        } else {
+            this.props.useOtpViaMobile();
+        }
+    }
+
     public render() {
         const passwordIcon = this.state.showPassword ? styles.forGotBtn : `${styles.forGotBtn} ${styles.eyeClose}`;
         return (
@@ -55,7 +63,7 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
                                     type="button"
                                     className={styles.btnLink}
                                     style={{ float: "left" }}
-                                    onClick={() => this.props.useOtp(this.props.mnlApiData)}>
+                                    onClick={() => this.onClickUseOtp()}>
                                     Use OTP
                                 </button>}
                                 <button type="button" className={styles.btnLink} style={{ float: "right" }}>
@@ -82,7 +90,8 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
 export interface MnlPasswordProps {
     mnlApiData: MnlApiData;
     setMnlApiData: (mnlApiData: MnlApiData) => void;
-    useOtp: (mnlApiData: MnlApiData) => void;
+    useOtpViaEmail: (mnlApiData: MnlApiData) => void;
+    useOtpViaMobile: () => void;
     mnlApiResponse: MnlApiResponse;
 }
 

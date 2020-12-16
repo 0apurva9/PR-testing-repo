@@ -7,12 +7,12 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
         otp: "      ",
         isInputValid: false,
         resendOtp: false,
-        resendOtpIn: 30,
+        resendOtpIn: this.props.resendOtpTime == 0 ? 60 : this.props.resendOtpTime > 0 ? this.props.resendOtpTime : 0,
     };
     private _otfDivRef = React.createRef<HTMLDivElement>();
 
     public componentDidMount() {
-        let maxTime = this.state.resendOtpIn;
+        let maxTime = this.props.resendOtpTime > 0 ? this.props.resendOtpTime : this.props.resendOtpTime < 0 ? 0 : this.state.resendOtpIn;
         const intervalId = setInterval(() => {
             this.setState({ resendOtpIn: maxTime });
             if (maxTime === 0) {
@@ -77,6 +77,8 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
 
     private onClickUsePassword() {
         this.props.changeLoginStep("isStepLoginPassword");
+        const resendOtpTimmer = this.state.resendOtpIn;
+        resendOtpTimmer ? this.props.setResendOtpTimmer(resendOtpTimmer) : this.props.setResendOtpTimmer(-1);
     }
 
     private onClickResendOtp() {
@@ -94,6 +96,14 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                         {this.props.mnlApiResponse && this.props.mnlApiResponse.userData && this.props.mnlApiResponse.userData.customer && this.props.mnlApiResponse.userData.customer.maskedPhoneNumber ||
                             this.props.mnlApidata.phoneNumber}
                     </p>
+                    {this.props.mnlApiResponse.userData.customer.passwordSet &&
+                        <button
+                            type="button"
+                            className={styles.btnLink}
+                            onClick={() => this.editMobileNumber()}
+                        >
+                            Edit Number
+                    </button>}
                 </div>
                 <div className={styles.formSec}>
                     <div className={styles.feildSec}>
@@ -118,8 +128,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                         </div>
                         <div className={[styles.flexRow50, styles.justify_space].join(" ")}>
                             <div className={styles.flexRow50Cols}>
-                                {this.props.mnlApiResponse.userData.customer.passwordSet &&
-                                    !!this.props.mnlApiResponse.userData.customer.maskedPhoneNumber.length &&
+                                {this.props.mnlApiResponse.userData.customer.passwordSet ?
                                     <button
                                         type="button"
                                         className={styles.btnLink}
@@ -127,15 +136,14 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                                     >
                                         Use Password
                                 </button>
-                                }
-                                {!this.props.mnlApiResponse.userData.customer.maskedPhoneNumber.length &&
+                                    :
                                     <button
                                         type="button"
                                         className={styles.btnLink}
                                         onClick={() => this.editMobileNumber()}
                                     >
                                         Edit Number
-                            </button>
+                                </button>
                                 }
                             </div>
                             <div className={[styles.flexRow50Cols, styles.text_right].join(" ")}>
@@ -169,6 +177,8 @@ export interface MnlOtpProps {
     changeLoginStep: (stepKey: string) => void;
     mnlApiResponse: MnlApiResponse;
     resendOtp: (mnlApiData: MnlApiData) => void;
+    setResendOtpTimmer: (resendOtpTimmer: number) => void;
+    resendOtpTime: number;
 }
 
 export interface MnlOtpState {
