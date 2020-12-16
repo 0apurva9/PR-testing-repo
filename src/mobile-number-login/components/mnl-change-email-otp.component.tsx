@@ -71,15 +71,18 @@ export class MnlEmailChangeOtp extends React.Component<MnlOtpProps, MnlOtpState>
         this.props.validateEmailOtp(mnlApidata);
     }
 
+    private onClickResendOtp() {
+        this.setState({ resendOtp: false });
+        this.props.resendEmailOtp();
+    }
+
     public render() {
         return (
             <div className={styles.whiteBox}>
                 <div className={styles.headSec}>
                     <h2>Update Your E-mail</h2>
                     <p>
-                        Please enter the 6 digit OTP that we just sent on Email{" "}
-                        {this.props.mnlApiResponse && this.props.mnlApiResponse.userData && this.props.mnlApiResponse.userData.customer && this.props.mnlApiResponse.userData.customer.maskedPhoneNumber ||
-                            this.props.mnlApidata.phoneNumber}
+                        Please enter the 6 digit OTP that we just sent on Email
                     </p>
                 </div>
                 <div className={styles.formSec}>
@@ -104,9 +107,9 @@ export class MnlEmailChangeOtp extends React.Component<MnlOtpProps, MnlOtpState>
                             })}
                         </div>
                         <div className={[styles.flexRow50, styles.justify_space].join(" ")}>
-                            <div className={[styles.flexRow50Cols, styles.text_right].join(" ")}>
+                            <div className={[styles.text_right].join(" ")} style={{ flex: '1 0 50%' }}>
                                 {this.state.resendOtp ? (
-                                    <button type="button" className={styles.btnLink}>
+                                    <button type="button" className={styles.btnLink} onClick={() => this.onClickResendOtp()}>
                                         Resend OTP
                                     </button>
                                 ) : (
@@ -134,6 +137,7 @@ export interface MnlOtpProps {
     validateEmailOtp: (mnlApiData: MnlApiData) => void;
     changeLoginStep: (stepKey: string) => void;
     mnlApiResponse: MnlApiResponse;
+    resendEmailOtp: () => void;
 }
 
 export interface MnlOtpState {

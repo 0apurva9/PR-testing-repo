@@ -1,6 +1,5 @@
 import React from "react";
 import * as styles from "../mobile-number-login.css";
-//import successLoginImg from "../images/sucess_login.svg";
 
 export class MnlChangeEmailSucess extends React.Component<MnlSucess1Props> {
     public componentDidMount() {
