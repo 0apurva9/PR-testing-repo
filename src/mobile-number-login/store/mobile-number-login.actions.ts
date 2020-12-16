@@ -512,7 +512,17 @@ export function generateOtpChangeProfileNumber() {
         const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/shashankk@yopmail.com/updateprofile_V1?emailid&mobilenumber=9205028341&otp&emailOld&mobileOld=9717768747&otpOld&firstName&lastName&dateOfBirth&dateOfAnniversary&nickName&gender&ProfileDataRequired=true&isPwa=true`, {}, true, {
             Authorization: `Bearer ${token}`
         });
-        console.log(result);
+        const mnlApiResponse: MnlApiResponse = await result.json();
+        const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        if (errorStatus.status) {
+            dispatch(hideSecondaryLoader());
+            if (errorStatus.message) {
+                await dispatch(displayToast(errorStatus.message));
+            }
+            return;
+        }
+        dispatch(changeLoginStep("isChangeNumberOtp"))
+
     }
 }
 
@@ -525,7 +535,16 @@ export function validateOtpChangeProfileNumber() {
         const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/shashankk@yopmail.com/updateprofile_V1?emailid&mobilenumber=9205028341&${otp}&emailOld&mobileOld=9717768747&${otp2}&firstName&lastName&dateOfBirth&dateOfAnniversary&nickName&gender&ProfileDataRequired=true&isPwa=true`, {}, true, {
             Authorization: `Bearer ${token}`
         });
-        console.log(result);
+        const mnlApiResponse: MnlApiResponse = await result.json();
+        const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        if (errorStatus.status) {
+            dispatch(hideSecondaryLoader());
+            if (errorStatus.message) {
+                await dispatch(displayToast(errorStatus.message));
+            }
+            return;
+        }
+        dispatch(changeLoginStep("isChangeProfilePasswordSuccess"))
     }
 }
 

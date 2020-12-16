@@ -341,6 +341,7 @@ export default class EditAccountDetails extends React.Component {
                                             <ProfileInputChange
                                                 placeholder="Mobile Number"
                                                 value={this.state.mobileNumber}
+                                                onClick={() => this.props.showAddOtpMobileChange()}
                                             />
                                         </div>
                                         <div className={styles.container}>

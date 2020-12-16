@@ -83,6 +83,8 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                             <MnlAddMobileNumber
                                 mnlApiData={this.props.mnlApiData}
                                 addMobileNumber={(apiData) => this.props.generateOtp(apiData)}
+                                isChangeProfileMobile={this.props.steps.isChangeProfileMobile}
+                                generateOtpChangeProfileNumber = {(apiData) => this.props.generateOtpChangeProfileNumber(apiData)}
                             />
                         )}
                         {isStepOtp && (
@@ -157,6 +159,7 @@ export interface MobileNumberLoginProps extends RouteComponentProps {
     updateProfileMobileNumber: (apiData: MnlApiData) => void;
     validateEmailOtp: (apiData: MnlApiData) => void;
     addnewEmail: (apiData: MnlApiData) => void;
+    generateOtpChangeProfileNumber : (apiData: MnlApiData) => void;
 }
 
 

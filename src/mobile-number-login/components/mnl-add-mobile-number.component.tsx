@@ -20,7 +20,11 @@ export class MnlAddMobileNumber extends React.Component<MnlAddMobileNumberProps,
     private onContinueBtnClick() {
         const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
         mnlApiData.phoneNumber = this.state.mobileNumber;
-        this.props.addMobileNumber(mnlApiData);
+        if(this.props.isChangeProfileMobile){
+            this.props.generateOtpChangeProfileNumber(mnlApiData)
+        }else{
+            this.props.addMobileNumber(mnlApiData);
+        }
     }
 
     public render() {
@@ -66,6 +70,8 @@ export class MnlAddMobileNumber extends React.Component<MnlAddMobileNumberProps,
 export interface MnlAddMobileNumberProps {
     addMobileNumber: (apiData: MnlApiData) => void;
     mnlApiData: MnlApiData;
+    isChangeProfileMobile : boolean
+    generateOtpChangeProfileNumber : (apiData: MnlApiData) => void;
 }
 
 export interface MnlAddMobileNumberState {
