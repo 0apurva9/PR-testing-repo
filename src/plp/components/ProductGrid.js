@@ -84,8 +84,12 @@ export default class ProductGrid extends React.Component {
         productImage={
           this.state.showSwatchImage && this.state.indexSwatch === index
             ? data.swatchURL
+              ? data.swatchURL
+              : data.imageURL
             : this.props.toggleView
             ? data.swatchURL
+              ? data.swatchURL
+              : data.imageURL
             : data.imageURL
         }
         title={data.brandname}

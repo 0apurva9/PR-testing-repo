@@ -181,6 +181,46 @@ export default class Plp extends React.Component {
         this.setState({ showToggleButton: true });
       }
     }
+    let categoryCodes = [];
+    let foundCategory = [];
+    let defaultViewCategories =
+      this.props.defaultViewData[0] && this.props.defaultViewData[0].value;
+    if (
+      this.props.productListings &&
+      this.props.productListings.facetdatacategory &&
+      this.props.productListings.facetdatacategory.filters &&
+      this.props.productListings.facetdatacategory.filters[0] &&
+      this.props.productListings.facetdatacategory.filters[0].categoryCode
+    ) {
+      const filterCategory = this.props.productListings.facetdatacategory
+        .filters[0].categoryCode;
+      if (defaultViewCategories) {
+        categoryCodes = Object.keys(
+          JSON.parse(this.props.defaultViewData[0].value)
+        );
+        if (categoryCodes && categoryCodes.length > 0) {
+          foundCategory = categoryCodes.filter(
+            el => el.toUpperCase() == filterCategory.toUpperCase()
+          );
+          if (foundCategory && foundCategory.length > 0) {
+            let view = JSON.parse(defaultViewCategories)[foundCategory[0]]
+              ? JSON.parse(defaultViewCategories)[foundCategory[0]]
+              : "GRID";
+            if (view.toUpperCase() === "LIST") {
+              this.setState({
+                gridBreakup: !this.state.gridBreakup,
+                view: LIST
+              });
+            } else {
+              this.setState({
+                gridBreakup: !this.state.gridBreakup,
+                view: GRID
+              });
+            }
+          }
+        }
+      }
+    }
   }
 
   componentDidMount() {

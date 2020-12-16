@@ -7,7 +7,8 @@ import {
   getProductListings,
   setPage,
   clearProductModuleRef,
-  getPlpBanners
+  getPlpBanners,
+  getDefaultPlpView
 } from "../actions/plp.actions.js";
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -34,6 +35,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     clearProductModuleRef: () => {
       dispatch(clearProductModuleRef());
+    },
+    getDefaultPlpView: () => {
+      dispatch(getDefaultPlpView());
     }
   };
 };

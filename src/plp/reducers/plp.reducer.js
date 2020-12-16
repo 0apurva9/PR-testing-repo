@@ -32,7 +32,11 @@ const productListings = (
     checkPincodeDetailsLoading: false,
     checkPincodeFromHaptikChatbot: false,
     checkPincodeDetailsError: null,
-    isServiceableToPincode: null
+    isServiceableToPincode: null,
+    plpDefaultViewStatus: null,
+    plpDefaultViewLoading: false,
+    plpDefaultViewData: null,
+    plpDefaultViewError: null
   },
   action
 ) => {
@@ -299,6 +303,26 @@ const productListings = (
         checkPincodeDetailsStatus: action.status,
         checkPincodeDetailsLoading: false,
         checkPincodeDetailsError: action.error
+      });
+
+    case plpActions.GET_DEFAULT_PLP_VIEW_REQUEST:
+      return Object.assign({}, state, {
+        plpDefaultViewStatus: action.status,
+        plpDefaultViewLoading: true
+      });
+
+    case plpActions.GET_DEFAULT_PLP_VIEW_SUCCESS:
+      return Object.assign({}, state, {
+        plpDefaultViewStatus: action.status,
+        plpDefaultViewLoading: false,
+        plpDefaultViewData: action.data
+      });
+
+    case plpActions.GET_DEFAULT_PLP_VIEW_FAILURE:
+      return Object.assign({}, state, {
+        plpDefaultViewStatus: action.status,
+        plpDefaultViewLoading: false,
+        plpDefaultViewError: action.error
       });
 
     default:

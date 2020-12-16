@@ -19,6 +19,7 @@ import {
   BRAND_CAPTURE_REGEX
 } from "./PlpBrandCategoryWrapper.js";
 import { isBrowser } from "browser-or-node";
+import * as Cookie from "../../lib/Cookie";
 
 const OUT_OF_STOCK_FLAG = "inStockFlag";
 const SEARCH_CATEGORY_TO_IGNORE = "all";
@@ -29,12 +30,14 @@ const MAX_PRICE_FROM_API = "and Above";
 const MAX_PRICE_FROM_API_2 = "Greater than";
 const MAX_PRICE_FROM_UI = "-₹9,999,999";
 const CATEGORY_TEXT = "category";
+const DEFAULT_PLP_VIEW = "defaultPlpView";
 
 class ProductListingsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isVirtualPageLoaded: false
+      isVirtualPageLoaded: false,
+      defaultViewData: []
     };
   }
 
@@ -264,6 +267,16 @@ class ProductListingsPage extends Component {
     return "";
   }
   componentDidMount() {
+    const defaultViewCookie = Cookie.getCookie(DEFAULT_PLP_VIEW);
+
+    if (!defaultViewCookie) {
+      if (this.props.getDefaultPlpView) {
+        this.props.getDefaultPlpView();
+      }
+    } else {
+      this.setState({ defaultViewData: JSON.parse(defaultViewCookie) });
+    }
+
     if (
       this.props.location.state &&
       this.props.location.state.disableSerpSearch === true
@@ -391,6 +404,18 @@ class ProductListingsPage extends Component {
   // }
 
   componentDidUpdate(prevProps) {
+    const defaultViewCookie = Cookie.getCookie(DEFAULT_PLP_VIEW);
+
+    if (!defaultViewCookie) {
+      if (this.props.getDefaultPlpView) {
+        this.props.getDefaultPlpView();
+      }
+    } else {
+      if (this.state.defaultViewData && this.state.defaultViewData.length < 1) {
+        this.setState({ defaultViewData: JSON.parse(defaultViewCookie) });
+      }
+    }
+
     if (
       !this.props.urlString &&
       this.props.lastVisitedPlpUrl === window.location.href
@@ -529,6 +554,7 @@ class ProductListingsPage extends Component {
         onFilterClick={this.onFilterClick}
         isFilter={isFilter}
         urlString={this.props.urlString}
+        defaultViewData={this.state.defaultViewData}
       />
     );
   }
