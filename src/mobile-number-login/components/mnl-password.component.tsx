@@ -1,6 +1,6 @@
 import React from "react";
 import * as styles from "../mobile-number-login.css";
-import { MnlApiData } from "../mobile-number-login.types";
+import { MnlApiData, MnlApiResponse } from "../mobile-number-login.types";
 
 export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordState> {
     public state: Readonly<MnlPasswordState> = {
@@ -51,13 +51,13 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
                                 ></button>
                             </div>
                             <div className={styles.formInfoTxt}>
-                                <button
+                                {!!this.props.mnlApiResponse.userData.customer.maskedPhoneNumber.length && <button
                                     type="button"
                                     className={styles.btnLink}
                                     style={{ float: "left" }}
                                     onClick={() => this.props.useOtp(this.props.mnlApiData)}>
                                     Use OTP
-                                </button>
+                                </button>}
                                 <button type="button" className={styles.btnLink} style={{ float: "right" }}>
                                     Forgot Password?
                                 </button>
@@ -83,6 +83,7 @@ export interface MnlPasswordProps {
     mnlApiData: MnlApiData;
     setMnlApiData: (mnlApiData: MnlApiData) => void;
     useOtp: (mnlApiData: MnlApiData) => void;
+    mnlApiResponse: MnlApiResponse;
 }
 
 export interface MnlPasswordState {
