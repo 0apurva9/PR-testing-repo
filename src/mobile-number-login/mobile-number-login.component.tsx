@@ -89,7 +89,7 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                         )}
                         {isStepOtp && (
                             <MnlOtp
-                                validateOtp={(apidata) => this.props.validateEmailOtp(apidata)}
+                                validateOtp={(apidata) => this.props.validateOtp(apidata)}
                                 mnlApidata={this.props.mnlApiData}
                                 changeLoginStep={(stepKey) => this.props.changeLoginStep(stepKey)}
                                 mnlApiResponse={this.props.mnlApiResponse}

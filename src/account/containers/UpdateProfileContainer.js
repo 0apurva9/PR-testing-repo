@@ -60,11 +60,9 @@ const mapDispatchToProps = dispatch => {
             // For password changes
             dispatch(showMobileNumberLoginModal());
             dispatch(sendOtpUpdatePassword());
-            dispatch(changeLoginStep("isStepValidateProfileOtp"));
         },
         showAddOtpMobileChange: () => {
             // For change mobile number in profile
-            //   dispatch(generateOtpChangeProfileNumber());
             dispatch(showMobileNumberLoginModal());
             dispatch(changeLoginStep("isChangeProfileMobile"));
         },

@@ -82,10 +82,11 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
   }
 
   private onContinueBtnClick() {
-    const mnlApidata : MnlApiData = Object.assign({}, this.props.mnlApidata, {
+    const mnlApidata: MnlApiData = Object.assign({}, this.props.mnlApidata, {
       otp: this.state.otp,
     });
-    if(this.props.isStepValidateProfileOtp){
+
+    if (this.props.isStepValidateProfileOtp) {
       this.props.validateProfileOtp(mnlApidata)
       return
     }
@@ -93,7 +94,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     if (this.props.isForgotPasswordClicked) {
       this.props.validateChallenge(mnlApidata);
       this.props.changeLoginStep("isForgotPassword");
-    } else if( this.props.mnlApiResponse.userData.customer.loginVia === "mobile"){
+    } else if (this.props.mnlApiResponse.userData.customer.newUser && !this.props.mnlApiResponse.userData.customer.passwordSet ) {
       this.props.validateChallenge(mnlApidata);
       this.props.changeLoginStep("isStepEmail");
     } else {
@@ -180,10 +181,10 @@ export interface MnlOtpProps {
   changeLoginStep: (stepKey: string) => void;
   mnlApiResponse: MnlApiResponse;
   validateChallenge: (apiData: MnlApiData) => void;
-  isStepValidateOtp : boolean;
-  validateProfileOtp : (apiData: MnlApiData) => void;
-  isForgotPasswordClicked : boolean
-  isStepValidateProfileOtp : boolean
+  isStepValidateOtp: boolean;
+  validateProfileOtp: (apiData: MnlApiData) => void;
+  isForgotPasswordClicked: boolean
+  isStepValidateProfileOtp: boolean
 }
 
 export interface MnlOtpState {

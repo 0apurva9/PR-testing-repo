@@ -31,7 +31,6 @@ const mapDispatchToProps = (disptach: Function) => {
             disptach(showSecondaryLoader());
             disptach(setMnlApiData(apidata));
             disptach(validateMnlChallenge());
-            disptach(changeLoginStep("isStepValidateOtp"))
         },
         loginWithPassword: (apiData: MnlApiData) => {
             disptach(showSecondaryLoader());
