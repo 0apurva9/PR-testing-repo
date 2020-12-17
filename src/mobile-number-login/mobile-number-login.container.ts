@@ -18,7 +18,8 @@ import {
     validateOtpChangeProfileNumber,
     validateEmailOtp,
     addnewEmail,
-    generateOtpChangeProfileNumber
+    generateOtpChangeProfileNumber,
+    updateEmailOtp
 } from "./store/mobile-number-login.actions";
 
 const mapDispatchToProps = (disptach: Function) => {
@@ -55,15 +56,15 @@ const mapDispatchToProps = (disptach: Function) => {
             disptach(setMnlApiData(apiData));
             disptach(updatePassword())
         },
-        validateProfileOtp : (apiData: MnlApiData) => {
+        validateProfileOtp: (apiData: MnlApiData) => {
             disptach(setMnlApiData(apiData));
             disptach(verifyOtpUpdatePassword())
         },
-        changeProfilePassword : (apiData: MnlApiData) => {
+        changeProfilePassword: (apiData: MnlApiData) => {
             disptach(setMnlApiData(apiData));
             disptach(updatePasswordProfile())
         },
-        updateProfileMobileNumber : (apiData: MnlApiData) => {
+        updateProfileMobileNumber: (apiData: MnlApiData) => {
             disptach(setMnlApiData(apiData));
             disptach(validateOtpChangeProfileNumber())
         },
@@ -80,7 +81,11 @@ const mapDispatchToProps = (disptach: Function) => {
         generateOtpChangeProfileNumber : (apiData: MnlApiData) => {
             disptach(setMnlApiData(apiData));
             disptach(generateOtpChangeProfileNumber())
-        }
+        },
+        updateEmailOtp: () => {
+            disptach(updateEmailOtp());
+        },
+
     };
 };
 

@@ -102,6 +102,15 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     }
   }
 
+  private onClickUsePassword() {
+    this.props.changeLoginStep("isStepLoginPassword");
+  }
+
+  private onClickResendOtp() {
+    const mnlApidata = Object.assign({}, this.props.mnlApidata);
+    this.props.resendOtp(mnlApidata);
+  }
+
   public render() {
     return (
       <div className={styles.whiteBox}>
@@ -109,7 +118,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
           <h2>Almost There</h2>
           <p>
             Please enter the 6 digit OTP that we just sent on +91{" "}
-            {this.props.mnlApiResponse && this.props.mnlApiResponse.userData.customer.maskedPhoneNumber ||
+            {this.props.mnlApiResponse && this.props.mnlApiResponse.userData && this.props.mnlApiResponse.userData.customer && this.props.mnlApiResponse.userData.customer.maskedPhoneNumber ||
               this.props.mnlApidata.phoneNumber}
           </p>
         </div>
@@ -124,15 +133,11 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                       className={styles.otpInput}
                       id={`otp_${idx}`}
                       size={1}
-                      onKeyUp={event =>
-                        this.moveToNext(event, `otp_${idx + 1}`)
-                      }
-                      onKeyDown={event =>
-                        this.onKeyDown(event, `otp_${idx - 1}`, idx)
-                      }
+                      onKeyUp={(event) => this.moveToNext(event, `otp_${idx + 1}`)}
+                      onKeyDown={(event) => this.onKeyDown(event, `otp_${idx - 1}`, idx)}
                       maxLength={1}
                       value={this.state.otp.split("")[idx]}
-                      onChange={event => this.onChangeInput(event, idx)}
+                      onChange={(event) => this.onChangeInput(event, idx)}
                     />
                   </div>
                 );
@@ -140,21 +145,31 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
             </div>
             <div className={[styles.flexRow50, styles.justify_space].join(" ")}>
               <div className={styles.flexRow50Cols}>
-                <button
-                  type="button"
-                  className={styles.btnLink}
-                  onClick={() => this.editMobileNumber()}
-                >
-                  Edit Number
-                </button>
+                {this.props.mnlApiResponse.userData.customer.passwordSet &&
+                  !!this.props.mnlApiResponse.userData.customer.maskedPhoneNumber.length &&
+                  <button
+                    type="button"
+                    className={styles.btnLink}
+                    onClick={() => this.onClickUsePassword()}
+                  >
+                    Use Password
+                                </button>
+                }
+                {!this.props.mnlApiResponse.userData.customer.maskedPhoneNumber.length &&
+                  <button
+                    type="button"
+                    className={styles.btnLink}
+                    onClick={() => this.editMobileNumber()}
+                  >
+                    Edit Number
+                            </button>
+                }
               </div>
-              <div
-                className={[styles.flexRow50Cols, styles.text_right].join(" ")}
-              >
+              <div className={[styles.flexRow50Cols, styles.text_right].join(" ")}>
                 {this.state.resendOtp ? (
-                  <button type="button" className={styles.btnLink}>
+                  <button type="button" className={styles.btnLink} onClick={() => this.onClickResendOtp()}>
                     Resend OTP
-                  </button>
+                                    </button>
                 ) : (
                     <p>Resend OTP in 0:{this.state.resendOtpIn}</p>
                   )}
@@ -168,7 +183,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
             onClick={() => this.onContinueBtnClick()}
           >
             Continue
-          </button>
+                    </button>
         </div>
       </div>
     );
@@ -183,8 +198,9 @@ export interface MnlOtpProps {
   validateChallenge: (apiData: MnlApiData) => void;
   isStepValidateOtp: boolean;
   validateProfileOtp: (apiData: MnlApiData) => void;
-  isForgotPasswordClicked: boolean
-  isStepValidateProfileOtp: boolean
+  isForgotPasswordClicked: boolean;
+  isStepValidateProfileOtp: boolean;
+  resendOtp: (mnlApiData: MnlApiData) => void;
 }
 
 export interface MnlOtpState {
