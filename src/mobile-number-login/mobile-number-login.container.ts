@@ -18,14 +18,16 @@ import {
     validateOtpChangeProfileNumber,
     validateEmailOtp,
     addnewEmail,
+    updateEmailOtp,
+    setResendOtpTimmer,
     generateOtpChangeProfileNumber,
-    updateEmailOtp
 } from "./store/mobile-number-login.actions";
 
 const mapDispatchToProps = (disptach: Function) => {
     return {
         hideMobileNumberLoginModal: () => {
             disptach(changeLoginStep("isStepLoginChallenge"));
+            disptach(setResendOtpTimmer(0));
             disptach(hideMobileNumberLoginModal());
         },
         validateChallenge: (apidata: MnlApiData) => {
@@ -85,6 +87,9 @@ const mapDispatchToProps = (disptach: Function) => {
         updateEmailOtp: () => {
             disptach(updateEmailOtp());
         },
+        setResendOtpTimmer: (resendOtpTimmer: number) => {
+            disptach(setResendOtpTimmer(resendOtpTimmer));
+        }
 
     };
 };
@@ -94,6 +99,7 @@ const mapStateToProps = (state: RootState) => {
         steps: state.mobileNumberLogin.steps,
         mnlApiData: state.mobileNumberLogin.mnlApiData,
         mnlApiResponse: state.mobileNumberLogin.mnlApiResponse,
+        resendOtpTime: state.mobileNumberLogin.resendOtpTimmer
     };
 };
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MobileNumberLogin));

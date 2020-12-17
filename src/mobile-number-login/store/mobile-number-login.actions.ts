@@ -14,6 +14,7 @@ import { CUSTOMER_ACCESS_TOKEN, LOGGED_IN_USER_DETAILS } from "../../lib/constan
 export const CHANGE_LOGIN_STEP = "ChangeLoginStep";
 export const SET_MNL_API_DATA = "SetMnlApiData";
 export const SET_MNL_API_Response = "SetMnlApiResponse";
+export const SET_RESEND_OTP_TIME = "SetResendOtpTimmer";
 
 interface ChangeLoginStepAction {
     readonly type: typeof CHANGE_LOGIN_STEP;
@@ -29,6 +30,11 @@ interface SetMnlApiData {
 interface SetMnlApiResponse {
     readonly type: typeof SET_MNL_API_Response;
     readonly payload: MnlApiResponse;
+}
+
+interface SetResendOtpTimmer {
+    readonly type: typeof SET_RESEND_OTP_TIME;
+    readonly payload: number;
 }
 
 export function setLoginCustomerData(mnlApiResponse: MnlApiResponse) {
@@ -75,6 +81,13 @@ export function setMnlApiResponse(payload: MnlApiResponse): MobileNumberLoginAct
     return {
         type: SET_MNL_API_Response,
         payload,
+    };
+}
+
+export function setResendOtpTimmer(resendOtpTimmer: number): MobileNumberLoginActions {
+    return {
+        type: SET_RESEND_OTP_TIME,
+        payload: resendOtpTimmer,
     };
 }
 
@@ -380,12 +393,6 @@ export function addnewEmail() {
 
         const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/updateprofile_V1?emailOld=${userEmail}&otpOld=${apiData.otp}&emailid=${apiData.email}&ProfileDataRequired=false&isPwa=true`, null, true, {
             Authorization: `Bearer ${JSON.parse(authentication).accessToken}`,
-            // "register-user": true,
-            // registerviamobile: false,
-            // //grant_type: "password",
-            // client_id: CLIENT_ID,
-            // client_secret: CLIENT_SECRET,
-            // platformnumber: PLAT_FORM_NUMBER,
         });
         const mnlApiResponse: MnlApiResponse = await result.json();
         const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
@@ -573,4 +580,4 @@ export function validateOtpChangeProfileNumber() {
     }
 }
 
-export type MobileNumberLoginActions = ChangeLoginStepAction | SetMnlApiData | SetMnlApiResponse;
+export type MobileNumberLoginActions = ChangeLoginStepAction | SetMnlApiData | SetMnlApiResponse | SetResendOtpTimmer;

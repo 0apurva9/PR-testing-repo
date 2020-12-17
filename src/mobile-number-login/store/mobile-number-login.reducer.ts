@@ -3,6 +3,7 @@ import {
     CHANGE_LOGIN_STEP,
     SET_MNL_API_DATA,
     SET_MNL_API_Response,
+    SET_RESEND_OTP_TIME,
 } from "./mobile-number-login.actions";
 import { PLAT_FORM_NUMBER } from "../../lib/constants";
 import { MobileNumberLoginReduxState } from "../mobile-number-login.types";
@@ -38,6 +39,7 @@ const initailState: MobileNumberLoginReduxState = {
         otp2 : ""
     },
     mnlApiResponse: null,
+    resendOtpTimmer: 0,
 };
 
 export function mobileNumberLoginReducer(
@@ -64,6 +66,11 @@ export function mobileNumberLoginReducer(
             }
 
             return newState;
+        case SET_RESEND_OTP_TIME:
+            return {
+                ...state,
+                resendOtpTimmer: action.payload,
+            }
         default:
             return state;
     }

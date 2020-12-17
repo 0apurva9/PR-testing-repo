@@ -29,6 +29,14 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
         this.props.setMnlApiData(mnlApiData);   
     }
 
+    private onClickUseOtp() {
+        if (this.props.mnlApiResponse.userData.customer.loginVia == "email") {
+            this.props.useOtpViaEmail(this.props.mnlApiData);
+        } else {
+            this.props.useOtpViaMobile();
+        }
+    }
+
     public render() {
         const passwordIcon = this.state.showPassword ? styles.forGotBtn : `${styles.forGotBtn} ${styles.eyeClose}`;
         return (
@@ -56,20 +64,22 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
                                     onClick={() => this.setState({ showPassword: !this.state.showPassword })}
                                 ></button>
                             </div>
-                            <div className={styles.formInfoTxt}>
-                                {!!this.props.mnlApiResponse.userData.customer.maskedPhoneNumber.length && <button
-                                    type="button"
-                                    className={styles.btnLink}
-                                    style={{ float: "left" }}
-                                    onClick={() => this.props.useOtp(this.props.mnlApiData)}>
-                                    Use OTP
+                            <div className={[styles.flexRow50, styles.justify_space].join(" ")}>
+                                <div className={styles.flexRow50Cols}>
+
+                                    {!!this.props.mnlApiResponse.userData.customer.maskedPhoneNumber.length && <button
+                                        type="button"
+                                        className={styles.btnLink}
+                                        style={{ float: "left" }}
+                                        onClick={() => this.onClickUseOtp()}>
+                                        Use OTP
+                                </button>}
+                                </div>
+                                <div className={[styles.flexRow50Cols, styles.text_right].join(" ")}>
+                                    <button type="button" className={styles.btnLink} style={{ float: "right" }}>
+                                        Forgot Password?
                                 </button>
-                                }
-                                <button type="button" className={styles.btnLink} style={{ float: "right" }}
-                                 onClick = {() => this.onForgotPasswordClick()}
-                                >
-                                    Forgot Password?
-                                </button>
+                                </div>
                             </div>
                         </div>
 
@@ -91,11 +101,12 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
 export interface MnlPasswordProps {
     mnlApiData: MnlApiData;
     setMnlApiData: (mnlApiData: MnlApiData) => void;
+    useOtpViaEmail: (mnlApiData: MnlApiData) => void;
+    useOtpViaMobile: () => void;
     changeLoginStep: (stepKey: string) => void;
     generateOtp: (apiData: MnlApiData) => void;
     forgotPassword : (apiData: MnlApiData) => void;
     toggleForgotPassswordClick : () => void;
-    useOtp: (mnlApiData: MnlApiData) => void;
     mnlApiResponse: MnlApiResponse;
 }
 

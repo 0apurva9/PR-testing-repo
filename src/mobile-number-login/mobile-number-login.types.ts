@@ -2,6 +2,7 @@ export interface MobileNumberLoginReduxState {
     steps: MobileNumberLoginSteps;
     mnlApiData: MnlApiData;
     mnlApiResponse: MnlApiResponse | null;
+    resendOtpTimmer: number;
 }
 
 export interface MobileNumberLoginSteps {

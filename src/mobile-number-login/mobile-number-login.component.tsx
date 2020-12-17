@@ -72,11 +72,12 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                             <MnlPassword
                                 mnlApiData={this.props.mnlApiData}
                                 setMnlApiData={(apiData) => this.props.loginWithPassword(apiData)}
+                                useOtpViaEmail={(apiData) => this.props.generateOtp(apiData)}
+                                useOtpViaMobile={() => this.props.changeLoginStep("isStepValidateOtp")}
                                 changeLoginStep={(stepKey) => this.props.changeLoginStep(stepKey)}
                                 generateOtp={(apiData) => this.props.generateOtp(apiData)}
                                 forgotPassword={(apiData) => this.props.forgotPassword(apiData)}
                                 toggleForgotPassswordClick={() => this.toggleForgotPassswordClick()}
-                                useOtp={(apiData) => this.props.generateOtp(apiData)}
                                 mnlApiResponse={this.props.mnlApiResponse}
                             />
                         )}
@@ -100,6 +101,8 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                                 isForgotPasswordClicked={this.state.isForgotPasswordClicked}
                                 isStepValidateProfileOtp={this.props.steps.isStepValidateProfileOtp}
                                 resendOtp={(apiData) => this.props.validateChallenge(apiData)}
+                                resendOtpTime={this.props.resendOtpTime}
+                                setResendOtpTimmer={(resendOtpTimmer) => this.props.setResendOtpTimmer(resendOtpTimmer)}
                             />
                         )}
                         {this.props.steps.isStepChangeEmailOtp && (
@@ -164,6 +167,8 @@ export interface MobileNumberLoginProps extends RouteComponentProps {
     addnewEmail: (apiData: MnlApiData) => void;
     generateOtpChangeProfileNumber : (apiData: MnlApiData) => void;
     updateEmailOtp: () => void;
+    setResendOtpTimmer: (resendOtpTimmer: number) => void;
+    resendOtpTime: number;
 }
 
 

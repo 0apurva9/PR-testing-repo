@@ -7,20 +7,24 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     otp: "      ",
     isInputValid: false,
     resendOtp: false,
-    resendOtpIn: 30
+    resendOtpIn: this.props.resendOtpTime == 0 ? 60 : this.props.resendOtpTime > 0 ? this.props.resendOtpTime : 0,
   };
   private _otfDivRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
     let maxTime = this.state.resendOtpIn;
-    const intervalId = setInterval(() => {
-      this.setState({ resendOtpIn: maxTime });
-      if (maxTime === 0) {
-        clearInterval(intervalId);
-        this.setState({ resendOtp: true });
-      }
-      maxTime--;
-    }, 1000);
+    if(!maxTime) {
+      this.setState({ resendOtp: true });
+    } else {
+      const intervalId = setInterval(() => {
+        this.setState({ resendOtpIn: maxTime });
+        if (maxTime === 0) {
+          clearInterval(intervalId);
+          this.setState({ resendOtp: true });
+        }
+        maxTime--;
+      }, 1000);
+    }
   }
 
   private moveToNext(event: React.KeyboardEvent<HTMLInputElement>, id: string) {
@@ -52,7 +56,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
       if (this._otfDivRef.current) {
         const focusEle = this._otfDivRef.current.querySelector<
           HTMLInputElement
-        >(`#${id}`);
+          >(`#${id}`);
         if (focusEle) {
           focusEle.focus();
         }
@@ -81,6 +85,17 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     this.props.changeLoginStep("isStepAddMobileNumber");
   }
 
+  private onClickResendOtp() {
+    const mnlApidata = Object.assign({}, this.props.mnlApidata);
+    this.props.resendOtp(mnlApidata);
+  }
+
+  private onClickUsePassword() {
+    this.props.changeLoginStep("isStepLoginPassword");
+    const resendOtpTimmer = this.state.resendOtpIn;
+    resendOtpTimmer ? this.props.setResendOtpTimmer(resendOtpTimmer) : this.props.setResendOtpTimmer(-1);
+  }
+
   private onContinueBtnClick() {
     const mnlApidata: MnlApiData = Object.assign({}, this.props.mnlApidata, {
       otp: this.state.otp,
@@ -94,21 +109,12 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     if (this.props.isForgotPasswordClicked) {
       this.props.validateChallenge(mnlApidata);
       this.props.changeLoginStep("isForgotPassword");
-    } else if (this.props.mnlApiResponse.userData.customer.newUser && !this.props.mnlApiResponse.userData.customer.passwordSet ) {
+    } else if (this.props.mnlApiResponse.userData.customer.newUser && !this.props.mnlApiResponse.userData.customer.passwordSet) {
       this.props.validateChallenge(mnlApidata);
       this.props.changeLoginStep("isStepEmail");
     } else {
       this.props.validateOtp(mnlApidata);
     }
-  }
-
-  private onClickUsePassword() {
-    this.props.changeLoginStep("isStepLoginPassword");
-  }
-
-  private onClickResendOtp() {
-    const mnlApidata = Object.assign({}, this.props.mnlApidata);
-    this.props.resendOtp(mnlApidata);
   }
 
   public render() {
@@ -121,6 +127,14 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
             {this.props.mnlApiResponse && this.props.mnlApiResponse.userData && this.props.mnlApiResponse.userData.customer && this.props.mnlApiResponse.userData.customer.maskedPhoneNumber ||
               this.props.mnlApidata.phoneNumber}
           </p>
+          {this.props.mnlApiResponse.userData.customer.passwordSet &&
+            <button
+              type="button"
+              className={styles.btnLink}
+              onClick={() => this.editMobileNumber()}
+            >
+              Edit Number
+                    </button>}
         </div>
         <div className={styles.formSec}>
           <div className={styles.feildSec}>
@@ -145,8 +159,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
             </div>
             <div className={[styles.flexRow50, styles.justify_space].join(" ")}>
               <div className={styles.flexRow50Cols}>
-                {this.props.mnlApiResponse.userData.customer.passwordSet &&
-                  !!this.props.mnlApiResponse.userData.customer.maskedPhoneNumber.length &&
+                {this.props.mnlApiResponse.userData.customer.passwordSet ?
                   <button
                     type="button"
                     className={styles.btnLink}
@@ -154,15 +167,14 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                   >
                     Use Password
                                 </button>
-                }
-                {!this.props.mnlApiResponse.userData.customer.maskedPhoneNumber.length &&
+                  :
                   <button
                     type="button"
                     className={styles.btnLink}
                     onClick={() => this.editMobileNumber()}
                   >
                     Edit Number
-                            </button>
+                                </button>
                 }
               </div>
               <div className={[styles.flexRow50Cols, styles.text_right].join(" ")}>
@@ -195,12 +207,14 @@ export interface MnlOtpProps {
   validateOtp: (mnlApiData: MnlApiData) => void;
   changeLoginStep: (stepKey: string) => void;
   mnlApiResponse: MnlApiResponse;
+  resendOtp: (mnlApiData: MnlApiData) => void;
+  setResendOtpTimmer: (resendOtpTimmer: number) => void;
+  resendOtpTime: number;
   validateChallenge: (apiData: MnlApiData) => void;
   isStepValidateOtp: boolean;
   validateProfileOtp: (apiData: MnlApiData) => void;
   isForgotPasswordClicked: boolean;
   isStepValidateProfileOtp: boolean;
-  resendOtp: (mnlApiData: MnlApiData) => void;
 }
 
 export interface MnlOtpState {
