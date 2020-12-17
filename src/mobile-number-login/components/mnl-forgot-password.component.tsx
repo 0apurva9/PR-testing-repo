@@ -25,7 +25,11 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
     public onContinuButtonClick() {
         const mnlApiData: MnlApiData = Object.assign({},this.props.mnlApiData );
         mnlApiData.pass = this.state.password;
-        this.props.forgotPassword(mnlApiData);
+        if(this.props.isForgotPasswordProfile){
+            this.props.changeProfilePassword(mnlApiData)
+        }else {
+            this.props.forgotPassword(mnlApiData);
+        }
 
         
     }
@@ -82,6 +86,7 @@ export interface MnlPasswordProps {
     forgotPassword : (apiData: MnlApiData) => void;
     isForgotPassword : boolean;
     changeProfilePassword : (apiData: MnlApiData) => void;
+    isForgotPasswordProfile : boolean;
 }
 
 export interface MnlPasswordState {

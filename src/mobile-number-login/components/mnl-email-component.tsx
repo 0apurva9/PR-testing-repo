@@ -62,6 +62,7 @@ export class MnlEmail extends React.Component<MnlChallengeProps, MnlChallengeSta
                                 type="button"
                                 className={styles.btnLink}
                                 onClick={() => this.validateCall()}
+                                disabled
                             >
                                 Do it later
                                 </button>

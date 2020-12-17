@@ -57,17 +57,14 @@ const mapDispatchToProps = dispatch => {
             dispatch(displayToast(message));
         },
         showChangePasswordModal: () => {
-            // For change mobile number in profile
-            dispatch(generateOtpChangeProfileNumber());
-            dispatch(showMobileNumberLoginModal());
-            dispatch(changeLoginStep("isChangeNumberOtp"));
-        },
-        showAddOtpMobileChange: () => {
             // For password changes
             dispatch(showMobileNumberLoginModal());
             dispatch(sendOtpUpdatePassword());
-            dispatch(changeLoginStep("isStepValidateOtp"));
-            dispatch(showModal(CHANGE_PASSWORD_POP_UP));
+        },
+        showAddOtpMobileChange: () => {
+            // For change mobile number in profile
+            dispatch(showMobileNumberLoginModal());
+            dispatch(changeLoginStep("isChangeProfileMobile"));
         },
         updateEmail: () => {
             dispatch(updateEmailOtp());

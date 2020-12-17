@@ -4,8 +4,8 @@ import { MnlApiData, MnlApiResponse } from "../mobile-number-login.types";
 
 export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
   public state: Readonly<MnlOtpState> = {
-    otp: "123123",
-    otp2 : "123123",
+    otp: "      ",
+    otp2 : "      ",
     isInputValid: false,
     isInputValid2: false,
     resendOtp: false,

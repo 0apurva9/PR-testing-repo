@@ -114,6 +114,9 @@ export function validateMnlChallenge() {
         if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.loginVia == "email" && mnlApiResponse.userData.customer.passwordSet) {
             dispatch(changeLoginStep("isStepLoginPassword"));
         }
+        else if(mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.newUser && !mnlApiResponse.userData.customer.passwordSet){
+            dispatch(changeLoginStep("isStepValidateOtp"));
+        }
         else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.newUser) {
             dispatch(changeLoginStep("isStepAddMobileNumber"));
         }
@@ -439,74 +442,134 @@ export function updatePassword() {
 }
 
 export function sendOtpUpdatePassword() {
-    console.log("Generate OTP");
-    let result = JSON.parse(Cookie.getCookie("MNL_ACCESS_TOKEN") || "");
-    let token = result.accessToken;
+    
+    const authentication: any = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const userDetailsCookies = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const userDetails: UserDetails = userDetailsCookies ? JSON.parse(userDetailsCookies) : {};
+    const loginId = userDetails.userName || null;
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
-        const result: Response = await api.post("marketplacewebservices/v2/mpl/users/shashankk@yopmail.com/sendotpUpdatepassword", {
-            "email": "shashankk@yopmail.com",
+        const apiData = getState().profile.userDetails;
+        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/sendotpUpdatepassword`, {
+            "email": apiData.emailID,
             "pass": "",
-            "phoneNumber": "9717768747",
+            "phoneNumber":  apiData.mobileNumber,
             "otp": ""
         }, true, {
 
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${JSON.parse(authentication).accessToken}`
         });
-        console.log(result);
+        const mnlApiResponse: MnlApiResponse = await result.json();
+        const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        if (errorStatus.status) {
+            dispatch(hideSecondaryLoader());
+            if (errorStatus.message) {
+                await dispatch(displayToast(errorStatus.message));
+            }
+            return;
+        }
+        dispatch(changeLoginStep("isStepValidateProfileOtp"));
     }
 }
 
 export function verifyOtpUpdatePassword() {
-    let result = JSON.parse(Cookie.getCookie("MNL_ACCESS_TOKEN") || "");
-    let token = result.accessToken;
+    const authentication: any = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const userDetailsCookies = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const userDetails: UserDetails = userDetailsCookies ? JSON.parse(userDetailsCookies) : {};
+    const loginId = userDetails.userName || null;
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().mobileNumberLogin.mnlApiData;
-        const result: Response = await api.post("marketplacewebservices/v2/mpl/users/shashankk@yopmail.com/verifyOtpUpdatePassword", apiData, true, {
+        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/verifyOtpUpdatePassword`, apiData, true, {
 
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${JSON.parse(authentication).accessToken}`
         });
-        dispatch(changeLoginStep("isForgotPassword"))
-        console.log(result);
+        const mnlApiResponse: MnlApiResponse = await result.json();
+        const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        if (errorStatus.status) {
+            dispatch(hideSecondaryLoader());
+            if (errorStatus.message) {
+                await dispatch(displayToast(errorStatus.message));
+            }
+            return;
+        }
+        dispatch(changeLoginStep("isForgotPasswordProfile"))
+
     }
 }
 
 export function updatePasswordProfile() {
-    let result = JSON.parse(Cookie.getCookie("MNL_ACCESS_TOKEN") || "");
-    let token = result.accessToken;
+    const authentication: any = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const userDetailsCookies = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const userDetails: UserDetails = userDetailsCookies ? JSON.parse(userDetailsCookies) : {};
+    const loginId = userDetails.userName || null;
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().mobileNumberLogin.mnlApiData;
         delete apiData.platformNumber;
         delete apiData.maskedPhoneNumber;
-        const result: Response = await api.post("marketplacewebservices/v2/mpl/users/shashankk@yopmail.com/updatepassword", apiData, true, {
+        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/updatepassword`, apiData, true, {
 
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${JSON.parse(authentication).accessToken}`
         });
-        console.log(result);
+        const mnlApiResponse: MnlApiResponse = await result.json();
+        const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        if (errorStatus.status) {
+            dispatch(hideSecondaryLoader());
+            if (errorStatus.message) {
+                await dispatch(displayToast(errorStatus.message));
+            }
+            return;
+        }
+        dispatch(changeLoginStep("isChangeProfilePasswordSuccess"))
     }
 
 }
 
 export function generateOtpChangeProfileNumber() {
-    let result = JSON.parse(Cookie.getCookie("MNL_ACCESS_TOKEN") || "");
-    let token = result.accessToken;
+    const authentication: any = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const userDetailsCookies = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const userDetails: UserDetails = userDetailsCookies ? JSON.parse(userDetailsCookies) : {};
+    const loginId = userDetails.userName || null;
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
-        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/shashankk@yopmail.com/updateprofile_V1?emailid&mobilenumber=9205028341&otp&emailOld&mobileOld=9717768747&otpOld&firstName&lastName&dateOfBirth&dateOfAnniversary&nickName&gender&ProfileDataRequired=true&isPwa=true`, {}, true, {
-            Authorization: `Bearer ${token}`
+        const apiData = getState().profile.userDetails;
+        const mnlApiData = getState().mobileNumberLogin.mnlApiData;
+        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/updateprofile_V1?emailid&mobilenumber=${mnlApiData.phoneNumber}&otp&emailOld&mobileOld=${apiData.mobileNumber}&otpOld&firstName&lastName&dateOfBirth&dateOfAnniversary&nickName&gender&ProfileDataRequired=true&isPwa=true`, {}, true, {
+            Authorization: `Bearer ${JSON.parse(authentication).accessToken}`
         });
-        console.log(result);
+        const mnlApiResponse: MnlApiResponse = await result.json();
+        const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        if (errorStatus.status) {
+            dispatch(hideSecondaryLoader());
+            if (errorStatus.message) {
+                await dispatch(displayToast(errorStatus.message));
+            }
+            return;
+        }
+        dispatch(changeLoginStep("isChangeNumberOtp"))
+
     }
 }
 
 export function validateOtpChangeProfileNumber() {
-    let result = JSON.parse(Cookie.getCookie("MNL_ACCESS_TOKEN") || "");
-    let token = result.accessToken;
+    const authentication: any = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const userDetailsCookies = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const userDetails: UserDetails = userDetailsCookies ? JSON.parse(userDetailsCookies) : {};
+    const loginId = userDetails.userName || null;
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
-        const apiData = getState().mobileNumberLogin.mnlApiData;
-        const { otp, otp2 } = apiData;
-        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/shashankk@yopmail.com/updateprofile_V1?emailid&mobilenumber=9205028341&${otp}&emailOld&mobileOld=9717768747&${otp2}&firstName&lastName&dateOfBirth&dateOfAnniversary&nickName&gender&ProfileDataRequired=true&isPwa=true`, {}, true, {
-            Authorization: `Bearer ${token}`
+        const apiData = getState().profile.userDetails;
+        const mnlApiData = getState().mobileNumberLogin.mnlApiData;
+        const { otp, otp2 } = mnlApiData;
+        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/updateprofile_V1?emailid&mobilenumber=${mnlApiData.phoneNumber}&${otp}&emailOld&mobileOld=${apiData.phoneNumber}&${otp2}&firstName&lastName&dateOfBirth&dateOfAnniversary&nickName&gender&ProfileDataRequired=true&isPwa=true`, {}, true, {
+            Authorization: `Bearer ${JSON.parse(authentication).accessToken}`
         });
-        console.log(result);
+        const mnlApiResponse: MnlApiResponse = await result.json();
+        const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        if (errorStatus.status) {
+            dispatch(hideSecondaryLoader());
+            if (errorStatus.message) {
+                await dispatch(displayToast(errorStatus.message));
+            }
+            return;
+        }
+        dispatch(changeLoginStep("isChangeProfilePasswordSuccess"))
     }
 }
 
