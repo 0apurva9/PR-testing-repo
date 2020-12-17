@@ -58,17 +58,22 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
                                     onClick={() => this.setState({ showPassword: !this.state.showPassword })}
                                 ></button>
                             </div>
-                            <div className={styles.formInfoTxt}>
-                                {!!this.props.mnlApiResponse.userData.customer.maskedPhoneNumber.length && <button
-                                    type="button"
-                                    className={styles.btnLink}
-                                    style={{ float: "left" }}
-                                    onClick={() => this.onClickUseOtp()}>
-                                    Use OTP
+                            <div className={[styles.flexRow50, styles.justify_space].join(" ")}>
+                                <div className={styles.flexRow50Cols}>
+
+                                    {!!this.props.mnlApiResponse.userData.customer.maskedPhoneNumber.length && <button
+                                        type="button"
+                                        className={styles.btnLink}
+                                        style={{ float: "left" }}
+                                        onClick={() => this.onClickUseOtp()}>
+                                        Use OTP
                                 </button>}
-                                <button type="button" className={styles.btnLink} style={{ float: "right" }}>
-                                    Forgot Password?
+                                </div>
+                                <div className={[styles.flexRow50Cols, styles.text_right].join(" ")}>
+                                    <button type="button" className={styles.btnLink} style={{ float: "right" }}>
+                                        Forgot Password?
                                 </button>
+                                </div>
                             </div>
                         </div>
 
