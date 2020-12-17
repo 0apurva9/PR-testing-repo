@@ -12,7 +12,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     private _otfDivRef = React.createRef<HTMLDivElement>();
 
     public componentDidMount() {
-        let maxTime = this.props.resendOtpTime > 0 ? this.props.resendOtpTime : this.props.resendOtpTime < 0 ? 0 : this.state.resendOtpIn;
+        let maxTime = this.state.resendOtpIn;
         const intervalId = setInterval(() => {
             this.setState({ resendOtpIn: maxTime });
             if (maxTime === 0) {
