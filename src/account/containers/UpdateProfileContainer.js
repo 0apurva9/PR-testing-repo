@@ -6,6 +6,11 @@ import {
     clearAccountUpdateType,
     clearChangePasswordDetails,
 } from "../actions/account.actions";
+import {
+    sendOtpUpdatePassword,
+    generateOtpChangeProfileNumber,
+} from "../../mobile-number-login/store/mobile-number-login.actions";
+import { showMobileNumberLoginModal } from "../../general/modal.actions";
 import { setHeaderText } from "../../general/header.actions";
 import { withRouter } from "react-router-dom";
 import EditAccountDetails from "../components/EditAccountDetails.js";
@@ -52,7 +57,14 @@ const mapDispatchToProps = dispatch => {
             dispatch(displayToast(message));
         },
         showChangePasswordModal: () => {
-            dispatch(showModal(CHANGE_PASSWORD_POP_UP));
+            // For password changes
+            dispatch(showMobileNumberLoginModal());
+            dispatch(sendOtpUpdatePassword());
+        },
+        showAddOtpMobileChange: () => {
+            // For change mobile number in profile
+            dispatch(showMobileNumberLoginModal());
+            dispatch(changeLoginStep("isChangeProfileMobile"));
         },
         updateEmail: () => {
             dispatch(updateEmailOtp());

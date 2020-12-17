@@ -18,9 +18,16 @@ const initailState: MobileNumberLoginReduxState = {
         isStepLoginSuccess2: false,
         isStepLoginSuccess3: false,
         isStepValidateOtp: false,
+        isForgotPassword: false,
+        isStepEmail : false,
+        isChangeNumberOtp : false,
         isStepChangeEmailOtp: false,
         isStepChangeEmail: false,
         isStepChangeEmailSucess: false,
+        isStepValidateProfileOtp:false,
+        isForgotPasswordProfile : false,
+        isChangeProfilePasswordSuccess : false,
+        isChangeProfileMobile : false
     },
     mnlApiData: {
         email: "",
@@ -29,6 +36,7 @@ const initailState: MobileNumberLoginReduxState = {
         pass: "",
         phoneNumber: "",
         platformNumber: PLAT_FORM_NUMBER,
+        otp2 : ""
     },
     mnlApiResponse: null,
     resendOtpTimmer: 0,
