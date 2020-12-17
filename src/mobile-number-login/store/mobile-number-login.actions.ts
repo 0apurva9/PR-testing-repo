@@ -94,7 +94,7 @@ async function getFetchGlobalAccessToken(dispatch: Function) {
 export function validateMnlChallenge() {
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().mobileNumberLogin.mnlApiData;
-        let globalAccessToken = await getFetchGlobalAccessToken(dispatch);
+        const globalAccessToken = await getFetchGlobalAccessToken(dispatch);
         const result: Response = await api.post("mobileloginapi/v1/authnuser/validate", apiData, true, {
             Authorization: `Bearer ${globalAccessToken.access_token}`,
             "register-user": false,
@@ -109,14 +109,15 @@ export function validateMnlChallenge() {
             }
             return;
         }
+        debugger;
         dispatch(setMnlApiResponse(mnlApiResponse));
-        if (mnlApiResponse.userData.customer.loginVia == "email" && mnlApiResponse.userData.customer.passwordSet) {
+        if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.loginVia == "email" && mnlApiResponse.userData.customer.passwordSet) {
             dispatch(changeLoginStep("isStepLoginPassword"));
         }
-        else if (mnlApiResponse.userData.customer.newUser) {
+        else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.newUser) {
             dispatch(changeLoginStep("isStepAddMobileNumber"));
         }
-        else if (mnlApiResponse.userData.customer.maskedPhoneNumber.length) {
+        else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.maskedPhoneNumber.length) {
             mnlApiResponse.userData.customer.loginVia === "email" ? dispatch(generateOTP()) : dispatch(changeLoginStep("isStepValidateOtp"));
         }
         dispatch(hideSecondaryLoader());
@@ -147,6 +148,8 @@ export function loginWithPassword() {
                 platformnumber: PLAT_FORM_NUMBER,
             });
             const mnlApiResponse: MnlApiResponse = await result.json();
+            Cookie.createCookie("MNL_ACCESS_TOKEN", JSON.stringify(mnlApiResponse.userData.authentication));
+            // console.log(Cookie.getCookie("MNL_ACCESS_TOKEN").authentication.access_token, "mnlApiResponse")
             const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
             if (errorStatus.status) {
                 dispatch(hideSecondaryLoader());
@@ -190,18 +193,27 @@ export function loginWithPassword() {
 export function generateOTP() {
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().mobileNumberLogin.mnlApiData;
+        const globalAccessToken = await getFetchGlobalAccessToken(dispatch);
         const mnlApiResponseState = getState().mobileNumberLogin.mnlApiResponse;
-        let globalAccessToken = await getFetchGlobalAccessToken(dispatch);
 
         if (mnlApiResponseState && mnlApiResponseState.userData.customer && mnlApiResponseState.userData.customer.maskedPhoneNumber.length) {
             apiData.maskedPhoneNumber = mnlApiResponseState.userData.customer.maskedPhoneNumber;
         }
 
-        const result: Response = await api.post("mobileloginapi/v1/authnuser/otp", apiData, true, {
+        let otpHeader = {
             Authorization: `Bearer ${globalAccessToken.access_token}`,
             "register-user": false,
             registerviamobile: false,
-        });
+        }
+        if (mnlApiResponseState && mnlApiResponseState.userData && mnlApiResponseState.userData.customer && mnlApiResponseState.userData.validation && mnlApiResponseState.userData.validation.validated) {
+            otpHeader = {
+                Authorization: `Bearer ${globalAccessToken.access_token}`,
+                "register-user": true,
+                registerviamobile: false,
+            }
+        }
+
+        const result: Response = await api.post("mobileloginapi/v1/authnuser/otp", apiData, true, otpHeader);
         const mnlApiResponse: MnlApiResponse = await result.json();
         const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
         if (errorStatus.status) {
@@ -223,16 +235,9 @@ export function generateOTP() {
 export function validateOtp() {
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().mobileNumberLogin.mnlApiData;
+        const globalAccessToken = await getFetchGlobalAccessToken(dispatch);
         const mnlApiResponseState = getState().mobileNumberLogin.mnlApiResponse;
-        if (mnlApiResponseState && mnlApiResponseState.userData && !mnlApiResponseState.userData.customer.numberAdded) {
-            apiData.pass = "";
-        }
-        if (mnlApiResponseState && mnlApiResponseState.userData && mnlApiResponseState.userData.validation && mnlApiResponseState.userData.validation.changedmailId) {
-            apiData.email = mnlApiResponseState.userData.validation.changedmailId;
-        }
-        let globalAccessToken = await getFetchGlobalAccessToken(dispatch);
-
-        const result: Response = await api.post("mobileloginapi/v1/authnuser/authenticate", apiData, true, {
+        let header = {
             Authorization: `Bearer ${globalAccessToken.access_token}`,
             "register-user": false,
             registerviamobile: false,
@@ -240,7 +245,17 @@ export function validateOtp() {
             client_id: CLIENT_ID,
             client_secret: CLIENT_SECRET,
             platformnumber: PLAT_FORM_NUMBER,
-        });
+        };
+        if (mnlApiResponseState && mnlApiResponseState.userData && !mnlApiResponseState.userData.customer.numberAdded) {
+            apiData.pass = "";
+        }
+        if (mnlApiResponseState && mnlApiResponseState.userData && mnlApiResponseState.userData.validation && mnlApiResponseState.userData.validation.changedmailId) {
+            apiData.email = mnlApiResponseState.userData.validation.changedmailId;
+        }
+        if (mnlApiResponseState && !mnlApiResponseState.userData.customer.numberAdded) {
+            apiData.pass = "";
+        }
+        const result: Response = await api.post("mobileloginapi/v1/authnuser/authenticate", apiData, true, header);
         const mnlApiResponse: MnlApiResponse = await result.json();
         const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
         if (errorStatus.status) {
@@ -395,6 +410,104 @@ export function addnewEmail() {
         }
         dispatch(hideSecondaryLoader());
     };
+}
+
+export function updatePassword() {
+    return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
+        const apiData = getState().mobileNumberLogin.mnlApiData;
+        const mnlApiResponseState: any = getState().mobileNumberLogin.mnlApiResponse;
+        const globalAccessToken = await getFetchGlobalAccessToken(dispatch);
+        const result: Response = await api.post("mobileloginapi/v1/update/password", apiData, true, {
+            Authorization: `Bearer ${globalAccessToken.access_token}`
+        });
+        const mnlApiResponse: MnlApiResponse = await result.json();
+        const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        if (errorStatus.status) {
+            dispatch(hideSecondaryLoader());
+            if (errorStatus.message) {
+                await dispatch(displayToast(errorStatus.message));
+            }
+            return;
+        }
+        dispatch(setMnlApiResponse(mnlApiResponse));
+        dispatch(hideSecondaryLoader());
+        if (mnlApiResponseState.userData.customer.numberAdded) {
+            const response = await dispatch(validateOtp());
+            console.log(response);
+        }
+    }
+}
+
+export function sendOtpUpdatePassword() {
+    console.log("Generate OTP");
+    let result = JSON.parse(Cookie.getCookie("MNL_ACCESS_TOKEN") || "");
+    let token = result.accessToken;
+    return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
+        const result: Response = await api.post("marketplacewebservices/v2/mpl/users/shashankk@yopmail.com/sendotpUpdatepassword", {
+            "email": "shashankk@yopmail.com",
+            "pass": "",
+            "phoneNumber": "9717768747",
+            "otp": ""
+        }, true, {
+
+            Authorization: `Bearer ${token}`
+        });
+        console.log(result);
+    }
+}
+
+export function verifyOtpUpdatePassword() {
+    let result = JSON.parse(Cookie.getCookie("MNL_ACCESS_TOKEN") || "");
+    let token = result.accessToken;
+    return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
+        const apiData = getState().mobileNumberLogin.mnlApiData;
+        const result: Response = await api.post("marketplacewebservices/v2/mpl/users/shashankk@yopmail.com/verifyOtpUpdatePassword", apiData, true, {
+
+            Authorization: `Bearer ${token}`
+        });
+        dispatch(changeLoginStep("isForgotPassword"))
+        console.log(result);
+    }
+}
+
+export function updatePasswordProfile() {
+    let result = JSON.parse(Cookie.getCookie("MNL_ACCESS_TOKEN") || "");
+    let token = result.accessToken;
+    return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
+        const apiData = getState().mobileNumberLogin.mnlApiData;
+        delete apiData.platformNumber;
+        delete apiData.maskedPhoneNumber;
+        const result: Response = await api.post("marketplacewebservices/v2/mpl/users/shashankk@yopmail.com/updatepassword", apiData, true, {
+
+            Authorization: `Bearer ${token}`
+        });
+        console.log(result);
+    }
+
+}
+
+export function generateOtpChangeProfileNumber() {
+    let result = JSON.parse(Cookie.getCookie("MNL_ACCESS_TOKEN") || "");
+    let token = result.accessToken;
+    return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
+        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/shashankk@yopmail.com/updateprofile_V1?emailid&mobilenumber=9205028341&otp&emailOld&mobileOld=9717768747&otpOld&firstName&lastName&dateOfBirth&dateOfAnniversary&nickName&gender&ProfileDataRequired=true&isPwa=true`, {}, true, {
+            Authorization: `Bearer ${token}`
+        });
+        console.log(result);
+    }
+}
+
+export function validateOtpChangeProfileNumber() {
+    let result = JSON.parse(Cookie.getCookie("MNL_ACCESS_TOKEN") || "");
+    let token = result.accessToken;
+    return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
+        const apiData = getState().mobileNumberLogin.mnlApiData;
+        const { otp, otp2 } = apiData;
+        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/shashankk@yopmail.com/updateprofile_V1?emailid&mobilenumber=9205028341&${otp}&emailOld&mobileOld=9717768747&${otp2}&firstName&lastName&dateOfBirth&dateOfAnniversary&nickName&gender&ProfileDataRequired=true&isPwa=true`, {}, true, {
+            Authorization: `Bearer ${token}`
+        });
+        console.log(result);
+    }
 }
 
 export type MobileNumberLoginActions = ChangeLoginStepAction | SetMnlApiData | SetMnlApiResponse;

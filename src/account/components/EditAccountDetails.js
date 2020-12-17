@@ -234,6 +234,7 @@ export default class EditAccountDetails extends React.Component {
                                                     textStyle={{ fontSize: 14 }}
                                                     height={33}
                                                     onChange={firstName => this.onChange({ firstName })}
+                                                    maxLength={20}
                                                 />
                                             </div>
                                         </div>

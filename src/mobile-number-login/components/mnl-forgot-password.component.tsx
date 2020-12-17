@@ -1,8 +1,8 @@
 import React from "react";
 import * as styles from "../mobile-number-login.css";
-import { MnlApiData, MnlApiResponse } from "../mobile-number-login.types";
+import { MnlApiData } from "../mobile-number-login.types";
 
-export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordState> {
+export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPasswordState> {
     public state: Readonly<MnlPasswordState> = {
         showPassword: false,
         password: "",
@@ -18,15 +18,16 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
     }
 
     public onForgotPasswordClick(){
-        const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
+        const mnlApiData: MnlApiData = Object.assign({},this.props.mnlApiData );
         this.props.generateOtp(mnlApiData);
-        this.props.toggleForgotPassswordClick();
     }
 
     public onContinuButtonClick() {
-        const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
+        const mnlApiData: MnlApiData = Object.assign({},this.props.mnlApiData );
         mnlApiData.pass = this.state.password;
-        this.props.setMnlApiData(mnlApiData);   
+        this.props.forgotPassword(mnlApiData);
+
+        
     }
 
     public render() {
@@ -36,7 +37,7 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
                 <div className={styles.whiteBox}>
                     <div className={styles.headSec}>
                         <h2>Welcome Back</h2>
-                        <p>Please enter your password tom proceed</p>
+                        <p>Please enter new password to Continue</p>
                     </div>
                     <div className={styles.formSec}>
                         <div className={styles.feildSec}>
@@ -55,21 +56,6 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
                                     className={passwordIcon}
                                     onClick={() => this.setState({ showPassword: !this.state.showPassword })}
                                 ></button>
-                            </div>
-                            <div className={styles.formInfoTxt}>
-                                {!!this.props.mnlApiResponse.userData.customer.maskedPhoneNumber.length && <button
-                                    type="button"
-                                    className={styles.btnLink}
-                                    style={{ float: "left" }}
-                                    onClick={() => this.props.useOtp(this.props.mnlApiData)}>
-                                    Use OTP
-                                </button>
-                                }
-                                <button type="button" className={styles.btnLink} style={{ float: "right" }}
-                                 onClick = {() => this.onForgotPasswordClick()}
-                                >
-                                    Forgot Password?
-                                </button>
                             </div>
                         </div>
 
@@ -94,9 +80,8 @@ export interface MnlPasswordProps {
     changeLoginStep: (stepKey: string) => void;
     generateOtp: (apiData: MnlApiData) => void;
     forgotPassword : (apiData: MnlApiData) => void;
-    toggleForgotPassswordClick : () => void;
-    useOtp: (mnlApiData: MnlApiData) => void;
-    mnlApiResponse: MnlApiResponse;
+    isForgotPassword : boolean;
+    changeProfilePassword : (apiData: MnlApiData) => void;
 }
 
 export interface MnlPasswordState {

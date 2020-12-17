@@ -12,6 +12,10 @@ import {
     changeLoginStep,
     generateOTP,
     validateOtp,
+    updatePassword,
+    verifyOtpUpdatePassword,
+    updatePasswordProfile,
+    validateOtpChangeProfileNumber,
     validateEmailOtp,
     addnewEmail,
     updateEmailOtp
@@ -45,6 +49,23 @@ const mapDispatchToProps = (disptach: Function) => {
             disptach(showSecondaryLoader());
             disptach(setMnlApiData(apiData));
             disptach(validateOtp());
+        },
+        forgotPassword: (apiData: MnlApiData) => {
+            disptach(showSecondaryLoader());
+            disptach(setMnlApiData(apiData));
+            disptach(updatePassword())
+        },
+        validateProfileOtp: (apiData: MnlApiData) => {
+            disptach(setMnlApiData(apiData));
+            disptach(verifyOtpUpdatePassword())
+        },
+        changeProfilePassword: (apiData: MnlApiData) => {
+            disptach(setMnlApiData(apiData));
+            disptach(updatePasswordProfile())
+        },
+        updateProfileMobileNumber: (apiData: MnlApiData) => {
+            disptach(setMnlApiData(apiData));
+            disptach(validateOtpChangeProfileNumber())
         },
         validateEmailOtp: (apiData: MnlApiData) => {
             disptach(showSecondaryLoader());
