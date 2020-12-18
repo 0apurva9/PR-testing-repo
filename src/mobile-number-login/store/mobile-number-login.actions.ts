@@ -142,7 +142,7 @@ export function validateMnlChallenge() {
             }
             return;
         }
-        debugger;
+
         dispatch(setMnlApiResponse(mnlApiResponse));
         if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.loginVia == "email" && mnlApiResponse.userData.customer.passwordSet) {
             dispatch(changeLoginStep("isStepLoginPassword"));
@@ -483,8 +483,8 @@ export function sendOtpUpdatePassword() {
             "otp": ""
         }, true, {
 
-            Authorization: `Bearer ${JSON.parse(authentication).accessToken}`
-        });
+                Authorization: `Bearer ${JSON.parse(authentication).accessToken}`
+            });
         const mnlApiResponse: MnlApiResponse = await result.json();
         const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
         if (errorStatus.status) {
