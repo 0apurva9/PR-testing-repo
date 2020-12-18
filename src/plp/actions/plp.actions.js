@@ -7,11 +7,12 @@ import {
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
   CUSTOMER_ACCESS_TOKEN,
   GLOBAL_ACCESS_TOKEN,
-  ANONYMOUS_USER
+  ANONYMOUS_USER,
 } from "../../lib/constants";
+import { setWebMNLApiSuccess } from "../../mobile-number-login/store/mobile-number-login.actions";
 import {
   showSecondaryLoader,
-  hideSecondaryLoader
+  hideSecondaryLoader,
 } from "../../general/secondaryLoader.actions";
 import {
   setDataLayer,
@@ -20,7 +21,7 @@ import {
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_SP,
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_PRODUCT_TRENDING,
   ADOBE_INTERNAL_SEARCH_CALL_ON_GET_NULL,
-  getMcvId
+  getMcvId,
 } from "../../lib/adobeUtils";
 import * as Cookie from "../../lib/Cookie";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent";
@@ -82,36 +83,37 @@ export const CHECK_PIN_CODE_FROM_PLP_SUCCESS =
   "CHECK_PIN_CODE_FROM_PLP_SUCCESS";
 export const CHECK_PIN_CODE_FROM_PLP_FAILURE =
   "CHECK_PIN_CODE_FROM_PLP_FAILURE";
+export const WEB_MNL_LOGIN_SUCCESS = "WEB_MNL_LOGIN_SUCCESS";
 
 export function setProductModuleRef(ref) {
   return {
     type: SET_PRODUCT_MODULE_REF,
-    ref
+    ref,
   };
 }
 
 export function clearProductModuleRef() {
   return {
-    type: CLEAR_PRODUCT_MODULE_REF
+    type: CLEAR_PRODUCT_MODULE_REF,
   };
 }
 
 export function setIfSortHasBeenClicked() {
   return {
-    type: SORT_HAS_BEEN_CLICKED
+    type: SORT_HAS_BEEN_CLICKED,
   };
 }
 
 export function setIfFilterHasBeenClicked() {
   return {
-    type: FILTER_HAS_BEEN_CLICKED
+    type: FILTER_HAS_BEEN_CLICKED,
   };
 }
 
 export function setLastPlpPath(url) {
   return {
     type: SET_PLP_PATH,
-    url: url
+    url: url,
   };
 }
 
@@ -119,38 +121,38 @@ export function setFilterSelectedData(isCategorySelected, filterTabIndex) {
   return {
     type: SET_FILTER_SELECTED_DATA,
     isCategorySelected,
-    filterTabIndex
+    filterTabIndex,
   };
 }
 
 export function resetFilterSelectedData() {
   return {
-    type: RESET_FILTER_SELECTED_DATA
+    type: RESET_FILTER_SELECTED_DATA,
   };
 }
 
 export function showFilter() {
   return {
-    type: SHOW_FILTER
+    type: SHOW_FILTER,
   };
 }
 export function userSelectedOutOfStock(deselectedOutOfStock) {
   return {
     type: USER_SELECTED_OUT_OF_STOCK,
-    deselectedOutOfStock
+    deselectedOutOfStock,
   };
 }
 
 export function hideFilter() {
   return {
-    type: HIDE_FILTER
+    type: HIDE_FILTER,
   };
 }
 
 export function setPage(pageNumber) {
   return {
     type: SET_PAGE,
-    pageNumber
+    pageNumber,
   };
 }
 
@@ -158,7 +160,7 @@ export function updateFacets(productListings) {
   return {
     type: UPDATE_FACETS,
     status: SUCCESS,
-    productListings
+    productListings,
   };
 }
 
@@ -166,7 +168,7 @@ export function getProductListingsPaginatedSuccess(productListings) {
   return {
     type: GET_PRODUCT_LISTINGS_PAGINATED_SUCCESS,
     status: SUCCESS,
-    productListings
+    productListings,
   };
 }
 export function getProductListingsRequest(paginated: false, isFilter: false) {
@@ -174,7 +176,7 @@ export function getProductListingsRequest(paginated: false, isFilter: false) {
     type: PRODUCT_LISTINGS_REQUEST,
     status: REQUESTING,
     isFilter,
-    isPaginated: paginated
+    isPaginated: paginated,
   };
 }
 export function getProductListingsRequestWithoutClear(
@@ -185,7 +187,7 @@ export function getProductListingsRequestWithoutClear(
     type: PRODUCT_LISTINGS_REQUEST_WITHOUT_CLEAR,
     status: REQUESTING,
     isFilter,
-    isPaginated: paginated
+    isPaginated: paginated,
   };
 }
 export function getProductListingsSuccess(productListings, isPaginated: false) {
@@ -193,7 +195,7 @@ export function getProductListingsSuccess(productListings, isPaginated: false) {
     type: PRODUCT_LISTINGS_SUCCESS,
     status: SUCCESS,
     productListings,
-    isPaginated
+    isPaginated,
   };
 }
 
@@ -229,7 +231,7 @@ export function setSearchUrlWithKeywordRedirect(resultJson, encodedString) {
   }
   return {
     type: SEARCH_URL_REDIRECT,
-    value: stringVal
+    value: stringVal,
   };
 }
 
@@ -238,14 +240,14 @@ export function getProductListingsFailure(error, isPaginated) {
     type: PRODUCT_LISTINGS_FAILURE,
     status: ERROR,
     error,
-    isPaginated
+    isPaginated,
   };
 }
 
 export function viewSimilarProducts(productListingId) {
   return {
     type: VIEW_SIMILAR_PRODUCTS,
-    productListingId: productListingId
+    productListingId: productListingId,
   };
 }
 
@@ -408,18 +410,43 @@ export function getProductListings(
   };
 }
 
+export function isMPLWebMNLLogin() {
+  return async (dispatch, getState, { api }) => {
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=is_MPL_WEB_MNL_Login_True_V1`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      Cookie.createCookie(
+        "isMNLAPI",
+        JSON.stringify(resultJson.applicationProperties[0])
+      );
+
+      return dispatch(setWebMNLApiSuccess(resultJson.applicationProperties[0]));
+    } catch (e) {
+      throw new Error(`${e.message}`);
+    }
+  };
+}
+
 export function nullSearchMsdSuccess(searchMsdData) {
   return {
     type: NULL_SEARCH_MSD_SUCCESS,
     status: SUCCESS,
-    searchMsdData
+    searchMsdData,
   };
 }
 
 export function nullSearchMsdRequest() {
   return {
     type: NULL_SEARCH_MSD_REQUEST,
-    status: REQUESTING
+    status: REQUESTING,
   };
 }
 
@@ -516,14 +543,14 @@ export function nullSearchMsd() {
             message: discoverMoreresultJson && discoverMoreresultJson.message,
             status: discoverMoreresultJson && discoverMoreresultJson.status,
             title: discoverMoreresultJson && discoverMoreresultJson.title,
-            type: discoverMoreresultJson && discoverMoreresultJson.type
-          }
+            type: discoverMoreresultJson && discoverMoreresultJson.type,
+          },
         },
         {
           trendingProducts: {
-            data: finalProductDetails
-          }
-        }
+            data: finalProductDetails,
+          },
+        },
       ];
       dispatch(nullSearchMsdSuccess(data));
       dispatch(hideSecondaryLoader());
@@ -561,14 +588,14 @@ export function getPlpBannersSucess(banners = []) {
   return {
     type: GET_PLP_BANNERS_SUCCESS,
     status: SUCCESS,
-    banners
+    banners,
   };
 }
 export function getPlpBannersFailure() {
   return {
     type: GET_PLP_BANNERS_FAILURE,
     status: SUCCESS,
-    banners: []
+    banners: [],
   };
 }
 
@@ -576,7 +603,7 @@ export function getPlpBannersFailure() {
 export function getChatbotDetailsRequest() {
   return {
     type: GET_CHATBOT_DETAILS_REQUEST,
-    status: REQUESTING
+    status: REQUESTING,
   };
 }
 
@@ -584,7 +611,7 @@ export function getChatbotDetailsSuccess(data) {
   return {
     type: GET_CHATBOT_DETAILS_SUCCESS,
     status: SUCCESS,
-    data
+    data,
   };
 }
 
@@ -592,7 +619,7 @@ export function getChatbotDetailsFailure(error) {
   return {
     type: GET_CHATBOT_DETAILS_FAILURE,
     status: ERROR,
-    error
+    error,
   };
 }
 
@@ -618,14 +645,14 @@ export function getChatbotDetails() {
 export function checkPincodeFromPLPRequest() {
   return {
     type: CHECK_PIN_CODE_FROM_PLP_REQUEST,
-    status: REQUESTING
+    status: REQUESTING,
   };
 }
 export function checkPincodeFromPLPSuccess(data) {
   return {
     type: CHECK_PIN_CODE_FROM_PLP_SUCCESS,
     status: SUCCESS,
-    data
+    data,
   };
 }
 
@@ -633,7 +660,7 @@ export function checkPincodeFromPLPFailure(error) {
   return {
     type: CHECK_PIN_CODE_FROM_PLP_FAILURE,
     status: ERROR,
-    error
+    error,
   };
 }
 
@@ -688,7 +715,7 @@ export function checkPincodeFromPLP(
           productNotServiceableMessage:
             resultJson.productNotServiceabilityMessage,
           checkPincodeFromHaptikChatbot: checkPincodeFromHaptikChatbot,
-          ussId: ussId
+          ussId: ussId,
         })
       );
     } catch (e) {

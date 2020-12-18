@@ -4,6 +4,7 @@ import {
     SET_MNL_API_DATA,
     SET_MNL_API_Response,
     SET_RESEND_OTP_TIME,
+    WEB_MNL_LOGIN_SUCCESS
 } from "./mobile-number-login.actions";
 import { PLAT_FORM_NUMBER } from "../../lib/constants";
 import { MobileNumberLoginReduxState } from "../mobile-number-login.types";
@@ -40,6 +41,10 @@ const initailState: MobileNumberLoginReduxState = {
     },
     mnlApiResponse: null,
     resendOtpTimmer: 0,
+    isMNLLogin : {
+        name : "",
+        value : false
+    }
 };
 
 export function mobileNumberLoginReducer(
@@ -71,6 +76,10 @@ export function mobileNumberLoginReducer(
                 ...state,
                 resendOtpTimmer: action.payload,
             }
+        case WEB_MNL_LOGIN_SUCCESS:
+            return Object.assign({}, state, {
+                    isMNLLogin: action.payload,
+            });
         default:
             return state;
     }

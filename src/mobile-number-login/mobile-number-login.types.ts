@@ -3,6 +3,7 @@ export interface MobileNumberLoginReduxState {
     mnlApiData: MnlApiData;
     mnlApiResponse: MnlApiResponse | null;
     resendOtpTimmer: number;
+    isMNLLogin : isMNLLogin;
 }
 
 export interface MobileNumberLoginSteps {
@@ -33,6 +34,11 @@ export interface MnlApiData {
     pass: string;
     platformNumber: string;
     otp2 : string;
+}
+
+export interface isMNLLogin {
+    name : string;
+    value : boolean;
 }
 
 export interface Authentication {

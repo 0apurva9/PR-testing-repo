@@ -1,5 +1,5 @@
 import { RootState } from "common/models/root-state";
-import { MnlApiData, MnlApiResponse, UserDetails } from "../mobile-number-login.types";
+import { MnlApiData, MnlApiResponse, UserDetails, isMNLLogin } from "../mobile-number-login.types";
 import { hideSecondaryLoader } from "../../general/secondaryLoader.actions.js";
 import * as Cookie from "../../lib/Cookie.js";
 import { GLOBAL_ACCESS_TOKEN, CLIENT_ID, CLIENT_SECRET, PLAT_FORM_NUMBER } from "../../lib/constants.js";
@@ -15,11 +15,17 @@ export const CHANGE_LOGIN_STEP = "ChangeLoginStep";
 export const SET_MNL_API_DATA = "SetMnlApiData";
 export const SET_MNL_API_Response = "SetMnlApiResponse";
 export const SET_RESEND_OTP_TIME = "SetResendOtpTimmer";
+export const WEB_MNL_LOGIN_SUCCESS = "WebMNLLoginSuccess";
 
 interface ChangeLoginStepAction {
     readonly type: typeof CHANGE_LOGIN_STEP;
     /** Key Of Login Step */
     readonly payload: string;
+}
+
+interface setWebMNLApiSuccessAction {
+    readonly type: typeof WEB_MNL_LOGIN_SUCCESS;
+    readonly payload: isMNLLogin;
 }
 
 interface SetMnlApiData {
@@ -62,6 +68,12 @@ export function setLoginCustomerData(mnlApiResponse: MnlApiResponse) {
     }
 }
 
+export function setWebMNLApiSuccess(result: isMNLLogin): MobileNumberLoginActions {
+    return {
+        type: WEB_MNL_LOGIN_SUCCESS,
+        payload: result,
+    };
+}
 
 export function changeLoginStep(loginStepKey: string): MobileNumberLoginActions {
     return {
@@ -127,7 +139,7 @@ export function validateMnlChallenge() {
         if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.loginVia == "email" && mnlApiResponse.userData.customer.passwordSet) {
             dispatch(changeLoginStep("isStepLoginPassword"));
         }
-        else if(mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.newUser && !mnlApiResponse.userData.customer.passwordSet){
+        else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.newUser && !mnlApiResponse.userData.customer.passwordSet) {
             dispatch(changeLoginStep("isStepValidateOtp"));
         }
         else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.newUser) {
@@ -449,7 +461,7 @@ export function updatePassword() {
 }
 
 export function sendOtpUpdatePassword() {
-    
+
     const authentication: any = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const userDetailsCookies = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const userDetails: UserDetails = userDetailsCookies ? JSON.parse(userDetailsCookies) : {};
@@ -459,7 +471,7 @@ export function sendOtpUpdatePassword() {
         const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/sendotpUpdatepassword`, {
             "email": apiData.emailID,
             "pass": "",
-            "phoneNumber":  apiData.mobileNumber,
+            "phoneNumber": apiData.mobileNumber,
             "otp": ""
         }, true, {
 
@@ -580,4 +592,4 @@ export function validateOtpChangeProfileNumber() {
     }
 }
 
-export type MobileNumberLoginActions = ChangeLoginStepAction | SetMnlApiData | SetMnlApiResponse | SetResendOtpTimmer;
+export type MobileNumberLoginActions = ChangeLoginStepAction | SetMnlApiData | SetMnlApiResponse | SetResendOtpTimmer | setWebMNLApiSuccessAction;

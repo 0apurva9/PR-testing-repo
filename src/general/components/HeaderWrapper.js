@@ -29,7 +29,7 @@ import {
   MY_ACCOUNT_ALERTS_PAGE,
   MY_ACCOUNT_GIFT_CARD_PAGE,
   MY_ACCOUNT_CLIQ_CASH_PAGE,
-  CHECKOUT_RETRY_PAYMENT_ROUTER
+  CHECKOUT_RETRY_PAYMENT_ROUTER,
 } from "../../../src/lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -40,7 +40,7 @@ export default class HeaderWrapper extends React.Component {
     super(props);
     this.state = {
       stickyHeader: false,
-      showStickyHeader: 0
+      showStickyHeader: 0,
     };
   }
   onBackClick = () => {
@@ -93,13 +93,13 @@ export default class HeaderWrapper extends React.Component {
         if (window.pageYOffset > this.state.showStickyHeader) {
           this.setState({
             showStickyHeader: window.pageYOffset,
-            stickyHeader: true
+            stickyHeader: true,
           });
         }
         if (this.state.showStickyHeader > window.pageYOffset) {
           this.setState({
             showStickyHeader: window.pageYOffset,
-            stickyHeader: false
+            stickyHeader: false,
           });
         }
       }
@@ -137,6 +137,7 @@ export default class HeaderWrapper extends React.Component {
 
   componentDidMount() {
     // this.props.getWishListItems();
+    this.props.isMPLWebMNLLogin();
     if (
       this.props.location.pathname !== HOME_ROUTER &&
       !this.props.location.pathname.includes(SAVE_LIST_PAGE)
@@ -179,17 +180,20 @@ export default class HeaderWrapper extends React.Component {
     }
   };
   openSignUp = () => {
-    // if (
-    //   this.props.location.pathname !== "/checkout" &&
-    //   this.props.location.pathname !== "/cart"
-    // ) {
-    //   this.props.setUrlToRedirectToAfterAuth(
-    //     `${this.props.location.pathname}${this.props.location.search}`
-    //   );
-    // }
-    // this.props.history.push(LOGIN_PATH);
-    // return null;
-    this.props.openMobileNumberLoginModal();
+    if (this.props.isMNLLogin.value) {
+      this.props.openMobileNumberLoginModal();
+    } else {
+      if (
+        this.props.location.pathname !== "/checkout" &&
+        this.props.location.pathname !== "/cart"
+      ) {
+        this.props.setUrlToRedirectToAfterAuth(
+          `${this.props.location.pathname}${this.props.location.search}`
+        );
+      }
+      this.props.history.push(LOGIN_PATH);
+      return null;
+    }
   };
 
   render() {
