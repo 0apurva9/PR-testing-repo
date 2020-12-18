@@ -59,9 +59,17 @@ export function setLoginCustomerData(mnlApiResponse: MnlApiResponse) {
             }
         }
 
+        const tokens = mnlApiResponse.userData.authentication;
+        if (tokens) {
+            tokens.refresh_token =
+                mnlApiResponse.userData.authentication && mnlApiResponse.userData.authentication.refreshToken;
+            tokens.access_token =
+                mnlApiResponse.userData.authentication && mnlApiResponse.userData.authentication.accessToken;
+        }
+
         Cookie.createCookie(LOGGED_IN_USER_DETAILS, JSON.stringify(userDetails));
-        dispatch(customerAccessTokenSuccess(mnlApiResponse.userData.authentication));
-        dispatch(refreshTokenSuccess(mnlApiResponse.userData.authentication));
+        dispatch(customerAccessTokenSuccess(tokens));
+        dispatch(refreshTokenSuccess(tokens));
         dispatch(getUserDetails(true));
         dispatch(loginUser({ "username": userDetails.userName, "password": apiData.pass, "otp": apiData.otp }));
 

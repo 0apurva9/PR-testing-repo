@@ -47,6 +47,8 @@ export interface Authentication {
     refreshToken: string;
     scope: string;
     tokenType: string;
+    refresh_token?: string;
+    access_token?: string;
 }
 
 export interface Customer {
