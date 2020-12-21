@@ -261,7 +261,7 @@ export function generateOTP() {
         }
 
         dispatch(setMnlApiResponse(mnlApiResponse));
-        if (mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.otpSent) {
+        if (mnlApiResponse.userData && mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.otpSent) {
             dispatch(changeLoginStep("isStepValidateOtp"));
         }
         dispatch(hideSecondaryLoader());
