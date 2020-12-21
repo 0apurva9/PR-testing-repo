@@ -32,7 +32,11 @@ export default class SizeComponent extends React.Component {
       selectedSize =
         sizeOptions &&
         sizeOptions.filter((el, i) => {
-          if (el.productCode === productListingId && el.isAvailable === true) {
+          if (
+            el.productCode === productListingId &&
+            el.isAvailable === true &&
+            el.selected === true
+          ) {
             this.setState({ isSelected: true, selectedIndex: i });
           }
         });

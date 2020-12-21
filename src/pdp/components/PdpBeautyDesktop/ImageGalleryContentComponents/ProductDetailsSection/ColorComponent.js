@@ -14,6 +14,16 @@ export default class ColorComponent extends React.Component {
       sizeIndex: -1,
       toolTipIndex: -1
     };
+    this.colorShadeRef = React.createRef();
+  }
+
+  componentDidMount() {
+    if (this.colorShadeRef.current) {
+      this.colorShadeRef.current.scrollIntoView({
+        block: "start",
+        behavior: "smooth"
+      });
+    }
   }
 
   expandShadeSelector(e) {
@@ -35,6 +45,7 @@ export default class ColorComponent extends React.Component {
 
   render() {
     console.log("11111", this.props);
+    let stockCount = 0;
     const variantTheme = this.props.variantTheme;
     let selectedSizeColorOptions = [];
     let selectedSizeSelectedColor = {};
@@ -94,6 +105,11 @@ export default class ColorComponent extends React.Component {
                                 onClick={() =>
                                   this.handleColorOptionClick(colorElement.url)
                                 }
+                                ref={
+                                  colorElement.selected === true
+                                    ? this.colorShadeRef
+                                    : null
+                                }
                               >
                                 <div
                                   className={[
@@ -111,9 +127,11 @@ export default class ColorComponent extends React.Component {
                                     className={styles["shade-list-img"]}
                                   />
                                 </div>
-                                <div className={styles["shade-stock-left"]}>
-                                  2 Left
-                                </div>
+                                {stockCount && stockCount <= 3 ? (
+                                  <div className={styles["shade-stock-left"]}>
+                                    {stockCount}
+                                  </div>
+                                ) : null}
                                 {this.state.showTooltip &&
                                   this.state.sizeIndex === i &&
                                   this.state.toolTipIndex === j && (
