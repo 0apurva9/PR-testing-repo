@@ -20,9 +20,9 @@ export class MnlAddMobileNumber extends React.Component<MnlAddMobileNumberProps,
     private onContinueBtnClick() {
         const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
         mnlApiData.phoneNumber = this.state.mobileNumber;
-        if(this.props.isChangeProfileMobile){
+        if (this.props.isChangeProfileMobile) {
             this.props.generateOtpChangeProfileNumber(mnlApiData)
-        }else{
+        } else {
             this.props.addMobileNumber(mnlApiData);
         }
     }
@@ -37,11 +37,7 @@ export class MnlAddMobileNumber extends React.Component<MnlAddMobileNumberProps,
                 <div className={styles.formSec}>
                     <div className={styles.feildSec}>
                         <div className={[styles.form_outer, styles.countryCode].join(" ")}>
-                            <div className={styles.dateSlct}>
-                                <select>
-                                    <option> +91 </option>
-                                </select>
-                            </div>
+                            <div className={styles.dateSlct}>+91</div>
                             <input
                                 type="number"
                                 className={styles.form_control}
@@ -70,8 +66,8 @@ export class MnlAddMobileNumber extends React.Component<MnlAddMobileNumberProps,
 export interface MnlAddMobileNumberProps {
     addMobileNumber: (apiData: MnlApiData) => void;
     mnlApiData: MnlApiData;
-    isChangeProfileMobile : boolean
-    generateOtpChangeProfileNumber : (apiData: MnlApiData) => void;
+    isChangeProfileMobile: boolean
+    generateOtpChangeProfileNumber: (apiData: MnlApiData) => void;
 }
 
 export interface MnlAddMobileNumberState {

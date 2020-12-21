@@ -142,16 +142,13 @@ export function validateMnlChallenge() {
             }
             return;
         }
-        debugger;
+
         dispatch(setMnlApiResponse(mnlApiResponse));
         if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.loginVia == "email" && mnlApiResponse.userData.customer.passwordSet) {
             dispatch(changeLoginStep("isStepLoginPassword"));
         }
-        else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.newUser && !mnlApiResponse.userData.customer.passwordSet) {
-            dispatch(changeLoginStep("isStepValidateOtp"));
-        }
         else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.newUser) {
-            dispatch(changeLoginStep("isStepAddMobileNumber"));
+            mnlApiResponse.userData.customer.loginVia === "email" ? dispatch(changeLoginStep("isStepAddMobileNumber")) : dispatch(changeLoginStep("isStepValidateOtp"));
         }
         else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.maskedPhoneNumber.length) {
             mnlApiResponse.userData.customer.loginVia === "email" ? dispatch(generateOTP()) : dispatch(changeLoginStep("isStepValidateOtp"));
@@ -494,8 +491,8 @@ export function sendOtpUpdatePassword() {
             "otp": ""
         }, true, {
 
-            Authorization: `Bearer ${JSON.parse(authentication).accessToken}`
-        });
+                Authorization: `Bearer ${JSON.parse(authentication).accessToken}`
+            });
         const mnlApiResponse: MnlApiResponse = await result.json();
         const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
         if (errorStatus.status) {
