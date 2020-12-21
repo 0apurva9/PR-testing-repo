@@ -13,7 +13,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
 
   public componentDidMount() {
     let maxTime = this.state.resendOtpIn;
-    if(!maxTime) {
+    if (!maxTime) {
       this.setState({ resendOtp: true });
     } else {
       const intervalId = setInterval(() => {
@@ -82,7 +82,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
   }
 
   private editMobileNumber() {
-    this.props.changeLoginStep("isStepAddMobileNumber");
+    this.props.changeLoginStep("isStepLoginChallenge");
   }
 
   private onClickResendOtp() {
@@ -124,8 +124,9 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
           <h2>Almost There</h2>
           <p>
             Please enter the 6 digit OTP that we just sent on +91{" "}
-            {this.props.mnlApiResponse && this.props.mnlApiResponse.userData && this.props.mnlApiResponse.userData.customer && this.props.mnlApiResponse.userData.customer.maskedPhoneNumber ||
-              this.props.mnlApidata.phoneNumber}
+            {
+              this.props.mnlApiResponse && this.props.mnlApiResponse.userData && this.props.mnlApiResponse.userData.customer.loginVia == "mobile" ? this.props.mnlApidata.phoneNumber : this.props.mnlApiResponse.userData.customer.maskedPhoneNumber
+            }
           </p>
           {this.props.mnlApiResponse.userData.customer.passwordSet &&
             <button

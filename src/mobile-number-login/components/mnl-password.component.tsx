@@ -76,9 +76,10 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
                                 </div>
                                 {this.props.mnlApiResponse.userData.customer.loginVia === "email" &&
                                     <div className={[styles.flexRow50Cols, styles.text_right].join(" ")}>
-                                        <button type="button" className={styles.btnLink} style={{ float: "right" }}>
+                                        <button type="button" className={styles.btnLink} style={{ float: "right" }}
+                                            onClick={() => this.onForgotPasswordClick()}>
                                             Forgot Password?
-                                </button>
+                                        </button>
                                     </div>}
                             </div>
                         </div>
