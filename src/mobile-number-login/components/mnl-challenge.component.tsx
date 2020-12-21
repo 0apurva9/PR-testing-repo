@@ -1,6 +1,6 @@
 import React from "react";
 import * as styles from "../mobile-number-login.css";
-import { EMAIL_REGULAR_EXPRESSION, MOBILE_PATTERN, PLAT_FORM_NUMBER } from "../../lib/constants";
+import { EMAIL_REGULAR_EXPRESSION, MOBILE_PATTERN, PLAT_FORM_NUMBER, MOBILE_PATTERN_11_DIGIT } from "../../lib/constants";
 import { MnlApiData } from "../mobile-number-login.types";
 import { MnlSocialLogin } from "./mnl-social-login.component";
 
@@ -17,7 +17,7 @@ export class MnlChallenge extends React.Component<MnlChallengeProps, MnlChalleng
 
     private onChangeInput(event: React.ChangeEvent<HTMLInputElement>) {
         if (event.target.name === "mobileNumber") {
-            if (MOBILE_PATTERN.test(event.target.value)) {
+            if (MOBILE_PATTERN.test(event.target.value) || MOBILE_PATTERN_11_DIGIT.test(event.target.value)) {
                 this.setState({ mobileNumber: event.target.value, isInputValid: true });
                 return;
             }
