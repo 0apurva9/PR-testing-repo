@@ -82,7 +82,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
   }
 
   private editMobileNumber() {
-    this.props.changeLoginStep("isStepAddMobileNumber");
+    this.props.changeLoginStep("isStepLoginChallenge");
   }
 
   private onClickResendOtp() {
