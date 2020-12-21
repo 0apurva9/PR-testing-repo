@@ -11,14 +11,14 @@ export default class AccordionWithTooltip extends React.Component {
     };
   }
   openMenu() {
-    // if (!this.props.controlled) {
-    this.setState(prevState => ({
-      isOpen: true
-    }));
-    // }
-    // if (this.props.onOpen) {
-    //   this.props.onOpen();
-    // }
+    if (!this.props.controlled) {
+      this.setState(prevState => ({
+        isOpen: !prevState.isOpen
+      }));
+    }
+    if (this.props.onOpen) {
+      this.props.onOpen();
+    }
     // if (this.props && this.props.text === "Know More") {
     //   setDataLayer(ADOBE_PDP_KNOW_MORE_CLICK);
     // }

@@ -156,6 +156,9 @@ export default class AddToWishListButton extends React.Component {
               winningUssID
             });
           }
+          if (this.props.isFromCartPage) {
+            this.props.removeAppliancesExchange(this.props.winningUssID);
+          }
         } else {
           this.props.displayToast();
         }

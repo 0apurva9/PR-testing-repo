@@ -7,23 +7,70 @@ import ConnectKnowMore from "./ConnectKnowMore";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import ConnectBaseWidget from "./ConnectBaseWidget";
 import CommonCenter from "../../general/components/CommonCenter.js";
-import { WEB_URL_REG_EX } from "../../lib/constants";
+import { getLoggedInUserDetails } from "../../common/services/common.services";
+import {
+  WEB_URL_REG_EX,
+  SBA_VENDOR_URL,
+  APP_ID_FOR_SBA,
+  PRIVATE_KEY_FOR_AES
+} from "../../lib/constants";
+const crypto = require("crypto");
 
 export default class ConnectWidget extends React.Component {
-  handleClick(webURL) {
-    if (webURL) {
+  getEncryptedValue(userType) {
+    //AES 256 encryption
+    const secretKeyinBase64 = Buffer.from(PRIVATE_KEY_FOR_AES).toString(
+      "base64"
+    );
+    const binaryEncryptionKey = Buffer.from(secretKeyinBase64, "base64");
+    const binaryIV = Buffer.from([]);
+    const cipher = crypto.createCipheriv(
+      "AES-256-ECB",
+      binaryEncryptionKey,
+      binaryIV
+    );
+
+    let levelOneEncryption = cipher.update(userType, "utf8", "base64");
+    levelOneEncryption += cipher.final("base64");
+
+    //base64 encryption
+    const levelTwoEncryption = Buffer.from(levelOneEncryption).toString(
+      "base64"
+    );
+
+    return levelTwoEncryption;
+  }
+  handleClick(webUrl) {
+    if (
+      (webUrl === "#" || !webUrl) &&
+      this.props.history.location &&
+      this.props.history.location.pathname &&
+      this.props.history.location.pathname.includes("/cliq-book")
+    ) {
+      const loggedInUserDetails = getLoggedInUserDetails(),
+        userType = loggedInUserDetails
+          ? loggedInUserDetails.customerId
+          : "anonlogin";
+
+      const encryptedUserType = this.getEncryptedValue(userType);
+      const sbaUrlPath = `${SBA_VENDOR_URL}/login/${APP_ID_FOR_SBA}/${encryptedUserType}/mp/default`;
+
+      window.open(sbaUrlPath, "_blank");
+      window.focus();
+    } else if (webUrl) {
       // Check if URL starts https://www.tatacliq.com or https://tatacliq.com
-      const isMatch = WEB_URL_REG_EX.test(webURL);
-      if (webURL.includes("/que") || !isMatch) {
-        window.open(webURL, "_blank");
+      const isMatch = WEB_URL_REG_EX.test(webUrl);
+      const urlPath = new URL(webUrl).pathname;
+      if (urlPath.indexOf("/que") > -1 || !isMatch) {
+        window.open(webUrl, "_blank");
         window.focus();
       } else {
-        const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1").trim();
+        const urlSuffix = webUrl.replace(TATA_CLIQ_ROOT, "$1").trim();
         this.props.history.push(urlSuffix);
-        if (this.props.setClickedElementId) {
-          this.props.setClickedElementId();
-        }
       }
+    }
+    if (this.props.setClickedElementId) {
+      this.props.setClickedElementId();
     }
   }
 
@@ -35,6 +82,7 @@ export default class ConnectWidget extends React.Component {
 
     return (
       <div
+        data-test="connect-to-widget-test"
         className={
           this.props.positionInFeed === 1
             ? styles.firstPositionHolder
@@ -44,9 +92,7 @@ export default class ConnectWidget extends React.Component {
           this.handleClick(this.props.feedComponentData.webURL);
         }}
         style={{
-          backgroundImage: `linear-gradient(165deg, ${
-            this.props.feedComponentData.startHexCode
-          } ,${this.props.feedComponentData.endHexCode})`
+          backgroundImage: `linear-gradient(165deg, ${this.props.feedComponentData.startHexCode} ,${this.props.feedComponentData.endHexCode})`
         }}
       >
         <MediaQuery query="(min-device-width: 1025px)">
@@ -62,9 +108,7 @@ export default class ConnectWidget extends React.Component {
             <div
               className={styles.buffer}
               style={{
-                backgroundImage: `url(${
-                  this.props.feedComponentData.backgroundImageURL
-                }`,
+                backgroundImage: `url(${this.props.feedComponentData.backgroundImageURL}`,
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "100% 100%",
                 backgroundPosition: "center"

@@ -116,7 +116,7 @@ export default class SimilarProductsModal extends React.Component {
             let seoDoublePrice = transformedDatum && transformedDatum.mop;
             let discount =
               mrpInteger && seoDoublePrice
-                ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)
+                ? Math.floor(((mrpInteger - seoDoublePrice) / mrpInteger) * 100)
                 : "";
             let imageURL = val.link && val.link.replace(/^.*\/\/[^\/]+/, "");
             return (

@@ -14,9 +14,11 @@ export default class CashBackDetailsPopup extends Component {
             <div className={styles.hideModal} />
           </div>
           <div className={styles.box}>
-            <div className={styles.contentHeader}>
-              {this.props.data && this.props.data.heading}
-            </div>
+            {this.props.data.heading && (
+              <div className={styles.contentHeader}>
+                {this.props.data && this.props.data.heading}
+              </div>
+            )}
             <div className={styles.content}>{this.props.data.children}</div>
           </div>
         </div>

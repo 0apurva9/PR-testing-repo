@@ -289,7 +289,7 @@ export default class HeaderWrapper extends React.Component {
         shouldRenderHeader = false;
       }
     } else {
-      if (url.includes("how-upi-works")) {
+      if (url.includes("how-upi-works") || url.includes("how-dcemi-works")) {
         shouldRenderHeader = false;
       }
     }

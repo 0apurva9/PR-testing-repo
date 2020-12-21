@@ -98,47 +98,45 @@ class OrderListDetails extends Component {
             </div>
           </div>
 
-          {!this.props.isQuesryForm &&
-            showFeedBack && (
-              <QuestionDetails
-                question={question}
-                isAnswerHelpFull={isAnswerHelpFull}
-                answerYes={() => this.answerYes()}
-                issueOptions={question => this.props.issueOptions(question)}
-                // issueOptions={()=>this.isQuesryFormAction()}
-                showAllQuestion={() => this.showAllQuestion()}
-                nextQuestion={() => this.nextQuestion()}
-                nextQuestions={nextQuestions}
-              />
-            )}
+          {!this.props.isQuesryForm && showFeedBack && (
+            <QuestionDetails
+              question={question}
+              isAnswerHelpFull={isAnswerHelpFull}
+              answerYes={() => this.answerYes()}
+              issueOptions={question => this.props.issueOptions(question)}
+              // issueOptions={()=>this.isQuesryFormAction()}
+              showAllQuestion={() => this.showAllQuestion()}
+              nextQuestion={() => this.nextQuestion()}
+              nextQuestions={nextQuestions}
+            />
+          )}
 
-          {!this.props.isQuesryForm &&
-            showQuestionList && (
-              <div className={styles.orderRelatedIssueList}>
-                <div className={[styles.header, styles.paddingTB].join(" ")}>
-                  Issues regarding your order
-                </div>
-                <ul className={styles.listGroup}>
-                  {this.props.orderRelatedQuestionsData &&
-                    this.props.orderRelatedQuestionsData.listOfIssues &&
-                    this.props.orderRelatedQuestionsData.listOfIssues.map(
-                      (listOfIssue, index) => {
-                        return (
-                          <li
-                            className={styles.listGroupItem}
-                            key={`unique${index}`}
-                            onClick={() =>
-                              this.selectQuestion(listOfIssue, index)
-                            }
-                          >
-                            {listOfIssue.issueType}
-                          </li>
-                        );
-                      }
-                    )}
-                </ul>
+          {!this.props.isQuesryForm && showQuestionList && (
+            <div className={styles.orderRelatedIssueList}>
+              <div className={[styles.header, styles.paddingTB].join(" ")}>
+                Issues regarding your order
               </div>
-            )}
+              <ul className={styles.listGroup}>
+                {this.props.orderRelatedQuestionsData &&
+                  this.props.orderRelatedQuestionsData.listOfIssues &&
+                  this.props.orderRelatedQuestionsData.listOfIssues.map(
+                    (listOfIssue, index) => {
+                      return (
+                        <li
+                          className={styles.listGroupItem}
+                          key={`unique${index}`}
+                          onClick={() =>
+                            this.selectQuestion(listOfIssue, index)
+                          }
+                        >
+                          {listOfIssue.issueType}
+                        </li>
+                      );
+                    }
+                  )}
+              </ul>
+            </div>
+          )}
         </div>
 
         {this.props.isQuesryForm && (

@@ -331,9 +331,9 @@ export const productCouponDetailsActiveInactive = {
     getCustomComponent: null,
     getCustomComponentError: null,
     getCustomComponentLoading: false,
-    dCEmiEligibiltyDetails: null,
-    dCEmiEligibiltyStatus: null,
-    dCEmiEligibiltyError: null,
+    emiEligibiltyDetails: null,
+    emiEligibiltyStatus: null,
+    emiEligibiltyError: null,
     dCEmiBankDetails: null,
     dCEmiBankDetailsStatus: null,
     dCEmiBankDetailsError: null

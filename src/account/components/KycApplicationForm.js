@@ -7,7 +7,6 @@ import MDSpinner from "../../general/components/SecondaryLoader";
 import {
   NAME_TEXT,
   LAST_NAME_TEXT,
-  PHONE_VALID_TEXT,
   SUCCESS,
   ERROR,
   MOBILE_VALID_TEXT

@@ -37,7 +37,8 @@ const mapStateToProps = (state, ownProps) => {
       state.productDescription.productDetails.exchangeAvailable
   };
 };
-const AddressModalContainer = connect(mapStateToProps, mapDispatchToProps)(
-  AddressModal
-);
+const AddressModalContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddressModal);
 export default AddressModalContainer;

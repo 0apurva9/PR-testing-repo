@@ -37,9 +37,9 @@ export default class MultiPurposeBanner_Monetization extends React.Component {
       this.setState({ bannerComponent, bannerLoading: false });
       if (
         window._osAdImpression &&
-        (bannerComponent.ads &&
-          bannerComponent.ads[0] &&
-          bannerComponent.ads[0].uclid)
+        bannerComponent.ads &&
+        bannerComponent.ads[0] &&
+        bannerComponent.ads[0].uclid
       ) {
         window._osAdImpression({ uclid: bannerComponent.ads[0].uclid });
       }
@@ -85,9 +85,7 @@ export default class MultiPurposeBanner_Monetization extends React.Component {
                 this.handleClick(elements.click_tracking_url);
               }}
               style={{
-                backgroundImage: `linear-gradient(165deg, ${
-                  elements.startHexCode
-                } ,${elements.endHexCode})`
+                backgroundImage: `linear-gradient(165deg, ${elements.startHexCode} ,${elements.endHexCode})`
               }}
             >
               <MediaQuery query="(min-device-width: 1025px)">

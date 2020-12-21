@@ -42,7 +42,8 @@ import {
   hidePdpPiqPage,
   updateProductState,
   verifyIMEINumber,
-  getProductPinCode
+  getProductPinCode,
+  updateAppliancesExchangeDetails
 } from "../../pdp/actions/pdp.actions";
 import { updateProfile } from "../../account/actions/account.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -105,7 +106,9 @@ const mapStateToProps = (state, ownProps) => {
       state.profile.loadingForUpdateReturnCancellation,
     userRating: state.profile.userRating,
     genesysCallConfigDataLoading: state.profile.genesysResponseLoading,
-    genesysCallConfigData: state.profile.genesysResponseData
+    genesysCallConfigData: state.profile.genesysResponseData,
+    appliancesExchangeDetails:
+      state.productDescription.getAppliancesExchangeDetails
   };
 };
 
@@ -459,6 +462,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     logoutUser: async () => {
       return await dispatch(logoutUser());
+    },
+    updateAppliancesExchangeDetails: exchangeData => {
+      dispatch(updateAppliancesExchangeDetails(exchangeData));
     }
   };
 };

@@ -39,3 +39,10 @@ export async function getCustomerAccessToken() {
     return JSON.parse(customerCookie).access_token;
   }
 }
+
+export function getLoggedInUserDetails() {
+  const loggedInUserDetailsCookie = Cookies.getCookie(LOGGED_IN_USER_DETAILS);
+  const loggedInUserDetails =
+    loggedInUserDetailsCookie && JSON.parse(loggedInUserDetailsCookie);
+  return loggedInUserDetails;
+}

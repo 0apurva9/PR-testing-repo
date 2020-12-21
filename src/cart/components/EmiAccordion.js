@@ -4,7 +4,12 @@ import EmiCartSelect from "./EmiCartSelect";
 import EmiDisplay from "./EmiDisplay";
 import CreditCardForm from "./CreditCardForm";
 import PropTypes from "prop-types";
-import { STANDARD_EMI, EMI_TYPE, EMI_TENURE } from "../../lib/constants";
+import {
+  STANDARD_EMI,
+  EMI_TYPE,
+  EMI_TENURE,
+  SELECTED_BANK_NAME
+} from "../../lib/constants";
 import EmiSectionDesktop from "../../pdp/components/EmiSectionDesktop";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
@@ -32,7 +37,7 @@ export default class EmiAccordion extends React.Component {
       selectedBankName: ""
     };
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.selectedEMIType !== STANDARD_EMI) {
       this.setState({
         planSelected: false,
@@ -89,6 +94,7 @@ export default class EmiAccordion extends React.Component {
       option.emitermsrate = sortBy(option.emitermsrate, bank => {
         return parseInt(bank.term, 10);
       });
+      localStorage.setItem(SELECTED_BANK_NAME, option.code);
       this.setState({
         selectedBank: option.code,
         selectedEmiRate: option.emitermsrate[0].interestRate,
@@ -115,9 +121,9 @@ export default class EmiAccordion extends React.Component {
     this.setState({ planSelected: false });
   }
 
-  binValidation = binNo => {
+  binValidation = (binNo, isDebitCard = false) => {
     if (this.props.binValidation) {
-      this.props.binValidation(PAYMENT_MODE, binNo);
+      this.props.binValidation(PAYMENT_MODE, binNo, isDebitCard);
     }
   };
 
@@ -166,17 +172,16 @@ export default class EmiAccordion extends React.Component {
               </GridSelect>
             </MobileOnly>
             <DesktopOnly>
-              {this.props.emiList &&
-                this.props.emiList.length > 0 && (
-                  <EmiSectionDesktop
-                    emiData={this.props.emiList}
-                    showHeader={false}
-                    showButton={true}
-                    selectPlan={val => this.handleSelectPlan(val)}
-                    selectBank={val => this.handleSelectBank(val)}
-                    confirmPlan={() => this.handleConfirmPlan()}
-                  />
-                )}
+              {this.props.emiList && this.props.emiList.length > 0 && (
+                <EmiSectionDesktop
+                  emiData={this.props.emiList}
+                  showHeader={false}
+                  showButton={true}
+                  selectPlan={val => this.handleSelectPlan(val)}
+                  selectBank={val => this.handleSelectBank(val)}
+                  confirmPlan={() => this.handleConfirmPlan()}
+                />
+              )}
             </DesktopOnly>
           </React.Fragment>
         )}
@@ -194,14 +199,16 @@ export default class EmiAccordion extends React.Component {
               onFocusInput={this.props.onFocusInput}
               cardDetails={this.props.cardDetails}
               onChangeCardDetail={val => this.onChangeCardDetail(val)}
-              binValidation={binNo => this.binValidation(binNo)}
+              binValidation={(binNo, isDebitCard) =>
+                this.binValidation(binNo, isDebitCard)
+              }
               displayToast={this.props.displayToast}
               onCheckout={this.props.onCheckout}
               emiBinValidationErrorMessage={
                 this.props.emiBinValidationErrorMessage
               }
               isDebitCard={this.props.isDebitCard}
-              dCEmiEligibiltyDetails={this.props.dCEmiEligibiltyDetails}
+              emiEligibiltyDetails={this.props.emiEligibiltyDetails}
             />
           </React.Fragment>
         )}

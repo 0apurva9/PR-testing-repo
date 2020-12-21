@@ -408,6 +408,13 @@ const AlertPopUp = Loadable({
   }
 });
 
+const AppliancesExchangeModal = Loadable({
+  loader: () => import("../../pdp/components/AppliancesExchangeModal"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const AttachmentUploadPopUp = Loadable({
   loader: () =>
     import("../../account/components/attchment-upload-response-popup.jsx"),
@@ -1336,6 +1343,18 @@ export default class ModalRoot extends React.Component {
         <AttachmentUploadPopUp
           closeModal={() => this.handleClose()}
           {...this.props.ownProps}
+        />
+      ),
+
+      AppliancesExchangeModal: (
+        <AppliancesExchangeModal
+          {...this.props.ownProps}
+          history={this.props.history}
+          closeAppliancesExchangeModal={() => this.handleClose()}
+          appliancesExchangeDetails={this.props.appliancesExchangeDetails}
+          updateAppliancesExchangeDetails={exchangeData =>
+            this.props.updateAppliancesExchangeDetails(exchangeData)
+          }
         />
       )
     };

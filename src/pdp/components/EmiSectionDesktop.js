@@ -30,8 +30,28 @@ export default class EmiSectionDesktop extends React.Component {
       SET_DATA_LAYER_FOR_EMI_BANK_EVENT,
       this.props.emiData[val].emiBank
     );
+    if (window && window.digitalData) {
+      Object.assign(window.digitalData, {
+        checkout: {
+          ...window.digitalData.checkout,
+          bank: {
+            name: this.props.emiData[val].emiBank
+          }
+        }
+      });
+    }
   }
   handleConfirmPlan(value) {
+    if (window && window.digitalData) {
+      Object.assign(window.digitalData, {
+        checkout: {
+          ...window.digitalData.checkout,
+          tenure: {
+            value: value.term
+          }
+        }
+      });
+    }
     if (this.props.confirmPlan) {
       this.props.confirmPlan();
     }
@@ -72,6 +92,7 @@ export default class EmiSectionDesktop extends React.Component {
                         : styles.bankList
                     }
                     onClick={() => this.tabChange(i)}
+                    key={i}
                   >
                     {val.emiBank}
                   </div>
@@ -99,17 +120,17 @@ export default class EmiSectionDesktop extends React.Component {
                       <div className={styles.tenureDataHolder}>
                         <div className={styles.textAndAmountHolder}>
                           <div className={styles.textHolder}>Interest Rate</div>
-                          <div className={styles.amountHolder}>{`${
-                            val.interestRate
-                          } %`}</div>
+                          <div
+                            className={styles.amountHolder}
+                          >{`${val.interestRate} %`}</div>
                         </div>
                         <div className={styles.textAndAmountHolder}>
                           <div className={styles.textHolder}>
                             Monthly Installments
                           </div>
-                          <div className={styles.amountHolder}>{`Rs . ${
-                            val.monthlyInstallment
-                          }`}</div>
+                          <div
+                            className={styles.amountHolder}
+                          >{`Rs . ${val.monthlyInstallment}`}</div>
                         </div>
                         {/* {convenienceFee &&
                           convenienceFee.value && (
@@ -127,12 +148,12 @@ export default class EmiSectionDesktop extends React.Component {
                           <div className={styles.textHolder}>
                             Total Interest paid to bank
                           </div>
-                          <div className={styles.amountHolder}>{`Rs . ${
-                            val.interestPayable
-                          }`}</div>
+                          <div
+                            className={styles.amountHolder}
+                          >{`Rs . ${val.interestPayable}`}</div>
                         </div>
 
-                        {convenienceFeeValue && (
+                        {convenienceFeeValue && convenienceFeeValue > 0 && (
                           <div className={styles.textAndAmountHolder}>
                             <div className={styles.textHolder}>
                               Bank Convenience Fees

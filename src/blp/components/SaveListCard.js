@@ -43,9 +43,9 @@ export default class SaveListCard extends React.Component {
           <div className={styles.rating}>
             {this.props.totalNoOfReviews && (
               <StarRating averageRating={this.props.averageRating}>
-                <div className={styles.noOfReviews}>{`(${
-                  this.props.totalNoOfReviews
-                })`}</div>
+                <div
+                  className={styles.noOfReviews}
+                >{`(${this.props.totalNoOfReviews})`}</div>
               </StarRating>
             )}
           </div>

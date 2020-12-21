@@ -32,7 +32,9 @@ export default class SimpleBannerComponentMonetization extends React.Component {
       this.setState({ simpleBanner, bannerLoading: false });
       if (
         window._osAdImpression &&
-        (simpleBanner.ads && simpleBanner.ads[0] && simpleBanner.ads[0].uclid)
+        simpleBanner.ads &&
+        simpleBanner.ads[0] &&
+        simpleBanner.ads[0].uclid
       ) {
         window._osAdImpression({ uclid: simpleBanner.ads[0].uclid });
       }

@@ -1,12 +1,14 @@
 import React from "react";
 import {
   RUPEE_SYMBOL,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE
+  DEFAULT_PIN_CODE_LOCAL_STORAGE,
+  AC_CART_EXCHANGE_DETAILS
 } from "../../lib/constants.js";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import styles from "./DesktopCheckout.css";
 import shippingTruck from "../components/img/shipping-truck.svg";
+import { SUCCESS, FAILURE_LOWERCASE } from "../../lib/constants";
 export default class DesktopCheckout extends React.Component {
   constructor(props) {
     super(props);
@@ -18,6 +20,7 @@ export default class DesktopCheckout extends React.Component {
     if (this.props.onCheckout) {
       this.props.onCheckout();
     }
+    this.validateLocalStorageProducts();
   }
   handleFocusOnPinCode() {
     this.props.changePinCode();
@@ -32,6 +35,48 @@ export default class DesktopCheckout extends React.Component {
   };
   renderCheckout = () => {
     let disableButton = false;
+
+    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+    let parsedExchangeDetails =
+      cartExchangeDetails && JSON.parse(cartExchangeDetails);
+    let isPickupAvailableForApplianceDetails = [];
+    if (
+      parsedExchangeDetails &&
+      parsedExchangeDetails.length > 0 &&
+      this.props.appliancesExchangePincodeData &&
+      this.props.appliancesExchangePincodeData.status
+    ) {
+      if (
+        this.props.appliancesExchangePincodeData.status.toLowerCase() ===
+        SUCCESS
+      ) {
+        this.props.appliancesExchangePincodeData.listOfDataList &&
+          this.props.appliancesExchangePincodeData.listOfDataList.map(
+            vendordata => {
+              if (
+                vendordata.value &&
+                Object.keys(vendordata.value).length !== 0 &&
+                vendordata.value.vendorDetails &&
+                vendordata.value.vendorDetails[0]
+              ) {
+                isPickupAvailableForApplianceDetails.push(
+                  vendordata.value.vendorDetails[0]
+                    .isPickupAvailableForAppliance
+                );
+              } else {
+                isPickupAvailableForApplianceDetails.push(false);
+              }
+            }
+          );
+      }
+      if (
+        this.props.appliancesExchangePincodeData.status.toLowerCase() ===
+        FAILURE_LOWERCASE
+      ) {
+        isPickupAvailableForApplianceDetails.push(false);
+      }
+    }
+
     if (
       (this.props.productExchangeServiceable &&
         this.props.productExchangeServiceable.length > 0 &&
@@ -39,7 +84,10 @@ export default class DesktopCheckout extends React.Component {
       (this.props.isQuoteExpired &&
         this.props.isQuoteExpired.length > 0 &&
         this.props.isQuoteExpired.includes(true)) ||
-      this.props.disabled
+      this.props.disabled ||
+      (isPickupAvailableForApplianceDetails &&
+        isPickupAvailableForApplianceDetails.length > 0 &&
+        isPickupAvailableForApplianceDetails.includes(false))
     ) {
       disableButton = true;
     }
@@ -121,15 +169,14 @@ export default class DesktopCheckout extends React.Component {
                   </div>
                 </div>
               )}
-            {cartAmount.bagDiscount &&
-              cartAmount.bagDiscount.value !== 0 && (
-                <div className={styles.row}>
-                  <div className={styles.label}>Bag Discount</div>
-                  <div className={styles.info}>
-                    -{cartAmount.bagDiscount.formattedValue}
-                  </div>
+            {cartAmount.bagDiscount && cartAmount.bagDiscount.value !== 0 && (
+              <div className={styles.row}>
+                <div className={styles.label}>Bag Discount</div>
+                <div className={styles.info}>
+                  -{cartAmount.bagDiscount.formattedValue}
                 </div>
-              )}
+              </div>
+            )}
             {cartAmount.couponDiscountAmount &&
               cartAmount.couponDiscountAmount.value !== 0 && (
                 <div className={styles.row}>
@@ -151,15 +198,14 @@ export default class DesktopCheckout extends React.Component {
                   </div>
                 </div>
               )}
-            {cartAmount.cartDiscount &&
-              cartAmount.cartDiscount.value !== 0 && (
-                <div className={styles.row}>
-                  <div className={styles.label}>Bank Offer Discount</div>
-                  <div className={styles.info}>
-                    -{cartAmount.cartDiscount.formattedValue}
-                  </div>
+            {cartAmount.cartDiscount && cartAmount.cartDiscount.value !== 0 && (
+              <div className={styles.row}>
+                <div className={styles.label}>Bank Offer Discount</div>
+                <div className={styles.info}>
+                  -{cartAmount.cartDiscount.formattedValue}
                 </div>
-              )}
+              </div>
+            )}
             {cartAmount.noCostEMIDiscountValue &&
               !this.props.noCostEmiEligibility &&
               cartAmount.noCostEMIDiscountValue.value !== 0 && (
@@ -398,54 +444,52 @@ export default class DesktopCheckout extends React.Component {
                   </div>
                 )}
 
-                {this.props.isOnCartPage &&
-                  defaultPinCode && (
-                    <div
-                      className={[
-                        styles.button,
-                        disableButton ? "" : styles.shadowBtn
-                      ].join(" ")}
-                    >
-                      <Button
-                        disabled={disableButton}
-                        disabledBgGrey={true}
-                        type="primary"
-                        backgroundColor="#ff1744"
-                        height={40}
-                        label={this.props.label}
-                        width={150}
-                        textStyle={{
-                          color: "#FFF",
-                          fontSize: 14
-                        }}
-                        onClick={() => this.handleClick()}
-                      />
-                    </div>
-                  )}
-                {this.props.isOnCartPage &&
-                  !defaultPinCode && (
-                    <div
-                      className={[
-                        styles.button,
-                        disableButton ? "" : styles.shadowBtn
-                      ].join(" ")}
-                    >
-                      <Button
-                        disabled={disableButton}
-                        disabledBgGrey={true}
-                        type="primary"
-                        backgroundColor="#ff1744"
-                        height={40}
-                        label={this.props.label}
-                        width={150}
-                        textStyle={{
-                          color: "#FFF",
-                          fontSize: 14
-                        }}
-                        onClick={() => this.handleFocusOnPinCode()}
-                      />
-                    </div>
-                  )}
+                {this.props.isOnCartPage && defaultPinCode && (
+                  <div
+                    className={[
+                      styles.button,
+                      disableButton ? "" : styles.shadowBtn
+                    ].join(" ")}
+                  >
+                    <Button
+                      disabled={disableButton}
+                      disabledBgGrey={true}
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={40}
+                      label={this.props.label}
+                      width={150}
+                      textStyle={{
+                        color: "#FFF",
+                        fontSize: 14
+                      }}
+                      onClick={() => this.handleClick()}
+                    />
+                  </div>
+                )}
+                {this.props.isOnCartPage && !defaultPinCode && (
+                  <div
+                    className={[
+                      styles.button,
+                      disableButton ? "" : styles.shadowBtn
+                    ].join(" ")}
+                  >
+                    <Button
+                      disabled={disableButton}
+                      disabledBgGrey={true}
+                      type="primary"
+                      backgroundColor="#ff1744"
+                      height={40}
+                      label={this.props.label}
+                      width={150}
+                      textStyle={{
+                        color: "#FFF",
+                        fontSize: 14
+                      }}
+                      onClick={() => this.handleFocusOnPinCode()}
+                    />
+                  </div>
+                )}
               </React.Fragment>
             )}
           </div>
@@ -468,6 +512,38 @@ export default class DesktopCheckout extends React.Component {
       }
     }
   };
+
+  // check if local storage products are same as current products in cart or not
+  // remove the products from local storage which are not in cart
+  validateLocalStorageProducts() {
+    let cartProducts = this.props.cartProducts;
+    let cartProductsUssids =
+      cartProducts &&
+      cartProducts.map(product => {
+        return product.USSID;
+      });
+    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+    let parsedExchangeDetails =
+      cartExchangeDetails && JSON.parse(cartExchangeDetails);
+    if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
+      let productToBeRemovedIndex = [];
+      parsedExchangeDetails.map((product, index) => {
+        if (cartProductsUssids && !cartProductsUssids.includes(product.ussid)) {
+          productToBeRemovedIndex.push(index);
+        }
+      });
+      if (productToBeRemovedIndex) {
+        for (var i = productToBeRemovedIndex.length - 1; i >= 0; i--) {
+          parsedExchangeDetails.splice(productToBeRemovedIndex[i], 1);
+        }
+      }
+      localStorage.setItem(
+        AC_CART_EXCHANGE_DETAILS,
+        JSON.stringify(parsedExchangeDetails)
+      );
+    }
+  }
+
   render() {
     return <div>{this.renderCheckout()}</div>;
   }

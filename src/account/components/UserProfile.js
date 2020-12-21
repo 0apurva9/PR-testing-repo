@@ -19,12 +19,11 @@ export default class UserProfile extends React.Component {
             {(this.props.image || name) && (
               <div className={styles.userWithOutIcon}>
                 {this.props.image && <ProfileImage image={this.props.image} />}
-                {name &&
-                  name !== "undefined" && (
-                    <div className={styles.accountImageText}>
-                      {this.props.firstName}
-                    </div>
-                  )}
+                {name && name !== "undefined" && (
+                  <div className={styles.accountImageText}>
+                    {this.props.firstName}
+                  </div>
+                )}
               </div>
             )}
             {!this.props.image &&
@@ -49,39 +48,38 @@ export default class UserProfile extends React.Component {
             </div>
           </div>
         </div>
-        {this.props.userAddress &&
-          this.props.userAddress.addresses && (
-            <div className={styles.defaultAddressHolder}>
-              <div className={styles.deafultAddressLabel}>Default Address</div>
-              {this.props.userAddress &&
-                this.props.userAddress.addresses
-                  .filter(val => {
-                    return val.defaultAddress === true;
-                  })
-                  .map((datum, i) => {
-                    return (
-                      <div className={styles.addressWrap} key={i}>
-                        {datum.addressType && (
-                          <div className={styles.defaultAddressHeader}>
-                            {datum.addressType}
-                          </div>
-                        )}
-                        <div className={styles.addressLine1}>{datum.line1}</div>
-                        <div className={styles.addressLine1}>
-                          {datum.landmark}
+        {this.props.userAddress && this.props.userAddress.addresses && (
+          <div className={styles.defaultAddressHolder}>
+            <div className={styles.deafultAddressLabel}>Default Address</div>
+            {this.props.userAddress &&
+              this.props.userAddress.addresses
+                .filter(val => {
+                  return val.defaultAddress === true;
+                })
+                .map((datum, i) => {
+                  return (
+                    <div className={styles.addressWrap} key={i}>
+                      {datum.addressType && (
+                        <div className={styles.defaultAddressHeader}>
+                          {datum.addressType}
                         </div>
-                        <div className={styles.addressLine1}>
-                          {`${datum.state},${datum.postalCode} ,${datum.town}`}
-                        </div>
-
-                        <div className={styles.addressLine1}>
-                          {`ph :${datum.phone}`}
-                        </div>
+                      )}
+                      <div className={styles.addressLine1}>{datum.line1}</div>
+                      <div className={styles.addressLine1}>
+                        {datum.landmark}
                       </div>
-                    );
-                  })}
-            </div>
-          )}
+                      <div className={styles.addressLine1}>
+                        {`${datum.state},${datum.postalCode} ,${datum.town}`}
+                      </div>
+
+                      <div className={styles.addressLine1}>
+                        {`ph :${datum.phone}`}
+                      </div>
+                    </div>
+                  );
+                })}
+          </div>
+        )}
       </div>
     );
   }

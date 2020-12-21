@@ -13,7 +13,9 @@ import {
   NET_BANKING_PAYMENT_MODE,
   CART_DETAILS_FOR_LOGGED_IN_USER,
   UPI,
-  EMI
+  EMI,
+  RETRY_PAYMENT_CART_ID,
+  NO_COST_EMI_COUPON
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 
@@ -63,15 +65,43 @@ export default class MenuDetails extends React.Component {
       }
     }
   };
-  checkEMI = () => {
-    if (!this.props.isOpen && this.props.displayToast) {
-      this.props.displayToast(
-        "One or more products are not eligible for EMI, please use another payment method to make your purchase."
-      );
+  checkEMI = async () => {
+    if (
+      this.props.retryFlagDCEmi === "true" ||
+      this.props.retryFlagEmiCoupon === "true"
+    ) {
+      return;
+    }
+    if (!this.state.isOpen && this.props.getEMIEligibilityDetails) {
+      if (this.props.isFromRetryUrl) {
+        await this.props.getEMIEligibilityDetails(
+          JSON.parse(localStorage.getItem(RETRY_PAYMENT_CART_ID))
+        );
+      } else {
+        await this.props.getEMIEligibilityDetails();
+      }
+      if (
+        this.props.emiEligibiltyDetails &&
+        !this.props.emiEligibiltyDetails.error
+      ) {
+        this.openMenu();
+      }
+      if (
+        this.props.emiEligibiltyDetails &&
+        this.props.emiEligibiltyDetails.error
+      ) {
+        this.props.onOpenMenu(null);
+      }
+    } else if (this.state.isOpen) {
+      const emiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
+      if (emiCoupon) {
+        this.props.removeNoCostEmi(emiCoupon);
+      }
+      this.openMenu();
     }
   };
   openMenu() {
-    let cartGuidUPI = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    // let cartGuidUPI = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     let isOpen = !this.state.isOpen;
     if (isOpen) {
       setDataLayerForCheckoutDirectCalls(
@@ -103,7 +133,7 @@ export default class MenuDetails extends React.Component {
       }
     }
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.isOpen !== this.state.isOpen) {
       this.setState({ isOpen: nextProps.isOpen });
     }
@@ -125,9 +155,9 @@ export default class MenuDetails extends React.Component {
           onClick={() =>
             this.props.text === UPI
               ? this.checkupi()
-              : this.props.text === EMI && this.props.isJewelleryProduct
-                ? this.checkEMI()
-                : this.openMenu()
+              : this.props.text === EMI
+              ? this.checkEMI()
+              : this.openMenu()
           }
         >
           <div className={styles.debitCardIcon}>
@@ -135,16 +165,15 @@ export default class MenuDetails extends React.Component {
           </div>
           <div className={styles.textBox}>
             {this.props.text === UPI ? "UPI ID" : this.props.text}
-            {this.props.secondIcon &&
-              !this.state.isOpen && (
-                <div className={styles.secondIcon}>
-                  <Icon
-                    image={this.props.secondIcon}
-                    size={37}
-                    backgroundSize={`100%`}
-                  />
-                </div>
-              )}
+            {this.props.secondIcon && !this.state.isOpen && (
+              <div className={styles.secondIcon}>
+                <Icon
+                  image={this.props.secondIcon}
+                  size={37}
+                  backgroundSize={`100%`}
+                />
+              </div>
+            )}
             <div className={iconActive} />
           </div>
         </div>
@@ -157,11 +186,29 @@ MenuDetails.propTypes = {
   text: PropTypes.string,
   icon: PropTypes.string,
   onOpenMenu: PropTypes.func,
-  isNoBorderTop: PropTypes.bool
+  isNoBorderTop: PropTypes.bool,
+  getEMIEligibilityDetails: PropTypes.func,
+  emiEligibiltyDetails: PropTypes.shape({
+    isCCEMIEligible: PropTypes.bool,
+    isCCNoCostEMIEligible: PropTypes.bool,
+    isDCEMIEligible: PropTypes.bool,
+    isDCNoCostEMIEligible: PropTypes.bool,
+    error: PropTypes.string,
+    nonEmiProdList: PropTypes.array,
+    type: PropTypes.string
+  }),
+  retryFlagEmiCoupon: PropTypes.string,
+  retryFlagDCEmi: PropTypes.string,
+  isFromRetryUrl: PropTypes.bool,
+  removeNoCostEmi: PropTypes.func
 };
 
 MenuDetails.defaultProps = {
   icon: couponIcon,
   isNoBorderTop: false,
-  isJewelleryProduct: false
+  emiEligibiltyDetails: {},
+  retryFlagEmiCoupon: false,
+  retryFlagDCEmi: false,
+  isFromRetryUrl: false,
+  removeNoCostEmi: () => {}
 };

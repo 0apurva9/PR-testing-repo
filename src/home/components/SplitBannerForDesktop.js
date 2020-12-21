@@ -49,24 +49,22 @@ export default class SplitBannerForDesktop extends React.Component {
             this.props.positionInFeed === 1 ? styles.firstItemBase : styles.base
           }
         >
-          {feedComponentData &&
-            feedComponentData.title && (
-              <div className={styles.shopeRangeHeader}>
-                {feedComponentData.title}
-              </div>
-            )}
-          {feedComponentData &&
-            feedComponentData.items && (
-              <div className={styles.splitColumn}>
-                {feedComponentData.items
-                  .filter((val, i) => {
-                    return i % 2 === 0 && i < 4;
-                  })
-                  .map(feedComponentDatum => {
-                    return this.renderCard(feedComponentDatum);
-                  })}
-              </div>
-            )}
+          {feedComponentData && feedComponentData.title && (
+            <div className={styles.shopeRangeHeader}>
+              {feedComponentData.title}
+            </div>
+          )}
+          {feedComponentData && feedComponentData.items && (
+            <div className={styles.splitColumn}>
+              {feedComponentData.items
+                .filter((val, i) => {
+                  return i % 2 === 0 && i < 4;
+                })
+                .map(feedComponentDatum => {
+                  return this.renderCard(feedComponentDatum);
+                })}
+            </div>
+          )}
           <div className={styles.splitColumn}>
             {feedComponentData.items
               .filter((val, i) => {

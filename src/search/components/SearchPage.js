@@ -549,9 +549,7 @@ export default class SearchPage extends React.Component {
                         this.handleCategoryClick(
                           val.categoryCode,
                           {
-                            term: `${data.suggestionText[0]} in ${
-                              val.categoryName
-                            }`
+                            term: `${data.suggestionText[0]} in ${val.categoryName}`
                           },
                           i,
                           firstSuggestedKeyWord[0].suggestedWord,
@@ -612,9 +610,7 @@ export default class SearchPage extends React.Component {
                         this.handleBrandClick(
                           val.categoryCode,
                           {
-                            term: `${data.suggestionText[0]} in ${
-                              val.categoryName
-                            }`
+                            term: `${data.suggestionText[0]} in ${val.categoryName}`
                           },
                           i,
                           data.suggestionText[0],
@@ -677,9 +673,7 @@ export default class SearchPage extends React.Component {
                               this.handleCategoryClick(
                                 val.categoryCode,
                                 {
-                                  term: `${data.suggestionText[0]} in ${
-                                    val.categoryName
-                                  }`
+                                  term: `${data.suggestionText[0]} in ${val.categoryName}`
                                 },
                                 i,
                                 firstSuggestedKeyWord &&
@@ -756,11 +750,11 @@ export default class SearchPage extends React.Component {
                                   suggestedKeyWord.length
                                 : suggestedKeyWord &&
                                   suggestedKeyWord.length > 0
-                                  ? suggestedKeyWord.length
-                                  : data.topCategories &&
-                                    data.topBrands.length > 0
-                                    ? data.topCategories.length
-                                    : 0)
+                                ? suggestedKeyWord.length
+                                : data.topCategories &&
+                                  data.topBrands.length > 0
+                                ? data.topCategories.length
+                                : 0)
                               ? styles.color
                               : styles.back
                           }
@@ -779,9 +773,7 @@ export default class SearchPage extends React.Component {
                               this.handleBrandClick(
                                 val.categoryCode,
                                 {
-                                  term: `${data.suggestionText[0]} in ${
-                                    val.categoryName
-                                  }`
+                                  term: `${data.suggestionText[0]} in ${val.categoryName}`
                                 },
                                 i,
                                 data.suggestionText[0],

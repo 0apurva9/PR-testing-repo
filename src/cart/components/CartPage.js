@@ -21,7 +21,9 @@ import {
   BUY_NOW_PRODUCT_DETAIL,
   SUCCESS,
   CNC_CART,
-  SELECTED_STORE
+  SELECTED_STORE,
+  DEFAULT_PIN_CODE_ID_LOCAL_STORAGE,
+  AC_CART_EXCHANGE_DETAILS
 } from "../../lib/constants";
 import SavedProduct from "./SavedProduct";
 import filter from "lodash.filter";
@@ -76,7 +78,8 @@ class CartPage extends React.Component {
       changePinCode: false,
       appliedCouponCode: null,
       showCheckoutSection: true,
-      isComingFromCliqAndPiq: false
+      isComingFromCliqAndPiq: false,
+      appliancesExchangePincodeData: null
     };
   }
   showHideDetails = () => {
@@ -257,6 +260,18 @@ class CartPage extends React.Component {
         nextProps.cart && Object.assign(nextProps.cart.coupons, nextProps);
       this.props.showCouponModal(couponDetails);
     }
+
+    if (
+      nextProps.appliancesExchangePincodeDetails &&
+      nextProps.appliancesExchangePincodeDetails.status &&
+      nextProps.appliancesExchangePincodeDetails !==
+        this.state.appliancesExchangePincodeData
+    ) {
+      this.setState({
+        appliancesExchangePincodeData:
+          nextProps.appliancesExchangePincodeDetails
+      });
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -298,6 +313,30 @@ class CartPage extends React.Component {
             isServiceable: true
           });
         }
+      }
+    }
+    if (this.props.cart.cartDetails !== prevProps.cart.cartDetails) {
+      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+      let parsedExchangeDetails =
+        cartExchangeDetails && JSON.parse(cartExchangeDetails);
+      if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
+        let exchangeProductUssids = parsedExchangeDetails.map(
+          exchangeProduct => {
+            return exchangeProduct.ussid;
+          }
+        );
+        let productIds = [];
+        exchangeProductUssids.map(exchangeProductUssid => {
+          this.props.cart.cartDetails &&
+            this.props.cart.cartDetails.products.map(product => {
+              if (product.USSID === exchangeProductUssid) {
+                productIds.push(product.productcode);
+              }
+            });
+        });
+        let productIdList = productIds.join(",");
+        const pincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+        this.props.appliancesExchangeCheckPincode(productIdList, pincode);
       }
     }
   }
@@ -465,7 +504,7 @@ class CartPage extends React.Component {
     }
   }
 
-  checkPinCodeAvailability = val => {
+  checkPinCodeAvailability = (val, addressId = "") => {
     this.setState({
       pinCode: val,
       changePinCode: false,
@@ -479,6 +518,7 @@ class CartPage extends React.Component {
       localStorage.removeItem(SELECTED_STORE);
     }
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, val);
+    localStorage.setItem(DEFAULT_PIN_CODE_ID_LOCAL_STORAGE, addressId);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -549,8 +589,8 @@ class CartPage extends React.Component {
     this.props.addressModal({
       addressModalForCartPage: true,
       labelText: "Submit",
-      checkPinCodeAvailability: pinCode =>
-        this.checkPinCodeAvailability(pinCode)
+      checkPinCodeAvailability: (pinCode, addressId) =>
+        this.checkPinCodeAvailability(pinCode, addressId)
     });
   };
   renderBankOffers = () => {
@@ -1061,6 +1101,12 @@ class CartPage extends React.Component {
                             bundledProductSuggestionStatus={
                               this.props.bundledProductSuggestionStatus
                             }
+                            openAppliancesExchangeModal={
+                              this.props.openAppliancesExchangeModal
+                            }
+                            appliancesExchangePincodeData={
+                              this.state.appliancesExchangePincodeData
+                            }
                           />
                         </DesktopOnly>
                       </div>
@@ -1250,6 +1296,10 @@ class CartPage extends React.Component {
                             cartDetails.shippingPromoMessage
                           }
                           showShippingMsg={true}
+                          appliancesExchangePincodeData={
+                            this.state.appliancesExchangePincodeData
+                          }
+                          cartProducts={cartDetails.products}
                         />
                       </div>
                     )}

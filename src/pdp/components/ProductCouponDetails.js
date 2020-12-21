@@ -40,7 +40,8 @@ class ProductCouponDetails extends Component {
         : "",
       selectedCouponCode: Cookie.getCookie(COUPON_COOKIE)
         ? Cookie.getCookie(COUPON_COOKIE)
-        : ""
+        : "",
+      isOpen: true
     };
   }
 
@@ -237,110 +238,107 @@ class ProductCouponDetails extends Component {
                 </React.Fragment>
               )}
 
-            {coupons &&
-              coupons.length > 0 && (
-                <GridSelect
-                  elementWidthMobile={100}
-                  elementWidthDesktop={100}
-                  offset={0}
-                  offsetDesktop="0px 22px 20px 22px"
-                  limit={1}
-                  onSelect={val => this.onSelectCouponCode(val)}
-                  selected={[this.state.selectedCouponCode]}
-                >
-                  {coupons.map((value, i) => {
-                    let couponName = value.couponName
-                      ? value.couponName
-                      : value.couponCode;
-                    return (
-                      <CuponDetails
-                        promotionTitle={couponName}
-                        promotionDetail={value.description}
-                        tnc={value.tnc}
-                        dateTime={value.couponExpiryDate}
-                        amount={value.maxDiscount}
-                        key={i}
-                        couponType={value.couponType}
-                        value={value.couponCode}
-                      />
-                    );
-                  })}
-                </GridSelect>
-              )}
-            {coupons &&
-              coupons.length === 0 && (
-                <GridSelect
-                  elementWidthMobile={100}
-                  elementWidthDesktop={100}
-                  offset={0}
-                  offsetDesktop="0px 22px 20px 22px"
-                  limit={1}
-                  onSelect={val => this.onSelectCouponCode(val)}
-                  selected={[this.state.selectedCouponCode]}
-                >
-                  {coupons &&
-                    coupons.length === 0 && (
-                      <div className={styles.noEligiblecoupon}>
-                        Currently you dont have any eligible coupons for the
-                        items in your cart.
-                      </div>
-                    )}
-                </GridSelect>
-              )}
-          </div>
-          {otherCoupons &&
-            otherCoupons.length > 0 && (
-              <div className={styles.otherEligibleCouponsDesign}>
-                <AccordionWithTooltip
-                  key={1}
-                  text2={"Other Active coupon"}
-                  text2Size={14}
-                  widthForText2={`100%`}
-                  headerFontSize={16}
-                  textAlign={"left"}
-                  marginLeft2={`20px`}
-                  fontWeight2={`bold`}
-                  tooltip={true}
-                  tooltipSrc={ibutton}
-                  tooltipText={`To use these coupons, you might have to add or modify products in your cart`}
-                  subHeading={true}
-                >
-                  <DesktopOnly>
-                    <div className={styles.other_coupon_disclaimer_desktop}>
-                      {USER_COUPON_OTHER_NOTE_DESKTOP}
-                    </div>
-                  </DesktopOnly>
-                  <GridSelect
-                    elementWidthMobile={100}
-                    elementWidthDesktop={100}
-                    offset={0}
-                    offsetDesktop="0px 22px 20px 22px"
-                    limit={1}
-                    onSelect={val => this.onSelectCouponCode(val)}
-                    selected={[this.state.selectedCouponCode]}
-                  >
-                    {otherCoupons &&
-                      otherCoupons.map((value, i) => {
-                        let couponName = value.couponName
-                          ? value.couponName
-                          : value.couponCode;
-                        return (
-                          <OtherCuponDetails
-                            promotionTitle={couponName}
-                            promotionDetail={value.description}
-                            tnc={value.tnc}
-                            dateTime={value.couponExpiryDate}
-                            amount={value.maxDiscount}
-                            key={i}
-                            couponType={value.couponType}
-                            value={value.couponCode}
-                          />
-                        );
-                      })}
-                  </GridSelect>
-                </AccordionWithTooltip>
-              </div>
+            {coupons && coupons.length > 0 && (
+              <GridSelect
+                elementWidthMobile={100}
+                elementWidthDesktop={100}
+                offset={0}
+                offsetDesktop="0px 22px 20px 22px"
+                limit={1}
+                onSelect={val => this.onSelectCouponCode(val)}
+                selected={[this.state.selectedCouponCode]}
+              >
+                {coupons.map((value, i) => {
+                  let couponName = value.couponName
+                    ? value.couponName
+                    : value.couponCode;
+                  return (
+                    <CuponDetails
+                      promotionTitle={couponName}
+                      promotionDetail={value.description}
+                      tnc={value.tnc}
+                      dateTime={value.couponExpiryDate}
+                      amount={value.maxDiscount}
+                      key={i}
+                      couponType={value.couponType}
+                      value={value.couponCode}
+                    />
+                  );
+                })}
+              </GridSelect>
             )}
+            {coupons && coupons.length === 0 && (
+              <GridSelect
+                elementWidthMobile={100}
+                elementWidthDesktop={100}
+                offset={0}
+                offsetDesktop="0px 22px 20px 22px"
+                limit={1}
+                onSelect={val => this.onSelectCouponCode(val)}
+                selected={[this.state.selectedCouponCode]}
+              >
+                {coupons && coupons.length === 0 && (
+                  <div className={styles.noEligiblecoupon}>
+                    Currently you dont have any eligible coupons for the items
+                    in your cart.
+                  </div>
+                )}
+              </GridSelect>
+            )}
+          </div>
+          {otherCoupons && otherCoupons.length > 0 && (
+            <div className={styles.otherEligibleCouponsDesign}>
+              <AccordionWithTooltip
+                key={1}
+                text2={"Other Active coupon"}
+                text2Size={14}
+                widthForText2={`100%`}
+                headerFontSize={16}
+                textAlign={"left"}
+                marginLeft2={`20px`}
+                fontWeight2={`bold`}
+                tooltip={true}
+                tooltipSrc={ibutton}
+                tooltipText={`To use these coupons, you might have to add or modify products in your cart`}
+                subHeading={true}
+                isOpen={this.state.isOpen}
+              >
+                <DesktopOnly>
+                  <div className={styles.other_coupon_disclaimer_desktop}>
+                    {USER_COUPON_OTHER_NOTE_DESKTOP}
+                  </div>
+                </DesktopOnly>
+                <GridSelect
+                  elementWidthMobile={100}
+                  elementWidthDesktop={100}
+                  offset={0}
+                  offsetDesktop="0px 22px 20px 22px"
+                  limit={1}
+                  onSelect={val => this.onSelectCouponCode(val)}
+                  selected={[this.state.selectedCouponCode]}
+                >
+                  {otherCoupons &&
+                    otherCoupons.map((value, i) => {
+                      let couponName = value.couponName
+                        ? value.couponName
+                        : value.couponCode;
+                      return (
+                        <OtherCuponDetails
+                          promotionTitle={couponName}
+                          promotionDetail={value.description}
+                          tnc={value.tnc}
+                          dateTime={value.couponExpiryDate}
+                          amount={value.maxDiscount}
+                          key={i}
+                          couponType={value.couponType}
+                          value={value.couponCode}
+                        />
+                      );
+                    })}
+                </GridSelect>
+              </AccordionWithTooltip>
+            </div>
+          )}
         </div>
       </SlideModal>
     );

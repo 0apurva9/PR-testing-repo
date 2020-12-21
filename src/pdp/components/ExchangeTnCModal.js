@@ -6,7 +6,7 @@ export default class ExchangeTnCModal extends React.Component {
     this.props.closeTnCModal();
   }
   goToWebForm() {
-    this.props.history.push(`/my-account/order-related`);
+    this.props.history.push(`/my-account/cliq-care`);
   }
   render() {
     return (
