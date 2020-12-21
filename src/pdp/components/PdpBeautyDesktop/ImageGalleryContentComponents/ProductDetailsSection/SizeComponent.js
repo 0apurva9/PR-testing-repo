@@ -1,5 +1,6 @@
 import React from "react";
 
+import ColorComponent from "./ColorComponent";
 import styles from "./SizeComponent.css";
 
 export default class SizeComponent extends React.Component {
@@ -12,24 +13,47 @@ export default class SizeComponent extends React.Component {
   }
 
   componentDidMount() {
-    const variantOptions =
-      this.props &&
-      this.props.productDetails &&
-      this.props.productDetails.variantOptions;
     let sizeOptions = [];
-    sizeOptions = variantOptions && variantOptions.map(el => el.sizelink);
-    const productListingId =
-      this.props &&
-      this.props.productDetails &&
-      this.props.productDetails.productListingId;
     let selectedSize = [];
-    selectedSize =
-      sizeOptions &&
-      sizeOptions.filter((el, i) => {
-        if (el.productCode === productListingId && el.isAvailable === true) {
-          this.setState({ isSelected: true, selectedIndex: i });
-        }
-      });
+    if (
+      this.props.productDetails &&
+      this.props.productDetails.variantOptions &&
+      this.props.productDetails.variantTheme
+    ) {
+      const variantTheme =
+        this.props &&
+        this.props.productDetails &&
+        this.props.productDetails.variantTheme;
+      sizeOptions = variantTheme && variantTheme.map(el => el.sizelink);
+      const productListingId =
+        this.props &&
+        this.props.productDetails &&
+        this.props.productDetails.productListingId;
+      selectedSize =
+        sizeOptions &&
+        sizeOptions.filter((el, i) => {
+          if (el.productCode === productListingId && el.isAvailable === true) {
+            this.setState({ isSelected: true, selectedIndex: i });
+          }
+        });
+    } else {
+      const variantOptions =
+        this.props &&
+        this.props.productDetails &&
+        this.props.productDetails.variantOptions;
+      sizeOptions = variantOptions && variantOptions.map(el => el.sizelink);
+      const productListingId =
+        this.props &&
+        this.props.productDetails &&
+        this.props.productDetails.productListingId;
+      selectedSize =
+        sizeOptions &&
+        sizeOptions.filter((el, i) => {
+          if (el.productCode === productListingId && el.isAvailable === true) {
+            this.setState({ isSelected: true, selectedIndex: i });
+          }
+        });
+    }
   }
 
   handleSizeOptionClick(url) {
@@ -37,194 +61,40 @@ export default class SizeComponent extends React.Component {
   }
 
   render() {
-    const variantOptions =
+    const variantTheme =
       this.props &&
       this.props.productDetails &&
-      this.props.productDetails.variantOptions;
+      this.props.productDetails.variantTheme;
     let sizeOptions = [];
-    sizeOptions = variantOptions && variantOptions.map(el => el.sizelink);
-    let selectedClass;
+    let selectedClass = "";
+    if (
+      this.props.productDetails &&
+      this.props.productDetails.variantOptions &&
+      this.props.productDetails.variantTheme
+    ) {
+      const variantOptions =
+        this.props &&
+        this.props.productDetails &&
+        this.props.productDetails.variantTheme;
+      sizeOptions = variantOptions && variantOptions.map(el => el.sizelink);
+    } else {
+      const variantOptions =
+        this.props &&
+        this.props.productDetails &&
+        this.props.productDetails.variantOptions;
+      sizeOptions = variantOptions && variantOptions.map(el => el.sizelink);
+    }
+
     return (
       <React.Fragment>
-        <div className={styles["shade-component"]}>
-          <div className={styles["shade-block"]}>
-            <a href="#" className={styles["shade-block-view-more"]}>
-              View More
-            </a>
-            <div className={styles["shade-heading"]}>Knockout Nude 184 </div>
-            <div className={styles["shade-collapse-block"]}>
-              <div className={styles["shade-subheading"]}>Mini</div>
-              <div className={styles["shade-list-block"]}>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-              </div>
-              <div className={styles["shade-subheading"]}>Standard</div>
-              <div className={styles["shade-list-block"]}>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-                <div className={styles["shade-list"]}>
-                  <div className={styles["shade-list-img-block"]}>
-                    <img
-                      src="https://cdn.iconscout.com/icon/free/png-256/color-palette-1575101-1331436.png"
-                      className={styles["shade-list-img"]}
-                    />
-                  </div>
-                  <div className={styles["shade-stock-left"]}>2 Left</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        {this.props.colorComponentFound ? (
+          <ColorComponent
+            variantTheme={variantTheme}
+            selectedSizeIndex={
+              this.state.isSelected ? this.state.selectedIndex : -1
+            }
+          />
+        ) : null}
         <div className={styles["size-component"]}>
           <div className={styles["size-block"]}>
             <div className={styles["size-heading"]}>SELECT SIZE:</div>

@@ -98,7 +98,16 @@ const typeComponentMapping = {
   [RATING_REVIEW_COMPONENT]: props => <RatingsAndReviewsComponent {...props} />,
   [PRICE_COMPONENT]: props => <PriceComponent {...props} />,
   [DETAILS_COMPONENT]: props => <DetailsComponent {...props} />,
-  [SIZE_COMPONENT]: props => <SizeComponent {...props} />,
+  [SIZE_COMPONENT]: (props, productCompDetails) => {
+    const colorComponentFound = productCompDetails.filter(
+      el => el.componentId === COLOR_COMPONENT
+    );
+    if (colorComponentFound) {
+      return <SizeComponent {...props} colorComponentFound={true} />;
+    } else {
+      return <SizeComponent {...props} />;
+    }
+  },
   [OFFERS_COMPONENT]: props => <OffersComponent {...props} />,
   [BUYNOW_ADDTOBAG_COMPONENT]: props => <BuyNowAddToBagComponent {...props} />,
   [SHIPPING_DETAIL_COMPONENT]: props => <ShippingDetailsComponent {...props} />,
@@ -117,7 +126,12 @@ export default class ProductsDetailsSection extends React.Component {
       <React.Fragment>
         {this.props.productCompDetails &&
           this.props.productCompDetails.map(componentDetails =>
-            renderComponent(componentDetails, typeComponentMapping, this.props)
+            renderComponent(
+              componentDetails,
+              typeComponentMapping,
+              this.props,
+              this.props.productCompDetails
+            )
           )}
       </React.Fragment>
     );
