@@ -93,6 +93,7 @@ export default class SizeComponent extends React.Component {
             selectedSizeIndex={
               this.state.isSelected ? this.state.selectedIndex : -1
             }
+            {...this.props}
           />
         ) : null}
         <div className={styles["size-component"]}>
