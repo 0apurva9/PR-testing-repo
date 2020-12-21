@@ -22,19 +22,31 @@ export default class ColorComponent extends React.Component {
   }
 
   onMouseEnter(i, j) {
-    console.log(i);
     this.setState({ showTooltip: true, sizeIndex: i, toolTipIndex: j });
-    console.log("mouseenter...");
   }
 
   onMouseLeave(i, j) {
     this.setState({ showTooltip: false, sizeIndex: i, toolTipIndex: j });
-    console.log("mouseleave...");
+  }
+
+  handleColorOptionClick(url) {
+    this.props.history.push(url);
   }
 
   render() {
     console.log("11111", this.props);
     const variantTheme = this.props.variantTheme;
+    let selectedSizeColorOptions = [];
+    let selectedSizeSelectedColor = {};
+    if (this.props.selectedSizeIndex >= 0) {
+      selectedSizeColorOptions =
+        variantTheme &&
+        variantTheme.length > 0 &&
+        variantTheme[this.props.selectedSizeIndex].colorOptions;
+    }
+    selectedSizeSelectedColor =
+      selectedSizeColorOptions &&
+      selectedSizeColorOptions.filter(el => el.selected === true);
     return (
       <React.Fragment>
         <div className={styles["shade-component"]}>
@@ -46,7 +58,11 @@ export default class ColorComponent extends React.Component {
             >
               {this.state.expandClass ? VIEW_LESS : VIEW_MORE}
             </a>
-            <div className={styles["shade-heading"]}>Knockout Nude 184</div>
+            <div className={styles["shade-heading"]}>
+              {selectedSizeSelectedColor &&
+                selectedSizeSelectedColor.length > 0 &&
+                selectedSizeSelectedColor[0].color}
+            </div>
             <div
               className={
                 this.state.expandClass
@@ -75,8 +91,21 @@ export default class ColorComponent extends React.Component {
                                 className={styles["shade-list"]}
                                 onMouseEnter={() => this.onMouseEnter(i, j)}
                                 onMouseLeave={() => this.onMouseLeave(i, j)}
+                                onClick={() =>
+                                  this.handleColorOptionClick(colorElement.url)
+                                }
                               >
-                                <div className={styles["shade-list-img-block"]}>
+                                <div
+                                  className={[
+                                    styles["shade-list-img-block"],
+                                    colorElement.selected === true
+                                      ? styles["shade-stock-selected-img"]
+                                      : "",
+                                    colorElement.isAvailable === false
+                                      ? styles["shade-stock-dis-img"]
+                                      : ""
+                                  ].join(" ")}
+                                >
                                   <img
                                     src={colorElement.swatchUrl}
                                     className={styles["shade-list-img"]}
