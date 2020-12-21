@@ -73,7 +73,7 @@ export class MnlChallenge extends React.Component<MnlChallengeProps, MnlChalleng
                                 <button
                                     type="button"
                                     className={styles.btnLink}
-                                    onClick={() => this.setState({ isMobileNumberActive: false, isInputValid: false })}
+                                    onClick={() => this.setState({ isMobileNumberActive: false, isInputValid: false, mobileNumber: "" })}
                                 >
                                     Use Email Address
                                 </button>
@@ -96,7 +96,7 @@ export class MnlChallenge extends React.Component<MnlChallengeProps, MnlChalleng
                                     <button
                                         type="button"
                                         className={styles.btnLink}
-                                        onClick={() => this.setState({ isMobileNumberActive: true, isInputValid: false })}
+                                        onClick={() => this.setState({ isMobileNumberActive: true, isInputValid: false, emailAddress:"" })}
                                     >
                                         Use Mobile Number
                                 </button>
