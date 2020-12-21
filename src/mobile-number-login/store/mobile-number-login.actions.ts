@@ -282,6 +282,17 @@ export function validateOtp() {
             client_secret: CLIENT_SECRET,
             platformnumber: PLAT_FORM_NUMBER,
         };
+        if (mnlApiResponseState && mnlApiResponseState.userData && !mnlApiResponseState.userData.customer.passwordSet && mnlApiResponseState.userData.customer.loginVia === "mobile" && mnlApiResponseState.userData.validation && mnlApiResponseState.userData.validation.validated) {
+            header = {
+                Authorization: `Bearer ${globalAccessToken.access_token}`,
+                "register-user": true,
+                registerviamobile: true,
+                grant_type: "password",
+                client_id: CLIENT_ID,
+                client_secret: CLIENT_SECRET,
+                platformnumber: PLAT_FORM_NUMBER,
+            };
+        }
         if (mnlApiResponseState && mnlApiResponseState.userData && !mnlApiResponseState.userData.customer.numberAdded) {
             apiData.pass = "";
         }
