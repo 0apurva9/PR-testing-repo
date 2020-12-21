@@ -142,16 +142,13 @@ export function validateMnlChallenge() {
             }
             return;
         }
-        debugger;
+
         dispatch(setMnlApiResponse(mnlApiResponse));
         if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.loginVia == "email" && mnlApiResponse.userData.customer.passwordSet) {
             dispatch(changeLoginStep("isStepLoginPassword"));
         }
-        else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.newUser && !mnlApiResponse.userData.customer.passwordSet) {
-            dispatch(changeLoginStep("isStepValidateOtp"));
-        }
         else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.newUser) {
-            dispatch(changeLoginStep("isStepAddMobileNumber"));
+            mnlApiResponse.userData.customer.loginVia === "email" ? dispatch(changeLoginStep("isStepAddMobileNumber")) : dispatch(changeLoginStep("isStepValidateOtp"));
         }
         else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.maskedPhoneNumber.length) {
             mnlApiResponse.userData.customer.loginVia === "email" ? dispatch(generateOTP()) : dispatch(changeLoginStep("isStepValidateOtp"));
@@ -261,7 +258,7 @@ export function generateOTP() {
         }
 
         dispatch(setMnlApiResponse(mnlApiResponse));
-        if (mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.otpSent) {
+        if (mnlApiResponse.userData && mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.otpSent) {
             dispatch(changeLoginStep("isStepValidateOtp"));
         }
         dispatch(hideSecondaryLoader());
@@ -282,6 +279,17 @@ export function validateOtp() {
             client_secret: CLIENT_SECRET,
             platformnumber: PLAT_FORM_NUMBER,
         };
+        if (mnlApiResponseState && mnlApiResponseState.userData && !mnlApiResponseState.userData.customer.passwordSet && mnlApiResponseState.userData.customer.loginVia === "mobile" && mnlApiResponseState.userData.validation && mnlApiResponseState.userData.validation.validated) {
+            header = {
+                Authorization: `Bearer ${globalAccessToken.access_token}`,
+                "register-user": true,
+                registerviamobile: true,
+                grant_type: "password",
+                client_id: CLIENT_ID,
+                client_secret: CLIENT_SECRET,
+                platformnumber: PLAT_FORM_NUMBER,
+            };
+        }
         if (mnlApiResponseState && mnlApiResponseState.userData && !mnlApiResponseState.userData.customer.numberAdded) {
             apiData.pass = "";
         }
@@ -483,8 +491,8 @@ export function sendOtpUpdatePassword() {
             "otp": ""
         }, true, {
 
-            Authorization: `Bearer ${JSON.parse(authentication).accessToken}`
-        });
+                Authorization: `Bearer ${JSON.parse(authentication).accessToken}`
+            });
         const mnlApiResponse: MnlApiResponse = await result.json();
         const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
         if (errorStatus.status) {

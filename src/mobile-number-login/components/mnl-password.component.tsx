@@ -17,7 +17,7 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
         }
     }
 
-    public onForgotPasswordClick(){
+    public onForgotPasswordClick() {
         const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
         this.props.generateOtp(mnlApiData);
         this.props.toggleForgotPassswordClick();
@@ -26,7 +26,7 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
     public onContinuButtonClick() {
         const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
         mnlApiData.pass = this.state.password;
-        this.props.setMnlApiData(mnlApiData);   
+        this.props.setMnlApiData(mnlApiData);
     }
 
     private onClickUseOtp() {
@@ -76,7 +76,8 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
                                 </button>}
                                 </div>
                                 <div className={[styles.flexRow50Cols, styles.text_right].join(" ")}>
-                                    <button type="button" className={styles.btnLink} style={{ float: "right" }}>
+                                    <button type="button" className={styles.btnLink} style={{ float: "right" }}
+                                        onClick={() => this.onForgotPasswordClick()}>
                                         Forgot Password?
                                 </button>
                                 </div>
@@ -105,8 +106,8 @@ export interface MnlPasswordProps {
     useOtpViaMobile: () => void;
     changeLoginStep: (stepKey: string) => void;
     generateOtp: (apiData: MnlApiData) => void;
-    forgotPassword : (apiData: MnlApiData) => void;
-    toggleForgotPassswordClick : () => void;
+    forgotPassword: (apiData: MnlApiData) => void;
+    toggleForgotPassswordClick: () => void;
     mnlApiResponse: MnlApiResponse;
 }
 
