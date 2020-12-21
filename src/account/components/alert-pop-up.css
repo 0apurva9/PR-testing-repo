@@ -1,0 +1,36 @@
+.base {
+    width: 415px;
+    height: 233px;
+    padding: 18px 20px 60px 43px;
+    border-radius: 6px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px auto;
+}
+
+.content {
+    color: #2d2d2d;
+    font-family: light;
+    margin-top: 40px;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+}
+
+.cotentBody {
+    position: relative;
+}
+
+.closeIconBody {
+    position: absolute;
+    right: 10px;
+}
+
+.btnBody {
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

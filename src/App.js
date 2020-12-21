@@ -81,7 +81,8 @@ import {
   CART_BAG_DETAILS,
   CANCEL_RETURN_PREFIX,
   DEFAULT_PINCODE,
-  UNSUBSCRIBE_CLEVER_TAP_EMAILS
+  UNSUBSCRIBE_CLEVER_TAP_EMAILS,
+  CAPTURE_ATTACHMENTS
 } from "../src/lib/constants";
 import Loadable from "react-loadable";
 import { checkUserAgentIsMobile } from "../src/lib/UserAgent.js";
@@ -356,6 +357,12 @@ const CleverTapUnsubscribeEmail = Loadable({
   }
 });
 
+const AttachmentUploadContainer = Loadable({
+  loader: () => import("./account/containers/attachment-upload-container"),
+  loading() {
+    return <Loader />;
+  }
+});
 class App extends Component {
   async componentWillMount() {
     let globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
@@ -440,7 +447,7 @@ class App extends Component {
       // Else remove cartDetails from Local storage
       localStorage.removeItem(CART_BAG_DETAILS);
     }
-    
+
     // if (
     //   cartCode &&
     //   (!this.props.location.pathname.includes("cart") &&
@@ -732,6 +739,11 @@ class App extends Component {
             />
             <Route exact path={HELP_URL} component={HelpDetailsContainer} />
             <Route exact path={SKU_PAGE} component={ProductListingsContainer} />
+            <Route
+              path={CAPTURE_ATTACHMENTS}
+              exact
+              component={AttachmentUploadContainer}
+            />
             <Route
               exact
               path={NOT_FOUND}

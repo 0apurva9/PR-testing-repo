@@ -84,6 +84,7 @@ import {
 } from "../../lib/adobeUtils";
 import { addProductToCart } from "../../pdp/actions/pdp.actions.js";
 import { showSecondaryLoader } from "../../general/secondaryLoader.actions";
+import { logoutUser } from "./../../account/actions/account.actions";
 const ERROR_MESSAGE_IN_CANCELING_ORDER = "Error in Canceling order";
 const UPDATE_PASSWORD = "Password Updated Successfully";
 const mapStateToProps = (state, ownProps) => {
@@ -455,6 +456,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showSecondaryLoader: () => {
       dispatch(showSecondaryLoader());
+    },
+    logoutUser: async () => {
+      return await dispatch(logoutUser());
     }
   };
 };

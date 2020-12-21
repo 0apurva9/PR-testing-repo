@@ -581,3 +581,5 @@ export const POP_UP_WINDOW_STYLE =
   "toolbar=no, menubar=no, width=600, height=700, top=100, left=100";
 
 export const PLATFORM = "desktop";
+
+export const CAPTURE_ATTACHMENTS = "/docs/upload(.*)";

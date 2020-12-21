@@ -335,7 +335,12 @@ const account = (
     genesysCustomerCallRequestStatus: null,
     genesysCustomerCallRequestLoading: false,
     genesysCustomerCallRequestData: null,
-    genesysCustomerCallRequestError: null
+    genesysCustomerCallRequestError: null,
+
+    submitCaptureAttachmentsStatus: null,
+    submitCaptureAttachmentsLoading: false,
+    submitCaptureAttachmentsData: null,
+    submitCaptureAttachmentsError: null
   },
   action
 ) => {
@@ -2181,6 +2186,26 @@ const account = (
         genesysCustomerCallRequestError: action.error
       };
 
+    case accountActions.SUBMIT_CAPTURE_ATTACHMENTS_REQUEST:
+      return {
+        ...state,
+        submitCaptureAttachmentsStatus: action.status,
+        submitCaptureAttachmentsLoading: true
+      };
+    case accountActions.SUBMIT_CAPTURE_ATTACHMENTS_SUCCESS:
+      return {
+        ...state,
+        submitCaptureAttachmentsStatus: action.status,
+        submitCaptureAttachmentsLoading: false,
+        submitCaptureAttachmentsData: action.attachmentResponseData
+      };
+    case accountActions.SUBMIT_CAPTURE_ATTACHMENTS_FAILURE:
+      return {
+        ...state,
+        submitCaptureAttachmentsStatus: action.status,
+        submitCaptureAttachmentsLoading: false,
+        submitCaptureAttachmentsError: action.error
+      };
     default:
       return state;
   }
