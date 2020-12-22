@@ -96,7 +96,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     resendOtpTimmer ? this.props.setResendOtpTimmer(resendOtpTimmer) : this.props.setResendOtpTimmer(-1);
   }
 
-  private onContinueBtnClick() {
+   private async onContinueBtnClick() {
     const mnlApidata: MnlApiData = Object.assign({}, this.props.mnlApidata, {
       otp: this.state.otp,
     });
@@ -107,11 +107,11 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     }
 
     if (this.props.isForgotPasswordClicked) {
-      this.props.validateChallenge(mnlApidata);
-      this.props.changeLoginStep("isForgotPassword");
+      await this.props.validateChallenge(mnlApidata);
+      await this.props.changeLoginStep("isForgotPassword");
     } else if (this.props.mnlApiResponse.userData.customer.newUser && !this.props.mnlApiResponse.userData.customer.passwordSet) {
-      this.props.validateChallenge(mnlApidata);
-      this.props.changeLoginStep("isStepEmail");
+      await this.props.validateChallenge(mnlApidata);
+      await this.props.changeLoginStep("isStepEmail");
     } else {
       this.props.validateOtp(mnlApidata);
     }
