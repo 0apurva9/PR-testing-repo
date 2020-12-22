@@ -357,8 +357,18 @@ const CleverTapUnsubscribeEmail = Loadable({
   }
 });
 
+// const AttachmentUploadContainer = Loadable({
+//   loader: () => import("./account/containers/attachment-upload-container"),
+//   loading() {
+//     return <Loader />;
+//   }
+// });
+
 const AttachmentUploadContainer = Loadable({
-  loader: () => import("./account/containers/attachment-upload-container"),
+  loader: () =>
+    import(
+      /* webpackChunkName: "attachment-container" */ "./account/containers/attachment-upload-container.js"
+    ),
   loading() {
     return <Loader />;
   }
@@ -746,8 +756,8 @@ class App extends Component {
             <Route exact path={HELP_URL} component={HelpDetailsContainer} />
             <Route exact path={SKU_PAGE} component={ProductListingsContainer} />
             <Route
-              path={CAPTURE_ATTACHMENTS}
               exact
+              path={CAPTURE_ATTACHMENTS}
               component={AttachmentUploadContainer}
             />
             <Route
